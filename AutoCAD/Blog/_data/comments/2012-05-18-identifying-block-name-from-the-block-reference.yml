@@ -1,0 +1,71 @@
+comments:
+- author: Matus Brlit
+  email: ''
+  ip: 178.40.188.197
+  url: http://profile.typepad.com/brlit
+  date: '2012-06-01 06:19:17'
+  body: you can use DynamicBlockTableRecord even if it's not the anonymous version
+    of the dynamic block, so the check for block.IsAnonymous is redundant
+- author: Virupaksha Aithal
+  email: ''
+  ip: 115.112.233.72
+  url: http://profile.typepad.com/6p0168e8800efa970c
+  date: '2012-06-03 23:14:35'
+  body: '“IsAnonymous” required, AutoCAD creates a “Anonymous” block once user modifies
+    the dynamic block reference. In that case we need to use “DynamicBlockTableRecord”
+    to get the real block name.
+
+
+    -Viru'
+- author: Matus Brlit
+  email: ''
+  ip: 178.40.188.197
+  url: http://profile.typepad.com/brlit
+  date: '2012-06-03 23:29:20'
+  body: "what i meant is thet every dynamic block reference has the property DynamicBlockTableRecord,\
+    \ even if it was not modified\nyou already test if the block is dynamic, so if\
+    \ it's true, just take the DynamicBlockTableRecord\n\nif (blockRef.IsDynamicBlock)\n\
+    {\n   block = tx.GetObject(blockRef.DynamicBlockTableRecord,\n               \
+    \         OpenMode.ForRead) as blockTableRecord;\n            }\n        else\n\
+    \        {\n            block = tx.GetObject(blockRef.BlockTableRecord,\n    \
+    \                    OpenMode.ForRead) as BlockTableRecord;\n        }"
+- author: Virupaksha Aithal
+  email: ''
+  ip: 115.112.233.72
+  url: http://profile.typepad.com/6p0168e8800efa970c
+  date: '2012-06-04 00:20:38'
+  body: 'Thanks a lot. Yes, you are absolutely correct. I have made changes in the
+    blog post to reflect your suggestion
+
+
+    -Viru'
+- author: Sailor
+  email: ''
+  ip: 124.114.42.226
+  url: http://profile.typepad.com/6p01a3fd11f581970b
+  date: '2014-05-28 18:19:50'
+  body: "I'm confused by the Commit()\nObjectId blockRefId; // Picked from CAD\nusing(Transaction\
+    \  tx = db.TransactionManager.StartTransaction())\n{\n &nbsp;&nbsp;&nbsp;BlockReference\
+    \ blockRef =  blockRefId.GetObject(OpenMode.ForRead) as BlockReference;\n &nbsp;&nbsp;&nbsp;//\
+    \ Before committing the blockRef.IsDynamicBlock is true\n &nbsp;&nbsp;&nbsp;tx.Commit();\n\
+    \ &nbsp;&nbsp;&nbsp;// After committed the blockRef.IsDynamicBlock is false\n\
+    }\nWhy the attribute of the BlockReference had been changed after the Commit()?\n\
+    Thanks!"
+- author: Ken
+  email: kmarsh@edge-gts.com
+  ip: 96.252.78.21
+  url: ''
+  date: '2020-02-02 08:51:45'
+  body: "I'm finding something similar.  I can't call IsDynamicBlock and get true\
+    \ for a dynamic block.  If I go ahead and get the BlockTableRecord via DynamicBlockTableRecord\
+    \ the BTR tells me that it's dynamic and then I can get the name of it.  IsDynamic\
+    \ on the BlockRecord doesn't seem to give the correct information.  \nMust be\
+    \ something that I'm not understanding?"
+- author: Igor FUJS
+  email: igor.fujs@gmail.com
+  ip: 46.123.242.172
+  url: ''
+  date: '2022-10-29 12:19:12'
+  body: "I belive that when there is no transaction running, any reference to a dbobject\
+    \ is not valid any more. So reading proprties might give you very strange behaviour\
+    \ and/or tesults \n-----"

@@ -1,0 +1,52 @@
+comments:
+- author: WolframKuss
+  email: WKuss@imos3d.com
+  ip: 87.245.3.2
+  url: http://www.imos3d.com
+  date: '2015-04-23 07:12:43'
+  body: 'Thank you for migrating it to 2014 and 2015 and for publishing it! It works
+    very nicely on 2014.
+
+
+    However, we are now switching to 2016 and I wonder whether "SetStyle" with "ACSB_NORMAL"
+    / "ACSB_POPOUT" still makes a difference and the user can see the state of the
+    button (on or off) or whether this has to be achieved by setting two different
+    icons?
+
+
+    Wolfram.'
+- author: Madhukar Moogala
+  email: ''
+  ip: 132.188.112.185
+  url: http://profile.typepad.com/madhukarmoogala
+  date: '2015-04-23 23:59:55'
+  body: "Thanks Wolfram for comment,\n No, single icon would be sufficient. enable\
+    \ and disable can be employed to status bar button following way, assuming CPaneItem\
+    \ is derived from AcPane\n\nvoid CPaneItem::OnLButtonDown(UINT nFlags, CPoint\
+    \ point)\n{\n    m_Enable=!m_Enable;\n\tif(m_Enable)\n\t{\n\t\tSetStyle(ACSB_NORMAL);\t\
+    \n\t\tAfxMessageBox(_T(\"Pane Item Enabled\"));\n\t}\n\telse\n\t{\n/*To ensure\
+    \ menu pop up on right click MB*/\n\t\tSetStyle(ACSB_POPOUT);\t\n\t\tAfxMessageBox(_T(\"\
+    Pane Item Disabled\"));\n\t}\n\tacDocManager->curDocument()->drawingStatusBar()->Update();\n\
+    \t\n\t\n\n}"
+- author: Jef
+  email: jef@parabuild.com
+  ip: 84.196.134.186
+  url: ''
+  date: '2021-02-26 08:24:09'
+  body: 'Hi!
+
+    I have the same problem as WolframKuss.
+
+    The calls to SetStyle(ACSB_ACTIVE); do not change anything.
+
+    The icon stays ''inactive''.
+
+    Changing the icon though works fine.
+
+    I used AutoCAD 2021.
+
+    Regards,
+
+    Jef
+
+    -----'

@@ -1,0 +1,74 @@
+comments:
+- author: Yan Sid
+  email: yanbpcs@gmail.com
+  ip: 199.5.150.66
+  url: ''
+  date: '2015-06-12 11:28:06'
+  body: 'Simple question but I have not been able to find a simple solution.
+
+
+    In windows explorer I can right click on a .dwg file and view, under the "Custom"
+    tab, all of the custom Drawing Properties I''ve added (in AutoCAD Drawing Utilites
+    -> Drawing Properties). Its great I can copy info from outside autocad with my
+    mouse.
+
+
+    What I really want to do is extract that information, read only, with a vba or
+    powershell script, and send it to a text file with the same name as the drawing.
+    Unfortuantely I do not currently have visual studio and can''t compile the above.
+
+
+    How can you, outside autocad, pipe a custom property to a text file? Something
+    like
+
+
+    cmd> customApp A-Test.dwg "custom Title" "target output directory"
+
+
+    Creates A-Test.txt with text "my custom title here"'
+- author: Augusto Goncalves
+  email: ''
+  ip: 177.140.171.253
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2015-06-12 12:50:48'
+  body: 'Hi Yan Sid
+
+
+    Without Visual Studio you cannot compile this code... sorry. But the same should
+    be available via VBA/VB6 COM Automation, just add DwgProps component.
+
+
+    If you like more features, then try the AutoCAD Console, you can automate it with
+    BAT files and some scripts (.scr files).
+
+
+    Regards,
+
+    Augusto Goncalves'
+- author: Yan Sid
+  email: yanbpcs@gmail.com
+  ip: 199.5.150.66
+  url: ''
+  date: '2015-06-16 09:46:05'
+  body: Thanks!
+- author: Rodrigo_V
+  email: a@test.com
+  ip: 199.5.150.66
+  url: ''
+  date: '2016-05-03 06:00:31'
+  body: I compiled your code in Visual Studio Community. It crashes whenever trying
+    to open a Autocad 2015 file. Is there a package I'm missing? Not too familiar
+    to this blog, I'm guessing your code is built upon assuming you already have another
+    package installed?
+- author: Augusto Goncalves
+  email: ''
+  ip: 177.43.194.106
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2016-05-03 06:06:05'
+  body: 'Rodrigo, this sample is in C++ (so it doesn''t uses packages), but you need
+    to compile it using the COM references. It also should not require you to start
+    AutoCAD (as it uses only the COM API for Dwg Props). Finally the VS Community
+    doesn''t include MFC (I believe) that is required for CString (among other Windows
+    features).
+
+    -----'

@@ -1,0 +1,93 @@
+comments:
+- author: Anonymoose
+  email: rebar@nym.hush.com
+  ip: 24.47.196.153
+  url: ''
+  date: '2012-05-31 20:42:50'
+  body: 'This article is either stale, or its author is not aware of the fact that
+    as of C# 4.0, its no longer necessary to use GetType()/InvokeMember() to make
+    late-bound calls to COM objects.
+
+
+    dynamic acadObject = Application.AcadApplication;
+
+    dynamic files = acadObject.Preferences.Files;
+
+    string path = files.SupportPath;
+
+    .....'
+- author: Virupaksha Aithal
+  email: ''
+  ip: 203.116.198.71
+  url: http://profile.typepad.com/6p0168e8800efa970c
+  date: '2012-05-31 21:37:06'
+  body: 'Thanks for comments. But blog post code works fine on AutoCAD version which
+    works on framework like .NET 3.5 framework. Lot of developers still uses NET 3.5
+    for AutoCAD 2010 & 2011.
+
+
+    But I should thank you for your comments.
+
+
+    -Viru'
+- author: Matus Brlit
+  email: ''
+  ip: 178.40.188.197
+  url: http://profile.typepad.com/brlit
+  date: '2012-06-01 00:26:21'
+  body: 'this looks far more complicated than managed API
+
+
+    Dim pref As AcadPreferences = Autodesk.AutoCAD.ApplicationServices.Application.Preferences
+
+    Dim sp as String = pref.SupportPath
+
+    If Not sp.Contains("C:\\BatchPublish") Then pref.Files.SupportPath = sp & ";C:\\BatchPublish"'
+- author: Virupaksha Aithal
+  email: ''
+  ip: 203.116.198.71
+  url: http://profile.typepad.com/6p0168e8800efa970c
+  date: '2012-06-01 00:31:23'
+  body: "Thanks for comments.\n\nYes you are correct; VB.net code shown by you much\
+    \ simpler. Blog post is in C#.\n  \nI will add the VB.net code too to blog\n\n\
+    Thanks\nViru"
+- author: Anonymoose
+  email: rebar@nym.hush.com
+  ip: 24.47.196.153
+  url: ''
+  date: '2012-06-03 01:30:31'
+  body: 'The Author was showing how to use AutoCAD COM apis without importing the
+    COM type libraries, which is problematic and often undesireable, because of COM
+    versioning issues.
+
+
+    In VB.NET, it is very easy to do the same (without importing the AutoCAD libraries),
+    by simply declaring COM objects as System.Object, and using late-binding.'
+- author: jjj
+  email: joice.binny@cognizant.com
+  ip: 203.99.205.101
+  url: ''
+  date: '2012-12-04 21:37:07'
+  body: 'object preferences = acadObject.GetType().InvokeMember("Preferences",....)
+
+
+    Can I use this way to create new points, like the "POINT" command.
+
+
+    Thanks.'
+- author: Viru
+  email: Virupaksha.aithal@autodesk.com
+  ip: 203.202.234.243
+  url: ''
+  date: '2012-12-05 02:59:57'
+  body: 'Hi,
+
+
+    Yes, you can use late binding to call other functions too.
+
+
+    regards
+
+    Viru
+
+    -----'

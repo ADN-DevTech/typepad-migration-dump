@@ -1,0 +1,95 @@
+comments:
+- author: Colin Holloway
+  email: colinholloway.photo@gmail.com
+  ip: 161.43.116.94
+  url: ''
+  date: '2014-11-25 18:48:40'
+  body: 'Hi Wayne,
+
+
+    I really like the procedure you have outlined here and I am trying to get it to
+    work in Plant3D 2014.  When it gets to the selection the insertion point for the
+    newly created pipe support it says "Point must be on a pipe or piping component",
+    and the only way I have been able to get it to work (unacceptably) is to switch
+    the NEA Osnap on and zoom out so the width of the pipe is within the aperture.
+
+
+    Do you have an updated version of this code that runs successfully on Plant3D
+    2014?
+
+
+    Kind Regards,
+
+    Colin Holloway'
+- author: Wayne Brill
+  email: wayne.brill@autodesk.com
+  ip: 50.34.129.181
+  url: ''
+  date: '2014-11-26 10:32:33'
+  body: "Hi Colin,\n\nWhen I posted this example it was working. However I have seen\
+    \ the problem you mention in 2014 and did not find a work around for it. I just\
+    \ tried it in Plant 3D 2015 and it is working every time. I used acedCmdS. Can\
+    \ you try this in the 2015 version?\n\n\n  [DllImport(\"accore.dll\", CharSet\
+    \ = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl, EntryPoint = \"\
+    acedCmdS\")]\n        private static extern int acedCmdS(System.IntPtr vlist);\n\
+    \n...\n\n   // acedCmd(rb.UnmanagedObject);\n  //Testing 2015 - not in blog post\n\
+    \    acedCmdS(rb.UnmanagedObject);\n\nIn 2015 managed API you could use the Command\
+    \ method of the Editor instead of acedCmdS. This works in my tests in 2015. \n\
+    \ ed.Command(\"_PlantPipeSupportConvert\", oidEntityId, \"\", p3dSupportInsertionPoint);\n\
+    \nThanks,\nWayne"
+- author: Colin Holloway
+  email: colinholloway.photo@gmail.com
+  ip: 161.43.116.94
+  url: ''
+  date: '2014-11-26 14:29:10'
+  body: 'Hi Wayne,
+
+
+    Thank you for your quick response!  Unfortunately the company I work for only
+    has Plant 3D 2014 deployed and they have no plans to upgrade at this time (when
+    they do it will be to 2016).
+
+
+    I will have to find a different way to make this work, like getting the user to
+    select the point manually.
+
+
+    Thanks again,
+
+    Colin'
+- author: Colin Holloway
+  email: colin.holloway@sedgman.com
+  ip: 203.176.99.194
+  url: ''
+  date: '2018-04-02 20:34:21'
+  body: 'Hi Wayne,
+
+
+    3.5 years later and we are back in the sample place!
+
+
+    The solution I came up with in 2014 was a LISP routine that creates the 3D Solids
+    of the required supports and then runs
+
+    (command "_.PlantPipeSupportConvert" supss "" p1)
+
+    to create the support.
+
+
+    This worked well in Plant 3D 2016 as well (with a change to command-s).  Now we
+    are migrating to Plant 3D 2018 and this issue has reared its head again!
+
+
+    This method works for supports in the middle of a pipe run, but we use a thrust
+    support that is mounted on an elbow and connects to the end of the adjacent pipe.  In
+    2014 and 2016 I was able to use END osnap and the support would attach to the
+    end of the pipe, but in 2018 this doesn''t work.
+
+
+    Are you aware of any changes or tips to get a support to connect to the end of
+    a pipe?
+
+
+    Here is a screen cap of what I was able to do in Plant 3D 2016:  <a href="https://a360.co/2Ha5uUh">https://a360.co/2Ha5uUh</a>
+
+    -----'

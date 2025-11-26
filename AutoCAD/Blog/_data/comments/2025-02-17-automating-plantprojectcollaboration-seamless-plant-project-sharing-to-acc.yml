@@ -1,0 +1,37 @@
+comments:
+- author: lis ten
+  email: 1736629496@qq.com
+  ip: 194.105.89.225
+  url: ''
+  date: '2025-03-24 00:07:28'
+  body: "Hello, \nI want to use the Plant 3D API to create a project, but it keeps\
+    \ throwing a NullReferenceException. I'm not sure where I went wrong. \nCan you\
+    \ help me?\nThank you.\nvar a1 = new Dictionary<string, string>();\n         \
+    \           a1.Add(\"PnId\", \"D:\\\\Project\\\\MyNewProject\\\\PID DWG\");\n\
+    \                    a1.Add(\"Piping\", \"D:\\\\Project\\\\MyNewProject\\\\Plant\
+    \ 3D 模型\");\n                    a1.Add(\"Iso\", \"D:\\\\Project\\\\MyNewProject\\\
+    \\等级库工作表\");\n                    a1.Add(\"Ortho\", \"D:\\\\Project\\\\MyNewProject\\\
+    \\DWGs\");\n                    a1.Add(\"Misc\", \"D:\\\\Project\\\\MyNewProject\\\
+    \\相关文件\");\n\n                    var a2 = new Dictionary<string, PnPDatabaseLink>();\n\
+    \                    var pnidDbLink = new PnPDatabaseLink() { Name = \"D:\\\\\
+    Project\\\\MyNewProject\\\\ProcessPower.dcf\", DatabaseEngine = \"Autodesk.ProcessPower.DataObjects.DbEngine.PnPSQLiteEngine\"\
+    \ };\n                    pnidDbLink.Add(\"Data Source\", \"D:\\\\Project\\\\\
+    MyNewProject\\\\ProcessPower.dcf\");\n                    a2.Add(\"PnId\", pnidDbLink);\n\
+    \n                    var pipingDbLink = new PnPDatabaseLink() { Name = \"D:\\\
+    \\Project\\\\MyNewProject\\\\Piping.dcf\", DatabaseEngine = \"Autodesk.ProcessPower.DataObjects.DbEngine.PnPSQLiteEngine\"\
+    \ };\n                    pipingDbLink.Add(\"Data Source\", \"D:\\\\Project\\\\\
+    MyNewProject\\\\Piping.dcf\");\n                    a2.Add(\"Piping\", pipingDbLink);\n\
+    \n                    var IsoDbLink = new PnPDatabaseLink() { Name = \"D:\\\\\
+    Project\\\\MyNewProject\\\\Iso.dcf\", DatabaseEngine = \"Autodesk.ProcessPower.DataObjects.DbEngine.PnPSQLiteEngine\"\
+    \ };\n                    IsoDbLink.Add(\"Data Source\", \"D:\\\\Project\\\\MyNewProject\\\
+    \\Iso.dcf\");\n                    a2.Add(\"Iso\", IsoDbLink);\n\n           \
+    \         var OrthoDbLink = new PnPDatabaseLink() { Name = \"D:\\\\Project\\\\\
+    MyNewProject\\\\Ortho.dcf\", DatabaseEngine = \"Autodesk.ProcessPower.DataObjects.DbEngine.PnPSQLiteEngine\"\
+    \ };\n                    OrthoDbLink.Add(\"Data Source\", \"D:\\\\Project\\\\\
+    MyNewProject\\\\Ortho.dcf\");\n                    a2.Add(\"Ortho\", OrthoDbLink);\n\
+    var MiscDbLink = new PnPDatabaseLink() { Name = \"D:\\\\Project\\\\MyNewProject\\\
+    \\Misc.dcf\", DatabaseEngine = \"Autodesk.ProcessPower.DataObjects.DbEngine.PnPSQLiteEngine\"\
+    \ };\n                    MiscDbLink.Add(\"Data Source\", \"D:\\\\Project\\\\\
+    MyNewProject\\\\Misc.dcf\");\n                    a2.Add(\"Misc\", MiscDbLink);\n\
+    \n                    var a = Autodesk.ProcessPower.ProjectManager.PlantProject.CreateProject(projectName,\
+    \ projectDescription, projectPath, false, a1, a2, currProject);\n-----"

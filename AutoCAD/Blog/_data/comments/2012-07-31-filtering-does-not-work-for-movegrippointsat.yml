@@ -1,0 +1,135 @@
+comments:
+- author: David
+  email: vnsharifi@gmail.com
+  ip: 174.138.204.45
+  url: ''
+  date: '2012-11-06 22:03:18'
+  body: 'Hello Adam,
+
+    Is ther any way in grip overrule, not to show, a dynamic block insertion point
+    grip ?
+
+    Regards,
+
+    David.'
+- author: Adam Nagy
+  email: ''
+  ip: 86.31.122.37
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2012-11-12 04:34:19'
+  body: 'Hi David,
+
+
+    Might be possible if you override the GetGripPoints function and then call the
+    base class'' function first then remove the point added by the dynamic block.
+
+    The question might be how to identify the insertion point.
+
+    I think you should be able to get that information from the dynamic block then
+    iterate through the points and compare their value to the point you want to remove.
+
+
+    I hope this helps.
+
+
+    Cheers,
+
+    Adam'
+- author: David
+  email: vnsharifi@gmail.com
+  ip: 216.185.64.78
+  url: ''
+  date: '2012-11-21 12:05:24'
+  body: 'Adam,
+
+    Thanks for getting back to me.
+
+    I don''t even know how to start that. A little bit more help/sample code would
+    be a great help, if you don''t mind.
+
+    I really need to hide the insertion point(Grip) of dynamic  blocks because it
+    interferes with  other dynamic block grips.
+
+    Regards,
+
+    David.'
+- author: Adam Nagy
+  email: ''
+  ip: 86.31.122.37
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2012-11-23 09:17:40'
+  body: "Hi David,\n\nHere you are: <a href=\"http://adndevblog.typepad.com/autocad/2012/11/remove-insertion-grip-point-using-overrule.html\"\
+    >http://adndevblog.typepad.com/autocad/2012/11/remove-insertion-grip-point-using-overrule.html</a>\
+    \ \n\nI hope this helps.\n\nCheers,\nAdam"
+- author: David
+  email: vnsharifi@gmail.com
+  ip: 216.185.64.78
+  url: ''
+  date: '2012-11-28 05:31:43'
+  body: 'Adam,
+
+    Thanks a Lot, I struggled for about 2 months.
+
+    Autodesk should be proud to have you there.'
+- author: dba
+  email: ''
+  ip: 194.110.78.1
+  url: http://profile.typepad.com/6p01910489d0be970c
+  date: '2013-08-13 00:11:27'
+  body: 'Hello Adam,
+
+
+    I use Grippointoverrule for adding custom Grips to my blockrefs (filtered by name
+    prefix). It works fine, the only thing I experienced is, that attributreferences
+    will not be dragged and moved by MoveGripPointsAt. Am I missing something?
+
+    Thanks in advance,
+
+    Daniel'
+- author: Balaji
+  email: ''
+  ip: 14.96.73.238
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-09-09 06:40:58'
+  body: 'Hi Daniel,
+
+
+    Sorry for the delay.
+
+
+    I tried using a grip overrule on a block reference that had attribute references
+    in it. Unfortunately I could not reproduce the behavior that you mentioned. When
+    moving using the overruled grip, the attribute references moved along with the
+    block reference. Here is the code that I used :
+
+    <a href="https://www.dropbox.com/s/9pmgdw5mqze6thi/Class1.cs">https://www.dropbox.com/s/9pmgdw5mqze6thi/Class1.cs</a>
+
+
+    Can you please share a non-confidential code sample for me to reproduce the  behavior
+    ?
+
+
+    Thanks.
+
+
+    Regards,
+
+    Balaji'
+- author: dba
+  email: daniel.balogh@adptech.at
+  ip: 194.110.78.1
+  url: http://profile.typepad.com/6p01910489d0be970c
+  date: '2013-09-10 03:21:22'
+  body: 'Hello Balaji,
+
+
+    thanks for the reply. I will compare your code with mine to see if I''m wrong
+    somewhere. I''ll try to share some content of mine, but that will be a bit tricky
+    because of the surrounding it works in :-)
+
+
+    BR,
+
+    Daniel
+
+    -----'

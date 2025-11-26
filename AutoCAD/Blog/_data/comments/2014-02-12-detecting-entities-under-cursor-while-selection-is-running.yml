@@ -1,0 +1,29 @@
+comments:
+- author: Winslow North
+  email: winslownorth@gmail.com
+  ip: 64.218.40.35
+  url: ''
+  date: '2017-01-13 09:30:36'
+  body: the point monitor worked great for me in ACAD2014 however now we are using
+    ACAD2016 it will not work because of the DLLImport of acdb19.dll. Is there a way
+    to make it load eighter version since we now have both versions of AutoCAD in
+    house?
+- author: Andy Morch
+  email: andreas.morch@t-online.de
+  ip: 84.153.248.251
+  url: ''
+  date: '2020-09-16 05:15:57'
+  body: 'There is a little bug in ''FindAtPoint''.
+
+    Instead of:
+
+    string arg = selectAll ? ":E" : string.Empty;
+
+    It must be:
+
+    string arg = selectAll ? "_:E" : string.Empty;
+
+    Otherwise ''SelectAll'' does not work!
+
+
+    -----'

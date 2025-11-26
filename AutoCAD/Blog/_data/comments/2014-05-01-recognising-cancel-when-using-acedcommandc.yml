@@ -1,0 +1,11 @@
+comments:
+- author: George Csikos
+  email: george@softbiz.com.au
+  ip: 122.148.140.115
+  url: http://www.softbiz.com.au
+  date: '2016-10-27 22:28:23'
+  body: "In isLineActive there is a memory leak.\nThe resbuf has a string that needs\
+    \ to be freed before exit.\n\nIt would be easier like this:\n\nstatic Adesk::Boolean\
+    \ isLineActive()\n\n{\n    struct resbuf *rb = acutNewRb(RTSTR);\n\n    acedGetVar(_T(\"\
+    CMDNAMES\"), rb);\n\n    Adesk::Boolean result =_tcsstr(rb->resval.rstring, _T(\"\
+    LINE\")) != NULL;\n    acutRelRb(rb);\n\n    return result;\n\n}\n-----"

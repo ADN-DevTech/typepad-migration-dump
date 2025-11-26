@@ -1,0 +1,31 @@
+comments:
+- author: Tony Tanzillo
+  email: caddzooks@hushmail.com
+  ip: 24.47.197.131
+  url: ''
+  date: '2012-09-24 13:12:20'
+  body: "There's no need to use the Visual LISP IDE to find errors. I haven't used\
+    \ the Visual LISP IDE for close to 10 years.\n\nThis will show the source of the\
+    \ error:\n\n(defun *error* (msg)\n   (vl-bt)\n)\n\nExample:\n\nCommand: (defun\
+    \ *error* (s) (vl-bt))\n*ERROR*\n\nCommand: (defun C:BUGGY()\n(_> (setq a (getint\
+    \ \"\\nEnter a number: \"))\n(_> (setq b (/ a 0))\n(_> (princ))\nC:BUGGY\n\nCommand:\
+    \ BUGGY\n\nEnter a number: 3\nBacktrace:\n[0.48] (VL-BT)\n[1.44] (*ERROR* \"divide\
+    \ by zero\")\n[2.39] (_call-err-hook #<SUBR @00000000316b8110 *ERROR*> \"divide\
+    \ by zero\")\n[3.33] (sys-error \"divide by zero\")\n:ERROR-BREAK.28 nil\n[4.25]\
+    \ (/ 3 0)\n[5.19] (C:BUGGY)\n[6.15] (#<SUBR @00000000316b81b0 -rts_top->)\n[7.12]\
+    \ (#<SUBR @0000000031608700 veval-str-body> \"(C:BUGGY)\" T #<FILE internal>)\n\
+    :CALLBACK-ENTRY.6 (:CALLBACK-ENTRY)\n:ARQ-SUBR-CALLBACK.3 (nil 0)\n\nCommand:"
+- author: Craig Dobyns
+  email: Snybod39@comcast.net
+  ip: 10.10.17.25
+  url: ''
+  date: '2014-09-11 14:35:47'
+  body: Thanks Tony, I use it now, makes hunting down issues much easier
+- author: Robert
+  email: rcastio@att.net
+  ip: 72.179.160.59
+  url: ''
+  date: '2020-11-24 18:20:05'
+  body: 'How do i use that error function?
+
+    -----'

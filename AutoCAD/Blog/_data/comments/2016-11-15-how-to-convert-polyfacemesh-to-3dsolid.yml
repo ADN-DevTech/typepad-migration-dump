@@ -1,0 +1,215 @@
+comments:
+- author: Olivier B.
+  email: olivier.berrier@geo-media.com
+  ip: 89.227.206.234
+  url: http://www.geo-media.com
+  date: '2016-11-24 05:51:04'
+  body: 'Thanks for the code.
+
+    1) may be a memory leak if you don''t delete pSubDMesh after calling convertToSolid.
+
+    2) the resulting solid is very dependent on the many MeshPrimitives : first I
+    tried to convert a simple "polyfacemesh-box" and the resulting solid was very
+    different of a box.
+
+    => instead of a AcDbSubDMesh, I prefer create a AcDbSurface and call AcDb3dSolid::createFrom'
+- author: Madhukar Moogala
+  email: ''
+  ip: 182.73.112.18
+  url: http://profile.typepad.com/madhukarmoogala
+  date: '2016-11-24 21:05:18'
+  body: "Hi Olivier, \n\nThanks for your message, I have not done a lot of testing\
+    \ on this. I missed to delete pSubDMesh thanks for notifying.\n\nCan you please\
+    \ share the drawing, I can see what's going on..\n\nAnd if you set smoothness\
+    \ to true in ConvertToSolid API, the resulting topology of solid may be different\
+    \ from the expected one."
+- author: Evangelos
+  email: goulas89@hotmail.com
+  ip: 95.128.91.218
+  url: ''
+  date: '2017-11-20 05:48:48'
+  body: 'Dear Madhukar,
+
+
+    thank you very much for the code it is very nicely explained.
+
+
+    However, I am facing a problem when I try to convert the subDMesh to 3dSolid.
+
+    I take an eInvalidContext error from the following function and I do not know
+    why.
+
+    pSubDMesh->convertToSolid(false, false, pMeshSolid);
+
+
+    Do you have any idea why?
+
+
+    Kind regards,
+
+    Evangelos'
+- author: Madhukar Moogala
+  email: ''
+  ip: ''
+  url: http://profile.typepad.com/madhukarmoogala
+  date: '2017-11-20 06:56:40'
+  body: 'Typepad HTML Email
+
+
+
+
+
+    Hi Thanks for your post,
+
+    &nbsp;
+
+    Can you verify working on your MESH interactively?
+
+    &nbsp;
+
+    <a href="https://knowledge.autodesk.com/support/autocad/learn-explore/caas/CloudHelp/cloudhelp/2016/ENU/AutoCAD-Core/files/GUID-45E37A82-3175-4F20-A5F7-316C46DBEBBB-htm.html">https://knowledge.autodesk.com/support/autocad/learn-explore/caas/CloudHelp/cloudhelp/2016/ENU/AutoCAD-Core/files/GUID-45E37A82-3175-4F20-A5F7-316C46DBEBBB-htm.html</a>
+
+    &nbsp;
+
+    Or you can share the drawing, if there are any self-intersecting entities, operator
+    may reject.
+
+    &nbsp;'
+- author: Evangelos
+  email: goulas89@hotmail.com
+  ip: 95.128.91.218
+  url: ''
+  date: '2017-11-21 00:23:39'
+  body: 'What I am doing is to read a dxf file and print its geometric properties.
+    In case of a polyface mesh, I would like to convert it to 3dSolid in order to
+    use the Brep functionalities.
+
+
+    Interactively, you are right the object cannot be converted to solid. So, I think
+    there is a problem with the drawing itself.
+
+
+    What I observed until now is that sometimes drawers use the block reference tool
+    to create "3D" shapes. However, this makes the geometry reading through ObjectARX
+    very hard. I encountered the following problems:
+
+    - When I encounter an AcDbBlockReference entity I cannot find any attributes for
+    it.
+
+    - When you explode an AcDbBlockReference entity you end up with pFace meshes.
+    Then, you encounter the problem you cannot convert them to solids.
+
+
+    You can find the drawing in the following link.
+
+    In addition, if you go to Insert-> Insert you will see the block references I
+    mentioned.
+
+    <a href="https://www.dropbox.com/s/t38or2zb483oejr/polyface%20mesh.dwg?dl=0">https://www.dropbox.com/s/t38or2zb483oejr/polyface%20mesh.dwg?dl=0</a>
+
+
+    I hope what I wrote is not out of topic.
+
+
+    Thank you very much for your interest!'
+- author: Madhukar Moogala
+  email: ''
+  ip: 182.73.112.18
+  url: http://profile.typepad.com/madhukarmoogala
+  date: '2017-11-21 01:53:47'
+  body: 'Hi,
+
+
+    I have checked the drawing, I suspect the problem could be with one face, where
+    it has overlapping vertices.
+
+    I highlighted in screenshot.
+
+
+    <a href="https://ibb.co/bTu3JR"><img src="https://preview.ibb.co/j39sCm/Selft_Intersecting.jpg"
+    alt="Selft_Intersecting" border="0"></a><br /><a target=''_blank'' href=''https://imgbb.com/''>get
+    picture url</a><br />
+
+
+    But to use Brep, you can convert it to pfacemesh to surface, apply AcBrMesh to
+    surface instead of solid.
+
+
+    Explode the pFacemesh
+
+    CONVTOSURFACE on the faces you got from exploding.
+
+    Union
+
+
+    Now you will have single Surface entity, you can use AcBr library.'
+- author: Madhukar Moogala
+  email: ''
+  ip: ''
+  url: http://profile.typepad.com/madhukarmoogala
+  date: '2017-11-21 03:11:15'
+  body: 'Typepad HTML Email
+
+
+
+
+
+    Hi,
+
+    &nbsp;
+
+    I have checked the drawing, I suspect the problem could be with one face, where
+    it has overlapping vertices.
+
+    I highlighted in screenshot.
+
+    &nbsp;
+
+    But to use Brep, you can convert it to pfacemesh to surface, apply AcBrMesh to
+    surface instead of solid.
+
+    &nbsp;
+
+    Explode the pFacemesh
+
+    CONVTOSURFACE on the faces you got from exploding.
+
+    Union
+
+    &nbsp;
+
+    Now you will have single Surface entity, you can use AcBr library.
+
+    &nbsp;
+
+    &nbsp;
+
+    &nbsp;
+
+    &nbsp;
+
+    &nbsp;'
+- author: Evangelos
+  email: goulas89@hotmail.com
+  ip: 95.128.91.218
+  url: ''
+  date: '2017-11-22 00:20:51'
+  body: 'Thank you very much Madhukar for solving my problem!
+
+
+    I will try to create an automated process in ObjectARX to handle this type of
+    objects.
+
+    I think this would be a good enhancement for your robust code!
+
+
+    I will let you know if I succeeded!'
+- author: joan
+  email: jgonzalez@azvi.no
+  ip: 82.134.16.38
+  url: ''
+  date: '2021-02-26 04:19:43'
+  body: "Hi\n\ndo you know if its possible to join 3d faces that have in common vertices,\
+    \ just in that case. I mean to select a big amount of 3dfaces and to joint together\
+    \ just in the case that they share a edge. \n\nim interesting in a routine that\
+    \ can do this, thanks, my email is jgonzalez@azvi.no\n\n-----"

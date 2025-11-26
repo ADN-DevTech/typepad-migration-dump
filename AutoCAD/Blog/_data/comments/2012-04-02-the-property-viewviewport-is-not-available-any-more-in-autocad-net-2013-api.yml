@@ -1,0 +1,92 @@
+comments:
+- author: Ilya Solovyev
+  email: ilya.s.solovyev@gmail.com
+  ip: 83.172.1.237
+  url: ''
+  date: '2014-01-13 02:40:03'
+  body: 'Device dev = view.Device;
+
+    System.Drawing.Size s = dev.Size;  //container or window size
+
+
+    The Device class doesn''t contain property Size'
+- author: AlexFielder
+  email: ''
+  ip: 81.142.53.217
+  url: http://profile.typepad.com/alexfielder
+  date: '2014-03-20 10:04:07'
+  body: 'I''ve hit this same snag in AutoCAD 2014 just this week.
+
+    In VB I''ve been trying to use the following:
+
+
+    Dim s As Size = New Size(gsm.DeviceIndependentDisplaySize.Width, gsm.DeviceIndependentDisplaySize.Height)
+
+
+    without success. :(
+
+
+    perhaps it''s worth an updated article?'
+- author: AlexFielder
+  email: ''
+  ip: 81.142.53.217
+  url: http://profile.typepad.com/alexfielder
+  date: '2014-03-20 10:17:28'
+  body: "Actually, In a typical case of <a href=\"http://en.wikipedia.org/wiki/Rubber_duck_debugging\"\
+    >http://en.wikipedia.org/wiki/Rubber_duck_debugging</a> I modified my code to\
+    \ include a multiplication of the view.ViewPortExtents min & max values by the\
+    \ s value I posted above and lo & behold it now works:\n\n<i>Private Shared Function\
+    \ ScreenShotToFile(pt1 As Point3d, pt2 As Point3d, filename As String) As String\n\
+    \            Dim doc As Document = Application.DocumentManager.MdiActiveDocument\n\
+    \            Dim db As Database = doc.Database\n            Dim ed As Editor =\
+    \ doc.Editor\n            Dim cvport = CShort(Application.GetSystemVariable(\"\
+    CVPORT\"))\n            Dim width As Double = CDbl(pt2.X - pt1.X)\n          \
+    \  Dim height As Double = CDbl(pt2.Y - pt1.Y)\n            Dim img As System.Drawing.Image\n\
+    \            Dim view As ViewTableRecord = ed.GetCurrentView()\n            'start\
+    \ transaction\n            Using trans As Transaction = db. _\n              TransactionManager.StartTransaction()\n\
+    \                'get the entity' extends\n                'configure the new\
+    \ current view\n                view.Width = pt2.X - pt1.X\n                view.Height\
+    \ = pt2.Y - pt1.Y\n                view.CenterPoint = New Point2d( _\n       \
+    \           pt1.X + (view.Width / 2), _\n                  pt1.Y + (view.Height\
+    \ / 2))\n                'update the view\n                ed.SetCurrentView(view)\n\
+    \                trans.Commit()\n            End Using\n            Using tr As\
+    \ Transaction = doc.TransactionManager.StartTransaction()\n                Dim\
+    \ vst As GraphicsInterface.VisualStyleType = GraphicsInterface.VisualStyleType.Basic\n\
+    \                Dim gsm As GraphicsSystem.Manager = doc.GraphicsManager\n   \
+    \             Using gfxview As GraphicsSystem.View = New GraphicsSystem.View\n\
+    \                    gsm.SetViewFromViewport(gfxview, cvport)\n              \
+    \      gfxview.VisualStyle = New GraphicsInterface.VisualStyle(vst)\n        \
+    \            Using dev As GraphicsSystem.Device = gsm.CreateAutoCADOffScreenDevice()\n\
+    \                        Dim s As Size = New Size(gsm.DeviceIndependentDisplaySize.Width,\
+    \ gsm.DeviceIndependentDisplaySize.Height)\n                        Dim sz As\
+    \ New Size(Math.Abs(pt1.X - pt2.X), Math.Abs(pt1.Y - pt2.Y))\n               \
+    \         dev.OnSize(s)\n                        dev.DeviceRenderType = GraphicsSystem.RendererType.Default\n\
+    \                        dev.BackgroundColor = Color.White\n                 \
+    \       dev.Add(gfxview)\n                        dev.Update()\n             \
+    \           Using model As GraphicsSystem.Model = gsm.CreateAutoCADModel\n   \
+    \                         Using trans As Transaction = doc.TransactionManager.StartTransaction()\n\
+    \                                Dim bt As BlockTable = trans.GetObject(doc.Database.BlockTableId,\
+    \ OpenMode.ForRead)\n                                Dim btr As BlockTableRecord\
+    \ = trans.GetObject(bt(BlockTableRecord.PaperSpace), OpenMode.ForRead)\n     \
+    \                           gfxview.Add(btr, model)\n                        \
+    \        trans.Commit()\n                            End Using\n             \
+    \               Dim extents As Extents2d = gfxview.ViewportExtents\n\n       \
+    \                     Dim min_pt As New Point2d(extents.MinPoint.X * s.Width,\
+    \ extents.MinPoint.Y * s.Height)\n                            Dim max_pt As New\
+    \ Point2d(extents.MaxPoint.X * s.Width, extents.MaxPoint.Y * s.Height)\n\n   \
+    \                         Dim view_rect As New System.Drawing.Rectangle(CInt(min_pt.X),\
+    \ _\n                                                                        \
+    \  CInt(min_pt.Y), _\n                                                       \
+    \                   CInt(System.Math.Abs(max_pt.X - min_pt.X)), _\n          \
+    \                                                                CInt(System.Math.Abs(max_pt.Y\
+    \ - min_pt.Y)))\n                            img = gfxview.GetSnapshot(view_rect)\n\
+    \n                            Dim processed As Bitmap = img\n                \
+    \            If filename IsNot Nothing AndAlso filename <> \"\" Then\n       \
+    \                         processed.Save(filename, ImageFormat.Png)\n\n      \
+    \                          ed.WriteMessage(vbCrLf & \"Image captured and saved\
+    \ to \"\"{0}\"\".\", filename)\n                            End If\n         \
+    \                   'cleanup\n                            processed.Dispose()\n\
+    \                            gfxview.EraseAll()\n                            dev.Erase(gfxview)\n\
+    \                        End Using\n                    End Using\n          \
+    \      End Using\n                tr.Commit()\n            End Using\n       \
+    \     Return filename\n        End Function</i>\n-----"

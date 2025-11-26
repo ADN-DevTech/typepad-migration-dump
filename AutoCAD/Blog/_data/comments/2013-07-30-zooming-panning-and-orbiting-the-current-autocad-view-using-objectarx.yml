@@ -1,0 +1,31 @@
+comments:
+- author: newman
+  email: dvoynoysloy@mail.ru
+  ip: 217.175.15.0
+  url: ''
+  date: '2016-10-04 09:11:25'
+  body: The Autodesk function "acedVportTableRecords2Vports()" is slowly. It is performed
+    for more than 10 seconds. It's is not good for C++. Do you have another function
+    for zooming View ?
+- author: newman
+  email: dvoynoysloy@mail.ru
+  ip: 217.175.15.0
+  url: ''
+  date: '2016-10-04 09:52:18'
+  body: 'I find this. It''s very quickly.
+
+
+    AcDbViewTableRecord mVTR;
+
+    AcGePoint2d max_2d(10,10);
+
+    AcGePoint2d min_2d(0,0);
+
+    mVTR.setCenterPoint( min_2d + (max_2d - min_2d) / 2.0 );
+
+    mVTR.setHeight(10);
+
+    acedSetCurrentView(&mVTR, NULL);
+
+
+    -----'

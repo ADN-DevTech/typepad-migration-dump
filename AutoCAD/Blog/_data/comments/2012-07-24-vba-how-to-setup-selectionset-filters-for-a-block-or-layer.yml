@@ -1,0 +1,54 @@
+comments:
+- author: Ricardo
+  email: rvelozo@yahoo.com
+  ip: 187.58.238.198
+  url: ''
+  date: '2013-02-15 04:25:41'
+  body: 'Excellent! just a reminder: p1 and p2 are optional and are not required when
+    using select all.
+
+    sset.Select acSelectionSetAll, , ,filterType, filterData'
+- author: Pedro
+  email: apsgvsouto@gmail.com
+  ip: 212.0.161.141
+  url: ''
+  date: '2019-08-20 09:56:31'
+  body: "Hi, \nI have a question about the second example. What do I do if I wish\
+    \ to insert more that one type of block to the selection? \n\nI have tried \n\
+    grpValue(0) = \"testBlock1\" & \"testBlock2\" & \"testBlock3\" \n\nbut to no avail.\
+    \ \nAny help would be deeply apreciated,\nkind regards"
+- author: Pedro
+  email: apsgvsouto@gmail.com
+  ip: 212.0.161.141
+  url: ''
+  date: '2019-08-21 09:10:09'
+  body: 'For anyone interested, I found out. The correct line is:
+
+
+    grpValue(0) = "testBlock1,testBlock2,testBlock3"'
+- author: Oscar Fernandez
+  email: oscarzarauz@gmail.com
+  ip: 80.28.249.139
+  url: ''
+  date: '2019-11-18 01:06:44'
+  body: "The best way to know the value that you need to filter any entitie. is use\
+    \ autolisp order in command bar. \n\nCommand:(entget (ssname (ssget) 0))\n\nit\
+    \ allow select one entitie and present you all his Codes and values from the entitie.\
+    \ \nin case of block reference present:\n\n((-1 . <Nombre entidad: 1eb2e3449e0>)\
+    \ (0 . \"INSERT\") (330 . <Nombre entidad: 1eb2dac09f0>) (5 . \"6C77E\") (100\
+    \ . \"AcDbEntity\") (67 . 0) (410 . \"Model\") (8 . \"ARQ-ALUMBRA\") (100 . \"\
+    AcDbBlockReference\") (2 . \"FP\") (10 581408.0 4.79624e+06 0.0) (41 . 1.5) (42\
+    \ . 1.5) (43 . 1.5) (50 . 5.58545) (70 . 0) (71 . 0) (44 . 0.0) (45 . 0.0) (210\
+    \ 0.0 0.0 1.0))\n\nthen (0 . \"INSERT\"):\n\nfor block filter :\n\nIntCod (n)\
+    \ = 0\nVarValue (n) = \"INSERT\""
+- author: Oscar Fernandez
+  email: oscarzarauz@gmail.com
+  ip: 80.28.249.139
+  url: ''
+  date: '2019-11-18 01:11:16'
+  body: 'to filter many entities with the same code see this url:
+
+
+    <a href="https://knowledge.autodesk.com/es/search-result/caas/CloudHelp/cloudhelp/2018/ESP/AutoCAD-ActiveX/files/GUID-A1A6DB80-A730-45D1-B035-331F549E9667-htm.html">https://knowledge.autodesk.com/es/search-result/caas/CloudHelp/cloudhelp/2018/ESP/AutoCAD-ActiveX/files/GUID-A1A6DB80-A730-45D1-B035-331F549E9667-htm.html</a>
+
+    -----'

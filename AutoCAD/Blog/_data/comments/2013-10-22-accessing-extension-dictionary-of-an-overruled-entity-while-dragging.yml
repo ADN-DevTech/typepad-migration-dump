@@ -1,0 +1,43 @@
+comments:
+- author: Dmitriy Zagorulkin
+  email: zagor_dmtr@mail.ru
+  ip: 77.232.58.146
+  url: ''
+  date: '2014-10-31 01:08:12'
+  body: "Hello!\nThanks for this code sample!\nBut I found here problem with use _PASTECLIP\
+    \ command. I paste in drawing several objects with different values in Extension\
+    \ Dictionary. In this case method <b>CMyTransformeOverrule.CloneMeForDragging</b>\
+    \ not work. And <b>CMyDrawableOverrule.WorldDraw</b> take old values from <b>HelperClass.GetSingleton.Data</b>:\n\
+    <a href=\"https://screencast.autodesk.com/main/details/5ec69fc8-05e5-40b3-b3e3-0bafc2e8dfd3\"\
+    >https://screencast.autodesk.com/main/details/5ec69fc8-05e5-40b3-b3e3-0bafc2e8dfd3</a>\n\
+    My solution - add this code:\n<i>if (line.ExtensionDictionary != ObjectId.Null)\n\
+    \            HelperClass.GetSingleton.CaptureXRecordData(line);</i>\nin method\
+    \ <b>CMyDrawableOverrule.WorldDraw</b> after this check:\n<i>if (line == null)\n\
+    \            return true;</i>"
+- author: Дмитрий Загорулькин
+  email: ''
+  ip: 77.232.58.146
+  url: http://profile.typepad.com/6p01bb07a2f342970d
+  date: '2014-10-31 01:13:24'
+  body: "Hello!\nThanks for this code sample!\nBut I found here problem with use _PASTECLIP\
+    \ command. I paste in drawing several objects with different values in Extension\
+    \ Dictionary. In this case method <b>CMyTransformeOverrule.CloneMeForDragging</b>\
+    \ not work. And <b>CMyDrawableOverrule.WorldDraw</b> take old values from <b>HelperClass.GetSingleton.Data</b>:\n\
+    <a href=\"https://screencast.autodesk.com/main/details/5ec69fc8-05e5-40b3-b3e3-0bafc2e8dfd3\"\
+    >https://screencast.autodesk.com/main/details/5ec69fc8-05e5-40b3-b3e3-0bafc2e8dfd3</a>\n\
+    My solution - add this code:\n<i>if (line.ExtensionDictionary != ObjectId.Null)\n\
+    \            HelperClass.GetSingleton.CaptureXRecordData(line);</i>\nin method\
+    \ <b>CMyDrawableOverrule.WorldDraw</b> after this check:\n<i>if (line == null)\n\
+    \            return true;</i>"
+- author: Carl Golenberg
+  email: Carl.Golenberg@brownconsulting.com.au
+  ip: 14.202.200.74
+  url: ''
+  date: '2014-11-17 04:06:57'
+  body: 'I''ve gotten this working - with a rather complex polyline object.
+
+    (for those wondering why theirs doesn''t work at first, the objects must ultimatley
+    be based off part of the passed enity - so it has a parametric relationship..)
+    anyway, enacting the grip overrule kills this :/ why?
+
+    -----'

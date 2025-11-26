@@ -1,0 +1,83 @@
+comments:
+- author: AlexFielder
+  email: ''
+  ip: 198.91.9.105
+  url: http://profile.typepad.com/alexfielder
+  date: '2012-05-10 06:12:17'
+  body: 'Thanks Phillipe, this could be very useful.
+
+
+    Do you have any examples of how to produce similar functionality to that of the
+    PLAN command? (Aligning a view to a UCS)'
+- author: Philippe Leefsma
+  email: ''
+  ip: 95.172.88.8
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2012-05-16 06:03:46'
+  body: "Hi Alex,\n\nI don't have code that does exactly this, but below are two samples:\
+    \ the first one illustrates how to set properties for the current view, the second\
+    \ how to deal with UCSs. By combining both, you should be able to create code\
+    \ that provides the same functionalities than PLAN command.\n\n[CommandMethod(\"\
+    SetView\")]\npublic static void SetView()\n{\n    Document doc = Application.DocumentManager.MdiActiveDocument;\n\
+    \    Database db = doc.Database;\n    Editor ed = doc.Editor;\n\n    PromptPointOptions\
+    \ ppo1 = \n        new PromptPointOptions(\"\\nEnter view target:\");\n\n    PromptPointResult\
+    \ ppr1 = ed.GetPoint(ppo1);\n\n    if (ppr1.Status != PromptStatus.OK)\n     \
+    \   return;\n\n    if (ppr1.Status != PromptStatus.OK)\n        return;\n\n  \
+    \  PromptPointOptions ppo2 = \n        new PromptPointOptions(\"\\nEnter point\
+    \ for camera: \");\n\n    PromptPointResult ppr2 = ed.GetPoint(ppo2);\n\n    if\
+    \ (ppr2.Status != PromptStatus.OK)\n        return;\n\n    using (ViewTableRecord\
+    \ vtr = new ViewTableRecord())\n    {\n        vtr.Target = ppr1.Value;\n    \
+    \    vtr.ViewDirection = vtr.Target.GetVectorTo(ppr2.Value);\n\n        Point3d\
+    \ camPt = vtr.Target.Add(vtr.ViewDirection);\n\n        ed.WriteMessage(\"\\nCamera\
+    \ point x = \" + camPt.X.ToString());\n        ed.WriteMessage(\"\\nCamera point\
+    \ y = \" + camPt.Y.ToString());\n        ed.WriteMessage(\"\\nCamera point z =\
+    \ \" + camPt.Z.ToString());\n\n        vtr.Height = 50.0;\n        vtr.CenterPoint\
+    \ = Point2d.Origin;\n        ed.SetCurrentView(vtr);\n    }\n}\n\n\n[CommandMethod(\"\
+    NewUCS\")]\npublic static void NewUCS()\n{\n    Document doc = Application.DocumentManager.MdiActiveDocument;\n\
+    \    Database db = doc.Database;\n\n    using (Transaction Tx = db.TransactionManager.StartTransaction())\n\
+    \    {\n        // Open the UCS table for read\n        UcsTable acUCSTbl;\n \
+    \       acUCSTbl = Tx.GetObject(\n            db.UcsTableId, \n            OpenMode.ForRead)\
+    \ \n                as UcsTable;\n\n        UcsTableRecord acUCSTblRec; \n\n \
+    \       // Check to see if the \"New_UCS\" UCS table record exists\n        if\
+    \ (acUCSTbl.Has(\"New_UCS\") == false)\n        {\n            acUCSTblRec = new\
+    \ UcsTableRecord();\n            acUCSTblRec.Name = \"New_UCS\";\n\n         \
+    \   // Open the UCSTable for write\n            acUCSTbl.UpgradeOpen();\n\n  \
+    \          // Add the new UCS table record\n            acUCSTbl.Add(acUCSTblRec);\n\
+    \            Tx.AddNewlyCreatedDBObject(acUCSTblRec, true);\n        }\n     \
+    \   else\n        {\n            acUCSTblRec = Tx.GetObject(\n               \
+    \ acUCSTbl[\"New_UCS\"], \n                OpenMode.ForWrite) \n             \
+    \       as UcsTableRecord;\n        }\n\n        acUCSTblRec.Origin = new Point3d(4,\
+    \ 5, 3);\n        acUCSTblRec.XAxis = new Vector3d(0, 1, 0);\n        acUCSTblRec.YAxis\
+    \ = new Vector3d(0, 0, 1);\n\n        // Open the active viewport\n        ViewportTableRecord\
+    \ acVportTblRec;\n        acVportTblRec = Tx.GetObject(\n            doc.Editor.ActiveViewportId,\
+    \ \n            OpenMode.ForWrite) \n                as ViewportTableRecord;\n\
+    \n        // Display the UCS Icon at the origin of the current viewport\n    \
+    \    acVportTblRec.IconAtOrigin = true;\n        acVportTblRec.IconEnabled = true;\n\
+    \n        // Set the UCS current\n        acVportTblRec.SetUcs(acUCSTblRec.ObjectId);\n\
+    \        doc.Editor.UpdateTiledViewportsFromDatabase();\n\n        // Display\
+    \ the name of the current UCS\n        UcsTableRecord acUCSTblRecActive;\n   \
+    \     acUCSTblRecActive = Tx.GetObject(\n            acVportTblRec.UcsName, \n\
+    \            OpenMode.ForRead) \n                as UcsTableRecord;\n\n      \
+    \  Application.ShowAlertDialog(\n            \"The current UCS is: \" + acUCSTblRecActive.Name);\n\
+    \n        PromptPointResult pPtRes;\n        PromptPointOptions pPtOpts = new\
+    \ PromptPointOptions(\"\");\n\n        // Prompt for a point\n        pPtOpts.Message\
+    \ = \"\\nEnter a point: \";\n        pPtRes = doc.Editor.GetPoint(pPtOpts);\n\n\
+    \        Point3d pPt3dWCS;\n        Point3d pPt3dUCS;\n\n        // If a point\
+    \ was entered, then translate it to the current UCS\n        if (pPtRes.Status\
+    \ == PromptStatus.OK)\n        {\n            pPt3dWCS = pPtRes.Value;\n     \
+    \       pPt3dUCS = pPtRes.Value;\n\n            // Translate the point from the\
+    \ current UCS to the WCS\n            Matrix3d newMatrix = doc.Editor.CurrentUserCoordinateSystem;\n\
+    \n\n            pPt3dWCS = pPt3dWCS.TransformBy(newMatrix);\n\n            Application.ShowAlertDialog(\n\
+    \                \"The WCS coordinates are: \\n\" + pPt3dWCS.ToString() + \"\\\
+    n\" +\n                \"The UCS coordinates are: \\n\" + pPt3dUCS.ToString());\n\
+    \        }\n\n        Tx.Commit();\n    }\n}"
+- author: Maxence
+  email: maxence.delannoy@wiip.fr
+  ip: 81.250.208.198
+  url: http://wiip.fr
+  date: '2014-02-27 07:32:11'
+  body: "Simplest version:\n\n[CommandMethod(\"UcsV\")]\npublic void UcsV()\n{\n \
+    \ Editor ed = Application.DocumentManager.MdiActiveDocument.Editor;\n  using (ViewTableRecord\
+    \ view = ed.GetCurrentView())\n  {\n    ed.CurrentUserCoordinateSystem = Matrix3d.PlaneToWorld(view.ViewDirection)\
+    \ \n      * Matrix3d.Rotation(-view.ViewTwist, Vector3d.ZAxis, Point3d.Origin);\n\
+    \  }\n}\n-----"

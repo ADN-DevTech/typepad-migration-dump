@@ -1,0 +1,45 @@
+comments:
+- author: Eugene Rymski
+  email: erymski@gmail.com
+  ip: 178.121.231.16
+  url: ''
+  date: '2012-05-30 07:49:08'
+  body: I would add that the returned string should be freed by caller (or it's easier
+    to use overload method with AcString as parameter).
+- author: Owen Wengerd
+  email: owenw@manusoft.com
+  ip: 24.140.112.242
+  url: http://otb.manusoft.com
+  date: '2012-05-30 09:25:52'
+  body: Actually his code is correct. Notice that it is using the const ACHAR*& version
+    of the getName() function.
+- author: Alexander Rivilis
+  email: ''
+  ip: 81.95.185.60
+  url: http://profile.typepad.com/alexanderrivilis
+  date: '2012-05-30 13:33:38'
+  body: "//\n//  Print name of selected block (dynamic or static)\n//\nstatic void\
+    \ PrintBlockName(void)\n{\n  ads_name en; ads_point p;\n  if (acedEntSel(_T(\"\
+    \\nSelect block reference: \"),en,p) == RTNORM) {\n    AcDbObjectId eId; acdbGetObjectId(eId,en);\n\
+    \    AcDbObjectPointer pBlkRef(eId,AcDb::kForRead);\n    if (pBlkRef.openStatus()\
+    \ == Acad::eOk) {\n      AcDbObjectId idBlkTblRec = pBlkRef->blockTableRecord();\n\
+    \      AcDbDynBlockReference dynBlk(eId);\n      if (dynBlk.isDynamicBlock())\
+    \ {\n        AcDbBlockTableRecordPointer pBTR(dynBlk.dynamicBlockTableRecord(),AcDb::kForRead);\n\
+    \        if (pBTR.openStatus() == Acad::eOk){\n          const ACHAR *blkName\
+    \ = NULL; pBTR->getName(blkName);\n          acutPrintf(_T(\"\\nDynamic block\
+    \ with name: \\\"%s\\\"\"), blkName);\n        }\n      } else {\n        AcDbBlockTableRecordPointer\
+    \ pBTR(pBlkRef->blockTableRecord(),AcDb::kForRead);\n        const ACHAR *blkName\
+    \ = NULL; pBTR->getName(blkName);\n        acutPrintf(_T(\"\\nStatic block with\
+    \ name: \\\"%s\\\"\"), blkName);\n      }\n    }\n  }\n}"
+- author: Eugene Rymski
+  email: erymski@gmail.com
+  ip: 178.121.231.16
+  url: ''
+  date: '2012-05-30 14:58:02'
+  body: '@Owen: Oops... my bad, just did quick overview of the code. Thanks for the
+    note!
+
+
+    @Xiaodong: feel free to delete my original comment as misleading.
+
+    -----'

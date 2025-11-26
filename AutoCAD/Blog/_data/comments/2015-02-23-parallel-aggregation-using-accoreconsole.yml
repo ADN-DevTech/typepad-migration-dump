@@ -1,0 +1,241 @@
+comments:
+- author: Wouter
+  email: wouter@anakha.net
+  ip: 82.161.136.242
+  url: ''
+  date: '2015-02-24 01:08:10'
+  body: "Hi Balaji, \n\nThank you for this example. What would the contents of RunCustomNETCmd.scr\
+    \ be?"
+- author: Balaji
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-02-24 01:11:36'
+  body: 'Hi Wouter,
+
+
+    That script would netload the custom .net plugin and invoke the custom command.
+
+
+    ;Load the .Net module
+
+    (command "_.Netload" "C:\\Temp\\EntityBreakup.dll")
+
+    ; Run the command
+
+    EntBreakup
+
+
+    Regards,
+
+    Balaji'
+- author: Jeff
+  email: jeff@got.com
+  ip: 194.250.6.178
+  url: ''
+  date: '2015-02-24 01:44:18'
+  body: "hi,\n\nreally useful post. Stupid question, is there a problem here :   \
+    \  coreprocess.StartInfo.Arguments = string .Format(\"/i \\\\\"{0}\\\\\" /s \\\
+    \\\"{1}\\\\\" /l en-US\" ,fi.FullName,\n@\"C:\\\\Temp\\\\RunCustomNETCmd.scr\"\
+    \ ); \n\nmy visual trudio express 2013 doesn't like this line."
+- author: Balaji
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-02-24 01:54:51'
+  body: 'Hi Jeff,
+
+
+    Thanks for pointing that out. It seems the tool that converts the code to html
+    format for posting it in typepad has messed it up.
+
+
+    It should be :
+
+    coreprocess.StartInfo.Arguments = string .Format("/i \"{0}\" /s \"{1}\" /l en-US"
+    ,fi.FullName, @"C:\Temp\RunCustomNETCmd.scr" );
+
+
+    I will fix the post
+
+
+    Thanks
+
+
+    Balaji'
+- author: Jeff
+  email: jeff@got.com
+  ip: 194.250.6.178
+  url: ''
+  date: '2015-02-24 05:42:12'
+  body: "hi, \n\nIt was pleasure!\n\nThanks for your script. I use it to purge the\
+    \ RegsApp in my files. It increases the speed, you can't imagine!"
+- author: Balaji
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-02-24 22:47:10'
+  body: "Thanks for the update. \nGlad to know that this helped."
+- author: Matthias
+  email: Matthias.Beyer@Lindner-Group.com
+  ip: 172.16.151.38
+  url: ''
+  date: '2015-02-25 04:47:37'
+  body: 'Hi Balaji,
+
+    Works like a charm. But could it be, if I use the parallel code to run the publish
+    command, that sometimes the pdf files are corrupt or the content of one PDF file
+    is from the wrong drawing?
+
+    Does AutoCAD use the same temporary files for the different processes while publishing?'
+- author: Balaji
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-02-26 00:25:19'
+  body: "Hi Matthias,\n\nI am not aware of any known issue with AccoreConsole that\
+    \ would cause this. I tried publishing PDF out of 500 drawings in parallel and\
+    \ it worked ok. I did not notice any mix up. If you are facing such an issue,\
+    \ can you please share the steps and non-confidential drawings for me to reproduce\
+    \ the behavior ? \n\nThanks\n\nBalaji"
+- author: Matthias
+  email: Matthias.Beyer@Lindner-Group.com
+  ip: 172.16.151.38
+  url: ''
+  date: '2015-02-26 08:34:55'
+  body: 'Hi Balaji,
+
+
+    The problem doesn''t occur all the time. Sometimes the documents are ok, but sometimes
+    some of them are corrupt.
+
+    I''ve used the Subscription Center to offer you some sample files and a sample
+    project (#10499576).
+
+
+    Regards
+
+    Matthias'
+- author: Balaji
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-02-27 05:26:58'
+  body: "Hi Matthias,\n\nThanks for sending me the sample project.\n\nI can reproduce\
+    \ the problem intermittently. It appears that the publish does rely on some shared\
+    \ resource. \nUnfortunately, I do not know if this can be resolved. AccoreConsole\
+    \ was developed as an internal tool and not for public use. So, unfortunately\
+    \ i cannot log this behavior for our engineering team to analyze it.\n\nWhen plotting\
+    \ the drawings as PDF using PLOT command from a script does not seem to have such\
+    \ issues. I have shared a sample script file, but you may need to modify it to\
+    \ suit your needs. Hope this helps.\n<a href=\"https://www.dropbox.com/s/6pr9npppk74bdte/PDFGen_EN.zip?dl=0\"\
+    >https://www.dropbox.com/s/6pr9npppk74bdte/PDFGen_EN.zip?dl=0</a>\n\nRegards,\n\
+    Balaji"
+- author: Jordan
+  email: jordan@i-theses.com
+  ip: 109.128.28.251
+  url: ''
+  date: '2015-06-18 02:52:49'
+  body: "Hi Balaji,\n\nI have some troubles using AcCoreConsole with printing and\
+    \ threading. \nI use BackGroundWorkers instead of the Parallel functionality.\n\
+    I am using a script file to plot to PNG and I get \"missing required property\"\
+    \ errors when doing this plot. I am also using a pc3 file in this script. Is this\
+    \ maybe the issue?\nCan you please post your sample project again? So I can investigate\
+    \ your sample?"
+- author: Balaji
+  email: ''
+  ip: 182.73.112.18
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-06-19 01:58:08'
+  body: 'Hi Jordan,
+
+
+    I have attached the sample project to the post.
+
+
+    Regards,
+
+    Balaji'
+- author: Balaji
+  email: ''
+  ip: 182.73.112.18
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-12-08 21:12:42'
+  body: "Hello,\n\nI am adding below an update from Thomas Brammer, who kindly shared\
+    \ the results of his tests for publishing drawings in parallel using AccoreConsole.\
+    \ I hope this will help many others using it for a similar workflow.\n\n<<<\n\
+    I added a thread-dependant user name to the /isolate switch as you suggested.\
+    \ But I still saw some AccoreConsole failing. Then I also added a thread-dependant\
+    \ working directory path to the /isolate switch:\n/isolate user<N> c:\\temp\\\
+    acc\\<N>\nNow all my AccoreConsole calls work like a charm! \nAccoreConsole even\
+    \ creates the directories if they don’t exist!\n>>>\n\nRegards,\nBalaji"
+- author: Ben
+  email: benkoshy@hotmail.com
+  ip: 165.228.230.183
+  url: ''
+  date: '2016-02-02 20:21:49'
+  body: 'Hello Bajali
+
+
+    if one uses ScriptPro 2.0 - does this not employ parallel processing of drawings?
+    I mean this post and ScriptPro do virtually the same things in terms of parallel
+    processing correct?
+
+
+    with thanks and kind regards
+
+
+    Ben'
+- author: Devin
+  email: Devin.L.Jackson@gmail.com
+  ip: 198.91.10.183
+  url: ''
+  date: '2017-02-22 18:22:43'
+  body: 'Hello,
+
+
+    I''ve been using this method and it works great as a plotting tool. Is there anyway
+    to modify the .net code to search multiple directories for dwg files?'
+- author: Nik
+  email: n_mouline@hotmail.com
+  ip: 108.180.159.179
+  url: ''
+  date: '2017-06-28 19:30:23'
+  body: "Hey everyone, \nI recently discovered a VERY fast method of processing dwg\
+    \ files using accorconsole (or AutoCAD if that is what you prefer). For example,\
+    \ running a search and replace operation of dbtext and mtext on a batch of dwg\
+    \ files runs at around 15 drawings/second on a single process. Setting up 5 or\
+    \ 6 in parallel will process close to 5000 drawings/minute! I thought I would\
+    \ share this with the community as this discovery has been a game-changer for\
+    \ my company when it comes to processing large batches of dwg files.\n\nFor this\
+    \ you have to use the .NET API. I did all the code for processing in C#, and the\
+    \ only 2 lines in the lisp script file is to NETLOAD my dll and call the command\
+    \ that does the processing.\n\nTurns out, you can work on multiple dwg files in\
+    \ the same instance of accoreconsole. The idea here is to just load the dwg database\
+    \ without actually opening the drawing (takes ~70ms), manipulate the database,\
+    \ then save it. For the i/ switch, you can use any dummy drawing file as it will\
+    \ have no effect on your batch. Then in C# in your command method, you would do\
+    \ something like this:\n\nforeach(string drawingFilePath in dwgFiles)\n{\n   \
+    \ database = new Database(false, true);\n    database.ReadDwgFile(drawingFilePath,\
+    \ FileShare.ReadWrite, true, String.Empty);\n    using(Transaction transaction\
+    \ = database.TransactionManager.StartTransaction())\n    {\n        //DO STUFF\
+    \ HERE\n        transaction.Commit();\n        database.SaveAs(drawingFilePath,\
+    \ DwgVersion.Current);\n    }\n    database.Dispose();\n}\n\nLet me know if you\
+    \ have any questions or need more detail,"
+- author: Chuck Dodson
+  email: chuckd@sgadesigngroup.com
+  ip: 70.163.95.130
+  url: ''
+  date: '2023-06-22 14:33:43'
+  body: '@Nik,
+
+
+    I''m doing something very similar where my .net code prompts for a filename and
+    the .script file calls the command and supplies the filenames.  I know the original
+    post is 8 years old, but I''m also not supplying an initial drawing to open using
+    the /i switch.  The issue I''m running into is the profile.  Once the profile
+    is set in the .bat, it remains the next time I open AutoCAD.  Would you happen
+    to know a way of stopping this?  Or to get the profile set back to none?  The
+    CProfile variable is read-only, so....
+
+    -----'

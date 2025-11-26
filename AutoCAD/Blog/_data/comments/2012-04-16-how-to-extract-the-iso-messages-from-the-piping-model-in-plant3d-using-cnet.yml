@@ -1,0 +1,36 @@
+comments:
+- author: matin
+  email: manafi.matin@gmail.com
+  ip: 109.230.70.50
+  url: ''
+  date: '2017-01-03 00:19:26'
+  body: "Dear Fenton\nI want to get nozzle attribute of created equipment in autocad\
+    \ plant 3d.\nI want to get X coordinate (Port 1) of nozzle. Please Help!\n   \
+    \     public static void Test()\n        {\n            Editor ed = AcadApp.DocumentManager.MdiActiveDocument.Editor;\n\
+    \            using (EquipmentHelper eqHelper = new EquipmentHelper())\n      \
+    \      {\n                PromptEntityResult res = ed.GetEntity(\"\\nSelect equipment\
+    \ entity: \");\n                ObjectId eqId = res.ObjectId;\n              \
+    \  EquipmentType eq = eqHelper.RetrieveEquipmentFromInstance(eqId);\n        \
+    \        foreach (CategoryInfo categoryInfo in eq.Categories)\n              \
+    \  {\n                    ed.WriteMessage(\"\\n\" + categoryInfo.DisplayName);\n\
+    \                    foreach (ParameterInfo parameterInfo in categoryInfo.Parameters)\n\
+    \                    {\n                        ed.WriteMessage(\"\\n\\t\" + parameterInfo.Name\
+    \ + \";\" + parameterInfo.Value);\n                    }\n                }  \
+    \              \n                \n                foreach (NozzleInfo nozzleInfo\
+    \ in eq.Nozzles)\n                {\n                    \n\n                \
+    \    ed.WriteMessage(\"\\n\\n\"\n                        + \"Display Name:\" +\
+    \ nozzleInfo.DisplayName + \";\\n\"\n                        + \"End Type:\" +\
+    \ nozzleInfo.EndType + \";\\n\"\n                        + \"Facing:\" + nozzleInfo.Facing\
+    \ + \";\\n\"\n                        + \"Long Desc.:\" + nozzleInfo.LongDescription\
+    \ + \";\\n\"\n                        + \"Name:\" + nozzleInfo.Name + \";\\n\"\
+    \n                        + \"Nozzle End Type:\" + nozzleInfo.NozzleEndType +\
+    \ \";\\n\"\n                        + \"Nozzle Size:\" + nozzleInfo.NozzleSize\
+    \ + \";\\n\"\n                        + \"Pressure Class:\" + nozzleInfo.PressureClass\
+    \ + \";\\n\"\n                        + \"Port Name:\" + nozzleInfo.PortName +\
+    \ \";\\n\"\n                        + \"Port Index:\" + nozzleInfo.PortIndex +\
+    \ \";\\n\"\n                        + \"nozzle Tag:\" + nozzleInfo.NozzleTag +\
+    \ \";\\n\"\n                        + \"Object:\" + nozzleInfo + \";\\n\"\n  \
+    \                      + \"Part Size Record ID:\" + nozzleInfo.PartSizeRecordId\
+    \ + \";\\n\"\n                        + \"Part Sub Type:\" + nozzleInfo.PartSubType);\
+    \                   \n\n                }\n                \n            }\n\n\
+    \            \n        }\n\nBest Regards\n-----"

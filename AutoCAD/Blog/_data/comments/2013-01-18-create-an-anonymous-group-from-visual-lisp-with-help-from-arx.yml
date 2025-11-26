@@ -1,0 +1,29 @@
+comments:
+- author: Subir Kumar Dutta
+  email: cad.customizations@gmail.com
+  ip: 202.60.62.100
+  url: http://www.youtube.com/user/nametemp2012/videos
+  date: '2014-03-25 04:40:40'
+  body: "Hi , During converting some old Lisp code to .Net , I faced a situation.\
+    \ After analysing the Lisp code we understand its calling some ARX functions (not\
+    \ commands , originally ads function - the whole ObjectARX project does not have\
+    \ a single executable commands but all are functions called by AutoLisp ).\nFor\
+    \ example as below,\n\nint ReturnListToAutoLisp(void)\n{  \n   struct resbuf *LIST;\
+    \ \n\n   //...\n   //...  = acedGetArgs\n   //...\n      \n   acedRetList(LIST);\n\
+    \   return RTNORM;\n}\n\nThe function itself does not return the list but the\
+    \ list is returned by the acedRetList.\nNow the below AutoLisp code that calls\
+    \ this functions and store the return value in a list.\n(setq returnedList (ReturnListToAutoLisp\
+    \  5))\nThrough it looks that the ReturnListToAutoLisp  takes an integer ( like\
+    \ 5 here ) but actually in the ObjectARX code its parameter list is void ) . However\
+    \ the parameter value passed are collected by calling acedGetArgs.\nAlso the return\
+    \ value is not a single integer but a list of strings which are collected in the\
+    \ AutoLisp variable named ‘returnedList’ and which is used to populated DropDown\
+    \ list in DCL UI.\nSo far its okey.\nI have ported the old ObjectARX 2005 code\
+    \ to ObjectARX 2014 version and its working fine when called from AutoLisp.\n\
+    But while converting the Lisp code to VB.Net , I can’t find a way to collect the\
+    \ return value in a .Net variable of type string List (List(Of String)).\n\nI\
+    \ found samples to call ObjectARX functions from .Net using P/Invoke which focus\
+    \ on passing arguments by creating a ResultBuffer. But I did not find a single\
+    \ sample that demonstrate how to collect the list of values retuned from ObjectARX\
+    \ functions through acedRetList.\n\nI am counting that there must be a way but\
+    \ can’t figure it out. \n\nPlease help.\n\n\n\n\n-----"

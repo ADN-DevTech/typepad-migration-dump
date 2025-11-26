@@ -1,0 +1,88 @@
+comments:
+- author: Jorge Renatto
+  email: jrenatto@hotmail.com
+  ip: 201.240.148.21
+  url: ''
+  date: '2013-07-26 07:00:23'
+  body: 'Autocad 2013 vba to vb.net migration.
+
+
+    How I can migrate autocad vba to vb.net? Autocad 2013, since the basic migration
+    example shown on this page <a href="http://usa.autodesk.com/adsk/servlet/index?siteID=123112&id=770215">http://usa.autodesk.com/adsk/servlet/index?siteID=123112&id=770215</a>
+    does not work, your help really appreciate it.'
+- author: Augusto Goncalves
+  email: ''
+  ip: 177.84.160.215
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2013-07-26 07:05:24'
+  body: 'Jorge,
+
+
+    The migration process should work, but note that Visual Basic .NET 2008 must be
+    used. The newer versions, 2010/2012, do not include the migration tool.
+
+
+    What kind of issue are you facing?
+
+
+    Regards,
+
+    Augusto Goncalves'
+- author: Jorge Renatto
+  email: jrenatto@hotmail.com
+  ip: 201.240.148.21
+  url: ''
+  date: '2013-07-26 07:40:35'
+  body: 'When running the following code shows me the following error:
+
+
+    1: Imports Autodesk.AutoCAD.Runtime
+
+    2: Imports Autodesk.AutoCAD.Interop
+
+    3: Imports Autodesk.AutoCAD.Interop.Common
+
+
+    4: Public Class Class1
+
+    5:     Public ReadOnly Property ThisDrawing() As AcadDocument
+
+    6:         Get
+
+    7:            Return Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.activedocument
+
+    8:         End Get
+
+    9:     End Property
+
+
+    10:    <CommandMethod("COMANDO")> Public Sub COMANDO()
+
+    11:        Thisdrawing.Utility.Prompt("Hola mundo")
+
+    12:    End Sub
+
+    13: End Class
+
+
+    The error states: ''ActiveDocument'' is not a member of'' Autodesk.ApplicationServices.Document'',
+    in line 7'
+- author: Augusto Goncalves
+  email: ''
+  ip: 177.84.160.215
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2013-07-26 07:46:59'
+  body: 'This is a migration requirement for 2013/2014
+
+
+    Remember to also include reference to AcCoreMgd.dll and replace AcadDocument with
+    GetAcadDocument()'
+- author: Jorge Renatto
+  email: ''
+  ip: 181.64.68.144
+  url: http://profile.typepad.com/6p0192ac228aea970d
+  date: '2013-07-27 05:16:29'
+  body: 'Already achieved migrate vba to vb.net your help it was very useful, thank
+    you very much.
+
+    -----'

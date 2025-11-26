@@ -1,0 +1,80 @@
+comments:
+- author: Nick G.
+  email: gonini_arx@ukr.net
+  ip: 37.55.231.108
+  url: http://arx.16mb.com/
+  date: '2012-05-20 23:40:04'
+  body: "You are wright, there is no direct way to get it from the AcDbMText methods.\
+    \ BUT, there is a way to get it from parent class :):):). I don't think that you\
+    \ have to use different functions for getting extents for texts and, for example,\
+    \ polylines. So, the other variant is:\n\nAcad::ErrorStatus getBoundingBox_forCurrentUCS(AcDbObjectId\
+    \ eId, AcGePoint3d &minPt, AcGePoint3d &maxPt, bool resptsInUCS)\n{\n  Acad::ErrorStatus\
+    \ es;\n  AcDbExtents ext;\n  AcGeMatrix3d ucsMat;\n  AcDbEntity * pCopy;\n  AcDbObjectPointer\
+    \ pEnt(eId,AcDb::kForRead);\n  acedGetCurrentUCS(ucsMat);\n  ucsMat.invert();\n\
+    \  if ((es = pEnt.openStatus()) != Acad::eOk) return es;\n  if ((es = pEnt->getTransformedCopy(ucsMat,(AcDbEntity\
+    \ *&)pCopy)) != Acad::eOk) return es;\n  es = pCopy->getGeomExtents(ext);\n  delete\
+    \ pCopy;\n\n  minPt = ext.minPoint();\n  maxPt = ext.maxPoint();\n  if (!resptsInUCS)\n\
+    \  {\n    acdbUcs2Wcs(asDblArray(minPt), asDblArray(minPt), false);\n    acdbUcs2Wcs(asDblArray(maxPt),\
+    \ asDblArray(maxPt), false);\n  }\n  return es;\n}\n\nI use this variant more\
+    \ than 3 years. It works fine for me. And I have not to think about object type\
+    \ at all."
+- author: Balaji
+  email: ''
+  ip: 14.96.107.182
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2012-05-21 16:03:37'
+  body: 'Hi Nick,
+
+
+    The code snippet that you have shared does get the extents of an MText, but that
+    will also include any empty spaces that is part of the MText. The post is about
+    getting the size of only the text content which is not always the same as the
+    extents of the MText.
+
+
+    Regards,
+
+    Balaji'
+- author: Nick G.
+  email: gonini_arx@ukr.net
+  ip: 92.112.231.75
+  url: http://arx.16mb.com/
+  date: '2012-05-22 01:58:00'
+  body: 'Hi, Balaji,
+
+    But your code doesn''t work with MText at all :) It just tells us width and height
+    of user input string without spaces before and after text data (CString::Trim
+    function :):):)) for textstyle STANDARD.
+
+    If you really want to know MText''s width/height you have to use AcDbMText::explodeFragments
+    function and find width/height for all of mtext''s parts, and collect max and
+    min values for output. It''s quite hard job, but you''ll get the right result.'
+- author: Anonymoose
+  email: rebar@nym.hush.com
+  ip: 24.47.196.153
+  url: ''
+  date: '2012-06-03 02:26:47'
+  body: explodeFragments() will not always work correctly  because it doesn't account
+    for embedded formatting within MTEXT.
+- author: Anonymoose
+  email: rebar@nym.hush.com
+  ip: 24.47.196.153
+  url: ''
+  date: '2012-06-03 02:29:09'
+  body: For P/Invoke on an instance method of a C++ class, the CallingConvention.ThisCall
+    should be used.
+- author: ku281
+  email: yqw281@126.com
+  ip: 119.19.2.186
+  url: ''
+  date: '2012-08-31 02:37:30'
+  body: why not use actualHeight and actualWidth ?
+- author: Hanauer
+  email: g.hanauer@terra.com.br
+  ip: 200.96.123.234
+  url: ''
+  date: '2013-11-07 02:22:49'
+  body: 'Works well if TextSize has the same value TextHeight. What better way to
+    fix this?
+
+    -----'

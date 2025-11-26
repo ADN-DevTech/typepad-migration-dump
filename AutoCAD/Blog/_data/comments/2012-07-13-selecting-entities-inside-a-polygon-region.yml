@@ -1,0 +1,15 @@
+comments:
+- author: Gilles Chanteau
+  email: chanteau.gilles@orange.fr
+  ip: 2.4.66.139
+  url: ''
+  date: '2012-07-13 16:24:29'
+  body: "It seems to me this can be done in plain .NET using the Editor.SelctCrossingPolygon()\
+    \ method.\n\nHere's a F# example\n\n<i>let selectCrossing (pline: Polyline) (entityNames:\
+    \ string) =\n    let ed = Application.DocumentManager.MdiActiveDocument.Editor\n\
+    \    let pointsArray = [| for i in 0 .. pline.NumberOfVertices - 1 -> pline.GetPoint3dAt(i)\
+    \ |]\n    let filter = [| new TypedValue(0, entityNames) |]\n    zoomExtents()\n\
+    \    let psr = ed.SelectCrossingPolygon(\n                new Point3dCollection(pointsArray),\
+    \ \n                new SelectionFilter(filter))\n    if psr.Status = PromptStatus.OK\
+    \ then\n        new ObjectIdCollection(psr.Value.GetObjectIds())\n    else\n \
+    \       new ObjectIdCollection()</i>\n-----"

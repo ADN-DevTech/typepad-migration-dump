@@ -1,0 +1,63 @@
+comments:
+- author: Chenghao LI
+  email: lichenghao@cppetj.com
+  ip: 60.28.154.199
+  url: ''
+  date: '2015-11-11 17:10:06'
+  body: "sir,i have a problem when close actived document in ExecuteInApplicationContext,need\
+    \ you help.under is my program:\n        [CommandMethod(\"asbuilt2\")]\n     \
+    \   public void asbuilt2()\n        {\n           if (keyima() == false || isDrawingPath()\
+    \ == true)\n                return;\n             object[] parmsDraw;\n      \
+    \          FormBuilt ff = new FormBuilt();\n                System.Windows.Forms.DialogResult\
+    \ dr=Application.ShowModalDialog(ff);\n                if (dr == System.Windows.Forms.DialogResult.OK)\n\
+    \                {\n                    parmsDraw = ff.rets;\n               \
+    \     ff.Close();\n                    ff.Dispose();\n                    myin.StopeEvent();\n\
+    \                    string dwgFilePath=\"\";\n                    if ((bool)parmsDraw[3]\
+    \ == true && PGVs.IsUseXref==true)//isLayout?\n                    {\n       \
+    \                 MageComCanShu mcc = new MageComCanShu();\n                 \
+    \       Polyline plzx = mcc.GetPolylineCanShu(MageComCanShu.Canshu.pl_zx);\n \
+    \                       if (plzx == null)\n                            return;\n\
+    \                        AboutEntity.ClearModelSpace(plzx);\n                \
+    \        Document doc = Application.DocumentManager.MdiActiveDocument;\n     \
+    \                   using (DocumentLock docLock = doc.LockDocument())\n      \
+    \                  {\n                            doc.Database.EraseEmptyObjects(2);\n\
+    \                            dwgFilePath = doc.Name;\n                       \
+    \     doc.Database.SaveAs(GetXX.GetOpenDWGpath() + \"\\\\\" + PGVs.NameMapXref,\
+    \ \n                                true, DwgVersion.Current, doc.Database.SecurityParameters);\n\
+    \                        }\n                    }\n                    Document\
+    \ doc2 = Application.DocumentManager.MdiActiveDocument;\n                    using\
+    \ (DocumentLock docLock = doc2.LockDocument())\n                    {\n      \
+    \                  PipeLineDrawDWG pdd = new PipeLineDrawDWG(pipeDBase, (double)parmsDraw[0],\
+    \ (double)parmsDraw[1]);\n                        pdd.DrawAllDWG(parmsDraw[2].ToString(),\
+    \ (bool)parmsDraw[3], (bool)parmsDraw[4], (PipeLineDrawDWG.DrawStyle)parmsDraw[5]);\n\
+    \                    }\n                    myin.ConnectEvent();\n           \
+    \         Application.DocumentManager.ExecuteInApplicationContext(ApplicationContextFinalProcess,\
+    \ doc2.Name);\n                }\n                else\n                {\n  \
+    \                  ff.Close();\n                    ff.Dispose();\n          \
+    \      }\n        }\n        /// <summary>\n        /// 回调函数\n        /// </summary>\n\
+    \        /// <param name=\"data\"></param>\n       static void ApplicationContextFinalProcess(object\
+    \ data)\n        {\n          Document d=  Application.DocumentManager.Add(\"\"\
+    );\n          Application.DocumentManager.MdiActiveDocument = d;\n           \
+    \ foreach (Document doc in Application.DocumentManager)\n                if (doc.Name\
+    \ == data.ToString())\n                {\n                    doc.CloseAndDiscard();\n\
+    \                }\n        }"
+- author: Chenghao LI
+  email: lichenghao@cppetj.com
+  ip: 60.28.154.199
+  url: ''
+  date: '2015-11-11 17:13:13'
+  body: 'the error is document busy.
+
+    static void ApplicationContextFinalProcess(object data)
+
+    {
+
+
+    Application.DocumentManager.MdiActiveDocument.CloseAndDiscard();
+
+
+    }
+
+    Application.DocumentManager.MdiActiveDocument.CloseAndDiscard() also not work
+
+    -----'

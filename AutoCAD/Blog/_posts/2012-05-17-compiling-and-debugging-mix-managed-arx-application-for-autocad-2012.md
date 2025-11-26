@@ -1,0 +1,16 @@
+---
+layout: "post"
+title: "Compiling and debugging Mix-Managed ARX application for AutoCAD 2012"
+date: "2012-05-17 14:07:57"
+author: "Philippe Leefsma"
+categories:
+  - ".NET"
+  - "AutoCAD"
+  - "ObjectARX"
+  - "Philippe Leefsma"
+original_url: "https://adndevblog.typepad.com/autocad/2012/05/compiling-and-debugging-mix-managed-arx-application-for-autocad-2012.html "
+typepad_basename: "compiling-and-debugging-mix-managed-arx-application-for-autocad-2012"
+typepad_status: "Publish"
+---
+
+<p>By <a href="http://adndevblog.typepad.com/autocad/philippe-leefsma.html" target="_self">Philippe Leefsma</a></p>  <p>&#160;</p>  <p>AutoCAD 2012 targets .NET Framework 4.0. This means you have to use VS2010 to debug your .NET application. ObjectARX still requires VS2008 SP1 compiler.</p>  <p>So can you clarify how is it possible to compile and debug a mix-managed application for AutoCAD 2012 ?</p>  <p><a name="section2"></a></p>  <p><b>Solution</b></p>  <p>Concerning compiling and running a .Net or mix-managed application for AutoCAD 2012, you can still use VS2008 SP1, but as it doesn't support .Net Framework 4.0, you won't be able to run your application under the debugger.</p>  <p>A mixed-mode arx that can be debugged needs to be compiled with VS2010, platform toolset set to V90 and Framework 3.5 Targeted. </p>  <p>Once this is done, you can run AutoCAD form the debugger and break in managed or unmanaged code.</p>  <p>However, targeting Framework 3.5 in VS2010 is however not so straightforward. </p>  <p>Here are several techniques that expose how to achieve that:</p>  <p>Managed C++ projects will target the Framework 4.0 by default. The reason behind this design is that the VS2010 compiler cannot target Framework 2.0, 3.0 or 3.5. The VS2008 compiler must be used to target 2.0, 3.0 or 3.5. To make the converted C++ application build out of box, Microsoft decided to move the TargetFrameWorkVersion to 4.0 by default for C++ applications. </p>  <p>The Managed C++ applications can be retargeted to other frameworks by one of the following methods:    <br />• Edit the vcxproj file and in the first property group ( &lt;PropertyGroup Label=&quot;Globals&quot;&gt;) add the following:     <br />&lt;TargetFrameworkVersion&gt;v3.5&lt;/TargetFrameworkVersion&gt;</p>  <p>• Open the VS2010 command line, set TargetFrameworkVersion=v3.5, and then start devenv.exe from the commandline. This will target all your C++ applications to v3.5 framework.</p>  <p>• Pass /p:TargetFrameworkVersion=v3.5 to MSBuild when building applications: MSBuild my.vcxproj /p:TargetFrameworkVersion=v3.5    <br />Note that VS2008 has to be installed on the machine for the application to target 2.0, 3.0 or 3.5. </p>  <p>   <br />For C#/VB.Net applications, conversion does not change the target Framework version if the targeted Framework is installed on the machine. If the targeted Framework is not installed, you will have the choice of either downloading the required Framework or upgrading the target Framework to 4.0</p>  <p>Please refer to <a href="http://adndevblog.typepad.com/autocad/2012/05/about-visual-studio-2010-visual-studio-express-platform-toolset-and-autocad-2010-2012.html">this post</a> for other information about VS2010 and Platform Toolset.</p>

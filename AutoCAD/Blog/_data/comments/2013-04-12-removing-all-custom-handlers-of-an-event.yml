@@ -1,0 +1,55 @@
+comments:
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-16 04:54:06'
+  body: "\"' get the type of the handler, so we can skip internal handlers\n    Dim\
+    \ handlerType As Type = handler.Target.GetType()\n    ' only handlers defined\
+    \ on this custom assembly\n    If (handlerType.Assembly.FullName = _\n       \
+    \ System.Reflection.Assembly. _\n        GetExecutingAssembly().FullName) Then\n\
+    \ \"\n\nIf the two assemblies are the same assembly, they can be directly compared\
+    \ with the equals operator."
+- author: Augusto Goncalves
+  email: ''
+  ip: 177.84.160.215
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2013-04-16 07:20:43'
+  body: 'Thanks Tony, that is better.
+
+
+    Hope this code was useful.
+
+
+    Regards,
+
+    Augusto Goncalves'
+- author: Fernando
+  email: microtecnologo@yahoo.com.mx
+  ip: 187.190.148.150
+  url: ''
+  date: '2019-01-15 08:54:14'
+  body: "Hello Augusto, this is Fernando from Mexico greeting you.\nI have tried your\
+    \ interesting code in a home project where I would like\n to cancel the events\
+    \ of another command that my drawing entities can read\n (through lisp for example),\
+    \ I have loaded your code after another container \nof events, I have ordered\
+    \ Remover and it is then when this fatal error arises:\nUnhandled Access Violation.\
+    \ Reading 0x0000 Exception at a292c02h.\n  What am I doing wrong?\n  Any solution\
+    \ would be apretiated.\n  Thanks in advance."
+- author: Augusto Goncalves
+  email: ''
+  ip: 187.106.196.216
+  url: https://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2019-01-18 11:15:55'
+  body: This sample code should track events on the .NET environment, that's probaly
+    why you are getting those errors (due the LISP events)
+- author: Fernando
+  email: microtecnologo@yahoo.com.mx
+  ip: 187.190.148.150
+  url: ''
+  date: '2019-01-22 21:35:39'
+  body: "Thanks Augusto for yur answer but, I tried with RemoveHandlers(doc, \"CommandEnded\"\
+    ) and I have failed. I notice that the events handlers coming from command methods\
+    \ are persistent regardless of whether they were loaded before or after your assembly.\n\
+    \ I wish i had could make a list of RemoveHandlers(doc, \"EventName1\")\n RemoveHandlers(doc,\
+    \ \"EventName2\"), etc\n  Thanks in advance.\n-----"

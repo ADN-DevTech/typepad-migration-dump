@@ -1,0 +1,81 @@
+comments:
+- author: BlackBox
+  email: ''
+  ip: 173.171.0.201
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2013-03-28 21:52:25'
+  body: "<b>Autodesk Employee:</b> <font face=\"verdana\"><i><font size=10><b>\"</b></font>When\
+    \ the question of SCR files first came up, we wanted to treat them like any other\
+    \ executable files.  Our plan would be that all SCR files no matter where they\
+    \ are located (if not trusted) would trigger the alert.  Wouldn’t that make more\
+    \ sense?<font size=10><b>\"</b></font></i></font>\n\n\n<b>BlackBox:</b> <font\
+    \ face=\"verdana\"><i><font size=10><b>\"</b></font>Loaded question.\n\nDoesn’t\
+    \ that inherently apply to Autodesk’s own ScriptPro? Or is that too being modified\
+    \ to adhere to one’s own trusted path specification (rhetorically, if you like)?\n\
+    \nI understand the logic behind introducing a mechanism to allow users to ’know’\
+    \ when something is being loaded, but unfortunately there is no one-size fits\
+    \ all scenario... A lesser example might be LayerEval, LayerNotify, and LayerEvalCtrl\
+    \ System Variables.\n\nFirstly, this assumes that all users know how to properly\
+    \ configure trusted paths, let alone a working Profile. Now introduce the complexity\
+    \ of customization(s), and you’re in for one heck of a game of Battleship.\n\n\
+    If Autodesk implements such a protocol that all executable files (outside of trusted)\
+    \ fire a notification, then what about self-replicating code, or even code that\
+    \ generates other executable files? A very simple AutoLISP routine can create\
+    \ a VBScript file without even using Visual LISP’s ActiveX COM API... Does this\
+    \ mechanism ’track’ and ’notify’ of this behavior too? I doubt it.\n\nSeveral\
+    \ popular routines, will also self-create temporary dependent files, such as DCL,\
+    \ etc. in order to not intrude on one’s enterprise setup, nor litter one’s project\
+    \ directories, are these too going to be monitored?\n\nNow, one I really would\
+    \ like a solid answer on, is how about Autoloader... Are the two local ..\\\\\
+    ApplicationPlugins\\\\ folders monitored by this mechanism, or are they automagically\
+    \ safe because Autoloader uses them? Obviously AppAutoLoad System Variable allows\
+    \ for automatic loading of plug-ins OOTB, and can be changed, but I’d still be\
+    \ interested to know how behavior could / should be impacted. \n\nAgain, I am\
+    \ merely trying to point out that this mechanism, if implemented to a fire a notification\
+    \ for all non-trusted executable files, then users will simply disable the notification\
+    \ as is commonly done with the Layer* System Variables noted above (albeit, perhaps\
+    \ at the risk of inviting trouble later on, but they will disable it when it’s\
+    \ become annoying, and then it helps nobody).\n\nComing back full circle, to the\
+    \ statement about network locations being riskier than local... I stand by my\
+    \ earlier sentiment, that to suggest that the network (something setup by corporate\
+    \ IT / CAD Management / multiple qualified individuals, etc.) is somehow viewed\
+    \ as more unsafe than the local disk, where any user with an internet connection\
+    \ can download an Autoloader *.bundle from any blog, forum, etc. outside of Autodesk\
+    \ Exchange and simply drop it into ..\\\\ApplicationPlugins\\\\ is not well thought\
+    \ out.<font size=10><b>\"</b></font></i></font>\n\nMany thanks for your time,\
+    \ and consideration.\n\nCheers"
+- author: Kerry Brown
+  email: ''
+  ip: 220.237.66.75
+  url: http://profile.typepad.com/kerrybrown
+  date: '2013-03-30 18:25:22'
+  body: "Gopinath,\nWhat is the situation with ScriptPro support files ?\nWe use .SCR\
+    \ files that in some cases load specific .LSP files.  \nThe pathing for the .scr\
+    \ and .lsp files depends on the project."
+- author: CADBully
+  email: miho2373@gmail.com
+  ip: 209.253.66.69
+  url: ''
+  date: '2013-07-17 07:54:03'
+  body: This whole security scheme makes no sense. if I've got malicious code on my
+    server that just happens to have the same filename as my "trusted" code, I've
+    got bigger problems than SECURELOAD and TRUSTEDPATHS can handle. Once again we
+    get to see Autodesk misfire yet again...
+- author: Davor
+  email: davor@sl-king.com
+  ip: 84.255.254.95
+  url: ''
+  date: '2013-10-07 06:09:32'
+  body: "SECURELOAD... yeah, thanks Autodesk. \n\nSome people would rather see them\
+    \ putting an effort into optimizing performance and fiksing blatant issues lingering\
+    \ around for a decade than worrying about 0.01% possibility of malicious code\
+    \ from third party vendors."
+- author: what is a digital signature
+  email: lederlea049@gmail.com
+  ip: 173.245.53.61
+  url: http://www.arx.com/digital-signature/
+  date: '2014-04-26 01:49:43'
+  body: 'A special thanks for this informative post. I definitely learned a few new
+    things here.
+
+    -----'

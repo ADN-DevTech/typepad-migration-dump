@@ -1,0 +1,21 @@
+comments:
+- author: George Csikos
+  email: ''
+  ip: 60.240.193.119
+  url: http://profile.typepad.com/6p01a511bd58dc970c
+  date: '2014-05-21 16:07:27'
+  body: Philippe can this be done without actually appending the entity to the drawing
+    first?  I want to create an in-memory 3D solid that is then passed into the HLR
+    (hidden line removal tool in the utilities of the ObjectARX API) so we can get
+    2D projections of the filleted solid. I do not need a DWG resident instance of
+    the solid.  It could be added it and erased it but that adds to the undo list
+    unnecessarily.
+- author: Philippe Leefsma
+  email: ''
+  ip: 121.6.12.116
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2014-05-26 01:23:02'
+  body: "Hi George, I doubt it's possible: the solid needs to be database resident\
+    \ in order to have its subentity path affected. \n\nYou can turn off the undo\
+    \ mechanism using Database.DisableUndoRecording as a workaround.\n\nHope that\
+    \ helps,\nPhilippe.\n-----"

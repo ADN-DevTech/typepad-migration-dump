@@ -1,0 +1,111 @@
+comments:
+- author: Alexander Rivilis
+  email: ''
+  ip: 81.95.185.60
+  url: http://profile.typepad.com/alexanderrivilis
+  date: '2012-05-10 21:49:37'
+  body: "Hi Balaji!\nIt specifically did you write such a complex code to ObjectARX,\
+    \ and so simple in C#?\nWith the help of ObjectARX code can be as laconic as using\
+    \ C#. For example:\nstatic void MoveBelow(AcDbObjectId &idDown, AcDbObjectId &idUp)\n\
+    {\n  AcDbSortentsTable *pSortTab = NULL;\n  AcDbObjectId spaceId = AcDbObjectId::kNull;\n\
+    \  AcDbEntityPointer pEnt(idDown,AcDb::kForRead);\n  if (pEnt.openStatus() ==\
+    \ Acad::eOk) {\n    spaceId = pEnt->ownerId();\n    pEnt->close();\n  }\n  if\
+    \ (!spaceId.isNull()) {\n    AcDbObjectPointer pBTR(spaceId,AcDb::kForRead);\n\
+    \    if (pBTR.openStatus() == Acad::eOk) {\n      if (pBTR->getSortentsTable(pSortTab,\
+    \ AcDb::kForWrite, true) == Acad::eOk) {\n        AcDbObjectIdArray ar; ar.append(idDown);\n\
+    \        pSortTab->moveBelow(ar,idUp);\n        pSortTab->close();\n      }\n\
+    \    }\n  }\n}"
+- author: Balaji
+  email: balaji.ramamoorthy@autodesk.com
+  ip: 203.116.198.71
+  url: ''
+  date: '2012-05-10 22:15:46'
+  body: 'Hi Alexander,
+
+
+    The C# sample is from my recent reply to a developer while the ObjectARX one is
+    a bit old. I did not attempt to make them look similar. Thanks for your sample
+    code. I will update the post.'
+- author: petcon
+  email: newton521200@yahoo.com.cn
+  ip: 74.125.184.28
+  url: ''
+  date: '2012-05-10 22:51:51'
+  body: 用点心
+- author: Balaji
+  email: balaji.ramamoorthy@autodesk.com
+  ip: 203.116.198.71
+  url: ''
+  date: '2012-05-10 22:57:25'
+  body: 'I used Google translate and got this "用点心" = "A Snack".
+
+
+    Thanks to petcon, I am learning chinese :)'
+- author: Norman Yuan
+  email: norman.yuan@focus.ca
+  ip: 207.229.13.65
+  url: ''
+  date: '2012-05-11 14:11:00'
+  body: "Well, you cannot trust Google translator (or any electronic/onlne translator,\
+    \ for that matter) in this case.\n\nthe cobination of the 3 Chinese characters\
+    \ can have different meanings, depending on the context when it is used. \n\n\
+    In this particular case, petcon' really meant to ask to be more CAREFUL, or have\
+    \ more thought on what you were posting. \n\nIt only means to have some snack\
+    \ when someone points at some snack to you."
+- author: Balaji
+  email: balaji.ramamoorthy@autodesk.com
+  ip: 14.96.31.215
+  url: ''
+  date: '2012-05-11 18:49:13'
+  body: 'Thanks Norman :)
+
+    I get it now, and will be careful in future.
+
+
+    BTW the ObjectARX code that I posted does work. Anyway, I will be reposting the
+    ObjectARX code to make it simpler.
+
+
+    Thanks again for explaining what those 3 chinese letters meant :)'
+- author: Alexander Rivilis
+  email: ''
+  ip: 81.95.185.60
+  url: http://profile.typepad.com/alexanderrivilis
+  date: '2012-05-13 02:51:18'
+  body: 'Hi Balaji!
+
+    Another idea. What about not using asynchronous  sendStringToExecute method but
+    using ads_regen function: <a href="http://adn.autodesk.com/adn/servlet/devnote?siteID=4814862&id=11845587&linkID=4900509">http://adn.autodesk.com/adn/servlet/devnote?siteID=4814862&id=11845587&linkID=4900509</a>
+    ?'
+- author: Balaji
+  email: balaji.ramamoorthy@autodesk.com
+  ip: 203.116.198.72
+  url: ''
+  date: '2012-05-14 22:39:55'
+  body: Thank you.
+- author: Anonymoose
+  email: rebar@nym.hush.com
+  ip: 24.47.196.153
+  url: ''
+  date: '2012-06-03 10:02:22'
+  body: 'SortedList<long, ObjectId> drawOrder = new SortedList<long, ObjectId>();
+
+
+    I don''t see the SortedList used anywhere. Is there some other code missing?'
+- author: Eddy Lucas
+  email: elucas@kws.nl
+  ip: 92.109.122.201
+  url: ''
+  date: '2023-02-10 09:49:13'
+  body: Thanks, i used this C# code and it worked good
+- author: Amanda The Adventurer
+  email: annadine@gmail.com
+  ip: 58.187.67.104
+  url: https://amandatheadventurergame.io
+  date: '2023-06-26 00:57:57'
+  body: 'This code assumes you are working with AutoCAD''s ObjectARX/VLAX interface.
+    If you are using a different programming language or API, the syntax and method
+    calls may vary.
+
+
+    -----'

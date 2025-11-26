@@ -1,0 +1,123 @@
+comments:
+- author: Mario Minati
+  email: mario.minati@minati.de
+  ip: 5.10.170.70
+  url: ''
+  date: '2013-03-23 07:51:10'
+  body: 'This is great, I was waiting for that :-)
+
+
+    But it is not working with .Net the same way. Using "AppendToolTipText" just shows
+    the above XAML-Code.
+
+    Is there a way to achieve this with .Net?'
+- author: Balaji
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-03-25 05:15:23'
+  body: 'Hi Mario,
+
+
+    I tried the code from a .Net PointMonitor event handler in AutoCAD 2013. It worked
+    ok when the mouse was hovering over an entity and the text got displayed as it
+    is when I did not hover over an entity.
+
+
+    So a check for the "e.Context.GetKeyPointEntities" before using the "AppendToolTipText"
+    should help.
+
+
+    Regards,
+
+    Balaji'
+- author: HJohn
+  email: jlong101@hotmail.com
+  ip: 184.94.21.43
+  url: ''
+  date: '2013-09-24 12:17:55'
+  body: "Hi Balaji, I think that customazing the tooltip is a great way to display\
+    \ additional info when hovering over entities.  I have tried to implement a PointMonitorEventHandler,\
+    \ when it works it works however it after a while it crashes AC.  It is crashing\
+    \ on the call to the AppendToolTipText method and I have no idea why.  I am using\
+    \ AC 2012 Mech. on 64Bit Windows 7.  Do you have any recomendations. I am using\
+    \ vbCrLf instead of \\n, because it doesn't work.  I posted the code on the .net\
+    \ customization forum. \n\nmsg = String.Format(\"Block Name: {0}\", BlkName) &\
+    \ vbCrLf\n\n\t\t\t\t\tmsg = msg & String.Format(\"Block Inserts: {0}\", Total)\
+    \ & vbCrLf\ne.AppendToolTipText(msg)"
+- author: Balaji
+  email: ''
+  ip: 203.202.234.246
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-09-25 06:55:05'
+  body: 'Hi John,
+
+
+    I have found your forum post. I will try the sample code and will update you.
+
+
+    Regards,
+
+    Balaji'
+- author: Craig
+  email: cnicholas@Stanburys.com
+  ip: 217.36.60.45
+  url: ''
+  date: '2013-10-08 04:18:55'
+  body: Nice tip Balaji. Thanks.
+- author: Balaji
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-10-08 23:20:04'
+  body: Thanks Craig :)
+- author: Lucas
+  email: lucascowell@gmail.com
+  ip: 50.78.171.129
+  url: ''
+  date: '2013-10-14 13:37:21'
+  body: There is an issue with this when it comes to multiple entities being hovered
+    over. When this happens AutoCAD decides to show the old drafting tool tip and
+    shows the xaml in the tool tip. I was wondering if there is anyway to detect that
+    this will happen in this situation?
+- author: Balaji
+  email: ''
+  ip: 14.99.215.20
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-10-17 12:08:50'
+  body: 'Hi Lucas,
+
+
+    I will try it and get back to you. Thanks for letting me know about this limitation.
+
+
+    Regards,
+
+    Balaji'
+- author: f_schuepany@yahoo.de
+  email: f_schuepany@yahoo.de
+  ip: 86.56.136.178
+  url: ''
+  date: '2014-02-14 15:08:52'
+  body: 'Hello Balaji,
+
+    i have the same problem as Lucas, ist there a Workaround?'
+- author: Balaji
+  email: ''
+  ip: 203.202.234.246
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2014-02-16 20:07:12'
+  body: "Hi Ferdinand,\n\nSorry, We do not yet (as of AutoCAD 2014) have a way to\
+    \ format the tooltips without relying on internal API or workarounds. The sample\
+    \ code explained in this blog post is a woraround and has limitations and does\
+    \ not work in ACA and some other verticals. Unfortunately, I do not see a way\
+    \ to resolve this when hovering over multiple entities. \n\nAn alternate approach\
+    \ to show a formatted rollover tool tip, is to use the \"Autodesk.Windows.ComponentManager.ToolTipOpened\"\
+    \ event handler and replace the Tooltip content with your own WPF control. This\
+    \ approach uses the internal API but I hope this helps. I haven't tried this,\
+    \ but this seems to work ok as suggested by Keith Brown in this forum post :\n\
+    \n<a href=\"http://forums.autodesk.com/t5/NET/Formatting-of-Rollover-ToolTips-in-AutoCAD-MEP-and-AutoCAD/m-p/4608959#M37610\"\
+    >http://forums.autodesk.com/t5/NET/Formatting-of-Rollover-ToolTips-in-AutoCAD-MEP-and-AutoCAD/m-p/4608959#M37610</a>\n\
+    \nYou can find some clues on this approach here :\n\n<a href=\"http://through-the-interface.typepad.com/through_the_interface/2011/07/modifying-autocad-tooltips-using-net.html\"\
+    >http://through-the-interface.typepad.com/through_the_interface/2011/07/modifying-autocad-tooltips-using-net.html</a>\n\
+    \nHope this helps.\n\nRegards,\nBalaji\n\n-----"

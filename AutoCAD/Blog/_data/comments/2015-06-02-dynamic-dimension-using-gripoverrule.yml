@@ -1,0 +1,72 @@
+comments:
+- author: Keith Brown
+  email: ''
+  ip: 173.165.36.77
+  url: http://profile.typepad.com/keithbrown1
+  date: '2015-06-05 09:02:05'
+  body: Would it be possible to share a .net version of the code?
+- author: Balaji
+  email: ''
+  ip: 14.99.217.212
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-06-05 20:57:43'
+  body: 'Hi Keith,
+
+
+    There are few missing API in the .Net version of the AcDbGripData and AcDbDimData
+    classes which prevents from doing the same using .Net. I have logged them in our
+    internal database for our engineering team to look at these missing API.
+
+
+    Sorry, it will not be possible to do the same at present using AutoCAD .Net API.
+
+
+    Regards,
+
+    Balaji'
+- author: CHRISTOPHER FUGITT
+  email: christopher@Civil3DReminders.com
+  ip: 199.200.112.26
+  url: ''
+  date: '2015-06-15 03:02:21'
+  body: "So I think I have most of a wrapper created for this in order to get it to\
+    \ work in c#.net. One of the last things that I think I need is a way to wrap\
+    \ the setDimValueFunc. Is this possible?\n\nSo far in the header file I have:\n\
+    \nAcad::ErrorStatus setDimValueFunc(\n\t\t\tDimDataSetValueFuncPtr funcPtr\n\t\
+    \t\t);\n\nWhich doesn't work since .Net doesn't have the DimDataSetValueFuncPtr\
+    \ object. Do you know of a a way to create a wrapper for it since it is looking\
+    \ for this format for the function Ptr:\n\ntypedef void (*DimDataSetValueFuncPtr)\
+    \ (AcDbDimData* pThis, AcDbEntity* pEnt, double newValue, const AcGeVector3d&\
+    \ offset);  \n\nHere is a link to the c++ code I've created so far: <a href=\"\
+    https://drive.google.com/file/d/0B5Fp8nCG-F8vTE90YTF4amJFYW8/view?usp=sharing\"\
+    >https://drive.google.com/file/d/0B5Fp8nCG-F8vTE90YTF4amJFYW8/view?usp=sharing</a>"
+- author: Balaji
+  email: ''
+  ip: 182.73.112.18
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-06-15 21:03:48'
+  body: 'Sorry, I am not aware of a way to implement that missing callback method
+    in a .Net wrapper.
+
+
+    Regards,
+
+    Balaji'
+- author: Dan
+  email: dan.crosby@lincolnagritech.co.nz
+  ip: 103.240.52.28
+  url: ''
+  date: '2016-08-15 19:25:39'
+  body: If I want to add the standard dynamic dimensions to my custom objects (AcDbPolyline
+    derived), do I just add similar code directly to my objects handlers? Can I point
+    at any existing base class implementation, or do I have to re-implement the basics?
+    (I just want angle and length as 'normal')
+- author: Shiva Kumar
+  email: shivkgandla@gmail.com
+  ip: 103.117.71.2
+  url: ''
+  date: '2025-04-18 00:01:11'
+  body: "Hi, \n\nThe Same way i created a custom class for the Polyline, but in my\
+    \ case, the moveGripPointsAt methods is not invoked if i moving the Polyline line\
+    \ Grip Points.\n\nCould you please help me on this? is there any thing to change\
+    \ in above code \n-----"

@@ -1,0 +1,126 @@
+comments:
+- author: Nick G.
+  email: gonini_arx@ukr.net
+  ip: 37.55.72.233
+  url: http://arx.16mb.com/
+  date: '2012-06-19 00:01:59'
+  body: "Hi, Balaji. \nOoops. The same is here :) <a href=\"http://adn.autodesk.com/adn/servlet/devnote?siteID=4814862&id=5407257&linkID=4900509\"\
+    >http://adn.autodesk.com/adn/servlet/devnote?siteID=4814862&id=5407257&linkID=4900509</a>\n\
+    \nWhat about imagination? it's boring copying a functions from ADN \"as is\".\
+    \ What if I want to set layout's name? Little modifications can make source code\
+    \ much more interesting to blog readers :)\nbool addLayout(ACHAR * wantedLayoutName)\n\
+    {\n\tif (acdbCurDwg()->tilemode() != 1)\n\t{ \n\t\tacutPrintf(_T(\"\\n*** Sorry,\
+    \ just from model space ***\"));\n\t\treturn false;\n\t}\n\n\tAcad::ErrorStatus\
+    \ es;\n\tACHAR layoutName[256];\n\t_tcscpy(layoutName,wantedLayoutName);\n\tint\
+    \ curIndex = 1;\n\tacDocManager->lockDocument(acDocManager->curDocument(), AcAp::kWrite);\n\
+    \tAcApLayoutManager *layManager = (AcApLayoutManager *) acdbHostApplicationServices()->layoutManager();\n\
+    \tif (!layManager) return false;\n\tAcDbObjectId lauoutId;\n\tAcDbObjectId blockTableRecId;\n\
+    \tAcDbEntity *pEnt;\n\tAdesk::Boolean viewPorts = layManager->createViewports();\n\
+    \tlayManager->setCreateViewports(true);\nLAYCREATE:\n\tes = layManager->createLayout(layoutName,lauoutId,blockTableRecId);\
+    \ // try to create a layout\n\tif (es != Acad::eOk)\n\t{\n\t\tif (es = Acad::eDuplicateKey)\n\
+    \t\t{\n\t\t\t\t_stprintf(layoutName,_T(\"%s_%d\"),wantedLayoutName,curIndex++);\n\
+    \t\t\t\tgoto LAYCREATE;\n\t\t}\n\t\telse\n\t\t\tacedAlert(_T(\"Sorry, can't do\
+    \ this.\\nFunction aborted.\"));\n\t\tacDocManager->unlockDocument(acDocManager->curDocument());\n\
+    \t\treturn false;\n\t}\n\tlayManager->setCurrentLayoutId(lauoutId); // сделали\
+    \ текущим\n\tlayManager->setShowPaperMargins(Adesk::kTrue); // kill preinter border\n\
+    \tlayManager->setCreateViewports(viewPorts);\n\tAcDbLayout *curLayout = layManager->findLayoutNamed(layoutName,TRUE);\
+    \ // layout is ready for modifying\n\n\t\n\tif (curLayout) \n\t{\n\t\t// ... here\
+    \ all modifications. \n\t\t// for example, set printer an paper size, e.t.c.\n\
+    \n\t\tlayManager->updateCurrentPaper(Adesk::kTrue);\n\t\tlayManager->updateLayoutTabs();\
+    \ \n\t\tacDocManager->unlockDocument(acDocManager->curDocument());\n\t\treturn\
+    \ true;\n\t}\n\n\tacDocManager->unlockDocument(acDocManager->curDocument());\n\
+    \treturn false;\n}"
+- author: Balaji
+  email: ''
+  ip: 115.112.233.72
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2012-06-19 00:07:54'
+  body: 'Yes, It is also available as a ADN Devnote.
+
+
+    Probably you should read this post :
+
+    <a href="http://adndevblog.typepad.com/autocad/2012/05/devnote-migration.html">http://adndevblog.typepad.com/autocad/2012/05/devnote-migration.html</a>
+
+
+    Sure, there are a few posts that are not existing Devnotes, but we dont mark them
+    differently.'
+- author: nizar
+  email: anizar@walla.com
+  ip: 79.183.26.141
+  url: ''
+  date: '2013-01-14 13:04:29'
+  body: 'hi
+
+    what is tilemode?'
+- author: Balaji
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-01-15 02:34:04'
+  body: 'This doc should help :
+
+
+    <a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%202010%20User%20Documentation/index.html?url=WS1a9193826455f5ffa23ce210c4a30acaf-4e46.htm,topicNumber=d0e357602">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%202010%20User%20Documentation/index.html?url=WS1a9193826455f5ffa23ce210c4a30acaf-4e46.htm,topicNumber=d0e357602</a>'
+- author: nizar
+  email: anizar@walla.com
+  ip: 79.182.13.202
+  url: ''
+  date: '2013-02-08 13:26:33'
+  body: "thank you very much.\ni need your help in another mater:\ni need to plot\
+    \ several objects in the drawing each into pdf file size A4 automaticlly.\nwith\
+    \ or without creating layout.\nhow can i do that \nright now i can plot a pdf\
+    \ for the extended dwg.\nthanks for your help\nnizar"
+- author: harsha
+  email: yellankihv5@gmail.com
+  ip: 175.101.29.132
+  url: ''
+  date: '2023-11-30 21:16:19'
+  body: "Hello sir, Are you there ?/ \nI need help about ObjectArx but 2024...\n\n\
+    [CommandMethod(\"InsertViewsToLayout\")]\npublic static void InsertViewsToLayout()\n\
+    {\n    Document acDoc = Application.DocumentManager.MdiActiveDocument;\n    Database\
+    \ acCurDb = acDoc.Database;\n\n    using (Transaction acTrans = acCurDb.TransactionManager.StartTransaction())\n\
+    \    {\n        BlockTable acBlkTbl;\n        acBlkTbl = acTrans.GetObject(acCurDb.BlockTableId,\
+    \ OpenMode.ForRead) as BlockTable;\n\n        BlockTableRecord acBlkTblRec;\n\
+    \        acBlkTblRec = acTrans.GetObject(acBlkTbl[BlockTableRecord.PaperSpace],\
+    \ OpenMode.ForWrite) as BlockTableRecord;\n\n        // Switch to the previous\
+    \ Paper space layout\n        Application.SetSystemVariable(\"TILEMODE\", 0);\n\
+    \        acDoc.Editor.SwitchToPaperSpace();\n\n        // Get the current layout\n\
+    \        LayoutManager acLayoutMgr = LayoutManager.Current;\n        Layout acLayout\
+    \ = acTrans.GetObject(acLayoutMgr.GetLayoutId(acLayoutMgr.CurrentLayout), OpenMode.ForWrite)\
+    \ as Layout;\n\n        Point3d[] viewPositions = {\n        new Point3d(2.5,\
+    \ 5.5, 0),\n        new Point3d(2.5, 2.5, 0),\n        new Point3d(5.5, 5.5, 0),\n\
+    \        new Point3d(5.5, 2.5, 0),\n        new Point3d(8.5, 5.5, 0),\n      \
+    \  new Point3d(8.5, 2.5, 0)\n    };\n\n        Vector3d[] viewDirections = {\n\
+    \        new Vector3d(0, 0, -1),\n        new Vector3d(0, 0, 1),\n        new\
+    \ Vector3d(-1, 0, 0),\n        new Vector3d(1, 0, 0),\n        new Vector3d(0,\
+    \ -1, 0),\n        new Vector3d(0, 1, 0)\n    };\n\n        for (int i = 0; i\
+    \ < viewPositions.Length; i++)\n        {\n            using (Autodesk.AutoCAD.DatabaseServices.Viewport\
+    \ acVport = new Autodesk.AutoCAD.DatabaseServices.Viewport())\n            {\n\
+    \                acVport.CenterPoint = viewPositions[i];\n                acVport.Width\
+    \ = 2.5;\n                acVport.Height = 2.5;\n\n                // Add the\
+    \ new viewport to the layout's block table record\n                acBlkTblRec.AppendEntity(acVport);\n\
+    \                acTrans.AddNewlyCreatedDBObject(acVport, true);\n\n         \
+    \       // Set the view direction\n                acVport.ViewDirection = viewDirections[i];\n\
+    \n                // Set the visual style\n                StyleViewport(acVport);\n\
+    \n                // Enable the viewport\n                acVport.On = true;\n\
+    \            }\n        }\n\n        acTrans.Commit();\n        acDoc.Editor.Regen();\n\
+    \    }\n}\n\nprivate static void StyleViewport(Autodesk.AutoCAD.DatabaseServices.Viewport\
+    \ viewport)\n{\n    using (Database db = HostApplicationServices.WorkingDatabase)\n\
+    \    {\n        using (Transaction tr = db.TransactionManager.StartTransaction())\n\
+    \        {\n            // \"Hidden\" is the name of the visual style you want\n\
+    \            viewport.VisualStyleId = GetVisualStyleId(db, \"Hidden\");\n\n  \
+    \          // Set other properties if needed\n            viewport.Color = Autodesk.AutoCAD.Colors.Color.FromRgb(0,\
+    \ 0, 0);\n\n            tr.Commit();\n        }\n    }\n}"
+- author: harsha
+  email: yellankihv5@gmail.com
+  ip: 175.101.29.132
+  url: ''
+  date: '2023-11-30 21:20:46'
+  body: "GetVisualStyleId\n\nSeverity\tCode\tDescription\tProject\tFile\tLine\tSuppression\
+    \ State\nError\tCS0103\tThe name 'GetVisualStyleId' does not exist in the current\
+    \ context\tAutoCad\tC:\\Users\\BVRIT\\source\\repos\\AutoCad\\AutoCad\\Commands.cs\t\
+    268\tActive\n\n\nMy desired output is to generate a layout with 6 views (top bottom\
+    \ front back left right)\nwhere model fits the respective viewports and be rendered\
+    \ with hidden visual style and edges are black in color. Export the layout as\
+    \ pdf.\n\n-----"

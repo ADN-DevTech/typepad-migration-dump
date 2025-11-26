@@ -1,0 +1,16 @@
+comments:
+- author: Martin Buss
+  email: martin.buss@autodesk.com
+  ip: 132.188.32.206
+  url: ''
+  date: '2015-09-08 07:19:09'
+  body: "Can you tell me what is the background of that there can be more than one\
+    \ objects found for a single pnpID ? Because e.g. in the p&id drawing, there will\
+    \ be a rowid created for every single part that I place there. \nAnd from the\
+    \ PnIDCreateSline example in the Helper class I can see the following method,\
+    \ which clearly assumes that there is just one objectId associated with a rowID.\n\
+    \n<pre>\n public static ObjectId ConvertRowIdToObjectId(int iRowId)\n        {\n\
+    \            // Fetch ObjectId of part.\n            //\n            var res =\
+    \ Helper.ActiveDataLinksManager.FindAcPpObjectIds(iRowId);\n            var pnidId\
+    \ = res.First.Value;\n            ObjectId pnidObjectId = Helper.ActiveDataLinksManager.MakeAcDbObjectId(pnidId);\n\
+    \            return pnidObjectId;\n        }</pre>\n-----"

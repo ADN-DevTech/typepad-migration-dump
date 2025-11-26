@@ -1,0 +1,17 @@
+comments:
+- author: mikes
+  email: mike@shipconstructor.com
+  ip: 69.196.72.2
+  url: ''
+  date: '2013-01-31 11:50:54'
+  body: 'A better solution would be to use side by side assembly manifests.
+
+
+    The delay load + acrxLoadModule approach requires that the ARX doesn''t called
+    any functions imported from the DBX before the acrxLoadModule call. This probably
+    won''t be a problem if you call acrxLoadModule right away in acrxEntryPoint, but
+    is something to watch out for since you could have code running prior to that.
+    For example in constructors for globals. Also, delay loading isn''t possible if
+    you''re using DLL imported data from the DBX.
+
+    -----'

@@ -1,0 +1,21 @@
+comments:
+- author: Jason Huffine
+  email: bjhuffine@tva.gov
+  ip: 152.85.8.33
+  url: ''
+  date: '2012-09-12 08:22:18'
+  body: Just curious... is there a pure .Net API way without the ActiveX interface?
+- author: Philippe
+  email: philippe.leefsma@autodesk.com
+  ip: 95.172.68.148
+  url: ''
+  date: '2012-09-12 08:51:05'
+  body: "Yes there is, and I would say if you are running from a .Net dll in process\
+    \ with AutoCAD, there is no point on relying on the ActiveX API for that. But\
+    \ thing is we are migrating our old knowledge base once restricted to ADN members\
+    \ to that public devblog, so you might see appearing articles that are a bit outdated,\
+    \ although useful...  \n\nIn .Net you would do as follow:\n\nEditor ed = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor;\n\
+    // Assign default return values\nstring devname = \"\"; \n\nPlotSettingsValidator\
+    \ psv = PlotSettingsValidator.Current;\n\nStringCollection devlist = psv.GetPlotDeviceList();\n\
+    for (int i = 0; i < devlist.Count; i++)\n{\n    ed.WriteMessage(\"\\n{0} {1}\"\
+    , i + 1, devlist[i]);\n}\n-----"

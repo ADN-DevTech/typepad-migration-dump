@@ -1,0 +1,37 @@
+comments:
+- author: phg
+  email: phg@intecax.com
+  ip: 58.41.23.243
+  url: ''
+  date: '2013-05-13 02:32:28'
+  body: 'Is this code run without exception?I try to run,but at the line :plotSetVal.SetCurrentStyleSheet(layoutObj,
+    str);threw an exception,says eInvalid input...,and I check the help file,is says
+    the first parameter should be PlotSettings instead of Layout.
+
+    Actually,my problem is no matter what style sheet I set,the line in the ploted
+    file(pdf) always has it''s color,but I want them all black.
+
+    Any suggestions?thank you.'
+- author: Johan B
+  email: j.beu@ziggo.nl
+  ip: 213.125.163.138
+  url: ''
+  date: '2013-10-31 02:55:52'
+  body: 'Just found out that one needs to say "<b>Use<b> the Stylesetting".
+
+
+    Thus in VB this line:
+
+
+    acPlotSetValidator.SetCurrentStyleSheet     (acPlotSettings, StyleSheet)
+
+
+    is followed by:
+
+
+    acPlotSettings.PlotPlotStyles = True
+
+
+    That works for me. (after few months of pulling my hear out)
+
+    -----'

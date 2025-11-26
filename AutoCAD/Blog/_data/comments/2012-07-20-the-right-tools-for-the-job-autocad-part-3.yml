@@ -1,0 +1,204 @@
+comments:
+- author: Loic Jourdan
+  email: loic.jourdan@2020.net
+  ip: 80.14.96.216
+  url: http://www.2020technologies.com/en-ca/manufacturing/2020-cad/
+  date: '2012-07-23 04:44:31'
+  body: "Hi Fenton,\nwhat surprising me here are the poor performances of out-of-process\
+    \ method.\nIt reminds me a discussion I had with a colleague about the com-automation\
+    \ interface we had to develop, the point was to decide how high this interface\
+    \ had to be:\n - exposing our custom objects methods and properties at a very\
+    \ low level as all Acad objects do\n - exposing a higher level interface with\
+    \ only a set of high level methods processing more \"business-oriented\" stuffs.\n\
+    The most important criteria was the development and maintenance cost (since we\
+    \ were a very small team) so we decided to expose only high level interface (in\
+    \ addition to limited custom object propertes for OPM support). We somewhat guessed\
+    \ that performances would be improved but I now much more realize how. \n\n----\n\
+    \nIn my opinion, if a programmer cares of performances, he should take a special\
+    \ care of interop cost. I mean, even if C++/CLI interop is fast enough to allow\
+    \ .net programmers to use/call it with a very small performance cost, calling\
+    \ a P-Invoked or com-wrapped method in a million-times-loop seems not to be free.\
+    \ \n\nLoic"
+- author: Michael Robertson
+  email: michael.robertson@dot.state.fl.us
+  ip: 166.248.128.30
+  url: ''
+  date: '2012-07-23 04:51:07'
+  body: Interesting the statement about not using transactions since that is the way
+    everything was taught to our office in an onsite ADN programming class. Are you
+    suggesting to never use transactions if you want performance?
+- author: Fenton Webb
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2012-07-23 09:51:03'
+  body: "Just to be clear about the COM interface being slow... It's not slow at all,\
+    \ in fact it's really fast. \nWhat *is* slow is running the COM interface out-of-process.\
+    \ \n\nAbout transactions - transactions were built for a specific need in ObjectARX,\
+    \ dealing with undos and large datasets. It has a big over head when all you are\
+    \ doing is 'tickling' the database.\nThe early versions of .NET did not have 'using'\
+    \ statements so diposing (closing) AutoCAD objects using Open/Close was confusing\
+    \ at best, but mostly caused lots of untraceable crashing to happen. Therefore,\
+    \ we decided to push the transaction model as it worked out much better for our\
+    \ .NET developers to use. \nIf you want to keep the transaction model in your\
+    \ code, but want a performance upgrade, simple change your StartTransation() to\
+    \ StartOpenCloseTransaction()."
+- author: Stephen Preston
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/stephenpreston
+  date: '2012-07-23 14:35:22'
+  body: "Hi Michael. Choice of programming language or API is always a trade-off.\
+    \ You need to decide what aspect is most important for you to optimize in a given\
+    \ situation. \n\nI would continue to recommend use of Transactions in the AutoCAD\
+    \ .NET API. In absolute terms, they are still extremely fast and give you a lot\
+    \ of power to easily handle things like (for example) rolling back database changes\
+    \ if the user cancels a command midway through. That's *a lot* harder to deal\
+    \ with using open/close.\n\nThere may be some situations where you really need\
+    \ to save those extra few CPU cycles - in which case you may start thinking about\
+    \ using unmanaged C++ instead to save even more cycles. And then you get into\
+    \ other optimizations too - transactions aren't the only fruit in the orchard\
+    \ :-).\n\nI'm looking forward to Fenton's next installment :-)."
+- author: Adam Davis
+  email: adam@wishsoftware.com
+  ip: 109.71.175.46
+  url: ''
+  date: '2012-07-25 02:46:32'
+  body: "Hi Fenton,\n\nYou have always preferred not using transaction in .NET and\
+    \ I can see why.\n\nI get not using transactions for modifying entities but how\
+    \ do you make an entity without a transaction? transaction.AddNewlyCreatedDBObject\
+    \ seems the only option.\n\nCurrently we are making a transaction at the beginning\
+    \ of one of out commands(and only at one level) and then as we don't want to have\
+    \ to pass that transaction around every sub routine we use \nblockTableRecord.Database.TransactionManager.TopTransaction\
+    \ to get the transaction. Is there any issue with that?\n\nThanks\n\nAdam"
+- author: Fenton Webb
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2012-07-25 13:53:26'
+  body: 'Hey Adam
+
+
+    I''ll show that all in the next post for you... I''ll also show you what is slow
+    and what is not...'
+- author: Yvon Bourgouin
+  email: ybourgouin@promine.com
+  ip: 142.217.137.109
+  url: ''
+  date: '2012-07-26 06:11:27'
+  body: We currently have an application which is creating many entities in the drawing.
+    The memory use is growing exponentially and is not released until we close AutoCAD.
+    Would using open/close would be better for us?
+- author: Fenton Webb
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2012-07-26 09:32:53'
+  body: "It's hard to say without seeing the code but I doubt changing to open and\
+    \ close will make much memory difference. \n\nIf you are using .NET then a quick\
+    \ try would be to do a search and replace of all StartTransaction() calls and\
+    \ make them all StartOpenCloseTransaction(). Remember to always call Dispose on\
+    \ your AutoCAD.NET objects.\n\nIf you are using ObjectARX, you probably have a\
+    \ memory leak somewhere."
+- author: Kerry Brown
+  email: ''
+  ip: 220.237.66.75
+  url: http://profile.typepad.com/kerrybrown
+  date: '2012-07-28 21:26:13'
+  body: "I have a question\n\nIf StartOpenCloseTransaction() if the preferred operation\
+    \ why have we NOT seen it in any AutoDesk samples in the last 7 years ??\n\nand\
+    \ another .. \n\n>>[quote] Remember to always call Dispose on your AutoCAD.NET\
+    \ objects.\n<<\nwould someone care to make a public definitive statement regarding\
+    \ the disposing of objects ?\n... and is the process different when using \nStartOpenCloseTransaction()\
+    \ ??\n\nRegards\nKerry"
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 98.234.254.150
+  url: http://www.autodesk.com/joinadn
+  date: '2012-07-30 10:35:32'
+  body: "Hey Kerry\n\nit's preferred if you want to squeeze performance out of your\
+    \ code. The reason StartTransaction() is slower is because it does more things.\
+    \ \n\nAbout Dispose... All of our .NET code wraps ObjectARX... Our ObjectARX code\
+    \ is single threaded... The .NET Garbage Collector runs on a background thread...\
+    \ If you don't call Dispose of our objects, you run the risk of the GC garbage\
+    \ collecting our objects on a background thread which may cause AutoCAD to crash,\
+    \ depending on what the dispose code does under the hood. If the dispose simply\
+    \ does a memory free then there's probably no issues, but if the dispose does\
+    \ other things like fire events, update UI, etc etc, then you are most likely\
+    \ looking at a crash.\n\nI recommend you Dispose objects using the .NET 'using'\
+    \ statement (the ones you create in your code)."
+- author: Fenton Webb
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2012-07-30 16:31:11'
+  body: 'Kerry, I just posted this also on the subject:
+
+
+    <a href="http://adndevblog.typepad.com/autocad/2012/07/forcing-the-gc-to-run-on-the-main-thread.html">http://adndevblog.typepad.com/autocad/2012/07/forcing-the-gc-to-run-on-the-main-thread.html</a>'
+- author: David
+  email: vnsharifi@gmail.com
+  ip: 198.91.196.131
+  url: ''
+  date: '2012-12-11 20:13:00'
+  body: "Hello Fenton,\nIs not having Undo the only downside for Open/Close transaction\
+    \ ? \nIt would be great to see a comparison, in detail, between \nTransaction\
+    \ and Open/Close.\nRegards,\n\nDavid"
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 8.19.13.27
+  url: ''
+  date: '2012-12-12 09:39:34'
+  body: 'Hey David!
+
+
+    Open/Close has full access to UNDO - each opened entity has a method called cancel()
+    which rolls back any changes. Problem with it is that you have to make the calls
+    one by one, so transactions are usually preferred.
+
+
+    That said, it''s should be totally possible to mix Open/Close with transactions,
+    and for the Open/Close to be handled by a started transaction... It''s been a
+    while, but you should be able to start a transaction, then use Open/Close for
+    your stuff, then commit the transaction. If you decide something went wrong, simply
+    call abort() and everything should be rolled back, including the Open/Close objects.'
+- author: Kevin
+  email: kbrown@wynright.com
+  ip: 173.165.108.152
+  url: ''
+  date: '2014-10-10 09:59:19'
+  body: "Fenton,\n\nThanks for the blog. I followed your recommendation and swapped\
+    \ StartTransaction with StartOpenCloseTransaction, hoping to increase the performance\
+    \ of my plugin (this plugin is very large and makes heavy use of transactions\
+    \ because all sample code I could find did so). \n\nAfter making these changes,\
+    \ my plugin completely stopped functioning. Is there some way for me to determine\
+    \ when it is safe to replace StartTransaction with StartOpenCloseTransaction?\n\
+    \nA small sample of an instance where my code failed after the swap (first the\
+    \ error and stack trace, then the source for the function which failed):\n\nError:\
+    \ Exception: eWasOpenForWrite\n   at Autodesk.AutoCAD.DatabaseServices.Database.Insert(String\
+    \ blockName, Database dataBase, Boolean preserveSourceDatabase)\n   at Automotion.AutoPrice.AutoCAD.DynamicBlockHelper.AddDynBlockToDrawingFromFile(String\
+    \ BlockFilePath, String BlockName)\n\nPublic Shared Sub AddDynBlockToDrawingFromFile(BlockFilePath\
+    \ As String, BlockName As String)\n        Dim doc As Document = ApplicationServices.Application.DocumentManager.MdiActiveDocument\n\
+    \        Dim ed As Editor = doc.Editor\n        Using lock As DocumentLock = doc.LockDocument()\n\
+    \            Using tr = doc.TransactionManager.StartTransaction\n            \
+    \    Try\n                    Dim dwgName As String = HostApplicationServices.Current.FindFile(BlockFilePath,\
+    \ ApplicationServices.Application.DocumentManager.MdiActiveDocument.Database,\
+    \ FindFileHint.Default)\n                    Using db As Database = New Database(False,\
+    \ False)\n                        db.ReadDwgFile(dwgName, IO.FileShare.Read, True,\
+    \ Nothing)\n                        Dim takeBlkId As ObjectId\n              \
+    \          Using tbt As BlockTable = tr.GetObject(db.BlockTableId, OpenMode.ForWrite)\n\
+    \                            If (tbt.Has(BlockName)) Then\n                  \
+    \              takeBlkId = tbt(BlockName)\n                                db.WblockCloneObjects(New\
+    \ ObjectIdCollection(New ObjectId() {takeBlkId}), doc.Database.BlockTableId, New\
+    \ IdMapping(), DuplicateRecordCloning.Replace, False)\n                      \
+    \      Else\n                                doc.Database.Insert(BlockName, db,\
+    \ False)\n                            End If\n                        End Using\n\
+    \                    End Using\n                    tr.Commit()\n            \
+    \    Catch ex As System.Exception\n                    tr.Abort()\n          \
+    \          Try\n                        EventLog.WriteEntry(\"NiC\", \"Error:\
+    \ \" + ex.GetType().Name + \": \" + ex.Message + Environment.NewLine + ex.StackTrace,\
+    \ EventLogEntryType.Error)\n                    Catch eex As System.Exception\n\
+    \n                    End Try\n                End Try\n            End Using\n\
+    \        End Using\n    End Sub\n\n\nSo it seems that locking the document is\
+    \ not compatible with StartOpenCloseTransaction? \n\nThank you in advance.\n\n\
+    Kevin\n-----"

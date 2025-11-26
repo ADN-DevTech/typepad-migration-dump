@@ -1,0 +1,107 @@
+comments:
+- author: petcon
+  email: newton521200@yahoo.com.cn
+  ip: 58.49.255.53
+  url: ''
+  date: '2012-06-04 03:36:37'
+  body: old code  but cool
+- author: Gdiael
+  email: ''
+  ip: 200.19.164.174
+  url: http://profile.typepad.com/gdiael
+  date: '2013-01-14 17:38:12'
+  body: 'Hi Adam, nice post!
+
+
+    Is it possible to serialize a class using the object xmlserializer and save the
+    information in resulbuffer as text, and reverse the process to deserialize?
+
+
+    In the case of a class with a large number of properties, which are instances
+    of other classes, there is a problem? All classes must be serializable?'
+- author: Adam Nagy
+  email: ''
+  ip: 86.31.122.37
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2013-01-15 07:04:40'
+  body: "Hi,\n\nYes, you should be able to use the XmlSerializer instead of implementing\
+    \ your own serialization. In that case you will also have to save the type name\
+    \ of the object you are serializing because XmlSerializer seems to require them.\n\
+    Also the data limit for XData is 16 KB, so if you want to serialize big objects\
+    \ you should probably go with extension dictionary instead: <a href=\"http://adndevblog.typepad.com/autocad/2012/06/adding-extension-dictionary.html\"\
+    >http://adndevblog.typepad.com/autocad/2012/06/adding-extension-dictionary.html</a>\
+    \ \n\nCheers,\nAdam"
+- author: Keith Brown
+  email: ''
+  ip: 173.165.36.77
+  url: http://profile.typepad.com/keithbrown1
+  date: '2016-01-27 12:31:18'
+  body: "I thought that I would add that the StreamToResBuf method requires the memorystream.position\
+    \ to be at 0.  \n\nI created the memory stream and then immediately passed it\
+    \ to this method and it was making a result buffer full of 0's because the position\
+    \ was at the end of the stream.  Adding the following line to the beginning of\
+    \ the method will insure that the pointer is always at the beginning of the stream.\n\
+    \n<b>ms.Seek(0, SeekOrigin.Begin)</b>"
+- author: Keith Brown
+  email: ''
+  ip: 173.165.36.77
+  url: http://profile.typepad.com/keithbrown1
+  date: '2016-01-27 12:48:32'
+  body: Or you could use <b>ms.Position = 0</b> as was done in the ResBufToStream
+    method
+- author: Adam Nagy
+  email: ''
+  ip: 213.104.245.142
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2016-01-27 12:51:06'
+  body: 'Hi Keith,
+
+    Yes, and I do set the position of the MemoryStream to 0 in the SaveToResBuf()
+    function before calling MyUtil.StreamToResBuf().
+
+    I cannot remember now why I did it like that instead of doing inside the MyUtil.StreamToResBuf()
+    function :)
+
+    Cheers,
+
+    Adam'
+- author: Jared Rodrigues
+  email: jaredrodrigues@gmail.com
+  ip: 174.16.73.201
+  url: ''
+  date: '2019-10-24 23:07:47'
+  body: I used this method to save a class to a drawing in AutoCAD 2016. Now we are
+    trying to upgrade to AutoCAD 2019 but in 2019 it doesn't deserialize the class
+    correctly in old drawings originally created in 2016. Has anyone else experienced
+    this?
+- author: Jared Rodrigues
+  email: jaredrodrigues@gmail.com
+  ip: 96.81.49.154
+  url: ''
+  date: '2019-10-25 08:56:41'
+  body: "I found a solution to my problem.\n\nFor some reason you need to change this:\n\
+    \npublic static object NewFromResBuf(ResultBuffer resBuf) {\n      BinaryFormatter\
+    \ bf = new BinaryFormatter();\n      bf.Binder = new MyBinder();\n      MemoryStream\
+    \ ms = MyUtil.ResBufToStream(resBuf);\n      MyBaseClass mbc = (MyBaseClass)bf.Deserialize(ms);\n\
+    \      return mbc;\n    }\n\nto this in AutoCAD 2019:\n\npublic static object\
+    \ NewFromResBuf(ResultBuffer resBuf) {\n      BinaryFormatter bf = new BinaryFormatter();\n\
+    \      bf.Binder = new MyBinder();\n      MemoryStream ms = MyUtil.ResBufToStream(resBuf);\n\
+    \      object mbc = bf.Deserialize(ms);\n      return mbc;\n    }"
+- author: Jared Rodrigues
+  email: jaredrodrigues@gmail.com
+  ip: 96.81.49.154
+  url: ''
+  date: '2019-10-25 09:06:54'
+  body: Never mind my solution doesn't actually fix the problem.
+- author: Madhukar Moogala
+  email: ''
+  ip: 49.206.12.220
+  url: https://profile.typepad.com/madhukarmoogala
+  date: '2019-10-28 23:06:01'
+  body: 'Can you please ask this in forum with providing a sample project. Other experts
+    or I can take a look at it this.
+
+
+    <a href="https://forums.autodesk.com/t5/net/bd-p/152">https://forums.autodesk.com/t5/net/bd-p/152</a>
+
+    -----'

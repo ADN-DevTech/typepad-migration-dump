@@ -1,0 +1,69 @@
+comments:
+- author: Dale Bartlett
+  email: dale.bartlett@realtimeinternational.com.au
+  ip: 78.100.85.98
+  url: http://www.realtimeinternational.com.au
+  date: '2014-06-10 05:44:46'
+  body: 'Hi, I get an error on df = destFilter.NestedFilters.Cast<LayerFilter>()
+
+    LayerManager.LayerFilterCollection does not contain "Cast". Perhaps this is for
+    2015? I am using 2014 for the moment.'
+- author: Balaji
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2014-06-10 05:53:23'
+  body: "Hi Dale,\n\nI am not sure why that fails. You can simply replace it using\
+    \ this for now. It simply finds if the destination filter with the same name already\
+    \ exists. If so, we will not create it again. This is needed for some of the default\
+    \ layer filters.\n\nLayerFilter df = null;\nforeach(LayerFilter f in destFilter.NestedFilters)\n\
+    {\n\tif(f.Name.equals(sf.Name))\n\t{\n\t\tdf = f;\n\t\tbreak;\n\t}\n}\n\nRegards,\n\
+    Balaji"
+- author: Matinau
+  email: matinau@gmail.com
+  ip: 172.20.12.102
+  url: ''
+  date: '2014-06-10 16:46:37'
+  body: I get the same error on the second loop, think the destFilter is still open.
+- author: Balaji
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2014-06-10 21:36:23'
+  body: 'I will review the code and get back to you.
+
+
+    Thanks
+
+
+    Balaji'
+- author: Balaji
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2014-06-10 22:19:54'
+  body: 'Hi Matinau,
+
+
+    Can you please try the updated code.
+
+    Sorry, It was my mistake to have ignored Layer filter groups. The earlier code
+    only considered the Layer property filters.
+
+
+    Regards,
+
+    Balaji'
+- author: JH
+  email: jeff.hackney@macmiller.com
+  ip: 73.83.85.230
+  url: ''
+  date: '2017-03-06 07:00:08'
+  body: 'Is there a way to modify this so that it will not import the layers too?
+
+
+    Thanks
+
+    JH
+
+    -----'

@@ -1,0 +1,47 @@
+comments:
+- author: Sharpy
+  email: paul.sharpe@powellind.com
+  ip: 80.193.87.200
+  url: ''
+  date: '2013-09-20 03:51:52'
+  body: 'Hi,
+
+
+    Reading through this post and then trying the code out for myself, i find that
+    if the file(block) being imported contains a AMPartRef this sometimes comes in
+    and adds the part to the BOM and sometimes doesn''t add the part to the BOM.
+
+
+    Is there a specific requirements on the way you handle a block definition import
+    when a AmPartRef is concerned?
+
+
+    Interestingly if the Definition already exists (Via typing Insert the adding the
+    block) The method of inserting the block reference into the drawing described
+    above works perfectly!'
+- author: Augusto Goncalves
+  email: ''
+  ip: 179.208.170.7
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2013-09-20 07:29:29'
+  body: 'Hi Sharpy,
+
+
+    This code is not doing anything specific to this kind of block... and I''m not
+    sure if I got your question :)
+
+
+    Regards,
+
+    Augusto Goncalves'
+- author: Bevan Shervey (fieldguy)
+  email: bshervey@globalraymac.ca
+  ip: 204.191.220.130
+  url: ''
+  date: '2017-06-22 08:12:42'
+  body: "Hi Augusto - thanks for the post.  It's old but still valid.\nI had to make\
+    \ a change for future reference.  The blockDef btr has to be open for write in\
+    \ order to change the .Annotative property.  \n// Start annot-scale support code\n\
+    \    BlockTableRecord blockDef = trans.GetObject(\n      blockDefId, OpenMode.ForRead)\
+    \ as BlockTableRecord;\n*** blockDef.Annotative = AnnotativeStates.True; ***\n\
+    requires blockDef open for write\n-----"

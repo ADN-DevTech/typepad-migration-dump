@@ -1,0 +1,46 @@
+comments:
+- author: Alexander Rivlis
+  email: alexander.rivilis@gmail.com
+  ip: 81.95.185.60
+  url: http://profile.typepad.com/alexrivilis
+  date: '2015-03-06 03:31:00'
+  body: Not acedGetSym but acedGetVar.
+- author: Virupaksha Aithal
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/6p0168e8800efa970c
+  date: '2015-03-08 21:35:39'
+  body: 'Hi Alexander,
+
+
+    Thanks for pointing out. The blog is corrected now.
+
+
+    regards
+
+    Viru'
+- author: Alexander Rivlis
+  email: alexander.rivilis@gmail.com
+  ip: 81.95.185.60
+  url: http://profile.typepad.com/alexrivilis
+  date: '2015-03-09 13:55:30'
+  body: "Hi Virupaksha! \nAnd what about to know the name of block which is editing\
+    \ in BEDIT command? For REFEDIT command there is REFEDITNAME system variable,\
+    \ but for BEDIT I can not found such system variable or other method to identify\
+    \ block name."
+- author: Alexander Rivilis
+  email: ''
+  ip: 81.95.185.60
+  url: http://profile.typepad.com/rivilis1964
+  date: '2015-06-25 13:58:33'
+  body: "My solution:\n{code}\nusing System;\nusing Autodesk.AutoCAD.Runtime;\nusing\
+    \ Autodesk.AutoCAD.ApplicationServices;\nusing Autodesk.AutoCAD.EditorInput;\n\
+    \n[assembly: CommandClass(typeof(Rivilis.BEdit))]\n\nnamespace Rivilis\n{\n  public\
+    \ class BEdit\n  {\n    [CommandMethod(\"TestBEDIT\")]\n    public void TestBEdit()\n\
+    \    {\n      Document doc = \n           Application.DocumentManager.MdiActiveDocument;\n\
+    \      Editor ed;\n      if (doc != null)\n      {\n        ed = doc.Editor;\n\
+    \        if (Autodesk.AutoCAD.Internal.AcAeUtilities.IsInBlockEditor())\n    \
+    \    {\n          ed.WriteMessage(\"\\nWe are in block editor of block \\\"{0}\\\
+    \"\", \n               Autodesk.AutoCAD.Internal.AcAeUtilities.GetBlockName());\n\
+    \        }\n        else\n        {\n          ed.WriteMessage(\"\\nWe are NOT\
+    \ in block editor\");\n        }\n      }\n    }\n  }\n}\n\n{/code}\n-----"

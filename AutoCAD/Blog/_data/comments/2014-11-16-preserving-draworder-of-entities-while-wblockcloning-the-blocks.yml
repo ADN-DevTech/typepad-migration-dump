@@ -1,0 +1,226 @@
+comments:
+- author: Alain
+  email: alain.vangaalen@gmail.com
+  ip: 193.173.119.34
+  url: ''
+  date: '2014-11-16 23:12:01'
+  body: Nice one,  Thanks!
+- author: Nick Gorlov
+  email: ''
+  ip: 37.55.179.145
+  url: http://profile.typepad.com/6p01bb07ae8f2d970d
+  date: '2014-11-19 01:33:58'
+  body: "actually, this code does nothing useful at all. if i have a block with a\
+    \ broken draworder, this code can't fix it. using code (your or mine) i can (almost\
+    \ 5 years i can) insert this block with a correct draworder. but then, if autocad\
+    \ will copy this block (Ctrl+C/Ctrl+V) to the new drawing, draworder become broken\
+    \ again. that's the real situation. it was fixed in Autocad 2015 SP2. but earler\
+    \ versions will live with this bug forever and this code can't fix it. so, this\
+    \ code is just for fun :)\n\n// your code\nAcDbObjectId importBlockToCurDWGDatabase(const\
+    \ ACHAR *pBlockName /*block name*/, const ACHAR *pFileName /*full path to the\
+    \ file with this block*/)\n{\n  Acad::ErrorStatus es=Acad::eOk;\n  AcDbObjectId\
+    \ idImported = AcDbObjectId::kNull; // output ID of our block in current database\n\
+    \  AcDbDatabase* pWorkDatabase = acdbHostApplicationServices()->workingDatabase();\n\
+    \  AcAxDocLock docLock(pWorkDatabase);\n  AcDbDatabase* pBlockDatabase = new AcDbDatabase(false,true);\n\
+    \  es = pBlockDatabase->readDwgFile(pFileName);\n  if(es!=Acad::eOk){delete pBlockDatabase;return\
+    \ NULL;}\n\t\n  try\n  {\n    AcDbBlockTable* pBlockTable, *pBlockTable2;\n  \
+    \  es=pBlockDatabase->getSymbolTable(pBlockTable,AcDb::kForRead);\n    if(es!=Acad::eOk){delete\
+    \ pBlockDatabase;return NULL;}\n\n    AcDbObjectId idInsRecord;      \n    es=pBlockTable->getAt(pBlockName,idInsRecord);\n\
+    \    AcDbObjectIdArray objIds2Copy;\n    objIds2Copy.append(idInsRecord);\n  \
+    \  pBlockTable->close();\n    if(es!=Acad::eOk){delete pBlockDatabase;return NULL;}\n\
+    \n    AcDbIdMapping idMap;\n    es = pBlockDatabase->wblockCloneObjects(objIds2Copy,acdbSymUtil()->blockModelSpaceId(pWorkDatabase),idMap,\
+    \ AcDb::kDrcReplace);\n    if(es == Acad::eOk)\n    {\n      es = pWorkDatabase->getSymbolTable(pBlockTable2,\
+    \ AcDb::kForRead);\n      es = pBlockTable2->getAt(pBlockName,idImported,AcDb::kForRead);\n\
+    \      SetBlockDrawOrder(idInsRecord,idImported,idMap);\n      es = pBlockTable2->close();\n\
+    \    }\n  }catch(...){delete pBlockDatabase;return NULL;}\n\n  delete pBlockDatabase;\n\
+    \  return idImported;\n}\n\n// my code\nAcDbObjectId importBlockToCurDWGDatabase(const\
+    \ ACHAR *pBlockName /*block name*/, const ACHAR *pFileName /*full path to the\
+    \ file with this block*/)\n{\n  Acad::ErrorStatus es=Acad::eOk;\n  AcDbObjectId\
+    \ idImported = AcDbObjectId::kNull; // output ID of our block in current database\n\
+    \  AcDbDatabase* pWorkDatabase = acdbHostApplicationServices()->workingDatabase();\n\
+    \  AcAxDocLock docLock(pWorkDatabase);\n  AcDbDatabase* pBlockDatabase = new AcDbDatabase(false,true);\n\
+    \  es = pBlockDatabase->readDwgFile(pFileName);\n  if(es!=Acad::eOk){delete pBlockDatabase;return\
+    \ NULL;}\n\t\n  try\n  {\n    AcDbBlockTable* pBlockTable, *pBlockTable2;\n  \
+    \  es=pBlockDatabase->getSymbolTable(pBlockTable,AcDb::kForRead);\n    if(es!=Acad::eOk){delete\
+    \ pBlockDatabase;return NULL;}\n\n    AcDbObjectId idInsRecord;      \n    es=pBlockTable->getAt(pBlockName,idInsRecord);\n\
+    \    pBlockTable->close();\n    if(es!=Acad::eOk){delete pBlockDatabase;return\
+    \ NULL;}\n\n    AcDbDatabase* pTempDB;\n    es=pBlockDatabase->wblock(pTempDB,idInsRecord);\n\
+    \    if(es!=Acad::eOk){delete pBlockDatabase;return NULL;}\n\n    es=pWorkDatabase->insert(idImported,pBlockName,pTempDB);\n\
+    \    delete pTempDB;\n    if(es!=Acad::eOk){delete pBlockDatabase;return NULL;}\n\
+    \  }catch(...){delete pBlockDatabase;return NULL;}\n\n  delete pBlockDatabase;\n\
+    \  return idImported;\n}"
+- author: Madhukar Moogala
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/madhukarmoogala
+  date: '2014-11-19 03:24:21'
+  body: 'Hi Nick,
+
+
+    Thanks for your reply ,
+
+
+    I''m not sure I''ve understood completely , my code is restore\preserve the draworder
+    which the source block has , I''m setting order of target block relative to source
+    block.
+
+
+    Can you share your sample DWG , I will investigate when I get time.'
+- author: Nick Gorlov
+  email: ''
+  ip: 37.55.179.145
+  url: http://profile.typepad.com/6p01bb07ae8f2d970d
+  date: '2014-11-19 04:51:17'
+  body: "ok. sure i can share one more dwg for you :) \n<a href=\"https://yadi.sk/d/A1utxOQKcodWD\"\
+    >https://yadi.sk/d/A1utxOQKcodWD</a>\n\n1. open the drawing\n2. select blocks\n\
+    3. Ctrl+C\n4. create a new drawing\n5. Ctrl+V these blocks into the new drawing\n\
+    \nTry to do these steps in AutoCAD 2008-2014 (one of them. The results are the\
+    \ same) and in AutoCAD 2015+SP2. Feel the difference :)\nTalking about the code.\
+    \ My and your code is able to insert these blocks with a correct draworder (mb\
+    \ it's just a visual effect and the draworder is still broken, but it works),\
+    \ but native autocad commands become able to do this just several months ago.\
+    \ And autodesk keeps silence about the reasons of this behavior. How it happens?\
+    \ Is it possible to fix my own blocks? I still got no answer from their side (topic\
+    \ was started in December, 2013 :):):) )"
+- author: Madhukar Moogala
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/madhukarmoogala
+  date: '2014-11-19 05:14:19'
+  body: 'Hi Nick,
+
+
+    I checked the Dwg ,it contains dynamic parameters , Acad Dynamic block api is
+    very limited , I''m not sure will I be able to fix your problem, thanks for your
+    dwg this will help in understanding more deeply.'
+- author: Nick Gorlov
+  email: ''
+  ip: 37.55.179.145
+  url: http://profile.typepad.com/6p01bb07ae8f2d970d
+  date: '2014-11-19 05:31:10'
+  body: "actually, the problem is not in dynamic parameters. \nhere are some static\
+    \ blocks :)\n<a href=\"https://yadi.sk/d/Uug7VLqhcohNB\">https://yadi.sk/d/Uug7VLqhcohNB</a>\n\
+    \nthe common for of all of these blocks is the block editor command. all of them\
+    \ were modified in block editor window (if _bedit was used just for adding params\
+    \ everything works fine, but if i draw something inside _bedit, 100% block will\
+    \ have a broken draworder for copy/paste into a new drawing). so, in my mind the\
+    \ problem is in source code of this command, but there is no proofs. and somehow\
+    \ autocad 2015 is now able to draw a correct draworder for a block with a broken\
+    \ one :)"
+- author: Madhukar Moogala
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/madhukarmoogala
+  date: '2014-11-19 05:36:15'
+  body: Thanks Nick for further clarification , I will investigate and try to find
+    the answer, if I find,will definitely put a comment here. :)
+- author: Madhukar Moogala
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/madhukarmoogala
+  date: '2014-11-19 05:48:11'
+  body: "Hi Nick ,\n\nI just integrated code and tested on one of your block in the\
+    \ dwg , it seems the draworder is getting restored ,using ctrl C\\V ,draworder\
+    \ gets broken in acad 2014,but using above code ,order is same as source block\
+    \ ,you said it is just visual effect , I didn't understand that statement completely\
+    \ ,can you be please more specific, you can drop a email at madhukar.moogala@autodesk.com\
+    \ \n Video Link :\n<a href=\"https://screencast.autodesk.com/main/details/2b8db1fd-7256-49c5-8bb1-49f5f40f1f88\"\
+    >https://screencast.autodesk.com/main/details/2b8db1fd-7256-49c5-8bb1-49f5f40f1f88</a>"
+- author: Nick Gorlov
+  email: ''
+  ip: 37.55.179.145
+  url: http://profile.typepad.com/6p01bb07ae8f2d970d
+  date: '2014-11-20 00:24:46'
+  body: 'hm..., english is not my native language. "visual effect" was just a joke
+    (looks like it was a bad joke :) ). sure the draworder must be correct if autocad
+    draw the block correctly. your video doesn''t show the most interesting part:
+    what would be if you copy/paste this block into a new drawing.
+
+    that''s why my first message was:"this code is just for fun", because we can do
+    nothing to fix autocad native behavior. also i wrote that your and my code do
+    the same (insert block correctly into a drawing database), but it''s not enough
+    for blocks with broken draworder (or mb draworder is correct from the beginning?
+    :):):) and just paste into a new drawing can break it?).
+
+
+    i''ve found my old video for devhelp. it demonstrates an autocad native behavior
+    in broken block creation :)
+
+    <a href="https://yadi.sk/d/J1omau3Xcpa2d">https://yadi.sk/d/J1omau3Xcpa2d</a>
+
+
+    PS: may be it''s possible to force the block to forget, that it was modified in
+    block editor (mb class variables or something like this)? what is able to force
+    autocad to kill correct draworder during copy/paste?
+
+
+    PS2: If you prefer to continue the conversation via e-mail, i can :):):). there
+    is no difference to me.'
+- author: Madhukar Moogala
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/madhukarmoogala
+  date: '2014-11-20 00:40:44'
+  body: "Hi Nick ,\nThe objective of this code is to restore\\preserve the draw order\
+    \ while wblockcloning the blocks , not fix the broken draw order after inserting\
+    \ it.And, I was able reproduced your problem on copy and pasting blocks from one\
+    \ dwg to other, where draworder gets broken ,this code doesn't fix that problem.\n\
+    \ Instead of using copy\\ paste ,as a workaround you  may use  my code [look at\
+    \ SetBlockDrawOrder method this does correct the order prior to inserting]to copy\
+    \ the desired block in to current dwg ,which will be helpful as I believe.\n\n\
+    And I don't have full answers to your question, but I can't even take further\
+    \ as it got fixed in 2015 Sp2."
+- author: Nick Gorlov
+  email: ''
+  ip: 37.55.179.145
+  url: http://profile.typepad.com/6p01bb07ae8f2d970d
+  date: '2014-11-21 00:01:34'
+  body: "actually i didn't find a difference in broken block inserting between your\
+    \ and my code. that's why i started this conversation :). \nabout workaround.\
+    \ problem is not in me, but in my users :). i teach em, that they have to use\
+    \ my mechanism for inserting blocks, but they prefere copy/paste :(\n\n\"but I\
+    \ can't even take further as it got fixed in 2015 Sp2\" - also there is no comments\
+    \ about this problem and its healing in sp2 documentation :) so, there were no\
+    \ problems at all :). anyway, thx for your help.\n\nby the way, if your code is\
+    \ able to fix draworder, why, after inserting block with your code i still can't\
+    \ copy/paste inserted block to a new drawing? :)"
+- author: Madhukar Moogala
+  email: ''
+  ip: 106.51.128.200
+  url: http://profile.typepad.com/madhukarmoogala
+  date: '2014-11-21 06:00:52'
+  body: 'Hi Nick ,
+
+
+    I believe it is not possible to correct the draw order once the block definition
+    has been generated in the current drawing, to correct the draworder we must know
+    it''s source draw order ,i.e. when we copy a block and paste it in current drawing
+    we lost the trace of source block and what we left is clone of its ,while performing
+    copy\paste draw order is getting messed up ,since copy\paste is acad  feature
+    ,we don’t have enough tools to correct the draw order only the  Engineering should
+    be able to fix the problem.
+
+
+    To answer your question why draworder is getting messed up , I did my research
+    and this analysis is based on  my observation and may be true or not, I find the
+    draw order is getting messed up only if block contains Hatch entity, what actually
+    happens when we copy\paste , clone of source block definition gets regenerated
+    in the target drawing ,graphics of hatch gets printed last to tackle the performance
+    issues , after cloned block definition got generated in target drawing ,the pasting
+    mechanism should ascertain if the cloned block’s draw order and source block order
+    are same, if not then paste mechanism should correct it ,this is not happening
+    ,and this got fixed in SP2.
+
+
+    One Idea worth trying is if your entity is a custom entity, in your subdeepclone
+    method, you can correct draw order because you‘ll be aware of source blocks draw
+    order, to correct draworder you can SetRelativeDrawOrder API
+
+    Hope I was able to answer your query in some way.
+
+
+    Disclaimer: The thoughts above are my own doesn’t reflect my employers, may be
+    true or even worse.
+
+
+    -----'

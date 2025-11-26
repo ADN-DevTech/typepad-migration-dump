@@ -1,0 +1,41 @@
+comments:
+- author: BJHuffine
+  email: bjhuffine@tva.gov
+  ip: 184.174.134.102
+  url: ''
+  date: '2014-12-29 13:57:14'
+  body: Just curious if you could show an actual example of acedInvoke being used
+    with .NET.  How do you declare it?  Does it work like acedCmd with a Resbuf argument?  What's
+    it's signature and overloads?
+- author: Alexander Rivlis
+  email: alexander.rivilis@gmail.com
+  ip: 81.95.185.60
+  url: http://profile.typepad.com/alexrivilis
+  date: '2015-01-05 14:06:51'
+  body: <a href="https://sites.google.com/site/acadhowtodo/net/command-line/run-lisp-functions">https://sites.google.com/site/acadhowtodo/net/command-line/run-lisp-functions</a>
+- author: Balaji
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-01-05 21:41:25'
+  body: "Sorry, I missed your post.\n\nHere is a sample code snippet. \n\n[CommandMethod(\"\
+    DoIt\", CommandFlags.Session)]\npublic void DoItMethod()\n{\n    DocumentCollection\
+    \ acDocMgr = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager;\n\
+    \    Document acDoc = acDocMgr.Open(@\"C:\\SampleDrawings\\Lights.dwg\", false);\n\
+    \n    using (DocumentLock dl = acDoc.LockDocument())\n    {\n        Editor ed\
+    \ = acDoc.Editor;\n        using (ResultBuffer rb = new ResultBuffer())\n    \
+    \    {\n            rb.Add(new TypedValue((int)LispDataType.Text, \"c:DoIt\"));\n\
+    \            ResultBuffer rbRes = Application.Invoke(rb);\n            if (rbRes\
+    \ != null)\n            {\n                TypedValue[] tvalues = rbRes.AsArray();\n\
+    \                foreach (TypedValue tv in tvalues)\n                    ed.WriteMessage(\"\
+    \\n\" + tv.ToString());\n                rbRes.Dispose();\n            }\n   \
+    \         else\n                ed.WriteMessage(\"\\n Result buffer is null.\"\
+    );\n        }\n    }\n}\n\nRegards,\nBalaji"
+- author: Balaji
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-01-05 21:41:55'
+  body: 'Thanks Alex
+
+    -----'

@@ -1,0 +1,25 @@
+comments:
+- author: Tony Tanzillo
+  email: ebiz@nym.hush.com
+  ip: 24.187.152.113
+  url: ''
+  date: '2013-01-21 01:03:41'
+  body: '"The simplest and fastest way to do this is to iterate the current space,
+    open all the AcDbBlockReference entities for write and call the assertWriteEnabled()
+    method."
+
+
+    I''m not sure that''s the ''fastest'' way. :d
+
+
+    You can open the AcDbBlockTableRecord for the block whose insertions you want
+    to refresh, and call getBlockReferenceIds( false, true ) to get an array of the
+    ids of all insertions of the block, and all insertions of all dependent blocks,
+    then open each of them for write and call assertWriteEnabled().
+
+
+    You should also call acdbForceOpenObjectOnLockedLayer() before opening each insertion
+    if it''s on a locked layer.
+
+
+    -----'

@@ -1,0 +1,113 @@
+comments:
+- author: Tony Tanzillo
+  email: caddzooks@hushmail.com
+  ip: 24.47.197.131
+  url: ''
+  date: '2012-08-27 17:21:15'
+  body: 'Hi Fenton. Can you offer an explaination as to why acrxProductKey() was not
+    retained in the interest of source code portability across releases?
+
+
+    Code portability between releases has become a major issue for many, include some
+    who don''t think the relative handful of MAC users justifies what is happening,
+    and that could have something to do with Autodesk''s recent financial performance,
+    as customers (especially in Europe where customization is actually much more prevalent
+    than it is here in the states) are really starting to get fed up with the seemingly-whimsical
+    breaking changes, and just to be perfectly clear, let''s not confused confuse
+    ''binary compatibility'' with source code portability.'
+- author: Jon Rizzo
+  email: jrizzo@langan.com
+  ip: 68.193.112.216
+  url: ''
+  date: '2012-08-28 05:30:11'
+  body: '#define acrxProductKey acdbHostApplicationServices()->getUserRegistryProductRootKey'
+- author: Fenton Webb
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2012-08-28 09:15:55'
+  body: 'Hey Tony,
+
+
+    I understand your pain... .
+
+
+    Actually, the Mac port was a major milestone in AutoCAD''s history. Whether you
+    use the Mac or not, the fact still remains that the changes implemented for the
+    Mac platform brought us the ''headless'' AutoCAD (accoreconsole.exe). As a Windows
+    AutoCAD programmer, this single change has opened the door for lots of awesome
+    programming opportunities!
+
+
+    About the acrxProductKey() - because of major architectural changes to core AutoCAD,
+    this function was substituted with the more aptly named host application services
+    version.'
+- author: Owen Wengerd
+  email: owenw@manusoft.com
+  ip: 24.140.112.242
+  url: http://otb.manusoft.com
+  date: '2012-08-28 09:35:05'
+  body: 'Fenton, they could have added a #define in migrtion.h so that existing code
+    would migrate and compile without error.'
+- author: Fenton Webb
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2012-08-28 11:15:27'
+  body: "Hey Owen\n\nyou are right - we could have, however, acrxProductKey() is confusing...\n\
+    \nDoes it mean getUserRegistryProductRootKey()? \n\nOr \n\ndoes it mean getMachineRegistryProductRootKey()?\
+    \ \n\nWe always take binary breaks as an opportunity to try and make sure APIs\
+    \ still make sense."
+- author: Jon Rizzo
+  email: jrizzo@langan.com
+  ip: 68.193.112.216
+  url: ''
+  date: '2012-08-28 11:48:20'
+  body: 'Fenton,
+
+
+    I took these to be the same.  Has this been split into two functions now?  If
+    so, existing code is actually broken and should be revisited...'
+- author: Kerry Brown
+  email: ''
+  ip: 220.237.66.75
+  url: http://profile.typepad.com/kerrybrown
+  date: '2012-08-28 22:05:52'
+  body: '<i> >>> You may have noticed that the acrxProductKey() has disappeared in
+    ObjectARX 2013. <<< </i>
+
+
+    Fenton,
+
+    Someone really needs to look at the ARX documentation.
+
+
+    acrxProductKey is still listed in both arxRef.chm and arxDev.chm
+
+    //------------
+
+    John,
+
+    from help AcDbHostApplicationServices::getMachineRegistryProductRootKey Method
+
+    [quote]Returns the registry root of the product in the HKEY_LOCAL_MACHINE hive.
+    In case of AutoCAD, the string returned is the same as the one returned by getUserProductRegistryRootKey.[/quote]
+
+
+
+
+    Regards
+
+    Kerry'
+- author: Fenton Webb
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2012-08-29 13:35:34'
+  body: 'Hey guys
+
+
+    if you find issues with the documentation, simply click the "Comments?" link at
+    the bottom of the page, tell us the problem and it will be fixed.
+
+    -----'

@@ -1,0 +1,40 @@
+comments:
+- author: Andrey Bushman (@AndreyBushman)
+  email: bushman.andrey@gmail.com
+  ip: 188.134.89.152
+  url: https://sites.google.com/site/bushmansnetlaboratory/
+  date: '2012-09-13 21:51:53'
+  body: 'Hi Stephen.
+
+
+    You specified the wrong properties. Correct properties such:
+
+    - HostApplicationServices.Current.MachineRegistryProductRootKey
+
+    - HostApplicationServices.Current.UserRegistryProductRootKey
+
+
+    Regards'
+- author: Vladimir Michl
+  email: vladimir.michl@cadstudio.cz
+  ip: 194.228.205.74
+  url: http://www.cadstudio.cz
+  date: '2012-09-13 22:46:00'
+  body: Thanks Stephen, lesson learned. This one was hard to debug.
+- author: Stephen Preston
+  email: ''
+  ip: 108.236.113.147
+  url: http://profile.typepad.com/stephenpreston
+  date: '2012-09-14 07:51:27'
+  body: Hi Andrey. Thanks for pointing that out. These are properties of the HostApplicationServices
+    class, but you're right that they are accessed in an AutoCAD plug-in via the HostApplicationServices.Current
+    property (which returns the current HostApplicationServices instance being used).
+- author: Stephen Preston
+  email: ''
+  ip: 108.236.113.147
+  url: http://profile.typepad.com/stephenpreston
+  date: '2012-09-14 07:52:39'
+  body: 'Thanks for reporting it Vladimir. And sorry for the time you spent debugging
+    because of it :(.
+
+    -----'

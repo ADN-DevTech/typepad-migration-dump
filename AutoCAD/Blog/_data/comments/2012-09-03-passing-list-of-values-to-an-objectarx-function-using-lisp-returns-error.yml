@@ -1,0 +1,19 @@
+comments:
+- author: James Maeding
+  email: jmaeding@hunsaker.com
+  ip: 24.249.247.46
+  url: ''
+  date: '2012-09-04 13:28:07'
+  body: 'those workarounds sound easy, but are actually a major problem. How do you
+    tell on the arx/.net end what was an integer, and what was a real? It seems like
+    a trivial matter, but not when you start passing nested lists. You then have to
+    have some function convert all the sublists, then unconvert on the arx/.net end.
+    But the information is degraded on the arx/.net end because the fact that a number
+    was an integer or real matters sometimes. I have routines that return a value
+    (real) or error flag as an integer. You start thinking through how this could
+    affect things, and I switched over to serializing my lists, then sending as string,
+    then deserialize on .net end and serialize to send back to lisp. No more issues
+    to think about. Its a shame autodesk does not do something to eliminate the reinterpreting
+    of integers as dxf codes to eliminate the workarounds.
+
+    -----'

@@ -1,0 +1,60 @@
+comments:
+- author: BlackBox
+  email: ''
+  ip: 173.171.0.201
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2013-04-06 10:48:31'
+  body: 'Hi Viru,
+
+
+    If I have implemented multiple context menus, but am having a problem with only
+    two.
+
+
+    Specifically, one for BlockReference, and one for Table. How to I prevent them
+    both from being displayed when a Table is selected?
+
+
+    Example:
+
+    <i>
+
+    RXClass blockRx = BlockReference.GetClass(typeof(BlockReference));
+
+    acApp.AddObjectContextMenuExtension(blockRx , blockMenu);
+
+
+    RXClass tableRx = Table.GetClass(typeof(Table));
+
+    acApp.AddObjectContextMenuExtension(tableRx , tableMenu);
+
+    </i>
+
+
+    My implementation works well for all other Types, having to only call AddObjectContextMenuExtension()
+    once, but the two I mention are the only ones that show both context menus as
+    described above.
+
+
+    I''m trying to avoid having to repeated calls to AddObjectContextMenuExtension(),
+    and RemoveObjectContextMenuExtension() to prevent this undesired behavior.
+
+
+    Thanks'
+- author: BlackBox
+  email: ''
+  ip: 173.171.0.201
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2013-04-08 06:44:55'
+  body: After some testing, I learned that the issue was due to Table deriving from
+    BlockReference. Instead of having two separate context menus (one for each) I
+    only need one context menu for both (specifically for BlockReference), and a logical
+    test of a non-Null cast 'as Table' within the Popup Event to Remove()/Add() the
+    appropriate MenuItems.
+- author: Viru
+  email: Virupaksha.aithal@autodesk.com
+  ip: 203.202.234.243
+  url: ''
+  date: '2013-04-09 00:13:54'
+  body: "Hi,\n\nThanks for letting us know. Yes ,Table is also a type of block reference.\
+    \ \n\nregards\nViru\n-----"

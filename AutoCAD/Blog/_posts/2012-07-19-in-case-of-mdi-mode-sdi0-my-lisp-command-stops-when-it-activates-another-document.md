@@ -1,0 +1,29 @@
+---
+layout: "post"
+title: "In case of MDI mode (SDI=0) my LISP command stops when it activates another document"
+date: "2012-07-19 08:40:00"
+author: "Adam Nagy"
+categories:
+  - "Adam Nagy"
+  - "AutoCAD"
+  - "LISP"
+original_url: "https://adndevblog.typepad.com/autocad/2012/07/in-case-of-mdi-mode-sdi0-my-lisp-command-stops-when-it-activates-another-document.html "
+typepad_basename: "in-case-of-mdi-mode-sdi0-my-lisp-command-stops-when-it-activates-another-document"
+typepad_status: "Publish"
+---
+
+<p>By <a href="http://adndevblog.typepad.com/autocad/adam-nagy.html" target="_self">Adam Nagy</a></p>
+<p>I have the below code. When the vla-activate part is executed then my LISP code stops and none of the code parts after that is reached.</p>
+<p><span style="line-height: 120%; font-family: &#39;courier new&#39;, courier; font-size: 8pt;"><span style="color: #ff0000;">(</span><span style="color: #0000ff;">command</span>&#0160;<span style="color: #ff00ff;">&quot;_sdi&quot;</span>&#0160;<span style="color: #ff00ff;">&quot;0&quot;</span><span style="color: #ff0000;">)</span>&#0160;<span style="background-color: #e6e6e6; color: #800080;">;&#0160;the&#0160;problem&#0160;is&#0160;with&#0160;MDI&#0160;mode&#0160;<span style="color: #7f007f;">/</span>&#0160;SDI=0<br /></span><span style="color: #ff0000;">(</span><span style="color: #0000ff;">vl-load-com</span><span style="color: #ff0000;">)</span><br /><span style="color: #ff0000;">(</span><span style="color: #0000ff;">setq</span>&#0160;acadApp&#0160;<span style="color: #ff0000;">(</span><span style="color: #0000ff;">vlax-get-acad-object</span><span style="color: #ff0000;">)</span><span style="color: #ff0000;">)</span><br /><span style="color: #ff0000;">(</span><span style="color: #0000ff;">setq</span>&#0160;acadActiveDoc&#0160;<span style="color: #ff0000;">(</span><span style="color: #0000ff;">vla-get-ActiveDocument</span>&#0160;acadApp<span style="color: #ff0000;">)</span><span style="color: #ff0000;">)</span><br /><span style="color: #ff0000;">(</span><span style="color: #0000ff;">setq</span>&#0160;acadDocs&#0160;<span style="color: #ff0000;">(</span><span style="color: #0000ff;">vla-get-documents</span>&#0160;acadApp<span style="color: #ff0000;">)</span><span style="color: #ff0000;">)</span><br /><span style="color: #ff0000;">(</span><span style="color: #0000ff;">setq</span>&#0160;newDrawing&#0160;<span style="color: #ff00ff;">&quot;C:\\test.dwg&quot;</span><span style="color: #ff0000;">)</span><br /><span style="color: #ff0000;">(</span><span style="color: #0000ff;">if</span><br /> &#0160;&#0160;<span style="color: #ff0000;">(</span><span style="color: #0000ff;">=</span>&#0160;<span style="color: #008000;">0</span>&#0160;<span style="color: #ff0000;">(</span><span style="color: #0000ff;">getvar</span>&#0160;<span style="color: #ff00ff;">&quot;SDI&quot;</span><span style="color: #ff0000;">)</span><span style="color: #ff0000;">)</span><br /> &#0160;&#0160;&#0160;&#0160;<span style="background-color: #e6e6e6; color: #800080;">;&#0160;if&#0160;sdi&#0160;=&#0160;0<br /></span> &#0160;&#0160;&#0160;&#0160;<span style="color: #ff0000;">(</span><span style="color: #0000ff;">vla-activate</span>&#0160;<span style="color: #ff0000;">(</span><span style="color: #0000ff;">vla-open</span>&#0160;acadDocs&#0160;newDrawing<span style="color: #ff0000;">)</span><span style="color: #ff0000;">)</span>&#0160;&#0160;&#0160;&#0160;<br /> &#0160;&#0160;&#0160;&#0160;<span style="background-color: #e6e6e6; color: #800080;">;&#0160;if&#0160;sdi&#0160;=&#0160;<span style="color: #008000;">1</span>&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;<br /></span> &#0160;&#0160;&#0160;&#0160;<span style="color: #ff0000;">(</span><span style="color: #0000ff;">vla-sendcommand</span>&#0160;acadActiveDoc&#0160;<span style="color: #ff0000;">(</span><br /> &#0160;&#0160;&#0160;&#0160;&#0160;&#0160;<span style="color: #0000ff;">strcat</span>&#0160;<span style="color: #ff00ff;">&quot;<span style="color: #ff0000;">(</span><span style="color: #0000ff;">command</span>&#0160;\&quot;</span>_open\<span style="color: #ff00ff;">&quot;<span style="color: #ff0000;">)</span>\n&quot;</span>&#0160;newDrawing&#0160;<span style="color: #ff00ff;">&quot;\n&quot;<br /></span><span style="color: #ff0000;">&#0160; &#0160; )</span><br /> &#0160;&#0160;<span style="color: #ff0000;">)</span>&#0160;<br /> <span style="color: #ff0000;">)</span><br /> <span style="color: #ff0000;">(</span><span style="color: #0000ff;">print</span>&#0160;<span style="color: #ff00ff;">&quot;this&#0160;part&#0160;is&#0160;not&#0160;reached&quot;</span><span style="color: #ff0000;">)</span></span></p>
+<p><strong>Solution</strong></p>
+<p>There are two main contexts in AutoCAD:</p>
+<ul>
+<li>Document context – only works within the boundaries of a document&#0160;</li>
+<li>Session/Application context –&#0160;best suited for opening/closing/activating documents&#0160;</li>
+</ul>
+<p>You can find further information about contexts in the Object ARX Reference Guide, &lt;Object ARX SDK&gt;\docs\arxdoc.chm</p>
+<p>LISP can only work in Document context – the command or function is bound to the Document that it was started from.</p>
+<p>When you activate another document, then the running code&#39;s execution stops and only continues once the document it was running in becomes active again.</p>
+<p>Also, for similar reasons you cannot close the document that the code is running in.</p>
+<p>However, you can open documents in the background and use the API to interact with them - i.e. you open them the same way you&#39;re doing it now, but simply do not activate them.</p>
+<p>You could also use ARX or .NET instead, which can create commands that run in session context.</p>

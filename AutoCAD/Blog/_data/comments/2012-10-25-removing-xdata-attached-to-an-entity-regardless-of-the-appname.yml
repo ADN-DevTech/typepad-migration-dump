@@ -1,0 +1,69 @@
+comments:
+- author: petcon
+  email: newton521200@yahoo.com.cn
+  ip: 219.138.104.82
+  url: ''
+  date: '2015-07-16 21:27:30'
+  body: how to removing  xrecord AND xdict  attached to an entity regardless of the
+    appname
+- author: Alexander Rivilis
+  email: ''
+  ip: 81.95.185.60
+  url: http://profile.typepad.com/rivilis1964
+  date: '2015-07-24 13:44:30'
+  body: Both dictionary and xrecord has not appname. What do you mean?
+- author: petcon
+  email: newton521200@yahoo.com.cn
+  ip: 219.138.104.82
+  url: ''
+  date: '2015-07-26 20:19:28'
+  body: sorry,long time no playing with objectarx.   i mean how to remove xrecord
+    and  xdict attacher to an entity.  make an entity clean. 删除实体所带的所有信息，xdata xrecord
+    xdict，好久不编程，不太记得一个实体能附加哪些信息了，想把实体所带的信息都删除干净。  求 杜长宇翻译。daniel DU.
+- author: Alexander Rivilis
+  email: ''
+  ip: 81.95.185.60
+  url: http://profile.typepad.com/rivilis1964
+  date: '2015-07-29 04:49:59'
+  body: "[code]\nstatic void RemExtDict () {\n\n  Acad::ErrorStatus es;\n  ads_name\
+    \ en; ads_point p;\n  if (acedEntSel(_T(\"\\nSelect Entity with ExtDictionary:\
+    \ \"),en,p) != RTNORM)\n    return;\n  AcDbObjectId eId; acdbGetObjectId(eId,\
+    \ en);\n  AcDbEntityPointer pEnt(eId, AcDb::kForRead);\n  if (pEnt.openStatus()\
+    \ == Acad::eOk) {\n    AcDbObjectId idExtDict = pEnt->extensionDictionary();\n\
+    \    if (idExtDict.isNull() || idExtDict.isErased()) {\n      acutPrintf(_T(\"\
+    \\nEntity has not Extension Dictionary!\"));\n      return;\n    }\n    {\n  \
+    \    AcDbDictionaryPointer pDict(idExtDict, AcDb::kForWrite);\n      if (pDict.openStatus()\
+    \ == Acad::eOk) {\n        AcDbObjectIdArray ids; ids.setPhysicalLength(pDict->numEntries()+1);\n\
+    \        AcDbDictionaryIterator *pIter = pDict->newIterator();\n        for (;\
+    \ !pIter->done(); pIter->next()) {\n          ids.append(pIter->objectId());\n\
+    \        }\n        delete pIter;\n        for (int i = 0; i < ids.length(); i++)\
+    \ {\n          pDict->remove(ids[i]);\n        }\n      }\n    }\n    if (pEnt->upgradeOpen()\
+    \ == Acad::eOk) {\n      es = pEnt->releaseExtensionDictionary();\n      if (es\
+    \ != Acad::eOk) {\n        acutPrintf(_T(\"\\nError releaseExtensionDictionary()\
+    \ = %s\"), \n          acadErrorStatusText(es));\n      }\n    }\n  }\n}\n[/code]"
+- author: petcon
+  email: 357901946@qq.com
+  ip: 107.178.194.126
+  url: ''
+  date: '2016-01-23 00:20:28'
+  body: 'i test the ObjectARX code up in the post static void AdskTestCommand(void).
+
+    i found there maybe a bug.
+
+    i use xdata test in arxdbg to add xdata to entity.
+
+    after xdatatest there are two xdata mason and connor.  (use entity info in arxdbg)
+
+
+    after run ObjectARX code ,ther is one xdata left connor.
+
+
+    run ObjectARX code one more time ,ther is no xdata left.
+
+
+    so the objectarxcode remove xdata only can remove one xdata at one time.
+
+    i think that is not a good code .because the code can not do things right at one
+    time
+
+    -----'

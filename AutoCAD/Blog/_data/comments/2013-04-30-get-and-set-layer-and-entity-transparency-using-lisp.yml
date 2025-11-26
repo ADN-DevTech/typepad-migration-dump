@@ -1,0 +1,74 @@
+comments:
+- author: Paulo
+  email: pbianchicandeias@gmail.com
+  ip: 85.241.139.5
+  url: ''
+  date: '2013-04-28 12:06:32'
+  body: Thanks so much. This tip is GOLD. =)
+- author: BlackBox
+  email: ''
+  ip: 173.171.0.201
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2013-04-29 13:10:00'
+  body: "Adam, \n\nI think you're making this far more complicated than it needs to\
+    \ be.\n\nWhy are you twice (once in your test command, and another in your sub-function),\
+    \ converting to/from respectively vla-Object, to eName, when you can instead work\
+    \ with eName alone?\n\nAs I'm sure you're already aware.... \n\nIn the case of\
+    \ the test function, instead of converting the eName to vla-Object, extracting\
+    \ the Layer Property string, you could instead simply extract (cdr (assoc 8 (entget\
+    \ eName))).\n\nAs for the sub-function, instead of getting the Layer Object from\
+    \ the Layers Collection via layerName string parameter, then converting that with\
+    \ vlax-Vla-Object->Ename, one can instead simply use TblObjName function on the\
+    \ Layers table directly.\n\nCheers"
+- author: Adam Nagy
+  email: ''
+  ip: 86.31.122.37
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2013-04-30 03:18:25'
+  body: "Hi BlackBox,\nThank you for the comments. Yes, it seems I'm a bit prone to\
+    \ use ActiveX in LISP :) - especially when the code in the question is using it\
+    \ already.\nI updated the code accordingly. \nThanks again,\nAdam\nPS: What's\
+    \ even more important of course is that now I added colours to the code :-D"
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-30 19:10:23'
+  body: 'At this thread you can find a set of helper functions that make using ActiveX
+    from LISP much easier and intuitive (almost as intuitive as VBA).
+
+
+    <a href="http://www.theswamp.org/index.php?topic=44212.msg494692#msg494692">http://www.theswamp.org/index.php?topic=44212.msg494692#msg494692</a>'
+- author: BlackBox
+  email: ''
+  ip: 173.171.0.201
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2013-05-02 18:04:33'
+  body: 'Adam,
+
+
+    For your consideration:
+
+
+    <a href="http://www.theswamp.org/index.php?topic=44517.0">http://www.theswamp.org/index.php?topic=44517.0</a>'
+- author: Anthony Isaac
+  email: yofelir772@bodeem.com
+  ip: 103.155.62.173
+  url: ''
+  date: '2023-06-17 15:16:34'
+  body: An endowment fund displaced for the theme and augment of the citizens. The
+    paths of the <a href="https://www.deepbrain.io/">ai video generator</a> are inclined
+    for the terms. The rule is played for the hooting for the true aloe for the suggested
+    element for the times by all issues.
+- author: Ziedis
+  email: bruno.siebens@gmail.com
+  ip: 163.116.240.139
+  url: ''
+  date: '2025-06-02 09:27:37'
+  body: "With the provided code, calculated transparency factor of a layertransparency\
+    \ of '40' results in '39':\n(setq transparency (cdr (assoc 1071 (cdar (cdr (assoc\
+    \ -3 (entget layer '(\"AcCmTransparency\")))))))) \n  transparency = 33554585\n\
+    (setq transparency (lsh (lsh transparency 24) -24))\n  transparency = 153\n(-\
+    \ 100 (/ 153 2.55)) = 40.0\n(setq transparency (fix (- 100 (/ transparency 2.55))))\n\
+    \  transparency = 39\nStrangely, since (fix 40.0) results in 40, in the above\
+    \ code it does not...\nAm i missing something here?\n-----"

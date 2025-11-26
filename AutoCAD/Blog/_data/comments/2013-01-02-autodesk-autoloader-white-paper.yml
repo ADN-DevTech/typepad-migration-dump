@@ -1,0 +1,964 @@
+comments:
+- author: JeffH
+  email: ''
+  ip: 184.215.68.113
+  url: http://profile.typepad.com/jeffhornsby
+  date: '2013-01-15 23:05:55'
+  body: 'Hi Fenton,
+
+
+    You mentioned if install was too large and would take longer than 6 seconds then
+    should use a different method.
+
+
+    Out of curiosity for large install would installing the contents to folder called
+    xxx.bund and during install checking every second or so if the folder size has
+    increased and if not renaming xxx.bund to xxx.bundle work?'
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 8.19.13.27
+  url: ''
+  date: '2013-01-16 17:10:08'
+  body: "Hi Jeff\n\nthat's a good point, I see your point. The problem is that adding\
+    \ multiple checks costs CPU and adds risky complexity to the code, and actually,\
+    \ I don't think it will be an issue even with a large installer. \n\nThe reason\
+    \ is because when the Autoloader detects a new bundle, of course it waits 6 seconds\
+    \ for the install to complete, but even then it waits even longer for AutoCAD\
+    \ to become completely silent from all inputs and commands, including mouse moves.\
+    \ That means, unless you install the application and then immediately switch back\
+    \ to AutoCAD to simply sit back and watch the OnAppearance contexts kick in, it's\
+    \ very unlikely that you will run into this problem. Also, the time taken for\
+    \ an MSI to actually place the files is extremely quick - most of the install\
+    \ time is taken up with disk costing and the like.\n\nKeep your comments coming,\
+    \ and if you run into a problem let me know! I'd like to see :-)"
+- author: Chuck
+  email: ddr401@mail.usask.ca
+  ip: 184.69.59.146
+  url: ''
+  date: '2013-01-23 09:18:11'
+  body: 'Your Autoloader forces all Assembly.Load & Assembly.LoadFrom calls to try
+    load from my documents folder.
+
+
+    Do you know of any way to override the Autoloader from doing this?
+
+
+    I have a bundle folder, and the autoloader will fail loading an assembly stating
+    that it cannot find it in my documents.  If I rename to folder to something other
+    than bundle so it does not get autoloaded, and then netload from that directory
+    all is fine.
+
+
+    I try to subscribe to the appdomain assemblyresolve event but the event is never
+    fired.
+
+
+    What the?
+
+
+    More info:
+
+    <a href="http://forums.autodesk.com/t5/NET/Using-AutoLoader-with-dependencies/td-p/3748413">http://forums.autodesk.com/t5/NET/Using-AutoLoader-with-dependencies/td-p/3748413</a>'
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 8.19.13.27
+  url: ''
+  date: '2013-01-23 09:34:42'
+  body: 'Hey Chuck!
+
+
+    it only loads modules that are defined in the PackageContents.xml.
+
+
+    Some assemblies, like WPF assemblies, hate being installed and run away from the
+    acad.exe folder. In this case, you need to utilize the AssemblyMapping elements
+    as children of your ComponentEntry, a good example is found in the Performance
+    Gauges app <a href="http://adndevblog.typepad.com/autocad/2012/06/autocad-performance-gauges-app.html">http://adndevblog.typepad.com/autocad/2012/06/autocad-performance-gauges-app.html</a>'
+- author: JeffH
+  email: ''
+  ip: 174.159.144.82
+  url: http://profile.typepad.com/jeffhornsby
+  date: '2013-01-25 02:36:15'
+  body: 'Sorry Fenton,
+
+
+    I see where my question was confusing and seems I talking about the Autoloader.
+
+
+    I meant for the installer to handle that and no reason to check as just wait for
+    it to return after copying files then rename.
+
+
+    It was mainly out of curiosity if AutoCAD would ignore a folder if it did not
+    end with .bundle.
+
+
+    Have not run into any problems and last thing we need is me writing enough crap
+    code that takes that long to install.
+
+
+    Thanks'
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 8.19.13.19
+  url: ''
+  date: '2013-01-25 09:14:57'
+  body: "Hey Jeff!\n\nno problem at all. Actually, your comment leads me onto another\
+    \ primary design requirement of the Autoloader. \n\nYou mention that the installer\
+    \ should handle X,Y,Z - the thing is that if you take a very careful look at the\
+    \ Exchange App installers, they literally do nothing other than copy the files.\
+    \ There's one main reason for this - simplicity (but also for Mac support). Keeping\
+    \ the installer silly-simple makes everyone's life easier - users, developers,\
+    \ App Exchange publishers and even Product support all benefit from a simple,\
+    \ uniform and standard App installer. That said, by removing the App registration\
+    \ away from the installer and to the product's implementation of the Autoloader,\
+    \ the same Windows bundle becomes cross platform and also works on the Mac too.\n\
+    \nThe problem with keeping a silly simple installer is coming up with a uniform\
+    \ design by which to keep the installer simple moving forward. Trust me, it's\
+    \ given us some really bad headaches!"
+- author: RenderMan
+  email: rmcadguy@gmail.com
+  ip: 207.34.120.71
+  url: ''
+  date: '2013-02-28 07:06:53'
+  body: "Hi Fenton, \n\nI'm just beginning to dig into Autoloader, as we currently\
+    \ use 2011 for daily work, but are gearing up for 2014. I just joined ADN, and\
+    \ trying to find a few needles in the hay, so forgive my question if it seems\
+    \ elementary.\n\nI've read most of your white paper on Autoloader, and it seems\
+    \ to me (perhaps I've missed something) that despite all that it (Autoloader)\
+    \ is good at, it fails to subscribe to basic AutoCAD functionality when it comes\
+    \ to .MNL files.\n\nIs one relegated to changing .MNL to .LSP, and either adding\
+    \ it (the .LSP) to the CUIx within CUI Editor, or adding a ComponentEntry node\
+    \ with PerDocument=\"true\"?\n\nWhy does Autoloader, when loading a partial CUIx,\
+    \ not follow the built-in functionality of also loading an .MNL of the same name\
+    \ automagically?\n\nThanks"
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 8.19.13.72
+  url: ''
+  date: '2013-02-28 08:40:13'
+  body: 'Hi Renderman
+
+
+    actually, it subscribes to all the standard functionality of AutoCAD, or at least
+    should. If not, it''s a bug.
+
+
+    You may need to add the SupportPath attribute to the ComponentEntry so that the
+    SupportPath contains a relative path to the bundle which points to the same folder
+    where your MNL file resides.
+
+
+    By the way, .MNU files should also work via the Autoloader.'
+- author: RenderMan
+  email: rmcadguy@gmail.com
+  ip: 173.171.0.201
+  url: ''
+  date: '2013-02-28 20:01:10'
+  body: 'Thank you for the prompt response, Fenton.
+
+
+    The SupportPath attribute (where both the .CUIx, and .MNL reside) was correctly
+    added as I describe in this post over at TheSwamp (sorry for the link, I didn''t
+    feel it appropriate to paste the entire post here):
+
+
+    <a href="http://www.theswamp.org/index.php?topic=44032.msg492983#msg492983">http://www.theswamp.org/index.php?topic=44032.msg492983#msg492983</a>
+
+
+    I must have some sort of bug causing this. The undesired behavior has been going
+    on now for a few days, and while new to Autoloader (perhaps I should have read/watched
+    more first?), I am not exactly known for being incapable.
+
+
+    Presuming this is user error on my part, I just went through and tested this again,
+    with a new .bundle, with nothing in the .MNL other than a LISP Alert function
+    call.
+
+
+    I just uninstalled the last 2014 Beta, and am having trouble installing RC, but
+    2013 does now load the .MNL as expected, using the same PackageContents.xml as
+    before. 2012 however displayed the Alert three (3) times. Knowing that is an issue,
+    as all versions are using the same .bundle, I restarted 2012, and it displayed
+    the Alert five (5) times.
+
+
+    Not sure if the RC/.bundle difficulty is related or not, I''m not exactly sure
+    what to do at this point, other than to uninstall, and start again with all fresh
+    installs.
+
+
+    Again, many thanks for your time.'
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 8.19.13.72
+  url: ''
+  date: '2013-03-01 09:47:18'
+  body: 'Hey Renderman!
+
+
+    can you send me the bundle please? If you are an ADN member, please create a devHelp
+    case noting to that you want me to deal with it. Failing that, can you send it
+    to me directly please at my Autodesk email address? (my name with a dot between
+    followed by at Autodesk dot com)'
+- author: Lambros
+  email: lkaliakatsos@plexscape.com
+  ip: 83.235.171.91
+  url: ''
+  date: '2013-03-16 02:58:41'
+  body: 'Hi Fenton,
+
+
+    I''ve just created the MSI for my plug-in, which, following the security recommendations,
+    requires administrator rights to install the bundle into the %programdata% folder
+    (per-machine).
+
+
+    It supports 2014, 2013 and 2012, however, it won''t get loaded in 2012, unless
+    it resides into the %appdata% folder.
+
+
+    I guess it''s a good practice to provide a single installer, so the options are:
+
+    1. To move all to %appdata% (per-user)
+
+    2. To use the common MSI to install one bundle into %programdata% (for 2013/2014)
+    and another one into %appdata% (for 2012).
+
+
+    Since I don''t like any of the above options, especially the latter seems quite
+    scary, I''m pretty sure there''s something I miss...
+
+
+    Do you have any suggestion?'
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 8.19.13.68
+  url: ''
+  date: '2013-03-18 09:05:41'
+  body: "Hi Lambros!\n\nUnfortunately, AutoCAD 2012 uses the %ProgramFiles% folder\
+    \ for All User installs. \n\n%ProgramFiles% was originally selected as the All\
+    \ User install folder, but was then changed in >= 2013. The reason it was changed\
+    \ was because of permission reasons and because 32bit installers can't write to\
+    \ %ProgramFiles% on 64bit machines.\n\nwith regards your bundle... To support\
+    \ 2012 all user scenario, you will have a very tricky life ahead of you and I\
+    \ don't recommend you do it. \n\nI recommend that if you App supports 2012, keep\
+    \ it as single user."
+- author: Lambros
+  email: lkaliakatsos@plexscape.com
+  ip: 83.235.171.91
+  url: ''
+  date: '2013-03-19 01:10:50'
+  body: 'Thanks Fenton!
+
+
+    That makes sense. I''ll follow your recommendation to keep it as single user -
+    I really want to avoid multiple bundles.
+
+
+
+    Best regards,
+
+
+    Lambros'
+- author: BlackBox
+  email: ''
+  ip: 173.171.0.201
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2013-03-28 21:19:52'
+  body: 'Hi Fenton, I am very much still a student with regard to Autoloader, so forgive
+    the perhaps silly question here... Isn''t Autoloader relegated to operating with
+    versions 2012+?
+
+
+    In the above sample PackageContents.xml files, there are several instances of
+    where a given SeriesMin XmlAttribute is specified as being "R18" (<i>i.e., 2010</i>).
+
+
+    Cheers'
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 8.19.13.68
+  url: ''
+  date: '2013-03-29 10:10:26'
+  body: 'Hey BlackBox!
+
+
+    good question...
+
+
+    When I wrote the original prototype, the Autoloader.arx loaded into 2010, 2011
+    and 2012... Once I handed the prototype over to engineering a few years back the
+    decision was made to only support >= 2012.'
+- author: BlackBox
+  email: ''
+  ip: 207.34.120.71
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2013-03-29 12:00:27'
+  body: 'Thanks for the clarification, Fenton... Just wanted to make sure I wasn''t
+    missing out all this time, using Civil 3D 2011 for my daily work.
+
+
+    Cheers'
+- author: BlackBox
+  email: ''
+  ip: 173.171.0.201
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2013-06-06 07:27:18'
+  body: 'Fenton,
+
+
+    I wondered if Autodesk is considering a company''s need to be able to support
+    .bundles on an enterprise level (read network), rather than relegating to per-computer
+    (local disk) distribution?
+
+
+    A CAD Manager, and IT department will find it much more agreeable to allow for
+    Autoloader in this manor, as an employee need only identify the plug-in that would
+    benefit their work, remit a simple internal request with the link, the CAD Manager
+    can have a layer of review, and implement on the network... IT will prefer this,
+    as the CAD Manager has the rights to install where needed, and no duplication
+    of data is replicated out to each-and-every-single-user in the Enterprise.
+
+
+    The implied task, is that the CAD Manager needs access to a FilesPreferences Property
+    in their Profile that identifies the location(s) from which to load said .bundles
+    from the Network (which would then have to be manually Trusted), etc... Just a
+    thought.
+
+
+    Cheers'
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 132.188.64.219
+  url: ''
+  date: '2013-06-06 09:06:18'
+  body: 'Hey Blackbox!
+
+
+    Yes, it''s been very carefully considered. The main problems are security (.NET
+    hates to load DLLs from network resources) and performance (we hate being blamed
+    for slow startup performance).
+
+
+    What we have at the moment (2014) is something called Chained Deployments. These
+    are installers (App Installers) that are included in a Network Deployment build.
+    So that should deal with all of your Enterprise deployment requirements'
+- author: BlackBox
+  email: ''
+  ip: 207.34.120.71
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2013-06-07 10:00:40'
+  body: "Thanks for the prompt response, Fenton!\n\nCivil 3D 2011 has been loading\
+    \ assemblies from my network just fine for years, thanks to Kean:\n\n<a href=\"\
+    http://through-the-interface.typepad.com/through_the_interface/2011/07/loading-blocked-and-network-hosted-assemblies-with-net-4.html\"\
+    >http://through-the-interface.typepad.com/through_the_interface/2011/07/loading-blocked-and-network-hosted-assemblies-with-net-4.html</a>\n\
+    \n... And without any (noticeable) performance issues, I might add. \n\nWould\
+    \ have been nice to just have a PreferencesFiles (or perhaps PreferencesSecurity\
+    \ one day?) Property to enable/disable LoadFromRemoteSources so that CAD manager\
+    \ can implement with internal Profile, but still... Manual revision to (a backed\
+    \ up copy of) Acad.Exe.Config works just fine. :thumbsup:\n\nIn any event, I must\
+    \ have been hiding under the Autodesk Futures rock, but I've not yet heard of\
+    \ this new 'Chained Deployments' mechanism... Any documentation on that?\n\nI'd\
+    \ be interested to learn more on this, if you feel it would resolve issue(s) /\
+    \ concern(s).\n\nCheers"
+- author: Stephen Preston
+  email: ''
+  ip: 132.188.64.219
+  url: http://profile.typepad.com/stephenpreston
+  date: '2013-06-07 10:39:14'
+  body: "Hey BlackBox, \n\nno worries - anytime.\n\nObviously, there are workarounds\
+    \ for everything. You can even turn off your Virus checker if you really want\
+    \ to! My point is, by default, it's not liked.\n\nAbout the Chained Deployments,\
+    \ simply create a Network Deployment, then, look for the Add Extensions section\
+    \ and add all of your Exchange App Installers. Easy. Obviously, be sure to pay\
+    \ a new license to the developer for each machine you deploy to."
+- author: Fenton Webb
+  email: ''
+  ip: 132.188.64.219
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2013-06-07 10:41:27'
+  body: that was me, not Stephen by the way - he was logged into my machine by accident
+    :-)
+- author: BlackBox
+  email: ''
+  ip: 207.34.120.71
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2013-06-07 12:06:33'
+  body: "The point I'm perhaps poorly making, is that the CAD Admin should have the\
+    \ ability to choose.\n\nAs an example, here, corporate IT prepares the default\
+    \ installation image with zero customization, profiles, etc. so that CAD Admins\
+    \ can prepare the customizations, profiles, etc. that we need for our local clients,\
+    \ etc. throughout the enterprise.\n\nIf allowing for Network support of .bundles\
+    \ is relegated to a step during the deployment creation, our (and others') hands\
+    \ have been effectively tied.\n\nFurther, and perhaps this is not the best place\
+    \ for this particular discussion (please propose a more suitable location if you\
+    \ wish), aside from honor, integrity, and other expected character traits, what\
+    \ is to prevent a CAD user from simply adding a copy of their 'friends' .bundle\
+    \ from the App store via thumb drive to %AppData%\\Autodesk\\ApplicationPlugins\\\
+    \ ?\n\nAside from that, Autoloader perplexes me.\n\nAutodesk makes it entirely\
+    \ possible for the CAD user to install any plug-ins they want from Exchange, or\
+    \ elsewhere, but to allow for Network support of .bundles to attempt to standardize\
+    \ who's using what .bundles, you require the .bundles be identified during the\
+    \ deployment creation?\n\nHow does one go about adding those 25 new .bundles that\
+    \ user's requested, CAD Admin approved, and management authorized for purchase\
+    \ this year? Do we have to create a new deployment? \n\nForgive me, but I am not\
+    \ understanding this at all."
+- author: Stephen Preston
+  email: ''
+  ip: 108.236.113.147
+  url: http://profile.typepad.com/stephenpreston
+  date: '2013-06-07 18:41:20'
+  body: That's a relief. I was wondering how I'd managed to write a blog comment without
+    knowing it, and while sitting on a plane. :-)
+- author: BlackBox
+  email: ''
+  ip: 173.171.0.201
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2013-06-08 10:35:57'
+  body: 'Too funny... You''re not on your way to an meeting to discuss how to preclude
+    Autoloader from creating unnecessary duplicate CUIx files for each-and-every-single-version''s
+    ..\Support\ folder in which one loads their plug-in, by chance?
+
+
+    Because that would be great news, and highly coincidental, in deed!
+
+
+    I ask, so that when one disables (by renaming a given .bundle to .bundle.void?),
+    or removes the .bundle altogether, that the ''residue'' CUIx(s) are no longer
+    cluttering up our support structures.
+
+
+    #WishfulThinking
+
+
+
+
+    Cheers'
+- author: Fenton Webb
+  email: ''
+  ip: 132.188.64.219
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2013-06-10 07:52:20'
+  body: "Hey Blackbox!\n\nthe Autoloader does not implement any custom code, it merely\
+    \ brings together existing APIs together to standardize their access. \n\nWhat\
+    \ you are seeing with the copying is a standard per-user way that AutoCAD deals\
+    \ with those who change their UI. \n\nAutoCAD should remove all references of\
+    \ partial CUIXs within a bundle when the bundle is removed. if it's not, please\
+    \ log a DevHelp and we'll get to it ASAP.\n\nAlso, please do tell how you would\
+    \ prefer it to work, bearing in mind the above, and I'll gladly present it to\
+    \ engineering for review...\n\n#WaitingForIdeas"
+- author: BlackBox
+  email: ''
+  ip: 207.34.120.71
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2013-06-10 10:35:52'
+  body: "Curious....\n\nFirstly, I assume that I have failed to understand something\
+    \ here, so kindly educate me where I am wrong.\n\nFollowing your post, I've conducted\
+    \ a test. \n\nIn this test, using Civil 3D 2012 (I only have 2013 and 2014 at\
+    \ home) I have one CUIx file loaded via Autoloader at session start, and another\
+    \ CUIx located on the network that I have manually loaded as partial via CUI Editor\
+    \ after session is open.\n\nThe result of this test is that only the CUIx file\
+    \ loaded via Autoloader is (unecessarily?) replicated to the Civil 3D 2012 ..\\\
+    Support\\ folder, whereas the CUIx file manually loaded as partial does not.\n\
+    \nTo confirm this, viewing the Filename property of both partial CUIx files within\
+    \ CUI Editor clearly shows that the CUIx loaded via Autoloader is located within\
+    \ the Civil 3D 2012 ..\\Support\\ folder (instead of the .bundle folder where\
+    \ PackageContents.xml directs it to be loaded from), whereas the Filename property\
+    \ for that which I manually loaded as partial is correctly pathed to the folder\
+    \ in which it resides, and where I loaded it from.\n\nIf Autoloader is using 'existing\
+    \ API's' (and I take your word for it), then why such a clear difference in observable\
+    \ behavior?\n\nFurther, upon closing Civil 3D 2012, and renaming the test .bundle\
+    \ to no longer end in .bundle (which should render it not being loaded), what\
+    \ I am calling the 'residue' CUIx file that has been replicated to the ..\\Support\\\
+    \ folder is still there (both after session close, and after new session start),\
+    \ and is again loaded as partial, mapped to the ..\\Support\\ folder while the\
+    \ dependent LISP, MNL, etc. is not loaded (as the .bundle was renamed) rendering\
+    \ it incorrectly available, yet unusable.\n\nIs it not within the realm of possibility,\
+    \ that Autoloader's inherent FileSystemWatcher nature could play a part in this?\n\
+    \nPlease clarify.\n\n\n\nAs for how I prefer it to work....\n\nAny CUIx loaded\
+    \ as partial, by Autoloader, or manually should be pathed to the folder in which\
+    \ it resides, and not be programmatically copied at all.\n\nIf in fact the replication\
+    \ of a .bundle's CUIx file(s) is a necessity (which has not been documented),\
+    \ then I posit that any CUIx file programmatically copied to local ..\\Support\\\
+    \ folder be programmatically deleted from ..\\Support\\ folder along with it's\
+    \ associated .MNR, etc. in order to prevent the supplementary behavior observed\
+    \ above, where dependent code files are not loaded yet residue CUIx file(s) are.\n\
+    \nOne implied task here being, that the Autoloader-loaded partial CUIx need also\
+    \ be unmapped from the Main CUIx file as well.\n\nHopefully this will help to\
+    \ quantify your request for ideas, in some small way.\n\nCheers"
+- author: BlackBox
+  email: ''
+  ip: 207.34.120.71
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2013-06-10 10:44:46'
+  body: 'Just curious if you''d like to continue this aspect of our discussion here,
+    or offline?
+
+
+    I''m very interested in your thoughts on empowering the CAD Admin in lieu of the
+    user, in an IT scenario as outlined above.
+
+
+    I always appreciate your time, and consideration.
+
+
+    Cheers'
+- author: BlackBox
+  email: ''
+  ip: 207.34.120.71
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2013-06-12 07:39:24'
+  body: '*Bump*
+
+
+    I know you guys are busy, but it''s been a couple of days, and thought I''d check
+    back with you... Any clarification on this, or my other post above?'
+- author: Fenton Webb
+  email: ''
+  ip: 132.188.64.219
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2013-06-12 10:48:32'
+  body: 'Hey Blackbox!
+
+
+    sorry, I was on vacation yesterday.
+
+
+    I can see that the CUIX copies can be annoying. The reason they are copied is
+    so that users can edit them. if something isn''t being cleaned up on bundle uninstall,
+    then that''s something that needs to be addressed. However, I do believe that
+    2013/2014 versions do a better job of cleaning up, and even the latest sp of 2012
+    does also - have you checked?
+
+
+    Feel free to open a DevHelp online request to discuss/solve these issues.'
+- author: BlackBox
+  email: ''
+  ip: 207.34.120.71
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2013-06-13 10:37:32'
+  body: "No worries; I hope you enjoyed your time off.\n\nThe CUIx copies aren't simply\
+    \ annoying, they are unnecessary.\n\nTo your comment on 'they are copied is so\
+    \ that users can edit them'....\n\nWe're talking about a CUIx from a .bundle,\
+    \ and if said .bundle is downloaded from Autodesk Exchange, whom exactly is the\
+    \ party responsible for repairing .bundle CUIx file(s) that are broken by user\
+    \ modification? Since Autodesk prepared the installer used, are you responsible?\
+    \ Or is the plug-in author responsible for that via customer support contact information?\
+    \ \n\nTabling the topic of should, or should not, the user be able to edit a .bundle\
+    \ CUIx downloaded from Autodesk Exchange... The user can edit a given partial\
+    \ CUIx from within the source .bundle folder itself without being replicated to\
+    \ local installation's ..\\Support\\ folder. If a user doesn't have sufficient\
+    \ folder permission(s), that's an issue for their employer's IT department.\n\n\
+    To demonstrate, when one uses CUI Editor to make change(s) to an Autoloader-loaded\
+    \ CUIx file the changes are made to the CUIx copy (mapped to local ..\\Support\\\
+    \ folder), and not the source CUIx located within the .bundle itself (the one\
+    \ which PackageContents.xml specifies)... Even after session close, neither the\
+    \ change(s) made, nor the save date, is reflected in the source .bundle CUIx file\
+    \ (just tested by adding a new toolbar with a single command).\n\nTo your comment\
+    \ on '.bundle uninstall'....\n\nDo you (Autodesk) expect that companies do/will\
+    \ not use Autoloader for their own internal utilities? They're certainly not going\
+    \ to publish them at Autodesk Exchange for competitors to review.\n\nAutoloader\
+    \ functionality needs to allow for companies, and users that simply create their\
+    \ own .bundle(s) without an installer... More importantly preclude this 'residue'\
+    \ byproduct that currently exists.\n\nNothing has come from my pointing this out\
+    \ during Beta, then again offline with you in March by email, as here we are again...\
+    \ So I'll be sure to give that DevHelp request a try. \n\nAs always, thank you\
+    \ kindly for your time, and consideration."
+- author: BlackBox
+  email: ''
+  ip: 207.34.120.71
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2013-06-13 11:02:17'
+  body: Any comment on the 'thumb drive distribution' topic?
+- author: Patrick
+  email: pat.keane@valmont.com
+  ip: 72.165.239.20
+  url: ''
+  date: '2013-09-17 09:14:58'
+  body: "Hi Fenton,\n\nI’ve used the Autoloader with some success.  However, when\
+    \ a .cuix file within the bundle is updated AutoCAD does not reflect the update.\
+    \  The bundle is located in %Appdata%\\Roaming\\Autodesk\\ApplicationPlugins\\\
+    .\n  \nAutoCAD will create a copy of the .cuix file in %Appdata%\\Roaming\\Autodesk\\\
+    AutoCAD 2013 - English\\R19.0\\enu\\support and appears to load it from there.\
+    \  This would be fine but the Autoloader currently does not seem to be copying\
+    \ updated .cuix files from the bundle to that location. \n \nDo you have any thoughts\
+    \ on how to get the .cuix to update?\n\nRegards,\nPatrick"
+- author: Howard
+  email: Howard.Barker@ge.com
+  ip: 69.174.87.100
+  url: ''
+  date: '2013-09-30 05:54:24'
+  body: 'Hi,
+
+
+    If I can ask a quick question on the AutoLoader, %PROGRAMDATA% is a Vista/Win7+
+    environment variable, this doesn''t exist on XP and despite setting it, I cannot
+    get my bundles to load. I have a single install kit, do I need to create another
+    just for the remaining few XP systems I have?
+
+
+    Regards'
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 132.188.64.218
+  url: ''
+  date: '2013-09-30 11:46:51'
+  body: "Hey Howard,\n\nthe Autoloader uses SHGetFolderPath(, SIDL_COMMON_APPDATA,\
+    \ , ) to obtain the All User profile folder. \n\nOn Windows Vista, 7 and 8 it's\
+    \ \n%ProgramData% \"C:\\ProgramData\"\n\nOn Windows XP I believe it's\n%ALLUSERSPROFILE%\
+    \  \"C:\\Documents and Settings\\All Users\\Application Data\""
+- author: Sherwin
+  email: sherwin.luna@gmail.com
+  ip: 144.230.63.53
+  url: ''
+  date: '2013-12-06 11:49:39'
+  body: Works like a charm.
+- author: Sherwin
+  email: sherwin.luna@gmail.com
+  ip: 144.230.63.53
+  url: ''
+  date: '2013-12-06 11:50:07'
+  body: thanks a lot for the post
+- author: Alexander Rivilis
+  email: ''
+  ip: 81.95.185.60
+  url: http://profile.typepad.com/rivilis1964
+  date: '2014-01-22 08:21:05'
+  body: 'Comments from <b>Andrey Bushman</b>: @Fenton, almost all your XML code is
+    invalid: the spaces between tags and attributes is absent in many places.'
+- author: Stephen Preston
+  email: ''
+  ip: 132.188.71.10
+  url: http://profile.typepad.com/stephenpreston
+  date: '2014-01-22 11:49:52'
+  body: 'Hi Alexander,
+
+
+    It looks like there was a formatting problem introduced when Fenton copied and
+    pasted his Word document into the Typepad WYSIWYG editor. I''ve asked Fenton to
+    provide the original document so we can add a download link for the document to
+    the article (if he still has it).
+
+
+    In the meantime, the formal documentation for the PackageContents.xml for AutoCAD
+    apps is included in the AutoCAD product helpfiles. Search for "PackageContents.xml
+    Format Reference" at <a href="http://docs.autodesk.com/ACD/2014/ENU/.">http://docs.autodesk.com/ACD/2014/ENU/.</a>
+
+
+    Another useful reference is simply to download some of the free apps from apps.exchange.autodesk.com
+    and review the PackageContents.xml files included in the installed bundles.'
+- author: Alexander Rivilis
+  email: ''
+  ip: 81.95.185.60
+  url: http://profile.typepad.com/rivilis1964
+  date: '2014-01-22 23:33:56'
+  body: Thanks!
+- author: Stephen Preston
+  email: ''
+  ip: 132.188.71.10
+  url: http://profile.typepad.com/stephenpreston
+  date: '2014-01-24 10:40:34'
+  body: Blog post updated.
+- author: dba
+  email: ''
+  ip: 172.16.38.212
+  url: http://profile.typepad.com/6p01910489d0be970c
+  date: '2014-05-12 06:42:49'
+  body: 'Hello Fenton,
+
+    I can confirm the behaviour of copying the cuix from .bundle to ..\support is
+    still there in ACA 2014 SP1. So removing the .bundle won''t remove the partial
+    cui.
+
+    Is there any new information to this topic from ADSK-side?
+
+    Thanks!
+
+    BR,
+
+    Daniel'
+- author: Virupaksha Aithal
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/6p0168e8800efa970c
+  date: '2014-05-13 02:13:49'
+  body: "Hi Daniel,\nYour observation is correct. The copied cuix file will be available\
+    \ in support path. But this should not create any issues. If you wish you can\
+    \ delete the file from support path. \n\nThanks\nViru"
+- author: Barcode Site
+  email: seaneightday@hotmail.com
+  ip: 198.52.199.134
+  url: http://www.keepautomation.com/
+  date: '2015-01-05 17:59:11'
+  body: Good post.You guide totally helps me,thanks.Can you write more about Autoloader?I
+    am very interested in it.Waiting for your new post.
+- author: Autocad Training
+  email: ann.matthew88@gmail.com
+  ip: 110.172.29.7
+  url: http://stunited.org/
+  date: '2015-05-11 02:50:28'
+  body: 'I have gone through your article and it’s just an amazing article.
+
+    Thanks  Fenton Webb for posting such a wonderful article.Keep posting.'
+- author: Peter2
+  email: nojunk217@hotmail.com
+  ip: 46.14.85.150
+  url: ''
+  date: '2015-05-17 08:59:14'
+  body: 'Hi
+
+
+    as sources of information about the "AutoLoader" I have
+
+
+    - this blog
+
+    - the PPT linked above in this blog
+
+    - Class CP2080 for Autodesk University 2011, by Fenton Webb
+
+    - the Help-files from different AutoCAD-version
+
+
+    Is there a current documentation which sums up the commonalities and the differences
+    in different AutoCAD versions? Are there different versions of Autoloader? Or
+    can it be used from 2011(?) / 2012(?) up to 2016?
+
+
+    Thanks
+
+
+    Peter'
+- author: Peter2
+  email: nojunk217@hotmail.com
+  ip: 46.14.85.150
+  url: ''
+  date: '2015-05-17 13:27:04'
+  body: 'Reading the German Autocad Help ("Referenz für Components-Elemente" and others)
+    I find that the greater part of the attributes is in German ("Beschreibung" instead
+    of "Description", "Autor" instead of "Author").
+
+
+    So - which language(s) have to / can be used inside the "PackageContents.xml"
+    for attributes and elements? I suppose only English .. ???
+
+
+    Peter'
+- author: Kumar Guptha
+  email: ''
+  ip: 168.244.5.56
+  url: http://profile.typepad.com/6p01b7c7ffe20f970b
+  date: '2015-12-29 07:33:59'
+  body: 'Hi,
+
+
+    How can i get the version number and plugin name from the above packagecontents.xml
+    file in the AutoCAD application plugins folder using C# and i should display that
+    information on the autoCAD application command prompt
+
+
+    Thanks in advance'
+- author: mona
+  email: mona.harairy@hotmail.com
+  ip: 93.168.19.127
+  url: ''
+  date: '2016-01-09 02:23:43'
+  body: "3ds Max failed to find any \"RuntimeRequirements\" nodes under \"ApplicationPackage\"\
+    \ node in \"C:\\ProgramData\\Autodesk\\ApplicationPlugins\\Autod \nwhat this error\
+    \ !?"
+- author: Ryan
+  email: rjhaines@sundt.com
+  ip: 70.166.201.130
+  url: ''
+  date: '2017-06-23 12:18:09'
+  body: Is "ACA" a supported abbreviation for AutoCAD Architecture? I noticed the
+    list in the white paper includes "ADT" for Architectural Desktop, so wondering
+    if there has since been an update for this product identifier. Thanks!
+- author: Matt Harrison
+  email: harrison-matt@hotmail.com
+  ip: 73.50.122.139
+  url: ''
+  date: '2017-09-30 13:09:18'
+  body: 'Can you please provide an example of loading Dependencies with the autoloader?
+    I have 3rd party dll''s such as EntityFramework.dll that I would like registered
+    to ensure they are loaded. I have googled quite a bit and discovered: <a href="http://adndevblog.typepad.c...">http://adndevblog.typepad.c...</a>
+    and would like to go the autoloader route for simplicity, or so I hope.
+
+
+    Thanks,
+
+    Matt'
+- author: Matt Harrison
+  email: harrison-matt@hotmail.com
+  ip: 73.50.122.139
+  url: ''
+  date: '2017-09-30 13:42:28'
+  body: 'I have figured this out in:
+
+
+    RuntimeRequirements attribute
+
+
+    add SupportPath="<relative path to dependencies>"
+
+
+    This will load dependencies.'
+- author: Matt Harrison
+  email: harrison-matt@hotmail.com
+  ip: 73.50.122.139
+  url: ''
+  date: '2017-09-30 14:41:26'
+  body: But only during debugging! How can I get my dependencies loaded in production?
+    With the autoloader?
+- author: Rita
+  email: rita.aguiar@outlook.com
+  ip: 89.115.238.70
+  url: ''
+  date: '2018-09-06 04:41:50'
+  body: where do I go to download the Autoloader?
+- author: CW
+  email: cwitt@glotmansimpson.com
+  ip: 207.6.218.49
+  url: ''
+  date: '2018-11-21 15:34:41'
+  body: '6 year old post.. but worth a try..
+
+
+    Is there somewhere that actually shows "how" to use the Autoloader for a DLL file?  Looking
+    to move away from REG edits and this seems like it would be a good choice, but
+    I have no idea HOW..?
+
+
+    AutoCAD 2019'
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 132.188.0.25
+  url: ''
+  date: '2018-11-29 15:54:29'
+  body: DLL files are not loaded by the Autoloader, only their path is added to the
+    system path for automatic resolution. The best examples of how to use the autoloader
+    can be found by downloading Autodesk apps from Autodesk Exchange
+- author: YY Wang
+  email: i_wangyuyue@hotmail.com
+  ip: 132.188.112.190
+  url: ''
+  date: '2020-05-04 05:48:47'
+  body: "Hi Fenton,\n\nThanks for this page, it is very helpful my ACAD development!\
+    \ Recently, I met issue and resolve it, sharing here, hope it can help other who\
+    \ has same problem with me :) \n\nWe had App1.bundle with Mixed native .arx and\
+    \ managed dll, at first, managed DLL cannot be loaded successfully. Here is my\
+    \ code snippet for PackageContents.xml:\n\n   <ComponentEntry AppName=\"App1\"\
+    \ ModuleName=\"./Contents/App1.arx\" AppDescription=\"App1\" LoadOnAutoCADStartup=\"\
+    True\">\n   </ComponentEntry>\n\nAfter investigation, the PackageContents.xml\
+    \ can do assembly Resolve by addingthe AssemlbyMappings for the assembly need\
+    \ resolve, here is my code snippet for PackageContents.xml:\n\n   <ComponentEntry\
+    \ AppName=\"App1\" ModuleName=\"./Contents/App1.arx\" AppDescription=\"App1\"\
+    \ LoadOnAutoCADStartup=\"True\">\n\t  \n      <AssemblyMappings>\n\t    <AssemblyMapping\
+    \ Name=\"AssemblyName1\" Path=\"./Contents/AssemblyName1.dll\"/>\n           \
+    \ <AssemblyMapping Name=\"AssemblyName2\" Path=\"./Contents/AssemblyName2.dll\"\
+    />\n\t    <AssemblyMapping Name=\"AssemblyName3\" Path=\"./Contents/AssemblyName3.dll\"\
+    />\n            ...\t\t\t\n      </AssemblyMappings>\n \n   </ComponentEntry>\n\
+    \nWith assembly mappings, then my managed managed assemblies can be loaded successfully."
+- author: Kentaxer
+  email: Kentaxer@163.com
+  ip: 132.188.112.190
+  url: ''
+  date: '2020-08-02 20:57:29'
+  body: Hi Fenton, seems, the platform for "AutoCAD Advance Steel", it should be "ADVS",
+    it is not list in the blog :)
+- author: Harrison Stevenson
+  email: ''
+  ip: 119.160.117.237
+  url: https://profile.typepad.com/d172240869995847692
+  date: '2020-08-04 10:35:05'
+  body: This is just an amazing <a href="https://thecracksoftware.com/advanced-installer-architect-17-0-crack/">blog</a>,
+    i'll visit it on daily basis for sure..
+- author: Harsh
+  email: harsh.shah@atkinsglobal.com
+  ip: 103.225.248.6
+  url: ''
+  date: '2020-08-06 22:10:38'
+  body: 'Hello all,
+
+    Using the PackageContents.xml i am successfully able to load .dll files in autocad.
+
+    But i am unable to call the command present in the dll.
+
+
+    Below is the part of the xml code. I am not sure if i am calling the command "Trial"
+    in the right way.
+
+
+    <ComponentEntry AppName="PW2NW" AppDescription="My Program Library" ModuleName="./Contents/PW2NW.dll"
+    LoadOnAppearance="True" LoadOnAutoCADStartup="True" LoadOnCommandInvocation="True"/>
+
+    <Commands GroupName="PW2NW">
+
+    <Command Local="Trial" Global="Trial" StartupCommand="True" />
+
+    </Commands>
+
+    </Components>
+
+
+
+    Name of the dll is PW2NW
+
+    Name of the command in dll is Trial.
+
+    In summary, on autocad/civil3d startup, the dll should load and after the custom
+    dll command
+
+    should run.
+
+
+    Any suggestions? Thanks in advance.'
+- author: Harsh
+  email: harsh.shah@atkinsglobal.com
+  ip: 103.225.248.6
+  url: ''
+  date: '2020-08-07 01:15:18'
+  body: "?xml version=\"1.0\" encoding=\"utf-8\"?\nApplicationPackage SchemaVersion=\"\
+    1.0\" AppVersion=\"1.0.0\" Author=\"PW2NW\" Name=\"PW2NW\" Description=\"My library\"\
+    \ ProductCode=\"{5c04c038-0968-4319-b31a-1f91fe369aab}\" AutodeskProduct=\"AutoCAD\"\
+    \ ProductType=\"Application\"\nCompanyDetails Name=\"XYZ Company\" \nComponents\n\
+    RuntimeRequirements OS=\"Win64\" Platform=\"AutoCAD|Civil3D\" SeriesMin=\"R19.0\"\
+    \ \nComponentEntry AppName=\"PW2NW\" AppDescription=\"My Program Library\" ModuleName=\"\
+    ./Contents/PW2NW.dll\" LoadOnAppearance=\"True\" LoadOnAutoCADStartup=\"True\"\
+    \nCommands GroupName=\"PW2Navisworks\"\nCommand Local=\"Trial\" Global=\"Trial\"\
+    \ StartupCommand=\"True\"\nCommands\nComponents\nApplicationPackage\n\nThe end\
+    \ braces are removed since it did not allow to paste. Hence the gap in the post."
+- author: franke johnson
+  email: nayeemaci2243@gmail.com
+  ip: 103.120.38.88
+  url: https://autocadindia.com/
+  date: '2022-06-30 06:26:25'
+  body: Congratulations on your excellent job! Lot of thanks. I appreciate your knowledge.
+    The post is Very creative and informative
+- author: jumping shell
+  email: uf678giues@yahoo.com
+  ip: 62.122.221.246
+  url: https://jumpingshell.com/
+  date: '2024-01-02 18:01:24'
+  body: We extend our sincere appreciation to Fenton Webb for providing invaluable
+    insights into the Autodesk Autoloader. His comprehensive white paper elucidates
+    the Autoloader's design, implementation, and benefits, offering a crucial resource
+    for developers navigating plugin deployment across various Autodesk products.
+    Webb's expertise greatly enhances our understanding of this essential technology.
+- author: jumping shell
+  email: uf678giues@yahoo.com
+  ip: 62.122.221.246
+  url: https://jumpingshell.com/
+  date: '2024-01-02 18:31:45'
+  body: Your post was not only informative but also delivered with an engaging style.
+    Kudos!
+- author: jumping shell
+  email: frgbq3g3a@yahoo.com
+  ip: 23.129.64.220
+  url: https://jumpingshell.com/
+  date: '2024-01-02 18:34:14'
+  body: 'Kudos on crafting content that was both educational and captivating. Well
+    done!
+
+    -----'

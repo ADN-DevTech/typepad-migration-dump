@@ -1,0 +1,42 @@
+comments:
+- author: Dale Bartlett
+  email: dale.bartlett@realtimeinternational.com.au
+  ip: 212.72.17.154
+  url: http://www.realtimeinternational.com.au
+  date: '2012-07-10 21:34:02'
+  body: This is very helpful, thank you. Before I launch into another C++ > C# conversion,
+    do you have C# code available? Regards, Dale
+- author: Philippe Leefsma
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2012-07-11 02:50:31'
+  body: "This code should be straightforward to convert into C#.\n\nHere is a C# version,\
+    \ but it isn't 100% equivalent:\n\nvoid PrintColor(Color color)\n{\n    Document\
+    \ doc = Application.DocumentManager.MdiActiveDocument;\n    Editor ed = doc.Editor;\n\
+    \n    switch (color.ColorMethod)\n    { \n        case ColorMethod.ByAci:\n  \
+    \          System.Drawing.Color clr = color.ColorValue;\n\n            ed.WriteMessage(\"\
+    \\n[\" +\n                clr.R.ToString() + \", \" +\n                clr.R.ToString()\
+    \ + \", \" +\n                clr.R.ToString() + \"]\");\n\n            break;\n\
+    \n        default:\n            break;\n    }\n}\n\n[CommandMethod(\"GetEntityColor\"\
+    )]\npublic void GetEntityColor()\n{\n    Document doc = Application.DocumentManager.MdiActiveDocument;\n\
+    \    Database db = doc.Database;\n    Editor ed = doc.Editor;\n\n    PromptEntityOptions\
+    \ peo = new PromptEntityOptions(\"\\nSelect entity: \");\n\n    PromptEntityResult\
+    \ per = ed.GetEntity(peo);\n\n    if (per.Status != PromptStatus.OK)\n       \
+    \ return;\n\n    using (Transaction Tx = db.TransactionManager.StartTransaction())\n\
+    \    {\n        Entity entity = Tx.GetObject(per.ObjectId, OpenMode.ForRead) as\
+    \ Entity;\n\n        switch (entity.Color.ColorMethod)\n        { \n         \
+    \   case ColorMethod.ByLayer:\n\n                LayerTableRecord ltr = Tx.GetObject(entity.LayerId,\
+    \ OpenMode.ForRead)\n                    as LayerTableRecord;\n\n            \
+    \    PrintColor(ltr.Color);\n                break;\n\n            case ColorMethod.ByAci:\n\
+    \            case ColorMethod.ByColor:\n                PrintColor(entity.Color);\n\
+    \                break;\n\n            default:\n                break;\n    \
+    \    }\n\n        Tx.Commit();\n    }\n}"
+- author: Dale Bartlett
+  email: dale.bartlett@realtimeinternational.com.au
+  ip: 212.72.17.154
+  url: http://www.realtimeinternational.com.au
+  date: '2012-07-17 05:46:39'
+  body: 'Thank you Philippe, Dale
+
+    -----'

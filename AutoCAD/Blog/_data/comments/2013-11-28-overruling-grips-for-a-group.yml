@@ -1,0 +1,109 @@
+comments:
+- author: kelo
+  email: kelogame_office@sina.com
+  ip: 116.2.197.52
+  url: ''
+  date: '2013-11-30 17:22:50'
+  body: In my program, IsApplicable not running
+- author: kelo
+  email: kelogame_office@sina.com
+  ip: 116.2.197.52
+  url: ''
+  date: '2013-11-30 18:09:15'
+  body: My GripOverrule, Use custom GripData, In GetGripPoints, read entity Xrecord,
+    when grip entity, modify object properties, if the use of features preview, AutoCAD
+    crashes
+- author: kelo
+  email: kelogame_office@sina.com
+  ip: 116.2.197.52
+  url: ''
+  date: '2013-11-30 18:14:32'
+  body: 'My GripOverrule
+
+    mygrip.AlternateBasePoint = CType (pt, System.Nullable (Of Point3d))
+
+    when grip entity, AutoCAD crashes'
+- author: Balaji
+  email: ''
+  ip: 14.96.91.224
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-12-01 02:51:50'
+  body: 'Hi Kelo,
+
+
+    For "isApplicable" to be called, you will need to call the SetCustomFilter as
+    in the sample code from this blog post.
+
+
+    Regards,
+
+    Balaji'
+- author: Balaji
+  email: ''
+  ip: 14.96.91.224
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-12-01 03:03:19'
+  body: 'Hi Kelo,
+
+
+    I do not think it is permitted to change the entity properties from the GetGripPoints
+    which might explain the crash.
+
+
+    As you see in the sample code, we only retrieve information that can help us determine
+    the grip point. It does not change the entity itself.
+
+
+    You may need to refactor your code to do such changes in a more appropriate callback.
+
+
+    Regards,
+
+    Balaji'
+- author: kelo
+  email: kelogame_office@sina.com
+  ip: 218.25.99.178
+  url: ''
+  date: '2013-12-01 19:02:29'
+  body: Thank you!You're right.
+- author: kelo
+  email: kelogame_office@sina.com
+  ip: 218.25.99.178
+  url: ''
+  date: '2013-12-01 19:05:04'
+  body: 'Thank you.I find,same code,work in Windows XP No problem,work in Windows
+    8 63bit AutoCAD crashes
+
+    .'
+- author: Tony Tanzillo
+  email: caddzooks@hushmail.com
+  ip: 65.98.52.15
+  url: ''
+  date: '2013-12-12 21:30:02'
+  body: 'Hi Balaji.
+
+
+    Is your code listing complete?  It seems that there is an enclosing class missing.
+
+
+    Also, doesn''t your overrule''s GetGripPoints() override get called (redundantly)
+    for every selected entity in a group, each time producing the same result?
+
+
+    You might want to rethink your approach to solving this problem, and take into
+    account (1) that the work done by your Grip overrule will be done redundantly
+    for every selected entity in the same group, and (2) that entities can be members
+    of more than one group, and (3) that you don''t have to open the ObjectIds returned
+    by GetPersistentReactorIds() to find out if one of them is the ObjectId of a Group
+    (by using the ObjectId''s ObjectClass property).'
+- author: Balaji
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-12-13 02:27:01'
+  body: "Hi Tony,\n\nYes, the post does not include the class that encloses the command.\
+    \ I had intentionally left it out. I thought the developers would only be interested\
+    \ in the command method and would copy that portion to their command class.\n\n\
+    Thanks for your nice suggestions. I had not thought much about optimizing it and\
+    \ I will include your suggestions and update the post. \n\nRegards,\nBalaji\n\n\
+    \ \n-----"

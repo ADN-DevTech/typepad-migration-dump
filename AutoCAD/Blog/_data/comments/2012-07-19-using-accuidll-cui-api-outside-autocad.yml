@@ -1,0 +1,80 @@
+comments:
+- author: Chris
+  email: macgeisser@gmx.de
+  ip: 91.40.117.104
+  url: ''
+  date: '2012-09-13 10:34:01'
+  body: "\"Because of the dependency on AcCui.dll you need to run your exe from the\
+    \ AutoCAD install folder.\"\n\nnot necessarily, you can use some kind of AppDomain.AssemblyResolve\
+    \ EventHandler to load the needed assemblies from the AutoCAD install folder.\n\
+    \nusing System;\nusing System.IO;\nusing System.Reflection;\nusing Autodesk.AutoCAD.Customization;\n\
+    \nnamespace AcadCuiEdit\n{    \n    namespace AcadCui\n    {\n        class AcCuiCustomize\n\
+    \        {\n            AppDomain appdom;\n\n            public AcCuiCustomize()\n\
+    \            {\n                appdom = \n                    AppDomain.CurrentDomain;\n\
+    \                appdom.AssemblyResolve += \n                    new ResolveEventHandler(appdom_AssemblyResolve);\n\
+    \            }\n\n            System.Reflection.Assembly \n                appdom_AssemblyResolve(\n\
+    \                object sender, \n                ResolveEventArgs args)\n   \
+    \         {\n                /*get the path where autocad is installed \n    \
+    \             * //how to resolve the path of the AutoCAD install folder is up\
+    \ to you.\n                 * Hardcoded, ask the user, get it from the registry\n\
+    \                */\n                string acp = \"%ACADPATH%\"; \n\n       \
+    \         //get the assembly name\n                string dllName = args.Name.Split(new\
+    \ char[] { ',' })[0] + \".dll\";\n                try\n                {\n   \
+    \                 return Assembly.LoadFrom(Path.Combine(acp, dllName));\n    \
+    \            }\n                catch\n                {\n                   \
+    \ return null;\n                }\n            }\n\n            /// <summary>\n\
+    \            /// Calling this function will trigger the assemblyresolve event\
+    \ and\n            /// throws an exception in case resolving of the needed assemlies\
+    \ failed.\n            /// </summary>\n            public void CreateNew()\n \
+    \           {\n                CustomizationSection cs = \n                  \
+    \  new CustomizationSection();                \n            }\n        }\n   \
+    \ }\n}"
+- author: Adam Nagy
+  email: ''
+  ip: 95.172.68.149
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2012-09-13 10:40:08'
+  body: 'Hi Chris,
+
+
+    Thanks for the comment. :)
+
+
+    Did you test it and it seemed to work fine?
+
+
+    Cheers,
+
+    Adam'
+- author: Chris
+  email: macgeisser@gmx.de
+  ip: 91.40.117.104
+  url: ''
+  date: '2012-09-13 10:40:55'
+  body: I haven't tried this with your sample but for accessing a cuix file this works
+    fine.
+- author: Adam Nagy
+  email: ''
+  ip: 95.172.68.149
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2012-09-13 10:42:11'
+  body: Cool :)
+- author: Ben
+  email: bnichs55@gmail.com
+  ip: 146.115.19.50
+  url: ''
+  date: '2013-05-21 11:48:17'
+  body: Is there any reason why the two CustomizationSection objects would both be
+    full of nulls after initialization with their respective filenames? As soon as
+    my code begins to declare the workspaces I get common language run time error
+    and and illegalProgramException. Everything builds without error.
+- author: Adam Nagy
+  email: ''
+  ip: 86.31.122.37
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2013-05-27 16:07:36'
+  body: "Hi Ben,\n\nMaybe some modules cannot get loaded or something wrong with the\
+    \ CUIx files? Not sure. \nBest might be asking on the Customization Forum and\
+    \ provide a bit more information and sample project, sample CUIx if needed: \n\
+    <a href=\"http://forums.autodesk.com/t5/NET/bd-p/152\">http://forums.autodesk.com/t5/NET/bd-p/152</a>\
+    \ \n\nCheers,\nAdam \n-----"

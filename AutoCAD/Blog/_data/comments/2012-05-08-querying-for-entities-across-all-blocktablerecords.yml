@@ -1,0 +1,28 @@
+comments:
+- author: Viktor K
+  email: vkulikovskiy@burnsmcd.com
+  ip: 64.219.133.233
+  url: ''
+  date: '2012-05-09 12:13:01'
+  body: 'Thanks Stephen, at least I know it won''t be easy :)
+
+
+    I should be able to use LINQ in 2010-2012 anyway, so I''ll give it a shot (although
+    as you''ve mentioned this is still doing the same thing as iterating through in
+    a loop) of course without the dynamic portion of it.
+
+
+    Thanks again for your answer.'
+- author: Rik De Peuter
+  email: rikdepeuter@gmail.com
+  ip: 91.180.98.19
+  url: ''
+  date: '2014-03-26 00:24:08'
+  body: "Here is an extension method for Database, for those who could use it:\n\n\
+    \    public static List<T> GetAll<T>(this Database db, Func<T, bool> predicate\
+    \ = null) where T : DBObject\n    {\n        using(var tr = db.TransactionManager.StartTransaction())\n\
+    \        {\n            dynamic bt = db.BlockTableId;\n\n            var q = ((IEnumerable<dynamic>)\
+    \ bt).SelectMany(x => (IEnumerable<dynamic>) x)\n                            \
+    \                   .Select(x => tr.GetObject(x, OpenMode.ForRead)).OfType<T>();\n\
+    \            if (predicate != null)\n            {\n                q = q.Where(predicate);\n\
+    \            }\n\n            return q.ToList();\n        }\n    }\n-----"

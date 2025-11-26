@@ -1,0 +1,70 @@
+comments:
+- author: Jason
+  email: wjasonhudson@gmail.com
+  ip: 66.76.223.229
+  url: ''
+  date: '2013-07-20 11:57:29'
+  body: Please explain what the variable "cacheID" in "AssignToLineGroup" is supposed
+    to contain. I am trying to assign a selection set to an existing Line Group and
+    thought I could use this as an example but can't quite get it together. Thanks!
+- author: Norbert Meier
+  email: norbert.meier@de.lisega.com
+  ip: 62.153.73.206
+  url: http://www.lisega.com
+  date: '2013-07-31 23:31:25'
+  body: "This blog and the blog “Setting the Line Number Tag in AutoCAD Plant3d”\n\
+    helped me to solve the customer request: Add the Line Number Tag of the pipe to\
+    \ the newly created pipe supports of your 3rd Party application.\nThe method “AssignLineGroupOfPipeToSupport”\
+    \ shows how it’s done. The parameter pipe and support are used to perform the\
+    \ necessary steps.\n1.\tGetting the LineGroup(s) from the Pipe object\n2.\tAssigning\
+    \ the found LineGroup(s) to the support object\n\nOption Explicit On\n\nImports\
+    \ System\nImports System.Math\nImports Autodesk.AutoCAD.Runtime\nImports Autodesk.AutoCAD.ApplicationServices.Application\n\
+    Imports Autodesk.AutoCAD.DatabaseServices\nImports Autodesk.AutoCAD.ApplicationServices\n\
+    Imports Autodesk.AutoCAD.Geometry\nImports System.Collections.Specialized\nImports\
+    \ Autodesk.AutoCAD.EditorInput\nImports Microsoft.VisualBasic\nImports Autodesk.ProcessPower.PnP3dDataLinks\n\
+    Imports Autodesk.ProcessPower.P3dProjectParts\nImports Autodesk.ProcessPower.ProjectManager\n\
+    Imports Autodesk.ProcessPower.PlantInstance\nImports Autodesk.ProcessPower.DataObjects\n\
+    Imports Autodesk.ProcessPower\nImports LISEGA.Licad4Plant3D.SupportClasses\nImports\
+    \ Autodesk.ProcessPower.PnP3dObjects\nImports Autodesk.AutoCAD.ApplicationServices.DocumentCollectionExtension\n\
+    Imports Autodesk.AutoCAD.ApplicationServices.DocumentExtension\n\n'//////////////////////////////////////////////////////////////////////////////////////////////////////////////\n\
+    '// Refer to:\n'//     <a href=\"http://adndevblog.typepad.com/autocad/2012/08/setting-the-line-number-tag-in-autocad-plant3d.html\"\
+    >http://adndevblog.typepad.com/autocad/2012/08/setting-the-line-number-tag-in-autocad-plant3d.html</a>\n\
+    '//     <a href=\"http://adndevblog.typepad.com/autocad/2013/07/create-a-new-linegroup-in-plant3d.html\"\
+    >http://adndevblog.typepad.com/autocad/2013/07/create-a-new-linegroup-in-plant3d.html</a>\n\
+    '//\n'//////////////////////////////////////////////////////////////////////////////////////////////////////////////\n\
+    Public Shared Class LineGroupAssignmentHelper\n    '///////////////////////////////////////////////////////////////////////////////////////////////\n\
+    \    '//\n    '// Adding the Line Number Tag information of pipe to a custom support\n\
+    \    '//\n    '///////////////////////////////////////////////////////////////////////////////////////////////\n\
+    \    Public Shared Sub AssignLineGroupOfPipeToSupport(ByRef Pipe As Pipe, ByRef\
+    \ sup As PnP3dObjects.Support)\n        '// Getting access to the project database\n\
+    \        Dim currentProj As PlantProject = PlantApplication.CurrentProject\n \
+    \       Dim pipeProj As PipingProject = currentProj.ProjectParts(\"Piping\")\n\
+    \        Dim dlm As Autodesk.ProcessPower.DataLinks.DataLinksManager = pipeProj.DataLinksManager\n\
+    \n        '// Editor is used for writing status information\n        Dim ed As\
+    \ Editor = Application.DocumentManager.MdiActiveDocument.Editor\n\n        '//\
+    \ get the 3d data links manager\n        Dim dlm3d As DataLinksManager3d = pipeProj.DataLinksManager3d\n\
+    \n        '// and then get the row id for the selected object (Pipe)\n       \
+    \ Dim PipeRowId As Integer = dlm.FindAcPpRowId(Pipe.ObjectId)\n\n        '// Parts\
+    \ are related to pipe line group via P3dLineGroupPartRelationship. \n        '//\
+    \ So we need to traverse this relationship to get line group row id\n        Dim\
+    \ lgid As PnPRowIdArray = dlm.GetRelatedRowIds(\"P3dLineGroupPartRelationship\"\
+    , \"Part\",\n PipeRowId, \"LineGroup\")\n\n        If (lgid Is Nothing) Or (lgid.Count\
+    \ = 0) Then\n            '// line group was not found. May happen, for example,\
+    \ if Equipment is picked.\n            ed.WriteMessage(vbNewLine & \"No LineGroup\
+    \ relation to pipe defined!\")\n        Else\n            '// this is line group\
+    \ row in the data. (PnPRowIdArray is in fact list)\n            Dim enumerator\
+    \ As IEnumerator = lgid.GetEnumerator()\n            While (enumerator.MoveNext())\n\
+    \                Dim lgRowId As Integer = enumerator.Current\n               \
+    \ ' Get the rowid of the support\n                Dim SupportRowId As Integer\
+    \ = dlm.FindAcPpRowId(sup.ObjectId)\n                ' and assign the line group\
+    \ of the pipe also to the support\n                dlm.Relate(\"P3dLineGroupPartRelationship\"\
+    , \"LineGroup\", lgRowId, \"Part\", SupportRowId)\n            End While\n   \
+    \     End If\n    End Sub\nEnd Class"
+- author: Wjasonhudson@gmail.com
+  email: Wjasonhudson@gmail.com
+  ip: 66.76.223.233
+  url: ''
+  date: '2013-08-05 16:39:58'
+  body: 'Thanks for the help! So ''cacheid'' is simply the rowid of the object. :)
+
+    -----'

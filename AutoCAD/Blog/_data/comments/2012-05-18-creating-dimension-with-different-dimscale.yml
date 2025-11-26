@@ -1,0 +1,88 @@
+comments:
+- author: Oleg
+  email: fattyhallex@gmail.com
+  ip: 92.100.74.4
+  url: ''
+  date: '2012-05-18 23:26:10'
+  body: "Hi Balaji,\nCan you check this code?\n        [CommandMethod(\"cdim\")]\n\
+    \        public static void ADSProjectDimScale()\n        {\n\n            Database\
+    \ db = HostApplicationServices.WorkingDatabase;\n\n            ObjectId dimStyleId\
+    \ = db.Dimstyle;\n\n            using (Transaction tr = db.TransactionManager.StartTransaction())\n\
+    \            {\n                // Create a dimension with a dimscale of  50\n\
+    \n                double dimscale = 50.0;\n\n                double rotation =\
+    \ 0.0;\n\n                Point3d xLine1Point = new Point3d(0, 0, 0);\n\n    \
+    \            Point3d xLine2Point = new Point3d(1000, 0, 0);\n\n              \
+    \  Point3d dimLinePoint = new Point3d(500, 100, 0);\n\n                RotatedDimension\
+    \ dim = new RotatedDimension(rotation, xLine1Point, xLine2Point, dimLinePoint,\
+    \ null, dimStyleId);\n\n                try\n                {\n\n           \
+    \         // Set XData for the dimension.\n\n                    // (1001 . \"\
+    ACAD\")\n\n                    // (1000 . \"DSTYLE\")     \n\n               \
+    \     // (1002 . \"{\")     \n\n                    // (1070 . 40)     \n\n  \
+    \                  // (1040 . dimscale)     \n\n                    // (1002 .\
+    \ \"}\")\n\n                    //dim.XData = new ResultBuffer(new TypedValue(1001,\
+    \ \"ACAD\"),\n\n                    //    new TypedValue(1000, \"DSTYLE\"),\n\n\
+    \                    //    new TypedValue(1002, \"{\"),\n\n                  \
+    \  //    new TypedValue(1070, 40),\n\n                    //    new TypedValue(1040,\
+    \ dimscale),\n\n                    //    new TypedValue(1002, \"}\"));\n\n  \
+    \                  // The same as:\n\n                    dim.XData = new ResultBuffer(\n\
+    \n                    new TypedValue((int)DxfCode.ExtendedDataRegAppName, \"ACAD\"\
+    ),\n\n                    new TypedValue((int)DxfCode.ExtendedDataAsciiString,\
+    \ \"DSTYLE\"),\n\n                    new TypedValue((int)DxfCode.ExtendedDataControlString,\
+    \ \"{\"),\n\n                    new TypedValue((int)DxfCode.ExtendedDataInteger16,\
+    \ 40),\n\n                    new TypedValue((int)DxfCode.ExtendedDataReal, dimscale),\n\
+    \n                    new TypedValue((int)DxfCode.ExtendedDataControlString, \"\
+    }\")\n\n                          );\n\n\n                    BlockTableRecord\
+    \ btr = tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite) as BlockTableRecord;\n\
+    \n                    btr.AppendEntity(dim);\n\n                    tr.AddNewlyCreatedDBObject(dim,\
+    \ true);\n\n                    tr.Commit();\n                }\n            \
+    \    catch (System.Exception ex)\n                {\n                    Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.WriteMessage(ex.Message);\n\
+    \                }\n\n            }\n\n        }\n\nThanks,\n\nOleg"
+- author: Balaji
+  email: ''
+  ip: 14.96.137.83
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2012-05-20 07:42:27'
+  body: "Hi Oleg,\n\nI dont see any problem with the .Net code that you shared. May\
+    \ I know the issue that you are having with it ?\n\nInstead of the fixed value\
+    \ for dimscale, you can a value that can be input at runtime. This will help you\
+    \ try with different values and see the difference.\n\nFor ex :\n\nPromptDoubleResult\
+    \ pdr = ed.GetDouble(new           PromptDoubleOptions(\"Enter a dimscale\"));\n\
+    if (pdr.Status != PromptStatus.OK)\n   return;\ndouble dimscale = pdr.Value;\n\
+    \nNow, you can try with 50, 100, 200 etc for the dim scales.\nIf this does not\
+    \ help, please let me know the AutoCAD version that you trying it with and any\
+    \ other info that can help reproduce the same issue at my end.\n\nThanks\nBalaji"
+- author: Oleg
+  email: fattyhallex@gmail.com
+  ip: 92.100.69.196
+  url: ''
+  date: '2012-05-20 08:26:59'
+  body: 'Thanks so much Balaji,
+
+    I like your codes, especially if these are in
+
+    two parts: C+/C#,
+
+    this is very useful for me
+
+    Regards,
+
+
+    Oleg'
+- author: Balaji
+  email: ''
+  ip: 14.99.68.76
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2012-05-20 09:54:20'
+  body: 'Hi Oleg,
+
+
+    I include C++ and C# codes in most of the posts. This one was an exception. I
+    will try to include both wherever relevant in future posts.
+
+
+    Thanks for your suggestion.
+
+
+    Balaji
+
+    -----'

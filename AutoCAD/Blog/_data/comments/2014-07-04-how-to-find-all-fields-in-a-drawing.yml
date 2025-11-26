@@ -1,0 +1,80 @@
+comments:
+- author: dennis
+  email: dennis@asti.com
+  ip: 70.91.166.93
+  url: ''
+  date: '2014-07-08 07:18:37'
+  body: 'Hi Philippe:  I am trying to do this in VB.NET.  I first tried taking your
+    code above and converting it on the Telerik website from C# to VB.NET.  It left
+    me with errors on the DLLIMPORT call and the setting for the "var" from the line:
+    using (var tx = db.TransactionManager.StartTransaction()) .  Could you give me
+    some direction on what I should have in my Reference list and the Import for VB.NET,
+    and how to resolve the two errors mentioned above.  I admit I am new at this,
+    and do appreciate your direction.'
+- author: Philippe
+  email: philippe.leefsma@autodesk.com
+  ip: 132.188.32.206
+  url: ''
+  date: '2014-07-08 09:15:35'
+  body: "The minimum references are: AcMgd.dll, AcDbMgd.dll and AcCoreMgd.dll from\
+    \ the ARX/inc of your SDK. Make sure to set the \"Copy Local=False\" for the 3\
+    \ of them.\n\nVB.Net doesn't support the \"var\" keyword, that's an implicit type\
+    \ declaration in C#, you need to use either late binding or the explicit type,\
+    \ i.e. Transaction. If you are also new to .Net, I suggest you first take a look\
+    \ at some beginner, general purpose tutorials on the topic.\n\nHere is are some\
+    \ Vb.Net samples with P/Invoke that may help you getting started on that:\n\n\
+    Private Structure ads_name\n        Private a As IntPtr\n        Private b As\
+    \ IntPtr\n    End Structure\n\n    <DllImport(\"acad.exe\", CharSet:=CharSet.Unicode,\
+    \ CallingConvention:=CallingConvention.Cdecl, EntryPoint:=\"acdbEntGet\")> _\n\
+    \    Private Shared Function acdbEntGet(ByRef ename As ads_name) As System.IntPtr\n\
+    \    End Function\n\n    <DllImport(\"acad.exe\", CharSet:=CharSet.Unicode, CallingConvention:=CallingConvention.Cdecl,\
+    \ EntryPoint:=\"acdbEntLast\")> _\n    Private Shared Function acdbEntLast(ByRef\
+    \ result As ads_name) As Integer\n    End Function\n\n    <DllImport(\"acad.exe\"\
+    , CharSet:=CharSet.Unicode, CallingConvention:=CallingConvention.Cdecl, EntryPoint:=\"\
+    acdbEntNext\")> _\n    Private Shared Function acdbEntNext(ByRef ent As ads_name,\
+    \ ByRef result As ads_name) As Integer\n    End Function\n\n    <DllImport(\"\
+    acdb18.dll\", CharSet:=CharSet.Unicode, CallingConvention:=CallingConvention.Cdecl,\
+    \ EntryPoint:=\"acdbGetObjectId\")> _\n    Private Shared Function acdbGetObjectId(ByRef\
+    \ id As ObjectId, ByRef name As ads_name) As ErrorStatus\n    End Function\n\n\
+    \    <CommandMethod(\"GetAllBlocks\")> _\n    Public Sub GetAllBlocks()\n\n  \
+    \      Dim doc As Document = Application.DocumentManager.MdiActiveDocument\n \
+    \       Dim db As Database = doc.Database\n        Dim ed As Editor = doc.Editor\n\
+    \n        Using Tx As Transaction = db.TransactionManager.StartTransaction()\n\
+    \n            Dim tbl As BlockTable = Tx.GetObject(db.BlockTableId(), OpenMode.ForRead,\
+    \ False, True)\n\n            For Each id As ObjectId In tbl\n               \
+    \ Dim btr As BlockTableRecord = Tx.GetObject(id, OpenMode.ForRead, False, True)\n\
+    \                ed.WriteMessage(\"- Block: \" + btr.Name + vbCrLf)\n        \
+    \    Next\n\n        End Using\n\n    End Sub\n\nYou can also find several Vb.Net\
+    \ samples on that same blog, although we usually prefer to write with C#.\n\n\
+    Hope that helps."
+- author: Philippe
+  email: philippe.leefsma@autodesk.com
+  ip: 132.188.32.206
+  url: ''
+  date: '2014-07-08 09:18:30'
+  body: 'Ha... the VB.Net tags for dllimport do not along very well with html markups...
+    Take a look on the web if you don''t know how to do a dllimport:
+
+
+    <a href="http://stackoverflow.com/questions/2229793/how-to-use-dllimport-in-vb-net">http://stackoverflow.com/questions/2229793/how-to-use-dllimport-in-vb-net</a>
+
+
+    Philippe.'
+- author: dennis
+  email: dennis@asti.com
+  ip: 69.180.23.107
+  url: ''
+  date: '2014-07-09 08:46:30'
+  body: Thanks for the extra help.  I will keep digging.
+- author: dennis
+  email: dennis@asti.com
+  ip: 70.91.166.93
+  url: http://asti.com
+  date: '2014-07-23 08:10:12'
+  body: 'Update for you Philippe, I figured the "var" thing out.  Thanks to the link
+    you provided for the dllimport, I found a bit on the converting the "var" call.
+
+    <a href="http://stackoverflow.com/questions/2478552/vb-net-equivalent-to-c-sharp-var-keyword">http://stackoverflow.com/questions/2478552/vb-net-equivalent-to-c-sharp-var-keyword</a>
+
+
+    -----'

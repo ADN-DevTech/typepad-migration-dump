@@ -1,0 +1,48 @@
+comments:
+- author: Anonymoose
+  email: rebar@nym.hush.com
+  ip: 24.47.197.131
+  url: ''
+  date: '2012-07-06 09:36:48'
+  body: "As convenient as it may seem, something that only recently came to my attention\
+    \ is that Objectid.GetObject() is woefully inefficient. Each call to that method\
+    \ results in the creation of a managed wrapper for the owning database, followed\
+    \ by this:\n\n  Database.TransactionManager.TopTransaction.GetObject(...)\n\n\
+    If you have code that makes a potentially huge number of calls to ObjectId.GetObject(),\
+    \ I would suggest changing it to call the TransactionManager's GetObject() method\
+    \ instead, as it is far more efficient."
+- author: Stephen Preston
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/stephenpreston
+  date: '2012-07-06 10:24:31'
+  body: 'Thank you Tony. That is useful information. If you''re performing a large
+    (batch) operation that is tying up the user''s machine while he waits then that
+    is certainly a consideration. For that scenario, its also worth reading Fenton''s
+    comments on relative performance in the open/close article I referenced above.
+    (But note that ObjectId.GetObject doesn''t work with OpenCloseTransactions).
+
+
+    Its very different when you''re writing a command that is requesting user input
+    and performing a relatively small number of operations based on that input. In
+    this case, the user is the bottleneck, and the speed of your code really doesn''t
+    matter (unless its incredibly slow) - and there are other ways to invest your
+    time to make the user feel your application is fast - I''ll write a quick post
+    on that now.'
+- author: Tony Tanzillo
+  email: tony.tanzillo@nym.hush.com
+  ip: 24.47.197.131
+  url: ''
+  date: '2012-07-06 11:04:49'
+  body: Yes, as I mentioned in this thread over on the swamp (<a href="http://www.theswamp.org/index.php?topic=42197.0),">http://www.theswamp.org/index.php?topic=42197.0),</a>
+    casual use (for lack of a better term) is not a problem. But many of us write
+    code that iterates over potentially-large selection sets or BlockTableRecords,
+    and that's where it matters most.
+- author: Stephen Preston
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/stephenpreston
+  date: '2012-07-06 12:44:04'
+  body: 'And here is the post - <a href="http://adndevblog.typepad.com/autocad/2012/07/performance-perception-versus-reality.html.">http://adndevblog.typepad.com/autocad/2012/07/performance-perception-versus-reality.html.</a>
+
+    -----'

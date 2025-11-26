@@ -1,0 +1,107 @@
+comments:
+- author: Christian
+  email: madlener@rehm.de
+  ip: 47.65.121.111
+  url: http://www.rehm.de
+  date: '2013-04-26 03:34:20'
+  body: 'Hi Fenton,
+
+
+    what I don''t understand in your code is the check to see if a vertex was erased
+    already. Does the 2d-Polyline not "let go" of Vertices that are erased? Does it
+    keep the ObjectIds of aaaaall vertices it ever had?
+
+
+    The reason why I''m asking is because I''ve written a function SetPolyline2dCoordinates
+    in .NET.. and I implemented it by erasing all existing vertices and then appending
+    the new coordinates with AppendVertex.
+
+    Of course, when I read the vertices of a 2d-Polyline that I modified with SetPolyline2dCoordinates,
+    I get "E_WAS_ERASED" errors etc.
+
+
+    I''d be glad if you could clarify things for me a bit :)
+
+    Thanks in advance!
+
+
+    Best Regards Christian'
+- author: Fenton Webb
+  email: ''
+  ip: 132.188.64.218
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2013-04-26 08:54:58'
+  body: "Hey Christian\n\nActually, in this case it's probably over kill - that code\
+    \ was left over from the code that I ported this sample from. Apologies there...\
+    \ \n\nThat said, yes, all ObjectID's remain 'alive' in the DB even after being\
+    \ erased. That's because the operation can be undone, redone, and undone again\
+    \ - so it's much more efficient to store an 'erased' flag rather than the whole\
+    \ object in the undo filer"
+- author: Christian
+  email: madlener@rehm.de
+  ip: 47.65.121.111
+  url: http://www.rehm.de
+  date: '2013-04-28 22:49:08'
+  body: 'Hi Fenton,
+
+
+    thanks for your reply. I see now why the object stays around, being marked as
+    erased.
+
+    If you do have five minutes, I''d be glad if you could look over my two methods
+    to get/set the coordinates/vertices of a Polyline2d-entity and tell me if that
+    code is okay or downright wrong :D
+
+
+    <a href="http://pastebin.com/DCDWgg5b">http://pastebin.com/DCDWgg5b</a>
+
+
+    Thanks in advance and Best Regards
+
+
+    Christian'
+- author: Fenton Webb
+  email: ''
+  ip: 132.188.64.218
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2013-04-29 09:00:28'
+  body: 'Hi Christian
+
+
+    as I have mentioned before in my Tools for the Job (starting at Part 3 Performance
+    <a href="http://adndevblog.typepad.com/autocad/2012/07/the-right-tools-for-the-job-autocad-part-3.html)">http://adndevblog.typepad.com/autocad/2012/07/the-right-tools-for-the-job-autocad-part-3.html)</a>
+    don''t use StartTransaction() for utility functions. The overhead for calling
+    StartTransaction() is huge, instead, use StartOpenCloseTransaction()
+
+
+    My personal preference is to use Open/Close directly.'
+- author: Christian
+  email: madlener@rehm.de
+  ip: 47.65.121.111
+  url: http://www.rehm.de
+  date: '2013-04-29 23:18:18'
+  body: 'Hi Fenton,
+
+
+    okay, gotcha :) One last question (then I''ll stop getting on your nerves :P):
+    In part 5 of your blog series "The Right Tools for the Job" you mentioned that
+    "The Transaction model (StartTransaction()) was invented way back when for a specific
+    reason - transacting multiple writes on the same objects(s) and allowing layered
+    rollbacks of these multi-write transactions."
+
+
+    Am I correct when I assume that multiple writes means writes to one object from
+    multiple threads? As my application is purely single threaded, I think I could
+    safely use StartOpenCloseTransaction everywhere...
+
+
+
+    Thanks for sharing your opinion!
+
+
+    Best Regards
+
+
+    Christian
+
+    -----'

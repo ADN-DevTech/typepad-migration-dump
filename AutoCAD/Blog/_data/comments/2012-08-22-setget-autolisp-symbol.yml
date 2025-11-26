@@ -1,0 +1,70 @@
+comments:
+- author: Subir Kumar Dutta
+  email: cad.customizations@gmail.com
+  ip: 135.245.8.5
+  url: http://www.youtube.com/user/nametemp2012/videos
+  date: '2014-03-18 00:41:01'
+  body: What is the .net equivalent of acedGetSym ?
+- author: Subir Kumar Dutta
+  email: cad.customizations@gmail.com
+  ip: 135.245.8.5
+  url: http://www.youtube.com/user/nametemp2012/videos
+  date: '2014-03-18 01:53:55'
+  body: "What is the .net equivalent of acedGetSym ?\n\nI tried with the below code\
+    \ , but its giving error ---- \"Unable to find an entry point named 'acedGetSym'\
+    \ in DLL 'acad.exe'.\n\n\n        [System.Security.SuppressUnmanagedCodeSecurity]\n\
+    \        [DllImport(\"acad.exe\", CharSet = CharSet.Unicode, CallingConvention\
+    \ = CallingConvention.Cdecl, EntryPoint = \"acedGetSym\")]\n        extern static\
+    \ private int acedGetSym(string args, out IntPtr result);\n\n        static public\
+    \ ResultBuffer AcadGetSym(string varname, ref int stat)\n        {\n         \
+    \   IntPtr rb = IntPtr.Zero;\n            stat = acedGetSym(varname, out rb);\n\
+    \            if (stat == (int)PromptStatus.OK && rb != IntPtr.Zero)\n        \
+    \        return (ResultBuffer)DisposableWrapper.Create(typeof(ResultBuffer), rb,\
+    \ true);\n            return null;\n        }\n\nI am using AutoCAD 2014 and Visual\
+    \ Studio 2010 on windows 7 64 bit machine."
+- author: Virupaksha Aithal
+  email: ''
+  ip: 132.188.64.218
+  url: http://profile.typepad.com/6p0168e8800efa970c
+  date: '2014-03-18 16:40:10'
+  body: 'Hi ,
+
+
+    Please import the acedGetSym from accore.dll instead of acad.exe
+
+
+    Thanks
+
+    Viru'
+- author: aiyoung
+  email: ainyoung@gmail.com
+  ip: 97.123.95.78
+  url: ''
+  date: '2014-06-16 05:55:49'
+  body: "Hello Virupaksha, \n\nHas the location of acedGetSym been changed for AutoCAD\
+    \ 2015, 32 bit?\n\nI get an error that acedGetSym cannot be found in acCore.dll\
+    \ when i run code that uses acedGetSym. \n\nThe same code runs fine in 32 bit\
+    \ AutoCAD 2013 and 2014. The same code also runs correctly in 64-bit versions\
+    \ of AutoCAD 2013 to 2015. \n\nI've posted the same question to the AutoDesk forms\
+    \ and to theswamp.org, but i haven't gotten any good replies. \n\n<a href=\"http://forums.autodesk.com/t5/NET/Issues-running-Net-code-that-uses-AcedGetSym-in-32-Bit-AutoCAD/td-p/5092498\"\
+    >http://forums.autodesk.com/t5/NET/Issues-running-Net-code-that-uses-AcedGetSym-in-32-Bit-AutoCAD/td-p/5092498</a>\n\
+    \n<a href=\"http://www.theswamp.org/index.php?PHPSESSID=vqc0sh722a4lumftn0bg2d2qf6&topic=47248.0\"\
+    >http://www.theswamp.org/index.php?PHPSESSID=vqc0sh722a4lumftn0bg2d2qf6&topic=47248.0</a>\n\
+    \nI would appreciate any insights you might have on this issue. \n\nThanks!"
+- author: Alexander Rivilis
+  email: ''
+  ip: 81.95.185.60
+  url: http://profile.typepad.com/rivilis1964
+  date: '2014-06-16 06:28:12'
+  body: 'x86: "_acedGetSym" or "?acedGetSym@@YAHPB_WPAPAUresbuf@@@Z"
+
+
+    x64: "acedGetSym" or "?acedGetSym@@YAHPEB_WPEAPEAUresbuf@@@Z"'
+- author: Maxence
+  email: maxence.delannoy@wiip.fr
+  ip: 92.147.62.244
+  url: http://wiip.fr
+  date: '2017-09-06 09:41:38'
+  body: 'Document.GetLispSymbol/SetLispSymbol
+
+    -----'

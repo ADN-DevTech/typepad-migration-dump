@@ -1,0 +1,151 @@
+comments:
+- author: Heinz
+  email: kh.dober@ktvam.at
+  ip: 62.93.102.221
+  url: ''
+  date: '2012-11-11 00:28:43'
+  body: "What is wrong here\nWas ist hier falsch\n\npublic [u]void[/u] CreateMTextNumberedList()\n\
+    \ MText mText = [u]new MText[/u]();"
+- author: Heinz
+  email: heinz.dober@landsteiner.at
+  ip: 62.93.76.34
+  url: ''
+  date: '2012-11-11 21:25:05'
+  body: 'addendum
+
+    these 2 items I get an error message
+
+
+    Nachtrag
+
+    bei diesen 2 Einträgen bekomme ich einen Fehlermeldung'
+- author: Heinz
+  email: heinz.dober@landsteiner.at
+  ip: 62.93.76.34
+  url: ''
+  date: '2012-11-15 01:14:24'
+  body: danke für keine antwort
+- author: Balaji
+  email: balaji.ramamoorthy@autodesk.com
+  ip: 203.202.234.243
+  url: ''
+  date: '2012-11-15 02:06:09'
+  body: 'Hi Heinz,
+
+
+    Sorry for the delay.
+
+    Can you please post the full code for me to reproduce the error ?'
+- author: Heinz
+  email: heinz.dober@landsteiner.at
+  ip: 62.93.76.34
+  url: ''
+  date: '2012-11-15 05:30:17'
+  body: "The code you see above in it.\nDer Code seht oben drin.\n\n[ CommandMethod\
+    \ ( \"MTextNumberedList\" )]\n\n\n --void--  because the error message is because\
+    \ what I have to reload\nbut what"
+- author: Stephen Preston
+  email: ''
+  ip: 108.236.113.147
+  url: http://profile.typepad.com/stephenpreston
+  date: '2012-11-19 09:26:37'
+  body: 'Hi Heinz,
+
+
+    Its difficult to understand your question. What do you mean by "because the error
+    message is because what I have to reload"?
+
+
+    Perhaps you could tell us what error message you''re actually seeing, and we may
+    be able to point you in the right direction.
+
+
+    If I had to guess, it would be that you''re new to AutoCAD .NET development, and
+    don''t realize that the code snippets we post on this blog generally don''t include
+    the ''standard'' namespace imports needed to use the AutoCAD API. You can find
+    information on that in the training material and tutorials posted to www.autodesk.com/developautocad.'
+- author: osk
+  email: osihar@yahoo.com
+  ip: 190.42.119.172
+  url: ''
+  date: '2012-11-28 06:29:25'
+  body: me gustaria tener esta informacion pero en idioma español latnoamericano,
+    como se debe hacer...
+- author: Kerry Brown
+  email: ''
+  ip: 220.237.66.75
+  url: http://profile.typepad.com/kerrybrown
+  date: '2012-11-28 17:35:05'
+  body: '[quote] .. as it should be [/quote]
+
+
+    thanks for the giggle :)'
+- author: laddie
+  email: ''
+  ip: 70.166.78.98
+  url: http://profile.typepad.com/6p017d43240850970c
+  date: '2013-04-26 10:32:45'
+  body: 'Balaji,
+
+
+    Can you shed any light on how to apply formatting to the numbered list? Specifically
+    I would like to have each numbered section maintain a hanging indent. I am using
+    vb.net.
+
+
+    Thank you in advance.'
+- author: Balaji
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-04-29 02:57:17'
+  body: "Hi Laddie,\n\nCan you please send me a screenshot to show the kind of formatting\
+    \ that you want for the numbered list ? Were you able to do that using the AutoCAD\
+    \ UI for an MText ? \n\nYou can send me the screenshot image to balaji.ramamoorthy@autodesk.com\n\
+    \nThis will help me try and find a way to do that using the API.\n\nThank you."
+- author: Balaji
+  email: ''
+  ip: 14.99.211.148
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-04-29 11:16:45'
+  body: 'Thanks for sharing the screenshot.
+
+
+    Here is a sample rtf content for creating an MText with hanging indent.
+
+
+    myMtext.SetContentsRtf(@"{{\pard\li2160\fi480\pntext\f0 1.\tab}Autodesk \par {\pard\li2160\fi480
+    \tab Inc} \par {\pard\li2160\fi480\pntext\f0 2.\tab}Developer \par {\pard\li2160\fi480
+    \tab Technical} \par {\pard\li2160\fi480 \tab Services} }");
+
+
+    Regards,
+
+    Balaji'
+- author: laddie
+  email: ''
+  ip: ''
+  url: http://profile.typepad.com/6p017d43240850970c
+  date: '2013-04-29 11:19:23'
+  body: 'TypePad HTML Email
+
+    Thank you Balaji. I am very pleasantly surprised at your helpfulness. I will give
+    this code a try.&nbsp;Thank you&nbsp;Laddie&nbsp;'
+- author: laddie
+  email: ''
+  ip: 70.166.78.98
+  url: http://profile.typepad.com/6p017d43240850970c
+  date: '2013-05-03 05:35:52'
+  body: "Balaji,\n\nThank you for this example code. Based on this code, the line\
+    \ breaks are controlled at a specific word. What I am trying to accomplish is\
+    \ an MTEXT entity that wraps based on the width I provide programatically. The\
+    \ code I am attaching along with a sub routine written to create annotative mtext\
+    \ produces a numbered list that allows the user to add to the entity (hitting\
+    \ enter adds line with next number). The wrap is controlled by a variable passed\
+    \ to the sub routine controlling the width of the MTEXT. The routine successfully\
+    \ creates the numbered list, however the second, third etc. lines in each numbered\
+    \ subsection do not line up with the text on the first line. Instead they fall\
+    \ below the number on the first line. I hope I have explained this clearly. Thank\
+    \ you again for your help.\n \n\nDim textstring2 As String = \"NOTES:\" & vbCrLf\
+    \ & \"\\par{\\f0 1.\\tab}NUMBERED SECTION 1 TEXT HERE.\\par{\\f0 2.\\tab}SECTION\
+    \ 2 TEXT HERE.\\par}\"\n-----"

@@ -1,0 +1,285 @@
+comments:
+- author: Kerry Brown
+  email: ''
+  ip: 114.77.139.113
+  url: http://profile.typepad.com/kerrybrown
+  date: '2012-04-24 20:52:29'
+  body: 'Hello Fenton
+
+
+    Can you please point us to some documentation regarding changing this to ''LoadOnCommandInvocation''
+
+
+    Regards,
+
+    Kerry'
+- author: Kerry Brown
+  email: ''
+  ip: 114.77.139.113
+  url: http://profile.typepad.com/kerrybrown
+  date: '2012-04-25 05:41:06'
+  body: 'Fenton, Stephen ;
+
+
+    Regarding LoadOnCommandInvocation
+
+
+    I''ve posted at theSwamp because this site and the Discussion Group don''t like
+    XML in comments.
+
+
+    <a href="http://www.theswamp.org/index.php?topic=41576.0">http://www.theswamp.org/index.php?topic=41576.0</a>
+
+
+    Regards
+
+    Kerry'
+- author: Stephen Preston
+  email: ''
+  ip: 108.197.110.111
+  url: http://profile.typepad.com/stephenpreston
+  date: '2012-04-25 08:49:06'
+  body: "That's right Kerry. You add the LoadOnCommandInvocation parameter and the\
+    \ Commands element to PackageContents.xml. \n\nMgdDbg registers a context menu\
+    \ when its loaded (which I always use instead of typing the commands). If you\
+    \ want to always have that menu available (as I do) then using LoadOnStartup (the\
+    \ default) is the way to go. I'm sure that's why Fenton set it so - for our work\
+    \ we can almost guarantee that we'll want to use MdgDbg every time we start up\
+    \ AutoCAD :-).\n\n(The XML in comment thing is a bit annoying :-(  )."
+- author: Kerry Brown
+  email: ''
+  ip: 114.77.139.113
+  url: http://profile.typepad.com/kerrybrown
+  date: '2012-04-25 12:45:02'
+  body: 'Thanks Stephan
+
+    Any ideas why the LocalName is not being recognised ??
+
+
+
+    Regards'
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 72.52.96.11
+  url: http://adn.autodesk.com
+  date: '2012-04-25 13:45:47'
+  body: Might need an underscore...
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 98.234.254.150
+  url: http://adn.autodesk.com
+  date: '2012-04-25 19:33:13'
+  body: '...at the front of the GlobalName'
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 98.234.254.150
+  url: http://adn.autodesk.com
+  date: '2012-04-25 19:47:05'
+  body: 'Also, localized LocalName attributes are defined by suffixing LocalName with
+    the corresponding NLS 3 letter language abbreviation, first char upper case, the
+    second and third in lowercase... e.g.
+
+
+    LocalName="Neutral/EnglishCommand"
+
+    LocalNameEsp="SpanishCommand"
+
+    LocalNameFra="FrenchCommand"
+
+
+    all documented here <a href="http://www.microsoft.com/resources/msdn/goglobal/default.mspx">http://www.microsoft.com/resources/msdn/goglobal/default.mspx</a>'
+- author: Kerry Brown
+  email: ''
+  ip: 114.77.139.113
+  url: http://profile.typepad.com/kerrybrown
+  date: '2012-04-26 03:43:57'
+  body: 'I think I''ve found the issue.
+
+    The Group name and Local name are not actually used in the CommandMethodAttribute
+    Constructor .. so any usage of them in the XML is redundant.
+
+
+    I''ve updated the post at theSwamp and attached my revised PackageContents.xml
+
+
+    Thanks for the help.
+
+    Regards
+
+    Kerry'
+- author: Stephen Preston
+  email: ''
+  ip: 72.52.96.11
+  url: http://profile.typepad.com/stephenpreston
+  date: '2012-04-26 08:06:09'
+  body: That's a relief Kerry. Was scared you'd found a bug there for a minute. :-)
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2012-06-22 08:44:40'
+  body: 'Dear Fenton,
+
+
+    when starting the help after installing the tool, the website title is "AutoCAD
+    Exchange - Minesweeper Help".
+
+    This affects both the MGDDBG and the Inspector installation.
+
+
+    Best regards,
+
+    Rudolf'
+- author: Stephen Preston
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/stephenpreston
+  date: '2012-06-22 11:14:58'
+  body: 'Lol. I''m so proud that Fenton is reusing *my* code - even if it is just
+    a HTML page template :-P.
+
+
+    (Sorry Fents - Couldn''t resist that :-D)'
+- author: BlackBox
+  email: ''
+  ip: 207.34.120.71
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2013-09-09 10:58:23'
+  body: "Hi guys,\n\nHas anyone tried using 'Snoop Entities...' on an MLeader? \n\n\
+    Using MgdDbg in Civil 3D 2012 (Win7, 64-bit), ContentType.MTextContent, nor ContentType.BlockContent,\
+    \ etc. seem to make a difference, as all ContentTypes that I've tested seem to\
+    \ result in an unhandled 'eInvalidContext' exception, and an empty 'Selected Entities'\
+    \ modal form....\n\n[code]\n\n************** Exception Text **************\nAutodesk.AutoCAD.Runtime.Exception:\
+    \ eInvalidContext\n   at Autodesk.AutoCAD.DatabaseServices.MLeader.get_BlockPosition()\n\
+    \   at MgdDbg.Snoop.CollectorExts.Entity.Stream(ArrayList data, MLeader mleader)\
+    \ in C:\\Temp\\test\\2010Migration\\DWG MgdDbg Source\\Snoop\\CollectorExts\\\
+    Entity.cs:line 897\n   at MgdDbg.Snoop.CollectorExts.Entity.Stream(ArrayList data,\
+    \ Entity ent) in C:\\Temp\\test\\2010Migration\\DWG MgdDbg Source\\Snoop\\CollectorExts\\\
+    Entity.cs:line 255\n   at MgdDbg.Snoop.CollectorExts.Entity.CollectEvent(Object\
+    \ sender, CollectorEventArgs e) in C:\\Temp\\test\\2010Migration\\DWG MgdDbg Source\\\
+    Snoop\\CollectorExts\\Entity.cs:line 59\n   at MgdDbg.Snoop.Collectors.Collector.CollectorExt.Invoke(Object\
+    \ sender, CollectorEventArgs e)\n   at MgdDbg.Snoop.Collectors.Collector.FireEvent_CollectExt(Object\
+    \ objToSnoop) in C:\\Temp\\test\\2010Migration\\DWG MgdDbg Source\\Snoop\\Collectors\\\
+    Collector.cs:line 63\n   at MgdDbg.Snoop.Collectors.Objects.Collect(Object obj)\
+    \ in C:\\Temp\\test\\2010Migration\\DWG MgdDbg Source\\Snoop\\Collectors\\Objects.cs:line\
+    \ 52\n   at MgdDbg.Snoop.Forms.DBObjects.TreeNodeSelected(Object sender, TreeViewEventArgs\
+    \ e) in C:\\Temp\\test\\2010Migration\\DWG MgdDbg Source\\Snoop\\Forms\\DBObjects.cs:line\
+    \ 452\n   at System.Windows.Forms.TreeView.TvnSelected(NMTREEVIEW* nmtv)\n   at\
+    \ System.Windows.Forms.TreeView.WmNotify(Message& m)\n   at System.Windows.Forms.TreeView.WndProc(Message&\
+    \ m)\n   at System.Windows.Forms.NativeWindow.Callback(IntPtr hWnd, Int32 msg,\
+    \ IntPtr wparam, IntPtr lparam)\n\n[/code]\n\n\n\n... Is this something you've\
+    \ encountered before? If so, is there an updated version of MgdDbg perhaps (I\
+    \ have used this one for +/- 1 year)?\n\nCheers"
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 132.188.64.218
+  url: ''
+  date: '2013-09-09 11:11:38'
+  body: 'Hey Blackbox!
+
+
+    Sorry, I''ve only tested it under raw AutoCAD. The source code is in the bundle,
+    feel free to find out what the problem is...!'
+- author: BlackBox
+  email: ''
+  ip: 207.34.120.71
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2013-09-09 14:12:33'
+  body: 'Hi Fenton, always a pleasure to speak with you.
+
+
+    While vanilla AutoCAD, and Civil 3D are different builds, that shouldn''t affect
+    how AutoCAD would handle this particular situation, methinks... Especially as
+    we''re dealing with an MLeader typed Object.
+
+
+    However, at the risk of Civil 3D being the cause, I''ve just tested in vanilla
+    AutoCAD, and the eInvalidContext exception persists.
+
+
+    Not sure I''m the right person to debug such a robust plug-in, but perhaps I''ll
+    attempt your challenge after portathon.
+
+
+    Cheers'
+- author: BlackBox
+  email: ''
+  ip: 207.34.120.71
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2013-09-11 09:59:25'
+  body: 'Another issue when using Snoop Database, after applying a VP Color to Layer
+    "0", digging into the LayerTableRecord''s Extension Dictionary''s XRecord:
+
+
+    DbMisc.cs(678)
+
+    DbMisc.cs(59)
+
+    Collector.cs(63)
+
+    Object.cs(365)
+
+
+    ... More not shown, as this appears in a modal form titled:
+
+
+    "Assertion Failed: Abort=Quit, Retry=Debug, Ignore=Continue"
+
+
+    ... Where "Retry" results in a fatal error, and locked up all AutoCAD application
+    windows which were unable to be ended via Task Manager... I had to actually terminate
+    acad.exe in Processes tab.'
+- author: Chris Fugitt
+  email: ''
+  ip: 63.199.204.194
+  url: http://profile.typepad.com/chrisfugitt
+  date: '2013-12-28 09:51:26'
+  body: "It appears the programmer of the Civil 3D Profile inserted an exception that\
+    \ doesn't follow the pattern of other objects that causes an unhandled exception\
+    \ when selecting a Civil 3D profile. The fix is to look for the additional exception\
+    \ in the Entity.cs file:\n\n// the following is only valid in some cases\n   \
+    \         try {\n                data.Add(new Snoop.Data.Object(\"Spline\", crv.Spline));\n\
+    \            }\n            catch (Autodesk.AutoCAD.Runtime.Exception e) {\n \
+    \               if (e.ErrorStatus == Autodesk.AutoCAD.Runtime.ErrorStatus.NotApplicable)\n\
+    \                    data.Add(new Snoop.Data.Exception(\"Spline\", e));\n    \
+    \            else if (e.ErrorStatus == Autodesk.AutoCAD.Runtime.ErrorStatus.NotImplementedYet)\n\
+    \                    data.Add(new Snoop.Data.Exception(\"Spline\", e));\n    \
+    \            else\n                    throw e;\n            }"
+- author: Mike Hutchinson
+  email: mike.hutchinson@waldinger.com
+  ip: 216.81.206.153
+  url: http://www.waldinger.com/
+  date: '2014-02-12 09:22:00'
+  body: Has this been updated for AutoCAD 2014... will is show 3rd party software
+    database 'stuff'?
+- author: Peter2
+  email: peter.glasl@cadraktiv.ch
+  ip: 46.14.34.56
+  url: ''
+  date: '2015-04-13 02:24:25'
+  body: 'Hi
+
+
+    is there a current release for Acad versions 2014 / 2015 / 2016?
+
+
+    regards
+
+
+    Peter'
+- author: BlackBox
+  email: ''
+  ip: 71.180.165.93
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2016-01-04 07:13:20'
+  body: 'Who at Autodesk is responsible for maintaining this, and where is MGDDBG
+    for 2016?
+
+
+    Gile''s provided an update for 2015 version here, which seems to work in 2016
+    so far:
+
+
+    <a href="http://forums.augi.com/showthread.php?156005-MgdDbg-for-AutoCAD-2015&p=1267715&viewfull=1#post1267715">http://forums.augi.com/showthread.php?156005-MgdDbg-for-AutoCAD-2015&p=1267715&viewfull=1#post1267715</a>
+
+    -----'

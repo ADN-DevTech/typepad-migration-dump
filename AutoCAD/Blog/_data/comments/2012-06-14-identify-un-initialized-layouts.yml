@@ -1,0 +1,24 @@
+comments:
+- author: Igor
+  email: igor.fujs@gmail.com
+  ip: 90.157.218.146
+  url: ''
+  date: '2017-02-16 03:01:12'
+  body: 'I have a 2015 dwg file where some layouts contains entities + viewports,
+    but the GetVieports function gives me empty collection. Is this behaviour planed?
+
+
+    Once you switch to a layout, GetVieports should return one viewport permanently.
+    or am I wrong?'
+- author: Maxence DELANNOY
+  email: maxence.delannoy@wiip.fr
+  ip: 90.110.114.113
+  url: http://wiip.fr
+  date: '2020-02-26 09:37:20'
+  body: "You can not use Layout.GetViewports() to find if a layout is initialized\
+    \ because it returns an empty collection if the layout has never been activated.\
+    \ It is explained in the docs. \n\nYou can use Database.GetViewport(bGetPaperspaceVports:\
+    \ true) to get all the viewports in the drawing. After that, you can find the\
+    \ layout of each viewport: get the owner BlockTableRecord with viewport.BlockId,\
+    \ then you have a property LayoutId which allow you to match the viewport to its\
+    \ layout.\n-----"

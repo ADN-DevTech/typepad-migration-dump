@@ -1,0 +1,29 @@
+comments:
+- author: James Maeding
+  email: jmaeding@hunsaker.com
+  ip: 24.249.247.46
+  url: ''
+  date: '2012-12-18 09:43:46'
+  body: "I encourage everyone to make their acad.lsp be one line \"(princ)\".\nIn\
+    \ its place, have a portion of code in your acaddoc.lsp (you do have one right?)\
+    \ do the work that runs once per session, which is the point of acad.lsp.\nTo\
+    \ get a portion of code to only run once per session, you set a flag variable\
+    \ maybe called STARTUP-HAS-RUN at end of the code chunk, like this:\n(vl-load-com)\n\
+    (IF (NOT STARTUP-HAS-RUN)\n  ...put your code that would be in acad.lsp here....\n\
+    \  ...then set the flag to prevcent it running again, and propogate to new drawings...\n\
+    \  (setq STARTUP-HAS-RUN 1)\n  (vl-propagate 'STARTUP-HAS-RUN)\n)\n\nThe advantage\
+    \ is you can get all startup code into one .lsp file, which facilitates less confusion\
+    \ by those new to lisp. It makes for faster editing for those who are not new.\n\
+    ALWAYS make an acaddoc.lsp and acad.lsp no matter what.\nPut them in the top support\
+    \ path, add one if needed. The whole virus startup thing is insanely easy to cure\
+    \ if you have a clue about this, but Autodesk seems to shun the whole topic of\
+    \ using lisp effectively. Only dev sites like this seem and customization DG seem\
+    \ to have the info needed."
+- author: John
+  email: john@thieneseng.com
+  ip: 66.92.35.13
+  url: ''
+  date: '2013-07-21 16:37:10'
+  body: 'Thank you for your insight.
+
+    -----'

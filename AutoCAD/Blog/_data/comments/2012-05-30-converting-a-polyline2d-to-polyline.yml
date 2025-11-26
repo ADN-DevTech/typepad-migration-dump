@@ -1,0 +1,67 @@
+comments:
+- author: Artvegas
+  email: yamos78@hotmail.com
+  ip: 27.32.79.215
+  url: ''
+  date: '2012-06-06 18:46:49'
+  body: "What about using the OpenCloseTransaction class instead?\n\nusing (OpenCloseTransaction\
+    \ tr = db.TransactionManager.StartOpenCloseTransaction())\n{\n   Polyline2d poly2d\
+    \ = (Polyline2d)tr.GetObject(res.ObjectId, OpenMode.ForWrite);\n   poly.ConvertFrom(poly2d,\
+    \ true);\n   tr.Commit();\n}\n\nThis is how Kean did it a while back:\n<a href=\"\
+    http://through-the-interface.typepad.com/through_the_interface/2010/07/shortening-a-set-of-autocad-lines-using-net.html\"\
+    >http://through-the-interface.typepad.com/through_the_interface/2010/07/shortening-a-set-of-autocad-lines-using-net.html</a>"
+- author: Artvegas
+  email: yamos78@hotmail.com
+  ip: 27.32.79.215
+  url: ''
+  date: '2012-06-06 19:15:58'
+  body: Actually after a little more experimenting I found that the OpenCloseTransaction
+    causes some other issues with the conversion. In particular the converted polyline
+    couldn't be selected, so I'll go with what you have here.
+- author: Artvegas
+  email: yamos78@hotmail.com
+  ip: 27.32.79.215
+  url: ''
+  date: '2012-06-06 20:19:46'
+  body: OpenCloseTransaction is now working for me. You just have to make sure you
+    add the newly created polylines to the transaction using AddNewlyCreatedDBObject().
+    At the end of the day I get the same result.
+- author: Virupaksha Aithal
+  email: ''
+  ip: 115.112.233.75
+  url: http://profile.typepad.com/6p0168e8800efa970c
+  date: '2012-06-08 01:52:17'
+  body: 'Thanks. your comments will help anyone how wants to use OpenCloseTransaction.
+
+
+    -Viru'
+- author: Antti Karanta
+  email: Antti.Karanta@neromsoft.com
+  ip: 88.114.8.157
+  url: ''
+  date: '2015-06-30 04:13:09'
+  body: 'The given code works if the polyline2d is of Poly2dType.SimplePoly or Poly2dType.FitCurvePoly.
+    However, it fails with eNotApplicable if the type is Poly2dType.CubicSplinePoly
+    (and I would imagine the same would happen with Poly2dType.QuadSplinePoly). From
+    ConvertFrom docs: "entity must point to a SimplePoly or FitCurvePoly type of Polyline2d".
+
+
+    Any ideas on how to convert CubicSplinePoly or QuadSplinePoly to Polylines? Is
+    it possible?'
+- author: Shinu Mathew
+  email: ''
+  ip: 49.207.216.208
+  url: https://profile.typepad.com/d180954392818819083
+  date: '2021-07-11 23:36:15'
+  body: Hi Viru, I am getting a eInvalidInput at the poly.ConvertFrom line. I am supplying
+    it a 2D Polyline, with true flag as shown in your example. I also copied your
+    code into a separate module to see if it works, but it fails wit the same error.
+    Any Idea why or how I can do this?
+- author: Shinu Mathew
+  email: ''
+  ip: 49.207.216.208
+  url: https://profile.typepad.com/d180954392818819083
+  date: '2021-07-11 23:56:19'
+  body: 'Well, My Bad. The object had Xdata.. Precisely what you advised!
+
+    -----'

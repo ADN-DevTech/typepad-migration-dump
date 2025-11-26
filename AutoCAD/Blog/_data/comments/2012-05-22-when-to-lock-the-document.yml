@@ -1,0 +1,158 @@
+comments:
+- author: Toby.Rosenberg@CreativeCADSolutions.co.nz
+  email: Toby.Rosenberg@CreativeCADSolutions.co.nz
+  ip: 122.57.131.54
+  url: ''
+  date: '2012-07-02 00:12:30'
+  body: 'Hi Xiadong
+
+
+    Would you mind sharing a bit of further insight into above?
+
+
+    I''m coming from the VB.NET corner and I have to admit that I never ever really
+    understood when a document needs to be locked.
+
+
+    By trial and error I figured out that my functions in VB.NET were always working
+    correctly when DOCUMENTLOCK was applied at the top level (i.e. the command calling
+    them) but this seems to have been changed within AutoCAD 2013 because I get plenty
+    of these lovely ''eViolation'' messages all over the place but can''t figure out
+    why.
+
+
+    IOW: do I need to apply DOCUMENTLOCK at the lowest level (i.e. the actual functions
+    doing changes to the document) or shall I apply it at the top level functions
+    calling all these low level functions.
+
+
+    Would really appreciate some feedback from you, even if my question is plain stupid.
+
+
+    Cheers'
+- author: 'Xiaodong Liang '
+  email: xiaodong.liang@autodesk.com
+  ip: 123.116.54.91
+  url: ''
+  date: '2012-07-14 20:30:49'
+  body: "Hi Toby,\nSorry I was in a meeting and a vacation in the past days.\nI converted\
+    \ the C# demo above to a VB.NET project and tested with AutoCAD 2013. All works\
+    \ well. I did not get such errors you described. Is there any more info that may\
+    \ help to recreate the issue? My environment is: Win7 64bits, VS2010, AutoCAD\
+    \ 2013 RTM. What I did is:\n\ncreate a VB.NET class lib dll\nadd the references:\
+    \ acCoreMdg, acdbMgd, acMgd\ncreate a command as below\n\n<CommandMethod(\"mytest\"\
+    , CommandFlags.Session)> _\nPublic Sub mytest()\n \n        Dim doc As Document\n\
+    \        For Each doc In App.DocumentManager\n            If doc <> App.DocumentManager.MdiActiveDocument\
+    \ Then\n                App.DocumentManager.MdiActiveDocument = doc\n        \
+    \        myfun(doc)\n                Exit For\n            End If\n        Next\n\
+    \    End Sub\n\n    Sub myfun(ByVal doc As Document)\n\n        Dim docLock As\
+    \ DocumentLock = doc.LockDocument()\n        Dim tm As Integer = App.GetSystemVariable(\"\
+    TILEMODE\")\n        App.SetSystemVariable(\"TILEMODE\", (tm + 1) Mod 2)\n   \
+    \     docLock.Dispose()\n    End Sub\n\n\nAnd I think the code has answered your\
+    \ question: when you want to modify a document in the context of multi-documents,\
+    \ you need to lock it before modification. If you do not need to deal with it,\
+    \ you can unlock it.\n\nRegards,\nXiaodong"
+- author: John Yan
+  email: jyan@e2020.com
+  ip: 69.199.239.186
+  url: http://www.e2020.com
+  date: '2012-08-17 15:35:11'
+  body: 'Hi Xiaodong,
+
+
+    I work for a company that need help developing an ActiveX plugin for Navisworks
+    2011 through 2013.
+
+
+    Please let me know whether you are able to help.
+
+
+    thanks,
+
+    John'
+- author: Xiaodong Liang
+  email: xiaodong.liang@autodesk.com
+  ip: 125.98.160.4
+  url: ''
+  date: '2012-08-19 18:44:48'
+  body: 'Hi John,
+
+
+    I am not sure what  you want to consult with, but I would suggest you raise the
+    question on Autodesk forum:
+
+
+    <a href="http://forums.autodesk.com/t5/Autodesk-Navisworks-API/bd-p/600">http://forums.autodesk.com/t5/Autodesk-Navisworks-API/bd-p/600</a>
+
+
+    probably the answers have existed, or other gurus could help. Our team also often
+    offer a hand there.
+
+
+    In addition, the blogs for Navisworks are posted at:
+
+    <a href="http://adndevblog.typepad.com/aec/">http://adndevblog.typepad.com/aec/</a>
+
+
+
+    Regards,
+
+    Xiaodong'
+- author: john keays
+  email: john@keays.com.au
+  ip: 203.4.173.149
+  url: http://www.keays.com.au
+  date: '2015-07-02 00:11:05'
+  body: 'I am writing xrecords to an entity and found that I had to lock the drawing
+    to get access to the xrecords through the object getobject function.  Now should
+    I then look at the return of the lock to see if it fails and then wait till it
+    clears or just give up.
+
+
+    The simplest code is to lock for each xrecord read and unlock so that 1000 records
+    will require 1000 lock/unlock sequences.  How much resources would that take.  I
+    want to open up a list of entities in a table and then pan to each element by
+    clicking on the line with the entity.
+
+
+    This would be best done with a modeless dialog.  I am current using modal dialogs
+    for each entity as it is selected from the database.  Each xrecord has about 2
+    pages of information in custom dialog boxes done as modal dialog boxes.
+
+
+    What is current practice in this situation....?
+
+
+    Cheers  john Keays'
+- author: Jason Huffine
+  email: bjhuffine@tva.gov
+  ip: 152.87.3.5
+  url: ''
+  date: '2017-03-15 09:57:38'
+  body: In a program I'm working on, the command starts a service managed by a singleton
+    object.  It's using AutoCAD events (document and application level) to trigger
+    different processes and stays active throughout the life of the AutoCAD session.  It's
+    in .NET.  In situations like these where the command is no longer active and a
+    Transactional process is triggerred through an event, is it safer to just lock
+    the document?
+- author: Ben
+  email: benkoshy@hotmail.com
+  ip: 165.228.230.183
+  url: ''
+  date: '2017-07-23 20:01:32'
+  body: Hi there thank you for the article.
+- author: Felix
+  email: hzhu225@gmail.com
+  ip: 203.27.186.54
+  url: ''
+  date: '2018-03-28 15:35:31'
+  body: 能不能具体解释下为什么需要锁？
+- author: new
+  email: 1185237385@qq.com
+  ip: 176.122.167.80
+  url: ''
+  date: '2019-04-02 00:22:45'
+  body: 'is there any way use acedcommand in application context？ some api makes code
+    execute in document context
+
+    -----'

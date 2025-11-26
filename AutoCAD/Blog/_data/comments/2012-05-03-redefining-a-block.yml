@@ -1,0 +1,123 @@
+comments:
+- author: Viktor K
+  email: vkulikovskiy@burnsmcd.com
+  ip: 64.219.133.233
+  url: ''
+  date: '2012-05-03 16:54:04'
+  body: "Stephen thanks for this helpful article, here's another question that would/could\
+    \ be interesting to cover, if you're looking for topics. \n\nIs there a method\
+    \ in .net api to search for a text string in the entire file and return values\
+    \ from dbtext, mtext, attributes, cells, etc... Basically how \"find\" command\
+    \ searches. I would imagine that you'd get objectids back of all the entities\
+    \ found with that text string. Or even better a find/replace functionality?\n\n\
+    Maybe wishful thinking?\n\nThanks,\nViktor."
+- author: Ed
+  email: edljobe@hotmail.com
+  ip: 166.205.137.206
+  url: ''
+  date: '2012-05-04 08:06:33'
+  body: Thanks Stephen. The second method is the one I was planning. However I didn't
+    know about the RecordGraphicsModified() method.
+- author: Norman Yuan
+  email: norman.yuan@focus.ca
+  ip: 207.229.13.65
+  url: ''
+  date: '2012-05-04 08:14:59'
+  body: "Hi Stephen,\n\nI am not sure I understand the reason why the code has to\
+    \ go through the route of \"inserting block with temporary name->redirect block\
+    \ references to the newly inserted block->erase old block->rename the new block\"\
+    . \n\nIf you insert a block with the block name that already exists in the current\
+    \ database, the newly inserted database (block) simply redefine the existing block\
+    \ automatically. \n\nHere is code I tested (Acad2012 or older):\n\nclass MyCommands\n\
+    {\n    [CommandMethod(\"RedeBlk\")]\n    public static void RedifineBlock()\n\
+    \    {\n        string blkFile = @\"C:\\TestBlock.dwg\";\n        string blkName=\"\
+    TestBlock\";\n\n        Document dwg = \n            Application.DocumentManager.MdiActiveDocument;\n\
+    \        Editor ed = dwg.Editor;\n\n        using (Transaction tran = dwg.Database.\n\
+    \            TransactionManager.StartTransaction())\n        {\n            using\
+    \ (Database db = new Database(false, true))\n            {\n                db.ReadDwgFile(blkFile,\
+    \ \n                    System.IO.FileShare.Read, false, null);\n\n          \
+    \      dwg.Database.Insert(blkName,db,true);\n            }\n\n            tran.Commit();\n\
+    \        }\n\n        ed.Regen();\n    }\n}\n\nBefore run the code, the drawing\
+    \ have a block called \"TestBlock\". And the block file TestBlock.dwg is a block\
+    \ with completely different geometric entities. After running the code, the TestBlock\
+    \ in current drawing is redefined.\n\nSo, why not just go ahead to insert instead\
+    \ of temporarily naming, erasing and renaming?\n\nif one want to prevent block\
+    \ to be accidently redefined, then, before inserting, search for the same named\
+    \ block, if found, warn user and let user decide to redefine or not."
+- author: Stephen Preston
+  email: ''
+  ip: 108.197.110.111
+  url: http://profile.typepad.com/stephenpreston
+  date: '2012-05-04 08:43:57'
+  body: 'Hi Norman,
+
+
+    Oops. That''s embarrassing :-(.
+
+
+    I didn''t test doing that directly. I just took the info I read at face value
+    and posted some existing code I found. Thanks for pointing this out. I''m on vacation
+    today, but I''ll go back and update the post soon.
+
+
+    Cheers,
+
+
+    Stephen'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2012-05-14 14:59:11'
+  body: 'I just checked this out because Alexander posted it as a helpful post to
+    a discussion group question.  I think neither of these appropriately address the
+    issue of Attribute changes (additions or subtractions).
+
+
+    Otherwise, I''am going to have to go back and look at my code, because I thought
+    it would cause an exception if I tried to insert a block that already existed,
+    whether I wanted to redefine it or not.'
+- author: Stephen Preston
+  email: ''
+  ip: 72.52.96.9
+  url: http://profile.typepad.com/stephenpreston
+  date: '2012-05-14 15:07:07'
+  body: 'That is correct. This code snippet doesn''t include updating AttributeReference
+    values for BlockReferences already referencing the BlockTableRecord you''re redefining.
+
+
+    To do that, you''d use the BlockReference.AttributeCollection property, and iterate
+    through the contents of the AttributeCollection instance returned.'
+- author: Matus Brlit
+  email: ''
+  ip: 62.168.112.14
+  url: http://profile.typepad.com/brlit
+  date: '2013-06-27 06:56:34'
+  body: 'Hello, I''m not sure if it has something to do with the issue that David
+    mentioned, but I get this exception when I try to redefine a block (insert block
+    with the same name).
+
+
+    Managed Debugging Assistant ''FatalExecutionEngineError'' has detected a problem
+    in ''E:\AutoCAD Civil 3D 2013\acad.exe''.
+
+
+    Additional Information: The runtime has encountered a fatal error. The address
+    of the error was at 0xf4a4d4cc, on thread 0x510. The error code is 0xc0000005.
+    This error may be a bug in the CLR or in the unsafe or non-verifiable portions
+    of user code. Common sources of this bug include user marshaling errors for COM-interop
+    or PInvoke, which may corrupt the stack.
+
+
+    It doesn''t happen for all blocks, only when I provide attribute values, which
+    is strange, because the attributes don''t come to play at this point, yet.
+
+
+    I also tested on 32-bit and it works there, the exception is only thrown on 64-bit
+    system and in release mode it results in unresponsive AutoCAD.'
+- author: dario
+  email: dariowbc@terra.com.br
+  ip: 201.0.143.28
+  url: ''
+  date: '2014-03-06 11:57:46'
+  body: can someone help?

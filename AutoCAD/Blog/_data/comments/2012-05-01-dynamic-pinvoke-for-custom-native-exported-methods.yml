@@ -1,0 +1,63 @@
+comments:
+- author: Mario Minati
+  email: mario.minati@minati.de
+  ip: 5.10.170.70
+  url: ''
+  date: '2013-01-12 12:45:36'
+  body: 'Hello Philippe,
+
+
+    I''m looking for a way to dynamically handle DLLImport of acedCmd as this has
+    moved into DLL in AC2013, and we would like to circumvent creating different versions
+    for 2012 and 2013.
+
+
+    Is it possible?
+
+
+    How to define the parameters or is it handled by Marshal.GetDelegateForFunctionPointer?
+
+
+    Do we have to skip FreeLibrary as we use the method later on?
+
+
+    Or won''t it work this way at all? Would there be a different way?
+
+
+    Many questions :-)
+
+
+
+    Best greets,
+
+    Mario'
+- author: Alexander Rivilis
+  email: ''
+  ip: 81.95.185.60
+  url: http://profile.typepad.com/rivilis1964
+  date: '2013-01-13 22:46:23'
+  body: 'Hi, Mario!
+
+    You can handle version 2012/2013 as far as x86/x64: <a href="http://forums.autodesk.com/t5/NET/Determine-32-or-64-bit-application/m-p/3748030#M32834">http://forums.autodesk.com/t5/NET/Determine-32-or-64-bit-application/m-p/3748030#M32834</a>'
+- author: Philippe Leefsma
+  email: philippe.leefsma@autodesk.com
+  ip: 132.188.32.22
+  url: ''
+  date: '2013-01-14 00:03:58'
+  body: "Hi Mario,\n\nYes as Alexander pointed out, you can declare several P/Invoke\
+    \ declarations and determine which one to use at run time. The size of IntPtr\
+    \ can be used to determine 32/64 bit platform and ACADVER system variable can\
+    \ be used to determine the AutoCAD version you are running.\n\nYou don't need\
+    \ to invoke FreeLibrary in that case, as long as you are dealing with standard\
+    \ dlls that are loaded/unloaded automatically by AutoCAD.\n\nHere is an example\
+    \ of P/Invoking acedCmd:\n\n[System.Runtime.InteropServices.DllImport(\"acad.exe\"\
+    , \n    CharSet = System.Runtime.InteropServices.CharSet.Unicode,\n    CallingConvention\
+    \ = System.Runtime.InteropServices.CallingConvention.Cdecl,\n    EntryPoint =\
+    \ \"acedCmd\")]\npublic static extern int acedCmd(System.IntPtr vlist);\n    \
+    \     \n[CommandMethod(\"ExportDwf\")]\npublic void ExportDwf()\n{\n    object\
+    \ filedia = Application.GetSystemVariable(\"FILEDIA\");\n    Application.SetSystemVariable(\"\
+    FILEDIA\", 0);\n\n    ResultBuffer rb = new ResultBuffer();\n\n    rb.Add(new\
+    \ TypedValue(5005, \"_EXPORT\"));\n    rb.Add(new TypedValue(5005, \"C:\\\\Temp\\\
+    \\Test.dwf\"));\n    rb.Add(new TypedValue(5005, \"ALL\"));\n    rb.Add(new TypedValue(5005,\
+    \ \"YES\"));\n            \n    acedCmd(rb.UnmanagedObject);\n\n    Application.SetSystemVariable(\"\
+    FILEDIA\", filedia);\n}\n-----"

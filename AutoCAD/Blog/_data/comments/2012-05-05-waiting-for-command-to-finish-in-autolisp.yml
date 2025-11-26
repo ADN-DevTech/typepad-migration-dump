@@ -1,0 +1,40 @@
+comments:
+- author: Alexander Rivilis
+  email: ''
+  ip: 81.95.185.60
+  url: http://profile.typepad.com/alexanderrivilis
+  date: '2012-05-06 08:44:36'
+  body: 'Hi, Balaji!
+
+    You forgot to remind that in this form, this code will only work in AutoCAD English,
+    but not in localized versions of AutoCAD.'
+- author: Balaji
+  email: balaji.ramamoorthy@autodesk.com
+  ip: 14.99.38.218
+  url: ''
+  date: '2012-05-06 11:11:59'
+  body: 'Thank you Alexander.
+
+    You are right, this code will only work in the English version of AutoCAD. I only
+    have English version installed in my system, so I can''t test the changes that
+    might be required for it to work in other language versions, but I guess it will
+    work if we use the global names such as "_.SELECT", "_.CMDNAMES" and "_P". Any
+    additional inputs that you can provide will surely help readers of this blog who
+    will want to use this code in localized versions of AutoCAD. Thank you.'
+- author: Alexander Rivilis
+  email: ''
+  ip: 81.95.185.60
+  url: http://profile.typepad.com/alexanderrivilis
+  date: '2012-05-06 13:02:39'
+  body: "Universal code must look like this:\n(defun c:MySelect ( / ss)\n\n    (Command\
+    \ \"_.SELECT\" \"_w\") \n\n    (while (= (getvar \"CMDNAMES\") \"SELECT\")\n\n\
+    \        (command pause)\n\n    ) \n\n    (setq ss (ssget \"_P\")) \n\n    (print\n\
+    \        (strcat \"Number of entities selected: \"\n                (itoa (sslength\
+    \ ss))\n        ) \n    ) \n\n    (princ)\n)"
+- author: Alexander Rivilis
+  email: ''
+  ip: 81.95.185.60
+  url: http://profile.typepad.com/alexanderrivilis
+  date: '2012-05-06 13:06:17'
+  body: "Also yours code has a mistaken line:\n    setq ss nil\nHave you a small practice\
+    \ in AutoLisp? :-D  \n-----"

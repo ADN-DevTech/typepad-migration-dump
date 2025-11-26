@@ -1,0 +1,21 @@
+comments:
+- author: cincir
+  email: cincir01@hotmail.com
+  ip: 94.188.16.4
+  url: ''
+  date: '2016-11-01 07:24:25'
+  body: 'Hi
+
+
+    Throwing an exception destroys the Undo mechanism. Any remedy?'
+- author: burak
+  email: oranlier@hotmail.com
+  ip: 178.233.21.4
+  url: ''
+  date: '2023-02-23 12:49:58'
+  body: "This will be a little bit delayed answer, but maybe it will be helpful to\
+    \ someone else.\nJust add \"if (dbObject.IsUndoing) return;\" at the begining\
+    \ of the Erase method to run undo mechanism properly.\n\n\npublic override void\
+    \ Erase(DBObject dbObject, bool erasing)\n\n {\n     if (dbObject.IsUndoing) return;\n\
+    \n     throw new Autodesk.AutoCAD.Runtime.Exception(\n\n            Autodesk.AutoCAD.Runtime.ErrorStatus.NotApplicable);\n\
+    \n \n\n     //base.Erase(dbObject, erasing);\n\n }\n-----"

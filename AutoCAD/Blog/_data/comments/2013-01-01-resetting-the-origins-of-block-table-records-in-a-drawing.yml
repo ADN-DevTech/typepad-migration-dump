@@ -1,0 +1,194 @@
+comments:
+- author: Oleg
+  email: fattyhallex@gmail.com
+  ip: 92.100.112.72
+  url: ''
+  date: '2013-01-02 09:34:30'
+  body: "Hi, Gopinath,\n thanks for your article and code\n Here is translation on\
+    \ C#,\n please, let me know if this would works same way:\n\n        public static\
+    \ void ResetAllInstances(BlockTableRecord pBlockTableRecord, Vector3d translation)\n\
+    \        {\n            Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;\n\
+    \n            Editor ed = doc.Editor;\n\n            Database db = doc.Database;\n\
+    \n            Transaction tr = doc.TransactionManager.StartTransaction();\n\n\
+    \            using (tr)\n            {\n                BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId,\
+    \ OpenMode.ForRead);\n\n                string[] blockNames = GetBlockNamesInDrawing(db);\n\
+    \n                foreach (string blockName in blockNames)\n                {\n\
+    \                    ObjectId blkid = bt[blockName];\n\n                    BlockTableRecord\
+    \ blkrec = (BlockTableRecord)tr.GetObject(bt[blockName], OpenMode.ForRead);//******************\n\
+    \                    ObjectIdCollection ids = blkrec.GetBlockReferenceIds(true,\
+    \ false);\n                    // Note that this function does not \n        \
+    \            // implement any error checking.\n                    // We are assuming\
+    \ that pBlockTableREcord \n                    // was opened for write by the\
+    \ calling function\n                    // Iterate through all block references\
+    \ \n                    // of this block table record.\n                    foreach\
+    \ (ObjectId brefid in ids)\n                    {\n                        BlockReference\
+    \ bref = (BlockReference)tr.GetObject(brefid, OpenMode.ForWrite);\n          \
+    \              // Transform the translation vector from \n                   \
+    \     // block coordinates to world coordinates.\n                        Vector3d\
+    \ vec = bref.BlockTransform.Translation;\n                        Vector3d newvec\
+    \ = vec + translation;\n                        // Translate the block reference\
+    \ to                          \n                        // counter the effect\
+    \ of the origin change.\n                        bref.Position = bref.Position.TransformBy(Matrix3d.Displacement(newvec));\n\
+    \                    }\n                  \n                    }\n          \
+    \      tr.Commit();\n                }//end using transaction\n            }\n\
+    \n        // This is command 'SGP'\n        [CommandMethod(\"SGP\")]\n       \
+    \ public static void testFunc()\n        {\n            Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;\n\
+    \            Editor ed = doc.Editor;\n            Database db = doc.Database;\n\
+    \            Transaction tr = doc.TransactionManager.StartTransaction();\n   \
+    \         using (tr)\n            {\n                // Note that error checking\
+    \ is minimal.\n                Entity ent;\n                // Ask the user to\
+    \ select an object\n                PromptEntityOptions peo = new PromptEntityOptions(\"\
+    \\nSelect the Block Reference >>\");\n                peo.SetRejectMessage(\"\\\
+    nSelect Block Reference only >>\");\n                peo.AddAllowedClass(typeof(BlockReference),\
+    \ false);\n                PromptEntityResult res;\n                res = ed.GetEntity(peo);\n\
+    \                if (res.Status != PromptStatus.OK)\n                    return;\n\
+    \                 ent = (Entity)tr.GetObject(res.ObjectId, OpenMode.ForRead);\n\
+    \                if (ent == null)\n                    return;\n             \
+    \   BlockReference bref = (BlockReference)ent as BlockReference;\n           \
+    \     if (bref != null)\n                {\n                    bref.UpgradeOpen();\n\
+    \n                    // Get the block reference's \n\n                    //\
+    \ associated block table record.\n\n                    ObjectId blockId = bref.BlockTableRecord;\n\
+    \n                    BlockTableRecord pBlockTableRecord = (BlockTableRecord)tr.GetObject(blockId,\
+    \ OpenMode.ForWrite);\n\n                    // Store the BTR's current \n\n \
+    \                   // origin (we'll need it later).\n\n                    Point3d\
+    \ origin = pBlockTableRecord.Origin;\n\n                    // And set its new\
+    \ origin to (10, 20, 0)\n\n                    pBlockTableRecord.Origin = new\
+    \ Point3d(10, 20, 0);\n\n                    // Create a translation vector for\
+    \ the change \n\n                    // in displacement required to offset the\
+    \ \n\n                    // origin change (in the block's coordinate system)\n\
+    \n                    Vector3d translation = new Vector3d(-origin.X, -origin.Y,\
+    \ -origin.Z);\n\n                    // Now process all instances of this block\
+    \ \n\n                    // reference to compensate for the change in the block\
+    \ origin\n\n                    ResetAllInstances(pBlockTableRecord, translation);\n\
+    \n                    bref.DowngradeOpen();\n                }\n             \
+    \   tr.Commit();\n            }//end using transaction\n        }"
+- author: Gopinath Taget
+  email: ''
+  ip: 8.19.13.22
+  url: http://profile.typepad.com/6p0168e89c0a52970c
+  date: '2013-01-02 18:38:41'
+  body: 'Hi Oleg,
+
+
+    Your .NET code is different from the C++ code I provided in a couple of ways.
+    In the testFunc() method, you are setting the block table record origin to a specific
+    value (10, 20, 0) but your translating the block references to (-origin.X, -origin.Y,
+    -origin.Z). This will not give you what you need. You should really be doing this:
+
+
+    Vector3d translation = new Vector3d(10-origin.X, 20-origin.Y, 0-origin.Z);
+
+
+    Also, in the ResetAllInstances call, you are iterating through all the block table
+    records which is wrong and unnecessary. You should use the pBlockTableRecord paremeter
+    passed like I did in the C++ code.'
+- author: Oleg
+  email: fattyhallex@gmail.com
+  ip: 92.100.112.72
+  url: ''
+  date: '2013-01-02 23:48:08'
+  body: 'Many thanks for your explanation
+
+    I will do it,
+
+    Kind regards,
+
+    Oleg'
+- author: Oleg
+  email: fattyhallex@gmail.com
+  ip: 92.100.110.78
+  url: ''
+  date: '2013-01-04 00:44:43'
+  body: "Hi Gopinath,\nHere is amended code,\na bit tricky way to iterate through\
+    \ all subentities,\nbut seems it's working good on my end:\n        public static\
+    \ void ResetAllInstances(BlockTableRecord pBlockTableRecord, Vector3d translation)\n\
+    \        {\n            Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;\n\
+    \n            Editor ed = doc.Editor;\n\n            Database db = doc.Database;\n\
+    \n            Transaction tr = doc.TransactionManager.StartTransaction();\n\n\
+    \            using (tr)\n            {\n\n                // Note that this function\
+    \ does not \n\n                // implement any error checking.\n\n          \
+    \      // We are assuming that pBlockTableREcord \n\n                // was opened\
+    \ for write by the calling function\n\n\n\n                // Iterate through\
+    \ all block references \n\n                // of this block table record.\n\n\n\
+    \                BlockTableRecordEnumerator pIterator = pBlockTableRecord.GetEnumerator();\n\
+    \                while (pIterator.MoveNext())\n                {\n           \
+    \         //make sure you've work with block instance\n                    if\
+    \ (pIterator.Current.ObjectClass.IsDerivedFrom(RXClass.GetClass(typeof(BlockReference)))\
+    \ &&\n                        pIterator.Current.GetType().IsAssignableFrom(typeof(BlockReference)))\n\
+    \                    {\n                        BlockReference pBlockRef = (BlockReference)tr.GetObject(pIterator.Current,\
+    \ OpenMode.ForWrite);\n\n                        // Transform the translation\
+    \ vector from \n\n                        // block coordinates to world coordinates.\n\
+    \n\n                        Vector3d realTranslation = (pBlockRef.BlockTransform)\
+    \ * translation;\n\n                        // Translate the block reference to\
+    \ \n\n                        // counter the effect of the origin change.\n\n\
+    \                        pBlockRef.Position = pBlockRef.Position + realTranslation;\n\
+    \                    }\n\n                } // Next block reference\n\n      \
+    \          pIterator.Dispose();\n\n                tr.Commit();\n            }//end\
+    \ using transaction\n          \n        }\n\n        // This is command 'SGP'\n\
+    \        [CommandMethod(\"SGP\")]\n        public static void testFunc()\n   \
+    \     {\n            Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;\n\
+    \            Editor ed = doc.Editor;\n            Database db = doc.Database;\n\
+    \            Transaction tr = doc.TransactionManager.StartTransaction();\n   \
+    \         using (tr)\n            {\n                // Note that error checking\
+    \ is minimal.\n                Entity ent;\n                // Ask the user to\
+    \ select an object\n                PromptEntityOptions peo = new PromptEntityOptions(\"\
+    \\nSelect the Block Reference >>\");\n                peo.SetRejectMessage(\"\\\
+    nSelect Block Reference only >>\");\n                peo.AddAllowedClass(typeof(BlockReference),\
+    \ false);\n                PromptEntityResult res;\n                res = ed.GetEntity(peo);\n\
+    \                if (res.Status != PromptStatus.OK)\n                    return;\n\
+    \                ent = (Entity)tr.GetObject(res.ObjectId, OpenMode.ForRead);\n\
+    \                if (ent == null)\n                    return;\n             \
+    \   BlockReference bref = (BlockReference)ent as BlockReference;\n           \
+    \     if (bref != null)\n                {\n                    bref.UpgradeOpen();\n\
+    \n                    // Get the block reference's \n\n                    //\
+    \ associated block table record.\n\n                    ObjectId blockId = bref.BlockTableRecord;\n\
+    \n                    BlockTableRecord pBlockTableRecord = (BlockTableRecord)tr.GetObject(blockId,\
+    \ OpenMode.ForWrite);\n\n                    // Store the BTR's current \n\n \
+    \                   // origin (we'll need it later).\n\n                    Point3d\
+    \ origin = pBlockTableRecord.Origin;\n\n                    // And set its new\
+    \ origin to (10, 20, 0)// dummy point\n\n                    pBlockTableRecord.Origin\
+    \ = new Point3d(10, 20, 0);\n\n                    // Create a translation vector\
+    \ for the change \n\n                    // in displacement required to offset\
+    \ the \n\n                    // origin change (in the block's coordinate system)\n\
+    \n                    Vector3d translation = new Vector3d(10 - origin.X, 20 -\
+    \ origin.Y, 0 - origin.Z);\n\n                    // Now process all instances\
+    \ of this block \n\n                    // reference to compensate for the change\
+    \ in the block origin\n\n                    ResetAllInstances(pBlockTableRecord,\
+    \ translation);\n\n                    bref.DowngradeOpen();\n               \
+    \ }\n                tr.Commit();\n            }//end using transaction\n    \
+    \        ed.Regen();// to update origin changes\n        }\nKind regards,\nOleg"
+- author: Gopinath Taget
+  email: ''
+  ip: 67.188.203.224
+  url: http://profile.typepad.com/6p0168e89c0a52970c
+  date: '2013-01-16 21:06:44'
+  body: 'Hi Oleg,
+
+
+    I am surprised this code works. pBlockTableRecord.GetEnumerator(); does not return
+    the block references associated with a block table record. You should really be
+    using pBlockTableRecord.GetBlockReferenceIds to find these block references and
+    change their position.
+
+
+    Cheers
+
+    Gopinath'
+- author: Ali
+  email: azgurbuz@yahoo.com
+  ip: 176.41.118.214
+  url: ''
+  date: '2015-09-30 18:15:18'
+  body: 'ObjectArx reference says; AcDbBlockTableRecord::origin() will always return
+    (0,0,0) for blocks created by AutoCad versions after release 10.
+
+
+    So, only setOrigin() changes origin from (0,0,0) by code.
+
+
+    Origin is not base point as I see in block definition dialog.
+
+
+    How can I get/set base point instead of origin?
+
+    -----'

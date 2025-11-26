@@ -1,0 +1,98 @@
+comments:
+- author: Joseba
+  email: ''
+  ip: 92.58.110.74
+  url: http://profile.typepad.com/joseba1
+  date: '2013-08-07 01:12:14'
+  body: 'I need to capture files dragged into AutoCAD document.
+
+
+    I can do it with some file extensions (.png, .txt) using de AcadApplication.BeginFileDrop
+    event.
+
+
+    In other cases, the file is inserted as an OLE Object, and the event is not fired.
+
+
+    Is there any way for capturing files being dragged into AutoCAD (i need to capture
+    it depending on file extension)?'
+- author: Balaji
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-08-07 04:21:41'
+  body: 'Hi Joseba,
+
+
+    Sorry, I do not find a .Net API to do that.
+
+
+    In ObjectARX, you can register a custom drop target using the "acedRegisterCustomDropTarget"
+    method. Please note that there can only be one drop target registered with AutoCAD
+    and so registering your custom drop target will affect AutoCAD''s default drag-drop
+    behavior.
+
+
+    On creating a custom drop target, this blog post might help :
+
+    <a href="http://adndevblog.typepad.com/autocad/2013/02/override-drag-drop-behavior.html">http://adndevblog.typepad.com/autocad/2013/02/override-drag-drop-behavior.html</a>'
+- author: Balaji
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-08-07 05:13:57'
+  body: 'Hi Joseba,
+
+
+    You may be interested in having a look at the drag-drop sample that was part of
+    ObjectARX 2004.
+
+
+    I had earlier migrated this sample to work in AutoCAD 2011 and here is the link
+    to download that :
+
+    <a href="https://www.dropbox.com/s/el4yd94th4xjf7u/arxdd.zip">https://www.dropbox.com/s/el4yd94th4xjf7u/arxdd.zip</a>
+
+
+    In this sample, when you drop a word document, you get an option to list the dropped
+    files instead of embedding them as OLE.
+
+
+    Hope this sample helps.
+
+
+    Regards,
+
+    Balaji'
+- author: Joseba
+  email: ''
+  ip: 92.58.110.74
+  url: http://profile.typepad.com/joseba1
+  date: '2013-08-07 23:39:53'
+  body: "Thanks for your help, I'll take a look to the sample posted. It seems a little\
+    \ bit 'dangerous' to override the default drag-drop behavior, but it can be usefull.\
+    \ \n\nThanks"
+- author: alexb
+  email: alexb@actcom.co.il
+  ip: 84.111.124.70
+  url: ''
+  date: '2014-01-02 21:55:54'
+  body: 'Hi Balaji,
+
+
+    Can the custom drop target be registered and un-registered at will (thus restoring
+    AutoCAD default)?
+
+    Would it be possible to drag-and-drop from an out of process C# application, into
+    the OARX custom drop target?
+
+    I would like to d-and-d text from the external app and use it in the OARX running
+    inside Acad.
+
+
+    Thanks
+
+
+    alex
+
+    -----'

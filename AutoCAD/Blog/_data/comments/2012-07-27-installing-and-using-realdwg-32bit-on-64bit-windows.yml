@@ -1,0 +1,61 @@
+comments:
+- author: Eric Mills
+  email: eric.mills@bluescopesteel.com
+  ip: 159.96.41.6
+  url: ''
+  date: '2013-06-05 16:21:17'
+  body: "Windows 7 64 bit, RealDWG 2013.\n\nI installed 64bit RealDWG 2013 on my machine.\
+    \ \n\nI added the environment paths:\nC:\\Program Files\\Autodesk\\RealDWG 2013\n\
+    C:\\Program Files\\Autodesk\\RealDWG 2013\\Fonts\nC:\\Program Files\\Autodesk\\\
+    RealDWG 2013\\Support \nI added the reference\nC:\\Program Files\\Autodesk\\RealDWG\
+    \ 2013\\AcDbMgd.dll\n\nI built an app and everything was working fine. \n\nNow\
+    \ I have to recreate the app for 32bit machines.\nI know that I can develop 32bit\
+    \ apps on 64bit, but it is not working.\n\nWhen I go to install the 32bit RealDWG,\
+    \ the first error is that the D:\\3rdParty\\x86\\msxml6\\msxml6.msi cannot install,\
+    \ but the install continues. The install folder is now Program Files (x86) instead\
+    \ of the 64bit RealDWG install folder Program Files. I continue.\n\nEverything\
+    \ installs and now I have a 64bit version in\nC:\\Program Files\\Autodesk\\RealDWG\
+    \ 2013\nand a 32bit version in\nC:\\Program Files (x86)\\Autodesk\\RealDWG 2013\n\
+    \nI went to my Environment path and added these paths\nC:\\Program Files (x86)\\\
+    Autodesk\\RealDWG 2013\nC:\\Program Files (x86)\\Autodesk\\RealDWG 2013\\Fonts\n\
+    C:\\Program Files (x86)\\Autodesk\\RealDWG 2013\\Support \n\nI removed the 64bit\
+    \ AcDbMgd.dll reference and added\nC:\\Program Files (x86)\\Autodesk\\RealDWG\
+    \ 2013\\AcDbMgd.dll\n\nNow when I try to run I get the BadImageFormatException:\n\
+    Could not load file or assembly Acdbmgd\n\nDo I have to unistall 64bit before\
+    \ developing 32bit on my 64bit machine?\nIs it a problem that 32bit is installing\
+    \ in the (x86) folder instead of the normal Program Files folder?\nDo I have to\
+    \ create an entirely new project referencing the 32bit dll?\n\nWhen I remove the\
+    \ 32bit Acdbmgd.dll reference, and add back in the 64bit Acdbmgd.dll reference,\
+    \ it runs fine.\n\nI also tried to copy the 32bit install folder into a Program\
+    \ Files\\Autodesk\\RealDWG 2013 32bit folder, but I get the same error.\n\nThanks\
+    \ Fenton"
+- author: Eric Mills
+  email: eric.mills@bluescopesteel.com
+  ip: 159.96.41.6
+  url: ''
+  date: '2013-06-05 21:22:10'
+  body: I got it to work Fenton. I changed my project to debug mode from AnyCPU to
+    x86 and now it runs fine.
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 132.188.64.219
+  url: ''
+  date: '2013-06-06 09:21:57'
+  body: 'Hi Eric
+
+
+    personally, I don''t install to Program Files because the user rights are restrictive.
+    I always install to c:\Apis\ObjectDBX\2014
+
+
+    Also, I never add any %PATH% updates to my system where AutoCAD or RealDWG are
+    concerned. It''s very dangerous and can cause some serious DLL hell if you are
+    running multiple versions. For development purposes, best thing to do is output
+    your application DLLs/Exes straight to the RealDWG base folder, that quickly resolves
+    any dependency issues.
+
+
+    Also, the findFile(), I like to make it search relative paths first before checking
+    the system path.
+
+    -----'

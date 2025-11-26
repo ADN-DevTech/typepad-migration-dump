@@ -1,0 +1,53 @@
+comments:
+- author: David
+  email: vnsharifi@gmail.com
+  ip: 216.185.64.78
+  url: ''
+  date: '2012-07-27 13:01:30'
+  body: "Hello Stephen\nI don't think the code works in 2012/ 64 bit.\nI had to change\
+    \ it to vb of course. Could you please take a look what is wrong ? Thanks\n\n\
+    Public Class LoopCommands\n    <CommandMethod(\"loop\")> _\n    Public Shared\
+    \ Sub [Loop]()\n        Dim dm As DocumentCollection = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager\n\
+    \        Dim ed As Editor = dm.MdiActiveDocument.Editor\n        ' Create and\
+    \ add our message filter\n        Dim filter As New MyMessageFilter()\n      \
+    \  System.Windows.Forms.Application.AddMessageFilter(CType(filter, System.Windows.Forms.IMessageFilter))\n\
+    \        ' Start the loop\n        While True\n            ' Check for user input\
+    \ events\n            System.Windows.Forms.Application.DoEvents()\n          \
+    \  ' Check whether the filter has set the flag\n            If filter.bCanceled\
+    \ = True Then\n                ed.WriteMessage(vbLf & \"Loop cancelled.\")\n \
+    \               Exit While\n            End If\n            ed.WriteMessage(vbLf\
+    \ & \"Inside while loop...\")\n        End While\n        ' We're done - remove\
+    \ the message filter\n        System.Windows.Forms.Application.RemoveMessageFilter(CType(filter,\
+    \ System.Windows.Forms.IMessageFilter))\n\n    End Sub\n\n\n    ' Our message\
+    \ filter class\n    Public Class MyMessageFilter\n        Implements IMessageFilter\n\
+    \n        Public Const WM_KEYDOWN As Integer = &H100\n        Public bCanceled\
+    \ As Boolean = False\n        Public Function PreFilterMessage(ByRef m As Message)\
+    \ As Boolean\n            If m.Msg = WM_KEYDOWN Then\n                ' Check\
+    \ for the Escape keypress\n                Dim kc As Keys = DirectCast(CInt(m.WParam),\
+    \ Keys) And Keys.KeyCode\n                If m.Msg = WM_KEYDOWN AndAlso kc = Keys.Escape\
+    \ Then\n                    bCanceled = True\n                End If\n       \
+    \         ' Return true to filter all keypresses\n                Return True\n\
+    \            End If\n            ' Return false to let other messages through\n\
+    \            Return False\n\n        End Function\n        Public Function PreFilterMessage1(ByRef\
+    \ m As System.Windows.Forms.Message) As Boolean Implements System.Windows.Forms.IMessageFilter.PreFilterMessage\n\
+    \n        End Function\n    End Class\nEnd Class"
+- author: Stephen Preston
+  email: ''
+  ip: 108.236.113.147
+  url: http://profile.typepad.com/stephenpreston
+  date: '2012-07-30 18:14:22'
+  body: I've updated the post with a VB.NET translation. VB.NET and C# versions work
+    fine for me on AutoCAD 2012 64-bit.
+- author: Lucano Deskovic
+  email: ''
+  ip: 109.60.17.58
+  url: http://profile.typepad.com/6p01bb084f894c970d
+  date: '2016-03-13 18:20:03'
+  body: "hello, I've been using the same principle in trying to block number input\
+    \ in ACAD, but for unknown reason, messagefilter keeps letting first 2 keys \"\
+    leak through\" to the application. \nI'm suspecting it could have something to\
+    \ do with paletteset/acad focus(since I'm using a button to enable/disable the\
+    \ feature), but I've exhausted all other options but to ask you for a tip. (been\
+    \ at autodesk forum and stackoverflow).\n\nhttp://forums.autodesk.com/t5/net/paletteset-keepfocus-and-keyboard-override/m-p/6069569#M47738\n\
+    \nhttp://stackoverflow.com/questions/35977925/c-sharp-message-filter-keeps-leaks-first-2-keys-pressed\n\
+    -----"

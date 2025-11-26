@@ -1,0 +1,44 @@
+comments:
+- author: Abhay Joshi
+  email: abhay.joshi@neilsoft.com
+  ip: 121.241.235.98
+  url: ''
+  date: '2015-10-11 23:31:42'
+  body: I am getting linking error for 64 bit (AutoCAD 2014). Do I need to change
+    something?
+- author: Augusto Goncalves
+  email: ''
+  ip: 189.120.166.112
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2015-10-13 07:07:54'
+  body: 'Abhay,
+
+
+    I don''t believe this is related to the code, but most likely to your project
+    settings. Did you use the project template/wizard? What''s the error message?
+
+
+    Regards,
+
+    Augusto Goncalves'
+- author: Abhay Joshi
+  email: abhay.joshi@neilsoft.com
+  ip: 121.241.235.98
+  url: ''
+  date: '2015-10-14 00:06:59'
+  body: "It was my mistake. problem was for last parameter, integer pointer. I used\
+    \ below signature to work with 32 and 64 bit.\n\n<div style=\"background: #ffffff;\
+    \ overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em\
+    \ .6em;\"><pre style=\"margin: 0; line-height: 125%\"><span style=\"color: #008800;\
+    \ font-weight: bold\">extern</span> <span style=\"color: #333399; font-weight:\
+    \ bold\">int</span> <span style=\"color: #0066BB; font-weight: bold\">acedNEntSelPEx</span>(<span\
+    \ style=\"color: #008800; font-weight: bold\">const</span> ACHAR <span style=\"\
+    color: #333333\">*</span>str, ads_name entres,\n                           ads_point\
+    \ ptres, <span style=\"color: #333399; font-weight: bold\">int</span> pickflag,\n\
+    \                           ads_matrix xformres,\n                           <span\
+    \ style=\"color: #008800; font-weight: bold\">struct</span> resbuf <span style=\"\
+    color: #333333\">**</span>refstkres,\n                           <span style=\"\
+    color: #333399; font-weight: bold\">unsigned</span> <span style=\"color: #333399;\
+    \ font-weight: bold\">int</span> uTransSpaceFlag,\n                          \
+    \ <span style=\"color: #333399; font-weight: bold\">intptr_t</span><span style=\"\
+    color: #333333\">*</span> gsmarker);\n</pre></div>\n\n-----"

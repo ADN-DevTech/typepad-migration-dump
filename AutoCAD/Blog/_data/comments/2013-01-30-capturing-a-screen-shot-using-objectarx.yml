@@ -1,0 +1,186 @@
+comments:
+- author: tbrammer
+  email: tbrammer@imos3d.com
+  ip: 192.168.101.185
+  url: http://www.imos3d.com
+  date: '2014-11-11 01:41:44'
+  body: "Hi Fenton,\n\nthere are some lines missing at the end of writeImageFile():\n\
+    \n  pFWD->writeImageFrame(pPipe);\n  delete pFWD; //this also flushes and closes\
+    \ the file\n  return true;\n\nYou'll get no file output without these calls.\n\
+    \nBelow is the code ready to compile & link.\nI added a function void cmdTestAtilOut()\
+    \ that can be registered as command.\n\n\n#include \"stdafx.h\"\n#include \"AtilDefs.h\"\
+    \n#include \"Image.h\"\n#include \"RgbModel.h\"\n#include \"RgbPaletteModel.h\"\
+    \n#include \"PngCustomProperties.h\"\n#include \"BitonalModel.h\"\n#include \"\
+    atilformats.h\"\n#include \"JFIFFormatCodec.h\"\n#include \"TiffFormatCodec.h\"\
+    \n#include \"TiffCustomProperties.h\"\n#include \"BmpFormatCodec.h\"\n#include\
+    \ \"FileSpecifier.h\"\n#include \"FileWriteDescriptor.h\"\n#include \"FileReadDescriptor.h\"\
+    \n#include \"RowProviderInterface.h\"\n\n#pragma comment (lib ,\"AdImaging.lib\"\
+    )\n#pragma comment (lib ,\"AdIntImgServices.lib\")\n\n\nenum eFormatType\n{\n\t\
+    kJPG,\n\tkPNG,\n\tkTIF,\n\tkBMP\n};\n\n// get the current vp\nint getCVPort()\n\
+    {\n\tstruct resbuf rb;\n\tads_getvar(_T(\"CVPORT\"), &rb);\n\treturn rb.resval.rint;\n\
+    }\n\nAtil::DataModel* colorSpace (char *&pRGBData, int colorDepth, int paletteSize)\n\
+    {\n\t_ASSERT(NULL != pRGBData);\n\n\t// Setup a color space, with palette if needed\n\
+    \tAtil::DataModel *pDm = NULL;\n\tif (colorDepth == 8) {\n\t\tAtil::RgbColor space[256];\n\
+    \n\t\tAtil::RgbPaletteModel *pPM = new Atil::RgbPaletteModel();\n\t\t_ASSERT(NULL\
+    \ != pPM);\n\t\tif(!pPM)\n\t\t\treturn NULL;\n\n\t\tpDm = pPM;\n\t\tchar *palette\
+    \ = pRGBData;\n\t\tpRGBData += paletteSize;\n\t\tfor (int i = 0; i < paletteSize;\
+    \ i += 4)\n\t\t\tspace[i / 4] = Atil::RgbColor(palette[i+2],palette[i+1],palette[i],\
+    \ 255);\n\t\tpPM->setEntries(0, 256, (Atil::RgbColor *)&space);\n\t} else\n\t\t\
+    pDm = new Atil::RgbModel(32);\n\n\n\t_ASSERT(NULL != pDm);\n\treturn pDm;\n}\n\
+    \n\nAtil::Image *constructAtilImg(char *pRGBData,\n\t\t\t\t\t\t\t  unsigned long\
+    \ bufferSize, unsigned long rowBytes,\n\t\t\t\t\t\t\t  unsigned long xSize, unsigned\
+    \ long ySize, int colorDepth, int paletteSize)\n{\n\tif ((8 != colorDepth) &&\
+    \ (32 != colorDepth))\n\t{\n\t\treturn NULL;\n\t}\n\n\tif (paletteSize)\n\t{\n\
+    \t\tif ((paletteSize < 0) || (paletteSize > 255))\n\t\t{\n\t\t\treturn NULL;\n\
+    \t\t}\n\t}\n\n\tif ((xSize <= 0) || (ySize <= 0))\n\t{\n\t\treturn NULL;\n\t}\n\
+    \n\tAtil::Image *pImg = NULL;\n\tAtil::Size size(xSize, ySize);\n\n\t// construct\
+    \ the Atil::Image object\n\tif (pRGBData) {\n\n\t\t// Check the buffer for size\
+    \ and definition\n\t\tif (bufferSize) {\n\t\t\tif (!rowBytes) {\n\t\t\t\treturn\
+    \ NULL;\n\t\t\t}\n\n\t\t\t// did they allocate enough?\n\t\t\tif (rowBytes * ySize\
+    \ > bufferSize) {\n\t\t\t\treturn NULL;\n\t\t\t}\n\t\t}\n\t\telse {\n\t\t\treturn\
+    \ NULL;\n\t\t}       \n\n\t\tAtil::DataModel *pM = colorSpace(pRGBData, colorDepth,\
+    \ paletteSize);\n\t\t_ASSERT(NULL != pM);\n\t\tif(NULL == pM)\n\t\t\treturn NULL;\n\
+    \n\t\ttry {\n\t\t\t// BEWARE: pRGBData may be moved in colorSpace\n\t\t\tpImg\
+    \ = new Atil::Image(pRGBData, bufferSize,\n\t\t\t\trowBytes, size, pM); \n\t\t\
+    } catch (Atil::ATILException* pExpCon) {\n\t\t\t// image construction failure\n\
+    \t\t\tdelete pExpCon;\n\t\t\tdelete pM;\n\t\t\tpImg = NULL;\n\t\t\t_ASSERT(FALSE);\n\
+    \t\t\treturn NULL;\n\t\t}\n\n\t\tdelete pM;\n\t}\n\telse {\n\t\tAtil::RgbModel\
+    \     rgbM(32);\n\t\tAtil::RgbGrayModel gM;\n\n\t\tAtil::ImagePixel initialColor(colorDepth\
+    \ == 32 ?\n\t\t\tAtil::DataModelAttributes::kRgba :\n\t\tAtil::DataModelAttributes::kGray);\n\
+    \t\tinitialColor.setToZero();\n\n\t\ttry {\n\t\t\tpImg = new Atil::Image(size,\n\
+    \t\t\t\tcolorDepth == 32 ? &rgbM : &gM,\n\t\t\t\tinitialColor);\n\t\t} catch (Atil::ATILException*\
+    \ pExpCon) {\n\t\t\t// image construction failure\n\t\t\tdelete pExpCon;\n\t\t\
+    \tpImg = NULL;\n\t\t\t_ASSERT(FALSE);\n\t\t\treturn NULL;\n\t\t}\n\t}\n\n\t_ASSERT(NULL\
+    \ != pImg);\n\treturn pImg;\n}\n\nbool writeImageFile (Atil::Image *pImageSource,\
+    \ eFormatType formatType,  wchar_t const *pFileName)\n{\n  _ASSERT(NULL != pImageSource);\n\
+    \  if(NULL == pImageSource)\n    return false;\n \n  _ASSERT(pImageSource->isValid());\n\
+    \  if(!pImageSource->isValid())\n    return false;\n \n  if(PathFileExists(pFileName))\n\
+    \    DeleteFile(pFileName);\n \n  /*if(PathFileExists(pFileName)) {\n  if(IsFileReadOnly(pFileName))\
+    \ {\n  RemoveReadonlyAttribute(pFileName);\n  DeleteFile(pFileName);\n  }\n  }*/\n\
+    \ \n  if(PathFileExists(pFileName))\n    return false;\n \n  Atil::RowProviderInterface*\
+    \ pPipe = pImageSource->read(pImageSource->size(),\n    Atil::Offset(0,0));\n\
+    \  _ASSERTE(NULL != pPipe);\n  if(!pPipe)\n    return false;\n \n  Atil::FileWriteDescriptor\
+    \  *pFWD = NULL;\n  Atil::ImageFormatCodec     *pCodec = NULL;\n \n  if (formatType\
+    \ == kJPG)\n    pCodec = new JfifFormatCodec();\n  else if (formatType == kPNG)\n\
+    \    pCodec = new PngFormatCodec();\n  else if (formatType == kTIF)\n    pCodec\
+    \ = new TiffFormatCodec();\n  else if (formatType == kBMP)\n    pCodec = new BmpFormatCodec();\n\
+    \ \n  _ASSERTE(NULL != pCodec);\n  if(NULL == pCodec)\n    return false;\n \n\
+    \  if(!Atil::FileWriteDescriptor::isCompatibleFormatCodec(pCodec,\n    &(pPipe->dataModel()),\
+    \ pPipe->size())) {\n      delete pCodec;\n      return false;\n  }\n \n  pFWD\
+    \ = new Atil::FileWriteDescriptor(pCodec);\n  _ASSERTE(NULL != pFWD);\n \n#ifdef\
+    \ UNICODE\n#ifndef _ADESK_MAC_\n  Atil::FileSpecifier fs(Atil::StringBuffer((lstrlen(pFileName)\
+    \ + 1) * sizeof(TCHAR),\n    (const Atil::Byte *) pFileName, Atil::StringBuffer::kUTF_16),\n\
+    \    Atil::FileSpecifier::kFilePath);\n#else\n  Atil::FileSpecifier fs(Atil::StringBuffer((lstrlen(pFileName)\
+    \ + 1) * sizeof(TCHAR),\n    (const Atil::Byte *) pFileName, Atil::StringBuffer::kUTF_32),\n\
+    \    Atil::FileSpecifier::kFilePath);\n \n#endif\n#else\n  Atil::FileSpecifier\
+    \ fs(Atil::StringBuffer(lstrlen(pFileName) + 1,\n    (const Atil::Byte *) pFileName,\
+    \ Atil::StringBuffer::kASCII),\n    Atil::FileSpecifier::kFilePath);\n#endif\n\
+    \ \n  if (!pFWD->setFileSpecifier(fs))\n    return false;\n \n  pFWD->createImageFrame(pPipe->dataModel(),\
+    \ pPipe->size());\n \n  if (formatType == kPNG) {\n    Atil::FormatCodecPropertyInterface*\
+    \ pProp = pFWD->getProperty(Atil::FormatCodecPropertyInterface::kCompression);\n\
+    \    if (pProp != NULL) {\n      PngCompression* pPngComp = (PngCompression*)(pProp);\n\
+    \      if ( pPngComp != NULL ) {\n        // Why not compress all we can?\n  \
+    \      pPngComp->selectCompression(PngCompressionType::kHigh);\n        pFWD->setProperty(pPngComp);\n\
+    \      }\n      delete pProp;\n      pProp = NULL;\n    }\n  }\n  else if (formatType\
+    \ == kTIF) {\n    Atil::FormatCodecPropertyInterface* pProp = pFWD->getProperty(Atil::FormatCodecPropertyInterface::kCompression);\n\
+    \    if (pProp != NULL) {\n      TiffCompression* pComp = (TiffCompression*)(pProp);\n\
+    \      if ( pComp != NULL ) {\n        // G4 is only valid for 1 bit images.\n\
+    \        if ( pComp->selectCompression(TiffCompressionType::kCCITT_FAX4) == false\
+    \ ) {\n          // So if that fails, resort to LZW now that it is patent free\n\
+    \          if ( pComp->selectCompression(TiffCompressionType::kLZW) == false )\
+    \ {\n            // If that fails (and is shouldn't, be) then set none.\n    \
+    \        pComp->selectCompression(TiffCompressionType::kNone);\n          }\n\
+    \        }\n        pFWD->setProperty(pComp);\n      }\n      delete pProp;\n\
+    \      pProp = NULL;\n    }\n  }\n\n  //TB141111 this was missing:\n  int iRet\
+    \ = pFWD->writeImageFrame(pPipe);\n  delete pFWD;\n  pFWD = NULL;\n\n  return\
+    \ true;\n}\n\nbool snapGSView(eFormatType fmt, AcGsView *pView, int width, int\
+    \ height, double &fieldWidth, double &fieldHeight, AcGePoint3d &position, AcGePoint3d\
+    \ &target, AcGeVector3d &upVector, const TCHAR *imagePath)\n{\n  Atil::Size size(width,\
+    \ height);\n  int nBytesPerRow = Atil::DataModel::bytesPerRow(width, Atil::DataModelAttributes::k32);\n\
+    \  unsigned long nBufferSize = height * nBytesPerRow;\n \n  // Create an ATIL\
+    \ image for accepting the rendered image.\n  std::auto_ptr<char> apCharBuffer\
+    \ = std::auto_ptr<char>(new char[nBufferSize]);\n  char *pSnapshotData = apCharBuffer.get();\
+    \  //  auto_ptr still owns the buffer.\n \n  // in shaded mode (from GS)\n  Atil::Image\
+    \ * pImage = NULL;\n  pImage = constructAtilImg(pSnapshotData, nBufferSize, nBytesPerRow,\
+    \ width, height, 32, 0);\n  std::auto_ptr<Atil::Image> autodeleter = std::auto_ptr<Atil::Image>(pImage);\
+    \ // auto_ptr now owns the image\n  pView->getSnapShot(pImage, AcGsDCPoint(0,\
+    \ 0));\n \n  // add a temp image to invert the image. do we have a better way\
+    \ to turn an image around?\n  Atil::Image imgTempForInverted(pImage->read(pImage->size(),\
+    \ Atil::Offset(0, 0), Atil::kBottomUpLeftRight));\n  *pImage = imgTempForInverted;\n\
+    \ \n  if (!writeImageFile(pImage,  fmt, imagePath))\n  {\n    acutPrintf(_T(\"\
+    \\nFailed to write image file %s\"), imagePath);\n    return false;\n  }\n  else\n\
+    \    acutPrintf(_T(\"\\nSuccessfully written %s\"), imagePath);\n \n  // record\
+    \ the view data\n  fieldHeight = pView->fieldHeight();\n  fieldWidth = pView->fieldWidth();\n\
+    \  position = pView->position();\n  target = pView->target();\n  upVector = pView->upVector();\n\
+    \ \n  return true;\n}\n\n\n\nbool getTempImgFile(TCHAR * fileName)\n{\n  // Here\
+    \ we create a temp bmp file as a transitional file\n  TCHAR tempDic[MAX_PATH];\n\
+    \  ::memset(tempDic,0,MAX_PATH);\n  DWORD nRetSize = ::GetTempPath(MAX_PATH,tempDic);\n\
+    \  if (nRetSize > MAX_PATH || nRetSize == 0)\n  {\n    const TCHAR * tempStr =\
+    \ _T(\"C:\\\\temp\");\n    if (wcscpy_s(tempDic,tempStr) != 0)\n    {\n      return\
+    \ false;\n    }\n \n    if (::PathFileExists(tempStr) == FALSE &&\n      ::CreateDirectory(tempStr,NULL)\
+    \ == FALSE)\n    {\n      return false;\n    }\n  }\n \n  // create the temp file\
+    \ whose prefix is \"img\"\n  if (::GetTempFileName(tempDic,_T(\"tmp\"),0,fileName)\
+    \ == 0)\n  {\n    return false;\n  }\n \n  // now split the filepath into its\
+    \ individual components\n  TCHAR drive[_MAX_DRIVE], dir[_MAX_DIR], fname[_MAX_FNAME],\
+    \ ext[_MAX_EXT];\n  _tsplitpath (fileName, drive, dir, fname, ext);\n  _stprintf(fileName,\
+    \ _T(\"%s%s%s.bmp\"), drive, dir, fname);\n \n  return true;\n}\n\n// by Fenton\
+    \ Webb, DevTech, 1/30/2013\n// screen shoots the view details as a BMP\nbool RecordViewDetails(eFormatType\
+    \ fmt, double &fieldWidth, double &fieldHeight, AcGePoint3d &position, AcGePoint3d\
+    \ &target, AcGeVector3d &upVector, const TCHAR *imagePath)\n{\n\tint iVP = getCVPort();\n\
+    \n\t// Compute the viewport dimensions.\n\tint nLeft, nBottom, nRight, nTop;\n\
+    \tint iImageWidth, iImageHeight;\n\tacgsGetViewportInfo (iVP, nLeft, nBottom,\
+    \ nRight, nTop);\n\n\tiImageWidth  = nRight - nLeft + 1;\n\tiImageHeight = nTop\
+    \ - nBottom + 1;\n\tAtil::Size size(iImageWidth, iImageHeight);\n\tint nBytesPerRow\
+    \ = Atil::DataModel::bytesPerRow(iImageWidth,\n\t\tAtil::DataModelAttributes::k32);\n\
+    \tunsigned long nBufferSize = iImageHeight * nBytesPerRow;\n\n\t// Create an ATIL\
+    \ image for accepting the rendered image.\n\tstd::auto_ptr<char> autoBuff = std::auto_ptr<char>(new\
+    \ char[nBufferSize]);\n\tchar *pSnapshotData = autoBuff.get(); \n\tAtil::Image\
+    \ * pImage = NULL;\n\t// see if there is a GS view created\n\tAcGsView *pView\
+    \ = acgsGetGsView(iVP, false);\n\t// if not\n\tif (NULL == pView)\n\t{\n\t\t//\
+    \ then we must be in 2D wireframe mode, so use acgsGetScreenShot\n\t\tstd::auto_ptr<AcGsScreenShot>\
+    \ autoScreenShot(acgsGetScreenShot(iVP));\n\t\tAcGsScreenShot* screenShot = autoScreenShot.get();\
+    \ // auto_ptr still owns the pointer.\n\t\tif (screenShot)\n\t\t{\n\t\t\tint w\
+    \ = 0, h = 0, d = 0;\n\t\t\tscreenShot->getSize(w, h, d);\n\n\t\t\tchar* pBufTemp\
+    \ = pSnapshotData;\n\t\t\tfor (int row = 0; row < h; row++)\n\t\t\t{\n\t\t\t\t\
+    memcpy(pBufTemp, screenShot->getScanline(0, row), nBytesPerRow);\n\n\t\t\t\t//\
+    \ convert from RGBA to BGRA\n\t\t\t\tchar* pColor = pBufTemp;\n\t\t\t\tfor (int\
+    \ i = 0; i < w; i++)    // Slow but it works\n\t\t\t\t{\n\t\t\t\t\tchar temp =\
+    \ *pColor;\n\t\t\t\t\t*pColor = *(pColor + 2);\n\t\t\t\t\t*(pColor + 2) = temp;\n\
+    \t\t\t\t\tpColor += 4;\n\t\t\t\t}\n\t\t\t\tpBufTemp += nBytesPerRow;\n\t\t\t}\n\
+    \t\t\tpImage = constructAtilImg(reinterpret_cast<char*>(pSnapshotData),\n\t\t\t\
+    \tnBufferSize, nBytesPerRow, w, h, 32, 0);\n\t\t\tstd::auto_ptr<Atil::Image> autodeleter\
+    \ = std::auto_ptr<Atil::Image>(pImage); // auto_ptr now owns the image\n\n\t\t\
+    \tif (!writeImageFile(pImage, fmt, imagePath))\n\t\t\t{\n\t\t\t\tacutPrintf(_T(\"\
+    \\nFailed to write image file %s\"), imagePath);\n\t\t\t\treturn false;\n\t\t\t\
+    }\n\t\t\telse\n\t\t\t\tacutPrintf(_T(\"\\nSuccessfully written %s\"), imagePath);\n\
+    \n\t\t}\n\n\t\treturn true;\n\t}\n\telse\n\t{\n\t\treturn snapGSView(fmt, pView,\
+    \ iImageWidth, iImageHeight, fieldHeight, fieldWidth, position, target, upVector,\
+    \ imagePath);\n\t}\n}\n\nvoid cmdTestAtilOut()\n{\n\tbool bSuccess=false;\n\t\
+    eFormatType formatType = kJPG;\n\twchar_t const *pFileName = NULL;\n\n\tdouble\
+    \ fieldWidth=800.0, fieldHeight=600.0;\n\tAcGePoint3d position, target;\n\tAcGeVector3d\
+    \ upVector(AcGeVector3d::kZAxis);\n\n\tpFileName = _T(\"C:\\\\temp\\\\atil.bmp\"\
+    );\n\tbSuccess=RecordViewDetails(kBMP, fieldWidth, fieldHeight, position, target,\
+    \ upVector, pFileName);\n\tpFileName = _T(\"C:\\\\temp\\\\atil.png\");\n\tbSuccess=RecordViewDetails(kPNG,\
+    \ fieldWidth, fieldHeight, position, target, upVector, pFileName);\n\tpFileName\
+    \ = _T(\"C:\\\\temp\\\\atil.jpg\");\n\tbSuccess=RecordViewDetails(kJPG, fieldWidth,\
+    \ fieldHeight, position, target, upVector, pFileName);\n}"
+- author: tbrammer
+  email: tbrammer@imos3d.com
+  ip: 192.168.101.185
+  url: http://www.imos3d.com
+  date: '2014-11-11 01:56:18'
+  body: Is it possible to create the images with a different background color?
+- author: sudarshan d.
+  email: sa_deshpande@hotmail.com
+  ip: 125.99.72.138
+  url: ''
+  date: '2016-02-05 03:54:02'
+  body: 'Image quality is poor so i assigned bits/pixel as k64 but getting an exception
+    in converting rgba to bgra i think beacuse of buffer size, the data type used
+    is char * .so it is throwing an exception.
+
+    at char* Pbufftemp=pSnapshotdata;in nested for loop
+
+    so please suggest me what should i do to get an image with good quality.
+
+    -----'

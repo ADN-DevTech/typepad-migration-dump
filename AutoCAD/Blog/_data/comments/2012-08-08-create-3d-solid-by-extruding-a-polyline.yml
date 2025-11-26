@@ -1,0 +1,43 @@
+comments:
+- author: Oleg
+  email: fattyhallex@gmail.com
+  ip: 92.100.142.39
+  url: ''
+  date: '2012-08-08 13:48:10'
+  body: "Hi, Virupaksha,\nThanks for your example\nI have tried to convert it on C#,\n\
+    seems is working on my machine:\n       [CommandMethod(\"extt\")]\n        public\
+    \ void CreateExtrude()\n        {\n            Autodesk.AutoCAD.ApplicationServices.Application.SetSystemVariable(\"\
+    delobj\", 1);\n\n            Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;\n\
+    \n            Database db = doc.Database;\n\n            Editor ed = doc.Editor;\n\
+    \n            PromptSelectionOptions pso = new PromptSelectionOptions();\n\n \
+    \           pso.SingleOnly = true;\n\n            pso.SinglePickInSpace = true;\n\
+    \n            pso.MessageForAdding = \"\\nPlease select a polyline: \";\n\n  \
+    \          pso.MessageForRemoval = \"Failed to select a polyline\";\n\n      \
+    \      pso.PrepareOptionalDetails = true;\n\n            SelectionFilter filter\
+    \ =\n                new SelectionFilter(\n                new TypedValue[] {\
+    \ new TypedValue(0, \"lwpolyline\"),new TypedValue(70, 1) });\n\n            //select\
+    \ the polyline\n            PromptSelectionResult sres = ed.GetSelection(pso,filter);\n\
+    \n            if (sres.Status != PromptStatus.OK) return;\n\n            using\
+    \ (Transaction tr = doc.TransactionManager.StartTransaction())\n            {\n\
+    \                //get the boundary curves of the polyline\n\n               \
+    \ ObjectId idPoly = sres.Value[0].ObjectId;\n\n                Entity pEntity\
+    \ = tr.GetObject(idPoly, OpenMode.ForRead) as Entity;\n\n                Polyline\
+    \ pPoly = pEntity as Polyline; ;\n\n                if (pPoly == null) return;\n\
+    \n                DBObjectCollection lines = new DBObjectCollection();\n\n   \
+    \             pPoly.Explode(lines);\n\n                // Create a region from\
+    \ the set of lines.\n\n                DBObjectCollection regions = new DBObjectCollection();\n\
+    \n                regions = Region.CreateFromCurves(lines);\n\n              \
+    \  if (regions.Count == 0)\n                {\n                    ed.WriteMessage(\"\
+    \\nFailed to create region\\n\");\n                    return;\n             \
+    \   }\n\n                Region pRegion = (Region)regions[0];\n\n            \
+    \    // Extrude the region to create a solid.\n\n                Solid3d pSolid\
+    \ = new Solid3d();\n\n                pSolid.RecordHistory = true;\n\n       \
+    \         pSolid.Extrude(pRegion, 10.0, 0.0);\n            \n                ObjectId\
+    \ savedExtrusionId = ObjectId.Null;\n\n                ObjectId modelId;\n\n \
+    \               modelId = SymbolUtilityServices.GetBlockModelSpaceId(db);\n\n\
+    \                BlockTableRecord btr = tr.GetObject(modelId, OpenMode.ForWrite)\
+    \ as BlockTableRecord;\n\n                savedExtrusionId = btr.AppendEntity(pSolid);\n\
+    \n                tr.AddNewlyCreatedDBObject(pSolid,true);\n          \n     \
+    \           if (!pPoly.IsWriteEnabled) pPoly.UpgradeOpen();\n\n              \
+    \  pPoly.Erase();\n            \n                tr.Commit();\n            }\n\
+    \n        }\nRegards,\n\nOleg\n-----"

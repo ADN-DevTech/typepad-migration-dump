@@ -1,0 +1,79 @@
+comments:
+- author: Hanauer
+  email: ''
+  ip: 189.103.10.251
+  url: http://profile.typepad.com/6p017c34d136b4970b
+  date: '2012-12-20 08:50:37'
+  body: 'Why not provide examples in AutoCAD. NET? VBA in 64bits with connection in
+    Access, sql, etc.?
+
+    I''m migration my old Bubble CAO VBA appliation to AutoCAD .NET and not has reason
+    for today use CAO Library in VBA. And today I have some problems in AutoCAD 2013
+    with conversion and OldObjectId ObjectId.
+
+    I would be very happy if in this blog found detailed examples showing the use
+    of CAO Library with AutoCAD. NET.'
+- author: Gopinath Taget
+  email: ''
+  ip: 8.19.13.27
+  url: http://profile.typepad.com/6p0168e89c0a52970c
+  date: '2012-12-20 08:53:28'
+  body: 'Hi Hanauer,
+
+
+    Thanks for the feedback. I will look into creating a blog post for using CAO in
+    .NET in the near future.
+
+
+    Cheers
+
+    Gopinath'
+- author: Hanauer
+  email: ''
+  ip: 201.2.132.202
+  url: http://profile.typepad.com/6p017c34d136b4970b
+  date: '2013-03-01 11:55:27'
+  body: "Sorry for my bad english.\nIts possible create an entity link with DBDictionaty\
+    \ ObjectId?\nI'm tried this:\n<i>\nusing (Transaction tr = _database.TransactionManager.StartTransaction())\n\
+    \                {\n                    DBDictionary dictNODKey = null;\n    \
+    \                try\n                    {\n                        // open the\
+    \ named object dictionary\n                        dictNODKey = (DBDictionary)tr.GetObject(_linkDictionaryNodObjectId,\
+    \ OpenMode.ForWrite);\n                    }\n                    catch\n    \
+    \                {\n                        this.GetLinkDictionaryNodObjectId();\n\
+    \                        dictNODKey = (DBDictionary)tr.GetObject(_linkDictionaryNodObjectId,\
+    \ OpenMode.ForWrite);\n                    }\n                    DBDictionary\
+    \ dictNumber = null;\n                    try\n                    {\n       \
+    \                 dictNumber = (DBDictionary)tr.GetObject(dictNODKey.GetAt(Convert.ToString(number)),\
+    \ OpenMode.ForWrite);\n                    }\n                    catch\n    \
+    \                {\n                        dictNODKey.UpgradeOpen();\n      \
+    \                  dictNumber = new DBDictionary();\n                        dictNODKey.SetAt(Convert.ToString(number),\
+    \ dictNumber);\n                        tr.AddNewlyCreatedDBObject(dictNumber,\
+    \ true);\n                        try\n                        {\n           \
+    \                 ObjectId dictNumberId = dictNumber.ObjectId;\n             \
+    \               CAO.Link link = _linkTemplate.CreateLink(dictNumberId.OldId, keyValues);\n\
+    \                            //   CAO.Link link = _linkTemplate.CreateLink(id1.OldId,\
+    \ keyValues);\n                            ObjectId linkObjectId = new ObjectId(link.ObjectID);\n\
+    \                            _lom.Add(number, linkObjectId);\n               \
+    \         }\n                        catch (System.Exception ex)\n           \
+    \             {\n                            MessageBox.Show(ex.ToString());\n\
+    \                        }\n                    }\n                    // save\
+    \ the new objects to the database\n                    tr.Commit(); \n       \
+    \         }\n<i>\n\nand not works. Give this exception: \"System.Runtime.InteropServices.COMException\
+    \ (0xC022001F): Failed to create link at CAO.LinkTemplateClass.CreateLink(Int32\
+    \ ObjectID, KeyValues pKeyValues)\".\n\nThe same above routine works when the\
+    \ link is create to common entities, like lines, circles, blockreferences, etc.\n\
+    Why is not possible do create an entity link with dictionaries objectIds?\nThanks.\n\
+    Hanauer."
+- author: xiaodong
+  email: xiaodong.liang@autodesk.com
+  ip: 125.34.10.118
+  url: ''
+  date: '2013-04-03 21:14:19'
+  body: 'Hi Hanauer,
+
+
+    I have posted a similar demo in .NET. Hope it helps:
+
+    <a href="http://adndevblog.typepad.com/autocad/2013/04/obtaining-the-top-level-object-in-cao-using-net.html">http://adndevblog.typepad.com/autocad/2013/04/obtaining-the-top-level-object-in-cao-using-net.html</a>
+
+    -----'

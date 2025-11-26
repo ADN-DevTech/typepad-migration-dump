@@ -1,0 +1,119 @@
+comments:
+- author: Tom DiVittis
+  email: tdivittis@cecinc.com
+  ip: 72.43.34.114
+  url: ''
+  date: '2012-09-10 06:48:39'
+  body: 'Am I crazy, or did you switch from VB to C in the middle of this sample?
+
+
+    More importantly, how would one clear such temporary graphics?'
+- author: Balaji
+  email: ''
+  ip: 14.99.200.220
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2012-09-10 08:00:12'
+  body: 'Tom,
+
+
+    I dont understand what you mean by "switching from VB to C in the middle".The
+    post has sample code demonstrated using ObjectARX and in C#. The choice is all
+    yours.
+
+
+    Regarding clearing the graphics, a regen or zoom should do - as explained in the
+    post.'
+- author: Tom DiVittis
+  email: tdivittis@comcast.net
+  ip: 98.236.107.15
+  url: ''
+  date: '2013-04-05 05:10:32'
+  body: 'Balaji,
+
+
+    It turns out I was crazy.  ;)  Sorry for the stupid questions.  I really have
+    to stop trying to write code in 5 minute increments.
+
+
+    Please excuse my lack of C abilities.  I''m trying to do some (very) simple temporary
+    graphics, very similar to this example, in VB and I''m stuck with the RT types
+    (RTSHORT, RTPOINT, etc.).
+
+
+    Thank you.'
+- author: Alexander Rivilis
+  email: ''
+  ip: 81.95.185.60
+  url: http://profile.typepad.com/rivilis1964
+  date: '2013-04-05 12:51:40'
+  body: 'Hi Balaji!
+
+    I think that Tom DiVittis means that RTSHORT and RTPOINT is not defined in AutoCAD
+    .NET API
+
+    But AutoCAD .NET API has Autodesk.AutoCAD.Runtime.LispDataType type. RTSHORT is
+    equivalent of (int)Autodesk.AutoCAD.Runtime.LispDataType.Int16 and RTPOINT is
+    is equivalent of (int)Autodesk.AutoCAD.Runtime.LispDataType.Point2d'
+- author: Balaji
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-04-09 00:38:08'
+  body: 'Thanks Alex :)
+
+
+    I now understand Tom''s point.
+
+    I have updated the sample code to include the const values for RTSHORT and RTPOINT.
+
+
+    Sorry for missing it out in my original post.'
+- author: Balaji
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-04-09 00:41:56'
+  body: "Hi Tom,\n\nSorry for missing a part of the code snippet in my original post.\n\
+    I have updated the post now. \n\nPlease let me know if you have any issues. I\
+    \ would suggest trying the transient graphics API instead of this low level approach.\
+    \ \n\nHave you looked at the other post ?\n<a href=\"http://adndevblog.typepad.com/autocad/2012/04/using-transient-graphics.html\"\
+    >http://adndevblog.typepad.com/autocad/2012/04/using-transient-graphics.html</a>\n\
+    \nRegards,\nBalaji"
+- author: Hemant Carpenter
+  email: hemantcarpenter@gmail.com
+  ip: 202.153.35.53
+  url: ''
+  date: '2015-03-18 01:49:50'
+  body: "hi \nI want to assign LineWeight also for temp line.\nlike RTSHORT, RTPOINT"
+- author: Alexander Rivilis
+  email: ''
+  ip: 81.95.185.60
+  url: http://profile.typepad.com/rivilis1964
+  date: '2015-03-19 11:58:35'
+  body: It is impossible to assign LineWeight to temp line drawn with acedGrDraw /
+    acedGrVecs, but you can offset temp line left and right with value from 0 to Width
+    with appropriate step.
+- author: HarryKane
+  email: HarryKane@trash-mail.com
+  ip: 62.214.6.106
+  url: ''
+  date: '2016-08-29 08:29:33'
+  body: 'Too bad this example doesn''t show how to render the lines dynamically after
+    Point 1 is placed and Point 2 still on your mouse cursor.
+
+
+    I would like an interactive preview, showing the lines already before Point 2
+    is placed.
+
+
+    After all points (or other Editor inputs) are done, there is little reason to
+    show any preview as i could then also create the final intended object anyway.'
+- author: James Maeding
+  email: jmaeding@hunsaker.com
+  ip: 24.249.247.46
+  url: ''
+  date: '2018-05-08 13:31:28'
+  body: 'I''d like to draw temp vecs at an elevation. Can I do with the RB, or is
+    its the matrix?
+
+    -----'

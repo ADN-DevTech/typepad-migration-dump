@@ -1,0 +1,15 @@
+---
+layout: "post"
+title: "Capturing keys on Palettes"
+date: "2012-08-02 06:57:19"
+author: "Augusto Goncalves"
+categories:
+  - ".NET"
+  - "Augusto Goncalves"
+  - "AutoCAD"
+original_url: "https://adndevblog.typepad.com/autocad/2012/08/capturing-keys-on-palettes.html "
+typepad_basename: "capturing-keys-on-palettes"
+typepad_status: "Publish"
+---
+
+<p>By <a href="http://adndevblog.typepad.com/autocad/augusto-goncalves.html">Augusto Goncalves</a></p>  <p>Different from Form, on a User Control do not have the <a href="http://msdn.microsoft.com/en-us/library/system.windows.forms.form.keypreview.aspx" target="_blank">KeyPreview</a> property usually used to modify the behavior to capture keys. Actually there is another way that works for both forms and user controls, by using ProcessCmdKey override, as shown below.</p>  <div style="font-family: ; background: white">   <p style="margin: 0px"><font face="Courier New"><span><font color="#0000ff"><font style="font-size: 8pt">protected</font></font></span><font style="font-size: 8pt"><font color="#000000"> </font><span><font color="#0000ff">override</font></span><font color="#000000"> </font><span><font color="#0000ff">bool</font></span><font color="#000000"> ProcessCmdKey(</font><span><font color="#0000ff">ref</font></span><font color="#000000"> </font><span><font color="#2b91af">Message</font></span><font color="#000000"> msg, </font><span><font color="#2b91af">Keys</font></span><font color="#000000"> keyData)</font></font></font></p>    <p style="margin: 0px"><font face="Courier New"><font style="font-size: 8pt" color="#000000">{</font></font></p>    <p style="margin: 0px"><font face="Courier New"><font color="#000000"><font style="font-size: 8pt">&#160; </font></font><font style="font-size: 8pt"><span><font color="#0000ff">if</font></span><font color="#000000"> (keyData == (</font><span><font color="#2b91af">Keys</font></span><font color="#000000">.Escape))</font></font></font></p>    <p style="margin: 0px"><font face="Courier New"><font style="font-size: 8pt" color="#000000">&#160; {</font></font></p>    <p style="margin: 0px"><font face="Courier New"><font color="#000000"><font style="font-size: 8pt">&#160;&#160;&#160; </font></font><font style="font-size: 8pt"><span><font color="#2b91af">MessageBox</font></span><font color="#000000">.Show(</font><span><font color="#a31515">&quot;Escape pressed&quot;</font></span><font color="#000000">);</font></font></font></p>    <p style="margin: 0px"><font face="Courier New"><font style="font-size: 8pt" color="#000000">&#160; }</font></font></p>    <p style="margin: 0px"><font face="Courier New"><font color="#000000"><font style="font-size: 8pt">&#160; </font></font><font style="font-size: 8pt"><span><font color="#0000ff">return</font></span><font color="#000000"> </font><span><font color="#0000ff">base</font></span><font color="#000000">.ProcessCmdKey(</font><span><font color="#0000ff">ref</font></span><font color="#000000"> msg, keyData);</font></font></font></p>    <p style="margin: 0px"><font face="Courier New"><font style="font-size: 8pt" color="#000000">}</font></font></p> </div>

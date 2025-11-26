@@ -1,0 +1,68 @@
+comments:
+- author: Pete Elliott
+  email: elliottpd@gmail.com
+  ip: 161.165.196.84
+  url: ''
+  date: '2012-05-16 11:26:19'
+  body: Just wondering the difference between this method and blockRef.ExplodeToOwnerSpace?
+- author: Virupaksha aithal
+  email: Virupaksha.aithal@autodesk.com
+  ip: 203.116.198.71
+  url: ''
+  date: '2012-05-16 23:24:42'
+  body: "Hi\n\nexplodeToOwnerSpace function works similar to “explode” function, except\
+    \ that it appends the resulting entities to the block that owns the reference\
+    \ on which this method was called. \nThis API also, retains the xdata attached\
+    \ to basic entities which constituted the block.  \n\nThanks\nViru"
+- author: petcon
+  email: newton521200@yahoo.com.cn
+  ip: 74.125.184.46
+  url: ''
+  date: '2012-05-17 03:33:03'
+  body: my english is very poor，still can not  understand the difference between the
+    two functions
+- author: Virupaksha aithal
+  email: Virupaksha.aithal@autodesk.com
+  ip: 203.116.198.71
+  url: ''
+  date: '2012-05-17 04:33:56'
+  body: 'Hi,
+
+
+    Yes, there is no big difference between two functions except one (explode) returns
+    a array of in-memory objects and other (explodeToOwnerSpace) adds the objects
+    directly to database.
+
+
+    Thanks
+
+    Viru'
+- author: Stephen Preston
+  email: ''
+  ip: 108.236.113.147
+  url: http://profile.typepad.com/stephenpreston
+  date: '2012-05-17 08:05:54'
+  body: "The code posted here is a simple usage example. It adds the exploded entity\
+    \ collection to the current space, so it is basically reproducing the functionality\
+    \ of ExplodeToOwnerSpace. In many cases you'll use Explode when you don't want\
+    \ to add all the entities back to the same BlockTableRecord the exploded entity\
+    \ came from, or if you want to perform some transformations on the exploded entities\
+    \ before adding them to the drawing, or if you don't want to add them to the drawing\
+    \ at all. \n\nIts up to you to decide which function you want to use in any given\
+    \ scenario."
+- author: petcon
+  email: newton521200@yahoo.com.cn
+  ip: 58.49.252.151
+  url: ''
+  date: '2012-05-17 22:20:28'
+  body: i see  thx
+- author: B2D2
+  email: benjaminweir@hotmail.com
+  ip: 50.99.95.215
+  url: ''
+  date: '2012-05-22 19:50:55'
+  body: 'Also note that exploding block references with attribute references would
+    lose the attribute value.  Using an approach such as this would allow you to do
+    extra processing to replace the definisions with DBText or MText.
+
+    -----'

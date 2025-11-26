@@ -1,0 +1,40 @@
+comments:
+- author: James carr
+  email: james@fredwilson.com
+  ip: 70.91.147.147
+  url: http://fredwilson.com
+  date: '2018-01-09 07:00:40'
+  body: 'I have been looking for a way to change the font STYLE. I can create the
+    style name and get the ttf font. i do not see how to put the font STYLE(bold,
+    italic, etc). For example, i am trying to get the Cambria to be Cambria Regular.
+    I can use the Cambria Bold (cambriab.ttf). But I have to manually change it in
+    the dialog box to Regualar. I cannot do so with lisp so far.
+
+    Using this - (defun c:getfontstyle (/ e ST) (setq ST (getstring "What is the Font
+    Style Name") e  tblobjname "STYLE" ST))(entget e ''("*"))  );end lisp - I see
+    (-3 ("ACAD" (1000 . "Cambria"), but how do i set it to that, the Regular font
+    style? Still looking.
+
+    james@fredwilson.com'
+- author: Chris Schildmeier
+  email: cschildmeier@hunsakersd.com
+  ip: 67.52.144.228
+  url: ''
+  date: '2018-01-24 10:18:49'
+  body: 'Your specific example..I''m not sure I understand. Why wouldn''t you just
+    call cambria.ttf? Why are you specifying cambriaB if you don''t want bold?
+
+
+    Does this help?
+
+    (vl-load-com)
+
+    (setq doc (vla-get-activedocument (vlax-get-acad-object)))
+
+    (setq styleCol (vla-get-textstyles doc))
+
+    (setq myStyle (vla-add styleCol "YourTextStyle"))
+
+    (vla-setfont myStyle "Cambria" :vlax-False :vlax-False 0 32)
+
+    -----'

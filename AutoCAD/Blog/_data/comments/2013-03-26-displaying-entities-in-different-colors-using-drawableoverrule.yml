@@ -1,0 +1,55 @@
+comments:
+- author: mohan
+  email: ''
+  ip: 121.246.205.66
+  url: http://profile.typepad.com/d107314858794456844
+  date: '2013-03-28 23:55:45'
+  body: 'Hi Balaji,
+
+    Thanks for the detailed implementation. It worked fine for me except one problem.
+    In my architectural drawing I have 2 sofas(block references) that are referring
+    the same block(sofa). Now, if I colorize one sofa, the other one also gets that
+    color. Is there any way to fix this?
+
+
+    Regards,
+
+    Mohan.'
+- author: Balaji
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-04-18 04:08:31'
+  body: "Hi Mohan,\n\nSorry, I couldnt reply promptly. I needed some time to investigate\
+    \ the possibility of doing it.\n\nI dont think this is possible to do with DrawableOverule.\n\
+    \nWhen AutoCAD calls the “WorldDraw” of the DrawableOverrule, the drawable that\
+    \ is obtained as the first parameter does not hold any information regarding the\
+    \ blockreference. \n\nInside the “WorldDraw” the “drawableEntity.OwnerId.Handle”\
+    \ refers to the block definition.\n\nDuring the nested entity selection, the “FullSubentityPath”\
+    \ has the ObjectId of the block reference as well as the selected subentity. Since\
+    \ the same info isn’t available in the “WorldDraw” of the DrawableOverrule, there\
+    \ is no way to colorize the entities independently."
+- author: Balaji
+  email: ''
+  ip: 14.96.107.36
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-11-09 08:12:33'
+  body: 'Hi Mohan,
+
+
+    I have tried to address this in a different blog post :
+
+    <a href="http://adndevblog.typepad.com/autocad/2013/11/drawableoverrule-to-highlight-entities-in-nested-block-references-and-xrefs.html">http://adndevblog.typepad.com/autocad/2013/11/drawableoverrule-to-highlight-entities-in-nested-block-references-and-xrefs.html</a>
+
+
+    Sorry, I think I had given up too quickly when you first asked about it.
+
+
+    Hope this helps.
+
+
+    Regards,
+
+    Balaji
+
+    -----'

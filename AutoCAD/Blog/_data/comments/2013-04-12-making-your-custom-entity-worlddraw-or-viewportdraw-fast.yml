@@ -1,0 +1,73 @@
+comments:
+- author: Loic
+  email: loic.jourdan@2020.net
+  ip: 82.246.8.148
+  url: http://www.2020technologies.com/en-ca/manufacturing/2020-cad/
+  date: '2013-04-15 04:43:50'
+  body: 'hi,
+
+    Is this even true for AcGiGeometry::draw calls?
+
+
+    Thank you'
+- author: Fenton Webb
+  email: ''
+  ip: 132.188.64.218
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2013-04-15 08:20:55'
+  body: 'Hi Loic
+
+
+    yes, it''s true!!
+
+
+    You can also check inputPending() for AutoCAD side user interaction checking.'
+- author: Loic
+  email: loic.jourdan@2020.net
+  ip: 82.246.8.148
+  url: http://www.2020technologies.com/en-ca/manufacturing/2020-cad/
+  date: '2013-04-15 23:23:42'
+  body: god, I've never noticed that before, I've yet developed many (sometimes complex)
+    subWorldDraw overrides, shame on me, thanks to you!
+- author: Fenton Webb
+  email: ''
+  ip: 132.188.64.218
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2013-04-16 09:04:25'
+  body: 'Hi Loic
+
+
+    no problem. One last thing, if you use DrawJigs, then the same rule applies. If
+    you use AcEdJig, then you should check inputPending() for long iterations in your
+    code - otherwise it''s handled by AutoCAD automatically.'
+- author: Loic Jourdan
+  email: loic.joudran@2020.net
+  ip: 82.246.8.148
+  url: ''
+  date: '2013-04-16 22:53:25'
+  body: 'good tip indeed, I''ll double check but I''m pretty sure it applies once
+    in my code
+
+
+    thanks'
+- author: Loic
+  email: loic.jourdan@2020.net
+  ip: 71.19.191.133
+  url: http://www.2020technologies.com/en-ca/manufacturing/2020-cad/
+  date: '2013-04-26 04:27:10'
+  body: "Hi Fenton,\nOne last question, can we test AcGiCommonDraw::regenAbort return\
+    \ as well?\n\ni.e. would these pseudo-code equivalent? (sorry for indent)\n\n\
+    ----\nfor each (ent in ents){\n  if (mode->geometry().draw(ent)) //your tip\n\
+    \    break;\n}\n----\nfor each (ent in ents){\n  mode->geometry().draw(ent);\n\
+    \  if (mode->regenAbort())\n    break;\n}\n----\n\nthis question because, somewhere\
+    \ in my code, I have a custom acgiworlddraw/acgigeometry with draw(AcGiDrawable*)\
+    \ overrided and I wonder if this method has to return the result of AcGiCommonDraw::regenAbort\
+    \ in order to behave correctly.\n\nThank you"
+- author: Fenton Webb
+  email: ''
+  ip: 132.188.64.218
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2013-04-26 08:50:30'
+  body: "Hey Loic!\n\nyou are absolutely right, regenAbort() informs you when you\
+    \ should not waste anymore time creating your geometry. \n\nThanks for the reminder,\
+    \ it seems you got a lot out of this one which is nice to hear\n-----"

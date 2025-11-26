@@ -1,0 +1,23 @@
+comments:
+- author: Bert Piercey
+  email: bert.piercey@siemens.com
+  ip: 12.54.94.110
+  url: ''
+  date: '2015-11-03 11:43:32'
+  body: I tried using this and it does not seem to be able to create the object vlApp
+    = CreateObject("VL.Application.16").
+- author: Joris Claassen
+  email: j.claassen@yahoo.co.uk
+  ip: 86.89.72.230
+  url: ''
+  date: '2016-06-10 02:05:36'
+  body: "CreateObject(\"VL.Application.16\") is available when you have a specific\
+    \ version (or range of versions) of AutoCAD. \n\nTo make it easier (not!) the\
+    \ numbering differens for a lot things:\nAutoCAD   version for       first 6      version for \n\
+    program   COM access*   chars of   COM access\nversion     to program      dwg file     to VL\n\
+      2004             16            AC1018             ?\n  2007             17            AC1021             ? \n\
+      2010             18            AC1024           16?   \n  2013             19            AC1027             ? \n\
+    \n\n*: with either CreateObject or GetObject \nto be checked in <ul><li>regedit.exe\
+    \ with:     HKEY_CLASSES_ROOT\\AutoCAD.Application.##  </li>\n<li>reg.exe:<br\
+    \ />    reg query HKCR  /f \"AutoCAD.Application.*\"<br />      (likewise for\
+    \ VL object:<br />        reg query HKCR  /f \"VL.Application.*\")</li>\n\n-----"

@@ -1,0 +1,119 @@
+comments:
+- author: Brad Hamilton
+  email: bradley.hamilton@hii-amsec.com
+  ip: 96.126.193.15
+  url: ''
+  date: '2012-11-07 09:35:27'
+  body: 'Is there any progress on this issue between Microsoft and Autodesk?  We have
+    many apps; 60;30;10%, vLISP, .NET & VBA.  The few remaining VBA apps are rather
+    substantial but as more of ours customers move to 64bit ac2011, we are getting
+    lots of performance complaints.
+
+
+    Also, in vLISP, especially with extending functionality with typelibs, are these
+    ActiveX components in the same boat?'
+- author: Stephen Preston
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/stephenpreston
+  date: '2012-11-07 16:49:15'
+  body: 'Hi Brad,
+
+
+    I''m sorry, but I can''t talk about future AutoCAD versions. All I can say is
+    that up to and including the current (AutoCAD 2013) release, we have continued
+    to license VBA 6.3 from Microsoft. VBA 6.3 doesn''t come in a 64-bit version,
+    so the only way you can speed up your code in the current releases is to migrate
+    to another API/language (e.g. Visual LISP or .NET using COM Interop) to allow
+    your code to run in-process to AutoCAD. The cause of the slowdown is that the
+    VBA engine has to run outside the AutoCAD process, because you can''t load a 32-bit
+    DLL into a 64-bit process. (You''ll see the same kind of slowdown if you automate
+    AutoCAD from another application using ActiveX on a 32-bit OS).
+
+
+    :-('
+- author: Brad Hamilton
+  email: bradley.hamilton@hii-amsec.com
+  ip: 96.126.193.15
+  url: ''
+  date: '2012-11-08 09:20:09'
+  body: 'Thanks Stephen,
+
+
+    Was the 32-bit OS reference in the last paragraph correct?  If so, I''m more confused.  If
+    I use (vlax-get-or-create-object "Excel.Application") on a 64-bit machine using
+    office Office 2007, will this exhibit the same performance degradation as having
+    a VBA command do the export?  Same question with (vlax-import-type-library...?
+
+
+    Additionally, as I mentioned in my first post, only a few of our remaining apps
+    are VBA, yet the VBA enabler loads upfront.  Will this cause a performance hit
+    even if the user never launches one of the VBA apps?  Is there a method that we''re
+    missing to "demand-load" the VBA enabler?'
+- author: Stephen Preston
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/stephenpreston
+  date: '2012-11-08 09:45:09'
+  body: 'Any ActiveX/COM call across process boundaries will exhibit the same performance
+    hit. So calling from AutoCAD to Excel should be just as slow as calling AutoCAD
+    from Excel. The reason any AutoCAD VBA macro on AutoCAD 64-bit is slower than
+    on AutoCAD 32-bit is (as I said before) because the 32-bit VBA engine has to sit
+    outside the AutoCAD 64-bit process, whereas it sits inside the AutoCAD 32-bit
+    process and so doesn''t have to marshal COM calls across process boundaries. Here''s
+    a short Microsoft reference about this - <a href="http://msdn.microsoft.com/en-us/library/aa242099(v=vs.60).aspx.">http://msdn.microsoft.com/en-us/library/aa242099(v=vs.60).aspx.</a>
+
+
+    The demandload registry settings for the VBA IDE are located at HKEY_LOCAL_MACHINE\SOFTWARE\Autodesk\AutoCAD\R19.0\ACAD-B001:409\Applications\AcadVBA
+    (or similar), but I''m not going to encourage you to edit the default AutoCAD
+    demandload settings.'
+- author: Abidi
+  email: sakina.ofc@gmail.com
+  ip: 203.200.225.151
+  url: http://adndevblog.typepad.com/autocad/2012/05/64-bit-vba-performance-issue.html
+  date: '2013-08-27 23:14:43'
+  body: 'Hello,
+
+
+    I have a VBA code of 32 bit version on a windows 64 bit system. I am asked to
+    transfer it to a windows 32 bit computer. Code runs fine but is extremely slow.
+    The difference is not the excel version but the operating systems type. Older
+    one is 64 bit OS and new one is 32 bit OS. What should I do to make it run faster?'
+- author: Philippe
+  email: philippe.leefsma@autodesk.com
+  ip: 86.211.226.148
+  url: ''
+  date: '2013-08-28 07:15:57'
+  body: "Hi Abidi, \nThere is not much you can do to make the code run faster, except\
+    \ writing it in a smart way obviously... VBA code will run faster on 32-bit OS\
+    \ because it runs in process with AutoCAD, versus out-of-process for 64-bit. That's\
+    \ what this blog post is stating.\n\nAutoCAD 2014 64-bit is coming with VBA7,\
+    \ which support in-process 64-bit, so this sure helps performances."
+- author: aiyoung
+  email: ainyoung@gmail.com
+  ip: 198.102.153.2
+  url: ''
+  date: '2014-02-20 11:47:05'
+  body: "When converting an old VBA application to VB.NET, how can one go about searching\
+    \ for code that inadvertently initializes the VBA system?\n\nI've converted an\
+    \ old VAB app to VB.NET using the VBA to VB6 conversion tool, then using visual\
+    \ studio to get everything working with vb.net. \n\nWhen i run the code, it hangs\
+    \ on one line that calls an old LISP script. AutoCAD invokes the VBA system and\
+    \ the whole application hangs for about 1-3 minutes before continuing."
+- author: Stephen Preston
+  email: ''
+  ip: 132.188.71.10
+  url: http://profile.typepad.com/stephenpreston
+  date: '2014-02-20 15:18:49'
+  body: Have you debugged your LISP script to see where the slowdown occurs? Does
+    your LISP macro include any calls to vla* functions?
+- author: CAD bloke
+  email: Ewen@CADbloke.com
+  ip: 203.18.238.29
+  url: http://CADbloke.com
+  date: '2015-03-30 16:43:04'
+  body: 'Here is a Lisp routine that unloads all the VBA apps so AutoCAD (x64, pre
+    v2014) can resume full speed. You would need to set your VBA apps to demand-load
+    so they will reload when you call them again. <a href="https://gist.github.com/CADbloke/b8b8632a954ee191f3d4">https://gist.github.com/CADbloke/b8b8632a954ee191f3d4</a>
+
+    -----'

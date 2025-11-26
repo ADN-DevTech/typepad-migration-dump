@@ -1,0 +1,78 @@
+comments:
+- author: Matus Brlit
+  email: ''
+  ip: 188.167.110.213
+  url: http://profile.typepad.com/brlit
+  date: '2012-06-01 10:11:29'
+  body: 'I was exploding the block using blockRef.Explode(DBObjectCollection) and
+    then adding those objects to the database
+
+    this looks much better'
+- author: David
+  email: vnsharifi@Gmail.com
+  ip: 174.138.200.227
+  url: ''
+  date: '2012-07-19 15:57:35'
+  body: 'Hi Virupaksha.
+
+    Thanks for post.
+
+    If block is an overrulled block, using your code and even using blockRef.Explode
+    methos will explode the original block to original state not overruled state.
+
+    I had  overrule explode class for that block, which works fine from within command
+    line, using Explode command. But I want to be able to explode the overrulled block
+    from code . How could I achieve this?
+
+    Thanks.
+
+    Davdi.'
+- author: Virupaksha Aithal
+  email: ''
+  ip: 115.112.233.72
+  url: http://profile.typepad.com/6p0168e8800efa970c
+  date: '2012-07-23 02:37:09'
+  body: "Hi,\ntry below code... code adds a circle to me retaining the original block\
+    \ reference.\n\nclass Myexplode : TransformOverrule\n{\n    public override void\
+    \ Explode(Entity entity, DBObjectCollection entitySet)\n    {\n        //Just\
+    \ 1 circle..\n        Circle cir = new Circle(Point3d.Origin, Vector3d.ZAxis,\
+    \ 10);\n\n        entitySet.Add(cir);\n        //base.Explode(entity, entitySet);\n\
+    \    }\n}\n\n[CommandMethod(\"explodeRef\")]\nstatic public void explodeRef()\n\
+    {\n Document doc = Application.DocumentManager.MdiActiveDocument;\n Database db\
+    \ = doc.Database;\n Editor ed = doc.Editor;\n\n PromptEntityOptions options =\n\
+    \           new PromptEntityOptions(\"\\nSelect block reference\");\n options.SetRejectMessage(\"\
+    \\nSelect only block reference\");\n options.AddAllowedClass(typeof(BlockReference),\
+    \ false);\n\n Myexplode test = new Myexplode();\n Overrule.AddOverrule(RXObject.GetClass(typeof(BlockReference)),\
+    \ test, true);\n Overrule.Overruling = true;\n\n PromptEntityResult acSSPrompt\
+    \ =\n         ed.GetEntity(options);\n\n using (Transaction tx =\n           \
+    \          db.TransactionManager.StartTransaction())\n {\n     BlockReference\
+    \ blockRef = tx.GetObject(acSSPrompt.ObjectId, \n                            OpenMode.ForRead)\
+    \ as BlockReference;\n\n     DBObjectCollection entitySet = new DBObjectCollection();\n\
+    \     blockRef.Explode(entitySet);\n\n     BlockTableRecord table = (BlockTableRecord)tx.GetObject(\n\
+    \                          db.CurrentSpaceId, OpenMode.ForWrite);\n     foreach\
+    \ (DBObject obj in entitySet)\n     {\n         if (obj is Entity)\n         {\n\
+    \             table.AppendEntity((Entity)obj);\n             tx.AddNewlyCreatedDBObject(obj,\
+    \ true);\n         }\n     }\n\n     tx.Commit();\n }\n\n Overrule.RemoveOverrule(RXObject.GetClass(typeof(BlockReference)),\
+    \ test);\n test.Dispose();\n}"
+- author: David
+  email: vnsharifi@gmail.com
+  ip: 216.185.64.78
+  url: ''
+  date: '2012-07-24 05:27:19'
+  body: 'Hi .
+
+    Thanks , It worked like a charm and it was exactly what I needed. Thanks for your
+    time .
+
+    I am a big fan now.
+
+
+    David'
+- author: Hermann Weiß
+  email: Hermann.weiss@neuberger.net
+  ip: 195.50.158.166
+  url: ''
+  date: '2014-07-08 05:14:12'
+  body: 'How can I make the DrawOrderTable the resolved parts again?
+
+    -----'

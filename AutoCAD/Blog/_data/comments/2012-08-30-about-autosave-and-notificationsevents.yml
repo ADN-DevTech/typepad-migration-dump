@@ -1,0 +1,120 @@
+comments:
+- author: Tony Tanzillo
+  email: caddzooks@hushmail.com
+  ip: 24.47.197.131
+  url: ''
+  date: '2012-09-07 08:38:38'
+  body: "Hi.  \n\nWhat if someone calls AcDbDatabase::saveAs() or the AcadDocument.Save()/SaveAs()\
+    \ methods in ActiveX ?\n\nI think this may not be a good way to detect if a save\
+    \ is an Autosave or not.\n\nIs there something wrong with just examining the file\
+    \ extension?"
+- author: Augusto Goncalves
+  email: ''
+  ip: 200.57.88.172
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2012-09-10 06:39:43'
+  body: 'Hi Tony,
+
+
+    The file extension can be renamed, so a user can change it to .DWG and then cause
+    this examination to fail. Yes if the call to save the drawing come from an API
+    call, then will not work either, but at least this type of call is under your
+    control.
+
+
+    Thanks for the comment.
+
+
+    Regards,
+
+    Augusto Goncalves'
+- author: Stuart Elvers
+  email: ''
+  ip: 97.68.93.178
+  url: http://profile.typepad.com/6p017c38422d3a970b
+  date: '2013-07-30 06:38:25'
+  body: 'Autgusto,
+
+
+    Sorry for dredging up older post''s. We have tapped into the DocumentManager.DocumentLockModeChanged
+    event to see various things and prevent commands from running during certain times
+    in our application.
+
+
+    The DocumentLockModeChangedEventArgs parameter has a .GlobalCommandName property
+    that shows us when "AUTO_SAVE" is being called during one of our routines. This
+    is easy to prevent as there is also a Veto() function to cancel the "AUTO_SAVE".
+    We also set a flag when the "AUTO_SAVE" has been Veto()''d so we can trigger a
+    QSAVE as soon as our command has completed.
+
+
+    My question is, using .Net, is there an way to trigger a call to "AUTO_SAVE" directly.
+    QSAVE does not seem to be the same thing and takes longer in some cases. Is there
+    something we can maybe dll import from arx? I have tried the typical ways to call
+    "AUTO_SAVE" as a command and it is not recognized as a command. Again the GlobalCommandName
+    property shows its name is "AUTO_SAVE" but I believe that is just a false name
+    that does not correlate to an actual registered command name.
+
+
+    Thank you,
+
+
+    Stuart Elvers'
+- author: alvior
+  email: alvior025@hotmail.com
+  ip: 61.218.53.155
+  url: ''
+  date: '2015-07-30 02:20:20'
+  body: 'Hi,
+
+
+    Sorry to bother you, I want to ask a question.
+
+    How can I have a fixed time of AUTOSAVE and users can not change it by themselves?
+
+
+    Thanks'
+- author: Augusto Goncalves
+  email: ''
+  ip: 177.43.194.106
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2015-07-30 04:36:40'
+  body: 'Alvior,
+
+
+    You can track if this sysvar change (by the user), if so, change back to the original
+    value. As this is a setting (under OPTIONS), you cannot avoid it being changed,
+    but you can change it back.
+
+
+    Regards,
+
+    Augusto Goncalves'
+- author: Augusto Goncalves
+  email: ''
+  ip: 177.43.194.106
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2015-07-30 04:38:38'
+  body: "Stuart,\n\nSorry I didn't receive a notification about this... \n\nIndeed\
+    \ AutoCAD has several \"internal\" commands that appear only during DockLock event\
+    \ (and some other events), and we cannot invoke most of them. \n\nRegards,\nAugusto\
+    \ Goncalves"
+- author: joantopo
+  email: joantopo@hotmail.com
+  ip: 79.152.32.253
+  url: ''
+  date: '2016-08-19 18:09:17'
+  body: 'So, what is finally the best way to catch the AUTO_SAVE "event"?
+
+
+    As Stuart Elvers said and I have tried it, CommandWillStart event doesn´t work
+    with e.GlobalCommandName="AUTO_SAVE"
+
+
+    I would prefer not to use DockLock event because there is a huge amount of scenarios
+    when that event is fired.
+
+
+    Thanks.
+
+    -----'

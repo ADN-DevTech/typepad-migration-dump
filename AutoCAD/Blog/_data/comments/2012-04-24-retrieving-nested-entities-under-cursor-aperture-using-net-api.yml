@@ -1,0 +1,78 @@
+comments:
+- author: PDOTeam
+  email: ''
+  ip: 24.158.74.138
+  url: http://profile.typepad.com/pdoteam
+  date: '2012-04-24 06:11:09'
+  body: "I noticed you used \"acad.exe\" in the PInvoke.  \n\nWith 2013, we seem to\
+    \ be changing to use the AcCore.dll for PInvoke for some commands.  How do you\
+    \ know when to use \"acad.exe\" and \"AcCore.dll\"  (other than trial and error)?"
+- author: Philippe
+  email: philippe.leefsma@autodesk.com
+  ip: 95.172.88.8
+  url: ''
+  date: '2012-04-24 06:18:39'
+  body: 'Yes that''s a good point. With the introduction of AcCore.dll some exported
+    arx methods may be moved to it whereas some others remains in acad.exe.
+
+    I don''t have the list of all methods that will be moved to AcCore.dll, however
+    it is pretty straightforward to discover them with a tool such as "depends.exe":
+    simply open AcCore.dll from your AutoCAD install directory using this utility,
+    you will see all exported methods it contains. It has an option to copy the methods
+    names, so you can easily put them in a text file and perform a keyword search
+    for example.
+
+    Depends is a free tool available here: <a href="http://www.dependencywalker.com/">http://www.dependencywalker.com/</a>'
+- author: PDOTeam
+  email: ''
+  ip: 24.158.74.138
+  url: http://profile.typepad.com/pdoteam
+  date: '2012-04-24 08:43:45'
+  body: Thanks for the tip on Depends!
+- author: Kerry Brown
+  email: ''
+  ip: 114.77.139.113
+  url: http://profile.typepad.com/kerrybrown
+  date: '2012-04-24 19:48:44'
+  body: 'Regarding  acad.exe and AcCore.dll export dump
+
+
+    I''ve posted a .txt file listing here :
+
+
+    <a href="http://www.theswamp.org/index.php?topic=41527.0">http://www.theswamp.org/index.php?topic=41527.0</a>'
+- author: kaefer
+  email: t.meinecke@gtb-ingenieure.de
+  ip: 92.206.167.130
+  url: ''
+  date: '2012-04-24 23:52:13'
+  body: 'I was musing about getting around the unsafe keyword in this example by changing
+    the extern declaration of acadSSNameX from resbuf** rbpp to out IntPtr rbpp (cf.
+    acedInvoke), and about using the predefined global::AdsName struct.
+
+
+    <a href="http://www.theswamp.org/index.php?topic=41569.0">http://www.theswamp.org/index.php?topic=41569.0</a>
+
+
+    Many thanks for your collective wisdom!'
+- author: Max Senft
+  email: max.senft@psb-gmbh.de
+  ip: 193.164.159.28
+  url: ''
+  date: '2014-04-17 06:26:11'
+  body: 'I don''t know if commenting on a 2 year old post is clever, but I thought
+    it is important to mention:
+
+
+    I just implemented (using AutoCAD 2010) a "virtual selection" by using the PromptNestedEntityOptions''
+    members "NonInteractivePickPoint" and "UseNonInteractivePickPoint". I actually
+    did not use it for a "continuing realtime" but used the PromptNestedEntityResult''
+    member PickedPoint. But without the need of any additionally imported functions.
+
+
+    At another point of my software I "translated" the system''s cursor position to
+    AutoCAD Point3d using the Editor.PointToWorld() function - which you did not need
+    here because the PointMonitor already supplies the RawPoint. I just wanted to
+    mention it. :)
+
+    -----'

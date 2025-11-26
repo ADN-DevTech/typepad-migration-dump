@@ -1,0 +1,14 @@
+---
+layout: "post"
+title: "TransformBy with multi-line MText/AcDbMText"
+date: "2012-12-18 11:07:14"
+author: "Augusto Goncalves"
+categories:
+  - "Augusto Goncalves"
+  - "AutoCAD"
+original_url: "https://adndevblog.typepad.com/autocad/2012/12/transformby-with-multi-line-mtextacdbmtext.html "
+typepad_basename: "transformby-with-multi-line-mtextacdbmtext"
+typepad_status: "Publish"
+---
+
+<p>By <a href="http://adndevblog.typepad.com/autocad/augusto-goncalves.html">Augusto Goncalves</a></p>  <p>Suppose a a MTEXT entity that has two lines of text: One line of text is formatted with the Arial font at point size 200 and the other line is formatted with text that uses the Arial font, text size 100. If I transform this entity with the ObjectARX or .NET function, transformBy, the first line is transformed,<strong> but the second line of text stays the same</strong>.</p>  <p>This is how AutoCAD is designed to work and is not a problem caused by the ObjectARX or .NET API's. To reproduce this behavior, use the &quot;Scale&quot; command in AutoCAD. Moreover: the same effect happens if you change the color or any other setting besides height of the Mtext.</p>  <p>The reason for this is that if you change the settings that were present when the Mtext was created, then any changes to the text settings that are made afterwards are stored as format codes inside the string used for storing the text of the MTEXT entity (DXF code 1). </p>  <p>As an example, suppose we have an entget list for an MTEXT object that contains two lines: the first one has Arial text that has 100 at its height, and and the second line contains Arial text that has 200 as its height:</p>  <p><font color="#a5a5a5">Command: (entget (entlast))     <br />((-1 . &lt;Entity name: 3470550&gt;) (0 . &quot;MTEXT&quot;) (5 . &quot;52&quot;) (100 . &quot;AcDbEntity&quot;)      <br />(67 . 0) (8 . &quot;0&quot;) (100 . &quot;AcDbMText&quot;) (10 -0.210389 6.2124 0.0) (40 . 100.0)      <br />(41 . 4.7123) (71 . 1) (72 . 5) (1 . &quot;test\\P\\H200;test&quot;) (7 . &quot;STANDARD&quot;)      <br />(210 0.0 0.0 1.0) (11 1.0 0.0 0.0) (42 . 734.915) (43 . 366.667) (50 . 0.0))</font></p>  <p>If you change the properties of this entity, then only the global properties will be changed (DXF code 400 for the text height), but the text string itself will not be changed. As a result, the second line will be displayed using Arial with a height of 200. This occurs regardless of whether you use an API or an AutoCAD command such AS DDEDIT, CHPROP, or SCALE.</p>  <p>Using the API you can work this around only parsing the content of the MTEXT entity and replacing manually the height formatting values. (This cannot be done in AutoCAD from the command line.)</p>  <p>An alternate solution is to use different MTEXT entities for text that has requires different formatting.</p>

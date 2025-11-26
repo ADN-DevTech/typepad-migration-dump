@@ -1,0 +1,161 @@
+comments:
+- author: Gautham
+  email: gauthamn28@gmail.com
+  ip: 206.183.28.85
+  url: ''
+  date: '2012-07-05 08:22:47'
+  body: How will you change the saved path name from a full path to a relative path.
+    I tried changing the BlockTableRecord.PathName but that didn't provide the desired
+    result. I wanted to do this without using the reference manager.
+- author: Mona
+  email: Mona.Akkoush@dargroup.com
+  ip: 85.112.95.23
+  url: ''
+  date: '2012-07-21 00:07:42'
+  body: 'Hello, I need to do the same thing.
+
+    Were you able to sort it out?
+
+
+    Thanks in advance'
+- author: Gautham
+  email: gauthamn28@gmail.com
+  ip: 206.183.28.85
+  url: ''
+  date: '2012-07-25 05:59:23'
+  body: I ended up saving the changes I made by using db.SaveAs(). This is a hackish
+    solution but nothing else seemed to work. If you don't want to use this you can
+    try using one of the LISP scripts that will do it for you.
+- author: Stephen Preston
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/stephenpreston
+  date: '2012-07-25 17:10:00'
+  body: 'Sorry I missed answering your question earlier. Does this help? - <a href="http://adndevblog.typepad.com/autocad/2012/07/changing-xref-paths-from-absolute-to-relative.html.">http://adndevblog.typepad.com/autocad/2012/07/changing-xref-paths-from-absolute-to-relative.html.</a>
+
+
+    Maybe that''s how you were doing it already?'
+- author: Gautham
+  email: gauthamn28@gmail.com
+  ip: 206.183.28.85
+  url: ''
+  date: '2012-07-30 09:15:02'
+  body: Thanks for the reply Stephen. I ended up doing something similar to the code
+    you posted. I thought there would be another way of doing this and hence asked
+    the question. Hope you are having a great time with your new Collie puppy.
+- author: Raman
+  email: sbvram@gmail.com
+  ip: 62.92.25.130
+  url: ''
+  date: '2012-08-27 05:21:54'
+  body: "Nice code fore retrieving XRef DWG files.\n\nlike above, is there any API\
+    \ methods for getting \nAttached Image,DWG,DGN,PDF file details\n\nPlease help\
+    \ me on this"
+- author: Hardiksinh Jadeja
+  email: hjadeja@asite.com
+  ip: 202.131.102.147
+  url: ''
+  date: '2013-03-07 04:16:37'
+  body: 'Hi Stephen,
+
+
+    I am also looking for How to retrieve other Attached Files,
+
+    Or API methods for getting Attached Image,DWG,DGN,PDF file details ???
+
+
+    Thanxs'
+- author: Viru
+  email: Virupaksha.aithal@autodesk.com
+  ip: 203.202.234.243
+  url: ''
+  date: '2013-03-11 03:42:08'
+  body: "Hi Jadeja,\n\ndoes this post helps <a href=\"http://adndevblog.typepad.com/autocad/2013/02/how-to-get-all-the-raster-image-references-from-the-image-definition-object.html?\"\
+    >http://adndevblog.typepad.com/autocad/2013/02/how-to-get-all-the-raster-image-references-from-the-image-definition-object.html?</a>\
+    \ \n\nYou can use similar method to get DGN, PDF.\n\nThanks\nViru"
+- author: Łukasz Taraszka
+  email: ''
+  ip: 83.16.97.50
+  url: http://profile.typepad.com/6p01901c29e656970b
+  date: '2013-05-14 06:34:24'
+  body: "Hello everyone,\n\nI know solution for all situation You mentioned. \n\n\
+    Another format like PDF, DGN, DWG, DWF, JPG, GIF, PNG etc. is not the only problem.\n\
+    \nImagine situation, when You have current drawing with attached reference which\
+    \ has attached another reference (neasted references).\n\nAnother problem occurs\
+    \ when there is reference used in many drawings.\n\nHow to change references paths?\n\
+    \nHow to copy xref and change reference paths in parent and child drawings?\n\n\
+    I prepared special API which can do all of those things. Fully commented, tested\
+    \ and documented. Want get it? Just let me know."
+- author: ally
+  email: calally@gmail.com
+  ip: 85.114.60.15
+  url: ''
+  date: '2013-05-25 15:04:56'
+  body: 'Is there an option to do this with an external app, using interop?
+
+    So far I only managed to get document.FileDependencies, resulting with a list
+    of AcadFileDependency. And there is no way to tell which of the dependent files
+    is nested.
+
+    Thank you!'
+- author: Shankar
+  email: shankarkallada@wrenchsolutions.com
+  ip: 115.111.177.42
+  url: http://adndevblog.typepad.com/autocad/2012/06/finding-all-xrefs-in-the-current-database-using-cnet.html#tpe-action-resize-423
+  date: '2015-02-02 20:01:18'
+  body: can u please post the way to change the filename of the xref file and also
+    maintain the xref link in parent file in C# ??
+- author: Łukasz Taraszka
+  email: ''
+  ip: 178.252.60.229
+  url: http://profile.typepad.com/6p01901c29e656970b
+  date: '2015-02-03 02:01:19'
+  body: "Hello Shankar,\nIt was so long time ago.\n\nAs I remember, the hardest thing\
+    \ was to find all references in drawing. Problem was when xref was in block. \n\
+    There is a way to find all references not in current drawing database but inside\
+    \ stand alone file. I think it's the best way to do it.\n\n<a href=\"http://adndevblog.typepad.com/autocad/2012/06/using-e-transmit-api-in-net-to-find-external-references-in-a-drawing.html\"\
+    >http://adndevblog.typepad.com/autocad/2012/06/using-e-transmit-api-in-net-to-find-external-references-in-a-drawing.html</a>\n\
+    \nTo change path for xrefs like PDF, DWF  you can use this code:\n\nprivate void\
+    \ RenameFiles(Transaction trans, DBDictionary dictionary, \n            string\
+    \ embeddedType, )\n        {\n\n            if (dictionary.Contains(embeddedType))\n\
+    \            {\n                DBDictionary subDictionary = (DBDictionary)trans.GetObject(dictionary.GetAt(embeddedType),\
+    \ OpenMode.ForRead);\n\n                foreach (DBDictionaryEntry dictionaryEntry\
+    \ in subDictionary)\n                {\n                    UnderlayDefinition\
+    \ underlayDefinition = (UnderlayDefinition)trans.GetObject(dictionaryEntry.Value,\
+    \ OpenMode.ForRead);\n\n                    String absolutePath = \"YOUR PATH\"\
+    ; //Insert path\n\n\n\t\t\t\t\tif(//Check if definition is correct one){\n\t\t\
+    \t\t\t\n                        underlayDefinition.UpgradeOpen();\n\n        \
+    \                underlayDefinition.SourceFileName = absolutePath\n          \
+    \          \n\t\t\t\t\t}\n                }\n            }\n\n        }\n\t\t\n\
+    \t\t//Embedded types\n\t\t\n\t\tprivate const string PDF_DEFINITION = \"ACAD_PDFDEFINITIONS\"\
+    ;\n\n        private const string DWF_DEFINITION = \"ACAD_DWFDEFINITIONS\";\n\n\
+    \nFor changing image xrefs path you need to use this code:\n\nprivate void RenamePictures\n\
+    \            (Transaction trans, DBDictionary dictionary, string embeddedType,\n\
+    \            )\n        {\n            if (dictionary.Contains(embeddedType))\n\
+    \            {\n                DBDictionary subDictionary = (DBDictionary)trans.GetObject(dictionary.GetAt(embeddedType),\
+    \ OpenMode.ForRead);\n\n                foreach (DBDictionaryEntry dictionaryEntry\
+    \ in subDictionary)\n                {\n                    RasterImageDef rasterImage\
+    \ = (RasterImageDef)trans.GetObject(dictionaryEntry.Value, OpenMode.ForRead);\n\
+    \n                    String absolutePath = //Your path\n\n\t\t\t\t\tif(//Check\
+    \ if rasterImage is correct one){\n\t\t\t\t\t\n                        rasterImage.UpgradeOpen();\n\
+    \n                        rasterImage.SourceFileName = absolutePath;\n\n     \
+    \                   rasterImage.Load();\n                    }\n\n           \
+    \     }\n            }\n        }\n\n\t\t//Image definition name\n        private\
+    \ const string IMAGE_DEFINITION = \"ACAD_IMAGE_DICT\";\n\t\t\n\t\t\n\t\tYou can\
+    \ get named dictionary like this:\n\t\t\n\t\t            DBDictionary dictionary\
+    \ = (DBDictionary)trans.GetObject(db.NamedObjectsDictionaryId, OpenMode.ForRead);\n\
+    \n\t\t\t\t\t\n\t\t\t\t\tThere is the way how to upgrade block reference path.\n\
+    \t\t\t\t\t\n\t\t\t\t\t        private void RenameBlockReferences(Transaction trans,\
+    \ Database db)\n        {\n            BlockTable blockTable = (BlockTable)trans.GetObject(db.BlockTableId,\
+    \ OpenMode.ForRead);\n\n            foreach (ObjectId blockTableRecordId in blockTable)\n\
+    \            {\n                BlockTableRecord blockTableRecord = (BlockTableRecord)trans.GetObject(\n\
+    \                    blockTableRecordId, OpenMode.ForRead);\n\n              \
+    \  if (blockTableRecord.IsFromExternalReference)\n                {\n        \
+    \            string tmpPath = //Your path\n\n                    if (//Check if\
+    \ reference is the one you are looking for)\n                    {\n         \
+    \               blockTableRecord.UpgradeOpen();\n\n                        blockTableRecord.PathName\
+    \ = tmpPath;\n                    }\n                }\n            }\n      \
+    \  }\n\t\t\n\t\tI hope it will help you, but I haven't done it for 3 years.\n\t\
+    \t\n\t\tThere may be possibility to change reference path by e-Transmit API. It\
+    \ could be the easiest way. I suggest you to check it.\n\t\t\n\t\tGood luck.\n\
+    \n-----"

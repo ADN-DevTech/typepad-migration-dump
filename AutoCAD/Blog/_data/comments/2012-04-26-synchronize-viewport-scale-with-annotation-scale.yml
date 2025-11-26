@@ -1,0 +1,28 @@
+comments:
+- author: Rafael
+  email: rafael.jern@gmail.com
+  ip: 193.166.229.254
+  url: ''
+  date: '2015-11-26 05:29:47'
+  body: I have nerver used LISP, can you use this code in a normal script (notepad)
+    and does it work in the student version of autocad?
+- author: Balaji
+  email: ''
+  ip: 182.73.112.18
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-11-26 22:03:15'
+  body: "Hi Rafael,\n\nSorry, i do not know if AutoCAD Student version can run Lisp\
+    \ code. \nIf you do have it installed, can you please give it a try ?\n\nHere\
+    \ is the Lisp code that helps synchronize the viewport scale and the annoscale\
+    \ :\n\n(vl-load-com)\n(defun c:sync()\n\t(command-s \"_.pSPACE\")\n    (print\
+    \ \"Select a viewport\")\n    (setq vpsel (ssget \":E:S\" '((0 . \"VIEWPORT\"\
+    ))))\n\t(setq vplist (ssname vpsel 0))\n\t(setq vport (vlax-ename->vla-object\
+    \ vplist))\n\t(command-s \".mspace\")\n\t(setq scale (getvar 'cannoscalevalue))\n\
+    \t(command-s \"_.pSPACE\")\n\t(vla-put-CustomScale vport scale)\n    (vla-regen\
+    \ (vla-get-ActiveDocument (vlax-get-acad-object)) acAllViewports)\n\t(setq vpsel\
+    \ nil)\n)\n\nSince you haven't used Lisp before, here are the steps to try it\
+    \ :\n\n-Copy the above Lisp code to notepad and save it as a file with .lsp extension\n\
+    -Run AppLoad command and choose the lsp file that you saved previously\n-Start\
+    \ AutoCAD and switch to paperspace\n-Type \"(c:sync)\" in AutoCAD's command prompt\
+    \ and hit enter\n-Choose the paperspace viewport that you want to synch.\n\nRegards,\n\
+    Balaji\n-----"

@@ -1,0 +1,40 @@
+comments:
+- author: Jimmy Bergmark
+  email: ''
+  ip: 85.228.249.171
+  url: http://profile.typepad.com/bergmark
+  date: '2012-05-05 22:17:53'
+  body: 'As far as I know vlax-release-object should not be needed in this case. According
+    to documentation: "When an AutoLISP routine no longer uses an object outside AutoCAD,
+    such as a Microsoft Excel object, call the (vlax-release-object) function to make
+    sure that the associated application closes properly."'
+- author: Kerry Brown
+  email: ''
+  ip: 114.77.139.113
+  url: http://profile.typepad.com/kerrybrown
+  date: '2012-05-06 00:43:43'
+  body: "That is my understanding too Jimmy.\nThe version I have also calls \nvla-RefreshPlotDeviceInfo\
+    \ before the delete .... \n\nRegards\nKerry"
+- author: Balaji
+  email: balaji.ramamoorthy@autodesk.com
+  ip: 14.99.38.218
+  url: ''
+  date: '2012-05-06 11:22:56'
+  body: 'Thanks Jimmy and Kerry.
+
+    It really does no harm since it is only decrementing the reference count for the
+    COM objects that we are using. Based on the reference count, the COM object should
+    know how to handle it.
+
+    Yes, As you said, in this case it might be redundant and I attribute it to my
+    background with C++ COM programming :)'
+- author: Quinn
+  email: w64bit@gmail.com
+  ip: 95.76.169.229
+  url: ''
+  date: '2016-10-07 00:03:33'
+  body: 'Is there any possibility to eliminate the confirmation?
+
+    Thank you
+
+    -----'

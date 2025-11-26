@@ -1,0 +1,44 @@
+comments:
+- author: Oleg
+  email: fattyhallex@gmail.com
+  ip: 95.55.72.91
+  url: ''
+  date: '2012-09-18 02:20:23'
+  body: "Hi, Balaji\nTo get work your code in my Acad version (A2010)\nI've added\
+    \ the line to get version, now it works\nlike a charm. Perhaps it would be useful\
+    \ for somebody else:\n(defun c:addGHat (/       acadObject  acaddocument\n   \
+    \  acver mspace      mycircle   myloop      myhatch\n     col1       col2\n  \
+    \   )\n   (vl-load-com)\n  (setq acver (substr (getvar \"acadver\")1 2))\n   (SetQ\
+    \ acadobject   (VLAX-Get-ACAD-Object)\n  acaddocument (VLA-Get-ActiveDocument\
+    \ acadobject)\n  mspace      (VLA-Get-ModelSpace acaddocument)\n  )\n   (SetQ\
+    \ mycircle (VLA-AddCircle\n      mspace\n      (VLAX-3D-Point '(50.0 50.0 0.0))\n\
+    \      150.0\n      )\n  )\n   (SetQ myloop (VLAX-Make-SafeArray vlax-vbObject\
+    \ '(0 . 0)))\n   (VLAX-SafeArray-Put-Element\n     myloop\n     0\n     mycircle\n\
+    \     )\n \n  (SetQ myhatch (VLA-AddHatch\n     mspace\n     acPreDefinedGradient\n\
+    \     \"LINEAR\"  \n     :vlax-true\n     acGradientObject\n     )\n  )\n \n \
+    \ (setq col1 (vla-GetInterfaceObject\n         (vlax-get-acad-object)\n      \
+    \  (strcat  \"AutoCAD.AcCmColor.\" acver)\n         )\n  )\n \n  (setq col2 (vla-GetInterfaceObject\n\
+    \         (vlax-get-acad-object)\n         (strcat  \"AutoCAD.AcCmColor.\" acver)\n\
+    \         )\n  )\n \n  (vla-SetRGB col1 255 0 0)\n   (vla-setrgb col2 0 0 255)\n\
+    \ \n  (vla-put-gradientcolor1 myhatch col1)\n   (vla-put-gradientcolor2 myhatch\
+    \ col2)\n \n  (VLA-AppendOuterLoop myhatch myloop)\n   (VLA-Evaluate myhatch)\n\
+    \   )\n (or (vl-load-com)(princ))\n\nRegards,\n\nOleg"
+- author: Balaji
+  email: ''
+  ip: 115.112.233.72
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2012-09-18 02:38:03'
+  body: 'Thanks Oleg !
+
+
+    Nice change to keep the code independent of the AutoCAD version.
+
+
+    I will update the post based on your suggestion.'
+- author: Oleg
+  email: fattyhallex@gmail.com
+  ip: 92.100.133.65
+  url: ''
+  date: '2012-09-18 08:54:16'
+  body: "Thanks Balaji,\nthis is an old trick, perhaps,\nI've stoled it from Michael\
+    \ Puckett :)\n\nRegards,\n Oleg\n-----"

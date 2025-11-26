@@ -1,0 +1,82 @@
+comments:
+- author: fixo
+  email: fattyhallex@gmail.com
+  ip: 178.70.17.14
+  url: ''
+  date: '2014-04-18 13:37:33'
+  body: 'Could not rest in A2015, just interestingly would be this work in there:
+
+
+    Autodesk.AutoCAD.Internal.Utils.CancelAndRunCmds("_line 0,0,0 10,10,0  " );'
+- author: Gilles Chanteau
+  email: gilecd@orange.f
+  ip: 108.162.229.139
+  url: http://gilecad.azurewebsites.net
+  date: '2014-04-27 10:28:48'
+  body: 'Hi,
+
+
+    I noticed that calling the LISP function command (or vl-cmdf) within a function
+    passed as argument to mapcar (either lambda or defun) failed with AutoCAD 2015.
+
+    Using command-s instead seems to fix this issue.'
+- author: Moacir
+  email: moaciroj@gmail.com
+  ip: 177.7.211.32
+  url: ''
+  date: '2014-07-10 12:04:15'
+  body: "I'm having trouble migrating this command to arx 2015 \n\n  acedCommand to\
+    \ acedCommandS or acedCommandC, please help-me:\n\t\n\tstatic int ads_mycommad(void)\n\
+    \t{\n\t\tstruct resbuf *rb = acedGetArgs () ;\n\n\t\tint osmodo;\n\t\tACHAR auxt[30];\n\
+    \t\tstruct resbuf rb1;\n\t\t   \n\t\tacedGetVar(_T(\"OSMODE\"), &rb1);\n\t\tosmodo\
+    \ = rb1.resval.rint;\n\t\trb1.resval.rint = 0;\n\t\tacedSetVar(_T(\"OSMODE\"),\
+    \ &rb1);\n\t\t   \n\t\twhile (rb != NULL) {\n\t\t\tif(rb->restype == RTREAL) {\n\
+    \t\t\t\tacdbRToS(rb->resval.rreal,2,8,auxt);\n\t\t\t\tacedCommand(RTSTR, auxt,\
+    \ RTNONE);\n\t\t\t}\n\t\t\tif(rb->restype == RTPOINT)   acedCommand(rb->restype,\
+    \ rb->resval.rpoint, RTNONE);\n\t\t\tif(rb->restype == RTSHORT) {\n\t\t\t\tacdbRToS((ads_real)rb->resval.rint,2,0,auxt);\n\
+    \t\t\t\tacedCommand(RTSTR, auxt, RTNONE);\n\t\t\t}\n\t\t\tif(rb->restype == RTANG)\
+    \ {\n\t\t\t\tacdbRToS(rb->resval.rreal,2,8,auxt);\n\t\t\t\tacedCommand(RTSTR,\
+    \ auxt, RTNONE);\n\t\t\t}\n\t\t\tif(rb->restype == RTSTR)     acedCommand(rb->restype,\
+    \ rb->resval.rstring, RTNONE);\n\t\t\tif(rb->restype == RTENAME)   acedCommand(rb->restype,\
+    \ rb->resval.rlname, RTNONE);\n\t\t\tif(rb->restype == RTPICKS)   acedCommand(rb->restype,\
+    \ rb->resval.rlname, RTNONE);\n\t\t\tif(rb->restype == RTORINT) {\n\t\t\t\tacdbRToS(rb->resval.rreal,2,8,auxt);\n\
+    \t\t\t\tacedCommand(RTSTR, auxt, RTNONE);\n\t\t\t}\n\t\t\tif(rb->restype == RT3DPOINT)\
+    \ acedCommand(rb->restype, rb->resval.rpoint, RTNONE);\n\t\t\tif(rb->restype ==\
+    \ RTLONG) {\n\t\t\t\tacdbRToS(rb->resval.rlong,2,0,auxt);\n\t\t\t\tacedCommand(RTSTR,\
+    \ auxt, RTNONE);\n\t\t\t}\n\t\t\trb = rb->rbnext;\n\t\t}\n\n\t\trb1.resval.rint\
+    \ = osmodo;\n\t\tacedSetVar(_T(\"OSMODE\"), &rb1);\n\n\t\tif ( rb != NULL )\n\t\
+    \t\tacutRelRb (rb) ;\n\t\t\n\t\treturn (RSRSLT) ;\n\t}"
+- author: Iacopo Vettori
+  email: jacopo.vettori@stlstudio.it
+  ip: 88.44.177.96
+  url: ''
+  date: '2014-09-04 10:01:25'
+  body: Because your code does not use the PAUSE token, you may build a rb chain and
+    pass it as the argument of a single acedCmdS() call. Also, you don't need to translate
+    double in string, if you specify RTREAL instead of RTSTR as type.
+- author: Joao Batista
+  email: baptistus@gmail.com
+  ip: 79.82.91.69
+  url: ''
+  date: '2016-06-05 13:19:58'
+  body: Anything equivalent for A_2017???
+- author: xiaodong liang
+  email: xiaodong.liang@autodesk.com
+  ip: 24.6.145.37
+  url: ''
+  date: '2016-06-06 08:55:19'
+  body: 'hi Joao,
+
+
+    if you are migrating from old release before 2015 to 2017, the process is same
+    to what is mentioned in this blog'
+- author: Jason Huffine
+  email: ''
+  ip: 152.87.3.5
+  url: http://profile.typepad.com/6p01b8d21f56ed970c
+  date: '2016-09-21 05:03:29'
+  body: 'I hate to be late to this party, but does this mean that AutoCAD is now truly
+    multi-threaded?  Or is there something else in place of fibers?  If the latter,
+    then are there any implications worth noting?
+
+    -----'

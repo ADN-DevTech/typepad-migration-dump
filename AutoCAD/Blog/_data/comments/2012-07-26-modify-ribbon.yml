@@ -1,0 +1,261 @@
+comments:
+- author: dryman@poczta.onet.pl
+  email: dryman@poczta.onet.pl
+  ip: 77.252.228.40
+  url: ''
+  date: '2012-10-29 04:40:46'
+  body: How can I do the same in VC++ ObjectARX2012??
+- author: Adam Nagy
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2012-10-29 06:00:11'
+  body: "Hi there,\n\nYou need to use the .NET API for that. It has no equivalent\
+    \ in ARX. \nPerhaps you could make your ARX mixed managed, so that it can use\
+    \ both the C++ ARX and the .NET API functions.\n\nCheers,\nAdam"
+- author: BlackBox
+  email: ''
+  ip: 173.171.0.201
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2013-04-19 16:58:47'
+  body: 'Adam,
+
+
+    How does one successfully add a RibbonTab to Main CUI via Initialize(), so that
+    it (the custom RibbonTab) is available prior to partial CUIx being loaded via
+    Autoloader?
+
+
+    Multiple Autoloader plug-ins with partial CUIx targeting the same custom Alias,
+    if the custom RibbonTab has not been added to Main CUI first, then each partial
+    CUIx displays it''s own RibbonTab instead of adding to custom RibbonTab in Main
+    CUI.
+
+
+    Please advise.'
+- author: Fenton Webb
+  email: ''
+  ip: 132.188.64.218
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2013-04-22 11:19:16'
+  body: "Hey BlackBox,\n\nyou should not modify the Ribbon from initialize()... that\
+    \ function is called too early in the startup if called to load on startup.\n\n\
+    Best is to use the StartupCommand attribute on the Command element... This will\
+    \ call your own initialize command when AutoCAD has fully initialized. e.g.\n\n\
+    \  <Components Description=\"Any CPU DLLs\">\n    <RuntimeRequirements OS=\"Win32|Win64\"\
+    \ Platform=\"AutoCAD|AutoCAD*\" SeriesMin=\"R19.0\" SeriesMax=\"R19.0\" />\n \
+    \   <ComponentEntry AppName=\"MyDotNetApp\" Version=\"1.0.0\" ModuleName=\"./Contents/Windows/R19.0/MyApp.dll\"\
+    >\n      <Commands>\n        <Command Local=\"_MyAppStartupCmd\" Global=\"MyAppStartupCmd\"\
+    \ StartupCommand=\"True\" />\n      </Commands>\n    </ComponentEntry>"
+- author: Fenton Webb
+  email: ''
+  ip: 132.188.64.218
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2013-04-22 11:20:26'
+  body: "removing the less than and greater than signs (sigh)\n\n  Components Description=\"\
+    Any CPU DLLs\"\n    RuntimeRequirements OS=\"Win32|Win64\" Platform=\"AutoCAD|AutoCAD*\"\
+    \ SeriesMin=\"R19.0\" SeriesMax=\"R19.0\" /\n    ComponentEntry AppName=\"MyDotNetApp\"\
+    \ Version=\"1.0.0\" ModuleName=\"./Contents/Windows/R19.0/MyApp.dll\"\n      Commands\n\
+    \        Command Local=\"_MyAppStartupCmd\" Global=\"MyAppStartupCmd\" StartupCommand=\"\
+    True\" /\n      /Commands\n    /ComponentEntry"
+- author: Fenton Webb
+  email: ''
+  ip: 132.188.64.218
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2013-04-22 11:47:19'
+  body: 'this is better
+
+
+    <a href="http://adndevblog.typepad.com/autocad/2013/04/autoloader-example-for-invoking-a-startup-command-in-autocad.html">http://adndevblog.typepad.com/autocad/2013/04/autoloader-example-for-invoking-a-startup-command-in-autocad.html</a>'
+- author: BlackBox
+  email: ''
+  ip: 173.171.0.201
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2013-04-22 16:15:21'
+  body: 'Thanks for the response, Fenton.
+
+
+    I''m aware that one cannot actually modify the Ribbon on Initialize()... In practice
+    I use Initialize() to hook Application.Idle (not sure why I neglected that above,
+    but still).
+
+
+
+
+    In any event, essentially (if I am understanding you correctly), Autoloader is
+    incapable of successfully allowing for a plug-in to modify Main CUI prior to the
+    loading of a given .bundle''s CUIx partial(s) so that RibbonTab''s with matching
+    Alias can properly be merged into single tab... AutoCAD has no work around for
+    the Main CUI dependency... And instead, I need to delay the loading of my plug-in''s
+    UI components to call SendStringToExecute (effectively, if not literally), just
+    to get my custom ComandMethod to modify Main CUI prior to programmatically loading
+    my .bundle''s CUIx partial(s).
+
+
+    ... Any insight on when that mess... And the ''residue'' duplication of .bundle
+    CUIx files being replicated to each-and-every-installation''s ..\Support\ folder...
+    Are going to be addressed?
+
+
+    Cheers'
+- author: rohan hirave
+  email: rrhirave@tejasit.com
+  ip: 182.70.112.192
+  url: ''
+  date: '2015-02-05 04:42:48'
+  body: hi, can any1 upload the sample code for ribbon customization please. I am
+    a newbie in autocad customization and i want to add a new ribbon in autocad.
+- author: Balaji
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-02-06 02:42:47'
+  body: "Hi Rohan,\n\nThese blog post should provide samples to get started.\n\nUsing\
+    \ the ribbon runtime API is easier. \n\n<a href=\"http://through-the-interface.typepad.com/through_the_interface/2008/04/the-new-ribbonb.html\"\
+    >http://through-the-interface.typepad.com/through_the_interface/2008/04/the-new-ribbonb.html</a>\n\
+    \n<a href=\"http://adndevblog.typepad.com/autocad/2014/01/how-to-ensure-your-ribbon-runtime-items-remain-visible.html\"\
+    >http://adndevblog.typepad.com/autocad/2014/01/how-to-ensure-your-ribbon-runtime-items-remain-visible.html</a>\n\
+    \nThe other way could be to create a partial CUIX directly using AutoCAD CUI dialog\
+    \ and load the partial cuix using code.\n\nRegards,\nBalaji"
+- author: Luigi
+  email: luigiballotta@libero.it
+  ip: 79.41.185.240
+  url: ''
+  date: '2015-10-10 23:04:35'
+  body: 'After running the code shown above, in order to make "MyTab" visible I must
+    switch to AutoCAD Classic display style and then switch back in a ribbon display
+    style (3D or 3D Modeling Basics) because the tab becomes visible, otherwise the
+    tab ("MyTab") remains invisible.
+
+
+    I can not understand the reason for this behavior.
+
+
+    Autocad 2014, W7 x64
+
+
+    Thank you in advance.
+
+
+    Luigi'
+- author: Luigi
+  email: luigiballotta@libero.it
+  ip: 79.41.185.240
+  url: ''
+  date: '2015-10-10 23:08:10'
+  body: "Hello all,\n\nI apologize for the wrong post a few minutes ago, so:\n\nI'm\
+    \ trying to display \"MyTab\" on the ribbon with the following instructions:\n\
+    \n[the same code listed above]\n\n  Autodesk.AutoCAD.Customization.WSRibbonTabSourceReference\
+    \ MyTab =\n    rr.FindTabReference(\"MyGroup\", \"MyTab\");\n\nMyTab.Show = True\n\
+    \n[the same code listed above]\n\nAfter running the code shown above, in order\
+    \ to make \"MyTab\" visible I must switch to AutoCAD Classic display style and\
+    \ then switch back in a ribbon display style (3D or 3D Modeling Basics) because\
+    \ the tab becomes visible, otherwise the tab (\"MyTab\") remains invisible.\n\n\
+    I cannot understand the reason for this behavior.\n\nAutocad 2014, W7 x64\n\n\
+    Thank you in advance.\n\nLuigi"
+- author: Balaji
+  email: ''
+  ip: 182.73.112.18
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-10-15 22:06:38'
+  body: 'Hi Luigi,
+
+
+    Yes, this is a known behavior and for any cui related changes to take effect,
+    we either need to reload the cuix. I have also seen in the past that changing
+    WSCURRENT also helps.
+
+    Please try the "savecui" method from this blog post and see if that helps without
+    having to change the current workspace.
+
+    <a href="http://adndevblog.typepad.com/autocad/2015/10/docking-toolbars-in-rows-using-cui-api.html">http://adndevblog.typepad.com/autocad/2015/10/docking-toolbars-in-rows-using-cui-api.html</a>
+
+
+    Regards,
+
+    Balaji'
+- author: Luigi
+  email: luigiballotta@libero.it
+  ip: 85.46.59.210
+  url: ''
+  date: '2015-10-20 00:52:45'
+  body: 'Balaji, thankyou for the support,
+
+
+    in the meanwhile I tried the following (.net):
+
+
+    Dim curWorkspace As String = _ DirectCast(Autodesk.AutoCAD.ApplicationServices.Application.
+    _
+
+    GetSystemVariable("WSCURRENT"), String)
+
+
+    Dim cs As CustomizationSection = New CustomizationSection(DirectCast(Autodesk.AutoCAD.
+    _
+
+    ApplicationServices.Application.GetSystemVariable("MENUNAME"), String))
+
+
+    cs.Save()
+
+
+    Autodesk.AutoCAD.ApplicationServices.Application.ReloadAllMenus()
+
+
+    And seems work fine.
+
+
+    The crux of the problem seems to be: Autodesk.AutoCAD.ApplicationServices.Application.ReloadAllMenus()'
+- author: Adam Nagy
+  email: ''
+  ip: 213.104.245.142
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2015-10-20 02:09:23'
+  body: 'Hi Luigi,
+
+
+    It sounds like you omitted the acApp.ReloadAllMenus() call and that caused the
+    problem.
+
+    I assume that the problem is that I missed out the "using acApp = Autodesk.AutoCAD.ApplicationServices.Application;"
+    statement (because that was at the top of my file) and that caused the confusion.
+
+    I''ll add it to the code to make things clear.
+
+
+    Cheers,
+
+    Adam'
+- author: Albert Weber
+  email: albert.weber@mum.de
+  ip: 87.191.153.87
+  url: ''
+  date: '2019-10-23 02:33:26'
+  body: 'Hi there,
+
+    does anyone have an example to access the customization of a partial cuix?
+
+    I tried several methods of the original post, which are working perfect for the
+    main cuix, but always get returned null, e.g. searching the tab of my partial
+    menu, or the QAT, or a ribbon panel.
+
+
+    Thanks,
+
+    Albert'
+- author: Madhukar Moogala
+  email: ''
+  ip: 202.74.99.101
+  url: https://profile.typepad.com/madhukarmoogala
+  date: '2019-10-23 02:52:07'
+  body: 'Hi Albert,
+
+
+    Can you please refer this blog, <a href="https://adndevblog.typepad.com/autocad/2014/08/using-cuix-resource-dll-with-image-transparency.html">https://adndevblog.typepad.com/autocad/2014/08/using-cuix-resource-dll-with-image-transparency.html</a>
+
+
+    This has a very good sample on partial CUI, download the zip file at the end of
+    the article
+
+    -----'

@@ -1,0 +1,56 @@
+comments:
+- author: xerion
+  email: xstamatopoulos@gmail.com
+  ip: 203.176.98.130
+  url: ''
+  date: '2013-05-09 01:16:39'
+  body: 'Pretty useful thing,
+
+    Maybe a really simple question but typically users would want to snap to some
+    points of the point cloud, however, the call to
+
+    AcDbEntityPointer ent(id, AcDb::kForWrite);
+
+    or more specifically the AcDb::kForWrite seems to kill the snapping on to the
+    point cloud points.
+
+
+    Is it possible to have a workaround on that ?'
+- author: xerion
+  email: xstamatopoulos@gmail.com
+  ip: 110.174.75.77
+  url: ''
+  date: '2013-05-09 04:55:58'
+  body: 'By the way should there be a call to acdbModifyPointCloudDataView
+
+    in the modified() function of the myBoxReactor ?
+
+    The extents are updated then the point cloud points should be updated as well
+    since just notifying the graphic system is not enough to change the point cloud
+    view and thus the acdbModifyPointCloudDataView is required.'
+- author: Fenton Webb
+  email: ''
+  ip: 132.188.64.218
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2013-05-09 09:42:28'
+  body: "Hey Xerion\n\nyes, you are right, the snapping will be disabled. \n\nTo get\
+    \ round the problem, simply close the point cloud after the acdbResetPointCloudDataView()\
+    \ then reopen before acdbModifyPointCloudDataView()"
+- author: Fenton Webb
+  email: ''
+  ip: 132.188.64.218
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2013-05-09 09:44:30'
+  body: for your second comment, you don't need to call acdbModifyPointCloudDataView()
+    as the filter is already applied. My call to onModified will queue the graphics
+    refresh at the next asynchronous graphics update.
+- author: Richard
+  email: richard@grid-code.com
+  ip: 105.229.199.184
+  url: ''
+  date: '2014-03-27 02:37:41'
+  body: "Good Day\n\nCan you supply a working download of this application. \nI usually\
+    \ do a lot of work in C# or Vb.Net so would take me a while to figure out this\
+    \ source code in C++?\n\nSimilar to download which one gets at codeproject?\n\
+    Zip file with all the contents.\n\nWould much appreciate\nPlease let us know if\
+    \ you can assist.\n\nBest Regards\nRichard\n-----"

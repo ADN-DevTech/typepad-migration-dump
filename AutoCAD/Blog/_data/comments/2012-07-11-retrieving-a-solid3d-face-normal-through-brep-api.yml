@@ -1,0 +1,65 @@
+comments:
+- author: Konstantin
+  email: konstantinos.sakellaris@uba.uni-heidelberg.de
+  ip: 129.206.83.222
+  url: ''
+  date: '2012-07-12 02:01:59'
+  body: "The FaceNormal routine doesn't calculate the correct normal vectors if the\
+    \ points are selected on the Edges of the Solid \nTo reconstruct :\nDraw a solid3d\
+    \ Box and section it 2 times in almost vertical and horizontal sense, so that\
+    \ you can pick diverse points on diverse faces but NOT on Edges.\nPick points\
+    \ on Edges(onBoundary) and you get mostly the reverse normal meaning for Faces\
+    \ facing to -X, -Y, -Z and X, Y, Z you get [1.00, 0.00, 0.00], [0.00, 1.00, 0.00],\
+    \ [0.00, 0.00, 1.00] and [-1.00, 0.00, 0.00], [0.00, -1.00, 0.00], [0.00, 0.00,\
+    \ -1.00] respectively.\nPicking points on the the Slice-Regions (onBoundary Face)\
+    \ results in correct Normals."
+- author: Philippe Leefsma
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2012-07-12 06:59:52'
+  body: 'Can you send me a sample document at philippe.leefsma@autodesk.com, mentionning
+    exactly which points coordinates return incorrect normals.
+
+    Thanks.'
+- author: Konstantin
+  email: konstantinos.sakellaris@uba.uni-heidelberg.de
+  ip: 129.206.83.222
+  url: ''
+  date: '2012-07-13 04:01:03'
+  body: 'before sending you the document, i want to make sure that i understand the
+    matter correctly and check again !
+
+    Therefore my question :
+
+    What is the direction of a face normal of a solid box ?
+
+    Facing inwards (towards the inside space of the box) ...or outwards ?'
+- author: Philippe Leefsma
+  email: ''
+  ip: 83.68.201.220
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2012-07-13 05:55:49'
+  body: The normal should point outward
+- author: Konstantin
+  email: konstantinos.sakellaris@uba.uni-heidelberg.de
+  ip: 129.206.83.222
+  url: ''
+  date: '2012-07-16 01:41:39'
+  body: an Email has been sent to you !
+- author: Philippe Leefsma
+  email: ''
+  ip: 83.68.201.220
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2012-07-16 10:04:11'
+  body: "I've updated the GetFaceNormal method with following code:\n\nif(ptContainment\
+    \ != PointContainment.Outside)\n{\n    reverse = true;\n}\n\ninstead. The problem\
+    \ was caused by ptContainment = OnBoundary for points lying on the edges.\n\n\
+    That new version should return correct normals for any points on the solid.\n\n\
+    Thanks for your feedback on that post."
+- author: Konstantin
+  email: konstantinos.sakellaris@uba.uni-heidelberg.de
+  ip: 129.206.83.222
+  url: ''
+  date: '2012-07-18 01:27:51'
+  body: "Fine seen... Everything works OK now ! \nThanks.\n-----"

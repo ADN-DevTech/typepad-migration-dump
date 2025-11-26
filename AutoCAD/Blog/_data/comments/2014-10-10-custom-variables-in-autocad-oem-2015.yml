@@ -1,0 +1,61 @@
+comments:
+- author: Doug Goforth
+  email: doug.goforth@nationalmultitech.com
+  ip: 71.75.115.233
+  url: http://www.cadplus.com
+  date: '2015-02-06 11:20:51'
+  body: 'This is extra cool, Balaji. Are the registry settings the same if I want
+    to store a string instead of an integer?
+
+
+    Here is what I think it should be for a string, but I am not sure what TypeFlags
+    is:
+
+
+
+    [HKEY_LOCAL_MACHINE\SOFTWARE\Company\MYOEM\R19\MYOEM-E001:409\Variables\MYSTRINGVAR]
+
+    "PrimaryType"=dword:0000138d
+
+    "StorageType"=dword:00000002
+
+    "TypeFlags"=dword:00000009
+
+    @="MYSTRINGVAL"'
+- author: Balaji
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-02-09 21:29:28'
+  body: 'Hi Doug,
+
+
+    Sorry for the delay in getting back to you.
+
+
+    You can find examples of different types stored by AutoCAD in its registry path.
+    Here is one such example that stores a string :
+
+
+    Windows Registry Editor Version 5.00
+
+
+    [HKEY_LOCAL_MACHINE\SOFTWARE\Autodesk\AutoCAD\R20.0\ACAD-E001\Variables\*UILOCALE]
+
+    "PrimaryType"=dword:0000138d
+
+    "TypeFlags"=dword:00000007
+
+    "StorageType"=dword:00000001
+
+    @="en-US"
+
+
+    This should help modify it for your OEM product.
+
+
+    Regards,
+
+    Balaji
+
+    -----'

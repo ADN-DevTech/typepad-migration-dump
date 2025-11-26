@@ -1,0 +1,47 @@
+comments:
+- author: Gofatw
+  email: gofatwlecker@gmail.com
+  ip: 73.3.183.104
+  url: ''
+  date: '2020-01-16 14:44:09'
+  body: 'We are using C# and this is starting to popup in the last few months. Has
+    something changed in the API to cause this? Assigning the block contents after
+    the assigning AddLeaderLine and AddFirstVertext and/or LastVertex no longer seems
+    to help.
+
+    Anything else to help fix this?'
+- author: Madhukar Moogala
+  email: ''
+  ip: 202.135.180.20
+  url: https://profile.typepad.com/madhukarmoogala
+  date: '2020-01-21 02:01:10'
+  body: "Tried this code, I’m able to attach Block Content to MLeader correctly, may\
+    \ I know the problem you are facing ?\n<code>\n        public static void BlockMLeader()\n\
+    \        {\n            Document doc = Application.DocumentManager.MdiActiveDocument;\n\
+    \            Database db = doc.Database;\n            Editor ed = doc.Editor;\n\
+    \            using (Transaction Tx = db.TransactionManager.StartTransaction())\n\
+    \            {\n                BlockTable table = Tx.GetObject(db.BlockTableId,\
+    \ OpenMode.ForRead) as BlockTable;\n                BlockTableRecord model = Tx.GetObject(table[BlockTableRecord.ModelSpace],\
+    \ OpenMode.ForWrite)\n                as BlockTableRecord;\n                if\
+    \ (!table.Has(\"BlkLeader\"))\n                {\n                    ed.WriteMessage(\"\
+    \\nYou need to define a \\\"BlkLeader\\\" first...\");\n                    return;\n\
+    \                }\n                MLeader leader = new MLeader();\n        \
+    \        leader.SetDatabaseDefaults();\n                leader.ContentType = ContentType.BlockContent;\n\
+    \                leader.BlockContentId = table[\"BlkLeader\"];\n             \
+    \   leader.BlockPosition = new Point3d(4, 2, 0);\n                int idx = leader.AddLeaderLine(new\
+    \ Point3d(1, 1, 0));\n                leader.AddFirstVertex(idx, new Point3d(0,\
+    \ 0, 0));\n                int AttNumber = 0;\n                BlockTableRecord\
+    \ blkLeader = Tx.GetObject(leader.BlockContentId, OpenMode.ForRead)\n        \
+    \        as BlockTableRecord;\n                Matrix3d Transfo = Matrix3d.Displacement(leader.BlockPosition.GetAsVector());\n\
+    \                foreach (ObjectId blkEntId in blkLeader)\n                {\n\
+    \                    AttributeDefinition AttributeDef = Tx.GetObject(blkEntId,\
+    \ OpenMode.ForRead)\n                    as AttributeDefinition;\n           \
+    \         if (AttributeDef != null)\n                    {\n                 \
+    \       AttributeReference AttributeRef = new AttributeReference();\n        \
+    \                AttributeRef.SetAttributeFromBlock(AttributeDef, Transfo);\n\
+    \                        AttributeRef.Position = AttributeDef.Position.TransformBy(Transfo);\n\
+    \                        AttributeRef.TextString = \"Attrib #\" + (++AttNumber);\n\
+    \                        leader.SetBlockAttribute(blkEntId, AttributeRef);\n \
+    \                   }\n                }\n                model.AppendEntity(leader);\n\
+    \                Tx.AddNewlyCreatedDBObject(leader, true);\n                Tx.Commit();\n\
+    \            }\n        }\n</code>\n-----"

@@ -1,0 +1,141 @@
+comments:
+- author: PDOTeam
+  email: ''
+  ip: 24.158.74.138
+  url: http://profile.typepad.com/pdoteam
+  date: '2012-08-14 16:06:12'
+  body: 'Don''t forget about dotPeek:
+
+    <a href="http://www.jetbrains.com/decompiler/">http://www.jetbrains.com/decompiler/</a>
+
+
+    Also, I believe the Plant 3D .net modules are obfuscated.'
+- author: Stephen Preston
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/stephenpreston
+  date: '2012-08-14 17:22:35'
+  body: "Thanks for adding the JetBrains link. \n\nI should also have said in the\
+    \ post that I'm not recommending Reflector over any alternatives - I just happen\
+    \ to have a license for it (thanks for that Kean :-))."
+- author: JeffH
+  email: ''
+  ip: 70.165.31.218
+  url: http://profile.typepad.com/jeffhornsby
+  date: '2012-08-14 17:59:38'
+  body: 'Hey Stephen,
+
+
+    I have not tried them in a while but dotPeek, JustDecompile, etc.. and other free
+    decompilers would throw errors and would not be able to see anything.
+
+
+    ILSpy which is FREE does just a good as reflector, and have recieved no errors.
+    I have reflector and it is better at navigating a bit but definitely would not
+    of paid for it if I knew of ILSpy earlier
+
+    <a href="http://wiki.sharpdevelop.net/ILSpy.ashx">http://wiki.sharpdevelop.net/ILSpy.ashx</a>
+
+
+    How I found out.
+
+    <a href="http://www.theswamp.org/index.php?topic=41354.msg464710#msg464710">http://www.theswamp.org/index.php?topic=41354.msg464710#msg464710</a>'
+- author: Khoa Ho
+  email: ''
+  ip: 72.37.249.84
+  url: http://profile.typepad.com/khoaho
+  date: '2012-08-15 07:41:49'
+  body: 'Hi Stephen,
+
+
+    I tried to use dotPeek, JustDecompile and ILSpy to decompile acmgd.dll and acdbmgd.dll.
+    However, none of them can see exactly the implementation of class "Module", which
+    is the core of all unmanaged code. So I don''t know if those assembly files are
+    partial obfuscated or not. How can I see the full implementation? Thank you.'
+- author: Stephen Preston
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/stephenpreston
+  date: '2012-08-15 09:02:26'
+  body: "Acmgd, acdmgd and accoremgd are simple (generally quite shallow) .NET wrappers\
+    \ on top of our unmanaged C++ ObjectARX API, so a .NET decompiler isn't going\
+    \ to let you drill down into core (unmanaged) AutoCAD implementation. I deliberately\
+    \ didn't refer to those assemblies in the post because (for usage examples) the\
+    \ assemblies that consume the .NET API are more interesting than these assemblies\
+    \ that define the APIs by wrapping the C++. (With Reflector, at least), you can\
+    \ get as far as seeing which ObjectARX API the .NET API is P/Invoking. But I'm\
+    \ not going to go any further down that path. \n\nIf you are looking at those\
+    \ three DLLs, you'll find that this is a case where looking at the versions in\
+    \ the AutoCAD installation tells you more than the 'liposuctioned' versions in\
+    \ the ObjectARX SDK."
+- author: Khoa Ho
+  email: ''
+  ip: 72.37.249.84
+  url: http://profile.typepad.com/khoaho
+  date: '2012-08-15 16:50:10'
+  body: "Thank you for your reply. The decompilers do not show the DllImport file\
+    \ (acad.exe, acdbxx.dll...) and EntryPoint, so we have to use other tools to find\
+    \ them out. It would be better to view all of those values on the decompiler.\n\
+    \nI chose Autodesk.AutoCAD.DatabaseServices.Database.ReadDwgFile() for my test,\
+    \ see the decompiled code:\n\npublic unsafe void ReadDwgFile(IntPtr drawingFile,\
+    \ [MarshalAs(UnmanagedType.U1)] bool allowCPConversion, string password)\n{\n\t\
+    byte* ptr = password;\n\tif (ptr != null)\n\t{\n\t\tptr = (ulong)RuntimeHelpers.OffsetToStringData\
+    \ + ptr;\n\t}\n\tChar modopt(System.Runtime.CompilerServices.IsConst)& char modopt(System.Runtime.CompilerServices.IsConst)&\
+    \ = ptr;\n\tAcad.ErrorStatus errorStatus = (Acad.ErrorStatus)<Module>.AcDbDatabase.readDwgFile(this.GetImpObj(),\
+    \ (AcDwgFileHandle*)drawingFile.ToPointer(), allowCPConversion, char modopt(System.Runtime.CompilerServices.IsConst)&);\n\
+    \tif (errorStatus != (Acad.ErrorStatus)0)\n\t{\n\t\tthrow new Exception((ErrorStatus)errorStatus);\n\
+    \t}\n}\n\nIf I go futher to the wrapper of unmanaged code: <Module>.AcDbDatabase.readDwgFile(),\
+    \ see the following results from three compilers:\n\nILSpy:\n\t[SuppressUnmanagedCodeSecurity]\n\
+    \t[DllImport(\"\", CallingConvention = CallingConvention.Cdecl, SetLastError =\
+    \ true)]\n\t[MethodImpl(MethodImplOptions.Unmanaged)]\n\tpublic unsafe static\
+    \ extern Acad.ErrorStatus readDwgFile(AcDbDatabase*, AcDwgFileHandle*, [MarshalAs(UnmanagedType.U1)]\
+    \ bool, char*);\n\ndotPeek:\n\t[SuppressUnmanagedCodeSecurity]\n\t[DllImport(\"\
+    \", EntryPoint = \"\", CallingConvention = CallingConvention.Cdecl, SetLastError\
+    \ = true)]\n\t[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]\n\
+    \tpublic static Acad.ErrorStatus AcDbDatabase\\u002EreadDwgFile([In] AcDbDatabase*\
+    \ obj0, [In] char* obj1, [In] int obj2, [MarshalAs(UnmanagedType.U1)] bool _param4,\
+    \ [In] char* obj4)\n\t{\n\t\t// ISSUE: unable to decompile the method.\n\t}\n\n\
+    JustDecompile:\n\t[DllImport(\"\", CharSet=CharSet.None)]\n\t[SuppressUnmanagedCodeSecurity]\n\
+    \tpublic static extern unsafe ErrorStatus modopt(System.Runtime.CompilerServices.CallConvCdecl)\
+    \ AcDbDatabase.readDwgFile(AcDbDatabase* modopt(System.Runtime.CompilerServices.IsConst)\
+    \ modopt(System.Runtime.CompilerServices.IsConst) , Char modopt(System.Runtime.CompilerServices.IsConst)*\
+    \ , Int32 modopt(System.Runtime.CompilerServices.IsConst) , bool , Char modopt(System.Runtime.CompilerServices.IsConst)*\
+    \ );\n\nI see ILSpy has the best readable code. My RedGate Reflector was expired\
+    \ so I did not test it. Anyway, it is so fun to play with the decompiler. Thanks\
+    \ for your post."
+- author: BJHuffine
+  email: bjhuffine@tva.gov
+  ip: 152.85.8.33
+  url: ''
+  date: '2012-08-16 11:10:42'
+  body: I used to use Reflector myself until they began charging for their product.  Then
+    I found out about Telerik's JustDecompile and it's supposed to be free forever.  <a
+    href="http://www.telerik.com/products/decompiler.aspx">http://www.telerik.com/products/decompiler.aspx</a>
+- author: Stephen Preston
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/stephenpreston
+  date: '2012-08-16 11:17:58'
+  body: Nice! This is turning into a "what's the best decompiler" conversation. Really
+    useful info.
+- author: CAD bloke
+  email: ''
+  ip: 101.164.209.79
+  url: http://profile.typepad.com/cad_bloke
+  date: '2016-02-28 02:01:54'
+  body: The best decompiler is ... <a href="https://github.com/0xd4d/dnSpy">https://github.com/0xd4d/dnSpy</a>
+    - that guy/gal (nobody knows) sure knows a lot about .NET & IL code.
+- author: CAD bloke
+  email: ''
+  ip: 101.164.209.79
+  url: http://profile.typepad.com/cad_bloke
+  date: '2016-03-01 00:59:23'
+  body: 'Actually, I''d say use a couple of decompilers and compare the results. Presently,
+    DotPeek seems better at identifying Events and Reactive Extensions than dnSpy.
+    Telerik''s tool is also worth trying. I didn''t try Reflector because, well, 3
+    free ones will do for now.
+
+
+    There is no "best" for situations, perhaps only "best for this line of code"
+
+    -----'

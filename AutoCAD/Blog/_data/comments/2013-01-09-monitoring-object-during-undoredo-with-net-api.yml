@@ -1,0 +1,69 @@
+comments:
+- author: joantopo
+  email: joantopo@hotmail.com
+  ip: 79.144.4.93
+  url: ''
+  date: '2016-08-26 04:30:16'
+  body: 'I am using this:
+
+
+    public static void callback_ObjectErased(object sender, ObjectErasedEventArgs
+    e)
+
+    {
+
+
+    bool NoUndo= e.Erased;
+
+
+    if(NoUndo==true)
+
+    {
+
+    //object erased.
+
+    }
+
+    else
+
+    {
+
+    //UNDO
+
+    }
+
+
+    }
+
+
+    And it works.
+
+    ObjectErased event says: Triggered when an object is erased or unerased from a
+    database.
+
+
+    Regards'
+- author: Augusto Goncalves
+  email: ''
+  ip: 179.154.100.225
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2016-08-26 05:52:53'
+  body: Thanks for sharing.
+- author: Joan
+  email: joantopo@hotmail.com
+  ip: 83.34.34.148
+  url: ''
+  date: '2017-02-02 19:50:00'
+  body: 'I have noticed that ObjectErased event works fine when the object is unerased
+    (this means that you erased it previously at some point), but if you create a
+    polyline, for example and then you do multiple undos, the object dissapears but
+    objecterased event is not triggered. This means that I also need to monitoring
+    the CommandEnded event for undo command.
+
+    In fact, in the first case I have to check if objecterased event is triggered
+    before CommandEnded when I call undo command.
+
+    I hope this to put a bool var within the ObjectErased event to not to execute
+    the CommandEnded method then.
+
+    -----'

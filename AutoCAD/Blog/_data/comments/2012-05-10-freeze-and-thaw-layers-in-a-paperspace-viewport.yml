@@ -1,0 +1,57 @@
+comments:
+- author: Larry Daubenspeck
+  email: ldaubenspeck@draperinc.com
+  ip: 208.88.250.67
+  url: ''
+  date: '2017-04-24 07:58:39'
+  body: Working with the AutoCad 2017 API...what happened to these viewport methods
+    (IsLayerFrozenInViewport, FreezeLayersInViewport, ThawLayersInViewport)?  They're
+    not there.  Were they replaced?
+- author: Brad
+  email: hbrandolph1@yahoo.com
+  ip: 24.209.5.25
+  url: ''
+  date: '2018-05-10 09:11:40'
+  body: "What if \nI have more than 1 Tab? I want to freeze layers in tab1 but a different\
+    \ set of layers in tab2.\nThis routine is unpredictable as to which layer is frozen/thawed\
+    \ in what layout"
+- author: Brad
+  email: hbrandolph1@yahoo.com
+  ip: 24.209.5.25
+  url: ''
+  date: '2018-05-10 13:20:47'
+  body: 'Hi Wayne
+
+
+    After some debugging. It seams to ignor the first layer in my selectionset even
+    though upon debug, I watch the function oViewport.ThawLayersInViewport(idCol.GetEnumerator())
+    and it is operational so, I included layer "0" and it is subsequentially the first
+    layer in the Selectionset, therefor it is the one that gets ignored but I don''t
+    care in this case.'
+- author: Mr Toby Wilson
+  email: 2bornot2bw@googlemail.com
+  ip: 31.125.16.42
+  url: ''
+  date: '2022-04-01 08:41:13'
+  body: "The above code has been very useful in helping me to develop code to freeze\
+    \ layers in all viewports in all layouts except for one chosen viewport.  However\
+    \ this is for paperspace of the viewport.  I would like to do the same for modelspace\
+    \ for each viewport (reason is I don't want to see some model space entities in\
+    \ some viewports).  I have the following code which works for the first layout\
+    \ then doesn't freeze any other viewport model space layers.  lcoll is a collection\
+    \ of layouts created before the code, targetviewport is the viewport I don't want\
+    \ layers frozen on, layerEnumerator is for the layers I want frozen.\n<pre>\n\
+    \        For Each l In lcoll\n            LayoutManager.Current.CurrentLayout\
+    \ = l.LayoutName\n            Dim viewportIds As ObjectIdCollection = l.GetViewports()\n\
+    \            For Each vpId As ObjectId In viewportIds\n                Using acTrans\
+    \ As Transaction = db.TransactionManager.StartTransaction()\n                \
+    \    Dim viewport As Viewport = CType(acTrans.GetObject(vpId, OpenMode.ForWrite),\
+    \ Viewport)\n                    If viewport.Number <> 1 Then 'ignore the first\
+    \ viewport (look only at floating ones)\n                        If viewport <>\
+    \ targetviewport Then\n                            viewport.On = True\n      \
+    \                      doc.Editor.SwitchToModelSpace() ' need to be in modelspace\
+    \ to freeze model space viewport layer\n                            viewport.FreezeLayersInViewport(layerEnumerator)\n\
+    \                            doc.Editor.SwitchToPaperSpace()\n               \
+    \         End If\n                    End If\n                        acTrans.Commit()\n\
+    \                End Using\n            Next\n        Next\n</pre>\nAny assistance\
+    \ that can be given will be gratefully received.\n-----"

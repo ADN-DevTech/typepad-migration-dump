@@ -1,0 +1,78 @@
+comments:
+- author: Vyacheslav Dutka
+  email: ''
+  ip: 37.110.22.129
+  url: http://profile.typepad.com/dutka
+  date: '2012-07-14 23:54:25'
+  body: Is it possible to open new drawing from a button in custom palette set?
+- author: Adam Nagy
+  email: ''
+  ip: 188.28.65.23
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2012-07-15 06:34:37'
+  body: 'Hi Vyacheslav,
+
+
+    That is like opening a drawing from a modeless dialog, so that is OK.
+
+    One thing to also think about is placing the application logic inside a command
+    instead of  inside a modeless dialog/palette set''s button click handler and then
+    just calling the command from there using SendStringToExecute() - as mentioned
+    above the command should be registered with the Session flag.
+
+
+    Cheers,
+
+    Adam'
+- author: Vyacheslav Dutka
+  email: ''
+  ip: 194.84.165.30
+  url: http://profile.typepad.com/dutka
+  date: '2012-07-15 22:51:27'
+  body: 'Hi, Adam.
+
+
+    I create custom palette with one button on which pressing I cause the following
+    code
+
+
+    DocumentCollection dm = Platform.ApplicationServices.Application.DocumentManager;
+
+    acDoc = dm.Open(fName);
+
+
+    If I previously close all drawing and press this button I recieve AccessViolation
+    inside CRT after opening this file.
+
+
+    Could you help me to anderstand this situation.
+
+
+    Cheers,
+
+    Vyacheslav'
+- author: Adam Nagy
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2012-07-19 03:19:35'
+  body: 'Hi Vyacheslav,
+
+
+    I tried it in AutoCAD 2011 and it seemed to work fine. I wonder what is causing
+    the difference on your system.
+
+
+    Maybe you could post a question about it on the forums with a small sample project
+    that reproduces the issue?
+
+    Also providing the exact error message you get?
+
+    Someone might have run into the same behaviour and could comment on that there.
+
+
+    Cheers,
+
+    Adam
+
+    -----'

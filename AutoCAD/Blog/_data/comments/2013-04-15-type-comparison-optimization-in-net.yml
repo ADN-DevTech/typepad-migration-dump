@@ -1,0 +1,331 @@
+comments:
+- author: Owen Wengerd
+  email: owenw@manusoft.com
+  ip: 24.140.112.242
+  url: http://otb.manusoft.com
+  date: '2013-04-15 12:32:11'
+  body: Do derived types meet that condition? I would expect not, and if they don't,
+    I suspect that your direct type comparison is not appropriate in the majority
+    of cases where an object's type must be checked at runtime.
+- author: Augusto Goncalves
+  email: ''
+  ip: 177.84.160.215
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2013-04-15 12:43:43'
+  body: 'Hi Owen,
+
+
+    Not sure what you mean by ''derived types'', can you clarify?
+
+
+    This quick sample is for runtime check. What type of check are you doing?
+
+
+    Regards,
+
+    Augusto Goncalves'
+- author: BlackBox
+  email: ''
+  ip: 207.34.120.71
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2013-04-15 14:25:50'
+  body: As one example of a derived Type, consider Table, which derives from BlockReference.
+- author: Owen Wengerd
+  email: owenw@manusoft.com
+  ip: 24.140.112.242
+  url: http://otb.manusoft.com
+  date: '2013-04-15 17:34:53'
+  body: By 'derived type' I mean a type that can be cast to a base type that it inherits
+    from. For example, Line is a type derived from Curve. If code is checking for
+    a Curve type at runtime, then Line should be an acceptable type since Line is
+    a type of Curve and a Line can therefore be cast to Curve.
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-16 04:47:57'
+  body: "You seem to be confusing two very different things.\n\n\"if( someobject is\
+    \ Line )\"\n\nwith \n\nif( someobject.GetType() == typeof( Line ) )\n\nAre not\
+    \ the same thing.\n\nIf 'someobject' is a type derived from Line, the first test\
+    \ fails and the second succeeds.\n\nGabeesh ?"
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-16 04:58:43'
+  body: That should have been 'the first test succeeds and the second test fails'
+- author: Augusto Goncalves
+  email: ''
+  ip: 177.84.160.215
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2013-04-16 07:16:41'
+  body: "Owen,\n\nSure, make sense... \n\n(Table is BlockReference) \n>> this test\
+    \ is True\n(Table.GetType() == typeof(BlockReference)) \n>> this test is False\n\
+    \nSo if you are testing against the hierarchy, then the 'is' is the way. Just\
+    \ consider the faster way when hierarchy is relevant.\n\nI see many developers\
+    \ doing type check in even more slower ways, such as comparing by name.\n\nThanks\
+    \ for pointing it out.\n\nRegards,\nAugusto Goncalves"
+- author: Augusto Goncalves
+  email: ''
+  ip: 177.84.160.215
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2013-04-16 07:18:00'
+  body: 'Yes that is one case where the two can exist on the drawing.
+
+
+    Curve and Line are a little different because there is not ''real'' curve on the
+    drawing, only Line, Arc, etc.
+
+
+    Thanks for sharing.
+
+
+    Regards,
+
+    Augusto Goncalves'
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-16 12:13:17'
+  body: "\"Just consider the faster way when hierarchy is relevant.\"\n\nI think you\
+    \ may be missing Owen's point.\n\nHow can the programmer possibly know if/when\
+    \ hierarchy is relevant? \n\nIf the programmer has specific knowledge of the derived\
+    \ types (as would be the case with Table : BlockReference), that is one thing,\
+    \ and they could eliminate Tables by using your suggested alternative to 'is',\
+    \ but in doing so, they may also be eliminating other custom types that also derive\
+    \ from BlockReference, including ones the programmer has no knowledge of, and\
+    \ therefore, cannot know if they should or should not be treated as BlockReferences\
+    \ by their code.\n\nIn OOP school, we are taught to treat instances of derived\
+    \ types as instances of a specific base type that we are dealing with, because\
+    \ way may not know anything about derived types (including ones that may not have\
+    \ existed when our code was written), and shouldn't make assumptions about how\
+    \ they should be dealt with."
+- author: Augusto Goncalves
+  email: ''
+  ip: 177.84.160.215
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2013-04-16 12:19:53'
+  body: 'Hi Tony,
+
+
+    Sorry for this typo... I meant: "Just consider the faster way when hierarchy is
+    NOT relevant"
+
+
+    In some cases we''re looking for Line, nothing else, so I''ll not worry about
+    hierarchy, nothing other than Line is acceptable.
+
+
+    Thanks for your comments.
+
+
+    Regards,
+
+    Augusto Goncalves'
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-17 12:37:38'
+  body: 'Hi Augusto.  "In some cases we''re looking for Line, nothing else...".
+
+
+    Sorry, one cannot make the assumption that types that may be derived from Line,
+    are not also Lines.'
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-17 12:45:02'
+  body: "The fact that Curves is an abstract type shouldn't really have any bearing\
+    \ on that.\n\nI have code that operates on all AcDbText objects in a BlockTableRecord.\
+    \ It will also operate on all AcDbAttributeDefinition instances as well, by virtue\
+    \ of the fact that the latter derives from the former. Neither of the two are\
+    \ abstract types.\n\nAnd, it is that way by-design. \n\nThe point here is not\
+    \ that what you suggest is incorrect, but rather that you presented the two different\
+    \ methods as equivalent, which they are not."
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-17 12:47:32'
+  body: Hi Owen. Since Curve is abstract, there could never be a case where GetType()
+    would return that type, but your point is perfectly valid given the case of two
+    concrete types that have the same relationship.
+- author: Augusto Goncalves
+  email: ''
+  ip: 177.84.160.215
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2013-04-17 12:48:47'
+  body: 'Hi Tony,
+
+
+    Thanks for the comments, this is correct. So I added a note on it.
+
+
+    Again, thanks for sharing.
+
+
+    Regards,
+
+    Augusto Goncalves'
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-18 06:08:03'
+  body: "Here's a tip: If you have to compare two objects derived from DisposableWrapper,\
+    \ don't use this:\n\n   DisposableWrapper a =...\n   DisposableWrapper b = ...\n\
+    \n   if( a == b ) {...}  // slow\n\nInstead, use this:\n\n   if( a.UnmanagedObject\
+    \ == b.UnmanagedObject) {...} // faster\n\nThe reason the second one is faster\
+    \ than the first, is because for some un-explainable reason, the == operator for\
+    \ DisposableWrapper leads to a boxing/unboxing operation, which is immensely-slow.\
+    \  \n\nYou might want to ask one of your colleagues why it was done that way,\
+    \ because it is totally incorrect, and serves to make all code that uses the operator\
+    \ frequently much slower than it could otherwise be.  \n\nTo see the more-correct\
+    \ way to implement the == operator, look at the == operator for System.IntPtr."
+- author: Fenton Webb
+  email: ''
+  ip: 132.188.64.218
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2013-04-18 11:29:30'
+  body: "Hey Tony!\n\nit's long thread here, so let me ask you - are we talking about\
+    \ simple object comparison now? if not, please ignore this post, if so...\n\n\
+    ...then you are right, if( a.UnmanagedObject == b.UnmanagedObject) {...} **is**\
+    \ much faster. \n\nHowever, what is the comparison you are trying to do exactly?\
+    \ You are comparing 2 memory addresses as being the same - Yes, it's the same\
+    \ physical object - but what does that achieve? More likely is that you want to\
+    \ compare the data between 2 objects as being the same, not the address that they\
+    \ reside in memory. \n\nGenerally speaking, the Equals operator compares if the\
+    \ 2 objects have the same data, not that they are the same address in memory,\
+    \ testing the UnmanagedObject is of no use. I haven't checked the details of the\
+    \ boxing/unboxing that you talk about but it's probably related to the .NET property\
+    \ handling.\n\nCorrect, how the equals operator works is down to the implementer."
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-19 05:20:30'
+  body: 'Hi Fenton, and thanks for replying.
+
+
+    First, I was referring to using the == operator on two variables (reference types)
+    to determine if both of them refer to the same instance, which has nothing to
+    do with value comparisons of fields, properties, and so on.  Generally, reference
+    types do not do value comparisons (e.g., compare fields or properties), they compare
+    references to tell if two references are referring to the same instance. Just
+    you might do in C++ when comparing two pointers.
+
+
+    When DisposableWrappers are used as Keys in a System.Collections.Generic.Dictionary,
+    or are stored as elements in a System.Collections.Generic.HashSet (sorry, this
+    lame blogging platform removes the angle braces - those are generic types), there
+    can be a potentially-massive number of equality comparisons. Those two containers
+    are examples, but there are plenty of other scenarios where code needs to know
+    if two references to an object are both references to the same instance. That
+    has nothing to do with comparing members or fields or properties.
+
+
+    The implementation of the DisposableWrapper''s == operator is quite definitely
+    incorrect, and you can have a look at System.IntPtr''s == operator, which does
+    not delegate to the Equals(Object) override.'
+- author: Fenton Webb
+  email: ''
+  ip: 132.188.64.218
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2013-04-19 08:36:29'
+  body: 'Hey Tony!
+
+
+    appreciate your reply. The thing is, if it''s an object in AutoCAD, you normally
+    use ObjectID or Handle to compare if they are the "same object" you see... You
+    can''t rely on the memory address, because sometimes the memory manager moves
+    the object, that''s one of the reasons why we have an transaction/open close mechanism.'
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-19 10:31:44'
+  body: "\"The thing is, if it's an object in AutoCAD, you normally use ObjectID or\
+    \ Handle to compare if they are the \"same object\" you see...\"\n\nHi Fenton,\
+    \ and thanks again.\n\nAcRxClass (whose managed wrapper is RXClass) doesn't have\
+    \ a handle or an ObjectId.\n\nThis isn't really as much of a performance issue\
+    \ in most use cases, but where I noticed a difference was when scanning the model\
+    \ space BlockTableRecord in a very large file to grab all instances of a certain\
+    \ type of DBObject, using the ObjectId's ObjectClass property (and thereby avoiding\
+    \ the need to open each object, get a managed wrapper and test that).\n\n<pre>\n\
+    \n    \n RXClass pointClass = RXClass.GetClass(typeof(DBPoint));\n\n foreach(\
+    \ ObjectId id in someBlockTableRecord )\n {\n   if( id.ObjectClass == pointClass\
+    \ ) \n   {\n      // found a DBPoint, proceed.\n   }\n }\n\n</pre>"
+- author: Fenton Webb
+  email: ''
+  ip: 132.188.64.218
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2013-04-19 10:51:13'
+  body: "OK, got ya. \n\nThere's always a Model Space selection filter remember...\
+    \ \n\n<a href=\"http://exchange.autodesk.com/autocadarchitecture/enu/online-help/ARCHDESK/2012/ENU/pages/WS1a9193826455f5ff2566ffd511ff6f8c7ca-4067.htm\"\
+    >http://exchange.autodesk.com/autocadarchitecture/enu/online-help/ARCHDESK/2012/ENU/pages/WS1a9193826455f5ff2566ffd511ff6f8c7ca-4067.htm</a>"
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-19 11:53:24'
+  body: 'Hi Fenton.
+
+
+    That would be an option if my code didn''t have to work with drawings that aren''t
+    open in the editor, and thanks again.'
+- author: BlackBox
+  email: ''
+  ip: 173.171.0.201
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2013-04-19 23:47:51'
+  body: 'Apologies for jumping backward a bit (I''ve missed a lot of discussion this
+    week)....
+
+
+    [Fenton] "However, what is the comparison you are trying to do exactly?"
+
+
+    Two specific situations come to mind immediately:
+
+
+    1. I have a Contextual menu who''s Popup Event is being used to differentiate
+    between BlockReference, Dimension, MLeader, and Table (given an implied, single
+    selection) whilst also pulling Property data from Entity to be conditionally displayed
+    within my Context Menu.
+
+
+    When dealing with vanilla AutoCAD, this can be simple enough, either test for
+    Type via ''as'' operator, pull Type-specific data, or move on... Or... Which I''ve
+    also done (but see Tony has already touched on) use the Id.ObjectClass.Name to
+    switch between AcDb*''s.
+
+
+    2. Where complexity comes into play, is in dealing with Civil 3D, as d@amn near
+    every AECC* Object is derived from BlockReference... Tin Surfaces, Pipes, Profile
+    Views, heck even Feature Lines... It''s quite frustrating.
+
+
+
+
+    I''d be very interested to learn a more efficient way of quickly distinguishing
+    Type than what I and others have already outline here (if there is one?), especially
+    so given that I work with Civil 3D, and soon AMEP.
+
+
+    Cheers'
+- author: .net runtime optimization service
+  email: nikki.jayasmedia@gmail.com
+  ip: 49.204.239.246
+  url: https://www.fixingerror.com/net-runtime-optimization-service/
+  date: '2022-09-25 22:52:58'
+  body: 'If there is an error in the <a href="https://www.fixingerror.com/net-runtime-optimization-service/">.net
+    runtime optimization service</a>, then it becomes troublesome to launch apps or
+    play games on your desktop. In case none of the above methods work in fixing the
+    error, you can always temporarily deactivate the .Net optimization service. Doing
+    this will not affect your NET framework but will prompt you to do a few repairs
+    to it.
+
+    -----'

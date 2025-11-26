@@ -1,0 +1,127 @@
+comments:
+- author: André Dagenais
+  email: andred@adc-dao.com
+  ip: 70.81.77.225
+  url: http://www.adc-dao.com
+  date: '2012-07-20 12:23:53'
+  body: "Hi Stephen,\n\nI use your code to create a function to import a layout from\
+    \ a drawing file in the current drawing. I'm working in VB .Net. But I had a problem\
+    \ when copying the objects on the layout. It is working but it is also copying\
+    \ new \"bizarre\" viewport in the current layout.\n\nI change the parameter DuplicateRecordCloning\
+    \ from MangleName to Ignore and the problem disapears. What is the difference\
+    \ between these differents options?\n\nHere you will find my function:\n    Public\
+    \ Function GetLayoutFromDWG(ByVal DWGFilename As String, ByVal LayoutName As String)\
+    \ As ObjectId\n\n        Dim bReturnValue As ObjectId = Nothing\n        Dim ed\
+    \ As Editor = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor()\n\
+    \        Dim sourceDb As Database = New Database(False, True)\n        Dim destDb\
+    \ As Database = ed.Document.Database()\n        Dim acDoc As Document = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument\n\
+    \n        Try\n            ''Read the DWG into a side database\n            sourceDb.ReadDwgFile(DWGFilename,\
+    \ System.IO.FileShare.Read, True, \"\")\n            Using doclock As DocumentLock\
+    \ = acDoc.LockDocument\n\n                Using tm1 As Transaction = destDb.TransactionManager.StartTransaction()\n\
+    \                    'Création de la nouvelle présentation\n                 \
+    \   Dim newLytMgr As LayoutManager = LayoutManager.Current()\n               \
+    \     Dim newLayoutId As ObjectId = newLytMgr.CreateLayout(LayoutName)\n     \
+    \               Dim newLayout As Layout = tm1.GetObject(newLayoutId, OpenMode.ForWrite)\n\
+    \                    HostApplicationServices.WorkingDatabase = sourceDb\n\n  \
+    \                  Using tm2 As Transaction = sourceDb.TransactionManager.StartTransaction()\n\
+    \                        ''Open the layout dictionary\n                      \
+    \  Dim layoutDic As DBDictionary = tm2.GetObject(sourceDb.LayoutDictionaryId,\
+    \ OpenMode.ForRead, False)\n                        If Not layoutDic.Contains(LayoutName)\
+    \ Then\n                            bReturnValue = Nothing\n                 \
+    \       Else\n                            Dim sourceLytMgr As LayoutManager =\
+    \ LayoutManager.Current()\n                            Dim sourceLayoutId = sourceLytMgr.GetLayoutId(LayoutName)\n\
+    \                            Dim sourceLayout As Layout = tm2.GetObject(sourceLayoutId,\
+    \ OpenMode.ForRead)\n                            newLayout.CopyFrom(sourceLayout)\n\
+    \n                            Dim blkTableRec As BlockTableRecord\n          \
+    \                  blkTableRec = tm2.GetObject(sourceLayout.BlockTableRecordId,\
+    \ OpenMode.ForRead)\n                            'Get the object ids of the objects\
+    \ in the existing block table record\n                            Dim objIdCol\
+    \ As New ObjectIdCollection()\n                            For Each objId As ObjectId\
+    \ In blkTableRec\n                                objIdCol.Add(objId)\n      \
+    \                      Next\n                            ' Clone the objects to\
+    \ the new layout\n                            Dim idMap As IdMapping = New IdMapping()\n\
+    \                            destDb.WblockCloneObjects(objIdCol, newLayout.BlockTableRecordId,\
+    \ idMap, DuplicateRecordCloning.Ignore, False)\n                            'destDb.WblockCloneObjects(objIdCol,\
+    \ newLayout.BlockTableRecordId, idMap, DuplicateRecordCloning.MangleName, False)\n\
+    \                            tm2.Commit()\n                            bReturnValue\
+    \ = newLayoutId\n                        End If\n                    End Using\n\
+    \                    If Not bReturnValue = Nothing Then tm1.Commit()\n\n     \
+    \           End Using\n            End Using\n\n        Catch ex As Autodesk.AutoCAD.Runtime.Exception\n\
+    \            ed.WriteMessage(\"\\nImpossible d'importer la présentation \" & LayoutName\
+    \ & \": \" & ex.Message)\n        Finally\n            HostApplicationServices.WorkingDatabase\
+    \ = destDb\n        End Try\n\n        sourceDb.Dispose()\n\n        Return bReturnValue\n\
+    \n    End Function\n\nRegards\nAndré"
+- author: Stephen Preston
+  email: ''
+  ip: 8.19.13.22
+  url: http://profile.typepad.com/stephenpreston
+  date: '2012-07-20 13:01:38'
+  body: 'Hi Andre,
+
+
+    Take a look at the ObjectARX documentation for AcDbDatabase::wblockCloneObjects()
+    for an explanation of Mangle vs Ignore. This governs how AutoCAD deals with when
+    duplicate symbol or dictionary names during the clone operation. If the Ignore
+    option works for you, then go ahead and use it.
+
+
+    Can''t comment on the bizarre viewport without seeing it.
+
+
+    Cheers,
+
+
+    Stephen'
+- author: Stephan Gumpert
+  email: stephan.gumpert@gmail.com
+  ip: 108.162.249.222
+  url: ''
+  date: '2014-05-04 20:00:27'
+  body: 'I seam to get the same problem here.
+
+    I end up with an extra Viewport surrounding the Drawing sheet in my Exported layout.
+
+
+    Apart from this everything work like a dream
+
+
+    I can''t explain why?  Do you have any ideas?'
+- author: Anton
+  email: anton.finko@mail.ru
+  ip: 109.194.34.184
+  url: ''
+  date: '2016-11-25 09:24:34'
+  body: "There is an example of your function in C#. Probably somebody need it.\n\
+    private static void CopyLayout()\n        {\n            var curDwgLayout = \"\
+    Layout1\";\n\n            var ed  = AcadCurrentInstances.Editor;\n           \
+    \ \n            var db = AcadCurrentInstances.ThisDocument.Database;\n       \
+    \     var newDb = new Database(true, false);\n\n            using (var newDbTr\
+    \ = newDb.TransactionManager.StartTransaction())\n            {\n            \
+    \    //Make the working database the new database\n                HostApplicationServices.WorkingDatabase\
+    \ = newDb;\n                \n                // Create a new Layout\n       \
+    \         var newLayoutMngr = LayoutManager.Current;\n                var newLayoutId\
+    \ = newLayoutMngr.CreateLayout(curDwgLayout);\n                var newLayout =\
+    \ (Layout)newDbTr.GetObject(newLayoutId, OpenMode.ForWrite);\n               \
+    \ \n                // Make the original database the working database\n     \
+    \           HostApplicationServices.WorkingDatabase = db;\n\n                using\
+    \ (var dbTr = db.TransactionManager.StartTransaction()  )\n                {\n\
+    \                    var layoutDictionary = (DBDictionary)dbTr.GetObject(db.LayoutDictionaryId,\
+    \ OpenMode.ForRead);\n\n                    if (!layoutDictionary.Contains(curDwgLayout))\n\
+    \                    {\n                        ed.WriteMessage(\"Layout named\
+    \ \\\"Layout1\\\" does not exist in current dwg \");\n                       \
+    \ return;\n                    }\n                    \n                    //Get\
+    \ the layout in the original database\n                    var layoutMngr = LayoutManager.Current;\n\
+    \                    var layoutId = layoutMngr.GetLayoutId(curDwgLayout);\n  \
+    \                  var layout = (Layout)dbTr.GetObject(layoutId, OpenMode.ForRead);\n\
+    \                    newLayout.CopyFrom(layout);\n\n                    //Get\
+    \ the block table record of the existing layout\n                    var layoutTableRecord\
+    \ =\n                        (BlockTableRecord) dbTr.GetObject(layout.BlockTableRecordId,\
+    \ OpenMode.ForRead);\n\n                    //Get the object ids of the objects\
+    \ in the existing block table record\n                    var objIdCol = new ObjectIdCollection();\n\
+    \n                    foreach (var layoutOBjectId in layoutTableRecord)\n    \
+    \                {\n                        objIdCol.Add(layoutOBjectId);\n  \
+    \                  }\n\n                    //Clone the objects to the new layout\n\
+    \                    var idMap = new IdMapping();\n                    newDb.WblockCloneObjects(objIdCol,\
+    \ newLayout.BlockTableRecordId, idMap,\n                        DuplicateRecordCloning.MangleName,\
+    \ false);\n\n                    dbTr.Commit();\n\n                }\n\n     \
+    \           newDbTr.Commit();\n            }\n\n        }\n-----"

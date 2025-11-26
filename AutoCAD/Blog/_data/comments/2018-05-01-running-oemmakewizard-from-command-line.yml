@@ -1,0 +1,56 @@
+comments:
+- author: Jim Massengale
+  email: jmassengale@carlsonsw.com
+  ip: 174.22.125.173
+  url: http://www.carlsonsw.com
+  date: '2018-09-07 09:25:38'
+  body: 'I''ve been running the command line for Make Wizard for a while but now I
+    have (2) entries to a same PRODUCT but from different code streams Product 2018
+    and Product 2019 but still building from the same OEM engine 2018. I have PROD.xml
+    our 2018 Code and PROD2019.xml our 2019 code. In the IDE I can open the year specific
+    and edit them, but the issue seems to be that the AOEMREG.exe is looking for a
+    PROD.XML not the PROD2019.XML.
+
+
+
+    Is it required to have the project files be PROD.xml since the registry doesn''t
+    seem to point to the specific xml file except for the key.
+
+
+
+    Help?'
+- author: Madhukar Moogala
+  email: ''
+  ip: 132.188.112.189
+  url: http://profile.typepad.com/madhukarmoogala
+  date: '2018-09-10 01:31:52'
+  body: "Hi,\n\nCan you please try passing full qualified path of your program .xml,\
+    \ i.e  filepath +filename.\n\n<pre>\ncall \"%PROGRAMFILES(x86)%\\Microsoft Visual\
+    \ Studio\\2017\\Professional\\Common7\\Tools\\VsDevCmd.bat\"\nset ProjectName=TestCAD\n\
+    set BuildDir=C:\\users\\default\\Documents\\AutoCAD OEM 2019\\build\nset ProjectDir=C:\\\
+    users\\default\\Documents\\AUTOCAD OEM 2019\\projects\\%ProjectName%\nset KeyCode=09abcde05\n\
+    set AOEMDIR=C:\\Program Files\\Autodesk\\AutoCAD OEM 2019 - English\n@echo on\n\
+    \ \ngoto build\n:build\nif not exist \"%ProjectDir%\" mkdir \"%ProjectDir%\"\n\
+    if not exist \"%BuildDir%\\%ProjectName%\" mkdir \"%BuildDir%\\%ProjectName%\"\
+    \n\"%AOEMDIR%\\toolkit\\oemmakewizard.exe\" \"%ProjectDir%\\%ProjectName%.xml\"\
+    \ %KeyCode% /BALL /BT /BR\n:eof\n</pre?"
+- author: Loic Jourdan
+  email: loic.jourdan@2020spaces.com
+  ip: 78.210.167.12
+  url: ''
+  date: '2019-02-27 23:50:21'
+  body: 'In case of someone is still facing the issue, there''s an important line
+    missing in the Madhukar initial post (which has been added to his second post):
+
+
+    call "%PROGRAMFILES(x86)%\Microsoft Visual Studio\2017\Professional\Common7\Tools\VsDevCmd.bat"
+
+
+    I''ve experienced that missing this line was causing oemmakewizard complaining
+    about invalid project name.
+
+
+    Thanks Madhukar for your help, despite this little error, you really saved me
+    hours.
+
+    -----'

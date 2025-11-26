@@ -1,0 +1,115 @@
+comments:
+- author: Anton
+  email: anton.van.buiten@betagraphics.nl
+  ip: 212.178.65.74
+  url: ''
+  date: '2012-05-15 03:23:57'
+  body: "The ribbon variable should be tested for NULL  to prevent AutoCAD 2013 to\
+    \ crash\nRibbonControl ribbon = ComponentManager.Ribbon;\nif (ribbon == null)\n\
+    {\n  ed.WriteMessage(\"\\nNo Ribbon\");\n  return;\n}"
+- author: Adam Nagy
+  email: ''
+  ip: 95.172.88.8
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2012-05-15 05:09:47'
+  body: Thank you for the commment, Anton!
+- author: Veli V.
+  email: veli.vaisanen@basepoint.fi
+  ip: 212.116.37.26
+  url: ''
+  date: '2013-01-10 05:44:01'
+  body: "How can I populate RibbonCombo with text values using .NET API?\n\nI have\
+    \ not find working example yet...\n\nPrivate Sub InitRibbonCombo(ByRef cbo As\
+    \ Autodesk.Windows.RibbonCombo, ByVal lst As List(Of String))\n        If cbo\
+    \ Is Nothing Then Return\n        cbo.Items.Clear()\n        If Not lst Is Nothing\
+    \ OrElse lst.Count > 0 Then\n            For Each sName As String In lst\n   \
+    \             cbo.Items.Add(CreateRibCboItem(sName, cbo.Items.Count))\n      \
+    \      Next sName\n        End If\n    End Sub\n\n    Private Function CreateRibCboItem(ByVal\
+    \ sItem As String, ByVal iIndex As Integer) As Autodesk.Windows.RibbonButton\n\
+    \        Dim ribCboBut01 As New Autodesk.Windows.RibbonButton\n        ribCboBut01.Text\
+    \ = sItem\n        ribCboBut01.Id = \"Id_RibCboItem\" + CStr(iIndex)\n       \
+    \ ribCboBut01.ShowText = True\n        Return ribCboBut01\n    End Function"
+- author: Adam Nagy
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2013-01-10 06:14:35'
+  body: 'Hi there,
+
+
+    As you can see in the above example you actually need to create a RibbonGallery
+    with ComboBox display mode to create a control that looks and behave like a combo
+    box. I seem to remember that it''s not suggested to use the ComboBox class, but
+    I could be wrong.
+
+    Any reason why you do not want to use the RibbonGallery control?
+
+
+    Adam'
+- author: Veli V.
+  email: veli.vaisanen@basepoint.fi
+  ip: 212.116.37.26
+  url: ''
+  date: '2013-01-10 22:28:47'
+  body: 'Reason was that I try to put text value rows in RibbonCombo control using
+    .NET API but I couldn´t find the way to do that. With ObjectARX I can do that
+    using COM API but not using .NET API. I can also be wrong about that cause I have
+    not yet found the way. =)
+
+    -Veli'
+- author: dba
+  email: ''
+  ip: 77.119.133.236
+  url: http://profile.typepad.com/6p01910489d0be970c
+  date: '2013-11-21 08:12:32'
+  body: "Hello Adam, \n\nI created some WPF Usercontrols (based on Fenton Webb's Performance\
+    \ Gauges) and added successfully to my Project.\nIn fact I need the tabs as sort\
+    \ of \"contextual\", by using the impliedselectionchanged event (had no better\
+    \ idea to filter selection...) showing/hiding them\n\nThe CUI-Loading in my case\
+    \ is suboptimal (although I have no other option by now)\n\nSo the question is,\
+    \ how to get the registered Ribboncomponent (HKLM...\\Ribboncontrols) programatically.\n\
+    Tried (with others):\n\ndim rci as new Ribboncompositeitem (\"keyname as in resDic\"\
+    )\ndim dt as windows.datatemplate (gettype (myUSERcontrol))\nci.content= dt.loadcontent\n\
+    ...\n\nthis ci I was able to add to a PanelSource...\n\nactually I tried to rebuild\
+    \ the \"XAML\" construct. with no luck (not surprised)\n\nOK, I think the control\
+    \ shall be \"loaded\" anyway by the time I want to access it via my plugin so\
+    \ I needed to find a collection, where I could grab it from, or so.\n\nI may be\
+    \ complete wrong on this...:(\n\nI guess Acad is somewhere aware of the Components\
+    \ (since I can access them via CUI-Editor) I just did not find out the right way,\
+    \ to use them programatically (Fenton wrote in his Au-Paper (CP114-5, 2009) that\
+    \ \"x:UID\" shall used to get the control, but I had no luck so far).\n\nMy goal\
+    \ was to create some Ribbontabs, containing Usercontrols which I can manipulate\
+    \ then in the way your Code does here with \"standard items\" (meaning objects\
+    \ provided by autodesk.Windows namespace)\n\nThanks in advance!\nDaniel"
+- author: Balaji
+  email: ''
+  ip: 14.96.21.155
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-11-24 15:25:20'
+  body: 'Hi Daniel,
+
+
+    Iam looking into this query and will get back to you soon.
+
+
+    Regards,
+
+    Balaji'
+- author: Balaji
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-11-26 21:38:22'
+  body: "Hi Daniel,\n\nSorry for the delay. There was an issue posting comments in\
+    \ the blog. \n\nIf you have access to the xaml file, then it can be directly loaded\
+    \ in the ribbon panel as one of the item.\n\nHere is a sample code :\n\n<code>\n\
+    Uri uri = new Uri(\"/RibbonCustCtrlDataBinding;component/MyRibbonControl.xaml\"\
+    , System.UriKind.Relative);\nResourceDictionary resDict = (ResourceDictionary)System.Windows.Application.LoadComponent(uri);\n\
+    ribSourcePanel.Items.Add((RibbonItem)resDict[\"ribbonCompositeItemKey\"]);\n</code>\n\
+    \nIn this code the \"ribbonCompositeItemKey\" is the value specified in your xaml\
+    \ file as x:Key.\n\nYou can refer to the xaml file from the WPF webcast by my\
+    \ colleague Fenton Webb.\n\nAlso, you may be interested in this Devblog post that\
+    \ explains the way to create a contextual ribbon tab using the ribbon runtime\
+    \ API.\n\n<a href=\"http://adndevblog.typepad.com/autocad/2012/04/displaying-a-contextual-tab-upon-entity-selection-using-ribbon-runtime-api.html\"\
+    >http://adndevblog.typepad.com/autocad/2012/04/displaying-a-contextual-tab-upon-entity-selection-using-ribbon-runtime-api.html</a>\n\
+    \nRegards,\nBalaji\n\n-----"

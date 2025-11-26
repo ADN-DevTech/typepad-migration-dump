@@ -1,0 +1,23 @@
+comments:
+- author: Dan
+  email: specia3147@gmail.com
+  ip: 95.76.221.25
+  url: ''
+  date: '2013-04-25 23:19:01'
+  body: "Hello,\n The new function are great, but unfortunately I can't find a way\
+    \ to change the Properties Window name. Through COM this is changed with the function\
+    \ GetDisplayName\n STDMETHODIMP CDHPAVolumeWrapper::GetDisplayName(DISPID dispID,BSTR\
+    \ *pBstr)\n {\n if (dispID == 0x401)\n { // magic dispID meaning object itself\n\
+    \ if (pBstr==NULL)\n return E_POINTER;\n\nAcAxObjectRefPtr pDHPACustomEntity(&m_objRef,\
+    \ AcDb::kForRead);\n if (pDHPACustomEntity.openStatus() != Acad::eOk)\n return\
+    \ E_ACCESSDENIED; \n\nwchar_t szPropertiesDisplayName[MAX_PATH];\n pDHPACustomEntity->GetPropertiesDisplayName(szPropertiesDisplayName);\n\
+    \ *pBstr = ::SysAllocString(szPropertiesDisplayName);\n return S_OK; \n }\n return\
+    \ IOPMPropertyExtensionImpl::GetDisplayName(dispID, pBstr);\n }\n\nHow could I\
+    \ do this with the NON-COM functions?\nThank you very much."
+- author: Balaji
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-04-26 00:00:29'
+  body: "Hi Dan,\n\nSorry, this is not possible at present using the Non-COM property\
+    \ system. \nWe have a request logged with our engineering team for this.\n\n-----"

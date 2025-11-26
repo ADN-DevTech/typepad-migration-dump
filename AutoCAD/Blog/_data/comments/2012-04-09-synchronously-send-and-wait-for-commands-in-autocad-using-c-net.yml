@@ -1,0 +1,93 @@
+comments:
+- author: Alexander Rivilis
+  email: ''
+  ip: 81.95.185.60
+  url: http://profile.typepad.com/alexanderrivilis
+  date: '2012-04-18 23:00:20'
+  body: "Thanks Fenton!\nBut why 'CharSet = CharSet.Ansi' ? It is true for AutoCAD\
+    \ 2006 but 'CharSet = CharSet.Unicode' for AutoCAD 2007... \nAlso \"acad.exe\"\
+    \ is for AutoCAD 2006...2012 but \"accore.dll\" for AutoCAD 2013."
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 72.52.96.11
+  url: http://adn.autodesk.com
+  date: '2012-04-19 09:39:34'
+  body: "You're right, that's a bug for sure, sorry about that. \n\nThat said, I don't\
+    \ think it causes a problem because the parameters are passed via an IntPtr linked\
+    \ list, not strings, so the Marshaler doesn't affect them. \n\nBecause we aren't\
+    \ specifically passing strings through the parameter list, probably best to omit\
+    \ that setting altogether... \n\ne.g.\n\n[DllImport(\"acad.exe\", EntryPoint =\
+    \ \"acedCmd\")]"
+- author: Matus Brlit
+  email: ''
+  ip: 178.40.188.197
+  url: http://profile.typepad.com/brlit
+  date: '2012-06-01 05:52:03'
+  body: how is the "Fiber removal project" going? this is the first time I found evidence
+    that you are working on it, since Kean's post in 2011 :)
+- author: Mona
+  email: Mona.Akkoush@dargroup.com
+  ip: 85.112.64.17
+  url: ''
+  date: '2013-04-15 00:00:21'
+  body: "Hello Fenton,\n\nKindly, I tried the code but with replacing the \"INSERT\"\
+    \ command with the following:\nrb.Add(New TypedValue(5005, \"_.AECTOACAD\" & vbLf\
+    \ & \"bind\" & vbLf & \"No\" & vbLf & \"\" & vbLf & AecToAcadFileName & vbLf))\n\
+    \nThe problem is: cmdNames is always resturning only the \"TEST7\" command name\
+    \ & not AECtoACAD. \n\nPlease advise. Thanks"
+- author: Fenton Webb
+  email: ''
+  ip: 132.188.64.218
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2013-04-15 08:32:38'
+  body: 'Hi Mono
+
+
+    you don''t add vbLf to a typedvalue string, you create new typed values... e.g
+
+
+    rb.Add(New TypedValue(5005, "_.AECTOACAD");
+
+    rb.Add(New TypedValue(5005, "_bind");
+
+    rb.Add(New TypedValue(5005, "_no");
+
+    rb.Add(New TypedValue(5005, AecToAcadFileName);
+
+    acedCmd(rb.UnmanagedObject);'
+- author: James Morris
+  email: morris.mymail@gmail.com
+  ip: 66.76.94.37
+  url: ''
+  date: '2014-07-29 10:48:59'
+  body: 'Fenton,
+
+    I have set up a pedit method like the above example.If I call "Test7" from the
+    command line it works but if I call the method from code it goes through the motions
+    but never sends the commands to the command line.I can use SendStringToExecute("test7
+    ",true,false,false) and that works but then its asynchronous.Any Ideas?'
+- author: James Morris
+  email: morris.mymail@gmail.com
+  ip: 66.76.94.37
+  url: ''
+  date: '2014-07-30 05:10:57'
+  body: 'Fenton,
+
+    I have set up a pedit method like the above example.If I call "Test7" from the
+    command line it works but if I call the method from code it goes through the motions
+    but never sends the commands to the command line.I can use SendStringToExecute("test7
+    ",true,false,false) and that works but then its asynchronous.Any Ideas?'
+- author: Hal Perison
+  email: hperison.hp@gmail.com
+  ip: 208.38.40.228
+  url: ''
+  date: '2023-08-02 06:55:16'
+  body: 'I realize that this post is old but it is still relevant today.
+
+    How is this to be implemented on newer software such as AutoCAD 2020 or newer.
+
+    On these packages I do no think that it works any longer as the entry points are
+    not the same.
+
+
+    -----'

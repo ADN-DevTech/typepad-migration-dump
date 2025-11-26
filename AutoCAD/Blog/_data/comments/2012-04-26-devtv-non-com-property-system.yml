@@ -1,0 +1,342 @@
+comments:
+- author: Alexey Ursegov
+  email: ''
+  ip: 194.100.75.194
+  url: http://profile.typepad.com/ursegov
+  date: '2012-05-15 04:58:17'
+  body: 'Hello,
+
+    I checked out "DevTV - Ubiquity" and it look great.
+
+    The example describes only "double" and "color" property types. How can I create
+    an indexed property (so it looks like combobox)?
+
+
+    I tried to derive from AcRxIndexedProperty class, but I couln''t get it to be
+    shown in property palette. Maybe I''m doing something wrong.
+
+
+    Another question is how to make a read-only property?'
+- author: Adam Nagy
+  email: ''
+  ip: 95.172.88.8
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2012-05-15 05:13:02'
+  body: 'Hi Alexey,
+
+
+    There are blog posts here which I think should answer your questions:
+
+
+    <a href="http://adndevblog.typepad.com/autocad/2012/04/non-com-property-with-list-of-possible-values.html">http://adndevblog.typepad.com/autocad/2012/04/non-com-property-with-list-of-possible-values.html</a>
+
+
+    and
+
+
+    <a href="http://adndevblog.typepad.com/autocad/2012/04/read-only-non-com-property.html">http://adndevblog.typepad.com/autocad/2012/04/read-only-non-com-property.html</a>
+
+
+    Cheers,
+
+    Adam'
+- author: Kenny
+  email: jikunhp@gmail.com
+  ip: 202.111.2.66
+  url: ''
+  date: '2012-12-11 00:59:03'
+  body: 'Hi Adam,
+
+    I am an ADN register member. I looked at your provided demo project DevTV - Ubiquity.
+    It''s greate. Now, I can add index property to a line. But I wonder how to exchange
+    indexes of two lines. For example, the original index of line A is 1, and the
+    original index of line B is 2. Now I changed the index of line A into 2. So, what
+    I want see is that if I right click the line B property, its index should be changed
+    into 1. It may be done at the function "subSetValue/subGetValue", but I find the
+    two functions run serval times even I only changed index of line A into 2. So,
+    could you help me? Thanks.
+
+
+    Best Regards
+
+
+    Kenny'
+- author: Adam Nagy
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2012-12-11 06:22:09'
+  body: 'Hi Kenny,
+
+
+    I''m not sure I understand the real issue you are describing. E.g. why is it a
+    problem that those functions are called multiple times? You can check if the assigned
+    property is the same as the current one, in which case you don''t have to do anything.
+
+
+    If you could log a case about this with more details on DevHelp Online in case
+    you need more help with this, that would be the best.
+
+
+    Thank you,
+
+    Adam'
+- author: Kenny
+  email: jikunhp@gmail.com
+  ip: 202.111.2.66
+  url: ''
+  date: '2012-12-12 17:24:38'
+  body: "Hi Adam,\n\nOK. Thanks for your reply. I will summit a case. \n\nBest Regards,\n\
+    \nKenny"
+- author: Dan
+  email: specia3147@gmail.com
+  ip: 95.76.221.25
+  url: ''
+  date: '2013-04-25 23:16:59'
+  body: "Hello,\nThe new function are great, but unfortunately I can't find a way\
+    \ to change the Properties Window name. Through COM this is changed with the function\
+    \ GetDisplayName\nSTDMETHODIMP CDHPAVolumeWrapper::GetDisplayName(DISPID dispID,BSTR\
+    \ *pBstr)\n  {\n  if (dispID == 0x401)\n    { // magic dispID meaning object itself\n\
+    \    if (pBstr==NULL)\n      return E_POINTER;\n\n    AcAxObjectRefPtr<DHPACustomEntity>\
+    \ pDHPACustomEntity(&m_objRef, AcDb::kForRead);\n    if (pDHPACustomEntity.openStatus()\
+    \ != Acad::eOk)\n      return E_ACCESSDENIED;    \n\n    wchar_t szPropertiesDisplayName[MAX_PATH];\n\
+    \    pDHPACustomEntity->GetPropertiesDisplayName(szPropertiesDisplayName);\n \
+    \   *pBstr = ::SysAllocString(szPropertiesDisplayName);\n    return S_OK; \n \
+    \   }\n  return IOPMPropertyExtensionImpl<CDHPAVolumeWrapper>::GetDisplayName(dispID,\
+    \ pBstr);\n  }\n\nHow could I do this with the NON-COM functions?"
+- author: Balaji
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-04-25 23:51:43'
+  body: "Hi Dan,\n\nSorry, this is not possible at present using the Non-COM property\
+    \ system. \nWe have a request logged with our engineering team for this."
+- author: Dan
+  email: specia3147@gmail.com
+  ip: 95.76.221.25
+  url: ''
+  date: '2013-07-11 23:09:19'
+  body: "Hello,\nI have another question for you.\nWith your example I managed to\
+    \ show in the Properties Window for my CustomEntity a new category and new properties.\
+    \ But in the RollOver tooltip I can't see for my CustomEntity the custom category\
+    \ and custom properties.\nFor doing this I go to to CUI->RollOver Tooltips->I\
+    \ add my CustomEntity to the list but I only see Static Properties there.\nIn\
+    \ COM I think this is done with\n\nclass ATL_NO_VTABLE CSimpleProperty : \n  public\
+    \ CComObjectRootEx<CComSingleThreadModel>,\n  public IDynamicProperty,\n  public\
+    \ IFilterableProperty\n{\npublic:\n  CSimpleProperty();\nBEGIN_COM_MAP(CSimpleProperty)\n\
+    \  COM_INTERFACE_ENTRY(IDynamicProperty)\n  COM_INTERFACE_ENTRY(IFilterableProperty)\n\
+    END_COM_MAP()\n\nSTDMETHOD(ShowFilterableProperty)(THIS_\n                   /*[in]*/DISPID\
+    \ dispID,\n                   /*[in]*/AcFilterablePropertyContext context,\n \
+    \                  /*[out]*/BOOL* pbShow);\n\nIs there a way to display this also\
+    \ with NON-COM functions?"
+- author: Balaji
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-07-12 03:14:51'
+  body: "Hi Dan,\n\nIn AutoCAD 2013, I could see the custom property in the roll-over\
+    \ tooltip. I have shared screenshots to show the steps to enable them using the\
+    \ CUI dialog. I think it is same as what you have already tried. \n\nIf that does\
+    \ not help, can you please try with the Ubiquity sample from the DevTV and see\
+    \ if that works for you ? \n\nHere are the screenshots :\n<a href=\"https://www.dropbox.com/s/t39wh3ubvnb8i4u/1.png\"\
+    >https://www.dropbox.com/s/t39wh3ubvnb8i4u/1.png</a>\n<a href=\"https://www.dropbox.com/s/f6adq98lz1pas4g/2.png\"\
+    >https://www.dropbox.com/s/f6adq98lz1pas4g/2.png</a>\n\nRegards,\nBalaji"
+- author: Dan
+  email: specia3147@gmail.com
+  ip: 95.76.221.25
+  url: ''
+  date: '2013-07-15 05:41:23'
+  body: "Hi Balaji,\nI finally figured it out what is the problem with my entity.\
+    \ It seems that if I use the COM wrapper (as in my previous post) for changing\
+    \ dynamically the CustomEntity name, then in the RollOver tooltips I don't see\
+    \ the CustomProperties created with NON-COM functions.\nI still don't know how\
+    \ to mix this two things in order to have the name changed and to see the properties\
+    \ in the tooltip. In the normal Properties Window both the name and extra properties\
+    \ are working fine.\nI will try this post\n<a href=\"http://through-the-interface.typepad.com/through_the_interface/2008/11/adding-custom-p.html\"\
+    >http://through-the-interface.typepad.com/through_the_interface/2008/11/adding-custom-p.html</a>\n\
+    to see if I could add the properties  with COM. \nIf you have any ideas it will\
+    \ be very helpful."
+- author: Balaji
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-07-15 22:17:30'
+  body: "Hello Dan,\n\nThe blog post that you mentioned about should help resolve\
+    \ this.\n\nIf you have a COM wrapper for your custom entity, implementing IFilterableProperty\
+    \ is needed for the properties to appear in the CUI dialog. \n\nWhen using the\
+    \ Non-COM property system, a COM wrapper is internally created. I am not yet sure\
+    \ how this is supposed to work when there are two wrappers for a custom entity.\
+    \ I will try and reproduce the behavior and will contact our engineering team\
+    \ to get this clarification. \n\nRegards,\nBalaji"
+- author: Dan
+  email: specia3147@gmail.com
+  ip: 95.76.221.25
+  url: ''
+  date: '2013-07-16 04:18:04'
+  body: 'Hi Balaji,
+
+    I have one remark to add. The COM Wrraper is implemented on a class derived from
+    AcDbEntity
+
+
+    class DLLEXPORT DHPACustomEntity : public AcDbEntity
+
+
+    The NON-COM one is implemented on class derived from the first one
+
+
+    class DLLIMPEXP DHPAVolume : public DHPACustomEntity
+
+
+    It is done like this because there are several classes derived from the DHPACustomEntity
+    and writing a COM wrapper for all will be a big problem with the only goal of
+    changing the displayed name. By implementing it to the base class and only virtualizing
+    the GetDispalyedName functions it was making our life much easier.
+
+
+    But the NON-COM properties are different between the derived classes so using
+    NON-COM for this ones again will make our life much easier.'
+- author: Balaji
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-07-23 05:49:57'
+  body: 'Hi Dan,
+
+
+    Sorry for the delay in getting back to you.
+
+
+    I could reproduce the behavior in a sample project that implements a COM wrapper
+    for a custom entity while the custom entity also uses the Non-COM property system.
+
+
+    In this case, since the property palette displays both COM / Non-COM properties,
+    I would expect both to appear in the CUI dialog while customizing rollover tool
+    tips. Unfortunately that is not the case.
+
+
+    I have logged this behavior for our engineering team to analyze. Sorry, I did
+    not find a workaround for this.
+
+
+    Regards,
+
+    Balaji'
+- author: Dan
+  email: specia3147@gmail.com
+  ip: 95.76.221.25
+  url: ''
+  date: '2013-08-20 03:51:31'
+  body: Thank you very much. Today I've return from holidays and I was about to post
+    this on our new ADN support, but now I will wait.
+- author: Balaji
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-08-20 04:47:42'
+  body: 'Hi Dan,
+
+
+    I would still suggest logging it as a request. In reply to that, I can send you
+    the details of the engineering request that I have already created. This will
+    help keep track of it and you can also bring out the importance of this fix.'
+- author: Dan
+  email: specia3147@gmail.com
+  ip: 95.76.221.25
+  url: ''
+  date: '2013-08-22 00:55:10'
+  body: 'Ok I made a support request (Case number 08695619).
+
+    Thank you again'
+- author: Florent
+  email: florent@linguenheld.fr
+  ip: 85.168.246.60
+  url: ''
+  date: '2016-03-20 15:04:52'
+  body: 'Hi,
+
+
+    I''m sorry to come back on old topic. But i don''t manage adding an angular property
+    in the OPM.
+
+    I think it''s like in your example with color :
+
+
+    Constructor''s property :
+
+    AcRxProperty(_T("My Color Property"), AcRxValueType::Desc<AcCmColor>::value())
+
+
+    What''s class can i use instead of AcCmColor ?
+
+
+    Thank you for your help (and thanks too for this usefull example :)
+
+
+    Florent'
+- author: Florent
+  email: florent@linguenheld.fr
+  ip: 172.16.15.28
+  url: ''
+  date: '2016-03-22 06:37:26'
+  body: "Hello,\n\nI founded a solution :\n\nOverride AcRxProperty like the example\
+    \ with double value type and add an AcRxUnitTypeAttribute in the constructor like\
+    \ this :\n\n\nAngleProperty::AngleProperty(const ACHAR *nom, const ACHAR *nomCategorie)\
+    \ :\n    AcRxProperty(nom, AcRxValueType::Desc<double>::value()),\n    m_categorie(0)\n\
+    {\n<i>\n        // Add category like Adam's example...\n\n        // OPM = Object\
+    \ Property Manager / Property Palette\n        // Add the Placement attribute\
+    \ to set under which category in the OPM\n        // the property will be shown\n\
+    \        attributes().add(new AcRxUiPlacementAttribute(nomCategorie, 0));\n  \
+    \      // Add this attribute so that AutoCAD will automatically create the COM\n\
+    \        // wrapper for this property, i.e. it will be visible in OPM\n      \
+    \  attributes().add(new AcRxGenerateDynamicPropertiesAttribute());\n</i>\n\n \
+    \   <b>// And specialize in angular value</b>\n    AcRxUnitTypeAttribute *typeDeDonnee\
+    \ = new AcRxUnitTypeAttribute(AcRxUnitTypeAttribute::kAngle);\n    attributes().add(typeDeDonnee);\n\
+    }\n\n\nFor methods subSetValue and subGetValue, nothing change, cast with double\
+    \ and use the AcDb::kDxfXdReal type for XData.\n\nJust don't forget the OPM return\
+    \ and use radian values regardless of angle type use.\n\nI hope it's safe and\
+    \ can help someone.\n\nRegards,\nFlorent"
+- author: Navneet Tripathi
+  email: navneet.tripathi@2020spaces.com
+  ip: 49.248.251.62
+  url: ''
+  date: '2019-06-25 00:18:08'
+  body: 'Hello,
+
+
+    This thread is from 2013 and it has been a long time. Is there any way now to
+    change the Property Window name using NON-COM properties?'
+- author: Madhukar Moogala
+  email: ''
+  ip: 202.135.180.20
+  url: https://profile.typepad.com/madhukarmoogala
+  date: '2019-06-25 02:25:50'
+  body: 'Hi Navneet,
+
+
+    Changing Properties Display name is not possible yet using Non-Com property system,
+    most of the development on Ubiquity has stalled.
+
+
+    Sorry if it is a bad news.'
+- author: aither
+  email: aither316@gmail.com
+  ip: 211.75.42.136
+  url: ''
+  date: '2022-03-28 20:34:25'
+  body: 'Hello, Adam
+
+    First, thanks for your list property example, it is great!
+
+    But I have a problem: It works as well, when I hover list item after I drop-down
+    the list, subSetValue() is called for every item. When I press a ESC key, or click
+    at ACAD drawing view, the list is closed and the selected item is not changed.
+
+    THE PROBLEM: when no selected item of list is hovered, the item index is stored
+    to pent->mNumSides through subSetValue(). But when list is closed by lost-focus,
+    how I restore the pent->mNumSides with current selected item of list?
+
+    Sorry for my bad English.
+
+    -----'

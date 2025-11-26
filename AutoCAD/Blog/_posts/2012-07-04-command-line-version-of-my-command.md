@@ -1,0 +1,22 @@
+---
+layout: "post"
+title: "Command line version of my command"
+date: "2012-07-04 12:01:00"
+author: "Adam Nagy"
+categories:
+  - "Adam Nagy"
+  - "AutoCAD"
+  - "LISP"
+original_url: "https://adndevblog.typepad.com/autocad/2012/07/command-line-version-of-my-command.html "
+typepad_basename: "command-line-version-of-my-command"
+typepad_status: "Publish"
+---
+
+<p>By <a href="http://adndevblog.typepad.com/autocad/adam-nagy.html" target="_self">Adam Nagy</a></p>
+<p>I have a command written in LISP that gets some information from the user through a dialog and now I would like to create a command line version of it that could also be called from a script. So I have MYCOMMAND and I would like to create -MYCOMMAND. How can I do it?</p>
+<p><strong>Solution</strong></p>
+<p>You just have to prefix your command name with a dash &#39;-&#39; and only use command line input methods like getstring, etc.</p>
+<p><span style="background-color: #e6e6e6; font-family: &#39;courier new&#39;, courier; color: #7f007f;">; the function itself</span><br /><span style="font-family: &#39;courier new&#39;, courier;"><span style="color: #ff0000;"> (</span><span style="color: #0000ff;">defun</span> myprint_func <span style="color: #ff0000;">(</span>mytext <span style="color: #0000ff;">/</span> <span style="color: #ff0000;">)</span></span><br /><span style="font-family: &#39;courier new&#39;, courier;"><span style="color: #ff0000;">&#0160; (</span><span style="color: #0000ff;">print</span> mytext<span style="color: #ff0000;">)</span></span><br /><span style="font-family: &#39;courier new&#39;, courier; color: #ff0000;"> )</span><br /> <br /><span style="background-color: #e6e6e6; font-family: &#39;courier new&#39;, courier; color: #7f007f;"> ; the user interface version of the command</span><br /><span style="font-family: &#39;courier new&#39;, courier;"><span style="color: #ff0000;">(</span><span style="color: #0000ff;">defun</span> c:myprint <span style="color: #ff0000;">(</span> <span style="color: #0000ff;">/</span> mytext<span style="color: #ff0000;">)</span></span></p>
+<p><span style="color: #7f007f;"><span style="font-family: &#39;courier new&#39;, courier;">&#0160;&#0160;</span><span style="background-color: #e6e6e6; font-family: &#39;courier new&#39;, courier;">; use user interface (e.g. DCL dialog) to set mytext<br /></span><span style="font-family: &#39;courier new&#39;, courier;">&#0160;&#0160;</span><span style="background-color: #e6e6e6; font-family: &#39;courier new&#39;, courier;">; ...</span></span></p>
+<p><span style="font-family: &#39;courier new&#39;, courier;"><span style="color: #ff0000;">&#0160; (</span>myprint_func mytext<span style="color: #ff0000;">)</span></span><br /><span style="font-family: &#39;courier new&#39;, courier;"><span style="color: #ff0000;">&#0160; (</span><span style="color: #0000ff;">princ</span><span style="color: #ff0000;">)</span></span><br /><span style="font-family: &#39;courier new&#39;, courier; color: #ff0000;">)</span><br /> <br /><span style="background-color: #e6e6e6; font-family: &#39;courier new&#39;, courier; color: #7f007f;">; the command line version of the command</span><br /><span style="font-family: &#39;courier new&#39;, courier;"><span style="color: #ff0000;">(</span><span style="color: #0000ff;">defun</span> c:-myprint <span style="color: #ff0000;">(</span> <span style="color: #0000ff;">/</span> mytext<span style="color: #ff0000;">)</span></span></p>
+<p><span style="font-family: &#39;courier new&#39;, courier;">&#0160;&#0160;</span><span style="background-color: #e6e6e6; font-family: &#39;courier new&#39;, courier; color: #7f007f;">; use command line input functions to set mytext</span><br /><span style="font-family: &#39;courier new&#39;, courier;"><span style="color: #ff0000;">&#0160; (</span><span style="color: #0000ff;">setq</span> mytext <span style="color: #ff0000;">(</span><span style="color: #0000ff;">getstring</span> <span style="color: #ff00ff;">&quot;\nProvide text: &quot;</span><span style="color: #ff0000;">)) </span></span><br /> <br /><span style="font-family: &#39;courier new&#39;, courier;"><span style="color: #ff0000;">&#0160; (</span>myprint_func mytext<span style="color: #ff0000;">)</span></span><br /> <br /><span style="font-family: &#39;courier new&#39;, courier;"><span style="color: #ff0000;">&#0160; (</span><span style="color: #0000ff;">princ</span><span style="color: #ff0000;">)</span></span><br /><span style="font-family: &#39;courier new&#39;, courier; color: #ff0000;"> )</span></p>

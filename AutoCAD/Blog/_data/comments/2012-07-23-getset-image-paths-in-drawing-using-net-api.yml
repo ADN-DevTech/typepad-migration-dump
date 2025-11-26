@@ -1,0 +1,44 @@
+comments:
+- author: Irene
+  email: irene.kucherova@gmail.com
+  ip: 50.206.186.219
+  url: ''
+  date: '2015-07-30 12:54:34'
+  body: I am having hard time finding a tutorial for removing (detaching) an xref
+    image from the document. Do you happen to have an example?
+- author: Balaji
+  email: ''
+  ip: 14.96.86.28
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-07-31 08:47:50'
+  body: 'Hi Irene,
+
+
+    This blog post should provide the steps to follow to detach it.
+
+    The code is in C++, but you can find equivalent API in the AutoCAD .Net API mostly
+    just by dropping the "AcDb" prefix.
+
+
+    <a href="http://adndevblog.typepad.com/autocad/2012/08/detach-a-raster-image-using-objectarx.html">http://adndevblog.typepad.com/autocad/2012/08/detach-a-raster-image-using-objectarx.html</a>
+
+
+    Regards,
+
+    Balaji'
+- author: Greg
+  email: greg.toews@gov.bc.ca
+  ip: 142.36.190.223
+  url: ''
+  date: '2017-09-27 12:12:51'
+  body: 'Issue with a very long path (230 characters). If the image is in the same
+    folder as DWG then specifying SourceFile=".\image.gif" results in eFileAccess
+    error and it can''t find the file. In a shorter path this is no issue. So far
+    the only solution is to supply the full long path but then the image is not xref''d
+    relative. Attaching the file manually through dialog interface works no problem
+    with relative path, so the problem is only via .NET. Often, but not always, when
+    this occurs Directory.GetCurrentDirectory doesn''t return the proper current folder
+    of the DWG so I think .NET environment is confused as to what is the current folder
+    and SetCurrentDirectory doesn''t resolve the problem.
+
+    -----'

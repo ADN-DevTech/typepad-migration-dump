@@ -1,0 +1,162 @@
+comments:
+- author: Khoa Ho
+  email: ''
+  ip: 99.126.153.41
+  url: http://profile.typepad.com/6p01774401669a970d
+  date: '2012-08-10 21:19:26'
+  body: Excellent post! Nice work. Thank you.
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 98.234.254.150
+  url: http://www.autodesk.com/joinadn
+  date: '2012-08-10 22:19:42'
+  body: My pleasure, thanks Khoa!
+- author: pseudonym
+  email: caddzooks@hushmail.com
+  ip: 24.47.197.131
+  url: ''
+  date: '2012-08-11 15:18:54'
+  body: "Hi Fenton and thanks for the in-depth performance data.\n\nThere is one major\
+    \ difference between the Open/Close mechanism and Transaction. When a transaction\
+    \ is disposed, if it was not previously comitted, it results in a call to every\
+    \ resident object's AcDbObject::cancel() memeber.  \n\nConversely, when a DBObject\
+    \ is disposed, it will always result in a call to AcDbObject::close() committing\
+    \ any changes made.\n\nSo, in the case of using the Open()/Close() mechanism,\
+    \ what happens when an exception causes control to leave the using() block that\
+    \ disposes a DBObject that was acquired via ObjectId.Open(), was opened for write,\
+    \ and has already had some changes made to it prior to the point where the exception\
+    \ was raised?\n\n<g>"
+- author: pseudonym
+  email: caddzooks@hushmail.com
+  ip: 24.47.197.131
+  url: ''
+  date: '2012-08-11 15:43:01'
+  body: "\"Now my preferred way, Open/Close – see how much nicer it is?\"\n\nThat's\
+    \ the problem with apples-to-oranges comparisons.\n\nYour OpenClose() method and\
+    \ the StartTransaction() method shown above are not functionally-equivalent. \n\
+    \nOne rolls back changes to all objects that were modified in the foreach() loop\
+    \ in the event that an exception terminates the loop prematurely, while the other\
+    \ does not."
+- author: Kerry Brown
+  email: ''
+  ip: 220.237.66.75
+  url: http://profile.typepad.com/kerrybrown
+  date: '2012-08-11 17:36:58'
+  body: "For anyone who want to test this code :\nThe drawings used to test are at\
+    \ Reply #31 \n<a href=\"http://www.theswamp.org/index.php?topic=42399.0\">http://www.theswamp.org/index.php?topic=42399.0</a>\n\
+    Thanks to Jeff for the Sample.\n\nRegards"
+- author: Sanjay Kulkarni
+  email: sanganaksakha@gmail.com
+  ip: 14.97.40.8
+  url: http://www.linkedin.com/in/sanjaykulkarnipune
+  date: '2012-08-12 00:09:35'
+  body: "1. It seems you can get the database of current drawing in following two\
+    \ ways:\n\nA.\n\nDim db As Database = HostApplicationServices.WorkingDatabase\n\
+    \nB.\n\nDim doc As Document = _ \nApplication.DocumentManager.MdiActiveDocument\n\
+    \nDim db As Database = doc.Database\n\nCan you elaborate difference between the\
+    \ along with which is better when and why?\n\n2. Also, the statement\n\nDim tm\
+    \ As TransactionManager = db.TransactionManager\n\ncauses following error:\n\n\
+    'TransactionManager' is ambiguous, imported from the namespaces or types 'Autodesk.AutoCAD.DatabaseServices,\
+    \ Autodesk.AutoCAD.ApplicationServices'.\t\n\nI have imported both the namespaces,\
+    \ hence this error.\n\nWhen I change it to\n\nDim tm As _\nAutodesk.AutoCAD.DatabaseServices.TransactionManager\
+    \ = _\ndb.TransactionManager\n\nthe error disappears.\n\nCan you also explain\
+    \ the difference between two namespaces?\n\nThank you for any help."
+- author: User48
+  email: tundranut@gmail.com
+  ip: 75.90.242.36
+  url: ''
+  date: '2012-08-13 07:32:52'
+  body: What about the massive list of warnings about these methods being <b>obsolete</b>?  A
+    speed gain today in exchange for major code reworking when these functions are
+    discontinued?
+- author: Autocad Training
+  email: ann.matthew88@gmail.com
+  ip: 182.70.69.39
+  url: http://sd-academy.com/
+  date: '2015-05-01 00:54:16'
+  body: Fenton Truely amazing...Thanks for Showing it in detail..Keep sharing and
+    guide us.
+- author: Ben
+  email: benkoshy@hotmail.com
+  ip: 165.228.230.183
+  url: ''
+  date: '2016-01-26 14:27:49'
+  body: So does that mean when using the OpenClose() method, if an exception is thrown,
+    the objects opened for write are not closed (and/or disposed)? I'm fairly new
+    to the API so please forgive me if I asked something terribly inane or ignorant.
+- author: Ben
+  email: benkoshy@hotmail.com
+  ip: 165.228.230.183
+  url: ''
+  date: '2016-01-26 15:10:35'
+  body: 'Hello Fenton thank you for your article:
+
+
+    "About The Transaction object in AutoCAD... The Transaction model (StartTransaction())
+    was invented way back when for a specific reason - transacting multiple writes
+    on the same objects(s) and allowing layered rollbacks of these multi-write transactions."
+
+
+    I am new to the API and I don''t understand what you mean by "multiple writes"
+    and "layered rollbacks" - any clarification would be appreciated.
+
+
+    regards
+
+
+    Ben'
+- author: Chuck Yocum
+  email: Chuck.Yocum@spatialbiz.com
+  ip: 198.252.116.40
+  url: https://www.linkedin.com/in/charles-yocum-7045292a
+  date: '2017-02-10 10:38:45'
+  body: This means you can start a transaction in one method and do a bunch of writes
+    all over your application and commit them all at once or roll them all back at
+    once.  You can also start another transaction within a transaction and commit
+    or roll it back independently
+- author: Chuck Yocum
+  email: Chuck.Yocum@spatialbiz.com
+  ip: 198.252.116.40
+  url: https://www.linkedin.com/in/charles-yocum-7045292a
+  date: '2017-02-10 10:40:29'
+  body: Ben contact me independently and I can show you some things to look at if
+    you still need help
+- author: Antonym
+  email: someone@nowhere.com
+  ip: 173.124.202.234
+  url: ''
+  date: '2017-08-20 00:34:23'
+  body: '"So does that mean when using the OpenClose() method, if an exception is
+    thrown, the objects opened for write are not closed (and/or disposed)?"
+
+
+    No, it means that if an exception is thrown, the objects that were opened for
+    write and were modified before the exception occurred are closed and the changes
+    are committed to the database. With a transaction, if an exception occurs after
+    changes are made to open objects, the changes are rolled back.'
+- author: Fenton Webb
+  email: ''
+  ip: 132.188.64.213
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2017-08-21 08:14:21'
+  body: Correct, you should consider this fact when coding this way
+- author: Fenton Webb
+  email: ''
+  ip: 132.188.64.213
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2017-08-21 08:17:06'
+  body: "Transactions allow you to open the same object for write, multiple times.\
+    \ Normal open for write does not allow this, you get an eWasOpenForWrite error\
+    \ message. \n\nLayered rollbacks are when you nest Transactions, you can undo\
+    \ a pending transaction without affecting the encapsulating transation"
+- author: Ben
+  email: benkoshy@hotmail.com
+  ip: 115.64.132.178
+  url: ''
+  date: '2024-04-27 15:57:07'
+  body: "Woa that is significant. \n\nSo basically if:\n\n(1) you are using OpenClose,\
+    \ and\n(2) you are WRITING - i.e. modifying or making some changes\n(3) and an\
+    \ exception is closed\n(4) ....then those changes still persist, even though,\
+    \ perhaps the entire transaction should be aborted and the changes rolled back!?\n\
+    \n\nSo if you want to be super safe when writing: use TransactionManager.StartTransction()?\n\
+    \n\n\n\n-----"

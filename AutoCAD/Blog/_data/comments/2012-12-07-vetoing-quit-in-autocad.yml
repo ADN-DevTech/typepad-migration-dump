@@ -1,0 +1,34 @@
+comments:
+- author: langshanglibie
+  email: langshanglibie@163.com
+  ip: 218.242.168.194
+  url: ''
+  date: '2013-09-10 20:02:59'
+  body: "Hi, Philippe Leefsma!\n\nWhen I used the first method, and when I inputed\
+    \ \"quit\" at command prompt the second time, \n\n//windows proc function\nLRESULT\
+    \ CALLBACK fWndProc(HWND hwnd, UINT uMsg,WPARAM wParam,LPARAM lParam) \n{ \n\t\
+    // Handle the WM_CLOSE message and return true to veto the message\n\t// this\
+    \ stops AutoCAD from closing\n\tif(uMsg == WM_CLOSE) \n\t{ \n\t\tacutPrintf(L\"\
+    \\nQuit Canceled...\");\n\t\treturn true;\t\t\n\t} \n\t// Send all the messages\
+    \ you receive to AutoCAD so they can be handled as normal \n\treturn ::CallWindowProc(wndProc,hwnd,uMsg,wParam,lParam);\
+    \ \n} \n\nI can't received the WM_CLOSE message, I saved the current document\
+    \ in commandWillStart() in my MyEditorReactor derived from AcEditorReactor. Why\
+    \ this happend?"
+- author: Philippe
+  email: philippe.leefsma@autodesk.com
+  ip: 132.188.32.22
+  url: ''
+  date: '2013-09-12 07:30:48'
+  body: 'Hi,
+
+
+    Sorry, so far I do not reproduce the behavior. I am testing under 2014. What version
+    and platform are you using? Are you using the exact same code that is provided
+    in the attachment? What does "commandWillStart" have to do with the workflow?'
+- author: langshanglibie
+  email: langshanglibie@163.com
+  ip: 218.242.168.194
+  url: ''
+  date: '2013-09-12 18:01:51'
+  body: "Thanks, Philippe! \nI have resolved my problem using all my skills, experiences,\
+    \ and tricks.\nBest wishes for you!\n-----"

@@ -1,0 +1,64 @@
+comments:
+- author: Mehmet Kurt
+  email: mehmet.kurt@sampas.com.tr
+  ip: 92.45.59.254
+  url: ''
+  date: '2012-08-08 06:55:34'
+  body: 'Hi,
+
+
+    How To insert bitmap file to Autocad DWG as an OLE embedde object with C#?
+
+
+    Thanks'
+- author: Bryce
+  email: bwagner@aeaintegration.com
+  ip: 69.63.106.210
+  url: ''
+  date: '2014-04-15 14:55:25'
+  body: "It might depend on the version of AutoCAD, but the above code can fail if\
+    \ you don't do this:\n\nif (pDict->setAt(szName, pImageDef, objID) == eWrongObjectType)\n\
+    {\n    AcDbRasterImage::rxInit();\n    AcDbRasterVariables::rxInit();\n    AcDbRasterImageDef::rxInit();\n\
+    \    acrxBuildClassHierarchy();\n    pDict->setAt(szName, pImageDef, objID);\n\
+    }"
+- author: Bryce
+  email: bwagner@aeaintegration.com
+  ip: 69.63.106.210
+  url: ''
+  date: '2014-04-17 12:31:59'
+  body: Actually, the code I posted above is insufficient.  It will keep AutoCAD from
+    crashing during the insertion, but as soon as it tries to use the reactor (i.e.
+    screen redraw), there's an access violation, so something else needs to be initialized
+    in the RasterImage subsystem.  I can force initialization by calling an existing
+    command like "IMAGEFRAME" or "IMAGECLIP", but I don't know how to initialize the
+    RasterImage subsystem properly in C++.  Does anyone know how?
+- author: Bryce
+  email: bwagner@aeaintegration.com
+  ip: 69.63.106.210
+  url: ''
+  date: '2014-12-29 07:28:30'
+  body: 'I finally found the example of how to initialize the AcDbRasterImage subsystem.  It
+    doesn''t involve any explicit calls to rxInit or anything like that, just a simple
+    loadModule:
+
+
+    acrxDynamicLinker->loadModule("acISMobj15.dbx", true)'
+- author: aravindhan
+  email: aravindhannew@gmail.com
+  ip: 106.198.20.135
+  url: ''
+  date: '2020-05-13 10:23:18'
+  body: "hi sir \n    \n    how to remove the frame in inserted image"
+- author: Mahdi Kooshesh
+  email: mahdi.kooshesh@gmail.com
+  ip: 195.135.254.164
+  url: ''
+  date: '2024-06-12 03:52:11'
+  body: 'You must change the line type of radterimage to a invisible line type (for
+    invisible line type read this : <a href="https://forums.autodesk.com/t5/autocad-architecture-forum/invisible-linetype/td-p/3207240)">https://forums.autodesk.com/t5/autocad-architecture-forum/invisible-linetype/td-p/3207240)</a>
+
+
+    Or you can change IMAGEFRAME system variable to 0 but in this way all rasterimages
+    in all files are affected.
+
+    -----'

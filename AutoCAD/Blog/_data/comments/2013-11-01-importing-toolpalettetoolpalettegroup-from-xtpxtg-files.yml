@@ -1,0 +1,131 @@
+comments:
+- author: Zimmermann Francine
+  email: francine.zimmermann@yuanda-europe.com
+  ip: 195.141.68.58
+  url: ''
+  date: '2014-04-01 02:44:17'
+  body: 'Hello
+
+
+    What is the name of this ObjectArx and how can I load it in Autocad
+
+    I''m not a programmer,I work with Autocad and I have problem with tool palette
+    modification
+
+
+    Many thank'
+- author: Balaji
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2014-04-01 02:54:59'
+  body: 'Hi Francine,
+
+
+    If you want to do this using the AutoCAD UI, it can be done as follows :
+
+
+    1. Right click in the empty area of the tool palette window and select "customize
+    palettes"
+
+
+    2. In the window that appears, select a tool palette and right click on it to
+    export/import to or from an xtp file.
+
+
+    Regards,
+
+    Balaji'
+- author: Zimmermann Francine
+  email: francine.zimmermann@yuanda-europe.com
+  ip: 195.141.68.58
+  url: ''
+  date: '2014-04-01 06:28:45'
+  body: "Hi Balaji,\n\nI know this way, is fine for me but my problem is that all\
+    \ my collegues have to do the same to get my modification. \n\nRegards\nFrancine"
+- author: Zimmermann Francine
+  email: francine.zimmermann@yuanda-europe.com
+  ip: 195.141.68.58
+  url: ''
+  date: '2014-04-01 06:31:51'
+  body: 'I found an other way with a macro using the toolpalettepath. Thnak you anyway
+    for your help.
+
+
+    Francine'
+- author: Chockalingam
+  email: chockalingam131@gmail.com
+  ip: 116.202.28.167
+  url: ''
+  date: '2014-10-29 18:24:02'
+  body: 'Hi Balaji,
+
+    Can you please explain how to load the xtp file via bundle.
+
+
+    Regards,
+
+    Chockalingam'
+- author: Balaji
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2014-10-30 00:29:06'
+  body: 'Hi Chockalingam,
+
+
+    I do not think Autoloader supports loading XTP files. I will need to verify that
+    with my colleagues. It would be easier to deploy your tool palettes using the
+    Autoloader, if you create .atc files for your tool palettes and place them in
+    your bundle folder. The folder path can be specified using the "ToolPalettePath"
+    attribute in the "RuntimeRequirements" and AutoCAD will load the tool palettes
+    automatically. But please note that the grouping of the tool palettes is not possible  as
+    that would require importing XPG files. Autoloader does not have support for that
+    at present.
+
+
+    Regards,
+
+    Balaji'
+- author: Balaji
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2014-10-30 00:32:21'
+  body: 'And just wanted to add to my reply.
+
+
+    How about loading the XTP file using the "StartupCommand" ? You can then import
+    an XPG too.
+
+
+    <a href="http://adndevblog.typepad.com/autocad/2013/04/autoloader-example-for-invoking-a-startup-command-in-autocad.html">http://adndevblog.typepad.com/autocad/2013/04/autoloader-example-for-invoking-a-startup-command-in-autocad.html</a>
+
+
+    Regards,
+
+    Balaji'
+- author: Oscar Quintero
+  email: oscar.a.quintero@gmail.com
+  ip: 186.85.93.162
+  url: ''
+  date: '2015-01-24 07:22:44'
+  body: Hi Balaji, is it possible to do this with .NET API? Thanks.
+- author: Oscar Quintero
+  email: oscar.a.quintero@gmail.com
+  ip: 186.85.93.162
+  url: ''
+  date: '2015-01-24 07:25:02'
+  body: Hi, is ti possible to do this with VB.NET?
+- author: Balaji
+  email: ''
+  ip: 14.96.91.210
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-01-24 09:33:44'
+  body: "Hi Oscar,\n\nThe \"CAcTcUiToolPaletteGroup\" is not exposed in .Net, so I\
+    \ do not think it will possible to completely work with VB.Net while importing\
+    \ XTP and XPG files. But it should be possible to create a mixed-managed code\
+    \ and use it in your VB.Net project. \n\nHere is a blog post that can give you\
+    \ some hints :\n<a href=\"http://adndevblog.typepad.com/autocad/2013/06/working-with-toolpalette-groups-using-net.html\"\
+    >http://adndevblog.typepad.com/autocad/2013/06/working-with-toolpalette-groups-using-net.html</a>\n\
+    \nRegards,\nBalaji\n\n\n-----"

@@ -1,0 +1,49 @@
+comments:
+- author: Alexander Rivlis
+  email: ''
+  ip: 91.142.170.12
+  url: http://profile.typepad.com/alexrivilis
+  date: '2013-01-16 07:17:20'
+  body: 'Hi, Gopinath!
+
+    Are you sure that code is right?
+
+    <b>(setq g (lsh (lsh tcol 16) -24))</b>
+
+    Maybe
+
+    <b>(setq g (lsh (lsh tcol 16) -16))</b>
+
+    ?'
+- author: Alexander Rivlis
+  email: ''
+  ip: 91.142.170.12
+  url: http://profile.typepad.com/alexrivilis
+  date: '2013-01-16 07:25:24'
+  body: "Other variants:\n(defun GetRGB ( truecolor )\n(list\n  (logand (lsh truecolor\
+    \ -16) 255) ;; R\n  (logand (lsh truecolor -8) 255)  ;; G\n  (logand truecolor\
+    \ 255)          ;; B\n )\n)\n(defun GetTrueColor ( r g b )\n  (+ (lsh r 16) (lsh\
+    \ g 8)  b)\n)"
+- author: Owen Wengerd
+  email: owenw@manusoft.com
+  ip: 24.140.112.242
+  url: http://otb.manusoft.com
+  date: '2013-01-16 07:56:03'
+  body: None of those conversions appear to honor the "color method" high byte (i.e.
+    they all assume it will be "byColor").
+- author: Gopinath Taget
+  email: ''
+  ip: 67.188.203.224
+  url: http://profile.typepad.com/6p0168e89c0a52970c
+  date: '2013-01-16 20:33:51'
+  body: "Hi Alexander,\n\nI tested the code as is and it works: \n\n(setq g (lsh (lsh\
+    \ tcol 16) -24))\n\nThis code left shifts a 32 bit value (where the high byte\
+    \ is the color method). so we do need to right shift 24 bits.\n\nCheers\nGopinath"
+- author: Alexander Rivlis
+  email: ''
+  ip: 91.142.170.12
+  url: http://profile.typepad.com/alexrivilis
+  date: '2013-01-17 03:04:50'
+  body: 'Oh! It''s my fault. Excuse me, please!
+
+    -----'

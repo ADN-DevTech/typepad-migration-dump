@@ -1,0 +1,93 @@
+comments:
+- author: Alan Anderson
+  email: AANderson@vp.com
+  ip: 159.96.41.6
+  url: http://www.vp.com
+  date: '2012-09-19 14:19:00'
+  body: "Fenton, this really doesn't work either, because if you have an application\
+    \ with many libs/dlls, then the removal of debug from this one project requires\
+    \ removal of debug from all projects or you will have the same problem with the\
+    \ mismatch of the _ITERATOR_DEBUG_LEVEL for example:\n\nvpcacad.obj : error LNK2038:\
+    \ mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value\
+    \ '0' in rcexelib.obj\n\nThis worked in the past without having the issue, something\
+    \ has changed, and frankly I haven't got it to work as of yet. \n\nAlan Anderson\n\
+    Manager Engineering Systems\nBlueScope Buildings NA"
+- author: Fenton Webb
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2012-09-19 14:24:27'
+  body: 'Hey Alan
+
+
+    Best thing is to load the RealDWG C++ sample ''DumpDWG'' and copy the Visual Studio
+    projects settings from that to your own project settings.'
+- author: Alan Anderson
+  email: AAnderson@vp.com
+  ip: 159.96.41.6
+  url: http://www.vp.com
+  date: '2012-09-19 14:37:04'
+  body: 'DumpDWG is failing in acdbValidateSetup(lcid), so now I''m back to a setup
+    problem with RealDWG 2013.
+
+
+    Ideas?'
+- author: dougal.harris@gmail.com
+  email: dougal.harris@gmail.com
+  ip: 116.240.145.124
+  url: ''
+  date: '2013-04-11 21:37:06'
+  body: "Hi Alan,\nDid you ever get this to the bottom of this?  I am running into\
+    \ exactly the same problem, ie my application has many libs/dlls, the removal\
+    \ of debug from this one project requires removal of debug from all projects in\
+    \ the solution otherwise I get the same problem with the mismatch of the _ITERATOR_DEBUG_LEVEL.\
+    \  \nAny help is solving this would be greatly appreciated.\nCheers,\nDougal"
+- author: hernyo
+  email: ''
+  ip: 213.164.252.45
+  url: http://profile.typepad.com/6p019102841a33970c
+  date: '2013-05-25 07:22:46'
+  body: 'Hi Dougal,
+
+    did you manage to sort this out? I''m struggling with the same problem.
+
+    Thanks - Laszlo.'
+- author: Fenton Webb
+  email: Fenton.webb@autodesk.com
+  ip: 166.137.191.33
+  url: ''
+  date: '2013-05-25 10:49:18'
+  body: 'Hey guys
+
+
+    The setup issue is most likely due to the fact that the RealDWG app is not deployed
+    correctly. You need to follow the Redistributable Requirements detailed in readdbx.chm.
+    Failing that, the easiest way to make it work is to output your RealDWG exe to
+    the RealDWG base SDK folder where all of the dependency dlls reside.'
+- author: Sander
+  email: sh@cea-int.com
+  ip: 46.145.228.124
+  url: http://www.cea-int.com
+  date: '2013-11-15 00:31:48'
+  body: "The newest visual studios introduce the _ITERATOR_DEBUG_LEVEL problems. \
+    \ That is mixing debug and release libs are detected by the compiler and flatly\
+    \ refused. \n\nRemoving _DEBUG from a projects requires the removal of _DEBUG\
+    \ from all the projects.\n\nIn an application with many libs/dlls you will see\
+    \ these problems. \n\nI have some other third party libs and they require _DEBUG\
+    \ for debugging purposes. (Also getting into Microsoft libs requires _DEBUG.)\
+    \ Removing this is not really an option.\n\nThe best option would be for autodesk\
+    \ to also distribute the debug libs with RealDWG.\n\nOtherwise I hope there is\
+    \ someone who knows how to deal with this?"
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 132.188.64.219
+  url: ''
+  date: '2013-11-15 10:04:30'
+  body: "Hi guys\n\nThe RealDWG is compiled in release mode, therefore, compiling\
+    \ in Debug mode means that you have to link with Multithreaded DLL not Debug Multithreaded\
+    \ DLL. \n\nAlso, you should wrap your stdafx.h in this #ifdef (below) because\
+    \ simply including the afx headers with pragma import the debug libs which you\
+    \ don't want\n\nWe don't build an externally available Debug build of RealDWG,\
+    \ sorry about that.\n\n#ifdef _DEBUG\n#ifndef FULL_DEBUG\n#define MY_WAS_DEBUG\n\
+    #undef _DEBUG\n#endif\n#endif\n\n// now include all MFC, CRT, STL headers\n\n\
+    #ifdef MY_WAS_DEBUG\n#define _DEBUG\n#endif\n\n-----"

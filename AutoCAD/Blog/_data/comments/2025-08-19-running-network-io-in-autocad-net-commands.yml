@@ -1,0 +1,39 @@
+comments:
+- author: Dan
+  email: daniel@cadext.com
+  ip: 116.86.59.103
+  url: https://github.com/CEXT-Dan/PyRx
+  date: '2025-08-22 02:17:33'
+  body: "here's a PyRx version\n\n<pre>\nfrom pyrx import Ap, Ax, Db, Ge\nimport requests\n\
+    \n\n# register command \n@Ap.Command()\ndef createLinesFromWeb():\n    try:\n\
+    \        #make the request\n        url = \"https://madhukarmoogala.github.io/linepoints.json\"\
+    \n        request = requests.get(url)\n        \n        #is a Python dict\n \
+    \       data = request.json()\n        \n        #extract x,y,z\n        lines\
+    \ = []\n        for item in data[\"lines\"]:\n            s = item[\"start\"]\n\
+    \            e = item[\"end\"]\n            lines.append(\n                Db.Line(Ge.Point3d(s[\"\
+    x\"], s[\"y\"], s[\"z\"]), \n                        Ge.Point3d(e[\"x\"], e[\"\
+    y\"], e[\"z\"])))\n        #add to modelspace\n        db = Db.curDb()\n     \
+    \   db.addToModelspace(lines)\n    except Exception as err:\n        print(err)\n\
+    </pre>\n\nI have a routine that scrapes web data into an AcDbTable somewhere,\
+    \ that's pretty cool too"
+- author: Madhukar Moogala
+  email: ''
+  ip: 49.43.231.80
+  url: https://profile.typepad.com/madhukarmoogala
+  date: '2025-08-22 02:25:23'
+  body: 'Thanks, Dan, for sharing Python snippet with us :)
+
+
+    Can you share your Python API Sdk for AutoCAD here, I do get occasional requests
+    using AutoCAD API python, maybe I can share your repo.'
+- author: Dan
+  email: daniel@cadext.com
+  ip: 116.86.59.103
+  url: https://github.com/CEXT-Dan/PyRx
+  date: '2025-08-22 07:10:37'
+  body: "Sure,\nThe repository is here <a href=\"https://github.com/CEXT-Dan/PyRx\"\
+    >https://github.com/CEXT-Dan/PyRx</a>\nA quick video installing for AutoCAD <a\
+    \ href=\"https://www.youtube.com/watch?v=MrQ7N2WulI4\">https://www.youtube.com/watch?v=MrQ7N2WulI4</a>\n\
+    I’m working on a redistributable .bundle people can just toss into Autodesk\\\
+    ApplicationPlugins without having to install Python, still in the oven \n\n\n\
+    -----"

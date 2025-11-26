@@ -1,0 +1,42 @@
+comments:
+- author: Dario
+  email: dario.bellinazzi@esain.com
+  ip: 92.223.219.160
+  url: http://www.esain.com
+  date: '2019-03-05 07:22:56'
+  body: "Hello,\ni've setted $(OARX2019) to my local path, as well as the AcDbMgd.dll\
+    \ using in StdAfx.h, and I've compiled the sample project.\n\nWhen I netload the\
+    \ HlrNetSample.dll and try the test command i get a FileNotFoundException, the\
+    \ same happens when I try to netload ASdkHlrApiMgd.dll. Stacktrace is the following:\n\
+    \nCannot load assembly. Error details: System.IO.FileNotFoundException: Could\
+    \ not load file or assembly 'AsdkHlrApiMgd.dll' or one of its dependencies.\n\n\
+    File name: 'AsdkHlrApiMgd.dll'\n\n   at System.Reflection.RuntimeAssembly._nLoad(AssemblyName\
+    \ fileName, String codeBase, Evidence assemblySecurity, RuntimeAssembly locationHint,\
+    \ StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound,\
+    \ Boolean forIntrospection, Boolean suppressSecurityChecks)\n\n   at System.Reflection.RuntimeAssembly.InternalLoadAssemblyName(AssemblyName\
+    \ assemblyRef, Evidence assemblySecurity, RuntimeAssembly reqAssembly, StackCrawlMark&\
+    \ stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection,\
+    \ Boolean suppressSecurityChecks)\n\n   at System.Reflection.RuntimeAssembly.InternalLoadFrom(String\
+    \ assemblyFile, Evidence securityEvidence, Byte[] hashValue, AssemblyHashAlgorithm\
+    \ hashAlgorithm, Boolean forIntrospection, Boolean suppressSecurityChecks, StackCrawlMark&\
+    \ stackMark)\n\n   at System.Reflection.Assembly.LoadFrom(String assemblyFile)\n\
+    \n   at Autodesk.AutoCAD.Runtime.ExtensionLoader.Load(String fileName)\n\n   at\
+    \ loadmgd()\n\nMy experience with C++ is very limited, what I'm missing here?\n\
+    Thank you"
+- author: Madhukar Moogala
+  email: ''
+  ip: 157.44.199.159
+  url: https://profile.typepad.com/madhukarmoogala
+  date: '2019-03-05 23:08:28'
+  body: "Hi, \n\nThanks for stopping by.\nCan you please appload the \"$(OARX2019)\\\
+    Redistrib-x64\\AsdkHlrApi23.dbx\", prior to loading your DLL"
+- author: Dario
+  email: dario.bellinazzi@esain.com
+  ip: 92.223.219.160
+  url: http://www.esain.com
+  date: '2019-03-06 02:19:28'
+  body: 'Hello,
+
+    apploading the DBX solved the issue, thank you.
+
+    -----'

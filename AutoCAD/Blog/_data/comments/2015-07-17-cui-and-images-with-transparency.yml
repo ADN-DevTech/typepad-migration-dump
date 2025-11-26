@@ -1,0 +1,110 @@
+comments:
+- author: Senthilkumar
+  email: senthilkumar_kandasamy@trimble.com
+  ip: 59.163.207.174
+  url: ''
+  date: '2016-01-21 23:06:38'
+  body: 'Hi Virupaksha,
+
+    Currently we are using separate resource dlls for light and dark theme as mentioned
+    in this link (Supporting AutoCAD 2015’s dark theme).
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2014/04/supporting-autocad-2015s-dark-theme.html">http://through-the-interface.typepad.com/through_the_interface/2014/04/supporting-autocad-2015s-dark-theme.html</a>
+
+
+    For different themes, we are using different BMPs in resource dlls. As you mentioned
+    in this article, we can make Transparent PNG. But, when we use PNGs in resource
+    dlls, Ribbon is not able to load that image. Is there a way to load different
+    PNGs for light and dark theme directly in CUIX file?'
+- author: Suhas Hayatnagarkar
+  email: suhas.hayatnagarkar@siemens.com
+  ip: 121.241.69.194
+  url: ''
+  date: '2016-02-16 00:05:00'
+  body: 'Hi Virupaksha,
+
+    PNG images embedded in resource only dll are not able to load. Can you please
+    send the sample of resourceonly dll that will help us using PNGs for AutoCAD menus
+    and ribbons and toolbars.
+
+
+    We have a resource dll in the cuix path that works perfectly with BMPs.
+
+    Regards
+
+    Suhas Hayatnagarkar'
+- author: viru
+  email: Virupaksha.aithal@autodesk.com
+  ip: 182.73.112.18
+  url: ''
+  date: '2016-02-16 00:23:43'
+  body: 'Hi
+
+
+    I have send the sample code. I will update this blog post soon (as soon as i clean
+    the sample)
+
+
+    Viru'
+- author: Anuj
+  email: anuj.joshi@struengineers.com
+  ip: 14.140.121.182
+  url: ''
+  date: '2016-03-31 05:53:29'
+  body: 'Hi Virupaksha,
+
+
+    I also have same problem as Suhas Hayatnagarkar has, my resource dll works fine
+    with BMPs but when I try to use it with PNG files, it shows default icon(?).
+
+    Can you please share sample code with me as well?'
+- author: viru
+  email: Virupaksha.aithal@autodesk.com
+  ip: 182.73.112.18
+  url: ''
+  date: '2016-03-31 23:24:27'
+  body: 'Hi Anuj,
+
+
+    Please refer sample (contains project) <a href="http://adndevblog.typepad.com/autocad/2014/08/using-cuix-resource-dll-with-image-transparency.html.">http://adndevblog.typepad.com/autocad/2014/08/using-cuix-resource-dll-with-image-transparency.html.</a>
+    The sample is for Ico file, but this holds good for PNG too. so please use the
+    same sample and replace the ico files with PNG file. sometime next week i will
+    write separate blog on this...
+
+
+    thanks
+
+    Viru'
+- author: Suhas Hayatnagarkar
+  email: suhas.hayatnagarkar@siemens.com
+  ip: 121.241.69.194
+  url: ''
+  date: '2016-04-04 00:48:28'
+  body: "Hi Virupaksha,\nFollowing scenario of menu crashes AutoCAD when try to select\
+    \ the ribbon tab that contains drop-down. Please follow following steps (AutoCAD\
+    \ 2017)\n1.\tCreate a Row and add Drop-Down\n2.\tAdd few commands under drop-down\n\
+    3.\tDrop-Down Behavior --> Drop Down Menu\n4.\tSplitButtonListStyle --> IconText\n\
+    5.\tButtonStyle --> SmallWithText\n6.\tAssign the resource ID that is using PNG\
+    \ image (Small or Large image) --> AutoCAD   Crashes\n\nThe crash is with the\
+    \ combination of Behavior option and PNG resource ID (work perfectly with BMP\
+    \ Ids). You can use your sample that you shared with me earlier.\n\nMy old menus\
+    \ are failing.\n\nRegards\nSuhas"
+- author: Anuj
+  email: anuj.joshi@struengineers.com
+  ip: 14.140.121.182
+  url: ''
+  date: '2016-04-12 01:34:18'
+  body: 'Hi Viru,
+
+    It''s working fine.
+
+    thanks a lot.'
+- author: Frabulator
+  email: Kyled.gray@rubicongeological.com
+  ip: 107.77.68.46
+  url: ''
+  date: '2016-04-13 09:36:51'
+  body: "There is a third party software you could try called Cuix Tools. It was made\
+    \ to convert older cad cuix files to run in cad 2017.\n\n<a href=\"http://www.graytechnical.com/software/cuixtools/\"\
+    >http://www.graytechnical.com/software/cuixtools/</a>\n\nI hope that helps \n\
+    -----"

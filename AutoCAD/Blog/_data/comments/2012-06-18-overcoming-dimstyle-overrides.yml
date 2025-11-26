@@ -1,0 +1,39 @@
+comments:
+- author: Irné Barnard
+  email: irne.barnard@yahoo.com
+  ip: 41.160.31.69
+  url: ''
+  date: '2012-06-26 02:37:59'
+  body: 'Could you please localize your variables? It''s considered extremely bad
+    practice to use global variables exclusively. Unless you intend for them to be
+    global - in which case the convention is to indicate them as such by prefixing
+    & suffixing asterisks to their names. And in which case (for efficiency) you should
+    check if they''re already assigned before simply assigning them again.
+
+
+    And another thing: You set a variable to the acad-object, but only use it once
+    in the routine. This is lisp not C++/VB/VBA, so you don''t need to do that - just
+    wastes RAM for no reason.
+
+
+    Other than that you do show a nice short method for updating Dim Styles from overrides!'
+- author: Irné Barnard
+  email: irne.barnard@yahoo.com
+  ip: 41.160.31.69
+  url: ''
+  date: '2012-06-26 03:57:09'
+  body: 'Just as an afterthought, you don''t need the ActiveX method SetVariable ...
+    you could''ve simply used the old AutoLisp setvar function instead:
+
+
+    (setvar "DIMCLRE" 2)'
+- author: Balaji
+  email: ''
+  ip: 14.96.70.222
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2012-06-26 18:39:30'
+  body: "Hi Irné,\n\nThanks for your comments.\n\nProject related \"best practices\"\
+    \ / naming conventions and error checking are usually very limited in the posts.\
+    \  It is only the core idea that we are trying to communicate and developers using\
+    \ it might need to consider these when including it in their production code.\
+    \  \n-----"

@@ -1,0 +1,21 @@
+comments:
+- author: Steven Taitinger
+  email: steven.taitinger@ca.weatherford.com
+  ip: 72.29.250.1
+  url: ''
+  date: '2013-12-10 10:58:07'
+  body: How do you get the size of the extents of model space in vba? The limits property
+    of the document seems more related to the paper space than the model space and
+    the width and height properties seem to be relative to the application window
+    size.
+- author: Philippe Leefsma
+  email: ''
+  ip: 92.105.24.95
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2013-12-16 05:20:44'
+  body: "Hi Steven,\n\nThe easiest way is probably to use EXTMIN/EXTMAX system variables:\n\
+    \   \n    Dim Extmin As Variant\n    Dim Extmax As Variant\n    \n    Extmin =\
+    \ ThisDrawing.GetVariable(\"EXTMIN\")\n    Extmax = ThisDrawing.GetVariable(\"\
+    EXTMAX\")\n    \n    Debug.Print \"ExtMIN = [\" & Extmin(0) & \", \"; Extmin(1)\
+    \ & \", \"; Extmin(2) & \"]\"\n    Debug.Print \"ExtMAX = [\" & Extmax(0) & \"\
+    , \"; Extmax(1) & \", \"; Extmax(2) & \"]\"\n-----"

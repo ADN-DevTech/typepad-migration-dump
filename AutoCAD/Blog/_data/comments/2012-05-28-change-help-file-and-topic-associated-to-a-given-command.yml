@@ -1,0 +1,213 @@
+comments:
+- author: Yuji Suzuki
+  email: u2@adds.co.jp
+  ip: 122.27.0.145
+  url: ''
+  date: '2012-09-05 23:28:28'
+  body: 'This code works on AutoCAD 2012, but it does not work on 2013.
+
+    Something was changed on 2013 ?'
+- author: Andrey
+  email: bushman.andrey@gmail.com
+  ip: 87.249.45.171
+  url: https://sites.google.com/site/bushmansnetlaboratory/
+  date: '2012-09-05 23:53:21'
+  body: 'Hi Adam.
+
+    Data:
+
+    Windows XP SP3 x86,
+
+    AutoCAD 2013 x86 Enu.
+
+
+    Error message:
+
+    System.EntryPointNotFoundException
+
+    Message: Unable to find an entry point named ''acedSetFunHelp'' in DLL ''acad.exe''.'
+- author: Andrey
+  email: bushman.andrey@gmail.com
+  ip: 87.249.45.171
+  url: https://sites.google.com/site/bushmansnetlaboratory/
+  date: '2012-09-06 00:08:45'
+  body: "Now I wrote for AutoCAD 2009 x86 SP3. Now I don't get errors when I run AEN1Cmd1\
+    \ and Line commands. But if I press F1, when Line command in process, then I don't\
+    \ get my help. Was opened standard help file, with info about Line command. Why\
+    \ my help file was not open?\n\nMy code sampe such:\n\n[CommandMethod(\"AEN1Cmd1\"\
+    )]\nstatic public void Cmd1() {\n\tacedSetFunHelp(\"C:LINE\", @\"C:\\Documents\
+    \ and Settings\\developer\\Рабочий стол\\myHelp.chm\", \"plotting_layouts\", 0);\n\
+    }"
+- author: Andrey
+  email: bushman.andrey@gmail.com
+  ip: 87.249.45.171
+  url: https://sites.google.com/site/bushmansnetlaboratory/
+  date: '2012-09-06 00:10:48'
+  body: '"sample" to read like "example". :)'
+- author: Adam Nagy
+  email: ''
+  ip: 86.31.122.37
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2012-09-06 00:47:34'
+  body: 'Hi guys,
+
+
+    Thank you for the comments.
+
+    I''ve updated the code comments to take AutoCAD 2013 into consideration :)
+
+
+    Cheers,
+
+    Adam'
+- author: Andrey
+  email: bushman.andrey@gmail.com
+  ip: 87.249.45.171
+  url: https://sites.google.com/site/bushmansnetlaboratory/
+  date: '2012-09-06 01:04:43'
+  body: What about my post at 09/06/2012 at 12:08 AM, for AutoCAD 2009?
+- author: Adam Nagy
+  email: ''
+  ip: 95.172.68.149
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2012-09-06 03:14:44'
+  body: 'Hi Andrey,
+
+
+    One thing I started wondering about was the cyrillic characters in the folder
+    name. I created a folder named "C:\Рабочий стол", copied the acadauto.chm file
+    there from "C:\Program Files\AutoCAD 2009\Help" folder and tried to use that,
+    and then I could reproduce the problem that it was not taken into account and
+    still the old help file popped up when I pressed F1 while the tooltip was showing.
+
+
+    However, even if I just double-click on the chm file in Explorer it comes up with
+    the error message:
+
+    "Cannot open file: C:\??????? ????\acadauto.chm"
+
+    So the error does not seem specific to AutoCAD but has to do with the help file
+    (*.chm file) you are using.
+
+    If I copied the access.chm file from "C:\Windows\Help" to this other folder I
+    created, then both double-clicking it in Explorer worked fine and also using it
+    in acedSetFunHelp worked fine:
+
+    acedSetFunHelp("C:LINE", @"C:\Рабочий стол\access.chm", "AccessOptions_ct", 0);
+
+
+    So you would need to find out how to make your chm file work in a folder with
+    cyrillic (or I guess any other non-latin) characters in it, and then you could
+    use that in acedSetFunHelp as well.
+
+
+    I hope this helps.
+
+
+    Cheers,
+
+    Adam'
+- author: Andrey
+  email: bushman.andrey@gmail.com
+  ip: 87.249.45.171
+  url: https://sites.google.com/site/bushmansnetlaboratory/
+  date: '2012-09-06 03:21:38'
+  body: 'AutoCAD 2013.
+
+    Adam, which page must to open your code?
+
+    acedSetFunHelp("C:LINE", "acad_acg.chm", "ACG.01.008", 0);
+
+    Alwais opened usual help page for Line command. Even if instead of "acad_acg.chm",
+    to "ACG.01.008" to specify another.'
+- author: Andrey
+  email: bushman.andrey@gmail.com
+  ip: 87.249.45.171
+  url: https://sites.google.com/site/bushmansnetlaboratory/
+  date: '2012-09-06 03:35:18'
+  body: 'Thank you for answer.
+
+    I thought about it problem and I have tried other variant:
+
+    I copied myHelp.chm into "C:\Program Files\AutoCAD 2009\Help" but it ain''t working
+    (was opened standard help info for Line command). I wrote it:
+
+
+    acedSetFunHelp("C:LINE", "myHelp.chm", "plotting_layouts", 0);
+
+
+    :((('
+- author: Andrey
+  email: bushman.andrey@gmail.com
+  ip: 87.249.45.171
+  url: https://sites.google.com/site/bushmansnetlaboratory/
+  date: '2012-09-06 03:45:24'
+  body: 'I tried to use "native" CHM files by AutoCAD:
+
+
+    acedSetFunHelp("C:LINE", "acad_acr.chm", "WS1a9193826455f5ffa23ce210c4a30acaf-4a8b-reference",
+    0);
+
+
+    It ain''t working too. :('
+- author: Adam Nagy
+  email: ''
+  ip: 95.172.68.149
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2012-09-06 03:54:02'
+  body: acad_acg.chm does not seem to be part of "C:\Program Files\Autodesk\AutoCAD
+    2013\Help" so just select another chm file that does exist in the help folder.
+    Or if it exists in another folder then provide the full path.
+- author: Adam Nagy
+  email: ''
+  ip: 95.172.68.149
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2012-09-06 03:56:05'
+  body: 'I''m really sorry Andrey but now I''m running low on ideas. :(
+
+    Could you please post this issue on the AutoCAD API forum?
+
+    I hope someone already has run into this issue and can help you solve it.
+
+    Good luck!'
+- author: Andrey
+  email: bushman.andrey@gmail.com
+  ip: 87.249.45.171
+  url: https://sites.google.com/site/bushmansnetlaboratory/
+  date: '2012-09-06 05:11:23'
+  body: Ok, thank you. :)
+- author: Denica
+  email: denica.iv@gmail.com
+  ip: 80.152.139.191
+  url: ''
+  date: '2013-06-04 02:24:48'
+  body: 'Hi Adam,
+
+
+    thank you for the post, its really helpful! I have tried it and it works great
+    when the command is running or when the mouse is hovering over a ribbon button.
+
+    I was wondering, is there a way to do the same for the toolbar buttons?'
+- author: Adam Nagy
+  email: ''
+  ip: 132.188.64.219
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2013-06-07 11:20:05'
+  body: "Hi Denica,\n\nIt seems to be working for toolbar buttons as well as long\
+    \ as they are c:xxx type commands: <a href=\"http://docs.autodesk.com/ACDMAC/2011/ENU/ObjectARX%20Reference/acedSetFunHelp@ACHAR_@ACHAR_@ACHAR_@int.html\"\
+    >http://docs.autodesk.com/ACDMAC/2011/ENU/ObjectARX%20Reference/acedSetFunHelp@ACHAR_@ACHAR_@ACHAR_@int.html</a>\
+    \ \nHere is a video I made: <a href=\"http://www.screencast.com/t/c3KHYDaEjyhw\"\
+    >http://www.screencast.com/t/c3KHYDaEjyhw</a> \n\nIf you cannot figure out the\
+    \ problem then you could post some more info on the AutoCAD customization forum.\
+    \ \n\nCheers,\nAdam"
+- author: Alexander Rivilis
+  email: ''
+  ip: 91.142.170.2
+  url: http://profile.typepad.com/rivilis1964
+  date: '2013-12-26 04:58:04'
+  body: 'Hi, Adam!
+
+    What about that LINE is not Autolisp-definded command and so you have to use not
+    "C:LINE", but "LINE" in your''s code?
+
+    -----'

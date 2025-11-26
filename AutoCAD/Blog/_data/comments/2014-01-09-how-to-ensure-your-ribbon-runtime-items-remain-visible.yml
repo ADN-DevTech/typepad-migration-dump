@@ -1,0 +1,106 @@
+comments:
+- author: Alok
+  email: alok@civil3dpowertools.com
+  ip: 76.118.221.69
+  url: http://civil3dpowertools.com
+  date: '2015-02-27 13:46:04'
+  body: 'Hi Philippe,
+
+    Is there an equivalent sample of this that works with the ACAD 2015 api?
+
+    Thanks!'
+- author: Health Tourism
+  email: sadetr@gmail.com
+  ip: 81.214.87.120
+  url: http://www.yedicihan.com
+  date: '2015-03-09 08:03:24'
+  body: This is great news! Finally, someone with some spunk is perhaps showing some
+    interest in Dzhokhar’s innocence.
+- author: Philippe
+  email: philippe.leefsma@autodesk.com
+  ip: 132.188.64.149
+  url: ''
+  date: '2015-03-10 10:45:18'
+  body: "Hi Alok,\n\nHere is a vb.net sample that was working on 2015...\n\nPublic\
+    \ Sub CreateSimpleButton()\n\n        Dim ribbonControl As RibbonControl =\n \
+    \           ComponentManager.Ribbon\n\n        Dim tab As RibbonTab = New RibbonTab()\n\
+    \        tab.Title = \"Test Ribbon\"\n        tab.Id = \"ADN_TAB_ID\"\n\n    \
+    \    ribbonControl.Tabs.Add(tab)\n\n        Dim srcPanel As RibbonPanelSource\
+    \ =\n            New RibbonPanelSource()\n\n        srcPanel.Title = \"Panel1\"\
+    \n\n        Dim Panel As RibbonPanel = New RibbonPanel()\n        Panel.Source\
+    \ = srcPanel\n        tab.Panels.Add(Panel)\n\n        Dim button1 As Autodesk.Windows.RibbonButton\
+    \ =\n            New RibbonButton()\n\n        button1.Text = \"Nested\" + vbCr\
+    \ + \"Explode\"\n        button1.Size = RibbonItemSize.Large\n\n        'button1.Image\
+    \ = getBitmap(My.Resources.explode, 16, 16)\n        'button1.LargeImage = getBitmap(My.Resources.explode,\
+    \ 32, 32)\n\n        button1.ShowText = True\n        button1.CommandParameter\
+    \ = \"EXPLODE \"\n        button1.CommandHandler = New SimpleButtonCmdHandler()\n\
+    \n        srcPanel.Items.Add(button1)\n\n        tab.IsActive = False\n\n    End\
+    \ Sub\n\n    Function getBitmap(bitmap As Bitmap,\n                       height\
+    \ As Integer,\n                       width As Integer) As BitmapImage\n\n   \
+    \     Dim stream As MemoryStream = New MemoryStream()\n\n        bitmap.Save(stream,\n\
+    \                    System.Drawing.Imaging.ImageFormat.Png)\n\n        Dim bmp\
+    \ As BitmapImage = New BitmapImage()\n        bmp.BeginInit()\n        bmp.StreamSource\
+    \ = New MemoryStream(stream.ToArray())\n        bmp.DecodePixelHeight = height\n\
+    \        bmp.DecodePixelWidth = width\n        bmp.EndInit()\n\n        Return\
+    \ bmp\n\n    End Function\n\n    Public Class SimpleButtonCmdHandler\n       \
+    \ Implements System.Windows.Input.ICommand\n\n        Public Function CanExecute(parameter\
+    \ As Object) As Boolean _\n            Implements Windows.Input.ICommand.CanExecute\n\
+    \            Return True\n        End Function\n\n        Public Event CanExecuteChanged(sender\
+    \ As Object, e As EventArgs) _\n            Implements Windows.Input.ICommand.CanExecuteChanged\n\
+    \n        Public Sub Execute(parameter As Object) _\n            Implements Windows.Input.ICommand.Execute\n\
+    \n            Dim esc As String = \"\"\n\n            Dim cmds As String =\n \
+    \               Application.GetSystemVariable(\"CMDNAMES\")\n\n            If\
+    \ cmds.Length > 0 Then\n\n                Dim separator As Char() = {\"\"\"'\"\
+    }\n\n                Dim cmdNum As Integer =\n                    cmds.Split(separator).Length\n\
+    \n                For i As Integer = 0 To cmdNum\n                    esc = esc\
+    \ + Chr(27)\n                Next\n\n            End If\n\n            Dim button\
+    \ As RibbonButton = parameter\n\n            Dim doc As Document = Application.\n\
+    \                DocumentManager.MdiActiveDocument\n\n            doc.SendStringToExecute(\n\
+    \                esc + button.CommandParameter,\n                True, False,\
+    \ False)\n\n        End Sub\n    End Class\n\n\n    Public Sub LoadRibbonButton()\n\
+    \n        If Not Autodesk.Windows.ComponentManager.Ribbon Is Nothing Then\n  \
+    \          CreateSimpleButton()\n        Else\n\n            AddHandler Autodesk.Windows.ComponentManager.ItemInitialized,\n\
+    \            AddressOf ComponentManager_ItemInitialized\n\n            AddHandler\
+    \ Application.SystemVariableChanged,\n            AddressOf Application_SystemVariableChanged\n\
+    \        End If\n\n    End Sub\n\n    Sub Application_SystemVariableChanged(\n\
+    \            sender As Object,\n            e As Autodesk.AutoCAD.ApplicationServices.\n\
+    \            SystemVariableChangedEventArgs)\n\n        If e.Name = \"WSCURRENT\"\
+    \ Then\n\n            Dim cmdNames As String =\n                Application.GetSystemVariable(\"\
+    CMDNAMES\")\n\n            '' if the QUICKCUI or CUI command is active, returns\n\
+    \            If (cmdNames.ToUpper().IndexOf(\"QUICKCUI\") >= 0 Or\n          \
+    \          cmdNames.ToUpper().IndexOf(\"CUI\") >= 0) Then\n                Return\n\
+    \            End If\n\n            CreateSimpleButton()\n        End If\n    End\
+    \ Sub\n\n    Sub ComponentManager_ItemInitialized(\n        sender As Object,\n\
+    \        e As RibbonItemEventArgs)\n\n        RemoveHandler Autodesk.Windows.ComponentManager.ItemInitialized,\n\
+    \            AddressOf ComponentManager_ItemInitialized\n\n        Dim palette\
+    \ As RibbonPaletteSet =\n            RibbonServices.RibbonPaletteSet\n\n     \
+    \   AddHandler palette.Load,\n            AddressOf RibbonPaletteSet_Loaded\n\n\
+    \    End Sub\n\n    Sub RibbonPaletteSet_Loaded(\n        sender As Object,\n\
+    \        e As Autodesk.AutoCAD.Windows.PalettePersistEventArgs)\n\n        If\
+    \ Not Autodesk.Windows.ComponentManager.Ribbon Is Nothing Then\n            CreateSimpleButton()\n\
+    \        Else\n\n            AddHandler Application.Idle, AddressOf Application_Idle\n\
+    \n            Dim doc = Application.DocumentManager.MdiActiveDocument\n      \
+    \      doc.SendStringToExecute(\"RIBBON \", True, False, False)\n        End If\n\
+    \n    End Sub\n\n    Sub Application_Idle(sender As Object, e As EventArgs)\n\n\
+    \        If Not Autodesk.Windows.ComponentManager.Ribbon Is Nothing Then\n\n \
+    \           RemoveHandler Application.Idle,\n                AddressOf Application_Idle\n\
+    \n            Dim ribbon = Autodesk.Windows.ComponentManager.Ribbon\n\n      \
+    \      Dim tab = ribbon.FindTab(\"ADN_TAB_ID\")\n\n            If (tab Is Nothing\
+    \ Or Not tab.IsVisible) Then\n                CreateSimpleButton()\n         \
+    \   End If\n        End If\n    End Sub\n\nEnd Class"
+- author: Steve
+  email: steve@redtransitconsultants.com
+  ip: 173.161.87.43
+  url: http://www.redtransitconsultants.com
+  date: '2016-10-26 12:03:04'
+  body: Thank you for this post! Exactly what I needed! I had the Workspace change
+    event in there, just not the CUI / QUICK CUI changes.
+- author: JamesOneil
+  email: jamesoneil9166@gmail.com
+  ip: 119.156.102.99
+  url: ''
+  date: '2023-03-31 13:40:50'
+  body: "Yes, the range of the <a href=\"https://www.countyroofingsystems.com/\">commercial\
+    \ roofing contractors in suffolk county</a>\n is signed for the contract. Agreement\
+    \ is done for the typical chain of the events for the turns for the semi-final\
+    \ matter for all people.\n-----"

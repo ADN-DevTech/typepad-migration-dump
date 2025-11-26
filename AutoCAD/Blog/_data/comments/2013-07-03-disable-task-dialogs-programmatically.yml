@@ -1,0 +1,86 @@
+comments:
+- author: Tim
+  email: tim.luke@dashiell.com
+  ip: 63.150.244.55
+  url: ''
+  date: '2018-01-24 09:56:59'
+  body: 'Dim HideDic As Autodesk.Internal.Windows.HideableDialogSettingsDictionary
+    = Autodesk.Windows.TaskDialog.HideableDialogSettingsDictionary
+
+
+    HideDic.GetResult("MainFrame.CommandLineHideWindow")
+
+    HideDic.SetResult("MainFrame.CommandLineHideWindow", 6)
+
+
+    Will set the result if it already exist.
+
+    I need to be able to create a new one if it does not already exist.
+
+    So I am not too fluent in C++'
+- author: Tim
+  email: tim.luke@dashiell.com
+  ip: 63.150.244.55
+  url: ''
+  date: '2018-01-24 16:37:03'
+  body: 'Dim CmdLin As New Autodesk.Internal.Windows.HideableDialogSettings
+
+    CmdLin.Id = "MainFrame.CommandLineHideWindow
+
+    CmdLin.Result = 6
+
+    HideDic.Add(CmdLin)
+
+
+    Autodesk.AutoCAD.Internal.Windows.ProfileManager.SaveHideableDialogSettingsDictionary()'
+- author: Serge Camire
+  email: serge.camire@cadnovation.com
+  ip: 135.19.112.121
+  url: ''
+  date: '2020-05-22 15:02:27'
+  body: "Hi,\n\nThere are 2 situations where you want to hide or stop hiding hideable\
+    \ dialog boxes programmatically: \n\n1) You pick them one at the time because,\
+    \ as a CAD manager, you want to standardize your environment in some ways for\
+    \ some reasons. This would correspond the most to what Fenton suggested. To use\
+    \ an image, it’s like turning a breaker off in an electrical panel, one at a time.\n\
+    \n2) You want to process thousands of drawings in batch and you don’t want to\
+    \ be interrupted by these dialog boxes. I will discuss about this case. To use\
+    \ an image, it’s like cutting the electricity with the main interrupter before\
+    \ the panel box. It is radical but this is what we need.\n\nSaid so, what do we\
+    \ do now since nothing is documented? My solution is this one. Read the embedded\
+    \ resources either from the AcTaskDialogs.dll file or the localized AcTaskDialogs.resources.dll\
+    \ located in the AutoCAD directory. They both contain the same crucial information\
+    \ you need like the dialog box keys (always in English). The ressources of these\
+    \ 2 files consist of a dictionary with 5 entries. One of them is named  hideabletaskdialogs.baml.\
+    \ It’s a XML like file (hereafter called then BAML file). How to extract it is\
+    \ way beyond this intervention. To help you make it very short, you could start\
+    \ using ILSpy.exe and you’ll see the file in a snap of the fingers. \n\nPlease\
+    \ find a short excerpt from the file (the localized one):\n<ResourceDictionary\
+    \ … >\n    <td:TaskDialog x:Key=\"MainFrame.CommandLineHideWindow\" \n      x:Uid=\"\
+    TaskDialog_1\" AllowDialogCancellation=\"True\" \n      VerificationHandlerData=\"\
+    Ligne de commande\" \n      VerificationText=\"Toujours fermer la fenêtre de la\
+    \ ligne de commande\" … />\n\nI counted from 94 to 149 different dialog boxes\
+    \ respectively for the versions of AutoCAD 2009 to 2021. Not only you find new\
+    \ ones in each new version of AutoCAD but sometimes, some of them may be withdrawn.\
+    \ Also, there are not only 2 possibilities of checkbox “Do not ...” or “Always\
+    \ …” but more than 50. This mean you have to understand the content of this file.\
+    \ Anyway, since it’s not documented, you will always be guilty is something wrong\
+    \ appends to you.  \n\nWhat is interesting in the BAML file is the attribute AllowDialogCancellation.\
+    \ Some dialogs have this attribute but some don’t. Those who have it may have\
+    \ a value of True or False. Does it mean that with should only populate the HideableDialogSettingsDictionary\
+    \ with those having “AllowDialogCancellation=True”? You won’t get any error message\
+    \ if you add them all. Will it crash AutoCAD on runtime?\n\nThe other interesting\
+    \ thing is the DefaultButton attribute. It may take one of the following values:\
+    \ 1, 5, 6, 7, 8, 1001, 1002 and 2001. Since there is no documentation, how to\
+    \ guess that the value 6 will always prevent AutoCAD from bringing up the dialog\
+    \ box and not 1001? I don't have tons of drawings to open that would allow me\
+    \ to find an example of each box and find my answers. For the moment, we will\
+    \ have to fall back on the value 6 for lack of anything better.\n\nNeedless to\
+    \ remind that the dialog boxes do not open without a reason. If you choose to\
+    \ turn them off for the duration of the batch file, it would be wise to reset\
+    \ the initial state. A copy of the FixedProfile.aws won’t do because AutoCAD will\
+    \ rewrite it at the closing time.\n\nIf ever Autodesk decides to make an API to\
+    \ hide these dialog boxes, it would be important to also have a new callback function\
+    \ that would pass the drawing full filename, the reason that would have caused\
+    \ the dialog box to open in normal time and the severity. This way, we could write\
+    \ a log file.\n\n-----"

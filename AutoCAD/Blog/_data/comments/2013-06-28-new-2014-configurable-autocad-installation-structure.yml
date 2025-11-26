@@ -1,0 +1,163 @@
+comments:
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-06-28 10:54:18'
+  body: 'Hi Fenton,
+
+
+    I see from your post that Plant 3D is magically converted into an abbreviated
+    string PLNT3d.
+
+
+    Is it up to each developer to guess the appropriate string for her product?
+
+
+    Or is a list of these abbreviations provided somewhere?
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Dave Wolfe
+  email: Dave.wolfe@outlook.com
+  ip: 71.85.113.220
+  url: ''
+  date: '2013-06-30 04:15:51'
+  body: "The way I found it was installing the program.  \n\nFenton, is the purpose\
+    \ for the switch to cut down on installation/installer size?  I think it'd be\
+    \ great if there were some system variables we could retrieve these values from.\
+    \ For both Acad files, and then plant/vertical specific files.  It is more awkward\
+    \ having dependencies in two places."
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 132.188.64.219
+  url: ''
+  date: '2013-07-01 11:27:16'
+  body: 'Hey David
+
+
+    the purpose is:
+
+
+    1) Reduce size
+
+    2) Reduce sp logistics. Example, currently, there is a separate ''AutoCAD'' related
+    sp with every vertical.
+
+    3) Reduce version creep incompatibilities. Example, where verticals use updated
+    AutoCAD modules
+
+    4) Reduce side-by-side issues'
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 132.188.64.219
+  url: ''
+  date: '2013-07-01 11:27:50'
+  body: 'Hey Jeremy
+
+
+    I have updated the table to suit!'
+- author: Dave Wolfe
+  email: ''
+  ip: 71.85.113.220
+  url: http://profile.typepad.com/davewolfe
+  date: '2013-07-19 08:28:28'
+  body: So, does the mean we'll have to setup the AppDomain.AssemblyResolve and handle
+    loading our dependencies through there?
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 8.19.13.68
+  url: ''
+  date: '2013-07-19 09:06:47'
+  body: 'Hey Dave!
+
+
+    not at all... You only need to subscribe to that event if your DLL resides completely
+    away from the parent exe, child folders of the main exe folder are fine.'
+- author: Dave Wolfe
+  email: ''
+  ip: 24.196.198.179
+  url: http://profile.typepad.com/davewolfe
+  date: '2013-07-22 05:45:46'
+  body: Thanks!
+- author: Steve B
+  email: steve.blackwell@amec.com
+  ip: 209.248.198.214
+  url: http://amec.com
+  date: '2014-03-31 10:55:36'
+  body: 'Hi Fenton,
+
+    I''ve ran into one major problem with this new model.  I have a .net application
+    that starts AutoCAD.  The machine has both AutoCAD and Plant 3D 2014 installed
+    on it.  When I start AutoCAD from my application it opens the last AutoCAD product
+    that was used.  I use the /product switch and that works, but the problem is if
+    Plant 3D was the last application opened it pulls a Plant 3D license.  This a
+    very expensive problem.  I did notice that if I use the basic AutoCAD shortcut
+    then basic AutoCAD starts and pulls a basic AutoCAD licenses.  Here''s my line
+    of code I use to start AutoCAD:
+
+    Shell("C:\Program Files\Autodesk\autocad 2014\acad.exe /product ACAD /nologo /p
+    " & Chr(34) & "<<Unnamed Profile>>" & Chr(34), AppWinStyle.NormalFocus)
+
+
+    I''ve used the procces.start as well, but I get the same results.
+
+
+    Can you help????'
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 132.188.64.219
+  url: ''
+  date: '2014-03-31 12:51:56'
+  body: I don't have AutoCAD installed at the moment, but can't you just use the normal
+    AutoCAD Shortcut command line params? Basically, I can't test this myself right
+    now, sorry...
+- author: Steve B
+  email: steve.blackwell@amec.com
+  ip: 209.248.198.214
+  url: http://amec.com
+  date: '2014-04-01 05:26:43'
+  body: Not trying to be smart, but If you look at the line of code I posted you'll
+    see I am using the AutoCAD Shortcut command line params.  I'm setting the /product
+    key to ACAD.  That part works great.  The problem is it's still pulling a Plant
+    3D license...  Thanks for the response.  If I get this resolved, I'll post the
+    fix here if you would like.
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 132.188.64.219
+  url: ''
+  date: '2014-04-01 08:53:58'
+  body: 'No problem, I didn''t realize it was the same thing :-)
+
+
+    You might be better off posting this question to the forums - have you tried that?'
+- author: Balaji
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2014-04-02 00:32:02'
+  body: 'Hi Steve,
+
+
+    I have AutoCAD 2014 and Plant3D 2014 installed in my system. Using "/product ACAD",
+    AutoCAD launches as expected. But I am unable to figure out which license its
+    using. Do you use a network license ?
+
+
+    Sorry if this is a dumb question : How do you see that AutoCAD is pulling the
+    Plant3D license in your case ?
+
+
+    If you have posted this query in the discussion forum, please do let me know.
+    I will follow it up there.
+
+
+    Regards,
+
+    Balaji
+
+
+    -----'

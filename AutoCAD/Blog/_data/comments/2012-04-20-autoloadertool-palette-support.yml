@@ -1,0 +1,64 @@
+comments:
+- author: Wiebe van der Worp
+  email: w@vanderworp.org
+  ip: 82.73.119.217
+  url: ''
+  date: '2014-11-25 14:46:19'
+  body: 'Hello Stephen
+
+
+    An interesting article. Greatly appreciated. However it returns some question
+    marks, some answers and information for other readers...
+
+
+    After following your instructions I managed to get it working for blocks. I tested
+    a library with 185 Dutch traffic signs and dragged them from explorer to a new
+    palette, copied the files, closed the palette, et cetera as you described.
+
+
+    So I thought it would be smart to create a spreadsheet that constructs the xml
+    needed for a new palette. Does not work and I haven''t the faintest idea why:
+    name_uuid.atc with bit-wise exact same syntax fails. Uuids generated with $ for
+    i in {1..400}; do uuidgen -r; done (with Linux or Cygwin). Noticed that uuid in
+    file name equals xml entry ItemID of Palette. Searched with regedit for both name
+    and uuid in name_uuid.atc – without result. Can you clarify? Palette shows up
+    in AutoCAD but dragging a button gives: "Unable to execute tool. Possible causes
+    are: The tool is not registered properly. Check your installation. The tool is
+    from another application and is incompatible with the current application." It
+    drove me nuts. Where is it registered? It would really be helpful to be able to
+    generate large palettes outside AutoCAD and simply dump them in the name.bundle\contents
+    folder.
+
+
+    One thing I noticed is that a palette file assumes there is a folder "Images"
+    under the palette holding folder. So copying the .atc files isn''t enough, I copied
+    the images too, not sure if they are needed in an app distribution. Are they?
+    Off topic: What a pity svg''s are not supported.
+
+
+    Another obstacle is about file names. The generated xml / atc file contains absolute
+    paths – like C:\ProgramData\Autodesk\ApplicationPlugins\a.bundle\contents\lib\trafficsigns\_colors.dwg.
+    Needless to say this is a problem when distributing an app into the wild, in this
+    case the app lives under %programdata% but it could also be under %appdata%. PackageContents.xml
+    contains a valid entry ToolPalettePath="./contents/". Apparently it is possible
+    to cut of the prefix "C:\ProgramData\Autodesk\ApplicationPlugins\a.bundle\contents\"
+    for all entries in the .atc file – leaving "lib\trafficsigns\blockname.dwg" –
+    and keep a functional palette. So my conclusion is that locations relative to
+    the app''s ToolPalettePath will be valid – very handy and I hope my conclusion
+    is right.
+
+
+    Best regards, Wiebe van der Worp'
+- author: Håkan
+  email: hakan.falkoping@gmail.com
+  ip: 155.4.133.101
+  url: ''
+  date: '2016-06-15 09:07:10'
+  body: 'Long time have I Googled for the solution for distributing custom made Tool
+    Palettes and changing ToolPalettePath. I have only found LISP-solutions until
+    I found this. This was a very simple way to do it. I load a .bundle-file that
+    points to a Tool Palette located on our server. Then I´m able to update the ToolPalette
+    and my collegues gets the latest one on every AutoCAD startup. All links are relative.
+    Many thanks!
+
+    -----'

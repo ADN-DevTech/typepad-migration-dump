@@ -1,0 +1,211 @@
+comments:
+- author: Hanauer
+  email: gphanauer@gmail.com
+  ip: 189.103.9.231
+  url: ''
+  date: '2019-02-16 05:04:22'
+  body: A .NET version would be cool!
+- author: Madhukar Moogala
+  email: ''
+  ip: 32.114.250.26
+  url: https://profile.typepad.com/madhukarmoogala
+  date: '2019-02-17 21:15:42'
+  body: 'Hi Hanauer,
+
+
+    Unfortunately it is not possible to port to .NET, blog sample mainly talks about
+    filing and dealing Hard References with in a custom entity, concept of custom
+    entity doesn''t exist in .NET, it is only in C++.'
+- author: Hanauer
+  email: gphanauer@gmail.com
+  ip: 201.11.200.51
+  url: ''
+  date: '2019-02-18 05:13:00'
+  body: 'I know custom entities do not exist in .NET, but a well crafted example with
+    custom objects spanning extension dictionary, XRecord, HardPointerId, SoftPointerId,
+    TreatElementsAsHard, wblock, copy clip, paste clip would be very good.
+
+
+    The ObjectArxGuide says that the hard pointer reference protects an object from
+    purge.
+
+    What are the differences between HardPointerId and SoftPointeId?
+
+    How to correctly use HardPointerId and SoftPointerId involving operations of wblock,
+    ctrl c, ctrl v, etc.
+
+
+    I have a plugin written in C # that uses relationships between objects through
+    extension dictionary, XRecord and HardpointerId and when I use copy clip and then
+    paste clip the relationship information between objects is lost.
+
+
+    The alternative I found was to use events and intercept the copyclip and pasteclip
+    commands and restore the relationships. Besides being a poor solution it is not
+    reliable ( if the plug-in is not loaded the solution does not work).
+
+
+    Is there an efficient solution for this? Is it possible to post an example in
+    .NET?'
+- author: Madhukar Moogala
+  email: ''
+  ip: 32.114.240.38
+  url: https://profile.typepad.com/madhukarmoogala
+  date: '2019-02-19 03:49:40'
+  body: "<b><ul>Spanning extension dictionary, XRecord, HardPointerId, SoftPointerId,\
+    \ TreatElementsAsHard, wblock, copy clip, paste clip would be very good</b></ul>\n\
+    \nI assume you are asking this C++, yes there is, you can check the stripped down\
+    \ version of sample posted below my blog.\n<a href=\"https://github.com/MadhukarMoogala/adn_adskLogo\"\
+    >https://github.com/MadhukarMoogala/adn_adskLogo</a>\nor ArxDBG, full blown sample\
+    \ ADESKLogo [SDK\\samples\\database\\ARXDBG\\AdeskLogo]\n\n\n\n<b><ul>What are\
+    \ the differences between HardPointerId and SoftPointeId?</b></ul>\n\n-- <a href=\"\
+    https://slideplayer.com/slide/4391931/,\">https://slideplayer.com/slide/4391931/,</a>\
+    \ Devdays PPT.\nThe ObjectArxGuide says that the hard pointer reference protects\
+    \ an object from purge.\nExactly, the distinction between soft and hard object\
+    \ reference lies in the survival of the object  and existence of object being\
+    \ referred.\n\nHard Reference: An object's fate of survival depends on the existence\
+    \ of the object that is being referred.\nSoft Reference: An object relationship\
+    \ with its referring object is trival and not important for it's own survival.\n\
+    \n\n<b><ul>How to correctly use HardPointerId and SoftPointerId involving operations\
+    \ of wblock, ctrl c, ctrl v, etc.</b></ul>\n\nWblock Operations - Wblock\n   \
+    \            Wblock need to use Hard Owner and Pointer References.\nCtrl-C\\Ctrl-V\
+    \ - \"Wblock (_copyclip) + DeepClone during insert i.e _PasteCLip\"\n        \
+    \       DeepClone - Hard and Soft Ownership Reference \n               Wblock\
+    \ - Hard Owner and Pointer References\n               \n               Example:\n\
+    \               \nAssume we have a 3DPline with 3 vertices with a layer, linetype\
+    \ and material.\nHardOwnership - 3Dpline hard owns these three vertices, now if\
+    \ you want purge vertices, you can't purge, since they are hard owned by 3DPline.\n\
+    HardPointer- 3Dpline hard points layer, linetype and material, you can't purge\
+    \ any of these, as these are referred by 3dpline, hence these are protected from\
+    \ purge.\nSoftOwnership - The Material Dictionary [AcDbDictionary] soft owns material\
+    \ [m1] which is being referred by 3DPline, now if you change the material of 3dPline\
+    \ from [m1] to [m2], you can purge m1.\nSoftPointer - Material holds a soft pointer\
+    \ reference to its owner AcDbDictionary, i.e Material Dictionary.\n          \
+    \                                     Generally, all AutoCAD in built Dictionaries\
+    \ soft owns its objects, each object soft pointers reference to its owner.\n \
+    \                                              But, if Treat Its Elements [TreatElementsAsHard]\
+    \ is set to True, then elements of dictionary hard owns its objects\n\n\n<b><ul>Besides\
+    \ being a poor solution, it is not reliable ( if the plug-in is not loaded the\
+    \ solution does not work). Is there an efficient solution for this? Is it possible\
+    \ to post an example in .NET?</b></ul>\nTo create an anonymous group with all\
+    \ the objects that belong together, and you need not worry about _copyclip,pasteclip,wblock\
+    \ etc.\n\nAcDbGroup plants persistent reactors on its entries when the entries\
+    \ are added to the group. To accomplish this, it must have an objectId. When the\
+    \ group is added to the group dictionary, it is also added to the database, and\
+    \ thus it obtains an objectId. Therefore, do not attempt to add entries to a newly\
+    \ created group before adding the group to the group dictionary. \nFor example,\
+    \ the code for creating a group should be like: \n \nAcDbGroup *pGroup = new AcDbGroup;\n\
+    AcDbObjectId  groupObjectId;\nAcDbDictionary  *pGroupDict = NULL;\nacdbCurDwg()->getGroupDictionary(pGroupDict,\
+    \ AcDb::kForWrite);\npGroupDict->setAt(\"GroupName\", pGroup, groupObjectId);\n\
+    pGroupDict->close();\n\npGroup->append(objectId1);     // objectId1 and objectId2\n\
+    \                                                 // are objId's of the\npGroup->append(objectId2);\
+    \     // entities which will be in the group.\n\npGroup->close();\n\nFor .Net\
+    \ similar you can.\n<a href=\"https://adndevblog.typepad.com/autocad/2012/05/create-an-anonymous-group.html\"\
+    >https://adndevblog.typepad.com/autocad/2012/05/create-an-anonymous-group.html</a>"
+- author: Hanauer
+  email: gphanauer@gmail.com
+  ip: 201.14.249.204
+  url: ''
+  date: '2019-02-22 09:34:40'
+  body: 'Thanks for the clarifications. I apologize for not being clear.
+
+    I have no relationship problems in the same file but rather, when I use CTRL C
+    and in another file I give CTRL V, the relationship (xrecord, hardpointerid, handle)
+    between entities is lost.
+
+    Same situation occurs with groups. I create a unnamed group for a circle and a
+    line. I select the group and press CTRL C. I change the file and give CTRL V and
+    the group no longer exists.
+
+    Already in AutoCAD Archtecture if I give CTRL C in a window and change file and
+    give CTRL V, the window is inserted along with the wall in which it is contained.
+    There is no loss of relationships. How is this implemented in ACA? What is the
+    way to do this in AutoCAD .NET?'
+- author: Madhukar Moogala
+  email: ''
+  ip: 32.114.250.26
+  url: https://profile.typepad.com/madhukarmoogala
+  date: '2019-02-27 03:58:55'
+  body: 'Hi Hanauer,
+
+
+    <ul><b>Same situation occurs with groups. I create an unnamed group for a circle
+    and a line. I select the group and press CTRL C. I change the file and give CTRL
+    V and the group no longer exists.</b></ul>
+
+
+    Thanks for clarification, Group will not survive through ctrl-c/ctrl-v across
+    database, precisely during Wblock clone operation.
+
+    This is because AcDbGroup only has hard pointer connection with its objects and
+    is not hard owned by its parent NOD.
+
+    So, we need enforce copying AcDbGroup object as well during Wblock clone operation,
+
+
+    The problem with the WBLOCK /CTRL-C was that it first wblockClone''s objects into
+    a temporary in-memory database, then calls save() to save the temporary database
+    to disk. But save honors only the ownership references (hard owner and soft owner).
+    This means one kind of hard reference called the hard pointer reference will not
+    be honored by save and that means objects pointed to by hard pointer references
+    would not be saved. Put another way, objects that have been cloned during wblockClone
+    are not saved to the drawing file if their owners haven''t been cloned during
+    wblockClone.
+
+
+    To avoid this problem with wblockClone, dictionaries and custom objects (Inheriting
+    from AcDbObject) now automatically file a hardpointer id of their owners. In this
+    way, the complete ownership hierarchy is preserved, and save() can save them all.
+
+    Unfortunately, AcDbGroup seems be lone wolf left out 😉
+
+
+    To fix this-
+
+    Override the virtual method "beginDeepCloneXlation",this method will be called
+    when you AutoCAD needs to perform a deep clone.
+
+    In this overridden method, you get access to the "source" database as well as
+    the "destination" database. Ensure that you explicitly "wblockClone" the dictionary
+    that you want to be wblocked to the destination database.
+
+    I will work on a sample and get back to you. Please expect some delay, I''m fully
+    occupied with forge work.
+
+
+    <ul><b>Already in AutoCAD Archtecture if I give CTRL C in a window and change
+    file and give CTRL V, the window is inserted along with the wall in which it is
+    contained. There is no loss of relationships. How is this implemented in ACA?
+    What is the way to do this in AutoCAD .NET?</b></ul>
+
+
+    This what my blog post talks about, ACA entities are custom entities deriving
+    from AcDbEntity, in your example, Window is hard owned by Wall entity hence relationship
+    will remain intact during Wblock clone across database.
+
+    In window class implementation, a hard ownership reference to Wall entity is filed.'
+- author: Hanauer
+  email: gphanauer@gmail.com
+  ip: 189.10.201.80
+  url: ''
+  date: '2019-08-23 09:46:00'
+  body: 'Hi,
+
+    Have news about this:
+
+    "I will work on a sample and get back to you. Please expect some delay, I''m fully
+    occupied with forge work."
+
+    Thanks.'
+- author: technodata group
+  email: jackpeter0799@gmail.com
+  ip: 49.205.216.96
+  url: https://technodatagroup.com/autodesk-autocad-users-email-list
+  date: '2019-10-28 22:54:16'
+  body: "Nice post content is impressive to read ,Thanks for proving some helpful\
+    \ information.Hope you will keep on sharing articles.\nThis provides good insight.\
+    \ You might also be interested to know more about generating more leads and getting\
+    \ the right intelligence to engage prospects. Techno Data Group implements new\
+    \ lead gen ideas and strategies for generating more leads and targeting the right\
+    \ leads and accounts.\n<a \nhref=\"https://technodatagroup.com/autodesk-autocad-users-email-list\"\
+    >TECHNO DATA GROUP</a> \n-----"

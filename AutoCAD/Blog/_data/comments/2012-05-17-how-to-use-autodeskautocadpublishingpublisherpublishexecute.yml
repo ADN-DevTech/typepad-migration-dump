@@ -1,0 +1,104 @@
+comments:
+- author: 'Peter '
+  email: peter.voegeli@mum.ch
+  ip: 46.126.153.162
+  url: ''
+  date: '2012-07-05 04:25:14'
+  body: "Hello Philippe\n\nI run your code (Autocad Mechanical 2012). But the event\n\
+    \"AboutToBeginPublishing\" does not fire. Do you know why this could happen? \n\
+    \nBest regards Peter"
+- author: Sanjay Kulkarni
+  email: sanganaksakha@gmail.com
+  ip: 14.96.174.89
+  url: ''
+  date: '2012-07-16 00:54:16'
+  body: "It seems that this code works only in A2012 and above. Am I right? \n\nWhat\
+    \ if we have A2011."
+- author: Philippe Leefsma
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2012-07-16 05:48:19'
+  body: "Yes this is a known issue unfortunately. Those events do not work in 2012/2013.\n\
+    \nGive a try at PlotEvents, those should work:\n\n[CommandMethod(\"PlotEvents\"\
+    )]\nstatic public void PlotEvents()\n{\n    PlotReactorManager plotReactorMng\
+    \ = new PlotReactorManager();\n\n    plotReactorMng.BeginDocument += new BeginDocumentEventHandler(plotReactorMng_BeginDocument);\n\
+    \    plotReactorMng.BeginPage += new BeginPageEventHandler(plotReactorMng_BeginPage);\n\
+    \    plotReactorMng.BeginPlot += new BeginPlotEventHandler(plotReactorMng_BeginPlot);\n\
+    \    plotReactorMng.EndDocument += new EndDocumentEventHandler(plotReactorMng_EndDocument);\n\
+    \    plotReactorMng.EndPage += new EndPageEventHandler(plotReactorMng_EndPage);\n\
+    \    plotReactorMng.EndPlot += new EndPlotEventHandler(plotReactorMng_EndPlot);\n\
+    }\n\nstatic void plotReactorMng_BeginDocument(object sender, BeginDocumentEventArgs\
+    \ e)\n{\n    Editor ed = Application.DocumentManager.MdiActiveDocument.Editor;\n\
+    \    ed.WriteMessage(\"\\nPlotReactor::BeginDocument \" + e.FileName);\n}\n\n\
+    static void plotReactorMng_BeginPage(object sender, BeginPageEventArgs e)\n{\n\
+    \    Editor ed = Application.DocumentManager.MdiActiveDocument.Editor;\n    ed.WriteMessage(\"\
+    \\nPlotReactor::BeginPage\");\n}\n\nstatic void plotReactorMng_BeginPlot(object\
+    \ sender, BeginPlotEventArgs e)\n{\n    Editor ed = Application.DocumentManager.MdiActiveDocument.Editor;\n\
+    \    ed.WriteMessage(\"\\nPlotReactor::BeginPlot\");\n}\n\nstatic void plotReactorMng_EndPlot(object\
+    \ sender, EndPlotEventArgs e)\n{\n    Editor ed = Application.DocumentManager.MdiActiveDocument.Editor;\n\
+    \    ed.WriteMessage(\"\\nPlotReactor::EndPlot\");\n}\n\nstatic void plotReactorMng_EndPage(object\
+    \ sender, EndPageEventArgs e)\n{\n    Editor ed = Application.DocumentManager.MdiActiveDocument.Editor;\n\
+    \    ed.WriteMessage(\"\\nPlotReactor::EndPage\");\n}\n\nstatic void plotReactorMng_EndDocument(object\
+    \ sender, EndDocumentEventArgs e)\n{\n    Editor ed = Application.DocumentManager.MdiActiveDocument.Editor;\n\
+    \    ed.WriteMessage(\"\\nPlotReactor::EndDocument\");\n}"
+- author: Philippe Leefsma
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2012-07-16 05:50:05'
+  body: Sorry what do you mean exactly by it only works in 2012 and above? What behavior
+    do you experience under 2011? it doesn't publish anything or the events are not
+    fired...? Can you be more specific? Thank you.
+- author: Maxence
+  email: maxence.delannoy@wiip.fr
+  ip: 92.155.168.84
+  url: http://wiip.fr
+  date: '2012-08-30 02:46:21'
+  body: 'Don''t you have to call Dispose on the databases at the end ? And why do
+    you have to lock the active document ?
+
+
+    If I understand well, all the drawings need to be loaded in memory. If I want
+    to publish 1000 drawings in a single DWF, I''ve to open the 1000 files.'
+- author: Philippe
+  email: philippe.leefsma@autodesk.com
+  ip: 83.68.201.220
+  url: ''
+  date: '2012-08-30 02:57:37'
+  body: 'Hi Maxence,
+
+
+    Since no modification is done to the document, you are right, it shouldn''t be
+    required to lock it.
+
+
+    The database doesn''t have to be disposed, it should be garbage collected by the
+    .Net framework as it goes out of scope. As it is created in a loop, I would not
+    expect having 1000 drawing loaded in memory at the same time.'
+- author: Nikus
+  email: nv@auni.fr
+  ip: 91.174.108.230
+  url: ''
+  date: '2021-01-27 09:40:34'
+  body: "I know it's an old post but for people who are using this code with special\
+    \ char, don't forget to add encoding in the work around : \n//Workaround to avoid\
+    \ promp for dwf file name set PromptForDwfName=FALSE in dsdData using StreamReader/StreamWriter\n\
+    \t\t\t\tdsdData.WriteDsd(dsdFile);\n\n\t\t\t\tSystem.IO.StreamReader sr = new\
+    \ System.IO.StreamReader(dsdFile, Encoding.Default);\n\t\t\t\tstring str = sr.ReadToEnd();\n\
+    \t\t\t\tsr.Close();\n\t\t\t\tstr = str.Replace(\"PromptForDwfName=TRUE\", \"PromptForDwfName=FALSE\"\
+    );\n\t\t\t\tSystem.IO.StreamWriter sw = new System.IO.StreamWriter(dsdFile, false,\
+    \ Encoding.Default);"
+- author: dba
+  email: daniel.balogh@adptech.at
+  ip: 213.142.96.27
+  url: ''
+  date: '2022-10-24 00:44:13'
+  body: 'Hello, could someone even manage Eventhandling here? I''d like to cleanup
+    after publishing, but apparently the eventhandling is still an issue (Autocad
+    2022).
+
+    Any hints are highly appreciated!
+
+
+    -----'

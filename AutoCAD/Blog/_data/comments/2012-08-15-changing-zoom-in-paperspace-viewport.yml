@@ -1,0 +1,497 @@
+comments:
+- author: David
+  email: vnsharifi@gmail.com
+  ip: 216.185.64.78
+  url: ''
+  date: '2012-12-11 11:59:38'
+  body: "Thanks for Post Augosto.\nI used your code to meet my requirement with minor\
+    \ changes.\nHere it is\n\n  <CommandMethod(\"changeZoom\")> _\n    Public Shared\
+    \ Sub CommandChangeViewportZoom()\n        Dim Mydb As Database = Application.DocumentManager.MdiActiveDocument.Database\n\
+    \        Dim Myed As Editor = Application.DocumentManager.MdiActiveDocument.Editor\n\
+    \        Using tr As Transaction = Mydb.TransactionManager.StartTransaction()\n\
+    \            Using mylayoutDict As DBDictionary = TryCast(tr.GetObject(Mydb.LayoutDictionaryId,\
+    \ OpenMode.ForRead), DBDictionary)\n                For Each layoutEntry As DictionaryEntry\
+    \ In mylayoutDict\n                    Using Mylayout As Layout = TryCast(tr.GetObject(DirectCast(layoutEntry.Value,\
+    \ ObjectId), OpenMode.ForRead), Layout)\n                        If Mylayout.LayoutName\
+    \ <> \"Model\" Then\n                            LayoutManager.Current.CurrentLayout\
+    \ = Mylayout.LayoutName\n                        End If\n                    \
+    \    Dim btr As BlockTableRecord = TryCast(tr.GetObject(Mylayout.BlockTableRecordId,\
+    \ OpenMode.ForRead), BlockTableRecord)\n                        For Each myobjid\
+    \ As ObjectId In btr\n                            Dim vp As Autodesk.AutoCAD.DatabaseServices.Viewport\
+    \ = TryCast(tr.GetObject(myobjid, OpenMode.ForRead), Autodesk.AutoCAD.DatabaseServices.Viewport)\n\
+    \                            If vp IsNot Nothing Then\n                      \
+    \          ' set the viewport parameters\n                                If vp.Number\
+    \ = 2 Then\n                                    vp.UpgradeOpen()\n           \
+    \                         vp.CustomScale = 1 / 72.5\n                        \
+    \            vp.Visible = True\n                                    vp.On = True\n\
+    \                                    vp.UpdateDisplay()\n                    \
+    \                Myed.SwitchToModelSpace()\n                                 \
+    \   Application.SetSystemVariable(\"CVPORT\", vp.Number)\n                   \
+    \             End If\n                                If vp.Number = 3 Then\n\
+    \                                    vp.UpgradeOpen()\n                      \
+    \              vp.CustomScale = 1 / 200\n                                    vp.Visible\
+    \ = True\n                                    vp.On = True\n                 \
+    \                   vp.UpdateDisplay()\n                                    Myed.SwitchToModelSpace()\n\
+    \                                    Application.SetSystemVariable(\"CVPORT\"\
+    , vp.Number)\n                                End If\n                       \
+    \     Else\n\n                            End If\n                        Next\n\
+    \                    End Using\n                Next\n            End Using\n\
+    \            tr.Commit()\n        End Using\n    End Sub\n\n\nFunny thing here\
+    \ is 72.5 scale  doesn't work and 200 scale works . Why is that. Am I doing something\
+    \ wrong?\nBasiclly if the scale is a standard scale it would be changed but if\
+    \ not it won't. I am confused and a help would be appreciated.\nThanks."
+- author: Augusto Goncalves
+  email: ''
+  ip: 200.57.88.167
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2012-12-13 08:21:47'
+  body: 'Hi David,
+
+
+    Not sure if is there anything special, but running your code on a simple blank
+    drawing, the scale change:
+
+
+    >>>
+
+    Command:   <Switching to: Layout1>
+
+    Regenerating layout.
+
+    Regenerating model - caching viewports.
+
+
+    Command: _.MSPACE
+
+    Command: VPSCALE
+
+
+    Initializing...
+
+    PS:MS == 1:1.449
+
+
+    Command: _.PSPACE
+
+    Command: TESTVP_DAVID_COMMAND
+
+    Regenerating model.
+
+    Regenerating layout.
+
+    Regenerating model - caching viewports.
+
+    Regenerating model.
+
+
+    Command: VPSCALE
+
+    PS:MS == 1:72.5
+
+    <<<
+
+
+    As you can see, the VPSCALE changed to 1:72.5 as specified on the code...
+
+
+    Am I missing any step?
+
+
+    Regards,
+
+    Augusto Goncalves'
+- author: David
+  email: vnsharifi@gmail.com
+  ip: 209.197.140.1
+  url: ''
+  date: '2012-12-16 10:19:58'
+  body: 'Hello Augosto,
+
+    Thanks for your time.
+
+    When there is just one layout you are right and code acts correctly. But when
+    there is more than one layout it acts differently which I couldn''t figure out
+    why .
+
+    David.'
+- author: MahmoudAbdElMoneam
+  email: ''
+  ip: 141.101.99.140
+  url: http://profile.typepad.com/6p01a511a1aaf1970c
+  date: '2014-04-23 05:20:56'
+  body: 'My Assumption would be that you have to be certain that the viewport number
+    is the one you are changing.
+
+
+    It worked with me after I added another ''if''.
+
+
+    I have a DWG file with a ''Model viewport'' inside the ''Paper Space''.
+
+
+    so, I iterated through all the objects and got all the view ports, then worked
+    with the viewport that is on Layer 0 Only.'
+- author: wang
+  email: juninawan.wawan@gmail.com
+  ip: 36.85.108.90
+  url: ''
+  date: '2021-08-14 06:52:02'
+  body: "what wrong with my code ,will loop in first sheet is corrent zoom to object\
+    \ rectangle,but for second layout,etc,become not every rectangle/border\nusing\
+    \ System;\nusing System.Collections.Generic;\nusing System.Collections;\nusing\
+    \ System.Linq;\nusing System.Text;\nusing System.Threading.Tasks;\nusing System.Runtime.InteropServices;\n\
+    using Autodesk.AutoCAD.Runtime;\nusing Autodesk.AutoCAD.ApplicationServices;\n\
+    using Autodesk.AutoCAD.DatabaseServices;\nusing Autodesk.AutoCAD.Geometry;\nusing\
+    \ Autodesk.AutoCAD.EditorInput;\n\nnamespace latihanCAD\n{\n   public class makeViewport\n\
+    \    {\n        [DllImport(\"accore.dll\", CallingConvention = CallingConvention.Cdecl,\n\
+    \         EntryPoint = \"?acedSetCurrentVPort@@YA?AW4ErrorStatus@Acad@@PEBVAcDbViewport@@@Z\"\
+    )]\n        extern static private int acedSetCurrentVPort(IntPtr AcDbVport);\n\
+    \n\n        // hapus sheet\n        public static void DeleteLayout(string name)\n\
+    \n        {\n            var doc = Application.DocumentManager.MdiActiveDocument;\n\
+    \            var db = HostApplicationServices.WorkingDatabase;\n            var\
+    \ ed = doc.Editor;\n   \n            doc.TransactionManager.EnableGraphicsFlush(true);\n\
+    \            using (Transaction tr = db.TransactionManager.StartTransaction())\n\
+    \            {\n                var bt = tr.GetObject(db.BlockTableId, OpenMode.ForRead)\
+    \ as BlockTable;\n                var btr = tr.GetObject(bt[BlockTableRecord.PaperSpace],\
+    \ OpenMode.ForWrite) as BlockTableRecord;\n\n                // hapus layout helper\
+    \ jika blm kehapus\n                var layoutDict1 = tr.GetObject(db.LayoutDictionaryId,\
+    \ OpenMode.ForRead) as DBDictionary;\n                foreach (DBDictionaryEntry\
+    \ de in layoutDict1)\n                {\n                    string layoutName\
+    \ = de.Key;\n                    if (layoutName == name)\n                   \
+    \ {\n                        ed.WriteMessage(\"nama layout /n \" + layoutName.ToString());\n\
+    \                        LayoutManager.Current.DeleteLayout(layoutName); // Delete\
+    \ layout.\n                        break;\n                        tr.TransactionManager.QueueForGraphicsFlush();\
+    \ doc.TransactionManager.FlushGraphics();\n                        ed.UpdateScreen();\
+    \ db.Regenmode = true;\n                    }\n                }\n\n\n       \
+    \         // buat 1 layout dummi agar bisa hapus all paper space\n           \
+    \     ObjectId layIDhelper = LayoutManager.Current.CreateLayout(name); \n\n  \
+    \              // hapus all layout \n                DBDictionary layoutDict =\
+    \ tr.GetObject(db.LayoutDictionaryId, OpenMode.ForRead) as DBDictionary;\n   \
+    \             foreach (DBDictionaryEntry de in layoutDict)\n                {\n\
+    \                    string layoutName = de.Key;\n                    if (layoutName\
+    \ != \"Model\" && layoutName != name)\n                    {\n               \
+    \         ed.WriteMessage(\"nama layout /n \" + layoutName.ToString());\n    \
+    \                    LayoutManager.Current.DeleteLayout(layoutName); // Delete\
+    \ layout.\n                        tr.TransactionManager.QueueForGraphicsFlush();\
+    \ doc.TransactionManager.FlushGraphics();\n                        ed.UpdateScreen();\
+    \ db.Regenmode = true;\n                    }\n                }\n           \
+    \     tr.Commit();\n            }\n\n             \n        }\n        //buat\
+    \ class untuk multi value dictionary\n        class MyObject\n        {\n\n  \
+    \          public Point3d minvalue { get; set; }\n            public Point3d maxvalue\
+    \ { get; set; }\n        }\n\n\n        [CommandMethod(\"addLy\")]\n        public\
+    \ static void AddLayout()\n        {\n            var doc = Application.DocumentManager.MdiActiveDocument;\n\
+    \            var db = HostApplicationServices.WorkingDatabase;\n            var\
+    \ ed = doc.Editor;\n            var name = \"helper\";\n            var dic =\
+    \ new Dictionary<string, MyObject>();\n            var myListPolyValid = new List<ObjectId>();\n\
+    \            try\n            {            \n            //  1.    STEP 1   DELETE\
+    \  ALL SHEET DAN BUAT SHEET DUMMY ******************************************************\n\
+    \            DeleteLayout(name);\n\n            doc.TransactionManager.EnableGraphicsFlush(true);\n\
+    \            using (Transaction tr = db.TransactionManager.StartTransaction())\n\
+    \            {\n                    var bt = tr.GetObject(db.BlockTableId, OpenMode.ForRead)\
+    \ as BlockTable;\n                    // 2 STEP 2 SELECT COVER GAMBAR *********************************************************************************\n\
+    \n                    var option = new PromptSelectionOptions(); option.MessageForAdding\
+    \ = \"\\nselect Rectangle/Borders Cover Gambar\";\n                    var psr\
+    \ = ed.GetSelection(option, new SelectionFilter(new[] { new TypedValue(0, \"LWPOLYLINE,Polyline\"\
+    ) }));\n                    if (psr.Status != PromptStatus.OK) return;\n     \
+    \               SelectionSet acSSet = psr.Value;\n\n                    if (acSSet\
+    \ == null) return;\n                    var exts = new Extents3d();\n        \
+    \            foreach (SelectedObject acSSObj in acSSet)\n                    {\n\
+    \                        Polyline myrec = acSSObj.ObjectId.GetObject(OpenMode.ForWrite)\
+    \ as Polyline;\n                        if (myrec.Area > 0 && myrec.NumberOfVertices\
+    \ > 2)\n                        {\n                            exts.AddExtents(myrec.GeometricExtents);\n\
+    \                            string value = exts.MinPoint.ToString() + \"|\" +\
+    \ exts.MaxPoint.ToString();\n                            if (!dic.ContainsKey(value))\n\
+    \                            {\n                                dic.Add(value,\
+    \ new MyObject { minvalue = exts.MinPoint, maxvalue = exts.MaxPoint });\n    \
+    \                        }\n\n\n\n                        }\n                \
+    \        else\n                        {\n                            continue;\n\
+    \                        }\n                    }\n                    if (dic.Count\
+    \ == 0) return;\n\n\n\n                    // 3 STEP 3 BUAT LAYOUT SESUAI JUMLAH\
+    \ SELECTION COVER ************************************************************\n\
+    \                    string nameLayout = null;\n                    for (int i\
+    \ = 0; i < dic.Count; i++)\n                    {\n                        nameLayout\
+    \ = i.ToString();\n                        ObjectId layoutId = LayoutManager.Current.CreateLayout(nameLayout);\n\
+    \                        LayoutManager Lm;\n                        LayoutManager.Current.CurrentLayout\
+    \ = nameLayout;\n                        Lm = LayoutManager.Current;\n       \
+    \                 // buat satu layout dahulu agar bisa paperspace lainnya dihapus\n\
+    \                        //buat setingan kertas di paper space\n             \
+    \           var lay = (Layout)tr.GetObject(layoutId, OpenMode.ForWrite);\n   \
+    \                     SetPlotSettings(lay, \"ISO_full_bleed_A3_(420.00_x_297.00_MM)\"\
+    , \"monochrome.ctb\", \"DWG To PDF.pc3\");\n                        tr.TransactionManager.QueueForGraphicsFlush();\
+    \ doc.TransactionManager.FlushGraphics();\n                        ed.UpdateScreen();\
+    \ db.Regenmode = true;\n                        //Delete viewport yang ada\n \
+    \                       var vpIds = lay.GetViewports();\n                    \
+    \    foreach (ObjectId vpId in vpIds)\n                        {\n           \
+    \                 var vp2 = tr.GetObject(vpId, OpenMode.ForWrite) as Viewport;\n\
+    \                            if (vp2 != null)\n                            {\n\
+    \                                vp2.UpgradeOpen();\n                        \
+    \        vp2.Erase();\n                            }\n\n                     \
+    \   }\n\n                        // 4 STEP 4 BUAT VIEWPORT ********************************************************************************************\n\
+    \                        var btr = tr.GetObject(bt[BlockTableRecord.PaperSpace],\
+    \ OpenMode.ForWrite) as BlockTableRecord;\n                        var lyID =\
+    \ LayoutManager.Current.GetLayoutId(LayoutManager.Current.CurrentLayout);\n  \
+    \                      LayoutManager acLayoutMgr;\n                        acLayoutMgr\
+    \ = LayoutManager.Current;\n                        // Get the current layout\
+    \ and output its name in the Command Line window\n                        Layout\
+    \ acLayout;\n                        acLayout = tr.GetObject(acLayoutMgr.GetLayoutId(acLayoutMgr.CurrentLayout),\
+    \ OpenMode.ForRead) as Layout;\n                        // Output the name of\
+    \ the current layout and its device\n                        ed.WriteMessage(\"\
+    \\nCurrent layout: \" + acLayout.LayoutName);\n                        Viewport\
+    \ vp = new Viewport();\n                        vp.SetDatabaseDefaults();\n  \
+    \                      vp.Width = 420;\n                        vp.Height = 297;\n\
+    \                        vp.CenterPoint = new Point3d(Point3d.Origin.X + (420\
+    \ * 0.5), Point3d.Origin.Y + (297 * 0.5), 0);\n                        // Add\
+    \ the new object to the block table record and the transaction\n             \
+    \           ObjectId vpID = btr.AppendEntity(vp);\n                        tr.AddNewlyCreatedDBObject(vp,\
+    \ true);\n                        // Change the view direction\n             \
+    \           vp.ViewDirection = new Vector3d(0, 0, 0);\n                      \
+    \  // Enable the viewport\n                        // vp.On = true;\n        \
+    \                // Activate model space in the viewport\n                   \
+    \     doc.Editor.SwitchToModelSpace();\n                        // Set the new\
+    \ viewport current via an imported ObjectARX function\n                      \
+    \  acedSetCurrentVPort(vp.UnmanagedObject);\n                    }\n         \
+    \           LayoutManager.Current.DeleteLayout(name); // Delete  Layout Helper\n\
+    \                    ed.WriteMessage(\"count list : {0}\" + myListPolyValid.Count.ToString());\n\
+    \                    tr.TransactionManager.QueueForGraphicsFlush(); doc.TransactionManager.FlushGraphics();\n\
+    \                    ed.UpdateScreen(); db.Regenmode = true;\n               \
+    \     tr.Commit();\n                 \n                \n            }\n\n   \
+    \         // 5 STEP 5 BUAT ZOOM GAMBAR KE VIEWPORT ********************************************************************************************\n\
+    \           \n            using (Transaction tr = db.TransactionManager.StartTransaction())\n\
+    \            {\n                doc.TransactionManager.EnableGraphicsFlush(true);\n\
+    \                LayoutManager layoutMgr = LayoutManager.Current;\n          \
+    \      Layout layoutObj;\n                DBDictionary layoutDict;\n         \
+    \       if (dic.Count == 0)\n                {\n                    return;\n\
+    \                }\n\n\n                    int n = 0;\n                    int\
+    \ counter = 0;\n                    using (layoutDict = tr.GetObject(db.LayoutDictionaryId,\
+    \ OpenMode.ForRead) as DBDictionary)\n                    {\n                \
+    \        foreach (DictionaryEntry layoutEntry in layoutDict)\n               \
+    \         {\n                            ed.WriteMessage(\"\\nisi dictionaryentry\
+    \ \" + layoutEntry.Key.ToString());\n                            using (layoutObj\
+    \ = tr.GetObject((ObjectId)(layoutEntry.Value), OpenMode.ForRead) as Layout)\n\
+    \                            {\n                                // Set the CurrentLayout\
+    \ to the layout\n                                // if it is not Modelspace\n\
+    \                                \n                                if (layoutObj.LayoutName\
+    \ != \"Model\" && layoutObj.LayoutName != name)\n                            \
+    \    {\n                                    Extents3d mExtents = new Extents3d();\n\
+    \                                    layoutMgr.CurrentLayout = layoutObj.LayoutName;\n\
+    \                                    if (n + 1 > dic.Count) return;\n        \
+    \                            var o = dic[dic.Keys.ElementAt(n)];\n           \
+    \                         Point3d mMaxExt = o.maxvalue;\n                    \
+    \                Point3d mMinExt = o.minvalue;\n                             \
+    \       mExtents.Set(mMinExt, mMaxExt);\n                                    //\
+    \ ed.WriteMessage(\"Layout Name = {0}\\n\", layoutObj.LayoutName);\n         \
+    \                           BlockTableRecord r = tr.GetObject(layoutObj.BlockTableRecordId,\
+    \ OpenMode.ForRead) as BlockTableRecord;\n                                   \
+    \ \n                                    foreach (ObjectId obj in r)\n        \
+    \                            {\n\n                                        DBObject\
+    \ dbobj = tr.GetObject(obj, OpenMode.ForRead);\n                             \
+    \           ed.WriteMessage(\"\\nyang ada dalam loop ke object \" + obj.ObjectClass.Name.ToString());\n\
+    \                                        Viewport vp = dbobj as Viewport;\n  \
+    \                                      if (vp != null)\n                     \
+    \                   {\n\n                                            double mScrRatio;\n\
+    \                                            // width/height\n               \
+    \                             mScrRatio = (vp.Width / vp.Height);\n          \
+    \                                  //Point3d mMaxExt = o.maxvalue;\n         \
+    \                                   //Point3d mMinExt = o.minvalue;\n        \
+    \                                    ed.WriteMessage($\"\\nmMinExt: {mMinExt}\
+    \ max extend : {mMaxExt} \\n nilai n : {(n).ToString()}\");\n                \
+    \                           // Extents3d mExtents = new Extents3d();\n       \
+    \                                     //mExtents.Set(mMinExt, mMaxExt);\n    \
+    \                                        // prepare Matrix for DCS to WCS transformation\n\
+    \                                            Matrix3d matWCS2DCS;\n          \
+    \                                  matWCS2DCS = Matrix3d.PlaneToWorld(vp.ViewDirection);\n\
+    \                                            matWCS2DCS = Matrix3d.Displacement(\n\
+    \                                              vp.ViewTarget - Point3d.Origin)\
+    \ * matWCS2DCS;\n                                            matWCS2DCS = Matrix3d.Rotation(\n\
+    \                                              -vp.TwistAngle, vp.ViewDirection,\n\
+    \                                              vp.ViewTarget) * matWCS2DCS;\n\
+    \                                            matWCS2DCS = matWCS2DCS.Inverse();\n\
+    \                                            // tranform the extents to the DCS\n\
+    \                                            // defined by the viewdir\n     \
+    \                                       mExtents.TransformBy(matWCS2DCS);\n  \
+    \                                          // width of the extents in current\
+    \ view\n                                            double mWidth;\n         \
+    \                                   mWidth = (mExtents.MaxPoint.X - mExtents.MinPoint.X);\n\
+    \n                                            // height of the extents in current\
+    \ view\n                                            double mHeight;\n        \
+    \                                    mHeight = (mExtents.MaxPoint.Y - mExtents.MinPoint.Y);\n\
+    \n                                            // get the view center point\n \
+    \                                           Point2d mCentPt = new Point2d(\n \
+    \                                             ((mExtents.MaxPoint.X + mExtents.MinPoint.X)\
+    \ * 0.5),\n                                              ((mExtents.MaxPoint.Y\
+    \ + mExtents.MinPoint.Y) * 0.5));\n                                          \
+    \  //  check if the width 'fits' in current window,\n                        \
+    \                    // if not then get the new height as\n                  \
+    \                          // per the viewports aspect ratio\n               \
+    \                             if (mWidth > (mHeight * mScrRatio))\n          \
+    \                                      mHeight = mWidth / mScrRatio;\n       \
+    \                                     //  set the viewport parameters\n      \
+    \                                      //if ( vp.Number == 2)\n              \
+    \                              //{\n                                         \
+    \   vp.UpgradeOpen();\n                                            //  set the\
+    \ view height -adjusted by 1 %\n                                            vp.ViewHeight\
+    \ = mHeight * 1.01;\n                                            // set the view\
+    \ center\n                                            vp.ViewCenter = mCentPt;\n\
+    \                                            vp.Visible = true;\n            \
+    \                                vp.On = true;\n                             \
+    \               vp.UpdateDisplay();\n                                        \
+    \    // ed.SwitchToModelSpace();\n                                           \
+    \ // Application.SetSystemVariable(\"CVPORT\", vp.Number);\n                 \
+    \                           ed.Command(\"_.ZOOM\", \"_E\");\n                \
+    \                            ed.Command(\"_.ZOOM\", \".7X\");\n              \
+    \                              \n                                            ed.Regen();\n\
+    \                                            tr.TransactionManager.QueueForGraphicsFlush();\
+    \ doc.TransactionManager.FlushGraphics();\n                                  \
+    \          ed.UpdateScreen(); db.Regenmode = true;\n                         \
+    \                  \n                                            \n          \
+    \                              }\n                                       \n  \
+    \                                  }\n                                    ed.WriteMessage($\"\
+    \\ndic.Min point: {o.minvalue} Dic.Max point: {o.maxvalue} \\nJlh Lembar : {(n\
+    \ + 1).ToString()}\");\n                                    n += 1;\n\n      \
+    \                          }\n                            }\n                \
+    \        }\n                    }\n                  \n              \n      \
+    \          tr.TransactionManager.QueueForGraphicsFlush(); doc.TransactionManager.FlushGraphics();\n\
+    \                ed.UpdateScreen(); db.Regenmode = true;\n                tr.Commit();\n\
+    \            }\n            }\n            catch (System.Exception ex)\n     \
+    \       {\n\n                ed.WriteMessage(\"error in \" + ex.ToString());\n\
+    \            }\n\n        }\n\n\n\n\n\n        //  [CommandMethod(\"AddVP\")]\n\
+    \        public static void CreateViewport(ObjectId layID)\n        {\n      \
+    \      // Get the current document and database, and start a transaction\n   \
+    \         Document doc = Application.DocumentManager.MdiActiveDocument;\n    \
+    \        Database db = doc.Database;\n            var ed = doc.Editor;\n     \
+    \       using (var tr = db.TransactionManager.StartTransaction())\n\n        \
+    \    {\n                // Open the Block table for read\n                var\
+    \ bt = tr.GetObject(db.BlockTableId,OpenMode.ForRead) as BlockTable;\n       \
+    \         // Open the Block table record Paper space for write           \n  \
+    \              var btr = tr.GetObject(bt[BlockTableRecord.PaperSpace],OpenMode.ForWrite)\
+    \ as BlockTableRecord;\n                 var lyID = LayoutManager.Current.GetLayoutId(LayoutManager.Current.CurrentLayout);\n\
+    \                 LayoutManager Lm;\n                 Lm = LayoutManager.Current;\n\
+    \                  var lay = (Layout)tr.GetObject(layID, OpenMode.ForRead);\n\
+    \                   \n                // Switch to the previous Paper space layout\n\
+    \             //   Application.SetSystemVariable(\"TILEMODE\", 0);\n         \
+    \       doc.Editor.SwitchToPaperSpace();\n\n                // Create a Viewport\n\
+    \                Viewport vp = new Viewport();           \n                vp.SetDatabaseDefaults();\
+    \ \n                vp.Width = 420;\n                vp.Height = 297;\n      \
+    \          vp.CenterPoint = new Point3d(Point3d.Origin.X + (420 * 0.5), Point3d.Origin.Y\
+    \ + (297 * 0.5), 0);\n                // Add the new object to the block table\
+    \ record and the transaction\n                btr.AppendEntity(vp);\n        \
+    \        tr.AddNewlyCreatedDBObject(vp, true);\n                // Change the\
+    \ view direction\n                vp.ViewDirection = new Vector3d(0, 0, 0);\n\
+    \                // Enable the viewport\n                vp.On = true;\n     \
+    \           // Activate model space in the viewport\n                doc.Editor.SwitchToModelSpace();\n\
+    \                // Set the new viewport current via an imported ObjectARX function\n\
+    \                acedSetCurrentVPort(vp.UnmanagedObject);\n                //\
+    \ Save the new objects to the database\n               // doc.Editor.SwitchToPaperSpace();\n\
+    \                vp.Locked = true;\n                tr.Commit();\n\n         \
+    \   }\n\n        }\n\n\n        //        /// membuat plot setting \n        public\
+    \ static void SetPlotSettings(Layout lay, string pageSize, string styleSheet,\
+    \ string device)\n        {\n            using (var ps = new PlotSettings(lay.ModelType))\n\
+    \            {\n                ps.CopyFrom(lay);\n                var psv = PlotSettingsValidator.Current;\n\
+    \                // Set the device\n                var devs = psv.GetPlotDeviceList();\n\
+    \                if (devs.Contains(device))\n                {\n             \
+    \       psv.SetPlotConfigurationName(ps, device, null);\n                    psv.SetPlotRotation(ps,\
+    \ PlotRotation.Degrees180); // buat landscape juninawan edit\n               \
+    \     psv.RefreshLists(ps);\n                }\n                // Set the media\
+    \ name/size\n                var mns = psv.GetCanonicalMediaNameList(ps);\n  \
+    \              if (mns.Contains(pageSize))\n                {\n              \
+    \      psv.SetCanonicalMediaName(ps, pageSize);\n                }\n         \
+    \       // Set the pen settings\n                var ssl = psv.GetPlotStyleSheetList();\n\
+    \                if (ssl.Contains(styleSheet))\n                {\n          \
+    \          psv.SetCurrentStyleSheet(ps, styleSheet);\n                }\n    \
+    \            // Copy the PlotSettings data back to the Layout\n\n            \
+    \    var upgraded = false;\n                if (!lay.IsWriteEnabled)\n       \
+    \         {\n                    lay.UpgradeOpen();\n                    upgraded\
+    \ = true;\n                }\n                lay.CopyFrom(ps);\n            \
+    \    if (upgraded)\n                {\n                    lay.DowngradeOpen();\n\
+    \                }\n            }\n        }\n\n\n\n\n        // FUNCTION ZOOM\
+    \ KE OBJECT\n        /// </summary>\n        static public void ChangeZOOM(string\
+    \ KeynameLay,ObjectId valueDic,Point3d x_Max ,Point3d x_Min)\n        {\n    \
+    \        // access database and editor\n            var doc = Application.DocumentManager.MdiActiveDocument;\n\
+    \            Database db = Application.DocumentManager.\n            MdiActiveDocument.Database;\n\
+    \            Editor ed = Application.DocumentManager.\n            MdiActiveDocument.Editor;\n\
+    \            using (Transaction tr = db.TransactionManager.StartTransaction())\n\
+    \            {\n                doc.TransactionManager.EnableGraphicsFlush(true);\n\
+    \                LayoutManager layoutMgr = LayoutManager.Current;\n          \
+    \      Layout layoutObj;\n                DBDictionary layoutDict;\n         \
+    \       ed.WriteMessage(\"Number of Layouts = {0}\\n\", layoutMgr.LayoutCount);\n\
+    \                ed.WriteMessage(\"Current Layout = {0}\\n\", layoutMgr.CurrentLayout);\n\
+    \n                using (layoutDict = tr.GetObject(db.LayoutDictionaryId, OpenMode.ForRead)\
+    \ as DBDictionary)\n                {\n                    foreach (DictionaryEntry\
+    \ layoutEntry in layoutDict)\n                    {\n                        using\
+    \ (layoutObj = tr.GetObject((ObjectId)(layoutEntry.Value), OpenMode.ForRead) as\
+    \ Layout)\n                        {\n                            // Set the CurrentLayout\
+    \ to the layout\n                            // if it is not Modelspace\n    \
+    \                        if (layoutObj.LayoutName == KeynameLay) layoutMgr.CurrentLayout\
+    \ = layoutObj.LayoutName;\n                            ed.WriteMessage(\"Layout\
+    \ Name = {0}\\n\", layoutObj.LayoutName);\n                            BlockTableRecord\
+    \ r = tr.GetObject(layoutObj.BlockTableRecordId, OpenMode.ForRead) as BlockTableRecord;\n\
+    \                            foreach (ObjectId obj in r)\n                   \
+    \         {\n                                DBObject dbobj = tr.GetObject(obj,\
+    \ OpenMode.ForRead);\n                                Viewport vp = dbobj as Viewport;\n\
+    \                                if (vp != null)\n                           \
+    \     {\n                                    ed.WriteMessage(\"\\nnumber of Viewport\
+    \ = {0}\", vp.Number);\n                                    // get the screen\
+    \ aspect ratio to calculate\n                                    // the height\
+    \ and width\n                                    double mScrRatio;\n         \
+    \                           // width/height\n                                \
+    \    mScrRatio = (vp.Width / vp.Height);\n                                   \
+    \ Point3d mMaxExt = x_Max;\n                                    Point3d mMinExt\
+    \ = x_Min;\n                                    Extents3d mExtents = new Extents3d();\n\
+    \                                    mExtents.Set(mMinExt, mMaxExt);\n       \
+    \                             // prepare Matrix for DCS to WCS transformation\n\
+    \                                    Matrix3d matWCS2DCS;\n                  \
+    \                  matWCS2DCS = Matrix3d.PlaneToWorld(vp.ViewDirection);\n   \
+    \                                 matWCS2DCS = Matrix3d.Displacement(\n      \
+    \                                vp.ViewTarget - Point3d.Origin) * matWCS2DCS;\n\
+    \                                    matWCS2DCS = Matrix3d.Rotation(\n       \
+    \                               -vp.TwistAngle, vp.ViewDirection,\n          \
+    \                            vp.ViewTarget) * matWCS2DCS;\n                  \
+    \                  matWCS2DCS = matWCS2DCS.Inverse();\n                      \
+    \              // tranform the extents to the DCS\n                          \
+    \          // defined by the viewdir\n                                    mExtents.TransformBy(matWCS2DCS);\n\
+    \                                    // width of the extents in current view\n\
+    \                                    double mWidth;\n                        \
+    \            mWidth = (mExtents.MaxPoint.X - mExtents.MinPoint.X);\n\n       \
+    \                             // height of the extents in current view\n     \
+    \                               double mHeight;\n                            \
+    \        mHeight = (mExtents.MaxPoint.Y - mExtents.MinPoint.Y);\n\n          \
+    \                          // get the view center point\n                    \
+    \                Point2d mCentPt = new Point2d(\n                            \
+    \          ((mExtents.MaxPoint.X + mExtents.MinPoint.X) * 0.5),\n            \
+    \                          ((mExtents.MaxPoint.Y + mExtents.MinPoint.Y) * 0.5));\n\
+    \                                    //  check if the width 'fits' in current\
+    \ window,\n                                    // if not then get the new height\
+    \ as\n                                    // per the viewports aspect ratio\n\
+    \                                    if (mWidth > (mHeight * mScrRatio))\n   \
+    \                                     mHeight = mWidth / mScrRatio;\n        \
+    \                            //  set the viewport parameters\n               \
+    \                     if (vp.Number == 2)\n                                  \
+    \  {\n                                        vp.UpgradeOpen();\n            \
+    \                            //  set the view height -adjusted by 1 %\n      \
+    \                                  vp.ViewHeight = mHeight * 1.01;\n         \
+    \                               // set the view center\n                     \
+    \                   vp.ViewCenter = mCentPt;\n                               \
+    \         vp.Visible = true;\n                                        vp.On =\
+    \ true;\n                                        vp.UpdateDisplay();\n       \
+    \                                 ed.SwitchToModelSpace();\n                 \
+    \                       //ed.Command(\"_.ZOOM\", \"_SC\");\n                 \
+    \                       //ed.Command(\"_.ZOOM\", \".10X\");\n                \
+    \                        Application.SetSystemVariable(\"CVPORT\", vp.Number);\n\
+    \n                                    }\n                                    if\
+    \ (vp.Number == 3)\n                                    {\n                  \
+    \                      vp.UpgradeOpen();\n                                   \
+    \     vp.ViewHeight = mHeight * 1.25;\n                                      \
+    \  //set the view center\n                                        vp.ViewCenter\
+    \ = mCentPt;\n                                        vp.Visible = true;\n   \
+    \                                     vp.On = true;\n                        \
+    \                vp.UpdateDisplay();\n                                       \
+    \ ed.SwitchToModelSpace();\n                                        //ed.Command(\"\
+    _.ZOOM\", \"_SC\");\n                                        //ed.Command(\"_.ZOOM\"\
+    , \".10X\");\n                                        Application.SetSystemVariable(\"\
+    CVPORT\", vp.Number);\n                                    }\n               \
+    \                     tr.TransactionManager.QueueForGraphicsFlush(); doc.TransactionManager.FlushGraphics();\n\
+    \                                    ed.UpdateScreen(); db.Regenmode = true;\n\
+    \n                                }\n                            }\n         \
+    \               }\n                    }\n                }\n                tr.Commit();\n\
+    \            }\n        }\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
+    \n\n\n\n\n\n    }\n}\n\n-----"

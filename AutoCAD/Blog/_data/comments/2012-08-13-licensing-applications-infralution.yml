@@ -1,0 +1,131 @@
+comments:
+- author: PDOTeam
+  email: ''
+  ip: 24.158.74.138
+  url: http://profile.typepad.com/pdoteam
+  date: '2012-08-13 19:20:31'
+  body: 'We''ve been using Intelliprotector.  It''s cheaper than Infran, does some
+    encryption and does activation over the internet automatically on Intelliprotector''s
+    site.
+
+
+    <a href="http://intelliprotector.com/">http://intelliprotector.com/</a>
+
+
+    I''ve been using SmartAssembly for obfuscation. While it''s more expensive than
+    Crypto, it''s really easy to use with a lot of powerful features.'
+- author: LogicNP
+  email: himangi@ssware.com
+  ip: 121.247.77.31
+  url: http://www.ssware.com
+  date: '2012-08-18 03:01:57'
+  body: Did you have a look at CryptoLicensing <a href="http://www.ssware.com/cryptolicensing/cryptolicensing_net.htm">http://www.ssware.com/cryptolicensing/cryptolicensing_net.htm</a>
+    - it supports any type of .Net software including Autodesk product plug-ins, it
+    supports a variety of license scenarios include trials, activations, machine-locking,
+    embedded user-data and bit-features, etc, etc.
+- author: Augusto Goncalves
+  email: ''
+  ip: 200.57.88.172
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2012-08-22 09:57:04'
+  body: Thanks, I'll look at that for a future post.
+- author: Augusto Goncalves
+  email: ''
+  ip: 200.57.88.172
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2012-08-22 09:57:40'
+  body: Yes, and it's actually the next tool I'll showing here. Thanks.
+- author: jemue
+  email: jm@autostage.de
+  ip: 91.97.179.124
+  url: ''
+  date: '2012-09-21 05:27:02'
+  body: "You should also have a look at Licence Protector from Mirage. It is ok, has\
+    \ a lot of licensing options and  work's with Windows and MAC Os. \n\nOn the downside,\
+    \ I found the Licence Protector to be sometimes a little confusing and too complicated.\n\
+    \n<a href=\"http://www.mirage-systems.de/en/products/licence-protector/\">http://www.mirage-systems.de/en/products/licence-protector/</a>"
+- author: Augusto Goncalves
+  email: ''
+  ip: 200.57.88.172
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2012-09-21 06:13:58'
+  body: 'Hi Jamue, thanks for the name, I''ll consider this tool for a future post.
+
+
+    Regards,
+
+    Augusto Goncalves'
+- author: Ning Zhou
+  email: superjoe302@yahoo.ca
+  ip: 203.117.217.147
+  url: ''
+  date: '2013-08-23 01:47:27'
+  body: "hi Augusto,\n\ni'm new to this licensing stuff, just installed trial version\
+    \ and play w/ it, but only in Revit platform instead of AutoCAD, so my questions\
+    \ is:\n\n1) where should i insert your code (#region License portion, and if (!Licensed)\
+    \ return; portion)?\n2) should i insert multiple times for application and each\
+    \ command?\n3) for example, below is typical Revit API stuff:\n#region Namespaces\n\
+    using System;\nusing System.Collections.Generic;\nusing System.Text;\nusing System.Linq;\n\
+    \nusing Autodesk.Revit.Attributes;\nusing Autodesk.Revit.DB;\nusing Autodesk.Revit.UI;\n\
+    \nusing Infralution.Licensing.Forms;\nusing Infralution.Licensing.WPF;\nusing\
+    \ Infralution.Licensing.Data;\nusing Infralution.Licensing.ASP;\nusing Infralution.Licensing.CF;\n\
+    using Infralution.Licensing.CustomGenerator;\n#endregion\n\nnamespace X\n{\n \
+    \   [Transaction(TransactionMode.Manual)]\n    public class appTest : IExternalApplication\n\
+    \    {\n        public Result OnStartup(UIControlledApplication application)\n\
+    \        {\n\n            return Result.Succeeded;\n        }\n\n        public\
+    \ Result OnShutdown(UIControlledApplication application)\n        {\n\n      \
+    \      return Result.Succeeded;\n        }\n    }\n\n    [Transaction(TransactionMode.Manual)]\n\
+    \    public class cmdTest1 : IExternalCommand\n    {\n        public Result Execute(ExternalCommandData\
+    \ commandData, ref string message, ElementSet elements)\n        {\n\n       \
+    \     return Result.Succeeded;\n        }\n    }\n\n    [Transaction(TransactionMode.Manual)]\n\
+    \    public class cmdTest2 : IExternalCommand\n    {\n        public Result Execute(ExternalCommandData\
+    \ commandData, ref string message, ElementSet elements)\n        {\n\n       \
+    \     return Result.Succeeded;\n        }\n    }\n}\n\nmany thanks and have great\
+    \ weekend!\n\nNing"
+- author: Augusto Goncalves
+  email: ''
+  ip: 177.84.160.215
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2013-09-12 06:43:48'
+  body: 'Sorry not replying earlier...I was out for a few days.
+
+
+    You can insert the #region code on any method, note the method is ''public static''.
+    I would suggest you test at the beginning on each command, just before you start
+    doing something with the user. That way you avoid request any data from the user
+    when is not possible to run the command.
+
+
+    Hope this clarifies.
+
+
+    Regards,
+
+    Augusto Goncalves'
+- author: Elvis
+  email: janseldelacru@gmail.com
+  ip: 181.37.111.230
+  url: ''
+  date: '2014-03-15 07:33:54'
+  body: But Only Work With AutoCad, 'Cuase I Was Trying And I Make Fail
+- author: Augusto Goncalves
+  email: ''
+  ip: 132.188.64.218
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2014-03-17 10:00:49'
+  body: 'Hi Elvis,
+
+
+    This specific sample was designed with the Infralution API to work with AutoCAD
+    based products. If you try with a different product, such as Revit, it can work,
+    but you''ll need to change the command part.
+
+
+    If that was not your question, please clarify.
+
+
+    Regards,
+
+    Augusto Goncalves
+
+    -----'

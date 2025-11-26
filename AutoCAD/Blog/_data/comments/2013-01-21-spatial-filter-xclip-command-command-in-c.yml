@@ -1,0 +1,94 @@
+comments:
+- author: Antti Karanta
+  email: ''
+  ip: 88.114.8.157
+  url: http://profile.typepad.com/6p01b7c7ebdd86970b
+  date: '2015-11-13 01:16:35'
+  body: "I tested this on AutoCAD 2015. The only required change was to change acdb19.dll\
+    \ => acdb20.dll\n\nRunning the command works fine the first time. However, it\
+    \ leaves the system in unstable state as running the same command again for the\
+    \ same object causes Runtime error R6025 - pure virtual function call, i.e. crashes\
+    \ AutoCAD. The same thing happens if one tries to run the XCLIP command on the\
+    \ object first clipped with the given code. NB, running XCLIP several times for\
+    \ an object does not crash AutoCAD.\n\nThe crash happens on this line: \nPromptPointResult\
+    \ ppr = ed.GetPoint( ppo ); \n \nAny ideas on how to get around this?\n\nThe same\
+    \ problem happens with similar code presented in <a href=\"http://through-the-interface.typepad.com/through_the_interface/2010/11/adding-a-2d-spatial-filter-to-perform-a-simple-xclip-on-an-external-reference-in-autocad-using-net.html\"\
+    >http://through-the-interface.typepad.com/through_the_interface/2010/11/adding-a-2d-spatial-filter-to-perform-a-simple-xclip-on-an-external-reference-in-autocad-using-net.html</a>"
+- author: Augusto Goncalves
+  email: ''
+  ip: 179.222.173.7
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2015-11-13 05:36:41'
+  body: "Thanks for your feedback Antti. \n\nAs Kean also mentioned, can you provide\
+    \ the steps so we can reproduce it?\n\nThanks!\n\nAugusto Goncalves"
+- author: Antti Karanta
+  email: ''
+  ip: 88.114.8.157
+  url: http://profile.typepad.com/6p01b7c7ebdd86970b
+  date: '2015-11-13 05:40:39'
+  body: 'I thought I did. :) But I''ll reiterate:
+
+
+    Either: run your command ("NetClip") twice on the same block reference.
+
+    Or: run "NetClip" on a block reference and then XCLIP on it (just press enter
+    to select defaults of all the choices).
+
+
+    The first alternative is a little better as you can more easily see which call
+    causes AutoCAD to crash.
+
+
+    PS. I forgot to mention that I am running 64-bit AutoCAD on Windows 7.'
+- author: Augusto Goncalves
+  email: ''
+  ip: 179.222.173.7
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2015-11-13 05:43:27'
+  body: And what kind of drawing? Anything special?
+- author: Antti Karanta
+  email: ''
+  ip: 88.114.8.157
+  url: http://profile.typepad.com/6p01b7c7ebdd86970b
+  date: '2015-11-13 05:49:12'
+  body: "No special drawing needed. I tested this starting with an empty drawing (created\
+    \ using acadiso.dwt) into which I drew six circles, which I then combined to a\
+    \ block. \n\nI can send you the file if you wish. As it does not seem possible\
+    \ to attach binaries to this post, send me an address I can send it to to antti.karanta\
+    \ at-sign neromsoft.com"
+- author: Antti Karanta
+  email: ''
+  ip: 88.114.8.157
+  url: http://profile.typepad.com/6p01b7c7ebdd86970b
+  date: '2015-11-16 00:59:39'
+  body: "I now tested this also on AutoCAD 2016 (64-bit on Windows 8) and there is\
+    \ no crash. So apparently the crash only occurs on AutoCAD 2015 (and possibly\
+    \ older, can't say).\n\nThere is another strange effect (on AutoCAD 2016), though\
+    \ - when running \"NETCLIP\" twice on the same block reference the latter command\
+    \ does no clipping - it just draws the boundary. \nIf it is of importance, I drew\
+    \ the latter clip region smaller than the original.\n\nI wrote detailed instructions\
+    \ on how to reproduce the crash as a reply to Kean's post."
+- author: Augusto Goncalves
+  email: ''
+  ip: 177.43.194.106
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2015-11-17 12:07:37'
+  body: I would suggest the same as Kean, it's likely something on the API side that
+    was improved on 2016.
+- author: Antti Karanta
+  email: ''
+  ip: 88.114.8.157
+  url: http://profile.typepad.com/6p01b7c7ebdd86970b
+  date: '2015-11-18 00:51:51'
+  body: "Ok, thanks. \n\nDo you have any ideas on why the second invocation of NETCLIP\
+    \ fails to change the clipping rectangle? The boundary is drawn ok, but that is\
+    \ a totally independent operation.\nShould the existing SpatialFilter be first\
+    \ programmatically deleted before assigning a new one with addFilter32/64?\nRunning\
+    \ xclip twice in a row for a block reference does change the clipping."
+- author: Augusto Goncalves
+  email: ''
+  ip: 179.222.173.7
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2015-11-18 06:13:23'
+  body: "I would need to debug it more, but seems related to the dictionary entry.\
+    \ \n-----"

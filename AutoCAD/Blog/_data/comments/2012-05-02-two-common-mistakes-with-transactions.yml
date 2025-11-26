@@ -1,0 +1,38 @@
+comments:
+- author: Renbo
+  email: renbo.jiang@autodesk.com
+  ip: 125.98.160.2
+  url: ''
+  date: '2014-12-11 17:41:38'
+  body: "you need commit the transaction always, even it's just reading/querying data.\
+    \ Otherwise, there will be performance issue, especially in 3d layout. you may\
+    \ try the following code:\nAcadDoc acadDoc = AcadCore.DocumentManager.MdiActiveDocument;\n\
+    for (int i = 0; i < 1000; i++)\n{\n        using (Transaction tran = acadDoc.Database.TransactionManager.StartTransaction())\n\
+    \        { }\n}\nIt takes more than 20 seconds in 3D layout."
+- author: Stephen Preston
+  email: ''
+  ip: 108.236.113.147
+  url: http://profile.typepad.com/stephenpreston
+  date: '2014-12-11 21:26:01'
+  body: Absolutely Renbo. Only abort (or fail to commit) a transaction when you specifically
+    want to roll back the changes you made.
+- author: BJHuffine
+  email: bjhuffine@tva.gov
+  ip: 152.85.8.38
+  url: ''
+  date: '2015-04-15 06:14:59'
+  body: "Just a little clarification please... Renbo was referencing committing a\
+    \ transaction even on read and said there would be performance impacts if not?\
+    \  You said yes, but references \"changes\".  Is it really better to commit even\
+    \ on read (with no changes)?  \n\nAlso (if you don't mind), if for example you\
+    \ have nested methods sharing a transaction, how would you know if it's been committed\
+    \ already without causing an InvalidOperationException from the internal/private\
+    \ Transaction.CheckTopTransaction() validation?  Maybe I've overlooked a property,\
+    \ but I couldn't find one that would help."
+- author: Ben
+  email: benkoshy@hotmail.com
+  ip: 165.228.230.183
+  url: ''
+  date: '2016-12-13 04:35:05'
+  body: "oh  yeah it's better to commit even on read only. \n\nTransactionManager.NumberOfActiveTransactions\
+    \ should do the trick.\n\nrgds\n\n\n\n\n-----"

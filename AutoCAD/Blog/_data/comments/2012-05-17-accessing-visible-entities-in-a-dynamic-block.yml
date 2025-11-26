@@ -1,0 +1,119 @@
+comments:
+- author: Jason Booth
+  email: jason@dynamicwindows.com
+  ip: 70.69.161.59
+  url: ''
+  date: '2012-07-18 16:30:03'
+  body: 'Two questions:
+
+
+    It looks like AcDbBlockVisibilityParameter contains only entities visible under
+    the default lookup parameters. What if the block definition has a combination
+    of visibility and lookup parameters?
+
+
+    and
+
+
+    This appears to only check the visibility state on the original block definition,
+    instead of a specific reference. Does this mean that to look up the state of a
+    specific reference, the extension dictionary on "BlockRef.DynamicBlockTableRecord"
+    should be used instead?'
+- author: Philippe Leefsma
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2012-07-19 00:28:52'
+  body: "To answer question two, yes the code checks the entities visible inside each\
+    \ visibility state of the block record. For a block reference you would check\
+    \ in which visibility state it is through its dynamic parameters and deduce from\
+    \ that which entities are visible for that specific reference.\n\nI’m not sure\
+    \ about the first question, did you test on an actual drawing? \n\nKeep in mind\
+    \ that this approach should be considered as a \"hack\". This information is not\
+    \ exposed through any public API, so some data might not be accessible at all\
+    \ and if you need to further dig it out, you would need to investigate that on\
+    \ your own."
+- author: Jason Booth
+  email: jason@dynamicwindows.com
+  ip: 70.69.161.59
+  url: ''
+  date: '2012-07-19 07:46:59'
+  body: 'Yes, I tested a pre-made dynamic block reference of a "wood screw" that I
+    found online. It used a visibility parameter to select the screw type, and a lookup
+    parameter to select the screw length.
+
+
+    What I didn''t know at the time was that the lookup table was controlling a stretch
+    action and an array action. Therefore I doubt it''s possible to get find the entities
+    of a dynamic block reference in their current state using this approach.
+
+
+    I''m going to set the block to "explodable" and try using acedCmd() to run the
+    Explode command and see if that works for me.
+
+
+    Thanks.'
+- author: JeffH
+  email: ''
+  ip: 72.171.192.247
+  url: http://profile.typepad.com/jeffhornsby
+  date: '2014-02-18 23:27:37'
+  body: I know a little late but if wanting to know what is visible for a BlockReference
+    iterate its Blocktablerecord and check each entities IsVisible property.
+- author: Philippe Leefsma
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2014-02-19 00:05:52'
+  body: "Hi Jeff, \n\nThanks for the feedback. Here the approach allows to know which\
+    \ entities are visible without instantiating the block in advance ..."
+- author: Tony M
+  email: amasutti@diversifiedus.com
+  ip: 98.109.199.50
+  url: ''
+  date: '2016-06-07 14:17:14'
+  body: "Hi I converted the code to vb.net and I am having trouble with these statements.\n\
+    the example has acdb18.dll But the program couldn't find it so I used acdb19.dll\n\
+    \nWhen the code hits this statement it throws an error something about a Entry\
+    \ point \"?\"\n\nCan you tell me what I need to do to get it running?\n\nDim res\
+    \ As Integer = acdbGetAdsName(name, id) \n\n <Runtime.InteropServices.DllImport(\"\
+    acdb19.dll\", CallingConvention:=System.Runtime.InteropServices.CallingConvention.Cdecl,\
+    \ EntryPoint:=\"?acdbGetAdsName@@YA?AW4ErrorStatus@Acad@@AAY01JVAcDbObjectId@@@Z\"\
+    )> _\n        Public Shared Function acdbGetAdsName(ByRef name As ads_name, objId\
+    \ As ObjectId) As Integer\n        End Function\n\n\n        <Runtime.InteropServices.DllImport(\"\
+    acad.exe\", CharSet:=System.Runtime.InteropServices.CharSet.Ansi, CallingConvention:=System.Runtime.InteropServices.CallingConvention.Cdecl,\
+    \ EntryPoint:=\"acdbEntGet\")> _\n        Public Shared Function acdbEntGet(ByRef\
+    \ ename As ads_name) As System.IntPtr\n        End Function\n\nThanks,\n\nTony"
+- author: James
+  email: james.morris@innovationind.com
+  ip: 66.76.87.107
+  url: ''
+  date: '2016-10-04 06:09:20'
+  body: Has there been a cleaner way exposed in the API to get the visible entities
+    in the later versions?
+- author: Philippe Leefsma
+  email: ''
+  ip: 86.211.49.149
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2016-10-04 06:19:58'
+  body: Not as far as I know... this method is quite reliable, although a bit verbose.
+- author: Jürgen Becker
+  email: juergen.becker@cad-becker.de
+  ip: 80.187.111.94
+  url: http://www.CAD-Becker.de
+  date: '2018-02-20 08:11:07'
+  body: 'Hi Philippe,
+
+
+    can you tell me the Entry Point for AutoCAD 2017 and 2018?
+
+
+    Thanks for your answer.
+
+
+    BTW: How it goes?
+
+
+    Cheers Jürgen
+
+    -----'

@@ -1,0 +1,27 @@
+comments:
+- author: Tony Tanzillo
+  email: caddzooks@hushmail.com
+  ip: 24.47.197.131
+  url: ''
+  date: '2012-09-25 14:59:35'
+  body: "short colIndex = dlg.Color.ColorIndex;\n        System.Byte byt = System.Convert.ToByte(colIndex);\n\
+    \ \n        int rgb = Autodesk.AutoCAD.Colors.EntityColor.LookUpRgb(byt);\n  \
+    \      long b = (rgb & 0xffL);\n        long g = (rgb & 0xff00L) >> 8;\n     \
+    \   long r = rgb >> 16; ;\n \n        ed.WriteMessage(r.ToString() + \"--\" +\n\
+    \                          g.ToString() + \"--\" + b.ToString() + \"\\n\");\n\n\
+    \nPerhaps you might want to have a look at the Autodesk.AutoCAD.Colors.Color class,\
+    \ and it's EntityColor property, which returns an EntityColor whose Red/Green/Blue\
+    \ properties hold the R/G/B values for the color."
+- author: Greg
+  email: jem26@shaw.ca
+  ip: 142.36.190.223
+  url: ''
+  date: '2016-08-04 13:26:54'
+  body: 'This will disable the True Color and Color Book tabs and disable ByLayer
+    and ByBlock
+
+    dlg.SetColorTabls(Autodesk.AutoCAD.Windows.ColorDialog.ColorTabs.ACITab);
+
+    dlg.IncludeByBlockByLayer = False;
+
+    -----'

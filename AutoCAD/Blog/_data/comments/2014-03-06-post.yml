@@ -1,0 +1,118 @@
+comments:
+- author: dario
+  email: dariowbc@terra.com.br
+  ip: 201.0.143.28
+  url: ''
+  date: '2014-03-07 03:52:15'
+  body: 'Stephen
+
+    thank you very much'
+- author: Kevin
+  email: kbrown@wynright.com
+  ip: 173.165.108.152
+  url: ''
+  date: '2014-04-02 15:08:41'
+  body: "Stephen,\n\nThank you for the blog. \n\nI work for a company which is VB.NET\
+    \ only (unfortunately). Therefore I rewrote your code for redefining a block in\
+    \ vb.net:\n\nPublic Shared Function TryRedifineBlock(BlockName As String, BlockFilePath\
+    \ As String) As Boolean\n        Dim result As Boolean = False\n        Dim doc\
+    \ As Document = ApplicationServices.Application.DocumentManager.MdiActiveDocument\n\
+    \        Using lock As DocumentLock = doc.LockDocument()\n            Using tran\
+    \ As Transaction = doc.TransactionManager.StartTransaction()\n               \
+    \ Try\n                    Dim blockDB As Database = New Database(False, True)\n\
+    \                    blockDB.ReadDwgFile(BlockFilePath, FileOpenMode.OpenForReadAndReadShare,\
+    \ True, \"\")\n                    Dim blockTable As BlockTable = tran.GetObject(doc.Database.BlockTableId,\
+    \ OpenMode.ForRead, False, True)\n                    Dim blockTableRecordID As\
+    \ ObjectId = doc.Database.Insert(BlockName, blockDB, True)\n                 \
+    \   If Not blockTableRecordID.IsNull Then\n                        Dim btr As\
+    \ BlockTableRecord = tran.GetObject(blockTableRecordID, OpenMode.ForRead, False,\
+    \ True)\n                        For Each bRefID As ObjectId In btr.GetBlockReferenceIds(False,\
+    \ True)\n                            Dim bRef As BlockReference = tran.GetObject(bRefID,\
+    \ OpenMode.ForWrite, False, True)\n                            bRef.RecordGraphicsModified(True)\n\
+    \                        Next\n                    End If\n                  \
+    \  tran.Commit()\n                    blockDB.Dispose()\n                    result\
+    \ = True\n                Catch ex As System.Exception\n                    tran.Abort()\n\
+    \                    result = False\n                    Try\n               \
+    \         EventLog.WriteEntry(\"DynamicBlockHelper.TryRedifineBlock\", ex.GetType().Name\
+    \ + \": \" + ex.Message + Environment.NewLine + ex.StackTrace, EventLogEntryType.Error)\n\
+    \                    Catch eex As Exception\n\n                    End Try\n \
+    \               End Try\n            End Using\n        End Using\n        Return\
+    \ result\n    End Function\n\nNo exception is throw. However, the call to btr(BlockTableRecord).GetBlockReferenceIds\
+    \ returns an empty collection even when there are one or more instances of the\
+    \ original block in a given drawing. \n\nThe result is strange. The geometry of\
+    \ the block is not updated. However, editing one of the pre-existing blocks shows\
+    \ that the replacement block definition is in place. \n\nI'd rather avoid throwing\
+    \ your code in a c# project and referencing the resulting assembly. Any insights\
+    \ you may have would be much appreciated.\n\nRegards,\nKevin"
+- author: Kevin
+  email: kbrown@wynright.com
+  ip: 173.165.108.152
+  url: ''
+  date: '2014-04-03 10:57:53'
+  body: "Stephen,\n\nPlease disregard my question submitted yesterday. I must have\
+    \ confused your post with another which I failed to book mark. The forum post\
+    \ I was referring to was indeed written in c#, or I'm losing my mind, yet now\
+    \ that I revisit this page to check for a response I realize you provided vb.net\
+    \ code... \n\nVery sorry. Somehow I failed to notice this yesterday when searching\
+    \ for the original source of the code I wrote. I suspect someone provided a translation\
+    \ of your code to c# and I stumbled on it. Maybe you had a nice laugh. \n\nThank\
+    \ you,\nKevin"
+- author: Kevin
+  email: kbrown@wynright.com
+  ip: 173.165.108.152
+  url: ''
+  date: '2014-04-03 12:56:20'
+  body: "Stephen,\n\nUnfortunately, you code behaves just as mine does. The new definition\
+    \ is put in place, but no references are found for existing instances of the updated\
+    \ block definition. \n\nI wonder if the nature of the block is at fault. The block\
+    \ is dynamic and 3D. I tried to test the provided method by copying the dwg file\
+    \ containing only the dynamic block definition and making a simple change to its\
+    \ geometry. \n\nRunning the code does not affect the geometry of existing block\
+    \ instances. However, new insertions of the block after running your code results\
+    \ in blocks which reflect the change I made. \n\nI tried running regen after running\
+    \ your code, but nothing changed. I am fairly new to the ACAD APIs, and ACAD in\
+    \ general. So I am at a loss as to why no references are found. I tried retrieving\
+    \ the references using the block name, and still no instances are found.\n\nI\
+    \ am able to accomplish the redefinition by simply running Insert within ACAD\
+    \ and selecting the updated block. I am then prompted to redefine, and all instances\
+    \ are updated. This is the behavior I am trying to reproduce pragmatically.\n\n\
+    Regards,\nKevin"
+- author: Stephen Preston
+  email: ''
+  ip: 88.104.91.72
+  url: http://profile.typepad.com/stephenpreston
+  date: '2014-04-04 02:49:35'
+  body: 'Hi Kevin,
+
+
+    Your problem is because you''re trying to do this with a Dynamic Block. See this
+    blog post (and the post referenced near the beginning of it for details of how
+    Dynamic Blocks work - <a href="http://adndevblog.typepad.com/autocad/2012/06/finding-all-block-references-of-a-dynamic-block.html.">http://adndevblog.typepad.com/autocad/2012/06/finding-all-block-references-of-a-dynamic-block.html.</a>
+
+
+    I''ve not tried redefining a Dynamic Block. You could try applying the technique
+    above to the primary block definition all the anonymous blocks created for the
+    Dynamic Block, but I''m not sure if it will work.'
+- author: karl
+  email: x2kjakob@southernco.com
+  ip: 146.126.51.51
+  url: ''
+  date: '2014-06-24 07:52:25'
+  body: 'hi,
+
+    i''m somewhat new to c#.  what are the "true" & "false" references?  \\\GetObject(db.BlockTableId,
+    OpenMode.ForRead, False, True)\\\
+
+
+    karl'
+- author: Paulo Henrique
+  email: paulohenrique.dvc@gmail.com
+  ip: 186.213.127.217
+  url: ''
+  date: '2014-10-17 07:37:40'
+  body: 'Its possible to do it using COM-Interop?
+
+
+    I can''t access database.ReadDwgFile..
+
+    -----'

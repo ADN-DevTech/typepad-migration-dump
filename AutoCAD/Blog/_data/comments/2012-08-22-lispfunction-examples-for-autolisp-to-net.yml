@@ -1,0 +1,12 @@
+comments:
+- author: Gilles Chanteau
+  email: chanteau.gilles@orange.fr
+  ip: 90.37.178.76
+  url: ''
+  date: '2012-08-22 14:02:00'
+  body: "Hi Augusto,\n\nRather than returning ResultBuffers which are converted into\
+    \ LISP lists, I'd return the expected LISP type expected: an ename (or nil) and\
+    \ a PickSet (or nil). \nMyLispFunction1 would return a TypedValue: New TypedValue(LispDatatype.ObjectId,\
+    \ objId) or New TypedValue(LispDataType.Nil) if the PromptEntityResult.Status\
+    \ is not Ok, and MyLispFunction2 would return directly a SelectionSet (Nothing\
+    \ if PromptSelectionResult.Status is not Ok).\n-----"

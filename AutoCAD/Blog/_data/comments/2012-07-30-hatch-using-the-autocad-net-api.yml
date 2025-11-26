@@ -1,0 +1,103 @@
+comments:
+- author: Dale Bartlett
+  email: dale.bartlett@realtimeinternational.com.au
+  ip: 212.72.17.154
+  url: http://www.realtimeinternational.com.au
+  date: '2012-11-18 03:01:07'
+  body: "Many thanks for your excellent examples. With this one I have changed to\
+    \ a user-defined hatch type as follows: \noHatch.SetHatchPattern(HatchPatternType.UserDefined,\
+    \ \"_USER\");\noHatch.PatternScale = 1000.0;\noHatch.PatternAngle = MathTools.DegreeToRadian(45.0);\n\
+    oHatch.PatternSpace = 1000.0;\noHatch.PatternDouble = false;\nUnfortunately I\
+    \ get an error eInvalidInput at line oHatch.EvaluateHatch(true);\nThis is a common\
+    \ problem on the forums, but I have not been able to resolve. Any ideas? Regards,\
+    \ Dale"
+- author: rajesh
+  email: rajesh.asana@gmail.com
+  ip: 182.18.180.18
+  url: ''
+  date: '2013-05-09 03:14:43'
+  body: 'I too have the problem.
+
+    Does some one has a solution?'
+- author: Ryan Thomas
+  email: ryant@eldengineering.com
+  ip: 216.166.76.95
+  url: ''
+  date: '2013-08-22 11:28:32'
+  body: "I ran into this problem (and many variations of it) as well. I found that\
+    \ the API is very peculiar about the order in which you set the property values\
+    \ of the hatch.\n\nThis worked for me:\nHatch oHatch = new Hatch();\n\n// set\
+    \ the hatch pattern first\noHatch.SetHatchPattern(HatchPatternType.UserDefined,\
+    \ \"_USER\");\n\n// set other properties\nVector3d normal = new Vector3d(0.0,\
+    \ 0.0, 1.0);\noHatch.Normal = normal;\noHatch.Elevation = 0.0;\noHatch.PatternScale\
+    \ = 2.0;\noHatch.PatternAngle = 0.0;\noHatch.ColorIndex = 1;\noHatch.Layer = \"\
+    00-Construction\";\n\n<b>// !!IMPORTANT You must reaffirm the hatch pattern\n\
+    oHatch.SetHatchPattern(HatchPatternType.UserDefined, \"_USER\");</b>\n\n// Then\
+    \ you can proceed as normal\nbtr.AppendEntity(oHatch);\nTx.AddNewlyCreatedDBObject(oHatch,\
+    \ true);\n  \noHatch.Associative = true;\n        oHatch.AppendLoop((int)HatchLoopTypes.Default,\
+    \ ObjIds);\noHatch.EvaluateHatch(true);\n \nTx.Commit();"
+- author: Tom DiVittis
+  email: tdivittis@keystoneconsultants.net
+  ip: 50.197.33.85
+  url: ''
+  date: '2017-02-17 13:41:32'
+  body: Some documentation on this order issue would be spectacular.  This is costing
+    days (literally) to figure out by the poke and hope method.
+- author: Larn Regis
+  email: LarnRegis@gmail.com
+  ip: 62.214.6.106
+  url: ''
+  date: '2019-03-11 02:11:59'
+  body: 'Is there any example how to create a hatch on a region? Especially a region
+    which has a hole in it, like a rectangle with a small circle in it.
+
+
+    ObjectIdCollection acObjIdColl = new ObjectIdCollection();
+
+    acObjIdColl.Add(re.ObjectId);
+
+    hat.AppendLoop(HatchLoopTypes.Default, acObjIdColl);
+
+
+    re is my region
+
+    hat is the hatch
+
+    I tried all HatchLoopTypes, but none of them worked.
+
+    I always get eInvalidInput on AppendLoop.
+
+
+    Do i have to explode the region back into multiple polylines and then build the
+    hatch from these?'
+- author: viru
+  email: Viru.aithal@autodesk.com
+  ip: 32.114.240.38
+  url: ''
+  date: '2019-03-11 03:04:26'
+  body: 'Hi,
+
+
+    see if <a href="https://adndevblog.typepad.com/autocad/2013/07/create-hatch-objects-using-trace-boundaries-using-net.html">https://adndevblog.typepad.com/autocad/2013/07/create-hatch-objects-using-trace-boundaries-using-net.html</a>
+    or <a href="https://stackoverflow.com/questions/19922816/how-to-cut-a-hole-in-a-hatch-autocad/19930730#19930730">https://stackoverflow.com/questions/19922816/how-to-cut-a-hole-in-a-hatch-autocad/19930730#19930730</a>
+    helps.
+
+
+    Thanks'
+- author: Larn Regis
+  email: LarnRegis@gmail.com
+  ip: 62.214.6.106
+  url: ''
+  date: '2019-03-11 03:27:30'
+  body: "I got it working by converting the region back into polylines using the example\
+    \ from\n<a href=\"https://through-the-interface.typepad.com/through_the_interface/2008/08/creating-a-seri.html\"\
+    >https://through-the-interface.typepad.com/through_the_interface/2008/08/creating-a-seri.html</a>\n\
+    \nthen i had to sort the resulting DBObjectCollection by Area size, so i get the\
+    \ biggest first.\n\nThen i was able to create the hatch using the following code\n\
+    dbo is the sorted DBObjectCollection with the biggest one first\n\nfor (int i\
+    \ = 0; i < dbo.Count; i++)\n{\nObjectIdCollection acObjIdColl = new ObjectIdCollection();\n\
+    Entity e = (Entity)dbo[i];\nbtr_entity.AppendEntity(e);\nacTrans.AddNewlyCreatedDBObject(e,\
+    \ true);//the entity needs to exist in the DB, otherwise AppendLoop throws an\
+    \ eInvalidInput exception\n\nacObjIdColl.Add(e.ObjectId);\nif (i == 0)\n   hat.AppendLoop(HatchLoopTypes.Outermost,\
+    \ acObjIdColl);\nelse\n   hat.AppendLoop(HatchLoopTypes.Default, acObjIdColl);\n\
+    \ne.Erase(); //remove the temporary Entity again\n}\n\n-----"

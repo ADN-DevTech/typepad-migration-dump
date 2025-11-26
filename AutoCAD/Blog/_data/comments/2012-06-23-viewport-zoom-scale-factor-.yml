@@ -1,0 +1,34 @@
+comments:
+- author: Irné Barnard
+  email: irne.barnard@yahoo.com
+  ip: 41.160.31.69
+  url: ''
+  date: '2012-06-26 06:32:51'
+  body: 'The 2 codes are not exactly equivalent. In the Lisp version you''re setting
+    the ActiveSpace to model space and then obtaining the active viewport. This might
+    not be the same viewport as selected if there''s more than one VP on the current
+    layout. For that you have to ensure that the CVPort system variable matches the
+    selected viewport''s index number (as in the 69 DXF code of the viewport).
+
+
+    Unfortunately the ActiveX object doesn''t seem to have a property to the "Viewport
+    ID". So you''d need the entget DXF list as well as the vla-object to go about
+    it this route. In which case I think you could simply have used the XData in any
+    case - quite easy to get at by adding the optional argument to entget to obtain
+    xdata as well.
+
+
+    Also there''s some error checking you do in the C++ version but not in Lisp. What
+    if the user picks an empty spot, presses enter or picks an entity which is not
+    a viewport?'
+- author: Balaji
+  email: ''
+  ip: 14.96.70.222
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2012-06-26 18:29:29'
+  body: "Hi Irné,\n\nThanks for your comments.\n\nBy \"equivalent code\", I did not\
+    \ mean a 1:1 correspondence. Only the core idea of getting the zoom scale factor\
+    \ remains.\n\nThe intention of the post is to demonstrate a way to get the zoom\
+    \ scale factor and all surrounding error checks that might be needed to make it\
+    \ complete is usally very limited.\n\nThere is usually very less/no error checking\
+    \ in the code snippets that we post. \n-----"

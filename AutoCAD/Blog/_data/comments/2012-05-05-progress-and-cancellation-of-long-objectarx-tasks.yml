@@ -1,0 +1,31 @@
+comments:
+- author: petcon
+  email: newton521200@yahoo.com.cn
+  ip: 58.49.248.14
+  url: ''
+  date: '2012-09-14 21:46:43'
+  body: "//通过长度来对acdbcurve采样\nbool samplingByLenth( AcDbObjectId curId, double sampleLen,\
+    \ vector<AcGePoint3d> &pArr ) \n{\n\tacutPrintf\n\t\t(\n\t\tACRX_T(\"\\n开始采样...\\\
+    r\")\n\t\t);\n\t\n\tbool flag = true;\n\tAcDbEntity *pEnt;\n\tif (Acad::eOk ==\
+    \ acdbOpenAcDbEntity(pEnt,curId,AcDb::kForWrite))\n\t{\n\t\tif (pEnt->isKindOf(AcDbCurve::desc()))\n\
+    \t\t{\n\t\t\tAcDbCurve *pCur = AcDbCurve::cast(pEnt);\n\t\t\t//double startPam;\n\
+    \t\t\tdouble endPam;\n\t\t\tdouble totalLen;\n\t\t\tAcGePoint3d pTmp;\n\t\t\t\
+    //pCur->getStartParam(startPam);\n\t\t\tpCur->getEndParam(endPam);\n\t\t\tpCur->getDistAtParam(endPam,totalLen);\n\
+    \t\t\tacedSetStatusBarProgressMeter\n\t\t\t\t(\n\t\t\t\tACRX_T(\"采样...\"), 0,\
+    \ totalLen\n\t\t\t\t);\n\t\t\tfor (double lentmp = 0.0;lentmp<=totalLen;lentmp\
+    \ = lentmp + sampleLen)\n\t\t\t{\n\t\t\t\tif (acedUsrBrk())\n\t\t\t\t{\n\t\t\t\
+    \t\tflag = false;\n\t\t\t\t\tbreak;\n\t\t\t\t}\n\t\t\t\tacedSetStatusBarProgressMeterPos(\
+    \ lentmp );\n\t\t\t\tpCur->getPointAtDist(lentmp,pTmp);\n\t\t\t\tpArr.push_back(pTmp);\n\
+    \t\t\t}\n\t\t\tacedRestoreStatusBar();\n\t\t\tpCur->getPointAtParam(endPam,pTmp);\n\
+    \t\t\tpArr.push_back(pTmp);\n\t\t\tpCur->close();\n\t\t}\n\n\t\tpEnt->close();\n\
+    \t}\n\treturn flag;\n}\n\nin this code  i still can not stop by esc key"
+- author: Alexander Rivilis
+  email: ''
+  ip: 81.95.185.60
+  url: http://profile.typepad.com/alexanderrivilis
+  date: '2012-09-15 07:05:41'
+  body: "Try this function:\nvoid OnIdleAcadInternal(void) {\n  CWinApp *app = acedGetAcadWinApp();\n\
+    \  CWnd *wnd = app->GetMainWnd ();\n  MSG msg;   \n  while (::PeekMessage(&msg,\
+    \ wnd->m_hWnd, 0, 0, PM_NOREMOVE))  { \n    if (!app->PumpMessage())  { \n   \
+    \   ::PostQuitMessage(0); \n      break; \n    } \n  } \n}\nAnd call OnIdleAcadInternal()\
+    \ before calling acedUsrBrk()\n-----"

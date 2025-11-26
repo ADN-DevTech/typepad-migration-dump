@@ -1,0 +1,37 @@
+comments:
+- author: Tony Tanzillo
+  email: ebiz@nym.hush.com
+  ip: 24.187.152.113
+  url: ''
+  date: '2013-02-13 19:31:27'
+  body: 'Temporarily setting AcDbHostApplicationServices::setWorkingDatabase to the
+    database that contains the objects used with ads-style APIs often works.
+
+
+    As a matter of fact, it even works for acedSSGet("X"), with the caveat that it
+    sets the "Previous" selection set, so you have to get rid of that before returning
+    control to the user.'
+- author: Gopinath Taget
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/6p0168e89c0a52970c
+  date: '2013-02-14 16:41:05'
+  body: 'Hi Tony,
+
+
+    "often" is a dangerous word. As I mentioned, these functions are not intended
+    to work with non-current databases. If it works, your lucky and if I does not,
+    then "I told you so" applies.
+
+
+    If you do want to switch working databases, it is far more robust to switch documents
+    itself (obtain the document associated with a database and use it) with AcApDocManager::setCurDocument.
+    This takes care of setting the working database with the database associated with
+    the document.
+
+
+    Cheers
+
+    Gopinath
+
+    -----'

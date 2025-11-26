@@ -1,0 +1,204 @@
+comments:
+- author: Youssef Zniber
+  email: yz.infos@gmail.com
+  ip: 197.153.50.48
+  url: ''
+  date: '2013-11-30 15:28:22'
+  body: "Good day Sir,\nI have a large raster image(10000*10000px) attached to a drawing,\
+    \ that I want to crop multiples times automatically. I read in the documentation\
+    \ that I have to use RasterImagDef.OpenImage() witch returns an IntPtr to an Atil\
+    \ ::Image class, I searched all over the internet for days for some clues on how\
+    \ to work with the Atil library in C#, I write in C# by the way, C++ exceeds my\
+    \ abilities. \nDo you have any idea on how to that Sir?\nAny help would be greatly\
+    \ appreciated."
+- author: Balaji
+  email: ''
+  ip: 14.96.91.224
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-12-01 02:57:36'
+  body: 'Hi Youssef,
+
+
+    Good day to you too.
+
+
+    ATIL is a C++ library and I do not find a way to use it to crop images using C#.
+
+
+    It would be much easier to retrieve the path of the raster image file and crop
+    it using the image processing capabilities provided by .Net. The cropped image
+    file can then be used to modify the RasterImageDef.
+
+
+    The other way could be to save the ATIL image to disk using C++. Your C# code
+    can do the cropping and use the cropped image to redefine the RasterImageDef.
+
+
+    Regards,
+
+    Balaji'
+- author: Youssef Zniber
+  email: yz.infos@gmail.com
+  ip: 197.247.21.147
+  url: ''
+  date: '2013-12-01 10:12:50'
+  body: 'Hi Mr. Balaji,
+
+
+    Thank you for taking the time to answer.
+
+
+    The problem is not the cropping, it''s that I can''t load the image into memory
+    because it is so large (10000*10000px). When I try to do so, I get a runtime out
+    of memory exception. the only way I can access the image is through autocad using
+    the Atil library.
+
+
+    I''ll try to write the code with c++, create a dll, and then call it from c#.
+
+
+    Regards,
+
+    Youssef'
+- author: Joao
+  email: loureiro@cpqd.com.br
+  ip: 189.112.183.66
+  url: ''
+  date: '2014-09-12 11:40:03'
+  body: 'Hi Balaji
+
+
+    I have tried to run your example as a command on Autocad 2015 (Windows 7, 64-bit),
+    but it throws an exception at the line below:
+
+
+    Atil::Image *pAtilImage = new Atil::Image(...)
+
+
+    The exception details and stack trace only point to TiledImage::construct, no
+    further help here.
+
+
+    Any idea what could be causing that?
+
+
+    Regards,
+
+    Joao'
+- author: Joao
+  email: loureiro@cpqd.com.br
+  ip: 189.112.183.66
+  url: ''
+  date: '2014-09-12 11:45:27'
+  body: 'Sorry, I forgot to mention the exception type:
+
+
+    Atil::ImageConstructionException
+
+
+    Also, my png image has 640x640 pixels.'
+- author: Balaji
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2014-09-24 01:28:11'
+  body: 'Hi Joao,
+
+
+    Sorry for the delay. We had a App hackathon last week and did not find time to
+    investigate this issue.
+
+
+    AutoCAD 2015 seems very particular about the type of the initial image, while
+    the previous versions were ok with it. Changing initialImage.type to "Atil::DataModelAttributes::kBgra"
+    resolves the issue.
+
+
+    Regards,
+
+    Balaji'
+- author: Jürgen Maier
+  email: jm@dietrich-software.de
+  ip: 91.13.39.223
+  url: ''
+  date: '2015-06-30 08:35:35'
+  body: "Hello Balaji,\n\nThanks for sharing this awesome code. \n\nJust trying this\
+    \ in AutoCAD 2015 and have issues at the point where you add pImageDef to the\
+    \ Dictionary.\n\n es = pDict->setAt(DICT_NAME, pImageDef, objID);\n\nIt returns\
+    \ error code 409 (NoClassID).\n\nI have exactly copied your source and double\
+    \ checked but don't see any writing mistake. Also set initalImage.type to Atil::DataModelAttributes::kBgra\
+    \ as you mentioned in your last post.\n\nWould it be possible to give me just\
+    \ a little hint where or what to check to get this solved or where the issue could\
+    \ be?\n\nThanks in advance for any reply\n\nJürgen"
+- author: Balaji
+  email: ''
+  ip: 182.73.112.18
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-06-30 22:57:31'
+  body: "Hi Jürgen,\n\nPlease try including this in the \"On_kInitAppMsg\" method\
+    \ :\nacrxDynamicLinker->loadModule\n\t\t(L\"acismobj20.dbx\",true);\n\nRegards,\n\
+    Balaji"
+- author: Jürgen Maier
+  email: jm@dietrich-software.de
+  ip: 91.13.44.56
+  url: ''
+  date: '2015-07-01 04:11:55'
+  body: 'Hi Balaji,
+
+
+    Thanks for your fast reply - it works now! However I added it not to "On_kInitAppMsg"
+    yet but directly in InsertImageInDWG - just for now and testing.
+
+
+    BUT I have another problem now. When I save and close the drawing and reopen it
+    - the picture is there but not shown. It''s just showing the border of the picture.
+
+
+    Any idea how this could happen! Sorry for bothering you again.
+
+
+
+    Warmest regards
+
+
+    Jürge'
+- author: Balaji
+  email: ''
+  ip: 182.73.112.18
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-07-01 21:10:30'
+  body: 'Hi Jürgen,
+
+
+    That is because the raster image definition does not write the image data to the
+    drawing file when saved. At present, it only stores the file path if that was
+    used to create the definition.
+
+
+    Here is another blog post that should help overcome it :
+
+    <a href="http://adndevblog.typepad.com/autocad/2015/04/embedding-an-image-in-a-drawing.html">http://adndevblog.typepad.com/autocad/2015/04/embedding-an-image-in-a-drawing.html</a>
+
+
+    It relies on a custom object to do the file save.
+
+
+    Regards,
+
+    Balaji'
+- author: Jürgen Maier
+  email: jm@dietrich-software.de
+  ip: 91.13.46.205
+  url: ''
+  date: '2015-07-02 00:52:38'
+  body: "Hello Balaji,\n\nAgain - thank you so much for your quick and good help!\
+    \ \n\nKind regards from Germany\n\nJürgen"
+- author: Fred Senior
+  email: hujunhua10@163.com
+  ip: 1.202.139.200
+  url: ''
+  date: '2015-12-07 00:03:25'
+  body: 'Deal Balaji Ramamoorthy, really appreciate you code above, but I meet a problem
+    using it.
+
+    My Autocad crash when creating a new Atil::Image, my code is as follow:'

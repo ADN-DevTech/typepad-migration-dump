@@ -1,0 +1,41 @@
+comments:
+- author: Craig
+  email: cnicholas@stanburys.com
+  ip: 217.36.60.45
+  url: ''
+  date: '2013-04-24 03:58:29'
+  body: "Hi Fenton,\nA useful pointer. I was hoping to do this:\n\nif (myObjId.ObjectClass.Name\
+    \ == typeof(BlockReference).Name) \n   //Do some stuff\n\nbut ObjectClass.Name\
+    \ is \"AcDbBlockReference\", not \"BlockReference\". Any way I can do this without\
+    \ using literal strings?"
+- author: Fenton Webb
+  email: ''
+  ip: 132.188.64.218
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2013-04-24 09:07:04'
+  body: 'Hey Craig!
+
+
+    the problem with being efficient is that it usually exposes you to the lower level
+    parts of the API. The .NET API wraps the ObjectARX API, and that low level exposure
+    is bringing up ObjectARX class names such as AcDbBlockReference.
+
+
+    You can use the RXClass object to extract the ObjectARX class name of a .NET equivalent
+    so that you bypass this problem - e.g. something like:
+
+
+    RXClass blockRefRX = RXClass.GetClass(typeof(BlockReference));'
+- author: Craig
+  email: cnicholas@stanburys.com
+  ip: 217.36.60.45
+  url: ''
+  date: '2013-04-26 04:21:47'
+  body: 'Thanks Fenton
+
+    I went for this :
+
+    if (objId.ObjectClass.Name == RXClass.GetClass(typeof(BlockReference)).Name)
+
+
+    -----'

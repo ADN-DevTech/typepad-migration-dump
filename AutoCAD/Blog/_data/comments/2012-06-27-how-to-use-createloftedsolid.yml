@@ -1,0 +1,75 @@
+comments:
+- author: Daniel Vink
+  email: daniel.vink@arcadis.nl
+  ip: 213.236.117.54
+  url: ''
+  date: '2013-05-06 02:34:20'
+  body: 'Adam,
+
+
+    I''ve been trying to create a solid loft from several cross profiles and no path
+    in .NET for a while now. Both the AutoCAD command with solid and LoftedSurface
+    .net method work, so I know it''s possible. Generating a path is not possible,
+    and selecting an approximate path gives a "The guide is not G1 between first and
+    last sections." error.
+
+
+    Would it be possible for you to share the ''specific drawing'' mentioned in the
+    code comments? It might help in figuring out the G1 error.'
+- author: Adam Nagy
+  email: ''
+  ip: 86.31.122.37
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2013-05-10 04:08:01'
+  body: 'Hi Daniel,
+
+
+    I''ve added a drawing to the article that the code seems to work with fine.
+
+
+    Cheers,
+
+    Adam'
+- author: Sergey Makarov
+  email: abacus.spb.ru@gmail.com
+  ip: 188.43.31.10
+  url: ''
+  date: '2022-08-18 01:06:58'
+  body: "Hi Adam!\n\nWhen I create a Solid3d using the CreateLoftedSolid(...) method\
+    \ I got a significant time delay. Array of 300 polylines with elevation and rotation\
+    \ takes 10 second to Solid3d creation. Help me please to make this process faster.\n\
+    \n        // Modal Command with localized name\n        [CommandMethod(\"MyGroup\"\
+    , \"MyTest\", \"MyTestLocal\", CommandFlags.Modal)]\n        public void MyTest()\
+    \ // This method can have any name\n        {\n            Database db = Application.DocumentManager.MdiActiveDocument.Database;\n\
+    \n            using (Transaction ts = db.TransactionManager.StartTransaction())\n\
+    \            {\n                // Open the Block table for read\n           \
+    \     BlockTable acBlkTbl;\n                acBlkTbl = ts.GetObject(db.BlockTableId,\n\
+    \                                                OpenMode.ForRead) as BlockTable;\n\
+    \n                // Open the Block table record Model space for write\n     \
+    \           BlockTableRecord acBlkTblRec;\n                acBlkTblRec = ts.GetObject(acBlkTbl[BlockTableRecord.ModelSpace],\n\
+    \                                                OpenMode.ForWrite) as BlockTableRecord;\n\
+    \                               \n                Entity[] pls = new Entity[300];\n\
+    \n                for (int i = 0; i < 300; i++)\n                {\n         \
+    \           Polyline pl = new Polyline();\n                    pl.AddVertexAt(0,\
+    \ new Point2d(0.0, 0.0), 0.0, 0.0, 0.0);\n                    pl.AddVertexAt(0,\
+    \ new Point2d(0.0, 0.5), 0.0, 0.0, 0.0);\n                    pl.AddVertexAt(0,\
+    \ new Point2d(0.2, 1.0), 0.0, 0.0, 0.0);\n                    pl.AddVertexAt(0,\
+    \ new Point2d(1.0, 1.0), 0.0, 0.0, 0.0);\n                    pl.AddVertexAt(0,\
+    \ new Point2d(1.0, 0.0), 0.0, 0.0, 0.0);\n                    pl.Closed = true;\n\
+    \                    pl.Elevation = i * 2.0;\n                    pl.TransformBy(Matrix3d.Rotation(i,\
+    \ Vector3d.ZAxis, Point3d.Origin));                    \n                    pls[i]\
+    \ = pl;\n                }\n\n                LoftOptionsBuilder loftOptionsBuilder\
+    \ = new LoftOptionsBuilder()\n                {\n                    Ruled = true\n\
+    \                };\n\n                Solid3d solid = new Solid3d();\n      \
+    \          solid.CreateLoftedSolid(pls, new Entity[] { }, null, loftOptionsBuilder.ToLoftOptions());\n\
+    \n                acBlkTblRec.AppendEntity(solid);\n                ts.AddNewlyCreatedDBObject(solid,\
+    \ true);\n\n                ts.Commit();\n            }\n        }"
+- author: Adam Nagy
+  email: ''
+  ip: 81.105.47.137
+  url: https://profile.typepad.com/1236098880s16462
+  date: '2022-08-18 02:53:07'
+  body: "I don't think I could offer anything more beyond what's discussed in this\
+    \ very comprehensive blog post: <a href=\"https://modthemachine.typepad.com/my_weblog/2015/09/improving-your-programs-performance.html\"\
+    >https://modthemachine.typepad.com/my_weblog/2015/09/improving-your-programs-performance.html</a>\
+    \ \n-----"

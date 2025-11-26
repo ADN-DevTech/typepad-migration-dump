@@ -1,0 +1,37 @@
+comments:
+- author: daniel
+  email: daniel@cadext.com
+  ip: 173.254.212.46
+  url: ''
+  date: '2012-05-23 06:16:48'
+  body: how about acedGetIDispatch?
+- author: Augusto Goncalves
+  email: ''
+  ip: 189.8.69.42
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2012-05-23 07:13:26'
+  body: It's basically the same. The key here is use GetIDispatch instead GetObject.
+    Thanks.
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 72.52.96.9
+  url: http://adn.autodesk.com
+  date: '2012-05-24 08:18:15'
+  body: "Personally, I like this way - it's very slick and succinct, best of all it\
+    \ automatically cleans up COM reference counts when the function returns... \n\
+    \n#import \"acax18ENU.tlb\" \n\n\n// get the dispatch driver from autocad\nCComQIPtr\
+    \ acad = acedGetAcadWinApp()->GetIDispatch(TRUE); \n\n// now, for exaple, get\
+    \ the menu bar\nCComQIPtr menuBar = acad->GetMenuBar();\n\nAlso, passing FALSE\
+    \ for the GetIDispatch() is only used if you want the interface object to live\
+    \ past the end of the function, normally it would always be TRUE. Obviously, we\
+    \ can't see the context that Augusto is using that code in so I just wanted to\
+    \ say."
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 72.52.96.9
+  url: http://adn.autodesk.com
+  date: '2012-05-24 08:19:46'
+  body: "oops, the less that/greater than symbols are not there...\n\n// get the dispatch\
+    \ driver from autocad\nCComQIPtrLESSTHANAutoCAD::IAcadApplicationGREATERTHAN acad\
+    \ = acedGetAcadWinApp()->GetIDispatch(TRUE); \n// now get the menu bar\nCComQIPtrLESSTHANAutoCAD::IAcadMenuBarGREATERTHAN\
+    \ menuBar = acad->GetMenuBar();\n\n-----"

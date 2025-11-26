@@ -1,0 +1,52 @@
+comments:
+- author: Robophy
+  email: bophy2013@163.com
+  ip: 180.172.191.103
+  url: ''
+  date: '2014-11-07 05:40:55'
+  body: hello, if the keyword is "Add" or "Remove",how to do it??
+- author: Augusto Goncalves
+  email: ''
+  ip: 98.216.107.131
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2014-11-07 06:41:12'
+  body: You'll probably need to use ADd and REmove (with 2 letters on uppercase) for
+    the keywords
+- author: Robophy
+  email: bophy2013@163.com
+  ip: 180.172.191.103
+  url: ''
+  date: '2014-11-07 23:21:51'
+  body: "tks for your idea, my problem is i want to remove sub entities form a existing\
+    \ entities use acedSSSet :$ +:k mode, i do this:\n1,create a empey selection;\n\
+    2,add existing entities to selection;\n3,run acedSSGet(\":$:K\"......);\ncode:\n\
+    \tint res;\t\n\tACHAR* promptPtrs[2];\n\tACHAR  KeyW[16]=\"Add Remove _A R\";\n\
+    \tpromptPtrs[0]=\"Select Entity(Add)Or(Remove))A\" ;\n\tpromptPtrs[1]=\"Select\
+    \ Entity(Remove)Or(Add))R\" ;\n\tacedSSSetFirst(NULL,NULL);//clear the pickfirst\
+    \ selection,\n\tresbuf* (*oldFunc) (const ACHAR*);\n\tacedSSGetKwordCallbackPtr(&oldFunc);\n\
+    \tres=acedSSSetKwordCallbackPtr(keywordCallback);\n\tres=acedSSAdd(NULL,NULL,ssname);//create\
+    \ a empty selection\n\tfor (.....)//add to selection and hlight \n\t{\n\t\tres=acedSSAdd(entname,ssname,ssname);\n\
+    \t\tacedRedraw(entname,3);\n\t}\n\tres=acedSSGet(\":$:K\",promptPtrs,KeyW,NULL,ssname);//if\
+    \ i sel \"R\" keyword ret -5001,it looks like none entity in the selection,why?\n\
+    i had added to the selection(ssname). pls help me.tks"
+- author: Augusto Goncalves
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2014-11-10 08:16:44'
+  body: 'Hi,
+
+
+    Can you please place your question on our forum? That will be the best way to
+    help you: <a href="http://forums.autodesk.com/t5/objectarx/bd-p/34">http://forums.autodesk.com/t5/objectarx/bd-p/34</a>
+
+
+    In this case, it seems that you are using the built-in keywords, A and R... have
+    you tried with different one?
+
+
+    Regards,
+
+    Augusto Goncalves
+
+    -----'

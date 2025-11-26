@@ -1,0 +1,114 @@
+comments:
+- author: wolf
+  email: wolf@163.com
+  ip: 218.242.168.194
+  url: ''
+  date: '2013-09-22 18:13:36'
+  body: "Hi Fenton!\n   Do you mean we can Overriding the SetUnhandledExceptionFilter\
+    \ by using your function?\n<b>bool EnforceFilter( bool bEnforce )\n</b>\n\nWhen\
+    \ should I call it?\nHow should <b>OriginalBytes</b> and <b>PatchBytes</b> be\
+    \ defined?\n\nWould you help me?\n\nBest Wishes!"
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 132.188.64.219
+  url: ''
+  date: '2013-09-23 11:11:08'
+  body: 'Hey Wolf!
+
+
+    I have updated the post for you... See code above.
+
+
+    Calling EnforceFilter(false) from your ARX module will restore the functionality
+    of SetUnhandledExceptionFilter() so that you can redefine it to your own handler.'
+- author: wolf
+  email: wolf@163.com
+  ip: 218.242.168.194
+  url: ''
+  date: '2013-09-23 22:07:41'
+  body: "Thank you very much!\n\nI tried EnforceFilter() like this:\n\n<pre>\nextern\
+    \ \"C\" AcRx::AppRetCode \nacrxEntryPoint(AcRx::AppMsgCode msg, void* pkt)\n{\n\
+    \tswitch (msg)\n\t{\n\tcase AcRx::kInitAppMsg:\n\t\t{<b>\n\t\t    EnforceFilter(false);\
+    \  ---- ①\t  \n                    SetUnhandledExceptionFilter(MyUnhandledExceptionFilter);\
+    \  ---- ②</b>\n\t\t\t......\n\t\t\t......\n\t\t}\n\t\tbreak;\n\t......\n\t......\n\
+    \t}\n}\n</pre>\n\nbut I got a crash:\n<b>an unhandled exception C0000005 (Access\
+    \ Violation Writing Ox00fe),\naddress: 7C8447F6h</b>\n\n<b>when the line ② was\
+    \ been called.</b>\nWhy this happend?\n\nMy OS is Windows XP.\nThe version of\
+    \ My AutoCAD is 2011.\n\n\nWriteMemory() used in EnforceFilter() is defined as\
+    \ below:\n<pre>\nbool WriteMemory(LPVOID lpDestAddress, LPCVOID lpSourceBuffer,\
+    \ SIZE_T nBufferSize)\n{\n\tBOOL bRet = WriteProcessMemory(GetCurrentProcess(),\
+    \ lpDestAddress, &lpSourceBuffer, nBufferSize, NULL);\n\tif ( !bRet ) \n\t{\n\t\
+    \tif (ERROR_NOACCESS == GetLastError() )\n\t\t{\n\t\t\tDWORD dwOldProtect;\n\t\
+    \t\tif (VirtualProtect(lpDestAddress, sizeof(lpSourceBuffer), PAGE_WRITECOPY,\
+    \ &dwOldProtect))\n\t\t\t{\n\t\t\t\tWriteProcessMemory(GetCurrentProcess(), lpDestAddress,\
+    \ &lpSourceBuffer, nBufferSize, NULL);\n\t\t\t\tVirtualProtect(lpDestAddress,\
+    \ nBufferSize, dwOldProtect, &dwOldProtect);\n\n\t\t\t\treturn true;\n\t\t\t}\n\
+    \t\t\telse\n\t\t\t{\n\t\t\t\treturn false;\n\t\t\t}\n\t\t}\n\t\telse\n\t\t{\n\t\
+    \t\treturn false;\n\t\t}\n\t}\n\n\treturn true;\n}\n</pre>\n\nOriginalBytes is\
+    \ defined like this:\nBYTE OriginalBytes[5] = { 0x8b, 0xff, 0x55, 0x8b, 0xec };"
+- author: wolf
+  email: wolf@163.com
+  ip: 218.242.168.194
+  url: ''
+  date: '2013-09-24 01:22:49'
+  body: Oh, sorry, the format became chaotic beyond my expectations.
+- author: wolf
+  email: wolf@163.com
+  ip: 218.242.168.194
+  url: ''
+  date: '2013-09-24 02:41:49'
+  body: "Fenton, \nI have Overrided the SetUnhandledExceptionFilter successfully!\
+    \ \n\nMy Implementation of WriteMemory() is wrong.\nBOOL bRet = WriteProcessMemory(GetCurrentProcess(),\
+    \ lpDestAddress, <b>&lpSourceBuffer</b>, nBufferSize, NULL);\n\nshould not add\
+    \ &.\n\nI'm now so excited, ha-ha!\nThank you!"
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 132.188.64.219
+  url: ''
+  date: '2013-09-24 10:09:43'
+  body: 'Hey Wolf!
+
+
+    Great work! Awesome!! Enjoy!!  :-)'
+- author: WolframKuss
+  email: WKuss@imos3d.com
+  ip: 87.245.3.2
+  url: http://www.imos3d.com
+  date: '2014-01-07 07:11:30'
+  body: 'Using the PatchBytes from this BlogPost, on win8 64bit the call to SetUnhandledExceptionFilter
+    clobbers the call stack for us and so AutoCAD crashes on the next return statement.
+
+    We then created a small console Application running outside of AutoCAD doing the  "memcpy(
+    OriginalBytes, pTarget, sizeof(OriginalBytes) ); "
+
+    and arrived at the same bytes that Wolf did (0x8b, 0xff, 0x55, 0x8b, 0xec). We
+    then used these as patchBytes and the above problem was solved. However during
+    or directly after the call to  SetUnhandledExceptionFilter an access violation
+    writing to some address appears :-( and UnloadAppMsg is called.
+
+    The system does not call our new ExceptionFilter.
+
+
+    So, questions are:
+
+    - Does anyone have this issue as well or an idea how to fix it?
+
+    - It seems different versions of Windows need different patchBytes? Is there a
+    way to backup those bytes BEFORE AutoCAD patches them?
+
+
+    Two members of class AcDbHostApplicationServices are
+
+    virtual void fatalError(const ACHAR *format, ...)
+
+    and
+
+    virtual void reportUnhandledArxException(const _EXCEPTION_POINTERS *pExcPtrs,
+    const ACHAR *pAppName)
+
+    so our next idea was to write our own Host service, with most functions simply
+    calling the corresponding function of the original host services. However neither
+    fatalError nor reportUnhandledArxException is called. Any comments?
+
+
+    -----'

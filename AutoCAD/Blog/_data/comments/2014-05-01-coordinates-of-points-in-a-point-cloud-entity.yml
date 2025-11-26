@@ -1,0 +1,120 @@
+comments:
+- author: Rik De Peuter
+  email: rikdepeuter@gmail.com
+  ip: 173.245.53.97
+  url: ''
+  date: '2014-05-02 01:09:23'
+  body: "This code snippet was a massive help to us, but there is 1 little error in\
+    \ it:\n\nif(pPtCloud != NULL)\n        return;\n\nShould be:\n\nif(pPtCloud ==\
+    \ NULL)\n        return;\n\n:)"
+- author: Balaji
+  email: ''
+  ip: 103.22.201.236
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2014-05-02 01:16:53'
+  body: 'Thanks Rik.
+
+
+    I have corrected the code snippet.
+
+
+    Regards,
+
+    Balaji'
+- author: dr.lee
+  email: dr.lee@dreamtns.com
+  ip: 58.150.167.34
+  url: ''
+  date: '2014-06-22 19:18:24'
+  body: "pPtCloud->traverseAllPointData(pPCProcessor, NULL, \n\n              IAcDbPointCloudDataBuffer::DataType::kColor,\
+    \ 2);\n\nmy question:\nhow can I define the spatial filter by using IAcDbPointCloudSpatialFilter?\n\
+    \ntrank you.\n\ndr.lee"
+- author: dr.lee
+  email: dr.lee@dreamtns.com
+  ip: 58.150.167.34
+  url: ''
+  date: '2014-06-23 00:06:00'
+  body: "following are my codes of overriding class of IAcDbPointCloudSpatialFilter.\n\
+    I write the code as your above AdskMyTestCommand(). If I use following (1) and\
+    \ set the spatial filter to NULL in traverseAllPointData(...), then through my\
+    \ check, the filter is not effect.\nand if I give the spatial filter in traverseAllPointData(...),\
+    \ then the process of traverseAllPointData return eOutOfMemory. What is the correct\
+    \ usage of IAcDbPointCloudSpatialFilter in traverseAllPointData?\n\n(1)\npcSpatialFilter.testCell(min,\
+    \ max);\npPCloudEntity->addSpatialFilter(&pcSpatialFilter);\n\n(2)\nclass IPsAcDbPointCloudSpatialFilter\
+    \ : public IAcDbPointCloudSpatialFilter\n{\npublic:\n\tIPsAcDbPointCloudSpatialFilter()\
+    \ {;}\n\tvirtual ~IPsAcDbPointCloudSpatialFilter(){;}\n\tvirtual FilterResult\
+    \ testCell(const AcGePoint3d& min, const AcGePoint3d& max) const { return IAcDbPointCloudSpatialFilter::FILTER_OUTSIDE;\
+    \ }\n\tvirtual FilterResult testPoint(const AcGePoint3d& point) const { return\
+    \ IAcDbPointCloudSpatialFilter::FILTER_OUTSIDE; }\n\tvirtual IAcDbPointCloudSpatialFilter*\
+    \ transformFilter(const AcGeMatrix3d& mat) const { return NULL; }\n\tvirtual IAcDbPointCloudSpatialFilter*\
+    \ clone() const { return NULL; }\n\tvirtual void freeObject() { ; }\n};\n\n\n\
+    regards!\ndr.lee."
+- author: Balaji
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2014-09-05 00:12:09'
+  body: "Hi Dr.Lee,\n\nMy apologies for the delayed response. Your update to this\
+    \ blog post just slipped through and I did not notice it. Sorry about that.\n\n\
+    Here is a sample code that my colleague Philippe Leefsma implemented. If you have\
+    \ any more specific questions on this topic, please create a forum post in the\
+    \ AutoCAD discussion forum and you can send me the link. We can continue to discuss\
+    \ it there so it benefits all.\n\n// include AcDbPointCloudApi.h \nclass TestPointCloudSpatialFilter:\
+    \ public IAcDbPointCloudSpatialFilter\n{\npublic:\n    TestPointCloudSpatialFilter(const\
+    \ AcGePoint3d& centerPt, const AcGePoint3d& edgePt);\n    virtual ~TestPointCloudSpatialFilter();\n\
+    \    virtual FilterResult testCell(const AcGePoint3d& min, const AcGePoint3d&\
+    \ max) const;\n    virtual FilterResult testPoint(const AcGePoint3d& point) const;\n\
+    \    virtual IAcDbPointCloudSpatialFilter* transformFilter(const AcGeMatrix3d&\
+    \ mat) const;\n    virtual IAcDbPointCloudSpatialFilter* clone() const;\n    virtual\
+    \ void freeObject();\n\n    AcGePoint3d getCenterPt();\n    AcGePoint3d getEdgePt();\n\
+    \    void setCenterPt(const AcGePoint3d& centerPt);\n    void setEdgePt (const\
+    \ AcGePoint3d& edgePt);\n\nprivate:      \n    AcGePoint3d m_centerPt;\n    AcGePoint3d\
+    \ m_edgePt;\n};\n\n//Imp for TestPointCloudSptialFilter\nTestPointCloudSpatialFilter::TestPointCloudSpatialFilter(const\
+    \ AcGePoint3d& centerPt, const AcGePoint3d& edgePt)\n{\n    m_centerPt = centerPt;\n\
+    \    m_edgePt = edgePt;\n\n}\n\nTestPointCloudSpatialFilter::~TestPointCloudSpatialFilter()\n\
+    {\n}\n\nAcGePoint3d TestPointCloudSpatialFilter::getCenterPt()\n{\n    return\
+    \ m_centerPt;\n}\n\nvoid TestPointCloudSpatialFilter::setCenterPt(const AcGePoint3d&\
+    \ centerPt)\n{\n    m_centerPt = centerPt;\n}\n\nAcGePoint3d TestPointCloudSpatialFilter::getEdgePt()\n\
+    {\n    return m_edgePt;\n}\n\nvoid TestPointCloudSpatialFilter::setEdgePt(const\
+    \ AcGePoint3d& edgePt)\n{\n    m_edgePt = edgePt;\n}\n\nIAcDbPointCloudSpatialFilter::FilterResult\
+    \ TestPointCloudSpatialFilter::testCell(\n    const AcGePoint3d& min, \n    const\
+    \ AcGePoint3d& max) const\n{\n    int inNum = 0;\n    int outNum = 0;\n    AcGePoint3dArray\
+    \ pts;\n    bool bHasIntersection = false;\n    pts.append(AcGePoint3d(min.x,\
+    \ min.y, min.z));\n    pts.append(AcGePoint3d(min.x, max.y, min.z));\n    pts.append(AcGePoint3d(min.x,\
+    \ min.y, max.z));\n    pts.append(AcGePoint3d(min.x, max.y, max.z));\n    pts.append(AcGePoint3d(max.x,\
+    \ max.y, max.z));\n    pts.append(AcGePoint3d(max.x, min.y, min.z));\n    pts.append(AcGePoint3d(max.x,\
+    \ max.y, min.z));\n    pts.append(AcGePoint3d(max.x, min.y, max.z));\n\n    double\
+    \ radius = m_centerPt.distanceTo(m_edgePt);\n\n    for (int i = 0; i < pts.length();\
+    \ i ++)\n    {\n        if (testPoint(pts[i]) == IAcDbPointCloudSpatialFilter::FILTER_INSIDE)\n\
+    \        {\n            inNum ++;\n        }\n        if (testPoint(pts[i]) ==\
+    \ IAcDbPointCloudSpatialFilter::FILTER_OUTSIDE)\n        {\n            outNum\
+    \ ++;\n        }\n        if (inNum * outNum != 0)\n        {\n            return\
+    \ IAcDbPointCloudSpatialFilter::FILTER_INTERSECTS;\n        }\n    }\n\n    if\
+    \ (outNum == 0)\n    {\n        return IAcDbPointCloudSpatialFilter::FILTER_INSIDE;\n\
+    \    }\n    else if (inNum == 0)  //The box contains the sphere or the box is\
+    \ outside the sphere.\n    {\n        AcGeBoundBlock3d boundBox;\n        boundBox.set(min,max);\n\
+    \n        //If the boundblock3d contains the sphere center point and edge point,\
+    \ the boundblock3d should interect with sphere \n        if ((boundBox.contains(m_edgePt))\
+    \ && (boundBox.contains(m_centerPt)))\n        {\n            return IAcDbPointCloudSpatialFilter::FILTER_INTERSECTS;\n\
+    \        }\n        else\n        {\n            return IAcDbPointCloudSpatialFilter::FILTER_OUTSIDE;\n\
+    \        }      \n    }\n\n    return inNum == 8 ? IAcDbPointCloudSpatialFilter::FILTER_INSIDE\
+    \ : IAcDbPointCloudSpatialFilter::FILTER_OUTSIDE;\n}\n\nIAcDbPointCloudSpatialFilter::FilterResult\
+    \ TestPointCloudSpatialFilter::testPoint(const AcGePoint3d& point) const\n{\n\
+    \    double radius = m_centerPt.distanceTo(m_edgePt);\n    if (m_centerPt.distanceTo(point)\
+    \ <= radius)\n    {\n        return IAcDbPointCloudSpatialFilter::FILTER_INSIDE;\n\
+    \    }\n    else\n    {\n        return IAcDbPointCloudSpatialFilter::FILTER_OUTSIDE;\n\
+    \    }\n}\n\nIAcDbPointCloudSpatialFilter* TestPointCloudSpatialFilter::transformFilter(const\
+    \ AcGeMatrix3d& mat) const \n{      \n    TestPointCloudSpatialFilter *pSptailFilter\
+    \ = new TestPointCloudSpatialFilter(*this);\n    AcGePoint3d &pTransCenterPt =\
+    \ pSptailFilter->m_centerPt.transformBy(mat);\n    AcGePoint3d &pTransEdgePt =\
+    \ pSptailFilter->m_edgePt.transformBy(mat);\n\n    return pSptailFilter;\n}\n\n\
+    IAcDbPointCloudSpatialFilter* TestPointCloudSpatialFilter::clone() const\n{\n\
+    \    return new TestPointCloudSpatialFilter(*this);\n}\n\nvoid TestPointCloudSpatialFilter::freeObject()\n\
+    {\n    delete this;\n}\n\nRegards,\nBalaji"
+- author: Mey
+  email: houshmand.por@gmail.com
+  ip: 195.216.229.247
+  url: ''
+  date: '2024-06-12 07:41:05'
+  body: "Why this breliant methode (traverseAllPointData) not included to .net API\
+    \ of autocad \n-----"

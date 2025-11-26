@@ -1,0 +1,100 @@
+comments:
+- author: Afshin
+  email: afshin.j@gmail.com
+  ip: 180.148.69.42
+  url: ''
+  date: '2012-07-15 14:38:28'
+  body: 'Hi Balaji,
+
+    I was trying to test the above code (with some changes) and got an error "eInvalidInput"
+    on creating some surfaces. tried to debug and found out that AutoCAD can not create
+    Surface object from some Face objects in some circumstances!
+
+
+    for instance, following code could not be run on my machine (Windows 7 x64, AutoCAD
+    2012 - English) but every other faces are being generated without any problem,
+    I don''t understand what''s wrong with this particular face!
+
+    Any idea/suggestion?
+
+
+
+    face = new Face(new Autodesk.AutoCAD.Geometry.Point3d(249111.163422751, 15107.1921285706,
+    567684.207116981), new Autodesk.AutoCAD.Geometry.Point3d(249073.772313812, 15111.1612905044,
+    567682.875008800), new Autodesk.AutoCAD.Geometry.Point3d(249110.672949469, 15113.8711037982,
+    567682.875008800), true, true, true, true);
+
+
+    surface = new Autodesk.AutoCAD.DatabaseServices.Surface();
+
+
+    surface = Autodesk.AutoCAD.DatabaseServices.Surface.CreateFrom(face);'
+- author: Balaji
+  email: ''
+  ip: 14.99.11.91
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2012-07-16 17:47:52'
+  body: "Hi Afshin,\n\nSorry for the delay in replying to your comment.\n\nI have\
+    \ seen such issues when using large coordinates. One possible workaround is to\
+    \ move the face closer to the origin and then mesh it. After the meshing, you\
+    \ can move it back to its original position.\n\nPlease try this :\n\n        \
+    \    Point3d p1 = new Point3d(249111.163422751, 15107.1921285706, 567684.207116981);\n\
+    \            Point3d p2 = new Point3d(249073.772313812, 15111.1612905044, 567682.875008800);\n\
+    \            Point3d p3 = new Point3d(249110.672949469, 15113.8711037982, 567682.875008800);\n\
+    \            Autodesk.AutoCAD.DatabaseServices.Face face = new Autodesk.AutoCAD.DatabaseServices.Face(p1,\
+    \ p2, p3, true, true, true, true);\n            face.TransformBy(Matrix3d.Displacement(p1\
+    \ - Point3d.Origin));\n\nHope this helps."
+- author: Afshin
+  email: afshin.j@gmail.com
+  ip: 180.148.69.42
+  url: ''
+  date: '2012-07-16 19:22:16'
+  body: "Hi Balaji,\nThanks for the answer,\nI actually did the same workaround after\
+    \ posting the question. yes, this worked. \nI have another issue which you may\
+    \ have faced as well...\nI have a face with narrow two angles and one wide one.\
+    \ I could create face object but failed creating the surface. with eInvalidInput\
+    \ error.\nthe only workaround I thought is to divide the triangle into parts,\
+    \ could do that and surfaces created successfully, but at the end, the solid3d\
+    \ couldn't create solid object with resultant surfaces...\n\nbasically I'm converting\
+    \ a mesh to 3dsolid, reading vertexes, faces and creating face/surface object\
+    \ then creating solid by passing surface[]. am I on the right track?!"
+- author: Balaji
+  email: ''
+  ip: 115.112.233.72
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2012-07-17 02:51:24'
+  body: 'Hi Afshin,
+
+
+    I find that my colleague has just answered to your request which was created through
+    the DevHelp. Since this query is not directly related to this post, I suggest
+    you to continue the discussion as part of the ADN request.'
+- author: ali
+  email: ali@surveymbs.com
+  ip: 82.69.81.152
+  url: ''
+  date: '2017-07-21 08:04:51'
+  body: 'Hi Balaji,
+
+
+    I experience memory not being freed up in the above routine(having the second
+    using block commented out)
+
+    in Autocad 2016-17. I have posted the issue in the forum here too. Could consider
+    looking at it? thanks.Ali
+
+
+    <a href="https://forums.autodesk.com/t5/net/memory-no-freed-up-in-surface-createfrom-in-autocad-2016-17/td-p/7245209">https://forums.autodesk.com/t5/net/memory-no-freed-up-in-surface-createfrom-in-autocad-2016-17/td-p/7245209</a>'
+- author: ali
+  email: ali@surveymbs.com
+  ip: 82.69.81.152
+  url: ''
+  date: '2017-07-24 01:28:34'
+  body: 'Even removing this line:
+
+    Autodesk.AutoCAD.DatabaseServices.Surface surface = new Autodesk.AutoCAD.DatabaseServices.Surface();
+
+
+    didn''t help. It sounds like a memory leak in Autocad to me, is that right?
+
+    -----'

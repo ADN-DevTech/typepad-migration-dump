@@ -1,0 +1,137 @@
+comments:
+- author: Danny
+  email: dpolkinhorn@watg.com
+  ip: 66.175.73.45
+  url: ''
+  date: '2012-07-06 16:40:31'
+  body: I'm guessing this doesn't work well on blocks with attributes.  My biggest
+    API wish is to make the process of inserting blocks with attributes as easy as
+    just inserting a BlockReference and the attributes just insert as is.  Subsequently
+    having to add AttributeReferences and trying to match  their properties is an
+    itch that needs scratching.
+- author: Gerrit van Diepen
+  email: g.vandiepen@gmail.com
+  ip: 217.169.229.157
+  url: ''
+  date: '2013-06-10 00:51:00'
+  body: Is it possible to check if an existing block, for example a block called 'tree'
+    in the drawing needs updating from a drawing named ' c:\Blocks\tree.dwg' This
+    is because I have to check all the drawings created by a extern office who have
+    to use our blocks without changing it.
+- author: viru
+  email: virupaksha.aithal@autodesk.com
+  ip: 203.202.234.246
+  url: ''
+  date: '2013-06-10 01:36:25'
+  body: 'Hi Gerrit,
+
+
+    No, at present it is not possible to check if the block need update from a source
+    drawing file. You need to build your own logic to identify the block state.
+
+
+    regards
+
+    Viru'
+- author: Gerrit van Diepen
+  email: g.vandiepen@gmail.com
+  ip: 217.169.229.157
+  url: ''
+  date: '2013-06-10 02:02:33'
+  body: 'Hi Viru,
+
+
+    It is possible to add the "Tree.dwg" as a block called "test_tmp" without inserting
+    it. But how can I check differences in the blocktablerecord between the blocks
+    "tree" and "tree_tmp" ??
+
+
+    Thanks for the quick responce anyway ...
+
+
+    Regards,
+
+
+    Gerrit'
+- author: viru
+  email: virupaksha.aithal@autodesk.com
+  ip: 203.202.234.246
+  url: ''
+  date: '2013-06-10 02:22:52'
+  body: 'Hi,
+
+
+    Again, there is no API for this. You have to build your logic, like comparing
+    entities in blocks, or counting the entities in blocks or using bounding boxes
+    etc… No direct method.
+
+
+    Regards
+
+    Viru'
+- author: André Cristino
+  email: andre_cristino@hotmail.com
+  ip: 201.85.39.210
+  url: ''
+  date: '2013-10-21 10:29:13'
+  body: Good afternoon. I'm trying to use this code, but I found a case that it not
+    work as well. When I try to change the definition from a new block that I have
+    created in my test DWG, it disappear from the model. I wonder what is causing
+    this problem?
+- author: Wesley
+  email: wesley.murphy@gm.com
+  ip: 198.208.28.68
+  url: ''
+  date: '2016-07-25 04:22:00'
+  body: "I am trying to port some AutoLISP Code to .NET C Sharp for deleting the text\
+    \ objects from within block references.   I am running into difficulty.  Can you\
+    \ have a look and see if there is a more efficient way to do this and indeed a\
+    \ way that will work?\n\n<code>\npublic class Class1\n    {\n        [CommandMethod(\"\
+    DELTEXT\")]\n        public void DelText()\n        {\n            // Get the\
+    \ current document and database, and start a transaction\n            Document\
+    \ acDoc = Application.DocumentManager.MdiActiveDocument;\n            Database\
+    \ acCurDb = acDoc.Database;\n            using (Transaction acTrans = acCurDb.TransactionManager.StartTransaction())\n\
+    \            {\n                // Open the Block table record for read\n    \
+    \            BlockTable acBlkTbl;\n                acBlkTbl = acTrans.GetObject(acCurDb.BlockTableId,OpenMode.ForRead)\
+    \ as BlockTable;\n                // Open the Block table record Model space for\
+    \ read\n\n                BlockTableRecord acBlkTblRec;\n                acBlkTblRec\
+    \ = acTrans.GetObject(acBlkTbl[BlockTableRecord.ModelSpace],OpenMode.ForRead)\
+    \ as BlockTableRecord;\n\n                int nCnt = 0;\n                acDoc.Editor.WriteMessage(\"\
+    \\nModel space objects: \");\n\n                // Step through each object in\
+    \ Model space and display the Name of the Object\n\n                foreach (ObjectId\
+    \ acObjId in acBlkTblRec)\n                {\n                    //If the ObjectClass.DxFName\
+    \ is INSERT, then this block is a reference.\n                    if (acObjId.ObjectClass.DxfName\
+    \ == \"INSERT\")\n                    {\n                        //acDoc.Editor.WriteMessage(\"\
+    \\n\" + myBlk.Name);\n                        //acDoc.Editor.WriteMessage(\"\\\
+    n\" + myBlk.BlockName);\n                        //acDoc.Editor.WriteMessage(\"\
+    \\n\" + myBlk.ObjectId.ObjectClass.DxfName);\n                        //acDoc.Editor.WriteMessage(\"\
+    \\n\" + myBlk.ObjectId.ObjectClass.Name);\n\n                        //Open the\
+    \ Block Reference\n                        BlockReference myBlkReference = acTrans.GetObject(acObjId,\
+    \ OpenMode.ForRead) as BlockReference;                    \n                 \
+    \       BlockTableRecord xRefBlkTableRecs = acTrans.GetObject(myBlkReference.BlockTableRecord,OpenMode.ForRead)\
+    \ as BlockTableRecord;\n                        \n                        //For\
+    \ each Object in the Block Table Record of the Block Reference\n             \
+    \           foreach (ObjectId myBlkObjId in xRefBlkTableRecs)\n              \
+    \          {\n                            acDoc.Editor.WriteMessage(\"\\n Object\
+    \ Class Name: \" + myBlkObjId.ObjectClass.Name);\n                           \
+    \ acDoc.Editor.WriteMessage(\"\\n Object Class DxFName: \" + myBlkObjId.ObjectClass.DxfName);\n\
+    \n                            //Check if the object is a text object\n       \
+    \                     if (myBlkObjId.ObjectClass.DxfName.ToString().Equals(\"\
+    TEXT\"))\n                            {\n                                acDoc.Editor.WriteMessage(\"\
+    \\n This is a Text Item and Will be Deleted\");\n                            \
+    \   //This is certainly a text object - count it.\n                          \
+    \      nCnt = nCnt + 1;\n                                //Delete it\n       \
+    \                         myBlkReference.UpgradeOpen();\n                    \
+    \            myBlkObjId.GetObject(OpenMode.ForWrite).Erase();                \
+    \            \n                                acTrans.Commit();\n           \
+    \                     //acDoc.Editor.Regen();\n                            }\n\
+    \                        }\n\n\n                    }\n                    else\n\
+    \                    {\n                        acDoc.Editor.WriteMessage(\"\\\
+    n\" + acObjId.ObjectClass.Name.ToString());\n                        acDoc.Editor.WriteMessage(\"\
+    \\n\" + acObjId.ObjectClass.DxfName.ToString());\n\n                    }\n  \
+    \                  //acTrans.Commit();\n                    //acDoc.Editor.Regen();\n\
+    \                }\n                acDoc.Editor.WriteMessage(\"\\n\" + nCnt +\
+    \ \"Text Objects in Document\");\n\n                // If no objects are found\
+    \ then display a message\n                if (nCnt == 0)\n                {\n\
+    \                    acDoc.Editor.WriteMessage(\"\\n No Text objects found\");\n\
+    \                }\n\n            }\n        }\n\n    }\n</code>\n-----"

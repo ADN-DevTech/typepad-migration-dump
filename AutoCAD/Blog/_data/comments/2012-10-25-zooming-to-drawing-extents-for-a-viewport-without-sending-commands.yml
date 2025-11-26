@@ -1,0 +1,38 @@
+comments:
+- author: Nenad
+  email: sonev@beotel.net
+  ip: 94.189.228.99
+  url: ''
+  date: '2014-10-31 03:38:43'
+  body: "Dear Sir,\n\nI have one question. I am trying to show only some entities\
+    \ in AcDbViewport. In my model I have several entities and I need to create new\
+    \ AcDbLayout that will display only some entities, not all. I have command that\
+    \ creates new AcDbLayout. Then I tried to manipulate with AcDbLayout::database(),\
+    \ to remove Ids of those entities that shouldn't be displayed, but it seems that\
+    \ I can't do it this way? Then I tried to use this code, just to change AcDbViewport\
+    \ dimensions so it will show only entities that I want. I calculated their rectangular\
+    \ window in Model space and tried to set AcDbViewport to show only that. I set\
+    \ viewport's ViewCenter and ViewHeight to center and height of that rectangle\
+    \ but it didn't work. It seems like AutoCad automatically changed them so all\
+    \ entities could be displayed? \nCould you tell me is there any way to show only\
+    \ entities that I want to display?"
+- author: Balaji
+  email: ''
+  ip: 203.202.234.207
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2014-10-31 05:06:51'
+  body: 'Hi Nenad,
+
+
+    You can try assigning different layers for the entities that you want shown /
+    hidden and then use freeze layer specific to a viewport. Please try the code in
+    this blog post :
+
+    <a href="http://adndevblog.typepad.com/autocad/2012/05/freeze-and-thaw-layers-in-a-paperspace-viewport.html">http://adndevblog.typepad.com/autocad/2012/05/freeze-and-thaw-layers-in-a-paperspace-viewport.html</a>
+
+
+    Regards,
+
+    Balaji
+
+    -----'

@@ -1,0 +1,88 @@
+comments:
+- author: Loic Jourdan
+  email: loic.jourdan@2020.net
+  ip: 80.14.96.215
+  url: http://www.2020technologies.com/en-ca/manufacturing/2020-cad/
+  date: '2012-07-30 23:06:14'
+  body: "btw, is there any plan to bring some multi thread abilities within acad apis?\
+    \ \nWouldn't it be valuable regarding modern processor architecture?\n\nThank\
+    \ you"
+- author: Fenton Webb
+  email: ''
+  ip: 8.19.13.22
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2012-07-31 09:07:23'
+  body: The internal product is slowly turning multi-threaded, however, it won't be
+    available to access through the API's for a long time to come. This is because
+    it's such a huge code base.
+- author: Loic Jourdan
+  email: loic.jourdan@2020.net
+  ip: 80.14.96.216
+  url: http://www.2020technologies.com/en-ca/manufacturing/2020-cad/
+  date: '2012-07-31 23:40:34'
+  body: 'I can imagine indeed
+
+    In a way, this isn''t a bad news, if core acad turns multi-threaded (even slowly),
+    we''ll get those threads for free!
+
+
+    thanks'
+- author: pseudonym
+  email: caddzooks@hushmail.com
+  ip: 24.47.197.131
+  url: ''
+  date: '2012-08-03 10:46:07'
+  body: '" Therefore, I recommend you Dispose() all AutoCAD .NET objects using the
+    .NET ''using'' statement – that way you are not relying on the GC to clean up
+    after yourself."
+
+
+    Sorry, I must be missing something here.
+
+
+    I thought the whole point to writing code that runs in a ''managed'' execution
+    environment, was so that the programmer could rely on the GC to clean up after
+    themself, and offload tasks that C/C++ programmers must routinely do manually
+    (e.g, free memory and call d''tors) or with the help of smart pointers.
+
+
+    When we write managed code, we are *always* relying on the GC to clean up the
+    managed objects we create and use (whether they implement IDisposable or not),
+    and we do not need to be concerned with deallocating those objects or the memory
+    they consume, calling d''tors, etc.
+
+
+    Given that, I''m somewhat bewildered by your statement, and you can read more
+    about that here:your advice:
+
+
+    <a href="http://www.theswamp.org/index.php?topic=42399.0">http://www.theswamp.org/index.php?topic=42399.0</a>'
+- author: Fenton Webb
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/6p0168e88ab160970c
+  date: '2012-08-03 13:27:51'
+  body: "Hey Pseudonym\n\nActually, I think you misunderstood what I said... \n\n\
+    I do mention at the end of that sentence \"to cleanup after yourself\" - meaning,\
+    \ that you should clean up *YOUR* objects not AutoCAD's. \n\nI noted your comments\
+    \ on the link you posted and I really think it's fairly obvious that you should\
+    \ not dispose of master property objects such as MdiActiveDocument? As common\
+    \ in any computer language, you don't dispose/delete/free objects that are not\
+    \ under your control. \n\nYes .NET is super cool, but you should still think about\
+    \ what you are doing a bit. Also, the bottom like is that the AutoCAD .NET API\
+    \ wraps ObjectARX, that means you absolutely cannot rely on the GC to Dispose\
+    \ AutoCAD Database objects, and, you shouldn't rely on the GC to Dispose all other\
+    \ AutoCAD .NET classes. \n\nThanks for pointing this out though, I appreciate\
+    \ your comments. Keep them coming!"
+- author: pseudonym
+  email: caddzooks@hushmail.com
+  ip: 24.47.197.131
+  url: ''
+  date: '2012-08-05 00:43:26'
+  body: '"Actually, I think you misunderstood what I said."
+
+
+    Well in that case, I don''t think I''m alone in that regards.
+
+
+    -----'

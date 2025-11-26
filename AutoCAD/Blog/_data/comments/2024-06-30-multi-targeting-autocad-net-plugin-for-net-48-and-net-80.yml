@@ -1,0 +1,26 @@
+comments:
+- author: Chris
+  email: chris.mann@csi-europe.com
+  ip: 77.104.163.6
+  url: ''
+  date: '2025-03-25 13:23:23'
+  body: How are you then dealing with needing to make code changes that effect both
+    the "main" and the "release2024" branch? - For example, ongoing improvements where
+    you want to support both Autocad 2024 and 2025 (and 2026)?
+- author: Madhukar Moogala
+  email: ''
+  ip: 128.77.31.55
+  url: https://profile.typepad.com/madhukarmoogala
+  date: '2025-04-04 02:29:10'
+  body: 'To support both AutoCAD 2024 (.NET Framework 4.8) and newer versions like
+    2025+ (.NET 8), we use a Git branching strategy where main targets the latest
+    development for AutoCAD 2025+ and modern .NET, while release2024 maintains compatibility
+    with older versions. Shared improvements or bug fixes are developed in main and
+    cherry-picked into release2024 as needed. Features using 2025+ APIs stay in main,
+    keeping the codebase clean and forward-compatible while supporting legacy users.
+    You can bundle the respective DLLs in version-specific folders under Contents
+    and configure them using RuntimeRequirements in PackageContents.xml.
+
+
+
+    -----'

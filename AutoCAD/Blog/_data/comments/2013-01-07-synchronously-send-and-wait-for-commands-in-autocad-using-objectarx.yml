@@ -1,0 +1,47 @@
+comments:
+- author: Oleg
+  email: fattyhallex@gmail.com
+  ip: 92.100.65.211
+  url: ''
+  date: '2013-01-07 13:14:58'
+  body: "Hi Fenton\nThanks for the good article\nBtw, I'm using acedPostCommand this\
+    \ way instead \nand it works like a charm:\n              [System.Security.SuppressUnmanagedCodeSecurity]\n\
+    \        [DllImport(\"acad.exe\", CharSet = CharSet.Auto,\n        CallingConvention\
+    \ = CallingConvention.Cdecl,\n        EntryPoint = \"?acedPostCommand@@YAHPB_W@Z\"\
+    )]\n        extern static private int acedPostCommand(string strExpr);\n\n   \
+    \    [CommandMethod(\"pipp\")]\n        public void tesPlineCommand()\n      \
+    \  {\n            acedPostCommand(\"_.PLINE \");\n\n            bool quit = false;\n\
+    \n            // loop round while the PLINE command is active\n\n            while\
+    \ (!quit)\n            {\n\n                // see what commands are active\n\n\
+    \                string cmdNames = (string)Autodesk.AutoCAD.ApplicationServices.Application.GetSystemVariable(\"\
+    CMDNAMES\");\n\n                // if the PLINE command is active\n\n        \
+    \        if (cmdNames.ToUpper().IndexOf(\"PLINE\") >= 0)\n                {\n\n\
+    \                    //// then send a PAUSE to the command line\n\n          \
+    \          acedPostCommand(\"\\\\\");\n\n                }\n\n               \
+    \ else\n\n                    // otherwise quit\n\n                    quit =\
+    \ true;\n\n            }\n\n        }\nKind regards,\nOleg"
+- author: Owen Wengerd
+  email: owenw@manusoft.com
+  ip: 24.140.112.242
+  url: http://otb.manusoft.com
+  date: '2013-01-07 15:04:51'
+  body: Oleg, your code is very dangerous. You should never make any assumptions about
+    when an asynchronous command produces side effects.
+- author: Oleg
+  email: fattyhallex@gmail.com
+  ip: 92.100.77.226
+  url: ''
+  date: '2013-01-08 08:01:39'
+  body: 'Thanks mr.Owen Wengerd,
+
+    You are quite right, if the command runs in the middle of process, then the process
+    stops, but when the code used in the end of
+
+    then everything works without problems
+
+
+    Kind regards,
+
+    Oleg
+
+    -----'

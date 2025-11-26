@@ -1,0 +1,323 @@
+comments:
+- author: Jeff Evans
+  email: ljyjdxxy@gmail.com
+  ip: 69.159.236.136
+  url: ''
+  date: '2014-01-02 14:33:48'
+  body: "Hi, the video is very interesting. As for the API document mentioned in the\
+    \ video, I took a look at <a href=\"http://www.autocadws.com/jsapi/v1/docs/Acad_Application.html.\"\
+    >http://www.autocadws.com/jsapi/v1/docs/Acad_Application.html.</a> An very interesting\
+    \ thing is that classes in the document have no details, just a constructor, such\
+    \ as \"Acad.Vector2d\". \n\nWithout member methods, how could we use them? Could\
+    \ you explain this?"
+- author: Philippe
+  email: philippe.leefsma@autodesk.com
+  ip: 86.219.101.160
+  url: ''
+  date: '2014-01-03 06:16:27'
+  body: "Hi Jeff,\n\nThanks for your interest in the JavaScript API. Make sure you\
+    \ scroll down the page, so the documentation link you mentioned does have a description\
+    \ of the properties for each object. Talking about Acad.Vector2d, here is what\
+    \ I can see:\n\nName:  x \nType: Number \nDescription:  Returns the X property\
+    \ value \nCondition:  Read-write \n\nName:  y\nType: Number \nDescription:  Returns\
+    \ the Y property value \nCondition:  Read-write \n\nI hope it helps,\nPhilippe."
+- author: Jeff Evans
+  email: ljyjdxxy@gmail.com
+  ip: 69.159.236.136
+  url: ''
+  date: '2014-01-03 08:26:02'
+  body: 'Thank you very much, Philippe.
+
+
+    Take the Vector2d as the example, I know that there are X and Y properties. However,
+    there is no methods, like rotation, dotProduct, crossProduct etc, which are available
+    in ARX''s AcGeVector2d documentation.
+
+
+    Thanks.'
+- author: Philippe Leefsma
+  email: ''
+  ip: 86.219.101.160
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2014-01-03 08:55:28'
+  body: "The 2014 version of the JavaScript API has to be considered as a \"tech-preview\"\
+    . The real v1.0 should be released in the next version of AutoCAD. \n\nIt is however\
+    \ in no point the equivalent or a replacement for the powerful ARX API. \n\nAcad.Vector2d\
+    \ has no methods, it's simply a structure holding X,Y coordinates. If needed,\
+    \ methods should be implemented on your own.\n\nTo get an idea about what is doable\
+    \ at the moment using JS, take a look at the samples coming along, they are pretty\
+    \ exhaustive in term of functionality. You can also extend the JS API using .Net\
+    \ or ARX also as illustrated in that material.\n\nI hope it clarifies thing a\
+    \ bit."
+- author: Jeff Evans
+  email: ljyjdxxy@gmail.com
+  ip: 216.252.92.205
+  url: ''
+  date: '2014-01-04 05:38:02'
+  body: Thanks!
+- author: Иван Цукев
+  email: ''
+  ip: 94.26.15.164
+  url: http://profile.typepad.com/6p01a3fce10358970b
+  date: '2014-03-28 03:42:13'
+  body: "Hi,\n\nIn your demo video you use \"adnjsdemo\" to load the html files. \n\
+    \nIs this a separate app that we can download from somewhere? Or is there an alternative\
+    \ way to load the html file?\n\nIf I understand the help files correctly, webload\
+    \ loads only JavaScript files."
+- author: Philippe
+  email: philippe.leefsma@autodesk.com
+  ip: 92.105.24.95
+  url: ''
+  date: '2014-03-28 10:09:45'
+  body: Hi, everything is included in the package. ADNJSDEMO is a custom command created
+    by a .Net plug-in. You need to use custom code to load html files, you are correct
+    webload loads only js.
+- author: Иван Цукев
+  email: ''
+  ip: 94.26.15.164
+  url: http://profile.typepad.com/6p01a3fce10358970b
+  date: '2014-04-08 07:10:49'
+  body: 'Thank you for your clarification.
+
+
+    I found a file called JavascriptLoader.dll in the package and I assumed it is
+    something similar to yout ADNJSDEMO command, but NETLOAD returns error on load:
+    "Cannot load assembly. Error details: System.BadImageFormatException...."
+
+
+    Is there any way to create a HTML5 palette without having to learn and compile
+    C# code?'
+- author: Philippe
+  email: philippe.leefsma@autodesk.com
+  ip: 121.54.58.246
+  url: ''
+  date: '2014-04-09 22:53:15'
+  body: "You are getting that error most likely because the dll is compiled against\
+    \ another version of the SDK than the AutoCAD version you are using. Unfortunately\
+    \ the only way at the moment to display a custom html page in a palette is to\
+    \ load it using custom .Net code (C# or VB.Net). We have resources that can help\
+    \ you getting started with AutoCAD.Net programming: \n<a href=\"http://usa.autodesk.com/adsk/servlet/index?id=18162650&siteID=123112\"\
+    >http://usa.autodesk.com/adsk/servlet/index?id=18162650&siteID=123112</a>"
+- author: George Endrulat
+  email: ''
+  ip: 173.167.154.169
+  url: http://profile.typepad.com/6p01a73dce665b970d
+  date: '2014-05-30 06:03:25'
+  body: Does anyone have a compiled ADNJSDEMO, or whatever lib contains it, or just
+    anything that can point me in the right direction to obtaining it?
+- author: Philippe Leefsma
+  email: ''
+  ip: 209.82.56.9
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2014-06-04 04:05:09'
+  body: Hi George, the complete source code is provided in the link, what is holding
+    you back to build it yourself?
+- author: Бакыт Оморов
+  email: ''
+  ip: 195.114.243.202
+  url: http://profile.typepad.com/6p01b7c7671746970b
+  date: '2015-03-19 22:28:38'
+  body: 'Hi, the article is very interesting.
+
+
+    I''m a designer (AutoCAD user) i can programming on JS, but i dont know ObjectARX
+    C# .NET VB.net C++ etc.
+
+    Could you briefly describe how can I create a command as ADNJSdemo?
+
+    I think it will be very interesting and very useful for people like me.
+
+
+    We hope for your help... Thanks!'
+- author: Balaji
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-03-20 02:13:34'
+  body: "Hello,\n\nThe ADNJSDemo is available in the sample code and you can compile\
+    \ it using Visual Studio. Express edition of Visual Studio will also do. \n\n\
+    This tutorial will help you get started with the AutoCAD .Net API :\n<a href=\"\
+    http://usa.autodesk.com/adsk/servlet/index?siteID=123112&id=18162650\">http://usa.autodesk.com/adsk/servlet/index?siteID=123112&id=18162650</a>\n\
+    \nRegards,\nBalaji"
+- author: Бакыт Оморов
+  email: ''
+  ip: 89.237.227.60
+  url: http://profile.typepad.com/6p01b7c7671746970b
+  date: '2015-04-06 04:10:46'
+  body: 'Hello Balaji.
+
+    Thank you very much!
+
+    Now everything clicked into place.'
+- author: oba
+  email: lelic83@mail.ru
+  ip: 89.237.245.225
+  url: ''
+  date: '2015-05-13 04:38:12'
+  body: 'In addition,
+
+    The following article is very useful for create a command as ADNJSdemo:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2013/03/implementing-an-autocad-palette-using-html5-and-javascript.html">http://through-the-interface.typepad.com/through_the_interface/2013/03/implementing-an-autocad-palette-using-html5-and-javascript.html</a>'
+- author: Jose Antonio Mateos
+  email: apalabrados.co@gmail.com
+  ip: 37.132.76.36
+  url: ''
+  date: '2016-03-18 12:14:18'
+  body: 'Is there any function I could use to get the points from a polyline?
+
+
+    I thought that once your select one Entity Id (like a Polyline) you could get
+    info like its vertex and so on.
+
+
+    I use your ADNJSDEMO script to load my HTML and I only need to be able to click
+    on every Entity in the DWG and store the vertex of each polyline into the database.
+
+
+    Is there any example I could use?'
+- author: Philippe Leefsma
+  email: ''
+  ip: 107.77.75.56
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2016-03-18 13:47:03'
+  body: 'I don''t think you can do this from the JavaScript API, you would need to
+    use the C++ or .Net API inside AutoCAD to achieve that. Getting the vertices from
+    .Net is fairly straightforward: <a href="http://through-the-interface.typepad.com/through_the_interface/2007/04/iterating_throu.html">http://through-the-interface.typepad.com/through_the_interface/2007/04/iterating_throu.html</a>
+
+
+    You could load a custom .Net dll in AutoCAD that expose a toolkit of features
+    and invoke that from js. There is an example in that material that illustrates
+    calling .net from js.
+
+
+    Hope that helps
+
+    Philippe.'
+- author: Rudolffo Lemos
+  email: rlemos@cpqd.com.br
+  ip: 189.112.183.66
+  url: ''
+  date: '2016-08-30 12:17:00'
+  body: "Hi Philippe,\nI note on my application that the acwebbrowser.exe process\
+    \ is left running after i remove it from palletset. I run your example ADNJSDEMO\
+    \ and the same problem happened when i call it more than one time. Its a Bug ?\
+    \ Do you know how can i fix it? \n\nRegards,\nRudolffo"
+- author: Philippe
+  email: philippe.leefsma@autodesk.com
+  ip: 115.79.55.32
+  url: http://adndevblog.typepad.com/cloud_and_mobile/philippe-leefsma.html
+  date: '2016-08-31 20:17:10'
+  body: 'Here is the feedback from a colleague about that:
+
+    "This issue can happen with older versions of the AcWebBrowser when it gets in
+    a hung state, or if the UI frame is still active. Is the host palette set really
+    shutdown, or just hidden? Did you dispose it yet?"
+
+
+    Hope that helps
+
+    Philippe.'
+- author: Rudolffo Lemos
+  email: rlemos@cpqd.com.br
+  ip: 189.112.183.66
+  url: ''
+  date: '2016-09-01 07:21:48'
+  body: "Thanks Philippe for yours feedback. Some aditional information.\n\nProduct\
+    \ name\tAutodesk Browser Components\nCompany name\tAutodesk\nFile description\t\
+    Chromium host executable\nInternal name\tacwebbrowser.exe\nOriginal filename\t\
+    acwebbrowser.exe\nLegal copyright\tCopyright (C) 2013, Autodesk\nProduct version\t\
+    2.0.0.0\nFile version\t2.0.0.0\n\nBasically the code is:\n\n_ps = new PaletteSet(\"\
+    \", new Guid(\"229E43DB-E76F-48F9-849A-CC8D726DF257\"));\n\n_ps.Style = ...\n\n\
+    ...\n\n_ps.Visible = false;\n_ps.Add(objLabel, uri); // process created.\n_ps.Remove(0);\
+    \  \n_ps.Visible = true;\n\nI re-use this palette and show an other URI. I do\
+    \ this because i want to keep the palette position."
+- author: Athanasius
+  email: goldmansachs@riseup.net
+  ip: 95.91.209.163
+  url: ''
+  date: '2017-02-21 14:02:38'
+  body: 'Hi,
+
+
+    I''m having some issues to get AcHTML running. For now I''ve created the ACHTML.dll
+    file with Visual Studio 2012, 4.5 .NET. Running it with AutoCAD 2016.
+
+    I can load the .dll into AutoCAD and I can also open the html file with the adnjsdemo
+    command, as i.e. the DBReactors.html. From there on the window opens in autocad,
+    but I cannot Add Listeners or anything else. Also tried all the other html examples.
+    Do I still have to add a javascript loader or anything else? It seems, that the
+    html file cannot call the .js files.
+
+
+    Many thanks in advance,
+
+    Athanasius'
+- author: Athanasius
+  email: goldmansachs@riseup.net
+  ip: 95.91.209.163
+  url: ''
+  date: '2017-02-21 14:34:00'
+  body: 'Maybe this helps to come closer to the solution. Starting AutoCAD I get the
+    following errors:
+
+
+    AutoCAD menu utilities loaded.*Cancel*
+
+
+    Command: *Cancel*
+
+    _RIBBON
+
+    *Cancel*
+
+    COMMANDLINE
+
+    Layer
+
+    *Cancel*
+
+    JavaScript Unknown command "JAVASCRIPT".  Press F1 for help.
+
+    Demo
+
+    Unknown command "DEMO".  Press F1 for help.'
+- author: Athanasius
+  email: goldmansachs@riseup.net
+  ip: 95.91.209.109
+  url: ''
+  date: '2017-02-22 04:58:56'
+  body: "Slowly answering my own questions... I had to change the Autodesk.AutoCAD.js\
+    \ to \n<script type=\"text/javascript\" src=\"http://www.autocadws.com/jsapi/v2/Autodesk.AutoCAD.js\"\
+    ></script>\nProbably that's due to AutoCAD 2016. However I think I still need\
+    \ to change parts in the .js File, because I cannot get the interaction right\
+    \ between the AutoCad objects and the .html file. Any ideas about that?"
+- author: Athanasius
+  email: goldmansachs@riseup.net
+  ip: 95.91.209.109
+  url: ''
+  date: '2017-02-22 04:59:36'
+  body: src="http://www.autocadws.com/jsapi/v2/Autodesk.AutoCAD.js"
+- author: Бакыт Оморов
+  email: ''
+  ip: 212.42.113.62
+  url: http://profile.typepad.com/6p01b7c7671746970b
+  date: '2018-05-17 03:27:26'
+  body: I think they have suspended support. It was not a successful attempt to introduce
+    JS to the Autocad
+- author: Xavier
+  email: solucao.intel@gmail.com
+  ip: 201.17.172.210
+  url: ''
+  date: '2021-08-03 15:52:01'
+  body: E com nodejs, não seria interessante criar uma npm e integrar ao autocad?
+- author: Rohan sinha
+  email: rohankumarsinha20@gmail.com
+  ip: 180.151.11.25
+  url: http://www.speraspect.com
+  date: '2024-11-25 21:43:55'
+  body: 'Thanks, this was lot to me and it will help me in my work again thanks check
+    this also <a href="https://www.speraspect.com">https://www.speraspect.com</a>
+
+    -----'

@@ -1,0 +1,60 @@
+comments:
+- author: Alexander Rivilis
+  email: ''
+  ip: 81.95.185.60
+  url: https://profile.typepad.com/rivilis1964
+  date: '2019-02-27 06:41:13'
+  body: "Thank you, Madhukar!\nThat is my port to AutoCAD .NET API:\n\n[code]\nusing\
+    \ System;\nusing Autodesk.AutoCAD.Runtime;\nusing Autodesk.AutoCAD.ApplicationServices;\n\
+    using Autodesk.AutoCAD.DatabaseServices;\nusing Autodesk.AutoCAD.Geometry;\nusing\
+    \ Autodesk.AutoCAD.EditorInput;\n\n// This line is not mandatory, but improves\
+    \ loading performances\n[assembly: CommandClass(typeof(Rivilis.XrefLongTrans))]\n\
+    \nnamespace Rivilis\n{\n\n  public class XrefLongTrans\n  {\n    enum EditInPlaceXrefState\n\
+    \    {\n      Discarded,\n      Saved\n    };\n\n    static EditInPlaceXrefState\
+    \ state = \n      EditInPlaceXrefState.Discarded;\n\n    [CommandMethod(\"WatchXref\"\
+    )]\n    public void WatchXref() \n    {\n      Document doc = Application.DocumentManager.MdiActiveDocument;\n\
+    \      if (doc == null) return;\n      Editor ed = doc.Editor;\n      LongTransactionManager\
+    \ longTranMan = Application.LongTransactionManager;\n      longTranMan.CheckedIn\
+    \ += TrMan_CheckedIn;\n      longTranMan.Aborted += TrMan_Aborted;\n      doc.CommandEnded\
+    \ += Doc_CommandEnded;\n    }\n    [CommandMethod(\"UnWatchXref\")]\n    public\
+    \ void UnWatchXref()\n    {\n      Document doc = Application.DocumentManager.MdiActiveDocument;\n\
+    \      if (doc == null) return;\n      Editor ed = doc.Editor;\n      LongTransactionManager\
+    \ longTranMan = Application.LongTransactionManager;\n      longTranMan.CheckedIn\
+    \ -= TrMan_CheckedIn;\n      longTranMan.Aborted -= TrMan_Aborted;\n      doc.CommandEnded\
+    \ -= Doc_CommandEnded;\n    }\n\n\n    private void TrMan_Aborted(object sender,\
+    \ LongTransactionEventArgs e)\n    {\n      Document doc = Application.DocumentManager.MdiActiveDocument;\n\
+    \      if (doc == null) return;\n      Editor ed = doc.Editor;\n      if (e.Transaction.Type\
+    \ == LongTransactionType.XRefDb)\n      {\n        ed.WriteMessage(\"\\nLong transaction\
+    \ {0} aborted\\n\", e.Transaction.LongTransactionName);\n        state = EditInPlaceXrefState.Discarded;\n\
+    \      }\n    }\n\n    private void TrMan_CheckedIn(object sender, LongTransactionEventArgs\
+    \ e)\n    {\n      Document doc = Application.DocumentManager.MdiActiveDocument;\n\
+    \      if (doc == null) return;\n      Editor ed = doc.Editor;\n      if (e.Transaction.Type\
+    \ == LongTransactionType.XRefDb)\n      {\n        ed.WriteMessage(\"\\nLong transaction\
+    \ {0} commited\\n\", e.Transaction.LongTransactionName);\n        state = EditInPlaceXrefState.Saved;\n\
+    \      }\n    }\n\n    private void Doc_CommandEnded(object sender, CommandEventArgs\
+    \ e)\n    {\n      if (e.GlobalCommandName.ToUpper() == \"REFCLOSE\")\n      {\n\
+    \        Document doc = Application.DocumentManager.MdiActiveDocument;\n     \
+    \   if (doc == null) return;\n        Editor ed = doc.Editor;\n        ed.WriteMessage(\"\
+    \\nModification of XREF {0}\\n\", \n          (state == EditInPlaceXrefState.Saved)\
+    \ ? \n          \"Saved\": \"Discarded\");\n      }\n    }\n  }\n}\n[/code]"
+- author: Kenny
+  email: Yuyue.Wang@autodesk.com
+  ip: 132.188.112.190
+  url: ''
+  date: '2019-03-01 18:17:18'
+  body: It is very helpful!!
+- author: santiago
+  email: santiago.burbano@hsbcad.com
+  ip: 179.49.52.170
+  url: ''
+  date: '2023-08-03 20:15:51'
+  body: 'Great help!
+
+
+    What approach can you take if you need to know if the changes made during a ''-BEDIT''
+    command were saved or discarded?
+
+
+    Thank you!
+
+    -----'

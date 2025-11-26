@@ -1,0 +1,79 @@
+comments:
+- author: Andrey
+  email: bushman.andrey@gmail.com
+  ip: 87.249.45.171
+  url: https://sites.google.com/site/bushmansnetlaboratory/
+  date: '2012-09-17 00:00:04'
+  body: "Hi  Balaji.\n\nAre you checked, how this example works?\n\nI have rewrote\
+    \ this sample to C#:\n======================\n<i>\nusing System;\n//Autodesk namespaces\
+    \ ***************\nusing acad = Autodesk.AutoCAD.ApplicationServices.Application;\n\
+    using AcApp = Autodesk.AutoCAD.ApplicationServices;\nusing AcRtm = Autodesk.AutoCAD.Runtime;\n\
+    //************************************\n[assembly: AcRtm.CommandClass(typeof(Ac2013Laboratory.Commands))]\n\
+    \nnamespace Ac2013Laboratory {\n\n\tpublic partial class Commands {\n\n\t\t[AcRtm.CommandMethod(\"\
+    Test1\")]\n\t\tpublic void Test1() {\n\t\t\tAcApp.Document doc = acad.DocumentManager.MdiActiveDocument;\n\
+    \t\t\tString cmdStr = @\"(command \"\"Line\"\")(while(>(getvar \"\"cmdactive\"\
+    \")0)(command pause))(command \"\"test2\"\") \";\n\n\t\t\tdoc.SendStringToExecute(cmdStr,\
+    \ true, false, true);\n\t\t\tacad.ShowAlertDialog(\"From Test1\");\n\t\t}\n\n\t\
+    \t[AcRtm.CommandMethod(\"Test2\")]\n\t\tpublic void Test2() {\n\t\t\tacad.ShowAlertDialog(\"\
+    From Test2\");\n\t\t}\n\t}\n}\n</i>\n======================\n\nSorry, but it ain't\
+    \ working correct. \n\nThe actions shall be executed in the following order:\n\
+    1. Created Line.\n2. Showed \"From Test2\" alert.\n3. Showed \"From Test1\" alert.\n\
+    \nBut actually I receive other (incorrect) result:\n\n1. Showed \"From Test1\"\
+    \ alert.\n2. Created Line.\n3. Showed \"From Test2\" alert.\n\nRegards"
+- author: Andrey
+  email: bushman.andrey@gmail.com
+  ip: 87.249.45.171
+  url: https://sites.google.com/site/bushmansnetlaboratory/
+  date: '2012-09-17 00:17:37'
+  body: I apologise Balaji, I have incorrect translated Issue by this Article. Then
+    your code works correctly. I misunderstood the task.
+- author: Balaji
+  email: ''
+  ip: 115.112.233.72
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2012-09-17 03:48:26'
+  body: 'Hi Andrey,
+
+
+    Please dont apologise. I am glad you got it working.'
+- author: Oleg
+  email: fattyhallex@gmail.com
+  ip: 95.55.72.91
+  url: ''
+  date: '2012-09-18 01:17:13'
+  body: 'Hi, Balaji,
+
+    good point from you again, thanks so much
+
+    I''m using often similar on that,
+
+    cmdStr = "(command \"_pline\")(while(>(getvar \"cmdactive\")0)(command pause))(command
+    \"_pedit\" \"_L\" \"_Cl\" \"\")(command \"test2\") ";
+
+
+    Regards,
+
+
+    Oleg'
+- author: Tony Tanzillo
+  email: caddzooks@hushmail.com
+  ip: 24.47.197.131
+  url: ''
+  date: '2012-09-22 01:18:36'
+  body: 'If it works or not, sending LISP programs to the command line is not a robust
+    way to solve the problem.
+
+
+    The problem is easily solved by using acedCmd() or the internal managed wrapper
+    for it (the Editor''s RunCommand method, which can be invoked via reflection).
+
+
+    acedCmd() is called by the LISP (command) function, so why on Earth would you
+    use that when you can use acedCmd() more directly (either via P/Invoke, or using
+    the Editor''s RunCommand method).
+
+
+
+
+
+    -----'

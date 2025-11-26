@@ -1,0 +1,48 @@
+comments:
+- author: BJHuffine
+  email: bjhuffine@tva.gov
+  ip: 152.85.8.38
+  url: ''
+  date: '2015-03-18 04:56:11'
+  body: In AutoCAD 2015, there's evidently been a graphics change and this construct
+    has changed.  To be honest, what is the UniqueString object and how is it typically
+    used?  And, how should this look with the new construct?
+- author: Balaji
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-03-18 23:16:32'
+  body: "Hi Jason,\n\nThis should work in AutoCAD 2015 :\n\nAcGsKernelDescriptor descriptor;\n\
+    descriptor.addRequirement(AcGsKernelDescriptor::k3DDrawing);\nAcGsGraphicsKernel\
+    \ *pGraphicsKernel = AcGsManager::acquireGraphicsKernel(descriptor);\nAcGsConfig\
+    \ * gsConf = pGraphicsKernel->getConfig();\ngsConf->setHardwareAcceleration(false);\
+    \ // or true\n\nAbout UniqueString, it helps do a quick string comparison as it\
+    \ involves direct pointer comparison rather than a character comparison. It works\
+    \ just like enums and you would need to get the pointer to a AcUniqueString.\n\
+    \nFor example, here is a code snippet to get the uniquestring :\n\nAcArray<AcGsConfig::EffectStatus>\
+    \ *effectLists = gsConf->getEffectList(AcGsConfig::EffectListType::kEL_Current);\n\
+    for (int i = 0 ; i < effectLists->length(); ++ i) \n{\n\tconst AcGsConfig::EffectStatus\
+    \ & effectStatus = effectLists->at(i);\n\tacutPrintf(effectStatus.effectName);\n\
+    \tconst AcUniqueString *pUniqueString = effectStatus.pUniqueString;\n}\n\nRegards,\n\
+    Balaji"
+- author: Balaji
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-03-24 23:24:27'
+  body: 'Just an update to the above code snippet :
+
+    It is also required to release the graphics kernel using
+
+
+    AcGsManager::releaseGraphicsKernel(pGraphicsKernel);
+
+
+    Cheers,
+
+
+    Balaji
+
+
+
+    -----'

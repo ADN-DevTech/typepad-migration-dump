@@ -1,0 +1,62 @@
+comments:
+- author: James Maeding
+  email: jmaeding@hunsaker.com
+  ip: 24.249.247.46
+  url: ''
+  date: '2017-07-18 08:35:27'
+  body: 'while on the subject of textures, I have some tools where I need to show
+    an image on a subdmesh. I use them for terrain surfaces so want to "drape" an
+    aerial image on them.
+
+    I also have 3d solids that I want to do the same thing for. I also want to "wrap"
+    an image around some 3d solids like swept circle, which I use for pipes. Just
+    some fuel for your posts, thx!'
+- author: James Maeding
+  email: jmaeding@hunsaker.com
+  ip: 24.249.247.46
+  url: ''
+  date: '2017-07-18 08:36:04'
+  body: I should have asked, how do you do the draping and wrapping?...thx
+- author: Madhukar Moogala
+  email: ''
+  ip: 182.73.112.18
+  url: http://profile.typepad.com/madhukarmoogala
+  date: '2017-07-18 21:35:08'
+  body: "Hi James,\n\nThanks for dropping by, this post only discussed about creating\
+    \ algorithmic textures, following code wraps the material using mapper\n<pre>\n\
+    \tAcGiMapper mapper;\n\tmapper.setProjection(AcGiMapper::kSphere);\n\tmapper.setAutoTransform(AcGiMapper::kNone);\n\
+    \tmapper.setUTiling(AcGiMapper::kTile);\n\tmapper.setVTiling(AcGiMapper::kTile);\n\
+    \tdouble uScale = 1;\n\tdouble vScale = 1;\n\tdouble uOffset = 0;\n\tdouble vOffset\
+    \ = 0;\n\tAcGeMatrix3d mx;\n\tmx(0, 0) = uScale;\n\tmx(0, 1) = 0.000;\n\tmx(0,\
+    \ 2) = 0.000;\n\tmx(0, 3) = uScale*uOffset;\n\tmx(1, 0) = 0.000;\n\tmx(1, 1) =\
+    \ vScale;\n\tmx(1, 2) = 0.000;\n\tmx(1, 3) = vScale*vOffset;\n\tmx(2, 0) = 0.000;\n\
+    \tmx(2, 1) = 0.000;\n\tmx(2, 2) = 1.000;\n\tmx(2, 3) = 0.000;\n\tmx(3, 0) = 0.000;\n\
+    \tmx(3, 1) = 0.000;\n\tmx(3, 2) = 0.000;\n\tmx(3, 3) = 1.000;\n\n\tmapper.setTransform(mx);\n\
+    \t//Apply Mapper to Vase \n\tpVase->setMaterialMapper(mapper);\n</pre>\n\n\n for\
+    \ image based textures you may visit \n\n<a href=\"http://adndevblog.typepad.com/autocad/2015/12/mapping-a-material-texture-on-a-subdmesh.html\"\
+    >http://adndevblog.typepad.com/autocad/2015/12/mapping-a-material-texture-on-a-subdmesh.html</a>\n\
+    \n\nWrapping material to a 3dsolid based on image on disk \n\n<a href=\"http://adndevblog.typepad.com/autocad/2013/07/applying-material-to-a-cylinder.html\"\
+    >http://adndevblog.typepad.com/autocad/2013/07/applying-material-to-a-cylinder.html</a>"
+- author: James Maeding
+  email: jmaeding@hunsaker.com
+  ip: 24.249.247.46
+  url: ''
+  date: '2017-07-24 08:58:34'
+  body: Thanks Madhukar!
+- author: snow rider
+  email: Justinmachany932@gmail.com
+  ip: 58.186.91.228
+  url: http://snowrider3d.com
+  date: '2022-09-19 18:38:02'
+  body: We appreciate your visit, but this page mainly covered how to create algorithmic
+    textures. The following code covers the material using a mapper.
+- author: dordle
+  email: saralee16720@gmail.com
+  ip: 113.178.39.46
+  url: https://dordle-game.com
+  date: '2023-02-13 02:20:27'
+  body: 'Thank you for providing this information. I am delighted to come on this
+    fantastic article.
+
+
+    -----'

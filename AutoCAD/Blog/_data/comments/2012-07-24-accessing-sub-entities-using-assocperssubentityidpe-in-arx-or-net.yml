@@ -1,0 +1,72 @@
+comments:
+- author: Konstantin
+  email: KONSTANTINOS.SAKELLARIS@UBA.UNI-HEIDELBERG.DE
+  ip: 129.206.83.222
+  url: ''
+  date: '2014-07-14 09:41:39'
+  body: "Hello  Philippe,\n\nhow can i retrieve the color or the colorindex of a face\
+    \ subentity using your C# .NET version of AssocPersSubentityIdPE example above\
+    \ ?\n\ni added the following code using the GetSubentityColor(subentId)method\
+    \ but an exception is generated.... eNotApplicable:\nYou have reported on this\
+    \ at the thread below as to not have found a way to workaround this behavior\n\
+    <a href=\"http://forums.autodesk.com/t5/NET/Getsubentitycolor/td-p/5059712\">http://forums.autodesk.com/t5/NET/Getsubentitycolor/td-p/5059712</a>\n\
+    The BREP \"path\" generates the same exception !\nThe exception is generated for\
+    \ ALL solids having FACES with no explicitly associated color via SOLIDEDIT command\
+    \ eg. 256 ByLayer, or 257 ByEntity\nFor solids with ALL faces having subentity\
+    \ color other than 256 or 257 NO exception is generated.\n\nHere is the code \n\
+    \nshort colIDx = entity.GetSubentityColor(subentId).ColorIndex;\n            \
+    \    \n                if (faceEntity != null)\n                {\n          \
+    \          if (faceEntity.GetType() == typeof(_AcDb.Surface))\n              \
+    \      {\n                        _AcDb.Surface sEnt = faceEntity as _AcDb.Surface;\n\
+    \n                        ed.WriteMessage(\n                      \n         \
+    \             \"\\n      SubentId IndexPtr : {0}\" +\n                      \"\
+    \\n      Face Perimeter : {1}\" +\n                      \"\\n      Face Area\
+    \ : {2}\" +\n                      \"\\n      Color Index : {3}\",\n\n       \
+    \               subentId.IndexPtr,\n                      sEnt.Perimeter,\n  \
+    \                    sEnt.GetArea(),\n                      colIDx\n         \
+    \                   //face.GetPerimeterLength()\n                            //face.GetArea().ToString()\n\
+    \                            //brp.Solid.GetSubentityColor(fSubEntpath.SubentId).ColorIndex\n\
+    \                            //sEnt.ColorIndex.ToString()\n                  \
+    \   );\n                    }\n\n                    else if (faceEntity.GetType()\
+    \ == typeof(_AcDb.Region))\n                    {\n                        Region\
+    \ rEnt = faceEntity as Region;\n                        ed.WriteMessage(\n   \
+    \                   \n                      \"\\n      SubentId IndexPtr : {0}\"\
+    \ +\n                      \"\\n      Face Perimeter : {1}\" +\n             \
+    \         \"\\n      Face Area : {2}\" +\n                      \"\\n      Color\
+    \ Index : {3}\",\n\n                      subentId.IndexPtr,\n               \
+    \       rEnt.Perimeter,\n                      rEnt.Area,\n                  \
+    \    colIDx\n                            //face.GetPerimeterLength()\n       \
+    \                     //face.GetArea().ToString()\n                          \
+    \  //brp.Solid.GetSubentityColor(fSubEntpath.SubentId).ColorIndex\n          \
+    \                  //rEnt.ColorIndex.ToString()\n                     );\n   \
+    \                 }\n\n                    //ed.WriteMessage(\"\\n . \" + faceEntity.ToString());\n\
+    \                    faceEntity.Dispose();\n                }"
+- author: Philippe
+  email: philippe.leefsma@autodesk.com
+  ip: 83.113.175.247
+  url: ''
+  date: '2014-07-14 11:47:51'
+  body: 'There seem to be no way to overcome the exception: wrap your code that retrieve
+    the face color in a try/catch block. If the face has a subentity color set to
+    it, you can access it, otherwise it will throw an exception.
+
+
+    I hope that helps,
+
+    Philippe.'
+- author: Konstantin
+  email: KONSTANTINOS.SAKELLARIS@UBA.UNI-HEIDELBERG.DE
+  ip: 129.206.83.222
+  url: ''
+  date: '2014-07-15 04:18:00'
+  body: "I hope that the bug will be fixed ASAP !\nThe exception is generated in ACAD\
+    \ 2012, ACAD 2014, ACAD 2015 in 32+64bit .\nI use the code below and it seems\
+    \ to work ...\nThanks for responding\nKonstantin\n\n\n\ntry\n                \
+    \  {\n                      if (sol != null)\n                      colIdx = sol.GetSubentityColor(face.SubentityPath.SubentId).ColorIndex;\n\
+    \                      else if (surf != null)\n                          colIdx\
+    \ = surf.GetSubentityColor(face.SubentityPath.SubentId).ColorIndex;\n\n      \
+    \            }\n                  catch\n                  {\n               \
+    \       colIdx = brepEnt.Color.ColorIndex;\n                      //Color color\
+    \ = Color.FromColorIndex(ColorMethod.ByColor, colIdx);\n                     \
+    \ //sol.SetSubentityColor(face.SubentityPath.SubentId, color);\n             \
+    \     }\n-----"

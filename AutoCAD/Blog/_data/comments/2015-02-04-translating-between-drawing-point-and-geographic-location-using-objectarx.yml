@@ -1,0 +1,23 @@
+comments:
+- author: sandesh
+  email: info@indovance.com
+  ip: 98.26.91.201
+  url: http://www.indovance.com/
+  date: '2015-02-11 20:25:47'
+  body: Thanks for posting this code. I was just looking for some training material
+    like this.
+- author: Neyton Luiz Dalle Molle
+  email: neyton@yahoo.com
+  ip: 179.155.162.202
+  url: http://tbn2net.appspot.com
+  date: '2015-09-26 05:24:06'
+  body: "Hi, \n\nI'm a Civil 3D user and I'm trying to implement this code to convert\
+    \ local coordinates (x,y) to UTM grid coordinates (north, east):\n\nDim gd As\
+    \ GeoLocationData = DB.GeoDataObject.GetObject(OpenMode.ForRead)\n\nDim m As Matrix3d\
+    \ = Matrix3d.Displacement(gd.DesignPoint.GetVectorTo(gd.ReferencePoint))\n\nm\
+    \ = m * Matrix3d.Rotation(gd.NorthDirection, gd.UpDirection, gd.DesignPoint)\n\
+    \nm = m * Matrix3d.Scaling(gd.ScaleFactor, gd.DesignPoint)\n\nDim ptUTM as Point3d\
+    \ = ptLOCAL.TransformBy(m)\n\nBut, gd.ScaleFactor always return 1, even if gd.ScaleEstimationMethod\
+    \ = ScaleEstimationMethod.ScaleEstMethodReferencePoint\n\nNote: Civil 3D return\
+    \ correct value:\nAutodesk.Civil.ApplicationServices.CivilApplication.ActiveDocument.Settings.DrawingSettings.TransformationSettings.GridScaleFactor\n\
+    \nWhat is wrong? Did I miss something?\n-----"

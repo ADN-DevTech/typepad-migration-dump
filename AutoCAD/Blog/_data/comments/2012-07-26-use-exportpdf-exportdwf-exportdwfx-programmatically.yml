@@ -1,0 +1,113 @@
+comments:
+- author: Adil
+  email: imaztec.part@gmail.com
+  ip: 108.162.254.42
+  url: ''
+  date: '2014-05-02 03:22:31'
+  body: "Hi, thanks a lot for this interesting post.\n\nCan i use this command in\
+    \ DWG TRURVIEW 2013(or other version) ? \n\nWhen i make this command i have :\
+    \ Unknown Command :(\n\nAny HELP please.\n\nThank You."
+- author: Bob
+  email: bob_banzer@hotmail.com
+  ip: 192.168.3.37
+  url: ''
+  date: '2015-01-22 01:49:59'
+  body: 'Hello.
+
+
+    I am trying to use the following VBA in order to export all the layouts in a pdf
+    file.
+
+
+    ThisDrawing.SendCommand ("-EXPORT" & vbCr & "PDF" & vbCr & "ALL" & vbCr & varFile
+    & vbCr)
+
+
+    Unfortunately this does not work. After a while a plot error comes up, but it
+    does not give any message.
+
+
+    When I execute the commands one by one in the command line it works.
+
+
+    I tried as well to indicate the file name instead of the variable (which is a
+    string) but no luck eather.
+
+
+    Any ideas?
+
+
+
+    Bob'
+- author: Balaji
+  email: ''
+  ip: 14.99.38.44
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-01-23 16:29:06'
+  body: "Hi Bob,\n\nSorry, I could not reproduce the error. It worked ok with the\
+    \ following VBA code :\n\nPublic Sub Test()\n    ThisDrawing.SendCommand (\"filedia\
+    \ 0 \")\n    Dim varFile As String\n    varFile = \"D:\\Temp\\VBA.pdf\"\n    ThisDrawing.SendCommand\
+    \ (\"-EXPORT\" & vbCr & \"PDF\" & vbCr & \"ALL\" & vbCr & varFile & vbCr)\nEnd\
+    \ Sub\n\nCan you please try running Lisp code from the command prompt ? The publish\
+    \ result popup in AutoCAD can help provide more information on the error.\nPlease\
+    \ try this, if you are using AutoCAD 2015 :\n(command-s \"_-EXPORT\" \"_PDF\"\
+    \ \"_ALL\" \"D:\\\\Temp\\\\my.pdf\")\nor this one for the earlier releases :\n\
+    (command \"_-EXPORT\" \"_PDF\" \"_ALL\" \"D:\\\\Temp\\\\my.pdf\")\n\nRegards,\n\
+    Balaji"
+- author: Cesar Hernandez
+  email: cesarsenior@gmail.com
+  ip: 4.28.86.162
+  url: ''
+  date: '2017-02-21 06:39:12'
+  body: 'Hello Balaji,
+
+
+    I ran the code and it works great! Thank you! I am having a problem with trying
+    to get the file name from the file to insert into the newly created PDF as a file
+    name. I used the "getfilename" but it seems not to work or I am not calling correctly.
+    Any help you could provide would be greatly appreciated. Below is the code:
+
+
+    Public Sub Test()
+
+    ThisDrawing.SendCommand ("filedia 0 ")
+
+    Dim varFile As String
+
+    varFile = "P:\Instrument Group\PDFs\Test\" + getfilename + ".pdf"
+
+    ThisDrawing.SendCommand ("_-EXPORT" & vbCr & "PDF" & vbCr & "" & vbCr & "" & vbCr
+    & varFile & vbCr)
+
+    End Sub
+
+
+    Thank you!'
+- author: Dave
+  email: david.scharlau@ch2m.com
+  ip: 165.189.65.17
+  url: ''
+  date: '2017-03-15 11:18:23'
+  body: "I haven't used getfilename but you can use the Active document properties\
+    \ to get what you need.  \n\n\nSub ActiveFileName()\nMsgBox Application.ActiveDocument.Path\n\
+    MsgBox Application.ActiveDocument.Name\nMsgBox Application.ActiveDocument.FullName\n\
+    End Sub"
+- author: Cesar Hernandez
+  email: cesarsenior@gmail.com
+  ip: 4.28.86.162
+  url: ''
+  date: '2017-03-23 13:40:41'
+  body: Dave - That worked great! Thank you so much!
+- author: Nirantar Vidyarthee
+  email: nirantar.vidyarthee@gmail.com
+  ip: 117.248.180.103
+  url: ''
+  date: '2018-03-19 13:06:35'
+  body: "I ran this code in AutoCAD 2014 but it does not generate the pdf file.\n\
+    AutoCAD says errors and warning found but it is blank.\n\nPublic Sub Test()\n\
+    ThisDrawing.SendCommand (\"filedia 0 \")\nDim varFile As String\nvarFile = \"\
+    D:\\PDftry\\Angletry.pdf\"\nThisDrawing.SendCommand (\"_-EXPORT\" & vbCr & \"\
+    PDF\" & vbCr & \"Extents\" & vbCr & \"No\" & vbCr & varFile & vbCr)\nEnd Sub\0\
+    \n\nWhen I run the same command on command line it works. \n\0\0\0\0\0\0\0\0\0\
+    \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+    \0\0\0\0\0\0\0\0\0\0\n-----"

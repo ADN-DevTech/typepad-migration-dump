@@ -1,0 +1,67 @@
+comments:
+- author: J Paterson
+  email: jason.paterson@shipconstructor.com
+  ip: 69.196.72.2
+  url: ''
+  date: '2012-08-14 08:34:38'
+  body: This sample doesn't return the point in the correct position (not under the
+    cursor) for any view direction.
+- author: Gilles Chanteau
+  email: chanteau.gilles@orange.fr
+  ip: 86.210.241.26
+  url: ''
+  date: '2012-08-15 02:12:31'
+  body: "I think there're two things wrong in the posted code.\n\n1. PSDCS and DCS\
+    \ are related to the active Viewport, so it's needed to activate the Viewport\
+    \ (switching to ModelSpace if it's assumed there's only one viewport in the current\
+    \ layout)\n\n2. retPoint coordinates are DCS coordinates which need to be tranlated\
+    \ to WCS coordinates before passint to the DBPoint ctor.\n\nSo, I'd replace:\n\
+    \n// Transform from PS point to MS point\nResultBuffer rbFrom = new ResultBuffer(new\
+    \ TypedValue(5003, 3));\nResultBuffer rbTo = new ResultBuffer(new TypedValue(5003,\
+    \ 2));\ndouble[] retPoint = new double[] { 0, 0, 0 };\n// translate from from\
+    \ the DCS of Paper Space (PSDCS) RTSHORT=3\n// and the DCS of the current model\
+    \ space viewport RTSHORT=2\nacedTrans(res.Value.ToArray(), rbFrom.UnmanagedObject,\
+    \ rbTo.UnmanagedObject, 0, retPoint);\n\nwith:\n\n// Transform from PS point to\
+    \ MS point\n                ResultBuffer rbPSDCS = new ResultBuffer(new TypedValue(5003,\
+    \ 3));\n                ResultBuffer rbDCS = new ResultBuffer(new TypedValue(5003,\
+    \ 2));\n                ResultBuffer rbWCS = new ResultBuffer(new TypedValue(5003,\
+    \ 0));\n                double[] retPoint = new double[] { 0, 0, 0 };\n      \
+    \          ed.SwitchToModelSpace();\n                using (Viewport vp = (Viewport)ed.CurrentViewportObjectId.Open(OpenMode.ForRead))\n\
+    \                {\n                     // translate from from the DCS of Paper\
+    \ Space (PSDCS) RTSHORT=3\n                     // to the DCS of the current model\
+    \ space viewport RTSHORT=2\n                    acedTrans(res.Value.ToArray(),\
+    \ rbPSDCS.UnmanagedObject, rbDCS.UnmanagedObject, 0, retPoint);\n\n          \
+    \          //translate the DCS of the current model space viewport RTSHORT=2\n\
+    \                    //to the WCS RTSHORT=0\n                    acedTrans(retPoint,\
+    \ rbDCS.UnmanagedObject, rbWCS.UnmanagedObject, 0, retPoint);\n              \
+    \  }\n                ed.SwitchToPaperSpace();\n\nOr, rather than P/Invoking acedTrans,\
+    \ use  some extension methods defined in the GeometryExtension library:\n<a href=\"\
+    http://www.theswamp.org/index.php?topic=31865.msg373672#msg373672\">http://www.theswamp.org/index.php?topic=31865.msg373672#msg373672</a>"
+- author: Gilles Chanteau
+  email: chanteau.gilles@orange.fr
+  ip: 86.210.241.26
+  url: ''
+  date: '2012-08-15 04:50:31'
+  body: 'A more complete reply with nicer code formatting at TheSwamp:
+
+    <a href="http://www.theswamp.org/index.php?topic=42503.msg476994#msg476994">http://www.theswamp.org/index.php?topic=42503.msg476994#msg476994</a>'
+- author: BKSpurgeon
+  email: ''
+  ip: 165.228.230.183
+  url: http://profile.typepad.com/6p01bb0820bd76970d
+  date: '2016-12-28 21:02:31'
+  body: 'Hello
+
+
+    what is the purpose of the result buffer class?
+
+
+    the arx documentation is very limited on that point.
+
+
+    rgds
+
+
+    Ben
+
+    -----'

@@ -1,0 +1,51 @@
+comments:
+- author: Dru
+  email: drauckman@littelfuse.com
+  ip: 184.70.60.166
+  url: ''
+  date: '2015-01-21 10:04:32'
+  body: 'This is interesting I thought that handles never changed and they were "safe"
+    to use when tracking objects between the file being open.
+
+
+    So if you had an app tracking handles and tried to do a sync between known handles
+    and what is existing in the drawing you could end up thinking that they are deleted
+    when really they have just been bedit''ed?
+
+
+    I am guessing I know the answer to this already but there is no mechanism in the
+    API to track an object/entity definitely without condition between drawing open/close?'
+- author: Balaji
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-01-21 20:54:24'
+  body: "Hi Dru,\n\nI am not aware of any other built-in mechanism to track it.\n\
+    You can try using DBObject events, but I wanted to only track the changes during\
+    \ the BEDIT operation. \nThe reason for that being, BEDIT is the only operation\
+    \ that i know which changes the handle, so it may not be worth to have DBObject\
+    \ events subscribed all the time.  \n\nRegards,\nBalaji"
+- author: Sanjoy Nath
+  email: sanjoy@sol-mail.net
+  ip: 192.168.1.27
+  url: http://www.structuresonline.net
+  date: '2016-09-14 04:44:58'
+  body: 'Hi Balaji,
+
+
+    This is interesting , but in Autodesk AdvanceSteel For every command Seperate
+    COM process starts and that modifies many Objects togather .So this Code hangs
+    when we close those Joint Box (COM interfaces)
+
+
+    What Precautions should we take
+
+    When Model Browser is opened this mechanism hangs and Model Browser Goes to Not
+    Responding State
+
+
+    Regards
+
+    Sanjoy
+
+    -----'

@@ -1,0 +1,114 @@
+comments:
+- author: Yvon Bourgouin
+  email: ybourgouin@promine.com
+  ip: 142.217.137.109
+  url: ''
+  date: '2012-07-12 12:36:41'
+  body: 'Hi Augusto, could you tell me what you mean by "Starting on 2013, AutoCAD
+    can run on console mode, which makes easier to restart the process and therefore
+    better use release the memory.".  We have an autolisp which is running perfectly
+    fine but when we translated in .NET to do the same thing, the memory is growing
+    real until we have to restart AutoCAD. We don''t have that problem in the autolisp
+    version.
+
+    At the moment, we have to stay with the autolisp version even if it is slower.
+    Any help? We are part of ADN'
+- author: Augusto Goncalves
+  email: ''
+  ip: 200.57.88.172
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2012-07-12 12:42:48'
+  body: 'Hi Yvon,
+
+
+    Until AutoCAD 2012 we had to restart the full acad.exe process, which is quite
+    heavy, but now on 2013 we have a faster/lighter version with the console, that
+    we can restart quite fast. Have you tried that already?
+
+
+    Finally, if you have a specific issue, you can post using ADN DevHelp so we can
+    investigate it further.
+
+
+    Regards,
+
+    Augusto Goncalves'
+- author: Yvon Bourgouin
+  email: ybourgouin@promine.com
+  ip: 142.217.137.109
+  url: ''
+  date: '2012-07-13 07:53:33'
+  body: 'Hi Augusto, could you give some tips about doing that in C#.
+
+    Thanks
+
+    Yvon'
+- author: Augusto Goncalves
+  email: ''
+  ip: 200.57.88.172
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2012-08-16 07:49:47'
+  body: 'Hi Yvon,
+
+
+    Not sure if this was replied...but anyway, this is not C# related. Actually you
+    can create a .bat file to open AutoCAD 2013 console and execute .src files. This
+    .src can contain any custom or built-in command.
+
+
+    Below is a sample for the .bat file to process files on a folder
+
+
+    >>>
+
+    for %%f IN (c:\SampleDrawings\*.dwg) DO accoreconsole.exe /i "%%f" /s "C:\SampleDrawings\SampleScript.scr"
+    /l en-US
+
+    <<<
+
+
+    It starts one AutoCAD console for each drawing on the folder.
+
+
+    Regards,
+
+    Augusto Goncalves'
+- author: anonymous
+  email: anonymous@google.com
+  ip: 108.162.222.233
+  url: ''
+  date: '2014-04-23 08:56:28'
+  body: Hi. Is there no other way to resolve this constant crashes and memory leaks
+    using autocad api?
+- author: Augusto Goncalves
+  email: ''
+  ip: 108.162.210.223
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2014-04-25 11:52:54'
+  body: 'By the way Windows allocate memory, you need to close the application in
+    order to fully restore the memory. That''s why the AutoCAD Console is the main
+    alternative here.
+
+
+    Regards,
+
+    Augusto Goncalves'
+- author: Umesh Worlikar
+  email: umeshwww@gmail.com
+  ip: 122.182.12.138
+  url: ''
+  date: '2014-08-10 22:56:42'
+  body: "The Database class derives from DisposableWrapper, which in turn implements\
+    \ IDisposable. It is caller functions responsibility to call Dispose() immediately\
+    \ after usage of Database. (just before it goes out of scope.)\n\nFor C#, cleaner\
+    \ way would be to wrap the database variable within using statement.\n\nusing(Database)\n\
+    {\n  //read it and do stuff.\n}"
+- author: Augusto Goncalves
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2014-08-11 05:56:17'
+  body: "Umesh,\n\nThis is true, but remember the AutoCAD types are actually defined\
+    \ on C++ level and the .NET class is just a wrapper. \n\nAlso, this post describes\
+    \ a more complex scenario, related to how Windows OS allocates memory.\n\nRegards,\n\
+    Augusto Goncalves\n-----"

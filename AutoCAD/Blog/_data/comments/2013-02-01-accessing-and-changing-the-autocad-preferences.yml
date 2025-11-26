@@ -1,0 +1,118 @@
+comments:
+- author: dario
+  email: dariowbc@terra.com.br
+  ip: 201.0.143.28
+  url: ''
+  date: '2014-03-26 04:47:46'
+  body: "//insert a block, and in the sequel want the data of this block, \n\n\n \
+    \       //Hello my name is Dario \n        //'m from Brazil \n\n        //I'm\
+    \ still having problem \n        //need help\n\n        //can someone help me?\
+    \ \n\n        //insert a block, and in the sequel want the data of this block,\
+    \ \n        //and then delete this block \n        //as the example in the main\
+    \ code, just below .. \n\n\n        //I have these questions that are commented\
+    \ no Main method >>???????\n\n\n        //Main method \n        //===================================================================================================\n\
+    \n        [CommandMethod(\"Blockk\")]\n        public void blockk()\n        {\n\
+    \          Document doc = Host.ApplicationServices.Application.DocumentManager.MdiActiveDocument;\n\
+    \n          string[] data = new string[3];\n          data[0] = \"data 1\";\n\
+    \          data[1] = \"data 2\";\n          data[2] = \"data 3\";\n\n        \
+    \  BlockReference db = InsertBlockFromFile_(doc, @\"C:\\wbc\\orienta.dwg\", new\
+    \ Point3d(50, 50, 50), Math.PI * 0.25,\n            \"wbc_insert\", data, 30,\
+    \ 30, 1, 7, true, null, \"wbcd\");\n\n            //??????? return..>>> Example\n\
+    \n            //??????? db.insertionPoint\n            //??????? db.angle\n  \
+    \          //??????? db.handle\n            //??????? db.Xproprierts\n       \
+    \     //??????? db.Atrib\n            //??????? db.erase\n\n\n        }\n\n\n\n\
+    \n        //Complementary methods\n        //===============================================================================================================================\n\
+    \        public static BlockReference InsertBlockFromFile_(Document doc, string\
+    \ DrawingFile, Point3d Pinsert, double Angle,\n        string Layer, string[]\
+    \ DadosExtendidos = null, double escalax = 1.0, double escalay = 1.0, double escalaz\
+    \ = 1.0, short ColorLayer = 7,\n        bool ModelSpace = true, string[] Atributos\
+    \ = null, string RegAplicacao = \"wbc\")\n        {\n            if (!System.IO.File.Exists(DrawingFile))\n\
+    \            {\n                MessageBox.Show(\"Drawing not found\\n\" + DrawingFile);\n\
+    \                return null;\n            }\n            string sourceFileName\
+    \ = DrawingFile;\n            string Blockname = System.IO.Path.GetFileNameWithoutExtension(sourceFileName);\n\
+    \            try\n            {\n                using (Transaction tr = doc.TransactionManager.StartTransaction())\n\
+    \                {\n                    Database db = new Database(false, false);\n\
+    \                    db.ReadDwgFile(DrawingFile, System.IO.FileShare.Read, true,\
+    \ null);\n                    ObjectId BlkId = doc.Database.Insert(Blockname,\
+    \ db, true); // ISL: Small fix, use correct block name\n                    tr.Commit();\n\
+    \                }\n            }\n            catch (IOException ioe)\n     \
+    \       {\n                MessageBox.Show(ioe.Message);\n\n                return\
+    \ null;\n            }\n\n            return AddBlockTest_(doc, Blockname, Pinsert,\
+    \ Angle, Layer, DadosExtendidos, escalax, escalay, escalaz, ColorLayer, Atributos,\
+    \ RegAplicacao);\n        }\n\n\n\n\n\n        private static BlockReference AddBlockTest_(Document\
+    \ doc, string blockName, Point3d Pinsert, double Angle,\n        string Layer,\
+    \ string[] DadosExtendidos = null, double escalax = 1.0, double escalay = 1.0,\
+    \ double escalaz = 1.0,\n        short ColorLayer = 7, string[] Atributos = null,\
+    \ string Regaplicacao = \"wbc\")\n        {\n            Database db = doc.Database;\n\
+    \            using (Transaction myT = db.TransactionManager.StartTransaction())\n\
+    \            {\n                //Get the block definition \"Check\".\n\n    \
+    \            BlockTable bt =\n                    db.BlockTableId.GetObject(OpenMode.ForRead)\
+    \ as BlockTable;\n                BlockTableRecord blockDef =\n              \
+    \    bt[blockName].GetObject(OpenMode.ForRead) as BlockTableRecord;\n\n      \
+    \          BlockTableRecord ms = (BlockTableRecord)myT.GetObject(db.CurrentSpaceId,\
+    \ OpenMode.ForWrite);\n\n\n                //Create new BlockReference, and link\
+    \ it to our block definition\n                using (BlockReference blockRef =\n\
+    \                        new BlockReference(Pinsert, blockDef.ObjectId))\n   \
+    \             {\n\n                    blockRef.Rotation = Angle;\n          \
+    \          blockRef.ScaleFactors = new Scale3d(escalax, escalay, escalaz);\n\n\
+    \                    //Add the block reference to modelspace\n               \
+    \     ms.AppendEntity(blockRef);\n                    myT.AddNewlyCreatedDBObject(blockRef,\
+    \ true);\n\n                    SetXData_(blockRef, Regaplicacao , DadosExtendidos,\
+    \ doc);\n                    CreatLayer_(Layer, doc, ColorLayer);\n          \
+    \          blockRef.Layer = Layer;\n                }\n                //Our work\
+    \ here is done\n                myT.Commit();\n\n            }\n\n           \
+    \ return null;\n        }\n\n\n\n\n        static public void SetXData_(Entity\
+    \ bref, string nome, string[] data, Document doc, string VersaoEquipamento = \"\
+    Without Version\")\n        {\n            Database db = doc.Database;\n\n   \
+    \         using (Transaction tr = doc.TransactionManager.StartTransaction())\n\
+    \            {\n                AddRegAppTableRecord_(nome, doc);\n          \
+    \      ResultBuffer rb = new ResultBuffer();\n                rb.Add(new TypedValue(1001,\
+    \ nome));\n\n                for (int i = 0; i < data.Length; i++)\n         \
+    \       {\n                    rb.Add(new TypedValue(1000, data[i]));\n      \
+    \          }\n\n                rb.Add(new TypedValue(1000, VersaoEquipamento));\n\
+    \                DateTime Wdata = DateTime.Now;\n                Wdata.ToShortDateString();\n\
+    \                rb.Add(new TypedValue(1000, Wdata.ToString()));\n           \
+    \     rb.Add(new TypedValue(1000, VariaveisGlobais.Wusuario + \"_\" + VariaveisGlobais.NumeroSerie));\n\
+    \                bref.XData = rb;\n                tr.Commit();\n            }\n\
+    \        }\n\n\n\n        public static void CreatLayer_(string sLayerName, Document\
+    \ doc, short CorCamada = 7)\n        {\n            Document acDoc = doc;\n  \
+    \          Database acCurDb = acDoc.Database;\n            // Start a transaction\n\
+    \            using (Transaction acTrans = acCurDb.TransactionManager.StartTransaction())\n\
+    \            {\n                // Open the Layer table for read\n           \
+    \     LayerTable acLyrTbl;\n                acLyrTbl = acTrans.GetObject(acCurDb.LayerTableId,\n\
+    \                                             OpenMode.ForRead) as LayerTable;\n\
+    \                if (acLyrTbl.Has(sLayerName) == false)\n                {\n \
+    \                   Platform.DatabaseServices.LayerTableRecord acLyrTblRec = new\
+    \ LayerTableRecord();\n                    // Assign the layer the ACI color 1\
+    \ and a name\n                    acLyrTblRec.Color = Platform.Colors.Color.FromColorIndex(Platform.Colors.ColorMethod.ByAci,\
+    \ CorCamada);\n                    acLyrTblRec.Name = sLayerName;\n          \
+    \          // Upgrade the Layer table for write\n                    acLyrTbl.UpgradeOpen();\n\
+    \                    // Append the new layer to the Layer table and the transaction\n\
+    \                    acLyrTbl.Add(acLyrTblRec);\n                    acTrans.AddNewlyCreatedDBObject(acLyrTblRec,\
+    \ true);\n                }\n                acTrans.Commit();\n            }\n\
+    \        }\n\n\n\n\n        public static void AddRegAppTableRecord_(string regAppName,\
+    \ Document doc)\n        {\n            using (Transaction tr = doc.TransactionManager.StartTransaction())\n\
+    \            {\n                RegAppTable rat = (RegAppTable)tr.GetObject(doc.Database.RegAppTableId,\
+    \ OpenMode.ForRead, false);\n\n                if (!rat.Has(regAppName))\n   \
+    \             {\n                    rat.UpgradeOpen();\n                    RegAppTableRecord\
+    \ ratr = new RegAppTableRecord();\n                    ratr.Name = regAppName;\n\
+    \                    rat.Add(ratr);\n\n                    tr.AddNewlyCreatedDBObject(ratr,\
+    \ true);\n                }\n\n                tr.Commit();\n            }\n \
+    \       }"
+- author: Augusto Goncalves
+  email: ''
+  ip: 179.208.173.183
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2014-03-26 08:13:02'
+  body: 'Dario,
+
+
+    For a better support, can you please post programing questions at the AutoCAD
+    .NET Forum? See at <a href="http://forums.autodesk.com/t5/NET/bd-p/152">http://forums.autodesk.com/t5/NET/bd-p/152</a>
+
+
+    Thanks!
+
+    Augusto Goncalves
+
+    -----'

@@ -1,0 +1,19 @@
+---
+layout: "post"
+title: "Entity.GeometricExtents throws an exception (eNullExtents)"
+date: "2012-12-25 05:50:55"
+author: "Marat Mirgaleev"
+categories:
+  - ".NET"
+  - "2010"
+  - "2011"
+  - "2012"
+  - "2013"
+  - "AutoCAD"
+  - "Marat Mirgaleev"
+original_url: "https://adndevblog.typepad.com/autocad/2012/12/entitygeometricextents-throws-an-exception-enullextents.html "
+typepad_basename: "entitygeometricextents-throws-an-exception-enullextents"
+typepad_status: "Publish"
+---
+
+<p>By <a href="http://adndevblog.typepad.com/autocad/marat-mirgaleev.html" target="_self">Marat Mirgaleev</a></p>  <p><b>Issue</b></p>  <p><em>When I calculate the extents of entities in a drawing, for some entities an exception is thrown with the &quot;eNullExtents&quot; message. What is wrong?</em></p>  <p><a name="section2"><em></em></a></p>  <p><b>Solution</b></p>  <p>This exception occurs for an insert of an empty block or for an empty block attribute. It is &quot;as designed&quot;, it's just a notification to the developer about an empty object. An easy solution is to add a separate catch block for this particular exception:</p>  <div style="font-family: courier new; background: white; color: black; font-size: 8pt">   <p style="margin: 0px"><span style="line-height: 140%">&#160;&#160;&#160;&#160;&#160; Extents3d extents;</span></p>    <p style="margin: 0px"><span style="line-height: 140%">&#160;&#160;&#160;&#160;&#160; </span><span style="line-height: 140%; color: blue">try</span></p>    <p style="margin: 0px"><span style="line-height: 140%">&#160;&#160;&#160;&#160;&#160; {</span></p>    <p style="margin: 0px"><span style="line-height: 140%">&#160;&#160;&#160;&#160;&#160;&#160;&#160; extents = pEntity.GeometricExtents;</span></p>    <p style="margin: 0px"><span style="line-height: 140%">&#160;&#160;&#160;&#160;&#160; }</span></p>    <p style="margin: 0px"><span style="line-height: 140%">&#160;&#160;&#160;&#160;&#160; </span><span style="line-height: 140%; color: blue">catch</span><span style="line-height: 140%"> (Autodesk.AutoCAD.Runtime.Exception ex)</span></p>    <p style="margin: 0px"><span style="line-height: 140%">&#160;&#160;&#160;&#160;&#160; {</span></p>    <p style="margin: 0px"><span style="line-height: 140%">&#160;&#160;&#160;&#160;&#160;&#160;&#160; </span><span style="line-height: 140%; color: blue">if</span><span style="line-height: 140%"> (ex.Message == </span><span style="line-height: 140%; color: #a31515">&quot;eNullExtents&quot;</span><span style="line-height: 140%">)</span></p>    <p style="margin: 0px"><span style="line-height: 140%">&#160;&#160;&#160;&#160;&#160;&#160;&#160; </span><span style="line-height: 140%; color: green">// The entity is empty and has no extents</span></p>    <p style="margin: 0px"><span style="line-height: 140%">&#160;&#160;&#160;&#160;&#160;&#160;&#160; {</span></p>    <p style="margin: 0px"><span style="line-height: 140%">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </span><span style="line-height: 140%; color: green">// TODO. We can simply skip this entity...</span></p>    <p style="margin: 0px"><span style="line-height: 140%">&#160;&#160;&#160;&#160;&#160;&#160;&#160; }</span></p>    <p style="margin: 0px"><span style="line-height: 140%">&#160;&#160;&#160;&#160;&#160;&#160;&#160; </span><span style="line-height: 140%; color: blue">else</span></p>    <p style="margin: 0px"><span style="line-height: 140%">&#160;&#160;&#160;&#160;&#160;&#160;&#160; </span><span style="line-height: 140%; color: green">//&#160; something is wrong ...</span></p>    <p style="margin: 0px"><span style="line-height: 140%">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; TODO!</span></p>    <p style="margin: 0px"><span style="line-height: 140%">&#160;&#160;&#160;&#160;&#160; }</span></p>    <p style="margin: 0px"></p> </div>

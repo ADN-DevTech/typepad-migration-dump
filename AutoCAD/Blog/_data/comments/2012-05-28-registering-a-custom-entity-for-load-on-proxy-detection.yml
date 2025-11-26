@@ -1,0 +1,51 @@
+comments:
+- author: Owen Wengerd
+  email: owenw@manusoft.com
+  ip: 24.140.112.242
+  url: http://otb.manusoft.com
+  date: '2012-05-28 08:33:47'
+  body: "It is my experience that leaving the first and last quote mark is necessary\
+    \ to preserve white space within the string and keep things lined up:\n\nACRX_DXF_DEFINE_MEMBERS\
+    \ (\n  MyEnt, AcDbEntity,\n  AcDb::kDHL_CURRENT, AcDb::kMReleaseCurrent, \n  AcDbProxyEntity::kNoOperation,\
+    \ MyEnt,\n  \"MYAPP|Product Desc:     My App|Company:          My Company|WEB\
+    \ Address:      www.mycompany.com\"\n)"
+- author: Adam Nagy
+  email: ''
+  ip: 86.31.122.37
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2012-05-29 06:49:43'
+  body: "Thanks for the comment, Owen.\nThe problem is that the quotation mark added\
+    \ at the beginning will appear in the application name: \"MYAPP instead of MYAPP,\
+    \ so probably AutoCAD will not find that application either.\nI just checked in\
+    \ the watch window what string the sample code I pasted creates. Here it is: \n\
+    MYAPP |Product Desc: My App |Company: My Company |WEB Address: www.mycompany.com\n\
+    So it seems that the space characters are preserved.\t\nIf you modified the DXF_MACRO\
+    \ to use ACRX_T(APP) instead of the original ACRX_T(#APP), then your extra quotation\
+    \ marks would be necessary and would not show up in the string."
+- author: Owen Wengerd
+  email: owenw@manusoft.com
+  ip: 24.140.112.242
+  url: http://otb.manusoft.com
+  date: '2012-05-29 09:40:06'
+  body: 'Adam, what you say is correct, but you should test my assertion not by looking
+    at the watch window, but by looking at what is displayed in the proxy notice dialog
+    box. You should also perform a test with an actual registered application name
+    rather than making assumptions about how AutoCAD parses the string.
+
+
+    If you think I am wrong, please edify me via email, as this blog is inhospitable
+    to conversation.'
+- author: Adam Nagy
+  email: ''
+  ip: 86.31.122.37
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2012-06-19 07:46:06'
+  body: 'Just a final word after discussing this topic directly with Owen. He seems
+    to be right in saying that if you want the information shown by the LIST command
+    to be nicely formatted, then you should place the application information inside
+    quotation marks - as he showed in his comment. Your application will still be
+    recognised and the additional space characters will be kept in the string.
+
+    Thanks, Owen!
+
+    -----'

@@ -1,0 +1,248 @@
+comments:
+- author: Andrey
+  email: bushman.andrey@gmail.com
+  ip: 87.249.45.171
+  url: https://sites.google.com/site/bushmansnetlaboratory/
+  date: '2012-09-10 05:56:35'
+  body: Have You tried to run it code on your computer?
+- author: Philippe
+  email: philippe.leefsma@autodesk.com
+  ip: 95.172.68.148
+  url: ''
+  date: '2012-09-11 04:21:58'
+  body: So far I do not reproduce the issue with that code. Did you make sure your
+    testing files have been physically saved on the disk, I remember issues link to
+    that...
+- author: Andrey
+  email: bushman.andrey@gmail.com
+  ip: 87.249.45.171
+  url: https://sites.google.com/site/bushmansnetlaboratory/
+  date: '2012-09-11 06:59:36'
+  body: "Yes, I sure. \nPhilippe, look please at this, please:  <a href=\"https://skydrive.live.com/redir?resid=51B3145B64E05FEF!538&authkey=!AH9SMEznd1kbZfw\"\
+    >https://skydrive.live.com/redir?resid=51B3145B64E05FEF!538&authkey=!AH9SMEznd1kbZfw</a>\n\
+    \nIt an archive contains projects with your code for autocad 2009 and autocad\
+    \ 2013, and directory \"temp\" with DWG files. Try it run, please.\n\nRegards"
+- author: elpanov@gmail.com
+  email: elpanov@gmail.com
+  ip: 91.221.16.3
+  url: http://elpanov.com
+  date: '2012-09-11 07:28:41'
+  body: 'Hi Andery!
+
+    It ain''t working for me too (Windows 7 x86 Acad 2013 x86).'
+- author: elpanov@gmail.com
+  email: elpanov@gmail.com
+  ip: 91.221.16.3
+  url: http://elpanov.com
+  date: '2012-09-11 07:35:11'
+  body: 'see screenshot of error:
+
+    <a href="https://skydrive.live.com/redir?resid=100A6A4D2F10BA72!124&authkey=!AKWNDMptlh_yNpg">https://skydrive.live.com/redir?resid=100A6A4D2F10BA72!124&authkey=!AKWNDMptlh_yNpg</a>'
+- author: Philippe
+  email: philippe.leefsma@autodesk.com
+  ip: 95.172.68.148
+  url: ''
+  date: '2012-09-11 09:03:39'
+  body: "Alright, testing under 2013 and I could reproduce the behavior... The following\
+    \ code seems to work fine and produces nearly the same result, can you check if\
+    \ it addresses your needs?\n\n[CommandMethod(\"PublishExecute\")]\nstatic public\
+    \ void PublishExecute()\n{\n    try\n    {\n        string dsdFilePath = \"c:\\\
+    \\Temp\\\\publisher.dsd\";\n        string dsdLogPath = \"c:\\\\Temp\\\\logdwf.log\"\
+    ;\n        string dwfDestPath = \"c:\\\\Temp\\\\PublisherTest.dwf\";\n\n     \
+    \   DsdEntryCollection collection = new DsdEntryCollection();\n        DsdEntry\
+    \ entry;\n\n        entry = new DsdEntry();\n        entry.Layout = \"Layout1\"\
+    ;\n        entry.DwgName = \"c:\\\\Temp\\\\Drawing1.dwg\";\n        entry.NpsSourceDwg\
+    \ = entry.DwgName;\n        entry.Title = \"Sheet1\";\n        collection.Add(entry);\n\
+    \n        entry = new DsdEntry();\n        entry.Layout = \"Layout1\";\n     \
+    \   entry.DwgName = \"c:\\\\Temp\\\\Drawing2.dwg\";\n        entry.NpsSourceDwg\
+    \ = entry.DwgName;\n        entry.Title = \"Sheet2\";\n        collection.Add(entry);\n\
+    \n        DsdData dsd = new DsdData();\n        dsd.SetDsdEntryCollection(collection);\n\
+    \        dsd.IsSheetSet = true;\n        dsd.LogFilePath = dsdLogPath;\n     \
+    \   dsd.SheetType = SheetType.MultiDwf;\n        dsd.NoOfCopies = 1;\n       \
+    \ dsd.DestinationName = dwfDestPath;\n        dsd.SheetSetName = \"PublisherSet\"\
+    ;\n        dsd.WriteDsd(dsdFilePath);\n\n        //Workaround to avoid promp for\
+    \ dwf file name\n        //set PromptForDwfName=FALSE in dsdData using StreamReader/StreamWriter\n\
+    \        System.IO.StreamReader sr = new System.IO.StreamReader(dsdFilePath);\n\
+    \        string str = sr.ReadToEnd();\n        sr.Close();\n\n        str = str.Replace(\"\
+    PromptForDwfName=TRUE\", \"PromptForDwfName=FALSE\");\n        System.IO.StreamWriter\
+    \ sw = new System.IO.StreamWriter(dsdFilePath);\n        sw.Write(str);\n    \
+    \    sw.Close();\n\n        dsd.ReadDsd(dsdFilePath);\n\n        Autodesk.AutoCAD.PlottingServices.PlotConfigManager.SetCurrentConfig(\n\
+    \            \"DWF6 ePlot.pc3\");\n\n        Application.Publisher.AboutToBeginPublishing\
+    \ += \n            new Autodesk.AutoCAD.Publishing.AboutToBeginPublishingEventHandler(\n\
+    \                Publisher_AboutToBeginPublishing);\n\n        Application.Publisher.PublishExecute(\n\
+    \            dsd, \n            Autodesk.AutoCAD.PlottingServices.PlotConfigManager.CurrentConfig);\n\
+    \n        System.IO.File.Delete(dsdFilePath);\n    }\n    catch (Autodesk.AutoCAD.Runtime.Exception\
+    \ ex)\n    {\n        Application.DocumentManager.MdiActiveDocument.Editor.WriteMessage(ex.Message);\n\
+    \    }\n}"
+- author: Andrey Bushman (@AndreyBushman)
+  email: bushman.andrey@gmail.com
+  ip: 188.134.89.152
+  url: https://sites.google.com/site/bushmansnetlaboratory/
+  date: '2012-09-11 10:05:40'
+  body: "Hi Philippe. \n\nYes, your 2-nd a code variant is working fine (at AutoCAD\
+    \ 2013 x64). \n\nThank you."
+- author: Andrey Bushman (@AndreyBushman)
+  email: bushman.andrey@gmail.com
+  ip: 188.134.89.152
+  url: https://sites.google.com/site/bushmansnetlaboratory/
+  date: '2012-09-11 10:22:59'
+  body: 'But...
+
+    Why not working your 1-st a code variant, with PlotProgressDialog? How can I write
+    a code with PlotProgressDialog, which will working fine?
+
+
+    Regards'
+- author: Andrey Bushman (@AndreyBushman)
+  email: bushman.andrey@gmail.com
+  ip: 188.134.89.152
+  url: https://sites.google.com/site/bushmansnetlaboratory/
+  date: '2012-09-11 10:35:08'
+  body: 'Hi again, Philippe.
+
+
+    Why in your 2-nd code variant you wrote such a code rows:
+
+    <code>
+
+    System.IO.StreamWriter sw = new System.IO.StreamWriter(dsdFilePath);
+
+    sw.Write(str);
+
+    sw.Close();
+
+    </code>
+
+    Why you didn''t use it:
+
+    <code>
+
+    dsd.PromptForDwfName = false;
+
+    </code>
+
+    ???
+
+    It is much simpler and more clear.
+
+
+    Regards'
+- author: Andrey Bushman (@AndreyBushman)
+  email: bushman.andrey@gmail.com
+  ip: 188.134.89.152
+  url: https://sites.google.com/site/bushmansnetlaboratory/
+  date: '2012-09-11 10:40:43'
+  body: 'I incorrectly quoted your code.
+
+    Instead of this code:
+
+
+    //Workaround to avoid promp for dwf file name
+
+    //set PromptForDwfName=FALSE in dsdData using StreamReader/StreamWriter
+
+    System.IO.StreamReader sr = new System.IO.StreamReader(dsdFilePath);
+
+    string str = sr.ReadToEnd();
+
+    sr.Close();
+
+
+    str = str.Replace("PromptForDwfName=TRUE", "PromptForDwfName=FALSE");
+
+    System.IO.StreamWriter sw = new System.IO.StreamWriter(dsdFilePath);
+
+    sw.Write(str);
+
+    sw.Close();
+
+
+    you could write more simply:
+
+
+    dsd.PromptForDwfName = false;
+
+
+    Regards'
+- author: Philippe
+  email: philippe.leefsma@autodesk.com
+  ip: 95.172.68.148
+  url: ''
+  date: '2012-09-11 11:19:55'
+  body: "Thanks for pointing this out. I wasn't aware of this new property, at the\
+    \ time I initially wrote the code it didn't exist. \n\nI'm afraid at the moment\
+    \ I don't see a workaround to get the publish dialog, considering \"PublishDsd\"\
+    \ does not produce the expected result. I would need to log a change request against\
+    \ it under 2013 and it will hopefully get fixed in a future SP or release."
+- author: Andrey Bushman (@AndreyBushman)
+  email: bushman.andrey@gmail.com
+  ip: 188.134.89.152
+  url: https://sites.google.com/site/bushmansnetlaboratory/
+  date: '2012-09-11 11:47:47'
+  body: '>I''m afraid at the moment I don''t see a workaround to get the publish dialog,
+    considering "PublishDsd" does not produce the expected result.
+
+
+    What AutoCAD version you used earlier, when this a code worked successfully?
+
+
+    > I would need to log a change request against it under 2013 and it will hopefully
+    get fixed in a future SP or release.
+
+
+    Do it, please.
+
+
+    Regards'
+- author: Dale Bartlett
+  email: dale.bartlett@realtimeinternational.com.au
+  ip: 212.72.17.154
+  url: ''
+  date: '2013-03-27 04:48:10'
+  body: 'I use these two lines in 2013 which work perfectly:
+
+    PlotConfigManager.SetCurrentConfig("DWG To PDF.pc3");
+
+    AcadApp.Publisher.PublishDsd(lstrFileNameDsd, progressDlg);
+
+
+    Your suggested two lines fail to publish with no intelligible error:
+
+    PlotConfig pcfg = PlotConfigManager.SetCurrentConfig("DWG To PDF.pc3");
+
+    AcadApp.Publisher.PublishExecute(dsd, pcfg);
+
+
+    I must say I am not clear on the difference between PublishDsd and PublishExecute.
+    Regards'
+- author: Matthias Mueller
+  email: dr.pymote@gmx.de
+  ip: 192.54.144.229
+  url: ''
+  date: '2016-09-09 05:46:23'
+  body: 'Thanks for the script. One thing: is there a way to avoid the resulting PDF
+    files to be opened afterwards?'
+- author: SixCode
+  email: ''
+  ip: 216.14.150.53
+  url: http://profile.typepad.com/6p01b8d2297ae2970c
+  date: '2016-10-13 18:13:52'
+  body: 'I''m a developer working on a Windows forms application for a client. My
+    client''s users are using AutoCAD 2016 to create DWG files. They have an existing
+    Windows application that creates batch plot lists as ".bp3" files, but they don''t
+    have the source code for the app. The new app I''m writing will replace their
+    existing app, and needs to create batch plot list files outside of AutoCAD. I
+    have the dlls from the ObjectARX SDK included in my Windows project and I''ve
+    got some C# code that compiles, but fails at runtime (System.InvalidProgramException).
+    I''m trying to use DsdEntryCollection and DsdEntry objects.
+
+
+    The app I''m working on will be installed on PCs that also have AutoCAD installed.
+    Am I approaching this from the wrong angle? Is there an easier way to create batch
+    plot list files that can be opened and plotted from in AutoCAD? My experience
+    with AutoCAD is about 20 years old - so any input here would be greatly appreciated.
+
+
+    Using Visual Studio 2015.
+
+    -----'

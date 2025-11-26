@@ -1,0 +1,65 @@
+comments:
+- author: Alexander Rivilis
+  email: ''
+  ip: 81.95.185.60
+  url: http://profile.typepad.com/rivilis1964
+  date: '2013-03-20 00:05:55'
+  body: 'Hi, Balaji!
+
+    I think that after explanation of Art Cooney (<a href="http://forums.autodesk.com/t5/Autodesk-ObjectARX/How-to-use-a-reactor-to-prevent-CAD-s-modify-command/m-p/3809644#M30007)">http://forums.autodesk.com/t5/Autodesk-ObjectARX/How-to-use-a-reactor-to-prevent-CAD-s-modify-command/m-p/3809644#M30007)</a>
+    was necessary to correct this post.'
+- author: Balaji
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-03-20 01:33:25'
+  body: "Hi Alexander,\n\nThanks for pointing that out.\n\nI wanted to provide alternate\
+    \ ways without using the overruling and so had included suggestions from a another\
+    \ Devnote that we have had for quite some time. Sorry, I havent tested those suggestions\
+    \ using a code. Art Cooney has rightly pointed out that such changes from reactors\
+    \ can cause other problems. \n\nI have removed the other suggestions from the\
+    \ blog post and have only retained the overruling method that I had tested."
+- author: Alexander Rivilis
+  email: ''
+  ip: 91.142.169.63
+  url: http://profile.typepad.com/rivilis1964
+  date: '2013-03-20 01:51:56'
+  body: 'Hi, Balaji!
+
+    This was a very radical solution to removing the other suggestions from the blog
+    post and have only retained the overruling method! :-)'
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-05-02 13:44:47'
+  body: ">>>> CGripOverrule::setIsOverruling(false);\n\nHi Balaji.\n\nSince Overrules\
+    \ have appeared, I have been puzzled at how Autodesk could have provided a 'global'\
+    \ switch that allows any application (managed or native) to completely disable\
+    \ all overruling, application-wide.  \n\nYour example in this case, serves to\
+    \ make my point, which is that setIsOverruling() is a massive screw-up.\n\nYour\
+    \ code incorrectly calls it when you remove your overrule, and in doing so, <b>disables\
+    \ all overrules in the application</b>. \n\nWell that certainly is radical, isn't\
+    \ it?  :D\n\nSince when, does an API allow one application to corrupt, disable,\
+    \ or interfere with other applications?\n\nPlease ask one of your collages who\
+    \ may be more familiar with the design of the Overrule functionality, to please\
+    \ explain how this could have happened."
+- author: Balaji
+  email: ''
+  ip: 203.202.234.246
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2013-05-03 04:06:08'
+  body: "Hi Tony,\n\nYou have rightly pointed out the issue with my code snippet.\
+    \ I haven't considered the possibility of other overrules, which a production\
+    \ code must definitely consider. \n\nA \"well-behaved\" :) plugin can check the\
+    \ state of overruling using the \"isOverruling\" method even before it adds its\
+    \ own overrules. Based on this information, it should only stop the application\
+    \ wide overruling if no other overrule was initially active.\n\nIf any of the\
+    \ plugins do not follow this, then it will be affecting the overrule of other\
+    \ plugins.\n\nI dont think this is the first instance where AutoCAD is expecting\
+    \ certain \"right\" behavior from plugins to prevent interfering with other plugins.\n\
+    \nFor example, when working with AcEdInputPointFilter, the plugin needs to look\
+    \ for other point filters and if they do exist then store a pointer to it and\
+    \ forward calls to it.\n\nI am not aware of the reasoning for the design decision\
+    \ behind having an application wide switch for overrules but these are my thoughts\
+    \ on this topic.\n\n\n\n\n\n-----"

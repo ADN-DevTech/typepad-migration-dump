@@ -1,0 +1,90 @@
+comments:
+- author: Anonymoose
+  email: rebar@nym.hush.com
+  ip: 24.47.196.153
+  url: ''
+  date: '2012-05-31 21:03:34'
+  body: "It appears the author is not familiar with the correct way to work with bitwise-encoded\
+    \ values like the OSMODE system variable.\n\nTo answer the question of whether\
+    \ OSMODE is enabled or not, this is how it should be done.\n\nshort osmode = (short)\
+    \ Application.GetSystemVariable(\"OSMODE\");\n\nstring msg = string.Empty;\n\n\
+    if( ( osmode & 16384 ) == 0 )\n   msg = \"OSNAPs are enabled\";\nelse\n   msg\
+    \ = \"OSNAPs are disabled\";"
+- author: Balaji
+  email: ''
+  ip: 14.99.8.10
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2012-06-01 03:35:21'
+  body: "It really does not matter in this case because AutoCAD sets the MSB (Most\
+    \ Signifcant Bit).\n \nConsider this, if we are to check for the MSB :\n\n100\
+    \ in binary = 4 in decimal\n\n101, 111 are both greater than 100 and hence the\
+    \ > check.\n\nIf you are using newer versions of AutoCAD, all you have to do is\
+    \ to check for the SNAPMODE system variable.\n\nThanks for your comments"
+- author: Owen Wengerd
+  email: ''
+  ip: 24.140.112.242
+  url: http://profile.typepad.com/manusoft
+  date: '2012-06-01 08:25:34'
+  body: The code fails to demonstrate proper programming practice and it will break
+    in the future if new bits are added to OSMODE. It is embarassing code that reflects
+    badly on you and on Autodesk, which should matter.
+- author: Anonymoose
+  email: rebar@nym.hush.com
+  ip: 24.47.196.153
+  url: ''
+  date: '2012-06-03 01:25:38'
+  body: It really does matter because we are not assuming anything about what other
+    flags AutoCAD may or may not set, now or in the future, and because of the simple
+    fact that testing bits in a byte-encoded value is not supposed to be done using
+    > or other relational operators, because that is what the logical operators &,
+    | and ~ are for.
+- author: Balaji
+  email: ''
+  ip: 115.112.233.72
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2012-06-03 22:45:04'
+  body: Done
+- author: Jeffrey
+  email: jjkoz78@gmail.com
+  ip: 50.225.27.102
+  url: ''
+  date: '2016-07-27 08:39:42'
+  body: How do I use this code?  I'm trying to get AutoCAD to stop snapping to objects
+    when OSNAP is turned off.
+- author: eura dick
+  email: CGEORG13@MIX.WVU.EDU
+  ip: 71.5.35.66
+  url: ''
+  date: '2016-08-24 05:52:45'
+  body: well... here we are 4 years later.. and this code is still valid.. way to
+    be a douche
+- author: Owen Wengerd
+  email: owenwengerd@gmail.com
+  ip: 24.140.112.242
+  url: http://otb.manusoft.com
+  date: '2016-08-24 08:54:09'
+  body: Notice that Balaji corrected the original post.
+- author: govardhan chindam
+  email: govardhan.chindham@gmail.com
+  ip: 182.156.253.126
+  url: ''
+  date: '2018-05-27 22:23:14'
+  body: "Hello, evryone,\n\ni am an autocad user , we have a customized autoplant\
+    \ , when we are trying to place any \"customized autoplant component\" osnap tick\
+    \ boxes (center , mid point etc ) are getting off and when ever i come out of\
+    \ the command , and when i using default autoplant components everything is alright\
+    \ .\n\n osmode variabe is 16383\n\ncan you please any one you let me know the\
+    \ problem ? \n\nthanks & regards,\nGovardhan chindam,\ngovardhan.chindham@gmail.com,\n\
+    9560916423"
+- author: govardhan chindam
+  email: govardhan.chindham@gmail.com
+  ip: 182.156.253.126
+  url: ''
+  date: '2018-05-27 22:23:25'
+  body: "HI balaji,\n\ni am an autocad user , we have a customized autoplant , when\
+    \ we are trying to place any \"customized autoplant component\" osnap tick boxes\
+    \ (center , mid point etc ) are getting off and when ever i come out of the command\
+    \ , and when i using default autoplant components everything is alright .\n\n\
+    \ osmode variabe is 16383\n\ncan you please any one you let me know the problem\
+    \ ? \n\nthanks & regards,\nGovardhan chindam,\ngovardhan.chindham@gmail.com,\n\
+    -----"

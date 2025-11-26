@@ -1,0 +1,41 @@
+comments:
+- author: Henrik
+  email: henrik.matzner@franke.com
+  ip: 80.154.115.69
+  url: ''
+  date: '2016-02-10 03:39:47'
+  body: 'Hi Balaji,
+
+
+    I hae such kind of Proxy Entity but I don''t know how I have to use this Program.
+
+    Could you please give me an advice?
+
+
+    Thanks in advance !
+
+
+    Henrik'
+- author: Dale Bartlett
+  email: dale.bartlett@realtimeinternational.com.au
+  ip: 78.100.85.98
+  url: http://www.realtimeinternational.com.au
+  date: '2016-02-11 01:15:32'
+  body: I know this is old, but is it possible to do the same in .NET?
+- author: petcon
+  email: 357901946@qq.com
+  ip: 107.178.194.118
+  url: ''
+  date: '2016-02-15 18:25:32'
+  body: "int nProxies = proxies.length();\n\t\n\n\n\n\n\n\n\tfor( int i=0;i<nProxies;\
+    \ i++ )\n\t{ \n\n\t\tAcDbEntity *pEnt;\n\t\tAcDbProxyEntity *pProxy;\n\t\tif (Acad::eOk\
+    \ == acdbOpenObject(pEnt,proxies[i],AcDb::kForWrite))\n\t\t{\n\t\t\tif (pEnt->isKindOf(AcDbProxyEntity::desc()))\n\
+    \t\t\t{\n\t\t\t\tpProxy = AcDbProxyEntity::cast(pEnt);\n\n\t\t\t\tAcGePoint3d\
+    \ ptmp;\n\t\t\t\tptmp.x = 0;\n\t\t\t\tptmp.y = 0;\n\t\t\t\tptmp.z = 0;\n\t\t\t\
+    \tAcDbPoint *pp = new AcDbPoint(ptmp);\n\t\t\t\tAcad::ErrorStatus es = pProxy->handOverTo(pp);\n\
+    \t\t\t\tif (es == Acad::eObjectToBeDeleted) \n\t\t\t\t{\n\t\t\t\t\tdelete pProxy;\n\
+    \t\t\t\t\tpEnt = (AcDbEntity *)pp;\n\t\t\t\t}\n\t\t\t\tpp->erase();\n\t\t\t\t\
+    if (i%100 == 0 )\n\t\t\t\t{\n\t\t\t\t\tacutPrintf(_T(\"\\r共删除PROXY对象%d个\\r\"),i);\n\
+    \t\t\t\t}\n\t\t\t\t\n\t\t\t\tpp->close();\n\t\t\t}\n\t\t\tpEnt->close();\n\t\t\
+    }\n\n\t} \n\tacutPrintf(_T(\"\\r共删除PROXY对象%d个\\r\"),nProxies);\n\tpTable->close();\n\
+    -----"

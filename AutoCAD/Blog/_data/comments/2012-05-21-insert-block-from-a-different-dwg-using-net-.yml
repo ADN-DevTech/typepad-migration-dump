@@ -1,0 +1,88 @@
+comments:
+- author: Incognito
+  email: orhiannono@hotmail.com
+  ip: 195.177.247.202
+  url: ''
+  date: '2013-11-29 04:01:14'
+  body: Thanks, really appreciate this snippet!
+- author: andrea
+  email: tosatoandrea@yahoo.it
+  ip: 2.234.148.54
+  url: ''
+  date: '2015-01-12 08:39:22'
+  body: 'Hi,
+
+    i test WblockCloneObjects in autocad 2013, it works fine,
+
+    but memory allocated was not disposed. If you put the code in loop autocad memory
+    increase after every WblockCloneObjects and is not released (even if you close
+    the document).
+
+    Is this an autocad bug?
+
+    Thank you'
+- author: Joey
+  email: jvandoesburg@scanopy.nl
+  ip: 176.74.245.121
+  url: http://www.scanopy.nl
+  date: '2016-05-18 05:41:13'
+  body: "Hey andrea,\n\nI suggest you dispose the destdb object at the end of your\
+    \ using. \nIt might seem redundant but I noticed your problem as well and this\
+    \ fixed it for me.\n\nKind regards,\n\nJoey van Doesburg\nScanopy"
+- author: Joey
+  email: jvandoesburg@scanopy.nl
+  ip: 176.74.245.121
+  url: http://www.scanopy.nl
+  date: '2016-05-18 05:57:17'
+  body: "Hey andrea, \n\nPlease note my answer in the comment below.\n\nKind regards,\n\
+    \nJoey van Doesburg"
+- author: Ravi Rao
+  email: ''
+  ip: 183.82.113.160
+  url: http://profile.typepad.com/6p01b7c85fb668970b
+  date: '2016-05-20 07:04:05'
+  body: "Hi,\n\nI am new to AutoCAD.NET development, had a requirement to insert\n\
+    a block into my current drawing from an external dwg file.\n\nI cud convert your\
+    \ code in vb.net and run the same. The compilation and\nexecution of the comment\
+    \ \"Insert Block\" went good without errors BUT the\ndesired block was not inserted....\n\
+    \nAm I missing something, the code is as below:\n\n <CommandMethod(\"InsertBlock\"\
+    )>\n    Public Shared Sub InsertBlock()\n        ' This method can have any name\n\
+    \        Dim doc As Document = Application.DocumentManager.MdiActiveDocument\n\
+    \        Using OpenDb As New Database(False, True)\n            OpenDb.ReadDwgFile(\"\
+    D:\\Documents\\TRIAL_1.dwg\", System.IO.FileShare.ReadWrite, True, \"\")\n\n \
+    \           Dim ids As New ObjectIdCollection()\n            Using tr As Transaction\
+    \ = OpenDb.TransactionManager.StartTransaction()\n                'For example,\
+    \ Get the block by name \"TEST\"\n                Dim bt As BlockTable\n     \
+    \           bt = DirectCast(tr.GetObject(OpenDb.BlockTableId, OpenMode.ForRead),\
+    \ BlockTable)\n\n                If bt.Has(\"drawing1\") Then\n              \
+    \      ids.Add(bt(\"drawing1\"))\n                End If\n                tr.Commit()\n\
+    \            End Using\n\n            'if found, add the block\n            If\
+    \ ids.Count <> 0 Then\n                'get the current drawing database\n   \
+    \             Dim destdb As Database = doc.Database\n\n                Dim iMap\
+    \ As New IdMapping()\n                destdb.WblockCloneObjects(ids, destdb.BlockTableId,\
+    \ iMap,  \nDuplicateRecordCloning.Ignore, False)\n                destdb.Dispose()\n\
+    \            End If\n\n        End Using\n\n    End Sub"
+- author: viru
+  email: Virupaksha.aithal@autodesk.com
+  ip: 182.73.112.18
+  url: ''
+  date: '2016-05-23 01:51:44'
+  body: 'Hi,
+
+
+    Above code only imports the block. So try command insert in AutoCAD after running
+    the above code
+
+
+    regards
+
+    Viru'
+- author: Sergey
+  email: Sergey_Marudenko@hotmail.com
+  ip: 37.17.34.68
+  url: ''
+  date: '2017-10-07 11:25:14'
+  body: 'HI. Have you solved the problem? I have same problem :) Will be great if
+    you can share solution!
+
+    -----'

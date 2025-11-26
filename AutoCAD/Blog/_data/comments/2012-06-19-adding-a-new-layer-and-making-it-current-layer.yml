@@ -1,0 +1,140 @@
+comments:
+- author: Matus Brlit
+  email: ''
+  ip: 178.40.112.98
+  url: http://profile.typepad.com/brlit
+  date: '2012-06-22 04:48:53'
+  body: 'Just a note:
+
+
+    When I don''t need the editor object, like in this case, I obtain the Database
+    object from HostApplicationServices.WorkingDatabase because it''s thread-safe.
+
+    Obtaining it this way is not.'
+- author: Owen Wengerd
+  email: ''
+  ip: 24.140.112.242
+  url: http://profile.typepad.com/manusoft
+  date: '2012-06-22 10:16:20'
+  body: When a user runs a command, they expect it to use the database for the document
+    running the command, which is not necessarily the working database.
+- author: Artvegas
+  email: yamos78@hotmail.com
+  ip: 27.32.79.215
+  url: ''
+  date: '2012-08-03 09:31:06'
+  body: 'The layer Description property doesn''t seem to get set to. Didn''t work
+    in either 2012 or 2013. Reading user-defined layer description worked ok.
+
+
+    What''s up with that?'
+- author: Nikhil Ruikar
+  email: nikhil.ruikar@vaal-triangle.com
+  ip: 202.189.239.10
+  url: ''
+  date: '2018-02-01 00:03:12'
+  body: 'The above written code works fine when I am creating a single layer. It fails
+    when creating multiple layers.
+
+    Here''s my code which fails at,
+
+    LayerTable layerTable = (LayerTable)this.transaction.GetObject(this.database.LayerTableId,
+    OpenMode.ForRead);
+
+
+    Code:
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
+    foreach (LayerAttributeColor item in layerColorAttributeValues)
+
+    {
+
+    LayerTable layerTable = (LayerTable)this.transaction.GetObject(this.database.LayerTableId,
+    OpenMode.ForRead);
+
+    if (!layerTable.Has(item.LayerName))
+
+    {
+
+    LayerTableRecord ltr = new LayerTableRecord();
+
+
+    // ... and set its properties
+
+    ltr.Name = item.LayerName;
+
+    ltr.Color = Autodesk.AutoCAD.Colors.Color.FromRgb(255, 0, 0);
+
+
+    // Add the new layer to the layer table
+
+    layerTable.UpgradeOpen();
+
+    ObjectId ltId = layerTable.Add(ltr);
+
+    layerTable.DowngradeOpen();
+
+
+    this.transaction.AddNewlyCreatedDBObject(ltr, true);
+
+
+    // Set the layer to be current for this drawing
+
+    //this.database.Clayer = ltId;
+
+    // Commit the transaction
+
+    this.transaction.Commit();
+
+    ltr.Dispose();
+
+    }
+
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    The exception message reads as,
+
+    "Operation is not valid due to the current state of the object".
+
+
+    Please advise.'
+- author: Deepika
+  email: ActCADDM@gmail.com
+  ip: 157.48.248.89
+  url: https://truecad.com/index.php
+  date: '2021-05-05 03:16:39'
+  body: Use TrueCAD-intellicad Software.One of the best AutoCAD alternative cad software
+    at affordable price. here is reference link "https://actcad.com/download-actcad-intellicad-software.php"
+- author: Eva
+  email: elen.avanesyan@bk.ru
+  ip: 83.139.25.231
+  url: ''
+  date: '2022-03-25 08:31:04'
+  body: The best part of using CMS IntelliCAD was finding out it has all the CAD features
+    I’d already worked with. I was pretty worried about finding a good fit for me,
+    but CMS IntelliCAD is definitely unbeatable. Registered for free and had a free
+    trial before payment, I'm glad I could test it out before any payment. CMS IntelliCAD
+    is definitely worth the hype.
+- author: Sona
+  email: elen.avanesyan@bk.ru
+  ip: 217.76.14.1
+  url: ''
+  date: '2022-03-28 08:50:41'
+  body: Was a bit hesitant to try at first but CMS IntelliCAD turned out to be a good
+    alternative for me. The free trial worked immediately, which was good to try it
+    out before paying for it. All the features it offers are user-friendly and easy
+    to work with, which was another win for me. Good job.
+- author: Nataly
+  email: siglwgadaw@gmail.com
+  ip: 130.193.124.213
+  url: ''
+  date: '2023-04-08 10:21:48'
+  body: 'I''ve been using CADHOBBY IntelliCAD for my personal projects for a few months
+    now, and I can say that it''s one of the best CAD software for hobbyists. It''s
+    user-friendly, and the learning curve is not steep.
+
+    -----'

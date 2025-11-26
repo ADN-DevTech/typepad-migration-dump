@@ -1,0 +1,385 @@
+comments:
+- author: Matthias Mueller
+  email: ''
+  ip: 192.54.144.229
+  url: http://profile.typepad.com/matthiasmueller
+  date: '2013-02-01 08:06:10'
+  body: 'Hey Philippe,
+
+    thanks - the Util is great. It reduces a lot of complex coding and can be applied
+    to all entities.
+
+    One thing I noted when applying a coincidental constraint between two entities:
+    the right-hand entity (x-axis) is always moved. The left-handed keeps its location.
+
+    A small improvement would be to determine that the first selected is the "base
+    entity" and the second will than be moved.'
+- author: Philippe Leefsma
+  email: philippe.leefsma@autodesk.com
+  ip: 92.105.24.95
+  url: ''
+  date: '2013-02-01 16:01:53'
+  body: 'Hi Matthias,
+
+    It is actually not straightforward to handle this king of behavior. Since the
+    behavior is not considered as a bug, I''m afraid it will remain like this for
+    a while.
+
+
+    Here are some indications provided by the designer of the constraint API in AutoCAD:
+
+
+    The constraints UI code does it by hinting the constraint group to temporarily
+    fix the geometry that should not move and then trying to evaluate. If the evaluation
+    does not work it unfixes the geometry (as fixing it was too much) and evaluates
+    again.
+
+
+    There is a public class AcDbEvalContext that can be used to pass hint about what
+    to fix. The AcDbEvalContextPair that indicates geometry tried to stay fixed has
+    key “TempFixedConsGeoms” and the value is AcDbFullSubentPathArray of the geometries
+    that should be fixed.
+
+
+    The constraint group obtains AcDbEvalContext by calling AcDbAssocEvaluationCallback::getAdditionalData().
+    You will need to implement your own class derived from AcDbAssocEvaluationCallback,
+    implement its AcDbAssocEvaluationCallback::getAdditionalData() to return AcDbEvalContext
+    that would contain one AcDbEvalContextPair whose key would be “TempFixedConsGeoms”
+    and value would be AcDbFullSubentPathArray of the geometries that should not move.
+    You need to temporarily use your new AcDbAssocEvaluationCallback when evaluating
+    the newly added constraint by calling AcDbAssocManager::addGlobalEvaluationCallback(),
+    and then remove it by calling AcDbAssocManager::removeGlobalEvaluationCallback()
+    after the evaluation is over.'
+- author: Philippe Leefsma
+  email: philippe.leefsma@autodesk.com
+  ip: 92.105.24.95
+  url: ''
+  date: '2013-02-14 02:45:05'
+  body: Hi Matthias, I was implementing the proposed changes, so now the first entity
+    passed to the API methods is considered as the base and should not move. Please
+    give it a try and let me know.
+- author: Stefan Dunst
+  email: stefan.dunst@v-research.com
+  ip: 194.208.35.47
+  url: ''
+  date: '2013-08-07 01:07:45'
+  body: 'Hi Philippe,
+
+    I wanted to ask if there is any possibility or workaround to get this API working
+    with the COM API?
+
+    I wanted to try to get it simpy working by including the dll, but the Problem
+    then is that the .NET and the COM API use different Types for Object IDs...'
+- author: Philippe
+  email: philippe.leefsma@autodesk.com
+  ip: 92.105.24.95
+  url: ''
+  date: '2013-08-07 02:49:19'
+  body: 'Hi Stefan,
+
+
+    This API will run only in-process with AutoCAD, so I don''t get the point of using
+    it with COM.
+
+
+    A COM ObjectId is different than a .Net ObjectId, because every type used by COM
+    has to be COM wrapped. You should however be able to build a .Net ObjectId from
+    the COM object: try ObjectId id = new ObjectId(COM.ObjectId)'
+- author: Matthias Mueller
+  email: ''
+  ip: 192.54.144.229
+  url: http://profile.typepad.com/matthiasmueller
+  date: '2013-12-03 05:02:28'
+  body: 'Hi Philippe, any change that you unify the .dll names for both the x64 and
+    x86 version? Currently the x64 version has an additional "Adsk" prefixed.
+
+    I want to use your lib as reference in a shared dev environment with x64 and x86
+    configurations. Thanks!'
+- author: Philippe Leefsma
+  email: ''
+  ip: 92.105.24.95
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2013-12-16 01:27:55'
+  body: 'Hi Matthias,
+
+    It''s pretty straightforward to change on your side: go to the project properties
+    in visual studio, then Linker->Output and change the name of the output dll file.
+    I hope it helps.'
+- author: HT
+  email: tattambk@gmail.com
+  ip: 14.160.55.90
+  url: ''
+  date: '2014-05-26 03:02:05'
+  body: 'I used MGHLDIMALIGN command .Result not like result of DCALIGNED command
+    with Point & Line option in Autocad .Please explain to me ?
+
+    Thanks!'
+- author: Philippe Leefsma
+  email: ''
+  ip: 121.6.12.116
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2014-05-26 03:11:27'
+  body: Hi, Can you clarify what you mean by "not like"? That API is not intended
+    to provide a result 100% similar to what you get using the UI commands. It does
+    it job by helping to easily generate the constraints with a minimal effort from
+    third party developers... If you are looking for an identical result to the UI,
+    you will probably have to take a closer look at the implementation and extend
+    it the way you like.
+- author: HT
+  email: tattambk@gmail.com
+  ip: 123.16.216.22
+  url: ''
+  date: '2014-05-26 05:55:29'
+  body: "In API,aligned dimensional constraint of MGHLDIMALIGN  command used addDistanceConstraint\
+    \ function with AcConstrainedGeometry* pConsGeom1   \nand AcConstrainedGeometry*\
+    \ pConsGeom2  parameters. pConsGeom1 and  pConsGeom2 are AcConstrainedImplicitPoint\
+    \ class ,so pConsGeom1 and pConsGeom2 is star point or end point.Meanwhile with\
+    \ DCALIGNED command ,pConsGeom1 and pConsGeom2 are corresponding xLine1Point \
+    \ and xLine2Point .Not when xLine1Point as well as star point or end point .That\
+    \ is \"not like\".How from \nAcgepoint3d xLine1Point obtained  AcConstrainedPoint\
+    \ *pConsGeom1 ?\nThanks !"
+- author: HT
+  email: tattambk@gmail.com
+  ip: 123.16.216.91
+  url: ''
+  date: '2014-05-28 08:37:24'
+  body: 'AcConstrainedCurve* pConstrainedCurve =  AcConstrainedCurve::cast(pConsGeom1);
+
+    AcGraphNode::Id id = pConstrainedCurve->nodeId();
+
+    AcConstrainedImplicitPoint* imp = new AcConstrainedImplicitPoint(id,AcDb::kMidImplicit);
+
+    AcGePoint3d pt ;
+
+    pt = imp->point();
+
+
+    why to appear "Unhandled exception at 0x103fa383 in acad.exe: 0xC0000005: Access
+    violation reading location 0x00000004." when run pt = imp->point(); line'
+- author: Philippe Leefsma
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2014-05-28 23:17:37'
+  body: 'Based on such a tiny code fragment I have no idea... You would need to provide
+    a complete code sample that illustrates what you are doing.
+
+
+    Thank you.'
+- author: HT
+  email: tattambk@gmail.com
+  ip: 14.160.55.90
+  url: ''
+  date: '2014-05-28 23:57:19'
+  body: 'Hi Philippe Leefsma !
+
+    I will create distance constraint from one point of a line to line.The one point
+    is midpoint. I have 2 line corresponding 2 AcConstrainedCurve object . Now, i
+    don''t how to get midpoint which is AcConstrainedImplicitPoint object  of one
+    AcConstrainedCurve object. So, I try used AcConstrainedImplicitPoint Constructor
+    : new AcConstrainedImplicitPoint (id,AcDb::kMidImplici) to get implicit point
+    .
+
+    Please help me ! Thank you !'
+- author: Philippe Leefsma
+  email: ''
+  ip: 116.15.99.105
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2014-05-30 00:18:46'
+  body: "Well you would first need to create a constrained curve from the line, take\
+    \ a look at the internal implementation of the High Level API, it may give you\
+    \ some clue on how to do it. I don't have a sample which creates an AcConstrainedImplicitPoint,\
+    \ so I cannot help you further. \n\nWhen running the \"ArxConstraintTest_hlDimAlign\"\
+    \ command, it is possible to select the center of a line and a point on another\
+    \ line, it should create a dim constraint between the closest points on the entity\
+    \ you selected. I wonder why this is not good enough for you."
+- author: HT
+  email: tattambk@gmail.com
+  ip: 14.160.55.90
+  url: ''
+  date: '2014-05-30 01:34:28'
+  body: "Thanks  for reply from you. \n\"ArxConstraintTest_hlDimAlign\" command just\
+    \ create a dim constraint between the star point or endpoint on this entity  with\
+    \ starpoint or endpoint on another entity.That represents in getClosestConstrainedPoint\
+    \ func , when getting ImplicitPoints by getConstrainedImplicitPoints func ,it\
+    \ return the point which i don't want .For example ,\ngetConstrainedImplicitPoints\
+    \  of a line ,return value just star and endpoint, don't have midpoint ,to i maybe\
+    \ get  AcConstrainedImplicitPoint (that midpoint )is input for addDistanceConstraint\
+    \ func . That is hard."
+- author: HT
+  email: tattambk@gmail.com
+  ip: 113.190.126.198
+  url: ''
+  date: '2014-05-30 07:17:19'
+  body: "Hi Philippe Leefsma .\nAcConstrainedImplicitPoint(\n    AcGraphNode::Id constrCurvId,\
+    \ \n    AcDb::ImplicitPointType ptype, \n    int index = -1\n);\nCan tell me the\
+    \ meaning that Constructor ? What makes it so"
+- author: HT
+  email: tattambk@gmail.com
+  ip: 14.160.55.90
+  url: ''
+  date: '2014-06-01 19:41:24'
+  body: 'Hi Philippe Leefsma .
+
+    Can you give to me sample for AcConstrainedImplicitPoint Constructor ?
+
+    Thanks.'
+- author: Philippe Leefsma
+  email: ''
+  ip: 94.205.252.229
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2014-06-01 20:08:07'
+  body: I don't have any. I will check with a colleague in the development team if
+    he can provide a sample or some guidance.
+- author: Philippe Leefsma
+  email: ''
+  ip: 94.205.252.229
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2014-06-01 20:17:50'
+  body: By the way, what happen if you pass the AcConstrainedCurve::nodeId  as first
+    parameter? This seem to be the logical id to use in that constructor
+- author: HT
+  email: tattambk@gmail.com
+  ip: 14.160.55.90
+  url: ''
+  date: '2014-06-01 20:47:41'
+  body: 'In AcDbAssoc2dConstraintGroup object ,i added 2 AcConstrainedCurve object  and
+    construct a AcConstrainedImplicitPoint with NodeId of a that AcConstrainedCurve
+    object and type = AcDb::kMidImplicit.
+
+    But when getConstrainedGeometries  of that ConstraintGroup ,I just retrieve 6
+    AcConstrainedGeometry.These are 2 AcConstrainedCurve entry , 2  AcConstrainedPoint
+    ( corresponding starpoint and endpoint ) of each AcConstrainedCurve .This AcConstrainedCurve  is  corresponding
+    a line in autocad.
+
+    That AcConstrainedImplicitPoint ,i added  ConstraintGroup ,where it?'
+- author: HT
+  email: tattambk@gmail.com
+  ip: 14.160.55.90
+  url: ''
+  date: '2014-06-01 20:51:01'
+  body: Thanks you so much.I need it!
+- author: HT
+  email: tattambk@gmail.com
+  ip: 14.160.55.90
+  url: ''
+  date: '2014-06-02 00:34:16'
+  body: "// add a AcConstrainedCurve in a ConstraintGroup\nes = p2dConstrGrp->addConstrainedGeometry(aPaths[i],\
+    \ pConsGeom);\n// add a AcConstrainedImplicitPoint is on a AcConstrainedCurve\
+    \ .I think it is in a //  ConstraintGroup.\nAcGraphNode::Id nodeId = pConsGeom->nodeId();\n\
+    AcConstrainedImplicitPoint *imp = new AcConstrainedImplicitPoint(nodeId,AcDb::kMidImplicit);\n\
+    // Test to make sure that AcConstrainedImplicitPoint is on AcConstrainedCurve\
+    \ \nAcGraphNode::Id nodeId1 = imp->constrainedCurveId();\nAcConstraintGroupNode*\
+    \ pNode = p2dConstrGrp->getGroupNodePtr(nodeId1);\nAcConstrainedCurve* pCurve1\
+    \ = AcConstrainedCurve::cast(pNode);\n// test to make sure AcConstrainedCurve\
+    \  is in ConstraintGroup\nAcDbObjectId idgroup = pCurve1->owningConstraintGroupId();\n\
+    \nVia that 2 test way , AcConstrainedImplicitPoint is on AcConstrainedCurve .\
+    \ AcConstrainedCurve  is in ConstraintGroup. But AcConstrainedImplicitPoint not\
+    \ is in ConstraintGroup . Expressed through : \nAcDbObjectId idgroup = imp->owningConstraintGroupId();\n\
+    Result idgroup = NULL.\nSo , getConstrainedGeometries of that ConstraintGroup\
+    \ ,not retrieve AcConstrainedImplicitPoint .\nHow to add AcConstrainedImplicitPoint\
+    \ in ConstraintGroup ?"
+- author: Philippe Leefsma
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2014-06-12 16:00:04'
+  body: 'Here should be the solution:
+
+
+    Call AcDbImpAssoc2dConstraintGroup::getConstrainedGeometry(fullSubentPath, pConsGeom,
+    true/*bCreateArcLineMid*/) and pass fullSubentPath of the edge subentity that
+    contains the midpoint. It should then create and return (in pConsGeom) an AcConstrainedCurve
+    and three AcConstrainedImplicitPoints (start, end, mid) connected to the AcConstrainedCurve
+    via AcPointCurveConstraints. You can then obtain the implicit points from the
+    constrained curve by calling AcConstrainedCurve::getConstrainedImplicitPoints().'
+- author: Chris
+  email: cwitt@glotmansimpson.com
+  ip: 184.71.135.174
+  url: ''
+  date: '2014-10-15 16:14:55'
+  body: 'Is there any way to remove/strip all existing constraints from an object
+    in .net?
+
+
+    I have some code that uses a closed polyline (rec.) that has constraints applied
+    (via block editor, not .net), however the object properties reflect the original
+    form of the polyline rather than the constraint altered form.  I''m looking for
+    a way to remove the constraints and have a polyline that reflects the current
+    form..   make sense?'
+- author: Philippe
+  email: philippe.leefsma@autodesk.com
+  ip: 92.104.201.213
+  url: ''
+  date: '2014-10-16 01:02:43'
+  body: 'Hi Chris,
+
+
+    The second part of your comments is confusing... but here is a post that illustrates
+    how to delete all constraints applied to a specific entity. The code is in C++
+    and I don''t have a .Net version unfortunately, so you will have to work out the
+    .Net: <a href="http://adndevblog.typepad.com/autocad/2012/07/associative-framework-how-to-delete-constraints-applied-to-a-specific-entity.html">http://adndevblog.typepad.com/autocad/2012/07/associative-framework-how-to-delete-constraints-applied-to-a-specific-entity.html</a>
+
+
+    Good luck!
+
+    Philippe.'
+- author: david reed
+  email: dreed@drifab.com
+  ip: 72.89.48.189
+  url: ''
+  date: '2015-12-24 16:11:26'
+  body: How do I get a version of this for 2015 and 2016?
+- author: NGZ
+  email: zhaixueqiang@hotmail.com
+  ip: 123.130.115.18
+  url: ''
+  date: '2017-12-12 16:42:53'
+  body: "static Acad::ErrorStatus createCoincidentConstraint ( \n    AcDbObjectId&\
+    \ entId1,\n    AcDbObjectId& entId2,\n    AcGePoint3d& ptEnt1,\n    AcGePoint3d&\
+    \ ptEnt2\n);\nIs ptEnt1 and ptEnt2 in usc?wcs?dcs?or others?"
+- author: Philippe Leefsma
+  email: ''
+  ip: 120.28.191.4
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2017-12-12 18:57:41'
+  body: 'Hi David,
+
+
+    This lib is gracefully provided to you as a sample code, may you need a version
+    for 2015/2016, you would need to build it yourself from the source.'
+- author: Philippe Leefsma
+  email: ''
+  ip: 120.28.191.7
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2017-12-12 18:59:22'
+  body: Should be WCS, just check what's going on in MGHLCOIN command.
+- author: Alexander Rivilis
+  email: ''
+  ip: 91.142.174.169
+  url: https://profile.typepad.com/rivilis1964
+  date: '2019-07-17 06:03:00'
+  body: "Dear Philippe! \nFile <a href=\"https://adndevblog.typepad.com/adnassocconstraintapi-1.zip\"\
+    >https://adndevblog.typepad.com/adnassocconstraintapi-1.zip</a> is not found.\
+    \ Please re-upload it."
+- author: Alexander Rivilis
+  email: ''
+  ip: 91.142.174.169
+  url: https://profile.typepad.com/rivilis1964
+  date: '2019-07-17 06:08:57'
+  body: Oops! Now I can download it. Look like it was a temporary problem.
+- author: david reed
+  email: dreed@drifab.com
+  ip: 69.113.244.64
+  url: http://www.drifab.com
+  date: '2020-06-02 10:08:26'
+  body: Can you please update the library for more current versions of Autocad including
+    2020 and 2021?
+- author: tesisatkesif@gmail.com
+  email: tesisatkesif@gmail.com
+  ip: 85.110.36.18
+  url: ''
+  date: '2020-07-11 14:35:17'
+  body: 'Can you please update this for AutoCAD 2016?
+
+    -----'

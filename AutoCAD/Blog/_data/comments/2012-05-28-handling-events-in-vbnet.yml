@@ -1,0 +1,22 @@
+comments:
+- author: Matus Brlit
+  email: ''
+  ip: 178.40.188.197
+  url: http://profile.typepad.com/brlit
+  date: '2012-06-01 04:52:37'
+  body: "is it necessary to create an explicit delagate?\n\nI would use just this:\n\
+    \nDim docs As DocumentCollection = Application.DocumentManager  \nAddHandler docs.DocumentDestroyed,\
+    \ AddressOf docDestroyedEvent"
+- author: Adam Nagy
+  email: ''
+  ip: 86.31.122.37
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2012-06-01 07:00:56'
+  body: 'Thanks for the comment, Matus.
+
+    No, as far as I know it''s not necessary.
+
+    In this case I just used it to track if we subscribed to the event already (If
+    docDestroyedEvent Is Nothing Then)
+
+    -----'

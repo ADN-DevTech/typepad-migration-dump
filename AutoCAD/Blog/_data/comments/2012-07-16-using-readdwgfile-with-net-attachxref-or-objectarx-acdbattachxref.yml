@@ -1,0 +1,112 @@
+comments:
+- author: Josh Dalton
+  email: jd4629@att.com
+  ip: 144.160.98.31
+  url: http://www.att.com
+  date: '2013-07-22 20:24:04'
+  body: 'Thankfully this was posted and indicated that closeInput() was necessary.  The
+    documentation with the 2014 ObjectARX says of closeInput:
+
+    "This function is intended for AutoCAD internal use.  If used in ObjectARX applications,
+    it may have undesirable results."
+
+    I chased a weird crash in our 2014 beta build, that happened somewhere in MDIGetActive
+    during the activation of the next window we opened then closed, and could not
+    find why it was crashing.  I added the closeInput as you indicated here (previously
+    not necessary in older acad versions), and now the code works again.'
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 132.188.64.218
+  url: ''
+  date: '2013-07-23 08:29:25'
+  body: 'Hey Josh!
+
+
+    there is some confusion I feel, basically it depends on the context... The above
+    code is reading an external DWG file (which AutoCAD does not know about) - it''s
+    using the ObjectDBX layer (or RealDWG if using this code outside of acad.exe)
+    - Closeinput() is fine to use. However, if the DWG file was loaded into AutoCAD
+    you should never call CloseInput() as per the documentation because AutoCAD has
+    control of the DWG file and is not expecting it.'
+- author: Josh Dalton
+  email: jd4629@att.com
+  ip: 144.160.98.31
+  url: http://www.att.com
+  date: '2013-07-24 09:29:48'
+  body: 'This was during our rename operation, where it downloads, updates the file
+    in the background, but never truly opens it, and then closes it.  Basically the
+    sequence was:
+
+    setactivedrawing(newdwg)
+
+    readdwgfile(newdwg, filename)
+
+    do some work...
+
+    acdbsaveas2000()
+
+    delete newdwg
+
+    setactivedrawing(olddwg)
+
+
+    Which worked in acad 2008 without crashing, but fails in 2014.  The new sequence
+    in 2014 is:
+
+
+    setactivedrawing(newdwg)
+
+    readdwgfile(newdwg, filename)
+
+    newdwg->closeInput(true) //new code
+
+    setactivedrawing(OLDdwg); //new code
+
+    do some work...
+
+    acdbsaveas2000()
+
+    delete newdwg
+
+
+    Thank you for the clarification.  I''m wondering if previously the deletion of
+    newdwg took care of closing the input, and the new one does not, or if some events
+    now require it to be closed earlier, but the key thing for me is obviously that
+    it is working now.  Thanks again!'
+- author: Rasmus Bugge
+  email: rfb@focus.no
+  ip: 195.18.137.50
+  url: ''
+  date: '2013-10-15 07:27:02'
+  body: I also had crashes in 2014 when trying to export/wblockclone objects from
+    working db to a side db. CloseInput and an OpenCloseTransaction did the trick
+    (thanks!), although the ObjectARX doc says that such a transaction relies on the
+    Transaction Manager's TopTransaction - however, there is no TopTransaction? (Also,
+    I am having issues with the behaviour of the right click (!) after the export/wblockclone
+    completes - it suddenly repeats the last command, instead of display the right
+    click menu (although according to the right-click customization settings in OPTIONS,
+    Acad is supposed to show the short cut menu in all "modes").
+- author: James Morris
+  email: james.morris@innovationind.com
+  ip: 66.76.87.107
+  url: ''
+  date: '2015-10-01 11:32:51'
+  body: Thanks Fenton. Tip 3 helped with one of my problems. However I haven't been
+    able to figure out another problem with using ReadDwgFile with .net. I posted
+    the problem here <a href="http://forums.autodesk.com/t5/net/side-loading-a-dwg-with-readdwgfile-then-plotting/m-p/5840816#M46121.">http://forums.autodesk.com/t5/net/side-loading-a-dwg-with-readdwgfile-then-plotting/m-p/5840816#M46121.</a>
+    Basically I am plotting the result of the new db that was loaded. However all
+    the layers are plotting regardless of their state(frozen or thawed). Do you have
+    any suggestions?
+- author: Luke Bingham
+  email: Luke@Bingham.net
+  ip: 38.22.24.229
+  url: ''
+  date: '2024-12-24 12:07:37'
+  body: 'Great info Fenton.  I''m not a super hacker with .Net and this was very useful
+    but not quite on target with what I''m doing as the Database object doesn''t seem
+    to reveal AEC data objects.  I''d like to be able to open a dwg on the side, inspect
+    the styles it contains (SurfaceStyle, AlignmentStyles, etc) and copy them into
+    the current drawing.  I''ve looked all over and can''t seem to find a relevant
+    post.  Any ideas?
+
+    -----'

@@ -1,0 +1,110 @@
+comments:
+- author: Norman
+  email: norman.yuan@focus.ca
+  ip: 207.229.13.67
+  url: ''
+  date: '2014-12-11 10:27:26'
+  body: 'If one uses VS2013, the NuGet Package Manager dialog box is not able to find
+    the AutoCAD.NET package. One has to use NuGet command line to install in ("install-package
+    AutoCAD.NET"). With VS2012, though, the package can be found in NuGet Package
+    Manager dialog box.
+
+
+    After package is installed, all the referenced DLLs are correctly set with "COPY
+    LOCAL" being "False", except for the reference to acdbmgdbreb.dll: its "COPY LOCAL"
+    is set to "TRUE", which is wrong.'
+- author: Madhukar Moogala
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/madhukarmoogala
+  date: '2014-12-11 21:01:23'
+  body: 'Hi Norman , thanks for commenting , yes copy local should be set to false
+    , I have reported this to developer.
+
+
+    If one uses VS2013, the NuGet Package Manager dialog box is not able to find the
+    AutoCAD.NET package
+
+
+    Do you mean you were not able to see Manage Nuget Packages in Nuget Package Manager
+    ?
+
+    I checked on Vs2013 , I can find package and installed too.'
+- author: Mike
+  email: mschumacher@enclos.com
+  ip: 173.8.109.57
+  url: ''
+  date: '2014-12-29 13:18:37'
+  body: 'I also don''t see it in the nuget package manager in 2013.  Screenshot here:
+
+
+    <a href="http://imgur.com/a5FzA4V">http://imgur.com/a5FzA4V</a>
+
+
+    If I extend the search from "AutoCAD" to "AutoCAD .NET API" it simply returns
+    every hit with .Net or API in the name, none of which seem to be AutoCAD related.'
+- author: Madhukar Moogala
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/madhukarmoogala
+  date: '2015-01-05 02:20:05'
+  body: 'Hi Mike ,
+
+
+    Happy new year :) , sorry for delayed reply , I just came from 15 Day vacation
+    :),
+
+
+    I can find AutoCAD .NET on NuGet on VS2013 too , I''m using VS2013 Professional,
+    you check on this image
+
+    <a href="http://a360.co/1wPywJY">http://a360.co/1wPywJY</a>'
+- author: Alex Fielder
+  email: alex.fielder@gmail.com
+  ip: 81.142.53.217
+  url: http://twitter.com/AlexFielder
+  date: '2015-01-15 08:29:49'
+  body: 'Hi Madhukar,
+
+
+    I don''t suppose it''s possible for the ADN team to do the same with the Inventor
+    .NET API?
+
+
+    Thanks,
+
+
+    Alex.'
+- author: bshanwar
+  email: bshanwar@gmail.com
+  ip: 77.44.204.176
+  url: ''
+  date: '2015-01-17 03:46:49'
+  body: "I am using VS2012, and when trying to download the package I got this error\
+    \ \n<b>\nThe element 'metadata' in namespace 'http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd'\
+    \ has invalid child element 'developmentDependency' in namespace 'http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd'.\
+    \ List of possible elements expected: 'releaseNotes, frameworkAssemblies, tags,\
+    \ copyright, summary, iconUrl, dependencies, references, language, description,\
+    \ title' in namespace 'http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd'.\n\
+    </b>"
+- author: Maxence
+  email: maxence.delannoy@wiip.fr
+  ip: 81.49.24.220
+  url: http://wiip.fr
+  date: '2015-04-07 10:28:49'
+  body: '@mike You need to add nuget.org to the sources'
+- author: Андрей Бушман
+  email: ''
+  ip: 87.249.45.165
+  url: http://profile.typepad.com/d107779829232736013
+  date: '2016-07-21 13:17:00'
+  body: "I have looked the newest AutoCAD.Net (Version 21.0.1). It doesn't set `CopyLocal`\
+    \ to `false` for each its assembly. It is bad. Also current naming creates the\
+    \ problem of forced updating. I.e. by default the  package will update the assemblies\
+    \ to newer AutoCAD versions even if you don't want to use newer AutoCAD version\
+    \ for your project. Therefore user are to use `-Version` key and be very attentive.\
+    \ So, current naming of the package is bad too... Also, Autodesk didn't create\
+    \ the packages for older AutoCAD versions (2009-2014 are interesting for me too).\
+    \ \nPlease, test your packages before you will publish them on NuGet feed. To\
+    \ solve the problems mentioned by me I created own packages here: <a href=\"https://www.nuget.org/profiles/Bush\"\
+    >https://www.nuget.org/profiles/Bush</a>\n-----"

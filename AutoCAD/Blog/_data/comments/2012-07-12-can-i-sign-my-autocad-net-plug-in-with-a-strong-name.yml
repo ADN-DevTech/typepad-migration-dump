@@ -1,0 +1,102 @@
+comments:
+- author: Andrey
+  email: bushman.andrey@gmail.com
+  ip: 87.249.45.171
+  url: https://sites.google.com/site/bushmansnetlaboratory/
+  date: '2012-08-27 02:39:48'
+  body: "And I too was faced with this problem in the past, and the solution of Autodesk\
+    \ wasn't pleasant to me...\n\n>A strongly named assembly adheres to a stricter\
+    \ versioning policy: patching the dll is trickier;\n\nAdministrator can to manage\
+    \ search of assembly via acad.config file. It even is convenient. What can be\
+    \ a problem in it?\n\n>A strongly named assembly must be installed into the GAC\
+    \ to avoid the performance hit related to extra validation.\n\nHow strongly it\
+    \ influences on productivity?\n\n>The GAC itself further complicates deployment.\
+    \ \n\nWhat's the problem?\n\n>However there are workarounds available:\n\nThe\
+    \ offered answers aren't responses to the given question."
+- author: Albert
+  email: szilvaa@gmail.com
+  ip: 8.19.13.19
+  url: ''
+  date: '2012-10-29 08:21:04'
+  body: 'Hi Andrey,
+
+
+    If we strongly name an assembly then we must put into the GAC otherwise we take
+    a massive performance hit when the assembly is loaded (because all pages in the
+    image must be loaded and hashed).
+
+
+    Once we put an assembly into the GAC we must make sure that the dependencies of
+    the assembly are also in the GAC or SxS so that they can be loaded.
+
+
+    acmgd.dll depends on acad.exe which means that we would have to put acad.exe and
+    all of its dependencies into the GAC/SxS. This would create more problems than
+    it would solve. See how VS 2012 moves away from SxS to offer easier deployment
+    for C/C++ runtime, MFC.
+
+
+    Albert
+
+    on behalf of the AutoCAD Team'
+- author: Carl
+  email: carl.golenberg@calibreconsulting.co
+  ip: 125.7.48.147
+  url: ''
+  date: '2015-03-02 17:09:02'
+  body: 'ok, 2015 autocad has stuffed us!!! pre-2014 we could do binary serialization
+    on our custom object, but no longer!!! not either autocad or net4.5 REQUIRES strongly
+    typed names in the GAC to do this!!! So now I''m desperately trying to get and
+    attach a cert for interanl software!! I just did and guess what - "vbc : error
+    BC30145: Unable to emit assembly: Referenced assembly ''Acdbmgd'' does not have
+    a strong name" - with a digital signature. What the heck are we supposed to do
+    here!!??'
+- author: Ben
+  email: benkoshy@hotmail.com
+  ip: 165.228.230.183
+  url: ''
+  date: '2016-03-20 17:23:27'
+  body: 'So then, what are the implications if i want to obfuscate my dll?
+
+
+    I''m quoting from the CryptoObfucsator manual:
+
+
+
+    >> Enable Tamper Detection
+
+
+    > When checked, Crypto Obfuscator will itself perform strong name verification
+    of the assembly even if strong-name verification has been turned OFF on the machine
+    on which the assembly is running or if the assembly has been registered in the
+    verification ''skip-list'' - this is typically done by hackers or crackers. Furthermore,
+    the strong name verification is done using the original key used to sign the assembly
+    when it was obfuscated by Crypto Obfuscator. Thus, strong name verification fails
+    even if the key is removed or replaced - again something typically done by hackers
+    or crackers.
+
+
+    > Note that your assembly must be originally strong named for this to work and
+    you must specify the same strong name key via the Signing / Authenticode tab.
+    If you turn ON this setting for an assembly for which you have not specified a
+    strong name key, you will receive the following error message:
+
+
+    > The assembly xyz has the ''Enable Tamper Detection'' setting ON but no key file
+    is specified via the ''Signing / Authenticode'' tab. Please specify a key file
+    and try again.
+
+
+    So what are the implications of this: I cannot enable tamper detection on my assembly
+    using crypto-obfuscate?
+
+
+    rgds
+
+
+    Ben
+
+
+
+
+    -----'

@@ -1,0 +1,72 @@
+comments:
+- author: Veli V.
+  email: veli.vaisanen@basepoint.fi
+  ip: 212.116.37.26
+  url: ''
+  date: '2012-08-12 22:43:18'
+  body: 'Hi Adam,
+
+    can I transform (rotate and scale) AcDbArc entity with matrix? Of course I can
+    get AcDbArc points and transform them but I´m looking the right way. =)
+
+    -Veli V.'
+- author: Adam Nagy
+  email: ''
+  ip: 86.31.122.37
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2012-08-13 12:10:31'
+  body: 'Hi Veli,
+
+
+    Yes, it should work. Did you give it a try? :)
+
+    In the ARX help file, under AcDbEntity::transformBy, you can find information
+    about it.
+
+
+    Cheers,
+
+    Adam'
+- author: Srinivasan
+  email: vsrinivasan@srinsofttech.com
+  ip: 117.216.46.6
+  url: ''
+  date: '2012-10-07 07:13:34'
+  body: 'Hi Adam
+
+
+    This doen''t work if the matrix has rotation as well as transformation
+
+
+    Srini'
+- author: Veli V.
+  email: veli.vaisanen@basepoint.fi
+  ip: 212.116.37.26
+  url: ''
+  date: '2012-12-20 03:26:31'
+  body: "The solution is to transform AcDbArc points and set them back AcDbArc entity.\n\
+    \nExample below:\nAcad::ErrorStatus BPEntityHelper::TransformEntity(AcDbArc *arc)\n\
+    {\n\tAcad::ErrorStatus err = Acad::eOk;\n\tif(!arc)\n\t\treturn Acad::eNullEntityPointer;\n\
+    \tAcGePoint3d ptStart, ptMid, ptEnd, ptCenter;\n\tdouble angStart = arc->startAngle(),\
+    \ angEnd = arc->endAngle();\n\tdouble startParam = 0.0, endParam = 0.0, midParam\
+    \ = 0.0, dist = 0.0;\n\n\tAcGeMatrix3d arc_mat;\n\tarc_mat.setToIdentity();\n\t\
+    AcGeVector3d normal_vec = arc->normal();\n\tarc_mat = arc_mat.planeToWorld(normal_vec);\n\
+    \n\terr=arc->getStartParam(startParam);\n\terr=arc->getEndParam(endParam);\n\t\
+    err=arc->getDistAtParam(endParam, dist);\n\terr=arc->getParamAtDist(dist / 2.0,\
+    \ midParam);\n\t\n\t// Get arc three points\n\tarc->getStartPoint(ptStart);\n\t\
+    arc->getPointAtParam(midParam, ptMid);\n\tarc->getEndPoint(ptEnd);\n\t\n\t// Transform\
+    \ points\n\tptStart = updatePoint3d(ptStart);\n\tptMid = updatePoint3d(ptMid);\n\
+    \tptEnd = updatePoint3d(ptEnd);\n\n\tptStart.transformBy(arc_mat);\n\tptMid.transformBy(arc_mat);\n\
+    \tptEnd.transformBy(arc_mat);\n\n\t// Create temporary arc geometry to analyze\
+    \ it\n\tAcGeCircArc2d *geArc = new AcGeCircArc2d(ptStart.convert2d(AcGePlane::kXYPlane),\n\
+    \t\t\t\t\t\t\t\t\t\t\t ptMid.convert2d(AcGePlane::kXYPlane),\n\t\t\t\t\t\t\t\t\
+    \t\t\t ptEnd.convert2d(AcGePlane::kXYPlane));\n\tAcGePoint3d center = AcGePoint3d(geArc->center().x,\
+    \ geArc->center().y, 0.0);\n\tcenter.transformBy(arc_mat);\n\tdouble radius =\
+    \ geArc->radius();\n\tangStart = acutAngle(asDblArray(geArc->center()), asDblArray(geArc->startPoint()));\n\
+    \tangEnd = acutAngle(asDblArray(geArc->center()), asDblArray(geArc->endPoint()));\n\
+    \tif(geArc->isClockWise())\n\t{\n\t\tdouble dTmp = angStart;\n\t\tangStart = angEnd;\n\
+    \t\tangEnd = dTmp;\n\t}\n\terr = arc->setCenter(center);\n\tif(err!=Acad::eOk)\n\
+    \t\treturn err;\n\terr = arc->setStartAngle(angStart);\n\tif(err!=Acad::eOk)\n\
+    \t\treturn err;\n\terr = arc->setEndAngle(angEnd);\n\tif(err!=Acad::eOk)\n\t\t\
+    return err;\n\terr = arc->setRadius(radius);\n\tif(err!=Acad::eOk)\n\t\treturn\
+    \ err;\n\t\n\tdelete geArc;\n\treturn err;\n}\n-----"

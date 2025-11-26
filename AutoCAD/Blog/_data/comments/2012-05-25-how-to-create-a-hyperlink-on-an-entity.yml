@@ -1,0 +1,143 @@
+comments:
+- author: Luigi71
+  email: luigiballotta@libero.it
+  ip: 85.46.59.210
+  url: ''
+  date: '2013-11-12 02:15:00'
+  body: "Hello Mr. Goncalves.\n\nI'm trying to change a hyperlink description using\
+    \ VB.NET, here's the code:\n \nUsing acLockCurrDoc As DocumentLock = acDoc.LockDocument()\n\
+    \ Using acTrans As Transaction = acCurDb.TransactionManager.StartTransaction()\n\
+    \ \n    Dim MyEntity As Entity = CType(acTrans.GetObject(MyObjID, OpenMode.ForWrite),\
+    \ Entity)\n    Dim hyperlinkColl As HyperLinkCollection = MyEntity.Hyperlinks\n\
+    \    Dim hyperL As HyperLink = hyperlinkColl.Item(0)\n\n    hyperL.Description\
+    \ =\"Some description\"\n \n    acTrans.Commit()\n \n End Using\nEnd Using\n \n\
+    Step through the code in debug mode, after passing hyperL.Description =\"Some\
+    \ description\" row, the Description property of the hyperlink is\neffectively\
+    \ modified as I can see from the variable window of VisualStudio, but when I go\
+    \ to the drawing in order to verify if the modification have taken place, the\
+    \ hyperlink description was not modified.\nAny suggestion?\n\nThanks alot in advance.\n\
+    \nLuigi"
+- author: Augusto Goncalves
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2013-11-19 19:29:39'
+  body: 'Luigi,
+
+
+    Can you try set it back?
+
+
+    Read with
+
+    Dim hyperL As HyperLink = hyperlinkColl.Item(0)
+
+
+    Change the description...
+
+
+    Then write back
+
+    hyperlinkColl.Item(0) = hyperL
+
+
+    Hope this helps.
+
+
+    Regards,
+
+    Augusto Goncalves'
+- author: Luigi
+  email: luigiballotta@libero.it
+  ip: 80.180.88.195
+  url: ''
+  date: '2013-11-20 13:29:31'
+  body: 'Hello Augusto, thankyou for the answer.
+
+    Tried out the suggestion but getting an ''AccessViolationException, Attempted
+    to read or write protected memory. This is often an indication that other memory
+    is corrupt''.
+
+
+    If I do the following:
+
+
+    hyperlinkColl.RemoveAt(0)
+
+    hyperlinkColl.Add(hyperL)
+
+
+    I''m getting the same exception.
+
+
+    The only way to solve the issue seems to create another Hyperlink instance, such
+    as
+
+
+    Dim hyperL2 = New HyperLink
+
+
+    then
+
+
+    hyperL2.Description = hyperL.Description
+
+    hyperL2.Description "New description"
+
+    hyperlinkColl.RemoveAt(0)
+
+    hyperlinkColl.Add(hyperL2)
+
+
+    In this case all works fine.
+
+
+    It would be interesting to investigate...
+
+
+    Thankyou
+
+
+    Best regards.
+
+
+    Luigi'
+- author: Aleksey
+  email: bargool@gmail.com
+  ip: 83.69.223.139
+  url: ''
+  date: '2014-02-11 04:15:25'
+  body: 'Hello Augusto,
+
+    There is mistake:
+
+    You shouldn''t use hyperLink.SubLocation. Instead use
+
+
+    hyperLink.Name = "http://adndevblog.typepad.com/autocad/";
+
+
+    Otherwise you will have incorrect link like "ADN DevBlog#<a href="http://adndevblog.typepad.com/autocad/"">http://adndevblog.typepad.com/autocad/"</a>'
+- author: Wilco
+  email: Whendriksen@npqmail.com
+  ip: 89.250.180.85
+  url: ''
+  date: '2014-12-03 01:55:32'
+  body: Aleksey is right, don't use hyperLink.SubLocation it is for bookmarks. hyperLink.Name
+    did the trick for me.
+- author: Wess Wesselink
+  email: w.wesselink@logitech.nl
+  ip: 217.120.237.124
+  url: ''
+  date: '2022-09-10 11:04:43'
+  body: 'And how can I create a hyperlink to an image on the network?
+
+    I''ve created a tool that lets the user select a folder with photo''s and the
+    tool reads the GPS location and puts a triangle at this location with a hyperlink
+    attached to it.
+
+    The idea is that when the user clicks on the triangle the picture taken at this
+    location is automatically opened.
+
+
+    -----'

@@ -1,0 +1,86 @@
+comments:
+- author: Loic
+  email: loic.jourdan@2020.net
+  ip: 81.255.141.229
+  url: http://2020spaces.com
+  date: '2015-03-27 00:35:02'
+  body: 'Hi Balaji,
+
+    What about the new assoc dimensions based on AcDbAssocPersSubentId (<a href="http://adndevblog.typepad.com/autocad/2015/02/making-a-custom-entity-associative-dimension-enabled.html)">http://adndevblog.typepad.com/autocad/2015/02/making-a-custom-entity-associative-dimension-enabled.html)</a>
+    ?
+
+    I have some issues to make my custom compound entities compatible with this new
+    behavior and I think having a sample similar to yours but using the new behaviour
+    would help me to understand how it works.
+
+
+    Thanks!
+
+
+    Loic'
+- author: Balaji
+  email: ''
+  ip: 132.188.112.189
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-03-29 22:53:12'
+  body: 'Hi Loic,
+
+
+    Sorry for the delay in replying to you. I had taken a day off last Friday.
+
+
+    I will look into the sample that you shared and see how we can get it to work
+    with the AcdbAssocPersSubentId.
+
+
+    I will get back to you on this.
+
+
+    Regards,
+
+    Balaji'
+- author: Loic
+  email: loic.jourdan@2020.net
+  ip: 81.255.141.229
+  url: http://2020spaces.com
+  date: '2015-03-30 01:15:19'
+  body: 'Thanks a lot!
+
+    (No worry for the delay, there''s no rush here, I hope you enjoyed your Friday!)'
+- author: Abhay Joshi
+  email: abhay.joshi@neilsoft.com
+  ip: 121.241.235.98
+  url: ''
+  date: '2016-01-25 05:33:21'
+  body: do we need to delete AcDbOsnapPointRef instance?
+- author: Abhay Joshi
+  email: ''
+  ip: 121.241.235.98
+  url: http://profile.typepad.com/6p01b8d15f648f970c
+  date: '2016-09-23 06:24:06'
+  body: "Hello Balaji,\n\nI am trying to create the associative dimension in paper\
+    \ space same as example. As per your sample code, it works well for top viewport\
+    \ with scale 1:1. But creates issues for dimensions in isometric views with scale\
+    \ other than 1:1. Before creating AcDbDimAssoc object. I override DIMLFAC for\
+    \ dimension by using setDimlfac(). Which include scale (1.22 * 10). It dimension\
+    \ showed correct value after creating it. But after I changed view scale manually,\
+    \ the value is no longer correct. \nAfter checking difference between manual and\
+    \ programmatic dimension in ArxDbg, I found XDATA for ACAD_DIMASSOC_CALC_DIMLFAC,\
+    \ ACAD_DIMASSOC_DIMLFAC and ACAD_DIMASSOC_OVERRIDDEN_DIMLFAC in manual dimensions.\
+    \ \nAfter googling I found link <a href=\"https://forums.autodesk.com/t5/autocad-2000-2000i-2002-archive/paperspace-dimensions-giving-incorrect-values/m-p/141420\"\
+    >https://forums.autodesk.com/t5/autocad-2000-2000i-2002-archive/paperspace-dimensions-giving-incorrect-values/m-p/141420</a>\
+    \ for DIMLFAC XDATA. I mentioned to set XDATA for these applications.\nIn code\
+    \ after creating AcDbDimAssoc I set XDATA to dimension for ACAD_DIMASSOC_OVERRIDDEN_DIMLFAC\
+    \ with lfac*viewscale and ACAD_DIMASSOC_CALC_DIMLFAC with viewscale.\nThen dimension\
+    \ worked fine for all manual operations (changing viewscale, modification in line).\n\
+    \nIs it safe to set XDATA for DIMLFAC?"
+- author: Ari Bejarano
+  email: ariandresbh@hotmail.com
+  ip: 181.49.79.172
+  url: ''
+  date: '2017-08-18 18:23:59'
+  body: "Hi Balaji,\n\nThis piece of code does not work for me and I do not know what\
+    \ I'm doing wrong, just draw the line and the text appears:\n\n\\npost dim: eOk\\\
+    n\n\nI am using autocad 2018 and ObjectARX 2018, my goal is to do it from .net\
+    \ but I see that it is not yet possible. Could you pass me the complete code,\
+    \ please? \n\n\n-----"

@@ -1,0 +1,19 @@
+comments:
+- author: Matinau
+  email: matinau@gmail.com
+  ip: 203.56.22.114
+  url: ''
+  date: '2017-04-23 23:18:55'
+  body: I know this is an old post but any chance you could provide the AutoLISP equivalent?
+    I've been playing around with this (vlr-DocManager-Reactor nil '((:vlr-documentLockModeChanged
+    . VetoCommand))) and getting nowhere fast.
+- author: Matinau
+  email: matinau@gmail.com
+  ip: 203.166.231.66
+  url: ''
+  date: '2017-04-24 02:13:23'
+  body: "My main issue is the actual veto, escaping works for some commands but not\
+    \ open.\n\n(defun VetoCommand (sender arg / *globalCommand*)\n  (setq\t*globalCommand*\t\
+    (nth 4 arg)\n\t*document*\t(nth 0 arg)\n  )\n  (if (wcmatch (strcase *globalCommand*)\
+    \ \"OPEN\")\n    (progn\n      (princ \"\\nCommand intercepted\")\n      (vla-SendCommand\
+    \ *document* \"\\e\\e\\e\")\n    )\n  )\n)\n-----"

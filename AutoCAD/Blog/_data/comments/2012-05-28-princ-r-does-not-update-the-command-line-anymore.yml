@@ -1,0 +1,25 @@
+comments:
+- author: John Vogt
+  email: johncavogt@gmail.com
+  ip: 74.112.123.190
+  url: ''
+  date: '2012-06-05 09:57:22'
+  body: 'First, anybody experimenting using this code, be careful about redefining
+    the "pause" symbol. You might temporarily mess up the (command ...) statements
+    in the rest of your code.
+
+
+    Second, this still doesn''t work for me. It works for a while, randomly stopping
+    (with a small flash of the screen) the update to the command line; one time it
+    will get to 63, then another time to 57. I had been thinking that the various
+    print functions were going to background processing, and that a pause to catch
+    up between the code and the printing might work. But if my function is reading
+    80k lines of a data file, it already takes quite a while, that''s why I need to
+    show the user a status so they don''t think it''s locked up. So I don''t want
+    to use a pausing mechanism that makes it take even longer. But, as I said, that
+    doesn''t make it work for me, even using your sample code. And even the doslib
+    (get_progress ...)progress bar stops updating after a while. So I now I''m thinking
+    that all of alisp gets pushed to background processing after a certain point of
+    memory use? Any more ideas?
+
+    -----'

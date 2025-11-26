@@ -1,0 +1,33 @@
+comments:
+- author: Gaston Nunez
+  email: gaston.nunez@asyst.cl
+  ip: 190.164.176.206
+  url: ''
+  date: '2012-06-08 19:51:45'
+  body: 'Hi,
+
+
+    "These Parameter values are defined as double values, ranging from 0.0 to n."
+    that''s not true for arcs, ellipse arc etc.
+
+
+    Gaston Nunez'
+- author: Owen Wengerd
+  email: ''
+  ip: 24.140.112.242
+  url: http://profile.typepad.com/manusoft
+  date: '2012-06-08 22:27:42'
+  body: 'I nominate this post for the hall of shame. The internet is awash in misinformation
+    and incorrect or sloppy code samples using curve parameters, but I expect you
+    guys at Autodesk to clean things up, not make them worse. This is now the second
+    post on this blog that presents almost identical incorrect code, as if to reinforce
+    the first post on the subject.
+
+
+    As Gaston says, you can never assume that the start parameter is 0.0, even for
+    AcDbLine and other core entities. Also, it is never safe to assume that a midpoint
+    is halfway between the parameters of the endpoints. The correct way to calculate
+    a midpoint is by first calculating the average of the distances at each endpoint,
+    then finding the point at that distance.
+
+    -----'

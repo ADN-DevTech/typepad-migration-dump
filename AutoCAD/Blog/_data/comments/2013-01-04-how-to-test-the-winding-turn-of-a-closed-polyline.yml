@@ -1,0 +1,69 @@
+comments:
+- author: Dale Bartlett
+  email: dale.bartlett@realtimeinternational.com.au
+  ip: 212.72.17.154
+  url: http://www.realtimeinternational.com.au
+  date: '2013-10-30 22:35:51'
+  body: Hi Gopinath, Is this possible in .NET? Also many thanks for your very helpful
+    blog. Dale
+- author: fixo
+  email: fattyhallex@gmail.com
+  ip: 178.70.43.190
+  url: ''
+  date: '2013-12-18 11:36:58'
+  body: "It's may be too late, anyway:\n        //<a href=\"http://adndevblog.typepad.com/autocad/2013/01/how-to-test-the-winding-turn-of-a-closed-polyline.html\"\
+    >http://adndevblog.typepad.com/autocad/2013/01/how-to-test-the-winding-turn-of-a-closed-polyline.html</a>\n\
+    \        // by Gopinath Taget, ugly converted by me\n        static bool polyWindingNumber(Polyline\
+    \ pPoly, out int winding)\n        {\n            if (!pPoly.Closed)\n       \
+    \     {\n                winding = 0;\n                return false;\n       \
+    \     }\n            double turn = 0;\n\n            int nSegs = pPoly.NumberOfVertices;\n\
+    \            Vector3dCollection startTans = new Vector3dCollection();\n\n    \
+    \        Vector3dCollection endTans = new Vector3dCollection();\n\n          \
+    \  double PI2 = Math.Round(Math.PI * 2, 12); //6.28318530718;  \n\n          \
+    \  for (int i = 0; i < nSegs; i++)\n            {\n                if (pPoly.GetSegmentType(i)\
+    \ == SegmentType.Arc)\n                {\n                    CircularArc2d arc\
+    \ = pPoly.GetArcSegment2dAt(i);\n\n                    Vector2d startTan;\n\n\
+    \                    Vector2d endTan;\n\n                    Vector2dCollection\
+    \ startDerivs = new Vector2dCollection();\n\n                    startDerivs.Add(arc.EvaluatePoint(arc.StartAngle).GetAsVector());\n\
+    \n                    startTan = startDerivs[0];\n\n                    Vector2dCollection\
+    \ endDerivs = new Vector2dCollection();\n\n                    Point2d ap2 = arc.EvaluatePoint(arc.EndAngle);\n\
+    \n                    endDerivs.Add(arc.EvaluatePoint(arc.StartAngle).GetAsVector());\n\
+    \n                    endTan = endDerivs[0];\n\n                    startTans.Add(new\
+    \ Vector3d(startTan.X, startTan.Y, 0.0));\n\n                    endTans.Add(new\
+    \ Vector3d(endTan.X, endTan.Y, 0.0));\n\n                    double ang = arc.EndAngle\
+    \ - arc.StartAngle;\n\n                    turn += arc.IsClockWise ? -ang : ang;\n\
+    \n                }\n\n                else if (pPoly.GetSegmentType(i) == SegmentType.Line)\n\
+    \                {\n\n                    LineSegment2d line = pPoly.GetLineSegment2dAt(i);\n\
+    \n                    Vector2d tan2d = line.EndPoint - line.StartPoint;\n\n  \
+    \                  Vector3d tan = new Vector3d(tan2d.X, tan2d.Y, 0.0);\n\n   \
+    \                 startTans.Add(tan);\n\n                    endTans.Add(tan);\n\
+    \n                }\n\n            }\n\n            nSegs = startTans.Count;\n\
+    \n            for (int i = 0; i < nSegs; i++)\n            {\n               \
+    \ double angle = endTans[i].GetAngleTo(startTans[(i + 1) % nSegs]);\n\n      \
+    \          Vector3d norm = endTans[i].CrossProduct(startTans[(i + 1) % nSegs]);\n\
+    \n                angle = norm.Z > 0 ? angle : -angle;\n\n                turn\
+    \ += angle;\n\n            }\n\n            turn = turn / PI2;\n\n           \
+    \ double lower = Math.Floor(turn);\n\n            double tol = 1e-6;\n\n     \
+    \       if ((turn - lower) < tol)\n\n                winding = (int)lower;\n\n\
+    \            else if (((lower + 1) - turn) < tol)\n\n                winding =\
+    \ (int)(lower + 1);\n\n            else\n            {\n                winding\
+    \ = 0;\n                return false;\n            }\n\n            return true;\n\
+    \        }\n\n        [CommandMethod(\"ISCC\")]\n        public static void TestAsdkUtilsPolyWind()\n\
+    \        {\n            Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;\n\
+    \            Editor ed = doc.Editor;\n            Database db = doc.Database;\n\
+    \            SelectionFilter filt = new SelectionFilter(new TypedValue[]{\n  \
+    \              new TypedValue(0,\"lwpolyline\"),\n                new TypedValue(70,1)});\n\
+    \            PromptSelectionResult res = ed.GetSelection(filt);\n            if\
+    \ (res.Status != PromptStatus.OK) return;\n            SelectionSet sset = res.Value;\n\
+    \            SelectedObject obj = sset[0];\n            using (Transaction tr\
+    \ = db.TransactionManager.StartTransaction())\n            {\n               \
+    \ Entity ent = tr.GetObject(obj.ObjectId, OpenMode.ForRead) as Entity;\n     \
+    \           if (ent == null)\n                    return;\n                Polyline\
+    \ poly = ent as Polyline;\n                if (poly == null) return;\n\n     \
+    \           int winding = 0;\n\n                if (polyWindingNumber(poly, out\
+    \ winding))\n                {\n\n                    ed.WriteMessage(\"\\nPolygon\
+    \ has winding number {0}\", winding == 1 ? \"CounterClockWise\" : \"ClockWise\"\
+    );\n\n                }\n\n                else\n                {\n\n       \
+    \             ed.WriteMessage(\"\\nCannot calculate winding number for polyline\"\
+    );\n\n                }\n                tr.Commit();\n            }\n\n     \
+    \   }\n-----"
