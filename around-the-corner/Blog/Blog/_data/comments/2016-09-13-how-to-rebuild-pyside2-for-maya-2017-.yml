@@ -1,0 +1,148 @@
+comments:
+- author: Christian Akesson
+  email: cakesson33@gmail.com
+  ip: 64.37.153.208
+  url: ''
+  date: '2016-09-16 14:15:00'
+  body: 'Hi there,
+
+
+    We are trying to build PySide2 for Python 2.7 in Win 10. We managed to compile
+    to a wheel where you would have to have Qt installed on the system. We would like
+    to compile to where Qt does not need to be installed on the system to use PySide2.
+
+
+    Would we follow the same steps outlined above, but instead of using mayapy, we
+    would use the python 2.7 executable?
+
+
+    It''s hard to find info on this as it stands right now, so any information on
+    this would be very helpful. There must be many studios, that want to build a PySide2
+    installer that does not require Qt to be installed.
+
+
+    Thanks for putting solid information out there,
+
+    Christian Akesson | Senior Technical Artist | Daybreak Games'
+- author: Martin Karlsson
+  email: mkarlsson@daybreakgames.com
+  ip: 64.37.153.178
+  url: ''
+  date: '2016-09-16 14:55:54'
+  body: 'I have to say that for someone that is not familiar with compiling Qt the
+    bundled instructions in "howToBuildQtOnWindows_m2017.txt" are severely lacking.
+
+
+    What is the "icu53_1" reference?
+
+    What is "your normal options" for configure.exe?
+
+    The general tone of the instructions makes me feel like they were written for
+    people who does this stuff on a frequent basis.
+
+
+    I would really appreciate a better set of instructions.'
+- author: Martin Karlsson
+  email: mkarlsson@daybreakgames.com
+  ip: 64.37.153.178
+  url: ''
+  date: '2016-09-16 15:58:31'
+  body: Instructions says "See  https://doc-snapshots.qt.io/qt5-5.4/windows-building.html
+    for Qt building notes" but that page is a 404.
+- author: Martin Karlsson
+  email: mkarlsson@daybreakgames.com
+  ip: 64.37.153.178
+  url: ''
+  date: '2016-09-16 18:36:23'
+  body: 'Getting below warnings- can someone please help clarify:
+
+
+    C:\qt\qt-adsk-5.6.1\qtbase\src\network\access\qnetworkaccessdebugpipebackend_p.h(0):
+    Note: No relevant classes found. No output generated.
+
+    cl : Command line warning D9002 : ignoring unknown option ''-arch:SSE2''
+
+    cl : Command line warning D9002 : ignoring unknown option ''-arch:SSE2''
+
+    cl : Command line warning D9002 : ignoring unknown option ''-arch:SSE2''
+
+    cl : Command line warning D9002 : ignoring unknown option ''-arch:SSE2''
+
+    cl : Command line warning D9002 : ignoring unknown option ''-arch:SSE2''
+
+    C:\qt\qt-adsk-5.6.1\qtbase\src\network\access\qnetworkaccessdebugpipebackend_p.h(0):
+    Note: No relevant classes found. No output generated.
+
+    cl : Command line warning D9002 : ignoring unknown option ''-arch:SSE2''
+
+    cl : Command line warning D9002 : ignoring unknown option ''-arch:SSE2''
+
+    cl : Command line warning D9002 : ignoring unknown option ''-arch:SSE2''
+
+    cl : Command line warning D9002 : ignoring unknown option ''-arch:SSE2''
+
+    cl : Command line warning D9002 : ignoring unknown option ''-arch:SSE2''
+
+    Checking for ntddmodm... no
+
+    Checking for jasper... no
+
+    Checking for libmng... no
+
+    Checking for libtiff... no
+
+    Checking for libwebp... no
+
+    Checking for language... no
+
+    Checking for socketcan... no
+
+    Checking for socketcan_fd... no
+
+    Project WARNING: Cannot compile the module with your compiler, missing C++11 language
+    features.'
+- author: Martin Karlsson
+  email: mkarlsson@daybreakgames.com
+  ip: 75.80.19.130
+  url: ''
+  date: '2016-09-16 23:14:08'
+  body: "After a full day of tinkering I got a Qt build done; however, when I try\
+    \ to compile PySide2 it seems like the build is bad.\n\nGet errors about missing\
+    \ dll files in the \"...qt-build-561\\qtbase\\bin\\...\" directory and the below\
+    \ error [note the messed up filepath \"C:/qt/qt-build-561/qtbase/C:/qt/qt-adsk-5.6.1/qtbase//mkspecs/win32-msvc2012\"\
+    ]:\n\n[Start error]\n\nCMake Error at C:/qt/qt-build-561/qtbase/lib/cmake/Qt5Core/Qt5CoreConfig.cmake:15\
+    \ (message):\n  The imported target \"Qt5::Core\" references the file\n\n    \
+    \ \"C:/qt/qt-build-561/qtbase/C:/qt/qt-adsk-5.6.1/qtbase//mkspecs/win32-msvc2012\"\
+    \n\n  but this file does not exist.  Possible reasons include:\n\n  * The file\
+    \ was deleted, renamed, or moved to another location.\n\n  * An install or uninstall\
+    \ procedure did not complete successfully.\n\n  * The installation package was\
+    \ faulty and contained\n\n     \"C:/qt/qt-build-561/qtbase/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake\"\
+    \n\n  but not all the files it references.\n\n[End error]"
+- author: Chengxi Li
+  email: cheng.xi.li@autodesk.com
+  ip: 103.23.161.18
+  url: ''
+  date: '2016-09-26 00:38:16'
+  body: "Hi, \n\nI was in training last week. I'll look at this issue this week.\n\
+    \nYours,\nLi"
+- author: Chengxi Li
+  email: cheng.xi.li@autodesk.com
+  ip: 103.23.161.18
+  url: ''
+  date: '2016-09-27 20:09:38'
+  body: 'Hi Christian,
+
+
+    Using python 2.7 should be OK. But we recommend to use Python built with VS2012
+    to avoid any potential runtime issues. That''s the reason why I am using mayapy.
+
+
+    I think you can''t build PySide without a QT environment. But once it is built,  you
+    can copy the binary outputs to other computers you need.
+
+
+    Yours,
+
+    Li
+
+    -----'

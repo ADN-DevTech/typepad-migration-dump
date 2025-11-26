@@ -1,0 +1,205 @@
+comments:
+- author: Eric Pavey
+  email: warpcat@gmail.com
+  ip: 64.111.160.30
+  url: http://www.akeric.com
+  date: '2012-10-03 09:05:18'
+  body: What are the chances Autodesk will provide pre-compiled versions for users
+    for future releases of Maya?  I got about as far as this post on my own before
+    giving up (hit too many snags, the open ssl thing threw me for a loop) and just
+    found a pre-compiled version online (2013 x64 win).  I'm reluctant to start authoring
+    production-sensitive ui's that won't work in the next version of Maya until someone
+    recompiles this stuff.  Thoughts?
+- author: Cyrille Fauvel
+  email: ''
+  ip: 81.53.160.42
+  url: http://profile.typepad.com/6p0163057a21c8970d
+  date: '2012-10-03 09:20:04'
+  body: 'Hi Eric,
+
+    I know what you mean, that whole thing isn''t an easy process for everyone. The
+    main important point here is to remember you only need to recompile Qt source
+    if you want to modify Qt source on your side which in this case Autodesk cannot
+    provide you with your modified binaries. Maya ships Qt binaries and libraries
+    that you can use directly. So the openssl comment is only relevant for those who
+    wants to recompile Qt itself.
+
+
+    Now I guess your comment was on providing PyQt or PySide binaries (may be both
+    ;) - We survey developers on our annual API survey for the last 2 years (i.e.:
+    <a href="http://around-the-corner.typepad.com/adn/2012/06/api-wishlist-surveys.html)">http://around-the-corner.typepad.com/adn/2012/06/api-wishlist-surveys.html)</a>
+    and we saw a fair amount of people using either PyQt and/or PySide, so we are
+    thinking about it...
+
+
+    I did not posted the binaries here for legal implication in doing that, but I
+    am ready to share my scripts on the 3 platforms for those interested.'
+- author: Lluis
+  email: ktmlleska@gmail.com
+  ip: 95.21.5.161
+  url: ''
+  date: '2012-10-03 14:17:56'
+  body: 'Hello,
+
+    I''m trying to install pyqt but when I''m in the step to build SIP I get some
+    errors like this:
+
+
+    NMAKE : fatal error U1077: ''"C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\BIN\amd64\nmake.exe"''
+    : return code ''0x2''
+
+
+    I use maya 2013 without the extension. And i don''t have qmake.exe inside the
+    folder:  ..\maya2013\bin
+
+    can you help me?
+
+    Thank you.'
+- author: Cyrille Fauvel
+  email: ''
+  ip: 81.53.160.42
+  url: http://profile.typepad.com/6p0163057a21c8970d
+  date: '2012-10-03 23:37:34'
+  body: 'Hi Luis
+
+    you do not need Qt to build SIP, so in theory it should work fine with this
+
+
+    subst v: whateverrootfolderyouwant
+
+    rem ex: subst v: e:\Users\cyrille\QtBuild
+
+    v:
+
+    cd \sip-4.13.3
+
+    SET MSVC_DIR=C:\Program Files (x86)\Microsoft Visual Studio 10.0
+
+    call "%MSVC_DIR%\VC\vcvarsall" amd64
+
+    set MAYA_LOCATION=C:\Program Files\Autodesk\Maya2013
+
+    set INCLUDE=%INCLUDE%;%MAYA_LOCATION%\include\python2.6;%MAYA_LOCATION%\Python\include
+
+    set LIB=%LIB%;%MAYA_LOCATION%\lib
+
+    "%MAYA_LOCATION%\bin\mayapy" configure.py
+
+    nmake
+
+    nmake install
+
+
+    Let me know if any problem'
+- author: Lluis
+  email: ktmlleska@gmail.com
+  ip: 88.13.163.66
+  url: http://www.lluiscasals.blogspot.com
+  date: '2012-10-04 01:04:43'
+  body: "Hi!\nThank you, it worked.\nBut now when I try to test I get another error:\n\
+    \nMy command is:\nfrom PyQt4 import QtGui,QtCore, uic\nimport maya.cmds as cmds\n\
+    \nuifile = '$d+\"/test.ui\"'\nform, base = uic.loadUiType(uifile)\n\nError:\n\
+    # Error: IOError: file C:\\Program Files\\Autodesk\\Maya2013\\bin\\python26.zip\\\
+    xml\\etree\\ElementTree.py line 579: 22 # \n\nDo You know why it happend?\n\n\
+    The error is when execute the step: \"form, base = uic.loadUiType(uifile)\"\n\n\
+    Thank you very much!"
+- author: Cyrille Fauvel
+  email: ''
+  ip: 81.53.160.42
+  url: http://profile.typepad.com/6p0163057a21c8970d
+  date: '2012-10-04 01:51:53'
+  body: 'Hi Luis
+
+    without seeing the ui file, I can''t really tell. I tried a simple ui file and
+    it worked fine for me. Please copy me your code and I''ll try. Contact me by email
+    (email in my profile - <a href="http://around-the-corner.typepad.com/adn/cyrille-fauvel.html)">http://around-the-corner.typepad.com/adn/cyrille-fauvel.html)</a>'
+- author: Lluis
+  email: ktmlleska@gmail.com
+  ip: 88.13.163.66
+  url: http://www.lluiscasals.blogspot.com
+  date: '2012-10-04 02:18:17'
+  body: 'Ok I will send you an e-mail.
+
+    Thank you.'
+- author: Lluis
+  email: ktmlleska@gmail.com
+  ip: 88.13.163.66
+  url: http://www.lluiscasals.blogspot.com
+  date: '2012-10-04 07:37:55'
+  body: "Thank you for your help, \nit is working now!"
+- author: Marco Giordano
+  email: ''
+  ip: 217.91.36.246
+  url: http://profile.typepad.com/marcogiordano
+  date: '2012-10-08 05:42:51'
+  body: 'Hello thanks for the great post ,I didn''t test it yet but i will do that
+    tonight , so far I used other tutorial.
+
+    Honestly is quite a pain to compile pyqt or pyside ( I am running into tons of
+    errors and when i fix them other rises and so on ). I really hope autodesk will
+    provide asap binaries at least for pyside for all platform (since pyside doesn''t
+    have license problems for distributing).It would be so nice from autodesk :)'
+- author: Jimmy Christensen
+  email: lithorus@gmail.com
+  ip: 87.116.24.164
+  url: ''
+  date: '2012-10-08 22:18:53'
+  body: I'm fairly certain that PySide can be shipped pre-compiled without any legal
+    issues. I know for a fact that Nuke ships with them.
+- author: Jimmy Christensen
+  email: lithorus@gmail.com
+  ip: 87.116.24.164
+  url: ''
+  date: '2012-10-08 22:20:40'
+  body: Actually, I've tested using Nuke's PySide in Maya and it seems to work fairly
+    well (just remember to copy over the libshiboken-python2.6 library aswell).
+- author: Andrew Grant
+  email: ''
+  ip: 66.46.205.188
+  url: http://profile.typepad.com/grantandrew1
+  date: '2012-10-12 09:28:50'
+  body: "Hello, \n\nI am wondering if you can provide information about getting PyQt\
+    \ built for MotionBuilder?\n\nThanks!"
+- author: Ken Mohamed
+  email: kenmohamed@me.com
+  ip: 75.92.103.248
+  url: ''
+  date: '2012-10-27 16:21:42'
+  body: "Hi Cyrille,\nFirst, thanks for the post.  I'm attempting to build Qt for\
+    \ Maya on OS X-Lion.  The instructions for building the configuration using the\
+    \ -sdk switch if running Lion helped me over my first roadblock.\n\nI'm still\
+    \ having trouble and was hoping that you could help.  \n\nI built the configuration\
+    \ using:\n\n./configure -prefix-install -arch x86_64  -debug-and-release -no-rpath\
+    \ -silent -no-qt3support -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.6.sdk\
+    \ -platform macx-g++\n\nThen \"make\" ended with the following:"
+- author: Cyrille Fauvel
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/6p0163057a21c8970d
+  date: '2012-10-28 04:18:37'
+  body: 'Hi Ken
+
+
+    You cannot use x_86, it should be x86_64.
+
+    and because you do not point to the 10.6.sdk, you are using the Lion 10.7 SDK
+    which is the one by default on Lion.
+
+    It also means you are using Xcode 4 vs Xcode 3.2.1 as it is specified in the Maya
+    document. I know it is not always obvious what happens during compilation but
+    you have to follow the exact steps to get it working.
+
+
+    ./configure -prefix /Users/myHomeDir/qt-4.7.1 -arch x86_64 -debug-and-release
+    -no-rpath -silent -no-qt3support -sdk /Developer/SDKs/MacOSX10.6.sdk
+
+
+    If the /Developer/SDKs/MacOSX10.6.sdk does not exist on your system, that means
+    you do not have the Xcode 3.2.1 compiler, nor the 10.6 SDK which are required.
+    In that case please install them - they can be installed side by side to Xcode
+    4 and the 10.7 SDK.
+
+
+    Hope that will help,
+
+    -----'

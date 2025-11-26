@@ -1,0 +1,33 @@
+comments:
+- author: Martin Karlsson
+  email: mrkarlsson@hotmail.com
+  ip: 64.37.167.162
+  url: ''
+  date: '2012-10-17 14:16:22'
+  body: 'I''m extending OpenMayaMPx.MPxLocatorNode. How do I know when the node is
+    selected, please?
+
+
+    Goal is to draw lines with different color when selected.'
+- author: Cyrille Fauvel
+  email: ''
+  ip: 2.10.193.112
+  url: http://profile.typepad.com/6p0163057a21c8970d
+  date: '2012-10-18 23:33:00'
+  body: "Hi Martin,\n \nWe posted a utility (with source code) recently on <a href=\"\
+    http://labs.autodesk.com/utilities/ADN_plugins\">http://labs.autodesk.com/utilities/ADN_plugins</a>\
+    \ in case you want to see a full sample (LocatorLib utility). \n \nAll is done\
+    \ in the draw() method, something like this:\n \nvoid locatorLibBase::draw (M3dView\
+    \ &view, const MDagPath &path, M3dView::DisplayStyle style, M3dView::DisplayStatus\
+    \ status) {\n  view.beginGL () ;\n  if ( (style == M3dView::kFlatShaded)\n  ||\
+    \ (style == M3dView::kGouraudShaded)\n  ) {\n    // Push the color settings\n\
+    \    glPushAttrib (GL_CURRENT_BIT) ;\n    if ( status == M3dView::kActive )\n\
+    \      view.setDrawColor (13, M3dView::kActiveColors);\n    else\n      view.setDrawColor\
+    \ (13, M3dView::kDormantColors);\n    myShadedDraw () ;\n    glPopAttrib () ;\n\
+    \  }\n  myWireFrameDraw () ; // Draw the outline of the locator\n  view.endGL\
+    \ () ;\n}\n \nThe ( status == M3dView::kActive ) will tell you if it is selected\
+    \ or not, and like above you decide what colors you want.\n \nNow this is for\
+    \ the legacy viewport. If you also want to support the Maya Viewport 2.0, you\
+    \ need another class and do something similar again. So you would need to derive\
+    \ an additional class from the MHWRender::MPxDrawOverride class and use the draw()'\
+    \ MHWRender::MDrawContext argument.\n \nHope that helps,\n\n-----"

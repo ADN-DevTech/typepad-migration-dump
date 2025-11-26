@@ -1,0 +1,36 @@
+comments:
+- author: Miguel Gao
+  email: mgtools2@gmail.com
+  ip: 14.200.67.60
+  url: http://mgland.com
+  date: '2019-01-22 05:36:15'
+  body: 'Thanks for the information!
+
+    I tried to build some native .bundle maya plugins, but all the .xcodeproj files
+    are removed from the devkit/plug-ins?
+
+
+    The problem is, in Maya2018, the .xcodeproj file defines some link flags like:
+
+    -Wl,-exported_symbol,__Z16initializePluginN8Autodesk4Maya16OpenMaya201800007MObjectE
+
+    -Wl,-exported_symbol,__Z18uninitializePluginN8Autodesk4Maya16OpenMaya201800007MObjectE
+
+    How am I supposed to know what these values are for maya2019 plugins?
+
+    Thanks'
+- author: Miguel Gao
+  email: mgtools2@gmail.com
+  ip: 14.200.67.60
+  url: http://mgland.com
+  date: '2019-01-22 14:59:46'
+  body: 'Sorry, I know it is supposed to use CMakeList.
+
+    But there might be some projects already based on xcodeproj directly, so for whoever
+    need the symbol names for Maya2019:
+
+    __Z16initializePluginN8Autodesk4Maya16OpenMaya201900007MObjectE
+
+    __Z18uninitializePluginN8Autodesk4Maya16OpenMaya201900007MObjectE
+
+    -----'

@@ -1,0 +1,30 @@
+---
+layout: "post"
+title: "Feeling Foolish"
+date: "2014-04-03 00:18:07"
+author: "Cyrille Fauvel"
+categories:
+  - "Cyrille Fauvel"
+  - "Events"
+original_url: "https://around-the-corner.typepad.com/adn/2014/04/feeling-foolish.html "
+typepad_basename: "feeling-foolish"
+typepad_status: "Publish"
+---
+
+<p>The ADN blog posts of April 1st were the result of the second year of our team&#39;s internal April Fools&#39; Challenge, where we have a little friendly competition to see who can post the &#39;best&#39; April Fools&#39; article. Of course, different people like different kinds of humor, so there&#39;s never really just one &#39;best&#39;. (We try to avoid posting serious articles on April 1st in case someone thinks we&#39;re joking when we&#39;re not, but one sometimes slips through due to timezone miscalculations).</p>
+<p>One little note about mine was that half of it was true - I let you find out by yourself which are true and which aren&#39;t ;)</p>
+<p>In no particular order, here is a full list of our Foolish posts (along with the name and location of the perpetrator):</p>
+<ul>
+<li>Xiaodong Liang (China) -&#0160;<a href="http://adndevblog.typepad.com/aec/2014/04/avr-glass-autodesk-virtual-reality-glass-in-the-age-of-cloud.html" target="_blank">http://adndevblog.typepad.com/aec/2014/04/avr-glass-autodesk-virtual-reality-glass-in-the-age-of-cloud.html</a></li>
+<li>Adam Nagy (UK) -<a href="http://adndevblog.typepad.com/manufacturing/2014/04/william-as-honorary-autodesk-spokesperson.html" target="_blank">http://adndevblog.typepad.com/manufacturing/2014/04/william-as-honorary-autodesk-spokesperson.html</a></li>
+<li>Kevin Vandecar (US) -<a href="http://getcoreinterface.typepad.com/blog/2014/04/preparation-for-your-3ds-max-customers-cloud-storage.html" target="_blank">http://getcoreinterface.typepad.com/blog/2014/04/preparation-for-your-3ds-max-customers-cloud-storage.html</a></li>
+<li>Augusto Goncalves (Brazil) -<a href="http://adndevblog.typepad.com/infrastructure/2014/04/infraworks-360-public-pilot.html" target="_blank">http://adndevblog.typepad.com/infrastructure/2014/04/infraworks-360-public-pilot.html</a></li>
+<li>Daniel Du (China) -<a href="http://adndevblog.typepad.com/cloud_and_mobile/2014/04/autodesk-exchange-is-making-it-a-real-one.html" target="_blank">http://adndevblog.typepad.com/cloud_and_mobile/2014/04/autodesk-exchange-is-making-it-a-real-one.html</a></li>
+<li>Jeremy Tammik (Switzerland) -<a href="http://thebuildingcoder.typepad.com/blog/2014/04/automating-large-scale-waste-recycling-and-sustainability.html" target="_blank">http://thebuildingcoder.typepad.com/blog/2014/04/automating-large-scale-waste-recycling-and-sustainability.html</a></li>
+<li>Cyrille Fauvel (France) -&#0160;<a href="http://around-the-corner.typepad.com/adn/2014/04/3d-printing-second-industrial-revolution-is-under-way.html" target="_blank">http://around-the-corner.typepad.com/adn/2014/04/3d-printing-second-industrial-revolution-is-under-way.html</a></li>
+<li>Partha Sarkar (India) -&#0160;<a href="http://adndevblog.typepad.com/aec/2014/04/1-2-3-d-import-a-revit-family.html" target="_blank">http://adndevblog.typepad.com/aec/2014/04/1-2-3-d-import-a-revit-family.html</a></li>
+<li>Brian Ekins (US) -<a href="http://modthemachine.typepad.com/my_weblog/2014/04/new-age-of-cad-interaction.html" target="_blank">http://modthemachine.typepad.com/my_weblog/2014/04/new-age-of-cad-interaction.html</a></li>
+<li>Stephen Preston (US) -<a href="http://adndevblog.typepad.com/autocad/2014/03/autodesk-announces-microsuites-1.html" target="_blank">http://adndevblog.typepad.com/autocad/2014/03/autodesk-announces-microsuites-1.html</a></li>
+</ul>
+<p>And of course, I have to mention&#0160;<a href="http://through-the-interface.typepad.com/through_the_interface/2014/04/new-pink-theme-for-autocad-2015.html" target="_blank">the post by Kean Walmsley</a>&#0160;- our longstanding Master of Fools.</p>
+<p>Although, the Autodesk-related post yesterday that made me laugh the most was this one -&#0160;<a href="http://designandmotion.net/autodesk/its-autodesks-turn-to-get-acquired-by-facebook/" target="_blank">http://designandmotion.net/autodesk/its-autodesks-turn-to-get-acquired-by-facebook/</a>.</p>

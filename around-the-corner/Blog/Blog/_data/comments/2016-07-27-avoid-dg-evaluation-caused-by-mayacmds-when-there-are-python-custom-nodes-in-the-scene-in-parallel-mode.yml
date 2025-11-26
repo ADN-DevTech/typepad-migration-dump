@@ -1,0 +1,51 @@
+comments:
+- author: Robert Cervellione
+  email: cervellione@cerver.net
+  ip: 108.54.97.167
+  url: http://dynamaya.cerver.org
+  date: '2016-08-06 05:40:34'
+  body: does this also apply to high volume mel commands? I am having the same issue
+    when i evaluate a mel command at every frame on the time line, the system locks
+    and crashes due to a memory access violation. i assume because the previous command
+    was not finished operating on the object before the new mel command was called
+    on the same object.
+- author: Chengxi Li
+  email: cheng.xi.li@autodesk.com
+  ip: 116.192.29.126
+  url: ''
+  date: '2016-08-11 00:35:49'
+  body: I think this is applied to commands need to be executed during idle. Maybe
+    it is a little different from your issue.
+- author: Jakob Steffensen
+  email: js@anim.dk
+  ip: 193.106.164.50
+  url: http://www.anim.dk
+  date: '2016-08-17 07:54:01'
+  body: 'We are also working with custom locators and something baffles me...
+
+
+    if you do a spaceLocator or nurbsCurve, copy it 400 times and set keys on the
+    transform you might get about 200 fps when doing playback...
+
+
+    Compile the footPrintNode from the devkit and do the same and you get 23 fps (60
+    fps with the geometryOverride version)
+
+
+    Without keys on the transform the viewport performance is fine.... any clue why?
+
+
+    Best wishes... Jakob'
+- author: Luke Harris
+  email: lukeha@gmail.com
+  ip: 77.107.234.2
+  url: ''
+  date: '2016-08-18 02:05:32'
+  body: 'This bug is pretty nasty. Even calling out to mel from python causes the
+    crash so unless you can rewrite your whole tool in mel the work around isn''t
+    doable. Further, even disabling parallel evaluation will not fix it in all cases.
+    If parallel is disabled but viewport2.0 is enabled it will usually still crash
+    when calling cmds.playblast(). In other words you can''t use python node plugins
+    with viewport2.0 OR parallel eval. Not good.
+
+    -----'

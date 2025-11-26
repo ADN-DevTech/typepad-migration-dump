@@ -1,0 +1,30 @@
+comments:
+- author: James Rowell
+  email: rowellogic-autodesk@yahoo.com
+  ip: 172.16.4.162
+  url: ''
+  date: '2016-08-02 08:35:17'
+  body: Hi Cyrille - I'm wondering if you've had any luck building pyqt for maya2017
+    yet?  Your notes for prior versions of maya are indispensible!  Looking forward
+    to seeing this round when you get time.  Cheers - James.
+- author: Leon Rosengarten
+  email: lion032@gmail.com
+  ip: 212.29.198.194
+  url: ''
+  date: '2016-08-03 05:37:08'
+  body: "Hey!\n\nI was working on a maya 2016 and when 2017 came out I began porting\
+    \ my work to 2017 due to the fact that it uses qt5 which has built in features\
+    \ that I need.\nStraightaway I ran into a lot of issues that come from deep inside\
+    \ qt itself (e.g. QString::toStdString function causing crashes, \nWorkaround:\
+    \ use call .toLocal8Bit().constData() instead)  .\n\n\nAnother issue is with the\
+    \ qt examples, they worked fine for qt4 but there are some breaking changes that\
+    \ make them bad reference point for develops e.g.:\n\nUsing QPointer to store\
+    \ the pointer to the plugin window will cause memory access violation due to major\
+    \ change in QPointer implementation in qt5, the following is from Qt docs:\nNote\
+    \ that Qt 5 introduces a slight change in behavior when using QPointer.\n\n\"\
+    When using QPointer on a QWidget (or a subclass of QWidget), previously the QPointer\
+    \ would be cleared by the QWidget destructor. Now, the QPointer is cleared by\
+    \ the QObject destructor (since this is when QWeakPointer objects are cleared).\
+    \ Any QPointers tracking a widget will NOT be cleared before the QWidget destructor\
+    \ destroys the children for the widget being tracked.\"\n\nthe workaround so far\
+    \ is to use QSharedPointer.\n\n-----"

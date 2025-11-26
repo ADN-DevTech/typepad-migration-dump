@@ -1,0 +1,58 @@
+comments:
+- author: Felix
+  email: felix.ulber@gmx.de
+  ip: 87.167.227.193
+  url: ''
+  date: '2012-08-13 04:12:30'
+  body: Nice, thanks. Concerning Maya, I would really like to learn more about this.
+    Are we just talking about scriptJobs here (that's the way I allways use(d) in
+    scripts, even in python-times), or are there some other, 'more up to date' possibilities,
+    e.g. using python and api?
+- author: mtmy
+  email: characterTD@me.com
+  ip: 204.15.204.161
+  url: ''
+  date: '2012-08-15 07:26:15'
+  body: "Hi Kristine,\n\nHow would you register a callback on a newly created shapeNode's\
+    \ transform?\nI want to have a callback added within a py node plugin:\n\ndef\
+    \ postConstructor(self):\n    nodeFn = OpenMaya.MFnDependencyNode(self.thisMObject())\n\
+    \    nodeFn.setName(\"hape#\" % self.typeName())\n\n    dpath = OpenMaya.MDagPath()\n\
+    \       OpenMaya.MDagPath.getAPathTo(self.thisMObject(), dpath)\n\n    dpath.transform()\n\
+    \    self._cbchild = OpenMaya.MDagMessage.addChildAddedDagPathCallback( dpath,\
+    \ self._childAdded, nodeFn )\n\nThe problem I'm having is that the transform's\
+    \ dag path is not recognized at this stage and the callback cannot be registered.\n\
+    \nI cannot add the shape node's dagPath as I want to get a callback whenever a\
+    \ child is parented underneath the transform.\n\nDo you have any solution to this\
+    \ issue?"
+- author: Kristine Middlemiss
+  email: kristine.middlemiss@autodesk.com
+  ip: 70.42.29.3
+  url: ''
+  date: '2012-08-17 12:11:52'
+  body: "Hi Felix,\n\nThe concept of callbacks is somewhat general in Maya, then there\
+    \ is specific channels to implement them, as you mentioned ScriptJobs is definitely\
+    \ one way to do it, which can be accessed through MEL or Python Scripting commands.\n\
+    \nAnd then another way to do it would be using the C++ or Python API, using the\
+    \ class MMessage and all the children classes located under it, you would choose\
+    \ a specific child class based on what functionality you wanted to watch and setup\
+    \ a call back on, you can take a look at the Maya API Docs online here for more\
+    \ information on MMessage and it's children classes:\n\n<a href=\"http://usa.autodesk.com/adsk/servlet/item?id=16707768&siteID=123112\"\
+    >http://usa.autodesk.com/adsk/servlet/item?id=16707768&siteID=123112</a>\n\nAlso\
+    \ there is some good samples of this in the devkit that comes with Maya, \n\n\
+    Hope that answers your question, \n\nKristine"
+- author: Cyrille Fauvel
+  email: cyrille.fauvel@autodesk.com
+  ip: 95.172.88.8
+  url: ''
+  date: '2012-08-21 02:28:34'
+  body: "Hi mtmy\n\nAdding a ChildAddedDagPathCallback is possible on DAG nodes only.\
+    \ If your node is not a DAG node and/or if the callback signature is not correct,\
+    \ the callback will not work.\n\nI modified the rockingTransform node sample like\
+    \ below and I got a print on the Maya output window whenever I add a child to\
+    \ it. Let us know if you still experiencing an issue on your side.\n\nHope that\
+    \ helps\ncyrille\n\ndef childAdded (dgchild, dgparent, clientData):\n  print \"\
+    Hello World!\"\n\nclass rockingTransformNode(OpenMayaMPx.MPxTransform):\n  def\
+    \ postConstructor(self): \n    thisNode = self.thisMObject()\n    dagFn =OpenMaya.MFnDagNode\
+    \ (thisNode); \n    dpath = OpenMaya.MDagPath() \n    dagFn.getPath (dpath)\n\
+    \    print dpath.fullPathName()\n    self._cbchild =OpenMaya.MDagMessage.addChildAddedDagPathCallback(dpath,\
+    \ childAdded)\n\n-----"

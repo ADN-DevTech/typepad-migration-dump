@@ -1,0 +1,99 @@
+comments:
+- author: chris
+  email: chris.gibbs.mail@gmail.com
+  ip: 107.198.153.164
+  url: ''
+  date: '2013-05-20 16:25:20'
+  body: I am thinking of developing software for Maya/Max.  Does Autodesk reveal how
+    many active paying Maya/Max users there are in the world?
+- author: Cyrille Fauvel
+  email: ''
+  ip: 2.11.85.233
+  url: http://profile.typepad.com/6p0163057a21c8970d
+  date: '2013-05-21 01:31:15'
+  body: 'No, this is not an information I can share publicly. But if you are an ADN
+    member and you got a good reason to know, we can have a discussion.
+
+
+    -cyrille'
+- author: Erik Johansson
+  email: erik.johansson.evegard@gmail.com
+  ip: 62.181.192.72
+  url: ''
+  date: '2013-05-21 02:31:05'
+  body: 'Back with another unrelated comment but comments sections closes awfully
+    fast.
+
+
+    Is there anyway to avoid the special last step involving install_name_tool when
+    installing PySide for Maya 2012/2013 in osx?
+
+
+    I tried just using DYLD_LIBRARY_PATH and PYTHONPATH for setting it up as on linux
+    but it didn''t work. Not too familiar with osx development but it seems like a
+    strange step.
+
+
+    There is also some issues with the instructions that you might wan''t to edit:
+
+    1.
+
+    export SHIBOKEN_DIR=/Users/myHomeDir/shiboken-1.1.2/_output
+
+    should be
+
+    export SHIBOKEN_DIR=/Users/myHomeDir/shiboken-1.1.2/_output/lib/cmake/Shiboken-1.1.2
+
+
+    2.
+
+    when cmaking
+
+    -DALTERNATE_QT_INCLUDE_DIR=$QTDIR/include
+
+    should be
+
+    -DALTERNATIVE_QT_INCLUDE_DIR=$QTDIR/include
+
+
+    3.
+
+    there is also a bug in the qt src
+
+    in src/plugins/bearer/corewlan "|" needs to be replaced with "||" otherwise qt
+    wont compile
+
+
+    4.
+
+    The instructions when building qt for mac says something about that there is a
+    bug in qt and files need to be copied for qmake to work. I skipped doing this
+    and it made no difference.'
+- author: Erik Johansson
+  email: erik.johansson.evegard@gmail.com
+  ip: 83.227.56.210
+  url: ''
+  date: '2013-05-21 15:05:09'
+  body: So i figured out i can keep my PySide .so and .dylib files outside of the
+    /Applications folder by linking them against @executable_app and using PYTHONPATH
+    and DYLD_LIBRARY_PATH to find them but I can't get QtWebKit to work as the QtWebKit
+    in maya is linked against @executable_app/phonon but phonon is not included. Is
+    there any way to solve this?
+- author: Cyrille Fauvel
+  email: ''
+  ip: 2.11.85.233
+  url: http://profile.typepad.com/6p0163057a21c8970d
+  date: '2013-05-22 00:23:51'
+  body: 'Hi Eric
+
+
+    I could compile Qt, PyQt, PySide without changing the code like you did, so that''s
+    really strange that you had to. Anyway, I can see phonon present in my distribution
+    /Applications/Autodesk/maya2013/Maya.app/Contents/MacOS/phonon so I am not sure
+    I understand your issue. I''ll try to contact you by email and follow-up from
+    there
+
+
+    -cyrille
+
+    -----'

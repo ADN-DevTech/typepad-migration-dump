@@ -1,0 +1,26 @@
+comments:
+- author: chayan
+  email: chayan@outlook.com
+  ip: 71.83.171.27
+  url: ''
+  date: '2013-09-20 22:41:59'
+  body: "Hello Cyrille,\n\nThanks for the great note.\nAs you briefly talked about\
+    \ Custom Node attributes here that made me curious about \nif there is any way\
+    \ of listing all the plugs/attributes attached to a dependency graph node using\
+    \ API command.\n\neg: using MFnDependencyNode() we can access a particular plug\
+    \ if we know its name.\n\nmFnDN = OpenMaya.MFnDependencyNode(mObj_node)\nvisibility_plug\
+    \ = mFnDN.findPlug(\"visibility\")\n\n\n\nIn this case a single plug is accessed\
+    \ and we know its name.\nIs there any command which can list all the plugs of\
+    \ a dependency graph node (if we don't know that names of all the plugs) ?\n\n\
+    \nThanks,\nChayan"
+- author: Cyrille Fauvel
+  email: ''
+  ip: 2.11.219.55
+  url: http://profile.typepad.com/6p0163057a21c8970d
+  date: '2013-09-25 10:31:33'
+  body: "Hi Chayan,\n\nyes, you can list plugs using: MFnDependencyNode::attributeCount()\
+    \ / MFnDependencyNode::attribute()\n \nbut in case you want the connected plugs,\
+    \ you will need: MFnDependencyNode::getConnections()\n\nPlugs on a node found\
+    \ in this way can come and go based on a number of internal optimization reasons\
+    \ so the list you are asking for is not necessarily going to be consistent each\
+    \ time you ask.\n\nHope that helps,\n-cyrille\n-----"

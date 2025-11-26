@@ -1,0 +1,75 @@
+comments:
+- author: Martin Karlsson
+  email: mkarlsson@daybreakgames.com
+  ip: 64.37.153.178
+  url: ''
+  date: '2016-09-29 13:02:50'
+  body: 'Thank you for these instructions! I''m getting stuck on the OpenSSL compile.
+
+
+    I added PATH variables:
+
+
+    nmake: "/cygdrive/c/Program Files (x86)/Microsoft Visual Studio 11.0/VC/bin/amd64"
+
+    platform sdk include: "/cygdrive/c/Program Files (x86)/Microsoft SDKs/Windows/v7.1A/Include"
+
+    platform sdk lib: "/cygdrive/c/Program Files (x86)/Microsoft SDKs/Windows/v7.1A/Lib"
+
+
+    ... into the Cygwin .bash_profile file as "PATH="/cygdrive/c/Program Files (x86)/Microsoft
+    Visual Studio 11.0/VC/bin/amd64:/cygdrive/c/Program Files (x86)/Microsoft SDKs/Windows/v7.1A/Include:/cygdrive/c/Program
+    Files (x86)/Microsoft SDKs/Windows/v7.1A/Lib:${PATH}" and it does pick up nmake
+    - but not the SDK.
+
+
+    I get error "Cannot open include file: ''windows.h'': No such file or directory"
+
+
+    I also tried changing the include statements to  since the header file is upper
+    case. Also tried the opposite where the include statements were left to default  and
+    changed the SDK file to windows.h. No luck so far.
+
+
+    Can you help me resolve this, please?'
+- author: Chengxi Li
+  email: cheng.xi.li@autodesk.com
+  ip: 116.192.22.46
+  url: ''
+  date: '2016-09-30 00:29:12'
+  body: 'Hi Martin,
+
+
+    Can you try the VS2012 x64 Native Command Tools installed with Visual Studio 2012?
+
+
+    I am using it for setting up the environment.
+
+
+    Yours,
+
+    Li'
+- author: Martin Karlsson
+  email: mkarlsson@daybreakgames.com
+  ip: 64.37.153.178
+  url: ''
+  date: '2016-09-30 08:50:00'
+  body: 'Thank you - that worked. I did get one additional error but that was resolved
+    using this trick: http://wishmesh.com/2013/01/building-openssl-with-visual-studio-2010-for-x64-win64-causes-error/'
+- author: Martin Karlsson
+  email: mkarlsson@daybreakgames.com
+  ip: 64.37.153.178
+  url: ''
+  date: '2016-09-30 09:31:44'
+  body: 'For step #7 I had to copy the "...\openssl\inc32\openssl" folder into the
+    "...\qt-adsk-5.6.1\qtbase\include\..." folder so you end up having "...\qt-adsk-5.6.1\qtbase\include\openssl\aes.h"
+    and so on.'
+- author: Martin Karlsson
+  email: mkarlsson@daybreakgames.com
+  ip: 64.37.153.178
+  url: ''
+  date: '2016-10-04 11:40:34'
+  body: 'Got it all working with compiling PySide2. Many thanks for this post, Li
+    !!!
+
+    -----'
