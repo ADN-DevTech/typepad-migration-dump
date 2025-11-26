@@ -1,0 +1,42 @@
+comments:
+- author: Phillip Miller
+  email: phillip@kiwicodes.com
+  ip: 115.189.44.65
+  url: http://www.kiwicodes.com
+  date: '2012-09-13 03:06:45'
+  body: Nice!!!
+- author: Babu
+  email: babu.rajan@hyderconsulting.com
+  ip: 203.26.30.6
+  url: ''
+  date: '2013-06-09 18:42:35'
+  body: "Hi Saikat,\nI wanted the code to apply View template after duplicating view.\
+    \ here is the approach I use, it works any suggestion? Or any better technique?\n\
+    \npublic void CreatingNewViewPlan(Document doc)\n        {\n            // Filter\
+    \ views that match the required criteria\n            FilteredElementCollector\
+    \ collector = new FilteredElementCollector(doc).OfClass(typeof(View));\n     \
+    \       // Get the specific view(s)\n\n            IEnumerable views = from Autodesk.Revit.DB.View\
+    \ f in collector\n                                      \nwhere (f.ViewType ==\
+    \ ViewType.EngineeringPlan\n                                          \n&& !f.IsTemplate\
+    \ && f.ViewName.Equals(\"W_Level 2\"))\n                                     \
+    \ select f;\n\n            View viewTemplate = (from viewTem in new FilteredElementCollector(doc).OfClass(typeof(View)).Cast()\n\
+    \                                 where viewTem.IsTemplate == true && viewTem.Name\
+    \ == \"HYD_STR_PLAN_Profile\"\n                                 select viewTem).First();\n\
+    \n            using (Transaction trans = new Transaction(doc, \"ViewDuplicate\"\
+    ))\n            {\n                trans.Start();\n                foreach (View\
+    \ vw in views)\n                {\n                    // Duplicate the existing\
+    \ ViewPlan view\n                    View newView = doc.GetElement(vw.Duplicate(ViewDuplicateOption.Duplicate))\
+    \ as View;\n                    newView.ViewTemplateId = viewTemplate.Id;\n  \
+    \                  // Assign the desired name\n                    if (null !=\
+    \ newView) newView.ViewName = \"MyViewName\";\n                }\n\n         \
+    \       trans.Commit();\n            }\n\n        }"
+- author: Doan
+  email: duydoan11@gmail.com
+  ip: 113.190.242.50
+  url: http://boydens.be
+  date: '2015-09-02 23:38:51'
+  body: 'Hi Babu, It will be very nice if you show me how to use this code. I don''t
+    know where i can put this code and how i can put it. Thanks
+
+
+    -----'

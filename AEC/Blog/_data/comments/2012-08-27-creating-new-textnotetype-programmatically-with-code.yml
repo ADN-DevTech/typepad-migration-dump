@@ -1,0 +1,163 @@
+comments:
+- author: Matt
+  email: matt.fleming@stantec.com
+  ip: 74.216.124.56
+  url: ''
+  date: '2012-09-10 23:00:28'
+  body: 'How do you adjust Color and Background?
+
+
+    I''m assuming Colour somehow needs the the colour Red, Blue, Green in bytes?
+
+
+    Unsure why this statement isn''t working:
+
+    noteType.get_Parameter("Background").Set("Opaque");
+
+
+
+
+    Everything else seems to work using Parameters names.
+
+    noteType.get_Parameter("Line Weight").Set(2);
+
+    noteType.get_Parameter("Show Border").Set(1);
+
+    noteType.get_Parameter("Leader/Border Offset").Set((3.0 / 32.0) * (1.0 / 12.0));
+
+    noteType.get_Parameter("Bold").Set(1);
+
+    ect.
+
+
+    Matt'
+- author: Phillip Miller
+  email: phillip@kiwicodes.com
+  ip: 122.63.238.11
+  url: http://www.kiwicodes.com
+  date: '2012-09-13 18:26:26'
+  body: "Background Parm is an integer value of 0 or 1 not \"Opaque\".\n\nColor is\
+    \ also an integer value try converting your rgb values like this \nint c=Convert.ToInt32(Color.Red.R.ToString());"
+- author: Matt
+  email: matt.fleming@stantec.com
+  ip: 74.216.124.56
+  url: ''
+  date: '2012-09-16 21:47:38'
+  body: 'Background worked.
+
+    Colour gave me an object reference is required, but from what I have google, it
+    requires using system; which is what I have.
+
+
+    How do you access arrow head style and Keep Readable parameter?  I have tried
+    playing with int & strings for those and nothing.
+
+
+    Also, where in the RevitAPI.chm did you find Background Param is an integer? Or
+    is there a better resource?
+
+
+    Matt'
+- author: Saikat Bhattacharya
+  email: saikat.bhattacharya@autodesk.com
+  ip: 8.19.13.19
+  url: ''
+  date: '2012-09-18 11:49:09'
+  body: 'Thanks Phillip
+
+
+    The Background parameter values the way I found it is using the Revit UI to set
+    a background param of a TextNoteType to Opaque and then using the Revit Lookup
+    tool (included in the Revit SDK) to find out the internal values that is used
+    to stored the settings. So like Phillip suggested, 0 is for Opaque and 1 for Transparent.
+
+
+    cheers
+
+    Saikat'
+- author: Saikat Bhattacharya
+  email: saikat.bhattacharya@autodesk.com
+  ip: 8.19.13.19
+  url: ''
+  date: '2012-09-18 11:52:03'
+  body: For Keep Readable parameter, which is part of the TextNote instance itself
+    (and not the Type), using Revit LookUp tool, I can see that when it is checked,
+    the value stored is 1, and 0 when it is unchecked.
+- author: Saikat Bhattacharya
+  email: saikat.bhattacharya@autodesk.com
+  ip: 8.19.13.19
+  url: ''
+  date: '2012-09-18 11:54:57'
+  body: And the Leader Arrowhead parameter on the TextNote Type is set using the Element
+    Id of the Arrowhead elementtypes. The Revit Lookup tool can be used again to get
+    this value. You can filter for all similar arrow head elementtypes in the model
+    and then use their element id as the Value for the Leader Arrowhead parameter.
+- author: Matt
+  email: matt.fleming@stantec.com
+  ip: 74.216.124.56
+  url: ''
+  date: '2012-09-18 18:33:25'
+  body: 'Nice
+
+    Thanks a lot!'
+- author: Matt
+  email: matt.fleming@stantec.com
+  ip: 142.161.75.67
+  url: ''
+  date: '2013-11-28 18:42:32'
+  body: "I'm still struggling with TEXT_COLOR after I created a new type.  It keeps\
+    \ returning NULL.  This is the the only parameter I cant seem to change.  I have\
+    \ tried manual entering an Integer value vs Color.FromArgb but still getting NULL\
+    \ reference.  Do I need to access the color for the Text Type through a different\
+    \ method?\n\n\nusing System;\nusing System.Collections.Generic;\nusing System.IO;\n\
+    using System.Linq;\nusing System.Drawing;\nusing Autodesk.Revit.DB;\nusing Autodesk.Revit.DB.Architecture;\n\
+    using Autodesk.Revit.UI;\nusing Autodesk.Revit.UI.Selection;\n\n\t\tpublic void\
+    \ CreateTextType()\n\t\t{\n\t\t\tDocument doc = this.ActiveUIDocument.Document;\t\
+    \t\n\t\t\t\n\t\t\t// Get access to all the TextNote Elements\n\t\t\tFilteredElementCollector\
+    \ collectorUsed\n\t\t\t= new FilteredElementCollector(doc);\n\t\t\t\n\t\t\tICollection\
+    \ textNotes\n\t\t\t= collectorUsed.OfClass(typeof(TextNote))\t\n\t\t\t.ToElementIds();\n\
+    \    \t\t\n\t\t\t// Create Array\n\t\t\tstring[] textNoteAry = new string[2] {\"\
+    Matt\", \"Mike\"};\n\t\t\ttextNoteAry[0] = \"Fred\";\n\t\t\ttextNoteAry[1] = \"\
+    Jason\";\n\t\t\tint arrayLength = textNoteAry.Length;\n\n\t\t\t\n\t\t\t\n\t\t\t\
+    foreach (ElementId textNoteid in textNotes)\n\t\t\t{\n\t\t\t\tTextNote textNote\
+    \ = doc.GetElement(\n\t\t\t\ttextNoteid) as TextNote;\n\t\t\t\t\n\t\t\t\tTransaction\
+    \ trans = new Transaction(doc);\n\t\t\t\ttrans.Start(\"ChangeParam\");\n\t\t\t\
+    \t\n\t\t\t\t// Create a duplicate\n\t\t\t\tElement ele =\n\t\t\t\t\ttextNote.TextNoteType.Duplicate(@\"\
+    2.38mm(3/32in)_Op\");\n\t\t\t\tTextNoteType noteType = ele as TextNoteType;\n\t\
+    \t\t\t\n\t\t\t\tif (null != noteType)\t\t\t\n\t\t\t\t{\n\t\t\t\t\t// Set Text\
+    \ Type Properties\n\t\t\t\t\tint txtColor = 0;\n\t\t\t\t\tint txtLineWeight =\
+    \ 1;\n\t\t\t\t\tint txtBackground = 0;// 0 = Opaque\t:: 1 = Transparent\n\t\t\t\
+    \t\tint txtShowBorder = 1; // 0 = Off :: 1 = On \n\t\t\t\t\tdouble txtLdrBordOffset\
+    \ = ((3.0 / 32.0) * (1.0 / 12.0));\n\t\t\t\t\tstring txtFont = \"Arial Narrow\"\
+    ;\t\t\t\t\t\n\t\t\t\t\tdouble txtSize = ((3.0 / 32.0) * (1.0 / 12.0));\n\t\t\t\
+    \t\tdouble txtTabSize = ((3.0 / 32.0) * (1.0 / 12.0));\n\t\t\t\t\tint txtBold\
+    \ = 1;\n\t\t\t\t\tint txtItalic = 1;\n\t\t\t\t\tint txtUnderline = 1;\n\t\t\t\t\
+    \tdouble txtWidth = 1;\n    \t\t\t\t\n\t\t\t\t\t// create color using Color.FromArgb\
+    \ with RGB inputs\n\t\t\t\t\tSystem.Drawing.Color color = System.Drawing.Color.FromArgb(255,255,0);\n\
+    \                   \t// convert color into an integer\n\t\t\t\t\tint colorInt\
+    \ = System.Drawing.ColorTranslator.ToWin32(color);\n\t\t\t\t\ttxtColor = colorInt;\n\
+    \t\t\t\t\t\n\t\t\t\t\t//TaskDialog.Show(\"Color\",txtColor + Environment.NewLine\
+    \ + colorInt);\n\t\t\t\t\t\n\t\t\t\t\tnoteType.get_Parameter(BuiltInParameter.TEXT_COLOR).Set(txtColor);\n\
+    \t\t\t\t\tnoteType.get_Parameter(BuiltInParameter.LINE_PEN).Set(txtLineWeight);\n\
+    \t\t\t\t\tnoteType.get_Parameter(BuiltInParameter.TEXT_BACKGROUND).Set(txtBackground);\n\
+    \t\t\t\t\tnoteType.get_Parameter(BuiltInParameter.TEXT_BOX_VISIBILITY).Set(txtShowBorder);\n\
+    \t\t\t\t\tnoteType.get_Parameter(BuiltInParameter.LEADER_OFFSET_SHEET).Set(txtLdrBordOffset);\n\
+    \t\t\t\t\tnoteType.get_Parameter(BuiltInParameter.TEXT_FONT).Set(txtFont);\n\t\
+    \t\t\t\tnoteType.get_Parameter(BuiltInParameter.TEXT_SIZE).Set(txtSize);\n\t\t\
+    \t\t\tnoteType.get_Parameter(BuiltInParameter.TEXT_TAB_SIZE).Set(txtTabSize);\n\
+    \t\t\t\t\tnoteType.get_Parameter(BuiltInParameter.TEXT_STYLE_BOLD).Set(txtBold);\n\
+    \t\t\t\t\tnoteType.get_Parameter(BuiltInParameter.TEXT_STYLE_ITALIC).Set(txtItalic);\n\
+    \t\t\t\t\tnoteType.get_Parameter(BuiltInParameter.TEXT_STYLE_UNDERLINE).Set(txtUnderline);\n\
+    \t\t\t\t\tnoteType.get_Parameter(BuiltInParameter.TEXT_WIDTH_SCALE).Set(txtWidth);\n\
+    \t\t\t\t\t                                      \n\t\t\t\t\t                 \
+    \     \n\t\t\t\t}\n\n\t\t\t\ttrans.Commit();\n\t\t\t\n\t\t\t}\n\t\t\t\n\t\t\t\
+    //return Result.Succeeded;  \t\t\n      \t\t\n\t\t}"
+- author: heartingrass
+  email: 5674829@qq.com
+  ip: 175.25.189.16
+  url: ''
+  date: '2015-04-12 07:45:15'
+  body: "I want Create a new TextElement(Label) in a Family document via API,but i\
+    \ found i cannot!\n\nBecause i did not find a method that is similar with Document.FamilyCreate.NewTextNote,Pipe.Create.\n\
+    \nHow to Create TextElement(Label)? \nI am looking forward to hearing from you.\n\
+    Thanks!\n-----"

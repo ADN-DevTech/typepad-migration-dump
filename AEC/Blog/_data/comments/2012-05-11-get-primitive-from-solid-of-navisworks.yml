@@ -1,0 +1,174 @@
+comments:
+- author: Dave
+  email: dave.thompson@excitech.co.uk
+  ip: 81.131.175.75
+  url: ''
+  date: '2012-05-11 23:23:45'
+  body: 'Hi
+
+
+    I''ve tried using this example but can''t then read the InwSimpleVertex values
+    back to usable forms in the Triangle call back. I can see the values in the debugger.
+    but can find no way to convert the values to another float variable.
+
+    Do you have the coe to do that?
+
+
+    Thanks
+
+
+    Dave'
+- author: Xiaodong
+  email: xiaodong.liang@autodesk.com
+  ip: 125.98.160.4
+  url: ''
+  date: '2012-05-13 23:00:55'
+  body: 'Hi Dave, I wrote a new blog to answer your question. Hope it helps:
+
+    <a href="http://adndevblog.typepad.com/aec/2012/05/convert-value-of-inwsimplevertex-to-float-in-c.html">http://adndevblog.typepad.com/aec/2012/05/convert-value-of-inwsimplevertex-to-float-in-c.html</a>
+
+    -Xiaodong'
+- author: porter
+  email: quanfu.liu@leediancn.com
+  ip: 180.169.8.174
+  url: ''
+  date: '2013-03-17 18:36:45'
+  body: 'Hi Xiaodong,
+
+    Besides GenerateSimplePrimitives, is there other way to get element''s geometries?
+
+    Using GenerateSimplePrimitives is too slow. So I want to find a quicker way to
+    get geometries.
+
+
+    Thanks,
+
+    Porter'
+- author: xiaodong
+  email: xiaodong.liang@autodesk.com
+  ip: 118.228.153.196
+  url: ''
+  date: '2013-03-18 23:12:03'
+  body: "Hi Porter,\n\nGenerateSimplePrimitives is the only way. \n\nDid you dump\
+    \ the primitives for all objects of the model? I'd suggest:\n\n- dump the specific\
+    \ object per requirement, instead of whole model\n- write an automation to dump\
+    \ primitives for all objects. i.e. set a task scheduler using the automation and\
+    \ run it at night. Thus, you can use the dump data at day time.\n\nRegards,\n\
+    Xiaodong"
+- author: Chi Ng
+  email: cng@gt-global.com
+  ip: 72.34.118.8
+  url: http://www.gehrytechnologies.com/
+  date: '2014-01-14 16:02:15'
+  body: 'Hi XiaoDong,
+
+
+    It is clear that GenerateSimplePrimitives is the only way to get the geometry.  My
+    question is, is there a performance difference in using C# via interop or using
+    COM natively via C++?  If there is, how much faster is C++? 2x, 5x... ?
+
+
+    --Chi'
+- author: Jeroen
+  email: j.gerrets@vanwijnen.nl
+  ip: 77.170.194.234
+  url: ''
+  date: '2014-02-16 03:02:08'
+  body: 'Hi XiaoDong,
+
+
+    Can you please explain how i get the InwSimpleVertex units in World coördinates
+    using the InwLTransform3f created by GetLocalToWorldMatrix?
+
+
+    Is there a Method that does this or do i have to do this manually?
+
+
+    Thanks in advance,
+
+
+    Jeroen'
+- author: steve
+  email: prisimage@yahoo.com
+  ip: 38.98.43.196
+  url: ''
+  date: '2015-06-01 17:19:12'
+  body: 'I''m only semi-literate in C++.
+
+
+    Could you please tell me what the colon is for in this statement
+
+
+    ''class CallbackGeomListener : COMApi.InwSimplePrimitivesCB"
+
+
+    & any relevant info regarding creating a similar statement in VB.net
+
+
+    thanks'
+- author: Nicholas Broadbent
+  email: ''
+  ip: 141.168.76.100
+  url: http://profile.typepad.com/6p01b7c8d6e513970b
+  date: '2017-02-16 15:18:11'
+  body: 'Hi All,
+
+
+    Here is a quick tip,
+
+    The code below returns the objects in Local Coordinates System.
+
+    GenerateSimplePrimitives(nwEVertexProperty.eNORMAL,callbkListener);
+
+    i.e. every objects is shown at the origin of the project.
+
+    If you need world coordinates you will need to convert the coordinates using.
+
+    ComApi.InwLTransform3f3 localToWorld = (ComApi.InwLTransform3f3)(object)frag.GetLocalToWorldMatrix()
+
+
+    See this blog post for a full working solution. =)
+
+
+    <a href="https://forums.autodesk.com/t5/navisworks-api/geometry-in-wrong-location-when-accessing-in-api/m-p/5896205/highlight/true">https://forums.autodesk.com/t5/navisworks-api/geometry-in-wrong-location-when-accessing-in-api/m-p/5896205/highlight/true</a>'
+- author: Gilberto Yoshida
+  email: ''
+  ip: 177.81.72.34
+  url: https://profile.typepad.com/d174477817416654860
+  date: '2020-11-20 06:56:36'
+  body: 'Hello,
+
+
+    I''m pretty new with API with no experience with programming.
+
+
+    I need to get geometry dimensions from Navisworks (piping diameter and length)
+    and searching in goolgle I found this topic and I hope you could give a hand.
+    Most of my search results leads me to perform a class library in c# using visual
+    studio. Unfortunatelly my lack of knowledge doesn''t allow me to do it myself.
+
+
+    I really appreciate if you could give some directions.
+
+
+    thanks!'
+- author: Gauhar Nurlybekova
+  email: mukhanbetkyzy@gmail.com
+  ip: 2.134.235.119
+  url: ''
+  date: '2021-02-17 23:22:35'
+  body: "Hi Gilberto, \n\nI have a similar problem and I am wondering if you could\
+    \ find a solution?"
+- author: WaterWahaha
+  email: ''
+  ip: 119.39.38.228
+  url: https://profile.typepad.com/waterwahaha
+  date: '2022-06-14 18:40:11'
+  body: 'Hello,
+
+    How to get the matrix of LCS to parent coordinate space.
+
+    What''s the use of ModelItem.Transform? Can I use it to convert vertices to WCS(world
+    coordinate space)?
+
+    -----'

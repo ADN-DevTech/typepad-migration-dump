@@ -1,0 +1,83 @@
+comments:
+- author: Hussam Nseir
+  email: ''
+  ip: 216.136.103.249
+  url: http://profile.typepad.com/hussamnseir
+  date: '2012-09-17 15:23:17'
+  body: "I am trying to replicate what happens at the Find Items Interface where by\
+    \ clicking on the Category List, all the unique categories in the entire model\
+    \ get listed; and by clicking on the Property List, all the unique properties\
+    \ in the entire model under the selected category get listed. I have looked in\
+    \ .Net API and .COM API with no success. \nIn .Net, I accessed the PropertyCategoryCollection\
+    \ class for every ModelItem in the entire model and ran If Statement to find a\
+    \ unique PropertyCategory and PropertyData. However, this takes forever in a large\
+    \ model.\nIn COM, I used GetGUIPropertyNode and GUIAttributes methods to accessed\
+    \ InwGUIAttributesColl class for every InwOaPath in the entire model and ran If\
+    \ Statement to find a unique InwOaPropertyAttribute and InwOaProperty. Same thing,\
+    \ the process would take a long time. \nIs there any way to make this process\
+    \ faster similar to the Find Items interface"
+- author: Xiaodong Liang
+  email: xiaodong.liang@autodesk.com
+  ip: 118.228.153.196
+  url: ''
+  date: '2012-09-20 20:10:55'
+  body: "I have replied in this link:\n <a href=\"http://forums.autodesk.com/t5/Autodesk-Navisworks-API/List-all-of-the-Categories-in-the-Model/td-p/3620658\"\
+    >http://forums.autodesk.com/t5/Autodesk-Navisworks-API/List-all-of-the-Categories-in-the-Model/td-p/3620658</a>"
+- author: 严心军
+  email: 5674829@qq.com
+  ip: 114.66.4.234
+  url: ''
+  date: '2013-07-19 02:34:42'
+  body: "梁老师，您好！\n   我想通过COM API 对 几何实体的 特性“InwOaProperty”条目进行删除操作。使用如下代码，却提示错误：\n\
+    \n获取几何实体，路径中的最后一个节点\nComApi.InwOaNode oNode = oPath.Nodes()[oPath.Nodes().Count]\n\
+    \n获取几何实体的InwGUIPropertyNode2\nNavisworksIntegratedAPI10.InwGUIPropertyNode2 oNodeAtts\
+    \ = state.GetGUIPropertyNode(oPath, true) as NavisworksIntegratedAPI10.InwGUIPropertyNode2\n\
+    \n获取几何实体的InwGUIAttributesColl\nNavisworksIntegratedAPI10.InwGUIAttributesColl\
+    \ oNodeAttsColl = oNodeAtts.GUIAttributes()\n\n获取几何实体的InwGUIAttribute2\n NavisworksIntegratedAPI10.InwGUIAttribute2\
+    \ oNodeAtt = oNodeAttsColl[1]\n\n获取几何实体的InwOaPropertyColl\nNavisworksIntegratedAPI10.InwOaPropertyColl\
+    \ oNodeAttProps = oNodeAtt.Properties()\n\n对几何实体的oNodeAtt下面的某一行属性进行删除操作\noNodeAttProps.Remove(0)\n\
+    \n经过调试只有最后一个语句执行出现问题，捕捉错误代码：\nMessage\t\">\"\n不太明白到底是哪出现问题，特向您请教，谢谢！"
+- author: 严心军
+  email: 5674829@qq.com
+  ip: 114.66.4.234
+  url: ''
+  date: '2013-07-19 02:35:29'
+  body: "经过调试只有最后一个语句执行出现问题，捕捉错误代码：\nMessage\t\" NavisWorks Error - Not implemented\
+    \ \"\n\n****************************\n你好，\n\n不清楚typepad是否有问题，我无法发布comments。\n\n\
+    从原CAD文件来的属性只读，不可编辑删除。只有自定义属性可编辑删除，参见此博客文章：\nhttp://adndevblog.typepad.com/aec/2012/08/addmodifyremove-custom-attribute-using-com-api.html\n\
+    \nRegards，\nXiaodong"
+- author: 刘彦明
+  email: clzlym@163.com
+  ip: 124.114.200.162
+  url: ''
+  date: '2013-08-10 07:08:02'
+  body: "梁老师，您好！\n   我想通过遍历属性，读取timeliner中的值，通过下面代码读不到，不知为何？\nDocument oDoc = Autodesk.Navisworks.Api.Application.ActiveDocument;\n\
+    foreach (ModelItem oItem in oDoc.CurrentSelection.SelectedItems) \n{ \n     foreach\
+    \ (PropertyCategory oPC in oItem.PropertyCategories) \n\n      特向您请教，谢谢！"
+- author: RAMESH P K
+  email: PKRAMESH@CEYIS.COM
+  ip: 124.123.105.146
+  url: ''
+  date: '2021-07-15 10:43:50'
+  body: 'Sir,
+
+
+    This post was a very long time back. But if you are around in this blog can you
+    please share the code for this piece
+
+    "In COM, I used GetGUIPropertyNode and GUIAttributes methods to accessed InwGUIAttributesColl
+    class for every InwOaPath in the entire model and ran If Statement to find a unique
+    InwOaPropertyAttribute and InwOaProperty."
+
+
+    I am trying to code in COM still'
+- author: Admir
+  email: admirolovcic@gmail.com
+  ip: 84.21.169.221
+  url: ''
+  date: '2025-02-05 14:40:42'
+  body: "Hi. I know this one is old but it would help me enormously. Is there an updated\
+    \ way to attach properties to objects and if not is there a reason that when I\
+    \ call propn.SetUserDefined(0,\"demo_PropertyTab_Name\",\"demo_PropertyTab_InteralName\"\
+    , newPvec); it takes on average 100ms? Is there a way to speed it up as this would\
+    \ become slow where the property count is high. \n-----"

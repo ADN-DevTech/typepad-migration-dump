@@ -1,0 +1,20 @@
+---
+layout: "post"
+title: "Reading Gross and Rentable area elements"
+date: "2015-07-17 07:07:11"
+author: "Augusto Goncalves"
+categories:
+  - ".NET"
+  - "Augusto Goncalves"
+  - "Revit"
+original_url: "https://adndevblog.typepad.com/aec/2015/07/reading-gross-and-rentable-area-elements.html "
+typepad_basename: "reading-gross-and-rentable-area-elements"
+typepad_status: "Publish"
+---
+
+<p>By <a href="http://adndevblog.typepad.com/aec/augusto-goncalves.html">Augusto Goncalves</a></p>
+<p>Here is a quick sample on how read gross and rentable area elements on Revit, starting from the Area element, where the FilteredElementCollector uses a SpatialElement, and the AreaScheme and, if needed, the Level linked to it. Finally show the total gross and rentable area.</p>
+<p>Note it starts with the Area element, so you need to define it on the project, otherwise it will not even show on the schedule, right?</p>
+<p><strong>Update</strong>:&#0160;Ed Silky pointed that if the AreaPlan is not added to the project, then the Level will return as Invalid (-1). This is expected behavior on parameters that store ElementId but still empty. Thanks Ed!</p>
+<p><a href="http://adndevblog.typepad.com/.a/6a0167607c2431970b01b8d13977df970c-pi"><img alt="schedule" border="0" height="227" src="/assets/image_335419.jpg" style="display: inline; border-width: 0px;" title="schedule" width="442" /></a></p>
+<pre style="font-size: 13px; font-family: consolas; background: white; color: black;"><span style="color: #2b91af;">FilteredElementCollector</span> coll = <span style="color: blue;">new</span><br />&#0160; <span style="color: #2b91af;">FilteredElementCollector</span>(doc);<br />coll.OfClass(<span style="color: blue;">typeof</span>(<span style="color: #2b91af;">SpatialElement</span>));<br /> <br /><span style="color: blue;">double</span> rentableArea = 0.0;<br /><span style="color: blue;">double</span> grossArea = 0.0;<br /> <br /><span style="color: blue;">foreach</span> (<span style="color: #2b91af;">SpatialElement</span> spartialElement <span style="color: blue;">in</span> coll)<br />{<br />&#0160; <span style="color: #2b91af;">Area</span> areaElement = spartialElement <span style="color: blue;">as</span>&#0160;<span style="color: #2b91af;">Area</span>;<br />&#0160; <span style="color: blue;">if</span> (areaElement == <span style="color: blue;">null</span>) <span style="color: blue;">continue</span>; <span style="color: green;">// skip if not an area</span><br /> <br />&#0160; <span style="color: green;">// area and type</span><br />&#0160; <span style="color: blue;">double</span> areaValue = areaElement.Area;<br />&#0160; <span style="color: #2b91af;">AreaScheme</span> areaScheme = areaElement.AreaScheme;<br />&#0160; <span style="color: blue;">bool</span> isGross = areaScheme.IsGrossBuildingArea;<br /> <br />&#0160; <span style="color: green;">// get the level, just in case...</span><br />&#0160; <span style="color: #2b91af;">Level</span> level = doc.GetElement(<br />&#0160;&#0160;&#0160; areaElement.get_Parameter(<br />&#0160;&#0160;&#0160; <span style="color: #2b91af;">BuiltInParameter</span>.ROOM_LEVEL_ID).AsElementId())<br />&#0160;&#0160;&#0160; <span style="color: blue;">as</span>&#0160;<span style="color: #2b91af;">Level</span>;<br /> <br />&#0160; <span style="color: blue;">if</span> (isGross)<br />&#0160;&#0160;&#0160; grossArea += areaValue;<br />&#0160; <span style="color: blue;">else</span><br />&#0160;&#0160;&#0160; rentableArea += areaValue;<br />}<br /> <br /><span style="color: green;">// show only total result</span><br /><span style="color: #2b91af;">TaskDialog</span>.Show(<span style="color: #a31515;">&quot;Total:&quot;</span>,<br />&#0160; <span style="color: blue;">string</span>.Format(<span style="color: #a31515;">&quot;Gross: {0}\nRentable: {1}&quot;</span>,<br />&#0160; <span style="color: #2b91af;">FormatUtils</span>.Format(doc, <span style="color: #2b91af;">UnitType</span>.UT_Area, grossArea),<br />&#0160; <span style="color: #2b91af;">FormatUtils</span>.Format(doc, <span style="color: #2b91af;">UnitType</span>.UT_Area, rentableArea)));</pre>

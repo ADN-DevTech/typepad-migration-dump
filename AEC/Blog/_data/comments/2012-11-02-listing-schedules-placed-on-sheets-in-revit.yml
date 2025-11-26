@@ -1,0 +1,40 @@
+comments:
+- author: Phillip Miller
+  email: phillip@kiwicodes.com
+  ip: 115.189.112.82
+  url: http://www.kiwicodes.com
+  date: '2012-11-06 00:26:16'
+  body: "HI Saikat.\n\nI have done this a different way in my Project Browser App.\n\
+    \n Dim schCol As FilteredElementCollector = New FilteredElementCollector(doc,\
+    \ sheetView.Id).OfClass(GetType(DB.ScheduleSheetInstance))\n        If schCol.Count\
+    \ > 0 Then \n'do you stuff in here\n        End If\n\nThe only issue that I have\
+    \ had with this is the creation of the FilteredElementCollector is slow as it\
+    \ looks to be opening the sheet view, which if you have 400 sheets in a project\
+    \ can take some time.\n\nRegards\nPhillip"
+- author: Saikat
+  email: saikat.bhattacharya@autodesk.com
+  ip: 8.19.13.19
+  url: ''
+  date: '2012-11-06 15:56:09'
+  body: "Thanks for sharing your approach Phillip. \n\nThis looks like a better way\
+    \ of doing it - atleast for almost all cases, where there arent so many viewsheets\
+    \ to work with in a model. If you happen to see if the faking deletion approach\
+    \ is faster, please do share your findings. It will be good to learn from what\
+    \ you find.."
+- author: Jose Ignacio Montes
+  email: ji@montesherraiz.com
+  ip: 80.38.38.156
+  url: http://www.avatarbim.com
+  date: '2014-02-12 09:30:38'
+  body: "Other Workaround coul be just ask the ScheduleSheetInstance for its sheet\
+    \ through the property OwnerViewId;\nI have 500 sheets and only 7 schedules. Goes\
+    \ a lot faster:\n\nScheduleSheetInstance vsch = \nviewSchedule as ScheduleSheetInstance;\n\
+    ElementId shid = vsch.OwnerViewId;"
+- author: nik mulconray
+  email: nikmulconray.architecture@gmail.com
+  ip: 117.20.70.196
+  url: http://www.ebirdbook.com
+  date: '2020-11-13 18:50:33'
+  body: 'Thanx this worked well.
+
+    -----'

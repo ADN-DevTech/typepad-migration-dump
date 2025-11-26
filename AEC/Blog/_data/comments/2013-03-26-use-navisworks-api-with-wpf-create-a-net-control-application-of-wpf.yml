@@ -1,0 +1,97 @@
+comments:
+- author: Navis
+  email: navis@mailinator.com
+  ip: 203.52.161.188
+  url: ''
+  date: '2013-09-23 23:23:13'
+  body: 'Hi Xiaodong,
+
+
+    Do we need Navisworks Manage installed on the machine where this dev is being
+    done?'
+- author: Xiaodong Liang
+  email: xiaodong.liang@autodesk.com
+  ip: 118.228.153.196
+  url: ''
+  date: '2013-09-23 23:26:39'
+  body: 'yes, Simulate/Manage are required to install & license in order to use your
+    application: .NET API (plugin, control, automation). COM (plugin, Integrated control,
+    automation).
+
+
+    The only exception is: if your app works with Redistributable control of COM only,
+    it just needs to install the installer of Redistributable.'
+- author: Navis
+  email: navis@mailinator.com
+  ip: 203.52.161.188
+  url: ''
+  date: '2013-09-24 18:52:53'
+  body: "Thanks Xiaodong, another question about the Redistributable COM control,\
+    \ is that being supported in Navisworks 2014? \nOr is it End of Life? If so what\
+    \ is the alternative?"
+- author: Xiaodong Liang
+  email: xiaodong.liang@autodesk.com
+  ip: 123.116.38.38
+  url: ''
+  date: '2013-09-24 18:57:23'
+  body: 'It is still supported. download SDK from
+
+    <a href="http://adndevblog.typepad.com/aec/2013/04/where-is-navisworks-2014-sdk.html">http://adndevblog.typepad.com/aec/2013/04/where-is-navisworks-2014-sdk.html</a>
+
+
+    The installer are still there.'
+- author: Navis
+  email: navis@mailinator.com
+  ip: 203.52.161.188
+  url: ''
+  date: '2013-09-24 19:07:44'
+  body: 'Thanks Xiaodong, I have installed the 2014 SDK from your link, and also installed
+    the Redistributable from the "Navisworks 2014\api\COM\bin\Navisworks ActiveX Redistributable
+    x86 Setup.exe" but i still am unable to build/run the sample Viewer project provided
+    in the examples "api\NET\examples\Basic Examples\CSharp\Viewer\"
+
+
+    As you mentioned earlier i do not need the Manage/Simulate installed on my PC
+    if i have the redistributable installed - does this need any additional configuration?'
+- author: Xiaodong Liang
+  email: xiaodong.liang@autodesk.com
+  ip: 123.116.38.38
+  url: ''
+  date: '2013-09-24 19:12:02'
+  body: 'that sample uses Integrated control, instead of Redis control. And on 64bits,
+    to work with the Integrated control, you need to be aware:
+
+
+    <a href="http://adndevblog.typepad.com/aec/2012/06/navisworks-2013-dummy-activex-integrated-control-for-64bits.html">http://adndevblog.typepad.com/aec/2012/06/navisworks-2013-dummy-activex-integrated-control-for-64bits.html</a>
+
+
+    To work with Redis control:
+
+    - Standalone Winform program: insert the control to toolbox from COM tab of [Choose
+    Items]
+
+    - Web application: use the correct GUID of Redis control. see this blog:
+
+
+    <a href="http://adndevblog.typepad.com/aec/2012/05/navisworks-activex-controls.html">http://adndevblog.typepad.com/aec/2012/05/navisworks-activex-controls.html</a>'
+- author: Navis
+  email: navis@mailinator.com
+  ip: 203.52.161.188
+  url: ''
+  date: '2013-09-24 20:25:26'
+  body: 'Also i''ve just noticed that i don''t have the Autodesk.Navisworks.Api.dll
+    file in the bin folder at the following location
+
+    ''Autodesk\Navisworks 2014\api\NET\bin\x86''
+
+
+    There is only one file ''Autodesk.Navisworks.Controls.dll'' does this look correct?'
+- author: Navis
+  email: navis@mailinator.com
+  ip: 203.52.161.188
+  url: ''
+  date: '2013-09-25 16:22:58'
+  body: "Hi Xiaodong Liang,\n\nI have installed Navisworks Simulate now and when i\
+    \ run the viewer sample included in the examples folder i get the following error\
+    \ \n\"A procedure imported by 'Autodesk.Navisworks.Api.dll' could not be loaded.\"\
+    \n\nAny idea what error this is ?\n-----"

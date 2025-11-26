@@ -1,0 +1,46 @@
+comments:
+- author: Mario
+  email: mariozupansystems@gmail.com
+  ip: 93.143.190.144
+  url: ''
+  date: '2012-12-23 09:30:44'
+  body: 'I got exception in newFamilySymbol row.
+
+    Document.FamilyCreate can only be used in the Revit  Family Editor. Use Document.Create
+    with project documents.'
+- author: Saikat
+  email: saikat.bhattacharya@autodesk.com
+  ip: 24.5.61.204
+  url: ''
+  date: '2013-01-02 22:39:56'
+  body: 'Thanks Mario. Indeed the code was written when I was using it in the Family
+    Editor. As you have correctly mentioned, Document.Create should be used in RVT
+    (instead of Document.FamilyCreate which is for use in Family documents).
+
+
+    thanks'
+- author: Adriano
+  email: aandradeviegas@gmail.com
+  ip: 95.138.56.5
+  url: ''
+  date: '2013-09-28 12:06:42'
+  body: "Hello,\n\nI'm trying to reverse the extremities of my beams, because i have\
+    \ chamfered beams in my project.\nSo i tried this: \n\nusing System;\nusing System.Collections.Generic;\n\
+    using System.Linq;\n\nusing Autodesk.Revit.DB;\nusing Autodesk.Revit.DB.Architecture;\n\
+    using Autodesk.Revit.UI;\nusing Autodesk.Revit.UI.Selection;\nusing Autodesk.Revit.ApplicationServices;\n\
+    using Autodesk.Revit.Attributes;\n\n\nnamespace ReverseBeam\n{\n    [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]\n\
+    \    [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]\n\
+    \    public partial class ThisDocument\n    {\n        /* ReverseBeam can reverse\
+    \ the beam extremities in the active document.\n        */\n        public void\
+    \ ReverseBeam()\n        {\n\n        \tFamilyInstance myBeam = (\"W12X26\")\n\
+    \        \t\t\n        \t\t// Get the existing location line of the beam\nCurve\
+    \ locCurve = (myBeam.Location as LocationCurve).Curve;\n\n// Create a new line\
+    \ using the existing line but reverse the end points\nLine newLine = Line.CreateBound(locCurve.GetEndPoint(1),\
+    \ locCurve.GetEndPoint(0));\n\n// Assign the new line to the beam\n(myBeam.Location\
+    \ as LocationCurve).Curve = newLine;\n        }\n\n        private void Module_Startup(object\
+    \ sender, EventArgs e)\n        {\n\n        }\n\n        private void Module_Shutdown(object\
+    \ sender, EventArgs e)\n        {\n\n        }\n\n        #region VSTA generated\
+    \ code\n        private void InternalStartup()\n        {\n            this.Startup\
+    \ += new System.EventHandler(Module_Startup);\n            this.Shutdown += new\
+    \ System.EventHandler(Module_Shutdown);\n        }\n        #endregion\n    }\n\
+    }\n\n\nthanks for your replies\n-----"

@@ -1,0 +1,26 @@
+---
+layout: "post"
+title: "AEC Hackathon NYC and Convert a Type Reference to a Viewport"
+date: "2015-02-20 14:34:56"
+author: "Jaime Rosales"
+categories: []
+original_url: "https://adndevblog.typepad.com/aec/2015/02/aec-hackathon-nyc-and-convert-a-type-reference-to-a-viewport.html "
+typepad_basename: "aec-hackathon-nyc-and-convert-a-type-reference-to-a-viewport"
+typepad_status: "Publish"
+---
+
+<p>By <a href="http://adndevblog.typepad.com/aec/jaime-rosales.html" target="_blank">Jaime Rosales</a></p>  <p>This week I got the video of the presentation I did 2 weeks ago at the AEC Hackathon in NYC. It was a great experience to break the ice in front of a good number of developers as a Technical Evangelist, showing them about our new and really cool <a href="http://developer.autodesk.com" target="_blank">View and Data API</a>. If you haven’t learned anything new today, here is an option for you to get some knowledge in your day. </p> <iframe height="315" src="https://www.youtube.com/embed/DSTyzThfyj4" frameborder="0" width="480" allowfullscreen="allowfullscreen"></iframe>  <p>This week I will share with all of you a question that came from our Revit API forum, regarding a simple but useful way to change a type Reference to a Viewport one. I know it sounds simple and it is, but is always good to share knowledge of our Revit API users with all of you. Here is what the question was.</p>  <p><strong>Question</strong>: I want to make a selection of multiple elements(viewports), and this selection, I want it to be by &quot;PickObjects&quot; and not &quot;PickByRectangle&quot;. So, when trying to implement the following lines of code in order to make the desired selection, I come up with a conversion error. This error states the following:</p>  <p><em>Error CS0039: Cannot convert type 'Autodesk.Revit.DB.Reference' to 'Autodesk.Revit.DB.Viewport' via a reference conversion, boxing conversion, unboxing conversion, wrapping conversion, or null type conversion      <br />Build failed.</em></p>  <p>The code is: </p>  <pre style="font-size: 13px; font-family: consolas; background: #1e1e1e; color: gainsboro"><span style="color: #b8d7a3">ISelectionFilter</span>&#160;<span style="color: white">viewportfilter</span>&#160;<span style="color: #b4b4b4">=</span>&#160;<span style="color: #569cd6">new</span>&#160;<span style="color: white">ViewPortPickFilter</span>();<br /><span style="color: #4ec9b0">Selection</span>&#160;<span style="color: white">choices</span>&#160;<span style="color: #b4b4b4">=</span>&#160;<span style="color: white">uidoc</span><span style="color: #b4b4b4">.</span><span style="color: white">Selection</span>;<br /> <br /><span style="color: #b8d7a3">IList</span><span style="color: #b4b4b4">&lt;</span><span style="color: #4ec9b0">Reference</span><span style="color: #b4b4b4">&gt;</span>&#160;<span style="color: white">refa</span>&#160;<span style="color: #b4b4b4">=</span>&#160;<span style="color: white">choices</span><span style="color: #b4b4b4">.</span><span style="color: white">PickObjects</span><br />&#160; (<span style="color: #b8d7a3">ObjectType</span><span style="color: #b4b4b4">.</span><span style="color: white">Element</span>, <span style="color: white">viewportfilter</span>, <br />&#160;&#160;&#160; <span style="color: #d69d85">&quot;Pick multiple elements one by one&quot;</span>);<br /> <br /><span style="color: #569cd6">foreach</span> (<span style="color: #4ec9b0">Reference</span>&#160;<span style="color: white">vp</span>&#160;<span style="color: #569cd6">in</span>&#160;<span style="color: white">refa</span>)<br />{<br />&#160; <span style="color: #569cd6">var</span>&#160;<span style="color: white">e</span>&#160;<span style="color: #b4b4b4">=</span>&#160;<span style="color: white">vp</span>&#160;<span style="color: #569cd6">as</span>&#160;<span style="color: #4ec9b0">Viewport</span>;<br />}</pre>
+
+<p>I have tried changing IList&lt;Reference&gt; for &lt;Viewport&gt; and the pertinent modifications, however, then the issue is on choices, stating that it cannot convert type reference to viewport once again...</p>
+
+<p>Thus, If someone could give me a generic way of PickObjects. It would be really appreciated.</p>
+
+<p>Thanks in advance! </p>
+
+<p><strong>Answer</strong>: You could try this, Get the Element from that reference.</p>
+
+<pre style="font-size: 13px; font-family: consolas; background: #1e1e1e; color: gainsboro"><span style="color: #569cd6">foreach</span> (<span style="color: #4ec9b0">Reference</span>&#160;<span style="color: white">vp</span>&#160;<span style="color: #569cd6">in</span>&#160;<span style="color: white">refa</span>)<br />{<br />&#160; <span style="color: #4ec9b0">Viewport</span>&#160;<span style="color: white">viewp</span>&#160;<span style="color: #b4b4b4">=</span>&#160;<span style="color: white">doc</span><span style="color: #b4b4b4">.</span><span style="color: white">GetElement</span>(<span style="color: white">vp</span>) <span style="color: #569cd6">as</span>&#160;<span style="color: #4ec9b0">Viewport</span>;<br />&#160; <span style="color: #608b4e">//do something...</span><br />}</pre>
+
+<p>Thank you to Maer6427 for the quick and simple solution. </p>
+
+<p>Cheers and thanks for reading. </p>

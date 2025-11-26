@@ -1,0 +1,166 @@
+comments:
+- author: Ricky Medley
+  email: ricky.medley@caddog.net
+  ip: 146.209.159.18
+  url: ''
+  date: '2012-10-10 18:22:21'
+  body: 'No mention of SearchCondition.StartGroup(), which is imperative to users
+    trying to replace LINQ funtionality. StartGroup() being the equivalent to an OR
+    statement (compared to previously added SearchConditions. All statmements after
+    StartGroup() are packed in the equivilant of AND''s, until another StartGroup
+    is encountered.
+
+
+    Only Autodesk documentation mentioning this of course is the API Reference Manual,
+    but an example can be found in the api net examples...
+
+    .../api/net/examples/Controls/Viewers/SearchSelect.cs'
+- author: Xiaodong Liang
+  email: Xiaodong.liang@autodesk.com
+  ip: 115.112.233.72
+  url: ''
+  date: '2012-10-10 18:30:36'
+  body: 'Hi,
+
+    have you noticed the other posts?
+
+
+    <a href="http://adndevblog.typepad.com/aec/2012/07/use-search-api.html">http://adndevblog.typepad.com/aec/2012/07/use-search-api.html</a>
+
+    <a href="http://adndevblog.typepad.com/aec/2012/05/search-by-or.html">http://adndevblog.typepad.com/aec/2012/05/search-by-or.html</a>
+
+
+    Regards,
+
+    Xiaodong'
+- author: Xiaodong Liang
+  email: Xiaodong.liang@autodesk.com
+  ip: 115.112.233.72
+  url: ''
+  date: '2012-10-10 18:32:10'
+  body: 'In addition, StartGroup is a method of COM API, see this post
+
+    <a href="http://adndevblog.typepad.com/aec/2012/06/group-a-series-of-operations.html">http://adndevblog.typepad.com/aec/2012/06/group-a-series-of-operations.html</a>
+
+
+    While in .NET API, it is AddGroup, as shown in the two posts I enclosed in the
+    last reply.'
+- author: Ricky Medley
+  email: ricky.medley@caddog.net
+  ip: 146.209.159.18
+  url: ''
+  date: '2012-10-12 16:18:29'
+  body: 'No I didn''t see those.  But now, anyone that comes across this post will
+    have further reading.
+
+    ;)
+
+
+    Sincerely,'
+- author: Ricky Medley
+  email: ricky.medley@caddog.net
+  ip: 146.209.159.18
+  url: ''
+  date: '2012-10-12 16:20:48'
+  body: 'I did not know StartGroup() was part of COM.
+
+
+    Good to know since I''m try to avoid COM.  Thank you for your quick replies.
+
+
+    Sincerely,'
+- author: Diego D
+  email: diego.dckng@gmail.com
+  ip: 192.196.142.21
+  url: ''
+  date: '2013-02-27 07:28:24'
+  body: 'Hello Xiaodong Liang,
+
+
+    Does your code could be applied for excel VBA ? For example, is it possible to
+    do a search in naviswork with vba.
+
+
+    My purpose is to open naviswork in a first step (I can do it) and in a second
+    step to find an item via what you call “Find Items functionality in Roamer”.
+
+
+    Best regards,
+
+
+    Diego,'
+- author: Xiaodong
+  email: Xiaodong.liang@autodesk.com
+  ip: 125.34.6.228
+  url: ''
+  date: '2013-02-27 07:39:16'
+  body: "Hi Diego,\n\n.net API cannot be used in vba which is COM based.  Navisworks\
+    \ also provides COM API which has find ability. You can get started with it by\
+    \ the sdk sample actx_05(before 2013) which is written in vb6. From 2013 this\
+    \ sample is written in c#, but the basic principal is still same. \nIn your case,\
+    \ you can either start a Navisworks instance by COM API, open model and use find\
+    \ API. Or embed an activex control in your app of excel vba, and use find API.\n\
+    \nRegards,\nXiaodong"
+- author: Diego D
+  email: diego.dckng@gmail.com
+  ip: 192.196.142.21
+  url: ''
+  date: '2013-02-28 02:28:19'
+  body: 'Thank you for your answer.
+
+
+    I have read about the sample "sdk sample actx_05" but I cannot find it. Do you
+    have an Idea how could I get it? I''m pretty sure this could help me!
+
+
+    By now, I know how to select everything, and how to change the background... However
+    this is not going to help me!
+
+
+    Sincerly,'
+- author: xiaodong
+  email: xiaodong.liang@autodesk.com
+  ip: 118.228.153.196
+  url: ''
+  date: '2013-03-01 02:14:26'
+  body: "The ACTX_05 is available in the releases before 2013. You can still refer\
+    \ to the migrated sample in C# at \nC:\\Program Files\\Autodesk\\Navisworks Manage\
+    \ 2013\\api\\COM\\examples\\ActiveX\\ActiveXFindExample\n\nAnd here is one blog\
+    \ of Java script which may give you an idea how the code could be,if in an HTML\n\
+    <a href=\"http://adndevblog.typepad.com/aec/2012/05/search-compnents-in-javascript.html\"\
+    >http://adndevblog.typepad.com/aec/2012/05/search-compnents-in-javascript.html</a>"
+- author: etienne bley
+  email: ebley@elbsolutions.com
+  ip: 207.164.187.162
+  url: http://www.elbsolutions.com
+  date: '2015-12-02 11:22:55'
+  body: 'You are my hero. Once I recoded your example here in VBA, I learned lots
+    - in fact I learned that "Item" (instead of Entity Name) means - don''t set a
+    category at all. Your article revealed that.
+
+
+    Here is a link for an example for anyone looking for "Item"->"Name"->"Value" and
+    how, using VBA (or VBScript for that matter) to do that. It was all inspired by
+    Xiaodong
+
+
+    <a href="http://elbsolutions.com/projects/navisworks-com-api-a-little-old-and-really-cantakerous-but-i-finally-i-can-find-an-object-by-name/">http://elbsolutions.com/projects/navisworks-com-api-a-little-old-and-really-cantakerous-but-i-finally-i-can-find-an-object-by-name/</a>'
+- author: etienne bley
+  email: ebley@elbsolutions.com
+  ip: 207.164.187.162
+  url: http://www.elbsolutions.com
+  date: '2015-12-02 11:25:31'
+  body: Xiaodong is quite correct. If you are ripping your hair out like I was, see
+    my example below of a working VBA example and how you can figure out all sorts
+    of custom finds as a result. This is the key article to unlocking how all the
+    gears mesh together.
+- author: Antony
+  email: antony.lawrence@hotmail.com
+  ip: 182.75.149.20
+  url: ''
+  date: '2018-08-10 22:44:20'
+  body: "Hi Xiaodong,\nHow to find items with override tranparency of of particular\
+    \ value for e.g 0.7?\nAnd also tell me under wich property it is stored?\n\nIn\
+    \ my NWD file have set override tranparency of an item to 0.7 but the \nproperty\
+    \ windows shows Transparency (LcOaMaterialTransparency):0.000 while\nItem Tools\
+    \ --> Transparency shows 70%.\n\nThank you\nRegards,\nAntony \n-----"

@@ -1,0 +1,62 @@
+comments:
+- author: Muers
+  email: adndevblog.magik@xoxy.net
+  ip: 192.154.116.178
+  url: ''
+  date: '2014-01-13 08:20:23'
+  body: "Thank you for this, Saikat. Using HostObjectUtils is certainly much less\
+    \ error prone than the other methods of determining exterior facing planes.\n\n\
+    On that note, however, how would one get the exterior plane of a Roof element\
+    \ for example? In my case I had to grab the elements using the FilteredElementCollector\
+    \ to get elements of Category BuiltInCategory.OST_Roofs -- this grabs individual\
+    \ Roof elements (even those that are custom made) and not RoofBase objects (which\
+    \ would be usable in the HostObjectUtils class. Like so:\n\n var roofs = new FilteredElementCollector(this.doc)\n\
+    \                .OfCategory(BuiltInCategory.OST_Roofs)\n                .WhereElementIsNotElementType()\n\
+    \                .ToList();\n\nGiven that list of Roof Elements, how would one\
+    \ determine the exterior face (facing the sky) planes?\n\nThanks for your help\
+    \ in advance!"
+- author: caltineller@gmail.com
+  email: caltineller@gmail.com
+  ip: 88.255.249.152
+  url: ''
+  date: '2016-11-01 05:28:35'
+  body: ShellLayerType.Exterior; how do you access core boundary of the wall?
+- author: z
+  email: 358149732@qq.com
+  ip: 218.90.189.42
+  url: ''
+  date: '2017-11-01 00:59:37'
+  body: Is there any method to get Exterior Face of Curtain Wall in Revit.Because
+    Curtain Wall doesn't have geometery as common walltayp,use the method you used
+    throw out Error.
+- author: Alfaro
+  email: luiggi.a.181@gmail.com
+  ip: 179.7.142.73
+  url: ''
+  date: '2018-02-04 08:11:11'
+  body: 'How could I dimension with a line based element, for example ductwork or
+    a pipe. It works for the centerline, but if I want to dimension to one edge of
+    the element, how could I do that?.
+
+    Thanks a lot.
+
+
+    Note:
+
+    -Whitout creating another element becouse I will lost the reference and the dimension
+    doesn’t update if I move the Ductwork or pipe, maybe if there is a way to restrain
+    (lock) one line to the element with dynamo, please let me know How.'
+- author: Dmitry Dronov
+  email: dronov.dmitry@gmail.com
+  ip: 91.11.190.101
+  url: ''
+  date: '2023-10-29 07:13:45'
+  body: 'Hallo
+
+    Have some problem
+
+    doc.GetElement(reference)
+
+    TypeError: ''Reference'' object is unsubscriptable
+
+    -----'

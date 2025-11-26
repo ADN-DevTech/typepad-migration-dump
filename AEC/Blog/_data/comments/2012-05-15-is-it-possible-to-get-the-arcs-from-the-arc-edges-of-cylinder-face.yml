@@ -1,0 +1,31 @@
+comments:
+- author: Mohammad Rahmani asl
+  email: ''
+  ip: 152.88.183.162
+  url: http://profile.typepad.com/rahmaniasl
+  date: '2012-05-16 00:25:52'
+  body: 'Hi,
+
+
+    Thanks for the post. I have a question which is somehow related to this question.
+    I need to get the exterior face of wall. I have a "Generic Family on Face" and
+    I want to attach it to the face of a wall using Revit API. I was wondering how
+    I can access just the exterior face of a wall?
+
+
+    I modified the the code in this answer but it gives me all faces of wall or any
+    other objects/instances.
+
+
+    Can you please help me.'
+- author: Joe Ye
+  email: Joe.ye@autodesk.com
+  ip: 125.98.160.4
+  url: ''
+  date: '2012-05-16 20:44:47'
+  body: "Dear Mohanmmand Rahmani asl,\n\nThere is a very useful and simple method\
+    \ to get the side faces from a wall. \n  \n  HostObjectUtils.GetSideFaces(\n \
+    \ \tHostObject hostObject,\n\tShellLayerType side\n  )\n\nPass in the target wall,\
+    \ this method returns all the side faces. Then you can iterate all faces to find\
+    \ your target face via the face normal or other criteria.\n\nEnjoy it.\n\nJoe\n\
+    -----"

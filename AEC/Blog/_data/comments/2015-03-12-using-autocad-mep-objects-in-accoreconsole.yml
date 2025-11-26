@@ -1,0 +1,57 @@
+comments:
+- author: Mike Hutchinson
+  email: mike.hutchinson@waldinger.com
+  ip: 216.81.206.153
+  url: ''
+  date: '2015-03-12 07:49:59'
+  body: I tried this on two machines... both with AutoCAD MEP 2014. One machine didn't
+    recognize the mvBlock. The other one did. I checked DemandLoad variable... and
+    believe this was the issue. I will test this.
+- author: Mike Hutchinson
+  email: mike.hutchinson@waldinger.com
+  ip: 216.81.206.153
+  url: ''
+  date: '2015-03-12 08:04:17'
+  body: I think I found the issue... DEMANDLOAD was set to 1. According to help though..
+    a setting of 1 should have helped.
+- author: Mike Hutchinson
+  email: mike.hutchinson@waldinger.com
+  ip: 216.81.206.153
+  url: ''
+  date: '2015-03-12 08:59:00'
+  body: Alas... DEMANDLOAD 3 does not help. Does DEMANDLOAD have to be set before
+    the drawing is loaded? It must be something with the profile?
+- author: Balaji
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-03-12 23:30:49'
+  body: "Hi Mike,\n\nDEMANDLOAD set to 3 should be good enough for it to load the\
+    \ object enablers. But I will need to investigate this a little further. I am\
+    \ looking into this and will get back to you. \n\nRegards,\nBalaji"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-03-12 23:36:29'
+  body: 'Hi Balaji,
+
+
+    Thank you! I will add the final result to the main blog post above once we know.
+
+
+    Cheer, Jeremy.'
+- author: Balaji
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/6p016303198bdc970d
+  date: '2015-03-13 01:52:27'
+  body: "Hi Mike,\n\nWith DEMANDLOAD set to 3 (default) in AutoCAD MEP 2014, the core\
+    \ console did load the enablers in my system. The MVBlock ref could also be moved\
+    \ with the script that you shared.\n\nIn the sample files that you shared, i find\
+    \ the /isolate switch being used. Can you try without that ? \n\nAlso since you\
+    \ mentioned that the behavior was system specific, I would suggest comparing the\
+    \ LOADCTRLS value for the enablers under : HKEY_LOCAL_MACHINE\\SOFTWARE\\Autodesk\\\
+    ObjectDBX\\R19.1\\Applications. Each dbx shoud have a LOADCTRL value with its\
+    \ first and fourth bit set for it load on proxy detection. The ObjectARX developer\
+    \ guide explains the relevance of each bit. \n\nRegards,\nBalaji\n\n-----"

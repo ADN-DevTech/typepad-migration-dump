@@ -1,0 +1,22 @@
+comments:
+- author: Bryan Thatcher
+  email: ''
+  ip: 68.143.90.26
+  url: http://profile.typepad.com/bryanthatcher
+  date: '2012-06-14 13:40:32'
+  body: Can you give an example of saving and closing a document opened with OpenAndActivateDocument?
+    There is no Close like with uiApp.Application.OpenDocumentFile. Thanks.
+- author: Katsuaki Takamizawa
+  email: ''
+  ip: 211.13.205.134
+  url: http://profile.typepad.com/6p016305f79543970d
+  date: '2012-06-14 19:27:27'
+  body: "Hi Bryan,\n\nThis is the limitation. An active document can not be closed\
+    \ by Revit API currently. The workaround for closing the active document is to\
+    \ use the OpenAndActivateDocument() to open a new Revit document and then you\
+    \ can close the previous active document (which is the document you want to closeI).\
+    \ The newly opened document would still need to closed manually at some point.\
+    \ \n\nAn unsupported workaround you can refer to the following blog post by Jeremy\
+    \ Tammik : <a href=\"http://thebuildingcoder.typepad.com/blog/2010/10/closing-the-active-document-and-why-not-to.html.\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/10/closing-the-active-document-and-why-not-to.html.</a>\
+    \ You might look into this at your own risk. \n\n-----"

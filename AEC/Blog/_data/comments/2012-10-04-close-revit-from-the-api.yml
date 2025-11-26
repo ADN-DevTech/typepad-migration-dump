@@ -1,0 +1,44 @@
+comments:
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2012-10-04 23:53:39'
+  body: "Dear Augusto,\n\nsince it is possible that there is more than one Revit running,\
+    \ it would be better if you use \n\nSystem.Diagnostics.Process.GetCurrentProcess()\
+    \ \ninstead of System.Diagnostics.Process.GetProcessesByName(\"Revit\")\n\n(as\
+    \ it has already pointed out in the comments section of the TBC posting you mentioned\
+    \ above)\n\n\nBest regards,\nRudolf"
+- author: Augusto Goncalves
+  email: ''
+  ip: 200.57.88.167
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2012-10-05 06:16:31'
+  body: 'Hi Rufolf,
+
+
+    That''s a good idea, thanks, will update the code.
+
+
+    Regards,
+
+    Augusto Goncalves'
+- author: drg
+  email: dan.glassman@gmail.com
+  ip: 144.92.92.74
+  url: ''
+  date: '2012-10-05 10:20:41'
+  body: System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow() from an addin
+    will send WM_CLOSE to Revit's main window.  There may be cases where that fails
+    but SendMessage() succeeds.
+- author: Augusto Goncalves
+  email: ''
+  ip: 200.57.88.167
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2012-10-05 10:31:03'
+  body: 'Thanks for pointing it, that is also valid.
+
+
+    For completeness, call Process.Kill may not call Save when the project was modified.
+
+    -----'

@@ -1,0 +1,29 @@
+comments:
+- author: fuling wen
+  email: fl_wen516@163.com
+  ip: 221.10.62.216
+  url: ''
+  date: '2015-07-22 04:33:24'
+  body: "Dear Mr liang\n   I have a problem， I set up a response function to an event，\
+    \ but in this function, it triggered this event again ,it caused my program crash。Is\
+    \ there any way to not triggered （ex：not send the event message）in my function？\n\
+    \   this is my code\n               Autodesk.Navisworks.Api.Application.ActiveDocument.CurrentSelection.Changed\
+    \ += new EventHandler(CurrentSlection_changed);\n\n  private void CurrentSlection_changed(object\
+    \ sender , EventArgs e)\n{\nAutodesk.Navisworks.Api.Application.ActiveDocument.CurrentSelection.Add(fatherItem);\n\
+    }"
+- author: Reza Rostami Nikoo
+  email: rezarostaminikoo@gmail.com
+  ip: 159.203.7.245
+  url: ''
+  date: '2020-05-08 23:39:55'
+  body: "Hello. Although this is a question that has been asked for many years ago,nut\
+    \ I answer it for other people who may have this question. \nI think the code\
+    \ should be changed like this: when the event happens, you need to delete callback\
+    \ from events, and after adding an item to the selection, add it back to the event:\n\
+    \nAutodesk.Navisworks.Api.Application.ActiveDocument.CurrentSelection.Changed\
+    \ += \n    new EventHandler(CurrentSlection_changed);\n\nprivate void CurrentSlection_changed(object\
+    \ sender , EventArgs e)\n{\n    // delete your call back from event\n    Autodesk.Navisworks.Api.Application.ActiveDocument.CurrentSelection.Changed\
+    \ -= new \n        EventHandler(CurrentSlection_changed);\n    // adding items\
+    \ to your selection\n    Autodesk.Navisworks.Api.Application.ActiveDocument.CurrentSelection.Add(fatherItem);\n\
+    \n    // add it back to the event\n    Autodesk.Navisworks.Api.Application.ActiveDocument.CurrentSelection.Changed\
+    \ += \n        new EventHandler(CurrentSlection_changed);\n}\n-----"

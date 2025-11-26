@@ -1,0 +1,52 @@
+comments:
+- author: Rolando Hijar
+  email: rolandohijar@gmail.com
+  ip: 190.12.70.19
+  url: http://www.youtube.com/user/rolandohijar/videos
+  date: '2013-01-10 12:09:57'
+  body: Hi Saikat. Is it possible to make an inventory of all famalies in the project
+    getting their size? I have a file over 200 mb and I'm trying to compress it.
+- author: Rolando Hijar
+  email: rolandohijar@gmail.com
+  ip: 190.12.70.19
+  url: http://www.youtube.com/user/rolandohijar/videos
+  date: '2013-01-10 13:26:20'
+  body: Using the path of the family I was able to get some sizes but some families
+    don´t have any familypath data. I'm thinking that maybe I can same those families
+    in a folder and then check their sizes. Please some advice.
+- author: Saikat
+  email: saikat.bhattacharya@autodesk.com
+  ip: 8.19.13.27
+  url: ''
+  date: '2013-02-01 14:09:03'
+  body: 'Hi Rolando
+
+
+    I thought over your requirement and I dont think there is any direct way to get
+    the information you need regarding the loaded file sizes. Your workflow/workaround
+    might be the most optimal one at this moment.
+
+
+    Cheers'
+- author: Ratnadeep Sarkar
+  email: ratno123s@gmail.com
+  ip: 111.93.172.5
+  url: ''
+  date: '2016-11-30 22:26:24'
+  body: "public Result Execute(ExternalCommandData commandData, ref string message,\
+    \ Autodesk.Revit.DB.ElementSet elements)\n        {\n\n            try\n     \
+    \       {\n                this.doc = commandData.Application.ActiveUIDocument.Document;\n\
+    \                this.app = commandData.Application.Application;\n           \
+    \     this.uiDoc = commandData.Application.ActiveUIDocument;\n               \
+    \ Transaction t1 = new Transaction(doc, \"LoadFamily\");\n                t1.Start();\n\
+    \                Family family;\n                this.doc.LoadFamily(@\"C:\\Revit\
+    \ Families\\03_Electrical\\01_Cable Tray & Fittings\\Chalfant\\Cable_Tray-Fitting-Chalfant-Series_5-Horizontal_Cross.rfa\"\
+    , out family);\n                t1.RollBack();\n                Document familyDoc\
+    \ = doc.EditFamily(family);\n                FamilyManager fManager = familyDoc.FamilyManager;\n\
+    \                List FamilyTypeNames = fManager.Types.Cast().Select(x => x.Name).ToList();\n\
+    \                List fParamNames = fManager.GetParameters().Select(x => x.Definition.Name).ToList();\n\
+    \                \n                return Result.Succeeded;\n            }\n \
+    \           catch (Exception ex)\n            {\n                return Result.Failed;\n\
+    \            }\n        }\n\n\nI think if I want to get the value of a family\
+    \ parameter then rolling back the transaction would not let us to edit the family\
+    \ in family doc\n\n\n-----"

@@ -1,0 +1,146 @@
+comments:
+- author: Pachi Monton
+  email: pmonton@dispal.com
+  ip: 83.97.172.138
+  url: http://www.therevitroom.com
+  date: '2013-01-26 03:31:19'
+  body: "Dear Saikat:\nIs possible hide section views in viewplans:\n\nI use the following:\n\
+    private void ocultarSecciones(Document doc, IList coleccionsecciones)\n      \
+    \  {\n            FilteredElementCollector collector = new FilteredElementCollector(doc);\n\
+    \            collector.OfClass(typeof(ViewPlan));\n\n            using (Transaction\
+    \ txxxx = new Transaction(doc))\n            {\n                txxxx.Start(\"\
+    Ocultar secciones\");\n                foreach (ViewPlan v in collector)\n   \
+    \             {\n                    if (v != null && !v.IsTemplate)\n       \
+    \             {\n                        // Ocultamos las secciones\n        \
+    \                          v.HideElements(coleccionsecciones);\n             \
+    \       }\n                }\n                txxxx.Commit();\n            }\n\
+    \        }"
+- author: Saikat
+  email: Saikat.Bhattacharya@autodesk.com
+  ip: 8.19.13.27
+  url: ''
+  date: '2013-02-01 17:53:38'
+  body: 'Hi Pachi
+
+
+    I created a blogpost to provide the code for your requirement:
+
+    <a href="http://adndevblog.typepad.com/aec/2013/02/hiding-sections-in-viewplans-using-revit-api.html">http://adndevblog.typepad.com/aec/2013/02/hiding-sections-in-viewplans-using-revit-api.html</a>
+
+
+    hope this helps
+
+    cheers'
+- author: sachin
+  email: sachinkocharekar12@gmail.com
+  ip: 223.239.136.254
+  url: ''
+  date: '2013-04-09 02:38:27'
+  body: 'Hello Saikat:
+
+    I am getting problem to get a real time view(like in case inserting door on a
+    wall,after selecting the door, i am not getting the door view of moving along
+    with the mouse cursor only getting cursor and if click on wall directly it will
+    inserting.) before placing family inserting.
+
+
+    my code is like this:
+
+
+    public Autodesk.Revit.UI.Result Execute(ExternalCommandData commandData, ref string
+    message, ElementSet elements)
+
+    {
+
+    ..........
+
+    try
+
+    {
+
+    trans.Start();
+
+    Family family = null;
+
+    FamilySymbol symbol = null;
+
+    if (doc.LoadFamily(@h4, out family))
+
+    {
+
+    foreach (FamilySymbol s in family.Symbols)
+
+    {
+
+    symbol = s;
+
+    }
+
+    View view = uidoc.ActiveView;
+
+    Reference r = sel.PickObject(ObjectType.PointOnElement, "Select");
+
+    Element elem = doc.GetElement(r);
+
+    Wall wall = elem as Wall;
+
+    XYZ globalPoint = r.GlobalPoint;
+
+    XYZ levelPoint = new XYZ(10, 10, 1);
+
+    Wall wall = doc.GetElement(r) as Wall;
+
+    FamilyInstance instance = doc.Create.NewFamilyInstance(levelPoint, symbol, wall,level,StructuralType.NonStructural);
+
+    }
+
+    trans.Commit();
+
+    }
+
+    catch (Exception)
+
+    {
+
+
+    }
+
+    return Result.Succeeded;
+
+    }'
+- author: sachin
+  email: sachinkocharekar12@gmail.com
+  ip: 223.239.136.254
+  url: ''
+  date: '2013-04-09 02:51:10'
+  body: "and also getting problem in highlight the elements pls help me: my code is\
+    \ like this:\n\n                      FilteredElementCollector c = new FilteredElementCollector(doc).OfClass(typeof(Family));\n\
+    \                      FilteredElementCollector familyCollector11 = new FilteredElementCollector(doc);\n\
+    \                      familyCollector.OfClass(typeof(FamilySymbol));\n      \
+    \                List GlobalStrings22 = new List();\n                      Family\
+    \ family2 = null;\n                      FamilySymbol symbol4 = null;\n      \
+    \                SelElementSet selElements = uidoc.Selection.Elements;\n     \
+    \                 SelElementSet selSet = SelElementSet.Create();\n           \
+    \           foreach (Family f in c)\n                      {\n               \
+    \           family2 = f;\n                         \n                        \
+    \  foreach (FamilySymbol s in family2.Symbols)\n                          {\n\
+    \                              symbol4 = s;\n                              string\
+    \ ss = s.Name.ToString();\n                         \n                       \
+    \       Element ele = s as Element;\n                              foreach (Material\
+    \ material in s.Materials)\n                              {\n                \
+    \                  if (material.Name.ToString() == Class1.GlobalVar22.ToString())\n\
+    \                                  {  ElementId id = s.Id as ElementId;\n    \
+    \                                      Element e = doc.GetElement(id);\n     \
+    \                                     selSet.Add(e);\n                       \
+    \                   GlobalStrings22.Add(material.Name.ToString());\n         \
+    \                         }\n\n                              } break;\n\t\t\t\t\
+    \t\t\t  } \n                      }\n\n                      uidoc.Selection.Elements\
+    \ = selSet;\n                      uidoc.RefreshActiveView();"
+- author: mk mk
+  email: hsn.smd@gmail.com
+  ip: 151.233.225.57
+  url: http://free-web-tools.com
+  date: '2015-06-15 05:05:06'
+  body: '<a href="http://free-web-tools.com">http://free-web-tools.com</a>
+
+    -----'

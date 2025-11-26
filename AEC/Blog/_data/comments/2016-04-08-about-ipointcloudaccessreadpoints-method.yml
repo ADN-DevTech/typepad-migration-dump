@@ -1,0 +1,35 @@
+comments:
+- author: Peter Wu
+  email: minghua.wu@leicaus.com
+  ip: 216.85.0.50
+  url: ''
+  date: '2017-05-01 18:30:18'
+  body: 'Our engine may prepare more points than that Revit is asking. Revit seems
+    to ask the number of pixels and assume that is the maximum points needed. But
+    if point cloud engine feeds also points blocked by other points in the view, the
+    number may increase substantially. But, because Revit will stop asking, it becomes
+    the case that a sparse (or even patchy or mosaic) point display results.
+
+
+    Is it possible to make Revit fetch more points for rendering. Especially when
+    it comes to printing or DWF exporting where we usually expect to increase detail,
+    it won''t work at all, because the more points you prepare, the less you actually
+    get.'
+- author: Peter Wu
+  email: minghua.wu@leicaus.com
+  ip: 216.85.0.50
+  url: ''
+  date: '2017-05-01 18:41:41'
+  body: 'When an engine feeds points in sequence of LODs, it would still stop at any
+    number and leaves the display patchy or mosaic.
+
+
+    When an engine does not order points in LODs, it would end up with totally uneven
+    display with missing blocks here and there.
+
+
+    Also IPointCloudIterator.ReadPoints when calling, does not tell which view is
+    requesting the points. This makes it impossible for external point cloud engine
+    to update each view with the matching points.
+
+    -----'

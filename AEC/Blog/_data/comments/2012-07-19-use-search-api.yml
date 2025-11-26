@@ -1,0 +1,53 @@
+comments:
+- author: Colin Kemp
+  email: KempCE@sbec.com
+  ip: 207.243.125.253
+  url: ''
+  date: '2012-07-20 07:33:16'
+  body: "Xiaodong,\n\n   No Offense, but I think the term \"fast\" is misleading in\
+    \ this post. Since the search API works in linear fashion its performance is going\
+    \ to be dependent on the size of the Navisworks File. If Autodesk would just introduce\
+    \ some form of Parallelism this search API could be fantastic! How Could this\
+    \ be done? A possible solution would be to spawn threads on the Root's children\
+    \ Items only, but I am only guessing that this is possible here because I do not\
+    \ know the underlying Code base For the Navisworks API & what shape it is in.\
+    \ One can dream thou....\n\n\nRegards,\nColin"
+- author: Xiaodong Liang
+  email: xiaodong.liang@autodesk.com
+  ip: 115.112.233.72
+  url: ''
+  date: '2012-07-28 21:36:23'
+  body: "Hi Colin, \n\nSorry, I was not able to respond to you. I agree the speed\
+    \ depends on the size of the file. However when I said‘fastest”, I compared the\
+    \ three finding ways:\nIteration, LINQ and Search API that I introduced in the\
+    \ other post\n <a href=\"http://adndevblog.typepad.com/aec/2012/05/navisworks-net-api-find-item.html\"\
+    >http://adndevblog.typepad.com/aec/2012/05/navisworks-net-api-find-item.html</a>\n\
+    \nIn addition, I did not mention two best practices: \n\n1)\tIf the items count\
+    \ is very small, Iteration or LINQ are not so bad, compared with Search API. It\
+    \ depends on your workflow.\n\n2)\tSometimes a finding workflow could combine\
+    \ Search API + LINQ if you are good at LINQ. e.g. use Search API to do some first\
+    \ searching within many items, then get smaller count, finally use LINQ to do\
+    \ advanced searching .\n\nI am not clear what you meant by ‘Parallelism this search\
+    \ API’. Could you elaborate it? The current usage of Search API is like what shown\
+    \ in the post. I have not yet seen other usages.\n\nRegards,\nXiaodong Liang"
+- author: Colin Kemp
+  email: KempCE@sbec.com
+  ip: 207.243.125.253
+  url: ''
+  date: '2012-08-13 06:37:12'
+  body: "Xiaodong,\n\n   Please correct me if I am wrong. From what I have seen the\
+    \ Search API runs in a linear manner (processing one node at a time). If the Search\
+    \ API could some how preform a search on multiple nodes at the same time this\
+    \ would be fantastic. \n\nFor Example if you were able to conduct a search on\
+    \ the child nodes of the Main Root node, using multiple Threads to preform the\
+    \ work with an Event for completion & for Progress. I think you would see huge\
+    \ performance gains especially in large models\n\nColin"
+- author: Oleg Elanzeff
+  email: ''
+  ip: 77.244.77.207
+  url: http://profile.typepad.com/6p01901de1058b970b
+  date: '2013-06-26 01:35:38'
+  body: 'I agree with Colin. In case if you want to search in different subtrees having
+    multiple threads for search could speed the process up.
+
+    -----'

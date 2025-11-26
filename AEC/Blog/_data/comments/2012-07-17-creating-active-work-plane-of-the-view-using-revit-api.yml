@@ -1,0 +1,87 @@
+comments:
+- author: Trevor
+  email: ''
+  ip: 209.253.66.66
+  url: http://profile.typepad.com/d107776529532819213
+  date: '2012-12-12 08:32:34'
+  body: 'Hi,
+
+
+    I would like to pick a point in a sheet view, but when I attempt to set the view''s
+    SketchPlane property an exception is thrown with the following message:
+
+
+    "Model lines can not be drawn in current view."'
+- author: Saikat
+  email: saikat.bhattacharya@autodesk.com
+  ip: 72.52.96.29
+  url: ''
+  date: '2012-12-13 17:40:34'
+  body: 'Hi Trevor
+
+
+    Sorry for not getting a chance as yet to respond to this comment on the post.
+    I have just responded to your case logged with the same query. Hope you would
+    have received the email by now.
+
+
+    cheers'
+- author: Raul
+  email: rauls.kjarners@gmail.com
+  ip: 78.84.76.191
+  url: ''
+  date: '2013-01-25 04:31:45'
+  body: 'Hi,
+
+    I''m also getting the same message: "Model lines can not be drawn in current view."
+    when trying to run the command in 3D Ortho view. Is there any work around?'
+- author: Saikat
+  email: saikat.bhattacharya@autodesk.com
+  ip: 24.5.61.204
+  url: ''
+  date: '2013-02-01 00:13:28'
+  body: 'Hi Raul
+
+
+    Sorry I dont know of any workaround that I can suggest. Regarding the exception
+    with Sheet view, we have discussed this internally and the Development team is
+    aware of this.'
+- author: vidya
+  email: vidyasagar.apgunde@gmail.com
+  ip: 115.113.149.158
+  url: ''
+  date: '2013-09-11 23:44:57'
+  body: 'Hi Saiket,
+
+
+    I am also getting the same exception on Sheet view. Did you found any solution
+    for the above. Please let me know.
+
+
+    Thanks...'
+- author: Mike
+  email: coffey.architect@gmail.com
+  ip: 4.28.75.94
+  url: ''
+  date: '2013-09-12 13:45:28'
+  body: "Hey everyone,\n\nI was having this same problem with picking a point in a\
+    \ sheet and I think I figured out a workaround.  By adding a line and then deleting\
+    \ it in a transaction before picking the point, then the workplane will be set.\n\
+    \nTransaction t1 = new Transaction(doc, \"WorkPlane\");\n                t1.Start();\n\
+    \t\t\t\tLine line1 = app.Create.NewLineBound(XYZ.Zero, XYZ.BasisX);\n\t\t\t\t\
+    DetailCurve dc1 = doc.Create.NewDetailCurve(doc.ActiveView, line1);\n\t\t\t\t\
+    ElementId id = dc1.Id;\n\t\t\t\tdoc.Delete(id);\n\t\t\t\tt1.Commit();\nXYZ point\
+    \ = uidoc.Selection.PickPoint(\"Pick a Point\");\n\nI tried doing a rollback but\
+    \ didn't work.  Seems as though it needs to be committed."
+- author: vidya
+  email: vidyasagar.apgunde@gmail.com
+  ip: 115.113.149.158
+  url: ''
+  date: '2013-09-12 23:00:36'
+  body: 'Hi Mike,
+
+
+    The problem is solved with your code suggestion. It''s working fine.Now I can
+    pick a point on Sheet view.
+
+    -----'

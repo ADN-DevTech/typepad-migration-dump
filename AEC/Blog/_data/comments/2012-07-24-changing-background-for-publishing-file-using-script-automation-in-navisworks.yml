@@ -1,0 +1,65 @@
+comments:
+- author: Dan Cisecki
+  email: dcisecki@suncor.com
+  ip: 209.82.26.132
+  url: ''
+  date: '2016-07-21 07:23:33'
+  body: "Hello, I am new to coding and I understand the concept of the example above\
+    \ and have used it to change the background color of multiple files use a batch\
+    \ routine.  I would like to do the same thing with changing the object color of\
+    \ all the objects in the file instead of the background.  Can you point me in\
+    \ the right direction?  See below for the code I used in my batch file.\n\n'ChangeBackgroundColour.cmd\n\
+    cscript \"ChangeBackgroundColour.vbs\" \"Source Directory\" \"Source NWD File\"\
+    \ \"Destination Directory\"\n\n'ChangeBackgroundColour.vbs\nIf WScript.Arguments.Count\
+    \ > 2 Then\n\nstrOriginalFileFolder = WScript.Arguments(0)\nstrOriginalFileName\
+    \ = WScript.Arguments(1)\nstrNewFileFolder = WScript.Arguments(2)\n\nstrNewFileName\
+    \ = strOriginalFileName\n\nElse\n\tMsgBox \"Field missing!  Syntax = Original\
+    \ Folder, Original File, Destination Folder\"\n\tWScript.Quit\nEnd If\n\n'create\
+    \ new document\nset navis_doc=CreateObject(\"NavisWorks.Document\")\n\n'make sure\
+    \ it's not visible\nnavis_doc.visible=false\n\n'open original document\nnavis_doc.OpenFile(strOriginalFileFolder\
+    \ & strOriginalFileName)\n\ndim ndx\nndx = navis_doc.state.getenum(\"eObjectType_nwLVec3f\"\
+    )\nset color =navis_doc.state.objectFactory(ndx)\n\n'Set background color by variant\
+    \ of RGB color\n'red = 1,0,0\n'green = 0,1,0\n'blue = 0,0,1\n'black = 0,0,0\n\
+    'white = 255,255,255\n'0 = black; 1 = highest number for color; 255 is lowest.\n\
+    \n'Set color to white\ncolor.data1 = 255\ncolor.data2 = 255\ncolor.data3 = 255\n\
+    \n'background color set to color\nnavis_doc.state.BackgroundColor = color\n\n\
+    'Do not want to overwrite existing attributes so use saveas\n'ndx=navis_doc.state.getenum(\"\
+    eObjectType_nwOaPublishAttribute\") 'publish with attributes\n'set attrib=navis_doc.state.objectFactory(ndx)\n\
+    \n'navis_doc.publishfile strNewFileFolder & strNewFileName,attrib\nnavis_doc.saveas\
+    \ strNewFileFolder & strNewFileName"
+- author: Hamid
+  email: hrmoezi@yahoo.com
+  ip: 116.212.193.34
+  url: ''
+  date: '2017-01-09 01:06:01'
+  body: 'Dear Saikat,
+
+
+    Could you please let me know where should I put this code in Navis?
+
+
+    I have found the example in the SDK but I don''t know how to proceed.
+
+
+    Thank you in advance
+
+    Hamid'
+- author: Antony
+  email: AntonyMariaShalini@gmail.com
+  ip: 42.104.100.106
+  url: https://piping-info.blogspot.com/
+  date: '2021-08-13 01:02:38'
+  body: 'Hello,
+
+
+    Is there a way to change the Navisworks background mode to Graduated and Horizon
+    in VBScirpt or in VB.Net?'
+- author: Pranay
+  email: tpranay4321@gmail.com
+  ip: 60.254.116.46
+  url: ''
+  date: '2021-10-18 07:14:12'
+  body: 'how to create a batch it should automatically change the colour of total
+    NWD file and its transparency also
+
+    -----'

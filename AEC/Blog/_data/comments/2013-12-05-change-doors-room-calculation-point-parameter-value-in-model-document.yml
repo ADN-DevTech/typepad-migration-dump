@@ -1,0 +1,72 @@
+comments:
+- author: Ning Zhou
+  email: superjoe302@yahoo.ca
+  ip: 203.117.217.147
+  url: ''
+  date: '2013-12-05 23:34:26'
+  body: 'hi joe,
+
+
+    looks like familyDoc.LoadFamily(doc, new familyOverride()); won''t invoke familyOverride()
+    afterall.
+
+
+    quot from spiderinnet:
+
+    In the Revit API 2014, the IFamilyLoadOptions continually does not work well together
+    with the signatures of both LoadFamily and LoadFamilySymbol methods having the
+    interface specified as an argument.
+
+
+    cheers,
+
+    ning'
+- author: Joe
+  email: joe.ye@hotmail.com
+  ip: 118.228.153.198
+  url: ''
+  date: '2013-12-06 00:44:17'
+  body: 'Hi Ning,
+
+
+    According to my experience, LoadFamily() and LoadFamilySymbol() can work well
+    with the override of the signature with IFamilyLoadOptions for both Revit 2013,
+    and Revit 2014. It can invoke the code in the IFamilyLoadOptions''s derived class.
+
+    But one exception: if your family file was created with the Revit 2013 template,
+    these two override cannot load the family  document.  Please check if your family
+    file was created with the Revit 2013 family template.
+
+
+    Joe'
+- author: Ning Zhou
+  email: superjoe302@yahoo.ca
+  ip: 203.117.217.147
+  url: ''
+  date: '2013-12-06 01:17:30'
+  body: OK, it works now, thanks Joe.
+- author: Remy van den Bor
+  email: r.van.den.bor@icn-solutions.nl
+  ip: 92.64.100.114
+  url: http://www.icn-solutions.nl
+  date: '2013-12-17 23:26:07'
+  body: 'Hello Joe,
+
+
+    Seems like this line at the end isn''t needed :
+
+
+    Transaction transLoc = new Transaction(doc);
+
+
+    Anyways, thanks for the help.'
+- author: Joe
+  email: joe.ye@autodesk.com
+  ip: 114.249.211.134
+  url: ''
+  date: '2013-12-17 23:34:46'
+  body: 'Thanks Remy!
+
+    Removed that line.
+
+    -----'

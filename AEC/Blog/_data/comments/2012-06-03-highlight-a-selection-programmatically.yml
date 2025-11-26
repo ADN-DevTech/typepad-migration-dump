@@ -1,0 +1,27 @@
+comments:
+- author: david
+  email: dsdper@163.com
+  ip: 116.225.227.134
+  url: ''
+  date: '2013-08-31 03:37:00'
+  body: "using System;\nusing System.Collections.Generic;\nusing System.Linq;\nusing\
+    \ System.Web;\nusing System.Web.UI;\nusing System.Web.UI.WebControls;\nusing Autodesk.Navisworks.Api;\n\
+    \n\n\nnamespace WebApplication2\n{\n    public partial class WebForm1 : System.Web.UI.Page\n\
+    \    {\n        protected void Page_Load(object sender, EventArgs e)\n       \
+    \ {\n            Document oActiveDoc = Autodesk.Navisworks.Api.Application.ActiveDocument;\n\
+    \            try\n            {\n                \n                oActiveDoc.OpenFile(@\"\
+    D:\\test.nwd\");\n            }\n            catch (Autodesk.Navisworks.Api.DocumentFileException)\n\
+    \            {\n                if (!oActiveDoc.TryOpenFile(@\"D:\\test.nwd\"\
+    ))\n                {\n                    Response.Write(\"Failed to open the\
+    \ file\");\n                }\n            }\n\n          \n\n        }\n    }\n\
+    }\n提示如下错误\n未将对象引用设置到对象的实例。\n\n说明: 执行当前 Web 请求期间，出现未经处理的异常。请检查堆栈跟踪信息，以了解有关该错误以及代码中导致错误的出处的详细信息。\
+    \ \n\n异常详细信息: System.NullReferenceException: 未将对象引用设置到对象的实例。\n\n源错误: \n\n\n行 19:\
+    \             try\n行 20:             {\n行 21:                 oActiveDoc.Clear();\n\
+    行 22:                 oActiveDoc.OpenFile(@\"D:\\test_2012版本.nwd\");\n行 23:  \
+    \           }\n\n源文件: K:\\ToQiGang\\WebApplication2\\WebApplication2\\WebForm1.aspx.cs\
+    \    行: 21 \n\n堆栈跟踪: \n\n\n[NullReferenceException: 未将对象引用设置到对象的实例。]\n   WebApplication2.WebForm1.Page_Load(Object\
+    \ sender, EventArgs e) in K:\\ToQiGang\\WebApplication2\\WebApplication2\\WebForm1.aspx.cs:21\n\
+    \   System.Web.Util.CalliEventHandlerDelegateProxy.Callback(Object sender, EventArgs\
+    \ e) +51\n   System.Web.UI.Control.OnLoad(EventArgs e) +92\n   System.Web.UI.Control.LoadRecursive()\
+    \ +54\n   System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint,\
+    \ Boolean includeStagesAfterAsyncPoint) +772\n-----"

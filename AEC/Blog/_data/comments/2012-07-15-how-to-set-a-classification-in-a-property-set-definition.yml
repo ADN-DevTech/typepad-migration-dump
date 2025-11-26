@@ -1,0 +1,73 @@
+comments:
+- author: Code comments
+  email: nonexisting@not.com
+  ip: 85.228.246.174
+  url: ''
+  date: '2012-10-01 23:36:13'
+  body: "• The node.Id.IsNull case is not addressed.\n• The ‘ed’ variable is declared\
+    \ but not used.\n• It seems the ‘node’ object is reopened with its own ObjectId.\
+    \ Why is that?\n• Why use ObjectId.IsNull and ObjectId.IsValid alternatively rather\
+    \ than keep using a single consistent approach?\n• Is ‘node.Children.Count > 0’\
+    \ necessary?\n• If the answer to the above question is yes, is ‘node.Children’\
+    \ always valid (cannot be Nothing)?\n• Would it not be better to use the following\
+    \ concise and reliable version?\n        For Each child As ClassificationTree\
+    \ In node.Children\n            id = FindClassification(name, tr, child)\n   \
+    \         If Not id.IsNull Then\n                Return id\n            End If\n\
+    \        Next\n\n<a href=\"http://spiderinnet1.typepad.com/blog/2012/10/autocad-net-passing-transaction-argument-as-byref-ref-in-c.html\"\
+    >http://spiderinnet1.typepad.com/blog/2012/10/autocad-net-passing-transaction-argument-as-byref-ref-in-c.html</a>"
+- author: Chege
+  email: chegekamau@gmail.com
+  ip: 62.24.111.246
+  url: ''
+  date: '2013-12-11 09:32:21'
+  body: 'Hi,
+
+
+
+    Which objectARX dll contains these Imports?
+
+
+    Imports Autodesk.Aec.DatabaseServices
+
+    Imports Autodesk.Aec.ApplicationServices
+
+    Imports Autodesk.Aec.Arch.DatabaseServices
+
+    Imports Autodesk.Aec.Arch.ApplicationServices
+
+    Imports Autodesk.Aec.PropertyData
+
+    Imports Autodesk.Aec.PropertyData.DatabaseServices
+
+
+
+    Imports Application = Autodesk.AutoCAD.ApplicationServices.Application
+
+
+    Imports ObjectId = Autodesk.AutoCAD.DatabaseServices.ObjectId
+
+
+    Imports ObjectIdCollection = Autodesk.AutoCAD.DatabaseServices.ObjectIdCollection'
+- author: Carl
+  email: carl.golenberg@calibreconsulting.co
+  ip: 125.7.48.145
+  url: ''
+  date: '2016-12-19 21:45:23'
+  body: I desperately need this data too!!! trying to access in civil 3d and all references
+    seem to be autocad architecture!!!
+- author: Mikako Harada
+  email: mikako.harada@autodesk.com
+  ip: 63.217.48.162
+  url: ''
+  date: '2016-12-19 22:15:34'
+  body: "Hi Carl, \n\nI'm not familiar with C3D.  But C3D uses AEC Base, too.  So\
+    \ theoretically speaking, you may try referencing AEC related managed dlls that\
+    \ you can find in C3D install, (not Arch specific ones), then additional C3D specific\
+    \ managed dll. If this does not work, then you will need to ask C3D team on forum."
+- author: Carl
+  email: carl.golenberg@calibreconsulting.co
+  ip: 125.7.48.145
+  url: ''
+  date: '2016-12-20 15:10:43'
+  body: "For those in desperation, the solution dll\nAecPropDataMgd.dll \nlocated\
+    \ in:\nAutoCAD 2017\\ACA\n-----"

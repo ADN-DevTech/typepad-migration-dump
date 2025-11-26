@@ -1,0 +1,28 @@
+comments:
+- author: Alex
+  email: Alex.Billsy@gmail.com
+  ip: 182.239.185.113
+  url: ''
+  date: '2014-06-22 01:05:02'
+  body: 'Hi,
+
+    How can I if it''s possible switch activation between two opened RVT documents?
+
+
+    cheers,
+
+    Alex Billsy'
+- author: Rolando
+  email: rolandohijar@gmail.com
+  ip: 201.240.220.235
+  url: http://www.proisac.com
+  date: '2015-05-23 11:31:09'
+  body: "Hi Alex. This code works for me:\npublic void OpenRevit()\n\t\t{\n\t\t\t\
+    //FIRST DOCUMENT\n\t\t\tUIDocument active_uidoc = this.ActiveUIDocument ;\n\t\t\
+    \tDocument activedoc = this.ActiveUIDocument .Document ;\n\t\t\tstring currentefile_path\
+    \ = activedoc .PathName ;\n\t\t\t//\n\t\t\t//SECOND DOCUMENT\n\t\t\tUIDocument\
+    \ uiddoc = this.OpenAndActivateDocument(@\"C:\\Users\\Rolando\\Desktop\\DIVIDIRCOLUMNAS.rvt\"\
+    \ );//WRITE PATH FOR SECOND FILE\n\t\t\tDocument  doc = uiddoc.Document;\n\t\t\
+    \t//\n\t\t\tTaskDialog .Show (\"PROISAC\",doc.PathName );\n\t\t\t//SWITCH TO TO\
+    \ FIRST DOCUMENT\n\t\t\tthis.OpenAndActivateDocument(currentefile_path);\n\t\t\
+    \t//\n\t\t\tdoc.Close ();\n\t\t}\n-----"

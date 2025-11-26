@@ -1,0 +1,23 @@
+comments:
+- author: Colin
+  email: colin.stark@hhangus.com
+  ip: 207.34.219.6
+  url: ''
+  date: '2013-03-14 07:52:11'
+  body: "Hey Joe,\n\nI use another way to determine the duct profile that doesn't\
+    \ involve opening any families, so it might be faster than the method you posted.\
+    \  I've been using it for a while and haven't run into any problems with it. \
+    \ Code is for Revit 2012\n\nAutodesk.Revit.DB.Mechanical.Duct duct = elem as Autodesk.Revit.DB.Mechanical.Duct;\n\
+    if (duct != null)\n{\n\tConnectorSetIterator iterator = duct.ConnectorManager.Connectors.ForwardIterator();\n\
+    \n\titerator.MoveNext();\n\n\tConnector firstConnector = iterator.Current as Connector;\n\
+    \n\tConnectorProfileType type = firstConnector.Shape;\n}"
+- author: 'Joe '
+  email: joe.ye@autodesk.com
+  ip: 221.221.148.97
+  url: ''
+  date: '2013-03-22 08:57:10'
+  body: "Dear Colin,\n\nThanks for sharing this idea. \nIt is a good solution for\
+    \ a given duct.\n\nHowever, the code in this blog post is for a given duct type.\n\
+    It is possible that the given duct type doesn't have the instance in the model.\
+    \ So we have to open a family document to get the duct shape.\n\nRegards,\n\n\
+    Joe\n-----"

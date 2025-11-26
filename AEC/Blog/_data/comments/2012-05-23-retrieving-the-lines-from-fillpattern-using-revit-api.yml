@@ -1,0 +1,39 @@
+comments:
+- author: William
+  email: rinlok@gmail.com
+  ip: 97.75.106.130
+  url: ''
+  date: '2013-01-04 07:33:54'
+  body: "Hello! Thank you for writing about this page.  I am a fairly new user of\
+    \ Revit API, so please bear with me. \n\nWould it be possible to show us an example\
+    \ of utilizing the offset value of each line? It's not working out for me."
+- author: Sam Rall
+  email: srall@cannondesign.com
+  ip: 165.75.0.10
+  url: ''
+  date: '2017-09-12 08:41:28'
+  body: How would one employ this method in Revit 2017? It seems there are a few references
+    that don't fly with the 2017 API...
+- author: Thomas Corrie
+  email: thomas.c@hopkins.co.uk
+  ip: 80.71.14.65
+  url: https://medium.com/@thomascorrie
+  date: '2018-01-16 07:48:00'
+  body: "I had the same problem and found this useful answer to add to the information\
+    \ in this article: <a href=\"https://forums.autodesk.com/t5/revit-api-forum/dimension-on-hatch-pattern-slab/m-p/7078368#M22785\"\
+    >https://forums.autodesk.com/t5/revit-api-forum/dimension-on-hatch-pattern-slab/m-p/7078368#M22785</a>\n\
+    \nThis snippet worked for me for ceilings, I assume walls are similar\n\nforeach\
+    \ (ElementId id in selectedIds)\n{\n    Element e = doc.GetElement(id);\n    Ceiling\
+    \ c = e as Ceiling;\n    CeilingType ct = doc.GetElement(c.GetTypeId()) as CeilingType;\n\
+    \    CompoundStructure comStruct = ct.GetCompoundStructure();\n    foreach (CompoundStructureLayer\
+    \ structLayer in comStruct.GetLayers())\n    {\n        Autodesk.Revit.DB.Material\
+    \ layerMaterial = doc.GetElement(structLayer.MaterialId) as Material;\n      \
+    \  FillPatternElement surfacePattern = layerMaterial.Document.GetElement(layerMaterial.SurfacePatternId)\
+    \ as FillPatternElement;\n        if (null != surfacePattern)\n        {\n   \
+    \         info += \"\\n\\nSurface Pattern: \" + surfacePattern.Name;\n       \
+    \     FillPattern fpatt = surfacePattern.GetFillPattern();\n            if (fpatt.IsSolidFill\
+    \ || fpatt.Target == FillPatternTarget.Drafting)\n            {\n            \
+    \    continue; //Skip solid fill or drafting pattern\n            }\n        \
+    \    IList fgList = fpatt.GetFillGrids();\n            foreach (FillGrid fg in\
+    \ fgList)\n            {\n                //Do stuff with FillGrids\n        \
+    \    }\n        }\n    }\n}\n-----"

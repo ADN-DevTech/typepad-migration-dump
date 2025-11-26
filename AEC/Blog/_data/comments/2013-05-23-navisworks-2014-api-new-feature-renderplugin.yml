@@ -1,0 +1,107 @@
+comments:
+- author: threedarcht
+  email: threedarcht@gmail.com
+  ip: 122.177.42.236
+  url: http://www.3darchitecturalmodelrendering.com.au/
+  date: '2013-12-16 21:53:54'
+  body: Thanks for sharing this informative blog about 3D Graphic Model Rendering.
+    It s very helpful blog.
+- author: Michael
+  email: mruth@unitec.de
+  ip: 217.86.215.153
+  url: http://www.unitec.de
+  date: '2015-01-28 05:35:27'
+  body: 'This is really a cool new feature, however, several things have changed in
+    NW2015 and it no longer seems to work properly:
+
+    - it''s no longer derived from ToolPlugin but directly from Plugin
+
+    - there''s now only two functions: Render and OverlayRender
+
+    - OverlayRender no longer seems to produce any visible graphics
+
+    - Render seems to work like OverlayRender did previously, but only while debugging;
+    when running NW2015 normally, the graphics pop up shortly then directly disappear
+    again
+
+
+    to summarize: what''s up?! How do I fix my code?'
+- author: Kyle
+  email: kyle@flux.io
+  ip: 54.158.227.78
+  url: http://flux.io
+  date: '2017-08-15 15:31:38'
+  body: 'Thanks for the article. I just tried this in Navisworks 2018 and was able
+    to make some progress so I can clarify on Michael''s questions.
+
+
+    OverlayRender now seems to work in screen space, replacing BeginWindowContext-EndWindowContext.
+
+
+    Render works for me, but does have some issues with the camera near clipping distance,
+    so geometry that is outside the bounding box of the existing loaded models gets
+    cut off depending on the camera angle.'
+- author: NAVEEN D LAZAR
+  email: ndl270@nyu.edu
+  ip: 104.162.73.46
+  url: ''
+  date: '2019-09-20 16:29:47'
+  body: "Hi Kyle,\n\nThe sphere creates and then suddenly disappears. I'm not having\
+    \ any luck in implementing the BeginWindowContext-EndWindowContext. Below is my\
+    \ code. I would really appreciate your help. Please help :( Thanks.\n\n public\
+    \ override void Render(View view, Graphics graphics)\n\n        {\n          \
+    \  counter_graphic++;\n            if (counter_graphic == 1)\n            {\n\
+    \                Point3D p3d = null;\n                BeginWindowContext(view,\
+    \ graphics);\n                {\n                    \n                  \n  \
+    \                  \n\n                    //color for graphics\n\n          \
+    \          Color yellow = Color.FromByteRGB(255, 255, 0);\n\n                \
+    \    graphics.Color(yellow, 0.8);\n\n\n\n                    //center of the current\
+    \ selection\n                    p3d = new Point3D(169.259, 39.538, 213.128);\n\
+    \                    //Point3D oCenter = GetClosestGridIntersection();\n\n\n\n\
+    \                    if (p3d != null)\n                    {\n               \
+    \         //draw a Sphere\n\n                        graphics.Sphere(p3d, 1);\n\
+    \                    }\n\n\n                    //}\n\n                }\n\n \
+    \               EndWindowContext(view, graphics);\n                {\n       \
+    \             graphics.Sphere(p3d, 1);\n                }\n\n\n\n            }\n\
+    \            }"
+- author: Oscar Ramirez
+  email: ooramirez@gmail.com
+  ip: 202.148.226.254
+  url: ''
+  date: '2020-01-14 22:29:55'
+  body: 'Hello NAVEEN D LAZAR,
+
+
+    Did you have any luck with it? I am having the same issue renderig geometries.
+    As soon as I stop moving the camera, they disappear.
+
+
+    There is little to none information in regards to RenderPlugin class.'
+- author: Unknown
+  email: Unknown@mail.com
+  ip: 194.3.50.66
+  url: ''
+  date: '2020-01-31 02:02:51'
+  body: You have to redraw your geometries each time.
+- author: Arsene
+  email: Arsene@mail.com
+  ip: 194.3.50.66
+  url: ''
+  date: '2020-01-31 06:04:01'
+  body: 'It seems that the render method is triggered each time your mouse move.
+
+
+    You can test by removing your IF condition.
+
+    If you want to keep your "counter_graphic", you have to save each geometries into
+    a list and redraw each element in render method.'
+- author: Tiago
+  email: cerqueira.tiago15@gmail.com
+  ip: 177.207.231.23
+  url: ''
+  date: '2020-04-08 10:24:39'
+  body: "HI, I could implement it well in Revit 2020. But my question is: How to control\
+    \ this and show the geometry when the user hit the button to activate? I am able\
+    \ to do this when use ToolPlugin but I would rather not overlay any tool to make\
+    \ that available. So Using RenderPlugin should be perfect if I could apply this.\
+    \ \n-----"
