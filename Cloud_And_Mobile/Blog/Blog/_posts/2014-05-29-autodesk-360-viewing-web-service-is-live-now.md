@@ -1,0 +1,15 @@
+---
+layout: "post"
+title: "Autodesk 360 viewing web service is live now"
+date: "2014-05-29 07:42:58"
+author: "Daniel Du"
+categories:
+  - "Cloud"
+  - "Daniel Du"
+  - "WebGL"
+original_url: "https://adndevblog.typepad.com/cloud_and_mobile/2014/05/autodesk-360-viewing-web-service-is-live-now.html "
+typepad_basename: "autodesk-360-viewing-web-service-is-live-now"
+typepad_status: "Publish"
+---
+
+<p>By <a href="http://adndevblog.typepad.com/cloud_and_mobile/daniel-du.html">Daniel Du</a></p>  <p>Some of you may have already heard of Autodesk 360 viewer, which is a 2D and 3D online viewer supporting models in different types. With this viewer ,you can view models with different format(the list is pretty exhaustive and goes well beyond Autodesk’s own formats, but you might try with DWG, RVT, IAM, IPT, NWD and DWF, to name a few to get you started) online without downloading any plug-ins, most modern browsers including Google Chrome, Firefox, will runs well. We went “live” using the new viewing web service on <a href="https://autodesk360.com/" target="_blank">Autodesk 360 Technical Preview</a>. You can just get a free Autodesk 360 account – and upload your files – then in a few (or several) minutes they’ll be viewable using the new viewing web service.</p>  <p>Moreover, a set of API will be released to allow you upload and translate file and then embed the viewer into your own web site. Stay tuned.</p>  <p>Here is a sneak peek of it on this blog page. Check it out: </p>  <p><iframe width="800" height="480" frameborder="0" allowFullScreen webkitallowfullscreen mozallowfullscreen src="https://viewer.autodesk.io/node/gallery/embed/54464d47af600b5c0a872553">  </iframe></p>  <p>The second is an AEC-centric model:</p>  <p><iframe width="800" height="480" frameborder="0" allowFullScreen webkitallowfullscreen mozallowfullscreen src="http://viewer.autodesk.io/node/gallery/embed/544e4dfbcd656a2c0c385fe7">  </iframe></p>  <p>Aside from the standard zoom, pan &amp; orbit, here are some things to try with both these models…</p>  <p>Press the <strong>structure</strong> button <img title="Structure button" border="0" alt="Structure button" src="/assets/image_a79201.jpg" width="27" height="27" /> to browse down through the model’s assembly structure or component hierarchy. You can use this to isolate specific components in your model, hiding everything else. </p>  <p>After hitting reset <img title="Reset button" border="0" alt="Reset button" src="/assets/image_b266d2.jpg" width="26" height="26" />, now try the <strong>explode</strong> button <img title="Explode button" border="0" alt="Explode button" src="/assets/image_97ef58.jpg" width="28" height="27" /> and then manipulate the slider that appears at the top of the window to move the various model components outwards from the centre to form an exploded view.</p>  <p>Aside from the need to support a huge array of formats, the viewer is really good at streaming large models – displaying them at appropriate levels of detail – and allowing you to get in and work with the structure of these models.</p>

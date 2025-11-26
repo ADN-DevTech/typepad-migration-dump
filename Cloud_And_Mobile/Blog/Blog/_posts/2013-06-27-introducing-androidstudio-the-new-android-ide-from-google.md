@@ -1,0 +1,14 @@
+---
+layout: "post"
+title: "Introducing AndroidStudio, the new Android IDE from Google"
+date: "2013-06-27 09:13:18"
+author: "Philippe Leefsma"
+categories:
+  - "Android"
+  - "Philippe Leefsma"
+original_url: "https://adndevblog.typepad.com/cloud_and_mobile/2013/06/introducing-androidstudio-the-new-android-ide-from-google.html "
+typepad_basename: "introducing-androidstudio-the-new-android-ide-from-google"
+typepad_status: "Publish"
+---
+
+<p>By <a href="http://adndevblog.typepad.com/cloud_and_mobile/philippe-leefsma.html">Philippe Leefsma</a></p>  <p>Google has launched its first development environment dedicated to its Mobile platform Android! </p>  <p>Version 0.1.x is there at the moment of this writing and good news it’s absolutely free :)</p>  <p><a href="http://developer.android.com/sdk/installing/studio.html">Getting Started with Android Studio</a></p>  <p>Here are some <a href="http://developer.android.com/sdk/installing/studio-tips.html">Tips &amp; trick you want to learn before playing with the IDE as well.</a></p>  <p>&#160;</p>  <p>If you are already familiar with Eclipse environment and developing Android Apps, then you should feel comfortable with Android Studio quite rapidly. Some cool things about it:</p>  <p>- It is powered by <a href="http://www.jetbrains.com/idea/">IteliJ IDEA</a> a pretty slick IDE from JetBrains</p>  <p>- You can export your existing Eclipse project, to be done directly via Eclipse with the Android Plug-in: see <a href="http://developer.android.com/sdk/installing/migrate.html">migrate from Eclipse</a></p>  <p>- It already has pretty much all you need to develop and test Android apps, including an emulator and even an x86 version of it, which is very handy to improve performances while testing your program</p>  <p>- It is running on Mac, Linux and Windows, so no excuses for not trying it!</p>  <p>&#160;</p>  <p>Here are couple of issues you may have while setting up your first project:</p>  <p><a href="http://stackoverflow.com/questions/16574189/android-studio-installation-on-windows-7-fails-no-jdk-found">Android Studio not starting after install and first run</a></p>  <p><a href="http://stackoverflow.com/questions/9712605/emulator-error-this-avds-configuration-is-missing-a-kernel-file">x86 Emulator not starting</a></p>  <p><a href="http://stackoverflow.com/questions/16659381/failed-to-import-new-gradle-project-could-not-fetch-model-of-type-ideaproject">Import of Eclipse project failed</a></p>  <p>&#160;</p>  <p><a href="http://adndevblog.typepad.com/.a/6a0167607c2431970b019103e43062970c-pi"><img title="Screen Shot 2013-06-27 at 6.11.10 PM" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="Screen Shot 2013-06-27 at 6.11.10 PM" src="/assets/image_14e3fb.jpg" width="469" height="358" /></a></p>

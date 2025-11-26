@@ -1,0 +1,30 @@
+comments:
+- author: Александр Усов
+  email: ''
+  ip: 5.79.215.231
+  url: http://profile.typepad.com/6p01b7c77b8f00970b
+  date: '2015-04-18 11:39:13'
+  body: "How I can Axes?\nI write \nvar axes = new THREE.AxisHelper(20);\nviewer.impl.scene.add(axes);\n\
+    And recieve the message:\n\"Only THREE.Mesh can be rendered by the Firefly renderer.\
+    \ Use THREE.Mesh to draw lines.\"\nIt work in three.js but not work with autodesk\
+    \ viewer, why?"
+- author: Xiaodong Liang
+  email: ''
+  ip: 132.188.71.9
+  url: http://profile.typepad.com/6p016764cbbcf9970b
+  date: '2015-05-23 08:57:01'
+  body: "Hi  Александр,\n\nViewer API might have not wrapped this object, while it\
+    \ looks like THREE.AxisHelper is just 3 lines… \n\nYou can take a look at our\
+    \ BoundingBox extension, it’s drawing lines, works in the viewer:\nhttp://viewer.autodesk.io/node/gallery/uploads/extensions/Autodesk.ADN.Viewing.Extension.BoundingBox.js\n\
+    \nsome code snippets:\n\n\n   var material = new THREE.LineBasicMaterial({\n \
+    \           color: 0xffff00,\n            //opacity: 1.0,\n            linewidth:\
+    \ 5\n        });\n \n        _viewer.impl.matman().addMaterial(\n            'ADN-Material-Line',\n\
+    \            material,\n            true);\n\n     function drawLines(coordsArray,\
+    \ material) {\n \n        for (var i = 0; i < coordsArray.length; i+=2) {\n \n\
+    \            var start = coordsArray[i];\n            var end = coordsArray[i+1];\n\
+    \ \n            var geometry = new THREE.Geometry();\n \n            geometry.vertices.push(new\
+    \ THREE.Vector3(\n                start.x, start.y, start.z));\n \n          \
+    \  geometry.vertices.push(new THREE.Vector3(\n                end.x, end.y, end.z));\n\
+    \ \n            geometry.computeLineDistances();\n \n            var line = new\
+    \ THREE.Line(geometry, material);\n \n            _viewer.impl.scene.add(line);\n\
+    \        }\n    }\n \n\n-----"

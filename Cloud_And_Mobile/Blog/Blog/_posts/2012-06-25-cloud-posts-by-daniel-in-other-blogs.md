@@ -1,0 +1,15 @@
+---
+layout: "post"
+title: "Cloud posts by Daniel in other blogs"
+date: "2012-06-25 00:13:40"
+author: "Daniel Du"
+categories:
+  - "Azure"
+  - "Cloud"
+  - "Daniel Du"
+original_url: "https://adndevblog.typepad.com/cloud_and_mobile/2012/06/cloud-posts-by-daniel-in-other-blogs.html "
+typepad_basename: "cloud-posts-by-daniel-in-other-blogs"
+typepad_status: "Publish"
+---
+
+<p>By <a href="http://adndevblog.typepad.com/cloud_and_mobile/daniel-du.html" target="_blank">Daniel Du</a></p>  <p>I posted a series of blogs in AutoCAD DevBlog about integrating Salesforce.com and AutoCAD WS, here is the index, in case you are interested.</p>  <p>Set up development environment and hello world <a href="http://adndevblog.typepad.com/autocad/2012/05/integration-of-salesforcecom-and-autocad-ws-part-1.html">http://adndevblog.typepad.com/autocad/2012/05/integration-of-salesforcecom-and-autocad-ws-part-1.html</a></p>  <p>Eclipse based force.com IDE introduction <a href="http://adndevblog.typepad.com/autocad/2012/05/integration-of-salesforcecom-and-autocad-ws-part-2.html">http://adndevblog.typepad.com/autocad/2012/05/integration-of-salesforcecom-and-autocad-ws-part-2.html</a> </p>  <p>List attachments of case <a href="http://adndevblog.typepad.com/autocad/2012/05/integration-of-salesforcecom-and-autocad-ws-part-3.html">http://adndevblog.typepad.com/autocad/2012/05/integration-of-salesforcecom-and-autocad-ws-part-3.html</a> </p>  <p>Pass parameters between visual force page and controller <a href="http://adndevblog.typepad.com/autocad/2012/05/integration-of-salesforcecom-and-autocad-ws-part-4.html">http://adndevblog.typepad.com/autocad/2012/05/integration-of-salesforcecom-and-autocad-ws-part-4.html</a> </p>  <p>How to debug <a href="http://adndevblog.typepad.com/autocad/2012/05/integration-of-salesforcecom-and-autocad-ws-part-5.html">http://adndevblog.typepad.com/autocad/2012/05/integration-of-salesforcecom-and-autocad-ws-part-5.html</a> </p>  <p>Transfer attachment to AutoCAD WS storage <a href="http://adndevblog.typepad.com/autocad/2012/05/integration-of-salesforcecom-and-autocad-ws-part-6.html">http://adndevblog.typepad.com/autocad/2012/05/integration-of-salesforcecom-and-autocad-ws-part-6.html</a> </p>  <p>Open DWG in AutoCAD WS online editor <a href="http://adndevblog.typepad.com/autocad/2012/05/integration-of-salesforcecom-and-autocad-ws-part-7.html">http://adndevblog.typepad.com/autocad/2012/05/integration-of-salesforcecom-and-autocad-ws-part-7.html</a> </p>  <p>Apply the VF page to case layout <a href="http://adndevblog.typepad.com/autocad/2012/05/integration-of-salesforcecom-and-autocad-ws-part-8.html">http://adndevblog.typepad.com/autocad/2012/05/integration-of-salesforcecom-and-autocad-ws-part-8.html</a> </p>  <p>&#160; </p>  <p>And here is another post about Windows Azure and AutoCAD: <a href="http://adndevblog.typepad.com/autocad/2012/05/transfer-objects-to-autocad-through-windows-azure-queue-storage.html">Transfer Objects to AutoCAD through Windows Azure Queue Storage</a></p>

@@ -1,0 +1,96 @@
+comments:
+- author: Afshin Jafari
+  email: ''
+  ip: 180.148.69.42
+  url: http://profile.typepad.com/6p01b7c856854e970b
+  date: '2016-06-08 20:52:57'
+  body: 'Hi,
+
+    I''ve got the whole library and tried webpack.
+
+    at first I received a ''typescript'' related error, after excluding typescript
+    from the config file webpack ran successfully and generated .min files.
+
+    I copied the "Viewing.Extension.Markup3D.min.js" to my extension folders and tried
+    loading it but I receive this error:
+
+
+    "Viewing.Extension.Markup3D.min.js:4 Uncaught ReferenceError: regeneratorRuntime
+    is not defined"
+
+
+    Can you please help where to start to fix the issue?
+
+    regards,'
+- author: Philippe Leefsma
+  email: ''
+  ip: 85.3.236.24
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2016-06-09 01:06:05'
+  body: 'No worries, you need to include babel-polyfill script or package (depending
+    if you are using webpack in your app) before any babel transpiled code:
+
+    https://babeljs.io/docs/usage/polyfill/
+
+
+    Regards,
+
+    Philippe.'
+- author: Afshin Jafari
+  email: ''
+  ip: 180.148.69.42
+  url: http://profile.typepad.com/6p01b7c856854e970b
+  date: '2016-06-09 14:32:41'
+  body: "Thanks Philippe, \nYes I thought that would be the case and tried (sorry\
+    \ I had to mention in my comment). so I installed polyfill (npm install --save-dev\
+    \ babel-polyfill) and added \"import \"babel-polyfill\";\" on top of the \"Viewing.Extension.Markup3D.js\"\
+    \ then ran the webpack. although it made the generated min file bigger but still\
+    \ I receive the same error.\nRegards\nAfshin"
+- author: Philippe Leefsma
+  email: ''
+  ip: 85.3.236.24
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2016-06-09 16:12:25'
+  body: 'You have to add the polyfill on top of your app, not on top of Viewing.Extension.Markup3D.js
+    or any other files from my library.
+
+
+    This error is definitely caused by an improper loading of the polyfill. It has
+    to be loaded before any other script with has been transpiled.'
+- author: Afshin Jafari
+  email: ''
+  ip: 180.148.69.42
+  url: http://profile.typepad.com/6p01b7c856854e970b
+  date: '2016-06-09 16:18:46'
+  body: 'ah.. thanks, so moved it to the top and that error disappeared. now I see
+    this:
+
+    Uncaught TypeError: Cannot read property ''registerTool'' of undefined
+
+
+    any suggestions?
+
+    Regards,
+
+    Afshin'
+- author: Philippe Leefsma
+  email: ''
+  ip: 85.3.236.24
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2016-06-10 01:03:39'
+  body: "That's thrown by the line in Markup3DExtension.contructor:\n\n this._viewer.toolController.registerTool(\n\
+    \      this.markup3DTool)\n\nTry loading the extension in GEOMETRY_LOADED_EVENT\
+    \ ..."
+- author: Bon_juillet
+  email: ''
+  ip: 119.76.14.181
+  url: https://profile.typepad.com/bonjuillet
+  date: '2020-04-12 06:23:11'
+  body: 'Hi, Philippe Leefsma,
+
+    I don''t know where to directly contact you. I read your content in https://stackoverflow.com/questions/46190805/autodesk-forge-markup-extension-error-create-switch-button-error#new-answer.
+    I Would like to see your Markup UI sample but the provided link is dead. Could
+    you please provide the active link. Your help will be highly appreciated. Thank
+    you.
+
+    -----'

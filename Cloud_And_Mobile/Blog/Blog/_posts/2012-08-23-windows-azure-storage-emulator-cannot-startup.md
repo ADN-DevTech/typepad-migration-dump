@@ -1,0 +1,15 @@
+---
+layout: "post"
+title: "Windows Azure Storage Emulator Cannot Startup"
+date: "2012-08-23 03:39:52"
+author: "Daniel Du"
+categories:
+  - "Azure"
+  - "Cloud"
+  - "Daniel Du"
+original_url: "https://adndevblog.typepad.com/cloud_and_mobile/2012/08/windows-azure-storage-emulator-cannot-startup.html "
+typepad_basename: "windows-azure-storage-emulator-cannot-startup"
+typepad_status: "Publish"
+---
+
+<p>By <a href="http://adndevblog.typepad.com/cloud_and_mobile/daniel-du.html">Daniel Du</a></p>  <p>When I work on my Windows Azure Blob storage sample, I found that my Windows Azure Storage Emulator just does not start up. I try to start it and get an error message as below:</p>  <blockquote>   <h5>&quot;Process cannot access the file because it is being used by another process&quot;</h5> </blockquote>  <p><a href="http://adndevblog.typepad.com/.a/6a0167607c2431970b0177444b6884970d-pi"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="image" border="0" alt="image" src="/assets/image_b1311d.jpg" width="425" height="202" /></a></p>  <p>After some searching, it seems that it is due to port confliction, the 1000 port which is used by Azure Blog Storage is occupied by other applications. NETSTAT command can help to find out this process, run following command:</p>  <p>C:\Users\duda&gt;netstat -p tcp -ano | findstr :10000    <br />&#160; TCP&#160;&#160;&#160; 127.0.0.1:10000&#160;&#160;&#160;&#160;&#160;&#160;&#160; 0.0.0.0:0&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; LISTENING&#160;&#160;&#160;&#160;&#160;&#160; 6256</p>  <p>Judging from the result, process with ID 6256 is listening to port 1000. Using follow command, I can find the process name from process id:</p>  <p>C:\Users\duda&gt;tasklist /fi &quot;pid eq 6256&quot;</p>  <p>Image Name&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; PID Session Name&#160;&#160;&#160;&#160;&#160;&#160;&#160; Session#&#160;&#160;&#160; Mem Usage    <br />========================= ======== ================ =========== ============     <br />emagent.exe&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 6256 Services&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 0&#160;&#160;&#160;&#160; 40,956 K</p>  <p>&#160;</p>  <p><a href="http://adndevblog.typepad.com/.a/6a0167607c2431970b01761764f6c5970c-pi"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="image" border="0" alt="image" src="/assets/image_f0b4e6.jpg" width="421" height="133" /></a></p>  <p>The process name is &quot;emagent.exe&quot;, now I can go to Windows Task Manager and close this process. My Azure blog storage emulator works again. :) </p>

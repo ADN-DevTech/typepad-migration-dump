@@ -1,0 +1,36 @@
+comments:
+- author: Ken
+  email: ''
+  ip: 209.6.203.102
+  url: http://profile.typepad.com/6p01bb08f0442c970d
+  date: '2016-04-28 09:32:38'
+  body: 'calling var instanceTree = model.getData().instanceTree;
+
+    returns instanceTree as undefined.  strange?
+
+    (is there any better documentation than https://developer.autodesk.com/api/viewerapi/?
+    I''m struggling to find it useful... like what is returned by getData()?  all
+    the source says is return this.myData which seems like it could be anything.  Is
+    it defined somewhere?)'
+- author: Ken
+  email: ''
+  ip: 209.6.203.102
+  url: http://profile.typepad.com/6p01bb08f0442c970d
+  date: '2016-04-28 09:38:51'
+  body: Maybe this is because the file is a DWFx When I select things in the viewer
+    I get a lot of information about them but when I look at the model browser, it
+    appears empty.
+- author: Philippe Leefsma
+  email: ''
+  ip: 42.98.45.181
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2016-04-28 17:20:02'
+  body: "Most likely you are not waiting for the following events to fire when you\
+    \ load your model so the instanceTree has not been loaded yet:\nAutodesk.Viewing.GEOMETRY_LOADED_EVENT\n\
+    Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT\n\nTake a look at this post:\nhttp://adndevblog.typepad.com/cloud_and_mobile/2015/08/asynchronous-viewer-events-notification.html\n\
+    \nThere is no better documentation, I think that blog and the forum should address\
+    \ most of the topics. You can also post your questions on the forum if you are\
+    \ stuck, we will address them: http://forums.autodesk.com/t5/cloud-services/ct-p/94\n\
+    \nYou can simply do console.log(model.getData()) to see what is returned by this\
+    \ method and ultimately looking at the source code: https://autodeskviewer.com/viewers/2.5/viewer3D.js\n\
+    \ \n-----"
