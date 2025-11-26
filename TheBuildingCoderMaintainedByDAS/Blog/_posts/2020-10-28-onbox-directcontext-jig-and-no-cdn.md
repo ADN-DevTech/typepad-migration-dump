@@ -1,0 +1,206 @@
+---
+layout: "post"
+title: "Onbox, DirectContext Jig and No CDN"
+date: "2020-10-28 06:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "BIM"
+  - "Cloud"
+  - "Docs"
+  - "JavaScript"
+  - "SDK Samples"
+  - "User Interface"
+original_url: "https://thebuildingcoder.typepad.com/blog/2020/10/onbox-directcontext-jig-and-no-cdn.html "
+typepad_basename: "onbox-directcontext-jig-and-no-cdn"
+typepad_status: "Publish"
+---
+
+<p>Today is rainy, grey and dreary... autumn is here for real. 
+Here are some autumnal topics for this week to cheer us all up:</p>
+
+<ul>
+<li><a href="#2">The Onbox cross-platform Revit API framework</a></li>
+<li><a href="#3">DirectContext rectangle jig</a></li>
+<li><a href="#4">Creating reports from AutoCAD and Revit</a></li>
+<li><a href="#5">RevitApiDocs statistics</a></li>
+<li><a href="#6">Stop using JavaScript CDN</a></li>
+</ul>
+
+<h4><a name="2"></a> The Onbox Cross-Platform Revit API Framework</h4>
+
+<p>Thiago Almeida of <a href="https://blackbirdindustries.com.au">Blackbird Industries</a> shares some exciting news in 
+his <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+<a href="https://forums.autodesk.com/t5/revit-api-forum/introducing-a-revit-api-framework/m-p/9816804">introducing a Revit API framework</a>, saying:</p>
+
+<p>I have been programming Revit API for at least 8 years now and always tried to find ways to make my work easier.
+I have always wanted to have data-rich apps that communicate with the cloud.
+With the introduction of Autodesk Forge a few years back, I had the need to share even more code between various projects and assemblies.</p>
+
+<p>Today, I'm thrilled to introduce the <a href="https://github.com/engthiago/Onboxframework">Onbox Framework</a>,
+a free and open-source (MIT) to help us build cross-platform Revit Apps in a similar fashion
+to <a href="https://angular.io">Angular</a> and <a href="https://dotnet.microsoft.com/learn/aspnet/what-is-aspnet-core">ASP.Net Core</a>.
+It is designed to make it easier to create a jump between these environments without workflow disruptions.
+It introduces several features out-of-the-box, like dependency injection (IOC Container), state management, asynchronous Revit calls, a component-based MVC library made on top of WPF, and much more!</p>
+
+<p>Here is the reference of the libraries that compose the framework and their NuGet packages, notice that most of the libraries are targeting .Net Standard to be used both on .Net Framework and .Net Core:</p>
+
+<ul>
+<li>Onbox.Abstractions &ndash; Interfaces of all generic usage on the framework</li>
+<li>Onbox.Core &ndash; Core implementations for all generic services</li>
+<li>Onbox.Di &ndash; IOC container system</li>
+<li>Onbox.Mvc.Abstractions &ndash; Interfaces for interacting with Views</li>
+<li>Onbox.Mvc &ndash; Implementation of WPF MVC Views and Components</li>
+<li>Onbox.Mvc.Revit.Abstractions &ndash; Interfaces for interacting with Revit and Views</li>
+<li>Onbox.Mvc.Revit &ndash; Implementation of WPF MVC specific to Revit</li>
+<li>Onbox.Revit.Abstractions &ndash; Interfaces for interacting with Revit</li>
+<li>Onbox.Revit &ndash; Revit External Applications and Commands</li>
+<li>Onbox.Store &ndash; State management for Revit MVC / WPF</li>
+</ul>
+
+<p>We have built parts of several applications using some of these libraries.
+Our current working project, <a href="https://construction.autodesk.com/integrations/shedmate">Shedmate app</a>, is the one that relies on it the most.
+I would say parts of it because only some libraries existed when we started coding the app.
+Shedmate is a web-based 3d configurator that needs to process the same data models in different places: Revit, our ASPNet Cloud server, and our front end Angular app.
+The cool thing here is that we can share services between the Revit and ASP and even run a script to generate our data models in typescript for Angular!</p>
+
+<p><u><b>Simplicity:</b></u>
+None of the features that Onbox provides out of the box are really trying to be the best ones in the industry. The framework is made with simplicity in mind, we tried to simplify the implementations as much as we could, even when we wanted to provide more functionality, we tried to make it easy to consume simpler versions of the APIs.</p>
+
+<p><u><b>Modularity:</b></u>
+The framework aims for modularity, so the idea here is that you can introduce new functionality by yourself. Our libraries, e.g. Container, Mapper, State Management, Async are tiny and are not trying to solve every single problem or implement every single feature, also they can always be replaced by more mature ones out there.</p>
+
+<p><u><b>Flexible:</b></u>
+The framework also aims to be flexible, if you have an existing Revit plugin and want to give Onbox a try, you would just swap the implementation for your external application and then for the external command implementations you want the container to be injected on. You are good to go!</p>
+
+<p><u><b>Testability:</b></u>
+With the loosely coupled architecture that the framework helps you to build, you can then use any unit testing frameworks
+like <a href="https://github.com/DynamoDS/RevitTestFramework">Dynamo's Revit Tester Framework</a>
+or <a href="https://github.com/geberit/Revit.TestRunner">Geberit's Revit Test Runner</a>.
+We are even using Design Automation on Forge to unit test our Revit Apps.
+That way, everything can be integrated into a CI/CD pipeline.</p>
+
+<p><u><b>Documentation:</b></u>
+Documentation is in its early stages, (yeah I know.. documentation is important).
+We have a simple Getting Started Guide here and the complete API documentation here.
+The written tutorials explaining the main concepts are still of the libraries are still in the works, and we will be doing constant updates on it from now on (now that AU recordings are finally over).</p>
+
+<p><u><b>Usage and Collaboration:</b></u>
+Everyone is welcome to use it and collaborate!
+Being MIT licensed, you can take any parts of the framework and modify it to your usage, this is simple, because the libraries are tiny.
+The same thing for eventual bugs, you can step in and fix them yourself or log an issue on GitHub.
+We would appreciate any code pull requests, contributions to the documentation, and publications you make for it.
+The idea is to have a mature Framework so everyone can collect the benefits.</p>
+
+<p><u><b>AU 2020:</b></u>
+I'm teaching two classes on AU this year.
+One is an industry talk (Lessons Learned in Three Years of Forge Dev &ndash; SD468705) that talks about our 3 years of Experience using Forge, the issues and problems we faced, and some tips and tricks for you do not waste so much time as we did try to solve them.
+During the class we explain the benefits of using a loosely coupled architecture for building Revit applications.
+The other one is a lab (The Cross-Platform Revit &ndash; SD468797-L).
+This one goes through an overview process of building multi-platform Revit apps, we show how to share base code for Revit plugins, Dynamo (Zero touch) nodes, and Design Automation for Revit, and we use the framework do help us to do so.
+If you are interested in the framework, please attend these classes next month on AU.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833026be41e746f200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833026be41e746f200d image-full img-responsive" alt="Onbox framework" title="Onbox framework" src="/assets/image_d359f8.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Many thanks to Thiago for sharing and documenting this powerful framework!</p>
+
+<h4><a name="3"></a> DirectContext Rectangle Jig</h4>
+
+<p>The <a href="https://thebuildingcoder.typepad.com/blog/2017/05/revit-2017-and-2018-sdk-samples.html#4.2">DuplicateGraphics SDK sample</a> demonstrates
+basic usage of
+the <a href="https://www.revitapidocs.com/2020/7709521d-9954-ef80-1f13-3bc6ee660d5d.htm"><code>IDirectContext3DServer</code> interface</a> for
+displaying arbitrary 3D graphics in Revit <a href="https://thebuildingcoder.typepad.com/blog/2017/04/whats-new-in-the-revit-2018-api.html#3.26">introduced in Revit 2018</a>, also discussed in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on how to <a href="https://forums.autodesk.com/t5/revit-api-forum/draw-render-over-the-activeview/m-p/7074503">draw or render over the active view</a>.</p>
+
+<p>So far, I have not seen any other examples making use of this, so I was very glad to see Kailas Dhage's sample to
+implement a plan view rectangle input jig in
+his recent <a href="https://thebuildingcoder.typepad.com/blog/2012/06/uiview-and-windows-device-coordinates.html#comment-5115824205">comment</a>, saying:</p>
+
+<p>I am working with a feature in which user would like to pick two corner points of rectangle and would like to see jig of rectangle while picking points. 
+It works correctly in structural plan views like Level 1 and Level 2, but does not work correctly in a 3D view.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833026bde9f8d54200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833026bde9f8d54200c image-full img-responsive" alt="Jig" title="Jig" src="/assets/image_474639.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Can you please suggest changes to the following function, so that it returns correct mouse position in Revit model coordinates in a 3D view?</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;GetMousePoint()
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;view&nbsp;=&nbsp;<span style="color:blue;">this</span>.HostApplication.ActiveUIDocument.ActiveView;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;uiView&nbsp;=&nbsp;GetActiveUiView(&nbsp;<span style="color:blue;">this</span>.HostApplication.ActiveUIDocument&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;corners&nbsp;=&nbsp;uiView.GetZoomCorners();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;rect&nbsp;=&nbsp;uiView.GetWindowRectangle();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;p&nbsp;=&nbsp;Cursor.Position;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;dx&nbsp;=&nbsp;(<span style="color:blue;">double</span>)&nbsp;(p.X&nbsp;-&nbsp;rect.Left)&nbsp;/&nbsp;(rect.Right&nbsp;-&nbsp;rect.Left);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;dy&nbsp;=&nbsp;(<span style="color:blue;">double</span>)&nbsp;(p.Y&nbsp;-&nbsp;rect.Bottom)&nbsp;/&nbsp;(rect.Top&nbsp;-&nbsp;rect.Bottom);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;a&nbsp;=&nbsp;corners[&nbsp;0&nbsp;];
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;b&nbsp;=&nbsp;corners[&nbsp;1&nbsp;];
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;v&nbsp;=&nbsp;b&nbsp;-&nbsp;a;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;q&nbsp;=&nbsp;a
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;dx&nbsp;*&nbsp;v.X&nbsp;*&nbsp;<span style="color:#2b91af;">XYZ</span>.BasisX
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;dy&nbsp;*&nbsp;v.Y&nbsp;*&nbsp;<span style="color:#2b91af;">XYZ</span>.BasisY;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;q;
+&nbsp;&nbsp;}
+</pre>
+
+<p><strong>Answer:</strong>
+To handle the 3D view projection, you will have to apply the appropriate 3D view orientation transform to the mouse input coordinates.
+That is not completely trivial...</p>
+
+<p>In any case, here is <a href="https://thebuildingcoder.typepad.com/files/kd_revitjigsample.zip">RevitJigSample.zip</a> with the 2D sample code for your reference. </p>
+
+<p>The code is based on the <code>IDirectContext3DServer</code>, in which we push graphics to the Revit graphics pipeline and remove when done.</p>
+
+<p>Many thanks to Kailas for sharing this useful demo!</p>
+
+<h4><a name="4"></a> Creating Reports from AutoCAD and Revit</h4>
+
+<p>Quick end user oriented Q &amp; A on AEC reports and dashboards:</p>
+
+<p><strong>Question:</strong> I am searching a product to create reports and insights from data generated by AutoCAD and Revit to bridge between construction engineering and business divisions. Where can I look?</p>
+
+<p><strong>Answer:</strong> <a href="http://construction.autodesk.com">Construction.Autodesk.com</a> has information about the entire Autodesk portfolio of products for the construction space.
+Specifically, you can take a look at <a href="http://assemblesystems.com">Assemblesystems.com</a>.
+Assemble is capable of aggregating data from AutoCAD, Revit and Navisworks.
+After that, you can use Power BI integration to create a Dashboard to share results with stakeholders.</p>
+
+<h4><a name="5"></a> RevitApiDocs Statistics</h4>
+
+<p>Gui Talarico has put in a lot of work in recent years providing and maintaining the Revit API documentation online:</p>
+
+<!-- 1484 1586 1747 1779 -->
+
+<ul>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2016/08/online-revit-api-docs-and-convex-hull.html#2">Online Revit API Documentation</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2016/10/token-expiry-and-online-revit-api-docs.html#2">Updated Online Revit API Docs</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/09/revit-201811-fixes-cropbox-setting.html#5">Revit 2018.1 API Documentation Online</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2019/05/ai-boundaries-loops-and-revitapidocs-2020.html#2">RevitApiDocs Updated with the Revit 2020 API</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2019/09/pyrevit-relocation-and-apidocs-code-sample-collection.html">RevitApiDocs versus ApiDocs</a></li>
+</ul>
+
+<p>I just asked him about support for the Revit 2021 API and future releases, and it seems like Gui is happy to help with that.</p>
+
+<p>In the process, he shared some usage statistics from the <a href="https://www.revitapidocs.com">revitapidocs web site</a> that may be of interest to others as well:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e9723411200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e9723411200b image-full img-responsive" alt="RevitApiDocs statistics" title="RevitApiDocs statistics" src="/assets/image_4527a2.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Many thanks to Gui for all his work providing us with these invaluable online API docs!</p>
+
+<h4><a name="6"></a> Stop Using JavaScript CDN</h4>
+
+<p><a href="https://edent.tel">Terence Eden</a> presents some very valid reasons against using
+a third party <a href="https://en.wikipedia.org/wiki/Content_delivery_network">Content Delivery Network</a> in
+his encouragement
+to <a href="https://shkspr.mobi/blog/2020/10/please-stop-using-cdns-for-external-javascript-libraries">please stop using CDNs for external JavaScript libraries</a>.</p>

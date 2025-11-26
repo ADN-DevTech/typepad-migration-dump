@@ -1,0 +1,258 @@
+comments:
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2012-06-21 05:34:01'
+  body: 'Hi Jeremy, hi Victor,
+
+
+    after reading the command IDs, I assume they can be used with UI Automation.
+
+    For example,
+
+    ID_ANNOTATIONS_DIMENSION_ALIGNED
+
+    can be found in the status bar text in this screen shot:
+
+    <a href="http://thebuildingcoder.typepad.com/.a/6a00e553e1689788330147e270f039970b-popup">http://thebuildingcoder.typepad.com/.a/6a00e553e1689788330147e270f039970b-popup</a>
+
+
+    So after *knowing* all command IDs, we could also *invoke* all commands:
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/01/ribbon-spying-and-ui-automation.html">http://thebuildingcoder.typepad.com/blog/2011/01/ribbon-spying-and-ui-automation.html</a>
+
+
+    Cheers,
+
+    Rudi'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2012-06-21 06:18:26'
+  body: 'Hi Jeremy,
+
+
+    I really doubt if overwriting existing functions should be done at all.
+
+
+    There are cases in which a plugin can affect the behaviour of the whole application,
+    e.g. when using RegisterFailuresProcessor().
+
+    In the worst case, it may be that one of your installed plugins suppresses all
+    warnings and errors, avoiding you from performing the needed error solution even
+    manually.
+
+
+    When overwriting existing functions, it may be that the user doesn''t even know
+    that he uses a replacement function, depending on the documentation you shipped
+    with your plugin.
+
+
+
+    Cheers,
+
+    Rudolf'
+- author: Phillip Miller
+  email: phillip@kiwicodes.com
+  ip: 115.189.70.1
+  url: ''
+  date: '2012-06-21 16:16:16'
+  body: You can also get a listing of all the Command_Ids from the keyboardshortcuts.xml
+    file ")
+- author: Victor Chekalin
+  email: ''
+  ip: 91.221.195.202
+  url: http://profile.typepad.com/chekalin
+  date: '2012-06-21 23:12:22'
+  body: 'Hi, Rudolf.
+
+    I haven''t seen this post before. Thanks for link. I think that information should
+    useful for me.
+
+    Regards, Victor.'
+- author: Victor Chekalin
+  email: ''
+  ip: 91.221.195.202
+  url: http://profile.typepad.com/chekalin
+  date: '2012-06-21 23:13:38'
+  body: 'Hello, Phillip.
+
+    Where can I get the keyboardshortcuts.xml file? I cann''t find it anywhere.'
+- author: Phillip Miller
+  email: phillip@kiwicodes.com
+  ip: 115.189.71.199
+  url: ''
+  date: '2012-06-22 02:37:50'
+  body: 'Hi Victor.
+
+
+    First you need to activate the keyboards shortcuts through the Revit UI by going
+    to ribbon -> View -> User Interface -> keyboard shortcuts.
+
+
+    Add a shortcut and that will create the shortcuts file.  I hope that helps.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.182.216
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-06-28 03:08:53'
+  body: 'Dear Rudi,
+
+
+    Yes, very reasonable doubts indeed. Please take heed.
+
+
+    Cheers, Jeremy.'
+- author: Dan Tartaglia
+  email: dtartaglia@nbbj.com
+  ip: 74.202.85.246
+  url: ''
+  date: '2012-06-28 09:41:14'
+  body: 'Hi Jeremy,
+
+
+    Is invoking a command in this manner a recommended approach?
+
+
+    Thanks,
+
+    Dan'
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-06-28 09:55:20'
+  body: "Dear Dan, \n\nThere is currently no recommended approach to invoke a command.\
+    \ The Revit API does not support it at all. All you can do at the moment is replace\
+    \ a built-in Revit command with your own implementation. Everything else is unsupported\
+    \ and not recommended.\n\nCheers, Jeremy."
+- author: sangsen
+  email: sangsen123@gmail.com
+  ip: 124.124.54.130
+  url: ''
+  date: '2012-07-17 03:02:28'
+  body: "Hi..Jeremy..\n\n          I am creating commandBinding() for revit \"CreateSimilar\"\
+    \ functionality. But I am not able to get orginal behaviour of \"Create Similar\"\
+    \  after removing Executed event from the document. How can i acheive this?\n\n\
+    Thanks"
+- author: Martin Taurer
+  email: taurerm@gmail.com
+  ip: 83.86.7.250
+  url: http://www.livingroomcraftz.com
+  date: '2012-08-04 10:14:05'
+  body: You realize that the Excel sheet also exposes all internal Debugging commands?
+    That is actually very handy.
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-08-15 06:37:10'
+  body: 'Dear Martin,
+
+
+    Thank you for pointing this out. Nope, I did not realise that.
+
+
+    Why do you find them handy, please? What do you use them for?
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-08-15 07:37:14'
+  body: 'Dear Sangsen,
+
+
+    Have you tried using UIApplication.RemoveAddInCommandBinding?
+
+
+    Cheers, Jeremy.'
+- author: Mark
+  email: makismagoo99@gmail.com
+  ip: 173.167.243.53
+  url: ''
+  date: '2012-08-23 12:38:34'
+  body: "On a semi-related note, I'm trying to identify the commands associated with\
+    \ Detail Lines for creating custom keyboard shortcuts. Modifying the commands\
+    \ for Contextual Tabs>Draw works for Filled Regions, Floors, etc. but does not\
+    \ seem to work for Detail Lines.  Any idea where else to look?  \n\nIs there any\
+    \ way to get the command id associated with a particular button?"
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.8
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-08-23 12:44:38'
+  body: 'Dear Mark,
+
+
+    I would have expected them to be in there.
+
+
+    If not, have you looked in the journal file?
+
+
+    Cheers, Jeremy.'
+- author: Michael
+  email: stealthnyc@gmail.com
+  ip: 69.86.11.155
+  url: ''
+  date: '2013-08-24 17:58:53'
+  body: Doesn't seem to have "Edit Family" either which I really need.
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.217.14
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-08-26 09:20:06'
+  body: 'Dear Michael,
+
+
+    I guess they thought that you can do more with the EditFamily API method, and
+    using OpenAndActivateDocument to navigate.
+
+
+    Or there were other internal reasons for not exposing such a complicated command  :-)
+
+
+    Cheers, Jeremy.'
+- author: Drew
+  email: drew.jarvis@cansel.ca
+  ip: 174.1.253.59
+  url: ''
+  date: '2014-09-04 18:40:39'
+  body: 'What if you were looking to have a warning dialog and then proceed with the
+    originally requested command.
+
+
+    So you could use the commandBinding then run a eventhandler to show the dialog,
+    could you then have the original command run after the user clicks OK on the warning
+    box?
+
+
+    or is that a different process than commandbinding? Is there a process to catch
+    when standard Revit commands are run and do things alongside the command?'
+- author: Drew
+  email: drew.jarvis@cansel.ca
+  ip: 174.1.253.59
+  url: ''
+  date: '2014-09-04 23:16:01'
+  body: 'found it:
+
+
+    AddInCommandBinding.BeforeExecuted Event'
+- author: DJ
+  email: drewj4rvis@yahoo.ca
+  ip: 174.1.253.59
+  url: ''
+  date: '2014-11-07 19:52:08'
+  body: 'Cheeky question, but is there an updated list of internal commands for 2015?
+    I am not sure what assembly reference I need for the InternalCommandDef so I haven''t
+    managed to get it working to try to get the data myself.
+
+    -----'

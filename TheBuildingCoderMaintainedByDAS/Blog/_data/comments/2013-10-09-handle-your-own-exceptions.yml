@@ -1,0 +1,132 @@
+comments:
+- author: Olli K.
+  email: olli.kattelus@progman.fi
+  ip: 194.100.75.130
+  url: ''
+  date: '2013-10-11 02:11:16'
+  body: 'Hi Jeremy
+
+
+    Just an addition to this subject and things you mentioned.
+
+
+    It''s also very easy to produce Revit crash using WPF. There we have things called
+    "commands" that you are able to bind to your code. The command manager of the
+    WPF framework uses interface (ICommand) where it first asks "can the command be
+    executed" and after that the actual call to command code is invoked if allowed.
+
+
+    Now the problem is that although WPF window is closed (ie. related Revit API command
+    is ended) the command manager still might keep asking "can I execute the command".
+    If this happens and the function that tries to answer this question contains Revit
+    API stuff, it might lead to exception due to deprecated API objects. This in turns
+    leads to Revit crash because (as explained in your post) Revit is not expecting
+    the exception and thus leaves it unhandled.
+
+
+    Currently I haven''t figured out any better solution than keeping internal state
+    of my app and prevent code to proceede any further if it should not.
+
+
+    Not sure whether you have ever faced this issue earlier but if you are developing
+    using WPF, I think this must be taken into account.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.192.55
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-10-14 08:11:12'
+  body: "Dear Olli,\n\nCool and tricky. \n\nThank you for the warning.\n\nCheers,\
+    \ Jeremy."
+- author: Arnošt Löbel
+  email: arnost.lobel@autodesk.com
+  ip: 132.188.64.218
+  url: http://autodesk.com
+  date: '2013-10-24 14:58:12'
+  body: 'A great summary, Jeremy. Things are a bit more complicated, of course. I
+    believe that a programmer firmly determined to crash Revit can do so even when
+    not using any of the illegal punches (like modifying a model from outside of the
+    main thread, etc.) Even within a regular and valid API context, a really, really
+    bad application can bring Revit to its knees. I know I can. :-)
+
+    The reason is two-fold:
+
+
+    a) Revit programmers are only humans too, not matter how gifted :-)
+
+    b) Revit gives external programmers a lot of hooks into its internals.
+
+
+    Think about it: Via the API, the programmers have access to (just to name a view):
+
+    1. Regeneration, via the Dynamic Updaters Framework
+
+    2. Transactions, via transaction finalize
+
+    3. Error handling, via failure processors and pre-processors
+
+    4. Important events, via the API event framework
+
+    5. Some deep-inside processes via the External Services Framework
+
+    6. To the command pipe-line, via the PostCommand methods
+
+
+    If a programmer connects into all the above hooks and carelessly does let escape
+    some nasty exceptions when handling the action, it is very possible that in some
+    situations Revit can indeed stop working. Of course, Revit programmers try to
+    do their best, but things can get really tricky sometimes when native and managed
+    code is mixed and unexpected (sometimes) garbage collecting kicks in.
+
+
+    The good news is, though, that with just a decent following API programming guidelines
+    it should be fairly uncommon to crash Revit from an External application. I believe
+    that exceptions do not always need get caught by the external programmer, although
+    he or she should always pay attention what exceptions Revit throws at him/her.
+    As overall rules, I say, as always:
+
+
+    1. Stay on the main thread
+
+    2. Use [using] when appropriate (especially for transactions and transaction groups,
+    but for all edit scopes as well)
+
+    3. Be careful not to cause exceptions when custom-processing failures or transaction
+    finalizers (Revit will probably recover, but there may be some data lost, depending
+    on the case).
+
+
+    Thank you
+
+    Arnošt'
+- author: Mike
+  email: stealthnyc@gmail.com
+  ip: 69.86.10.73
+  url: ''
+  date: '2013-11-17 12:28:10'
+  body: 'Jeremy,
+
+
+    I have a modeless form with a datagridview.  When I go into the cell to change
+    the text, if user presses Delete key to remove highlighted text, Revit starts
+    the Delete command or deletes any element selected in UI including views.  I tried
+    capturing KeyDown event but does not seem to work.  Any ideas?  Thanks so much.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.164.92
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-11-17 16:29:46'
+  body: 'Dear Mike,
+
+
+    That sounds very interesting, and also rather surprising, and rather strange.
+
+
+    Nope, no ideas, sorry.
+
+
+    Can you provide a simple minimal reliably reproducible case for this? Thanks!
+
+
+    Cheers, Jeremy.
+
+    -----'

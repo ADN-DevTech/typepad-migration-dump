@@ -1,0 +1,119 @@
+comments:
+- author: Mike Caraker
+  email: mikec@fgmarchitects.com
+  ip: 12.48.189.50
+  url: ''
+  date: '2011-01-28 12:37:28'
+  body: Has anyone taken this a step further to actually pull out information about
+    the drawing elements inside the Revit file?  Primarily I'd like to look for a
+    particular family inside a file and pull out a quanitity for use elsewhere.
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.158.180
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-01-28 12:46:18'
+  body: 'Dear Mike,
+
+
+    I do not believe that is possible. The accessible data only includes metadata
+    of the kind listed above, and all the model data is contained in one single large
+    stream the internal of which are not accessible.
+
+
+    You could do what you wish from within a Revit add-in, either analysing a file
+    opened by the user in the GUI or any other Revit file opened invisibly in the
+    background via the API.
+
+
+    Cheers, Jeremy.'
+- author: Martin Schmid
+  email: martin.schmid@autodesk.com
+  ip: 75.1.209.107
+  url: ''
+  date: '2011-07-15 17:12:53'
+  body: For 2012, it looks like a minor change needs to be made.  In BasicFileInfo.cs,
+    in ParseDetailInfo() the string "CENTRALFILEPATH" needs to be changed to "CENTRALMODELPATH".
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.156.248
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-07-17 07:13:29'
+  body: 'Dear Martin,
+
+
+    Wow, great, thank you for the important and useful info!
+
+
+    Do you have an updated version to share with us?
+
+
+    I could simply add it to the post above, or create a new post for the 2012 version,
+    if you think that is worthwhile...
+
+
+    Cheers, Jeremy.'
+- author: Jeff
+  email: jcampbell@burnsmcd.com
+  ip: 64.219.133.233
+  url: ''
+  date: '2013-05-30 16:46:23'
+  body: Has anyone looked at upgrading this for the 2013 and 2014 versions of Onebox?
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.216.200
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-06-13 06:14:14'
+  body: "Dear Jeff, \n\nNope, not that I am aware of. \n\nI would have expected it\
+    \ to be trivial. \n\nHave you tried running it on Revit 2014 files? \n\nDo you\
+    \ encounter any issues with that?\n\nCheers, Jeremy."
+- author: Jeff
+  email: jcampbell@burnsmcd.com
+  ip: 64.219.133.233
+  url: ''
+  date: '2013-07-02 12:34:09'
+  body: 'Jeremy,
+
+
+    Sorry for the late response but I got pulled off onto something else again.  I
+    have it opening the file, giving me the preview image and file name and that’s
+    were it stops.  I don’t get the build info, central file info, etc.  I made the
+    following changes and I am sure I am just missing something simple.
+
+
+    Added System.Xaml for the Markup.IUriContext since I am working with .NET 4.0
+
+
+    Added Revit to ProductType.cs (I may have this wrong)
+
+    Added the associated if line to BasicFileInfo.cs'
+- author: Jeff
+  email: jcampbell@burnsmcd.com
+  ip: 64.219.133.233
+  url: ''
+  date: '2013-07-02 13:54:57'
+  body: Also to note is that when I step through the app line by line I do see it
+    pull the unicodeData but when it starts to break it apart is were it appears to
+    be breaking down.
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-29 12:00:21'
+  body: 'Dear Jeff,
+
+
+    Now it is my turn to apologise for the delay in replying.
+
+
+    Congratulations on the progress.
+
+
+    Have you completed it yet, or are you still stuck somewhere?
+
+
+    I will gladly publish the updated version.
+
+
+    Cheers, Jeremy.
+
+    -----'

@@ -1,0 +1,40 @@
+comments:
+- author: Nick Kovach
+  email: ''
+  ip: 216.110.91.66
+  url: http://profile.typepad.com/nickkovach
+  date: '2011-11-22 10:06:58'
+  body: "Jeremy,\n\nI have the following code for a Revit add-in I am working on (for\
+    \ 2011 and 2012):\n\nElementId ep = new ElementId(BuiltInParameter.VIEWPORT_DETAIL_NUMBER);\n\
+    \                \nUpdaterRegistry.AddTrigger(updater.GetUpdaterId(), filter,\
+    \ Element.GetChangeTypeParameter(ep));\n\nIt seems to work just fine compiling\
+    \ with the 2011 API.  The only difference I can see between the code example you\
+    \ have is the \"updater.GetUpdaterId()\" vs. \"GetUpdaterId()\" in your code.\
+    \  \n\nI am just a novice of sorts, so I don't know if that really made the difference\
+    \ or if it was just a more updated version of the 2011 API?\n\nHope that helps.\
+    \  It was just fresh in my mind and I wanted to contribute my 2 cents.\n\n\nNick"
+- author: Nick Kovach
+  email: ''
+  ip: 216.110.91.66
+  url: http://profile.typepad.com/nickkovach
+  date: '2011-11-22 10:47:45'
+  body: Sorry, I didn't read far enough into your post (for the answer).. whoops!  I
+    appreciate the link to the version check (so I can make sure everyone is using
+    the updated version of 2011 for my add-in).
+- author: Tim Fells
+  email: timf@daroffdesign.com
+  ip: 72.4.236.146
+  url: ''
+  date: '2013-01-04 09:00:35'
+  body: 'Jeremy -
+
+    Your code registers an Updater to respond to a change in a built-in parameter,
+    whose ElementId is independent of the Document in which it exists. Since an Updater
+    is not associated with a particular Document when it is registered, and does not
+    know the Document until its Execute method is invoked, is there any way to get
+    an Updater to respond to a change in a custom parameter? GetChangeTypeAny() does
+    not appear to work with text parameters (per the documentation). Is it possible
+    to add a ChangeType to the Updater when a Document opens (ie. after the Updater
+    is already registered)?
+
+    -----'

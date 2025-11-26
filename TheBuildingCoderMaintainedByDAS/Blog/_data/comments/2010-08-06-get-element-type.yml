@@ -1,0 +1,216 @@
+comments:
+- author: nicholas.broadbent@hotmail.com
+  email: nicholas.broadbent@hotmail.com
+  ip: 114.76.81.228
+  url: ''
+  date: '2010-08-29 01:27:17'
+  body: 'Hi Jeremy
+
+    Great Web site, I have a question that I hope you can answer it is about Annotation
+    Familys or Tags.
+
+    I’m trying to find out what Category Parameters a Label is displaying?
+
+    I’m using C# and the API to open familys and can get the label object, I can even
+    get the “sample text” but not the name or names of the Parameters being displayed
+    by the Label in the family.
+
+    This is getting so frustrating I know I’m so close, could you help?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-08-30 08:50:48'
+  body: 'Dear Nicholas,
+
+
+    Thank you for your appreciation and glad you find it useful.
+
+
+    I checked with the development team about this, and unfortunately there is currently
+    no way to obtain this information. I filed a request for it for you.
+
+
+    Cheers, Jeremy.'
+- author: nicholas.broadbent@hotmail.com
+  email: nicholas.broadbent@hotmail.com
+  ip: 114.76.81.228
+  url: ''
+  date: '2010-09-02 09:14:11'
+  body: "Hi thank you so much for getting back to me so fast, you have saved me hours\
+    \ of frustration and it is not possible yet! \nGod if it was not for your blog\
+    \ I don’t think I would have attempted learning the Revit API.\n\nI need to be\
+    \ able find out what a Tag Family/Annotation Family is tagging? What does the\
+    \ label in the family Reference? Is there a way to do this?\nI can select  the\
+    \ Label using the API but the only information I can get on what it References\
+    \ is the Sample Text of the \"Category Parameters\".(Not very helpful as some\
+    \ times it is blank and I get nothing.)\nIs there a way to change the Sample text\
+    \ Values for each \"Category Parameters\" using the API?\nAs I could do this then\
+    \ check the Sample Text of the Label, this would be a way of getting what Category\
+    \ a Label is referencing.\nPlease let me know any help on this would be of Great\
+    \ Value to me \n\nThank you\nNick b"
+- author: Jeremy Tammik
+  email: ''
+  ip: 213.65.251.246
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-09-10 06:35:31'
+  body: "Dear Nick,\n\nAll I know about this is summarised in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/04/tag-association.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/04/tag-association.html</a>\n\n\
+    A more recent and generic overview is given in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/03/object-relationships.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/03/object-relationships.html</a>\n\
+    \nI hope that the approaches described there will help.\n\nIf you can use them,\
+    \ I would be interested in seeing your solution, and if you find an improved approach,\
+    \ I would be more interested still.\n\nCheers, Jeremy."
+- author: Nitin
+  email: ''
+  ip: 61.17.167.107
+  url: http://profile.typepad.com/nitinjambhale2008
+  date: '2011-05-30 02:11:02'
+  body: 'Dear Sir,
+
+    How can i automatically apply/select New Type from Loaded family in Type Properties?
+
+    Now whats happening is when i load a family, the type from family is coming below
+    loaded types in Type properties.
+
+
+    Thanks & Regards,
+
+    Nitin J.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-05-31 07:38:45'
+  body: 'Dear Nitin,
+
+
+    I''m sorry to say you cannot. There is currently no official way to set the current
+    type. A workaround for walls making use of the CS or Create Similar command was
+    presented here:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/11/launching-a-revit-command.html">http://thebuildingcoder.typepad.com/blog/2010/11/launching-a-revit-command.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: ''
+  date: '2011-11-28 02:27:06'
+  body: "Hello, Jeremy. \nIn your post you write how to get ElementType of Element.\
+    \ But I have opposite situation: I need get all elements belong to particular\
+    \ ElementType.\nSomething like this:\nElementType elementType = /* get element\
+    \ type */;\nList elements = elementType.GetElements();\n\nIs it possible to do\
+    \ it via API?\n\nThanks a lot, Victor."
+- author: Jeremy Tammik
+  email: ''
+  ip: 98.188.81.207
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-11-28 12:23:09'
+  body: "Dear Victor,\n\nSure that is possible. The main issue is how to optimise\
+    \ the filter to retrieve the desired elements. \n\nObviously, one filter that\
+    \ certainly can be applied is WhereElementIsNotElementType. In general, that will\
+    \ still return a huge number of elements. A rather simplistic approach would be\
+    \ to simply post-process the results of that by comparing the element id returned\
+    \ by the Element.GetTypeId method with the target element type id. \n\nI think\
+    \ that can be vastly improved, though: search for a parameter that is provided\
+    \ on all database elements which contains its element type id and use an element\
+    \ parameter filter.\n\nHere is my suggestion for an implementation:\n\n/// \n\
+    /// Return the all elements that \n/// use the given ElementType.\n/// \nstatic\
+    \ FilteredElementCollector \n  GetAllElementsUsingType(\n    Document doc,\n \
+    \   ElementType et )\n{\n  // built-in parameter storing the type element id:\n\
+    \n  BuiltInParameter bip\n    = BuiltInParameter.ELEM_TYPE_PARAM;\n\n  ParameterValueProvider\
+    \ provider\n    = new ParameterValueProvider(\n      new ElementId( bip ) );\n\
+    \n  FilterNumericRuleEvaluator evaluator\n    = new FilterNumericEquals();\n\n\
+    \  FilterRule rule = new FilterElementIdRule(\n    provider, evaluator, et.Id\
+    \ );\n\n  ElementParameterFilter filter\n    = new ElementParameterFilter( rule\
+    \ );\n\n  FilteredElementCollector collector\n    = new FilteredElementCollector(\
+    \ doc )\n      .WhereElementIsNotElementType()\n      .WherePasses( filter );\n\
+    \n  return collector;\n}\n\nPlease test this for me in your context and let me\
+    \ know whether it fulfills your needs, and I'll republish this as a proper blog\
+    \ post.\n\nThank you!\n\nBest regards from AU in Las Vegas  :-)\n\nCheers, Jeremy."
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: ''
+  date: '2011-11-28 22:43:34'
+  body: 'Hello, Jeremy! Thanks for your great answer!
+
+    I''ve tested your code in my context. Yes, it works fine. When I use this function
+    the first time it take little bit more time (about 1,5-2 seconds on big project)
+    but next execution works really fast.
+
+    I also thought about ElementIsElementTypeFilter and then compare GetTypeId() of
+    each element. But it works very slow (8 seconds). Your solution is better!
+
+
+    I always forget that many useful property of Revit element store in BuiltInParameters.
+    Although I didn''t know about ELEM_TYPE_PARAM.
+
+
+    Actually I need other task that I decided resolve with all elements of element
+    type. I need List of possible parameters of Instance belongs to ElementType. For
+    example, I have WallType and I need List of parameters (or parameter definitions)
+    that Wall contains (Length, Area, Stage etc.). May be it is possible but I didn''t
+    find way to achieve this and decided take first element of WallType and retrieve
+    parameters of this element. If you know other way - please let me know.
+
+
+    Thanks. Best Regards, Victor. Have a nice stay in Las Vegas ;)
+
+
+    P.S. I also want to go to Las Vegas :)'
+- author: Jeremy Tammik
+  email: ''
+  ip: 98.188.80.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-11-30 14:24:29'
+  body: 'Dear Victor,
+
+
+    Very glad to hear that it works!
+
+
+    I think that is the right way to go ... I can''t think of any other.
+
+
+    I wish you were here!
+
+
+    Cheers, Jeremy.'
+- author: Matt Brown
+  email: matt.brown@brrarch.com
+  ip: 74.223.43.114
+  url: ''
+  date: '2011-12-06 16:26:31'
+  body: How can I get the ElementType so that I can pass it into this function if
+    I know the name of the element type ?  For example, I know that I will have "Detail",
+    "Detail Section", "Building Section", and "Wall Section" ElementTypes in my drawing.  However,
+    there is no constructor defined for the ElementType class where I can pass in
+    the name.
+- author: Jeremy Tammik
+  email: ''
+  ip: 62.50.236.217
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-12-14 11:54:40'
+  body: 'Dear Matt,
+
+
+    In general, use a filtered element collector.
+
+
+    You use that to retrieve any kind of element from the Revit database given any
+    kind of known search criteria.
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/12/filtered-element-collector-sample-overview.html">http://thebuildingcoder.typepad.com/blog/2010/12/filtered-element-collector-sample-overview.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/06/element-name-parameter-filter-correction.html">http://thebuildingcoder.typepad.com/blog/2010/06/element-name-parameter-filter-correction.html</a>
+
+
+    Cheers, Jeremy.
+
+    -----'

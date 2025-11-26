@@ -1,0 +1,68 @@
+comments:
+- author: Joe Offord
+  email: jofford@enclos.com
+  ip: 173.8.109.58
+  url: ''
+  date: '2013-01-17 11:53:22'
+  body: 'Hi Jeremy,
+
+
+    I noticed the ProgressForm in your AdnRme solution uses Application.DoEvents.  Yes,
+    I agree this is required for the UI to recognize the user''s clicking of the abort
+    button but I thought we discussed using Application.DoEvents was a big no-no for
+    Revit.  While the API may be chugging through a long sequence of code, calling
+    Application.DoEvents during that sequence then allows the user to manipulate the
+    main Revit window and even create new transactions using the UI.  Am I wrong about
+    this?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-29 08:26:21'
+  body: 'Dear Joe,
+
+
+    Thank you very much for noticing and pointing this out.
+
+
+    You are right, of course, I think. I''ll ponder this a bit, and ask Harry what
+    experiences he made with it so far. He should know by now if it causes any problems.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-29 09:23:59'
+  body: 'Dear Joe,
+
+
+    Harry confirms:
+
+
+    The progress bar does use DoEvents. If I try to start a new Transaction while
+    my Image-O-Matic command is running and the progress bar is shown (for example
+    by creating a wall) then an exception is thrown saying "Revit encountered an InvalidOperationException.
+    Starting a new transaction is not permitted."
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-29 11:04:14'
+  body: 'Dear Joe,
+
+
+    Arnošt clarifies the usage of DoEvents thus:
+
+
+    We do not say that an addin should not call Appplication.DoEvents. All I claim
+    is that Application.DoEvents does not help with Revit API events.
+
+
+    Cheers, Jeremy.
+
+    -----'

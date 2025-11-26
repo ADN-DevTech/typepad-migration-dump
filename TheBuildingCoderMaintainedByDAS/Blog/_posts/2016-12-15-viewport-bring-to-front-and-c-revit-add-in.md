@@ -1,0 +1,207 @@
+---
+layout: "post"
+title: "Viewport Bring to Front and C++ Revit Add-In"
+date: "2016-12-15 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "2017"
+  - "C++"
+  - "Getting Started"
+  - "Git"
+  - "Markdown"
+  - "View"
+original_url: "https://thebuildingcoder.typepad.com/blog/2016/12/viewport-bring-to-front-and-c-revit-add-in.html "
+typepad_basename: "viewport-bring-to-front-and-c-revit-add-in"
+typepad_status: "Publish"
+---
+
+<p>Two topics today, on reordering viewports to determine their respective occlusion, and setting up a C++ Revit add-in project:</p>
+
+<ul>
+<li><a href="#2">Bringing a viewport to the front</a>
+<ul>
+<li><a href="#3">Code clean-up</a></li>
+</ul></li>
+<li><a href="#4">Setting up a Visual Studio C++ Revit add-in project</a></li>
+</ul>
+
+<h4><a name="2"></a>Bringing a Viewport to the Front</h4>
+
+<p>Joshua Lumley submitted
+a <a href="http://thebuildingcoder.typepad.com/blog/2014/04/determining-the-size-and-location-of-viewports-on-a-sheet.html#comment-3045289101">comment</a> on
+the discussion on <a href="http://thebuildingcoder.typepad.com/blog/2014/04/determining-the-size-and-location-of-viewports-on-a-sheet.html">Determining the Size and Location of Viewports on a Sheet</a>,
+suggesting:</p>
+
+<blockquote>
+  <p>I made code that will change the draw order of a viewport (bring to front) for cases when you need to use simplified duplicate of the same view for background, e.g., ceiling grid for example. Are you interested in it? I was hoping you could make a post and share it with the world (it has impressed my colleagues anyway).</p>
+  
+  <p>Here is the essence of the code:</p>
+</blockquote>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:#2b91af;">ElementId</span>&nbsp;ViewElementID&nbsp;=&nbsp;ViewportList1[listBox1.SelectedIndex].ViewId;
+&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;storetheposition&nbsp;=&nbsp;ViewportList1[listBox1.SelectedIndex].GetBoxCenter();
+&nbsp;&nbsp;<span style="color:#2b91af;">ElementId</span>&nbsp;storetypetypeID&nbsp;=&nbsp;ViewportList1[listBox1.SelectedIndex].GetTypeId();
+
+&nbsp;&nbsp;Autodesk.Revit.DB.<span style="color:#2b91af;">View</span>&nbsp;pView&nbsp;=&nbsp;doc.ActiveView;&nbsp;Autodesk.Revit.DB.<span style="color:#2b91af;">Transaction</span>
+&nbsp;&nbsp;&nbsp;t&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;Autodesk.Revit.DB.<span style="color:#2b91af;">Transaction</span>(&nbsp;doc,&nbsp;<span style="color:#a31515;">&quot;Form_2&quot;</span>&nbsp;);
+&nbsp;&nbsp;t.Start();
+&nbsp;&nbsp;ViewSheet1.DeleteViewport(&nbsp;ViewportList1[listBox1.SelectedIndex]&nbsp;);
+&nbsp;&nbsp;<span style="color:#2b91af;">Viewport</span>&nbsp;vvp&nbsp;=&nbsp;<span style="color:#2b91af;">Viewport</span>.Create(&nbsp;doc,&nbsp;ViewSheet1.Id,&nbsp;ViewElementID,&nbsp;storetheposition&nbsp;);
+&nbsp;&nbsp;vvp.ChangeTypeId(&nbsp;storetypetypeID&nbsp;);
+&nbsp;&nbsp;t.Commit();</pre>
+
+<p></pre></p>
+
+<p>As you can see, it is simply taking out a viewport and putting it back in the same place, because Revit paints viewports in the order they were created, so the most recently created viewport will come to the front.</p>
+
+<p>This is the first view which has been placed on a sheet:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c8bd1780970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c8bd1780970b img-responsive" style="width: 368px; " alt="The intial view" title="The intial view" src="/assets/image_051f38.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Now we need to pretty it up with patterns, e.g., the ceiling grid and cable ladder fill taken from a 'medium' level detail view:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb096001c0970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb096001c0970d img-responsive" style="width: 369px; " alt="Placing a second and third view for ceiling grid and cable ladder background" title="Placing a second and third view for ceiling grid and cable ladder background" src="/assets/image_80f7e4.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>As you can see, these new views have been placed over the main view and now block it.</p>
+
+<p>The code automates removing a viewport and making an identical one in the same place with a new element ID. </p>
+
+<p>You can see here the supplementary ceiling grid and ladder background (filtered to appear light red) adds value, but does not interfere with main view because it is now 'behind':</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d246cbfd970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d246cbfd970c img-responsive" style="width: 375px; " alt="Reordering the viewports and done" title="Reordering the viewports and done" src="/assets/image_d91bab.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Btw I changed the furniture to halftone manually; this is not an effect of the layering.</p>
+
+<p>Obviously, the perfect draftsman would be placing views in the correct sequence to begin with, but because the stylistic 'touch ups' are the last stages of making a drawing and you can never know in advance what you are going to need.</p>
+
+<p>In my opinion making a drawing nice to look at is just as important as the content itself.</p>
+
+<h4><a name="3"></a>Code Clean-Up</h4>
+
+<p>I cleaned up the initial code suggestion like this:</p>
+
+<pre class="code">
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;Bring&nbsp;viewport&nbsp;to&nbsp;front&nbsp;by&nbsp;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;deleting&nbsp;and&nbsp;recreating&nbsp;it.</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+<span style="color:blue;">void</span>&nbsp;ViewportBringToFront(&nbsp;<span style="color:#2b91af;">ViewSheet</span>&nbsp;sheet,&nbsp;<span style="color:#2b91af;">Viewport</span>&nbsp;viewport&nbsp;)
+{
+&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;=&nbsp;sheet.Document;
+
+&nbsp;&nbsp;<span style="color:#2b91af;">ElementId</span>&nbsp;viewId&nbsp;=&nbsp;viewport.ViewId;
+&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;boxCenter&nbsp;=&nbsp;viewport.GetBoxCenter();
+
+&nbsp;&nbsp;<span style="color:green;">//ElementId&nbsp;typeId&nbsp;=&nbsp;viewport.GetTypeId();</span>
+&nbsp;&nbsp;<span style="color:green;">//View&nbsp;view&nbsp;=&nbsp;doc.ActiveView;</span>
+
+&nbsp;&nbsp;<span style="color:blue;">using</span>(&nbsp;<span style="color:#2b91af;">Transaction</span>&nbsp;t&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Transaction</span>(&nbsp;doc&nbsp;)&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;t.Start(&nbsp;<span style="color:#a31515;">&quot;Delete&nbsp;and&nbsp;Recreate&nbsp;Viewport&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;sheet.DeleteViewport(&nbsp;viewport&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Viewport</span>&nbsp;vvp&nbsp;=&nbsp;<span style="color:#2b91af;">Viewport</span>.Create(&nbsp;doc,&nbsp;sheet.Id,&nbsp;viewId,&nbsp;boxCenter&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;vvp.ChangeTypeId(&nbsp;typeId&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;t.Commit();
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p>Notes:</p>
+
+<ul>
+<li>Separate code from user interface implementation details. Isolate real functionality in separate methods. <a href="https://en.wikipedia.org/wiki/KISS_principle">Keep it simple</a>!</li>
+<li>Encapsulate <code>Transaction</code> use in a separate <code>using</code> statement. Look at the explanations in The Building Coder topic group on <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.53">handling transactions and transaction groups</a>.</li>
+<li>Simplified variable names for better readability and clarity.</li>
+<li>Commented out unused variables.</li>
+</ul>
+
+<p>I added this method to <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder samples</a> in the
+<a href="https://github.com/jeremytammik/the_building_coder_samples/blob/master/BuildingCoder/BuildingCoder/CmdViewsShowingElements.cs#L424-L449">module CmdViewsShowingElements.cs line 424-449</a>.</p>
+
+<p>Very many thanks to Joshua for sharing this and putting in all the work to document it, edit the draft markdown file and create
+a <a href="https://github.com/jeremytammik/tbc/pull/1">pull request</a> for it in
+the <a href="https://github.com/jeremytammik/tbc">tbc GitHub repo</a>!</p>
+
+<h4><a name="4"></a>Setting up a Visual Studio C++ Revit Add-In Project</h4>
+
+<p>I do not use C++ myself in everyday work, although I have a lot of experience with it from pre-C# times, working with ObjectARX and earlier systems.</p>
+
+<p>Since the Revit API is completely .NET based, you can use any .NET capable language to access it, including managed C++.</p>
+
+<p>Epogue asked how to set up a Visual Studio project to create a C++ Revit add-in in
+the <a href="http://forums.autodesk.com/t5/revit-api/bd-p/160">Revit API discussion forum</a> thread
+on <a href="http://forums.autodesk.com/t5/revit-api-forum/looking-for-c-samples-for-revit-2017-addin/m-p/6744704">looking for C++ Samples for Revit 2017 add-in</a>:</p>
+
+<p><strong>Question:</strong> As I look through the Revit 2017 documentation it looks like C++ has become nearly a first-class citizen.</p>
+
+<p>I am mostly familiar with starting Revit add-in projects using
+the <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.20">add-in wizard for C#</a>.</p>
+
+<p>Is there something comparable for C++?</p>
+
+<p>And/or is there sample code or a tutorial on implementing a Revit 2017 add-in using C++ instead of C# or VB? </p>
+
+<p><strong>Answer:</strong> C++ has always been a first-class citizen in the .NET world, just like any other language supporting .NET, which was added to C++ with the introduction
+of <a href="https://en.wikipedia.org/wiki/Managed_Extensions_for_C%2B%2B">managed C++</a> over
+a decade ago.</p>
+
+<p>The Visual Studio C# and VB .NET wizards are very easy to create from scratch, and so is a C++ Revit add-in and a wizard for it.</p>
+
+<ul>
+<li>Use the standard Visual Studio class wizard to create a class.</li>
+<li>Add references to the Revit API assemblies.</li>
+<li>Implement an external command or external application.</li>
+<li>Done.</li>
+</ul>
+
+<p>The files that you create manually through these steps can be packaged into a ZIP file and reused to create a Revit C++ add-in wizard.</p>
+
+<p>Look at the descriptions
+of <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.20">creating, modifying and updating the C# and VB wizards</a> to
+see how the same can be achieved for C++.</p>
+
+<p>Here is an old description of a C++ Revit add-in and some other discussions on related topics:</p>
+
+<ul>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2010/10/c-revit-add-in.html">C++ Revit Add-In</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2012/03/mixed-mode-c-in-revit-2012.html">Mixed mode C++ in Revit 2012</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/10/using-the-built-in-revit-acge-functionality.html">Using the built-in Revit AcGe functionality</a></li>
+</ul>
+
+<p><strong>Response:</strong> Thank you! I like the Visual C++ Revit add-in step-by-step article. Regrettably the Visual Studio 2015 "New Project" function no longer includes "Class Library" as one of its options:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d246cbd7970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d246cbd7970c image-full img-responsive" alt="Visual Studio C++ new project wizards" title="Visual Studio C++ new project wizards" src="/assets/image_e2ea0c.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<p>Any thoughts on the alternative "New Project" template to utilize to initially create C++ based Revit Add-In in Visual Studio 15 for Revit 2017?</p>
+
+<p>Or a recommendation on which version of the .NET Framework to select?</p>
+
+<p><strong>Answer:</strong> Use the <code>CLR</code> option listed above: </p>
+
+<ul>
+<li>Visual Studio &gt; File &gt; New &gt; Project &gt; Templates &gt; Other Languages &gt; Visual C++ &gt; CLR &gt; Class Library.</li>
+<li>Add references to the Revit API assemblies.</li>
+<li>Implement your external application or command.</li>
+</ul>
+
+<p>The Revit 2017 API requires version the .NET framework version 4.5.2.</p>
+
+<p>I wish you lots of fun and success making use of C++ with the Revit API!</p>

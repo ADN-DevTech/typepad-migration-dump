@@ -1,0 +1,130 @@
+---
+layout: "post"
+title: "Add-In Manager, FormulaManager and Tiger Year"
+date: "2022-01-26 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "Debugging"
+  - "Getting Started"
+  - "Macro"
+  - "VB"
+  - "WPF"
+original_url: "https://thebuildingcoder.typepad.com/blog/2022/01/add-in-manager-formulamanager-and-tiger-year.html "
+typepad_basename: "add-in-manager-formulamanager-and-tiger-year"
+typepad_status: "Publish"
+---
+
+<p>Exciting news around debugging and loading add-ins and adding formulas and scripting support to your own apps:</p>
+
+<ul>
+<li><a href="#2">Open source Add-In Manager</a></li>
+<li><a href="#4">FormulaManager and scripting support</a></li>
+<li><a href="#5">Happy New Year of the Tiger 虎</a></li>
+</ul>
+
+<h4><a name="2"></a> Open Source Add-In Manager</h4>
+
+<p>Add-in developers have been clamouring for ages for the Revit development team
+to <a href="https://forums.autodesk.com/t5/revit-ideas/open-source-add-in-manager/idi-p/8049456">open source the Add-In Manager</a>;
+the corresponding Revit Idea Station wish list item was raised in 2018 and has gathered 49 votes, and the request was originally raised and discussed earlier still.</p>
+
+<p>Chuong Ho now took action and asks for your support:</p>
+
+<blockquote>
+  <p>Hi, all Developers working with Revit API, it's time;
+  we need to improve addin manager tool for a long time.
+  Now I'm in the process of developing and maintaining it on open source basis with more features to support developers easier access to Revit API.
+  All the programmers in the world can help to make this product better for developer.
+  Currently developing in my free time so nothing is perfect right now.
+  Link to project open source at:</p>
+  
+  <p style="text-align:center"><a href="https://github.com/chuongmep/RevitAddInManager">github.com/chuongmep/RevitAddInManager</a></p>
+</blockquote>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330282e140a4f5200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330282e140a4f5200b img-responsive" style="width: 386px; display: block; margin-left: auto; margin-right: auto;" alt="RevitAddInManager" title="RevitAddInManager" src="/assets/image_6429df.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Many thanks to Chuong Ho for this great initiative!</p>
+
+<p>Comments on LinkedIn:</p>
+
+<ul>
+<li>It's great to see advancements on the development of this tool, thank you!</li>
+<li>Yes, only make the tool support developer better, anyway we still need a tool that programmers all over the world can modify and ask for ideas.</li>
+<li>Add-in manager became less useful with the hot-reload feature of the latest release of Visual Studio,
+<a href="https://thebuildingcoder.typepad.com/blog/2021/10/localised-forge-intros-and-apply-code-changes.html#4">apply code changes</a>.
+I had some ideas on improving it a while ago, but when the project got bigger it appeared more reasonable an actually not-that-hard to use standard way to debug Revit plugins.</li>
+</ul>
+
+<p>By the way, I have started to use the <i>apply code changes</i> method now as well.
+It works fine and I love it.
+Reminds me of the good all days
+with <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#5.49">edit and continue</a>,
+which worked just a smoothly back then.</p>
+
+<h4><a name="4"></a> FormulaManager and Scripting Support</h4>
+
+<p>Richard <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/1035859">RPThomas108</a> Thomas
+points out the existence and shows how to use
+the <a href="https://www.revitapidocs.com/2022/d061dadf-70da-a883-ec12-5cf98ded069e.htm">FormulaManager class</a> in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/create-user-extesible-funcionality/m-p/10887473">creating user extensible functionality</a>:</p>
+
+<p><strong>Question:</strong> I am creating a program that allows me to quantify elements. 
+I calculate column surface areas using different formulas for interior and exterior columns.
+During the modelling process, the user may want to create new definitions, e.g., for a central column, with its own formula <code>get_area</code>.
+How could I implement support for the end user to add such functionality?</p>
+
+<p><strong>Answer:</strong> Several useful suggestions were made using the powerful built-in .NET scripting functionality.
+Richard adds a pure Revit solution, saying:</p>
+
+<p>You may find <code>FormulaManager.Evaluate</code> offers a more Revit centric approach.
+However, it seems to imply that a parameter element is required:</p>
+
+<blockquote>
+  <p>It evaluates formula using list of global or family parameters depends on document type.</p>
+</blockquote>
+
+<p>This probably means you have to be in a family document to evaluate a family parameter and a project to evaluate a global one.
+I guess you could make it work via adding what you need in a temporary way if it is requiring a parameter of some kind, i.e., a global one in project (although you wouldn't be able to reference other parameter names in the formula string).
+Here is a simple example that works:</p>
+
+<pre class="code">
+  Public Function Obj_220118a(commandData As ExternalCommandData, ByRef message As String, elements As ElementSet) As Result
+    Dim app = commandData.Application
+    Dim uidoc = commandData.Application.ActiveUIDocument
+    Dim IntDoc = uidoc.Document
+    Dim Formula As String = "(10*10)^0.5"
+    Dim Formula0 As String = "Pi()"
+    Dim Out As String = ""
+    Using Tx As New Transaction(IntDoc, "XX")
+      If Tx.Start Then
+        Dim G As String = Guid.NewGuid.ToString
+        Dim GP = GlobalParameter.Create(IntDoc, "RPT_" & G, SpecTypeId.Number)
+        Out = FormulaManager.Evaluate(GP.Id, IntDoc, Formula0)
+        Tx.RollBack()
+      End If
+    End Using
+    TaskDialog.Show("Result", Out)
+    Return Result.Succeeded
+  End Function
+</pre>
+
+<p>Many thanks to Richard for pointing out and sharing this!</p>
+
+<h4><a name="5"></a> Happy New Year of the Tiger 虎</h4>
+
+<p>Before leaving, I wish you all a 
+Happy <a href="https://en.wikipedia.org/wiki/Chinese_New_Year">Chinese New Year</a>,
+the <a href="https://en.wikipedia.org/wiki/Tiger_(zodiac)">Year of the Tiger</a>,
+beginning next Tuesday, February 1.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302942f95c08b200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302942f95c08b200c img-responsive" style="width: 440px; display: block; margin-left: auto; margin-right: auto;" alt="Year of the Tiger" title="Year of the Tiger" src="/assets/image_dd69bc.jpg" /></a><br /></p>
+
+<p></center></p>

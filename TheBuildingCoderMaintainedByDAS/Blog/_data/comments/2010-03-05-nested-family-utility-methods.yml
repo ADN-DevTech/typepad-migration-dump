@@ -1,0 +1,60 @@
+comments:
+- author: JRS
+  email: joel@agi32.com
+  ip: 75.151.84.137
+  url: ''
+  date: '2011-03-23 12:30:39'
+  body: 'I have adapted this code to extract nested family instances and it works
+    beautifully.  However, I have a new problem.
+
+
+    How can I extract the nested family instances if the quantity and position of
+    the nested family instances is different for each instance of the parent family
+    in the project.
+
+
+    Example:  I have a lighting fixture family (track light) that contains nested
+    lighting fixture family instances (each can-light on the track).  The nested instances
+    are part of an array which is defined by the parent instance in the project.  Each
+    parent instance can have a different number of nested instances.
+
+
+    <a href="http://docs.autodesk.com/REVIT/2010/ENU/Revit%20Architecture%202010%20Users%20Guide/RAC/index.html?url=WS73099cc142f487553b93539f117a2602bd5-62b4.htm,topicNumber=d0e97197">http://docs.autodesk.com/REVIT/2010/ENU/Revit%20Architecture%202010%20Users%20Guide/RAC/index.html?url=WS73099cc142f487553b93539f117a2602bd5-62b4.htm,topicNumber=d0e97197</a>
+
+
+    Initially I thought that the FamilyInstance.SubComponents property would work
+    for this, however it is always null!  When does the SubComponents property return
+    anything?  The API documentation is very sparse.
+
+
+    Any ideas on how to access nested family instances from the parent instance?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-03-31 10:33:46'
+  body: 'Dear Joel,
+
+
+    First of all, I am glad to hear that it works well so far.
+
+
+    I have described a few other aspects of nested family instances that may be of
+    use to you:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/05/nested-instance-geometry.html">http://thebuildingcoder.typepad.com/blog/2009/05/nested-instance-geometry.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/11/nested-family.html">http://thebuildingcoder.typepad.com/blog/2009/11/nested-family.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/02/nested-family-instance.html">http://thebuildingcoder.typepad.com/blog/2010/02/nested-family-instance.html</a>
+
+
+    I am also checking for more info on the SubComponents property for you.
+
+
+    Cheers, Jeremy.
+
+    -----'

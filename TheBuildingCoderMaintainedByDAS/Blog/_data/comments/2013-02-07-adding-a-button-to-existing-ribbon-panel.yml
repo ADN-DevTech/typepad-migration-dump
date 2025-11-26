@@ -1,0 +1,141 @@
+comments:
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2013-02-07 06:57:36'
+  body: 'Hi Jeremy, hi Eduardo,
+
+
+    when the button is invoked, you could subsribe to OnIdling event to gain access
+    to the Revit database.
+
+
+    Button disabled: as far as I know, we need to set the AvailabilityClassName property
+    of the RibbonButton...
+
+    Ah, I see that Autodesk.Windows.RibbonButton class differs from Autodesk.Revit.UI.RibbonButton
+    class.
+
+
+    Since you are using the first one, there is no AvailabilityClassName property
+    on your button object.
+
+
+    Instead of this, I think there is some sort of "command binding" which manages
+    the visibility.
+
+    I just looked over Kean''s blog postings but did not found related entries so
+    far.
+
+
+    Since we can get the adWin.RibbonButton from the Revit.UI.RibbonButton via Reflection,
+    there might be a way to cast the first into the second.
+
+
+    Sorry for providing just ideas and suggestions, but maybe that may help you nontheless.
+
+
+
+    Cheers,
+
+    Rudolf'
+- author: Eduardo P Teixeira
+  email: eduardo.teixeira@autodesk.com
+  ip: 8.19.13.19
+  url: ''
+  date: '2013-02-12 18:04:17'
+  body: This will only work on Revit 2014.
+- author: Paul Marsland
+  email: paul@rpmwebs.com
+  ip: 86.15.110.127
+  url: ''
+  date: '2014-05-12 06:13:56'
+  body: 'Hi Jeremy
+
+
+    I have been creating various add-ins for Revit and have managed to create a custom
+    Ribbon tab on which to place all the commands/icons.
+
+
+    What I would like to do, but cannot find any information on how to achieve it
+    is to add an existing in-built Revit command onto my custom Ribbon. I want to
+    add the "Modify" command as the first item on my Ribbon.
+
+
+    many thanks
+
+    Paul'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-05-13 09:07:54'
+  body: 'Dear Paul,
+
+
+    You can create a new custom external command of your own, just like usual.
+
+
+    Within it, you can invoke the existing Revit built-in command using the PostCommand
+    functionality:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.3">http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.3</a>
+
+
+    Cheers, Jeremy.'
+- author: ZydecoDigital
+  email: ''
+  ip: 162.206.100.67
+  url: http://profile.typepad.com/zydecodigital
+  date: '2014-05-13 22:57:35'
+  body: I installed the DockableDialogs example from Revit 2015 SDK and the "Register
+    Page" button is disabled like the button in this post?  Any idea why?
+- author: ZydecoDigital
+  email: ''
+  ip: 162.206.100.67
+  url: http://profile.typepad.com/zydecodigital
+  date: '2014-05-14 20:42:49'
+  body: Class ExternalCommandRegisterPage implements IExternalCommandAvailability
+    which has an IsCommandAvailable method.  The implementation forces you to register
+    the dialog when a document isn't loaded.
+- author: Jeremy Tammik
+  email: ''
+  ip: 80.254.69.28
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-05-16 03:06:03'
+  body: 'Dear ZydecoDigital,
+
+
+    Ours is not to wonder why, ours is but to do or die.
+
+
+    Do you have it working now?
+
+
+    Cheers, Jeremy.'
+- author: hazem
+  email: hazem_el_amir@hotmail.com
+  ip: 197.40.115.241
+  url: ''
+  date: '2015-03-20 12:30:19'
+  body: 'Dear Jeremy
+
+    thanks you for this valuable blogger
+
+    i have problem don''t know how to solve
+
+
+    i''m creating two different applications for revit
+
+    they both should use the same ribbon and tab
+
+    how can i do that
+
+    please help in this issue
+
+
+    is this article help???
+
+    -----'

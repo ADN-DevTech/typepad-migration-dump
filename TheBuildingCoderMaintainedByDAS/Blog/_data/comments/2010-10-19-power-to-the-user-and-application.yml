@@ -1,0 +1,84 @@
+comments:
+- author: Krispy5
+  email: kparsons@au.westfield.com
+  ip: 203.202.124.168
+  url: ''
+  date: '2010-10-24 20:46:40'
+  body: 'Hi Jeremy,
+
+
+    How do i find the category of the deleted elements? when i try to get the Element
+    from the ElementId it fails since the element has already been deleted.
+
+
+    In my case i would like to warn users when they have delted a Floor.
+
+
+    Regards, Kristian'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-10-26 11:32:26'
+  body: "Dear Kristian,\n\nI was planning to test your assertion by looking at the\
+    \ Revit SDK ChangesMonitor sample which demonstrates the use of the DocumentChanged\
+    \ method.\n\nI assume that your question is based on using that event to be notified\
+    \ of the deleted elements. Looking at the ChangesMonitor DocumentChanged event\
+    \ handler, I note that it calls a helper method AddChangeInfoRow to list the added,\
+    \ deleted and modified element information in its modeless form. That method includes\
+    \ the following statements and comments which clearly tell you that the deleted\
+    \ element information is no longer accessible:\n\n// retrieve the changed element\n\
+    Element elem = doc.get_Element(id);\n\n. . .\n\nif (elem == null)\n\n// this branch\
+    \ is for deleted element due to the deleted element cannot be retrieved from the\
+    \ document.\n\nSo the answer to your question is presumably no way, and that is\
+    \ as designed.\n\nThere is an obvious workaround, though:\n\nThe DocumentChanged\
+    \ event is a very simple notification after the fact. The transaction in which\
+    \ the document was modified has already been closed, you cannot do anything more\
+    \ about it yourself, and as we have seen, you cannot even query the deleted elements\
+    \ for their data.\n\nIf you wish to access the document before the transaction\
+    \ is closed, there is a very powerful alternative possibility, the dynamic model\
+    \ update framework or DMU. It enables you to register an updater to be triggered\
+    \ by certain events, and also to react on these events within the same transaction\
+    \ that triggered them.\n\nIt is demonstrated by the DynamicModelUpdate and DistanceToSurfaces\
+    \ SDK samples and discussed in\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/04/element-level-events.html#2\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/04/element-level-events.html#2</a>\n\
+    \nHere is another DMU sample:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/08/structural-dynamic-model-update-sample.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/08/structural-dynamic-model-update-sample.html</a>\n\
+    \nIn your case, you can easily implement an updater that simply brings up a message\
+    \ box as described above, and register a trigger for it which reacts to the deletion\
+    \ of floors and nothing else. \n\nYour updater Execute method will be called while\
+    \ the transaction is still open, but unfortunately the deleted elements are no\
+    \ longer accessible anyway.\n\nUnfortunately, the properties of deleted elements\
+    \ cannot be accessed after deletion, even from updaters.\n\nCheers, Jeremy."
+- author: LIMIN HE
+  email: lhe@fmsystems.com
+  ip: 96.10.15.122
+  url: http://www.fmsystems.com
+  date: '2011-07-12 14:14:04'
+  body: "Jeremy,\n\nI came across this post when I tried to find ViewDeleted event.\
+    \ It's said in the article \"Using the DocumentChanged notification, you can easily\
+    \ detect if any views have been deleted\". I cannot figure out how. When view\
+    \ is deleted, elem is NULL using following code:\n  Element elem = doc.get_Element(id);\n\
+    so how can I get element's category at this time?\n\nThanks"
+- author: LIMIN HE
+  email: lhe@fmsystems.com
+  ip: 96.10.15.122
+  url: http://www.fmsystems.com
+  date: '2011-07-12 14:19:51'
+  body: Please delete my question. Looks you already answered the same question when
+    I read the comments follow the article.
+- author: LH
+  email: lhe@fmsystems.com
+  ip: 96.10.15.122
+  url: http://www.fmsystems.com
+  date: '2011-07-13 11:30:44'
+  body: "Hi Jeremy,\n\nI tried \"Dynamic Model Update\" feature, still cannot get\
+    \ the deleted view when the update trigger is fired.\n\nmy sample code in Execute\
+    \ method:\n  public void Execute(UpdaterData data)\n        {\n            Document\
+    \ doc = data.GetDocument();\n            foreach (ElementId id in data.GetDeletedElementIds())\n\
+    \            {\n                Element element = doc.get_Element(id);\n     \
+    \           if (element == null)\n                {\n                    Debug.Print(\"\
+    object deleted\");//that's the problem!!!\n                }\n               \
+    \ else\n                {\n                    Debug.Print(element.Category.Name);\n\
+    \                }\n            }\n\n        }\n\n\nIt's documented in Revit API\
+    \ guide chapter 25:"

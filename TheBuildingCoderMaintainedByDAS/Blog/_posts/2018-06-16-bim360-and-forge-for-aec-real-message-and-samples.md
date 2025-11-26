@@ -1,0 +1,115 @@
+---
+layout: "post"
+title: "BIM360 and Forge for AEC Message and Samples"
+date: "2018-06-16 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "360"
+  - "AU"
+  - "BIM"
+  - "Cloud"
+  - "Data Access"
+  - "Events"
+  - "Forge"
+original_url: "https://thebuildingcoder.typepad.com/blog/2018/06/bim360-and-forge-for-aec-real-message-and-samples.html "
+typepad_basename: "bim360-and-forge-for-aec-real-message-and-samples"
+typepad_status: "Publish"
+---
+
+<p>As I pointed out in
+the <a href="http://thebuildingcoder.typepad.com/blog/2018/06/forge-for-aec-and-bim360-overview.html">overview of Forge for AEC and BIM360</a>,
+I am participating in a <em>Digital Construction Live</em> event in the UK next week and presenting there on Forge for the BIM domain.</p>
+
+<p>Today, let's focus on the real message and some live samples putting it to use:</p>
+
+<ul>
+<li><a href="#2">The real message</a> </li>
+<li><a href="#3">BIM collaboration roles and magnitudes</a> </li>
+<li><a href="#4">Forge for AEC sample</a> </li>
+<li><a href="#5">Connecting Forge with BIM360 sample</a> </li>
+</ul>
+
+<h4><a name="2"></a> The Real Message</h4>
+
+<p>The real message about Forge for AEC and BIM360, according to Jim Quanci, with whom I luckily was able to chat yesterday, is this:</p>
+
+<ul>
+<li>A number of people work on the project team, in a BIM360 project: managers, plumbers, projects superintendents, etc., on both desktop and mobile.</li>
+<li>The rest of the organisation, a much larger number of people, does not work in that (rather complex, specialised) environment.</li>
+<li>The organisation can save cost and time by letting everybody concerned always see what is going on in each project.</li>
+<li>A majority of the collaborators do not need or want the full BIM360.</li>
+<li>Using Forge, you can easily pop up your own web page to provide them with whatever information they need.</li>
+</ul>
+
+<p>I explained this principle in more depth in my presentation
+on <a href="http://thebuildingcoder.typepad.com/blog/2017/10/rational-bim-programming-at-au-darmstadt.html">rational BIM programming</a> at
+Autodesk University in Darmstadt, Germany, last year.</p>
+
+<p>One of the main motivating aspects in that talk is basically exactly what Jim points out:</p>
+
+<h4><a name="3"></a> BIM Collaboration Roles and Magnitudes</h4>
+
+<p>I am not a very graphical person, and generally use much too few images in my presentations.</p>
+
+<p>Exceptionally, though, I did create a graph for that one, to explain the orders of magnitude of difference in numbers of BIM collaboration participants in different kinds of roles in the design process segments targeted by Autodesk and supported by the Forge platform:</p>
+
+<ul>
+<li>Design &ndash; architect, engineer &ndash; Revit</li>
+<li>Visualise &ndash; client, everybody &ndash; Forge Viewer</li>
+<li>Collaborate &ndash; management &ndash; Glue + Plan</li>
+<li>Make &ndash; construction &ndash; Field + Layout</li>
+<li>Use &ndash; inhabit, maintain, FM &ndash; Building Ops</li>
+</ul>
+
+<p>Please excuse the obsolete BIM360 naming in the list above. It keeps changing all the time &mdash; the principles remain the same.</p>
+
+<p>In extreme cases, these numbers might vary by several orders of magnitude:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="http://thebuildingcoder.typepad.com/.a/6a00e553e168978833022ad3994300200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833022ad3994300200b img-responsive" style="width: 360px; display: block; margin-left: auto; margin-right: auto;" alt="BIM Collaboration Roles and Magnitudes" title="BIM Collaboration Roles and Magnitudes" src="/assets/image_46870a.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>For more details, please refer
+to <a href="http://thebuildingcoder.typepad.com/blog/2017/10/rational-bim-programming-at-au-darmstadt.html">my presentation mentioned above</a>.</p>
+
+<h4><a name="4"></a> Forge for AEC Sample Live</h4>
+
+<p>One of Jim's favourite Forge AEC examples
+is <a href="https://bldng360.com">BLDNG360</a>
+by <a href="http://www.cadcompany.nl">CAD &amp; Company</a> in
+the Netherlands.</p>
+
+<p>It provides a gallery of building including detailed BIM information.</p>
+
+<p>One very nice example is the <a href="https://bldng360.com/gebouwen/TqOCqXo9I0CrW9h_vAIG4A">Duijpaviljoen 'Zuin am See'</a>.</p>
+
+<p>It includes a large amount of detailed BIM information, numerous drawings, lists all the content, all the structure and other information on the model quality, e.g., the percentage of components equipped with assembly codes, materials, areas per level and material types.</p>
+
+<p>This kind of dashboard information can be used to easily assess how complete the BIM is in various respects.</p>
+
+<p>This kind of application can be built using the generic Forge components, for any type of CAD model.</p>
+
+<h4><a name="5"></a> Connecting Forge with BIM360 Sample</h4>
+
+<p>Another sample specifically targeted at BIM360
+is the <a href="https://bim360reports.autodesk.io">BIM360 Visual Reports app</a> written by my FPD colleague Augusto Gonçalves.</p>
+
+<p>Full source code for this app is provided in <br />
+the <a href="https://github.com/Autodesk-Forge/bim360appstore-viewer-nodejs-visual.reports">bim360appstore-viewer-nodejs-visual.reports GitHub repository</a>.</p>
+
+<p>As explained in
+the <a href="https://github.com/Autodesk-Forge/bim360appstore-viewer-nodejs-visual.reports">GitHub project documentation</a>,
+it is a BIM360 project dashboard example demonstrating how to extract properties from BIM360 elements and display them in a project dashboard.</p>
+
+<p>It enables you to load and analyse Revit models hosted on BIM360, list the versions available, switch between the 2D and 3D views, select elements in one type of view to be highlighted in the other, select and highlight element groups, examine the BIM element properties and dimensions, look at different kinds of graphs and dashboards presenting statistics on various aspects of quantities, types, levels, constraints, assembly codes, materials, and more.</p>
+
+<p>The Urban House model is a good one to explore here.</p>
+
+<p>For a closer look at this sample in action, watch Jaime Rosales' one-and-a-half-minute video recording
+showing <a href="https://youtu.be/4g9FFFlQMjU">how to use bim360reports</a>:</p>
+
+<p><center>
+<iframe width="480" height="270" src="https://www.youtube.com/embed/4g9FFFlQMjU" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</center></p>

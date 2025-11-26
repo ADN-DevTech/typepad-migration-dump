@@ -1,0 +1,245 @@
+comments:
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadgraph.de
+  date: '2012-03-19 05:17:18'
+  body: 'Hi Jeremy,
+
+
+    as I recently pointed out, there are many Utils classes in the API.
+
+
+    I haven''t tested whether you can export DWFs or DWGs in trial mode, but if this
+    would be the case, you could use
+
+
+    OptionalFunctionalityUtils.IsDWFExportAvailable() or
+
+    OptionalFunctionalityUtils.IsDWGExportAvailable()
+
+
+    to determine if you are in demo mode.
+
+
+    Cheers,
+
+    Rudolf'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadgraph.de
+  date: '2012-03-19 05:20:40'
+  body: 'If this is not the case, API Dev team may add something like
+
+
+    OptionalFunctionalityUtils.IsInDemoMode()
+
+    or
+
+    OptionalFunctionalityUtils.IsTrialVersion()
+
+
+    in the next release ;-)
+
+
+    Bye,
+
+    Rudolf'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadgraph.de
+  date: '2012-03-20 07:16:34'
+  body: 'Hi Jeremy,
+
+
+    as far as I can see,
+
+    you can export DWFs but not DWGs if you are in demo mode.
+
+
+    Thus, the following line(s) could be used to determine if you are in viewer/demo/trial
+    mode:
+
+
+    bool isDemoMode = (!OptionalFunctionalityUtils.IsDWGExportAvailable());
+
+
+    Cheers,
+
+    Rudolf'
+- author: Jeremy Tammik
+  email: ''
+  ip: 123.3.225.237
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-03-20 08:42:59'
+  body: 'Dear Rudolf,
+
+
+    This is an absolutely brilliant observation, sounds perfect.
+
+
+    We just need someone to test it on a demo version.
+
+
+    I can actually well imagine this method returning true in spite of a demo version
+    being installed, because it might in fact have the required components available
+    to create the DWG file, so the check returns true, and still have disabled the
+    save functionality by other means that this method does not bother checking for.
+
+
+    As soon as this is confirmed I think we should promote this information to a main
+    blog post.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadgraph.de
+  date: '2012-03-20 09:47:43'
+  body: "Hi Jeremy,\n\nyou are right, sadly.\nIf I start Revit in Viewer Mode (starting\
+    \ Revit.exe -viewer), the result is as you foretold.\n\n;-(\n\nBut there is another\
+    \ way to avoid the try-to-save-workarounding.\n\n;-)\n\nRemembering the status\
+    \ bar blog post, I suggest to get the title of the main window handle and check\
+    \ if it contains the words \"VIEWER\" and \"MODE\" (respectively \"MODUS\" in\
+    \ my German Revit).\n\nThis would also work in a zero-document scenario. \n\n\
+    How to get the text:\n<a href=\"http://www.pinvoke.net/default.aspx/user32.getwindowtext\"\
+    >http://www.pinvoke.net/default.aspx/user32.getwindowtext</a>\n\nThis test may\
+    \ fail if the current document is named \"VIEWER-MODE\", of course...\n\nCheers,\n\
+    Rudolf"
+- author: Jeremy Tammik
+  email: ''
+  ip: 203.122.231.113
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-03-20 23:17:46'
+  body: 'Dear Rudolf,
+
+
+    Why am I not surprised?
+
+
+    And yes, the new suggestions sounds good to me.
+
+
+    I can even tell you how to make it absolutely fool-proof, so that it can handle
+    any kind of project name in the title:
+
+
+    simply parse the title for the project name. I guess there may be situations where
+    there is no project name, maybe a zero document state or something, so you may
+    need to handle that case as well. Once you have found the document name, whatever
+    it is, then remove it. After that, you can search for the strings you mention
+    above.
+
+
+    Thank you for the nice suggestion!
+
+
+    Cheers, Jeremy.'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadgraph.de
+  date: '2012-03-21 04:01:24'
+  body: 'Hi Jeremy,
+
+
+    ah, of course.
+
+    Thanks for the hint.
+
+
+    I like it if there is a lively discussion in the comments section ;-)
+
+
+
+    Bye
+
+    Rudolf'
+- author: madmed
+  email: medbelh@gmail.com
+  ip: 193.95.69.58
+  url: ''
+  date: '2013-01-10 08:48:02'
+  body: "Thanks for the solution, but I get a Revit encountered a System.IO.IOException:\
+    \ The process cannot access the file because it is being used by another process.\n\
+    \nso I tried this:\n        try\n        {\n            doc.Save();\n        \
+    \    return false;\n        }\n        catch (Autodesk.Revit.Exceptions.InvalidOperationException\
+    \ ex)\n        {\n            return true;\n        }\n\nIt works, excepts it\
+    \ saves the file which I would like to avoid.\nI thought also of trying export\
+    \ but it can take a long time for large files.\n\nDo you have any other suggestions?\
+    \ Thanks"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.182.26
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-10 09:06:52'
+  body: 'Dear Madmed,
+
+
+    Yes, sure; Rudolf made several useful and even more effective suggestions in his
+    comments above.
+
+
+    Cheers, Jeremy.'
+- author: madmed
+  email: medbelh@gmail.com
+  ip: 193.95.69.58
+  url: ''
+  date: '2013-01-10 10:13:39'
+  body: 'thanks, yes but I didnt succed to make it work.
+
+    Can you post some example code (not necessarily working code) Just something to
+    get me started. Thank you.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.182.26
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-10 10:22:40'
+  body: "Dear Madmed,\n\nYes, sure, I would love to! I'll do that right away, as soon\
+    \ as I have some time... \n\nDon't hold your breath!\n\nCheers, Jeremy."
+- author: madmed
+  email: medbelh@gmail.com
+  ip: 193.95.69.58
+  url: ''
+  date: '2013-01-11 04:39:37'
+  body: "done:\n\n[DllImport(\"user32.dll\", CharSet = CharSet.Auto, SetLastError\
+    \ = true)]\n    static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString,\
+    \ int nMaxCount);\n\n    [DllImport(\"user32.dll\", SetLastError = true, CharSet\
+    \ = CharSet.Auto)]\n    static extern int GetWindowTextLength(IntPtr hWnd);\n\n\
+    \      public static StringBuilder GetStatusText(IntPtr mainWindow)\n    {\n \
+    \       StringBuilder s = new StringBuilder();\n        if (mainWindow != IntPtr.Zero)\n\
+    \        {\n            int length = GetWindowTextLength(mainWindow);\n      \
+    \      StringBuilder sb = new StringBuilder(length + 1);\n            GetWindowText(mainWindow,\
+    \ sb, sb.Capacity);\n            sb.Replace(\"Autodesk Revit Architecture 2013\
+    \ - \", \"\");\n            return sb;\n        }\n        return s;\n    }\n\n\
+    To check if we have a demo version:\nIntPtr revitHandle = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;\n\
+    \        StringBuilder sb = GetStatusText(revitHandle);\n        bool isDemo =\
+    \ sb.ToString()[0] != '['"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.182.47
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-11 09:14:19'
+  body: 'Dear Madmed,
+
+
+    Thank you for your implementation. I took this opportunity to add the code as
+    a new command to The Building Coder samples, and also update the source code comments
+    for 2013:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/01/determine-revit-demo-mode-revisited.html">http://thebuildingcoder.typepad.com/blog/2013/01/determine-revit-demo-mode-revisited.html</a>
+
+
+    Please also note Rudolf''s new comment on that post.
+
+
+    Cheers, Jeremy.
+
+    -----'

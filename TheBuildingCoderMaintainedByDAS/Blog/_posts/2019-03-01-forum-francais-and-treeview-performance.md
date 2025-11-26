@@ -1,0 +1,231 @@
+---
+layout: "post"
+title: "Forum Français and Treeview Performance"
+date: "2019-03-01 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "Algorithm"
+  - "Architecture"
+  - "BIM"
+  - "Climbing"
+  - "Fun"
+  - "News"
+  - "Performance"
+  - "Photo"
+original_url: "https://thebuildingcoder.typepad.com/blog/2019/03/forum-fran%C3%A7ais-and-treeview-performance.html "
+typepad_basename: "forum-français-and-treeview-performance"
+typepad_status: "Publish"
+---
+
+<p>As usual, I have been much too active in 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> recently
+and worked too little for my taste here in the blog.</p>
+
+<p>Here are some of the recent items that I want to share plus a few pictures from my latest mountain outing:</p>
+
+<ul>
+<li><a href="#2">Marat's shapka ushanka and Balmer's Graetli</a> </li>
+<li><a href="#3">Naveen is a top solution author now</a> </li>
+<li><a href="#4">Revit et BIM en Français</a> </li>
+<li><a href="#5">Tree view performance optimisation</a> </li>
+<li><a href="#6">Underture</a> </li>
+</ul>
+
+<h4><a name="2"></a> Marat's Shapka Ushanka and Balmer's Graetli</h4>
+
+<p>Here is a picture from a little ski tour to Balmer's Graetli
+in <a href="https://en.wikipedia.org/wiki/Muotathal">Muotathal</a> last Sunday,
+sporting a nice new warm fur hat with ear flaps,
+aka <a href="https://en.wikipedia.org/wiki/Ushanka">shapka ushanka</a>,
+that my ex-Autodesk-colleague Marat got me:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a440a76b200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a440a76b200c img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="Jeremy with Marat's nice warm shapka ushanka" title="Jeremy with Marat's nice warm shapka ushanka" src="/assets/image_206f14.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>You can see more photos from the tour in my <a href="https://flic.kr/s/aHsmyTUkrv">Balmer's Graetli album</a>.</p>
+
+<p>Many thanks to Marat for the hat and to Conny for the nice destination!</p>
+
+<p>More and longer ski tours are planned for the end of March and April.</p>
+
+<h4><a name="3"></a> Naveen is a Top Solution Author Now</h4>
+
+<p>Congratulations to my Indian Colleague Naveen Kumar T. for reaching place two in the list of top solution authors!</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a440a77d200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a440a77d200c img-responsive" style="width: 236px; display: block; margin-left: auto; margin-right: auto;" alt="Naveen listed as top solution author" title="Naveen listed as top solution author" src="/assets/image_4d1a9b.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>I am really looking forward to the day he overtakes me!</p>
+
+<p>Thank you ever so much, Naveen, for all the hard work and great success!</p>
+
+<h4><a name="4"></a> Revit et BIM en Français</h4>
+
+<p>Another discussion forum related news item:</p>
+
+<p>For your information, Patrick Emin recently pointed out the new French language Revit and BIM discussion forum in the thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/use-a-form-in-revit-api/m-p/8617102">using a form in Revit API</a>:</p>
+
+<blockquote>
+  <p>Bonjour, pour votre information, nous avons un forum en français:
+  <a href="https://forums.autodesk.com/t5/revit-et-bim-francais/bd-p/198">Revit et BIM &ndash; Français</a>
+  &ndash; <a href="https://forums.autodesk.com/t5/revit-et-bim-francais/bd-p/198">forums.autodesk.com/t5/revit-et-bim-francais/bd-p/198</a></p>
+  
+  <p><i>Bienvenue sur les forums Revit d’Autodesk.
+  Partagez vos connaissances, posez des questions, collaborez sur des idées, et explorez les sujets Revit populaires.</i></p>
+</blockquote>
+
+<h4><a name="5"></a> Tree View Performance Optimisation</h4>
+
+<p>Let's return to a more technical Revit API oriented topic in the thread
+on a <a href="https://forums.autodesk.com/t5/revit-api-forum/wpf-window-with-treeview-slow-load-with-virtualization/m-p/8622528">WPF window with treeview and slow load with virtualization</a>:</p>
+
+<p><strong>Question:</strong> </p>
+
+<p>A tool I'm building has a TreeView control that will show all element instances in a Project/Active/Selection.</p>
+
+<p>The problem is that even with UI virtualization the window load times are far too long.</p>
+
+<p>I'm not sure what to suspect now and am hoping one of the community has run across this.</p>
+
+<p>Some examples of window load times below.</p>
+
+<ul>
+<li>Project with around 150,000 model Element Instances it takes about 2 minutes to build.</li>
+<li>Project with around 66,000 model Element Instances it takes about a minute to build</li>
+<li>Project with less than 400 model Element Instances it takes about 5 seconds to build</li>
+</ul>
+
+<p>Here is some additional pertinent information .</p>
+
+<ul>
+<li>I'm using WPF / XAML / MVVM / C# to build it.</li>
+<li>I've timed the Filtered Element Collectors and found they are incredible fast and don't seem to be the issue.</li>
+<li>I've submitted a support ticket to Telerik which only confirmed that the code should be working and does outside of Revit where I can create 180000 objects into 4 tiers in seconds.</li>
+<li>There are 4 tiers (See screenshot 1) of data arranged in the following manner:
+<ul>
+<li>Tier 1: Category</li>
+<li>Tier 2: Family Name</li>
+<li>Tier 3: Type</li>
+<li>Tier 4: Instance</li>
+</ul></li>
+<li>The TreeView is initially fully collapsed with only the first tier showing.</li>
+<li>I've enabled UI Virtualization to show more as a user expands each node.</li>
+<li>I've attached a zip file with the code in question</li>
+</ul>
+
+<p>Screenshot #1:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a440a785200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a440a785200c img-responsive" alt="WPF TreeView" title="WPF TreeView" src="/assets/image_6712e3.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Screenshot #2:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a440a78b200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a440a78b200c img-responsive" alt="WPF TreeView" title="WPF TreeView" src="/assets/image_2cc0cb.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Here is <a href="https://thebuildingcoder.typepad.com/files/wpf_treeview_all_element_instances.zip">TreeViewAllElementInstances.zip containing my sample code</a>.</p>
+
+<p><strong>Answer:</strong> I would suggest initially populating only the Tier 1, and then populating the other ones and their subnodes on demand when clicked by the user to open them.</p>
+
+<p>If a specific node is never opened, there is no need to ever load its subnodes.</p>
+
+<p>I am sure such techniques have already been implemented and published in the past.</p>
+
+<p>In fact, I see a large number of solutions when searching the Internet for <a href="https://duckduckgo.com/?q=populate+tree+view+on+demand">populate tree view on demand</a>.</p>
+
+<p><strong>Response:</strong> Jeremy, thank you for your suggestions and for continuing to help me and the community!</p>
+
+<p>Much has happened since last Wednesday and I can report back that I now have a virtualized TreeView which quickly handles projects with 200,000+ model elements!</p>
+
+<p>I will gladly share this solution with any needing it so if you're interested please contact me.</p>
+
+<p>Initially, my inexperience drove me to go the 'safe' route towards populating the TreeView, but on Thursday, I deleted most of what I'd done and fully embraced MVVM and working with Objects, in an object, in an object, in an object! Was a mind melter for me but it really paid off!</p>
+
+<p>The method below is truly the meat of the solution and along with the XAML in the previously attached ZIP file make it work. Way shorter and simpler than I thought it would be.</p>
+
+<pre class="code"><span style="color:blue;">private</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">void</span>&nbsp;InitializeDataSource()
+{
+&nbsp;&nbsp;Tier1CategoryNames&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;ObservableCollection&lt;Tier1Object&gt;();
+&nbsp;&nbsp;Tier1Object&nbsp;tier1Object&nbsp;=&nbsp;<span style="color:blue;">null</span>;
+&nbsp;&nbsp;Tier2Object&nbsp;tier2Object&nbsp;=&nbsp;<span style="color:blue;">null</span>;
+&nbsp;&nbsp;Tier3Object&nbsp;tier3Object&nbsp;=&nbsp;<span style="color:blue;">null</span>;
+&nbsp;&nbsp;Tier4Object&nbsp;tier4Object&nbsp;=&nbsp;<span style="color:blue;">null</span>;
+
+&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:blue;">var</span>&nbsp;revitElementInstance&nbsp;<span style="color:blue;">in</span>&nbsp;_revitElementInstances&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;##########&nbsp;Tier&nbsp;1&nbsp;Start&nbsp;##########</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;currentCategoryName&nbsp;=&nbsp;revitElementInstance.Category.Name;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;Tier1CategoryNames.Count&nbsp;==&nbsp;0&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;Tier1CategoryNames.All(&nbsp;tier1Object1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt;&nbsp;tier1Object1.Tier1CategoryName&nbsp;!=&nbsp;currentCategoryName&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tier1CategoryNames.Add(&nbsp;tier1Object&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;Tier1Object(&nbsp;currentCategoryName&nbsp;)&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;##########&nbsp;Tier&nbsp;2&nbsp;Start&nbsp;##########</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;currentFamilyName&nbsp;=&nbsp;revitElementInstance.FamilyName;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;tier1Object.Tier2FamilyNames.Count&nbsp;==&nbsp;0&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;tier1Object.Tier2FamilyNames.All(&nbsp;tier2Object1&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt;&nbsp;tier2Object1.Tier2FamilyName&nbsp;!=&nbsp;currentFamilyName&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tier1Object.Tier2FamilyNames.Add(&nbsp;tier2Object&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;Tier2Object(&nbsp;currentFamilyName&nbsp;)&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;##########&nbsp;Tier&nbsp;3&nbsp;Start&nbsp;##########</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;currentElementTypeName&nbsp;=&nbsp;revitElementInstance.ElementType.Name;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;tier2Object.Tier3ElementTypeNames.Count&nbsp;==&nbsp;0&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;tier2Object.Tier3ElementTypeNames.All(&nbsp;tier3Object1&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt;&nbsp;tier3Object1.Tier3ElementTypeName&nbsp;!=&nbsp;currentElementTypeName&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tier2Object.Tier3ElementTypeNames.Add(&nbsp;tier3Object&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;Tier3Object(&nbsp;currentElementTypeName&nbsp;)&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;##########&nbsp;Tier&nbsp;4&nbsp;Start&nbsp;##########</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;currentElementInstanceName&nbsp;=&nbsp;revitElementInstance.ElementInstance.Name;
+
+&nbsp;&nbsp;&nbsp;&nbsp;tier3Object.Tier4ElementInstanceNames.Add(&nbsp;tier4Object&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;Tier4Object(&nbsp;currentElementInstanceName&nbsp;)&nbsp;);
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p>Congratulations on the brilliant result and many thanks to Chris for sharing the solution!</p>
+
+<h4><a name="6"></a> Underture</h4>
+
+<p>Unrelated to the Revit API and technology, you might be interested
+in <a href="https://youtu.be/JJvDaBhofyc">Underture</a>, 
+a truly beautiful two-minute underwater video
+by <a href="https://www.youtube.com/channel/UCdD9nAv0ITzU-fiZr8cEXNw">LaughingEelVideo</a> with
+masses of fascinating creatures filmed in Indonesia to the music
+of <a href="https://en.wikipedia.org/wiki/The_Barber_of_Seville">The Barber of Seville</a>
+by <a href="https://en.wikipedia.org/wiki/Gioachino_Rossini">Gioachino Rossini</a>:</p>
+
+<blockquote>
+  <p>Sometimes, being underwater feels like a window on the world's biggest stage.
+  Here's a bouncy 4K introduction to some of its principal characters, shot in Indonesia: Komodo, Ambon, Raja Ampat, and Bali.</p>
+</blockquote>
+
+<p><center>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/JJvDaBhofyc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</center></p>

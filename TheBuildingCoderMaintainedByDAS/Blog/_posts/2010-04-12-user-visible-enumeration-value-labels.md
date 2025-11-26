@@ -1,0 +1,44 @@
+---
+layout: "post"
+title: "User Visible Enumeration Value Labels"
+date: "2010-04-12 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "2011"
+  - "Parameters"
+  - "User Interface"
+  - "Utilities"
+original_url: "https://thebuildingcoder.typepad.com/blog/2010/04/user-visible-enumeration-value-labels.html "
+typepad_basename: "user-visible-enumeration-value-labels"
+typepad_status: "Publish"
+---
+
+<p>The first Revit 2011 Programming Introduction class in Warsaw last week went well.
+In a way, it was quite an extreme event, because on one hand the training material is still new and under development for updating to the new version, and on the other, we had 40 participants, which is the largest group I have ever led single-handedly through a hands-on programming training.
+So I was pretty busy and very happy that all were satisfied.
+
+<p>Getting back into everyday life again, here is an answer by my colleague Joe Ye to an issue that has come up a few times in the past and now has a very satisfying new resolution:
+
+<p><strong>Question:</strong> How can I determine the element property group names as they are displayed in the 'Element Properties' window? 
+When iterating through parameters of an element, we can only access the BuiltInParameterGroup of the parameter definition, such as PG_CONSTRAINTS, PG_MECHANICAL or PG_GEOMETRY.
+Is there a way, no matter how complicated, to obtain a true group name? 
+I need a general, language independent, method. 
+
+<p><strong>Answer:</strong> In previous version, there was no way to achieve what you are asking for, but it is resolved now in the Revit 2011 release by the introduction of the LabelUtils class, which is described as follows in the Revit API help file What's New section:
+
+<h4>Labels matching commonly used enumerated type values</h4>
+
+<p>The new class LabelUtils provides methods to obtain the user-visible label corresponding to certain enum values.  
+These routines obtain the label corresponding to the name in the current Revit language.  
+Support is offered for:
+
+<ul>
+<li>BuiltInParameter 
+<li>BuiltInParameterGroup 
+<li>DisplayUnitType 
+<li>gbXMLBuildingType 
+<li>ParameterType 
+<li>UnitType 
+</ul>
+
+<p>Many thanks to Joe for handling this case!

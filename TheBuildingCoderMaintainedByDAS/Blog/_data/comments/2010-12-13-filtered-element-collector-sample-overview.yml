@@ -1,0 +1,71 @@
+comments:
+- author: Sandeep
+  email: sdpatil.1984@rediffmail.com
+  ip: 122.200.17.210
+  url: ''
+  date: '2010-12-14 08:47:47'
+  body: "Hi Jeremy,\nThis post is like for element \"collector\" with filter. For\
+    \ sure this will reduce the tension of developer to increase performance.\n Here\
+    \ i am missing the Filter for Shared parameter value for \"Other\" \"Group\" for\
+    \ all the elements in entire drawing.\n\nIs anything there for this?\n\nThanks\
+    \ Sandeep"
+- author: Jeremy Tammik
+  email: ''
+  ip: 93.104.197.137
+  url: http://profile.typepad.com/jeremytammik
+  date: '2010-12-15 06:56:36'
+  body: 'Dear Sandeep,
+
+
+    Do you mean that this post itself is a filtered element collector, retrieving
+    all collector samples?
+
+
+    Yes, how sweet, indeed!
+
+
+    Nope, I have not heard of such a need before, so, as said, there is some space
+    left to practice your own creativity as well.
+
+
+    Cheers, Jeremy.'
+- author: Saandeep
+  email: sdpatil.1984@rediffmail.com
+  ip: 115.242.4.24
+  url: ''
+  date: '2010-12-15 13:16:54'
+  body: "Hi Jeremy,\nYes, for this time i tried for going though each element and\
+    \ find the Parameter Name as shared parameter is attached for each element and\
+    \ match its value. \n But i think this will not be good solution because this\
+    \ will take a time. And for sure, if i will get good solution i will post over\
+    \ here... :)\n\nThanks\nSandeep"
+- author: Sandeep
+  email: sdpatil.1984@rediffmail.com
+  ip: 122.200.17.210
+  url: ''
+  date: '2010-12-20 07:31:08'
+  body: "Dear Jeremy,\nI got the solution finally as below:\n\nElement projInfo =\
+    \ m_externalCommandData.Application.ActiveUIDocument.Document.ProjectInformation;\n\
+    \nParameter sharedParameterIdParam = projInfo.get_Parameter(\"sharedParameter\"\
+    );\n\nElementId parameterId = new ElementId(sharedParameterIdParam .Id.IntegerValue);\n\
+    \nParameterValueProvider valueProvider = new ParameterValueProvider(parameterId);\n\
+    \nFilterStringRuleEvaluator valueEvaluator\n = new FilterStringEquals();\n\n FilterRule\
+    \ parameterRule = new FilterStringRule(valueProvider , valueEvaluator, strParamterValue,\
+    \ false);\n\nElementParameterFilter parameterFilter\n    = new ElementParameterFilter(parameterRule\
+    \ );\n\nList elementCollection = new List();\nFilteredElementCollector elmentCollector\
+    \ = new FilteredElementCollector(m_externalCommandData.Application.ActiveUIDocument.Document);\n\
+    \                elementCollection.AddRange(elmentCollector.WherePasses(parameterFilter).ToElements());\n\
+    \nHere at the end i got elements having specific shared parameter and its known\
+    \ value.\n\nThanks,\nSandeep"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2010-12-21 12:51:11'
+  body: "Dear Sandeep, \n\nCongratulations on solving this, and thank you very much\
+    \ for sharing it!\n\nThis can be seen as a combination of the two solutions provided\
+    \ in the following posts:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/06/parameter-filter.html#7\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/06/parameter-filter.html#7</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/08/elementparameterfilter-with-a-shared-parameter.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/08/elementparameterfilter-with-a-shared-parameter.html</a>\n\
+    \nCheers, Jeremy.\n-----"

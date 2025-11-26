@@ -1,0 +1,254 @@
+---
+layout: "post"
+title: "Dashboard, Regen and Revit API Panel at AU"
+date: "2018-11-19 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "AU"
+  - "BIM"
+  - "Data Access"
+  - "Events"
+  - "News"
+  - "Regen"
+  - "RevitLookup"
+original_url: "https://thebuildingcoder.typepad.com/blog/2018/11/dashboard-regen-and-revit-api-panel-at-au.html "
+typepad_basename: "dashboard-regen-and-revit-api-panel-at-au"
+typepad_status: "Publish"
+---
+
+<p>Topics to start the week:</p>
+
+<ul>
+<li><a href="#2">Revit API panel at AU in Las Vegas</a>
+<ul>
+<li><a href="#2.0">Notes by Diane Christoforo</a> </li>
+<li><a href="#2.1">Revit Ideas</a> </li>
+<li><a href="#2.2">Requests</a> </li>
+<li><a href="#2.3">Issues</a> </li>
+<li><a href="#2.4">Questions</a> </li>
+</ul></li>
+<li><a href="#3">Automatic BIM dashboard data extraction</a> </li>
+<li><a href="#4">When to regenerate the document?</a> </li>
+<li><a href="#5">RevitLookup centre parent for forms</a> </li>
+</ul>
+
+<h4><a name="2"></a> Revit API Panel at AU in Las Vegas</h4>
+
+<p>Last week, Augusto Gonçalves hosted
+the <a href="https://autodeskuniversity.smarteventscloud.com/connect/search.ww#loadSearch-searchPhrase=SD195990&amp;searchType=session">Revit API Panel at AU in Las Vegas</a>
+(search for 'Revit API Panel', 'Augusto Goncalves' or 'SD195990' in the <a href="https://www.autodesk.com/autodesk-university/las-vegas/sessions">AU session catalogue</a>):</p>
+
+<ul>
+<li><b>SD195990</b> Revit API Expert Roundtable: Open House on the Factory Floor</li>
+</ul>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833022ad3c0fcc6200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833022ad3c0fcc6200b image-full img-responsive" alt="2018-11-Revit API Panel at AU in Las Vegas" title="2018-11-Revit API Panel at AU in Las Vegas" src="/assets/image_bdf725.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>The panellists from left to right are Lijuan Zhu, Diane Christoforo, Rahul Bhobe and Miroslav Schonauer.</p>
+
+<p>Here are the notes taken by Diane, session handout and recording:</p>
+
+<ul>
+<li><a href="https://thebuildingcoder.typepad.com/files/2018-11-15_diane_christoforo_au_api_panel_notes.pdf">Notes</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/files/sd195990_revit_api_panel_augusto_goncalves_handout.pdf">Handout</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/files/2018-11-15_revit_api_panel_recording_au_las_vegas.m4a">Recording</a></li>
+</ul>
+
+<p>Very many thanks to Diane for the valuable notes!</p>
+
+<p>I reprint them here in full:</p>
+
+<h4><a name="2.0"></a> Notes by Diane Christoforo</h4>
+
+<ul>
+<li><a href="#2.1">Revit Ideas</a> </li>
+<li><a href="#2.2">Requests</a> </li>
+<li><a href="#2.3">Issues</a> </li>
+<li><a href="#2.4">Questions</a> </li>
+</ul>
+
+<h4><a name="2.1"></a> Revit Ideas</h4>
+
+<p>Here is a <a href="https://forums.autodesk.com/t5/revit-ideas/idb-p/302">link to Revit Ideas</a>.</p>
+
+<p>Your request may already be there! Vote! Add new ideas!</p>
+
+<p>If you want the API ideas specifically, you can <a href="https://forums.autodesk.com/t5/revit-ideas/idb-p/302/label-name/api">use the <code>API</code> tag filter</a>.</p>
+
+<h4><a name="2.2"></a> Requests</h4>
+
+<ul>
+<li>MEP systems need to keep their properties when demolished</li>
+<li>Easy way to get the wall core structure centreline from the wall type
+<ul>
+<li>[There is a suggestion in the recording but not in my notes]</li>
+</ul></li>
+<li>Ceiling API</li>
+<li>Need to tab-select into linked model elements (And in general, APIs need to work with links if we’re going to say something is supported!) </li>
+<li>The API documentation is pretty sparse. Can we get more detail and more examples?</li>
+<li>Access to the actual line weight definitions (i.e., line weight 5 means 8 pixels, for example) </li>
+<li>Expose the group transform</li>
+<li>Rehost a family instance
+<ul>
+<li>Definitely doesn't work on face based but would like it to work in all cases</li>
+<li>Also needs to work on links</li>
+</ul></li>
+<li>Ability to draw on the canvas in front of elements
+<ul>
+<li><code>DirectContext3D</code> draws behind elements</li>
+</ul></li>
+<li>Make <code>DirectContext3D</code> show up in printing</li>
+<li><code>ReferenceIntersector</code>
+<ul>
+<li>Make the calculation cached somehow so it's not slow every time you use it on a closed view?</li>
+<li>Can it work in non-3d views? </li>
+</ul></li>
+<li>CAD links
+<ul>
+<li>Get text box notes out of a CAD link from the API</li>
+<li>Also allow explode via the API</li>
+<li>Workaround: use dxf file?</li>
+</ul></li>
+<li>Getting multiple lines when two elements intersect in multiple places
+<ul>
+<li>[The note taker is not sure what she meant here. Interference check?] </li>
+</ul></li>
+<li>Key schedules
+<ul>
+<li>Either need to be able to make key schedules using shared parameters, or need to be able to make internal parameters with the API. [Note taker: it might mean normal where it says internal?]</li>
+</ul></li>
+<li>Rearrange the parameter list from the API</li>
+<li>[non-API?] When making a section or section box, can we have the new view keep the same design options as the original view?</li>
+</ul>
+
+<h4><a name="2.3"></a> Issues</h4>
+
+<ul>
+<li>Area property seems buggy. A comment that view-specific representations might not show the full picture and to use the model one.</li>
+<li>Changes to MEP fabrication elements do not trigger element updaters</li>
+<li>Revit warnings covering a WPF dialog
+<ul>
+<li>We recommended writing a failure handler but are not sure if this is an expected problem. It would be expected if you have a modal dialog. </li>
+</ul></li>
+<li>If you modify the two coordinates of a sloped pipe in the API, then the UI doesn't update properly. [not sure this was written down properly]</li>
+<li>Geometric properties of a solid in structural elements were giving different values depending on the zoom level.</li>
+</ul>
+
+<h4><a name="2.4"></a> Questions</h4>
+
+<ul>
+<li>How do you know when Revit is in a state where it will respond to an event? 
+<ul>
+<li>You can’t definitively know. It’s why it has to be an asynchronous mechanism.  </li>
+</ul></li>
+<li>Can you have arguments with ExternalEvents?
+<ul>
+<li>Yes, although [didn’t manage to write the answer down]</li>
+</ul></li>
+<li>Can I make an OptionsBar via the API?
+<ul>
+<li>No because Revit is moving away from options bars. We want everything on the ribbon. </li>
+</ul></li>
+<li>Revit core console, similar to the AutoCAD core console? 
+<ul>
+<li>No, this is not something we’re planning to support at this time.</li>
+</ul></li>
+<li>Why are slow FilteredElementCollectors of variable speed depending on whether the view's been opened or not? 
+<ul>
+<li>[trying to condense a rambling answer] The fast filters don’t need all of an element’s information to work. The slow filters need everything, and that 'everything' is usually first read in when you open a view containing the element. It’s a one-time operation. So, if the view is already open, the slow filters are faster because that work’s already been done. </li>
+</ul></li>
+</ul>
+
+<h4><a name="3"></a> Automatic BIM Dashboard Data Extraction</h4>
+
+<p>An interesting, recurring and fundamental issue of ever growing importance was raised in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/automatic-extraction-of-the-database-revives/m-p/8408934">automatic extraction of the database revives</a>
+&ndash; ignoring the fact that we don't know what 'revives' might be (reviews?):</p>
+
+<p><strong>Question:</strong> I am currently working on an internal project that will eventually extract database overviews of all our projects modelled with Revit automatically every night, to be then presented in the form of dashboards to the various members of the company. My IT Director is currently working on the subject but not knowledgeable in the API Revit, and me too. I would like to save some time by asking in this forum who could guide us towards a solution.</p>
+
+<p><strong>Answer:</strong> Here are some suggestions on various topics:</p>
+
+<p>First of all, you need to work through the material to help <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#2">getting started with the Revit API</a>.</p>
+
+<p>Before getting started with the Revit API, you should acquire as much knowledge as possible about Revit from the end user point of view.</p>
+
+<p>I would assume that you already have that &nbsp; :-)</p>
+
+<p>Here is one very old analysis
+of <a href="https://thebuildingcoder.typepad.com/blog/2009/01/database-integration.html">integrating Revit with an external database</a>.</p>
+
+<p>Many things have improved significantly since then, and your target is probably quite different (and much simpler than) the one discussed there.</p>
+
+<p>Still, that article might provide a few useful hints.</p>
+
+<p>By the way, talking about dashboards and things:</p>
+
+<p>I would strongly encourage you to look at a partially cloud-based solution, to provide convenient access to a much larger audience in a much more scalable manner, with access to a huge number of public domain JavaScript-based libraries that can vastly simplify your work and integration efforts.</p>
+
+<p>Here are some links to information about my own
+samples <a href="https://github.com/jeremytammik/FireRatingCloud">integrating desktop and cloud, provided in the FireRatingCloud overview</a>.</p>
+
+<p>They are also already pretty dated.</p>
+
+<p>Since then, Autodesk has made significant progress with <a href="https://autodesk-forge.github.io">Forge</a>,
+and <a href="https://thebuildingcoder.typepad.com/blog/2018/11/forge-design-automation-for-revit-at-au-and-in-public.html">Forge design Automation for Revit is just around the corner</a>.</p>
+
+<p>Maybe that will provide the most efficient path forward for your project as well?</p>
+
+<p>Good luck getting started and looking forward very much to continuing this discussion once you have gotten your feet wet.</p>
+
+<h4><a name="4"></a> When to Regenerate the Document?</h4>
+
+<p>Another even more fundamental and recurring issue
+concerns <a href="https://forums.autodesk.com/t5/revit-api-forum/when-to-use-doc-regenerate/td-p/8408490">when to use <code>doc.Regenerate</code></a>:</p>
+
+<p><strong>Question:</strong> I am starting to write an add-in in Revit that will deal with the creation of thousands of family instances, addition of parameters and its values on the fly. I have most of the bits of code required for the task, but I really have no clue on when to use <code>doc.Regenerate</code> or not (the less the better for best performance, and I understand that I may have to organize my add-in in order to minimize the number of calls).</p>
+
+<p>I have browsed the Internet, including Jeremy's blog notes on the topic, but it still seems to me that it remains some kind of trial and error operation.</p>
+
+<p>Are there any guidelines, recommendations or documentation on the type of Revit database update operations that require the use of <code>doc.Regenerate</code> inside a transaction?</p>
+
+<p><strong>Answer:</strong> Indeed, it may seem a bit like trial and error.</p>
+
+<p>In general, however, it should probably be pretty clear.</p>
+
+<p>Whenever a transaction is committed, Revit regenerates the document for you anyway, so you do not have to call it in that case.</p>
+
+<p>That will take care of many situations.</p>
+
+<p>The only cases that require explicit regen are when you make <u>several</u> different modifications within one single transaction, and/or query the model <u>after</u> some of them have been make.</p>
+
+<p>In that case, you may be retrieving <u>stale data</u>, outdated information that requires a regen to take the most recent modifications into account.</p>
+
+<p>In general, I would probably not make any calls to <code>Regenerate</code> until I notice that something is going wrong.</p>
+
+<p>Just keep in mind what can go wrong when stale data is accessed and used, always check your results, and be ready to add a regen call in case of need.</p>
+
+<p>If you have read and understood all the examples listed in
+the <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#5.33">topic group on the need to regenerate</a>,
+you should be well prepared to address your programming task, at least as far as this aspect is concerned.</p>
+
+<p>Good luck!</p>
+
+<p><strong>Response:</strong> Thanks for the confirmation, Jeremy. It is more or less what I expected. I have some experience on AutoCAD programming, where there was also a need to regenerate from time to time (but I was more or less aware about the rules of the game).</p>
+
+<p>I will re-read your blog inputs on the topic before getting deeply into the add-in and I will test sequences of operations to check whether they require a <code>Regenerate</code> operation or not.</p>
+
+<h4><a name="5"></a> RevitLookup Centre Parent for Forms</h4>
+
+<p>Last and probably least important, I'll point out a minor update made to centre the forms displayed by RevitLookup over their parent.</p>
+
+<p>This modification was prompted
+by <a href="https://github.com/jeremytammik/RevitLookup/issues/45">issue #45 &ndash; Center parent for forms</a> raised
+by <a href="https://github.com/TheKidMSX">TheKidMSX</a>, who also provided
+the <a href="https://github.com/jeremytammik/RevitLookup/pull/46">pull request #46 &ndash; Forms startposition correction</a> including the fixes.</p>
+
+<p>You can examine the exact modifications in
+the <a href="https://github.com/jeremytammik/RevitLookup/compare/2019.0.0.3...2019.0.0.4">diff</a> between
+<a href="https://github.com/jeremytammik/RevitLookup/releases/tag/2019.0.0.4">release 2019.0.0.4</a> containing the fix and the preceding release.</p>

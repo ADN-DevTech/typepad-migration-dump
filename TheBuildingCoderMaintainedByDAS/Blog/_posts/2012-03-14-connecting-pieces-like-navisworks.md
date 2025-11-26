@@ -1,0 +1,104 @@
+---
+layout: "post"
+title: "Connecting Pieces, Like Navisworks"
+date: "2012-03-14 06:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Data Access"
+  - "External"
+  - "Parameters"
+  - "Utilities"
+original_url: "https://thebuildingcoder.typepad.com/blog/2012/03/connecting-pieces-like-navisworks.html "
+typepad_basename: "connecting-pieces-like-navisworks"
+typepad_status: "Publish"
+---
+
+<p>The motto of last year's world tour of DevDays developer conferences was <b><i>Connecting the Pieces</i></b>, as in Autodesk suites, as in getting bits and pieces to work together seamlessly, as in the whole is greater than the sum of the parts.
+
+<p>This has also been reflected very clearly in the past few years of Revit product and API enhancements.
+So much is about integration.
+
+<p>Henrik Bengtsson of
+
+<a href="http://www.lindab.se">
+Lindab</a> embraces
+
+this idea and created a little 
+
+<a href="http://www.youtube.com/lindabgateway">
+gateway to Navisworks</a>:</p>
+
+<iframe width="480" height="274" src="http://www.youtube.com/embed/nBYuadrf8BU" frameborder="0" allowfullscreen></iframe>
+
+<p>In Henrik's words:
+
+<p>We implemented a plugin for Navisworks that shows all extended data that is created in Revit using our LindabRevitTools add-in. 
+The plugin is a way of reaching out to everyone working on site, since they use Navisworks a lot.
+
+<center>
+
+<a style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e1689788330168e8c80959970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330168e8c80959970c" alt="Lindab Navisworks gateway" title="Lindab Navisworks gateway" src="/assets/image_681521.jpg" border="0" /></a><br />
+
+</center>
+
+<!--
+<p>All information that I want to share in Navisworks is written to a set of Revit parameters, shared ones of course.
+
+<p>These parameter values are then shown inside Navisworks. 
+I use two different plugin-bases inside Navisworks, a dockpane and an eventswatcher.
+
+<p>I use a selectionchanged event to take care of the updating of the information in the dockable window.
+
+<p>Every parameter from Revit is automatically shown inside Navisworks as long as it has a value.
+
+<p>I decided to do all the hard work inside Revit instead of Navisworks, such as creating a class with the information that can be serialized and de-serialized. 
+
+<p>Half of the information that I show in Navisworks must be created inside Revit anyway, since it is plugin-specific information like quantities of material etc., so I didn't really have much choice anyway.
+
+<p>The first comments have been really good, since a lot of people on site sit with Navisworks licenses and are comfortable with the environment. 
+
+<p>They can do a walk-through and simply click on the wall to see the exact amount of materials needed to build it.
+Are we talking BIM or what? 
+No idea, but some people might think so...
+
+<p>Cross-platform work like this feels like a good way to go...
+
+<p>I will definitely do more stuff available for Navisworks. 
+
+<p>Why not watch the 3 minutes 
+
+<a href="http://www.youtube.com/lindabgateway">
+tutorial video</a> on 
+
+youtube... I posted it 30 minutes ago, fresh  ;-)
+
+<hr>
+-->
+
+<p>All information that I want to share in Navisworks is written to a set of Revit parameters. These are shared ones in this case, since I don't want to mix anything up with anyone else. 
+
+<p>These parameter values are read and displayed in Navisworks. 
+I use two different Navisworks plugin types, one to create the window and one that handles the events. 
+Most of the parameters are usually shown using the ordinary properties window, as long as they have a value. 
+On the other hand, I want the users to get the right amount of data (no more, no less) and formatted in a way that is easily to read. 
+That isn't achieved in any other way than this.
+
+<p>I decided to do all the hard work inside Revit instead of Navisworks, such as creating a class with the information that is about to be exchanged between Revit and Navisworks. 
+
+<p>Half of the information that I show in Navisworks must be created inside Revit anyway, since it is plugin-specific information like quantities of material etc., so I didn't really have much choice anyway. 
+
+<p>The first comments have been really good, since a lot of people on the construction site have purchased Navisworks licenses and are comfortable with the environment. 
+
+<p>They can do a walk-through and simply click on any wall to see the exact amount of steel profiles, insulation, and board material needed to build it. 
+Are we talking BIM or what? 
+
+<p>No idea, but some people might think so... ;-)
+
+<p>Cross-platform work like this feels like a good way to go... 
+
+<p>I will definitely do more stuff available for Navisworks. 
+
+<p>For more Revit and Navisworks videos from Lindab, 
+
+<a href="http://www.youtube.com/lindabgateway">
+www.youtube.com/lindabgateway</a>.

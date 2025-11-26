@@ -1,0 +1,190 @@
+---
+layout: "post"
+title: "Starter Kit, Books and Music"
+date: "2019-10-07 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "AI"
+  - "Deep Learning"
+  - "Docs"
+  - "Getting Started"
+  - "Music"
+  - "Philosophy"
+original_url: "https://thebuildingcoder.typepad.com/blog/2019/10/starter-kit-books-and-music.html "
+typepad_basename: "starter-kit-books-and-music"
+typepad_status: "Publish"
+---
+
+<p>I would like to share a couple of quick notes on books and music to start this week.</p>
+
+<p>A search for Revit API related books, a very nice new Revit API starter kit, a richer and much more complex literary AI-related book, and a quick bottleneck steel guitar blues recording not related with any technical topic whatsoever:</p>
+
+<ul>
+<li><a href="#2">A very basic book on Revit API</a></li>
+<li><a href="#3">Revit API starter kit</a></li>
+<li><a href="#3.1">Revit programming for beginners</a></li>
+<li><a href="#4">Machines like me</a></li>
+<li><a href="#5">Bottleneck blues guitar</a></li>
+</ul>
+
+<h4><a name="2"></a> A Very Basic Book on Revit API</h4>
+
+<p>Mehsan is <a href="https://forums.autodesk.com/t5/revit-api-forum/i-am-looking-for-a-very-basic-book-for-revit-2019-or-2018-api/m-p/9063954">looking for a very basic book on Revit API</a>:</p>
+
+<p><strong>Question:</strong> I am looking for a very basic book for Revit 2019 or 2018 API.</p>
+
+<p>I know CAD API but now I am looking for a very basic book for Revit 2019 or 2018 API programming.</p>
+
+<p><strong>Answer:</strong> I am not aware of any such book, but you can check out good tutorials on YouTube by Danny Bentley and another paid tutorial by Jeremy Graham.</p>
+
+<p>To get started with the Revit API, I suggest that you first take a look at the step-by-step instructions provided
+by <a href="https://knowledge.autodesk.com/support/revit-products/learn-explore/caas/simplecontent/content/my-first-revit-plug-overview.html">My First Revit Plugin</a>.</p>
+
+<p>The API documentation is provided in the <em>RevitAPI.chm</em> help file in the Revit SDK and also available online at  <a href="https://www.revitapidocs.com">revitapidocs</a>.</p>
+
+<p>For more information, you can work through the <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#2">Revit API getting started material</a>.</p>
+
+<p>If you wish to start with programming from zero, you may want to first learn some </p>
+
+<ul>
+<li>Basic programming in general &ndash; take a <a href="https://duckduckgo.com/?q=python+tutorial">Python tutorial</a></li>
+<li>Basic C# and .NET in general &ndash; take a <a href="https://duckduckgo.com/?q=C%23+.NET+tutorial">C# .NET tutorial</a></li>
+<li>Basic Revit API interaction &ndash; take a <a href="https://duckduckgo.com/?q=Revit+macro+tutorial">Revit macro tutorial</a></li>
+</ul>
+
+<p>All three of those steps can be very quickly and simply achieved and will immensely improve your understanding and simplify things for you if and when you decide to start creating your own full-blown Revit add-in.</p>
+
+<p>Finally, some very good advice on getting started programming Revit is provided
+by <a href="#3">David Raynor's Revit API Starter Kit described below</a>.</p>
+
+<h4><a name="3"></a> Revit API Starter Kit</h4>
+
+<p>David Raynor, Application Specialist and BIM Manager at Dewberry, provides some very good advice on getting started programming Revit in
+his article in the <a href="https://issuu.com/augi/docs/aw201910hr">AUGIWorld October 2019 issue</a> starting at
+page 20: <a href="https://issuu.com/augi/docs/aw201910hr/20">Revit API Starter Kit</a>.</p>
+
+<blockquote>
+  <p>This article is intended to be a starter kit for programming. You’ll find lots of links throughout to help you along your way. I know this may be coming to you in a printed format &ndash; I like it printed myself &ndash; but for what we are trying to do here, I’d recommend looking up this article on AUGI’s website so the hyperlinks will work.</p>
+</blockquote>
+
+<p>Here are the topics he covers:</p>
+
+<ul>
+<li>Dynamo</li>
+<li>Macros</li>
+<li>Add-Ins
+<ul>
+<li>Minimum Requirements</li>
+<li>Programming</li>
+</ul></li>
+<li>Programming Special Topics
+<ul>
+<li>Visual Studio Settings</li>
+<li>Breakpoints</li>
+<li>Transactions</li>
+<li>Try/Catch Blocks</li>
+<li>Multi-Version Support</li>
+<li>Keep With it</li>
+</ul></li>
+</ul>
+
+<p>Many thanks to David for putting together and sharing this helpful kit!</p>
+
+<h4><a name="3.1"></a> Addendum &ndash; Revit Programming for Beginners</h4>
+
+<p>After publishing the above, I happened upon yet another useful guide for getting started with the Revit API, Dan Mapes' instructional demo <em>BES219848 &ndash; Revit Programming for Beginners: Easily Access the Revit API Using Free Tools</em> at Autodesk University 2018.</p>
+
+<blockquote>
+  <p><strong>Description</strong></p>
+  
+  <p>Ever wanted to learn to use the Revit application programming interface? Programming in Revit software seems like a scary thing, but it doesn’t have to be. We will present on how to start using the Revit API using free tools. This class will guide attendees who use Revit but have never tried to access the API to accomplish simple tasks. Using element filters, transactions, and user interface will be the main focus. This will give each attendee a basic understanding and road map to creating their own scripts for Revit. We will use the following software: Revit, RevitPythonShell, RevitLookup, and pyRevit. Attendees will need basic understanding of Revit and entry-level understanding of Python.</p>
+</blockquote>
+
+<p>Material included:</p>
+
+<ul>
+<li>Overview</li>
+<li>Video &ndash; 1 hour 1 min</li>
+<li>Handout &ndash; 12 pages</li>
+<li>Presentation &ndash; 17 slides</li>
+<li>Downloads &ndash; 3 files</li>
+</ul>
+
+<p>Link:</p>
+
+<p><center></p>
+
+<p><a href="https://www.autodesk.com/autodesk-university/class/Revit-Programming-Beginners-Easily-Access-Revit-API-Using-Free-Tools-2018">Revit Programming for Beginners: Easily Access the Revit API Using Free Tools</a></p>
+
+<p><br/>
+</center></p>
+
+<h4><a name="4"></a> Machines Like Me</h4>
+
+<p>On a different topic, a literary work, exploring philosophical aspects of AI interaction.</p>
+
+<p>As <a href="https://thebuildingcoder.typepad.com/blog/2019/06/revit-camera-settings-project-plasma-da4r-and-ai.html#5">planned</a>,
+I just finished reading <a href="https://en.wikipedia.org/wiki/Machines_Like_Me"><em>Machines like me and People like you</em></a>
+by <a href="https://en.wikipedia.org/wiki/Ian_McEwan">Ian McEwan</a>.</p>
+
+<p>He is one of my favourite authors.
+Very loving, caring and compassionate with his characters and humanity in general, deeply interested in scientific and technical detail.</p>
+
+<p>His new book is inspired by recent advances in deep learning, such
+as <a href="http://thebuildingcoder.typepad.com/blog/2017/10/au-recording-books-education-and-units.html#6">AlphaGo</a>,
+<a href="https://thebuildingcoder.typepad.com/blog/2019/03/ai-trends-and-yearly-deprecated-api-usage-cleanup.html#2">AlphaZero</a> and
+how they are affecting human game strategy, 
+cf. <a href="https://www.goodreads.com/review/show/2731237101">Game Changer &ndash; AlphaZero's ground-breaking chess strategies and the promise of AI</a> by
+Matthew Sadler, among many other things.</p>
+
+<p>A very deep and loving analysis and pondering on human intelligence, emotions and failings versus AI and machines, and possible future aspects we face in their interaction.</p>
+
+<p>McEwan also takes a great number of very entertaining liberties with history and historical persons, e.g., Alan Turing, Margaret Thatcher, the Falkland war and dozens if not hundreds of other events.</p>
+
+<p>This quote towards the end of the book sums up part of it:</p>
+
+<blockquote>
+  <p>hope you'll listen to... to one last seventeen-syllable poem... it's not about leaves and trees.
+  It's about machines like me and people like you and our future together... the sadness that's to come.
+  It will happen. With improvements over time... we'll surpass you... and outlive you... even as we love you.
+  Believe me, these lines express no triumph... Only regret...</p>
+</blockquote>
+
+<p><center></p>
+
+<p>
+<br/>Our leaves are falling.
+<br/>Come spring we will renew.
+<br/>But you, alas, fall once.
+</p>
+
+<p><br/></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4db61e8200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4db61e8200b img-responsive" style="width: 180px; display: block; margin-left: auto; margin-right: auto;" alt="Machines Like Me" title="√" src="/assets/image_f8cbdf.jpg" /></a></p>
+
+<p style="font-size: 80%; font-style:italic">Machines Like Me</p>
+
+<p><br/>
+</center></p>
+
+<h4><a name="5"></a> Bottleneck Blues Guitar</h4>
+
+<p>Might you be interested in an 80-second recording of an old man
+playing <a href="https://en.wikipedia.org/wiki/Slide_guitar">bottleneck</a> blues
+on a steel string guitar?</p>
+
+<p>Check out Andy Milburn's <a href="https://youtu.be/QrI3hvv-_Ws">What Can I Say</a>:</p>
+
+<blockquote>
+  <p>Decided to just take clips of whatever I'm messing about with and post them.
+  Like a diary almost.
+  Learning from my blog perhaps.
+  Thinking out loud.</p>
+</blockquote>
+
+<p><center>
+<iframe width="480" height="270" src="https://www.youtube.com/embed/QrI3hvv-_Ws" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</center></p>
+
+<p>Andy's clip has 63 views and 39 subscribers so far... I predict these numbers will grow.</p>

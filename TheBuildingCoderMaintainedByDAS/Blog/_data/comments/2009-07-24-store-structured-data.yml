@@ -1,0 +1,146 @@
+comments:
+- author: David VS
+  email: david.vanslyke@mcquay.com
+  ip: 63.163.54.129
+  url: ''
+  date: '2009-07-24 17:05:36'
+  body: "BinaryFormatters can have issues that using XML serializers do not have.\
+    \  At the very least if either your assembly or data-holding class names change\
+    \ later, the sample code will not be able to deserialize the string that had been\
+    \ stored with a previous incarnation of the class/assembly.  \n\nPlus if someday\
+    \ we can digitally sign our assemblies for use in Revit, then a version number\
+    \ change to a digitally-signed assembly will also cause the sample code to fail\
+    \ on later deserialization.\n\nXML serialization tends to be much more forgiving\
+    \ of later changes to structure or environment.\n\nFurther, if your complex data\
+    \ is stored in a DataSet (ideally strongly-typed) you get free methods to read\
+    \ and write them as XML.  But it's only a few lines of code to to XML serialize\
+    \ and deserialize more traditional classes.\n\nXML serialization has its limitations,\
+    \ too.  For example, it does not work on data stored in properties that are read-only\
+    \ (properties to persist must be read-write).\n\nPlus if compressing the generated\
+    \ XML, in a Revit environment you still have to convert the final compressed bytes\
+    \ back into a string for storing into a Revit parameter.  While not difficult,\
+    \ it is an extra step.  It's possible the final size might be a bit larger, too.\n\
+    \nSo both mechanisms have caveats.  But for long-term readability, XML serialization\
+    \ tends to be the safer starting point, plus it has other advantages, such as\
+    \ readily avialable tools for transforming the data, and XML is also generally\
+    \ human-readable, which can be a big help for debugging purposes."
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 189.26.206.236
+  url: http://arxdummies.blogspot.com
+  date: '2009-07-27 09:01:08'
+  body: 'Jeremy,
+
+
+    How to create a hidden Family Instance parameter to store custom data?
+
+
+    In regards to the XML options I agree with David because as the XML is a structured
+    data it support much better any versioning and expanded data.
+
+
+    Regards'
+- author: David VS
+  email: david.vanslyke@mcquay.com
+  ip: 63.163.54.129
+  url: ''
+  date: '2009-07-27 11:15:25'
+  body: "NOTE:  This response is more from the family editor API perspective.  Not\
+    \ sure how much translates to using the API from the project editor.\n\n***Shared***\
+    \ parameters have a \"Visible\" property that defaults to 1 (visible).  It's the\
+    \ last value of each parameter in the shared parameters file.\n\nUnfortunately\
+    \ to change that you must manually edit the shared parameters file to set it to\
+    \ 0 for your parameter of interest.\n\nYou could try adding a shared parameter\
+    \ defined as not visible to your family, then setting that value with the API.\n\
+    \nA bug in the API currently prevents you from getting to the \"ExternalDefinition\"\
+    \ for a shared parameter, so you can't query/set the visibility value with the\
+    \ API currently.\n\nI've not played with shered parameters whose Visible = 0,\
+    \ though (API or GUI).\n\nWorst case if it is visible in the GUI, if you're concerned\
+    \ about the *values* being human-readable, you could at least encrypt the string\
+    \ before storing it into the parameter. \n\nYou could also set it into the formula\
+    \ for the parameter (put double-quotes around it) which would make it uneditable\
+    \ in the project editor.  However, as always, if the user does an \"Edit Family\"\
+    \ they'll be able to change that value."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-07-27 13:44:55'
+  body: "Dear David,\n\nThank you very much for all these many very valid and valuable\
+    \ points!\n\nDear Fernando,\n\nYou can have a look at the example presented in\
+    \ \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/06/model-group-shared-parameter.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/06/model-group-shared-parameter.html</a>\n\
+    \nThere is a call to group.Definitions.Create in there to create the shared parameter,\
+    \ and its last argument is a Boolean indicating whether it is visible or not.\n\
+    \nCheers, Jeremy."
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 189.26.206.236
+  url: http://arxdummies.blogspot.com
+  date: '2009-07-27 15:44:42'
+  body: 'Jeremy,
+
+
+    I was wondering invisible Family Instance parameters...can''t find the visibility
+    property of these type of parameters at the current API (property seems to be
+    read only).
+
+
+    David,
+
+
+    Yes, but the problem is more related to avoid the user to edit the parameter.
+    Maybe if it can be at least read only from GUI that would help a lot.
+
+
+    Regards.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-07-27 16:42:05'
+  body: 'Dear Fernando,
+
+
+    Yes, the ExternalDefinition.Visible property is indeed read-only. As I mentioned
+    above, you can set it when the property is created, and it cannot be modified
+    later.
+
+
+    Cheers, Jeremy.'
+- author: David VS
+  email: david.vanslyke@mcquay.com
+  ip: 63.163.54.129
+  url: ''
+  date: '2009-07-27 17:37:18'
+  body: 'Fernando:
+
+
+    On a family where you have a string parameter if you set the *formula* for that
+    value to be the string in double-quotes, it should be read-only in the project.
+
+
+    For example, if the formula for the Manufacturer parameter is:
+
+
+    "My Manufacturer"
+
+
+    (including the double-quotes) it should be read-only in the project.
+
+
+    Another choice is to use a full-fledged formula, for example:
+
+
+    if(1=1,"My Manufacturer", "")
+
+
+    Either way, when reading the value back out it should just be the actual contents
+    of the string (it won''t have double-quotes around it).
+
+
+    Hope that helps.
+
+
+
+    -----'

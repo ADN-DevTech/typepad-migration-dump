@@ -1,0 +1,531 @@
+comments:
+- author: Patricia van Leeuwen
+  email: ''
+  ip: 62.21.139.101
+  url: http://profile.typepad.com/6p012875888eed970c
+  date: '2009-11-12 08:43:37'
+  body: 'Hi Jeremy,
+
+
+    This is exactly what i need. Do you have the code perhaps in VB? I''m a starter
+    and it''s difficult to see it from C#.
+
+
+    Greets Patrica van Leeuwen'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.105.160
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-12 09:12:50'
+  body: 'Dear Patricia,
+
+
+    Wow, great, lucky you, I am glad it is useful. Sorry to say, I do not have the
+    code in VB. I discussed the issue of converting from C# to VB a couple of times,
+    and there should be no issue converting this little class using any of the tools
+    mentioned in the following posts:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2008/10/converting-between-vb-and-c-and-net-decompilation.html">http://thebuildingcoder.typepad.com/blog/2008/10/converting-between-vb-and-c-and-net-decompilation.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/05/vb-samples-and-other-questions.html#2">http://thebuildingcoder.typepad.com/blog/2009/05/vb-samples-and-other-questions.html#2</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/07/porting-from-c-to-vbnet.html">http://thebuildingcoder.typepad.com/blog/2009/07/porting-from-c-to-vbnet.html</a>
+
+
+    Good luck to you and lots of success getting into the Revit API!
+
+
+    Cheers, Jeremy.'
+- author: Dan Tartaglia
+  email: dtartaglia@nbbj.com
+  ip: 74.202.85.246
+  url: ''
+  date: '2009-11-12 10:14:00'
+  body: 'Hi Jeremy, I''m new to the API and followed your example. One problem, you
+    didn''t define the variable: ''Util'' in the example code on the web page and
+    in the example CS. Could you please tell me where and how to define this variable?
+
+
+    Thanks,
+
+    Dan'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.105.160
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-12 10:48:35'
+  body: "Dear Dan,\n\nSimply download the entire attached version 1.1.0.53 of the\
+    \ source code and Visual Studio solution. \n\nIt contains all the code required,\
+    \ including the Util class.\n\nCheers, Jeremy."
+- author: Saro
+  email: ''
+  ip: 121.241.69.194
+  url: http://profile.typepad.com/6p0115708e342f970b
+  date: '2009-12-09 01:52:11'
+  body: "Dear Jeremy:\n\nWhen I tried to add a shared parameter to a Family Instance,\
+    \ the value is not being set. I have followed the \"FireRating\" example for the\
+    \ implementation.\n\nMy procedure is as follows:\n\n1. Create a Family instance\
+    \ \n2. Create a Parameter by accessging the shared parameter file and adding the\
+    \ same under the \"others\" group.\n3. I set a value to the parameter.\n\nThe\
+    \ problem:\n\nSome times the binding result in false return.\nEven if I get the\
+    \ parameter by get_parameter() method, the value is not being set.\n\n//My code\
+    \ is like this\nFamilyInstance FI - is my instance object\nParameter p = FI.get_parameter(\"\
+    IFCGUID\"); \n\n... The above returns the correct parameter object\n\np.Set(\"\
+    my value\");\n\n... Setting the value does not happens\n\nFor you information,\
+    \ IFCGUID parameter is already existing for OST_Rooms category also. \nDoes it\
+    \ affect the same parameter name to be set for OST_Furniture also?\n\nPlease help\
+    \ me."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-09 08:49:27'
+  body: 'Dear Saro,
+
+
+    Thank you for the description, but I am afraid I have no idea what the problem
+    might be. I would simply suggest the standard debugging procedure of reducing
+    and simplifying until either the problem disappears or you have reduced it to
+    the absolute minimal case at which point everything suddenly becomes clear.
+
+
+    Cheers, Jeremy.'
+- author: Saro
+  email: kklsara@gmail.com
+  ip: 115.184.22.248
+  url: ''
+  date: '2009-12-10 11:13:26'
+  body: 'Dear Jeremy:
+
+
+    Thanks for your reply.
+
+    I would like to know one simple thing as below.
+
+
+    Is it possible to create identical shared parameter name for different Family
+    categories?
+
+
+    Ex: I have a param named "MyParam".
+
+
+    I want to create this param to diffent Family categories such as Furnitues, Floors,
+    Rooms, etc.
+
+
+    Is this possible?
+
+
+    Thanks,
+
+    -Saro'
+- author: Jeremy Tammik
+  email: ''
+  ip: 193.82.81.227
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-13 14:56:10'
+  body: 'Dear Saro,
+
+
+    First of all, yes. I believe that you can create as many shared parameters with
+    the same name as you like. Obviously, this is a brilliant way to confuse your
+    users. The different identically named parameters are differentiated by their
+    different GUIDs.
+
+
+    Secondly, when you bind a shared parameter to Revit elements, you are always binding
+    it to a set of categories, i.e. one or more categories. Therefore, instead of
+    creating multiple different shared parameters with the same name, a more efficient
+    and easily manageable approach would be to add al the required categories to the
+    category set you bind the parameter to. Please refer to the discussion
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/06/model-group-shared-parameter.html">http://thebuildingcoder.typepad.com/blog/2009/06/model-group-shared-parameter.html</a>
+
+
+    This post also links back to other topics dealing with shared parameters.
+
+
+    Cheers, Jeremy.'
+- author: Michael
+  email: michael.john.rogers@hotmail.com
+  ip: 203.185.226.162
+  url: ''
+  date: '2009-12-16 17:57:23'
+  body: 'Dear Jeremy,
+
+
+    I was wondering if there is a sample somewhere for replacing parameters in multiple
+    families from non-shared to shared parameters in a batch type environment.
+
+    Similar to the Auto Parameter application out of the SDK.
+
+
+    Thanks,
+
+    Michael'
+- author: Jeremy Tammik
+  email: ''
+  ip: 151.14.164.20
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-17 05:18:04'
+  body: 'Dear Michael,
+
+
+    Not that I am aware of, I''m afraid. The existing samples should provide all the
+    information needed to create a utility like that yourself. They are only intended
+    to demonstrate the basic principles, you know, not provide ready-made solutions
+    for every need  :-)
+
+
+    Cheers, Jeremy.'
+- author: Carl H
+  email: carl.hoffstedt@astacus.se
+  ip: 213.113.122.39
+  url: ''
+  date: '2010-01-05 08:10:29'
+  body: "Dear Jeremy,\n\nI have developed a simular extension and the purpose is to\
+    \ add some shared parameters to a set of families and set the value to some of\
+    \ the paramaters as strings.\n\nThis works but only for one type of the family.\
+    \ Let say I have a table for example with one type for each dimension. If I try\
+    \ to run my extension the parameters are set but the value is only assign to the\
+    \ first type in the family.\n\nI'm using code simular to this:\n\nFamilyManager\
+    \ familyManager = doc.FamilyManager;\n                foreach (FamilyType type\
+    \ in familyManager.Types)\n                {\n                    foreach (FamilyParameter\
+    \ para in familyManager.Parameters)\n                    {                   \
+    \  \n                        if (para.Definition.Name == \"MySpecialNameOfTheParameter\"\
+    )\n                        {   \n                            familyManager.Set(para,\
+    \ \"Some text...\");\n                        }\n                    }\n     \
+    \           }\n\nDo you have any idea how to solve this? It seems that there is\
+    \ no connection between the FamilyType and the FamilyParameter so what I'm actually\
+    \ doing is to set the value of the same parameter the number of times I have Types.\n\
+    \nThanks in advance,\nCarl"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-12 12:47:32'
+  body: "Käre Carl,\n\nThe parameters in a family are structured differently from\
+    \ the ones in a project file, and this needs to be understood first. In a project\
+    \ file, there is a parameter definition which defines the parameter name and data\
+    \ type etc., and a parameter instance which determines it value and other details.\
+    \ In a family file, there is another level of indirection, because one individual\
+    \ parameter can have different values for each type in the family. Therefore,\
+    \ the parameter itself does not hold the parameter value for an individual type,\
+    \ but rather each type holds a value for each parameter of the family. \n\nWhen\
+    \ you call FamilyManager.Set, it sets the value only for the currently active\
+    \ type in the family. You need to iterate over all the types contained in the\
+    \ family, set each one in turn to be the current type, and then call FamilyManager.Set\
+    \ for each parameter to set the parameter value for that type.\n\nThis is explained\
+    \ in detail and demonstrated for reading family type parameter values in\n\n<a\
+    \ href=\"http://thebuildingcoder.typepad.com/blog/2009/11/family-parameter-value.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/11/family-parameter-value.html</a>\n\
+    \nYou can also take a look at \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/11/change-family-parameter-value.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/11/change-family-parameter-value.html</a>\n\
+    \nCheers, Jeremy."
+- author: J
+  email: netmanjay@yahoo.com
+  ip: 198.51.229.30
+  url: ''
+  date: '2010-02-09 17:06:43'
+  body: "Is it possible to create an instance parameter for a FamilyInstance while\
+    \ running in project mode?  I noticed that I can reload a family and this functionality\
+    \ will overwrite the existing parameter types (for each FamilyInstance) in my\
+    \ project, I wish to do this at the project level (programmatically).  \nThe FamilyManager\
+    \ class only seems to run in Family Editor mode.  Is there a different way to\
+    \ go about this?  Thanks"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.153.231
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-02-12 00:20:44'
+  body: 'Dear J,
+
+
+    You can open and manipulate a family document through the API in the background,
+    while the user interface remains in the project editor. The user will not notice
+    these background operations taking place. Many applications manipulate family
+    documents through the API while the user interface continues displaying the open
+    active project document. So yes, what you ask for is eminently doable.
+
+
+    Cheers, Jeremy.'
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 189.115.131.209
+  url: http://arxdummies.blogspot.com
+  date: '2010-10-05 15:26:50'
+  body: "Jeremy,\n\nIn this case, is this approach limited only to Type Parameters?\
+    \ \n\nWhat about Instance Parameters? Are they stored by the same way (per Type)\
+    \ and can also be accessed through FamilyManager?\n\nRegards."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-10-05 15:59:24'
+  body: 'Dear Fernando,
+
+
+    Yes, I would say that the parameters listed above such as Width, Depth, Tw and
+    Td are type parameters, just as you say. I don''t know about instance parameters.
+    I had a look at various other posts dealing with this issue, such as
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/06/adding-a-shared-parameter-to-an-rfa-file.html">http://thebuildingcoder.typepad.com/blog/2009/06/adding-a-shared-parameter-to-an-rfa-file.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/08/the-revit-family-api.html">http://thebuildingcoder.typepad.com/blog/2009/08/the-revit-family-api.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/10/revit-family-creation-api-labs.html">http://thebuildingcoder.typepad.com/blog/2009/10/revit-family-creation-api-labs.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/11/family-parameter-value.html">http://thebuildingcoder.typepad.com/blog/2009/11/family-parameter-value.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/11/change-family-parameter-value.html">http://thebuildingcoder.typepad.com/blog/2009/11/change-family-parameter-value.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/02/creating-a-dimension-label.html">http://thebuildingcoder.typepad.com/blog/2010/02/creating-a-dimension-label.html</a>
+
+
+    All the calls made to the AddParameter method a made with a false value for the
+    Boolean isInstance argument. I would suggest you try it out and see. I assume
+    that will require a similar exploration as above to understand. If you do document
+    your exploration, please feel free to guest edit a blog post on it  :-)
+
+
+    Cheers, Jeremy.'
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 189.115.131.209
+  url: http://arxdummies.blogspot.com
+  date: '2010-10-06 15:52:26'
+  body: 'Jeremy,
+
+
+    I''m testing your code and I''m facing a problem (or API limitation).
+
+
+    It is possible to create Families without any types. Even by creating those families
+    the parameter value can still be set but I can''t retrieve them by searching inside
+    FamilyManager.Types collection because it is empty.
+
+
+    As an alternative I have tried to look into FamilyManager.CurrentType property
+    which is null in this case.
+
+
+    I have also explored several RevitLookup nodes looking for the parameter values
+    without any success.
+
+
+    Where are the parameter values being stored on this "Typeless Family" scenario
+    and how to retrieve them through the API?
+
+
+    Regards.'
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 189.115.131.209
+  url: http://arxdummies.blogspot.com
+  date: '2010-10-06 15:53:14'
+  body: 'Ok, I will further investigate this.
+
+    Thank you.'
+- author: Jeff Z.
+  email: jzbikowski@gmail.com
+  ip: 207.151.55.49
+  url: ''
+  date: '2012-04-22 15:29:37'
+  body: "Jeremy,\n\nThank you for all your helpful coding pages... I have a question\
+    \ that involves several steps. \n\nI'm attempting to create a plugin for a school\
+    \ project in which you can measure the light intensity at a specific point given\
+    \ a certain layout of lights. To simplify this, lets assume there is only a single\
+    \ light. In order to calculate this you need to extract the parameter values for\
+    \ the light initial intensity as well as the distance between the light and the\
+    \ point of measurement. I imagine This can be done two ways, one where you extract\
+    \ the world coordinate points (if possible) of each object and through trigonometry\
+    \ calculate distance. The other would be to extract a distance from a dimension\
+    \ line.\n\nI'm a beginner at this coding business, and all I've been able to work\
+    \ out myself is how to extract type values of the lighting fixture. \n\nWhat suggestions\
+    \ can you provide me? Any help is greatly appreciated!\n\nBest,\n\nJeff Z."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.183.95
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-07 04:39:34'
+  body: "Dear Jeff,\n\nThank you for your appreciation. \n\nI would definitely stick\
+    \ with the standard simple geometry and geometrical analysis.\n\nExtracting coordinate\
+    \ points is possible and easy.\n\nI would not try to start creating additional\
+    \ Revit elements such as dimensions. That sounds vastly more complicated to me.\n\
+    \nCheers, Jeremy."
+- author: Sebastjan
+  email: sebastjan.meza@gmail.com
+  ip: 193.2.91.64
+  url: ''
+  date: '2012-12-18 03:56:29'
+  body: "Dear Jeremy. \n\nI have followed this example and doing so I was able to\
+    \ create an addin that allows you to get family parameters from family document\
+    \ in Revit 2013. \n\nThe only thing that does not work is the “second storage\
+    \ case” (case StorageType.ElementId:). \n\nIs this a Revit version specific problem,\
+    \ while as I mentioned I am creating an addin for Revit 2013?\n\nThe second question\
+    \ I want to ask is: is it possible to get “Materials and Finishes” parameter value\
+    \ because as it can be seen from result of your example this code only allows\
+    \ you to get reference to a specific material  “ColumnFinish = 574 (Materials\
+    \ <574 Glass>)”. \n\nThanks."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-12-18 10:07:26'
+  body: 'Dear Sebastjan,
+
+
+    This code should work in Revit 2013 as well. The “Materials and Finishes” parameter
+    value type is an element id. It contains the element id of a specific material,
+    whatever was assigned to the selected element. That is basically just an integer.
+    The string representation is generated by the FamilyParamValueString method.
+
+
+    Cheers, Jeremy.'
+- author: Jasper Desmet
+  email: jasper_desmet@hotmail.com
+  ip: 85.234.213.100
+  url: ''
+  date: '2013-10-07 05:38:10'
+  body: 'Hey Jeremy,
+
+
+    just a question to understand why (I encountered this just now while writing code):
+
+
+    In the code you use a cast to ensure the return of a double when using the AsDouble()-method:
+
+
+    ( double ) t.AsDouble( fp );
+
+
+    This cast is necessary, as the AsDouble()-method returns a ''double?''.
+
+    What exactly is a ''double?''; What''s the difference with a normal ''double''
+    and why does the AsDouble()-method not return an normal ''double''?
+
+    I had never encountered a ''double?'' before, and can''t seem to find an explanation
+    using google. Just interested in how it works. :)
+
+
+    Greeting,
+
+    Jasper'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.210.243
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-10-07 08:08:54'
+  body: 'Dear Jasper,
+
+
+    Thank you for the pertinent question.
+
+
+    That probably has only historical reasons. I assume that an earlier version of
+    the code did not call the RealString method, maybe just used a straight call ToString
+    or something like that, and needed some disambiguation.
+
+
+    As far as I can tell by just looking at it, the cast no longer makes any sense
+    whatsoever and can be removed.
+
+
+    I think that almost all you can possibly wish to learn about doubles is provided
+    by the Wikipedia article:
+
+
+    <a href="http://en.wikipedia.org/wiki/Double-precision_floating-point_format">http://en.wikipedia.org/wiki/Double-precision_floating-point_format</a>
+
+
+    Cheers, Jeremy.'
+- author: Preetesh
+  email: sunil.magdum@gmail.com
+  ip: 115.115.193.158
+  url: ''
+  date: '2014-09-19 06:35:26'
+  body: 'sorry to drop this post here , but here is serious question :
+
+    i need a parameter which can share same values  for two categories. Ex: if in
+    a structural member(beam or column or footing) reinforcement is assigned . i need
+    a parameter in structural member which should be shared by the rebars in that
+    structural member.
+
+
+    please let me know if this can be possible ..!!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 84.137.127.251
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-09-19 06:49:48'
+  body: 'Dear Preetesh,
+
+
+    I cannot really answer this from the Revit side of things, since it is more of
+    a product and user interface question than an API issue.
+
+
+    If the user interface supports this, which I doubt, then the API does as well.
+
+
+    From a programming point of view, I can think of numerous way to achieve an effect
+    similar to what you are asking for.
+
+
+    For example, if Revit forces you to add separate parameters on each el;element,
+    you can use the DMU framework to keep them all synchronised.
+
+
+    Depending on what you want them for, you may be better off using other techniques
+    instead, e.g. extensible storage, possibly in one single separate container for
+    all members, an external database, etc.
+
+
+    Sounds like some creative thinking outside the box might come in useful here...
+
+
+    Cheers, Jeremy.'
+- author: vyom dixit
+  email: vyom.dixit@diaspark.com
+  ip: 125.21.22.130
+  url: ''
+  date: '2014-09-23 09:17:05'
+  body: "Hi Jeremy,\n\n       Thanks to you for such a nice and helpful post. You\
+    \ have demonstrated the way perfectly, but i have a question about this post.\
+    \ Can we get the selected element family parameters and it's values in Revit document?\
+    \ Is there any way or approach that you can suggest. It would be more helpful\
+    \ if you can do so.\n\n       Please reply ASAP. I am developing an add-in that\
+    \ fetch all information from a selected RevIT document element and store it in\
+    \ external database.\n\nThanks"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-09-23 10:10:31'
+  body: 'Dear Vyom Dixit,
+
+
+    This is amply covered in the getting started material:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#2">http://thebuildingcoder.typepad.com/blog/about-the-author.html#2</a>
+
+
+    For instance, both the My First Revit Plug-in and DevTV tutorials demonstrate
+    this.
+
+
+    Cheers, Jeremy.
+
+    -----'

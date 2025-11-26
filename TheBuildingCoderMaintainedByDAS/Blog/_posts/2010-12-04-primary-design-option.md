@@ -1,0 +1,29 @@
+---
+layout: "post"
+title: "Primary Design Option"
+date: "2010-12-04 04:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Data Access"
+original_url: "https://thebuildingcoder.typepad.com/blog/2010/12/primary-design-option.html "
+typepad_basename: "primary-design-option"
+typepad_status: "Publish"
+---
+
+<p>Here is a neat little 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2009/11/visible-elements.html?cid=6a00e553e168978833013488fe0388970c#comment-6a00e553e168978833013488fe0388970c">
+idea by Benson</a> on 
+
+how to retrieve the primary design option in a project that has been rattling around in my to-do list for a while now and seems suitable for a Tel Aviv Saturday morning post:
+
+<p>The method DesignOption.GetActiveDesignOptionId exists in the Revit 2011 API, and this method can return the 'active' design option id.
+However, it is not the primary design option id.
+
+<p>The DesignOption class property IsPrimary indicates whether a design option is primary.
+
+<p>So, we can iterate though all design options and use that property to determine the primary one.
+
+<p>The Revit 2010 API does not provides the method 'GetActiveDesignOptionId' and property 'IsPrimary', so it seems impossible to get the active design option and primary option in that version.
+
+<p>Thanks to Benson for this hint!

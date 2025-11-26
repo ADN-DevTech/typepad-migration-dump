@@ -1,0 +1,397 @@
+comments:
+- author: gregory mertens
+  email: info@mertens3d.com
+  ip: 24.153.223.4
+  url: http://mertens3d.com
+  date: '2009-08-24 14:12:56'
+  body: "Have you tried to change a detail or model line style in 2010? I've been\
+    \ playing with it but can't get it to work. \n\nessentially it breaks down to\n\
+    \nDim new_linestyle_elem As Autodesk.Revit.Element\n\n' a sub\nnew_linestyle_elem\
+    \ = get_line_style_from_detail_line(element, \"\")\n\n\nDim target_param As Autodesk.Revit.Parameter\n\
+    'another sub\ntarget_param = get_param_from_elem(element, \"line style\")\n\n\
+    'assign it\n\ntarget_param.Set(new_linestyle_elem.Id)\n\n'error!\n\nI wonder if\
+    \ you have any ideas \n\n...gregory"
+- author: gregory mertens
+  email: info@mertens3d.com
+  ip: 24.153.223.4
+  url: http://mertens3d.com
+  date: '2009-08-24 14:29:10'
+  body: 'ah....you kind of answered it on one of your other posts.
+
+
+    :)....very cool....i needed to wrap my set in begin and endtransaction.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.110.235
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-08-24 15:11:21'
+  body: 'Dear Gregory,
+
+
+    Congratulations on sorting that out on your own!
+
+
+    Cheers, Jeremy.'
+- author: Salvador Elizarrarás
+  email: masivacore@hotmail.com
+  ip: 189.234.145.215
+  url: http://profile.typepad.com/6p0115710bcd5d970c
+  date: '2009-09-05 00:46:06'
+  body: 'Hello Jeremy
+
+
+    I''m back in your blog. I saw your last answer to my question (<a href="http://thebuildingcoder.typepad.com/blog/2009/03/transform-instance-coordinates.html">http://thebuildingcoder.typepad.com/blog/2009/03/transform-instance-coordinates.html</a>
+    ) and I am very grateful with your help. Now  I have another question about the
+    material of a FamilySymbol, I tried with your code but you obtain the FamilySymbol
+    from an element, and I''m trying to obtain the material of all FamilySymbols loaded
+    in the document (at this moment I have all the FamilySymbols loaded in current
+    document, but i cannot get the material from those FamilySymbols), Can you help
+    me?
+
+
+    Thanks for you great help!
+
+
+    Salvador'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-09-05 08:59:42'
+  body: "Dear Salvador,\n\nGlad to hear back from you again, and I am happy that the\
+    \ previous answer helped. \n\nRegarding your question on materials, have you looked\
+    \ yet at the following two posts?\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2008/10/element-materials.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2008/10/element-materials.html</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2008/10/family-instance-materials.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2008/10/family-instance-materials.html</a>\n\
+    \nPlease also have a look at the examples and explanations in section 17.3 Element\
+    \ Material in the Revit SDK developer guide 'Revit 2010 API Developer Guide.pdf'.\n\
+    \nCheers, Jeremy."
+- author: Salvador Elizarrarás
+  email: masivacore@hotmail.com
+  ip: 189.234.145.215
+  url: http://profile.typepad.com/6p0115710bcd5d970c
+  date: '2009-09-05 19:36:07'
+  body: 'Hey Jeremy, I have seen the two links that you sent me and I have checked
+    the developer guide, but I need the default material from the .rfa files (by Type).
+    In other words I need the material of all columns and beams symbols (Types) loaded
+    in the document (not necessary placed as elements of the model). I saw that if
+    I open a .rfa file I can modify the material value that will be loaded for all
+    elements with that symbol and that family, I want to get that material for each
+    symbol and family loaded in my document.
+
+
+    Thanks again for you help!
+
+
+    Salvador'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-09-06 02:38:51'
+  body: 'Dear Salvador,
+
+
+    Thank you for the clarification and the interesting topic. The approach is basically
+    similar to that outlined in the developer guide. Go through all the types you
+    are interested in. For each, you can open its family document and go through its
+    geometrical elements. Each element either has a material assigned to it, or it
+    inherits the default material for its assigned  category.
+
+
+    Cheers, Jeremy.'
+- author: alexander.salor@gmail.com
+  email: alexander.salor@gmail.com
+  ip: 193.146.78.93
+  url: http://www.google.com
+  date: '2009-12-09 11:06:02'
+  body: "Hello Jeremy. I´m spanish student (¡Sorry for my English!) and new on Revit,I\
+    \ have a problem and I hope that you can help me.\n\nI want to store a Revit family\
+    \ on a database but I don`t know how.\n\nThe idea is to create new families using\
+    \ Revit and with the API store this families on a database.¿Is it possible?\n\n\
+    I have been trying to store a Revit family to a separate RFA file on disk using\
+    \ your code:\n\n\nconst string _path = \"C:/tmp/extract/\";\n \npublic IExternalCommand.Result\
+    \ Execute(\n  ExternalCommandData commandData,\n  ref string message,\n  ElementSet\
+    \ elements )\n{\n  Application app = commandData.Application;\n  Document doc\
+    \ = app.ActiveDocument;\n \n  Filter filter = app.Create.Filter.NewTypeFilter(\n\
+    \    typeof( Family ) );\n \n  List fams = new List();\n  doc.get_Elements( filter,\
+    \ fams );\n \n  foreach ( Family f in fams )\n  {\n    string name = f.Name;\n\
+    \    try\n    {\n      Document famDoc = doc.EditFamily( f );\n      famDoc.SaveAs(\
+    \ _path + name + \".rfa\" );\n      famDoc.Close( false );\n      Debug.Print(\
+    \ \"Success processing '{0}'\",\n        name );\n    }\n    catch( Exception\
+    \ ex )\n    {\n      Debug.Print( \"Error processing '{0}': {1}\",\n        name,\
+    \ ex.Message );\n    }\n  }\n  return IExternalCommand.Result.Failed;\n}\n\n\n\
+    But I have a AccesViolationException in the line \"doc.get_Elements( filter, fams\
+    \ );\".\n\n¿What you think that it is the problem?\n\nThanks for help me."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-10 03:06:10'
+  body: 'Hola Alex,
+
+
+    Que tal? I believe that you are having an issue with VB. You are passing in a
+    List. I don''t know what that will end up being in VB. In C#, the method get_Elements
+    takes a generic List&ltElement&gt;. Maybe the name of the property is even not
+    get_Elements in VB:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/09/document-elements.html">http://thebuildingcoder.typepad.com/blog/2009/09/document-elements.html</a>
+
+
+    Cheers, Jeremy.'
+- author: alexander.salor@gmail.com
+  email: alexander.salor@gmail.com
+  ip: 193.146.78.82
+  url: http://www.google.com
+  date: '2009-12-10 10:25:47'
+  body: "Hello Jeremy, thank you for helping me.\n\nAs you know I'm trying to store\
+    \ a Revit family made with the Revit program in a database.\nI made other function\
+    \ to skip the problem with \"get_Elements\" but it it doesn't work.\n \n¿What\
+    \ I must do to get the family in the code? I will explain better(I know,you don´t\
+    \ understnad anything XD):\nI have selected in the Revit program one family, then\
+    \ I executed my external command. While I´m debuging the program at this line:\n\
+    \npublic IExternalCommand.Result Execute(ExternalCommandData commandData, ref\
+    \ string message, ElementSet elements) the variable \"elements\" is empty and\
+    \ then the program fails.\n\n¿What I making wrong?¿What I have to do to send the\
+    \ family to the code?\n\nthank you for your time."
+- author: Jeremy Tammik
+  email: ''
+  ip: 193.82.81.227
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-13 14:28:47'
+  body: "Dear Alexander,\n\nThe fact that 'elements' is empty is normal and expected.\
+    \ It is an output argument to the Execute method, not an input. Please see its\
+    \ use explained in the DevTV introduction to Revit programming, also known as\
+    \ Revit API introduction: \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/12/updated-devtv-introduction-to-revit-programming.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/12/updated-devtv-introduction-to-revit-programming.html</a>\n\
+    \nHave you listened to that yet?\n\nCheers, Jeremy."
+- author: Sam
+  email: sam.g@igmail.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-12-29 07:24:36'
+  body: "Hi Jeremy,\n\nI want to save the one opened document in another new document\
+    \ by creating the new document. I have to do this work in \"IExternalCommand.Result\
+    \ Execute(.....)\" method of opened document. \n\nI am using the below code to\
+    \ do the creation of new document and saving the current document in that:\n\n\
+    private static void SaveOnClose(Autodesk.Revit.Application revitApp, Document\
+    \ document)\n{\nAutodesk.Revit.Application app = revitApp;\nDocument doc = document;\n\
+    \nstring name =doc.PathName+\"\\\\\"+ doc.ProjectInformation.Name+\"101.rvt\"\
+    ;\n\nDocument famDoc = new Document();\nfamDoc=doc;\n\nfamDoc.SaveAs(name);\n\
+    famDoc.Close(false);\n\n}\n\nPlease provide the useful help.\n\nRegards,\nSam"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-08 12:30:55'
+  body: "Dear Sam, \n\nYou cannot use the Document class default constructor. The\
+    \ default constructor is almost never used to create Revit API objects. You almost\
+    \ always use appropriate creation methods provided by the API instead. In this\
+    \ case the Application class provides the methods NewFamilyDocument to create\
+    \ a new family document, NewProjectDocument for a new project document, and NewProjectTemplateDocument\
+    \ for a new project template document.\n\nCheers, Jeremy."
+- author: NAyche
+  email: ''
+  ip: 66.162.165.162
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2010-01-11 12:06:13'
+  body: "Jeremy,\n\nI don't get the IsFamilyDocument property with the doc object.\n\
+    This is what I am trying to do:\nbool isFam = doc.IsFamilyDocument;\n\nbut when\
+    \ I type doc.IsFamilyDocument I get the following error.  Any idea why?\n\nRegards,\n\
+    Nadim\n\n\nError\t1\t'Autodesk.Revit.Document' does not contain a definition for\
+    \ 'IsFamilyDocument' and no extension method 'IsFamilyDocument' accepting a first\
+    \ argument of type 'Autodesk.Revit.Document' could be found (are you missing a\
+    \ using directive or an assembly reference?)\tC:\\API Manual\\API Manual\\Chapter10.cs\t\
+    31\t29\tAPI Manual"
+- author: NAyche
+  email: ''
+  ip: 66.162.165.162
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2010-01-11 12:11:03'
+  body: 'Jeremy,
+
+
+    Never mind my previous post, apparently I had referenced the wrong RevitAPI.dll
+    file.
+
+    Now I have IsFamilyDocument property.
+
+
+    Sorry about that.
+
+
+    Regards,
+
+    Nadim'
+- author: NAyche
+  email: ''
+  ip: 66.162.165.162
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2010-01-11 12:21:58'
+  body: 'Jeremy,
+
+
+    When trying to view the types in the steel section family
+
+    W-Wide Flange.rfa, the FamilyManager.Types will return only the types within the
+    family.rfa file (in this case it is one type only).
+
+    All other types are actually referenced in a text file W-Wide Flange.txt in the
+    same folder.
+
+
+    How do we retreive these types and list them?
+
+
+    Regards,
+
+    Nadim'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.153.123
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-11 16:12:46'
+  body: 'Dear Nadim,
+
+
+    Glad you got it sorted out.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.153.123
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-11 16:15:08'
+  body: 'Dear Nadim,
+
+
+    As far as I know, the only option you have for doing this is to check whether
+    a text file with the same filename stem as the family exists and read and parse
+    that yourself.
+
+
+    Cheers, Jeremy.'
+- author: bsyap
+  email: nsybs.86@gmail.com
+  ip: 60.51.122.54
+  url: ''
+  date: '2010-06-09 03:47:18'
+  body: "Saving custom data generated by other Structural Software into Revit file\
+    \ (.rvt)\n\nHi,\n \nI am using a Structural Modeling/Design application to model'design\
+    \ a simple building. And I am trying to save the content/data generated by the\
+    \ application into a revit file format (.rvt) using the Revit API.\n \nExample\
+    \ : How to save the (Source)Structural Beam Data (generated by my Structural Modeling/Design\
+    \ application) into the (Target)Beam Data in Revit Structural Software. (.rvt)\n\
+    \ \nAs a result, Autodesk Revit Structure can be able to generate the same building\
+    \ i have modeled/designed.\n \nAny idea of doing this?\n \nAny help would be greatly\
+    \ appreciated.\n \nRegards,\nbsyap"
+- author: Jeremy Tammik
+  email: ''
+  ip: 63.138.96.2
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-09 09:35:01'
+  body: 'Dear bsyap,
+
+
+    I see you posted the same comment again on
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/06/devcamp-session-on-whats-new.html">http://thebuildingcoder.typepad.com/blog/2010/06/devcamp-session-on-whats-new.html</a>
+
+
+    So I will pick up the second version of your question.
+
+
+    Cheers, Jeremy.'
+- author: sherif
+  email: sherif-zanaty@hotmail.com
+  ip: 41.237.97.166
+  url: ''
+  date: '2010-10-25 08:22:21'
+  body: "Jeremy, \n      how to change the dimension of duplicated family instance\
+    \ .\n \nRegards,\nsherif"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-10-26 11:48:21'
+  body: 'Dear Sherif,
+
+
+    That depends on what the family instance is, and what dimension you wish to change.
+
+
+    In some cases, you will have to change the family instance type using the FamilyInstance.Symbol
+    property.
+
+
+    In others, it might be sufficient to change a parameter value or some other property.
+
+
+    Cheers, Jeremy.'
+- author: JongWoo, Park
+  email: jongwoo@aumlee.co.kr
+  ip: 115.93.255.211
+  url: http://www.aumlee.co.kr
+  date: '2010-11-17 21:47:29'
+  body: 'Hello Jeremy..
+
+
+    I want "activeView" of "ViewName" change..
+
+
+    ====
+
+    Autodesk.Revit.DB.View view = document.ActiveView;
+
+
+    view.ViewName = "my section view";
+
+    ======
+
+    but when running error!..
+
+
+
+    I wonder if you have any ideas'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-11-19 02:33:25'
+  body: "Dear JongWoo,\n\nIf I understand you correctly, you wish to change the name\
+    \ of the active view?\n\nThe following code works fine for me:\n\n      UIApplication\
+    \ app = commandData.Application;\n      Document doc = app.ActiveUIDocument.Document;\n\
+    \n      Transaction t = new Transaction( doc, \"Change View Name\" );\n      t.Start();\n\
+    \n      View docView = doc.ActiveView;\n\n      docView.Name = \"Jeremy\";\n\n\
+    \      View view = commandData.View;\n\n      view.Name = \"Tammik\";\n\n    \
+    \  t.Commit();\n\n      return Result.Succeeded;\n\nCheers, Jeremy."
+- author: JongWoo, Park
+  email: jongwoo@aumlee.co.kr
+  ip: 115.93.255.211
+  url: http://www.aumlee.co.kr
+  date: '2010-11-22 19:52:49'
+  body: "Hello Jeremy, thank you for helping me.\n\nBut what I want...\n\n\n\n/////\n\
+    \ FilteredElementIterator itor = collector.OfClass(typeof(Autodesk.Revit.DB.ViewSheet)).GetElementIterator();\n\
+    \nwhile (itor.MoveNext())\n       {\n\n       ListViewItem tmpItem = new ListViewItem(tmpViewSheet.Name);\
+    \ \n       listView1.Items.Add(tmpItem);    \n   }\n\n\n////////////\n\nDialogue\
+    \ box, select one from the list of view to the current view change\n\n\n\nThanks\
+    \ for you great help!\n\n\nJongWoo, Park"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-11-23 09:12:33'
+  body: 'Dear JongWoo, Park,
+
+
+    There is no possibility through the current Revit API to set the current view.
+
+
+    Cheers, Jeremy.
+
+    -----'

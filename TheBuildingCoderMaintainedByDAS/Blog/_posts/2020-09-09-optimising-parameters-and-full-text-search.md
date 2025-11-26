@@ -1,0 +1,284 @@
+---
+layout: "post"
+title: "Optimising Parameters and Full-Text Search"
+date: "2020-09-09 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "AppStore"
+  - "Go"
+  - "I18n"
+  - "Parameters"
+  - "Performance"
+  - "Settings"
+  - "Utilities"
+  - "Win32"
+original_url: "https://thebuildingcoder.typepad.com/blog/2020/09/optimising-parameters-and-full-text-search.html "
+typepad_basename: "optimising-parameters-and-full-text-search"
+typepad_status: "Publish"
+---
+
+<p><style type="text/css">
+  .jt { background-color:#eee;border-collapse:collapse; }
+  .jt th { background-color:#000;color:white; }
+  .jt td, .jt th { padding:5px;border:1px solid #000; }
+</style></p>
+
+<p>I have been dabbling with the Go programming language in the past week, besides optimising and answering Revit API questions:</p>
+
+<ul>
+<li><a href="#2">Optimising setting shared parameters</a></li>
+<li><a href="#3">Full-text search for The Building Coder posts</a></li>
+<li><a href="#4">Decimal point woe</a></li>
+</ul>
+
+<h4><a name="2"></a>Optimising Setting Shared Parameters</h4>
+
+<p>I took a successful stab at optimising the setting of a large number of shared parameters in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/modify-shared-parameters-for-high-number-of-family-instance/m-p/9727166">modifying shared parameters for a high number of family instances</a>:</p>
+
+<p><strong>Question:</strong> I have the code below working fine when my collection contains less than 30 objects; above 30, the transaction commit doesn't affect the document and there is no error or exception raised.</p>
+
+<pre class="code">
+<span style="color:blue;">void</span>&nbsp;<span style="color:#2b91af;">IExternalEventHandler</span>.Execute(&nbsp;<span style="color:#2b91af;">UIApplication</span>&nbsp;app&nbsp;)
+{
+&nbsp;&nbsp;<span style="color:#2b91af;">UIDocument</span>&nbsp;uidoc&nbsp;=&nbsp;app.ActiveUIDocument;
+&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;=&nbsp;uidoc.Document;
+&nbsp;&nbsp;<span style="color:#2b91af;">View</span>&nbsp;view&nbsp;=&nbsp;doc.ActiveView;
+
+&nbsp;&nbsp;<span style="color:blue;">using</span>(&nbsp;<span style="color:#2b91af;">Transaction</span>&nbsp;tr&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Transaction</span>(&nbsp;doc&nbsp;)&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Parameter</span>&nbsp;param1&nbsp;=&nbsp;<span style="color:blue;">null</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Parameter</span>&nbsp;param2;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Parameter</span>&nbsp;param3;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Parameter</span>&nbsp;param4&nbsp;=&nbsp;<span style="color:blue;">null</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Parameter</span>&nbsp;param5&nbsp;=&nbsp;<span style="color:blue;">null</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Parameter</span>&nbsp;param6&nbsp;=&nbsp;<span style="color:blue;">null</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Parameter</span>&nbsp;param7&nbsp;=&nbsp;<span style="color:blue;">null</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;tr.Start(&nbsp;<span style="color:#a31515;">&quot;synchro&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Main.idForSynchros&nbsp;is&nbsp;the&nbsp;collection&nbsp;of&nbsp;data</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">for</span>(&nbsp;<span style="color:blue;">int</span>&nbsp;i&nbsp;=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;Main.idForSynchros.Count;&nbsp;i++&nbsp;)&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">IdForSynchro</span>&nbsp;i&nbsp;=&nbsp;Main.idForSynchros[&nbsp;i&nbsp;];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;element&nbsp;=&nbsp;doc.GetElement(&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ElementId</span>(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Convert</span>.ToInt32(&nbsp;i.RevitId&nbsp;)&nbsp;)&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param1&nbsp;=&nbsp;element.LookupParameter(&nbsp;<span style="color:#a31515;">&quot;PLUGIN_PARAM1&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param2&nbsp;=&nbsp;element.LookupParameter(&nbsp;<span style="color:#a31515;">&quot;PLUGIN_PARAM2&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param3&nbsp;=&nbsp;element.LookupParameter(&nbsp;<span style="color:#a31515;">&quot;PLUGIN_PARAM3&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param4&nbsp;=&nbsp;element.LookupParameter(&nbsp;<span style="color:#a31515;">&quot;PLUGIN_PARAM4&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param5&nbsp;=&nbsp;element.LookupParameter(&nbsp;<span style="color:#a31515;">&quot;PLUGIN_PARAM5&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param6&nbsp;=&nbsp;element.LookupParameter(&nbsp;<span style="color:#a31515;">&quot;PLUGIN_PARAM6&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param7&nbsp;=&nbsp;element.LookupParameter(&nbsp;<span style="color:#a31515;">&quot;PLUGIN_PARAM7&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;param1.AsInteger()&nbsp;&lt;&nbsp;1&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param1.Set(&nbsp;i.param1&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;param6Value&nbsp;=&nbsp;<span style="color:#2b91af;">DateTime</span>.Parse(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i.data.param6,&nbsp;CultureInfo.InvariantCulture&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.ToLongDateString();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;param7Value&nbsp;=&nbsp;<span style="color:#2b91af;">DateTime</span>.Parse(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i.data.param7,&nbsp;CultureInfo.InvariantCulture&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.ToLongDateString();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Utils.SetParameterValueString(&nbsp;param2,&nbsp;i.data.param2&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Utils.SetParameterValueString(&nbsp;param3,&nbsp;i.data.param2&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Utils.SetParameterValueString(&nbsp;param4,&nbsp;i.data.param4&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Utils.SetParameterValueString(&nbsp;param5,&nbsp;i.data.param5&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Utils.SetParameterValueString(&nbsp;param6,&nbsp;param6Value&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Utils.SetParameterValueString(&nbsp;param7,&nbsp;param7Value&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;tr.Commit();
+&nbsp;&nbsp;}
+}
+
+<span style="color:green;">//&nbsp;Method&nbsp;of&nbsp;Utils&nbsp;class&nbsp;that&nbsp;set&nbsp;Parameter&nbsp;value</span>
+<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">void</span>&nbsp;SetParameterValueString(&nbsp;
+&nbsp;&nbsp;<span style="color:#2b91af;">Parameter</span>&nbsp;parameter,&nbsp;<span style="color:blue;">string</span>&nbsp;value&nbsp;)
+{
+&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;parameter&nbsp;!=&nbsp;<span style="color:blue;">null</span>&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;parameter.Set(&nbsp;value&nbsp;);
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p>Does anyone have any idea to solve this?</p>
+
+<p><strong>Answer:</strong> <code>LookupParameter</code> is unnecessarily costly.</p>
+
+<p>There is no need to re-execute it for every parameter on every single element.</p>
+
+<p>That is costing you a lot of time and hurting performance.</p>
+
+<p>Every shared parameter is equipped with a GUID to identify it.</p>
+
+<p>Determine the GUID once only on the first element.</p>
+
+<p>Then, you can use the GUID to retrieve each parameter directly from the element without any further need for <code>LookupParameter</code> to search through the entire list of parameters each time.</p>
+
+<p>Here is my suggestion for an improvement:</p>
+
+<pre class="code">
+<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">IdForSynchro</span>
+{
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">ElementId</span>&nbsp;RevitId&nbsp;{&nbsp;<span style="color:blue;">get</span>;&nbsp;<span style="color:blue;">set</span>;&nbsp;}
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">int</span>&nbsp;Param1&nbsp;{&nbsp;<span style="color:blue;">get</span>;&nbsp;<span style="color:blue;">set</span>;&nbsp;}
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">string</span>&nbsp;Param2&nbsp;{&nbsp;<span style="color:blue;">get</span>;&nbsp;<span style="color:blue;">set</span>;&nbsp;}
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">double</span>&nbsp;Param3&nbsp;{&nbsp;<span style="color:blue;">get</span>;&nbsp;<span style="color:blue;">set</span>;&nbsp;}
+}
+
+<span style="color:blue;">void</span>&nbsp;modifyParameterValues(&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc,&nbsp;<span style="color:#2b91af;">IList</span>&lt;<span style="color:#2b91af;">IdForSynchro</span>&gt;&nbsp;data&nbsp;)
+{
+&nbsp;&nbsp;<span style="color:blue;">using</span>(&nbsp;<span style="color:#2b91af;">Transaction</span>&nbsp;tr&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Transaction</span>(&nbsp;doc&nbsp;)&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Guid</span>&nbsp;guid1&nbsp;=&nbsp;<span style="color:#2b91af;">Guid</span>.Empty;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Guid</span>&nbsp;guid2&nbsp;=&nbsp;<span style="color:#2b91af;">Guid</span>.Empty;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Guid</span>&nbsp;guid3&nbsp;=&nbsp;<span style="color:#2b91af;">Guid</span>.Empty;
+
+&nbsp;&nbsp;&nbsp;&nbsp;tr.Start(&nbsp;<span style="color:#a31515;">&quot;synchro&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">IdForSynchro</span>&nbsp;d&nbsp;<span style="color:blue;">in</span>&nbsp;data&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;e&nbsp;=&nbsp;doc.GetElement(&nbsp;d.RevitId&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;<span style="color:#2b91af;">Guid</span>.Empty&nbsp;==&nbsp;guid1&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;guid1&nbsp;=&nbsp;e.LookupParameter(&nbsp;<span style="color:#a31515;">&quot;PLUGIN_PARAM1&quot;</span>&nbsp;).GUID;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;guid2&nbsp;=&nbsp;e.LookupParameter(&nbsp;<span style="color:#a31515;">&quot;PLUGIN_PARAM2&quot;</span>&nbsp;).GUID;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;guid3&nbsp;=&nbsp;e.LookupParameter(&nbsp;<span style="color:#a31515;">&quot;PLUGIN_PARAM3&quot;</span>&nbsp;).GUID;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.get_Parameter(&nbsp;guid1&nbsp;).Set(&nbsp;d.Param1&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.get_Parameter(&nbsp;guid2&nbsp;).Set(&nbsp;d.Param2&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.get_Parameter(&nbsp;guid3&nbsp;).Set(&nbsp;d.Param3&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;tr.Commit();
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p>I added this code in the original and updated forms
+to <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder samples</a>.</p>
+
+<p>Here is the <a href="https://github.com/jeremytammik/the_building_coder_samples/commit/fea7381f51b660fc9b5660c2e64f548623b11d8b">diff between the two</a>.
+and the <a href="https://github.com/jeremytammik/the_building_coder_samples/blob/master/BuildingCoder/BuildingCoder/CmdCreateSharedParams.cs#L547-L584">current implementation code</a>.</p>
+
+<p>Please equip your code with a little benchmark timer stopwatch and let us know whether this helps and how it affects the processing time required before and after making this modification.</p>
+
+<p><strong>Response:</strong> I applied the solution and the execution time improved.</p>
+
+<p>Here are some results before and after the modification, correlating the number of family instances with the execution time required in milliseconds before and after the enhancement:</p>
+
+<p><center></p>
+
+<table class="jt">
+<tr><th class="r">Instances</th><th class="r">&nbsp;&nbsp;ms before</th><th class="r">&nbsp;&nbsp;ms after</th></tr>
+<tr><td class="r">58</td><td class="r">896</td><td class="r">794</td></tr>
+<tr><td class="r">375</td><td class="r">1958</td><td class="r">1549</td></tr>
+<tr><td class="r">1052</td><td class="r">16777</td><td class="r">8152</td></tr>
+</table>
+
+<p></center></p>
+
+<p>But there are still times when changes are not applied to the document.</p>
+
+<p><strong>Answer:</strong> Not sure if you caught it when you refactored, but in your original code you used <code>param2</code> to set <code>2</code> and <code>3</code>.
+Could that be affecting what your results are?</p>
+
+<p>May be good to throw in some Try/Catch block to try and see where or if it's failing or at least a task dialog to tell user if a param is missing.</p>
+
+<h4><a name="3"></a>Full-Text Search for The Building Coder Posts</h4>
+
+<p>I discovered a nice article by Artem Krylysov
+suggesting <a href="https://artem.krylysov.com/blog/2020/07/28/lets-build-a-full-text-search-engine">let's build a full-text search engine</a>
+using the <a href="https://golang.org">Go programming language</a>,
+with an accompanying <a href="https://github.com/akrylysov/simplefts">simplefts GitHub repository</a> sharing the final result.</p>
+
+<p>That prompted me to dabble a bit with Go and use it to implement full text search functionality for The Building coder blog posts as well.</p>
+
+<p>The work in progress is available from my <a href="https://github.com/jeremytammik/tbcfts">tbcfts GitHub repository</a>.</p>
+
+<p><a href="https://github.com/jeremytammik/tbc">The Building Coder blog source <code>tbc</code></a> is available from GitHub as well, so you have all you need to play with it yourself, if you please.</p>
+
+<p>Here is a sample run searching for the word 'dabble', which includes today's draft post, still lacking the public URL:</p>
+
+<pre>
+/a/src/go/tbcfts $ ./tbcfts -q "dabble"
+2020/09/09 10:31:40 Starting tbcfts, p=/a/doc/revit/tbc/git/a, q=dabble
+2020/09/09 10:31:41 Loaded 1863 documents in 377.397917ms
+2020/09/09 10:31:44 Indexed 1863 documents in 2.876775333s
+2020/09/09 10:31:44 Search for 'dabble' found 5 documents in 9.703µs
+
+2020/09/09 10:31:44 582 [Wiki API Help, View Event and Structural Material Type](http://thebuildingcoder.typepad.com/blog/2011/05/wiki-api-help-view-event-and-structural-material-type.html)
+
+2020/09/09 10:31:44 906 [Export Wall Parts Individually to DXF](http://thebuildingcoder.typepad.com/blog/2013/03/export-wall-parts-individually-to-dxf.html)
+
+2020/09/09 10:31:44 961 [Super Insane MP3 and Songbird Playlist Exporter](http://thebuildingcoder.typepad.com/blog/2013/06/super-insane-mp3-and-songbird-playlist-exporter.html)
+
+2020/09/09 10:31:44 1008 [Open MEP Connector Warning](http://thebuildingcoder.typepad.com/blog/2013/08/open-mep-connector-warning.html)
+
+2020/09/09 10:31:44 1863 [Optimising Parameters and Full-Text Search](http thebuildingcoder.typepad.com not yet published)
+</pre>
+
+<p>According to <code>wc</code>, the current blog post HTML source consists of 355233 lines, 2230690 words and 20676311 characters, including markup.</p>
+
+<p>As you can see, loading the documents and storing their body text in memory costs ca. 400 ms.</p>
+
+<p>The indexing is costly, clocking in at ca. 3 seconds.</p>
+
+<p>Once indexing is complete, the lookup is very fast, consuming just 10 microseconds.</p>
+
+<p>Obviously, the next feature to address would be caching the index.</p>
+
+<p>Another important enhancement would be to split the documents into smaller sections.</p>
+
+<p>For instance, I could create much smaller and more targeted documents to index by using the <code>h4</code> tags that delimit individual sections of text within each blog post instead of retaining each blog post in its entirety as a single document.</p>
+
+<h4><a name="4"></a>Decimal Point Woe</h4>
+
+<p>A few of my Revit sample add-ins have been promoted to full-fledged commercial applications.</p>
+
+<p>One of them is the OBJ importer, which Eric Boehlke has published to the AppStore and continuously enhanced.</p>
+
+<p>A new little issue arose with it that is useful to be aware of, since it applies to many other contexts as well:</p>
+
+<p><strong>Question:</strong> I had a strange phenomenon happen.
+I have an OBJ Import app customer using Czech language on Windows.
+His Revit is English 2020.</p>
+
+<p>The problem is that with the same OBJ file, and the same Revit version, on my computer it works fine, and on his the app runs but fails and imports 0 faces.</p>
+
+<p>Have you ever seen an add-in fail because the OS was a language that had non-English characters?</p>
+
+<p>I really don't know what is causing the problem.</p>
+
+<p><strong>Answer:</strong> Yes, often!</p>
+
+<p>Some language cultures use comma instead of decimal point and then crash when trying to read floating point numbers.</p>
+
+<p><strong>Response:</strong> Aha!</p>
+
+<p>Yes, I see, e.g., in a different OBJ software,
+<a href="https://github.com/keenanwoodall/Deform/issues/17">OBJ export is broken on locales with comma instead of dot</a>.</p>
+
+<p>That was the problem.</p>
+
+<p>I told the client and updated
+the <a href="https://truevis.com/troubleshoot-revit-mesh-import">Troubleshooting <em>Mesh Import from OBJ Files</em> for Revit</a> with the workaround:</p>
+
+<p><strong>Region Number Format</strong></p>
+
+<p>Some regions use commas instead of dots for the decimal place.
+That may cause the import to fail.
+A workaround is to set Window’s Region to United States before importing the OBJ.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833026bde910d6f200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833026bde910d6f200c img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="Windows regional number format" title="Windows regional number format" src="/assets/image_d14e78.jpg" /></a><br /></p>
+
+<p></center></p>

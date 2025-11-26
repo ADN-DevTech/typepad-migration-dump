@@ -1,0 +1,75 @@
+comments:
+- author: Piotr
+  email: p.zurek@gmail.com
+  ip: 125.238.244.4
+  url: http://www.piotrzurek.net
+  date: '2009-07-01 06:14:49'
+  body: "Hi Jeremy,\n\nAuto-implemented properties are another nice .Net feature (since\
+    \ 3.0) that will save some typing here. So instead of:\n\n  private Element _instance;\n\
+    \  private String _param1;\n  private bool _param2;\n  private int _param3;\n\
+    \ \n  public Element Instance\n  {\n      get { return _instance; }\n      set\
+    \ { _instance = value; }\n  }\n  public String Param1\n  {\n      get { return\
+    \ _param1; }\n      set { _param1 = value; }\n  }\n  public bool Param2\n  {\n\
+    \      get { return _param2; }\n      set { _param2 = value; }\n  }\n  public\
+    \ int Param3\n  {\n      get { return _param3; }\n      set { _param3 = value;\
+    \ }\n  }\n\nthere should be just:\n\n  public Element Instance { get; set; }\n\
+    \  public String Param1    { get; set; }\n  public bool Param2      { get; set;\
+    \ }\n  public int Param3       { get; set; }"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-07-01 06:30:14'
+  body: 'Dear Piotr,
+
+
+    Thank you very much for that valuable hint! I was not aware of that feature, which
+    I see documented in more detail at
+
+
+    <a href="http://msdn.microsoft.com/en-us/library/bb384054.aspx">http://msdn.microsoft.com/en-us/library/bb384054.aspx</a>
+
+
+    I have improved my local copy of the code now to make use of this and will be
+    able to use it forever onwards! Brilliant!
+
+
+    Cheers, Jeremy.'
+- author: Guy Robinson
+  email: info@r-e-d.co.nz
+  ip: 60.234.255.173
+  url: ''
+  date: '2009-07-01 19:44:16'
+  body: "Hi Jeremy,\n\nJoel's speed increases are a result of using proxy objects\
+    \ rather than Linq I think you'll find. Proxies are useful for databinding as\
+    \ well though so they get used more often than not and Linq is pretty cool.\n\n\
+    Also much better using .NET3.5SP1 than .NET3.5. A number of important fixes and\
+    \ WPF is faster with SP1.\n\nFinally you'll get a nice speed bump and a simpler\
+    \ class again for large datasets by doing the following in the constructor. Rather\
+    \ than looping through all parameters:\n\ninternal class InstanceData\n    {\n\
+    \        #region Properties\n        public Element Instance{get;set;}\n     \
+    \   public String Param1{get;set;}\n        public bool Param2{get;set;}\n   \
+    \     public int Param3{get;set;}\n        #endregion\n\n        #region Constructors\n\
+    \        public InstanceData(Element instance)\n        {\n            Instance\
+    \ = instance;\n            Parameter p1 = Instance.ParametersMap[\"Param1\"];\n\
+    \            Param1 = (p1 != null) ? p1.AsString() : \"\";\n\n            Parameter\
+    \ p2 = Instance.ParametersMap[\"Param2\"];\n            Param2 = (p2 != null)\
+    \ ? (0 != p2.AsInteger()) : false;\n\n            Parameter p3 = Instance.ParametersMap[\"\
+    Param3\"];\n            Param3 = (p3 != null) ? p3.AsInteger() : 0;\n        }\n\
+    \        #endregion\n    }\n\nCheers,\n\nGuy"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-07-02 02:10:06'
+  body: "Dear Guy,\n\nNice to hear from you again! Thank you very much for the feedback\
+    \ and the hint to move to .NET 3.5 SP1!\n\nAh yes, I did think that that loop\
+    \ might be costly, in the back of my mind, when I first saw it. That is a very\
+    \ important performance hint as well!\n\nActually, I would avoid using the string-based\
+    \ lookup based on parameter name and try to use the built-in parameter enumeration\
+    \ or GUID as a key instead, just to keep the code language independent. I should\
+    \ think that is faster still, though maybe only marginally. \n\nAre you also saying\
+    \ that using ParametersMap is faster than simply using Parameters?\n\nDo you have\
+    \ any benchmark results comparing these different methods? I think that would\
+    \ be very interesting, a speed comparison between these different parameter access\
+    \ methods.\n\nCheers, Jeremy.\n-----"

@@ -1,0 +1,43 @@
+---
+layout: "post"
+title: "Changing a Family Parameter from Type to Instance"
+date: "2013-04-16 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Family"
+  - "Parameters"
+original_url: "https://thebuildingcoder.typepad.com/blog/2013/04/changing-a-family-parameter-from-type-to-instance.html "
+typepad_basename: "changing-a-family-parameter-from-type-to-instance"
+typepad_status: "Publish"
+---
+
+<p>Here is a short and simple question that just cropped up and required some digging around until my colleague Phil Xia came up with the right answer:
+
+<p><strong>Question:</strong> Is it possible to change the type of a family parameter programmatically?
+
+<p>This is possible in the family editor.
+
+<p>I only see the IsInstance property, though, and it is read-only.
+
+<p>I could achieve the same effect by deleting the parameter and creating a new one.
+Obviously that would require updating all the existing values, though, if there are any, to change from the old parameter to the new one.
+I don't really see this as an option.
+Besides, the parameter could be referenced from other parameters.
+
+<p>Seeing that this is possible from within the family editor, I actually don’t see any need for this property to be read-only.
+
+<p>I don't think changing a family parameter from type to instance and vice versa should not be so hard.
+
+<p>Is there some other method that allows me to achieve this?
+
+
+<p><strong>Answer:</strong> Yes, sure, you are lucky, and so are we all: the following two FamilyManager methods set the given family parameter to instance or type:
+
+<ul>
+<li>MakeInstance &ndash; Set the family parameter as an instance parameter.
+<li>MakeType &ndash; Set the family parameter as a type parameter.
+</ul>
+
+<p>I hope this will save you from repeating the same digging all over again  :-)</p>
+
+<p>Many thanks to Phil for explicitly pointing this out!</p>

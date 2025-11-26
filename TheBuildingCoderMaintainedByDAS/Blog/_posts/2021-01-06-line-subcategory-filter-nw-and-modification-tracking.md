@@ -1,0 +1,403 @@
+---
+layout: "post"
+title: "Line Subcategory Filter, Modification Tracker and NW"
+date: "2021-01-06 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "C++"
+  - "Data Access"
+  - "Dynamo"
+  - "Filters"
+  - "NavisWorks"
+  - "Node"
+original_url: "https://thebuildingcoder.typepad.com/blog/2021/01/line-subcategory-filter-nw-and-modification-tracking.html "
+typepad_basename: "line-subcategory-filter-nw-and-modification-tracking"
+typepad_status: "Publish"
+---
+
+<p>Happy New Year!</p>
+
+<p>As always, there is lots going on in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a>,
+where Richard <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/1035859">RPThomas108</a> Thomas
+is providing tremendous help on all the really hard questions requiring both Revit API understanding and
+in-depth product usage experience.</p>
+
+<p>I played around a bit with the NavisWorks API in the week of rest and the peaceful time until 
+the <a href="https://en.wikipedia.org/wiki/Twelfth_Night_(holiday)">twelfth night</a>,
+and discovered a very nice Revit project modification tracking tool in Dynamo:</p>
+
+<ul>
+<li><a href="#2">Filter for detail lines subcategory</a></li>
+<li><a href="#3">Revit project modification tracking</a></li>
+<li><a href="#4">Retrieving all NavisWorks model properties</a></li>
+<li><a href="#5">Node.js best practices</a></li>
+<li><a href="#6">Early history of programming and C</a></li>
+</ul>
+
+<h4><a name="2"></a> Filter for Detail Lines Subcategory</h4>
+
+<p>One of the threads addressed by Richard is on filtering for detail lines,
+to <a href="https://forums.autodesk.com/t5/revit-api-forum/collect-all-detail-lines-of-a-particular-subcategory/td-p/9956260">collect all detail lines of a particular subcategory</a>:</p>
+
+<p><strong>Question:</strong> From reading The Building Coder's post 
+on <a href="https://thebuildingcoder.typepad.com/blog/2013/08/retrieving-all-available-line-styles.html">retrieving all available line styles</a>,
+it is my understanding that detail line elements can be collected via FilteredElementCollector once a subcategory is selected.</p>
+
+<p>I have a line style subcategory and would like to collect all the detail lines of that style.</p>
+
+<p>How do I do that?</p>
+
+<p>For context, I quote from the link above:</p>
+
+<blockquote>
+  <p>While the Revit API does not provide a true 'Line style' element, the line styles are actually subcategories of the Lines category. Therefore, the FilteredElementCollector cannot easily be used for this in a single statement, like in your examples above. </p>
+  
+  <p>It should be possible to retrieve the line styles without a line instance, though.</p>
+  
+  <p>Here’s a macro that lists all subcategories of the Lines category:</p>
+</blockquote>
+
+<pre class="code">
+<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;GetListOfLinestyles(&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;)
+{
+&nbsp;&nbsp;<span style="color:#2b91af;">Category</span>&nbsp;c&nbsp;=&nbsp;doc.Settings.Categories.get_Item(
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_Lines&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">CategoryNameMap</span>&nbsp;subcats&nbsp;=&nbsp;c.SubCategories;
+
+&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">Category</span>&nbsp;lineStyle&nbsp;<span style="color:blue;">in</span>&nbsp;subcats&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;<span style="color:#a31515;">&quot;Line&nbsp;style&quot;</span>,&nbsp;<span style="color:blue;">string</span>.Format(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;Linestyle&nbsp;{0}&nbsp;id&nbsp;{1}&quot;</span>,&nbsp;lineStyle.Name,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lineStyle.Id.ToString()&nbsp;)&nbsp;);
+&nbsp;&nbsp;}
+}
+</pre>
+
+<blockquote>
+  <p>Note that some line styles like 'Room Boundary' cannot actually be assigned to arbitrary lines in the UI, but this should be good enough to find a usable one.</p>
+  
+  <p>Once you have a collection of the line style subcategories of interest, you can create a filtered element collector retrieving all ElementType elements belonging to any one of them.</p>
+</blockquote>
+
+<p><strong>Answer:</strong> For example, changing <code>OST_Lines</code> to <code>OST_LightFixtures</code> will find all the line subcategories of the light fixtures.</p>
+
+<p>As you type in <code>BuiltInCategory</code>, you should get a list of all the subcategories you can use.</p>
+
+<p>For instance, given the following object styles:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330278800b791a200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330278800b791a200d image-full img-responsive" alt="Object styles" title="Object styles" src="/assets/image_52c6dc.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Using <code>OST_LightFixtures</code> will return "Hidden Lines", "light Source", "test_lightfixturelines", and "testlightfixturelines2".</p>
+
+<p><strong>Response:</strong> Thanks for your reply. I don't quite understand your meaning.</p>
+
+<p>I should clarify; I'm looking for the right way to use a Line Style subcategory in a FilteredElementCollector to grab all the detail lines in the project that are of that style. I don't actually use C#, that code is just from The Building Coder website, but I have gotten to the point in my code that I have the Line Style I want to filter with and now I would like to create a filtered element collector retrieving all ElementType elements belonging to that Line Style, using the Revit API.</p>
+
+<p><strong>Answer:</strong> If you aren't using C#, then what are you using?  Python?  Dynamo?  </p>
+
+<p><strong>Response:</strong> I can translate from anything to anything. Maybe what I'm asking to do isn't possible, I'm not sure.</p>
+
+<p>Actually, I may have found something.</p>
+
+<p>I looked up this older forum post
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/filteredelementcollector-gt-get-all-instances-except-of-category/m-p/8571199">FilteredElementCollector -> get all instances except of category X</a>:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>&nbsp;collector&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">ElementCategoryFilter</span>&nbsp;fi&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ElementCategoryFilter</span>(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_TitleBlocks,&nbsp;<span style="color:blue;">true</span>&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">Element</span>&gt;&nbsp;collection
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;collector.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">FamilyInstance</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.WherePasses(&nbsp;fi&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.ToElements();
+</pre>
+
+<p>I used the ElementCategoryFilter but replaced the built-in category with my category (not built-in) and removed the .OfClass filter... although, it is collecting 23,000+ lines which doesn't seem right either, so maybe I need to apply another filter...</p>
+
+<p><strong>Answer:</strong> I believe it's a 3 step process.
+You find all lines, then narrow those down to the Detail Lines, and then narrow those down to get the line style you want.</p>
+
+<p>Add a new line style called "MyNewLineStyle" (match the caps exactly) and try something like this:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>&nbsp;collector
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">ElementCategoryFilter</span>&nbsp;fi&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ElementCategoryFilter</span>(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_GenericLines,&nbsp;<span style="color:blue;">true</span>&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">Element</span>&gt;&nbsp;collection&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;collector.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">CurveElement</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.WherePasses(&nbsp;fi&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.ToElements();
+
+&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;<span style="color:#a31515;">&quot;Number&nbsp;of&nbsp;curves&quot;</span>,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;collection.Count.ToString()&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">Element</span>&gt;&nbsp;detail_lines&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">Element</span>&gt;();
+
+&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;e&nbsp;<span style="color:blue;">in</span>&nbsp;collection&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;e&nbsp;<span style="color:blue;">is</span>&nbsp;<span style="color:#2b91af;">DetailLine</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail_lines.Add(&nbsp;e&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;<span style="color:#a31515;">&quot;Number&nbsp;of&nbsp;Detail&nbsp;Lines&quot;</span>,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;detail_lines.Count.ToString()&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">Element</span>&gt;&nbsp;some_detail_lines&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">Element</span>&gt;();
+&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">DetailLine</span>&nbsp;dl&nbsp;<span style="color:blue;">in</span>&nbsp;detail_lines&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;dl.LineStyle.Name&nbsp;==&nbsp;<span style="color:#a31515;">&quot;MyNewLineStyle&quot;</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;some_detail_lines.Add(&nbsp;dl&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;Number&nbsp;of&nbsp;Detail&nbsp;Lines&nbsp;of&nbsp;MyNewLineStyle&quot;</span>,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;some_detail_lines.Count.ToString()&nbsp;);
+</pre>
+
+<p><strong>Answer:</strong> Usually, it is easier to filter for objects of <code>GraphicsStyle</code> using <code>ElementClassFilter</code>, rather than subcategories of <code>OST_Lines</code>.</p>
+
+<p>GraphicsStyle has a property GraphicsStyle.GraphicsStyleCategory.
+When this is a subcategory of <code>OST_Lines</code>, then it relates to either ModelCurves or DetailCurves (note that GraphicsStyle.Category is null).</p>
+
+<p>You can't use a class filter for DetailCurves and ModelCurves (which inherit from CurveElement).
+This base class has the property LineStyle which will be one of the GraphicsStyle elements found above.</p>
+
+<p>When you have items of <code>CurveElement</code>, you can distinguish between ModelCurves and DetailCurves as follows:</p>
+
+<ul>
+<li>DetailCurves have OwnerViewId &lt;> ElementId.InvalidElementId</li>
+<li>ModelCurves have OwnerViewId = ElementId.InvalidElementId</li>
+</ul>
+
+<p>So, you see one potential route is to filter for GraphicsStyles.</p>
+
+<p>Filter again to find GraphicsStyle.GraphicsStyleCategory that is equal to your subcategory of lines.</p>
+
+<p>Then, use this to find CurveElements that have such a CurveElement.LineStyle.</p>
+
+<p>Finally, use CurveElement.OwnerViewId to list either ModelCurves or DetailCurves.</p>
+
+<p>One simple way of getting valid GraphicsStyles for DetailCurves/ModelCurves is via CurveElement.GetLineStyleIds (there are many graphics styles that don't relate to lines).
+Otherwise, check that GraphicsStyle.GraphicsStyleCategory is a subcategory of OST_Lines.</p>
+
+<p>Example extension methods for getting CurveElements of a given subcategory of lines or matching a GraphicsStyle:</p>
+
+<pre class="code">
+&lt;Extension()&gt;
+  Public Function GetLinesOfCategory(Doc As Document, GraphicsStyle As GraphicsStyle, DetailLines As Boolean, Optional FromView As View = Nothing) As List(Of CurveElement)
+    Dim FEC As FilteredElementCollector = Nothing
+    If FromView Is Nothing Then
+      FEC = New FilteredElementCollector(Doc)
+    Else
+      FEC = New FilteredElementCollector(Doc, FromView)
+    End If
+
+    Dim ECF As New ElementCategoryFilter(BuiltInCategory.OST_Lines)
+    Dim Els As List(Of CurveElement) = FEC.WherePasses(ECF).WhereElementIsNotElementType.ToElements _
+      .Cast(Of CurveElement).Where(Function(x) x.LineStyle.Id = GraphicsStyle.Id _
+      AndAlso (x.OwnerViewId <> ElementId.InvalidElementId) = DetailLines).ToList
+
+    Return Els
+  End Function
+
+&lt;Extension()&gt;
+  Public Function GetLinesOfCategory(Doc As Document, Category As Category, DetailLines As Boolean, Optional FromView As View = Nothing) As List(Of CurveElement)
+
+    Dim FECgs As New FilteredElementCollector(Doc)
+    Dim ECFgs As New ElementClassFilter(GetType(GraphicsStyle))
+    Dim Gs As List(Of GraphicsStyle) = FECgs.WherePasses(ECFgs).ToElements _
+      .Cast(Of GraphicsStyle).Where(Function(x) x.GraphicsStyleCategory.Id = Category.Id).ToList
+
+    If Gs.Count = 0 Then Return New List(Of CurveElement) Else
+
+    Return GetLinesOfCategory(Doc, Gs(0), DetailLines, FromView)
+  End Function
+</pre>
+
+<p>I should also say you could probably use:</p>
+
+<ul>
+<li>FilteredElementCollector.WhereElementIsViewIndependent</li>
+</ul>
+
+<p>In combination with <code>.Excluding</code> to find ModelCurves and exclude them from your DetailCurves.</p>
+
+<p>I.e., filtering this way first will be quicker, since it happens at lower level prior to Linq, but you don't have millions of these elements to sort through anyway.</p>
+
+<p>Also, there is a standard filter for detail/model lines: the <code>CurveElementFilter</code>:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:#2b91af;">Category</span>&nbsp;targetLineStyle;
+
+&nbsp;&nbsp;<span style="color:#2b91af;">IEnumerable</span>&lt;<span style="color:#2b91af;">GraphicsStyle</span>&gt;&nbsp;gstyles&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">GraphicsStyle</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Cast&lt;<span style="color:#2b91af;">GraphicsStyle</span>&gt;()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Where(&nbsp;gs&nbsp;=&gt;&nbsp;gs.GraphicsStyleCategory.Id.IntegerValue&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;==&nbsp;targetLineStyle.Id.IntegerValue&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">ElementId</span>&nbsp;targetGraphicsStyleId&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gstyles.FirstOrDefault().Id;
+
+&nbsp;&nbsp;<span style="color:#2b91af;">CurveElementFilter</span>&nbsp;filter_detail&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">CurveElementFilter</span>(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">CurveElementType</span>.DetailCurve&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">FilterRule</span>&nbsp;frule_typeId&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:#2b91af;">ParameterFilterRuleFactory</span>.CreateEqualsRule(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ElementId</span>(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.BUILDING_CURVE_GSTYLE&nbsp;),&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;targetGraphicsStyleId&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">ElementParameterFilter</span>&nbsp;filter_type&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ElementParameterFilter</span>(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">FilterRule</span>&gt;()&nbsp;{&nbsp;frule_typeId&nbsp;}&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">IEnumerable</span>&lt;<span style="color:#2b91af;">Element</span>&gt;&nbsp;lines&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.WhereElementIsNotElementType()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.WhereElementIsCurveDriven()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.WherePasses(&nbsp;filter_detail&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.WherePasses(&nbsp;filter_type&nbsp;);
+</pre>
+
+<p><strong>Response:</strong> Great solutions here, thank you so much!</p>
+
+<h4><a name="3"></a> Revit Project Modification Tracking</h4>
+
+<p>Jacob Small shared a powerful collection of nodes
+for <a href="https://data-shapes.io/2016/12/31/modification-tracking-with-dynamo-and-data-shapes">Modification Tracking with Dynamo</a> that
+might come in useful for you too.  </p>
+
+<h4><a name="4"></a> Retrieving all NavisWorks Model Properties</h4>
+
+<p>I handled my first NavisWorks .NET API programming ticket, <em>17292711 &ndash; Most optimized way of getting a complete set of property categories and properties in a model</em>, and discussed the best approach in depth with the NW development team.</p>
+
+<p><strong>Question:</strong> When loading an NWD into Navisworks it appears that the categories and properties for all of the items are loaded almost right away when looking at the selection tree. When obtaining this information programmatically it appears it can take much longer. Currently the approach I am using is something like the following:</p>
+
+<pre class="code">
+  // iterate over each item in model
+  foreach (var item in model.RootItem.DescendantsAndSelf)
+  {
+    // iterate over each category per item
+    foreach (var category in item.PropertyCategories)
+    {
+      // iterate over each property per category
+      foreach (var property in category.Properties)
+      {
+        // get value/name etc.
+        var propName = prop.DisplayName;
+        var value = prop.Value;
+      }
+    }
+  }
+</pre>
+
+<p>Is there a way that the properties and categories can be programmatically loaded faster?</p>
+
+<p>Is this information cached somewhere? If so, is there a way to access it instead of loading it myself?</p>
+
+<p>Would it be better to use the COM API for performance?</p>
+
+<p><strong>Answer:</strong> Sadly, there isn't any faster way of reading all the properties using the .NET API.
+My little Properties+ tool has to spend a long time searching for properties, but at least it does pop up a progress bar, so that is something the customer could consider doing as well.</p>
+
+<p>We did think about overhauling how we handle properties for NW 2022, but that didn't make the cut. It's possible we might do something for 2023, but no firm plans as of right now.</p>
+
+<p>The code does basically what they are doing, and then just caches the results locally.</p>
+
+<p>Only difference is, it reports progress as well.</p>
+
+<p>There isn’t anything special or confidential about this code, so, as far as I’m concerned, you’re welcome to share it with the customer:</p>
+
+<pre class="code">
+<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;Update()
+{
+&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;Nw.<span style="color:#2b91af;">Application</span>.MainDocument&nbsp;!=&nbsp;<span style="color:blue;">null</span>&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;Nw.<span style="color:#2b91af;">Search</span>&nbsp;s&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;Nw.<span style="color:#2b91af;">Search</span>();
+
+&nbsp;&nbsp;&nbsp;&nbsp;s.SearchConditions.Add(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nw.<span style="color:#2b91af;">SearchCondition</span>.HasCategoryByName(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nw.<span style="color:#2b91af;">PropertyCategoryNames</span>.Item&nbsp;)&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;s.Selection.SelectAll();
+&nbsp;&nbsp;&nbsp;&nbsp;s.Locations&nbsp;=&nbsp;Nw.<span style="color:#2b91af;">SearchLocations</span>.DescendantsAndSelf;
+&nbsp;&nbsp;&nbsp;&nbsp;s.PruneBelowMatch&nbsp;=&nbsp;<span style="color:blue;">false</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;Nw.<span style="color:#2b91af;">ModelItemCollection</span>&nbsp;allItems&nbsp;=&nbsp;s.FindAll(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nw.<span style="color:#2b91af;">Application</span>.MainDocument,&nbsp;<span style="color:blue;">true</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;Nw.<span style="color:#2b91af;">Progress</span>&nbsp;prog&nbsp;=&nbsp;Nw.<span style="color:#2b91af;">Application</span>.BeginProgress(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;Building&nbsp;Property&nbsp;Cache&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;done&nbsp;=&nbsp;0;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;total&nbsp;=&nbsp;allItems.Count;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;Nw.<span style="color:#2b91af;">ModelItem</span>&nbsp;item&nbsp;<span style="color:blue;">in</span>&nbsp;allItems&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;Nw.<span style="color:#2b91af;">PropertyCategory</span>&nbsp;cat&nbsp;<span style="color:blue;">in</span>&nbsp;item.PropertyCategories&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;Nw.<span style="color:#2b91af;">DataProperty</span>&nbsp;data&nbsp;<span style="color:blue;">in</span>&nbsp;cat.Properties&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_props.Add(&nbsp;<span style="color:blue;">new</span>&nbsp;PropertyDefinition(&nbsp;cat.Name,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data.Name,&nbsp;cat.DisplayName,&nbsp;data.DisplayName&nbsp;)&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++done;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">double</span>&nbsp;percent&nbsp;=&nbsp;(<span style="color:blue;">double</span>)&nbsp;done&nbsp;/&nbsp;(<span style="color:blue;">double</span>)&nbsp;total;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;prog.Update(&nbsp;percent&nbsp;)&nbsp;==&nbsp;<span style="color:blue;">false</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;Nw.<span style="color:#2b91af;">Application</span>.EndProgress();
+&nbsp;&nbsp;}
+&nbsp;&nbsp;m_cacheValid&nbsp;=&nbsp;<span style="color:blue;">true</span>;
+}
+</pre>
+
+<p><strong>Question:</strong> I see that it stores a <code>PropertyDefinition</code> for each property encountered, encapsulating the <code>Name</code> and <code>DisplayName</code> of the category and data items. So, it does not care about the data value.</p>
+
+<p>In a different vein, don’t some objects in the model duplicate others, and their properties as well? Wouldn’t it make sense to identify such objects and reuse the existing data for those? Or is that hard, or impossible?</p>
+
+<p><strong>Answer:</strong> That code only wants a list of properties, so it doesn't care about the actual values.
+And, yes, some objects are duplicates of others, but optimising for that probably won't make much difference.</p>
+
+<p>Summary:</p>
+
+<ul>
+<li>Use the progress bar</li>
+<li>Cache the results</li>
+</ul>
+
+<h4><a name="5"></a> Node.js Best Practices</h4>
+
+<p>Talking about new non-Revit programming environments, one of the most important topics nowadays is of course <a href="https://nodejs.org">node.js</a>.</p>
+
+<p>For that, I happened upon a really great collection of <a href="https://github.com/goldbergyoni/nodebestpractices">Node.js Best Practices</a>.</p>
+
+<p>This constitutes an invaluable collection of information, and also shows an exemplary solution to present it optimally.</p>
+
+<h4><a name="6"></a> Early History of Programming and C</h4>
+
+<p>Talking about the other and the new, let's not ignore the old, either;
+for instance, by taking a look
+at <a href="https://arstechnica.com/features/2020/12/a-damn-stupid-thing-to-do-the-origins-of-c">the early history of programming and the C language</a>.</p>

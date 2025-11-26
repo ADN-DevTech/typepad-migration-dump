@@ -1,0 +1,381 @@
+comments:
+- author: Ivan Markov
+  email: Ivan.Markov@hei-eng.com
+  ip: 64.126.109.222
+  url: ''
+  date: '2009-06-25 18:24:23'
+  body: 'Hi Jeremy,
+
+
+    I am hoping you can point me to the right direction. I am building a custom printing
+    utility for Revit and I need to be able to generate a preview for my users, before
+    spooling the content to a printer. Is the functionality available through the
+    API? If not can you point me in a general directions on how to create that functionality
+    myself.
+
+
+    Thanks'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-26 15:11:58'
+  body: 'Dear Ivan,
+
+
+    You have a huge number of options and they obviously depend heavily on exactly
+    what it is you are aiming to do. To start with, you could have a look at the PrintManager
+    class, and the Revit SDK ViewPrinter sample.
+
+
+    Cheers, Jeremy.'
+- author: Ivan Markov
+  email: Ivan.Markov@hei-eng.com
+  ip: 64.126.109.222
+  url: ''
+  date: '2009-07-13 11:23:52'
+  body: 'Hi Jeremy,
+
+
+    thank you for the response, but I think I did not explain properly. I have already
+    looked at the example. What I was referring to is that with the Revit build in
+    print dialog a user can generate a print preview of the current view, before they
+    print. I have not been able to find a way to generate a print preview using the
+    API and I was wandering if you can tell me if that is possible at all?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-07-13 13:38:12'
+  body: 'Dear Ivan,
+
+
+    Oh, I see. Thank you for the update and clarification. Nope, I do not believe
+    there is any API access to that. You could try to simulate the required user input
+    using one of the possibilities described in
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/05/vb-samples-and-other-questions.html#1">http://thebuildingcoder.typepad.com/blog/2009/05/vb-samples-and-other-questions.html#1</a>
+
+
+    Cheers, Jeremy.'
+- author: NAyche
+  email: ''
+  ip: 66.162.165.162
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2009-11-12 10:24:59'
+  body: "Jeremy,\n\nAs usual, when I try too much and beat the problem to death and\
+    \ yet still can't find an answer, I have to come back to you :)\n\nI am trying\
+    \ to create a print command that prints one pdf size.  Everything is working except\
+    \ the sheets are not added to the print setting no matter what:\n\nthe following\
+    \ three lines of code are taken from the ViewPrinter SDK sample, however, in my\
+    \ case, the viewSheetSet is not getting populated back to the CurrentViewSheetSet.\
+    \  I keep getting this message \"This property is only available when user choose\
+    \ Select of Print Range.\" at the execution of the third line.\n\nPlease help\
+    \ (ps: I do have a printManager.PrintSetup.Save(); before this line, and I am\
+    \ using printManager.PrintRange = ...PrintRange.Select;\n\n\n{\n...\nViewSheetSet\
+    \ viewSheetSet = m_doc.PrintManager.ViewSheetSetting.CurrentViewSheetSet;\n  \
+    \          viewSheetSet.Views = selectedViews;\n            m_doc.PrintManager.ViewSheetSetting.CurrentViewSheetSet\
+    \ = viewSheetSet;\n...}"
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.105.160
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-12 10:59:56'
+  body: 'Dear Nadim,
+
+
+    Please look at the discussion following the comment
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/06/creating-a-curved-beam.html?cid=6a00e553e16897883301157114b5ab970b#comment-6a00e553e16897883301157114b5ab970b">http://thebuildingcoder.typepad.com/blog/2009/06/creating-a-curved-beam.html?cid=6a00e553e16897883301157114b5ab970b#comment-6a00e553e16897883301157114b5ab970b</a>
+
+
+    It continues in an AUGI forum as well and presents a solution that may help.
+
+
+    Cheers, Jeremy.'
+- author: NAyche
+  email: ''
+  ip: 66.162.165.162
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2009-11-12 11:31:04'
+  body: "thank you for the information.  However, I had already tried that and got\
+    \ this message \"There are no views/sheets selected.\" and that is because the\
+    \ viewSheetSet is not being populated to CurrentViewSheetSet in the last line\
+    \ \n{\nm_doc.PrintManager.ViewSheetSetting.CurrentViewSheetSet = viewSheetSet;\n\
+    }\n\nI tested that with Object.Equal() method immediatly after, and it returns\
+    \ false, here it is:\n{\nSystem.Windows.Forms.MessageBox.Show(ptManager.ViewSheetSetting.CurrentViewSheetSet.Equals(tmpViewSheetSet).ToString());\n\
+    }\n\nplease let me know what do you think?\n\nregards,"
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.105.160
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-12 11:37:39'
+  body: 'Dear Nadim,
+
+
+    I think that you might have told me and the other people reading this about your
+    previous research and saved me the trouble to dig it up again for you. Other than
+    that, I think that I cannot do much more to help, but maybe you can pick up the
+    thread started by Pierre and Rod and find a workable solution for all of you together,
+    and the rest of the community as well.
+
+
+    Cheers, Jeremy.'
+- author: Joe
+  email: yexiongjin@hotmail.com
+  ip: 203.202.234.226
+  url: ''
+  date: '2009-11-13 01:17:05'
+  body: "I once handled a question about adding views to CurrentViewSheetSet.\nIt\
+    \ is a tricky here. We cannot assign another ViewSheetSet that owns views to CurrentViewSheetSet\
+    \ property. This cannot add views to CurrentViewSheetSet.\n\nWe need to assign\
+    \ ViewSet to CurrentViewSheetSet.Views directly.\nfor example, i created a macro\
+    \ in VSTA.\n\npublic void Execute()\n{\n\nDocument doc = this.ActiveDocument;\n\
+    \ntry\n{\n//change printManager's view set\ndoc.BeginTransaction();\n//get current\
+    \ view setting viewset\nViewSheetSetting vsst = doc.PrintManager.ViewSheetSetting;\n\
+    ViewSet vs = this.Create.NewViewSet();\n\n//get a sheet and insert it to the vs\n\
+    ElementIterator ei = doc.get_Elements(typeof(ViewSheet));\nViewSheet vsPrint =\
+    \ null;\nwhile (ei.MoveNext())\n{\nvsPrint = ei.Current as ViewSheet;\nbreak;\n\
+    }\nif (vsPrint == null)\n{\nSystem.Windows .Forms.MessageBox.Show( \"There is\
+    \ no view sheet in current project\");\nreturn;\n}\n\nvs.Insert(vsPrint);\n//vs.Insert(doc.ActiveView);\n\
+    vsst.CurrentViewSheetSet.Views = vs;\nbool bSuccess = vsst.Save();\ndoc.EndTransaction();\n\
+    }\ncatch (Exception ex)\n{\nSystem.Windows.Forms.MessageBox.Show(ex.Message);\n\
+    return;\n}\n\n}\n\n\n\nThen I run this macro, when calling this line bool bSuccess\
+    \ = vsst.Save();\nthe error message is ¡°Attempt to modify the model outside of\
+    \ transaction¡±, \n\nThis should remind Save() should be in a transaction. So\
+    \ I add doc.BeginTransaction and doc.EndTransaction.\n\ndoc.BeginTransaction();\n\
+    bool bSuccess = vsst.Save(); \ndoc.EndTransaction();\n\nThis changes made the\
+    \ macro works well. \n\nCheers,\n\nJoe Ye"
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.76.225
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-13 01:32:16'
+  body: 'Dear Joe,
+
+
+    Thank you very much for the encompassing answer and for posting it here!
+
+
+    Since it is such a large chunk of code, I should maybe promote this to a proper
+    post one of these days for better readability and visibility.
+
+
+    Cheers, Jeremy.'
+- author: NAyche
+  email: ''
+  ip: 68.62.251.149
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2009-11-13 08:01:07'
+  body: 'I found the solution, here it is:
+
+
+    you can''t assign directly like:
+
+    ...CurrentViewSheetSet = viewSheetSet
+
+
+    you can''t use the insert method:
+
+    ...CurrentViewSheetSet.Insert(view)
+
+
+    but what you can do is create a:
+
+    ViewSet tmpViewSet = new ViewSet();
+
+
+    and then populate it with all the views to print,
+
+    at the end, just type:
+
+    ...CurrentViewSheetSet.Views = tmpViewSet;
+
+
+    this should work.
+
+
+    Regards,
+
+    Nadim'
+- author: NAyche
+  email: ''
+  ip: 68.62.251.149
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2009-11-13 08:04:51'
+  body: 'alright,
+
+    I see that Joe already responed with the answer.
+
+
+    correction: the second "can''t do" in my previous post is
+
+    ...CurrentViewSheetSet.Views.Insert(view);
+
+
+    regards,
+
+    Nadim'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-16 03:41:01'
+  body: 'Dear Nadim,
+
+
+    Thank you very much for precisely pointing out the really important difference.
+    I have seen similar situations a couple of times in the past, where the Revit
+    API provides a property which returns a value and not a reference. If you modify
+    the value returned, this will obviously not affect the internal state of Revit
+    or the model. To change the state, you have to assign to the property instead.
+
+
+    The other two situations in which we explicitly pointed out this kind of behaviour
+    were
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/08/library-paths.html">http://thebuildingcoder.typepad.com/blog/2009/08/library-paths.html</a>
+
+
+    and
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/09/adding-a-category-to-a-parameter-binding.html">http://thebuildingcoder.typepad.com/blog/2009/09/adding-a-category-to-a-parameter-binding.html</a>
+
+
+    Cheers, Jeremy.'
+- author: NAyche
+  email: ''
+  ip: 68.62.251.149
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2009-12-08 21:20:50'
+  body: 'Thanks to the changes made to the PrintManager in Revit API 2010, I am back
+    to the same problem.  I have to spend alot of time on it again, and I really feel
+    my blood pressure is going up because of this issue.
+
+
+    I need to upgrade my printing application to Revit 2010; however, the same problem
+    is happening again.  The views that will be printed and added to a ViewSet named
+    tmpViewSet are not been populated to the ...CurrentViewSheetSet.Views even if
+    write it as follows:
+
+
+    ptManager.ViewSheetSetting.CurrentViewSheetSet.View = tmpViewSet;
+
+
+    Whatever change the API developers did, it prevents this solution from working
+    again.
+
+
+    obvoisly, you can not say ...CurrentViewSheetSet.Views.Insert(vw) because the
+    Views collection is a read only.
+
+
+    Pleeeeeeeeeeeeeeeeeease help or ask any insider how to populate the views to be
+    printed to the ptManager.....Views property.
+
+
+    Thanks in advance,
+
+    Nadim'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-09 08:13:02'
+  body: 'Dear Nadim,
+
+
+    I am actually not an expert in this area. Have you had a look at the recent post
+    dealing with printing?
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/12/modify-the-dwf-export-filename.html">http://thebuildingcoder.typepad.com/blog/2009/12/modify-the-dwf-export-filename.html</a>
+
+
+    Maybe Rod can help you?
+
+
+    Cheers, Jeremy.
+
+
+    P.S. I am totally allergic to "Pleeeeeeeeeeeeeeeeeease".'
+- author: NAyche
+  email: ''
+  ip: 68.62.251.149
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2009-12-12 10:56:05'
+  body: "Jeremy,\nI found the solution, at least I fixed my problem.\nWhat I had to\
+    \ do is to SaveAs() the viewSheetSetting as follows:\n\nViewSheetSetting viewSheetSetting\
+    \ = ptManager.ViewSheetSetting;\n            ViewSheetSet viewsToPrint = viewSheetSetting.CurrentViewSheetSet;\n\
+    viewSheetSetting.SaveAs(\"No one will guess this name\");\n/*\nhere you add the\
+    \ code and place all views in a ViewSet \nand populate it back to ViewSheetSettting.CurrentViewSheetSet.Views\n\
+    The next step is the key step\n*/\nviewSheetSetting.CurrentViewSheetSet = viewsToPrint;\n\
+    \nIs there any place where I can find some information regarding how revit process\
+    \ plotting.  My biggest confusion is when am I using the in-session and when I\
+    \ am not.\n\nI hope this helps.\nNadim"
+- author: Jeremy Tammik
+  email: ''
+  ip: 193.82.81.227
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-13 14:20:27'
+  body: 'Dear Nadim,
+
+
+    Congratulations, and thank you very much for letting us know your solution!
+
+
+    I am sure this will be a great help to others facing the same issue.
+
+
+    Cheers, Jeremy.'
+- author: Caitlin
+  email: catmarshall65@gmail.com
+  ip: 72.37.244.20
+  url: ''
+  date: '2010-06-29 15:15:13'
+  body: 'Hello Jeremy,
+
+
+    I have a very specific question regarding the ''NewDuctConnector'' Method. Is
+    it possible to specify in which direction the duct connector faces given the specified
+    planarFace? It seems like the method automatically chooses the normal to the planarFace,
+    but for this one extrusion I created it defaults to a positive Z-direction which
+    is opposite to the normal for the planarFace. I can manually ''flip'' the normal
+    in the Revit program but programatically it does not seem straight forward.
+
+
+    I would greatly appreciate any response,
+
+
+    Caitlin'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-30 07:02:37'
+  body: 'Dear Caitlin,
+
+
+    We did indeed note an issue related to the connector direction of connectors added
+    through the API. That has been resolved now, and should be fixed in the recent
+    update. Could you try it out in the updated version, please?
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/06/revit-2011-web-update-1.html">http://thebuildingcoder.typepad.com/blog/2010/06/revit-2011-web-update-1.html</a>
+
+
+    Since I will be going on holiday the next two weeks, I will not be able to answer
+    any updates for quite a while from now on, so please be patient ...  Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Caitlin
+  email: catmarshall65@gmail.com
+  ip: 72.37.244.20
+  url: ''
+  date: '2010-06-30 09:13:38'
+  body: "Thank you! That was very helpful. Have a good vacation. \n\nCaitlin\n-----"

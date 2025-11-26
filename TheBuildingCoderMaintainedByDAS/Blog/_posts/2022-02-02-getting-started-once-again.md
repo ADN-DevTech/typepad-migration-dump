@@ -1,0 +1,218 @@
+---
+layout: "post"
+title: "Getting Started Once Again"
+date: "2022-02-02 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Dynamo"
+  - "Fun"
+  - "Getting Started"
+  - "Plugin"
+  - "Python"
+original_url: "https://thebuildingcoder.typepad.com/blog/2022/02/getting-started-once-again.html "
+typepad_basename: "getting-started-once-again"
+typepad_status: "Publish"
+---
+
+<p>Welcoming my new colleague Carol leads to a renewed look at getting started:</p>
+
+<ul>
+<li><a href="#2">Access permission to load my first add-in</a></li>
+<li><a href="#2.2">Assembly path and buttons missing</a></li>
+<li><a href="#3">My first Revit plug-in todo</a></li>
+<li><a href="#4">Books on Python for Revit Dynamo</a></li>
+<li><a href="#5">pyRevit saves insane amounts of time</a></li>
+<li><a href="#6">Newtonsoft Json.dll version conflict</a></li>
+<li><a href="#7">Lost in the World by Steve Cutts</a></li>
+</ul>
+
+<h4><a name="2"></a> Access Permission to Load my First Add-In</h4>
+
+<p>I probably pointed beginners to
+the <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#2">Revit API getting started material</a> several
+thousand times already, and sincerely hope that it provides a couple of useful pointers for them.</p>
+
+<p>Still, people keep running into problems anyway.</p>
+
+<p>A colleague hit another unexpected obstacle last week:</p>
+
+<p><strong>Question:</strong> I dived into the Getting Started with Revit platform API, following the DevTV tutorial by Augusto Goncalves.
+None of my commands appear on the Revit UI &gt; Add Ins &gt; external commands. </p>
+
+<p><strong>Answer:</strong> One thing you ought to read is the introductory section of
+the <a href="https://help.autodesk.com/view/RVT/2022/ENU/?guid=Revit_API_Revit_API_Developers_Guide_html">Revit API developers guide</a>.
+It tells you exactly what to do to install and launch your add-in.
+It is shocking if that information is not clear and does not work in the tutorial, though.
+Thank you for bringing it up!</p>
+
+<p>Installing a Revit add-in is really simple, but people run into difficulties like you describe anyway.</p>
+
+<p>There are only two relevant components:</p>
+
+<ul>
+<li>Add-in manifest file <code>*.addin</code></li>
+<li>.NET class library assembly <code>DLL</code></li>
+</ul>
+
+<p>These are the important steps:</p>
+
+<ul>
+<li>The DLL must implement <code>IExternalCommand</code>; that means, it must implement the <code>Execute</code> method.</li>
+<li>The add-in manifest must point to the DLL and must be placed in the Revit Add-Ins folder for Revit to find and load it.</li>
+<li>If the DLL and add-in manifest both reside in the Revit <code>AddIns</code> folder, the full DLL path can be omitted; otherwise it must be specified.</li>
+</ul>
+
+<p>That is really all.</p>
+
+<p>There are thousands of places explaining it; they all say the same thing.</p>
+
+<p>Good luck and lots of fun with the Revit API :-)</p>
+
+<p><strong>Response:</strong> I have not had any luck since yesterday about my add-in not appearing in the Revit external commands.</p>
+
+<p>I have carefully structured my code correctly.
+The add-in manifest file is pointing to my project <code>.dll</code> file.
+My project class explicitly implements the <code>IExternalCommand</code> interface and fires up the <code>Execute</code> method just fine.
+I don't understand what the issue could be.</p>
+
+<p><strong>Update:</strong> I managed to debug my code.
+Kindly, ignore previous message. </p>
+
+<p>The location of my manifest add-in file was locked.
+I guess that happened when my account was set up.
+The location needed permission to be accessed.
+This path: </p>
+
+<ul>
+<li>C:\ProgramData\Autodesk\Revit\Addins\2022\</li>
+</ul>
+
+<p>I utilised the try and catch exception to see the issue.</p>
+
+<p>Once I gave access permission, the add-in file is now visible; it worked!</p>
+
+<h4><a name="2.2"></a> Assembly Path and Buttons Missing</h4>
+
+<p>Another issue getting started was resolved by decompiling and analysing the add-in .NET assembly DLL using IL decompilers, 
+<a href="https://stackoverflow.com/questions/70887489/failed-to-initialize-the-add-in-name-because-the-assembly-path-to-an-add-in">"Failed to initialize the <i>add_in_name</i> because the assembly <i>path_to_an_add_in_DLL_file</i> does not exist" when launching Revit</a>:</p>
+
+<p><strong>Question:</strong> I've exhausted every resource possible and can not figure out what the issue is.
+Button images won't show and I keep getting this message launching Revit when I try to use the command:</p>
+
+<blockquote>
+  <p>Failed to initialize the [add-in name] because the assembly [path to an add-in DLL file] does not exist</p>
+</blockquote>
+
+<p>But I may have been trying to run before I learned to walk with this one.
+The only thing I'm not understanding is why the commands work fine in the addins but the buttons can't find them.</p>
+
+<p><strong>Answer:</strong> Maybe your add-in is trying to reference a .NET assembly DLL that cannot be found when Revit tries to load it.
+Looking at the list of namespaces that you reference in your source code <code>using</code> statements, I see nothing but standard Autodesk Revit, Microsoft and .NET assemblies listed.
+So, they should all be present and accessible.
+Are you using anything else elsewhere in your code that is not obvious from that list?
+You might be able to use tools like <code>fuslogv</code> to analyse your add-in dependencies during load time, as suggested in the note
+on <a href="https://thebuildingcoder.typepad.com/blog/2021/05/revitlookup-update-fuslogvw-and-override-joins.html#6">exploring assembly reference DLL hell with Fuslogvw</a>.</p>
+
+<p><strong>Response:</strong> Looks like I'm getting some XAML Binding errors during debug.</p>
+
+<p>Update: I got one of the buttons to work correctly after I put the full path for the assemblies:</p>
+
+<ul>
+<li><i>C:\ProgramData\Autodesk\Revit\Addins\2021\TpMechanical\bin\Debug\TpMechanical.dll</i></li>
+</ul>
+
+<p>Update 2: The IL decompiler did the trick!
+The full class name was pulling as a different name.
+Now I just have to figure out the button images and I'll be in a good spot to start on my own plugins. </p>
+
+<p>Update 3: Just solved my image issue.
+I changed the resources to embed and used the full path to the resources.
+Seems to have done the trick.</p>
+
+<h4><a name="3"></a> My First Revit Plug-in Todo</h4>
+
+<p>The <a href="https://knowledge.autodesk.com/search-result/caas/simplecontent/content/my-first-revit-plug-overview.html">My First Revit Plug-in tutorial</a> available from
+the <a href="https://www.autodesk.com/developer-network/platform-technologies/revit">Revit Developer Center</a> needs
+an overhaul, as 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/revit-add-ins-tutorial-needs-an-update-for-version-2021-1/td-p/10905890">Revit Add-ins Tutorial needs an update for version 2021.1</a>
+points out.</p>
+
+<p>Our new team member <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/11981988">Carol Gitonga</a> is
+just getting started with the Revit API herself and will very kindly take a look at it.</p>
+
+<p>Many thanks and a warm welcome to Carol!</p>
+
+<h4><a name="4"></a> Books on Python for Revit Dynamo</h4>
+
+<p>Discussing another area to get started in,
+Gulshan <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/11923128">gulshannegi94</a> Negi updated the thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/books-or-other-sources-to-learn-python-to-be-used-in-revit/m-p/10913051">books or other resources to learn Python for Revit Dynamo</a>:</p>
+
+<p>Best ones are:</p>
+
+<ul>
+<li>Learn Python the Hard Way by Zed Shaw a very popular author and a must-have book for any python student. In Learn Python the Hard Way, you'll learn Python by working through 52 brilliantly crafted exercises</li>
+<li>Python For Data Analysis The book is a complete guide on processing, cleaning, influencing and gathering of data in Python. It is made for the area of data intensive applications and provides an excellent introduction on data analysis issues. It is the best source for understanding the various tools.</li>
+<li>Python, In A Nutshell provides an easy guide on Python programming language. It is a perfect source when it comes to areas like the official library and language references. This book is to be read by those who already have their fundamentals on Python strong. It deals with many advanced and complicated areas regarding the subject.</li>
+<li>Violent Python: A Cookbook For Hackers, Forensic Analysts, Penetration Testers Written by TJ O’Connor, this book is an introductory level book on Python programming language that provides a clear-cut understanding. This book will teach you to forge your own weapons using the Python programming language instead of relying on another attacker’s tools. It is the best book to read when it comes to security concepts and deals with forensics, tool integration for complicated protocols like SMB. It also demonstrates how to write Python scripts to automate large-scale network attacks, extract metadata, and investigate forensic artifacts. The book is apt to be used by those programmers who already have a good understanding of the Python language.</li>
+<li>Python Machine Learning Unlock deeper insights into Machine Leaning with this vital guide to cutting-edge predictive analytics about This book leverages Python's most powerful open-source libraries for deep learning, data wrangling, and data visualization. Learn effective strategies and best practices to improve and optimize machine learning systems and algorithms. Ask and answer tough questions of your data with robust statistical models, built for a range of datasets.</li>
+</ul>
+
+<p>For more best Python book recommendations, check out
+the <a href="https://learndunia.com/best-python-books">10 Best Python Books for Beginners &amp; Advanced Programmers</a>.</p>
+
+<h4><a name="5"></a> pyRevit Saves Insane Amounts of Time</h4>
+
+<p>Talking about Python and Dynamo in Revit, Nicolas Catellier highlights
+<a href="https://revitpure.com/blog/10-amazing-pyrevit-features-to-save-insane-amounts-of-time">10 amazing pyRevit features to save insane amounts of time</a>.
+As always, one of the best aspects of this is that it is all open source, so you access to source code for all the functionality presented.</p>
+
+<h4><a name="6"></a> Newtonsoft Json.dll Version Conflict</h4>
+
+<p><strong>Question:</strong> A developer reported problems with their Revit add-ins.
+They make no use of any web services or BIM 360.
+Still, they cause problems with BIM360 under certain circumstances:</p>
+
+<ul>
+<li>In Revit 2019 everything works as expected, the client can see their BIM 360 folders and files.</li>
+<li>In Revit 2020 the client cannot access or see their BIM 360 folders via Revit, but they can see their organization.</li>
+<li>The same is true for Revit 2021 and Revit 2022.</li>
+<li>If the apps are uninstalled, Revit 2020 works as expected.</li>
+<li>If the client upgrades their BIM 360 project to 2020 then Revit 2020 works as expected.</li>
+<li>When we test on different machines, even with no apps installed, Revit 2021 and Revit 2022 doesn't even show the BIM360 organization.</li>
+</ul>
+
+<p><strong>Answer:</strong> Probably some DLL in the customer’s add-on conflicts with Revit’s.</p>
+
+<p>Does it by any chance use <code>Newtonsoft.Json.dll</code>?</p>
+
+<p>After some analysis, I can see that it does indeed.</p>
+
+<p>The add-in uses <code>Newtonsoft.Json.dll</code> version 13.0.1, two major versions newer than the one shipped with Revit 2021, which is version 11.0.2.</p>
+
+<p>Probably they will have to downgrade the DLL.
+That is easy, if the app doesn’t consume any features only available only in versions 12 or 13.</p>
+
+<p>They also need to make sure not to explicitly load the DLL (and any other DLLs), e.g., using <code>Assembly.LoadFromFile</code>.</p>
+
+<p>In another case, a third-party add-in used the same version of Newtonsoft as Revit but explicitly loaded the DLL; this caused similar issues to Revit core functionalities.</p>
+
+<p>Yet another example of DLL hell resolved.</p>
+
+<h4><a name="7"></a> Lost in the World by Steve Cutts</h4>
+
+<p>To wrap up, a little non-programming topic:
+I liked the animated two-and-a-half-minute short film <a href="https://youtu.be/PJXCJOgPgZI">Are You Lost in the World Like Me?</a>
+by <a href="https://www.stevecutts.com">Steve Cutts</a> very much,
+leading me to check out several of <a href="https://www.stevecutts.com/animation.html">his other animations</a>.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833027880691fed200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833027880691fed200d img-responsive" style="width: 260px; display: block; margin-left: auto; margin-right: auto;" alt="Steve Cutts" title="Steve Cutts" src="/assets/image_f817fa.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Happy Twosday!</p>
+
+<p style="font-size: 150%">2/2/22</p>

@@ -1,0 +1,253 @@
+---
+layout: "post"
+title: "RevitLookup with Reflection Cleanup"
+date: "2017-02-17 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "Data Access"
+  - "Debugging"
+  - "Element Relationships"
+  - "RevitLookup"
+  - "Update"
+  - "Utilities"
+original_url: "https://thebuildingcoder.typepad.com/blog/2017/02/revitlookup-with-reflection-cleanup.html "
+typepad_basename: "revitlookup-with-reflection-cleanup"
+typepad_status: "Publish"
+---
+
+<p>Last week, I presented a drastic change 
+to <a href="https://github.com/jeremytammik/RevitLookup">RevitLookup</a> contributed by 
+Andy <a href="https://github.com/awmcc90">@awmcc90</a> McCloskey, <a href="https://twitter.com/revdevstudios">RevDev Studios</a>,
+using <code>Reflection</code> to provide more complete coverage of all the Revit database element methods and properties.</p>
+
+<p>Now <a href="http://www.facebook.com/profile.php?id=100003616852588">Victor Chekalin</a>, aka Виктор Чекалин, took
+a critical look at this new version and cleaned it up significantly to address a number of raw edges in 
+his <a href="https://github.com/jeremytammik/RevitLookup/pull/25">pull request #25 &ndash; old bug fixes and improvements of the new approach</a>.</p>
+
+<p>At first sight, Victor was not at all impressed.
+Happily, on second thoughts, all is well and order has been restored again:</p>
+
+<ul>
+<li><a href="#2">Shock and gripe</a></li>
+<li><a href="#3">Commit summary</a>
+<ul>
+<li><a href="#3.1">1. Methods and properties extraction</a></li>
+<li><a href="#3.2">2. Show enum values</a></li>
+<li><a href="#3.3">3. Drill down into <code>SymbolGeometry</code></a></li>
+<li><a href="#3.4">4. Remove duplicate <code>get_</code> property getter method</a></li>
+<li><a href="#3.5">5. Fixed <code>Fine</code> <code>DetailLevel</code> bug</a></li>
+<li><a href="#3.6">6. Visual style of separator</a></li>
+</ul></li>
+<li><a href="#4">Download and access to old functionality</a></li>
+<li><a href="#5">Reaction and read-only assurance</a></li>
+</ul>
+
+<h4><a name="2"></a>Shock and Gripe</h4>
+
+<p>At first sight, Victor was not pleased at all with the radical changes.</p>
+
+<p>I think this is important to share our discussion on the first impression, since his sentiments are probably shared by other RevitLookup aficionados as well:</p>
+
+<blockquote>
+  <p>I wanted to make some changes in RevitLookup (actually fix the bug) and noticed the bad thing;
+  after Andrew's commit with serious changes, RevitLookup looks ugly.
+  He completely changed the algorithm of data retrieving, using <code>Reflection</code>, but lost some functionality.
+  In the latest version, for example, I cannot get symbol geometry. It's disabled.
+  So, the idea is good, bad the implementation needs to be improved :-)
+  And I'll get send you pull request soon with bug fixed.</p>
+</blockquote>
+
+<p>On second thoughts, luckily, things cleared up a bit:</p>
+
+<blockquote>
+  <p>Probably yesterday I was a bit emotional. Because my first opinion was &ndash; what the hell?
+  Everything is absolutely different, not as usual, difficult to find a property, and I could not get the desired property <code>SymbolGeometry</code>.
+  I found that the new version is very raw.
+  Looking at it in more detail, I like the general idea to use reflection.
+  Indeed, it allows to get more information and not worry about the new methods/properties in future versions.</p>
+  
+  <p>My biggest concern is with the methods. We are getting the methods using reflection.
+  Andrew gets all the methods without parameters and return type is not void.
+  But we cannot ensure the method is just a 'get' method.
+  A method might modify something and return a value.
+  For example, <code>bool Remove() { // remove something return true; }</code></p>
+  
+  <p>Some issues:
+  The properties/methods are not sorted. In the previous version, they were not sorted either.
+  But as all the properties were added manually, the order looked more intelligent, like <code>Id</code> and <code>Name</code> at the top.
+  With reflection, the properties are sorted in the custom order and difficult to find a particular property.
+  I think would be better to sort them. I'll do that, no prob.</p>
+  
+  <p><code>SymbolGeometry</code> is not populated because this is a bug.
+  I've found where exactly in the code &ndash; <code>GeometryInstance</code> is cast to <code>Element</code>, but is not in fact derived from it.
+  Will try to fix it myself or submit an issue on GitHub.</p>
+</blockquote>
+
+<h4><a name="3"></a>Commit Summary</h4>
+
+<p>Here is Victor's subsequent pull request commit summary, followed by a detailed list of the enhancements made to bring the new version of RevitLookup using <code>Reflection</code> up to par with what we had before:</p>
+
+<ul>
+<li>Get only <code>Public</code> methods</li>
+<li>Get only declared properties and methods</li>
+<li>Do not retrieve property getter methods</li>
+<li>Show enum values directly in list</li>
+<li>Order methods and properties alphabetically by name</li>
+<li>Changed visual style of the property/method separator</li>
+<li>Fixed the bug with displaying <code>SymbolGeometry</code> property for <code>GeometryInstance</code></li>
+<li>Fixed the bug with Geometry extraction. Previously, whatever detail level was selected, the geometry was always extracted with <code>Fine</code> detail level</li>
+</ul>
+
+<p>Detailed pull request description with illustrations:</p>
+
+<h4><a name="3.1"></a>1. Methods and Properties Extraction</h4>
+
+<p>I changed it to get only public methods, explicitly declared only, and sorted by name.</p>
+
+<p>Before:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d2616be0970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d2616be0970c image-full img-responsive" alt="Before" title="Before" src="/assets/image_c4079b.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<p>After:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d2616c0a970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d2616c0a970c image-full img-responsive" alt="After" title="After" src="/assets/image_a8ee01.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="3.2"></a>2. Show Enum Values</h4>
+
+<p>Changed behaviour to show enum values.</p>
+
+<p>Before:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c8d7160f970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c8d7160f970b image-full img-responsive" alt="Before" title="Before" src="/assets/image_3d6ef9.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<p>After:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d2616c11970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d2616c11970c image-full img-responsive" alt="After" title="After" src="/assets/image_06ccf8.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="3.3"></a>3. Drill Down into SymbolGeometry</h4>
+
+<p>Fixed the issue related with GeometryInstance.SymbolGeometry. We could not drill down this property.</p>
+
+<p>Before:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb097a4070970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb097a4070970d image-full img-responsive" alt="Before" title="Before" src="/assets/image_aa91ab.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<p>After:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d2616c1d970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d2616c1d970c image-full img-responsive" alt="After" title="After" src="/assets/image_72c6c4.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="3.4"></a>4. Remove Duplicate <code>get_</code> Property Getter Method</h4>
+
+<p>Removed property getter from the methods extraction. Otherwise, for each property, we see the property itself as well as a method like <code>get_SomeProperty</code>:</p>
+
+<p>Before:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb097a407a970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb097a407a970d image-full img-responsive" alt="Before" title="Before" src="/assets/image_d9abc6.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<p>After:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d2616c22970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d2616c22970c image-full img-responsive" alt="After" title="After" src="/assets/image_2a4f7a.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="3.5"></a>5. Fixed Fine DetailLevel Bug</h4>
+
+<p>Fixed the very old bug, related with geometry extraction. Whatever <code>DetailLevel</code> you select, it always showed the geometry for <code>Fine</code>.</p>
+
+<p>For active view, <code>Medium</code> <code>DetailLevel</code>:</p>
+
+<p>Before:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d2616bf8970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d2616bf8970c image-full img-responsive" alt="Before" title="Before" src="/assets/image_41c126.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<p>After:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c8d71645970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c8d71645970b image-full img-responsive" alt="After" title="After" src="/assets/image_469a0c.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="3.6"></a>6. Visual Style of Separator</h4>
+
+<p>Changed visual style of the separator. Changed colour and shifted the title a bit.</p>
+
+<p>Before:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb097a407e970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb097a407e970d image-full img-responsive" alt="Before" title="Before" src="/assets/image_abd75e.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<p>After:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d2616c2b970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d2616c2b970c image-full img-responsive" alt="After" title="After" src="/assets/image_ee216a.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="4"></a>Download and Access to Old Functionality</h4>
+
+<p>The most up-to-date version is always provided in the master branch of 
+the <a href="https://github.com/jeremytammik/RevitLookup">RevitLookup GitHub repository</a>.</p>
+
+<p>Victor's bug fixes and enhancements are provided
+in <a href="https://github.com/jeremytammik/RevitLookup/releases/tag/2017.0.0.16">RevitLookup release 2017.0.0.16</a> and
+later versions.</p>
+
+<p>If you would like to access any part of the functionality that was removed when switching to the <code>Reflection</code> based approach, please grab it
+from <a href="https://github.com/jeremytammik/RevitLookup/releases/tag/2017.0.0.13">release 2017.0.0.13</a> or earlier.</p>
+
+<p>I am also perfectly happy to restore code that was removed and that you would like preserved. Simply create a pull request for that, explain your need and motivation, and I will gladly merge it back again.</p>
+
+<h4><a name="5"></a>Reaction and Read-Only Assurance</h4>
+
+<p>Andy responds to the update and answers the question on the methods that might modify something:</p>
+
+<blockquote>
+  <p>The changes look great, and yes, this version is absolutely more raw, but, when all is said and done, I think it will be a lot better. </p>
+  
+  <p>As far as your concern for modifying the model by executing methods that would modify the model data: this cannot happen, given that we are outside of a transaction. Method such as <code>Rotate</code>, etc., will return <code>false</code> when they cannot execute, which is what you are seeing. </p>
+  
+  <p>This is one thing that I recognised early on as a potential issue but is not a problem &ndash; unless there is something I'm completely missing here. 
+  Let me know if you find anything to the contrary; otherwise, I still believe this version is safe. </p>
+</blockquote>
+
+<p>Ever so many thanks again to Andy for his brave initiative and for Victor for his critical and constructive clean-up!</p>

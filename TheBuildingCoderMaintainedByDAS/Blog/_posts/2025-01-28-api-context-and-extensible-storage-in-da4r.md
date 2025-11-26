@@ -1,0 +1,212 @@
+---
+layout: "post"
+title: "API Context and Extensible Storage in DA4R"
+date: "2025-01-28 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "Algorithm"
+  - "APS"
+  - "DA4R"
+  - "Element Relationships"
+  - "Python"
+  - "Storage"
+  - "View"
+original_url: "https://thebuildingcoder.typepad.com/blog/2025/01/api-context-and-extensible-storage-in-da4r.html "
+typepad_basename: "api-context-and-extensible-storage-in-da4r"
+typepad_status: "Publish"
+---
+
+<p>Breaking news: a solution to use extensible storage in the APS Design Automation for Revit API:</p>
+
+<ul>
+<li><a href="#2">Check for valid Revit API context</a></li>
+<li><a href="#3">External service enables extensible storage in DA4R</a></li>
+<li><a href="#4">PackageBuilder versus RevitAddinUtility</a></li>
+<li><a href="#5">Two ways to determine elements in section view</a></li>
+<li><a href="#6">Python and .NET</a></li>
+<li><a href="#6.2">PythonNet3 and Dynamo BIM</a></li>
+<li><a href="#7">Opting out of cookies</a></li>
+</ul>
+
+<h4><a name="2"></a> Check for Valid Revit API Context</h4>
+
+<p>Checking that the add-in code is currently executing within a valid Revit API context keeps spawning new solutions.</p>
+
+<p>Luiz Henrique <a href="https://ricaun.com/">@ricaun</a> Cassettari suggested one approach in March last year
+by <a href="https://thebuildingcoder.typepad.com/blog/2024/03/api-context-aps-toolkit-and-da4r-debugging.html#2">attempting to subscribe to the application <code>Idling</code> event and catching the exception</a> in
+case of failure.
+Throwing an exception is expensive and should be avoided if possible, so that approach is suboptimal.</p>
+
+<p>Next, in August 2024, Roman <a href="https://t.me/nice3point">@Nice3point</a> Karpovich, aka Роман Карпович, shared a more effective approach in
+his <a href="https://thebuildingcoder.typepad.com/blog/2024/08/api-context-background-process-postcommand.html#4">RevitToolkit.Context method</a>.</p>
+
+<p>Now, in January 2025, Ricaun returns with a new solution by checking the application <code>ActiveAddInId</code> property, in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/how-to-know-if-revit-api-is-in-context/m-p/13276039#M83476">how to know if Revit API is in context</a>:</p>
+
+<blockquote>
+  <p>Revit AddIn Context is what I'm calling the Revit API Context now.
+  I tested in a lot of places inside the Revit API and the <code>ActiveAddInId</code> is always valid because Revit tracks what AddInId is executing the code.
+  Some methods require to have an AddInId like the Extensible Storage, and when registering a <code>IExternalCommand</code> in a panel the command always generates the same AddInId that was used to register the command.
+  This is the basic code to check if <a href="https://ricaun.com/revit-addin-context/">Revit is in the AddIn Context</a>:</p>
+</blockquote>
+
+<pre><code class="language-cs">bool InAddInContext(UIApplication application)
+{
+  // ActiveAddInId is null when invoked outside Revit API context.
+  return application.ActiveAddInId is not null;
+}</code></pre>
+
+<p>There is only one place that the ActiveAddInId is null and Revit API in in Context, inside the APS Design Automation for Revit event.
+That is a bug/limitation and what prompted me to take a closer look at the ActiveAddInId property, discussed in more depth in the thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/revit-design-automation-extensible-storage-quot-writing-of/td-p/12833018">Revit design automation extensible storage "Writing of Entities of this Schema is not allowed to the current add-in" error</a>.
+Because I now know how the ActiveAddInId works, I can use ExternalService inside Design Automation for Revit to make the event run in a valid ActiveAddInId.
+So, I created
+the <a href="https://github.com/ricaun-io/ricaun.Revit.DA">ricaun.Revit.DA Design Automation for Revit utility library</a> to
+fix that and another issue I'm having inside DA4R.</p>
+
+<p>Many thanks to ricaun for discovering and sharing this, and all his other outstanding work with the Revit API and DA4R!</p>
+
+<h4><a name="3"></a> External Service Enables Extensible Storage in DA4R</h4>
+
+<p>Ricaun makes use of the add-in id understanding to address
+the <a href="https://forums.autodesk.com/t5/revit-api-forum/revit-design-automation-extensible-storage-quot-writing-of/m-p/13280384#M83582">Revit Design Automation Extensible Storage "Writing of Entities of this Schema is not allowed to the current add-in" error</a>:</p>
+
+<blockquote>
+  <p>I found a way to make the <code>ActiveAddInId</code> valid in the Design Automation Ready event.
+  You can create a custom <code>ExternalService</code>, register it in <code>OnStartup</code> and make the Design Automation Ready event to execute your custom ExternalService; the code inside the ExternalService is executed in the same AddIn Context.
+  I created
+  the <a href="https://github.com/ricaun-io/ricaun.Revit.DA">ricaun.Revit.DA Design Automation for Revit utility library</a> to
+  fix this issue.</p>
+</blockquote>
+
+<p>This is how the sample checks if the ActiveAddInId is not null in the DA4R event, in the code below the Execute method:</p>
+
+<pre><code class="language-cs">public class App : DesignApplication
+{
+  public override void OnStartup()
+  {
+    Console.WriteLine("----------------------------------------");
+    Console.WriteLine($"AddInId: \t{ControlledApplication.ActiveAddInId?.GetAddInName()}");
+    Console.WriteLine("----------------------------------------");
+  }
+
+  public override void OnShutdown()
+  {
+  }
+
+  public bool Execute(Application application, string filePath, Document document)
+  {
+    Console.WriteLine("----------------------------------------");
+    Console.WriteLine($"AddInId: \t{application.ActiveAddInId?.GetAddInName()}");
+    Console.WriteLine("----------------------------------------");
+
+    return application.ActiveAddInId != null;
+  }
+}</code></pre>
+
+<p>I updated my <a href="https://github.com/ricaun-io/RevitAddin.DA.Tester">RevitAddin.DA.Tester project</a> to use the library.
+Now I just need to create a DA4R template &nbsp;  :-)</p>
+
+<p>Many thanks again to ricaun for solving this!</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302e860e0f489200b-pi"><img class="asset  asset-image at-xid-6a00e553e16897883302e860e0f489200b img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="Tape deck" title="Tape deck" src="/assets/image_32fb1e.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="4"></a> PackageBuilder versus RevitAddinUtility</h4>
+
+<p>On a different topic, questions were raised on
+the <a href="https://forums.autodesk.com/t5/revit-api-forum/revitaddinutility-usage-and-redistribution-permissions/td-p/8182324">RevitAddinUtility usage and redistribution permissions</a>.</p>
+
+<p>Again, ricaun comes to the rescue with his bundle package builder:</p>
+
+<blockquote>
+  <p>I actually recreated similar functionality only to create the <code>.addin</code> manifest and the <code>PackageContent.xml</code>.
+  That is what I am using in my build process to create <code>.bundle</code> files for Revit plugins:</p>
+  
+  <ul>
+  <li><a href="https://github.com/ricaun-io/Autodesk.PackageBuilder">Autodesk.PackageBuilder</a> &ndash; This package is intended to build Autodesk PackageContent.xml and RevitAddin.addin using C# fluent API.</li>
+  </ul>
+</blockquote>
+
+<p>Thanks again to ricaun for a different way to address this.</p>
+
+<h4><a name="5"></a> Two Ways to Determine Elements in Section View</h4>
+
+<p>We discussed two workarounds to <a href="https://thebuildingcoder.typepad.com/blog/2024/01/directcontext3d-ids-and-linked-section-elements-.html#5">determine elements present in section view</a>.
+Wallas <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/9728005">@wl_santanna</a> Santana presented a solution,
+pointing out that
+a new <a href="https://www.revitapidocs.com/2024/968b52a0-de55-2f96-de40-968812bc41c7.htm">overload for the <code>FilteredElementCollector</code> class</a> was
+added in Revit 2024:</p>
+
+<pre><code class="language-cs">  FilteredElementCollector(
+    Document hostDocument,
+    ElementId viewId,
+    ElementId linkId)</code></pre>
+
+<p>Constructs a new FilteredElementCollector that will search and filter the visible elements from a Revit link in a host document view.</p>
+
+<p>It allows the user to input a linked document and retrieve the visible linked elements in a host document view.</p>
+
+<p>Thank to Wallas for pointing that out.</p>
+
+<h4><a name="6"></a> Python and .NET</h4>
+
+<p>The Revit API is pure .NET, regardless of the programming used to access it.</p>
+
+<p>In theory, all languages can be used to drive the .NET API.</p>
+
+<p>Here some further clarification on using Python for the Revit API:</p>
+
+<p><strong>Question:</strong> regarding Revit and its scripting capabilities.
+It seems that Revit is shifting away from Python scripting in favour of .NET scripting.
+Is this true?
+If so, could you provide some insight into why this change is happening?
+Additionally, what does this mean for the future usability of Python scripts within Revit?
+We’re looking into using pyRevit, which relies on Python scripts, but we’re facing some challenges on the IT side.
+Do you think we should be converting our Python scripts to the .NET framework?</p>
+
+<p><strong>Answer:</strong>
+I'm not sure how to answer the question about Python and .NET scripting.
+We've always had an API based on .NET, which can be used from a variety of languages.
+Among those is Python, as is offered by pyRevit or scripting in Dynamo nodes.
+Maybe the question is about changes brought in Revit 2025 when we switched to .NET Core.
+But I believe pyRevit has a 2025 version and that Dynamo continues to support scripting.
+The new Macro Manager stopped supporting Python.
+Is that the source of the question?
+"Moving away" isn’t true, but "supporting" on this one is a bit ambiguous which makes it feel that way for many.
+We support the CPython engine in Revit 2022 and up, but it has some limitations around some object types (in particular interfaces) which can be limiting for some users.
+The Dynamo team has put some pretty significant effort to sidestep limitations of PythonNet in order to enable as much as possible, but they are limited by that Python implementation.
+I expect better coverage to start being introduced in the next release (see the <a href="https://github.com/DynamoDS/Dynamo/wiki/Dynamo-Public-Roadmap">Dynamo Public roadmap</a>), but it’s never been fully compatible with the API and likely never will be.
+Please note that Autodesk do not have any control or sway over the pyRevit team, nor any other 3rd part tools.
+Note that pyRevit relies almost entirely on IronPython 2 for most scripts, as that Python engine has the most compatibility with the .NET environment. Yes, that is IronPython 2, which has not had any security updates since something like 2022 and has a dependency on Python 2 which hasn’t had any security updates since something like 2020; as such, good infosec likely should block it by default &ndash; I would say this should include the Dynamo package to enable IronPython 2 as well.
+All of that said, the API is .NET, so the most robust and accessible version of the API is .NET, and every interpreter layer in between that and the written code will only bring lower performance, stability, and scope, and Python is generally not the best option to scale automations as a result.
+To rank the API interfaces for ordering of scaled efficiency from highest to lower, you might start with APS Design Automation at the top, followed by external service and Revit add-in, then Revit Add-In, and finally Dynamo / Python tools.</p>
+
+<p>Thanks to Scott Conover and Jacob Small for explaining this.</p>
+
+<h4><a name="6.2"></a> PythonNet3 and Dynamo BIM</h4>
+
+<p>Jean-Marc <a href="https://github.com/jmcouffin">@jmcouffin</a> Couffin picked up on this and continued the discussion
+on <a href="https://forum.dynamobim.com/t/pythonnet3-net/107603">PythonNET3 / .NET</a> with Jacob, who adds:</p>
+
+<p>First off, you might want to read the extensive article
+about <a href="https://dynamobim.org/pythonnet3-a-new-dynamo-python-to-fix-everything/">PythonNet3, a new Python to fix everything</a>.</p>
+
+<p>It’s about as thorough an outline of the ‘why’ we can give, in a very well organized and structured format.
+I can’t imagine giving much more non-technical information than this to anyone ‘outside the factory’ so to speak, and what we have ‘in the factory’ is too hard to digest easily &ndash; you’d spend three months finding, collating, and consolidating everything if you came in cold from the exterior.</p>
+
+<p>Do you have any direct links to the conversations you’ve had around the single engine efforts?
+Most discussions seem to revolve around implementing work arounds for particular tasks (i.e. the great post on WPF), but I don’t see any discussion or analysis on the pros and cons of each engine (IronPython, CPython, PythonNet, etc.).</p>
+
+<h4><a name="7"></a> Opting out of Cookies</h4>
+
+<p>Opting out of cookies is not as easy as I naively assumed, whether essential or not.
+I noticed that from looking at the Google research on
+the <a href="https://research.google/pubs/cookieenforcer-automated-cookie-notice-analysis-and-enforcement/">CookieEnforcer</a> and the accompanying research paper
+on <a href="https://www.usenix.org/system/files/sec23fall-prepub-389-khandelwal.pdf">automated cookie notice analysis and enforcement</a>,
+using AI with machine learning and natural language processing to deal with the issue.</p>

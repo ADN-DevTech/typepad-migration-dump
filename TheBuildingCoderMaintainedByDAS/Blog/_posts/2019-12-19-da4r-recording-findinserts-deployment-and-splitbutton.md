@@ -1,0 +1,248 @@
+---
+layout: "post"
+title: "DA4R, FindInserts, Deployment and SplitButton"
+date: "2019-12-19 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "DA4R"
+  - "Deployment"
+  - "Forge"
+  - "Installation"
+  - "Ribbon"
+  - "User Interface"
+original_url: "https://thebuildingcoder.typepad.com/blog/2019/12/da4r-recording-findinserts-deployment-and-splitbutton.html "
+typepad_basename: "da4r-recording-findinserts-deployment-and-splitbutton"
+typepad_status: "Publish"
+---
+
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js" type="text/javascript"></script>
+
+<p>As usual, I am all too busy on the Revit API discussion forum.
+So many interesting things going on there.
+Also, the newest DA4R recording is now available online:</p>
+
+<ul>
+<li><a href="#2">Forge Design Automation API for Revit recording</a></li>
+<li><a href="#3">Design Automation for Revit supports IFC</a></li>
+<li><a href="#4">What does the <code>FindInserts</code> <code>includeShadows</code> flag do?</a></li>
+<li><a href="#5">Easiest solution to deploy add-in</a></li>
+<li><a href="#6">Always show the same button in <code>SplitButton</code></a></li>
+</ul>
+
+<h4><a name="2"></a> Forge Design Automation API for Revit Recording</h4>
+
+<p>Sasha Crotty, Senior Product Manager, Revit Platform &amp; Services, gives a 77-minute overview and demos of
+the <a href="https://youtu.be/PkdBM0cFrN4">Design Automation API for Revit on Forge</a>:</p>
+
+<p><center>
+<iframe width="480" height="270" src="https://www.youtube.com/embed/PkdBM0cFrN4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</center></p>
+
+<p>To learn more on this topic, visit 
+the <a href="https://forge.autodesk.com/en/docs/design-automation/v3/developers_guide/overview">Forge Design Automation API docs</a>
+and <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#5.55">The Building Coder DA4R topic group</a>.</p>
+
+<h4><a name="3"></a> Design Automation for Revit Supports IFC</h4>
+
+<p>As we already mentioned briefly last month,
+<a href="https://thebuildingcoder.typepad.com/blog/2019/11/curve-projection-add-in-videos-da4r-detach-and-fbx.html#2">DA4R now supports both FBX and IFC</a>.
+Once again:</p>
+
+<p><strong>Question:</strong> Does Revit Design Automation support IFC import and export?</p>
+
+<p>We also use Tekla and LargeIFC models (1GB) for concrete pre-construction.
+Importing these IFC models takes a long time, and we are looking at Design Automation to speed this up.</p>
+
+<p><strong>Answer:</strong> Yes, Design Automation for Revit supports IFC.</p>
+
+<p>Revit 2018 supports Open IFC and Export IFC functionality.</p>
+
+<p>Revit 2019-2020 supports Open IFC, Export IFC and Link IFC functionality.</p>
+
+<p>You can check it out for yourself in
+the <a href="https://forge.autodesk.com/en/docs/design-automation/v3/tutorials/revit/step7-post-workitem">design automation tutorial task 7, submit a workitem</a>,
+towards the bottom of the page.</p>
+
+<h4><a name="4"></a> What Does the FindInserts IncludeShadows Flag Do?</h4>
+
+<p>A quick clarification prompted by
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/findinserts-what-does-includeshadows-flag-do/m-p/9206586">FindInserts and what does includeShadows flag do</a>:</p>
+
+<p><strong>Question:</strong> Curious what does the <code>includeShadows</code> flag do in THE <code>FindInserts</code> method of the <code>HostObject</code> class.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4d41204200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4d41204200d img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="FindInserts" title="FindInserts" src="/assets/image_0796fc.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>The documentation says "True if shadows should be included in the return." But this doesn't make any sense to me.</p>
+
+<p>Could anyone possibly shine some light on this?</p>
+
+<p><strong>Answer:</strong> Good question. I see two more of the same in
+the <a href="https://www.revitapidocs.com/2020/58990230-38cb-3af7-fd25-96ed3215a43d.htm">revitapidocs page on FindInserts</a>.</p>
+
+<ul>
+<li>Albano Gheller (8 months ago): What are shadows and shared embedded?</li>
+<li>Александр Пекшев (2 years ago): what is Shadows??</li>
+</ul>
+
+<p>I asked the development team and they replied:</p>
+
+<p>An internal <code>WallShadowCutoutGStep</code> is created when 2 walls are joined, e.g., by Modify &rarr; Geometry &rarr; Join, and then a window is placed on one wall.</p>
+
+<p>In that case, Revit will cut an opening on the other joined wall, as you can see in this picture:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4f8b5fe200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4f8b5fe200b image-full img-responsive" alt="Wall shadow cutout" title="Wall shadow cutout" src="/assets/image_43b38d.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>For this API &ndash; 
+<a href="https://thebuildingcoder.typepad.com/files/findinserts_include_shadow.gif"><code>FindInserts</code>, here is a short demo recording</a> &ndash;
+i try to find the inserts on the joined wall but not the wall with the window:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4d4120b200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4d4120b200d image-full img-responsive" alt="FindInserts demo" title="FindInserts demo" src="/assets/image_aa7dc9.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>The window instance  with element id 354965 is returned if <code>includeShadows</code> is true, and nothing returned for false.</p>
+
+<p>Many thanks to Phil Xia for this detailed explanation!</p>
+
+<p><strong>Response:</strong> Thank you for bringing light into the shadow &nbsp; :-)</p>
+
+<p>Makes much sense now.</p>
+
+<h4><a name="5"></a> Easiest Solution to Deploy Add-In</h4>
+
+<p>A simple deployment of Revit add-ins is sought in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/easiest-solution-to-deploy-addin-in-offcie/td-p/9191933">easiest solution to deploy add-in in office</a>:</p>
+
+<p><strong>Question:</strong> I'm kind of new to this whole API but I have prepared some small codes to be used throughout office.</p>
+
+<p>I know this question has been asked previously but I didn't see any easy solution.
+I just want to ask if there is an easy way to push an add-in to the other users at my office.
+Considering possible updates that might need to be implemented later, is it better to have them on network?</p>
+
+<p>Could it be easier to change the code for a macro and push that to individual projects or each user's Revit?</p>
+
+<p>How are you deploying them in your office?</p>
+
+<p>We have a small office size with around 12 Revit users.</p>
+
+<p>So, I have 10+ machines, each with 3 versions of Revit, and the fact that I don't want to copy files for each of them manually.
+I don't know in the long run how I will be able to update the code for these machines ,and I can't rely on individuals to do it themselves.
+This part is important, since I'm not a professional coder.</p>
+
+<p><strong>Answer:</strong> All you need to deploy an add-in is to copy the add-in manifest <code>.ADDIN</code> file and the .NET assembly <code>.DLL</code> to a specific location on the target machine.</p>
+
+<p>To deploy a macro, all you need is to copy an <code>RVT</code>. For an application macro, I imagine it would be a handful of files.</p>
+
+<p>You could also consider deploying your code as a Dynamo package or
+a <a href="https://github.com/architecture-building-systems/revitpythonshell">RevitPythonShell script</a>.</p>
+
+<p>The RevitPythonShell installer is available as source code and demonstrates how you can deploy an add-in to any machine with a single click.</p>
+
+<p><strong>Response:</strong> Macro seems a good idea if I can import them into our template file or just open each ongoing project and copy it in the project.
+Still, I will need to rewrite the add-in code for macro.</p>
+
+<p>Dynamo would be great! But I'm writing code in C# as add-in.
+Is there an easy way to convert them to Dynamo nodes?
+As I have heard, there are some differences between code for Dynamo node and add-in.</p>
+
+<p><strong>Answer:</strong> I'm facing the same problem as you.
+As said, you need to copy compiled files (.dll, .addin and maybe .pbd) to the target machine.</p>
+
+<p>I found a fairly easy way to achieve this using a batch file. It copies these file from a server to user's Revit addin directory:</p>
+
+<pre class="prettyprint">
+@echo off
+rem --------------------------------------------COPY FILE TO TARGET MACHINE-------------------------------------------
+rem /i option is needed to avoid the batch file asking you whether destination folder is a file or a folder
+rem /e option is needed to copy also all folders and subfolders
+rem /y option is needed to overwrite existing files without prompt 
+if not exist "%USERPROFILE%\AppData\Roaming\Autodesk\Revit\Addins\2019\" mkdir "%USERPROFILE%\AppData\Roaming\Autodesk\Revit\Addins\2019\"
+DEL /F/Q/S "%USERPROFILE%\AppData\Roaming\Autodesk\Revit\Addins\2019\" > NUl   
+xcopy "YOUR ADDIN DIRECTORY" "%USERPROFILE%\AppData\Roaming\Autodesk\Revit\Addins\2019" /i /e /y
+pause
+
+del %SCRIPT%
+</pre>
+
+<p>In my case, it does require the individual user to click on the batch file to download/update, but I reckon you could modify the code so that it copies to everyone's machine by one click from you.</p>
+
+<p><strong>Response:</strong> I am also interested in this.</p>
+
+<p>What I have done in my office is to put the .dll in a read-only location in the server and I created a BATCH file to copy the .addin to each person's computer.
+This way, I just need to go to their computer and click on the BATCH file.
+And if I want to make changes to the tools, I just have to overwrite the .dll in the server and everybody gets the update.</p>
+
+<p>However, I am not sure if this a good practice as many people are reading the same dll.</p>
+
+<p><strong>Answer:</strong> Why not also copy the .dll file?
+I copy my .addin and .dll files from a location on our server to all BIM modellers' workstations using Group Policy, so I know that everyone will get an updated version if I just change the file on the server.</p>
+
+<p><strong>Response:</strong> That is, in fact, a good idea.
+When I started my strategy I was new in the office and didn't know about the group policy.</p>
+
+<p>I will have a chat with the IT managers and ask them to do this.</p>
+
+<p>Thanks!</p>
+
+<h4><a name="6"></a> Always Show the same Button in SplitButton</h4>
+
+<p>Rikard Nilsson, Solution Architect at <a href="https://www.cadcraft.com">Cadcraft</a>, read the manuals more carefully than I did and suggests a much simpler and better solution in his thread on how
+to <a href="https://forums.autodesk.com/t5/revit-api-forum/always-show-the-same-button-on-splitbutton/m-p/9206967">always show the same button on <code>SplitButton</code></a>:</p>
+
+<p><strong>Question:</strong> I created some buttons and placed them inside a <code>SplitButton</code>.</p>
+
+<p>The problem I have is that I want have the same effect that Revit has in their buttons.</p>
+
+<p>I want to show the same button always, even if I choose one further down in a <code>SplitButton</code>.</p>
+
+<p>When I choose a button below in <code>mySplitButton</code>, it will always become the new default that shows on the <code>SplitButton</code>.</p>
+
+<p><strong>Answer:</strong> That is easy to achieve.</p>
+
+<p>I show you how in my <a href="https://thebuildingcoder.typepad.com/blog/2016/09/hololens-escape-path-waypoint-json-exporter.html">HoloLens Escape Path Waypoint JSON Exporter</a>.</p>
+
+<p>The add-in displays the following ribbon panel:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4aaed10200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4aaed10200c img-responsive" style="width: 378px; display: block; margin-left: auto; margin-right: auto;" alt="ExportWaypointsJson ribbon panel" title="ExportWaypointsJson ribbon panel" src="/assets/image_ae4d7d.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>You can either click the main button, which is always displayed at the top as the current option, to trigger the main command, or drop down the rest of the stacked button contents to display the option button:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4f8b616200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4f8b616200b img-responsive" style="width: 139px; display: block; margin-left: auto; margin-right: auto;" alt="ExportWaypointsJson main command and settings buttons" title="ExportWaypointsJson main command and settings buttons" src="/assets/image_5070ee.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>You can grab the entire Visual Studio solution and project from
+the <a href="https://github.com/jeremytammik/ExportWaypointsJson">ExportWaypointsJson GitHub repository</a>.</p>
+
+<p><strong>Response:</strong> This was my simple solution, using
+the <a href="https://www.revitapidocs.com/2020/0691fcf0-aa3e-6f9e-7ca8-aaebe21bc6f7.htm">SplitButton.IsSynchronizedWithCurrentItem property</a>:</p>
+
+<blockquote>
+  <p>Indicates whether the top PushButton on the SplitButton changes based on the CurrentButton property.</p>
+  
+  <p>If this property is true the SplitButton uses the current PushButton's properties to display the image, text, tooltip, etc. and executes the current item when clicked. If it is false the first listed PushButton in the GetItems() return is shown, and executes this PushButton when clicked. If it is false the items in drop down list can only be executed by opening the drop down list and clicking an item in the list. The default value is true.</p>
+</blockquote>
+
+<pre class="code">
+  splitButtonClearLoads.IsSynchronizedWithCurrentItem = false;
+</pre>
+
+<p>Many thanks to Rikard for pointing out this obvious solution, and happy advent to all!</p>

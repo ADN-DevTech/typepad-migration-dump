@@ -1,0 +1,201 @@
+comments:
+- author: Chris
+  email: CMounts@GMail.com
+  ip: 69.14.22.161
+  url: ''
+  date: '2010-04-15 21:15:36'
+  body: 'Hi Jeremy,
+
+    This post got me half way to where I need to be. Is there a way to start the revit.exe
+    and then supply the file name? I need a way to deal with multiple versions installed
+    on a machine and have the correct year / flavor open. I tried setting ...StartInfo.Arguments
+    to the file name but Revit returns a "Failed to open document." error. Any ideas?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-05-10 10:36:08'
+  body: "Dear Chris,\n\nSorry for the very late answer, I seem to have missed the\
+    \ original notification when you posted your comment. \n\nYou should be able to\
+    \ use Process.Start to start up Revit.exe as well, specifying the full desired\
+    \ path name and the project file as an argument at the same time, cf. e.g.\n\n\
+    <a href=\"http://dotnetperls.com/process-start-net\">http://dotnetperls.com/process-start-net</a>\n\
+    \nCheers, Jeremy."
+- author: Nicholas B
+  email: nicholas.broadbent@hotmail.com
+  ip: 114.76.81.228
+  url: ''
+  date: '2010-06-10 09:45:00'
+  body: "Wow wow, GREAT web site!\nI can’t tell you how much time is spend reading\
+    \ your Website getting ideas, testing, playing.\nI don’t even have any real programming\
+    \ experience and I’m thinking of leaving my Architectural Job and starting my\
+    \ own Software Company.\n\nA friend and I am trying to write an add-on that will\
+    \ loop through a list of families, open each family extract a list of type names\
+    \ and parameters values and close it without saving.\n\nThe code I have post below\
+    \ works for a small number of families (less that 100) but Revit crashes when\
+    \ we process a large number (more than 100) it displays a dialog saying it was\
+    \ “memory corruption”. It would happen during the opening of a file “OpenDocumentFile()”(see\
+    \ code below).\nIs there a better way to loop through families opening and closing\
+    \ them?\nCould we have an external application fire up Revit and run my plugin.\
+    \ The external application could keep track of which file was next.\n\nThank you\
+    \ very much any help would be much appreciated. \n\nvoid LoadFamily(Autodesk.Revit.ApplicationServices.Application\
+    \ app, \nExternalCommandData commandData, string filename, StreamWriter writer)\n\
+    {\ntry\n{\nif (string.IsNullOrEmpty(filename))\nreturn;\n\nif (!File.Exists(filename))\n\
+    return;\n\nDocument activeDoc = \ncommandData.Application.ActiveUIDocument.Document;\n\
+    \nif (activeDoc != null)\nactiveDoc.Close();\n\nactiveDoc = app.OpenDocumentFile(filename);\n\
+    \nif (activeDoc == null)\nreturn;\n\n//process the document and add data to an\
+    \ external file\n}\ncatch (Exception e)\n{\nMessageBox.Show(e.Message + \"\\n\"\
+    \ + filename);\n}\n}"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.71.6
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-10 15:10:41'
+  body: "Dear Nicholas,\n\nThank you very much for your appreciation, and I am very\
+    \ glad that you find it useful!\n\nCongratulations on getting into Revit programming\
+    \ with your friend!\n\nI see several sub-questions in your comment:\n\n1) How\
+    \ can I reduce the memory being used by Revit when I open and close a file?\n\n\
+    2) How can I drive Revit from outside to open a specific file, execute some code\
+    \ in it, and close the file again, so that I can keep track from outside of which\
+    \ files have been processed so far?\n\nRegarding the first question, I see you\
+    \ are closing the active document. I do not think that this will work. When you\
+    \ open a document through the Revit API, that does not affect the active foreground\
+    \ document, as far as I know. The API-opened document will always be a background\
+    \ document. I would do something like this instead, ignoring the active document,\
+    \ doing all the processing in the background:\n\nDocument doc = app.OpenDocumentFile(\
+    \ filename );\nProcess( doc );\ndoc.Close();\n\nTry it out, that might solve your\
+    \ problem.\n\nIf not, you can continue with your second idea, which makes good\
+    \ sense to me. I have resorted to similar approaches in the past for batch processing\
+    \ a large number of files with applications which do not release all the data\
+    \ every time the files is closed, so they eventually run out of memory.\n\nYou\
+    \ could implement your functionality in an Application.DocumentOpened event handler,\
+    \ and then use a command line application to start up Revit with a journal file\
+    \ to simply open and close each document you wish to process. You could also simply\
+    \ implement your functionality in an external command instead of the DocumentOpened\
+    \ event, and add the launching of your command to the journal file steps. For\
+    \ more info on this approach, please refer to \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/07/journal-file-replay.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/07/journal-file-replay.html</a>\n\
+    \nI hope this helps and wish you much success with your project!\n\nCheers, Jeremy."
+- author: Ian
+  email: isheardwright@alum.mit.edu
+  ip: 68.118.184.42
+  url: ''
+  date: '2010-07-16 23:51:17'
+  body: 'Is is possible to open a project and show the specify workset dialog before
+    the file opens?
+
+    Thanks.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-07-19 17:42:57'
+  body: "Dear Ian,\n\nIf it is possible for you to include starting up Revit itself\
+    \ into the steps you describe, then yes, that should be possible using a journal\
+    \ file as described in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/07/ifc-import-and-conversion-journal-script.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/07/ifc-import-and-conversion-journal-script.html</a>\n\
+    \nOtherwise, you might be able to use Autohotkey or the Windows API or some other\
+    \ mechanism to simulate the user input to display the desired dialogue.\n\nCheers,\
+    \ Jeremy."
+- author: bsyap
+  email: nsybs.86@gmail.com
+  ip: 60.50.195.220
+  url: ''
+  date: '2011-03-01 04:41:03'
+  body: 'Hi Jeremy,
+
+
+    Is it possible to open/load a Revit project(.rvt) without Revit.exe instance running?
+    Most of the Revit Sdk samples are running in add-in behavior where the Revit.exe
+    must be startup first.
+
+
+    Let''s said i want to open a Revit project and retrieve the elements inside the
+    project and show it in a windows form.(without running in add-in manner)'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-03-02 07:39:15'
+  body: 'Dear Bsyap,
+
+
+    Short and clear answer: no, sorry, no way.
+
+
+    Cheers, Jeremy.'
+- author: abby
+  email: abidrahmat@hotmail.com
+  ip: 175.143.66.217
+  url: ''
+  date: '2012-03-08 07:35:40'
+  body: 'Hi Jeremy,
+
+
+    For Revit 2012, is it possible to insert Revit file as linked file using Revit
+    API. I have read and search if there are any method or way to doing it but failed.
+    I only managed to open revit file in a separate window using OpenAndActivateDocument.
+
+
+    Thank you
+
+
+    Abby'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-03-08 08:05:17'
+  body: 'Dear Abby,
+
+
+    Sorry, that is currently not supported by the Revit API.
+
+
+    All we have right now is the Document.Link method, which only applies to DWG files.
+
+
+    Cheers, Jeremy.'
+- author: Victor
+  email: zgherea@gmail.com
+  ip: 217.12.117.178
+  url: ''
+  date: '2012-05-03 09:27:49'
+  body: 'Is there any way to open revit file with ''Audit'' option using Process.Start?
+    Where could I find the full list of command line parameters (if there are any)?
+
+    Thank you!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.183.95
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-07 04:35:18'
+  body: "Dear Victor,\n\nNope, not that I know of. \n\nYour best bet, if you really\
+    \ want to do it anyway, without official API support, might be to try using UI\
+    \ Automation:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/automation\"\
+    >http://thebuildingcoder.typepad.com/blog/automation</a>\n\nCheers, Jeremy."
+- author: Xavier KLEIN
+  email: x.klein@staubli.com
+  ip: 217.109.88.10
+  url: ''
+  date: '2014-12-18 13:10:15'
+  body: "Hello, \nyour solution works well thanks a lot\n\nI have just create a small\
+    \ code OpenRevit.exe   to open a file in REVIT with filename as Parameter (use\
+    \ \"\" if filename have any space in name , ex : OpenRevit.exe \"C:\\temp\\My\
+    \ File REVIT.rvt\")\n\n\nModule Module1\n\nSub Main()\n        Dim CommandLine\
+    \ As String = My.Application.CommandLineArgs(0)\n        'Environment.GetCommandLineArgs()\n\
+    \        System.Diagnostics.Process.Start(CommandLine)\n    End Sub\n\nEnd Module"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.165.244
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-12-19 02:43:47'
+  body: 'Dear Xavier,
+
+
+    Cool! Thank you for your appreciation and for sharing your code!
+
+
+    Cheers, Jeremy.
+
+    -----'

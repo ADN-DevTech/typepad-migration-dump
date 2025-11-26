@@ -1,0 +1,91 @@
+comments:
+- author: Rodrigo Rebolledo
+  email: rrebolledor@gmail.com
+  ip: 201.238.203.173
+  url: ''
+  date: '2009-11-03 13:05:42'
+  body: "Hi\nHow are you? As you know, Cruz y Dávila Ingenieros Consultores (the company\
+    \ where I’m working in), has been developing engineering projects in the Revit\
+    \ platform and we are beginning with some little programming but we have met with\
+    \ some doubts and questions. Hence, I would like to ask you some question regarding\
+    \ with revit programming. Here they are:\n\nREVIT PROGRAMMING - Macros\n\n1.\t\
+    How is the process of invoking the tag events and their corresponding elements.\n\
+    2.\tHow can we access to the tag revisions and its attributes. (sheet issues/revisions).\n\
+    3.\tHow to create a new tag from c sharp? And assign it to a specific position\
+    \ in a plane.\n4.\tIs it possible to get some further or additional information\
+    \ about these aspects and some examples of implementation?\n\nBest Regards"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-04 06:57:24'
+  body: "Dear Rodrigo,\n\nI am fine, I hope you are as well.\n\nThe short answer to\
+    \ your question is: search the Revit SDK documentation and samples and the blog\
+    \ and the additional resources they mention, as mentioned in\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/02/creating-a-group-and-how-to-fish.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/02/creating-a-group-and-how-to-fish.html</a>\n\
+    \nWell, just because it is you, here is a slightly more detailed answer:\n\nI\
+    \ obviously do not know off-hand how to extract the data you need or whether it\
+    \ is possible at all, and would need to explore it myself to find out.\n\nI have\
+    \ described a few examples of such explorations in previous blog posts in an attempt\
+    \ at teaching people how to fish instead of just feeding them and keeping them\
+    \ stupid.\n\nOne way to explore these kinds of issues is to build a sample model\
+    \ and use debugging and analysis tools such as RvtMgdDbg, the element lister and\
+    \ the built-in parameter checker. Some posts describing their use are\n\n<a href=\"\
+    http://thebuildingcoder.typepad.com/blog/2008/11/exploring-element-parameters.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2008/11/exploring-element-parameters.html</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/02/locked-dimensioning.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/02/locked-dimensioning.html</a>\n\
+    \nPlease dig into this a bit and let us know if you hit any insurmountable obstacles.\
+    \ \n\nFor creating new tag elements in C# and regarding further information and\
+    \ programming examples, you can look at the Revit SDK samples AutoTagRooms and\
+    \ TagBeam, the Revit API introduction lab Lab2_0_CreateLittleHouse, and also several\
+    \ examples in the Revit SDK developer guide 'Revit 2010 API Developer Guide.pdf'.\n\
+    \nCheers, Jeremy."
+- author: Olli Kattelus
+  email: olli.kattelus@progman.fi
+  ip: 83.146.217.242
+  url: ''
+  date: '2011-04-20 09:00:27'
+  body: 'Nowadays (2012) we have certain property to get link between tag and related
+    element. But is there any way of controlling the "active" tag of the category
+    via API.
+
+
+    This information can be retreived / modified trough "Loaded Tags" dialog of Revit
+    MEP.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-04-20 10:50:56'
+  body: 'Dear Olli,
+
+
+    Yes, indeed we now do, and isn''t that great?
+
+
+    I am not aware of any method to control the "active" tag of a category via API,
+    though.
+
+
+    Please submit a DevHelp Online request for us to add a wish list item to the database.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Martin Schmid
+  email: martin.schmid@autodesk.com
+  ip: 95.172.88.8
+  url: ''
+  date: '2012-05-09 07:23:38'
+  body: "Jeremy pointed out to me that in 2012, we can now do this:\n\nIndependentTag\n\
+    \nSome new members were added to determine the elements referenced by the tag:\n\
+    •\tNew property TaggedElementId - provides the id of the element referenced by\
+    \ the tag. \n•\tNew property TaggedLocalElementId - provides the id of a linked\
+    \ element reference by the tag. \n•\tNew method GetTaggedLocalElement() - returns\
+    \ the handle of the element reference by the tag. \n•\tNew property IsOrphaned\
+    \ - Orphans are those tags that are associated with an instance of a linked Revit\
+    \ file but have no host element. Tags become orphaned when the element they were\
+    \ tagging was deleted from the link. \n\n-----"

@@ -1,0 +1,107 @@
+comments:
+- author: Cosmas T
+  email: tzavelis@hotmail.com
+  ip: 24.228.66.151
+  url: ''
+  date: '2012-09-03 13:00:25'
+  body: "I have the same problem with the family \"Structural Connections\\Steel\\\
+    Column Base Plate-4 Hole-Cross.rfa\"\nI have tried: \nNewFamilyInstance(FootingFace,\
+    \ PointXYZ, New XYZ(1, 0, 0), Symbol)\n.NewFamilyInstance(PointXYZ, Symbol, [Structure].StructuralType.UnknownFraming)\
+    \ and other overloads and always the NewFamilyInstance is placed on the Zero Elevation\
+    \ of the project. I can not find a way to place the instance on a non zero elevation.\
+    \ What am I doing wrong?\nCosmas"
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.8
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-09-03 13:08:00'
+  body: 'Dear Cosmas,
+
+
+    First of all, you should consult with a product expert to be absolutely sure that
+    you are using the family symbol for its intended purpose in the intended way.
+
+
+    In Revit 2013, the new Family.PlacementType property provides information about
+    the placement type for instances of the given family, and roughly maps to the
+    proper NewFamilyInstance overload to use for that family.
+
+
+    Some instances always insert on a specific level, and then support an offset parameter
+    to move them up or down.
+
+
+    How is this specific symbol manipulated in the user interface?
+
+
+    Cheers, Jeremy.'
+- author: Cosmas T
+  email: tzavelis@hotmail.com
+  ip: 24.228.66.151
+  url: ''
+  date: '2012-09-04 22:02:48'
+  body: Hello Jeremy and thank you for your prompt answer. Yes I am a structural engineer
+    and the base plates are supposed to be placed only on the top face of a footing.
+    When I insert the base plate manually in the user interface, it correctly slides
+    on the faces of a footing at any elevation. But when I insert it using the programming
+    interface it only slides horizontally on an invisible face that is at Elevation=0
+    even though I have tried to host it on a footing that is at a non zero elevation.
+    When I try to change its Elevation parameter programmatically I get a read only
+    error. Offset parameter does not do anything either. When I try to move manually
+    a programmatically inserted base plate, it does not move out of that 0 Elevation
+    up or down (it only moves horizontally). I have noticed in the family editor of
+    that base plate (in the user interface) that the base plate is drawn together
+    with its footing even though that footing is not inserted.
+- author: Cosmas T
+  email: tzavelis@hotmail.com
+  ip: 24.228.66.151
+  url: ''
+  date: '2012-09-14 02:23:05'
+  body: 'Hello Jeremy
+
+    Tha BasePlate family symbol is WorkPlaneBased. How do you change the workplane
+    elevation to place the BasePlate at the desired elevation using NewFamilyInstance?'
+- author: Cosmas T
+  email: tzavelis@hotmail.com
+  ip: 24.228.66.151
+  url: ''
+  date: '2012-09-23 19:11:31'
+  body: 'Hello Jeremy,
+
+    I am still not able to figure out why this particular FamilySymbol (Structural
+    Connections\Steel\Column Base Plate-4 Hole-Cross.rfa) is always placed at the
+    zero Elevation and its Elevation can not change. I have tried other Structural
+    Connections and I can easily insert them at the desired Elevation using any of
+    the Create.NewFamilyInstance methods. Its Family.PlacementType is WorkPlane based
+    and even when I change the WorkPlane Elevation to a non zero value, this instance
+    is still placed at Elevation zero!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-09-24 08:48:31'
+  body: 'Dear Cosmas,
+
+
+    Sorry to hear that this is still an issue for you.
+
+
+    I asked the development team about this, and they reply:
+
+
+    Usually it happens because of a content problem. Most likely geometry inside a
+    family is not constrained to base level.
+
+
+    Cheers, Jeremy.'
+- author: Cosmas T
+  email: tzavelis@hotmail.com
+  ip: 24.228.66.151
+  url: ''
+  date: '2012-09-26 00:48:49'
+  body: 'Thank you Jeremy.
+
+    I will keep trying and let you know if I resolve it.
+
+
+    -----'

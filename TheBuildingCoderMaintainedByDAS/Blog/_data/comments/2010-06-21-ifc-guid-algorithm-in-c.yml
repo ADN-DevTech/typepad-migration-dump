@@ -1,0 +1,204 @@
+comments:
+- author: Matt Mason
+  email: mmason@avat.com
+  ip: 146.115.40.151
+  url: http://cadappdev.blogspot.com/2010/03/revit-api-2011-upgrading-existing-add.html
+  date: '2010-06-30 12:49:25'
+  body: 'A couple of years ago I ran into something like Håkon''s problem. I don''t
+    know that I can solve it - but I might be able to explain it.
+
+
+    Door Geometry can be fundamentally different depending on the thickness of wall
+    that the door is hosted in. At one point a few years back, I found that in some
+    export cases there were "special" family symbols which were representing the different
+    symbol/thickness variations.
+
+
+    For what it''s worth - as they say :).
+
+
+    -Matt'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-30 13:18:14'
+  body: 'Dear Matt,
+
+
+    Thank you very much for your note. Yes, this is in fact analogous to the issue
+    discussed for columns in
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/02/retrieving-column-and-stair-geometry.html">http://thebuildingcoder.typepad.com/blog/2010/02/retrieving-column-and-stair-geometry.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Stevedowning
+  email: ''
+  ip: 124.171.1.137
+  url: http://profile.typepad.com/stevedowning
+  date: '2010-07-16 03:39:31'
+  body: 'If anyone is looking for the VB.Net conversion of Håkon''s code, I''ve posted
+    a working version of the IfcGuid module here: <a href="http://arupforge.arup.com/wiki/index.php?title=IFC_Guids_in_VB.Net">http://arupforge.arup.com/wiki/index.php?title=IFC_Guids_in_VB.Net</a>
+
+
+    Note, this is one of those cases where C# != VB.net, so a straight forward syntax
+    conversion wasn''t enough.'
+- author: Nilesh
+  email: nilesh.patil@ce-n.com
+  ip: 115.111.32.238
+  url: ''
+  date: '2012-07-11 06:05:37'
+  body: 'Dear Jeremy, Can you please help me to find coordinates of door or any other
+    elements in IFC files? I am not finding any class which can give the coordinates.
+    Also the structure of a IFC file. How it gives the elements information and its   properties?
+
+
+    Please help me.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.8
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-08-22 07:42:30'
+  body: 'Dear Nilesh,
+
+
+    An IFC file is not a trivial animal. I would suggest using a full-fledged toolkit
+    to tackle it.
+
+
+    Cheers, Jeremy.'
+- author: Joerg
+  email: joerg.kiegeland@qut.edu.au
+  ip: 119.12.113.41
+  url: ''
+  date: '2013-04-05 21:57:36'
+  body: 'Hi all,
+
+
+    I wonder if its possible that Håkon''s algorithm can have some kind of open source
+    license like the MIT attached so that it can be actually picked up by the industry!
+    Its a pity that we cannot actually use this translation of the C code in our C#
+    projects because of IP issues!
+
+
+    By the way, where is the original C code and how it is licensed? It could be that
+    the "translation" is not valid at all (i am not a lawyer!). Nobody seems to care
+    about legal issues much, but we have to, as we are in the process of open-sourcing
+    our code, and dont wont to depend on viral licenses like GPL, and also dont want
+    to breach a copyright!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.183.239
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-04-08 08:39:28'
+  body: 'Dear Joerg,
+
+
+    Oh dear, I am awfully sorry that you are faced with these issues.
+
+
+    I am not, thank God, and I have no idea. I am still hoping I will survive without
+    being forced to deal with that kind of stuff.
+
+
+    As far as I know, I am the original author of the original C code that this is
+    based on. That probably does not help, though.
+
+
+    As far as I can tell, this same code is used in many IFC implementations all over
+    the place.
+
+
+    Probably you can find some copy somewhere which has a license attached to it.
+
+
+    Its actually pretty trivial, anyway.
+
+
+    Good luck!
+
+
+    Cheers, Jeremy.'
+- author: Paul Marsland
+  email: paul@rpmwebs.com
+  ip: 141.101.99.162
+  url: ''
+  date: '2014-04-28 07:43:18'
+  body: 'Jeremy
+
+
+    I have been working on a number of utilities that require conversion between GUID''s
+    and base64GUID''s. I have read many of your blogs on this subject and find them
+    very useful and informative.
+
+
+    I am not sure however if I have found an error in the Hakon Clausen code referenced
+    above or whether its an error on my behalf (I tried downloading your version/implementation
+    of the C# code from the buildingSMART technical website to see if I get the same
+    error but there seems to be a problem with the zip file)
+
+
+    The problem I have found is that certain GUID''s when converted to base64 and
+    then back again don''t yield the same GUID. I am working on some tools to assist
+    in producing COBie UK datasets from Cadduct (Autodesk Fabrication) models. An
+    example of the type of error I am having is:
+
+
+
+    the following GUID:
+
+
+    01cf62c8-e9bc-bf88-0000-000000000005
+
+
+    when converted to base64 with the above algorithm yields:
+
+
+    01psB8wRl0Y00000000005
+
+
+    When this is converted back to its standard form I get:
+
+
+    01cf62c8-e9bb-c088-0000-000000000005
+
+
+    I have a few otheer examples that do not work both ways, most of those I have
+    tested however work fine.
+
+
+    Any help/insight greatly appreciated.
+
+
+    regards
+
+    Paul'
+- author: Håkon Clausen
+  email: hakonhc@hclausen.net
+  ip: 77.40.227.62
+  url: ''
+  date: '2014-07-02 05:18:36'
+  body: Paul, I tracked down the bug. Specifically there was a BitConverter.ToInt16
+    call in there which should have been BitConverter.ToUInt16 like the rest. I have
+    updated it a bit and added you test case. The whole thing can be found here <a
+    href="https://github.com/hakonhc/IfcGuid">https://github.com/hakonhc/IfcGuid</a>
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.198.253
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-07-02 05:40:06'
+  body: 'Dear Paul and Håkon,
+
+
+    Thank you both very much for reporting and fixing this!
+
+
+    I added a note about the fix and the GitHub repository to the main blog post,
+    to ensure it does not get missed.
+
+
+    Cheers, Jeremy.
+
+    -----'

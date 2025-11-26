@@ -1,0 +1,93 @@
+comments:
+- author: Wim Tas
+  email: wim@witas.be
+  ip: 78.20.176.195
+  url: http://www.witas.be
+  date: '2013-07-15 16:37:20'
+  body: Can the code handle the case of horizontal adjacencies for intermediate floors.
+    E.g. above 1 m the space is adjacent with another space than below 1 m.
+- author: Jasper Desmet
+  email: jasper_desmet@hotmail.com
+  ip: 87.64.251.250
+  url: ''
+  date: '2013-07-17 04:26:39'
+  body: 'Hi Wim,
+
+
+    The code cannot handle the proposed case. The reason for this is that the code
+    it fully reliant on the SpatialElementGeometryCalculator and its characteristics.
+    The SpatialElementGeometryCalculator does evaluate analytical surface divisions
+    which are vertical (e.g. a wall perpendicular to the space-bounding wall). It
+    does not evaluate horizontal divisions (such as you suggest) or divisions of the
+    floor and roof surface of the space.
+
+    In general this code can handle the horizontal adjacencies for spaces on the same
+    level. For more intricate space-geometry evaluation either the code or the SpatialElementGeometryCalculator
+    would have to be elaborated.
+
+
+    Hope this answers your question adequately.
+
+    Greets,
+
+    Jasper'
+- author: Olivier
+  email: o.bastide@bbs-slama.com
+  ip: 92.103.238.135
+  url: http://www.bbs-slama.com
+  date: '2013-11-13 04:54:23'
+  body: 'Hi Jasper,
+
+
+    I''m working exactly on the same problematic for a french company involved in
+    thermal calculation on buildings.
+
+
+    To do these calculations, I have to determine space/element adjacencies.
+
+    To do that, I''m using a very similar algorithm based on "CalculateSpatialElementGeometry"
+    results for every MEP Space of a project.
+
+
+    It appears that, on several projects, these results are not consistent ...
+
+    The first call to "CalculateSpatialElementGeometry" on a specific Space gives
+    a certain result, and subsequent calls give another result (that remains consistent
+    for calls number 2 and after).
+
+
+    Do you face the same problem ?'
+- author: plus.google.com/116052588707402972877
+  email: ''
+  ip: 178.117.232.86
+  url: http://profile.typepad.com/6p019b01075fab970b
+  date: '2013-11-13 10:51:39'
+  body: 'Hi Olivier,
+
+
+    I never faced that problem myself. But I never used my code on bigger projects,
+    only on my (small) testproject. It might have something to do with the cache Revit
+    maintains, or with the cache being cleared and filled again because of an element
+    alteration during the process. (see <a href="http://204.236.145.181/Revit/enu/2012/Help/API_Dev_Guide/0074-Revit_Ge74/0108-Geometry108/Room_and_Space_Geometry).">http://204.236.145.181/Revit/enu/2012/Help/API_Dev_Guide/0074-Revit_Ge74/0108-Geometry108/Room_and_Space_Geometry).</a>
+    But I would have to reproduce the problem to see where the exact reason for this
+    inconsistency lies.
+
+    The way I see it the SpatialElementGeometryCalculator hasn''t matured enough yet
+    for application in real-life. In the company where I work right now we use gbXML
+    for geometry in heat load calculation, because of the ability to check for inconsistencies
+    when exporting the gbXML.
+
+    I hope this helped. If you''ve got more questions, or want me to take a look at
+    your project, feel free to contact me.
+
+
+    greets, Jasper'
+- author: Olivier
+  email: o.bastide@bbs-slama.com
+  ip: 92.103.238.135
+  url: http://www.bbs-slama.com
+  date: '2013-11-14 02:46:36'
+  body: 'Thanks for your reply, gbXML seams to be the only way to go until API gets
+    mature.
+
+    -----'

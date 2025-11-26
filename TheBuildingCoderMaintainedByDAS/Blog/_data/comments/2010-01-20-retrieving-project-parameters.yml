@@ -1,0 +1,329 @@
+comments:
+- author: Helen
+  email: helen.gorina@perkinswill.com
+  ip: 204.214.48.93
+  url: http://helengorina.com
+  date: '2010-01-22 17:55:07'
+  body: "Dear Jeremy, \n\nMany thanks for amazing and informative blog. I have found\
+    \ the answers to many questions just searching through the existing posts.\n\n\
+    However there is one task I am trying to accomplish that I cannot find any help\
+    \ for. \n\nI'd like to create and populate a Schedule Key(either from the text\
+    \ file or excel or access). My first thought was to use RDBLink, but I do not\
+    \ see Schedule Keys there. Neither can I get any headway with a snoop tool. I\
+    \ can find a newly created Schedule Key using SnoopDB but cannot figure out how\
+    \ to access and edit it. On the surface this task should not be difficult: Schedule\
+    \ Key is in fact just a reference table...\n\nMany thanks for your help!"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.152.175
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-25 10:52:01'
+  body: 'Dear Helen,
+
+
+    Thank you for your appreciation, I am glad it is useful for you!
+
+
+    The reason you see nothing on the topic you are searching for may well be that
+    there is not yet any support for schedules in the Revit API.
+
+
+    That is probably also the reason why I don''t know what a schedule key is. How
+    do you create it? What do you see in RvtMgdDbg? Is it represented as a basic element?
+    Most Revit database objects that have no API exposure yet just end up as Element
+    instances, and there is no access to their specific data.
+
+
+    Cheers, Jeremy.'
+- author: Helen
+  email: helen.gorina@perkinswill.com
+  ip: 204.214.48.93
+  url: http://helengorina.com
+  date: '2010-01-26 11:41:37'
+  body: "Dear Jeremy, \n\nThanks for quick responce.\n\nHere is what Revit help tells\
+    \ us about key schedules:\nSchedules, particularly for windows, doors, or rooms,\
+    \ can comprise multiple items that have the same characteristics. For example,\
+    \ a room schedule might have 100 rooms with the same floor, ceiling, and base\
+    \ finishes. Rather than enter all this information manually for all 100 rooms\
+    \ in the schedule, you can define keys that automatically fill in information.\
+    \ If a room has a defined key, then as that room is added to a schedule, fields\
+    \ in the schedule automatically update, reducing the time required to produce\
+    \ the schedule.\nYou define keys using key schedules. Key schedules look very\
+    \ similar to component schedules, except that you define them to your specifications.\
+    \ When you create a key, it is listed as an instance property for the element.\
+    \ When you apply a value for the key, then the key's attributes are applied to\
+    \ the element.\n\nIn other words, when you create a schedule, you always have\
+    \ a choice: schedule building components or schedule keys for styles. For example,\
+    \ it is very common in interior design workflow for large buildings to have various\
+    \ room styles defined in a spreadsheet or database. You could have several dozen\
+    \ styles defining a dozen parameters each. The style then get assigned to the\
+    \ object. \nIt seems wasteful to re-type these spreadsheets in Revit to create\
+    \ key schedule. Key schedule is not a report derived from the rooms or any other\
+    \ objects; it is just a lookup table with data entered by the user. \nI can see\
+    \ it in RvtMgdDbg as a view (the same group you have all other schedules in).\
+    \ Then I can find the parameters that I need in View->Elements->element set->parameter\
+    \ set. They are all listed and not read only.\nThe problem is that I cannot think\
+    \ of a way to let users select the key schedule they want to populate: the commands\
+    \ and RvtMgdDbg are grayed out when in the schedule view.\nI tried another approach\
+    \ using Revit DB Link, but cannot find anything about views and schedules in the\
+    \ exported database.\n\nThanks for your help.\n\nHelen"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.173.203
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-27 05:02:16'
+  body: 'Dear Helen,
+
+
+    Thank you for the detailed explanation and background information.
+
+
+    If you can see all the data that you need to access and even determine that it
+    is available for writing to as well as reading, then there is certainly a way
+    to achieve what you need.
+
+
+    You say that the problem is how to let users select certain objects. Well, if
+    RvtMgdDbg can access these objects, then any Revit plug-in application can do
+    so as well. As regards selecting things, you have to create a user interface for
+    that.
+
+
+    So what you need to do is to decide what the optimal user interface would be for
+    the operations you wish to perform, as minimal and obvious as possible, and then
+    implement an application to populate it and perform the selected actions.
+
+
+    Cheers, Jeremy.'
+- author: Helen
+  email: helen.gorina@perkinswill.com
+  ip: 204.214.48.93
+  url: http://helengorina.com
+  date: '2010-01-29 10:59:50'
+  body: "Jeremy, \n\nThanks for your help. I think I know what I need to do now. Will\
+    \ let you know how it will turn out.\n\nHelen"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-29 11:06:36'
+  body: 'Dear Helen,
+
+
+    Wow, great, good news, I am very glad to hear it! Good luck and a happy weekend
+    to you.
+
+
+    Cheers, Jeremy.'
+- author: Quang Le
+  email: quang_ld@harmonysoft.com.vn
+  ip: 117.4.153.55
+  url: ''
+  date: '2010-01-30 11:51:08'
+  body: What about retrieving all shared parameters of family type existing in the
+    project? Can I do it from project view, or I have to open each of the family file
+    separately?
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-02-02 06:47:00'
+  body: 'Dear Quang,
+
+
+    If I understand your question right, I believe you would have to open each family
+    file.
+
+
+    Cheers, Jeremy.'
+- author: Quang Le
+  email: quang_ld@harmonysoft.com.vn
+  ip: 117.4.173.22
+  url: http://www.harmonysoft.com.vn/en
+  date: '2010-02-02 17:06:34'
+  body: But using the Snoop Db/Selection of RvtMgdDgg tool, I can still go to a FamilyInstance,
+    access the FamilySymbol, then view the list of shared parameter for that family
+    in Parameters field (all of these are from project view). So I think it's doable,
+    just didn't have time to look into it.
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-02-03 07:02:04'
+  body: 'Dear Quang,
+
+
+    Neither did I  :-)
+
+
+    Cheers, Jeremy.'
+- author: Jeff
+  email: jsimon@hntb.com
+  ip: 198.51.229.30
+  url: ''
+  date: '2010-02-23 18:15:18'
+  body: Is it possible to create a project parameter from the API in Revit 2010? Sorry
+    if this has been answered before elsewhere, I have had a tough time confirming
+    this through the samples since they seemed geared towards shared parameters.
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-03-01 11:33:38'
+  body: "Dear Jeff,\n\nWhen you are in the context of a project document, you can\
+    \ only create shared parameters through the API, just like through the user interface.\
+    \ \n\nWhen you are in the context of a family document, you can create all kinds\
+    \ of parameters through the API, just like through the user interface. \n\nCheers,\
+    \ Jeremy."
+- author: Jeff
+  email: jsimon@hntb.com
+  ip: 198.51.229.30
+  url: ''
+  date: '2010-03-01 18:37:48'
+  body: Thanks!
+- author: Marcelo Bernal
+  email: marcelo.bernal@gmail.com
+  ip: 132.188.64.150
+  url: ''
+  date: '2011-07-14 17:56:01'
+  body: "Hi Jeremy,\nI’m working in a project to reuse pre-existing solutions and\
+    \ adapt them to the requirements of new projects. Basically, I’m embedding some\
+    \ rules in parametric object, and in some functions. My case study is the automatic\
+    \ generation of a building core which contains all the elevators, emergency stairs,\
+    \ restrooms, technical rooms, etc. So, depending on the shape of the building,\
+    \ this parametric core is adapted. My general question is: What is the best approach\
+    \ to create parametric models containing \npredefined Elements such as walls,\
+    \ slabs, or stars instead of generic models?\nMy first prototype of the project\
+    \ was based on Families of Generic Models to represent the different objects of\
+    \ the core. Such models are very flexible in terms of creation of parameters to\
+    \ drive the geometry. However, they have limitations in terms of loading Walls,\
+    \ Stairs and other complex Elements. For example, it is not possible to propagate\
+    \ doors in Generic Models because doors are propagated on Walls Elements. So,\
+    \ I need Walls Elements in my model if I want doors. That is why I decided to\
+    \ work with groups of predefined Elements (actual Walls) at the Project level\
+    \ instead of at the Family level. So, I created the groups from a project, I loaded\
+    \ them into my big project, and I created instances of them. I was planning to\
+    \ control the Members of the Groups via API, but I realized most of the parameters\
+    \ of the Groups are \"read-only\"...... I can get their values, but I cannot modify\
+    \ them. \n\nI created a simple model of the main Walls of the core, and I aligned\
+    \ the Walls with Reference Planes, then I loaded it as a Group into my Project.\
+    \ I was trying to edit such Reference Planes embedded in the Group to drive the\
+    \ modification of the instance of the Group. First I filtered the groups, I found\
+    \ the members, I got the Reference Planes driving the Walls, then I got the Planes\
+    \ defining the location of the Reference Planes, and, finally, I got the Z coordinate\
+    \ that defines the vertical position of the Reference Plane in the space.....\
+    \ BUT.... it is a read-only variable. For some reason after loading a Project\
+    \ as Group in the main Project, I’m losing the flexibility of the parametric relationships.\n\
+    \nBasically, I'm switching from Generic Models to Groups because I want to work\
+    \ with predefined objects. The Problem I'm facing now is that Revit is very limited\
+    \ in terms of creation of parameters at the\nProject Level, Families of Generic\
+    \ Models don't allow loading actual Walls, Stairs, and other predefined Elements,\
+    \ and Groups don't allow editions of some parameters.... \nIn addition I was exploring\
+    \ the Revits Links, but again, I need to link a Project file, since I need Walls\
+    \ and Projects are very limited in terms of parameters creation.\nAt this point\
+    \ I’m hitting, literally, a “wall”\n\nThanks\n\nMarcelo"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-07-15 12:10:40'
+  body: 'Dear Marcelo,
+
+
+    Aren''t you an ADN member as well? If so, please submit an ADN DevHelp Online
+    case for this, so we can explore it in more depth in cooperation with the development
+    team.
+
+
+    All I can suggest to you off-hand is to define your pre-existing solutions in
+    a more abstract manner, e.g. using your own database of parameters and dependencies,
+    and driving Revit from a lower level, i.e. creating the elements you need individually
+    from scratch one by one in the required order instead of trying to work with ready-made
+    groups and assemblies.
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.'
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: ''
+  date: '2011-09-16 02:32:57'
+  body: "Hello Jeremy.\n When I retrieving Project parameters like in BrowseBindings\
+    \ sample all defenitions is InternalDefinition. But in my project there are a\
+    \ lot of parameters are shared parameters. They must be ExternalDefinition.\n\
+    \ What is my problem. I have one project. And I'm trying to add shared parameters\
+    \ programmaticaly. Code: <a href=\"http://pastebin.com/55HdFE5P\">http://pastebin.com/55HdFE5P</a>\n\
+    \ In this code binding == null.\n It means that there are no binding of this definition.\
+    \ But BindingMap.Insert returns false. \n Next I've tried to add this parameter\
+    \ via Revit user interface I get error message: The selected parameter has already\
+    \ been added. But how??? I cannot find it and I don't see it in Project BindingMap.\
+    \ I cannot explain this strange behavior of Revit.\n\nI'd thought, may be I have\
+    \ other parameter with same GUID but with different name and his is reason that\
+    \ I cannot see this parameter. But GUID property have only ExternalDefinition\
+    \ and every definition in BindingMap is InternalDefinition.\n\nIn other project\
+    \ I added parameters without troubles.\n\nHow can I find Definition GUID? And\
+    \ may be you know that reason I cannot add parameters?\n\nThanks, Victor."
+- author: hazem
+  email: hazem_el_amir@hotmail.com
+  ip: 197.40.95.162
+  url: ''
+  date: '2015-05-27 14:09:23'
+  body: 'Dear Jeremy:
+
+    many thanks for your greet blog
+
+    i learned how to get all info about project parameters but i don''t know if the
+    parameter is shared of project
+
+    i''m using the external binding but couldn''t succeed
+
+    please help'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-29 04:50:43'
+  body: 'Dear Hazem,
+
+
+    I think only the shared parameter has a valid GUID.
+
+
+    Can you confirm?
+
+
+    Thank you!
+
+
+    If you are working in Revit 2016, the Parameter API additions should be a big
+    help:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2015/04/whats-new-in-the-revit-2016-api.html#5.02">http://thebuildingcoder.typepad.com/blog/2015/04/whats-new-in-the-revit-2016-api.html#5.02</a>
+
+
+    Cheers, Jeremy.'
+- author: hazem
+  email: hazem_el_amir@hotmail.com
+  ip: 197.40.109.81
+  url: ''
+  date: '2015-05-30 11:31:38'
+  body: "Dear Jeremy,\nmany thanks for your quick replay\nusing this gives error\n\
+    s += extDef.GUID.ToString();\nand if (extDef != null)\t{ \t\t\t\t\t\ts+= \"shared\
+    \   \";\n}\ngives nothing\nhe suppose all == null\n\nsee this link please:\n<a\
+    \ href=\"http://spiderinnet.typepad.com/blog/2011/05/parameter-of-revit-api-30-project-parameter-information.html\"\
+    >http://spiderinnet.typepad.com/blog/2011/05/parameter-of-revit-api-30-project-parameter-information.html</a>\n\
+    \n\nand this is my small macro\n\npublic void ProjectParameters()\n{\n  UIDocument\
+    \ uidoc = this.ActiveUIDocument;\n  Document doc = uidoc.Document;\n  string s\
+    \ = \"\";\n  BindingMap map = doc.ParameterBindings;\n  DefinitionBindingMapIterator\
+    \ it = map.ForwardIterator();\n  it.Reset();\n  while (it.MoveNext())\n  {\n \
+    \   ElementBinding eleBinding = it.Current as ElementBinding;\n    InstanceBinding\
+    \ insBinding = eleBinding as InstanceBinding;\n    Definition def = it.Key;\n\
+    \    if (def != null )\n     {\n      ExternalDefinition extDef = def as ExternalDefinition;\n\
+    \        s += def.Name + \"   \";\n\ts += def.ParameterGroup + \"   \";\n\ts +=\
+    \ def.ParameterType + \"   \";\n        if (extDef != null)\n\t{\n\t   s+= \"\
+    shared   \";\n\t}\n\ts += \"\\n\";\n      }\n    }\nTaskDialog.Show(\"test\" ,\
+    \ s);\n}\n\nmany thanks for help\n-----"

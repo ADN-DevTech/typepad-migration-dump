@@ -1,0 +1,96 @@
+comments:
+- author: Sebastian Holst
+  email: sebastian@preemptive.com
+  ip: 75.33.51.178
+  url: http://www.preemptive.com
+  date: '2009-08-30 11:08:44'
+  body: "Hello Jeremy – full disclosure – I am a NON-technical employee at PreEmptive\
+    \ Solutions (we make Dotfuscator). I read your blog entry with interest and it\
+    \ raised a few questions for me and also prompted me to write this post. \n\n\
+    Now, I realize that you are using (and are satisfied) with another tool – I am\
+    \ not trying to fix something for you that is apparently not broken – but you\
+    \ are obviously putting time into this area and I would hate to have you end up\
+    \ with any misinformation about Dotfuscator.\n\nThe first comment that caught\
+    \ my eye was that the Dotfuscator evaluation version was functionally incomplete\
+    \ – in fact, other than requiring a network connection and the deactivation of\
+    \ the command line interface (perhaps this is the feature that you wanted to test?)\
+    \ – the evaluation version is fully functional. \n\nIs it possible that you were\
+    \ using the Community Edition (CE) that is included with Visual Studio? CE is\
+    \ the limited edition of Dotfuscator – but it is not an “evaluation” of the commercial\
+    \ edition – it is simply a lite-weight obfuscator included with Visual Studio.\
+    \ \n\nThe observation that you “have to exclude from obfuscation any methods that\
+    \ external apps call into or access” is true for renaming but not control flow\
+    \ (for example). But, more to the point, this renaming constraint would be true\
+    \ for any implementation of renaming – were you under the impression that you\
+    \ had to manually exclude these one at a time with Dotfuscator? (that would be\
+    \ annoying!) \n\nThe commercial version of Dotfuscator (The Suite) includes a\
+    \ “library mode” that leaves all entry points alone automatically. PLEASE NOTE\
+    \ – if you have multiple assemblies that call one another (all yours) but do NOT\
+    \ need to publish the calls to OUTSIDERS – Dotfuscator also supports cross-assembly\
+    \ renaming – it will take in multiple assemblies and impose a consistent renaming\
+    \ scheme across them all. This is true even if you add assemblies to the mix AFTER\
+    \ the first obfuscation session at a later date (good for incremental updates,\
+    \ patches, distributed development environments, etc.). \n\nI realize that you\
+    \ gave up on Dotfuscator and so you may not have had the opportunity to evaluate\
+    \ all of these functions, but for completeness – here are my comments on some\
+    \ of the other capabilities you highlight: \n\nThe Dotfuscator Suite can:\n1.\t\
+    Merge in dependent DLLs or embed them. \n2.\tPrune code that will never get executed.\
+    \ \n3.\tAdd confusing metadata to the DLL so that .NET Reflector and MS IL Disassembler\
+    \ cannot view it. \n\nCAUTION – there are easy ways to make this appear more effective\
+    \ by adding INVALID metadata – HOWEVER, the resulting output application will\
+    \ not peverify. If ensuring that your assembly is a verifiable .NET assembly –\
+    \ then this can kill your application (even if all of your QA tests are positive).\
+    \ Control flow obfuscation will also defeat Reflector, etc. – but does NOT output\
+    \ invalid IL. \n\n4.\tSign your assembly with a strong name after obfuscation.\n\
+    \nNow, as I “disclosed” upfront – I am not technical (I am in marketing), but\
+    \ I would be more than happy to connect you to our live customer support. Again,\
+    \ I am curious – did you evaluate the Community Edition and not The Suite? Did\
+    \ you ever contact our support organization with these issues? \n\nIf you are\
+    \ interested in following up with me offline (or get connected with more technical\
+    \ resources), please do feel free to contact me directly at sebastian@preemptive.com.\
+    \ \n\nThank you,\n\nSebastian."
+- author: Sebastian Holst
+  email: sebastian@preemptive.com
+  ip: 75.33.51.178
+  url: http://www.preemptive.com
+  date: '2009-08-30 15:05:10'
+  body: PS – the hazards of posting to a blog too quickly – as I re-read your last
+    post, I see that the comments I responded to were from Greg Wesner and not from
+    you directly – apologies - my offer of assistance of course stands – and if you
+    could please pass my questions on to him, that would be terrific.  Thanks very
+    much. Sebastian
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.89.203
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-08-30 15:37:51'
+  body: 'Dear Sebastian,
+
+
+    Thank you for the clarification. Yes, I know the hazards of posting too fast all
+    too well. I''ll point out your comments to Greg, and I am sure they are also of
+    interest to anyone else following this thread.
+
+
+    Cheers, Jeremy.'
+- author: Jim Bish
+  email: jbish@inlettechnology.com
+  ip: 76.160.17.130
+  url: http://www.inlettechnology.com
+  date: '2009-10-05 14:07:55'
+  body: Just started looking at this. Using Dotfuscator CE v4.0.2008.10000...  Getting
+    "Build Error" message with no input as to what is causing the error!  How can
+    we use the product if there is no feedback on what is causing the error?  The
+    project compiles perfectly through VS 2008.
+- author: LogicNP
+  email: himangi@ssware.com
+  ip: 121.247.77.31
+  url: http://www.ssware.com
+  date: '2012-02-15 00:32:48'
+  body: 'Did you evaluate Crypto Obfuscator? <a href="http://www.ssware.com/cryptoobfuscator/obfuscator-net.htm">http://www.ssware.com/cryptoobfuscator/obfuscator-net.htm</a>
+
+
+    It is a lot cheaper but still has all of the features found in others, as well
+    as some unique ones like Anti-Debug, Anti-Tamper, etc.
+
+    -----'

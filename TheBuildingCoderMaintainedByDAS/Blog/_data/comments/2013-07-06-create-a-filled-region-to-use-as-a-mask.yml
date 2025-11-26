@@ -1,0 +1,100 @@
+comments:
+- author: Ahmed
+  email: ahmad4343@hotmail.com
+  ip: 77.30.58.124
+  url: ''
+  date: '2014-02-15 12:21:00'
+  body: 'This line is not working with revit 2014 ,Do you have any suggestion to solve
+    this ?
+
+    Cheers,'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-02-18 06:42:37'
+  body: 'Dear Ahmed,
+
+
+    Not really. My only suggestion to start off with would be to specify what line
+    you mean, and the exact behaviour that you observe.
+
+
+    Cheers, Jeremy.'
+- author: Ahmed
+  email: ahmad4343@hotmail.com
+  ip: 37.105.42.136
+  url: ''
+  date: '2014-02-19 13:58:18'
+  body: "Really thanks for replying :) ,\nThe problem coming from this 5th line above\
+    \ :        \n\nfrom pattern in fillRegionTypes.Cast<FilledRegionType>()\n\nThe\
+    \ error is :\n'Autodesk.Revit.DB.FilteredElementCollector' does not contain a\
+    \ definition for 'Cast' and no extension method 'Cast' accepting a first argument\
+    \ of type 'Autodesk.Revit.DB.FilteredElementCollector' could be found (are you\
+    \ missing a using directive or an assembly reference?)\tC:\\Users\\Ahmad\\documents\\\
+    visual studio 2013\\Projects\\Create Fill pattern\\Create Fill pattern\\Command.cs\t\
+    37\t49\tCreate Fill pattern"
+- author: Ahmed
+  email: ahmad4343@hotmail.com
+  ip: 37.105.42.136
+  url: ''
+  date: '2014-02-19 16:04:29'
+  body: "Also How I can add transparency assuming to solid black for grey scale purpose\
+    \ because all I knew is this :\nOverrideGraphicSettings ogs = new OverrideGraphicSettings();\n\
+    \ ogs.SetSurfaceTransparency(80);\nHow I can make it reflect on above filled region\
+    \ to be 80% along with the created filled region ?\n\nThanks"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-02-21 04:45:14'
+  body: 'Dear Ahmed,
+
+
+    You seem to be lacking the Linq namespace.
+
+
+    Add the following line at the top of the module:
+
+
+    using System.Linq;
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-02-21 04:49:54'
+  body: 'Dear Ahmed,
+
+
+    This is basically all I know about transparency:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/07/obj-model-exporter-with-transparency-support.html">http://thebuildingcoder.typepad.com/blog/2012/07/obj-model-exporter-with-transparency-support.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Ryan
+  email: rharrington@srarchinc.com
+  ip: 207.114.153.226
+  url: ''
+  date: '2014-03-17 20:14:41'
+  body: Could you use this technique to change a filled region  to an area boundary?
+    Using revit conventionally (copy and paste) it seems you can't make the transition
+    between the 2, revit takes your boundary from your filled region and converts
+    it to lines in the area plan.
+- author: Nick Kovach
+  email: ''
+  ip: 209.253.20.145
+  url: http://profile.typepad.com/nickkovach
+  date: '2014-09-05 11:41:51'
+  body: 'Jeremy,
+
+
+    Is there any way to determine the line styles used for the boundary lines in a
+    filled region?  Or better yet, is there an easier way to manipulate these line
+    styles within a filled region (other than deleting and recreating the filled region)?
+
+    -----'

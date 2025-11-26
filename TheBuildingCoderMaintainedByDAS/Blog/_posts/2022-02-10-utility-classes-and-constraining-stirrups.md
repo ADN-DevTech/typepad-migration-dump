@@ -1,0 +1,170 @@
+---
+layout: "post"
+title: "Utility Classes and Constraining Stirrups"
+date: "2022-02-10 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Algorithm"
+  - "Filters"
+  - "Fun"
+  - "Parameters"
+  - "Rebar"
+  - "RST"
+  - "Utilities"
+original_url: "https://thebuildingcoder.typepad.com/blog/2022/02/utility-classes-and-constraining-stirrups.html "
+typepad_basename: "utility-classes-and-constraining-stirrups"
+typepad_status: "Publish"
+---
+
+<p>Taking a look at
+yet another <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#5,52">overlooked Revit API utility class</a>,
+rebar constraints, and learning basics of power, energy, entropy and information:</p>
+
+<ul>
+<li><a href="#2">ParameterFilterUtilities</a></li>
+<li><a href="#3">Constrain stirrup to host cover</a></li>
+<li><a href="#4">Rowers illustrate power and building energy</a></li>
+<li><a href="#5">Wordle entropy and information</a></li>
+</ul>
+
+<h4><a name="2"></a> ParameterFilterUtilities</h4>
+
+<p>Another example of the useful functionality provided by
+the <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#5.52">Revit API <code>*Utils</code> classes that are often overlooked</a> was
+highlighted by Samuel Kreuz' question and answer in the thread on using <code>ParameterFilterUtilities</code>
+to <a href="https://forums.autodesk.com/t5/revit-api-forum/get-all-possible-filterrule-parameters/m-p/10936268">get all possible <code>FilterRule</code> parameters</a>:</p>
+
+<p><strong>Question:</strong> I would like to list all possible <code>ViewFilter</code> parameters for a given category, e.g., for the category <code>Walls</code> the parameters shown in this screenshot:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302942f986022200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302942f986022200c image-full img-responsive" alt="Valid ViewFilter parameters" title="Valid ViewFilter parameters" src="/assets/image_9e2c61.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>It seems like these are combinations of Project Parameters, Type Parameters and Instance Parameters.
+How to retrieve all parameters allowed for creating a filter rule?
+Or at least a way to check if a parameter is valid for creating a filter rule?</p>
+
+<p><strong>Answer:</strong> Take a look at the <code>ParameterFilterUtilities</code> class, specifically
+the <a href="https://www.revitapidocs.com/2022/7ea624c7-2c0d-c9bb-3b2c-1ac798cf6606.htm">GetFilterableParametersInCommon method</a>.</p>
+
+<p><strong>Response:</strong> This is exactly what I am looking for!
+I wasn't aware of the <code>ParameterFilterUtilities</code> until now.
+They seem to have some really useful methods for working with ViewFilters.
+This is how I checked for valid parameters for the category is <code>Walls</code>:</p>
+
+<pre class="code">
+&nbsp;&nbsp;List&lt;<span style="color:blue;">string</span>&gt;&nbsp;<span style="color:#1f377f;">parameterNames</span>&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;List&lt;<span style="color:blue;">string</span>&gt;();
+&nbsp;&nbsp;IList&lt;ElementId&gt;&nbsp;<span style="color:#1f377f;">wallCatList</span>&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;List&lt;ElementId&gt;()&nbsp;
+&nbsp;&nbsp;{&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">new</span>&nbsp;ElementId(BuiltInCategory.OST_Walls)&nbsp;
+&nbsp;&nbsp;};
+
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;<span style="color:#1f377f;">paramColl</span>&nbsp;=&nbsp;ParameterFilterUtilities
+&nbsp;&nbsp;&nbsp;&nbsp;.GetFilterableParametersInCommon(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc,&nbsp;wallCatList);
+
+&nbsp;&nbsp;<span style="color:#8f08c4;">foreach</span>&nbsp;(ElementId&nbsp;<span style="color:#1f377f;">param</span>&nbsp;<span style="color:#8f08c4;">in</span>&nbsp;paramColl)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;BuiltInParameter&nbsp;<span style="color:#1f377f;">bip</span>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;(BuiltInParameter)&nbsp;param.IntegerValue;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;<span style="color:#1f377f;">label</span>&nbsp;=&nbsp;LabelUtils.GetLabelFor(bip);
+&nbsp;&nbsp;&nbsp;&nbsp;parameterNames.Add(label);
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;parameterNames.Sort();
+&nbsp;&nbsp;StringBuilder&nbsp;<span style="color:#1f377f;">sb</span>&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;StringBuilder();
+&nbsp;&nbsp;parameterNames.ForEach(<span style="color:#1f377f;">e</span>&nbsp;=&gt;&nbsp;sb.Append(e&nbsp;+&nbsp;<span style="color:#a31515;">&quot;\r\n&quot;</span>));
+&nbsp;&nbsp;TaskDialog.Show(<span style="color:#a31515;">&quot;Filtered&nbsp;Parameters&quot;</span>,&nbsp;sb.ToString());
+</pre>
+
+<p>The result includes all built-in parameters that can be used for filtering:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302942f986031200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302942f986031200c image-full img-responsive" alt="GetFilterableParameters" title="GetFilterableParameters" src="/assets/image_982c21.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Many thanks to Samuel for raising this question and confirming the solution!</p>
+
+<h4><a name="3"></a> Constrain Stirrup to Host Cover</h4>
+
+<p>I had a fruitful conversation with Kevin Richard Anggrek a year ago
+on <a href="https://thebuildingcoder.typepad.com/blog/2021/03/boundary-elements-and-stirrup-constraints.html#2">implementing valid rebar stirrup constraints</a>.</p>
+
+<p>Kevin now very kindly summarised some further advice and aspects in this area answering a new request in his thread 
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/problem-with-constraining-stirrups-to-the-cover-of-the-host/td-p/10045899">constraining stirrups to the cover of the host element</a>.
+It would be a great shame to let his nice explanation languish unnoticed for all but a select few in the forum thread.
+I hope we can bring it to light to receive the attention it deserves here:</p>
+
+<p><strong>Question:</strong> I too am stuck constraining stirrups and raised a question
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/rebar-location-controlling/m-p/10903636">rebar location controlling</a>;
+can you compare with <code>RebarConstraint.GetDistanceToTargetCover</code>?</p>
+
+<p><strong>Answer:</strong> I will try to explain how I constrain the stirrups to the concrete cover.</p>
+
+<p>First, I use the <code>CreateFromRebarShape</code> method to create an initial stirrup by using a template rebar shape that is provided by Revit.
+As you probably have noticed, the initial stirrup follows the size of the template rebar shape, and we need to constrain it down to the appropriate size that matches the size of our concrete element.</p>
+
+<p>So, the next thing that we need to do is to call the <code>RebarConstraintManager</code> of the particular initial stirrup in order to access and modify the rebar constraints of the initial stirrup.</p>
+
+<p>By using the RebarConstraintManager, I would first collect all of the handles of the stirrup by using the <code>GetAllHandles</code> Method and store them in a list or array. Handles are those interaction points located on the rebar element that one normally uses when trying to modify the shape or size of the rebar through the user interface of Revit.</p>
+
+<p>The logic here is that I would like to move the handles of the stirrup, especially the handles at the legs of the stirrup, so that they can be placed or constrained to the correct concrete cover of our current beam/column element, thus we can obtain the correct stirrup size.</p>
+
+<p>So, the next thing we should do is to iterate through all of the handle in the list of handles that we obtained previously.
+For each handle, find all of the constraint candidates that are of the type <code>ToCover</code> using the <code>GetConstraintCandidatesForHandle</code> method.
+Rebar handles can be constrained to a lot of things, but what we want here are the ToCover constraints, because we want to constraint a particular handle to the concrete cover.
+You can imagine each ToCover constraint as a representation of the handles' constraint to a concrete cover.
+By following this method, a single handle will detect several ToCover constraints.
+Now, imagine that you are editing a rebar handle of one stirrup leg; notice that a rectangular column would have eight concrete covers that the leg handle can be constrained to.
+However, the leg handle shall only be constrained to the correct concrete cover, which in this case is the cover that is closest to the particular leg handle.
+This is where the <code>GetDistanceToTargetCover</code> plays a role.</p>
+
+<p>Before we get into that, there is something that you need to be careful of: when trying to find all of the ToCover constraints of a particular handle, Revit API will also detect not only the concrete cover of a particular concrete element, but also all of the ToCover constraints of other concrete elements in the periphery of the stirrup.
+Therefore, it is necessary that you first make sure that the ToCover constraint that you are targeting is the same as the concrete element that you will use as the host of your stirrup.
+In my case, I first checked for the ElementId of the target element of the ToCover constraint and compared it with the ElementId of my host concrete element.
+If you are not careful, your handle will end up getting constrained to the cover of some other adjacent concrete element instead of the intended concrete element.</p>
+
+<p>After you have cleared that, we can safely move on to find the nearest ToCover constraint that we are going to constrain our handle to.
+I used the GetDistanceToTargetCover() method; this method finds the distance between the current ToCover constraint of the handle to the target cover.
+Then, find the one with absolute minimum distance.
+When I say absolute, I mean that you first need to find the absolute value of the distance before comparing it to the other distance to find the actual minimum distance.
+This was actually my issue before, where the handle won't be constrained to the nearest cover.
+Turns out, my code previously compared non-absolute values.
+After I debugged the code, I noticed something like: the distance to the nearest cover was 10, but the distance to the farthest cover was -400; if we compare non-absolute values, -400 is less than 10, but the absolute value is the true indicator of the distance to the cover.
+So, if we compare the absolute values, it is obvious that 400 is greater than 10.</p>
+
+<p>After we find the nearest cover constraint to the handle, we can go ahead and move the constraint of the handle to the cover itself using the <code>SetDistanceToTargetCover</code> method and setting the distance as 0.
+After the constraint of the handle has been moved to its cover, we can go ahead and set the constraint as the preferred constraint for the handle by using the <code>SetPreferredConstraintForHandle</code> method; this will set the constraint that we just moved to the cover as the preferred constraint that the handle will use.
+At the end, this will move the handle to the cover.</p>
+
+<p>Many thanks to Kevin for this extremely helpful explanation!
+Happy New Year of the Tiger to you!</p>
+
+<h4><a name="4"></a> Rowers Illustrate Power and Building Energy</h4>
+
+<p>The <a href="https://www.tudelft.nl">TUDelft</a> created 
+a <a href="https://en.wikipedia.org/wiki/Massive_open_online_course">MOOC</a>
+about <a href="https://www.edx.org/course/zero-energy-design-an-approach-to-make-your-buildi">Zero-Energy Design: an approach to make your building sustainable</a>,
+teaching how to get to a net zero energy use of an existing building.</p>
+
+<p>I love the eight-minute course introduction video, 
+<a href="https://youtu.be/Jo5W6y0_Tkk">Energy Slaves. Intro to MOOC: Zero-Energy Design: an approach to make your building sustainable</a>:</p>
+
+<p><center>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Jo5W6y0_Tkk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</center></p>
+
+<p>It illustrates the energy used by a house and their occupants by simulating it being supplied by human rowers.
+An average rower produces ca. 220 W and continuous power, 330 W peak.</p>
+
+<p>By the way, another interesting fact about energy and power: a match or candle flame provides about 100 W; so does a human body at rest; that is enough to heat a cup of tea, coffee, or water; for a hot shower, a water heater needs to provide about 10 kW; some have an array of 10 x 10 = 100 gas flames, producing 100 x 100 W = 10 kW of heat.</p>
+
+<h4><a name="5"></a> Wordle Entropy and Information</h4>
+
+<p>On YouTube, I also stumbled across a very interesting and illuminating half-hour explanation
+on how to <a href="https://youtu.be/v68zYyaEmEA">solve Wordle using information theory</a>...</p>

@@ -1,0 +1,192 @@
+---
+layout: "post"
+title: "TBC Samples 2023 and the New Structural API"
+date: "2022-04-26 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "2023"
+  - "Analysis"
+  - "Migration"
+  - "RST"
+  - "SDK Samples"
+  - "Update"
+original_url: "https://thebuildingcoder.typepad.com/blog/2022/04/tbc-samples-2023-and-the-new-structural-api.html "
+typepad_basename: "tbc-samples-2023-and-the-new-structural-api"
+typepad_status: "Publish"
+---
+
+<p>Migrating The Building Coder samples, I encountered the same problems as others trying to update obsolete structural API code, so let's take a look at some resources assisting us in that area:</p>
+
+<ul>
+<li><a href="#2">Migrating The Building Coder samples</a></li>
+<li><a href="#3">Not migrating the derived analytical model</a></li>
+<li><a href="#4">Revit 2023 Structural API</a></li>
+<li><a href="#5">Addendum &ndash; <code>GetAnalyticalModel</code> workaround</a></li>
+</ul>
+
+<h4><a name="2"></a> Migrating The Building Coder Samples</h4>
+
+<p>I migrated <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder Samples</a> last week, creating
+<a href="https://github.com/jeremytammik/the_building_coder_samples/releases/tag/2023.1.152.0">release 2023.1.152.0</a>.</p>
+
+<p>Except for the deprecation of the derived analytical model that we discuss below, it was straightforward with hardly any changes at all except for updating the Revit API .NET assembly DLL references.</p>
+
+<p>After that step, <a href="https://thebuildingcoder.typepad.com/files/tbc_samples_2023_migr_01.txt">8 errors and 5 warnings</a> remain.</p>
+
+<p>We can easily deal with the warning about the <code>ParameterFilterRuleFactory</code> <code>CreateEqualsRule</code> in the module CmdCollectorPerformance.cs:</p>
+
+<ul>
+<li>Warning CS0618 <i>ParameterFilterRuleFactory.CreateEqualsRule(ElementId, string, bool)</i> is obsolete:
+This method is deprecated in Revit 2023 and may be removed in a future version of Revit.
+Please use the constructor without the <code>caseSensitive</code> argument instead.</li>
+</ul>
+
+<p>The Boolean argument was not working as expected in previous versions and can simply be removed.</p>
+
+<h4><a name="3"></a> Not Migrating the Derived Analytical Model</h4>
+
+<p>After removing the Boolean argument to <code>CreateEqualsRule</code>, the 
+remaining <a href="https://thebuildingcoder.typepad.com/files/tbc_samples_2023_migr_01.txt">8 errors and 4 warnings</a>  are
+all caused by the analytical model changes, above all the removal of the <code>GetAnalyticalModel</code> method.</p>
+
+<p>The existing code cannot easily be migrated to the new structural API, as I explained in the answer
+to <a href="https://thebuildingcoder.typepad.com/blog/2022/04/whats-new-in-the-revit-2023-api.html#comment-5838111563">Ozan Aksu's comment</a>:</p>
+
+<p><strong>Question:</strong> Can't find <code>AnalyticalToPhysicalRelationManager</code>.
+Where is it?
+I was using <code>GetAnalyticalModel</code>.
+Now I am stuck.</p>
+
+<p><strong>Answer:</strong> Yes, indeed, some hard and sudden changes have been made to the Structural API.</p>
+
+<p>Please refer to the online help page
+on <a href="https://help.autodesk.com/view/RVT/2023/ENU/?guid=GUID-A1157199-4E27-41F9-BF45-53A5CD79E9A1">The Contextual Analytical Model in the Revit API</a>.
+It includes some sample code as well.</p>
+
+<p>The sample describing how to access the analytical element for a given physical element is in the section named <i>Gets the associated analytical element for a physical one</i>.</p>
+
+<p>The bottom line is that the relation between physical element and analytical element can now be edited &ndash; in the old approach, this was not possible &ndash; and the class which handles these relations is called <code>AnalyticalToPhysicalAssociationManager</code>.</p>
+
+<p>I asked the development team myself how to migrate a sample using the <code>GetAnalyticalModel</code> method.
+They reply:</p>
+
+<p>The following code makes no sense at all any longer in Revit 2023 and needs to be completely rewritten:</p>
+
+<pre class="code">
+  var am = wall.GetAnalyticalModel();
+
+  foreach (var ct in CurveTypes)
+  {
+    var curves = am.GetCurves(ct);
+    var n = curves.Count;
+
+    Debug.Print("{0} {1} curve{2}.",
+      n, ct, Util.PluralSuffix(n));
+
+    foreach (var curve in curves)
+      creator.CreateModelCurve(
+        curve.CreateTransformed(T));
+  }
+</pre>
+
+<p>There is no meaningful way to migrate it, since the basic concepts changed.
+Yes, most of the code must be rewritten.</p>
+
+<p>My simplistic solution was to remove the two offending external commands <code>CmdAnalyticalModelGeom</code> and <code>CmdNewLineLoad</code>.</p>
+
+<p>As always with the Revit API, it will help to learn and understand the new concepts from the end user point of view first, before trying to address the programming side of things.</p>
+
+<h4><a name="4"></a> Revit 2023 Structural API</h4>
+
+<p>So, let's dive deeper into the Revit 2023 Structural API.</p>
+
+<p>The explanation
+of <a href="https://help.autodesk.com/view/RVT/2023/ENU/?guid=GUID-A1157199-4E27-41F9-BF45-53A5CD79E9A1">the contextual analytical model in the Revit API</a> contains
+all the up-to-date information and provides a good starting point.</p>
+
+<p>The Revit Developer's Guide description of
+the <a href="https://help.autodesk.com/view/RVT/2023/ENU/?guid=Revit_API_Revit_API_Developers_Guide_Discipline_Specific_Functionality_Structural_Engineering_Analytical_Model_html">Analytical Model</a> is
+still work-in-progress and will be updated soon.</p>
+
+<p>Finally,
+the 47-minute <a href="https://youtu.be/jfUIVGNqlFU">Revit 2023 Structural Analytical Model API webinar recording</a> created
+during the pre-release phase has now been published and explains all the new concepts in full depth and detail.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302942fa78023200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302942fa78023200c image-full img-responsive" alt="Revit 2023 Structural API objectives" title="Revit 2023 Structural API objectives" src="/assets/image_efe15d.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="5"></a> Addendum &ndash; GetAnalyticalModel Workaround</h4>
+
+<p>Erik Falck Jørgensen of <a href="https://www.dtu.dk">DTU, the Technical University of Denmark</a>, provided
+a <code>GetAnalyticalModel</code> workaround on LinkedIn, saying:</p>
+
+<blockquote>
+  <p>I have attached a snippet from a <code>cs</code> file...</p>
+  
+  <p>The essence is that I can <code>GetAnalyticalModel()</code> in slightly the same way :-)</p>
+</blockquote>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">static</span>&nbsp;ElementId&nbsp;<span style="color:#74531f;">GetAnalyticalElementId</span>(dynElement&nbsp;<span style="color:#1f377f;">element</span>)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;_document&nbsp;=&nbsp;iDocument.Current.WrappedType;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Gets&nbsp;the&nbsp;AnalyticalToPhysicalAssociationManager&nbsp;for&nbsp;this&nbsp;document</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;<span style="color:#1f377f;">analyticalToPhysicalmanager</span>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;AnalyticalToPhysicalAssociationManager
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.GetAnalyticalToPhysicalAssociationManager(_document);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">if</span>&nbsp;(analyticalToPhysicalmanager&nbsp;==&nbsp;<span style="color:blue;">null</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">throw</span>&nbsp;<span style="color:blue;">new</span>&nbsp;System.Exception(OrchidBase.InvalidType);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;ElementId&nbsp;<span style="color:#1f377f;">_elementId</span>&nbsp;=&nbsp;GetDynamic(element).Id;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;analyticalToPhysicalmanager.GetAssociatedElementId(_elementId);
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">static</span>&nbsp;dynElement&nbsp;<span style="color:#74531f;">GetAnalytical</span>(dynElement&nbsp;<span style="color:#1f377f;">element</span>)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;GetAnalyticalElementId(element).ToDynamoType();
+&nbsp;&nbsp;}
+</pre>
+
+<p>Many thanks to Erik for this suggestion!</p>
+
+<p>Removing the Dynamo wrappers, I guess the gist of it is something like this:</p>
+
+<pre class="code">
+  ///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+  <span style="color:gray;">///</span><span style="color:green;">&nbsp;Return&nbsp;the&nbsp;associated&nbsp;analytical&nbsp;element&nbsp;id&nbsp;</span>
+  <span style="color:gray;">///</span><span style="color:green;">&nbsp;for&nbsp;the&nbsp;given&nbsp;element</span>
+  <span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+  ElementId&nbsp;<span style="color:#74531f;">GetAnalyticalElementId</span>(Element&nbsp;<span style="color:#1f377f;">e</span>)
+  {
+  &nbsp;&nbsp;Document&nbsp;<span style="color:#1f377f;">doc</span>&nbsp;=&nbsp;e.Document;
+
+  &nbsp;&nbsp;AnalyticalToPhysicalAssociationManager&nbsp;<span style="color:#1f377f;">m</span>&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;AnalyticalToPhysicalAssociationManager
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.GetAnalyticalToPhysicalAssociationManager(
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc);
+
+  &nbsp;&nbsp;<span style="color:#8f08c4;">if</span>&nbsp;(<span style="color:blue;">null</span>&nbsp;==&nbsp;m)
+  &nbsp;&nbsp;{
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">throw</span>&nbsp;<span style="color:blue;">new</span>&nbsp;System.ArgumentException(
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;No&nbsp;AnalyticalToPhysicalAssociationManager&nbsp;found&quot;</span>);
+  &nbsp;&nbsp;}
+
+  &nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;m.GetAssociatedElementId(e.Id);
+  }
+</pre>
+
+<p>Erik adds:</p>
+
+<blockquote>
+  <p>the "translation" from dynamo implementation to pure C# is correct :-)</p>
+  
+  <p>... by the way the <code>GetDynamic(element)</code> has a dynamic cast built-in from a Dynamo element to a Revit element, and a check that it can hold an analytical element :-)</p>
+</blockquote>

@@ -1,0 +1,193 @@
+---
+layout: "post"
+title: "Determine Exact Opening by Demolishing"
+date: "2019-03-28 06:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Algorithm"
+  - "Data Access"
+  - "Dimensioning"
+  - "Element Relationships"
+  - "Geometry"
+  - "Transaction"
+original_url: "https://thebuildingcoder.typepad.com/blog/2019/03/determine-exact-opening-by-demolishing.html "
+typepad_basename: "determine-exact-opening-by-demolishing"
+typepad_status: "Publish"
+---
+
+<p>Here comes the most surprising Revit API functionality I have ever seen, put to a very useful and common task, determining the exact wall opening required for a door or window.</p>
+
+<p>We have looked at numerous different approaches to determine wall openings in the past, including:</p>
+
+<ul>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2012/01/opening-geometry.html">Opening geometry</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2012/10/the-temporary-transaction-trick-for-gross-slab-data.html">The temporary transaction trick for gross slab data</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2015/12/retrieving-wall-openings-and-sorting-points.html">Retrieving wall openings and sorting points</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2015/12/wall-opening-profiles-and-happy-holidays.html#3">Wall opening profiles</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2016/04/determining-wall-opening-areas-per-room.html#4">Determining wall opening areas per room</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2016/04/more-on-wall-opening-areas-per-room.html">More on wall opening areas per room</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/01/family-category-and-two-energy-model-types.html#3">Two energy model types</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2017/06/copy-local-false-and-ifc-utils-for-wall-openings.html#2">IFC helper returns outer <code>CurveLoop</code> of door or window</a></li>
+</ul>
+
+<p>So, it seems pretty hard to nail down, and pretty important to solve.</p>
+
+<p>Now Håvard Leding of <a href="https://www.symetri.com">Symetri</a> contributed
+yet another exciting idea which highlights a number of surprising aspects,
+demonstrates a further creative use case for <code>GetDependentElements</code> and expands on his 
+recent <a href="https://thebuildingcoder.typepad.com/blog/2019/03/retrieving-and-snooping-dependent-elements.html">RevitLookup enhancement to retrieve and snoop dependent elements</a>:</p>
+
+<ul>
+<li><a href="#2">Get Demolished Solid</a> </li>
+<li><a href="#3">Why?</a> </li>
+<li><a href="#4">Questions?</a> </li>
+</ul>
+
+<p>In his own words:</p>
+
+<h4><a name="2"></a> Get Demolished Solid</h4>
+
+<p>Here is another use case for <code>GetDependentElements()</code>.</p>
+
+<p>Determining the opening dimensions for Doors and Windows is surprisingly difficult, since you can't trust their parameters or reference planes to be consistent.</p>
+
+<p>I suggest this alternative method that uses the solid that Revit creates when you demolish an opening.</p>
+
+<p>It also uses the good
+old <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.53">temporary transaction trick</a>:</p>
+
+<pre class="code">
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;If&nbsp;you&nbsp;demolish&nbsp;a&nbsp;door,&nbsp;Revit&nbsp;will&nbsp;automatically&nbsp;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;fill&nbsp;the&nbsp;opening&nbsp;with&nbsp;a&nbsp;wall.&nbsp;So,&nbsp;we&nbsp;will&nbsp;use&nbsp;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;that&nbsp;wall&nbsp;to&nbsp;get&nbsp;opening&nbsp;dimensions.</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">param</span><span style="color:gray;">&nbsp;name</span><span style="color:gray;">=</span><span style="color:gray;">&quot;</span>fi<span style="color:gray;">&quot;</span><span style="color:gray;">&gt;</span><span style="color:green;">Door&nbsp;or&nbsp;Window&nbsp;is&nbsp;expected</span><span style="color:gray;">&lt;/</span><span style="color:gray;">param</span><span style="color:gray;">&gt;</span>
+<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:#2b91af;">Solid</span>&nbsp;GetDemolishedSolid(&nbsp;
+&nbsp;&nbsp;<span style="color:#2b91af;">FamilyInstance</span>&nbsp;fi&nbsp;)
+{
+&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;=&nbsp;fi.Document;
+&nbsp;&nbsp;<span style="color:#2b91af;">Solid</span>&nbsp;solidOpening&nbsp;=&nbsp;<span style="color:blue;">null</span>;
+
+&nbsp;&nbsp;<span style="color:blue;">using</span>(&nbsp;<span style="color:#2b91af;">Transaction</span>&nbsp;t&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Transaction</span>(&nbsp;doc&nbsp;)&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;fi.HasPhases()&nbsp;&amp;&amp;&nbsp;fi.ArePhasesModifiable()&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t.Start(&nbsp;<span style="color:#a31515;">&quot;temp&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fi.DemolishedPhaseId&nbsp;=&nbsp;fi.CreatedPhaseId;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Regenerate();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IList&lt;<span style="color:#2b91af;">ElementId</span>&gt;&nbsp;dependents&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;fi.GetDependentElements(&nbsp;<span style="color:blue;">null</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">ElementId</span>&nbsp;id&nbsp;<span style="color:blue;">in</span>&nbsp;dependents&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;e&nbsp;=&nbsp;doc.GetElement(&nbsp;id&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;e&nbsp;<span style="color:blue;">is</span>&nbsp;<span style="color:#2b91af;">Wall</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">GeometryElement</span>&nbsp;geomWall&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;e.get_Geometry(&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Options</span>()&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Need&nbsp;to&nbsp;clone&nbsp;it,&nbsp;as&nbsp;Rollback&nbsp;will&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;destroy&nbsp;the&nbsp;original&nbsp;solid.</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;solidOpening&nbsp;=&nbsp;<span style="color:#2b91af;">SolidUtils</span>.Clone(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span style="color:#2b91af;">Solid</span>)&nbsp;geomWall.First()&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t.RollBack();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;In&nbsp;the&nbsp;family&nbsp;editor,&nbsp;the&nbsp;host&nbsp;wall&nbsp;is&nbsp;always&nbsp;</span>
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;aligned&nbsp;ortho&nbsp;to&nbsp;the&nbsp;family&nbsp;coordinate&nbsp;system,</span>
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;so&nbsp;we&nbsp;can&nbsp;get&nbsp;the&nbsp;opening&nbsp;dimensions&nbsp;directly&nbsp;</span>
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;from&nbsp;the&nbsp;bounding&nbsp;box.</span>
+
+&nbsp;&nbsp;<span style="color:#2b91af;">Solid</span>&nbsp;solidInFamilyCoordinates&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:#2b91af;">SolidUtils</span>.CreateTransformed(&nbsp;solidOpening,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;fi.GetTotalTransform().Inverse&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">BoundingBoxXYZ</span>&nbsp;bb&nbsp;=&nbsp;solidInFamilyCoordinates.GetBoundingBox();
+
+&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;dimensions&nbsp;=&nbsp;bb.Max&nbsp;-&nbsp;bb.Min;
+
+&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;<span style="color:#a31515;">&quot;Opening&quot;</span>,&nbsp;<span style="color:#a31515;">&quot;Opening&nbsp;is&nbsp;&quot;</span>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;dimensions.X.ToString()&nbsp;+&nbsp;<span style="color:#a31515;">&quot;&nbsp;by&nbsp;&quot;</span>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;dimensions.Z.ToString()&nbsp;);
+
+&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;solidOpening;
+}
+</pre>
+
+<h4><a name="3"></a> Why?</h4>
+
+<p>I agree some more explanation as to why parameters and refplanes are not to be trusted would be nice.</p>
+
+<p>You can't rely on any built-in parameters being in use.
+Or used as you expect them to be used.
+Same goes for reference planes.</p>
+
+<p>Sometimes, it's just static geometry. (No parameters in use)
+And sometimes, it's just an opening family. (No solids)</p>
+
+<p>Still, you need to analyse something, and preferably solids.
+But sometimes, solids don't represent the true opening, like in this case, where you have a gap:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a499c3c3200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a499c3c3200b img-responsive" style="width: 302px; display: block; margin-left: auto; margin-right: auto;" alt="Window opening with gap" title="Window opening with gap" src="/assets/image_308368.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>It's just safer and a lot easier to use the final 'opening solid' from a demolished state.</p>
+
+<p>If you want to try it out yourself, the method is easy enough to use; 
+it just requires a door or window to run &nbsp; :-)</p>
+
+<h4><a name="4"></a> Questions?</h4>
+
+<p><strong>Question:</strong> Reading the code in more detail, though, I don't really understand...</p>
+
+<p>The family instance <code>fi</code> is a window, for example, yes?</p>
+
+<p>From the window, you call <code>GetDependentElements</code>, which returns "all elements that, from a logical point of view, are the children of this Element".</p>
+
+<p>From those, you extract the wall.</p>
+
+<p>Hmm. So, the wall is dependent on the window? That seems weird.</p>
+
+<p>OK, let's accept that the wall is returned.</p>
+
+<p>Now, from the wall, you retrieve the first geometry element.</p>
+
+<p>That is now saved as the solid opening.</p>
+
+<p>That seems super weird. I would have thought that the wall geometry is the wall geometry, and that the hole is a hole.</p>
+
+<p>Why is the first solid in the wall geometry a solid representing the opening?</p>
+
+<p>Does that really work?</p>
+
+<p>Can you explain?</p>
+
+<p><strong>Answer:</strong> Yes, it works; just try it :-)</p>
+
+<p>It works, because when you demolish openings, Revit automatically fills the entire hole with a new Wall.
+You can see it if you manually demolish a window.
+There is no longer a hole in the wall.</p>
+
+<p>Very easy to get dimensions from the bounding box, once transformed into the family editor coordinate system.
+Because there, the host wall direction is always aligned with the coordinate system cardinal axes.
+I guess opening dimensions could be extracted without the transform, but I wouldn't know how to do that.</p>
+
+<p>You could also analyse the shape of the opening by looking at the vertical front face of the solid.</p>
+
+<p>You would have to do so to handle cases where the window is not rectangular, e.g., circular or something else.</p>
+
+<p><strong>Response:</strong> Wow. I am impressed. And surprised.</p>
+
+<p>Many thanks to Håvard for this innovative solution and interesting explanation!</p>

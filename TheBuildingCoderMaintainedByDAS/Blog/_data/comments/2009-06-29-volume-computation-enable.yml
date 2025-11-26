@@ -1,0 +1,41 @@
+comments:
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.15.110
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-06-29 05:59:17'
+  body: "Hi Jeremy.\n\nDo you know if it is possible to catch the last command or\
+    \ tool used? \nBy the way, is it the correct place to ask you some stuff wich\
+    \ are most of time nothing to see with the current post?\n\nCheers!"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-29 09:22:43'
+  body: "Dear Pierre,\n\nObviously, if you can find a blog post that is related to\
+    \ the topic you have a question on, then that would be the best place to submit\
+    \ it. Otherwise, I don't mind if you post it anywhere you like.\n\nHow to catch\
+    \ the last command or tool used? Hmm, well, it would be nice to tap into the Revit\
+    \ undo stack, wouldn't it? I do have one idea that you can realistically explore\
+    \ a little bit: if you look at the current journal file, it will tell you all\
+    \ the actions that have taken place in the active session. This includes calls\
+    \ to tools that were executed and the elements affected. For instance, I created\
+    \ a new wall, moved it, and then deleted it. Afterwards, I found the following\
+    \ information in the journal file:\n\nJrn.Command \"Internal\" , \"Create a wall\
+    \ , ID_OBJECTS_WALL\"\nJrn.Data \"Transaction Successful\", \"Wall - Line\"\n\n\
+    ' 0: Candidates (curIdx = 0): 137774 (-10.042006, +6.541914, +3.937008)  \n\n\
+    Jrn.Data \"Selection action\", \"REPLACE\", \"SEL RESULT: Walls : Basic Wall :\
+    \ Generic - 200mm\"\n\n' 0: Candidates (curIdx = 0): 137793-33212 (-9.539976,\
+    \ +10.004571, +3.937531) 137774 (-10.042006, +6.541914, +3.937008)  \n\nJrn.Data\
+    \ \"Control\", \"WallFlipControl\", 1.00000000000000\nJrn.Data \"Transaction Successful\"\
+    , \"Change wall's orientation\"\n\n' 0: Candidates (curIdx = 0): 137774 (-6.810193,\
+    \ +6.541914, +3.937008)  \n\nJrn.MouseMove    1 ,    672 ,    403\nJrn.MouseMove\
+    \    1 ,    671 ,    346\nJrn.LButtonUp    0 ,    671 ,    346\nJrn.Data \"Transaction\
+    \ Successful\", \"Drag\"\n\nJrn.Command \"AccelKey\" , \"Delete the selection\
+    \ , ID_BUTTON_DELETE\"\nJrn.Data \"Transaction Successful\", \"Delete Selection\"\
+    \n\nJrn.Command \"SystemMenu\" , \"Quit the application; prompts to save projects\
+    \ , ID_APP_EXIT\"\n\nAs you can see, with a bit of imagination, the journal file\
+    \ lists the tools used as well as the element ids of objects affected, although\
+    \ obviously this is totally undocumented, unsupported, purely to play with at\
+    \ your own risk.\n\nYou can also have a look at the post\n\nhttp://thebuildingcoder.typepad.com/blog/2009/02/getting-the-journal-file-path.html\n\
+    \nCheers, Jeremy.\n-----"

@@ -1,0 +1,261 @@
+comments:
+- author: David
+  email: david.vanslyke@mcquay.com
+  ip: 63.163.54.129
+  url: ''
+  date: '2010-04-19 10:08:44'
+  body: "If automatic regeneration will be going away in a future release, one would\
+    \ think the only thing a responsible developer whose code will need to work beyond\
+    \ Revit 2011 can do is to deal with this issue NOW, while the code is as small\
+    \ and simple as it is likely to ever be, compared to the future.\n\nThat being\
+    \ the case, developers will *need* to know (soon) what the official Best Practices\
+    \ are for maximizing the life of existing code in a manual regeneration world.\n\
+    \nIs it to call for a regeneration after every change, or every group of query-free\
+    \ changes?  \n\nThat seems difficult to remember as you're writing code...\n\n\
+    One would assume there is a performance cost for calling for a manual regeneration.\
+    \  Is it usually significant?\n\nWould an application that makes many query-free\
+    \ changes in a row, then call for one regeneration at the end, get better performance\
+    \ than one that is running in Automatic mode?  One would think so, if in Automatic\
+    \ mode a regeneration is happening after each change.  But without knowing the\
+    \ general performance impact level of a regeneration, one has to ask:  Would it\
+    \ even be noticeable?\n\nBeing aware of the situation is great (thank you very\
+    \ much!), but it would be nice if developers of long-term code could get some\
+    \ more extensive/explicit guidance."
+- author: Jon Smith
+  email: jon.smith@coins-global.com
+  ip: 12.5.93.2
+  url: ''
+  date: '2010-04-19 10:40:25'
+  body: 'Interesting post - we''ve also had some bizzare, and seemingly unrelated,
+    error messages caused by not regenerating.
+
+
+    Should AutoJoinElements be called with most Regenerate calls? We have done so
+    in our code to be safe, but are not sure yet of the performance impact of this,
+    and whether it is even required - does AutoJoinElements just affect the graphical
+    display or can it affect queries on objects as well?
+
+
+    Thanks
+
+    Jon Smith'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-04-19 17:03:40'
+  body: "Dear Jon,\n\nThank you, I am glad you find it interesting. That was indeed\
+    \ my intention  :-)\n\nI asked the development team, and they responded as follows:\
+    \ \n\nIt is not always needed, however, if you are creating/manipulating walls,\
+    \ roofs, floors, and/or structural framing, and if the exact lengths and geometry\
+    \ of these items after joining is important to you, you will want to call it explicitly.\
+    \  Otherwise the elements will not be at their \"final state\" before you extract\
+    \ their data – unlike with missing a Regenerate the elements should be self-consistent,\
+    \ but they may be different than the user ultimately sees.\n\nCheers, Jeremy."
+- author: Jon Smith
+  email: jon.smith@coins-global.com
+  ip: 12.5.93.2
+  url: ''
+  date: '2010-04-19 19:06:34'
+  body: 'Thanks for finding out Jeremy - sounds like we are best off calling AutoJoin
+    in our situations - just to be safe!
+
+
+    Cheers
+
+    Jon'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-04-20 07:08:02'
+  body: "Dear David,\n\nThank you for your valuable input that I fully agree with.\
+    \ Here is the feedback I received so far after passing on your suggestions to\
+    \ the development team. I will be very interested to follow any hopefully fruitful\
+    \ ensuing discussions and hope that we can get some guidelines or best practices\
+    \ such as you desire put together:\n\n1. The \"best practice\" is to use manual\
+    \ regeneration and invoke regeneration only when needed. For example, regenerate\
+    \ must be called before reading data from a changed model. \nThe performance of\
+    \ regeneration will depend on the magnitude of change and the complexity of the\
+    \ model - there is no simple and generic answer about how long regeneration will\
+    \ take. \n\n2. It’s difficult ;-) I do not think there is one best approach. An\
+    \ Ideal approach could differ from an application to application. There are a\
+    \ few solid points though that programmers could use as a reference:\n\n- Manual\
+    \ mode can only be faster than automatic.\n- Typically, performance increase in\
+    \ manual mode is likely to be significant, especially which changes performed\
+    \ in a loop.\n- Regeneration when nothing needs to be regenerated is rather fast,\
+    \ hence not so costly.\n- Querying data does not require regenerations unless\
+    \ there was a previous change to the part of the model that could affect the data\
+    \ being queried - that is sometimes hard to estimate, though.\n\nI think this\
+    \ provides a very useful starting point, at least.\n\nIn fact, I think these considerations\
+    \ and suggestions important enough to be promoted to an own blog post.\n\nCheers,\
+    \ Jeremy."
+- author: David
+  email: david.vanslyke@mcquay.com
+  ip: 63.163.54.129
+  url: ''
+  date: '2010-04-20 09:41:14'
+  body: 'It would be nice if there were some type of "RegenerationNeeded" boolean
+    method available.
+
+
+    But it seems like there may be better ways for Revit to do this.  For example,
+    it would be GREAT if "Automatic" mode stayed, but changed how it worked:  not
+    be calling Regenerate internally after every change, but rather to have Revit
+    simply call Regenerate INSTEAD of throwing an exception that is caused by the
+    need for a Regenerate.
+
+
+    Thus Regenerate would only get called when needed, and automatically by Revit,
+    thus maximizing performance, without any special knowledge needed by the developer.
+
+
+    To me, if that were possible it seems like the best of both worlds.'
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 187.58.0.6
+  url: http://arxdummies.blogspot.com
+  date: '2010-04-20 10:35:15'
+  body: 'Jeremy and All,
+
+
+    In my personal opinion, most of the cases the Automatic mode will solve the problem.
+
+
+    Revit should be smart enough to just refresh those changed elements. This is related
+    on how the Reactor mechanism is connected to the regeneration mechanism and how
+    it monitors the changed elements.
+
+
+    I really think it is strange to introduce a concept (this new "Automatic" Attribute)
+    already marked as "to be removed soon". This will freak people and no one will
+    use it (I have used because I don''t want to review my code because it won''t
+    cause any significant impact). I believe most of Revit developers won''t do this
+    either.
+
+
+    I agree with the idea of "Automatic" being kept and just tweaked to work as smart
+    as possible. It will satisfy most of the cases and just when the user wants to
+    really avoid the auto Regeneration he should change the attribute to "Manual"
+    and handle his code flow.
+
+
+    Another approach would be to create something like a PUSH/PULL Auto refresh feature
+    which would empower the user to have control when to turn off auto refresh and
+    when turn it back on after doing his heavy procedures.
+
+
+    Does not make much sense to obligate people to control a mechanism when most of
+    time its automatic mode will be suitable for them.
+
+
+    Just my opinion.
+
+    Fernando.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-04-20 10:48:58'
+  body: 'Dear David,
+
+
+    I am pretty sure that what you wish for is impossible, or the development team
+    would have done just that. When you say "INSTEAD of throwing an exception", you
+    should be aware that the exception is thrown because of the reason stated in the
+    exception, and there is no way for Revit to realise that this problematic state
+    might be resolved by a regeneration. Keeping track of when a regeneration is required
+    is extremely complex or even impossible.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-04-20 11:00:45'
+  body: 'Dear Fernando,
+
+
+    I believe it is a lot more complex than you seem to think  :-)
+
+
+    Also, the automatic option is not new. That is the mode that Revit has been using
+    all along so far. Developers complained that it is too slow, so we introduced
+    the SuspendUpdating mechanism and now the manual option, providing more and more
+    optimisation possibilities.
+
+
+    I forwarded your comment to the development team and hope to have some slightly
+    more in-depth answer for you soon.
+
+
+    Cheers, Jeremy.'
+- author: David
+  email: david.vanslyke@mcquay.com
+  ip: 63.163.54.129
+  url: ''
+  date: '2010-04-20 17:44:37'
+  body: "The thing that's been bothering me is that in some future version developers\
+    \ will be *required* to have an intimate understanding of this engine, for which\
+    \ Best Practices haven't been determined yet, and (worse) without that knowledge\
+    \ strange exceptions could get thrown with little idea as to what the real problem\
+    \ is, or how/where to fix it.  \n\nIt seems likely that many (most?) developers\
+    \ new to the Revit platform in the future will get very frustrated with strange\
+    \ exceptions until they learn the details of when they'll need to explicitly call\
+    \ Regenerate.  This can only increase the number of ADN support calls as well.\
+    \  If someone has quite a bit of complex code, they may need to send it all to\
+    \ ADN in order for the problem to be detected and a fix determined.\n\nI like\
+    \ Fernando's idea of keeping Automatic mode, as the default, but allowing a more\
+    \ advanced developer to turn on and off Automatic mode at will for when they want\
+    \ to have control over the Regenerations.\n\nIf 80% of your code runs just fine\
+    \ with Automatic mode turned on, and you only have to consciously control the\
+    \ regenerations to fine tune the other 20%, that's a pretty good scenario, I think.\
+    \  It's even better if 100% of your code runs just fine in Automatic mode.\n\n\
+    Just my two cents.\n\nThank you (all) for the great explanations and ideas.  This\
+    \ is extremely useful information."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-04-23 08:21:00'
+  body: 'Dear David,
+
+
+    Thank you for your appreciation, I am really glad that you find this useful.
+
+
+    As I am sure you noticed, I promoted this discussion and its continuation to an
+    own blog post which I hope helps further resolve these questions:
+
+
+    http://thebuildingcoder.typepad.com/blog/2010/04/regeneration-option-best-practices.html
+
+
+    Cheers, Jeremy.'
+- author: David R
+  email: drodrigues@lblarch.com
+  ip: 65.166.75.7
+  url: ''
+  date: '2010-07-15 16:23:37'
+  body: Jeremy, I cannot pull the Regenerate function. I am not able to get the Autodesk.Revit.Db.document
+    using statement to work in my code?  My DB does not show a 'document' pick in
+    the list of functions and i cannot figure out why.  Everything else in my code
+    works but i cannot get the drawing to show the change.
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-07-15 16:40:25'
+  body: 'Dear David,
+
+
+    That sounds pretty weird to me. I suggest you start out from scratch with a new
+    project and exactly follow the steps outlined by the Revit API webcast to create
+    a new external command add-in. Begin from zero, add in your existing bits of functionality
+    step by step, and hopefully the problem will just disappear.
+
+
+    Cheers, jeremy.
+
+    -----'

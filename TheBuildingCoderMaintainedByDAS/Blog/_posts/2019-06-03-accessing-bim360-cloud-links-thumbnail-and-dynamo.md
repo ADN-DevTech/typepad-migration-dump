@@ -1,0 +1,349 @@
+---
+layout: "post"
+title: "Access BIM360 Cloud Links, Thumbnail and Dynamo"
+date: "2019-06-03 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "360"
+  - "BIM"
+  - "Cloud"
+  - "Data Access"
+  - "Docs"
+  - "Dynamo"
+  - "External"
+  - "Mac"
+  - "News"
+  - "Python"
+original_url: "https://thebuildingcoder.typepad.com/blog/2019/06/accessing-bim360-cloud-links-thumbnail-and-dynamo.html "
+typepad_basename: "accessing-bim360-cloud-links-thumbnail-and-dynamo"
+typepad_status: "Publish"
+---
+
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js" type="text/javascript"></script>
+
+<p>This post is somewhat overdue and hence rather full of various topics, mainly due to my struggles with my MacBook slowing to an unbearable crawl in the heat last week:</p>
+
+<ul>
+<li><a href="#2">Accessing BIM360 cloud links</a></li>
+<li><a href="#3">Retrieve RVT preview thumbnail image with Python</a></li>
+<li><a href="#4">Paolo's Dynamo primer and slide deck compendium</a></li>
+<li><a href="#5">Slow MacBook with kernel_task using several 100% CPU</a></li>
+<li><a href="#6">Failings of the political establishment</a></li>
+</ul>
+
+<h4><a name="2"></a> Accessing BIM360 Cloud Links</h4>
+
+<p>My colleague Eason Kang researched how to access BIM360 file links in a Revit project and summarised the results for us:</p>
+
+<p><strong>Question:</strong> In Revit 2017, I used a method based on <code>ExternalFileReferences</code> to report linked files hosted in BIM360.</p>
+
+<p>In Revit 2019, this method no longer works.</p>
+
+<ul>
+<li><code>TransmissionData</code> <code>GetAllExternalFileReferenceIds</code>, used in the sample
+to <a href="http://thebuildingcoder.typepad.com/blog/2011/05/list-linked-files-and-transmissiondata.html">list linked files and <code>TransmissionData</code></a>,
+does not report links hosted in BIM360.
+It reports local files that are linked only.
+This is an old sample.</li>
+<li>Similarly, the <code>ExternalFileUtils</code> <code>GetAllExternalFileReferences</code> method does not return these items.</li>
+</ul>
+
+<p>Has there been a change in this area?</p>
+
+<p>Is there a different method we should be using?</p>
+
+<p><strong>Answer:</strong> Neither of these two methods support cloud links in Revit 2018 or Revit 2019.</p>
+
+<p>In Revit 2017, they appeared to work, because back then, the cloud links were downloaded as local copies by the Autodesk Desktop Connector before linking.</p>
+
+<p>Nowadays, BIM360 cloud links are treated as external sources. This behaviour started from with Revit 2018.</p>
+
+<p>Therefore, please use <code>ExternalResourceUtils</code> <code>GetAllExternalResourceReferences</code> instead.</p>
+
+<p>Here is a working code snippet:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;Obtain&nbsp;all&nbsp;external&nbsp;resource&nbsp;references&nbsp;</span>
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;(saying&nbsp;BIM360&nbsp;Cloud&nbsp;references&nbsp;and&nbsp;local&nbsp;</span>
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;file&nbsp;references&nbsp;this&nbsp;time)</span>
+
+&nbsp;&nbsp;<span style="color:#2b91af;">ISet</span>&lt;<span style="color:#2b91af;">ElementId</span>&gt;&nbsp;xrefs&nbsp;=&nbsp;<span style="color:#2b91af;">ExternalResourceUtils</span>
+&nbsp;&nbsp;&nbsp;&nbsp;.GetAllExternalResourceReferences(&nbsp;doc&nbsp;);
+
+&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;caption&nbsp;=&nbsp;<span style="color:#a31515;">&quot;BIM360&nbsp;Links&quot;</span>;
+
+&nbsp;&nbsp;<span style="color:blue;">try</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;n&nbsp;=&nbsp;0;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;msg&nbsp;=&nbsp;<span style="color:blue;">string</span>.Empty;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">ElementId</span>&nbsp;eid&nbsp;<span style="color:blue;">in</span>&nbsp;xrefs&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;elem&nbsp;=&nbsp;doc.GetElement(&nbsp;eid&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;elem&nbsp;==&nbsp;<span style="color:blue;">null</span>&nbsp;)&nbsp;<span style="color:blue;">continue</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Get&nbsp;RVT&nbsp;document&nbsp;links&nbsp;only&nbsp;this&nbsp;time</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;link&nbsp;=&nbsp;elem&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">RevitLinkType</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;link&nbsp;==&nbsp;<span style="color:blue;">null</span>&nbsp;)&nbsp;<span style="color:blue;">continue</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;map&nbsp;=&nbsp;link.GetExternalResourceReferences();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;keys&nbsp;=&nbsp;map.Keys;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:blue;">var</span>&nbsp;key&nbsp;<span style="color:blue;">in</span>&nbsp;keys&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;reference&nbsp;=&nbsp;map[key];
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Contains&nbsp;Forge&nbsp;BIM360&nbsp;ProjectId&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;(i.e.,&nbsp;LinkedModelModelId)&nbsp;and&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;ModelId&nbsp;(i.e.,&nbsp;LinkedModelModelId)&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;if&nbsp;it&#39;s&nbsp;from&nbsp;BIM360&nbsp;Docs.&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;They&nbsp;can&nbsp;be&nbsp;used&nbsp;in&nbsp;calls&nbsp;to</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;ModelPathUtils.ConvertCloudGUIDsToCloudPath.</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;dictinfo&nbsp;=&nbsp;reference.GetReferenceInformation();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Link&nbsp;Name&nbsp;shown&nbsp;on&nbsp;the&nbsp;Manage&nbsp;Links&nbsp;dialog</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;displayName&nbsp;=&nbsp;reference.GetResourceShortDisplayName();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;path&nbsp;=&nbsp;reference.InSessionPath;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">try</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Load&nbsp;model&nbsp;temporarily&nbsp;to&nbsp;get&nbsp;the&nbsp;model&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;path&nbsp;of&nbsp;the&nbsp;cloud&nbsp;link</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;result&nbsp;=&nbsp;link.Load();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Link&nbsp;ModelPath&nbsp;for&nbsp;Revit&nbsp;internal&nbsp;use</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;mdPath&nbsp;=&nbsp;result.GetModelName();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;link.Unload(&nbsp;<span style="color:blue;">null</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Convert&nbsp;model&nbsp;path&nbsp;to&nbsp;user&nbsp;visible&nbsp;path,&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;i.e.,&nbsp;saved&nbsp;Path&nbsp;shown&nbsp;on&nbsp;the&nbsp;Manage&nbsp;Links&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;dialog</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;path&nbsp;=&nbsp;<span style="color:#2b91af;">ModelPathUtils</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.ConvertModelPathToUserVisiblePath(&nbsp;mdPath&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Reference&nbsp;Type&nbsp;shown&nbsp;on&nbsp;the&nbsp;Manage&nbsp;Links&nbsp;dialog</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;refType&nbsp;=&nbsp;link.AttachmentType;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msg&nbsp;+=&nbsp;<span style="color:blue;">string</span>.Format(&nbsp;<span style="color:#a31515;">&quot;{0}&nbsp;{1}\r\n&quot;</span>,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;link.AttachmentType,&nbsp;path&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++n;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">catch</span>(&nbsp;<span style="color:#2b91af;">Exception</span>&nbsp;ex&nbsp;)&nbsp;<span style="color:green;">//&nbsp;never&nbsp;catch&nbsp;all&nbsp;exceptions!</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;caption,&nbsp;ex.Message&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;caption&nbsp;=&nbsp;<span style="color:blue;">string</span>.Format(&nbsp;<span style="color:#a31515;">&quot;{0}&nbsp;BIM360&nbsp;Link{1}&quot;</span>,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n,&nbsp;<span style="color:#2b91af;">Util</span>.PluralSuffix(&nbsp;n&nbsp;)&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;caption,&nbsp;msg&nbsp;);
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color:blue;">catch</span>(&nbsp;<span style="color:#2b91af;">Exception</span>&nbsp;ex&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;caption,&nbsp;ex.Message&nbsp;);
+&nbsp;&nbsp;}
+</pre>
+
+<p>Here are snapshots of the result:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4621254200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4621254200c img-responsive" style="width: 352px; display: block; margin-left: auto; margin-right: auto;" alt="BIM360 links" title="BIM360 links" src="/assets/image_fe21a7.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a48b6a05200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a48b6a05200d image-full img-responsive" alt="Bim3BIM360 links0_links_2" title="BIM360 links" src="/assets/image_d877a5.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Many thanks to Eason for this research and clear explanation!</p>
+
+<p>I added this sample code
+to <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder samples</a>
+as a new external
+command <a href="https://github.com/jeremytammik/the_building_coder_samples/blob/master/BuildingCoder/BuildingCoder/CmdBim360Links.cs">CmdBim360Links </a>
+in <a href="https://github.com/jeremytammik/the_building_coder_samples/releases/tag/2020.0.146.0">release 2020.0.146.0</a></p>
+
+<h4><a name="3"></a> Retrieve RVT Preview Thumbnail Image with Python</h4>
+
+<p>Franco Tonutti researched and solved how to retrieve the RVT preview thumbnail image with Python
+in <a href="https://thebuildingcoder.typepad.com/blog/2017/06/determining-rvt-file-version-using-python.html#comment-4484205626">his</a>
+<a href="https://thebuildingcoder.typepad.com/blog/2017/06/determining-rvt-file-version-using-python.html#comment-4486812442">comments</a>
+on <a href="https://thebuildingcoder.typepad.com/blog/2017/06/determining-rvt-file-version-using-python.html">determining the RVT file version using Python</a></p>
+
+<p><strong>Question:</strong> Hi Jeremy, how can I get the preview image of a .rfa file?</p>
+
+<p>I'm trying the following without success:</p>
+
+<pre class="prettyprint">
+  import os.path as op
+  import olefile
+
+  def get_rvt_preview(rvt_file):
+    if op.exists(rvt_file):
+      if olefile.isOleFile(rvt_file):
+        rvt_ole = olefile.OleFileIO(rvt_file)
+        bfi = rvt_ole.openstream("RevitPreview4.0")
+        readed = bfi.read()
+        f = open('my_file.bmp', 'w+b')
+        f.write(readed)
+        f.close()
+      else:
+        print("file does not apper to be an ole file: {}".format(rvt_file))
+    else:
+      print("file not found: {}".format(rvt_file))
+</pre>
+
+<p><strong>Answer:</strong> I have not looked into this for a while.</p>
+
+<p>Please take a look at the other explorations reading RVT files without using the Revit API:</p>
+
+<ul>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2010/06/open-revit-ole-storage.html">Open Revit OLE Storage</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/01/basic-file-info-and-rvt-file-version.html">Basic File Info and RVT File Version</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2015/09/lunar-eclipse-and-custom-file-properties.html#3">Custom File Properties</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2016/02/reading-an-rvt-file-without-revit.html">Reading an RVT File without Revit</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/06/determining-rvt-file-version-using-python.html">Determining RVT File Version Using Python</a></li>
+</ul>
+
+<p><strong>Response:</strong> Thank you very much.</p>
+
+<p>I solved the problem by looking for
+the <a href="https://www.filesignatures.net/index.php?page=search&amp;search=89504E470D0A1A0A&amp;mode=SIG">PNG file signature</a> <code>89504e470d0a1a0a</code>:</p>
+
+<pre class="prettyprint">
+def get_rvt_preview(rvt_file, png_path):
+  if op.exists(rvt_file):
+    if olefile.isOleFile(rvt_file):
+      # Open ole file
+      rvt_ole = olefile.OleFileIO(rvt_file)
+      bfi = rvt_ole.openstream("RevitPreview4.0")
+      readed = bfi.read()
+
+      # Find png signature
+      readed_hex = readed.hex()
+      pos = readed_hex.find('89504e470d0a1a0a')
+      png_hex = readed_hex[pos:]
+      data = bytes.fromhex(png_hex)
+
+      # Save png file
+      f = open(png_path, 'w+b')
+      f.write(data)
+      f.close()
+    else:
+      print("file does not apper to be an ole file: {}".format(rvt_file))
+  else:
+    print("file not found: {}".format(rvt_file))
+</pre>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a48b6a09200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a48b6a09200d img-responsive" alt="Python code get_rvt_preview" title="Python code get_rvt_preview" src="/assets/image_6cffce.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="4"></a> Paolo's Dynamo Primer and Slide Deck Compendium</h4>
+
+<p>I already mentioned
+Paolo Serra's <a href="https://primer.dynamobim.org">Dynamo Primer</a>
+discussing <a href="https://thebuildingcoder.typepad.com/blog/2018/12/dynamo-symbol-vs-type-and-exporter-exception.html#2">Revit API versus Dynamo for Revit</a>.</p>
+
+<p>Here is another very valuable and extensive related resource of his, covering numerous aspects of Dynamo, its features, Python, the Revit API and the relationships between them.</p>
+
+<blockquote>
+  <p>In terms of Dynamo for Revit you can refer to my <a href="https://primer.dynamobim.org">Dynamo Primer</a>,
+  specifically chapter 8 for the integration with Revit.</p>
+  
+  <p>You can also check out the slide deck compendium I put together over the years that covers the basics of the Revit API and how to access it through Dynamo and Python
+  at
+  <center>
+  <span style="font-size: 120%; font-weight: bold"><p><a href="https://a360.co/2LfuM5p">a360.co/2LfuM5p</a></p></span>
+  </center></p>
+  
+  <p>It includes the following sections:</p>
+  
+  <ul>
+  <li>Dynamo Overview</li>
+  <li>User Interface</li>
+  <li>Graphs Management</li>
+  <li>Autodesk Standards</li>
+  <li>Visual Programming Principles</li>
+  <li>Filtering, Grouping &amp; Sorting</li>
+  <li>Dynamo-Excel Link</li>
+  <li>Design Script</li>
+  <li>Geometry Library</li>
+  <li>Automation Applications</li>
+  <li>Dynamo for Revit</li>
+  <li>Dynamo and Python</li>
+  <li>Object Oriented Programming</li>
+  <li>Revit API Introduction</li>
+  <li>Next Steps</li>
+  </ul>
+</blockquote>
+
+<h4><a name="5"></a> Slow MacBook with kernel_task Using Several 100% CPU</h4>
+
+<p>As I mentioned in the introduction above, after three years or so, my MacBook Pro slowed down to an unusable crawl, especially when it got warm.</p>
+
+<p>I looked at the results in the activity monitor, worrying about a virus, and only saw that the <code>kernel_task</code> was often using several hundred percent of the CPU.</p>
+
+<p>After weeks of this, I decided to upgrade OSX to the newest version to see whether that would help.</p>
+
+<p>The upgrade went fine, and at least the situation was no worse.</p>
+
+<p>Soon, however, the slowdown worsened still further.</p>
+
+<p>Finally, I found the solution:</p>
+
+<p>This description
+of <a href="https://www.howtogeek.com/310293/WHAT-IS-KERNEL_TASK-AND-WHY-IS-IT-RUNNING-ON-MY-MAC">what <code>kernel_task</code> is, and why it is running on my Mac</a>,
+explains how <code>kernel_task</code> pretends to use CPU cycles to keep things cool.</p>
+
+<p>That is confirmed by the Apple support thread
+on <a href="https://support.apple.com/en-us/HT207359"><code>kernel_task</code> using a large percentage of your Mac CPU</a>.</p>
+
+<p>In the next step, I looked at a helpful five-minute video
+on <a href="https://youtu.be/ABs0L2VpLuA">how to clean MacBook Pro fans</a>.</p>
+
+<p>Opening the MacBook is simple, but it does require the smallest screwdriver I have ever seen,
+a <a href="https://en.wikipedia.org/wiki/List_of_screw_drives#Pentalobe">1.2 mm Pentalobe</a>:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a462125d200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a462125d200c image-full img-responsive" alt="Miniscule screwdriver" title="Miniscule screwdriver" src="/assets/image_c5d38f.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>I never opened the PC before myself.</p>
+
+<p>Using that, however, it was easy to open and blow out the dust clogging the fans with a pressurised air spray can.</p>
+
+<p>One fan was so clogged with dust it was probably not running at all.</p>
+
+<p>It seems better now. Please keep your fingers crossed for me that it stays that way and continues working &nbsp; :-)</p>
+
+<h4><a name="6"></a> Failings of the Political Establishment</h4>
+
+<p>Turning from technical stuff to politics for a moment,
+Rezo's German 55-minute <a href="https://youtu.be/4Y1lZQsyuSQ">video about the failings of the established politicians</a> who
+have been driving the planet to the brink of catastrophe, ignoring all scientifical evidence and economic indicators for several decades, caused quite a stir in the past few weeks, including affecting the recent election results:</p>
+
+<p><center>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/4Y1lZQsyuSQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</center></p>
+
+<p>I tested the auto-translated English subtitles for this video.
+Sorry to say, they do not make much sense in this case.</p>

@@ -1,0 +1,115 @@
+comments:
+- author: Iriving
+  email: ir_xue@163.com
+  ip: 116.231.126.7
+  url: ''
+  date: '2012-12-13 22:21:04'
+  body: "Hi Jeremy,\n\nI am a newer to Revit, and now have some problem need your\
+    \ help.\nIt's about Mep connector, as I dont't understand the difference between\
+    \ Architecture、Structure and Mep clearly, there are some problems I can't solve,\
+    \ please help me ,the problems are list below:\n\n1: I'm now developing an add-in\
+    \ program to export data from revit project(Architecture or Structure or Mep)\
+    \ to other format file,Is it possible to develop a common program to deal with\
+    \ revit projects for these three types. if that's possible do I need have all\
+    \ these type products.\n\n2: When I use this program to export the project created\
+    \ by Architecture it seems OK, but when I export project created by Mep, some\
+    \ problems came out, almost all element has no material(in project these elements\
+    \ have their own surface color), in code it's materialId always -1,and some element\
+    \ like connector ,the faces of solid always 0, the relevant codes are list here:\n\
+    \  \n        public string GetElementGeometryInfo(Element elem)\n        {\n \
+    \           string geometryInfo = \"\";\n\n            Options opt = new Options();\n\
+    \            opt.ComputeReferences = true;\n\n            GeometryElement geomElem\
+    \ = elem.get_Geometry(opt);\n\n            if (null != geomElem)\n           \
+    \ {\n                GetStructPoints(geomElem, 0);\n            }\n\n        \
+    \    return geometryInfo;\n        }\n\n         \n   \n        public void GetStructPoints(GeometryElement\
+    \ geomElem, Int32 transIndex)\n        {\n            foreach (GeometryObject\
+    \ geomObj in geomElem.Objects)\n            {\n                string geoType\
+    \ = geomObj.GetType().Name;\n\n                switch (geoType)\n            \
+    \    {\n                    case \"Solid\":\n                        procSolid(geomObj,\
+    \ transIndex);\n                        break;\n                    case \"Face\"\
+    :\n                        procFace(geomObj, transIndex);\n                  \
+    \      break;\n                    case \"Mesh\":\n                        procMesh(geomObj,\
+    \ transIndex);\n                        break;\n                    case \"Curve\"\
+    :\n                    case \"Line\":\n                    case \"Arc\":\n   \
+    \                     procCurve(geomObj, transIndex);\n                      \
+    \  break;\n                    case \"Profile\":\n                        procProfile(geomObj,\
+    \ transIndex);\n                        break;\n                    case \"Element\"\
+    :\n                        procGeoElement(geomObj, transIndex);\n            \
+    \            break;\n                    case \"GeometryInstance\":\n        \
+    \                procInstance(geomObj, transIndex);\n                        break;\n\
+    \                    case \"Edge\":\n                        procEdge(geomObj,\
+    \ transIndex);\n                        break;\n                    default:\n\
+    \                        break;\n\n                }\n            }\n\n      \
+    \  }\n\n\n         public void procSolid(GeometryObject obj, Int32 transIndex)\n\
+    \        {\n\n            Solid solid = obj as Solid;\n            if (null ==\
+    \ solid)\n            {\n                return;\n            }\n\n          \
+    \  //a solid has many faces\n            FaceArray faces = solid.Faces;\n    \
+    \        if (faces.Size == 0)\n            {\n                return;\n      \
+    \      }\n\n\n            foreach (Face face in faces)\n            {\n      \
+    \          procFace(face, transIndex);\n                RecordNormal_VN(face,\
+    \ transIndex);    \n                RecordMaterial(face);\n            }\n\n \
+    \          \n        protected void procInstance(GeometryObject obj, Int32 transIndex)\n\
+    \        {\n            GeometryInstance instance = obj as GeometryInstance;\n\
+    \            if (null == instance)\n            {\n                return;\n \
+    \           }\n\n            Transform allTransform = CsMathUtil.AddTransform(\
+    \ m_trans[transIndex], instance.Transform );\n            m_trans.Add(allTransform);\n\
+    \            Int32 newTransIndex = m_trans.Count-1;\n\n            GeometryElement\
+    \ instanceGeometry = instance.GetSymbolGeometry();\n            if (null == instanceGeometry)\n\
+    \            {\n                return;\n            }\n       //get all geometric\
+    \ primitives contained in the GeometryElement\n\n            GetStructPoints(instanceGeometry,\
+    \ newTransIndex);\n\n        }"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-12-14 01:12:01'
+  body: 'Dear Iriving,
+
+
+    1. Yes, of course it is possible to support Architecture, MEP and Structure with
+    one single identical add-in. Please read the Getting started material, which describes
+    that.
+
+
+    2. Connectors are virtual objects which have no geometry and therefore no solid.
+
+
+    Cheers, Jeremy.'
+- author: Iriving
+  email: ir_xue@163.com
+  ip: 101.229.98.215
+  url: ''
+  date: '2012-12-15 04:50:23'
+  body: "Thanks Jeremy \nI'm appreciate your reply,but my problem still exist and\
+    \ must to solve, my work is to develop an add-in that can read data from Revit\
+    \ project and export them to my company's own format files，so that all visble\
+    \ objects can be reproduced in the 3D Editor Program of my company.\nJust as you\
+    \ said \" Connectors are virtual objects\",is that means I can't reproduced them\
+    \ whatever? and I can report to my boss that these things just can't export?\n\
+    addition problem:\nIf I plan to export a Revit project that it's document contains\
+    \ Architecture,Structure and Mep objects,is there anything I need to pay attention\
+    \ to?\nAnything information will be appreciated,waiting for your reply >_<"
+- author: Jeremy Tammik
+  email: ''
+  ip: 62.50.236.39
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-12-17 06:56:17'
+  body: "Dear Iriving,\n\nYou can easily access the MEP connectors and export any\
+    \ data you like for them. Look at the TraverseSystem SDK sample to see how the\
+    \ data can be accessed and used. They just have no geometry. \n\nThe only thing\
+    \ you should be aware of when exporting architectural, structural and MEP data\
+    \ is that you need to have the appropriate flavour of Revit enabled for the data\
+    \ to be accessible at all. The easiest way to achieve this is obviously to run\
+    \ your add-in in a Revit one-box installation encompassing all three flavours.\
+    \ For example, the MEPModel property will return null when run inside of Revit\
+    \ Architecture or Structure.\n\nCheers, Jeremy."
+- author: Iriving
+  email: ir_xue@163.com
+  ip: 116.226.224.34
+  url: ''
+  date: '2012-12-17 21:10:55'
+  body: 'hum..I got that.
+
+    Thanks again Jeremy,you are so kind of man
+
+    -----'

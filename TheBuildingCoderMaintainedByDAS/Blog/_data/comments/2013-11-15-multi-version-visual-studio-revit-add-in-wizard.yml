@@ -1,0 +1,18 @@
+comments:
+- author: Brian Lockyear
+  email: brian@parametricdesignsolutions.com
+  ip: 24.22.13.46
+  url: http://www.parametricdesignsolutions.com
+  date: '2014-05-17 01:02:45'
+  body: "Great info re using the Choose variables in the .csproj file!  Thanks!\n\
+    One additional enhancement, it is possible to use if statements in the post build\
+    \ events to copy the resulting build only to the desired destinations.  Thus:\n\
+    \necho Configuration: $(Configuration)\n\nif $(Configuration) == Debug goto 2013\n\
+    if $(Configuration) == Release goto 2013\nif $(Configuration) == Debug2014 goto\
+    \ 2014\nif $(Configuration) == Release2014 goto 2014\n\n:2013\necho Copying results\
+    \ to 2013\ncopy \"$(ProjectDir)RevitAddin2.addin\" \"$(AppData)\\Autodesk\\REVIT\\\
+    Addins\\2013\" \nxcopy \"$(TargetDir)RevitAddin2.dll\" \"$(AppData)\\Autodesk\\\
+    REVIT\\Addins\\2013\" /k /e /y /r\ngoto exit\n\n:2014\necho Copying results to\
+    \ 2014\ncopy \"$(ProjectDir)RevitAddin2.addin\" \"$(AppData)\\Autodesk\\REVIT\\\
+    Addins\\2014\" \nxcopy \"$(TargetDir)RevitAddin2.dll\" \"$(AppData)\\Autodesk\\\
+    REVIT\\Addins\\2014\" /k /e /y /r\ngoto exit\n\n:exit\n-----"

@@ -1,0 +1,67 @@
+comments:
+- author: Andy Leckie
+  email: andrew.leckie@cadline.co.uk
+  ip: 80.42.204.32
+  url: ''
+  date: '2011-10-07 13:00:58'
+  body: "I had to detect round ducts, so i used a try catch block whilst trying to\
+    \ access the diameter property.  \n\n                    MEPCurve mc = elem as\
+    \ MEPCurve;\n\n                    bool isRound = false;\n                   \
+    \ try\n                    {\n                        // try to access diameter.\
+    \  Ok if round duct else exception\n                        double tryDiam = mc.Diameter;\n\
+    \n                        // if it hasn't triggered an exception then it's round\n\
+    \                        isRound = true;\n                    }\n            \
+    \        catch (Exception ex)\n                    {\n                       \
+    \ // not round\n                    }"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.159.107
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-10-10 01:36:06'
+  body: "Dear Andy,\n\nYes, sure, absolutely possible. On the other hand, you should\
+    \ also be aware that every exception handler is resource intensive and will significantly\
+    \ slow down execution and consume resources. \n\nAn exception handler should be\
+    \ designed to handle unexpected, exceptional cases only. \n\nExceptions should\
+    \ be exceptional:\n\n<a href=\"http://www.jacopretorius.net/2009/10/exceptions-should-be-exceptional.html\"\
+    >http://www.jacopretorius.net/2009/10/exceptions-should-be-exceptional.html</a>\n\
+    \nDetermining whether a duct is round or not should not be exceptional, this is\
+    \ standard. How about simply querying the Connector.Shape property?\n\nTherefore,\
+    \ it is normally sufficient to implement a single top-level handler at the level\
+    \ of the application mainline, e.g. in the external command Execute method. \n\
+    \nCheers, Jeremy."
+- author: Rolando Hijar
+  email: rolandohijar@gmail.com
+  ip: 190.12.70.19
+  url: http://www.youtube.com/user/rolandohijar/videos
+  date: '2013-05-28 10:48:31'
+  body: "Hi Jeremy. I found another way getting the multishape transition type inside\
+    \ the DuctType.\nOval Duct = Multishape RecttoRound is null;\nRectangular Duct\
+    \ = Multishape OvaltoRound is null;\nRound Duct = Multishape RecttoOval is null;\n\
+    \nIt works fine for me:\nParameter ovaltoround = tipod.get_Parameter(BuiltInParameter.RBS_CURVETYPE_MULTISHAPE_TRANSITION_OVALROUND_PARAM);\n\
+    \                Parameter recttooval = tipod.get_Parameter(BuiltInParameter.RBS_CURVETYPE_MULTISHAPE_TRANSITION_RECTOVAL_PARAM);\n\
+    \                Parameter recttoround = tipod.get_Parameter(BuiltInParameter.RBS_CURVETYPE_MULTISHAPE_TRANSITION_PARAM);"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-05-28 11:08:38'
+  body: 'Dear Rolando,
+
+
+    Thank you very much for this very useful info.
+
+
+    Would you like to provide a minimal sample RVT project and a minimal source code
+    snippet exercising this?
+
+
+    Then I''ll promote this to a main blog post, since it looks like the cleanest
+    solution to date and should be made as easy to find as possible.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.
+
+    -----'

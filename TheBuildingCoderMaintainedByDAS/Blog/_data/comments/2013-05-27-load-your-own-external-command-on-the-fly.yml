@@ -1,0 +1,212 @@
+comments:
+- author: Dale Bartlett
+  email: dale.bartlett@realtimeinternational.com.au
+  ip: 212.72.17.154
+  url: http://www.realtimeinternational.com.au
+  date: '2013-05-27 06:42:58'
+  body: Very clever indeed.
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-05-27 11:07:50'
+  body: :-)
+- author: Guy Robinson
+  email: guy.robinson@windowslive.com
+  ip: 60.234.213.83
+  url: http://redbolts.com
+  date: '2013-05-27 18:31:55'
+  body: "I find VB difficult to read ;-) but unless I'm missing something why iterate\
+    \ types? \n\nI posted a c# simple example I did over morning tea ;-). <a href=\"\
+    https://github.com/Redbolts/R14Tests/tree/master/LoadBytes/Redbolts.LoadAgainAndAgain\"\
+    >https://github.com/Redbolts/R14Tests/tree/master/LoadBytes/Redbolts.LoadAgainAndAgain</a>\
+    \ \n\nNote also assemblies remain in memory so restarting is required if reloading\
+    \ a lot. And as Suzanne Cook notes you're asking for 'dll hell' ;-)\n\n<a href=\"\
+    http://blogs.msdn.com/b/suzcook/archive/2003/05/29/57143.aspx\">http://blogs.msdn.com/b/suzcook/archive/2003/05/29/57143.aspx</a>\n\
+    \nAFAIK you can't use AppDomains with Revit as you can't marshal across AppDomain\
+    \ boundaries. And performance would probably be a pig;-)\n\nHTH,\n\nGuy"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.204.152
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-05-27 18:56:48'
+  body: 'Dear Guy,
+
+
+    Thank you for your additional sample and important hints.
+
+
+    Yes, of course, this is only intended and recommended for debugging purposes,
+    for people who know what they are doing and understand the risks and consequences.
+
+
+    Although it actually sounds as if David and Yamin are finding this useful and
+    productive for (probably internal) day-to-day use as well.
+
+
+    Cheers, Jeremy.'
+- author: Stevedowning
+  email: ''
+  ip: 202.177.218.43
+  url: http://profile.typepad.com/stevedowning
+  date: '2013-05-28 03:03:25'
+  body: 'Minor Clarification : Yamin works with us at Arup.
+
+
+    Guy,
+
+    By iterating over types the method can be quite generic.
+
+    Pass it the typical IExternalCommand.Execute parameters, plus the path of the
+    DLL, and the routine does the rest.
+
+    This assumes a ''One ExternalCommand per DLL'' structure to your code, but thats
+    a good idea anyway.
+
+
+    The C# version is at: <a href="https://gist.github.com/CapnK/5660888">https://gist.github.com/CapnK/5660888</a>
+
+
+    We haven''t (yet) run into any major ''DLL Hell'' problems, but you do need to
+    be careful about loading 3rd party dll references.
+
+
+    We also hacked TestAssemblyBuilder from Nunit to load DLL''s this way, then you
+    can run NUnit inside Revit.
+
+    Ahhhhh. Code, Compile, Test, code, compile, test.  Without restarting Revit
+
+
+    C# for creating an NUnit test runner here: <a href="https://gist.github.com/CapnK/5660936">https://gist.github.com/CapnK/5660936</a>'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-05-28 07:32:35'
+  body: 'Dear Steve,
+
+
+    Thank you very much for the clarification and sorry for the wrong Yamin info.
+
+
+    Wow, you have an example of NUnit running inside of Revit? Fantastic, brilliant!
+    I have been looking for some simple unit testing framework for Revit add-ins for
+    ages!
+
+
+    Would you be willing to share a bit more about how that is set up? I think that
+    would be of extreme interest to the community at large. Should be, anyway.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Guy Robinson
+  email: guy.robinson@windowslive.com
+  ip: 60.234.213.83
+  url: http://redbolts.com
+  date: '2013-05-28 16:51:40'
+  body: 'Steve,
+
+
+    Nice example using Nunit. Not familiar with Nunit structure. How do you view the
+    test results? Is this run from the Visual studio Nunit runner or from Revit using
+    a custom runner?
+
+
+    Guy'
+- author: Stevedowning
+  email: ''
+  ip: 202.177.218.43
+  url: http://profile.typepad.com/stevedowning
+  date: '2013-05-28 23:06:01'
+  body: 'Guy,
+
+
+    It''s using a custom runner inside Revit.  We tried using Moq to create mock instances
+    of Revit API objects, but couldn''t even do that outside a running Revit instance.  So
+    the choices were to either wrap the entire Revit API, or run Nunit inside Revit.
+
+
+    Once it''s done, we get the Nunit.Core.TestResult object back, and interrogate
+    it to display in a custom Results window.
+
+
+    Jeremy,
+
+
+    Have been meaning to for a while, and struggled to find time to tease it apart
+    from the rest of our code...
+
+    Will see what can be done...'
+- author: MichaelV
+  email: michael.v@telenet.be
+  ip: 78.21.34.161
+  url: ''
+  date: '2013-07-25 19:46:03'
+  body: 'I just started out on writing a Revit plugin and the ideas in this thread
+    have been invaluable, thanks guys!
+
+
+    For my project I created a proxy class for external commands that only reloads
+    the assembly when the LastWriteTime of the .dll has changed (that is, when I recompile
+    my assembly)
+
+
+    The write times of the dlls are kept in a static dictionary so this information
+    persists between calls to IExternalCommand.Execute()
+
+
+    (in fact, I go as far as keeping the actual instance of the IExternalCommand object
+    persistent between calls to Execute...)
+
+
+    anyways, maybe this method is useful for somebody else so I put the gist of it
+    at
+
+    <a href="https://gist.github.com/zmic/6084730">https://gist.github.com/zmic/6084730</a>'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.219.98
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-08-30 08:11:06'
+  body: 'Dear Michael,
+
+
+    Thank you for your appreciation.
+
+
+    Congratulations, that sounds like an extremely neat project!
+
+
+    Thank you very much for sharing!
+
+
+    Cheers, Jeremy.'
+- author: plus.google.com/103071820029277305299
+  email: ''
+  ip: 24.242.171.74
+  url: http://profile.typepad.com/6p019b0473a52a970d
+  date: '2014-01-08 17:58:44'
+  body: OK I don't program everyday so hopefully you can follow. I have been able
+    to get microsoft studio 2013 express to work by setting the debug variable in
+    another post you had. However, everytime I execute the reflection class it locks
+    the debugger pdb file. The only way I found around this is to continually change
+    the assembly name of the reflected class which then creates another pdb file.
+    I use post build events to copy/rename dll to another location which is the location
+    I use/reflect/load from. How do I unload the reflection pdb or get the debugger
+    to release/unlock the pdb. I have a feeling this is a microsoft studio 2013 bug
+    but hopefully not so I can fix it. This is for revit mep 2014 too.
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.25
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-01-09 09:38:53'
+  body: "Hi there.\n\nCongratulations on getting as far as you have. That sounds pretty\
+    \ good to me, and not like beginner stuff. Unfortunately, I don't know. I just\
+    \ use the full version of Visual Studio, recompile my add-in and restart Revit\
+    \ every time I change anything. \n\nOn the other hand, have you looked at this\
+    \ discussion?\n\n<ul>\n<li><a href=\"http://thebuildingcoder.typepad.com/blog/2013/11/debugging-revit-2014-api-with-visual-studio-2013.html\"\
+    >Debugging Revit 2014 API with Visual Studio 2013</a></li>\n</ul>\n\nGood luck!\n\
+    \nCheers, Jeremy.\n-----"

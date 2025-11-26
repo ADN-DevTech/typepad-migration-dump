@@ -1,0 +1,321 @@
+comments:
+- author: pnavarra
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.84.174
+  url: http://forums.augi.com/showthread.php?t=84766
+  date: '2009-02-12 09:12:38'
+  body: It will be nice to get this famous "RvtMgdDbg" ;-)
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-02-12 09:51:32'
+  body: "Hi Pierre,\n\nThank you for a very good question! I have been waiting for\
+    \ that one for a long time!\n\nYou can go to the Autodesk University web site\
+    \ at <a href=\"http://au.autodesk.com\">http://au.autodesk.com</a> and search\
+    \ for \"revit database\". That will take you to the presentation on the Revit\
+    \ database by Mikako Harada, which includes RvtMgdDbg in the class materials.\
+    \ The direct link is \n\n<a href=\"http://au.autodesk.com/?nd=class&session_id=1137\"\
+    >http://au.autodesk.com/?nd=class&session_id=1137</a>\n\nThe materials are named\
+    \ \"Closer Look Revit Database additional materials\".\n\nYou will have to register\
+    \ as a user at the AU web site to gain access to the materials.\n\nOh, Stephen\
+    \ Preston just pointed out that a more direct link to the Revit 2009 version of\
+    \ RvtMgdDbg is provided on a publicly accessible ADN web page:\n\nhttp://download.autodesk.com/media/adn/RvtMgdDbg2009_0429_2008.zip\n\
+    \nCheers, Jeremy."
+- author: krispy5
+  email: kparsons@au.westfield.com
+  ip: 203.39.124.193
+  url: ''
+  date: '2009-02-12 21:48:25'
+  body: Hi Jeremy, just wondering if you know whether a new version of the RvtMgdDbg
+    is/will be available for the forthcoming 2010 version. I am an ADN member.
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.75.145
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-02-13 01:23:42'
+  body: 'Dear Krispy,
+
+
+    I am still unclear what I can and cannot discuss and publish here on the upcoming
+    versions, so I will reply to you by mail.
+
+
+    I would recommend you to ask such a question through DevHelp Online, which will
+    guarantee you a response from our whole team and will not put you in risk of violating
+    your NDA  :-)
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.75.145
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-02-13 01:33:19'
+  body: 'Dear Krispy,
+
+
+    Actually, I can answer right here and now after all, because I just thought of
+    searching for RvtMgdDbg on the ADN web site, et voila, it is right there, plain
+    as pie, at your disposal.
+
+
+    As you may be aware, RvtMgdDbg comes complete with source code, so in case of
+    need, you can always recompile it yourself for any version you please.
+
+
+    It does also occur that some specific properties on some specific objects throw
+    exceptions. If you discover such a situation, I suggest you run RvtMgdDbg in the
+    debugger and simply wrap the offending line in its own little try-catch handler
+    so you can continue working with the rest of the data. If you make any fixes,
+    we will be happy to hear about them through ADN. Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Krispy5
+  email: kparsons@au.westfield.com
+  ip: 124.188.233.72
+  url: ''
+  date: '2009-02-13 19:35:27'
+  body: Great, thanks for the responses. Informative as always!!
+- author: Berria
+  email: eiderunzu@hotmail.com
+  ip: 213.96.145.3
+  url: ''
+  date: '2009-02-24 10:27:58'
+  body: "Hi Jeremy, thank you very much!!\nI used the second example in my proyect,\
+    \ I got 6 family simbols and now I want create a balcony with one family but it\
+    \  does not draw anything.\nOnly draw if I insert a point, but if I use a line\
+    \ or curve, it does not draw.\n \n\nThank you!!\n\nBerria"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-02-24 10:42:20'
+  body: 'Hi Berria,
+
+
+    It is a pleasure, as always. I see your question and I also received you email,
+    but I see no significant difference between the code in your email and the code
+    listed above. I do not quite understand what you are trying to get at. As you
+    can see from the discussion above and other similar topics in the past, I also
+    always have to do some research to find out how to effectively create a new instance
+    of a family. What research have you done so far for your balcony?
+
+
+    Best regards, Jeremy.'
+- author: Berria
+  email: eiderunzu@hotmail.com
+  ip: 213.96.145.3
+  url: ''
+  date: '2009-02-25 04:04:17'
+  body: "Hi Jeremy, I try do railing with diferents methols, but always the result\
+    \ is null.\nThe code is this:\n    List symbols = new List();\n\n            BuiltInCategory\
+    \ bic = BuiltInCategory.OST_StairsRailingBaluster;\n            CreationFilter\
+    \ cf = app.Create.Filter;\n            Filter f1 = cf.NewCategoryFilter(bic);\n\
+    \            Filter f2 = cf.NewTypeFilter(typeof(FamilySymbol));\n           \
+    \ Filter f3 = cf.NewLogicAndFilter(f1, f2);\n\n            doc.get_Elements(f3,\
+    \ symbols);\n\n            foreach (FamilySymbol s in symbols)\n            {\n\
+    \                Debug.Print(\n                \"Family name={0}, symbol name={1}\"\
+    ,\n                s.Family.Name, s.Name);\n            }\n\n            FamilySymbol\
+    \ symbolBaran = symbols[4] as FamilySymbol;\n\nXYZ p1 = new XYZ(17, 0, 0);\nXYZ\
+    \ p2 = new XYZ(33, 0, 0);\nLine curba = app.Create.NewLineBound(p1 ,p2);\nFamilyInstance\
+    \ Railing1 = doc.Create.NewFamilyInstance(curba, symbolBaran, nivel1, StructuralType.NonStructural);\n\
+    \nBest regards, Berria."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-02-25 04:54:16'
+  body: 'Hi Berria,
+
+
+    I am beginning to suspect that you actually meant railing when you said balcony
+    in you previous messages?
+
+
+    And I also get the impression I was unclear in my posting above.
+
+
+    To create a railing, you have to select the railing symbols, not the railing baluster
+    ones.
+
+
+    So the category is OST_StairsRailing, not OST_StairsRailingBaluster.
+
+
+    The railing object uses a Symbol to define its type, not a FamilySymbol.
+
+
+    So the class to search for is Symbol, not FamilySymbol.
+
+
+    The post above mentions this fact. I am looking at implementing code to insert
+    a new railing instance.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-02-25 08:12:12'
+  body: "Hi Berria,\n\nI took a closer look at your problem, and there is indeed an\
+    \ issue involved:\n\nAs said, the railing object seems to use a Symbol to define\
+    \ its type, not a FamilySymbol. \n\nOn the other hand, the NewFamilyInstance requires\
+    \ us to pass it a FamilySymbol instance. \n\nI am still exploring how to resolve\
+    \ this.\n\nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-02-25 08:18:18'
+  body: "Hi Berria,\n\nI just noticed something else in the developer's guide. \n\n\
+    Section 14 Sketching states that \"To create elements or edit their profiles in\
+    \ Revit, you must first create sketch objects. Examples of elements that require\
+    \ sketches include:\n\n- Roofs\n- Floors\n- Stairs\n- Railings.\"\n\nI will continue\
+    \ to explore this issue.\n\nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-02-25 12:11:36'
+  body: 'Hi Berria,
+
+
+    An unpleasant and tentatively final update on this issue: apparently, it is currently
+    not possible to create a railing through the API at all. The problem is that in
+    the list of the railing types that we obtain above, all railing types that we
+    would like to use to create the railing instance are Symbol instances, and not
+    FamilySymbol ones. However, in order to call the NewFamilyInstance method, we
+    need a FamilySymbol. I do not know of any workaround. Sorry for the bad news and
+    thank you for your perseverance.
+
+
+    Put differently, Stairs and Railings use system families and not component families,
+    which is why it is failing. It needs yet to be exposed through the API.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-02-27 05:44:18'
+  body: 'Dear Berria,
+
+
+    To follow up and wrap up this discussion, I implemented a new command named CmdNewRailing
+    in The Building Coder sample solution which unfortunately does NOT create a new
+    railing instance for the reasons explained above. It can be used to explore the
+    reasons and the limits we encounter. It is available in version 1.0.0.27 of The
+    Building Coder source code, in the post
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/02/list-linked-elements.html">http://thebuildingcoder.typepad.com/blog/2009/02/list-linked-elements.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Luke
+  email: luke@dimondarchitects.com.au
+  ip: 60.240.197.130
+  url: http://www.dimondarchitects.com.au
+  date: '2009-04-09 00:46:11'
+  body: 'Jeremy
+
+
+    Is there anyway to get RvtMgdDbg 2010 version?
+
+
+    I am not an ADN member, but would love to get into the API.  I am an IT Manager
+    / CAD Technician at.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-09 01:43:55'
+  body: 'Dear Luke,
+
+
+    I have to check with my colleagues first whether I can publish this.
+
+
+    Regardless of that, the 2009 version of RvtMgdDbg is publicly available and includes
+    source code, so if you have the pre-release 2010 version of Revit, there is nothing
+    to stop you from porting the 2009 version to 2010 yourself:
+
+
+    http://thebuildingcoder.typepad.com/blog/2009/02/rvtmgddbg.html
+
+
+    Cheers, Jeremy.'
+- author: Rolando Hijar
+  email: rolandohijar@gmail.com
+  ip: 190.12.70.19
+  url: http://www.youtube.com/user/rolandohijar/videos
+  date: '2012-03-20 12:10:52'
+  body: Hi Jeremmy.  I found a way to create Railings using the API. First I pick
+    an existing railing and create a group of it. Then copy the group, ungroup and
+    change the railing location line. I did this to place railings over the top of
+    walls in a perimeter fence.
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-04-05 12:11:47'
+  body: 'Dear Rolando,
+
+
+    Thank you very much for this hint, I am sure that will be very interesting for
+    others a well!
+
+
+    Congratulations on solving this!
+
+
+    By the way, the Revit 2013 API now provides an official stair and railing API,
+    which should simplify things significantly:
+
+
+    http://thebuildingcoder.typepad.com/blog/2012/03/revit-2013-and-its-api.html#4
+
+
+    Cheers, Jeremy.'
+- author: Jack Zhu
+  email: zlq0008@tom.com
+  ip: 114.167.244.24
+  url: ''
+  date: '2014-06-05 21:47:54'
+  body: 'Dear Rolando Hijar
+
+
+    I want to create railing on top of walls Recently。
+
+    According to the above point,I copy an existing railing in 【ElementTransformUtils.CopyElement】,although
+    I Can''t change the railing loaction。
+
+
+    Could you teach me related source code When convenient。
+
+
+    Jack Zhu'
+- author: Jack Zhu
+  email: zlq0008@tom.com
+  ip: 114.167.244.24
+  url: ''
+  date: '2014-06-05 21:48:32'
+  body: 'Dear Rolando Hijar
+
+
+    I want to create railing on top of walls Recently。
+
+    According to the above point,I copy an existing railing in 【ElementTransformUtils.CopyElement】,although
+    I Can''t change the railing loaction。
+
+
+    Could you teach me related source code When convenient。
+
+
+    Jack Zhu
+
+    -----'

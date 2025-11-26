@@ -1,0 +1,169 @@
+comments:
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://revitprogrammer.blogspot.com/
+  date: '2012-03-02 05:54:52'
+  body: 'E.g. the main issue - we must don''t forget call SetCompoundStructure method
+    if we want to save CompundStructure? API Help tell about it:)
+
+
+    Hope Balaji will help me in future with my silly or not questions:)
+
+
+    Best regards, Victor.'
+- author: Israel Rodriguez
+  email: ''
+  ip: 201.52.108.145
+  url: http://profile.typepad.com/rodriguezisrael
+  date: '2012-03-02 08:24:36'
+  body: 'Hello Jeremy,
+
+
+    I''m trying to get the faces of a especific layer (and then get the Reference
+    Object), during a CompoundStructure iteration. Is there any way I can achieve
+    that?
+
+
+    Thanks in advance'
+- author: Jeremy Tammik
+  email: ''
+  ip: 77.192.123.183
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-03-05 03:30:52'
+  body: 'Dear Victor,
+
+
+    Yup, I guess that is about the gist of it.
+
+
+    I must say, I have yet to hear a silly question from you.
+
+
+    And anyway, some people say that silly questions do not exist at ll.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 77.192.123.183
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-03-05 03:38:23'
+  body: "Dear Israel,\n\nIf you want the reference to the face of a specific layer,\
+    \ then that layer and its face must be database resident. \n\nYou could achieve\
+    \ this by splitting the wall or floor or whatever into parts, as described in\
+    \ \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2012/01/identifying-wall-compound-layers-and-parts.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2012/01/identifying-wall-compound-layers-and-parts.html</a>\n\
+    \nand \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2011/10/retrieving-detailed-wall-layer-geometry.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2011/10/retrieving-detailed-wall-layer-geometry.html</a>\n\
+    \nThe previous posts mentioned there discuss other ways of accessing wall layer\
+    \ geometry without splitting it into parts.\n\nCheers, Jeremy."
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://revitprogrammer.blogspot.com/
+  date: '2012-03-05 06:47:14'
+  body: "Dear Jeremy,\nI was joking about silly question. \nI try don't to ask really\
+    \ stupid questions that sometimes happen and try to resolve it myself.\nAnd I'm\
+    \ really glad that you don't think my questions are stupid.\n\nBest regards, Victor."
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-03-06 12:59:54'
+  body: 'Dear Victor,
+
+
+    :-)
+
+
+    Cheers, Jeremy.'
+- author: Joe
+  email: wuzhou88@gmail.com
+  ip: 120.150.209.179
+  url: http://inducta.com.au
+  date: '2013-12-01 17:27:46'
+  body: "Hi, Jeremy\n\nin the sample code, what is the reason to set all the layers\
+    \ within the compoundlayers?\n\n  foreach( CompoundStructureLayer csl in cslayers\
+    \ )\n  {\n    cs.SetLayerWidth( layerIndex, layerWidth );\n    layerIndex++;\n\
+    \  }\n\nalso, could you tell me what is the relationships for firstcorelayer,\
+    \ lastcorelayer and the rest of layers? how to find out the core structural layer\
+    \ thickness?\n\nthank a lot.\nJoe"
+- author: Jeremy Tammik
+  email: ''
+  ip: 199.36.244.25
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-12-05 20:51:55'
+  body: 'Dear Joe,
+
+
+    I do not believe there is any special reason for that, it is just a test sample.
+
+
+    Here are some little core related discussions:
+
+
+    <ul>
+
+    <li><a href="http://thebuildingcoder.typepad.com/blog/2009/06/core-structural-layer.html">Core
+    Structural Layer</a></li>
+
+    <li><a href="http://thebuildingcoder.typepad.com/blog/2013/08/setting-the-compound-structure-core-and-shell-layers.html">Setting
+    the Compound Structure Core and Shell Layers</a></li>
+
+    </ul>
+
+
+    Cheers, Jeremy.'
+- author: DREW JARVIS
+  email: drew.jarvis@cansel.ca
+  ip: 174.1.253.59
+  url: http://www.cansel.ca
+  date: '2014-03-06 17:16:18'
+  body: "I tried the example to change the layer and I for an exception on the SetLayerWidth\
+    \ indicating that I...\n\nCannot modify the width of an existing region which\
+    \ is not a simple region.\n\nHere is my code (SIPWT is a WallType I have found\
+    \ earlier:\n\nUsing transaction As New Transaction(doc, \"DuplicateWallType\"\
+    )\n            transaction.Start()\n            Dim newWallType As WallType =\
+    \ TryCast(SIPWT.Duplicate(\"SayWhat\"), WallType)\n            transaction.Commit()\n\
+    \            transaction.Dispose()\n        End Using\n\n        Using transaction\
+    \ As New Transaction(doc, \"ChangeWallWidth\")\n            transaction.Start()\n\
+    \            Dim FEC As New FilteredElementCollector(doc)\n\n            FEC.OfClass(GetType(WallType))\n\
+    \            Dim newWallType As WallType = Nothing\n            For Each WT As\
+    \ WallType In FEC\n                If WT.Name = \"SayWhat\" Then\n           \
+    \         newWallType = WT\n                End If\n            Next\n\n     \
+    \       Dim cs As CompoundStructure = newWallType.GetCompoundStructure()\n   \
+    \         Dim layerWidth As Double = 0.5\n            Dim layerIndex As Integer\
+    \ = 0\n\n            Dim cslayers As IList(Of CompoundStructureLayer) = cs.GetLayers()\n\
+    \n            For Each csl As CompoundStructureLayer In cslayers\n\n         \
+    \       cs.SetLayerWidth(layerIndex, layerWidth)\n                layerIndex +=\
+    \ 1\n\n            Next\n\n            newWallType.SetCompoundStructure(cs)\n\n\
+    \            transaction.Commit()\n            transaction.Dispose()\n\n     \
+    \   End Using\n\nThe 2 transactions are a bit convoluted, but a result of me trying\
+    \ to find out what is going on...\n\nWhat would be the reason that I cant set\
+    \ the layerwidth to 0.5?\n\nRegards\n\nDrew Jarvis"
+- author: KellyR1641
+  email: kellyr1641@gmail.com
+  ip: 76.28.204.152
+  url: ''
+  date: '2014-12-09 00:36:37'
+  body: I cannot get this to work either.  When I set it up to tell me what the new
+    thickness (width) is, it tells me it is what I have set, but when the transaction
+    is committed, the layers remain unchanged.
+- author: Jeremy Tammik
+  email: ''
+  ip: 90.43.222.33
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-12-09 03:13:56'
+  body: 'Dear Drew and Kelly,
+
+
+    Does this possibly help?
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2014/11/traditional-3d-printed-vertical-compound-structures.html#3">http://thebuildingcoder.typepad.com/blog/2014/11/traditional-3d-printed-vertical-compound-structures.html#3</a>
+
+
+    Cheers, Jeremy.
+
+    -----'

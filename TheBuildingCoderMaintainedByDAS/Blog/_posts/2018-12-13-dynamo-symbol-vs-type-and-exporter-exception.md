@@ -1,0 +1,262 @@
+---
+layout: "post"
+title: "Dynamo, Symbol vs Type and Exporter Exception"
+date: "2018-12-13 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Dynamo"
+  - "Export"
+  - "Family"
+  - "Getting Started"
+  - "Git"
+  - "Threejs"
+original_url: "https://thebuildingcoder.typepad.com/blog/2018/12/dynamo-symbol-vs-type-and-exporter-exception.html "
+typepad_basename: "dynamo-symbol-vs-type-and-exporter-exception"
+typepad_status: "Publish"
+---
+
+<p>Today we discuss a couple of Dynamo considerations, Revit family and element fundamental concepts, and an exception handler required for a custom exporter:</p>
+
+<ul>
+<li><a href="#2">Revit API versus Dynamo for Revit</a> </li>
+<li><a href="#3">Dynamo 2.0.X versus 1.3.3</a> </li>
+<li><a href="#3.1">Dynamo future version handling</a> </li>
+<li><a href="#4">Difference between <code>FamilySymbol</code> and <code>ElementType</code></a> </li>
+<li><a href="#5">Custom exporter <code>Execute</code> may throw</a> </li>
+<li><a href="#6">Turned on Git LFS</a> </li>
+</ul>
+
+<h4><a name="2"></a> Revit API versus Dynamo for Revit</h4>
+
+<p><strong>Question:</strong> Does anybody have a matrix comparing the capabilities and functionalities of the Revit API versus Dynamo for Revit?</p>
+
+<p>My understanding is that Dynamo targets designers, engineers and architects who don’t know or like text-based programming.</p>
+
+<p>I am often asked by people interested in Forge in the BIM domain about differences between Revit API and Dynamo.
+Often they are not programmers, but are interested in spreading BIM info and data to a wide audience.
+In considering the use of Forge, they face the terminology of ‘API’ and remember that Revit has such a thing.
+Forge is also a kind of API. So, clarifying the different possibilities provided by these APIs would be useful.
+Maybe a comparison matrix will help?</p>
+
+<p><strong>Answer:</strong> The Revit API is pretty clear, isn't it?</p>
+
+<p>It is the one and only API for Revit.</p>
+
+<p>Dynamo makes use of it, and you can use all of it.</p>
+
+<p>So, Dynamo is a layer over the Revit API, and you can use all of the Revit API from Dynamo.</p>
+
+<p>Dynamo also includes other functionality, e.g., DesignScript and its own geometry library.</p>
+
+<p>So, in some areas, you can do more in Dynamo than in the native Revit API.</p>
+
+<p>However, for manipulating RVT files, Dynamo has nothing more to offer than what is provided by the Revit API.</p>
+
+<p>For architects, Dynamo seems to be the more effective path, cf., e.g., this compelling suggestion
+to <a href="https://vasshaug.net/2015/09/18/learn-dynamo">learn dynamo</a>.</p>
+
+<p>The <a href="https://github.com/jeremytammik/tbc/tree/gh-pages/a/zip/dynamo_primer.pdf">Dynamo Primer slide deck</a>
+by <a href="https://twitter.com/PaoloESerra">Paolo Emilio Serra</a>,
+Autodesk Implementation Consultant and author of
+the <a href="http://puntorevit.blogspot.com">Punto Revit blog</a>,
+includes some references to the Revit API and how to access it via Python Script.
+For more details, please refer to his own presentation of
+his <a href="https://puntorevit.blogspot.com/2018/12/dynamo-primer-slide-deck.html">Dynamo Primer Slide Deck</a>.</p>
+
+<!--- https://wiki.autodesk.com/download/attachments/487396126/Dynamo%20Primer.pptx?version=1&modificationDate=1544112611952&api=v2 --->
+
+<p>As said, from an API standpoint, Dynamo objects are wrappers around Revit objects, there are some 'shortcuts' to convert parameter values to match the Display Unit Types, or alternative syntax to manage transactions etc. but there is nothing out of this world. The good idea behind Dynamo for Revit, with the full user interface, is that it has a serialization/binding feature with Revit elements for free, so it’s like adding intelligence to your Revit model rather than mere automation of tasks you can achieve with traditional programming.
+For an end user not accustomed to coding, it is much easier to set a value using the units they are using in the project rather than</p>
+
+<p>The visual programming approach is different, the way Dynamo handles namespaces, inheritance and polymorphism defines how to read the find the nodes in the library.
+The way a function is called multiple times on a list of inputs, the lacing strategy, replication guides, etc.. are concepts that belong to visual programming and don’t even find a good parallel in a traditional coding language sometimes.</p>
+
+<p>Not all the Revit API calls are converted into nodes (i.e. the MEP objects are completely missing and customers complained a lot, but in those cases you just use the Revit API.
+People started to create Dynamo packages to expand the out of the box functionalities.
+For example, for the Forge users, there is a package called DynaWeb that enables REST API calls from Dynamo… It was developed wrapping the System.Net objects into Dynamo nodes and the end users can use them in a visual programming context.
+The dependencies are still a pain to manage and the 'graphs' (read the Dynamo code) cannot be compiled into an unmodifiable .DLL, with risks, IP concerns etc..
+Even so, Dynamo is really popular because, as Rob Todd once said, it 'commoditizes programming', and it enables our customer to do more, with better results with less effort.</p>
+
+<p>For Dynamo scalability, also COM and .NET can be included, as they can be used via Python scripting (it’s in fact IronPython that supports managed .DLLs for example).</p>
+
+<p>For example, one developer wrote an extensive library in C# for Dynamo that uses multiple frameworks at the same time such as COM for Civil 3D and .NET for Revit.</p>
+
+<p>Another impressive example of interoperability between the different .NET languages is provided by 
+the <a href="https://tailoryourbim.com/2018/11/10/efficiently-at-compiling-python-code-as-external-command-%E8%A3%9D%E8%BC%89-python-%E7%B7%A8%E7%A2%BC%E6%88%90-revit-%E5%A4%96%E9%83%A8%E7%A8%8B%E5%BC%8F">Python code external command loader and compiler implemented in F#</a> shared by <a href="https://tailoryourbim.com">tailoryourbim</a>.
+I have repeatedly pointed out that the Revit API can be used from any .NET supporting language.
+<a href="https://tailoryourbim.com/about">Ching</a> shows how this can be taken to extremes by implementing an external command in F#
+that loads and compiles an external command implemented in Python.
+In his own words, he 'wrote a simple Python code loader in F#, which loads a Python script into Revit as an external command, combining with <a href="http://ironpython.net">IronPython</a>.'</p>
+
+<p>In fact, macro and add-in functionality is identical in all respects, I would say.
+You can probably find an exception to that statement, but it would probably be something rather obscure.</p>
+
+<p>Both VS and SharpDevelop support C#, VB, Ruby and Python. Probably, IronRuby and IronPython for VS need optional installation.
+SharpDevelop installs Ruby and Python as default while Revit installation:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833022ad3a70021200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833022ad3a70021200d img-responsive" alt="SharpDevelop IDE supports C#, VB, Ruby and Python" title="SharpDevelop IDE supports C#, VB, Ruby and Python" src="/assets/image_4767e7.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a></p>
+
+<p style="font-size: 80%; font-style:italic">SharpDevelop IDE supports C#, VB, Ruby and Python</p>
+
+<p></center></p>
+
+<p>You might also want to check out the <a href="http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_FAQ_html">FAQ in the Revit online help</a>,
+which says:</p>
+
+<blockquote>
+  <p><u>What languages are supported for Revit API development?</u></p>
+  
+  <p>C#, VB.NET, and C++/CLI are supported for addin development. C#, VB.NET, IronPython, and IronRuby are supported for macro development. Other CLR languages may work with the Revit API, but they are untested and unsupported. Note that for mixed managed/native applications using C++, Revit uses the Visual C++ Redistributable for Visual Studio 2015, specifically, version 14.0.23026.0. Add-ins compiled with other versions of the VC runtime may not work correctly since the Revit install does not include any other VC runtimes.</p>
+</blockquote>
+
+<p>I'm not sure this FAQ is completely accurate and up to date, though.</p>
+
+<h4><a name="3"></a> Dynamo 2.0.X versus 1.3.3</h4>
+
+<p>Talking about Dynamo, here is a question on the different versions floating around, and which of them to use, from 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/dynamo-2-0-x-vs-box-shipped-1-3-3-which-to-use-for-production/m-p/8457964">Dynamo 2.0.X vs box shipped 1.3.3 &ndash; Which to use for production environment?</a>:</p>
+
+<p><strong>Question:</strong> Been searching online for some answers and thought maybe the best would be to post this here as I don't have a login for Dynamo's git hub to post there.  We have some conflicting opinions in our department and I am looking at getting some "good" "professional" concrete advice.</p>
+
+<p>One of the guys here has been putting together some dynamo scripts using 2.0 and now upgraded to 2.0.1.  We are running Revit 2019.1 for the most part.  Autodesk however packages 1.3.3 (?) with their 2019 software releases.</p>
+
+<p>For scripts we release to production/end users to use, would you recommend we stick with 1.3.3 or develop in 2.0.X.  From what I understand 2.0 is a pretty big overhaul of dynamo and it's node packages.  So, I am aware of the upgrading and compatibility issues with trying to write scripts in 1.3.3 vs 2.0.  Pretty much have to re-write them.  However, with the stability of 2.0 up in the air, there is some hesitation to move forward with this.  What are some thoughts out there on the subject?  Is there "real" definite reasons on why a person would or would not want to use 2.0.X or 1.3.3 ?</p>
+
+<p><strong>Answer:</strong> 1.3.3 is the latest version that was shipped with a point release of Revit, and 1.3.4 is in the pipeline for the next update release.</p>
+
+<p>Users and offices who are comfortable going ahead of the Revit shipping product can access both 1.3.4 and 2.0.2 currently on the Latest stable release download pages:</p>
+
+<ul>
+<li><a href="http://dynamobuilds.com">dynamobuilds.com</a></li>
+<li><a href="http://dynamobim.org/download">dynamobim.org/download</a></li>
+</ul>
+
+<p>As far as why they would upgrade and what the impact is, Dynamo 2.0 does represent an upgrade process for 1.x scripts, and does have enhancements to what is offered. The bigger feature items are:</p>
+
+<ul>
+<li>Python improvements</li>
+<li>List management improvements (Dictionaries)</li>
+<li>Library browser UX</li>
+<li>A collection of new nodal functionality</li>
+<li>The ability to load Extensions from the Package Manager (an even more powerful manner of exchanging functionality)</li>
+</ul>
+
+<p>The bulk of feature information is here from
+the <a href="http://dynamobim.org/to-dynamo-2-0-and-beyond">original 2.0 release features</a>.</p>
+
+<p>Here is
+additional <a href="http://dynamobim.org/extensions-now-supported-in-package-manager">feature information on extensions</a>.</p>
+
+<p>Keep in mind that users can also have 2.x installed side-by-side with 1.x, so if they want to do their own comparison, this is pretty easy.</p>
+
+<p>Again, if the user is going to upgrade, definitely take the latest build (2.0.2)</p>
+
+<p>More information on <a href="http://dynamobim.org/new-dynamo-developer-resources-and-updating-packages-for-dynamo-2-0">what it takes to upgrade packages</a>.</p>
+
+<p>Finally, here are the more granular <a href="https://github.com/DynamoDS/Dynamo/wiki/Release-Notes">release notes</a>.</p>
+
+<p>I hope this provides a good and professional complete answer to your question.</p>
+
+<h4><a name="3.1"></a> Dynamo Future Version Handling</h4>
+
+<p><strong>Addendum:</strong> The Dynamo team is working to have a more regular 'heartbeat' of releases that allows for steady integrations with host applications. This will establish an update process that allows users to get the latest version of Dynamo with the latest release and point release of Revit. Additionally, we intend for future releases of Dynamo to not have a shared library, allowing for different versions of Revit to have different version of Dynamo and remove the "cross talk" of Dynamo in new installations. This will allowg Revit v.A to have the most up to date version of Dynamo available when Revit v.A was released, and Revit v.B to have the most up to date version of Dynamo available when Revit v.B was released without version B installation interfering with version A.</p>
+
+<h4><a name="4"></a> Difference Between FamilySymbol and ElementType</h4>
+
+<p>Another recent <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread concerns
+the <a href="https://forums.autodesk.com/t5/revit-api-forum/difference-between-familysymbol-and-elementtype/m-p/8461805">difference between <code>FamilySymbol</code> and <code>ElementType</code></a>:</p>
+
+<p><strong>Question:</strong> Both FamilySymbol and ElementType seem to represent the same idea.  What is the difference between the two?  (I know one derives from the other)</p>
+
+<p>A related question is: what's the difference between Element and FamilyInstance?  I can't understand why stairs are of class Stairs (derived from Element), while doors are of class FamilyInstance.  Are stairs not an "instance" of a particular "family"?</p>
+
+<p><strong>Answer:</strong> Families come in several flavours.</p>
+
+<p>The two main ones are standard and built-in.</p>
+
+<p>Actually, they are called 'component' and 'system', as I just learned from the developer guide section I point out below:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833022ad380fa36200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833022ad380fa36200c image-full img-responsive" alt="System versus component families" title="System versus component families" src="/assets/image_9f0041.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a></p>
+
+<p style="font-size: 80%; font-style:italic">System versus component families</p>
+
+<p></center></p>
+
+<p>Standard are defined in RFA family definitions.</p>
+
+<p>Built-in are built into Revit directly.</p>
+
+<p>Standard families define family symbols, and when you place a family symbol, it is represented by a family instance.</p>
+
+<p>Other elements placed in the model are not called family instances; they are just elements.</p>
+
+<p>Element is a super-class of FamilyInstance.</p>
+
+<p>Analogously, ElementType is a superclass of FamilySymbol.</p>
+
+<p>I hope this explains.</p>
+
+<p>For more info, check
+the <a href="http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_html">Revit API developer guide</a> in
+the <a href="http://help.autodesk.com/view/RVT/2019/ENU">online Revit help</a>, in the
+section <a href="http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_Introduction_html">Introduction</a>
+&rarr; <a href="http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_Introduction_Elements_Essentials_html">Elements Essentials</a>
+&rarr; <a href="http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_Introduction_Elements_Essentials_Other_Classifications_html">Other Classifications</a>.</p>
+
+<h4><a name="5"></a> Custom Exporter Execute May Throw</h4>
+
+<p>Let's wrap up with a
+final <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread 
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/mesh-data-export-to-json/m-p/8459164">mesh data export to json</a>:</p>
+
+<p><strong>Question:</strong> I try to retrieve the geometry info from a Revit model to JSON data that I can load to draw geometry by three.js like in
+the <a href="https://thebuildingcoder.typepad.com/blog/2013/07/adn-mesh-data-custom-exporter-to-json.html">ADN mesh data custom exporter to JSON</a>.</p>
+
+<p>Of course, the demo is right and works well with some changes from Revit 2015 or 2016 to 2019.</p>
+
+<p>However, working with a different Revit model, an error comes from the call to <code>exporter.Export(view)</code>, saying <code>cannot divide by zero</code>.</p>
+
+<p><strong>Answer:</strong> Run the add-in in the debugger and see for yourself which line of code is causing the problem.</p>
+
+<p>Then you will probably be able to see how to fix it as well.</p>
+
+<p><strong>Response:</strong> The debugger does not help, because the exception is thrown inside Revit internal code while executing the <code>Export</code> method.</p>
+
+<p>The debugger will just raise an error on top of the built-in logic.</p>
+
+<p>Finally, I added a <code>try</code> <code>catch</code> handler and caught the error.</p>
+
+<p>Thank you very much, and thanks for your demo about the use of <code>CustomExportContext</code>.</p>
+
+<p><strong>Answer:</strong> Glad to hear you resolved your problem.</p>
+
+<p>By the way, rather belatedly, may I point out
+that <a href="https://thebuildingcoder.typepad.com/blog/2016/07/exporting-rvt-bims-to-webgl-and-forge.html#3">others ran into the same problem in the past</a>.</p>
+
+<p>The <a href="https://github.com/jeremytammik/CustomExporterAdnMeshJson/commit/23a95aad8f4a3cca85a72b32e2b699bde1d46bcb">exception thrown by the internal custom exporter implementation can simply be caught and ignored</a>.</p>
+
+<h4><a name="6"></a> Turned on Git LFS</h4>
+
+<p>Uploading Paolo's Dynamo primer PDF triggered the GitHub warning about large files exceeding 50 MB in size.</p>
+
+<p>The warning includes a suggestion to turn on
+the <a href="https://git-lfs.github.com">Git LFS Large File Storage</a>.</p>
+
+<p>I read about it and did so for three file extensions:</p>
+
+<pre>
+$ git lfs track
+Listing tracked patterns
+    a/zip/*.mp4 (a/zip/.gitattributes)
+    a/zip/*.pdf (a/zip/.gitattributes)
+    a/zip/*.pptx (a/zip/.gitattributes)
+</pre>
+
+<p>Hence, the <a href="https://github.com/jeremytammik/tbc">tbc</a> repository
+hosting all <a href="https://thebuildingcoder.typepad.com">The Building Coder</a> blog posts
+and support material should be significantly smaller now.</p>

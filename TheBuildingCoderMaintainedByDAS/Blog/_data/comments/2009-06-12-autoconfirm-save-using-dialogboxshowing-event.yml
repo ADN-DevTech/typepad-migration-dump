@@ -1,0 +1,157 @@
+comments:
+- author: Joel
+  email: joelkarr@esdesign.com
+  ip: 198.173.7.10
+  url: http://www.esdesign.com
+  date: '2009-06-12 12:02:44'
+  body: 'Jeremy,
+
+
+    Another great post.  Do you think I could implement something similar for the
+    duplicate instances notification?  I would like to automatically remove the second
+    instance, which requires you to click on a + to expand the list of duplicate instances
+    and then check the one you want to delete and then click on delete.  I am going
+    to look into this too but wondered if you had ran across anything like this.
+
+
+    Joel'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-12 14:10:06'
+  body: 'Dear Joel,
+
+
+    I''m very glad you like it, so do it. One of my favourites posts lately :-)
+
+
+    I expect you can use it for the situation you describe as well. I developed the
+    code above for exploration purposes while searching for the solution, so if you
+    just remove the lines dealing with the isConfirm variable, or set it to a constant
+    false value, the whole thing is reduced to a dialogue event logging system.
+
+
+    You could probably also use the Revit SDK EventsMonitor sample to monitor the
+    dialogue events. Oh no, I just checked, and it does not handle the DialogBoxShowing  event.
+    Well, then you are stuck with my contribution above.
+
+
+    If you like, please keep your solution minimal and completely generic when you
+    implement it and send it to me afterwards, and I''ll post it as well  :-)
+
+
+    Cheers, Jeremy.'
+- author: Dan Tartaglia
+  email: dtartaglia@nbbj.com
+  ip: 66.195.32.251
+  url: ''
+  date: '2010-01-20 21:11:40'
+  body: 'Hi Jeremy, great article! Have you ever attempted to hook onto when the ''Save
+    As'' dialog opens?
+
+
+    Thanks,
+
+    Dan'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-21 01:28:38'
+  body: "Dear Dan,\n\nThank you for your appreciation, I am very glad that you like\
+    \ it!\n\nNot personally. The topic of raising an event on Save As is mentioned\
+    \ briefly in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/03/more-questions.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/03/more-questions.html</a>\n\n\
+    I also remember a developer support case concerning this issue. Looking a bit\
+    \ closer, I discover that the case was raised by Mr. Dan Tartaglia  :-)\n\nSo\
+    \ you know all about it. I see there that we found no support for your needs in\
+    \ the Revit API, and I don't know how to achieve it using the Windows API, though\
+    \ I do believe it is possible, and probably not very hard if you just know the\
+    \ optimal approach. Sorry.\n\nCheers, Jeremy."
+- author: Dan Tartaglia
+  email: dtartaglia@nbbj.com
+  ip: 74.202.85.246
+  url: ''
+  date: '2010-01-21 17:31:45'
+  body: 'I didn''t know if you had any updated info on the issue. I''m sure this is
+    something a number of users would love to do.
+
+
+    Cheers,
+
+    Dan'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-21 18:08:04'
+  body: "Dear Dan,\n\nWell, as said, I do believe it is possible to hook into the\
+    \ Save As dialogue using the Windows API.\n\nWhat exactly was it that you wanted\
+    \ again?\n\nBy the way, have you had a close look at \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/10/dismiss-dialogue-using-windows-api.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/10/dismiss-dialogue-using-windows-api.html</a>\n\
+    \nThat may already provide all you need to solve this.\n\nCheers, Jeremy."
+- author: Dan Tartaglia
+  email: dtartaglia@nbbj.com
+  ip: 74.202.85.246
+  url: ''
+  date: '2010-01-22 13:21:49'
+  body: 'Hi Jeremy,
+
+
+    I want to hook onto the Save As dialog, cancel it, get the revit Document object
+    then open my own dialog. I''ll see if I can do the Windows part with the info
+    in the above link.'
+- author: Dan Tartaglia
+  email: dtartaglia@nbbj.com
+  ip: 74.202.85.246
+  url: ''
+  date: '2010-01-22 14:28:12'
+  body: Hi Jeremy, I'm not sure how to capture the child dialog of Revit with the
+    JtClicker utility.
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.152.175
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-25 10:46:08'
+  body: "Dear Dan,\n\nWell, capturing the dialogue should not be a big issue, it is\
+    \ simply identified by its title or whatever widgets it contains. You are pretty\
+    \ free to identify it in any way that you see fit. \n\nI still don't know whether\
+    \ that will be much use to you, though, you want to do more than just click a\
+    \ button.\n\nI suggest you ask a Windows API expert. This has nothing to do with\
+    \ the Revit API as such.\n\nCheers, Jeremy."
+- author: Dan Tartaglia
+  email: dtartaglia@nbbj.com
+  ip: 74.202.85.246
+  url: ''
+  date: '2010-01-25 13:04:21'
+  body: Gee thanks.
+- author: Dan Tartaglia
+  email: dtartaglia@nbbj.com
+  ip: 74.202.85.246
+  url: ''
+  date: '2010-01-25 14:11:19'
+  body: 'I apoligize for my sarcastic response. It''s just very frustrating trying
+    to accomplish this task using the API. I appreciate all your help.
+
+
+    Thanks,
+
+    Dan'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.152.175
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-25 15:02:13'
+  body: 'Dear Dan,
+
+
+    :-)   I love a bit of sarcasm now and then.
+
+
+    Sorry that I can''t think of anything more helpful.
+
+
+    Cheers, Jeremy.
+
+    -----'

@@ -1,0 +1,238 @@
+comments:
+- author: Rocky
+  email: rockyrock007@hotmail.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2010-04-20 05:43:37'
+  body: "Hi Jeremy,\nThanks for your reply and provide such a usefull information.\n\
+    But I want to know the exact position of stairs start at first level and exact\
+    \ end point of that stairs at second level means exact location fo the stairs.\
+    \ for example: if a stairs starts at first level and it will end at second level\
+    \ then \nHow will I know at second level the start of stairs at first level?\n\
+    \ I am using revit architecture 2010 with the c#\n\nRegards\nRocky"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-04-20 07:57:18'
+  body: "Dear Rocky,\n\nI am afraid that information is not easy to obtain, because\
+    \ the stair object is not yet fully exposed through the Revit API.\n\nI believe\
+    \ that you best bet will be to retrieve the stair geometry and try to extract\
+    \ the data you are looking for from that.\n\nFor example, look at my conversation\
+    \ with Shifali in the comments on \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/05/selecting-model-elements.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/05/selecting-model-elements.html</a>\n\
+    \nCheers, Jeremy."
+- author: Rocky
+  email: rockyrock007@hotmail.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2010-04-21 08:24:09'
+  body: 'Hi Jeremy,
+
+
+    Thanks for replying.
+
+    Can u please suggest the way to find opening in wall that is neither door nor
+    window?
+
+
+    Regards
+
+    Rocky'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-04-22 05:27:35'
+  body: "Dear Rocky,\n\nSure. Just filter for all openings in the document and select\
+    \ the one whose host is the wall. It is very similar to the code given above,\
+    \ except that I could not find a suitable parameter to implement the parameter\
+    \ filter, so I was stuck with just using explicit post-processing of the collector\
+    \ results. Here is some example code:\n\n    void GetOpeningsInWall( \n      Document\
+    \ doc, \n      Wall wall )\n    {\n      ElementId id = wall.Id;\n\n      BuiltInCategory\
+    \ bic\n        = BuiltInCategory.OST_SWallRectOpening;\n\n      FilteredElementCollector\
+    \ collector\n        = new FilteredElementCollector( doc );\n\n      collector.OfClass(\
+    \ typeof( Opening ) );\n      collector.OfCategory( bic );\n\n      // explicit\
+    \ iteration and manual \n      // checking of a property:\n\n      List openings\
+    \ = new List();\n\n      foreach( Opening e in collector )\n      {\n        if(\
+    \ e.Host.Id.Equals( id ) )\n        {\n          openings.Add( e );\n        }\n\
+    \      }\n\n      // using LINQ:\n\n      IEnumerable openingsOnLevelLinq =\n\
+    \        from e in collector.Cast()\n        where e.Host.Level.Id.Equals( id\
+    \ )\n        select e;\n\n      // using an anonymous method:\n\n      IEnumerable\
+    \ openingsOnLevelAnon =\n        collector.Cast().Where( e\n          => e.Host.Id.Equals(\
+    \ id ) );\n    }\n\nFrom now on, my friend, you will have to solve your own element\
+    \ filtering problems.\n\nCheers, Jeremy."
+- author: br
+  email: babu.rajan@hyderconsulting.com
+  ip: 203.108.113.62
+  url: ''
+  date: '2010-06-29 18:41:18'
+  body: We are working on Revit Structures. We draw the Reinforcements with line work.
+    Is there any way to filter line work with API?
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-30 07:08:45'
+  body: "Dear Babu,\n\nSure, you can use the filtered element collector to retrieve\
+    \ detail lines, for instance.\n\nLook at the various posts in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/filters\"\
+    >http://thebuildingcoder.typepad.com/blog/filters</a>\n\nSomething as simple as\
+    \ this should do the trick:\n\n  FilteredElementCollector collector\n    = new\
+    \ FilteredElementCollector( _doc );\n\n  collector.OfClass( typeof( DetailCurve\
+    \ ) );\n\nSince I will be going on holiday now, I will not be able to answer any\
+    \ updates for while, so please be patient ... Thank you!\n\nCheers, Jeremy."
+- author: Nitin
+  email: nitin.k@idsil.com
+  ip: 202.164.45.14
+  url: ''
+  date: '2012-06-25 05:56:57'
+  body: "Hi Jeremy,\n\nI am unable to find the stairs information using this method.\n\
+    \nElementId id = level.Id;\n \n  BuiltInCategory bic \n    = BuiltInCategory.OST_Stairs;\n\
+    \n  FilteredElementCollector collector\n    = new FilteredElementCollector( doc\
+    \ );\n \n  collector.OfCategory( bic );\n \n  List stairs = new List();\n \n \
+    \ foreach( Element e in collector )\n  {\n    if( e.Level.Id.Equals( id ) )\n\
+    \    {\n      stairs.Add( e );\n    }\n  }\n\nI am using Revit API 2013.\n\nPlease\
+    \ help me out.\n\nThanks."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.182.216
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-06-28 03:34:38'
+  body: 'Dear Nitin,
+
+
+    Maybe your stairs are different than mine.
+
+
+    You can use RevitLookup to discover the proper category to filter for the stairs
+    you are interested in.
+
+
+    Cheers, Jeremy.'
+- author: LeeJaeYoung
+  email: isinegajok@naver.com
+  ip: 118.223.75.155
+  url: ''
+  date: '2013-03-15 09:00:54'
+  body: 'Hi, Jeremy Tammik
+
+    I am study that create stairs in revit sdk 2013.
+
+
+    BuiltInCategory bic = BuiltInCategory.OST_Stairs;
+
+    ......
+
+    if (e.Category.Name == "Stairs")
+
+    .....
+
+
+    m_stairsRun = StairsRun.CreateStraightRun(document, stairsId, geomLine, StairsRunJustification.Center);
+
+
+    I made stairs a.m. method.
+
+    I want to modify stair type what I select stair type.
+
+    Can you advice me How I do?
+
+
+    m_stairsRun.get_Parameter(Autodesk.Revit.DB.BuiltInParameter.? or Other way.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.184.179
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-03-15 09:26:54'
+  body: 'Dear LeeJaeYoung,
+
+
+    You can use the Element.ChangeTypeId method to change the type of an element.
+
+
+    Cheers, Jeremy.'
+- author: LeeJaeYoung
+  email: isinegajok@naver.com
+  ip: 118.223.75.155
+  url: ''
+  date: '2013-03-20 07:35:44'
+  body: 'Hi, Jeremy Tammik.
+
+    Thank you so much.
+
+    ^^
+
+    And I want to create railing on the Level
+
+    (I don''t want to create stair railing. hahaha)
+
+    I study railing but I just find to create railing stair.
+
+
+    Can you advice me How I do?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 194.230.155.181
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-03-29 10:22:13'
+  body: 'Dear LeeJaeYoung,
+
+
+    As you have noticed, the Railing.Create method requires the id of a stair.
+
+
+    To create a free-standing railing with no stair, Rolando Hijar reports in a comment
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/02/list-railing-types.html?cid=6a00e553e16897883301676406fe61970b#comment-6a00e553e16897883301676406fe61970b">http://thebuildingcoder.typepad.com/blog/2009/02/list-railing-types.html?cid=6a00e553e16897883301676406fe61970b#comment-6a00e553e16897883301676406fe61970b</a>
+
+
+    "I found a way to create railings using the API:
+
+
+    - pick an existing railing
+
+    - create a group of it
+
+    - copy the group
+
+    - ungroup
+
+    - change the railing location line.
+
+
+    I did this to place railings over the top of walls in a perimeter fence."
+
+
+    Railings do not have a location curve, because they are sketch-based. The railing
+    location is defined by a model curve associated with the railing instead, and
+    the GeometryCurve property of this model curve can be set to some other curve
+    to modify it.
+
+
+    Please see whether you can create a minimal sample demonstrating a working solution
+    for sharing with the rest of the developer community. Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Jack Zhu
+  email: zlq0008@tom.com
+  ip: 114.167.244.24
+  url: ''
+  date: '2014-06-05 04:14:18'
+  body: 'Dear Jeremy Tammik
+
+
+    I want to create railing on top of walls Recently。
+
+    According to the above point,I copy an existing railing in 【ElementTransformUtils.CopyElement】,although
+    I Can''t change the railing loaction。
+
+
+    Could you teach me related source code When convenient。
+
+
+    ※I am foreigner,Level of English is not good :)
+
+
+    -----'

@@ -1,0 +1,220 @@
+comments:
+- author: Phillip Miller
+  email: phillip@kiwicodes.com
+  ip: 115.188.136.35
+  url: http://www.kiwicodes.com
+  date: '2012-12-12 05:28:04'
+  body: 'Yes Guy pointed that out to me a few months ago as well.
+
+
+    A Fantastic tip that speed things up no end :)'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-12-12 05:48:54'
+  body: 'Dear Phillip,
+
+
+    Yes, thank you for asking at the time. I hope it is of similar use to others as
+    well  :-)
+
+
+    Cheers, Jeremy.'
+- author: AbdulNaafay
+  email: mabdulnaafay@gmail.com
+  ip: 123.201.228.138
+  url: ''
+  date: '2012-12-19 15:08:40'
+  body: "Dear Jeremy,\n\nCould u please provide some sample code to illustrate this\
+    \ new feature in 2013 API to extract data from schedules. (Without going through\
+    \ the export procedure).  \n\nThanks"
+- author: Jeremy Tammik
+  email: ''
+  ip: 212.214.188.46
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-12-19 16:25:59'
+  body: 'Dear AbdulNaafay,
+
+
+    Sure. Here it is:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/05/the-schedule-api-and-access-to-schedule-data.html">http://thebuildingcoder.typepad.com/blog/2012/05/the-schedule-api-and-access-to-schedule-data.html</a>
+
+
+    Cheers, Jeremy.'
+- author: AbdulNaafay
+  email: mabdulnaafay@gmail.com
+  ip: 123.201.227.85
+  url: ''
+  date: '2012-12-20 03:13:58'
+  body: 'Dear Jeremy,
+
+
+    Thank you. I would like to know if it is possible to directly iterate through
+    the rows in a schedule to extract data without the need of exporting it to text
+    file and reading the data from the file.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.184.134
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-12-28 06:24:44'
+  body: "Dear AbdulNaafay,\n\nOk, I see. Perfectly valid request, of course. Sorry,\
+    \ not right now. This is an obvious wish list item to enhance the existing functionality,\
+    \ though, so it is sure to come soon. \n\nCheers, Jeremy."
+- author: Paul H
+  email: kfpopeye@yahoo.com
+  ip: 66.183.29.189
+  url: ''
+  date: '2012-12-30 18:57:45'
+  body: Is it possible to set the appearance of a viewschedule (IE. fonts)? I found
+    a parameter called "appearance" but it is null.
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-02 16:30:40'
+  body: 'Dear Paul,
+
+
+    Not right now, sorry to say. Perfectly valid request, of course. This is an obvious
+    wish list item to enhance the existing functionality, though, which was only just
+    added in the last release, so it is probable to come soon.
+
+
+    Cheers, Jeremy.'
+- author: Victor Chekalin
+  email: ''
+  ip: 91.221.195.201
+  url: http://profile.typepad.com/6p017ee5f8b354970d
+  date: '2013-02-04 00:12:21'
+  body: "Hi Jeremy.\nThanks a lot for the post. Thats exactly that I need!\nI wanted\
+    \ to determined Schedules on a Sheet and could not find how to retrieve its via\
+    \ API.\n\nThe solution is:\nFilteredElementCollector col2 = \n    new FilteredElementCollector(doc,\
+    \ viewSheet.Id);\nvar scheduleSheets =\n   col2\n    .OfClass(typeof(ScheduleSheetInstance))\n\
+    \    .OfType<ScheduleSheetInstance>()\n    .ToList();\n\nforeach (var scheduleSheetInstance\
+    \ in scheduleSheets)\n{\n  if (scheduleSheetInstance.ScheduleId != ElementId.InvalidElementId)\n\
+    \  {\n      var schedule =\n          doc.GetElement(scheduleSheetInstance.ScheduleId)\
+    \ as ViewSchedule;\n   }\n}\n\nTo get all elements belong to Schedule:\nvar elementsOnSchedule\
+    \ =\n  col2\n     .WhereElementIsNotElementType()                            \
+    \        \n     .ToElements()\n     .Where(e=>!(e is Material))\n     .ToList();\n\
+    \nI don't know why, but on default all schedules include all materials in the\
+    \ project. I exclude it by .Where(e=>!(e is Material)). If you know, please explain.\n\
+    \nRegards,\nVictor.\n\nP.S. Sorry. The angle brackets have disappeared:("
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.185.104
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-02-08 08:18:21'
+  body: 'Dear Victor,
+
+
+    Thank you for the information. Do you think we should publish this as a separate
+    post? Might it be useful to others as well? If so, please email me a solution
+    and maybe a little sample model to test it on, and I will promote this to a main
+    blog post on its own.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Matthew Nelson
+  email: mnelson7982@gmail.com
+  ip: 66.162.134.28
+  url: http://gotbim.info
+  date: '2013-12-07 18:00:23'
+  body: 'Hi Jeremy,
+
+
+    I was wondering, in regards to Revit Schedules, can you access the element that
+    defines rows in a schedule?
+
+
+    for instance, if you have sorted a schedule and suppressed the instances so that  the
+    count for each row is greater than one, can you create a collection of elements
+    and set the collections mark value?
+
+
+    or do you need to some how programmatically identify the sorting being applied  and
+    run the transaction separately and ignore the schedule completely?
+
+
+    Thanks Much!!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.25
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-12-08 03:03:26'
+  body: 'Dear Matthew,
+
+
+    Thank you for posting this as a comment.
+
+
+    I am not aware of any such element that controls the schedule behaviour.
+
+
+    To find out whether it works the way you suggest, I would set up the required
+    situation manually through the user interface and then explore it using RevitLookup,
+    the BipChecker, the interactive Python or Ruby shell, and any other tools that
+    you find useful to detect the differences.
+
+
+    That might tell you how to achieve your manual adjustment programmatically as
+    well, if you are lucky and it is possible at all.
+
+
+    What are you actually trying to achieve? Do you have to have the results displayed
+    in a schedule like this, or are you only after the results themselves? Do you
+    have to modify an existing schedule, or could you simply set up a completely new
+    schedule satisfying your needs?
+
+
+    As far as I am aware, the schedule creation API enables you to set up all possible
+    kinds of schedules. I may be wrong, though.
+
+
+    Please let us know what you find out. Thank you.
+
+
+    Cheers, Jeremy.'
+- author: Matthew Nelson
+  email: mnelson7982@gmail.com
+  ip: 66.162.134.28
+  url: http://gotbim.info
+  date: '2013-12-11 23:51:49'
+  body: I was trying to have a value populate similar to a mark value. When a set
+    of criteria was met, the value would be "A1" or "A2" etc. to shortcut the process,
+    i wanted to use the existing schedule to accomplish the goal.
+- author: Harry Mattison
+  email: ''
+  ip: 146.115.46.19
+  url: http://profile.typepad.com/6p01b8d0b96a8d970c
+  date: '2015-01-06 20:35:07'
+  body: 'Hi Jeremy,
+
+
+    Unfortunately, this technique does not work if the schedule includes elements
+    from RVT Links and it is those elements that you want to obtain.
+
+
+    Harry'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.167.147
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-01-07 03:04:28'
+  body: 'Dear Harry,
+
+
+    Happy New Year to you!
+
+
+    Oh dear, that sounds bad. Are you aware of any possible workaround?
+
+
+    Cheers, Jeremy.
+
+    -----'

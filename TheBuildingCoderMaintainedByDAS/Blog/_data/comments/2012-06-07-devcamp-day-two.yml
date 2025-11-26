@@ -1,0 +1,91 @@
+comments:
+- author: Maxence DELANNOY
+  email: maxence.delannoy@wiip.fr
+  ip: 92.155.10.212
+  url: http://wiip.fr
+  date: '2012-06-08 08:06:24'
+  body: I hope you don't have made the same mistake on Options dialogue WPF custom
+    extensions like it's on AutoCAD. Can I cancel the closing of the dialog in the
+    OnOK event handler if data entered by the user are not valid? Like the Cancel
+    property of the FormClosingEventArgs?
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.181.82
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-06-14 04:20:46'
+  body: "Dear Maxence,\n\nIndeed, you cannot cancel the closing of the Options dialogue\
+    \ from a custom tab extension OK handler.\n\nBecause there are many tabs in the\
+    \ options dialog, it would be rather hard to figure out on which page an error\
+    \ happened. \n\nImagine that you edit many items in many pages and introduce many\
+    \ errors, and then click OK. How would you solve all these problems, even given\
+    \ the chance to cancel the closing?\n\nMy suggestion is to report the error or\
+    \ invalid input data immediately, or implement a better UI design to avoid invalid\
+    \ input completely, e.g. restricting the input controls to selective widgets such\
+    \ as combobox, scrollbar, checkbox, etc.\n\nLook at the standard Revit input control\
+    \ under Options : General : Journal File Cleanup : When number of journals exceeds,\
+    \ and try to input anything but a number in it. It immediately reports \"Unacceptable\
+    \ Character - You can only type a number here.\"\n\nI am sure your users would\
+    \ appreciate that kind of immediate feedback as well.\n\nCheers, Jeremy."
+- author: Vi Lo
+  email: ''
+  ip: 92.103.238.135
+  url: http://profile.typepad.com/lo1
+  date: '2014-02-18 05:21:07'
+  body: 'Hi Jeremy,
+
+
+    I would like to create such an embedded view, but I want to embed and control
+    the view that is used in GbXML export dialog.
+
+
+    Namely, this is the "Analytical View" that shows the contact surfaces between
+    spaces and walls, and that is used to make analysis computations.
+
+
+    What is the best way to do that ?
+
+    Tanks ;)'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-02-18 05:49:20'
+  body: 'Dear Vi Lo,
+
+
+    The only serious API support for presenting a view of a Revit model is provided
+    by the PreviewControl component:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.7">http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.7</a>
+
+
+    The only input and programmatic control over the preview control is through its
+    constructor taking the document and a view.
+
+
+    Basically, this means the following: you can use the preview control in the way
+    you wish if and only if you can also set up a Revit view that displays the model
+    just like that.
+
+
+    Can you?
+
+
+    Cheers, Jeremy.'
+- author: Vi Lo
+  email: ''
+  ip: 92.103.238.135
+  url: http://profile.typepad.com/lo1
+  date: '2014-02-18 08:32:35'
+  body: 'Thanks you Jeremy for your help.
+
+
+    I''m currently investigating to find if the "GbXML view" can be recreated within
+    the user interface.
+
+
+    If I understand you well, if I manage to do that I will be able to do the same
+    via API.
+
+    -----'

@@ -1,0 +1,260 @@
+comments:
+- author: Kristoffer
+  email: kkv@selvaag.no
+  ip: 62.148.57.120
+  url: ''
+  date: '2010-08-11 10:04:36'
+  body: 'Hi Jeremy,
+
+
+    I''m struggling with a related problem that I''d be delighted if you could help
+    me with. I want to change wall types but the wall types I want to change to are
+    defined in a different Revit model. Manually what I do is to open the other model,
+    select and copy all the walls (using Ctrl-C) then switch to my model, paste them
+    in (Ctrl-V) and then delete them. The result is that the wall types are available
+    in my model and I can change wall types (both manually and through the API).
+
+
+    But how to do this programmatically? I thought that opening the other model and
+    getting hold of its wall types (eg. from the Document.WallTypes property) and
+    then changing the wall types of my walls in the ActiveDocument to the desired
+    type from this set would do the trick, but apparently not because what happens
+    is that when Revit (2010 by the way) regenerates the drawing, an error is signaled
+    and all the walls must be deleted, and after this operation the wall types are
+    not copied to my model.
+
+
+    I''ve tried several other approaches that I won''t bore you with; sadly, what
+    they have in common is that they don''t work. I think I can sum up my question
+    like this: how to make wall types from another Revit model available through the
+    API?
+
+
+    Regards,
+
+    Kristoffer'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-08-15 22:58:17'
+  body: "Dear Kristoffer,\n\nThank you for the clear description, which makes perfect\
+    \ sense. I am sorry to say that the API does currently not support copying of\
+    \ wall types from one document to another, and we do have an open wish list item\
+    \ for this.\n\nThe only suggestion I can make is use the duplicate method as described\
+    \ above to duplicate an existing wall type in the target document as many times\
+    \ as required and then copy the wall type properties from the wall types in the\
+    \ source to the target document one by one. \n\nYou will run into one snag with\
+    \ this, which is that you cannot modify the number of wall component layers of\
+    \ a wall type, so the target document will need to have predefined wall types\
+    \ available in it for each of the number of wall component layers that you may\
+    \ potentially require.\n\nIf you end up implementing this, I would be very interested\
+    \ to hear about it. Good luck!\n\nMeanwhile, I will add a note of your request\
+    \ to the existing wish list item.\n\nCheers, Jeremy."
+- author: Kristoffer
+  email: kkv@selvaag.no
+  ip: 62.148.57.120
+  url: ''
+  date: '2010-08-16 08:37:06'
+  body: 'Jeremy,
+
+
+    Thank you very much for your answer. Your suggestion fits my situation quite well,
+    because the walls in my project are IFC-imported equivalents of the wall types
+    defined in the "other" document. Therefore, they should have the same number of
+    layers. (The reason I want to change my "IFC"-wall types to the ones defined in
+    Revit is that the materials and layer functions are not right after the IFC-import
+    and it seems simpler just to take advantage of the types already correctly defined.)
+
+
+    I''ll be happy to let you know if I implement such a wall type copying-function.
+    Since the manual workaround is so simple ("please copy in the walls before you
+    run my fix") I''ll focus on other aspects first, but I''m sure to come back to
+    this eventually.
+
+
+    By the way, am I right to assume that the same applies to the other system families,
+    like floors?
+
+
+    Thanks!
+
+
+    Kristoffer'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-08-16 09:17:00'
+  body: 'Dear Kristoffer,
+
+
+    Thank you for your appreciation, I am very glad it was of use. I''m looking forward
+    to hearing about your solution once you get around to it. Yes, I would indeed
+    assume that the same applies to other system families.
+
+
+    Cheers, Jeremy.'
+- author: tzavelis@hotmail.com
+  email: tzavelis@hotmail.com
+  ip: 67.81.66.6
+  url: ''
+  date: '2010-11-05 15:41:23'
+  body: "Hello Jeremy,\nI would like to change the cross-section of beams and columns\
+    \ in an existing Revit document using VB. Is there any way to programmatically\
+    \ Load W-Wide-Flange Family Types (from the Revit database *.rfa ) and assign\
+    \ them to existing beams and columns? \nThank you\nCosmas"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-11-05 15:52:25'
+  body: 'Dear Cosmas,
+
+
+    Sure you can. I think, at least. Simply use the Document LoadFamilySymbol method
+    to load the family, select the beams and columns you want to modify, and assign
+    a different type to them using the FamilyInstance Symbol property. Please let
+    us know whether it works as expected.
+
+
+    Cheers, Jeremy.'
+- author: tzavelis@hotmail.com
+  email: tzavelis@hotmail.com
+  ip: 67.81.66.6
+  url: ''
+  date: '2010-11-20 18:21:03'
+  body: "Hello Jeremy,\nI have tried the following code and it did change the type\
+    \ of a Family. But Revit pops out a window titled \"Family Already Exists\" and\
+    \ I have to manually select \"Overwrite the existing version\" or \"Overwrite\
+    \ the existing version and its parameters\".\nI assume this happens because the\
+    \ particular .rfa family file is already loaded in Revit.  Is there any way to\
+    \ only load a specific type (say \"W10X49\")  from an already loaded family? \n\
+    \n\nDim mFamInstance As FamilyInstance = x\n\nDim rvtDoc As Document = mFamInstance.Document\n\
+    Dim RvtFamFile As String = \"C:\\ProgramData\\Autodesk\\RST 2011\\Imperial Library\\\
+    Structural\\Framing\\Steel\\W-Wide Flange.rfa\"\nDim RvtSmbl As FamilySymbol =\
+    \ Nothing\nDim IsAISCloaded As Boolean = rvtDoc.LoadFamilySymbol(RvtFamFile, \"\
+    W10X49\", RvtSmbl)\nIf IsAISCloaded = True Then\n   Me.mFamInstance.Symbol = RvtSmbl\
+    \                \nEnd If \n\n\nIn also tried to replace Symbol with Element Type\
+    \ as described in this blog, but could not find a way to replace LoadFamilySymbol\
+    \ \n\nCosmas"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-11-22 08:01:09'
+  body: 'Dear Cosmas,
+
+
+    If you want to hide that message, there are blog posts describing how to do so.
+    Look for ''Failure API''.
+
+
+    As far as I can tell from your code, you are already loading just one specific
+    type:
+
+
+    Document.LoadFamilySymbol Method:
+
+
+    Loads only a specified family type/symbol from a family file into the document.
+
+
+    Cheers, Jeremy.'
+- author: Nitin
+  email: ''
+  ip: 27.58.97.147
+  url: http://profile.typepad.com/nitinjambhale2008
+  date: '2011-09-04 10:18:09'
+  body: 'Dear sir,
+
+    I m having the issue with changing types, and it would be great if you help me
+    as always.
+
+    First I m loading pipe fitting(of type elbow) in project and duplicating one of
+    my Pipe Type. This has been done.
+
+    Now i have to change the fitting type Elbow to the family i have loaded.
+
+
+    In Revit 2012 IDE i m getting the new instance in Elbow category. But i m not
+    able to set that programmatically.
+
+
+    Please help.
+
+
+    Thanks & Regards,
+
+    -Nitin'
+- author: Jeremy Tammik
+  email: ''
+  ip: 84.226.76.89
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-09-06 02:25:30'
+  body: 'Dear Nitin,
+
+
+    I really don''t know what to suggest beyond what is said above.
+
+
+    Load the fitting family symbol required and assign it to the family instance symbol
+    property.
+
+
+    What is the problem?
+
+
+    You might also be able to use the Element.GetValidTypes to obtain a set of types
+    that are valid for a given element, and IsValidType to check if a given type is
+    valid for a specific element.
+
+
+    Cheers, Jeremy.'
+- author: Cosmas
+  email: tzavelis@hotmail.com
+  ip: 24.228.66.151
+  url: ''
+  date: '2012-07-03 23:36:21'
+  body: 'Hello Jeremy,
+
+    In Revit2013 LoadFamilySymbol uses only the already loaded Family which by default
+    only contains a couple of Types. I have to reload the entire Family again in order
+    to be able to access additional types. But reloading takes a long time! In my
+    case close to 5 minutes! Is there a faster way to load just the Family Types that
+    I want? I use Structural Columns and Structural Framing families. I also noticed
+    that opening RevitStructures takes a long time even though I have used CopyLocal
+    FALSE for the RevitAPI and RevitAPIUI'
+- author: Toby
+  email: tobias.ninz@wolfsystem.it
+  ip: 93.89.50.25
+  url: ''
+  date: '2014-09-24 07:36:38'
+  body: 'Hi,
+
+    I''m pretty new at this Revit programming and I wanted to ask, if it''s possible
+    to add a new family. I have a database were the parameters/nams/width....etc.
+    are, I read the data from the database and want to create a new family and add
+    it to the document.
+
+    I would be really glad if you could help me.
+
+
+    Thanks,
+
+    Toby
+
+
+    PS: Sorry for my poor English...'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-09-24 07:58:59'
+  body: "Dear Toby,\n\nSure you can. \n\nIt will help you a lot to learn how to do\
+    \ it through the user interface, first, though, because Revit and its API is different\
+    \ from most other CAD systems:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.41\"\
+    >http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.41</a>\n\nLook\
+    \ at the key concepts of the family editor and the Family API here:\n\n<a href=\"\
+    http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.25\">http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.25</a>\n\
+    \nCheers, Jeremy.\n-----"

@@ -1,0 +1,375 @@
+---
+layout: "post"
+title: "Design Automation for Revit at AU and in Public"
+date: "2018-11-14 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "AU"
+  - "Cloud"
+  - "DA4R"
+  - "Family"
+  - "Forge"
+original_url: "https://thebuildingcoder.typepad.com/blog/2018/11/forge-design-automation-for-revit-at-au-and-in-public.html "
+typepad_basename: "forge-design-automation-for-revit-at-au-and-in-public"
+typepad_status: "Publish"
+---
+
+<p>One of the most exciting Revit related topics at Autodesk University is the expansion of the Forge Design Automation API to include support for Revit families and models in RFA and RVT files, aka Design Automation for Revit or DA4R:</p>
+
+<ul>
+<li><a href="#2">Design Automation for Revit Public Beta</a> </li>
+<li><a href="#3">FDC226894 &ndash; DA4R at DevCon at AU Las Vegas</a> </li>
+<li><a href="#4">AS226079 &ndash; Manage Revit Digital Content using DA4R</a> </li>
+<li><a href="#4.1">Learning Objectives</a> </li>
+<li><a href="#4.2">Description</a> </li>
+<li><a href="#4.3">Introduction</a> 
+<ul>
+<li><a href="#4.3.1">What is Forge Design Automation for Revit (Revit.io)?</a> </li>
+<li><a href="#4.3.2">Revit.io Model</a> </li>
+<li><a href="#4.3.3">Terminology</a> </li>
+<li><a href="#4.3.4">Why Revit.io?</a> </li>
+</ul></li>
+<li><a href="#4.4">Cloud based content management with automated client requirements and standardization</a> 
+<ul>
+<li><a href="#4.4.1">How it works</a> </li>
+<li><a href="#4.4.2">Advantages</a> </li>
+</ul></li>
+<li><a href="#4.5">Generating native project templates through Revit I/O on the cloud</a> 
+<ul>
+<li><a href="#4.5.1">Creating Templates</a> </li>
+<li><a href="#4.5.1.1">Embedding the Loadable families</a> </li>
+<li><a href="#4.5.1.2">Embedding the System families</a> </li>
+</ul></li>
+<li><a href="#4.6">Learn how to link to Forge for Real-Time query and visualization</a> 
+<ul>
+<li><a href="#4.6.1">Real-Time Query</a> </li>
+<li><a href="#4.6.2">Real-Time Visualization</a> </li>
+</ul></li>
+<li><a href="#4.7">Learn how to manipulate and manage content in the cloud</a> </li>
+<li><a href="#4.8">Conclusion</a> </li>
+<li><a href="#5">Recording and presentation videos online</a> </li>
+</ul>
+
+<h4><a name="2"></a> Design Automation for Revit Public Beta</h4>
+
+<p>Mikako Harada officially announced that
+the <a href="https://forge.autodesk.com/blog/design-automation-revit-public-beta-coming-january-28">Design Automation for Revit public beta is coming</a> in
+the beginning of next year:</p>
+
+<p>Great news: We are happy to announce that Design Automation API for Revit (aka Revit IO) will be going to public beta on January 28, 2019. </p>
+
+<ul>
+<li><b>What is Design Automation API for Revit?</b>
+<br/>It’s Revit’s engine running in the cloud as a Forge service. Build cloud-native apps and services that create, extract, and modify Revit data.
+Check out the <a href="#3">Forge DevCon class FDC226894</a> highlighted below for more info.</li>
+<li><b>I’m interested. What do I do?</b>
+<br/>Let us know what you’d like to build: check out
+the <a href="http://www.autodesk.com/revitonforge">revitonforge web site</a> and
+email us at <a href="mailto:revitonforge@autodesk.com">revitonforge@autodesk.com</a>.
+<br/>You can start converting your Revit add-ins by following the instructions in
+the <a href="https://thebuildingcoder.typepad.com/files/fdc226894_da4r_sasha_crotty_handout.pdf">FDC226894 class handout</a>.</li>
+<li><b>Can I work with Autodesk to turn my idea into code?</b>
+<br/>Yes! A great way to do this is to apply to the Forge Accelerator in Boston, MA on February 4-8, 2019.
+This is a special program to help developers leverage Autodesk Forge APIs to build next generation solutions.
+The February workshop will focus on Design Automation for Revit.
+Work up close and personal with the Autodesk team to turn your idea into a working prototype.
+Learn more and apply
+at <a href="http://www.autodeskcloudaccelerator.com">www.autodeskcloudaccelerator.com</a>.</li>
+</ul>
+
+<h4><a name="3"></a> FDC226894 &ndash; DA4R at DevCon at AU Las Vegas</h4>
+
+<p>The main session presenting Forge Design Automation for Revit at the Forge DevCon at AU in Las Vegas
+was quite similar to
+the <a href="http://thebuildingcoder.typepad.com/blog/2018/10/forge-design-automation-for-revit.html">one I gave at DevCon and AU Germany</a> in
+Darmstadt last month:</p>
+
+<p><a href="https://autodeskuniversity.smarteventscloud.com/connect/sessionDetail.ww?SESSION_ID=226894"><u><b>FDC226894</b> &ndash; Revit Data on Forge &ndash; How Can the Design Automation for Revit API Help Me?</u></a>:</p>
+
+<p>The Forge Design Automation API for Revit allows you to build web applications that can create, read, and modify Revit models in the cloud. No longer is access to Revit data trapped on the desktop. Learn how Forge can help you manage and create Revit data in cloud-native applications. We'll review the different kinds of apps you will be able to build using the Design Automation API to solve your company's challenges as well as demonstrate some sample applications using the service.</p>
+
+<p>For your convenience, here is
+a <a href="https://thebuildingcoder.typepad.com/files/fdc226894_da4r_sasha_crotty_handout.pdf">direct link to the session handout</a>.</p>
+
+<p>This session was prepared and presented by:</p>
+
+<ul>
+<li>Diane Christoforo, Revit Development, Autodesk</li>
+<li>Ryan Duell, Quality Assurance Analyst and Product Owner, Autodesk</li>
+<li>Sasha Crotty, Revit Product Manager, Autodesk</li>
+</ul>
+
+<h4><a name="4"></a> AS226079 &ndash; Manage Revit Digital Content using DA4R</h4>
+
+<p>For some real live hands-on experience in making use of DA4R by participating in the ongoing private beta, we turn to the AU session
+<a href="">AS226079 &ndash; Manage Revit Digital Content using Forge Design Automation API for Revit</a> held
+by Mustafa Salaheldin Ali and Marc Durand
+of <a href="https://www.atkinsglobal.com">SNC-Lavalin Atkins</a> on Tuesday November 13.</p>
+
+<p>Here are the class materials in PDF format:</p>
+
+<ul>
+<li><a href="https://thebuildingcoder.typepad.com/files/as226079_da4r_mustafa_salaheldin_presentation.pdf">Slide deck</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/files/as226079_da4r_mustafa_salaheldin_handout.pdf">Handout</a></li>
+</ul>
+
+<p>For your comfort and convenience, here is also the complete handout text directly:</p>
+
+<h4><a name="4.1"></a> Learning Objectives</h4>
+
+<ul>
+<li>Through cloud-based content management, discover how to automate client requirements and standardize project templates.</li>
+<li>Understand how to generate native project templates through Revit I/O in the cloud.</li>
+<li>Learn how to link to Forge for real-time query and visualization.</li>
+<li>Learn how to manipulate and manage content in the cloud.</li>
+</ul>
+
+<h4><a name="4.2"></a> Description</h4>
+
+<p>In this class, you will discover how to create native Revit content as well as how to do project setup directly from a web portal. In this class, we will demonstrate how we used the Design Automation for Revit API to implement:</p>
+
+<ol>
+<li>Cloud based content management platform with client requirements and standards.</li>
+<li>Project template generation.</li>
+<li>Real time query and visualization.</li>
+<li>Native Revit file creation.</li>
+</ol>
+
+<p>All directly from our web application!</p>
+
+<h4><a name="4.3"></a> Introduction</h4>
+
+<p>Before we go through the objectives, we just wanted to cast some rays on what Forge Design Automation for Revit (a.k.a. Revit.io) is. So far, Revit.io is a private beta, which means that few people have access to such technology for testing and evaluation purposes.</p>
+
+<h4><a name="4.3.1"></a> What is Forge Design Automation for Revit (Revit.io)?</h4>
+
+<p>Revit.io is part of the Forge Design Automation API for that lets you build web applications that create, read, and modify Revit models. It will allow developers to access the “business logic” of Revit on the cloud. Like Design Automation API for AutoCAD, developers can create client applications, which speak to the Revit engine via REST API.</p>
+
+<p>Developers will be able to automate existing workflows or create new cloud workflows. Because Design Automation API for Revit is a Forge service, we can take advantage of other Forge services to easily connect our applications together.</p>
+
+<p>What are some examples of what the service can do?</p>
+
+<p>There are many options falling under three major workflows: Create, Extract, and Modify.</p>
+
+<ul>
+<li>Create
+<ul>
+<li>Convert from a third-party format to RVT/RFA</li>
+<li>Generate documentation from a specification</li>
+<li>Create families from a catalogue</li>
+</ul></li>
+<li>Extract
+<ul>
+<li>Put data into a format Revit doesn’t natively support</li>
+<li>Share model info with consultants who don’t have Revit</li>
+<li>Create daily model reports</li>
+</ul></li>
+<li>Modify
+<ul>
+<li>Design option generation</li>
+<li>Automatically replace out-of-date content</li>
+<li>Fix common modelling mistakes</li>
+</ul></li>
+</ul>
+
+<h4><a name="4.3.2"></a> Revit.io Model</h4>
+
+<p>Like other Forge services, you will create a Forge client application, which will call the REST API endpoints. You can use any language, which can make REST calls. This client application will also do any “front-end” work you need – displaying UI to an end-user, for example.</p>
+
+<p>In addition to the client application, we will create one or more Revit add-ins to execute against the Revit engine. They will be uploaded to the Design Automation service and your client application will refer to them when invoking the service. They can be kept private or public depending on what you want.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833022ad37a44cf200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833022ad37a44cf200c image-full img-responsive" alt="Architecture of Revit.io" title="Architecture of Revit.io" src="/assets/image_a4ee7e.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p style="font-size: 80%"><i>Fig.1 Architecture of Revit.io</i></p>
+
+<p></center></p>
+
+<h4><a name="4.3.3"></a> Terminology</h4>
+
+<p>There is some important terminology, which we should be aware of, in order to be able to develop the application.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833022ad3a0691d200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833022ad3a0691d200d image-full img-responsive" alt="Revit.io components" title="Revit.io components" src="/assets/image_508733.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p style="font-size: 80%"><i>Fig.2 Revit.io components</i></p>
+
+<p></center></p>
+
+<p>In the following list I‘ll show you some of definitions and terms used:</p>
+
+<ul>
+<li>Activity: It is like a function definition, it specifies one or more apps, a set of inputs and outputs, and a product engine to run against.</li>
+<li>WorkItem: This is a specific invocation of an activity, indicating specific input files and an output location.</li>
+<li>AppPackage: Apps refers to one or more add-ins and can be used later by multiple applications.</li>
+<li>Engine: It is what executes a WorkItem job and processes the actions specified by an Activity.</li>
+<li>NickName: A nickname is a way to map a Forge App ClientId to a customized string. A nickname lets you create a friendly, easy-to-read string that can be used in place of the long Forge App ClientId.</li>
+<li>Alias: An alias is a label to a specific version of app or activity. Aliasing gives you more control over how you update appbundles and activities.</li>
+</ul>
+
+<p>Design Automation, Design Automation for Revit, DA, DA4R and Revit.io will be used interchangeably to refer to the same thing.</p>
+
+<h4><a name="4.3.4"></a> Why Revit.io?</h4>
+
+<p>There is no difference between writing a code using the DA API and writing the code for a regular Revit add-in, they are almost equivalent except that in DA you don’t have access to the UI components to the Revit interface and you only limited to address the db.</p>
+
+<p>The real advantage is since the DA is a part of the Autodesk Forge platform that works on the cloud then you can make your add-in more powerful by giving it unlimited access to all other cloud service providers.</p>
+
+<p>By connecting to other cloud services, you can use advanced features like Lambda functions from Amazon and even plug your add-in to the ML and AI provided from Microsoft or Google for example.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833022ad3c00abf200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833022ad3c00abf200b image-full img-responsive" alt="Revit.io integration with cloud platforms" title="Revit.io integration with cloud platforms" src="/assets/image_490a98.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p style="font-size: 80%"><i>Fig.3 Revit.io integration with cloud platforms</i></p>
+
+<p></center></p>
+
+<p>The harmonization between a digital operating model, predictive analytics, and a microservices architecture allows digital organizations to quickly take customer desires and feedback and turn them into actionable, revenue-generating business solutions. As Artificial Intelligence or AI becomes more prevalent in business applications, these organizations use rudimentary machine learning to improve decision making in big data analysis.</p>
+
+<h4><a name="4.4"></a> Cloud based content management with automated client requirements and standardization</h4>
+
+<p>Using DA4R we were able to build a Revit integrated cloud-based Revit content management platform that helps us to produce healthier, higher quality models faster.</p>
+
+<p>Our solution helps Digital Managers to organize and control the quality of their Revit family libraries.</p>
+
+<h4><a name="4.4.1"></a> How it works</h4>
+
+<p>The first step is to upload the Revit model to portal. Once the upload process is done the Web App will send a copy of the Revit file to the Revit.io engine and trigger the Families extraction add-in. As soon as DA4R finishes the extraction, it will save the Families into folders named after their Category names. As the DA4R only will allow us to get the result of our processing in the form of single file, then we need to zip all the folders into a single archive.</p>
+
+<p>The archived categorized families will then be uploaded to an AWS bucket where we will make benefit from the Amazon S3 services and the Lamda functions. After the upload is complete, we will use Lambda function to trigger an extraction process, which will unzip the contents into another bucket. Whenever the extraction is finished, another Lambda function will be triggered to upload the extracted families into their related buckets in the Forge associated buckets. Applying the corporate standard to the families like file name convention, validating the families or testing the parameters can take place at any stage after the extraction, either by triggering another Lambda function or at your Web App after the Families are uploaded to the Forge buckets.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833022ad37a44f1200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833022ad37a44f1200c image-full img-responsive" alt="Revit.io integration with cloud-platforms" title="Revit.io integration with cloud-platforms" src="/assets/image_034559.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p style="font-size: 80%"><i>Fig.4 Revit.io integration with cloud-platforms</i></p>
+
+<p></center></p>
+
+<h4><a name="4.4.2"></a> Advantages</h4>
+
+<p>By connecting to Cloud-Services from different vendors, you can improve your web application by integrating many Machine Learning and AI algorithms with it.</p>
+
+<p>This will help you quickly build projects by getting suggestions from the ML about the Families you need to use or optimum design layout and building orientation for instance.</p>
+
+<p>As you are keeping all your content in one place, you have a Single point of truth where everything is up-to-date and sanitized. In addition, that will make you sure of Templates consistency.</p>
+
+<h4><a name="4.5"></a> Generating native project templates through Revit I/O on the cloud</h4>
+
+<p>The most powerful benefits from using Revit.io is the ability of generating Revit digital content on the cloud. Centralization will lead to a single point of truth consistency and easy maintainability, tracking the Project history and automatically update the status.</p>
+
+<h4><a name="4.5.1"></a> Creating Templates</h4>
+
+<p>Creating a robust collection of content is critical to any architectural design firm. In this section, we will consider the issue of content as it pertains to your project templates. Instead of using content that is preloaded in the templates, we can provide it externally and load when needed. You have the choice of which families should be included.</p>
+
+<h4><a name="4.5.1.1"></a> Embedding the Loadable families</h4>
+
+<p>Using DA4R we were able to create templates that contains the corporate’s Families from a standard Families Catalogue. This has been achieved by gathering the families from each project uploaded to the portal, validated and making sure it is following the standard.</p>
+
+<p>Note that many Families are customized and modified through the project lifetime. By using a simple ML algorithm, you can create a Suggestion System which is able to recognize the Families of the same geometry but different in parameters. That way the system is able to do versioning and ask you which version you want to keep or you need to keep both or merge them into one.</p>
+
+<p>The ML algorithm can recognize the type of the project from the EIR and then suggest you the right Families to include in your project.</p>
+
+<p>In our portal user can drag and drop or simply select the required Families for the next project into a Forge viewer; User can also reposition and change the orientation of each Family.</p>
+
+<p>Once you finish the laying out, you can execute the DA Workitem that will create a Revit template file with all the positioned Families at the same location.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833022ad3a06944200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833022ad3a06944200d image-full img-responsive" alt="Family Catalogue created by Revit.io" title="Family Catalogue created by Revit.io" src="/assets/image_95a453.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p style="font-size: 80%"><i>Fig.5 Family Catalogue created by Revit.io</i></p>
+
+<p></center></p>
+
+<h4><a name="4.5.1.2"></a> Embedding the System families</h4>
+
+<p>It is easy now to create all your System Families now online on the fly. Keeping your Families centralized will assure the consistency of your model and guarantee easy maintaining and upgrade.</p>
+
+<p>In our portal, we are able to create different type of System Families like Walls, Floors, Ceilings and Roofs. Once the Family is created, it is easy to embed it into the template.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833022ad3a06949200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833022ad3a06949200d image-full img-responsive" alt="Creating Revit system Families using Revit.io" title="Creating Revit system Families using Revit.io" src="/assets/image_5fe48d.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p style="font-size: 80%"><i>Fig.6 Creating Revit system Families using Revit.io</i></p>
+
+<p></center></p>
+
+<h4><a name="4.6"></a> Learn how to link to Forge for Real-Time query and visualization</h4>
+
+<p>As DA4R is a part of the Forge platform, it became so easy to integrate it with different components of Forge. Making advantage of this privilege, we managed to push the model geometry and data back and forth between Forge Viewer and Revit.io. This allows us to create models in the Forge Viewer then send it to Revit.io for further processing and file creation.</p>
+
+<p>On the other hand, we managed to extract information from the model directly using DA4R to build dashboards, insights and reports.</p>
+
+<h4><a name="4.6.1"></a> Real-Time Query</h4>
+
+<p>In the following example, we will show how we used Revit.io to make enquiries from Revit Models using DA4R. To check the model health there are many indicators, one of them is the Model Warnings. By checking the status of the Model Warnings, we can solve issues that can enhance the performance of the model and minimize the errors.</p>
+
+<p>In our portal, we can enquiry the warnings directly from the model and present them in different types of graphs.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833022ad3a06958200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833022ad3a06958200d image-full img-responsive" alt="Creating Revit Model Queries on Real-Time using Revit.io" title="Creating Revit Model Queries on Real-Time using Revit.io" src="/assets/image_065309.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p style="font-size: 80%"><i>Fig.7 Creating Revit Model Queries on Real-Time using Revit.io</i></p>
+
+<p></center></p>
+
+<h4><a name="4.6.2"></a> Real-Time Visualization</h4>
+
+<p>In this example, we will demonstrate how using Revit.io can be very helpful to build a dashboard for Revit Model. One of our projects was a MasterPlan project, where the client needed to visually get analytics of the GIS information of the plots to help him making some decisions. Using Revit.io, we were able to extract the data directly from the model, where all the GIS data were stored, and then recalled them online directly from the model to build the insights dashboard.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833022ad37a450b200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833022ad37a450b200c image-full img-responsive" alt="Getting Revit Model Analytics using Revit.io" title="Getting Revit Model Analytics using Revit.io" src="/assets/image_e1bb0e.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p style="font-size: 80%"><i>Fig.8 Getting Revit Model Analytics using Revit.io</i></p>
+
+<p></center></p>
+
+<h4><a name="4.7"></a> Learn how to manipulate and manage content in the cloud</h4>
+
+<p>How many times did you need to sanitize your content after delivering a project?</p>
+
+<p>Maintaining the Models and keeping them healthy are very important to ensure the consistency of the project and its robustness. This is why Revit.io is playing a great role in that, as we can manipulate the Revit project contents to verify that we met the corporate standards to keep the model healthy as possible.</p>
+
+<p>In our example, we created a set of criteria as a checklist that can be applied to the Revit project to ensure its cleanliness. Such list can contain some regular tasks like opening the file with Audit, deleting all the unused Sections, removing all unplaced Rooms and Groups, resaving the file with Compact option selected. That way, as we manipulated the Revit file content, we can get better Model performance and minimize the storage space.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833022ad37a450f200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833022ad37a450f200c image-full img-responsive" alt="Manipulating Revit Model content for sanitizing" title="Manipulating Revit Model content for sanitizing" src="/assets/image_da01ee.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p style="font-size: 80%"><i>Fig.9 Manipulating Revit Model content for sanitizing</i></p>
+
+<p></center></p>
+
+<h4><a name="4.8"></a> Conclusion</h4>
+
+<p>With new technologies constantly emerging, companies need to be at the forefront in order to continue providing competitive and relevant offerings to their clients. The evolution of the AEC industry dictates a shift in which companies need to adapt to such changes. The recent development and deployment of Building Information Modelling (BIM), for example, emphasizes the importance of such endeavours.</p>
+
+<p>By finding a way to glue the new technologies with the BIM standards, we can say that Revit.io is the best technology to do so. As this technology is still evolving we expect more and more in the future to come.</p>
+
+<p>Very many thanks to Mustafa and Marc for preparing this material and sharing their exciting new experience!</p>
+
+<h4><a name="5"></a> Recording and Presentation Videos Online</h4>
+
+<p>The AU class recording and all videos in the presentation are now available online:</p>
+
+<ul>
+<li><a href="https://www.autodesk.com/autodesk-university/forge-content/au_class-urn%3Aadsk.content%3Acontent%3Ae3bca201-0caf-4f37-bae0-d171a187ad03">AS226079: Manage Revit Digital Content using Forge Design Automation API for Revit</a></li>
+<li><a href="https://www.youtube.com/watch?v=WpCm4o2Ynjo&amp;list=PLyobA0wOWp-qhdSSbIroQaf8ZFSXEVF2K">Demonstration videos</a>
+<ol>
+<li><a href="https://youtu.be/WpCm4o2Ynjo">Extracting families from project</a></li>
+<li><a href="https://youtu.be/p9J6i1uvXjw">Adding loadable families to a template</a></li>
+<li><a href="https://youtu.be/1RLirR48sI0">Creating new system family types</a></li>
+<li><a href="https://youtu.be/nBI9mJ1y_js">Adding system families to templates</a></li>
+<li><a href="https://youtu.be/Jj3KStWNMAo">Creating real-time Revit model queries</a></li>
+<li><a href="https://youtu.be/DPY4wf6npzQ">Getting Revit model analytics</a></li>
+</ol></li>
+</ul>
+
+<p>Thank you again <a href="https://twitter.com/mustafasalah81">@Mustafa Salaheldin</a> for the wonderful demos!</p>

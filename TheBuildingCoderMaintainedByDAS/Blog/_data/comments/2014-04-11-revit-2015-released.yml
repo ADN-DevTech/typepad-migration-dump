@@ -1,0 +1,297 @@
+comments:
+- author: ahmed
+  email: ahmad4343@hotmail.com
+  ip: 2.90.124.180
+  url: ''
+  date: '2014-04-11 17:09:49'
+  body: Hi,Could you upload to us c# and vb revit Api template ?
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.195.155
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-04-14 02:37:40'
+  body: 'Dear Ahmed,
+
+
+    I assume you refer to the Visual Studio wizard to create a new Revit 2015 add-in?
+
+
+    Yes, sure. Thank you for asking about it.
+
+
+    I''ll do that as soon as possible. It will take a couple of days more before I
+    can get to it, though.
+
+
+    Cheers, Jeremy.'
+- author: Paul Kinnane
+  email: paul@physicalc-software.com
+  ip: 108.162.249.216
+  url: ''
+  date: '2014-04-22 05:27:34'
+  body: "Jeremy - did something change with Revit 2015 and CustomExporter?  The line\
+    \ \n\nCustomExporter exporter = new CustomExporter(document, m_ExportContext)\n\
+    \nis throwing the following exception in 2015 (runs fine in Revit 2014).\n\nAn\
+    \ unhandled exception of type 'Autodesk.Revit.Exceptions.InternalException' occurred\
+    \ in RevitAPI.dll\n\nAdditional information: Failed to register a managed object\
+    \ for the currently active external application. A possible cause may be an inactive\
+    \ external application (not being invoked by Revit at present) attempting to assess\
+    \ the Revit API from a modeless dialog or another outside thread."
+- author: Jeremy Tammik
+  email: ''
+  ip: 108.162.231.11
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-04-22 06:58:41'
+  body: 'Dear Paul,
+
+
+    What context are you calling this line of code from?
+
+
+    Are you within a standard Revit external command?
+
+
+    Are you in some other Revit API callback or event handler method?
+
+
+    If not, then you probably are not in a valid Revit API context.
+
+
+    That is what the error message is trying to convey.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 108.162.254.148
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-04-22 20:07:17'
+  body: '... or, as Arnošt Löbel puts it in his answer to your same question in the
+    Revit API discussion forum thread
+
+
+    <a href="http://forums.autodesk.com/t5/Revit-API/Revit-2015-exception-with-Autodesk-Revit-DB-CustomExporter/m-p/4978936">http://forums.autodesk.com/t5/Revit-API/Revit-2015-exception-with-Autodesk-Revit-DB-CustomExporter/m-p/4978936</a>
+
+
+    Although it is a bit odd that the exception is an Internal exception, the reported
+    details suggest what could be wrong. It is indeed illegal making out-of-context
+    calls to Revit API from a modeless dialog. It has always been illegal, but Revit
+    does not always enforces that in all possible situations. More and more checks
+    are added to the API in each release to enforce this rule against illegal invocations
+    of the Revit API. I believe this particular case is one of those that had been
+    addressed in R2015.
+
+
+    What I mean by "illegal" is the case when some add-in makes calls to the Revit
+    API at times that is not within a regular and standard API context, that is a
+    process started by Revit, such as an external command, dynamic updater, event,
+    call-back, etc. This is the case, for example, of a modeless dialog invoking the
+    API at any given time (i.e. outside of the contexts mentioned above). That has
+    been always illegal and unsupported in Revit, for Revit does not support external
+    access from multiple threads. There are only two legitimate situations in which
+    a modeless dialog can communicate with Revit, and that is 1) during an Idling
+    event, and 2) via an External event. Both cases are well documented and sampled
+    in the SDK. (Look for Modeless dialog.)
+
+
+    So, in your particular case of trying to register a Custom Exporter, this is what
+    is happening: Your app implements an Export Context and instantiates it. Then
+    it tries to invoke a custom export with the context object as an argument. Revit
+    needs to associate the given object with the currently active (i.e. being invoked
+    by Revit) application. However, since the call to export was called from an independent
+    modeless dialog, there is no active application available, hence the exception.
+
+
+    Cheers, Jeremy.'
+- author: Moustafa Khalil
+  email: mostafa90@gmail.com
+  ip: 196.204.194.89
+  url: ''
+  date: '2014-07-13 07:43:33'
+  body: 'i have experienced  problem installing Revit SDK 2015, where a  message appears
+    saying "Installation Directory Must be on a Local Hard Drive", and i discovered
+    this solution, in case any one faced the same problem...
+
+
+    1- Locate the Nether launcher MSI installer file that you downloaded.
+
+    2- While holding down the Shift key on the keyboard, right-click on the Nether
+    launcher MSI, then choose Copy As Path.
+
+    3- Press CTRL + Q and type "CMD", a command prompt will appear in the search result.
+
+    4- Right-click on Command Prompt and choose Run As Administrator. This should
+    open a command prompt window, labeled "Administrator:".
+
+    5- In the Command Prompt window, type msiexec /i (you need to enter a single space
+    after "/i").
+
+    Right-click in the Command Prompt window, then choose Paste. This should paste
+    the path to the MSI file that you copied in Step 2 above.
+
+    Press Enter to run the command.'
+- author: Moustafa Khalil
+  email: mostafa90@gmail.com
+  ip: 196.204.194.89
+  url: ''
+  date: '2014-07-13 07:46:03'
+  body: 'Correction!!!
+
+    1- Locate the either of launcher MSI installer file that you downloaded.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-07-13 15:13:37'
+  body: 'Dear Moustafa,
+
+
+    Thank you for reporting this and suggesting a solution.
+
+
+    Alternatively, you could simply install to the local hard drive and move the resulting
+    folder anywhere you like afterwards.
+
+
+    Cheers, Jeremy.'
+- author: Matthias
+  email: ''
+  ip: 217.6.16.93
+  url: http://profile.typepad.com/6p01b7c6f8ccbc970b
+  date: '2014-10-23 04:46:10'
+  body: I guess we all did anyway, although it was an illegal call. It will cost thousands
+    of dollars to develop new behaviors, just to make my beloved tools work as they
+    did in Revit 2013. Lets get it on.
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-10-30 03:24:00'
+  body: 'Dear Matthias,
+
+
+    Very sorry to hear that it is causing problems for you.
+
+
+    On the other hand, it is good news that your programmers are so well paid, and
+    that you can afford such qualified labour!
+
+
+    Congratulations on that!
+
+
+    Cheers, Jeremy.'
+- author: Derek Che
+  email: software@fireacad.com
+  ip: 65.94.200.57
+  url: ''
+  date: '2014-11-24 14:05:40'
+  body: 'public Pipe CreateNewPipe(Document document, ElementId systemTypeId, ElementId
+    levelId)
+
+
+    in 2015 pipe.create(..) need ElementId levelId, in the new drawing how to get
+    the  ElementId levelId'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.174.72
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-11-24 15:15:11'
+  body: 'Dear Derek,
+
+
+    You can either take the level id from an existing element, e.g. another pipe,
+    determine a suitable level from the elevation Z value, or anywhere else you like.
+
+
+    It may also be possible to specify null or an invalid level id.
+
+
+    Please let us know how you end up solving it.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Derek Che
+  email: software@fireacad.com
+  ip: 65.94.200.57
+  url: ''
+  date: '2014-11-24 15:56:30'
+  body: "since this is the new drawing,so there is no pipe object in the drawing.\
+    \ So I cannot determine it from the existing. If I put is as null. Error will\
+    \ show up when I try to pipe.create(..) \nIs there anyway I can set it up first\
+    \ or set up a suitable level from the elevation Z value?!\nIf yes, how to set\
+    \ up this Z value?!"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.174.72
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-11-24 16:02:24'
+  body: 'Dear Derek,
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2014/11/webgl-goes-mobile-and-sorted-level-retrieval.html#3">http://thebuildingcoder.typepad.com/blog/2014/11/webgl-goes-mobile-and-sorted-level-retrieval.html#3</a>
+
+
+    Cheers, Jeremy.'
+- author: Atul Dusane
+  email: atul.dusane@mwhglobal.com
+  ip: 212.250.190.200
+  url: ''
+  date: '2015-02-03 07:26:05'
+  body: "hello Jeremy, \nI am facing below error \n\"Failed to register a managed\
+    \ object for the currently active external application. A possible cause may be\
+    \ an inactive external application (not being invoked by Revit at present) attempting\
+    \ to assess the Revit API from a modeless dialog or another outside thread.\"\n\
+    \nIn my solution I have created Dockpanel using WPF. I am registering this DockPanel\
+    \ in Idling event of UIControlledApplication, while  registering I have passed\
+    \ UIApplication object to MainPage(UIApplication).\n\nInside dockpanel I have\
+    \ loaded some Families and I am trying to load those family using UIAPp.ActiveUIDocument.Document.LoadFamily(filePath);\n\
+    \nwhile doing this I got above mentioned error, could you please suggest."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.183.65
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-02-03 07:49:59'
+  body: 'Dear Atul,
+
+
+    I suggest you start again from scratch and base your add-in on a sample that works.
+
+
+    Cheers, Jeremy.'
+- author: Madhu D
+  email: madhu.fcb@gmail.com
+  ip: 122.183.234.162
+  url: ''
+  date: '2015-04-14 04:02:09'
+  body: "hi jeremy,\nCan you provide any document which explains the Avoid Obstruction\
+    \ Revit Macro in detail step by step.\n I am not able to understand the how the\
+    \ program is written logic wise.\nIt will be very helpful if we understand the\
+    \ logic behind the program.As we are trying to use write a new code about pipes.It\
+    \ will be very helpful."
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.103.43
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-04-14 04:24:44'
+  body: 'Dear Madhu,
+
+
+    I have not the slightest idea what macro you are talking about, so I cannot help
+    with that.
+
+
+    Are you aware of the AvoidObstruction SDK sample? That is of course not a macro,
+    but an add-in.
+
+
+    It is discussed in numerous earlier posts on The Building Coder and its implementation
+    is explained in its readme file ReadMe_AvoidObstruction.rtf.
+
+
+    Cheers, Jeremy.
+
+    -----'

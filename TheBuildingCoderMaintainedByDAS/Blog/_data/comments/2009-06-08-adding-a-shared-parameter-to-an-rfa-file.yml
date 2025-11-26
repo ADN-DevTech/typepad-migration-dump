@@ -1,0 +1,266 @@
+comments:
+- author: 'Jim '
+  email: jim32@yahoo.com
+  ip: 208.70.16.234
+  url: ''
+  date: '2009-08-11 10:46:37'
+  body: Is it possible to add an already existing shared parameter to a RFA from a
+    text file if a GUID has already been created?
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-08-11 14:37:31'
+  body: "Dear Jim,\n\nWhat are you trying to achieve? As far as I know, multiple shared\
+    \ parameters with the same name can exist side by side with different GUIDs. \n\
+    \nCheers, Jeremy."
+- author: Alan Jackson
+  email: ''
+  ip: 67.107.255.34
+  url: http://profile.typepad.com/6p0120a5c553c8970c
+  date: '2009-10-02 17:58:23'
+  body: "The AutoParameter sample makes all sharedparameters added instance parameters,\
+    \ while familyparameters get the choice through the isInstance boolean. \n\nIs\
+    \ it possible to have the option to load sharedparameter as type rather than instance?\n\
+    \nAlso the parameter always is placed under the OTHER group, is this my mistake?\
+    \ Why is the parameter group not assigned?\n\nThanks\n\naj"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-10-05 07:00:51'
+  body: 'Dear Alan,
+
+
+    When shared parameters are added to a project, they apply to one or more entire
+    categories. This always results in instance parameters.
+
+
+    The parameter group OTHER that you mention corresponds to the BuiltInParameterGroup
+    PG_OTHER.
+
+
+    You can define the parameter group in which to place a shared parameter if you
+    add it to the family file using the family API, as opposed to creating a shared
+    parameter in the project file. This is described in
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/06/adding-a-shared-parameter-to-an-rfa-file.html">http://thebuildingcoder.typepad.com/blog/2009/06/adding-a-shared-parameter-to-an-rfa-file.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Alan Jackson
+  email: ''
+  ip: 67.107.255.34
+  url: http://profile.typepad.com/6p0120a5c553c8970c
+  date: '2009-10-06 11:09:39'
+  body: 'Jeremy
+
+
+    Thank you for taking the time to answer my question. I guess what I am asking
+    is if there is an equivalent BuiltInParameterGroup for shared parameters, so that
+    they can be grouped in anything but OTHER. The reason being is that I would like
+    to schedule these parameters and need them to be shared.
+
+
+    Thanks again
+
+
+    aj'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-10-07 07:20:59'
+  body: 'Dear Alan,
+
+
+    As far as I know, shared parameters added to a project file will always end up
+    in the OTHER group.
+
+
+    I believe that you can change that behaviour if you define them in the family
+    file instead, as mentioned above.
+
+
+    Cheers, Jeremy.'
+- author: Jason Bailly
+  email: jason.bailly@hdrinc.com
+  ip: 64.253.166.252
+  url: ''
+  date: '2009-10-09 16:11:08'
+  body: '"Is it possible to have the option to load sharedparameter as type rather
+    than instance?" - Alan
+
+
+    I think Alan is still talking about adding shared parameters to a Family (rfa)
+    and not a project (rvt).  We have run into the same issue.  We want to add shared
+    parameters to a family and have them be type parameters, not instance parameters.  How
+    is this accomplished?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 12.160.193.229
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-10-13 10:43:36'
+  body: 'Dear Jason,
+
+
+    Oh, I see what you mean. Thank you very much for the clarification. The answer
+    to that is quite simple. Adding a parameter to a family file is accomplished using
+    one of the three overloads of the FamilyManager AddParameter method. All three
+    take a Boolean argument named isInstance as their last input parameter. The value
+    of that argument determines whether an instance or a type parameter is created.
+
+
+    You can see this method being used in Lab 2 ''Create L-Shaped Column'' of the
+    RFA labs provided in the Revit family API webcast materials:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/08/the-revit-family-api.html#4">http://thebuildingcoder.typepad.com/blog/2009/08/the-revit-family-api.html#4</a>
+
+
+    Cheers, Jeremy.'
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://revitprogrammer.blogspot.com/
+  date: '2011-12-06 04:52:07'
+  body: "Hello, Jeremy.\nFamilyManager.AddParameter add parameter to a FamilySymbol\
+    \ or to a FamilyInstance. I need to add parameter directly to a Family. Those\
+    \ parameters I can see in Home Tab - Properties - Family Category and Parameters.\
+    \ Is it possible to add shared parameter to a whole Family which I can get access\
+    \ via document.OwnedFamily.get_Parameter(myOwnParameterGuid)?\n\nI tried to add\
+    \ parameter to a Family as I did it with ElementType or Instance (Family is Element\
+    \ either) but there are no results. No errors and no results :)\nI did it by following\
+    \ steps\n1) Create ExternalDefinition\n2) Create ElementBinding: var binding =\
+    \ pp.Create.NewInstanceBinding(categories);\n3) Insert Parameter binding res =\n\
+    \                    _element.Document.ParameterBindings.Insert(def, binding,\
+    \ BuiltInParameterGroup.PG_IDENTITY_DATA); //here res is true,\nbut next line\
+    \ of code \nif (res)\n    return _element.get_Parameter(def);\nreturn false.\n\
+    But this code works well with ElementInstance."
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://revitprogrammer.blogspot.com/
+  date: '2011-12-07 05:07:59'
+  body: I reply myself:) I cannot added my own shared parameter to a Family, but I've
+    solve my problem using External Storage.
+- author: Jeremy Tammik
+  email: ''
+  ip: 62.90.105.45
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-12-07 11:57:50'
+  body: 'Dear Victor,
+
+
+    Well done!
+
+
+    Here is the reply that I already prepared for you, but am posting too late:
+
+
+    What are you trying to achieve?
+
+
+    Remember, shared parameters are basically designed for users. Can you achieve
+    what you want through the user interface? If so, do the same programmatically.
+    If not, forget it.
+
+
+    One thing you can do is add extensible storage data to an entire family, and then
+    retrieve it when an instance is inserted:
+
+
+    Define an extensible storage schema and add an entity for it to the family itself,
+    accessed
+
+    through the document OwnerFamily property:
+
+
+    Entity entity = new Entity( schema );
+
+    entity.Set...( schema.GetField( ... ), ... );
+
+    doc.OwnerFamily.SetEntity( newEntity );
+
+
+    Retrieve the stored data from the family by asking the family instance for its
+    family:
+
+
+    Family family = familyInstance.Symbol.Family;
+
+    Entity entity = family.GetEntity( schema );
+
+
+    Cheers, Jeremy.'
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://revitprogrammer.blogspot.com/
+  date: '2011-12-07 21:45:57'
+  body: "Hello, Jeremy.\nThanks for answer.\nI'm sorry. When I wrote \"External Storage\"\
+    \ I meant \"Extensible storage\". \nSo I solved my problem using Extensible Storage.\
+    \ We have the same thoughts :)\nRegards, Victor."
+- author: Jeremy Tammik
+  email: ''
+  ip: 62.50.236.217
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-12-14 12:33:59'
+  body: 'Dear Victor,
+
+
+    There is an English saying that goes "great minds think alike" ... not so humble,
+    but still  :-)
+
+
+    Cheers, Jeremy.'
+- author: mayur
+  email: mgujrathi@building-data.net
+  ip: 61.17.160.112
+  url: ''
+  date: '2013-01-28 03:02:32'
+  body: "_app.SharedParametersFilename = filepath;\n\n            DefinitionFile file\
+    \ = _app.OpenSharedParameterFile();\n\nI am getting error saying \"error in reading\
+    \ parameter\""
+- author: mayur
+  email: mgujrathi@building-data.net
+  ip: 61.17.160.112
+  url: ''
+  date: '2013-01-28 05:51:15'
+  body: 'Dear Sir
+
+    I need to add shared parameter using shared parameter file from a particular location...'
+- author: alex
+  email: alex.billsy@gmail.com
+  ip: 122.49.130.125
+  url: ''
+  date: '2014-06-25 03:00:24'
+  body: 'Hi Jeremy,
+
+    How can I make a almost full proof test that a shared parameter file exists(a
+    project has a sp file assigned) before a method to create a shared parameter bound
+    to the project info is implemented?
+
+
+    cheers,
+
+    Alex'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.193.108
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-06-25 16:33:24'
+  body: 'Dear Alex,
+
+
+    All I can think of on the spur of the moment is to check the value of the SharedParametersFilename
+    property, and possibly also try to open the file specified and check its contents.
+
+
+    What are your own experiences with this so far?
+
+
+    Cheers, Jeremy.
+
+    -----'

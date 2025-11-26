@@ -1,0 +1,155 @@
+comments:
+- author: Henrik Bengtsson
+  email: henrik.bengtsson@lindab.se
+  ip: 217.9.216.34
+  url: ''
+  date: '2008-10-08 07:49:39'
+  body: 'Hello!
+
+
+    I have just discovered these conversion *problems* when i started to work with
+    inserting columns in different locations, using the Geometry.XYZ class and by
+    changing the parameter values FAMILY_BASE_LEVEL_PARAM and FAMILY_TOP_LEVEL_PARAM.
+
+
+    All these use *Foot* as internal unit which makes it necessary use a conversion
+    function like *mmToFoot* and opposite... It took a while to figure that out but
+    now it roles just fine... The helper class stated above will help a lot...'
+- author: Jeremy
+  email: jeremy.tammik@eur.autodesk.com
+  ip: 132.188.32.100
+  url: http://thebuildingcoder.typepad.com
+  date: '2008-10-08 08:08:49'
+  body: 'Hi Henrik,
+
+
+    Thank you for the comment and I''m glad it works for you now! Yes, no problem,
+    and easy to do, once you''ve figured it out.
+
+
+    Best regards,
+
+
+    Jeremy'
+- author: Berria
+  email: eiderunzu@hotmail.com
+  ip: 213.96.145.3
+  url: ''
+  date: '2009-01-14 09:40:29'
+  body: "Hello Jeremy, \nI need  create walls(in meters dimensions)with API Revit,how\
+    \ can I convert  feet unit to meters?\nIs there any funtion to determinate the\
+    \ type of units(Meters),in the proyect?\n\nBest regards"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-01-14 12:47:57'
+  body: "Dear Berria,\n\nTo convert feet to meters, simply multiply by a constant\
+    \ factor. An example is provided in the Revit API introduction labs, for example\
+    \ in the external command defined in Lab2_0_CreateLittleHouse:\n\nconst double\
+    \ MeterToFeet = 3.2808399;\n//\n// determine the four corners of the rectangular\
+    \ house:\n//\ndouble width = 7 * MeterToFeet;\ndouble depth = 4 * MeterToFeet;\n\
+    \nThe code is available for download in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/files/rac_labs_20081117.zip\"\
+    >http://thebuildingcoder.typepad.com/blog/files/rac_labs_20081117.zip</a>\n\n\
+    How to determine the units displayed in the user interface is demonstrated by\
+    \ the ProjectUnit SDK sample mentioned above.\n\nCheers, Jeremy."
+- author: Berria
+  email: eiderunzu@hotmail.com
+  ip: 213.96.145.3
+  url: ''
+  date: '2009-01-15 09:59:22'
+  body: 'Hi Jeremy,
+
+
+    Thank you for the comment, I''m glad it works good.
+
+
+    Best regards,
+
+
+    Berria'
+- author: bsyap
+  email: nsybs.86@gmail.com
+  ip: 60.50.206.48
+  url: ''
+  date: '2010-07-11 21:00:17'
+  body: "Hi Jeremy, \n \nThanks for the help. I am a newbie in Revit API, can you\
+    \ show me some information about Revit element(slab, roof, floor) and family instance(column).\
+    \ Every time when user try to insert a slab, beam, column, they need to create\
+    \ a profile(contain the XYZ coordinate) of the element. eg: newfamilyinstance(XYZ,...)\n\
+    But what does the Z value mean? In 3D model, the z value usually is the displacement\
+    \ along the z axis, but in Revit, what does this z value means?\n \nAny sample\
+    \ regarding to the insertion of a new slab? I have go through the  \"Revit 2011\
+    \ API Developer Guide.pdf\", but not much help because it didn't mentioned how\
+    \ to define a slopearrow and angle argument in newslab() method.\nBesides that,\
+    \ when using a newfloor() method, i have defined my floor level on level 2, yes,\
+    \ the floor is created on level 2 with the level property set to level 2, but\
+    \ the height offset is set to -10\"(which means that the slab now is offset to\
+    \ level 1). \nDoes this again deal with the z value?\n \nI think i need to concentrate\
+    \ more on the XYZ value of each revit element in order to insert the element in\
+    \ the correct location before i proceed to the next. Any  idea for this.\n\nThanks.\n\
+    \nRegards,\nBSYap\n \nThanks for your guidance through these days."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-07-15 16:50:03'
+  body: 'Dear Bsyap,
+
+
+    I believe that in some cases the Z value of the given XYZ point is ignored, and
+    the elevation information is defined by the level and offset parameters instead.
+    It depends on many things, such as the type of element and the specific overload
+    of the NewFamilyInstance method that you choose.
+
+
+    Cheers, Jeremy.'
+- author: Javier
+  email: JAVI19661101@GMAIL.COM
+  ip: 62.32.220.131
+  url: ''
+  date: '2013-11-16 07:03:07'
+  body: 'Estimado amigo:
+
+    La Unica forma de agradecerte, lo que nos enseñas, es transmitiendo lo que nos
+    das. El Viernes 22 de Noviembre del 2013 voy a dar un curso de Revit API en c#
+    en ARUP Madrid. Lo he organizado en 60 horas y voy a desarrollar el manual de
+    REVIT API en 2012 puesto que esta en pdf y me es mas sencillo manejarlo.
+
+    Perdona que no te escriba en tu idioma, ya voy a empezar con las clases de Ingles
+    y poco a poco aprendere.
+
+    Un saludo desde Madrid y muchisimas gracias por tu trabajo.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.212.38
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-11-19 10:42:54'
+  body: 'Hola Javier,
+
+
+    Muchas gracias para tu noticia y apreciacion.
+
+
+    Me gusta mucho lo que dices!
+
+
+    Por otra parte, seria una lastima dar el curso basado su Revit 2012.
+
+
+    El developer guide para Revit 2013 y 2014 tambien se pueden encontrar en forma
+    PDF:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/10/revit-2013-api-developer-guide-pdf.html">http://thebuildingcoder.typepad.com/blog/2013/10/revit-2013-api-developer-guide-pdf.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/11/revit-2014-developer-guide-pdf.html">http://thebuildingcoder.typepad.com/blog/2013/11/revit-2014-developer-guide-pdf.html</a>
+
+
+    Saludos desde la Suiza y mucha suerte para tu curso!
+
+
+    Jeremy.
+
+    -----'

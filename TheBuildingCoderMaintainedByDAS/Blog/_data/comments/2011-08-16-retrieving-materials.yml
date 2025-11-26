@@ -1,0 +1,132 @@
+comments:
+- author: Dan Tartaglia
+  email: ''
+  ip: 74.202.85.246
+  url: http://profile.typepad.com/dantartaglia
+  date: '2011-12-14 10:55:02'
+  body: 'Hi Jeremy,
+
+
+    Is there an easy way to know if a material is being used by an object in the active
+    file?
+
+
+    Thanks,
+
+    Dan'
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://revitprogrammer.blogspot.com/
+  date: '2011-12-16 04:41:20'
+  body: "Hello, Jeremy. \nToday I've got NullReferenceException when I used document.Settings.Materials.get_Item(\"\
+    Concrete\");\nI've got this error on big real project. I discovered that Document.Materials\
+    \ collection caontains null item. Why is it possible? Is it error in Revit internal\
+    \ database or something else?\n\nP.S. I solved my problem using Linq:\nvar material\
+    \ = document\n                .Settings\n                .Materials\n        \
+    \        .OfType()\n                .FirstOrDefault(m => m.Name.Equals(\"Concrete\"\
+    ));"
+- author: Jeremy Tammik
+  email: ''
+  ip: 213.215.243.122
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-12-16 05:33:22'
+  body: "Dear Victor,\n\nYes, indeed, I have heard about this before.\n\nThe materials\
+    \ collection in the Document.Settings.Materials property may contain empty entries.\n\
+    \nYou need to check for null values and skip these invalid materials before trying\
+    \ to access them.\n\nHere is an example of handling this by Rudolf Honke to create\
+    \ a sorted generic .NET list of materials. Note that the comment editor mangles\
+    \ all the 'less than and greater than signs!\n\n    /// \n    /// Return a list\
+    \ of the document's \n    /// non-null materials sorted by name.\n    /// \n \
+    \   List GetSortedMaterials( Document doc )\n    {\n      Materials doc_materials\
+    \ = doc.Settings.Materials;\n      int n = doc_materials.Size;\n\n      List(Material)\
+    \ materials_sorted \n        = new List(Material)( n );\n\n      foreach( Material\
+    \ m in doc_materials )\n      {\n        if( m != null )\n        {\n        \
+    \  materials_sorted.Add( m );\n        }\n      }\n      materials_sorted.Sort(\
+    \ \n        delegate( Material m1, Material m2 )\n        {\n          return\
+    \ m1.Name.CompareTo( m2.Name );\n        }\n      );\n      return materials_sorted;\n\
+    \    }\n\nI guess that in your code snippet, the OfType filter eliminates the\
+    \ null entries.\n\nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 213.215.243.122
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-12-16 05:39:55'
+  body: "Dear Dan, \n\nI am not aware of any other method than iterating over all\
+    \ elements and checking what they use, which is presumably exactly what you are\
+    \ NOT looking for.\n\nCheers, Jeremy."
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://revitprogrammer.blogspot.com/
+  date: '2011-12-16 06:12:23'
+  body: "Hi, Jeremy. Thanks for answer.\nYeah, of course I skip null entries when\
+    \ I iterate materials in loop or using Ling query.\nBut Materials.get_Item(string)\
+    \ it is a standard Revit method and it doesn't work when collection contains null\
+    \ entries. So it is a bug. \nI used this method many times in my project because\
+    \ I thought this method work correctly and it must work in spite of collections\
+    \ contains null. But now unfortunately for me, I must rewrite my code and change\
+    \ this method to my own:(\n\nDo you know does Autodesk know this bug? May be write\
+    \ them bug report?\n\nRegards, Victor."
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-12-16 06:26:43'
+  body: 'Dear Victor,
+
+
+    In order to submit a report to development I need to provide a reproducible test
+    case.
+
+
+    Please provide complete compilation-ready sample code and project and a minimal
+    sample building model which demonstrates the problem.
+
+
+    Are you an ADN member now? If so, please submit an ADN DevHelp Online query for
+    this.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://revitprogrammer.blogspot.com/
+  date: '2011-12-16 06:33:01'
+  body: "Hello, Dan.\nAs Jeremy said there only way iterate all materials in all elements.\n\
+    I used following code to get all elements used be material\n\nvar elementsWithMaterials\
+    \ =\n                (from el in elements\n                 from Material m in\
+    \ el.Materials\n                 select new ElementMaterial(el, m))\n        \
+    \         .ToList();\nHere I get Element and materials in each element collection\n\
+    \nvar groupedElementsInMaterial =\n                elementsWithMaterials\n   \
+    \                 .GroupBy(x => x.Material, new ElementComparer())\n         \
+    \           .OrderBy(x => x.Key.Name);\nHere, I grouped elements by material.\n\
+    \nSo I get result that you can see here: \n<a href=\"http://s005.radikal.ru/i209/1112/18/c22f9d4b44bf.png\"\
+    >http://s005.radikal.ru/i209/1112/18/c22f9d4b44bf.png</a>\n\nRegards, Victor"
+- author: Victor Chekalin
+  email: ''
+  ip: 91.221.195.201
+  url: http://profile.typepad.com/chekalin
+  date: '2012-06-29 01:23:09'
+  body: "Hi, Jeremy. \nI have decided to check was the bug with null material fixed\
+    \ in Revit 2013 and didn't find Document.Settings.Material property. Is this property\
+    \ really was deprecated in the Revit 2013? I didn't find mention about it anywhere.\n\
+    How to get all document materials now? But I think there is only one way to retrieve\
+    \ materials. Using FilteredElementCollector.OfClass(typeof(Material)). Am I right?\n\
+    \nThe good news - when I retrieve materials via FilteredElementCollector I didn't\
+    \ get null material.\nBut there is the bad news as well. I opened the file which\
+    \ was created in Revit 2012 and contained null material (I sent it for you by\
+    \ e-mail 16.12.2012). Then I try to perform MAnage-MAterials command in UI. Revit\
+    \ thought and didn't response anymore..\n\nI created the case an ADN support about\
+    \ it.\n\nHave a nice day, Victor."
+- author: Victor Chekalin
+  email: ''
+  ip: 91.221.195.201
+  url: http://profile.typepad.com/chekalin
+  date: '2012-06-29 01:32:56'
+  body: "Sorry, Jeremy. \nI just had to wait more time to open Materials. The case\
+    \ has canceled. \n\n-----"

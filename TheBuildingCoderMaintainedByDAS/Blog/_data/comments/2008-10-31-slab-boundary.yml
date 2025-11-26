@@ -1,0 +1,246 @@
+comments:
+- author: Art
+  email: montieri@gmail.com
+  ip: 94.37.207.171
+  url: ''
+  date: '2008-11-02 02:38:30'
+  body: 'Thanks Jeremy, I have tested the code and it works. I''d like get the same
+    result with a wall, so I have changed the GetBoundary code testing the face with
+    IsVertical and checking the Y component of the face Origin.
+
+
+    Clearly it works only for horizontal walls because the check is on the Y component.
+    It is possible to check belong the wall''s direction or in its local coordinates?
+
+
+    Thanks in advance
+
+
+    Art'
+- author: Jeremy Tammik
+  email: jeremy.tammik@autodesk.com
+  ip: 84.159.165.149
+  url: http://profile.typekey.com/1218580759s22477/
+  date: '2008-11-02 03:17:01'
+  body: 'Hi Art,
+
+
+    I am glad that it works for you. Yes, of course you can use the same principle
+    for a wall, just like you describe.
+
+
+    When you say ''horizontal wall'', I assume you mean parallel to the X axis ...
+    normally a horizontal wall would be called a floor  :-)
+
+
+    The solution to your question is just like you suggest, checking perpendicularly
+    to the wall centre line. How can you determine this direction? There are several
+    ways to achieve this. Just like for the slabs we discussed, let us assume that
+    the wall is planar. In that case, the easiest way to obtain a vector perpendicular
+    to the wall centre line is to use its location line, which we demonstrated in
+    the post on Azimuth. Another way would be to query a face for its normal vector,
+    but you might have trouble deciding which fase to ask.
+
+
+    Say the location line start and end points are p and q, and the vector from p
+    to q is v. Then the perpendicular to that is v cross Z axis. Since the Z axis
+    is (0,0,1), and we can assume that v has a zero Z component, so is something like
+    (vx,vy,0), the perpendicular vector is simply (-vy,vx,0). Simply determine the
+    face with a minimum or maximum distance along that vector.
+
+
+    If you hang on for a week or two, and a couple more people express interest in
+    the topic, I''ll probably get around to discussing something like this in more
+    detail.
+
+
+    Best regards,
+
+
+    Jeremy'
+- author: Art
+  email: montieri@gmail.com
+  ip: 94.37.207.171
+  url: ''
+  date: '2008-11-02 04:08:20'
+  body: ':) yes I mean parallel to the X axis ...
+
+
+    I have tried to create the sketchPlane passing the wall location curve to NewSketchPlanePassLine
+    so I draw the boundary line of wall and its hosted elements correctly.  (For wall
+    planar). I''m trying to draw the boundary polygons in a drafting view creating
+    a new sketch plane with XYZ.BasisY as normal, XYZ.Zero as origin. Same result:
+    wall parallel to X axis is ok, parallel to Y axis nok. I think that I create a
+    bad sketch plane.'
+- author: Jeremy Tammik
+  email: jeremy.tammik@autodesk.com
+  ip: 84.159.165.149
+  url: http://profile.typekey.com/1218580759s22477/
+  date: '2008-11-02 04:21:20'
+  body: 'Hi Art,
+
+
+    Yes, as said, you need to calculate a vector perpendicular to the wall line and
+    use that. I will discuss this topic in a future post.
+
+
+    Best regards,
+
+
+    Jeremy'
+- author: dave
+  email: snelldl@4dwebdesign.com
+  ip: 69.208.240.52
+  url: ''
+  date: '2008-11-26 13:12:37'
+  body: 'Jeremy:
+
+
+    I''ve a total noob to revit and it''s api. However, I''ve been tasked to accomplish
+    a few things, mostly room data pulls and pushes to an external sql server database.
+    I''ve inherited a bunch of projects and code from someone else, but one thing
+    the code doesn''t do is pull room geometry and push it to the external db.
+
+
+    My question is, is there a similar function to what you have posted here, but
+    for an individual room? I guess the other thing that would help would be if there
+    were a way to retrieve the geometry for an entire floor.
+
+
+    Thanks.'
+- author: Jeremy Tammik
+  email: jeremy.tammik@autodesk.com
+  ip: 76.2.152.191
+  url: http://profile.typekey.com/1218580759s22477/
+  date: '2008-11-29 21:10:43'
+  body: 'Hi Dave,
+
+
+    As you may have guessed from the two examples of retrieving different flavours
+    of geometry from a slab, there is an infinite number of different aspects of geometry
+    that may be relevant to different applications. From your question, I have no
+    idea what exact geometry you wish to retrieve from the rooms. The two prime candidates
+    are the room boundary, i.e. basically two-dimensional polygonal data, or the three-dimensional
+    faces bounding the room volume. It would not surprise me at all, though, if you
+    in fact need something completely or even just slightly different. If you are
+    looking for the room boundary polygons, you are in luck, because that is demonstrated
+    by the Revit SDK sample RoomViewer in the subdirectory Viewers, based on the Room
+    Boundary property. Retrieval of the 3D faces bounding the room volume is more
+    complex. The Room ClosedShell property, returning a geometry element, might be
+    helpful. So would the RoofsRooms sample, which determines which roof elements
+    bounding a room from above. Determining these elements is harder than obtaining
+    the walls bounding it from the side, which is why the sample was recently added,
+    in the middle of the Revit 2009 release cycle. I know of no built-in API features
+    for retrieve geometry for an entire floor, and I do not think that such a feature
+    would ever be very useful, either, given the many different aspects that are important
+    for different applications. I hope this helps.
+
+
+    Best regards, Jeremy.'
+- author: dave
+  email: snelldl@4dwebdesign.com
+  ip: 69.208.240.52
+  url: ''
+  date: '2008-12-03 12:51:14'
+  body: 'Jeremy:
+
+
+    Thanks for your response. The room boundary polygons was what I was after.
+
+
+    Thanks!'
+- author: Cosmas
+  email: tzavelis@hotmail.com
+  ip: 94.70.67.201
+  url: ''
+  date: '2010-07-28 09:40:42'
+  body: 'Jeremy,
+
+    Can you help me with some VB code to get the Slab corners or edges in Revit 2011
+    and associate them with supporting Beams? In structural design slabs are usually
+    supported by Beams. It seems that Slabs in Revit are only graphical elements and
+    are not assocuated with underlying Beams
+
+    Than you for your time'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-07-29 10:09:49'
+  body: "Dear Cosmas,\n\nSorry, I do not have anything like that here ready at hand.\
+    \ All I can suggest at the moment is to analyse the slab and beam geometry and\
+    \ determine their proximity that way, e.g. as described for walls and columns\
+    \ in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/01/findreferencesbydirection.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/01/findreferencesbydirection.html</a>\n\
+    \nThere are probably better ways to do it, though. Does the structural analytical\
+    \ support information not help you there?\n\nCheers, Jeremy."
+- author: Cosmas
+  email: tzavelis@hotmail.com
+  ip: 62.1.195.126
+  url: ''
+  date: '2010-08-05 04:46:46'
+  body: 'Than you Jeremy.
+
+    On another note, is there any way to get the centroid of a footing?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 61.19.67.183
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-08-06 07:24:14'
+  body: "Dear Cosmas,\n\nThank you very much for your appreciation. \n\nSure thing,\
+    \ depending on whether you want the centroid of (i) the plan view 2D, (ii) the\
+    \ real 3D solid centroid, or an approximate result.\n\nYou can either:\n\n(i)\
+    \ Determine the top and bottom faces of the footing and ensure that they are identical\
+    \ in plan view (if that is appropriate at all in your case), and then determine\
+    \ the centroid of the resulting polyhedron. You might be able to make use of \n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/08/bottom-face-of-a-wall.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/08/bottom-face-of-a-wall.html</a>\n\
+    \n(ii) Determine the Revit solid faces, use a solid modeller to reconstruct a\
+    \ real solid model from that, and then ask it for its centroid:\n\n<a href=\"\
+    http://thebuildingcoder.typepad.com/blog/2009/06/convex-hull-and-volume-computation.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/06/convex-hull-and-volume-computation.html</a>\n\
+    \n(iii) For an initial much simpler approximate solution, I would simply ask the\
+    \ footing for its solid, iterate over and triangulate all its faces, and determine\
+    \ the average value of all those points, avoiding duplicates. \n\nI would assume\
+    \ that solution (iii) would give you a reasonable result in most of the occurring\
+    \ reasonable situations.\n\nCheers, Jeremy."
+- author: laercio
+  email: laerciocad@oi.com.br
+  ip: 189.107.156.96
+  url: ''
+  date: '2011-02-02 20:13:21'
+  body: 'Ola! jeremy tammik,fiquei muito satisfeito com o seu blog e vejo que encontrei
+    a solução para o meu problema,trabalho com projeto de pre fabricado de concreto
+    e tenho dificuldade para fazer as juntas demontagem de 1cm e os furos nas peças,
+    se voce poder me ajudar.me passa seu e-mail que eu anexo o arquivo com os dados
+    que eu preciso.
+
+
+    desde já agradeço a atenção
+
+
+    laercio dos santos - brasil'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-02-03 02:25:59'
+  body: 'Dear Laercio,
+
+
+    Thank you very much for your appreciation and I am glad that the blog is useful
+    for you.
+
+
+    My email is available from the about the author section, and I will happily take
+    a look at the problem description, but I definitely cannot promise that I will
+    have any possibility at all to look at it in any depth personally.
+
+
+    If you are an ADN member, I would strongly suggest that you submit an ADN DevHelp
+    Online case instead.
+
+
+    Cheers, Jeremy.
+
+    -----'

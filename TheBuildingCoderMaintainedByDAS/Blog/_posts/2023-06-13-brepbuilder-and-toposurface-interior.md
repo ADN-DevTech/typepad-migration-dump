@@ -1,0 +1,467 @@
+---
+layout: "post"
+title: "BRepBuilder and Toposurface Interior"
+date: "2023-06-13 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "AI"
+  - "Algorithm"
+  - "Element Creation"
+  - "Geometry"
+original_url: "https://thebuildingcoder.typepad.com/blog/2023/06/brepbuilder-and-toposurface-interior.html "
+typepad_basename: "brepbuilder-and-toposurface-interior"
+typepad_status: "Publish"
+---
+
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js" type="text/javascript"></script>
+
+<p>An updated Revit SDK, an in-depth discussion of Revit geometry generation, a Toposurface issue and a hint at where the software development industry may be headed:</p>
+
+<ul>
+<li><a href="#1">Revit SDK Update</a></li>
+<li><a href="#2">BRepBuilder organisation</a></li>
+<li><a href="#3">Change Toposurface interior point to boundary</a></li>
+<li><a href="#4">To code or not to code, that is the question</a></li>
+</ul>
+
+<h4><a name="1"></a> Revit SDK Update</h4>
+
+<p>The age-old <code>developrevit</code> <a href="http://autodesk.com/developrevit">Revit Developer Centre</a> shortcut
+now redirects to a new target aligned with the rest of the Autodesk Platform Service APS APIs,
+to</p>
+
+<ul>
+<li><a href="https://aps.autodesk.com/developer/overview/revit">aps.autodesk.com/developer/overview/revit</a></li>
+</ul>
+
+<p>There, you can now find the new Revit SDK for Revit 2024 updated on May 30, 2023, to fix some of the issues I
+described in April <a href="https://thebuildingcoder.typepad.com/blog/2023/04/nice-accelerator-and-compiling-the-revit-2024-sdk.html#3">compiling the Revit 2024 SDK samples</a> and
+subsequently reported in the ticket REVIT-206304 <em>Update RvtSamples.txt for Revit 2024 SDK</em>.</p>
+
+<h4><a name="2"></a> BRepBuilder Organisation</h4>
+
+<p>Richard <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/1035859">RPThomas108</a> Thomas
+and Luiz Henrique <a href="https://github.com/ricaun">@ricaun</a> Cassettari
+share some illuminating insights on using the BRepBuilder addressing
+why <a href="https://forums.autodesk.com/t5/revit-api-forum/brepbuilder-fails-on-very-simple-example/m-p/12015942">BRepBuilder fails on very simple example</a>:</p>
+
+<p><strong>Question:</strong> I get a "Failure" result on a very simple BRepBuilder example when I try to build a (4-sided triangle pyramid) Tetrahedron.
+I know about <code>TessellatedShapeBuilder</code>, but it fails for a quite complex object, and I hope to bypass this using the BREP instead.</p>
+
+<pre class="prettyprint">
+public class Test{
+
+  public Test(){}
+
+  // Keep track of already created edges and their orientation
+  struct BrepEdge {
+    public BRepBuilderGeometryId id;
+    public XYZ p1, p2;
+  }
+  List&lt;BrepEdge&gt; brep_edges = new List&lt;BrepEdge&gt;();
+
+  // add edge to face loop
+  void AddEdgeToBREP( BRepBuilder brep, BRepBuilderGeometryId loop, XYZ a, XYZ b) {
+    foreach(var be in brep_edges) {
+      // ab is p1-p2
+      if(be.p1.DistanceTo(a) &lt; 1e-7 && be.p2.DistanceTo(b) &lt; 1e-7) { brep.AddCoEdge(loop, be.id, false);return; }
+      // ab is p2-p1 (reversed edge)
+      if(be.p1.DistanceTo(b) &lt; 1e-7 && be.p2.DistanceTo(a) &lt; 1e-7) { brep.AddCoEdge(loop, be.id, true); return; }
+    }
+    // must create a new edge
+    BRepBuilderGeometryId edge = brep.AddEdge(BRepBuilderEdgeGeometry.Create(a, b));
+    brep.AddCoEdge(loop, edge, false);
+    var bed = new BrepEdge();
+    bed.p1 = a;
+    bed.p2 = b;
+    bed.id = edge;
+    brep_edges.Add(bed);
+  }
+
+  // add triangle face to solid
+  private void AddTriangleToBREP( BRepBuilder brep, XYZ a, XYZ b, XYZ c ) {
+    Plane plane = Plane.CreateByThreePoints(a, b, c);
+    BRepBuilderGeometryId face = brep.AddFace(BRepBuilderSurfaceGeometry.Create(plane, null), true);
+    var loop = brep.AddLoop(face);
+    AddEdgeToBREP(brep, loop, a, b);
+    AddEdgeToBREP(brep, loop, b, c);
+    AddEdgeToBREP(brep, loop, c, a);
+    brep.FinishLoop(loop);
+    brep.FinishFace(face);
+  }
+
+  public void run() {
+    BRepBuilder brep = new BRepBuilder(BRepType.Solid);
+
+    var points = new List&lt;XYZ&gt;(4);
+    points.Add(new XYZ(0, 0, 0)); // 0 origin
+    points.Add(new XYZ(1, 0, 0)); // 1 right
+    points.Add(new XYZ(0, 1, 0)); // 2 back
+    points.Add(new XYZ(0, 0, 1)); // 3 top
+
+    AddTriangleToBREP(brep, points[2], points[1], points[0]); // bottom face
+    AddTriangleToBREP(brep, points[0], points[1], points[3]); // front face
+    AddTriangleToBREP(brep, points[1], points[2], points[3]); // diagonal face
+    AddTriangleToBREP(brep, points[2], points[0], points[3]); // left face
+
+    var outcome = brep.Finish(); // &lt;&lt;&lt;&lt;&lt; Failure
+
+    // throws: "This BRepBuilder object hasn't completed building data or was unsuccessful building it.
+    // Built Geometry is unavailable. In order to access the built Geometry,
+    // Finish() must be called first. That will set the state to completed."
+    var res = brep.GetResult();
+  }
+}
+</pre>
+
+<p><strong>Answer:</strong> <a href="https://thebuildingcoder.typepad.com/blog/2018/02/directshape-from-brepbuilder-and-boolean.html">DirectShape from BrepBuilder and Boolean</a> provides
+an example that does work.</p>
+
+<p>However, please note that BRepBuilder wasn’t really meant for 'manually' constructing geometry. Its interface is rather cumbersome for that purpose. It was meant for translating existing geometry into Revit, with rather thorough validation of the input geometry.</p>
+
+<p><strong>Response:</strong> I implemented a workaround using <code>TesselatedShapeBuilder</code>, but it's strange that I can't get the simplest example working with the BREP commands. Also, the error message is not very helpful.</p>
+
+<p>Later: I experienced the same error when try to create a simple pyramid shape as a prototype for recreating geometry from linked IFC file. I would like to use some external algorithm the geometry and convert the external data to a mesh and rebuilt the new shape. The API documentation does not provide much of information about why it failed.</p>
+
+<p><strong>Answer:</strong> It takes a bit of organisation but it does work.</p>
+
+<p>It isn't ideal for manual creation since (1) you need to arrange the edges so they are compatible and (2) the edges need to sit on the surface.</p>
+
+<p>I organised the above original into the below edge orders and directions and it worked fine. Each co-edge should be reversed on one face and not reversed on the other. Outer loops for a face should be anticlockwise with respect to the face normal (pointing outwards for a solid). So the edge is indicated as reversed on the face if it can't satisfy that e.g. the edge of two adjoining faces needs to be reversed on one of them.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302b751a7d5e3200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302b751a7d5e3200c img-responsive" alt="BRep organisation" title="BRep organisation" src="/assets/image_850097.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<pre class="prettyprint">
+  Private Function Obj_230606a( _
+    ByVal commandData As ExternalCommandData,
+    ByRef message As String,
+    ByVal elements As ElementSet) As Result
+
+    Dim UIApp As UIApplication = commandData.Application
+    Dim UIDoc As UIDocument = commandData.Application.ActiveUIDocument
+    If UIDoc Is Nothing Then Return Result.Cancelled Else
+    Dim IntDoc As Document = UIDoc.Document
+
+    ' Only needs 6 edges '
+    ' Set on triangle if an edge of that triangle is reversed or not '
+    ' Each edge has two faces the edge should be reversed on one face and not on the other '
+    ' Outer loops should be anticlockwise with respect to normal '
+
+    Dim A As New TriangleSide(1, 0)
+    Dim B As New TriangleSide(0, 2)
+    Dim C As New TriangleSide(2, 1)
+    Dim D As New TriangleSide(1, 3)
+    Dim E As New TriangleSide(3, 0)
+    Dim F As New TriangleSide(3, 2)
+
+    Dim T_ABC As New Triangle(A, B, C, New Boolean(2) {False, False, False})
+    Dim T_ADE As New Triangle(A, D, E, New Boolean(2) {True, False, False})
+    Dim T_BEF As New Triangle(B, E, F, New Boolean(2) {True, True, False})
+    Dim T_CFD As New Triangle(C, F, D, New Boolean(2) {True, True, True})
+
+    Dim Triangles As Triangle() = New Triangle(3) {T_ABC, T_ADE, T_BEF, T_CFD}
+    Dim Edges As TriangleSide() = New TriangleSide(5) {A, B, C, D, E, F}
+
+    ' The coords '
+
+    Dim X As Double = 1
+    Dim Y As Double = 1
+    Dim Z As Double = 1
+
+    Dim Points As XYZ() = New XYZ(3) {
+      New XYZ(0, 0, 0),
+      New XYZ(X, 0, 0),
+      New XYZ(0, Y, 0),
+      New XYZ(0, 0, Z)}
+
+    Dim BrepB As New BRepBuilder(BRepType.Solid)
+
+    ' Faces '
+
+    For i = 0 To Triangles.Length - 1
+      Dim T As Triangle = Triangles(i)
+      Dim P As Plane = T.GetPlane(Points)
+      Triangles(i).FaceId = BrepB.AddFace(BRepBuilderSurfaceGeometry.Create(P, Nothing), False)
+    Next
+
+    ' Edges '
+
+    For i = 0 To Edges.Length - 1
+      Dim ed As TriangleSide = Edges(i)
+      Edges(i).EdgeId = BrepB.AddEdge(BRepBuilderEdgeGeometry.Create(ed.GetXYZ(0, Points), ed.GetXYZ(1, Points)))
+    Next
+
+    ' Face loops '
+
+    For i = 0 To Triangles.Length - 1
+      Dim T As Triangle = Triangles(i)
+      Triangles(i).LoopId = BrepB.AddLoop(T.FaceId)
+    Next
+
+    ' Co-edges '
+
+    For i = 0 To Triangles.Length - 1
+      Dim T As Triangle = Triangles(i)
+
+      For ia = 0 To 2
+        Dim ed As TriangleSide = T(ia)
+        BrepB.AddCoEdge(T.LoopId, ed.EdgeId, T.Sides_Reversed(ia))
+      Next
+      BrepB.FinishLoop(T.LoopId)
+      BrepB.FinishFace(T.FaceId)
+    Next
+
+    Dim Outcome As BRepBuilderOutcome = BrepB.Finish
+
+    Using Tx As New Transaction(IntDoc, "DS")
+      If Tx.Start = TransactionStatus.Started Then
+
+        Dim DS As DirectShape = DirectShape.CreateElement(IntDoc, New ElementId(BuiltInCategory.OST_GenericModel))
+        Dim S As Solid = BrepB.GetResult()
+        DS.SetShape(New GeometryObject() {S}.ToList)
+
+        Tx.Commit()
+      End If
+    End Using
+
+    Return Result.Succeeded
+  End Function
+
+  Public Class TriangleSide
+    Public Property EdgeId As BRepBuilderGeometryId
+    Public ReadOnly Property N1 As Integer
+    Public ReadOnly Property N2 As Integer
+    Public Function GetXYZ(Idx As Integer, Points As XYZ()) As XYZ
+      If Idx = 0 Then
+        Return Points(N1)
+      ElseIf Idx = 1 Then
+        Return Points(N2)
+      Else
+        Throw New ArgumentOutOfRangeException
+      End If
+    End Function
+    Public Sub New(Node1 As Integer, Node2 As Integer)
+      N1 = Node1
+      N2 = Node2
+    End Sub
+  End Class
+
+  Public Class Triangle
+    Public Property LoopId As BRepBuilderGeometryId
+    Public Property FaceId As BRepBuilderGeometryId
+    Public ReadOnly Property Sides_Reversed As Boolean()
+    Public ReadOnly Property S1 As TriangleSide
+    Public ReadOnly Property S2 As TriangleSide
+    Public ReadOnly Property S3 As TriangleSide
+
+    Public Function GetPlane(Points As XYZ()) As Plane
+
+      ' The edge ends could be reversed for a triangles, so use '
+      ' midpoints to ensure points are unique and not colinear '
+
+      Dim Mid1 As XYZ = (Points(S1.N1) + Points(S1.N2)) / 2
+      Dim Mid2 As XYZ = (Points(S2.N1) + Points(S2.N2)) / 2
+      Dim Mid3 As XYZ = (Points(S3.N1) + Points(S3.N2)) / 2
+
+      Return Plane.CreateByThreePoints(Mid1, Mid2, Mid3)
+    End Function
+
+    Default Public ReadOnly Property Side(Idx As Integer) As TriangleSide
+      Get
+        If Idx = 0 Then
+          Return S1
+        ElseIf Idx = 1 Then
+          Return S2
+        ElseIf Idx = 2 Then
+          Return S3
+        Else
+          Throw New ArgumentOutOfRangeException
+        End If
+      End Get
+    End Property
+
+    Public Sub New(Side1 As TriangleSide, Side2 As TriangleSide, Side3 As TriangleSide, Reversed As Boolean())
+      S1 = Side1
+      S2 = Side2
+      S3 = Side3
+
+      If Reversed.Length &lt;&gt; 3 Then
+        Throw New ArgumentOutOfRangeException
+      End If
+      Sides_Reversed = Reversed
+
+    End Sub
+  End Class
+</pre>
+
+<p><strong>Response:</strong> It took me a while to figure out how the edges and faces should be added before the detail explanation and sample code reaches me.
+Thank you very much for your effort.</p>
+
+<p>That is a really cool image; did you create it or you found in some Revit API presentation?</p>
+
+<p>Is kinda missing a Four-sided dice in that image 😀</p>
+
+<p>Another thing that is good to mention, is if your BRepType is Void, all the face normals must point into the void.</p>
+
+<p><strong>Answer:</strong> Thanks @ricaun I drew it with AutoCAD after a couple of attempts at what I wanted to get across using pencil, paper and eraser (more eraser than pencil and paper).</p>
+
+<p>I'll have to check how important it is to set the boundaries of the surfaces.
+I'm sure I noticed previously and the other day that just specifying null may create a performance issue in Revit after the direct shape exists.</p>
+
+<p>The best thing about the BRepBuilder in my view is that you can create single face solids. So all those API functions specific to the face class can be used on such.</p>
+
+<p><strong>Answer:</strong> Regarding the boundaries, you say:</p>
+
+<blockquote>
+  <p>I'll have to check how important it is to set the boundaries of the surfaces. I'm sure I noticed previously and the other day that just specifying null may create a performance issue in Revit after the direct shape exists.</p>
+</blockquote>
+
+<p>In my code, the boundaries of the surfaces are null as well, never have a problem but the most complex thing I did was create a copy of a Solid to change the Material. Works, but reordering and reversing each edge is painful.</p>
+
+<blockquote>
+  <p>@RPTHOMAS108 wrote: The best thing about the BRepBuilder in my view is that you can create single face solids. So all those API functions specific to the face class can be used on such.</p>
+</blockquote>
+
+<p>For a simple face, it is possible to use <code>TessellatedShapeBuilder</code>: you can create a Solid, or a Mesh if that fails.</p>
+
+<p>In this <code>D4</code> is much simpler to use than TessellatedFace &ndash; <code>D4</code> as in tetrahedron, a shape with 4 flat faces, a dice with 4 faces, or a <code>D4</code> if you are familiar with dice and RPG. 😀</p>
+
+<pre class="prettyprint">
+var shapeBuilder
+  = TessellatedShapeCreatorUtils.Create(
+    builder =&gt;
+  {
+    var points = new List&lt;XYZ&gt;(4);
+    points.Add(new XYZ(0, 0, 0)); // 0 origin
+    points.Add(new XYZ(1, 0, 0)); // 1 right
+    points.Add(new XYZ(0, 1, 0)); // 2 back
+    points.Add(new XYZ(0, 0, 1)); // 3 top
+
+    var materialId = ElementId.InvalidElementId;
+    // bottom face
+    builder.AddFace(new TessellatedFace(new[] {
+      points[2], points[1], points[0] }, materialId));
+    // front face
+    builder.AddFace(new TessellatedFace(new[] {
+      points[0], points[1], points[3] }, materialId));
+    // diagonal face
+    builder.AddFace(new TessellatedFace(new[] {
+      points[1], points[2], points[3] }, materialId));
+    // left face
+    builder.AddFace(new TessellatedFace(new[] {
+      points[2], points[0], points[3] }, materialId));
+  });
+</pre>
+
+<p>Here is
+the <a href="https://gist.github.com/ricaun/35baa2ed9f33de3487e46e4217b5e8bd">full code of TessellatedShapeCreatorUtils.cs implementing this utility class</a></p>
+
+<pre class="prettyprint">
+public static class TessellatedShapeCreatorUtils
+{
+  public static TessellatedShapeBuilderResult Create(
+    Action&lt;TessellatedShapeBuilder&gt; actionBuilder)
+  {
+    TessellatedShapeBuilder builder = new TessellatedShapeBuilder();
+    builder.Target = TessellatedShapeBuilderTarget.AnyGeometry;
+    builder.Fallback = TessellatedShapeBuilderFallback.Mesh;
+    builder.OpenConnectedFaceSet(true);
+    actionBuilder?.Invoke(builder);
+    builder.CloseConnectedFaceSet();
+    builder.Build();
+    TessellatedShapeBuilderResult result = builder.GetBuildResult();
+    return result;
+  }
+}
+</pre>
+
+<p>If you are working with a Revit surface, <code>BRepBuilder</code> is the way to go.</p>
+
+<p>Many thanks to Richard and Luiz Henrique for the good advice, illuminating discussion and great sample code!</p>
+
+<h4><a name="3"></a> Change Toposurface Interior Point to Boundary</h4>
+
+<p>The long-standing question
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/toposurface-change-interior-point-to-boundary-point/m-p/12015969">Toposurface &ndash; change interior point to boundary point</a> finally
+receives a clear and succinct suggestion for a solution
+by Mitchell Currie of <a href="https://www.struxi.com/">Struxi</a>:</p>
+
+<p><strong>Question:</strong> Is there any way to change an interior point to a boundary point or vice versa using Revit's API?
+I want to do this so I can display the boundary of the topography I have generated correctly.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c1aa76abaf200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302c1aa76abaf200d img-responsive" alt="Toposurface boundary and interior points" title="Toposurface boundary and interior points" src="/assets/image_bc4a2b.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br />
+-->
+</center></p>
+
+<p><strong>Answer:</strong> Use a subregion and hide it.</p>
+
+<p>Thank you for the answer!</p>
+
+<h4><a name="4"></a> To Code or Not to Code, That is the Question</h4>
+
+<p>An interesting <a href="https://twitter.com/advany/status/1664451798793584642?s=20">comparison of two programming approaches in modern times</a>
+by <a href="https://twitter.com/advany">Ab Advany</a>:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c1a6ca62db200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302c1a6ca62db200b img-responsive" alt="To code or not to code" title="To code or not to code" src="/assets/image_b0a461.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Supervised a project 2 week ago.
+Two programmers were hired to create an MVP.
+I have worked with both before:</p>
+
+<ul>
+<li>Alex from Germany. 100% code. 19 years experience.</li>
+<li>Hamid from Pakistan. Code + Copilot + GPT-4 + no-code. 4 years experience.</li>
+</ul>
+
+<p>What do you think happened?</p>
+
+<p>Both programmers received Figma screens and detailed specs.
+A designer was available to assist them with the assets they needed, and there was also existing code that needed to be integrated.
+Hamid finished the first version in one week with 100% test coverage of code and end-to-end testing of no-code parts.
+95% of the work seems to be finished and appears to work at first glance... 😲
+Hamid built the UI and front-end workflows in bubble, generated Cloudflare Workers using GPT-4, integrated existing code using Copilot, and generated tests using GPT-4 (playwright/ava).</p>
+
+<p>Hamid's costs:</p>
+
+<ul>
+<li>GPT-4: $211</li>
+<li>Copilot: $20</li>
+<li>Cloudflare: $5</li>
+<li>Bubble: $134</li>
+<li>Compensation: $2460 (41 hours worked)</li>
+<li>Costs to host/run: $139/mo</li>
+</ul>
+
+<p>Alex finished around 7% of the tasks. Costs:</p>
+
+<ul>
+<li>Vercel: $20</li>
+<li>Compensation: $3500</li>
+<li>Estimated to developing everything: $45k. And expects $11k for adding tests.</li>
+<li>Costs to host/run: $20/mo</li>
+</ul>
+
+<p>This was a project I supervised for a friend of mine with an agency.
+I only did it because I was really curious about how it would turn out.</p>
+
+<p>We both thought that Hamid would be finished in 8-10 weeks while Alex would take a week or two extra, but the results amazed us!</p>
+
+<p>He had a talk with Alex about this. His response? "But it will be so much cheaper to run this app, and you'll have everything under control." Not understanding the opportunity costs of shipping 13 times slower and 25 times more expensive to develop.</p>
+
+<p>Alex was let go because he wants to "code" and doesn't trust no-code/AI...</p>
+
+<p>The development agency of my friend has 100+ developers like Alex.
+Now he is going to retrain or replace them with developers like Hamid...</p>
+
+<p>I think people like Hamid will still have work five years from now, while people like Alex will have to find other jobs/professions.
+What do you think?</p>

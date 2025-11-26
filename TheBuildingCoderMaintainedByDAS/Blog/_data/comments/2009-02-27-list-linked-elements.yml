@@ -1,0 +1,111 @@
+comments:
+- author: Prashant
+  email: ppathak@bsdsoftlink.com
+  ip: 64.207.61.2
+  url: ''
+  date: '2009-07-09 18:03:48'
+  body: "Hi Jeremy,\n\nI have a filter to get all the elements of type FamilySymbol,\
+    \ and then I try to get the Name and Category.Name for each element obtained.\
+    \ \n\nIt works fine if the document is the primary document (ActiveDocument),\
+    \ but if I have a linked document, any (read)action related to Category throws\
+    \ the following exception:\n\"Attempt to modify the model outside of transaction\"\
+    .\n\nThis exception is not thrown for element.Name only for element.Category.Name\n\
+    \nIn fact the same exception is thrown if I just do:\n\n\"If NOT (element.Category\
+    \ is Nothing) then \nEnd If\"\n\nAny help is greatly appreciated !"
+- author: Prashant
+  email: ppathak@bsdsoftlink.com
+  ip: 64.207.61.2
+  url: ''
+  date: '2009-07-10 16:09:10'
+  body: 'Jeremy,
+
+
+    I found the answer at AUGI Revit API forum, Matt pointed it out. Here''s the link:
+
+
+    <a href="http://forums.augi.com/showthread.php?t=104316">http://forums.augi.com/showthread.php?t=104316</a>
+
+
+    Regards'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.66.92
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-07-12 05:18:19'
+  body: 'Dear Prashant,
+
+
+    Thank you for the interesting question, and even more for the pointer to the valuable
+    answer from Matt Mason pointing out the importance of wrapping all your interactions
+    with Revit documents in a transaction. For access to the currently active document,
+    Revit automatically opens and manages a transaction for you, but not for any other
+    ones.
+
+
+    Cheers, Jeremy.'
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: ''
+  date: '2011-08-24 01:34:40'
+  body: "Hello Jeremy.\nI need to change parameter of linked elements via API. I had\
+    \ tried to do this using code:\nvar app = commandData.Application.Application;\n\
+    \            var doc = commandData.Application.ActiveUIDocument.Document;\n\n\
+    \            //get linked documents\n            var linkedDocs = GetLinkedDocuments(doc).ToList();\n\
+    \n            if (linkedDocs.Count == 0) return Result.Succeeded;\n\n        \
+    \    var firstLinkedDoc = linkedDocs[0];\n\n            FilteredElementCollector\
+    \ collector = new FilteredElementCollector(firstLinkedDoc);\n\n            var\
+    \ walls = collector\n                .OfCategory(BuiltInCategory.OST_Walls)\n\
+    \                .OfType()\n                .ToList();\n\n           foreach (var\
+    \ wall in walls)\n                {\n                    var urlParam = wall.get_Parameter(BuiltInParameter.ALL_MODEL_URL);\n\
+    \                    if (urlParam != null)\n                        urlParam.Set(firstLinkedDoc.PathName);\n\
+    \                }\n            }\n\nBut when I try to set parameter exception\
+    \ is throw: \"Attempt to modify the model outside of transaction.\"\n\nIf I create\
+    \ new Transaction in linked document other exception is throw: \"Document is a\
+    \ linked file. Transactions can only be used in primary documents (projects or\
+    \ families.)\"\n\nSo the solution that describes in AUGI Revit API forum <a href=\"\
+    http://forums.augi.com/showthread.php?t=104316\">http://forums.augi.com/showthread.php?t=104316</a>\
+    \ does not work.\n\nI use Revit Architecture 2012.\n\nJeremy, is it possible to\
+    \ change parameter in linked elements?\n\nThanks for you great blog!"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-08-24 03:25:53'
+  body: "Hi Victor,\n\nThank you for your appreciation!\n\nThe AUGI post refers to\
+    \ a previous version of Revit. \n\nFor Revit 2012, please refer to the remarks\
+    \ on the Transaction class in the Revit API Help file RevitAPI.chm. They state:\n\
+    \n\"Transactions in linked documents are not permitted, for linked documents are\
+    \ not allowed to be modified.\"\n\nCheers, Jeremy."
+- author: Rahul
+  email: rahul.shah@woodsbagot.com
+  ip: 208.51.101.149
+  url: ''
+  date: '2011-12-16 11:12:22'
+  body: 'Hi Jeremy,
+
+
+    Is it possible to open each link and change elements'' properties and close upon
+    successful changes?
+
+
+    Thanks'
+- author: Olivier Fauconnet
+  email: dev@fisa.fr
+  ip: 80.11.87.250
+  url: http://www.fisa.fr
+  date: '2015-04-02 10:48:04'
+  body: "Hello Jeremy,\n\nHow can select a object in a link document when i have the\
+    \ ID.\n\nWe can zoom on the object, but I can not select it.\n\nWhat is the problem\
+    \ in my code?\n\nMy code:\nList<Document ^> ^oDocumentLierListe;\nICollection<ElementId\
+    \ ^> ^oCollectionSelectionLier;\nTransaction ^oTrans;\nElement ^oElement;\nElementId\
+    \ ^oElemId;\nUIDocument ^oUIDocumentLier;\n\noDocumentLierListe = gcnew List<Document\
+    \ ^>();\n\noTrans = gcnew Transaction(this->oDocument, \"Read FISA\");\noTrans->Start();\n\
+    \n::GetDocumentLier(oDocumentLierListe, this->oDocument, this->oUIApplication);\n\
+    \noElemId\t= gcnew ElementId(1756242);\nfor each(Document ^oDocLier in oDocumentLierListe)\n\
+    {\n\toElement = oDocLier->GetElement(oElemId);\n\tif (oElement != nullptr)\n\t\
+    {\n\t\toUIDocumentLier = gcnew UIDocument(oDocLier);\n\t\toCollectionSelectionLier\
+    \ = oUIDocumentLier->Selection->GetElementIds();\n\t\toCollectionSelectionLier->Clear();\n\
+    \t\toCollectionSelectionLier->Add(oElement->Id);\n\n\t\toUIDocumentLier->Selection->SetElementIds(oCollectionSelectionLier);\n\
+    \t\toUIDocumentLier->ShowElements(oElement);\n\t}\n}\n\noTrans->Commit();\n\n\
+    -----"

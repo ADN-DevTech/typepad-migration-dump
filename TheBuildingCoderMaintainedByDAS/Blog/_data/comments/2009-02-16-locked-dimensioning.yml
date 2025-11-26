@@ -1,0 +1,250 @@
+comments:
+- author: pnavarra
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.31.147
+  url: http://forums.augi.com/showthread.php?t=84766
+  date: '2009-02-16 05:26:27'
+  body: 'Thx again for this exellent post Jeremy.
+
+    Copy or move objects before deleting is a good idea. We can also make a copy of
+    the file before deleting all dimensions...
+
+
+    Maybe you have seen that I''ve got a new problem with splitted faces area in Object....maybe
+    a new post....
+
+
+    Cheers.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.217.32.27
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-02-16 08:23:02'
+  body: "Hi Pierre,\n\nThank you for your appreciation and feedback!\n\nYes, I saw\
+    \ your email on the split faces. For completeness sake, I note here that you are\
+    \ asking about API access to the geometry and above all the area of split faces.\
+    \ Unfortunately, this is a topic that I have already had several questions about\
+    \ and explored in some depth but not been able to make any significant progress\
+    \ on yet. I explored what elements are added, similarly to the process descibed\
+    \ above. Briefly, adding a face split creates the following types of new elements:\
+    \ a sketch plane, a sketch, a split face element, model lines, and automatic sketch\
+    \ dimensions. I tried to find the relationship between these elements but was\
+    \ unable to determine or retrieve the links between them. I also asked the development\
+    \ team about this issue, and received the following answers:\n\n1. Is there a\
+    \ way to access information about materials painted on split faces using the existing\
+    \ API? No.\n\n2. If this information is not available through the API, could we\
+    \ use a schedule and export them manually, or an ODBC export, also exported manually,\
+    \ to access that information? No, because split face elements do not schedule\
+    \ and do not export to ODBC.\n\nSo it seems as if this information really is hard\
+    \ to access.\n\nOn the other hand, I can see in the image that you pointed me\
+    \ to that the area information of a split face is in fact accessible in a schedule\
+    \ table, so it can be calculated, displayed and viewed in the Revit user interface.\
+    \ Therefore, it should be possible to access and extract this information by creating\
+    \ the schedule and exporting it to Excel, shouldn't it? And that process should\
+    \ be automatable using a tool like AutoHotKey, shouldn't it?\n\nIf anybody can\
+    \ find a way to access this information, I will be happy to post on that. I will\
+    \ also gladly present more detailed information on the elements created by adding\
+    \ a face split. \n\nCheers, Jeremy."
+- author: pnavarra
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.31.147
+  url: http://forums.augi.com/showthread.php?t=84766
+  date: '2009-02-16 08:41:00'
+  body: 'Hi Jeremy,
+
+    I was reading the seconde answer by development team and I was really surprised
+    to read that the development ignore that we can make a schedule wich got spitted
+    faces are!...can believe!...
+
+
+    Anyway, the solution might be that we have to schedule manually and export it
+    in a text file. That''s a possibility and that''s no too bad. I''m gonna do it....
+
+
+    Cheers!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.217.32.27
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-02-16 08:53:02'
+  body: "Hi Pierre,\n\nI can imagine that in that answer, they were thinking more\
+    \ about possibilities to access the detailed geometry, for instance the exact\
+    \ location of the model lines defining a split face, so I can understand their\
+    \ way of seeing it. \n\nI am very much looking forward to hearing about your experience\
+    \ making use of the schedule export to access this information!\n\nGood luck and\
+    \ best regards, Jeremy."
+- author: pnavarra
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.31.147
+  url: http://forums.augi.com/showthread.php?t=84766
+  date: '2009-02-16 10:20:45'
+  body: 'Hi Jeremy,
+
+
+    I got the Schedule in wich I have my areas grouped by materials. How to get all
+    lines and fields?
+
+    Have you already made this?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.217.32.27
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-02-16 12:47:29'
+  body: 'Hi Pierre,
+
+
+    No, I have never tried to automate schedule data exporting. Is it possible to
+    manually export schedule data in spreadsheet format? In that case, it is hopefully
+    possible to automate that process as well, c.f.
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/01/autohotkey.html">http://thebuildingcoder.typepad.com/blog/2009/01/autohotkey.html</a>
+
+
+    Cheers, Jeremy.'
+- author: pnavarra
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.31.147
+  url: http://forums.augi.com/showthread.php?t=84766
+  date: '2009-02-17 03:35:32'
+  body: 'Hi Jeremy,
+
+
+    I know that we can use AutoHotkey but, I''d like to write my schedule export in
+    a specific format...mhh...
+
+    I can use AutoHotKey to export schedule in txt and running my API script after
+    but, that''s not very clean....
+
+    Mhh, still surching...
+
+
+    Cheers.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 83.189.140.162
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-02-17 04:56:00'
+  body: 'Hi Pierre,
+
+
+    The first challenge is to obtain access to the data at all, in any way whatsoever.
+    Making use of tools like the Win32 API or AutoHotKey also introduces synchronisation
+    issues and questions on how to coordinate the application with the simulated interaction
+    through the Revit user interface and its results. Once the data is accessible,
+    in whatever format that may be, converting to another format is no big issue.
+
+
+    Cheers, Jeremy.'
+- author: debdas_paul@yahoo.com
+  email: debdas_paul@yahoo.com
+  ip: 123.236.115.105
+  url: ''
+  date: '2009-11-30 03:54:15'
+  body: 'Hi Jeremy,
+
+    I am trying to make a family of pipe fitting with parameter with the help of "family
+    Types" tab which is already load in the Revit MEP 2009.
+
+    But I can not make sence the meaning of "Lookup Table name" in the Family types
+    tab.
+
+    Can you please help me with the proper making of family fitting with parameter.
+
+
+    Thanks,
+
+    Debdas'
+- author: Jeremy Tammik
+  email: ''
+  ip: 24.120.216.199
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-01 18:10:55'
+  body: 'Dear Debdas,
+
+
+    Maybe you will find the families guide useful:
+
+
+    <a href="http://usa.autodesk.com/adsk/servlet/item?siteID=123112&id=13376394">http://usa.autodesk.com/adsk/servlet/item?siteID=123112&id=13376394</a>
+
+
+    Cheers, Jeremy.'
+- author: Saravanan
+  email: kklsara@gmail.com
+  ip: 117.193.237.130
+  url: ''
+  date: '2010-01-15 09:00:47'
+  body: 'Hi Jeremy:
+
+
+    I wonder whether it is possible to add a "prefix/suffix" ,"above/below text" to
+    a dimension. Is it possible?
+
+
+    Thanks,
+
+    -Saravanan'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.135.10
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-16 06:07:31'
+  body: 'Dear Saravanan,
+
+
+    As in many other Revit programming queries, the first question to ask before looking
+    at the API possibilities is whether this is possible in the user interface. If
+    not, then you can probably not do anything through the API either.
+
+
+    Cheers, Jeremy.'
+- author: Saravanan
+  email: kklsara@gmail.com
+  ip: 117.193.231.32
+  url: ''
+  date: '2010-01-17 00:19:45'
+  body: "Hi Jeremy:\n\nYes, it is possible by clicking the dimension text. A text\
+    \ box will appear and we can provide prefix ,suffix, above text & below text.\
+    \ \n\nBut so far I am not able to figure out any ways in API. \n\nPlease help\
+    \ me.\n\nThanks in advance,\n-Saravanan"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-19 01:30:32'
+  body: 'Dear Saravanan,
+
+
+    I just saw from a related developer support case that there is apparently no API
+    access to these fields right now. Sorry for the bad news.
+
+
+    Cheers, Jeremy.'
+- author: Nitin
+  email: ''
+  ip: 61.11.14.102
+  url: http://profile.typepad.com/nitinjambhale2008
+  date: '2011-06-16 04:59:58'
+  body: 'Dear sir,
+
+    How can i lock pipes and connectors together through API in order to join pipes.
+
+
+    Thanks & Regards,
+
+    - Nitin'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-16 11:53:00'
+  body: 'Dear Nitin,
+
+
+    Sorry, no idea. Looking forward to hearing from you if you find out anything useful.
+
+
+    Cheers, Jeremy.
+
+    -----'

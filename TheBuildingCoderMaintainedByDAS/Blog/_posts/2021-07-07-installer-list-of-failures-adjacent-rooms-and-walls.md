@@ -1,0 +1,300 @@
+---
+layout: "post"
+title: "Installer, List of Failures, Adjacent Rooms and Walls"
+date: "2021-07-07 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Element Relationships"
+  - "Failure"
+  - "Installation"
+  - "RevitLookup"
+  - "Update"
+  - "Utilities"
+original_url: "https://thebuildingcoder.typepad.com/blog/2021/07/installer-list-of-failures-adjacent-rooms-and-walls.html "
+typepad_basename: "installer-list-of-failures-adjacent-rooms-and-walls"
+typepad_status: "Publish"
+---
+
+<p>We discuss enhancements to RevitLookup, a list of all built-in Revit failures, and a neat utility to determine all room-wall adjacencies:</p>
+
+<ul>
+<li><a href="#2">Adjacent rooms and walls</a></li>
+<li><a href="#3">List of all built-in failures</a></li>
+<li><a href="#4">Recent RevitLookup updates</a></li>
+<li><a href="#5">RevitLookup installation</a></li>
+</ul>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330278803633f8200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330278803633f8200d img-responsive" style="width: 200px; display: block; margin-left: auto; margin-right: auto;" alt="Wall adjacent rooms" title="Wall adjacent rooms" src="/assets/image_23dfc7.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="2"></a> Adjacent Rooms and Walls</h4>
+
+<p>The <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> question
+on how to <a href="https://forums.autodesk.com/t5/revit-api-forum/extract-the-names-of-the-rooms-separated-by-a-wall/m-p/10428696">extract the names of the rooms separated by a wall</a>
+prompted Richard <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/1035859">RPThomas108</a> Thomas
+to share a neat utility method implementing much more than that:</p>
+
+<p><strong>Question:</strong> I use Revit to model my projects, then I export the BOMs to a spreadsheet that creates my quotes for clients.
+However, I am running into a problem:</p>
+
+<p>When I need to demolish or create a wall, I would like to see its location, if any, appear in the BOM. </p>
+
+<p>For example, if I break a wall between the kitchen and the living room, I would like to see "kitchen" or "living room", or even both, next to the surfaces. But I can't find a way to implement this.</p>
+
+<p>Do you have any ideas to help me?</p>
+
+<p><strong>Answer:</strong> Via the API, you can use
+the <a href="https://www.revitapidocs.com/2022/8e0919af-6172-9d16-26d2-268e42f7e936.htm"><code>Room.GetBoundarySegments</code> method</a>.</p>
+
+<p>This will return a nested list of <code>BoundarySegment</code> objects on which you can query their <code>ElementId</code> or <code>LinkElementId</code> property.</p>
+
+<p>Then it is just a case or matching up the ElementId with the wall id and pairing that with the room(s). </p>
+
+<p>Some walls will be part of more than two rooms:</p>
+
+<pre class="code">
+Private Function Obj_210629a( _
+  ByVal commandData As Autodesk.Revit.UI.ExternalCommandData, _
+  ByRef message As String, _
+  ByVal elements As Autodesk.Revit.DB.ElementSet) _
+  As Result
+
+  Dim UIDoc As UIDocument = commandData.Application.ActiveUIDocument
+  If UIDoc Is Nothing Then Return Result.Cancelled Else
+  Dim IntDoc As Document = UIDoc.Document
+
+  Dim FEC As New FilteredElementCollector(IntDoc)
+  Dim ECF As New ElementCategoryFilter(BuiltInCategory.OST_Rooms)
+  Dim Els As List(Of ElementId) = FEC.WherePasses(ECF) _
+    .WhereElementIsNotElementType.ToElementIds
+
+  Dim WallRefs As New Dictionary(Of ElementId, List(Of String))
+  For i = 0 To Els.Count - 1
+    Dim Rm As Room = IntDoc.GetElement(Els(i))
+
+    Dim BSegs As IList(Of IList(Of BoundarySegment)) = _
+      Rm.GetBoundarySegments(New SpatialElementBoundaryOptions)
+
+    For x = 0 To BSegs.Count - 1
+      Dim BSegs0 As IList(Of BoundarySegment) = BSegs(x)
+      For y = 0 To BSegs0.Count - 1
+        Dim Bseg As BoundarySegment = BSegs0(y)
+        If Bseg.ElementId <> ElementId.InvalidElementId Then
+          Dim CurRef As List(Of String)
+          If WallRefs.ContainsKey(Bseg.ElementId) Then
+            CurRef = WallRefs(Bseg.ElementId)
+          Else
+            CurRef = New List(Of String)
+            WallRefs.Add(Bseg.ElementId, CurRef)
+          End If
+
+          Dim Rm_el As Element = Rm 
+          Dim RoomName As String = Rm_el.Name
+          If CurRef.Contains(RoomName) = False Then
+            CurRef.Add(RoomName)
+          End If
+        End If
+      Next
+    Next
+  Next
+
+  Dim FECw As New FilteredElementCollector(IntDoc)
+  Dim ECFw As New ElementClassFilter(GetType(Wall))
+  Dim Elsw As List(Of ElementId) = FECw.WherePasses(ECFw).ToElementIds
+
+  Using Tx As New Transaction(IntDoc, "Name walls based on rooms")
+    If Tx.Start = TransactionStatus.Started Then
+
+      For i = 0 To Elsw.Count - 1
+        'Some boundary segments will not relate to walls.
+        If WallRefs.ContainsKey(Elsw(i)) Then
+
+          Dim El As Element = IntDoc.GetElement(Elsw(i))
+
+          'Using instance comments parameter for convenience
+
+          Dim P As Parameter = El.Parameter(BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS)
+          If P Is Nothing Then Continue For Else
+
+          Dim Refs As List(Of String) = WallRefs(Elsw(i))
+          Refs.Sort()
+          Dim V As New Text.StringBuilder
+          For j = 0 To Refs.Count - 1
+            If j = Refs.Count - 1 Then
+              V.Append(Refs(j))
+            Else
+              V.Append(Refs(j) & " / ")
+            End If
+          Next
+          P.Set(V.ToString)
+
+        End If
+      Next
+      Tx.Commit()
+    End If
+  End Using
+  Return Result.Succeeded
+End Function
+</pre>
+
+<p>Thanks to Richard for sharing this very nice VB.NET implementation!</p>
+
+<p>Spelling it out, this does two things:</p>
+
+<ul>
+<li>For all rooms, for each of its bounding walls, note the room to wall relationship</li>
+<li>Use this to create a dictionary mapping the wall element id to a list of the rooms it bounds</li>
+<li>For each wall element id in the dictionary, add a list of the names of the rooms it bounds to its comment field </li>
+</ul>
+
+<p>I ported the VB.NET code to C# and <a href="https://github.com/jeremytammik/the_building_coder_samples/compare/2022.0.150.14...2022.0.150.15">The Building Coder samples</a>:</p>
+
+<pre class="code">
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;For&nbsp;all&nbsp;rooms,&nbsp;determine&nbsp;all&nbsp;adjacent&nbsp;walls,</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;create&nbsp;dictionary&nbsp;mapping&nbsp;walls&nbsp;to&nbsp;adjacent&nbsp;rooms,</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;and&nbsp;tag&nbsp;the&nbsp;walls&nbsp;with&nbsp;the&nbsp;adjacent&nbsp;room&nbsp;names.</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+<span style="color:blue;">void</span>&nbsp;TagWallsWithAdjacentRooms(&nbsp;Document&nbsp;doc&nbsp;)
+{
+&nbsp;&nbsp;FilteredElementCollector&nbsp;rooms
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;FilteredElementCollector(&nbsp;doc&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.WhereElementIsNotElementType()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfCategory(&nbsp;BuiltInCategory.OST_Rooms&nbsp;);
+
+&nbsp;&nbsp;Dictionary&lt;ElementId,&nbsp;List&lt;<span style="color:blue;">string</span>&gt;&gt;&nbsp;map_wall_to_rooms
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;Dictionary&lt;ElementId,&nbsp;List&lt;<span style="color:blue;">string</span>&gt;&gt;();
+
+&nbsp;&nbsp;SpatialElementBoundaryOptions&nbsp;opts
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;SpatialElementBoundaryOptions();
+
+&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;Room&nbsp;room&nbsp;<span style="color:blue;">in</span>&nbsp;rooms&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;IList&lt;IList&lt;BoundarySegment&gt;&gt;&nbsp;loops&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;room.GetBoundarySegments(&nbsp;opts&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>&nbsp;(IList&lt;BoundarySegment&gt;&nbsp;loop&nbsp;<span style="color:blue;">in</span>&nbsp;loops&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;BoundarySegment&nbsp;seg&nbsp;<span style="color:blue;">in</span>&nbsp;loop&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ElementId&nbsp;idWall&nbsp;=&nbsp;seg.ElementId;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;ElementId.InvalidElementId&nbsp;!=&nbsp;idWall&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(!map_wall_to_rooms.ContainsKey(idWall))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map_wall_to_rooms.Add(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;idWall,&nbsp;<span style="color:blue;">new</span>&nbsp;List&lt;<span style="color:blue;">string</span>&gt;()&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;room_name&nbsp;=&nbsp;room.Name;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(!map_wall_to_rooms[idWall].Contains(&nbsp;room_name&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map_wall_to_rooms[&nbsp;idWall&nbsp;].Add(&nbsp;room_name&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:blue;">using</span>(&nbsp;Transaction&nbsp;tx&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;Transaction(&nbsp;doc&nbsp;)&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;tx.Start(&nbsp;<span style="color:#a31515;">&quot;Add&nbsp;list&nbsp;of&nbsp;adjacent&nbsp;rooms&nbsp;to&nbsp;wall&nbsp;comments&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;Dictionary&lt;ElementId,&nbsp;List&lt;<span style="color:blue;">string</span>&gt;&gt;.KeyCollection&nbsp;ids
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;map_wall_to_rooms.Keys;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;ElementId&nbsp;id&nbsp;<span style="color:blue;">in</span>&nbsp;ids&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Element&nbsp;wall&nbsp;=&nbsp;doc.GetElement(&nbsp;id&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parameter&nbsp;p&nbsp;=&nbsp;wall.get_Parameter(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;<span style="color:blue;">null</span>&nbsp;!=&nbsp;p&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;s&nbsp;=&nbsp;<span style="color:blue;">string</span>.Join(&nbsp;<span style="color:#a31515;">&quot;&nbsp;/&nbsp;&quot;</span>,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map_wall_to_rooms[&nbsp;id&nbsp;]&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p.Set(&nbsp;s&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;tx.Commit();
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p>Note that the C# version processes all elements whose element id appears as a key in the wall to room mapping, regardless of whether they are in fact a wall or not.</p>
+
+<p>The VB.NET version uses a filtered element collector to retrieve only wall elements.</p>
+
+<p>You need to decide which approach better matches your specific requirements.</p>
+
+<p>This is yet another example of a relationship inversion:
+every room maintains a relationship to its bounding elements, the walls.
+by retrieving and processing that mapping, we can invert the relationship and use that to add information to each wall about its adjacent rooms.</p>
+
+<p>This is a common Revit API task. 
+A similar <a href="http://thebuildingcoder.typepad.com/blog/2008/10/relationship-in.html">relationship inverter</a> was
+the topic of one of The Building Coder's very first posts, #16, in October 2008.</p>
+
+<h4><a name="3"></a> List of All Built-In Failures</h4>
+
+<p>Gábor Schnierer very kindly shares a list of
+all <a href="https://www.revitapidocs.com/2021.1/eda15d4a-6b14-ee6b-0c44-6011077e6cfc.htm">built-in failures</a> in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on how to <a href="https://forums.autodesk.com/t5/revit-api-forum/get-a-list-of-all-the-revit-warnings/m-p/10399203">get all warnings</a>:</p>
+
+<blockquote>
+  <p>Using the awesome code
+  from <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/2083518">@FAIR59</a>
+  and <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/7186046">@perry.swoboda</a>,
+  here is
+  a <a href="https://docs.google.com/spreadsheets/d/12glULCZL_yJkq7ko_vI-gEHu69dUIoiCRnmvdLpIoSU/edit#gid=0">spreadsheet containing the BuiltInFailures for Revit 2022</a> with
+  their <code>Severity</code>, <code>Classname</code>, <code>Guid</code> and <code>Description</code>.
+  Might come handy.</p>
+</blockquote>
+
+<p>Thank you very much, Gábor!</p>
+
+<h4><a name="4"></a> Recent RevitLookup Updates</h4>
+
+<p>The number of pull requests to add enhancements 
+to <a href="https://github.com/jeremytammik/RevitLookup">RevitLookup</a> has
+increased recently significantly.</p>
+
+<p>That is great news!</p>
+
+<p>Each individual improvement may be small and simple.
+However, they all add up, and the entire community ends up enjoying a brilliant and full-fledged tool.</p>
+
+<p>Here are the important enhancements made since 
+the <a href="https://thebuildingcoder.typepad.com/blog/2021/05/revitlookup-update-fuslogvw-and-override-joins.html">previous bunch of updates</a>. </p>
+
+<ul>
+<li><a href="https://github.com/jeremytammik/RevitLookup/releases/tag/2022.0.0.10">2022.0.0.10</a> fix error where element cannot be retrieved for an element id because <code>SupportedColorFillCategoryIds</code> returns category ids instead</li>
+<li><a href="https://github.com/jeremytammik/RevitLookup/releases/tag/2022.0.0.11">2022.0.0.11</a> add <code>PlanViewRange</code> functionality to display view range level id and offset</li>
+<li><a href="https://github.com/jeremytammik/RevitLookup/releases/tag/2022.0.0.13">2022.0.0.13</a> add <code>OnLoad</code> to increase and optimise width of Snoop window value <code>ListView</code> last column</li>
+<li><a href="https://github.com/jeremytammik/RevitLookup/releases/tag/2022.0.0.15">2022.0.0.15</a> add RevitLookup.Installation</li>
+</ul>
+
+<p>Many thanks to
+all <a href="https://github.com/jeremytammik/RevitLookup/graphs/contributors">contributors</a> for
+your great support!</p>
+
+<h4><a name="5"></a> RevitLookup Installation</h4>
+
+<p>Luiz Henrique <a href="https://github.com/ricaun">@ricaun</a> Cassettari created
+the <a href="https://github.com/ricaun/RevitLookup.Installation">RevitLookup.Installation</a> project,
+a simple installation using <a href="https://jrsoftware.org/isinfo.php">Inno Setup</a> to
+extract the files to the <code>ApplicationPlugins</code> folder.</p>
+
+<p>It generates a digitally signed version of RevitLookup and includes multi-version support for the Revit releases 2017, 2018, 2019, 2020, 2021 and 2022.</p>
+
+<p>It can obviously also be used as a starting point for your own add-in installer.</p>
+
+<p>Many thanks to Luiz Henrique for this and his other nice contributions!</p>

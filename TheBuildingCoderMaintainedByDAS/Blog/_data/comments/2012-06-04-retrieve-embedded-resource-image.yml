@@ -1,0 +1,163 @@
+comments:
+- author: Victor Chekalin
+  email: ''
+  ip: 91.221.195.202
+  url: http://profile.typepad.com/chekalin
+  date: '2012-06-04 22:59:52'
+  body: "Hi, Jeremy.\nI get image from simple resources (not an embedded)\n\nAt first\
+    \ I've created converter from a Bitmap to BitmapImage\npublic static class BitmapSourceConverter\n\
+    \    {\n        public static BitmapSource ConvertFromImage(Bitmap image)\n  \
+    \      {\n            return System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(\n\
+    \                image.GetHbitmap(),                \n                IntPtr.Zero,\n\
+    \                System.Windows.Int32Rect.Empty,\n                BitmapSizeOptions.FromEmptyOptions());\n\
+    \        }\n    }\n\nAnd usage\npushButton.LargeImage = BitmapSourceConverter.ConvertFromImage(Resources.buttonImage);\n\
+    where buttonImage is the image assembly resource which you can add via assembly\
+    \ properties.\n\nHere is highlighted code: http://pastebin.com/ZcQYN78v\n\nI think\
+    \ this code is more obvious and more simple than yours because there is no need\
+    \ to use assembly.\n\nHope this information is useful.\n\nBest regards, Victor."
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2012-06-05 03:58:22'
+  body: 'In the army now...(*singing*)
+
+
+    Hi Jeremy,
+
+
+    Changing an icon at runtime, would allow you to simulate a checkbox.
+
+    One could display some global variables this way.
+
+    The user could set them by just one click.
+
+
+    Just an idea.
+
+
+    Cheers,
+
+    Rudolf'
+- author: Jeremy Tammik
+  email: ''
+  ip: 216.52.185.72
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-06-05 13:22:26'
+  body: 'Dear Victor,
+
+
+    Yes,  agree, that is nice and clean also.
+
+
+    Some people prefer embedding the icons in the assembly to avoid having them in
+    separate external files.
+
+
+    Cheers, Jeremy.'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2012-06-06 08:17:54'
+  body: 'Hi Jeremy,
+
+
+    is there a way to animate the ToolTipImage of a RibbonItem ?
+
+    It would be great if developers could show their own animated videos, as Revit
+    itself does, e.g. if drawing a wall.
+
+
+    Some sort of animated gif would do the job.
+
+
+    Any idea ?
+
+
+    Cheers,
+
+    Rudolf'
+- author: Victor Chekalin
+  email: ''
+  ip: 91.221.195.202
+  url: http://profile.typepad.com/chekalin
+  date: '2012-06-07 06:00:54'
+  body: "Hello, Rudolf.\nI'll try to answer for Jeremy.\n\nYes, it is possible and\
+    \ I've found the undocumented way to add your own video to the tool tip.\n\nThere\
+    \ are many interesting classes in the AdWindows.dll assembly and in the UIFramework.dll\
+    \ assemblies which you can find in the Revit program folder.\n\nThere is a RibbonToolTip\
+    \ class in the AdWindows.dll assembly. The class has a property - ExpandedVideo.\
+    \ The next step is to find a class which can contain ToolTip property. This class\
+    \ is Autodesk.Windows.RibbonItem.\n\nSo, the idea is to find the correct RibbonItem\
+    \ in the ribbon control and set RibbonToolTip to it.\n\nBut here there is the\
+    \ trouble. We create a PushButton on a Panel (Application.CreatePanel().AddItem(RevitItem)\
+    \ we get a Autodesk.Revit.UI.RibbonItem. But we need Autodesk.Windows.RibbonItem.\n\
+    \nThere are several ways.\nThe first one - use RevitControl class and iterate\
+    \ all tabs, panels and buttons and find button by name.\nWe can get RevitControl\
+    \ instance using static property RibbonControl UIFramework.RevitRibbonControl\
+    \ class.\nRibbonControl contains exactly Autodesk.Windows.RibbonItem items not\
+    \ a Autodesk.Revit.UI.RibbonItem. It's look like we need.\nHere is the code: <a\
+    \ href=\"http://pastebin.com/aXZ6u2nL\">http://pastebin.com/aXZ6u2nL</a>\n\nBut\
+    \ there is a second way. The Autodesk.Revit.UI.RibbonItem class has an internal\
+    \ method getRibbonItem() which returns Autodesk.Windows.RibbonItem. Interesting.\
+    \ Try to use this method. The reflection helps us.\nHere is the code: <a href=\"\
+    http://pastebin.com/52hVR61d\">http://pastebin.com/52hVR61d</a>\n\nSo, after we\
+    \ get a Autodesk.Windows.RibbonItem we can set RibbonToolTip to it. \nFor example\
+    \ like here: <a href=\"http://pastebin.com/XtpKjLYq\">http://pastebin.com/XtpKjLYq</a>\n\
+    \nPROFIT!!!\n\nAlso there is a third way to get a Autodesk.Windows.RibbonItem.\
+    \ Create a tab, panel and button directly via RevitControl class. But I didn't\
+    \ find how to set IExtenalCommand to a button. \n\nRevitToolTip.ExpandedVideo\
+    \ support SWF video. Also I'tried a GIF image. The Gif was shown but didn't animate.\
+    \ Also I tried to set Internet url. On my computer it doesn't work. May be it\
+    \ doesn't work via proxy or may be access is denied on video in the internet.\
+    \ Please try and tell me.\n\nAt the last, the full source code of my test project\
+    \ with video tool tip buttons.\n<a href=\"http://dl.dropbox.com/u/62538318/Revit/VCButtonsWithVideoToolTip.zip\"\
+    >http://dl.dropbox.com/u/62538318/Revit/VCButtonsWithVideoToolTip.zip</a>\n\n\
+    Hope the information is useful for you.\n\nP.S. Jeremy, I believe it is also the\
+    \ nice new topic for your blog.\n\nBest regards, Victor."
+- author: Rudolf Honke
+  email: rudolf.honke@acadgraph.de
+  ip: 217.187.74.63
+  url: http://www.acadGraph.de
+  date: '2012-06-08 04:42:04'
+  body: 'Hi Victor,
+
+
+    thanks for answering my question.
+
+
+    Some time ago, I played around with AdWindows.dll, too:
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/02/pimp-my-autocad-or-revit-ribbon.html">http://thebuildingcoder.typepad.com/blog/2011/02/pimp-my-autocad-or-revit-ribbon.html</a>
+
+
+    ;-)
+
+
+    I''m in holiday until next monday, so it will take some time to answer your big
+    post.
+
+
+    As far as I know, you can change the IExternalCommand that is assigned to a button
+    *at runtime*.
+
+
+    I really like it if the discussion in the comments section generates new blog
+    postings.
+
+    It shows that there is a growing community.
+
+
+
+    See you, have a nice weekend,
+
+    Rudolf'
+- author: omer iqbal
+  email: omi.iqb@gmail.com
+  ip: 139.190.26.45
+  url: ''
+  date: '2013-07-25 23:26:59'
+  body: 'how can i display gif image in picturebox via embedd resouce in wpf
+
+    -----'

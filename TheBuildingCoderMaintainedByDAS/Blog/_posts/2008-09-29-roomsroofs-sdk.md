@@ -1,0 +1,34 @@
+---
+layout: "post"
+title: "RoomsRoofs SDK Sample"
+date: "2008-09-29 14:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Element Relationships"
+  - "Geometry"
+  - "RME"
+  - "SDK Samples"
+original_url: "https://thebuildingcoder.typepad.com/blog/2008/09/roomsroofs-sdk.html "
+typepad_basename: "roomsroofs-sdk"
+typepad_status: "Publish"
+---
+
+<p>Remaining on the track of geometrical topics, for the time being...</p>
+
+<p>A common inquiry is how to determine the roof part of the boundary of a given room or space. Currently, Revit does not expose such an API, and there is no straightforward way to obtain this information. However, the new Revit SDK sample RoomsRoofs is provided to answer this question. It demonstrates how to check whether a room or space has a bounding roof, and determines all roof elements bounding a room or space from above.</p>
+
+<p>Note that no new API functionality is used in this sample. The required calculations are done through a purely geometrical analysis. The sample queries the roof and the room or space for its geometry and then checks for intersections between the various elements. If the room or space intersects with a roof, it retrieves the room or space closed shell as a GeometryObjectArray, and extracts every solid element from it. It also determines the roof solid, and then feeds the two solids into the method AreSolidsCut( Solid, Solid ), which checks whether any of the solid faces overlap each other. You can also make use of AreSolidsCut() as a helper method for your own applications. The sample is not guaranteed to work with every possible configuration, so you may need to enhance it further for special cases.</p>
+
+<p>The new sample is included in the standard Revit SDK distribution. It is currently also available for download from the ADN site in the Revit knowledgebase section under <a href="http://adn.autodesk.com/adn/servlet/item?siteID=4814862&amp;id=11234791&amp;linkID=4901650">Revit 2009 Samples and Documents</a>. For your convenience, I am also providing a copy of it right <a href="http://thebuildingcoder.typepad.com/blog/files/roofsrooms.zip">here</a>.</p>
+
+<p>It works in Revit Architecture, in which case the analysis is performed for rooms, and for Revit MEP, in which case spaces can be analysed, and is written in C#. Separate sample files are provided for these two situations. Here is the 3D view of the architectural sample file:</p>
+
+<p><img title="RoofsRooms sample file in 3D view" alt="RoofsRooms sample file in 3D view" src="/assets/roofs_rooms_3d.png" border="0" /> </p>
+
+<p>Here is the architectural sample file in plan view:</p>
+
+<p><a onclick="window.open(this.href, '_blank', 'width=800,height=507,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0'); return false" href="http://thebuildingcoder.typepad.com/.shared/image.html?/photos/uncategorized/2008/09/26/roofs_rooms_plan.png"><img title="RoofsRooms sample file in plan view" height="253" alt="RoofsRooms sample file in plan view" src="/assets/roofs_rooms_plan.png" width="400" border="0" /></a> </p>
+
+<p>To run the sample, simply execute the external command. It determines all the rooms and spaces, calculates their roofs, and lists the analysis result in a dialogue box.</p>
+
+<p><a onclick="window.open(this.href, '_blank', 'width=461,height=347,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0'); return false" href="http://thebuildingcoder.typepad.com/.shared/image.html?/photos/uncategorized/2008/09/26/roofs_rooms_message_box.png"><img title="RoofsRooms analysis results" height="301" alt="RoofsRooms analysis results" src="/assets/roofs_rooms_message_box.png" width="400" border="0" /></a> </p>

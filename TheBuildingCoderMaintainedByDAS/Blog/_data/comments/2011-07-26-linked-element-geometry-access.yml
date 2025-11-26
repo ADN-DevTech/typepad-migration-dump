@@ -1,0 +1,207 @@
+comments:
+- author: Ian
+  email: kuankuo123@163.com
+  ip: 61.140.102.161
+  url: ''
+  date: '2011-07-26 11:38:17'
+  body: 'Hello Jeremy Tammik
+
+
+    In here, I want to ask some question about the workset in Revit Architecture 2011.
+
+
+    when I create the workset in revit 2011, and I can set the specific workset visible
+    or hidden in the view.
+
+
+    if I set the specific workset hidden, How can I get the element in the workset
+    that is set to be hidden in the view.
+
+
+    I know that in revit 2012 ,it provide some relative method to resolve thie question,
+    but in revit 2011 , I can''t find them!
+
+
+    Therefor, I hope you can give me some example code which how to get the element
+    in workset by RevitAPI 2011.
+
+
+    Best Regards
+
+    Ian'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-07-27 19:04:34'
+  body: 'Dear Ian,
+
+
+    These methods are new in Revit 2012, and are not available in Revit 2011.
+
+
+    Cheers, Jeremy.'
+- author: Ian
+  email: kuankuo123@163.com
+  ip: 61.140.109.217
+  url: ''
+  date: '2011-07-28 09:44:08'
+  body: 'Thanks!
+
+
+    But I want to ask whether it exists other methods to find the element in workset
+    in Revit 2011?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-08-09 04:26:53'
+  body: 'Dear Ian,
+
+
+    Not as far as I know, sorry.
+
+
+    Cheers, Jeremy.'
+- author: sachin
+  email: sachinkocharekar12@gmail.com
+  ip: 223.239.129.111
+  url: ''
+  date: '2013-04-01 03:12:53'
+  body: 'Hello sir,
+
+    I am getting problem to get a real time view(like in case inserting door on a
+    wall,after selecting the door, i am not getting the door view of moving along
+    with the mouse cursor only getting cursor and if click on wall directly it will
+    inserting.) before placing family inserting.
+
+
+    my code is like this:
+
+
+    public Autodesk.Revit.UI.Result Execute(ExternalCommandData commandData, ref string
+    message, ElementSet elements)
+
+    {
+
+    ..........
+
+    try
+
+    {
+
+    trans.Start();
+
+    Family family = null;
+
+    FamilySymbol symbol = null;
+
+    if (doc.LoadFamily(@h4, out family))
+
+    {
+
+    foreach (FamilySymbol s in family.Symbols)
+
+    {
+
+    symbol = s;
+
+    }
+
+    View view = uidoc.ActiveView;
+
+    Reference r = sel.PickObject(ObjectType.PointOnElement, "Select");
+
+    Element elem = doc.GetElement(r);
+
+    Wall wall = elem as Wall;
+
+    XYZ globalPoint = r.GlobalPoint;
+
+    XYZ levelPoint = new XYZ(10, 10, 1);
+
+    Wall wall = doc.GetElement(r) as Wall;
+
+    FamilyInstance instance = doc.Create.NewFamilyInstance(levelPoint, symbol, wall,level,StructuralType.NonStructural);
+
+    }
+
+    trans.Commit();
+
+    }
+
+    catch (Exception)
+
+    {
+
+
+    }
+
+    return Result.Succeeded;
+
+    }'
+- author: Olga
+  email: azot_m@ua.fm
+  ip: 212.3.115.3
+  url: ''
+  date: '2014-07-24 11:22:29'
+  body: "Hello Jeremy!\nCould you give me please your advice in next problem:\nI have\
+    \ a big model with several linked files. One of this link is reflected (mirrored)3\
+    \ times in different directions.\nI need to convert this model to other format,\
+    \ so I'm getting all links, their transformation and then convert each linked\
+    \ model (processDocument method):\n\n foreach (RevitLinkInstance linkInstance\
+    \ in _doc.GetInstances(_app.Application, false))\n                {\n        \
+    \            Transform transform = linkInstance.GetTransform();\n            \
+    \        if (transform != null && transformCoordinates)                    \n\
+    \                        LinkedDocumentTranslationHelper.SetParentTransform(transform);\
+    \                                       \n                    processDocument(linkInstance.GetDocument(...));\n\
+    \                } \nBut I can't get reflections. Should I do reflection manually,\
+    \ if so - where can I get infor about reference plane for linked model with flag\
+    \ HasReflection = true.\n\nThank you,\nOlga"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.213.169
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-07-24 12:52:26'
+  body: 'Dear Olga,
+
+
+    I cannot say off-hand, so I am asking the development team for you.
+
+
+    One other thing you might try, though, depending on what you are exporting, and
+    how and why:
+
+
+    Use the custom exporter framework.
+
+
+    It includes data for linked files.
+
+
+    In fact, it includes everything that you see on the screen, honouring your view
+    specific setting:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.1">http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.1</a>
+
+
+    Cheers, Jeremy.'
+- author: Olga
+  email: azot_m@ua.fm
+  ip: 212.3.115.3
+  url: ''
+  date: '2014-07-28 11:09:00'
+  body: "Hi Jeremy!\nThank you for advice.\nI've found the reason of my problem. It\
+    \ was absolutely in other place.\nI was wrong when thought, that property HasReflection\
+    \ means that current link HAS reflection, in fact it means that link IS reflection.\n\
+    The reason for the disappearance of the mirror links was very easy - they just\
+    \ had the same name of file and were overwritten during storing. \nSorry to trouble\
+    \ you.\n\nThanks, \nOlga"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.177.103
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-07-28 11:16:41'
+  body: "Dear Olga, \n\nCongratulations on solving it, and thank you for letting us\
+    \ know.\n\nCheers, Jeremy.\n-----"

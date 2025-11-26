@@ -1,0 +1,231 @@
+---
+layout: "post"
+title: "Instances in Room and Need for Fuzz"
+date: "2022-08-24 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Element Relationships"
+  - "Filters"
+  - "Geometry"
+  - "PDF"
+original_url: "https://thebuildingcoder.typepad.com/blog/2022/08/instances-in-room-and-need-for-fuzz.html "
+typepad_basename: "instances-in-room-and-need-for-fuzz"
+typepad_status: "Publish"
+---
+
+<p>Common tasks include finding instances with a given room, comparing real numbers, and sharing documentation online:</p>
+
+<ul>
+<li><a href="#2">Get family instances within room</a>
+<ul>
+<li><a href="#2.1">Rooms in linked models</a></li>
+<li><a href="#2.2">MEP components near ceilings</a></li>
+</ul></li>
+<li><a href="#3">Again, the need for fuzz</a></li>
+<li><a href="#4">Avoid PDF for on-screen reading</a></li>
+</ul>
+
+<h4><a name="2"></a> Get Family Instances Within Room</h4>
+
+<p>A common task is
+to <a href="https://forums.autodesk.com/t5/revit-api-forum/get-familyinstances-within-the-room/td-p/11364696">get FamilyInstances within a room</a>:</p>
+
+<p><strong>Question:</strong> I'm facing a small issue in filtering family instances within the room.
+A few families do not get filtered; for example, non-solid families are getting excluded.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302a2eed251bf200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302a2eed251bf200d image-full img-responsive" alt="Family instances in room" title="Family instances in room" src="/assets/image_b2492c.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>How to filter intersected 2D families also?</p>
+
+<p>This my code:</p>
+
+<pre class="code">
+  <span style="color:green;">//Get&nbsp;Family&nbsp;Instance</span>
+  <span style="color:blue;">public</span>&nbsp;List&lt;FamilyInstance&gt;&nbsp;<span style="color:#74531f;">GetFamilyInstance</span>(
+    Document&nbsp;<span style="color:#1f377f;">revitDoc</span>,
+    Room&nbsp;<span style="color:#1f377f;">room</span>)
+  {
+  &nbsp;&nbsp;<span style="color:green;">//Get&nbsp;Closed&nbsp;Shell</span>
+  &nbsp;&nbsp;GeometryElement&nbsp;<span style="color:#1f377f;">geoEle</span>&nbsp;=&nbsp;room.ClosedShell;
+  &nbsp;&nbsp;GeometryObject&nbsp;<span style="color:#1f377f;">geoObject</span>&nbsp;=&nbsp;<span style="color:blue;">null</span>;
+  &nbsp;&nbsp;<span style="color:green;">//Get&nbsp;Geometry&nbsp;Object&nbsp;From&nbsp;Geometry&nbsp;Element</span>
+  &nbsp;&nbsp;<span style="color:#8f08c4;">foreach</span>&nbsp;(GeometryObject&nbsp;<span style="color:#1f377f;">obj</span>&nbsp;<span style="color:#8f08c4;">in</span>&nbsp;geoEle)
+  &nbsp;&nbsp;{
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">if</span>&nbsp;(obj&nbsp;<span style="color:blue;">is</span>&nbsp;Solid)
+  &nbsp;&nbsp;&nbsp;&nbsp;{
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;geoObject&nbsp;=&nbsp;obj;
+  &nbsp;&nbsp;&nbsp;&nbsp;}
+  &nbsp;&nbsp;}
+
+  &nbsp;&nbsp;ElementIntersectsSolidFilter&nbsp;<span style="color:#1f377f;">elementIntersectsSolidFilter</span>
+  &nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;ElementIntersectsSolidFilter(geoObject&nbsp;<span style="color:blue;">as</span>&nbsp;Solid);
+
+  &nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;<span style="color:blue;">new</span>&nbsp;FilteredElementCollector(revitDoc)
+  &nbsp;&nbsp;&nbsp;&nbsp;.OfClass(<span style="color:blue;">typeof</span>(FamilyInstance))
+  &nbsp;&nbsp;&nbsp;&nbsp;.WhereElementIsNotElementType().
+  &nbsp;&nbsp;&nbsp;&nbsp;WherePasses(elementIntersectsSolidFilter).
+  &nbsp;&nbsp;&nbsp;&nbsp;Cast&lt;FamilyInstance&gt;().
+  &nbsp;&nbsp;&nbsp;&nbsp;ToList();
+  }
+</pre>
+
+<p><strong>Answer:</strong> The <code>ElementIntersectsSolidFilter</code> requires the filtered elements to have solid geometry and be of a category supported by interference checking.
+Your 2D instances do not fulfil this requirement.</p>
+
+<p>You can try using the family instance <code>Room</code> property like this:</p>
+
+<pre class="code">
+  <span style="color:blue;">bool</span>&nbsp;<span style="color:#74531f;">IsInstanceInRoom</span>(FamilyInstance&nbsp;<span style="color:#1f377f;">instance</span>,&nbsp;Room&nbsp;<span style="color:#1f377f;">room</span>)
+  {
+  &nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;<span style="color:#1f377f;">isInstanceInRoom</span>&nbsp;=&nbsp;(instance.Room&nbsp;!=&nbsp;<span style="color:blue;">null</span>)&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp;&nbsp;instance.Room.Id&nbsp;==&nbsp;room.Id;
+  &nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;isInstanceInRoom;
+  }
+
+  <span style="color:blue;">public</span>&nbsp;List&lt;FamilyInstance&gt;&nbsp;<span style="color:#74531f;">GetFamilyInstance</span>(
+    Document&nbsp;<span style="color:#1f377f;">revitDoc</span>,
+    Room&nbsp;<span style="color:#1f377f;">room</span>)
+  {
+  &nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;<span style="color:#1f377f;">elements</span>&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;FilteredElementCollector(revitDoc)
+    &nbsp;&nbsp;.OfClass(<span style="color:blue;">typeof</span>(FamilyInstance))
+    &nbsp;&nbsp;.WhereElementIsNotElementType()
+    &nbsp;&nbsp;.Cast&lt;FamilyInstance&gt;()
+    &nbsp;&nbsp;.Where(<span style="color:#1f377f;">i</span>&nbsp;=&gt;&nbsp;IsInstanceInRoom(i,&nbsp;room))
+    &nbsp;&nbsp;.ToList();
+  &nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;elements;
+  }
+</pre>
+
+<p>Another approach is to use the <code>Room.IsPointInRoom</code> predicate and check the family instance location point or constructing some other point based on geometry location.
+You may need to elevate it slightly off the floor to ensure it will be found within vertical limits of room.</p>
+
+<p>You can also try to use the <code>FromRoom</code> and <code>ToRoom</code> properties.
+If you are using Phasing, you have to pass in the phase:</p>
+
+<pre class="code">
+  instance.get_Room(phase)
+  // or
+  instance.get_FroomRoom(phase)
+  //or
+  instance.get_ToRoom(phase)
+</pre>
+
+<p><strong>Response:</strong> So, I need to take a center point of the family instance and then use <code>IsPointInRoom</code> to ensure that it is within the room limits.
+Can you write some simple code for me?</p>
+
+<p><strong>Answer:</strong> The solution for that is very kindly given by EatRevitPoopCad
+explaining <a href="https://forums.autodesk.com/t5/revit-api-forum/how-to-determinate-if-a-toilet-belongs-to-a-room/m-p/10305412">how to determine if a toilet belongs to a room</a>.
+You could also simply search this forum for <code>IsPointInRoom</code> to find it yourself.</p>
+
+<p>Many thanks to Sam Berk,
+Richard <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/1035859">RPThomas108</a> Thomas
+and EatRevitPoopCad for their helpful advice!</p>
+
+<h4><a name="2.1"></a> Rooms in Linked Models</h4>
+
+<p>As Joshua Lumley points out in 
+his <a href="https://thebuildingcoder.typepad.com/blog/2022/08/instances-in-room-and-need-for-fuzz.html#comment-5959441109">comment below</a>,
+<code>IsPointInRoom</code> works well for rooms in linked models as well; 
+just remember to invert the total transform of the linked instance before doing it.</p>
+
+<h4><a name="2.2"></a> MEP Components Near Ceilings</h4>
+
+<p>Erik Falck Jørgensen adds in
+his <a href="https://www.linkedin.com/feed/update/urn:li:groupPost:3323631-6968139988962025473?commentUrn=urn%3Ali%3Acomment%3A%28groupPost%3A3323631-6968139988962025473%2C6970603210860339200%29">comment on LinkedIn</a>:</p>
+
+<blockquote>
+  <p>Great approach; however, as I see it, we still have the problem with ceilings cutting rooms off and issues capturing (MEP) components without the point option above ceiling level but still inside the constructive room.
+  It would be a great help if either the room or the ceiling element could respect the need for working with elements inside this range.</p>
+</blockquote>
+
+<p>Answer: Yup. That may require a different approach.
+Maybe those cases can be addressed by querying the room for its solid using
+its <a href="https://www.revitapidocs.com/2023/1a510aef-63f6-4d32-c0ff-a8071f5e23b8.htm"><code>ClosedShell</code> property</a> and
+using a full 3D Boolean operation.
+Or, simpler, implementing a <a href="https://duckduckgo.com/?q=point+in+polyhedron">point-in-3D-polyhedron algorithm</a>.</p>
+
+<h4><a name="3"></a> Again, the Need for Fuzz</h4>
+
+<p>We take yet another look at fuzz, required in order to deal with comparison of real numbers on digital computers.</p>
+
+<p>The topic came up once again in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/unit-converted-parameter-value-not-matching-parsed-string-value/m-p/11353053">unit converted parameter value not matching parsed string value</a>.</p>
+
+<p>To skip the jabber and jump right to a solution, please refer to the StackOverflow discussion
+on <a href="https://stackoverflow.com/questions/1398753/comparing-double-values-in-c-sharp">comparing double values in C#</a>.</p>
+
+<p><strong>Question:</strong> Strictly speaking, this is not a Revit API issue I'm facing, but after some research I couldn't find the answer here or anywhere else and it's still a challenge related to Revit.</p>
+
+<p>I'm comparing a family parameter value with values in a spreadsheet so I can update the parameter accordingly if they don't match, but I'm getting weird results when comparing them.
+The snippet below shows how I'm extracting the double value of the <code>WW_Width</code> parameter and converting it to millimetres.
+Then, I compare it to a parsed string with the exact same value as a double, but I get a false result as to whether or not they match.</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;<span style="color:#1f377f;">famPars</span>&nbsp;=&nbsp;doc.FamilyManager.Parameters;
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;<span style="color:#1f377f;">famTypes</span>&nbsp;=&nbsp;doc.FamilyManager.Types;
+
+&nbsp;&nbsp;<span style="color:#8f08c4;">foreach</span>&nbsp;(FamilyParameter&nbsp;<span style="color:#1f377f;">param</span>&nbsp;<span style="color:#8f08c4;">in</span>&nbsp;famPars)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">foreach</span>&nbsp;(FamilyType&nbsp;<span style="color:#1f377f;">famtype</span>&nbsp;<span style="color:#8f08c4;">in</span>&nbsp;famTypes)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">if</span>&nbsp;(param.Definition.Name&nbsp;==&nbsp;<span style="color:#a31515;">&quot;WW_Width&quot;</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.ShowBoldMessage(<span style="color:#a31515;">&quot;WW_Width&quot;</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.ShowMessage(<span style="color:#a31515;">$&quot;UnitType:&nbsp;</span>{param.Definition.UnitType}<span style="color:#a31515;">&quot;</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.ShowMessage(<span style="color:#a31515;">$&quot;StorageType:&nbsp;</span>{param.StorageType}<span style="color:#a31515;">\n&quot;</span>);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">double</span>&nbsp;<span style="color:#1f377f;">valueInMM</span>&nbsp;=&nbsp;UnitUtils.ConvertFromInternalUnits(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span style="color:blue;">double</span>)&nbsp;famtype.AsDouble(param),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DisplayUnitType.DUT_MILLIMETERS);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">double</span>&nbsp;<span style="color:#1f377f;">parsedString</span>&nbsp;=&nbsp;<span style="color:blue;">double</span>.Parse(<span style="color:#a31515;">&quot;2448&quot;</span>);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.ShowMessage(<span style="color:#a31515;">$&quot;Value:&nbsp;</span>{valueInMM}<span style="color:#a31515;">&quot;</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.ShowMessage(<span style="color:#a31515;">$&quot;Parsed&nbsp;string:&nbsp;</span>{parsedString}<span style="color:#a31515;">&quot;</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.ShowMessage(<span style="color:#a31515;">$&quot;Values&nbsp;match:&nbsp;</span>{valueInMM&nbsp;==&nbsp;parsedString}<span style="color:#a31515;">&quot;</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+</pre>
+
+<p>This is what my console shows as a result; I don't v why I'm getting a mismatch:</p>
+
+<pre class="code">
+  WW_Width
+  UnitType: UT_Length
+  StorageType: Double
+
+  Value: 2448
+  Parsed string: 2448
+  Values match: False
+</pre>
+
+<p><strong>Answer:</strong> You need to add some fuzz; you
+can <a href="https://www.google.com/search?q=fuzz&amp;as_sitesearch=thebuildingcoder.typepad.com">search The Building Coder for 'fuzz'</a>.</p>
+
+<p><strong>Response:</strong> Thanks for the steer in the right direction.
+I wasn't aware of that issue with doubles/floats.
+Instead of directly comparing the doubles, I'm subtracting one from the other and checking if the difference is under a certain tolerance (e.g. A - B &lt; 0.001), and that works.</p>
+
+<p>The StackOverflow article
+on <a href="https://stackoverflow.com/questions/1398753/comparing-double-values-in-c-sharp">comparing double values in C#</a> explains
+it well in case anyone faces this issue in the future.</p>
+
+<h4><a name="4"></a> Avoid PDF for On-Screen Reading</h4>
+
+<p>I just read a piece of advice that I have not heeded so far, and am unsure whether to heed in the future.</p>
+
+<p>However, I am very glad to be well informed about my bad manners.</p>
+
+<p>The recommendation stands
+to <a href="https://www.nngroup.com/articles/avoid-pdf-onscreen-reading-original">avoid PDF for on-screen reading</a>.
+It was voiced a long time ago and apparently still stands,
+cf. <a href="https://www.nngroup.com/articles/pdf-unfit-for-human-consumption">PDF: still unfit for human consumption, 20 years later</a>.
+Instead, the author recommends using HTML gateway pages instead of PDFs,
+since <a href="https://www.nngroup.com/articles/gateway-pages-prevent-pdf-shock">gateway pages prevent pdf shock</a>.</p>
+
+<p>I fully agree with the latter, and mostly try to clearly mark links that lead to a PDF so that the unwary reader is well prepared for leaving the world of HTML before following the link.</p>

@@ -1,0 +1,154 @@
+comments:
+- author: Ariel
+  email: 846081597@qq.com
+  ip: 61.132.35.43
+  url: ''
+  date: '2014-05-21 22:24:10'
+  body: "Hi  Jeremy,\nI have met a problem when creating a sweep in Revit that the\
+    \ size of sweep object created by codes can not be stretched,my codes is:\nSweep\
+    \ sweep1 =m_familyDocument.FamilyCreate.NewSweep(true, curves, sketchPlane, profile,\
+    \ 0, ProfilePlaneLocation.Start);\nSo I think add a dimension will address the\
+    \ question.Before adding a dimension I should create corresponding referenceplan\
+    \ in front(south)elevation,here comes the problem: How can I create referenceplane\
+    \ in front(south)elevation??I can find front(south)elevation with codes \n<a href=\"\
+    http://spiderinnet.typepad.com/blog/2012/10/revit-api-coding-good-practice-filter-elevations-with-class-type-and-directions-instead-of-names.html\"\
+    >http://spiderinnet.typepad.com/blog/2012/10/revit-api-coding-good-practice-filter-elevations-with-class-type-and-directions-instead-of-names.html</a>\n\
+    then I use the following codes add referenceplane\nvoid addReferencePlanes()\n\
+    \    {\n      //\n      double PH = mmToFeet(800.0);\n      double WW = mmToFeet(400.0);\n\
+    \      double CW = mmToFeet(600.0);\n      double BW = mmToFeet(1600);\n     \
+    \ double BT = mmToFeet(400);\n\n      //\n      //\n      IEnumerable<ViewSection>\
+    \ eastElevations = FindElevations.Find(_doc, FindElevations.Direction.South, false);\n\
+    \      View viewplan = eastElevations.First() as View;\n        if(viewplan!=null)\n\
+    \            TaskDialog.Show(\"eastElevations\", viewplan.Name.ToString());\n\
+    \        XYZ source = new XYZ(-4.3, 4.7, 1.7);\n        XYZ target = new XYZ(4.3,\
+    \ 4.7, 1.7);\n        ReferencePlane refFront = _doc.FamilyCreate.NewReferencePlane(source,\
+    \ target, XYZ.BasisZ, viewplan);\n        refFront.Name = \"Center\";\n      \
+    \  if(refFront==null)\n            TaskDialog.Show(\"Wrong\", \"ReferencePlane\
+    \ is null\");\n      // get the bubble and free ends from front ref plane and\
+    \ offset by td.\n      //\n      XYZ p1 = refFront.BubbleEnd;\n      TaskDialog.Show(\"\
+    refFront.BubbleEnd\", p1.ToString());\n      XYZ p2 = refFront.FreeEnd;\n    \
+    \  TaskDialog.Show(\"refFront.FreeEnd\", p2.ToString());\n      XYZ HDownBubbleEnd\
+    \ = new XYZ(p1.X, p1.Y -BT, p1.Z);\n      XYZ HDownFreeEnd = new XYZ(p2.X, p2.Y\
+    \ -BT, p2.Z);\n\n      //\n      ReferencePlane refPlane = _doc.FamilyCreate.NewReferencePlane(HDownBubbleEnd,\
+    \ HDownFreeEnd, XYZ.BasisZ, viewplan);\n      refPlane.Name = \"OffsetHDown\"\
+    ;\n\n      HDownBubbleEnd = new XYZ(p1.X, p1.Y +PH, p1.Z);\n      HDownFreeEnd\
+    \ = new XYZ(p2.X, p2.Y +PH, p2.Z);\n      refPlane = _doc.FamilyCreate.NewReferencePlane(HDownBubbleEnd,\
+    \ HDownFreeEnd, XYZ.BasisZ, viewplan);\n      refPlane.Name = \"OffsetHUp\";\n\
+    \      //\n      //\n\n      ReferencePlane refLeft = findElement(typeof(ReferencePlane),\
+    \ \"中心(左/右)\") as ReferencePlane;\n      //\n     p1 = refLeft.BubbleEnd;\n  \
+    \   //TaskDialog.Show(\"refLeft.BubbleEnd\", p1.ToString());\n      p2 = refLeft.FreeEnd;\n\
+    \     //TaskDialog.Show(\"refLeft.BubbleEnd\", p2.ToString());\n      XYZ VLeftBubbleEnd\
+    \ = new XYZ(p1.X -WW-CW, p1.Y, p1.Z);\n      XYZ VLeftFreeEnd = new XYZ(p2.X -\
+    \ WW - CW, p2.Y, p2.Z);\n\n      //\n      refPlane = _doc.FamilyCreate.NewReferencePlane(VLeftBubbleEnd,\
+    \ VLeftFreeEnd, XYZ.BasisZ, viewplan);\n      refPlane.Name = \"OffsetVLeft2\"\
+    ;\n\n      VLeftBubbleEnd = new XYZ(p1.X - WW, p1.Y, p1.Z);\n      VLeftFreeEnd\
+    \ = new XYZ(p2.X - WW, p2.Y, p2.Z);\n      refPlane = _doc.FamilyCreate.NewReferencePlane(VLeftBubbleEnd,\
+    \ VLeftFreeEnd, XYZ.BasisZ, viewplan);\n      refPlane.Name = \"OffsetVLeft1\"\
+    ;\n      VLeftBubbleEnd = new XYZ(p1.X +BW-CW- WW, p1.Y, p1.Z);\n      VLeftFreeEnd\
+    \ = new XYZ(p2.X +BW-CW- WW, p2.Y, p2.Z);\n      refPlane = _doc.FamilyCreate.NewReferencePlane(VLeftBubbleEnd,\
+    \ VLeftFreeEnd, XYZ.BasisZ, viewplan);\n      refPlane.Name = \"OffsetVRight\"\
+    ;\n\n    }\nOnly in FloorView can see the adding six referenceplanes,in front(sourth)\
+    \ Elevation View can see the OffsetVLeft2,OffsetVLeft1,OffsetVRight referenceplane,how\
+    \ can I address this problem,I just want to create a sweep with dimensions consulting\
+    \ RvtCmd_FamilyCreateColumnLShape.cs（<a href=\"http://usa.autodesk.com/adsk/servlet/index?siteID=123112&id=2484975）Revit\"\
+    >http://usa.autodesk.com/adsk/servlet/index?siteID=123112&id=2484975）Revit</a>\
+    \ 2014 API Labs."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.203.246
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-05-28 11:19:54'
+  body: 'Dear Ariel,
+
+
+    The Family API labs demonstrate retrieving references and adding constraints to
+    all six faces of a simple rectangular column, and even more to the L shaped column.
+
+
+    The most recent version was just uploaded to GitHub:
+
+
+    <a href="https://github.com/ADN-DevTech/RevitTrainingMaterial">https://github.com/ADN-DevTech/RevitTrainingMaterial</a>
+
+
+    The references are obtained and constraints added in the method addAlignments
+    in the module 2_ColumnLshape.cs:
+
+
+    <a href="https://github.com/ADN-DevTech/RevitTrainingMaterial/blob/master/Labs/3_Revit_Family_API/SourceCS/2_ColumnLshape.cs">https://github.com/ADN-DevTech/RevitTrainingMaterial/blob/master/Labs/3_Revit_Family_API/SourceCS/2_ColumnLshape.cs</a>
+
+
+    Does that achieve what you are seeking?
+
+
+    Cheers, Jeremy.'
+- author: Ariel
+  email: 846081597@qq.com
+  ip: 61.132.35.43
+  url: ''
+  date: '2014-05-28 23:11:59'
+  body: 'Dear  Jeremy,
+
+    Thank you for your replying,during coding I find sweep is quite different from
+    extrusion.I just imitating the document you recommend before to building my own
+    sweep.Now I can creating a sweep in revit,and adding alignments,adding parameters,adding
+    dimensions,all these are realized,however,when I want to change the parameter,the
+    model does not follow the change and the result is mistake. I add reference planes
+    in front elevation with coding,but in the front elevation of revit,all the reference
+    planes I created are grey and can not be edited,So I think this is the key of
+    the problem,but I can not address it.'
+- author: Ariel
+  email: 846081597@qq.com
+  ip: 61.132.35.43
+  url: ''
+  date: '2014-05-28 23:19:53'
+  body: 'When creating a sweep in revit we should first draw a sweeppath,and then
+    choose to switch to front or back elevation.In my code I just add reference plans
+    in front elevation and leaving the choosing process.Is this the major problem??
+
+    Cheers,Ariel'
+- author: Matt Rizzo
+  email: iphoenix@gmail.com
+  ip: 38.122.110.10
+  url: ''
+  date: '2014-07-30 15:01:44'
+  body: 'How do you add vA3C in as a plugin for Revit?  I downloaded the files from:
+    <a href="https://va3c.github.io/">https://va3c.github.io/</a>
+
+
+    Then added them to my plugins directory, no export button shows up.  What am I
+    doing wrong?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-07-30 18:22:48'
+  body: 'Dear Matt,
+
+
+    All Revit add-ins are installed the same way: place the add-in manifest in a specific
+    folder that Revit looks at and loads.
+
+
+    The add-in manifest with the filename extension *.addin specifies the location
+    of the .NET assembly DLL.
+
+
+    For a simple add-in, I specify no path, just the DLL name, and place it in the
+    same folder.
+
+
+    If you simply compile the add-in in Visual Studio, it will copy the add-in manifest
+    and DLL to the right location for you automatically, due to special post-build
+    events that are set up to do that.
+
+
+    For more info, look at the Revit API getting started material:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#2">http://thebuildingcoder.typepad.com/blog/about-the-author.html#2</a>
+
+
+    Cheers, Jeremy.
+
+    -----'

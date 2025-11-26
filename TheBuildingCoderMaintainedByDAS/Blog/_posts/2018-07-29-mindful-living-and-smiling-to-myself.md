@@ -1,0 +1,322 @@
+---
+layout: "post"
+title: "Mindful Living and Smiling to Myself"
+date: "2018-07-29 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Geometry"
+  - "Philosophy"
+  - "Travel"
+original_url: "https://thebuildingcoder.typepad.com/blog/2018/07/mindful-living-and-smiling-to-myself.html "
+typepad_basename: "mindful-living-and-smiling-to-myself"
+typepad_status: "Publish"
+---
+
+<p>I am back from my July vacation.</p>
+
+<p><a href="https://thebuildingcoder.typepad.com/blog/2018/07/vacation-and-multi-version-revit-add-in-template.html">As planned</a>, 
+I visited the Buddhist monastery <a href="https://plumvillage.org">Plum Village</a> near Bordeaux, founded
+by the Vietnamese monk and Zen master <a href="https://plumvillage.org/about/thich-nhat-hanh">Thich Nhat Hanh</a>.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833022ad3a495ec200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833022ad3a495ec200b image-full img-responsive" alt="Lotus pond and bell tower" title="Lotus pond and bell tower" src="/assets/image_9d8db0.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>On the way there, I also visited my school classmate Gerald's fablab FabD'Oc in Brassac and spent two nights sleeping out on the beach of the Atlantic at Le Porge. Here are some photos from the trip:</p>
+
+<ul>
+<li><a href="https://flic.kr/s/aHsmjY48Ud">The fablab FabD'Oc in Brassac</a></li>
+<li><a href="https://flic.kr/s/aHskFjTwhd">Sleeping on the beach of the Atlantic at Le Porge</a></li>
+<li><a href="https://flic.kr/s/aHsmnjabHR">Plum Village</a></li>
+</ul>
+
+<p>Below, I share some personal notes from my experiences in Plum Village, followed by a Revit API related issue that just cropped up:</p>
+
+<ul>
+<li><a href="#2">Plum Village and its visitors</a> </li>
+<li><a href="#3">Mindfulness and relaxation</a> </li>
+<li><a href="#4">My struggle with the smile</a> </li>
+<li><a href="#5">Mindful watering of seeds</a> </li>
+<li><a href="#6">Line intersection with topography surface</a> </li>
+</ul>
+
+<p>I translated the following text from English to German language to share with some of our friends.
+Please click here for the German version:</p>
+
+<ul>
+<li><a href="https://thebuildingcoder.typepad.com/files/plumvillage_de-2.pdf">Achtsames Leben und mein Ringen mit dem L&auml;cheln</a></li>
+</ul>
+
+<h4><a name="2"></a> Plum Village and Its Visitors</h4>
+
+<p>This is a sort of <em>What I did in my holidays</em> primary school essay &nbsp; :-)</p>
+
+<p>I could also summarise it as my fruitful struggle to smile at myself.</p>
+
+<p>Above all, <a href="https://plumvillage.org">Plum Village</a> is a school and practice opportunity for mindful living.</p>
+
+<p>It is also a Buddhist monastery, and the monks and nuns living there provide the opportunity for anybody to come for a retreat to live and learn.</p>
+
+<p>Finally, it is a very beautiful place in a beautiful part of the French countryside.</p>
+
+<p>It welcomes all kinds of people and all ages, children, teens and adults. It is very open to families with children, individuals and couples.</p>
+
+<p>It is a really wonderful place for families; the kids are allowed and encouraged to really enjoy themselves. They go wild and practice mindfulness as well.</p>
+
+<p>I went as a couple with my partner Moni.
+In a ceremony at the end of the retreat, we both made a commitment to practice one particular aspect of mindfulness in our everyday lives, <em>Loving Speech and Deep Listening</em>. 
+We are thus now disciples of Thich Nhat Hanh and members of the 43rd generation of disciples of Siddhartha Buddha.</p>
+
+<h4><a name="3"></a> Mindfulness and Relaxation</h4>
+
+<p>Mindful living obviously begins with myself and requires continuous practice.</p>
+
+<p>The most effective practice field is with my closest connections, e.g., partner, children, parents, family, friends and colleagues.</p>
+
+<p>The theory and practice of mindful living is free of any kind of religious context; it is more like a philosophy and an art.</p>
+
+<p>You could call it a school of happiness, a <em>Lebensschule</em>, a place to learn and practice the art of relationship with yourself and others.</p>
+
+<p>I spent one week there.</p>
+
+<p>The first day or two was strongly focused on deep relaxation, completely devoted to conscious breathing and relaxation.</p>
+
+<p>That helped create space for awareness, contentment and happiness.</p>
+
+<p>Other important teachings included noble silence, conscious eating (incl. queueing and taking only what you need), walking and breathing meditations, stopping each time you hear a bell and numerous songs describing the practices.</p>
+
+<p>Glocke der Achtsamkeit.</p>
+
+<h4><a name="4"></a> My Struggle with the Smile</h4>
+
+<p>After a day or two of relaxation and slowing down, we were given one specific piece of homework:</p>
+
+<p>When you wake up in the morning, before doing anything else, smile to yourself.</p>
+
+<p>If you forget and get up, go back to bed again.</p>
+
+<p>Repeat until successful.</p>
+
+<p>I found that a very hard thing to do.</p>
+
+<p>I woke up in the morning and remembered the exercise, but felt unwilling to smile.</p>
+
+<p>I longed to smile, but it felt unauthentic.</p>
+
+<p>I practiced doing so anyway and learned a lot from that.</p>
+
+<p>I realised that a strong part in me does not wish to feel happy and tries to make other people around me responsible to care for my happiness instead.</p>
+
+<p>Making the conscious choice to smile at myself first thing after waking up, and as often as possible during the day as well, really made a difference to my mood.</p>
+
+<p>I finally took responsibility for my own happiness.</p>
+
+<p>Sometimes my smile still does not feel completely true and authentic; however, I persist.</p>
+
+<p>What does feel true and authentic to me, always: enjoying the fact that I can breathe in and breathe out, that I am alive, that I have a body.</p>
+
+<p>What a gift, what a pleasure, what ecstasy just being alive!</p>
+
+<p>I have food and shelter and freedom.</p>
+
+<p>I can walk and be aware of each step I take.</p>
+
+<p>Now, after returning from Plum Village, as a result of the week of mindful practice, I feel more alive.</p>
+
+<p>I am more active and I go more for what I enjoy.</p>
+
+<p>I realise and promise myself that this is not a temporary effect that will gradually dissipate, because I have the power to keep making this conscious choice as long as I please.</p>
+
+<p>Yesterday, after returning to Switzerland, we went for a quick short swim en route in the Melezza River, and another one in the Lago Maggiore.</p>
+
+<p>Normally, I would not have initiated both and motivated my partner to join me.</p>
+
+<p>Now I feel more initiative and aliveness, more connected with myself, more expressive and authentic.</p>
+
+<p>I am very grateful for the teaching!</p>
+
+<h4><a name="5"></a> Mindful Watering of Seeds</h4>
+
+<p>Here is a picture to illustrate the practice of mindfulness as the mindful watering of seeds stored in the unconscious:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833022ad384cfda200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833022ad384cfda200d image-full img-responsive" alt="Mindful watering of seeds stored in the unconscious" title="Mindful watering of seeds stored in the unconscious" src="/assets/image_08fea4.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>All our input comes through the five senses (top).</p>
+
+<p>All experiences are stored as seeds in the unconscious (bottom).</p>
+
+<p>We can make a conscious choice, which of the seeds to water and nourish.</p>
+
+<p>The conscious manifestation always happens in the current moment.</p>
+
+<p>The unconscious seeds can be traumata or good experiences and can be associated with all kinds of feelings.</p>
+
+<p>Depending on whether we nourish and water them, they flourish and manifest more or less.</p>
+
+<p>We have a choice of which seeds we choose to manifest.</p>
+
+<p>If we notice that we are reacting to a sensation in a way that does not do us or our environment any good, such as destructive anger, we can consciously choose to take a step back, breathe, relax, walk and do nothing else.</p>
+
+<p>There is no need to fight or suppress those seeds.
+Just do nothing, and they will shrink and wither all by themselves.</p>
+
+<p>The more we water specific seeds, the more powerful they become, and vice versa.</p>
+
+<p>None of the seeds are per se good or bad.
+Some may be associated with good or bad feelings.
+Some may cause harmful effects when we choose to manifest them, others may cause beneficial effects.</p>
+
+<p>Buddhists often use the image of the lotus flower growing out of the mud.
+The mud consists of all kinds of things, and some of them may stink.
+The lotus extracts what it needs from the mud and manifests in a beautiful way.
+The mud is in no way bad or negative &ndash; it is everything, both good and bad, negative and positive.
+The lotus stands for the result of a conscious choice that we make.</p>
+
+<p>Englishmen may prefer the image of roses growing out of compost and horse dung.</p>
+
+<!--
+
+German translation
+
+Plum Village und seine Besucher
+
+Das ist eine Art von Grundschulaufsatz: Was ich in meinen Ferien erlebt habe :-)
+
+Ich könnte es auch beschreiben als mein fruchtbares Ringen, mich selbst anzulächeln.
+
+Eigentlich ist Plum Village eine Schule und ein Übungsfeld für achtsames Leben.
+
+Es ist auch ein buddhistisches Kloster, und die dort lebenden Mönche und Nonnen bieten jedem die Möglichkeit, zu einem Retreat zum Leben und Lernen zu kommen.
+
+Es ist ein sehr schöner Ort in einem schönen Teil der französischen Landschaft.
+
+Alle Menschen und alle Altersgruppen sind willkommen, Kinder, Jugendliche und Erwachsene. Plum Village steht offen für Familien mit Kindern, Einzelpersonen und Paare.
+
+Es ist ein wunderbarer Ort für Familien; Die Kinder werden ermutigt sich frei auszuleben, dürfen wild sein und üben auch Achtsamkeit.
+
+Ich ging zusammen mit meiner Partnerin Moni hin. Wir haben uns beide am Schluss des Retreats in einer Zeremonie verpflichtet, einen bestimmten Aspekt der Achtsamkeit in unserem täglichen Leben zu praktizieren, nämlich Liebevolles Sprechen und Tiefes Zuhören. Wir sind nun Schüler von Thich Nhat Hanh und Mitglieder der 43. Generation von Schülern von Siddhartha Buddha.
+
+Achtsamkeit und Entspannung
+
+Achtsames Leben beginnt natürlich bei mir selbst und bedarf ständiger Übung.
+
+Das effektivste Übungsfeld ist im Umgang mit meinen engsten Beziehungen, z. B. Partner, Kinder, Eltern, Familie, Freunde und Kollegen.
+
+Die Theorie und Praxis des achtsamen Lebens sind frei von jeglichem religiösen Kontext und stellen eher eine Philosophie und Lebenskunst dar.
+
+Man könnte es eine Schule des Glücklichseins nennen, eine Lebensschule, einen Ort, um die Kunst der Beziehung mit sich selbst und anderen zu lernen und zu praktizieren.
+
+Ich verbrachte eine Woche dort.
+
+Die ersten zwei Tage standen ganz im Zeichen der Tiefenentspannung und waren ganz dem bewussten Atmen und Entspannen gewidmet.
+
+Das hat dazu beigetragen, Raum für Aufmerksamkeit, Zufriedenheit und Glück zu schaffen.
+
+Weitere wichtige Lehren waren edle Stille (noble silence), bewusstes Essen (inkl. Schlangestehen und bewusstes Schöpfen), Geh- und Atemmeditation, jedes Mal Stopp machen, wenn eine Glocke erklingt, und zahlreiche Lieder, die die Praktiken beschreiben.
+
+Mein Ringen mit dem Lächeln
+
+Nach den Tagen der Entspannung und Verlangsamung bekamen wir eine konkrete Hausaufgabe:
+
+Wenn du morgens aufwachst, bevor du irgendetwas anderes machst, lächle dir selbst zu.
+
+Wenn du es vergisst und aufstehst, geh gleich wieder ins Bett.
+
+Wiederholen bis erfolgreich.
+
+Ich fand das sehr schwer.
+
+Ich wachte morgens auf und erinnerte mich an die Übung, aber ich wollte nicht lächeln.
+
+Ich sehnte mich danach zu lächeln, aber es fühlte sich unecht an.
+
+Ich habe es trotzdem geübt und viel daraus gelernt.
+
+Ich erkannte, dass ein starker Teil in mir nicht glücklich sein will und versucht, andere Menschen um mich herum dazu zu bringen, sich um mein Glück zu kümmern.
+
+Die bewusste Entscheidung, nach dem Aufwachen und so oft wie möglich auch tagsüber mich selbst anzulächeln, hat meine Stimmung wirklich verändert.
+
+Ich übernahm endlich nach und nach immer mehr die Verantwortung für mein eigenes Glück.
+
+Manchmal fühlt sich mein Lächeln immer noch nicht echt und authentisch an; ich bleibe jedoch beharrlich.
+
+Was sich für mich immer wahr und authentisch anfühlt: die Tatsache genießen, dass ich einatmen und ausatmen kann, dass ich lebe, dass ich einen Körper habe.
+
+Was für ein Geschenk, was für ein Vergnügen, welche Ekstase lebt gerade!
+
+Ich habe Essen und Schutz und Freiheit.
+
+Ich kann gehen und mir jedes Schrittes bewusst sein.
+
+Jetzt, nach der Rückkehr aus Plum Village, fühle ich mich durch die Woche der bewussten Übung lebendiger.
+
+Ich bin aktiver und ich gehe mehr für das, was mir Spaß macht.
+
+Ich erkenne und verspreche mir selbst, dass dies kein vorübergehender Effekt ist, der sich allmählich auflösen wird, weil ich die Kraft habe, diese bewusste Entscheidung so lange zu treffen, wie ich will.
+
+Zum Beispiel machten wir gestern nach der Rückkehr in die Schweiz eine kurze Pause zum Schwimmen in der Melezza, einem Tessiner Fluss, und kurz danach eine weitere Schwimmpause in dem Lago Maggiore.
+
+Normalerweise hätte ich nicht alle beide initiiert und meine Partnerin motiviert, sich mir anzuschließen.
+
+Jetzt fühle ich mich mehr initiativ und lebendig, mehr mit mir selbst verbunden und authentischer.
+
+Ich bin sehr dankbar für diesen Lebensunterricht!
+
+Achtsame Bewässerung von Samen
+
+Hier ist ein Bild, das die Praxis der Achtsamkeit als bewusste Bewässerung der im Unbewussten gespeicherten Samen veranschaulicht:
+
+Bewusstes Bewässern von im Unbewussten gespeicherten Samen
+
+All unser Input kommt durch die fünf Sinne (oben).
+
+Alle Erfahrungen sind als Samen im Unbewussten gespeichert (unten).
+
+Wir können eine bewusste Wahl treffen, welche der Samen bewässert und genährt werden.
+
+Die bewusste Manifestation geschieht immer im aktuellen Moment.
+
+Die gespeicherten Samen im Unterbewussten können Traumata oder gute Erfahrungen darstellen und mit allen Arten von Gefühlen verbunden sein.
+
+Je nachdem, ob wir sie nähren und bewässern, gedeihen sie und manifestieren sich mehr oder weniger.
+
+Wir haben die Wahl, welche Samen genährt werden sollen.
+
+Wenn wir bemerken, dass wir auf einen Sinneseindruck in einer Art reagieren, die uns oder unserer Umwelt nicht gut tut, wie z. B. destruktive Wut, können wir bewusst einen Schritt zurücktreten, atmen, entspannen, gehen und nichts anderes tun.
+
+Es besteht keine Notwendigkeit, diese Samen zu bekämpfen oder zu unterdrücken. Tun wir einfach nichts und reagieren nicht, werden sie schrumpfen und verdorren.
+
+Je mehr wir bestimmte Samen gießen, desto mächtiger werden sie, und umgekehrt.
+
+Keiner der Samen ist per se gut oder schlecht. Einige können mit guten oder schlechten Gefühlen verbunden sein. Einige können schädliche Auswirkungen haben, wenn wir uns dafür entscheiden, sie zu manifestieren, andere können positive Auswirkungen haben.
+
+Buddhisten benutzen oft das Bild der Lotusblume, die aus dem Schlamm wächst. Der Schlamm besteht aus allen möglichen Komponenten, und einige von ihnen mögen stinken. Der Lotus zieht sich, was er braucht, heraus dem Schlamm und manifestiert sich auf schöne Weise. Der Schlamm ist nicht nur schlecht oder negativ - er ist alles, sowohl gut als auch schlecht, negativ und positiv. Der Lotus steht für das Resultat der bewussten Entscheidung, die wir treffen.
+
+Engländer bevorzugen vielleicht das Bild von Rosen, die aus Kompost und Pferdemist wachsen.
+
+-->
+
+<h4><a name="6"></a> Line Intersection with Topography Surface</h4>
+
+<p>I'll add one little note on a Revit API related issue as well, a suggestion for the question raised on StackOverflow
+on using <a href="https://stackoverflow.com/questions/51498527/revit-api-referenceintersector-with-topografysurfaces"><code>ReferenceIntersector</code> with topography surfaces</a>:</p>
+
+<p><strong>Question:</strong> Does anyone know if <code>ReferenceIntersector</code> works with topograpy surfaces?</p>
+
+<p>I cannot make it work.</p>
+
+<p>I need to find a point on the surface based on an intersection with a line.</p>
+
+<p><strong>Answer:</strong> Regardless of whether the <code>ReferenceIntersector</code> does or does not work with topography surfaces, you can pretty easily solve the problem you describe yourself using other means.</p>
+
+<p>Simply ask the surface for its tessellated representation. That will return a bunch of triangles.</p>
+
+<p>Then, implement your own <a href="https://duckduckgo.com/?q=line+triangle+intersect">algorithm to intersect a triangle with the line</a>.</p>
+
+<p>That should give you all you need, really.</p>

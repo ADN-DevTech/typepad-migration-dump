@@ -1,0 +1,240 @@
+comments:
+- author: Berria
+  email: eiderunzu@hotmail.com
+  ip: 213.96.145.3
+  url: ''
+  date: '2009-01-21 12:01:43'
+  body: "Hello Jeremy, what is the error?\n\nI create a level and then new wall and\
+    \ a door and It draw the 2 objects in diferent levels.\n\nLevel nivel0 = doccreation.NewLevel(50);\n\
+    \            doccreation.NewViewPlan(nivel0.Name, nivel0, ViewType.FloorPlan);\n\
+    \n Wall muro1 = doccreation.NewWall(linea1, nivel0, true);\n FamilyInstance fi\
+    \ = doc.Create.NewFamilyInstance(midpoint, door, muro1,nivel0, StructuralType.NonStructural);\n\
+    \n\nThanks"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-01-22 04:44:15'
+  body: 'Dear Berria,
+
+
+    I cannot tell you off-hand what the problem is in your situation, but I can provide
+    you with a code example that achieves your goal. Look at the external command
+    Lab2_0_CreateLittleHouse in the Revit API introduction labs, which are available
+    at
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/files/rac_labs_20081117.zip">http://thebuildingcoder.typepad.com/blog/files/rac_labs_20081117.zip</a>
+
+
+    Cheers, Jeremy.'
+- author: Berria
+  email: eiderunzu@hotmail.com
+  ip: 213.96.145.3
+  url: ''
+  date: '2009-01-22 04:57:07'
+  body: 'Hello Jeremy,
+
+    I need create a house with 2 floor, when I built the first is all OK, and the
+    error is when I build the second, because de level to start the componet posicion
+    is always 0.
+
+
+    Best regards'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-01-22 10:09:35'
+  body: 'Hi Berria,
+
+
+    I cannot really dive deeply into this, but I have rewritten the code I pointed
+    you to above to create two sets of walls on two levels, with a door in each set.
+    I have posted the new code in a separate post:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/01/walls-and-doors-on-two-levels.html">http://thebuildingcoder.typepad.com/blog/2009/01/walls-and-doors-on-two-levels.html</a>
+
+
+    You need to ensure that the Revit model has three levels, and that they come in
+    the expected order, for my simple test command to work. Please appreaciate that
+    I do not have any more time to spend on this now.
+
+
+    Cheers, Jeremy.'
+- author: Berria
+  email: eiderunzu@hotmail.com
+  ip: 213.96.145.3
+  url: ''
+  date: '2009-01-28 06:41:07'
+  body: 'Hi Jeremy,
+
+    Thank you very much, I create my walls and component with your code.
+
+    Now I have problem with a level of the floor, I apply the similar code in roof
+    and its Ok, can you say me where is the error??
+
+
+    Level levelBottom = doccreation.NewLevel(0);
+
+    Level nivel1 = doccreation.NewLevel(15);
+
+    Floor floor1 = doc.Create.NewFloor(profile, floorType, nivel1, false);
+
+    FootPrintRoof roof = doc.Create.NewFootPrintRoof(profile, nivel1, roofType, footPrintToModelCurvesMapping);
+
+
+    The result is, floor posicion in the bottomlevel and roof in nivel1, I dont understand
+    nothing.
+
+
+    Very, very thanks'
+- author: Berria
+  email: eiderunzu@hotmail.com
+  ip: 213.96.145.3
+  url: ''
+  date: '2009-01-28 06:44:56'
+  body: 'Hi Jeremy,
+
+    Thank you very much, I create my walls and component with your code.
+
+    Now I have problem with a level of the floor, I apply the similar code in roof
+    and its Ok, can you say me where is the error??
+
+
+    Level levelBottom = doccreation.NewLevel(0);
+
+    Level nivel1 = doccreation.NewLevel(15);
+
+    Floor floor1 = doc.Create.NewFloor(profile, floorType, nivel1, false);
+
+    FootPrintRoof roof = doc.Create.NewFootPrintRoof(profile, nivel1, roofType, footPrintToModelCurvesMapping);
+
+
+    The result is, floor posicion in the bottomlevel and roof in nivel1, I dont understand
+    nothing.
+
+
+    Very, very thanks'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-01-28 07:57:54'
+  body: 'Hi Berria,
+
+
+    I don''t understand nothing either  :-)
+
+
+    Looks to me as if you are creating the floor and the roof in the same level ''nivel1''?
+
+
+    Cheers, Jeremy.'
+- author: Berria
+  email: eiderunzu@hotmail.com
+  ip: 213.96.145.3
+  url: ''
+  date: '2009-01-28 08:41:02'
+  body: "Sorry,  the code is this: \n\nLevel levelBottom = doccreation.NewLevel(0);\n\
+    Level nivel1 = doccreation.NewLevel(15);\nLevel nivel2 = doccreation.NewLevel(30);\n\
+    Floor floor1 = doc.Create.NewFloor(profile, floorType, nivel1, false);\nFootPrintRoof\
+    \ roof = doc.Create.NewFootPrintRoof(profile, nivel2, roofType, footPrintToModelCurvesMapping);\n\
+    \nThe result is, floor posicion in the bottomlevel and roof in nivel2."
+- author: Jeremy Tammik
+  email: ''
+  ip: 85.18.94.89
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-01-29 02:55:12'
+  body: 'Hi Berria,
+
+
+    Maybe you can try changing the Z coordinate of the profile before adding the second
+    floor?
+
+
+    Cheers, Jeremy.'
+- author: Nicholas
+  email: nicholas.hendrickx@gmail.com
+  ip: 78.21.207.41
+  url: ''
+  date: '2009-03-11 15:23:26'
+  body: "Hey Jeremy. \n\nHow can I get the id of the host using VB code please? I'm\
+    \ currently getting the host name like this:\n\nparam = elem.get_Parameter(\"\
+    Host\")\nwritetagline(\"host\", param.AsString)\n\n(writetagline is a function\
+    \ I made that exports the name to an external .xml file.)\n\nBut what I really\
+    \ need is the id of the host.\nThanks!"
+- author: Adam Nagy
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2009-03-17 08:40:45'
+  body: 'Hi Nicholas,
+
+
+    As you can see it in the above code sample if the element is actually a family
+    instance, then you can get to its host''s id like this: "ElementId idHost = fi.Host.Id;"
+
+
+    Am I missing something? :-S
+
+
+    Cheers,
+
+    Adam'
+- author: Nicholas
+  email: nicholas.hendrickx@gmail.com
+  ip: 78.21.207.41
+  url: ''
+  date: '2009-03-26 14:19:15'
+  body: 'Hey Adam,
+
+    I''m such a noob!
+
+
+    I managed to get the Host name and id like this:
+
+    Dim fi As FamilyInstance = e
+
+    MsgBox(fi.Host.Name.ToString)
+
+    MsgBox(fi.Host.Id.Value.ToString)
+
+
+    Thanks for pointing me in the right direction!
+
+    Nicholas'
+- author: puyan
+  email: puyan@iib.tu.darmstadt.de
+  ip: 130.83.86.197
+  url: http://www.iib.bauing.tu-darmstadt.de
+  date: '2009-05-22 10:42:03'
+  body: 'Hi Jeremy,
+
+    I''ve a question about "Doors Direction" and I don''t know where should I post
+    this question. So sorry if it''s the wrong place for it :-)
+
+    Now my question: How can I find out in which direction doors will be opened? A
+    unit vector like (0,1,0) will be also a good solution for me.
+
+    DANKE!
+
+    puyan'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-05-22 11:43:10'
+  body: 'Dear Pyan,
+
+
+    Please have a look at the DoorSwing Revit SDK sample and the "Revit 2010 API Developer
+    Guide.pdf" document, especially section 10.3.1.1 Orientation, Figure 56: Doors
+    with different Facing and Hand Orientations, and Table 26: Different Instances
+    of the Same Type.
+
+
+    Bitte sehr and cheers, Jeremy.
+
+    -----'

@@ -1,0 +1,208 @@
+comments:
+- author: Emmanuel Garcia
+  email: ''
+  ip: 76.166.146.166
+  url: http://profile.typepad.com/caddguru
+  date: '2011-01-18 23:14:49'
+  body: 'Hi Jeremy,
+
+
+    Sorry in advance if this isn''t the best place and method to ask the following
+    question. HOw difficult would it be to write a plug in for Revit that would listen
+    for the mouse double click event and issue a view command such as Zoom All, like
+    in AutoCAD? Warm regards from Los Angeles,
+
+
+    Emmanuel'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-01-20 09:05:14'
+  body: "Dear Emmanuel, \n\nVery easy for a very good programmer, very hard for a\
+    \ bad one, and in-between for most, I would say.\n\nCheers, Jeremy."
+- author: Emmanuel Garcia
+  email: ''
+  ip: ''
+  url: http://profile.typepad.com/caddguru
+  date: '2011-01-20 12:54:39'
+  body: 'Hi Jeremy,
+
+
+
+    Please post a general, high level outline of the path for the solution. Something
+    like this but a bit more detailed:
+
+
+
+    Input
+
+    Create a program that listens for mouse actions/events when Revit has the focus,
+    so the mouse is ignored when other programs have it.
+
+
+
+
+    Process
+
+    When the double click event occurs inside Revit run Output function below
+
+    Otherwise ignore mouse input and pass control back to Revit
+
+
+
+    Output
+
+
+    Issue a Zoom All to Fit (ZA) command and pass control back to Revit
+
+
+
+    Im concerned the method Im proposing would slow things down. I hope Im missing
+    a method that simply reacts to double clicks so it does not become a bottle neck.
+
+
+
+
+    Warm regards from Los Angeles,
+
+
+
+    Emmanuel'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-01-20 16:11:05'
+  body: 'Dear Emmanuel,
+
+
+    Thank you for the proposal. Sounds like a neat project to me. Unfortunately, I
+    am fully occupied keeping my daytime job and this blog running, so I currently
+    do not see any spare time left over to pick this up. Good luck!
+
+
+    Cheers, Jeremy.'
+- author: Emmanuel Garcia
+  email: ''
+  ip: ''
+  url: http://profile.typepad.com/caddguru
+  date: '2011-01-20 17:05:59'
+  body: 'Dear Jeremy,
+
+
+
+    Im working on it. I will let you know when I get stuck again. If I figure it out,
+    I will be happy to share the solution with the entire Revit community. Warm regards
+    from Los Angeles,
+
+
+
+
+    Emmanuel'
+- author: eric@radianceresources.com
+  email: eric@radianceresources.com
+  ip: 98.87.141.123
+  url: http://radianceresources.com/
+  date: '2011-05-17 12:30:29'
+  body: 'Jeremy,
+
+
+    Is it possible to find the GUIDs for native Family Params (the default params
+    that one cannot delete, etc)? The ones that we need are for the new Omniclass
+    Params (2010 on) so that we may add them as Shared Params in 2009 Families.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-05-18 07:13:20'
+  body: 'Dear Eric,
+
+
+    Are you sure that a native family parameter has a GUID at all? I am not.
+
+
+    Cheers, Jeremy.'
+- author: Simon Hooper
+  email: s.hooper@bestech.co.uk
+  ip: 81.136.212.124
+  url: ''
+  date: '2012-08-31 12:02:37'
+  body: 'Hi Jeremy
+
+
+    Do you know if it is possible to specify the shared parameter GUID to be used
+    when initially creating a shared parameter?  I would like the GUID to be the same
+    for a particular shared parameter if created on say more than one PC.
+
+
+    Best regards
+
+    Simon'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.180.37
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-09-01 10:23:06'
+  body: 'Dear Simon,
+
+
+    Yes, I believe this is possible by specifying the shared parameter you want to
+    create in an external shared parameter text file, which allows you to list the
+    GUID as well.
+
+
+    I have heard of people using this technique to generate language specific shared
+    parameters with different names for different locales yet sharing the same GUID.
+
+
+    If you succeed in using this technique, it might be interesting to explain the
+    exact steps for sharing with others. Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Simon Hooper
+  email: s.hooper@bestech.co.uk
+  ip: 81.136.212.124
+  url: ''
+  date: '2012-09-03 04:11:55'
+  body: "Thanks for the heads up. \n\nI wanted to avoid writing out the shared parameter\
+    \ text file manually since the format (of this file) may change in a future version\
+    \ of Revit.  If this is the only way then I guess that is what I will do. It seems\
+    \ strange to me that that is no another way of doing it through the API as I am\
+    \ sure most third party add-ins would require specific GUID.\n\nA way to do this\
+    \ would be to copy the shared parameters text file during third party add-in installation.\
+    \ Easy.\n\nThanks again\nSimon"
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.8
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-09-03 05:32:43'
+  body: 'Dear Simon,
+
+
+    Thank you for the appreciation and suggestion, and rest assured that we have a
+    wish list item for the ability to specify the shared parameter GUID programmatically.
+
+
+    Cheers, Jeremy.'
+- author: Ady wren
+  email: Ady.Wren@CPMG-Architects.com
+  ip: 86.10.127.109
+  url: ''
+  date: '2013-10-22 13:53:15'
+  body: 'I would think that if the format of the Shared Parameter.txt changed in the
+    future then it would be easy enough to paste the info across to the new format
+    or use it as the basis of a lookup file if adding GUIDs programmatically? I therefore
+    see little risk in adopting this strategy.
+
+
+    Coping the .txt file would allow language specific flavours to be created by manual
+    edits of the pameter name & parameter group.
+
+
+    Thanks for the code snippets above... we have somehow mislaid a Guid on some well
+    established families.
+
+
+    -----'

@@ -1,0 +1,44 @@
+comments:
+- author: James Hicks
+  email: JamesHicks@LSHarch.co.uk
+  ip: 77.241.180.6
+  url: ''
+  date: '2013-09-04 09:12:05'
+  body: "There is a simpler way to do this (although not as \"safe\"), you can simple\
+    \ look for the first value stored in the UIViews collection of the UIDocument\
+    \ \n\nif(uiDoc.ActiveView.ViewType == ViewType.ProjectBrowser)\n{\n   uiDoc.ActiveView\
+    \ = (View)doc.GetElement(uiDoc.GetOpenUIViews().First().ViewId);\n}\n\nAs far\
+    \ as I can tell this collection is re-built each time the active view is changed,\
+    \ with the active view as the first in the collection, however the UIViews collection\
+    \ isn't re-build when the project browser is activated. Having said this your\
+    \ method is a lot \"safer\" and more robust so even though I haven’t come across\
+    \ any problems using my method I might switch to a version of your method. \n\n\
+    Thanks for the post."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.222.137
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-05 02:45:31'
+  body: 'Dear James,
+
+
+    Thank you very much for that very cool and interesting observation, and for your
+    appreciation.
+
+
+    Wow. Yes, definitely lower overhead, definitely higher risk  :-)
+
+
+    It also proves that Matt is not the only one encountering this need.
+
+
+    I would also recommend switching to his solution, though.
+
+
+    You could implement both, side-by-side, add an assertion ensuring that the result
+    is identical, and use the non-debug version when speed is of the essence.
+
+
+    Cheers, Jeremy.
+
+    -----'

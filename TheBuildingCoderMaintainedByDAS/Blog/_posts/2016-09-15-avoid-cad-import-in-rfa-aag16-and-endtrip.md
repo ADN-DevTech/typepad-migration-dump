@@ -1,0 +1,130 @@
+---
+layout: "post"
+title: "Avoid CAD Import in RFA, AAG16 and Endtrip"
+date: "2016-09-15 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Content"
+  - "DWG"
+  - "Family"
+  - "Geometry"
+  - "Music"
+  - "Performance"
+  - "Unity"
+original_url: "https://thebuildingcoder.typepad.com/blog/2016/09/avoid-cad-import-in-rfa-aag16-and-endtrip.html "
+typepad_basename: "avoid-cad-import-in-rfa-aag16-and-endtrip"
+typepad_status: "Publish"
+---
+
+<p>Some interesting topics of the day for this first cloudy one after a truly wonderful Indian summer:</p>
+
+<ul>
+<li><a href="#2">Avoid imported CAD content in RFA family definitions</a></li>
+<li><a href="#3">Advances in Architectural Geometry 2016</a></li>
+<li><a href="#4">Endtrip full sound replacement</a></li>
+</ul>
+
+<h4><a name="2"></a>Think Twice Before Importing CAD into RFA</h4>
+
+<p>I was in a meeting with Sasha Crotty, Revit API Product Manager, last week, and she mentioned an important aspect of content creation that I was not previously fully aware of.</p>
+
+<p style="font-size:80%">I initially summarised that under the title *Avoid Imported CAD Content in RFA Family Definitions* as follows:
+Here is some general advice on creating Revit families: do not import DWG instances into a family definition.
+CAD import into a family is considered bad content.
+As much as possible, you would want to define a family using native Revit geometry native lines etc., not imported CAD data.
+An imported CAD object in a family definition will cause performance issues and slow down Revit.
+It gets duplicated in the project for every family instance placed.
+Obviously the degradation will depend on the detail and complexity of the CAD content, and the replication of the family instances.
+In general, though, it is to be avoided.
+As if we couldn't have guessed...
+Sasha asked me to correct that, saying:</p>
+
+<p>Suggestion &ndash; Think twice before importing CAD into RFA</p>
+
+<p>Here is some general advice on creating Revit families: consider if there is a better solution than importing DWG instances into a family definition.</p>
+
+<p>Some CAD imports into a family may cause performance issues in the project.</p>
+
+<p>When importing CAD, consider using native Revit geometry instead, particularly for meshes with a high vertex count.</p>
+
+<p>An imported CAD object in a family definition will cause performance issues and slow down Revit.</p>
+
+<p>The view navigation performance impact of an unnecessarily complex import grows in the project for every family instance placed.</p>
+
+<p>Obviously the degradation will depend on the detail and complexity of the CAD content, and the replication of the family instances.</p>
+
+<p>In general, if you're seeing performance degradations, consider whether there is a simpler way to model the geometry.</p>
+
+<h4><a name="3"></a>Advances in Architectural Geometry 2016</h4>
+
+<p>The <a href="http://www.aag2016.ch">AAG16</a> conference on advances in architectural geometry at the ETH Zurich just completed.</p>
+
+<p>For some exciting computational generative architectural innovation idea, you can take a look at the wonderful, impressive, beautiful and
+exciting <a href="http://vdf.ch/advances-in-architectural-geometry-2016-e-book.html">Advances in Architectural Geometry 2016</a> e-book. </p>
+
+<p>To give you a quick first impression, here is its table of contents:</p>
+
+<ul>
+<li>Analysis and Design of Curved Support Structures</li>
+<li>Measuring and Controlling Fairness of Triangulations</li>
+<li>Face-Offsetting Polygon Meshes with Variable Offset Rates</li>
+<li>Marionette Mesh: From Descriptive Geometry to Fabrication-Aware Design</li>
+<li>Designing with Curved Creases: Digital and Analog Constraints</li>
+<li>A Double-Layered Timber Plate Shell: Computational Methods for Assembly, Prefabrication, and Structural Design</li>
+<li>On the Hierarchical Construction of SL Blocks: A Generative System that Builds Self-Interlocking Structures</li>
+<li>Tree Fork Truss: Geometric Strategies for Exploiting Inherent Material Form</li>
+<li>Textile Fabrication Techniques for Timber Shells: Elastic Bending of Custom-Laminated Veneer for Segmented Shell Construction Systems</li>
+<li>Bending-Active Plates: Form and Structure</li>
+<li>Underwood Pavilion: A Parametric Tensegrity Structure</li>
+<li>Safra Neuron Screen: Design and Fabrication</li>
+<li>Scissor Mechanisms for Transformable Structures with Curved Shape: The 'Jet d’Eau' Movable Footbridge in Geneva</li>
+<li>Mastering the 'Sequential Roof': Computational Methods for Integrating Design, Structural Analysis, and Robotic Fabrication</li>
+<li>Adaptive Meshing for Bi-directional Information Flows: A Multi-Scale Approach to Integrating Feedback between Design, Simulation, and Fabrication</li>
+<li>Dimensionality Reduction for Parametric Design Exploration</li>
+<li>Force Adaptive Hot-Wire Cutting: Integrated Design, Simulation, and Fabrication of Double-Curved Surface Geometries</li>
+<li>Designing for Hot-Blade Cutting: Geometric Approaches for High-Speed Manufacturing of Doubly-Curved Architectural Surfaces</li>
+<li>Cuttable Ruled Surface Strips for Milling</li>
+<li>The Armadillo Vault: Computational Design and Digital Fabrication of a Freeform Stone Shell</li>
+<li>CASTonCAST Shell Structures: Realisation of a 1:10 Prototype of a Post-Tensioned Shell Structure from Precast Stackable Components</li>
+<li>Lightweight Conical Components for Rotational Parabolic Domes: Geometric Definition, Structural Behaviour, Optimisation and Digital Fabrication</li>
+</ul>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d21d266f970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d21d266f970c img-responsive" style="width: 368px; " alt="AAG16 BRG" title="AAG16 BRG" src="/assets/image_d1b2e1.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="4"></a>Endtrip Full Sound Replacement</h4>
+
+<p>Let's round off for today with an impressive demonstration of the importance of an audio track complementing a video experience.</p>
+
+<!-- My son [Christopher](http://tammik.ca) -->
+
+<p>One of my offspring studied sound design at the <a href="http://vfs.edu/programs/sound-design">Vancouver Film School</a> last year.</p>
+
+<p>They then launched a career as an independent computer game sound designer, only to veer off into a more programming oriented direction once they realised that the most efficient approach to accomplishing their goals would require them to implement their own tools in the Unity gaming engine first anyway.</p>
+
+<p>Anyway, back to the VFS:</p>
+
+<p>For the final exam, they picked a five-minute video equipped with a sound track and implemented a full sound replacement for it.</p>
+
+<p>This involves music, a cast of voice characters, background sound replacement, synchronisation, etc. It is a bit harder than you might initially imagine &nbsp; :-)</p>
+
+<p>Here is the original video and the full sound replacement version side by side:</p>
+
+<ul>
+<li><a href="https://vimeo.com/73537360">Endtrip &ndash; Original version by The Outpost</a></li>
+<li><a href="https://vimeo.com/148054745">Endtrip &ndash; full sound replacement</a></li>
+</ul>
+
+<p><center>
+<iframe src="https://player.vimeo.com/video/148054745" width="480" height="297" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></p>
+
+<p><a href="https://vimeo.com/148054745">Endtrip (full sound replacement)</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+
+<p></center></p>
+
+<p>For the sake of completeness, yet another version exists as well, <a href="https://www.youtube.com/watch?v=WjLWsTdISfY">Endtrip Rescored by Sergio Ramis</a>.</p>
+
+<p>I found the comparison utterly fascinating; maybe you will too?</p>

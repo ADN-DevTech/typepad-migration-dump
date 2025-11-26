@@ -1,0 +1,167 @@
+comments:
+- author: Zhu XiaoMeng
+  email: zhuxiaomengjj@gmail.com
+  ip: 119.80.39.6
+  url: ''
+  date: '2010-09-04 19:16:38'
+  body: "Hi jeremy:\n\n   Is it possible to import data from excel to schedule view\
+    \ sheet now? And how? I realize that the SDK samples do contains a \"PanelSchedule\"\
+    , but mine is Schedule view."
+- author: Zhu XiaoMeng
+  email: zhuxiaomengjj@gmail.com
+  ip: 119.80.39.6
+  url: ''
+  date: '2010-09-04 23:15:32'
+  body: more precisely, what I want to know is how to get the relation between schedule
+    sheet's "mark" and the Id in model.
+- author: Ruslan Oleinikov
+  email: susel81@gmail.com
+  ip: 24.185.17.77
+  url: ''
+  date: '2010-09-08 03:55:56'
+  body: 'TextBox class looks like limited. I can''t enter special characters like
+    "{}<>
+
+
+    Is Some way to do this? Main reason it''s enter length in feet... or angle.
+
+
+    Looks like now only with pop-up window work.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 213.65.251.246
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-09-10 03:10:41'
+  body: 'Dear Zhu XiaoMeng,
+
+
+    Unfortunately, the Revit API does still not provide any access whatsoever to schedules,
+    with the sole exception of electrical panel schedules.
+
+
+    Access to the latter was added in the Revit 2011 API and is demonstrated by the
+    PanelSchedule SDK sample that you mention:
+
+
+    http://thebuildingcoder.typepad.com/blog/2010/05/the-revit-mep-2011-api.html
+
+
+    Other schedules are not accessible programmatically, however.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-09-16 01:14:02'
+  body: 'Dear Ruslan,
+
+
+    Just as you say, the ribbon TextBox class currently limits the characters that
+    can be input as you describe. We have an open wish list item to have this restriction
+    removed. The workaround would be as you say, to display your own form and use
+    a standard .NET input control there.
+
+
+    Cheers, Jeremy.'
+- author: Jan Dierckx
+  email: jan.dierckx@ugent.be
+  ip: 89.204.139.103
+  url: ''
+  date: '2012-01-15 14:24:59'
+  body: "Hi Jeremy,\n\nI am a beginner in Revit API and I have a problem with Ribbon\
+    \ TextBoxes. I want the ability to enter a value in a TextBox, placed in a Ribbon\
+    \ I created myself (when the program starts up), and when enter is pressed, this\
+    \ value is written to a ProjectInfo Parameter (which exists, and the entered value\
+    \ is the correct format for the parameter). I use this command to call a function\
+    \ when enter is pressed:\n\ntBox1.EnterPressed += new EventHandler(ProcessTextToutside);\n\
+    \nand this is the function:\n\n        public void ProcessTextToutside(object\
+    \ sender, Autodesk.Revit.UI.Events.TextBoxEnterPressedEventArgs args)\n      \
+    \  {\n            // cast sender as TextBox to retrieve text value\n         \
+    \   TextBox textBox = sender as TextBox;\n            String s = textBox.Value\
+    \ as string;\n            Parameter ToutsideP = args.Application.ActiveUIDocument.Document.ProjectInformation.get_Parameter(\"\
+    test\");\n            ToutsideP.Set(double.Parse(s));\n        }\n\nfor a very\
+    \ strange reason, the Parameter.Set() doesn't work in this case, even though the\
+    \ parameter can be called, and it's not readonly. Do you have any idea how to\
+    \ fix this problem?\n\nThanks and kind regards!!\n\nJan"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-01-17 08:00:37'
+  body: "Dear Jan,\n\nThe text box in the ribbon is displayed at all times, and thus\
+    \ is comparable to a modeless dialogue.\n\nIf you have followed this blog for\
+    \ a while, you will have noticed that use of the Revit API from a modeless context\
+    \ is a bit special.\n\nThe Revit API can only be used within certain callback\
+    \ contexts, i.e. Revit has to call you to let you know that it is now ok to use\
+    \ the API.\n\nMy initial assumption from your description is that you just need\
+    \ to open a transaction on the document containing the parameter you wish to change.\
+    \ \n\nHave you tried doing that?\n\nFor instance, something like this:\n\npublic\
+    \ void ProcessTextToutside(\n  object sender, \n  TextBoxEnterPressedEventArgs\
+    \ args ) \n{ \n  TextBox textBox = sender as TextBox; \n  string s = textBox.Value\
+    \ as string; \n  Document doc = args.Application.ActiveUIDocument.Document;\n\
+    \  Transaction t = new Transaction( doc );\n  t.Start( \"Set Parameter\" );\n\
+    \  Parameter p = doc.ProjectInformation.get_Parameter( \"test\" ); \n  p.Set(\
+    \ double.Parse( s ) ); \n  t.Commit();\n} \n\nCheers, Jeremy."
+- author: Aleksey
+  email: aleksey.antonoff@gmail.com
+  ip: 176.51.118.83
+  url: ''
+  date: '2013-05-30 06:29:43'
+  body: 'Hi Jeremy,
+
+
+    I can create a textbox on Ribbonpanel. How can I get the value from another class,
+    but the same namespace?
+
+
+    var tab = application.CreateRibbonTab("tab");
+
+    RibbonPanel ToolsPanel = application.CreateRibbonPanel(tab, "Instruments");
+
+    TextBoxData tbData1 = new TextBoxData("tbName1");
+
+    TextBox tb1 = ToolsPanel.AddItem(tbData1) as Autodesk.Revit.UI.TextBox;
+
+    tb1.EnterPressed += SetTextBoxValue; //save value
+
+
+    public void SetTextBoxValue(object sender, TextBoxEnterPressedEventArgs args)
+
+    {
+
+    }'
+- author: Jeremy Tammik
+  email: ''
+  ip: 63.149.67.7
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-06-03 06:58:11'
+  body: "Dear Aleksey,\n\nSounds easy to me, and I can think of a number of ways.\
+    \ \n\nE.g., you could create a public method for setting the value that you call\
+    \ from the other class.\n\nWhat problem do you have, please?\n\nCheers, Jeremy."
+- author: frank halliday
+  email: frankhalliday@gmail.com
+  ip: 122.151.112.234
+  url: ''
+  date: '2014-02-07 20:54:35'
+  body: 'Hi Jeremy,
+
+
+    I can create a textbox on Ribbonpanel. How can I get the value from another class,
+    but the same namespace?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-02-08 04:17:21'
+  body: 'Dear Frank,
+
+
+    Simply create a public property or method on the class providing the value, and
+    call that from the method making use of it.
+
+
+    Cheers, Jeremy.
+
+    -----'

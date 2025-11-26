@@ -1,0 +1,127 @@
+---
+layout: "post"
+title: "DevDays Online and Add-In Migration"
+date: "2020-01-28 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "360"
+  - "BIM"
+  - "Cloud"
+  - "Desktop"
+  - "DevDays"
+  - "Events"
+  - "Forge"
+  - "Migration"
+original_url: "https://thebuildingcoder.typepad.com/blog/2020/01/devdays-online-and-add-in-migration.html "
+typepad_basename: "devdays-online-and-add-in-migration"
+typepad_status: "Publish"
+---
+
+<p>I share a contribution from fellow blogger Eric Boehlke and the announcement of the upcoming yearly DevDays Online presentations:</p>
+
+<ul>
+<li><a href="#2">Add-in migration &ndash; update API references</a></li>
+<li><a href="#2.1">Addendum &ndash; NuGet package and .NET framework version</a></li>
+<li><a href="#3">Join us for our DevDays Online webinars</a></li>
+</ul>
+
+<h4><a name="2"></a>Add-In Migration &ndash; Update API references</h4>
+
+<p>Eric Boehlke of <a href="https://truevis.com">truevis</a> BIM Consulting
+wrote a blog post about how to upgrade a Revit API add-in to a version of Revit.</p>
+
+<p>Says he:</p>
+
+<blockquote>
+  <p>You may already have done this thousands of times.
+  One of the reasons to write these posts is to remember for myself how to do such things a year from now.
+  Hence:
+  <a href="http://revthat.com/upgrading-revit-api-apps-for-newer-revit-versions">Upgrading Revit API Apps For Newer Revit Versions</a></p>
+</blockquote>
+
+<p>Here is a <a href="https://youtu.be/ypC_0REg22U">75-second video</a> reiterating the same instructions to make a dry subject more fun:</p>
+
+<p><center>
+<iframe width="480" height="270" src="https://www.youtube.com/embed/ypC_0REg22U" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</center></p>
+
+<p>The cautionary message on not confusing <code>RevitAPIUI.dll</code> and <code>RevitUIAPI.dll</code> is due to personally running into that issue once.</p>
+
+<p>Removing the existing Revit API references, adding the new ones, and setting <code>Copy Local</code> to <code>false</code> is the foolproof way to upgrade.</p>
+
+<p>In many cases, though, you can do this all in one single step by just adding the new references.</p>
+
+<p>This overwrites the old references and retains the <code>Copy Local</code> <code>false</code> setting.</p>
+
+<p>However, that is an unimportant detail.</p>
+
+<p>It's not actually much effort to create such a video from a blog post.
+<a href="https://lumen5.com">lumen5.com</a> makes an initial "AI" attempt at turning my blog posts into videos.
+Then I just refine it. It takes 10 or 15 minutes.
+They say: "We automatically create Instant Videos for you based on your RSS feeds. "</p>
+
+<p>Here's another one of Eric's videos,
+on <a href="https://youtu.be/UZl9gpFgxy0">how to get coordinates of an existing Revit View, then use them for placing other Views in Dynamo</a>.</p>
+
+<h4><a name="2.1"></a>Addendum &ndash; NuGet Package and .NET Framework Version</h4>
+
+<p>Jason Masters adds some important notes to this in
+his <a href="https://thebuildingcoder.typepad.com/blog/2020/01/devdays-online-and-add-in-migration.html#comment-4774664575">comment below</a>:</p>
+
+<p>In terms of upgrading Revit API versions, I'd highly recommend switching from references to the SDK to referencing
+the <a href="https://www.nuget.org/packages/Revit_All_Main_Versions_API_x64">NuGet package published by Matthew Taylor (Revit_All_Main_Versions_API_x64)</a>:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4b7de30200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4b7de30200c image-full img-responsive" alt="NuGet package Revit all main versions API" title="NuGet package Revit all main versions API" src="/assets/image_ca1d43.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>This package contains all the Revit API references across all versions.
+Using NuGet means that any other developer opening your repo won't necessarily need the SDK to build it, it will integrate more easily into CI/CD pipelines, and checking against different API versions is as simple as changing which version of the NuGet package you're using.</p>
+
+<p>Also, if you need to migrate to 2020, you're going to need to first change the .NET target framework version of your project to 4.7, then update your references to the 2020 API.</p>
+
+<p>Many thanks to Jason for these important notes!</p>
+
+<h4><a name="3"></a>Join us for our DevDays Online Webinars</h4>
+
+<p>We welcome you to join us for our special series of webinars where we’ll be going over the current important development topics.
+Some of them were already covered last year's DevCon events.  These webinars are a great opportunity for you to learn about Autodesk Forge and where Autodesk is taking the desktop platforms in the coming year.</p>
+
+<p>Click on the links below to register for the webinar(s) of your choice.</p>
+
+<p>All webinars start at 8am PST (4pm GMT, 5pm CET, 11am EST).
+If the session timing is inconvenient for you to attend (which is true for most of our partners in Asia), you can rest assured we will be recording all the sessions and will post them on the web for your later viewing.</p>
+
+<p>Registration is open to all except where noted below:</p>
+
+<ul>
+<li><b>Tuesday 2020-02-25 &ndash; DevDays Keynotes</b>
+&ndash; Jim Quanci, Senior Director for Software Partner Development, kicks off our DevDays online webinar series with the latest news for desktop developers (get ready for the 2021 releases this Spring), Forge roadmap that includes the Forge Design Automation CAD Engines on the cloud (AutoCAD, Revit, Inventor and 3ds Max) and an overview of the enhanced BIM 360 APIs for the Autodesk Construction Cloud.
+<br/><a href="https://autodesk.zoom.us/webinar/register/WN_J-iJ9Iy1TQ-TYgB3CdQoLg">Register</a></li>
+<li><b>Wednesday 2020-02-26 &ndash; Forge API Update</b>
+&ndash; Augusto Goncalves will discuss in detail the updated and new APIs added to the Forge platform during the last year.
+<br/><a href="https://autodesk.zoom.us/webinar/register/WN_MlyzAqW8TF-oC7XPFcC7FA">Register</a></li>
+<li><b>Thursday 2020-02-27 &ndash; Revit, Civil 3D and InfraWorks API Updates</b> (for ADN members only)
+&ndash; Join Sasha Crotty and Augusto Goncalves to discover the product and API changes and enhancements coming in the next releases of Revit, Civil 3D and InfraWorks.
+<br/><a href="https://autodesk.zoom.us/webinar/register/WN_jLl0gXjxTnK3PWHsGyzARg">Register</a></li>
+<li><b>Tuesday 2020-03-03 &ndash; Inventor, Vault and Fusion API Update</b> (for ADN members only)
+&ndash; We will review upcoming changes in the next release of Inventor as well as recent updates in Vault and Fusion 360 API.
+<br/><a href="https://autodesk.zoom.us/webinar/register/WN_XlRo7ADySLGofmc7M9cdkQ">Register</a></li>
+<li><b>Wednesday 2020-03-04 &ndash; BIM 360 API Update</b>
+&ndash; Learn about new APIs in the BIM 360 family products.
+We’ll talk about new Model Coordination and Cost Management APIs and other API enhancements.
+<br/><a href="https://autodesk.zoom.us/webinar/register/WN_TIxv3ZpPS1228DYy_-i7HA">Register</a></li>
+<li><b>Thursday 2020-03-05 &ndash; The next Release of AutoCAD APIs</b> (for ADN members only)
+&ndash; Discover API changes coming in the upcoming release of AutoCAD Rogue.
+<br/><a href="https://autodesk.zoom.us/webinar/register/WN_h1Mmc-leRjKAFhqIjiv9Sw">Register</a></li>
+</ul>
+
+<p>After registering, you will receive a confirmation email containing information about joining the webinars.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4b7d0b1200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4b7d0b1200c image-full img-responsive" alt="DevDays Online 2020" title="DevDays Online 2020" src="/assets/image_006f03.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>

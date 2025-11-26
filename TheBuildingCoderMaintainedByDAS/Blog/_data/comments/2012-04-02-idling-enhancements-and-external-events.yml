@@ -1,0 +1,163 @@
+comments:
+- author: sangsen
+  email: sangsen123@gmail.com
+  ip: 124.124.54.130
+  url: ''
+  date: '2012-04-04 07:34:08'
+  body: "Hi Jeremy,\n\n       I am using Revit 2013. Default and Nondefault Idling\
+    \ modes are taking more time than in revit 2012 idling.Is any other way to improve\
+    \ performance.\n\nThanks,"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.182.47
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-04-04 07:50:19'
+  body: 'Dear Sangsen,
+
+
+    That sounds interesting. Can you prove that? How?
+
+
+    The best thing to do would be for you to submit an ADN DevHelp Online case for
+    this so that we can examine it in more depth.
+
+
+    If you are not an ADN member, please send me a minimal reproducible case by email.
+
+
+    To answer your question: yes, you will probably get optimal performance by converting
+    your code to use an external event instead of the Idling one.
+
+
+    Cheers, Jeremy.'
+- author: sangsen
+  email: sangsen123@gmail.com
+  ip: 124.124.54.130
+  url: ''
+  date: '2012-04-05 03:09:40'
+  body: "Hi Jeremy..\n\n   Thanks for your response jeremy.\n\n   I found something.\
+    \ Project with Idling in Debugmode only revit takes time to perform any action.\
+    \ In release mode revit works fine. Please help me ..\n\nThanks"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.183.242
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-04-05 03:26:30'
+  body: "Dear Sangsen,\n\nGlad to hear that it works fine in release mode.\n\nI do\
+    \ not understand at all what problem you are having in debug mode.\n\nI checked\
+    \ with the development team, and we are not aware of Idling being slower.\n\n\
+    The older non-default mode should be virtually the same as before. \n\nThe new\
+    \ mode will naturally be slower, because it will respond to real idling (system\
+    \ Idling) event, which is not always triggered even when the end user is seemingly\
+    \ not doing anything. Therefore, the MultiThreading/WorkThread work-thread analysis\
+    \ SDK sample uses the old Idling mode.\n\nThe original internal implementation\
+    \ has stayed virtually untouched.\n\nNow, when you say 'taking more time', does\
+    \ that mean it is not triggered as often, correct? Or is it something else?\n\n\
+    Also, when you ask me for help, what on earth would you like me to do? \n\nI can\
+    \ pray for you, but I cannot change the internal implementation of Revit  :-)\n\
+    \nMaybe you are just observing some side effects of your debugging process, which\
+    \ ave nothing to do with Revit at all...\n\nCheers, Jeremy."
+- author: Claudiu
+  email: mcmailro@yahoo.com
+  ip: 82.77.41.230
+  url: ''
+  date: '2012-07-23 10:07:34'
+  body: "Hi Jeremy,\n  \nI'm having a problem with using the idling event, a strange\
+    \ think is happening and I don't understand way, maybe you can help me.\n\nWhat\
+    \ I'm doing is, from inside the idle event I duplicate a symbol and then I use\
+    \ it to create a instance of it, everything works, there is no error, no exception,\
+    \ but when I check the result in Revit I see that the instance, witch is a MEP\
+    \ family, doesn't have the connector. \n\nI did a debug on the code and I discover\
+    \ that the instance that is created have a null MEPModel.ConnectorManager.\n\n\
+    This means that the Duplicate method is not working correctly during idle event\
+    \ or I am doing something wrong?\n\nIf I do the same thing in a command then the\
+    \ connector is there.\n\nThank you."
+- author: Jeremy Tammik
+  email: ''
+  ip: 85.69.61.136
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-07-27 07:24:43'
+  body: "Dear Claudiu,\n\nThank you for the report. It makes sense, potentially, although\
+    \ I have not heard of any similar issue before.\n\nThere could always be an error\
+    \ in your code, or in the Idling event behaviour, hard to say. We would need a\
+    \ reproducible case to test, i.e. a minimal sample model plus one-click compile-and-install\
+    \ Visual Studio sample app to test this.\n\nYou are of course aware that you may\
+    \ have to regenerate or commit the transaction before the connector manager is\
+    \ fully initialised?\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/06/to-regenerate-or-not-to-regenerate.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/06/to-regenerate-or-not-to-regenerate.html</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/11/setting-text-width-requires-regen.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/11/setting-text-width-requires-regen.html</a>\n\
+    \nIf that does not help and you are an ADN member, please submit an ADN DevHelp\
+    \ Online case for us to explore. \n\nCheers, Jeremy."
+- author: Paul Kinnane
+  email: pkinnane@internode.on.net
+  ip: 118.210.139.232
+  url: ''
+  date: '2013-02-12 05:20:59'
+  body: Neither the ModelessForm_ExternalEvent sample project, nor the ModelessForm_IdlingEvent
+    project work when you are viewing a 3d perspective view.  Is there a solution
+    to this pls?
+- author: Jeremy Tammik
+  email: ''
+  ip: 109.11.204.153
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-02-12 13:47:10'
+  body: 'Dear Paul,
+
+
+    What you observe is absolutely expected.
+
+
+    The Revit API is disabled in perspective views:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/06/rfa-version-grey-commands-family-context-and-rdb-link.html#2">http://thebuildingcoder.typepad.com/blog/2009/06/rfa-version-grey-commands-family-context-and-rdb-link.html#2</a>
+
+
+    Cheers, Jeremy.'
+- author: Christian
+  email: chrisutama@gmail.com
+  ip: 72.34.118.8
+  url: ''
+  date: '2013-09-06 19:29:32'
+  body: "Hi Jeremy,\nI have a problem using DetachFromCentralOption with OpenAndActivateDocument.\n\
+    \nIt returns an exception: \"The file-based central model could not be reached,\
+    \ because e.g. the network is down or the file server is down\". \n\nOf course\
+    \ it cannot reach the central server, I want to detach from central. I can open\
+    \ the file manually and detach from central. Do you have any idea?\n\nCode:\n\n\
+    OpenOptions opt = new OpenOptions();\nopt.DetachFromCentralOption = DetachFromCentralOption.DetachAndPreserveWorksets;\n\
+    opt.AllowOpeningLocalByWrongUser = true;\napp.OpenAndActivateDocument(modelpath,\
+    \ opt, false);\n\nThanks,\nChristian"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-09 04:22:50'
+  body: 'Dear Christian,
+
+
+    Nope, sorry, I do not know what might be going wrong.
+
+
+    If it works manually, performing the exact same step programmatically should work.
+
+
+    Have you tried minimalising your code even further still, to ensure that you are
+    not inadvertently toggling some option that requires access to the server?
+
+
+    Maybe eliminate all option settings except the DetachFromCentralOption one?
+
+
+    Is the model path independent of central?
+
+
+    All I know is this, which seems to indicate that it should work:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/10/detach-workset-and-taskdialog-command-link-order.html">http://thebuildingcoder.typepad.com/blog/2012/10/detach-workset-and-taskdialog-command-link-order.html</a>
+
+
+    Cheers, Jeremy.
+
+    -----'

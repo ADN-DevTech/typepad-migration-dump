@@ -1,0 +1,130 @@
+---
+layout: "post"
+title: "Bridges, Regeneration and Modeless RevitLookup"
+date: "2021-10-26 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Fun"
+  - "Modeless"
+  - "Parameters"
+  - "Regen"
+  - "RevitLookup"
+  - "Transaction"
+original_url: "https://thebuildingcoder.typepad.com/blog/2021/10/bridges-regeneration-and-modeless-revitlookup.html "
+typepad_basename: "bridges-regeneration-and-modeless-revitlookup"
+typepad_status: "Publish"
+---
+
+<p>I am glad and proud to announce the most exciting RevitLookup enhancement in its entire history so far, yet another need for regeneration and a great new option for your personal safety:</p>
+
+<ul>
+<li><a href="#2">Modeless RevitLookup</a></li>
+<li><a href="#3">Need for regen for read-only parameter</a></li>
+<li><a href="#4">Structural bridge design</a></li>
+<li><a href="#5">Outdoor seatbelt</a></li>
+</ul>
+
+<h4><a name="2"></a> Modeless RevitLookup</h4>
+
+<p><a href="https://jmcouffin.com">Jmcouffin</a> raised a cool request for
+a <a href="https://github.com/jeremytammik/RevitLookup">RevitLookup</a> enhancement
+in <a href="https://github.com/jeremytammik/RevitLookup/issues/92">issue #92 &ndash; modeless window for lookup tools</a>:</p>
+
+<blockquote>
+  <p>... while not able to code it myself, especially not in C#, a nice feature would be to get the windows of the tool in modeless mode.
+  Allowing us to interact with the model directly.</p>
+</blockquote>
+
+<p><a href="https://github.com/NeVeSpl">NeVeSpl</a> very kindly picked this up and heroically implemented and tested it in a whole series of pull requests:</p>
+
+<ul>
+<li><a href="https://github.com/jeremytammik/RevitLookup/pull/93">93</a> &ndash; Modeless windows</li>
+<li><a href="https://github.com/jeremytammik/RevitLookup/pull/94">94</a> &ndash; Fixed problem with tranferring focus to Revit when using selectors from modeless window</li>
+<li><a href="https://github.com/jeremytammik/RevitLookup/pull/95">95</a> &ndash; Handle multiple open documents at the same time</li>
+<li><a href="https://github.com/jeremytammik/RevitLookup/pull/96">96</a> &ndash; Fix for crash that happens when user cancel picking object in cmds SnoopPickFace, SnoopPickEdge, SnoopLinkedElement</li>
+<li><a href="https://github.com/jeremytammik/RevitLookup/pull/97">97</a> &ndash; Restore ability to snoop plan topologies</li>
+<li><a href="https://github.com/jeremytammik/RevitLookup/pull/99">99</a> &ndash; Eliminate warnings from <a href="https://github.com/jeremytammik/RevitLookup/issues/98">issue #98, warnings compiling...</a></li>
+</ul>
+
+<p>Here is a sample screen snapshot showing the result, snooping a level and two different walls, simultaneously running the Revit command to create yet more new walls:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833026bdefb95e7200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833026bdefb95e7200c image-full img-responsive" alt="Modeless RevitLookup" title="Modeless RevitLookup" src="/assets/image_4f4cd6.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Summary by Jmcouffin:</p>
+
+<blockquote>
+  <p>It works much better than I even thought possible.
+  You can now open multiple instances of RevitLookup tool and have each grab its own set of elements and data and dig through it!
+  I tried all the functionalities without hitting a wall so far.
+  I will keep on using it this week and let you know if anything arises.
+  Great job @NeVeSpl!</p>
+</blockquote>
+
+<p>Ever so many thanks to NeVeSpl from me too for the careful and efficient implementation and thorough testing!</p>
+
+<h4><a name="3"></a> Need for Regen for Read-Only Parameter</h4>
+
+<p>A surprising new context to add to
+our <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#5.33">list of situations with a need for regeneration</a> came up in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on being <a href="https://forums.autodesk.com/t5/revit-api-forum/unable-to-get-parameter-asstring-value-when-the-parameter-is/m-p/10713499">unable to get parameter <code>AsString</code> value when the parameter is read-only</a>:</p>
+
+<p><strong>Question:</strong> I've been struggling with this weird problem for a few hours now.</p>
+
+<p>I have some elements that has a parameter called <code>PANEL ID</code>.
+Sometimes, this parameter is in read-only mode.</p>
+
+<p>When I'm accessing the element directly, I can get the parameter value perfectly fine.</p>
+
+<p>When accessing the same kinds of elements as part of any collection, the value is an empty string <code>""</code>.</p>
+
+<p><strong>Answer:</strong> Seems like my problem was not using <code>doc.Regenerate()</code>.</p>
+
+<p>My read-only params were updated from other elements, that changed those parameter values.
+But I couldn't see it in the API until I used <code>doc.Regenerate()</code>.</p>
+
+<p>Here are some other previous examples that I also already earmarked for inclusion in
+the <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#5.33">'need to regenerate' list</a>:</p>
+
+<ul>
+<li><a href="https://forums.autodesk.com/t5/revit-api-forum/leveloffset-not-working-for-arc-extrusion-roof/m-p/7681949"><code>LevelOffset</code> not working for arc extrusion roof</a>
+<br/><strong>Question:</strong> I've encountered a strange result and I'd like to know if it's my fault or if there's an error somewhere or a known issue.
+I'm trying to create a new <code>ExtrusionRoof</code> with an arc profile and then change the <code>Level Offset</code> parameter to a different value.
+I use the <code>ROOF_CONSTRAINT_OFFSET_PARAM</code> <code>BuiltInParameter</code> to find that parameter and then set it.
+Unexpectedly, Revit sets the parameter to my value, but the roof doesn't shift.
+So, there's a discrepancy between the parameter value and the effective position of the roof.
+<br/><strong>Answer:</strong> You are creating geometry and then in the same transaction make a change to it.
+In the past, such a workflow caused problems that could be solved by separating the creation and modification into 2 transactions.
+I would suggest you do the same and see if that resolves your problem.</li>
+<li><a href="https://forums.autodesk.com/t5/revit-api-forum/error-circular-chain-of-reference-when-creating-opening-on-a/td-p/7681213">Circular chain of reference when creating opening on a floor</a>
+<br/><strong>Question:</strong> Unable to create opening on a created floor, posted error "circular chain of reference"
+Problem is floor can be create while not the opening.
+<br/><strong>Answer:</strong> Try to regenerate the model after creating the floor and before creating the opening.</li>
+</ul>
+
+<h4><a name="4"></a> Structural Bridge Design</h4>
+
+<p><strong>Question:</strong> A question came up on
+accessing <a href="https://www.autodesk.com/products/structural-bridge-design/overview">Structural Bridge Design</a> from
+an external app.</p>
+
+<p><strong>Answer:</strong> There is no API, but there is a command line that you can use:</p>
+
+<p>From the 2020 release on, we have command led automation for the design section and design beam creation and analysis.
+All data and commands are written to a <code>json</code> file which drives the automation.
+For more details, please refer
+to the <a href="https://help.autodesk.com/view/SBRDES/ENU/?guid=ASBD_Automation_Overview_html">ASBD Automation Overview</a>.</p>
+
+<h4><a name="5"></a> Outdoor Seatbelt</h4>
+
+<p>If you learned to enjoy wearing a mask when alone, you might also feel safer with an outdoor seatbelt:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833027880536e10200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833027880536e10200d img-responsive" style="width: 360px; display: block; margin-left: auto; margin-right: auto;" alt="Outdoor seatbelt" title="Outdoor seatbelt" src="/assets/image_f4d8ff.jpg" /></a><br /></p>
+
+<p></center></p>

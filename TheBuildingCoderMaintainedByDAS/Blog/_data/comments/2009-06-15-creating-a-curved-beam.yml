@@ -1,0 +1,213 @@
+comments:
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.86.116
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-06-15 10:06:33'
+  body: 'Hi jeremy,
+
+
+    I''ve got a problem with CurrentViewSheetSet
+
+    I''ve got a simple code with a ComboBox wich contains SheetSets
+
+    When I choose one in my list, I use the PrinterManager.ViewSheetSetting.CurrentViewSheetSet
+    = my viewSheetSet choosen in my combo.
+
+    But the method : PrinterManager.ViewSheetSetting.CurrentViewSheetSet.Views never
+    return me the currentViews of the ViewSet selected....
+
+
+    Have you ever try this?
+
+    Do you want my code?'
+- author: Rod Howarth
+  email: rodhowarth257@gmail.com
+  ip: 150.101.189.86
+  url: http://roddotnet.blogspot.com/
+  date: '2009-06-16 01:45:01'
+  body: "Pierre,\n\ntry\n\nViewSheetSet viewSheetSet = PrinterManager.ViewSheetSetting.CurrentViewSheetSet;\n\
+    viewSheetSet.Views = myViewSheetSet.Views;\n\nPrinterManager.ViewSheetSetting.Save();\n\
+    \nI think the way to do it is to get the current view sheet setting, and then\
+    \ set the views of that setting to be the ones of the viewSheetSet that you selected.\
+    \ \n\nLet me know how you go, if needed, post a full thread on AUGI and I'll try\
+    \ to help you out (or jeremy can if he likes!) - I've dont a fair bit of API work\
+    \ with printing, and have come across many problems along the way."
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.86.116
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-06-16 03:28:57'
+  body: 'I''m gonna try Rod.
+
+    Thx for your advice.
+
+    I''ll keep you inform about my problem.
+
+
+    Cheers!'
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.64.11
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-06-16 12:05:29'
+  body: 'Hi,
+
+    the post is here :
+
+    <a href="http://forums.augi.com/showthread.php?p=983905#post983905">http://forums.augi.com/showthread.php?p=983905#post983905</a>'
+- author: Jake Haggmark
+  email: jakehaggmark@gmail.com
+  ip: 69.40.155.201
+  url: ''
+  date: '2009-08-10 09:11:35'
+  body: Hi I'm creating a single curved beam/joist. Will I have to use this NURB stuff
+    that I don't understand or is there a simpler way?
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-08-10 09:42:52'
+  body: 'Dear Jake,
+
+
+    That obviously depends on the complexity of the curve you require. If it is very
+    wiggly, you will probably need to use a NURB to represent it anyway. If it is
+    just a simple circular or elliptical arc, you can implement a geometric utility
+    function to create a NURB to represent the simpler geometrical curve.
+
+
+    I googled for "circular nurb" and found lots of hits. The first is the NURBCircleArc
+    Tool provided as part of the Ayam package, which is a free 3D modelling environment:
+
+
+    <a href="http://ayam.sourceforge.net/docs/ayam-5.html">http://ayam.sourceforge.net/docs/ayam-5.html</a>
+
+
+    Here is another:
+
+
+    <a href="http://www.opengl.org/discussion_boards/ubbthreads.php?ubb=showflat&Number=261542">http://www.opengl.org/discussion_boards/ubbthreads.php?ubb=showflat&Number=261542</a>
+
+
+    A slightly more complex problem involving multiple connected circular arc segments
+    is discussed in a mathematical paper on Composing Circular Arcs with Minimal NURBS:
+
+
+    <a href="http://www.m-hikari.com/imf-password2009/5-8-2009/sommerIMF5-8-2009.pdf">http://www.m-hikari.com/imf-password2009/5-8-2009/sommerIMF5-8-2009.pdf</a>
+
+
+    Finally, here is what you really need, a basic introduction to NURBS including
+    a detailed explanation of how to use NURB curves to create conic sections such
+    as circles and ellipses:
+
+
+    <a href="http://www.mactech.com/articles/develop/issue_25/schneider.html">http://www.mactech.com/articles/develop/issue_25/schneider.html</a>
+
+
+    If you do end up implementing a method to create a NURB curve representing a circular
+    arc, please send it by for sharing with others. Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-08-10 09:52:28'
+  body: "Hi again Jake,\n\nDid I hear you gasp slightly there, a short sharp intake\
+    \ of breath? Sorry for scaring you!\n\nIn my enthusiasm over the NURBS I forgot\
+    \ to mention that if you just need an arc or an ellipse, you can also just use\
+    \ some of the simpler Autodesk.Revit.Creation.Application class curve creation\
+    \ methods:\n\n- NewArc to create an arced curve. \n- NewEllipse to create an elliptical\
+    \ curve.\n- NewHermiteSpline to create a hermite spline curve.\n\nAnd obviously\
+    \ you also have NewLine and NewLineBound to create bounded or unbounded lines,\
+    \ which are also curves, even though they are straight. \n\nThe NewFamilyInstance\
+    \ method above just needs to be fed with a Curve object, and it can be any one\
+    \ of the classes derived from the Curve class, not necessarily a NURB curve.\n\
+    \nCheers, Jeremy."
+- author: Jake Haggmark
+  email: jakehaggmark@gmail.com
+  ip: 69.40.155.201
+  url: ''
+  date: '2009-08-10 10:37:18'
+  body: Thanks for all the information, I'm going to dive into it now and see what
+    I can do.
+- author: adamya
+  email: aymadamya@gmail.com
+  ip: 123.236.218.227
+  url: http://adam3dstudio.carbonmade.com
+  date: '2010-06-17 02:06:15'
+  body: 'how to use this code for generating curved beam in revit...??
+
+    pls explain bcoz i''m new to coding and stuff...'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-17 03:30:01'
+  body: "Dear Adamya,\n\nSimply plug the code presented above into a Revit add-in.\
+    \ \n\nIf you are new to coding and the Revit API, I would suggest you learn the\
+    \ basics before attempting to create a curved beam, e.g. look at the Getting Started\
+    \ category of this blog and first of all the DevTV introduction:\n\n<a href=\"\
+    http://thebuildingcoder.typepad.com/blog/2009/12/updated-devtv-introduction-to-revit-programming.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/12/updated-devtv-introduction-to-revit-programming.html</a>\n\
+    \nCheers, Jeremy."
+- author: John Castro
+  email: jcastro@studiogang.net
+  ip: 75.150.204.115
+  url: ''
+  date: '2011-11-11 15:41:46'
+  body: 'Hey Jeremy, I''m trying to create a beam that curves in both plan and elevation.  In
+    Revit 2012, I''m trying to create the beam by 3D snapping a spline to columns,
+    however the beam ends up straight even though the spline is snapped to the columns.  Do
+    you think this method will work if I hard-coded the XYZ coordinates of the columns?  I''m
+    new to the Revit API and before I dig into it, just wanted some reassurance that
+    it''s not a waste of time.
+
+    Thanks, John'
+- author: Jeremy Tammik
+  email: ''
+  ip: 80.14.134.41
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-11-15 10:58:41'
+  body: 'Dear John,
+
+
+    Sorry, I simply don''t know. I would have to try it out, same as you.
+
+
+    Cheers, Jeremy.'
+- author: Jeroen Janssen
+  email: jeroen.janssen@akt-uk.com
+  ip: 80.254.147.116
+  url: ''
+  date: '2012-12-21 07:40:32'
+  body: "Dear Jeremy,\n\nFirst of all, many thanks for your vast amount of inspiration\
+    \ and help you're providing here on the forum.\n\nCurrently I'm working on a conversion\
+    \ tool directly from Rhino to Revit, through the API. I want to convert NURBS\
+    \ curves from Rhino, so I believe this method to create the nurbspline seems like\
+    \ the best way to go.\n\nEventually I want to loft a number of curves, but I need\
+    \ references for that. Now that brings me to the problem right away. I can't seem\
+    \ to get a reference property from the NewNurbSpline method, it results in a null\
+    \ value. \n\nDo you have any ideas where I might have to look for an answer? \n\
+    Does it possibly has to do with adding a new transaction or regenerating the model?\n\
+    Or is it because I'm opening a new familydoc in the function and the Application\
+    \ is coming from outside of the function?\n\nHere's a little snap of my code (it's\
+    \ in VB, but a C# answer is fine as well ;)), I can send you more if that needs\
+    \ more clarification.\n\nMany thanks, \nJeroen Janssen\n\nPublic Function CreateSurfaceMassFamilyTool(ByVal\
+    \ strL As List(Of String()), ByRef UIapp As UIApplication, ByRef app As Application)\
+    \ As Boolean\n\n...\n\n                    Dim ref_ar As New ReferenceArray\n\n\
+    \                    Dim startVal As Int32 = 5\n                    Dim ptList\
+    \ As New List(Of XYZ)\n                    Dim wL, kL As New DoubleArray()\n\n\
+    \                   Dim counter As Int32 = 0\n                    For j As Int32\
+    \ = startVal To s.Length - 1 Step 2\n                        Dim ptVal As String()\
+    \ = s(j).Split(\";\")\n                        Dim X As Double = mmToFoot(ptVal(0))\n\
+    \                        Dim Y As Double = mmToFoot(ptVal(1))\n              \
+    \          Dim Z As Double = mmToFoot(ptVal(2))\n                        Dim ptA\
+    \ As New XYZ(X, Y, Z)\n                        ptList.Add(ptA)\n             \
+    \           wL.Append(1)\n                        kL.Append(counter)\n       \
+    \                 counter += 1\n                    Next\n\n                 \
+    \   Dim nurbs As NurbSpline = app.Create.NewNurbSpline(ptList, wL, kL, 1, False,\
+    \ False)\n                    ref_ar.Append(nurbs.Reference)\n\nEnd Function\n\
+    -----"

@@ -1,0 +1,160 @@
+comments:
+- author: Topi Hyrkäs - Progman Oy
+  email: topi.hyrkas@progman.fi
+  ip: 194.100.31.37
+  url: ''
+  date: '2010-06-22 06:22:57'
+  body: 'Hi Jeremy,
+
+
+    I have one question for you about manually selecting elements from drawing (windows
+    select, user interface side). Why there''s limit of 16383 selection objects? Do
+    you have any ideas regarding this one?
+
+
+    Cheers'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-22 06:29:15'
+  body: 'Dear Topi,
+
+
+    Oh no, are you serious? Progman is an ADN member, as far as I know ... could you
+    please submit an ADN case for this, so I have a handle to use to follow it up
+    with the development team? Thank you!
+
+
+    Regarding that number, a short integer has 16  bits. The maximum positive value
+    for a signed integer is 2^15 - 1. The number you mention equals 2^14 - 1. Interesting.
+
+
+    Cheers, Jeremy.'
+- author: Topi Hyrkäs - Progman Oy
+  email: topi.hyrkas@progman.fi
+  ip: 194.100.31.37
+  url: ''
+  date: '2010-06-22 07:38:07'
+  body: 'Thanks for quick reply,
+
+
+    I also came up with number 2^14 when though about it yesterday, which is quite
+    strange. I submitted ADN case about this issue, you can find it under Progman
+    cases.
+
+
+    Cheers, Topi'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-25 05:15:21'
+  body: 'Dear Topi,
+
+
+    Thank you very much indeed for submitting the ADN case and pointing out this issue,
+    which we have now rectified.
+
+
+    Cheers, Jeremy.'
+- author: Abidah
+  email: abidrahmat@hotmail.com
+  ip: 58.26.82.158
+  url: ''
+  date: '2010-09-23 05:24:39'
+  body: 'Hi Jeremy,
+
+
+    I knew that we can export data from project element using RDBLink. The problem
+    is we want to keep all data from different project in one database. Is it any
+    other way to do that? Do I need to create API to do that?
+
+
+    Thank a lot.
+
+    Abidah'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-09-24 05:44:40'
+  body: 'Dear Abidah,
+
+
+    I would not suggest that you create an API, just use the existing one that we
+    provide  :-)
+
+
+    Yes, you can reproduce the RDBLink functionality using the Revit API, and in that
+    case you have full control over how the data gets exported, of course.
+
+
+    Cheers, Jeremy.'
+- author: Abidah
+  email: abidrahmat@hotmail.com
+  ip: 58.26.82.158
+  url: ''
+  date: '2010-09-27 06:43:49'
+  body: 'Thanks Jeremy.
+
+
+    Regarding to export data from element to database, why "Export>>ODBC Database"
+    and "Revit DB Link" gave a different result?
+
+    When using "Export>>ODBC Database", i got 183 tables. Using "Revit DB Link", i
+    got 234 tables.
+
+
+    Thanks,
+
+    Abidah'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-09-27 08:07:32'
+  body: 'Dear Abidah,
+
+
+    As ar as I know, these two applications have nothing whatsoever to do with each
+    other, so they represent the contents of the Revit model in completely different
+    individual ways.
+
+
+    Cheers, Jeremy.'
+- author: JonM
+  email: jonm@geometrygym.com
+  ip: 41.132.11.23
+  url: http://geometrygym.blogspot.com
+  date: '2012-03-14 16:15:56'
+  body: 'Hi Jeremy,
+
+
+    Thanks for all your great posts, this is a fantastic resource.
+
+
+    I''d appreciate some advice though, how could I filter all elements that have
+    been generated from an IFC Import.  The built in paramater IfcGuid will be set
+    to a value.  I''ve tried with a filter and rule like this with no luck.
+
+    FilterRule fr = new SharedParameterApplicableRule("IfcGUID");
+
+    ElementParameterFilter filter = new ElementParameterFilter(fr);
+
+
+    Any help appreciated.  Thanks in advance,
+
+    Jon'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-04-05 12:20:29'
+  body: "Dear Jon,\n\nThank you for your appreciation, it is a pleasure!\n\nI am sure\
+    \ there is a way. I explored the use of parameter filters a bit more at the Melbourne\
+    \ API training:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2012/03/melbourne-day-one.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2012/03/melbourne-day-one.html</a>\n\
+    \nI think you can filter for anything you can access through RevitLookup. \n\n\
+    If you see the data identifying the IFC imported elements there, then you can\
+    \ filter for it. \n\nAny further luck so far?\n\nCheers, Jeremy.\n-----"

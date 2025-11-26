@@ -1,0 +1,127 @@
+comments:
+- author: Wei Wu
+  email: ''
+  ip: 128.227.7.93
+  url: http://profile.typepad.com/6p0120a5eab6ee970c
+  date: '2009-09-24 00:58:18'
+  body: "Hi Jeremy,\nI just ran into your blog and found lots of inspiring materials\
+    \ as a Revit API beginner. So thanks a lot!\nA quick question is about the capacity\
+    \ of integration of external pdf documents in Revit. \nFor instance, if I wanna\
+    \ extract the cost of all wood materials in the model into a predefined pdf form,\
+    \ what is the best way to handle it? I understand through quantities/schedules,\
+    \ we can export such information to excel,or as xml, but what if I don't want\
+    \ to go through the \"export\" part, but instead I would like to create a plug-in,\
+    \ such as a menu that hosts couple of pdf forms that require the input of material\
+    \ cost in a certain format?\nI hope I have made my question clear enough, and\
+    \ will really appreciate if you could shed some light on it.\nThanks in advance!\n\
+    Wei"
+- author: Jeremy Tammik
+  email: ''
+  ip: ''
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-09-24 01:25:53'
+  body: 'Dear Wei,
+
+
+    Great, I am very glad you like it. Nope, I do not understand you question, because
+    I do not know exactly what you mean by "Integration of PDF documents in Revit"
+    and "a menu that hosts couple of pdf forms". You can definitely create a plug-in
+    that traverses the BIM and extracts quantities. What you do with the data you
+    accumulated, such as formatting it into PDF, is entirely up to you.
+
+
+    Cheers, Jeremy.'
+- author: Wei Wu
+  email: ''
+  ip: 128.227.7.93
+  url: http://profile.typepad.com/6p0120a5eab6ee970c
+  date: '2009-09-24 02:25:45'
+  body: 'Hi Jeremy,
+
+    I really appreciate your prompt reply. I knew that my question was a little confusing:)
+
+
+    OK, let me try it again. I created a model, and it had some wood materials that
+    cost $50000. And I tagged part of them as FSC certified wood, say $10000. Then
+    I made a material take-off that summarized these wood materials and sorted it
+    into two groups: FSC certified and Non-FSC certified. My question comes at the
+    next step: I need to fill in a pdf submittal form with the same information I
+    already have in the material take-off, which is repetitive and inefficient. So
+    any chance that I can skip this step by generating the material take-off "directly"
+    using my own pdf form if the pdf form is already embedded in Revit(That''s what
+    I mean integrate pdf with Revit)? If yes, which part of Revit API covers information
+    like this? Do I need the pdf API (if it exists!) as well?
+
+
+    I assume this "data extraction" is different from "save" or "export" the "material
+    take-off" as pdf format since the pdf form I am using is a submittal form created
+    by Adobe LifeCycle Designer ES.
+
+
+    Does this question make any sense? Or should I simply give up this idea?
+
+
+    Thanks!
+
+    Wei'
+- author: Jeremy Tammik
+  email: ''
+  ip: ''
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-09-24 02:42:37'
+  body: 'Dear Wei,
+
+
+    Your question is probably not confusing at all, for someone who knows the workflow
+    and user interface better than I do, and the detailed explanation makes perfect
+    sense to me.
+
+
+    There are libraries available for generating PDF files directly, but they obviously
+    have nothing to do with the Revit API.
+
+
+    As far as I can tell, from an API point of view, your question is basically whether
+    you have access to the material take-off data you need.
+
+
+    If you do have access to the required data, then you could create your own PDF
+    file from it. This process would be completely separate from the current one,
+    and entirely your own responsibility.
+
+
+    Whether you can access this data I do not know. I suggest you explore a suitable
+    sample model using RvtMgdDbg and the other tools discussed in posts on exploring
+    the Revit database and element parameters to find out.
+
+
+    Cheers, Jeremy.'
+- author: Wei Wu
+  email: ''
+  ip: 128.227.13.114
+  url: http://profile.typepad.com/6p0120a5eab6ee970c
+  date: '2009-09-24 15:48:39'
+  body: 'Hi Jeremy,
+
+    You are absolutely right. The ability to manipulate these data is key to my question.
+    I''ve started looking into RvtMgdDbg, and hopefully could get something out of
+    it.
+
+    Thanks for all your advice so far!
+
+    Wei'
+- author: Jeremy Tammik
+  email: ''
+  ip: ''
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-09-24 16:41:36'
+  body: 'Dear Wei,
+
+
+    Good luck getting at the data you need, and I look forward to hearing what progress
+    you can make on accessing everything required to generate the PDF.
+
+
+    Cheers, Jeremy.
+
+    -----'

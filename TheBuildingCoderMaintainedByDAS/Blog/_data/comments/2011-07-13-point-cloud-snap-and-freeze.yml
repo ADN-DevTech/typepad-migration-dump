@@ -1,0 +1,54 @@
+comments:
+- author: Revit Newbie
+  email: richard.shealy@gmail.com
+  ip: 64.244.14.194
+  url: ''
+  date: '2011-07-13 15:23:25'
+  body: "I have a question I hope you can help me with, not sure where else to post.\n\
+    \nThis is the old way I returned a list for elements in the active view.\n\n Dim\
+    \ parameterId As ElementId = GetSharedParameterId(category, sharedParameterGuid,\
+    \ isInstanceParameter)\n            Dim pvp As ParameterValueProvider = New ParameterValueProvider(parameterId)\n\
+    \            Dim evaluator As New FilterStringEquals\n            Dim rule As\
+    \ New FilterStringRule(pvp, evaluator, sharedParameterValue, False)\n        \
+    \    Dim filter As ElementParameterFilter = New ElementParameterFilter(rule)\n\
+    \n                       ' fetch a filtered list\n            Dim collector As\
+    \ New FilteredElementCollector(_uiApp.ActiveUIDocument.Document)\n           \
+    \ Dim list As List(Of Element) = collector.OfClass(type).OfCategory(category).WherePasses(filter).ToElements\n\
+    \            Return (List)\n\n\nHowever in 2012 this gives me all elements from\
+    \ all options.  How can I filter down to the active option?\n\nThanks, and sorry\
+    \ if i posted in the wrong area"
+- author: Harald Schmidt
+  email: harald.schmidt@kubit.de
+  ip: 146.52.255.239
+  url: http://us.kubit-software.com/
+  date: '2014-10-30 10:19:38'
+  body: "Hi Jeremy,\nI'm picking point cloud points with the (PickPoint) method you\
+    \ described above and it works fine.\nI recognized that navigation within the\
+    \ point cloud ( zoom, pan, orbit ) slows down if \"Pick to Remote Objects\" or\
+    \ \"Pick to Point Clouds\" is active and the command ( Selection.PickPoint() )\
+    \ was started. Navigation while the command ( Selection.PickPoint() ) is running\
+    \ becomes even impossible if both snaps are active.\nSo I tried to use \npublic\
+    \ XYZ PickPoint( ObjectSnapTypes snapSettings, string statusPrompt )\ninstead\
+    \ with ObjectsSnapTypes.None to disable snaps for this prompt.\nIf I'm doing so\
+    \ the cursor doesn't snap to objects at all but navigation is still slow. If I\
+    \ disable the \"Pick to Remote Objects\" option within Snaps-Dialog before everythink\
+    \ is fine and navigation is fast. So it seems to me that ObjectsSnapTypes.None\
+    \ overrides \"Snap to Point cloud\" but not the \"Snap to Remote Object\".\nUIApplication.PostCommand()\
+    \ isn't a options, cause it is possible to launch the Snaps-Dialog with PostableCommand.Snaps\
+    \ but it's not possible to Post \"ID_SNAP_OVERRIDE_NO_SNAP\" cause it isn't an\
+    \ Postable command.\nDo you see any other possiblily to disable the snaps completely?\n\
+    Thanks and Greetings\nHarald"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.187.74
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-10-31 02:36:24'
+  body: 'Dear Harald,
+
+
+    I am discussing the issue with the development team. Please hold on.
+
+
+    Cheers, Jeremy.
+
+    -----'

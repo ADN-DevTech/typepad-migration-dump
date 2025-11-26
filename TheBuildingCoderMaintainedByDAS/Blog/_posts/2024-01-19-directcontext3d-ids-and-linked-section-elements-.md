@@ -1,0 +1,196 @@
+---
+layout: "post"
+title: "DirectContext3D, Ids and Linked Section Elements "
+date: "2024-01-19 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Element Relationships"
+  - "Geometry"
+  - "User Interface"
+  - "View"
+original_url: "https://thebuildingcoder.typepad.com/blog/2024/01/directcontext3d-ids-and-linked-section-elements-.html "
+typepad_basename: "directcontext3d-ids-and-linked-section-elements-"
+typepad_status: "Publish"
+---
+
+<p>Here are some of the topics that came up this week:</p>
+
+<ul>
+<li><a href="#2">Revit element id compilation</a></li>
+<li><a href="#3">Unique cross-document reference</a></li>
+<li><a href="#4">AU class on <code>DirectContext3D</code></a></li>
+<li><a href="#5">Determining elements present in section view</a></li>
+</ul>
+
+<h4><a name="2"></a> Revit Element Id Compilation</h4>
+
+<p>Michael Pescht shared a nice overview of the different Revit BIM element identifiers in
+his <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/revit-ids/td-p/12418195">Revit IDs</a>:</p>
+
+<p><strong>Post:</strong>
+There are several explanations available for the IDs used in Revit.
+Unfortunately, I have not found a complete definition of all IDs in a single document / post.
+Therefore, I would like to have my compilation checked here in the forum.
+Thanks in advance.</p>
+
+<ul>
+<li>Element Id, or just "Id":
+the unique identification for an element within a single project.
+Example decimal: 895976; example hexadecimal: 000dabe8</li>
+<li>EpisodeId:
+the first part of the <code>UniqueId</code>, including the characters of the sequence 8-4-4-4-12, referring to the project and the session, e.g.,
+626f5187-9a17-4713-98b7-532ca3cc31b1</li>
+<li>UniqueId:
+a stable unique identifier for an element, globally unique across all documents, returned by the API as a string, e.g.,
+"626f5187-9a17-4713-98b7-532ca3cc31b1-000dabe8".
+It is a hexadecimal sequence of 8-4-4-4-12-8 characters, consisting of two parts:
+EpisodeId (8-4-4-4-12) + Hexadecimal(Element Id) (8)</li>
+<li>DWF GUID (Export GUID):
+a hexadecimal version of the IfcGuid
+Hex(IfcGuid) = DWF GUID
+Example: 626f5187-9a17-4713-98b7-532ca3c19a59</li>
+<li>IfcGuid:
+a 22-character code (string) using the 64-character base which includes numbers, upper and lower case letters and some special characters. Although it looks completely different from other GUIDs, the IFC GUID is completely identical to the DWF GUID, but is expressed with a different encoding to make it shorter and easier to understand.
+Compressed version of the DWF GUID.
+Hex(IfcGuid) = DWF GUID.
+Example: compress(626f5187-9a17-4713-98b7-532ca3c19a59)</li>
+<li>ExternalId:
+The external ID of a geometry object.
+Example: 626f5187-9a17-4713-98b7-532ca3c19a59-000dabe8;
+ExternalId = DwfGUID + "-" + Hex(ElementId)</li>
+</ul>
+
+<p>Many thanks to Michael for his compilation.
+Here is a list of existing information on element ids and unique ids from The Building Coder:</p>
+
+<ul>
+<li>Element Id
+<ul>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2010/04/retrieving-newly-created-elements-in-revit-2011.html">Retrieving Newly Created Elements in Revit 2011</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2011/02/comparing-element-id-for-equality.html">Comparing Element Id for Equality</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/05/dwg-issues-and-various-other-updates.html">DWG Issues and Various Other Updates</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2014/04/element-id-export-unique-navisworks-and-other-ids.html">Element Id &ndash; Export, Unique, Navisworks and Other Ids</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2014/07/createlinkreference-sample-code.html">CreateLinkReference Sample Code</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2015/09/family-category-element-ids-transaction-undo-and-updates.html">Family Category, Element Ids, Transaction Undo and Updates</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2016/01/devday-conference-in-munich-and-wpf-doevents.html">DevDay Conference in Munich and WPF DoEvents</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/08/revit-versus-forge-ids-and-add-in-installation.html">Revit versus Forge, Ids and Add-In Installation</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2018/02/retrieving-newly-created-element-ids.html">Retrieving Newly Created Element Ids</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2018/03/revitlookup-search-and-snoop-by-element-and-unique-id.html">RevitLookup Search by Element and Unique Id</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2019/07/element-identifiers-in-rvt-ifc-nw-and-forge.html">Element Identifiers in RVT, IFC, NW and Forge</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2022/07/immutable-uniqueid-and-revit-database-explorer.html">Immutable UniqueId and Revit Database Explorer</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2022/11/64-bit-element-ids-maybe.html">64-Bit Element Ids, Maybe?</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2023/04/configuring-rvtsamples-2024.html">Configuring RvtSamples 2024 and Big Numbers</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2023/05/64-bit-ids-revit-and-revitlookup-updates.html">64 Bit Ids, Revit and RevitLookup Updates</a></li>
+</ul></li>
+<li>UniqueId
+<ul>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2009/02/uniqueid-dwf-and-ifc-guid.html">UniqueId, DWF and IFC GUID</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2012/03/melbourne-day-two.html">Melbourne Day Two</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2012/06/real-world-concrete-corner-coordinates.html">Real-World Concrete Corner Coordinates</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2012/09/ifc-guid-generation-and-uniqueness.html">IFC GUID Generation and Uniqueness</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/05/copy-and-paste-api-applications-and-modeless-assertion.html">Copy and Paste API Applications and Modeless Assertion</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2014/04/element-id-export-unique-navisworks-and-other-ids.html">Element Id &ndash; Export, Unique, Navisworks and Other Ids</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2014/09/unique-names-and-the-namingutils-class.html">Unique Names and the NamingUtils Class</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2015/02/understanding-the-use-of-the-uniqueid.html">Understanding the Use of the UniqueId</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2015/04/back-from-easter-holidays-and-various-revit-api-issues.html">Back from Easter Holidays and Various Revit API Issues</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2016/08/consistency-of-ifc-guid-and-uniqueid.html">Consistency of IFC GUID and UniqueId</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/08/revit-versus-forge-ids-and-add-in-installation.html">Revit versus Forge, Ids and Add-In Installation</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2018/03/revitlookup-search-and-snoop-by-element-and-unique-id.html">RevitLookup Search by Element and Unique Id</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2022/04/unique-id-and-ifc-guid.html">Unique Id and IFC GUID Parameter</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2022/07/immutable-uniqueid-and-revit-database-explorer.html">Immutable UniqueId and Revit Database Explorer</a></li>
+</ul></li>
+</ul>
+
+<h4><a name="3"></a> Unique Cross-Document Reference</h4>
+
+<p>In a related vein, <em>grubdex</em> and <em>ricaun</em> pondered:
+<a href="https://forums.autodesk.com/t5/revit-api-forum/are-references-unique-across-documents/td-p/12381420">are references unique across documents?</a></p>
+
+<p><strong>Question:</strong> Are <code>Reference</code> objects unique across documents in my project?
+I know that UniqueIDs are and IDs are not.</p>
+
+<p><strong>Answer:</strong> Probably yes; the <code>Reference</code> has the <code>UniqueId</code> embedded in the stable representation.
+Using a <code>UniqueId</code> of the element with <code>Reference.ParseFromStableRepresentation</code> will return the <code>Reference</code> of the element:</p>
+
+<pre><code>
+  Reference reference
+    = Reference.ParseFromStableRepresentation(
+      document, element.UniqueId);
+</code></pre>
+
+<p>Thank you both for this.</p>
+
+<h4><a name="4"></a> AU Class on DirectContext3D</h4>
+
+<p>Here is a go-to source of information for <code>DirectContext3D</code> that you should be aware of when dealing with this topic,
+an Autodesk University 2023 class by Alex Pytel:</p>
+
+<ul>
+<li><a href="https://www.autodesk.com/autodesk-university/class/DirectContext3D-API-Displaying-External-Graphics-Revit-2017#video">DirectContext3D: API for Displaying External Graphics in Revit</a></li>
+</ul>
+
+<h4><a name="5"></a> Determining Elements Present in Section View</h4>
+
+<p>Faced with the task of determining which elements are present in a given section view, Wallas Santana and I stumbled across a novel solution using tagging in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread on
+how to <a href="https://forums.autodesk.com/t5/revit-api-forum/determine-linked-elements-present-in-a-section/td-p/12488150">determine linked elements present in a section</a>:</p>
+
+<p><strong>Question:</strong> I have a section with some project elements and a linked file loaded with some other elements in a section view, as shown here:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c8d3a9045b200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302c8d3a9045b200d image-full img-responsive" alt="Linked elements in section view" title="Linked elements in section view"  src="/assets/image_cf9318.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>I need to check which elements of the linked file are present in this section, but I'm having difficulties.
+I tried to check whether the elements are inside the view's BoundingBox, but without success.
+Then, I tried to apply another solution
+to <a href="https://forums.autodesk.com/t5/revit-api-forum/check-to-see-if-a-point-is-inside-bounding-box/td-p/4354446">check if a point is inside bounding box</a>.</p>
+
+<p>However, it seems that the position returned in BoundingBox is outside of view.</p>
+
+<p>I use this solution to apply tags to linked elements without any problems:</p>
+
+<pre><code>
+Reference refe = new Reference(itemconex)
+  .CreateLinkReference(docsVinculados);
+
+IndependentTag tagConexao = IndependentTag.Create(
+  Doc.Document, TagConexSelecionada.Id, Doc.ActiveView.Id,
+  refe, true, TagOrientation.Horizontal, PosicaoFinal);
+</code></pre>
+
+<p><strong>Answer:</strong> The biggest challenge is probably the transformation.
+One possible approach would be to read and understand in depth all the transformations involved.
+Another possible approach, in case your tendency is stronger to hack and do rather than study and ponder, might be: create a very simple linked file with just an element or two, e.g., model lines.
+Host it.
+Analyse the resulting geometry in the host file.
+Reproduce the model lines in the host file until their appearance matches the original ones in the linked file.
+Basically, you just need to determine where a given bounding box in the linked file will end up on the host, don't you?</p>
+
+<p>Since you mention that you can successfully and automatically create tags for the linked elements, another idea comes to mind: before creating the tags, subscribe to the <code>DocumentChanged</code> method to be notified of the added elements.
+Then, you can query the tags for their locations.
+That will presumably approximate the host project locations of the linked elements.</p>
+
+<p><strong>Response:</strong> Hi Jeremy, thank you for your reply, you opened my mind to a possible solution!
+I just add a new <code>IndependentTag</code> then check if it's <code>BoundingBox</code> is valid:</p>
+
+<pre><code>
+IndependentTag tagConexao = IndependentTag.Create(
+  Config.doc, Config.doc.ActiveView.Id, refe, true,
+  TagMode.TM_ADDBY_CATEGORY, TagOrientation.Horizontal,
+  PosicaoFinal);
+
+if (null != tagConexao.get_BoundingBox(Config.doc.ActiveView))
+{
+  // The element is in the view
+}
+</code></pre>
+
+<p>Then, I collect the id's I need and RollBack the transaction in the final, it's working.
+Btw I'll study how transformations works when I have linked elements in some view.
+Thank you.</p>
+
+<p>Thank you, Wallas, for raising this issue and confirming.</p>

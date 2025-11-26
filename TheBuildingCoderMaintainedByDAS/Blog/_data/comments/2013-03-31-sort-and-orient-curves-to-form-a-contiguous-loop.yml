@@ -1,0 +1,133 @@
+comments:
+- author: Rudolf Honke
+  email: rudolf.honke@acadgraph.de
+  ip: 193.158.119.50
+  url: http://www.acadgaraph.de
+  date: '2013-04-02 03:00:36'
+  body: 'Hi Jeremy,
+
+
+    you may have a look at ExporterUtils.ValidateCurveLoops method. RevitApi.chm says:
+
+
+    "Does validity checks on a list of curve loops to ensure that they are all co-planar,
+    closed, and properly oriented."
+
+
+    I have never tested this method, but perhaps it prevents you from inventing the
+    wheel another time...
+
+
+
+    Best regards,
+
+    Rudolf'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.185.88
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-04-02 09:54:58'
+  body: 'Dear Rudolf,
+
+
+    That is a very valid hint indeed. Thank you!
+
+
+    I will have a look. There is more in the box than you sometimes think...
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-04-03 17:46:25'
+  body: 'Dear Rudolf,
+
+
+    I tested the use of the ExporterIFCUtils ValidateCurveLoops method:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/04/extrusion-analyser-and-plan-view-boundaries.html#4">http://thebuildingcoder.typepad.com/blog/2013/04/extrusion-analyser-and-plan-view-boundaries.html#4</a>
+
+
+    Unfortunately, no luck. Thank you for the suggestion anyway!
+
+
+    Cheers, Jeremy.'
+- author: m.vallee
+  email: m.vallee@bouygues-construction.com
+  ip: 79.174.225.131
+  url: ''
+  date: '2013-10-30 06:03:46'
+  body: "Hi Jeremy,\n\nYour code here is very nice so I try to use it for one of my\
+    \ plugins.\nHowever it seems that CurveLoop.Create(...) fails (\"not contiguous\
+    \ curves\" error) even if the distance between two successive points is lower\
+    \ than _sixteenth (1.0 / 12.0 / 16.0). After some tests the \"limit\" seems to\
+    \ be around 0.001. So when the calculated distance between two points is between\
+    \ 0.001 and _sixteenth, I calculate the midpoint and change the two curves that\
+    \ have to \"connect\" with each other. This is now my version of SortCurvesContiguous\
+    \ :\n\npublic static void SortCurvesContiguous(IList<Curve> curves)\n        {\n\
+    \            double _precision1 = 1.0 / 12.0 / 16.0; // around 0.00520833\n  \
+    \          double _precision2 = 0.001; // limit for CurveLoop.Create(...)\n\n\
+    \            int n = curves.Count;\n\n            // Walk through each curve (after\
+    \ the first) \n            // to match up the curves in order\n\n            for\
+    \ (int i = 0; i < n; ++i)\n            {\n                Curve curve = curves[i];\n\
+    \n                XYZ beginPoint = curve.GetEndPoint(0);\n                XYZ\
+    \ endPoint = curve.GetEndPoint(1);\n\n                XYZ p,q;\n\n           \
+    \     // Find curve with start point = end point\n\n                bool found\
+    \ = (i + 1 >= n);\n\n                for (int j = i + 1; j < n; ++j)\n       \
+    \         {\n                    p = curves[j].GetEndPoint(0);\n             \
+    \       q = curves[j].GetEndPoint(1);\n                    \n                \
+    \    // If there is a match end->start, \n                    // this is the next\
+    \ curve\n                    if (p.DistanceTo(endPoint) < _precision1)\n     \
+    \               {\n                        if (p.DistanceTo(endPoint) > _precision2)\
+    \ \n                        {\n                            XYZ intermediate =\
+    \ new XYZ((endPoint.X + p.X) / 2.0, (endPoint.Y + p.Y) / 2.0, (endPoint.Z + p.Z)\
+    \ / 2.0);\n\n                            curves[i] = Line.CreateBound(beginPoint,\
+    \ intermediate);\n                            \n                            curves[j]\
+    \ = Line.CreateBound(intermediate, q);\n                        }\n\n        \
+    \                if (i + 1 != j)\n                        {\n                \
+    \            Curve tmp = curves[i + 1];\n                            curves[i\
+    \ + 1] = curves[j];\n                            curves[j] = tmp;\n          \
+    \              }\n                        found = true;\n                    \
+    \    break;\n                    }\n\n                    // If there is a match\
+    \ end->end, \n                    // reverse the next curve\n\n              \
+    \      if (q.DistanceTo(endPoint) < _precision1)\n                    {\n    \
+    \                    if (q.DistanceTo(endPoint) > _precision2) \n            \
+    \            {\n                            XYZ intermediate = new XYZ((endPoint.X\
+    \ + q.X) / 2.0, (endPoint.Y + q.Y) / 2.0, (endPoint.Z + q.Z) / 2.0);\n\n     \
+    \                       curves[i] = Line.CreateBound(beginPoint, intermediate);\n\
+    \                                                       \n                   \
+    \         curves[j] = Line.CreateBound(p, intermediate);\n                   \
+    \     }\n\n                        if (i + 1 == j)\n                        {\n\
+    \                            curves[i + 1] = CreateReversedCurve(curves[j]);\n\
+    \                        }\n                        else\n                   \
+    \     {\n                            Curve tmp = curves[i + 1];\n            \
+    \                curves[i + 1] = CreateReversedCurve(curves[j]);\n           \
+    \                 curves[j] = tmp;\n                        }\n              \
+    \          found = true;\n                        break;\n                   \
+    \ }\n                }\n\n                if (!found)\n                {\n   \
+    \                 throw new Exception(\"SortCurvesContiguous :\" + \" non-contiguous\
+    \ input curves\");\n                }\n            }\n        }\n\nWhat do you\
+    \ think about that ? \n\nRegards.\n\nMaxime"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.200.163
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-11-04 07:57:16'
+  body: 'Dear Maxime,
+
+
+    Thank you for that information and idea.
+
+
+    It sounds like a very good solution to me.
+
+
+    Can you provide a sample demonstrating when, where and why this might become necessary?
+
+
+    Cheers, Jeremy.
+
+    -----'

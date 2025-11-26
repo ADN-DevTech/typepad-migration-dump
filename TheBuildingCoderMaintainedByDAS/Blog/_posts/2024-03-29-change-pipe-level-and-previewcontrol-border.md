@@ -1,0 +1,365 @@
+---
+layout: "post"
+title: "Change Pipe Level and PreviewControl Border"
+date: "2024-03-29 06:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "Element Relationships"
+  - "RME"
+  - "User Interface"
+  - "WPF"
+original_url: "https://thebuildingcoder.typepad.com/blog/2024/03/change-pipe-level-and-previewcontrol-border.html "
+typepad_basename: "change-pipe-level-and-previewcontrol-border"
+typepad_status: "Publish"
+---
+
+<p><link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet" /></p>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+<p><style> code[class*=language-], pre[class*=language-] { font-size : 90%; } </style></p>
+
+<p>Picking up two illuminating conversations from
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a>:</p>
+
+<ul>
+<li><a href="#2">Spying to suppress the <code>PreviewControl</code> border</a></li>
+<li><a href="#3">Changing the level of piping elements</a></li>
+</ul>
+
+<h4><a name="2"></a> Spying to Suppress the PreviewControl Border</h4>
+
+<p>Roman <a href="https://t.me/nice3point">@Nice3point</a> Karpovich, aka Роман Карпович,
+raised and solved the question of how to suppress the unwanted
+<a href="https://forums.autodesk.com/t5/revit-api-forum/previewcontrol-border/td-p/12570113">PreviewControl border</a>:</p>
+
+<p><strong>Question:</strong>
+Is it possible to disable the PreviewControl border ? This border comes from the Win32 window. Setting User32.WindowStyles by Hwnd handle does not give any results. Except WS_CHILD and similar, no other styles are applied. Is this border added by Revit development team or is it a HwndHost issue ?</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c8d3aececd200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302c8d3aececd200b img-responsive" style="width: 300px; display: block; margin-left: auto; margin-right: auto;" alt="PreviewControl border" title="PreviewControl border" src="/assets/image_f2fe11.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p><strong>Answer:</strong>
+The only way I could do it when I used it, was to set the Grid margin to -4, but this only works if the grid is set entirely to the window.</p>
+
+<p><strong>Response:</strong>
+That is not a solution; the negative margin just covers other content.</p>
+
+<p><strong>Answer:</strong>
+I don't like the negative margin either, but it was the only way to hide the border. And for it to work, the container (Grid) must cover the entire window.</p>
+
+<p><strong>Answer B:</strong>
+You can use Spy++ to determine the window structure and use WinAPI to remove the borders and some WPF magic to trigger the repaint.
+It took me hours of experimenting, but it is doable.
+If I recall correctly, there are multiple levels of controls and you have to figure out which ones carry the borders.</p>
+
+<p>I am off for a while and have no access to the code, but don’t feel discouraged if it doesn’t work the first time.
+It was really painful to solve this and I wish Autodesk would just remove the borders in an upcoming release.
+It is hard to make software look good if the underlying API takes you back to the nineties ;-).</p>
+
+<p>I can post some code for you to fill the gaps.
+The important snippet (to be called after <code>previewControl.Loaded</code> AND <code>previewControl.IsVisibleChanged</code>) is the following:</p>
+
+<pre><code class="language-csharp">// get preview window host
+var previewWndHost = previewControl.Content;
+if (previewWndHost is null)
+  return;
+
+// get preview view handle
+var previewHwnd = (IntPtr)previewWndHost.GetType().GetProperty("Handle").GetValue(previewWndHost, null);
+if (previewHwnd == IntPtr.Zero)
+  return;
+
+// remove WS_EX_CLIENTEDGE on all child windows
+foreach (var hwnd in HwndHelpers.GetAllChildHandles(previewHwnd).Append(previewHwnd))
+{
+  var style = User32.GetWindowLong(hwnd, Constants.GWL_EXSTYLE).ToInt32() & ~(int)Constants.WS_EX_CLIENTEDGE;
+  User32.SetWindowLong(hwnd, Constants.GWL_EXSTYLE, style);
+}
+
+// trigger redraw by adding or removing a slight padding at the bottom
+// the original padding is stored in the tag, so try to avoid using the
+// tag property for anything else if you want this to work.
+var p = previewControl.Padding;
+if (previewControl.Tag is null)
+  previewControl.Tag = p;
+if (previewControl.Tag is System.Windows.Thickness t)
+{
+  p.Bottom = p.Bottom == t.Bottom ? p.Bottom + 1 : t.Bottom;
+  previewControl.Padding = p;
+}
+</code></pre>
+
+<p>The <code>IsVisibleChanged</code> handler is required for use in tab controls, since Revit seems to re-create the view in case of visibility changes.
+I misused the tag to save the previous state and avoid shrinking/growing of the control due to the padding-changes at "reentry".
+If you find a better solution to trigger the redraw, please let me know.
+This part is pretty hacky, but I had to move on at some point and got stuck with whatever did the job.</p>
+
+<p>I also use some WinAPI functions which can be easily imported (google, pinvoke).
+The HwndHelpers function is just syntactic sugar around EnumChildWindows.</p>
+
+<pre><code class="language-csharp">public static IList&lt;IntPtr&gt; GetAllChildHandles(IntPtr hwnd)
+{
+  var childHandles = new List&lt;IntPtr&gt;();
+  var gcChildHandles = GCHandle.Alloc(childHandles);
+
+  try
+  {
+    bool EnumWindow(IntPtr hWnd, IntPtr lParam)
+    {
+      (GCHandle.FromIntPtr(lParam).Target as List&lt;IntPtr&gt;)?.Add(hWnd);
+      return true;
+    }
+
+    var childProc = new User32.EnumWindowsProc(EnumWindow);
+    User32.EnumChildWindows(hwnd, childProc, GCHandle.ToIntPtr(gcChildHandles));
+  }
+  finally
+  {
+    gcChildHandles.Free();
+  }
+  return childHandles;
+}
+</code></pre>
+
+<p><strong>Response:</strong>
+Amazing.
+I completely forgot about the Child when writing similar code.
+Now all borders are gone.
+In addition, I have solved the redrawing problem, for which you used Padding (it was not working correctly).</p>
+
+<p>Before:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c8d3aafec0200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302c8d3aafec0200c img-responsive" style="width: 200px; display: block; margin-left: auto; margin-right: auto;" alt="PreviewControl border" title="PreviewControl border" src="/assets/image_9edfc5.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>After:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c8d3aafec5200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302c8d3aafec5200c img-responsive" style="width: 200px; display: block; margin-left: auto; margin-right: auto;" alt="PreviewControl border suppressed" title="PreviewControl border suppressed" src="/assets/image_d4bb6b.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Solution:</p>
+
+<pre><code class="language-csharp">public void Initialize()
+{
+  var previewControl = new PreviewControl(_context, view.Id);
+  previewControl.Loaded += RemovePreviewControlStyles;
+}
+
+private void RemovePreviewControlStyles(object sender, EventArgs args)
+{
+  var control = (PreviewControl)sender;
+  var previewHost = (FrameworkElement)control.Content;
+  var previewType = previewHost.GetType();
+  var hostField = previewType.GetField("m_hwndHost", BindingFlags.NonPublic | BindingFlags.DeclaredOnly | BindingFlags.Instance)!;
+  var handle = (IntPtr)hostField.GetValue(previewHost);
+
+  var childHandles = UnsafeNativeMethods.GetChildHandles(handle);
+
+  UnsafeNativeMethods.RemoveWindowStyles(handle);
+  UnsafeNativeMethods.RemoveWindowCaption(handle);
+  foreach (var childHandle in childHandles)
+  {
+    UnsafeNativeMethods.RemoveWindowStyles(childHandle);
+  }
+}
+</code></pre>
+
+<p>UnsafeNativeMethods:</p>
+
+<pre><code class="language-csharp">/// &lt;summary&gt;
+/// Tries to remove styles from selected window handle.
+/// &lt;/summary&gt;
+/// &lt;param name="handle"&gt;Window handle.&lt;/param&gt;
+/// &lt;returns&gt;&lt;see langword="true"/&gt; if invocation of native Windows function succeeds.&lt;/returns&gt;
+public static bool RemoveWindowStyles(IntPtr handle)
+{
+  if (handle == IntPtr.Zero)
+  {
+    return false;
+  }
+
+  if (!User32.IsWindow(handle))
+  {
+    return false;
+  }
+
+  var cornerResult = ApplyWindowCornerPreference(handle, WindowCornerPreference.DoNotRound);
+  if (!cornerResult) return false;
+
+  var windowStyleLong = User32.GetWindowLong(handle, User32.GWL.GWL_EXSTYLE);
+  windowStyleLong &= ~(int)User32.WS_EX.CLIENTEDGE;
+
+  var styleResult = SetWindowLong(handle, User32.GWL.GWL_EXSTYLE, windowStyleLong);
+  return styleResult.ToInt64() &gt; 0x0;
+}
+
+/// &lt;summary&gt;
+///   Get the child windows that belong to the specified parent window by passing the handle to each child window.
+/// &lt;/summary&gt;
+/// &lt;param name="hwnd"&gt;Window handle.&lt;/param&gt;
+public static IList&lt;IntPtr&gt; GetChildHandles(IntPtr hwnd)
+{
+  var handles = new List&lt;IntPtr&gt;();
+  var gcHandles = GCHandle.Alloc(handles);
+
+  try
+  {
+    var callbackPointer = new User32.EnumWindowsProc(EnumWindowCallback);
+    User32.EnumChildWindows(hwnd, callbackPointer, GCHandle.ToIntPtr(gcHandles));
+  }
+  finally
+  {
+    gcHandles.Free();
+  }
+  return handles;
+}
+
+private static bool EnumWindowCallback(IntPtr hwnd, IntPtr lParam)
+{
+  var target = GCHandle.FromIntPtr(lParam).Target as List&lt;IntPtr&gt;;
+  if (target is null) return false;
+
+  target.Add(hwnd);
+  return true;
+}
+</code></pre>
+
+<p>User32:</p>
+
+<pre><code class="language-csharp">/// &lt;summary&gt;
+/// An application-defined callback function used with the EnumChildWindows function.
+/// It receives the child window handles. The WNDENUMPROC type defines a pointer to
+/// this callback function. EnumChildProc is a placeholder for the application-defined
+/// function name.
+/// &lt;/summary&gt;
+public delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+
+/// &lt;summary&gt;
+/// Enumerates the child windows that belong to the specified parent window by
+/// passing the handle to each child window, in turn, to an application-defined
+/// callback function. EnumChildWindows continues until the last child window
+/// is enumerated or the callback function returns FALSE.
+/// &lt;/summary&gt;
+/// &lt;param name="hwnd"&gt;The window that you want to get information about.&lt;/param&gt;
+/// &lt;param name="func"&gt;A pointer to an application-defined callback function&lt;/param&gt;
+/// &lt;param name="lParam"&gt;An application-defined value to be passed to the callback function.&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+[DllImport(Libraries.User32)]
+public static extern bool EnumChildWindows(IntPtr hwnd, EnumWindowsProc func, IntPtr lParam);
+</code></pre>
+
+<p>I've also disabled edge rounding for Windows 11.
+The methods used can be found in the WPF UI repository:</p>
+
+<ul>
+<li><a href="https://github.com/lepoco/wpfui/blob/development/src/Wpf.Ui/Interop/User32.cs">User32</a></li>
+<li><a href="https://github.com/lepoco/wpfui/blob/development/src/Wpf.Ui/Interop/UnsafeNativeMethods.cs">UnsafeNativeMethods</a></li>
+</ul>
+
+<p>So, problem solved; I think it will be useful to share this on the blog.
+However, I would like to ask the Revit development team to turn this off by default,
+as it is easier for users to configure the control themselves than to mess with Win API and native code.</p>
+
+<p>The lines to get me rid of the padding-trick are</p>
+
+<ul>
+<li>UnsafeNativeMethods.RemoveWindowCaption(handle);</li>
+</ul>
+
+<p>where handle is <code>hwndHost</code>,
+cf. <a href="https://github.com/lepoco/wpfui/blob/development/src/Wpf.Ui/Interop/UnsafeNativeMethods.cs#L468">UnsafeNativeMethods.cs line 468</a>.</p>
+
+<p>Many thanks to Roman for researching and sharing this helpful solution!</p>
+
+<h4><a name="3"></a> Changing Level of Piping Elements</h4>
+
+<p><a href="https://evangeer.com/">Evan Geer</a>) shared
+a nice example for changing the level for selected piping elements in his answer
+to <a href="https://forums.autodesk.com/t5/revit-api-forum/transferring-elements-from-one-level-to-another-while/m-p/12664814">transferring elements from one level to another while maintaining their position in space</a></p>
+
+<p><strong>Question:</strong>
+How to move selected elements to another level while maintaining their position in space?</p>
+
+<p><strong>Answer:</strong>
+Can you achieve what you want manually in the end user interface?
+If so, that is a good start.
+If not, it would be good to check that first, determine the optimal workflow and best practices, cf.
+the <a href="https://thebuildingcoder.typepad.com/blog/2017/01/virtues-of-reproduction-research-mep-settings-ontology.html#3">standard approach to address a Revit API programming task</a>.</p>
+
+<p>Possibly, some elements cannot simply be moved to an different level, but need to be recreated from scratch based on the new level.</p>
+
+<p>There is an older post showing how to do something similar here:</p>
+
+<p>https://forums.autodesk.com/t5/revit-api-forum/change-the-level-of-an-element/td-p/3707640</p>
+
+<p>Here is an example command that will change the level of the selected elements.
+Note that you will need to determine which parameter you want to change for different types of elements, and as noted above, you may not be able to change the level of some elements.
+This example changes the level for selected piping elements:</p>
+
+<pre><code class="language-csharp">public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+{
+  var doc = commandData.Application.ActiveUIDocument.Document;
+  var selectedIds = commandData.Application.ActiveUIDocument.Selection.GetElementIds();
+
+  var selectedElements = selectedIds.Select(x =&gt; doc.GetElement(x)).ToList();
+
+  var newLevelName = "L2";
+  var newLevel = new FilteredElementCollector(doc)
+    .OfClass(typeof(Level))
+    .FirstOrDefault(x =&gt; x.Name == newLevelName) as Level;
+
+  var levelHostedElements = selectedElements
+    .Where(x =&gt; x.LevelId != null && x.LevelId != ElementId.InvalidElementId)
+    .ToList();
+
+  using (var t = new Transaction(doc, "update level"))
+  {
+    t.Start();
+    foreach (var element in levelHostedElements)
+    {
+      // NOTE: you will need to select the correct parameter for the element type you are targeting
+      var levelParameter = element.get_Parameter(BuiltInParameter.RBS_START_LEVEL_PARAM);
+      if (levelParameter?.HasValue == true /*&& offsetParameter?.HasValue == true*/)
+      {
+        var oldLevel = doc.GetElement(levelParameter.AsElementId()) as Level;
+
+        levelParameter.Set(newLevel.Id);
+      }
+    }
+    t.Commit();
+  }
+  return Result.Succeeded;
+}
+</code></pre>
+
+<p>In order to select a level interactively, transfer all elements from it to the target level, and list elements that were not transferred in a dialog box,
+you just need some handling for parameters and element type match-up.
+This seems like a perfect match for an abstract factory pattern or something similar.
+You might also save some time using the RevitLookup tools to identify which parameters match to which types.</p>
+
+<p>It's not ideal, but I do not think that there is a universal solution to changing the level of an element.
+As far as I understand, the reason for this is that different elements are hosted by and associated with levels in different ways.
+So, Revit's engine under the hood is doing different things to make that work, and the options we have exposed to us in the API therefore differ by type.</p>
+
+<p>Regarding handling moving everything on a given level, that can be accomplished with some changes to my example.
+Where I have hard-code the level name in <code>newLevelName</code>, set to "L2"; you could easily replace that with a UI allowing users to select the destination level. Similarly, you could add a UI to allow the user to select a source level, and supply that id to this block of code:</p>
+
+<pre><code class="language-csharp">  var levelHostedElements = selectedElements
+    .Where(x =&gt; x.LevelId == sourceLevel.Id)
+    .ToList();
+</code></pre>
+
+<p>Many thanks to Evan for the nice sample code and thorough explanation!</p>

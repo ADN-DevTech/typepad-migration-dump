@@ -1,0 +1,53 @@
+comments:
+- author: Rod Howarth
+  email: itfetish@gmail.com
+  ip: 203.214.111.198
+  url: http://roddotnet.blogspot.com
+  date: '2008-09-27 02:58:24'
+  body: This is great! Thanks alot Jeremy, this blog is just what the Revit API Community
+    needs.
+- author: Jeremy
+  email: jeremy.tammik@eur.autodesk.com
+  ip: 84.159.179.139
+  url: http://thebuildingcoder.typepad.com
+  date: '2008-09-27 08:05:37'
+  body: Hey Rod, thank you very much for your appreciation! Cheers, Jeremy.
+- author: Ahmed Shawkey
+  email: ahmedsho_fci2002@yahoo.com
+  ip: 163.121.134.104
+  url: ''
+  date: '2008-10-21 08:05:34'
+  body: "Dear Jeremy \ni'd like to ask you how to get the GenericForms for the solids\
+    \ in a FamilyInstace object and for each Solid get it's solid which resulted in\
+    \ the top level.\nthanks Jeremy and please help me\nthanks and regards"
+- author: Jeremy Tammik
+  email: jeremy.tammik@autodesk.com
+  ip: 80.58.205.45
+  url: http://profile.typekey.com/1218580759s22477/
+  date: '2008-10-27 06:09:00'
+  body: 'Dear Ahmed,
+
+
+    Thank you for your question! As far as I know, the API will not provide access
+    to the underlying GenericForm instances in a FamilyInstance object. GenericForm
+    and its derived classes Blend, Extrusion, Revolution and Sweep are all subclasses
+    of Autodesk.Revit.Element, i.e. database elements. The geometrical analysis provides
+    access to non-database in-memory objects provided in the Revit Geometry namespace.
+    The shapes defined parametrically by the GenericForm are interpreted by the Revit
+    engine and the resulting geometry is returned by the API in geometrical objects,
+    above all solids. I will happily continue exploring how to access and analyse
+    these solids in future posts. The recent post on Family Instance Materials shows
+    how to traverse into the solids defined by family instances. In that example,
+    we simply extract the material information from the solid faces and ignore the
+    transformations of the symbol geometry into the instance position in world coordinate
+    space. In a future post, I plan to discuss that transformation as well. I hope
+    that will answer your question.
+
+
+    Best regards,
+
+
+    Jeremy
+
+
+    -----'

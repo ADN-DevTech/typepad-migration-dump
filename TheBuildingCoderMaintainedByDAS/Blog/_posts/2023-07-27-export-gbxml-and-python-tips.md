@@ -1,0 +1,326 @@
+---
+layout: "post"
+title: "Export, gbXML and Python Tips"
+date: "2023-07-27 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Analysis"
+  - "Export"
+  - "FBX"
+  - "gbXML"
+  - "MongoDB"
+  - "Python"
+  - "Win32"
+original_url: "https://thebuildingcoder.typepad.com/blog/2023/07/export-gbxml-and-python-tips.html "
+typepad_basename: "export-gbxml-and-python-tips"
+typepad_status: "Publish"
+---
+
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js" type="text/javascript"></script>
+
+<p>Looking at several useful discussions on Python, handling DLLs, and various aspects of exporting to gbXML, FBX and MongoDB today:</p>
+
+<ul>
+<li><a href="#2">DLL paradise in Python</a></li>
+<li><a href="#3">Multiple gbXML export</a></li>
+<li><a href="#4">GbXML energy settings</a></li>
+<li><a href="#5">Automate FBX export with <code>SendKeys</code></a></li>
+<li><a href="#6">RFA export to MongoDB</a></li>
+</ul>
+
+<h4><a name="2"></a> DLL Paradise in Python</h4>
+
+<p>Jake of <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/3926242">Ripcord Engineering</a> shared several
+useful <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> solutions recently.
+Many thanks to Jake for his support!</p>
+
+<p>One is a possible approach to
+handle <a href="https://en.wikipedia.org/wiki/DLL_Hell">DLL Hell</a> using
+the Python <code>subprocess</code> module for disentanglement without need for any IPC, e.g.,
+for <a href="https://forums.autodesk.com/t5/revit-api-forum/cpython-and-pyrevit/m-p/12011805">CPython and pyRevit</a>:</p>
+
+<p><strong>Question:</strong> I need to use CPython via pyRevit to have access to libraries such as <code>numpy</code> and <code>pandas</code>.
+At the same time, I want to take advantage of pyRevit’s capabilities such as forms etc.
+As far as I understood, I can’t have both of these in a single script file.
+If I got this correctly, is there any way to do this?</p>
+
+<p>The numpy part is quite decoupled since it is meant to help me with the data exchange process from other data sources; after that point, everything would be focused on Revit APIs.</p>
+
+<p><strong>Answer:</strong> I dealt with the same challenge a little while back.
+Please look at
+the <a href="https://github.com/eirannejad/pyRevit/issues/1731">pyRevit issue 1731 on Dynamo incompatibility: two versions of Same DLL</a>
+for a short discussion on using <a href="https://docs.python.org/3/library/subprocess.html">Python <code>subprocess</code> module for subprocess management</a> in
+the Revit/pyRevit context.</p>
+
+<p>While I am not a Revit API / Python / pyRevit expert I can report that <code>subprocess</code> worked well enough.
+Learning <code>subprocess</code> should be a productive use of time assuming the underlying characteristics are a good match for your application.</p>
+
+<p><strong>Response:</strong> Thanks, Jake. I tried the same approach, and it also worked perfectly for my case. Appreciate it.</p>
+
+<p><strong>Answer:</strong> Thanks for giving it a go. And thanks for the feedback.</p>
+
+<h4><a name="3"></a> Multiple GbXML Export</h4>
+
+<p>Jake also helped answer the question
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/export-of-multiple-gbxml-models/m-p/12011838">export of multiple gbXML models</a>:</p>
+
+<p><strong>Question:</strong> For my university thesis work I have to create a lot of different GBXML models (around 18000).
+No way I can do that without code.
+This is what I came up with (I attached only a part of it; FloorR, WallsR, RoofR are lists to set R value of corresponding elements):</p>
+
+<pre class="prettyprint">
+### Setting Energy Analysis parameters ###
+
+opt=Analysis.EnergyAnalysisDetailModelOptions()
+opt.EnergyModelType=Analysis.EnergyModelType.BuildingElement
+opt.ExportMullions=False
+opt.IncludeShadingSurfaces=False
+opt.SimplifyCurtainSystems=True
+opt.Tier=Analysis.EnergyAnalysisDetailModelTier.SecondLevelBoundaries
+
+### loop over all R-value combinations and create models ###
+
+t=Transaction(doc,"R change")
+c=Transaction(doc,"model creation")
+
+for i in range(len(FloorR)):
+  for j in range(len(WallsR)):
+    for k in range(len(RoofR)):
+    t.Start()
+    Floor.Set(FloorR[i]/0.3048)  #R-value change for floor
+    Wall.Set(WallsR[j]/0.3048)#R-value change for Walls
+    Roof.Set(RoofR[k]/0.3048)#R-value change for roof
+    t.Commit()
+    t.Dispose()
+
+    c.Start()
+    model=Analysis.EnergyAnalysisDetailModel.Create(doc, opt)
+    model.TransformModel()
+    GBopt=GBXMLExportOptions()
+    GBopt.ExportEnergyModelType=ExportEnergyModelType.BuildingElement
+    doc.Export("C:\Users\Миша\Desktop\ASD","0"+","+str(0.2/FloorR[i])+","+str(0.3/WallsR[j])+","+str(0.3/RoofR[k]), GBopt)
+    c.Commit()
+</pre>
+
+<p>This creates models, but I ran into a problem I don't fully understand: as the process continues, it slows down and stops at about 170-175 created models.
+Apparently, something is taking up the memory.
+I tried calling <code>doc.Delete(model)</code> at the end of each <code>for</code> loop, but that didn't help either.</p>
+
+<p>What could be a solution?</p>
+
+<p><strong>Answer:</strong> The behaviour you describe is completely expected and as designed.</p>
+
+<p>Revit is an end user product designed to be driven by a human being.
+Human beings are not expected to sit down and create 18000 models in one sitting.
+I suggest you implement an external executable that drives Revit using the code you shared above and monitors progress as you export results from the models you create.</p>
+
+<p>Whenever Revit starts slowing down, take note of how far you got in processing, kill the process, restart Revit and continue from where you left off.
+This is a common approach to programmatically drive processes in batch mode that were not designed for it.
+You can also search The Building Coder for further hints
+on <a href="https://www.google.com/search?q=batch+processing&amp;as_sitesearch=thebuildingcoder.typepad.com">batch processing Revit documents</a>.
+Alternatively, you could generate your 18000 models online
+using <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#5.55">APS and DA4R</a>.</p>
+
+<p>Furthermore, based on the code snippet provided, it appears that only R-values are manipulated and not the underlying model geometry.
+If that's the case, it might be best to use Revit to export a single gbXML seed file.
+Then, iterate over the desired seed file parameters (like R-value) in an environment like Python which is excellent for large scale text operations.</p>
+
+<p>Two utilities that would help with the route described above:</p>
+
+<ul>
+<li><a href="https://microsoft.github.io/XmlNotepad/">XmlNotepad</a> &ndash; to build familiarity with gbXML structure and mechanization</li>
+<li><a href="https://xgbxml.readthedocs.io/en/latest/what_is_xgbxml.html">xgbxml</a> &ndash; Python library for gbXML parsing and manipulation</li>
+</ul>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c1b25b230f200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302c1b25b230f200d image-full img-responsive" alt="gbXML export" title="gbXML export"  src="/assets/image_996570.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="4"></a> GbXML Energy Settings</h4>
+
+<p>Jake points to the same solution to answer another question as well,
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/gbxml-export-using-energy-settings/m-p/12011894">gbXml export using energy settings</a>:</p>
+
+<p><strong>Question:</strong> Sorry to revive a thread which has been solved more than one year ago, however the solution provided is not working for me as I am programming in Python.</p>
+
+<p>I am using pyRevit to program functions in Python.
+When I use the code presented above, I get the following error:</p>
+
+<pre class="prettyprint">
+  EnergyAnalysisDetailModelOptions.ExportMullions = False
+
+  Traceback (most recent call last):
+    File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+  AttributeError: static property 'ExportMullions' of 'EnergyAnalysisDetailModelOptions' can only be assigned to through a type, not an instance
+</pre>
+
+<p>If I understand this correctly, I am having a problem due to the type of variable in my code.
+However, Python does not allow the declaration of variables.
+How can I make the statement to become a type and not an instance?</p>
+
+<p>Any idea how I can get past this issue without moving on to another language?</p>
+
+<p><strong>Answer:</strong> A nice example of Python <code>EnergyAnalysisDetailModelOptions</code> administration is discussed in
+the <a href="https://forums.autodesk.com/t5/revit-api-forum/export-of-multiple-gbxml-models/m-p/9392003">export of multiple gbXML models</a>.</p>
+
+<p>The relevant code snippet is this:</p>
+
+<pre class="prettyprint">
+### Setting Energy Analysis parameters ###
+
+opt=Analysis.EnergyAnalysisDetailModelOptions()
+opt.EnergyModelType=Analysis.EnergyModelType.BuildingElement
+opt.ExportMullions=False
+opt.IncludeShadingSurfaces=False
+opt.SimplifyCurtainSystems=True
+opt.Tier=Analysis.EnergyAnalysisDetailModelTier.SecondLevelBoundaries
+</pre>
+
+<h4><a name="5"></a> Automate FBX Export with SendKeys</h4>
+
+<p>We already shared a C# solution
+to <a href="https://thebuildingcoder.typepad.com/blog/2021/02/birthday-devdays-postcommand-sendkeys.html#4">handle a Revit dialogue using <code>Idling</code>, <code>DialogBoxShowing</code> and <code>SendKeys</code></a> to
+implement
+the <a href="https://forums.autodesk.com/t5/revit-api-forum/twinmotion-dynamic-link-export-fbx-automatically/m-p/12123438">TwinMotion dynamic link export FBX automatically</a>.</p>
+
+<p>Now <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/14209191">Onur Er</a> cleaned it up further in his updated answer:</p>
+
+<p><strong>Question:</strong> I want to export FBX using TwinMotion Dynamic Link.
+I would like to export FBX files from many Revit files.
+How I can use <code>PostCommand</code> and then handle the Windows forms on the export panel?</p>
+
+<p><strong>Answer:</strong> Thank you for sharing your solution.
+It saved me unbelievable amount of time, maybe days or weeks.
+Thank you VERY VERY MUCH!!!
+I cleaned the code and made it more readable in case someone needs it.
+My own Revit plugin calls this Twinmotion macro automatically after Revit starts up like this:</p>
+
+<pre class="prettyprint">
+using System.Threading.Tasks;
+using Autodesk.Revit.UI;
+using System.Windows.Forms;
+using Autodesk.Revit.UI.Events;
+
+namespace YourNamespaceHere
+{
+  public class Class2 : IExternalApplication
+  {
+    UIControlledApplication UIControlledApplication;
+
+    public Result OnStartup(UIControlledApplication Application)
+    {
+      UIControlledApplication = Application;
+      UIControlledApplication.Idling += Application_Idling;
+
+      return Result.Succeeded;
+    }
+
+    public Result OnShutdown(UIControlledApplication Application) => Result.Succeeded;
+
+    void Application_Idling(object Sender, IdlingEventArgs E)
+    {
+      UIControlledApplication.Idling -= Application_Idling;
+
+      var UIApplication = (UIApplication)Sender;
+
+      MyMacro(UIApplication);
+
+      //TaskDialog.Show("Application_Idling", Sender.GetType().FullName);
+    }
+
+    void OnDialogBoxShowing(object Sender, DialogBoxShowingEventArgs Args) => ((TaskDialogShowingEventArgs)Args).OverrideResult((int)TaskDialogResult.Ok);
+
+    static async void RunCommands(UIApplication UIapp, RevitCommandId Id_Addin)
+    {
+      UIapp.PostCommand(Id_Addin);
+      await Task.Delay(400);
+      SendKeys.Send("{ENTER}");
+      await Task.Delay(400);
+      SendKeys.Send("{ENTER}");
+      await Task.Delay(400);
+      SendKeys.Send("{ENTER}");
+      await Task.Delay(400);
+      SendKeys.Send("{ESCAPE}");
+      await Task.Delay(400);
+      SendKeys.Send("{ESCAPE}");
+    }
+
+    void MyMacro(UIApplication UIapp)
+    {
+      try
+      {
+        var Name = "CustomCtrl_%CustomCtrl_%Twinmotion 2020%Twinmotion Direct Link%ExportButton";
+        var Id_Addin = RevitCommandId.LookupCommandId(Name);
+
+        if (Id_Addin != null)
+        {
+          UIapp.DialogBoxShowing += OnDialogBoxShowing;
+
+          RunCommands(UIapp, Id_Addin);
+        }
+      }
+      catch
+      {
+        TaskDialog.Show("Test", "error");
+      }
+      finally
+      {
+        UIapp.DialogBoxShowing -= OnDialogBoxShowing;
+      }
+    }
+  }
+}
+</pre>
+
+<p>Thank you, Onur Er!</p>
+
+<h4><a name="6"></a> RFA Export to MongoDB</h4>
+
+<p>To wrap up, Eduardo <a href="https://www.linkedin.com/in/eduardo-ibarra91/">Lalo Ibarra</a> of Mexico City shares one
+of <a href="https://www.linkedin.com/posts/activity-7089535064467795968-A5lj?utm_source=share&amp;utm_medium=member_desktop">his favourite classes built with #VSC and #MongoDB to facilitate the export of data from Revit families</a>:</p>
+
+<p>The class implementation is encoded in the attached image files on LinkedIn:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302b751acce2d200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302b751acce2d200c img-responsive" style="width: 300px; display: block; margin-left: auto; margin-right: auto;" alt="MongoDB export" title="MongoDB export"  src="/assets/image_aeb94f.jpg" /></a><br/></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c1a6cf6ac4200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302c1a6cf6ac4200b img-responsive" style="width: 300px; display: block; margin-left: auto; margin-right: auto;" alt="MongoDB export" title="MongoDB export"  src="/assets/image_5e3eaa.jpg" /></a><br /></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302b751acce34200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302b751acce34200c img-responsive" style="width: 300px; display: block; margin-left: auto; margin-right: auto;" alt="MongoDB export" title="MongoDB export"  src="/assets/image_6c1ebb.jpg" /></a><br /></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302b751acce38200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302b751acce38200c img-responsive" style="width: 300px; display: block; margin-left: auto; margin-right: auto;" alt="MongoDB export" title="MongoDB export"  src="/assets/image_42b228.jpg" /></a><br /></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c1b25b22e3200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302c1b25b22e3200d img-responsive" style="width: 300px; display: block; margin-left: auto; margin-right: auto;" alt="MongoDB export" title="MongoDB export"  src="/assets/image_4002b6.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Eduardo also provides it as a PDF, from which I extracted a text file:</p>
+
+<blockquote>
+  <p>I share the construction of the class.
+  I will give myself some time to share the whole process.</p>
+</blockquote>
+
+<ul>
+<li><a href="https://thebuildingcoder.typepad.com/files/li_mongodb_export.pdf">mongodb_export.pdf</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/files/li_mongodb_export.txt">mongodb_export.txt</a></li>
+</ul>
+
+<p>Here is his useful list of assets:</p>
+
+<ul>
+<li><a href="https://www.mongodb.com/docs/">MongoDB Documents</a></li>
+<li><a href="https://visualstudio.microsoft.com/es/vs/community/">Visual Studio Community 2022</a></li>
+<li><a href="https://www.revitapidocs.com/">Revit API docs</a></li>
+<li><a href="https://aps.autodesk.com/developer/overview/revit">Revit SDK</a></li>
+<li><a href="https://www.autodesk.com/support/technical/article/caas/tsarticles/ts/7I2bC1zUr4VjJ3U31uM66K.html">My First Revit Plug-in Overview</a></li>
+<li><a href="https://github.com/">Create account in GitHub</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/">The Builder Coder</a>
+<a href="https://github.com/jeremytammik/VisualStudioRevitAddinWizard">Visual Studio Revit Add-in Templates</a>
+&ndash; recommendation: clone the repository</li>
+</ul>
+
+<p>Many thanks, Eduardo!</p>

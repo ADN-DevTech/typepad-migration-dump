@@ -1,0 +1,192 @@
+---
+layout: "post"
+title: "Face Triangulation LOD, .NET 5 and Core"
+date: "2021-01-27 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "Cloud"
+  - "DA4R"
+  - "Export"
+  - "Geometry"
+  - "NoSQL"
+  - "OBJ"
+original_url: "https://thebuildingcoder.typepad.com/blog/2021/01/face-triangulation-lod-net-5-and-core.html "
+typepad_basename: "face-triangulation-lod-net-5-and-core"
+typepad_status: "Publish"
+---
+
+<p>Today, we discuss cores, standards, splinters and data:</p>
+
+<ul>
+<li><a href="#2">Using .NET 5 and Core</a></li>
+<li><a href="#2.1">Using .NET Standard 2.0 for Revit Add-Ins</a></li>
+<li><a href="#3">Controlling face triangulation LOD</a></li>
+<li><a href="#4">SQL versus NoSQL</a></li>
+</ul>
+
+<h4><a name="2"></a> Using .NET 5 and Core</h4>
+
+<p><a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/774564">Olli Kattelus</a>, MEP Software Engineer of the Finnish MagiCAD Group,
+updated the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> 
+question <a href="https://forums.autodesk.com/t5/revit-api-forum/does-revit-target-net-standard/m-p/10021984">does Revit target .NET standard</a> to
+include coverage of .NET 5:</p>
+
+<p><strong>Question:</strong> I would like to use .NET Core to build my plugin, but I'm a bit confused whether it will cause issues or not.
+From my understanding of .NET, if Revit targets a specific .NET standard, I will be able use any implementation of .NET (.NET Core, or .NET Framework) that conforms to that standard.
+Does Revit target versions of .NET standards or does it just target versions of .NET Framework?</p>
+
+<p><strong>Answer:</strong> This is clearly defined in
+the <a href="https://help.autodesk.com/view/RVT/2021/ENU/?guid=Revit_API_Revit_API_Developers_Guide_Introduction_Getting_Started_Welcome_to_the_Revit_Platform_API_Development_Requirements_html">Revit 2021 API development requirements</a>
+and <a href="https://help.autodesk.com/view/RVT/2021/ENU/?guid=Revit_API_Revit_API_Developers_Guide_Introduction_Getting_Started_html">getting started page</a>:</p>
+
+<blockquote>
+  <p>The Revit Platform API is fully accessible by any language compatible with the Microsoft .NET Framework 4.8, such as Visual C# or Visual Basic .NET (VB.NET). Both Visual C# and VB.NET are commonly used to develop Revit Platform API applications. However, the focus of this manual is developing applications using Visual C#.</p>
+</blockquote>
+
+<p>If your .NET core is compatible with the Microsoft .NET Framework 4.8, all should be fine.</p>
+
+<p><strong>Question:</strong> Will we be able to use the Revit API with .NET 5?</p>
+
+<p><strong>Answer:</strong> The factory should try to be prepared to answer.
+So far, there are complications. Revit consumes Autodesk-wide .NET components.
+We'd need to ensure that those are .NET 5 compatible before we switch our runtime.
+Revit API also runs in-process using Revit's runtime, so I'm not sure it would be possible to preserve Revit's 4.8 runtime and allow add-in code to run .NET 5.0.
+We have not tested either scenario yet.</p>
+
+<p>Basically, developers will be able to reference Revit's dlls (.NET 4.8) in their .NET 5 projects, but there is no guarantee that everything will work.
+Some (if not most) things might, but I would not recommend going that way.
+The problem is that .NET 5 is based on .NET Core, not on the big .NET framework, and there are some incompatibilities.</p>
+
+<p>As for switching Revit to .NET 5, that's something we will definitely need to do as .NET 4.8 is the last version of the big .NET.
+However, the switch is not as trivial as changing the version dropdown (like it was from 4.7 to 4.8).
+We will have to convert to a new project format, fix some code and possibly find replacement for some frameworks that were present in .NET 4.8, and are not anymore in .NET 5.</p>
+
+<p>To understand more about .NET 5 Core and Framework enhancements, I found the official Microsoft overview
+of <a href="https://docs.microsoft.com/en-us/dotnet/core/dotnet-five">What's new in .NET 5</a> pretty illuminating.</p>
+
+<h4><a name="2.1"></a> Using .NET Standard 2.0 for Revit Add-Ins</h4>
+
+<p>Thiago Almeida added a <a href="https://thebuildingcoder.typepad.com/blog/2021/01/face-triangulation-lod-net-5-and-core.html#comment-5244565338">helpful comment clarifying how to proceed</a>:</p>
+
+<p>It is possible to target projects with .Net Standard to compile shared code between .Net Core and .Net Framework.</p>
+
+<p>.Net Framework 4.6.1 is compatible with .Net Standard 2.0, which covers most of the common used APIs across the board.
+The actual recommendation is to start from .Net Framework 4.7.2 as for consideration (2) on Microsoft's compatibility sheet (search
+for "<a href="https://duckduckgo.com/?q=.NET+implementation+support">.NET implementation support</a>").</p>
+
+<p>Translating to Revit API add-ins:
+You should be able to share code between Core platforms (.Net Core 3.1 or .Net 5) with Revit 2019 and above (.Net Framework 4.7.2) using .Net Standard 2.0.</p>
+
+<p>Thank you very much for that, Thiago!</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e98ba10b200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e98ba10b200b img-responsive" style="width: 188px; display: block; margin-left: auto; margin-right: auto;" alt="Apple core" title="Apple core" src="/assets/image_fd86c9.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="3"></a> Controlling Face Triangulation LOD</h4>
+
+<p>A very useful solution for the desktop Revit API came about after observing a significantly different level of detail triangulating a face in a Revit add-in running in Forge design automation:</p>
+
+<p><strong>Question:</strong> I am working on a Revit add-in that I modified to run in the Forge design automation environment.
+I am using a <code>CustomExporter</code> to export a Revit model to an <code>obj</code> file.
+It uses the <code>Triangulate</code> method on the <code>Autodesk.Revit.DB.Face</code> class to triangulate some of the faces in the model at a certain level of detail (LOD).
+The LOD value is passed to the <code>Face.Triangulate</code> method.
+I noticed that when running the add-in in design automation on Forge, the triangle count of the exported model is much higher, compared to when it is run locally in the desktop on my computer.
+I would like the detail of the model to be the same when exported on Forge as when it is exported on a desktop PC. 
+Why this might be happening and how could it be fixed?</p>
+
+<p><strong>Answer:</strong> My first suspicion was that the LOD is affected by the graphics screen properties.
+In the Forge environment, no real screen is attached, and that causes a much higher resolution to be assumed.</p>
+
+<p>The development team respond:</p>
+
+<p>In our CustomExporter, we set the value of <code>ViewNode.LevelOfDetail</code> in <code>OnViewBegin</code>.
+However, we don't know what this does in comparison to <code>Face.Triangulate</code>.</p>
+
+<p>In the version of <code>Face.Triangulate</code> that takes a <code>levelOfDetail</code> input of type <code>double</code>, that input controls the granularity of the triangulation.
+<code>levelOfDetail</code> should lie in the range [0.0, 1.0], with 0.0 being the coarsest and 1.0 the finest.
+The internal code uses an integer "level of detail" in the range [0, 15], and the input to Face.Triangulate is mapped to an integer by dividing the range [0.0, 1.0] into sixteen equal segments (i.e., multiply by 16, round down, and restrict to the range [0.0, 1.0]).</p>
+
+<p>This ends up at the internal function <code>GFace::updateCachedFacets</code>, which also takes various other things into account (whether there's view-specific data, properties of the face in question, etc.). </p>
+
+<p>There's also a version of <code>Face.Triangulate</code> that takes no input and uses a different approach to choose a triangulation granularity.</p>
+
+<p>By design of CustomExporter 3D, the main (only?) factor controlling the quality should be the view node's level of detail, as mentioned above.
+However, what happens inside Face.Triangulate is separate from CustomExporter.
+The scale of the view might have something do with any discrepancy between different export workflows.
+On the other hand, Revit version and the presence of UI should not have an impact, although we cannot completely rule those factors out.</p>
+
+<p>The Revit version can certainly play a role in principle.
+For example, improvements to face triangulation are made from time to time, and that changes the way certain objects are triangulated in some cases.</p>
+
+<p>We had thought presence or absence of UI would not have an impact for other things, and been proven wrong, e.g., garbage collection and image export.</p>
+
+<p>If it's reproducible, in particular it might be reproducible without Custom Exporter and just running the same small routines on Revit UI and DA of going to one reasonably complex element, finding a target face, and Triangulating, we should look at it as a Problem Report.</p>
+
+<p>Can you provide
+a <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#1b">minimal reproducible case</a> for
+the development team to analyse?</p>
+
+<p><strong>Response:</strong> I am using the 2020 version of Revit, both on desktop and in DA.</p>
+
+<p>We have now solved our problem.</p>
+
+<p>The solution was simply to set <code>ViewNode.LevelOfDetail</code> to the desired level of detail in <code>IExportContext.OnViewBegin</code> and then collect all the geometry in the <code>IExportContext.OnPolymesh</code> callback instead of the <code>OnFaceBegin</code> callback.</p>
+
+<p>Before this, we were collecting some geometry by getting faces in <code>IExportContext.OnFaceBegin</code> and then triangulating those faces with <code>Face.Triangulate(LOD)</code>.</p>
+
+<p>For some reason, the resulting geometry had much higher triangle count when the add-in was run in design automation.</p>
+
+<p>We do not need any more assistance on this.</p>
+
+<p>If the development team wants to reproduce it, here are the basic steps to do so:</p>
+
+<ul>
+<li>Create a Revit add-in containing a class that implements <code>IExportContext</code> and a <code>CustomExporter</code> that uses it.</li>
+<li>Make sure to set the <code>IncludeGeometricObjects</code> property on the <code>CustomExporter</code> object to <code>true</code>.</li>
+<li>In the <code>OnFaceBegin</code> callback of the <code>IExportContext</code> class, add the following code:</li>
+</ul>
+
+<pre class="code">
+  public RenderNodeAction OnFaceBegin(FaceNode node)
+  {
+    Autodesk.Revit.DB.Face face = node.GetFace();
+    Autodesk.Revit.DB.Mesh m = face.Triangulate(0.1);
+    int vertCount = m.Vertices.Count;
+    return RenderNodeAction.Proceed;
+  }
+</pre>
+
+<ul>
+<li>Run this in Revit on a desktop computer and also in design automation on Forge.</li>
+</ul>
+
+<p>The add-in will need to be modified to run in design automation.
+Modify the code so the value of <code>vertCount</code> can be verified both in the desktop version and DA version.
+I was expecting the value to be the same both on desktop and in DA, however, in my experience, the model was much more detailed when exporting in DA.</p>
+
+<h4><a name="4"></a> SQL Versus NoSQL</h4>
+
+<p>I became a fan of NoSQL while working on
+the <a href="https://github.com/jeremytammik/FireRatingCloud">FireRatingCloud</a> project,
+a multi-RVT-project reimplementation of the FireRating SDK sample.</p>
+
+<p>It forms part of my research connecting desktop and cloud prior to the emergence of Forge and uses a REST API to access a cloud-based NoSQL MongoDB database managed by a node.js web server.</p>
+
+<p>I still remain a fan of NoSQL, even after being intrigued by an article by John Biggs and Ryan Donovan asking,
+<a href="https://stackoverflow.blog/2021/01/14/have-the-tables-turned-on-nosql">Have the tables turned on NoSQL?</a></p>
+
+<p>They conclude that NoSQL is "not so great for your side hustle" and that </p>
+
+<blockquote>
+  <p>a consensus has emerged in conferences and blogs that SQL is the gold standard 
+  &ndash; with a lot of emphasis on PostgeSQL &ndash; and you should use it by default,
+  only deviating if you have good reasons to use NoSQL.</p>
+</blockquote>
+
+<p>I assume they know a lot more than I do in this area, so I guess I should trust their judgement more than mine in this case.</p>
+
+<p>But I naively continue to prefer NoSQL anyway :-)</p>

@@ -1,0 +1,108 @@
+comments:
+- author: Glen Decker
+  email: glen.decker52@gmail.com
+  ip: 71.199.173.6
+  url: ''
+  date: '2015-05-20 16:50:04'
+  body: "Jeremy,\n\n     I'm currently struggling with setting the minimum bend radius\
+    \ on conduits created using the API's method.  I will be as to the point as I\
+    \ can, please forgive the length of this post.\n     \n     An explanation:\n\t\
+    \tI want to create conduit and modify bend radii based on alternate calculations.\
+    \  I am able to draw a conduit with the Revit GUI and change the Bend Radius (CondRun),\
+    \ using the GUI or the API,  with no problems\n\t\t\n\t\tUsing the code below,\
+    \ however, the bend radius is locked in place.\n\t\t\n\t\t<Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)>\
+    \ _\nPublic Class Testing\n    Implements Autodesk.Revit.UI.IExternalCommand\n\
+    \n    Public Function Execute(commandData As ExternalCommandData, ByRef message\
+    \ As String, elements As ElementSet) As Result Implements IExternalCommand.Execute\n\
+    \        Dim app As UIApplication = commandData.Application\n        Dim doc As\
+    \ Document = app.ActiveUIDocument.Document\n\t\tDim T as New Transaction(doc):\
+    \ \n        Dim myCond As Conduit\n        Dim dicCond As New Dictionary(Of Integer,\
+    \ Conduit)\n\t\t\n        Dim collector As New FilteredElementCollector(doc)\n\
+    \        collector.OfCategory(BuiltInCategory.OST_ConduitRun)\n        collector.OfClass(GetType(ConduitType))\n\
+    \n        Dim collector2 As New FilteredElementCollector(doc)\n        collector2.OfClass(GetType(Level))\n\
+    \n        Dim level As Level = TryCast(collector2.FirstElement, Level)\n     \
+    \   Dim idConduitType As ElementId = collector.FirstElementId\n        Dim startpoint\
+    \ As XYZ = Nothing, endpoint As XYZ = Nothing\n\t\t\n\t\tT.Start(\"Testing\")\n\
+    \        startpoint = New Autodesk.Revit.DB.XYZ(0, 0, 0)\n        endpoint = New\
+    \ Autodesk.Revit.DB.XYZ(10, 0, 0)\n        myCond = Autodesk.Revit.DB.Electrical.Conduit.Create(doc,\
+    \ idConduitType, startpoint, endpoint, level.Id) \n        dicCond.Add(1, myCond)\n\
+    \n        startpoint = New Autodesk.Revit.DB.XYZ(10, 0, 0)\n        endpoint =\
+    \ New Autodesk.Revit.DB.XYZ(10, 10, 0)\n        myCond = Autodesk.Revit.DB.Electrical.Conduit.Create(doc,\
+    \ idConduitType, startpoint, endpoint, level.Id) \n        dicCond.Add(2, myCond)\n\
+    \n        clsRevitFunctions.JoinConduit(dicCond, 1)\n        T.Commit\n\tEnd function\n\
+    \n\tPublic Sub JoinConduit(dicConduitSegments As Dictionary(Of Integer, Conduit),\
+    \ iStart As Integer) \n        Dim condA As Conduit\n        Dim condB As Conduit\n\
+    \        Dim myPt As XYZ, kk As Integer\n        Dim ConnectA As Connector, ElemSet\
+    \ As New ElementSet\n        Dim ConnectB As Connector\n        Dim fi As FamilyInstance\n\
+    \        Dim iTemp As Integer\n        \n        REM iStart will always be passed\
+    \ in as 1\n        If iStart > 2 Then Exit Sub\n        iTemp = iStart\n\n   \
+    \     For jj As Integer = iTemp To dicConduitSegments.Count - 1 Step 2\n     \
+    \       kk = jj + 1\n            condA = dicConduitSegments.Item(jj)\n       \
+    \     condB = dicConduitSegments.Item(kk)\n\n            myPt = clsRevitFunctions.GetConnectionPointFromCondSegs(condA,\
+    \ condB)\n            If myPt IsNot Nothing Then\n                ConnectA = GetConnectorClosestToPoint(condA,\
+    \ myPt)\n                ConnectB = GetConnectorClosestToPoint(condB, myPt)\n\n\
+    \                If IsConduitParallel(condA, condB) = True Then\n            \
+    \        fi = gv_oGo.UiApp.ActiveUIDocument.Document.Create.NewUnionFitting(ConnectA,\
+    \ ConnectB)\n                Else\n                    fi = gv_oGo.UiApp.ActiveUIDocument.Document.Create.NewElbowFitting(ConnectA,\
+    \ ConnectB)\n                End If\n            End If\n        Next\n\n    \
+    \    JoinConduit(dicConduitSegments, sTag, sServLvl, sDiam, sBendRad, iTemp +\
+    \ 1)\n\n    End Sub\nEnd Class\n\n\n\t\tAfter struggling for a bit I found some\
+    \ more oddities... If I create two single conduits, with the API, at a ninety\
+    \ degree angle and didn't join the two automatically...\n\n\t\tConduit.Create(doc,\
+    \ type.Id, New XYZ(0, 0, 0), New XYZ(10, 0, 0), lvl.Id)\n\t\tConduit.Create(doc,\
+    \ type.Id, New XYZ(10, 0, 0), New XYZ(10, 10, 0), lvl.Id)\n\n\t\t... I get two\
+    \ straight segments with no fittings.  To create the fittings, I used the GUI\
+    \ (Trim/Extend) tool.  The fitting was created, but just as before I'm unable\
+    \ to change the bend radius from ANYWHERE (GUI or API)\n\t\t\n\t\tIt allows me\
+    \ to enter a value, but the error message displayed when pressing enter is 'The\
+    \ value you entered for the bend radius for conduit is too small.  What do you\
+    \ want to do > Enter a larger value or use the minimum bend radius\".\n\t\tThere\
+    \ is no value that can be entered to change the bend radius without getting the\
+    \ error above; even if the value is the same.  The only option is to take the\
+    \ minimum bend radius...  which isn't even the MBR according to the Electrical\
+    \ Settings dialogue.\n\t\t\n\t\tI noticed that when a conduit is created using\
+    \ the GUI that the ID of the conduit appears accurate.  However, if a conduit\
+    \ is created using the methods above, the ID of the conduit is the same as the\
+    \ OD.  Is there something that I'm not taking into account with the connectors?\
+    \  \n\t\t\n\t\tThanks in Advance,\n\t\tGlen Decker"
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.121.207
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-26 03:42:19'
+  body: 'Dear Glen,
+
+
+    Sorry to hear about these difficulties.
+
+
+    That sounds rather painful.
+
+
+    I would suggest you submit a full reproducible case so that we can test this:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#1b">http://thebuildingcoder.typepad.com/blog/about-the-author.html#1b</a>
+
+
+    The easiest place to do so is to create a new thread in the Revit API discussion
+    forum, so you can add all the required files:
+
+
+    <a href="http://forums.autodesk.com/t5/revit-api/bd-p/160">http://forums.autodesk.com/t5/revit-api/bd-p/160</a>
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.'
+- author: Wplace Color Converter
+  email: contact@wplacepixel.org
+  ip: 27.122.59.81
+  url: https://wplacepixel.org/wplace-color-converter
+  date: '2025-08-20 12:12:41'
+  body: 'Wow, this pipe to conduit converter sounds super handy! Especially for those
+    old models. Glad someone tackled this issue and even shared the code! Thanks for
+    the write-up!
+
+    -----'

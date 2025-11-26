@@ -1,0 +1,194 @@
+comments:
+- author: Thomas Otten
+  email: thomasotten@yahoo.com
+  ip: 12.133.217.82
+  url: ''
+  date: '2012-01-12 17:31:26'
+  body: Is it possible to get the origin of the area of the viewport that is non-annotative?  In
+    other words, each viewport has two boundaries.  The outer one is a little bigger
+    for the sake of including annotation.  But the extent of the annotation boundary
+    can vary from sheet to sheet.  Furthermore, the sheet dynamically changes the
+    boundary according to whether it finds annotations in this outer boundary.  The
+    result is that I cannot determine where the non-annotative crop region starts
+    (on the sheet), as get_BoundingBox.Min gives the starting point of the outer crop
+    box.
+- author: Jeremy Tammik
+  email: ''
+  ip: ''
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-01-18 04:21:29'
+  body: 'Dear Thomas,
+
+
+    Nope, sorry, I do not believe you currently have any access to this information.
+
+
+    Cheers, Jeremy.'
+- author: James Hicks
+  email: jameshicks@lsharch.co.uk
+  ip: 77.241.180.6
+  url: ''
+  date: '2012-05-30 10:45:57'
+  body: "I'm working on an app to duplicate a sheet (ie duplicate all views on a sheet\
+    \ and place them on a new sheet in the same place relative to the title block)\
+    \ I've got this working apart from the location of the copied views on the new\
+    \ sheet. They seem to have a mind of their own and end up all over the place.\
+    \ \n\nThe only difference to the above code is that i'm using GetBoxOutline()\
+    \ to get the outline cordinates for the View port and Viewport.Create() (both\
+    \ 2013 addition I think). Even adding in the offset value doesn't work as in one\
+    \ of my test sheets there are two viewports and one is moved up and one down in\
+    \ the copied sheet. so the placement error isn't uniform or even in the same direction\
+    \ for two view ports on the same sheet. I have no clue whats going on and any\
+    \ help would be great."
+- author: Anthony
+  email: a.clarke@ndy.com
+  ip: 165.228.176.26
+  url: ''
+  date: '2013-05-07 02:29:04'
+  body: Has this been fixed in 2014? I still can't get this to work in 2013 unless
+    someone has further ideas the offsets appear to be different for each viewport.
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.218.27
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-05-08 02:51:04'
+  body: 'Dear Anthony,
+
+
+    Have you taken a look at the Revit 2014 copy and paste API, and especially the
+    new DuplicateViews SDK sample?
+
+
+    Cheers, Jeremy.'
+- author: James Hicks
+  email: JamesHicks@lsharch.co.uk
+  ip: 77.241.180.6
+  url: ''
+  date: '2013-05-15 11:36:11'
+  body: "Hi,\n\nI havn't looked at 2014 yet either however I did find a way around\
+    \ this in 2013. It's a bit long and \"hacky\" but basicaly by placing the view\
+    \ ports as above and then working out what correction is need. \n\nI did this\
+    \ by returning the Outline of both the new and reference viewports (using GetBoxOutline())\
+    \ and then working out the distances between the min x and y points of the outlines\
+    \ and fixed points on their respective sheets (I used the View.Outline.Min.U (orV).\
+    \ I then used the difference between the distances to create a \"bespoke\" correction\
+    \ per placement.\n\nI hope this makes some sort of sense."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-05-15 11:53:26'
+  body: 'Dear James,
+
+
+    That makes absolute sense, and sounds totally brilliant.
+
+
+    Congratulations on solving that!
+
+
+    Thank you very much for sharing and describing such an effective ''hicks-hack''  :-)
+
+
+    Sorry, couldn''t resist, hope you don''t mind!
+
+
+    Cheers, Jeremy.'
+- author: James Hicks
+  email: JamesHicks@lsharch.co.uk
+  ip: 77.241.180.6
+  url: ''
+  date: '2013-05-17 07:50:30'
+  body: "I don’t mind at all, I’m glad I could contribute something!\n\nI'd just like\
+    \ to say thank you for all your blog posts here as they have been invaluable to\
+    \ me as I have been writing various addins for our company to use. I’m looking\
+    \ forward to migrating them all over to 2014 soon and seeing what I can do with\
+    \ the new futures... When our IT department final put 2014 on our system... \n\
+    \nThanks again,\n\nJames"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.153.226.69
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-05-17 08:23:08'
+  body: :-)
+- author: Madhuri
+  email: dharmajimadhuri@gmail.com
+  ip: 91.73.97.130
+  url: ''
+  date: '2014-11-23 13:44:17'
+  body: 'Hi Jermey,
+
+
+    My requirement is very similar to placing legends from one sheet to another.I
+    have come across James Hicks reply but my apologies that I could not really understand
+    it.Can you please help me give an idea how to implement it.BTW,I am new to Revit
+    API.
+
+
+    Thanks'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.174.72
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-11-24 15:35:15'
+  body: 'Dear Madhuri,
+
+
+    To begin with, if you are new to the Revit API, I can recommend two things:
+
+
+    1. Take a look at the getting started material and all the tutorials to get a
+    good hang of all aspects:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#2">http://thebuildingcoder.typepad.com/blog/about-the-author.html#2</a>
+
+
+    2. In general, if a feature is not available in the Revit product manually through
+    the user interface, then the Revit API will not provide it either.
+
+
+    Therefore, before thinking about possibly automating any task, it is important
+    to explore the possibilities and develop an optimal solution through the user
+    interface first. For that, I would suggest asking an application engineer, product
+    usage expert, or product support for help on finding a suitable workflow and laying
+    down best practices.
+
+
+    To address your need, I would not recommend trying to reproduce James'' approach,
+    if, as he says, it''s long and "hacky".
+
+
+    A number of new view APIs have been added since that was written.
+
+
+    To start with, look at Steve Mycynek''s and Scott Conover''s classes at Autodesk
+    University 2012 and 2013, respectively:
+
+
+    CP3133 - Using the Autodesk Revit Schedule and View APIs
+
+
+    DV1823 - A 2014 Update to the Autodesk Revit Schedule and View APIs
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.'
+- author: Modar Mayya
+  email: modar.einstein@gmail.com
+  ip: 5.155.120.112
+  url: ''
+  date: '2015-06-16 02:52:22'
+  body: 'Dear Jeremy,
+
+    Hope You are fine
+
+    I''m trying to change the location of "Label Outline" in the viewport, In Visual
+    studio I see Maximum point and Minimum point take the new values I set, But in
+    Revit, no change!
+
+    Please Advice,
+
+    -----'

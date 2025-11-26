@@ -1,0 +1,55 @@
+comments:
+- author: Saikat Bhattacharya
+  email: saikat.bhattacharya@autodesk.com
+  ip: 203.202.234.226
+  url: http://www.autodesk.com
+  date: '2008-12-11 22:48:59'
+  body: "There has been some conversation on this issue with the development team.\
+    \ The slow behaviour reported has to do with the internal workflow in the API\
+    \ and is not specific to the family file after all, except for the fact that if\
+    \ it is a heavy dataset, the slowdown while setting a considerable number of parameters\
+    \ is more noticeable. \n\nApparently, the present workflow internally recalculates\
+    \ and regenerates other parameters every time a new parameter is set or the value\
+    \ of an existing parameters is altered. This is done in order to check the impact\
+    \ of any change of certain parameter values on others. This is causing the delay.\
+    \ \n\nAn SPR has been logged with the Revit engineering team and they are looking\
+    \ into this internal workflow. Unfortunately, there does not seem to be any workaround\
+    \ at the moment (I had tried using SuspendUpdating initially, but it had no impact)."
+- author: Ben Bishoff
+  email: ben.bishoff@ideateinc.com
+  ip: 38.114.167.10
+  url: http://www.ideateexplorer.com
+  date: '2009-04-20 17:00:53'
+  body: 'Hi Jeremy,
+
+
+    I wonder if you have any recommendation for profiling Revit 2010.
+
+
+    I have tried using two separate .NET profilers (ANTS and dotTRACE) and they both
+    do not recognized Revit.exe 2010 as a .NET executable.  I have had no problem
+    profiling my addin in Revit 2009.  Apparently some change was made in Revit 2010
+    that the main executable is no longer .NET based?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.77.235
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-21 02:02:09'
+  body: 'Dear Ben,
+
+
+    Thank you for the question and sorry that I have no answer for you at the moment.
+    I saw your ADN case and chipped in there as well, in the background. We are checking
+    with the development team, but currently I am not aware of any profiler that works
+    with the Revit 2010 API.
+
+
+    Technically, Revit.exe is not a .NET application and never has been. It is a native
+    MFC .exe which invokes some .NET components, including the API, during the course
+    of its run.  Unfortunately, we have heard that managed code profilers will not
+    work with Revit 2010 due to some internal implementation requirements.
+
+
+    Cheers, Jeremy.
+
+    -----'

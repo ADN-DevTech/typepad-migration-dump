@@ -1,0 +1,65 @@
+---
+layout: "post"
+title: "Basic Parametric Cube Family Tutorial"
+date: "2011-07-01 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Element Creation"
+  - "Family"
+  - "Geometry"
+  - "Getting Started"
+  - "Parameters"
+  - "Training"
+  - "User Interface"
+original_url: "https://thebuildingcoder.typepad.com/blog/2011/07/basic-parametric-cube-family-tutorial.html "
+typepad_basename: "basic-parametric-cube-family-tutorial"
+typepad_status: "Publish"
+---
+
+<p>I recently discussed the programmatic 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2011/06/creating-and-inserting-an-extrusion-family.html">
+creation of an extrusion family</a>.
+
+Now I just noticed that there is a new little eight and a half minute video showing how to do something similar through the user interface, just as a basic introduction to setting up constraints and parameters in the family definition context.
+
+<p>In his wonderful 
+
+<a href="http://buildz.blogspot.com">
+buildz blog</a>,
+
+Zach Kron recently presented a quick 'back to basics' demonstration of
+
+<a href="http://buildz.blogspot.com/2011/06/back-to-basics-making-parametric-cube.html">
+making a parametric cube</a>, 
+
+i.e. how to hook up geometry to dimensional parameters.
+He says: "This is a basic exercise for folks new to Revit and Vasari.  
+I was explaining this to someone the other day and decided to just encapsulate the mini lesson here":</p>
+
+<iframe width="480" height="300" src="http://www.youtube.com/embed/X0aCd57_jmc" frameborder="0" allowfullscreen></iframe>
+
+<p>There is a lot of powerful stuff and important hints in this short demo, so it is well worth watching for almost anybody interested in working with families in any way whatsoever, whether manually or programmatically.
+Highly recommended!
+
+
+<a name="2"></a>
+
+<h4>Changing the Family Document Category</h4>
+
+<p>Here is another issue that frequently arises with programmatic family creation: you cannot change the family document category through the API, although it is possible to do so from the user interface, because the Document.OwnerFamily.FamilyCategory property is read-only.
+Here is a typical case:
+
+<p><strong>Question:</strong> How can I change the family category from 'Generic Model' to 'Air Terminal'?</p>
+
+<p>My goal is create a new Air Terminal family based on 'Metric Generic Model face based.rft':</p>
+
+<center>
+
+<a style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301538f8bad1f970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301538f8bad1f970b image-full" alt="Changing the family document category" title="Changing the family document category" src="/assets/image_024caa.jpg" border="0" /></a> <br />
+
+</center>
+
+<p><strong>Answer:</strong> This is a currently a known limitation, and we have an open wish list item for it.
+
+<p>There is a simple workaround that you can use, though: manually create your own custom template file in advance, and then make use of that in your calls from the API.

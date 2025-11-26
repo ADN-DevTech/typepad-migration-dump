@@ -1,0 +1,155 @@
+comments:
+- author: David In't Veld
+  email: davidveld@gmail.com
+  ip: 82.68.211.117
+  url: http://www.davidveld.nl
+  date: '2014-11-06 04:38:02'
+  body: 'Hey Jeremy,
+
+    Thanks for providing these helpful links, and for having a look at my webpage!
+
+    I''m definitely going to play a bit with this View API, as soon as I finish my
+    Revit addin...(I''m not such a multitasker as you are I suppose..)
+
+
+    Thanks again for all the good work.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-11-06 05:02:21'
+  body: 'Dear David,
+
+
+    My pleasure entirely, and best of luck to you exploring the view and data API!
+
+
+    Come to one of the upcoming DevDays conferences to see much more of it live!
+
+
+    Cheers, Jeremy.'
+- author: fimo
+  email: ''
+  ip: 92.50.114.146
+  url: http://profile.typepad.com/6p01bb07a6caeb970d
+  date: '2014-11-06 09:13:49'
+  body: "Hi Jeremy,\n\nI am new to this blog and new to Revit API (SDK 2015), still\
+    \ not really knowing what I am doing and struggling through the examples here\
+    \ and in other places. \n\nThere are lots of useful examples and many of them\
+    \ are based on using \"ElementSet\". so I create an element set, like \"ElementSet\
+    \ elems = selection.Elements;\" Then I get a message saying \"don't use selection.elements,\
+    \ it's deprecated, use GetElementIds() instead.\" Of course I want to be a good\
+    \ guy, so I use \"GetElementIds()\", only to find out that this does not work\
+    \ for \"ElementSet\".\n\nOkay, so I abandon \"ElementSet\" and use \"ICollection<ElementId>elems\"\
+    \ which is (grammatically) fine -> no compiler errors. But now I have a Icollection\
+    \ and all the loads of code which I had found in the web so far do not work for\
+    \ me any more, as they were based on \"ElementSet\". \n\nSo here are my questions:\
+    \ is there a way to cast/convert \"ICollection\" to \"ElementSet\"? Am I the first\
+    \ one to come across this problem? What would be the professional approach to\
+    \ deal with this ? \n\nMany thanks for you advice..."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-11-06 09:46:30'
+  body: 'Dear Fimo,
+
+
+    Thank you for a very valid question.
+
+
+    ElementSet is obsolete in Revit 2015, just as the message tells you. The main
+    change is this one, I guess:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2014/04/whats-new-in-the-revit-2015-api.html#2.10">http://thebuildingcoder.typepad.com/blog/2014/04/whats-new-in-the-revit-2015-api.html#2.10</a>
+
+
+    However, as long as it has not been removed, you can still use it and ignore the
+    warning.
+
+
+    All new code should avoid making use of it, since it will probably no longer work
+    (and be removed) in the next release.
+
+
+    In most cases, you can replace it by a collection of ElementId objects. However,
+    its are element ids and not Element instances, so there will be some differences
+    in usage.
+
+
+    That is the issue you are encountering. Basically, the old code needs to be rewritten
+    to take the collection of ids instead of the set of elements.
+
+
+    The Revit API used to define quite a number of custom collections.
+
+
+    They are all being replaced by generic .NET collections, by and by.
+
+
+    Also, a number of methods are now using ElementId arguments instead of straight
+    Element ones.
+
+
+    This is part of a multi-year transition.
+
+
+    I hope this explains.
+
+
+    Cheers, Jeremy.'
+- author: fimo
+  email: ''
+  ip: ''
+  url: http://profile.typepad.com/6p01bb07a6caeb970d
+  date: '2014-11-07 04:12:43'
+  body: "Typepad-HTML-E-Mail\n\n\n\n\nHi Jeremy,\n&nbsp;\nthanks for your detailed\
+    \ response.\nYes, it does explain...\n\n&nbsp;\nBut, alas, my personal conclusion\
+    \ is supposed to be the following: as there are mostly old style code snippets\
+    \ available and I do not know how\n to convert them into new style, I have to\
+    \ stick to the obsolete variants in order to get some results. That means I am\
+    \ now learning the old style. I hope Autodesk will wait a little longer before\
+    \ removing the old code...:-)\n\n&nbsp;\nAnyway thanks a lot for your explanation.\n\
+    &nbsp;"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.162.130
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-11-07 04:35:56'
+  body: "Dear Fimo,\n\nPlease do not jump to the wrong conclusion.\n\nMy personal\
+    \ conclusion from that is to learn the new style and convert to old snippets to\
+    \ the new style. \n\nThe conversion is mostly trivial. Here is an example:\n\n\
+    Look at the modification of the file  DataToBim/DataToBuilding.cs:\n\n<a href=\"\
+    https://github.com/jeremytammik/DataToBimCountoursAndBuildings/commit/88637e90dfa984ae424d655304e9e0a43f6b19c7\"\
+    >https://github.com/jeremytammik/DataToBimCountoursAndBuildings/commit/88637e90dfa984ae424d655304e9e0a43f6b19c7</a>\n\
+    \nI have migrated dozens of projects on The Building Coder and often documented\
+    \ the migration steps in great detail.\n\nSimply look at The Building Coder category\
+    \ on Migration:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/migration\"\
+    >http://thebuildingcoder.typepad.com/blog/migration</a>\n\nI hope this helps.\n\
+    \nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.162.130
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-11-07 06:50:03'
+  body: 'Dear Fimo,
+
+
+    To motivate you further, and others as well, I hope, I published an edited version
+    of our discussion:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2014/11/migrating-deprecated-api-and-2d-boolean-operations.html#3">http://thebuildingcoder.typepad.com/blog/2014/11/migrating-deprecated-api-and-2d-boolean-operations.html#3</a>
+
+
+    I also did some further work myself removing compilation warnings about deprecated
+    API usage from The Building Coder samples, to provide a perfect example to explain.
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.
+
+    -----'

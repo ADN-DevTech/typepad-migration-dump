@@ -1,0 +1,130 @@
+comments:
+- author: Daren Thomas
+  email: thomas@arch.ethz.ch
+  ip: 129.132.61.73
+  url: ''
+  date: '2009-09-16 08:46:19'
+  body: 'Which vector corresponds to north? Is it (0, 1, 0)?
+
+
+    According to a picture in the "Revit 2010 API Developer Guide", the y-Axis represents
+    North/South and the x-Axis represents East/West - alas, it is not quite clear
+    which way...'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-09-22 01:26:10'
+  body: 'Dear Daren,
+
+
+    Yes, (0,1,0) is probably right. You can also use the XYZ.BasisY property instead
+    of creating your own new XYZ instance for it.
+
+
+    Cheers, Jeremy.'
+- author: Evgeny
+  email: ekurbatov@gmail.com
+  ip: 38.99.165.82
+  url: ''
+  date: '2009-12-17 13:15:34'
+  body: "Hi Jeremy,\nThank you for very useful blog. I create my application with\
+    \ VB VSTA borrowing ideas how to manage Revit objects from your site. One of the\
+    \ lines of your code doesn't work for me.\n\nXYZ v = q - p;\n\ngives en error:\n\
+    \ \"Operator '-' is not defined for types 'Autodesk.Revit.Geometry.XYZ' and 'Autodesk.Revit.Geometry.XYZ'.\"\
+    \n\nWhat the reason could be for the issue?\n\nThanks in advance.\nEK"
+- author: Evgeny
+  email: ekurbatov@gmail.com
+  ip: 38.99.165.82
+  url: ''
+  date: '2009-12-17 13:49:16'
+  body: 'Hm... I found that the error appears when there is a reference to Revit.proxy.
+    But when the RevitAPI is referenced the code is OK. But I can''t use the RevitAPI
+    for VSTA, because errors occure in other places of code.
+
+
+    Can you suggest something to get points subtraction?
+
+    Thanks,
+
+    EK.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.60.248.43
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-17 18:59:13'
+  body: 'Dear EK,
+
+
+    I know nothing of VSTA, I just use the real API. I suspect that ''new XYZ()''
+    does not work in VSTA; you have to use the Application.NewXYZ method instead of
+    the default constructor.
+
+
+    Cheers, Jeremy.'
+- author: Evgeny
+  email: ekurbatov@gmail.com
+  ip: 38.99.165.82
+  url: ''
+  date: '2009-12-18 09:59:54'
+  body: "Jeremy,\nI was able to resolve the problem, using the Subtract method:\n\n\
+    \        Dim v As XYZ = p2.Subtract(p1)\n\nSorry for the VB code. I believe you\
+    \ get the idea. This line works fine for me and it looks more reliable then \"\
+    -\" operator, which doesn't work, although it is defined for XYZ object.\n\nSorry\
+    \ for false alarm and thank you for your great blog.\nRegards,\nEK"
+- author: Jeremy Tammik
+  email: ''
+  ip: 80.14.37.68
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-19 02:47:22'
+  body: 'Dear Evgeny,
+
+
+    Congratulations on solving the issue and thank you for sharing the solution.
+
+
+    So is the final result of your experience that you need to use explicit method
+    calls in VSTA instead of built-in operators, e.g. Application.NewXYZ instead of
+    ''new'' for creating and Subtract instead of ''-'' for subtracting?
+
+
+    Cheers, Jeremy.'
+- author: Ritish
+  email: ritishrocky1@gmail.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2010-06-30 08:39:16'
+  body: "Hi Jeremy,\n\nI am able to draw the model lines in Revit file using c# code.\
+    \ But the problem ariseing is that when i draw the model line it intersect the\
+    \ walls. \nWill u please provide me some tips that How to check the elements collapse\
+    \ with the model lines and change the direction of model line from that position\
+    \ to other side??\n\nThanks in Advance.\nRitish"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-30 08:49:03'
+  body: 'Dear Ritish,
+
+
+    One approach that you can use is to determine the intersections of the model line
+    with building elements using the FindReferencesByDirection method, as discussed
+    in a number of posts:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/06/intersection-between-elements.html">http://thebuildingcoder.typepad.com/blog/2010/06/intersection-between-elements.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/06/devcamp-session-on-whats-new.html">http://thebuildingcoder.typepad.com/blog/2010/06/devcamp-session-on-whats-new.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/01/findreferencesbydirection.html">http://thebuildingcoder.typepad.com/blog/2010/01/findreferencesbydirection.html</a>
+
+
+    Since I will be going on holiday now, I will not be able to answer any updates
+    for while, so please be patient ... Thank you!
+
+
+    Cheers, Jeremy.
+
+    -----'

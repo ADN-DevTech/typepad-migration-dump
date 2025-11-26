@@ -1,0 +1,366 @@
+comments:
+- author: Fabio L. Pontes
+  email: fabio.pontes@ofcdesk.com
+  ip: 186.231.69.162
+  url: http://www.ofcdesk.com
+  date: '2013-07-16 13:11:43'
+  body: 'Hello Jeremy,
+
+
+    We have noticed that Revit 2014 is introducing a new way of managing the Lookup
+    Table files: you can now embed the CSV file into the family using the "Manage"
+    button, under Type Properties. Problem is: do we have access to that through the
+    API?
+
+
+    Thanks'
+- author: Jeremy Tammik
+  email: ''
+  ip: 213.55.184.170
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-07-17 04:16:17'
+  body: 'Dear Fabio,
+
+
+    Well spotted. Yes, indeed. Simply search above for CSV.
+
+
+    Cheers, Jeremy.'
+- author: flower4wine
+  email: ''
+  ip: 140.206.147.198
+  url: http://profile.typepad.com/6p017ee3d89300970d
+  date: '2013-08-26 09:08:19'
+  body: "Hi Jeremy,\n\nToday I tried to upgrade my codes from Revit 2013 to Revit\
+    \ 2014. Everything goes fine but Add-in Manager. I didn't find it in Revit 2014\
+    \ SDK package. \n\nCould you please give me a hint where to get it back? Thanks\
+    \ a lot!\n\nBest Regards,\nDavid Tan"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.217.14
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-08-26 09:15:44'
+  body: 'Dear David,
+
+
+    Congratulation on getting around to this.
+
+
+    Wow, rather late, though  :-)
+
+
+    I would suggest looking at the most up-to-date version of the SDK, on the Revit
+    Developer Centre:
+
+
+    <a href="http://www.autodesk.com/developrevit">http://www.autodesk.com/developrevit</a>
+
+
+    Cheers, Jeremy.'
+- author: flower4wine
+  email: ''
+  ip: 140.206.147.198
+  url: http://profile.typepad.com/6p017ee3d89300970d
+  date: '2013-08-26 09:33:09'
+  body: 'Hi Jeremy,
+
+
+    Well, again "the box stops at you" :)
+
+
+    Yeah, my upgrade is kind of late. I have been working on the whole life cycle
+    of subway for the past 8 months. All functionality are on Revit 2013, so I didn''t
+    get time to upgrade until today.
+
+
+    To share my good news with you, my work covers design, construction and maintenance.
+    And I''m confident to say, the whole life cycle of BIM can be achieved depending
+    on Revit.
+
+
+    Best Regards,
+
+    David Tan'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.217.14
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-08-26 10:00:04'
+  body: 'Dear David,
+
+
+    Wow, sincere congratulations on the huge achievement and that notable statement!
+
+
+    Do you mean the ''box'' or the ''buck''?
+
+
+    <a href="http://en.wikipedia.org/wiki/Buck_passing">http://en.wikipedia.org/wiki/Buck_passing</a>
+
+
+    I am sure you discovered and solved numerous fascinating aspects and tips and
+    tricks in that project.
+
+
+    Did you make much use of the API?
+
+
+    Would you care sharing with us?
+
+
+    If you would like to put together a draft for a blog post, I would love to host
+    it for you.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: flower4wine
+  email: ''
+  ip: 140.206.147.198
+  url: http://profile.typepad.com/6p017ee3d89300970d
+  date: '2013-08-26 10:18:15'
+  body: 'Hi Jeremy,
+
+
+    Yeah, I mean ''Buck''. And I used it by mistake for a couple of times (shaming...)
+
+
+    I made much use of Revit API. I spent more time on the stage of construction and
+    maintenance than the stage of design. It''s a long story and I hope I can get
+    time to make a draft for you. Maybe next month as I''m rushing for a release now.
+
+
+    For a brief, I''m doing the similar thing as RIB iTWO (<a href="http://www.rib-software.com/en),">http://www.rib-software.com/en),</a>
+    but on the platform of pure Revit.
+
+
+    Best Regards,
+
+    David Tan'
+- author: David
+  email: david.hoag@me-engineers.com
+  ip: 209.117.137.162
+  url: ''
+  date: '2013-09-16 20:01:21'
+  body: With the inclusion of Document.EnableWorksharing in the 2014 API is there
+    now a way to create new worksets from a macro? Or is that still not available?
+- author: Max
+  email: maximilian.o.e.thumfart@gmail.com
+  ip: 212.202.146.197
+  url: ''
+  date: '2013-09-19 07:50:11'
+  body: "For everyone also looking for the Revision Parameters: Here a little Wrapper\
+    \ class in C#:\n\n    class Revision\n    {\n        private Element revision;\n\
+    \n        public Revision(Element em)\n        {\n            this.revision =\
+    \ em;\n        }\n\n        public string revisionDate\n        {\n          \
+    \  get { return this.revision.get_Parameter(\"Revision Date\").AsString(); }\n\
+    \            set { this.revision.get_Parameter(\"Revision Date\").Set(value);\
+    \ }\n        }\n\n        public string issuedTo\n        {\n            get {\
+    \ return this.revision.get_Parameter(\"Issued to\").AsString(); }\n          \
+    \  set { this.revision.get_Parameter(\"Issued to\").Set(value); }\n        }\n\
+    \n        public string revisionNumber\n        {\n            get { return this.revision.get_Parameter(\"\
+    Revision Number\").AsString(); }\n            set { this.revision.get_Parameter(\"\
+    Revision Number\").Set(value); }\n        }\n\n        public int issued\n   \
+    \     {\n            get { return this.revision.get_Parameter(\"Issued\").AsInteger();\
+    \ }\n            set { this.revision.get_Parameter(\"Issued\").Set(value); }\n\
+    \        }\n\n        public int numbering\n        {\n            get { return\
+    \ this.revision.get_Parameter(\"Numbering\").AsInteger(); }\n            set {\
+    \ this.revision.get_Parameter(\"Numbering\").Set(value); }\n        }\n\n    \
+    \    public int revisionSequence\n        {\n            get { return this.revision.get_Parameter(\"\
+    Revision Sequence\").AsInteger(); }\n            set { this.revision.get_Parameter(\"\
+    Revision Sequence\").Set(value); }\n        }\n\n        public string revisionDesc\n\
+    \        {\n            get { return this.revision.get_Parameter(\"Revision Description\"\
+    ).AsString(); }\n            set { this.revision.get_Parameter(\"Revision Description\"\
+    ).Set(value); }\n        }\n\n        public string issuedBy\n        {\n    \
+    \        get { return this.revision.get_Parameter(\"Issued by\").AsString(); }\n\
+    \            set { this.revision.get_Parameter(\"Issued by\").Set(value); }\n\
+    \        }\n    \n    }"
+- author: Anthony Tiefenbach
+  email: ttiefenbach@gmail.com
+  ip: 66.195.250.66
+  url: ''
+  date: '2013-09-19 09:44:51'
+  body: I'd also like to know the answer to this question
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.203.13
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-27 05:09:45'
+  body: 'Dear Max,
+
+
+    Thank you for the nice suggestion!
+
+
+    I promoted it to a proper blog post to ensure it does not get lost:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/09/max-revision-wrapper-class.html">http://thebuildingcoder.typepad.com/blog/2013/09/max-revision-wrapper-class.html</a>
+
+
+    Thanks again, and have a nice weekend!
+
+
+    Cheers, Jeremy.'
+- author: Gina C
+  email: gina.cargile@gmail.com
+  ip: 64.207.253.178
+  url: ''
+  date: '2013-10-07 11:44:14'
+  body: "I really like your blog.  I figured if anyone knew the answer to this question,\
+    \ it would be you.\n \nI have a project that I am using a Title Block on.  I have\
+    \ parameters shared with the project that I can change with an add in.  I need\
+    \ to also be able to add an image that is project specific with the add-in.  Is\
+    \ this possible?\nI don’t want to add the image for each sheet… and I really don’t\
+    \ want to have to copy the template for every project and change it there.\n \n\
+    Any direction you can give me would be much appreciated"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.193.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-10-08 11:18:03'
+  body: 'Dear Gina,
+
+
+    Thank you for submitting your query as a comment and your appreciation. I''m glad
+    you like it.
+
+
+    Unfortunately, there is a huge amount that I do not know. Some can be gleaned
+    from the development team, and the majority from the developer community. So I
+    end up just funneling information around, it seems, which is actually pretty boring.
+
+
+    You would be surprised to hear how many questions are unique to one single developer.
+
+
+    Thus, you often need to DIY.
+
+
+    In this case, I cannot really say anything at all specific.
+
+
+    I hope the general standard advice will be of use:
+
+
+    1. Take a deep and careful look at the project file using RevitLookup and all
+    other available tools, especially the element lister and BimChecker, before adding
+    an image.
+
+
+    2. Add the image and take careful note of all the steps you performed.
+
+
+    3. Repeat step 1 after adding the image.
+
+
+    4. Use the detailed list of steps from item 2 and the differences between the
+    results from items 1 and 3 to determine how you can perform the operation programmatically.
+
+
+    I guess I must have repeated this message several thousand times by now, albeit
+    possibly not so explicitly.
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.193.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-10-08 12:13:27'
+  body: 'Dear David and Anthony,
+
+
+    I believe the worksharing API is still almost completely read-only.
+
+
+    Cheers, Jeremy.'
+- author: Mike
+  email: stealthnyc@gmail.com
+  ip: 69.86.10.73
+  url: ''
+  date: '2013-10-23 23:05:46'
+  body: Still no NewCeiling or Ceiling.Create methods?
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.200.163
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-11-04 08:07:25'
+  body: 'Dear Mike,
+
+
+    Indeed, I am sorry to say, nope.
+
+
+    For your reference, here are some internal numbers to the associated wish list
+    item: ADN cases 7711156 and 8896836, Jira issue CF-191.
+
+
+    Cheers, Jeremy.'
+- author: Lucia
+  email: gilda.menezes@ifrn.edu.br
+  ip: 179.190.131.228
+  url: ''
+  date: '2014-02-15 10:32:37'
+  body: 'Hi,
+
+    To write ''hello world'' (Revit 2013 API) the code is:
+
+
+    using System;
+
+    using Autodesk.Revit.UI;
+
+    using Autodesk.Revit.DB;
+
+    namespace HelloWorld
+
+    [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Automatic)]
+
+    public class Class1 : IExternalCommand
+
+    {
+
+    {
+
+    public Autodesk.Revit.UI.Result Execute(ExternalCommandData revit,
+
+    ref string message, ElementSet elements)
+
+    {
+
+    TaskDialog.Show("Revit", "Hello World");
+
+    return Autodesk.Revit.UI.Result.Succeeded;
+
+    }
+
+    }
+
+    }
+
+
+    What''s wrong to Revit 2014?
+
+    There were build erros:
+
+    Could you help me?
+
+    Thanks'
+- author: lucia
+  email: gilda.lucia@gmail.com
+  ip: 179.190.131.228
+  url: ''
+  date: '2014-02-16 14:26:54'
+  body: "My Revit is 2014. My Windows is 7 - 32 bits.\nI use Microsoft Visual C# 2010\
+    \ Express.\n\nAt error list there are 2 errors (the same):\nLine 18, Column 9:\
+    \ Error 1 - The type or namespace name 'Uri' could not be found (are you missing\
+    \ a using directive or an assembly reference?)   \n\nLine 18, Column 28: Error\
+    \ 2 - The type or namespace name 'Uri' could not be found (are you missing a using\
+    \ directive or an assembly reference?)   \n\nI think that this version is 2012\
+    \ and my version is 2014.\n\nThe code is:"

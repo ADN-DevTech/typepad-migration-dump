@@ -1,0 +1,144 @@
+---
+layout: "post"
+title: "Revit 2018.1.1 API Docs and CropBox Setting"
+date: "2017-09-19 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "2018"
+  - "Docs"
+  - "View"
+original_url: "https://thebuildingcoder.typepad.com/blog/2017/09/revit-201811-fixes-cropbox-setting.html "
+typepad_basename: "revit-201811-fixes-cropbox-setting"
+typepad_status: "Publish"
+---
+
+<p>The Revit 2018.1.1 hotfix was released last week and solves an API issue that was already being discussed in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a>.</p>
+
+<p>Further, <a href="http://www.gtalarico.com">Gui Talarico</a> updated
+the <a href="http://www.revitapidocs.com/2018.1">online Revit API documentation</a> for
+Revit 2018.1:</p>
+
+<ul>
+<li><a href="#2">Revit and Revit LT 2018.1.1 released</a></li>
+<li><a href="#3">CropBox setting in Revit 2018 API fixed</a></li>
+<li><a href="#4">CropBox setting workaround</a></li>
+<li><a href="#5">Revit 2018.1 API documentation online</a></li>
+</ul>
+
+<h4><a name="2"></a>Revit and Revit LT 2018.1.1 Released</h4>
+
+<p>Revit and Revit LT 2018.1.1 product updates with the build number 20170907_2315 were released last week via the accounts portal and the Autodesk desktop app.</p>
+
+<p>Here are links to the corresponding patches and documentation:</p>
+
+<ul>
+<li><a href="http://up.autodesk.com/2018/RVT/Autodesk_Revit_2018_1_1.exe">Revit 2018.1.1 hotfix patch</a></li>
+<li><a href="http://up.autodesk.com/2018/RVT/Autodesk_Revit_2018_1_1_Readme.htm">RVT Readme</a></li>
+<li><a href="http://revit.downloads.autodesk.com/download/2018_1_1_RVT/Docs/RelNotes/Autodesk_Revit_2018_1_1_ReleaseNotes.html">RVT Enhancement Document</a></li>
+<li><a href="http://up.autodesk.com/2018/RVTLT/Autodesk_Revit_LT_2018_1_1.exe">Revit LT 2018.1.1 hotfix patch</a></li>
+<li><a href="http://up.autodesk.com/2018/RVTLT/Autodesk_Revit_LT_2018_1_1_Readme.htm">RLT Readme</a></li>
+<li><a href="http://revit.downloads.autodesk.com/download/2018_1_1_RVT/Docs/RelNotes/Autodesk_Revit_LT_2018_1_1_ReleaseNotes.html">RLT Enhancement Document</a></li>
+</ul>
+
+<p>These hotfixes target all prior Revit 2018 updates, including Revit 2018, Revit 2018.0.1 hotfix, Revit 2018.0.2 hotfix and Revit 2018.1 update.</p>
+
+<h4><a name="3"></a>CropBox Setting in Revit 2018 API Fixed</h4>
+
+<p>The update fixes a couple of important issues, of course.</p>
+
+<p>The only API related one is described thus:</p>
+
+<ul>
+<li>Fixed an issue so that the extents of a crop box are correctly set using the API.</li>
+</ul>
+
+<p>It was discussed in some depth in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> forum thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/setting-cropbox-for-a-3d-view-with-revit-2018/m-p/7129460">setting CropBox for a 3D view with Revit 2018</a>:</p>
+
+<p><strong>Report 1:</strong> I am getting a different result with 2018 than I was with 2017 and previous versions of Revit.</p>
+
+<pre class="code">
+  Dim oBBoxCropView As DB.BoundingBoxXYZ
+  ' do some stuff to create required bounding box.
+  Dim V3D As View3D
+  V3D.CropBox = oBBoxCropView
+</pre>
+
+<p>The code for creating the bounding box results in an identical <code>BoundingBox</code>, but when applied to the view crop box, results in very large max and min extents.</p>
+
+<p>Has anyone else experienced this?</p>
+
+<pre class="code">
+  ?oBBoxCropView
+  {Autodesk.Revit.DB.BoundingBoxXYZ}
+    Max: {(43.355956267, 0.075662107, -0.100000000)}
+    Min: {(21.252267057, -21.180810247, -1000.000000000)}
+  ?V3D.CropBox
+  {Autodesk.Revit.DB.BoundingBoxXYZ}
+    Max: {(43.355956267, 0.075662107, -0.100000000)}
+    Min: {(21.252267057, -21.180810247, -1000.000000000)}
+</pre>
+
+<p>But with Revit 2018, using the same values for <code>oBBoxCropView</code> results in an invalid cropbox for the view.</p>
+
+<pre class="code">
+  ?V3D.CropBox
+  {Autodesk.Revit.DB.BoundingBoxXYZ}
+    Max: {(-1000000000000000019884624838656.000000000, -1000000000000000019884624838656.000000000, -0.100000000)}
+    Min: {(1000000000000000019884624838656.000000000, 1000000000000000019884624838656.000000000, -0.120000000)}
+</pre>
+
+<p>After further investigation, I found that ensuring that the new bounding box assigned to the View3D's cropbox has the same transform assigned to it as the original crop box corrects the crop setting. In prior versions of Revit, the <code>Min</code> and <code>Max</code> coordinates would stay the same after assignment to the <code>CropBox</code> property. However, in Revit 2018 it appears that if the bounding box <code>Transform</code> does not match the View3D's crop box, Revit transforms the <code>Min</code> and <code>Max</code> values upon assignment to the <code>CropBox</code> property.</p>
+
+<p>Hard to tell if this was a silent fix to incorrect behaviour in prior versions or if it's a bug in Revit 2018....</p>
+
+<p><strong>Report 2:</strong> I have also had this problem in Revit 2018. One of our add-ins crops a 3D view to the extents of a section box, which has worked in all prior versions of Revit until now (2018). The crop seems to be off by a variable amount depending on the location of the section box but it's not particularly consistent. It tends to be off by about 10 feet or so in X and Y directions...</p>
+
+<p><strong>Report 3:</strong> Section Box in Revit 2018 is indeed not working. I am having the same experience as fellas above. Code that used to work just fine in 2017 is not working in 2018. There are no errors or warnings, so I am not really sure what the issues are. My section box values look ok when I am debugging, transactions all complete, but when I open the view created, section box is off in space, even though its <code>BoundingBox</code> min and max would indicate that it's located properly. It's all very strange behaviour. </p>
+
+<p><strong>Answer:</strong> Happily, as said, this issue is resolved by the new update.</p>
+
+<h4><a name="4"></a>CropBox Setting Workaround</h4>
+
+<p><strong>Workaround:</strong> Immediately before the release of the fix,
+<a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/1003305">CaptainDan</a> provided
+the following workaround:</p>
+
+<p>Just thought I'd check in to see if anyone else tried the workaround (that worked for me at least) for this bug?</p>
+
+<p>What I originally did (and what worked in prior versions) was create a new <code>BoundingBoxXYZ</code>, set the min and max appropriately and assign this to the <code>CropBox</code> of the section.</p>
+
+<p>In Revit 2018, after playing around with the same code, I found that as long I additionally set the transform of this new <code>BoundingBoxXYZ</code> to be the same transform that the original <code>CropBox</code> has, then the <code>Min</code> and <code>Max</code> don't change and appear correct. I haven't had any issues since this workaround and the tool that uses this code has been in use for some time now in our workflows without issue. Is everyone sure they're setting the <code>Transform</code> property appropriately?</p>
+
+<p><strong>Confirmation:</strong> Thanks for the feedback, Dan; you are right, if I change:</p>
+
+<pre class="code">
+  Dim oBBoxCropView As DB.BoundingBoxXYZ = V3D.CropBox
+</pre>
+
+<p>To the following, the extent is set correctly within my test sample, I will see what happens in my main application.</p>
+
+<pre class="code">
+  Dim oBBoxCropView As New DB.BoundingBoxXYZ
+  oBBoxCropView.Transform = V3D.CropBox.Transform
+</pre>
+
+<h4><a name="5"></a>Revit 2018.1 API Documentation Online</h4>
+
+<p>As <a href="http://www.gtalarico.com">Gui Talarico</a> pointed out in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> forum thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/revit-api-2018-1-documentation/m-p/7388174">Revit 2018.1 API documentation</a>:</p>
+
+<p><center></p>
+
+<blockquote>
+  <p><a href="http://www.revitapidocs.com">RevitApiDocs.com</a> has been updated to include the latest 2018.1 API:</br></br><a href="http://www.revitapidocs.com/2018.1"><b>www.revitapidocs.com/2018.1</b></a></p>
+</blockquote>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c9217c8b970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c9217c8b970b image-full img-responsive" alt="RevitApiDocs.com covers Revit 2018.1 API" title="RevitApiDocs.com covers Revit 2018.1 API" src="/assets/image_a3abd8.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<p>Ever so many thanks to Gui for maintaining this invaluable resource!</p>

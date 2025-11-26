@@ -1,0 +1,605 @@
+---
+layout: "post"
+title: "Revit 2026, Empty Assets and Demolished Stuff"
+date: "2025-04-02 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "2026"
+  - "Data Access"
+  - "Material"
+  - "RST"
+  - "SDK Samples"
+  - "Update"
+original_url: "https://thebuildingcoder.typepad.com/blog/2025/04/revit-2026-empty-assets-and-demolished-stuff.html "
+typepad_basename: "revit-2026-empty-assets-and-demolished-stuff"
+typepad_status: "Publish"
+---
+
+<p><link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet" /></p>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+<p><style> code[class*=language-], pre[class*=language-] { font-size : 90%; } </style></p>
+
+<p>The new major release of Revit has arrived, and a bunch of API solutions for the existing ones:</p>
+
+<ul>
+<li><a href="#2">What's new in Revit 2026</a></li>
+<li><a href="#3">Empty appearance asset element</a></li>
+<li><a href="#4">Retrieving demolished room data</a></li>
+<li><a href="#5">RST results package creation</a></li>
+<li><a href="#6">RST ResultsBuilder SDK sample</a></li>
+</ul>
+
+<h4><a name="2"></a> What's New in Revit 2026</h4>
+
+<p>Autodesk has released Revit 2026, cf.
+<a href="https://help.autodesk.com/view/RVT/2026/ENU/?guid=GUID-C81929D7-02CB-4BF7-A637-9B98EC9EB38B">What's New in Revit 2026</a>.</p>
+
+<p>For an intro to the new features, you can register for
+the <a href="https://www.autodesk.com/webinars/aec/autodesk-whats-new-in-revit-april10">What’s New in Revit 2026 webinar on April 10</a>.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302e860e6a32e200b-pi"><img class="asset  asset-image at-xid-6a00e553e16897883302e860e6a32e200b img-responsive" style="width: 150px; display: block; margin-left: auto; margin-right: auto;" alt="Revit 2026" title="Revit 2026" src="/assets/image_28692a.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Before going further with that, let's look at some recent solutions for programming the existing releases.</p>
+
+<h4><a name="3"></a> Empty Appearance Asset Element</h4>
+
+<p>The <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/why-is-appearanceassetelement-empty-in-api/m-p/13388041">why is AppearanceAssetElement empty in API</a> was
+solved:</p>
+
+<p><strong>Question:</strong>
+I am retrieving appearance assets from elements in my project and came across a door which has a material <code>Door - Architrave</code>.
+Even though it has appearance assets in the UI, RevitLookup cannot find them.
+It shows <code>AssetProperties.Size</code> = 0.
+This is the only material in my entire project with zero <code>AssetProperties.Size</code>.
+Is this normal?
+How else can I get my Appearance assets if AssetProperties.Size is zero?</p>
+
+<p>I'm trying to get specific appearance asset properties from various materials, including appearance description, category and main appearance image filepath.</p>
+
+<p>I tried using renderingAsset.FindByName("Description"), renderingAsset.FindByName("Category"), renderingAsset.FindByName("UnifiedBitmapSchema") and renderingAsset.FindByName("BaseSchema").
+They all return null since renderingAssets is empty, i.e. AssetProperties.Size = 0.</p>
+
+<p>For reference, here is my code:</p>
+
+<pre><code class="language-cs">private (string, string, string) GetMaterialAssets(Document doc, int materialId)
+{
+  string texturePath = "";
+  string description = "";
+  string category = "";
+
+  // Get material element
+  Material material = doc.GetElement(new ElementId(materialId)) as Material;
+  if (material != null)
+  {
+    // Get appearance assets
+    ElementId appearanceAssetId = material.AppearanceAssetId;
+    AppearanceAssetElement appearanceAssetElem = doc.GetElement(appearanceAssetId) as AppearanceAssetElement;
+    if (appearanceAssetElem == null) return (texturePath, description, category);
+
+    // Get rendering asset
+    Asset assetRend = appearanceAssetElem.GetRenderingAsset();
+
+    if (assetRend != null)
+    {
+      if (assetRend.Size == 0)
+      {
+        AssetProperty baseSchema = assetRend.FindByName("BaseSchema");
+        TaskDialog.Show("Base Schema", baseSchema?.ToString());
+      }
+
+      // Go through properties
+      for (int assetIdx = 0; assetIdx < assetRend.Size; assetIdx++)
+      {
+        AssetProperty assetProperty = assetRend[assetIdx];
+        Type type = assetProperty.GetType();
+
+        if (assetProperty.Name.ToLower() == "description")
+        {
+          var prop = type.GetProperty("Value");
+          if (prop != null && prop.GetIndexParameters().Length == 0)
+          {
+            description = prop.GetValue(assetProperty).ToString();
+            continue;
+          }
+        }
+        else if (assetProperty.Name.ToLower() == "category")
+        {
+          var prop = type.GetProperty("Value");
+          if (prop != null && prop.GetIndexParameters().Length == 0)
+          {
+            category = prop.GetValue(assetProperty).ToString();
+            continue;
+          }
+        }
+
+        if (assetProperty.NumberOfConnectedProperties < 1)
+          continue;
+
+        Asset connectedAsset = assetProperty.GetConnectedProperty(0) as Asset;
+        if (connectedAsset.Name == "UnifiedBitmapSchema")
+        {
+          if (assetProperty.Name.Contains("bump") || assetProperty.Name.Contains("pattern_map") ||
+            assetProperty.Name.Contains("shader") || assetProperty.Name.Contains("opacity"))
+            continue;
+
+          // UnifiedBitmap contains file name and path
+          AssetPropertyString path = connectedAsset.FindByName(UnifiedBitmap.UnifiedbitmapBitmap) as AssetPropertyString;
+          if (path == null || string.IsNullOrEmpty(path.Value))
+            continue;
+          string pathString = path.Value;
+          if (pathString.Contains("|"))
+          {
+            pathString = pathString.Split('|')[0];
+          }
+          // remove | this character
+          if (Path.IsPathRooted(pathString))
+          {
+            texturePath = pathString;
+            continue;
+          }
+
+          // return path using default texture
+          string defaultTexturePath = @"C:\Program Files\Common Files\Autodesk Shared\Materials\Textures\";
+          string defaultTexturePathx86 = @"C:\Program Files (x86)\Common Files\Autodesk Shared\Materials\Textures\";
+
+          if (Directory.Exists(defaultTexturePath))
+            texturePath = defaultTexturePath + pathString;
+          else if (Directory.Exists(defaultTexturePathx86))
+            texturePath = defaultTexturePathx86 + pathString;
+        }
+      }
+    }
+  }
+
+  return (texturePath, description, category);
+}</code></pre>
+
+<p><strong>Answer:</strong>
+I think it's because the AppearanceAsset doesn't really exist.
+I had this when editing materials in a Rvt created by a IFC conversion.
+Could also be the material original also was created/duplicated by API and no asset was attached, or from a material library.
+Or even a (very) old Revit style material</p>
+
+<p>When opening the material in the material editor, Revit assigns the AppearanceAsset, but it's not saved to the material on closing the editor if no changes are made to the AppearanceAsset.
+Change, for instance, the description field of the asset and save it.
+Now the AppearanceAsset will also be found by the API</p>
+
+<p>In my case, it always was a Generic class material (IFC conversion) and not a Wood Class; maybe that's why an AppearanceAsset is created by Revit with wood settings; likely a copy of the first existing Wood Class Asset?? (or some default).</p>
+
+<p>I solved it in my case by assigning my own AppearanceAsset (copy of a template AppearanceAsset with correct settings), editing some properties and assign it to the material.</p>
+
+<p><strong>Response:</strong>
+It was indeed as you described.
+By changing a property of my Appearance asset and saving the material re-applies the appearance assets in the API.</p>
+
+<p>No solution in my case, other then warning the user to this issue, since I can't programmatically re-assign the properties without reading the assigned values first, which I can't since renderingAssets is empty.
+My materials do not come from IFC conversion.</p>
+
+<p>I've been told that the family I'm using with the material with the empty Appearance Assets (Door - Architrave) is actually one of the default families that comes with Revit 2024 installation.
+So assuming this is a very old family, recycled between Revit versions, and it might be a very old material as well.</p>
+
+<p><strong>Answer:</strong>
+I just checked the 2024 revit project template "Default-Multi-discipline". It seems to have 22 materials without an appearance asset.
+Like "Analytical Spaces", "Metal - Stainless Steel" etc..(others do have an appearance asset.)</p>
+
+<p>Duplicating such material (duplicate incl. asset, shared asset not tried) will result in a material with an appearance asset (size > 0),
+The original will still lack it, as nothing changed to that one.</p>
+
+<p>Duplicating such material in the API will result in a material with no appearance asset, because the UI version adds it internally.
+So that's what then also should be done in the API in you're addin.
+How the Revit UI creates the asset is another topic; I think it depends on the material class and what maybe already exists in the project/family and/or some internal default assets.</p>
+
+<p>I haven't tried this via the API yet but, after checking the Appearance Asset Element and finding it to have a size of 0, try duplicating it and see if Revit creates a properly defined version of it, if so then you could assign the newly created Appearance Asset to the material (along with searching for and redefining any other materials that might be using it as well).</p>
+
+<p>I went ahead and tried this suggestion.
+It does indeed work.
+Here's the code in VB (where RDB = Revit.DB and RDV = Revit.DB.Visual):</p>
+
+<pre><code class="language-vb">  'Forum Issue resolution
+  Public Sub ReplaceEmptyAppearanceAssets(thisDoc As RDB.Document)
+    Dim printStr As String = "Invalid Assets: " & vbCrLf
+
+    'collect document materials
+    Dim matCollector As RDB.FilteredElementCollector = New RDB.FilteredElementCollector(thisDoc)
+    Dim allMats As IList(Of RDB.Material) = matCollector.OfClass(GetType(RDB.Material)).OfType(Of RDB.Material).ToList
+    'collect document appearance Asset Elements
+    Dim assetCollector As New RDB.FilteredElementCollector(thisDoc)
+    Dim allAppearanceAssets As IList(Of RDB.AppearanceAssetElement) = assetCollector.OfClass(GetType(RDB.AppearanceAssetElement)) _
+      .OfType(Of RDB.AppearanceAssetElement).ToList
+    'create a list of asset names in use
+    Dim currentNames As New List(Of String)
+    For Each appAsset As RDB.AppearanceAssetElement In allAppearanceAssets
+      If currentNames.Contains(appAsset.Name) = False Then
+        currentNames.Add(appAsset.Name)
+      End If
+    Next
+
+    'prep for creating Asset if required
+    'this takes a while on first run to expand the default library,
+    'could be moved to seperate function and called if neede
+    Dim assetList As List(Of RDV.Asset) = thisDoc.Application.GetAssets(RDV.AssetType.Appearance)
+    Dim genericAsset As RDV.Asset = Nothing
+
+    'really shouldn't start a transaction unless modification is needed...
+    Using thisTrans As New RDB.Transaction(thisDoc, "Create new material")
+      thisTrans.Start()
+
+      Dim nameStr As String = ""
+
+      'parse materials looking for invalid Appearance Assets
+      Dim thisAssetElem As RDB.AppearanceAssetElement
+      For Each thisMat As RDB.Material In allMats
+        If thisMat.AppearanceAssetId &lt;&gt; RDB.ElementId.InvalidElementId Then
+          Dim renderAssetElem As RDB.AppearanceAssetElement = TryCast(thisDoc.GetElement(thisMat.AppearanceAssetId), RDB.AppearanceAssetElement)
+
+          If renderAssetElem IsNot Nothing Then
+            'Check to see if it's fully defined
+            'from API help
+            'AppearanceAssetElement.GetRenderingAsset
+            'The retrieved Asset may be empty if it is loaded from material library without any modification.
+            'In this case, you can use Application.GetAssets(AssetType.Appearance) to load all preset appearance assets,
+            'and retrieve the asset by its name.
+
+            Dim thisAsset As RDV.Asset = renderAssetElem.GetRenderingAsset()
+            If thisAsset.Size = 0 Then
+              printStr += "Invalid Asset Size in Material: " & thisMat.Name & " - Asset: " & renderAssetElem.Name & vbCrLf
+              genericAsset = assetList.FirstOrDefault(Function(eachAsset) eachAsset.Name = thisAsset.Name)
+              'We could read the default properties directly from this genericAsset or
+              'create new as duplicate
+
+              'the following would be a seperate function due to replication
+              nameStr = renderAssetElem.Name
+
+              Dim numb As Integer = 1
+              Dim testStr As String = nameStr
+
+              Do While currentNames.Contains(testStr) = True
+                testStr = nameStr & "_" & numb.ToString()
+                numb = numb + 1
+              Loop
+              nameStr = testStr
+
+              If genericAsset IsNot Nothing Then
+                printStr += "  : Duplicating Asset :" & nameStr & vbCrLf
+                Dim newAssetElem As RDB.AppearanceAssetElement = RDB.AppearanceAssetElement.Create(thisDoc, nameStr, genericAsset)
+                thisMat.AppearanceAssetId = newAssetElem.Id
+                currentNames.Add(nameStr)
+              Else
+                printStr += "  !! Could not aquire Asset !!" & vbCrLf
+              End If
+            End If
+          Else
+            printStr += "Cannot aquire Asset from Material: " & thisMat.Name & vbCrLf
+          End If
+        Else
+          'from API help
+          'Material.AppearanceAssetId
+          'The id of the AppearanceAssetElement, or InvalidElementId if the material does not have an associated appearance asset.
+          'This is the id to the element that contains visual material information used for rendering.
+          'In some cases where the material is created without setting up custom render appearance properties
+          '(for example, when the material is created via an import, or when it is created by the API),
+          'this property will be InvalidElementId. In that situation the standard material properties
+          'such as Color and Transparency will dictate the appearance of the material during rendering.
+
+          printStr += "Invalid Asset ID in Material: " & thisMat.Name & vbCrLf
+          'create new from existing generic
+
+          'the following would be a seperate function due to replication
+          nameStr = thisMat.Name
+          Dim numb As Integer = 1
+          Dim testStr As String = nameStr
+
+          Do While currentNames.Contains(testStr) = True
+            testStr = nameStr & "_" & numb.ToString()
+            numb = numb + 1
+          Loop
+          nameStr = testStr
+
+          genericAsset = assetList.FirstOrDefault(Function(eachAsset) eachAsset.FindByName(RDV.Generic.GenericDiffuse) IsNot Nothing)
+          If genericAsset IsNot Nothing Then
+            printStr += "  : Creating Asset :" & nameStr & vbCrLf
+            Dim newAssetElem As RDB.AppearanceAssetElement = RDB.AppearanceAssetElement.Create(thisDoc, nameStr, genericAsset)
+            thisMat.AppearanceAssetId = newAssetElem.Id
+            currentNames.Add(nameStr)
+          Else
+            printStr += "  !! Could not aquire Asset from App !!" & vbCrLf
+          End If
+
+        End If
+      Next
+
+      thisTrans.Commit()
+    End Using
+
+    RUI.TaskDialog.Show("Material Info", printStr)
+
+  End Sub</code></pre>
+
+<p>You will also notice a couple of comments taken from the API help that directly answer your original question of "Why is... empty..." and further to those that do not have a valid AppearanceAssetId.</p>
+
+<p>Running this code on your materials with no appearance asset element or assets with size=0 creates valid assets in both cases.
+This was a good exercise, thanks for the question and I hope this helps you in some way.</p>
+
+<p><strong>Response:</strong>
+Thank you for your answer and sample code!
+I tried as you suggested and it does indeed work wonderfully!
+Thanks everyone for the suggestions and input!</p>
+
+<p><strong>Answer 2:</strong>
+I haven't tried this via the API yet but, after checking the Appearance Asset Element and finding it to have a size of 0, try duplicating it and see if Revit creates a properly defined version of it, if so then you could assign the newly created Appearance Asset to the material (along with searching for and redefining any other materials that might be using it as well).
+It could have been better of course, and it really should have two other additions to it:</p>
+
+<ul>
+<li>When duplicating a 0 size asset, it should keep a record of which ones it creates a duplicate for and then check the remaining materials to see if they had that same original asset and simply assign the previously created duplicate asset to it as well.</li>
+<li>When creating an asset for a material whose asset ID is InvalidElementId it could read the colour and transparency values from the material properties and modify the created asset to have those values (which, of course, would require adding an AppearanceAssetEditScope to make those edits).</li>
+</ul>
+
+<h4><a name="4"></a> Retrieving Demolished Room Data</h4>
+
+<p>My colleague Naveen Kumar shared a solution
+to <a href="https://adndevblog.typepad.com/aec/2024/10/revit-api-retrieving-room-data-for-demolished-family-instances.html">retrieve room data for demolished family instances</a>:</p>
+
+<p>In Revit projects, it is important to track room data for family instances, especially when they are marked as 'Existing' and later demolished during the 'New Construction' phase.</p>
+
+<p><strong>The Problem:</strong> Missing Room Data for Demolished Family Instances
+The issue comes from how the Revit API works.
+The <code>FamilyInstance.Room</code> property gives room data based on the final phase of the project.
+If a family instance has been demolished and no longer exists in the final phase, the API might return incorrect or null values.
+This can be problematic when accurate room data is needed from earlier phases, before the family instance was demolished.</p>
+
+<p><strong>The Solution:</strong> Getting Room Data by Phase
+To fix this, the Revit API provides the overload method <code>FamilyInstance.get_Room(Phase)</code>.
+This allows you to retrieve room information for the specific phase you need, even if the family instance was demolished in a later phase.
+It ensures you’re getting the right data for each phase, just like in Revit schedules.</p>
+
+<p>Another option is to use <code>Document.GetRoomAtPoint(XYZ, Phase)</code>, which retrieves the room based on the family instance’s exact location during a specific phase.
+This method is useful for more complex cases, ensuring that you get accurate room data regardless of what happens to the family instances in later phases.</p>
+
+<pre><code class="language-cs">// Get the active document and UIDocument from the commandData
+Document doc = commandData.Application.ActiveUIDocument.Document;
+UIDocument uidoc = commandData.Application.ActiveUIDocument;
+
+// Retrieve all project phases (assuming 3 phases: "Existing", "New Construction", "Final Phase")
+FilteredElementCollector phaseCollector = new FilteredElementCollector(doc)
+  .OfCategory(BuiltInCategory.OST_Phases)
+  .WhereElementIsNotElementType();
+
+// Find the specific phases by name
+Phase existingPhase=phaseCollector.FirstOrDefault(phase=>phase.Name=="Existing") as Phase;
+Phase newConstructionPhase=phaseCollector.FirstOrDefault(phase=>phase.Name=="New Construction") as Phase;
+Phase finalPhase=phaseCollector.FirstOrDefault(phase=>phase.Name=="Final Phase") as Phase;
+
+// Let the user pick an element (family instance) from the Revit model
+Autodesk.Revit.DB.Reference pickedReference = uidoc.Selection.PickObject(ObjectType.Element);
+Element pickedElement = doc.GetElement(pickedReference);
+FamilyInstance familyInstance = pickedElement as FamilyInstance;
+
+if (familyInstance != null)
+{
+  // Room in which the family instance is located during the final phase of the project
+  Room currentRoom = familyInstance.Room;
+
+  // Access the room the family instance is located in, based on a specific phase
+  // Modify this to set the desired phase: existingPhase, newConstructionPhase, or finalPhase
+  Phase targetPhase = existingPhase;
+  Room roomInSpecificPhase = familyInstance.get_Room(targetPhase);
+
+  // Workaround: Get the family instance's location point
+  //and find the corresponding room in the specified phase.
+  LocationPoint familyLocation = familyInstance.Location as LocationPoint;
+  if (familyLocation != null)
+  {
+    XYZ locationPoint = familyLocation.Point;
+    Room roomAtPoint = doc.GetRoomAtPoint(locationPoint, targetPhase);
+  }
+}</code></pre>
+
+<p><strong>Automating Phase-Based View Schedule Creation for Revit Projects</strong>:
+You can also use the Revit API to automate the creation of view schedules for different project phases.
+Instead of manually creating schedules for each phase, the API can automate this process, linking each schedule to the correct phase and organizing the data properly.
+This saves time and ensures accuracy across all phases of the project.</p>
+
+<pre><code class="language-cs">// Create a filtered collector to gather all Phase elements in the document
+FilteredElementCollector collector = new FilteredElementCollector(doc)
+  .OfCategory(BuiltInCategory.OST_Phases)
+  .WhereElementIsNotElementType();
+
+using (Transaction actrans = new Transaction(doc, "Create View Schedules"))
+{
+  actrans.Start();
+  foreach (Element e in collector)
+  {
+    Phase phase = e as Phase;
+    if (phase != null)
+    {
+      // Create a view schedule for the each phase
+       CreateViewSchedule(doc ,phase);
+    }
+  }
+  actrans.Commit();
+}
+
+private void CreateViewSchedule(Document doc , Phase phase)
+{
+  // Create a new view schedule in the document
+  //with an InvalidElementId for a multi-category schedule
+  ViewSchedule viewSchedule = ViewSchedule.CreateSchedule(doc, ElementId.InvalidElementId);
+
+  // Set the name of the schedule
+  viewSchedule.Name = "API-" + phase.Name;
+
+  // Set the phase parameter of the view schedule to the required phase
+  viewSchedule.get_Parameter(BuiltInParameter.VIEW_PHASE).Set(phase.Id);
+
+  ScheduleDefinition definition = viewSchedule.Definition;
+
+  // Loop through all schedulable fields and add them to the schedule definition
+  foreach (SchedulableField sf in definition.GetSchedulableFields())
+  {
+    ScheduleField field = definition.AddField(sf);
+  }
+}</code></pre>
+
+<p>Many thanks to Naveen for pointing this out.</p>
+
+<h4><a name="5"></a> RST Results Package Creation</h4>
+
+<p>A Revit Structural solution
+for <a href="https://forums.autodesk.com/t5/revit-api-forum/results-package-create-with-api/m-p/13093333">RST results package creation with API</a>:</p>
+
+<p>Look at:</p>
+
+<ul>
+<li>"C:\Program Files\Autodesk\Revit 2025\AddIns\ResultsManagerExplorer", reference Autodesk.ResultsBuilder.DBApplication.dll</li>
+<li><a href="https://forums.autodesk.com/t5/revit-api-forum/structural-analysis-toolkit-resultsbuilder-reviewing-stored/m-p/8778306">Structural Analysis Toolkit, ResultsBuilder, Reviewing Stored Results in Revit</a>, cf. <a href="#">below</a></li>
+</ul>
+
+<p>The examples are pretty old, so the code needs some tweaks, e.g. for the <code>ForgeTypeID</code>.</p>
+
+<p>In my case the example works (not perfectly) for linear results, but for surface results nothing comes up.
+Here is a summary and further information that others may find helpful:</p>
+
+<ul>
+<li>Reference the relevant Dll "Autodesk.ResultsBuilder.DBApplication.dll" in the Revit installation directory \addins\ResultsManagerExplorer,
+e.g. C:\Program Files\Autodesk\Revit 2025\AddIns\ResultsManagerExplorer</li>
+<li>The SDK samples are a little old. Code needs some changes, for example using <code>ForgeTypeId</code>.
+For example, AddMeasurement(result.Item1, MeasurementResultType.Surface, UnitType.UT_Area, DisplayUnitType.DUT_SQUARE_METERS, MeasurementDependencyType.LoadCaseIndependent);  Should be changed to AddMeasurement(result.Item1, MeasurementResultType.Surface, SpecTypeId.Area, UnitTypeId.SquareMeters, MeasurementDependencyType.LoadCaseIndependent);</li>
+<li>Similarly, take into account the changes in the Structures API and the newer structural analysis model, e.g.:</li>
+</ul>
+
+<pre><code class="language-cs">AnalyticalModel analyticalModel = (doc.GetElement(elementId) as AnalyticalModel);
+IList&lt;Curve&gt; curves = analyticalModel.GetCurves(AnalyticalCurveType.RawCurves);</code></pre>
+
+<p>is now</p>
+
+<pre><code class="language-cs">AnalyticalPanel analyticalModel = (doc.GetElement(elementId) as AnalyticalPanel);
+IList&lt;Curve&gt; curves = analyticalModel.GetOuterContour().ToList();</code></pre>
+
+<ul>
+<li>It is not always clear in the examples but the results are provided in Units and not relative to the length of the member; e.g.,
+xCoordinateValues = new List&lt;double&gt;() { 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 }; means 0.1, 0.2 meters, not 10% of the length.</li>
+<li>Care should be taken with units when introducing data. In contrast with the rest of the API that the internal units of Revit should be used when sending data, the results builder does not. Have not tested it with imperial units and I am not sure if it is related with the UnitsSystem declared in the CreateResultsPackage method, but in my case(and the example of the SDK) data (length area etc) are in metric system. So do not convert to  Internal. On the other hand you might need to convert from internal. The reason I did not get any results for the surface element was that the GetSurfaceContourPoints method returned the XYZ points in the Internal Units of Revit (Imperial) so I had to convert them to metric.</li>
+</ul>
+
+<p>From my understanding, the ResultManager actually uses the AVF so it is up to you to decide whether it is more suited for your case to go for the ResultsBuilder and Manager or directly for the AVF. Here are some pros and cons.</p>
+
+<ul>
+<li>Using the ResultsBuilder will get you where you want to be probably faster since you do not have to set up your own handling of results packages data.  Also no need to create your own user interface for handling result presentation. Last but not least you do not have to handle AVF, with clearing and creating spatialfieldmanagers schemas etc …</li>
+<li>On the other hand, you will “inherit” the limitations of the ResultsBuilder meaning you cannot intervene with how data are stored and sometimes presented. For example, when using AVF directly you can flag which data points are to be tagged with text for diagrams.  Also did not find a way to present results that are not based on an analytical member with ResultsBuilder. AVF supports the presentation of results with references that are not based on actually Revit elements.</li>
+</ul>
+
+<p>Thus, I think that if you want just to show some results in Revit that are typical in the structural discipline go with ResultsBuilder.
+On the other hand, if you want to present more complex data or need more control on the data you are better off implementing your own data structure and use AVF directly.</p>
+
+<h4><a name="6"></a> RST ResultsBuilder SDK Sample</h4>
+
+<p>Waldemar <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/1218351">@okapawal</a> Okapa, Revit Structural Sr Product Owner, answered the related question
+on the <a href="https://forums.autodesk.com/t5/revit-api-forum/structural-analysis-toolkit-resultsbuilder-reviewing-stored/m-p/8778306">structural analysis toolkit <code>ResultsBuilder</code> and reviewing stored results in Revit</a>:</p>
+
+<p>When calling the <code>AddLinearResult</code> function, the result package is set as type of  ResultsPackageTypes.All.</p>
+
+<p>The ResultsPackageTypes.Static type package should be used here because the static analysis results are saved in this function</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302e860fd9ff8200d-pi"><img class="asset  asset-image at-xid-6a00e553e16897883302e860fd9ff8200d image-full img-responsive" alt="RST ResultsBuilder" title="RST ResultsBuilder"  src="/assets/image_f63c70.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Inside, the function <code>AddArbitraryResults</code> is calling the method with a parameter saying that results are not dependent on load cases.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302e860e6a2df200b-pi"><img class="asset  asset-image at-xid-6a00e553e16897883302e860e6a2df200b image-full img-responsive" alt="RST ResultsBuilder" title="RST ResultsBuilder"  src="/assets/image_a25cae.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>For saving the reinforcement results, it is preferable to create a new package that will contain the reinforcement results.</p>
+
+<pre><code class="language-cs">
+/// &lt;summary&gt;
+/// Creates an empty results package to store reinforcement results
+/// &lt;/summary&gt;
+/// &lt;param name="doc"&gt;Revit document&lt;/param&gt;
+/// &lt;returns&gt;Reference to the newly created package&lt;/returns&gt;
+private ResultsPackageBuilder createReinforcementResultsPackageBuilder( Document doc)
+{
+  ResultsAccess resultsAccess = ResultsAccess.CreateResultsAccess(doc);
+  ResultsPackageBuilder resultsPackageBuilder = resultsAccess.CreateResultsPackage(reinfPackageGuid, "REINFORCEMENT_ResultsInRevit", UnitsSystem.Metric, ResultsPackageTypes.RequiredReinforcement);
+
+  resultsPackageBuilder.SetAnalysisName("Reinforcement__ResultsInRevit_Analysis");
+  resultsPackageBuilder.SetModelName("ResultsInRevit_Model");
+  resultsPackageBuilder.SetDescription("Sample results");
+  resultsPackageBuilder.SetVendorDescription("Autodesk");
+  resultsPackageBuilder.SetVendorId("ADSK");
+
+  return resultsPackageBuilder;
+}
+
+/// &lt;summary&gt;
+/// Adds reinforcement results to a linear element
+/// &lt;/summary&gt;
+/// &lt;param name="resultsPackageBuilder"&gt;Reference to the results package&lt;/param&gt;
+/// &lt;param name="elementId"&gt;Id of the linear element to which results are to be added&lt;/param&gt;
+private void AddReinforcementLinearResults(ResultsPackageBuilder resultsPackageBuilder, ElementId elementId)
+{
+  // Create list of some results
+  // Each list element contains result type and a list of result values
+  List&lt;Tuple&lt;LinearResultType, List&lt;double&gt;&gt;&gt; valuesForRnf = new List&lt;Tuple&lt;LinearResultType, List&lt;double&gt;&gt;&gt;()
+  {
+    new Tuple&lt;LinearResultType,List&lt;double&gt;&gt; ( LinearResultType.AsBottom, new List&lt;double&gt;() {  45.00,  30.00,  15.00,  60.00,  0.00, 0.00, 10.00, 0.00, 0.00, 90.00 }),
+    new Tuple&lt;LinearResultType,List&lt;double&gt;&gt; ( LinearResultType.AsTop,    new List&lt;double&gt;() {  45.00,  30.00,  15.00,  60.00,  0.00, 0.00, 10.00, 0.00, 0.00, 90.00 }),
+    new Tuple&lt;LinearResultType,List&lt;double&gt;&gt; ( LinearResultType.AsLeft,   new List&lt;double&gt;() {  45.00,  30.00,  15.00,  60.00,  0.00, 0.00, 10.00, 0.00, 0.00, 90.00 }),
+    new Tuple&lt;LinearResultType,List&lt;double&gt;&gt; ( LinearResultType.AsRight,  new List&lt;double&gt;() {  45.00,  30.00,  15.00,  60.00,  0.00, 0.00, 10.00, 0.00, 0.00, 90.00 }),
+  };
+
+  // Add result domain for load independent results
+  List&lt;double&gt; xCoordinateValues = new List&lt;double&gt;() { 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 };
+  resultsPackageBuilder.SetBarResult(elementId, null, DomainResultType.X, xCoordinateValues);
+  // Add result values
+  foreach (var valueForRnf in valuesForRnf)
+  {
+    resultsPackageBuilder.SetBarResult(elementId, null, valueForRnf.Item1, valueForRnf.Item2);
+  }
+}
+
+/// &lt;summary&gt;
+/// Auxiliary method. Generates a list of sample reinforcement results for points on surface element contour
+/// &lt;/summary&gt;
+/// &lt;param name="points"&gt;List of points for which arbitrary results are to be generated&lt;/param&gt;
+/// &lt;returns&gt;A list containing a number of records with arbitrary surface result type and corresponding result values&lt;/returns&gt;
+private List&lt;Tuple&lt;SurfaceResultType, List&lt;double&gt;&gt;&gt; GenerateSampleReinforcementSurfaceResultsForContour(List&lt;XYZ&gt; points)
+{
+  // Create an array of arbitrary result types.
+  SurfaceResultType[] surfaceResultTypes = { SurfaceResultType.AxxBottom, SurfaceResultType.AyyBottom, SurfaceResultType.AxxTop, SurfaceResultType.AyyTop };
+
+  // Create list
+  var sampleResults = new List&lt;Tuple&lt;SurfaceResultType, List&lt;double&gt;&gt;&gt;();
+  double coeff = 1.0e-4;
+  // Iterate over types, create a value for each point and add a record to the list
+  foreach (SurfaceResultType surfaceResultType in surfaceResultTypes)
+  {
+    coeff *= 1.5;
+    List&lt;double&gt; results = points.Select(s =&gt; (s.X * coeff + s.Y * coeff + s.Z * coeff)).ToList();
+    sampleResults.Add(new Tuple&lt;SurfaceResultType, List&lt;double&gt;&gt;(surfaceResultType, results));
+  }
+  return sampleResults;
+}</code></pre>
+
+<p>I am attaching new source code here in <a href="https://thebuildingcoder.typepad.com/files/storeresults.zip">StoreResults.zip</a>.
+Use that, you will see this in Revit:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c8d3cff3f5200c-pi"><img class="asset  asset-image at-xid-6a00e553e16897883302c8d3cff3f5200c image-full img-responsive" alt="RST ResultsBuilder" title="RST ResultsBuilder"  src="/assets/image_093a96.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>

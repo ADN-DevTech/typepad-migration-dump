@@ -1,0 +1,43 @@
+comments:
+- author: Alexander Buschmann
+  email: buschmann@idat.de
+  ip: 213.157.2.74
+  url: http://www.idat.de
+  date: '2014-08-20 06:54:23'
+  body: "I'm pretty sure this is unsupported, but it should work:\n - create one single\
+    \ ExternalCommand\nIn the Execute-Method:\n - find the newest journal file (for\
+    \ me, journal files are located in %localappdata%\\Autodesk\\Revit\\Autodesk Revit\
+    \ 2015\\Journals)\n - read the last few lines of the journal file and search for:\n\
+    \nJrn.RibbonEvent \"Execute external command:CustomCtrl_%PANELNAME%BUTTONNAME:CLASSNAME\"\
+    \n\n - check \"CLASSNAME\" - should be the name of the external command class,\
+    \ if not, it is not the right line in the journal file\n - use \"BUTTONNAME\"\
+    \ to identify which button the user clicked on\n - execute something based on\
+    \ BUTTONNAME\n\nIt might be prudent to open the journal file in shared mode, and/or\
+    \ close it again as fast as possible so Revit can continue to write to the file.\
+    \ \n\nThe journal files are very powerful, I really like them."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-08-20 07:33:14'
+  body: 'Dear Alexander,
+
+
+    Sounds like a good and efficient approach to me.
+
+
+    Thank you very much for sharing this very cool idea.
+
+
+    Yes, journal files can help create some very powerful tools.
+
+
+    And, yes, it certainly is unsupported, cf. The Building Coder disclaimer:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#4">http://thebuildingcoder.typepad.com/blog/about-the-author.html#4</a>
+
+
+    Cheers, Jeremy.
+
+    -----'

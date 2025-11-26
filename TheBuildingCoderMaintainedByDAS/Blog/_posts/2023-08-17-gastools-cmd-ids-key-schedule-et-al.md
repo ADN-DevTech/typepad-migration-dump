@@ -1,0 +1,178 @@
+---
+layout: "post"
+title: "GasTools, Cmd Ids, Key Schedule et al"
+date: "2023-08-17 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "AI"
+  - "User Interface"
+  - "Utilities"
+original_url: "https://thebuildingcoder.typepad.com/blog/2023/08/gastools-cmd-ids-key-schedule-et-al.html "
+typepad_basename: "gastools-cmd-ids-key-schedule-et-al"
+typepad_status: "Publish"
+---
+
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js" type="text/javascript"></script>
+
+<p>Today we present a nice, varied bouquet of interesting topics:</p>
+
+<ul>
+<li><a href="#2">GasTools</a></li>
+<li><a href="#3">Key schedule browser API</a></li>
+<li><a href="#4">Revit command id list</a></li>
+<li><a href="#5">AI generates 3D model from 2D drawings</a></li>
+<li><a href="#6">Careful with infant screen use</a></li>
+<li><a href="#7">Baroque typography in the digital world</a></li>
+</ul>
+
+<h4><a name="2"></a> GasTools</h4>
+
+<p>Gastón Balparda Corsi, Architect and Project Developer at <a href="https://slantis.com/">/slantis</a>,
+announced his <a href="https://github.com/GastonBC/GasTools/wiki">GasTools</a>, saying:</p>
+
+<blockquote>
+  <p>I'm lazy.
+  When I notice I'm doing something repetitive or boring I default to look for a better way to do stuff.
+  That mentality allowed me to make the jump from AutoCAD to Revit early and learn a couple of programming languages to help me on my everyday tasks.
+  The same laziness led me to mix the two and develop my own addins to help my team and I be more efficient with our time.
+  I received positive feedback, so I decided to share them and save more time in combined hours.
+  I recommend you start by checking what Match Grid Extents and Outline Elevations do.
+  You will find the downloads and a brief explanation for each tool in my GitHub account.
+  Look for a tab in Revit called "Gas Tools" (subject to change).</p>
+</blockquote>
+
+<p>I'm open to questions and suggestions so don't be afraid to hit me up! These are all independent to install so just download the ones you want. There is some nuance to the installation but nothing terrible.</p>
+
+<ul>
+<li><a href="https://github.com/GastonBC/GasTools/wiki">GasTools</a> &ndash; tools I've developed over the years to make my life easier using Revit.
+They automate repetitive tasks or provide a better way of visualizing the information, like the location of linked and imported CADs, legends. Examples of use are in the referenced links.</li>
+<li>Match Grid Extents &ndash; This tool lets you copy the layout of the grids in a sheet (for example the elbows, 2D extents and bubble visibility) and transfer it to another view. It also reveals and hides grids according to the view chosen as template.</li>
+<li>Outline Elevations &ndash; If you've ever done elevations, you are used to making fill regions around the enclosing walls and giving it a pen thickness. This tool takes the crop region extent and overrides its thickness to the desired number.</li>
+<li>Auto Dimension Grids &ndash; Dimension your selected grids automatically to the top and the left.</li>
+<li>Smart Grid Bubbles &ndash; Turn the top and left grid bubbles on.</li>
+<li>Set by Index &ndash; Create a sheet set by selecting a schedule like the one in your cover sheet instead of checking sheet by sheet.</li>
+</ul>
+
+<h4><a name="3"></a> Key Schedule Browser API</h4>
+
+<p>Jacob Small, Autodesk Implementation Consultant, chipped in with some new advice on how to control the hierarchy of the schedule in the project browser in the thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/key-schedule-revit-api/m-p/12143666">Key Schedule + Revit API</a>:</p>
+
+<p><strong>Question:</strong> I have previously asked about using Revit API to create a Key Schedule and add bunch of new parameters to it.
+That question is still out here somewhere so I am not going to repeat it here.
+Instead, I just manually added bunch of parameters to Key Schedule and moved on to the next task.
+I was able to access Data Table and add more rows to the data.
+What I am trying to do now, is to fill the cells with data.
+Obviously, there is no clear method for that.
+Hence my question: How does one, using API, fill in the Key Schedule data?
+Any ideas/suggestions are welcome.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c1a6d15e6c200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302c1a6d15e6c200b img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="Key schedule API" title="Key schedule API"  src="/assets/image_7f5006.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p><strong>Answer:</strong> A keyschedule behaves in most ways just like a normal schedule.
+The most important similarity being that they show a collection of elements.
+Confusion can arise when thinking about the elements in the keyschedule, because they do not physically exist in the Revit model.
+I like to think of them as 'ghost elements', who's image (= set of parameter values) can be imprinted on real elements.</p>
+
+<p>This being the case, the elements in the keyschedule can be simply retrieved by using a <code>FilteredElementCollector</code> with the <code>KeyScheduleID</code> as an argument.
+Parameters shown in the keyschedule can then be retrieved and set in the elements themselves.
+The newly set parameter values will then of course show up in the key schedule.</p>
+
+<p><strong>Response:</strong> This solution works pretty well!</p>
+
+<p>Now just to make it clear for everyone here's what really happens:</p>
+
+<p>Each row in a Key Schedule is an Element that contains a set of Parameters.
+Parameters represent each column of the schedule.</p>
+
+<p>We can collect all "rows" (elements) just by doing this:</p>
+
+<pre class="prettyprint">
+  elements = FilteredElementCollector(doc, viewSchedule.Id).ToElements()
+</pre>
+
+<p>Then we can query each element that is being returns for parameters:</p>
+
+<pre class="prettyprint">
+  params = []
+  for i in elements:
+    params.append(i.Parameters)
+</pre>
+
+<p>Once you have the parameters, you can just write values to them and they will appear in a schedule.</p>
+
+<p>Not all parameters represent a field in the key schedule, though.
+But that can be easily filtered out by checking the parameter's definition name toward schedulable fields.</p>
+
+<p>Maybe the Revit API SDK team can include some of the code in the schedule samples, before a more intrinsic method for reaching this goal being created.</p>
+
+<p><strong>Question:</strong> Which parameter is responsible of defining the hierarchy of the schedule in project browser, at the question marks in this picture?</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c1a6d15e73200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302c1a6d15e73200b img-responsive" style="width: 390px; display: block; margin-left: auto; margin-right: auto;" alt="Key schedule in browser" title="Key schedule in browser"  src="/assets/image_cf4321.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>No elements are collected by this code:</p>
+
+<pre class="prettyprint">
+  Category category = Category.GetCategory(doc, BuiltInCategory.OST_Rooms);
+  viewSchedule = ViewSchedule.CreateKeySchedule(doc, category.Id);
+  FilteredElementCollector elementCollector = new FilteredElementCollector(doc, viewSchedule.Id);
+  IList&lt;Element&gt; rows = elementCollector.ToElements();
+</pre>
+
+<p><strong>Answer:</strong> This is something I've taken a stab at in the past for a Dynamo project, so I'll weigh in.</p>
+
+<p>First thing to know: the project browser is a view of the model itself and can be organised in different ways per project.
+As always, you want to explore how things are in the UI before attempting to automate it, so first check info on managing it manually:
+<a href="https://help.autodesk.com/view/RVT/2024/ENU/?guid=GUID-96F9CDB5-C46D-4597-943B-DF231E8EC688">Organizing the Project Browser</a></p>
+
+<p>From there we can look at managing it via the API.
+For that there is the
+handy <a href="https://www.revitapidocs.com/2024/4fd57c3f-6127-efd9-f79e-70ad3e5dc1cc.htm"><code>BrowserOrganization</code> class</a>.</p>
+
+<p>So, while we could manage the setup, we don't know how your browser is organized on a given project (and if your code is intended to scale across orgs/projects you can't assume there is a single setup).
+As such, you likely want to start off by looking at
+<a href="https://www.revitapidocs.com/2024/b32365b9-54d0-08b3-ee34-4a2cde7fa1d8.htm">the GetCurrentBrowserOrganizationForSchedules method</a></p>
+
+<p>Good luck! &nbsp;   :-)</p>
+
+<p>Mille grazie, Jacob!</p>
+
+<h4><a name="4"></a> Revit Command Id List</h4>
+
+<p>One approach to retrieve a list of all <a href="https://forums.autodesk.com/t5/revit-api-forum/revit-command-ids/m-p/12154992">Revit command ids</a>:</p>
+
+<blockquote>
+  <p>I found that exporting the keyboard shortcuts XML file gives you a list of all command names and ids (Revit 2022.1.3, I might add):</p>
+</blockquote>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c1a6d15e77200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302c1a6d15e77200b image-full img-responsive" alt="Command id in shortcuts XML" title="Command id in shortcuts XML"  src="/assets/image_734269.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="5"></a> AI Generates 3D Model from 2D Drawings</h4>
+
+<p>Of special interest to CAD and BIM modelers, a new method to generate a 3D CAD model from 2D line drawings of three orthographic views is described in
+<a href="https://manycore-research.github.io/PlankAssembly/">PlankAssembly: robust 3D reconstruction from three orthographic views with learnt shape programs</a>.</p>
+
+<h4><a name="6"></a> Careful with Infant Screen Use</h4>
+
+<p>Vital and life-changing effects are seen to correlate with infant interaction with digital devices:
+according to a study by the National University of Singapore and several other research labs,
+<a href="https://www.uxtigers.com/post/infant-screen-use">infant screen use leads to reduced cognitive skills at age 9</a>.</p>
+
+<h4><a name="7"></a> Baroque Typography in the Digital World</h4>
+
+<p>To close on a pleasant note, I very much enjoyed the explanation (and good taste) by Lin Yangchen in his article on
+using <a href="https://www.linyangchen.com/Typography-Fell-Types-font">a 17th-century font in a 21st-century thesis</a>.
+He seems like a special person in many ways, and I found his entire web site
+<a href="https://www.linyangchen.com/">linyangchen.com</a> very interesting indeed.</p>

@@ -1,0 +1,63 @@
+comments:
+- author: HarryC
+  email: harryc@bbse.com
+  ip: 69.62.244.244
+  url: ''
+  date: '2009-10-09 15:38:33'
+  body: "I'm trying to retrieve the position of views placed on a sheet. This is the\
+    \ code I've written for this.  Apparently I don't understand what to put in the\
+    \ get_BoundingBox() call.\n\n ViewSheet currentSheet = doc.ActiveView as ViewSheet;\n\
+    \            foreach (Autodesk.Revit.Elements.View v in currentSheet.Views)\n\
+    \            {\n                BoundingBoxXYZ loc = v.get_BoundingBox(v);\n \
+    \               MessageBox.Show(\"Coordiinates of: \" + v.Name + \"\\r\\n\" +\
+    \ loc.Min.X + \", \" + loc.Min.Y);\n            }"
+- author: Jeremy Tammik
+  email: ''
+  ip: 12.160.193.229
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-10-13 09:25:25'
+  body: "Dear Harry, \n\nSorry for taking a while to respond. I see you asked a closely\
+    \ related question using the View Outline instead of the BoundingBox property\
+    \ on\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/01/viewports-and-sheets.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/01/viewports-and-sheets.html</a>\n\
+    \nSo I will take a closer look at your question there now.\n\nCheers, Jeremy."
+- author: Larry S
+  email: larrys@bbse.com
+  ip: 75.18.124.212
+  url: ''
+  date: '2013-01-20 09:19:35'
+  body: Thanks for the article.  Its helps explain a longtime issue with copy monitor.  When
+    CM copies a wall, it creates an opening based on the bounding box of a window
+    or door.  The BB of the window is set at the farthest element in the family, making
+    the created opening wildly inaccurate.  Can an addin be created to reset the BB
+    in a family to the rougb opening type parameters?  Autodesk refuses to fix tbis
+    issue and many engineers would love an addin like this
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-29 08:18:08'
+  body: 'Dear Larry,
+
+
+    Thank you for your appreciation. I am glad it helps.
+
+
+    I am also sure that Autodesk is not refusing to fix anything, just that the right
+    people are not aware of the issue and its ramifications. Have you reported this
+    issue to product support, and ensured that they return back to you either with
+    a solution that satisfies your needs, an explanation of how you can solve it better,
+    or a database entry number for the request to have it fixed? If not, please do.
+
+
+    Cheers, Jeremy.'
+- author: nik mulconray
+  email: serratabanksia@gmail.com
+  ip: 101.113.37.47
+  url: ''
+  date: '2013-12-06 04:36:46'
+  body: "Jeremy,\nI would like to access the bounding boxes of geometry in a revit\
+    \ link(.rvt proj file), say the mass category for eg. Is it possible to access\
+    \ the bounding box of linked elements and then get properties of the bounding\
+    \ box elements, such as unique ID? I searched briefly in the developer api and\
+    \ was not able to find anything.\n\ncheers,\nNik  \n-----"

@@ -1,0 +1,80 @@
+comments:
+- author: wkpark
+  email: wkpark@dcs.co.kr
+  ip: 221.149.45.172
+  url: http://www.hannim.com
+  date: '2011-06-27 00:52:11'
+  body: "Is it possible to insert the valve in the pipe?\n I want to insert a pipe\
+    \ in the middle of the valve\n I want to insert programming.\n Please advise."
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-27 06:30:54'
+  body: 'Dear Wkpark,
+
+
+    Sure thing. Should be similar to the above.
+
+
+    Cheers, Jeremy.'
+- author: Nitin
+  email: ''
+  ip: 61.17.167.107
+  url: http://profile.typepad.com/nitinjambhale2008
+  date: '2011-10-03 08:30:34'
+  body: 'Dear sir,
+
+    How to set PVC as default pipe type instead of Standard.
+
+    As i press ''PI'', PVC should come automatically in mouse pointer.
+
+
+    Thanks & Regards,
+
+    -Nitin'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-10-03 09:38:31'
+  body: "Dear Nitin,\n\nThe Revit API does not provide any official method to determine\
+    \ the default family type or pipe type to be used in subsequent calls prompting\
+    \ the user to insert instances.\n\nA workaround for this issue was described for\
+    \ wall types, though, by using a key press function \"CS\" for \"Create Similar\"\
+    \ to define which wall type to use. \n\nIt is included in The Building Coder samples,\
+    \ in the CmdPressKey command:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/11/launching-a-revit-command.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/11/launching-a-revit-command.html</a>\n\
+    \nCheers, Jeremy."
+- author: Daniel
+  email: dwood0@gmail.com
+  ip: 63.224.68.75
+  url: ''
+  date: '2012-07-06 11:32:44'
+  body: 'Hello Jeremy,
+
+
+    I''m upgrading a project to the 2013 API. However, when the call to NewTakeoffFitting()
+    is made I get an exception "InvalidOperationException: failed to insert takeoff"
+    with no additional information. I upgraded the project in CreateTakeoffPipe.zip
+    and see the same problem. These both work properly in 2012, is this something
+    you have encountered? I haven''t had any luck finding any other information on
+    this.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-08-15 07:22:05'
+  body: "Dear Daniel,\n\nFor the benefit of other readers, I repeat here what Saikat\
+    \ found out from the development team in response to your ADN query:\n\n\"The\
+    \ major change to 2013 is piping now uses routing preferences as the container\
+    \ class for pipe types allowing multiple fittings to be referenced for the same\
+    \ fitting type and size range. It now requires the routing preference to be setup\
+    \ prior to using the pipe type. In the past if you loaded a fitting and there\
+    \ was no fitting assigned in the pipe type for this case the tap it would try\
+    \ to find one in the project to use it now only use the fittings defined in the\
+    \ routing preference. Because no fitting was found to be placed the insert takeoff\
+    \ would fail causing the exception. Try setting up the routing preference and\
+    \ adding the spud to routing preference as the default tap prior to running the\
+    \ command.\" \n\nThank you for confirming that this solves you problem.\n\nCheers,\
+    \ Jeremy.\n-----"

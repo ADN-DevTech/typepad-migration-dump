@@ -1,0 +1,141 @@
+comments:
+- author: Ben
+  email: gzlps@hotmail.com
+  ip: 59.37.3.2
+  url: ''
+  date: '2009-04-28 03:43:57'
+  body: "Hi Jeremy,\n\nI want to get the FamilyInstance geometry hierarchy, but I\
+    \ only can get Solid inside FamilyInstance geometry.\n\nfor example:\nFamilyInstance\
+    \ F include one Column C0 , include FamilyInstance F1 and F2,\nF1 include two\
+    \ Column C1,C2, F2 include two Column C3,C4.\n\nI use below prototype code to\
+    \ get the geometry of FamilyInstance F :\n\nAutodesk.Revit.Geometry.Element geoElement\
+    \ = FamilyInstance .get_Geometry(opts) \ngeoElement .Objects; // this will return\
+    \ one Autodesk.Revit.Geometry.Instance\n\nAutodesk.Revit.Geometry.Instance instance\
+    \ = geoElement .Objects[0];\nAutodesk.Revit.Geometry.Element instanceGeo = instance.SymbolGeometry;\n\
+    \ninstanceGeo.Objects \n// this will return 5 Solid, C0,C1,C2,C3,C4, but we don't\
+    \ know which Solid is C0,\n//which Solid is C1, and so on, because Autodesk.Revit.Geometry.Solid\
+    \ has no \n//useful property to indicates which Column the Solid belong to.\n\n\
+    What i wanted result is:\nHow can i get the geometry that has the hierarchy:\n\
+    F\n|.___C0\n|\n|.___F1\n|.........|___C1\n|.........|___C2\n|\n|___F2\n..........|___C3\n\
+    ..........|___C4\n\nCan you help me, thanks in advance.\n\nBenson"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-28 14:25:30'
+  body: 'Dear Benson,
+
+
+    I am afraid I do not understand how your family instance F can include both a
+    column and other family instances F1 and F2. How has this hierarchy been defined
+    and constructed? Please provide some additional information on the context of
+    the whole situation and how the family instances have been created. That might
+    give us a hint on how to identify which solid belongs to which column. From the
+    information you provide so far, I really cannot say.
+
+
+    Cheers, Jeremy.'
+- author: Ben
+  email: gzlps@hotmail.com
+  ip: 59.37.3.2
+  url: ''
+  date: '2009-04-28 21:41:48'
+  body: "Dear Jeremy,\n\nThanks for your reply so quickly.\n\nBelow is my steps to\
+    \ create the familyInstance:\n\n1. Run Revit2009\n\n2. Click Menu File->New->Family,\
+    \  then select one Metric Template,such as Metric Funiture.rft, then click Open\
+    \ button.\n\n3. Delete all object in the new Family project, switch to 3D view.\n\
+    \n4. Click Mneu File->Load from Library->Load Family, go to directory : c:\\Document\
+    \ and Setting\\All User\\Application Data\\Autodesk\\RAC 2008\\Metric Library\\\
+    Columns\n    (maybe the directory not the same as your machine)\n    then select\
+    \ one rfa file, click Open button on load family dialog.\n\n5. Now, we can find\
+    \ the Column under Project browser Panel->Families->Columns\n\n6. Select this\
+    \ Column, then click right mouse, then click pop-up menu \"Create Instance\",\
+    \ then draw it to the created family project.\n    do again of step6, now we have\
+    \ two columns in the family project.\n\n7. Save the project as myFamily1.rfa,\
+    \ then  click File->Save as to myFamily2.rfa.\n    Now, we have two family project\
+    \ myFamily1.rfa and myFamily2.rfa, .\n\n8. Do step2,step3, \n    step4 (add column\
+    \ family, myFamily1,myFamily2).\n\n9. create instance of column,myFamily1,myFamily2\
+    \  to the current family project like step6\n\n10. Save the project as myFamily3.rfa.\n\
+    \n11. Create one normal project, name project1.rvt , click menu File->New->Project\n\
+    \n12. Load Family myFamily3.rfa like step4\n\n13. Add instance of myFamily3 like\
+    \ step6\n\nNow, the project structure like:\n\nF (myFamily3)\n|.___C0 (Column)\n\
+    |\n|.___F1 (myFamily1)\n|.........|___C1 (Column)\n|.........|___C2 (Column)\n\
+    |\n|___F2 (myFamily2)\n..........|___C3 (Column)\n..........|___C4 (Column)\n\n\
+    \   \n    \nFirst way:\n\nIn current project project1.rvt ,  I can get myFamily3\
+    \ instance via API, the class is Autodesk.Revit.Elements.FamilyInstance.\nThen\
+    \ i try to get its geometry:\n\nAutodesk.Revit.Geometry.Element geoElement = \
+    \ FamilyInstance.get_Geometry(opts);\nAutodesk.Revit.Geometry.GeometryObjectArray\
+    \ geometries = geoElement.Objects;\n\n//geometries  include one Autodesk.Revit.Geometry.Instance\
+    \ , then get its geometry\nAutodesk.Revit.Geometry.Instance geoInstance = geometries[0];\n\
+    Autodesk.Revit.Geometry.Element symbolGeo = geoInstance.SymbolGeometry;\n\nAutodesk.Revit.Geometry.GeometryObjectArray\
+    \ symbolGemetries = symbolGeo.Objects;\n\n// Now symbolGemetries has 5 Solid.\n\
+    //But I can't find out which solid is belong to which Column, it has no relation\n\
+    // between Solid to FamilyInstance.\n\n\n\nAnother way:\n\n Autodesk.Revit.Elements.FamilyInstance.Symbol.Family.Components\n\
+    \nI use this class to get FamilyInstance:\n\nforeach(Autodesk.Revit.Element elem\
+    \ in Autodesk.Revit.Elements.FamilyInstance.Symbol.Family.Components)\n{\n   \
+    \  // there are 3 Autodesk.Revit.Elements.FamilyInstance , it is Column, myFamily1,\
+    \  myFamily2\n     //then we can loop  myFamily1,  myFamily2 also.\n     // then\
+    \ get all the Column geometry\n\n   // But all the Column's position is the same,\
+    \ because the geometris are gotten from Symbol.\n   // Not the actually position\
+    \ in project1.rvt\n}\n\n\nSo, the first way can get the right position, but can't\
+    \ get the right structure.\nthe second way can get the right structure, but can't\
+    \ get the right position.\n\nWhat I want is the right structure and right position.\n\
+    \n\n\nBest regards,\nBenson"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-30 10:33:13'
+  body: 'Dear Benson,
+
+
+    Thank you very much for the detailed description. I started exploring and answering
+    your question, and ended up writing rather a lot of text and sample code, so I
+    will pack it up into a new post for the near future. I''ll send you a draft of
+    the post for review and additional exploration.
+
+
+    Cheers, Jeremy.'
+- author: Dissertation Structure
+  email: marryjohn4@gmail.com
+  ip: 221.132.118.230
+  url: http://www.ukdissertation.co.uk/Dissertation_Structure.htm
+  date: '2009-11-19 03:06:08'
+  body: Blogs are so informative where we get lots of information on any topic. Nice
+    job keep it up!!
+- author: namit
+  email: ''
+  ip: 61.11.14.102
+  url: http://profile.typepad.com/6p014e88760c88970d
+  date: '2011-07-01 08:00:45'
+  body: 'Dear Jeremy Sir,
+
+
+    I am very new in Revit. I am not able to generate 3 D view in ObjectViewer in
+    Revit MEP 2012.
+
+    Pls suggest..
+
+
+
+    Thanks & Regards
+
+    Namit Jain'
+- author: Jeremy Tammik
+  email: ''
+  ip: 79.20.50.225
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-07-03 17:10:28'
+  body: 'Dear Namit,
+
+
+    You can use the ItemFactoryBase.NewView3D method.
+
+
+    To find examples of its use, you can globally search the SDK samples. I find five
+    occurences of calls to this method.
+
+
+    Cheers, Jeremy.
+
+    -----'

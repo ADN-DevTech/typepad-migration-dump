@@ -1,0 +1,245 @@
+comments:
+- author: teocomi
+  email: matteo@cominetti.org
+  ip: 78.13.68.82
+  url: http://teocomi.com
+  date: '2013-01-18 12:12:21'
+  body: Hello, thanks for the useful infos, do you know if it is possible to change
+    the view FOV from the API? I have been looking into that without success..
+- author: Alexander Buschmann
+  email: buschmann@idat.de
+  ip: 213.188.119.248
+  url: http://www.idat.de
+  date: '2013-01-21 08:35:38'
+  body: 'Use ChangeTypeId-Method instead:
+
+
+
+    // To change ViewType:
+
+    Viewport vp = Autodesk.Revit.DB.Viewport.Create(...)
+
+    ElementId id = getViewTypeId();
+
+    vp.ChangeTypeId(id);
+
+
+    // To get your ViewTypeId:
+
+    ElementId getViewTypeId()
+
+    {
+
+    FilteredElementCollector c = new FilteredElementCollector(doc);
+
+    c.WhereElementIsElementType();
+
+    c.Where( ..someRuleToIdentifyYourViewType.. );
+
+    return c.FirstElementId();
+
+    }
+
+
+    // To change properties of a ViewType:
+
+    Parameter withLine = viewType.get_Parameter(BuiltInParameter.VIEWPORT_ATTR_SHOW_EXTENSION_LINE);
+
+    withLine.Set(0); // No Line
+
+    withLine.Set(1); // Has Line
+
+
+    Parameter withLabel = viewType.get_Parameter(BuiltInParameter.VIEWPORT_ATTR_SHOW_LABEL);
+
+    withLabel .Set(0); // No Label
+
+    withLabel .Set(1); // Has Label
+
+
+    Use ElementType.Duplicate to create a ViewType if your ViewType is not already
+    defined in the Revit Project.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.183.49
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-21 09:09:33'
+  body: 'Dear Alexander,
+
+
+    Thank you for pointing out this obvious and important must-know method.
+
+
+    I added a pointer to your note in the main post to ensure nobody misses it.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-21 09:32:45'
+  body: 'Dear Matteo,
+
+
+    Well, depends on the exact circumstances. There are several posts that describe
+    how to set up a view and zoom to an object. Have you looked at Steve''s presentation
+    mentioned above? Here are some other posts that may help:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/12/crop-3d-view-to-room.html">http://thebuildingcoder.typepad.com/blog/2009/12/crop-3d-view-to-room.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/07/section-view-creation.html">http://thebuildingcoder.typepad.com/blog/2011/07/section-view-creation.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/06/create-section-view-parallel-to-wall.html">http://thebuildingcoder.typepad.com/blog/2012/06/create-section-view-parallel-to-wall.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/08/set-view-section-box-to-match-scope-box.html">http://thebuildingcoder.typepad.com/blog/2012/08/set-view-section-box-to-match-scope-box.html</a>
+
+
+    Please let us know if that is not what you are after, and also if it is, to ensure
+    we have a useful answer to this very valid question. Thank you!
+
+
+    Cheers, Jeremy.'
+- author: teocomi
+  email: matteo@cominetti.org
+  ip: 78.13.67.208
+  url: http://teocomi.com
+  date: '2013-01-22 16:03:26'
+  body: 'Thanks Jeremy for your nice answer.
+
+    Probably I didn''t express myself properly and at your links I couldn''t find
+    the answer.
+
+
+    <a href="http://imgur.com/a/EPnTb">http://imgur.com/a/EPnTb</a>
+
+
+    In these two images I just dragged the pink dot of the camera view from the site
+    plan and it affects the distortion of the wall. Is it possible to set this distance/distortion
+    (I  was calling it FOV) when I create the perspective  view?
+
+
+    Thanks again,
+
+    Matteo'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-23 06:28:06'
+  body: 'Dear Matteo,
+
+
+    Thank you for your appreciation, clarification and helpful sample images.
+
+
+    I searched my archives and found an old comment by Jeff on the same topic:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/04/dwf-view-definition.html?cid=6a00e553e1689788330133ee54ea4c970b#comment-6a00e553e1689788330133ee54ea4c970b">http://thebuildingcoder.typepad.com/blog/2009/04/dwf-view-definition.html?cid=6a00e553e1689788330133ee54ea4c970b#comment-6a00e553e1689788330133ee54ea4c970b</a>
+
+
+    At the time it was not possible, and we had an open wish list item #145414 [API
+    request: The API to Get and Set the Zoom factor for view is needed] for that functionality.
+
+
+    Looking into that record again, I see that the development team now state that
+    this can be achieved using the UIView ZoomAndCenterRectangle and GetZoomExtents
+    methods.
+
+
+    I hope this solves your issue as well.
+
+
+    Please do let me know how it goes, since I am sure this is of great interest to
+    others also, and would love to publish a snippet of working sample code to set
+    the desired FOV. Thank you!
+
+
+    Cheers, Jeremy.'
+- author: teocomi
+  email: matteo@cominetti.org
+  ip: 84.221.197.87
+  url: http://teocomi.com
+  date: '2013-01-26 12:44:54'
+  body: 'Thanks again,
+
+
+    I''m still working on this when I have time, and so far I found out that apparently
+    the only parameter affecting the "distortion" of the view is the XYZ eyePosition
+    parameter of the ViewOrientation3D. In fact by increasing it of 3.2 times (each
+    of the XYZ coordinates) you get a FOV of around 60.
+
+
+    Then of course Zoom can be adjusted via UIView ZoomAndCenterRectangle and GetZoomExtents
+    methods.
+
+
+    I''ll keep posting here as a have new findings and maybe a more "technical" approach
+    ;)
+
+
+    Cheers!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.184.122
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-02-01 05:16:48'
+  body: 'Dear Alexander,
+
+
+    Actually, due to another question that just arose, I added your note about the
+    extension line toggling parameter to a main blog post as well:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/02/parameters-versus-properties.html#2">http://thebuildingcoder.typepad.com/blog/2013/02/parameters-versus-properties.html#2</a>
+
+
+    It also includes some observations on the interesting topic you bring up on properties
+    versus parameters.
+
+
+    Cheers, Jeremy.'
+- author: Michael
+  email: revitarkitek@gmail.com
+  ip: 173.245.52.101
+  url: ''
+  date: '2014-04-26 17:05:37'
+  body: "Is there a way to change the location of the View title that is used for\
+    \ the Viewport?  Also, I could not get Alexander's getViewTypeId method to work.\
+    \  This is what I did:\n\npublic static ElementId getViewTypeId(Document doc,\
+    \ string s)\n        {\n            ElementId viewPortType = null;\n\n       \
+    \     foreach (Element elem in new FilteredElementCollector(doc).WhereElementIsElementType())\n\
+    \            {\n                if (elem.Name == s && !(elem is FamilySymbol))\n\
+    \                {\n                    viewPortType = elem.Id;\n            \
+    \        break;\n                }\n            }\n            return viewPortType;\n\
+    \        }\n\nThanks."
+- author: Jeremy Tammik
+  email: ''
+  ip: 173.245.53.230
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-04-27 15:36:55'
+  body: 'Dear Michael,
+
+
+    1. change the location of the View title?
+
+
+    How would you achieve that through the user interface, please?
+
+
+    2. The logic WhereElementIsElementType AND elem.Name == s AND !(elem is FamilySymbol)
+    will return the first element encountered in the entire Revit database that has
+    the name ''s'' and is not a family symbol.
+
+
+    It is extremely improbable that such an element will happen to be a view type.
+
+
+    Cheers, Jeremy.
+
+    -----'

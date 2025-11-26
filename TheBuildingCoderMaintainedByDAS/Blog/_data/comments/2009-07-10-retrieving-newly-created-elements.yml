@@ -1,0 +1,148 @@
+comments:
+- author: Henrik Bengtsson
+  email: henrik.bengtsson@lindab.se
+  ip: 217.9.216.39
+  url: ''
+  date: '2009-07-10 06:36:18'
+  body: 'Thanks for the answer!
+
+
+    It works alright, but it felt a bit dangerous and like a time consuming solution
+    (lots of iteration) when i first looked at it.
+
+
+    But after some investigation regarding alternatives this is probably the best
+    solution available at the moment...
+
+
+    I made some time analyzis comparing this method with another alternative, and
+    this was faster for those type of model files that will be the case when working
+    with our add-in.
+
+
+    The alternative method was to use a Shared parameter, set its value and use a
+    parameter-filter to retrieve the elements. It feels 100 % safe in all cases but
+    it wasn''t the fastest unfortunately...
+
+
+    /Henrik'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-07-10 08:43:41'
+  body: "Dear Henrik,\n\nI like it a lot that you think it seems a bit dangerous.\
+    \ I fully agree with that. Time consuming also, maybe. I very much like your idea\
+    \ for a safer approach making use of a shared parameter, what a shame that it\
+    \ is slower. How did you test that? Did you perform the following steps or something\
+    \ different? \n\n1. Define a shared parameter for all element categories that\
+    \ are of interest.\n\n2. Set it to a predefined value meaning 'before' on all\
+    \ elements.\n\n3. Perform the mirroring operation.\n\n4. Retrieve all elements\
+    \ with a value differing from 'before'.\n\nThank you very much for benchmarking,\
+    \ that is really valuable information.\n\nCheers, Jeremy."
+- author: Henrik Bengtsson
+  email: henrik.bengtsson@lindab.se
+  ip: 85.195.1.173
+  url: ''
+  date: '2009-07-11 06:18:55'
+  body: 'Ciao!
+
+
+    I more or less did according to your description... My steps are:
+
+
+    1. Define the shared parameter
+
+
+    2. Send in the instance as well as the coordinates for the plane which I want
+    to use for the mirroring operation in the function.
+
+
+    3. The predefined value for the shared parameter was an empty string, instead
+    of a string value. I would like to store as little data in the model as possible.
+    Perhaps it doesn''t affect the ''weight'' that much but that was the reason. So
+    I simply set the parameter value for the element that I want to transform just
+    before the mirroring operation.
+
+
+    3. Perform the mirroring operation
+
+
+    4. Delete the source object, since my reason for running the mirroring operation
+    is simple transforming.
+
+
+    5. Retrieve the element with the use of a parameter filter. Since I work with
+    one single element, I would only get one element in that operation.
+
+
+    6. I reset its parameter value, since I don''t want this to end up in my element
+    list next time I perform the mirroring function.
+
+
+    7. Return the new instance and continue to work with that.
+
+
+    So, actually no big differences... ;-)
+
+
+    For simple time analysis, I logged the time before the operation and the time
+    after the operation. What was important was the size of the model. What is actually
+    happening behind the scenes in the filter functions is hard to tell, but I suppose
+    that both iteration and comparison is done, which in that case will be more time
+    consuming then a simple iteration as you described Jeremy...
+
+
+    /Henrik'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.66.92
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-07-12 05:12:30'
+  body: 'Dear Henrik,
+
+
+    Thank you very much for the description, it definitely all makes sense and may
+    become a valuable solution in the future if the iterator stops returning the elements
+    in their creation sequence.
+
+
+    Cheers, Jeremy.'
+- author: Matt Mason
+  email: mmason@avat.com
+  ip: 146.115.40.151
+  url: http://cadappdev.blogspot.com
+  date: '2009-07-13 11:17:14'
+  body: 'Jeremy,
+
+
+    I''m away from my API docs right now - but in terms of finding the newest elements-
+    isn''t there a "ReverseIterator" available? It might be faster to count from the
+    back until you find an identifiable "last element" from before?
+
+
+    -Matt'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-07-13 13:23:00'
+  body: 'Dear Matt,
+
+
+    Thanks for the good idea, but no cigar in sight, I believe.
+
+
+    Some of the Revit API classes do provide reverse iterators, but the document Elements
+    property that I am using above returns an ElementIterator instance and nothing
+    but.
+
+
+    One might possibly try to use one of the filtered access methods to the document
+    elements, I just don''t know whether any of those is guaranteed to return all
+    elements and also return them in sequential order.
+
+
+    Cheers, Jeremy.
+
+    -----'

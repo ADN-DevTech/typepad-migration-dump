@@ -1,0 +1,108 @@
+---
+layout: "post"
+title: "Efficiently Retrieve Crop Box for Given View"
+date: "2018-02-01 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Dynamo"
+  - "Element Relationships"
+  - "Filters"
+  - "Performance"
+  - "View"
+original_url: "https://thebuildingcoder.typepad.com/blog/2018/02/efficiently-retrieve-crop-box-for-given-view.html "
+typepad_basename: "efficiently-retrieve-crop-box-for-given-view"
+typepad_status: "Publish"
+---
+
+<p>Konrads Samulis shared a very nice solution to retrieve the crop box for a given view using a highly efficient parameter filter in
+his <a href="http://thebuildingcoder.typepad.com/blog/2013/09/rotating-a-plan-view.html#comment-3734421721">comment</a>
+on <a href="http://thebuildingcoder.typepad.com/blog/2013/09/rotating-a-plan-view.html">rotating a plan view</a>.</p>
+
+<p>In his own words:</p>
+
+<p>In digging up this old thread, I found something quite curious in the API in 18.1, that I'm not sure was there before.</p>
+
+<p>The method of using a temporary transaction (with rollback) to find the element id of the crop box was taking a very long time on a large model, so I did a bit of digging to see how I could improve it.</p>
+
+<p>I noticed that in the built-in parameter <code>ID_PARAM</code> of the crop box contains the element id of the view it's in.
+E.g., the crop box 'points' to the id of the view it is in using <code>ID_PARAM</code>.</p>
+
+<p>That got me thinking... why not use a parameter filter to retrieve it?</p>
+
+<p>So... in VB.NET (because I'm an old school vber):</p>
+
+<pre class="code">
+<span style="color:blue;">Public</span>&nbsp;<span style="color:blue;">Function</span>&nbsp;GetELementIDOfCropBox(activeView&nbsp;<span style="color:blue;">As</span>&nbsp;View,&nbsp;revDoc&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">Document</span>)&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">ElementId</span>
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;provider&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">ParameterValueProvider</span>&nbsp;=&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">ParameterValueProvider</span>(<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">ElementId</span>(<span style="color:blue;">CInt</span>(<span style="color:#2b91af;">BuiltInParameter</span>.ID_PARAM)))
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;ruleID_PARAM&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">FilterElementIdRule</span>&nbsp;=&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">FilterElementIdRule</span>(provider,&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">FilterNumericEquals</span>(),&nbsp;activeView.Id)
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;filter&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">ElementParameterFilter</span>&nbsp;=&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">ElementParameterFilter</span>(ruleID_PARAM)
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;collector&nbsp;=&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(revDoc).WherePasses(filter).ToElementIds().Except(<span style="color:blue;">New</span>&nbsp;List(<span style="color:blue;">Of</span>&nbsp;<span style="color:#2b91af;">ElementId</span>)(<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">ElementId</span>()&nbsp;{activeView.Id}))
+&nbsp;&nbsp;<span style="color:blue;">Return</span>&nbsp;collector.FirstOrDefault
+<span style="color:blue;">End</span>&nbsp;<span style="color:blue;">Function</span>
+</pre>
+
+<p>This can all be stuffed into one single statement:</p>
+
+<pre class="code">
+<span style="color:blue;">Public</span>&nbsp;<span style="color:blue;">Function</span>&nbsp;GetELementIDOfCropBoxShortened(activeView&nbsp;<span style="color:blue;">As</span>&nbsp;View,&nbsp;revDoc&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">Document</span>)&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">ElementId</span>
+&nbsp;&nbsp;<span style="color:blue;">Return</span>&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(revDoc)
+&nbsp;&nbsp;&nbsp;&nbsp;.WherePasses(<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">ElementParameterFilter</span>(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">FilterElementIdRule</span>(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">ParameterValueProvider</span>(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">ElementId</span>(<span style="color:blue;">CInt</span>(<span style="color:#2b91af;">BuiltInParameter</span>.ID_PARAM))),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">FilterNumericEquals</span>(),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;activeView.Id)))
+&nbsp;&nbsp;&nbsp;&nbsp;.ToElementIds()
+&nbsp;&nbsp;&nbsp;&nbsp;.Except(<span style="color:blue;">New</span>&nbsp;List(<span style="color:blue;">Of</span>&nbsp;<span style="color:#2b91af;">ElementId</span>)(<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">ElementId</span>()&nbsp;{activeView.Id})).FirstOrDefault
+<span style="color:blue;">End</span>&nbsp;<span style="color:blue;">Function</span>
+</pre>
+
+<p>Much like your original, I had to exclude the element id of the view, as it also returns its own id from <code>ID_PARAM</code>.</p>
+
+<p>Hope that this may help someone &ndash; I'm sure the Dynamo people who come here for inspiration will want to know this as well...</p>
+
+<p>Many thanks to Konrads for sharing this nice efficient solution!</p>
+
+<p>I ported it to C# and added it 
+to <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder Samples</a> 
+<a href="https://github.com/jeremytammik/the_building_coder_samples/releases/tag/2018.0.135.2">release 2018.0.135.2</a> and
+the extensive collection of filtered element examples in 
+the <a href="https://github.com/jeremytammik/the_building_coder_samples/blob/master/BuildingCoder/BuildingCoder/CmdCollectorPerformance.cs">module CmdCollectorPerformance.cs</a>:</p>
+
+<pre class="code">
+  <span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+  <span style="color:gray;">///</span><span style="color:green;">&nbsp;Return&nbsp;element&nbsp;id&nbsp;of&nbsp;crop&nbsp;box&nbsp;for&nbsp;a&nbsp;given&nbsp;view.</span>
+  <span style="color:gray;">///</span><span style="color:green;">&nbsp;The&nbsp;built-in&nbsp;parameter&nbsp;ID_PARAM&nbsp;of&nbsp;the&nbsp;crop&nbsp;box&nbsp;</span>
+  <span style="color:gray;">///</span><span style="color:green;">&nbsp;contains&nbsp;the&nbsp;element&nbsp;id&nbsp;of&nbsp;the&nbsp;view&nbsp;it&nbsp;is&nbsp;used&nbsp;in;</span>
+  <span style="color:gray;">///</span><span style="color:green;">&nbsp;e.g.,&nbsp;the&nbsp;crop&nbsp;box&nbsp;&#39;points&#39;&nbsp;to&nbsp;the&nbsp;view&nbsp;using&nbsp;it&nbsp;</span>
+  <span style="color:gray;">///</span><span style="color:green;">&nbsp;via&nbsp;ID_PARAM.&nbsp;Therefore,&nbsp;we&nbsp;can&nbsp;use&nbsp;a&nbsp;parameter&nbsp;</span>
+  <span style="color:gray;">///</span><span style="color:green;">&nbsp;filter&nbsp;to&nbsp;retrieve&nbsp;all&nbsp;crop&nbsp;boxes&nbsp;with&nbsp;the&nbsp;</span>
+  <span style="color:gray;">///</span><span style="color:green;">&nbsp;view&#39;s&nbsp;element&nbsp;id&nbsp;in&nbsp;that&nbsp;parameter.</span>
+  <span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+  <span style="color:#2b91af;">ElementId</span>&nbsp;GetCropBoxFor(&nbsp;<span style="color:#2b91af;">View</span>&nbsp;view&nbsp;)
+  {
+  &nbsp;&nbsp;<span style="color:#2b91af;">ParameterValueProvider</span>&nbsp;provider
+  &nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ParameterValueProvider</span>(&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ElementId</span>(&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span style="color:blue;">int</span>)&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.ID_PARAM&nbsp;)&nbsp;);
+
+  &nbsp;&nbsp;<span style="color:#2b91af;">FilterElementIdRule</span>&nbsp;rule&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilterElementIdRule</span>(&nbsp;provider,&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilterNumericEquals</span>(),&nbsp;view.Id&nbsp;);
+
+  &nbsp;&nbsp;<span style="color:#2b91af;">ElementParameterFilter</span>&nbsp;filter
+  &nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ElementParameterFilter</span>(&nbsp;rule&nbsp;);
+
+  &nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;view.Document&nbsp;)
+  &nbsp;&nbsp;&nbsp;&nbsp;.WherePasses(&nbsp;filter&nbsp;)
+  &nbsp;&nbsp;&nbsp;&nbsp;.ToElementIds()
+  &nbsp;&nbsp;&nbsp;&nbsp;.Where&lt;<span style="color:#2b91af;">ElementId</span>&gt;(&nbsp;a&nbsp;=&gt;&nbsp;a.IntegerValue&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;!=&nbsp;view.Id.IntegerValue&nbsp;)
+  &nbsp;&nbsp;&nbsp;&nbsp;.FirstOrDefault&lt;<span style="color:#2b91af;">ElementId</span>&gt;();
+  }
+</pre>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb09ef3fa0970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb09ef3fa0970d img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="3D view section box" title="3D view section box" src="/assets/image_938562.jpg" /></a><br /></p>
+
+<p></center></p>

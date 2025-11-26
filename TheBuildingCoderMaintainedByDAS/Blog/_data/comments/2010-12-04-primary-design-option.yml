@@ -1,0 +1,187 @@
+comments:
+- author: SAMI
+  email: algorythm01@yahoo.com
+  ip: 66.202.130.38
+  url: ''
+  date: '2010-12-06 15:32:22'
+  body: "Dear Jeremy,\nI have a question about 'Cut Geometry' functionality. \nTo\
+    \ give you more insight about the question, here is a little background: I am\
+    \ creating a decorative screen wall (with a lot of perforations/geometric shapes\
+    \ made out of voids)which accompanies the windows in a courtyard wall. In order\
+    \ for me to create these voids i need them to intersect with the host wall. First\
+    \ I tried to use voidextrusions to use 'CombinableElements' property, but unfortunately\
+    \ it did not allow me to cast the wall as element. The other option I tried was\
+    \ to get geometry proper of wall and get solid to use 'SolidSolidCutUtils.AddCutBetweenSolids'\
+    \ method, but now I am having difficulty in using extrusion to use this method.\
+    \ Is there any better way of accomplishing this?"
+- author: Jeremy Tammik
+  email: ''
+  ip: 77.125.90.189
+  url: http://profile.typepad.com/jeremytammik
+  date: '2010-12-06 17:25:09'
+  body: 'Dear Sami,
+
+
+    The Revit API help file contains the following statement regarding the AddCutBetweenSolids
+    error, which I personally do not find very clearly formulated:
+
+
+    "The element must be in a conceptual model, pattern based curtain panel, or adaptive
+    component family -or- The element does not meet the condition that it must be
+    solid and must be a GenericForm, GeomCombination, or a FamilyInstance."
+
+
+    As far as I can tell, that can be simplified to "The element must be in a conceptual
+    model, pattern based curtain panel, or adaptive component family -or- it must
+    be solid and its class must be GenericForm, GeomCombination, or FamilyInstance."
+
+
+    Unfortunately, the wall does not fulfil this requirement, so AddCutBetweenSolids
+    cannot be used on it.
+
+
+    CombineElements will not work either, because Wall is not a subclass of the CombinableElement
+    class.
+
+
+    As of now, we have no additional capability in this area.
+
+
+    So I am sorry to say that you cannot add a void to the wall itself through the
+    API, even though it is possible through the user interface.
+
+
+    If the wall were a standard family, you could go into its family definition, search
+    for the wall''s main parametric solid, e.g. an Extrusion or something, and add
+    a void to that. Unfortunately, being a system family, this is not possible.
+
+
+    Maybe you can define your ''hole in the wall'' as a standard family, like a window?
+    Or use a plain opening element?
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.'
+- author: Jinsol
+  email: jinsol.kim@hok.com
+  ip: 63.218.3.246
+  url: ''
+  date: '2012-10-31 00:28:53'
+  body: 'Hi Jeremy,
+
+
+    I''m wondering if there''s any ways to get design option set. For example, if
+    a room belongs to a design option, the parameter of the Design Option in the room
+    indicates "Option Set 1: Option 1", but I cannot access to the design option set,
+    Option Set 1, which includes the design option, Option 1. Please let me know if
+    there''s a class like DesignOptionSet. Thank you for your help in advance.
+
+
+    Jinsol'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-10-31 04:56:11'
+  body: 'Dear Jinsol,
+
+
+    I would start out by looking at the DesignOptionReader SDK sample, if I were you.
+
+
+    Cheers, Jeremy.'
+- author: bcjones@dwhomes.com
+  email: bcjones@dwhomes.com
+  ip: 207.200.21.3
+  url: ''
+  date: '2012-11-26 17:50:27'
+  body: 'Hi Jeremy,
+
+    Unfortunately the sample doesn''t touch Design Option Sets.'
+- author: MejdiM
+  email: ''
+  ip: 41.228.17.244
+  url: http://profile.typepad.com/6p017d41c69c4d970c
+  date: '2013-03-12 12:35:03'
+  body: 'Dear Jeremy,
+
+
+    I''m looking at a way to know which Design Option used by user in an active view
+    and then to filter elements to have only elements which are in the used design
+    option.
+
+    Thanks for your help in advance.
+
+
+    MejdiM'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.184.163
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-03-13 02:21:27'
+  body: 'Dear MejdiM,
+
+
+    I don''t know about the active view. You would have to explore that for yourself.
+    Please let us know the solution. Retrieving the elements should be achievable
+    using an ElementDesignOptionFilter, or the BuiltInParameter.DESIGN_OPTION_PARAM
+    and a parameter filter.
+
+
+    Cheers, Jeremy.'
+- author: MejdiM
+  email: ''
+  ip: 41.228.17.244
+  url: http://profile.typepad.com/6p017d41c69c4d970c
+  date: '2013-03-13 04:06:47'
+  body: "I tried this code :\n\nElementId activeOptId = Autodesk.Revit.DB.DesignOption.GetActiveDesignOptionId(document);\n\
+    \        ElementDesignOptionFilter filter = new ElementDesignOptionFilter(activeOptId);\n\
+    \        FilteredElementCollector collector5 = new FilteredElementCollector(document);\n\
+    \        IList<Element> elementsOfDesignOpt = collector5.WherePasses(filter).ToElements();\n\
+    \nBut, I had an ElementList containing all the elements of the design option set,\
+    \ however, I'm looking to have only elements of the option chosen by the user.\n\
+    \nCheers, Mejdi."
+- author: gg
+  email: gg@dstudio.be
+  ip: 78.23.219.120
+  url: ''
+  date: '2013-06-06 05:24:59'
+  body: "Dear Jinsol,\n\nHave you found a solution on linking the design option and\
+    \ the design option set to each other? \nI'm having the same problem. I've found\
+    \ all the design options sets and also all the design options, but I can't seem\
+    \ to find how they are linked to each other. Maybe you have found a solution to\
+    \ my problem?\n\nCheers Gill"
+- author: Jeremy Tammik
+  email: ''
+  ip: 24.128.173.150
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-06-07 14:00:03'
+  body: 'Dear Gill,
+
+
+    I discussed this with the development team, and unfortunately there seems to be
+    no way to read information about the option sets, including option set membership.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-29 10:58:41'
+  body: 'Dear MejdiM,
+
+
+    You can combine the results of several individual filtered element collectors,
+    or filter the result of one collector with a given list of element ids.
+
+
+    So you should be able to integrate the results you list above with the current
+    user selection.
+
+
+    Cheers, Jeremy.
+
+    -----'

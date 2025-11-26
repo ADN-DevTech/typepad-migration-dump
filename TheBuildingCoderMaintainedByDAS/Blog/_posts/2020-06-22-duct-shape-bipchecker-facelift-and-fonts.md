@@ -1,0 +1,294 @@
+---
+layout: "post"
+title: "Duct Shape, BipChecker Facelift and @ Fonts"
+date: "2020-06-22 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "Data Access"
+  - "Debugging"
+  - "Parameters"
+  - "Settings"
+  - "Update"
+  - "User Interface"
+  - "WPF"
+original_url: "https://thebuildingcoder.typepad.com/blog/2020/06/duct-shape-bipchecker-facelift-and-fonts.html "
+typepad_basename: "duct-shape-bipchecker-facelift-and-fonts"
+typepad_status: "Publish"
+---
+
+<p>I begin this week with a rather mixed bag of interesting issues from the last:</p>
+
+<ul>
+<li><a href="#2">Get MEP duct shape update</a></li>
+<li><a href="#3">Determining differences between DLL versions</a></li>
+<li><a href="#4">BipChecker facelift</a></li>
+<li><a href="#5">Fonts with '@' prefix</a></li>
+</ul>
+
+<h4><a name="2"></a> Get MEP Duct Shape Update</h4>
+
+<p>We have looked at how to determine the MEP duct shape repeatedly in the past, e.g., in the articles on:</p>
+
+<ul>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2011/03/distinguishing-mep-element-shape.html">Distinguishing MEP element shape</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2011/05/improved-mep-element-shape-and-mount-ararat.html">Improved MEP Element Shape</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2016/02/ifc-import-levels-and-mep-element-shapes.html">IFC Import Levels and MEP Element Shapes</a></li>
+</ul>
+
+<p>The question came up again in the following discussion, and the solution is now &ndash; and has been for some time now &ndash; at hand:</p>
+
+<p><strong>Question:</strong> How can I figure out the duct shape (oval, rectangular or round) from <code>DuctType</code> independently of its <code>FamilyName</code>? The FamilyName is a localized string, so cannot get the shape info out from it.</p>
+
+<p><strong>Answer:</strong> You can get the shape based on the connectors. </p>
+
+<p><strong>Response:</strong> Does <code>DuctType</code> have connector?</p>
+
+<p><strong>Answer:</strong> I'm not sure..... are you using FabricationParts or generics? Check to see if your element has a connector manager, then check the shape property on your connectors.</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;fabPart&nbsp;=&nbsp;myElement&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">FabricationPart</span>;
+&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">Connector</span>&nbsp;conn
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">in</span>&nbsp;fabPart.ConnectorManager.Connectors&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;shape&nbsp;=&nbsp;conn.Shape;
+&nbsp;&nbsp;}
+</pre>
+
+<p><strong>Response:</strong> I am using generic ducts, not <code>FabricationParts</code>.</p>
+
+<p>I looked at The Building Coder posts listed above, but they don't work.</p>
+
+<p><strong>Answer:</strong> Perhaps you could take some of the code found in here?</p>
+
+<pre class="code">
+<span style="color:#2b91af;">DuctType</span>&nbsp;dt&nbsp;=&nbsp;doc.GetElement(&nbsp;tid&nbsp;)
+&nbsp;&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">DuctType</span>;
+
+<span style="color:blue;">if</span>(&nbsp;<span style="color:blue;">null</span>&nbsp;!=&nbsp;dt&nbsp;)
+{
+&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;HasInvalidElementIdValue(&nbsp;e,&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>
+&nbsp;&nbsp;&nbsp;&nbsp;.RBS_CURVETYPE_MULTISHAPE_TRANSITION_OVALROUND_PARAM&nbsp;)&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;shape&nbsp;=&nbsp;<span style="color:#a31515;">&quot;rectangular&quot;</span>;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color:blue;">else</span>&nbsp;<span style="color:blue;">if</span>(&nbsp;HasInvalidElementIdValue(&nbsp;e,&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>
+&nbsp;&nbsp;&nbsp;&nbsp;.RBS_CURVETYPE_MULTISHAPE_TRANSITION_RECTOVAL_PARAM&nbsp;)&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;shape&nbsp;=&nbsp;<span style="color:#a31515;">&quot;round&quot;</span>;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color:blue;">else</span>&nbsp;<span style="color:blue;">if</span>(&nbsp;HasInvalidElementIdValue(&nbsp;e,&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>
+&nbsp;&nbsp;&nbsp;&nbsp;.RBS_CURVETYPE_MULTISHAPE_TRANSITION_PARAM&nbsp;)&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;shape&nbsp;=&nbsp;<span style="color:#a31515;">&quot;oval&quot;</span>;
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p><strong>Response:</strong> This is the same code I found in the link above; it fails when opening a new project not using the mechanical template.</p>
+
+<p><strong>Answer:</strong> You should be able to call <code>getProfileType</code> that is defined in the base class of the type to get the shape. If that doesn't work, you can use first code snippet above; if you replace the <code>FabricationPart</code> with <code>Duct</code> or <code>FamilyInstance</code> (for fittings), you can get the profile shape from the connectors.
+The profile type is an enum, so there should be no string related issues.</p>
+
+<p><strong>Response:</strong> The old version of the Revit API that I am using cannot find <code>getProfileType</code> in the <code>DuctType</code> base class. The example code above only works when opening a new project using the mechanical template.</p>
+
+<p><strong>Answer:</strong> It should be defined in the <code>MEPCurveType</code> class; it was exposed to the API in 2019.</p>
+
+<p><strong>Response:</strong> Thanks, we are switching to 2019 soon, I will use it after that, finding a workaround for now.
+On Revit 2018, I found that if I create a new project file using the Architectural Template, its three <code>DuctType</code> elements only have <code>Default</code> on each. In this case, the sample code above does not work. Which API function can create duct types just as when I create a new project using the Mechanical Template? </p>
+
+<p><strong>Answer:</strong> I don't think using the duct type will work for what you are trying to do unless you are using 2019 or later. If you access the duct or duct fitting (family instance) and get the connectors from the connector manager from the element you should be able to get the shape. That shape is the same for both.</p>
+
+<p><strong>Response:</strong> Our plugin is trying to recreate duct type from the data stored externally before drawing a duct instance. For example, if the plugin stores an oval duct type externally called <code>newDuctType1</code>, in order to insert this duct instance into the model, it needs to create this duct type in Oval Duct first. The plugin can hard code the "Oval" string to find FamilyName "Oval Duct" in the English version of Revit, but it will not work in other languages. This is why I am looking for a solution or workaround in 2018 to determine the shape from duct type.</p>
+
+<p>Later: I have not found any solution for 2018. We decide to use the sample routine (see above) you created but it works only if all three duct types (oval, rectangular and round) have real duct type in them. The workaround on 2018:</p>
+
+<p>If none of the three parameters in the sample routine return a valid element id, it means the drawing does not have any real duct types except the ones called “Default”; then it displays a warning to the user, asks her to transfer duct types from some other model and delete the ones called “Default”.</p>
+
+<p><strong>Answer:</strong> I am sure the workaround can be improved, and that a reliable algorithm to distinguish MEP element shapes can be devised. For instance, you could look at the number, geometrical location and direction of the connectors. That will provide a lot of information. You can look at the geometry.</p>
+
+<p>Later: Did you ever resolve this?</p>
+
+<p><strong>Response:</strong> For Revit 2019 and newer, there is a new <code>DuctType</code> property for this, <code>DuctType.Shape</code>.</p>
+
+<p>For Revit 2018 and older, we get the value from the RoutingPreferenceRuleGroupType enumeration values
+TransitionsRectangularToRound, TransitionsRectangularToOval and TransitionsOvalToRound, then check whether the returned list has count 0.</p>
+
+<h4><a name="3"></a> Determining Differences Between DLL Versions</h4>
+
+<p><strong>Question:</strong> How can I find out changes between different versions of a .NET assembly DLL?</p>
+
+<p>For instance, how can I identify recent additions to the public API?</p>
+
+<p>Is there a better way than manually looking at changed files in the commit history?</p>
+
+<p><strong>Answer:</strong> You can easily automate the comparison of public interfaces in two different versions of the DLL, e.g., using <a href="http://patelshailesh.com/index.php/free-tools-to-compare-net-assemblies">free tools to compare .NET assemblies</a>.</p>
+
+<h4><a name="4"></a> BipChecker Facelift</h4>
+
+<p><a href="https://github.com/ottosson">Mathias Ottosson</a>
+of <a href="https://www.wsp.com">WSP</a> very kindly shares an important UI enhancement of
+the venerable <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#5.34">BipChecker, the Revit built-in parameter checker</a>,
+in his <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/i-gave-jeremys-bip-checker-a-facelift/m-p/9566362">I gave Jeremys BIP checker a facelift</a>,
+explaining:</p>
+
+<p>I really enjoy the nifty tools that Jeremy has created or maintains, like
+the <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#5.34">BipChecker</a>
+and <a href="https://github.com/jeremytammik/Revitlookup">RevitLookup</a>.
+Truly useful tools that I use more or less daily when I develop for Revit.</p>
+
+<p>But when I use them a lot, I feel some pain points that makes them a little bit less fun to use.</p>
+
+<p>I was using BIP-checker the other day and felt it was a bit annoying to have to expand the columns every time I opened it for a new element, or the fact that it doesn't scale very well on higher DPI monitors, making the select element dialog look weird.
+So, I decided to improve it a little and rewrote the UI in WPF instead of winforms to be able to fix those minor issues and to have the ability to maybe add more functionality like copying values and such.</p>
+
+<p>I put it up
+on <a href="https://github.com/ottosson/BipChecker-WPF">my BipChecker-WPF GitHub</a> for everyone to benefit and give feedback.</p>
+
+<p>It's about 98% done as I haven't implemented grouping yet (WPF is truly not easy to work with...), but I hope to get to it soon.</p>
+
+<p>I haven't tested it in all versions of Revit (just 2018).
+Since I haven't made any changes to the Revit logic parts, it should work just as well in all versions that Jeremy's version supports.</p>
+
+<p>Improvements:</p>
+
+<ul>
+<li>Close with Escape key</li>
+<li>Better support for high DPI monitors</li>
+<li>Expanded columns on startup</li>
+<li>Input validation (unable to click ok on invalid id) on manual id input</li>
+<li>Start in active monitor (on multi monitor setups)</li>
+</ul>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e95219c7200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e95219c7200b image-full img-responsive" alt="BipCheckerWpf" title="BipCheckerWpf" src="/assets/image_56fbc5.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>As said, I haven't made any logic changes in the Revit code, and all credit still goes to Jeremy for his work.</p>
+
+<p>I just felt this could benefit others and wanted to share with the community.</p>
+
+<p>Ever so many thanks to Mathias for this useful enhancement!</p>
+
+<p>Now I just need to figure out how to also get it into the main master codestream...</p>
+
+<h4><a name="5"></a> Fonts with '@' Prefix</h4>
+
+<p>Another question from 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+that has come up in the past is how to retrieve 
+the <a href="https://forums.autodesk.com/t5/revit-api-forum/fonts-that-begin-with/m-p/9566993">fonts that begin with '@'</a>:</p>
+
+<p>This issue was discussed back in 2012 in the article
+on <a href="https://adndevblog.typepad.com/aec/2012/09/fonts-starting-with-.html">fonts starting with "@"</a> by Mikako Harada.</p>
+
+<p>The new thread digs a bit deeper, though, and the solution once again provided
+by Richard <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/1035859">RPThomas108</a> Thomas:</p>
+
+<p><strong>Question:</strong> I'm doing research on getting Fonts from various elements and assessing whether they are installed on the system.
+I've come across an issue with fonts that are available in Revit's list that begin with <code>@</code>.
+These are not installed on the system and are duplicates of a font without the <code>@</code>.
+As far as I can tell, these
+are <a href="https://knowledge.autodesk.com/support/autocad/learn-explore/caas/CloudHelp/cloudhelp/2016/ENU/AutoCAD-Core/files/GUID-32786109-F454-47DD-AA4C-FB8C37F4430D-htm.html">fonts that are used in vertical typefaces</a>.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e95219ce200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e95219ce200b img-responsive" style="width: 280px; display: block; margin-left: auto; margin-right: auto;" alt="List of '@' fonts" title="List of '@' fonts"  src="/assets/image_2e3a7a.jpg" /></a></p>
+
+<p style="font-size: 80%; font-style:italic">Fonts that start with '@'</p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e95219d7200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e95219d7200b img-responsive" style="width: 290px; display: block; margin-left: auto; margin-right: auto;" alt="List of duplicate fonts" title="List of duplicate fonts" src="/assets/image_ce76ca.jpg" /></a></p>
+
+<p style="font-size: 80%; font-style:italic">Duplicate fonts</p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330264e2e4334c200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330264e2e4334c200d img-responsive" style="width: 474px; display: block; margin-left: auto; margin-right: auto;" alt="List of system fonts" title="List of system fonts" src="/assets/image_97c171.jpg" /></a></p>
+
+<p style="font-size: 80%; font-style:italic">System fonts</p>
+
+<p></center></p>
+
+<ul>
+<li>Why does Revit show these as a duplicate font?</li>
+<li>How can I get these fonts that are listed since they are not installed on the system and may not be in use by an element in Revit?</li>
+</ul>
+
+<p>This is indeed Revit API specific.
+I can get the value of the fonts in use by text types, dimension types, etc., by reading the <code>TEXT_FONT</code> parameter.
+I can also get the fonts on the system by using
+the <a href="https://docs.microsoft.com/en-us/dotnet/api/system.drawing.text.installedfontcollection?view=dotnet-plat-ext-3.1"><code>InstalledFontCollection</code> class</a>.
+It requires a reference to <code>System.Drawing</code>.
+But neither of these can return the <code>@Name</code> fonts that appear in the UI for picking a font.
+So, the question is, how can I get the list of fonts that Revit lists for my application?</p>
+
+<p>Code to get system fonts:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;GetAllInstalledFonts()
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;System.Drawing.Text.<span style="color:#2b91af;">InstalledFontCollection</span>&nbsp;ifc
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;System.Drawing.Text.<span style="color:#2b91af;">InstalledFontCollection</span>();
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:blue;">string</span>&gt;&nbsp;fontList&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:blue;">string</span>&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//list&nbsp;of&nbsp;all&nbsp;font&nbsp;family&nbsp;names</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:blue;">var</span>&nbsp;font&nbsp;<span style="color:blue;">in</span>&nbsp;ifc.Families&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontList.Add(&nbsp;font.Name&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;fontList.Sort();
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;<span style="color:#a31515;">&quot;Installed&nbsp;Fonts&quot;</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>.Join(&nbsp;Environment.NewLine,&nbsp;fontList&nbsp;)&nbsp;);
+&nbsp;&nbsp;}
+</pre>
+
+<p><strong>Answer:</strong> Mikako's article
+on <a href="https://adndevblog.typepad.com/aec/2012/09/fonts-starting-with-.html">fonts starting with "@"</a> might help.</p>
+
+<p>I don't know if IT was written for 64bit or 32bit so might need adjustment, also I don't know that it works at all.</p>
+
+<p>There is also the <code>FontDialog</code> that you can call up from windows.Forms, even in WPF:</p>
+
+<pre class="code">
+<span style="color:blue;">Private</span>&nbsp;<span style="color:blue;">Function</span>&nbsp;TObj70(
+&nbsp;&nbsp;<span style="color:blue;">ByVal</span>&nbsp;commandData&nbsp;<span style="color:blue;">As</span>&nbsp;Autodesk.Revit.UI.<span style="color:#2b91af;">ExternalCommandData</span>,
+&nbsp;&nbsp;<span style="color:blue;">ByRef</span>&nbsp;message&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:blue;">String</span>,
+&nbsp;&nbsp;<span style="color:blue;">ByVal</span>&nbsp;elements&nbsp;<span style="color:blue;">As</span>&nbsp;Autodesk.Revit.DB.<span style="color:#2b91af;">ElementSet</span>)&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">Result</span>
+
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;FD&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:blue;">New</span>&nbsp;Windows.Forms.FontDialog
+&nbsp;&nbsp;FD.ShowColor&nbsp;=&nbsp;<span style="color:blue;">False</span>&nbsp;<span style="color:green;">&#39;or&nbsp;True&nbsp;if&nbsp;you&nbsp;like</span>
+&nbsp;&nbsp;FD.ShowEffects&nbsp;=&nbsp;<span style="color:blue;">False</span>
+&nbsp;&nbsp;FD.MinSize&nbsp;=&nbsp;10
+&nbsp;&nbsp;FD.MaxSize&nbsp;=&nbsp;10
+&nbsp;&nbsp;FD.ShowEffects&nbsp;=&nbsp;<span style="color:blue;">False</span>
+&nbsp;&nbsp;FD.AllowScriptChange&nbsp;=&nbsp;<span style="color:blue;">False</span>
+&nbsp;&nbsp;FD.AllowSimulations&nbsp;=&nbsp;<span style="color:blue;">False</span>
+
+&nbsp;&nbsp;FD.ShowDialog()
+
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;Nme&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:blue;">String</span>&nbsp;=&nbsp;<span style="color:#a31515;">&quot;&quot;</span>
+&nbsp;&nbsp;<span style="color:blue;">If</span>&nbsp;FD.Font.GdiVerticalFont&nbsp;<span style="color:blue;">Then</span>
+&nbsp;&nbsp;&nbsp;&nbsp;Nme&nbsp;=&nbsp;<span style="color:#a31515;">&quot;@&quot;</span>&nbsp;&amp;&nbsp;FD.Font.Name
+&nbsp;&nbsp;<span style="color:blue;">Else</span>
+&nbsp;&nbsp;&nbsp;&nbsp;Nme&nbsp;=&nbsp;FD.Font.Name
+&nbsp;&nbsp;<span style="color:blue;">End</span>&nbsp;<span style="color:blue;">If</span>
+&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(<span style="color:#a31515;">&quot;Font&quot;</span>,&nbsp;Nme)
+
+&nbsp;&nbsp;<span style="color:blue;">Return</span>&nbsp;<span style="color:#2b91af;">Result</span>.Succeeded
+<span style="color:blue;">End</span>&nbsp;<span style="color:blue;">Function</span>
+</pre>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e95219e4200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e95219e4200b img-responsive" style="width: 438px; display: block; margin-left: auto; margin-right: auto;" alt="List of FontDialog fonts" title="List of FontDialog fonts" src="/assets/image_edb8d6.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Although it lists with the <code>@</code> prefix, the name is without it, so you have to add it manually.</p>
+
+<p>From this topic I assume <code>.GdiVerticalFont</code> is the appropriate property to determine the '@ness'.</p>
+
+<p><strong>Response:</strong> The method used in the link you sent to AEC DevBlog helped.
+It gives more fonts than are shown by Revit but I think I can work with it.</p>
+
+<p>Many thanks to Richard for the crucial answer.</p>

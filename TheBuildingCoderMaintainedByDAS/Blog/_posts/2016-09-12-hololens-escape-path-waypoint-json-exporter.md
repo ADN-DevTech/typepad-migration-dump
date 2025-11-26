@@ -1,0 +1,302 @@
+---
+layout: "post"
+title: "HoloLens Escape Path Waypoint JSON Exporter"
+date: "2016-09-12 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "Algorithm"
+  - "Export"
+  - "Geometry"
+  - "JSON"
+  - "Ribbon"
+  - "Settings"
+original_url: "https://thebuildingcoder.typepad.com/blog/2016/09/hololens-escape-path-waypoint-json-exporter.html "
+typepad_basename: "hololens-escape-path-waypoint-json-exporter"
+typepad_status: "Publish"
+---
+
+<p>Last week, I worked with Kean Walmsley on
+his <a href="http://through-the-interface.typepad.com/through_the_interface/2016/08/my-entry-for-autodesks-first-global-hackathon-a-hololens-based-tool-for-navigating-low-visibility-environments.html">entry for the first global Autodesk Hackathon: a HoloLens-based tool for navigating low visibility environments</a>, resulting in the
+new <a href="http://through-the-interface.typepad.com/through_the_interface/2016/09/hologuide-an-autodesk-hackathon-project.html">HoloGuide Autodesk Hackathon project</a>.</p>
+
+<p>Watch this <a href="https://www.youtube.com/watch?v=8MjBgiQZUzw">three-minute video</a> for a quick first impression of what it is all about:</p>
+
+<p><center>
+<iframe width="440" height="248" src="https://www.youtube.com/embed/8MjBgiQZUzw?rel=0" frameborder="0" allowfullscreen></iframe>
+</center></p>
+
+<p>This project is part of Kean's <a href="http://through-the-interface.typepad.com/through_the_interface/hololens">HoloLens project series</a>, including and not limited to:</p>
+
+<ul>
+<li><a href="http://through-the-interface.typepad.com/through_the_interface/2016/08/using-hololens-to-display-diagnostic-information-for-building-components.html">Using HoloLens to display diagnostic information for building components</a></li>
+<li><a href="http://through-the-interface.typepad.com/through_the_interface/2016/08/scaling-our-unity-model-in-hololens.html">Scaling our Unity model in HoloLens</a></li>
+<li><a href="http://through-the-interface.typepad.com/through_the_interface/2016/08/adding-spatial-sound-to-our-unity-model-in-hololens-part-3.html">Adding spatial sound to our Unity model in HoloLens</a></li>
+<li><a href="http://through-the-interface.typepad.com/through_the_interface/2016/07/displaying-your-unity-model-in-3d-using-hololens.html">Displaying your Unity model in 3D using HoloLens</a></li>
+</ul>
+
+<p>My modest contribution is the <a href="https://github.com/jeremytammik/ExportWaypointsJson">ExportWaypointsJson Revit add-in</a>, an external application implementing the main command, exporting the waypoints, and a subsidiary option settings command, displaying a form, validating input and storing the user preferences.</p>
+
+<p>The main command and the main functionality of the add-in simply prompts the user to pick a model line in the Revit project,  traverses it, determines waypoints at predefined intervals and exports them to JSON for consumption by the HoloGuide visualisation.</p>
+
+<p>In the process of implementing it, I was able to explore an issue I never looked at before, validating user input to a Windows form using the <code>ErrorProvider</code> class, <code>Validating</code> and <code>Validated</code> events.</p>
+
+<p>I also implemented two different approaches to store the user-defined add-in option settings, in XML and JSON.</p>
+
+<p>Today, I'll just present the external application class creating the ribbon panel with split button providing access to two commands. It reads the ribbon button icons from embedded resources and provides a method to ensure that the main command always remains the default current button.</p>
+
+<p>I used the <a href="http://thebuildingcoder.typepad.com/blog/2016/09/stacked-ribbon-button-panel-options.html">stacked ribbon button panel  SplitButtonOptionConcept</a> approach to retain the main command button as the current default split button option. Thus the main command is always displayed at the top and immediately accessible with a single click, while access to the other subsidiary commands requires opening the split button drop-down options first.</p>
+
+<p>I'll just present the main external application implementation of this add-in today.</p>
+
+<p>If you would like to explore the areas that I have not covered today right away on your own, feel free to clone, compile and debug the project from
+the <a href="https://github.com/jeremytammik/ExportWaypointsJson">ExportWaypointsJson GitHub repository</a>.</p>
+
+<p>The version discussed here
+is <a href="https://github.com/jeremytammik/ExportWaypointsJson/releases/tag/2017.0.0.11">release 2017.0.0.11</a>.</p>
+
+<h4><a name="2"></a>External Application Implementation</h4>
+
+<p>The add-in displays the following ribbon panel:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c8924623970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c8924623970b img-responsive" style="width: 378px; " alt="ExportWaypointsJson ribbon panel" title="ExportWaypointsJson ribbon panel" src="/assets/image_4fbf30.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>You can either click the main button, which is always displayed at the top as the current option, to trigger the main command, or drop down the rest of the stacked button contents to display the option button:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c8924634970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c8924634970b img-responsive" style="width: 139px; " alt="ExportWaypointsJson main command and settings buttons" title="ExportWaypointsJson main command and settings buttons" src="/assets/image_4187d9.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>I ran the application in a model of the Autodesk office building in Neuch&acirc;tel:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c892464f970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c892464f970b img-responsive" style="width: 360px; " alt="Autodesk office building in Neuch&acirc;tel" title="Autodesk office building in Neuch&acirc;tel" src="/assets/image_b58b83.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>The escape path we use for demonstration leads from Kean's desk to the nearest exit door:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d21bfcf7970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d21bfcf7970c img-responsive" style="width: 360px; " alt="HoloGuide exit path plan view" title="HoloGuide exit path plan view" src="/assets/image_0b18db.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>It is represented by a model curve:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb0935b71e970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb0935b71e970d img-responsive" style="width: 415px; " alt="HoloGuide exit path 3D view" title="HoloGuide exit path 3D view" src="/assets/image_956df3.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>The external command prompts you to select the exit path waypoints model curve, unless you pre-selected one before launching it, traverses it, determines waypoints and exports the results to JSON.</p>
+
+<p>To report success, it displays the number of points exported:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d21bfd11970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d21bfd11970c img-responsive" style="width: 373px; " alt="HoloGuide exit path report message" title="HoloGuide exit path report message" src="/assets/image_49448c.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Each waypoint can optionally also be represented by a marker in the view you generated it from:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb0935b74c970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb0935b74c970d img-responsive" style="width: 400px; " alt="HoloGuide exit path markers" title="HoloGuide exit path markers" src="/assets/image_9a3277.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>The marker generation option can also be switched off.</p>
+
+<p>If you do so, the command can run in read-only mode.</p>
+
+<p>Right now, the transaction mode is set to manual, and a transaction is only started if the waypoint markers are requested.</p>
+
+<p>Here is the entire external application implementation, which:</p>
+
+<ul>
+<li>Creates the ribbon tab and buttons.</li>
+<li>Populates the button icons from embedded resources.</li>
+<li>Ensures that the main command button always remains the current and default split button option.</li>
+</ul>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">App</span>&nbsp;:&nbsp;<span style="color:#2b91af;">IExternalApplication</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">const</span>&nbsp;<span style="color:blue;">string</span>&nbsp;Caption&nbsp;=&nbsp;<span style="color:#a31515;">&quot;Waypoints&quot;</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">SplitButton</span>&nbsp;split_button;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;This&nbsp;external&nbsp;application&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;singleton&nbsp;class&nbsp;instance.</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">internal</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:#2b91af;">App</span>&nbsp;_app&nbsp;=&nbsp;<span style="color:blue;">null</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Provide&nbsp;access&nbsp;to&nbsp;this&nbsp;class&nbsp;instance.</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:#2b91af;">App</span>&nbsp;Instance
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">get</span>&nbsp;{&nbsp;<span style="color:blue;">return</span>&nbsp;_app;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Return&nbsp;the&nbsp;full&nbsp;add-in&nbsp;assembly&nbsp;folder&nbsp;path.</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">string</span>&nbsp;Path
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">get</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;System.IO.<span style="color:#2b91af;">Path</span>.GetDirectoryName(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Assembly</span>.GetExecutingAssembly().Location&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">#region</span>&nbsp;Create&nbsp;Ribbon&nbsp;Tab
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Load&nbsp;a&nbsp;new&nbsp;icon&nbsp;bitmap&nbsp;from&nbsp;embedded&nbsp;resources.</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;For&nbsp;the&nbsp;BitmapImage,&nbsp;make&nbsp;sure&nbsp;you&nbsp;reference&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;WindowsBase&nbsp;and&nbsp;PresentationCore,&nbsp;and&nbsp;import&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;the&nbsp;System.Windows.Media.Imaging&nbsp;namespace.&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BitmapImage</span>&nbsp;NewBitmapImage(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Reflection.<span style="color:#2b91af;">Assembly</span>&nbsp;a,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;imageName&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Stream</span>&nbsp;s&nbsp;=&nbsp;a.GetManifestResourceStream(&nbsp;imageName&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BitmapImage</span>&nbsp;img&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">BitmapImage</span>();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;img.BeginInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;img.StreamSource&nbsp;=&nbsp;s;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;img.EndInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;img;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">void</span>&nbsp;CreateRibbonTab(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UIControlledApplication</span>&nbsp;a&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Assembly</span>&nbsp;assembly&nbsp;=&nbsp;<span style="color:#2b91af;">Assembly</span>.GetExecutingAssembly();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;ass_path&nbsp;=&nbsp;assembly.Location;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;ass_name&nbsp;=&nbsp;assembly.GetName().Name;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Create&nbsp;ribbon&nbsp;tab&nbsp;</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;tab_name&nbsp;=&nbsp;Caption;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">try</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a.CreateRibbonTab(&nbsp;tab_name&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">catch</span>(&nbsp;Autodesk.Revit.Exceptions.<span style="color:#2b91af;">ArgumentException</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Assume&nbsp;error&nbsp;is&nbsp;due&nbsp;to&nbsp;tab&nbsp;already&nbsp;existing</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">PushButtonData</span>&nbsp;pbCommand&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">PushButtonData</span>(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;Export&quot;</span>,&nbsp;<span style="color:#a31515;">&quot;Export&quot;</span>,&nbsp;ass_path,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ass_name&nbsp;+&nbsp;<span style="color:#a31515;">&quot;.Command&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">PushButtonData</span>&nbsp;pbCommandOpt&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">PushButtonData</span>(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;Settings&quot;</span>,&nbsp;<span style="color:#a31515;">&quot;Settings&quot;</span>,&nbsp;ass_path,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ass_name&nbsp;+&nbsp;<span style="color:#a31515;">&quot;.CmdSettings&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pbCommand.LargeImage&nbsp;=&nbsp;NewBitmapImage(&nbsp;assembly,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;ExportWaypointsJson.iCommand.png&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pbCommandOpt.LargeImage&nbsp;=&nbsp;NewBitmapImage(&nbsp;assembly,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;ExportWaypointsJson.iCmdSettings.png&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Add&nbsp;button&nbsp;tips&nbsp;(when&nbsp;data,&nbsp;must&nbsp;be&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;defined&nbsp;prior&nbsp;to&nbsp;adding&nbsp;button.)</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pbCommand.ToolTip&nbsp;=&nbsp;<span style="color:#a31515;">&quot;Export&nbsp;waypoints&nbsp;to&nbsp;JSON.&quot;</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pbCommand.LongDescription&nbsp;=&nbsp;<span style="color:#a31515;">&quot;Export&nbsp;exit&nbsp;path&nbsp;&quot;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<span style="color:#a31515;">&quot;guide&nbsp;waypoints&nbsp;to&nbsp;JSON&nbsp;for&nbsp;Hololens&nbsp;&quot;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<span style="color:#a31515;">&quot;visualisation.&quot;</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;&nbsp;&nbsp;Add&nbsp;new&nbsp;ribbon&nbsp;panel.&nbsp;</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;panel_name&nbsp;=&nbsp;Caption;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">RibbonPanel</span>&nbsp;thisNewRibbonPanel&nbsp;=&nbsp;a.CreateRibbonPanel(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tab_name,&nbsp;panel_name&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;add&nbsp;button&nbsp;to&nbsp;ribbon&nbsp;panel</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">SplitButtonData</span>&nbsp;split_buttonData
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">SplitButtonData</span>(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;splitFarClip&quot;</span>,&nbsp;<span style="color:#a31515;">&quot;FarClip&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;split_button&nbsp;=&nbsp;thisNewRibbonPanel.AddItem(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;split_buttonData&nbsp;)&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">SplitButton</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;split_button.AddPushButton(&nbsp;pbCommand&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;split_button.AddPushButton(&nbsp;pbCommandOpt&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Reset&nbsp;the&nbsp;top&nbsp;button&nbsp;to&nbsp;be&nbsp;the&nbsp;current&nbsp;one.</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Alternative&nbsp;solution:&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;set&nbsp;RibbonItem.IsSynchronizedWithCurrentItem&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;to&nbsp;false&nbsp;after&nbsp;creating&nbsp;the&nbsp;SplitButton.</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;SetTopButtonCurrent()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">IList</span>&lt;<span style="color:#2b91af;">PushButton</span>&gt;&nbsp;sbList&nbsp;=&nbsp;split_button.GetItems();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;split_button.CurrentButton&nbsp;=&nbsp;sbList[0];
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">#endregion</span>&nbsp;<span style="color:green;">//&nbsp;Create&nbsp;Ribbon&nbsp;Tab</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">Result</span>&nbsp;OnStartup(&nbsp;<span style="color:#2b91af;">UIControlledApplication</span>&nbsp;a&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_app&nbsp;=&nbsp;<span style="color:blue;">this</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CreateRibbonTab(&nbsp;a&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#2b91af;">Result</span>.Succeeded;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">Result</span>&nbsp;OnShutdown(&nbsp;<span style="color:#2b91af;">UIControlledApplication</span>&nbsp;a&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#2b91af;">Result</span>.Succeeded;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+</pre>
+
+<p>As said, the ExportWaypointsJson add-in implements a couple of other noteworthy features that we may highlight in future discussions, including:</p>
+
+<ul>
+<li>Main external command
+<ul>
+<li>Model curve selection</li>
+<li>Parametric curve traversal</li>
+<li>Conversion of XYZ points in feet to metres</li>
+<li>Serialisation of two-digit truncated XYZ coordinates</li>
+<li>JSON export of data using <code>JavaScriptSerializer</code> class</li>
+</ul></li>
+<li>Subsidiary external settings command
+<ul>
+<li>Display modal Windows form </li>
+<li>Implement form validation using <code>ErrorProvider</code> class, <code>Validating</code> and <code>Validated</code> events</li>
+<li>Store add-in option settings in XML using the .NET <code>System.Configuration.ApplicationSettingsBase</code> class</li>
+<li>Store add-in option settings in JSON using custom solution and <code>JavaScriptSerializer</code> class</li>
+</ul></li>
+</ul>
+
+<p>The entire add-in project is available from 
+the <a href="https://github.com/jeremytammik/ExportWaypointsJson">ExportWaypointsJson GitHub repository</a>,
+and the version discussed here
+is <a href="https://github.com/jeremytammik/ExportWaypointsJson/releases/tag/2017.0.0.11">release 2017.0.0.11</a>.</p>
+
+<p>Have fun!</p>
+
+<p>Thank you very much, Kean, for the inspiring idea and nice video!</p>

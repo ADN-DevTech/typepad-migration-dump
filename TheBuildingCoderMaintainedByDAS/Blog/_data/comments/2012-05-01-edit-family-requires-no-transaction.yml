@@ -1,0 +1,120 @@
+comments:
+- author: Fabio Pontes
+  email: fabio.pontes@ofcdesk.com
+  ip: 189.99.201.221
+  url: http://www.ofcdesk.com
+  date: '2012-05-01 10:59:39'
+  body: 'Hi Jeremy, do you know if there are any changes in the performance of the
+    EditFamily (or even in the LoadFamily) methods in the new 2013 API?
+
+
+    Thanks'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.178.36
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-01 11:09:38'
+  body: 'Dear Fabio,
+
+
+    Nope, no idea.
+
+
+    Why don''t you benchmark it yourself and let us know?
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/01/timer-code-for-benchmarking.html">http://thebuildingcoder.typepad.com/blog/2012/01/timer-code-for-benchmarking.html</a>
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Guy
+  email: info@r-e-d.co.nz
+  ip: 60.234.213.83
+  url: ''
+  date: '2012-05-01 19:48:13'
+  body: 'I think this is another example of the transaction discussion previously.
+    Consideration of discreet transactions or in someways a ''unit of work'' is clearly
+    much more important in the design of commands for R13 and beyond.
+
+
+    In addition to Arnost''s recommendation of scoping transactions maybe it''s time
+    to recommend using the Manual transaction mode only and the removal of Automatic
+    mode. This would pave the way for removing the transaction and regeneration attributes
+    all together.
+
+
+    Cheers,
+
+
+    Guy'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.181.251
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-02 01:32:12'
+  body: 'Dear Guy,
+
+
+    I fully agree, and practiced exactly what you suggest at the Revit API training
+    in Munich last week, with one small caveat:
+
+
+    I personally never use automatic transaction mode, but I do use both the manual
+    and read-only ones.
+
+
+    It would actually be interesting to know the exact difference between an external
+    command using read-only mode and one using manual without opening any transactions.
+
+
+    Cheers, Jeremy.'
+- author: Arnošt Löbel
+  email: arnost.lobel@autodesk.com
+  ip: 72.52.96.9
+  url: ''
+  date: '2012-05-02 13:51:28'
+  body: 'I believe I said it publicly before, but probably not on this blog yet, Jeremy.
+    First of all, Automatic Transaction Mode is considered obsolete, and we (Autodesk.Revit)
+    do not recommend using it for new external applications. It only exists to ensure
+    compatibility with older applications. The Automatic mode has many limitations
+    (for what an external command can or cannot do), while it  has virtually no benefits
+    whatsoever. It is somehow likely it will go away in some future release of Revit.
+
+
+    Real-Only transaction mode does two things (well, it’s one thing, really, but
+    I’ll split it.) For one, the command using it cannot have any transactions and
+    may not call any methods that modify a document, directly or indirectly, or even
+    temporarily. Secondly, while this external command is being executed, nobody else
+    is allowed to modify the document or have a transaction either; that includes
+    Revit itself, but also applies to other applications that might be invoked through
+    events (for example). All this basically guarantees that during the entire execution
+    of the external command the current models stays unmodified.
+
+
+    Arnošt'
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-03 05:29:49'
+  body: 'Dear Arnošt,
+
+
+    Cool, edifying, and very clear!
+
+
+    I promoted your answer to a post of its own to ensure it does not go unnoticed:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/05/read-only-and-automatic-transaction-modes.html">http://thebuildingcoder.typepad.com/blog/2012/05/read-only-and-automatic-transaction-modes.html</a>
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.
+
+    -----'

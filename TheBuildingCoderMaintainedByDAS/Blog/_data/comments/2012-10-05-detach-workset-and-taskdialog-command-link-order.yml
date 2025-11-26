@@ -1,0 +1,44 @@
+comments:
+- author: KR
+  email: swiftbim@gmail.com
+  ip: 173.8.109.58
+  url: ''
+  date: '2012-10-05 12:03:21'
+  body: "Hey Jeremy, \n\nAs always good post. To extend the discussion on worksets\
+    \ a bit further, it would be great if you could clarify the following two things.\
+    \ Assuming that a user is working on a local copy of the central model with worksharing\
+    \ enabled\n\n1) Does the filteredelementcollector collect elements that are not\
+    \ editable (eg: belonging to a non-editable workset). Is there a filter we could\
+    \ use to only collect those elements that are editable.\n\n2) I do not see any\
+    \ properties on Element class to check if an element is editable. Sure, a workaround\
+    \ could be to get the workset from the element and check if the workset is editable.\
+    \ However, it does not satisfy cases where the user has borrowed individual elements.\n\
+    \nThanks\n\nKR"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-10-08 02:58:05'
+  body: 'Dear KR,
+
+
+    1. Does the FilteredElementCollector collect elements that are not editable, e.g.
+    belonging to a non-editable workset?
+
+
+    Yes.
+
+
+    2. Is there a filter we could use to collect those elements that are editable?
+
+
+    It''s not a filter, but the WorksharingUtils.GetCheckoutStatus method returns
+    this info.
+
+
+    That also answers the second question.
+
+
+    Cheers, Jeremy.
+
+    -----'

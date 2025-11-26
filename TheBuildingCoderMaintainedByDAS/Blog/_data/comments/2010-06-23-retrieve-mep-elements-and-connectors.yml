@@ -1,0 +1,145 @@
+comments:
+- author: John Cook
+  email: jcook@perrycrabb.com
+  ip: 84.246.72.244
+  url: http://www.perrycrabb.com/category/bim/
+  date: '2010-06-24 04:46:59'
+  body: 'This could shape up to be a very handy Add-in for Revit MEP.  It could help
+    in coordination and model verification.
+
+
+    Keep us up to date with what happens with this code and where it goes Jeremy!
+
+
+    Nice work.
+
+
+    -John Cook'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-25 05:11:50'
+  body: 'Dear John,
+
+
+    Thank you for your appreciation and encouragement!
+
+
+    I will certainly keep up with this and keep you up to date as well.
+
+
+    Another important step in the implementation of this tool is described in today''s
+    post:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/06/revit-parent-window.html">http://thebuildingcoder.typepad.com/blog/2010/06/revit-parent-window.html</a>
+
+
+    This topic is on generic technology to handle a modeless dialogue, so not MEP
+    specific.
+
+
+    I am still working on the full and final description of the complete application.
+
+
+    Cheers, Jeremy.'
+- author: Manish Kumar Singh
+  email: manishsingh12jan@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2012-07-18 06:26:24'
+  body: 'Hi Jeremy
+
+
+    Is it possible to set Connector Gentor Type and Connector Joint Type.'
+- author: Manish
+  email: manishsingh12jan@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2012-09-05 08:19:27'
+  body: 'Dear Jeremy,
+
+
+    Could you refer me any stuff related to change of origin of Families in Revit
+    2013.
+
+
+    Manish'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-09-05 12:03:50'
+  body: 'Dear Manish,
+
+
+    Since families are user defined, it is hard to say anything for sure at all.
+
+
+    Here are some features that were added related to families and their origin in
+    Revit 2013:
+
+
+    1. SpatialElementCalculationPoint
+
+
+    This class provides access to the "Room or Space Calculation Point" seen in families.
+    The Spatial Element Calculation Point is graphically showed as a location point
+    marker with a "snake" line from the origin of the family. If the Spatial Element
+    Calculation Point is turned on, this point will be used as a search point for
+    room and space relations for all instances of this family. The API offer creation,
+    read and modification options for this object type.
+
+
+    2. NewFamilyInstance validation
+
+
+    Some validation has been added to overloads of NewFamilyInstance(). This validation
+    is intended to prevent use of the incorrect overload for a given family symbol
+    input. For specific details on the exceptional conditions which
+
+    will be validated, consult the documentation.
+
+
+    3. Family.PlacementType
+
+
+    This new property provides information about the placement type for instances
+    of the given family. PlacementType roughly maps to the overloads of NewFamilyInstance.
+
+
+    Cheers, Jeremy.'
+- author: AndreiBejenaru
+  email: ''
+  ip: 81.47.174.157
+  url: http://profile.typepad.com/andreibejenaru
+  date: '2014-03-05 07:46:07'
+  body: "Hi Jeremy,\n\nBased on your  GetConnectors method I'm trying to get the system\
+    \ abbreviation of the system that contains a certain element. So my code looks\
+    \ something like this right now: \n\n           string a = \"\";\n           \
+    \ foreach (Element e in elList)\n            {\n\n                ConnectorSet\
+    \ connectors_ = GetConnectors(e);\n\n                foreach (Connector c in connectors_)\n\
+    \                {\n\n                    Element el = c.Owner;\n            \
+    \        MEPSystem mepsys = c.MEPSystem;\n\n                    Parameter param2\
+    \ = mepsys.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM);\n\
+    \n                    a += param2.AsString();\n}\n            }\n\n          \
+    \  TaskDialog.Show(\"param\", a);\n\n...but there's no way to get a value for\
+    \ the param2\nWhat am I doing wrong?\n\n***\nAndrei Bejenaru"
+- author: AndreiBejenaru
+  email: ''
+  ip: 81.47.174.157
+  url: http://profile.typepad.com/andreibejenaru
+  date: '2014-03-05 11:03:35'
+  body: 'I''ve took a break and walked allong the river next to my office and when
+    I got back I realised that the elements I had in the elList didn''t had the Abbreviation
+    parameter filled. In resume, I was using the wrong list.
+
+
+    Sorry for that  x)
+
+
+    Andrei
+
+
+    -----'

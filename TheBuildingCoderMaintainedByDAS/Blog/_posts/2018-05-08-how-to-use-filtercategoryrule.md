@@ -1,0 +1,113 @@
+---
+layout: "post"
+title: "How to use FilterCategoryRule"
+date: "2018-05-08 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "2014"
+  - "Data Access"
+  - "Filters"
+original_url: "https://thebuildingcoder.typepad.com/blog/2018/05/how-to-use-filtercategoryrule.html "
+typepad_basename: "how-to-use-filtercategoryrule"
+typepad_status: "Publish"
+---
+
+<p><a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/1003305">@CaptainDan</a> raised
+a very pertinent question in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/using-filtercategoryrule-in-the-revit-api/m-p/7983645">using <code>FilterCategoryRule</code> in the Revit API</a> that
+led to some discussion and clarification with the development team:</p>
+
+<p><strong>Question:</strong> I have three questions regarding the filter rule represented by the class <code>FilterCategoryRule</code>:</p>
+
+<ol>
+<li>What does this rule correspond to in the Revit user interface?</li>
+<li>If this filters by category, then what is the relationship between the set of categories assigned to this rule and the set of categories passed
+to <a href="http://www.revitapidocs.com/2018.1/afa22520-52de-c6b3-fac8-246fe2f8e4fe.htm"><code>ParameterFilterElement.Create</code></a>?</li>
+<li>How do I successfully create a filter based on this filter rule?</li>
+</ol>
+
+<p>Whenever I try to create a filter using this filter rule, it throws a Revit exception of type <code>InternalException</code> saying:</p>
+
+<ul>
+<li><em>An internal error has occurred</em></li>
+</ul>
+
+<p>I tried the same code in Revit 2017 and 2018 with the same exception occurring.</p>
+
+<p>I searched the Internet and SDK and couldn't find much mention of it anywhere.</p>
+
+<p>The Revit API help docs on <a href="http://www.revitapidocs.com/2018.1/7df5b10b-c423-b5c8-6492-1274d7a447d9.htm">FilterCategoryRule</a> just
+say <em>A filter rule that matches elements of a set of categories</em>.</p>
+
+<p><strong>Answer:</strong> Yes, the only significant mention of this that I can find is from The Building Coder
+on <a href="http://thebuildingcoder.typepad.com/blog/2013/04/whats-new-in-the-revit-2014-api.html">What's New in the Revit 2014 API</a>
+<a href="http://thebuildingcoder.typepad.com/blog/2013/04/whats-new-in-the-revit-2014-api.html#3">small enhancements &amp; interface changes</a>:</p>
+
+<h4><a name="3"></a>FilterCategoryRule</h4>
+
+<p>The new class FilterCategoryRule can be used in the definition of a ParameterFilterElement.
+It represents a filter rule that matches elements of a set of categories.</p>
+
+<p>The related method:</p>
+
+<ul>
+<li>ParameterFilterElement.AllCategoriesFilterable()</li>
+</ul>
+
+<p>has been replaced by</p>
+
+<ul>
+<li>FilterCategoryRule.AllCategoriesFilterable()</li>
+</ul>
+
+<p>I passed on your questions to the development team, and they reply:</p>
+
+<ol>
+<li><p>Q: What does <code>FilterCategoryRule</code> correspond to in the Revit user interface?
+<br/>&ndash; A: There is no direct correspondence in Revit UI, this is the FilterRule to be used in API.</p></li>
+<li><p>Q: If this filters by category, then what is the relationship between the set of categories assigned to this rule and the set of categories passed to <code>ParameterFilterElement.Create()</code>?
+<br/>&ndash; A: There is no relation to <code>ParameterFilterElement.Create</code>.</p></li>
+<li><p>Q: How do I successfully create a filter based on this filter rule?
+<br/>&ndash; A: You cannot create a <code>ParameterFilterElement</code> based on this <code>FilterCategoryRule</code>, but you can create an <code>ElementParameterFilter</code>, an API construct, based on it.</p></li>
+</ol>
+
+<p>Here is an example:</p>
+
+<pre class="code">
+  // Find all walls and windows in the document
+
+  <span style="color:#2b91af;">IList</span>&lt;<span style="color:#2b91af;">ElementId</span>&gt;&nbsp;cats&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">ElementId</span>&gt;();
+  cats.Add(&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ElementId</span>(&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_Walls&nbsp;)&nbsp;);
+  cats.Add(&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ElementId</span>(&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_Windows&nbsp;)&nbsp;);
+  <span style="color:#2b91af;">FilterCategoryRule</span>&nbsp;r&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilterCategoryRule</span>(&nbsp;cats&nbsp;);
+
+  <span style="color:#2b91af;">ElementParameterFilter</span>&nbsp;f&nbsp;
+  &nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ElementParameterFilter</span>(&nbsp;r,&nbsp;<span style="color:blue;">true</span>&nbsp;);
+
+  <span style="color:#2b91af;">FilteredElementCollector</span>&nbsp;wallsAndWindows&nbsp;
+  &nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc&nbsp;)
+  &nbsp;&nbsp;&nbsp;&nbsp;.WherePasses(&nbsp;f&nbsp;);
+</pre>
+
+<p>The Revit API docs are confusing and not entirely correct, especially this statement: "The new class FilterCategoryRule can be used in the definition of a ParameterFilterElement". the <code>ParameterFilterElement.Create</code> method could potentially take a <code>FilterCategoryRule</code> object instead of a set of category ids, but this flavour of the <code>Create</code> method was never introduced. We have filed a development task to either correct the docs or add the method. Additional confusion comes from the two API names: <code>ParameterFilterElement</code> and <code>ElementParameterFilter</code> &nbsp; :-~ </p>
+
+<p>Just as <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/4496032">Benoit</a> points
+out, <code>FilterCategoryRule</code> can simply be seen as an extension of
+the <a href="http://www.revitapidocs.com/2018.1/b492ddf4-3058-8f9b-dfcc-8d5c4abb3605.htm">ElementCategoryFilter</a>
+and the associated quick filter shortcut methods 
+<a href="http://www.revitapidocs.com/2018.1/c3523c35-4a07-9723-3c28-de3cc47b2ad0.htm">OfCategory</a>
+and <a href="http://www.revitapidocs.com/2018.1/63304108-73f8-844e-82fc-5b8fad9839b0.htm">OfCategoryId</a>.</p>
+
+<p>It seems to me that it is completely equivalent to a logical or of a bunch of <code>ElementCategoryFilter</code> instances, such as I used in the MEP and structural filtered element collector examples:</p>
+
+<ul>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2010/06/retrieve-mep-elements-and-connectors.html">Retrieve MEP elements</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2010/07/retrieve-structural-elements.html">Retrieve structural elements</a></li>
+</ul>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="http://thebuildingcoder.typepad.com/.a/6a00e553e1689788330224df316d12200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330224df316d12200b img-responsive" style="width: 320px; display: block; margin-left: auto; margin-right: auto;" alt="Steel rule" title="Steel rule" src="/assets/image_23b439.jpg" /></a><br /></p>
+
+<p></center></p>

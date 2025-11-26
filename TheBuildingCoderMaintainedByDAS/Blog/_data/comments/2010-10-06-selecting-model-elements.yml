@@ -1,0 +1,63 @@
+comments:
+- author: Simon Tsang
+  email: simon.tsang@coins-global.com
+  ip: 113.254.253.75
+  url: ''
+  date: '2012-12-29 11:27:14'
+  body: 'Thanks for this great topic. After the implementation of the above code at
+    least I get close to what I want.
+
+
+    What I would like to know is during IFC export in Revit, how does the export routine
+    tell which element required to export?
+
+
+    Many Thanks'
+- author: frank halliday
+  email: frankhalliday.coder@gmail.com
+  ip: 122.151.104.193
+  url: ''
+  date: '2014-01-14 16:06:29'
+  body: "Hi Jeremy,\nI am new to working with the revit API to create addins, so I\
+    \ hope this is framed correctly. \nI have a filtered element collector and I use\
+    \ this to create an array,\n  IList<Element> cols = ColumnCollector.WherePasses(filter).WhereElementIsNotElementType().ToElements();\n\
+    \ni retrieve the built in category properties and within the same for each loop\
+    \ I want to also retrieve the family symbol for each element. Is it possible to\
+    \ cast or do something else to aquire both an elements built in  property and\
+    \ its family symbol so that i can create a new family with this information?\n\
+    cheers, \nfabs"
+- author: Jeremy Tammik
+  email: ''
+  ip: 88.84.79.155
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-01-14 17:44:09'
+  body: 'Dear Fabs,
+
+
+    You submit a rather mixed up question. Hmm. I would say yes. You are already retrieving
+    the built-in category. Fine. Of course you can also retrieve the family symbol,
+    but obviosuly only for family instances. So you would have to cast the element
+    to a family instance. If that fails, it has no symbol, else you can query it using
+    the FamilyInstance.Symbol property. Now it gets really hairy. I assume when you
+    say "create a family" you mean something utterly different, e.g. "place a family
+    instance". If so, then yes, possibly. But now my answer is too long and hypothetical
+    anyway.
+
+
+    Cheers, Jeremy.'
+- author: frank halliday
+  email: frankhalliday.coder@gmail.com
+  ip: 122.151.100.195
+  url: ''
+  date: '2014-01-15 06:52:05'
+  body: "Got it, thanx Jeremy I didn't know about the symbol property sitting right\
+    \ under my nose.\nthis is a fragment of what i used.\n\n//var\nFamilySymbol familySymbol\
+    \ = null;\n\nElementMulticategoryFilter filter = new ElementMulticategoryFilter(BuiltInCategoryType);\n\
+    \           \n// Apply the filter to the elements in the active document\n\n//\
+    \ Use shortcut WhereElementIsNotElementType() to find col instances only\n\nFilteredElementCollector\
+    \ ColumnCollector = new FilteredElementCollector(doc);\n\nIList<Element> cols\
+    \ = ColumnCollector.WherePasses(filter).WhereElementIsNotElementType().ToElements();\n\
+    \nprompt = \"The cols in the current document are:\\n\";\n\nforeach (Element e\
+    \ in cols)\n                {\n\n//get the family symbol from the family instance\n\
+    FamilyInstance col = e as FamilyInstance;\n\nfamilySymbol = col.Symbol;\n\n}\n\
+    -----"

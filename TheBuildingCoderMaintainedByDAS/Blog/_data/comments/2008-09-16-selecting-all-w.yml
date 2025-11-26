@@ -1,0 +1,37 @@
+comments:
+- author: Mike
+  email: mwandrzejczak@gmail.com
+  ip: 78.8.197.212
+  url: ''
+  date: '2013-01-23 18:11:52'
+  body: "Hi Jeremy, I don't know if that's the right place to ask but I have a problem\
+    \ with wall brutto area. I'm using the methode with deleting the wall and reverting\
+    \ the changes to determine all the elements that are placed on the wall. Then,\
+    \ I'm removing the wall's id from the ElementSet getting the value of HOST_AREA_COMPUTED\
+    \ in a variable and reverting the changes again. The result, however, is the wall\
+    \ netto area :( Does the parameter or wall needs any kind of reload? Or maybe\
+    \ there's a easier way to get the brutto area? Any help would be appreciated as\
+    \ I can't find anything related to that problem. Thanks in advance!\n\nforeach\
+    \ (Wall wallElem in elems)\n            {\n                try\n             \
+    \   {\n                    Double brutto = 0.0;\n                    ICollection<ElementId>\
+    \ delIds = null;\n\n                    using (SubTransaction t = new SubTransaction(doc))\n\
+    \                    {\n                        try\n                        {\n\
+    \                            t.Start();\n\n                            delIds\
+    \ = doc.Delete(wallElem);\n\n                            t.RollBack();\n\n   \
+    \                     }\n                        catch (Exception ex)\n      \
+    \                  {\n                            message = \"Deletion failed:\
+    \ \" + ex.Message;\n                            t.RollBack();\n              \
+    \          }\n                    }\n\n                    using (SubTransaction\
+    \ u = new SubTransaction(doc))\n                    {\n                      \
+    \  try\n                        {\n                            u.Start();\n\n\
+    \                            delIds.Remove(wallElem.Id);\n                   \
+    \         ICollection<ElementId> ie = doc.Delete(delIds);\n                  \
+    \          brutto = wallElem.get_Parameter(BuiltInParameter.HOST_AREA_COMPUTED).AsDouble();\n\
+    \                            u.RollBack();\n                        }\n      \
+    \                  catch (Exception ex)\n                        {\n         \
+    \                   message = \"Deletion failed: \" + ex.Message;\n          \
+    \                  u.RollBack();\n                        }\n                \
+    \    }\n                    wallElem.get_Parameter(\"Wall Area Bruto\").Set(brutto);\n\
+    \                }\n                catch(Exception e)\n                {\n  \
+    \                  MessageBox.Show(e.Message);\n                }\n          \
+    \  }\n\n-----"

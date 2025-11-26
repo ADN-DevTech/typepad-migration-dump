@@ -1,0 +1,317 @@
+comments:
+- author: Phillip Miller
+  email: phillip@kiwicodes.co.nz
+  ip: 122.63.159.31
+  url: ''
+  date: '2012-04-01 18:32:06'
+  body: Congratulations to the Revit API team for an outstanding release :)
+- author: Victor Chekalin
+  email: ''
+  ip: 91.221.195.131
+  url: http://profile.typepad.com/chekalin
+  date: '2012-04-02 01:13:34'
+  body: 'Hello, Jeremy.
+
+
+    In Revit 2013 API added new class - DataStorage - an element which provide storage
+    for entities with any data for whole project. But there are no examples to demonstrate
+    how does it work and how to use it properly.
+
+
+    I think it would be perfect if you explain it.
+
+
+    Best regards, Victor.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.182.42
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-04-02 05:25:27'
+  body: 'Dear Phillip,
+
+
+    Thank you for your appreciation! I forwarded it to the whole team.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.182.42
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-04-02 05:30:29'
+  body: 'Dear Victor,
+
+
+    It should be straightforward enough. Just look at the description of the DataStorage
+    class and the DataStorage.Create method in the Revit API help file RevitAPI.chm.
+
+
+    If you have a minimal sample up and running and any additional interesting insights,
+    I''ll happily post them.
+
+
+    Cheers, Jeremy.'
+- author: Victor Chekalin
+  email: ''
+  ip: 91.221.195.131
+  url: http://profile.typepad.com/chekalin
+  date: '2012-04-02 05:51:19'
+  body: 'Hello, Jeremy.
+
+
+    I''ve already tried to use it. As I understand, DataStorage is a very simple element
+    which can have one ore more Entity. That was easy to create it. But how can I
+    retrieve entity from DataStorage. I.e. how to get DataStorage from Document?
+
+
+    I think to use FilteredElementCollector to retrieve DataStorage Elements in document.
+    But what if I want to have two ore more DataStorages in document, how can I differ
+    them? Set  parameter or additional entity with some unique attribute?
+
+
+    Best regards, Victor.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.182.42
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-04-02 05:58:47'
+  body: 'Dear Victor,
+
+
+    Yes, that thought did cross my mind, or my subconscious, as I was answering you,
+    and in the past as well when looking at this topic...
+
+
+    Thank you for bringing it out into the open.
+
+
+    I guess yes, using a parameter, or the element id, or the unique id. Lots of options.
+    Have a play around with it, let us know what you find out, raise an ADN case if
+    you run into trouble, and we''ll publish the result asap, ok?
+
+
+    I mean, for instance, you could simply put a descriptive comment into the ''Comment''
+    parameter and use that to search for it. That should be very simple and foolproof,
+    should work, and you could use regular expressions for complex searches over large
+    numbers of DataStorage elements, if you insist, which I hope you will not  :-)
+
+
+    Cheers, Jeremy.'
+- author: Victor Chekalin
+  email: ''
+  ip: 91.221.195.131
+  url: http://profile.typepad.com/chekalin
+  date: '2012-04-02 06:18:13'
+  body: 'Ok. I''ll try to explore features of DataStorage and write a little post
+    about it)
+
+
+    Best regards, Victor.'
+- author: sangsen
+  email: sangsen123@gmail.com
+  ip: 124.124.54.130
+  url: ''
+  date: '2012-04-10 08:11:05'
+  body: "Hi Jeremy..\n \n  I am trying to create NewFamilyInstance using NewFamilyInstance\
+    \ Method (Reference, Line, FamilySymbol) constructor. sample code...\n\nLocationCurve\
+    \ wallCurve = wall.Location as LocationCurve;\nXYZ startPt = wallCurve.Curve.get_EndPoint(0);\n\
+    XYZ endPt = wallCurve.Curve.get_EndPoint(1);\nXYZ dir = endPt - startPt;\nXYZ\
+    \ cutVec = dir.CrossProduct(XYZ.BasisZ);\n\nReferencePlane rp = doc.Create.NewReferencePlane(startPt,\
+    \ endPt, cutVec, doc.ActiveView);\n\nfamIns = doc.Create.NewFamilyInstance(rp.Reference,\
+    \ Line.get_Bound(startPt, endPt), familySymbol);\n\nRevit shows error \"Family\
+    \ cannot be placed on this line as it does not coincide with the input face.\"\
+    \n\nBut in Revit 2012, it works fine. \nIs there any change in NewRefPlane() or\
+    \ NewFamilyInst() internally in revit 2013?\nIf any please share any sample..\n\
+    \nThanks.."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.181.107
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-04-17 05:08:42'
+  body: "Dear Sangsen,\n\nTwo things strike me here.\n\n1. I don't know whether your\
+    \ NewReferencePlane bubble end, free end and cut vector arguments make sense like\
+    \ that. Are you sure they are appropriate?\n\n2. How does the active view relate\
+    \ to these three points?\n\nI am not aware of any changes, but there have been\
+    \ methods in past API updates whose argument checking was more strictly enforced\
+    \ and thus stopped working as previously, e.g. \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/05/detail-curve-must-indeed-lie-in-plane.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/05/detail-curve-must-indeed-lie-in-plane.html</a>\n\
+    \nCheers, Jeremy."
+- author: Fre
+  email: fre.dols@gmail.com
+  ip: 80.11.87.250
+  url: ''
+  date: '2012-05-15 07:51:10'
+  body: 'Hi Jeremy,
+
+
+    First thank you for this wonderful blog.
+
+
+    With the 2012 API I used PipeSizeSettings listPipeSizeSettings = PipeSizeSettings.GetPipeSizeSettings(document)
+    to get the list of PipeSize, but I can not find PipeSizeSettings in 2013 API.
+
+
+    Have you an idea how to do that?
+
+
+    Thank you'
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.8
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-16 07:04:02'
+  body: 'Dear Fre,
+
+
+    Thank you for your appreciation!
+
+
+    I think the new routing preferences classes replace the Revit 2012 PipeSizeSettings
+    class.
+
+
+    Look at the RoutingPreferenceTools sample mentioned above:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/03/new-revit-2013-sdk-samples.html#3">http://thebuildingcoder.typepad.com/blog/2012/03/new-revit-2013-sdk-samples.html#3</a>
+
+
+    Please let me know how you end replacing your code.
+
+
+    Thank you.
+
+
+    Cheers, Jeremy.'
+- author: Innocent Svodziwa
+  email: innocent.svodziwa@arup.com
+  ip: 80.254.147.188
+  url: ''
+  date: '2012-11-28 05:13:18'
+  body: I am having problems with Revit MEP 2013, I can not edit any fire pipes and
+    when ever I try the program just hangs and evntually I have to restart. When I
+    was using Revit MEP 2012 this never happened.
+- author: Jeremy Tammik
+  email: ''
+  ip: 70.165.201.56
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-11-28 08:27:03'
+  body: 'Dear Innocent,
+
+
+    Sorry, to hear that. Sorry, I cannot help. I do not deal with product issues at
+    all.
+
+
+    Cheers, Jeremy.'
+- author: Jörg Braunes
+  email: joerg.braunes@kubit.de
+  ip: 146.52.50.31
+  url: http://www.kubit-software.com
+  date: '2013-08-30 07:11:58'
+  body: 'Dear Jeremy,
+
+
+    I played a little bit with the PreviewControl in a modal Dialog. I changed the
+    orientation of a perspective View3d with a user input (a trackbar) in that PreviewControl
+    but I have problems to redraw the PreviewControl! The changes are only visible
+    after clicking with the mouse on the control and scrolling with the mouse wheel!
+    Is their a possible to redraw the PrieviewControl automatically?
+
+
+    Jörg'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.219.98
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-08-30 07:28:51'
+  body: 'Dear Jörg,
+
+
+    Sorry, I have no idea why you should be seeing that kind of behaviour. Never heard
+    of it before. No, there is no way to redraw the control. That should happen automatically.
+    Afaik, your only way to influence it is to dispose of it and re-instantiate a
+    new instance.
+
+
+    By the way, here is the most recent discussion related to this topic:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/08/issue-using-a-preview-control-in-a-macro.html">http://thebuildingcoder.typepad.com/blog/2013/08/issue-using-a-preview-control-in-a-macro.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Drew
+  email: drew.jarvis@cansel.ca
+  ip: 24.84.138.86
+  url: ''
+  date: '2015-01-26 16:27:51'
+  body: "I was looking for a list of pipe sizes in a project and thought I would let\
+    \ you know what I used:\n\n        private void GetPipeSegmentSizesFromDocument(Document\
+    \ document)\n        {\n            FilteredElementCollector collectorPipeType\
+    \ = new FilteredElementCollector(document);\n            collectorPipeType.OfClass(typeof(Segment));\n\
+    \n            IEnumerable<Segment> segments = collectorPipeType.ToElements().Cast<Segment>();\n\
+    \            foreach (Segment segment in segments)\n            {\n          \
+    \      StringBuilder strPipeInfo = new StringBuilder();\n\n                using\
+    \ (System.IO.StreamWriter file = new System.IO.StreamWriter(@\"C:\\REVIT\\WriteLines.txt\"\
+    , true))\n                {\n                    file.WriteLine(Convert.ToString(segment.Name));\n\
+    \n                }\n                foreach (MEPSize size in segment.GetSizes())\n\
+    \                {\n                    using (System.IO.StreamWriter file = new\
+    \ System.IO.StreamWriter(@\"C:\\REVIT\\WriteLines.txt\", true))\n            \
+    \        {\n                        file.WriteLine(Convert.ToString(Math.Round(size.NominalDiameter\
+    \ * 25.4 * 12, 0)) + \"\t\" + Convert.ToString(Math.Round(size.InnerDiameter *\
+    \ 25.4 * 12, 0)) + \"\t\" + Convert.ToString(Math.Round(size.OuterDiameter * 25.4\
+    \ * 12, 0)));\n\n                    }\n                }\n            }\n   \
+    \     }"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-01-27 09:19:14'
+  body: 'Dear Drew,
+
+
+    Thank you very much for sharing this!
+
+
+    It looks perfect: succinct, effective, easy.
+
+
+    I will happily promote this little sample snippet to a main blog post to ensure
+    that it is easy to find.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-01-27 10:34:10'
+  body: 'Dear Drew,
+
+
+    I just noticed that a code snippet very similar to yours is also provided in the
+    Revit API help file RevitAPI.chm description of the Segment class.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-02-02 06:05:00'
+  body: 'Dear Drew,
+
+
+    I added the code as a new external command to The Building Coder samples:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2015/02/list-pipe-sizes-and-more-obsolete-api-usage-removal.html">http://thebuildingcoder.typepad.com/blog/2015/02/list-pipe-sizes-and-more-obsolete-api-usage-removal.html</a>
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.
+
+    -----'

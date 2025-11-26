@@ -1,0 +1,562 @@
+comments:
+- author: Steven Register
+  email: ''
+  ip: 38.112.73.205
+  url: http://profile.typepad.com/6p0120a540f22d970b
+  date: '2009-09-02 12:32:07'
+  body: 'How come line 99 in the SDK example DistanceToPanels gives a NullReferenceException
+    when your pattern is not Rectangular based, like say HalfStep, but does work if
+    it is Rectangular based? The line is:
+
+
+    Point geomobjPoint = ds.GetGridNodeReference(gn).GeometryObject as Point;'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-09-03 02:20:43'
+  body: 'Dear Steven,
+
+
+    Thank you for pointing this out! I assume that in a rectangular based pattern,
+    every single node is actually populated, whereas in other patterns some of the
+    nodes may be empty. Therefore, the sample should actually be checking for a null
+    value before making use of it.
+
+
+    Cheers, Jeremy.'
+- author: Steven Register
+  email: ''
+  ip: ''
+  url: http://profile.typepad.com/6p0120a540f22d970b
+  date: '2009-09-05 13:08:58'
+  body: 'I have more of my findings and a partial solution on the augi forums:
+
+    <a href="http://forums.augi.com/showthread.php?t=106948">http://forums.augi.com/showthread.php?t=106948</a>
+
+    There still seems to be a problem with SeedNodes not getting found when I
+
+    know they have to be there.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-09-06 02:24:27'
+  body: 'Dear Steven,
+
+
+    Thank you for the update! I passed it on to the development team to look into.
+
+
+    Cheers, Jeremy.'
+- author: pixie.yay@gmail.com
+  email: pixie.yay@gmail.com
+  ip: 173.70.80.67
+  url: ''
+  date: '2009-11-01 01:10:17'
+  body: how do you get to view the instance parameters updated values in the "PanelEdgeLengthAngle"
+    sample? i can successfully run the code, it even changes the values, but can't
+    seem to find a way to view them changed in Revit environment. Am i missing anything
+    in terms of workflow?
+- author: pixie.yay@gmail.com
+  email: pixie.yay@gmail.com
+  ip: 173.70.80.67
+  url: ''
+  date: '2009-11-01 01:15:18'
+  body: i also found that in "DistanceToPanels"/API, the values for uCount actually
+    indicates values of vCount and vise versa, is there any specific reason for that?
+    or its just a way of reading them?
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.96.129
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-02 08:09:05'
+  body: 'Dear Pixie Yay,
+
+
+    The DistanceToPanels sample measures the distance from a selected object to all
+    divided surface panels and stores this value for each panel in an instance parameter
+    Distance, which also drives the panel geometry by determining its thickness.
+
+
+    I set up this sample and explored the model provided in DistanceToPanels.rfa as
+    described in the readme file ReadMe_DistanceToPanels.rtf.
+
+
+    By the way, I noticed that the sample was updated in the Revit 2010 Web Update
+    1:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/07/revit-2010-web-update-1.html">http://thebuildingcoder.typepad.com/blog/2009/07/revit-2010-web-update-1.html</a>
+
+
+    Anyway, here is the workflow I used, and I see no issue with it:
+
+
+    Start up Revit and open DistanceToPanels.rfa
+
+
+    Check the current values of the panels'' Distance parameter using RvtMgdDbg: Add-Ins
+    > RvtMgdDbg > Snoop Db... > Panel > rectDistParam 40227 > Parameters > Distance.
+
+
+    In the initial model, all the panels’ parameter value displays four feet on my
+    system, and that is also their initial thickness displayed on the graphics screen.
+
+
+    Select the sphere and call invoke the sample command using Add-Ins > RvtSamples
+    > Geometry > Compute Distance to panels.
+
+
+    All the panels'' thicknesses change, updated to reflect their distance from the
+    sphere, and if I look at the Distance parameter in RvtMgdDbg, that has been updated
+    accordingly as well.
+
+
+    Have you followed the instructions in the readme file ReadMe_DistanceToPanels.rtf?
+
+
+    Do you see the same result as I do when you follow these steps?
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.96.129
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-02 08:20:47'
+  body: 'Dear Pixie Yay,
+
+
+    Neither of the strings uCount nor vCount occur at all in the DistanceToPanels
+    sample, nor in the Revit SDK, as far as I can tell.
+
+
+    Are you referring to the variables u and v, and the properties NumberOfUGridlines
+    and NumberOfVGridlines?
+
+
+    The variable names are obviously arbitrary, and can be defined on a whim by the
+    sample designer.
+
+
+    The two properties return the number of U and V gridlines used on the divided
+    surface, respectively.
+
+
+    Cheers, Jeremy.'
+- author: pixie.yay@gmail.com
+  email: pixie.yay@gmail.com
+  ip: 173.70.80.67
+  url: ''
+  date: '2009-11-02 10:05:11'
+  body: 'Dear Jeremy,
+
+    I apologize for not being specific about my question, although you are right,
+    by saying uCount I actually meant NumberOfUGridlines, which was actually referencing
+    NumberOfVGridlines in the previous version of the code and I didn’t know about
+    the web updates, so will check it once I have the update run on machine,
+
+    I also think somehow both of my questions got mixed up, again,I should have been
+    more clear about it, again I apologize for that too,
+
+    In my first comment I was talking about another example – “PanelEdgeLengthAngle”
+
+    The samplecode runs perfect, and I followed all the instructions of read me file
+    attached with it, but somehow I can not find a way to view the updated parameters
+    which in this case are instance parameters of each panel in divided surface (Length
+    and Angle) in revit environment so was not sure if there is a way to view it or
+    should I just export it as text file thru code to view it? I am currently working
+    on a panel design and need to do something similar to this where all my panels
+    have different angle and lengths from one another and finding a way to store or
+    display the parameters for it would be a big help for me to use that data later.
+
+    Your help would be much appreciated.
+
+    Pixie'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-02 10:50:43'
+  body: "Dear Pixie,\n\nOh dear, the mix-up in the answer is mine, of course, I see\
+    \ now. \n\nI see more confusion coming up in discussing the PanelEdgeLengthAngle\
+    \ as well, because I do not see any parameters named Angle or Length on the panels,\
+    \ nor in the source code, but I do see Angle1, Angle2, Angle3, Angle4, Length1,\
+    \ Length2, Length3, and Length4, both in the source code and in the RvtMgdDbg\
+    \ view.\n\nI proceeded just as in described in my previous answer: Looking at\
+    \ the parameter values in RvtMgdDbg before executing the command, I see that all\
+    \ the initial values of all these parameters on all the panels are zero.\n\nI\
+    \ then run the command. Looking at the same element parameters afterwards, I see\
+    \ that they now all have non-zero values.\n\nI am using almost same path as before:\
+    \ Add-Ins > RvtMgdDbg > Snoop Db... > Panel > Solid 38580 > Parameters > Length1\
+    \ etc.\n\nCheers, Jeremy."
+- author: pixie.yay@gmail.com
+  email: pixie.yay@gmail.com
+  ip: 173.70.80.67
+  url: ''
+  date: '2009-11-02 16:20:03'
+  body: 'aha, i see whats going on, i just started using revit API, so a lot of things
+    i didn''t know about, after looking at a lot of earlier posts by you, now it makes
+    sense as i didn''t have RvtMgdDbg incorporated in my .ini file, so had no idea
+    very important and helpful tool...
+
+    thanks so much Jeremy,
+
+    appreciate your quick replies.
+
+    pixie'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.69.106
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-03 02:18:38'
+  body: 'Dear Pixie,
+
+
+    Great, I am glad it helped and that you have discovered RvtMgdDbg now.
+
+
+    Cheers, Jeremy.'
+- author: nmiller.arch
+  email: nmiller.arch@gmail.com
+  ip: 63.160.105.158
+  url: ''
+  date: '2009-12-21 05:49:52'
+  body: "Dear Jeremy,\nFantastic blog!\n\nI am trying to create a ReferencePointArray\
+    \ within VSTA similar to the example that is in the Labs 7 code.  However, I am\
+    \ getting a message that my \"Variable (array) is being used before it has been\
+    \ assigned a value.\"\n\nI suspect that part of the problem is that I seem to\
+    \ be  unable to:\n\nDim PtsArray As ReferencePointArray = New ReferencePointArray()\
+    \ \n\nIf I do this I get the following message... \"New cannot be used on a class\
+    \ that is declared MustInherit\"\n\nAny suggestions?\n\nbest,\n-Nate"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.156.210
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-24 01:39:17'
+  body: "Dear Nate, \n\nThank you very much for your appreciation!\n\nWhen using VSTA,\
+    \ there are several classes that you cannot use the standard new operator on.\
+    \ Instead, you have to use dedicated constructor methods on the application creation\
+    \ class. In this case, you need to use Application.Create.NewReferencePointArray.\n\
+    \nCheers, Jeremy."
+- author: nmiller.arch
+  email: nmiller.arch@gmail.com
+  ip: 66.195.32.251
+  url: ''
+  date: '2009-12-24 04:16:40'
+  body: "Thank you for your reply.  \n\nI have also tried this method... however,\
+    \ \"NewReferencePointArray\" does not seem to be available to me.\n\nI have looked\
+    \ under both Create and FamilyCreate...  \n\nI can create a NewReferencePoint...\
+    \ but I cannot find a way to create a NewReferencePointArray and Append my reference\
+    \ points.\n\nThanks,\n-Nate"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.156.210
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-24 04:38:36'
+  body: "Dear Nate, \n\nOh dear, bad luck then. I just use the standard API through\
+    \ Visual Studio. You can also use Visual Studio Express, which is free:\n\nhttp://thebuildingcoder.typepad.com/blog/2009/04/getting-started-with-the-revit-2009-api.html#1\n\
+    \nhttp://thebuildingcoder.typepad.com/blog/2009/02/utilizing-revit-api-resources.html\n\
+    \nhttp://thebuildingcoder.typepad.com/blog/2009/08/bottom-face-of-a-wall.html#comment-6a00e553e1689788330120a5003cd6970b\n\
+    \nhttp://thebuildingcoder.typepad.com/blog/2008/08/getting-started.html#comment-6a00e553e16897883301156efc1922970c\n\
+    \nhttp://through-the-interface.typepad.com/through_the_interface/2006/07/debugging_using.html\n\
+    \nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.156.210
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-24 04:42:37'
+  body: "Dear Nate, \n\nOh dear, bad luck then. I just use the standard API through\
+    \ Visual Studio. You can also use Visual Studio Express, which is free:\n\n<a\
+    \ href=\"http://thebuildingcoder.typepad.com/blog/2009/04/getting-started-with-the-revit-2009-api.html#1\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/04/getting-started-with-the-revit-2009-api.html#1</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/02/utilizing-revit-api-resources.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/02/utilizing-revit-api-resources.html</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/08/bottom-face-of-a-wall.html#comment-6a00e553e1689788330120a5003cd6970b\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/08/bottom-face-of-a-wall.html#comment-6a00e553e1689788330120a5003cd6970b</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2008/08/getting-started.html#comment-6a00e553e16897883301156efc1922970c\"\
+    >http://thebuildingcoder.typepad.com/blog/2008/08/getting-started.html#comment-6a00e553e16897883301156efc1922970c</a>\n\
+    \n<a href=\"http://through-the-interface.typepad.com/through_the_interface/2006/07/debugging_using.html\"\
+    >http://through-the-interface.typepad.com/through_the_interface/2006/07/debugging_using.html</a>\n\
+    \nCheers, Jeremy."
+- author: Sowmya
+  email: ''
+  ip: 61.246.236.157
+  url: http://profile.typepad.com/cnr
+  date: '2009-12-30 08:47:26'
+  body: "Hi Jeremy,\n\nI tried to create a reference point using the following code\n\
+    \n ReferencePointArray rpa = m_doc.Application.Create.NewReferencePointArray();\n\
+    \nXYZ xyz = m_doc.Application.Create.NewXYZ(0, 0, 0);\n ReferenceArray ar = m_app.Create.NewReferenceArray();\n\
+    \n \nReferencePoint rp = \n       m_doc.FamilyCreate.NewReferencePoint (xyz);\n\
+    rpa.Append(rp);\nxyz = m_doc.Application.Create.NewXYZ(0, 30, 10);\nrp = m_doc.FamilyCreate.NewReferencePoint(xyz);\n\
+    \ rpa.Append(rp);\n\nBut i got the error when the line m_doc.FamilyCreate.NewReferencePoint(xyz)\
+    \ executed.\nit says m_doc.FamilyCreate can only be used in the revit Family Editor.Use\
+    \ Document.Create with project documents.\n\n\nBut i couldn't find the NewReferencePoint\
+    \ option under the  Document.Create .\n\nCan you please tell me Why the issue\
+    \ has raised and how to resolve this issue?\n\nThanks."
+- author: nmiller.arch
+  email: nmiller.arch@gmail.com
+  ip: 66.195.32.251
+  url: http://nmillerarch.blogspot.com
+  date: '2009-12-30 15:51:16'
+  body: "Hello Jeremy,\nThank you for the reference material from earlier.  I am now\
+    \ using Visual Studio and the ReferencePointArray problem I was having is resolved.\
+    \  \n\nI am now having problem with the creating a NewLoftForm from an array of\
+    \ section curves.  Visual Studio does not report any errors or warnings, but...\
+    \ When I try to run it within Revit, I receive a message:  \"cannot create loft\
+    \ form:  error 1\"\n\nI also tried NewFormByCap and received the same result within\
+    \ Revit...\n\nIf I remove the \"NewLoftForm\" or \"NewFormbyCap\" line, I am able\
+    \ to successfully create the section curves and then manually create the surface\
+    \ using the \"Make Form\" button within Revit... however I would like this to\
+    \ be automatic within the script.  \n\nI posted a more detailed explanation with\
+    \ my code over at AUGI:  \n\n<a href=\"http://forums.augi.com/showthread.php?p=1035763#post1035763\"\
+    >http://forums.augi.com/showthread.php?p=1035763#post1035763</a>\n\nAny ideas?\n\
+    \nRegards,\n-Nate"
+- author: nmiller.arch
+  email: nmiller.arch@gmail.com
+  ip: 66.195.32.251
+  url: http://nmillerarch.blogspot.com
+  date: '2010-01-05 04:25:17'
+  body: 'ok... all fixed now.  Looks like I was a bit mixed up as to the proper way
+    to append my ReferenceArray and ReferenceArrayArray in my For loop...  who knew
+    Lofting could be so complicated ;)
+
+
+    Best,
+
+    -Nate'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-08 02:47:58'
+  body: 'Dear Nate,
+
+
+    Happy New Year and congratulations on sorting it out. Yes, powerful stuff, eh?
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-08 02:51:35'
+  body: 'Dear Sowmya,
+
+
+    Yes. Reference points can only be created in a family document.
+
+
+    Cheers, Jeremy.'
+- author: ABuckingham
+  email: abuckingham@manascissac.com
+  ip: 208.118.95.14
+  url: ''
+  date: '2010-05-20 16:47:45'
+  body: Visual Studio Express is not free software, it has a highly restrictive licence
+    and you should read and understand what you're agreeing to before using it as
+    it may directly conflict with your ethics and/or development goals. Microsoft
+    isn't in the habit of doing something without financial incentive.
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.163.22
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-05-21 00:58:22'
+  body: 'Dear ABuckingham,
+
+
+    Thank you for pointing that out.
+
+
+    Cheers, Jeremy.'
+- author: Mihai
+  email: mpruna@thorntontomasetti.com
+  ip: 38.221.208.79
+  url: ''
+  date: '2011-02-14 12:15:34'
+  body: 'Hey Jeremy
+
+    Thanks for all the samples!
+
+    I''m trying to make a loft of a closed profile.
+
+    I''m using the CurveByPoints curve which is the only way I found to loft a profile.(just
+    like in Lab 7)
+
+    However, the CBP generates an open curve, and, also, it makes a smooth curve which
+    is not what I want with my points, I want straight lines between points.
+
+    Is there a way to make a loft between two closed profiles composed of straight
+    lines?
+
+    Thanks!'
+- author: Mihai
+  email: mpruna@thorntontomasetti.com
+  ip: 38.221.208.79
+  url: http://www.solvengineer.com
+  date: '2011-02-15 16:44:29'
+  body: 'hey Jeremy, nm.
+
+    I was able to do it creating lines as curves, converting them to model curves,
+    then getting the reference from their geometry curves and adding them to reference
+    arrays !'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-02-15 17:25:15'
+  body: "Dear Mihai,\n\nCongratulations on solving it, and thank you for letting us\
+    \ know! \n\nIf you would like me to post a sample of your solution, please let\
+    \ me know via email (cf. About the Author).\n\nThank you!\n\nCheers, Jeremy."
+- author: krystamae
+  email: krystamae@gmail.com
+  ip: 205.208.230.230
+  url: ''
+  date: '2011-06-30 05:36:56'
+  body: Which pattern and design is that orange canopy picture you are showing? Do
+    you have a larger image of it so I can try to recreate that? I don't know code,
+    I'm an architecture student trying to fabricate a canopy and liked your design.
+    Do you have the rfa file for that pattern that I can see how you did it?
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.147.180
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-30 05:55:20'
+  body: "Dear Krystamae,\n\nI believe that that model comes from Zach Kron, \n\n<a\
+    \ href=\"http://buildz.blogspot.com\">http://buildz.blogspot.com</a>\n\nI suggest\
+    \ you ask him.\n\nCheers, Jeremy."
+- author: Mona Akkoush
+  email: Mona.Akkoush@dargroup.com
+  ip: 95.170.193.82
+  url: ''
+  date: '2011-12-14 06:14:39'
+  body: "Hi Jeremy,\n\nHope all is well..\nPlease I need your help on this,I am trying\
+    \ to automatically add reference points on the intersection points in a conceptual\
+    \ mass. The problem is that the reference points are being drawn on the line's\
+    \ midpoint instead of end point although my code clearly passes the endpoint XYZ\
+    \ to the reference point.I added below a snapshot of the code. Would really appreciate\
+    \ your advise.\nBest Regards,\n\t    \n\n\t    '//Get the mass element & loop\
+    \ on its geometry object array to get the geometry instance\n\t    '// Then get\
+    \ the symbol geometry object array & loop on all lines in the mass\n\t    '//\
+    \ for each line, get the 2 end points & add reference points in their location\n\
+    \t    Dim startEndPt As XYZ = line.EndPoint(0)\n\t    Dim refPtXYZ As XYZ = uiApp.Application.Create.NewXYZ(startEndPt.X,\
+    \ startEndPt.Y, startEndPt.Z)\n            Dim returnRefPt As ReferencePoint =\
+    \ Nothing\n            Dim famUtility As FamilyItemFactory = activedoc.FamilyCreate\n\
+    \            '//create the reference point\n            Dim transCreate As Transaction\
+    \ = New Transaction(activedoc)\n            transCreate.Start(\"Create reference\
+    \ point\")\n            returnRefPt = famUtility.NewReferencePoint(refPtXYZ)\n\
+    \            transCreate.Commit()\n            transCreate.Dispose()"
+- author: roly hudson
+  email: roly.hudson@gmail.com
+  ip: 24.222.91.37
+  url: ''
+  date: '2012-02-24 17:28:34'
+  body: 'This should be simple
+
+    I want to loft between two sets of chained lines.
+
+    Any chance of posting an example?
+
+    Roly'
+- author: Jeremy Tammik
+  email: ''
+  ip: 77.192.123.183
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-03-05 03:19:54'
+  body: 'Dear Roly,
+
+
+    Have you looked at this post?
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/07/debug-geometric-form-creation.html">http://thebuildingcoder.typepad.com/blog/2009/07/debug-geometric-form-creation.html</a>
+
+
+    Please rewrite the code to generate the model lines or whatever and see what error
+    is produced when you try to create the loft through the UI.
+
+
+    That might give you some hints, both visually and by more precise error messages.
+
+
+    Cheers, Jeremy.'
+- author: Mayur
+  email: ''
+  ip: 61.17.160.112
+  url: http://profile.typepad.com/6p017c36cf411d970b
+  date: '2013-02-12 04:43:05'
+  body: 'Dear Sir
+
+    I need to calculate position(X,Y,Z co-ordinates) of a particular point.
+
+
+    I have only start point and distance.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 109.11.204.153
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-02-12 13:50:11'
+  body: 'Dear Mayur,
+
+
+    Use polar coordinates:
+
+
+    <a href="http://en.wikipedia.org/wiki/Polar_coordinate_system">http://en.wikipedia.org/wiki/Polar_coordinate_system</a>
+
+
+    Cheers, Jeremy.'
+- author: mayur
+  email: mayur.gujrathi781@gmail.com
+  ip: 61.17.160.112
+  url: ''
+  date: '2013-02-13 01:39:03'
+  body: 'sorry sir....
+
+
+    I think my question was wrong....
+
+
+    I have only start point and distance....
+
+    And i need to calculate position of that point from start point....'
+- author: Jeremy Tammik
+  email: ''
+  ip: 109.11.204.153
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-02-13 01:46:24'
+  body: 'Dear Mayur,
+
+
+    In 3D, any point on a sphere will fit that description.
+
+
+    Cheers, Jeremy.'
+- author: Achu
+  email: aasiferhad@gmail.com
+  ip: 202.191.66.235
+  url: ''
+  date: '2015-02-16 00:44:59'
+  body: could you please help me to create a rectangular profile in revit 2014 using
+    C#
+- author: Felix Twine
+  email: FelixTwine@gmail.com
+  ip: 115.64.197.13
+  url: ''
+  date: '2015-03-22 01:17:43'
+  body: 'Hi Jeremy,
+
+    I am trying to get the hosting element for a door or window, when it''s not a
+    wall and instead a curtain panel. I then need to get the curtain panel element
+    that is associated with that particular family instance and acquire its location
+    curve so I can find it''s normalized tangent and hence it''s orientation. I assume
+    this is possible? Can you help me out in this instance? At least how do I get
+    the hosting element for a door or window when it''s a cw panel?
+
+    Cheers,
+
+    Felix
+
+    -----'

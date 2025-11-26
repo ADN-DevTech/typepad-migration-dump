@@ -1,0 +1,151 @@
+comments:
+- author: Dan Tartaglia
+  email: dtartaglia@nbbj.com
+  ip: 66.195.65.163
+  url: ''
+  date: '2014-09-04 10:07:43'
+  body: 'Hi Jeremy, is it possible to attach extensible storage to a Revit RVT Document
+    instead of an element?
+
+
+    Thanks,
+
+    Dan'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-09-04 10:44:22'
+  body: 'Dear Dan,
+
+
+    You can attach extensible storage data to any element in the Revit database?
+
+
+    Is the document an element in the Revit database?
+
+
+    I would say no.
+
+
+    In the past, I would have said ''use the singleton Project Information element''.
+
+
+    You can use it as a representative element for the document itself.
+
+
+    I have since learnt better.
+
+
+    There are good reasons not to fiddle with the Project Information element in a
+    worksharing environment.
+
+
+    It would affect everybody else''s files and all elements, in a way.
+
+
+    You want to limit your modifications (and therefore extensible storage) to an
+    element that affects as few files and other elements as possible.
+
+
+    A simple choice for that is the DataStorage element.
+
+
+    It was designed specifically as a container for extensible storage data and nothing
+    else, and affects no other files and elements.
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.'
+- author: M.Vallée
+  email: m.vallee@bouygues-construction.com
+  ip: 79.174.225.131
+  url: ''
+  date: '2015-01-22 09:03:54'
+  body: 'Hi Jeremy,
+
+
+    It seems that there is no more issue with the Revit API shipped with Revit 2015
+    R2.
+
+    Could you please confirm that it has been solved and that we no longer need to
+    worry about ?
+
+
+    Thanks a lot.
+
+
+    Best regards.
+
+
+    Maxime'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.177.201
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-01-23 02:15:02'
+  body: 'Dear Maxime,
+
+
+    Yes, indeed, it should be happily fixed by now in Revit 2015 R2.
+
+
+    There is apparently still an issue with Revit 2015 UR5, though, that is currently
+    being looked at.
+
+
+    Cheers, Jeremy.'
+- author: Maxime
+  email: m.vallee@bouygues-construction.com
+  ip: 79.174.225.131
+  url: ''
+  date: '2015-01-26 07:27:16'
+  body: 'Hi Jeremy,
+
+
+    Thanks a lot for your answer.
+
+    BTW, if we have R2 installed, do we have to install UR5 ? I know R2 almost corresponds
+    to UR4..., but what about UR5 ?
+
+    Thanks.
+
+    Maxime'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-01-26 08:32:20'
+  body: 'Dear Maxime,
+
+
+    As far as I know, there are two separate UR5 patches for Revit 2015 and Revit
+    2015 R2.
+
+
+    We are also expecting a UR6 for Revit 2015 very soon now, by the way, to incorporate
+    the issue REVIT-57015 [Revit 2015 UR4 extensible storage fix prevents loading
+    or editing family], which I believe was fixed by UR5 in Revit 2015 R2, but not
+    in Revit 2015.
+
+
+    Very sorry for the confusing state of affairs.
+
+
+    Cheers, Jeremy.'
+- author: Maxime
+  email: m.vallee@bouygues-construction.com
+  ip: 79.174.225.131
+  url: ''
+  date: '2015-01-26 09:33:01'
+  body: 'Ughh... gonna have a headache.
+
+
+    Since users and the dev team all have R2 installed, everybody can update to R2
+    UR5 with no damage regarding this point ?
+
+
+
+    -----'

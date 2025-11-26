@@ -1,0 +1,89 @@
+comments:
+- author: Rajeswara Rao
+  email: rajesh@cadsindia.dom
+  ip: 124.124.54.130
+  url: ''
+  date: '2010-04-22 01:24:50'
+  body: 'Hello Jeremy Tammik,
+
+
+    I wanted to create a new project document in OnStartup method of an IExternalApplication.
+    Is there any way.
+
+
+    Thanks and Regards,
+
+    Rajeswara Rao'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.158.62
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-04-22 02:03:58'
+  body: "Dear Rajeswara,\n\nThe argument passed in to the OnStartup method is a UIControlledApplication\
+    \ instance. If you look at the description of that class in the Revit API help\
+    \ file RevitAPI.chm, it says:\n\nUIControlledApplication Class: Represents the\
+    \ Autodesk Revit user interface, providing access to UI customization methods\
+    \ and events.\n\nRemarks: This class does not provide access to documents because\
+    \ it is provided to you through the ExternalApplication OnStartup and OnShutdown\
+    \ methods. It is not possible to work with Revit documents in the context of these\
+    \ methods. You can work with documents by getting them from the UIApplication\
+    \ class, which is provided from other events and the ExternalCommand call-backs.\n\
+    \nThis information is from Revit 2011, but the situation is analogous in Revit\
+    \ 2010 as well.\n\nSo the answer is no, you will have to use some other approach\
+    \ to create your new document. There are many simple alternative approaches. For\
+    \ instance, there are numerous other events that you can subscribe to in the OnStartup\
+    \ method, and then you can create your new document in one of their event handlers.\
+    \ \n\nOne such event may be the Idling event. Or you could get the ControlledApplication\
+    \ from the UIControlledApplication and register to one of its many events. \n\n\
+    An example of accessing the ControlledApplication and registering to one of its\
+    \ events in the OnStartup method of an external application is given by the sequence\
+    \ OnStartup > UIControlledApplication > ControlledApplication > DocumentOpened\
+    \ in the Revit 2011 ChangesMonitor sample:\n\npublic Result OnStartup(\n  UIControlledApplication\
+    \ application )\n{\n  m_CtrlApp = application.ControlledApplication;\n\n  . .\
+    \ .\n\n  // register the DocumentChanged event\n\n  m_CtrlApp.DocumentChanged\
+    \ \n    += new EventHandler( \n      CtrlApp_DocumentChanged );\n\n  . . .\n\n\
+    \  return Result.Succeeded;\n}\n\nCheers, Jeremy."
+- author: Rajeswara Rao
+  email: rajesh@cadsindia.dom
+  ip: 124.124.54.130
+  url: ''
+  date: '2010-04-22 03:34:47'
+  body: 'Dear Jeremy,
+
+
+    Thanks for your answer.
+
+    I was added a ApplicationMenuItem "MyProject) to ApplicationButton->New: successfully.
+    I get the "New" menu item from "RevitApplicationMenu.AppMenuContent.Items".
+
+    Now my aim is to create a new project doc using my template, when I select "MyProject"
+    application menu item. Is there any work around way to achieve this?
+
+
+    Thanks and Regards,
+
+    Rajeswara Rao'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-04-28 02:34:42'
+  body: 'Dear Rajeswara Rao,
+
+
+    Sure, you can call the Application.NewProjectDocument method and specify a template
+    file name.
+
+
+    However, I think you should seriously consider whether you really need to implement
+    your application the way you describe.
+
+
+    What are you trying to achieve, and in what way will the end user have any advantage
+    by using your menu entry to create a new project instead of going through the
+    normal Revit UI?
+
+
+    Cheers, Jeremy.
+
+    -----'

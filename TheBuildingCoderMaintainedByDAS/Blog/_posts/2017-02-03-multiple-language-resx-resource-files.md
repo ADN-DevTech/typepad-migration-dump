@@ -1,0 +1,278 @@
+---
+layout: "post"
+title: "Multiple Language RESX Resource Files"
+date: "2017-02-03 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "Accelerator"
+  - "Events"
+  - "External"
+  - "Forge"
+  - "I18n"
+  - "Ribbon"
+  - "Settings"
+  - "User Interface"
+original_url: "https://thebuildingcoder.typepad.com/blog/2017/02/multiple-language-resx-resource-files.html "
+typepad_basename: "multiple-language-resx-resource-files"
+typepad_status: "Publish"
+---
+
+<p>A large contribution today from Andrey Bushman, and a couple of upcoming Forge events:</p>
+
+<ul>
+<li><a href="#2">Supporting multiple language resource files</a></li>
+<li><a href="#3">Creating and using localised resource <code>RESX</code> files</a></li>
+<li><a href="#4">Upcoming Forge accelerators</a></li>
+</ul>
+
+<h4><a name="2"></a>Supporting Multiple Language Resource Files</h4>
+
+<p>Andrey Bushman raised another interesting issue in 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="http://forums.autodesk.com/t5/revit-api-forum/why-the-language-key-switches-currentculture-instead-of/m-p/6837625">why the '/language' key switches <code>CurrentCulture</code> instead of <code>CurrentUICulture</code></a></p>
+
+<p>In the course of our discussion, Andrey pointed out his highly interesting blog and shared a fully functional Revit add-in demonstrating how to support multi-language resources with all conceivable frills, bells and whistles:</p>
+
+<ul>
+<li><a href="https://revit-addins.blogspot.ru/2017/01/revit-201711.html">Andrey's Revit programming notes blog</a> (in Russian)</li>
+<li><a href="https://github.com/Andrey-Bushman/RevitMultiLanguageAddInExample">RevitMultiLanguageAddInExample GitHub repository</a> (in C# .NET)</li>
+</ul>
+
+<p>If, like me, your command of Russian is limited, it helps to switch
+on <a href="https://chrome.google.com/webstore/detail/google-translate/aapbdbdomjkkjkaonfhkkikfgjllcleb">automatic translation</a> for
+the Russian blog  :-)</p>
+
+<p>By the way, this add-in obviously also makes use of
+Andrey's <a href="http://thebuildingcoder.typepad.com/blog/2016/12/nuget-revit-api-package.html">NuGet Revit API package</a>,
+now updated to support the recent additional Revit 2017.X.Y releases.</p>
+
+<p>Andrey's reason for raising the thread in the first place was a weird behaviour setting the UI culture in Revit 2017.1.1, which I passed on to the development team for further exploration.</p>
+
+<p>However, Andrey provides a workaround for that too, in the module 
+<a href="https://github.com/Andrey-Bushman/RevitMultiLanguageAddInExample/blob/master/RevitMultiLanguageAddInExample/RevitPatches.cs">RevitPatches.cs</a>:</p>
+
+<pre class="code">
+span style="color:blue;">public</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">RevitPatches</span>
+{
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;This&nbsp;patch&nbsp;fixes&nbsp;the&nbsp;bug&nbsp;of&nbsp;localization&nbsp;switching</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;for&nbsp;Revit&nbsp;2017.1.1.&nbsp;It&nbsp;switches&nbsp;the&nbsp;&#39;Thread</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;.CurrentThread.CurrentUICulture&#39;&nbsp;and&nbsp;&#39;Thread</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;.CurrentThread.CurrentCulture&#39;&nbsp;properties&nbsp;according&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;the&nbsp;UI&nbsp;localization&nbsp;of&nbsp;Revit&nbsp;current&nbsp;session.</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">param</span><span style="color:gray;">&nbsp;name</span><span style="color:gray;">=</span><span style="color:gray;">&quot;</span>lang<span style="color:gray;">&quot;</span><span style="color:gray;">&gt;</span><span style="color:green;">The&nbsp;target&nbsp;language.</span><span style="color:gray;">&lt;/</span><span style="color:gray;">param</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">void</span>&nbsp;PatchCultures(&nbsp;<span style="color:#2b91af;">LanguageType</span>&nbsp;lang&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;!<span style="color:#2b91af;">Enum</span>.IsDefined(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">LanguageType</span>&nbsp;),&nbsp;lang&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">throw</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ArgumentException</span>(&nbsp;<span style="color:blue;">nameof</span>(&nbsp;lang&nbsp;)&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;language;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">switch</span>(&nbsp;lang&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">LanguageType</span>.Unknown:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;language&nbsp;=&nbsp;<span style="color:#a31515;">&quot;&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">LanguageType</span>.English_USA:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;language&nbsp;=&nbsp;<span style="color:#a31515;">&quot;en-US&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">LanguageType</span>.German:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;language&nbsp;=&nbsp;<span style="color:#a31515;">&quot;de-DE&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">LanguageType</span>.Spanish:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;language&nbsp;=&nbsp;<span style="color:#a31515;">&quot;es-ES&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">LanguageType</span>.French:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;language&nbsp;=&nbsp;<span style="color:#a31515;">&quot;fr-FR&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">LanguageType</span>.Italian:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;language&nbsp;=&nbsp;<span style="color:#a31515;">&quot;it-IT&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">LanguageType</span>.Dutch:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;language&nbsp;=&nbsp;<span style="color:#a31515;">&quot;nl-BE&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">LanguageType</span>.Chinese_Simplified:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;language&nbsp;=&nbsp;<span style="color:#a31515;">&quot;zh-CHS&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">LanguageType</span>.Chinese_Traditional:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;language&nbsp;=&nbsp;<span style="color:#a31515;">&quot;zh-CHT&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">LanguageType</span>.Japanese:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;language&nbsp;=&nbsp;<span style="color:#a31515;">&quot;ja-JP&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">LanguageType</span>.Korean:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;language&nbsp;=&nbsp;<span style="color:#a31515;">&quot;ko-KR&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">LanguageType</span>.Russian:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;language&nbsp;=&nbsp;<span style="color:#a31515;">&quot;ru-RU&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">LanguageType</span>.Czech:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;language&nbsp;=&nbsp;<span style="color:#a31515;">&quot;cs-CZ&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">LanguageType</span>.Polish:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;language&nbsp;=&nbsp;<span style="color:#a31515;">&quot;pl-PL&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">LanguageType</span>.Hungarian:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;language&nbsp;=&nbsp;<span style="color:#a31515;">&quot;hu-HU&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">LanguageType</span>.Brazilian_Portuguese:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;language&nbsp;=&nbsp;<span style="color:#a31515;">&quot;pt-BR&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">default</span>:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Maybe&nbsp;new&nbsp;value&nbsp;of&nbsp;the&nbsp;enum&nbsp;hasn&#39;t&nbsp;own&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;`case`...</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">throw</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ArgumentException</span>(&nbsp;<span style="color:blue;">nameof</span>(&nbsp;lang&nbsp;)&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">CultureInfo</span>&nbsp;ui_culture&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">CultureInfo</span>(&nbsp;language&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">CultureInfo</span>&nbsp;culture&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">CultureInfo</span>(&nbsp;language&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Thread</span>.CurrentThread.CurrentUICulture&nbsp;=&nbsp;ui_culture;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Thread</span>.CurrentThread.CurrentCulture&nbsp;=&nbsp;culture;
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p>Here is a summary of our discussion consisting mainly of Andrey's explanation:</p>
+
+<p>My external application (add-in) has two localizations: English (by default) and Russian. I now noticed that my external application (add-in) uses wrong localization on some computers. One of those computers has a 'clear' Revit without any other installed custom add-ins.</p>
+
+<p>If I launch <code>revit.exe</code> with the <code>/language RUS</code> command line option, then the Revit UI is Russian, but my add-in  UI still uses the default localization (i.e. "en") instead of "ru".</p>
+
+<p>I extract the localized resources through the <code>ResourcesManager</code> class in my code. That is the native way to work with resources in .NET. I know that <code>ResourcesManager</code> chooses the localized resources based on the value of  <code>Thread.CurrentThread.CurrentUICulture</code>.</p>
+
+<p>Therefore, I assumed that this value isn't <code>"ru"</code> or <code>"ru-RU"</code>, for some reason, despite the <code>/language RUS</code> key. I checked and confirmed that assumption (look my code below):  the <code>Thread.CurrentThread.CurrentUICulture</code> property is set to <code>"en"</code> instead of <code>"ru"</code>. Also, I see that <code>Thread.CurrentThread.CurrentCulture</code> uses <code>"ru-RU"</code> instead of <code>"en"</code>.</p>
+
+<p>Why does the <code>/language</code> key not switch the setting of <code>Thread.CurrentThread.CurrentUICulture</code> responsible for the user interface (UI)?</p>
+
+<p>Is it bug?</p>
+
+<pre class="code">
+<span style="color:#2b91af;">Result</span>&nbsp;<span style="color:#2b91af;">IExternalApplication</span>.OnStartup(
+&nbsp;&nbsp;<span style="color:#2b91af;">UIControlledApplication</span>&nbsp;application&nbsp;)
+{
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;...</span>
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;I&nbsp;use&nbsp;the&nbsp;`/language&nbsp;RUS`&nbsp;key&nbsp;for&nbsp;revit.exe</span>
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;But&nbsp;I&nbsp;see&nbsp;that&nbsp;my&nbsp;add-in&nbsp;user&nbsp;the&nbsp;&#39;default&#39;&nbsp;</span>
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;localization&nbsp;instead&nbsp;of&nbsp;&#39;ru&#39;.&nbsp;Hm...</span>
+&nbsp;&nbsp;<span style="color:green;">//</span>
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;Ok,I&nbsp;will&nbsp;check&nbsp;the&nbsp;CurrentCulture&nbsp;and&nbsp;</span>
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;CurrentUICulture&nbsp;&nbsp;values...</span>
+&nbsp;&nbsp;<span style="color:green;">//</span>
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;Oops...&nbsp;Localization&nbsp;was&nbsp;changed&nbsp;by&nbsp;the&nbsp;</span>
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;`/language&nbsp;RUS`&nbsp;key,&nbsp;but&nbsp;not&nbsp;for&nbsp;that&nbsp;thread&nbsp;</span>
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;which&nbsp;shall&nbsp;to&nbsp;have&nbsp;this&nbsp;change!&nbsp;Why???</span>
+
+&nbsp;&nbsp;<span style="color:#2b91af;">CultureInfo</span>&nbsp;n&nbsp;=&nbsp;<span style="color:#2b91af;">Thread</span>.CurrentThread.CurrentCulture;&nbsp;<span style="color:green;">//&nbsp;ru-RU</span>
+&nbsp;&nbsp;<span style="color:#2b91af;">CultureInfo</span>&nbsp;m&nbsp;=&nbsp;<span style="color:#2b91af;">Thread</span>.CurrentThread.CurrentUICulture;&nbsp;<span style="color:green;">//&nbsp;en</span>
+
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;I&nbsp;can&nbsp;fix&nbsp;this&nbsp;problem&nbsp;myself:</span>
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;The&nbsp;CurrentUICulture&nbsp;switching&nbsp;fixes&nbsp;the&nbsp;</span>
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;problem,&nbsp;but&nbsp;why&nbsp;such&nbsp;problem&nbsp;occurs&nbsp;in&nbsp;Revit?</span>
+
+&nbsp;&nbsp;<span style="color:#2b91af;">CultureInfo</span>&nbsp;k&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">CultureInfo</span>(&nbsp;<span style="color:#a31515;">&quot;ru&quot;</span>&nbsp;);
+&nbsp;&nbsp;<span style="color:#2b91af;">Thread</span>.CurrentThread.CurrentUICulture&nbsp;=&nbsp;k;
+
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;Now&nbsp;my&nbsp;add-in&nbsp;uses&nbsp;right&nbsp;localization.&nbsp;</span>
+
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;...</span>
+}
+</pre>
+
+<p>Later, I found that this problem exists in Revit 2017.1.1, but this problem is absent in Revit 2017.</p>
+
+<p>For demonstration of this problem I created the project and published it on bitbucket,
+in <a href="https://bitbucket.org/Andrey-Bushman/research_of_revit_culture_switching_problem">Andrey-Bushman/research_of_revit_culture_switching_problem</a>.</p>
+
+<p>You can fix this problem in Revit 2017.1.1 by using a class like this:</p>
+
+<pre class="code">
+<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">sealed</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">UICultureSwitcher</span>&nbsp;:&nbsp;<span style="color:#2b91af;">IDisposable</span>
+{
+&nbsp;&nbsp;<span style="color:#2b91af;">CultureInfo</span>&nbsp;previous;
+
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;UICultureSwitcher()
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">CultureInfo</span>&nbsp;culture&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">CultureInfo</span>(&nbsp;<span style="color:#2b91af;">Thread</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.CurrentThread.CurrentCulture.Name&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;previous&nbsp;=&nbsp;<span style="color:#2b91af;">Thread</span>.CurrentThread.CurrentUICulture;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Thread</span>.CurrentThread.CurrentUICulture&nbsp;=&nbsp;culture;
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:blue;">void</span>&nbsp;<span style="color:#2b91af;">IDisposable</span>.Dispose()
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Thread</span>.CurrentThread.CurrentUICulture&nbsp;=&nbsp;previous;
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p>Place code of methods of each external command and external application inside a <code>using</code> block with this class member initializing, and the problem will be fixed. </p>
+
+<p>Expanded info and the patch are provided in the <a href="https://revit-addins.blogspot.ru/2017/01/revit-201711.html">Russian blog post on Revit 2017.1.1</a>.</p>
+
+<p>I also created a multi-language add-in example, published in
+the <a href="https://github.com/Andrey-Bushman/RevitMultiLanguageAddInExample">RevitMultiLanguageAddInExample GitHub repository</a>.</p>
+
+<p>When you use the <code>/language RUS</code> key the UI of my add-in, its tooltip, expanded tooltip, and help file displayed on pressing F1 are in Russian.</p>
+
+<p>When you use <code>/language ENU</code> key the UI of my add-in, its tooltip, expanded tooltip, and help file displayed on pressing F1 are in English.</p>
+
+<p>The same applies for the TaskDialog content.</p>
+
+<p>The expected correct behaviour is shown in the
+<a href="https://www.youtube.com/watch?v=f1IBVgP7T1I">two-minute video on Revit lang bug</a>:</p>
+
+<p><center>
+<iframe width="480" height="270" src="https://www.youtube.com/embed/f1IBVgP7T1I?rel=0" frameborder="0" allowfullscreen></iframe>
+</center></p>
+
+<p>Many thanks to Andrey for this beautiful and illuminating sample!</p>
+
+<h4><a name="3"></a>Creating and Using Localised Resource <code>RESX</code> Files</h4>
+
+<p>Andrey just published
+an <a href="https://www.youtube.com/watch?v=DKCm3p9Gp9M">eight-minute video tutorial on resx using</a> explaining
+the simplest way to create and make use of localized add-in  resources.</p>
+
+<p><center>
+<iframe width="480" height="270" src="https://www.youtube.com/embed/DKCm3p9Gp9M?rel=0" frameborder="0" allowfullscreen></iframe>
+</center></p>
+
+<p>Additional information and expanded code examples are available from his Russian blog:</p>
+
+<ul>
+<li><a href="https://revit-addins.blogspot.ru/2017/01/blog-post_28.html">Binding commands to the help system</a></li>
+<li><a href="https://revit-addins.blogspot.ru/2017/01/revit-201711.html">Fix Revit 2017.1.1 localisation issue</a></li>
+</ul>
+
+<h4><a name="4"></a>Upcoming Forge Accelerators</h4>
+
+<p>We have several <a href="http://autodeskcloudaccelerator.com/">Forge accelerators</a> coming up
+in the <a href="http://autodeskcloudaccelerator.com/prague-2/">next couple of months</a>:</p>
+
+<ul>
+<li>San Francisco, USA &ndash; March 6-10</li>
+<li>Gothenburg, Sweden &ndash; March 27-30</li>
+<li>Barcelona, Spain &ndash; June 12-16</li>
+</ul>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d25bfe9a970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d25bfe9a970c image-full img-responsive" alt="Upcoming Forge accelerators" title="Upcoming Forge accelerators" src="/assets/image_f6277d.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<p>I am planning on attending the two European ones and would love to see you there too.</p>
+
+<p>Before that, however, the San Francisco accelerator provides the very next chance to attend &ndash; and the early bird gets the worm &ndash; so grab you chance while you can!</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c8d1b3a4970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c8d1b3a4970b img-responsive" style="width: 183px; " alt="Bird with worm" title="Bird with worm" src="/assets/image_ef6e83.jpg" /></a><br /></p>
+
+<p></center></p>

@@ -1,0 +1,347 @@
+---
+layout: "post"
+title: "WTA Mech and TTT for Provision for Voids"
+date: "2017-03-31 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Algorithm"
+  - "Element Creation"
+  - "Events"
+  - "Family"
+  - "Geometry"
+  - "JavaScript"
+  - "Modeless"
+  - "Parameters"
+  - "Regen"
+  - "Ribbon"
+  - "User Interface"
+original_url: "https://thebuildingcoder.typepad.com/blog/2017/03/wta-mech-and-ttt-for-provision-for-voids.html "
+typepad_basename: "wta-mech-and-ttt-for-provision-for-voids"
+typepad_status: "Publish"
+---
+
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js" type="text/javascript"></script>
+
+<p>Today is the last day of 
+the <a href="http://thebuildingcoder.typepad.com/blog/2017/03/events-uv-coordinates-and-rooms-on-level.html#2">Forge accelerator</a>,
+and I am still working on 
+the <a href="https://github.com/jeremytammik/forgefader">ForgeFader</a> project.</p>
+
+<p>The topics today are mainly related to Revit, though:</p>
+
+<ul>
+<li><a href="#2">Google prettifier on GitHub</a></li>
+<li><a href="#3">WTA mechanical family placement add-in</a></li>
+<li><a href="#4">Provision for void</a></li>
+<li><a href="#5">What is a provision for void?</a></li>
+<li><a href="#6">Creating a provision for void</a></li>
+<li><a href="#7">Provision for void user interface</a></li>
+</ul>
+
+<h4><a name="2"></a>Google Prettifier on GitHub</h4>
+
+<p>I happened to notice yesterday that the
+Google <a href="https://github.com/google/code-prettify">JavaScript code prettifier</a> moved
+and now lives in GitHub.</p>
+
+<p>The script can now be loaded like this:</p>
+
+<pre class="prettyprint">
+&lt;script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"&gt;&lt;/script&gt;
+</pre>
+
+<p>I use that to present JavaScript sample code here on the blog.</p>
+
+<h4><a name="3"></a>WTA Mechanical Family Placement Add-in</h4>
+
+<p>Allan
+<a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/540057">@aksaks</a>
+<a href="https://github.com/akseidel">@akseidel</a>
+Seidel made a number of contributions here in the past, including:</p>
+
+<ul>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2016/09/stacked-ribbon-button-panel-options.html">Stacked Ribbon Button Panel Options</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/03/wta-firep-and-3d-aimer-tools.html">FireP and 3d Aimer</a>
+<ul>
+<li>Ribbon panel implementation sample</li>
+<li>Fire protection related family placement tools</li>
+<li>3d Aimer that "aims" a special Revit family instance at a target</li>
+</ul></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/03/wta-firep-and-3d-aimer-tools.html#5">WTA Elec &ndash; another family plunk and concept share</a></li>
+</ul>
+
+<p>His newest sample is presented in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread 
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/an-automation-experiment-family-placement-its-tag-and-then-a/m-p/6976559">an automation experiment, family placement, its tag and then a remote tag</a>.</p>
+
+<p>It provides a similar ribbon panel and tool collection for family instance placement and management for tasks primarily oriented towards the mechanical domain:</p>
+
+<blockquote>
+  <p>Apologizing for beginning to wear out a welcome, here is a video and code share for yet another custom ribbon specific task command involving family placement and tags. The ribbon panel split button control being used is a variant of what is mentioned
+  in <a href="http://thebuildingcoder.typepad.com/blog/2016/09/stacked-ribbon-button-panel-options.html">stacked ribbon button panel options</a>.</p>
+  
+  <p>One idea presented is a remote tag. Maybe this is commonly done in Revit practice.
+  The remote tag here is simply a tag on item where the tag itself is placed in proximity to a different item that is a system client to the former item. What is really needed is for Revit tags to show values from an indexed object instead of the object the tag tags. Perhaps it does this. Anyway, that is part of what is seen in the video.</p>
+  
+  <ul>
+  <li><a href="https://www.youtube.com/watch?v=_x7yyx4Yk_I">YouTube video</a></li>
+  <li><a href="https://github.com/akseidel/WTA_MECH">GitHub repository</a></li>
+  </ul>
+  
+  <p>Other items of interest are "Host face normal direction used to drive symbology orientation" and "User settings for family names, types and tag parameter names". The first is a way used to orient based on which direction the host face faces. The idea could be used with a complex family that is capable of rotating within itself to produce a face based family placement that is "always level" so to speak. Only a crude family is used in the demonstration but the code behind does provide the necessary angle to "level". The second is an attempt to externalize family names, family types and parameter names outside of the hard coded add-in. The need is necessary for any type of task related ribbon customization where aspects to the task are not static.   </p>
+</blockquote>
+
+<p><center>
+<iframe width="480" height="270" src="https://www.youtube.com/embed/_x7yyx4Yk_I?rel=0" frameborder="0" allowfullscreen></iframe>
+</center></p>
+
+<p>Here is Allan's more detailed description from the GitHub repo:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c8e7809b970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c8e7809b970b img-responsive" alt="WTA_MECH mechanical ribbon tab" title="WTA_MECH mechanical ribbon tab" src="/assets/image_351f64.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<p>Revit Add-in in C# &mdash; Creates a custom ribbon tab with discipline related tools. The tools at this writing are for placing specific Revit family types with some families requiring parameter settings made on the fly.</p>
+
+<p>This repository is provided for sharing and learning purposes. Perhaps someone might provide improvements or education. Perhaps it will help to boost someone further up the steep learning curve needed to create Revit task add-ins. Hopefully it does not show too much of the wrong way.  </p>
+
+<p>The tools in this ribbon use classes that provide Revit family instance placement functionality with less overhead the standard Revit user interface.
+The classes are intended to provide a universal mechanism for placing some types of families, including tags.
+The custom tab employs menu methods not commonly explained, for example a split button sets a family placement mode that is exposed to the functions called by command picks.
+Other tools use add-in application settings as a way to persist settings or communicate to code that runs subsequently within a command that provides a task workflow.</p>
+
+<p>This add-in demonstrates many of the typical tasks and implementation required for a family placement tab menu interface, e.g.:</p>
+
+<ul>
+<li>Creating a ribbon tab populated with some controls
+<ul>
+<li>Tool tips</li>
+<li>Image file to button image</li>
+<li>Communication between controls and commands the controls execute</li>
+</ul></li>
+<li>Establishing the family type for placement
+<ul>
+<li>Determine if the correct pairing exists in the current file</li>
+<li>Automatically discovering and loading the family if it does not exist in the current file but does exist somewhere starting from some set directory</li>
+</ul></li>
+<li>Providing the family type placement interface
+<ul>
+<li>In multiple mode or one shot mode</li>
+<li>With a heads-up status/instruction interface form</li>
+<li>As WPF with independent behaviour
+<ul>
+<li>Sending focus back to the Revit view</li>
+</ul></li>
+<li>Returning the family instance placement for further processing after the instance has been placed</li>
+<li>Managing an escape out from the process</li>
+<li>Handling correct view type context</li>
+</ul></li>
+<li>Changing family parameter values</li>
+</ul>
+
+<p>Much of the code is by others. Its mangling and ignorant misuse is my ongoing doing. Much thanks to the professionals like Jeremy Tammik who provided the means directly or by mention one way or another for probably all the code needed.</p>
+
+<p>Here are some aspects that may be of specific interest:</p>
+
+<ul>
+<li><strong>Hybrid splitbutton behaviour</strong> &mdash; A splitbutton control with four buttons, where the top two execute one of two types of the same task and the bottom two invoke a settings panel for one of the corresponding task types. The top two buttons, being tasks the user is likely going to repeat, remain as the last button selected. The bottom two buttons are incidental tasks the user would not need to repeat nor want to be the splitbutton's face button. The splitbutton face button reverts back to what is was before the user selected one of the bottom two button. That is the hybrid behaviour. This idea was discussed here: <a href="http://thebuildingcoder.typepad.com/blog/2016/09/stacked-ribbon-button-panel-options.html">thebuildingcoder &ndash; stacked-ribbon-button-panel-options</a></li>
+<li><strong>Host face normal direction used to drive symbology orientation</strong> &mdash; The HVAC sensor family placed by the tools has two symbology orientations, because Revit does not really support a universal "view independent text". The family's symbology would be wrong 50% of the time it were placed. The code attempts to use the host face normal direction to more correctly pick which of the two orientations to make visible. Each orientation's visibility is controlled by a parameter. Only one parameter needs to be set, because the other parameter is function controlled in the family to be <code>not(the_other)</code>.</li>
+<li><strong>User settings for family names, types and tag parameter names</strong> &mdash; As a way to side step the problem of hard coding family names, types and tag parameter names, the user can set the names to some other values. Not implemented, but planned: an external file text to also house the standard settings.</li>
+<li><strong>Remote equipment tag</strong> &mdash; Sensors, like thermostats, for example, are often the client to a piece of a mechanical system. The mechanical system name the sensor is a client for, an ID number for example, is typically placed next to the sensor on construction plans. That ID number is part of the mechanical equipment properties, but not the sensor properties, unless it is duplicated to the sensor. Therefore, tagging the sensor using the latter method involves more effort and maintenance. The remote equipment tag is a tag to the mechanical equipment placed at the sensor. That is what this add-in is doing. It would be nice if Revit were to support an indirect tag value, like the way a microprocessor does indirect addressing. Then the sensor could be tagged with a tag that gets its value from the parameter values of an indirectly addressed object.</li>
+<li><strong>Multiple view annotation placement</strong> &mdash; This add-in can place the annotations, the tags, simultaneously in more than one view at a time. The final tag placement code iterates through a list of candidate views when placing the tag. That list is developed by a single function using specific rules, which one has to adapt to one's needs, operating on parent view names. For example, if the active view is a dependent view, its parent view name is used in the candidate logic. The reason for this feature is due to one of Revit's worst usability problems, where annotation is relegated to the output composition task and not visible during the more important design and engineering tasks.         </li>
+</ul>
+
+<h4><a name="4"></a>Provision for Void</h4>
+
+<p>We discussed numerous examples of the temporary transaction trick in the past,
+the last one just last week, 
+to <a href="http://thebuildingcoder.typepad.com/blog/2017/03/ttt-to-obtain-section-marker-endpoint.html">obtain a section marker endpoint</a>.</p>
+
+<p>That and others are listed in The Building Coder topic group 
+on <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.53">handling transactions and transaction groups</a>.</p>
+
+<p>Here is another clever use to obtain provisions for void, last mentioned in the discussion
+on <a href="http://thebuildingcoder.typepad.com/blog/2015/07/using-referenceintersector-in-linked-files.html">using <code>ReferenceIntersector</code> in linked files</a>.</p>
+
+<p>Håvard Dagsvik of <a href="http://www.symetri.com">Symetri</a>, who contributed to numerous discussions in the past, e.g., 
+<a href="http://thebuildingcoder.typepad.com/blog/2016/04/determining-wall-opening-areas-per-room.html#4">determining wall opening areas per room</a>,
+brought up a new idea:</p>
+
+<p>Just wanted to share with you something I came across the other day about ProvisionForVoids.
+Those are basically "proposals for openings that are to be coordinated between HVAC and architectural/structural design applications".
+We create those proposals as FamilyInstances.</p>
+
+<h4><a name="5"></a>What is a Provision for Void?</h4>
+
+<p>A ProvisionForVoid is a request/proposal for an opening in a structural element such as a wall or floor.</p>
+
+<p>BuildingSmart published
+the <a href="http://www.buildingsmart-tech.org/implementation/ifc-implementation/ifc-impl-agreements/cv-2x3-157">#CV-2x3-157 agreement on a particular type of building element proxy to exchange provisions for voids</a> saying,
+"Such 'proposals for openings' &ndash; or provisions for voids are 3D bodies that indicate the required void for building service flow segments.
+The voids are not yet subtractions of the building element (wall, slab), but placeholders,
+that have to be converted into "real" openings by the architect or structural designer."</p>
+
+<p>So the request/proposal is a 3D body, a solid simulating a void.
+One request is one FamilyInstance.
+If the Structural Engineer approves the request he will create the actual void with the requested size.</p>
+
+<p>It could be you are an architect with a Door in a structural wall.
+(That wall belongs to the structural engineer)
+Or you may be an MEP engineer with a CableTray passing through the wall.
+Both will need an opening.</p>
+
+<h4><a name="6"></a>Creating a Provision for Void</h4>
+
+<p>Getting the size of an opening cut for a door is not straight forward.
+I implemented working code doing it that either is much too slow, using <code>EditFamily</code>,
+or becomes too long, by analysing invisible lines obtained in the project file.</p>
+
+<p>Then I realized if you set a door as demolished,
+Revit will automagically create the "provision" element.
+Revit creates an "infill" wall because the element got demolished.</p>
+
+<p>So, by using some ideas shared by The Building Coder, I put together the following solution.
+In this case, it's about provisions.
+But it can be used with the "RoomSurfaceMaterial" code we did some time ago.
+This is tested somewhat large scale and works well, seems very reliable and fast :-)
+A bit similar to the temporary deletion trick you have mentioned.
+But this will get you the actual opening element.</p>
+
+<pre class="code">
+  <span style="color:blue;">using</span>( <span style="color:#2b91af;">TransactionGroup</span> transGroup 
+    = <span style="color:blue;">new</span> <span style="color:#2b91af;">TransactionGroup</span>( doc ) )
+  {
+    transGroup.Start( <span style="color:#a31515;">&quot;TempRollback&quot;</span> );
+
+    <span style="color:green;">// register the updater;</span>
+
+    doc.Application.DocumentChanged 
+      += <span style="color:blue;">new</span> <span style="color:#2b91af;">EventHandler</span>&lt;
+        Autodesk.Revit.DB.Events
+          .<span style="color:#2b91af;">DocumentChangedEventArgs</span>&gt;( 
+            application_DocumentChanged );
+
+    <span style="color:#2b91af;">FamilyInstance</span> door = <span style="color:blue;">null</span>; <span style="color:green;">// get the door here;</span>
+
+    <span style="color:blue;">using</span>( <span style="color:#2b91af;">Transaction</span> t = <span style="color:blue;">new</span> <span style="color:#2b91af;">Transaction</span>( doc ) )
+    {
+      t.Start( <span style="color:#a31515;">&quot;name&quot;</span> );
+      door.DemolishedPhaseId = door.CreatedPhaseId;
+      t.Commit();
+      <span style="color:green;">// Revit has now created the &quot;infill&quot; element;</span>
+    }
+
+    <span style="color:#2b91af;">Wall</span> provision = <span style="color:blue;">null</span>;
+
+    <span style="color:green;">// &quot;addedIds&quot; contains the &quot;infill&quot; element;</span>
+
+    <span style="color:blue;">foreach</span>( <span style="color:#2b91af;">ElementId</span> id <span style="color:blue;">in</span> addedIds )
+    {
+      <span style="color:#2b91af;">Element</span> e = doc.GetElement( id ) <span style="color:blue;">as</span> <span style="color:#2b91af;">Element</span>;
+      <span style="color:blue;">if</span>( e <span style="color:blue;">is</span> <span style="color:#2b91af;">Wall</span> )
+        provision = e <span style="color:blue;">as</span> <span style="color:#2b91af;">Wall</span>;
+    }
+
+    <span style="color:blue;">if</span>( provision != <span style="color:blue;">null</span> )
+    {
+      <span style="color:green;">// collect whatever info you need </span>
+      <span style="color:green;">// about void geometry</span>
+    }
+
+    <span style="color:green;">// unregister the updater;</span>
+
+    doc.Application.DocumentChanged 
+      -= <span style="color:blue;">new</span> <span style="color:#2b91af;">EventHandler</span>&lt;
+        Autodesk.Revit.DB.Events
+          .<span style="color:#2b91af;">DocumentChangedEventArgs</span>&gt;( 
+            application_DocumentChanged );
+
+    transGroup.RollBack();
+  }
+
+  <span style="color:green;">// the variable</span>
+
+  <span style="color:blue;">private</span> <span style="color:blue;">static</span> <span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">ElementId</span>&gt; addedIds
+  {
+    <span style="color:blue;">get</span>;
+    <span style="color:blue;">set</span>;
+  }
+
+  <span style="color:green;">// pick up the &quot;infill&quot; element Revit just created
+  // when we set the door as demolished</span>
+
+  <span style="color:blue;">private</span> <span style="color:blue;">static</span> <span style="color:blue;">void</span> application_DocumentChanged(
+    <span style="color:blue;">object</span> sender,
+    <span style="color:#2b91af;">DocumentChangedEventArgs</span> args )
+  {
+    addedIds = args.GetAddedElementIds();
+  }
+}
+</pre>
+
+<p>Here is 
+<a href="http://thebuildingcoder.typepad.com/files/hd_provision_for_void.zip">a sample project</a>.
+It demonstrates how to get the opening void for doors and windows as a solid using the temporary demolish trick.</p>
+
+<p>There's also a second method in there that gets the curve framework of the void.
+Somewhat mysterious curves they are not visible in the project or the family.
+From those curves, it is possible to create a solid.
+That is what I ended up doing in my final application.
+(Or I might do a mix if the curve method fails).</p>
+
+<p>However way you get that transient solid it can be used for a lot purposes.
+In this case, I was working on creating ProvisionsForVoids as FamilyInstances.
+So I use the size of the solid as size for each FamilyInstance.</p>
+
+<p>These methods can also be used to improve
+the <a href="https://github.com/jeremytammik/SpatialElementGeometryCalculator">SpatialElementGeometryCalculator</a> project
+described
+in <a href="http://thebuildingcoder.typepad.com/blog/2016/04/determining-wall-opening-areas-per-room.html#5">Håvard's SpatialElementGeometryCalculator enhancement</a>.</p>
+
+<p>This add-in shows how you can obtain the opening size you need to request.
+In our final add-in we use the solids it creates as basis for size and rotation when creating FamilyInstances.
+It shows two different ways you can get that size/3D body for Doors/Windows.
+Without having to rely on how the family is made, or its parameters.
+Families can be made in an infinite number of different ways.
+Their visible geometry is hard to analyse with a consistent result.
+I needed a consistent way of getting that opening request correct in every case.</p>
+
+<p>Hopefully what we have here can be of use to someone out there ;-)</p>
+
+<p>Many thanks to Håvard for this advanced and well-tested yet simple solution to a very challenging task!</p>
+
+<h4><a name="7"></a>Provision for Void User Interface</h4>
+
+<p>An additional comment on the user interface...</p>
+
+<p>I implemented a modeless environment with an exit button to interact with this functionality.</p>
+
+<p>The UI looks like this:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb098aa18b970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb098aa18b970d image-full img-responsive" alt="Provision for void user interface" title="Provision for void user interface" src="/assets/image_9dcf48.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<p>The ProvisionForVoid code above is launched from this UI when the user selects "Doors" or "Wall" and presses "Create".</p>
+
+<p>And we are using this type of UI in several ways now.</p>
+
+<!----
+; this is another example that writes Fire or Acoustic codes to elements:
+
+<center>
+
+<a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb098aa198970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb098aa198970d image-full img-responsive" alt="Fire or Acoustic code user interface" title="Fire or Acoustic code user interface" src="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb098aa198970d-800wi" border="0" /></a><br />
+
+</center>
+---->
+
+<p>This could also have been done "the usual way" with a Windows Form.</p>
+
+<p>The semi-modeless approach is just so much better, "modeless" but still inside a valid API context.</p>
+
+<p>No need for <code>OnIdling</code> or external events here, a few others, but not those.</p>

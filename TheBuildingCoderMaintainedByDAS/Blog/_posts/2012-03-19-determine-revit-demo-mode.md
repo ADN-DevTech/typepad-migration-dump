@@ -1,0 +1,144 @@
+---
+layout: "post"
+title: "Determine Revit Demo Mode"
+date: "2012-03-19 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Algorithm"
+  - "Data Access"
+  - "Failure"
+  - "Installation"
+  - "Settings"
+  - "Transaction"
+original_url: "https://thebuildingcoder.typepad.com/blog/2012/03/determine-revit-demo-mode.html "
+typepad_basename: "determine-revit-demo-mode"
+typepad_status: "Publish"
+---
+
+<p>Here is yet another interesting example of an apparent gap in the Revit API that can be easily filled using a little workaround.
+
+<p>We have seen numerous examples of performing a certain operation within a temporary transaction that is then rolled back to cancel it, such as to determine gross 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2010/02/material-quantity-extraction.html">
+material quantities</a> for
+
+an element with openings, a
+
+<a href="http://thebuildingcoder.typepad.com/blog/2009/06/host-reference.html">
+host reference</a> and, 
+
+more generally, all
+
+<a href="http://thebuildingcoder.typepad.com/blog/2010/03/object-relationships.html">
+object relationships</a>.
+
+<p>Here is an example of using a related but different approach: the trick consists in attempting to perform a certain operation and gracefully handling a specific expected failure condition, in ths case a specific exception being thrown, to determine whether Revit is running in demo mode:
+
+<p><strong>Question:</strong> Is it possible to determine whether Revit runs in demo mode? 
+I need this for two different reasons:
+
+<ul>
+<li>It is a licensing issue, since read-only viewing should not occupy a license.
+<li>Some add-in commands should be greyed out or hidden in the ribbon bar in demo mode.
+</ul>
+
+
+<p><strong>Answer:</strong> You could try to save the model (after making a modification!) and then see if you get an InvalidLicenseException.
+
+<p>I implemented a little sample application TestDemoMode to test a simplified version of this idea.
+
+<p>Here is the test method I created:
+
+<pre class="code">
+&nbsp; <span class="blue">static</span> <span class="blue">bool</span> IsDemoMode( <span class="teal">Document</span> doc )
+&nbsp; {
+&nbsp; &nbsp; <span class="teal">Application</span> app = doc.Application;
+&nbsp;
+&nbsp; &nbsp; <span class="blue">try</span>
+&nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; <span class="teal">Transaction</span> tx = <span class="blue">new</span> <span class="teal">Transaction</span>( doc );
+&nbsp;
+&nbsp; &nbsp; &nbsp; tx.Start( <span class="maroon">&quot;Modify Document&quot;</span> );
+&nbsp;
+&nbsp; &nbsp; &nbsp; <span class="teal">SketchPlane</span> sp 
+&nbsp; &nbsp; &nbsp; &nbsp; = <span class="blue">new</span> <span class="teal">FilteredElementCollector</span>( doc )
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; .OfClass( <span class="blue">typeof</span>( <span class="teal">SketchPlane</span> ) )
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; .FirstElement() <span class="blue">as</span> <span class="teal">SketchPlane</span>;
+&nbsp;
+&nbsp; &nbsp; &nbsp; <span class="teal">Line</span> line = app.Create.NewLineBound( 
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="teal">XYZ</span>.Zero, <span class="teal">XYZ</span>.BasisX );
+&nbsp;
+&nbsp; &nbsp; &nbsp; <span class="teal">ModelCurve</span> mc = doc.Create.NewModelCurve(
+&nbsp; &nbsp; &nbsp; &nbsp; line, sp );
+&nbsp;
+&nbsp; &nbsp; &nbsp; tx.Commit();
+&nbsp;
+&nbsp; &nbsp; &nbsp; <span class="blue">string</span> filename = <span class="teal">Path</span>.GetTempFileName();
+&nbsp; &nbsp; &nbsp; <span class="teal">File</span>.Delete( filename );
+&nbsp;
+&nbsp; &nbsp; &nbsp; doc.SaveAs( filename );
+&nbsp; &nbsp; &nbsp; <span class="teal">File</span>.Delete( filename );
+&nbsp;
+&nbsp; &nbsp; &nbsp; tx.Start( <span class="maroon">&quot;Unmodify Document&quot;</span> );
+&nbsp; &nbsp; &nbsp; doc.Delete( mc );
+&nbsp; &nbsp; &nbsp; tx.Commit();
+&nbsp;
+&nbsp; &nbsp; &nbsp; <span class="blue">return</span> <span class="blue">false</span>;
+&nbsp; &nbsp; }
+&nbsp; &nbsp; <span class="blue">catch</span>( <span class="teal">InvalidLicenseException</span> ex )
+&nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; <span class="blue">return</span> <span class="blue">true</span>;
+&nbsp; &nbsp; }
+&nbsp; }
+</pre>
+
+<p>This is the external command Execute mainline code:
+
+<pre class="code">
+&nbsp; <span class="blue">public</span> <span class="teal">Result</span> Execute(
+&nbsp; &nbsp; <span class="teal">ExternalCommandData</span> commandData,
+&nbsp; &nbsp; <span class="blue">ref</span> <span class="blue">string</span> message,
+&nbsp; &nbsp; <span class="teal">ElementSet</span> elements )
+&nbsp; {
+&nbsp; &nbsp; <span class="teal">UIApplication</span> uiapp = commandData.Application;
+&nbsp; &nbsp; <span class="teal">UIDocument</span> uidoc = uiapp.ActiveUIDocument;
+&nbsp; &nbsp; <span class="teal">Document</span> doc = uidoc.Document;
+&nbsp;
+&nbsp; &nbsp; <span class="blue">bool</span> rc = IsDemoMode( doc );
+&nbsp;
+&nbsp; &nbsp; <span class="blue">string</span> s = <span class="blue">string</span>.Format( 
+&nbsp; &nbsp; &nbsp; <span class="maroon">&quot;This is {0}a Revit demo version.&quot;</span>, 
+&nbsp; &nbsp; &nbsp; rc ? <span class="maroon">&quot;&quot;</span> : <span class="maroon">&quot;not &quot;</span> );
+&nbsp;
+&nbsp; &nbsp; <span class="teal">TaskDialog</span>.Show( <span class="maroon">&quot;Test Demo Mode&quot;</span>, s );
+&nbsp;
+&nbsp; &nbsp; <span class="blue">return</span> <span class="teal">Result</span>.Succeeded;
+&nbsp; }
+</pre>
+
+<p>I have not tested it for both cases, though, since I do not have a demo version handy.
+
+<p>I did run it in a non-demo version, which was correctly reported:</p>
+
+<center>
+
+<a style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e1689788330168e8f19548970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330168e8f19548970c" alt="Not a demo version" title="Not a demo version" src="/assets/image_db5db8.jpg" border="0" /></a><br />
+
+</center>
+
+<p>I have also not added any checks to determine whether the write and save attempt may be failing due to the document being read-only, disk full, or anything like that.
+
+<p>A much better approach would be to create a new document from scratch and attempt to save that.
+
+<p>Anyway, here is 
+
+<span class="asset  asset-generic at-xid-6a00e553e1689788330168e8f194e5970c"><a href="http://thebuildingcoder.typepad.com/files/testdemomode.zip">TestDemoMode.zip</a></span> including 
+
+the source code, add-in manifest and full Visual Studio solution of the simplified test command.
+
+<p>A full-blown implementation requires a number of additional considerations and lots of testing, of course.
+As said, the '1 new document' - '2 edit document' - '3 save as' strategy might be best. 
+Hopefully all exceptions thrown during the first two steps will have to do with the licensing.
+Step three is less certain, since for instance the hard drive may be full.
+
+<p>Saving the current document is a really bad idea and might take a long time, without even thinking about detaching from central and keeping work-shares.

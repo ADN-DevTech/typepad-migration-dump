@@ -1,0 +1,250 @@
+comments:
+- author: Dante
+  email: dante1985@live.nl
+  ip: 62.173.206.33
+  url: ''
+  date: '2010-02-04 09:59:56'
+  body: 'Hi there Jeremy,
+
+    for the passed few months i have been reading your blogs once in a while, pure
+    out of curiousity. i have been working with Revit some time now, i a really want
+    to dive more into the coding part of it.
+
+    now i saw that you have put the source for download, but when trying to juist
+    build it, and add it to the revit menu i get this error:
+
+
+    "Revit cannot run the External Command "buildingcoder". Contact the provider of
+    this external tool with the information below:
+
+
+    system.typeloadexeption while creating instance of ''buidlingcoder''in "C:\.....\buildingcoder.dll
+
+    could not load type ''buildingcoder'' from assambly ''buildingcoder, version=2.0.0.0,
+    Culture=neutral, Publickeytoken=null"
+
+
+
+    now, i dont have much experience with coding and building dll files, so i might
+    be making some really stupid mistakes.
+
+    Cheers
+
+    Dante'
+- author: Jeremy Tammik
+  email: ''
+  ip: 94.81.53.42
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-02-05 04:35:18'
+  body: 'Dear Dante,
+
+
+    There is lots of material answering your question in the Getting Started category
+    of this blog. I suggest you look there. Before you try to install the Building
+    Coder samples, it will help to implement and install your own minimal plug-in.
+    The best way to learn to do that is probably to watch and work through the DevTV
+    presentation:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/12/updated-devtv-introduction-to-revit-programming.html">http://thebuildingcoder.typepad.com/blog/2009/12/updated-devtv-introduction-to-revit-programming.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Ben
+  email: benjamin.veilleux@canam.ws
+  ip: 207.164.161.144
+  url: ''
+  date: '2010-11-08 18:56:56'
+  body: 'Hi Jeremy,
+
+
+    is there a way to position or move the label of a Dimension?
+
+
+    We got that possibility in the interface: we select the Dimension and we can drag
+    the label around.
+
+    I''ve looked at the Dimension properties and functions and could not find anything
+    about the positioning of the text.
+
+
+    Thanks for your insight !
+
+
+    Ben'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-11-09 11:49:17'
+  body: "Dear Ben,\n\nSorry, I cannot find any access to this information either.\
+    \ I also just discovered that RevitLookup fails for me when I try to snoop the\
+    \ dimension element. \n\nIf you find a solution for this, please let us know.\
+    \ Thank you!\n\nCheers, Jeremy."
+- author: gregory mertens
+  email: info@mertens3d.com
+  ip: 24.227.244.179
+  url: http://mertens3d.com
+  date: '2011-02-12 14:08:28'
+  body: "Jeremy,\n\nI implemented the code you have above (with modifications for\
+    \ detail lines) and was able to get it to work inside of the family editor. \n\
+    \nI wanted to see if I could do something similar with with text note, but haven't\
+    \ had any luck.\n\nI am able to create a text note(via vb.net), but I can't assign\
+    \ a label to it.\n\nIt looks like labels are a different type anyway.\n\nsnooping:\n\
+    \    a label --> TextElement\n    a textnote --> TextNote\n\nDim myTextElement\
+    \ As TextElement\napp.Create.NewTextNoteCreationData <-- ??? not sure if that's\
+    \ the direction i should head in...and if so how to do it.\n\nIs it possible to\
+    \ create a text label?\n...gregory"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-02-13 15:11:29'
+  body: 'Dear Gregory,
+
+
+    Congratulations on getting it to works with detail lines.
+
+
+    NewTextNoteCreationData is nothing more than a driver for creating large numbers
+    of text notes, so it adds no functionality that is not available through the NewTextNote
+    method.
+
+
+    I don''t know about the text label creation. At least I cannot find any open wish
+    list items for it, so I would assume you can create them.
+
+
+    Cheers, Jeremy.'
+- author: dharanidharan
+  email: ''
+  ip: 14.99.23.243
+  url: http://profile.typepad.com/6p0105364c8f8b970c
+  date: '2011-02-14 13:45:10'
+  body: "Hi Jeremy Tammik,\n\n  I have a one doubt, it is possible to create the Dimension\
+    \ label on elevation view. E.g., I have create the two family instance(structural\
+    \ column or beam) in 3D view, select the two instance and run the command, its\
+    \ create the Dimension label on between the distance. pls give some idea.\n\n\
+    Right now i want to create the Automatic Dimension. I can create the Elevation\
+    \ (like ColumnandBracess to create the elevation) that time i want to create Dimension\
+    \ also. so pls guide me\n\nBest & Regards,\nDharnaidharan R"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-02-16 18:12:17'
+  body: 'Dear Dharnaidharan,
+
+
+    That sounds feasible to me. Short of going ahead and doing it, however, I have
+    no additional guidance to provide on this, and I don''t have time to try implementing
+    it right now.
+
+
+    Good luck and best regards, Jeremy.'
+- author: dharanidharan
+  email: ''
+  ip: 14.96.90.162
+  url: http://profile.typepad.com/6p0105364c8f8b970c
+  date: '2011-02-21 12:58:38'
+  body: "Hi Jeremy Tammik,\n\n I need u r help very urgent. I had create the linear\
+    \ dimension for all structural beam by using Geometry object -> line -> and get\
+    \ the (start and end)line arrayreference to assign and create the Dimension.\n\
+    \ Now, my problem is im not able to get geometry object (start and end point)\
+    \ for Structural column. so my quary\n\n1. How to get Structural Column Referencearray\
+    \ (then only im      assign the Dimension)\n2. Its return only Location Point,\
+    \ then how to identify the structural column height.\n\nThanks in advance\nDharanidharan\
+    \ R"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.168.211
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-02-21 14:00:09'
+  body: 'Dear Dharanidharan,
+
+
+    If you really need serious help urgently, I suggest you contact a professional
+    consultant.
+
+
+    I am only doing this for fun, you know.
+
+
+    If the column is vertical, it would normally go from one level to another, wouldn''t
+    it? So you can obtain its height from the level Elevation property.
+
+
+    One way to get references is to shoot a ray along the column axis and retrieve
+    the top and bottom faces using FindReferencesByDirection:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/01/findreferencesbydirection.html">http://thebuildingcoder.typepad.com/blog/2010/01/findreferencesbydirection.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Neelima
+  email: p_neelima522@yahoo.co.in
+  ip: 192.168.10.10
+  url: ''
+  date: '2014-09-15 08:12:40'
+  body: 'Hi Jeremy,
+
+
+    Hope you are doing good.
+
+
+    I am working with macros for Revit. Above code did not work for macro. Please
+    suggest code to label dimension for macro.
+
+
+    Thanks in advance.
+
+    Neelima'
+- author: 'james '
+  email: james99@gmail.com
+  ip: 1.39.13.165
+  url: ''
+  date: '2014-10-02 10:38:35'
+  body: 'Dear Jeremy,
+
+    How can I create dimension lable for pipe for its length in project document in
+    Revit 2014 Api.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-10-06 05:56:39'
+  body: 'Dear James,
+
+
+    You can dimension a pipe length just like any other Revit element.
+
+
+    For your convenience, I put together a new topic list on creating dimensioning:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.45">http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.45</a>
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-10-06 05:58:36'
+  body: 'Dear Neelima,
+
+
+    Thank you, I hope you are too.
+
+
+    Sorry, I am not aware of any significant differences between executing this as
+    a stand-alone add-in or a macro.
+
+
+    Cheers, Jeremy.
+
+    -----'

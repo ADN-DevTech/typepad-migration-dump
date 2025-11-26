@@ -1,0 +1,163 @@
+comments:
+- author: Luc Van Asch
+  email: luc@deluco.be
+  ip: 81.82.201.204
+  url: ''
+  date: '2012-03-09 09:40:02'
+  body: "Jeremy,\n\nI'm currently in the process of importing a lot of geometric solid\
+    \ primitives into Revit Families (RAC 2012). Each of the primitives is build of\
+    \ 8 points: 4 coplanar points that make the closed top profile, and 4 coplanar\
+    \ points for the bottom profile. Top and bottom profile planes are NOT necessarily\
+    \ parallel. \nI've based my code on the CreateBlend method in the example above\
+    \ and on a similar method that comes with the RAC 2012 SDK (FamilyCreation\\GenericModelCreation).\
+    \ \n\nThe code works fine as long as top and bottom profiles are perfectly horizontal\
+    \ (all Z-coordinates for top-profile points equal, all Z-coordinates for bottom-profile\
+    \ points equal). But, as soon as there is an inclination in top or bottom profile\
+    \ planes, factory.NewBlend(...) generates an \"internal error: code1\" exception\
+    \ and the blend is not created. This means that about 40% of my data gets rejected.\
+    \ Question: is there another, less critical, function than NewBlend()to handle\
+    \ this kind of geometry, or do I have an error in my code (which works fine for\
+    \ the other 60% of the data).\n\nHere is the important part of my code, nothing\
+    \ special to it, I think. The sketchPlane's normal is XYZ.BasisZ, it's origin\
+    \ is XYZ.Zero.\n\nThank you, any help will be greatly appreciated (I've been struggling\
+    \ for 3 day's now...)\n\nLuc\n\n               // Create top and base profiles\n\
+    \                CurveArray topProfile = new CurveArray();\n                CurveArray\
+    \ bottomProfile = new CurveArray();\n\n                // create one blend\n \
+    \               Line line01 = revitApp.Create.NewLineBound(nCoords[0], nCoords[1]);\n\
+    \                Line line02 = revitApp.Create.NewLineBound(nCoords[1], nCoords[3]);\n\
+    \                Line line03 = revitApp.Create.NewLineBound(nCoords[3], nCoords[2]);\n\
+    \                Line line04 = revitApp.Create.NewLineBound(nCoords[2], nCoords[0]);\n\
+    \n                bottomProfile.Append(line01);\n                bottomProfile.Append(line02);\n\
+    \                bottomProfile.Append(line03);\n                bottomProfile.Append(line04);\n\
+    \n                Line line11 = revitApp.Create.NewLineBound(nCoords[4], nCoords[5]);\n\
+    \                Line line12 = revitApp.Create.NewLineBound(nCoords[5], nCoords[7]);\n\
+    \                Line line13 = revitApp.Create.NewLineBound(nCoords[7], nCoords[6]);\n\
+    \                Line line14 = revitApp.Create.NewLineBound(nCoords[6], nCoords[4]);\n\
+    \n                topProfile.Append(line11);\n                topProfile.Append(line12);\n\
+    \                topProfile.Append(line13);\n                topProfile.Append(line14);\n\
+    \n                // here create one blend\n                Blend blend = creationFamily.NewBlend(true,\
+    \ topProfile, bottomProfile, sketchPlane);"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-06-03 14:59:44'
+  body: 'Dear Luc,
+
+
+    Oh dear, sorry to hear you have been struggling so. Have you solved it in the
+    meantime? I hope so. What was the issue and the solution? If not, have you seen
+    the following suggestion to create intermediate model lines from you input data
+    and then  test using those through the user interface to manually create the desired
+    shape, in the hope that any occurring errors will be reported in more informative
+    detail there?
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/07/debug-geometric-form-creation.html">http://thebuildingcoder.typepad.com/blog/2009/07/debug-geometric-form-creation.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Arjen de Pater
+  email: arjendepater@gmail.com
+  ip: 78.108.136.225
+  url: ''
+  date: '2012-09-11 05:15:23'
+  body: "Hi Jeremy,\n\nI’m using the Revit 2012 API.\n\nI want to create a blend with\
+    \ 8 curves in the BottomProfile and 4 curves in the TopProfile.\n\nWhen I try\
+    \ to this the Document.FamilyCreate.NewBlend method gives an ApplicationException:\
+    \ \"Unexpected internal error: code 1.\"\n\"   at Autodesk.Revit.Creation.FamilyItemFactory.NewBlend(Boolean\
+    \ isSolid, CurveArray topProfile, CurveArray baseProfile, SketchPlane sketchPlane)”\
+    \ \n\nHow can I create such a blend?"
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.68.148
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-09-11 09:41:04'
+  body: 'Dear Arjen,
+
+
+    You should definitely first of all ensure that you can create the same shape through
+    the user interface, as recommended here:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/07/debug-geometric-form-creation.html">http://thebuildingcoder.typepad.com/blog/2009/07/debug-geometric-form-creation.html</a>
+
+
+    If that fails, then it will fail through the API as well.
+
+
+    It may also provide you with a more informative error message.
+
+
+    Cheers, Jeremy.'
+- author: Arjen de Pater
+  email: arjendepater@gmail.com
+  ip: 78.108.136.225
+  url: ''
+  date: '2012-09-12 09:43:28'
+  body: 'Dear Jeremy,
+
+
+    Yes, I can create the blend in the UI.
+
+
+    The problem is the different number of curves in the BottomProfile and TopProfile
+    because the NewBlend method lacks a parameter for the VertexConnectionMap.
+
+
+    Thanks,
+
+
+    Arjen'
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.68.148
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-09-12 11:20:13'
+  body: 'Dear Arjen,
+
+
+    I see that you raised the same issue in the ADN DevHelp Online case 07615940 [I
+    want to create a blend with 8 curves in the BottomProfile and 4 curves in the
+    TopProfile].
+
+
+    It helps us work more efficiently if you let us know that you are inquiring simultaneously
+    through multiple channels.
+
+
+    Have you looked at the following NewSweptBlend samples, in case they provide any
+    useful hints?
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/03/newsweptblend.html">http://thebuildingcoder.typepad.com/blog/2010/03/newsweptblend.html</a>
+
+
+    <a href="http://adndevblog.typepad.com/aec/2012/08/newsweptblend-code-sample.html">http://adndevblog.typepad.com/aec/2012/08/newsweptblend-code-sample.html</a>
+
+
+    If they do not help, I would suggest submitting a detailed script of how you succeed
+    in the form creation through the user interface, plus a complete read-to-compile
+    Visual Studio solution implementing the same thing through the API, demonstrating
+    how it fails, and if needed a minimal sample Revit model to run it in... through
+    the ADN DevHelp online case is probably the simplest way.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.68.148
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-09-12 14:02:51'
+  body: 'Dear Arjen,
+
+
+    Here is another new post that ought to answer your question in full:
+
+
+    <a href="http://adndevblog.typepad.com/aec/2012/09/blending-two-profiles-with-different-topbottom-vertex-counts-.html">http://adndevblog.typepad.com/aec/2012/09/blending-two-profiles-with-different-topbottom-vertex-counts-.html</a>
+
+
+    Cheers, Jeremy.
+
+    -----'

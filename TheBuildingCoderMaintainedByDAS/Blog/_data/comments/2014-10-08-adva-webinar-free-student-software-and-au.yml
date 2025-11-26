@@ -1,0 +1,37 @@
+comments:
+- author: Alex Hearn
+  email: ahearn@armstrongfluidtechnology.com
+  ip: 158.106.72.42
+  url: ''
+  date: '2014-11-10 15:58:20'
+  body: "Hi Jeremy, I am having a really rough time with SweptBlend.\n \nIs it possible\
+    \ to have the sweep path be an arc? I would think yes, but I cannot get it to\
+    \ work. All the examples show the path as a line. To further complicate things,\
+    \ my profiles are circles (drawn with two arcs as required).\n \nHere’s my code:\n\
+    \ \nXYZ pnt1 = new XYZ(0, -1, 0);\nXYZ pnt2 = new XYZ(1, 0, 0);\nXYZ pnt3 = new\
+    \ XYZ(0, 1, 0);\nXYZ pnt4 = new XYZ(-1, 0, 0);\nArc aArc1 = familyDocument.Application.Create.NewArc(pnt1,\
+    \ pnt3, pnt2);\nArc aArc2 = familyDocument.Application.Create.NewArc(pnt3, pnt1,\
+    \ pnt4);\nCurveArrArray arrarr1 = new CurveArrArray();\nSweepProfile bottomProfile\
+    \ = revit.Create.NewCurveLoopsProfile(arrarr1);\nCurveArray arr1 = new CurveArray();\n\
+    arr1.Append(aArc1);\narr1.Append(aArc2);\nXYZ pnt6 = new XYZ(0, -2, 0);\nXYZ pnt7\
+    \ = new XYZ(2, 0, 0);\nXYZ pnt8 = new XYZ(0, 2, 0);\nXYZ pnt9 = new XYZ(-2, 0,\
+    \ 0);\nArc aArc3 = familyDocument.Application.Create.NewArc(pnt6, pnt8, pnt7);\n\
+    Arc aArc4 = familyDocument.Application.Create.NewArc(pnt8, pnt6, pnt9);\nCurveArrArray\
+    \ arrarr2 = new CurveArrArray();\nCurveArray arr2 = new CurveArray();\narr2.Append(aArc3);\n\
+    arr2.Append(aArc4);\narrarr2.Append(arr2);\nSweepProfile topProfile = revit.Create.NewCurveLoopsProfile(arrarr2);\n\
+    XYZ pnt10 = new XYZ(0, 0, 0);\nXYZ pnt11 = new XYZ(0, 5, 0);\nXYZ pnt122 = new\
+    \ XYZ(2.5, 2.5, 0);\nArc testArc = familyDocument.Application.Create.NewArc(pnt10,\
+    \ pnt11, pnt122);\nCurve curve = (Curve)testArc;\nPlane geometryPlane = revit.Create.NewPlane(XYZ.BasisZ,\
+    \ XYZ.Zero);\nSketchPlane sketchPlane = creationFamily.NewSketchPlane(geometryPlane);\n\
+    SweptBlend aSweptBlend = creationFamily.NewSweptBlend(true, curve, sketchPlane,\
+    \ bottomProfile, topProfile);"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.165.122
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-11-11 05:20:20'
+  body: "Dear Alex,\n\nSure that is possible. \n\nYou are making it rougher for yourself\
+    \ than need be  :-)\n\nI migrated your code to Revit 2015, fixed some errors and\
+    \ proved it for you here:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2014/11/rotation-by-and-newsweptblend-using-arcs.html#3\"\
+    >http://thebuildingcoder.typepad.com/blog/2014/11/rotation-by-and-newsweptblend-using-arcs.html#3</a>\n\
+    \nI hope this helps.\n\nCheers, Jeremy.\n-----"

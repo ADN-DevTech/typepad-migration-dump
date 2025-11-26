@@ -1,0 +1,91 @@
+comments:
+- author: speedfit pipe
+  email: angelie_2324@yahoo.com
+  ip: 112.198.64.77
+  url: http://www.speedfitpipe.co.uk
+  date: '2012-05-13 08:08:31'
+  body: The most common use for duct piping in residential construction is to shorten
+    the amount of flex duct required to connect the duct truck line to the register.
+    Flex duct has a higher rate of friction loss than smooth duct pipe and, therefore,
+    adding round pipe to your duct system increases the efficiency of your system.
+- author: Bang
+  email: bcb.tb87@gmail.com
+  ip: 113.160.59.238
+  url: ''
+  date: '2013-07-19 04:15:15'
+  body: 'Hi Jeremy,
+
+
+    How to split a model line at point?
+
+
+    Regards,'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-08-13 09:36:13'
+  body: 'Dear Bang,
+
+
+    You can modify the existing line''s curve''s endpoint to shorten it as desired.
+
+
+    You will have to create a new second model line to replace the missing part, though.
+
+
+    Cheers, Jeremy.'
+- author: Ryan
+  email: rmaxwell@astorino.com
+  ip: 216.151.77.242
+  url: ''
+  date: '2013-11-08 15:13:11'
+  body: I created a flex duct with the API through the Document.Create.NewFlexDuct(Connector1,
+    Connector2, FlexDuctType) method.  But now I want to change the flex duct size
+    to match the connector size at my diffuser.  This should be simple enough, but
+    MEPCurve.Diameter is read only, I can't edit it.  Is it possible to change flex
+    duct size through the API?
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.205.130
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-11-12 10:42:03'
+  body: 'Dear Ryan,
+
+
+    I would say yes.
+
+
+    Indeed, the MEPCurve.Diameter is read only, because it is driven by the entire
+    duct system.
+
+
+    You can change the dimensions by editing the connectors, I believe, or by adding
+    a fitting somewhere in between.
+
+
+    Look at the Connector Height, Width and Radius properties, for example. They are
+    all read-write.
+
+
+    I would also expect the duct size to update automatically as soon as you connect
+    it to the diffuser.
+
+
+    Cheers, Jeremy.'
+- author: Ryan
+  email: rmaxwell@astorino.com
+  ip: 216.151.77.242
+  url: ''
+  date: '2013-11-19 11:02:31'
+  body: Jeremy, thanks for the help.  We were able to get it to work finally.  We
+    created an MEPCurve from the flex duct, a connector set from the MEPCurve, then
+    changed connector radii of the connector set to equal the diffuser connector size.  Now
+    we can draw flex duct in a section view.
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.212.38
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-11-19 11:08:44'
+  body: "Dear Ryan,\n\nThank you for the appreciation and explanation. \n\nI am very\
+    \ glad it helped.\n\nCheers, Jeremy.\n-----"

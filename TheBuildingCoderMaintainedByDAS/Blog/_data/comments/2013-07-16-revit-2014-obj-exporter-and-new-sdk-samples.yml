@@ -1,0 +1,474 @@
+comments:
+- author: Paul Kinnane
+  email: ''
+  ip: 14.2.62.67
+  url: http://profile.typepad.com/kinnane
+  date: '2013-08-18 20:24:34'
+  body: Regarding exporting Revit scenes to Octane - there is now an integrated plugin
+    available from Otoy to render Revit scenes in Octane from within Revit.
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.217.14
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-08-26 09:26:35'
+  body: 'Dear Paul,
+
+
+    Thank you for the note.
+
+
+    I guess you mean OctaneRender for Revit?
+
+
+    <a href="http://render.otoy.com/manuals/Revit">http://render.otoy.com/manuals/Revit</a>
+
+
+    By you yourself, no less!
+
+
+    Congratulations!
+
+
+    Does it make use of the custom exporter framework?
+
+
+    What did you think?
+
+
+    Did you discover any interesting titbits worth sharing?
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Chris Melander
+  email: chris_melander@gensler.com
+  ip: 4.30.35.10
+  url: ''
+  date: '2013-08-29 09:13:31'
+  body: 'Just as an FYI, the strange texture mapping that you see is due to the "rayepsilon"
+    setting in the "Mesh Preview Kernel" being set too low.  Essentially, its rendering
+    multiple surfaces in the same plane.  Raise the limit of the rayepsilon, and your
+    problem should go away.
+
+
+    <a href="http://render.otoy.com/manuals/ArchiCAD/?page_id=294">http://render.otoy.com/manuals/ArchiCAD/?page_id=294</a>'
+- author: Paul Kinnane
+  email: ''
+  ip: 118.210.117.64
+  url: http://profile.typepad.com/kinnane
+  date: '2013-08-31 04:01:04'
+  body: 'Hi Jeremy
+
+
+    Yes, the 2014 version of OctaneRender for Revit uses the custom exporter framework.  The
+    2012 and 2013 versions use a much more complex geometry extraction system based
+    on your originally posted code, but much more complex (in order to try to get
+    assigned materials, generate UV''s, etc).  The customer exporter framework is
+    vastly simpler - a lot faster to load, and about 1/50th of the coding time :-)
+
+
+    I''ve done some load time comparisons (ie. the time taking to get the geometry
+    from Revit and load into Octane).  Based on a 500k polygon scene the C# based
+    Revit 2014 version is one of the fastest of the plugins I''ve written for the
+    various architectural and design apps that I have written for Octane (which I
+    was not expecting).  I expected C++ non-managed to be significantly faster, but
+    this was not the case.
+
+
+    Not being able to obtain texturemap and bump map filenames for Revit materials
+    is still an issue.  The workaround employed by the plugin is to have a big XML
+    file of Revit materials and the texturemaps and scales used for each of those
+    materials.  But this really needs to be made available by the Revit API.
+
+
+    The biggest challenge was the limitations placed by the API when in a 3d perspective
+    view.  This was a constant challenge and there is a substantial amount of code
+    to get around these limitations (given you will almost always be in a 3d perspective
+    view when using the Octane plugin).  The fact that the user cannot start the plugin
+    whilst viewing a 3d perspective view is an annoyance, however not being able to
+    start a transaction from a modeless dialog box whilst in 3d perspective mode required
+    huge workarounds.  Whilst this is thankfully all invisible to the user, the amount
+    of code in the plugin dedicated to working around this limitation is substantial.  For
+    example, the user closes the plugin (modeless dialog) window, so the plugin needs
+    to save the plugin data to the scene data, but this cannot be done because a transaction
+    cannot be started.  Or the user decides to save the current Octane rendertarget
+    to the current Revit View, but of close the data cannot actually be saved at that
+    exact point in time because the user initiated the command from the modeless dialog.  Then
+    the user switches to a new document - but the data from the old document has not
+    been saved to the scene data yet.  So the plugin has to save all it''s data to
+    temporary memory when it is closed, and then needs to save to the scene data when
+    the user triggers an event that can open a transaction.  This is way more complex
+    that it should be, and what took < 1hr to implement for other host apps took weeks
+    to do in Revit.  It is my belief that the API is there to assist plugin developers,
+    so when limitations like this get imposed which cost plugin developers substantial
+    amount of time, it is not ideal!
+
+
+    Keep up the good work with your posts and code samples - they are invaluable to
+    plugin developers.
+
+
+    Paul'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.223.226
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-04 04:39:31'
+  body: 'Dear Paul,
+
+
+    Thank you for your very interesting detailed description.
+
+
+    I am very glad that the custom exporter works so well for you. Nice to hear.
+
+
+    I am very sorry that the lack of API access in perspective views is causing such
+    big problems for you. I can understand that. I created a wish list item for you:
+    Issue REVIT-17844 [API wish: allow API use in perspective view].
+
+
+    Cheers, Jeremy.'
+- author: Paul Kinnane
+  email: ''
+  ip: 14.2.7.29
+  url: http://profile.typepad.com/kinnane
+  date: '2013-09-08 23:22:59'
+  body: 'Hi again Jeremy
+
+
+    I am trying to migrate the plugin from loading from C:\ProgramData\Autodesk\Revit\Addins\2014
+    to the Store compatible .bundle format.  I cannot get the plugin to load into
+    Revit when the files are in "C:\ProgramData\Autodesk\ApplicationPlugins\OctaneRender
+    for Revit.bundle".
+
+
+    In summary - when all the required .addin, .dat and .dll files are in C:\ProgramData\Autodesk\Revit\Addins\2014
+    the plugin is correctly addded to the Add-Ins toolbar.  But copying all those
+    files into the above .bundle folder results in the plugin not appearing on the
+    toolbar.  No error is raised.  No amount of adding/editing xml files, putting
+    the dlls in Contents, etc seems to be working.  I have watched all the Autodesk
+    videos on this and read all the doco.  Can to advise how I can best resolve this
+    issue pls?
+
+
+    Thanks.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-09 04:15:49'
+  body: 'Dear Paul,
+
+
+    Nope, sorry, no idea off-hand how to resolve this.
+
+
+    I''ll ask my colleagues for advice.
+
+
+    Do you plan to submit your plugin as an exchange store app this week?
+
+
+    If so, let''s make sure we get it fixed during the Portathon at the latest:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/09/cloud-and-appstore-usage-grows-portathon-reminder.html">http://thebuildingcoder.typepad.com/blog/2013/09/cloud-and-appstore-usage-grows-portathon-reminder.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-09 05:05:33'
+  body: 'Dear Paul,
+
+
+    Thank you again for your description and underlining how much effort the new framework
+    can potentially save.
+
+
+    I reused it the following new post:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/09/access-to-individual-elements-in-linked-projects.html#5">http://thebuildingcoder.typepad.com/blog/2013/09/access-to-individual-elements-in-linked-projects.html#5</a>
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-09 05:14:57'
+  body: "Dear Paul, \n\nHave you downloaded and installed any other apps?\n\nTo compare\
+    \ with?\n\nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-09 05:34:57'
+  body: 'Dear Paul,
+
+
+    Does your add-in no longer load at all, or is it just a problem that it does not
+    load dynamically during runtime, without restarting Revit?
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-09 05:44:29'
+  body: "Dear Paul,\n\nWe have heard of the following issue regarding the new AllowLoadIntoExistingSession\
+    \ tag in the add-in manifest file:\n\nI created an add-in external application\
+    \ that just adds a ribbon panel to the add-in tab. It works fine if the bundle\
+    \ is placed in the C:\\ProgramData\\Autodesk\\ApplicationPlugins folder before\
+    \ launching Revit. Then Revit displays my ribbon panel as expected.\n\nNow I would\
+    \ like to add the ribbon panel at runtime while Revit is running. I tried moving\
+    \ the bundle folder to C:\\ProgramData\\Autodesk\\ApplicationPlugins after launching\
+    \ Revit, but Revit does not load it any longer.\n\nI set AllowLoadIntoExistingSession\
+    \ to true. If I don’t set it, it is still true by default. \n\nIt works again\
+    \ if I skip the PackageContents and just put the add-in manifest file in the standard\
+    \ Revit specific location.\n\nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-09 05:59:27'
+  body: "Dear Paul,\n\nHere is another thing to check: \n\nIn my experience, you can\
+    \ use any encoding you want in the Revit add-in manifest, but it must correspond\
+    \ to the coding specified in the corresponding XML file tag, i.e., the tag must\
+    \ tell the truth:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/12/snow-and-woe-with-manifest-files.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/12/snow-and-woe-with-manifest-files.html</a>\
+    \ >  Add-in Manifest File Encoding\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/04/addin-manifest-and-guidize.html#3\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/04/addin-manifest-and-guidize.html#3</a>\n\
+    \nMaybe that is the issue for you?\n\nCheers, Jeremy."
+- author: Paul Kinnane
+  email: ''
+  ip: 14.2.7.29
+  url: http://profile.typepad.com/kinnane
+  date: '2013-09-12 19:33:08'
+  body: "Thanks for all the suggestions Jeremy.  \n\nThe plugin does not load even\
+    \ after a Revit restart.\n\nIt may be my Revit knowledge, but I found getting\
+    \ the plugin to run under the other Autodesk CAD packages to be relatively straightforward\
+    \ - and they also provide a reasonable level of diagnosis, whereas with Revit\
+    \ I was unable to determine if the plugin had in fact loaded or not.  This is\
+    \ compounded by not being able to run Revit directly from the Visual Studio debugger\
+    \ (it crashes), so there is a need to run Revit from the desktop then attach in\
+    \ Visual Studio, by which time you may have missed some debug opportunities when\
+    \ the plugin loads.  \n\nAllowLoadIntoExistingSession is not present in the addin\
+    \ file.\n\nMy suspicion is that the plugin does not load from the C:\\ProgramData\\\
+    Autodesk\\ApplicationPlugins folder because Revit is not loading the required\
+    \ dll's when it's in that folder, whereas they are loaded from C:\\ProgramData\\\
+    Autodesk\\Revit\\Addins\\2014.  But diagnosing this is very difficult.  The other\
+    \ possibility is as you say, that it could be an XML issue.\n\nTo add to my confusion,\
+    \ I downloaded your latest OBJ exporter, compiled it, copied (dll & addin) into\
+    \ C:\\ProgramData\\Autodesk\\Revit\\Addins\\2014 and the ObjExport.dll did not\
+    \ load.  I had to put ObjExport.dll into the Revit 2014 executable folder to get\
+    \ it to load.\n\nThere needs to be a log file to indicate what is and is not being\
+    \ loaded, and if it's not being loaded, why.\n\nThanks again for your suggestions\
+    \ and comments.  Very much appreciated.\n\nPaul"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-13 08:27:59'
+  body: "Dear Paul,\n\nSorry to hear about your struggles, and thank you for your\
+    \ appreciation.\n\nAs you presumably know, we are running the Autodesk Exchange\
+    \ Store Portathon event today:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2013/09/multireferenceannotation-example.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2013/09/multireferenceannotation-example.html</a>\n\
+    \nI therefore passed on your query to both the Revit API development team and\
+    \ my colleagues dealing with the exchange store, and they reply as follows:\n\n\
+    1. Do you have a PackageContents.xml file in the bundle folder?\n \nRevit is configured\
+    \ to look for Revit apps inside the PackageContents.xml files in this location.\n\
+    \nIt is not configured to directly load .addin files from here.\n \nIf the plugin\
+    \ is working from C:\\ProgramData\\Autodesk\\Revit\\Addins\\2014, which seems\
+    \ to be the case, and you are ready to submit it to the appstore, we would generate\
+    \ a PackageContents.xml file for you and you can test it from there.\n\n2. We\
+    \ created an installer using the files submitted by the publisher. It seems to\
+    \ be working fine. The addin is getting loaded for Revit 2014. The bundle will\
+    \ be placed in '%ProgramData%\\Autodesk\\ApplicationPlugin'. \n \nWe will be testing\
+    \ the app next week and contact the publisher regarding this directly.\n\nI hope\
+    \ this matches you intentions!\n\nCheers, Jeremy."
+- author: Paul Kinnane
+  email: ''
+  ip: 14.2.7.29
+  url: http://profile.typepad.com/kinnane
+  date: '2013-09-13 08:41:58'
+  body: "Thank you Jeremy. Yes that very much matches our intentions.  \n\nPaul"
+- author: Adriel
+  email: arie11a0@singnet.com.sg
+  ip: 175.156.206.47
+  url: ''
+  date: '2013-09-29 13:39:12'
+  body: 'Dear Jeremy, how does this OBJ exporter for Revit 2014 work? I''m trying
+    to create a workflow from Revit to Fusion 360 and it would be good to have an
+    OBJ exporter without using 3DS Max or Rhino to do the job.
+
+    I tried dling your zip file but its says that ObjExport.dll is missing.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-29 14:43:04'
+  body: 'Dear Adriel,
+
+
+    Great. Sounds like a good idea.
+
+
+    I don''t know what you mean by ''dling'', though.
+
+
+    The OBJ exporter is a Revit add-in. It is installed exactly like all other Revit
+    add-ins:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#2">http://thebuildingcoder.typepad.com/blog/about-the-author.html#2</a>
+
+
+    Oh, yes. My download does not include the compiled DLL .NET assembly, only the
+    source code to compile and build it using Visual Studio.
+
+
+    I do not provide the finished built product.
+
+
+    Cheers, Jeremy.'
+- author: Marco
+  email: marco.moscardi@tiscali.it
+  ip: 94.33.0.96
+  url: ''
+  date: '2015-01-03 10:47:32'
+  body: 'Hello Jeremy,
+
+    I would like to use your plugin OBJ Export for revit to display the model in a
+    web browser.
+
+    But I want to integrate it to export for example the name of the objects but unfortunately
+    do not know the C # language in which you have developed.
+
+    You have a version in vb.net?
+
+    I tried the fast converters online but unfortunately with poor results.
+
+    Marco'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-01-04 06:37:41'
+  body: 'Dear Marco,
+
+
+    Happy New Year to you!
+
+
+    I am not a fan of VB  :-)
+
+
+    I have had excellent success using Reflector in the past, though:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/05/external-command-lister-and-adding-ribbon-commands.html">http://thebuildingcoder.typepad.com/blog/2013/05/external-command-lister-and-adding-ribbon-commands.html</a>
+
+
+    "I talked about Reflector way back in the early days of the blog. It since became
+    commercial. Victor Chekalin mentioned using dotPeek, and my colleague Adam added
+    that he uses the ILSpy .NET decompiler and is perfectly happy with that."
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2008/10/converting-between-vb-and-c-and-net-decompilation.html">http://thebuildingcoder.typepad.com/blog/2008/10/converting-between-vb-and-c-and-net-decompilation.html</a>
+
+
+    <a href="http://www.jetbrains.com/decompiler">http://www.jetbrains.com/decompiler</a>
+
+
+    <a href="http://ilspy.net">http://ilspy.net</a>
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-01-04 07:04:21'
+  body: 'Dear Marco,
+
+
+    By the way, are you sure that OBJ is the optimal way to display a Revit model
+    in the web browser?
+
+
+    You could also consider a more native web browser format, such as WebGL, e.g.
+    via the Autodesk View and Data API:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.46">http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.46</a>
+
+
+    Alternatively, for full control and total open source, you could take a look a
+    the vA3C approach:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2014/05/rvtva3c-revit-va3c-generic-aec-viewer-json-export.html">http://thebuildingcoder.typepad.com/blog/2014/05/rvtva3c-revit-va3c-generic-aec-viewer-json-export.html</a>
+
+
+    If you do decide to use OBJ, please be aware that the add-in described above was
+    implemented before the custom exporter functionality was introduced in the Revit
+    2014 API.
+
+
+    As mentioned above, an improved OBJ exporter based on the custom exporter could
+    probably be implemented now...
+
+
+    Cheers, Jeremy.'
+- author: Lu
+  email: zhiyuelu283@hotmail.com
+  ip: 223.167.138.96
+  url: ''
+  date: '2015-01-07 09:21:49'
+  body: "Hi, Jeremy\n   I've learned a lot from your impressive work. I wonder if\
+    \ you have tried to export the model in Revit to Multipatch which is a 3D data\
+    \ type used in ArcGIS. I got a result by using arc toolbox in ArcGIS, but the\
+    \ coordinates are totally wrong. Now I really want to do this job by the code\
+    \ work, but I got no useful information from anywhere, so if you have some suggestion,\
+    \ that'll be great.Thanks a lot.\n                                           \
+    \         Lu"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.167.147
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-01-07 10:18:08'
+  body: 'Dear Lu,
+
+
+    Thank you for your appreciation. It is the work of many!
+
+
+    Nope, I have never heard of Multipatch.
+
+
+    Maybe you need to use some global coordinate system to get any sensible results
+    in ArcGIS.
+
+
+    To convert from the Revit model coordinates to global ones related to North and
+    East etc., please refer to the DirectionCalculation Revit SDK sample and the following
+    discussions:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/01/south-facing-walls.html">http://thebuildingcoder.typepad.com/blog/2010/01/south-facing-walls.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/01/project-location.html">http://thebuildingcoder.typepad.com/blog/2010/01/project-location.html</a>
+
+
+    Cheers, Jeremy.
+
+    -----'

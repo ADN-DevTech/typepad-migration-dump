@@ -1,0 +1,84 @@
+comments:
+- author: Rooz
+  email: r_ashoori@yahoo.com
+  ip: 85.179.62.161
+  url: ''
+  date: '2009-04-08 16:51:57'
+  body: 'Hi Jeremy,
+
+    Is it possible to trigger the Property Dialog of a Family through API (to show
+    it)? I''m afraid not but I ask ;-). Would be cool not have to program it again.
+
+    Roozbeh'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-09 01:35:47'
+  body: 'Dear Roozbeh,
+
+
+    Just as you suspect, the official API provides no such functionality. You might
+    try various tricks using the Win32 API to simulate some user interaction:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2008/12/driving-revit-from-outside.html">http://thebuildingcoder.typepad.com/blog/2008/12/driving-revit-from-outside.html</a>
+
+
+    There are also tools available that make use of this kind of technique internally
+    and shield you from some of the nitty gritty details, such as AutoHotKey:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/01/autohotkey.html">http://thebuildingcoder.typepad.com/blog/2009/01/autohotkey.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Rooz
+  email: r_ashoori@yahoo.com
+  ip: 78.52.27.43
+  url: ''
+  date: '2009-04-10 11:18:05'
+  body: 'Hi Jeremy,
+
+    thanks for the answer. I tested the example code, and changed it to get a Revit
+    App through Windows Title Bar Text but it gets tricky to get the correct Revit
+    instance if there are more than one Revit instances active. That''s why I think
+    I would try to retrieve the parameters of my interest in a Dialog.
+
+
+    Best Regards
+
+    Roozbeh'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-14 07:01:19'
+  body: 'Hi Roozbeh,
+
+
+    I am glad you were able to make some use of the code and modify it for your use.
+    One possible way to avoid the issue of selecting the correct one out of multiple
+    running Revit instances may be provided by making use of System.Diagnostics.Process.GetCurrentProcess.
+    If you are inside a Revit command, that will ensure you get the instance of Revit
+    that you are running in.
+
+
+    You can definitely implement an application that sits and waits and watches for
+    a certain dialogue to pop up, and then extracts data from it. This can be achieved
+    using a windows hook based on the CBTProc function: The CBTProc hook procedure
+    is an application-defined or library-defined call-back function used with the
+    SetWindowsHookEx function. The system calls this function before activating, creating,
+    destroying, minimizing, maximizing, moving, or sizing a window.
+
+
+    Cheers, Jeremy.'
+- author: Rooz
+  email: r_ashoori@yahoo.com
+  ip: 130.83.86.185
+  url: ''
+  date: '2009-04-16 09:58:01'
+  body: 'Thanks for pointing out the extra information Jeremy!
+
+
+    Regards Roozbeh'

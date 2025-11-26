@@ -1,0 +1,458 @@
+comments:
+- author: Jim Jia
+  email: jhfgrh@gmail.com
+  ip: 58.32.239.82
+  url: ''
+  date: '2010-12-09 23:45:43'
+  body: '>>> idsExclude.Add( doc.ActiveView.Id );
+
+    We don''t need to do this, the BoundingBoxIntersectsFilter will do this automatically,see
+    the RevitAPI.chm remarks for this filter: "This filter excludes all objects derived
+    from View and objects derived from ElementType".'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2010-12-10 03:56:34'
+  body: "Dear Jim,\n\nHey, well spotted! Thank you for pointing this out!\n\nI modified\
+    \ the code above to reflect this. For an updated zip file containing the entire\
+    \ solution, please refer to \n\nhttp://thebuildingcoder.typepad.com/blog/2010/12/more-kevin-filtering-benchmarks.html\n\
+    \nCheers, Jeremy."
+- author: James
+  email: jthwax@gmail.com
+  ip: 210.208.61.61
+  url: ''
+  date: '2011-04-28 22:56:36'
+  body: 'how to solve does not have " Util.ShowTaskDialog" Order question.
+
+    Thank~'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-05-03 07:30:32'
+  body: 'Dear James,
+
+
+    What a fascinatingly cryptic question you created. Congratulations!
+
+
+    Cheers, Jeremy.'
+- author: Asger petersen
+  email: asger.petersen@bau-how.com
+  ip: 87.72.101.164
+  url: ''
+  date: '2011-09-16 14:32:13'
+  body: 'Hi Jeremy Tammik.
+
+
+    I have a problem with line 115 "Util.ShowTaskDialog ("
+
+
+    Error: The name ''Util'' does not exist in the current context. You know why?
+
+
+    thanks for your time :-)'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.141.91
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-09-17 08:01:53'
+  body: "Dear Asger,\n\nAs you can guess from the screen snapshot of the resulting\
+    \ message box, the ShowTaskDialog method is just a trivial wrapper for the Revit\
+    \ API TaskDialog class. The only thing it adds is to also list a truncated version\
+    \ the output to the Visual Studio debug output window. It is implemented like\
+    \ this:\n\n    public static void ShowTaskDialog( \n      string title, \n   \
+    \   string info, \n      string content )\n    {\n      string s = title + \"\
+    : \" + info;\n      if( 0 < content.Length )\n      {\n        Debug.Assert( 15\
+    \ < content.Length, \n          \"expected at least 15 characters of content\"\
+    \ );\n\n        s += \": \" + content.Substring( 0, 15 ) + \"...\";\n      }\n\
+    \      Debug.Print( s );\n\n      TaskDialog dialog = new TaskDialog( title );\n\
+    \      dialog.MainInstruction = info;\n      dialog.MainContent = content;\n \
+    \     dialog.Show();\n    }\n\nYou can also grab the entire filtering sample application\
+    \ including the Util class from the AU class materials. It is all included there.\n\
+    \nCheers, Jeremy."
+- author: Asger petersen
+  email: asger.petersen@bau-how.com
+  ip: 87.72.101.164
+  url: ''
+  date: '2011-09-17 15:09:02'
+  body: 'Hi Jeremy.
+
+
+    Thanks for your quick response.
+
+
+    Is possible only too select the objects that are 100% inside the BoundingBox??
+
+
+    Cheers, Asger'
+- author: Jeremy Tammik
+  email: ''
+  ip: 84.186.192.254
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-09-18 15:41:11'
+  body: 'Dear Asger,
+
+
+    Please have a look at the BoundingBoxIsInsideFilter class.
+
+
+    Cheers and good luck, Jeremy.'
+- author: Asger petersen
+  email: asger.petersen@bau-how.com
+  ip: 87.72.101.164
+  url: ''
+  date: '2011-09-24 13:50:44'
+  body: 'Hi Jeremy.
+
+    Many thanks for "BoundingBoxIsInsideFilter" it was really useful
+
+
+    I want to write to "comments" to all the selected object.
+
+
+    I can only write to the "comments" on the bounding box,
+
+
+    what I am missing?
+
+
+    Parameter param = r.Element.get_Parameter("comments");
+
+    String comments = "";
+
+    comments = param1.AsString();
+
+
+    param.Set("test");'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-09-28 10:13:19'
+  body: 'Dear Asger,
+
+
+    The bounding box has no parameters, so you cannot write to them.
+
+
+    You can write to the parameters on the Revit database element.
+
+
+    Other than that, and that the fact that you once say ''param'' and once ''param1'',
+    your code looks fine to me.
+
+
+    Cheers, Jeremy.'
+- author: Asger petersen
+  email: asger.petersen@bau-how.com
+  ip: 87.72.101.164
+  url: ''
+  date: '2011-09-30 16:39:38'
+  body: "Hi Jeremy.\n \nI read parameter \"comments\" from the bounding box / object\
+    \ and writes to objects inside the bounding box like this:\n\n//Get Comments from\
+    \ bounding box\nParameter param1 = r.Element.get_Parameter(\"Comments\");\nString\
+    \ comments = \"\";\ncomments = param1.AsString();\n\nand write to objects like\
+    \ this:\n\nTransaction trans = new Transaction(doc);\ntrans.Start(\"Lab\");\n\
+    e.get_Parameter(\"Comments\").Set(comments);\ntrans.Commit();\n\nBut why can not\
+    \ I find columns inside the bounding box?"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-10-03 09:30:45'
+  body: "Dear Asger,\n\nYour code for writing the comment string to the parameter\
+    \ value looks fine to me.\n\nI do not see what it has to do with finding columns\
+    \ inside a bounding box, though. \n\nThe two issues sound pretty unrelated to\
+    \ me.\n\nAre you using the BoundingBoxIsInsideFilter? \n\nHave you checked what\
+    \ exact data the bounding boxes of the columns really have? Maybe they expand\
+    \ too far?\n\nCheers, Jeremy."
+- author: Asger petersen
+  email: asger.petersen@bau-how.com
+  ip: 87.72.101.164
+  url: ''
+  date: '2011-10-03 16:13:30'
+  body: "Hi Jeremy.\n\nyes I use BoundingBoxIsInsideFilter.....\n\nMy bounding box\
+    \ is offset -240mm from Level 1 and Level 2 (Distance between level 3100mm)\n\n\
+    Column height is 1000mm. \nbase offset Level 1:  0 mm.\nTop Offset level 2: -2100mm.\n\
+    \nI have found 2 ways to find columns on.\n\n1. If I change the top offset to:\
+    \ Level 1 1000mm, can I find the column inside the bounding box.\n\n\n2. If I\
+    \ use the \"analytical model\" parameter \"Top vertical projection\" and set it\
+    \ to \"Top of Columns.\" can I find the column inside the bounding box.\n\nwhy\
+    \ can not I find colomns without change the parameter?\n\nI have the same problems\
+    \ with stairs.\n\nIs there a way I can find all objects inside the bounding box?"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-10-10 08:29:58'
+  body: "Dear Asger,\n\nIt should be simple to test what is happening with the filter\
+    \ (to see if something’s wrong with the filter or not): just get the bounding\
+    \ box of the target element (element.get_BoundingBox(null)) and see if it mathematically\
+    \ lies within the target outline.  \n\nRemember that BoundingBoxIsInsideFilter\
+    \ requires that the entire element outline be within the target volume, there\
+    \ can be no intersections with the boundaries. \n\nI suspect it will show that\
+    \ the bounding box for this column exceeds the limits in some way.   The more\
+    \ interesting question then becomes: why is its bounding box shaped as it is,\
+    \ which we could investigate if a model is supplied.\n\nCheers, Jeremy."
+- author: Asger petersen
+  email: asger.petersen@bau-how.com
+  ip: 87.72.101.164
+  url: ''
+  date: '2011-10-12 12:30:10'
+  body: 'Hi Jeremy.
+
+
+    Thanks for your mail.
+
+
+    Which email address should I send my test model to?
+
+
+    Cheers, Asger'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-10-12 15:50:37'
+  body: 'Dear Asger,
+
+
+    I''ll send you a mail to reply to, but I very much doubt that I will have any
+    time to look at it, so I would suggest that you explore as much as possible yourself.
+
+
+    Cheers, Jeremy.'
+- author: 南 同學
+  email: ''
+  ip: 140.112.4.195
+  url: http://profile.typepad.com/d101155561066043147
+  date: '2012-01-13 02:43:56'
+  body: "Hi Jimmy,\n\nI have been trying to develop some Room-Space-Checking function\
+    \ via REVIT API by fetching the room boundary points and draw an Outline based\
+    \ on those points to further use the BoundingBoxIntersectsFilter.\n\nHowever,\
+    \ there's something I don't know how to fix:\n\nstart with initializing the Outline\
+    \ \n\"Outline myOutLn = new Outline(new XYZ(10,10,10), new XYZ(1,1,1));\"\n\n\
+    I found when putting the Outline into the BoundingBoxIntersectsFilter  \n\"BoundingBoxIntersectsFilter\
+    \ filter = new BoundingBoxIntersectsFilter(myOutLn);\n\nIt results in an \"Empty\
+    \ Outline\" , after that we realize that each \"x\",\"y\",\"z\" of max point has\
+    \ to be larger than the \"x\",\"y\",\"z\" of the min point.\n\nHowever, when fetching\
+    \ the points from the room boundary, I ain't sure that every \"x\",\"y\",\"z\"\
+    \ of min point is larger than the max point.\n\nSince I create the outline by\
+    \ the room boundary points, There's no way to assure that every \"x\",\"y\",\"\
+    z\" of min point is larger than the max point.\n\nso I wonder if the \"x\",\"\
+    y\",\"z\" of the max point really need to be larger than the \"x\",\"y\",\"z\"\
+    \ of the min point? or if there is some other ways to create a legal outline for\
+    \ boundingboxfilter?\n\nthx a lot!!!!!\n\nCheers, Kurt."
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-01-17 08:03:47'
+  body: 'Dear Kurt,
+
+
+    If you look at the Revit API help file RevitAPI.chm entry on the Outline constructor,
+    it says "Constructor that uses a minimum and maximum XYZ point to initialize the
+    outline".
+
+
+    So I assume that you do indeed have to supply a min and a max point, and that
+    the min point coordinates must be smaller than the max one''s.
+
+
+    This is very easy to achieve!
+
+
+    Simply compare the x, y and z values with each other as you collect them, and
+    put the successively larger ones into the max point and the smaller ones into
+    the min one.
+
+
+    Cheers, Jeremy.'
+- author: Cosmas
+  email: tzavelis@hotmail.com
+  ip: 24.228.74.106
+  url: ''
+  date: '2012-02-26 22:59:17'
+  body: 'Hello Jeremy,
+
+    I have implemented the Intersecting code above and noticed that it does not work
+    if we have an Analytical view! If that is the case, how do you change the view
+    programmatically to be a regular 3D view?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-02-29 06:48:36'
+  body: 'Dear Cosmas,
+
+
+    I don''t know off-hand whether you can. But you can always create your own new
+    3D view to perform the operation. One of the SDK samples demonstrating the ray
+    shooting method does just that somewhere.
+
+
+    Cheers, Jeremy.'
+- author: Ari Monteiro
+  email: ari_mont@yahoo.com.br
+  ip: 177.80.111.48
+  url: ''
+  date: '2013-01-03 11:05:47'
+  body: 'Hello Jeremy,
+
+
+    Can I use the BoundingBoxIntersectsFilter for interference checking envolving
+    linked models?
+
+
+    I tested this situation but no success at this point.
+
+
+    I have architectural model with a structural model linked. So, I''m searching
+    for interferences between wall and beams, for example.
+
+
+    I saw the following posts:
+
+
+    AVF Displays Intersections and Highlights Rooms
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/12/using-avf-to-display-intersections-and-highlight-rooms.html">http://thebuildingcoder.typepad.com/blog/2011/12/using-avf-to-display-intersections-and-highlight-rooms.html</a>
+
+
+    List Linked Elements
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/02/list-linked-elements.html">http://thebuildingcoder.typepad.com/blog/2009/02/list-linked-elements.html</a>
+
+
+    I think them have a solution for my problem. Could you tell me if I am on right
+    path?
+
+
+    Thanks!
+
+    Ari Monteiro'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-03 11:41:27'
+  body: 'Dear Ari Monteiro,
+
+
+    Happy New Year to you!
+
+
+    Yes, it sounds as if you may be on the right track.
+
+
+    You just have to ensure that you instantiate the BoundingBoxIntersectsFilter with
+    the correct document, i.e. the architectural document for architectural elements
+    etc. Furthermore, you have to ensure that the results in the linked model are
+    correctly transformed into the host model coordinate system.
+
+
+    Good luck, and let us know how it goes.
+
+
+    I am sure that other readers would love to see your solution, if you are willing
+    to share it.
+
+
+    Cheers, Jeremy.'
+- author: sachin
+  email: sachinck4@gmail.com
+  ip: 223.239.140.119
+  url: ''
+  date: '2013-02-02 01:50:36'
+  body: "dear sir,,\nhow to get thumbnail of .rfa file in windows form,if possible\
+    \ plz replay me \nthank u"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.185.104
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-02-08 07:58:34'
+  body: 'Dear Sachin,
+
+
+    I trust you saw Mustafa Salah''s answer:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/06/rvt-and-rfa-thumbnail-image.html?cid=6a00e553e168978833017c3693f6b3970b#comment-6a00e553e168978833017c3693f6b3970b">http://thebuildingcoder.typepad.com/blog/2009/06/rvt-and-rfa-thumbnail-image.html?cid=6a00e553e168978833017c3693f6b3970b#comment-6a00e553e168978833017c3693f6b3970b</a>
+
+
+    Cheers, Jeremy.'
+- author: purvagupta2010@gmail.com
+  email: purvagupta2010@gmail.com
+  ip: 141.30.212.67
+  url: ''
+  date: '2013-02-27 16:04:12'
+  body: "dEAR Jeremy\n\nWhen I try to find out for all the elements in view, their\
+    \ intersecting elements , how should i do that?\nI want to make a list with all\
+    \ the elements in a column, and their intersecting elements in the next column.\n\
+    But i am having problem in the bounding box intersection filter.\nI am getting\
+    \ zero intersecting elements, when i run the code.\nFilteredElementCollector collector\
+    \ = new FilteredElementCollector(doc, doc.ActiveView.Id);\nBoundingBoxXYZ bb =\
+    \ elem.get_BoundingBox(null);\nOutline outline = new Outline(bb.Min, bb.Max);\n\
+    BoundingBoxIntersectsFilter bbfilter = new BoundingBoxIntersectsFilter(outline);\
+    \                      \ncollector1 = collector.WherePasses(bbfilter);\nICollection<Element>\
+    \ intersectingElems = collector1.WhereElementIsNotElementType().ToElements();\n\
+    \nAm i missing something? As my Intersecting elems are zero when i debug."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.184.163
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-03-13 02:46:38'
+  body: 'Dear Purvagupta,
+
+
+    Here are a few more pointers:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/10/element-intersection.html">http://thebuildingcoder.typepad.com/blog/2012/10/element-intersection.html</a>
+
+
+    Cheers, Jeremy.'
+- author: sachin
+  email: sachinkocharekar12@gmail.com
+  ip: 223.239.139.182
+  url: ''
+  date: '2013-03-23 05:27:57'
+  body: "Hello sir,thank yo so much for last time reply\t:)\n\nI am getting problem\
+    \ to get a real time view(like in case inserting door on a wall,after selecting\
+    \ the door, i am not getting the door view of moving along with the mouse cursor\
+    \ only getting cursor and if click on wall directly it will inserting.) before\
+    \ placing family inserting.\n\nmy code is like this:\n\n public Autodesk.Revit.UI.Result\
+    \ Execute(ExternalCommandData commandData, ref string message, ElementSet elements)\
+    \  \n        {      \n           ..........\n            try\n            {\n\
+    \              trans.Start();\n                Family family = null;\n       \
+    \         FamilySymbol symbol = null;\n                 if (doc.LoadFamily(@h4,\
+    \ out family))\n                {\n                  foreach (FamilySymbol s in\
+    \ family.Symbols)\n                    {\n                        symbol = s;\n\
+    \                    }\n                    View view = uidoc.ActiveView;\n  \
+    \                  Reference r = sel.PickObject(ObjectType.PointOnElement, \"\
+    Select\");\n                    Element elem = doc.GetElement(r);\n          \
+    \          Wall wall = elem as Wall;\n                    XYZ globalPoint = r.GlobalPoint;\n\
+    \                    XYZ levelPoint = new XYZ(10, 10, 1);                  \n\
+    \                    Wall wall = doc.GetElement(r) as Wall;  \n              \
+    \     FamilyInstance instance = doc.Create.NewFamilyInstance(levelPoint, symbol,\
+    \ wall,level,StructuralType.NonStructural);\n                       }\n      \
+    \               trans.Commit();\n                    }\n             catch (Exception)\n\
+    \            {\n\n            }\n                return Result.Succeeded;\n  \
+    \      }"
+- author: sachin
+  email: sachinkocharekar12@gmail.com
+  ip: 223.239.147.150
+  url: ''
+  date: '2013-03-28 05:32:22'
+  body: 'hello sir,
+
+    And also how to display the materials..(for example in door contains some materials,
+    like glass,Door - Frame/Mullion ,i want to display only material glass from the
+    door,or Door - Frame/Mullion..like this..,please replay soon as possible,
+
+    thank you :)
+
+    -----'

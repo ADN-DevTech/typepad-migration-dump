@@ -1,0 +1,177 @@
+---
+layout: "post"
+title: "Revit Tools for MomenTUM Pedestrian Simulation"
+date: "2018-01-18 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Analysis"
+  - "AVF"
+  - "Export"
+original_url: "https://thebuildingcoder.typepad.com/blog/2018/01/revit-tools-for-momentum-pedestrian-simulation.html "
+typepad_basename: "revit-tools-for-momentum-pedestrian-simulation"
+typepad_status: "Publish"
+---
+
+<p>Occasionally, I have the delight of receiving messages entitled something like <em>Giving something back to the Community</em>.</p>
+
+<p>This time, the pleasure was provided by Christian Thieme, master's degree student at
+the <a href="https://www.cms.bgu.tum.de/en">Chair of Computational Modeling and Simulation</a> at
+<a href="https://www.tum.de">TUM, the Technical University Munich</a>,
+working on tools connecting Revit to
+the <a href="https://www.cms.bgu.tum.de/en/31-forschung/projekte/456-momentum">MomenTUM</a> agent-based
+pedestrian simulation framework.</p>
+
+<p>Many thanks, Christian, for sharing this!</p>
+
+<p>In his own words:</p>
+
+<ul>
+<li><a href="#2">Giving something back to the community</a></li>
+<li><a href="#3">Project overview</a></li>
+<li><a href="#4">Export workflow</a></li>
+<li><a href="#5">Import and display results workflow</a></li>
+<li><a href="#6">Transformation from <code>XYZ</code> to <code>UV</code></a></li>
+</ul>
+
+<h4><a name="2"></a>Giving Something Back to the Community</h4>
+
+<p>I am a Master's degree student at TUM in Germany.</p>
+
+<p>As part of a project, I developed a Revit Plugin that uses
+the <a href="http://thebuildingcoder.typepad.com/blog/avf">Revit Analysis Visualization Framework AVF</a> to
+display (arbitrary) analytical results.</p>
+
+<p>In order to do so, your blog posts and the forum were a big help. And if it is of any help, I would like to share my solution to do so.</p>
+
+<p>My general approach to compute and display was to extract geometrical information (e.g. the layout of a building).
+I exported this information in an xml format.</p>
+
+<p>Then I processed the xml-data using a Java Project of the University Chair I was working in.</p>
+
+<p>The Java projects generates a 2D array out of the input xml file, and computes a metric &ndash; in my case, a type
+of <a href="https://en.wikipedia.org/wiki/Space_syntax">space syntax</a> operation
+&ndash; <a href="https://en.wikipedia.org/wiki/Visibility_graph_analysis">Visibility Graph Analysis</a>).</p>
+
+<p>The result of the visibility graph analysis is a 2D array of values that is then fed in to my plugin.</p>
+
+<p>You can find my Space Syntax Plugin within
+the <a href="https://github.com/tumcms/MomenTUM">Momentum GitHub repository</a>.</p>
+
+<p>The Revit Plugins are located in
+the <a href="https://github.com/tumcms/MomenTUM/tree/master/momentum-tools">momentum-tools subfolders</a>.</p>
+
+<ul>
+<li>Export: <a href="https://github.com/tumcms/MomenTUM/tree/master/momentum-tools/momentum-layout-tools/momentum-layout-tools-revit">MomenTumV2RevitLayouting add-in</a> exports geometrical information from a Revit project to XML.</li>
+<li>Import: <a href="https://github.com/tumcms/MomenTUM/tree/master/momentum-tools/momentum-spaceSyntax-tools/momentum-spaceSyntax-tools-revit">MomenTumV2SpaceSyntaxRevit</a> reads the XML results and displays them using AVF.</li>
+</ul>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d2d0e7b4970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d2d0e7b4970c img-responsive" alt="Gebaeude 7" title="Gebaeude 7" src="/assets/image_141308.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>I hope you find this interesting and worth sharing.</p>
+
+<h4><a name="3"></a>Project Overview</h4>
+
+<p>The project goal was to visualize an analytical result.</p>
+
+<ul>
+<li>Step 1: use
+the <a href="https://github.com/tumcms/MomenTUM/tree/master/momentum-tools/momentum-layout-tools/momentum-layout-tools-revit">MomenTumV2RevitLayouting Revit add-in</a> to
+export geometrical information from a Revit project to XML.</li>
+<li>Step 2: run
+the <a href="https://github.com/tumcms/MomenTUM">MomentumV2 Kernel the main Java project</a> to produce another XML file with result data.</li>
+<li>Step 3: use
+the <a href="https://github.com/tumcms/MomenTUM/tree/master/momentum-tools/momentum-spaceSyntax-tools/momentum-spaceSyntax-tools-revit">MomentumV2SpaceSyntaxRevit Revit add-in</a> and open the result data xml file and visualise the results.</li>
+</ul>
+
+<p>The MomentumV2SpaceSyntaxPlugin uses AVF to display the result in the active view.</p>
+
+<p>There are some limitations to the work, as mentioned in the project readme.</p>
+
+<p>The space syntax plugin also contains the <a href="#6">transformation code from xyz to uv coordinates</a>.</p>
+
+<h4><a name="4"></a>Export Workflow</h4>
+
+<p>Executing the plugin prompts the user to select one level or all levels of a project. The selected level(s) will be exported as xml.</p>
+
+<p>Note: Walls and doors are exported as obstacles as type 'Wall'. Stairs can will either be shown as areas of either type 'Origin' or 'Destination'.</p>
+
+<p>Detailed information on the add-in installation and workflow is provided in
+the <a href="zip/HowTo_MomenTumV2RevitLayouting.pdf">MomenTumV2RevitLayouting how-to documentation</a>.</p>
+
+<h4><a name="5"></a>Import and Display Results Workflow</h4>
+
+<p>The workflow assumes that you have successfully built the Revit layouting plugin and the Space Syntax plugin and integrated them into your Revit installation. Furthermore, you need to have built Momentum successfully and have a basic understanding of its usage (see momentum-documentation).</p>
+
+<ol>
+<li><p>Use the Layouting Plugin to export geometry data of a level of a Revit project into a xml file. Make sure that you have properly set rooms in your Revit project before exporting (see layouting documentation).</p></li>
+<li><p>Check if the resulting xml contains at least one area of type 'Origin' per scenario node.
+(If there is none, you have to create this area by hand yourself.)</p></li>
+<li><p>Create a xml configuration file and insert a lattice, Space Syntax and an outputwriter configuration.
+(Hint: You can copy the spaceSyntaxExamples.xml and make sure to adapt the file paths and ids accordingly.)</p></li>
+<li><p>Run your configuration with Momentum (see momentum-documentation) and check if the execution produced the xml output file defined in the Space Syntax output writer tag of the input configuration.</p></li>
+<li><p>In Revit, in the same project as you exported the geometry, go to 'Add-Ins' tab and run the MomentumV2SpaceSyntax external command and select the Space Syntax result xml you just created with Momentum.</p></li>
+<li><p>If you created the xml result using the Revit Layouting plugin, the Space Syntax plugin will automatically select the correct level to visualize the result from metadata in the result xml. Otherwise, a level picker will open.</p></li>
+</ol>
+
+<h4><a name="6"></a>Transformation from XYZ to UV</h4>
+
+<p>In my import and visualisation plugin, I managed to transform points from the global space (<code>XYZ</code>) to the local space of a face (<code>UV</code> representation of a bounding box).</p>
+
+<p>In my understanding, this is quite unique, since I haven't found any other code snippet that does so.</p>
+
+<p>Revit itself only supports the <code>Face.Transform(UV)</code> method that translates a <code>UV</code> coordinate into <code>XYZ</code> coordinate space.</p>
+
+<p>I reversed that Method to translate <code>XYZ</code> coords to <code>UV</code> coords.</p>
+
+<p>At first, I thought I could solve the reverse transformation by solving a linear equation with 2 unknown variables. But this wasn't a general solution. So, I finally found out that the transformation consists of a displacement vector and a rotation matrix.</p>
+
+<pre class="code">
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;Create&nbsp;transformation&nbsp;matrix&nbsp;to&nbsp;transform&nbsp;points&nbsp;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;from&nbsp;the&nbsp;global&nbsp;space&nbsp;(XYZ)&nbsp;to&nbsp;the&nbsp;local&nbsp;space&nbsp;of&nbsp;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;a&nbsp;face&nbsp;(UV&nbsp;representation&nbsp;of&nbsp;a&nbsp;bounding&nbsp;box).</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;Revit&nbsp;itself&nbsp;only&nbsp;supports&nbsp;Face.Transform(UV)&nbsp;that&nbsp;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;translates&nbsp;a&nbsp;UV&nbsp;coordinate&nbsp;into&nbsp;XYZ&nbsp;coordinate&nbsp;space.&nbsp;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;I&nbsp;reversed&nbsp;that&nbsp;Method&nbsp;to&nbsp;translate&nbsp;XYZ&nbsp;coords&nbsp;to&nbsp;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;UV&nbsp;coords.&nbsp;At&nbsp;first&nbsp;i&nbsp;thought&nbsp;i&nbsp;could&nbsp;solve&nbsp;the&nbsp;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;reverse&nbsp;transformation&nbsp;by&nbsp;solving&nbsp;a&nbsp;linear&nbsp;equation&nbsp;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;with&nbsp;2&nbsp;unknown&nbsp;variables.&nbsp;But&nbsp;this&nbsp;wasn&#39;t&nbsp;general.&nbsp;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;I&nbsp;finally&nbsp;found&nbsp;out&nbsp;that&nbsp;the&nbsp;transformation&nbsp;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;consists&nbsp;of&nbsp;a&nbsp;displacement&nbsp;vector&nbsp;and&nbsp;a&nbsp;rotation&nbsp;matrix.</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">double</span>[,]&nbsp;
+&nbsp;&nbsp;CalculateMatrixForGlobalToLocalCoordinateSystem(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Face</span>&nbsp;face&nbsp;)
+{
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;face.Evaluate&nbsp;uses&nbsp;a&nbsp;rotation&nbsp;matrix&nbsp;and</span>
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;a&nbsp;displacement&nbsp;vector&nbsp;to&nbsp;translate&nbsp;points</span>
+
+&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;originDisplacementVectorUV&nbsp;=&nbsp;face.Evaluate(&nbsp;<span style="color:#2b91af;">UV</span>.Zero&nbsp;);
+&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;unitVectorUWithDisplacement&nbsp;=&nbsp;face.Evaluate(&nbsp;<span style="color:#2b91af;">UV</span>.BasisU&nbsp;);
+&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;unitVectorVWithDisplacement&nbsp;=&nbsp;face.Evaluate(&nbsp;<span style="color:#2b91af;">UV</span>.BasisV&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;unitVectorU&nbsp;=&nbsp;unitVectorUWithDisplacement&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;originDisplacementVectorUV;
+
+&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;unitVectorV&nbsp;=&nbsp;unitVectorVWithDisplacement&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;originDisplacementVectorUV;
+
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;The&nbsp;rotation&nbsp;matrix&nbsp;A&nbsp;is&nbsp;composed&nbsp;of</span>
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;unitVectorU&nbsp;and&nbsp;unitVectorV&nbsp;transposed.</span>
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;To&nbsp;get&nbsp;the&nbsp;rotation&nbsp;matrix&nbsp;that&nbsp;translates&nbsp;from&nbsp;</span>
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;global&nbsp;space&nbsp;to&nbsp;local&nbsp;space,&nbsp;take&nbsp;the&nbsp;inverse&nbsp;of&nbsp;A.</span>
+
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;a11i&nbsp;=&nbsp;unitVectorU.X;
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;a12i&nbsp;=&nbsp;unitVectorU.Y;
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;a21i&nbsp;=&nbsp;unitVectorV.X;
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;a22i&nbsp;=&nbsp;unitVectorV.Y;
+
+&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:blue;">double</span>[2,&nbsp;2]&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;a11i,&nbsp;a12i&nbsp;},
+&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;a21i,&nbsp;a22i&nbsp;}};
+}
+</pre>

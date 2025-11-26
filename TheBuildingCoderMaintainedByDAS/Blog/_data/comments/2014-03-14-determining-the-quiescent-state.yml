@@ -1,0 +1,60 @@
+comments:
+- author: Matt Taylor
+  email: matthew.taylor@wspgroup.com
+  ip: 61.14.99.173
+  url: ''
+  date: '2014-03-16 21:55:18'
+  body: 'Hi Jeremy,
+
+    Couldn''t command availability be used for this (Revit 2014+)? Check the external
+    source for a flag, and if the flag shows that it is available, set availability
+    to true.
+
+    I''m note sure how often the command availability checks?
+
+    Adding the item to QAC would show availability at all times.
+
+
+    Matt'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-03-17 02:18:40'
+  body: 'Dear Matt,
+
+
+    Thank you for the helpful new idea.
+
+
+    However, I think that the command availability API will behave like all other
+    approaches and hit the same stumbling block:
+
+
+    No Revit API methods at all can be called if the Revit API is inaccessible.
+
+
+    The Revit API is accessible when Revit is quiescent.
+
+
+    Whenever Revit is not quiescent, the Revit API is inaccessible.
+
+
+    Intuitively, I would assume that the command availability checks fire more or
+    less equally often as the Idling event.
+
+
+    That said, I have not tried it out.
+
+
+    As said above, all known reliable modeless user interaction approaches currently
+    work around the issue to avoid this need.
+
+
+    If someone really needs this functionality and is willing to try it out, she should
+    definitely give the command availability a whirl as well.
+
+
+    Cheers, Jeremy.
+
+    -----'

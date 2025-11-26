@@ -1,0 +1,200 @@
+---
+layout: "post"
+title: "tbc &ndash; The Building Coder Source and Index on GitHub"
+date: "2016-02-26 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Content"
+  - "Data Access"
+  - "Desktop"
+  - "Git"
+  - "HTML"
+  - "Markdown"
+  - "Open Source"
+original_url: "https://thebuildingcoder.typepad.com/blog/2016/02/tbc-the-building-coder-source-and-index-on-github.html "
+typepad_basename: "tbc-the-building-coder-source-and-index-on-github"
+typepad_status: "Publish"
+---
+
+<p>Developers frequently lament bad search functionality on Typepad-hosted blogs.</p>
+
+<p>Furthermore, it is always handy to have an offline local copy of any kind of important documentation you need to consult regularly.</p>
+
+<p>With a local copy of The Building Coder source text, you can use your standard system tools to search and index locally in any form you like.</p>
+
+<p>Finally, wouldn't it be nice to have a simple line-by-line index of all The Building Coder blog posts ever published?</p>
+
+<ul>
+<li><a href="#2">Publishing The Building Coder source and index on GitHub</a></li>
+<li><a href="#3">GitHub size limitations</a></li>
+<li><a href="#3.5">wc &ndash; Word Count &ndash; Work Count?</a></li>
+<li><a href="#4">Alternative blogging platforms</a></li>
+<li><a href="#5">Fork and clone to create your own local installation</a></li>
+<li><a href="#6">El Perro Semihundido by Goya</a></li>
+</ul>
+
+<h4><a name="2"></a>Publishing The Building Coder Source and Index on GitHub</h4>
+
+<p>I took these requirements into account right from the start when setting out
+on <a href="http://the3dwebcoder.typepad.com">The 3D Web Coder</a>,
+as I explained in the discussion
+on <a href="http://the3dwebcoder.typepad.com/blog/2015/03/hosting-a-node-server-on-heroku-pages-and-3d-web.html#2">hosting its source HTML and index on GitHub Pages</a>.</p>
+
+<p>I have obviously been pondering doing the same for The Building Coder ever since &ndash; well, actually, to tell the truth, I started thinking about that much earlier still.</p>
+
+<p>Now I finally took the leap.</p>
+
+<p>The entire source text for all posts ever published by The Building Coder is available online from the
+new <a href="https://github.com/jeremytammik/tbc">tbc GitHub repository</a>.</p>
+
+<p>It creates a GitHub-pages-hosted entry point
+with <a href="https://jeremytammik.github.io/tbc/a">The Building Coder Index</a>
+at <a href="https://jeremytammik.github.io/tbc/a">jeremytammik.github.io/tbc/a</a>.</p>
+
+<p>You can also jump directly to <a href="https://jeremytammik.github.io/tbc/a#6">the table of contents at #6</a>.</p>
+
+<p>This is not a blog reading platform, it just provides a very handy public search and replication tool.</p>
+
+<p>In case you wonder about the trailing <code>a</code> in this URL:
+the reason for the additional 'a' subfolder is that GitHub sets a limit of 1000 to the number of files it lists in a single folder in the UI.</p>
+
+<h4><a name="3"></a>GitHub Size Limitations</h4>
+
+<p>I hit a couple of limits built into GitHub and had to implement workarounds to handle some of them:</p>
+
+<p>I already mentioned the limitation displaying no more than 1000 files per directory entry.</p>
+
+<p>My blog posts currently number over 1400, so I exceed that, but can live with the situation as it is.</p>
+
+<p>If you have more than 1000 files in one directory, some of the them are not displayed and you see a warning message saying "Sorry, we had to truncate this directory to 1,000 files. XXX entries were omitted from the list":</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c81aa077970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c81aa077970b image-full img-responsive" alt="GitHub directory truncated to 1000 files" title="GitHub directory truncated to 1000 files" src="/assets/image_3e07e1.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<p>Without the 'a' subfolder, the README.md in the top level folder was hidden by all the blog posts and therefore not displayed.</p>
+
+<p>The killer was that its contents were also not shown.</p>
+
+<p>I added <code>a</code> to hold the blog posts and left <a href="https://github.com/jeremytammik/tbc/blob/gh-pages/README.md">README.md</a> in the top-level directory.</p>
+
+<p>A simpler issue occurred with images and attachments.</p>
+
+<p>They live in the two subfolders <code>img</code> and <code>zip</code>, respectively, currently weighing in at 225 and 410 MB in total size.</p>
+
+<p>Luckily, all the individual image and attachment file sizes are smaller than 100 MB, or GitHub would refuse to host them at all.</p>
+
+<p>As it is, I just got warning messages on two or three files that exceeded a threshold of 30 MB, but were still accepted.</p>
+
+<p>The largest image file
+is the 77-MB <a href="https://github.com/jeremytammik/tbc/blob/gh-pages/a/img/monitor_progress.gif">monitor_progress.gif</a>,
+which is an animated GIF, i.e. a video screen recording, so not a still image at all.</p>
+
+<p>The largest attachment is <a href="https://github.com/jeremytammik/tbc/blob/gh-pages/a/zip/track_changes.mp4">track_changes.mp4</a>,
+another recording, 63 MB in size.</p>
+
+<h4><a name="3.5"></a>wc &ndash; Word Count &ndash; Work Count?</h4>
+
+<p>Here is a quick analysis of the word count of the blog posts so far.</p>
+
+<p>I started <a href="http://thebuildingcoder.typepad.com/blog/2015/08/markdown-the-fusion-accelerator-revisions-and-bulk-upgrade.html#2">using the Markdown blog post format</a> in August 2015.</p>
+
+<p>Before then, they were all hand written in HTML and stored  with a filename extension of <code>htm</code>.</p>
+
+<p>The markdown posts have an <code>md</code> filename extension, and are used to automatically generate HTML with the extension <code>html</code>.</p>
+
+<p>Here are the word counts for each of these formats as of today:</p>
+
+<pre>
+/a/doc/revit/tbc/a/ $ wc *htm | tail -1
+  255150 1525300 13140829 total
+/a/doc/revit/tbc/a/ $ wc *md | tail -1
+   15206  105089  841397 total
+/a/doc/revit/tbc/a/ $ wc *html | tail -1
+   15229  128395 1422270 total
+/a/doc/revit/tbc/git/a/ $ wc *htm *md | tail -1
+  270387 1630572 13983818 total
+</pre>
+
+<p>The hand written stuff summarises to the following:</p>
+
+<p><center></p>
+
+<table>
+<tr><th class="r"></th>      <th class="r">lines</th>   <th class="r">words</th>   <th class="r">characters</th></tr>
+<tr><td class="r">htm</td>   <td class="r">255150</td>  <td class="r">1525300</td> <td class="r">13140829</td></tr>
+<tr><td class="r">md</td>    <td class="r">15206</td>   <td class="r">105089</td>  <td class="r">841397</td></tr>
+<tr><td class="r">total</td> <td class="r">&nbsp;270387</td>  <td class="r">1630572</td> <td class="r">13983818</td></tr>
+</table>
+
+<p></center></p>
+
+<p>More or less, I have written 14 MB of pure text for The Building Coder.</p>
+
+<h4><a name="4"></a>Alternative Blogging Platforms</h4>
+
+<p>As you may be aware, my
+colleague <a href="http://through-the-interface.typepad.com/through_the_interface/about-the-author.html">Kean Walmsley</a> has
+been thinking
+of <a href="http://through-the-interface.typepad.com/through_the_interface/2016/01/yet-another-blog-design-on-its-way.html">moving his blog Through the Interface from Typepad to Wordpress</a> for
+a while now.</p>
+
+<p>He mentions that the killer feature of WordPress is search, considering that Typepad fails miserably on this count.</p>
+
+<p>I think that I can fix that problem satisfactorily for all by making my entire blog source text available in this manner, and offer several additional benefits as well.</p>
+
+<p>For a alternative blogging platform you might also be interested in reading
+about <a href="http://joshualande.com/jekyll-github-pages-poole">creating a beautiful and minimal blog using Jekyll, GitHub Pages, and poole</a>,
+entirely avoiding blog servers like Typepad and WordPress, where you give up control over your data.</p>
+
+<p>So all things considered, my current tendency is to keep the main blog staying put on Typepad.</p>
+
+<p>The purpose of the GitHub version is not normal everyday reading, but safe backup and version management, providing full source access to all readers and a version that people can clone for local searching and offline access.</p>
+
+<p>The <a href="https://jeremytammik.github.io/tbc/a">global index</a> is just an additional perk.</p>
+
+<p>I use the index file locally myself all the time, hundreds of times every day.</p>
+
+<h4><a name="5"></a>Fork and Clone to Create your own Local Installation</h4>
+
+<p>To install your own local copy of The Building Coder, fork and clone the
+repository <a href="https://github.com/jeremytammik/tbc">github.com/jeremytammik/tbc</a> and
+open <code>index.html</code> like this, with just two commands:</p>
+
+<pre>
+/j/tmp/ $ git clone https://github.com/jeremytammik/tbc
+Cloning into 'tbc'...
+remote: Counting objects: 4158, done.
+remote: Compressing objects: 100% (3948/3948), done.
+remote: Total 4158 (delta 243), reused 4111 (delta 199), pack-reused 0
+Receiving objects: 100% (4158/4158), 566.42 MiB | 2.65 MiB/s, done.
+Resolving deltas: 100% (243/243), done.
+Checking connectivity... done.
+/j/tmp/ $ open tbc/a/index.html
+</pre>
+
+<p>Et voila, Bob's your uncle!</p>
+
+<p>You have your own local copy of The Building Coder on your system, including the full index and all source text.</p>
+
+<p>Please be patient while cloning, because the entire package including images and attachments adds up to over 1 GB of data.</p>
+
+<p>The layout is not in a nice readable blog format, of course. That is not its purpose.</p>
+
+<h4><a name="6"></a>El Perro Semihundido by Goya</h4>
+
+<p>Let's end the week enjoying <a href="https://en.wikipedia.org/wiki/Francisco_Goya">Goya</a>'s <a href="https://en.wikipedia.org/wiki/The_Dog_(Goya)">The Dog</a> &ndash; <em>El Perro Semihundido</em> &ndash; painted on the walls of his house sometime between 1819 and 1823, for his exclusive private enjoyment:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c81aa055970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c81aa055970b img-responsive" style="width: 500px; " alt="The Dog &ndash; El Perro Semihundido &ndash; by Goya" title="The Dog &ndash; El Perro Semihundido &ndash; by Goya" src="/assets/image_2dfb52.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>I recently had a chance to enjoy the original in
+the <a href="https://en.wikipedia.org/wiki/Museo_del_Prado">Museo del Prado</a>, on my visit to Madrid for
+the recent <a href="http://www.bimprogramming.com">BIM Programming</a> conference and workshops.</p>
+
+<p>Happy weekend to all!</p>

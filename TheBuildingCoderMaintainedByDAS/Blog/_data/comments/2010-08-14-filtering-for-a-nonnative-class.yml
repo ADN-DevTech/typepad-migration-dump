@@ -1,0 +1,119 @@
+comments:
+- author: celticblue
+  email: yyf2000@gmail.com
+  ip: 58.248.7.140
+  url: ''
+  date: '2010-08-18 06:08:52'
+  body: "Hi, JEREMY:\n\nI have a question about annotation symbol. When you select\
+    \ an object, such as a pipe, how to find its tag? Or, when you select a pipetag,\
+    \ how to find its host through API? \n\nI am from China. Thank you!"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-08-18 06:29:10'
+  body: 'Dear Celticblue,
+
+
+    Please look at the discussion on determining the host reference:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/06/host-reference.html">http://thebuildingcoder.typepad.com/blog/2009/06/host-reference.html</a>
+
+
+    The generic object relationship viewer may also be of interest:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/03/object-relationships.html">http://thebuildingcoder.typepad.com/blog/2010/03/object-relationships.html</a>
+
+
+    Cheers, Jeremy.'
+- author: celticblue
+  email: yyf2000@gmail.com
+  ip: 58.248.7.140
+  url: ''
+  date: '2010-08-18 13:03:23'
+  body: 'Dear Jeremy,
+
+
+    Thank you for your tips! I''ve solved my question which is puzzling me for long
+    time. Maybe I should read the past articles of your blog seriously:)
+
+
+    Cheers, Celticblue.'
+- author: Peace
+  email: ''
+  ip: 141.51.48.189
+  url: http://profile.typepad.com/d99924804757198605
+  date: '2012-02-09 10:24:49'
+  body: "Hi,\nI want to get the Radius of a circle. I drew this circle by using the\
+    \ model line.\nWith the following Code i can collect all model line not only the\
+    \ circles but what i want is only the circles and their Radiuses:\n \nDocument\
+    \ document = commandData.Application.ActiveUIDocument.Document;\nUIDocument uiDocument\
+    \ = new UIDocument(document);\nFilteredElementCollector collector = new FilteredElementCollector(uiDocument.Document);\n\
+    ICollection collection = collector.OfClass(typeof(CurveElement)).ToElements();\n\
+    \nWhat I have to do now?\n\nBye\nBye"
+- author: Jeremy Tammik
+  email: ''
+  ip: 151.13.239.254
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-02-10 05:45:18'
+  body: 'Dear Peace,
+
+
+    Basically, I would give you the same advice as I gave Dermott:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/02/add-reference-points-from-csv-file.html">http://thebuildingcoder.typepad.com/blog/2012/02/add-reference-points-from-csv-file.html</a>
+
+
+    Although you apparently already have your skeleton add-in up and running OK...
+
+
+    Well, first of all, a curve element is a purely geometrical abstract object and
+    will not appear in the database and therefore never be found or retrieved by the
+    filtered element collector, so OfClass(typeof(CurveElement)) is no use.
+
+
+    You have to search for database objects instead, your model lines (well, they
+    are not lines, actually, are they), then extract the ones whose curve elements
+    are in fact arcs, and then query each arc for its data.
+
+
+    Actually, you might be able to filter for ModelArc elements straight away.
+
+
+    Cheers, Jeremy.'
+- author: Rolando Hijar
+  email: rolandohijar@gmail.com
+  ip: 190.12.70.19
+  url: http://www.youtube.com/user/rolandohijar/videos
+  date: '2012-11-30 14:33:48'
+  body: "Hi Jeremy. In Revit 2012 I got an error using \ncollector.OfClass( typeof(\
+    \ Enclosure ) ).\nFor me it work with ElementCategoryFilter(BuiltInCategory.OST_MEPSpaces).\
+    \ Hope this help."
+- author: Jeremy Tammik
+  email: ''
+  ip: 83.77.87.106
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-12-01 15:31:03'
+  body: 'Dear Rolando,
+
+
+    Thank you for reporting this. Strange. What error did you observe?
+
+
+    By the way, a more succinct formulation could make use of the OfCategory shortcut
+    method instead of explicitly constructing a separate ElementCategoryFilter class
+    instance.
+
+
+    Cheers, Jeremy.'
+- author: Madhu Das
+  email: madhudaskr@gmail.com
+  ip: 115.118.159.144
+  url: ''
+  date: '2014-10-23 03:26:34'
+  body: "Dear Jeremy,\n Is there any method to create annotation symbol using API\
+    \ in Revit 2014? I could not find a method like NewAnnotationSymbol in Document\
+    \ class\n\nThank You.\n-----"

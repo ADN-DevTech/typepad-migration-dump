@@ -1,0 +1,253 @@
+---
+layout: "post"
+title: "Removing Docs Zip Files, Panels and Buttons"
+date: "2024-06-10 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "AI"
+  - "Algorithm"
+  - "BIM"
+  - "Docs"
+  - "News"
+  - "Open Source"
+  - "Ribbon"
+  - "Sustainability"
+  - "User Interface"
+original_url: "https://thebuildingcoder.typepad.com/blog/2024/06/removing-docs-zip-files-panels-and-buttons.html "
+typepad_basename: "removing-docs-zip-files-panels-and-buttons"
+typepad_status: "Publish"
+---
+
+<p><link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet" /></p>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+<p><style> code[class*=language-], pre[class*=language-] { font-size : 90%; } </style></p>
+
+<p>A call for feedback on a planned change downloading a RCM from Docs, a tricky solution to remove ribbon panels and buttons, and a bunch of news bites that I found interesting on sustainability, language and AI discoveries; new EU AEC energy ruling, ecological wooden buildings in Scandinavia, spoken human language speed and information density, AI uses as a hearing aid enhancement, weather forecasting, interface assistant, AI open-source and future directions:</p>
+
+<ul>
+<li><a href="#2">No zips downloading RCM from Docs?</a></li>
+<li><a href="#3">Removing ribbon panel and button</a></li>
+<li><a href="#4">EU building energy performance directive</a></li>
+<li><a href="#5">Stockholm wood city</a></li>
+<li><a href="#6">Bilinguals get dementia later</a></li>
+<li><a href="#7">Language speed and information density</a></li>
+<li><a href="#8">Ai headphones target single person</a></li>
+<li><a href="#9">Accurate AI weather forecast</a></li>
+<li><a href="#10">General purpose interfaces</a></li>
+<li><a href="#11">Llama3V open source multi-modal LLM</a></li>
+<li><a href="#12">Open-endedness for superhuman AI</a></li>
+</ul>
+
+<h4><a name="2"></a> No Zips Downloading RCM from Docs?</h4>
+
+<p>This  is a reposting of
+the <a href="https://aps.autodesk.com/blog/call-feedback-no-more-zip-files-when-downloading-revit-cloud-models-docs">call for feedback: No more ZIP files when downloading Revit Cloud Models from Docs</a>:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c8d3b66071200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302c8d3b66071200b image-full img-responsive" alt="No Zips Downloading RCM from Docs?" title="No Zips Downloading RCM from Docs?"  src="/assets/image_79443c.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Does your application download Revit models from Autodesk/BIM 360 Docs, aka Revit Cloud Model or RCM?
+If so, you are probably aware that the model is sometimes downloaded as ZIP.
+This happens when a host model is linked to unpublished models.
+It often causes confusion to both customers and application developers.</p>
+
+<p>The Revit team is planning to change this behaviour and eliminate the ZIP.
+Then, when downloading a host model, linked models will not be included.</p>
+
+<p>For developers, the process of downloading a source file itself does not change.
+However, this change might affect your application, depending on what it does.
+Therefore, we would like to understand your use cases to avoid any possible disruption.</p>
+
+<p>If you think this change might affect your application, are willing to share your use case scenarios and give us feedback, please contact us through:</p>
+
+<p><center>
+<a href="mailto:rcm.download.api.feedback@autodesk.com?subject=RCM download API feedback">email to <code>rcm.download.api.feedback@autodesk.com</code> with the subject <code>RCM download API feedback</code></a>
+</center></p>
+
+<p>For more information about the current behaviour downloading a Revit model from Autodesk BIM 360 Docs, please refer to the article
+on <a href="https://www.autodesk.com/support/technical/article/caas/sfdcarticles/sfdcarticles/Why-a-RVT-model-is-sometimes-downloaded-as-ZIP-from-BIM-360.html">why is a Revit model sometimes downloaded as ZIP from BIM 360 or ACC?</a></p>
+
+<p>The following blog posts on how to handle RCM zip or composite models in APS list potential use cases which might affect your application:</p>
+
+<ul>
+<li><a href="https://aps.autodesk.com/blog/bim360-docs-setting-external-references-between-files-upload-linked-files">BIM360 Docs: Setting up external references between files (Upload Linked Files)</a></li>
+<li><a href="https://aps.autodesk.com/blog/make-composite-revit-design-work-design-automation-api-revit">Make composite Revit design work with Design Automation API for Revit</a></li>
+<li><a href="https://aps.autodesk.com/blog/revit-cloud-worksharing-fast-extraction-revit-zip-files-partials">Revit Cloud Worksharing - fast extraction of Revit zip files with partials</a></li>
+</ul>
+
+<p>We are looking forward to hearing from you.
+Thank you!</p>
+
+<h4><a name="3"></a> Removing Ribbon Panel and Button</h4>
+
+<p><a href="https://chuongmep.com/">Chuong Ho</a> provided a solution to
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on how to <a href="https://forums.autodesk.com/t5/revit-api-forum/find-ribbon-tabs-and-or-panels-and-delete/m-p/12793159">find ribbon tabs and or panels and delete</a> in
+his comprehensive article on
+<a href="https://chuongmep.com/posts/2024-04-19-reload-ribbon-revit.html#remove-panel">how to remove panel ribbon without restart Revit</a>:</p>
+
+<p><strong>Question:</strong>
+Is there an option in Revit 2025 to dynamically delete "PushButtonData" from the "RibbonPanel", or maybe hide it so that a new button can link to a new DLL?
+Also, is it possible to create a "PushButtonData" from a DLL located in the resources of another DLL?
+Is it generally required that at the time of creation or registration in the panel (before it is clicked and called), the DLL meets all the conditions (class name, location, etc.), or can it already be solved at the time of the call?</p>
+
+<p><strong>Answer:</strong>
+This article explains, and points out how to resolve an issue with Private Dictionary to store RibbonItemDictionary;
+you need do some tricks to remove panel:</p>
+
+<ul>
+<li><a href="https://chuongmep.com/posts/2024-04-19-reload-ribbon-revit.html#remove-panel">How to remove panel ribbon without restart Revit</a></li>
+</ul>
+
+<p><strong>Response:</strong>
+Incredible job! Thank you very much! Added to bookmarks.</p>
+
+<p>Can we get the name of the button, its description, or some kind of indicator after clicking it?</p>
+
+<p>For example, I created one class MyCommand : IExternalCommand and registered it for several "PushButtonData" ("MyButtonOne", "MyButtonTwo").
+After clicking on the button both times through the debugger, I will get to the same Execute() method of the MyCommand class.
+In this case, is it possible to determine which of the buttons called this method?
+Any way at all, even the most perverted...</p>
+
+<p><strong>Answer:</strong>
+You can do it with some step like this:</p>
+
+<ul>
+<li>Add assembly reference <code>AdWindows.dll</code></li>
+<li>Add the event tracking user click on the button at <code>IExternalApplication</code> below</li>
+<li>Call the action from external command matching the id returned from the event clicked</li>
+</ul>
+
+<pre><code class="language-cs">using AW = Autodesk.Windows;
+
+Autodesk.Windows.ComponentManager.UIElementActivated
+  += RibbonUtils.ComponentManagerOnUIElementActivated;
+
+public static void ComponentManagerOnUIElementActivated(
+  object sender,
+  AW.UIElementActivatedEventArgs e)
+{
+  try
+  {
+    var id = e.Item.Id;
+    // match with id string contents here and save
+    // after that match with all commands in your plugin
+  }
+</code></pre>
+
+<p><strong>Response:</strong>
+Thank you so much for the prompt response!
+I think this is exactly what I need!</p>
+
+<p>Many thanks to Chuong Ho for the comprehensive solution.</p>
+
+<h4><a name="4"></a> EU Building Energy Performance Directive</h4>
+
+<p>Some notes on the new EU ruling on the energy performance of buildings,
+<a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024L1275">Directive EU 2024/1275 of the European Parliament and of the Council</a> of 24 April 2024:</p>
+
+<p>The European Union has formally adopted and published a directive on energy performance for buildings:</p>
+
+<ul>
+<li>New buildings must be net-zero by 2030</li>
+<li>Existing buildings must be renovated to meet energy performance requirements</li>
+<li>Building performance data to become more accessible, with improved funding</li>
+<li>New incentives to deploy digital solutions, including building modeling and simulation</li>
+</ul>
+
+<p>Article 7, New buildings, states that member states shall ensure that new buildings are zero-emission buildings in accordance with Article 11
+(a) from 1 January 2028, new buildings owned by public bodies; and
+(b) from 1 January 2030, all new buildings.</p>
+
+<p>Article 8 discusses existing buildings, Article 10, solar energy in buildings.</p>
+
+<p>It will be interesting to see how these rulings pan out.</p>
+
+<h4><a name="5"></a> Stockholm Wood City</h4>
+
+<p>In Scandinavia, wood is taking off in AEC.
+For example, look at
+the <a href="https://www.al.se/en/sickla">Stockholm Wood City</a> by Atrium Ljungberg:</p>
+
+<blockquote>
+  <p>Stockholm Wood City will be built in Sickla, an area in the south of the Swedish capital.
+  Construction on the 250,000 square-metre site will begin in 2025.
+  When complete, ten years later, it will contain 2,000 homes and 7,000 offices, along with restaurants and shops.
+  The 12bn-krona ($1.4bn) project...</p>
+</blockquote>
+
+<h4><a name="6"></a> Bilinguals Get Dementia Later</h4>
+
+<p>Personally, I am interested in human spoken languages as well as programming, and was happy to read
+about some <a href="https://www.economist.com/books-and-arts/2020/02/29/the-advantages-of-speaking-a-second-language">advantages of speaking a second language</a>:</p>
+
+<blockquote>
+  <p>Most notably, they have shown that bilinguals get dementia on average four years later than monolinguals, and that they have an edge in “executive control” &ndash; a basket of abilities that aid people doing complex tasks, including focusing attention, ignoring irrelevant information and updating working memory.</p>
+</blockquote>
+
+<h4><a name="7"></a> Language Speed And Information Density</h4>
+
+<p>Another recent investigation looks at language speed and information density and discovers
+the <a href="https://www.science.org/doi/10.1126/sciadv.aaw2594">different languages have similar encoding efficiency: comparable information rates across the human communicative niche</a>.</p>
+
+<p><center></p>
+
+<p><img class="asset  asset-image at-xid-6a00e553e16897883302c8d3b6609a200b image-full img-responsive" alt="Language speed and information density" title="Language speed and information density" src="/assets/image_32ac4d.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" />
+<br /></p>
+
+<p></center></p>
+
+<h4><a name="8"></a> Ai Headphones Target Single Person</h4>
+
+<p>As an elegant lead over from languages to AI,
+new <a href="https://www.washington.edu/news/2024/05/23/ai-headphones-noise-cancelling-target-speech-hearing/">AI headphones let wearer listen to a single person in a crowd, by looking at them just once</a>.</p>
+
+<h4><a name="9"></a> Accurate AI Weather Forecast</h4>
+
+<p>AI may help provide
+more <a href="https://arstechnica.com/ai/2024/06/as-a-potentially-historic-hurricane-season-looms-can-ai-forecast-models-help/">accurate weather forecasts</a>:</p>
+
+<blockquote>
+  <p>No physics? No problem.
+  AI weather forecasting is already making huge strides.
+  New model that predicts global weather can run on a single desktop computer.</p>
+</blockquote>
+
+<h4><a name="10"></a> General Purpose Interfaces</h4>
+
+<p>How to simplify the ever-growing complexity facing us in everyday life and the growing number of devices we use?
+Maybe <a href="https://modemworks.com/research/general-purpose-interfaces/">general purpose interfaces</a> can help:</p>
+
+<blockquote>
+  <p>The emergence of AI agents lets us reimagine the ways we interact with our digital devices
+  ... explore the next phase of user interface design, as enabled by AI
+  ... principles for designing a single interface that can replace many</p>
+</blockquote>
+
+<h4><a name="11"></a> Llama3V Open Source Multi-Modal LLM</h4>
+
+<p>Many large popular AI tools are proprietary,
+That need not be.
+The <a href="https://huggingface.co/mustafaaljadery/llama3v">llama3v open source multi-modal LLM</a> provides:</p>
+
+<ul>
+<li>Comparable performance to GPT4-V, Gemini Ultra and Claude Opus</li>
+<li>Its model is 100x smaller</li>
+<li>SOTA open source VLM for Llama3 8B</li>
+<li>RAG in 10 lines of code</li>
+</ul>
+
+<h4><a name="12"></a> Open-Endedness for Superhuman AI</h4>
+
+<p>Finally, for a couple of thoughts on the tricky topic of where AI research might head in the coming years, a paper
+explaining how <a href="https://arxiv.org/abs/2406.04268">open-endedness is essential for artificial superhuman intelligence</a>.</p>
+
+<p>So, let's end here, with an open end.</p>

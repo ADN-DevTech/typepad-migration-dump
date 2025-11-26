@@ -1,0 +1,186 @@
+---
+layout: "post"
+title: "Drilling Holes in Beams and Other Projects"
+date: "2022-03-10 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Data Access"
+  - "Export"
+  - "Family"
+  - "Parameters"
+  - "Properties"
+  - "Utilities"
+original_url: "https://thebuildingcoder.typepad.com/blog/2022/03/drilling-holes-in-beams-and-other-projects.html "
+typepad_basename: "drilling-holes-in-beams-and-other-projects"
+typepad_status: "Publish"
+---
+
+<p>I am working on a few side projects and proofs of concept for my own and other teams, so I find myself challenged finding enough time for blogging and monitoring the forum at the same time:</p>
+
+<ul>
+<li><a href="#2">RvtParamDrop exports visible element properties</a></li>
+<li><a href="#3">RvtLock3r validates BIM element properties</a>
+<ul>
+<li><a href="#3.1">Motivation</a></li>
+<li><a href="#3.2">Validation</a></li>
+<li><a href="#3.3">Preparation</a></li>
+<li><a href="#3.4">Storage</a></li>
+</ul></li>
+<li><a href="#4">Drilling holes in beams</a></li>
+</ul>
+
+<h4><a name="2"></a> RvtParamDrop Exports Visible Element Properties</h4>
+
+<p>The first recent side project was <a href="https://github.com/jeremytammik/RvtParamDrop">RvtParamDrop</a>.</p>
+
+<p>It simply exports all properties of all elements visible in a selected view for comparison and verification of all expected parameter values, generating a count and a <code>csv</code> output file.</p>
+
+<p>One interesting aspect is that all referenced elements and all their properties also need to be included, recursively.</p>
+
+<p>Here is the specification in slightly more detail:</p>
+
+<ul>
+<li>Do not limit yourself to shared parameters</li>
+<li>Do limit yourself to parameters with a value</li>
+<li>Name of the parameter</li>
+<li>Schema (<code>TypeId</code>)</li>
+</ul>
+
+<p>A small number of parameters can be ignored as redundant:</p>
+
+<ul>
+<li>ELEM_CATEGORY_PARAM</li>
+<li>ELEM_CATEGORY_PARAM_MT</li>
+<li>ELEM_FAMILY_AND_TYPE_PARAM</li>
+<li>ELEM_TYPE_PARAM</li>
+<li>SYMBOL_ID_PARAM</li>
+</ul>
+
+<p>Include parameters from both elements and their types, i.e., both instance and type parameters.</p>
+
+<p>Actually, it's more complicated than that.
+Anything that is visible in the view will include its instance and type parameters.
+If an instance or a type has a parameter that refers to another <code>Element</code>, its instance and type parameters are also exported, regardless of whether it is visible or not.
+That is recursive, so if X references Y references Z references W, then W's parameters are exported if X, Y, or Z is visible.
+We follow all references.
+Who are we to say that a referenced <code>Element</code> isn't useful?</p>
+
+<p>I hope you find this interesting and useful.</p>
+
+<h4><a name="3"></a> RvtLock3r Validates BIM Element Properties</h4>
+
+<p>Another on-going project is still WIP, and also an exercise getting started with the Revit API for
+my new colleague <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/11981988">Caroline</a>.</p>
+
+<p><a href="https://github.com/jeremytammik/RvtLock3r">RvtLock3r</a> validates
+that certain specified BIM element properties have not been modified.</p>
+
+<p>Here are some notes from the current state of the project repository readme:</p>
+
+<h4><a name="3.1"></a> Motivation</h4>
+
+<p>Revit does not provide any functionality to ensure that shared parameter values are not modified.</p>
+
+<p>RvtLock3r stores a checksum for the original intended values of selected shared parameters and implements a validation function to ensure that the current values compute the same checksum.</p>
+
+<p>The validation function is initially implemented as an external command.</p>
+
+<p>It may later be triggered automatically on opening or saving a document to notify the user that undesired tampering has taken place.</p>
+
+<h4><a name="3.2"></a> Validation</h4>
+
+<p>RvtLock3r reads a set of <a href="https://en.wikipedia.org/wiki/Ground_truth">ground truth</a> data from some <a href="#storage">storage location</a>. It contains a list of triples:</p>
+
+<ul>
+<li><code>ElementId</code></li>
+<li>Shared parameter <code>GUID</code></li>
+<li>Checksum</li>
+</ul>
+
+<p>The add-in iterates over all elements and shared parameters specified by these triples, reads the corresponding shared parameter value, calculates its checksum and validates it by comparison with the ground truth value.</p>
+
+<p>Discrepancies are logged and a report is presented to the user.</p>
+
+<p>The add-in does not care what kind of elements or shared parameters are being examined.
+That worry is left up to whoever creates the ground truth file.</p>
+
+<p>In the initial proof of concept, the triples are simply space separated in individual lines in a text file.</p>
+
+<h4><a name="3.3"></a> Preparation</h4>
+
+<p>There are various possible approaches to prepare
+the <a href="https://en.wikipedia.org/wiki/Ground_truth">ground truth</a> input text file,
+and they can be completely automated, more or less programmatically assisted, or fully manual.</p>
+
+<p>In all three cases, you will first need to determine up front what elements and which shared parameters on them are to be checked. Retrieve the corresponding parameter values, compute their checksums, and save the above-mentioned triples.</p>
+
+<h4><a name="3.4"></a> Storage</h4>
+
+<p>The ground truth data triples containing the data required for integrity validation needs to be stored somewhere. That could be hard-wired directly into the add-in code for a specific BIM, stored in an external text file, within the <code>RVT</code> document, or elsewhere; it may be <code>JSON</code> formatted; it may be encrypted; still to be decided.</p>
+
+<p>Two options are available for storing custom data directly within the <code>RVT</code> project file: shared parameters and extensible storage.
+The latter is more modern and explicitly tailored for use by applications and data that is not accessible to the end user or even Revit itself.
+That seems most suitable for our purpose here.
+Extensible storage can be added to any database element.
+However, it interferes least with Revit operation when placed on a dedicated <code>DataStorage</code> element,
+especially <a href="http://thebuildingcoder.typepad.com/blog/2015/02/extensible-storage-in-a-worksharing-environment.html">in a worksharing environment</a>.
+Creation and population of a <code>DataStorage</code> element is demonstrated by the <a href="https://thebuildingcoder.typepad.com/blog/2016/04/named-guid-storage-for-project-identification.html">named GUID storage for project identification</a> sample.</p>
+
+<h4><a name="4"></a> Drilling Holes in Beams</h4>
+
+<p>Getting back to real-life issues,
+Richard <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/1035859">RPThomas108</a> Thomas explains
+how to drill a hole in a beam  in a family definition using an opening by face in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/how-to-create-different-unattached-families-to-a-rft-file/td-p/10934607">how to create different unattached families to a <code>.rft</code> file without stacking it</a>:</p>
+
+<p><strong>Question:</strong> I'm coding a tool to drill holes to beams (structural framing).
+Each beam will host 2 drills, one at each end.
+To create my void extrusion to cut the host, I create an <code>Arc</code> at the coordinate (0, 0, 0) and extrude it in my <em>Metric Generic Model.rtf</em> located in the <em>C:\ProgramData\Autodesk\RVT 2020\Family Templates\English</em> directory.
+Then, I load the family into the document with the beams to be drilled and get the <code>FamilySymbol</code> like this:</p>
+
+<pre class="code">
+  Family&nbsp;family&nbsp;=&nbsp;familyTemplateDoc.LoadFamily(doc);
+
+  FamilySymbol&nbsp;familySymbol&nbsp;=&nbsp;family.GetFamilySymbolIds()
+  &nbsp;&nbsp;.Select(<span style="color:#1f377f;">x</span>&nbsp;=&gt;&nbsp;doc.GetElement(x)&nbsp;<span style="color:blue;">as</span>&nbsp;FamilySymbol)
+  &nbsp;&nbsp;.FirstOrDefault();
+</pre>
+
+<p>In my document I insert the family instance using <code>NewFamilyInstance</code> at the desired coordinate and finally <code>AddInstanceVoidCut</code> the beams.
+I'm facing the following issue (I moved the voids up so we can see it easily):</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330282e148c301200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330282e148c301200b image-full img-responsive" alt="Stacked voids" title="Stacked voids" src="/assets/image_e2f42f.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Apparently, each time I extrude a new <code>Arc</code> I am stacking it (the thicker cylinder is above for visualisation, it would overwrite the thinner one).
+The next beam to be drilled will keep stacking the void forms. So if I select 4 beams, the 8th hole will be done by the 8 void forms stacked.
+What could I be doing wrong?
+The extrusion needs to be created at the origin so it can be easily found and modified.</p>
+
+<p><strong>Answer:</strong> This sounds like a case of wrong type of family template and wrong <code>NewFamilyInstance</code> overload.
+There are easier ways to create holes in beams:</p>
+
+<ul>
+<li>Use "Metric Generic Model face based.rft" cut the host with the void in the family.</li>
+<li>Load the family into the project</li>
+<li>Host the family on the beam web:</li>
+<li>NewFamilyInstance(Face, XYZ, XYZ, FamilySymbol) or</li>
+<li>NewFamilyInstance(Reference, XYZ, XYZ, FamilySymbol)</li>
+</ul>
+
+<p>Note also there is no need to even create a family for this, you can create an opening by face:</p>
+
+<ul>
+<li>Document.NewOpening</li>
+</ul>
+
+<p><strong>Response:</strong> I wanted to use voids in order to learn it; I'm new at the API and I was overcomplicating the solution.
+It's kinda overkill what I was trying to do...</p>
+
+<p>Switched up to <code>NewOpening</code> and it works like a charm! Thank you.</p>
+
+<p>Many thanks once again to Richard for contributing all his reliable in-depth help and experience in the forum!</p>

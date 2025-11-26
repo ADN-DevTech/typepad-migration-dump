@@ -1,0 +1,192 @@
+comments:
+- author: Berria
+  email: eiderunzu@hotmail.com
+  ip: 213.96.145.3
+  url: ''
+  date: '2009-04-02 04:45:11'
+  body: "Hi Jeremy, I have finished to create all elements with my house, and now,\
+    \ I need Attach a second floor walls to roof. How can I do? \nI dont know what\
+    \ is the programing code to attach or detach elements.\n\nThanks, Berria"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-02 06:09:10'
+  body: 'Hi Berria,
+
+
+    Glad to hear that you completed the element creation code. I do not know off-hand
+    myself either how to attach elements to each other. I thought that happened automatically.
+    All I know is implemented in the Revit API introduction labs in the command Lab2_0_CreateLittleHouse.
+    It creates some walls and a roof. Is that roof attached the way you want it to
+    be?
+
+
+    Cheers, Jeremy.'
+- author: Steve Faust
+  email: swfaust@yahoo.com
+  ip: 64.16.34.138
+  url: ''
+  date: '2009-07-07 20:12:01'
+  body: I have a question about creating doors and other wall hosted elements.  I'm
+    pretty sure you have to have the host object in order to create, correct?  Considering
+    this, what is the best way to find a wall object if I have a given point that
+    I know will be within the width of a wall (and should be at the bottom of it)?  Or
+    is there a way to create it based on the point and have it just find the wall
+    that is right there?
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-07-08 01:21:13'
+  body: 'Dear Steve,
+
+
+    The appropriate method to choose for inserting a family instance can be determined
+    by consulting the tables 28 and 29 in section 10.3.5 of the developers guide "Revit
+    2010 API Developer Guide.pdf", cf.
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/06/creating-a-slanted-column.html">http://thebuildingcoder.typepad.com/blog/2009/06/creating-a-slanted-column.html</a>
+
+
+    All three of the overloads recommended for doors and windows take an Element argument
+    for the hosting wall as well as a point defining its location. You can try out
+    passing in a null value for the host, but I would not expect a reliable result.
+    For a window, the given point should normally not be at the bottom of the wall,
+    I think. Look at the external command Lab2_0_CreateLittleHouse in the Revit API
+    introduction labs mentioned above for sample code creating both doors and windows.
+    Are you also asking how to find the wall given a specific point?
+
+
+    Cheers, Jeremy.'
+- author: Steve Faust
+  email: swfaust@yahoo.com
+  ip: 64.16.34.138
+  url: ''
+  date: '2009-07-08 12:10:01'
+  body: "Jeremy,\n\nThanks for the response, I will look at the developer guide and\
+    \ hopefully that will give me what I need.  \n\nAs far as my question, yes I was\
+    \ asking for how to find a wall at a specific point.  Basically I will be creating\
+    \ a large number of walls and then going back and inserting doors and windows\
+    \ into them (kind of like  CreateBigHouse :)).  The problem is that I will have\
+    \ a bunch of walls and don't know how to get the wall object to pass to insert\
+    \ the objects.  In the little house example there are only 4 walls so you know\
+    \ the order of creation and can just specify, I won't know that...\n\nThanks,\n\
+    Steve"
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.94.17
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-07-08 12:41:18'
+  body: 'Dear Steve,
+
+
+    So what you would like would be a method to get a wall, or more generally an arbitrary
+    element, at a given point. Such a function is not directly available in the Revit
+    API. One method that it does provide is FindReferencesByDirection. It returns
+    an array of elements, faces, and references found when moving through the model
+    along a ray defined by a specified point and direction. The Revit SDK RayTraceBounce
+    sample demonstrates its use. You might be able to shoot several rays in various
+    directions to determine the closest wall to a given point. I have an idea for
+    another different approach as well, which may possibly be more efficient and easier
+    to implement: You can build a data structure that maps volumes in space to walls
+    by iterating over all walls and asking each for its bounding box. Build a sorting
+    mechanism that allows you to quickly determine which of the volumes a given point
+    lies in. Then, given you point, determine the volume containing it, and from that
+    you determine the walls. In the best case, you may be able to have just one wall
+    per volume.  I hope this helps, and please let me know what solution you end up
+    with. Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Steve Faust
+  email: swfaust@yahoo.com
+  ip: 64.16.34.138
+  url: http://www.emc2architects.com
+  date: '2009-07-08 13:35:16'
+  body: 'Ok, thanks for the info.  The second method sounds interesting I think, but
+    I''m still pretty novice at programming so I don''t really get it, but it sounds
+    neat :).  I will probably look at the ray''s.
+
+
+    As an alternative, I noticed that curve class can get the distance to a point,
+    so I thought I could iterate through the walls finding the distance to the point
+    and storing the closest wall until I found one that was close enough (would be
+    a preset tolerance) then exit the loop there.  That sounds like it would take
+    a while though, the ray''s may be better.  Let me know what you think.
+
+
+    Thanks,
+
+    Steve'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-07-08 13:40:13'
+  body: 'Dear Steve,
+
+
+    I think your idea sounds absolutely great and simpler still. I have not tried
+    to use the ray shooting functionality myself yet, so I don''t have any experience
+    with it. You approach would obviously take quite a while in a really large model,
+    although you could also cache the results if you needed to place several doors
+    or windows in a batch job, with no additional walls being added in between.
+
+
+    Cheers, Jeremy.'
+- author: Steve Faust
+  email: swfaust@yahoo.com
+  ip: 64.16.34.138
+  url: http://www.emc2architects.com
+  date: '2009-07-08 14:23:59'
+  body: Ok, will try and let you know how it goes.  I will be creating all the walls,
+    then all the doors with nothing in between, so I could probably cache some of
+    it.  I'll let you know, thanks for your help
+- author: Steve Faust
+  email: swfaust@yahoo.com
+  ip: 64.16.34.138
+  url: http://www.emc2architects.com
+  date: '2009-07-17 12:39:14'
+  body: Update, got it working and the system I described does work, although yes
+    it is a bit slow, but not too bad.  I made a test file that created 140 walls,
+    120 doors, and 96 windows and the whole thing ran in about 21.5 seconds start
+    to finish.  This is also before any real optimization or chaching, so each door
+    and window checked each wall for distance.  Thanks for your help!  Steve
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-07-20 08:39:49'
+  body: 'Dear Steve,
+
+
+    Thank you for the update and good news. I am sure that you can enhance performance
+    significantly by avoiding the recalculation of all the wall data for each individual
+    family instance you place. For one example of extreme performance enhancement,
+    please refer to the article on Linq:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/07/language-integrated-query-linq.html">http://thebuildingcoder.typepad.com/blog/2009/07/language-integrated-query-linq.html</a>
+
+
+    You might also want to check out the Revit API SuspendUpdating class.
+
+
+    Cheers, Jeremy.'
+- author: Steve Faust
+  email: swfaust@yahoo.com
+  ip: 64.16.34.138
+  url: http://www.emc2architects.com
+  date: '2009-07-20 19:16:15'
+  body: 'Thanks for the tips.  I already started looking at caching the wall objects
+    to save time, but the LinQ thing looks interesting, I''ll see if I can use it...
+
+
+    Also will check out suspendupdating.  Thanks!
+
+
+    Steve
+
+    -----'

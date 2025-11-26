@@ -1,0 +1,112 @@
+---
+layout: "post"
+title: "MEP Connectors"
+date: "2009-04-27 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "2010"
+  - "Element Creation"
+  - "Element Relationships"
+  - "Family"
+  - "News"
+  - "RME"
+  - "RST"
+original_url: "https://thebuildingcoder.typepad.com/blog/2009/04/mep-connectors.html "
+typepad_basename: "mep-connectors"
+typepad_status: "Publish"
+---
+
+<p>We had an internal discussion on the relationship between the different API classes involved in defining connectors in 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2009/06/revit-mep-api.html">
+Revit MEP</a>
+
+which I thought might be of general interest as well.</p>
+
+<p><strong>Question:</strong>
+What is the difference between the Connector class versus the DuctConnector, PipeConnector and ElectricalConnector ones?
+I know one of them is used in the context of family documents only, and the other one is in project context. 
+But what is the main difference between them?</p>
+
+<p><strong>Answer:</strong>
+In Revit MEP, we work with different groups of elements, which all live in the project file, such as:</p>
+
+<ul>
+<li>Equipment
+<li>Pipe and duct
+<li>Fitting
+</ul>
+
+<p>Fittings and equipment are family instances, pipes and ducts are defined internally in Revit.
+They connect to their neighbour elements using connectors.
+The connectors are not elements, nor family instances, and do not live in the project file.
+They are contained within the family instances. 
+Therefore, they have to be added to the family definition.
+
+<p>There are different types of connectors for the different types of systems.
+A single piece of MEP equipment can have none, some or all connector types. 
+
+<p>For instance, a piece of HVAC equipment such as a cooler may have electrical connections for power, pipes for cooling water in- and outlets, and ducts for air in- and outlets. 
+All these connectors are defined in the family editor. 
+When the equipment is inserted into the model, the connectors are used to hook it up to neighbouring elements, in this case electrical system, pipes and ducts.
+
+<p>We thus have one set of classes for <strong>defining</strong> connectors, which reside in the family document.
+We have another class to <strong>represent</strong> the connectors on the resulting family instances, once they have been inserted into a project document. The former are the DuctConnector, PipeConnector and ElectricalConnector classes, the latter the Connector class.
+
+<p>The API documentation says the following about the DuctConnector class: "This element type is accessible only in Autodesk Revit MEP family documents. Duct connectors that are accessible in MEP project documents are not elements, and are represented by Autodesk::Revit::MEP::Connector."
+
+<p>In the documentation on the Connector class, it says: "This connector is an item that is a part of another element (duct, pipe, fitting, or equipment). This connector does not represent the connector element that can be created inside a family; for that element, please refer to Revit::MEP::DuctConnector, Revit::MEP::PipeConnector and Revit::MEP::ElectricalConnector."
+
+<p>So, when you are inside a family document, building your equipment, you add a DuctConnector class to the model. This is then transformed into some information on the equipment hosting it. 
+When you insert that equipment into the model and query it for its connectors, it returns Connector instances to you.
+
+<p>Here are the results of looking at the situation in the Revit user interface and RvtMgdDbg:</p>
+
+<p>DuctConnector, PipeConnector and ElectricalConnector are the classes you see and use in the family editor.
+These objects are the MEP connector definition classes used as a part of the building blocks to define an MEP part:</p>
+
+<a style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301156f53e072970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="at-xid-6a00e553e16897883301156f53e072970c image-full" alt="MEP family editor connector definition tools" title="MEP family editor connector definition tools" src="/assets/image_3a7b94.jpg" border="0"  /></a>
+
+<p>Once you define a family type and insert it in a Revit project, you have a family instance, for instance this air handler:</p>
+
+<a style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e1689788330115704a0c93970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="at-xid-6a00e553e1689788330115704a0c93970b" alt="Air handler family instance with connectors in a project file" title="Air handler family instance with connectors in a project file" src="/assets/image_bed882.jpg" border="0"  /></a>
+
+<p>This instance contains connectors, which are managed by the connection manager and represented by the Connector class:</p>
+
+<a style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e1689788330115704a0ce0970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="at-xid-6a00e553e1689788330115704a0ce0970b" alt="Air handler connector class instances in RvtMgdDbg" title="Air handler connector class instances in RvtMgdDbg" src="/assets/image_e095d5.jpg" border="0"  /></a>
+
+
+
+<h4>Autodesk Structural Engineering Partner Program</h4>
+
+<p>Autodesk announced a Structural Engineering Partner Program to establish a framework for 
+
+participating structural analysis software partners to engage and collaborate with Autodesk in 
+
+delivering solutions for the field of structural engineering. 
+Here are the links to the 
+
+<a href="http://usa.autodesk.com/adsk/servlet/item?siteID=123112&id=12414379">
+partner site</a>
+
+and the 
+
+<a 
+
+href="http://images.autodesk.com/adsk/files/structural_engineering_partner_program_guide_final.pdf">
+partner guide</a>.</p>
+
+
+<h4>Offspring Activities</h4>
+
+<p>My son Christopher started
+
+<a href="http://dropdeadmoviez.wordpress.com">
+blogging</a>
+
+as well, and posted his first 
+
+<a href="http://www.youtube.com/watch?v=aisb3Mc__z0">
+film</a>,
+
+though completely unrelated to Revit, or CAD, or computers, of course.</p>

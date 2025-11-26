@@ -1,0 +1,256 @@
+comments:
+- author: igor
+  email: i.masin@frigothermferrari.com
+  ip: 217.199.31.173
+  url: ''
+  date: '2012-08-27 07:20:39'
+  body: 'hello!
+
+
+    is it possible having a timer loading a new view every X seconds? lets say that
+    for example the computer is used for a presentation and i would like to load a
+    different view ever 30 seconds. would that be possible? i tried but since the
+    timer runs on its own thread i get a message telling me that there is no istance
+    for the application (uiapp)
+
+
+    thanks
+
+
+    igor'
+- author: igor
+  email: i.masin@frigothermferrari.com
+  ip: 217.199.31.173
+  url: ''
+  date: '2012-08-27 07:32:10'
+  body: 'forgot to mention: if possible without using the SLEEP function since it
+    locks up revit. using a timer would be nice!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.183.72
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-08-27 09:26:53'
+  body: "Dear Igor, \n\nThis is perfectly possible.\n\nYou would have to make use\
+    \ of the Idling or an external event:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2012/04/idling-enhancements-and-external-events.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2012/04/idling-enhancements-and-external-events.html</a>\n\
+    \nI implemented the a webcam viewer for Revit based on the AVF analysis visualisation\
+    \ framework:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/06/display-webcam-image-on-building-element-face.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/06/display-webcam-image-on-building-element-face.html</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2012/02/revit-webcam-2012.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2012/02/revit-webcam-2012.html</a>\n\
+    \nIf you do choose to make use of Idling or an external event, be sure to base\
+    \ your code on the appropriate new 2013 SDK sample in order to ensure you set\
+    \ it all up correctly.\n\nCheers, Jeremy."
+- author: igor
+  email: i.masin@frigothermferrari.com
+  ip: 217.199.31.173
+  url: ''
+  date: '2012-08-27 10:13:11'
+  body: 'Dear Jeremy,
+
+
+    thanks for your quick and kind answer, i tried to understand the example you posted
+    but i am very green in programming apis. here is what i am working on: i want
+    to render a sequence of views overnight. so i made a form where i choose from
+    all the available 3D-Views the ones i want to render, and put them in a list.
+    when i confirm that the application starts rendering (so far so good..) but then
+    i have to check every X seconds if the "rendering progress" window is still open.
+    when the plugin detects that the rendering finished it loads the new view and
+    starts rendering. its all progged except the part with the timer because i am
+    able to check the render window, but i am not able to change view from inside
+    the timer. could you PLEASE make a very short example on how to change view with
+    the idle function? all that webcam stuff is very confusing for me. sorry if i
+    ask you too much!
+
+
+    thanks
+
+
+    regards
+
+
+    Igor'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.183.72
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-08-27 10:26:14'
+  body: 'Dear Igor,
+
+
+    I would love to help you with this, and I can even promise that I will look at
+    it when I have some time left over.
+
+
+    Unfortunately, that means that you are in for a very long wait.
+
+
+    I should point out that this is not a suitable project to begin learning the API
+    with.
+
+
+    I would suggest doing some other stuff to get to know the Revit API a bit better.
+
+
+    Once you know a bit of programming in general, or better still have some experience
+    in .NET, then the Revit API is not hard to understand at all.
+
+
+    From what you explain above, you know more than enough to get to grips with it.
+
+
+    Have a look at the ModelessDialog ModelessForm_ExternalEvent and ModelessForm_IdlingEvent
+    SDK samples, and also take a gander at
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/11/pattern-for-semi-asynchronous-idling-api-access.html">http://thebuildingcoder.typepad.com/blog/2010/11/pattern-for-semi-asynchronous-idling-api-access.html</a>
+
+
+    The latter is older, and still provides some interesting insight on what it is
+    all about.
+
+
+    Good luck!
+
+
+    Cheers, Jeremy.'
+- author: igor
+  email: i.masin@frigothermferrari.com
+  ip: 217.199.31.173
+  url: ''
+  date: '2012-08-27 10:38:18'
+  body: great! thank you very much! will check it out right away!
+- author: igor
+  email: i.masin@frigothermferrari.com
+  ip: 217.199.31.173
+  url: ''
+  date: '2012-08-28 05:56:18'
+  body: 'sorry for bothering you again! i dont know if i understood the logic behind
+    all this right:
+
+
+    -i execute my addin, and the "execute" function opens a modeless form. by using
+    the "while using" inside the execute function i prevent it from finishing and
+    remains active as long as the modeless form is active.
+
+
+    -in the modeless form i can place a timer or whatever i want to execute my code.
+    and to access the revit app i use the idle method. idle has a list of "thigs to
+    do". and in order to make revit do something i add sort of tasks to this list..
+
+
+    is this correct?
+
+
+    thanks
+
+
+    ps: sorry for all the questions, i used to program inventor apis and that was
+    way easier and better documented then the revit apis. i feel like in open ocean..'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.180.37
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-09-01 10:01:36'
+  body: 'Dear Igor,
+
+
+    Nope, not quite. Your Execute method displays the modeless form and then returns
+    immediately. As far as Revit is concerned, your command has ended. Before returning,
+    you subscribe to the Idling event. The rest is correct: in the event handler,
+    you check whether your modeless form has submitted some task to be executed, and
+    so on.
+
+
+    Cheers, Jeremy.'
+- author: igor
+  email: i.masin@frigothermferrari.com
+  ip: 217.199.31.173
+  url: ''
+  date: '2012-09-12 02:39:03'
+  body: "hi Jeremy! thanks for your help, i have been busy for a week but finally\
+    \ i managed to make a modeless form and subscribe successfully to the idle event.\
+    \ i placed just to try a label on the form and update it like this inside the\
+    \ ideling event:\nlabel2.Text =  System.DateTime.Now.Second.ToString();\nits working,\
+    \ but there is something i dont get: when i do nothing i would expect it to update\
+    \ continuously, instead it updates only every 2/3 seconds, and ONLY if i move\
+    \ the mouse. if i do absolutely nothing it doesn't update. \nwhy?\n\nthank you\
+    \ again for your help!"
+- author: igor
+  email: i.masin@frigothermferrari.com
+  ip: 217.199.31.173
+  url: ''
+  date: '2012-09-12 03:33:32'
+  body: "For some reason its working as expected now! but i have a new problem.. you\
+    \ said i can use the idle event to see when the rendering is finished. i suppose\
+    \ that you meant that as soon as the rendering is finished the idleing is triggered.\
+    \ problem is, when the rendering finishes the rendersettings window remains open,\
+    \ and as long as the rendersettings window is open, revit is not ideling!even\
+    \ if it isnt doing anything.. how can i know that the rendering is finished even\
+    \ if the revitsettings window is open? \n\nthanks\n\nIgor"
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.68.148
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-09-12 09:02:46'
+  body: 'Dear Igor,
+
+
+    Have you read about and understood the new Idling event repetition functionality?
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/04/idling-enhancements-and-external-events.html#2">http://thebuildingcoder.typepad.com/blog/2012/04/idling-enhancements-and-external-events.html#2</a>
+
+
+    Have you based your add-in on the ModelessForm_IdlingEvent SDK sample?
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/03/new-revit-2013-sdk-samples.html#1">http://thebuildingcoder.typepad.com/blog/2012/03/new-revit-2013-sdk-samples.html#1</a>
+
+
+    Cheers, Jeremy.'
+- author: Dan Tartaglia
+  email: dtartaglia@nbbj.com
+  ip: 66.195.65.163
+  url: ''
+  date: '2014-03-15 13:41:47'
+  body: 'Hi Jeremy,
+
+
+    I''m trying to use jtclicker to Cancel the Revit 2014 Print dialog but can''t
+    seem to get it to work. Should the caption in the example be Print? Am I missing
+    something?
+
+
+    Thanks,
+
+    Dan'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-03-15 15:07:49'
+  body: 'Dear Dan,
+
+
+    Glad to hear that you are trying to make use of it. I am looking forward to hearing
+    how it goes.
+
+
+    I have no idea what you should optimally search for.
+
+
+    Basically, for any dialogue that you wish to use this for, you would need to explore
+    its innards and adapt the caption and other details based on information obtained
+    from the dialogue itself using some Windows debugging tool like Spy or Spy++:
+
+
+    <a href="http://lmgtfy.com/?q=spy+windows">http://lmgtfy.com/?q=spy+windows</a>
+
+
+    Good luck, and please let us know how you fare. Thank you!
+
+
+    Cheers, Jeremy.
+
+    -----'

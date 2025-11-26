@@ -1,0 +1,483 @@
+---
+layout: "post"
+title: "3D View, Curved Section and Browser Round-Trip"
+date: "2023-12-12 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "AI"
+  - "Dynamo"
+  - "Geometry"
+  - "Getting Started"
+  - "HTML"
+  - "JavaScript"
+  - "RevitLookup"
+  - "RST"
+  - "User Interface"
+  - "View"
+  - "WPF"
+original_url: "https://thebuildingcoder.typepad.com/blog/2023/12/3d-view-curved-section-and-browser-round-trip.html "
+typepad_basename: "3d-view-curved-section-and-browser-round-trip"
+typepad_status: "Publish"
+---
+
+<p><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css"></p>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+<script>hljs.highlightAll();</script>
+
+<p>Yet another RevitLookup update, full roundtrip interaction between your own instance of the built-in Revit CefSharp Chromium browser and your Revit API add-in external command, different ways to locate a BIM element, pure structural 3D view and curved section view creation, and more:</p>
+
+<ul>
+<li><a href="#2">RevitLookup 2024.0.10</a></li>
+<li><a href="#3">Calling Revit command from Chromium browser</a></li>
+<li><a href="#4">Chromium browser Js round trip callback</a></li>
+<li><a href="#5">Determine element location</a></li>
+<li><a href="#6">Create a structural-only 3D view</a></li>
+<li><a href="#7">Creating a curved section in Dynamo</a></li>
+<li><a href="#8">Carbon footprint of AI image generation</a></li>
+<li><a href="#9">Sending data by pigeon</a></li>
+<li><a href="#10">Permaculture farm regenerates natural habitat</a></li>
+<li><a href="#11">The Valley of Code</a></li>
+</ul>
+
+<h4><a name="2"></a> RevitLookup 2024.0.10</h4>
+
+<p><a href="https://github.com/jeremytammik/RevitLookup/releases/tag/2024.0.10">RevitLookup 2024.0.10</a> is now available with the following enhancements:</p>
+
+<ul>
+<li>Introducing a brand new feature: Restore window size!
+Now, effortlessly you will open RevitLookup with your preferred window dimensions with a simple click</li>
+<li>Add <code>MEPSystem</code> and <code>MEPSection</code> support for GetSectionByIndex, GetSectionByNumber, GetElementIds,
+GetCoefficient, GetPressureDrop,  GetSegmentLength and IsMain</li>
+<li>Show System.Object option (named Root hierarchy)</li>
+<li>Add generic type support for the help button</li>
+<li>Minor tooltip changes</li>
+<li>Fixed search that worked in the main thread</li>
+</ul>
+
+<h4><a name="3"></a> Calling Revit Command from Chromium Browser</h4>
+
+<p>Last week, Andrej Licanin of <a href="https://bimexperts.com/sr/home">Bimexperts</a> shared
+a nice solution demonstrating <a href="https://thebuildingcoder.typepad.com/blog/2023/11/camera-target-and-toposolid-subdivision-material.html#2">how to use the Revit built-in CefSharp browser in WPF</a>.</p>
+
+<p>This week he expanded on that in his contribution
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/calling-revit-command-from-chromium-browser/td-p/12413281">calling Revit command from Chromium browser</a>:</p>
+
+<p>This is another guide on Chromium browser using CefSharp, a continuation
+of the <a href="https://forums.autodesk.com/t5/revit-api-forum/simple-wpf-with-a-chromium-browser-guide/td-p/12396552">simple WPF with a Chromium browser guide</a>.
+Hope someone finds it useful.</p>
+
+<p>Basically, what I wanted was for a button in the browser (on a webpage) to trigger a command in Revit.
+This works by "binding" a JavaScript method to a C# object and its method.
+In the Javascript we <code>await</code> for the object and call its function.</p>
+
+<p>So, let's make a dummy object for binding and a method in it.
+In order to call a Revit method it will need a reference to an external event handler and its event:</p>
+
+<pre><code>
+   public class BoundObject
+   {
+     public int Add(int a, int b)
+     {
+       ExtApp.handler.a = a;
+       ExtApp.handler.b = b;
+       ExtApp.testEvent.Raise();
+
+       return a+b;
+     }
+   }
+</code></pre>
+
+<p>The event and its handler are saved in the external app as <code>static</code> for ease of access:</p>
+
+<pre><code>
+  internal class ExtApp : IExternalApplication
+  {
+    public static IExternalApplication MyApp;
+    public static ChromiumWebBrowser browser;
+    public static ExternalEvent testEvent;
+    public static MyEvent handler;
+    public Result OnShutdown(UIControlledApplication application)
+    {
+      // Cef.Shutdown();
+      return Result.Succeeded;
+    }
+
+    public Result OnStartup(UIControlledApplication application)
+    {
+      MyApp = this;
+      //code for making a button
+
+      handler = new MyEvent();
+      testEvent= ExternalEvent.Create(handler);
+
+      return Result.Succeeded;
+    }
+  }
+</code></pre>
+
+<p>In the WPF control, the browser is embedded like this:</p>
+
+<pre><code>
+  &lt;Window x:Class="RevitTestProject.TestWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:RevitTestProject"
+    xmlns:cef="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+    mc:Ignorable="d"
+    Width="1000" Height="500"&gt;
+    &lt;Grid Background="PapayaWhip"&gt;
+      &lt;cef:ChromiumWebBrowser Name="ChromiumBrowser" Address="http://www.google.com" Width="900" Height="450"  /&gt;
+    &lt;/Grid&gt;
+  &lt;/Window&gt;
+</code></pre>
+
+<p>Here is the code behind the window:</p>
+
+<pre><code>
+    public TestWindow()
+    {
+      InitializeComponent();
+      ChromiumBrowser.Address = "https://www.google.com";
+      ChromiumBrowser.Address = "C:\\Users\\XXX\\Desktop\\index.html";
+      BoundObject bo = new BoundObject();
+      ChromiumBrowser.JavascriptObjectRepository.Register("boundAsync", bo, true, BindingOptions.DefaultBinder);
+    }
+
+    public void Dispose()
+    {
+      this.Dispose();
+    }
+</code></pre>
+
+<p>So, to use it, make an <code>index.html</code> and submit the path to it in the browser address.</p>
+
+<p>The Test webpage look like this:</p>
+
+<pre><code>
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Bridge Test&lt;/title&gt;
+  &lt;!-- &lt;script src="script.js"&gt;&lt;/script&gt; --&gt;
+  &lt;script type="text/javascript"&gt;
+    async function callCSharpAction() {
+      await CefSharp.BindObjectAsync("boundAsync");
+      boundAsync.add(16, 2);
+    }
+  &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;button id="action1" onclick="callCSharpAction()"&gt;Action 1&lt;/button&gt;
+  &lt;button id="action2" onclick="alert('Button is working')"&gt;Action 2&lt;/button&gt;
+  &lt;button id="action3"&gt;Action 3&lt;/button&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>The handler code:</p>
+
+<pre><code>
+  internal class MyEvent : IExternalEventHandler
+  {
+    public int a;
+    public int b;
+    public void Execute(UIApplication app)
+    {
+      TaskDialog.Show( "yoyoy",
+        "data is " + a.ToString()
+        + " and " + b.ToString() + ".");
+    }
+
+    public string GetName()
+    {
+      return "YOYOOY";
+    }
+  }
+</code></pre>
+
+<h4><a name="4"></a> Chromium Browser Js Round Trip Callback</h4>
+
+<p>Next step: round-trip callback:
+To make a callback from C# function to the browser, you just need an instance of the browser, and a function in the javascript code that will be called.
+Here is an edited index.html with such a function to call:</p>
+
+<pre><code>
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Bridge Test&lt;/title&gt;
+  &lt;!-- &lt;script src="script.js"&gt;&lt;/script&gt; --&gt;
+  &lt;script type="text/javascript"&gt;
+    async function callCSharpAction() {
+      await CefSharp.BindObjectAsync("boundAsync");
+      boundAsync.add(16, 2);
+    }
+
+    function showAlert(arg1) {
+      // Your JavaScript logic here
+      alert("Function called with arguments: " + arg1);
+      return;
+    }
+  &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;button id="action1" onclick="callCSharpAction()"&gt;Action 1&lt;/button&gt;
+  &lt;button id="action2" onclick="alert('Button is working')"&gt;Action 2&lt;/button&gt;
+  &lt;button id="action3"&gt;Action 3&lt;/button&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>In our bound class, we save a instance to the browser so we can use it on command:</p>
+
+<pre><code>
+  public class BoundObject
+  {
+    public int aS;
+    public int bS;
+    internal ChromiumWebBrowser browser;
+
+    public void CallCSharpMethod()
+    {
+      MessageBox.Show("C# method called!");
+      // Add more code here as needed
+    }
+    public int Add(int a, int b)
+    {
+      ExtApp.handler.a = a;
+      ExtApp.handler.b = b;
+      ExtApp.testEvent.Raise();
+
+      return a+b;
+    }
+
+    public int SendSomeDataFromLocal(int a)
+    {
+      browser.ExecuteScriptAsync("showAlert("+a.ToString()+")");
+      return a;
+    }
+  }
+</code></pre>
+
+<p>Pass it in when creating the browser in the window codebehind:</p>
+
+<pre><code>
+  public TestWindow()
+  {
+    InitializeComponent();
+    ChromiumBrowser.Address = "https://www.google.com";
+    ChromiumBrowser.Address = "C:\\Users\\XXX\\Desktop\\index.html";
+    BoundObject bo = new BoundObject();
+    //ExtApp.boundObj = bo;
+    bo.browser = ChromiumBrowser;
+    ChromiumBrowser.JavascriptObjectRepository.Register(
+      "boundAsync", bo, true, BindingOptions.DefaultBinder);
+  }
+</code></pre>
+
+<p>Finally, now, you can call it from Revit:</p>
+
+<pre><code>
+  public Result Execute(
+    ExternalCommandData commandData,
+    ref string message,
+    ElementSet elements)
+  {
+    ExtApp.boundObj.SendSomeDataFromLocal(999);
+    return Result.Succeeded;
+  }
+</code></pre>
+
+<p>This concludes a round trip from the browser and back.
+I hope anyone reading this finds it useful.</p>
+
+<h4><a name="5"></a> Determine Element Location</h4>
+
+<p>We put together a nice little overview on various methods to determine the location of a BIM element discussing
+<a href="https://stackoverflow.com/questions/77556660/how-can-the-coordinates-for-a-revit-fabricationpart-be-obtained-with-the-revit-a">how can the coordinates for a Revit fabrication part be obtained with the Revit API</a>?</p>
+
+<p><strong>Question:</strong> I need to obtain the coordinates for Revit MEP FabricationParts.
+All of the elements I get have a <code>Location</code> property, but not all of them have either a <code>LocationPoint</code> or a <code>LocationCurve</code>.
+More specifically, I am only able to get <code>XYZ</code> values through the <code>LocationCurve</code> for <code>Pipe</code> elements.
+Elements such as Threadolet, Elbow, Weld and Fishmouth don't have either a <code>LocationPoint</code> or a <code>LocationCurve</code>.</p>
+
+<p><strong>Answer:</strong> Three options that can be used on almost all BIM elements are:</p>
+
+<ul>
+<li>Use the <code>Location</code> property</li>
+<li>Retrieve the element <a href="https://www.revitapidocs.com/2024/d8a55a5b-2a69-d5ab-3e1f-6cf1ee43c8ec.htm"><code>Geometry</code> property</a>, e.g., calculate the centroid of all the vertices</li>
+<li>Use the element <a href="https://www.revitapidocs.com/2024/def2f9f2-b23a-bcea-43a3-e6de41b014c8.htm"><code>BoundingBox</code> property</a>, e.g., calculate its midpoint</li>
+</ul>
+
+<p>However, for these types of <code>FabricationParts</code> specifically,
+<a href="https://stackoverflow.com/users/15534202/egeer">egeer</a>
+and <a href="https://stackoverflow.com/users/21999391/bootsch">bootsch</a> suggest
+using the element's connector locations instead:</p>
+
+<p>For OLets and ThreadOLets, you can use the connector that connects to the main pipe as its insertion point, since that is technically where the element was inserted:</p>
+
+<pre><code>
+    Connector insertionPointConnector = OLet.ConnectorManager
+        .Connectors
+        .OfType&lt;Connector&gt;()
+        .FirstOrDefault(x =&gt; x.ConnectorType == ConnectorType.Curve);
+
+    XYZ insertionPoint = insertionPointConnector?.Origin;
+</code></pre>
+
+<p>Since their connectors are atypical in that they do not connect to another connector, but instead a curve, you need to get the one that is <code>ConnectorType.Curve</code>.</p>
+
+<p>For welds, elbows and other inline elements, you can similarly use the connectors and get their origins.
+If you want the center of the element, you can use vector math to calculate that using the connector's direction and location.
+The direction that the connector points is the <code>BasisZ</code> property of the Connector's <code>CoordinateSystem</code>.</p>
+
+<pre><code>
+    XYZ connectorDirection = insertionPointConnector?.CoordinateSystem.BasisZ;
+</code></pre>
+
+<p>The solution I end up with is a bit different from the answer given by egeer above:
+I ended up getting a Connector for each element (the ones without a <code>LocationCurve</code> or <code>LocationPoint</code>).
+Here's the code in VB:</p>
+
+<pre><code>
+    Dim insertionPointConnector As Connector = CType(e, FabricationPart).ConnectorManager.Connectors.OfType(Of Connector).FirstOrDefault()
+    Dim elementOrigin as XYZ = Connector.insertionPointConnector.Origin
+</code></pre>
+
+<p><code>e</code> is of type Element.</p>
+
+<p>Many thanks to egeer and bootsch for jumping in with these good solutions!</p>
+
+<h4><a name="6"></a> Create a Structural-Only 3D View</h4>
+
+<p>Harry Mattison continues his AU solution spree presenting a nice code sample demonstrating how
+to <a href="https://boostyourbim.wordpress.com/2023/12/04/create-a-3d-view-showing-only-revit-wall-structural-layers/">create a 3D view showing only Revit wall structural layers</a>
+which is discussed in further depth in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on how to <a href="https://forums.autodesk.com/t5/revit-api-forum/create-new-view3d-that-just-displays-wall-layers-of-quot/td-p/12344156">create new View3D that just displays wall layers of "Structure" function</a>.
+Harry's sample code performs the following steps:</p>
+
+<ul>
+<li>Create new 3D isometric view</li>
+<li>Set view parts visibility <code>PartsVisibility.ShowPartsOnly</code></li>
+<li>Create parts from all walls</li>
+<li>For each part, retrieve its built-in parameter <code>DPART_LAYER_INDEX</code></li>
+<li>Convert from string to wall compound structure layer index</li>
+<li>Hide part if its compound structure layer function differs from <code>MaterialFunctionAssignment.Structure</code></li>
+</ul>
+
+<p>Many thanks to Harry for addressing this need!</p>
+
+<h4><a name="7"></a> Creating a Curved Section in Dynamo</h4>
+
+<p>I have heard several requests for a curved section view, e.g., Alex Vila in 2019:
+<a href="https://forums.autodesk.com/t5/revit-api-forum/create-curved-sections/m-p/8931972">Create curved sections!</a></p>
+
+<p>Finally, the cavalry comes to the rescue in the shape
+of <a href="https://www.linkedin.com/in/baranovaanna/">Anna Baranova</a>, presenting a 22-minute video tutorial
+on <a href="https://youtu.be/Fic5BD-s3A8">Dynamo: Curved Sections By Line (Part 1)</a>:</p>
+
+<p><center>
+<iframe width="480" height="270" src="https://www.youtube.com/embed/Fic5BD-s3A8?si=bjREzyZh7uCyrZoZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</center></p>
+
+<p>Many thanks to Anna for this nice piece of work!</p>
+
+<h4><a name="8"></a> Carbon Footprint of AI Image Generation</h4>
+
+<p>Researchers quantify the carbon footprint of generating AI images:
+<a href="https://www.engadget.com/researchers-quantify-the-carbon-footprint-of-generating-ai-images-173538174.html">creating a photograph using artificial intelligence is like charging your phone</a>:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c8d3a1380f200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302c8d3a1380f200c image-full img-responsive" alt="AI image generation carbon footprint" title="AI image generation carbon footprint"  src="/assets/image_7a5570.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="9"></a> Sending Data by Pigeon</h4>
+
+<p>Talking about carbon footprint and the cost and efficiency of digital data transmission, there is obviously a point at which transmission of large data can be speeded up by putting it on a storage device and moving that around rather physically than squeezing it through the limited bandwidth of the Internet:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c8d3a1384b200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302c8d3a1384b200c image-full img-responsive" alt="Send data by pigeon" title="Send data by pigeon" src="/assets/image_2615a1.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p><ul>
+<li>There is even an RFC 1149 for this concept,
+the <a href="https://datatracker.ietf.org/doc/html/rfc1149">Standard for the Transmission of IP Datagrams on Avian Carriers</a>.</p>
+
+<blockquote>
+  <p>This memo describes an experimental method for the encapsulation of IP datagrams in avian carriers.
+  This specification is primarily useful in Metropolitan Area Networks.
+  This is an experimental, not recommended standard.</li>
+  <li>Never underestimate the bandwidth of a station wagon full of tapes hurtling down the highway,
+  cf. <a href="https://en.wikipedia.org/wiki/Sneakernet">Wikipedia on Sneakernet</a>.</li>
+  <li>Reminds of this thread from 2012
+  about <a href="https://superuser.com/questions/419070/transatlantic-ping-faster-than-sending-a-pixel-to-the-screen">transatlantic ping faster than sending a pixel to the screen</a>...   </li>
+  </ul>
+  <a name="10"></a></p>
+</blockquote>
+
+<p><b>Permaculture Farm Regenerates Natural Habitat</b></p>
+
+<p>Hope for the future from a five-minute video <a href="https://youtu.be/TPxJtKob7Js">drone tour of permaculture farm</a>:</p>
+
+<p><center>
+<iframe width="480" height="270" src="https://www.youtube.com/embed/TPxJtKob7Js?si=QoImAfogIIMdU5Sp" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</center></p>
+
+<blockquote>
+  <p>In this video I narrate a drone tour of our entire 250-acre farm showcasing some of the swale,
+  dam, dugout, aquaculture, livestock food forest, cover cropping and other permaculture
+  systems we have on our regenerative farm.</p>
+</blockquote>
+
+<p>Presented by the <a href="https://www.coenfarm.ca">Coen Farm</a>, who say:</p>
+
+<blockquote>
+  <p>We are literally eating ourselves and our planet to death.
+  Our mission is to provide nutrient-dense food, feed, and permaculture education to regenerate the planet and its people.</p>
+</blockquote>
+
+<p>Personally, I was very touched watching and listening to it.</p>
+
+<h4><a name="11"></a> The Valley of Code</h4>
+
+<p>Quick return to digital before I end for today.
+If you have friends or others wanting to quickly learn to code for the web, here is a great site to get them started:</p>
+
+<ul>
+<li><a href="https://thevalleyofcode.com/">The Valley of Code</a></li>
+</ul>
+
+<blockquote>
+  <p>Welcome to The Valley of Code.
+  Your journey in Web Development starts here.
+  In the fundamentals section you'll learn the basic building blocks of the Internet, the Web and how its fundamental protocol (HTTP) works.</p>
+</blockquote>
+
+<p>Toc:</p>
+
+<ul>
+<li>Fundamentals</li>
+<li>HTML and CSS</li>
+<li>Tools</li>
+<li>Deployment</li>
+<li>JavaScript</li>
+<li>TypeScript</li>
+<li>More CSS</li>
+<li>More JavaScript</li>
+<li>DOM and Events</li>
+<li>Networking</li>
+<li>Server Runtimes</li>
+<li>HTTP Servers</li>
+<li>Forms</li>
+<li>Databases</li>
+<li>UI libraries</li>
+<li>Frameworks</li>
+</ul>

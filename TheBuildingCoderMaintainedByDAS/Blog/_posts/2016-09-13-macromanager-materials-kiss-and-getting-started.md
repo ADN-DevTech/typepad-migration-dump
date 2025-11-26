@@ -1,0 +1,277 @@
+---
+layout: "post"
+title: "MacroManager, Materials and Getting Started"
+date: "2016-09-13 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Accelerator"
+  - "AU"
+  - "Deletion"
+  - "DevDays"
+  - "DevTV"
+  - "Docs"
+  - "Events"
+  - "Forge"
+  - "Getting Started"
+  - "Macro"
+  - "SDK Samples"
+original_url: "https://thebuildingcoder.typepad.com/blog/2016/09/macromanager-materials-kiss-and-getting-started.html "
+typepad_basename: "macromanager-materials-kiss-and-getting-started"
+typepad_status: "Publish"
+---
+
+<p>I am answering <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> threads
+and developer cases like crazy.</p>
+
+<p>Instead, as usual at this time of the year, I should be focussing and putting higher priority on the exciting upcoming events.</p>
+
+<p>I keep promising myself to do so and stop answering cases. Then I address just one more...</p>
+
+<p>Here are some of the upcoming events and recent Revit API issues:</p>
+
+<ul>
+<li><a href="#2">Events &ndash; Forge Accelerators, DevDay, RTC and AU</a></li>
+<li><a href="#3">Accessing the MacroManager to Delete Document Macros</a></li>
+<li><a href="#4">Getting Started and Changing the Colour of a Wall</a></li>
+<li><a href="#5">Getting Started and Using the Visual Studio Revit Add-In Wizard Auto-Installer</a></li>
+</ul>
+
+<h4><a name="2"></a>Events &ndash; Forge Accelerators, DevDay, RTC and AU</h4>
+
+<p>Here are my main upcoming events:</p>
+
+<ul>
+<li>Oct. 19 &ndash; Forge and BIM, Porto University</li>
+<li>Oct. 20-22 &ndash; RTCEU Revit Technology Conference Europe, Porto</li>
+<li>Oct. 24-28 &ndash; Forge Accelerator, Munich</li>
+<li>Nov. 4 &ndash; Forge and BIM Workshop, Darmstadt University</li>
+<li>Nov. 14-17 &ndash; Autodesk university, Las vegas</li>
+<li>Dec. 5 &ndash; DevDay Europe, Munich</li>
+<li>Dec. 6-9 &ndash; Forge Accelerator, Munich</li>
+</ul>
+
+<p>I'll present my projects and material for these as soon as I get around to preparing them.</p>
+
+<p>Real soon now!</p>
+
+<h4><a name="3"></a>Accessing the MacroManager to Delete Document Macros</h4>
+
+<p>Next, I address
+the <a href="http://forums.autodesk.com/t5/revit-api/bd-p/160">Revit API discussion forum</a> thread
+on <a href="http://forums.autodesk.com/t5/revit-api-forum/can-t-obtain-macromanager/m-p/6557705">obtaining the MacroManager</a>
+as well as <a href="http://thebuildingcoder.typepad.com/blog/2013/04/whats-new-in-the-revit-2014-api.html#comment-2842394984">Frederic's comment</a>
+on <a href="http://thebuildingcoder.typepad.com/blog/2013/04/whats-new-in-the-revit-2014-api.html">What's New in the Revit 2014 API</a>:</p>
+
+<p><strong>Question:</strong> I'm stuck with getting MacroManager object.
+There are much more class members listed in API reference then really available.
+What am I doing wrong?</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb09360c67970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb09360c67970d img-responsive" style="width: 480px; " alt="Macros" title="Macros" src="/assets/image_38faa5.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Or is there any other way to delete all macros from document?</p>
+
+<p><strong>Jeremy says:</strong> I should think this can be done quite easily. Look
+at <a href="http://thebuildingcoder.typepad.com/blog/2013/04/whats-new-in-the-revit-2014-api.html">What's New in the Revit 2014 API</a> and
+search for <strong>MacroManager API</strong>.</p>
+
+<p><strong>Revitalizer answers:</strong> Add <code>RevitAPIMacros.dll</code> to your VS project.</p>
+
+<p><strong>Response:</strong> Revitalizer, thank you very much! It's got to be that easy I knew it :-)</p>
+
+<p>Actually, a reference to <code>RevitAPIMacrosInterop.dll</code> solved the problem at last (not to <code>RevitAPIMacros.dll</code>)!</p>
+
+<p><strong>Revitalizer answers:</strong> I cannot believe that <code>RevitAPIMacrosInterop.dll</code> solves the problem since it does not contain the <code>MacroManager</code> definition.</p>
+
+<p><code>RevitAPIMacros.dll</code> does:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c892995d970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c892995d970b img-responsive" style="width: 480px; " alt="RevitAPIMacros assembly" title="RevitAPIMacros assembly" src="/assets/image_d1a7d2.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p><strong>Jeremy says:</strong> Look
+at <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder samples</a>
+new <a href="https://github.com/jeremytammik/the_building_coder_samples/blob/master/BuildingCoder/BuildingCoder/CmdDeleteMacros.cs">CmdDeleteMacros.cs module</a>
+in <a href="https://github.com/jeremytammik/the_building_coder_samples/releases/tag/2017.0.129.0">release 2017.0.129.0</a>.</p>
+
+<p>Just as Revitalizer suggests, I was forced to add references to <code>RevitAPIMacros.dll</code> and <code>RevitAPIUIMacros.dll</code> in The Building Coder samples Visual Studio project specifically for this command.</p>
+
+<pre class="code">
+<span style="color:blue;">using</span>&nbsp;Autodesk.Revit.Attributes;
+<span style="color:blue;">using</span>&nbsp;Autodesk.Revit.DB;
+<span style="color:blue;">using</span>&nbsp;Autodesk.Revit.DB.Macros;
+<span style="color:blue;">using</span>&nbsp;Autodesk.Revit.UI;
+<span style="color:blue;">using</span>&nbsp;Autodesk.Revit.UI.Macros;
+<span style="color:blue;">using</span>&nbsp;System.Linq;
+<span style="color:blue;">using</span>&nbsp;System.Diagnostics;
+
+<span style="color:blue;">namespace</span>&nbsp;BuildingCoder
+{
+&nbsp;&nbsp;[<span style="color:#2b91af;">Transaction</span>(&nbsp;<span style="color:#2b91af;">TransactionMode</span>.ReadOnly&nbsp;)]
+&nbsp;&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">CmdDeleteMacros</span>&nbsp;:&nbsp;<span style="color:#2b91af;">IExternalCommand</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">Result</span>&nbsp;Execute(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ExternalCommandData</span>&nbsp;commandData,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">ref</span>&nbsp;<span style="color:blue;">string</span>&nbsp;message,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ElementSet</span>&nbsp;elements&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UIApplication</span>&nbsp;uiapp&nbsp;=&nbsp;commandData.Application;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UIDocument</span>&nbsp;uidoc&nbsp;=&nbsp;uiapp.ActiveUIDocument;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;=&nbsp;uidoc.Document;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UIMacroManager</span>&nbsp;uiapp_mgr&nbsp;=&nbsp;<span style="color:#2b91af;">UIMacroManager</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.GetMacroManager(&nbsp;uiapp&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UIMacroManager</span>&nbsp;uidoc_mgr&nbsp;=&nbsp;<span style="color:#2b91af;">UIMacroManager</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.GetMacroManager(&nbsp;uidoc&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;nModulesApp&nbsp;=&nbsp;uiapp_mgr.MacroManager.Count;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;nModulesDoc&nbsp;=&nbsp;uidoc_mgr.MacroManager.Count;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;nMacrosDoc&nbsp;=&nbsp;uidoc_mgr.MacroManager
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Aggregate&lt;<span style="color:#2b91af;">MacroModule</span>,&nbsp;<span style="color:blue;">int</span>&gt;(&nbsp;0,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;n,&nbsp;m&nbsp;)&nbsp;=&gt;&nbsp;n&nbsp;+&nbsp;m.Count&lt;<span style="color:#2b91af;">Macro</span>&gt;()&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>&nbsp;dlg&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">TaskDialog</span>(&nbsp;<span style="color:#a31515;">&quot;Delete&nbsp;Document&nbsp;Macros&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dlg.MainInstruction&nbsp;=&nbsp;<span style="color:#a31515;">&quot;Are&nbsp;you&nbsp;really&nbsp;sure&nbsp;you&nbsp;&quot;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<span style="color:#a31515;">&quot;want&nbsp;to&nbsp;delete&nbsp;all&nbsp;document&nbsp;macros?&quot;</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dlg.MainContent&nbsp;=&nbsp;<span style="color:blue;">string</span>.Format(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;{0}&nbsp;application&nbsp;module{1}&nbsp;&quot;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<span style="color:#a31515;">&quot;and&nbsp;{2}&nbsp;document&nbsp;macro&nbsp;module{3}&nbsp;&quot;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<span style="color:#a31515;">&quot;defining&nbsp;{4}&nbsp;macro{5}.&quot;</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nModulesApp,&nbsp;<span style="color:#2b91af;">Util</span>.PluralSuffix(&nbsp;nModulesApp&nbsp;),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nModulesDoc,&nbsp;<span style="color:#2b91af;">Util</span>.PluralSuffix(&nbsp;nModulesDoc&nbsp;),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nMacrosDoc,&nbsp;<span style="color:#2b91af;">Util</span>.PluralSuffix(&nbsp;nMacrosDoc&nbsp;)&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dlg.MainIcon&nbsp;=&nbsp;<span style="color:#2b91af;">TaskDialogIcon</span>.TaskDialogIconWarning;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dlg.CommonButtons&nbsp;=&nbsp;<span style="color:#2b91af;">TaskDialogCommonButtons</span>.Yes
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;<span style="color:#2b91af;">TaskDialogCommonButtons</span>.Cancel;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialogResult</span>&nbsp;rslt&nbsp;=&nbsp;dlg.Show();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(<span style="color:#2b91af;">TaskDialogResult</span>.Yes&nbsp;==&nbsp;rslt&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">MacroManager</span>&nbsp;mgr&nbsp;=&nbsp;<span style="color:#2b91af;">MacroManager</span>.GetMacroManager(&nbsp;doc&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">MacroManagerIterator</span>&nbsp;it&nbsp;=&nbsp;mgr.GetMacroManagerIterator();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Several&nbsp;possibilities&nbsp;to&nbsp;iterate&nbsp;macros:</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//for(&nbsp;it.Reset();&nbsp;!it.IsDone();&nbsp;it.MoveNext()&nbsp;)&nbsp;{&nbsp;}</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//IEnumerator&lt;MacroModule&gt;&nbsp;e&nbsp;=&nbsp;mgr.GetEnumerator();</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;n&nbsp;=&nbsp;0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">MacroModule</span>&nbsp;mod&nbsp;<span style="color:blue;">in</span>&nbsp;mgr&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Debug</span>.Print(&nbsp;<span style="color:#a31515;">&quot;module&nbsp;&quot;</span>&nbsp;+&nbsp;mod.Name&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">Macro</span>&nbsp;mac&nbsp;<span style="color:blue;">in</span>&nbsp;mod&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Debug</span>.Print(&nbsp;<span style="color:#a31515;">&quot;macro&nbsp;&quot;</span>&nbsp;+&nbsp;mac.Name&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mod.RemoveMacro(&nbsp;mac&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++n;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Exception&nbsp;thrown:&nbsp;&#39;Autodesk.Revit.Exceptions</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;.InvalidOperationException&#39;&nbsp;in&nbsp;RevitAPIMacros.dll</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Cannot&nbsp;remove&nbsp;the&nbsp;UI&nbsp;module</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//mgr.RemoveModule(&nbsp;mod&nbsp;);</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;<span style="color:#a31515;">&quot;Document&nbsp;Macros&nbsp;Deleted&quot;</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>.Format(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;{0}&nbsp;document&nbsp;macro{1}&nbsp;deleted.&quot;</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n,&nbsp;<span style="color:#2b91af;">Util</span>.PluralSuffix(&nbsp;n&nbsp;)&nbsp;)&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#2b91af;">Result</span>.Succeeded;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p>This command is destructive in spite of being read-only, so it first prompts you for confirmation before proceeding to delete all document macros:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d21c5258970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d21c5258970c img-responsive" style="width: 372px; " alt="Delete document macros confirmation" title="Delete document macros confirmation" src="/assets/image_c78e95.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>After doing its dirty deed, it confesses and reports in full:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d21c5262970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d21c5262970c img-responsive" style="width: 372px; " alt="Delete document macros result message" title="Delete document macros result message" src="/assets/image_c180bc.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="4"></a>Getting Started and Changing the Colour of a Wall</h4>
+
+<p>Next, let's look
+at <a href="http://thebuildingcoder.typepad.com/blog/2010/06/display-webcam-image-on-building-element-face.html#comment-2890199050">Nalika's comment</a>
+on <a href="http://thebuildingcoder.typepad.com/blog/2010/06/display-webcam-image-on-building-element-face.html">displaying a webcam image on a building element face</a>:</p>
+
+<p><strong>Question:</strong> I'm very new to Revit and very much grateful if you could help me in solving my problem.</p>
+
+<p>Currently I'm trying to change the colour of a wall according to a certain value. For example: value 20 will make the wall red when I click on it and if I click on the wall again it will be green according to a new value. The values are stored in an array and currently have 4 values. I use the sample library project <code>WorkThread</code> and it uses the same <code>SetupDisplayStyle</code> function to set the display style. There I pick the colour from array values. However, the wall is coloured in 4th colour when I click on the wall for the 4th time, and the first three times the wall isn't coloured at all. Could you please tell me in which function/method should I change/iterate through in order to have different colours (defined from array values) every time I click on a wall.</p>
+
+<p><strong>Answer:</strong> If you are new to the Revit API, I would strongly suggest that you work through
+the <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#2">Revit API getting started material</a> first
+of all, especially the DevTV and My First Revit Plugin video tutorials.</p>
+
+<p>If you want to dive in deeper, go through the ADN Revit API Training Labs after that.</p>
+
+<p>Then start implementing your own add-ins.</p>
+
+<p>The <code>WorkThread</code> and <code>SetupDisplayStyle</code> samples do not sound suitable for what you are trying to achieve.</p>
+
+<p>By the way, what are you trying to achieve, and why?</p>
+
+<p>Maybe you should look at the Revit SDK sample collection first? It might contain exactly what you are looking for.</p>
+
+<p>One very flexible way to set colours on specific elements is by using view filters, and there is a nice sample demonstrating how to drive that programmatically as well: <code>ElementFilter</code> / <code>ViewFilters</code>.</p>
+
+<p>Before looking at the Revit API at all, you definitely need some understanding of Revit from an end user point of view.</p>
+
+<p>It provides a huge amount of complex functionality right out of the box.</p>
+
+<p>If you start programming Revit with insufficient understanding of the basic Revit end user functionality and the optimal workflows and best practices to make use of it efficiently is doomed for disaster.</p>
+
+<p>Take heed, have fun, and good luck!</p>
+
+<h4><a name="5"></a>Getting Started and Using the Visual Studio Revit Add-In Wizard Auto-Installer</h4>
+
+<p>While we are at it, we might as well also
+reproduce <a href="http://thebuildingcoder.typepad.com/blog/2016/05/visual-studio-vb-and-c-net-revit-2017-add-in-wizards.html#comment-2890797869">Juan E. Calvo Ferrándiz' comment</a> on
+the wizard auto-installation:</p>
+
+<p><strong>Question:</strong> Thanks for this work! Is amazing.</p>
+
+<p>The add-in wizard setting exports the <code>.dll</code> to the <code>bin</code> folder and the <code>users/xxx/AppData...</code> folder, right?</p>
+
+<p>Then, it also creates two copies of the <code>.addin</code> manifest, one to the project folder and another one to the <code>AppData...</code> folder.</p>
+
+<p>Revit loads the <code>.dll</code> and <code>.addin</code> from the <code>AppData...</code> folder?</p>
+
+<p>Revit doesn't need the <code>.pdb</code> file? It's just additional information when troubleshooting the DLL, right?</p>
+
+<p><strong>Answer:</strong> Yes, exactly, correct on all points.</p>
+
+<p>You, the developer, write the add-in manifest <code>.addin</code>, and the source code, in C# or whatever you like.</p>
+
+<p>The compiler generates the output DLL assembly in the directory you specify, by default <code>bin/Debug</code> and <code>bin/Release</code>.</p>
+
+<p>Your post-built events copy the add-in manifest and the DLL to the appropriate Revit add-ins folder.</p>
+
+<p>The <code>PDB</code> file contains the program debug information and is not required except for debugging.</p>
+
+<p>The mother of all information on installing a Revit add-in is provided by
+the <a href="http://help.autodesk.com/view/RVT/2017/ENU">Revit online help</a> &gt; Developers
+&gt; <a href="http://help.autodesk.com/view/RVT/2017/ENU/?guid=GUID-F0A122E0-E556-4D0D-9D0F-7E72A9315A42">Revit API Developers Guide</a>
+&gt; <a href="http://help.autodesk.com/view/RVT/2017/ENU/?guid=GUID-C574D4C8-B6D2-4E45-93A5-7E35B7E289BE">Introduction</a>
+&gt; <a href="http://help.autodesk.com/view/RVT/2017/ENU/?guid=GUID-4BE74935-A15C-4536-BD9C-7778766CE392">Add-In Integration</a>
+&gt; <a href="http://help.autodesk.com/view/RVT/2017/ENU/?guid=GUID-4FFDB03E-6936-417C-9772-8FC258A261F7">Add-in Registration</a>.</p>

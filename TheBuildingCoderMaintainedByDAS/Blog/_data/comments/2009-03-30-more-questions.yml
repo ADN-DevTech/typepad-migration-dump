@@ -1,0 +1,216 @@
+comments:
+- author: Arun Shankar
+  email: email.not.given@to.avoid.spam
+  ip: 63.76.213.5
+  url: ''
+  date: '2009-03-30 15:43:44'
+  body: 'Jeremy,
+
+
+    Using Revit 2009 API, I would like to save some elements present in a Revit project
+    file into separate .rfa files.
+
+
+    I proceed as follows:
+
+
+    1: Open the Revit project (.rvt file)  and iterate over each element.
+
+
+    2: When I encounter an element that must be saved, I need to save it into a .rfa
+    file.
+
+
+    It is quiet easy to do step 1. But, is it possible to do step 2 in Revit 2009
+    API?
+
+
+    How about Revit 2010 API - is it possible to do step 2 using that?
+
+
+    Thank you.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.68.234
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-03-30 16:44:28'
+  body: "Hi Arun,\n\nIn a certain way, to create a valid RFA file, you need to make\
+    \ use of the family editor. In Revit 2009, the API is deactivated when the family\
+    \ editor is active, so you have no access to the API when the current document\
+    \ is an RFA file. Even so, in the Revit 2009 API, you can create a new RFA file\
+    \ in the background through the API using the Application.NewFamilyDocument method.\
+    \ I have also seen examples of populating and saving such a file with certain\
+    \ elements. However, such files caused problems when one tried to load them and\
+    \ their families into a project. So realistically speaking, one has to say that\
+    \ step 2 is not supported in 2009. \n\nIn 2010, the situation is radically changed.\
+    \ In 2010, one of the main new API features is full access to the API within the\
+    \ family editor context, and a whole host of new functionality to support the\
+    \ creation of family files. So in 2010 all of what you describe is fully supported.\n\
+    \nCheers, Jeremy."
+- author: Sebastian
+  email: sebastian.tam.tran@somotsoft.com
+  ip: 118.69.224.123
+  url: ''
+  date: '2009-04-13 06:06:52'
+  body: 'Hi Jeremy,
+
+    I would like to create an Area element overlayed on a Room in an Area Plan view.
+    I proceeded as follows:
+
+    1. Retrieve the room''s boundary information
+
+    2. Create a new AreaBoundaryLine for each BoundarySegment of the room boundary
+
+    3. I got stuck here: Join two adjancent area boundary lines together so that all
+    of the boundary lines will form an enclosed region (the next step is to place
+    an Area element inside this region by calling the NewAreas(List of AreaCreationData)
+    function)
+
+
+    When I called set_ElementsAtJoin on the LocationCurve of a ModelCurve (object
+    returned from a NewAreaBoundaryLine call), an exception "Operation is not valid
+    due to the current state of the object." was raised at runtime.
+
+
+    I wonder whether I used the set_ElementsAtJoin() method correctly or not. Can
+    you explain or have any suggestions to solve this issue?
+
+
+    Thank you!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-14 07:19:38'
+  body: "Dear Sebastian,\n\nI am quite surprised to hear that the LocationCurve ElementsAtJoin\
+    \ property is read-write. I would have expected it to be read-only. Looking at\
+    \ the Revit API help, I see the following description of this property: \n\nGet\
+    \ all elements joining to the end of this element's location curve or change the\
+    \ order of elements participation in the end join with this location curve's end.\
+    \ The parameter 'end' specifies the end at which the join is to be obtained or\
+    \ we want to change the order of joined participants. The list of elements is\
+    \ expected to be a permutation of the elements already in the join at the end.\
+    \ It is expected that no new elements will be introduced, and existing ones will\
+    \ not be removed.\n\nSo you can obviously not use this property to add new elements\
+    \ to be joined, as you are trying to do.\n\nHere is an example of a simple usage\
+    \ of this method, to retrieve all the neighbouring walls connected to an existing\
+    \ one:\n\nvoid GetWallNeighbours( Wall wall )\n{\n  LocationCurve lc = wall.Location\
+    \ as LocationCurve;\n  List neighboursStart = lc.get_ElementsAtJoin( 0 );\n  List\
+    \ neighboursEnd = lc.get_ElementsAtJoin( 1 );\n}\n\nBack to your main goal, creating\
+    \ an area. First of all, I suggest having a look at the developer guide, chapter\
+    \ 20.1 Rooms. The Table 47 describes the Room, Area, and Tags relationships. Apparently,\
+    \ an area is just a sort of Room element, so the existing samples for creating\
+    \ rooms should be pretty close to what you need.\n\nI will make a note that it\
+    \ would be useful to create a sample that shows how to create a new area element,\
+    \ but I cannot tell you when or whether I will find time to actually implement\
+    \ it.\n\nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 77.57.218.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-17 09:49:53'
+  body: 'Dear Sebastian,
+
+
+    I created the sample:
+
+
+    http://thebuildingcoder.typepad.com/blog/2009/04/create-an-area.html
+
+
+    Cheers, Jeremy.'
+- author: Sowmya
+  email: ''
+  ip: 61.246.236.157
+  url: http://profile.typepad.com/cnr
+  date: '2009-12-01 01:26:30'
+  body: "Hi Jeremy,\n\nI want to create an area for a room. I saw the sample in the\
+    \ following link. <a href=\"http://thebuildingcoder.typepad.com/blog/2009/04/create-an-area.html.Its\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/04/create-an-area.html.</a>  Itsreally\
+    \ helped me. Thanks alot. But i want to know is it possible to create an area\
+    \ plan view through API? \n\nThanks,\nsowmya.N"
+- author: Jeremy Tammik
+  email: ''
+  ip: 12.160.193.229
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-04 16:25:04'
+  body: 'Dear Sowmya,
+
+
+    Have you tried using the method Document.NewAreaViewPlan?
+
+
+    Its use is demonstrated by the ElementsBatchCreation Revit SDK sample.
+
+
+    Cheers, Jeremy.'
+- author: Sowmya
+  email: ''
+  ip: 61.246.236.157
+  url: http://profile.typepad.com/cnr
+  date: '2009-12-09 03:47:21'
+  body: 'Hi Jeremy,
+
+
+    Thanks for your timely help.It works.
+
+
+    Thanks,
+
+    Sowmya'
+- author: Sowmya
+  email: ''
+  ip: 61.246.236.157
+  url: http://profile.typepad.com/cnr
+  date: '2009-12-17 00:13:32'
+  body: 'Hi Jeremy,
+
+
+    Is it possible to create a multiple area plans through API.
+
+
+    I want to create  my own area plan apart from the available rentable and gross
+    building area scheme. Is it possible through API.
+
+
+    Thanks,
+
+    Sowmya'
+- author: Sowmya
+  email: ''
+  ip: 61.246.236.157
+  url: http://profile.typepad.com/cnr
+  date: '2009-12-17 00:42:42'
+  body: 'HI jeremy,
+
+
+    I got the answer for my previous question from your blog.
+
+    Sorry for the inconvinience..
+
+    Can we expect this feature in the upcoming release?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 151.14.164.20
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-17 05:29:16'
+  body: 'Dear Sowmya,
+
+
+    I am very glad you searched for and found an answer on your own.
+
+
+    I don''t know exactly what feature you might be referring to.
+
+
+    And anyway, I don''t really know anything about any new releases  :-)
+
+
+    Cheers, Jeremy.'
+- author: Sowmya
+  email: ''
+  ip: 61.246.236.157
+  url: http://profile.typepad.com/cnr
+  date: '2009-12-18 06:37:50'
+  body: "Hi Jeremy,\n\nI mentioned about creating the custom area scheme through API.\
+    \ \n\nAnyway thanks for your kind reply.\n\nRegards,\nSowmya\n-----"

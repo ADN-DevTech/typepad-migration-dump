@@ -1,0 +1,156 @@
+comments:
+- author: Mr West
+  email: MrWest@Dot.Com
+  ip: 86.185.239.163
+  url: ''
+  date: '2012-01-18 17:19:12'
+  body: "After much searching I found the WPF window.owner property. I was unable\
+    \ to set the Revit window as the owner property because it requires a Window and\
+    \ not a IntPtr. Then I recently found the WindowInteropHelper class and was able\
+    \ to set the Owner property of the WPF window with The IntPtr similar to the above\
+    \ post. Two lines of code to implement prior to showing the window.\n\npublic\
+    \ void Run()\n{\n\tMyModelessWindow = new MyModelessWindow();\n\n\tSystem.Windows.Interop.WindowInteropHelper\
+    \ x = new System.Windows.Interop.WindowInteropHelper(MyModelessWindow);\n\tx.Owner\
+    \ = Process.GetCurrentProcess().MainWindowHandle;\n\n\tMyModelessWindow.Show();\n\
+    }\n\nI'm quite happy about this discovery so I thought I'd share it."
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-01-19 01:35:53'
+  body: "Dear Mr West, \n\nI'm quite happy for you too, and more than happy that you\
+    \ decided to share it  :-)\n\nThank you!\n\nCheers, Jeremy."
+- author: Victor Chekalin
+  email: ''
+  ip: 91.221.195.131
+  url: http://profile.typepad.com/chekalin
+  date: '2012-03-20 04:35:08'
+  body: 'Other way to get Revit main window handle (I think its easier):
+
+
+    1) Add reference to the AdWindows assembly (located at the same place where RevitAPI
+    assembly) and set Copy Local property to false
+
+    2) Get Revit main window handle using static property ApplicationWindow of ComponentManager
+    class in Autodesk.Windows namespace.
+
+
+    Now, you can use only one Property (ComponentManager.ApplicationWindow) instead
+    two methods (get current process and main window handle)
+
+
+    Best regards, Victor.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 123.3.225.237
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-03-20 08:51:04'
+  body: 'Dear Victor,
+
+
+    This is absolutely beautiful, much nicer indeed!
+
+
+    I think we should promote this information to a main blog post right away.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Victor Chekalin
+  email: ''
+  ip: 91.221.195.131
+  url: http://profile.typepad.com/chekalin
+  date: '2012-03-20 23:13:19'
+  body: 'Hello, Jeremy.
+
+    I''ve found many interesting classes and methods in AdWindows and UIFramework
+    assemblies. Unfortunately it doesn''t documented.
+
+
+    Now I use in me projects next:
+
+    1) ComponentManager.ApplicationWindow
+
+    2) UIFramework.RevitRibbonControl.RibonControl to determine if RebbonTab exists
+
+    3) Autodesk.Windows.TaskDialog - more flexible TaskDialog than Autodesk.Revit.UI.TaskDialog.
+
+
+    Best regards, Victor'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-04-05 12:09:09'
+  body: "Dear Victor, \n\nThank you, that sounds interesting indeed.\n\nI did publish\
+    \ your previous hint about the parent window:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2012/03/melbourne-day-two.html#5\"\
+    >http://thebuildingcoder.typepad.com/blog/2012/03/melbourne-day-two.html#5</a>\n\
+    \nI think the other possibilities you mention sound exciting as well.\n\nPlease\
+    \ let us know if you implement anything that you think might be useful and worthwhile\
+    \ sharing, I'll be more than glad to publish them.\n\nThank you!\n\nCheers, Jeremy."
+- author: David Rock
+  email: david.rock@live.com.au
+  ip: 203.191.197.6
+  url: ''
+  date: '2013-05-08 00:05:15'
+  body: 'Hello Jeremy,
+
+
+    In Revit 2014 I''m having trouble showing a modeless form and calling a transaction
+    whilst inside the form. It is giving me the error.
+
+
+    "starting a transation from an external application running outside of api context
+    is not allowed"
+
+
+    I am using your method to send IWin32Window to show the form.
+
+
+    Any Ideas?
+
+
+    Kind Regards
+
+    David'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.218.27
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-05-08 02:48:13'
+  body: 'Dear David,
+
+
+    Thank you for your query, both via ADN and this comment.
+
+
+    It looks as if you are calling the Revit API directly from your modeless dialog
+    that is running in another thread.
+
+
+    As you should know, actually, that was never supported.
+
+
+    Now, in Revit 2014, an exception is raised when you make such an attempt.
+
+
+    You are lucky that it worked so far without corrupting anything.
+
+
+    The solution is described in depth on The Building Coder: simply google for "modeless
+    site:thebuildingcoder.typepad.com".
+
+
+    In short, make use of the Idling event, or implement an external event, which
+    is a simplified wrapper around that, and base you application on the ModelessForm_ExternalEvent
+    and ModelessForm_IdlingEvent SDK samples.
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.
+
+    -----'

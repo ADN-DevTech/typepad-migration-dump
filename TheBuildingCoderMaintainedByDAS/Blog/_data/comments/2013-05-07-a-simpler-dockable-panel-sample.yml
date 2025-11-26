@@ -1,0 +1,482 @@
+comments:
+- author: Phillip Miller
+  email: phillip@kiwicodes.com
+  ip: 115.188.136.35
+  url: http://www.kiwicodes.com
+  date: '2013-05-07 16:20:59'
+  body: 'Good Post Jeremy.  I''m showcasing this feature next week at RTCAUS in Auckland
+    in a Lab.
+
+
+    2 Points to be aware of:
+
+
+    1.  The docked form must be a WPF form.
+
+    2.  There is a bug in the Revit API in the RTM version that causes issue when
+    you interact with the Active View.  For example if you want to return the activeView.name,
+    or placing families or posting a command like “PostCommand(RevitCommandId.LookupPostableCommandId(PostableCommand.Wall))”,
+    it will fail.
+
+    I have been advised that this has now been fixed in the internal build of Revit
+    and hope to see that in Web Update 1.
+
+    Cheers
+
+    Phillip'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.207.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-05-07 16:43:11'
+  body: 'Dear Phillip,
+
+
+    Thank you for the appreciation! An honour, coming from you  :-)
+
+
+    Thank you also for the additional notes.
+
+
+    If you would like to share your RTCAUS material to a wider audience, I will happily
+    take a look and see whether it can be published here as well.
+
+
+    Good luck with your presentations!
+
+
+    Cheers, Jeremy.'
+- author: Phillip Miller
+  email: phillip@kiwicodes.com
+  ip: 115.188.136.35
+  url: http://www.kiwicodes.com
+  date: '2013-05-07 17:16:50'
+  body: 'Jeremey - You know how to flatter people lol.
+
+
+    I will certinally forward through my material once it is finished :)'
+- author: Graham Cook
+  email: email@grahamcook.co.uk
+  ip: 86.171.16.63
+  url: ''
+  date: '2013-06-06 09:24:40'
+  body: 'Jeremey - Thanks for this post on the excellent dockable panels addition
+    to the 2014 API.  I’ve based my implementation around the code in this post but
+    have put the registration of the panel in the Application Startup event.  What
+    I’ve noticed though with both implementations is that if the first document loaded
+    in the session is closed (with a second document already opened) then the panel
+    closes with it.  Any subsequent attempts to reload the panel by calling ShowDockableWindow
+    errors on line DockablePane dp = commandData.Application.GetDockablePane( dpid
+    ); saying that the requested dockable pane has not yet been created.  So although
+    the panel was created in a zero document state, it does seem to be linked to the
+    first document that opens.  This is easily proved by opening a documentA, ensure
+    the panel is displayed, open documentB, close documentA, now try and reload the
+    panel.  Maybe this is linked with the bug that Phillip Miller is referring to
+    above or maybe it’s by design and I’m missing a trick to keep the panel open /
+    available?
+
+
+    Regards
+
+
+    Graham Cook'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.214.152
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-06-27 10:27:01'
+  body: 'Dear Graham,
+
+
+    Thank you for reporting this!
+
+
+    This behaviour has been logged as SPR #237061 [DockablePane does not allow to
+    go back to zero document state] and is being looked at.
+
+
+    I added notes of your observation to that case.
+
+
+    Cheers, Jeremy.'
+- author: Renzo
+  email: renzo.vanrijswijk@strukton.com
+  ip: 92.71.202.66
+  url: ''
+  date: '2013-06-28 01:29:53'
+  body: "Hi Jeremy,\nThanks for this sample of DockableDialog. I installed it. And\
+    \ wow, this looks nice. \n\nHowever, it seems that sometimes Revit crashes (An\
+    \ unrecoverable error has occured.) because of this. \n\nThe only thing I do is\
+    \ run the plugin, slide the window in a certain place and then try to do some\
+    \ modelling. Then for some reason it crashes. However, not always!\nDid I do something\
+    \ wrong?\n\nGreetings Renzo"
+- author: Renzo
+  email: renzo.vanrijswijk@strukton.com
+  ip: 94.208.197.154
+  url: ''
+  date: '2013-07-17 14:59:47'
+  body: "Hi Jeremy,\n\nFinally I succeeded in getting this sample to work for me and\
+    \ changed it for my needs. Thanks to your explaination.\nNow, I created a button\
+    \ on the WPF form that must get the selected Revit objects. \nIn some way I have\
+    \ to pass the Application to the WPF form. Somehow, I can not solve this step.\
+    \ Can you give me an idea for that...\n\nGreetins, Renzo"
+- author: Luca
+  email: lucavox91@gmail.com
+  ip: 87.4.91.14
+  url: ''
+  date: '2013-07-28 04:31:42'
+  body: 'Good morning,
+
+
+    I created a dockable panel for a new add-in and it works, But when I close the
+    last view of an open document, Revit doesn''t go to the "recent files" view automatically
+    and the document appear in stand-by. I tried also your example and it works in
+    the same way. Is there a way to fix this "bug"?
+
+    Could you help me?
+
+
+    Thank you very much in advance,
+
+    Best regards'
+- author: Henrik
+  email: hsa@nti.dk
+  ip: 93.176.82.162
+  url: ''
+  date: '2013-08-08 05:12:39'
+  body: 'Hi
+
+
+    I experience the same annoying problem.
+
+    Any help or hints will be much appreciated.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.223.226
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-04 04:44:54'
+  body: 'Dear Renzo,
+
+
+    Thank you for our conversations elsewhere and for posting this comment here.
+
+
+    As said, you can look at the existing dockable panel samples.
+
+
+    You need to understand that they live in a modeless context and do not have access
+    to a valid Revit API context.
+
+
+    One way to obtain one is to subscribe to the Idling event.
+
+
+    I describe this more fully here:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/09/no-command-launching-from-dockable-panel.html">http://thebuildingcoder.typepad.com/blog/2013/09/no-command-launching-from-dockable-panel.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Alexander
+  email: asklyarskiy@amcbridge.com.ua
+  ip: 212.3.115.3
+  url: ''
+  date: '2013-10-03 06:34:20'
+  body: 'Hello,
+
+    Very usefull  sample, but I have several questions.
+
+    First, I use dockable panel and I need to change ActiveView. It works fine in
+    first change but after that ActiewView equals null and I get ArgumentException
+    (Value cannot be null. Parameter name: Element). Could you help me?
+
+
+    Second, is there any way to set dockable panel minimum size?
+
+
+    Best regards'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.210.243
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-10-07 02:07:59'
+  body: 'Dear Alexander,
+
+
+    Thank you for your appreciation. Glad you like it.
+
+
+    I wonder how you are trying to access the active view.
+
+
+    Basically, in a dockable panel, you are in a modeless state, so you cannot access
+    it at all.
+
+
+    And no, I am not aware of any way to limit the dockable panel size. Maybe some
+    .NET functionality can help you implement that.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.203.115
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-11-13 03:01:15'
+  body: 'Dear Luca and Henrik,
+
+
+    Thank you for reporting this!
+
+
+    I the first customer ship version of Revit 2014, one way to work around this is
+    to close it through the close button accessed from the Big "R" in the top left
+    corner. Sorry about that.
+
+
+    The good news, though: it is fixed in Revit 2014 Update Release 2:
+
+
+    http://thebuildingcoder.typepad.com/blog/2013/11/revit-2014-update-release-2.html
+
+
+    Cheers, Jeremy'
+- author: Eric Anastas
+  email: ''
+  ip: 12.149.154.5
+  url: http://profile.typepad.com/6p01a3fcaef05a970b
+  date: '2014-01-29 15:02:41'
+  body: "Jeremy I'm a little confused how you are registering the dockable dialog\
+    \ in your example. \n\nIn RegisterDockableWindow.Execute() you initialize and\
+    \ setup a DockablePaneProviderData object, but then never reference it again.\
+    \ It looks like the DockablePaneProviderData <a href=\"https://gist.github.com/aireq/8695646\"\
+    > is just a simple class with a couple properties</a>. \n\nI tried <a href=\"\
+    https://gist.github.com/aireq/8695763\">commenting out all the code related to\
+    \ the DockablePaneProviderData</a>and the add-in seemed to work the same."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.253.73.107
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-01-29 17:58:17'
+  body: 'Dear Eric,
+
+
+    Please simply debug the sample code and see for yourself what is called and what
+    not.
+
+
+    There may very well be some redundant code in there. If so, please ignore it.
+    If it works well with it commented out, then congratulations! Trust your senses!
+
+
+    Cheers, Jeremy.'
+- author: cfu
+  email: cfu18@163.com
+  ip: 123.116.61.236
+  url: ''
+  date: '2014-02-12 09:18:54'
+  body: 'Dear Jeremy，
+
+    I have questions same as Alexander，
+
+    external events framework can''t access the active view？'
+- author: Randall Toepfer
+  email: ''
+  ip: 162.206.100.67
+  url: http://profile.typepad.com/toepfer
+  date: '2014-05-15 20:21:24'
+  body: Is there a good reason why the SDK sample has a register panel button instead
+    of automatically registering as one user in the comments suggests?
+- author: Jeremy Tammik
+  email: ''
+  ip: 80.254.69.28
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-05-16 03:15:17'
+  body: 'Dear Randall,
+
+
+    I don''t remember off-hand.
+
+
+    I do remember that I found the SDK sample overly complex, though, and therefore
+    prefer this one.
+
+
+    Cheers, Jeremy.'
+- author: Louis Jacobs
+  email: louis@skybim.com
+  ip: 197.78.179.14
+  url: http://www.skybim.com
+  date: '2014-06-19 10:23:40'
+  body: 'Hi Jeremy,
+
+
+    How can I create two dockable panels in the same addin?'
+- author: Louis Jacobs
+  email: louis@skybim.com
+  ip: 197.78.179.14
+  url: http://www.skybim.com
+  date: '2014-06-19 10:25:54'
+  body: Ok, don't worry. I got it.
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-06-22 15:51:16'
+  body: 'Dear Louis,
+
+
+    Cool. Congratulations.
+
+
+    Cheers, Jeremy.'
+- author: Drew
+  email: drew.jarvis@cansel.ca
+  ip: 174.1.253.59
+  url: ''
+  date: '2014-08-20 13:01:15'
+  body: "I have tried to rewrite this in vb, and everything works apart from the line\
+    \ of the event handler for ViewActivated, in vb I have this:\n\ncommandData.Application.ViewActivated\
+    \ += New EventHandler(Of ViewActivatedEventArgs)(AddressOf Application_ViewActivated)\n\
+    \nbut I get the following error:\n\nError\t1\t'Public Event ViewActivated(sender\
+    \ As Object, e As Autodesk.Revit.UI.Events.ViewActivatedEventArgs)' is an event,\
+    \ and cannot be called directly. Use a 'RaiseEvent' statement to raise an event.\t\
+    \n\nSo I have commented it out and it works apart from the xaml is blank in the\
+    \ dockable window.\n\nDoes anyone have a bit of guidance on how to get started\
+    \ with a RaiseEvent? I promise I am looking into it myself, but if anyone has\
+    \ some guidance that would be great.\n\nDrew"
+- author: Drew
+  email: drew.jarvis@cansel.ca
+  ip: 174.1.253.59
+  url: ''
+  date: '2014-08-20 13:55:57'
+  body: 'OK, this fixed it:
+
+
+    AddHandler commandData.Application.ViewActivated, AddressOf Application_ViewActivated
+
+
+    so that was easy :-)'
+- author: Drew
+  email: drew.jarvis@cansel.ca
+  ip: 174.1.253.59
+  url: ''
+  date: '2014-08-20 13:58:52'
+  body: 'Is it possible to post links? I have an example of the vb project that is
+    not working correctly (not showing the xaml) but each time I try to post a link
+    to it the comment is rejected without an error.
+
+
+    Drew'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-08-21 09:01:56'
+  body: 'Dear Drew,
+
+
+    Yes, you can certainly add links in the comments here. I do so all the time.
+
+
+    You can post the sample in any one of various places and add a link to it in a
+    comment here.
+
+
+    Two typical repositories that others have used in the past include gist and dropbox:
+
+
+    <a href="https://gist.github.com">https://gist.github.com</a>
+
+
+    <a href="https://www.dropbox.com">https://www.dropbox.com</a>
+
+
+    On the other hand, since I am anything but a VB aficionado, I would suggest that
+    you be better off to submit the issue as a new discussion thread in the Revit
+    API discussion forum, so that others can chip in as well:
+
+
+    <a href="http://forums.autodesk.com/t5/Revit-API/bd-p/160">http://forums.autodesk.com/t5/Revit-API/bd-p/160</a>
+
+
+    The discussion forum supports inline images (actually, so do the comments here)
+    and attachments, so you can provide your complete sample code and VB solution
+    right there on the spot.
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.'
+- author: Drew
+  email: drew.jarvis@cansel.ca
+  ip: 174.1.253.59
+  url: ''
+  date: '2014-08-21 17:14:24'
+  body: 'Is it possible to have the DockablePane modify the document? for example
+    I have a dockablepane populated based on the content of a project and then a handler
+    to fire when I click on one of the things in the dockablepane, but I get an error
+    that starting a transaction from an external application running outside of API
+    content is not allowed.
+
+
+    In the past I have had my xaml set a value in the addin then upon closing the
+    xaml the addin would run the appropriate command based on the value, but with
+    the dockable pane I would like to keep the panel on the screen rather than ceed
+    control back to the addin...'
+- author: Drew
+  email: drew.jarvis@cansel.ca
+  ip: 174.1.253.59
+  url: ''
+  date: '2014-08-21 17:15:29'
+  body: 'Thanks Jeremy, it was perhaps my browser yesterday not being my friend. Thanks
+    for the clarification.
+
+
+    Drew'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-08-22 11:39:14'
+  body: 'Dear Drew,
+
+
+    Of course it is possible to modify the current document based on the interaction
+    with the dockable panel, and a very common use case it is indeed.
+
+
+    You simply must be aware of the fact that the dockable panel lives in a modeless
+    context and has no direct access to a valid API context.
+
+
+    You can use the Idling event (less recommended) or an external event (much better)
+    to gain access to a valid Revit API context.
+
+
+    There are lots of examples demonstrating how to do this:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.28">http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.28</a>
+
+
+    Most of them are not directly related to the dockable panels, but the principles
+    are exactly the same. Modeless is modeless.
+
+
+    Here are my topics specific to dockable panels:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.4">http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.4</a>
+
+
+    If you implement something nice and simple and generic based on this, please feel
+    free to write a guest blog post describing it. I am sure that would be helpful
+    for others as well. Thank you!
+
+
+    Cheers, Jeremy.
+
+    -----'

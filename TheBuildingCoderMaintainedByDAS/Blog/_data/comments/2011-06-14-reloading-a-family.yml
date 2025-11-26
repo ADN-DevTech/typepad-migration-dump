@@ -1,0 +1,254 @@
+comments:
+- author: bsyap
+  email: nsybs.86@gmail.com
+  ip: 60.50.197.128
+  url: ''
+  date: '2011-10-04 03:29:05'
+  body: "Hi Jeremy,\n\nAfter i have create an extrusion in a family file, i try to\
+    \ load the family into a revit project. Everything works fine in Revit 2011, however,\
+    \ when i try to implement this in Revit 2012, it throw me an exception \"Family\
+    \ Loading Failed\". \nSome code snippets\n\nAutodesk.Revit.DB.Document familyDocument\
+    \ = m_rvtApp.NewFamilyDocument(strTemplateFile);\n\nAutodesk.Revit.DB.Document\
+    \ projectDocument= commandData.Application.ActiveUIDocument.Document\n\nTransaction\
+    \ trans = new Transaction(familyDocument , \"Create Family\");\n\ntry\n{\n   \
+    \ if (trans .Start() == TransactionStatus.Started)\n    {\n         .............(Add\
+    \ reference plane)\n         .............(Add alignment)\n         .............(Add\
+    \ dimension)\n         familyDocument .LoadFamily(projectDocument,           \
+    \         new FamilyOption());\n         trans.Commit();\n         return Result.Succeeded;\n\
+    \    }\ncatch (Exception ex)\n            {             \n                trans.RollBack();\n\
+    \                return Result.Failed;\n            }\n\nAny idea why this works\
+    \ in Revit 2011 but failed in Revit 2012?\n \nThanks you for your time."
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-10-17 06:53:39'
+  body: 'Dear Bsyap,
+
+
+    No, I have never previously heard of the "Family Loading Failed" error that you
+    describe.
+
+
+    Have you resolved the issue by now? If so, what was causing it, please?
+
+
+    Cheers, Jeremy.'
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://revitprogrammer.blogspot.com/
+  date: '2011-12-07 23:59:52'
+  body: "Hello, Jeremy.\nI have a problem again:(\nI'm trying to load family to the\
+    \ document. The code is very simple: \nvar doc = commandData.Application.ActiveUIDocument.Document;\n\
+    IFamilyLoadOptions familyLoadOptions = new FamilyLoadOptions();\n\nFamily family;\n\
+    var res = doc.LoadFamily(fileName, familyLoadOptions, out family);\n\nwhere filename\
+    \ is correct filename of family.\nThis code works well when I load families from\
+    \ Autodesk Library. But when I load my own family Revit show me to strange dialogs.\
+    \ The first one: \"Invalid column unit type:\", and the second one: \"Could not\
+    \ parse column header: ?????????\"\n\nres variable of course false. \n\nBut then\
+    \ I load this family through the user interface, there are no errors and family\
+    \ loaded correctly.\nI thoght, may this behavior becase family file contains cyrrilyc\
+    \ symbols and saved this family as 1.rfa. Then I loaded 1.rfa family I got other\
+    \ error dialog: \"Row 1: Unacceptable list separator: \\ Acceptable list separators\
+    \ are: , ; : |\"\nWhat is it? Is it a bug?\nIf you want I can send you my family.\n\
+    \nP.S. We submitted ADN Application yesterday. Hope soon we will be an ADN member:)"
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://revitprogrammer.blogspot.com/
+  date: '2011-12-08 02:53:39'
+  body: "One interesting thing.\nIf I select FamilyInstance in 3D-Model, in user interface\
+    \ click \"Edit Family\" button then save this family then I try to load saved\
+    \ family to entire document I get two error dialogs described in previos post\
+    \ and Docuemnt.LoadFamily returns false. If I try to load this family via user\
+    \ interface I get error dialogs either but the family loaded into document.\n\
+    But the most interesting things, if I select FamilyInstance and save family via\
+    \ API \nfamDoc = family.Document.EditFamily(family);\nSaveAsOptions sao = new\
+    \ SaveAsOptions();\nsao.OverwriteExistingFile = true;\nres = famDoc.SaveAs(path,\
+    \ sao);\nAnd later load saved family into document throgh user interface or API\
+    \ - there no errors.\nJeremy, can you explain this strange behavior?\n\nI have\
+    \ at least one family that have this behavior. I want to try why it happens, because\
+    \ I need it in my next project.\nRegards, Victor"
+- author: Woong Ki Sung
+  email: noclew@mit.edu
+  ip: 18.95.6.134
+  url: ''
+  date: '2012-04-30 11:30:08'
+  body: 'Hi Jeremy,
+
+
+    Your blog is always so helpful.
+
+    Now I am testing a editing FamilyTypes code, and I have a transaction problem
+    even though I set proper manual transactions. (I am using revit 2013) The code
+    is very simple, so could you please check? In advance, thank for your help.
+
+
+    file :: <a href="http://dl.dropbox.com/u/39185526/familyEdit.cs">http://dl.dropbox.com/u/39185526/familyEdit.cs</a>'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.178.36
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-01 07:20:59'
+  body: 'Dear Woong Ki Sung,
+
+
+    Thank you for your appreciation.
+
+
+    Funnily enough, I already received the answer to your question from Matt mason
+    a week before, suggesting that I point explicitly point out this change, so I
+    have now done so:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/05/edit-family-requires-no-transaction.html">http://thebuildingcoder.typepad.com/blog/2012/05/edit-family-requires-no-transaction.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Matt
+  email: mwilson@cea-ut.com
+  ip: 173.165.139.141
+  url: ''
+  date: '2012-05-31 12:16:33'
+  body: 'This line of code: Dim newFamilyType As FamilyType = familyManager.NewType("xx")
+
+    Creates a new family type that''s a copy of an existing family type. Is there
+    any way to control what existing family type it copies? For example, I have a
+    family of air handlers, with 6 different types, AH-1 through AH-6. When I execute
+    the command it copies AH-6 and creates the new type xx, which is a copy of AH-6,
+    just named xx. Instead I''d like to copy AH-3 and make that the new type xx. Is
+    this possible?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.181.250
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-31 12:37:09'
+  body: 'Dear Matt,
+
+
+    I think you can use the FamilyManager.CurrentType property to set the current
+    type.
+
+
+    If you set it to AH-3 before calling NewType, it might do what you wish.
+
+
+    Good luck.
+
+
+    Cheers, Jeremy.'
+- author: Matt
+  email: mwilson@cea-ut.com
+  ip: 173.165.139.141
+  url: ''
+  date: '2012-05-31 16:21:02'
+  body: Worked perfect. Thank you.
+- author: Joel Bradley
+  email: joel.bradley@rimrockgroup.com
+  ip: 205.168.12.34
+  url: http://www.rimrockgroup.com
+  date: '2012-08-30 20:48:08'
+  body: "Jeremy,\n\nI believe a slight change to your IFamilyLoadOptions example is\
+    \ necessary in order for it to be compatible with 2013:  the \"ref\"s need to\
+    \ be replaced by \"out\".\n\nMy apologies if this has been pointed out elsewhere,\
+    \ but if it was, I didn't see it.\n\nRegards,\n  Joel\n\n(Ref:  <a href=\"http://forums.autodesk.com/t5/Autodesk-Revit-API/IFamilyLoadOptions-implementation-in-revit-2013/m-p/3585706#M2951)\"\
+    >http://forums.autodesk.com/t5/Autodesk-Revit-API/IFamilyLoadOptions-implementation-in-revit-2013/m-p/3585706#M2951)</a>"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.180.37
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-09-01 10:09:48'
+  body: 'Dear Joel,
+
+
+    Thank you very much for pointing it out!
+
+
+    You are absolutely right, of course, and the link to the discussion forum is perfect.
+
+
+    As you can see above, this was published over a year back for Revit 2012, and
+    I obviously cannot go back and update all the old articles every time a new version
+    is released. I wish it was possible  :-)
+
+
+    Cheers, Jeremy.'
+- author: Leo
+  email: Hexu@ualberta.ca
+  ip: 129.128.253.187
+  url: ''
+  date: '2013-01-07 15:44:05'
+  body: 'Hello Jeremy,
+
+
+    I just downloaded the code, and run it without any change. but it always throw
+    me an exception "Family Loading Failed". Do you know why? Thanks'
+- author: Leo
+  email: Hexu@ualberta.ca
+  ip: 129.128.253.187
+  url: http://thebuildingcoder.typepad.com/blog/2010/07/beam-maker-using-a-void-extrusion-to-cut.html
+  date: '2013-01-07 15:45:34'
+  body: 'Sorry, I downloaded the code for BeamMaker.
+
+    Below is the Link:
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/07/beam-maker-using-a-void-extrusion-to-cut.html">http://thebuildingcoder.typepad.com/blog/2010/07/beam-maker-using-a-void-extrusion-to-cut.html</a>'
+- author: Mayur
+  email: ''
+  ip: 61.17.160.112
+  url: http://profile.typepad.com/6p017d4043e929970c
+  date: '2013-01-21 01:31:58'
+  body: "Dear sir\nI am new to revit app development env..I need help in one concept..\n\
+    I am using concept of transaction and subtransaction while drawing coupling on\
+    \ duct.\nPreviously I was trying to open transaction each time while drawing coupling\
+    \ on duct.\nNow when i tried to open transaction once and then open subtransaction\
+    \ each time while drawing coupling on duct then facing problem as below\n\nFamilyInstance\
+    \ famInst = _rvtDoc.Create.NewFamilyInstance(Pos, famSymbol, Autodesk.Revit.DB.Structure.StructuralType.NonStructural);\n\
+    \nwhen i hover on \"famInst\" and look at POINT location then we can it is been\
+    \ set as \n{(0.000000000, 0.000000000, 0.000000000)}\nThis is happening only when\
+    \ i am applying subtransaction."
+- author: Ema Ceballos
+  email: ''
+  ip: 190.17.14.84
+  url: http://profile.typepad.com/emaceballos
+  date: '2013-03-07 13:24:12'
+  body: 'Hi Jeremy,
+
+
+    I''ve been reading this article in detail and mixed it with some coding on my
+    own, and came to the following conclusions:
+
+
+    - When trying to add a new Type in a Family that does not have any Type created:
+
+
+    1) If the Family contains some geometry I get the following error: "Attempted
+    to read or write protected memory. This is often an indication that other memory
+    is corrupt."
+
+
+    2) If the Family does not contain geometry (like Tags) then the new Type is created
+    correctly.
+
+
+    I read above in a comment that there must be at least one Type already defined
+    for the FamilyManager.NewType("xx") method to work. Is there any way I can create
+    a new Type to a Family with no Types previously created?
+
+
+    Thanks in advance.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.184.163
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-03-13 02:31:06'
+  body: "Dear Ema,\n\nPlease work through the Family API labs. \n\nThey show how to\
+    \ create a family from scratch, add types and other important family definition\
+    \ features, and do not generate such an error.\n\nThey are described here:\n\n\
+    <a href=\"http://thebuildingcoder.typepad.com/blog/2009/08/the-revit-family-api.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/08/the-revit-family-api.html</a>\n\
+    \nAn up-to-date version including the full training material scripts is provided\
+    \ here:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2012/09/exporting-parameter-data-to-excel.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2012/09/exporting-parameter-data-to-excel.html</a>\n\
+    \nCheers, Jeremy.\n-----"

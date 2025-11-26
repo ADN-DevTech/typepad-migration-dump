@@ -1,0 +1,22 @@
+comments:
+- author: J
+  email: netmanjay@yahoo.com
+  ip: 70.94.51.59
+  url: ''
+  date: '2010-05-20 22:31:45'
+  body: At an operating system level, what is the difference between an external command
+    and an external application?  Do both run in the same process space as Revit?
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.163.22
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-05-21 00:54:39'
+  body: "Dear J,\n\nAt an operating system level, the difference between an external\
+    \ command and an external application is small. They both run in the same process\
+    \ space as Revit, and are called by Revit in a specific context. \n\nThe external\
+    \ application implements methods OnStartup and OnShutdown, which are called when\
+    \ Revit itself starts up and shuts down. \n\nThe external command implements a\
+    \ method named Execute, which is called when the user launches the command.\n\n\
+    Both can define additional call-backs, cf.\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/04/asynchronous-api-calls-and-idling.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/04/asynchronous-api-calls-and-idling.html</a>\n\
+    \nCheers, Jeremy.\n-----"

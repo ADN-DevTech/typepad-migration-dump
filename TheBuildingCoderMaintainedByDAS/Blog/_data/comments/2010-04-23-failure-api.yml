@@ -1,0 +1,95 @@
+comments:
+- author: Gregory Mertens
+  email: ''
+  ip: 70.113.26.163
+  url: http://profile.typepad.com/gregorymertens
+  date: '2011-08-21 19:33:17'
+  body: 'Jeremy,
+
+
+    I''m just learning about Revit error handling.
+
+
+    I have a routine that is triggered by the documentPrintingEvent. This routine
+    writes information to parameters in the target sheet(s).
+
+
+    One problem I''ve been able to create/anticipate is when the user can''t obtain
+    permission to edit the sheet element (because someone else has it checked out).
+    This of course leads to the error dialog "can''t edit the element until...". I
+    want to be able to capture that error and simply not perform the parameter writing
+    so that the user can proceed with printing without interruption. (abort the transaction)
+
+
+    Make sense? Can this be done with the Failure API?
+
+
+
+    ...gregory'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-08-22 05:49:09'
+  body: 'Dear Gregory,
+
+
+    That makes perfect sense to me, absolutely, and I think that is exactly the kind
+    of thing the failure API is suited for.
+
+
+    I can''t tell you off-hand whether that failure can be trapped and handled by
+    the failure API, although I do suspect it can.
+
+
+    What I would always do in this kind of case is debug the situation and step through
+    the following checks for solutions of (slightly) growing complexity:
+
+
+    1. First see whether the message being displayed in a Revit task dialogue that
+    can be trapped using the DialogBoxShowing event. If it can, that is probably the
+    easiest and cheapest way to handle it:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/11/mirroring-in-a-new-family-and-changing-active-view.html">http://thebuildingcoder.typepad.com/blog/2010/11/mirroring-in-a-new-family-and-changing-active-view.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/03/application-versus-command-event.html">http://thebuildingcoder.typepad.com/blog/2011/03/application-versus-command-event.html</a>
+
+
+    2. If not, go up a step to the failure API
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/11/failure-api-take-two.html">http://thebuildingcoder.typepad.com/blog/2010/11/failure-api-take-two.html</a>
+
+
+    3. If all else fails, you can always take complete control yourself and bypass
+    the Revit API using the dialogue clicker:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/10/dismiss-dialogue-using-windows-api.html">http://thebuildingcoder.typepad.com/blog/2009/10/dismiss-dialogue-using-windows-api.html</a>
+
+
+    For my own and others'' edification, please let us know how you end up solving
+    this. Thank you!
+
+
+    Cheers, Jeremy.'
+- author: gregory mertens
+  email: info@mertens3d.com
+  ip: 64.129.61.46
+  url: http://mertens3d.com
+  date: '2011-08-25 14:50:51'
+  body: 'Jeremy,
+
+
+    I just replied in via email since part of my comments had an image.
+
+
+
+    Thanks
+
+
+    ...gregory
+
+    -----'

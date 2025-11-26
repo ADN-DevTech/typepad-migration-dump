@@ -1,0 +1,215 @@
+comments:
+- author: Callum
+  email: hisdirt@gmail.com
+  ip: 203.97.29.128
+  url: ''
+  date: '2014-01-06 17:34:14'
+  body: 'Hi Jeremy, thanks for such helpful articles!
+
+
+    Do you know of any resources for achieving this tutorial in the Python shell?
+    I havent been able to figure out the conversion of the tools for browsing the
+    binding maps and retrieving data used here.
+
+
+    Thanks in advance!'
+- author: Martin
+  email: martin.tore.eriksson@gmail.com
+  ip: 80.252.179.126
+  url: ''
+  date: '2014-01-07 09:41:33'
+  body: 'Hi Jeremy,
+
+
+    Quick question, where did BuiltInParameterGroup.PG_OTHER go?  I''m sure it was
+    available before but now I can''t find it in neither of Revit Api 2013 or 2014.
+    Have I missed something?
+
+
+    Thanks
+
+    Martin'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.211.6
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-01-10 07:06:44'
+  body: 'Dear Martin,
+
+
+    I believe these are all the ones I have ever noticed:
+
+
+    <ul>
+
+    <li>PG_CONSTRAINTS</li>
+
+    <li>PG_CONSTRUCTION</li>
+
+    <li>PG_GENERAL </li>
+
+    <li>PG_GEOMETRY</li>
+
+    <li>PG_GRAPHICS</li>
+
+    <li>PG_IDENTITY_DATA</li>
+
+    <li>PG_MATERIALS</li>
+
+    <li>PG_MECHANICAL</li>
+
+    <li>PG_TEXT</li>
+
+    </ul>
+
+
+    Cheers, Jeremy.'
+- author: Glen E Decker
+  email: glen.decker52@gmail.com
+  ip: 50.10.88.210
+  url: ''
+  date: '2014-07-03 12:58:24'
+  body: "Hi Jeremy,\n\n     Is binding necessary when setting the value of a shared\
+    \ parameter in order to later retrieve it's value?  \n\nI'm setting the value\
+    \ like:\np = elem.LookupParameter(VarName)\nIf p IsNot Nothing Then\n   p.Set(VarVal$)\n\
+    End if \n\n...but later on when I try to retrieve the value using:\np = e.LookupParameter(VarName)\n\
+    If p IsNot Nothing Then\n    sSharedParam = p.AsString()\nEnd If\n\n... I don't\
+    \ get a value.  Is that because I'm not binding?\n\nThanks in Advance,\nGlen"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-07-04 15:22:06'
+  body: 'Dear Glenn,
+
+
+    If the binding were not correctly set up, you would not be able to retrieve the
+    parameter at all, either for reading or writing, and p would always equate to
+    Nothing.
+
+
+    So that is not the problem.
+
+
+    Is VarVal$ guaranteed to be a string?
+
+
+    Reading a parameter using AsString will only return string values.
+
+
+    Cheers, Jeremy.'
+- author: Glen Decker
+  email: glen.decker52@gmail.com
+  ip: 70.193.140.223
+  url: ''
+  date: '2014-07-09 09:10:30'
+  body: "Jeremy, \n\n     Thanks for replying. Yes, VarVal$ will always be a string.\
+    \  There are a few (4) shared parameters in the shared parameter file and all\
+    \ of them will always return a string.  Just for the sake of thoroughness, I have\
+    \ added the routine that returns the value based on the parameters storage type,\
+    \ but still, I can see the parameters definition name but the value is always\
+    \ Nothing.\n\nThe shared parameter is added to the project parameters as an instance\
+    \ parameter related.to conduit runs, fittings, and conduits without fittings.\
+    \  In this particular example, I'm dealing with a conduit run.  I know the value\
+    \ is set because when I set a reference object equal to a selection of the conduit\
+    \ run and evaluate the parameter's value that way, I can see the value correctly.\
+    \  When using the FilteredElementCollector, the value is nothing.\n\n     I am\
+    \ using a ElementCategoryFilter(OfCategory(BuiltInCategory.OST_ConduitRun)) and\
+    \ applying it to the FilteredElementCollector (fec) like... fec.WherePasses(Filter).\
+    \  I have filtered down further using .WhereElementIsNotElementType, and its opposite\
+    \ for that matter.  I've tried looping through and reading the parameters of the\
+    \ fec and through the fec.ToElements collection.  \n\nI've tried using Class Filter\
+    \ TypeOf(FamilyInstance) and TypeOf(ConduitRun), still to no avail.\n\nAny help\
+    \ in this is greatly appreciated, I'm at a loss.\n\nThanks in advance,\nGlen"
+- author: Glen E Decker
+  email: glen.decker52@gmail.com
+  ip: 50.167.60.99
+  url: ''
+  date: '2014-07-11 20:33:23'
+  body: "Just so the answer is posted,\n\nI figured out a way to read the parameters\
+    \ by downloading the Revit Snoop Tool and interpreting the way it was being done\
+    \ in it, then translating the C# to VB.NET.  I've posted the solution here:\n\n\
+    if anyone is curious.  I'd still like to know the difference in what I was doing\
+    \ versus what I'm doing now.  If anyone had any insight, that'd be great, but\
+    \ at least I got it accomplished... after 28 hours of searching and trial and\
+    \ error.  \n\nThanks, \nGlen"
+- author: Glen E Decker
+  email: glen.decker52@gmail.com
+  ip: 50.167.60.99
+  url: ''
+  date: '2014-07-11 21:24:42'
+  body: 'Sorry, forgot to post the link with the answer...
+
+
+    <a href="http://forums.autodesk.com/t5/Revit-API/Populated-Shared-Parameters-Are-Returning-Blank/m-p/5147350/highlight/false#M6765">http://forums.autodesk.com/t5/Revit-API/Populated-Shared-Parameters-Are-Returning-Blank/m-p/5147350/highlight/false#M6765</a>
+
+
+    Glen'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-07-23 03:09:41'
+  body: 'Dear Glen,
+
+
+    Congratulations of figuring it out!
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-07-23 03:10:03'
+  body: 'Dear Glen,
+
+
+    Thank you for posting the link.
+
+
+    Cheers, Jeremy.'
+- author: Glen Decker
+  email: glen.decker@gsntechnologies.com
+  ip: 71.199.173.6
+  url: ''
+  date: '2015-04-17 11:57:17'
+  body: "Is there a way to loop through all of the available types of conduit in the\
+    \ Revit model so that I can choose one from an index later to automate the conduit\
+    \ creation?\n\nRight now I'm using a Collector object, but that only builds the\
+    \ conduit Index for objects that are in the drawing, but I need it to store every\
+    \ option in the template.  Is this possible?  I've posted some code below\n\n\
+    \ Dim mCondTypes As Object = From elem In New FilteredElementCollector(gv_oGo.UiApp.ActiveUIDocument.Document).OfClass(GetType(ConduitType))\n\
+    \                                       Select elem.Id\n            REM Let oType\
+    \ = TryCast(elem, ConduitType) Just left here so I could remember how to query\
+    \ like this later\n\n            For Each elem In mCondTypes\n               \
+    \ myElem = Doc.GetElement(elem)\n                If myElem IsNot Nothing Then\n\
+    \                    If Not gv_dicConduitIndex.ContainsKey(myElem.Name) Then\n\
+    \                        gv_dicConduitIndex.Add(myElem.Name, myElem.Id)\n    \
+    \                    stat_WasHere = True\n                    End If\n       \
+    \         End If\n            Next"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-04-22 09:19:14'
+  body: 'Dear Glen,
+
+
+    Yes.
+
+
+    Your filtered element collector is working on the current active document.
+
+
+    You can base it on the template document instead, and loop over the conduit types
+    available there.
+
+
+    If it is already present in the applications Documents collection, use it from
+    there, else use OpenDocument to load and read it.
+
+
+    Cheers, Jeremy.
+
+    -----'

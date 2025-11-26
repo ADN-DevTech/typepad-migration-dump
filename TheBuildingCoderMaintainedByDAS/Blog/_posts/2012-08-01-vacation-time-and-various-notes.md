@@ -1,0 +1,286 @@
+---
+layout: "post"
+title: "Vacation Time and Various Notes"
+date: "2012-08-01 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Data Access"
+  - "Training"
+  - "Travel"
+  - "Update"
+  - "View"
+original_url: "https://thebuildingcoder.typepad.com/blog/2012/08/vacation-time-and-various-notes.html "
+typepad_basename: "vacation-time-and-various-notes"
+typepad_status: "Publish"
+---
+
+<p>To tell the truth, today is not a vacation day, but the 
+
+<a href="http://en.wikipedia.org/wiki/Swiss_National_Day">
+Swiss national holiday</a>, 
+
+right in the middle of my vacation.
+
+<p>In my last post, I mentioned various urgent and important issues that I still wanted to take care of.
+
+<p>I am very happy to tell you that these items all felt a lot less urgent and important after immersing myself in a couple of days of vacation in Avignon to visit family and attend some offerings of one of the world's biggest theatre events, the annual 
+
+<a href="http://www.festival-avignon.com">
+Avignon theatre festival</a>, 
+
+and especially its less official 
+
+<a href="http://www.avignonleoff.com">
+'OFF'</a> sibling,
+
+initiated by independent theatre companies.
+
+<!--
+
+C:\j\photo\jeremy\2012\2012-07-28_avignon\img_0494_cropped.jpg
+C:\j\photo\jeremy\2012\2012-07-28_avignon\img_0495_cropped.jpg
+C:\j\photo\jeremy\2012\2012-07-28_avignon\img_0496_cropped.jpg
+
+file:///C:/j/photo/jeremy/2012/2012-07-28_avignon/img_0494_cropped.jpg
+file:///C:/j/photo/jeremy/2012/2012-07-28_avignon/img_0495_cropped.jpg
+file:///C:/j/photo/jeremy/2012/2012-07-28_avignon/img_0496_cropped.jpg
+
+http://www.avignonleoff.com/Ressources/Images/Adapted_220_x/affiche2012.jpg
+
+-->
+
+<center>
+
+<a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e168978833016768f8d8d0970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833016768f8d8d0970b image-full" alt="Avignon theatre festival" title="Avignon theatre festival" src="/assets/image_2608c7.jpg" border="0" /></a><br />
+
+</center>
+
+<p>The main reason for my visit were my relatives, though, and not the festival, although I did attend a couple of shows and loved the buzzing activity everywhere.
+
+<p>I also went climbing in 
+
+<a href="http://fr.wikipedia.org/wiki/Collias">
+Collias</a>, 
+
+paddling on the 
+
+<a href="http://en.wikipedia.org/wiki/Gardon">
+Gardon</a>, 
+
+enjoyed the spectacular 
+
+<a href="http://en.wikipedia.org/wiki/Pont_du_Gard">
+Pont du Gard</a>, 
+
+and revelled in the atmosphere and warm summer nights in the city.
+
+<center>
+
+<a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e168978833016768f8dada970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833016768f8dada970b image-full" alt="Avignon theatre festival night" title="Avignon theatre festival night" src="/assets/image_b61f7e.jpg" border="0" /></a><br />
+
+</center>
+
+<p>As I once 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2009/06/adding-a-shared-parameter-to-an-rfa-file.html">
+mentioned</a>, 
+
+I also love the trip itself down to Avignon along back roads and desolate river gorges.
+The main discovery this time around was the beautiful 
+
+<a href="http://en.wikipedia.org/wiki/Lac_du_Bourget">
+Lac du Bourget</a>,
+
+where I was mysteriously and magically lent a gorgeous wooden canoe to go paddling around in between rounds of swimming.
+
+<center>
+
+
+<a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e168978833017743d408fb970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833017743d408fb970d image-full" alt="Lac du Bourget" title="Lac du Bourget" src="/assets/image_376c66.jpg" border="0" /></a><br />
+
+</center>
+
+
+<p>Meanwhile, here are a couple of work and Revit API related thingies that were either pending publication or hanging around my inbox that I would like to share with you:
+
+<ul>
+<li><a href="#2">Revit API overview</a>
+<li><a href="#3">Presenting colour coded source code</a>
+<li><a href="#4">Preview control with linked document</a>
+<li><a href="#5">Calculating the mass of a building element</a>
+</ul>
+
+
+
+<a name="2"></a>
+
+<h4>Revit API Overview</h4>
+
+<p>We regularly hear requests for a Revit API overview.
+
+<p>The first and foremost place to look is in the material provided in the 
+
+<a href="http://www.autodesk.com/developrevit">Revit Developer Center</a> and
+
+in the 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2012/04/developer-center-and-sdk-update.html#0">
+developer guide wiki</a>.
+
+The Revit Developer Center provides a host of self-learning material as well.
+
+<p>By the way, due to popular demand, a new lesson on debugging has been added to the 
+
+<a href="http://www.autodesk.com/myfirstrevitplugin">My First Revit Plug-in</a> tutorial:
+
+<a href="http://usa.autodesk.com/adsk/servlet/index?siteID=123112&id=20132893">
+Lesson 4: Debugging the code</a>.
+
+<p>Both the 
+
+<a href="http://images.autodesk.com/adsk/files/revit_2012_api_training.zip">
+Revit 2012 API Labs</a>
+
+and the 
+
+<a href="http://www.adskconsulting.com/adn/cs/api_course_webcast_archive.php">
+Revit API Webcast Archive</a>
+ 
+include various versions of API overviews as well.
+
+<p>The 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2012/05/devdays-online-on-whats-new-in-revit-2013.html">
+DevDays Online presentation on What's New in Revit 2013</a> and
+
+the follow-up 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2012/05/revit-2013-api-webcast-recording.html">
+Revit 2013 API webcast</a>
+
+complementing it both discuss new features of the Revit 2013 API, and the first half of the latter is completely dedicated to the basics of the Revit API in general and is independent of the current version.
+
+ 
+<p>Ritchie Jackson also created a complete 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2011/04/ritchies-revit-api-introduction.html">
+Revit API Introduction</a> from 
+
+a completely different point of view.
+ 
+
+
+<a name="3"></a>
+
+<h4>Presenting Colour Coded Source Code</h4>
+
+<p>Here are some tips on pasting colour coded source code into a PowerPoint slide deck.
+
+
+<h5>a) Simple One-step Approach via HTML</h5>
+
+<ul> 
+<li>Use CopyToHTML in Visual Studio to copy the colour coded source code into the clipboard in HTML format.
+<li>In PowerPoint, use Home &gt; Paste &gt; Arrow down &gt; Paste Special... &gt; HTML format to paste. 
+</ul> 
+
+ 
+<h5>b) Safer Two-step Approach via Word and RTF</h5>
+ 
+<p>You may have a still better result using Word in an intermediate step. 
+In that case, you don't even need to copy as HTML from VS; you can just use the standard copy. 
+In Word, first paste the code, then select and copy it again from Word. 
+Now, in PowerPoint, use Home &gt; Paste &gt; Arrow down &gt; Paste Special... &gt; RTF format to paste it in.
+ 
+
+<h5>Colour Coded Source Code for Black Slides</h5>
+ 
+<p>If your slides use a black background, and you are using a white background in VS, your black source code will be invisible. In that case, in VS, you can go to Tools &gt; Options... &gt; Environment &gt; Fonts and Colors &gt; Item background and set that to black, set the item foreground to white, and hit OK.
+
+<p>Another option besides using CopySourceAsHtml is Notepad++, which supports many other languages, including JavaScript. 
+
+
+<a name="4"></a>
+
+<!-- 07348619 [Preview Control with linked doc] -->
+
+<h4>Preview Control with Linked Document</h4>
+
+<p>One if the new 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2012/03/revit-2013-and-its-api.html">
+Revit 2013 API</a> features is the 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2012/03/revit-2013-and-its-api.html#2">
+preview control</a>, 
+
+supporting enhanced integration between Revit and an add-in.
+
+<p>I presented a minimal sample named 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2012/06/devcamp-day-two.html#23">
+PreviewControlSimple</a> making 
+
+use of it in my DevCamp session on the 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2012/06/devcamp-day-two.html#2">
+Revit 2013 UI API enhancements</a>,
+
+and a more complete and complex one is given by the 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2012/03/new-revit-2013-sdk-samples.html#4">
+UIAPI Revit SDK sample</a>.
+
+<p>Here is a question that was not yet addressed, though:
+
+
+<p><strong>Question:</strong> Is it possible to use the preview control with a linked document? 
+
+I tried to do so, and it throws an exception saying "Cannot preview a linked document".
+
+
+<p><strong>Answer:</strong> This is by design: a linked document cannot be previewed using this control.
+
+<p>One workaround would be to close the project document, open the linked document and preview it then.
+
+<p>Another would be to create a new view in your project, display the linked instance in it, hide all other instances, and send that view to the preview control.
+
+
+
+<a name="5"></a>
+
+<!-- Steven Mycynek RE: #18 - calculate Revit element mass -->
+
+<h4>Calculating the Mass of a Building Element</h4>
+
+<p>And finally, another pretty fundamental little BIM question that has been hanging around waiting to be published for a while:
+
+<p><strong>Question:</strong> How can I determine the mass of a building element?
+
+<p>I am working with data sets providing certain crucial calculation values based on material mass.
+
+<p>I can see how to calculate volume and area in the Revit API, but I see no API call to calculate mass.
+
+<p>Is there any way to calculate a Revit model element's material mass through the API? 
+
+<!-- I've listed the various area's I've investigated at https://github.com/AMEE/revit/issues/18 -->
+
+<p><strong>Answer:</strong> You can query the material for its density, and ask the building element for its volume.
+
+<p>The volume obviously needs to be provided for several different materials per building element, e.g. for the different layers of the compound structure of a complex wall or floor, so you can use the Category.HasMaterialQuantities property to check which materials contribute volume and the Element.GetMaterialVolume method to determine the volume of a specific material for a given element.
+
+<p>The density can be obtained from the Density property on StructuralAsset, which can be retrieved from Material.StructuralAssetId and PropertySetElement.GetStructuralAsset.
+
+<p>A related issue and a different access to the density in the context of 
+
+<a href="http://www.amee.com">
+AMEE</a> is 
+
+discussed by David Laing in his thread on
+
+<a href="https://github.com/AMEE/revit/issues/18">
+calculating element material mass</a>.
+
+
+<p>That is all from me for now.
+I still have to relax a bit more...

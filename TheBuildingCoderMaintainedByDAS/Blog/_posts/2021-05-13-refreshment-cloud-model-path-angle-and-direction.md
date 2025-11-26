@@ -1,0 +1,270 @@
+---
+layout: "post"
+title: "Refreshment, Cloud Model Path, Angle and Direction"
+date: "2021-05-13 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "360"
+  - "BIM"
+  - "Cloud"
+  - "Docs"
+  - "Group"
+  - "Job"
+  - "Regen"
+  - "SDK Samples"
+  - "User Interface"
+original_url: "https://thebuildingcoder.typepad.com/blog/2021/05/refreshment-cloud-model-path-angle-and-direction.html "
+typepad_basename: "refreshment-cloud-model-path-angle-and-direction"
+typepad_status: "Publish"
+---
+
+<p>An example of real-time live graphical user input feedback, cloud model functionality, the ever important need to regenerate and other important topics for this holiday day:</p>
+
+<ul>
+<li><a href="#2">Line angle and direction jig</a></li>
+<li><a href="#3">Determine cloud model local file path</a></li>
+<li><a href="#4">How to refresh GroupType.Groups</a></li>
+<li><a href="#5">Online access to RevitAPI.chm help files</a></li>
+<li><a href="#6">C++/C&#35; frontend engineer</a></li>
+</ul>
+
+<h4><a name="2"></a> Line Angle and Direction Jig</h4>
+
+<p>The Revit API does not provide much support for real-time feedback on graphical user input, so this original idea
+by Maarten van der Linden of <a href="https://www.wagemaker.nl">Wagemaker</a> may
+come in handy, using <code>PromptForFamilyInstancePlacement</code> as a workaround, in answering 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/how-can-i-draw-the-detail-line-to-let-the-information-of/m-p/10291715">how to draw the detail line to let the information of direction and angle emerge before finishing the command</a>:</p>
+
+<p><strong>Question:</strong> How can I draw the Detail Line to let the information of direction and angle emerge before finishing the command?</p>
+
+<p>Currently, I am using <code>PickPoint</code> to prompt the use to select line endpoints and creating a detail curve from that information.</p>
+
+<p>However, I see no way to display any useful graphical feedback while picking these points like Revit itself does internally:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330278802973ae200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330278802973ae200d img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="Feedback on pick point angle and direction" title="Feedback on pick point angle and direction" src="/assets/image_9fa346.jpg" /></a><br /></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330282e101db2a200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330282e101db2a200b img-responsive" style="width: 300px; display: block; margin-left: auto; margin-right: auto;" alt="Feedback on pick point angle and direction" title="Feedback on pick point angle and direction" src="/assets/image_8c3ee6.jpg" /></a><br />
+</center></p>
+
+<p><strong>Answer:</strong> You could try to launch the built-in Revit command together with the built-in user interface by using <code>PostCommand</code>.</p>
+
+<p>Another option might be to implement some kind of
+own <a href="https://thebuildingcoder.typepad.com/blog/2020/10/onbox-directcontext-jig-and-no-cdn.html#3">jig, e.g., using the <code>IDirectContext3DServer</code></a>.,</p>
+
+<p>Maybe you could also use some kind of Windows tooltip to display the required real-time information.</p>
+
+<p>Unfortunately, since this functionality is not supported by the Revit API out of the box, I'm afraid it may be hard to implement anything that is both useful and nice to use.</p>
+
+<p>However, here Maarten comes to the rescue, saying:</p>
+
+<blockquote>
+  <p>In my command to rotate the crop region of plan view, I use a line-based detail item in combination with <code>PromptForFamilyInstancePlacement</code> to mimic that kind of behaviour.
+  Here is a video of the functionality:</p>
+</blockquote>
+
+<p><center>
+<video style="display:block; width:600px; height:auto;" autoplay="" muted="" loop="loop">
+<source src="https://thebuildingcoder.typepad.com/img/line_based_detail_item_direction_arrow_jig.mp4" type="video/mp4"> <!-- 1629 -->
+<source src="https://thebuildingcoder.typepad.com/2020/banana_small.mp4" type="video/mp4">
+</video>
+</center></p>
+
+<p>Many thanks to Maarten for the great suggestion.</p>
+
+<h4><a name="3"></a> Determine Cloud Model Local File Path</h4>
+
+<p>We recently discussed the question 
+of <a href="https://forums.autodesk.com/t5/revit-api-forum/get-bim-360-model-s-quot-absolute-quot-path/m-p/10292538">determining a BIM 360 model's local "absolute" path</a>.
+Unfortunately, the initial solution was limited to workshared cloud models.</p>
+
+<p>Now Simon Jones shared a more general method that works with non-workshared cloud models as well, saying:</p>
+
+<blockquote>
+  <p>Thanks for the original code to determine the file in the local cache for cloud models.</p>
+  
+  <p>However, I found it only worked for workshared cloud models.</p>
+  
+  <p>This is a revision to work also with non-workshared cloud models:</p>
+</blockquote>
+
+<pre class="code">
+<span style="color:blue;">string</span>&nbsp;GetCloudModelLocalCacheFilepath(&nbsp;
+&nbsp;&nbsp;Document&nbsp;doc,&nbsp;
+&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;version_number&nbsp;)
+{
+&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;title&nbsp;=&nbsp;doc.Title;
+&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;ext&nbsp;=&nbsp;Path.GetExtension(&nbsp;doc.PathName&nbsp;);
+&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;localRevitFile&nbsp;=&nbsp;<span style="color:blue;">null</span>;
+
+&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;doc.IsModelInCloud&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;ModelPath&nbsp;modelPath&nbsp;=&nbsp;doc.GetCloudModelPath();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;guid&nbsp;=&nbsp;modelPath.GetModelGUID().ToString();
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;folder&nbsp;=&nbsp;<span style="color:#a31515;">&quot;C:\\Users\\&quot;</span>&nbsp;+&nbsp;Environment.UserName&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<span style="color:#a31515;">&quot;\\AppData\\Local\\Autodesk\\Revit\\Autodesk&nbsp;Revit&nbsp;&quot;</span>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;version_number&nbsp;+&nbsp;<span style="color:#a31515;">&quot;\\CollaborationCache&quot;</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;revitFile&nbsp;=&nbsp;guid&nbsp;+&nbsp;ext;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>[]&nbsp;files&nbsp;=&nbsp;Directory
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.GetFiles(&nbsp;folder,&nbsp;revitFile,&nbsp;SearchOption.AllDirectories&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Where(&nbsp;c&nbsp;=&gt;&nbsp;!c.Contains(&nbsp;<span style="color:#a31515;">&quot;CentralCache&quot;</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.ToArray();
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;0&nbsp;&lt;&nbsp;files.Length&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;localRevitFile&nbsp;=&nbsp;files[&nbsp;0&nbsp;];
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">else</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Print(&nbsp;<span style="color:#a31515;">&quot;Unable&nbsp;to&nbsp;find&nbsp;local&nbsp;rvt&nbsp;for:&nbsp;&quot;</span>&nbsp;+&nbsp;doc.PathName&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color:blue;">else</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;localRevitFile&nbsp;=&nbsp;doc.PathName;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;localRevitFile;
+}
+</pre>
+
+<blockquote>
+  <p>The key is to use <code>modelPath.GetModelGUID</code> rather than <code>doc.WorksharingCentralGUID</code>
+  &ndash; thanks @jeremy.tammik for pointing out this function to me (apparently it has been there since 2019.1)...</p>
+</blockquote>
+
+<p>Many thanks to Simon for sharing this.</p>
+
+<p>I added it
+to <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder samples</a> to
+make it easy to keep track of, cf.
+the <a href="https://github.com/jeremytammik/the_building_coder_samples/compare/2022.0.150.5...2022.0.150.6">diff to the previous release</a>.</p>
+
+<h4><a name="4"></a> How to Refresh GroupType.Groups</h4>
+
+<p>The <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+asking <a href="https://forums.autodesk.com/t5/revit-api-forum/why-does-grouptype-groups-contain-ungrouped-groups/m-p/10291256">why <code>GroupType.Groups</code> contains ungrouped groups</a> demonstrates
+another example of
+the <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#5.33">need to regenerate</a>
+and shows that sometimes more than just regenerating the model is required to avoid accessing stale data.
+Committing the transaction is the next level up after regeneration:</p>
+
+<p><strong>Question:</strong> The following code prints the same number twice:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;groupType&nbsp;=&nbsp;group.GroupType;
+&nbsp;&nbsp;Debug.Print(&nbsp;groupType.Groups.Size.ToString()&nbsp;);
+&nbsp;&nbsp;group.UngroupMembers();
+&nbsp;&nbsp;Debug.Print(&nbsp;groupType.Groups.Size.ToString()&nbsp;);
+</pre>
+
+<p></p>
+
+<p>Is this the correct behaviour?</p>
+
+<p>What do I need to do to make sure groupType.Groups always returns the correct GroupSet?</p>
+
+<p>I tried calling <code>Regenerate</code> and that doesn't help.</p>
+
+<p>It looks like I need to end and restart the transaction.</p>
+
+<p>This code shows that GroupType.Groups still reports the ungrouped group after doc.Regenerate() and finally disappears after committing and restarting a new transaction. I tried to get a new reference to the GroupType, hoping that avoiding some caching would help, but it didn't:</p>
+
+<pre class="code">
+&nbsp;&nbsp;tx.Start(&nbsp;<span style="color:#a31515;">&quot;Test&nbsp;1&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;elementIds&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;List&lt;ElementId&gt;
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;Utils.CreateModelLine(<span style="color:blue;">new</span>&nbsp;XYZ(0,&nbsp;0,&nbsp;0),&nbsp;<span style="color:blue;">new</span>&nbsp;XYZ(1,&nbsp;0,&nbsp;0),&nbsp;doc).Id,
+&nbsp;&nbsp;&nbsp;&nbsp;Utils.CreateModelLine(<span style="color:blue;">new</span>&nbsp;XYZ(0,&nbsp;1,&nbsp;0),&nbsp;<span style="color:blue;">new</span>&nbsp;XYZ(1,&nbsp;1,&nbsp;0),&nbsp;doc).Id,
+&nbsp;&nbsp;&nbsp;&nbsp;Utils.CreateModelLine(<span style="color:blue;">new</span>&nbsp;XYZ(0,&nbsp;2,&nbsp;0),&nbsp;<span style="color:blue;">new</span>&nbsp;XYZ(1,&nbsp;2,&nbsp;0),&nbsp;doc).Id,
+&nbsp;&nbsp;};
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;group1&nbsp;=&nbsp;doc.Create.NewGroup(&nbsp;elementIds&nbsp;);
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;group2&nbsp;=&nbsp;doc.Create.PlaceGroup(&nbsp;<span style="color:blue;">new</span>&nbsp;XYZ(&nbsp;0,&nbsp;5,&nbsp;0&nbsp;),&nbsp;group1.GroupType&nbsp;);
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;group3&nbsp;=&nbsp;doc.Create.PlaceGroup(&nbsp;<span style="color:blue;">new</span>&nbsp;XYZ(&nbsp;0,&nbsp;10,&nbsp;0&nbsp;),&nbsp;group1.GroupType&nbsp;);
+&nbsp;&nbsp;Debug.Print(&nbsp;group1.GroupType.Groups.Size.ToString()&nbsp;);
+
+&nbsp;&nbsp;group2.UngroupMembers();
+&nbsp;&nbsp;Debug.Print(&nbsp;group1.GroupType.Groups.Size.ToString()&nbsp;);
+
+&nbsp;&nbsp;doc.Regenerate();
+&nbsp;&nbsp;Debug.Print(&nbsp;group1.GroupType.Groups.Size.ToString()&nbsp;);
+
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;groupType&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;FilteredElementCollector(&nbsp;doc&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;GroupType&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Cast&lt;GroupType&gt;()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.FirstOrDefault(&nbsp;gt&nbsp;=&gt;&nbsp;gt.Name&nbsp;==&nbsp;group1.GroupType.Name&nbsp;);
+&nbsp;&nbsp;Debug.Print(&nbsp;groupType.Groups.Size.ToString()&nbsp;);
+
+&nbsp;&nbsp;tx.Commit();
+
+&nbsp;&nbsp;tx.Start(&nbsp;<span style="color:#a31515;">&quot;Test&nbsp;2&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;Debug.Print(&nbsp;groupType.Groups.Size.ToString()&nbsp;);
+&nbsp;&nbsp;groupType&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;FilteredElementCollector(&nbsp;doc&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;GroupType&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Cast&lt;GroupType&gt;()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.FirstOrDefault(&nbsp;gt&nbsp;=&gt;&nbsp;gt.Name&nbsp;==&nbsp;group1.GroupType.Name&nbsp;);
+&nbsp;&nbsp;Debug.Print(&nbsp;groupType.Groups.Size.ToString()&nbsp;);
+
+&nbsp;&nbsp;tx.Commit();
+</pre>
+
+<p>I tried using a subtransaction, but that didn't help.</p>
+
+<p>At this point I do have a workaround, but I don't like to create transactions only because I can't rely on GroupType.Groups not reporting ungrouped groups.</p>
+
+<p>Any advice?</p>
+
+<p><strong>Answer:</strong> Just firing off the top of my head here but... instead of transactions and subtransactions, you might try a transaction group with transactions within it... works just a little differently and perhaps that difference will be a little cleaner in the end...</p>
+
+<p><strong>Response:</strong> Using a transaction group seem to be the best workaround. Here are the steps:</p>
+
+<ul>
+<li>transactionGroup.Start</li>
+<li>transaction.Start</li>
+<li>group.UngroupMemebers</li>
+<li>group.GroupType.Groups still contains the ungrouped group</li>
+<li>transaction.Commit</li>
+<li>group.GroupType.Groups does not contain the ungrouped group</li>
+</ul>
+
+<p>Unfortunately, such a workaround cannot be used in a generic case.
+Wrapping the call to <code>UngroupMembers</code> inside its own transaction only because any following <code>groupType.Groups</code> would return the wrong result is ugly, because it forces the caller to use a transaction group rather than a transaction.</p>
+
+<p><strong>Answer:</strong> I recently had a somewhat similar problem (working w/ completely different objects though). It seems like in some cases the value returned by a Revit API object's property or method is always the same as when it was first obtained from the API, even after regenerating the model. To resolve this in my case I had to obtain a new copy of the object from the API after regenerating the model (e.g., myElement = myDocument.GetElement(myElementId);). I don't know if this will help in your situation, but I hope it does.</p>
+
+<p><strong>Response:</strong> Thanks for the advice.
+I just tried and in this stale case the cached info sticks around even after getting a new element.
+Adding these two lines before closing the transaction to my code, still return the wrong value:</p>
+
+<pre class="code">
+&nbsp;&nbsp;group1&nbsp;=&nbsp;doc.GetElement(&nbsp;group1.Id&nbsp;)&nbsp;<span style="color:blue;">as</span>&nbsp;Group;
+&nbsp;&nbsp;Debug.Print(&nbsp;groupType.Groups.Size.ToString()&nbsp;);
+
+&nbsp;&nbsp;groupType&nbsp;=&nbsp;doc.GetElement(&nbsp;group1.GroupType.Id&nbsp;)&nbsp;<span style="color:blue;">as</span>&nbsp;GroupType;
+&nbsp;&nbsp;Debug.Print(&nbsp;groupType.Groups.Size.ToString()&nbsp;);
+</pre>
+
+<h4><a name="5"></a> Online Access to RevitAPI.chm Help Files</h4>
+
+<p>Guy Talarico set up a repository sharing the RevitAPI.chm Windows help file provided by the Revit SDK for all Revit API releases reaching back to Revit 2012.</p>
+
+<p>These files are used to generate the online Revit API documentation
+resources <a href="https://www.revitapidocs.com/">revitapidocs.com</a>
+and <a href="https://apidocs.co/">apidocs.co</a> that
+provide web presentations of the same content.</p>
+
+<p>Due to the growing size of the CHM files, we were forced to turn on
+the <a href="https://git-lfs.github.com/">Git Large File Storage (LFS)</a> and move the repository to a new location in the ADN-DevTech organisation
+at <a href="https://github.com/ADN-DevTech/revit-api-chms">github.com/ADN-DevTech/revit-api-chms</a>.</p>
+
+<h4><a name="6"></a> C++/C&#35; Frontend Engineer</h4>
+
+<p>Friend and colleague Carlo asked me to point out
+a <a href="https://www.comeet.com/jobs/knauf/56.004/cc-frontend-engineer-mfd/9F.D1F">career opportunity for a C++/C&#35; frontend engineer</a> with
+Knauf in Germany to develop and deliver solutions for CAD programs, e.g., Revit and ArchiCAD, mixing native SDK technologies in C++, .NET and web views.</p>

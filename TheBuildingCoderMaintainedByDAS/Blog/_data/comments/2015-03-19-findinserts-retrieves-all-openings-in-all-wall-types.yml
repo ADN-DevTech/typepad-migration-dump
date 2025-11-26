@@ -1,0 +1,78 @@
+comments:
+- author: Håkon Clausen
+  email: hhc@drofus.com
+  ip: 79.160.173.204
+  url: ''
+  date: '2015-04-13 16:23:08'
+  body: "Hi,\nIf have found two issues with this solution after playing around with\
+    \ it for some hours.\n\n1) In contrast to the \"Calculating Gross and Net Wall\
+    \ Areas\" solution, after getting the wall inserts with FindInserts it does not\
+    \ check that the inserts actually belongs to the room and thus removes inserts\
+    \ to other rooms if the wall is part of multiple rooms. This will of course lead\
+    \ to wrong result. Checking the instance room/toroom/fromroom parameter like the\
+    \ previous solution rectifies this.\n2) If a wall has multiple faces or subfaces,\
+    \ the opening area is subtracted multiple times. Take e.g. the hall from the 2013\
+    \ basic sample (or any room with a wall with multiple doors to other rooms. This\
+    \ will make calwallAreaMinusOpenings report a negative wall area. Creating a gross\
+    \ sum for each wall, then looping through the walls found and calculate the opening\
+    \ area once seems to be an approach.\nI have tested something like this:\n\n \
+    \   foreach (Face face in results.GetGeometry().Faces)\n    {\n\tforeach (var\
+    \ subface in results.GetBoundaryFaceInfo(face))\n\t{\n\t    if (subface.SubfaceType\
+    \ != SubfaceType.Side) { continue; }\n\t    var wall = this.doc.GetElement(subface.SpatialBoundaryElement.HostElementId)\
+    \ as HostObject;\n\t    if (wall == null) { continue; }\n\t    var grossArea =\
+    \ subface.GetSubface().Area;\n\t    if (!walls.ContainsKey(wall.UniqueId))\n\t\
+    \    {\n\t\twalls.Add(wall.UniqueId, grossArea);\n\t    }\n\t    else\n\t    {\n\
+    \t\twalls[wall.UniqueId] += grossArea;\n\t    }\n\t}\n    }\n\n    var result\
+    \ = 0.0;\n    foreach (var id in walls.Keys)\n    {\n\tvar wall = (HostObject)this.doc.GetElement(id);\n\
+    \tvar openings = CalculateWallOpeningArea(wall, room);\n\tresult += (walls[id]\
+    \ - openings);\n\tDebug.WriteLine(\"Wall: {0} Gross {1} Net {2}\".FormatWith(wall.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString(),\
+    \ walls[id], (walls[id] - openings)));\n    }"
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.103.43
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-04-14 03:47:03'
+  body: 'Dear Håkon,
+
+
+    Those sound like two absolutely valid points, and your solution to fix them looks
+    very promising to me.
+
+
+    I see that you added some other functionality that you do not explicitly mention,
+    such as a dictionary of the affected walls.
+
+
+    Could you possibly fork the SpatialElementGeometryCalculator GitHub repository,
+    add your changes to that, and create a pull request for me to merge them back
+    in to take a closer look at?
+
+
+    <a href="https://github.com/jeremytammik/SpatialElementGeometryCalculator">https://github.com/jeremytammik/SpatialElementGeometryCalculator</a>
+
+
+    I think your improvements are very important and will be of great interest to
+    others as well.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.103.43
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-04-14 04:19:02'
+  body: 'Dear Håkon,
+
+
+    I raised an issue for your suggestions:
+
+
+    <a href="https://github.com/jeremytammik/SpatialElementGeometryCalculator/issues/1">https://github.com/jeremytammik/SpatialElementGeometryCalculator/issues/1</a>
+
+
+    Cheers, Jeremy.
+
+    -----'

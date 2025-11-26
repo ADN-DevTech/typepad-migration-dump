@@ -1,0 +1,158 @@
+comments:
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: ''
+  date: '2011-11-24 06:08:54'
+  body: 'Hi Jeremy,
+
+
+    instead of casting (e as Room) and then checking whether the casting result is
+    not null, you better could check if (e is Room) *before* the casting and then
+    only cast Elements that *are* Rooms.
+
+
+    Bye,
+
+    Rudolf'
+- author: Jeremy Tammik
+  email: ''
+  ip: 64.134.222.151
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-11-24 22:21:18'
+  body: 'Dear Rudolf,
+
+
+    Thank you for the suggestion, yet I beg to disagree.
+
+
+    As far as I know, the check whether ''e is Room'' costs as much as the cast to
+    ''e as Room'', and it is therefore more efficient to cast right away and avoid
+    the check completely, or at last replace it by the less costly comparison with
+    null.
+
+
+    Check it out, I have seen this mentioned elsewhere as well, e.g. among the five
+    wonders:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/11/c-and-net-little-wonders.html">http://thebuildingcoder.typepad.com/blog/2010/11/c-and-net-little-wonders.html</a>
+
+
+    <a href="http://geekswithblogs.net/BlackRabbitCoder/archive/2010/08/26/c.net-five-little-wonders-that-make-code-better-1-of.aspx">http://geekswithblogs.net/BlackRabbitCoder/archive/2010/08/26/c.net-five-little-wonders-that-make-code-better-1-of.aspx</a>
+
+
+    Cheers, Jeremy.'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: ''
+  date: '2011-11-25 04:14:16'
+  body: 'Hello Jeremy,
+
+
+    we never stop learning.
+
+    So thank you much for the explanation.
+
+
+
+    Bye,
+
+    Rudolf'
+- author: Victor Chekalin
+  email: ''
+  ip: 91.221.195.201
+  url: http://profile.typepad.com/6p017ee5f8b354970d
+  date: '2013-02-04 01:05:37'
+  body: "Hi, Jeremy.\nA little addition.\nInstead Rudolf suggestion to use (e is Room)\
+    \ the better way is to use LINQ:\nFilteredElementCollector collector = \n    new\
+    \ FilteredElementCollector(doc);\nvar rooms =\n    collector\n        .OfClass(typeof(SpatialElement))\n\
+    \        .OfType<Room>()\n        .ToList();\n\nFurthermore, you can forgot about\
+    \ SpatialElement to filter rooms and use native RoomFilter :)\n\nBut I don't understand\
+    \ why it is not possible to use collector.OfClass(typeof(Room)). The base class\
+    \ of Room class is SpatialElement class. The base class of SpatialElementClass\
+    \ is Element class. So the Room class is Element class.\n\nHope information was\
+    \ useful.\n\nHave a nice day,\nVictor.\n\nupd. angle brackets has disappeared\
+    \ again:) LINQ code <a href=\"http://pastebin.com/zV33DJ1N\">here</a>."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.185.104
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-02-08 08:15:10'
+  body: 'Dear Victor,
+
+
+    Thank you for the improvement.
+
+
+    I updated The Building Coder sample code accordingly and bumped the version number
+    to 2013.0.100.2.
+
+
+    Cheers, Jeremy.'
+- author: Vipul Surana
+  email: vipul.surana@gmail.com
+  ip: 111.118.247.50
+  url: ''
+  date: '2015-05-28 03:23:27'
+  body: 'Hello Jeremy,
+
+
+    Greetings !!!
+
+
+
+    I have to find total number of lighting fixtures in a rvt file / in every room.
+
+    It should give me power in ''watts'' (for the complete room), Lumen, Efficacy
+    etc.
+
+
+    How to achieve it ?
+
+
+    I''m scratching my head from last 3 days in this.
+
+
+    Need your help now.
+
+
+    Thanks,
+
+    Vipul'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-28 04:29:05'
+  body: 'Dear Vipul,
+
+
+    Greetings to you too.
+
+
+    This sounds like a relatively simple affair to me.
+
+
+    Combine a filtered element collector and an accumulator.
+
+
+    Scratching your head for days on end is unfortunately not going to help.
+
+
+    The way forward is research, implementation, testing etc.
+
+
+    All the information you need is available right here.
+
+
+    Have fun exploring, and let us know what you come up with.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.
+
+    -----'

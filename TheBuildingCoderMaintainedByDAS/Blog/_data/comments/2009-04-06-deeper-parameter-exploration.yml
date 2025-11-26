@@ -1,0 +1,243 @@
+comments:
+- author: Nicholas
+  email: nicholas.hendrickx@gmail.com
+  ip: 78.21.207.41
+  url: ''
+  date: '2009-04-06 13:21:09'
+  body: 'Hello Jeremy,
+
+
+    thanks for your time and effort on this matter. I have been trying to get this
+    working today but I don''t understand how you get to the Integer/Integer storagetype.
+    When I use the function GetParamStorageType, it returns Integer.
+
+
+    param = fi.get_Parameter(Parameters.BuiltInParameter.FBX_LIGHT_LOSS_FACTOR_METOD)
+
+
+    MsgBox("Name: " + param.Definition.Name + " | Storage type: " + GetParamStorageType(param).ToString)
+
+
+    I''ve also ran your BuiltInParamsChecker but it displayed Integer and 0 as well.
+
+
+    Maybe I''m doing something wrong :)'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-06 14:31:42'
+  body: "Dear Nicholas,\n\nThank you for your appreciation and sorry I was not clear\
+    \ enough, although I am also sorry to say I do not know how to put it any clearer.\n\
+    \nI just mentioned the Integer/Integer storage type above to say that it is probably\
+    \ somehow associated with the special input method. I retrieve that storage type\
+    \ through the method Type of the BuiltInParamsChecker ParameterData class:\n\n\
+    public string Type\n{\n  get \n  {\n    // returns 'Invalid' for 'ElementId':\n\
+    \    ParameterType pt = _parameter.Definition.ParameterType; \n\n    string s\
+    \ = ParameterType.Invalid == pt \n      ? \"\" \n      : \"/\" + pt.ToString();\n\
+    \n    return _parameter.StorageType.ToString() + s;\n  }\n}\n\nI did not suggest\
+    \ that you try to access or use that value in any way, I do not believe that you\
+    \ can make any use of it. To see how I access it, look at the BuiltInParamsChecker\
+    \ source code.\n\nWhat I do suggest is to access the value of the built-in parameters\
+    \ FBX_LIGHT_TOTAL_LIGHT_LOSS and FBX_LIGHT_LIMUNOUS_FLUX, which correspond to\
+    \ two of the values you were asking about, 'Total Light Loss Factor' and 'Luminous\
+    \ Flux'. Possibly the third one you are interested in is also accessible. \n\n\
+    I found those by setting the value through the user interface and then exploring\
+    \ the parameters returned by the API to find out where it showed up.\n\nCheers,\
+    \ Jeremy."
+- author: Nicholas
+  email: nicholas.hendrickx@gmail.com
+  ip: 78.21.207.41
+  url: ''
+  date: '2009-04-07 08:04:53'
+  body: "Hey Jeremy,\n\nI cannot find a way to display the correct value. With RvtMgdDbg\
+    \ I checked the parameters.\n\nUnder 'Snoop Parameters' I see Light Loss Factor\
+    \ with:\nStorage Type: Integer\nValue: 0\nAs value string: (empty)\n\nBut under\
+    \ 'Snoop Built-in Parameters' I find FBX_LIGHT_TOTAL_LIGHT_LOSS and it says:\n\
+    Storage Type: Double\nValue: 1.23 \nAs value string: 1.230000\n\nAs said I use\
+    \ param = fi.get_Parameter(Parameters.BuiltInParameter.FBX_LIGHT_TOTAL_LIGHT_LOSS)\n\
+    \nbut could you give me the VB code to get from that to the actual value?\nI've\
+    \ tried param.AsValueString and param.AsDouble.ToString but they both return 0\
+    \ instead of 1.23\n\nIn your BuiltInParamsChecker.vb you also use AsDouble.ToString.\
+    \ When I run this, I also get a value of 0 for every FBX_LIGHT_... built-in parameter.\
+    \ Do you get the actual values for these?\n\nThanks, Nicholas"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-07 09:06:49'
+  body: 'Dear Nicholas,
+
+
+    You may be looking at the parameters on the instance, and not on the type or symbol
+    that it is referencing.
+
+
+    The instance also has these parameters, and their value is zero.
+
+
+    The type has the real value, that you set in the user interface.
+
+
+    Cheers, Jeremy.'
+- author: Nicholas
+  email: nicholas.hendrickx@gmail.com
+  ip: 78.21.207.41
+  url: ''
+  date: '2009-04-07 09:31:42'
+  body: "Thanks Jeremy, you were right. It's strange how the family instance also\
+    \ has these built-in parameters. As far as I know, these special light source\
+    \ parameters cannot be added or edited by the user, so they're always Type parameters.\
+    \ \n\nAnyway, I now accessed them via the ObjectType:\nparam = \nelem.ObjectType.get_Parameter(Parameters.BuiltInParameter.FBX_LIGHT_TOTAL_LIGHT_LOSS)\n\
+    \nThis works! Thanks a lot!\nI found this post very interesting and I hope it\
+    \ can help other people as well.\n\nGreetings,\nNicholas"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-07 10:06:58'
+  body: 'Dear Nicholas,
+
+
+    I am very glad you got it working. Perseverance paid off.
+
+
+    Cheers, Jeremy.'
+- author: Paul
+  email: pswolberg@comcast.net
+  ip: 98.243.173.109
+  url: ''
+  date: '2009-04-20 15:04:47'
+  body: 'Dear Jeremy,
+
+
+    A general question about parameters - how can I set a parameter''s value to nothing?
+    In the element parameters dialog I can select the entire parameter value, delete
+    it, and it shows as empty. This works regardless of its type - whether it is a
+    string, integer, single, double, etc. How can I do this via the Revit API? For
+    string parameters this is simple, but what about parameters of other types?
+
+
+    Thanks for any light you can shed on this.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-20 15:32:06'
+  body: 'Hi Paul,
+
+
+    Thank you for this interesting question. Unfortunately, the answer, as far as
+    I know, is simply that you cannot. Nor is there a way to determine through the
+    API whether a parameter has yet been assigned a value or not.
+
+
+    Cheers, Jeremy.'
+- author: Paul
+  email: pswolberg@comcast.net
+  ip: 98.243.173.109
+  url: ''
+  date: '2009-04-20 16:11:35'
+  body: 'Dear Jeremy,
+
+
+    Actually I have to admit I was wrong about being able to delete a parameter''s
+    value in the UI.
+
+    It will show as empty when it hasn''t been assigned a value yet, but if you try
+    to delete a numeric parameter value the UI will insist you enter a number.
+
+
+    Thanks,
+
+
+    Paul'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.77.235
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-21 01:46:03'
+  body: 'Hi Paul,
+
+
+    Thank you for the additional information. Then at least as regards setting the
+    parameter, the API is on a par with the user interface: both cannot set to parameter
+    value to nothing; whereas in the user interface, you can see that it is set to
+    nothing, and the API cannot determine this state.
+
+
+    Cheers, Jeremy.'
+- author: José Ignacio Montes
+  email: ji@montesherraiz.com
+  ip: 95.20.211.105
+  url: http://www.montesherraiz.com
+  date: '2011-03-18 10:02:57'
+  body: 'Hello Jeremy . Thanks for your brilliant and exhaustive work.
+
+    I am trying to retrieve all geometry instance parameters for each model category.
+    I need this for costs calculating. I want the user to select it in a configuration
+    window which parameter he wants. So I am not looking for a particular object parameter
+    value. That will come later. First I need to know dynamically which parameters
+    are available. For example in Walls those are Area, Length and Volume. In roofs:
+    Thickness, Volume and Area. But how can I get to know this if there is nothing
+    drawn yet? This would be great, users could configure the application and save
+    the configuration for future projects.
+
+    Thanks'
+- author: Jeremy Tammik
+  email: ''
+  ip: 213.210.236.146
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-03-18 12:21:57'
+  body: 'Dear José,
+
+
+    Thank you for your appreciation.
+
+
+    I am not aware of any method to know in advance which parameters an element might
+    have if no such element exists yet. The easiest solution I can think of is to
+    insert such an element within a temporary transaction, query it for its parameters,
+    and then abort and roll back the transaction again.
+
+
+    By the way, your web site does not display anything at all on my version of Firefox,
+    which is 3.6.15, in case this is of interest to you. The exact version I am using
+    is
+
+
+    Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.15) Gecko/20110303 Firefox/3.6.15
+    ( .NET CLR 3.5.30729; .NET4.0E)
+
+
+    Cheers, Jeremy.'
+- author: José Ignacio Montes
+  email: ji@montesherraiz.com
+  ip: 95.20.211.105
+  url: http://www.montesherraiz.com
+  date: '2011-03-22 13:19:15'
+  body: 'Found Something!
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/01/retrieving-project-parameters.html">http://thebuildingcoder.typepad.com/blog/2010/01/retrieving-project-parameters.html</a>
+
+    Anyhow I decided to use parameters AFTER assigning an element and not BEFORE.
+    Then I have much less to worry.
+
+    Thanks!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 84.226.223.194
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-03-30 14:45:11'
+  body: 'Dear José,
+
+
+    Felicitaciones!
+
+
+    Your web site does not work on Firefox 4.0 either...
+
+
+    Cheers, Jeremy.
+
+    -----'

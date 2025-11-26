@@ -1,0 +1,91 @@
+comments:
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadgraph.de
+  date: '2012-02-28 05:49:27'
+  body: 'Hi Jeremy, hi Patrick,
+
+
+    if a FamilyInstance is line-based, its Location may be a LocationCurve instead
+    of a LocationPoint.
+
+    In this case it may be useful to test if the middle point of its curve is in room.
+
+
+    Bye,
+
+    Rudolf'
+- author: Richard
+  email: richard.shealy@gmail.com
+  ip: 64.244.14.194
+  url: ''
+  date: '2012-02-28 15:59:50'
+  body: 'Hi Jeremy,
+
+    I wanted to ask a question, not related to your above post.  However I believe
+    you have handled this before.  i am looking for some guidance.
+
+
+    I have some walls in a drawing, and I have command that will insert beams across
+    the walls.  When the beams are inserted I would like to modify their analytical
+    line but in order to do that I need to get elementsatjoin for the beam, which
+    returns nothing.  However when the command ends I can select the beam I just inserted
+    and get the elementsatjoin then.  I have already tried to regenerate the drawing
+    in my code but this still does not help.  Do you have any insight?  How can you
+    get elementsatjoin form a beam that you just inserted through code?'
+- author: Sergey Babitsky
+  email: babitsky.sergey@onetools.de
+  ip: 80.249.81.45
+  url: ''
+  date: '2012-02-29 06:13:58'
+  body: 'in some situations there are no Location at all :(
+
+    then we must check geomerty'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-02-29 06:29:41'
+  body: 'Dear Rudolf,
+
+
+    ... or the entire curve, even, or whether the curve intersects the room boundary,
+    or whatever.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-02-29 06:30:47'
+  body: 'Dear Sergey,
+
+
+    That is the way it is right now, unfortunately...
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-02-29 06:36:48'
+  body: 'Dear Richard,
+
+
+    Yes, you definitely need to regenerate in between. If that is not enough, it sometimes
+    helps to split the operation into several separate transactions and commit them
+    in between as well:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/01/extra-transaction-required.html">http://thebuildingcoder.typepad.com/blog/2010/01/extra-transaction-required.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/01/setting-duct-width-and-height-requires-regeneration.html">http://thebuildingcoder.typepad.com/blog/2011/01/setting-duct-width-and-height-requires-regeneration.html</a>
+
+
+    Cheers, Jeremy.
+
+    -----'

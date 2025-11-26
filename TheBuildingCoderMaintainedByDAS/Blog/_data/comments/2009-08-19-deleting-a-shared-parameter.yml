@@ -1,0 +1,214 @@
+comments:
+- author: Danny Polkinhorn
+  email: dpolkinhorn@watg.com
+  ip: 66.175.73.45
+  url: ''
+  date: '2009-08-20 17:25:47'
+  body: 'Jeremy,
+
+
+    I think the best way to handle the first situation (checking for an existing parameter)
+    would be to store the original GUID for the parameter he creates on the first
+    run, then check to see if a parameter with that GUID already exists on the second
+    run.  I would guess that deleting parameters (and their data) would not be a good
+    thing to do.
+
+
+    This also brings up another issue.  In the AutoCAD world, the registered developer
+    symbol program is used to prevent conflicts where two developers use the same
+    names.  Ideally, his parameter would have some prefix (or some other system) to
+    uniquely identify parameters that he has created.  How to handle this in Revit
+    might be something to consider for future API releases.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.110.235
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-08-24 15:09:00'
+  body: "Dear Danny,\n\nThank you for the advice. I would also tend to agree that\
+    \ deleting a parameter would generally not  be a good idea. I think in the case\
+    \ that Joe is discussing here, the parameter has been added and removed for test\
+    \ purposes only in a controlled situation, so there is no risk for unexpected\
+    \ loss of valuable user data.\n\nKeeping track of the GUID is definitely the safest\
+    \ way to go.\n\nYes, I am aware of the registered developer symbol convention\
+    \ used in the AutoCAD application development context, and was actually quite\
+    \ involved in its inception and early phases, initiated by the AutoCAD Developers\
+    \ Group Europe, ADGE.\n\nI have explained its uses to the Revit development team\
+    \ and asked what they think about implementing a similar system. They did not\
+    \ express any great interest in officially endorsing this, for various reasons.\
+    \ One reason is that for parameters visible to the user, such a prefix would be\
+    \ unwieldy and confusing. Another is that the GUID already does provide a simple\
+    \ method to uniquely identify parameters, regardless of the application creating\
+    \ them. \n\nOn the other hand, there is nothing to stop developers from following\
+    \ such a convention on their own accord, especially for parameters that are not\
+    \ visible to the user. I most certainly would, if I were defining hidden parameters\
+    \ for my Revit plug-in.\n\nCheers, Jeremy."
+- author: Jamie V Johnson
+  email: jamie@strandsystems.com
+  ip: 64.244.14.194
+  url: ''
+  date: '2010-01-09 15:30:07'
+  body: 'I found myself in a situation where one of my teams Project file has 4 definitions
+    of the same name (2 were string parameters and 2 were integer). So cleaning these
+    out is the plan.
+
+    Compare GUID''s is a great idea but how?  I can get the guid''s of the new and
+    fresh parameters I wan''t to use from the shared parameters txt file, but how
+    do I get the ID''s from the ones Revit is using in the open project.  The class
+    Parameter.Definition does not expose an ID property. Did I miss something?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-12 12:23:30'
+  body: 'Dear Jamie,
+
+
+    Have you had a look at the post on deleting a shared parameter?
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/08/deleting-a-shared-parameter.html">http://thebuildingcoder.typepad.com/blog/2009/08/deleting-a-shared-parameter.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Jamie V Johnson
+  email: jamie@strandsystems.com
+  ip: 64.244.14.194
+  url: ''
+  date: '2010-01-12 14:12:18'
+  body: I did!  In fact I replied on that post.  There does not seem to be any way
+    to ask revit the GUID of a shared parameter (that is loaded on an element, say
+    a family instance of a beam).  Any Ideas?
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-13 08:52:33'
+  body: "Dear Jamie,\n\nOops, sorry, I overlooked that you appended your comment to\
+    \ that very post  :-)\n\nHave you installed the Revit 2010 subscription pack or\
+    \ web update 2? The former includes the latter.\n\nOne API feature that was enhanced\
+    \ in these versions is an additional GUID property on the Parameter class which\
+    \ provides exactly the information you seem to be looking for:\n\nExtract GUID\
+    \ from a Parameter\n\nThe new properties\n\nParameter.IsShared \nParameter.GUID\
+    \ \n\nThese identify if a given parameter is a shared parameter, and if it is,\
+    \ extract its GUID.\n\nCf. <a href=\"http://thebuildingcoder.typepad.com/blog/2009/10/revit-2010-web-update-2.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/10/revit-2010-web-update-2.html</a>\n\
+    \nCheers, Jeremy."
+- author: Jeff
+  email: ''
+  ip: 198.51.229.30
+  url: http://profile.typepad.com/jsimon1
+  date: '2010-02-24 17:55:21'
+  body: "Hi Jeremy, \nIs it possible to delete the shared parameter from the DefinitionFile\
+    \ (programmatically)?  It looks like in the above samples that the deletions are\
+    \ only to the Bindings and not actually the Definition from the DefinitionGroup\
+    \ from the DefinitionFile.  When I try deleting from the DefinitionGroup it complains\
+    \ that my collection is read only. \n\nsharedParameterGroup.Definitions.Erase(myDefToDelete);"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-03-02 02:14:26'
+  body: "Dear Jeff,\n\nThank you for your query, which resulted in the following:\n\
+    \nYou are completely right that the Definitions collection is currently read-only.\
+    \ I agree that there seems to be no good reason for this and it is confusing to\
+    \ have an Erase method while it is read-only. I made a note of this and passed\
+    \ it on to the development team.\n\nThey replied that this is a result of still\
+    \ using the old Revit API collections, which are gradually being phased out. \
+    \ \n\nI have also filed a request for the ability to delete shared parameter definitions\
+    \ from the file for you.\n\nCheers, Jeremy."
+- author: Jeff
+  email: jsimon@hntb.com
+  ip: 198.51.229.30
+  url: ''
+  date: '2010-03-04 12:18:09'
+  body: "Thank you Jeremy, This has saved me a lot of time time trying to figure out\
+    \ what was going wrong.  \nJeff"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-03-04 12:39:51'
+  body: 'Dear Jeff,
+
+
+    Wow, great, I am very glad it was useful.
+
+
+    Cheers, Jeremy.'
+- author: Chekalin Victor
+  email: VChekalin@iv-com.ru
+  ip: 91.221.195.201
+  url: http://www.facebook.com/profile.php?id=100003616852588&ref=tn_tnmn
+  date: '2012-11-14 01:22:41'
+  body: "Hi, Jeremy.\nI found the very old post but I didn't find the answer to my\
+    \ issue.\n\nThe problem is I want to delete shared parameter from material but\
+    \ in a family document. But the family document ParametersBinding.Size always\
+    \ is 0.\nThen I tried to remove parameters manually:\nforeach (var material in\
+    \ materials)\n{\n    foreach (var deletedParamGuid in deletedParamGuids)\n   \
+    \ {\n        var param =\n            material.get_Parameter(deletedParamGuid);\n\
+    \        if (param != null)\n        {\n            using (Transaction t = new\
+    \ Transaction(doc, string.Format(\"Erase parameter {0}\", param.Definition.Name)))\n\
+    \            {\n                t.Start();\n                var res = material.Parameters.Erase(param);\n\
+    \                t.Commit();\n            }\n        }\n    }\n}\n\nBut when I\
+    \ Erase a parameter InvalidOperationException is throws. Collection is readonly.\
+    \ \n\nAny suggestions?\n\nP.S. BTW, do you know why I cannot login to typepad\
+    \ using Facebook account? And all my comments which I wrote under my facebook\
+    \ account marked as guests comment (profile image and facebook link are disappeared)"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.184.36
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-11-14 04:16:52'
+  body: 'Dear Victor,
+
+
+    Sorry, no suggestion off-hand... I would suggest you submit an ADN case.
+
+
+    And no, I have no idea why the login fails. You can raise that issue with Typepad,
+    if you like.
+
+
+    Cheers, Jeremy.'
+- author: Chekalin Victor
+  email: VChekalin@iv-com.ru
+  ip: 91.221.195.201
+  url: http://www.facebook.com/profile.php?id=100003616852588&ref=tn_tnmn
+  date: '2012-11-14 05:07:02'
+  body: 'Thanks for response, Jeremy.
+
+
+    I''ve submitted case #07810344.
+
+
+    Have a nice day,
+
+    Victor.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.184.36
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-11-14 06:57:09'
+  body: 'Dear Victor,
+
+
+    Thank you, I picked it up. I have little time, though, so please be patient.
+
+
+    Cheers, Jeremy.'
+- author: Hassan Fahmy
+  email: hassan.fahmy@gmail.com
+  ip: 41.65.106.140
+  url: http://www.steelnetwork.com
+  date: '2014-09-25 10:53:55'
+  body: "Hi Jeremy, you know that ElementParameterFilter can use a shared parameter\
+    \ Id  to filter elements according to shared parameter values, my problem is that\
+    \ I need to get the Parameter.Id (It is an ElementId) without a selected object?\
+    \ I can get shared parameters definitions from binding map and filter them by\
+    \ name as suggested by you and get the parameter definition but no ElementID is\
+    \ there!\n\nusing the Lookup I can find this Element with my Shared Parameter\
+    \ name and can get its Id from there, with no category type or special element\
+    \ distinguishing parameters and iterating through all elements in the to pick\
+    \ that of this name is not the right solution.  \n\nIs there a way to get the\
+    \ Parameter.Id using the parameter name with out any object selection?\n\nThank\
+    \ you for your great help\n-----"

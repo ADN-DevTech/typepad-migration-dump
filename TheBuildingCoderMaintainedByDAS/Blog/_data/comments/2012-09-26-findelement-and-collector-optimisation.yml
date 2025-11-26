@@ -1,0 +1,92 @@
+comments:
+- author: Thorsten Meinecke
+  email: t.meinecke@gtb-ingenieure.de
+  ip: 217.91.119.202
+  url: ''
+  date: '2012-09-26 11:24:15'
+  body: 'Hi Jeremy!
+
+
+    Thanks for the exposition, those are very good points.
+
+
+    Concerning unnecessary conversions, note that in the case of IEnumerable<Element>
+    there''s no copying and duplication involved. Linq''s Cast extension is just a
+    wrapper replacing the built-in IEnumerator<Element>.
+
+
+    Of course it has a slight performance loss too, but if you want to write in a
+    functional style, this would be the way around the imperative foreach.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-09-26 11:37:03'
+  body: 'Dear Thorsten,
+
+
+    Good point! Thank you for the good advice and your appreciation.
+
+
+    Cheers, Jeremy.'
+- author: Victor Chekalin
+  email: ''
+  ip: 91.221.195.201
+  url: http://profile.typepad.com/chekalin
+  date: '2012-09-26 23:45:17'
+  body: "Hello everybody.\n\nWhy doesn't anyone use <a href=\"http://msdn.microsoft.com/en-us/library/twcad0zb(v=vs.100).aspx\"\
+    >Generic methods</a>?\nFor example, the method <i>FindElement</i> would looks\
+    \ like\n<i>\npublic static Element FindElement<T>(\n    Document doc,    \n  \
+    \  string targetName )\n  {\n    //...\n        collector.WherePasses( \n    \
+    \  new ElementClassFilter( typeof(T) ) );\n    //...\n  }\n</i>\nThe code looks\
+    \ pretty elegant and using it more simple.\n\nFor FilteredElementCollector.OfClass\
+    \ method I wrote a simple extension method to use generic.\n<i>\npublic static\
+    \ FilteredElementCollector OfClass<TElement>(this FilteredElementCollector collector)\
+    \ where TElement : Element\n        {\n            return collector.OfClass(typeof(TElement));\n\
+    \        }\n</i>\nIt seems to me more convenient to write <i>collector.OfClass<Family></i>\
+    \ instead of <i>collector.OfClass(typeof (FamilySymbol))</i>\n\nHave a nice day,\n\
+    Victor."
+- author: Victor Chekalin
+  email: ''
+  ip: 91.221.195.201
+  url: http://profile.typepad.com/chekalin
+  date: '2012-09-27 00:49:40'
+  body: 'Ooops...
+
+    Sorry. The parser has eaten angle brackets.
+
+    The right code is here <a href="http://pastebin.com/Y4P3sysc">http://pastebin.com/Y4P3sysc</a>'
+- author: Jeremy Tammik
+  email: ''
+  ip: 84.174.239.51
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-10-10 04:41:15'
+  body: "Dear Victor,\n\nYes, a bit more convenient...\n\nAlthough it is inconvenient\
+    \ that (i) the angle brackets are 'more special' than parentheses, and thus get\
+    \ involuntarily eaten or otherwise mistreated at times, and (ii) this requires\
+    \ me to drag around that extension method all the time, whereas the original version\
+    \ is available right there out of the box.\n\nWhat I would love to know, and unsuccessfully\
+    \ tried to find out, is how to implement a templated member method in a non-templated\
+    \ class definition, e.g.\n\nclass MyClass\n{\n  void f[T]() {...}\n}\n\n(where\
+    \ I am using square instead of angle brackets).\n\nDo you have any idea?\n\nAs\
+    \ far as I can tell from my research, it is not supported by C# at all.\n\nI have\
+    \ repeatedly run into situations where I was forced to implement almost identical\
+    \ member methods several times over, taking different argument types.\n\nI would\
+    \ have loved to create a template for those.\n\nCheers, Jeremy."
+- author: Victor Chekalin
+  email: ''
+  ip: 91.221.195.201
+  url: http://profile.typepad.com/chekalin
+  date: '2012-10-22 01:13:25'
+  body: "Hi Jeremy.\n\nIt is pretty easy to create a templated method in a non-templated\
+    \ class. Here the example:\n\n<a href=\"http://pastebin.com/ne2csH5X.\">http://pastebin.com/ne2csH5X</a>\n\
+    \nI also used templated methods in the <a href=\"https://github.com/chekalin-v/VCRevitRibbonUtil/blob/master/src/VCRevitRibbonUtil/VCRevitRibbonUtil/Panel.cs\"\
+    >RibbonUtil</a>.\n\nHope it helps. If not, you can write me a little sample that\
+    \ you want to achieve. I'll try to help.\n\nRegards, \nVictor."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.183.170
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-10-26 11:46:26'
+  body: "Dear Victor, \n\nThank you, much appreciated.\n\nI'll try it out the next\
+    \ time the need arises.\n\nCheers, Jeremy.\n-----"

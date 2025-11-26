@@ -1,0 +1,315 @@
+comments:
+- author: Andrei Petre
+  email: andrei.petre@graitec.ro
+  ip: 5.2.129.229
+  url: ''
+  date: '2015-04-28 18:00:26'
+  body: "Hi Jeremy,\n\ndo you have any idea about the ResultsBuilder.dll (from Structural\
+    \ Toolkit for Revit 2016) being broken? \nI'm struggling to migrate one of our\
+    \ application to 2016 and it seems that the FEM results I'm pushing in the project\
+    \ are no longer available to explore (I'm using SetBarResult method, which was\
+    \ doing the job in 2015).\nAlso, I've checked with the sample from the SDK and\
+    \ it's no longer working, except for those results pushed with SetArbitraryResult\
+    \ method.\nDo you have any knowledge about this? Is there a workaround to this?\n\
+    \nBest regards,\nAndrei Petre"
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.125.79
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-04-29 03:27:01'
+  body: "Dear Andrei,\n\nThank you for asking. \n\nI'm checking with the development\
+    \ team.\n\nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.125.79
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-04-29 04:08:39'
+  body: 'Dear Andrei,
+
+
+    The SetBarResult method is marked as obsolete:
+
+
+    <a href="http://thebuildingcoder.typepad.com/img/SetBarResult_obsolete.png">http://thebuildingcoder.typepad.com/img/SetBarResult_obsolete.png</a>
+
+
+    You will have to redesign your add-in to use a newer method.
+
+
+    Sorry about that.
+
+
+    For any  additional queries on this, I woulod suggest that you provide a reproducible
+    case so we can explore it in more depth:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#1b">http://thebuildingcoder.typepad.com/blog/about-the-author.html#1b</a>
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Andrei Petre
+  email: andrei.petre@graitec.ro
+  ip: 5.2.129.229
+  url: ''
+  date: '2015-04-29 04:24:42'
+  body: 'Hi Jeremy,
+
+
+    indeed is marked as obsolete the SetBarResult method that''s receiving a string
+    as resultType, but not the one receiving LinearResultType (see in your attached
+    image).
+
+    As for a reproducible sample, you can use the "StoringResults" sample from Revit
+    SDK 2016\Structural Analysis SDK, together with its revit project "ResultsInRevit.rvt".
+
+    You''ll notice that the same sample is working in Revit 2015, but not in 2016;
+    in 2016 only the "Other" result are shown in Results Explorer dialog.
+
+
+    Regards,
+
+    Andrei'
+- author: emmanuel weyermann
+  email: Emmanuel.weyermann@autodesk.com
+  ip: 132.188.32.206
+  url: ''
+  date: '2015-04-29 07:52:35'
+  body: "Hi Andrei, \nIn the SDK sample, following code is used  \nResultsPackageBuilder\
+    \ resultsPackageBuilder = resultsAccess.CreateResultsPackage(packageGuid, \"ResultsInRevit\"\
+    , UnitsSystem.Metric, ResultsPackageTypes.All);\nIn this case, the results  package\
+    \ could contains any type of results and they  are classified as “others” in Results\
+    \ explorer \nIf your results are static one, your  result package must be created\
+    \ using    ResultsPackageTypes.Static , then they will be exposed properly in\
+    \ Result explorer"
+- author: Andrei Petre
+  email: andrei.petre@graitec.ro
+  ip: 188.25.244.3
+  url: ''
+  date: '2015-04-29 19:05:13'
+  body: "Hi Emmanuel,\n\nthank you very much!\nThat did the trick.\n\nAfter, a couple\
+    \ of hours of late night investigations, I saw the change: the results explorer\
+    \ is no longer loading all the results at once, but loading them in a switch by\
+    \ the resultspackagetype, which is wrongfully leaving out the All type. This should\
+    \ be done with boolean bitwise operations. \nSo, although in the previous version\
+    \ was not quite ok, in the current one is wrong.\n\nIndeed it's always loading\
+    \ the arbitrary results and puts them into the Other node of the tree, but for\
+    \ these is not considering any LinearResultType, SurfaceResultType  and more.\n\
+    \nHope this will be corrected."
+- author: emmanuel weyermann
+  email: Emmanuel.weyermann@autodesk.com
+  ip: 132.188.32.206
+  url: ''
+  date: '2015-04-30 04:40:37'
+  body: "Hi Andrei, \nif you  don't want to see arbitrary results  flagged as other\
+    \ in Results Explorer, you  need to create a second package for them (i.e if you\
+    \ would like to expose reinforcement results) \nThanks\nEmmanuel"
+- author: Andrei Petre
+  email: andrei.petre@graitec.ro
+  ip: 5.2.129.229
+  url: ''
+  date: '2015-04-30 05:44:52'
+  body: 'Hi Emmanuel,
+
+
+    I''ve realized that for pushing a different kind of results, I have to created
+    a different package, but the current implementation is making All value from ResultsPackageType
+    obsolete.
+
+
+    Thanks and regards,
+
+    Andrei'
+- author: Jack Tilley
+  email: jack.tilley2@mail.dcu.ie
+  ip: 80.169.142.78
+  url: ''
+  date: '2015-04-30 10:36:16'
+  body: 'Hi Jeremy,
+
+
+    I am new to coding the Revit API and Starting with the 2016 edition is creating
+    problems for me as a newcomer.
+
+
+    I am trying to add a Parameter to a project by adding parameters from a shared
+    parameter file and binding them to a category by name.
+
+
+    I was using this code as a starting point point but hitting a no overload error,
+    presumably because of changes in the API.
+
+
+    <a href="http://help.autodesk.com/view/RVT/2014/ENU/?guid=GUID-C02B4263-E916-4705-A9B8-1715A526081E">http://help.autodesk.com/view/RVT/2014/ENU/?guid=GUID-C02B4263-E916-4705-A9B8-1715A526081E</a>
+
+
+    As I am a beginner using revit I am not yet comfortable using the Shared Parameter
+    changes and would appreciate any help I can get to jump-start.
+
+
+    Thank you,
+
+
+    Jack'
+- author: Jack Tilley
+  email: jack.tilley2@mail.dcu.ie
+  ip: 80.169.142.78
+  url: ''
+  date: '2015-04-30 11:12:57'
+  body: '<a href="https://github.com/jeremytammik/RevitLookup/blob/master/CS/Test/SDKSamples/FireRating/SharedParam.cs">https://github.com/jeremytammik/RevitLookup/blob/master/CS/Test/SDKSamples/FireRating/SharedParam.cs</a>
+
+
+    Apologies, Jeremy I sorted my problem out thanks to your use of the ExternalDefinitionOpitions
+    class in this.
+
+
+    Thank you,
+
+
+    Jack'
+- author: Jeremy Tammik
+  email: ''
+  ip: 88.76.70.212
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-05 06:35:27'
+  body: 'Dear Jack,
+
+
+    Thank you for letting us know and congratulations on sorting it out!
+
+
+    Cheers, Jeremy.'
+- author: Vipul Surana
+  email: vipul.surana@gmail.com
+  ip: 111.118.247.50
+  url: ''
+  date: '2015-05-22 08:05:20'
+  body: 'Hello Jeremy,
+
+
+    I have to make a WPF form plug-in, where form is having a Infragistics grid that
+    will fetch the data from Revit, how to achieve it ?
+
+    In layman terms, when I go to External Tools, I click on the addin / plugin, and
+    the WPF form opens with Infragistics Grid having the data of current project.
+
+
+    Can you please tell me something about this ?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-22 08:40:25'
+  body: 'Dear Vipul,
+
+
+    Here is a description of creating and populating a .NET grid form on the fly:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2014/06/the-revision-api-and-a-form-on-the-fly.html">http://thebuildingcoder.typepad.com/blog/2014/06/the-revision-api-and-a-form-on-the-fly.html</a>
+
+
+    I cannot say anything at all about Infragistics, never having heard of it before.
+
+
+    Cheers, Jeremy.'
+- author: Vipul Surana
+  email: vipul.surana@gmail.com
+  ip: 111.118.247.50
+  url: ''
+  date: '2015-05-23 01:39:29'
+  body: 'Hello Jeremy,
+
+
+    Thanks for the reply.
+
+    But, here comes another problem before having a look over above url.
+
+    I created a HelloWorld.dll and added it as plugin in Revit 2016, working successfully.
+
+
+    <b>Problem:</b> I want to debug the code (well it''s just 2 lines for now) but
+    Revit 2016 is opened and closed at the time I run my VS class library.
+
+
+    I have given proper path name as to run external command.
+
+
+    Need your inputs on this.'
+- author: Vipul Surana
+  email: vipul.surana@gmail.com
+  ip: 111.118.247.50
+  url: ''
+  date: '2015-05-23 02:54:06'
+  body: 'Explored more of your blogs, got the answer.
+
+    Compatibility Mode in VS 2013 did the trick.
+
+
+    Heartily thanks for all of your blogs.'
+- author: Vipul Surana
+  email: vipul.surana@gmail.com
+  ip: 111.118.247.50
+  url: ''
+  date: '2015-05-25 09:12:11'
+  body: 'Hello Jeremy,
+
+
+    I didn''t understand the example completely. (<a href="http://thebuildingcoder.typepad.com/blog/2014/06/the-revision-api-and-a-form-on-the-fly.html)">http://thebuildingcoder.typepad.com/blog/2014/06/the-revision-api-and-a-form-on-the-fly.html)</a>
+
+    I have questions like: which file are you talking about ? there is no namespace
+    and the filename + extension.
+
+
+    I am a very layman person, just started working 4 days before on Revit 2016.
+
+
+    Need to ask you how to get started with creating a solution (class library / usercontrol
+    library / wpf application) and connect with Revit, there are no proper guidelines
+    for this.
+
+
+    Can you make a layman blog post for me and for the starters.
+
+    I am very desperate to learn this tech.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.121.207
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-26 03:48:32'
+  body: 'Dear Vipul,
+
+
+    Thank you for your appreciation!
+
+
+    I am very glad you solved it.
+
+
+    Thank you for letting us know.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.121.207
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-26 03:51:12'
+  body: 'Dear Vipul,
+
+
+    You will be very happy to hear that we have already created a full set of getting
+    started material:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#2">http://thebuildingcoder.typepad.com/blog/about-the-author.html#2</a>
+
+
+    I guarantee that it covers all your needs  :-)
+
+
+    Cheers, Jeremy.
+
+    -----'

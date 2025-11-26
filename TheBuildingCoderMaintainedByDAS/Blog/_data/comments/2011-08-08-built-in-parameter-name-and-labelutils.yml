@@ -1,0 +1,159 @@
+comments:
+- author: Phillip Miller
+  email: phillip@kiwicodes.com
+  ip: 122.63.158.53
+  url: http://www.kiwicodes.com
+  date: '2012-06-26 18:05:06'
+  body: Jeremy, your blog is awesome.  I had exactly the same question as this poster
+    and your answer of “GetLabelFor” was spot on what I needed.  Thank you very much
+    for producing such a wonderful Revit API resource.
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.182.216
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-06-28 03:38:49'
+  body: 'Dear Phillip,
+
+
+    Wow, thank you very much for your appreciation!
+
+
+    I am glad it hit the nail on the head  :-)
+
+
+    Cheers, Jeremy.'
+- author: Trang
+  email: dangtrang37@gmail.com
+  ip: 141.54.153.131
+  url: ''
+  date: '2012-07-28 06:11:27'
+  body: "Dear Jeremy,\n\nI would like to have the geometry data of component elements\
+    \ such as width, thickness, height of windows, doors, and other furniture. I've\
+    \ tried with Built-in Parameters such as WINDOW_WIDTH (for windows elements) or\
+    \ other parameters related to Width of Element.Parameters, but unfortunately the\
+    \ results returned from method AsValueString() always \"0.0\" Could you tell me\
+    \ how I could do to retrieve this kind of data. \n\nSchönes Wochenende.\n\nViele\
+    \ Grüße,\n\nTrang"
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-08-16 09:06:41'
+  body: "Dear Trang,\n\nAccessing this data via family parameters depends on the family\
+    \ definition, which is freely defined by the user, so there are no fixed rules.\
+    \ \n\nYou have to explore each family definition whose data you wish to access\
+    \ and adapt to that.\n\nCheers, Jeremy."
+- author: Anatoly
+  email: anatoly.vasilenko@cel.ca
+  ip: 38.99.165.82
+  url: http://www.cel.ca
+  date: '2013-07-29 16:39:45'
+  body: "Some parameters have values get from other enumerations, for example: \"\
+    Condition Type\" parameter gets values from ConditionType enumerated type. Is\
+    \ the possibility to get \ncorrespondence between property and enumerated type\
+    \ for its values?\n\nIs it possible to make easily than this code?\n        private\
+    \ int selectEnumValue(string paramName, string paramValue)\n        {\n      \
+    \      int intValue = -1;\n            Type paramEnum;\n            switch (paramName)\n\
+    \            {\n                case \"Condition Type\":\n                   \
+    \ paramEnum = typeof(ConditionType);\n                    break;\n           \
+    \     case \"Return Airflow\":\n                    paramEnum = typeof(ReturnAirflowType);\n\
+    \                    break;\n                case \"Space Type\":\n          \
+    \          paramEnum = typeof(SpaceType);\n                    if (!(paramValue.Replace(\"\
+    \ \", \"\").Equals(\"NoSpaceType\", StringComparison.OrdinalIgnoreCase) ||\n \
+    \                         paramValue.Replace(\" \", \"\").Equals(\"<Building>\"\
+    , StringComparison.OrdinalIgnoreCase)))\n                        paramValue =\
+    \ \"k\" + paramValue;\n                    break;\n                default:\n\
+    \                    paramEnum = null;\n                    break;\n         \
+    \   }\n            if (paramEnum != null)\n            {\n                string[]\
+    \ enumNames = paramEnum.GetEnumNames();\n                for (int i = 0; i < enumNames.Length;\
+    \ i++)\n                {\n                    if (enumNames[i].Equals(paramValue.Replace(\"\
+    \ \", \"\").Replace(\"-\", \"\").Replace(@\"/\", \"Or\"), StringComparison.OrdinalIgnoreCase))\n\
+    \                    {\n                        intValue = i;\n              \
+    \          break;\n                    }\n                }\n            }\n \
+    \           return intValue;\n        }"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.219.98
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-08-30 08:00:20'
+  body: 'Dear Anatoly,
+
+
+    Thank you for your interesting question and suggestion.
+
+
+    Sorry I took so long to respond, I have a large backlog of cases and comments
+    and stuff.
+
+
+    The only thing I can think of to simplify and simultaneously complexify it would
+    be to apply pattern matching between the parameter name and the enumeration names.
+
+
+    For instance, you could split the parameter name on white space and search for
+    an enumeration name that contains all of the fragments.
+
+
+    That would be a pretty reliable way to ensure they match, wouldn''t it?
+
+
+    And fun and elegant too, I think.
+
+
+    That might even be worth a blog post on its own, I think.
+
+
+    Cheers, Jeremy.'
+- author: frank halliday
+  email: alexmulconray@gmail.com
+  ip: 219.90.158.127
+  url: ''
+  date: '2013-09-23 06:55:35'
+  body: Hi I want to change the built in parameter worksetID, to the workset ID of
+    another element, how can i do this?
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.203.13
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-27 03:43:15'
+  body: 'Dear Frank,
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/01/change-element-workset.html">http://thebuildingcoder.typepad.com/blog/2013/01/change-element-workset.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Howie
+  email: zyhowie@gmail.com
+  ip: 124.193.125.162
+  url: ''
+  date: '2013-12-03 08:01:55'
+  body: "Hi,Jeremy,your blog is amazing! On revit 2013, I got an error \"Cannot find\
+    \ the BuiltInParameter STAIRS_LANDINGTYPE_TREADRISER_TYPE.\"when \" foreach (BuiltInParameter\
+    \ bip in Enum.GetValues(typeof(BuiltInParameter))){strDetail = Autodesk. Revit.DB.LabelUtils.GetLabelFor(bip);}\"\
+    ,Is there something changed with API2013? \nBTW, you and Joe Ye really did a good\
+    \ job for our beginners, thank you so much!\nHowie"
+- author: Jeremy Tammik
+  email: ''
+  ip: 199.36.244.25
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-12-05 20:44:30'
+  body: 'Dear Howie,
+
+
+    Thank you for your appreciation. I''ll pass it on to Joe as well. I am very glad
+    to hear you find it useful.
+
+
+    Yes, the whole stair implementation was substantially updated in Revit 2013:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/03/whats-new-in-the-revit-2013-api.html">http://thebuildingcoder.typepad.com/blog/2013/03/whats-new-in-the-revit-2013-api.html</a>
+
+
+    Search for ''Major Enhancements to the Revit API'' and ''Stairs and railings API''.
+
+
+    Cheers, Jeremy.
+
+    -----'

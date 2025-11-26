@@ -1,0 +1,83 @@
+comments:
+- author: Babu
+  email: babu.rajan@live.com.au
+  ip: 101.167.5.116
+  url: ''
+  date: '2012-06-10 00:34:37'
+  body: "I wanted to swithc between visibility of parameter in the title block.(construction\
+    \ statuse \"for construction\" or \"as built\" etc..)\n\nThe below cose works\
+    \ fine if I load it through Add-In Manager(Manual Mode),but it did'int work if\
+    \ I load it through an .addin manifest files.\n\npublic void TitleBlockUpDate(Document\
+    \ activeDoc)\n        {\n            ICollection collection = new FilteredElementCollector(activeDoc).OfCategory(Autodesk.Revit.DB.BuiltInCategory.OST_TitleBlocks).ToElements();\n\
+    \         //  Transaction trans = new Transaction(activeDoc, \"params\");\n  \
+    \        // trans.Start();\n             foreach (Element ele in collection)\n\
+    \            {\n                FamilyInstance titleBlock = ele as FamilyInstance;\n\
+    \                if (null != titleBlock)\n                {\n                \
+    \    foreach (Parameter param in titleBlock.Parameters)\n                    {\n\
+    \                        if (SheetForm.Isconstruction == true)//from SheetForm\
+    \ radioButton \n                        {\n                            SetNewStatus(param,\
+    \ 1, \"Construction\");\n                            SetNewStatus(param, 0, \"\
+    Preliminary\");\n                            SetNewStatus(param, 0, \"Tender\"\
+    );\n                            SetNewStatus(param, 0, \"As Built\");\n      \
+    \                  }\n                        else if (SheetForm.IsTender == true)//from\
+    \ SheetForm radioButton \n                        {\n                        \
+    \    SetNewStatus(param, 1, \"Tender\");\n                            SetNewStatus(param,\
+    \ 0, \"Construction\");\n                            SetNewStatus(param, 0, \"\
+    Preliminary\");\n                            SetNewStatus(param, 0, \"As Built\"\
+    );\n                        }\n                        else if (SheetForm.IsBuilt\
+    \ == true)//from SheetForm radioButton \n                        {\n         \
+    \                   SetNewStatus(param, 1, \"As Built\");\n                  \
+    \          SetNewStatus(param, 0, \"Construction\");\n                       \
+    \     SetNewStatus(param, 0, \"Preliminary\");\n                            SetNewStatus(param,\
+    \ 0, \"Tender\");\n                        }\n                    }\n        \
+    \        }\n            }\n            //trans.Commit();\n        }\n\n      \
+    \  public void SetNewStatus(Parameter NewStatus, double value, string status)\n\
+    \        {\n            if (NewStatus.Definition.Name.Equals(status))\n      \
+    \     {\n                if (!NewStatus.IsReadOnly)\n                {\n     \
+    \               NewStatus.Set(value);\n                }\n           }\n     \
+    \   }"
+- author: russ green
+  email: russ@origin3studio.co.uk
+  ip: 86.185.63.108
+  url: ''
+  date: '2012-07-15 13:43:30'
+  body: "Can you give a simple example of selecting parameters from a sheet for a\
+    \ give titleblock instance?\n\nI'm looping through all my titleblocks to get drg\
+    \ number, name, sheet size, into a listview but I also want to get the current\
+    \ revision of the sheet as well..\n\n        ' retrieve the title block instances:\n\
+    \        m_TitleblockCollector = New FilteredElementCollector(m_rvtDoc)\n    \
+    \    m_TitleblockCollector.OfCategory(BuiltInCategory.OST_TitleBlocks)\n     \
+    \   m_TitleblockCollector.OfClass(GetType(FamilyInstance))\n\n\n        For Each\
+    \ m_TitleBlock As FamilyInstance In m_TitleblockCollector\n            p = m_TitleBlock.Parameter(BuiltInParameter.SHEET_NUMBER)\n\
+    \            Debug.Assert(p IsNot Nothing, \"expected valid sheet number\")\n\n\
+    \            Dim sheet_number As String = p.AsString\n\n            p = m_TitleBlock.Parameter(BuiltInParameter.SHEET_NAME)\n\
+    \            Debug.Assert(p IsNot Nothing, \"expected valid sheet name\")\n\n\
+    \            Dim sheet_name As String = p.AsString\n\n            'THIS CLEARLY\
+    \ WON'T WORK!\n            p = m_TitleBlock.Parameter(BuiltInParameter.SHEET_CURRENT_REVISION)\n\
+    \            'Debug.Assert(p IsNot Nothing, \"expected valid sheet revision\"\
+    )\n            Dim sheet_rev As String = \"-\"\n            If p IsNot Nothing\
+    \ Then\n                sheet_rev = p.AsString\n            End If\n\n       \
+    \     p = m_TitleBlock.Parameter(BuiltInParameter.SHEET_WIDTH)\n            Debug.Assert(p\
+    \ IsNot Nothing, \"expected valid sheet width\")\n\n            Dim swidth As\
+    \ String = p.AsValueString\n            Dim width As Double = p.AsDouble\n\n \
+    \           p = m_TitleBlock.Parameter(BuiltInParameter.SHEET_HEIGHT)\n      \
+    \      Debug.Assert(p IsNot Nothing, \"expected valid sheet height\")\n\n    \
+    \        Dim sheight As String = p.AsValueString\n            Dim height As Double\
+    \ = p.AsDouble\n\n            Dim typeId As ElementId = m_TitleBlock.GetTypeId\n\
+    \            Dim type As Element = m_rvtDoc.Element(typeId)\n\n            Dim\
+    \ objListViewItem As Windows.Forms.ListViewItem\n            'Create a new ListViewItem\n\
+    \            objListViewItem = New Windows.Forms.ListViewItem\n\n            objListViewItem.Text\
+    \ = sheet_number\n            objListViewItem.Tag = typeId\n\n            objListViewItem.SubItems.Add(sheet_rev)\n\
+    \            objListViewItem.SubItems.Add(sheet_name)\n            objListViewItem.SubItems.Add(swidth\
+    \ + \" x \" + sheight)\n\n            objListViewItem.Checked = True\n\n     \
+    \       LVW.Items.Add(objListViewItem)\n\n            PGB.Value = PGB.Value +\
+    \ 1\n        Next"
+- author: frank halliday
+  email: alex.billsy@gmail.com
+  ip: 115.64.197.13
+  url: ''
+  date: '2014-08-14 06:45:05'
+  body: 'aah thanx i was looking for a method to grab only the title block families
+    and found it though doc.Titleblocks is obsolete now.
+
+    -----'

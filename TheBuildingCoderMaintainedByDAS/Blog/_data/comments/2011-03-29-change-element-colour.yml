@@ -1,0 +1,371 @@
+comments:
+- author: Rudolf Honke
+  email: rudolf.honke@acadgraph.de
+  ip: 193.158.119.50
+  url: ''
+  date: '2011-03-29 10:01:52'
+  body: 'Hi Jeremy !
+
+
+    Is it possible to override the color of a room, despite the fact that there is
+    an AreaScheme attached to the active View ?'
+- author: Junyu
+  email: owen1226@gmail.com
+  ip: 132.205.167.111
+  url: ''
+  date: '2011-03-29 16:51:43'
+  body: 'Hi, Jeremy, how are you?
+
+
+    I used this code:
+
+    "
+
+    ModelLine modelLine = doc.Create.NewModelCurve(line, NewSketchPlanePassLine(line))
+    as ModelLine;
+
+    "
+
+    to create model Lines, but why they will disappear after shutting down the application?
+    I want the model lines can be saved. How can I do it?'
+- author: Junyu
+  email: owen1226@gmail.com
+  ip: 132.205.164.96
+  url: ''
+  date: '2011-03-30 17:05:49'
+  body: 'Hi， Jeremy, how are you?
+
+
+    Do you have any idea on my question? such as I need to refresh view after line
+    creation or configurate some setting on Revit?
+
+
+    If I can not find the solusion, my company will decide to use other software that
+    I do not want to happen.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.164.106
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-03-31 06:12:46'
+  body: 'Dear Rudolf,
+
+
+    Is it possible to do through the user interface? If not, then there is probably
+    no possibility through the API either.
+
+
+    Cheers, Jeremy.'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: ''
+  date: '2011-03-31 08:11:39'
+  body: "Ah, of course.\nThank you for answering this (redundant) question.\n\nIt's\
+    \ evident: you can't do anything via API that cannot be done via GUI.* \n\nThanks\
+    \ again,\nRudolf\n\n------\n* except setting invisible parameters, for example"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-04-01 05:28:35'
+  body: "Dear Junyu,\n\nIf you create a model line in the database, then it is definitely\
+    \ saved. Of course you need to ensure that you have a valid transaction open,\
+    \ and commit it after the addition, or use automatic transaction mode.\n\nEvery\
+    \ model line added to the Revit document is stored in the database and will remain\
+    \ there when the document is saved. \n\nThere are indeed many user interface settings\
+    \ in Revit that affect the display of model lines, but that has nothing to do\
+    \ with the API.\n\nCheers, Jeremy."
+- author: Rudolf Honke
+  email: rudolfhonke@acadGraph.de
+  ip: 193.158.119.50
+  url: ''
+  date: '2011-04-04 08:01:29'
+  body: 'Dear Junyu,
+
+
+    perhaps you should make sure that your Revit is not in trial mode.
+
+    You say that lines disappear after shutting down Revit.
+
+    It says in the RevitAPI.chm that the Document.Save() method throws an exception
+    when trying to invoke it in trial mode.
+
+    So in this case nothing will be saved.
+
+
+    Best regards,
+
+    Rudolf'
+- author: goran.bubas@fer.hr
+  email: goranbuby@vip.hr
+  ip: 193.198.16.211
+  url: ''
+  date: '2011-04-04 16:10:21'
+  body: "Hello Jeremy,\n\nWhen I tried to debug your code i got this message:\n\"\
+    starting a new transaction is not permitted...\"\n\nCan you help me what could\
+    \ be the case? \n\nRegards,\nGoran."
+- author: goran.bubas@fer.hr
+  email: goranbuby@vip.hr
+  ip: 193.198.16.211
+  url: ''
+  date: '2011-04-04 17:54:54'
+  body: "Hi Jeremy, again :)\n\nI did silly mistake and I managed to correct it by\
+    \ myself. your core works fine. \n\nI have one more question:\nIf you have some\
+    \ element IDs, how would you do color change of that specific elements?\n\nRegards,\n\
+    Goran."
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-04-05 06:53:12'
+  body: 'Dear Goran,
+
+
+    Congratulations on finding your mistake, and on making a silly mistake rather
+    than a clever one. The latter are mostly much harder to discover and fix.
+
+
+    Regarding changing the colour of specific elements, that is exactly the question
+    answered by the sample code above.
+
+
+    Cheers, Jeremy.'
+- author: goran.bubas@fer.hr
+  email: goranbuby@vip.hr
+  ip: 93.136.125.28
+  url: ''
+  date: '2011-04-09 11:29:39'
+  body: "Hello Jeremy,\n\nTnx for answering me, and also for that email couple of\
+    \ days ago. \n\nWhat about changing surface color (not just projection lines)\
+    \ of an element (Revit 2011)? \n\nRegards,\nGoran."
+- author: Ben
+  email: benjamin.veilleux@canam.ws
+  ip: 207.164.161.144
+  url: http://www.canam.ws
+  date: '2011-04-14 14:50:18'
+  body: "Hi there,\n\nis there a way to change de surface color of elements?\nWe can\
+    \ do this in the UI, but I can't figure out how to \ndo this with the API...\n\
+    \nThanks"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.166.159
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-04-15 05:34:16'
+  body: "Dear Goran, \n\nFrom the UI, you can probably use the paint tool for this.\
+    \ There is no API access to that data in Revit 2011, though.\n\nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.166.159
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-04-15 05:35:52'
+  body: 'Dear Ben,
+
+
+    New functionality in the Revit 2012 API provides access to the FaceSplitter class,
+    and the Face HasRegions property and GetRegions method.
+
+
+    These give at least read access to the surface data of an element created using
+    the paint tool.
+
+
+    I don''t know about creating the surface data programmatically, though.
+
+
+    Cheers, Jeremy.'
+- author: Paul
+  email: Paul@Oakley-cad.co.uk
+  ip: 94.170.146.143
+  url: http://www.oakley-cad.co.uk/
+  date: '2011-06-17 10:53:32'
+  body: 'Hi Jeremy,
+
+
+    Having used ProjColorOverrideByElement to change the color. how do I remove the
+    overide?
+
+
+    Regards
+
+
+    Paul'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-22 09:34:34'
+  body: 'Dear Paul,
+
+
+    I would start by reading the documentation on the View.ProjColorOverrideByElement
+    property in the Revit API help file RevitAPI.chm. It says:
+
+
+    Field Value: The override color of the elements that are to be overridden. A null
+    reference (Nothing in Visual Basic) indicates that no override should be applied.
+
+
+    Is that what you are looking for?
+
+
+    Cheers, Jeremy.'
+- author: Paul
+  email: Paul@Oakley-cad.co.uk
+  ip: 94.170.146.143
+  url: http://www.oakley-cad.co.uk/
+  date: '2011-06-27 11:47:55'
+  body: 'Hi Jeremy,
+
+
+    "Sometime you just can''t see the wood for the trees...."
+
+
+    Setting to "IsNothing" works a treat.
+
+
+    Cheers
+
+
+    Paul'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-27 12:28:36'
+  body: "Dear Paul, \n\nI am glad to hear it works.\n\nCheers, Jeremy."
+- author: Luc Van Asch
+  email: luc@deluco.be
+  ip: 81.82.212.38
+  url: ''
+  date: '2011-07-08 10:05:52'
+  body: Hi. I would like to apply a color scheme to the elements in a view, based
+    on certain parameters - eg pricing (like a GIS legend). View.ProjColorOverrideByElement
+    and View.CutColorOverrideByElement are nice, but any idea about something like
+    FILLColorOverrideByElement. I was looking for it in the 2012 API, but in vain.
+    I now create a temporary material with the desired color and apply it to the element(s)
+    I want to color. It works, but it's slow (causes the model to regenerate), especially
+    when there's al lot of elements to process. Any idea's of how to speed the coloring
+    of element surfaces up? Changing the FILLColorOverrideByElement is possible in
+    the UI, so it should be around somewhere in the dll's... Thanks in advance for
+    any replies! Luc
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-07-11 12:51:57'
+  body: 'Dear Luc,
+
+
+    I am not sure that the functionality you are looking for is accessible programmatically,
+    or not completely.
+
+
+    One thing I do now is that the Revit MEP API HVAC sample application uses a colour
+    fill scheme to display air flow volume per room surface graphically.
+
+
+    For that, it uses some kind of manually set up schedule, and the only thing done
+    programmatically is to set the appropriate parameter value on each element. The
+    parameter values are picked up be the schedule somehow and determine the fill
+    colour in the graphics display.
+
+
+    Cheers, Jeremy.'
+- author: Luc Van Asch
+  email: luc@deluco.be
+  ip: 81.82.201.204
+  url: ''
+  date: '2011-08-24 04:59:23'
+  body: 'Thanks for the reply, Jeremy. I''ve been on holidays and I''m currently working
+    on another (Revit API) application, so it took me some time to read your reaction.
+    I will definitely take a look at the MEP HVAC application you''ve mentioned. Does
+    this come with the standard download of the 2012 API? Or do I have to search for
+    it on ADN?
+
+    Thank you.
+
+    Luc'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-08-24 05:17:05'
+  body: 'Dear Luc,
+
+
+    I just published the Revit MEP 2012 version of the ADN MEP HVAC sample code, so
+    you can access it from here:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/08/mep-sample-code-for-revit-2012.html">http://thebuildingcoder.typepad.com/blog/2011/08/mep-sample-code-for-revit-2012.html</a>
+
+
+    Previous versions and more documentation are available from the AU web site.
+
+
+    Cheers, Jeremy.'
+- author: Manish
+  email: manishsingh12jan@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2012-05-08 06:01:03'
+  body: "hi jeremy\n\nI want to know how to change color of elbow element\n\nCode:\n\
+    \n Color color = _rvtDoc.Application.Create.NewColor();\n           \n       \
+    \     color.Blue = 255;\n            color.Red = 0;\n            color.Green =\
+    \ 0;\n            Transaction trans = TransStart(_rvtDoc);\n            _rvtDoc.ActiveView.set_ProjColorOverrideByElement(iElementIds,\
+    \ color);\ntrans.commit();\n\nThis code not work for Elbow element."
+- author: Tim Berteotti
+  email: timberteotti@gmail.com
+  ip: 208.103.118.194
+  url: ''
+  date: '2014-11-20 13:03:49'
+  body: 'Hi Jeremy,
+
+
+    First, thank you for keeping this blog. It has been very helpful while I am learning
+    to use the Revit API.
+
+
+    I am trying to change the detail level of an element within a view using the SetElementOverrides
+    method in Revit 2014. The OverrideGraphicSettings object includes a property for
+    DetailLevel that I am able to read and write to successfully. However, these changes
+    are not reflected in the view while other overrides are. I also tried to set the
+    detail level through a view filter using the SetFilterOverrides method with the
+    same results. Is this a situation where "if I can''t do it with the user interface,
+    it can''t be done", or am I missing something?
+
+
+    Thanks!
+
+    Tim'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.174.72
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-11-24 15:44:55'
+  body: 'Dear Tim,
+
+
+    Thank you for your appreciation. I am very glad The Building Coder has proved
+    helpful for you.
+
+
+    I cannot tell off-hand whether the behaviour you describe is intentional or not.
+
+
+    If the other overrides work fine and this one seems to change the property successfully
+    but still has no effect, then it sounds like we should investigate it further.
+
+
+    Can you provide a minimal reproducible case to test?
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#1b">http://thebuildingcoder.typepad.com/blog/about-the-author.html#1b</a>
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.
+
+    -----'

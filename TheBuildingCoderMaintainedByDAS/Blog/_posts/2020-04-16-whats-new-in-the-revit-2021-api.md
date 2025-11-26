@@ -1,0 +1,1466 @@
+---
+layout: "post"
+title: "What's New in the Revit 2021 API"
+date: "2020-04-16 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "2021"
+  - "Migration"
+  - "News"
+  - "SDK Samples"
+  - "Update"
+original_url: "https://thebuildingcoder.typepad.com/blog/2020/04/whats-new-in-the-revit-2021-api.html "
+typepad_basename: "whats-new-in-the-revit-2021-api"
+typepad_status: "Publish"
+---
+
+<p><style>
+  ul.toc { list-style-type: none; }
+  h1.new { font-size: 150%; }
+  h2.new { font-size: 150%; }
+  h3.new { font-size: 120%; }
+  h4.new { font-size: 120%; }
+</style></p>
+
+<p>The Revit 2021 API includes exciting enhancements for add-in developers, including numerous developer wishes and requests that have now been explicitly addressed:</p>
+
+<ul>
+<li><a href="#1">Information sources</a> </li>
+<li><a href="#2">What's new in previous versions</a> </li>
+<li><a href="#4">Detailed TOC of major changes and renovations</a></li>
+</ul>
+
+<h4><a name="1"></a>Information Sources</h4>
+
+<p>The information below is based on the contents of the <em>Revit Platform API Changes and Additions.docx</em> document included with
+the Revit 2021 SDK, the software developers kit available from 
+the <a href="https://www.autodesk.com/developer-network/platform-technologies/revit">Revit Developer Centre</a>.</p>
+
+<p>It is also provided in the section on <em>What's New</em> in the Revit 2021 API help file <code>RevitAPI.chm</code> included with the SDK:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4fc184c200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4fc184c200d image-full img-responsive" alt="Revit 2021 API help on What's New" title="Revit 2021 API help on What's New" src="/assets/image_4a33f9.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>For convenient, easy and effective web searching, this blog post provides an online version of that information, both in pure HTML (below) and as a PDF document:</p>
+
+<ul>
+<li><a href="https://thebuildingcoder.typepad.com/files/revit_platform_api_changes_and_additions_2021.pdf">Revit_Platform_API_Changes_and_Additions_2021.pdf</a></li>
+</ul>
+
+<p>The <em>What's New</em> section and the <em>Changes and Additions</em> document provide important information, both for discovering and exploring the newly added API functionality and for later reference.</p>
+
+<p>If you encounter any issues migrating your existing add-ins between different versions, this is one of the first places to look.</p>
+
+<p>For detailed information on all other aspects of the Revit API, please refer to the rest of the API documentation and samples provided in the SDK.</p>
+
+<p>The most important things to install and always keep at hand are:</p>
+
+<ul>
+<li>The Revit API help file <code>RevitAPI.chm</code></li>
+<li>The Visual Studio solution containing all the SDK samples, <code>Samples\SDKSamples.sln</code></li>
+</ul>
+
+<p>You will need both of these regularly for research on how to solve specific Revit API programming tasks.</p>
+
+<p>More in-depth official explanations and background information is provided by the
+online <a href="http://help.autodesk.com/view/RVT/2021/ENU/?guid=Revit_API_Revit_API_Developers_Guide_html">Revit API Developers Guide</a> included 
+in the <a href="http://help.autodesk.com/view/RVT/2021/ENU">Revit 2021 online help</a>.</p>
+
+<h4><a name="2"></a>What's New in Previous Versions</h4>
+
+<p>Here are links to previous discussions of <em>What's New in the Revit API</em>:</p>
+
+<ul>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/02/whats-new-in-the-revit-2010-api.html">What's New in the Revit 2010 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/02/whats-new-in-the-revit-2011-api.html">What's New in the Revit 2011 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/02/whats-new-in-the-revit-2012-api.html">What's New in the Revit 2012 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/03/whats-new-in-the-revit-2013-api.html">What's New in the Revit 2013 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/04/whats-new-in-the-revit-2014-api.html">What's New in the Revit 2014 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2014/04/whats-new-in-the-revit-2015-api.html">What's New in the Revit 2015 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2015/04/whats-new-in-the-revit-2016-api.html">What's New in the Revit 2016 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2016/04/whats-new-in-the-revit-2017-api.html">What's New in the Revit 2017 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2016/11/whats-new-in-the-revit-20171-api.html">What's New in the Revit 2017.1 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/04/whats-new-in-the-revit-2018-api.html">What's New in the Revit 2018 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/08/revit-20181-and-the-visual-materials-api.html">Revit 2018.1 and the Visual Materials API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/09/revit-201811-fixes-cropbox-setting.html">Revit 2018.1.1 and 2018.1 API Docs Online</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/11/modifying-material-visual-appearance.html">Revit 2018.1 Visual Materials API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/12/whats-new-in-the-revit-20182-api.html">What's New in the Revit 2018.2 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2018/04/whats-new-in-the-revit-2019-api.html">What's New in the Revit 2019 API</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2019/04/whats-new-in-the-revit-2020-api.html">What's New in the Revit 2020 API</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2019/09/whats-new-in-the-revit-20201-api.html">What's New in the Revit 2020.1 API</a></li>
+</ul>
+
+<h4><a name="4"></a>Detailed TOC of Major Changes and Renovations</h4>
+
+<ul class="toc">
+<li>1 <a href="#4.1">API changes</a></li>
+<ul class="toc">
+<li>1.1 <a href="#4.1.1">.NET 4.8</a></li>
+<li>1.2 <a href="#4.1.2">Requirement for Transport Layer Security (TLS) Setting in Revit Add-ons</a></li>
+<li>1.3 <a href="#4.1.3">Units API changes</a></li>
+<ul class="toc">
+<li>1.3.1 <a href="#4.1.3.1">List of deprecated and replaced APIs related to units</a></li>
+</ul>
+<li>1.4 <a href="#4.1.4">Structural Connections API changes</a></li>
+<li>1.5 <a href="#4.1.5">Electrical API changes</a></li>
+<li>1.6 <a href="#4.1.6">Cloud Model API changes</a></li>
+<li>1.7 <a href="#4.1.7">Raytrace view mode removed</a></li>
+<li>1.8 <a href="#4.1.8">Schedule API change</a></li>
+<li>1.9 <a href="#4.1.9">Slanted Walls</a></li>
+<li>1.10 <a href="#4.1.10">Path of Travel API change</a></li>
+<li>1.11 <a href="#4.1.11">Geometry API changes</a></li>
+<li>1.12 <a href="#4.1.12">Extensible Storage API change</a></li>
+<li>1.13 <a href="#4.1.13">BuiltInParameter names corrected</a></li>
+<li>1.14 <a href="#4.1.14">SpaceType names corrected</a></li>
+<li>1.15 <a href="#4.1.15">Image API changes</a></li>
+<li>1.16 <a href="#4.1.16">Obsolete API removal</a></li>
+<ul class="toc">
+<li>1.16.1.1 <a href="#4.1.16.1.1">Classes</a></li>
+<li>1.16.1.2 <a href="#4.1.16.1.2">Methods</a></li>
+</ul>
+</ul>
+
+<li>2 <a href="#4.2">API additions</a></li>
+<ul class="toc">
+<li>2.1 <a href="#4.2.1">Systems Analysis API additions</a></li>
+<ul class="toc">
+<li>2.1.1 <a href="#4.2.1.1">Mechanical Analytical Systems</a></li>
+<li>2.1.2 <a href="#4.2.1.2">Zone equipment</a></li>
+<li>2.1.3 <a href="#4.2.1.3">System-Zones</a></li>
+<li>2.1.4 <a href="#4.2.1.4">Systems Analysis and Analysis Reports</a></li>
+<li>2.1.5 <a href="#4.2.1.5">Export to gbXML</a></li>
+<li>2.1.6 <a href="#4.2.1.6">Application settings</a></li>
+</ul>
+<li>2.2 <a href="#4.2.2">Electrical API additions</a></li>
+<ul class="toc">
+<li>2.2.1 <a href="#4.2.2.1">Circuit naming</a></li>
+<li>2.2.2 <a href="#4.2.2.2">Access to circuit naming, switchboards and other properties</a></li>
+</ul>
+<li>2.3 <a href="#4.2.3">Element and ElementFilter additions</a></li>
+<ul class="toc">
+<li>2.3.1 <a href="#4.2.3.1">Element History</a></li>
+<li>2.3.2 <a href="#4.2.3.2">Element Filters</a></li>
+</ul>
+<li>2.4 <a href="#4.2.4">Document API additions</a></li>
+<li>2.5 <a href="#4.2.5">View API additions</a></li>
+<ul class="toc">
+<li>2.5.1 <a href="#4.2.5.1">Split sections</a></li>
+<li>2.5.2 <a href="#4.2.5.2">Temporary View Modes</a></li>
+<li>2.5.3 <a href="#4.2.5.3">Filters</a></li>
+</ul>
+<li>2.6 <a href="#4.2.6">Schedule API additions</a></li>
+<ul class="toc">
+<li>2.6.1 <a href="#4.2.6.1">Striped rows</a></li>
+<li>2.6.2 <a href="#4.2.6.2">Frozen header</a></li>
+</ul>
+<li>2.7 <a href="#4.2.7">Path of Travel API</a></li>
+<ul class="toc">
+<li>2.7.1 <a href="#4.2.7.1">Reveal Obstacles mode for Path of Travel</a></li>
+<li>2.7.2 <a href="#4.2.7.2">Path finding analysis for Path of Travel</a></li>
+<li>2.7.3 <a href="#4.2.7.3">Waypoints</a></li>
+</ul>
+<li>2.8 <a href="#4.2.8">Export API additions</a></li>
+<ul class="toc">
+<li>2.8.1 <a href="#4.2.8.1">CustomExporter events</a></li>
+</ul>
+<li>2.9 <a href="#4.2.9">Options API additions</a></li>
+<ul class="toc">
+<li>2.9.1 <a href="#4.2.9.1">Color options</a></li>
+</ul>
+<li>2.10 <a href="#4.2.10">Geometry API additions</a></li>
+<ul class="toc">
+<li>2.10.1 <a href="#4.2.10.1">Surfaces</a></li>
+<li>2.10.2 <a href="#4.2.10.2">Edges</a></li>
+<li>2.10.3 <a href="#4.2.10.3">Meshes</a></li>
+<li>2.10.4 <a href="#4.2.10.4">Geometry utilities</a></li>
+</ul>
+<li>2.11 <a href="#4.2.11">Image API additions</a></li>
+<ul class="toc">
+<li>2.11.1 <a href="#4.2.11.1">Image properties</a></li>
+<li>2.11.2 <a href="#4.2.11.2">Converting images between links and imports</a></li>
+</ul>
+<li>2.12 <a href="#4.2.12">Cloud Model API additions</a></li>
+<ul class="toc">
+<li>2.12.1 <a href="#4.2.12.1">Regions</a></li>
+<li>2.12.2 <a href="#4.2.12.2">Opening Cloud Models</a></li>
+</ul>
+<li>2.13 <a href="#4.2.13">Structural Connection API addition</a></li>
+<ul class="toc">
+<li>2.13.1 <a href="#4.2.13.1">Connections requiring additional points</a></li>
+</ul>
+<li>2.14 <a href="#4.2.14">Reinforcement API additions</a></li>
+<ul class="toc">
+<li>2.14.1 <a href="#4.2.14.1">Rebar constraints</a></li>
+<li>2.14.2 <a href="#4.2.14.2">Rebar end treatment</a></li>
+<li>2.14.3 <a href="#4.2.14.3">Fabric Sheet visibility</a></li>
+<li>2.14.4 <a href="#4.2.14.4">Out of plane hook rotation angles</a></li>
+<li>2.14.5 <a href="#4.2.14.5">Hook length overrides</a></li>
+</ul>
+<li>2.15 <a href="#4.2.15">Material API addition</a></li>
+<li>2.16 <a href="#4.2.16">Analysis Visualization Framework API addition</a></li>
+<li>2.17 <a href="#4.2.17">Shared Coordinates API additions</a></li>
+<ul class="toc">
+<li>2.17.1 <a href="#4.2.17.1">Internal Origin</a></li>
+<li>2.17.2 <a href="#4.2.17.2">BasePoint</a></li>
+</ul>
+</ul>
+</ul>
+
+<p></p>
+
+<p><center></p>
+
+<div style="border-style:solid; border-width:2px 0px 2px 0px">
+<a name="4.1"></a><h1 class="new" style="font-weight: bold">API Changes</h1>
+</div>
+
+<p></center></p>
+
+<p><a name="4.1.1"></a><h2 class="new">1.1. .NET 4.8</h2></p>
+
+<p>Revit's API assemblies are built using .NET 4.8.</p>
+
+<p>At a minimum, add-ons will need to target .NET 4.8 for Revit 2021.</p>
+
+<p><a name="4.1.2"></a><h2 class="new">1.2. Requirement for Transport Layer Security (TLS) Setting in Revit Add-ons</h2></p>
+
+<p>When your add-on requires Internet communications and a specific security protocol is involved, if the protocol is TLS 1.0, 1.1 or 1.2, you don’t need to write any setting in the add-on, you may just take advantage of the native TLS support in Revit and its target .NET Framework. The complexities due to variety of Windows versions as well as .NET Framework versions have been well handled in Revit.</p>
+
+<p>If the addon still needs to specify a security protocol or its version, do not hard-code it exclusively, e.g. by directly assigning the protocol/version to the application-wide property ServicePointManager.SecurityProtocol. This will override Revit’s native TLS configuration, which is critical for Revit to communicate with various Autodesk cloud services. A problematic setting is like</p>
+
+<pre>
+  System.Net.ServicePointManager.SecurityProtocol
+    = System.Net.SecurityProtocolType.Tls12;
+</pre>
+
+<p>Instead you need to specify the protocol/version inclusively, e.g. by using bitwise OR (logical OR) on the application-wide property ServicePointManager.SecurityProtocol. A correct setting is like</p>
+
+<pre>
+  System.Net.ServicePointManager.SecurityProtocol
+    |= System.Net.SecurityProtocolType.Tls12;
+</pre>
+
+<p><a name="4.1.3"></a><h2 class="new">1.3. Units API changes</h2></p>
+
+<p>Revit has converted to use an external reference to unit definitions defined in Forge schemas.</p>
+
+<p>In the Autodesk.Revit.DB namespace, the enumerations DisplayUnitType, UnitSymbolType, and UnitType have been deprecated in favor of a potentially extensible set of units, symbols, and unit types. The new class:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.ForgeTypeId</li>
+</ul>
+
+<p>represents an identifier for a unit, symbol, or other object, and is now used throughout the Revit API to identify units of measurement, symbols, and unit types. Unit types are now referred to as "specs" to avoid confusion with units themselves.</p>
+
+<p>A ForgeTypeId instance holds a string, called a "typeid", that uniquely identifies a Forge schema. A Forge schema is a JSON document describing a data structure, supporting data interchange between applications. A typeid string includes a namespace and version number and may look something like "autodesk.spec.aec:length-1.0.0" or "autodesk.unit.unit:meters-1.0.0". By default, comparison of ForgeTypeId values in the Revit API ignores the version number.</p>
+
+<p>The new classes:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.UnitTypeId</li>
+<li>Autodesk.Revit.DB.SymbolTypeId</li>
+<li>Autodesk.Revit.DB.SpecTypeId </li>
+</ul>
+
+<p>contain a default set of named public constant properties of type ForgeTypeId. These values can be used in code replacing values of the deprecated DisplayUnitType, UnitSymbolType, and UnitType enumerations.</p>
+
+<p>For example, where you previously used DisplayUnitType.DUT_WATTS_PER_SQUARE_METER_KELVIN, you would now use UnitTypeId.WattsPerSquareMeterKelvin. Where you previously used UnitType.UT_HVAC_Density, you would now use SpecTypeId.HvacDensity.</p>
+
+<p>The UnitUtils class now offers a set of new methods for mapping between enumeration values and ForgeTypeId values to assist clients in migrating code to ForgeTypeId:</p>
+
+<ul>
+<li>UnitUtils.IsSymbol()</li>
+<li>UnitUtils.GetSpecTypeId()</li>
+<li>UnitUtils.GetUnitType()</li>
+<li>UnitUtils.GetUnitTypeId()</li>
+<li>UnitUtils.GetDisplayUnitType()</li>
+<li>UnitUtils.GetSymbolTypeId()</li>
+<li>UnitUtils.GetUnitSymbolType()</li>
+</ul>
+
+<p>Some of the preceding methods are new but are already deprecated. They have been added to the API only to assist clients in migrating code from the old enumerations to the ForgeTypeId class.</p>
+
+<p><a name="4.1.3.1"></a><h3 class="new">1.3.1. List of deprecated and replaced APIs related to units</h2></p>
+
+<p>Deprecated enumerations in Autodesk.Revit.DB:</p>
+
+<ul>
+<li>Deprecated &rarr; Replacement</li>
+<li>DisplayUnitType &rarr; UnitTypeId</li>
+<li>UnitSymbolType &rarr; SymbolTypeId</li>
+<li>UnitType &rarr; SpecTypeId</li>
+</ul>
+
+<p>Autodesk.Revit.DB.UnitUtils:</p>
+
+<ul>
+<li>Deprecated &rarr; Replacement</li>
+<li>static double Convert(double, DisplayUnitType, DisplayUnitType) &rarr; static double Convert(double, ForgeTypeId currentUnitTypeId, ForgeTypeId desiredUnitTypeId)</li>
+<li>static double ConvertFromInternalUnits(double, DisplayUnitType) &rarr; static double ConvertFromInternalUnits(double, ForgeTypeId unitTypeId)</li>
+<li>static double ConvertToInternalUnits(double, DisplayUnitType) &rarr; static double ConvertToInternalUnits(double, ForgeTypeId unitTypeId)</li>
+<li>static bool IsValidDisplayUnit(DisplayUnitType) &rarr; static bool IsUnit(ForgeTypeId unitTypeId)</li>
+<li>static List<DisplayUnitType> GetValidDisplayUnits() &rarr; static List<ForgeTypeId> GetAllUnits()</li>
+<li>static bool IsValidDisplayUnit(UnitType, DisplayUnitType) &rarr; static bool IsValidUnit(ForgeTypeId specTypeId, ForgeTypeId unitTypeId)</li>
+<li>static List<DisplayUnitType> GetValidDisplayUnits(UnitType) &rarr; static List<ForgeTypeId> GetValidUnits(ForgeTypeId specTypeId)</li>
+<li>static string GetTypeCatalogString(DisplayUnitType) &rarr; static string GetTypeCatalogStringForUnit(ForgeTypeId unitTypeId)</li>
+<li>static bool IsValidUnitType(UnitType) &rarr; static bool IsSpec(ForgeTypeId specTypeId)</li>
+<li>static List<UnitType> GetValidUnitTypes() &rarr; static List<ForgeTypeId> GetAllSpecs()</li>
+<li>static UnitGroup GetUnitGroup(UnitType) &rarr; static UnitGroup GetUnitGroup(ForgeTypeId specTypeId)</li>
+<li>static string GetTypeCatalogString(UnitType) &rarr; static string GetTypeCatalogStringForSpec(ForgeTypeId specTypeId)</li>
+</ul>
+
+<p>Autodesk.Revit.DB.ExtensibleStorage.Entity:</p>
+
+<ul>
+<li>Deprecated &rarr; Replacement</li>
+<li>FieldType Get(Field, DisplayUnitType) &rarr; FieldType Get(Field, ForgeTypeId unitTypeId)</li>
+<li>FieldType Get(string, DisplayUnitType) &rarr; FieldType Get(string, ForgeTypeId unitTypeId)</li>
+<li>void Set(Field, FieldType, DisplayUnitType) &rarr; void Set(Field, FieldType, ForgeTypeId unitTypeId)</li>
+<li>void Set(string, FieldType, DisplayUnitType) &rarr; void Set(string, FieldType, ForgeTypeId unitTypeId)</li>
+</ul>
+
+<p>Autodesk.Revit.DB.FamilyParameter:</p>
+
+<ul>
+<li>Deprecated &rarr; Replacement</li>
+<li>property DisplayUnitType DisplayUnitType (get) &rarr; ForgeTypeId GetUnitTypeId()</li>
+</ul>
+
+<p>Autodesk.Revit.DB.Parameter:</p>
+
+<ul>
+<li>Deprecated &rarr; Replacement</li>
+<li>property DisplayUnitType DisplayUnitType (get) &rarr; ForgeTypeId GetUnitTypeId()</li>
+</ul>
+
+<p>Autodesk.Revit.DB.Definition:</p>
+
+<ul>
+<li>Deprecated &rarr; Replacement</li>
+<li>property UnitType UnitType (get) &rarr; ForgeTypeId GetSpecTypeId()</li>
+</ul>
+
+<p>Autodesk.Revit.DB.Visual.AssetPropertyDistance:</p>
+
+<ul>
+<li>Deprecated &rarr; Replacement</li>
+<li>property DisplayUnitType DisplayUnitType (get) &rarr; ForgeTypeId GetUnitTypeId()</li>
+</ul>
+
+<p>Autodesk.Revit.DB.Units:</p>
+
+<ul>
+<li>Deprecated &rarr; Replacement</li>
+<li>FormatOptions GetFormatOptions(UnitType) &rarr; FormatOptions GetFormatOptions(ForgeTypeId specTypeId)</li>
+<li>void SetFormatOptions(UnitType, FormatOptions) &rarr; void SetFormatOptions(ForgeTypeId specTypeId, FormatOptions)</li>
+<li>static bool IsModifiableUnitType(UnitType) &rarr; static bool IsModifiableSpec(ForgeTypeId specTypeId)</li>
+<li>static List<UnitType> GetModifiableUnitTypes() &rarr; static List<ForgeTypeId> GetModifiableSpecs()</li>
+</ul>
+
+<p>Autodesk.Revit.DB.DimensionType:</p>
+
+<ul>
+<li>Deprecated &rarr; Replacement</li>
+<li>property UnitType UnitType (get) &rarr; ForgeTypeId GetSpecTypeId()</li>
+</ul>
+
+<p>Autodesk.Revit.DB.ExtensibleStorage.Field:</p>
+
+<ul>
+<li>Deprecated &rarr; Replacement</li>
+<li>bool CompatibleDisplayUnitType(DisplayUnitType) &rarr; bool CompatibleUnit(ForgeTypeId unitTypeId)</li>
+<li>property UnitType UnitType (get) &rarr; ForgeTypeId GetSpecTypeId()</li>
+</ul>
+
+<p>Autodesk.Revit.DB.ExtensibleStorage.FieldBuilder:</p>
+
+<ul>
+<li>Deprecated &rarr; Replacement</li>
+<li>FieldBuilder SetUnitType(UnitType) &rarr; FieldBuilder SetSpec(ForgeTypeId specTypeId)</li>
+</ul>
+
+<p>Autodesk.Revit.DB.FamilySizeTableColumn:</p>
+
+<ul>
+<li>Deprecated &rarr; Replacement</li>
+<li>property DisplayUnitType DisplayUnitType (get) &rarr; ForgeTypeId GetUnitTypeId()</li>
+<li>property UnitType UnitType (get) &rarr; ForgeTypeId GetSpecTypeId()</li>
+</ul>
+
+<p>Autodesk.Revit.DB.FormatOptions:</p>
+
+<ul>
+<li>Deprecated &rarr; Replacement</li>
+<li>FormatOptions(DisplayUnitType) &rarr; FormatOptions(ForgeTypeId unitTypeId)</li>
+<li>FormatOptions(DisplayUnitType, UnitSymbolType) &rarr; FormatOptions(ForgeTypeId unitTypeId, ForgeTypeId symbolTypeId)</li>
+<li>FormatOptions(DisplayUnitType, double) &rarr; This constructor has not been replaced. Please use property assignment to set the accuracy.</li>
+<li>FormatOptions(DisplayUnitType, UnitSymbolType, double) &rarr; This constructor has not been replaced. Please use property assignment to set the accuracy.</li>
+<li>property DisplayUnitType DisplayUnits (get/set) &rarr; ForgeTypeId GetUnitTypeId() and void SetUnitTypeId(ForgeTypeId unitTypeId)</li>
+<li>property UnitSymbolType UnitSymbol (get/set) &rarr; ForgeTypeId GetSymbolTypeId() and void SetSymbolTypeId(ForgeTypeId symbolTypeId)</li>
+<li>static bool CanHaveUnitSymbol(DisplayUnitType) &rarr; static bool CanHaveSymbol(ForgeTypeId unitTypeId)</li>
+<li>bool CanHaveUnitSymbol() &rarr; bool CanHaveSymbol()</li>
+<li>static bool IsValidUnitSymbol(DisplayUnitType, UnitSymbolType) &rarr; static bool IsValidSymbol(ForgeTypeId unitTypeId, ForgeTypeId symbolTypeId)</li>
+<li>bool IsValidUnitSymbol(UnitSymbolType) &rarr; bool IsValidSymbol(ForgeTypeId symbolTypeId)</li>
+<li>static List<UnitSymbolType> GetValidUnitSymbols(DisplayUnitType) &rarr; static List<ForgeTypeId> GetValidSymbols(ForgeTypeId unitTypeId)</li>
+<li>List<UnitSymbolType> GetValidUnitSymbols() &rarr; List<ForgeTypeId> GetValidSymbols()</li>
+<li>static bool IsValidAccuracy(DisplayUnitType, double) &rarr; static bool IsValidAccuracy(ForgeTypeId unitTypeId, double accuracy)</li>
+<li>static bool CanSuppressTrailingZeros(DisplayUnitType) &rarr; static bool CanSuppressTrailingZeros(ForgeTypeId unitTypeId)</li>
+<li>static bool CanSuppressLeadingZeros(DisplayUnitType) &rarr; static bool CanSuppressLeadingZeros(ForgeTypeId unitTypeId)</li>
+<li>static bool CanSuppressSpaces(DisplayUnitType) &rarr; static bool CanSuppressSpaces(ForgeTypeId unitTypeId)</li>
+<li>static bool CanUsePlusPrefix(DisplayUnitType) &rarr; static bool CanUsePlusPrefix(ForgeTypeId unitTypeId)</li>
+<li>bool IsValidForUnitType(UnitType) &rarr; bool IsValidForSpec(ForgeTypeId specTypeId)</li>
+</ul>
+
+<p>Autodesk.Revit.DB.LabelUtils:</p>
+
+<ul>
+<li>Deprecated &rarr; Replacement</li>
+<li>static string GetLabelFor(DisplayUnitType) &rarr; static string GetLabelForUnit(ForgeTypeId unitTypeId)</li>
+<li>static string GetLabelFor(UnitSymbolType) &rarr; static string GetLabelForSymbol(ForgeTypeId symbolTypeId)</li>
+<li>static string GetLabelFor(UnitType) &rarr; static string GetLabelForSpec(ForgeTypeId specTypeId)</li>
+</ul>
+
+<p>Autodesk.Revit.DB.Structure.ReinforcementRoundingManager:</p>
+
+<ul>
+<li>Deprecated &rarr; Replacement</li>
+<li>property DisplayUnitType LengthDisplayUnit (get) &rarr; ForgeTypeId GetLengthUnitTypeId()</li>
+</ul>
+
+<p>Autodesk.Revit.DB.ScheduleField:</p>
+
+<ul>
+<li>Deprecated &rarr; Replacement</li>
+<li>property UnitType UnitType (get) &rarr; ForgeTypeId GetSpecTypeId()</li>
+</ul>
+
+<p>Autodesk.Revit.DB.TableSectionData:</p>
+
+<ul>
+<li>Deprecated &rarr; Replacement</li>
+<li>UnitType GetCellUnitType(int, int) &rarr; ForgeTypeId GetCellSpec(int, int)</li>
+</ul>
+
+<p>Autodesk.Revit.DB.UnitFormatUtils:</p>
+
+<ul>
+<li>Deprecated &rarr; Replacement</li>
+<li>static string Format(Units, UnitType, double, bool, bool, FormatValueOptions) and static string Format(Units, UnitType, double, bool, FormatValueOptions) &rarr; static string Format(Units, ForgeTypeId specTypeId, double, bool, FormatValueOptions) &ndash; Note: The "maxAccuracy" option has not been replaced. Please specify the desired precision explicitly.</li>
+<li>static string Format(Units, UnitType, double, bool, bool) and static string Format(Units, UnitType, double, bool) &rarr; static string Format(Units, ForgeTypeId specTypeId, double, bool) &ndash; Note: The "maxAccuracy" option has not been replaced. Please specify the desired precision explicitly.</li>
+<li>static bool TryParse(Units, UnitType, string, ValueParsingOptions, double) &rarr; static bool TryParse(Units, ForgeTypeId specTypeId, string, ValueParsingOptions, double)</li>
+<li>static bool TryParse(Units, UnitType, string, ValueParsingOptions, double, string) &rarr; static bool TryParse(Units, ForgeTypeId specTypeId, string, ValueParsingOptions, double, string)</li>
+<li>static bool TryParse(Units, UnitType, string, double) &rarr; static bool TryParse(Units, ForgeTypeId specTypeId, string, double)</li>
+<li>static bool TryParse(Units, UnitType, string, double, string) &rarr; static bool TryParse(Units, ForgeTypeId specTypeId, string, double, string)</li>
+</ul>
+
+<p><a name="4.1.4"></a><h2 class="new">1.4. Structural Connections API changes</h2></p>
+
+<ul>
+<li>Deprecated member &rarr; Replacement &ndash; Notes</li>
+<li>StructuralConnectionHandler.Create(Document, IList&lt;ElementId&gt;) &rarr; StructuralConnectionHandler.CreateGenericConnection() &ndash; The new method provides an easier and friendlier way to create a generic connection.</li>
+</ul>
+
+<p><a name="4.1.5"></a><h2 class="new">1.5. Electrical API changes</h2></p>
+
+<ul>
+<li>Deprecated member &rarr; Replacement &ndash; Notes</li>
+<li>MEPModel.ElectricalSystems &rarr; MEPModel.GetElectricalSystems() &ndash; The new method returns an ISet&lt;&gt; containing the systems.</li>
+<li>MEPModel.AssignedElectricalSystems &rarr; MEPModel.GetAssignedElectricalSystems() &ndash; The new method returns an ISet&lt;&gt; containing the systems.</li>
+<li>ElectricalSystemSet &rarr; N/A &ndash; new methods will use .NET collections </li>
+<li>ElectricalSystemSetIterator &rarr; N/A &ndash; new methods will use .NET collections </li>
+<li>PanelScheduleData.IsThirdPhaseHidden &rarr; PanelScheduleData.IsUnusedPhaseHidden</li>
+</ul>
+
+<p><a name="4.1.6"></a><h2 class="new">1.6. Cloud Model API changes</h2></p>
+
+<ul>
+<li>Deprecated member &rarr; Replacement &ndash; Notes</li>
+<li>ModelPathUtils.ConvertCloudGUIDsToCloudPath (Guid, Guid) &rarr; ModelPathUtils.ConvertCloudGUIDsToCloudPath (string region, Guid, Guid) &ndash; The new method provides an extra argument to indicate the region of the model to open.</li>
+<li>Document.SaveAsCloudModel (string, string) &rarr; Document.SaveAsCloudModel (Guid accountId, Guid projectId, string, string) &ndash; The new method provides two extra arguments to make identifying the cloud location more efficient and reliable.</li>
+</ul>
+
+<p><a name="4.1.7"></a><h2 class="new">1.7. Raytrace view mode removed</h2></p>
+
+<p>The Raytrace view mode is no longer available.</p>
+
+<p>The following two enum values have been removed (with no replacement):</p>
+
+<ul>
+<li>DisplayStyle.Raytrace</li>
+<li>TemporaryViewMode.Raytrace</li>
+</ul>
+
+<p><a name="4.1.8"></a><h2 class="new">1.8. Schedule API change</h2></p>
+
+<p>The method</p>
+
+<ul>
+<li>ViewSchedule.ExportSchedule()</li>
+</ul>
+
+<p>now exports a text filed formatted in UTF8 (it was previously UNICODE) for better scalability and a more modern text format.</p>
+
+<p><a name="4.1.9"></a><h2 class="new">1.9. Slanted Walls</h2></p>
+
+<p>Standard walls can now be slanted.
+There is no special API for this &ndash; use the standard parameter API to access the properties that control the slanted.
+API code should no longer assume that standard walls (or their inserts) are vertical.</p>
+
+<p>Three new parameters have been added:</p>
+
+<ul>
+<li>BuiltInParameter.WALL_CROSS_SECTION &ndash; An integer that controls whether the wall is vertical (0) or slanted (1).</li>
+<li>BuiltInParameter.WALL_SINGLE_SLANT_ANGLE_FROM_VERTICAL &ndash; A double that controls the angle of the slant relative to vertical, in degrees. The sign of the angle is positive in the direction to the right of the direction of the path curve of the wall, independent of how the wall is flipped.</li>
+<li>BuiltInParameter.INSERT_ORIENTATION &ndash; An integer that controls whether an insert in a wall is vertical (0) or follows the slant of the wall (1).</li>
+</ul>
+
+<p><a name="4.1.10"></a><h2 class="new">1.10. Path of Travel API change</h2></p>
+
+<p>The enumerated type:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.Analysis.PathOfTravelCalculationRequestType</li>
+</ul>
+
+<p>is not used in public API members and thus has been deprecated (with no replacement).</p>
+
+<p><a name="4.1.11"></a><h2 class="new">1.11. Geometry API changes</h2></p>
+
+<p>The following methods have been deprecated and replaced:</p>
+
+<ul>
+<li>Deprecated member &rarr; Replacement</li>
+<li>NurbSpline.isClosed() &rarr; Curve.IsClosed()</li>
+<li>ExportUtils.GetNurbsSurfaceDataForFace() &rarr; ExportUtils.GetNurbsSurfaceDataForSurface()</li>
+</ul>
+
+<p><a name="4.1.12"></a><h2 class="new">1.12. Extensible Storage API change</h2></p>
+
+<p>The following method has been deprecated and replaced:</p>
+
+<ul>
+<li>Deprecated member &rarr; Replacement</li>
+<li>ESSchema.EraseSchemaAndAllEntities() &rarr; Document.EraseSchemaAndAllEntities()</li>
+</ul>
+
+<p><a name="4.1.13"></a><h2 class="new">1.13. BuiltInParameter names corrected</h2></p>
+
+<p>A spelling mistake in two BuiltInParameter members has been corrected:</p>
+
+<ul>
+<li>Replaced member &rarr; Replacement</li>
+<li>RBS_ENERGY_ANALYSIS_BUILDING_ENVELOPE_ANALYTICAL_SURFACE_INDENTIFICATION_RESOLUTION &rarr; RBS_ENERGY_ANALYSIS_BUILDING_ENVELOPE_ANALYTICAL_SURFACE_IDENTIFICATION_RESOLUTION</li>
+<li>RBS_ENERGY_ANALYSIS_BUILDING_ENVELOPE_ANALYTICAL_SPACE_INDENTIFICATION_RESOLUTION &rarr; RBS_ENERGY_ANALYSIS_BUILDING_ENVELOPE_ANALYTICAL_SPACE_IDENTIFICATION_RESOLUTION</li>
+</ul>
+
+<p><a name="4.1.14"></a><h2 class="new">1.14. SpaceType names corrected</h2></p>
+
+<p>A spelling mistake in two SpaceType members has been corrected:</p>
+
+<ul>
+<li>Replaced member &rarr; Replacement</li>
+<li>kComfinementCellsPenitentiary &rarr; kConfinementCellsPenitentiary</li>
+<li>kComfinementCellsCourtHouse &rarr; kConfinementCellsCourtHouse</li>
+</ul>
+
+<p><a name="4.1.15"></a><h2 class="new">1.15. Image API changes</h2></p>
+
+<p>Several members have been deprecated and replaced with new methods that use the new ImageTypeSource enumeration. </p>
+
+<ul>
+<li>Replaced member &rarr; Replacement</li>
+<li>ImageType.IsViewImage and ImageType.IsLoadedFromFile() &rarr; ImageType.Source</li>
+<li>ImageTypeOptions(), ImageTypeOptions(string) and ImageTypeOptions(string, bool) &rarr; ImageTypeOptions(string, bool, ImageTypeSource) or ImageTypeOptions(ExternalResourceReference, ImageTypeSource)</li>
+</ul>
+
+<p><a name="4.1.16"></a><h2 class="new">1.16. Obsolete API removal</h2></p>
+
+<p>The following API members and classes which had previously been marked Obsolete have been removed in this release. Consult the API documentation from prior releases for information on the replacements to use:</p>
+
+<p><a name="4.1.16.1.1"></a><h4 class="new">1.16.1.1. Classes</h2></p>
+
+<ul>
+<li>Autodesk.Revit.DB.ImageImportOptions</li>
+</ul>
+
+<p><a name="4.1.16.1.2"></a><h4 class="new">1.16.1.2. Methods</h2></p>
+
+<ul>
+<li>Document.Import(String, ImageImportOptions, View, out Element)</li>
+<li>ExternalResourceBrowserData.GetSubFolders()</li>
+<li>ImageView.Create(Document, String)</li>
+<li>Autodesk.Revit.Creation.Application.NewImageImportOptions()</li>
+<li>StructuralConnectionHandler.GetSubPartIds()</li>
+<li>FabricationConfiguration.GetMaterialThickness()</li>
+</ul>
+
+<p></p>
+
+<p><center></p>
+
+<div style="border-style:solid; border-width:2px 0px 2px 0px">
+<a name="4.2"></a><h1 class="new" style="font-weight: bold">API Additions</h1>
+</div>
+
+<p></center></p>
+
+<p><a name="4.2.1"></a><h2 class="new">2.1. Systems Analysis API additions</h2></p>
+
+<p><a name="4.2.1.1"></a><h3 class="new">2.1.1. Mechanical Analytical Systems</h2></p>
+
+<p>The new class:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.Mechanical.MEPAnalyticalSystem</li>
+</ul>
+
+<p>represents an HVAC analytical system element where the air or water is circulated to satisfy building energy requirements.
+Its AnalyticalSystemDomain property indicates whether the element represents a water loop or air system.</p>
+
+<p>The new class:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.Mechanical.WaterLoopData</li>
+</ul>
+
+<p>contains the data for a water loop system. It can be obtained from the MEPAnalyticalSystem.GetWaterLoopData() method. It offers the following properties:</p>
+
+<ul>
+<li>WaterLoopData.WaterLoopType</li>
+<li>WaterLoopData.ChillerType</li>
+<li>WaterLoopData.CondenserWaterLoopId</li>
+</ul>
+
+<p>The new class:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.Mechanical.AirSystemData</li>
+</ul>
+
+<p>contains the data for an air system.
+It can be obtained from the MEPAnalyticalSystem.GetAirSystemData() method.
+It offers the following properties:</p>
+
+<ul>
+<li>AirSystemData.HeatExchangerType</li>
+<li>AirSystemData.PreheatCoilType</li>
+<li>AirSystemData.HeatingCoilType</li>
+<li>AirSystemData.AirSystemCoolingCoilType</li>
+<li>AirSystemData.AirFanType</li>
+</ul>
+
+<p><a name="4.2.1.2"></a><h3 class="new">2.1.2. Zone equipment</h2></p>
+
+<p>The new class:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.Mechanical.ZoneEquipment</li>
+</ul>
+
+<p>represents a zone equipment element used for Mechanical Systems Analysis.
+Zone equipment is an early-stage equipment placeholder that provides heating or cooling to part of the air system or water loop.
+One zone equipment element may be mapped to multiple pieces of physical equipment depending on the zoning behavior type.</p>
+
+<p>Analytical spaces may be associated to one or more zone equipment elements. The method:</p>
+
+<ul>
+<li>ZoneEquipment.MoveSpaceToEquipment() </li>
+</ul>
+
+<p>moves a set of spaces from the original zone equipment to the targeted zone equipment. Either zone equipment id may be InvalidElementId. If the original is InvalidElementId, the association is copied to the target zone equipment. If the target is InvalidElementId, the original association is removed. The method:</p>
+
+<ul>
+<li>ZoneEquipment.GetAssociatedZoneEquipment() </li>
+</ul>
+
+<p>returns the set of zone equipment that is associated with the specified analytical space or spaces. </p>
+
+<p>The new class</p>
+
+<ul>
+<li>Autodesk.Revit.DB.Mechanical.ZoneEquipmentData</li>
+</ul>
+
+<p>represents the data associated with a zone equipment. It can be obtained from the ZoneEquipment.GetZoneEquipmentData() method. It offers the following properties:</p>
+
+<ul>
+<li>ZoneEquipmentData.EquipmentType</li>
+<li>ZoneEquipmentData.EquipmentBehavior</li>
+<li>ZoneEquipmentData.HotWaterLoopId</li>
+<li>ZoneEquipmentData.ChilledWaterLoopId</li>
+<li>ZoneEquipmentData.AirSystemId</li>
+</ul>
+
+<p><a name="4.2.1.3"></a><h3 class="new">2.1.3. System-Zones</h2></p>
+
+<p>A system-zone in Revit is used to specify what parts of a building are served by specific equipment, air systems and water loops, without having to physically model them. In the Revit API, a system-zone is represented as a GenericZone element with a domain data of type SystemZoneData.</p>
+
+<p>The new class</p>
+
+<ul>
+<li>Autodesk.Revit.DB.GenericZone</li>
+</ul>
+
+<p>provides for a method of selecting elements that somehow come in contact with the zone object. A zone is a non-hierarchical structure of geometric information, area or volume definitions for the purpose of analysis. A generic zone will contain specific domain requirements provided at creation of the element. Currently, all GenericZones will represent system-zone elements used for MEP design. Some relevant new members of GenericZones include:</p>
+
+<ul>
+<li>GenericZone.Create(Document doc, String name, GenericZoneDomainData domainData, ElementId levelId, IList&lt;CurveLoop&gt; curves) &ndash; supports creation of a zone using the specified domain data, level and curves to represent the intersection/outline of the related spaces.</li>
+<li>GenericZone.GetBoundaries() &ndash; Gets the boundaries for the given GenericZone.</li>
+<li>GenericZone.GetDomainData() &ndash; Returns the domain data for the given GenericZone.</li>
+</ul>
+
+<p>For system-zone elements, the domain data will be an instance of the new class:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.SystemZoneData</li>
+</ul>
+
+<p>This data includes a reference to the zone equipment for the spaces in this system-zone:</p>
+
+<ul>
+<li>SystemZoneData.ZoneEquipmentId</li>
+</ul>
+
+<p><a name="4.2.1.4"></a><h3 class="new">2.1.4. Systems Analysis and Analysis Reports</h2></p>
+
+<p>The new class</p>
+
+<ul>
+<li>Autodesk.Revit.DB.Analysis.ViewSystemsAnalysisReport</li>
+</ul>
+
+<p>represents a view instance of the systems analysis report. In a typical API workflow, to run a systems analysis against a Revit project, create (via ViewSystemsAnalysisReport.Create()) a new view instance and request (via ViewSystemsAnalysisReport.RequestSystemsAnalysis()) the systems analysis from that view. The analysis will run in the background, and when the analysis is completed, the related views are automatically updated. The method RequestSystemsAnalysis.IsAnalysisCompleted indicates if the background systems analysis has completed or not.</p>
+
+<p>It is possible for a project to contain multiple systems analysis reports. The method:</p>
+
+<ul>
+<li>ViewSystemsAnalysisReport.GetLatestSystemsAnalysisReport()</li>
+</ul>
+
+<p>returns the latest report of systems analysis. The peak heating/cooling loads of all EnergyAnalysisSpace elements should be consistent with this latest report.</p>
+
+<p>The new class</p>
+
+<ul>
+<li>Autodesk.Revit.DB.Analysis.SystemsAnalysisOptions</li>
+</ul>
+
+<p>contains some properties (e.g., WeatherFile, WorkflowFile, and OutputFolder) that affect the systems analysis. It is okay to leave some parameters empty. In those cases, the analysis will take the default value from the ViewSystemsAnalsisReport element. The weather file affects the results of energy simulation. More weather files are available at http://energyplus.net/weather .</p>
+
+<p><a name="4.2.1.5"></a><h3 class="new">2.1.5. Export to gbXML</h2></p>
+
+<p>The new property:</p>
+
+<ul>
+<li>GBXMLExportOptions.ExportAnalyticalSystems </li>
+</ul>
+
+<p>should be set to true to export the analytical system related items when exporting to gbXML.</p>
+
+<p><a name="4.2.1.6"></a><h3 class="new">2.1.6. Application settings</h2></p>
+
+<p>The new methods:</p>
+
+<ul>
+<li>Application.GetSystemsAnalysisWorkflowNames()</li>
+<li>Application.GetSystemsAnalysisWorkflows() </li>
+<li>Application.SetSystemsAnalysisWorkflows() </li>
+</ul>
+
+<p>allow you to read and specify the name and path information names for systems analysis workflows.</p>
+
+<p><a name="4.2.2"></a><h2 class="new">2.2. Electrical API additions</h2></p>
+
+<p><a name="4.2.2.1"></a><h3 class="new">2.2.1. Circuit naming</h2></p>
+
+<p>The new class:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.Electrical.CircuitNamingScheme</li>
+</ul>
+
+<p>represents a scheme used for electrical circuit naming. The most significant new methods on this class include:</p>
+
+<ul>
+<li>CircuitNamingScheme.Create()</li>
+<li>CircuitNamingScheme.GetCombinedParameters() </li>
+<li>CircuitNamingScheme.SetCombinedParameters()</li>
+</ul>
+
+<p>allowing schemes to be created, and allowing access to the list of combined parameters associated with the scheme.</p>
+
+<p>The new class:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.Electrical.CircuitNamingSchemeSettings</li>
+</ul>
+
+<p>represents the circuit naming scheme settings object in a project document. The most significant new members on this class include:</p>
+
+<ul>
+<li>CircuitNamingSchemeSettings.GetCircuitNamingSchemeSettings() </li>
+<li>CircuitNamingSchemeSettings.CircuitNamingSchemeId</li>
+</ul>
+
+<p><a name="4.2.2.2"></a><h3 class="new">2.2.2. Access to circuit naming, switchboards and other properties</h2></p>
+
+<p>Several new properties and methods have been added to support access to circuit naming information on a variety of elements:</p>
+
+<ul>
+<li>ElectricalSetting.GetCircuitNamingSchemeSettings() &ndash; Gets the circuit naming scheme settings of the project.</li>
+<li>ElectricalSystem.SlotIndex &ndash; The Slots where the Electrical System is located in its panel.</li>
+<li>ElectricalSystem.CircuitNamingIndex &ndash; The Circuit Naming Index where the Electrical System is located in its panel.</li>
+<li>ElectricalSystem.PhaseLabel &ndash; The circuit phase label used in the Electrical System.</li>
+<li>ElectricalSystem.Ways &ndash; The circuit ways used in the Electrical System.</li>
+<li>ElectricalSystem.LoadClassificationAbbreviations &ndash; The LoadClassification Abbreviations used in the Electrical System.</li>
+<li>ElectricalLoadClassification.Abbreviation &ndash; The abbreviation of the load classification name.</li>
+<li>ElectricalEquipment.CircuitNamingSchemeId &ndash; The CircuitNamingSchemeId used in the Electrical Equipment.</li>
+<li>ElectricalEquipment.IsValidDistributionSystem() &ndash; Verifies that the Distribution System can be assigned to the Electrical Equipment.</li>
+<li>ElectricalEquipment.IsValidCircuitNamingSchemeId() &ndash; Verifies that the circuit naming scheme id can be used with Electrical Equipment.</li>
+<li>ElectricalEquipment.GetCircuitNamingSchemeType() &ndash; Gets enumerated type of the circuit naming scheme used with Electrical Equipment.</li>
+<li>ElectricalEquipment.SetCircuitNamingSchemeType() &ndash; Sets the circuit naming scheme for Electrical Equipment.</li>
+<li>PanelScheduleView.RenumberIndexes() &ndash; Renumbers the Circuit Naming Index for the circuits in the panel.</li>
+<li>ElectricalEquipment.MaxNumberOfCircuits &ndash; The maximum number of circuits for switchboard.</li>
+<li>ElectricalEquipment.IsSwitchboard() &ndash; Verifies that the electrical equipment is a switchboard.</li>
+<li>PanelScheduleView.SwitchPhases() &ndash; Switches the circuit phases at the slot.</li>
+<li>ElectricalSystem.Frame &ndash; Retrieves the Frame value of the Electrical System.</li>
+<li>PanelScheduleData.IsUnusedPhaseHidden &ndash; True if the user wishes to hide the unused phase column of a single phase panel, false otherwise.</li>
+</ul>
+
+<p><a name="4.2.3"></a><h2 class="new">2.3. Element and ElementFilter additions</h2></p>
+
+<p><a name="4.2.3.1"></a><h3 class="new">2.3.1. Element History</h2></p>
+
+<p>The new property:</p>
+
+<ul>
+<li>Element.VersionGuid</li>
+</ul>
+
+<p>gets an element version Guid that can be used to see whether this element has changed compared to the previous saved or synchronized version of the document.</p>
+
+<p><a name="4.2.3.2"></a><h3 class="new">2.3.2. Element Filters</h2></p>
+
+<p>Two new element filter classes have been added for use in FilteredElementCollector and other tools leveraging ElementFilter classes.</p>
+
+<p>The new class:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.ElementIdSetFilter</li>
+</ul>
+
+<p>is a quick filter wrapping a set of element ids.</p>
+
+<p>The new class:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.VisibleInViewFilter</li>
+</ul>
+
+<p>is a quick filter that passes elements that are most likely visible in the given view.</p>
+
+<p><a name="4.2.4"></a><h2 class="new">2.4. Document API additions</h2></p>
+
+<p>Two new document events provide additional flexibility to react when a document is reloaded:</p>
+
+<ul>
+<li>Application.DocumentReloadingLatest</li>
+<li>Application.DocumentReloadedLatest</li>
+</ul>
+
+<p>Subscribers to these events will be provided an argument object containing the path to the central model. Document changes are permitting during both events.</p>
+
+<p><a name="4.2.5"></a><h2 class="new">2.5. View API additions</h2></p>
+
+<p><a name="4.2.5.1"></a><h3 class="new">2.5.1. Split sections</h2></p>
+
+<p>The new methods:</p>
+
+<ul>
+<li>DBViewSection.IsSplitSection()</li>
+<li>ViewCropRegionShapeManager.GetSplitRegionOffset()</li>
+</ul>
+
+<p>identify if a section view is split, and return the offset for the specified split crop region.</p>
+
+<p><a name="4.2.5.2"></a><h3 class="new">2.5.2. Temporary View Modes</h2></p>
+
+<p>The Revit API now allows customization to create "custom temporary view modes" applied to a view as a temporary view property.</p>
+
+<p>For this release, the "Reveal Obstacles for Path of Travel" temporary mode is implemented this way. It uses the Analysis Visualization Framework (AVF) to display additional graphics on top of the view contents.</p>
+
+<p>The new properties:</p>
+
+<ul>
+<li>TemporaryViewModes.CustomTitle</li>
+<li>TemporaryViewModes.CustomColor</li>
+<li>TemporaryViewModes.ResetCustomization()</li>
+<li>TemporaryViewModes.IsCustomized()</li>
+</ul>
+
+<p>provide access to read and modify a custom temporary view mode. CustomTitle should be set to cause the view to display the customized frame. The application is responsible to adjust the appearance of elements in the view related to the mode.</p>
+
+<p><a name="4.2.5.3"></a><h3 class="new">2.5.3. Filters</h2></p>
+
+<p>The new methods:</p>
+
+<ul>
+<li>View.GetIsFilterEnabled()</li>
+<li>View.SetIsFilterEnabled() </li>
+</ul>
+
+<p>identify or set if the filter is enabled in this view. </p>
+
+<p>The new method:</p>
+
+<ul>
+<li>View.GetOrderedFilters() </li>
+</ul>
+
+<p>gets the filters applied to the view in the order they are applied.</p>
+
+<p><a name="4.2.6"></a><h2 class="new">2.6. Schedule API additions</h2></p>
+
+<p><a name="4.2.6.1"></a><h3 class="new">2.6.1. Striped rows</h2></p>
+
+<p>The new properties:</p>
+
+<ul>
+<li>ViewSchedule.HasStripedRows</li>
+<li>ViewSchedule.UseStripedRowsOnSheets</li>
+</ul>
+
+<p>provides access to read or set if a given schedule is using a striped row display, and whether that display will be used on a sheet that displays this schedule.</p>
+
+<p>The new methods:</p>
+
+<ul>
+<li>ViewSchedule.GetStripedRowsColor() </li>
+<li>ViewSchedule.SetStripedRowsColor() </li>
+</ul>
+
+<p>get and set the color applied to the indicated part of the pattern for a schedule with striped rows.</p>
+
+<p><a name="4.2.6.2"></a><h3 class="new">2.6.2. Frozen header</h2></p>
+
+<p>The new property:</p>
+
+<ul>
+<li>ViewSchedule.IsHeaderFrozen </li>
+</ul>
+
+<p>provides access to read or set if the header is frozen on a given schedule.</p>
+
+<p><a name="4.2.7"></a><h2 class="new">2.7. Path of Travel API</h2></p>
+
+<p><a name="4.2.7.1"></a><h3 class="new">2.7.1. Reveal Obstacles mode for Path of Travel</h2></p>
+
+<p>The Reveal Obstacles view mode highlights elements in the plan view when those elements will act as obstacles for the current Path of Travel calculation settings. The new methods:</p>
+
+<ul>
+<li>PathOfTravel.IsInRevealObstaclesMode()</li>
+<li>PathOfTravel.SetRevealObstaclesMode()</li>
+</ul>
+
+<p>provide access to read or set if a view is displaying this mode.</p>
+
+<p><a name="4.2.7.2"></a><h3 class="new">2.7.2. Path finding analysis for Path of Travel</h2></p>
+
+<p>New static methods added:</p>
+
+<ul>
+<li>List&lt;XYZ&gt; PathOfTravel.FindStartsOfLongestPathsFromRooms(View view, List&lt;XYZ&gt; destinationPoints)</li>
+</ul>
+
+<p>For a floor plan view, calculates paths from points inside rooms to the closest of the destinations.</p>
+
+<p>Returns the start points of the longest path(s). If multiple paths have the same longest length, returns multiple start points.</p>
+
+<p>The entire plan is divided in small tiles, and the distance to the closest destination point is calculated for each tile center point. Only tile center points that are located in rooms in the view are taken into account.</p>
+
+<ul>
+<li>List&lt;XYZ&gt; PathOfTravel.FindEndsOfShortestPaths(View view, List&lt;XYZ&gt; destinationPoints, List&lt;XYZ&gt; startPoints)</li>
+</ul>
+
+<p>For a floor plan view, calculates the paths from each start point to its closest destination and return the path end points.</p>
+
+<p>The calculation is done in a floor plan with one or more destinationPoints and one or more startPoints. </p>
+
+<p>The shortest path is calculated from each start point to its corresponding closest destination.</p>
+
+<ul>
+<li>List&lt;List&lt;XYZ&gt;&gt; PathOfTravel.FindShortestPaths(View view, List&lt;XYZ&gt; destinationPoints, List&lt;XYZ&gt; startPoints)</li>
+</ul>
+
+<p>For a floor plan view, calculates paths from each start point to its closest destinations.</p>
+
+<p>Returns the path, represented by an array of XYZ points.</p>
+
+<p>The calculation is done in a floor plan with one or more destinationPoints and one or more startPoints. </p>
+
+<p>The shortest path is calculated from each start point to its closest destination point.</p>
+
+<p><a name="4.2.7.3"></a><h3 class="new">2.7.3. Waypoints</h2></p>
+
+<p>The new methods:</p>
+
+<ul>
+<li>PathOfTravel.GetWaypoints()</li>
+<li>PathOfTravel.InsertWaypoint()</li>
+<li>PathOfTravel.SetWaypoint()</li>
+<li>PathOfTravel.RemoveWaypoint()</li>
+</ul>
+
+<p>provide access to read and modify the waypoints associated to a particular PathOfTravel element. Waypoints force the path of travel calculation to ensure that the path includes each of the specified points, in the order specified, between the start and end points.</p>
+
+<p><a name="4.2.8"></a><h2 class="new">2.8. Export API additions</h2></p>
+
+<p><a name="4.2.8.1"></a><h3 class="new">2.8.1. CustomExporter events</h2></p>
+
+<p>Subscribe to the events:</p>
+
+<ul>
+<li>Autodesk.Revit.ApplicationServices.Application.ViewsExportingByContext</li>
+<li>Autodesk.Revit.ApplicationServices.Application.ViewsExportedByContext</li>
+</ul>
+
+<p>to be notified when Revit is just about to export, or has just exported, one or more views of the document via an export context by CustomExporter. </p>
+
+<p>Handlers of this event are permitted to make modifications to any document (including the active document), except for documents that are currently in read-only mode.</p>
+
+<p>The new class:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.Events.ViewsExportingByContextEventArgs</li>
+</ul>
+
+<p>provides information when Revit is just about to export one or more views of the document via an export context by CustomExporter.</p>
+
+<p>The class has the following method:</p>
+
+<ul>
+<li>ViewsExportingByContextEventArgs.GetViewIds() &ndash; Gets the ids of views about to be exported by CustomExporter.</li>
+</ul>
+
+<p>The new class:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.Events.ViewsExportedByContextEventArgs</li>
+</ul>
+
+<p>provides information when Revit has just exported one or more views of the document via an export context by CustomExporter.</p>
+
+<p>The class has the following method:</p>
+
+<ul>
+<li>ViewsExportingByContextEventArgs.GetViewIds() &ndash; Gets the ids of views that have been exported by CustomExporter.</li>
+</ul>
+
+<p><a name="4.2.9"></a><h2 class="new">2.9. Options API additions</h2></p>
+
+<p><a name="4.2.9.1"></a><h3 class="new">2.9.1. Color options </h2></p>
+
+<p>The new class:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.ColorOptions</li>
+</ul>
+
+<p>provides access to color settings which affect the colors applied to specific views. </p>
+
+<p>The ColorOptions for the current session of Revit can be accessed via:</p>
+
+<ul>
+<li>static ColorOptions.GetColorOptions()</li>
+</ul>
+
+<p>It has the following properties:</p>
+
+<ul>
+<li>BackgroundColor &ndash; The background color applied to views.</li>
+<li>SelectionColor &ndash; The color used to highlight selected elements. </li>
+<li>SelectionSemitransparent &ndash; Indicates whether or not selections will be shown in a semi-transparent manner. </li>
+<li>PreselectionColor &ndash; The color used to highlight candidates for selection before they are selected. </li>
+<li>AlertColor &ndash; The color used to highlight elements when a special alert is required. </li>
+<li>CalculatingColor &ndash; The color used to render elements when some aspect of their properties is currently being recalculated.</li>
+<li>EditingColor &ndash; The color used to render elements when editing.</li>
+</ul>
+
+<p><a name="4.2.10"></a><h2 class="new">2.10. Geometry API additions</h2></p>
+
+<p><a name="4.2.10.1"></a><h3 class="new">2.10.1. Surfaces</h2></p>
+
+<p>The new class:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.OffsetSurface</li>
+</ul>
+
+<p>encapsulates the mathematical representation of a surface offset at a normal distance from an originating surface.</p>
+
+<p>The new method:</p>
+
+<ul>
+<li>Surface.GetBoundingBoxUV() </li>
+</ul>
+
+<p>gets the UV bounding box of the surface.</p>
+
+<p>The new class:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.CurveUV</li>
+</ul>
+
+<p>represents the notion of a curve in the 2D parameter space of a surface in 3D space. This class includes a utility method:</p>
+
+<ul>
+<li>CurveUV.As3DCurveInXYPlane()</li>
+</ul>
+
+<p>that returns a 3D curve lying in the XY plane in XYZ coordinates, representing the 2D curve with its UV coordinates identified with XY coordinates.</p>
+
+<p><a name="4.2.10.2"></a><h3 class="new">2.10.2. Edges</h2></p>
+
+<p>The new methods:</p>
+
+<ul>
+<li>Edge.IsFlippedOnFace(int index) </li>
+<li>Edge.IsFlippedOnFace(Face face) </li>
+</ul>
+
+<p>determine if the edge's topological direction on the Face is opposite to its parametric direction.</p>
+
+<p>The new class:</p>
+
+<ul>
+<li>EdgeEndPoint &ndash; Represents the start or the end point of an Edge.</li>
+</ul>
+
+<p>it can be used in the new method:</p>
+
+<ul>
+<li>SolidUtils.FindAllEdgeEndPointsAtVertex()</li>
+</ul>
+
+<p>which will find all EdgeEndPoints at a vertex identified by the input EdgeEndPoint.</p>
+
+<p>The new overloaded methods:</p>
+
+<ul>
+<li>Edge.GetCurveUV() </li>
+</ul>
+
+<p>Calculate and (optionally) transform a 2D curve that represents the edge in the UV-parameter plane of one of the edge's faces.</p>
+
+<p><a name="4.2.10.3"></a><h3 class="new">2.10.3. Meshes</h2></p>
+
+<p>The new members:</p>
+
+<ul>
+<li>Mesh.GetNormal()</li>
+<li>Mesh.GetNormals()</li>
+<li>Mesh.DistributionOfNormals</li>
+<li>Mesh.NumberOfNormals</li>
+</ul>
+
+<p>provide information about the normal vectors contained in a Mesh.</p>
+
+<p><a name="4.2.10.4"></a><h3 class="new">2.10.4. Geometry utilities</h2></p>
+
+<p>The new property:</p>
+
+<ul>
+<li>GeometryObject.Id</li>
+</ul>
+
+<p>returns a unique integer identifying the GeometryObject in its associated GeometryElement.</p>
+
+<p>The new class:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.MathComparisonUtils</li>
+</ul>
+
+<p>contains a set of mathematical utilities to compare doubles, using the Revit predefined internal tolerance.</p>
+
+<p>The new classes:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.Transform1D</li>
+<li>Autodesk.Revit.DB.Transform2D</li>
+</ul>
+
+<p>representing an affine transform of 1D or 2D Euclidean space.</p>
+
+<p>The new property:</p>
+
+<ul>
+<li>BoundingBoxUV.IsSet</li>
+</ul>
+
+<p>indicates whether the BoundingBoxUV is set or not.</p>
+
+<p><a name="4.2.11"></a><h2 class="new">2.11. Image API additions</h2></p>
+
+<p><a name="4.2.11.1"></a><h3 class="new">2.11.1. Image properties</h2></p>
+
+<p>The new properties:</p>
+
+<ul>
+<li>ImageType.Resolution</li>
+<li>ImageType.WidthInPixels</li>
+<li>ImageType.HeightInPixels</li>
+<li>ImageType.Width</li>
+<li>ImageType.Height</li>
+</ul>
+
+<p>provide read access to some of the image size and resolution properties.</p>
+
+<p><a name="4.2.11.2"></a><h3 class="new">2.11.2. Converting images between links and imports</h2></p>
+
+<p>The new property:</p>
+
+<ul>
+<li>ImageTypeOptions.SourceType</li>
+</ul>
+
+<p>along with the new enumerated value</p>
+
+<ul>
+<li>ImageTypeSource</li>
+</ul>
+
+<p>will allow you to create or convert an ImageType to a link or import.</p>
+
+<p>Two new constructors take an ImageTypeSource as an argument:</p>
+
+<ul>
+<li>ImageTypeOptions(String, Boolean, ImageTypeSource)</li>
+<li>ImageTypeOptions(ExternalReference, ImageTypeSource)</li>
+</ul>
+
+<p>Several new methods and properties have also been added to ImageType:</p>
+
+<ul>
+<li>ImageType.Source &ndash; Indicates how the image is created (as a link, import, or internally-generated image)</li>
+<li>ImageType.Status &ndash; Indicates whether the image is loaded or unloaded (if applicable)</li>
+<li>ImageType.Unload() &ndash; Unloads a linked image</li>
+</ul>
+
+<p>The new enumeration:</p>
+
+<ul>
+<li>ImageTypeStatus</li>
+</ul>
+
+<p>contains possible values for the load status of an ImageType.</p>
+
+<p><a name="4.2.12"></a><h2 class="new">2.12. Cloud Model API additions</h2></p>
+
+<p><a name="4.2.12.1"></a><h3 class="new">2.12.1. Regions</h2></p>
+
+<p>The new property:</p>
+
+<ul>
+<li>ModelPath.Region</li>
+</ul>
+
+<p>returns the region of the BIM 360 account and project which contains this model.</p>
+
+<p>The new static properties:</p>
+
+<ul>
+<li>ModelPathUtils.CloudRegionUS</li>
+<li>ModelPathUtils.CloudRegionEMEA</li>
+</ul>
+
+<p>return the region names of different BIM 360 cloud services. They can be used as the first argument of the ModelPathUtils.ConvertCloudGUIDsToCloudPath() method.</p>
+
+<p><a name="4.2.12.2"></a><h3 class="new">2.12.2. Opening Cloud Models</h2></p>
+
+<p>The new enumeration value:</p>
+
+<ul>
+<li>OpenConflictScenario.VersionArchived</li>
+</ul>
+
+<p>indicates that last central version merged into the local model to open has been archived in the central model.</p>
+
+<p>The new enumeration value:</p>
+
+<ul>
+<li>OpenConflictResult.DetachFromCentral</li>
+</ul>
+
+<p>provides the option to detach the local model from its central model, with worksets preserved.</p>
+
+<p><a name="4.2.13"></a><h2 class="new">2.13. Structural Connection API addition</h2></p>
+
+<p><a name="4.2.13.1"></a><h3 class="new">2.13.1. Connections requiring additional points</h2></p>
+
+<p>The new class:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.Structure.ConnectionInputPoint</li>
+</ul>
+
+<p>contains the 3D location and unique id for one structural connection input point.</p>
+
+<p>The new class:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.Structure.ConnectionInputPointInfo</li>
+</ul>
+
+<p>contains information about connection input points requirements, such as number of required points, a user visible description for each point, and potential location restrictions.</p>
+
+<p>The new method:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.Structure.StructuralConnectionHandler.Create(Document, IList&lt;ElementId&gt;, ElementId, IList&lt;XYZ&gt;)</li>
+</ul>
+
+<p>provides a way to create connections that require additional input points.</p>
+
+<p>The following new methods use input points:</p>
+
+<ul>
+<li>static Autodesk.Revit.DB.Structure.StructuralConnectionHandlerType.Create(Document, string, Guid, string, ElementId, IList&lt;ConnectionInputPointInfo&gt;)</li>
+<li>Autodesk.Revit.DB.Structure.StructuralConnectionHandler.GetInputPoints()</li>
+<li>Autodesk.Revit.DB.Structure.StructuralConnectionHandler.GetInputPoint()</li>
+</ul>
+
+<p><a name="4.2.14"></a><h2 class="new">2.14. Reinforcement API additions</h2></p>
+
+<p><a name="4.2.14.1"></a><h3 class="new">2.14.1. Rebar constraints</h2></p>
+
+<p>Several new RebarConstraint methods allow control over distances and spacing:</p>
+
+<ul>
+<li>RebarConstraint.GetDistanceToTargetRebar()</li>
+<li>RebarConstraint.SetDistanceToTargetRebar() </li>
+<li>RebarConstraint.IsBindingHandleWithTarget() </li>
+<li>RebarConstraint.SetToBindHandleWithTarget() </li>
+<li>RebarConstraint.IsUsingClearBarSpacing()</li>
+<li>RebarConstraint.SetToUseClearBarSpacing() </li>
+<li>RebarConstraint.FlipHandleOverTarget() </li>
+</ul>
+
+<p>Two new methods have been added to RebarConstraintsManager:</p>
+
+<ul>
+<li>RebarConstraintsManager.GetConstraintCandidatesForHandle(RebarConstrainedHandle, ElementId)</li>
+<li>RebarConstraintsManager.GetConstraintCandidatesForHandle(RebarConstrainedHandle, Reference) </li>
+</ul>
+
+<p>These methods return all possible RebarConstraints that could be used for a RebarConstrainedHandle related to the additional input. For free form rebar these will return an empty list.</p>
+
+<p><a name="4.2.14.2"></a><h3 class="new">2.14.2. Rebar end treatment</h2></p>
+
+<p>The new method:</p>
+
+<ul>
+<li>Rebar.SetEndTreatmentTypeId()</li>
+</ul>
+
+<p>sets the id of the EndTreatmentType to be applied to the rebar at the specified end.</p>
+
+<p><a name="4.2.14.3"></a><h3 class="new">2.14.3. Fabric Sheet visibility</h2></p>
+
+<p>The new methods:</p>
+
+<ul>
+<li>FabricSheet.IsSolidInView()</li>
+<li>FabricSheet.SetSolidInView()</li>
+<li>FabricSheet.IsUnobscuredInView()</li>
+<li>FabricSheet.SetUnobscuredInView()</li>
+</ul>
+
+<p>get and set the visibility options for a given fabric sheet instance as applied to a particular 3D view.</p>
+
+<p><a name="4.2.14.4"></a><h3 class="new">2.14.4. Out of plane hook rotation angles</h2></p>
+
+<p>Several new static creation methods take into account the out of plane hook rotation angle and the end treatment type id:</p>
+
+<ul>
+<li>static Rebar.CreateFromCurves() &ndash; Creates a new instance of a shape driven Rebar element within the project, given an array of curves and properties.</li>
+<li>static Rebar.CreateFromCurvesAndShape() &ndash; Creates a new instance of a shape driven Rebar element within the project, given an array of curves, a RebarShape and some properties.</li>
+<li>static Rebar.RebarShapeMatchesCurvesHooksAndEndTreatment() &ndash; Checks if rebarShape matches curves, hooks and end treatment.</li>
+<li>static RebarShape.Create() &ndash; Creates a new instance of a RebarShape, which defines the shape of a Rebar.</li>
+</ul>
+
+<p>The following methods allow getting or setting the out of plan hook rotation angle:</p>
+
+<ul>
+<li>Rebar.GetHookRotationAngle()</li>
+<li>Rebar.SetHookRotationAngle()</li>
+<li>RebarShape.GetHookRotationAngle()</li>
+<li>RebarShape.SetHookRotationAngle()</li>
+</ul>
+
+<p>These methods all affect the angle at the specified end.</p>
+
+<p><a name="4.2.14.5"></a><h3 class="new">2.14.5. Hook length overrides</h2></p>
+
+<p>The following new Rebar methods enable overriding the hook length from the API:</p>
+
+<ul>
+<li>Rebar.EnableHookLengthOverride()</li>
+<li>Rebar.IsHookLengthOverrideEnabled()</li>
+<li>Rebar.GetOverridableHookParameters() &ndash; Outputs the formula parameter ids defined in the RebarShape family which are associated with hook length and hook tangent length parameters.</li>
+</ul>
+
+<p><a name="4.2.15"></a><h2 class="new">2.15. Material API addition</h2></p>
+
+<p>The new property: </p>
+
+<ul>
+<li>StructuralAsset.MetalThermallyTreated</li>
+</ul>
+
+<p>indicates whether the asset describes a material that is thermally treated or not, corresponding to the BuiltInParameter member PHY_MATERIAL_PARAM_STRUCTURAL_THERMAL_TREATED.</p>
+
+<p><a name="4.2.16"></a><h2 class="new">2.16. Analysis Visualization Framework API addition</h2></p>
+
+<p>The new property:</p>
+
+<ul>
+<li>SpatialFieldManager.AllowInteractiveSettings</li>
+</ul>
+
+<p>toggles the ability to access the Analysis Visualization Framework (AVF) settings for a particular set of results. This property is true by default. If the property is set to false, all AVF dialogs are unreachable in the UI.</p>
+
+<p>Also, if the property is set to false, deletion of the SpatialFieldManager, its parts or associated AnalysisDisplayLegend element is prohibited.</p>
+
+<p><a name="4.2.17"></a><h2 class="new">2.17. Shared Coordinates API additions</h2></p>
+
+<p><a name="4.2.17.1"></a><h3 class="new">2.17.1. Internal Origin </h2></p>
+
+<p>The new class:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.InternalOrigin</li>
+</ul>
+
+<p>represents the origin of Revit's internal coordinate system. Each Revit project contains one InternalOrigin.</p>
+
+<p>It has the following members:</p>
+
+<ul>
+<li>static InternalOrigin.Get(Document doc) &ndash; Returns the internal origin of the project. There is one InternalOrigin per document.</li>
+<li>InternalOrigin.Position &ndash; Read-only property which returns the XYZ value of the internal coordinates.</li>
+<li>InternalOrigin.SharedPosition &ndash; Read-only property which returns the shared position of the internal origin based on the active ProjectLocation of its Document.</li>
+</ul>
+
+<p><a name="4.2.17.2"></a><h3 class="new">2.17.2. BasePoint</h2></p>
+
+<p>Two new methods provide access to the base and survey point:</p>
+
+<ul>
+<li>static BasePoint.GetProjectBasePoint() </li>
+<li>static BasePoint.GetSurveyPoint() </li>
+</ul>

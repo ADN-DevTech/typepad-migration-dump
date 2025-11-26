@@ -1,0 +1,178 @@
+comments:
+- author: Pierre-Nelson
+  email: p.navarra@enet-dolowy.fr
+  ip: 193.251.35.83
+  url: ''
+  date: '2011-12-05 10:46:45'
+  body: "Hi Jeremy,\n\nIn the RevitAPI 2010, I'd like to get all my elements in a\
+    \ view.\nBut, the following syntax takes lot of time : \n\nList ViewElements =\
+    \ view.Elements.OfType().ToList(); \nOf this one (same) : \nElementSet elementSet\
+    \ = view.Elements;\n\nIs it possible to get some specifical Elements like OST_RasterImages\
+    \ in a specifical View?\n\nThx."
+- author: Jeremy Tammik
+  email: ''
+  ip: 62.50.236.217
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-12-14 12:38:51'
+  body: "Dear Pierre-Nelson,\n\nRevit 2010 is a long way back. My memory does not\
+    \ reach that far. Does Revit 2010 have filtered element collectors? \n\nNo, I\
+    \ believe they were introduced with Revit 2011. With those, you can certainly\
+    \ achieve what you need very efficiently.\n\nCheers, Jeremy."
+- author: Pierre-Nelson
+  email: p.navarra@enet-dolowy.fr
+  ip: 193.251.35.83
+  url: ''
+  date: '2011-12-15 03:32:42'
+  body: 'Hi Jeremy,
+
+
+    Thx for answering me.
+
+    R2010 does not have filtered element collectors.
+
+    Bad luck!
+
+
+    We officialy need the 2012!
+
+
+    Cheers.'
+- author: Dima
+  email: dchiriacov@gmail.com
+  ip: 76.109.244.16
+  url: http://dimak1999.blogspot.com/
+  date: '2012-06-13 00:52:11'
+  body: "Jeremy,\nI know this is an old post but coming back to this topic in 2012/2013\
+    \ API - checking for:\nif( !view.IsTemplate )\nseems to be not enough - you also\
+    \ end up grabbing the project browser object that is also derived form the DB.View\
+    \ type and some other instances derived form DB.View type that I couldn't even\
+    \ figure what they were. \nI think it is also important to check for \n(view.ViewType\
+    \ != ViewType.Internal)\nto get the result that most of us are looking for when\
+    \ sorting out the project views in a revit document"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.181.82
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-06-14 03:01:32'
+  body: 'Dear Dima,
+
+
+    Yes, absolutely. Thank you for pointing it out!
+
+
+    Here is another situation requiring this check, since PickObject can cause issues
+    when used on an internal view:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/08/pickobject-requires-valid-view.html">http://thebuildingcoder.typepad.com/blog/2011/08/pickobject-requires-valid-view.html</a>
+
+
+    One way to ensure that a view is valid for use in the Revit preview control is
+    to check its CanBePrinted property:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/06/devcamp-day-two.html#23">http://thebuildingcoder.typepad.com/blog/2012/06/devcamp-day-two.html#23</a>
+
+
+    Cheers, Jeremy.'
+- author: Tecy
+  email: 491504161@qq.com
+  ip: 116.231.166.47
+  url: ''
+  date: '2013-05-16 05:04:42'
+  body: "Dear Jeremy,\n    why template view doesn't have a section box applied?\n\
+    \    Thx!"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.153.225.220
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-05-16 05:09:38'
+  body: 'Dear Tecy,
+
+
+    You tell me. I''m not a user!
+
+
+    Cheers, Jeremy.'
+- author: Madhu Das
+  email: madhudaskr@gmail.com
+  ip: 115.118.57.36
+  url: ''
+  date: '2014-08-18 03:26:30'
+  body: 'Dear Jeremy,
+
+
+    How can I duplicate a ViewTemplate using API?
+
+    The following code returns False if v1 is ViewTemplate.
+
+    v1.CanViewBeDuplicated(ViewDuplicateOption.Duplicate)
+
+
+    Thx.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-08-18 03:39:51'
+  body: 'Dear Madhu,
+
+
+    I am sorry to say that this may currently not be possible.
+
+
+    All I know is that we have an open wish list item CF-1509 [API wish: create view
+    template -- 09693106] for programmatic creation of a view template.
+
+
+    Have you tried using the copy and paste API? How does that behave in this context?
+
+
+    Cheers, Jeremy.'
+- author: Madhu Das
+  email: madhudaskr@gmail.com
+  ip: 115.118.77.46
+  url: ''
+  date: '2014-08-19 02:50:40'
+  body: 'Dear Jeremy,
+
+
+    Thank you very much for the help. It is possible by Using Copy Paste API.
+
+    I have tried the following code successfully.
+
+
+    <i>Dim elementIds As New List(Of ElementId)
+
+    elementIds.Add(v.Id)
+
+    copiedIds = ElementTransformUtils.CopyElements(ActiveDoc, elementIds, ActiveDoc,
+    Transform.Identity, options)
+
+    vNew = ActiveDoc.GetElement(copiedIds(0))
+
+    vNew.Name = "New View Template"
+
+
+    Cheers, Madhu Das.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-08-19 03:22:20'
+  body: 'Dear Madhu,
+
+
+    Thank you very much for the update and confirmation that the copy and paste API
+    can be used successfully to create a view template.
+
+
+    That is great news!
+
+
+    Congratulations!
+
+
+    Cheers, Jeremy.
+
+    -----'

@@ -1,0 +1,137 @@
+---
+layout: "post"
+title: "Revit 2018 Visual Studio .NET Add-in Wizards"
+date: "2017-04-27 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "2018"
+  - "Debugging"
+  - "Getting Started"
+  - "Installation"
+  - "Migration"
+  - "Update"
+  - "Wizard"
+original_url: "https://thebuildingcoder.typepad.com/blog/2017/04/revit-2018-visual-studio-c-and-vb-net-add-in-wizards.html "
+typepad_basename: "revit-2018-visual-studio-c-and-vb-net-add-in-wizards"
+typepad_status: "Publish"
+---
+
+<p>I updated
+the <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.20">Visual Studio Revit C# and VB add-in templates</a> for
+Revit 2018.</p>
+
+<p>They enable you to create a new C# or VB Revit add-in in Visual Studio with one single click on File &gt; New &gt; Project... &gt; Visual Basic/Visual C# &gt; Revit 2018 Addin:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c8f204e6970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c8f204e6970b image-full img-responsive" alt="Revit 2018 add-in templates" title="Revit 2018 add-in templates" src="/assets/image_0a08bc.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<p>The templates define a complete skeleton Revit add-in, ready to immediately compile and run, including an add-in manifest file, an external application and an external command.</p>
+
+<p>Just hit <code>F5</code> to start debugging; the add-in manifest is automatically copied to the proper location, Revit is launched in the Visual Studio debugger, and your shiny new add-in is immediately available in the external tools menu.</p>
+
+<p>You can see it in action in this two-and-a-half-minute <a href="https://youtu.be/OEQdKfwf0Ss">Revit 2018 C# and VB .NET add-in wizard recording</a>:</p>
+
+<p><center>
+<iframe width="480" height="270" src="https://www.youtube.com/embed/OEQdKfwf0Ss?rel=0" frameborder="0" allowfullscreen></iframe>
+</center></p>
+
+<p>Please refer to 
+the <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.20">Visual Studio Revit add-in wizards topic group</a> for 
+further information on usage, customising the templates for your own needs and migrations in previous years.</p>
+
+<h4><a name="3"></a>Download</h4>
+
+<p>The current version discussed above
+is <a href="https://github.com/jeremytammik/VisualStudioRevitAddinWizard/releases/tag/2018.0.0.0">release 2018.0.0.0</a>.</p>
+
+<p>The newest version is always available from
+the <a href="https://github.com/jeremytammik/VisualStudioRevitAddinWizard">VisualStudioRevitAddinWizard GitHub repository</a>.</p>
+
+<h4><a name="4"></a>Installation</h4>
+
+<p>The exact locations to install the wizards for Visual Studio are language dependent.</p>
+
+<p>You install them by simply copying the zip file of your choice &ndash; for C#, VB, or both &ndash; to the appropriate Visual Studio project template folder in your local file system:</p>
+
+<ul>
+<li>C# – copy <a href="http://thebuildingcoder.typepad.com/files/revit2018addinwizardcs0.zip">Revit2018AddinWizardCs0.zip</a> to [My Documents]\Visual Studio 2015\Templates\ProjectTemplates\Visual C#</li>
+<li>Visual Basic – copy <a href="http://thebuildingcoder.typepad.com/files/revit2018addinwizardvb0.zip">Revit2018AddinWizardVb0.zip</a> to [My Documents]\Visual Studio 2015\Templates\ProjectTemplates\Visual Basic</li>
+</ul>
+
+<p>Or, in other words:</p>
+
+<pre>
+  $ cp Revit2018AddinWizardCs0.zip \
+  "/v/C/Users/tammikj/Documents/Visual Studio \
+  2015/Templates/ProjectTemplates/Visual C#/"
+
+  $ cp Revit2018AddinWizardVb0.zip \
+  "/v/C/Users/tammikj/Documents/Visual Studio \
+  2015/Templates/ProjectTemplates/Visual Basic/"
+</pre>
+
+<p>The GitHub repository includes a batch file <code>install.bat</code> to automate this process:</p>
+
+<pre class="prettyprint">
+@echo off
+if exist cs (goto okcs) else (echo "No cs folder found." && goto exit)
+:okcs
+if exist vb (goto okvb) else (echo "No vb folder found." && goto exit)
+:okvb
+set "D=C:\Users\%USERNAME%\Documents\Visual Studio 2015\Templates\ProjectTemplates"
+set "F=%TEMP%\Revit2018AddinWizardCs0.zip"
+echo Creating C# wizard archive %F%...
+cd cs
+zip -r "%F%" *
+cd ..
+echo Copying C# wizard archive to %D%\Visual C#...
+copy "%F%" "%D%\Visual C#"
+set "F=%TEMP%\Revit2018AddinWizardVb0.zip"
+echo Creating VB wizard archive %F%...
+cd vb
+zip -r "%F%" *
+cd ..
+echo Copying VB wizard archive to %D%\Visual Basic...
+copy "%F%" "%D%\Visual Basic"
+:exit
+</pre>
+
+<p>It assumes that you cloned the VisualStudioRevitAddinWizard to your local file system and call it from that directory, e.g., like this:</p>
+
+<pre>
+C:\a\vs\VisualStudioRevitAddinWizard &gt; install.bat
+
+Creating C# wizard archive C:\Users\tammikj\AppData\Local\Temp\Revit2018AddinWizardCs0.zip...
+updating: App.cs (deflated 54%)
+updating: Command.cs (deflated 59%)
+updating: Properties/ (stored 0%)
+updating: Properties/AssemblyInfo.cs (deflated 56%)
+updating: RegisterAddin.addin (deflated 66%)
+updating: TemplateIcon.ico (deflated 67%)
+updating: TemplateRevitCs.csproj (deflated 69%)
+updating: TemplateRevitCs.csproj.user (deflated 30%)
+updating: TemplateRevitCs.vstemplate (deflated 65%)
+
+Copying C# wizard archive to C:\Users\tammikj\Documents\Visual Studio 2015\Templates\ProjectTemplates\Visual C#...
+  1 file(s) copied.
+
+Creating VB wizard archive C:\Users\tammikj\AppData\Local\Temp\Revit2018AddinWizardVb0.zip...
+updating: AdskApplication.vb (deflated 68%)
+updating: AdskCommand.vb (deflated 58%)
+updating: My Project/ (stored 0%)
+updating: My Project/AssemblyInfo.vb (deflated 54%)
+updating: RegisterAddin.addin (deflated 66%)
+updating: TemplateIcon.ico (deflated 67%)
+updating: TemplateRevitVb.vbproj (deflated 72%)
+updating: TemplateRevitVb.vstemplate (deflated 62%)
+Copying VB wizard archive to C:\Users\tammikj\Documents\Visual Studio 2015\Templates\ProjectTemplates\Visual Basic...
+  1 file(s) copied.
+</pre>
+
+<p>I hope you find this useful and look forward to hearing about your customisations and suggestions for other enhancements.</p>
+
+<p>Have fun!</p>

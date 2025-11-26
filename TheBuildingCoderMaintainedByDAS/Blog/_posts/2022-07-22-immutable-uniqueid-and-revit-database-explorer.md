@@ -1,0 +1,127 @@
+---
+layout: "post"
+title: "Immutable UniqueId and Revit Database Explorer"
+date: "2022-07-22 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Element Relationships"
+  - "Filters"
+  - "RevitLookup"
+  - "WPF"
+original_url: "https://thebuildingcoder.typepad.com/blog/2022/07/immutable-uniqueid-and-revit-database-explorer.html "
+typepad_basename: "immutable-uniqueid-and-revit-database-explorer"
+typepad_status: "Publish"
+---
+
+<p>The initiatives to improve RevitLookup and move it forward to become an ever more flexible and powerful tool are multiplying;
+meanwhile, take care handling and trying to convert between element ids and their unique ids:</p>
+
+<ul>
+<li><a href="#2">Immutable UniqueId, mutable element id</a></li>
+<li><a href="#3">Revit database explorer</a></li>
+</ul>
+
+<h4><a name="2"></a> Immutable UniqueId, Mutable Element Id</h4>
+
+<p><strong>Question:</strong> Can I safely assume the integer value of the last part of an <code>Element</code> <code>UniqueId</code> interpreted as a hexadecimal value always equals its <code>ElementId</code> integer value?</p>
+
+<p>This was suggested by the article
+on <a href="https://thebuildingcoder.typepad.com/blog/2009/02/uniqueid-dwf-and-ifc-guid.html">UniqueId, DWF and IFC GUID</a>.</p>
+
+<p>I encountered a situation where the last portion of the unique id hex value differs from the element id:</p>
+
+<ul>
+<li>UniqueId: e41507ae-ace2-4c44-8d8a-072f18908bea-0004d4c5</li>
+<li>Integer value of 0004d4c5: 316613</li>
+<li>ElementId: 316614</li>
+<li>Expected last hex string of the UniqueId : 0004D4C6</li>
+</ul>
+
+<p>Here is the element data displayed by RevitLookup:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302a2eece231c200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302a2eece231c200d image-full img-responsive" alt="Element id and UniqueId mismatch" title="Element id and UniqueId mismatch" src="/assets/image_00aaa6.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Here is the hexadecimal conversion of the element id integer value:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302a30d4585db200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302a30d4585db200b img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="Element id and UniqueId mismatch" title="Element id and UniqueId mismatch" src="/assets/image_e795fe.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Reproducible code snippet:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">async</span>&nbsp;Task&nbsp;<span style="color:#74531f;">Main</span>(<span style="color:blue;">string</span>[]&nbsp;<span style="color:#1f377f;">args</span>)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;<span style="color:#1f377f;">a</span>&nbsp;=&nbsp;<span style="color:#a31515;">&quot;e41507ae-ace2-4c44-8d8a-072f18908bea-0004d4c5&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;Print(<span style="color:#a31515;">&quot;Revit&nbsp;UniqueId:&nbsp;&quot;</span>&nbsp;+&nbsp;a);
+
+&nbsp;&nbsp;&nbsp;&nbsp;Guid&nbsp;<span style="color:#1f377f;">episodeId</span>&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;Guid(a.Substring(0,&nbsp;36));
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;<span style="color:#1f377f;">elementId</span>&nbsp;=&nbsp;<span style="color:blue;">int</span>.Parse(a.Substring(37),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NumberStyles.AllowHexSpecifier);
+
+&nbsp;&nbsp;&nbsp;&nbsp;Print(<span style="color:#a31515;">&quot;&nbsp;EpisodeId:&nbsp;&quot;</span>&nbsp;+&nbsp;episodeId.ToString());
+&nbsp;&nbsp;&nbsp;&nbsp;Print(<span style="color:blue;">string</span>.Format(<span style="color:#a31515;">&quot;&nbsp;ElementId:&nbsp;{0}&nbsp;=&nbsp;{1}&quot;</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;elementId.ToString(),&nbsp;elementId.ToString(<span style="color:#a31515;">&quot;x8&quot;</span>)));
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;<span style="color:#1f377f;">last_32_bits</span>&nbsp;=&nbsp;<span style="color:blue;">int</span>.Parse(a.Substring(28,&nbsp;8),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NumberStyles.AllowHexSpecifier);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;<span style="color:#1f377f;">xor</span>&nbsp;=&nbsp;last_32_bits&nbsp;^&nbsp;elementId;
+
+&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;=&nbsp;a.Substring(0,&nbsp;28)&nbsp;+&nbsp;xor.ToString(<span style="color:#a31515;">&quot;x8&quot;</span>);
+
+&nbsp;&nbsp;&nbsp;&nbsp;Print(<span style="color:#a31515;">&quot;&nbsp;Guid:&nbsp;&quot;</span>&nbsp;+&nbsp;a&nbsp;+&nbsp;<span style="color:#a31515;">&quot;\n&quot;</span>);
+&nbsp;&nbsp;}
+</pre>
+
+<p><strong>Answer:</strong> I would not endorse any of this procedural conversion.
+It could change at any time.
+In this particular example, it is likely that this element's id changed as a result of synchronisation activities in a workshared models.
+Newly created elements' ids are not fixed until they have been synchronized for the first time, as elements created by others may end up with the next id in sequence.</p>
+
+<p><strong>Response:</strong> Yes, the RVT model is a workshared one.
+It makes sense now.
+I will not use this UinqueId-ElementId conversion that might change at any time.</p>
+
+<p>Many thanks to Scott Conover for clarifying this behaviour.</p>
+
+<h4><a name="3"></a> Revit Database Explorer</h4>
+
+<p><a href="https://github.com/NeVeSpl">NeVeSpl</a> initiated a new RevitLookup discussion #141 presenting
+the <a href="https://github.com/jeremytammik/RevitLookup/discussions/141">Revit database explorer (RDBE) project</a>:</p>
+
+<blockquote>
+  <p>Let me join the race to build the first fully working WPF version of RevitLookup.
+  I know that <a href="https://github.com/Nice3point">Nice3point</a> is working on one,
+  cf. <a href="https://github.com/jeremytammik/RevitLookup/discussions/124">Enhancements #124</a>,
+  and that <a href="https://github.com/chuongmep">chuongmep</a> is working
+  on <a href="https://github.com/weianweigan/RevitLookupWpf">RevitLookupWpf</a>.
+  I started last, two weeks ago, and mine is almost ready 😊; there are still a few things to correct, but it is already usable:</p>
+  
+  <p style="text-align:center"><a href="https://github.com/NeVeSpl/RevitDBExplorer">github.com/NeVeSpl/RevitDBExplorer</a></p>
+  
+  <p>This animation demonstrates the possibility to query the Revit database interactively from the UI:</p>
+</blockquote>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302a308d81e05200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302a308d81e05200c image-full img-responsive" alt="Revit Database Explorer query UI" title="Revit Database Explorer query UI" src="/assets/image_00627a.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Many thanks to NeVeSpl for this exciting initiative!</p>
+
+<p>It will be interesting to see how things pan out in the long haul.
+Optimally, maybe the three separate projects can converge and exploit synchronicity... good luck and much success to all three!</p>
+
+<p>The interactive command line interface to drive the creation of filtered element collectors might fit in very nicely into a more complete interactive shell, like the initiative of @chuongmep
+to <a href="https://thebuildingcoder.typepad.com/blog/2022/07/mep-api-intro-and-revitpythonshell-lookup-nuptials.html#3">reinvigorate RevitPythonShell and hook it up with RevitLookup</a></p>
+
+<p>Nice3point adds: Sounds interesting; my team and I will update the interface as soon as we have time, there will also be a search, OTA update and new context menu elements. Here it is important to understand that what is needed is not WPF / WinForms, but the possibility to extend the functionality. It’s more difficult to do this on Forms, where the logic is mixed with the UI, which is bad.</p>

@@ -1,0 +1,30 @@
+comments:
+- author: JRS
+  email: joel@agi32.com
+  ip: 75.151.84.137
+  url: http://www.elumtools.com
+  date: '2013-04-30 11:27:50'
+  body: Also note that TransactionGroup.Assimilate() will only add one entry to the
+    Undo/Redo list (the group name) while TransactionGroup.Commit() will add one item
+    to the Undo/Redo list for each Transaction in the group.
+- author: Arnošt Löbel
+  email: arnost.lobel@autodesk.com
+  ip: 132.188.64.218
+  url: http://autodesk.com
+  date: '2013-04-30 11:37:08'
+  body: Yes, that is how it appears, but it is not what happens technically. Transaction
+    groups do not add anything to the Undo/Redo menu; only transactions can do that.
+    So, if there are transactions in a group, they will all appear on the Undo list
+    when they get committed. Then, when the group ends, it will either leave the items
+    there in case the group gets committed, or it will remove (N-1) of them and merges
+    their changes with the first transaction of the group, plus replaces the name
+    of the one remaining item. This is just a technicality, but in case anyone wondered
+    how it actually works, now he/she knows. :-)
+- author: JRS
+  email: joel@agi32.com
+  ip: 75.151.84.137
+  url: http://www.elumtools.com
+  date: '2013-04-30 15:56:27'
+  body: 'Makes sense, I never thought about it that deeply.  Thanks Arnošt!
+
+    -----'

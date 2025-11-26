@@ -1,0 +1,77 @@
+---
+layout: "post"
+title: "Surface Triangulation Tool"
+date: "2010-08-11 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Algorithm"
+  - "Element Creation"
+  - "Geometry"
+original_url: "https://thebuildingcoder.typepad.com/blog/2010/08/surface-triangulation-tool.html "
+typepad_basename: "surface-triangulation-tool"
+typepad_status: "Publish"
+---
+
+<p>I exchanged 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2008/11/model-line-creation.html?cid=6a00e553e1689788330133f2f0958e970b#comment-6a00e553e1689788330133f2f0958e970b">
+some</a>
+
+<a href="http://thebuildingcoder.typepad.com/blog/2008/11/model-line-creation.html?cid=6a00e553e1689788330133f2f44c3b970b#comment-6a00e553e1689788330133f2f44c3b970b">
+comments</a>
+
+with Anthony of
+
+<a href="http://www.cbp.co.nz">
+Clendon Burns & Park Ltd </a>
+
+in the course of the last couple of days and suggested the use of my 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2010/05/model-curve-creator.html">
+NewSketchPlaneContainCurve method</a>, with the following happy end:
+
+<p style="color:darkblue">My app now works perfectly. 
+I'm generating some model lines from a topo surface, this enables our users to edit the top of retaining walls etc. to follow the ground line cut away by building pads.</p>
+
+<p>Anthony has very friendlily published his resulting 
+
+<a href="http://forums.augi.com/showthread.php?p=1089399#post1089399">
+surface triangulation tool</a> on AUGI.
+
+Here is what he says about it there:
+
+<span style="color:darkblue">
+
+<p>Have you ever wanted to trim the top of a retaining wall to the top of your toposurface?
+Well now you can.
+
+<p>User instructions:
+
+<ol>
+<li>Create a building pad that follows your retaining wall.
+<li>Draw your retaining walls so they project above the surface make sure location line is set to core centre line).
+<li>Select the toposurface and run the surfacetool command.
+<li>Edit the walls profile, by snapping to the end points of the new model lines.
+</ol>
+
+<p>Install instructions:
+
+<ol>
+<li>Unzip the attached file to C:\surfacetool.
+<li>Copy the add-in file to your Revit addins directory.
+</ol>
+
+</span>
+
+<p>Please visit 
+
+<a href="http://forums.augi.com/showthread.php?p=1089399#post1089399">
+Anthony's AUGI thread</a>
+
+to download the solution file Surface.zip and make sure he gets your appreciation!
+
+<p>For completeness' sake, here is the 
+
+<span class="asset  asset-generic at-xid-6a00e553e1689788330133f2fc0b04970b"><a href="http://thebuildingcoder.typepad.com/files/surfacetool.zip">source code</a></span>
+
+as well.

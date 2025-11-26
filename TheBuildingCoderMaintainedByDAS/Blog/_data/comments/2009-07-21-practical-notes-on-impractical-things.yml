@@ -1,0 +1,112 @@
+comments:
+- author: Shifali
+  email: shifali.a@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2010-01-06 04:44:26'
+  body: 'Dear Jeremy,
+
+
+    A very Happy New Year to you and your team.
+
+
+    I am back with a query. I need to draw a single curve from two different curves.I
+    am trying to do it with CurveArray. In this CurveArray, I am inserting the two
+    different curves and now using this curveArray need to draw a third curve.say,
+    I have two semi circles and need to draw it as one complete circle in document.
+
+    I am using the following code for it:
+
+
+    CurveArray newArray = new CurveArray();
+
+    newArray.Insert(arc.GeometryCurve, 0);
+
+    newArray.Insert(arc2.GeometryCurve, 1);
+
+
+    What should I do further or is this possible in api to draw a single curve using
+    two or more curves?
+
+
+    Regards,
+
+    Shifali'
+- author: Shifali
+  email: shifali.a@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2010-01-07 04:02:09'
+  body: 'Hi Jeremy,
+
+
+    I searched for it in Revit User Interface, in it we can draw circle from "Home
+    -> Model Line -> Draw(choose Circle Option)" but I am not getting its option in
+    RevitAPI with ModelLine if I have its radius and center.
+
+
+    Regards,
+
+    Shifali'
+- author: shifali
+  email: shifali.a@live.in.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2010-01-07 23:55:59'
+  body: 'Dear Jeremy,
+
+
+    Thank you for your support. Please ignore the above issue as I have resolved it
+    with the help of Revit API chm.
+
+
+    Regards,
+
+    Shifali'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.152.137
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-08 01:12:27'
+  body: "Dear Shifali,\n\nWay to go, man! \n\nCongratulations, and Happy New Year\
+    \ to you too!\n\nSo what was the solution you found?\n\nCheers, Jeremy."
+- author: shifali
+  email: shifali.a@live.in.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2010-01-08 04:58:10'
+  body: 'Dear Jeremy,
+
+
+    I have drawn the circle using Detail arc only with which i was drawing the semi
+    circle on active document with some modifications. I am using the following method
+    to draw complete circle with center and radius known:
+
+
+    XYZ norm = XYZ.BasisZ;
+
+    double startAngle = 0;      // The unit is radian
+
+    double endAngle = 2 * Math.PI; //arc will be a circle
+
+    Autodesk.Revit.Geometry.Plane objPlane = new Plane(norm, centerPoint);
+
+
+    Arc arcCircle = revitApp.Create.NewArc(objPlane, radiusOfCircle, startAngle, endAngle);
+
+    DetailArc arcCircleDet = doc.Create.NewDetailCurve(doc.ActiveView, arcCircle)
+    as DetailArc;'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-13 09:38:05'
+  body: 'Dear Shifali,
+
+
+    Thank you for the code snippet, it looks just fine to me.
+
+
+    Cheers, Jeremy.
+
+    -----'

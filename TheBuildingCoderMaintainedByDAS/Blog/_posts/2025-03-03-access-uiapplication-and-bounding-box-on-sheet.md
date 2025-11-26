@@ -1,0 +1,222 @@
+---
+layout: "post"
+title: "Access UIApplication and Bounding Box on Sheet"
+date: "2025-03-03 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Data Access"
+  - "Element Relationships"
+  - "Geometry"
+  - "Philosophy"
+  - "View"
+original_url: "https://thebuildingcoder.typepad.com/blog/2025/03/access-uiapplication-and-bounding-box-on-sheet.html "
+typepad_basename: "access-uiapplication-and-bounding-box-on-sheet"
+typepad_status: "Publish"
+---
+
+<p><link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet" /></p>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+<p><style> code[class*=language-], pre[class*=language-] { font-size : 90%; } </style></p>
+
+<p>A lot of my attention is on family matters, and a couple of Revit API solutions and other items also caught my attention:</p>
+
+<ul>
+<li><a href="#2">Preface to the Orchid Pavilion poems</a></li>
+<li><a href="#3">Access UIApplication anywhere</a></li>
+<li><a href="#4">Determine element bounding box on sheet</a></li>
+<li><a href="#5">AI and human coding</a></li>
+<li><a href="#6">XOR</a></li>
+<li><a href="#7">Three horizons</a></li>
+</ul>
+
+<h4><a name="2"></a> Preface to the Orchid Pavilion Poems</h4>
+
+<p>My daughter's baby was born, and my brother is still alive, though extremely weak.</p>
+
+<p>Moved by that and reading a news item coincided to let me stumble across a Chinese calligraphy and poem from the year 353 AD,
+the <a href="https://en.wikipedia.org/wiki/Lantingji_Xu">Lantingji Xu, Preface to the Poems Collected from the Orchid Pavilion</a>.
+I found it touching and fitting to be shared here, and maybe you will enjoy it too:</p>
+
+<blockquote>
+  <p>In the ninth year of Yonghe, at the onset of late spring,
+  <br/>we have gathered at the Orchid Pavilion in the North of Kuaiji Mountain for the purification ritual.
+  <br/>All the literati, the young and the aged, have congregated.
+  <br/>This location has high mountains and steep hills, dense woods, and tall bamboo,
+  <br/>as well as a clear, limpid stream reflecting the surroundings.
+  <br/>We sit by a redirected stream, allowing the wine goblets to float beside us on its winding course.
+  <br/>Although without the accompaniment of music,
+  <br/>the wine and poem reciting are sufficient for us to exchange our feelings.
+  <br/>On this day, the sky is clear, the air is fresh, and a gentle breeze is blowing.
+  <br/>Looking up, we admire the vastness of the universe;
+  <br/>looking down, we see the myriad works of poetry.
+  <br/>Letting the gaze wander and the mind roam, one can fully enjoy the pleasures of sight and sound, truly a delight.
+  <br/>People's interactions with each other quickly pass through a lifetime.
+  <br/>Some would share their ambitions in a chamber;
+  <br/>others may freely indulge in diverse interests and pursuits.
+  <br/>The choices are plenty and our temperaments vary.
+  <br/>We enjoy the momentary satisfaction of pleasures that regale us,
+  <br/>yet we hardly realize how swiftly we age.
+  <br/>As desires fade and circumstances change, grief arises.
+  <br/>What previously gratified us will soon be a relic,
+  <br/>we cannot help but mourn.
+  <br/>Whether life is long or short, there is always an end.
+  <br/>As the ancients said,
+  <br/>"Death and birth are momentous."
+  <br/>How agonizing!
+  <br/>Reading the past compositions reveals a consistent melancholy from the ancients.
+  <br/>One may find themselves lamenting in response to their words, unable to articulate their feelings.
+  <br/>It is absurd to equate life with death,
+  <br/>and it is equally foolish to think that longevity is the same as the short-lived.
+  <br/>The future generations will look upon us,
+  <br/>just like we look upon our past.
+  <br/>How sad!
+  <br/>Hence, we record the people presented here today and their works;
+  <br/>Even though time and circumstances will be different,
+  <br/>the feelings expressed will remain unchanged.
+  <br/>Future readers shall find the same empathy through this collection of poems.</p>
+</blockquote>
+
+<p>I also asked Gemini to render this in German for a non-English-speaking friend, and it did a good job of that, I think:</p>
+
+<blockquote>
+  <p>Vorwort zu den Gedichten des Orchideen-Pavillons
+  <br/>
+  <br/>Im neunten Jahr der Yonghe-Ära, im späten Frühlingsmonat, versammelten wir uns, die Gelehrten von Kuaiji, am Orchideen-Pavillon. Erhabene Berge und steile Gipfel umgaben uns, üppige Bambuswälder und klare Bäche durchzogen die Landschaft. An diesem Tag herrschte ein klarer, milder Wind, die Luft war rein und erfrischend.
+  <br/>
+  <br/>Wir versammelten uns an einem geschwungenen Bach, ließen unsere Weinschalen auf dem Wasser treiben und verfassten Gedichte, um unsere Gefühle auszudrücken. Obwohl wir uns nicht kannten, waren wir wie alte Freunde, die sich in tiefem Verständnis verbunden fühlten.
+  <br/>
+  <br/>Wir blickten in den Himmel und sahen das Universum in seiner unendlichen Weite; wir blickten auf die Erde und sahen die Fülle der Natur in ihrer ganzen Pracht. Wir schwelgten in der Schönheit der Landschaft und erfreuten uns an der Harmonie der Natur.
+  <br/>
+  <br/>Obwohl unsere Leben kurz sind, können wir unsere Herzen und Gedanken in den Künsten und Wissenschaften verewigen. Wir können unsere Gefühle in Gedichten und Gemälden ausdrücken und unsere Weisheit in Büchern und Schriften festhalten.
+  <br/>
+  <br/>Wir sollten die Zeit, die uns gegeben ist, nutzen, um das Leben in vollen Zügen zu genießen. Wir sollten uns an der Schönheit der Natur erfreuen, die Freundschaften, die wir schließen, schätzen und die Weisheit, die wir erlangen, teilen.
+  <br/>
+  <br/>Lasst uns diesen Tag in Erinnerung behalten, an dem wir uns am Orchideen-Pavillon versammelten, um unsere Freundschaft zu feiern und unsere Liebe zur Natur und zur Kunst auszudrücken.</p>
+</blockquote>
+
+<p>As Jean-Marc noted, it is paradox how we humans tend to consider beginnings as happy and perceive endings as something to be avoided.
+We all know all along that life has a beginning and an end.</p>
+
+<h4><a name="3"></a> Access UIApplication Anywhere</h4>
+
+<p>Moving on to the Revit API related topics,
+Luiz Henrique <a href="https://ricaun.com/">@ricaun</a> Cassettari shares yet another new discovery,
+how to <a href="https://forums.autodesk.com/t5/revit-api-forum/get-uiapplication-anywhere/td-p/13341551">get <code>UIApplication</code> anywhere</a>:</p>
+
+<p><code>UIApplication</code> is the most useful class inside Revit API, providing access to all events, documents and to know whether your code is in the AddInContext (Revit API Context).</p>
+
+<p>It would be really handy is there was way to have access to <code>UIApplication</code> any time you need.</p>
+
+<p>There is a way, a native way in the RevitAPIUI.dll, to retrieve the <code>UIApplication</code> without any reflection or internal code.
+I figured that out that a long time ago (~3 years) when I was messing with events.</p>
+
+<p>The class <code>RibbonItemEventArgs</code> provides a direct reference for a new <code>UIApplication</code> class:</p>
+
+<pre><code class="language-cs">UIApplication uiapp = new Autodesk.Revit.UI.Events.RibbonItemEventArgs().Application;</code></pre>
+
+<p>I created a class <code>RevitApplication</code> in
+my <a href="https://github.com/ricaun-io/ricaun.Revit.UI">ricaun.Revit.UI</a> library
+just to have a base standard:</p>
+
+<ul>
+<li><a href="https://github.com/ricaun-io/ricaun.Revit.UI/blob/master/ricaun.Revit.UI/RevitApplication.cs">RevitApplication.cs</a></li>
+</ul>
+
+<pre><code class="language-cs">UIApplication uiapp = RevitApplication.UIApplication;
+UIControlledApplication application = RevitApplication.UIControlledApplication;
+bool inAddInContext = RevitApplication.IsInAddInContext;</code></pre>
+
+<p>It would be better still if Autodesk would create a static class like RevitApplication in RevitAPIUI.dll.</p>
+
+<p>That concludes my post, I hope you like it.</p>
+
+<p>See yaa!</p>
+
+<p>Many thanks, ricaun, for sharing this!</p>
+
+<h4><a name="4"></a> Determine Element Bounding Box on Sheet</h4>
+
+<p>Also Revit API related,
+<a href="https://chuongmep.com/">Chuong Ho</a> shares
+another important solution providing a more reliable method <code>GetBboxElementOnSheet</code>
+for <a href="https://forums.autodesk.com/t5/revit-api-forum/getting-element-coordiantes-on-sheet/td-p/9785396">getting element coordinates on sheet</a>:</p>
+
+<blockquote>
+  <p>I just want to share a cleaner solution for anyone who wants to understand or make use of it:</p>
+</blockquote>
+
+<pre><code class="language-cs">public BoundingBoxXYZ? GetBboxElementOnSheet(
+  Autodesk.Revit.DB.Document doc,
+  Autodesk.Revit.DB.Element element,
+  Autodesk.Revit.DB.Viewport viewport)
+{
+  View? v = (View)doc.GetElement(viewport.ViewId);
+  if (v == null) return null;
+  Outline vpoln = viewport.GetBoxOutline(); // Viewport outline in Sheet coords.
+  BoundingBoxUV voln = v.Outline; // View outline.
+  if(vpoln == null || voln == null) return null;
+  int scale = v.Scale;
+
+  /*Transform for view coords (very important for rotated view plans set to true north etc.)
+  completely not important when view plan is not rotated*/
+  Transform t = Transform.Identity;
+  t.BasisX = v.RightDirection;
+  t.BasisY = v.UpDirection;
+  t.BasisZ = v.ViewDirection;
+  t.Origin = v.Origin;
+  // You can probably get this transform above from elsewhere such as cropbox.
+
+  var volnCen = (voln.Min + voln.Max) / 2; // View outline centre
+  XYZ vpcen = (vpoln.MaximumPoint + vpoln.MinimumPoint) / 2; // Viewport centre
+  vpcen = new XYZ(vpcen.X, vpcen.Y, 0); // Zero z
+
+  // Correction offset from VCen to centre of Viewport in sheet coords
+  XYZ offset = vpcen - new XYZ(volnCen.U, volnCen.V, 0);
+  BoundingBoxXYZ bb = element.get_BoundingBox(v);
+  if (bb == null) return null;
+  // Location of door bounding box in sheet coords
+  XYZ j1 = t.Inverse.OfPoint(bb.Min).Multiply((Double)1 / scale) + offset;
+  XYZ j2 = t.Inverse.OfPoint(bb.Max).Multiply(1 / scale) + offset;
+
+  // return bb of element in sheet coords
+  BoundingBoxXYZ boxXyz = new BoundingBoxXYZ();
+  boxXyz.Min = new XYZ(j1.X, j1.Y, 0);
+  boxXyz.Max = new XYZ(j2.X, j2.Y, 0);
+  return boxXyz;
+}</code></pre>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c8d3cd83b6200c-pi"><img class="asset  asset-image at-xid-6a00e553e16897883302c8d3cd83b6200c image-full img-responsive" alt="GetBboxElementOnSheet" title="GetBboxElementOnSheet" src="/assets/image_fe7056.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Many thanks to Chuong Ho for this solution!</p>
+
+<h4><a name="5"></a> AI and Human Coding</h4>
+
+<p>A nice little essay on the topic of using AI for speedy coding versus in-depth learning comes to the conclusion
+that <a href="https://nmn.gl/blog/ai-and-learning">new junior developers can’t actually code</a>.</p>
+
+<h4><a name="6"></a> XOR</h4>
+
+<p>For a purely technical in-depth analysis of a topic that turns out to have a surprisingly large scope, check out Simon Tatham's thoughts
+on <a href="https://www.chiark.greenend.org.uk/~sgtatham/quasiblog/xor/">XOR</a>.
+He made a good stab at summarising everything one might possibly want to know about that.</p>
+
+<h4><a name="7"></a> Three Horizons</h4>
+
+<p>Pondering the personal and global turmoil of our times, I chanced upon another way of looking, based on
+the <a href="https://www.h3uni.org/tutorial/three-horizons/">Three Horizons</a>:</p>
+
+<blockquote>
+  <p>We stand for a vision of a different kind of relationship between humans, life and the planet that we explore in the creative space of the future that we call the third horizon.</p>
+</blockquote>
+
+<p>Can't say I understand it, but it looks interesting...</p>
+
+<p>... and there is much I don't understand, and it seems to be growing.</p>

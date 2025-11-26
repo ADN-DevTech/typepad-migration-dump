@@ -1,0 +1,83 @@
+comments:
+- author: Felipe Mesquita
+  email: felipe@vendramini.eng.br
+  ip: 200.171.237.172
+  url: http://estrutural.blog.br/
+  date: '2010-10-26 13:27:05'
+  body: 'Hi Jeremy,
+
+
+    I''m new to REVIT API, but was thinking about something:
+
+    "Is there eny way of adding XData to the families, so that we can manipulate then
+    later on AutoCAD, after the DWG export on Revit? "
+
+
+    Thank you..
+
+
+    Felipe
+
+    SP-Brazil'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-10-27 07:53:48'
+  body: 'Dear Felipe,
+
+
+    Sure there is a possibility for a Revit add-in to add its own arbitrary data to
+    Revit database elements. It is called ''shared parameters'' and is accessible
+    both through the user interface and the API.
+
+
+    I am not sure how well the shared parameter data will survive the export to AutoCAD,
+    though. If all else fails, you can always implement your own export mechanism.
+
+
+    Cheers, Jeremy.'
+- author: Serhan BAKIR
+  email: serhanbakir@gmail.com
+  ip: 141.101.98.144
+  url: http://www.stand.com.tr
+  date: '2014-04-28 06:35:01'
+  body: "Hi Jeremy,\n\n Very nice blog, I've been following you for a long time now,\
+    \ keep up!! :) This particular post remind me a problem of mine; I would like\
+    \ to obtain the scale of the exported view. I've searched through the REVIT_DICTIONARY\
+    \ inside the dwg but couldn't find any clue. Is there any xrecord/xdata which\
+    \ may provide the scale? Or you may have other ideas to get it or a different\
+    \ way to export it to dwg...\n\n My purpose is to make some automatic adjustments\
+    \ depending on the scale of the exported view by means of lisp. \n\nThanks,\n\
+    Serhan"
+- author: Jeremy Tammik
+  email: ''
+  ip: 173.245.53.105
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-04-28 06:44:02'
+  body: 'Dear Serhan,
+
+
+    Thank you for your appreciation. Glad you like it.
+
+
+    No, I am not aware of any such information.
+
+
+    Actually, it may even be hard to find within Revit itself.
+
+
+    As an approximation in Revit, I would suggest iterating over all elements returned
+    by a filtered element collector specific to the given view and summing up all
+    their bounding boxes to obtain the model extents displayed by the view.
+
+
+    The size of the view in paper space is easy to determine:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2014/04/determining-the-size-and-location-of-viewports-on-a-sheet.html">http://thebuildingcoder.typepad.com/blog/2014/04/determining-the-size-and-location-of-viewports-on-a-sheet.html</a>
+
+
+    Cheers, Jeremy.
+
+    -----'

@@ -1,0 +1,68 @@
+comments:
+- author: tzavelis@hotmail.com
+  email: tzavelis@hotmail.com
+  ip: 24.228.66.151
+  url: ''
+  date: '2012-10-08 22:13:15'
+  body: "Hello Jeremy,\n\nHow can I change the parameters in a family file such as\
+    \ \"Structural Connections\\Steel\\Double Angle Connection-Bolt_Weld.rfa\"? I\
+    \ would like to be able to programmatically change the Angle Size from the default\
+    \ \"L4X3X5/16\" to another shape such as \"L5X5X3/8\" and change its parametric\
+    \ values such as Bolt Spacing, L, Weld A Size etc. \n\nI have been trying to use\
+    \ code such as:\n\ntrans.Start(\"LoadBasePlateFamily\")\nIf ActiveRvtDocument.LoadFamilySymbol(AngleFamFile,\
+    \ \"L4X3X5/16\", AngleSymbol) = True Then                  \ntrans.Commit()\n\n\
+    Dim AngleSize As FamilySymbol = ActiveRvtDocument.GetElement(AngleSymbol.Parameter(\"\
+    Angle Size\").AsElementId)\n                \nDim NumbrOfBolts As Integer = AngleSymbol.Parameter(\"\
+    Number Of Bolts\").AsString\n                \nDim BoltSize As String = AngleSymbol.Parameter(\"\
+    Bolt Size\").AsValueString\n                \nDim lv As Double = AngleSymbol.Parameter(\"\
+    lv\").AsDouble\n               \nend if\n\nBut without success\n\nThanks for your\
+    \ help\n\nCosmas"
+- author: Jeremy Tammik
+  email: ''
+  ip: 84.174.239.51
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-10-10 04:03:20'
+  body: 'Dear Cosmas,
+
+
+    1. To set a parameter value, you need to use one of the Parameter.Set method overloads.
+
+
+    2. Since a change to a parameter value modifies the database, this must be executed
+    within an open transaction, before committing it.
+
+
+    Here is a simple example:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/07/elbow-fitting-selection-and-dimensioning.html#5">http://thebuildingcoder.typepad.com/blog/2012/07/elbow-fitting-selection-and-dimensioning.html#5</a>
+
+
+    Cheers, Jeremy.'
+- author: Cosmas
+  email: tzavelis@hotmail.com
+  ip: 24.228.66.151
+  url: ''
+  date: '2012-10-12 02:39:40'
+  body: "Hello Jeremy,\nThe problem that I have is with setting the parameter \"Angle\
+    \ Size\" of the \"Structural Connections\\Steel\\Double Angle Connection-Bolt_Weld.rfa\"\
+    . It seems that I can only load one symbol using LoadFamilySymbol, the Angle Size\
+    \ of \"L4X3X5/16\" but no other symbol like \"5X5X7/8\". In the UI, changing the\
+    \ Angle Size is through Edit Type and the Parameter \"Angle Size\", but changing\
+    \ the same parameter in the code does nothing (see sample code below).\n\n Dim\
+    \ AngleSymbol As FamilySymbol = Nothing\n Dim xmlSymbol As String = ExistPart.xSection(False).ID\n\
+    \            \ntrans.Start(\"LoadAngleFamily\")\n If ActiveRvtDocument.LoadFamilySymbol(mRevit.FamilyFileRFA(\"\
+    Structural Connections\\Steel\\Double Angle Connection-Bolt_Weld.rfa\"), \"L4X3X5/16\"\
+    , AngleSymbol) = True Then    \n                trans.Commit()\n            \n\
+    \                trans.Start(\"ChangeXsection\")\n                AngleSymbol.Parameter(\"\
+    Angle Size\").SetValueString(\"L-Angle-Connector : \" & \"5X5X7/8\")\n       \
+    \         trans.Commit()\n\n            End If"
+- author: sangsen
+  email: sangsen123@gmail.com
+  ip: 59.163.205.194
+  url: ''
+  date: '2013-01-22 02:56:46'
+  body: "Hi..Jeremy\n\n I have a couple of questions about beam. Please clarify it.\n\
+    \n 1. How can we Identify a revit familyInstance(beam/Column) is I Section or\
+    \ others ?\n \n 2. Is there any property available to Identify Cellular beam type?\n\
+    \n\nThanks,\n-----"

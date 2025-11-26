@@ -1,0 +1,63 @@
+comments:
+- author: Sandeep
+  email: sdpatil.1984@rediffmail.com
+  ip: 122.200.17.210
+  url: ''
+  date: '2011-01-04 01:25:19'
+  body: "Hi Jeremy,\nHappy New Year 2011 to you.... :). Hope you have enjoyed a lot\
+    \ in your vacation.\n\nI am trying to Export the App views in Image format with\
+    \ following code:\n\nImageExportOptions imgExportOption = new ImageExportOptions();\
+    \                                       \nimgExportOption.ZoomType = ZoomFitType.FitToPage;\n\
+    string fileName = fileName.Substring(0, fileName.LastIndexOf(\".\"));\n      \
+    \                                  imgExportOption.FilePath = fileName;      \
+    \                                  \n                                        imgExportOption.FitDirection\
+    \ = FitDirectionType.Horizontal;\n                                        imgExportOption.HLRandWFViewsFileType\
+    \ = ImageFileType.JPEGMedium;\n                                        imgExportOption.ImageResolution\
+    \ = ImageResolution.DPI_72;\n                                        imgExportOption.PixelSize\
+    \ = 512;\n                                        imgExportOption.ShadowViewsFileType\
+    \ = ImageFileType.JPEGMedium;\n                                        imgExportOption.ShouldCreateWebSite\
+    \ = false;      \n\n                                        imgExportOption.ExportRange\
+    \ = ExportRange.SetOfViews;\nList viewIds = new List();\n\nforeach (Autodesk.Revit.DB.View\
+    \ v in vs)\n{                                          \n   viewIds.Add(v.Id);\n\
+    }\n\n imgExportOption.SetViewsAndSheets(viewIds);              \n try\n { \nm_extCommandData.Application.ActiveUIDocument.Document.ExportImage(imgExportOption);\n\
+    }\ncatch (Exception ex)\n{}\n\nI am getting error for corrupt memory error. I\
+    \ used the code form SDK Example \"ImportExport\"\n\nIs anything missing in this\
+    \ code?\n\nThanks\nSandeep"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-01-05 03:21:17'
+  body: "Dear Sandeep,\n\nI assume that there are some views that cannot be exported,\
+    \ and attempting to do so is causing a problem.\n\nYou should probably be more\
+    \ discerning in your loop and not even try to export the views which obviously\
+    \ cannot be exported.\n\nFor instance, you might add something like:\n\nforeach(\
+    \ Autodesk.Revit.DB.View v in vs )\n{\n  if( v.ViewType != ViewType.Internal )\n\
+    \  {\n    viewIds.Add( v.Id );\n  }\n}\n\nIn any case, you should use the debugger\
+    \ to find out what views are causing the problem and eliminate those.\n\nCheers,\
+    \ Jeremy."
+- author: Sandeep
+  email: sdpatil.1984@rediffmail.com
+  ip: 122.200.17.210
+  url: ''
+  date: '2011-01-05 06:13:43'
+  body: "Hi Jeremy,\nI tried above code and it worked ... \n\nif(view.CanBePrinted)\n\
+    {\n   viewIds.Add( v.Id );\n}\n\nwith above condition.\n\nThanks\nSandeep."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-01-05 11:09:45'
+  body: 'Dear Sandeep,
+
+
+    Congratulations! Sounds like the perfect solution to me! And so easy, once you
+    know about it  :-)
+
+
+    The View.CanBePrinted property: Test whether the view can be printed.
+
+
+    Cheers, Jeremy.
+
+    -----'

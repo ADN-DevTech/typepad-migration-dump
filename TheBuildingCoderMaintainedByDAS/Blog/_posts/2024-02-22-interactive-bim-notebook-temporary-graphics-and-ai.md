@@ -1,0 +1,312 @@
+---
+layout: "post"
+title: "Interactive BIM Notebook, Temporary Graphics and AI"
+date: "2024-02-22 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "AI"
+  - "Algorithm"
+  - "Filters"
+  - "JavaScript"
+  - "Philosophy"
+  - "User Interface"
+original_url: "https://thebuildingcoder.typepad.com/blog/2024/02/interactive-bim-notebook-temporary-graphics-and-ai.html "
+typepad_basename: "interactive-bim-notebook-temporary-graphics-and-ai"
+typepad_status: "Publish"
+---
+
+<p>The amount of news items related to interactivity and AI keeps growing:</p>
+
+<ul>
+<li><a href="#2">BIM interactive notebooks</a></li>
+<li><a href="#3">TemporaryGraphicsManager in action</a></li>
+<li><a href="#4">Classify line styles built-in vs user</a></li>
+<li><a href="#5">The curious case of JavaScript</a></li>
+<li><a href="#6">Magika AI-based file type classification</a></li>
+<li><a href="#7">NotebookLM</a></li>
+<li><a href="#8">AI understands videos better</a></li>
+<li><a href="#9">Airline chatbot invented a refund policy</a></li>
+<li><a href="#10">LLM tokenisation</a></li>
+<li><a href="#11">Diátaxis systematic technical documentation</a></li>
+<li><a href="#12">Amara's law</a></li>
+<li><a href="#13">Talking about progress versus risk</a></li>
+</ul>
+
+<h4><a name="2"></a> BIM Interactive Notebooks</h4>
+
+<p>Hot on the foot of
+Joel Waldheim Saury's <a href="https://thebuildingcoder.typepad.com/blog/2024/02/net-core-c4r-views-and-interactive-hot-reload.html#4">interactive .NET Revit BIM Polyglot Notebook</a>,
+<a href="https://chuongmep.com/">Chuong Ho</a> shares
+his <a href="https://www.linkedin.com/posts/chuongmep_opensource-ai-dataanalysis-activity-7164531381107183616-TYNP?utm_source=share&amp;utm_medium=member_desktop">BIM Interactive Notebooks</a>:</p>
+
+<blockquote>
+  <p>I'm thrilled to share an open-source project that I believe holds immense potential.
+  It enables you to integrate and analyze Revit model data in various ways using Jupyter Notebook with multiple programming languages under Interactive .NET.
+  The project has been brought to fruition, and it's truly gratifying to see its development, as it opens up significant opportunities with AI and data analysis.
+  Explore further in the</p>
+  
+  <ul>
+  <li><a href="https://github.com/jowsy/bim-net-interactive">BIM Interactive Notebooks GitHub repository</a></li>
+  </ul>
+</blockquote>
+
+<!--
+<center>
+<img src="img/ch_jupyter.gif" alt="BIM interactive notebooks" title="BIM interactive notebooks" width="748"/> <!-- Pixel Height: 656 Pixel Width: 748 --
+</center>
+-->
+
+<p>Many thanks to Chuong Ho for this!</p>
+
+<h4><a name="3"></a> TemporaryGraphicsManager in Action</h4>
+
+<p><a href="https://www.linkedin.com/in/wandzilak/">Julian Wandzilak</a> of <a href="https://w7k.pl/">W7k</a> presents
+the <a href="https://forums.autodesk.com/t5/revit-api-forum/temporarygraphicsmanager-in-action/td-p/12566892"><code>TemporaryGraphicsManager</code> in action</a>,
+including a 45-second YouTube video <a href="https://youtu.be/Q7aKEocvRtk">W7k Revit API Experiments - TemporaryGraphicsManager</a>:</p>
+
+<p><center>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Q7aKEocvRtk?si=ZYffG0lLTLgtXXRG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</center></p>
+
+<blockquote>
+  <p>Today, I would like to share a recent discovery I made while working with Revit API. As many of you know, creating new graphical elements within Revit can be quite challenging and limited. However, I stumbled upon a little-known class called <code>TemporaryGraphicsManager</code>.
+  The TemporaryGraphicsManager allows us to add temporary graphical elements directly to the model or drawing space. These graphics are not subject to undo actions and are not permanently saved anywhere. While they won’t clutter up your project, they provide a powerful way to enhance your user experience.
+  Surprisingly, I haven’t seen this class widely used in other plugins or extensions. So, when I first encountered it, I knew I had to put it to the test.
+  In the initial part of my video, I demonstrate how to align title lines to previously saved points. With a simple click, you can create temporary graphics that will guide your design process and allow you to snap your title lines to them!
+  In the second part of the video, I collect points and save them to an external file for future reference. The TemporaryGraphicsManager conveniently marks their locations, eliminating the need to remember which points I’ve already saved.
+  Is this the easiest method of controlling title lines? Perhaps not. In an upcoming update to my Drafter tool (to which I added recently 30 days of trial), I’ll introduce further automations in this area. But one thing is certain: I’ll continue to leverage the power of TemporaryGraphicsManager.</p>
+</blockquote>
+
+<p>Thank you for the heads-up, Julian!</p>
+
+<h4><a name="4"></a> Classify Line Styles Built-In vs User</h4>
+
+<p>An interesting example of several completely different possible approaches to
+classify line styles in built-in versus user defined was finally solved
+by Frank <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/2083518">@Fair59</a> Aarssen in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/finding-user-line-styles/m-p/12566994">finding user line styles</a>:</p>
+
+<p><strong>Question:</strong>
+I’m writing an addon that changes all the line styles of Detail Lines, Model Lines and the borders of Filled Regions to a certain line style.
+But I'm having issues with distinguishing user built line styles from system / inbuilt ones.</p>
+
+<p>To get all the lines styles and including the user and system ones, I use a FilteredElementCollector to find class GraphicsStyle:</p>
+
+<pre>
+  IList&lt;Element&gt; getgs = new FilteredElementCollector(doc)
+    .OfClass(typeof(GraphicsStyle))
+    .ToElements();
+</pre>
+
+<p>This works but returns a lot of styles some unrelated to lines, but I can use the <code>GraphicStyleCategory</code>, then Parent, then Name to find styles with the parent name “Lines”:</p>
+
+<pre>
+  if (mystyle.GraphicsStyleCategory.Parent.Name == "Lines")
+</pre>
+
+<p>So, now I have all the line styles, but I want to remove the system ones, which I thought were lines styles within &lt; and &gt;, such as &lt;Thin Lines&gt; or &lt;Wide Lines&gt;.</p>
+
+<p>But, looking at the names that are returned, some have &lt;&gt;, some have only a &gt; at the end and others don't have anything to distinguish them.
+These are the names returned:</p>
+
+<pre>
+  &lt;Room Separation&gt;
+  &lt;Insulation Batting Lines&gt;
+  &lt;Sketch&gt;
+  &lt;Lines&gt;
+  &lt;Thin Lines&gt;
+  &lt;Medium Lines&gt;
+  &lt;Wide Lines&gt;
+  &lt;Overhead&gt;
+  &lt;Hidden&gt;
+  &lt;Demolished&gt;
+  &lt;Beyond&gt;
+  Boundary&gt;
+  Riser&gt;
+  Run&gt;
+  Landing Center&gt;
+  &lt;Area Boundary&gt;
+  &lt;Hidden Lines&gt;
+  &lt;Space Separation&gt;
+  &lt;Lines&gt;
+  &lt;Lines&gt;
+  &lt;Lines&gt;
+  Stair Path&gt;
+  &lt;Fabric Envelope&gt;
+  &lt;Fabric Sheets&gt;
+  Railing Rail Path Lines
+  Railing Rail Path Extension Lines
+  &lt;Centerline&gt;
+  &lt;Axis of Rotation&gt;
+  &lt;Path of Travel Lines&gt;
+  &lt;Load Area Separation&gt;
+  MyStyle
+</pre>
+
+<p>Seems a little inconsistent to me...
+Is there any good way to pick out the 'system' line styles so that I can only find ones the user has created?</p>
+
+<p><strong>Answer:</strong>
+One possible approach that might work is to look at their element ids. These objects are elements, stored in the BIM db, hence equipped with element ids, aren't they? The element ids are assigned one by one as things get added to the database. Hence, higher element ids are added later. They are also incremented consecutively as work progresses. While this behaviour is undocumented and not officially supported or guaranteed in any way whatsoever, it has been working like that forever, afaik. Therefore, if you determine the highest element id in your project right now, you know that everything with a higher id has been added later. Therefore, you know that all line styles with an id higher than the highest one when you started initial work on your BIM are user generated in one way or another, and all lower ones are built-in. Does this help?</p>
+
+<p><strong>Response:</strong>
+Thanks for your response.</p>
+
+<p>I think I've found another way which better does what I'm doing for. After reading more I found that I can collect all CurveElements from the project with this:</p>
+
+<pre>
+  List&lt;CurveElement&gt; AllCurves
+    = new List&lt;CurveElement&gt;(
+      new FilteredElementCollector(doc)
+        .OfClass(typeof(CurveElement))
+        .ToElements()
+        .Cast&lt;CurveElement&gt;());
+</pre>
+
+<p>Iterate through them and use the <code>GetLineStyleIds</code> method to get their <code>GraphicsStyles</code>... luckily, these appear to be named correctly with &lt;&gt; denoting 'System' line styles.</p>
+
+<p><strong>Answer:</strong>
+A category has the property <code>BuiltInCategory</code>.
+The graphicalStyleCategory of a user-defined line has a built-in category value of <code>Invalid</code>:</p>
+
+<pre>
+  StringBuilder sb = new StringBuilder();
+  Category LinesCat = Category.GetCategory(doc,
+    BuiltInCategory.OST_Lines);
+  IEnumerable&lt;GraphicsStyle&gt; getgs
+    = new FilteredElementCollector(doc)
+      .OfClass(typeof(GraphicsStyle))
+      .Cast&lt;GraphicsStyle>();
+  foreach(GraphicsStyle gs in getgs)
+  {
+    Category cat = gs.GraphicsStyleCategory;
+    if(cat==null || cat.Parent==null)
+      continue;
+    if(cat.Parent.Id.IntegerValue != LinesCat.Id.IntegerValue)
+      continue;
+    if(cat.BuiltInCategory == BuiltInCategory.INVALID)
+    {
+      sb.AppendLine(string.Format(
+        "User defined Line: {0}",cat.Name));
+    }
+    else
+    {
+      sb.AppendLine(string.Format(
+        "System defined Line {0} / {1}",
+        cat.BuiltInCategory, cat.Name));
+    }
+  }
+  TaskDialog.Show("debug",sb.ToString());
+</pre>
+
+<p>Thank you for this discussion and solution, Kevin and Frank.</p>
+
+<h4><a name="5"></a> The Curious Case of JavaScript</h4>
+
+<p>Moving away from pure Revit API topics,
+for an interesting overview of the evolution and power of JavaScript, Sandip Jadhav describes his personal exploration
+in <a href="https://www.linkedin.com/pulse/curious-case-javascript-sandip-jadhav-ebobf">The curious case of JavaScript</a>.</p>
+
+<h4><a name="6"></a> Magika AI-Based File Type Classification</h4>
+
+<p>Unrelated to BIM, determining the type of data contained in a computer file can be surprisingly tricky.
+One important utility to address that need was provided in 1973 by
+the <a href="https://en.wikipedia.org/wiki/File_(command)">Unix <code>file</code> command</a>.
+50 years later, Google just open-sourced <a href="https://google.github.io/magika/">Magika</a>,
+an AI-based approach to this task with higher performance:</p>
+
+<ul>
+<li><a href="https://opensource.googleblog.com/2024/02/magika-ai-powered-fast-and-efficient-file-type-identification.html">Magika blog post</a></li>
+<li><a href="https://github.com/google/magika/">Magika GitHub repository</a></li>
+</ul>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c8d3a7d062200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302c8d3a7d062200c image-full img-responsive" alt="Magika performance" title="Magika performance" src="/assets/image_7d2d1e.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="7"></a> NotebookLM</h4>
+
+<p>Google also introduced
+the <a href="https://notebooklm.google/">NotebookLM experiment</a> touting
+an interface that lets you easily shift between reading a text, asking questions about it and writing with built-in AI support that can
+also transform your set of notes into an outline, blog post, business plan, and more:</p>
+
+<blockquote>
+  <p>NotebookLM gives you a personalized AI, grounded in the information you trust.
+  NotebookLM is only available in the U.S. for users 18 and up.</p>
+</blockquote>
+
+<h4><a name="8"></a> AI understands videos better</h4>
+
+<p>On the topic of AI, the research
+on a <a href="https://largeworldmodel.github.io/">world model on million-length video and language with RingAttention</a> now
+enables the pretty impressive ability to correctly answer questions about an hour-long video.</p>
+
+<h4><a name="9"></a> Airline Chatbot Invented a Refund Policy</h4>
+
+<p>AIs still are prone to mistakes as well, though,
+and <a href="https://arstechnica.com/tech-policy/2024/02/air-canada-must-honor-refund-policy-invented-by-airlines-chatbot/">Air Canada must honor refund policy invented by airline’s chatbot</a>.</p>
+
+<h4><a name="10"></a> LLM Tokenisation</h4>
+
+<p>One fundamental and tricky aspect of large language models is discussed in full depth in the two-and-a-quarter hour video
+on <a href="https://youtu.be/zduSFxRajkE">LLM tokenisation &ndash; let's build the GPT tokenizer</a>:</p>
+
+<p><center>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/zduSFxRajkE?si=H0TaI7Ro1ZOpmv0i" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</center></p>
+
+<p>That might help better understand some of the occasional AI weirdness.</p>
+
+<h4><a name="11"></a> Diátaxis Systematic Technical Documentation</h4>
+
+<p>Unrelated to both Revit and AI, a colleague pointed out <a href="https://diataxis.fr/">Diátaxis</a>:</p>
+
+<blockquote>
+  <p>A systematic approach to technical documentation authoring.</p>
+</blockquote>
+
+<p>It is of interest to me and our entire team, since it applies to most of the work I do, including my writing right now.</p>
+
+<h4><a name="12"></a> Amara's Law</h4>
+
+<p>Finally, for a fundamental aspect of our human nature that applies to almost everything we do,
+Roy Amara formulated <a href="https://en.wikipedia.org/wiki/Roy_Amara#Amara's_law">Amara's law</a> in the 1960s:</p>
+
+<p><center></p>
+
+<p style="font-style:italic;padding-right:10%;padding-left:10%">We tend to overestimate the effects of a technology in the short run and underestimate them in the long run.</p>
+
+<p></center></p>
+
+<p>His observation was not only about technology, but human behaviour in general: we are curious and impatient.
+We get excited about new things and are quickly disappointed when they don't immediately perform as expected.
+Especially from technologies, we expect too much too quickly and have little patience with the need for innovation to develop with time.
+AI is a good example: the initial mixture of euphoria and panic has rapidly faded.
+Another example, our health behaviour: we often initially overestimate behavioural changes &ndash; a new training method, meditation, or diet &ndash; and enthusiastically view them as a panacea, underestimating long-term benefits.
+Often, people don't stick with a behaviour long enough to see its true benefits and returns.
+Or, other people (<a href="https://duckduckgo.com/?q=sartre+hell">Sartre's hell</a>): we get to know a person, like her, fall in love.
+Reality sets in, initially exciting aspects irritate.
+Get through that phase and realise that the other person is not perfect (but neither are we), and the tide turns.
+So, again, we tend to overestimate people in the short term and underestimate them in the long term.</p>
+
+<h4><a name="13"></a> Talking About Progress versus Risk</h4>
+
+<p>Continuing to wax philosophical, with an eye to the interesting times we are living in and actively creating today, every day,
+John Burn-Murdoch of the Financial Times recently asked,
+<a href="https://duckduckgo.com/?q=Is+the+west+talking+itself+into+decline%3F">is the west talking itself into decline?</a></p>
+
+<p>A recent <a href="https://docs.iza.org/dp16674.pdf">scientific paper</a> used textual analysis of 173,031 works printed in England between 1500 and 1900 and found significant correlation between vocabulary and culture.</p>
+
+<blockquote>
+  <p>Extending the same analysis to the present, a striking picture emerges:
+  over the past 60 years, the west has begun to shift away from the culture of progress, and towards one of caution, worry and risk-aversion, with economic growth slowing over the same period.
+  The frequency of terms related to progress, improvement and the future has dropped by about 25 per cent since the 1960s, while those related to threats, risks and worries have become several times more common.</p>
+</blockquote>
+
+<p>So: don't worry, be happy!</p>
+
+<p>Take a risk and innovate!</p>

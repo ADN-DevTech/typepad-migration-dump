@@ -1,0 +1,318 @@
+---
+layout: "post"
+title: "DLL Conflicts and Replicating Schedule Sort Order"
+date: "2019-11-19 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "Algorithm"
+  - "Debugging"
+  - "External"
+  - "Installation"
+  - "News"
+  - "Schedule"
+original_url: "https://thebuildingcoder.typepad.com/blog/2019/11/dll-conflicts-and-replicating-schedule-sort-order.html "
+typepad_basename: "dll-conflicts-and-replicating-schedule-sort-order"
+typepad_status: "Publish"
+---
+
+<p>As always, I remain busy in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a>.</p>
+
+<p>Here, today, I highlight the following topics:</p>
+
+<ul>
+<li><a href="#2">I caved in to smartphone</a></li>
+<li><a href="#3">Handling third party library DLL conflicts</a></li>
+<li><a href="#4">Replicating schedule sort order</a></li>
+</ul>
+
+<h4><a name="2"></a> I Caved in to SmartPhone</h4>
+
+<p>After several decades of hard resistance, I finally caved in.</p>
+
+<p>Both my bank and my VPN network managers forced me to set up a smartphone.</p>
+
+<p>I got an old Android S5, reset it to factory settings, installed the updates, and <a href="https://www.guidingtech.com/29921/remove-samsung-galaxy-s5">removed all possible Samsung ballast</a>.</p>
+
+<p>It is working fine now, and I am still resisting all further temptation to go smartphone-crazy, not setting up dozens of apps or anything.</p>
+
+<p>Just switching it on for the login credential checking, and then immediately off again.</p>
+
+<p>Avoiding <a href="https://duckduckgo.com/?q=smartphone+danger">smartphone danger</a>;
+<a href="https://duckduckgo.com/?q=Too+much+digital+is+bad+for+you">too much digital is bad for you</a>.</p>
+
+<h4><a name="3"></a> Handling Third Party Library DLL Conflicts</h4>
+
+<p>Back to a more technology friendly topic... or is it?</p>
+
+<p>One recurring problematic topic is
+on <a href="https://thebuildingcoder.typepad.com/blog/2017/06/handling-third-party-library-dll-conflicts.html">handling third party library DLL conflicts</a>.</p>
+
+<p>A new query related to that came up, asking:</p>
+
+<p><strong>Question:</strong> I recently released a new add-in to my colleagues in the company.
+Unfortunately, they report a failure starting it if they are already using another third-party add-in.
+It throws the following file load exception:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4ec9335200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4ec9335200b img-responsive" alt="File load exception" title="File load exception" src="/assets/image_dd2c61.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>What can I do to fix this?</p>
+
+<p><strong>Answer:</strong> This looks like a conflict between two versions of a .NET assembly DLL that both of the add-ins are dependent on.</p>
+
+<p>The two add-ins require different versions and a conflict ensues.</p>
+
+<p>You are not the first to run into such an issue, as you can see from the list of old discussions 
+on <a href="https://thebuildingcoder.typepad.com/blog/2017/06/handling-third-party-library-dll-conflicts.html">handling third party library DLL conflicts</a> from 2017.</p>
+
+<p>For new suggestions and solutions that came up since then, you can search
+the <a href="https://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> for
+'dll conflict' and study more recent articles here on the blog:</p>
+
+<ul>
+<li><a href="#https://thebuildingcoder.typepad.com/blog/2019/04/whats-new-in-the-revit-2020-api.html#4.1.1">Revit automatically initializes CefSharp</a></li>
+<li><a href="#https://thebuildingcoder.typepad.com/blog/2019/04/set-floor-level-and-use-ipc-for-disentanglement.html#4">CefSharp DLL entanglement solution using IPC</a></li>
+<li><a href="#https://thebuildingcoder.typepad.com/blog/2019/09/extensible-storage-external-event-dll-and-pipe-face.html#4">External DLL loading</a></li>
+</ul>
+
+<p>As you can see from these examples, you have two choices:</p>
+
+<ul>
+<li>If Revit and / or several different add-ins use the same DLL, ensure that they all use the same version.</li>
+<li>If this is not possible for some reason, disconnect your usage of the problematic DLL from the Revit add-in <code>AppDomain</code> and use some other method to access the functionality you require, e.g., via <a href="https://en.wikipedia.org/wiki/Inter-process_communication">inter-process communication IPC</a>.</li>
+</ul>
+
+<p>In this specific case, it sounds to me as if you are the creator of one add-in, and another add-in uses the same support DLL as you do.</p>
+
+<p>In that case, I suggest you modify your add-in to work with whatever version of the support DLL happens to be loaded.</p>
+
+<p>Alternatively, wrap the support DLL functionality into something that you have control over, so that you can do whatever you like with it.</p>
+
+<h4><a name="4"></a> Replicating Schedule Sort Order</h4>
+
+<p>Frank <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/2083518">@Fair59</a> Aarssen comes to the rescue once again, presenting a very comprehensive and well explained solution
+to <a href="https://forums.autodesk.com/t5/revit-api-forum/replicate-graphical-column-schedule-sort-order-with-c/m-p/9105470">replicate graphical column schedule sort order with C#</a> by
+implementing a custom <code>ColumnMarkComparer</code> class implementing <code>IComparer&lt;FamilyInstance&gt;</code>:</p>
+
+<p><strong>Question:</strong> I am trying to write an add-in with C# to automate the process of sequentially labelling structural columns to match the sequence in the graphical column schedule.</p>
+
+<p>I have written the following code to get all the concrete columns in the project and then create a list of their Column Location Marks,  i.e., A(2000)-1(2150), built-in category:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:#2b91af;">ElementCategoryFilter</span>&nbsp;filter&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ElementCategoryFilter</span>(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_StructuralColumns&nbsp;);
+
+&nbsp;&nbsp;StructuralMaterialTypeFilter&nbsp;filter_mat&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;StructuralMaterialTypeFilter(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StructuralMaterialType.Concrete&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">IList</span>&lt;<span style="color:#2b91af;">Element</span>&gt;&nbsp;columns&nbsp;=&nbsp;collector
+&nbsp;&nbsp;&nbsp;&nbsp;.WherePasses(&nbsp;filter&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;.WherePasses(&nbsp;filter_mat&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;.WhereElementIsNotElementType()
+&nbsp;&nbsp;&nbsp;&nbsp;.ToElements();
+
+&nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">XYZ</span>&gt;&nbsp;locations&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">XYZ</span>&gt;();
+&nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:blue;">string</span>&gt;&nbsp;colmarks&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:blue;">string</span>&gt;();
+
+&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;ele&nbsp;<span style="color:blue;">in</span>&nbsp;columns&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;colmark&nbsp;=&nbsp;ele.get_Parameter(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.COLUMN_LOCATION_MARK&nbsp;).AsString();
+&nbsp;&nbsp;&nbsp;&nbsp;colmarks.Add(&nbsp;colmark&nbsp;);
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;colmarks.Sort();
+</pre>
+
+<p>My trouble comes at this point.
+The <code>colmarks.Sort</code> method does not match the order of the columns in the graphical column schedule.</p>
+
+<p>I have also tried sorting the columns by their <code>XYZ</code> location which doesn't match the order in the graphical column schedule either.</p>
+
+<p>Can anyone provide any insight into how the graphical column schedule orders the columns and how I can replicate this?</p>
+
+<p>Here is the graphical column schedule sort order I am aiming for:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4c7d9cd200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4c7d9cd200d image-full img-responsive" alt="Graphical column schedule sort order" title="Graphical column schedule sort order" src="/assets/image_bc0f8a.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>I've tried a few different ways which involve creating a list of the parameter as strings and then sorting or using <code>OrderBy</code> like this:</p>
+
+<pre class="code">
+  <span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">Element</span>&gt;&nbsp;sortedElements&nbsp;=&nbsp;columns
+  &nbsp;&nbsp;.OrderBy(&nbsp;x&nbsp;=&gt;&nbsp;x.get_Parameter(&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.COLUMN_LOCATION_MARK&nbsp;).AsString()&nbsp;)
+  &nbsp;&nbsp;.ToList();
+</pre>
+
+<p>That does not help:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a49ea40a200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a49ea40a200c img-responsive" style="width: 223px; display: block; margin-left: auto; margin-right: auto;" alt="Graphical column schedule sort order in C#" title="Graphical column schedule sort order in C#" src="/assets/image_513633.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>I have the same issue in Dynamo too; the order seems to match my code but not the graphical column schedule:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4ec9343200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4ec9343200b image-full img-responsive" alt="Graphical column schedule sort order in Dynamo" title="Graphical column schedule sort order in Dynamo" src="/assets/image_0e6ea0.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>I also read the thread on
+<a href="https://forums.autodesk.com/t5/revit-ideas/graphical-column-schedule-in-revit-sort-by-specified-parameter/idi-p/8190431">Graphical column schedule in Revit &ndash; sort by specified parameter</a>
+and still hope someone can shed some light on the logic Revit uses to sort the columns in the graphical column schedule so that I can replicate it with my own code in C#.</p>
+
+<p><strong>Answer:</strong> Implement your own comparison class.</p>
+
+<p>LocationMark syntax:</p>
+
+<pre>
+  A(xxxx)-1(yyyy)
+</pre>
+
+<p>Sort order:</p>
+
+<ul>
+<li>Grid sequence A: alphabetic ascending</li>
+<li>Grid sequence 1: alphabetic ascending</li>
+<li>xxxx value: first the positive values from smallest to largest, then negative values from smallest to largest</li>
+<li>yyyy value: first the positive values from smallest to largest, then negative values from smallest to largest</li>
+</ul>
+
+<pre class="code">
+<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">FamilyInstance</span>&gt;&nbsp;GetSortedColumns(&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;)
+{
+&nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">FamilyInstance</span>&gt;&nbsp;colums
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.WhereElementIsNotElementType()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfCategory(&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_StructuralColumns&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">FamilyInstance</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Cast&lt;<span style="color:#2b91af;">FamilyInstance</span>&gt;()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.ToList();
+
+&nbsp;&nbsp;colums.Sort(&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ColumnMarkComparer</span>()&nbsp;);
+
+&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;colums;
+}
+</pre>
+
+<p>Extension method helper class:</p>
+
+<pre class="code">
+<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">Extensions</span>
+{
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">string</span>&nbsp;GetColumnLocationMark(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">this</span>&nbsp;<span style="color:#2b91af;">FamilyInstance</span>&nbsp;f&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Parameter</span>&nbsp;p&nbsp;=&nbsp;f.get_Parameter(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.COLUMN_LOCATION_MARK&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>(&nbsp;p&nbsp;==&nbsp;<span style="color:blue;">null</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?&nbsp;<span style="color:blue;">string</span>.Empty
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;p.AsString();
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p>Comparer helper class:</p>
+
+<pre class="code">
+<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">ColumnMarkComparer</span>&nbsp;:&nbsp;<span style="color:#2b91af;">IComparer</span>&lt;<span style="color:#2b91af;">FamilyInstance</span>&gt;
+{
+&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;<span style="color:#2b91af;">IComparer</span>&lt;<span style="color:#2b91af;">FamilyInstance</span>&gt;.Compare(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">FamilyInstance</span>&nbsp;x,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">FamilyInstance</span>&nbsp;y&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;x&nbsp;==&nbsp;<span style="color:blue;">null</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;y&nbsp;==&nbsp;<span style="color:blue;">null</span>&nbsp;?&nbsp;0&nbsp;:&nbsp;-1;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;y&nbsp;==&nbsp;<span style="color:blue;">null</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;1;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>[]&nbsp;mark1&nbsp;=&nbsp;x.GetColumnLocationMark()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Split(&nbsp;<span style="color:#a31515;">&#39;(&#39;</span>,&nbsp;<span style="color:#a31515;">&#39;)&#39;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>[]&nbsp;mark2&nbsp;=&nbsp;y.GetColumnLocationMark()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Split(&nbsp;<span style="color:#a31515;">&#39;(&#39;</span>,&nbsp;<span style="color:#a31515;">&#39;)&#39;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;mark1.Length&nbsp;&lt;&nbsp;4&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;mark2.Length&nbsp;&lt;&nbsp;4&nbsp;?&nbsp;0&nbsp;:&nbsp;-1;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;mark2.Length&nbsp;&lt;&nbsp;4&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;1;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;gridsequence&nbsp;A</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;res&nbsp;=&nbsp;<span style="color:blue;">string</span>.Compare(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mark1[&nbsp;0&nbsp;],&nbsp;mark2[&nbsp;0&nbsp;]&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;res&nbsp;!=&nbsp;0&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;res;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;gridsequence&nbsp;1</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;m12&nbsp;=&nbsp;mark1[&nbsp;2&nbsp;].Remove(&nbsp;0,&nbsp;1&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;m22&nbsp;=&nbsp;mark2[&nbsp;2&nbsp;].Remove(&nbsp;0,&nbsp;1&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;res&nbsp;=&nbsp;<span style="color:blue;">string</span>.Compare(&nbsp;m12,&nbsp;m22&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;res&nbsp;!=&nbsp;0&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;res;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;value&nbsp;xxxx</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">double</span>&nbsp;d1&nbsp;=&nbsp;0;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">double</span>&nbsp;d2&nbsp;=&nbsp;0;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">double</span>.TryParse(&nbsp;mark1[&nbsp;1&nbsp;],&nbsp;<span style="color:blue;">out</span>&nbsp;d1&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">double</span>.TryParse(&nbsp;mark2[&nbsp;1&nbsp;],&nbsp;<span style="color:blue;">out</span>&nbsp;d2&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;<span style="color:#2b91af;">Math</span>.Round(&nbsp;d1&nbsp;-&nbsp;d2,&nbsp;4&nbsp;)&nbsp;!=&nbsp;0&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;d1&nbsp;&lt;&nbsp;0&nbsp;^&nbsp;d2&nbsp;&lt;&nbsp;0&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;d1&nbsp;&lt;&nbsp;0&nbsp;?&nbsp;1&nbsp;:&nbsp;-1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">else</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#2b91af;">Math</span>.Abs(&nbsp;d1&nbsp;)&nbsp;&lt;&nbsp;<span style="color:#2b91af;">Math</span>.Abs(&nbsp;d2&nbsp;)&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?&nbsp;-1&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;value&nbsp;yyyy</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">double</span>.TryParse(&nbsp;mark1[&nbsp;3&nbsp;],&nbsp;<span style="color:blue;">out</span>&nbsp;d1&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">double</span>.TryParse(&nbsp;mark2[&nbsp;3&nbsp;],&nbsp;<span style="color:blue;">out</span>&nbsp;d2&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;<span style="color:#2b91af;">Math</span>.Round(&nbsp;d1&nbsp;-&nbsp;d2,&nbsp;4&nbsp;)&nbsp;!=&nbsp;0&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;d1&nbsp;&lt;&nbsp;0&nbsp;^&nbsp;d2&nbsp;&lt;&nbsp;0&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;d1&nbsp;&lt;&nbsp;0&nbsp;?&nbsp;1&nbsp;:&nbsp;-1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">else</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#2b91af;">Math</span>.Abs(&nbsp;d1&nbsp;)&nbsp;&lt;&nbsp;<span style="color:#2b91af;">Math</span>.Abs(&nbsp;d2&nbsp;)&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?&nbsp;-1&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;0;
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p>Many thanks to Fair59 for providing yet another effective high-level answer, which also solves a subsequent question
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/sort-scheduled-elements-base-on-it-s-sort-group-fields-to-be/m-p/9142870">sorting scheduled elements based on their sort and group fields</a>.</p>
+
+<p>I added his code
+to <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder samples</a>, cf. 
+the <a href="https://github.com/jeremytammik/the_building_coder_samples/compare/2020.0.147.18...2020.0.147.19">diff to the previous release</a>.</p>

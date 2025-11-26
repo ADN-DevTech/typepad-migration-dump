@@ -1,0 +1,266 @@
+---
+layout: "post"
+title: "Simple IUpdater and other TBC Updates"
+date: "2020-12-09 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "DMU"
+  - "Parameters"
+  - "Parts"
+  - "RevitLookup"
+  - "SDK Samples"
+  - "Update"
+  - "Utilities"
+  - "View"
+original_url: "https://thebuildingcoder.typepad.com/blog/2020/12/simple-iupdater-and-other-tbc-updates.html "
+typepad_basename: "simple-iupdater-and-other-tbc-updates"
+typepad_status: "Publish"
+---
+
+<p>A nice new minimal DMU example, updates and enhancements to other important sample applications:</p>
+
+<ul>
+<li><a href="#2">Simple dynamic model updater example</a></li>
+<li><a href="#3">ExportCncFab <code>SortMark</code> update</a></li>
+<li><a href="#4">RevitLookup exception on view <code>GetTemplateParameterIds</code></a></li>
+</ul>
+
+<h4><a name="2"></a> Simple Dynamic Model Updater Example</h4>
+
+<p>Alan Clarke shared a nice new simple Dynamic Model Updater or DMU sample in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/iupdater-simple-example-needed/m-p/9893248"><code>IUpdater</code>, simple example needed</a>,
+saying:</p>
+
+<blockquote>
+  <p>Hi Jeremy, I just want to share my solution, with help from a friend.
+  I hope this is simple enough of an example and helpful for others.
+  This is an <code>IExternalCommand</code> example.</p>
+</blockquote>
+
+<p>I like it and integrated it
+into <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder samples</a>
+<a href="https://github.com/jeremytammik/the_building_coder_samples/releases/tag/2021.0.150.10">release 2021.0.150.10</a>.</p>
+
+<p>Here is the <a href="https://github.com/jeremytammik/the_building_coder_samples/compare/2021.0.150.9...2021.0.150.10">diff to the previous release</a>.</p>
+
+<p>In doing so, I noticed they already did include another nice DMU sample in the module <code>CmdElevationWatcher</code> that reacts to elevation view creation.
+It compares the use of DMU versus the <code>DocumentChanged</code> event to track that happening, discussed in the article
+on <a href="https://thebuildingcoder.typepad.com/blog/2012/06/documentchanged-versus-dynamic-model-updater.html"><code>DocumentChanged</code> versus Dynamic Model Updater</a>.</p>
+
+<p>Here is my slightly modified version of your code:</p>
+
+<pre class="code">
+[<span style="color:#2b91af;">Transaction</span>(&nbsp;<span style="color:#2b91af;">TransactionMode</span>.Manual&nbsp;)]
+<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">CmdSimpleUpdaterExample</span>&nbsp;:&nbsp;<span style="color:#2b91af;">IExternalCommand</span>
+{
+&nbsp;&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">SimpleUpdater</span>&nbsp;:&nbsp;<span style="color:#2b91af;">IUpdater</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">const</span>&nbsp;<span style="color:blue;">string</span>&nbsp;Id&nbsp;=&nbsp;<span style="color:#a31515;">&quot;d42d28af-d2cd-4f07-8873-e7cfb61903d8&quot;</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UpdaterId</span>&nbsp;_updater_id&nbsp;{&nbsp;<span style="color:blue;">get</span>;&nbsp;<span style="color:blue;">set</span>;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;SimpleUpdater(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">AddInId</span>&nbsp;addInId&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_updater_id&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">UpdaterId</span>(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;addInId,&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Guid</span>(&nbsp;Id&nbsp;)&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RegisterUpdater(&nbsp;doc&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RegisterTriggers();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;RegisterUpdater(&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;<span style="color:#2b91af;">UpdaterRegistry</span>.IsUpdaterRegistered(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_updater_id,&nbsp;doc&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UpdaterRegistry</span>.RemoveAllTriggers(&nbsp;_updater_id&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UpdaterRegistry</span>.UnregisterUpdater(&nbsp;_updater_id,&nbsp;doc&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UpdaterRegistry</span>.RegisterUpdater(&nbsp;<span style="color:blue;">this</span>,&nbsp;doc&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;RegisterTriggers()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;<span style="color:blue;">null</span>&nbsp;!=&nbsp;_updater_id&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp;&nbsp;<span style="color:#2b91af;">UpdaterRegistry</span>.IsUpdaterRegistered(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_updater_id&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UpdaterRegistry</span>.RemoveAllTriggers(&nbsp;_updater_id&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UpdaterRegistry</span>.AddTrigger(&nbsp;_updater_id,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ElementCategoryFilter</span>(&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_Walls&nbsp;),&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Element</span>.GetChangeTypeAny()&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;Execute(&nbsp;<span style="color:#2b91af;">UpdaterData</span>&nbsp;data&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;=&nbsp;data.GetDocument();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">ElementId</span>&gt;&nbsp;ids&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;data.GetModifiedElementIds();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">IEnumerable</span>&lt;<span style="color:blue;">string</span>&gt;&nbsp;names&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;ids.Select&lt;<span style="color:#2b91af;">ElementId</span>,&nbsp;<span style="color:blue;">string</span>&gt;(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;=&gt;&nbsp;doc.GetElement(&nbsp;id&nbsp;).Name&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;<span style="color:#a31515;">&quot;Simple&nbsp;Updater&quot;</span>,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>.Join&lt;<span style="color:blue;">string</span>&gt;(&nbsp;<span style="color:#a31515;">&quot;,&quot;</span>,&nbsp;names&nbsp;)&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">string</span>&nbsp;GetAdditionalInformation()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#a31515;">&quot;NA&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">ChangePriority</span>&nbsp;GetChangePriority()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#2b91af;">ChangePriority</span>.MEPFixtures;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">UpdaterId</span>&nbsp;GetUpdaterId()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;_updater_id;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">string</span>&nbsp;GetUpdaterName()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#a31515;">&quot;SimpleUpdater&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">Result</span>&nbsp;Execute(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ExternalCommandData</span>&nbsp;commandData,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">ref</span>&nbsp;<span style="color:blue;">string</span>&nbsp;message,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ElementSet</span>&nbsp;elements&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UIApplication</span>&nbsp;uiapp&nbsp;=&nbsp;commandData.Application;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;=&nbsp;uiapp.ActiveUIDocument.Document;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">AddInId</span>&nbsp;addInId&nbsp;=&nbsp;uiapp.ActiveAddInId;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">SimpleUpdater</span>&nbsp;su&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">SimpleUpdater</span>(&nbsp;doc,&nbsp;addInId&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#2b91af;">Result</span>.Succeeded;
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p>Many thanks to Alan for putting together and sharing this.</p>
+
+<h4><a name="3"></a> ExportCncFab SortMark Update</h4>
+
+<p>Another nice sample was also enhanced, prompted
+by <a href="https://github.com/SteelcoreSystems">SteelcoreSystems</a>'
+<a href="https://github.com/jeremytammik/ExportCncFab/issues/1">issue #1 &ndash; Add Instance Shared Parameter Value in Exported Filename</a> on
+the ExportCncFab add-in to export Revit wall parts to DXF or SAT for CNC fabrication:</p>
+
+<blockquote>
+  <p>I would like to know how to add an additional shared parameter instance value to the exported SAT/DXF filenames. The current SAT/DXF filename method only exports the "host level name_parentId_partId"</p>
+  
+  <p>Only exporting the Revit element id makes it difficult and time consuming to determine what part was exported after exporting many elements. I have added an instance shared parameter to my Revit models and assigned it to parts. The goal is to have this instance shared parameter value included within each exported filename.</p>
+  
+  <p>When exporting, I get the following default file name:
+      <pre class="code">
+        [Level Name]_136667_136683.sat
+      </pre></p>
+  
+  <p>I would like for the file name to be exported with the "SortMark" instance value:
+      <pre class="code">
+        [Level Name]_[SortMark]_136667_136683.sat
+        Level 0_3SB-10_13667_136683.sat
+      </pre></p>
+  
+  <p>Here is an image of the modified code:</p>
+</blockquote>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e97eda87200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e97eda87200b image-full img-responsive" alt="ExportCncFab SortMark" title="ExportCncFab SortMark" src="/assets/image_617979.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Before buckling down to this, I migrated ExportCncFab from Revit 2019 to Revit 2020 and Revit 2021.
+That was trivial.</p>
+
+<p>Then I implemented the required enhancement that you can see in
+the <a href="https://github.com/jeremytammik/ExportCncFab/compare/2021.0.0.0...2021.0.0.1">diff for adding the sort mark</a>.</p>
+
+<p><strong>Response:</strong> Great Work! I made the adjustments and on the first try everything exported perfectly.
+I greatly appreciate you making it easy to assign any parameter name for value exporting.</p>
+
+<p>Under the ExportCncFab/ExportParameters.cs file at line 32, I was able to change
+const string <code>_sort_mark</code> = <code>"CncFabSortMark"</code> to my desired parameter.</p>
+
+<p>Also, I have been able to customize the code for exporting floor parts, wall parts, and structural steel framing elements.
+So far, it has worked perfectly with every <code>OST</code> family I have tested.
+It is a great app!</p>
+
+<p>Many thanks to SteelcoreSystems for raising this issue and your nice appreciation.</p>
+
+<h4><a name="4"></a> RevitLookup Exception on View GetTemplateParameterIds</h4>
+
+<p>We also updated RevitLookup to handle
+the <a href="https://github.com/jeremytammik/RevitLookup/issues/65">issue #65 &ndash; Unhandled exception on View.GetTemplateParameterIds</a> raised
+by <a href="https://github.com/RevitArkitek">RevitArkitek</a>.</p>
+
+<p>I suggested submitting a pull request for this functionality, which involved talking them through the basic steps required for this fundamental GitHub collaboration operation: fork, clone, modify, commit, pull.</p>
+
+<p><strong>Question:</strong> In a view (whether it's a view template or not), I click on <code>GetTemplateParameterIds</code>, a <code>NullReferenceException</code> is thrown.</p>
+
+<p><strong>Answer:</strong> Thank you for pointing it out.
+Are you a programmer?
+Do you have Visual Studio or something similar installed?
+Can you run RevitLookup and Revit.exe in the debugger and see where this happens?
+In that case, can you please wrap the offending line of code in a try/catch handler to handle the exception?
+And submit a pull request with the fixed code?
+That would be great!
+Thank you!</p>
+
+<p>Later: I searched the RevitLookup source code globally to try to understand how this can occur.
+I searched, found and analysed all occurrences of SnoopableObjectWrapper and GetUnderlyingType, and they all make perfect sense and look perfectly all right to me.
+GetTemplateParameterIds is a member on the View class.
+It is called dynamically, and I cannot tell from your report how to trigger such a call.
+Therefore, it would be helpful if you could do so.
+The problem is probably trivial to fix and faster done than writing this long message.
+Looking forward to your pull request!
+Thank you!</p>
+
+<p><strong>Response:</strong> When I debugged, Object in public Type GetUnderlyingType() => Object.GetType(); was null.
+I changed to public Type GetUnderlyingType() => Object?.GetType();
+Then, in the Objects.AddObjectsToTree I had to handle the null being returned.
+After that, it would open the next dialog.</p>
+
+<p><strong>Answer:</strong> Thank you! That helps narrow it down tremendously.
+Could you share the handling code in <code>AddObjectsToTree</code>, or submit a pull request for the changes?
+Have you made any other modifications and improvements? Cheers!</p>
+
+<p><strong>Response:</strong> I'm going to do a little testing, and then try to do a Pull request.
+I've never done that before. Thanks!</p>
+
+<p>Later: I figured out that the main issue was further up the code and had to add a couple of handlers for these objects.
+Unfortunately, it won't let me push my commit.
+GitHub desktop doesn't recognize my username/password.
+Not sure how to proceed.</p>
+
+<p><strong>Answer:</strong> Wow, that sounds very good!
+Looking forward very much to see your approach.
+Yes, that is completely normal.
+You cannot commit straight to my repository, since you might wreck the project for me.
+That is obvious and expected.
+The solution is easy: (i) fork my repository to your own copy of it. (ii) clone your repository, make changes, and commit as you please. (iii) in your forked directory, submit a pull request. that enables me to see the changes you made and merge them back into my main original source repo.
+It all makes total sense and is utterly powerful and convenient.
+You have learned something useful.
+Search for something like <a href="https://duckduckgo.com/?q=github+fork+commit+pull+merge">github fork commit pull merge</a>.
+That gives many hits.
+One is <a href="https://crunchify.com/how-to-fork-github-repository-create-pull-request-and-merge">How to Fork Github Repository, Create Pull Request and Merge?</a></p>
+
+<p>That interaction promptly resulted
+in <a href="https://github.com/jeremytammik/RevitLookup/pull/66">pull request #66 &ndash; Adds handlers for GetTemplateParameterIds and GetNonControlledTemplateParameterIds</a> that
+I integrated into <a href="https://github.com/jeremytammik/RevitLookup/releases/tag/2021.0.0.8">RevitLookup release 2021.0.0.8</a>.</p>
+
+<p>Since then, I created another <a href="https://github.com/jeremytammik/RevitLookup/releases/tag/2021.0.0.9">release 2021.0.0.9</a> to
+locally disable warning CS0618, <code>DisplayUnitType</code> is obsolete, for one specific use case.</p>
+
+<p>Very many thanks to RevitArkitek for their valuable contribution!</p>

@@ -1,0 +1,127 @@
+comments:
+- author: dharanidharan
+  email: ''
+  ip: 121.246.26.196
+  url: http://profile.typepad.com/6p0105364c8f8b970c
+  date: '2010-05-31 10:21:22'
+  body: "Hi Jeremy Tammik,\n\n i'm come with another query. i want to create the permanent\
+    \ Dimension. How to create it. In CreateDimension(Api Sample). It describe only\
+    \ the LocationCure(Like Beam, wall). Now i want to create Column also(Familyinstance\
+    \ it represent only locationpoint or any non-structural item).\n\n And how to\
+    \ locate or identify ReferencePlane in familyinstance. and what is array reference\
+    \ it represent what? (like ReferencePlane or someother). do you have any idea.\
+    \ pls share with me.\n\nRegards,\nDharanidharan R"
+- author: Jeremy Tammik
+  email: ''
+  ip: 85.34.247.161
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-01 07:07:27'
+  body: 'Dear Dharanidharan,
+
+
+    To create a dimensioning element, you need to determine some references to the
+    geometry being dimensioned.
+
+
+    The Building Coder sample command CmdNewDimensionLabel provides an example.
+
+
+    There are a number of ways to identify a reference plane. Two of them are demonstrated
+    by the findElement method in the Revit Family API labs, using the element name
+    and the plane normal vector:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/10/revit-family-creation-api-labs.html">http://thebuildingcoder.typepad.com/blog/2009/10/revit-family-creation-api-labs.html</a>
+
+
+    Cheers, Jeremy.'
+- author: dharanidharan
+  email: ''
+  ip: ''
+  url: http://profile.typepad.com/6p0105364c8f8b970c
+  date: '2010-06-02 04:38:52'
+  body: "Hi Jeremy Tammik,\n\n Thanks for your replay. i can create Dimension. But\
+    \ how to assign the Dimension lable.  Ill create the rectangle family and paste\
+    \ family instance in Document (South Elevation). Now select the object and get\
+    \ the information through GeometryObject. its return the four line (two vertical,\
+    \ two horizontal), then i can easily get line refrence and create the Dimension\
+    \ it dont make errors. \n  \n  Now, Dimension object accept only FamilyParameter.\
+    \ if i create the FamilyParameter using Familymanager it makes error (Family manager\
+    \ only used for Family Editor). then how can i assign the value in label with\
+    \ the familyparameter of familyinstance. \n\nThanks in advance\nDharanidharan\
+    \ R"
+- author: Jeremy Tammik
+  email: ''
+  ip: 85.34.247.161
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-03 02:07:38'
+  body: 'Dear Dharanidharan,
+
+
+    Congratulations on the great progress you have made.
+
+
+    Yes, the family manager only works in the family context, so if you absolutely
+    need to create a family parameter you will have to do so there.
+
+
+    I cannot tell you off-hand whether that is the way you have to go.
+
+
+    Cheers, Jeremy.'
+- author: dharanidharan
+  email: ''
+  ip: ''
+  url: http://profile.typepad.com/6p0105364c8f8b970c
+  date: '2010-06-04 10:27:48'
+  body: "Dharanidharan has sent you a teddy\n\n\n\n\n\n\n\n\n\n\n\n\n            Dharanidharan\n\
+    \n\n\n\n            To accept this gift please click the following link:\n\n\n\
+    \            Get Gift \n\n\n              Regards,\n\n              Dharanidharan\n\
+    \n\n\n\n\n\n\n\n\n\n\n\n            You can opt-out of Shtyle.fm emails."
+- author: eric
+  email: eric4today@gmail.com
+  ip: 158.132.107.86
+  url: ''
+  date: '2011-03-21 04:17:37'
+  body: 'Dear Jeremy,
+
+
+    I want to programatically create a legend view for doors and windows. Just learned
+    from your blog, there are no functions exposed to create legend components. We
+    have to create one, copy it and then change Component Type property.
+
+
+    It is easy to get all windows instances. But how could I get the legend components
+    used in a project? I mean those just listed in the family tree and not manually
+    created in a legend view.
+
+
+    Regards,
+
+    Eric'
+- author: Jeremy Tammik
+  email: ''
+  ip: 213.210.236.146
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-03-21 13:45:58'
+  body: 'Dear Eric,
+
+
+    You can filter for the BuiltInCategory.OST_LegendComponents.
+
+
+    Beyond that, there is not much to identify them with, I believe, except their
+    name, if you think you can rely on that.
+
+
+    Cheers, Jeremy.'
+- author: Israel Rodriguez
+  email: ''
+  ip: 189.100.205.151
+  url: http://profile.typepad.com/israelrodriguez1
+  date: '2013-04-12 20:02:40'
+  body: "Hi Jeremy,\n\nAny news about this Legend Component API?\n\nIs there anyway\
+    \ I can do a Symbol Swap at least inside the Legend View?\n\nI'm trying the following\
+    \ code:\n\nelement1.get_Parameter(BuiltInParameter.LEGEND_COMPONENT).Set(element2.Id);\n\
+    \nBut I'm getting the error: \nThe component you have selected is not visible\
+    \ in the selected view.\n\nAny help?\n\nThanks in advance,\nIsrael\n-----"

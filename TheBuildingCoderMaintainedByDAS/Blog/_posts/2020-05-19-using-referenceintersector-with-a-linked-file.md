@@ -1,0 +1,244 @@
+---
+layout: "post"
+title: "Using ReferenceIntersector with a Linked File"
+date: "2020-05-19 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "360"
+  - "Analysis"
+  - "BIM"
+  - "Forge"
+  - "Geometry"
+  - "Links"
+  - "RST"
+original_url: "https://thebuildingcoder.typepad.com/blog/2020/05/using-referenceintersector-with-a-linked-file.html "
+typepad_basename: "using-referenceintersector-with-a-linked-file"
+typepad_status: "Publish"
+---
+
+<p>Here are our topics for today:</p>
+
+<ul>
+<li><a href="#2">What is Forge in 90 seconds</a></li>
+<li><a href="#3">Locally opening RVT file managed by BIM360</a></li>
+<li><a href="#5">Programming tools for Robobat</a></li>
+<li><a href="#5">Using <code>ReferenceIntersector</code> in linked files</a></li>
+</ul>
+
+<h4><a name="2"></a> What is Forge in 90 Seconds</h4>
+
+<p>A new quick, high-level, non-technical overview of <a href="https://forge.autodesk.com">Autodesk Forge</a> is
+now available on YouTube, the 90-second <a href="https://youtu.be/LvtwXf0AgME"><em>What is Forge</em> introduction video</a>.
+This short introduction showcases the endless possibilities and some innovative solutions and workflows built with it.
+Featured footage includes demos from Moicon, CADshare, Xinaps, Project Frog, and InsiteVR.</p>
+
+<h4><a name="3"></a> Locally Opening RVT File Managed by BIM360</h4>
+
+<p><strong>Question:</strong> How can I open an RVT file managed by BIM360 locally using the Revit API, e.g., using <code>OpenAndActivateDocument</code>?</p>
+
+<p><strong>Answer:</strong> What exactly do you mean by <em>RVT file managed by BIM 360 locally</em>?</p>
+
+<p>Is the file stored in <em>%localappdata%\autodesk\revit\CollboarationCache</em>, coming from RCM?</p>
+
+<p><strong>Response:</strong> I am using BIM360 to manage the RVT file.
+I would now like to add some local processing using full Revit plus my custom add-in.
+Of course, I could use the <a href="https://forge.autodesk.com/api/data-management-cover-page/">Forge Data Management API</a> to
+download it, but I hope there is some way to achieve this directly using the Revit API.</p>
+
+<p><strong>Answer:</strong> Currently, Revit only supports opening RCM-based cloud models.
+Revit doesn’t yet support opening files directly uploaded to BIM360.</p>
+
+<p><strong>Response:</strong> What if the file was uploaded to BIM360 via RCW?</p>
+
+<p>Does the Revit API provide access to it then?</p>
+
+<p><strong>Answer:</strong> If the file was uploaded to BIM360 via RCW, officially termed as Initiate, and only accessible through the Revit UI and API, then yes, it can be opened via <code>OpenAndActivateDocument</code>.</p>
+
+<p>Here is a documentation on <a href="https://stackoverflow.com/questions/61098804/autodesk-forge-design-automation-error-opening-a-model-how-to-bypass-dialog/61101203#61101203">opening a BIM360 file in Design Automation</a>; note that this file is an eTransmitted Workshared file.</p>
+
+<p>If DA is not an option here, the right overload of to use in the Revit API is the <code>UIApplication</code> method <code>OpenAndActivateDocument</code> taking the arguments <code>ModelPath</code>, <code>OpenOptions</code>, <code>Boolean</code> and <code>IOpenFromCloudCallback</code>.</p>
+
+<p>You will also have to call the <code>ModelPathUtils</code> method <code>ConvertCloudGUIDsToCloudPath</code> taking <code>String</code>, <code>Guid</code>, <code>Guid</code> first.
+The two guids are the project id and model id used by RCM to identify the project and model.
+For an example, please refer to the discussion
+on <a href="https://stackoverflow.com/questions/51370445/how-to-get-project-guid-and-model-guid-from-pathname">how to get project Guid and model Guid from <code>PathName</code></a>. </p>
+
+<h4><a name="5"></a> Programming Tools for Robobat</h4>
+
+<p><strong>Question:</strong> I would like to program using the Robobat API.</p>
+
+<p>The documentation in RSA 2020 suggests using Visual Studio 2008.
+The current version of Visual Studio is 2020.</p>
+
+<p>Can you confirm what version of Visual Studio I can use for programming the Robobat API?</p>
+
+<p><strong>Answer:</strong> The Robot SDK can be installed from any version the standard Robot Structural Analysis installer.</p>
+
+<p>Select <em>Tools and Utilities</em> followed by <em>Autodesk Robot Structural Analysis Professional SDK</em>.</p>
+
+<p>The SDK includes the document <em>Getting Started Guide Robot API.pdf</em> with  information about Visual Studio.</p>
+
+<p>The statement about VS 2008 should be more precise and should in fact suggest VS2008 and all later versions.</p>
+
+<p>A few other things worth knowing:</p>
+
+<ul>
+<li>Starting from RSA 2012 all projects need to be compiled in x64 version</li>
+<li>You can use any programming language you like that supports .NET </li>
+<li>RSA 2020 uses the .NET Framework 4.7</li>
+<li>RSA 2021 uses the .NET Framework 4.8</li>
+</ul>
+
+<h4><a name="5"></a> Using ReferenceIntersector in Linked Files</h4>
+
+<p>Diving in a bit deeper into the Revit API,
+<a href="https://www.linkedin.com/in/ilya-ivanov-298997161/?locale=en_US">Ilia Ivanov</a> shares a nice example
+of <a href="https://forums.autodesk.com/t5/revit-api-forum/using-referenceintersector-in-linked-files/m-p/9516302">using <code>ReferenceIntersector</code> in linked files</a>:</p>
+
+<p>I faced the problem of how to use a <code>ReferenceIntersector</code> with <code>RevitLinkInstance</code> elements.</p>
+
+<p>I achieved a solution using filters etc. that works rather well and I would like to share with the community.</p>
+
+<p>My task was to add opening family instances to each wall intersected by a crossing pipe.
+I decided to implement that using <code>IUpdater</code>.
+My solution worked well with non-linked walls, using filters to make the <code>ReferenceIntersector</code> find only walls.
+However, when I started preparing the solution for linked walls, I faced a problem: references from the list <code>ReferenceWithContext</code> contain the id of a <code>RevitLinkInstance</code> and not the id of the target wall, so I couldn't gather the linked walls. </p>
+
+<p>I looked through the post
+on <a href="https://thebuildingcoder.typepad.com/blog/2015/07/using-referenceintersector-in-linked-files.html">using <code>ReferenceIntersector</code> in linked files</a> and
+found that we can't get the references from a linked file.</p>
+
+<p>Debugging my code further, I realized a solution.
+The <code>Reference</code> class has a property <code>LinkedElementId</code>.
+Given a <code>RevitLinkInstance</code> and the property of the element in the linked file we can retrieve the element in the linked file.
+But, when my pipe crosses the linked wall, the <code>ReferenceWithContext</code> list  contains some amount of elements with the same ids (LinkedElementId, Id), maybe because it also gathers geometry like faces etc.
+To distinguish the values in this list, I had to create a custom <code>EqualityCompare</code>.</p>
+
+<p>Finally, the code worked perfectly.</p>
+
+<p>Below is the method to gather count of intersected walls.</p>
+
+<p>Note that you need to run it in a 3D view without section boxes achieve good results.</p>
+
+<pre class="code">
+<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;GetWalls(&nbsp;<span style="color:#2b91af;">UIDocument</span>&nbsp;uidoc&nbsp;)
+{
+&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;=&nbsp;uidoc.Document;
+
+&nbsp;&nbsp;<span style="color:#2b91af;">Reference</span>&nbsp;pipeRef&nbsp;=&nbsp;uidoc.Selection.PickObject(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ObjectType</span>.Element&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;pipeElem&nbsp;=&nbsp;doc.GetElement(&nbsp;pipeRef&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">LocationCurve</span>&nbsp;lc&nbsp;=&nbsp;pipeElem.Location&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">LocationCurve</span>;
+&nbsp;&nbsp;<span style="color:#2b91af;">Curve</span>&nbsp;curve&nbsp;=&nbsp;lc.Curve;
+
+&nbsp;&nbsp;<span style="color:#2b91af;">ReferenceComparer</span>&nbsp;reference1&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ReferenceComparer</span>();
+
+&nbsp;&nbsp;<span style="color:#2b91af;">ElementFilter</span>&nbsp;filter&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ElementCategoryFilter</span>(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_Walls&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>&nbsp;collector&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">Func</span>&lt;<span style="color:#2b91af;">View3D</span>,&nbsp;<span style="color:blue;">bool</span>&gt;&nbsp;isNotTemplate&nbsp;=&nbsp;v3&nbsp;=&gt;&nbsp;!(v3.IsTemplate);
+&nbsp;&nbsp;<span style="color:#2b91af;">View3D</span>&nbsp;view3D&nbsp;=&nbsp;collector
+&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">View3D</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;.Cast&lt;<span style="color:#2b91af;">View3D</span>&gt;()
+&nbsp;&nbsp;&nbsp;&nbsp;.First&lt;<span style="color:#2b91af;">View3D</span>&gt;(&nbsp;isNotTemplate&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">ReferenceIntersector</span>&nbsp;refIntersector&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ReferenceIntersector</span>(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filter,&nbsp;<span style="color:#2b91af;">FindReferenceTarget</span>.Element,&nbsp;view3D&nbsp;);
+
+&nbsp;&nbsp;refIntersector.FindReferencesInRevitLinks&nbsp;=&nbsp;<span style="color:blue;">true</span>;
+&nbsp;&nbsp;<span style="color:#2b91af;">IList</span>&lt;<span style="color:#2b91af;">ReferenceWithContext</span>&gt;&nbsp;referenceWithContext&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;refIntersector.Find(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;curve.GetEndPoint(&nbsp;0&nbsp;),&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(curve&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">Line</span>).Direction&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">IList</span>&lt;<span style="color:#2b91af;">Reference</span>&gt;&nbsp;references&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;referenceWithContext
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Select(&nbsp;p&nbsp;=&gt;&nbsp;p.GetReference()&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Distinct(&nbsp;reference1&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Where(&nbsp;p&nbsp;=&gt;&nbsp;p.GlobalPoint.DistanceTo(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;curve.GetEndPoint(&nbsp;0&nbsp;)&nbsp;)&nbsp;&lt;&nbsp;curve.Length&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.ToList();
+
+&nbsp;&nbsp;<span style="color:#2b91af;">IList</span>&lt;<span style="color:#2b91af;">Element</span>&gt;&nbsp;walls&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">Element</span>&gt;();
+&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">Reference</span>&nbsp;reference&nbsp;<span style="color:blue;">in</span>&nbsp;references&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">RevitLinkInstance</span>&nbsp;instance&nbsp;=&nbsp;doc.GetElement(&nbsp;reference&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">RevitLinkInstance</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;linkDoc&nbsp;=&nbsp;instance.GetLinkDocument();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;element&nbsp;=&nbsp;linkDoc.GetElement(&nbsp;reference.LinkedElementId&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;walls.Add(&nbsp;element&nbsp;);
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;<span style="color:#a31515;">&quot;Count&nbsp;of&nbsp;wall&quot;</span>,&nbsp;walls.Count.ToString()&nbsp;);
+}
+
+<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">ReferenceComparer</span>&nbsp;:&nbsp;<span style="color:#2b91af;">IEqualityComparer</span>&lt;<span style="color:#2b91af;">Reference</span>&gt;
+{
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">bool</span>&nbsp;Equals(&nbsp;<span style="color:#2b91af;">Reference</span>&nbsp;x,&nbsp;<span style="color:#2b91af;">Reference</span>&nbsp;y&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;x.ElementId&nbsp;==&nbsp;y.ElementId&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;x.LinkedElementId&nbsp;==&nbsp;y.LinkedElementId&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">true</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">false</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">false</span>;
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">int</span>&nbsp;GetHashCode(&nbsp;<span style="color:#2b91af;">Reference</span>&nbsp;obj&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;hashName&nbsp;=&nbsp;obj.ElementId.GetHashCode();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;hashId&nbsp;=&nbsp;obj.LinkedElementId.GetHashCode();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;hashId&nbsp;^&nbsp;hashId;
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p>Unfortunately, no time to add comments to the code.</p>
+
+<p>Hope it may help somebody.</p>
+
+<p>Here is <a href="https://thebuildingcoder.typepad.com/files/reference_intersector_in_linked_files.zip">reference_intersector_in_linked_files.zip</a> containing a sample project with a macro to test.</p>
+
+<p>It includes two Revit files:</p>
+
+<ul>
+<li>Architectural link.rvt</li>
+<li>CountOfLinkedWalls.rvt</li>
+</ul>
+
+<p>The latter hosts the former as a linked file and contains a macro module named <code>CountOfIntersectedWalls</code> defining the method <code>GetWalls</code> listed above:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330264e2dbb963200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330264e2dbb963200d img-responsive" style="width: 327px; display: block; margin-left: auto; margin-right: auto;" alt="ReferenceIntersector in linked files" title="ReferenceIntersector in linked files" src="/assets/image_1f0c10.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>In case of need, here is also a code snippet to get a <code>StableRepresentation</code> for a linked wall's exterior face:</p>
+
+<pre class="code">
+<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">string</span>&nbsp;GetFaceRefRepresentation(&nbsp;
+&nbsp;&nbsp;<span style="color:#2b91af;">Wall</span>&nbsp;wall,&nbsp;
+&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc,&nbsp;
+&nbsp;&nbsp;<span style="color:#2b91af;">RevitLinkInstance</span>&nbsp;instance&nbsp;)
+{
+&nbsp;&nbsp;<span style="color:#2b91af;">Reference</span>&nbsp;faceRef&nbsp;=&nbsp;<span style="color:#2b91af;">HostObjectUtils</span>.GetSideFaces(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;wall,&nbsp;<span style="color:#2b91af;">ShellLayerType</span>.Exterior&nbsp;).FirstOrDefault();
+&nbsp;&nbsp;<span style="color:#2b91af;">Reference</span>&nbsp;stRef&nbsp;=&nbsp;faceRef.CreateLinkReference(&nbsp;instance&nbsp;);
+&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;stable&nbsp;=&nbsp;stRef.ConvertToStableRepresentation(&nbsp;doc&nbsp;);
+&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;stable;
+}
+</pre>
+
+<p>Many thanks to Ilia for this nice solution and very helpful explanation!</p>
+
+<p>Added to <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder samples</a> 
+<a href="https://github.com/jeremytammik/the_building_coder_samples/releases/tag/2021.0.148.2">release 2021.0.148.2</a>.</p>

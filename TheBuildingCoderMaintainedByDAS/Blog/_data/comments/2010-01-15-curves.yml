@@ -1,0 +1,291 @@
+comments:
+- author: Erik
+  email: erik.eriksson@white.se
+  ip: 62.20.98.250
+  url: ''
+  date: '2011-03-02 11:45:28'
+  body: "Hi, \n\nIs there a way to change the endpoints of the curves? \nI've been\
+    \ trying to do this and have been looking for examples, but all I can find is\
+    \ examples of creating new curve-based elements. I'm looking for something like\
+    \ set_endpoints() (I know that method doesnt exist, but is there something like\
+    \ it?). \n\nThanks!\n\n/Erik"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-03-04 06:44:11'
+  body: 'Dear Erik,
+
+
+    It may seem easy to set the endpoint of a bounded line, but it is much more complex
+    for curves in general.
+
+
+    Furthermore, the Revit 2011 geometry library is mainly read-only, since it only
+    provides read access to the geometry of the Revit building model elements.
+
+
+    You cannot write to them directly through the geometry, since they are parametrically
+    defined, and the geometry is only a view of them, so to speak.
+
+
+    So in general the answer is no, no way to change the endpoint of an existing curve,
+    you have to create a new curve from scratch and use that instead.
+
+
+    Cheers, Jeremy.'
+- author: Long Nguyen
+  email: ng_ph_long@yahoo.com
+  ip: 115.78.134.201
+  url: ''
+  date: '2012-09-14 06:17:56'
+  body: 'Hi Jeremy
+
+
+    First of all, thank you for maintaing such a great blog. You and Zach Kron have
+    been inspring me and my students with your blogs.
+
+
+    In your article you mentioned NURB-Spline and Hermite Spline. I guessed that these
+    correspond to "Spline" and "Spline through points" in Revit user interface. Is
+    this correct?
+
+
+    If so, Hermite Spline as mentioned in your article depends on the tangent at each
+    control point. But Spline Through Points in Revit does not explicitly let the
+    user control these tangents. So please can you clarify how the tangent is managed
+    with spline-through-points.
+
+
+    Thanks you very much,'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.182.243
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-09-14 08:02:57'
+  body: "Dear Long Nguyen,\n\nThank you for your appreciation, it is a pleasure!\n\
+    \nZach Kron inspires and entertains me as well, very much!\n\nThe Revit API documentation\
+    \ states that the NurbSpline class represents a NURB spline, and the HermiteSpline\
+    \ class a Hermite spline, so that is not really much help.\n\nIn any case, the\
+    \ description above seems to match what you suggest.\n\nDoes your question refer\
+    \ to the user interface or the programmatic control of these objects?\n\nThrough\
+    \ the user interface, I have no idea whatsoever.\n\nTo control these tangents\
+    \ programmatically, the Hermite spline creation method NewHermiteSpline provides\
+    \ two overloads:\n\n- (IList(XYZ), Boolean) creates a Hermite spline with default\
+    \ tangency at its endpoints. \n\n- (IList(XYZ), Boolean, XYZ, XYZ) creates a Hermite\
+    \ spline with specified tangency at its endpoints.\n\nCheers, Jeremy."
+- author: Long Nguyen
+  email: ng_ph_long@yahoo.com
+  ip: 115.78.134.201
+  url: ''
+  date: '2012-09-15 12:28:17'
+  body: "Thank you for your (very fast) reply Jeremy. \n\nI actually referred to the\
+    \ tangent in the user interface, not in the API. \n\nOne question I have heard\
+    \ so many people asked is how to smoothly join two spline-through-points in Revit.\
+    \ I know that in order to do this, we must make sure that the tangents of the\
+    \ two spline-through-points where they meet line up perfectly. Sadly I cannot\
+    \ see how to achieve this since spline-through-points in the revit user interface\
+    \ does not explicitly let the user control the tangents. I know that the other\
+    \ type of spline in the user interface (the NURBS one) does expose the tangents\
+    \ to the user. However, since the control points of these NURB-Spline cannot be\
+    \ attached to reference points, the NURB-Spline are pretty much useless in parametric\
+    \ design where we want to use the parameters to control the shape of the curve.\
+    \ \n\nProbably I will try to look into the API to see if I can create a new class\
+    \ of Hermite Spline that expose the tangents in the user interface."
+- author: Bang
+  email: ''
+  ip: 113.160.59.238
+  url: http://profile.typepad.com/6p019103d52218970c
+  date: '2013-06-26 00:30:00'
+  body: "Hi Kean,\nHow to determine the Curve center between two Curves \ncorresponding\
+    \ bellow?\n\nArc – Arc\nCircle – Arc\nElliptical arc – Ellipse\nEllipse – Ellipse\n\
+    NURBS – NurbSpline\nHermite – HermiteSpline \n\nCould you help me?\n\nThank and\
+    \ Regards,"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-06-26 09:08:52'
+  body: 'Hi Bang,
+
+
+    Is this question for Jeremy or for me? :-)
+
+
+    Regards,
+
+
+    Kean'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.214.152
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-06-27 07:54:43'
+  body: 'Dear Bang,
+
+
+    That is a nice geometrical question you have.
+
+
+    The Revit Geometry API does not provide direct support for that functionality,
+    so you would have to implement it yourself, for instance by querying the two original
+    curves for their underlying parametric definition data, calculating the input
+    data for the curve between the two (complex!), and feeding that into the Revit
+    API again to generate it, e.g.
+
+
+    <a href="http://www.coe.org/p/fo/et/thread=18887">http://www.coe.org/p/fo/et/thread=18887</a>
+
+
+    Cheers, Jeremy.'
+- author: Bang
+  email: bcb.tb87@gmail.com
+  ip: 113.160.59.238
+  url: ''
+  date: '2013-06-28 23:21:14'
+  body: "Hi Jeremy,\n\n<a href=\"http://www.coe.org/p/fo/et/thread=18887\">http://www.coe.org/p/fo/et/thread=18887</a>\n\
+    \nI read it and I'll try, if you have code a specific example in Revit API with\
+    \ NurbSpline, HermiteSpline... I hope you share with me! \n\nThank and Regards,"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-08-13 09:32:35'
+  body: 'Dear Bang,
+
+
+    Thank you for the interesting pointer.
+
+
+    It would be quite easy to implement in Revit, actually, making use of the generic
+    parametrised curve functionality.
+
+
+    Just determine the two curve parameter ranges, [begin(1),end[1)] and [begin[2],
+    end(2)]. Iterate over the two ranges simultaneously, generating points p(1,i)
+    and p(2,i), calculate the midpaoints between them, and connect the dots.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.206.65
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-08-15 09:15:24'
+  body: 'Dear Bang,
+
+
+    I went and implemented my suggestion:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/08/generating-a-midcurve-between-two-curve-elements.html">http://thebuildingcoder.typepad.com/blog/2013/08/generating-a-midcurve-between-two-curve-elements.html</a>
+
+
+    I hope you like it.
+
+
+    Cheers, Jeremy.'
+- author: sandee kumar
+  email: sandeep.kumar@arup.com
+  ip: 70.39.231.60
+  url: ''
+  date: '2013-09-10 01:43:40'
+  body: 'Hello Jeremy,
+
+
+    I have List of points through which I want to create curve so that I can create
+    family instance.Actually in GSA analysis software there is explicit member which
+    is made of number of elements.Currently I am importing elements of member one
+    by one and so these are separate instance in Revit.If I can create curve through
+    list of points and I will be in situation to create single instance in Revit.Can
+    you please advice me something on this?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-10 09:07:44'
+  body: 'Dear Sandeep,
+
+
+    It is hard for me to say anything, because you leave so many aspects open.
+
+
+    Especially since it sounds to me as if you are creating the family yourself on
+    the fly.
+
+
+    That leaves you free to implement it in any way you see fit.
+
+
+    Sounds like fun.
+
+
+    Good luck!
+
+
+    Cheers, Jeremy.'
+- author: Olga
+  email: ''
+  ip: 212.3.115.3
+  url: http://profile.typepad.com/6p01b7c6ee0c1c970b
+  date: '2014-10-20 06:51:26'
+  body: "Hi Jeremy!\n\ncould you tell, please, is it possible to create closed spline\
+    \ using Revit API.\nTheoretically it is possible to do using next method:\nNurbSpline\
+    \ Create(\n\tIList<XYZ> controlPoints,\n\tIList<double> weights,\n\tIList<double>\
+    \ knots,\n\tint degree,\n\tbool closed,\n\tbool rational) \nThis method has parameter\
+    \ closed, but when I try to create spline with points:\np1 = new XYZ(28, 4, 0.07);\n\
+    p2 = (new XYZ(28, 4, 0.11);\np3 = (new XYZ(29, 4, 0.09);\np4 = (new XYZ(30, 4,\
+    \ 0.07);\np5 = (new XYZ(29, 4, 0.05);\np6 = (new XYZ(28, 4, 0.03);\np7 = (new\
+    \ XYZ(28, 4, 0.07);\n\nKnots are next:\n-0.333333; 0; 0; 0; 0.333333; 0.333333;\
+    \ 0.666667; 0.666667; 1.0; 1.0; 1.0;\nCurve degree = 3, points are 7,\nso knots\
+    \ count = 3 + 7 + 1 = 11.\n\nBut I'm getting error:\n\"The size of knots must\
+    \ equal the sum of degree, the size of the controlPoints array and 1. The first\
+    \ degree+1 knots should be identical, as should the last degree+1 knots. The knots\
+    \ in the middle of the sequence must be non-decreasing.\"\nIf I create spline\
+    \ with only part of points (from p1 to p4 ) I'm getting correct result.\nDoes\
+    \ API has some special rule for closed splines?\n\nThank you,\nOlga"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.187.74
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-10-31 02:41:56'
+  body: 'Dear Olga,
+
+
+    Sorry this is taking so long. I am discussing the issue with the development team.
+    Please hold on.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.187.74
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-10-31 09:10:37'
+  body: "Dear Olga,\n\nI heard back from the development team. They say:\n\nWe talked\
+    \ it over and couldn't find a valid use of closed NURBS curves in Revit proper.\n\
+    \nThe field is present, but never used. In fact, it would have been better not\
+    \ to expose it to the API in its current state.\n\nWe introduced the method NurbSpline.Create(controlPnts,\
+    \ weights) without the extra options because the rest of the parameters are never\
+    \ really varied in the Revit implementation. \n\nThat being said, the error reported\
+    \ is explaining what the method expects, specifically:\n\n“The first degree+1\
+    \ knots should be identical, as should the last degree+1 knots”\n\nIn general,\
+    \ the specified knot sequence doesn't make sense to us.\n\nAssuming our closed\
+    \ splines are defined in the same way as open ones, we'd expect something like\
+    \ 0,0,0, [five evenly spaced numbers between 0 and 1], 1, 1, 1.\n\nI hope this\
+    \ clarifies.\n\nCheers, Jeremy."
+- author: Olga
+  email: ''
+  ip: 212.3.115.3
+  url: http://profile.typepad.com/6p01b7c6ee0c1c970b
+  date: '2014-11-06 07:48:22'
+  body: 'Thank you very much, Jeremy!
+
+    It''s clear now.
+
+
+    Best regards,
+
+    Olga
+
+    -----'

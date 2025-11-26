@@ -1,0 +1,245 @@
+comments:
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.31.101
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-09-03 05:35:58'
+  body: 'Hi Jeremy,
+
+
+    How are you?
+
+    I''ve got a question for you.
+
+    I''ve searched but...no idea...
+
+
+    I''d like to change de view with API. For exemple, passing floor plan level0 to
+    the floor plan level1 with the API.
+
+    I rode that it could be possible using ShowElement..but how??
+
+
+    Cheers.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-09-03 06:44:38'
+  body: 'Dear Pierre,
+
+
+    Thank you, I am fine, I hope you are as well. I am sorry to say that there is
+    currently no possibility in the API to change a view. A wish list item for this
+    functionality has been recorded. One developer found a really horrible workaround
+    which does actually change the view, but it is only usable for internal debugging
+    and development purposes: if you pass the view back to Revit in the set of elements
+    to highlight in case of an error in an external command and then return ''Failed'',
+    the view is displayed together with the error message. Obviously this is not usable
+    for production purposes, but it does constitute a funny and surprising workaround.
+
+
+    Cheers, Jeremy.'
+- author: Owen
+  email: owen1226@gmail.com
+  ip: 69.196.186.41
+  url: ''
+  date: '2009-09-03 19:48:39'
+  body: 'Hi, Jeremy, how are you?
+
+
+    Thanks you answer my questions before.
+
+
+    I get questions for you.
+
+
+    The first one is an error called "Expected two different points.". I think this
+    error comes from two model line on superposition. And how can I make two model
+    line on superposiontion without error?
+
+
+    The second one is how to change the color of model line.
+
+
+    Thanks, have a good day.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-09-04 01:49:28'
+  body: 'Dear Owen,
+
+
+    Thank you, I am fine, I hope you are as well. Glad I could answer your questions.
+    I don''t know either how to reproduce or how to avoid the error you mention. You
+    might want to have a look at this post on the minimal length of model lines in
+    Revit, though:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/07/think-big-in-revit.html">http://thebuildingcoder.typepad.com/blog/2009/07/think-big-in-revit.html</a>
+
+
+    Regarding the colour settings, I do not know how to set line colour completely
+    freely. In Revit, things are generally managed in a systematic and parametric
+    manner, which ensures that the model remains well structured. In this case, you
+    can modify model line colours by changing line style settings. I did the following
+    to test this:
+
+
+    - Create a couple of model lines
+
+
+    - For each one of these, right click for the context menu and select Element Properties...
+    > Line style and pick a different line style.
+
+
+    - Right click somewhere in empty space in the current view to bring up the view
+    context menu, and select View Properties... > Visibility/Graphics Overrides >
+    Edit... > Model Categories > Visibility and search for the Lines entry. Click
+    on the little plus sign to display the lines subcategories.
+
+
+    - For each of the line styles you selected above, find the corresponding subcategory
+    and change the colour displayed in its Projection/Surface Lines column.
+
+
+    There are probably other methods as well.
+
+
+    Cheers, Jeremy.'
+- author: NAyche
+  email: ''
+  ip: 68.62.251.149
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2009-11-22 20:53:06'
+  body: "Jeremy,\n\nI am using \nDocument document = application.NewProjectDocument(string\
+    \ templateFile)\n\nRevit shows that it is loading the template as it does usually\
+    \ when it creates a new document; however, it does not really create the new document.\n\
+    \nany idea why?\n\nRegards,\nNadim"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-23 06:37:59'
+  body: "Dear Nadim,\n\nI implemented a sample external command CmdNewProjectDoc to\
+    \ test it for you and it works fine for me. Please refer to \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/11/new-project-document.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/11/new-project-document.html</a>\n\
+    \nCheers, Jeremy."
+- author: NAyche
+  email: ''
+  ip: 66.162.165.162
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2009-11-24 09:41:08'
+  body: 'Jeremy,
+
+
+    Thank you again for you response.
+
+
+    I guess the NewProjectDocument() method only creates a document but it does not
+    open it.
+
+    So it works so far, I got the doucment saved.
+
+
+    I tried to use the app.OpenDocumentFile(doc.PathName) to open it, it does not
+    display the document.  Even though it shows it does.
+
+
+    To verify, I subscribed a simple event handler to the app.OnDocumentOpen event
+    (I am using Revit 2009), it did not execute.
+
+
+    It sounds very simple to implement, but I just can’t find what I am missing.
+
+
+    Regards,
+
+    Nadim'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-24 10:42:07'
+  body: 'Dear Nadim,
+
+
+    Yes, correct, NewProjectDocument only creates a document and does not open it.
+
+
+    There is currently no API method at all to make a document current in the Revit
+    user interface. The only workaround I ever heard about is to use Process.Start
+    as described in the comments
+
+
+    http://thebuildingcoder.typepad.com/blog/2008/09/debugging-a-rev.html?cid=6a00e553e16897883301156fc1fed8970b#comment-6a00e553e16897883301156fc1fed8970b
+
+
+    Sorry for the bad news.
+
+
+    Cheers, Jeremy.'
+- author: NAyche
+  email: ''
+  ip: 66.162.165.162
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2009-11-24 12:05:48'
+  body: 'Thanks again Jeremy,
+
+    It works.
+
+
+    nothing is bad news as long as the RevitAPI developers are planning on fixing
+    it
+
+
+    So basically, the app.OpenDocumentFile() method will open the file but it would
+    not display it :)
+
+
+    Regards,
+
+    Nadim'
+- author: Jeremy Tammik
+  email: ''
+  ip: 84.57.46.115
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-24 12:27:11'
+  body: 'Dear Nadim,
+
+
+    Yes, exactly.
+
+
+    Cheers, Jeremy.'
+- author: wim Tas
+  email: wim@witas.be
+  ip: 81.82.124.3
+  url: http://www.witas.be
+  date: '2010-01-10 06:06:22'
+  body: 'I try to implement a macro in VSTA but cannot get this built. The compiler
+    keeps complaining about an abstract class XYZ. ''Cannot create an instance of
+    the abstract class or interface ''Autodesk.Revit.Geometry.XYZ''''
+
+    It seems like the XYZ class is defined as an abstract class in the VSTA environment
+    and as a public class in the visual studio environment. One can check this by
+    means of the object browser.
+
+    What'' the reason for the difference? Can I port it somehow to VSTA?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.153.123
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-11 16:04:29'
+  body: 'Dear Wim,
+
+
+    One thing that you need to pay attention to in VSTA is that you cannot use the
+    XYZ class default constructor. You have to use the creation application NewXYZ
+    method instead to create new instances of XYZ objects.
+
+
+    Cheers, Jeremy.
+
+    -----'

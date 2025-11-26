@@ -1,0 +1,309 @@
+---
+layout: "post"
+title: "What's New in the Revit 2022.1 API"
+date: "2021-11-08 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "2022"
+  - "Migration"
+  - "SDK Samples"
+  - "Update"
+original_url: "https://thebuildingcoder.typepad.com/blog/2021/11/whats-new-in-the-revit-20221-api.html "
+typepad_basename: "whats-new-in-the-revit-20221-api"
+typepad_status: "Publish"
+---
+
+<p><style>
+  ul.toc { list-style-type: none; }
+  h1.new { font-size: 150%; }
+  h2.new { font-size: 150%; }
+  h3.new { font-size: 120%; }
+  h4.new { font-size: 120%; }
+</style></p>
+
+<p>The <a href="https://thebuildingcoder.typepad.com/blog/2021/11/revit-20221-sdk-revitlookup-build-and-install.html#2">Revit 2022.1 API was recently released</a> and
+includes some important enhancements addressing new Revit product functionality and developer wishes and requests:</p>
+
+<ul>
+<li><a href="#1">Information sources</a></li>
+<li><a href="#2">What's new in previous versions</a></li>
+<li><a href="#3">Diff to the Revit 2022 SDK</a></li>
+<li><a href="#4">API Additions to the Revit 2022.1 API</a></li>
+</ul>
+
+<ul class="toc">
+<li>4.1 <a href="#4.1"> View API additions</a></li>
+<ul class="toc">
+<li>4.1.1. <a href="#4.1.1."> Duplicating Sheets</a></li>
+</ul>
+<li>4.2. <a href="#4.2."> Schedule API additions</a></li>
+<ul class="toc">
+<li>4.2.1. <a href="#4.2.1."> Schedule heights on sheets</a></li>
+<li>4.2.2. <a href="#4.2.2."> Managing schedule segments</a></li>
+</ul>
+<li>4.3. <a href="#4.3."> Worksharing API additions</a></li>
+<ul class="toc">
+<li>4.3.1. <a href="#4.3.1."> Delete Workset API</a></li>
+</ul>
+<li>4.4. <a href="#4.4."> Import and Export API additions</a></li>
+<ul class="toc">
+<li>4.4.1. <a href="#4.4.1."> AXM Import</a></li>
+<li>4.4.2. <a href="#4.4.2."> OBJ & STL import/export</a></li>
+</ul>
+</ul>
+
+<h4><a name="1"></a>Information Sources</h4>
+
+<p>The information below is based on the contents of the <em>Revit Platform API Changes and Additions.docx</em> document included with
+the Revit 2022 SDK, the software developers kit available from
+the <a href="https://www.autodesk.com/developer-network/platform-technologies/revit">Revit Developer Centre</a>.</p>
+
+<p>It is also provided in the section on <em>What's New</em> in the Revit 2022.1 API help file <code>RevitAPI.chm</code> included with the SDK:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330282e12ef43d200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330282e12ef43d200b img-responsive" style="width: 534px; display: block; margin-left: auto; margin-right: auto;" alt="Revit 2022.1 API help on What's New" title="Revit 2022.1 API help on What's New" src="/assets/image_0aa129.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>For convenient, easy, and effective web searching, this blog post provides a cleaned-up online HTML version of that information with numbering and table of contents added, as well as the following PDF printout of the original document included in the SDK:</p>
+
+<ul>
+<li><a href="https://thebuildingcoder.typepad.com/files/revit_platform_api_changes_and_additions_2022_1.pdf">Revit_Platform_API_Changes_and_Additions_2022_1.pdf</a></li>
+</ul>
+
+<p>The <em>What's New</em> section and the <em>Changes and Additions</em> document provide important information, both for discovering and exploring the newly added API functionality and for later reference.</p>
+
+<p>If you encounter any issues migrating your existing add-ins between different versions, this is one of the first places to look.</p>
+
+<p>For detailed information on all other aspects of the Revit API, please refer to the rest of the API documentation and samples provided in the SDK.</p>
+
+<p>The most important things to install and always keep at hand are:</p>
+
+<ul>
+<li>The Revit API help file <code>RevitAPI.chm</code></li>
+<li>The Visual Studio solution containing all the SDK samples, <code>Samples\SDKSamples.sln</code></li>
+</ul>
+
+<p>You will regularly need both for research on how to solve specific Revit API programming tasks.</p>
+
+<p>More in-depth official explanations and background information is provided by the
+online <a href="http://help.autodesk.com/view/RVT/2022/ENU/?guid=Revit_API_Revit_API_Developers_Guide_html">Revit API Developers Guide</a> included
+in the <a href="http://help.autodesk.com/view/RVT/2022/ENU">Revit 2022 online help</a>.</p>
+
+<h4><a name="2"></a>What's New in Previous Versions</h4>
+
+<p>Here are links to previous discussions of <em>What's New in the Revit API</em>:</p>
+
+<ul>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/02/whats-new-in-the-revit-2010-api.html">What's New in the Revit 2010 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/02/whats-new-in-the-revit-2011-api.html">What's New in the Revit 2011 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/02/whats-new-in-the-revit-2012-api.html">What's New in the Revit 2012 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/03/whats-new-in-the-revit-2013-api.html">What's New in the Revit 2013 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/04/whats-new-in-the-revit-2014-api.html">What's New in the Revit 2014 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2014/04/whats-new-in-the-revit-2015-api.html">What's New in the Revit 2015 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2015/04/whats-new-in-the-revit-2016-api.html">What's New in the Revit 2016 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2016/04/whats-new-in-the-revit-2017-api.html">What's New in the Revit 2017 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2016/11/whats-new-in-the-revit-20171-api.html">What's New in the Revit 2017.1 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/04/whats-new-in-the-revit-2018-api.html">What's New in the Revit 2018 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/08/revit-20181-and-the-visual-materials-api.html">Revit 2018.1 and the Visual Materials API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/09/revit-201811-fixes-cropbox-setting.html">Revit 2018.1.1 and 2018.1 API Docs Online</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/11/modifying-material-visual-appearance.html">Revit 2018.1 Visual Materials API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/12/whats-new-in-the-revit-20182-api.html">What's New in the Revit 2018.2 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2018/04/whats-new-in-the-revit-2019-api.html">What's New in the Revit 2019 API</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2019/04/whats-new-in-the-revit-2020-api.html">What's New in the Revit 2020 API</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2019/09/whats-new-in-the-revit-20201-api.html">What's New in the Revit 2020.1 API</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2020/04/whats-new-in-the-revit-2021-api.html">What's New in the Revit 2021 API</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2020/08/revit-20211-sdk-and-whats-new.html">What's New in the Revit 2021.1 API</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2021/04/whats-new-in-the-revit-2022-api.html">What's New in the Revit 2022 API</a></li>
+</ul>
+
+<h4><a name="3"></a>Diff to the Revit 2022 SDK</h4>
+
+<p>I performed a quick diff between this update release and the original Revit 2022 SDK and found no significant differences at all.</p>
+
+<p>Presumably unintentionally, numerous <code>obj</code> intermediate compilation results were included in the SDK release, so
+my <a href="https://thebuildingcoder.typepad.com/files/diff_2022_2022_1_obj.txt">first diff</a> was large, 155 KB.</p>
+
+<p>Disregarding the <code>obj</code> files, however, I end up with only these <a href="https://thebuildingcoder.typepad.com/files/diff_2022_2022_1.txt">differences</a>:</p>
+
+<pre>
+-- Revit 2022 : Revit 2022.1
+-- includes right-only and differing files:
+.\getting started with the revit api.docx (Revit 2022.1 is more recent)
+.\read me first.doc (Revit 2022.1 is more recent)
+.\revit platform api changes and additions.docx (Revit 2022.1 is more recent)
+.\revitaddinutility.chm (Revit 2022.1 is more recent)
+.\revitapi.chm (Revit 2022.1 is more recent)
+.\add-in manager\autodesk.addinmanager.command.dll (Revit 2022.1 is more recent)
+.\samples\samplescontent.htm (Revit 2022.1 is more recent)
+.\samples\samplesindex.htm (Revit 2022.1 is more recent)
+.\samples\cloudapisample\cs\readme_cloudapisample.rtf (Revit 2022 is more recent)
+-- 9 files listed
+</pre>
+
+<p></p>
+
+<p><center></p>
+
+<div style="border-style:solid; border-width:2px 0px 2px 0px">
+<a name="3"></a><h1 class="new" style="font-weight: bold">API Additions to the Revit 2022.1 API</h1>
+</div>
+
+<p></center></p>
+
+<p><a name="4.1"></a><h2 class="new">4.1. View API additions</h2></p>
+
+<p><a name="4.1.1."></a><h3 class="new">4.1.1. Duplicating Sheets</h3></p>
+
+<p>The new enum:</p>
+
+<ul>
+<li>SheetDuplicateOption</li>
+</ul>
+
+<p>allows you to indicate what information should be copied when duplicating a sheet. Its values are:</p>
+
+<ul>
+<li>DuplicateEmptySheet &ndash; Only copies the title block.</li>
+<li>DuplicateSheetWithDetailing &ndash; Copies the title block and details.</li>
+<li>DuplicateSheetWithViewsOnly &ndash; Copies the title block, details, viewports and contained views. The newly created sheet will reference the newly duplicated views.</li>
+<li>DuplicateSheetWithViewsAndDetailing &ndash; Copies the title block, details, and viewports. Duplicates the sheet's contained views with detailing. The newly created sheet will reference the newly duplicated views.</li>
+<li>DuplicateSheetWithViewsAsDependent &ndash; Copies the title block, details, and viewports. Duplicates the sheet's contained views as dependent. The newly created sheet will reference the newly duplicated dependent views.</li>
+</ul>
+
+<p>The new methods:</p>
+
+<ul>
+<li>ViewSheet.Duplicate(SheetDuplicateOption)</li>
+<li>ViewSheet.CanBeDuplicated(SheetDuplicateOption)</li>
+</ul>
+
+<p>allow you to duplicate sheets and identify sheets which can be duplicated.</p>
+
+<p><a name="4.2."></a><h2 class="new">4.2. Schedule API additions</h2>
+<a name="4.2.1."></a><h3 class="new">4.2.1. Schedule heights on sheets</h3></p>
+
+<p>The new class:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.ScheduleHeightsOnSheet</li>
+</ul>
+
+<p>returns the heights of schedule title, column header and each body row on sheet view.</p>
+
+<p>The new method:</p>
+
+<ul>
+<li>ViewSchedule.GetScheduleHeightsOnSheet()</li>
+</ul>
+
+<p>will return the heights object.</p>
+
+<p><a name="4.2.2."></a><h3 class="new">4.2.2. Managing schedule segments</h3>
+The new methods:</p>
+
+<ul>
+<li>ViewSchedule.IsSplit()</li>
+<li>ViewSchedule.Split(int segmentNumber)</li>
+<li>ViewSchedule.Split(IList&lt;double&gt; segmentHeights)</li>
+<li>ViewSchedule.SplitSegment()</li>
+<li>ViewSchedule.DeleteSegment()</li>
+<li>ViewSchedule.MergeSegments()</li>
+<li>ViewSchedule.GetSegmentCount()</li>
+<li>ViewSchedule.GetSegmentHeight()</li>
+<li>ViewSchedule.SetSegmentHeight()</li>
+</ul>
+
+<p>provide the ability to split schedules and manage schedule segments.</p>
+
+<p>The new method:</p>
+
+<ul>
+<li>ViewSchedule.GetScheduleInstances()</li>
+</ul>
+
+<p>will return the schedule sheet instances for a schedule segment.</p>
+
+<p>The new methods:</p>
+
+<ul>
+<li>ScheduleSheetInstance.SegmentIndex</li>
+<li>ScheduleSheetInstance.Create(Document document, ElementId viewSheetId, ElementId scheduleId, XYZ origin, int segmentIndex)</li>
+</ul>
+
+<p>provide the ability to place a schedule segment on sheet and to get and set the schedule segment instance's segment index.</p>
+
+<p><a name="4.3."></a><h2 class="new">4.3. Worksharing API additions</h2>
+<a name="4.3.1."></a><h3 class="new">4.3.1. Delete Workset API</h3></p>
+
+<p>The new method:</p>
+
+<ul>
+<li>WorksetTable.DeleteWorkset()</li>
+</ul>
+
+<p>supports deleting of worksets from the model.  It takes a DeleteWorksetSettings input with options for what to do with elements contained by that workset.</p>
+
+<p><a name="4.4."></a><h2 class="new">4.4. Import and Export API additions</h2>
+<a name="4.4.1."></a><h3 class="new">4.4.1. AXM Import</h3></p>
+
+<p>The new class:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.AXMImportOptions</li>
+</ul>
+
+<p>allows user to determine the import options when importing an AXM file.</p>
+
+<p>The new method:</p>
+
+<ul>
+<li>Document.Import(String, AXMImportOptions, View)</li>
+</ul>
+
+<p>imports an AXM file into the document.</p>
+
+<p>The new method:</p>
+
+<ul>
+<li>OptionalFunctionalityUtils.IsAXMImportLinkAvailable()</li>
+</ul>
+
+<p>checks if the Import FormIt function is available.</p>
+
+<p><a name="4.4.2."></a><h3 class="new">4.4.2. OBJ &amp; STL import/export</h3></p>
+
+<p>The new method:</p>
+
+<ul>
+<li>Document.Export(String, String, OBJExportOptions)</li>
+</ul>
+
+<p>supports export of Revit geometry to OBJ format.  It uses a new class containing the options available for export:</p>
+
+<ul>
+<li>OBJExportOptions.TargetUnit</li>
+<li>OBJExportOptions.SurfaceTolerance</li>
+<li>OBJExportOptions.NormalTolerance</li>
+<li>OBJExportOptions.MaxEdgeLength</li>
+<li>OBJExportOptions.GridAspectRatio</li>
+<li>OBJExportOptions.SetTessellationSettings()</li>
+</ul>
+
+<p>The new methods:</p>
+
+<ul>
+<li>Document.Import(String, OBJImportOptions, View)</li>
+<li>Document.Import(String, STLImportOptions, View)</li>
+</ul>
+
+<p>provide support for importing files of STL and OBJ formats.  These methods use new classes representing the options for each of the new formats.</p>
+
+<p>The new property:</p>
+
+<ul>
+<li>BaseImportOptions.DefaultLengthUnit</li>
+</ul>
+
+<p>supports specification of a default length unit to use during import of unitless STL and OBJ files.</p>

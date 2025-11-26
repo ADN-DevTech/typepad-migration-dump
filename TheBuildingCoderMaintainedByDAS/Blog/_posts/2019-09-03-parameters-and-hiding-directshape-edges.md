@@ -1,0 +1,121 @@
+---
+layout: "post"
+title: "Parameters and Hiding DirectShape Edges"
+date: "2019-09-03 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Dynamo"
+  - "Geometry"
+  - "Parameters"
+original_url: "https://thebuildingcoder.typepad.com/blog/2019/09/parameters-and-hiding-directshape-edges.html "
+typepad_basename: "parameters-and-hiding-directshape-edges"
+typepad_status: "Publish"
+---
+
+<p>I still have a backlog of questions from last week to process.</p>
+
+<p>Here are some of the discussions that came up:</p>
+
+<ul>
+<li><a href="#2">Shared parameter is either type or instance</a></li>
+<li><a href="#3">Transferring element parameters</a></li>
+<li><a href="#4">Hiding DirectShape internal face edges</a></li>
+</ul>
+
+<h4><a name="2"></a> Shared Parameter is Either Type or Instance</h4>
+
+<p>From the StackOverflow question
+on <a href="https://stackoverflow.com/questions/57653886/how-to-bind-a-shared-parameter-to-elements-of-both-type-and-instance">how to bind a shared parameter to both type and instance elements</a>:</p>
+
+<p><strong>Question:</strong> I create a shared parameter programmatically. This works well. I can also bind that parameter to different element types (categories) like Windows or Doors. However, once that is done for a type, I struggle to create a new binding to instances instead.</p>
+
+<p>Is there any way to use ONE single shared parameter and bind that to both types and instances?</p>
+
+<p><strong>Answer:</strong> I believe not. A shared parameter is bound to either types or instances, not both.</p>
+
+<p><strong>Response:</strong> Thank you for answering so quickly.</p>
+
+<p>I now tried to do it manually as well, through the UI, and got the message that it has already been added, so, unfortunately, you seem to be right. I am probably not the first to say this, but that is just weird behaviour. It forces me to create two parameters which have the completely identical definition to add them to different categories.</p>
+
+<p><strong>Answer:</strong> Yes.</p>
+
+<p>You must take into consideration that the shared parameters functionality was added very early in the Revit lifecycle and was completely oriented toward end user interaction. At the time, the Revit API did not even exist, and was not planned for.</p>
+
+<p>Possibly your use case is weird, from a BIM point of view. I am not an expert on the user interface side of things, so I cannot say.</p>
+
+<p>On the other hand, <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.23">extensible storage</a> was explicitly designed for API use.</p>
+
+<p>If you do not explicitly need the end user or Revit to see and manipulate your data, e.g., for scheduling or other purposes, you should consider using extensible storage instead.</p>
+
+<p>Neither Revit nor the end user will effectively see your extensible storage data.</p>
+
+<p>Depending on your exact needs, this may be what you want or not.</p>
+
+<h4><a name="3"></a> Transferring Element Parameters</h4>
+
+<p>How can one retrieve all parameters from an element?</p>
+
+<p><strong>Question:</strong> I am working on converting Revit room volumes into DirectShape elements (done already with info from your blog
+on <a href="https://thebuildingcoder.typepad.com/blog/2019/06/improved-room-closed-shell-directshape-for-forge-viewer.html">room closed shell DirectShape for Forge viewer</a>).</p>
+
+<p>The next step is to copy the room parameters into the DirectShape object, in such a way they appear correctly in the UI.</p>
+
+<p>Here is a picture of some DirectShapes (Mass in English, "Volume" in the French version) created with Dynamo:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a47e7de8200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a47e7de8200c image-full img-responsive" alt="DirectShape parameters" title="DirectShape parameters" src="/assets/image_021299.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>So, I'm able to retrieve the room parameters, and I would like now to create the same in the DS I just created so they show up in that UI.</p>
+
+<p>Note the "Comments" field is already working, I just don't know how to set the others... </p>
+
+<p><strong>Answer:</strong> The answer to this is included in the code you already looked at, in
+the <a href="https://github.com/jeremytammik/RoomVolumeDirectShape">RoomVolumeDirectShape GitHub repository</a>.</p>
+
+<p>look at the <a href="https://github.com/jeremytammik/RoomVolumeDirectShape/blob/master/RoomVolumeDirectShape/Command.cs#L695-L708">lines 695-L708 in Command.cs</a>,
+especially the lines containing '[Pp]aram'.</p>
+
+<p>Step through those in the debugger and you will see.</p>
+
+<p><strong>Response:</strong> Your code is not doing exactly what I was looking for; it copies all the room parameters into one single JSON string in the "Comment" section, whereas I need to populate specific parameters... but, luckily, I found out that those parameters already exist on the newly created DirectShape, probably created by default as part of the project. So, I don't have to create them, just set their values. I'm off the hook for now...</p>
+
+<h4><a name="4"></a> Hiding DirectShape Internal Face Edges</h4>
+
+<p><strong>Question:</strong> On the topic of creating DirectShape elements... in the pictures below you can see shapes created by my add-in and others created by Dynamo. My add-in shapes display the internal face tessellation edges:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4cc6130200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4cc6130200b image-full img-responsive" alt="DirectShape internal face edges" title="DirectShape internal face edges" src="/assets/image_18157d.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>The Dynamo ones do not:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4cc60f5200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4cc60f5200b image-full img-responsive" alt="Dynamo volumes" title="Dynamo volumes" src="/assets/image_067555.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Do you know what the difference is, and whether I can make mine look like the Dynamo ones?</p>
+
+<p><strong>Answer:</strong> It looks as if your shapes are created from separate triangular faces.</p>
+
+<p>Would you like to mark some triangle edges, so they are not displayed?</p>
+
+<p>Since Dynamo can do this, there must be a way.</p>
+
+<p>You can always debug the Dynamo code and see for yourself what it is doing.</p>
+
+<p>I would assume it is creating a complete polygonal face with all its edges in one single go.</p>
+
+<p>I think this can be achieved using
+the <a href="https://www.revitapidocs.com/2020/a144b0e3-c997-eac1-5c00-51c56d9e66f2.htm"><code>TessellatedShapeBuilder</code> class</a>.</p>
+
+<p>Oh no, wrong, that one probably does generate triangulated faces just like you have.</p>
+
+<p>I believe the <a href="https://www.revitapidocs.com/2020/94c1fef4-2933-ce67-9c2d-361cbf8a42b4.htm"><code>BRepBuilder</code> class</a> enables
+you to create more complex faces with no edges in the middle:</p>

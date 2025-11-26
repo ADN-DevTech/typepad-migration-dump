@@ -1,0 +1,276 @@
+---
+layout: "post"
+title: "RevitLookup Reflection Cross-Version Compatibility"
+date: "2017-02-06 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "Data Access"
+  - "Debugging"
+  - "Element Relationships"
+  - "RevitLookup"
+  - "Utilities"
+original_url: "https://thebuildingcoder.typepad.com/blog/2017/02/revitlookup-using-reflection-for-cross-version-compatibility.html "
+typepad_basename: "revitlookup-using-reflection-for-cross-version-compatibility"
+typepad_status: "Publish"
+---
+
+<p>Today, I present a large and drastic contribution 
+to <a href="https://github.com/jeremytammik/RevitLookup">RevitLookup</a> from
+Andy <a href="https://github.com/awmcc90">@awmcc90</a> McCloskey
+of <a href="https://twitter.com/revdevstudios">RevDev Studios</a> that will help significantly in supporting both past and future releases of Revit:</p>
+
+<ul>
+<li><a href="#2">Drastic changes making use of object inspection via <code>Reflection</code></a></li>
+<li><a href="#3">Cross version compatibility</a></li>
+<li><a href="#4">Removal of events and unused functionality</a></li>
+<li><a href="#5">Commit summary</a>
+<ul>
+<li><a href="#6"><code>Snoop</code> / <code>CollectorExts</code></a></li>
+<li><a href="#7"><code>Utils</code></a></li>
+<li><a href="#8"><code>Tests</code></a></li>
+<li><a href="#9">File Changes</a></li>
+</ul></li>
+<li><a href="#10">Download</a></li>
+<li><a href="#11">RevDev Studios</a></li>
+<li><a href="#12">Addendum &ndash; never catch all exceptions</a></li>
+</ul>
+
+<h4><a name="2"></a>Drastic Changes Making Use of Object Inspection via Reflection</h4>
+
+<p>This weekend, 
+Andy <a href="https://github.com/awmcc90">@awmcc90</a> McCloskey
+of <a href="https://twitter.com/revdevstudios">RevDev Studios</a> submitted
+<a href="https://github.com/jeremytammik/RevitLookup/pull/22">RevitLookup pull request #22 &ndash; Object inspection via <code>Reflection</code></a>.</p>
+
+<p>The new functionality it incorporates will help significantly in supporting both past and future releases of Revit:</p>
+
+<p>It includes drastic changes to the library to load object information directly from the assembly using .NET <code>Reflection</code>.</p>
+
+<p>This makes more information available and the product more flexible.</p>
+
+<p>Above all, the use of <code>Reflection</code> makes RevitLookup cross compatible with different versions of the Revit API.</p>
+
+<p>In Andy's own words:</p>
+
+<blockquote>
+  <p>I think many people will greatly benefit from it. </p>
+  
+  <p>In the past I have made small modifications to RevitLookup on GitHub. For the past few months I have been making some rather serious modifications to the source code in order to more fully explore every object that the API has to offer. This has primarily been to supplement my own add-in creation but also to get a better understanding of the underlying types of the API. Furthermore, I wanted to make RevitLookup work for any version of Revit, meaning I have been doing the majority of my changes via reflection.</p>
+  
+  <p>I would like to contribute these changes to the project. Given how drastic the changes were, I wanted to give you a copy and see how you wanted to handle this.</p>
+</blockquote>
+
+<p>Please refer to the <a href="#4">commit summary</a> below for more information on the changes made to individual modules.</p>
+
+<p>Here is a screen snapshot snooping the properties of a roof using the <code>Reflection</code> enhanced version of RevitLookup:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d25d0756970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d25d0756970c image-full img-responsive" alt="RevitLookup using Reflection" title="RevitLookup using Reflection" src="/assets/image_988645.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="3"></a>Cross Version Compatibility</h4>
+
+<p>Andy's original version was compiled using the Revit 2016 API assemblies, yet the use of Reflection enables it to explore methods and properties added in Revit 2017 as well:</p>
+
+<blockquote>
+  <p>The version is based around 2016 Revit API libraries but that was just for compatibility. I don't particularly like handling separate projects so I resolve to wrap older commands and check to make sure they exist with whatever version of the API you are using and then choose the correct one. The version you are using will work as is for 2017 (from the most recent source code on github) and if you change the references to 2017 you can build and compile it fine as well.</p>
+  
+  <p>Most of the additions from other users are completely obsolete at this point. Given everything available to the API object is now loaded directly from the assembly, we shouldn't be missing any information. </p>
+  
+  <p>One feature that this does change is it simply gives you the name of the method or property directly from the library, whereas you were originally naming these specifically. I think I prefer this method because most of us using RevitLookup are doing it in order to do something else with the API, and it helps to have the exact name of the property and method when we go to start programming.</p>
+  
+  <p>That handles most of the major changes. There are definitely some minor ones that I am missing but I think this is a good start.</p>
+</blockquote>
+
+<h4><a name="4"></a>Removal of Events and Unused Functionality</h4>
+
+<p>Functionality not required for the fundamental object inspection task has been removed:</p>
+
+<blockquote>
+  <p>I took out a several of the main commands, such as events, etc., because I was only interested in the element information. It shouldn't be too hard to piece those commands back in but wanted to make sure you knew. I was focused on the object inspection only.</p>
+</blockquote>
+
+<h4><a name="5"></a>Commit Summary</h4>
+
+<p>For the sake of completeness, here is the detailed commit summary of
+Andy's <a href="https://github.com/jeremytammik/RevitLookup/pull/22">RevitLookup pull request #22 &ndash; Object inspection via <code>Reflection</code></a>:</p>
+
+<h4><a name="6"></a>Snoop / CollectorExts</h4>
+
+<p>Removed all modules spare two, the non abstract one which is the main worker of loading information via reflection. In general, I felt like it was a lot of code which needed to be specifically typed out in order to get parameters and method values that were already available. The new worker is very simple: when the collect event is called, we pass the object to the worker, the worker determines which types the object is associated with and places those in a list. Then we loop through each type and collect properties and methods that meet certain requirements, for each type:</p>
+
+<ul>
+<li>Properties have to have a get method and they can't require any parameters to be passed in.</li>
+<li>Methods cannot require any parameters to be passed in and they also can't have a void return type.</li>
+</ul>
+
+<p>We avoid making any changes to the document by invoking the methods in a try statement, and given we are outside of a transaction we catch any error that it would throw due to that. I did a simple (and I mean simple) check of what parameters we have already seen so that we don't continue to log duplicate information in the snoop dialog. I considered leaving all the properties and methods in for every type but it made the list of information very long and I wasn't sure how much I benefited from showing all that information.</p>
+
+<p>Certain specific properties and methods that I wanted, such as element geometry and boundary segments, I had to add on a case by case basis but even this is much more efficient because we still don't require separate methods for each type. We can continue to update the list of specific properties and methods that have parameter inputs as an ongoing work.</p>
+
+<h4><a name="7"></a>Utils</h4>
+
+<p>I thinned out the Utils class to remove anything that we no longer needed. The changes here were minor.</p>
+
+<h4><a name="8"></a>Tests</h4>
+
+<p>I had to remove the vast majority of the tests given they were no longer required and more importantly the methods that they called no longer existed.</p>
+
+<h4><a name="9"></a>File Changes</h4>
+
+<p>Here is the list of files modified (M), replaced (R) and deleted (D).</p>
+
+<p>As you can see, quite a number have been completely removed, significantly simplifying the project with a simultaneous enhancement of functionality:</p>
+
+<ul>
+<li>M CS/App.cs (1)</li>
+<li>R CS/ColumnSorter.cs (240)</li>
+<li>D CS/Graphics/GraphicsStreamRevit.cs (126)</li>
+<li>M CS/RevitLookup.csproj (175)</li>
+<li>M CS/Snoop/CollectorExts/CollectorExt.cs (2)</li>
+<li>D CS/Snoop/CollectorExts/CollectorExtApp.cs (258)</li>
+<li>D CS/Snoop/CollectorExts/CollectorExtAreas.cs (95)</li>
+<li>D CS/Snoop/CollectorExts/CollectorExtCreation.cs (113)</li>
+<li>D CS/Snoop/CollectorExts/CollectorExtDoc.cs (572)</li>
+<li>D CS/Snoop/CollectorExts/CollectorExtEditor.cs (103)</li>
+<li>M CS/Snoop/CollectorExts/CollectorExtElement.cs (3339)</li>
+<li>D CS/Snoop/CollectorExts/CollectorExtGeom.cs (1084)</li>
+<li>D CS/Snoop/CollectorExts/CollectorExtMEP.cs (301)</li>
+<li>D CS/Snoop/CollectorExts/CollectorExtMisc.cs (1140)</li>
+<li>D CS/Snoop/CollectorExts/CollectorExtParams.cs (304)</li>
+<li>D CS/Snoop/CollectorExts/CollectorExtRooms.cs (93)</li>
+<li>D CS/Snoop/CollectorExts/CollectorExtSite.cs (127)</li>
+<li>D CS/Snoop/CollectorExts/CollectorExtStructural.cs (461)</li>
+<li>D CS/Snoop/CollectorExts/CollectorExtSymbol.cs (1150)</li>
+<li>M CS/Snoop/Collectors/Collector.cs (28)</li>
+<li>M CS/Snoop/Collectors/CollectorEventArgs.cs (10)</li>
+<li>M CS/Snoop/Collectors/CollectorObj.cs (44)</li>
+<li>M CS/Snoop/Data/ClassSeparator.cs (2)</li>
+<li>A CS/Snoop/Data/MemberSeparator.cs (44)</li>
+<li>M CS/Snoop/Utils.cs (283)</li>
+<li>D CS/Test/EStorageSchemaDefinitions/EStorageBundle1.cs (76)</li>
+<li>D CS/Test/EStorageSchemaDefinitions/EStorageBundle2.cs (80)</li>
+<li>D CS/Test/ExIm/BrowseCategory.Designer.cs (73)</li>
+<li>D CS/Test/ExIm/BrowseCategory.cs (100)</li>
+<li>D CS/Test/ExIm/BrowseCategory.resx (120)</li>
+<li>D CS/Test/ExIm/ImportErrorLogger.cs (94)</li>
+<li>D CS/Test/ExIm/Importer.cs (394)</li>
+<li>D CS/Test/ExIm/XmlMapBuilder.cs (33)</li>
+<li>D CS/Test/ExIm/XmlSchemaBuilder.cs (138)</li>
+<li>D CS/Test/Forms/Elements.Designer.cs (79)</li>
+<li>D CS/Test/Forms/Elements.cs (132)</li>
+<li>D CS/Test/Forms/Elements.resx (120)</li>
+<li>D CS/Test/Forms/Levels.Designer.cs (102)</li>
+<li>D CS/Test/Forms/Levels.cs (106)</li>
+<li>D CS/Test/Forms/Levels.resx (120)</li>
+<li>D CS/Test/SDKSamples/AnalyticalSupportData/Info.cs (185)</li>
+<li>D CS/Test/SDKSamples/AnalyticalSupportData/InfoForm.cs (64)</li>
+<li>D CS/Test/SDKSamples/AnalyticalSupportData/InfoForm.designer.cs (153)</li>
+<li>D CS/Test/SDKSamples/AnalyticalSupportData/InfoForm.resx (132)</li>
+<li>D CS/Test/SDKSamples/CreateSheet/AllViewsForm.cs (165)</li>
+<li>D CS/Test/SDKSamples/CreateSheet/AllViewsForm.designer.cs (166)</li>
+<li>D CS/Test/SDKSamples/CreateSheet/AllViewsForm.resx (120)</li>
+<li>D CS/Test/SDKSamples/CreateSheet/Views.cs (276)</li>
+<li>D CS/Test/SDKSamples/ExportToExcel/Exporter.cs (31)</li>
+<li>D CS/Test/SDKSamples/FireRating/ImporterExporter.cs (32)</li>
+<li>D CS/Test/SDKSamples/FireRating/SharedParam.cs (132)</li>
+<li>D CS/Test/SDKSamples/LevelProperties/LevelsCommand.cs (164)</li>
+<li>D CS/Test/SDKSamples/LevelProperties/LevelsDataSource.cs (87)</li>
+<li>D CS/Test/SDKSamples/LevelProperties/LevelsForm.Designer.cs (132)</li>
+<li>D CS/Test/SDKSamples/LevelProperties/LevelsForm.cs (292)</li>
+<li>D CS/Test/SDKSamples/LevelProperties/LevelsForm.resx (123)</li>
+<li>D CS/Test/SDKSamples/SDKTestFuncs.cs (224)</li>
+<li>D CS/Test/SDKSamples/SharedParams/Create.cs (161)</li>
+<li>D CS/Test/SDKSamples/StructuralSample/StructSample.cs (313)</li>
+<li>D CS/Test/SDKSamples/TypeSelector/TypeSelectorForm.Designer.cs (110)</li>
+<li>D CS/Test/SDKSamples/TypeSelector/TypeSelectorForm.cs (258)</li>
+<li>D CS/Test/SDKSamples/TypeSelector/TypeSelectorForm.resx (120)</li>
+<li>D CS/Test/TestApplication.cs (144)</li>
+<li>D CS/Test/TestDocument.cs (387)</li>
+<li>D CS/Test/TestEStorage.cs (183)</li>
+<li>D CS/Test/TestElements.cs (1892)</li>
+<li>D CS/Test/TestFramework/RvtMgdDbgTestForm.cs (769)</li>
+<li>D CS/Test/TestFramework/RvtMgdDbgTestForm.resx (147)</li>
+<li>D CS/Test/TestFramework/RvtMgdDbgTestFuncInfo.cs (136)</li>
+<li>D CS/Test/TestFramework/RvtMgdDbgTestFuncs.cs (67)</li>
+<li>D CS/Test/TestGeometry.cs (122)</li>
+<li>D CS/Test/TestGraphicsStream.cs (147)</li>
+<li>D CS/Test/TestImportExport.cs (255)</li>
+<li>D CS/Test/TestUi.cs (92)</li>
+<li>D CS/Test/Tower.cs (301)</li>
+<li>M CS/TestCmds.cs (525)</li>
+<li>D CS/Utils/Convert.cs (55)</li>
+<li>D CS/Utils/Dwg.cs (23)</li>
+<li>D CS/Utils/Elements.cs (500)</li>
+<li>D CS/Utils/FamilyUtil.cs (62)</li>
+<li>D CS/Utils/Geometry.cs (214)</li>
+<li>D CS/Utils/ParamUtil.cs (103)</li>
+<li>D CS/Utils/Selection.cs (129)</li>
+<li>D CS/Utils/StrElementIdPair.cs (67)</li>
+<li>D CS/Utils/UserInput.cs (84)</li>
+<li>D CS/Utils/View.cs (154)</li>
+</ul>
+
+<h4><a name="10"></a>Download</h4>
+
+<p>The new functionality is provided
+in <a href="https://github.com/jeremytammik/RevitLookup/releases/tag/2017.0.0.14">RevitLookup release 2017.0.0.14</a> and
+later versions.</p>
+
+<p>If you would like to access any part of the functionality that was considered unimportant and removed in this release, please feel free to grab it
+from <a href="https://github.com/jeremytammik/RevitLookup/releases/tag/2017.0.0.13">release 2017.0.0.13</a>.</p>
+
+<p>I am also perfectly happy to restore code that was removed and that you would like preserved. Simply create a pull request for that, explain your need and motivation, and I will gladly merge it back again.</p>
+
+<h4><a name="11"></a>RevDev Studios</h4>
+
+<p><a href="https://twitter.com/revdevstudios">RevDev Studios</a> provides custom add-in development services for Revit.</p>
+
+<p>I guess I really ought to add a comment about them to the post
+on <a href="http://thebuildingcoder.typepad.com/blog/2011/12/finding-a-development-partner.html">finding a development partner</a>,
+or update that post in general.</p>
+
+<h4><a name="12"></a>Addendum &ndash; Never Catch All Exceptions</h4>
+
+<p>Compilation
+of <a href="https://github.com/jeremytammik/RevitLookup/releases/tag/2017.0.0.14">RevitLookup release 2017.0.0.14</a> discussed
+above causes two warnings <code>CS0168</code> in <code>CollectorExtElement.cs</code> saying, "The variable 'ex' is declared but never used" in exception handlers like this:</p>
+
+<pre class="code">
+  <span style="color:blue;">catch</span>(&nbsp;<span style="color:#2b91af;">Exception</span>&nbsp;ex&nbsp;)
+  {
+  &nbsp;&nbsp;<span style="color:green;">//&nbsp;Probably&nbsp;is&nbsp;that&nbsp;this&nbsp;specific&nbsp;element
+  &nbsp;&nbsp;// doesn&#39;t&nbsp;have&nbsp;the&nbsp;property&nbsp;-&nbsp;ignore</span>
+  &nbsp;&nbsp;<span style="color:green;">//data.Add(new&nbsp;Snoop.Data.Exception(pi.Name,&nbsp;ex));</span>
+  }
+</pre>
+
+<p>However, you should <a href="http://thebuildingcoder.typepad.com/blog/2016/04/how-to-distinguish-redundant-rooms.html#3">never, ever, catch all exceptions</a>.</p>
+
+<p>Andy very kindly fixed that as well,
+submitting <a href="https://github.com/jeremytammik/RevitLookup/pull/23">pull request #23 &ndash; catching proper exceptions for reflection invocation</a>.</p>
+
+<p>Now the exception handler looks like this instead, catching specific exceptions and leaving the really unexpected, exceptional exceptions untouched:</p>
+
+<pre class="code">
+  <span style="color:blue;">catch</span>&nbsp;(<span style="color:#2b91af;">TargetException</span>&nbsp;ex)
+  {
+&nbsp;&nbsp;&nbsp;&nbsp;data.Add(<span style="color:blue;">new</span>&nbsp;Snoop.Data.<span style="color:#2b91af;">Exception</span>(pi.Name,&nbsp;ex));
+  }
+  <span style="color:blue;">catch</span>&nbsp;(<span style="color:#2b91af;">TargetInvocationException</span>&nbsp;ex)
+  {
+&nbsp;&nbsp;&nbsp;&nbsp;data.Add(<span style="color:blue;">new</span>&nbsp;Snoop.Data.<span style="color:#2b91af;">Exception</span>(pi.Name,&nbsp;ex));
+  }
+  <span style="color:blue;">catch</span>&nbsp;(<span style="color:#2b91af;">TargetParameterCountException</span>&nbsp;ex)
+  {
+&nbsp;&nbsp;&nbsp;&nbsp;data.Add(<span style="color:blue;">new</span>&nbsp;Snoop.Data.<span style="color:#2b91af;">Exception</span>(pi.Name,&nbsp;ex));
+  }
+</pre>
+
+<p><a href="https://github.com/jeremytammik/RevitLookup/releases/tag/2017.0.0.15">RevitLookup release 2017.0.0.15</a> with
+this fix integrated no longer violates this recommendation and compiles with zero warnings.</p>
+
+<p>Thanks again to Andy!</p>

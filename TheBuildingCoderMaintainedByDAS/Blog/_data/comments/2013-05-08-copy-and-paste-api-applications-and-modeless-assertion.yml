@@ -1,0 +1,64 @@
+comments:
+- author: Eric
+  email: aaquino532@uahoo.com
+  ip: 166.216.157.20
+  url: ''
+  date: '2015-05-20 10:51:42'
+  body: 'Is it possible to automate the Insert From File using revit API? Basically
+    what I want to do is to automatically select a specified file when executing the
+    "Insert from file" command without having to open the document to insert from.
+
+
+    Thanks in advance,
+
+
+    Eric'
+- author: Eric
+  email: aaquino532@uahoo.com
+  ip: 166.216.157.20
+  url: ''
+  date: '2015-05-20 11:00:22'
+  body: 'Also without having to navigate to manually locate a file every time I need
+    to insert a view from file.
+
+
+    I work for large world wide engineering organization and would like for a user
+    not needing to know where to locate the standard file to insert from.
+
+
+    Any help would be greatly appreciated.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.121.207
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-26 03:36:43'
+  body: 'Dear Eric,
+
+
+    One thing you can do is examine exactly what the Insert from File command achieves
+    in the Revit database.
+
+
+    What elements are added?
+
+
+    Maybe you can add them programmatically instead.
+
+
+    Secondly, you can launch many built-in Revit commands programmatically via PostCommand.
+    However, that will still launch the unmodified standard Revit user interface and
+    prompt you to select the file.
+
+
+    Possibly, your best bet would be to use the Windows API instead. It enables you
+    to detect and intercept the file open dialogue and define the selected file programmatically
+    instead of manually. That would enable you to solve the problem without messing
+    around with Revit itself at all.
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.
+
+    -----'

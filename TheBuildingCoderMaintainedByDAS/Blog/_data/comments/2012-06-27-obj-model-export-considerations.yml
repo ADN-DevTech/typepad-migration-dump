@@ -1,0 +1,168 @@
+comments:
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2012-06-27 08:05:46'
+  body: 'Hi Jeremy,
+
+
+    some remarks:
+
+
+    OST_Planting has no material quantities, so if you omit elements of this category,
+    you won''t export trees, for example.
+
+
+    When iterating recursively through FamilyInstances'' geometry, through their Subcomponents
+    etc., it may be useful to limit the iteration depth.
+
+    Why getting the geometry of each door knob...?
+
+
+    If any face has regions, you should query those sub-faces because they may have
+    different materials.
+
+    People usually split faces to assign other materials to them, I think.
+
+
+    It may be senseful if you transform the geometry by centering it, depending on
+    the viewer you plan to use.
+
+
+
+    Cheers,
+
+    Rudi'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2012-06-27 08:17:45'
+  body: 'Hi Jeremy,
+
+
+    another point:
+
+
+    If the element is a FamilyInstance, you should check its parameters.
+
+    If one of them is of ParameterType.FamilyType, you may find the relating element
+    (param.AsElementId etc.) and get its geometry, too.
+
+
+
+    Bye,
+
+    Rudi'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2012-06-27 09:14:18'
+  body: 'Hi again,
+
+
+    you wrote:
+
+    "Add support for colour".
+
+
+    Think of windows.
+
+    You will also need *transparency* values.
+
+
+    ;-)
+
+
+    Cheers,
+
+    Rudi'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.182.216
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-06-28 03:43:35'
+  body: 'Dear Rudi,
+
+
+    Thank you!
+
+
+    Good suggestion!
+
+
+    I don''t really care that much, though. I do want the building to look recognisable,
+    but not aim for full-blown photo-realistic rendering, so I think I''ll skip that
+    one.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.182.216
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-06-28 03:45:20'
+  body: 'Dear Rudi,
+
+
+    Hmh? I don''t quite understand the purpose of this?
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.182.216
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-06-28 03:50:20'
+  body: 'Dear Rudi,
+
+
+    I think I will happily skip plants for this particular exercise.
+
+
+    I am not explicitly iterating into any family instances, just grabbing the top
+    level geometry returned to me by the Revit get_Geometry call on the elements traversed
+    by the collector. Since I am not recursing into anything, I do not see where to
+    apply the limitation that you suggest.
+
+
+    Your suggestions about handling split faces and transforming the geometry definitely
+    make sense and should be kept in mind.
+
+
+    Again, happily, this is just an exercise to get something recognisable out there
+    and into the cloud for consumption on mobile devices, so I''ll try hard to keep
+    it simple and leave the frills to you guys.
+
+
+    Cheers, Jeremy.'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2012-06-28 04:10:49'
+  body: 'Hi Jeremy,
+
+
+    since we cannot access material textures, there is no chance to create a photo-realistic
+    rendering.
+
+
+    Sadly.
+
+
+    Bye,
+
+    Rudi'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2012-06-28 05:36:37'
+  body: "Hi Jeremy,\n\nfor example, if my door FamilyInstance has a door knob which\
+    \ is determined by a Family Type parameter, I get the knob's geometry this way.\n\
+    \nBut it may be that this is unnecessary, so I tend to MyComment.Rollback()...\
+    \ \n\nAdditionally, we can omit door knobs at all.\nToo much details ;-)\n\nBye,\n\
+    Rudi\n-----"

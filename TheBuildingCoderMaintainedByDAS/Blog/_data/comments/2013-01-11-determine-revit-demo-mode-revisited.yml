@@ -1,0 +1,202 @@
+comments:
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2013-01-11 09:04:43'
+  body: 'Hi Jeremy,
+
+
+    some additional observations:
+
+
+    File extension may be cut off, depending on OS settings, so ".rvt" may be omitted.
+
+
+    If Revit window is resized to a small width, the title will appear abbreviated,
+    this may result in another GetWindowText result which does not even contain "VIEWER"
+    string (haven''t tested this yet).
+
+
+
+    Best regards,
+
+    Rudolf/Revitalizer'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.182.47
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-11 09:16:00'
+  body: 'Dear Rudolf,
+
+
+    Thank you again for all your ideas, including this new important observation.
+
+
+    Cheers, Jeremy.'
+- author: madmed
+  email: marwa.adala.telecome@gmail.com
+  ip: 41.228.242.180
+  url: ''
+  date: '2013-01-11 09:55:54'
+  body: how can I make it valid for all languages?
+- author: Victor Chekalin
+  email: ''
+  ip: 91.221.195.201
+  url: http://profile.typepad.com/6p017ee5f8b354970d
+  date: '2013-01-14 23:39:52'
+  body: 'Hi Rudolf, hi Jeremy.
+
+    WinAPI? Why?? To get Revit title is much easier. <b>System.Diagnostics.Process.GetCurrentProcess().MainWindowTitle;</b>
+    :)
+
+
+    And in my opinion to determine whether Revit run in Demo mode or not using title
+    is not a good idea. In different localization DEMO string may have different values.
+    For me the approach with transaction is better.
+
+
+    BTW, don''t forget use ComponentManager.ApplicationWindow instead System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
+
+
+    Have a nice day,
+
+    Victor.'
+- author: Victor Chekalin
+  email: ''
+  ip: 91.221.195.201
+  url: http://profile.typepad.com/6p017ee5f8b354970d
+  date: '2013-01-15 02:39:29'
+  body: 'Hello again.
+
+
+    I''m trying to suggest my own version how to determine is Revit run on Demo mode
+    or not.
+
+
+    Just reference UIFrameworkServices.dll assembly, read the Revit serial number
+    with Static method ProductSerialNumber of InfoCenterService class. If Revit run
+    in demo mode the serial number is <i>000-00000000</i>
+
+
+    <a href="http://pastebin.com/Lt8WUVhE">Here</a> is the full source code.
+
+
+    Simply, isn''t it?
+
+
+    Regards,
+
+    Victor.'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2013-01-15 03:33:56'
+  body: 'Hi Victor,
+
+
+    of course you are right.
+
+
+    A few weeks ago, I posted the same approach in the Revit API forum:
+
+    <a href="http://forums.autodesk.com/t5/Autodesk-Revit-API/Active-window-name/td-p/3659274">http://forums.autodesk.com/t5/Autodesk-Revit-API/Active-window-name/td-p/3659274</a>
+
+
+    I''m Revitalizer ;-)
+
+
+
+    Cheers,
+
+    Rudolf'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2013-01-15 03:42:22'
+  body: 'Hi Victor,
+
+
+    as far as I know, referencing UIFramework.dll is not supported by Autodesk, meaning
+    "do not use that in code that is meant for production". As far as I know from
+    my "Pimp my Revit" stuff, it is not recommended to do so:
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/02/pimp-my-autocad-or-revit-ribbon.html">http://thebuildingcoder.typepad.com/blog/2011/02/pimp-my-autocad-or-revit-ribbon.html</a>
+
+
+    Haven''t read the code yet, but reading the serial number sounds good for me.
+
+
+
+    Best regards,
+
+    Rudolf'
+- author: Victor Chekalin
+  email: ''
+  ip: 91.221.195.201
+  url: http://profile.typepad.com/6p017ee5f8b354970d
+  date: '2013-01-15 03:57:25'
+  body: "Hi Rudolf.\nI referenced UIFrameworkServices.dll, not UIFramework.dll.\n\
+    If it is not supported by Autodesk it doesn't mean that you cannot use it:) As\
+    \ you know these unsupported assemblies contains many interesting classes and\
+    \ I don't see any reason not to use it if it help to solve your problem.\n\nOf\
+    \ course you should keep in mind that in the next release the classes and methods\
+    \ could change. \n\nRegards, Victor"
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2013-01-15 04:22:08'
+  body: 'Hi Victor,
+
+
+    yes, I see that you use a different dll.
+
+
+    I fully agree that there are much classes in these unsupported dlls which may
+    provide many of these methods the RevitAPI.dll is missing yet.
+
+
+    But what if you would provide a plug-in based on unsupported dlls, saying an app
+    in the exchange store.
+
+    Imagine if there would be a problem caused by an unsupported method, nobody on
+    the Autodesk side would consider to fix this because it was always declared as
+    "not recommended": and no way to fix it on your own side...
+
+
+    But after all, I really like finding new ways to perform something new which cannot
+    be done by the Revit API itself.
+
+
+    I do that a lot on myself, too ;-)
+
+
+
+    Cheers,
+
+    Rudolf'
+- author: Victor Chekalin
+  email: ''
+  ip: 91.221.195.201
+  url: http://profile.typepad.com/6p017ee5f8b354970d
+  date: '2013-01-15 04:49:32'
+  body: "Hi Rudolf.\n\nAs developer you should decide yourself use unsupported dlls\
+    \ or not for your own risk.\nIn my opinion these dlls are provided by Autodesk.\
+    \ Despite of they are for internal use they has public classes. I don't think\
+    \ they make drastically changes.\nIf you publish your app in Exchange store you\
+    \ must test your apps carefully and you specify Revit versions where your application\
+    \ works. So, you don't guarantee that your app should works in other versions.\n\
+    There is no any insurance that any serious problem is not caused by RevitAPI.dll\
+    \ and even serious bug fixed very slow (I've encountered with Extensible storage\
+    \ bug where Revit crashes in 2012 Revit but it was fixed only in 2013 UR1) but\
+    \ it is not the reason doesn't use RevitAPI.dll :)\n\nIn the worst case if in\
+    \ one of the release Autodesk remove methods from unsupported dll which you used\
+    \ in your applications you must find alternative way to achieve that you need.\
+    \ E.g. instead ComponentManager.ApplicationWindow you can use MainWindow handl\
+    \ etc.\n\nBTW, I like that you like my <i>serial-number</i> method. If you don't\
+    \ want unsupported dlls, you can read serial number from Registry :)\n\nAnd at\
+    \ the conclusion: nothing venture nothing have )\nThe programming is the thing\
+    \ where always everything is changed ;)\n\nRegards, \nVictor.\n-----"

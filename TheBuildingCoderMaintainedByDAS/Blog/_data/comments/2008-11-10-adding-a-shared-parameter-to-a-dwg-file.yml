@@ -1,0 +1,53 @@
+comments:
+- author: A. Shankar
+  email: arun.shankar@reedbusiness.com
+  ip: 63.76.213.5
+  url: ''
+  date: '2008-12-30 13:48:20'
+  body: Is it possible to add shared parameters in a .rfa file using the DotNet Revit
+    API? The example for adding shared parameters to a DWG file does not work for
+    RFA files. Can you please post some sample code for adding shared parameters to
+    an RFA file. Thanks.
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.97.185
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-01-05 02:12:14'
+  body: Hi Shankar, I might address this question in a separate post some time soon.
+    Cheers, Jeremy.
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-11 04:55:31'
+  body: 'Dear Shankar,
+
+
+    I finally got around to addressing this question in a separate post:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/06/adding-a-shared-parameter-to-an-rfa-file.html">http://thebuildingcoder.typepad.com/blog/2009/06/adding-a-shared-parameter-to-an-rfa-file.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Matthias
+  email: ''
+  ip: 217.6.16.93
+  url: http://profile.typepad.com/6p01b7c6f8ccbc970b
+  date: '2015-04-08 05:19:59'
+  body: "Hi Jeremy, Hi followers,\n\nI'm coding a tool to manage Links to dwg-drawings.\
+    \ One 'routine' Links the dwg files to our Revit model using this Revit-API method:\n\
+    Document.Link(string file, DWGImportOptions options, View pDBView, out ElementId\
+    \ elementId) \n\nSince Revit 2015 there exists a new ImportOption 'AutoCorrectAlmostVHLines'.\
+    \ This Option can be set via a flag using API commands. I thought this should\
+    \ reflect the behavior of the standard dwg-Import dialog, but the Lines are always\
+    \ adapted to the xy-Grid. Even this method auto corrects.\n\nprivate ElementId\
+    \ importFile(string file_name, DWGImportOptions opt) {\n            ElementId\
+    \ e_id = null;\n            opt.AutoCorrectAlmostVHLines = false;\n          \
+    \  Transaction t = new Transaction(doc, file_name + \";import dwg\");\n      \
+    \      t.Start();\n            doc.Link(file_name, opt, doc.ActiveView, out e_id);\n\
+    \            t.Commit();\n            //Element dwg_file = doc.get_Element(e_id);\n\
+    \            return e_id;\n        }\n\nIn Version 2013 this auto correct did\
+    \ not exist, so the we just got awre of this. Did anyone else face such problems\
+    \ or does anyone have a good idea how to fix this? \nI use Built: 20150127_0715(x64)-Update\
+    \ Release 6\n\nThnx in advance, Matthias\n-----"

@@ -1,0 +1,66 @@
+comments:
+- author: Jolish
+  email: jolishc@gmail.com
+  ip: 86.98.40.165
+  url: ''
+  date: '2014-02-05 08:04:21'
+  body: 'Thanks Jeremy,
+
+    How to retain reference planes where other elements are aligned & locked (not
+    hosted)?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.25
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-02-05 08:19:37'
+  body: 'Dear Jolish,
+
+
+    I have not tested that. Please let us know whether such elements automatically
+    prevent deletion of the reference plane or not. Otherwise, I would suggest giving
+    such reference planes a name to prevent deletion, unless you can come up with
+    a better suggestion.
+
+
+    Cheers, Jeremy.'
+- author: Jolish
+  email: jolishc@gmail.com
+  ip: 86.98.40.165
+  url: ''
+  date: '2014-02-06 08:14:54'
+  body: 'Thanks
+
+    Locked elements does not prevent deleting reference planes. Best way as you suggested
+    give name for all. Still wonder where the locked elements ids are saved? And Who
+    stores that (reference plane or locked wall)? Tried snoop, no luck.'
+- author: One
+  email: One@two.com
+  ip: 86.176.225.140
+  url: ''
+  date: '2014-03-09 08:50:42'
+  body: I've done a further test and unnamed refplanes that cut elements are also
+    deleted. Therefore these must be named also. It's a shame the element being affected
+    by refplanes does not list the ids of refplanes it is affected by on some property
+    of its associated class. If it did you could go through a list of common model
+    categories and build up a list of refplane ids to leave alone. Or alternatively
+    the refplane itself could have a property stating if it is influencing other items.
+- author: one
+  email: one@two.com
+  ip: 86.176.225.140
+  url: ''
+  date: '2014-03-10 13:44:07'
+  body: "If you lock an item to a refplane then it seems to add a dimension object\
+    \ (which gets listed in the deleted ids list when the refplane is deleted). Therefore\
+    \ in the case of finding unnamed refplanes that lock elements to planes you can\
+    \ use the old trick of creating a sub-transaction to delete the refplane and if\
+    \ the resulting element ID count is greater than 1 then you can roll back the\
+    \ sub transaction to look through the element ids (finding 1 dimension object\
+    \ for each lock). Obviously the dimensions in the list could also be user created\
+    \ ones rather than those automatically created by locking planes. However I've\
+    \ noticed their categories are different i.e. \"Dimensions\" (-2000260) for user\
+    \ created linear dimensions and \"Constraints\" (-2000262) for linear dims formed\
+    \ by locking elements to a plane. You could take the view that you don't want\
+    \ to delete a refplane if it has a dimension associated with it anyway. The other\
+    \ difference is the 'Value' property of a system created linear dimension is 'nothing'\
+    \ not 0 or greater. \nNone of this addresses unnamed ref planes used for cuts.\n\
+    -----"

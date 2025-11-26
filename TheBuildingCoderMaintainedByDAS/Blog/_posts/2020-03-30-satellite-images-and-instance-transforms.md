@@ -1,0 +1,191 @@
+---
+layout: "post"
+title: "Satellite Images and Instance Transforms"
+date: "2020-03-30 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Algorithm"
+  - "Family"
+  - "Geometry"
+  - "GIS"
+  - "Training"
+original_url: "https://thebuildingcoder.typepad.com/blog/2020/03/satellite-images-and-instance-transforms.html "
+typepad_basename: "satellite-images-and-instance-transforms"
+typepad_status: "Publish"
+---
+
+<p>Things have slowed down a bit in the discussion forum recently, like in many other parts of the world.
+I am very glad I have a garden to go out and sit in, and springtime and sunshine to enjoy.
+I hope you are doing well and remaining healthy also!
+Topics for today:</p>
+
+<ul>
+<li><a href="#2">Transforming symbol geometry to instance placement</a></li>
+<li><a href="#3">Importing and displaying satellite images</a></li>
+<li><a href="#4">Free time? Learn! Free code camp!</a></li>
+</ul>
+
+<h4><a name="2"></a>Transforming Symbol Geometry to Instance Placement</h4>
+
+<p>A fundamental question reappeared in a new form in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/using-planarface-getedgesascurveloops-and-filledregion-create/m-p/9405257">using <code>PlanarFace</code> <code>GetEdgesAsCurveLoops</code> and <code>FilledRegion</code> <code>Create</code> together</a>,
+easily resolved by applying the instance placement transformation to transform the symbol geometry from the family definition coordinate system to the real-world instance placement in the project space:</p>
+
+<p><strong>Question:</strong> I'm trying to create a plugin that will allow me to create filled regions just by selecting a face.</p>
+
+<p>I use <em>Selection.PickObject( ObjectType.Face )</em>, convert that reference to a <code>PlanarFace</code> type, and then use <code>GetEdgesAsCurveLoops</code> to get the collection of <code>CurveLoops</code> and pass that to <code>FilledRegion</code> <code>Create</code> to create my filled region.</p>
+
+<p>However, it's resulting in unexpected behaviour.
+If I click on the face of a roof surface, it creates the filled region exactly over the face like I want it to.
+When I click the face of a family instance, it still creates the filled region &ndash; but instead of creating it over the face of the family instance, it creates the instance at the project origin of the document.</p>
+
+<p>Here are images illustrating the two scenarios:</p>
+
+<p>Highlighting the roof face and selecting it applies the FilledRegion like expected:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4f740e9200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4f740e9200d img-responsive" style="width: 423px; display: block; margin-left: auto; margin-right: auto;" alt="Roof face and filled region" title="Roof face and filled region" src="/assets/image_a2ea1e.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>However, when I click this electrical equipment face...</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833025d9b41db8b200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833025d9b41db8b200c image-full img-responsive" alt="Electrical equipment face" title="Electrical equipment face" src="/assets/image_9b809e.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>It creates the filled region over at the project origin:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4f7411e200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4f7411e200d image-full img-responsive" alt="Filled region at project origin" title="Filled region at project origin" src="/assets/image_8be330.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Here is the relevant code snippet:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:#2b91af;">Reference</span>&nbsp;faceRef&nbsp;=&nbsp;sel.PickObject(&nbsp;<span style="color:#2b91af;">ObjectType</span>.Face&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">GeometryObject</span>&nbsp;geoObj&nbsp;=&nbsp;doc.GetElement(&nbsp;faceRef&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;.GetGeometryObjectFromReference(&nbsp;faceRef&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">PlanarFace</span>&nbsp;moduleFace&nbsp;=&nbsp;geoObj&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">PlanarFace</span>;
+&nbsp;&nbsp;<span style="color:#2b91af;">IList</span>&lt;<span style="color:#2b91af;">CurveLoop</span>&gt;&nbsp;faceEdges&nbsp;=&nbsp;moduleFace.GetEdgesAsCurveLoops();
+
+&nbsp;&nbsp;<span style="color:#2b91af;">FilledRegion</span>&nbsp;fillRegion&nbsp;=&nbsp;<span style="color:#2b91af;">FilledRegion</span>.Create(&nbsp;doc,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;stringFillType.Id,&nbsp;currentView.Id,&nbsp;faceEdges&nbsp;);
+</pre>
+
+<p>Does anyone know how to get around this? Thanks!</p>
+
+<p><strong>Answer:</strong> The family instance reuses the geometry defined for the family symbol by applying a transform to it.</p>
+
+<p>The symbol geometry is generally close to the origin.</p>
+
+<p>Every instance needs a different transformation, depending on where the instance is placed in the model.</p>
+
+<p>You need to apply the family instance transformation to the geometry to transform it from the family symbol definition coordinates to the project model coordinates where the instance has been placed:</p>
+
+<ul>
+<li><a href="https://www.revitapidocs.com/2020/50aa275d-031e-ce19-9cfd-18a7a341ed19.htm">GetTransform</a></li>
+<li><a href="https://www.revitapidocs.com/2020/8c8aff2b-5ff9-e43a-3b5c-308cd0174f1f.htm">GetTotalTransform</a></li>
+</ul>
+
+<p>The roof element is different, since it is modelled in place using a sketch.</p>
+
+<p><strong>Response:</strong> Awesome! This worked! Thank you much Jeremy!</p>
+
+<p>For anyone interested, here is how I edited the code based on Jeremy's suggestion:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:#2b91af;">Reference</span>&nbsp;faceRef&nbsp;=&nbsp;sel.PickObject(&nbsp;<span style="color:#2b91af;">ObjectType</span>.Face&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">GeometryObject</span>&nbsp;geoObj&nbsp;=&nbsp;doc.GetElement(&nbsp;faceRef&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;.GetGeometryObjectFromReference(&nbsp;faceRef&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">Instance</span>&nbsp;moduleInstance&nbsp;=&nbsp;doc.GetElement(&nbsp;faceRef&nbsp;)&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">Instance</span>;
+&nbsp;&nbsp;<span style="color:#2b91af;">Transform</span>&nbsp;moduleTransform&nbsp;=&nbsp;moduleInstance.GetTotalTransform();
+
+&nbsp;&nbsp;<span style="color:#2b91af;">PlanarFace</span>&nbsp;moduleFace&nbsp;=&nbsp;geoObj&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">PlanarFace</span>;
+&nbsp;&nbsp;<span style="color:#2b91af;">IList</span>&lt;<span style="color:#2b91af;">CurveLoop</span>&gt;&nbsp;faceEdges&nbsp;=&nbsp;moduleFace.GetEdgesAsCurveLoops();
+
+&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">CurveLoop</span>&nbsp;loop&nbsp;<span style="color:blue;">in</span>&nbsp;faceEdges&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;loop.Transform(&nbsp;moduleTransform&nbsp;);
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:#2b91af;">FilledRegion</span>&nbsp;fillRegion&nbsp;=&nbsp;<span style="color:#2b91af;">FilledRegion</span>.Create(&nbsp;doc,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;stringFillType.Id,&nbsp;currentView.Id,&nbsp;faceEdges&nbsp;);
+</pre>
+
+<p>Many thanks to Chris for raising the issue and confirming the solution!</p>
+
+<h4><a name="3"></a>Importing and Displaying Satellite Images</h4>
+
+<p>Revitalizer came up with a very nice suggestion
+for <a href="https://forums.autodesk.com/t5/revit-api-forum/importing-and-displaying-satellite-images/m-p/9406063">importing and displaying satellite images</a>:</p>
+
+<p><strong>Question:</strong> I'm building an add-in for Revit and I would like to be able to import and display third-party satellite imagery in order to place buildings in their 'real' position.
+I would like to be able to do this in a 3D view, but I don't know how.</p>
+
+<p>The user workflow for my add-in is this:</p>
+
+<ul>
+<li>A user opens the add-in and is prompted to input a location through a WPF window.</li>
+<li>Once a location is confirmed, a number of things are created/imported into the active project to make it look as close as possible to its actual real-life location. One of these things is the satellite image I'm seeking to import here.</li>
+</ul>
+
+<p>Essentially, my question is exactly the same
+as <a href="https://forums.autodesk.com/t5/revit-architecture-forum/google-maps-image-in-3d-view/m-p/8100681">Google maps image in 3D view</a>,
+but instead doing that programmatically/automatically through an add-in.
+In that thread, a suggestion is made to create a decal with the desired image, but this does not seem to be supported through the API.</p>
+
+<p>Another approach I found is
+to <a href="https://thebuildingcoder.typepad.com/blog/2013/10/programmatic-custom-add-in-external-command-launch.html">use <code>PostCommand</code></a> to
+create and place decals, but these commands are apparently
+only <a href="https://knowledge.autodesk.com/support/revit-products/learn-explore/caas/CloudHelp/cloudhelp/2014/ENU/Revit/files/GUID-1C7289DE-8D10-47B5-B6DB-EA1310851C8F-htm.html">executed after exiting the API context</a> and
+only one at a time.
+As my add-in aims to perform a whole bunch of functionalities in one go, this seems ill-suited for my use case.
+It seems to be possible to chain a bunch of PostCommands, but this is a little 'hacky' and not recommended, especially for commercial use.</p>
+
+<p>Am I overlooking some existing functionality?
+Is my use case just not supported in current Revit?
+I'm new to programming for Revit, so it's very possible I've missed something.</p>
+
+<p>I'm running / programming for Revit 2019 on Windows 10.</p>
+
+<p><strong>Answer:</strong> What about creating a new material, setting its texture path, then making a <code>TopoSurface</code> and assigning the material to it, cf. <a href="https://thebuildingcoder.typepad.com/blog/2017/11/modifying-material-visual-appearance.html">modifying material visual appearance</a>?</p>
+
+<p>I don't know how to adjust the <code>UV</code> mapping for the <code>TopoSurface</code>, but if it worked, you would see your satellite image in 3D.</p>
+
+<p><strong>Response:</strong> Thanks to all for the replies!
+It took some time to try out the proposed solution (accessing AppearanceElements is convoluted!), so that's why it took me this long to reply.</p>
+
+<p>In the end, though I had to work around some weird quirks with the API, adding the image as a texture to a topography through a material works great.</p>
+
+<p>Thanks again for the suggestion, I couldn't have made it work without it.</p>
+
+<p>Many thanks to Harm for raising this and to Revitalizer for the good suggestion.</p>
+
+<h4><a name="4"></a>Free Time? Learn Things! Free Code Camp!</h4>
+
+<p>I have repeatedly pointed out the incredible programming training resources offered
+by Quincy Larson and <a href="https://www.freecodecamp.org">freecodecamp.org</a>.</p>
+
+<p>In case you happen to have more time on your hands than usual these days, you might want to see it as an opportunity
+to <a href="https://www.freecodecamp.org/news/coronavirus-academy">learn to code from home with the Coronavirus quarantine developer skill handbook</a>.</p>
+
+<p>By the way, I very much enjoyed some of Quincy's recent quotes of the week:</p>
+
+<ul>
+<li>A computer once beat me at chess, but it was no match for me at kickboxing &ndash; <em>Emo Philips</em></li>
+<li>The greatest obstacle to discovery is not ignorance, but the illusion of knowledge &ndash; <em>Daniel Boorstin</em></li>
+<li>Good judgment comes from experience. Experience comes from bad judgment &ndash; <em>unknown</em></li>
+<li>Optimism is an occupational hazard of programming. Testing is the treatment &ndash; <em>Kent Beck</em></li>
+<li>Act in haste and repent at leisure. Code too soon and debug forever &ndash; <em>Dr. Raymond Kennington</em></li>
+</ul>

@@ -1,0 +1,152 @@
+comments:
+- author: Luke
+  email: luke.s.johnson@gmail.com
+  ip: 60.240.197.130
+  url: http://whatrevitwants.blogspot.com.au/
+  date: '2012-09-03 01:19:01'
+  body: 'I received this error:
+
+
+    Revit encountered a Autodesk.Revit.Exceptions.ArgumentException: Box is
+
+    empty
+
+    Parameter name: box
+
+    at Autodesk. Revit.DB.View3D.set_SectionBox(BoundingBoxXYZ section Box)
+
+    at SetSectionBox.Command.Execute(ExternaiCommandData
+
+    commandData, String& message, ElementSet elements)
+
+    at apiManagedExecuteCommand(AString* assemblyName, AString*
+
+    className, AString* vendorDescription, MFCApp* pMFCApp, DBView*
+
+    pDBView, AString* message,
+
+    Set< Elementld\std::less<Eiementld> \tnallc< Elementld> > • ids,
+
+    Map<AString\AString\std::less<AString> \tnallc <AString> > * data, AString*
+
+    exceptionName, AString* exceptionMessage)'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-09-03 01:40:13'
+  body: "Dear Luke,\n\nOh dear, how mysterious. I can't really say anything about\
+    \ it without debugging your code and model, and that's really all I can suggest\
+    \ to you too: Explore using RevitLookup and the Visual Studio debugger.\n\nAlthough...\
+    \ one thing is clear. This is happening when you call the set SectionBox property\
+    \ on the view, and Revit is saying that you are providing an empty bounding box,\
+    \ which is probably a fact. Maybe you got the Max and Min settings mixed up, or\
+    \ something. \n\nThere is no guarantee that the code above will always work, or\
+    \ even ever work, except possibly in the one single model I tested it in.\n\n\
+    I wish you much success and the best of luck.\n\nCheers, Jeremy."
+- author: Colin
+  email: colin.stark@hhangus.com
+  ip: 66.199.44.34
+  url: ''
+  date: '2012-10-01 11:37:08'
+  body: 'Hi Jeremy,
+
+
+    I''m trying to accomplish something similar in Revit 2012 but can''t seem to be
+    able to get it to work.
+
+    Whenever I try to retrieve the geometry of any elements, the result is null.
+
+    This code finds a scopebox without any trouble, but returns null:
+
+
+    Element scopeBox = new FilteredElementCollector(document, view3D.Id).OfCategory(BuiltInCategory.OST_VolumeOfInterest).WhereElementIsNotElementType().FirstElement();
+
+
+    GeometryElement geo = scopeBox.get_Geometry(opt);
+
+
+    return geo;
+
+
+    Were you ever able to make anything like this work in Revit 2012?
+
+
+    Thanks,
+
+    Colin'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-10-01 11:58:10'
+  body: 'Dear Colin,
+
+
+    Sorry, nope, no plans to do so, no time, ever so sorry.
+
+
+    Looking forward  :-)
+
+
+    Your code looks perfectly OK to me...
+
+
+    Cheers, Jeremy.'
+- author: Michael
+  email: stealthnyc@gmail.com
+  ip: 173.52.208.134
+  url: ''
+  date: '2013-07-14 08:15:15'
+  body: 'I just used this without the other code:
+
+    BoundingBoxXYZ bb = scopeBox.get_BoundingBox(uidoc.ActiveView);
+
+
+    and seems to work fine whether i''m in a 3dview or plan.'
+- author: Dan R
+  email: drumery@bvn.com.au
+  ip: 210.18.194.130
+  url: http://www.bvn.com.au
+  date: '2013-09-16 04:08:32'
+  body: 'Hi Jeremy,
+
+
+    I think you''ll find there''s a bug in both versions of your code above where
+    you''re setting the bounding box maximum to the sum of the three basis vectors.
+    What that gives you is the maximum point in world space when it should be the
+    maximum point in the local space of the bounding box. This is probably why people
+    were having trouble getting this code to work correctly for the general case.
+
+
+    I believe changing the offending line to the following makes both of your solutions
+    work in all cases:
+
+
+    bbox.Max = new XYZ(vx.GetLength(), vy.GetLength(), vz.GetLength())
+
+
+    Happy days!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.193.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-10-08 12:18:38'
+  body: 'Dear Dan,
+
+
+    Thank you very much for pointing out the bug and all the other support you provided.
+
+
+    Here is the updated add-in and other interesting information:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/10/set-view-section-box-to-match-scope-box-for-revit-2014.html">http://thebuildingcoder.typepad.com/blog/2013/10/set-view-section-box-to-match-scope-box-for-revit-2014.html</a>
+
+
+    Happy days indeed, for all sentient beings.
+
+
+    Cheers, Jeremy.
+
+    -----'

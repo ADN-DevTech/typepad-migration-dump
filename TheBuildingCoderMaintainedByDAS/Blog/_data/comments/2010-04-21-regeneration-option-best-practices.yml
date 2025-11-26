@@ -1,0 +1,104 @@
+comments:
+- author: Guy Robinson
+  email: info@r-e-d.co.nz
+  ip: 60.234.255.173
+  url: ''
+  date: '2010-04-21 05:49:33'
+  body: "Wow good summary. Must admit not sure why this is causing so much angst.\
+    \ I vote for automatic to be deleted ASAP. Performance is everything and Manual\
+    \ beats Automatic hands down. \n\nThrowing an exception is hardly a problem if\
+    \ you're doing things in a try-catch (doesn't everyone?). Maybe a better solution\
+    \ for beginners is to regenerate for the user and write a comment to the journal.\
+    \ \n\nThe 2 points I think summarise it nicely are:\n\n\"\"\"It is needed when\
+    \ such changes are made that could affect elements of which properties are needed\
+    \ to be read again\"\"\" (Regenerate/ AutoJoin / ViewRefresh\n\n\"\"\"committing\
+    \ a transaction will always invoke regeneration and auto-joining\"\"\"\n\nThe\
+    \ sooner Automatic mode goes the better...\n\nCheers,\nGuy"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-04-21 05:54:50'
+  body: 'Hi Guy,
+
+
+    Wow to you too, I am very glad you like it and thank you very much for your valued
+    opinion! Seriously!
+
+
+    Cheers, Jeremy.'
+- author: saro
+  email: kklsara@gmail.com
+  ip: 115.242.182.10
+  url: ''
+  date: '2010-04-26 22:01:20'
+  body: 'Hello Jeremy:
+
+
+    Is it possible to regenerate model in 2010?
+
+
+    I have this requirement to update the parameters of some family types and would
+    like to regenerate the model to effect the changes in my program.
+
+
+    Would that be possible?
+
+
+    Thanks,
+
+    -Saro'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-04-28 02:10:37'
+  body: "Dear Saro,\n\nYes, in 2010 you can often update the model by either closing\
+    \ and committing a transaction or, in an extreme case, by saving the model.\n\n\
+    An example of the former is given by \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/01/extra-transaction-required.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/01/extra-transaction-required.html</a>\n\
+    \nIn another sample, I saw an application saving the entire model using the Document.Save\
+    \ method to ensure that a view was updated in between various sequential steps\
+    \ performed by the application.\n\nCheers, Jeremy."
+- author: nicholas.broadbent@hotmail.com
+  email: nicholas.broadbent@hotmail.com
+  ip: 114.76.81.228
+  url: ''
+  date: '2010-06-20 02:48:39'
+  body: "A friend and I am trying to write an add-on that will loop through a list\
+    \ of families, open each family extract a list of type names and parameters values\
+    \ and close it without saving.\n \nThe code I have post below works for a small\
+    \ number of families (less that 100) but Revit crashes when we process a large\
+    \ number (more than 100) \nit displays a dialog saying there was a “memory corruption”.\
+    \ It would happen during the opening of a file “OpenDocumentFile()”(see code below).\n\
+    Is there a better way to loop through families opening and closing them?\nCould\
+    \ we have an external application fire up Revit and run my plugin. The external\
+    \ application could keep track of which file was next.\n \nThank you very much\
+    \ any help would be much appreciated. \n void LoadFamily(Autodesk.Revit.ApplicationServices.Application\
+    \ app, \nExternalCommandData commandData, string filename, StreamWriter writer)\n\
+    {\ntry\n{\nif (string.IsNullOrEmpty(filename))\nreturn;\n\nif (!File.Exists(filename))\n\
+    return;\n\nDocument activeDoc = \ncommandData.Application.ActiveUIDocument.Document;\n\
+    \nif (activeDoc != null)\nactiveDoc.Close();\n\nactiveDoc = app.OpenDocumentFile(filename);\n\
+    \nif (activeDoc == null)\nreturn;\n\n//process the document and add data to an\
+    \ external file\n}\ncatch (Exception e)\n{\nMessageBox.Show(e.Message + \"\\n\"\
+    \ + filename);\n}\n}"
+- author: Jeremy Tammik
+  email: ''
+  ip: 84.74.150.207
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-20 08:44:29'
+  body: "Dear Nicholas,\n\nI guess this is a follow-up to your previous question:\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/03/using-processstart-to-open-a-project-or-family.html?cid=6a00e553e168978833013483b6bad8970c#comment-6a00e553e168978833013483b6bad8970c\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/03/using-processstart-to-open-a-project-or-family.html?cid=6a00e553e168978833013483b6bad8970c#comment-6a00e553e168978833013483b6bad8970c</a>\
+    \ \n\nAs I said there, you are trying to close the active Revit UI document, which\
+    \ is not possible, and not closing the document you opened yourself. \n\nIn the\
+    \ first couple of lines, your variable activeDoc is set to point to the current\
+    \ active document in the Revit user interface and trying to close that:\n\nDocument\
+    \ activeDoc \n  = commandData.Application.ActiveUIDocument.Document;\n\nif (activeDoc\
+    \ != null)\n  activeDoc.Close();\n\nSince the Revit API cannot close the active\
+    \ document, this call will have no effect.\n\nThereafter, you are setting the\
+    \ same variable to point to a completely different new document, opened n the\
+    \ background:\n\nactiveDoc = app.OpenDocumentFile(filename);\n\nThis will obviously\
+    \ consume memory, and is never closed, as far as I can tell, so the memory will\
+    \ never be freed.\n\nYou will need to make sure that you really close the documents\
+    \ that you open.\n\nCheers, Jeremy.\n-----"

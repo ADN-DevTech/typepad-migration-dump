@@ -1,0 +1,33 @@
+comments:
+- author: Ritish
+  email: ritishrocky1@gmail.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2010-08-17 08:16:07'
+  body: "Ritish\n\nHi Jeremy,\nI had try your code for retrieving the elements of\
+    \ a specific room. But this code does not work for revit api 2010. I am using\
+    \ revit api 2010 for gettiing all the elements of a specific room. I am using\
+    \ the below code:\n\nAutodesk.Revit.Creation.Filter cf = revitApp.Create.Filter;\n\
+    Filter f1 = cf.NewTypeFilter(typeof(FamilyInstance));\nFilter f2 = cf.NewCategoryFilter(BuiltInCategory.OST_Rooms);\n\
+    Filter fw = cf.NewCategoryFilter(BuiltInCategory.OST_Lines);\nFilter f3 = cf.NewLogicOrFilter(f2,\
+    \ fw);\nList roomsLines = new List();\n      revitApp.ActiveDocument.get_Elements(f3,\
+    \ roomsLines);\n\nBut problem with this code is that in 'roomsLines' list I get\
+    \ all the rooms and all the lines. But I want to get Detail lines of a specific\
+    \ room. will you please help me by knowing How I can get the elements of a specific\
+    \ room using revit api 2010 and c#?\n\nThanks in Advance"
+- author: Jeremy Tammik
+  email: ''
+  ip: 124.157.230.167
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-08-17 08:35:33'
+  body: 'Dear Ritish,
+
+
+    If all you are searching for detail lines lying within certain rooms in Revit
+    2010, I would determine one or more points on the lines and use the GetRoomAtPoint
+    method to determine which parts of them lie in the rooms of interest.
+
+
+    Cheers, Jeremy.
+
+    -----'

@@ -1,0 +1,190 @@
+comments:
+- author: Victor Chekalin
+  email: ''
+  ip: 91.221.195.202
+  url: http://profile.typepad.com/chekalin
+  date: '2012-06-13 22:54:04'
+  body: 'Hi, Jeremy.
+
+    Thanks for your regular post.
+
+    I think you should mention one more disadvantage of DocumentChanged event and
+    in my opinion the most significant: the event occurs after the document has changed
+    and there are no any ways to cancel changes using the event. E.g. in your sample
+    you ask question after ElevationView has created: "You just created an elevation
+    view ''{0}''. Are you sure you want to do that?". And only one button: Close.
+    That if I''m not sure? :) Although, I and you have already told about it many
+    times;)
+
+
+    Regards, Victor.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.181.82
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-06-14 02:36:11'
+  body: 'Dear Victor,
+
+
+    Right you are. Thank you for pointing that out! I added a note on this above as
+    well.
+
+
+    Cheers, Jeremy.'
+- author: Paul
+  email: kfpopeye@yahoo.com
+  ip: 66.183.29.189
+  url: ''
+  date: '2012-08-20 22:15:35'
+  body: Is it possible to write a macro using IUpdater, instead of an external command?
+    I've been trying but I find the Application.AddinID always returns a null.
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.8
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-08-22 06:53:31'
+  body: "Dear Paul,\n\nI checked with the development team, and they say: \n\nI have\
+    \ seen updaters installed in macros.\n\nI believe it is common to register the\
+    \ IUpdater in the module_startup() method.  \n\nAs far as I know, there are no\
+    \ restrictions.\n\nCheers, Jeremy."
+- author: Thomas Fink
+  email: thomas.fink@sofistik.de
+  ip: 82.135.31.146
+  url: http://www.sofistik.de
+  date: '2012-10-01 11:28:15'
+  body: 'Jeremy,
+
+
+    another point: I have the feeling, that Element.GetChangeTypeElementAddition()
+    does not call the updater, in case an element is deleted previously and added
+    again by UNDO.
+
+
+    Would you consider this as a feature lack or a bug?
+
+
+    Gruezi, Thomas'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-10-01 11:54:13'
+  body: "Gruezi Thomas,\n\nYour feeling may well be correct. Sounds to me like something\
+    \ to be looked at in more detail. \n\nWould you mind submitting a DevHelp Online\
+    \ case for this to be properly examined? Thank you!\n\nA *minimal* reproducible\
+    \ test case would be a great help, as always.\n\nDo any of the other change types\
+    \ catch the element being added back again by UNDO?\n\nCheers, Jeremy."
+- author: Christopher Mckeown
+  email: ''
+  ip: 203.28.167.26
+  url: http://profile.typepad.com/christophermckeown
+  date: '2013-02-18 17:29:32'
+  body: 'Hi Jeremy,
+
+
+    Is it possible to have a DMU actived in a DocumentOpened Onstartup? It looks like
+    it should work but the execute in the DMU is not firing... Regards Chris'
+- author: Anthony Tiefenbach
+  email: ttiefenbach@gmail.com
+  ip: 66.195.250.66
+  url: ''
+  date: '2013-07-19 16:19:08'
+  body: 'Jeremy,
+
+
+    I''m wanting to change a floor''s offset from level after it''s been created.  The
+    DMU is allowing me to make this change as soon as the floor is created, which
+    is at the start of the sketch.  However, I really need it to modify the element
+    when the user finishes the sketch (so that the user can change the floor type).  Is
+    there another event for finish sketch but before the transaction is finished?
+
+
+    Thanks!'
+- author: Anthony Tiefenbach
+  email: ttiefenbach@gmail.com
+  ip: 66.195.250.66
+  url: ''
+  date: '2013-07-22 07:44:22'
+  body: I found a way to do this using GetModifiedElementIds().  Works great for detecting
+    if a user changes from one type to another after it's created, as well.  Thanks!
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-08-13 11:41:34'
+  body: 'Dear Anthony,
+
+
+    Great, thank you for the query and the solution.
+
+
+    You basically have two events on document modification: the read-only document
+    modified event for synchronising or storing the info externally, and the DMU,
+    dynamic model update, to store it in the model itself, within the same transaction.
+
+
+    You might also have been able to continue making use of DMU, using a different,
+    later, change priority.
+
+
+    Cheers, Jeremy.'
+- author: Andy
+  email: akuznetsov@icad.spb.ru
+  ip: 85.235.197.230
+  url: http://icad.spb.ru
+  date: '2015-03-02 04:40:48'
+  body: 'Hi Jeremy,
+
+
+    I have a question about the Dynamic Model Updater.
+
+
+    I need to track the change of some properties
+
+
+    But some of the triggers do not work. For Example LENGTH or AREA. If I subscribe
+    to change the properties of the length (or area) of the wall, then trigger not
+    work
+
+
+    this my code:
+
+
+    ElementId paramId = new ElementId( BuiltInParameter.CURVE_ELEM_LENGTH);
+
+    UpdaterRegistry.AddTrigger(_updaterId, doc, filter, Element.GetChangeTypeParameter(paramId));
+
+
+    How do I catch the LENGHT property change event
+
+    Any help
+
+
+    Thanks!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-03-02 04:53:58'
+  body: 'Dear Andy,
+
+
+    Thank you for your very valid query.
+
+
+    You are absolutely right, I''m afraid.
+
+
+    Here is another example, an explanation, and a suggestion for working around the
+    problem:
+
+
+    <a href="http://forums.autodesk.com/t5/revit-api/instance-elevation-param-change-is-not-firing-updater/td-p/5502606">http://forums.autodesk.com/t5/revit-api/instance-elevation-param-change-is-not-firing-updater/td-p/5502606</a>
+
+
+    Basically, the workaround is to simply use GetChangeTypeAny instead of GetChangeTypeParameter.
+
+
+    Cheers, Jeremy.
+
+    -----'

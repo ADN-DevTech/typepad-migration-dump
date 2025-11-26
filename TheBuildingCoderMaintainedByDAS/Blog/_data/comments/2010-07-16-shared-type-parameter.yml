@@ -1,0 +1,213 @@
+comments:
+- author: Simon Hooper
+  email: s.hooper@bestech.co.uk
+  ip: 81.136.212.124
+  url: ''
+  date: '2012-06-15 07:51:21'
+  body: 'Hi Jeremy
+
+
+    This blog has proved very useful - many thanks.  One question...why does the added
+    shared parameter always appear under the ''Other'' group (as shown above), even
+    though one specifies a different definition group name via GetOrCreateSharedParamsGroup().  Is
+    this by design?
+
+
+    Thanks
+
+    Simon Hooper'
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-06-18 06:13:24'
+  body: 'Dear Simon,
+
+
+    Thank you for your appreciation. I am very glad that you find it useful!
+
+
+    I would say that shared parameters were created for end user interaction and simple
+    uncomplicated use.
+
+
+    The group name refers to the shared parameter file, I guess, and nothing else.
+
+
+    The other categories in the list above are used by built-in and family parameters,
+    I assume.
+
+
+    Cheers, Jeremy.'
+- author: ning
+  email: superjoe302@yahoo.ca
+  ip: 209.52.227.34
+  url: ''
+  date: '2012-08-10 18:12:41'
+  body: 'hi Jeremy, how''s your vacation?
+
+
+    so there''s no way to change existing shared parameter from under "Other" to under
+    "Graphics", etc.?
+
+
+    seems you can choose "Group" of shared parameter file for specific shared parameter,
+    and change binding to specific categories, but not "Group parameter under:" of
+    element properties as mentioned by Simon.
+
+
+    thanks.
+
+
+    Ning'
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-08-15 06:11:16'
+  body: 'Dear Ning,
+
+
+    My vacation was great, thank you!
+
+
+    I believe your description is accurate.
+
+
+    Cheers, Jeremy.'
+- author: Maria
+  email: ree.espinoza@gmail.com
+  ip: 207.250.243.26
+  url: ''
+  date: '2012-12-27 16:43:28'
+  body: "Holiday Cheers Jeremy\nI am just skimming the surface on many levels here.\
+    \ Utilizing Revit MEP specifically for E.\nI have been creating a SP file to enable\
+    \ tags for many of the families still in early stages. Here is a portion of my\
+    \ sp file (don’t know how to upload).\n# This is a Revit shared parameter file.\n\
+    # Do not edit manually.\n*META\tVERSION\tMINVERSION\nMETA\t2\t1\n*GROUP\tID\t\
+    NAME\nGROUP\t2\tE ANNO Callout Tag\nGROUP\t5\tE PWR Electrical Fixture Tag\nGROUP\t\
+    6\tE Tech Voice Data Quantity\nGROUP\t7\tE LITE Fixture Tag\nGROUP\t9\tE FA Device\
+    \ Tag\nGROUP\t10\tE Share Subscripts Tag\nGROUP\t11\tSPO Schedule\nGROUP\t12\t\
+    E Lite Device Tag\n*PARAM\tGUID\tNAME\tDATATYPE\tDATACATEGORY\tGROUP\tVISIBLE\n\
+    PARAM\t1c2ee403-38c4-4792-a051-301b6a07ffd8\tPWR CKT#\tTEXT\t\t5\t1\nPARAM\tdb81b506-5764-48a4-a61e-19f53ac88c0f\t\
+    Motor Designation\tTEXT\t\t5\t1\nPARAM\t25504c0e-c4b2-4153-9101-b74382f600a8\t\
+    Subscript 1\tTEXT\t\t10\t1\nPARAM\tfd202519-8e3c-4411-a91a-b64ca61beafa\tTYPE\
+    \ LF\tTEXT\t\t7\t1\nPARAM\tc754eb1c-d5a6-4c1a-bc97-68d260f75ad6\tPanel top\tTEXT\t\
+    \t2\t1\nPARAM\t9cd22922-8a41-4662-8578-8e3a426c4341\tSUBSCRIPT RIGHT\tTEXT\t\t\
+    2\t1\nPARAM\td3fb102b-df50-4d6a-a847-229ee9de4098\tSPO VOLT\tTEXT\t\t11\t1\nPARAM\t\
+    aabd679d-6895-4987-be6b-ff1a94fb6952\tSPO LOCATION\tTEXT\t\t11\t1\nPARAM\teb991a9f-1e69-40e3-ba0a-5333139b87c7\t\
+    SPO BREAKER POLE\tTEXT\t\t11\t1\nPARAM\t37bcc5ba-462b-4522-a398-251ddd22e869\t\
+    SPO PHASE\tTEXT\t\t11\t1\nI am beginning to wonder if I should organize Groups\
+    \ by TAGS_Family Category, TAGS_Shared (more than one category would use a subscript\
+    \ tag let’s say) SCHEDULES_Type.\nMy main reason for shared parameters is to tag\
+    \ and in the future report to a manual schedule.\nAlso:\nI do not see OOTB SP.\
+    \  Am I missing something that I only see the sp's I have created and nothing\
+    \ else...? \nAm I starting out in the right direction? Any insights would be much\
+    \ appreciated.\n\nThanks \nMaria"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.184.134
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-12-28 06:15:44'
+  body: 'Dear Maria,
+
+
+    Thank you and holiday cheers to you also.
+
+
+    I am not an expert on shared parameters, viewing them more as a user feature than
+    API functionality.
+
+
+    I would tend to use extensible storage as much as possible for add-ins. However,
+    since you want to make use of this data in schedules also, SPs make absolute sense,
+    of course.
+
+
+    The only thing I can think of suggesting is that you may need to integrate your
+    own shared parameters into the existing SP file.
+
+
+    Have a look at the CreateSharedParameter method used to create a shared parameter
+    programmatically:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/06/model-group-shared-parameter.html">http://thebuildingcoder.typepad.com/blog/2009/06/model-group-shared-parameter.html</a>
+
+
+    It checks the SharedParametersFilename. If that file exists, you can add your
+    own shared parameters to it, otherwise create a new file from scratch.
+
+
+    You seem to be doing only the latter, thus obliterating the existing ones.
+
+
+    Cheers, Jeremy.'
+- author: Maria
+  email: ree.espinoza@gmail.com
+  ip: 207.250.243.26
+  url: ''
+  date: '2012-12-28 10:46:48'
+  body: "Thanks Jeremy\nProgramming was never my strong suit  Just a few lisp routines\
+    \ in autocad. I will take some time to really absorb your post  \"CreateSharedParameter\
+    \ method used to create a shared parameter programmatically\". Looks like a good\
+    \ place to start digging in. \nHave a Happy and Prosperous New Year.\nCheers\n\
+    Maria"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.184.134
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-12-28 16:49:47'
+  body: 'Dear Maria,
+
+
+    Thank you!
+
+
+    For getting started with the Revit API, I would recommend looking at the getting
+    started material first of all:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/07/obj-model-exporter-with-transparency-support.html">http://thebuildingcoder.typepad.com/blog/2012/07/obj-model-exporter-with-transparency-support.html</a>
+
+
+    I wish you a Happy and Prosperous New Year also!
+
+
+    Cheers, Jeremy.'
+- author: Kesari Mudhagouni
+  email: kmudhagouni@dcstrategies.net
+  ip: 74.96.215.111
+  url: ''
+  date: '2013-01-24 15:50:55'
+  body: 'Hello Mr. Jeremy,
+
+
+    I want to create a multi-category tag using a shared parameter. Can I accomplish
+    this using API or are there any add-ons for such tasks? What is the reason that
+    it is not possible to tag shared parameters? Your answer will be greatly appreciated.
+
+
+    Thank you,
+
+
+    Kesari'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-25 09:29:32'
+  body: 'Dear Kesari,
+
+
+    Basically, you almost never achieve anything programmatically in Revit that is
+    not also doable in the user interface.
+
+
+    Therefore, your question is basically user interface related and should be answered
+    by some expert in that area.
+
+
+    Cheers, Jeremy.
+
+    -----'

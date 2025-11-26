@@ -1,0 +1,79 @@
+comments:
+- author: Ramon Jesus Gonzalez-Marquez
+  email: ''
+  ip: 83.213.11.229
+  url: http://profile.typepad.com/6p010536d50073970c
+  date: '2009-01-31 08:14:50'
+  body: 'Hi Jeremy,
+
+
+    This is exactly what we have been talking at the REVIT API Trainning @ Barcelona.
+    This example is a great help.
+
+
+    Have you been able to use the Cut Structure by Plane option as well?
+
+
+    Thanks.
+
+
+    Cheers, RJ.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.76.72
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-01-31 10:01:00'
+  body: 'Hola Ramon,
+
+
+    Wow, glad it helped. If this example is useful to you, I am sorry we did not dive
+    into that topic a bit deeper in Barcelona as well, and glad it came up again.
+
+
+    Oh, I just noticed another bit of information about the coping offset distance
+    in the RevitAPI.chm help file: This beam will be cut to fit another element, the
+    cutter. The cut will include an offset determined by the parameter STRUCTURAL_COPING_DISTANCE.
+    The parameter affects all copings on this element. This function corresponds to
+    Tools > Coping in Revit Structure.
+
+
+    If I search the help file for the term ''coping'', it shows the AddCoping method.
+    If I search for ''cut plane'', nothing relevant shows up, so I would assume this
+    is not available through the API.
+
+
+    Please submit a wish list item through ADN if this functionality is important
+    for you.
+
+
+    Cheers, Jeremy.'
+- author: Eddie M
+  email: cmansell2110@yahoo.co.uk
+  ip: 81.159.229.200
+  url: ''
+  date: '2010-06-24 18:54:59'
+  body: Hi Jeremy, Your guides are very useful and have provided much light in fog!
+    I have a question relating to Element Sets, I’ve got Revit to tell me what is
+    within a manually selected range of objects, is it possible to create the element
+    set based on a room object boundary? Regards, Eddie M.
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-29 08:08:10'
+  body: 'Dear Eddie,
+
+
+    I am glad this is useful, and thank you for your appreciation!
+
+
+    Yes, sure. One easy way to select object within a given geometrical region is
+    to make use of the filtered element collector and specify a BoundingBoxIntersectsFilter
+    or BoundingBoxIsInsideFilter. If the room has an odd shape, you may need to apply
+    some post-processing to fix boundary cases. Or approximate the room volume by
+    a combination of several bounding boxes.
+
+
+    Cheers, Jeremy.
+
+    -----'

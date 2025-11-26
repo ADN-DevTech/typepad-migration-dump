@@ -1,0 +1,109 @@
+---
+layout: "post"
+title: "Reading an RVT File without Revit"
+date: "2016-02-25 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Cloud"
+  - "Data Access"
+  - "Export"
+  - "External"
+  - "News"
+  - "Parameters"
+original_url: "https://thebuildingcoder.typepad.com/blog/2016/02/reading-an-rvt-file-without-revit.html "
+typepad_basename: "reading-an-rvt-file-without-revit"
+typepad_status: "Publish"
+---
+
+<p>A huge number of developers have requested a possibility to read or even write an RVT file without running Revit, similar to the possibility to read and write a DWG file without AutoCAD installed.</p>
+
+<p>For the latter, one option that has been around for ages is to make use of the <a href="http://www.autodesk.com/realdwg">RealDWG</a> library for reading and writing DWG files.</p>
+
+<p>A more recent and future oriented option is provided by the cloud-based <a href="http://autocad.io">AutoCAD I/O</a> web service.</p>
+
+<p>Here is yet another variation on this query:</p>
+
+<p><strong>Question:</strong> Is there any way that I can read a Revit model without having Revit installed on the users machine?</p>
+
+<p>I'm thinking something similar to RealDWG for AutoCAD?</p>
+
+<p>The closest I was able to find is your discussion
+of <a href="http://thebuildingcoder.typepad.com/blog/2010/06/open-revit-ole-storage.html">Open Revit OLE Storage</a>.</p>
+
+<p>However, I got the impression that this provides very limited and that it would not enable to extract, say, specific wall properties.</p>
+
+<p><strong>Answer:</strong> Yes, the method that you refer to is extremely limited in the scope of information that can be accessed.</p>
+
+<p>It is based on OLE structured storage, COM Structured Storage and the Compound File Binary Format.</p>
+
+<p>One additional aspect of the structure storage format is that it also enables access to
+so-called <a href="http://thebuildingcoder.typepad.com/blog/2015/09/lunar-eclipse-and-custom-file-properties.html#3">custom file properties on RVT and RFA files</a>,
+since they are standard Windows properties stored there.</p>
+
+<p>Here is another recent short overview 
+on <a href="http://thebuildingcoder.typepad.com/blog/2015/06/getting-started-creating-families-and-rfa-files.html#4">programmatically generating Revit family RFA files</a>.</p>
+
+<p>There is a little bit more data that can indeed be accessed from family definition RFA files without running Revit using the <code>Application</code> <code>ExtractPartAtomFromFamilyFile</code> method:</p>
+
+<!-- 0248 0448 -->
+
+<ul>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2009/11/extract-part-atoms.html">Extract Part Atoms</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2010/09/extract-part-atom-revisited.html">Extract Part Atom Revisited</a></li>
+</ul>
+
+<p>Regarding the question you raise on full access to the RVT file contents without a Revit session up and running, we recently published a request for wishes concerning that area:</p>
+
+<p><center>
+<a href="http://thebuildingcoder.typepad.com/blog/2016/02/what-can-revit-on-the-cloud-do-for-you.html#2"><strong>What Can Revit on the Cloud Do For You?</strong></a>
+</center></p>
+
+<p>If you have a serious need and a clear vision of what you would like to see, please contact <a href="mailto:jim.quanci@autodesk.com">Jim Quanci</a> and let him know.</p>
+
+<p>It will be much appreciated.</p>
+
+<p>Thank you!</p>
+
+<h4><a name="1"></a>Addendum</h4>
+
+<p>This  question was raised again shortly afterwards in the Revit API discussion forum thread
+on <a href="http://forums.autodesk.com/t5/revit-api/accessing-revit-data-without-open-revit/td-p/6217928">accessing Revit data without opening Revit</a>:</p>
+
+<p><strong>Question:</strong> How can I access Revit information without opening the Revit application, e.g. from an external application such as content studio?</p>
+
+<p>I would like to explore some parameters without opening the application.
+I know this kind of thread has been created few times but I discovered that Content Studio can do this.
+Does anyone know how to deal with this?</p>
+
+<p><strong>Answer:</strong> I assume you are referring to the Revit Content Studio application by <a href="http://contentstudioltd.com">Content Studio Limited</a>?</p>
+
+<p>Just as you already noted, this question has been discussed repeatedly in the past, e.g., in the Revit API discussion forum thread
+on <a href="http://forums.autodesk.com/t5/revit-api/revit-api-code-without-user-interaction-in-application/m-p/5989301">Revit API code without user interaction in application</a>.</p>
+
+<p>In general, as noted in both there and in the summary above, it is not possible to access Revit data or make any use whatsoever of the Revit API from outside of Revit.</p>
+
+<p>Moreover, you need to be in a valid Revit API context to make any Revit API calls.</p>
+
+<p>A valid Revit API context is only available within call back functions, i.e. event handlers that are actively called by Revit after registering to the corresponding API events.</p>
+
+<p>This is described in detail in numerous discussions in The Building Coder topic group
+on <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.28">Idling and External Events for Modeless Access and Driving Revit from Outside</a>.</p>
+
+<p>I assume that the information provided by Content Studio is accessible through the OLE and COM Structured Storage of the RVT and RFA file formats and the part atom functionality and the <code>Application</code> <code>ExtractPartAtomFromFamilyFile</code> method provided by the Revit API and described above.</p>
+
+<p>Oh, and before signing off, here is another thought-provoking idea:</p>
+
+<h4><a name="2"></a>A House for $20000 &ndash; but it's Nicer Than Yours</h4>
+
+<p>Check out this <a href="http://www.ruralstudio.org">Rural Studio</a> architectural project to
+build <a href="http://www.fastcoexist.com/3056129/this-house-costs-just-20000-but-its-nicer-than-yours/1">a house that costs just $20,000 &ndash; but it’s nicer than yours</a>.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb08bf5727970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb08bf5727970d img-responsive" style="width: 400px; " alt="20k house" title="20k house" src="/assets/image_abe136.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Look at their list of <a href="http://www.ruralstudio.org/projects.html">beautiful low-budget 5th year architecture projects</a>.</p>
+
+<p>I bet they made many people very happy with those!</p>

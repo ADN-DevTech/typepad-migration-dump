@@ -1,0 +1,216 @@
+comments:
+- author: peng
+  email: gmpxchun@163.com
+  ip: 123.117.173.144
+  url: ''
+  date: '2010-05-13 02:30:05'
+  body: Hello Sir,Is there a methord to import a outside .rvt file into the current
+    document as a Revit links.
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-05-13 02:49:11'
+  body: 'Dear Peng,
+
+
+    Nope, sorry to say, we have a wish list item for this request which is still open.
+
+
+    Cheers, Jeremy.'
+- author: Cosmas
+  email: tzavelis@hotmail.com
+  ip: 69.125.223.200
+  url: ''
+  date: '2010-05-14 22:44:53'
+  body: 'Hello Jeremy,
+
+    I just installed Revit Structures, Architecture 2011 and the SDK, but I can not
+    find RevitAPI.dll and RevitAPIUI.dll in their installation folder or anywhere
+    else on my Computer!
+
+    Where are they?'
+- author: Cosmas
+  email: tzavelis@hotmail.com
+  ip: 69.125.223.200
+  url: ''
+  date: '2010-05-14 23:01:11'
+  body: 'I will answer my own question!
+
+    Apparently the installation utility creates two program folders for Autodesk_Revit_Structure.
+    One directly on C:/Autodesk/ and the other on C:/Programs Files/Autodesk. The
+    dlls are under the C:/Programs Files/Autodesk (as they should be), and not in
+    C:/Autodesk where I was looking!'
+- author: Alvaro
+  email: alvaro.picapau@gmail.com
+  ip: 77.228.110.48
+  url: ''
+  date: '2010-05-16 10:58:04'
+  body: 'Hi,
+
+
+    Im guessing if its possible to use the Revit API to create an external program
+    that launch Revit, opens a rvt file , modify some parameters and then renders
+    it.
+
+    Is it possible or it can only be used to create add-ins?
+
+
+    Thank you very much,
+
+
+    Alvaro'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.217.19.244
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-05-16 17:53:38'
+  body: 'Dear Cosmas,
+
+
+    Right you are, the directory structure under C:/Autodesk contains temporary installation
+    files. Glad you found the right place!
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.217.19.244
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-05-16 18:03:22'
+  body: 'Dear Alvaro,
+
+
+    I am sorry to say that your guess is wrong, and the API can currently only be
+    used to create add-ins.
+
+
+    You may be able to achieve what you want anyway, by launching Revit by some other
+    means and then making use of an add-in that is launched on start-up or when the
+    initial document is opened. Please refer to numerous posts on this subject, e.g.
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/04/asynchronous-api-calls-and-idling.html">http://thebuildingcoder.typepad.com/blog/2010/04/asynchronous-api-calls-and-idling.html</a>
+
+
+    Journal files may also help.
+
+
+    Cheers, Jeremy.'
+- author: Karl
+  email: karlh_us@yahoo.com
+  ip: 75.62.124.213
+  url: ''
+  date: '2010-05-17 00:36:46'
+  body: 'Hi Jeremy,
+
+
+    I am a Revit API newbee and would like to learn from you. Followed some of your
+    example and Audesk''s sample codes, I am able to create a tab, panel and commands
+    to load a family symbol.  However, I do not know how to 1) set the loaded family
+    symbol as the current default symbol; 2) how to place a loaded family symbol,
+    e.g., the column, into the project at around the mouse point; 3) how to get the
+    XYZ of the current mouse point position?
+
+
+    Thank you in advance for the help.'
+- author: Cosmas
+  email: tzavelis@hotmail.com
+  ip: 69.125.223.200
+  url: ''
+  date: '2010-05-18 00:10:05'
+  body: 'Hello Jeremy,
+
+    Can you give a VB example of how to search through a Revit document for different
+    structural elements (Structural Beams, Columns, Floors, Walls and Footings)? I
+    have used before the 2009 RstLabs, but now it has to be modified for the new 2011
+    API. Can we now use regular VB.net collections (that can be iterated using For
+    Each)?
+
+    Thank you for your help.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-05-19 05:35:58'
+  body: 'Dear Cosmas,
+
+
+    I am working on an update of the RST labs which I plan to publish soon.
+
+
+    I have sent you a snapshot of my current 2011 version of it by private mail.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-05-19 05:45:10'
+  body: 'Dear Karl,
+
+
+    I believe you cannot programmatically define which symbol should be the current
+    default, so you will have to forget number 1, I''m afraid.
+
+
+    Regarding number 2, you might want to have a look at the method UIDocument.PromptForFamilyInstancePlacement
+    to prompt the user to interactively place one or more instances of a particular
+    FamilySymbol.
+
+
+    Regarding number 3, you can use Selection.PickPoint to prompt the user to pick
+    a point on the view active work plane. You cannot query the current cursor position
+    without picking, though, except using the Windows API, but that will not give
+    you access to any Revit coordinates. There is actually no way to determine a 3D
+    position from a 2D mouse cursor without additional picking or some other assumptions
+    about how the mouse cursor should be projected into the model.
+
+
+    Cheers, Jeremy.'
+- author: Tony
+  email: limoussallem@hotmail.com
+  ip: 78.108.169.9
+  url: ''
+  date: '2010-06-10 03:27:20'
+  body: hello jeremy can you give me an example how to get the analytical model for
+    a wall in Resit Str 2011 API
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.71.6
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-10 14:44:26'
+  body: "Dear Tony,\n\nSure, you can simply search globally through the Revit SDK\
+    \ samples for the GetAnalyticalModel method. \n\nI see examples of this call in\
+    \ 27 places in 13 different sample applications.\n\nCheers, Jeremy."
+- author: jude2012
+  email: jude2012@126.com
+  ip: 27.156.58.108
+  url: ''
+  date: '2012-03-10 06:36:25'
+  body: 'hi,jeremy
+
+    is there a way to get the settings of the "column top''s connection types or the
+    "column base''s connection types"in the structural settings dialogue which the
+    user define.
+
+    for example the user set 3 structural connection types for  COLUMN TOP ,and set
+    5 structural connection types for COLUMN BASE,how can i get the 3 types or the
+    5 types , for now i can only use the filter to filter all the structural connections
+    types ,but can not classify them.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-06-03 15:06:09'
+  body: 'Dear Jude,
+
+
+    Are you aware of the StructuralSettings class? I was under the impression that
+    it provides access to all the properties affected by the Structural Settings dialogue.
+
+
+    Cheers, Jeremy.
+
+    -----'

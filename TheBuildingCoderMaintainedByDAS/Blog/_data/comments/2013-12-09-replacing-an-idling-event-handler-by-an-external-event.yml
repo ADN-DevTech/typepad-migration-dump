@@ -1,0 +1,175 @@
+comments:
+- author: Afshin
+  email: afshin.j@gmail.com
+  ip: 180.148.69.42
+  url: ''
+  date: '2014-06-23 03:19:18'
+  body: 'Hi Jeremy,
+
+    Thanks for this post and all the good stuff in your weblog.
+
+
+    I tried the suggested trick to force idling event to trigger.
+
+    I have a tree list which when clicking on each node it calls the view3d.SetOrientation()
+    with some new arguments.
+
+    right after this line I have Document.RefreshActiveView().
+
+
+    what actually happens is when I click on the node item nothing happens! but as
+    soon as I touch the mouse it starts to change the mouse location left-right and
+    new camera location applies.
+
+
+    tried the debugger and looks like when I click on the node the idling event handler
+    does not trigger at all to change the mouse position.
+
+
+    Any ideas or suggestions?
+
+    Thanks in advanced,'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.193.108
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-06-25 16:39:30'
+  body: 'Dear Afshin,
+
+
+    Thank you for your appreciation.
+
+
+    Sorry, I am not aware of a reliable method to force this update.
+
+
+    You can try to call document Regenerate, or terminate a transaction.
+
+
+    The latter is more expensive.
+
+
+    The DisplacementElementAnimation shows something similar:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/08/animation-and-the-displacementelement-class.html">http://thebuildingcoder.typepad.com/blog/2013/08/animation-and-the-displacementelement-class.html</a>
+
+
+    So does the kinetic facade sample, which may actually be exactly what you are
+    looking for, also using the UIDocument RefreshActiveView method:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/04/devcamp-and-refresh-display-for-a-kinetic-facade.html">http://thebuildingcoder.typepad.com/blog/2012/04/devcamp-and-refresh-display-for-a-kinetic-facade.html</a>
+
+
+    Please let us know what solution you end up with.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Afshin
+  email: afshin.j@gmail.com
+  ip: 180.148.69.42
+  url: ''
+  date: '2014-06-29 20:15:00'
+  body: "Hi Jeremy, \n\nThanks for the reply,\nI just managed to find a free time\
+    \ follow your solutions.\nI had already tried 'RefreshActiveView' and terminating\
+    \ the transaction, but none seem to work.\nThe only thing that made a change was\
+    \ 'Regenerate' which actually made it worse! \n\nWhen using it, the model did\
+    \ not refresh, even when moving the mouse cursor; though when I clicked on an\
+    \ item in the model the blue bounding lines of the selected item appeared in the\
+    \ right position while the background still not refreshed! Quiet artistic!\n\n\
+    Also tried all combinations of 'RefreshActiveView' and 'regenerate' and still\
+    \ no luck.\n\nThanks again,\nAfshin"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-06-30 11:16:20'
+  body: 'Dear Afshin,
+
+
+    Please look at Arnost Lobel''s addendum to the topic of refreshing the element
+    graphics display:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2014/06/refresh-element-graphics-display.html#2">http://thebuildingcoder.typepad.com/blog/2014/06/refresh-element-graphics-display.html#2</a>
+
+
+    Apparently, there is no way to refresh graphics reliably in mid-command.
+
+
+    The DisplacementElementAnimation SDK sample shows an alternative solution.
+
+
+    Cheers, Jeremy.'
+- author: gill gonnissen
+  email: ''
+  ip: 81.82.212.38
+  url: http://profile.typepad.com/6p01b7c70f52b3970b
+  date: '2014-11-25 03:56:56'
+  body: "Dear Jeremy,\n\nI would like to say thanks for the post and all the other\
+    \ good posts in your blog. These help(ed) me a lot.\n\nSince I'm programming in\
+    \ Revit since 2011, I've witnessed all the changes from Idling -> External Events\
+    \ -> Idling like you mention here in your post. \n\nNow, I've upgraded to Revit\
+    \ 2015 and I'm coping with the same problem that Revit needs focus in order to\
+    \ execute an External Event. \n\nYour post is from dec 2013, have you found a\
+    \ way to stick with External Events, without doing the \"hack\" to move the cursor?\
+    \ Or do you think that the API will not change and the Idling function is the\
+    \ better way to trigger that programmatically?\n\nThanks in advance,\n\nGill Gonnissen"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.69.118.186
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-12-09 15:06:27'
+  body: 'Dear Gill,
+
+
+    Thank you for your appreciation and very valid query.
+
+
+    I am glad that The Building Coder helped and was useful for you.
+
+
+    You are in luck in this case as well.
+
+
+    I talked with some young guys at the meetup in Paris last night, and they told
+    me about the trick they discovered to solve this.
+
+
+    Unfortunately, I did not understand the exact details how it went, but this is
+    more or less what they said:
+
+
+    When you register the application (or the command?), attach an empty delegate
+    function to it that does absolutely nothing at all.
+
+
+    When you wish the external event to be triggered, call this delegate method. In
+    their words, "Kick the add-in (or the command?) in the head", to trigger it to
+    run.
+
+
+    This is enough, and the external event will be triggered as well.
+
+
+    I cannot say more, but this will hopefully provide a starting point and a reason
+    to hope that it is solvable and really easy to do.
+
+
+    I hope this helps.
+
+
+    Please let us know how it works out for you.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.
+
+
+    -----'

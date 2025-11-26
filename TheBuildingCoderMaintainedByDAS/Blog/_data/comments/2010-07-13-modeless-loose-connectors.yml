@@ -1,0 +1,130 @@
+comments:
+- author: Sandeep
+  email: sdpatil.1984@rediffmail.com
+  ip: 122.200.17.210
+  url: ''
+  date: '2011-01-12 01:20:04'
+  body: 'Hi Jeremy,
+
+    Is there is any other way to zoom? i.e. other than ShowElements(). The case is
+    like, i want to highlight specific portion of the current selected element. There
+    is a way in Autocad to zoom particular element, do we have this any with Revit
+    API?
+
+
+    Thanks,
+
+    Sandeep'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-01-13 04:34:23'
+  body: 'Dear Sandeep,
+
+
+    Sorry, currently ShowElements is the only method available that I know of.
+
+
+    Cheers, Jeremy.'
+- author: Colin Magner
+  email: colin.magner@arup.com
+  ip: 90.209.113.94
+  url: http://www.arup.com
+  date: '2011-05-14 06:55:25'
+  body: 'Hi Jeremy,
+
+
+    I''m looking at Loose Connectors to get my head around modeless Revit dialogs
+    for another project I have in mind, and have noticed that prior to invoking Loose
+    Connectors the Revit Process idles along as you''d expect, but as soon as Loose
+    Connectors is run the Revit process sits around 50% CPU usage, and stays there,
+    even after the Loose Connectors dialog is closed.
+
+
+    Have I done something wrong in compiling it, or is there a tweak that needs to
+    be made to the code?
+
+
+    Thanks,
+
+
+    Col.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-05-18 06:44:18'
+  body: 'Dear Col,
+
+
+    Thank you very much for this interesting and rather worrying observation. Yes,
+    I see the same behaviour. Funnily enough, when I actually do something in the
+    loose connector navigator dialogue, such as simply scrolling up and down, the
+    Revit CPU usage goes down, only to rise to 50% again when I stop.
+
+
+    And yes, it stays up there at 50% even after I close the window.
+
+
+    I don''t know what can be causing this.
+
+
+    I suggest that you read very carefully all the pitfalls of the Idling event that
+    Arnost Lobel has warned us about in his critiques of various Idling examples presented
+    in this blog, and see whether you can find anything causing this, or even maybe
+    fix it.
+
+
+    On the other hand, maybe Revit simply starts sending Idling notifications all
+    of its free time once some add-in has subscribed to that event, and never stops,
+    so there is nothing that we can do about it. Maybe.
+
+
+    Does this behaviour cause any discernible problems for you, or are you just worrying
+    out of principle?
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-05-19 03:50:48'
+  body: 'Dear Col,
+
+
+    Here is some more feedback on this issue from our Idling event expert Arnošt Löbel:
+
+
+    1. Yes, it is true that the Idling event, once it is subscribed to, consumes certain
+    CPU cycles almost ''all the time''. We are exploring alternatives, but that is
+    the way it is for now. FYI: on my computer, the 50% is just 12%.
+
+
+    2. If an event handler is properly unsubscribed, Revit should stop raising the
+    event. It only raises it as long as there are any subscribers. It is most likely
+    not enough that the dialog that owns the event dies, because Revit also owns a
+    tracking handle of the event handler and that prevents it from being garbage collected.
+    Therefore it is important to unregister the handler as soon as it is not needed
+    anymore (and definitely upon the application’s exit.
+
+
+    Cheers, Jeremy.'
+- author: C M
+  email: ''
+  ip: 80.254.147.188
+  url: http://profile.typepad.com/cm11
+  date: '2011-05-26 03:26:04'
+  body: 'Thanks for the replies Jeremy (and Arnošt).
+
+
+    The behaviour doesn''t appear to degrade performance, but I know that if I develop
+    an add-in that does this people will query it.  Revit users are already precious
+    about workstation performance. (so yes, worrying out of principle!).
+
+
+    I''ll add in the code to unregister the handler.  Ultimately, for the future,
+    Revit could do with something like AutoCAD''s palettes.
+
+    -----'

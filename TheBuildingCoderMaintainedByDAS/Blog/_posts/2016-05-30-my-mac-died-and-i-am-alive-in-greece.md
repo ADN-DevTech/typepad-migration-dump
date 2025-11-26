@@ -1,0 +1,185 @@
+---
+layout: "post"
+title: "My Mac Died and I am Alive in Greece"
+date: "2016-05-30 17:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Events"
+  - "Forge"
+  - "Mac"
+  - "Meetup"
+  - "News"
+  - "Photo"
+  - "Travel"
+  - "View"
+original_url: "https://thebuildingcoder.typepad.com/blog/2016/05/my-mac-died-and-i-am-alive-in-greece.html "
+typepad_basename: "my-mac-died-and-i-am-alive-in-greece"
+typepad_status: "Publish"
+---
+
+<p>I had a couple of eventful days:</p>
+
+<ul>
+<li><a href="#2">My Mac crashed</a></li>
+<li><a href="#3">Setting up the new Mac</a></li>
+<li><a href="#4">Recompiling the samples connecting BIM and cloud</a></li>
+<li><a href="#5">Travel to Athens</a></li>
+<li><a href="#6">Athens Forge Meetup</a></li>
+<li><a href="#7">Athens Forge Workshop</a></li>
+</ul>
+
+<h4><a name="2"></a>My Mac Crashed</h4>
+
+<p>Last Friday morning my long-awaited new PC arrived.</p>
+
+<p>The old one, my first Mac, was three and a half years old.</p>
+
+<p>At one o'clock the very same afternoon it crashed with no warning.</p>
+
+<p>Life is very strange.</p>
+
+<p>Full of so-called coincidences.</p>
+
+<p>From then on, I had the 'flashing hard disk' error and was unable to boot.</p>
+
+<p>Starting it up in recovery mode by holding down <code>Cmd</code> + <code>R</code> brought me to the disk utility, which was able to verify but not repair my disk.</p>
+
+<p>I visited the nearest Apple store, they took the machine with them to the workshop.
+When they returned it twenty minutes later, the disk was no longer accessible at all and almost all hope of saving its contents was lost.</p>
+
+<p>So then I started setting up the new computer.</p>
+
+<p>Before the crash, I was under total stress.</p>
+
+<p>After the crash, I relaxed a bit.</p>
+
+<p>I was still 100% committed to getting things up and running plus complete all important pending tasks, knowing that several days of additional work are needed, and yet I was somehow less under stress.</p>
+
+<p>Life is strange indeed.</p>
+
+<h4><a name="3"></a>Setting Up the New Mac</h4>
+
+<p>I received the Mac with Microsoft Office for Mac set up.</p>
+
+<p>From then on, I was on my own.</p>
+
+<p>I had a backup of all my personal data files, just a day or two out of date, but all my installed applications and settings were lost.</p>
+
+<p>So far, I downloaded, installed and reactivated the following components and 'connecting desktop and cloud' samples:</p>
+
+<ul>
+<li>Chrome for Mac</li>
+<li>iTerm2 2.1.4</li>
+<li>TrueCrypt 7.1a Mac OSX</li>
+<li>Skype 7.28.316</li>
+<li>Git 2.8.1</li>
+<li>TextMate 2.0 beta 9.2</li>
+<li>GCC, Portfile</li>
+<li>Parallels Desktop 11 for Mac Upgrade 11.2.0</li>
+<li>Windows 8.1 with Update x64 UK English</li>
+<li>Revit 2017</li>
+<li>Chrome for Windows</li>
+<li>CouchDB on Windows</li>
+<li>Restored roomedit CouchDB database</li>
+<li>Visual Studio Enterprise 2015 with Update 2</li>
+<li><a href="https://github.com/jeremytammik/RoomEditorApp">RoomEditorApp</a> sample <a href="https://github.com/jeremytammik/RoomEditorApp/releases/tag/2017.0.0.3">release 2017.0.0.3</a></li>
+<li>Revit 2017 SDK</li>
+<li>Pcal 4.11.0, the Postscript calendar program </li>
+<li>Node.js for Mac 4.4.5</li>
+<li>Node.js for Windows</li>
+<li><a href="https://github.com/jeremytammik/roomedit3d">Roomedit3d</a> sample <a href="https://github.com/jeremytammik/roomedit3d/releases/tag/0.0.6">release 0.0.6</a></li>
+<li><a href="https://github.com/jeremytammik/FireRatingCloud">FireRatingCloud</a>. sample <a href="https://github.com/jeremytammik/FireRatingCloud/releases/tag/2017.0.0.18">release 2017.0.0.18</a></li>
+<li><a href="https://pythonhosted.org/Markdown">Python-Markdown</a> to process this blog post &nbsp; :-)</li>
+<li><a href="http://mediaarea.net/en/MediaInfo">MediaInfo command line version</a></li>
+<li><a href="https://sourceforge.net/projects/kdiff3">Kdiff3</a>, a graphical text difference analyser</li>
+<li><a href="http://www.gimp.org">GIMP</a> 2.8.16</li>
+<li><a href="http://kid3.sourceforge.net">Kid3</a> audio tagger</li>
+<li><a href="http://coppertino.com">Vox</a> music player</li>
+</ul>
+
+<p>(P.S. I added the last few music related items later for my personal reference)</p>
+
+<p>I am still working on getting the 'wherever change directory' utility <code>wcd</code> up and running, which requires a wide character version of <code>ncurses</code>...</p>
+
+<p>Maybe I can ditch it and use the newest iTerm2 functionality instead, though...</p>
+
+<p>I am also continuously editing my <code>.bash_profile</code> to restore lost settings like the command prompt, paths, aliases, etc.</p>
+
+<p>I just had an idea: I now store <code>.bash_profile</code> in my personal backed-up data area, and just place a hard link to it in my un-backed-up home directory.</p>
+
+<p>I was previously using the Komodo editor and now switched to TextMate instead, so there is lots of keyboard shortcut learning and macro reimplementation waiting for me there.</p>
+
+<h4><a name="4"></a>Recompiling the samples connecting BIM and cloud</h4>
+
+<p>I mentioned the three reanimated samples connecting BIM and cloud above in the list of downloads:</p>
+
+<ul>
+<li><a href="https://github.com/jeremytammik/RoomEditorApp">RoomEditorApp</a> sample <a href="https://github.com/jeremytammik/RoomEditorApp/releases/tag/2017.0.0.3">release 2017.0.0.3</a></li>
+<li><a href="https://github.com/jeremytammik/roomedit3d">Roomedit3d</a> sample <a href="https://github.com/jeremytammik/roomedit3d/releases/tag/0.0.6">release 0.0.6</a></li>
+<li><a href="https://github.com/jeremytammik/FireRatingCloud">FireRatingCloud</a>. sample <a href="https://github.com/jeremytammik/FireRatingCloud/releases/tag/2017.0.0.18">release 2017.0.0.18</a></li>
+</ul>
+
+<p>Most of the enhancements I made were related to using the official NuGet packages instead of manually installed ones, and fixing the ensuing differences and errors.</p>
+
+<h4><a name="5"></a>Travel to Athens</h4>
+
+<p>Two reasons for the pressure I felt last Friday were the preparations for the upcoming Forge DevCon, and, more imminently, 
+the <a href="http://thebuildingcoder.typepad.com/blog/2016/04/room-editor-first-revit-2017-addin-migration.html#1">Athens Forge meetup and workshop</a> taking 
+place this week.</p>
+
+<p>Accordingly, I am now in Greece, where I happily and unexpectedly ended up at the Lake Marathon:</p>
+
+<p><center>
+<a data-flickr-embed="true"  href="https://www.flickr.com/photos/jeremytammik/albums/72157669153659585" title="Lake Marathon"><img src="/assets/27380355175_4053c18c0a_n.jpg" width="320" height="240" alt="Lake Marathon"></a><script async src="//embedr.flickr.com/assets/client-code.js" charset="utf-8"></script>
+</center></p>
+
+<p>Here are the two events here in the coming days:</p>
+
+<h4><a name="6"></a>Athens Forge Meetup</h4>
+
+<p>Tomorrow, we are presenting at 
+the <a href="http://www.meetup.com/de-DE/I-love-3D-Athens/events/230543759">meetup</a> 
+at <a href="http://thecube.gr">The Cube Athens</a>:</p>
+
+<ul>
+<li>Overview of the Forge Platform</li>
+<li>Presentations by local partners describing their use of and advantages using web services</li>
+<li>BIM 360 at a glance</li>
+</ul>
+
+<p>Be among the first to use the next generation of Autodesk cloud services. Get hands-on with the tools that will help you to create new service offerings, solutions, and integrations for a cloud-connected product-development ecosystem.</p>
+
+<p>In detail, we present:</p>
+
+<ul>
+<li>Peter on the <a href="http://forge.autodesk.com">Autodesk Forge</a> program, platform and fund</li>
+<li>Lambros from Plexscape on his progress using Forge web services</li>
+<li>Anthony from Solid Iris Technologies is the maker of <a href="https://www.thearender.com">Thea Render</a>, a high performance physically based rendering solution and will talk about his Autodesk Fusion 360 app, including the journey to app submission. </li>
+<li>Jeremy on BIM360 at a glance.</li>
+</ul>
+
+<h4><a name="7"></a>Athens Forge Workshop</h4>
+
+<p>A workshop on how to set up a Node.js web server and client-side JavaScript code to display and interact with CAD models from over 50 different source file formats, based on open source WebGL and Three.js technology.</p>
+
+<p>The API allows developers to create interactive websites for all kinds of different markets where 3D interaction could be added.</p>
+
+<p>The web world has changed. Now that all the most popular web browsers support WebGL, 3D on the web is a reality. With this workshop, JS and 3D enthusiasts can learn to create interactive web application and also get a head start on VR apps.</p>
+
+<p>We share our knowledge using WebGL and Three.js technology based on two APIs and guide attendees through the entire process of building a simple application, including writing a node.js web server, use of npm, hosting the web application and interacting with the 3D model by running different viewer JS extensions.</p>
+
+<p>First, using the REST API, we set up the Node.js server, enabling you to upload and translate 2D/3D models into a light-weight format for downloading and displaying on the client side. </p>
+
+<p>The second part is a client-side JS API that allows you to embed, customize through JS extensions and automate an interactive 2D and 3D model viewer on your web page. We can also investigate the use of a Web IDE that allows us to host our created Github repos, run a dedicated NPM and host our 3D website in the Cloud. </p>
+
+<p>The intended audience for this workshop is JS and 3D enthusiasts with the desire to take their web apps to the next level and create attractive and eye-candy apps with a head start to the design of their own VR apps.</p>
+
+<p>The workshop enables you to:</p>
+
+<ul>
+<li>View 2D and 3D models in any browser or device without installing any plug-in or additional software. </li>
+<li>Create and run a Node.js application. </li>
+<li>Host your 3D website using 3rd party Web IDE. </li>
+<li>Use the Extension API in the WebGL viewer to interact with the 2D and 3D models. </li>
+<li>Identify resources for learning more about the technology. </li>
+</ul>

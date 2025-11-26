@@ -1,0 +1,78 @@
+comments:
+- author: Dmitry Robustov
+  email: robustov@mail.ru
+  ip: 178.126.139.254
+  url: http://cheveluremaya.com
+  date: '2011-03-10 17:38:54'
+  body: "Hello!\n\nWe are trying extract render parameters from Revit Asset by plugin.\n\
+    Does RevitAPI provide way to get data from Asset property with type=APT_Reference?\n\
+    \nI'm getting this information by my plugin:\ndescription(Misc) = Hardwood material.\n\
+    UIDefinition(Misc) = HardwoodUI.xml\nImplementationMentalRay(Misc) = MentalImage.xml\n\
+    ImplementationMentalRayAdditionalFiles(Misc) = Mats\\Hardwood\\mi.phenomenon\\\
+    include\\adsk_Mtl_Hardwood.mi\nImplementationOGS(Misc) = OGS.xml\nImplementationPreview(Misc)\
+    \ = PreviewColor.xml\nthumbnail(Misc) = Mats\\Hardwood\\Presets\\t_Wood-095.png\n\
+    UIName(Misc) = Wood-095\nInternalType(Misc) = preset\nhardwood_color(Misc) = APT_Reference\n\
+    hardwood_tint_color(Misc) = 0.792969 0.503906 0.074219 1\nhardwood_tint_enabled(Misc)\
+    \ = 1\nhardwood_finish(Misc) = 3\nhardwood_application(Misc) = 1\nhardwood_imperfections(Misc)\
+    \ = 0\nhardwood_imperfections_amount(Misc) = 0.3\nhardwood_imperfections_shader(Misc)\
+    \ = APT_Reference\nreflection_glossy_samples(Misc) = 32\n\nYou can see that I\
+    \ retrieve main information:\n  hardwood_tint_color = 0.792969 0.503906 0.074219\
+    \ 1\n  hardwood_tint_enabled = 1\n  hardwood_finish = 3\nBut Texture information\
+    \ is not accessible:\n  Wood Image: filename\n  Wood Image: brightness\n  Wood\
+    \ Image: position\n  etc\n\nI think fields like \"hardwood_color\" contain information\
+    \ about texture\nname, brightness and texture transformations.  This property\
+    \ has type\nAssetPropertyReference.\nUnfortunate I don't see way to extract data\
+    \ from this property.\n\nHere is code of plugin:\nAssetProperty m_assetProperty;\n\
+    ...\nif (m_assetProperty is AssetPropertyReference)\n{\n   AssetPropertyReference\
+    \ property = m_assetProperty as AssetPropertyReference;\n   // ....\n   // HOW\
+    \ TO FETCH DATA FROM THIS?\n}\n\nCould you help me?"
+- author: Jeremy Tammik
+  email: ''
+  ip: 213.210.236.146
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-03-18 12:39:18'
+  body: 'Dear Dmitry,
+
+
+    I’m afraid that there is no Revit API support that directly associates the data
+    found in Assets with the Material API classes. Currently I am not aware of any
+    way to get the file name of a texture bitmap, other than possibly though built-in
+    parameters on the material class, such as RENDER_RPC_FILENAME.
+
+
+    You can always use the method to extract the file name from the FBX export, though,
+    described in
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/02/texture-data-uv-coordinates-and-fbx.html">http://thebuildingcoder.typepad.com/blog/2010/02/texture-data-uv-coordinates-and-fbx.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Scott
+  email: spesci@carsondesign.com
+  ip: 70.228.181.102
+  url: ''
+  date: '2012-10-15 09:04:16'
+  body: 'I found this page working with materials for R2011. I can''t find if you
+    have updated the materials2 VS for 2013. Could you point me in the right direction
+    if so.
+
+
+    Thanks,
+
+
+    Scott'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-10-15 09:33:44'
+  body: 'Dear Scott,
+
+
+    No, I have not.
+
+
+    Cheers, Jeremy.
+
+    -----'

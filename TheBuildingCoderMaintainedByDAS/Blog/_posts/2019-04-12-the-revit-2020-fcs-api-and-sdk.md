@@ -1,0 +1,330 @@
+---
+layout: "post"
+title: "The Revit 2020 FCS, API and SDK"
+date: "2019-04-12 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "2020"
+  - "DevDays"
+  - "Getting Started"
+  - "Installation"
+  - "Migration"
+  - "SDK Samples"
+  - "Settings"
+  - "Update"
+  - "Utilities"
+original_url: "https://thebuildingcoder.typepad.com/blog/2019/04/the-revit-2020-fcs-api-and-sdk.html "
+typepad_basename: "the-revit-2020-fcs-api-and-sdk"
+typepad_status: "Publish"
+---
+
+<p>Revit 2020 has been released, and we go through the same procedure as every year, looking at the DevDays online presentation highlighting the API news, getting the system requirements set up, installing, compiling the Revit SDK samples and setting up RvtSamples to load them:</p>
+
+<ul>
+<li><a href="#2">Revit 2020 first customer shipment</a> </li>
+<li><a href="#3">Revit 2020 DevDays Online</a> </li>
+<li><a href="#4">Setting up Windows 10</a> </li>
+<li><a href="#5">Installing Revit 2020 and the new SDK</a> </li>
+<li><a href="#6">Visual Studio and .NET 4.7</a> </li>
+<li><a href="#7">Compiling the Revit 2020 SDK samples</a> </li>
+<li><a href="#8">Setting up RvtSamples</a> </li>
+</ul>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a47b4a77200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a47b4a77200d image-full img-responsive" alt="RvtSamples loaded all Revit 2020 external commands" title="RvtSamples loaded all Revit 2020 external commands" src="/assets/image_e8c826.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="2"></a> Revit 2020 First Customer Shipment</h4>
+
+<p>Look at the overview by Harlan Brumm
+on <a href="https://blogs.autodesk.com/revit/2019/04/10/youve-got-to-see-whats-new-in-revit-2020">What's New in Revit 2020</a> from
+an end user point of view.</p>
+
+<h4><a name="3"></a> Revit 2020 DevDays Online</h4>
+
+<p>Turning toward the programming side of things, we held a series of DevDays online presentations presenting previews of new Forge features and desktop API updates in February and March, including one of special interest for us here, covering <em>What's New in the Revit 2020 API</em>. Here are the recordings:</p>
+
+<p>Forge sessions:</p>
+
+<ul>
+<li>2019-02-26 &ndash; <a href="https://youtu.be/XP9Fb9R-laM">DevDays Keynotes</a></li>
+<li>2019-02-27 &ndash; <a href="https://youtu.be/rqaO1yx1g94">Forge API update</a></li>
+<li>2019-02-28 &ndash; <a href="https://youtu.be/G-pP37GQycQ">Design Automation API</a></li>
+<li>2019-03-05 &ndash; <a href="https://youtu.be/CGEMLDVf9Oc">BIM 360 product and API update</a></li>
+</ul>
+
+<p>Desktop product sessions on the ADN page:</p>
+
+<ul>
+<li>2019-03-06 &ndash; <a href="https://adn.autodesk.io/index.php?r=custom_pages%2Fview&amp;id=143">Inventor, Vault and Fusion API update</a></li>
+<li>2019-03-07 &ndash; <a href="https://adn.autodesk.io/index.php?r=custom_pages%2Fview&amp;id=143">Revit API, Civil 3D &amp; InfraWorks updates</a></li>
+<li>2019-03-12 &ndash; <a href="https://adn.autodesk.io/index.php?r=custom_pages%2Fview&amp;id=143">The next release of AutoCAD APIs</a></li>
+</ul>
+
+<p>Oops, I just noticed that the three links above all point to the same place on the restricted ADN web site.</p>
+
+<p>Here are two publicly accessible Dropbox pointers for non-members to the Revit related topics:</p>
+
+<ul>
+<li>2019-01-28 &ndash; <a href="https://www.dropbox.com/s/aqqp5mc45ktdt73/Meet_the_Expert_Revit_2020.zip?dl=0">Meet the Expert: Revit 2020</a></li>
+<li>2019-03-07 &ndash; <a href="https://www.dropbox.com/s/5i5txlwzuff64v8/DevDays%202019-Revit-Civil3D-Inforworks.zip?dl=0">DevDays Online 2019: Autodesk Revit API, Civil 3D and InfraWorks updates</a></li>
+</ul>
+
+<p>Update: The 54-minute <a href="https://youtu.be/uHZLQUtf9A0">Revit DevDays Webinar Recording</a> is
+now also available in
+the <a href="https://www.youtube.com/channel/UC6Fl_1mFNt0rBqa068Vaxcg">Autodesk DevTV Youtube channel</a>:</p>
+
+<p><center>
+<iframe width="480" height="270" src="https://www.youtube.com/embed/uHZLQUtf9A0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</center></p>
+
+<blockquote>
+  <p>Discover the product and API changes and enhancements of Revit, Civil 3D and InfraWorks 2020, including the Forge Design Automation for Revit API.</p>
+</blockquote>
+
+<h4><a name="4"></a> Setting up Windows 10</h4>
+
+<p>With that public stuff out of the way, I now turn to my personal experiences preparing for and setting up Revit 2020 and its SDK.</p>
+
+<p>I initially tried to install Revit 2020 on the same virtual Windows machine that I used for the past few versions.</p>
+
+<p>The initial download step produced an executable <em>Revit_2020_G1_Win_64bit_wi_en-US_Setup_webinstall.exe</em>.</p>
+
+<p>Unfortunately, however, when attempting to run it, it rejected installation on Windows 8.1:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4520e0f200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4520e0f200c image-full img-responsive" alt="Revit 2020 rejects Windows 8.1" title="Revit 2020 rejects Windows 8.1" src="/assets/image_bb9e4a.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>I am forced to finally move on, set up a new virtual machine and update to Windows 10, ending up with the pro version 1803 from Aug 2018.</p>
+
+<p>I used the <a href="https://www.microsoft.com/en-us/software-download/windows10ISO">Windows 10 installation ISO from www.microsoft.com</a>,
+producing <em>Win10_1809Oct_v2_EnglishInternational_x64.iso</em> on my local machine, and a product key
+from <a href="http://msdn.microsoft.com/subscriptions">MSDN subscriptions</a> using
+my hotmail account, which led me on 
+to <a href="https://my.visualstudio.com/ProductKeys">my.visualstudio.com/ProductKeys</a>.</p>
+
+<h4><a name="5"></a> Installing Revit 2020 and the New SDK</h4>
+
+<p>Once I had the new virtual machine set up, the Revit 2020 product installation was straightforward.</p>
+
+<p>I searched for the SDK installation executable in the product installation files with no success.</p>
+
+<p>Therefore, I launched the Revit SDK installation via Setup.exe &gt; Tools and Utilities instead.</p>
+
+<p>That downloaded the executable to its habitual location:</p>
+
+<ul>
+<li>C:\Autodesk\WI\Autodesk Revit 2020\Utilities\SDK\RevitSDK.exe</li>
+</ul>
+
+<p>I installed the SDK to my local machine.</p>
+
+<p>In order to explore it in more depth, however, I need to install Visual Studio on the new machine as well.</p>
+
+<h4><a name="6"></a> Visual Studio 2015 and .NET 4.7</h4>
+
+<p>First, I checked for updated development requirements in the new Revit online help files
+at <a href="http://help.autodesk.com/view/RVT/2020/ENU">help.autodesk.com/view/RVT/2020/ENU/</a> in
+the <a href="http://help.autodesk.com/view/RVT/2020/ENU/?guid=Revit_API_Revit_API_Developers_Guide_html">developer guide</a> section
+on <a href="http://help.autodesk.com/view/RVT/2020/ENU/?guid=Revit_API_Revit_API_Developers_Guide_Introduction_Getting_Started_Welcome_to_the_Revit_Platform_API_Development_Requirements_html">development requirements</a>.</p>
+
+<p>It mentions Microsoft Visual Studio 2015 Professional, so I grabbed that from MSDN as well.</p>
+
+<p>Visual Studio 2015 includes the .NET 4.5 developer pack, but not the version 4.7 required by the Revit 2020 API.</p>
+
+<p>When I try to load the SDK samples solution <code>SDKSamples.sln</code> into Visual Studio, it asks whether it should modify all the project settings from .NET 4.7 to 4.5.</p>
+
+<p>No, it should not!</p>
+
+<p>I installed the .NET 4.7.2 developer pack and tried again, with the same result: still cannot build <code>SDKSamples.sln</code>.</p>
+
+<p>After several other attempts and test building of simple console applications to ensure the framework was in place, I realised that the .NET 4.7.2 developer pack does not satisfy Visual Studio's request for the 4.7 developer pack.</p>
+
+<p>After installing the .NET 4.7 developer pack (with no suffix, i.e., .0), once more restarting Windows and implementing another test console app using 4.7.0, I can finally load all the SDK samples with <code>SDKSamples.sln</code>.</p>
+
+<h4><a name="7"></a> Compiling the Revit 2020 SDK Samples</h4>
+
+<p>After I was finally able to load the SDK samples solution into Visual Studio without all projects being set back to .NET 4.5, I started the first compilation run.</p>
+
+<p>It produced 17 errors and 38 warnings, cf. <a href="https://thebuildingcoder.typepad.com/files/revit_2020_sdk_samples_errors_warnings_1.txt">revit_2020_sdk_samples_errors_warnings_1.txt</a>.</p>
+
+<p>The first error <code>CS1591</code> complains about a <em>Missing XML comment for publicly visible type or member</em> in the Custom2DExporter project.</p>
+
+<p>A newly added project in this version, very exciting topic, let's discuss it in depth asap, first get this error fixed, though.</p>
+
+<p>In fact, the Custom2DExporter project is set to <em>Treat warnings as errors</em>, so we can start by turning that off for the moment. That helps, and reduces the error count.</p>
+
+<p>We now have 9 errors and 46 warnings, cf. <a href="https://thebuildingcoder.typepad.com/files/revit_2020_sdk_samples_errors_warnings_2.txt">revit_2020_sdk_samples_errors_warnings_2.txt</a>.</p>
+
+<p>Modifying the <em>Treat warnings as errors</em> setting to 'None' for the PathOfTravel, RebarFreeForm and SampleCommandsSteelElements projects as well reduces the errors to one single one:</p>
+
+<ul>
+<li>Error CS0234, <em>The type or namespace name 'Office' does not exist in the namespace 'Microsoft'</em> in the PointCurveCreation project</li>
+</ul>
+
+<p>Well, yes, I don't have Microsoft Office installed on my virtual machine, so that makes sense.</p>
+
+<p>On the other hand, of course, the number of warnings are now higher:
+1 error and 54 warnings, cf. <a href="https://thebuildingcoder.typepad.com/files/revit_2020_sdk_samples_errors_warnings_3.txt">revit_2020_sdk_samples_errors_warnings_3.txt</a>.</p>
+
+<p>For a quick fix, I temporarily unloaded the PointCurveCreation project.</p>
+
+<p>That leads to 0 errors,
+52 warnings,
+189 projects succeeded, 0 failed, 0 skipped, cf. <a href="https://thebuildingcoder.typepad.com/files/revit_2020_sdk_samples_errors_warnings_4.txt">revit_2020_sdk_samples_errors_warnings_4.txt</a>.</p>
+
+<p>Later, I noticed that the Excel Interop DLL is already present as a component in several other Revit SDK samples, e.g., in:</p>
+
+<ul>
+<li>.../Samples/ArchSample/VB.NET/Microsoft.Office.Interop.Excel.dll</li>
+</ul>
+
+<p>I therefore reloaded the PointCurveCreation project again, added a reference by browsing to the existing DLL, and now have
+0 errors,
+52 warnings,
+190 projects succeeded, 0 failed, 0 skipped, cf. <a href="https://thebuildingcoder.typepad.com/files/revit_2020_sdk_samples_errors_warnings_5.txt">revit_2020_sdk_samples_errors_warnings_5.txt</a>.</p>
+
+<p>Many of the <a href="http://thebuildingcoder.typepad.com/blog/2013/07/recursively-disable-architecture-mismatch-warning.html">warnings refer to an architecture mismatch</a>:</p>
+
+<ul>
+<li>warning MSB3270: There was a mismatch between the processor architecture of the project being built "MSIL" and the processor architecture of the reference "RevitAPI", "AMD64". This mismatch may cause runtime failures. Please consider changing the targeted processor architecture of your project through the Configuration Manager so as to align the processor architectures between your project and references, or take a dependency on references with a processor architecture that matches the targeted processor architecture of your project.</li>
+</ul>
+
+<p>Happily, I <a href="https://thebuildingcoder.typepad.com/blog/2014/09/architecture-mismatch-warning-disabler-update.html">implemented a fix for that</a> years ago, cf. 
+my <a href="https://github.com/jeremytammik/DisableMismatchWarning">DisableMismatchWarning utility in its GitHub repository</a>.
+I ran <code>DisableMismatchWarning.exe</code> in the SDK Samples installation folder, and that reduced the number substantially to 
+0 errors,
+21 warnings,
+190 projects succeeded, 0 failed, 0 skipped, cf. <a href="https://thebuildingcoder.typepad.com/files/revit_2020_sdk_samples_errors_warnings_6.txt">revit_2020_sdk_samples_errors_warnings_6.txt</a>.</p>
+
+<p>Later, I found a much simpler solution to the <em>Missing XML comment</em> warning in Custom2DExporter, PathOfTravel, RebarFreeForm and SampleCommandsSteelElements projects: simply uncheck the box in the build setting requesting the generation of an <em>XML documentation file</em>. After that, the <em>Treat warnings as errors</em> setting can be safely turned back on again. That reduce the number further to 
+0 errors,
+5 warnings,
+190 projects succeeded, 0 failed, 0 skipped, cf. <a href="https://thebuildingcoder.typepad.com/files/revit_2020_sdk_samples_errors_warnings_7.txt">revit_2020_sdk_samples_errors_warnings_7.txt</a>.</p>
+
+<p>These remaining warnings are due to some weird settings in the project files that I will ignore for now.</p>
+
+<h4><a name="8"></a> Setting up RvtSamples</h4>
+
+<p>Next, I set up RvtSamples to load most of the SDK external commands.</p>
+
+<p>RvtSamples is an external application that creates a menu and populates it with entries for all the external commands defined by the Revit SDK, making them accessible with one single click and saving me the effort of installing each and every sample command individually with its own add-in manifest.</p>
+
+<p>In order to do so, RvtSamples reads an input text file, RvtSamples.txt, that defines the location of all the external command assembly DLLs and the names of the .NET classes they contain implementing the external commands.</p>
+
+<p>First of all, I edit that input text file.</p>
+
+<p>It is initially set to the default installation location:</p>
+
+<ul>
+<li>C:\Revit SDK 2020\Software Development Kit\Samples\</li>
+</ul>
+
+<p>I replace that globally by my local installation folder <i>C:\a\lib\revit\2020\SDK\Samples\</i>... 234 occurrences are replaced.</p>
+
+<p>Next, I edit the RvtSamples add-in manifest, RvtSamples.addin, to point to the location of the RvtSamples DLL itself:</p>
+
+<pre class="code">
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;RevitAddIns&gt;
+  &lt;AddIn Type="Application"&gt;
+    &lt;Name&gt;RvtSamples External Application&lt;/Name&gt;
+    &lt;Assembly&gt;C:\...\Samples\RvtSamples\CS\bin\Debug\RvtSamples.dll&lt;/Assembly&gt;
+    &lt;ClientId&gt;42cb0a70-2ee7-4e64-a42d-87b9cdcc41c8&lt;/ClientId&gt;
+    &lt;FullClassName&gt;RvtSamples.Application&lt;/FullClassName&gt;
+    &lt;VendorId&gt;ADSK&lt;/VendorId&gt;
+    &lt;VendorDescription&gt;Autodesk, www.autodesk.com&lt;/VendorDescription&gt;
+  &lt;/AddIn&gt;
+&lt;/RevitAddIns&gt;
+</pre>
+
+<p>It needs to be copied to the Revit 2020 Add-Ins folder in order for Revit to pick it up and load it:</p>
+
+<ul>
+<li>C:\Users\tammikj\AppData\Roaming\Autodesk\Revit\Addins\2020</li>
+</ul>
+
+<p>As usual, after that, a whole bunch of errors occur and need to be handled.</p>
+
+<!--
+In spite of the development team fixing my issue requesting this to work out of the box.
+
+No way.
+
+Ah well.
+-->
+
+<p>The first error I see says:</p>
+
+<ul>
+<li>Assembly 'C:\a\lib\revit\2020\SDK\Samples\PhaseSample\VB.NET\bin\Debug\PhaseSample.dll' specified in line 147 of RvtSamples.txt not found</li>
+</ul>
+
+<p>This and similar errors have shown up every single year and affect most of the VB.NET samples.</p>
+
+<p>In this case, the RvtSamples.txt input file searches for:</p>
+
+<ul>
+<li>C:\a\lib\revit\2020\SDK\Samples\PhaseSample\VB.NET\bin\Debug\PhaseSample.dll</li>
+</ul>
+
+<p>This file does not exist. Instead, for some reason, the assembly DLL is located one level higher:</p>
+
+<ul>
+<li>C:\a\lib\revit\2020\SDK\Samples\PhaseSample\VB.NET\bin\PhaseSample.dll</li>
+</ul>
+
+<p>As a quick stop-gap fix, I globally replaced all occurrences of *\VB.NET\bin\Debug* by *\VB.NET\bin*. As you will notice later, some of these replacements were erroneous.</p>
+
+<p>Next errors:</p>
+
+<ul>
+<li>External command class Revit.SDK.Samples.DatumsModification.CS.Command in assembly 'C:\a\lib\revit\2020\SDK\Samples\DatumsModification\CS\bin\Debug\DatumsModification.dll' specified in line 350 of RvtSamples.txt not found</li>
+<li>Assembly 'C:\a\lib\revit\2020\SDK\Samples\Viewers\ElementViewer\VB.NET\bin\ElementViewer.dll' specified in line 861 of RvtSamples.txt not found</li>
+</ul>
+
+<p>ElementViewer.dll really is located in the <code>bin\debug</code> subdirectory, so I changed that back again.</p>
+
+<ul>
+<li>Assembly 'C:\a\lib\revit\2020\SDK\Samples\CreateShared\VB.NET\bin\CreateShared.dll' specified in line 1155 of RvtSamples.txt not found</li>
+<li>Assembly 'C:\a\lib\revit\2020\SDK\Samples\TestFloorThickness\VB.NET\bin\TestFloorThickness.dll' specified in line 1225 of RvtSamples.txt not found</li>
+<li>The assembly does not exist. Parameter name: pushButtonData.AssemblyName: n = 1638, k = 1638, lines[k] = eof</li>
+</ul>
+
+<p>Hmmm. Fixed some of those...</p>
+
+<p>Next test run...</p>
+
+<ul>
+<li>External command class Revit.SDK.Samples.DatumsModification.CS.Command in assembly 'C:\a\lib\revit\2020\SDK\Samples\DatumsModification\CS\bin\Debug\DatumsModification.dll' specified in line 350 of RvtSamples.txt not found</li>
+</ul>
+
+<p>Well, no wonder. The external command defined by the DatumsModification add-in is not named <code>Command</code> at all.</p>
+
+<p>Instead, it defines three external commands named <code>DatumStyleModification</code>, <code>DatumAlignment</code> and <code>DatumPropagation</code>.</p>
+
+<p>Therefore, the single erroneous entry for one external command for this add-in needs to be replaced by three new ones.</p>
+
+<p>This sample can never have been loaded by RvtSamples.</p>
+
+<p>Anyway, I fixed all the errors, it seems, and can now load RvtSamples and successfully process its input file in Revit 2020:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a47b4a77200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a47b4a77200d image-full img-responsive" alt="RvtSamples loaded all Revit 2020 external commands" title="RvtSamples loaded all Revit 2020 external commands" src="/assets/image_e8c826.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Here are my versions of the files I modified to get it up and running, in case they are of use:</p>
+
+<ul>
+<li><a href="https://thebuildingcoder.typepad.com/files/rvtsamples2020.addin">RvtSamples.addin</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/files/rvtsamples2020.txt">RvtSamples.txt</a></li>
+</ul>
+
+<p>I wish you easy sailing, much fun and success setting up and exploring Revit 2020 yourself!</p>

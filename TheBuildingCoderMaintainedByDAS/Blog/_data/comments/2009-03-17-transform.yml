@@ -1,0 +1,54 @@
+comments:
+- author: Bruno
+  email: bruno.soares@ofcdesk.com
+  ip: 189.107.168.6
+  url: ''
+  date: '2009-04-23 15:15:48'
+  body: Do you know how to get a 4x4 transformation matrix from a Revit Transform
+    object? Thanks.
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-24 02:15:53'
+  body: "Dear Bruno,\n\nThank you for the question, which I wish I had thought of\
+    \ covering when creating the original post.\n\nTo represent an affine transformation\
+    \ in 3D space, you normally only use a 3 by 4 portion of the coordinates of a\
+    \ 4 by 4 transformation matrix. The last row is just added to make it square,\
+    \ and contains the coordinates 0,0,0,1. The first three rows are the X, Y and\
+    \ Z coordinates of three basis vectors and the origin of the transformation.\n\
+    \nThe Util.TransformString method in The Building Coder sample code shows how\
+    \ to extract and print these 3 x 4 or 12 coordinate values:\n\nstatic public string\
+    \ RealString( double a )\n{\n  return a.ToString( \"0.##\" );\n}\n\nstatic public\
+    \ string PointString( XYZ p )\n{\n  return string.Format( \"({0},{1},{2})\",\n\
+    \    RealString( p.X ), RealString( p.Y ),\n    RealString( p.Z ) );\n}\n\nstatic\
+    \ public string TransformString( Transform t )\n{\n  return string.Format( \"\
+    ({0},{1},{2},{3})\", PointString( t.Origin ),\n    PointString( t.BasisX ), PointString(\
+    \ t.BasisY ), PointString( t.BasisZ ) );\n}\n\nHow you put this data together\
+    \ to define your 4 by 4 matrix depends on the exact definition and usage of the\
+    \ matrix you are populating.\n\nAs always, Wikipedia provides some useful background\
+    \ information:\n\nhttp://en.wikipedia.org/wiki/Transformation_matrix\n\nCheers,\
+    \ Jeremy."
+- author: yanyu
+  email: yywhlg@163.com
+  ip: 218.69.19.14
+  url: ''
+  date: '2012-07-14 04:52:06'
+  body: "I have a problem. When I use RevitAPI , I found that the Tranform method\
+    \ is not accurate.The code below:\n\n\n\npublic void transform()\n        {\n\
+    \            XYZ locate = new XYZ(0, 0, 0);\n            XYZ Vec = new XYZ(1,\
+    \ 0, 1);\n            Transform trans,trans1;\n            trans = Transform.get_Rotation(locate,\
+    \ Vec, Math.PI / 2.0 * Math.PI / 180);\n            trans1 = Transform.get_Rotation(locate,\
+    \ Vec, Math.PI / 2.0 * Math.PI / 180);\n\n            XYZ old_pt = new XYZ(0,\
+    \ 0, 0);\n            XYZ old_Vec = new XYZ(1, 0, 1);\n            XYZ old_Vec2\
+    \ = new XYZ(1, 0, -1);\n\n            XYZ temp_pt = trans.OfPoint(old_pt);\n \
+    \           XYZ temp_Vec = trans.OfVector(old_Vec);\n            XYZ temp_Vec2\
+    \ = trans.OfVector(old_Vec2);\n\n            XYZ new_pt = trans.OfPoint(temp_pt);\n\
+    \            XYZ new_Vec = trans.OfVector(temp_Vec);\n            XYZ new_Vec2\
+    \ = trans.OfVector(temp_Vec2);\n\n\n            MessageBox.Show(temp_Vec2.X.ToString()\
+    \ + \",\" + temp_Vec2.Y.ToString() + \",\" + temp_Vec2.Z.ToString());\n      \
+    \      MessageBox.Show(new_Vec2.X.ToString() + \",\" + new_Vec2.Y.ToString() +\
+    \ \",\" + new_Vec2.Z.ToString());\n        }\n\nthe code means the axis (-1,0,1)\
+    \ rotate 90 degree round the axis (1,0,1) at the point (0,0,0) .I think the result\
+    \ is (1,0,-1),but the output is (0.998497,0.00775,-0.998497),which is not accurate.\n\
+    \nThe deviation become bigger and bigger when it caculate again and again.\n-----"

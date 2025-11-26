@@ -1,0 +1,52 @@
+comments:
+- author: Ye Zaw Lin
+  email: yezawlin@gmail.com
+  ip: 203.92.92.98
+  url: ''
+  date: '2012-10-23 01:35:30'
+  body: "May I ask very simple for you and difficult one for me.\nI am trying to follow\
+    \ the walkthrough Add Hello World Panel. But the application is not loaded although\
+    \ I tried many many times. Could you help me check where I am missing ?\n\nusing\
+    \ System;\nusing System.Collections.Generic;\nusing System.Linq;\nusing System.Text;\n\
+    using Autodesk.Revit.UI;\nusing Autodesk.Revit.DB;\nusing System.Windows.Media.Imaging;\n\
+    \npublic class CsAddpanel : Autodesk.Revit.UI.IExternalApplication\n{\n    public\
+    \ Autodesk.Revit.UI.Result OnStartup(UIControlledApplication application)\n  \
+    \  {\n        // add new ribbon panel\n        RibbonPanel ribbonPanel = application.CreateRibbonPanel(\"\
+    NewRibbonPanel\");\n\n        //Create a push button in the ribbon panel \"NewRibbonPanel\"\
+    \n        //the add-in application \"HelloWorld\" will be triggered when button\
+    \ is pushed\n\n        PushButton pushButton = ribbonPanel.AddItem(new PushButtonData(\"\
+    HelloWorld\",\n            \"HelloWorld\", @\"C:\\Sample\\Hello World\\bin\\Release\\\
+    Hello World.dll\", \"HelloWorld.CsHelloWorld\")) as PushButton;\n\n        //\
+    \ Set the large image shown on button\n        Uri uriImage = new Uri(@\"C:\\\
+    Sample\\Hello World\\bin\\Debug\\TSLogo.png\");\n        BitmapImage largeImage\
+    \ = new BitmapImage(uriImage);\n        pushButton.LargeImage = largeImage;\n\n\
+    \        return Result.Succeeded;\n    }\n\n    public Result OnShutdown(UIControlledApplication\
+    \ application)\n    {\n        return Result.Succeeded;\n    }\n}\n\n\nManiFest\
+    \ File\n\n<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<RevitAddIns>\n  <AddIn\
+    \ Type=\"Application\">\n    <Name>SampleApplication</Name>\n    <Assembly>C:\\\
+    Sample\\AddPanel\\bin\\Release\\AddPanel.dll</Assembly>\n    <AddInId>604b1052-f742-4951-8576-c261d1993107</AddInId>\n\
+    \    <FullClassName>AddPanel.CsAddPanel</FullClassName>\n    <VendorId>ADSK</VendorId>\n\
+    \    <VendorDescription>Autodesk, www.autodesk.com</VendorDescription>\n  </AddIn>\n\
+    </RevitAddIns>"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.183.170
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-10-26 11:39:58'
+  body: 'Dear Ye Zaw Lin,
+
+
+    I would suggest removing the absolute path from the Assembly tag in the add-in
+    manifest.
+
+
+    Specify only the name of the DLL itself, and place that together with the add-in
+    manifest in your add-in folder, e.g.
+
+
+    C:\Documents and Settings\[user]\Application Data\Autodesk\REVIT\Addins\2013
+
+
+    Cheers, Jeremy.
+
+    -----'

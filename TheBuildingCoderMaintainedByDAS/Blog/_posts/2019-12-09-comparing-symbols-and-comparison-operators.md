@@ -1,0 +1,181 @@
+---
+layout: "post"
+title: "Comparing Symbols and Comparison Operators"
+date: "2019-12-09 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "Content"
+  - "Family"
+original_url: "https://thebuildingcoder.typepad.com/blog/2019/12/comparing-symbols-and-comparison-operators.html "
+typepad_basename: "comparing-symbols-and-comparison-operators"
+typepad_status: "Publish"
+---
+
+<p>I am writing this in the train station, waiting for a train to Paris, to join the Forge accelerator there this week.</p>
+
+<p>Unfortunately, my originally booked train was cancelled due to the strikes currently taking place in France, and I am stranded here.</p>
+
+<p>Luckily, I was able to get a ticket for the single remaining train today, two hours later.</p>
+
+<p>Now I hope I will make it over there today.</p>
+
+<p>Once I arrive, if I arrive, I will probably start worrying about whether I will be able to get back at all...</p>
+
+<p>Anyway, returning to the Revit API:</p>
+
+<h4><a name="2"></a> Comparing Family Types</h4>
+
+<p>Family symbols, aka family types, should normally be relied on to be constant.</p>
+
+<p>However, since families and types can actually be edited at will, they are sometimes not.</p>
+
+<p>Hence, the need to check and compare may arise.</p>
+
+<p><strong>Question:</strong> I have two different models for two different projects.</p>
+
+<p>How can I detect that a specific <code>FamilySymbol</code> is the same in both of them?</p>
+
+<p>Currently, I just compare the three <code>Name</code> properties of the <code>FamilySymbol</code>, <code>Family</code> and <code>FamilyCategory</code>.</p>
+
+<p>Is there a better way?</p>
+
+<p>As one would expect, the <code>FamilySymbol</code> has different values for <code>UniqueId</code> and <code>Id</code> in the two projects.</p>
+
+<p><strong>Answer:</strong> In a perfect world, it would indeed be sufficient to compare the three properties you mention and nothing else.</p>
+
+<p>I would say category first, then family, then family symbol name.</p>
+
+<p>If they match, the symbols should be identical.</p>
+
+<p>However, in each project, it is theoretically possible for the user to edit and modify the underlying symbol.</p>
+
+<p>In that case, even if the names match, the underlying symbols may still differ.</p>
+
+<p>I assume this is what you would like to detect and rectify.</p>
+
+<p>To test that, you need to drill further down into other, more specific properties: everything that is of interest to you.</p>
+
+<h4><a name="3"></a> Comparison Operators</h4>
+
+<p>If you are doing this programmatically, the cleanest, easiest and most effective method is to implement a comparison operator, or, in .NET, a comparison class.</p>
+
+<p>In the comparison operator, you can compare absolutely anything you like.</p>
+
+<p>One important aspect of comparing objects is that you need to define a canonical form for them.</p>
+
+<p>For instance, if you have two objects with properties, a canonical form should normally be independent of the order of the properties.</p>
+
+<p>For instance, given two objects with the same properties in different order:</p>
+
+<pre>
+  A = { “property_1” : “X”,  “property_2” : “Y” }
+  B = { “property_2” : “Y”,  “property_1” : “X” }
+</pre>
+
+<p>They should be considered equal.</p>
+
+<p>One easy way to achieve an invariant form for a list of properties is to sort them consistently, for instance, alphabetically by property name.</p>
+
+<p>Next, you may want to consider the symbol geometry.</p>
+
+<p>If you are only interested in solid geometry, you might compare simple incomplete aspects or the full-blown thing:</p>
+
+<ul>
+<li>The number of disjunct solids</li>
+<li>Their volumes</li>
+<li>Their areas</li>
+<li>Their numbers of faces and edges</li>
+<li>Their vertices</li>
+<li>Use a full-blown Boolean operation to determine exact equality</li>
+</ul>
+
+<p>Long ago, I
+suggested <a href="https://thebuildingcoder.typepad.com/blog/2012/03/great-ocean-road-and-creating-your-own-key.html#2">defining your own key for comparison purposes</a>.</p>
+
+<p>Furthermore, when comparing objects, .NET differentiates between equality operators and sorting comparison operators.</p>
+
+<p>Here is a simple <code>XyzEqualityComparer</code> that shows a pretty trivial equality comparison class for 3D points and vectors:</p>
+
+<pre class="code">
+class XyzEqualityComparer : IEqualityComparer<XYZ>
+{
+  public bool Equals( XYZ p, XYZ q )
+  {
+    return p.AlmostEqual( q );
+  }
+
+  public int GetHashCode( XYZ p )
+  {
+    return Util.PointString( p ).GetHashCode();
+  }
+}
+</pre>
+
+<p>That just answers the question ‘are they equal or not’.</p>
+
+<p>A more useful and powerful comparison method answers the question ‘is one of them smaller than, equal, or larger than the other’.</p>
+
+<p>Such methods are needed for sorting objects, for instance, in order to use them as keys in a dictionary.</p>
+
+<p>I defined a comparison operator for <code>XYZ</code> points like this 
+for <a href="https://thebuildingcoder.typepad.com/blog/2016/01/tracking-element-modification.html#5.1">tracking element modification</a>:</p>
+
+<pre class="code">
+  public static bool IsZero(
+    double a,
+    double tolerance )
+  {
+    return tolerance > Math.Abs( a );
+  }
+
+  public static bool IsZero( double a )
+  {
+    return IsZero( a, _eps );
+  }
+
+  public static bool IsEqual( double a, double b )
+  {
+    return IsZero( b - a );
+  }
+
+  public static int Compare( double a, double b )
+  {
+    return IsEqual( a, b ) ? 0 : ( a < b ? -1 : 1 );
+  }
+
+  public static int Compare( XYZ p, XYZ q )
+  {
+    int d = Compare( p.X, q.X );
+
+    if( 0 == d )
+    {
+      d = Compare( p.Y, q.Y );
+
+      if( 0 == d )
+      {
+        d = Compare( p.Z, q.Z );
+      }
+    }
+    return d;
+  }
+</pre>
+
+<p>As you see, you start from the most basic property data types, e.g., int, double, string, and then build up further and further to achieve all you need.</p>
+
+<p>We recently discussed a more complex <code>IComparer</code> implementation to compare column marks, <code>ColumnMarkComparer</code>, 
+for <a href="https://thebuildingcoder.typepad.com/blog/2019/11/dll-conflicts-and-replicating-schedule-sort-order.html#4">replicating schedule sort order</a>.</p>
+
+<p>That shows how you can concatenate any number of different comparisons for all the different properties of interest to get a finer and finer distinguishing capability.</p>
+
+<p>You need to decide exactly what differences may occur between the potentially different family instances.</p>
+
+<p>With that in hand, you can implement a nice clean comparison operator for them and run that over all occurrences in all projects to ensure that all the symbols really are identical if their category name, family name and type name match.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4a7001a200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4a7001a200c img-responsive" style="width: 300px; display: block; margin-left: auto; margin-right: auto;" alt="Cartographic symbols" title="Cartographic symbols" src="/assets/image_ca70d5.jpg" /></a></p>
+
+<p style="font-size: 80%; font-style:italic">Cartographic symbols</p>
+
+<p></center></p>

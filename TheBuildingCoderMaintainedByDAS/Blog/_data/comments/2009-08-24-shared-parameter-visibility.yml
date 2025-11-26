@@ -1,0 +1,215 @@
+comments:
+- author: Ricardo Cardial
+  email: ricardocardial@msn.com
+  ip: 201.51.228.245
+  url: http://autocad-revit-arquitetura.blogspot.com
+  date: '2009-08-24 15:41:17'
+  body: Hi. I need to ask you. I think it´s not possible, but you are an expert with
+    API and tell me if we can change the information of that SCALE LABEL, shown on
+    titleblocks ? When we have two different scales on sheet, the value is AS INDICATED.
+    But if I want to change to other thing ? If I need to translate to FRENCH or ITALIAN
+    ?
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.76.3
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-08-25 01:52:15'
+  body: "Dear Ricardo,\n\nOne easy way to check this is to use the built-in parameters\
+    \ checker which is part of the Revit API introduction labs, cf.\n\n<a href=\"\
+    http://thebuildingcoder.typepad.com/blog/2009/04/deeper-parameter-exploration.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/04/deeper-parameter-exploration.html</a>\n\
+    \nI created a new sheet, selected the title block, and launched the built-in parameters\
+    \ checker. One of the parameters that it displays is the built-in parameter SHEET_SCALE\
+    \ with the display name 'Scale'. It is a string-valued parameter and is unfortunately\
+    \ marked as read-only.\n\nIs that the one you are interested in? If so, then,\
+    \ as you can see, you seem to be out of luck. Being marked as read-only, it cannot\
+    \ be modified directly through the API. I'll ask around and see whether I can\
+    \ find any other way to modify this information. \n\nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.76.3
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-08-25 02:52:53'
+  body: 'Dear Ricardo,
+
+
+    A colleague of mine, Phil Xia, has the following suggestion for you: How about
+    modifying the title block of the sheet? It is a family, the texts can be modified
+    or localized. Simply open the family file for editing and modify that.
+
+
+    Cheers, Jeremy.'
+- author: Sebastien Dubois
+  email: sdubois@dma-arch.com
+  ip: 69.70.56.70
+  url: http://www.desnoyersmercure.com
+  date: '2010-09-09 16:50:34'
+  body: 'Hello Jeremy,
+
+
+    I''m new to this whole API thing and quite honestly, not quite sure I get it all
+    so i''ll be reading on that on the weeks to come. However, I was wondering if
+    it is feasable to refer a family parameter (while building the family in REVIT)
+    to a built-in parameter (such as SHEET_SCALE). For example, I could have a yes/no
+    parameter showing either the label refering to the built-in parameter or the family
+    parameter depending id SHEET_SCALE is showing "As indicated".
+
+
+    It might seem far fetch, but again I''m just getting started with the formulas,
+    never mind the API.
+
+
+    Thank you,'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-09-15 08:04:25'
+  body: 'Dear Sebastien,
+
+
+    I should think that that is possible. Please have a look at the method AssociateElementParameterToFamilyParameter
+    and the samples provided with the family API webcast:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/08/the-revit-family-api.html">http://thebuildingcoder.typepad.com/blog/2009/08/the-revit-family-api.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/10/revit-family-creation-api-labs.html">http://thebuildingcoder.typepad.com/blog/2009/10/revit-family-creation-api-labs.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Nitin
+  email: ''
+  ip: 61.11.14.102
+  url: http://profile.typepad.com/nitinjambhale2008
+  date: '2011-08-03 00:57:37'
+  body: 'Dear sir,
+
+    Is this possible to hide/invisible a Family Parameter from Family Types?
+
+
+    Thanks & Regards,
+
+    -Nitin'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-08-09 05:38:30'
+  body: 'Dear Nitin,
+
+
+    As far as I know, family parameters are always visible, aren''t they?
+
+
+    Cheers, Jeremy.'
+- author: Nitin
+  email: ''
+  ip: 61.17.167.107
+  url: http://profile.typepad.com/nitinjambhale2008
+  date: '2011-08-11 10:45:20'
+  body: 'Dear sir,
+
+    I come to know that shared parameters can be invisible(tried some code), but till
+    they are shown in Revit ''Family Types'' window.
+
+    I m not able to understand this concept.
+
+
+    Please help.
+
+    Thanks & regards
+
+    -Nitin'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-08-11 10:50:56'
+  body: 'Dear Nitin,
+
+
+    If you say so, then I guess that is the way it is.
+
+
+    I hope this helps  :-)
+
+
+    Cheers, Jeremy.'
+- author: Nitin
+  email: ''
+  ip: 61.11.14.102
+  url: http://profile.typepad.com/nitinjambhale2008
+  date: '2011-08-11 10:54:25'
+  body: 'Dear sir,
+
+    Thanks for quick reply.
+
+    May i know in what situation is Visible property of shared parameter useful?
+
+
+    Thanks & Regards,
+
+    -Nitin'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-08-11 11:20:31'
+  body: 'Dear Nitin,
+
+
+    In the project environment, as far as I know.
+
+
+    Cheers, Jeremy.'
+- author: vikas
+  email: Vikasthankavelu@gmail.com
+  ip: 195.229.241.174
+  url: ''
+  date: '2012-02-27 03:21:52'
+  body: 'Dear Sir,
+
+
+    I want to change scale displayed on sheet "As Indicated" to "As shown".I have
+    got only Revit 2012 only could you please advise me.
+
+
+
+    Regards,
+
+    Vikas'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-02-29 06:46:00'
+  body: 'Dear Vikas,
+
+
+    Can you achieve what you need manually through the user interface? If not, it
+    is probably not possible through the API either.
+
+
+    Cheers, Jeremy.'
+- author: sandeep Kumar
+  email: sksandip2001@yahoo.com
+  ip: 80.254.147.188
+  url: ''
+  date: '2013-02-22 02:17:52'
+  body: Hello Jeremy,is it possible to make shared parameter non editable?
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.184.163
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-03-13 02:52:15'
+  body: 'Dear Sandeep,
+
+
+    No, not really.
+
+
+    Cheers, Jeremy.
+
+    -----'

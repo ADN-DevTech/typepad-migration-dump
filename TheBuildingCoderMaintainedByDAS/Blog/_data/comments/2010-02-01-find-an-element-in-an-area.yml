@@ -1,0 +1,111 @@
+comments:
+- author: tzavelis@hotmail.com
+  email: tzavelis@hotmail.com
+  ip: 69.125.223.62
+  url: ''
+  date: '2010-04-07 15:12:13'
+  body: Is there any way to find the intersections of lines in a revit document? Lines
+    represent FamilyInstances of Beams and columns and I would like to find the points
+    where these beams and columns intersect (not necessarily at their ends)
+- author: tzavelis@hotmail.com
+  email: tzavelis@hotmail.com
+  ip: 69.125.223.62
+  url: ''
+  date: '2010-04-07 16:00:15'
+  body: Continuing with the above question, do I have to iterate through ALL family
+    instances in a revit document to find which of them intersect the base family
+    Instance? I am using Visual Basic
+- author: Jeremy Tammik
+  email: ''
+  ip: 83.13.103.74
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-04-08 13:32:52'
+  body: 'Dear Tzavelis,
+
+
+    Please have a look at the FindReferencesByDirection method, and especially at
+    some of the previous posts which describe highly efficient, powerful and interesting
+    uses of it, especially this one:
+
+
+    http://thebuildingcoder.typepad.com/blog/2010/01/findreferencesbydirection.html
+
+
+    As mentioned there, the Revit SDK Samples AvoidObstruction and RaytraceBounce
+    also both demonstrate its use. Actually, the former does almost exactly what it
+    sounds like you are intending to do.
+
+
+    If you make use of this method, it will do the job for you and there is no need
+    for you to iterate through any family instance or any other objects yourself at
+    all.
+
+
+    Cheers, Jeremy.'
+- author: 'Bhavana '
+  email: bgahlot@building-data.net
+  ip: 61.11.14.102
+  url: ''
+  date: '2010-12-13 05:26:00'
+  body: "Dear Jeremy,\n\nIs there any way to find the vertex  and line information\
+    \ \nof rectangle in Revit?Also i want to know how i can retrieve arc points (\
+    \ end points , center points and mid points)"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2010-12-13 11:55:17'
+  body: 'Dear Bhavana,
+
+
+    What rectangle?
+
+
+    I suggest you explore its geometry and other properties using RevitLookup:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/05/revitlookup-update.html">http://thebuildingcoder.typepad.com/blog/2010/05/revitlookup-update.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/02/rvtmgddbg.html">http://thebuildingcoder.typepad.com/blog/2009/02/rvtmgddbg.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Nitin
+  email: ''
+  ip: 61.17.167.107
+  url: http://profile.typepad.com/nitinjambhale2008
+  date: '2011-08-17 08:01:01'
+  body: 'Dear sir,
+
+    When i m drawing two pipes connected at 90 degree, then revit automatically adds
+    elbow in between them.
+
+    Is there any way to get start-point and endpoint of that elbow to deal with it?
+
+
+    Thanks & Regards,
+
+    Nitin'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-08-18 12:42:20'
+  body: 'Dear Nitin,
+
+
+    When Revit adds elbows between your pipes, I assume that it also creates connections
+    between them.
+
+
+    You can access these through the connection manager and query their positions.
+
+
+    From the connections, you can also access the neighbouring pipes and query their
+    start and end points.
+
+
+    Cheers, Jeremy.
+
+    -----'

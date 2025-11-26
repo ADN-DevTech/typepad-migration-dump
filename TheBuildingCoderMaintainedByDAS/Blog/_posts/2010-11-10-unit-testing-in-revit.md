@@ -1,0 +1,38 @@
+---
+layout: "post"
+title: "Unit Testing in Revit"
+date: "2010-11-10 04:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "Algorithm"
+  - "Debugging"
+  - "External"
+  - "Utilities"
+original_url: "https://thebuildingcoder.typepad.com/blog/2010/11/unit-testing-in-revit.html "
+typepad_basename: "unit-testing-in-revit"
+typepad_status: "Publish"
+---
+
+<p><a href="http://roddotnet.blogspot.com">Rod Howarth</a> just pointed out an interesting 
+
+<a href="http://forums.augi.com/showthread.php?t=98536">AUGI thread</a> on 
+
+<a href="http://en.wikipedia.org/wiki/Unit_testing">unit testing</a> in Revit.
+
+I asked Daren Thomas, author of the 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2009/12/revit-python-shell.html">Python Shell</a>,
+
+<!--
+http://thebuildingcoder.typepad.com/blog/2010/03/dynamically-load-and-debug-plugins.html
+dynamically reloading
+
+http://thebuildingcoder.typepad.com/blog/2010/09/access-to-curtain-grid-panels.html
+accessing Revit element data
+
+-->
+
+for his view, which I find illuminating, and which you can enjoy now as well:
+
+<a href="http://darenatwork.blogspot.com/2010/11/unit-testing-revit-plugins_10.html">Unit Testing Revit Plugins</a>.

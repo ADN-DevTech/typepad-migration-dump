@@ -1,0 +1,37 @@
+---
+layout: "post"
+title: "API Wish List Survey Reminder"
+date: "2011-06-07 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Events"
+  - "External"
+  - "News"
+original_url: "https://thebuildingcoder.typepad.com/blog/2011/06/api-wish-list-survey-reminder.html "
+typepad_basename: "api-wish-list-survey-reminder"
+typepad_status: "Publish"
+---
+
+<p>This year's 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2011/05/api-wishlist-survey.html">
+API wish list surveys</a> were initially scheduled to close last week:
+
+<ul>
+<li><a href="http://www.zoomerang.com/Survey/WEB22C9QA2TDYR">AutoCAD</a>
+<li><a href="http://www.zoomerang.com/Survey/WEB22C9Q8JTD3G">AutoCAD Civil 3D</a>
+<li><a href="http://www.zoomerang.com/Survey/WEB22C9QACTE6V">Revit</a>
+<li><a href="http://www.zoomerang.com/Survey/WEB22C9QBPTEZ5">Autodesk Inventor</a>
+<li><a href="http://www.zoomerang.com/Survey/WEB22C9QBRTF2C">Autodesk Navisworks</a>
+<li><a href="http://www.zoomerang.com/Survey/WEB22CAV8THY63">Autodesk 3ds Studio Max</a>
+<li><a href="http://www.zoomerang.com/Survey/WEB22CAV7HHXCE">Autodesk Maya</a>
+</ul>
+
+<p>Kean just informed us that the
+
+<a href="http://through-the-interface.typepad.com/through_the_interface/2011/06/api-wishlist-surveys-reminder.html">
+deadline was postponed</a> until <strong>June 17<sup>th</sup>, 2011</strong>, and <strong>July 3<sup>rd</sup>, 2011</strong> for the last two products, which were added to the list later.
+
+<p>Please take the time to fill out the ones of interest to you, if you have not already done so. 
+They really help drive the API development in the direction of greatest importance for you.
+Thank you very much!

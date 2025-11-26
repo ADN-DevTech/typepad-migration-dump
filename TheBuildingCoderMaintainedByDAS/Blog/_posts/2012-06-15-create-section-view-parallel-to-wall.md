@@ -1,0 +1,341 @@
+---
+layout: "post"
+title: "Create Section View Parallel to Wall"
+date: "2012-06-15 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "2013"
+  - "Algorithm"
+  - "Element Creation"
+  - "Geometry"
+  - "View"
+original_url: "https://thebuildingcoder.typepad.com/blog/2012/06/create-section-view-parallel-to-wall.html "
+typepad_basename: "create-section-view-parallel-to-wall"
+typepad_status: "Publish"
+---
+
+<p>Here is a nice case that just came up and helped me heal my latent view manipulation phobia.
+
+<p>Before getting to that, a short pointer to a non-API issue:
+The Shanghai Tower is currently being built to become one of the tallest and greenest buildings in the world.  
+Take a look at 
+
+<a href="http://autode.sk/Kb61k5">
+Shanghai Tower: The Role of BIM in Building the Spirit of the City</a>,
+
+a six-minute video explaining the concept and the role of Autodesk BIM solutions in its design, construction, and operation.
+
+<center>
+<iframe width="480" height="274" src="http://www.youtube.com/embed/Cp7_AgY2HJs" frameborder="0" allowfullscreen></iframe>
+</center>
+
+<p>Back to the view creation issue, the question is how to set up a section view that is parallel to a given wall.
+
+<p>The CreateViewSection SDK sample can be used as a basis for exploration, and the discussion on
+
+<a href="http://thebuildingcoder.typepad.com/blog/2011/07/section-view-creation.html">
+section view creation</a> spells 
+
+it out a bit further still.
+We also previously discussed some further aspects of 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2009/09/elevation-view.html">
+elevation and section views</a>
+
+and looked at setting up the view parameters to 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2009/12/crop-3d-view-to-room.html">
+crop a 3D view to a room</a>.
+
+<p>Obviously all previous explorations in the area of creating views make use of the obsolete view creation methods on the creation document class, which have now been replaced by static methods on the view classes themselves.
+
+<p>The only sample using the new methods was the recent one to create a 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2012/06/create-structural-plan-view.html">
+structural plan view</a>,
+
+without any need to explore the required transformation, view direction, or crop box.
+
+<p>To alleviate that, I implemented a new sample external command named CreateWallSectionView which expects a single straight perpendicular wall to be pre-selected and creates a section view parallel to the wall with its crop box set up to display the wall in its entirety.
+
+<p>The code is extremely straight-forward and actually worked right out of the box without any further tweaking.
+
+<p>It uses the wall location line as the main source of geometrical input. 
+It also queries the wall bounding box to obtain its height, and uses the wall type Width property to determine the total wall 
+
+thickness, although the latter is not used anywhere. 
+
+<p>From the location line, it determines the wall direction and length.
+It sets up the bounding box min and max values from the length and height.
+
+<p>The transform is defined using the wall direction defining the right-left and the global world coordinate system Z vector defining the upward direction.
+
+<p>Simple and precise.
+
+<p>Here is the entire code achieving this:
+
+<pre class="code">
+[<span class="teal">Transaction</span>( <span class="teal">TransactionMode</span>.Manual )]
+<span class="blue">public</span> <span class="blue">class</span> <span class="teal">Command</span> : <span class="teal">IExternalCommand</span>
+{
+&nbsp; <span class="blue">public</span> <span class="teal">Result</span> Execute(
+&nbsp; &nbsp; <span class="teal">ExternalCommandData</span> commandData,
+&nbsp; &nbsp; <span class="blue">ref</span> <span class="blue">string</span> message,
+&nbsp; &nbsp; <span class="teal">ElementSet</span> elements )
+&nbsp; {
+&nbsp; &nbsp; <span class="teal">UIApplication</span> uiapp = commandData.Application;
+&nbsp; &nbsp; <span class="teal">UIDocument</span> uidoc = uiapp.ActiveUIDocument;
+&nbsp; &nbsp; <span class="teal">Document</span> doc = uidoc.Document;
+&nbsp;
+&nbsp; &nbsp; <span class="green">// Retrieve wall from selection set</span>
+&nbsp;
+&nbsp; &nbsp; <span class="teal">Selection</span> sel = uidoc.Selection;
+&nbsp;
+&nbsp; &nbsp; <span class="teal">SelElementSet</span> set = sel.Elements;
+&nbsp;
+&nbsp; &nbsp; <span class="teal">Wall</span> wall = <span class="blue">null</span>;
+&nbsp;
+&nbsp; &nbsp; <span class="blue">if</span>( 1 == set.Size )
+&nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; <span class="blue">foreach</span>( <span class="teal">Element</span> e <span class="blue">in</span> set )
+&nbsp; &nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; &nbsp; wall = e <span class="blue">as</span> <span class="teal">Wall</span>;
+&nbsp; &nbsp; &nbsp; }
+&nbsp; &nbsp; }
+&nbsp;
+&nbsp; &nbsp; <span class="blue">if</span>( <span class="blue">null</span> == wall )
+&nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; message = <span class="maroon">&quot;Please select exactly one wall element.&quot;</span>;
+&nbsp;
+&nbsp; &nbsp; &nbsp; <span class="blue">return</span> <span class="teal">Result</span>.Failed;
+&nbsp; &nbsp; }
+&nbsp;
+&nbsp; &nbsp; <span class="green">// Ensure wall is straight</span>
+&nbsp;
+&nbsp; &nbsp; <span class="teal">LocationCurve</span> lc = wall.Location <span class="blue">as</span> <span class="teal">LocationCurve</span>;
+&nbsp;
+&nbsp; &nbsp; <span class="teal">Line</span> line = lc.Curve <span class="blue">as</span> <span class="teal">Line</span>;
+&nbsp;
+&nbsp; &nbsp; <span class="blue">if</span>( <span class="blue">null</span> == line )
+&nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; message = <span class="maroon">&quot;Unable to retrieve wall location line.&quot;</span>;
+&nbsp;
+&nbsp; &nbsp; &nbsp; <span class="blue">return</span> <span class="teal">Result</span>.Failed;
+&nbsp; &nbsp; }
+&nbsp;
+&nbsp; &nbsp; <span class="green">// Determine view family type to use</span>
+&nbsp;
+&nbsp; &nbsp; <span class="teal">ViewFamilyType</span> vft
+&nbsp; &nbsp; &nbsp; = <span class="blue">new</span> <span class="teal">FilteredElementCollector</span>( doc )
+&nbsp; &nbsp; &nbsp; &nbsp; .OfClass( <span class="blue">typeof</span>( <span class="teal">ViewFamilyType</span> ) )
+&nbsp; &nbsp; &nbsp; &nbsp; .Cast&lt;<span class="teal">ViewFamilyType</span>&gt;()
+&nbsp; &nbsp; &nbsp; &nbsp; .FirstOrDefault&lt;<span class="teal">ViewFamilyType</span>&gt;( x =&gt;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="teal">ViewFamily</span>.Section == x.ViewFamily );
+&nbsp;
+&nbsp; &nbsp; <span class="green">// Determine section box</span>
+&nbsp;
+&nbsp; &nbsp; <span class="teal">XYZ</span> p = line.get_EndPoint( 0 );
+&nbsp; &nbsp; <span class="teal">XYZ</span> q = line.get_EndPoint( 1 );
+&nbsp; &nbsp; <span class="teal">XYZ</span> v = q - p;
+&nbsp;
+&nbsp; &nbsp; <span class="teal">BoundingBoxXYZ</span> bb = wall.get_BoundingBox( <span class="blue">null</span> );
+&nbsp; &nbsp; <span class="blue">double</span> minZ = bb.Min.Z;
+&nbsp; &nbsp; <span class="blue">double</span> maxZ = bb.Max.Z;
+&nbsp;
+&nbsp; &nbsp; <span class="blue">double</span> w = v.GetLength();
+&nbsp; &nbsp; <span class="blue">double</span> h = maxZ - minZ;
+&nbsp; &nbsp; <span class="blue">double</span> d = wall.WallType.Width;
+&nbsp; &nbsp; <span class="blue">double</span> offset = 0.1 * w;
+&nbsp;
+&nbsp; &nbsp; <span class="teal">XYZ</span> min = <span class="blue">new</span> <span class="teal">XYZ</span>( -w, minZ - offset, -offset );
+&nbsp; &nbsp; <span class="teal">XYZ</span> max = <span class="blue">new</span> <span class="teal">XYZ</span>( w, maxZ + offset, 0 );
+&nbsp;
+&nbsp; &nbsp; <span class="teal">XYZ</span> midpoint = p + 0.5 * v;
+&nbsp; &nbsp; <span class="teal">XYZ</span> walldir = v.Normalize();
+&nbsp; &nbsp; <span class="teal">XYZ</span> up = <span class="teal">XYZ</span>.BasisZ;
+&nbsp; &nbsp; <span class="teal">XYZ</span> viewdir = walldir.CrossProduct( up );
+&nbsp;
+&nbsp; &nbsp; <span class="teal">Transform</span> t = <span class="teal">Transform</span>.Identity;
+&nbsp; &nbsp; t.Origin = midpoint;
+&nbsp; &nbsp; t.BasisX = walldir;
+&nbsp; &nbsp; t.BasisY = up;
+&nbsp; &nbsp; t.BasisZ = viewdir;
+&nbsp;
+&nbsp; &nbsp; <span class="teal">BoundingBoxXYZ</span> sectionBox = <span class="blue">new</span> <span class="teal">BoundingBoxXYZ</span>();
+&nbsp; &nbsp; sectionBox.Transform = t;
+&nbsp; &nbsp; sectionBox.Min = min;
+&nbsp; &nbsp; sectionBox.Max = max;
+&nbsp;
+&nbsp; &nbsp; <span class="green">// Create wall section view</span>
+&nbsp;
+&nbsp; &nbsp; <span class="blue">using</span>( <span class="teal">Transaction</span> tx = <span class="blue">new</span> <span class="teal">Transaction</span>( doc ) )
+&nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; tx.Start( <span class="maroon">&quot;Create Wall Section View&quot;</span> );
+&nbsp;
+&nbsp; &nbsp; &nbsp; <span class="teal">ViewSection</span>.CreateSection( doc, vft.Id, sectionBox );
+&nbsp;
+&nbsp; &nbsp; &nbsp; tx.Commit();
+&nbsp; &nbsp; }
+&nbsp; &nbsp; <span class="blue">return</span> <span class="teal">Result</span>.Succeeded;
+&nbsp; }
+}
+</pre>
+
+<p>I tested the command in this simple project with three walls:</p>
+
+<center>
+
+<a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e1689788330176157ada9b970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330176157ada9b970c" alt="Three walls" title="Three walls" src="/assets/image_c2e60d.jpg" border="0" /></a><br />
+
+</center>
+
+<p>Here are the three section views created by running the command on all three walls:</p>
+
+<center>
+
+<a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301630691a687970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301630691a687970d" alt="Three wall sections" title="Three wall sections" src="/assets/image_2ea3c1.jpg" border="0" /></a><br />
+
+</center>
+
+<p>The resulting section views are quite reasonably positioned:</p>
+
+<center>
+
+<a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e168978833016767854b23970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833016767854b23970b" alt="Wall section view" title="Wall section view" src="/assets/image_2ee29f.jpg" border="0" /></a><br />
+
+</center>
+
+
+<a name="2"></a>
+
+<h4>Sign on the Dotted Line, Please</h4>
+
+<p><strong>Question:</strong> I need the section box to equally surround the wall on both sides.
+
+<p>The section box generated by the code above has its dotted line in the middle of the wall. 
+
+<p>How can I move the section box dotted line so that it is offset out of the wall instead?
+
+<p><strong>Answer:</strong> The Min and Max properties of the bounding box determine the crop region and far clip 
+
+distance. 
+In the code above, I defined 
+
+<pre class="code">
+&nbsp; <span class="teal">XYZ</span> min = <span class="blue">new</span> <span class="teal">XYZ</span>( -w, minZ - offset, -offset );
+&nbsp; <span class="teal">XYZ</span> max = <span class="blue">new</span> <span class="teal">XYZ</span>( w, maxZ + offset, 0 );
+</pre>
+
+<p>This produces the dotted line in the middle of the wall, like this:</p>
+
+<center>
+
+<a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e1689788330167678549cb970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330167678549cb970b image-full" alt="Dotted line in wall center" title="Dotted line in wall center" src="/assets/image_f6bd74.jpg" border="0" /></a><br />
+
+</center>
+
+<p>If I change the Max property Z value from zero to +offset, the section view dotted line is 
+
+offset from the wall in the way you wish:
+
+<pre class="code">
+&nbsp; <span class="teal">XYZ</span> min = <span class="blue">new</span> <span class="teal">XYZ</span>( -w, minZ - offset, -offset );
+&nbsp; <span class="teal">XYZ</span> max = <span class="blue">new</span> <span class="teal">XYZ</span>( w, maxZ + offset, offset );
+</pre>
+
+<p>This produces the dotted line offset to the other side of the wall:</p>
+
+<center>
+
+<a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e1689788330176157ad5b4970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330176157ad5b4970c" alt="Dotted line offset from wall center" title="Dotted line offset from wall center" src="/assets/image_30ecd6.jpg" border="0" /></a><br />
+
+</center>
+
+
+<a name="3"></a>
+
+<h4>Perpendicular, not Parallel</h4>
+
+<p><strong>Question:</strong> How can I set up the section view to be perpendicular to the wall  and located at the wall centre point?
+
+<p><strong>Answer:</strong> Well, obviously the same parameters as above apply.
+
+<p>Here is one little additional nice twist, though: instead of calculating the required transformation vectors based on the vector from the wall start point to its end point, we can obtain the wall location line curve tangent at its midpoint using the ComputeDerivatives method.
+The advantage of this is that it will work for a curved wall as well.
+
+<p>Here as the method GetSectionViewPerpendiculatToWall taking a wall input argument.
+It sets up and returns a section box for the section view creation at the wall midpoint and perpendicular to its location line. 
+It takes the wall thickness and height into account to set up a crop box showing just the wall with one foot of space around it:
+
+<pre class="code">
+<span class="gray">///</span><span class="green"> </span><span class="gray">&lt;summary&gt;</span>
+<span class="gray">///</span><span class="green"> Return a section box for a view perpendicular </span>
+<span class="gray">///</span><span class="green"> to the given wall location line.</span>
+<span class="gray">///</span><span class="green"> </span><span class="gray">&lt;/summary&gt;</span>
+<span class="teal">BoundingBoxXYZ</span> GetSectionViewPerpendiculatToWall(
+&nbsp; <span class="teal">Wall</span> wall )
+{
+&nbsp; <span class="teal">LocationCurve</span> lc = wall.Location 
+&nbsp; &nbsp; <span class="blue">as</span> <span class="teal">LocationCurve</span>;
+&nbsp;
+&nbsp; <span class="green">// Using 0.5 and &quot;true&quot; to specify that the </span>
+&nbsp; <span class="green">// parameter is normalized places the transform</span>
+&nbsp; <span class="green">// origin at the center of the location curve</span>
+&nbsp;
+&nbsp; <span class="teal">Transform</span> curveTransform = lc.Curve
+&nbsp; &nbsp; .ComputeDerivatives( 0.5, <span class="blue">true</span> );
+&nbsp;
+&nbsp; <span class="green">// The transform contains the location curve</span>
+&nbsp; <span class="green">// mid-point and tangent, and we can obtain</span>
+&nbsp; <span class="green">// its normal in the XY plane:</span>
+&nbsp;
+&nbsp; <span class="teal">XYZ</span> origin = curveTransform.Origin;
+&nbsp; <span class="teal">XYZ</span> viewdir = curveTransform.BasisX.Normalize();
+&nbsp; <span class="teal">XYZ</span> up = <span class="teal">XYZ</span>.BasisZ;
+&nbsp; <span class="teal">XYZ</span> right = up.CrossProduct( viewdir );
+&nbsp;
+&nbsp; <span class="green">// Set up view transform, assuming wall's &quot;up&quot; </span>
+&nbsp; <span class="green">// is vertical. For a non-vertical situation </span>
+&nbsp; <span class="green">// such as section through a sloped floor, the </span>
+&nbsp; <span class="green">// surface normal would be needed</span>
+&nbsp;
+&nbsp; <span class="teal">Transform</span> transform = <span class="teal">Transform</span>.Identity;
+&nbsp; transform.Origin = origin;
+&nbsp; transform.BasisX = right;
+&nbsp; transform.BasisY = up;
+&nbsp; transform.BasisZ = viewdir;
+&nbsp;
+&nbsp; <span class="teal">BoundingBoxXYZ</span> sectionBox = <span class="blue">new</span> <span class="teal">BoundingBoxXYZ</span>();
+&nbsp; sectionBox.Transform = transform;
+&nbsp;
+&nbsp; <span class="green">// Min &amp; Max X values define the section</span>
+&nbsp; <span class="green">// line length on each side of the wall.</span>
+&nbsp; <span class="green">// Max Y is the height of the section box.</span>
+&nbsp; <span class="green">// Max Z (5) is the far clip offset.</span>
+&nbsp;
+&nbsp; <span class="blue">double</span> d = wall.WallType.Width;
+&nbsp; <span class="teal">BoundingBoxXYZ</span> bb = wall.get_BoundingBox( <span class="blue">null</span> );
+&nbsp; <span class="blue">double</span> minZ = bb.Min.Z;
+&nbsp; <span class="blue">double</span> maxZ = bb.Max.Z;
+&nbsp; <span class="blue">double</span> h = maxZ - minZ;
+&nbsp;
+&nbsp; sectionBox.Min = <span class="blue">new</span> <span class="teal">XYZ</span>( -2 * d, -1, 0 );
+&nbsp; sectionBox.Max = <span class="blue">new</span> <span class="teal">XYZ</span>( 2 * d, h + 1, 5 );
+&nbsp;
+&nbsp; <span class="blue">return</span> sectionBox;
+}
+</pre>
+
+<p>This produces the following section view through of a wall with a window in its midpoint:
+
+<center>
+
+<a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e1689788330176157ad409970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330176157ad409970c" alt="Section view perpendicular to wall" title="Section view perpendicular to wall" src="/assets/image_8439db.jpg" border="0" /></a><br />
+
+</center>
+
+<p>Here is 
+
+<span class="asset  asset-generic at-xid-6a00e553e168978833016306919f58970d"><a href="http://thebuildingcoder.typepad.com/files/createwallsectionview.zip">CreateWallSectionView.zip</a></span> containing 
+
+the entire source code, Visual Studio solution and add-in manifest for this command.

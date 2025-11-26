@@ -1,0 +1,235 @@
+comments:
+- author: Berria
+  email: eiderunzu@hotmail.com
+  ip: 213.96.145.3
+  url: ''
+  date: '2009-01-21 11:46:22'
+  body: "Hello Jenemy, \nHow can I specify that my walls Line Location are \"Finish\
+    \ Face:Exerior\".\n\nThanks"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-01-22 04:35:13'
+  body: 'Hi Berria,
+
+
+    You need to be very precise with what you mean by wall location line. As mentioned
+    above, there is a difference between the wall.Location line that you see in the
+    API and the ''Location Line'' visible in the user interface. The former cannot
+    be changed, it is always in the middle of the wall, as far as I know. The position
+    of the latter can be adjusted using the WALL_KEY_REF_PARAM parameter.
+
+
+    Cheers, Jeremy.'
+- author: Ari Monteiro
+  email: ari_mont@yahoo.com.br
+  ip: 200.171.33.140
+  url: ''
+  date: '2010-05-14 19:24:42'
+  body: "Hi Jeremy,\n\nI'm studying on my Masters thesis efficient ways of representing\
+    \ modulations block walls. I'm currently evaluating the use of procedural modeling\
+    \ techniques and I think the fill patterns can help me. \n\nI can easily represent\
+    \ what I want using families of objects, but this kind of representation makes\
+    \ the file too heavy. I can use hatches to represent the modulation and get lighter\
+    \ files. \n\nBut, my modulations have four fractions of blocks and I noticed that\
+    \ the PAT file structure proved limited. \n\nI would like to know is there a way\
+    \ to reproduce the mechanism of fill pattern by the API. My intention is to draw\
+    \ the modulation on the faces of the walls, enjoying the same performance that\
+    \ this engine offers.\n\nThanks,\nAri Monteiro"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-05-19 05:50:01'
+  body: 'Dear Ari,
+
+
+    I do not believe that the API provides any functionality to reproduce the fill
+    pattern mechanism.
+
+
+    One thing that you can do, in any case, is make use of the new analysis visualisation
+    framework to draw anything you like on a wall.
+
+
+    I have used it myself to draw jpeg images on Revit wall elements ... I''ll publish
+    that as soon as I get around to it.
+
+
+    Cheers, Jeremy.'
+- author: sangsen
+  email: sangsen123@gmail.com
+  ip: 124.124.54.130
+  url: ''
+  date: '2011-06-14 03:02:15'
+  body: "Hi Jeremy,\n\n          I am trying to set duplicate wall - compound structure\
+    \ layer thickness through API(Revit 2012).it wont update thickness of layer aswell\
+    \ family thickness,\n\nfor Example,\n\n WallType wtNew = wt.Duplicate(\"Wall -\
+    \ 500 mm\") as WallType;\n                if (wtNew != null)\n               \
+    \ {\n                    foreach (CompoundStructureLayer layer in wtNew.GetCompoundStructure().GetLayers())\n\
+    \                    {\n                        if (layer.Function == MaterialFunctionAssignment.Structure)\n\
+    \                        {   \n                            layer.Width = 1.640419947506562;\n\
+    \                        }\n                    }\n                }\nPlease help\
+    \ me to update thickness."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.163.184
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-14 04:26:40'
+  body: 'Dear Sangsen,
+
+
+    Please look at the Revit SDK samples TestFloorThickness and TestWallThickness.
+
+
+    Cheers, Jeremy.'
+- author: sangsen
+  email: sangsen123@gmail.com
+  ip: 124.124.54.130
+  url: ''
+  date: '2011-06-14 05:35:40'
+  body: Thanks Jeremy..
+- author: Hazem
+  email: hazem_el_amir@hotmail.com
+  ip: 41.235.69.223
+  url: ''
+  date: '2013-09-14 12:00:09'
+  body: 'thank you Mr. Jeremy
+
+    really you are the man
+
+    Your code here is very excellent
+
+
+    I found also this function
+
+    double off = wall.WallType.GetCompoundStructure().GetOffsetForLocationLine(WallLocationLine.CoreExterior);
+
+
+    it gets the distance between the (wall center line) and the other WallLocationLines'
+- author: Vilo
+  email: vilo.76@laposte.net
+  ip: 92.103.238.133
+  url: ''
+  date: '2014-04-14 09:51:55'
+  body: 'Hi Jeremy,
+
+
+
+    I want to retrieve, for a given Wall, all its material layers (specifically the
+    thermal properties of it).
+
+
+    As mentioned above, I can access it with :
+
+    wall.WallType.GetCompoundStructure().GetLayers()
+
+
+    then, I can retrieve the thermal properties with :
+
+    Material M = wall.WallType.Document.GetElement(layer.MaterialId) as Material;
+
+    ThermalAsset T = (wall.WallType.Document.GetElement(M.ThermalAssetId) as PropertySetElement).GetThermalAsset();
+
+
+    By default under Revit MEP 2014, the WallType is composed of one layer, and that
+    layer''s material is set to "<by category>".
+
+    In such a case, the "Material M = ..." in the code above is NULL, and this is
+    normal.
+
+
+    As far as I can tell, "<by category>" means that the material is the one assigned
+    to the wall category.
+
+    In Revit MEP 2014, those category materials are stored in the file "Constructions.xml",
+    and can be retrieved with :
+
+
+    MEPBuildingConstruction MEPBC = doc.GetElement(EnergyDataSettings.GetBuildingConstructionSetElementId(doc)
+    as MEPBuildingConstruction;
+
+    Construction C = MEPBC.GetBuildingConstruction(ConstructionType.ExteriorWall);
+
+
+    Then, "C.Id" gives access to the name of the material in the file constructions.xml.
+
+
+
+    My questions :
+
+
+    1. How can I make the "link" between "W.WallType" and the right "Construction"
+    in xml file ?
+
+    It would be great to have access to a property of the Wall/WallType that gives
+    the ConstructionType of that wall.
+
+
+    2. Is there a Revit API object for managing "constructions.xml" containt or have
+    I to read it directly with a XML parser ?
+
+
+
+    Thanks ;-)'
+- author: Vilo
+  email: vilo.76@laposte.net
+  ip: 92.103.238.133
+  url: ''
+  date: '2014-04-14 09:53:22'
+  body: mistake in the above message, the "" statements are actually < by category
+    >
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-04-14 10:08:30'
+  body: "Dear Vilo,\n\nThank you for the interesting question.\n\nI was previously\
+    \ not aware of this file, in my case apparently \n\nC:\\Program Files\\Autodesk\\\
+    Revit 2014\\en-US\\Constructions.xml\n\nI am not aware of any Revit API support\
+    \ for this.\n\nAll I can suggest is to use RevitLookup or more intimate database\
+    \ exploration tools as demonstrated here to search for the kind of link you would\
+    \ like:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2013/11/intimate-revit-database-exploration-with-the-python-shell.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2013/11/intimate-revit-database-exploration-with-the-python-shell.html</a>\n\
+    \nAlternatively, directly parsing the XML file yourself sounds like a very straightforward\
+    \ and effective approach.\n\nGood luck, whichever path you choose to take, and\
+    \ please let us know how it works out for you.\n\nThank you.\n\nCheers, Jeremy."
+- author: Vilo
+  email: vilo.76@laposte.net
+  ip: 92.103.238.133
+  url: ''
+  date: '2014-04-14 10:30:05'
+  body: 'RevitLookup is a wonderful tool !
+
+
+    With BuiltInParams on WallType :
+
+    FUNCTION_PARAM
+
+    STRUCTURAL_MATERIAL_PARAM
+
+
+    I think I will be able to get what I need.
+
+    Thanks again ;-)'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-04-14 10:52:10'
+  body: 'Dear Vilo,
+
+
+    Thank you for your confirmation and appreciation.
+
+
+    Yes, it is, isn''t it?
+
+
+    Congratulations on finding an effective solution.
+
+
+    Cheers, Jeremy.
+
+    -----'

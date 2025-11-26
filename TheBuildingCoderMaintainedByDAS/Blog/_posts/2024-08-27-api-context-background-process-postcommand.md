@@ -1,0 +1,258 @@
+---
+layout: "post"
+title: "API Context, Background Process, PostCommand"
+date: "2024-08-27 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "AI"
+  - "Algorithm"
+  - "Events"
+  - "External"
+  - "Fusion"
+  - "Idling"
+  - "Modeless"
+  - "Performance"
+original_url: "https://thebuildingcoder.typepad.com/blog/2024/08/api-context-background-process-postcommand.html "
+typepad_basename: "api-context-background-process-postcommand"
+typepad_status: "Publish"
+---
+
+<p><style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding-left: 1em;
+  padding-right: 1em;
+  text-align:right;
+}
+</style></p>
+
+<p>We recently addressed aspects of interacting with
+the <a href="https://thebuildingcoder.typepad.com/blog/2024/08/modeless-add-ins-and-pdf-printing-speed.html">Revit API from a modeless context</a>.
+Let's continue in the same vein, and also look at AI and nuclear power news bites:</p>
+
+<ul>
+<li><a href="#2">Background process and Revit API</a></li>
+<li><a href="#3">Revit background processor</a></li>
+<li><a href="#4">Effective Revit API context predicate</a></li>
+<li><a href="#5">PostCommand context and view focus</a></li>
+<li><a href="#6">Protect creativity with no AI</a></li>
+<li><a href="#7">European Union AI Act</a></li>
+<li><a href="#8">The Sakana AI Scientist</a></li>
+<li><a href="#9">Plasma in high school nuclear fusion reactor</a></li>
+</ul>
+
+<h4><a name="2"></a> Background Process and Revit API</h4>
+
+<p>Modeless context is basically synonymous with a background process, as explained in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/background-processes/m-p/12975604/">background processes</a>:</p>
+
+<p><strong>Question:</strong>
+I am starting to venture into the Revit Background Processes.
+My goal is to be able to timestamp each placed element (Fab.Part) with the date and time.
+I have read the post
+about <a href="https://forums.autodesk.com/t5/revit-api-forum/background-process-api-access/td-p/11937077">background process API access</a> on
+creating background processes.
+I am familiar to external events and handlers and understand why they have to be used; the only thing I cannot figure out for the life of me is how to implement the custom process into the document.
+I have it loading with our ribbon but without a document being opened or an implementation of the process I can't use the <code>DocumentChanged</code> to find recently added element ids and continue testing.
+Documentation and examples for this topic are really hard to find.</p>
+
+<p><strong>Answer:</strong>
+Congratulations on all your work and understanding so far.
+Then, you understand that the Revit API is single-treaded, and all Revit API calls must be made from a valid Revit API context residing in the main thread. A background process is a process that executes in a different thread, a background thread.
+It cannot access the Revit API, so all interaction with Revit and the BIM needs to be marshalled back and forth in some way between the background thread and the main thread.
+That is all I can say really.
+Background threads are not part of the Revit API, so this is not the right place to discuss them.
+For more information, you can start out by reading up on something
+like <a href="https://duckduckgo.com/?q=.net+background+thread">.NET background thread</a>.</p>
+
+<p>Two more notes:</p>
+
+<blockquote>
+  <p>timestamp each placed element (Fab.Part) with the date and time.</p>
+</blockquote>
+
+<p>This cannot be achieved in a background process, since the element lives in the Revit database, so access and modification will require a valid Revit API context.</p>
+
+<blockquote>
+  <p>Documentation and examples for this topic are really hard to find.</p>
+</blockquote>
+
+<p>I disagree.
+The Building Coder has discussed related issues with great frequency, and they have also come up a lot in previous discussions here in the forum; a background process is basically a modeless context, so the interaction between those and the BIM are covered by the discussions
+on <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#5.28">Idling and external events for modeless access and driving Revit from outside</a>.</p>
+
+<h4><a name="3"></a> Revit Background Processor</h4>
+
+<p>Christopher Diggins of <a href="https://ara3d.com/">Ara 3D</a> is looking for feedback on <a href="https://forums.autodesk.com/t5/revit-api-forum/performing-long-running-background-computations-using-idling/td-p/12963194">performing long running background computations using <code>Idling</code> event</a>:</p>
+
+<p><strong>Question:</strong>
+We are experimenting with performing long running computations in the background of Revit by using the <code>Idling</code> event, and breaking the work up into a queue of many small tasks.
+We built a small open-source library around it:</p>
+
+<ul>
+<li><a href="https://github.com/ara3d/revit-background-processor">Revit Background Processor</a></li>
+</ul>
+
+<p>Early experiments seem promising, but the real test will be when it is used by actual users in various tools and plug-ins.
+I can't tell yet how reliable the technique is when Revit has a lot of work to do, and whether it could cause a bad user experience.</p>
+
+<p>We would like to hear from other people who have used this technique, or similar techniques, in the past to extract data from Revit, without blocking the UI.
+Specifically, do you know if this technique works well in practice? What other techniques could be used?
+What are the pros and cons?</p>
+
+<p><strong>Answer 1:</strong>
+If your code is running inside the <code>Idling</code> event or <code>IExternalEventHandler</code>, that code is running in the Revit API context and gonna block the Revit UI.
+If the code is fast, the user will never notice, and if the code takes a long time to finish, it will make Revit laggy.</p>
+
+<p><strong>Answer 2:</strong>
+I did quite a lot of work implementing similar functionality for
+my <a href="https://github.com/jeremytammik/RoomEditorApp">RoomEditorApp</a> way back in 2013.</p>
+
+<p>There, I did indeed encounter and analyse certain <a href="https://thebuildingcoder.typepad.com/blog/2013/11/roomeditorapp-idling-and-benchmarking-timer.html">RoomEditorApp Idling issues</a>.</p>
+
+<p>I hit some limitations of the <code>Idling</code> event, especially controlling the timing and frequency of interaction with Revit, affecting how strongly the external code affected and blocked the Revit UI.
+In the end, I resolved them by <a href="https://thebuildingcoder.typepad.com/blog/2013/12/replacing-an-idling-event-handler-by-an-external-event.html">replacing an Idling event handler by an external event</a>.</p>
+
+<p>You may be able to implement significant improvements to your approach by following suit.</p>
+
+<p>I suggest you check out some of the other discussions on this topic in The Building Coder topic group
+on <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#5.28"><code>Idling</code> and external events for modeless access and driving Revit from outside</a>
+and the related posts listed in
+the <a href="https://github.com/jeremytammik/FireRatingCloud">FireRatingCloud documentation</a>.</p>
+
+<p>Maybe things have changed nowadays, but I suspect Revit still decides internally how often to call the <code>Idling</code> event handler, whereas an external event enables you to control the frequency yourself.
+So, I would suggest that you explore the use of external events for your purposes as well.
+Unless everything is running so impeccably and smoothly that no improvement is required, of course.
+Never change a running system!</p>
+
+<!--
+Hi Christopher, congratulations, and thank you for sharing this, your GitHub Revit Background Processor library, the post to the MEP discussion forum and the heads-up to me. My first impulse is to point out that I did quite a lot of work implementing similar functionality for my RoomEditorApp:
+
+cdiggins
+https://www.linkedin.com/feed/update/urn:li:ugcPost:7230208897385467904?commentUrn=urn%3Ali%3Acomment%3A%28ugcPost%3A7230208897385467904%2C7230214887321276416%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287230214887321276416%2Curn%3Ali%3AugcPost%3A7230208897385467904%29
+
+https://github.com/ara3d/revit-background-processor/tree/main
+
+https://www.linkedin.com/feed/update/urn:li:ugcPost:7230208897385467904?commentUrn=urn%3Ali%3Acomment%3A%28ugcPost%3A7230208897385467904%2C7230214887321276416%29&replyUrn=urn%3Ali%3Acomment%3A%28ugcPost%3A7230208897385467904%2C7231152855540256770%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287230214887321276416%2Curn%3Ali%3AugcPost%3A7230208897385467904%29&dashReplyUrn=urn%3Ali%3Afsd_comment%3A%287231152855540256770%2Curn%3Ali%3AugcPost%3A7230208897385467904%29
+
+https://forums.autodesk.com/t5/revit-api-forum/performing-long-running-background-computations-using-idling/m-p/12963194/highlight/false#M80855
+-->
+
+<h4><a name="4"></a> Effective Revit API Context Predicate</h4>
+
+<p>Roman <a href="https://t.me/nice3point">@Nice3point</a> Karpovich, aka Роман Карпович, shared a new effective solution
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/how-to-know-if-revit-api-is-in-context/m-p/12964099#M80866n">how to know if Revit API is in context</a>:</p>
+
+<p>The previously suggested solutions
+for <a href="https://thebuildingcoder.typepad.com/blog/2024/03/api-context-aps-toolkit-and-da4r-debugging.html#2">determining Revit API context</a> throw an exception when the API context is not available.</p>
+
+<p>The preview version
+of <a href="https://github.com/Nice3point/RevitToolkit">RevitToolkit</a> provides
+a new way to do this more efficiently without throwing an exception.</p>
+
+<p>Throwing an exception costs quite a bit of time, and creating an additional empty <code>EventHandler&lt;IdlingEventArgs&gt;</code> for it increases memory allocation.</p>
+
+<p>RevitToolkit now provides the property <code>Context.IsRevitInApiMode</code> that determines whether Revit is in API mode or not without throwing an exception.</p>
+
+<p>Here are benchmark median results in nanoseconds comparing 1000 iterations using the old approach versus the new method:</p>
+
+<p><center></p>
+
+<table>
+<tr><th>API Context</th><th>Exception</th><th>New Method</th></tr>
+<tr><td>Inside</td><td>24122</td><td>413</td></tr>
+<tr><td>Outside</td><td>9522531</td><td>550</td></tr>
+</table>
+
+<p></center></p>
+
+<p>The difference in speed is 58 times in context, and 17313 outside.</p>
+
+<p>Here is the <a href="https://github.com/Nice3point/RevitToolkit?tab=readme-ov-file#context">RevitToolkit.Context documentation</a></p>
+
+<p>Many thanks to Roman for discovering and sharing this huge improvement.</p>
+
+<h4><a name="5"></a>  PostCommand Context and View Focus</h4>
+
+<p>Luiz Henrique <a href="https://ricaun.com/">@ricaun</a> Cassettari and
+Mauricio <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/45203">@Speed_CAD</a> Jorquera
+provide a solution to
+why <a href="https://forums.autodesk.com/t5/revit-api-forum/api-queue-command-quot-commandid-quot-cannot-be-invoked-in-this/m-p/12971672">API queue command "CommandId" cannot be invoked in this context</a></p>
+
+<p>Basically, certain built-in Revit commands require a valid active view and the view must have focus.</p>
+
+<p>Therefore, in order to use <code>PostCommand</code> to launch a built-in commend such as "Select by ID" with the command id <code>ID_SELECT_BY_ID</code>, you first need to ensure that a graphic view has focus.</p>
+
+<p>Many thanks to Ricaun and Mauricio for all the research they put into this!</p>
+
+<h4><a name="6"></a> Protect Creativity With No AI</h4>
+
+<p><a href="https://procreate.com/">Procreate</a> provides creative tools under the motto <em>Art is for everyone</em>.
+They go against the current mainstream with an unequivocally clear statement that they do not plan to support the use of AI in their tools:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c8d3bda883200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302c8d3bda883200b image-full img-responsive" alt="Anti AI" title="Anti AI"  src="/assets/image_f96ff7.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a></p>
+
+<p></center></p>
+
+<ul>
+<li><a href="https://procreate.com/ai">AI is not our future</a>
+&ndash; <i>Creativity is made, not generated.</i></li>
+</ul>
+
+<h4><a name="7"></a> European Union AI Act</h4>
+
+<p>On the other hand,
+the <a href="https://alvaromontoro.com/blog/68057/ai-act-is-here">AI act is here</a>:</p>
+
+<blockquote>
+  <p>The European Union enabled the Artificial Intelligence Act, the first-ever legal framework on AI, addressing its risks and positioning Europe as a leader in AI legislation.</p>
+</blockquote>
+
+<h4><a name="8"></a> The Sakana AI Scientist</h4>
+
+<p>On the other end of the scale, making full unfettered use of it,
+<a href="https://sakana.ai/ai-scientist/#example-papers-generated-by-the-ai-scientist">Sakana.ai</a> is working on creating</p>
+
+<blockquote>
+  <p>The AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery</p>
+</blockquote>
+
+<p>It is interesting to examine
+the <a href="https://sakana.ai/ai-scientist/#example-papers-generated-by-the-ai-scientist">example papers generated by The AI Scientist</a>,
+especially <em>The AI Scientist Bloopers</em>:</p>
+
+<blockquote>
+  <p>... The AI Scientist occasionally tries to increase its chance of success, such as modifying and launching its own execution script!
+  We discuss the AI safety implications in our paper.
+  For example, in one run, it edited the code to perform a system call to run itself.
+  This led to the script endlessly calling itself.
+  In another case, its experiments took too long to complete, hitting our timeout limit.
+  Instead of making its code run faster, it simply tried to modify its own code to extend the timeout period...</p>
+</blockquote>
+
+<h4><a name="9"></a> Plasma in High School Nuclear Fusion Reactor</h4>
+
+<p>Moving to a different field of science unrelated to AI and computing,
+<a href="https://www.linkedin.com/in/cesare-mencarini-624449249/">Cesare Mencarini of Cardiff Sixth Form College</a> built
+a <a href="https://www.linkedin.com/posts/cesare-mencarini-624449249_nuclear-fusion-reactor-phase-1-complete-activity-7110388091592306688-LGC8?utm_source=share&amp;utm_medium=member_desktop">nuclear fusion reactor capable of achieving plasma</a>:</p>
+
+<blockquote>
+  <p>Phase 1 Complete &ndash; Achieving Plasma.
+  This is an Inertial Electrostatic Confinement Fusor which will be capable of achieving fusion once complete.
+  For more information, check out the fusor.net thread
+  on <a href="https://fusor.net/board/viewtopic.php?t=14933">plasma achieved!</a>.</p>
+</blockquote>
+
+<p>Don't miss reading the very impressive LinkedIn comment explaining the low project funding.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c8d3bda891200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302c8d3bda891200b img-responsive" style="width: 450px; display: block; margin-left: auto; margin-right: auto;" alt="High school nuclear fusion reactor" title="High school nuclear fusion reactor"  src="/assets/image_aa0dd4.jpg" /></a><br /></p>
+
+<p></center></p>

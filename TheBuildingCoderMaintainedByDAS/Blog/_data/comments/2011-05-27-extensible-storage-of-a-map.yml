@@ -1,0 +1,117 @@
+comments:
+- author: Paul
+  email: kfpopeye@yahoo.com
+  ip: 50.98.228.243
+  url: ''
+  date: '2011-09-10 15:49:42'
+  body: 'Hi Jeremy,
+
+
+    I noticed this in the SDK documentation about the addmapfield function: "Natural
+    comparison of contained types is used for sorting." Is there a way to store a
+    map field without the keys being sorted?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-09-12 03:53:16'
+  body: "Dear Paul,\n\nOf course it is not possible to affect the way the fields are\
+    \ stored internally. There is some kind of dictionary being used internally, and\
+    \ it has to use some kind of key comparison mechanism. \n\nAnyway, I do not see\
+    \ how that could be of any earthly interest to you. Nobody is going to see the\
+    \ contents of this container except through your own programmatic interface.\n\
+    \nWhy are you asking this? What are you trying to achieve?\n\nCheers, Jeremy."
+- author: Paul
+  email: kfpopeye@yahoo.com
+  ip: 50.98.228.243
+  url: ''
+  date: '2011-09-15 12:34:36'
+  body: I'm creating a macro to work on door hardware and the order of the door hardware
+    list is specified by the user to match the door schedule. I'll just have to create
+    a list that stores the order the hardware should be in.
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-09-15 13:00:18'
+  body: 'Dear Paul,
+
+
+    Oh, I see. Yes, I guess you will have to store the order yourself somehow.
+
+
+    Cheers, Jeremy.'
+- author: Christopher Mckeown
+  email: ''
+  ip: 203.28.167.26
+  url: http://profile.typepad.com/christophermckeown
+  date: '2013-02-14 21:01:24'
+  body: Hi Jerermy, Can you add new fields once a schema has been create? I am trying
+    to add a new field but get "A different schema with the same identity already
+    exists" Is the only way to add new fields to delete the existing schema and create
+    a new one?
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-02-16 10:50:10'
+  body: "Dear Christopher,\n\nSorry, the answer is no. And the other answer is yes.\n\
+    \nYou need to create an entirely new schema. That is the only safe way to implement\
+    \ such a system.\n\nIn your add-in, you can simply support both schemata, and\
+    \ implement functionality to upgrade from one to the other, either automatically\
+    \ or on demand, and even to downgrade if you so wish.\n\nThis is demonstrated\
+    \ by one of the samples in my Autodesk University 2011 class CP4451 - Extensible\
+    \ Storage in the Revit 2012 API: \n\nUpgradeSchema - Handle versioning issues\
+    \ when upgrading and extending an existing extensible storage schema.\n\nCheers,\
+    \ Jeremy."
+- author: Christopher Mckeown
+  email: ''
+  ip: 203.28.167.26
+  url: http://profile.typepad.com/christophermckeown
+  date: '2013-02-17 22:13:11'
+  body: 'I thought that might be the answer. Could become a problem with version control,
+    each time you think of something else that could be stored in there, either control
+    the versions or multiple schemas, which would be the best solution? Would have
+    been nice and simple if I could just modify the schema.
+
+    Cheers Chris'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-29 10:37:54'
+  body: 'Dear Christopher,
+
+
+    I do not see the problem at all, whereas I definitely do see a whole bunch of
+    possible problems if you try to solve it in any other manner.
+
+
+    Cheers, Jeremy.'
+- author: Mike
+  email: coffey.architect@gmail.com
+  ip: 4.28.75.94
+  url: ''
+  date: '2013-10-28 15:20:30'
+  body: Any chance that ES will support IDictionary (string, IList(string)) in the
+    future?  Thanks.
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.189.229
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-10-29 04:02:15'
+  body: 'Dear Mike,
+
+
+    I would not wait if I were you.
+
+
+    You can easily store a list of strings by simply concatenating them, using any
+    delimiter you like that does not occur in any of the strings. If absolutely all
+    characters may occur in the strings, you can use it anyway and escape the original
+    occurrences.
+
+
+    Cheers, Jeremy.
+
+    -----'

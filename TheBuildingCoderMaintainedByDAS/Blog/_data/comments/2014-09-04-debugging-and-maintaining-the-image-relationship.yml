@@ -1,0 +1,126 @@
+comments:
+- author: Scott Wilson
+  email: sdwil2k5@gmail.com
+  ip: 203.52.112.212
+  url: ''
+  date: '2014-09-16 22:27:32'
+  body: 'There''s a few of these undocumented relationships that are quite useful.
+    One that I discovered a while back was for obtaining the crop box of a view for
+    use in rotation operations. There was some forum discussion on this and Jeremy
+    also made a blog post about it to present a work-around: <a href="http://thebuildingcoder.typepad.com/blog/2013/09/rotating-a-plan-view.html">http://thebuildingcoder.typepad.com/blog/2013/09/rotating-a-plan-view.html</a>
+
+
+    Jeremy''s method for this was to hide the cropbox, get the collection of visible
+    elements in the view, show it again then get the element collection one more time
+    to discover the additional element. This was a little too messy for me so I looked
+    further.
+
+
+    I found that for any view with a crop box (visibility doesn''t matter), there
+    will be exactly 2 elements in the database that share the same name and type id.
+    One of them will be the view itself and the other will be the crop box.
+
+
+    To determine which is the crop box you can simply test for the one with the id
+    that doesn''t match the parent view''s id.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 84.137.125.106
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-09-17 01:12:34'
+  body: 'Dear Scott,
+
+
+    Wow, thank you for that useful hint!
+
+
+    Do you have a snippet of sample code to demonstrate?
+
+
+    Preferably a minimal reproducible case?
+
+
+    I could put together a proper blog post to highlight it and ensure it is easily
+    found.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Scott Wilson
+  email: sdwil2k5@gmail.com
+  ip: 203.52.112.212
+  url: ''
+  date: '2014-09-17 03:01:27'
+  body: "Yeah no problems.\n\npublic static Element GetViewUiCropBox(View view)\n\
+    {\n  Element cropBox = null;\n\n  if(view != null)\n  {\n    String viewName =\
+    \ view.Name;\n    ElementId viewTypeId = view.GetTypeId();\n    List<Element>\
+    \ elemList = new FilteredElementCollector(view.Document).WherePasses(new ElementIsElementTypeFilter(true)).Where(x\
+    \ => x.IsValidType(viewTypeId)).Where(x => x.GetTypeId() == viewTypeId).ToList();\n\
+    \n    if(elemList != null)\n    {\n      foreach(Element elem in elemList)\n \
+    \     {\n        if(elem.Name == viewName && elem.Id != view.Id)\n        {\n\
+    \          cropBox = elem;\n        }\n      }\n    }\n  }\n\n  return cropBox;\n\
+    }"
+- author: Jeremy Tammik
+  email: ''
+  ip: 84.137.125.106
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-09-17 03:25:16'
+  body: Mille grazie.
+- author: Jason Isherwood
+  email: jason.isherwood@cadspec.co.uk
+  ip: 81.138.30.67
+  url: ''
+  date: '2015-01-05 08:24:26'
+  body: 'Hi Jeremy
+
+    How can I progmatically set the value of an image parameter (or the default type
+    image field) in a family in the family editor ?
+
+
+    I can use imagetype.create to load my image into the family but how do you then
+    associate it with the relevant image parameter  as the familymanager.set or familymanager.SetForumla  expect
+    string inputs ?
+
+
+    I''ve looked everywhere and this page is the only bit I can find with any example
+    code of imagetype in use.
+
+
+    Please help !'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.166.102
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-01-05 17:59:08'
+  body: 'Dear Jason,
+
+
+    I can imagine that the only way to set the preview image is by setting the current
+    view and then saving and closing the family RFA file.
+
+
+    Cheers, Jeremy.'
+- author: Jason Isherwood
+  email: jason.isherwood@cadspec.co.uk
+  ip: 81.138.30.67
+  url: ''
+  date: '2015-01-08 07:05:12'
+  body: "Thanks Jeremy. \nThat wasn't quite what I was after I meant how do I progmatically\
+    \ set the value of the Type Image field.\n\nI have since worked out the solution:\n\
+    \nit = ImageType.Create(doc, jpgname);\n                                     \
+    \      \nElementId idIt = it.Id;\n                                           \
+    \ FamilyParameter paramFamilyTypeImage= manager.get_Parameter(\"Type Image\");\n\
+    manager.Set(paramFamilyTypeImage, idIt);\n\n\nWhat I need now is to work out how\
+    \ to clear to remove loaded images from the family so that I can load different\
+    \ ones on. Any ideas ?"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.168.131
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-01-08 10:00:09'
+  body: "Dear Jason,\n\nWow, that is an impressive solution. \n\nCongratulations on\
+    \ figuring that one out!\n\nRegarding clearing out existing images, how about\
+    \ \n\n  manager.Set(\n    paramFamilyTypeImage,\n    ElementId.InvalidElementId\
+    \ );\n\nCheers, Jeremy.\n\n-----"

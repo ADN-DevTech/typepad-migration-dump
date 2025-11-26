@@ -1,0 +1,316 @@
+---
+layout: "post"
+title: "FireRevit, Deprecated API and Elbow Centre Point"
+date: "2020-10-21 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "2021"
+  - "Algorithm"
+  - "Data Access"
+  - "External"
+  - "Geometry"
+  - "Migration"
+  - "RME"
+  - "Units"
+  - "Update"
+original_url: "https://thebuildingcoder.typepad.com/blog/2020/10/firerevit-deprecated-api-and-elbow-centre-point.html "
+typepad_basename: "firerevit-deprecated-api-and-elbow-centre-point"
+typepad_status: "Publish"
+---
+
+<p>Struggling to find time to blog between cases, here is today's ration:</p>
+
+<ul>
+<li><a href="#2">Revit 2021 <code>DisplayUnitType</code></a></li>
+<li><a href="#3">Eliminated TBC samples deprecated API usage</a></li>
+<li><a href="#4">Calculating the elbow centre</a></li>
+<li><a href="#5">FireRevit identifies room location for fire escape routes</a></li>
+</ul>
+
+<h4><a name="2"></a> Revit 2021 DisplayUnitType</h4>
+
+<p>Stephen Harrison raised and solved an issue on handling 
+<a href="https://forums.autodesk.com/t5/revit-api-forum/revit-2021-displayunittype/m-p/9810626">Revit 2021 <code>DisplayUnitType</code></a>:</p>
+
+<p><strong>Question:</strong> I am struggling to update a section of my code I have been utilising for a few years now.</p>
+
+<p>In Revit 2021, it is causing a deprecated API usage warning, so I need to update it:</p>
+
+<ul>
+<li>warning CS0618: <code>DisplayUnitType</code> is obsolete:
+This enumeration is deprecated in Revit 2021 and may be removed in a future version of Revit.
+Please use the <code>ForgeTypeId</code> class instead.
+Use constant members of the <code>UnitTypeId</code> class to replace uses of specific values of this enumeration.</li>
+</ul>
+
+<p>My code snippet is:</p>
+
+<pre class="code">
+  <span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">StorageType</span>.Double:
+  &nbsp;&nbsp;<span style="color:blue;">double</span>?&nbsp;nullable&nbsp;=&nbsp;t.AsDouble(&nbsp;fp&nbsp;);
+  &nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;nullable.HasValue&nbsp;)
+  &nbsp;&nbsp;{
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">DisplayUnitType</span>&nbsp;displayUnitType&nbsp;=&nbsp;fp.DisplayUnitType;
+  &nbsp;&nbsp;&nbsp;&nbsp;value&nbsp;=&nbsp;<span style="color:#2b91af;">UnitUtils</span>.ConvertFromInternalUnits(&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nullable.Value,&nbsp;displayUnitType&nbsp;).ToString();
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+  &nbsp;&nbsp;}
+</pre>
+
+<p>Note: <code>t</code> is a <code>FamilyType</code> and <code>fp</code> is a <code>FamilyParameter</code> object.</p>
+
+<p><strong>Answer:</strong> Embarrassing how simple the solution was:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;Pre&nbsp;2021</span>
+
+&nbsp;&nbsp;<span style="color:#2b91af;">DisplayUnitType</span>&nbsp;displayUnitType&nbsp;=&nbsp;fp.DisplayUnitType;
+&nbsp;&nbsp;value&nbsp;=&nbsp;<span style="color:#2b91af;">UnitUtils</span>.ConvertFromInternalUnits(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;nullable.Value,&nbsp;displayUnitType&nbsp;).ToString();
+
+&nbsp;&nbsp;<span style="color:green;">//2021</span>
+
+&nbsp;&nbsp;<span style="color:#2b91af;">ForgeTypeId</span>&nbsp;forgeTypeId&nbsp;=&nbsp;fp.GetUnitTypeId();
+&nbsp;&nbsp;value&nbsp;=&nbsp;<span style="color:#2b91af;">UnitUtils</span>.ConvertFromInternalUnits(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;nullable.Value,&nbsp;forgeTypeId&nbsp;).ToString();
+</pre>
+
+<p>Many thanks to Stephen for sharing this!</p>
+
+<h4><a name="3"></a> Eliminated TBC Samples Deprecated API Usage</h4>
+
+<p>Stephen's question and answer prompted me to take another look at and try to eliminate the deprecated API usage warnings
+in <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder samples</a>.
+After the initial <a href="https://thebuildingcoder.typepad.com/blog/2020/04/2021-migration-add-in-language-and-bim360-login.html#4">flat migration to Revit 2021</a>,
+the compilation still generates <a href="zip/tbc_samples_2021_migr_01.txt">162 warnings</a>,
+all associated with deprecated methods and enumerations caused by 
+the <a href="https://thebuildingcoder.typepad.com/blog/2020/04/whats-new-in-the-revit-2021-api.html#4.1.3">Units API changes</a>.</p>
+
+<p>The resolution was actually quite simple.</p>
+
+<p>I removed some sections of code completely that dealt exclusively with the Revit Unit API functionality, since they ought to be rewritten from scratch for the new unit handling methods. It would make little sense to migrate them step by step. That left a handful of trivial issues to fix.</p>
+
+<p>The new <a href="https://github.com/jeremytammik/the_building_coder_samples/releases/tag/2021.0.150.6">release 2021.0.150.6</a> compiles with zero errors and warnings.</p>
+
+<p>You can see exactly how that was achieved by analysing
+the <a href="https://github.com/jeremytammik/the_building_coder_samples/compare/2021.0.150.5...2021.0.150.6">differences to the previous release</a>.</p>
+
+<h4><a name="4"></a> Calculating the Elbow Centre</h4>
+
+<p>From
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/how-to-calculate-the-center-point-of-elbow/m-p/9804339">how to calculate the centre point of an elbow</a>:</p>
+
+<p><strong>Question:</strong> How to calculate the centre point of elbow?</p>
+
+<p>I am trying to get to centre point of an elbow.
+I have checked all the data of the elbow in RevitLookup but did not find anything.
+So, is there any way I can get that information?</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e97018d7200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e97018d7200b img-responsive" style="width: 395px; display: block; margin-left: auto; margin-right: auto;" alt="Elbow arc centre point" title="Elbow arc centre point" src="/assets/image_219cd3.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p><strong>Answer:</strong> Yes.</p>
+
+<p>This is a pretty simple geometrical exercise.</p>
+
+<p>You have the full information about the start and end point, specifically including location and direction == face normal.</p>
+
+<p>The start and end point directions are not parallel. Therefore, they define a 2D plane. The centre point will normally lie in that plane, so you just have a (simpler) 2D task to solve, not 3D.</p>
+
+<p>In the 2D plane, you can determine the normal vector to the start and end directions. Extend those two normal vectors to define infinite lines and determine their intersection. That is your centre point.</p>
+
+<p><strong>Response:</strong> Thank you for your answer.
+I just found out that actually the elbow already has the centre point information under its Geometry information:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833026bde9d6f79200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833026bde9d6f79200c image-full img-responsive" alt="Snooping elbow arc centre point" title="Snooping elbow arc centre point" src="/assets/image_3fda74.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>So, my working code is:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;GetCenterofElbow(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">FamilyInstance</span>&nbsp;selectedDuct&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;output&nbsp;=&nbsp;<span style="color:blue;">null</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;List&lt;<span style="color:#2b91af;">Connector</span>&gt;&nbsp;allConnectors&nbsp;=&nbsp;selectedDuct.MEPModel
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.ConnectorManager.Connectors
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Cast&lt;<span style="color:#2b91af;">Connector</span>&gt;().ToList();
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Connector</span>&nbsp;connectorA&nbsp;=&nbsp;allConnectors[&nbsp;0&nbsp;];
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Connector</span>&nbsp;connectorB&nbsp;=&nbsp;allConnectors[&nbsp;0&nbsp;];
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">GeometryElement</span>&nbsp;geometryElement&nbsp;=&nbsp;selectedDuct
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.get_Geometry(&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Options</span>()&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;List&lt;<span style="color:#2b91af;">GeometryInstance</span>&gt;&nbsp;ginsList&nbsp;=&nbsp;selectedDuct
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.get_Geometry(&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Options</span>()&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Where(&nbsp;o&nbsp;=&gt;&nbsp;o&nbsp;<span style="color:blue;">is</span>&nbsp;<span style="color:#2b91af;">GeometryInstance</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Cast&lt;<span style="color:#2b91af;">GeometryInstance</span>&gt;()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.ToList();
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">GeometryInstance</span>&nbsp;gins&nbsp;<span style="color:blue;">in</span>&nbsp;ginsList&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">GeometryObject</span>&nbsp;ge&nbsp;<span style="color:blue;">in</span>&nbsp;gins.GetInstanceGeometry()&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">try</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Arc</span>&nbsp;centerArc&nbsp;=&nbsp;ge&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">Arc</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;output&nbsp;=&nbsp;centerArc.Center;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">catch</span>(&nbsp;<span style="color:#2b91af;">Exception</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;output;
+&nbsp;&nbsp;}
+</pre>
+
+<p><strong>Answer:</strong> Thank you for letting us know that simple solution!</p>
+
+<p>Oh dear. I wasted some effort, then.</p>
+
+<p>I implemented a geometrical solution for you based on the elbow connectors and their coordinate systems:</p>
+
+<ul>
+<li><a href="https://www.revitapidocs.com/2020/28a9cf5e-9191-f9ce-74c8-622a681201f6.htm">Connector Origin</a></li>
+<li><a href="https://www.revitapidocs.com/2020/cb6d725d-654a-f6f3-fed0-96cc618a42f1.htm">CoordinateSystem property returning a Transform object</a></li>
+<li><a href="https://github.com/jeremytammik/the_building_coder_samples/blob/master/BuildingCoder/BuildingCoder/CmdRectDuctCorners.cs#L240-L319">New <code>GetElbowConnectors</code> and <code>GetElbowCentre</code> methods in The Building Coder samples</a> </li>
+</ul>
+
+<pre class="code">
+  <span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+  <span style="color:gray;">///</span><span style="color:green;">&nbsp;Return&nbsp;elbow&nbsp;connectors.</span>
+  <span style="color:gray;">///</span><span style="color:green;">&nbsp;Return&nbsp;null&nbsp;if&nbsp;the&nbsp;given&nbsp;element&nbsp;is&nbsp;not&nbsp;a&nbsp;</span>
+  <span style="color:gray;">///</span><span style="color:green;">&nbsp;family&nbsp;instance&nbsp;with&nbsp;exactly&nbsp;two&nbsp;connectors.</span>
+  <span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+  <span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">Connector</span>&gt;&nbsp;GetElbowConnectors(&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;e&nbsp;)
+  {
+  &nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">Connector</span>&gt;&nbsp;cons&nbsp;=&nbsp;<span style="color:blue;">null</span>;
+  &nbsp;&nbsp;<span style="color:#2b91af;">FamilyInstance</span>&nbsp;fi&nbsp;=&nbsp;e&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">FamilyInstance</span>;
+  &nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;<span style="color:blue;">null</span>&nbsp;!=&nbsp;fi&nbsp;)
+  &nbsp;&nbsp;{
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">MEPModel</span>&nbsp;m&nbsp;=&nbsp;fi.MEPModel;
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;<span style="color:blue;">null</span>&nbsp;!=&nbsp;m&nbsp;)
+  &nbsp;&nbsp;&nbsp;&nbsp;{
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ConnectorManager</span>&nbsp;cm&nbsp;=&nbsp;m.ConnectorManager;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;<span style="color:blue;">null</span>&nbsp;!=&nbsp;cm&nbsp;)
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ConnectorSet</span>&nbsp;cs&nbsp;=&nbsp;cm.Connectors;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;2&nbsp;==&nbsp;cs.Size&nbsp;)
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cons&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">Connector</span>&gt;(&nbsp;2&nbsp;);
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">bool</span>&nbsp;first&nbsp;=&nbsp;<span style="color:blue;">true</span>;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">Connector</span>&nbsp;c&nbsp;<span style="color:blue;">in</span>&nbsp;cs&nbsp;)
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;first&nbsp;)
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cons[0]&nbsp;=&nbsp;c;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">else</span>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cons[1]&nbsp;=&nbsp;c;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+  &nbsp;&nbsp;&nbsp;&nbsp;}
+  &nbsp;&nbsp;}
+  &nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;cons;
+  }
+
+  <span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+  <span style="color:gray;">///</span><span style="color:green;">&nbsp;Return&nbsp;elbow&nbsp;centre&nbsp;point.</span>
+  <span style="color:gray;">///</span><span style="color:green;">&nbsp;Return&nbsp;null&nbsp;if&nbsp;the&nbsp;start&nbsp;and&nbsp;end&nbsp;points&nbsp;</span>
+  <span style="color:gray;">///</span><span style="color:green;">&nbsp;and&nbsp;direction&nbsp;vectors&nbsp;are&nbsp;not&nbsp;all&nbsp;coplanar.</span>
+  <span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+  <span style="color:#2b91af;">XYZ</span>&nbsp;GetElbowCentre(&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;e&nbsp;)
+  {
+  &nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;pc&nbsp;=&nbsp;<span style="color:blue;">null</span>;
+  &nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">Connector</span>&gt;&nbsp;cons&nbsp;=&nbsp;GetElbowConnectors(&nbsp;e&nbsp;);
+  &nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;<span style="color:blue;">null</span>&nbsp;!=&nbsp;cons&nbsp;)
+  &nbsp;&nbsp;{
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Get&nbsp;start&nbsp;and&nbsp;end&nbsp;point&nbsp;and&nbsp;direction</span>
+
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;ps&nbsp;=&nbsp;cons[&nbsp;0&nbsp;].CoordinateSystem.Origin;
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;vs&nbsp;=&nbsp;cons[&nbsp;0&nbsp;].CoordinateSystem.BasisZ;
+
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;pe&nbsp;=&nbsp;cons[&nbsp;1&nbsp;].CoordinateSystem.Origin;
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;ve&nbsp;=&nbsp;cons[&nbsp;1&nbsp;].CoordinateSystem.BasisZ;
+
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;vd&nbsp;=&nbsp;pe&nbsp;-&nbsp;ps;
+
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;For&nbsp;a&nbsp;regular&nbsp;elbow,&nbsp;Z&nbsp;vector&nbsp;is&nbsp;normal&nbsp;</span>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;of&nbsp;the&nbsp;2D&nbsp;plane&nbsp;spanned&nbsp;by&nbsp;the&nbsp;coplanar</span>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;start&nbsp;and&nbsp;end&nbsp;points&nbsp;and&nbsp;direction&nbsp;vectors.</span>
+
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;vz&nbsp;=&nbsp;vs.CrossProduct(&nbsp;vd&nbsp;);
+
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;!vz.IsZeroLength()&nbsp;)
+  &nbsp;&nbsp;&nbsp;&nbsp;{
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;vxs&nbsp;=&nbsp;vs.CrossProduct(&nbsp;vz&nbsp;);
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;vxe&nbsp;=&nbsp;ve.CrossProduct(&nbsp;vz&nbsp;);
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pc&nbsp;=&nbsp;<span style="color:#2b91af;">Util</span>.LineLineIntersection(&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ps,&nbsp;vxs,&nbsp;pe,&nbsp;vxe&nbsp;);
+  &nbsp;&nbsp;&nbsp;&nbsp;}
+  &nbsp;&nbsp;}
+  &nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;pc;
+  }
+</pre>
+
+<p>Would you like to test my code and see whether it returns the same result?</p>
+
+<p>By the way, some elbow families have no arc segment at all.</p>
+
+<p>For example, some can consist of two 45-degree segments, connected by a cylindrical part in between.</p>
+
+<p>In this case, there would be two arcs with different centre points, so the connector based approach seems more flexible for different family content.</p>
+
+<p>For example, here is a typical <a href="https://www.ofenseite.com/1020147-pelletofenrohr-90-bogen-mit-kesselanschluss-muffe">German chimney exhaust elbow</a></p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e97018ce200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e97018ce200b img-responsive" style="width: 250px; display: block; margin-left: auto; margin-right: auto;" alt="Chimney 90 degree elbow" title="Chimney 90 degree elbow" src="/assets/image_92417a.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>In this case, there isn't any arc at all.</p>
+
+<p>The connector-based code should solve the task for that as well.</p>
+
+<p>Please confirm that it works.</p>
+
+<p>The code is untested.</p>
+
+<h4><a name="5"></a> FireRevit Identifies Room Location for Fire Escape Routes</h4>
+
+<p><a href="mailto:wc36170565@gmail.com">Luhan Neo Sheng</a> shared a research project with potential practical applications in
+his <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/firerevit-using-revit-files-to-identify-the-room-locations-of/td-p/9809450">FireRevit: Using Revit files to identify the room locations of fires and escape routes</a>:</p>
+
+<p>FireRevit is software that parses Revit files in order to map from a location given as (latitude, longitude, height) to a Revit room identifier.</p>
+
+<p>FireRevit also combines the Revit file and information about which rooms are inaccessible in an emergency to guide residents to the nearest exit by giving a route map.</p>
+
+<p>Our application use case is firefighting where drones identify the locations of rooms having fires both to direct firefighters to rooms on fire and to help residents escape. </p>
+
+<p>We believe this could be useful in general for Revit users.</p>
+
+<p>Here is <a href="https://cs.nyu.edu/media/publications/RevitToDatabase.pdf">our technical report RevitToDatabase.pdf</a>
+(<a href="https://thebuildingcoder.typepad.com/files/firerevit_room_location_escape_route.pdf">local copy</a>) and 
+the source code in the <a href="https://github.com/LuhanSheng/Revit_To_Database">LuhanSheng Revit_To_Database GitHub repository</a>.</p>
+
+<p>Noteworthy related topics:</p>
+
+<ul>
+<li>Kean Walmsley implemented a <a href="https://thebuildingcoder.typepad.com/blog/2016/09/hololens-escape-path-waypoint-json-exporter.html">HoloLens-based tool for navigating low visibility environments and following an exit path</a></li>
+<li>Revit 2020 enhanced the Analysis API with support for a <a href="https://thebuildingcoder.typepad.com/blog/2019/04/whats-new-in-the-revit-2020-api.html#4.2.19">Path of Travel API</a></li>
+<li>The Revit SDK includes a <a href="https://thebuildingcoder.typepad.com/blog/2019/04/new-revit-2020-sdk-samples.html#5">PathOfTravel SDK sample</a></li>
+</ul>

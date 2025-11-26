@@ -1,0 +1,177 @@
+comments:
+- author: Olli Kattelus
+  email: olli.kattelus@progman.fi
+  ip: 62.236.63.218
+  url: ''
+  date: '2010-11-04 09:03:21'
+  body: "Hi Jeremy\n\nYou have mentioned elsewhere that FindReferencesByDirection()\
+    \ doesn't find intersections in linked elements. Does it also apply for these\
+    \ GeometryObject::intersect() functions (according to my experimentation\tit does)?\n\
+    \nIf does, is there ANY possible way to determine intersections via API with \"\
+    local\" and linked elements (as it is possible with GUI in Collaborate->Interference...)?"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-11-05 09:14:28'
+  body: 'Dear Olli,
+
+
+    Sorry, I don''t know off-hand. Please submit an ADN case for that, with an absolutely
+    minimal sample Revit project and a minimal Visual Studio solution showing how
+    you tested this, and we can take a closer look. Thank you!
+
+
+    Cheers, Jeremy.'
+- author: nicholas B
+  email: nicholas.broadbent@hotmail.com
+  ip: 60.242.123.54
+  url: ''
+  date: '2010-12-12 23:28:31'
+  body: "Hi Jeremy \nI have a Model line that intersects multiple Revit doors, how\
+    \ do I get the element ID’s of the doors the line intersects in the order it intersects\
+    \ them down the line. This programme is for renumbering doors in the order they\
+    \ intersect the line, makes it easer if you have to add a door in. (is it also\
+    \ possible to do it with a detail line not a model line)"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2010-12-13 11:36:14'
+  body: 'Dear Nicholas,
+
+
+    I love this kind of question! There are of course an infinite number of ways to
+    address this question.
+
+
+    One pretty simple solution is to use the FindReferencesByDirection method:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/01/findreferencesbydirection.html">http://thebuildingcoder.typepad.com/blog/2010/01/findreferencesbydirection.html</a>
+
+
+    The sample mentioned there was added to the Revit 2011 SDK as FindColumns. It
+    retrieves all columns intersecting a wall, which is almost exactly the same as
+    finding all doors intersecting your model line.
+
+
+    I am not certain that you can rely on FindReferencesByDirection returning the
+    elements sorted by distance long the line, so you should first of all test whether
+    it does and secondly possibly do it yourself, for instance by defining a sorting
+    and comparison algorithm for 2D or 3D points as demonstrated by my XYZ Compare
+    method and XyzEqualityComparer class:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/05/nested-instance-geometry.html">http://thebuildingcoder.typepad.com/blog/2009/05/nested-instance-geometry.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Dickins John
+  email: dickinsjohn@gmail.com
+  ip: 123.63.24.30
+  url: ''
+  date: '2013-10-23 08:06:37'
+  body: "Is there any way to find whether an a line intersects with any element in\
+    \ a linked file and return the point of intersection? I tried the ReferenceIntersector\
+    \ but it didn't work for all the three overloads with the FindReferencesInRevitLinks\
+    \ property set to true. Does anyone know any solution to this problem? Kindly\
+    \ help.\n\nThis is the method i wrote for finding it but couldn,t find a solution.\n\
+    \npublic double FindDistance(Element ele, XYZ point, IList<Element> ElementsLInked)\n\
+    \        {\n            double proximity=0.0;\n\n            FilteredElementCollector\
+    \ collector = new FilteredElementCollector(m_document.Document);\n           \
+    \ Func<View3D, bool> isNotTemplate = v3 => !(v3.IsTemplate);\n            View3D\
+    \ view3D = collector.OfClass(typeof(View3D)).Cast<View3D>().First<View3D>(isNotTemplate);\n\
+    \n            ReferenceIntersector refIntersector = new ReferenceIntersector(view3D);\n\
+    \            refIntersector.SetFilter(GetStructuralElements(m_document.Document));\n\
+    \            refIntersector.TargetType = FindReferenceTarget.Element;\n      \
+    \      refIntersector.FindReferencesInRevitLinks=true;\n\n            ReferenceWithContext\
+    \ referenceWithContext = refIntersector.FindNearest(point, XYZ.BasisZ);\n\n  \
+    \          \n            if (referenceWithContext!=null)\n            {\n    \
+    \            MessageBox.Show(m_document.Document.GetElement(referenceWithContext.GetReference()).GetType().Name);\n\
+    \n                proximity = referenceWithContext.Proximity;                \n\
+    \            }\n            else\n            {\n                MessageBox.Show(\"\
+    No intersecting element found. Cannot extend the rod!\");\n            }\n\n\n\
+    \            MessageBox.Show(proximity.ToString());\n\n            return proximity;\n\
+    \            \n        }"
+- author: Dickins John
+  email: dickinsjohn@gmail.com
+  ip: 123.63.24.30
+  url: ''
+  date: '2013-10-23 08:10:53'
+  body: "I also tried retrieving the elements from the linked file and then find the\
+    \ element IDs. This too didn't work. Kindly help.\n\n\npublic double FindDistance(Element\
+    \ ele, XYZ point, IList<Element> ElementsLInked)\n        {\n\n            IList<ElementId>\
+    \ ElementIDLinked = new List<ElementId>();\n\n            foreach(Element elemLinked\
+    \ in ElementsLInked )\n            {\n                ElementIDLinked.Add(elemLinked.Id);\n\
+    \            }\n\n            MessageBox.Show(ElementIDLinked.Count.ToString());\n\
+    \n            double proximity=0.0;\n\n            FilteredElementCollector collector\
+    \ = new FilteredElementCollector(m_document.Document);\n            Func<View3D,\
+    \ bool> isNotTemplate = v3 => !(v3.IsTemplate);\n            View3D view3D = collector.OfClass(typeof(View3D)).Cast<View3D>().First<View3D>(isNotTemplate);\n\
+    \n            ReferenceIntersector refIntersector = new ReferenceIntersector(ElementIDLinked,\
+    \ FindReferenceTarget.Element, view3D);\n\n            refIntersector.FindReferencesInRevitLinks=true;\n\
+    \n            ReferenceWithContext referenceWithContext = refIntersector.FindNearest(point,\
+    \ XYZ.BasisZ);\n\n            \n            if (referenceWithContext!=null)\n\
+    \            {\n                MessageBox.Show(m_document.Document.GetElement(referenceWithContext.GetReference()).GetType().Name);\n\
+    \n                proximity = referenceWithContext.Proximity;                \n\
+    \            }\n            else\n            {\n                MessageBox.Show(\"\
+    No intersecting element found. Cannot extend the rod!\");\n            }\n   \
+    \         \n            MessageBox.Show(proximity.ToString());\n\n           \
+    \ return proximity;\n            \n        }"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.201.138
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-11-06 08:30:26'
+  body: 'Dear John,
+
+
+    It should be possible to achieve this.
+
+
+    Have you made any progress with it yet?
+
+
+    If not, could you please provide a really minimal sample situation and clear description
+    of the issue and the exact expected results, like in this discussion on determining
+    the host location of linked elements:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/11/determining-host-document-location-of-a-linked-element.html">http://thebuildingcoder.typepad.com/blog/2013/11/determining-host-document-location-of-a-linked-element.html</a>
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Dickins John
+  email: dickinsjohn@gmail.com
+  ip: 123.63.24.30
+  url: ''
+  date: '2013-11-07 03:55:43'
+  body: "This problem has been solved. Don't apply any filter to the ReferenceIntersector\
+    \ because type (if you use GetType()) of instances returned by the intersector's\
+    \ find method is \"Linked Instances\" and not its original type. Even the element\
+    \ ID of the intersected element is different from the original element in the\
+    \ linked file. \nThis brings us to the new problem. How to find the type and original\
+    \ element id of the intersected element?\nAny suggestions?"
+- author: ko0ls
+  email: ko0ls92.nuce@gmail.com
+  ip: 42.113.207.97
+  url: http://facebook.com.vn
+  date: '2014-12-23 23:27:55'
+  body: can you show me intersect between curve and reference plane
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.167.39
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-01-09 02:27:47'
+  body: 'Dear Ko0ls,
+
+
+    You might be able to use the Face.Intersect(Curve) method.
+
+
+    Cheers, Jeremy.
+
+    -----'

@@ -1,0 +1,224 @@
+---
+layout: "post"
+title: "Retrieving Linked IfcZone Elements Using Python"
+date: "2019-01-15 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Data Access"
+  - "Element Relationships"
+  - "IFC"
+  - "Links"
+  - "Python"
+  - "RevitLookup"
+original_url: "https://thebuildingcoder.typepad.com/blog/2019/01/retrieving-linked-ifczone-elements-using-python.html "
+typepad_basename: "retrieving-linked-ifczone-elements-using-python"
+typepad_status: "Publish"
+---
+
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js" type="text/javascript"></script>
+
+<p>I spent a lot of time last week and during the weekend playing around with
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> topic
+of <a href="https://forums.autodesk.com/t5/revit-api-forum/find-all-ducts-that-have-been-tapped-into/m-p/8485269">finding all ducts that have been tapped into</a>.</p>
+
+<p>It led to several new releases
+of <a href="https://github.com/jeremytammik/the_building_coder_samples/releases/tag/2019.0.145.4">The Building Coder samples</a>.</p>
+
+<p>Since we have not reached a final conclusion yet, however, I'll postpone the discussion of that.</p>
+
+<p>Instead, I present a little exploration of how to access zones defined in an IFC file in Revit.</p>
+
+<p>If you are following this blog closely, you might guess that this is related to
+the <a href="https://thebuildingcoder.typepad.com/blog/2019/01/room-boundaries-to-csv-and-wpf-template.html">room boundary CSV exporter project</a> that
+I recently discussed.</p>
+
+<p>For this exploration, I installed and used RevitPythonShell.</p>
+
+<p>Here are the detailed steps:</p>
+
+<ul>
+<li><a href="#2">Importing IFC Zones into Revit</a> </li>
+<li><a href="#3">Installing and Using RevitPythonShell</a> </li>
+<li><a href="#4">Programmatically Accessing IFC Zones in Revit</a> </li>
+</ul>
+
+<h4><a name="2"></a> Importing IFC Zones into Revit</h4>
+
+<p>I started out my explorations by chatting with our IFC expert Angel Velez:</p>
+
+<p>[Q] Does Revit IFC import also support IFCZONE? Can we use IFCZONE to generate Revit Zone elements? </p>
+
+<p>[A] Exporting zones from Revit to IFC is supported,
+and <a href="https://sourceforge.net/p/ifcexporter/wiki/Exporting%20Zones">you have to set up the project properly</a> for that.</p>
+
+<p>BTW, happy to say that Googling for 'Revit IfcZone' got me to that link!</p>
+
+<p>Import, however, ignores zones.</p>
+
+<p>Link creates them, as a subset of generic models.</p>
+
+<p>[Q] When you say, 'link creates them', does it mean: in  a Revit project, link in an IFC file.</p>
+
+<p>IFCZONE elements are now accessible and visible in Revit and we can query their properties and boundaries? </p>
+
+<p>[A] Correct &ndash; for link at least. Import does nothing with them.</p>
+
+<p>[Q] OK... I have now linked an IFC file into a blank Revit document.</p>
+
+<p>How can I access the zone information from here?</p>
+
+<p>Is there any way in the UI?</p>
+
+<p>[A] You have to tab into the document until you choose the zone.  It will overlap the rooms it contains.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833022ad3cfc333200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833022ad3cfc333200b image-full img-responsive" alt="IFC zone tabbed to" title="IFC zone tabbed to" src="/assets/image_f7620a.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>[Q] Yes, I see it now.</p>
+
+<p>I see a generic element with the <code>IFCZONE</code> properties, e.g., <code>IfcName</code>, and <code>IfcExportsAs</code> set to <code>IfcZone</code>.</p>
+
+<p>What would be the workflow to generate a mapping from room elements to <code>IFCZONE</code> elements using the Revit API?</p>
+
+<p>[A] I believe the rooms have a property that has the name of the zone(s) they belong to.</p>
+
+<p>Although the 'rooms' are also generic elements. The Revit IFC import does not create real rooms, just space volumes.  Converting to rooms is a request.</p>
+
+<p>Thank you very much, Angel, for all the help!</p>
+
+<p>The IFC zones are imported as <code>DirectShape</code> elements and assigned to the <code>Generic Model</code> category.</p>
+
+<p>Their IFC properties are stored in shared parameters, like this:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833022ad3b02826200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833022ad3b02826200d img-responsive" alt="IFC zone properties" title="IFC zone properties" src="/assets/image_68bf7a.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>As far as I can tell, I just need to look at the <code>IfcName</code> and <code>IfcExportAs</code> properties.</p>
+
+<h4><a name="3"></a> Installing and Using RevitPythonShell</h4>
+
+<p>Based on that discussion, I linked in an IFC file containing zones representing apartments into a blank Revit project document.</p>
+
+<p>I started out exploring the model using <a href="https://github.com/jeremytammik/RevitLookup">RevitLookup</a>.</p>
+
+<p>Since the objects of interest resided in the linked IFC file, however, I soon had to take recourse
+to <a href="http://thebuildingcoder.typepad.com/blog/2013/11/intimate-revit-database-exploration-with-the-python-shell.html">another, more flexible, advanced and intimate database exploration tool</a>.</p>
+
+<p>I visited the <a href="https://github.com/architecture-building-systems/revitpythonshell">RevitPythonShell home page</a> and
+downloaded the installer for Revit 2019.</p>
+
+<p>It is a one-click install.</p>
+
+<p>You can even do it while Revit is up and running &ndash; it will be auto-loaded into the running session.</p>
+
+<p>Then, go to the <code>Add-In</code> tab and click the icon. That displays the console. Then copy-paste the code into that.</p>
+
+<p>You can also load and run scripts in other ways &ndash; I've never tried that, though.</p>
+
+<h4><a name="4"></a> Programmatically Accessing IFC Zones in Revit</h4>
+
+<p>The RevitPythonShell enabled me to interact with the linked database, explore its elements and develop the following script step by step:</p>
+
+<pre class="prettyprint">
+import clr
+import math
+clr.AddReference('RevitAPI')
+clr.AddReference('RevitAPIUI')
+from Autodesk.Revit.DB import *
+from Autodesk.Revit.DB.Architecture import *
+from Autodesk.Revit.DB.Analysis import *
+uidoc = __revit__.ActiveUIDocument
+doc = __revit__.ActiveUIDocument.Document
+app = doc.Application
+docs = app.Documents
+
+n = docs.Size
+
+print n, 'open documents:'
+
+for d in docs:
+  s = d.PathName
+  print s
+  if s.endswith('.ifc.RVT'): ifcdoc = d
+
+print 'Linked-in IFC document:'
+print ifcdoc.PathName
+
+collector = FilteredElementCollector(ifcdoc).OfClass(clr.GetClrType(DirectShape)).OfCategory(BuiltInCategory.OST_GenericModel)
+
+print collector.GetElementCount(), 'generic model direct shape elements'
+
+def get_param(e,s):
+  "Return string parameter value for given parameter name"
+  ps = e.GetParameters(s)
+  n = ps.Count
+  assert(2 > n)
+  if 0 < n: return ps[0].AsString()
+  else: return None
+
+def is_zone(e):
+  "Predicate returning True is e is an IfcZone"
+  export_as = get_param(e,'IfcExportAs')
+  return export_as and export_as == 'IfcZone'
+
+def zone_name(e):
+  "Return IfcName of IfcZone element or None"
+  if is_zone(e):
+    return get_param(e,'IfcName')
+
+zone_names = []
+
+for e in collector:
+  if is_zone(e):
+    zone_names.append(get_param(e,'IfcName'))
+
+zone_names.sort()
+
+n = len(zone_names)
+
+print n, 'zones:', zone_names
+</pre>
+
+<p>I am also linking in this script source here as a separate text
+file <a href="https://thebuildingcoder.typepad.com/files/get_ifc_zone_properties.py">get_ifc_zone_properties.py</a>.</p>
+
+<p>It lists all the open documents, namely two, the blank hosting project and the imported IFC file.</p>
+
+<p>The imported IFC file has generated a placeholder RVT.</p>
+
+<p>That is the document that I need to dig deeper into.</p>
+
+<p>Using a filtered element collector, I retrieve all <code>DirectShape</code> elements belonging to the <code>Generic Model</code> category.</p>
+
+<p>A couple of helper functions extract a named parameter from an element and implement a Boolean predicate to determine whether an element represents an IFC zone.</p>
+
+<p>With those in hand, I can iterate over all the 1012 direct shapes, access the 25 zones, and save their <code>IfcName</code> properties to a list.</p>
+
+<p>Here is the result of running the script:</p>
+
+<pre>
+2 open documents:
+C:\...\test\010-123xx3-arc-bat01-apt01_2_2018-12-27_1507_ifc_link_host.rvt
+C:\...\010-123xx3-arc-bat01-apt01_2_2018-12-27_1507.ifc.RVT
+
+Linked-in IFC document:
+C:\...\010-123xx3-arc-bat01-apt01_2_2018-12-27_1507.ifc.RVT
+
+1012 generic model direct shape elements
+
+25 zones: ['APT0101', 'APT0102', 'APT0103', 'APT0104',
+  'APT0105', 'APT0106', 'APT0201', 'APT0202', 'APT0203',
+  ...
+  'APT0402', 'APT0403', 'APT0404', 'APT0405', 'APT0406',
+  u'Par d\xe9faut:127272']
+</pre>
+
+<p>I very much enjoyed this little excursion into IFC matters and playing around interactively with the Revit API and Python.</p>
+
+<p>I hope you enjoyed this short summary of my experiences.</p>

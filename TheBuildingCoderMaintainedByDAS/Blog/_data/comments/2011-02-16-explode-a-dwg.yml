@@ -1,0 +1,74 @@
+comments:
+- author: Jian
+  email: christinalee_520@hotmail.com
+  ip: 216.165.207.168
+  url: ''
+  date: '2011-02-16 23:27:50'
+  body: 'Hello Jeremy, I am a student in University and doing a project for a software
+    company.
+
+
+    The topic is redeveloping an application to do the same thing as click MANAGE>SETTINGS>LINE
+    PATTERNS>DELETE in Revit. Please tell me if the API is available for that. Thank
+    you.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-02-17 02:19:29'
+  body: "Dear Jian,\n\nSo that command simply deletes all line patterns that are stored\
+    \ in the model and not currently used?\n\nFunnily enough, this was also requested\
+    \ recently by Owen in his comment\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2011/02/set-elbow-fitting-type.html?cid=6a00e553e168978833014e8614cab4970d#comment-6a00e553e168978833014e8614cab4970d\"\
+    >http://thebuildingcoder.typepad.com/blog/2011/02/set-elbow-fitting-type.html?cid=6a00e553e168978833014e8614cab4970d#comment-6a00e553e168978833014e8614cab4970d</a>\
+    \ \n\nAs I told Owen, this request sounds very similar to the one described by\
+    \ Chuck in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/11/purge-unused-text-note-types.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/11/purge-unused-text-note-types.html</a>\n\
+    \nI implemented a Building Coder sample command CmdPurgeTextNoteTypes to determine\
+    \ all unused text note types and delete them.\n\nI would assume that that can\
+    \ easily be adapted to handle unused line patterns as well. No guarantee, though,\
+    \ there may be hidden stumbling blocks along the way.\n\nAnyway, that should give\
+    \ you a good starting point.\n\nCheers, Jeremy."
+- author: Larry
+  email: LTKDesigns@comcast.net
+  ip: 98.248.191.137
+  url: ''
+  date: '2011-03-22 18:34:07'
+  body: I have tried the RevitUIAutoSamples with Revit 2012 Beta 2 in an XP SP3 Virtual
+    Machine, but have been unable to get OnRibbonbarClickedEvent called (while OnMainWindowResizedEvent
+    does.)  A different approach was also not successful, so there seems to be something
+    funny about this environment.
+- author: Jeremy Tammik
+  email: ''
+  ip: 84.226.223.194
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-03-30 14:48:15'
+  body: 'Dear Larry,
+
+
+    Why am I not surprised?  :-)
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.164.106
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-03-31 05:54:06'
+  body: "Dear Larry,\n\nI passed your question on to Rudolf, and he replied:\n\nI\
+    \ tried to use UIAutomation with 2012. It seems that the event is fired less frequently\
+    \ than in 2011.\n\nI just made the following experience: Two minutes ago, I clicked\
+    \ different tab headers; and now, writing these lines, the events are fired. There\
+    \ is a major delay of several minutes!\n\nThe event listener needs (far too) much\
+    \ time to get initialized. The click events are \"collected\", beginning on Revit\
+    \ starting, and after some time, they are fired in the correct order. It behaves\
+    \ like a UI recorder, replaying which items you have clicked in the past.\n\n\
+    I suggest to skip this kind of UIAutomation event listener.\n\nInstead, I would\
+    \ use the approach described in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2011/02/pimp-my-autocad-or-revit-ribbon.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2011/02/pimp-my-autocad-or-revit-ribbon.html</a>\n\
+    \nThere is a piece of code there that may be used as an replacement:\n\nComponentManager.UIElementActivated\
+    \ \n  += new EventHandler[Autodesk.Windows\n    .UIElementActivatedEventArgs](\n\
+    \      ComponentManager_UIElementActivated );\n \nvoid ComponentManager_UIElementActivated(\
+    \ \n  object sender, \n  Autodesk.Windows.UIElementActivatedEventArgs e )\n{\n\
+    \  // e.UiElement.PersistId says which item has been pressed\n}\n\nI haven’t tried\
+    \ this in 2012, but it should be much faster than using UIAutomation.\n\nCheers\
+    \ from Rudolf and Jeremy.\n-----"

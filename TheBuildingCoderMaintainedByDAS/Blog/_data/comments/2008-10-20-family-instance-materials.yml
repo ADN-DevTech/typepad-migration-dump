@@ -1,0 +1,249 @@
+comments:
+- author: Andras Kiss
+  email: kissandras@rdslink.ro
+  ip: 79.116.94.207
+  url: ''
+  date: '2009-06-22 06:01:43'
+  body: 'Hi Jeremy,
+
+
+    I''m just trying to get the geometry of the elements and I faced a strange behavior
+    which I cannot handle. A have a few instance (railings, furniture, plants) in
+    a model file which has no usable geometry. As a curiosity I tried your CmdGetMaterials
+    on it and it crashed and neither ObjectViwer is able to display anything. The
+    problem is that geo.Objects contains two entities: a Solid which has no faces
+    at all and a GeoInstance which has SymbolGeometry = null. Can you explain to me
+    how should I query for the geometry in this case?
+
+
+    Cheers,
+
+    Andras'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-22 06:17:58'
+  body: "Dear Andras,\n\nOh dear, that sounds a bit problematic. I have seen such\
+    \ solids with no faces or edges in many previous cases as well. These seem to\
+    \ be quite common and simply need to be skipped. If the GeoInstance also has a\
+    \ null symbol geometry, I cannot really think of anything more that can be done.\
+    \ Obviously, it would make sense to improve the robustness of the CmdGetMaterials\
+    \ so that is can handle these cases gracefully and not crash, but I do not know\
+    \ any other way to access the element geometry if all these paths return nothing\
+    \ useful. Sorry about that. \n\nCheers, Jeremy."
+- author: Andras Kiss
+  email: kissandras@rdslink.ro
+  ip: 79.116.94.207
+  url: ''
+  date: '2009-06-22 08:15:46'
+  body: 'Thanks for the help!
+
+
+    However I''m not disturbed with the crash. I simply wan''t to get the geometry
+    of those elements in one or other way and I can''t :(
+
+    "Simply need to be skipped" Can you explain why?
+
+    Let''s suppose that I''m writing a plugin for Revit that is exporting the geometry
+    of the model elements to a third party application. Everything works great except
+    the case when I get some of these strange elements which I cannot handle. Any
+    idea how to get the geometry instead skipping them? I just tried to export that
+    model as IFC and it works great, I mean the element is visible in my IFC viewer.
+
+
+    Cheers,
+
+    Andras'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.88.152
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-22 15:39:44'
+  body: "Dear Andras,\n\nWhen I say \"simply need to be skipped\", all I mean is that\
+    \ there is nothing to get there through the API, so we might as well skip them.\n\
+    \nFor railings, there is no corresponding class in the API to expose their geometry.\
+    \ \n\nFor furniture and plants, you may be able to explore the geometry using\
+    \ the 2010 family API. You can let me know if you have a specific example which\
+    \ does not provide any geometry.\n\nRegarding the IFC export, I am sorry to say\
+    \ that there is no correlation at all between what the IFC export does and what\
+    \ is in the Revit API.\n\nCheers, Jeremy."
+- author: Andras Kiss
+  email: kissandras@rdslink.ro
+  ip: 79.116.94.207
+  url: ''
+  date: '2009-06-23 02:07:04'
+  body: 'Thanks Jeremy,
+
+
+    That is sad :( We have our Revit plugin for 2009 and also for 2010. In this case
+    your first solution is not viable for 2009. Can I send you a little file to see
+    what am I talking about?
+
+
+    Cheers, Andras'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-23 02:13:49'
+  body: 'Dear Andras,
+
+
+    Yes, sure, I sent you a separate email.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-24 02:11:50'
+  body: "Dear Andras,\n\nSo after taking a look at your sample file, we determined\
+    \ some characteristics of the problematic elements.\n\nThe table family Craftsman02\
+    \ is a very old family created by importing 3D DWG mesh data into a Revit family,\
+    \ so it is reasonable that there is no solid geometry that the Revit API can read,\
+    \ since there are no Revit solids in the family. It was created several releases\
+    \ ago, so note that there is no “Edit Family” button when this family is selected.\
+    \ Therefore it is questionable if this is a representative test case for what\
+    \ you actually want to achieve. \n\nThe GetMaterials method in the command CmdGetMaterials\
+    \ can be modified to something like this so it doesn’t crash in this case:\n\n\
+    public List GetMaterials( GeoElement geo )\n{\n  List materials = new List();\n\
+    \  foreach( GeometryObject o in geo.Objects )\n  {\n    if( o is Solid )\n   \
+    \ {\n      Solid solid = o as Solid;\n      if( null != solid )\n      {\n   \
+    \     foreach( Face face in solid.Faces )\n        {\n          string s = face.MaterialElement.Name;\n\
+    \          materials.Add( s );\n        }\n      }\n    }\n    else if( o is GeoInstance\
+    \ )\n    {\n      GeoInstance i = o as GeoInstance;\n      foreach( Object geomObj\
+    \ in i.SymbolGeometry.Objects )\n      {\n        Solid solid = geomObj as Solid;\n\
+    \        if( solid != null )\n        {\n          foreach( Face face in solid.Faces\
+    \ )\n          {\n            string s = face.MaterialElement.Name;\n        \
+    \    materials.Add( s );\n          }\n        }\n      }\n    }\n  }\n  return\
+    \ materials;\n}\n\nUnlike the original implementation, this implementation is\
+    \ not recursive, so it will skip materials of deeply nested geo instances. It\
+    \ will only examine the first level of geo instances and then stop.\n\nCheers,\
+    \ Jeremy."
+- author: Matt Landress
+  email: matt_landress@hermanmiller.com
+  ip: 24.63.94.112
+  url: ''
+  date: '2010-07-23 15:46:47'
+  body: 'Hi Jeremy,
+
+    I''m trying to get the materials from a family.  I allow the user to pick the
+    items and then I''m going through each one and I can grab their parameters but
+    I can''t seem to get their values.
+
+
+    ''Select your objects to move/rotate
+
+    Dim elemDeleteList As New List(Of ElementId)()
+
+    Dim eRefList As IList(Of Reference) = m_document.Selection.PickObjects(Autodesk.Revit.UI.Selection.ObjectType.Element,
+    "Please pick some element(s) to Move and Rotate. ESC for Cancel.")
+
+
+    For Each eRef As Reference In eRefList
+
+    If eRef IsNot Nothing AndAlso eRef.Element IsNot Nothing Then
+
+
+    Dim instance As FamilyInstance = eRef.Element
+
+
+    For Each param As Parameter In instance.Parameters
+
+    Dim paramName As String = param.Definition.Name
+
+    Dim paramValue As String = param.AsValueString
+
+
+    MsgBox(paramName & " = " & paramValue)
+
+
+    Next
+
+    End If
+
+    Next
+
+
+    I can get through all the materials this way but I need to match up the name with
+    the actual material.
+
+
+    For Each Mat As Material In eRef.Element.Materials
+
+    MsgBox(Mat.Name)
+
+    Next
+
+
+    I''ve been looking around on the internet and the API Help and just haven''t gotten
+    it figured out yet. Any help would greatly be appreciated.
+
+    Thanks!
+
+    Matt'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-07-26 04:52:34'
+  body: 'Dear Matt,
+
+
+    You can query the database value of parameters using different methods depending
+    on the parameter type:
+
+
+    Parameter p = ...
+
+
+    int i = p.AsInteger();
+
+    double x = p.AsDouble();
+
+    string s = p.AsString();
+
+
+    You have to use the appropriate method depending on the type of value stored in
+    the parameter, which can be determined by querying its StorageType.
+
+
+    AsValueString returns the value displayed in the user interface, and sometimes
+    nothing at all, I think.
+
+
+    You can use a dictionary to map the name of a material to a data holder populated
+    with the values that you are interested in.
+
+
+    Cheers, Jeremy.'
+- author: Scott
+  email: spesci@carsondesign.com
+  ip: 70.228.181.102
+  url: ''
+  date: '2012-04-02 15:47:24'
+  body: Can I get if the material is applied as paint on the face?
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-04-03 04:06:51'
+  body: 'Dear Scott,
+
+
+    I am afraid I cannot answer this off-hand. It requires some exploration of a sample
+    model. The best tools for this are the element lister and RevitLookup. There are
+    a number of blog posts describing how I used them to search for various parameters.
+    Basically, the approach is always the same: Create a new model. Add an element.
+    List all elements using the element lister. Make a modification. List all elements
+    again using the element lister. Determine the differences. Explore the differences
+    in more detail using RevitLookup. Find out what it is you are looking for. The
+    data is mostly hidden in some parameter somewhere. If not, chances are it is not
+    available. I hope this helps.
+
+
+    Cheers, Jeremy.
+
+    -----'

@@ -1,0 +1,115 @@
+comments:
+- author: Ritish
+  email: ritish.d@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2010-01-27 05:45:55'
+  body: "Hi Jeremy,\nI want to get the intersection of circle drawn with the floor\
+    \ face.\nI am using the below code that i got from the .chm help file.\n List\
+    \ resultSetList = new List();\n foreach (Floor temFloor in floors)\n         \
+    \   {\n                if (temFloor.Level.Id.Value == currentLevelElemId)\n  \
+    \              {\n                    GeometryObjectArray objects = temFloor.get_Geometry(opt).Objects;\n\
+    \                    foreach (GeometryObject obj in objects)\n               \
+    \     {\n                        Solid solid = obj as Solid;\n               \
+    \         if (solid != null)\n                        {\n                    \
+    \        PlanarFace f = GetTopFace(solid);\n                            if (null\
+    \ == f)\n                            {\n                                //do nothing\n\
+    \                                //Debug.WriteLine(Util.ElementDescription(floor)\
+    \ + \" has no top face.\"); ++nNullFaces;\n                            }\n   \
+    \                         topFaces.Add(f);\n                        }\n      \
+    \              }\n                }\n            }\n            //checking the\
+    \ resultset with the topface\n            foreach (Face f in topFaces)\n     \
+    \       {\n\n                Autodesk.Revit.Enums.SetComparisonResult objResultSet\
+    \ = f.Intersect(detailArcCircle.GeometryCurve);\n                //adding the\
+    \ resulset to the global list\n                resultSetList.Add(objResultSet.ToString());\n\
+    \            }\n\nWhen circular arc cover the whole area of the floor and did\
+    \ not intersect with floor top face the result of the impression ' Autodesk.Revit.Enums.SetComparisonResult\
+    \ objResultSet = f.Intersect(detailArcCircle.GeometryCurve);' came out to be 'disjoint'\
+    \ and if it intersect the result came out to be 'subset' which is ok in some curves.\
+    \ But for some curve if circle does not intersect with the floor face even then\
+    \ the 'subset' is coming as result\n\nWill you please elaborate how can i get\
+    \ the intersection of the floor face with the circular arc to get the absolutre\
+    \ result of 'subset','disjoint' etc.?\n\nThanks in advance,\nRitish"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.173.203
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-27 06:32:57'
+  body: 'Dear Ritish,
+
+
+    Interesting question. I cannot really suggest anything to improve on the behaviour
+    of the built-in Revit API intersection method. If you need more information than
+    it returns, such as the fact that the floor face is completely contained within
+    the circular area, you could create some additional geometrical elements and intersect
+    the floor face with those as well, for instance with a line or two crossing the
+    circle radially.
+
+
+    What it really sounds like to me is that you are searching for the intersection
+    of the floor area with a circular area. For that you could use the 2D polygon
+    intersection discussed above, approximating the circle by a regular polygon of
+    its own, instead of intersecting with individual curve elements which will never
+    cover the entire area of interest to you.
+
+
+    Cheers, Jeremy.'
+- author: Ritish
+  email: ritish.d@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2010-01-28 04:44:34'
+  body: "Hi Jeremy,\n\nUsing your above approach I am able to make one polygon for\
+    \ the floor face and one polygon from the points of detailarcs (The arc points\
+    \ i am getting using arc.tessellate() method)\n\nI am using below code to get\
+    \ the intersection of the two polygons in the third polygon.\n\nPolygon floorPoly\
+    \ = getFloorPolygon(revitApp, temFloor);\nPolygon arcPoly = MakePoly(detailArcCircle.GeometryCurve.Tessellate());\n\
+    Polygon resultPoly = arcPoly.Clip(GpcOperation.Intersection,floorPoly ); \n\n\
+    but in 'resultPoly' I am getting the points of vertices and contour even these\
+    \ points are not common in the both the polygons.\n \nPlease suggest what to do\
+    \ to get absolute result?\n\nThanks in advance,\nRitish"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-29 07:27:41'
+  body: 'Dear Ritish,
+
+
+    Your code looks good to me. I have no idea what might be going wrong.
+
+
+    Cheers, Jeremy.'
+- author: NeilS
+  email: NeilS@adris.co.uk
+  ip: 84.12.111.218
+  url: ''
+  date: '2011-09-15 11:05:55'
+  body: 'Hi Jeremy, is the above approach using a 3rd paty library still the best
+    way of determining overlapping areas in Revit 2012?
+
+    I need to determin floor finish areas within rooms, where the floor may have been
+    divided with the split face command.
+
+
+    Thanks,
+
+
+    Neil.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-09-21 03:02:28'
+  body: 'Dear Neil,
+
+
+    I would say basically yes. There were a number of additions to the Revit API since
+    I wrote the above, including some support for (3D) Boolean operations, but probably
+    the easiest way to achieve what you are looking for is still the use of an external
+    library.
+
+
+    Cheers, Jeremy.
+
+    -----'

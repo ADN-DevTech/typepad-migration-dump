@@ -1,0 +1,371 @@
+comments:
+- author: Rudolf Honke
+  email: rudolf.honke@mum.de
+  ip: 193.158.119.50
+  url: http://www.mum.de
+  date: '2013-10-21 08:20:01'
+  body: 'Hi Jeremy,
+
+
+    here is an off-topic addition, relating to the planet joke:
+
+
+    As of now, there are 999 *confirmed* exoplanets.
+
+    Confirming the 1000th will happen soon.
+
+    I think this is worth mentioning ;-)
+
+
+
+    Cheers,
+
+    Rudolf'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.195.49
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-10-21 08:30:28'
+  body: 'Dear Rudolf,
+
+
+    Wow, yes.
+
+
+    I looked this up myself as well via the Wikipedia list of potential habitable
+    exoplanets:
+
+
+    <a href="http://en.wikipedia.org/wiki/List_of_potential_habitable_exoplanets">http://en.wikipedia.org/wiki/List_of_potential_habitable_exoplanets</a>
+
+
+    That points to the Habitable Exoplanets Catalog:
+
+
+    <a href="http://phl.upr.edu/projects/habitable-exoplanets-catalog/data/database">http://phl.upr.edu/projects/habitable-exoplanets-catalog/data/database</a>
+
+
+    The CSV file I downloaded from there does indeed currently contain 999 lines,
+    with one of them representing the header, so 998 entries, which is close enough.
+
+
+    Thank you for the interesting news.
+
+
+    Are you planning on moving anytime soon, then?
+
+
+    Cheers, Jeremy.'
+- author: Rudolf Honke
+  email: rudolf.honke@mum.de
+  ip: 193.158.119.50
+  url: http://www.mum.de
+  date: '2013-10-21 09:20:25'
+  body: 'Hi Jeremy,
+
+    <a href="http://exoplanet.eu/catalog/">http://exoplanet.eu/catalog/</a>
+
+    says there were 999 confirms.
+
+
+    But either 998 or 999, the meaning ist the same: a milestone is set.
+
+    A thousand known worlds are surrounding us.
+
+
+    Wow.
+
+    But no need to move there ;-)
+
+
+
+    Cheers,
+
+    Rudolf'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.195.49
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-10-21 09:34:44'
+  body: '... yet.'
+- author: Rudolf Honke
+  email: rudolf.honke@mum.de
+  ip: 193.158.119.50
+  url: http://www.mum.de
+  date: '2013-10-21 09:41:51'
+  body: '...to boldly go where no man has gone before.
+
+
+    ;-)'
+- author: Victor Chekalin
+  email: ''
+  ip: 5.79.205.152
+  url: http://profile.typepad.com/6p017ee5f8b354970d
+  date: '2013-10-23 13:44:12'
+  body: 'Hi Jeremy,
+
+
+    Actually to use numeric id to get RevitCommandId for custom command is not a good
+    way.
+
+    I think this number may be different on each computer and it depends on how many
+    external applications installed on user machine and how many commands defined
+    there.
+
+
+    To use command name is more reliable.
+
+
+    Regards,
+
+    Victor.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.200.163
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-11-04 08:11:13'
+  body: "Dear Victor,\n\nYes, I absolutely agree. The reason for these string keys\
+    \ is to generate an identifier that is independent of the exact button location\
+    \ within the ribbon, the number of other ribbon items, add-ins, etc. \n\nCheers,\
+    \ Jeremy."
+- author: Israel Rodriguez
+  email: ''
+  ip: 177.81.26.34
+  url: http://profile.typepad.com/6p01a51166ccaa970c
+  date: '2014-03-06 18:09:06'
+  body: "Hi Jeremy,\n\nI'm trying to post the Architectural Floor command, but Revit\
+    \ doesn't give me anything. Not even an error.\n\nThis happens also with: \n -\
+    \ PostableCommand.ShaftOpening\n - PostableCommand.RoofByFootprint\n\nAll of them\
+    \ involves a Draw after the command. Is there any catch to call theses commands?"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-03-19 17:10:13'
+  body: 'Dear Israel,
+
+
+    I am not aware of any limitations here.
+
+
+    I do not have any working sample of calling these commands either, though.
+
+
+    Cheers, Jeremy.'
+- author: Israel Rodriguez
+  email: ''
+  ip: 177.141.226.117
+  url: http://profile.typepad.com/6p01a51166ccaa970c
+  date: '2014-04-15 10:57:41'
+  body: "Hi Jeremy,\n\nI've opened a case in the ADN Portal, with the following sample\
+    \ code: \n\nRevitCommandId commandId = RevitCommandId.LookupPostableCommandId(PostableCommand.ArchitecturalFloor);\n\
+    if (UIApp.CanPostCommand(commandId))\nUIApp.PostCommand(commandId);\n\nThey've\
+    \ responded they also reproduce the problem and it is indeed an issue. \n\nI'll\
+    \ have to wait for a fix. I still didn't tested this on Revit 2015."
+- author: Mike
+  email: revitarkitek@gmail.com
+  ip: 96.224.218.71
+  url: ''
+  date: '2014-07-21 20:51:37'
+  body: "I believe trying to Open the Type Properties window doesn't work either.\
+    \  This is the code i tried (substitute your own ElementId):\n\nSelElementSet\
+    \ elemSet = SelElementSet.Create();\n\t\t\telemSet.Add(doc.GetElement(new ElementId(1190556)));\n\
+    uidoc.Selection.Elements = elemSet;\t\t\t                           \n\t\t\tuiApp.PostCommand(RevitCommandId.LookupPostableCommandId(PostableCommand.TypeProperties));"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-07-23 03:02:02'
+  body: "Dear Israel,\n\nYes, sorry about that. It really is an issue, even in Revit\
+    \ 2015. Its number is REVIT-33901. The development team are still exploring it.\
+    \ \n\nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-07-23 03:03:59'
+  body: 'Dear Mike,
+
+
+    Oh dear, you seem to have run into the same issue as Israel. Sorry about that.
+    Its number is REVIT-33901 and the development team are exploring it. I added your
+    note to this issue as well. Thank you for letting us know.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-07-23 04:08:49'
+  body: 'Dear Mike,
+
+
+    The development team replied to your note on the issue REVIT-33901 and report:
+
+
+    For this case, the TypeProperties command, I tested the code in Revit 2015 and
+    it works as expected.
+
+
+    So I cannot say why you are running into a problem at your end. I hope you can
+    resolve it.
+
+
+    Good luck.
+
+
+    Cheers, Jeremy.'
+- author: hankim
+  email: hankim@outlook.com
+  ip: 79.170.54.109
+  url: ''
+  date: '2014-09-20 01:55:04'
+  body: "Hi Jeremy,\nI am trying to automate duct fitting placement by using 'TrimOrExtendToCorner'\
+    \ command. I can create list of ducts for the  command's execution, but I am just\
+    \ not sure how I can give the list as an input for 'TrimOrExtendToCorner'.\n\n\
+    Do you have any idea or clue for me? \n\nThank you.\n\nBest regards, Kim"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-09-22 02:42:34'
+  body: 'Dear Kim,
+
+
+    I am sorry to say that the PostCommand functionality just launches the built-in
+    Revit command as it is, including all its user interaction.
+
+
+    It does not include any possibility to supply any additional input arguments or
+    programmatically define the selection.
+
+
+    It will prompt the user for the standard manual interaction, just like Revit normally
+    would.
+
+
+    If you wish to trim or extend a specific list of ducts programmatically, I would
+    suggest using the Revit API duct connection functionality.
+
+
+    I explored some different possibilities that you can use while researching various
+    ways to implement a rolling offset:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2014/01/final-rolling-offset-using-pipecreate.html">http://thebuildingcoder.typepad.com/blog/2014/01/final-rolling-offset-using-pipecreate.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Jason Tuck
+  email: jason.tuck@perkinswill.com
+  ip: 96.253.108.30
+  url: ''
+  date: '2014-09-29 12:09:37'
+  body: "Hi Jeremy,\n Can you confirm that the GUID needs to be lowercase, otherwise\
+    \ Revit won't find it? I just beat my head on that for an hour.  \n\nThanks!\n\
+    Jason Tuck"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.168.241
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-09-29 12:48:54'
+  body: 'Dear Jason,
+
+
+    No, I was not aware of that.
+
+
+    Do you mean the Revit command name input argument ''name'' to the RevitCommandId.LookupCommandId
+    method?
+
+
+    I can perfectly well imagine that it is treated in a case sensitive manner, actually.
+
+
+    I can also perfectly well see how that might be confusing to some.
+
+
+    It is probably an intentional didactical trick to teach (and force) people to
+    use copy and paste and nothing but copy and paste when transferring strings longer
+    than two or three characters from one place to another  :-)
+
+
+    Sorry about your head. I hope it is still intact, none the worse for wear and
+    all the bumps recede.
+
+
+    Cheers, Jeremy.'
+- author: Peter Wu
+  email: minghua.wu@leicaus.com
+  ip: 216.85.0.50
+  url: ''
+  date: '2015-06-22 22:00:53'
+  body: 'Hello, my plug-in needs to respond to events of change and update the custom
+    object (using transaction). This event is triggered by a timer. Revit API refuses
+    to start a transaction unless it is from an External Command. So I looked for
+    posting External Command (my custom command to respond to event). I followed your
+    steps and was able to get the RevitCommandId, but when I called to PostCommand
+    I got Revit.Exceptions.InvalidOperationException:
+
+
+    Additional information: Attempting to create an ExternalEvent outside of a standard
+    API execution
+
+
+    Is it even possible to post my own IExternalCommand?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.5.251.20
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-06-23 03:39:25'
+  body: 'Dear Peter,
+
+
+    You need to be within a valid Revit API context to make any calls at all to the
+    Revit API.
+
+
+    Please read up on this in the topic section on Idling and External Events for
+    Modeless Access and Driving Revit from Outside:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.28">http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.28</a>
+
+
+    No, you cannot post your own external command; only Revit can do that.
+
+
+    Cheers, Jeremy.'
+- author: Peter Wu
+  email: minghua.wu@leicaus.com
+  ip: 216.85.0.50
+  url: ''
+  date: '2015-06-23 14:07:17'
+  body: 'Jeremy,
+
+    Thank you for reminder...I realized I should just use ExternalEvent and raise
+    it, just like what I did for the modeless dialogs. This is from Revit 2014 and
+    on when transaction scope is enforced.
+
+    regards'
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.5.251.20
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-06-23 14:46:41'
+  body: 'Dear Peter,
+
+
+    Yes, exactly!
+
+
+    Thank you for your understanding.
+
+
+    Great!
+
+
+    Cheers, Jeremy.
+
+    -----'

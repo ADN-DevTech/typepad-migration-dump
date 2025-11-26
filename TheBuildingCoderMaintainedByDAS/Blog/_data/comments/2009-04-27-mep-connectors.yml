@@ -1,0 +1,239 @@
+comments:
+- author: murrell54@gmail.com
+  email: murrell54@gmail.com
+  ip: 98.172.125.99
+  url: ''
+  date: '2010-03-25 10:18:34'
+  body: I was curious why you can't add a distribution system to the Revit disconnect
+    switch family that comes with software?
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-03-26 17:34:11'
+  body: 'Dear Murrell,
+
+
+    Sorry, no idea. Is that an API question, or more a product and user interface
+    issue? Sounds rather like the latter to me.
+
+
+    Cheers, Jeremy.'
+- author: Dave
+  email: dfriberg23@gmail.com
+  ip: 70.168.34.66
+  url: ''
+  date: '2010-10-13 11:25:26'
+  body: 'Hi Jeremy,
+
+
+    I noticed in the UI you can connect a pipe to a family instance (say a water heater)
+    that has a cold water connector by setting one end of the pipe on that connector,
+    and Revit automatically builds several intermediate connecting pipes.
+
+
+    I''m wondering if the API provides this functionality somewhere - if I have a
+    pipe already near such a fixture, is there a way to tell the API to build whatever
+    intermediate pipes are necessary to connect my existing pipe to that fixture?
+
+
+    --Dave'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-10-15 12:02:16'
+  body: "Dear Dave,\n\nGood question. No, the API does not quite provide all of that\
+    \ functionality, but some of it. What you can do is place some of the pipes yourself,\
+    \ and then call NewElbowFitting to place elbows or whatever you need in the appropriate\
+    \ locations to connect them together. The part that the Revit API will perform\
+    \ automatically for you is to lengthen or shorten the pipes appropriately to connect\
+    \ them to the neighbouring fittings. \n\nExamples demonstrating this are provided\
+    \ by the Revit SDK samples AutoRoute and AvoidObstruction. \n\nA more complex\
+    \ example is the placement of cable trays and fittings, discussed in\n\n<a href=\"\
+    http://thebuildingcoder.typepad.com/blog/2010/05/cable-tray-orientation-and-fittings.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/05/cable-tray-orientation-and-fittings.html</a>\n\
+    \nThis case is more complicated, since the cable trays are not symmetric around\
+    \ their central axis, unlike pipes, and therefore need to be correctly oriented\
+    \ to hook up properly.\n\nCheers, Jeremy."
+- author: Dave
+  email: dfriberg23@gmail.com
+  ip: 70.168.34.66
+  url: ''
+  date: '2010-10-15 14:24:58'
+  body: 'Great, that''s what I was looking for.
+
+
+    I had used NewElbowFitting before, but it was not obvious to me from the documentation
+    that it could potentially move or otherwise modify the connecting elements.
+
+
+    Anyway, thanks for the help.'
+- author: Olli Kattelus
+  email: olli.kattelus@progman.fi
+  ip: 83.146.217.242
+  url: ''
+  date: '2011-06-27 08:50:42'
+  body: "Greeting to the Revit API magician, Jeremy!\n\nWe have a certain dilemma\
+    \ for which we are searching some reasonable solution. Maybe you got some idea.\n\
+    \nAs you stated, MEP devices may have many different connections (for power, pipes\
+    \ for cooling water in- and outlets etc.). But furthermore there can be also several\
+    \ pipe connection pairs (heating & cooling).\n\nWhat I'm asking is that how we\
+    \ should separate these connection pairs within a device. \n\nLet say we want\
+    \ to do some operations for certain networks and user have to select one from\
+    \ the project. Everything is simple when there's only devices with two pipe connections\
+    \ (normal radiators)...user just clicks a pipe and a whole network is fetched\
+    \ automatically. But if same is done with network containing pipe devices more\
+    \ than two pipe connections...how to know where does network continue.\n\nWe have\
+    \ tried to write some additinal information to connector parameters in the family\
+    \ but now we realized that we can't acces them from the project. And if we open\
+    \ the family document for fetching this data, how do we know which connector refers\
+    \ to connector we want.\n\nIs there any way to do this kind of mapping? Would\
+    \ we benefit something from the connector linking in this case?"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-27 09:50:19'
+  body: 'Greetings to all the Finnish MEP magicians, Olli!
+
+
+    Lots of unclear issues in that question, I''m afraid, in spite of its length and
+    clarity.
+
+
+    I don''t know how much of what you are asking is about the user interface and
+    how much about the API.
+
+
+    I don''t see why you cannot access certain parameters "from the project". I am
+    not aware of any such limitation.
+
+
+    What kind of mapping? What connector linking?
+
+
+    I would suggest that you submit an ADN case.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Iriving
+  email: ir_xue@163.com
+  ip: 116.231.126.7
+  url: ''
+  date: '2012-12-12 04:27:12'
+  body: "Hi Jeremy,\n\nI am a newer to Revit, and now have some problem need your\
+    \ help.\nIt's about Mep connector, as I dont't understand the difference between\
+    \ Architecture、Structure and Mep clearly, there are some problems I can't solve,\
+    \ please help me ,the problems are list below:\n\n1: I'm now developing an add-in\
+    \ program to export data from revit project(Architecture or Structure or Mep)\
+    \ to other format file,Is it possible to develop a common program to deal with\
+    \ revit projects for these three types. if that's possible do I need have all\
+    \ these type products.\n\n2: When I use this program to export the project created\
+    \ by Architecture it seems OK, but when I export project created by Mep, some\
+    \ problems came out, almost all element has no material(in project these elements\
+    \ have their own surface color), in code it's materialId always -1,and some element\
+    \ like connector ,the faces of solid always 0, the relevant codes are list here:\n\
+    \  \n        public string GetElementGeometryInfo(Element elem)\n        {\n \
+    \           string geometryInfo = \"\";\n\n            Options opt = new Options();\n\
+    \            opt.ComputeReferences = true;\n\n            GeometryElement geomElem\
+    \ = elem.get_Geometry(opt);\n\n            if (null != geomElem)\n           \
+    \ {\n                GetStructPoints(geomElem, 0);\n            }\n\n        \
+    \    return geometryInfo;\n        }\n\n         \n   \n        public void GetStructPoints(GeometryElement\
+    \ geomElem, Int32 transIndex)\n        {\n            foreach (GeometryObject\
+    \ geomObj in geomElem.Objects)\n            {\n                string geoType\
+    \ = geomObj.GetType().Name;\n\n                switch (geoType)\n            \
+    \    {\n                    case \"Solid\":\n                        procSolid(geomObj,\
+    \ transIndex);\n                        break;\n                    case \"Face\"\
+    :\n                        procFace(geomObj, transIndex);\n                  \
+    \      break;\n                    case \"Mesh\":\n                        procMesh(geomObj,\
+    \ transIndex);\n                        break;\n                    case \"Curve\"\
+    :\n                    case \"Line\":\n                    case \"Arc\":\n   \
+    \                     procCurve(geomObj, transIndex);\n                      \
+    \  break;\n                    case \"Profile\":\n                        procProfile(geomObj,\
+    \ transIndex);\n                        break;\n                    case \"Element\"\
+    :\n                        procGeoElement(geomObj, transIndex);\n            \
+    \            break;\n                    case \"GeometryInstance\":\n        \
+    \                procInstance(geomObj, transIndex);\n                        break;\n\
+    \                    case \"Edge\":\n                        procEdge(geomObj,\
+    \ transIndex);\n                        break;\n                    default:\n\
+    \                        break;\n\n                }\n            }\n\n      \
+    \  }\n\n\n         public void procSolid(GeometryObject obj, Int32 transIndex)\n\
+    \        {\n\n            Solid solid = obj as Solid;\n            if (null ==\
+    \ solid)\n            {\n                return;\n            }\n\n          \
+    \  //a solid has many faces\n            FaceArray faces = solid.Faces;\n    \
+    \        if (faces.Size == 0)\n            {\n                return;\n      \
+    \      }\n\n\n            foreach (Face face in faces)\n            {\n      \
+    \          procFace(face, transIndex);\n                RecordNormal_VN(face,\
+    \ transIndex);    \n                RecordMaterial(face);\n            }\n\n \
+    \          \n        protected void procInstance(GeometryObject obj, Int32 transIndex)\n\
+    \        {\n            GeometryInstance instance = obj as GeometryInstance;\n\
+    \            if (null == instance)\n            {\n                return;\n \
+    \           }\n\n            Transform allTransform = CsMathUtil.AddTransform(\
+    \ m_trans[transIndex], instance.Transform );\n            m_trans.Add(allTransform);\n\
+    \            Int32 newTransIndex = m_trans.Count-1;\n\n            GeometryElement\
+    \ instanceGeometry = instance.GetSymbolGeometry();\n            if (null == instanceGeometry)\n\
+    \            {\n                return;\n            }\n       //get all geometric\
+    \ primitives contained in the GeometryElement\n\n            GetStructPoints(instanceGeometry,\
+    \ newTransIndex);\n\n        }"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-12-14 01:09:25'
+  body: 'Dear Iriving,
+
+
+    1. Yes, of course it is possible to support Architecture, MEP and Structure with
+    one single identical add-in. Please read the Getting started material, which describes
+    that.
+
+
+    2. Connectors are virtual objects which have no geometry and therefore no solid.
+
+
+    Cheers, Jeremy.'
+- author: Alex
+  email: nearh.88@gmail.com
+  ip: 212.3.115.3
+  url: ''
+  date: '2013-06-11 09:42:57'
+  body: 'Hi, Jeremy,
+
+
+    I''m sorry to rise this old topic up, but I have question about the 2nd paragraph
+    of your post. If connectors have no geometry, how Revit can export them to the
+    IFC correctly?
+
+
+    Regards,
+
+    Alex.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.64.219
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-06-11 11:50:38'
+  body: 'Dear Alex,
+
+
+    No problem, you are very welcome.
+
+
+    I am sorry to say that I know neither the details of IFC nor the Revit MEP product
+    usage well enough to say, though.
+
+
+    I would hope that an application engineer, product usage expert, or product support
+    can answer this better than I can.
+
+
+    Or you can simply try it out and let us know what you discover.
+
+
+    Cheers, Jeremy.
+
+    -----'

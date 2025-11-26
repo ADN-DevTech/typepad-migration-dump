@@ -1,0 +1,356 @@
+---
+layout: "post"
+title: "Unit Test Your Revit Add-In"
+date: "2022-11-04 06:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Accelerator"
+  - "AI"
+  - "APS"
+  - "AU"
+  - "Data Access"
+  - "Events"
+  - "Getting Started"
+  - "Git"
+  - "Material"
+  - "News"
+  - "Testing"
+  - "Utilities"
+original_url: "https://thebuildingcoder.typepad.com/blog/2022/11/unit-test-your-revit-add-in.html "
+typepad_basename: "unit-test-your-revit-add-in"
+typepad_status: "Publish"
+---
+
+<p>Finally, after almost a week of serious disruption on the Typepad blogging platform hosting The Building Coder, I am back with a new post.</p>
+
+<p>If any similar hiccups crop up in the future, please be aware that The Building Coder is also available directly on GitHub pages in the <a href="https://github.com/jeremytammik/tbc"><code>tbc</code> repostitory</a> hosting the source and chronological index for The Building Coder Revit API blog.
+It includes all the markdown source text, HTML, CSS and images for The Building Coder, plus the complete chronological index of all posts.
+Besides providing a workaround for Typepad failure, it also enables you to grab all The Building Coder source text, host it locally, and use it to implement your own search algorithms or even train your AI to answer Revit API questions.</p>
+
+<p>As I explained in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+about <a href="https://forums.autodesk.com/t5/revit-api-forum/the-building-coder-blog-standalone/td-p/11519594">The Building Coder blog standalone</a>:</p>
+
+<blockquote>
+  <p>You can continue reading all blog posts by The Building Coder on GitHub in the <a href="https://github.com/jeremytammik/tbc"><code>tbc</code> repository</a>.
+  All articles are published there as well, including their source text.
+  The Building Coder standalone boasts a <a href="http://jeremytammik.github.io/tbc/a">global chronological blog post index </a>.
+  Here is the blog post describing how I started the <code>tbc</code> repository in 2016:
+  <a href="http://thebuildingcoder.typepad.com/blog/2016/02/tbc-the-building-coder-source-and-index-on-github.html"><code>tbc</code> &ndash; The Building Coder Source and Index on GitHub</a>
+  (<a href="http://jeremytammik.github.io/tbc/a/1408_tbc_github.html">^</a>).</p>
+</blockquote>
+
+<p>Back to everyday blogging again, a pointer to the upcoming live, hands-on, face-to-face European APS accelerator, a summary of the announcements made at AU, three interesting Revit API discussions to highlight, and miscellaneous notes to self, mostly AI-related news:</p>
+
+<ul>
+<li><a href="#2">APS accelerator Dublin Nov 14-18</a></li>
+<li><a href="#3">What’s New and What’s Ahead from AU 2022</a></li>
+<li><a href="#4">Learning Revit API as a complete beginner</a></li>
+<li><a href="#5">Retrieving all fabrication item materials</a></li>
+<li><a href="#6">Revit add-in unit testing</a></li>
+<li><a href="#7">Bleeding edge of AI</a></li>
+<li><a href="#8">AI-driven coding tool may violate copyright</a></li>
+<li><a href="#9">AI-generated podcasts</a></li>
+<li><a href="#10">Super realistic animated eye rendering</a></li>
+<li><a href="#11">Luxury surveillance</a></li>
+<li><a href="#12">Pandemic hand-washing blooper</a></li>
+</ul>
+
+<h4><a name="2"></a> APS (ex-Forge) Accelerator Dublin Nov 14-18</h4>
+
+<p>Quick reminder on behalf of Jaime:
+we are planning an accelerator in the Autodesk Dublin Office this upcoming November 14th to 18th.
+We are looking for customers interested in joining us onsite to work with the Developer advocates team in coding solutions using Autodesk Platform Services (formerly Forge).
+In the past (pre-covid), we regularly hosted such events in the EMEA region to have software developers join us for the week.
+We have an ongoing registration and would love to have a full house for the event:</p>
+
+<ul>
+<li><a href="https://www.eventbrite.com/e/autodesk-platform-services-aps-accelerator-dublin-november-14-18-2022-registration-440477168067">Registration for APS Accelerator Dublin November 14-18, 2022</a></li>
+<li><a href="https://forge.autodesk.com/accelerator-program">More details about this and other APS Accelerators</a></li>
+</ul>
+
+<h4><a name="3"></a> What’s New and What’s Ahead from AU 2022</h4>
+
+<p>Talking about APS, let's not forget to mention the summary
+of <a href="https://www.autodesk.com/autodesk-university/blog/All-Announcements-AU-2022-Whats-New-and-Whats-Ahead-2022">announcements from AU 2022: What’s New and What’s Ahead</a>.</p>
+
+<h4><a name="4"></a> Learning Revit API as a Complete Beginner</h4>
+
+<p>Back to the Revit API, we once again provide
+some <a href="https://forums.autodesk.com/t5/revit-api-forum/advice-about-learning-api-forum-as-a-complete-beginer/m-p/11522223">advice about learning Revit API as a complete beginner</a>:</p>
+
+<p><strong>Question:</strong> I was recently informed by my organization that I need to start working with the Revit API.
+I know how to use Revit quite well and Dynamo also I have a good experience with it.
+However, I have no experience at all considering that I don't know anything about C# language or forums.
+Here are my questions:</p>
+
+<ul>
+<li>What is the best way to learn in this case? </li>
+<li>Where can I ask and find information?</li>
+<li>How much usually is time to learn such process?</li>
+<li>Do I need to learn the whole C# language or just the Revit API? </li>
+</ul>
+
+<p>I'd appreciate any help with where to start learning and what to do</p>
+
+<p><strong>Answer:</strong> Welcome to the Revit API!</p>
+
+<p>Normally, I would point you to
+The Building Coder <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#2">tips on getting started</a>.</p>
+
+<p>Unfortunately, the Typepad blog host platform is currently having serious problems, so take a look at
+the <a href="http://jeremytammik.github.io/tbc/a/#2">GitHub source code of The Building Coder blog</a> instead.</p>
+
+<p>It answers all your questions in depth, possibly except about time. Still, I'll briefly reiterate:</p>
+
+<ul>
+<li>What is the best way to learn in this case?</li>
+</ul>
+
+<p>Start by exploring the Revit UI. You already have. Gain some basic understanding of .NET and C#, of you plan to work in C#. That should be doable in a couple of hours or a couple of days, depending on you. Then, work through the Revit API getting started material. There are walkthroughs, video tutorials, numerous YouTube introductions, hundreds of options. Many have been mentioned and discussed here in the forum in the past.</p>
+
+<ul>
+<li>Where can I ask and find information?</li>
+</ul>
+
+<p>Please work through the getting started material before asking any questions. If you encounter problems with the getting started material, please search for existing answers. I guarantee that you will not have a problem that has not already been discussed and solved here in the past.</p>
+
+<ul>
+<li>How much usually is time to learn such process?</li>
+</ul>
+
+<p>Days, weeks, and years. Depends how far you wish to go. A proficient programmer can understand the system and have a non-trivial macro up and running within hours.</p>
+
+<ul>
+<li>Do I need to learn the whole C# language or just the Revit API?</li>
+</ul>
+
+<p>There is no good way to use half a programming language.
+You have to learn and understand the entire .NET environment.
+That can be programmed in C# or in other languages as well.</p>
+
+<p>All of this information has been presented hundreds of times in the past, so please search thoroughly for answers before raising any new questions.</p>
+
+<p>Thank you! Good luck and have fun!</p>
+
+<h4><a name="5"></a> Retrieving All Fabrication Item Materials</h4>
+
+<p>We all know how hard it can be to read the documentation, and how utterly unknown some of the information it contains still remains, in spite of being documented.
+A case at hand came up in the question
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/how-to-get-all-materials-of-fabrication-item-possible-in-the/td-p/11509305">how to get all materials (of fabrication items) possible in the database</a>:</p>
+
+<p><strong>Question:</strong> I want to get all the fabrication material names and their groups' names to create a setting where the users may select material-based actions.</p>
+
+<p>Currently, I'm only able to get the materials that are used in placed <code>FabricationPart</code> instances via 
+this code:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;<span style="color:#1f377f;">allFabParts</span>&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;FilteredElementCollector(document)
+&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(<span style="color:blue;">typeof</span>(FabricationPart)).Cast&lt;FabricationPart&gt;();
+
+&nbsp;&nbsp;FabricationConfiguration&nbsp;<span style="color:#1f377f;">fabConfig</span>&nbsp;=&nbsp;FabricationConfiguration
+&nbsp;&nbsp;&nbsp;&nbsp;.GetFabricationConfiguration(document);
+
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;<span style="color:#1f377f;">materialDetails</span>&nbsp;=&nbsp;allFabParts
+&nbsp;&nbsp;&nbsp;&nbsp;.SelectMany(<span style="color:#1f377f;">x</span>&nbsp;=&gt;&nbsp;fabConfig.GetAllMaterials(x))
+&nbsp;&nbsp;&nbsp;&nbsp;.Select(<span style="color:#1f377f;">x</span>&nbsp;=&gt;&nbsp;<span style="color:blue;">new</span>&nbsp;{&nbsp;MatName&nbsp;=&nbsp;fabConfig.GetMaterialName(x),&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MatGroup&nbsp;=&nbsp;fabConfig.GetMaterialGroup(x)&nbsp;});
+</pre>
+
+<p><strong>Answer:</strong> Where and how do you see the desired materials in the end user interface?</p>
+
+<p>Can you use RevitLookup to snoop the database to find the corresponding storage location API access?</p>
+
+<p>Here are some previous <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#5.5">articles on API interaction with materials</a>.</p>
+
+<p>Are the materials you are after included when you use a filtered element collector to retrieve all Material elements?
+If so, then all you need to do is discover the criteria that mark them for usage in fabrication parts.</p>
+
+<p><strong>Response:</strong> In the UI, it will be quite simple: the user chooses the fabrication material name displayed in the fabrication CADmep.</p>
+
+<p>I can't filter fabrication materials from filter element collector as they aren't elements.
+I have gone through the posts I didn't find what I was looking for.</p>
+
+<p>This is fabrication material I'm talking about:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302af14a4bc16200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302af14a4bc16200b img-responsive" alt="Fabrication part material" title="Fabrication part material" src="/assets/image_e068a3.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>In the image, the <code>Material</code> id is <code>4</code>.
+by this integer number I can query in the fabrication configuration to get further info about the fabrication material like its name, the group name to which it belongs, etc.</p>
+
+<p>Currently, I'm only able to get these material ids (not Revit Materials) from the placed fabrication instances only, I wanted to know if there is a way to get all the possible fabrication material ids without placing any <code>FabricationPart</code> instance.</p>
+
+<p><strong>Answer:</strong> I asked the development team for you, and they say:</p>
+
+<p>Unfortunately, the only way is to get the property from the existing elements.</p>
+
+<p>Sorry for the bad news and that this functionality is not currently available.
+You could submit a wish for it to the <a href="https://forums.autodesk.com/t5/revit-ideas/idb-p/302">Revit Idea Station</a>.
+Whenever you require a new or enhanced Revit product or Revit API functionality, the Revit Idea Station is the place to go.
+Please search there for a corresponding wish list entry for the suggested functionality and add your comments to it, or create a new one, if none already exists:</p>
+
+<p>Tag it as an <a href="https://forums.autodesk.com/t5/revit-ideas/idb-p/302/tab/most-recent/label-name/api">API wish</a>.
+Ensuring that a wish gets as many votes as possible helps underline its importance to you and the rest of the developer community.
+The Revit Idea Station is currently one of the main driving input forces for Revit API enhancements.
+The Revit development team looks there. Your comment here in the discussion forum might be overlooked.</p>
+
+<p><strong>Answer 2:</strong> The documentation for <a href="https://www.revitapidocs.com/2023/f8e1ab05-467f-6ee6-3103-052d27e8af74.htm"><code>FabricationConfiguration</code> <code>GetAllMaterials</code></a> says:</p>
+
+<blockquote>
+  <p>If a part is passed, only returns materials which are valid for the part, otherwise returns all materials.</p>
+</blockquote>
+
+<p>Does it return all materials if you pass it null?</p>
+
+<p><strong>Response:</strong> Yes, it's returning a lot of material ids if provided 'null' and hopefully these are all the materials available.</p>
+
+<p>Feeling like, how did I miss it out... :-)</p>
+
+<p>Thanks a lot for pointing it out.</p>
+
+<p><strong>Answer:</strong> Wow! Thank you very much for the observation and confirmation.
+It just goes to show, yet again, how hard it is to read the documentation, really grasp everything it tells us, and how unknown the information it contains, even to the development team itself.</p>
+
+<p>Many thanks to Matthew <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/8377999">mhannonQ65N2</a> Hannon for his careful reading of the documentation!</p>
+
+<h4><a name="6"></a> Revit Add-In Unit Testing</h4>
+
+<p>Another recurring topic is reliable automated testing, cf.
+the <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#5.16">topic group on unit testing</a>.</p>
+
+<p>Luiz Henrique <a href="https://github.com/ricaun">@ricaun</a> Cassettari provided some updated advice on that in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/best-unit-test-framework-2022/td-p/11520295">best unit test framework 2022</a>:</p>
+
+<p><strong>Question:</strong> I started developing a new plug-in for Revit recently;
+it's been a while since the last time I worked on a new coding project.
+I was wondering which framework is best for the specific task of making a Revit add-in?</p>
+
+<p><strong>Answer:</strong> Here are some unit tests:</p>
+
+<ul>
+<li><a href="https://github.com/DynamoDS/RevitTestFramework">Dynamo's Revit Tester Framework</a></li>
+<li><a href="https://github.com/geberit/Revit.TestRunner">Geberit's Revit Test Runner</a></li>
+<li><a href="https://github.com/specklesystems/xUnitRevit">Speckle's Revit Test Runner</a></li>
+</ul>
+
+<p>I have been using the Geberit version and was trying to create my own to run directly in Visual Studio 2022.</p>
+
+<p>Is kinda working, cf. my minirecording <a href="https://youtube.com/shorts/ZwtmHP72_Zc">Revit Unit Test Framework in Visual Studio 2022</a>.</p>
+
+<p><strong>Response:</strong> So, if I understand correctly, Speckle's Revit Test Runner will allow me to test my code against any <code>.rvt</code> model without manually activating each custom function/command in the add-on? Is that right? </p>
+
+<p><strong>Answer:</strong> I believe so.
+I don't 100% understand what you are asking, but I will second that speckle's Revit unit test is the best available test framework for Revit that we've found.
+You can run test functions using the speckle UI, and you don't have to test a full external command &ndash; you can test individual methods.</p>
+
+<p>Note that you still have to open Revit to use it, as I haven't seen a Revit Test Framework that can get around that &ndash; as far as I know, Revit has to be open to have access to its API, which is required to test anything that uses and Revit API calls.
+We've used Speckle a bit at our company, but eventually moved away from it in support of developing our own Revit Unit Test framework that better suited our needs and process.</p>
+
+<p><strong>Response:</strong> Cool vid!
+I think it's awesome that you are developing your own!
+I think more Revit devs should be more focused on testing to ensure better and more stable applications!
+Is that test class calling the Revit API?
+I would be amazed if you found a way to get that working with the Revit API but outside of Revit &ndash; if so lemme know how!</p>
+
+<p>Our company actually ended up making our own Revit Test Framework to better suit our needs, and we'd like to make it open source one day!
+Here's a screenshot:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302af14832dc8200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302af14832dc8200c img-responsive" alt="Unit test" title="Unit test" src="/assets/image_47f760.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Unit test report:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302af14a4bc19200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302af14a4bc19200b img-responsive" alt="Unit test" title="Unit test" src="/assets/image_9b1093.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p><strong>Response:</strong> I was referring to the below example where on line 4 there is a method calling a Revit model from the solution folder.</p>
+
+<p>I could be wrong but looks like there is a method to load RVT model and execute API methods directly (line 7), meaning I don't have to open a new Revit session to run tests: <a href="https://github.com/specklesystems/xUnitRevit">github.com/specklesystems/xUnitRevit</a>:</p>
+
+<pre class="code">
+&nbsp;&nbsp;[Fact]
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;<span style="color:#74531f;">WallsHaveVolume</span>()
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;<span style="color:#1f377f;">testModel</span>&nbsp;=&nbsp;GetTestModel(<span style="color:#a31515;">&quot;walls.rvt&quot;</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;<span style="color:#1f377f;">doc</span>&nbsp;=&nbsp;xru.OpenDoc(testModel);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;<span style="color:#1f377f;">walls</span>&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;FilteredElementCollector(doc).WhereElementIsNotElementType().OfCategory(BuiltInCategory.OST_Walls).ToElements();
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">foreach</span>&nbsp;(var&nbsp;<span style="color:#1f377f;">wall</span>&nbsp;<span style="color:#8f08c4;">in</span>&nbsp;walls)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;<span style="color:#1f377f;">volumeParam</span>&nbsp;=&nbsp;wall.get_Parameter(BuiltInParameter.HOST_VOLUME_COMPUTED);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Assert.NotNull(volumeParam);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Assert.True(volumeParam.AsDouble()&nbsp;&gt;&nbsp;0);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Close(<span style="color:blue;">false</span>);
+&nbsp;&nbsp;}
+</pre>
+
+<p><strong>Answer:</strong> Yes, I believe Speckle provides methods for you to load and switch between Revit files, among other utilities.
+However, I also though speckle tests needed to be run via the speckle test ui, which is a revit addin &ndash; so you have to open that to run the tests.
+I could be mistaken, as I haven't used speckle in a little while!</p>
+
+<p>Here's a link to a <a href="https://speckle.systems/blog/xunitrevit">speckle unit test blog post</a> &ndash; I think this is the framework we are talking about? It mentioned three parts, one of which is a Revit addin that actually runs the tests.</p>
+
+<p><strong>Response:</strong> I see, well, this is pritty much still better IMO compared to the alternatives, but I wish there was a framework to execute tests without launching a new Revit session, otherwise it is very restricting in terms of the machine specs I have to run the tests on.</p>
+
+<p><strong>Answer:</strong> Without Revit open is not possible I guess, but you could use
+the Autodesk Platform Services (APS) (ex Forge) <a href="https://forge.autodesk.com/en/docs/design-automation/v3/developers_guide/overview/">Design Automation API</a> to
+run some tests.</p>
+
+<p>I created a demo doing so, <a href="https://youtu.be/EL5uJm_Nj8g">ricaun &ndash; Forge Hackathon 2022 &ndash; demo</a>.</p>
+
+<p>The Test part is the missing key in my workflow; I was thinking to add a UI for testing in the AppLoader plugin, but makes more sense to use the Test Explorer in Visual Studio 2022, just need to create an IPC between Revit and Visual Studio.</p>
+
+<p><strong>Response 1:</strong> This is REALLY cool, thanks for sharing! I like the idea of using Forge, and that does seem to be where Autodesk wants to head in the future.</p>
+
+<p>Many thanks to ricaun for this important research and explanation!</p>
+
+<h4><a name="7"></a> Bleeding Edge of AI</h4>
+
+<p>Wrappoing up with some short notes on non-Revit-API topics, let's start
+with <a href="https://bleedingedge.ai">the bleeding edge of AI</a>:</p>
+
+<blockquote>
+  <p><a href="https://bleedingedge.ai">bleeding edge</a> is a feed of noteworthy developments in AI.
+  The pace of development in AI right now is staggering and there’s been no easy way to keep up with all of the interesting developments.
+  bleeding edge is my attempt at solving that.
+  It’s a chronological collation of all the most noteworthy developments...</p>
+</blockquote>
+
+<h4><a name="8"></a> AI-Driven Coding Tool may Violate Copyright</h4>
+
+<p><a href="https://www.theregister.com/2022/10/19/github_copilot_copyright">How GitHub Copilot could steer Microsoft into a copyright storm</a>: 
+AI-driven coding tool might generate other people's code &ndash; who knew? Well, Redmond, for one...</p>
+
+<h4><a name="9"></a> AI-Generated Podcasts</h4>
+
+<p>This is pretty mind-blowing: <a href="https://podcast.ai">podcast.ai</a> presents podcasts entirely generated by artificial intelligence, e.g.,  Joe Rogan interviewing Steve Jobs, Lex Fridman interviewing Richard Feynman...</p>
+
+<h4><a name="10"></a> Super Realistic Animated Eye Rendering</h4>
+
+<p>Less related to AI and nonetheless extremely impressive,
+Şefki <a href="https://twitter.com/sefkiibrahim">@sefkiibrahim</a> Ibrahim, 3D digital human character artist,
+presents a <a href="https://twitter.com/sefkiibrahim/status/1580970724084584453?s=20&amp;t=eAEMUoCTskHLTOZU0GB8jw">super realistic animated eye sequence character rendering</a>.</p>
+
+<h4><a name="11"></a> Luxury Surveillance</h4>
+
+<p>Pondering <a href="https://www.theatlantic.com/technology/archive/2022/10/amazon-tracking-devices-surveillance-state/671772">the rise of ‘luxury surveillance’</a>: 
+Surveillance isn’t just imposed on people: Many of us buy into it willingly...</p>
+
+<h4><a name="12"></a> Pandemic Hand-Washing Blooper</h4>
+
+<p>And, to finally end for today, some notes
+on <a href="https://www.theatlantic.com/health/archive/2022/10/covid-pandemic-airborne-virus-transmission-hand-washing/671831">the great pandemic hand-washing blooper</a>:
+Should you wash your hands? Yes. Does it matter for respiratory viruses? Not as much as we once thought...</p>

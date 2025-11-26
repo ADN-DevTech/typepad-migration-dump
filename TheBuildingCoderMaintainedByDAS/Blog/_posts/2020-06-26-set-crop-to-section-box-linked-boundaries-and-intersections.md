@@ -1,0 +1,358 @@
+---
+layout: "post"
+title: "Section to Crop, Linked Boundary and Intersection"
+date: "2020-06-26 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Algorithm"
+  - "Element Relationships"
+  - "Filters"
+  - "Geometry"
+  - "Links"
+  - "View"
+original_url: "https://thebuildingcoder.typepad.com/blog/2020/06/set-crop-to-section-box-linked-boundaries-and-intersections.html "
+typepad_basename: "set-crop-to-section-box-linked-boundaries-and-intersections"
+typepad_status: "Publish"
+---
+
+<p>Let's wrap up this week by highlighting two beautiful 
+<a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> solutions by 
+Richard <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/1035859">RPThomas108</a> Thomas,
+who continues sharing new ones at an impressive pace:</p>
+
+<ul>
+<li><a href="#2">Set view crop to section box</a></li>
+<li><a href="#3">Room boundaries and intersections in linked models</a></li>
+</ul>
+
+<p>Before diving into those, here is a very nice <a href="https://www.freecodecamp.org/">freecodecamp</a> quote of the week:</p>
+
+<blockquote>
+  <p><i>People worry that computers will get too smart and take over the world.
+  The real problem is that computers are too stupid and they already have taken over the world &ndash; Pedro Domingos</i></p>
+</blockquote>
+
+<h4><a name="2"></a> Set View Crop to Section Box</h4>
+
+<p>The main result for today is Richard's solution to
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/set-view-cropbox-to-a-section-box/m-p/9600049">setting view cropbox to a section box</a>,
+originally asked six years ago, in 2014, and now finally resolved:</p>
+
+<p><strong>Question:</strong> A simple question: how do I set a 3D view crop box to match (the outer corners of) a section box?</p>
+
+<p><strong>Answer:</strong> The Building Coder discussed how
+to <a href="http://thebuildingcoder.typepad.com/blog/2012/08/set-view-section-box-to-match-scope-box.html">set view section box to match scope box</a>.</p>
+
+<p>In this different situation, the two boxes have different coordinate systems, so one has to transformed into the other.
+Also consider below that the maximum and minimum points of the section box are not enough alone to properly frame the section box with a crop box.
+If you transform P1 and P2 below from the coordinate space of the section box into the coordinate space of the view, you would end up with the red box.
+You need to know the missing corners; then you can transform all of the eight corner points into the coordinate space of the view.
+You then find the max/min <code>XYZ</code> from those and set crop box to green rectangle:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e952dab6200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e952dab6200b image-full img-responsive" alt="Set view crop to section box" title="Set view crop to section box" src="/assets/image_dd3ef0.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>I wrote this extension method for that:</p>
+
+<pre class="code">
+&lt;Extension()&gt;
+<span style="color:blue;">Public</span>&nbsp;<span style="color:blue;">Sub</span>&nbsp;AdjustCropToSectionBox(View3D&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">View3D</span>)
+&nbsp;&nbsp;<span style="color:green;">&#39;View3D&nbsp;crop&nbsp;can&#39;t&nbsp;have&nbsp;a&nbsp;shape&nbsp;assigned&nbsp;and&nbsp;can&#39;t&nbsp;be&nbsp;split</span>
+&nbsp;&nbsp;<span style="color:blue;">If</span>&nbsp;View3D.CropBoxActive&nbsp;=&nbsp;<span style="color:blue;">False</span>&nbsp;<span style="color:blue;">Then</span>
+&nbsp;&nbsp;&nbsp;&nbsp;View3D.CropBoxActive&nbsp;=&nbsp;<span style="color:blue;">True</span>
+&nbsp;&nbsp;<span style="color:blue;">End</span>&nbsp;<span style="color:blue;">If</span>
+&nbsp;&nbsp;<span style="color:blue;">If</span>&nbsp;View3D.IsSectionBoxActive&nbsp;=&nbsp;<span style="color:blue;">False</span>&nbsp;<span style="color:blue;">Then</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">Exit</span>&nbsp;<span style="color:blue;">Sub</span>
+&nbsp;&nbsp;<span style="color:blue;">End</span>&nbsp;<span style="color:blue;">If</span>
+
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;CropBox&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">BoundingBoxXYZ</span>&nbsp;=&nbsp;View3D.CropBox
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;SectionBox&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">BoundingBoxXYZ</span>&nbsp;=&nbsp;View3D.GetSectionBox
+
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;T&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">Transform</span>&nbsp;=&nbsp;CropBox.Transform
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;Corners&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">XYZ</span>()&nbsp;=&nbsp;BBCorners(SectionBox,&nbsp;T)
+
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;MinX&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:blue;">Double</span>&nbsp;=&nbsp;Corners.Min(<span style="color:blue;">Function</span>(j)&nbsp;j.X)
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;MinY&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:blue;">Double</span>&nbsp;=&nbsp;Corners.Min(<span style="color:blue;">Function</span>(j)&nbsp;j.Y)
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;MinZ&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:blue;">Double</span>&nbsp;=&nbsp;Corners.Min(<span style="color:blue;">Function</span>(j)&nbsp;j.Z)
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;MaxX&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:blue;">Double</span>&nbsp;=&nbsp;Corners.Max(<span style="color:blue;">Function</span>(j)&nbsp;j.X)
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;MaxY&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:blue;">Double</span>&nbsp;=&nbsp;Corners.Max(<span style="color:blue;">Function</span>(j)&nbsp;j.Y)
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;MaxZ&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:blue;">Double</span>&nbsp;=&nbsp;Corners.Max(<span style="color:blue;">Function</span>(j)&nbsp;j.Z)
+
+&nbsp;&nbsp;CropBox.Min&nbsp;=&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(MinX,&nbsp;MinY,&nbsp;MinZ)
+&nbsp;&nbsp;CropBox.Max&nbsp;=&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(MaxX,&nbsp;MaxY,&nbsp;MaxZ)
+
+&nbsp;&nbsp;View3D.CropBox&nbsp;=&nbsp;CropBox
+<span style="color:blue;">End</span>&nbsp;<span style="color:blue;">Sub</span>
+
+<span style="color:blue;">Private</span>&nbsp;<span style="color:blue;">Function</span>&nbsp;BBCorners(
+&nbsp;&nbsp;SectionBox&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">BoundingBoxXYZ</span>,
+&nbsp;&nbsp;T&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">Transform</span>)&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">XYZ</span>()
+
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;SBMx&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;=&nbsp;SectionBox.Max
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;SBMn&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;=&nbsp;SectionBox.Min
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;Btm_LL&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;=&nbsp;SBMn&nbsp;<span style="color:green;">&#39;Lower&nbsp;Left</span>
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;Btm_LR&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(SBMx.X,&nbsp;SBMn.Y,&nbsp;SBMn.Z)&nbsp;<span style="color:green;">&#39;Lower&nbsp;Right</span>
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;Btm_UL&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(SBMn.X,&nbsp;SBMx.Y,&nbsp;SBMn.Z)&nbsp;<span style="color:green;">&#39;Upper&nbsp;Left</span>
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;Btm_UR&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(SBMx.X,&nbsp;SBMx.Y,&nbsp;SBMn.Z)&nbsp;<span style="color:green;">&#39;Upper&nbsp;Right</span>
+
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;Top_UR&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;=&nbsp;SBMx&nbsp;<span style="color:green;">&#39;Upper&nbsp;Right</span>
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;Top_UL&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(SBMn.X,&nbsp;SBMx.Y,&nbsp;SBMx.Z)&nbsp;<span style="color:green;">&#39;Upper&nbsp;Left</span>
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;Top_LR&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(SBMx.X,&nbsp;SBMn.Y,&nbsp;SBMx.Z)&nbsp;<span style="color:green;">&#39;Lower&nbsp;Right</span>
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;Top_LL&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(SBMn.X,&nbsp;SBMn.Y,&nbsp;SectionBox.Max.Z)&nbsp;<span style="color:green;">&#39;Lower&nbsp;Left</span>
+
+&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;Out&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">XYZ</span>()&nbsp;=&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(7)&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;Btm_LL,&nbsp;Btm_LR,&nbsp;Btm_UL,&nbsp;Btm_UR,
+&nbsp;&nbsp;&nbsp;&nbsp;Top_UR,&nbsp;Top_UL,&nbsp;Top_LR,&nbsp;Top_LL}
+
+&nbsp;&nbsp;<span style="color:blue;">For</span>&nbsp;i&nbsp;=&nbsp;0&nbsp;<span style="color:blue;">To</span>&nbsp;Out.Length&nbsp;-&nbsp;1
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">&#39;Transform&nbsp;bounding&nbsp;box&nbsp;corords&nbsp;to&nbsp;model&nbsp;coords</span>
+&nbsp;&nbsp;&nbsp;&nbsp;Out(i)&nbsp;=&nbsp;SectionBox.Transform.OfPoint(Out(i))
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">&#39;Transform&nbsp;bounding&nbsp;box&nbsp;coords&nbsp;to&nbsp;view&nbsp;coords</span>
+&nbsp;&nbsp;&nbsp;&nbsp;Out(i)&nbsp;=&nbsp;T.Inverse.OfPoint(Out(i))
+&nbsp;&nbsp;<span style="color:blue;">Next</span>
+&nbsp;&nbsp;<span style="color:blue;">Return</span>&nbsp;Out
+<span style="color:blue;">End</span>&nbsp;<span style="color:blue;">Function</span>
+</pre>
+
+<p>It is also worth considering that the extents of the section box may not be appropriate for how you wish to crop the view.
+The section box below is relatively tight on the wall elements but due to the viewing angle there is a lot of spare space to the right.
+When you print that on a sheet it will not be evident why the view content is off centre and what the extra space is for:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263ec247c0d200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263ec247c0d200c img-responsive" alt="Set view crop to section box" title="Set view crop to section box" src="/assets/image_603330.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p><strong>Response:</strong> This solution worked great; I translated to C# and have posted it here for C# coders:</p>
+
+<pre class="code">
+<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">void</span>&nbsp;AdjustViewCropToSectionBox(&nbsp;
+&nbsp;&nbsp;<span style="color:green;">/*this*/</span>&nbsp;<span style="color:#2b91af;">View3D</span>&nbsp;view&nbsp;)
+{
+&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;!view.IsSectionBoxActive&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;!view.CropBoxActive&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;view.CropBoxActive&nbsp;=&nbsp;<span style="color:blue;">true</span>;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color:#2b91af;">BoundingBoxXYZ</span>&nbsp;CropBox&nbsp;=&nbsp;view.CropBox;
+&nbsp;&nbsp;<span style="color:#2b91af;">BoundingBoxXYZ</span>&nbsp;SectionBox&nbsp;=&nbsp;view.GetSectionBox();
+&nbsp;&nbsp;<span style="color:#2b91af;">Transform</span>&nbsp;T&nbsp;=&nbsp;CropBox.Transform;
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;Corners&nbsp;=&nbsp;BBCorners(&nbsp;SectionBox,&nbsp;T&nbsp;);
+&nbsp;&nbsp;<span style="color:blue;">double</span>&nbsp;MinX&nbsp;=&nbsp;Corners.Min(&nbsp;j&nbsp;=&gt;&nbsp;j.X&nbsp;);
+&nbsp;&nbsp;<span style="color:blue;">double</span>&nbsp;MinY&nbsp;=&nbsp;Corners.Min(&nbsp;j&nbsp;=&gt;&nbsp;j.Y&nbsp;);
+&nbsp;&nbsp;<span style="color:blue;">double</span>&nbsp;MinZ&nbsp;=&nbsp;Corners.Min(&nbsp;j&nbsp;=&gt;&nbsp;j.Z&nbsp;);
+&nbsp;&nbsp;<span style="color:blue;">double</span>&nbsp;MaxX&nbsp;=&nbsp;Corners.Max(&nbsp;j&nbsp;=&gt;&nbsp;j.X&nbsp;);
+&nbsp;&nbsp;<span style="color:blue;">double</span>&nbsp;MaxY&nbsp;=&nbsp;Corners.Max(&nbsp;j&nbsp;=&gt;&nbsp;j.Y&nbsp;);
+&nbsp;&nbsp;<span style="color:blue;">double</span>&nbsp;MaxZ&nbsp;=&nbsp;Corners.Max(&nbsp;j&nbsp;=&gt;&nbsp;j.Z&nbsp;);
+&nbsp;&nbsp;CropBox.Min&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(&nbsp;MinX,&nbsp;MinY,&nbsp;MinZ&nbsp;);
+&nbsp;&nbsp;CropBox.Max&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(&nbsp;MaxX,&nbsp;MaxY,&nbsp;MaxZ&nbsp;);
+&nbsp;&nbsp;view.CropBox&nbsp;=&nbsp;CropBox;
+}
+
+<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:#2b91af;">XYZ</span>[]&nbsp;BBCorners(&nbsp;<span style="color:#2b91af;">BoundingBoxXYZ</span>&nbsp;SectionBox,&nbsp;<span style="color:#2b91af;">Transform</span>&nbsp;T&nbsp;)
+{
+&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;sbmn&nbsp;=&nbsp;SectionBox.Min;
+&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;sbmx&nbsp;=&nbsp;SectionBox.Max;
+&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;Btm_LL&nbsp;=&nbsp;sbmn;&nbsp;<span style="color:green;">//&nbsp;Lower&nbsp;Left</span>
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;Btm_LR&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(&nbsp;sbmx.X,&nbsp;sbmn.Y,&nbsp;sbmn.Z&nbsp;);&nbsp;<span style="color:green;">//&nbsp;Lower&nbsp;Right</span>
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;Btm_UL&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(&nbsp;sbmn.X,&nbsp;sbmx.Y,&nbsp;sbmn.Z&nbsp;);&nbsp;<span style="color:green;">//&nbsp;Upper&nbsp;Left</span>
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;Btm_UR&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(&nbsp;sbmx.X,&nbsp;sbmx.Y,&nbsp;sbmn.Z&nbsp;);&nbsp;<span style="color:green;">//&nbsp;Upper&nbsp;Right</span>
+&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;Top_UR&nbsp;=&nbsp;sbmx;&nbsp;<span style="color:green;">//&nbsp;Upper&nbsp;Right</span>
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;Top_UL&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(&nbsp;sbmn.X,&nbsp;sbmx.Y,&nbsp;sbmx.Z&nbsp;);&nbsp;<span style="color:green;">//&nbsp;Upper&nbsp;Left</span>
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;Top_LR&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(&nbsp;sbmx.X,&nbsp;sbmn.Y,&nbsp;sbmx.Z&nbsp;);&nbsp;<span style="color:green;">//&nbsp;Lower&nbsp;Right</span>
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;Top_LL&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(&nbsp;sbmn.X,&nbsp;sbmn.Y,&nbsp;sbmx.Z&nbsp;);&nbsp;<span style="color:green;">//&nbsp;Lower&nbsp;Left</span>
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;Out&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">XYZ</span>[&nbsp;8&nbsp;]&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;Btm_LL,&nbsp;Btm_LR,&nbsp;Btm_UL,&nbsp;Btm_UR,
+&nbsp;&nbsp;&nbsp;&nbsp;Top_UR,&nbsp;Top_UL,&nbsp;Top_LR,&nbsp;Top_LL&nbsp;};
+&nbsp;&nbsp;<span style="color:blue;">for</span>(&nbsp;<span style="color:blue;">int</span>&nbsp;i&nbsp;=&nbsp;0,&nbsp;loopTo&nbsp;=&nbsp;Out.Length&nbsp;-&nbsp;1;&nbsp;i&nbsp;&lt;=&nbsp;loopTo;&nbsp;i++&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Transform&nbsp;bounding&nbsp;box&nbsp;coords&nbsp;to&nbsp;model&nbsp;coords</span>
+&nbsp;&nbsp;&nbsp;&nbsp;Out[&nbsp;i&nbsp;]&nbsp;=&nbsp;SectionBox.Transform.OfPoint(&nbsp;Out[&nbsp;i&nbsp;]&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Transform&nbsp;bounding&nbsp;box&nbsp;coords&nbsp;to&nbsp;view&nbsp;coords</span>
+&nbsp;&nbsp;&nbsp;&nbsp;Out[&nbsp;i&nbsp;]&nbsp;=&nbsp;T.Inverse.OfPoint(&nbsp;Out[&nbsp;i&nbsp;]&nbsp;);
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;Out;
+}
+</pre>
+
+<p>Many thanks to Richard and Frank for the solution and the C# translation.</p>
+
+<p>I added the new method <code>AdjustViewCropToSectionBox</code>
+to <a href="https://github.com/jeremytammik/the_building_coder_samples/releases/tag/2021.0.149.2">release 2021.0.149.2</a>
+of <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder Samples</a>,
+cf. the <a href="https://github.com/jeremytammik/the_building_coder_samples/compare/2021.0.149.1...2021.0.149.2">diff to the previous version</a>.</p>
+
+<h4><a name="3"></a> Room Boundaries and Intersections in Linked Models</h4>
+
+<p>Yet another beautiful solution by Richard to determine the column finish area within a room of columns residing partially inside and partially outside the room interior.</p>
+
+<p>Trickier still, this includes handling of columns residing in linked files, copying the relevant elements into the main project file to retrieve the room boundaries there.</p>
+
+<p>Note that there seem to be problems retrieving room boundaries from rooms in linked files, so this transformation process can come in handy in all sorts of similar situations.</p>
+
+<p>Some of the recent issues that this solution helps resolve include:</p>
+
+<ul>
+<li>Intersection in linked models</li>
+<li>Transformation from linked into main host project and vice versa</li>
+<li>Room boundary retrieval does not work well with linked models</li>
+</ul>
+
+<p>The question was raised in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/how-to-calculate-the-column-finish-area-of-room/m-p/9576200">how to calculate the column finish area of room</a>:</p>
+
+<p><strong>Question:</strong> We want to calculate the column finish area of columns in a room with columns present half inside the room and half outside; we have to ignore the outside finish area and only want the area which comes inside the room boundary.</p>
+
+<p>This screen snapshot shows a typical situation:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e952dac0200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e952dac0200b img-responsive" alt="Column finish area" title="Column finish area" src="/assets/image_7ef3b2.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p><strong>Answer:</strong> Here is one possible approach:</p>
+
+<ul>
+<li>Get column base curve.</li>
+<li>Get the room bounding segments and their curves.</li>
+<li>Get the intersections between column curves and the room curves.</li>
+<li>Calculate circumference of the column curve lying in the room boundary.</li>
+<li>Using room height calculate the area.</li>
+</ul>
+
+<p>Possibly slightly more straightforward: the <code>BoundarySegment</code> class has an <code>ElementID</code> property that identifies the <code>Element</code> that generated the boundary segment.</p>
+
+<p>If you review these in RevitLookup, you get the segment length measured to the centre of the wall.
+This length however likely depends on how the <code>GetBoundarySegments</code> is called, i.e.:</p>
+
+<p>Use <code>SpatialElementBoundaryOptions</code> <code>SpatialElementBoundaryLocation</code> <code>=</code> <code>Finish</code> instead of center; then you may get the curve length for each face which you can multiply with the room height.</p>
+
+<p>Alternatively, if you get the lines only to the centre of the wall, you can get the wall thickness and subtract one half of it from the line length.</p>
+
+<p><strong>Response:</strong> We are trying to follow that approach to get the columns, but from the column edges we are not able to calculate the exact overlapping part with the room interior for the column part inside the room.</p>
+
+<p>In our case, we don't know exactly how large a portion of the column is inside and how much is outside.
+Also, the room is present in the active document and the column is in a linked document. 
+How can we get the column edges that come inside the room?</p>
+
+<p><strong>Answer:</strong> That is slightly more challenging, but the same principles as noted previously apply.</p>
+
+<p>Summary of the code below:</p>
+
+<ul>
+<li>Get solid from room using <code>Room.ClosedShell</code></li>
+<li>Transform solid to coord space of link containing columns using <code>SolidUtils.CreateTransformed</code></li>
+<li>Find the columns intersecting the transformed solid using <code>ElementIntersectsSolidFilter</code></li>
+<li>Copy each matching column back to the main doc using <code>ElementTransformUtils.CopyElements</code></li>
+<li>Measure the boundaries</li>
+<li>Roll back the transaction </li>
+</ul>
+
+<pre class="code">
+  Private Function TObj75(ByVal commandData As Autodesk.Revit.UI.ExternalCommandData,
+    ByRef message As String, ByVal elements As Autodesk.Revit.DB.ElementSet) As Result
+
+    If commandData.Application.ActiveUIDocument Is Nothing Then Return Result.Cancelled Else
+    Dim UIDoc As UIDocument = commandData.Application.ActiveUIDocument
+    Dim Doc As Document = UIDoc.Document
+
+    Dim R As Reference = Nothing
+    Try
+      R = UIDoc.Selection.PickObject(Selection.ObjectType.Element, "Pick a room any room.")
+    Catch ex As Exception
+    End Try
+    If R Is Nothing Then Return Result.Cancelled Else
+
+    Dim Room As Room = TryCast(Doc.GetElement(R), Room)
+    If Room Is Nothing Then Return Result.Cancelled Else
+
+    Dim GeomEl As GeometryElement = Room.ClosedShell
+    Dim S As Solid = GeomEl(0) 'Assume single solid for brevity
+
+    Dim FEClnk As New FilteredElementCollector(Doc)
+    Dim ECFlnk As New ElementClassFilter(GetType(RevitLinkInstance))
+    Dim Lnk As List(Of RevitLinkInstance) = FEClnk.WherePasses(ECFlnk).ToElements.Cast(Of RevitLinkInstance).ToList
+    Dim LinkDoc As Document = Lnk(0).GetLinkDocument() 'Assume single link containing columns for brevity
+
+    Dim SolTransformed As Solid = SolidUtils.CreateTransformed(S, Lnk(0).GetTransform.Inverse)
+    'The solid in the coord system of the link
+    Dim ElintS As New ElementIntersectsSolidFilter(SolTransformed)
+    Dim ECF As New ElementCategoryFilter(BuiltInCategory.OST_StructuralColumns)
+    Dim LandF As New LogicalAndFilter(ElintS, ECF)
+    Dim FEC As New FilteredElementCollector(LinkDoc)
+    Dim Els As List(Of ElementId) = FEC.WherePasses(LandF).ToElementIds
+
+    Using tx As New Transaction(Doc, "Copy")
+      If tx.Start = TransactionStatus.Started Then
+
+        Dim NewIDs As List(Of ElementId) = ElementTransformUtils.CopyElements(LinkDoc, Els, Doc, Lnk(0).GetTransform, Nothing)
+        Dim Ops As New SpatialElementBoundaryOptions() With {.SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.Finish}
+
+        Dim BoundSegs As IList(Of IList(Of BoundarySegment)) = Room.GetBoundarySegments(Ops)
+        For i = 0 To BoundSegs.Count - 1
+          Dim SegLst As IList(Of BoundarySegment) = BoundSegs(i)
+          Debug.WriteLine("List: " & CStr(i + 1)) 'List 0' just doesn't sound right
+
+          For ix = 0 To SegLst.Count - 1
+            Dim Seg As BoundarySegment = SegLst(ix)
+            If NewIDs.Contains(Seg.ElementId) = False Then Continue For Else
+
+            Debug.WriteLine(CStr(Seg.ElementId.IntegerValue) & ", " & (Seg.GetCurve.Length * 304.8).ToString("F1"))
+
+            'Tried below to see what .LinkedElementId represented (not apparent)
+            'Debug.WriteLine(CStr(Seg.LinkElementId.IntegerValue) & "," & Seg.GetCurve.Length & "FromLink")
+          Next
+        Next
+
+        tx.RollBack()
+      End If
+    End Using
+
+  End Function
+</pre>
+
+<p>Proof of concept:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e952dacc200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e952dacc200b img-responsive" alt="Column finish area" title="Column finish area" src="/assets/image_235131.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Results:</p>
+
+<pre>
+  List: 1
+  427532, 400.0
+  427532, 750.0
+  427532, 400.0
+  427536, 275.0
+  427536, 200.0
+  427534, 200.0
+  427534, 750.0
+  427534, 200.0
+</pre>
+
+<p>This technique was first developed in the user interface. 
+As Revit users, we had long applied this technique in the UI, i.e., tab into a linked element, copy it to the clipboard and paste it to the same place within the host document.</p>
+
+<p>The <code>ElementTransformUtils</code> is definitely a powerful feature of the API which sometimes gets overlooked in terms of how it can be applied to solve problems.</p>
+
+<p>By the way, this solution simultaneously answers a number of other recent forum issues involving intersections and room boundaries in linked documents, including a previous thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/how-to-find-the-rooms-geometry-adjacent-to-walls-in-revit-api/m-p/9576146">how to find the rooms geometry adjacent to walls</a>,
+where an analogous approach can be applied.</p>
+
+<p>It also shows once again how important and useful it is to fully develop and optimise a solution manually in the user interface before beginning to address it programmatically.</p>
+
+<p>Many thanks again to Richard for these nice solutions.
+You are helping elevate to Revit developer community to a new level!</p>

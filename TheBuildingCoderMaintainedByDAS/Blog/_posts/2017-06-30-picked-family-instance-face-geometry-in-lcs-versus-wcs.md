@@ -1,0 +1,328 @@
+---
+layout: "post"
+title: "Picked Instance Face Geometry in LCS Versus WCS"
+date: "2017-06-30 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Algorithm"
+  - "Data Access"
+  - "Family"
+  - "Geometry"
+original_url: "https://thebuildingcoder.typepad.com/blog/2017/06/picked-family-instance-face-geometry-in-lcs-versus-wcs.html "
+typepad_basename: "picked-family-instance-face-geometry-in-lcs-versus-wcs"
+typepad_status: "Publish"
+---
+
+<p>A number of people have run into issues retrieving geometry from interactively picked family instances.</p>
+
+<p>Depending on circumstances, the geometry may be returned in the global Revit world coordinate system WCS, or in the family instance definition local coordinate system LCS.</p>
+
+<p>My first encounter with that effect was
+when <a href="http://thebuildingcoder.typepad.com/blog/2012/06/obj-model-exporter-take-one.html#7">retrieving a solid from an element</a>
+during the implementation of the OBJ exporter, then expanding that
+to <a href="http://thebuildingcoder.typepad.com/blog/2012/07/obj-model-exporter-with-multiple-solid-support.html#3">handle elements with multiple solids</a>:</p>
+
+<blockquote>
+  <p>The <code>GetSolid</code> helper method retrieves the first non-empty solid found for a given element. In case it is a family instance, it may have its own non-empty solid, in which case we use that. Otherwise we search the symbol geometry. If we use the symbol geometry, we might have to keep track of the instance transform to map it to the actual instance project location. Instead, we ask for transformed geometry to be returned, so the resulting solid is already in place...</p>
+</blockquote>
+
+<p>I also used this approach in
+the <a href="http://thebuildingcoder.typepad.com/blog/2016/08/voodoo-magic-retrieves-global-instance-edges.html#7">structural concrete setout point add-in</a>.</p>
+
+<p>The issue is even more confusing when combined with interactive picking, and keeps coming up from time to  time, most recently in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread on
+an <a href="https://forums.autodesk.com/t5/revit-api-forum/incorrect-face-normal/m-p/7108787">incorrect face normal</a>.</p>
+
+<p>Once again, Fair59 presented a brilliant solution and explanation of this issue, making use of some of the lessons learned 
+using <a href="http://thebuildingcoder.typepad.com/blog/2016/08/voodoo-magic-retrieves-global-instance-edges.html">Voodoo magic to retrieve global instance edges</a>
+and <a href="http://thebuildingcoder.typepad.com/blog/2016/08/voodoo-magic-retrieves-global-instance-edges.html#3">snooping the family instance geometry</a>:</p>
+
+<ul>
+<li><a href="#2">Question on Incorrect Face Normal</a></li>
+<li><a href="#3">Working Plane has no Effect</a></li>
+<li><a href="#4">Non-Picked Face Normals are Correct</a></li>
+<li><a href="#5">Solution &ndash; Detecting When to Use LCS versus WCS</a></li>
+<li><a href="#6">Retrieval of Picked Geometry Face from Instance is Untransformed</a></li>
+</ul>
+
+<h4><a name="2"></a>Question on Incorrect Face Normal</h4>
+
+<p><strong>Question:</strong> I created two beams through different codes. Their FamilySymbols are the same. But their left faces' (marked as red in pic) normal are different!</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb09aa9dda970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb09aa9dda970d image-full img-responsive" alt="Incorrect face normal" title="Incorrect face normal" src="/assets/image_97433e.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<p>The face normal of the left beam is the same as I expected, (-1,0,0). </p>
+
+<p>The face normal of the right beam is wrong and I don't know why. </p>
+
+<p>Attached is my <a href="zip/incorrect_face_normal_project1.rvt">project</a> for your reference.</p>
+
+<h4><a name="3"></a>Working Plane has no Effect</h4>
+
+<p><strong>Answer:</strong> It seems that one beam is bound to a working plane, and the other one is unbound. Is this intended? This binding can influence the position of the FamilyInstance in WCS.</p>
+
+<p><strong>Response:</strong> Bounding to a working plane is not my intention.
+Both beams are created using this method:</p>
+
+<pre>
+  Instance = Doc.Create.NewFamilyInstance( line,
+    FamilySymbol, Level, StructuralType.Beam)
+</pre>
+
+<p>How can I avoid bounding to a working plane when creating? Why and how would a working plane influence the <code>FamilyInstance</code>? If I can't change the way of creating the right beam, how can I get the correct face normal like the left beam? Thanks!</p>
+
+<p><strong>Answer:</strong> You can try passing null for <code>Level</code>. Unfortunately, it's not explicitly mentioned in the documentation, but the <code>Level</code> parameter is optional. The beam, after all, it is a family; like every family, it has a local coordinate system. If you bind it to a plane, then its LCS may no longer be identical to WCS; its local Z axis will correspond to the Z axis of the reference plane. What you are seeing is the beam's face normal in LCS; that's why they differ, even if they point in the same WCS direction.</p>
+
+<p><strong>Response:</strong> I passed null for Level and the right beam was bound to no working plane this time. But both beams' faces' normal are the same as previous.</p>
+
+<h4><a name="4"></a>Non-Picked Face Normals are Correct</h4>
+
+<p><strong>Answer:</strong> The Revit API documentation <code>RevitAPI.chm</code> says this about the <strong>PlanarFace.FaceNormal property</strong>:</p>
+
+<p>This property is the "face normal" vector, and thus should return a vector consistently pointing out of the solid that this face is a boundary for (if it is a part of a solid).</p>
+
+<p>There is also another method, <code>Face.ComputeNormal</code>: It will always be oriented to point out of a solid that contains the face.</p>
+
+<p>I downloaded your sample file and investigated the face normals. For each of the two Elements, there are six sides having <code>FaceNormal</code> values as expected, all pointing outwards. Could it be that you compare the faces by index, meaning the first face in the left element's face list is compared to the first face in the second one's face list? The geometry objects are not returned in order but randomized. As far as I can see, there is no problem at all.</p>
+
+<p><strong>Response:</strong> I understand your points and thank you. Below is my test code to calculate the face normal and snapshot of the result. I was not using index to get the face.</p>
+
+<pre class="code">
+  <span style="color:#2b91af;">Reference</span>&nbsp;refFace&nbsp;=&nbsp;<span style="color:blue;">null</span>;
+  <span style="color:blue;">while</span>(&nbsp;<span style="color:blue;">true</span>&nbsp;)
+  {
+  &nbsp;&nbsp;<span style="color:blue;">try</span>
+  &nbsp;&nbsp;{
+  &nbsp;&nbsp;&nbsp;&nbsp;refFace&nbsp;=&nbsp;sel.PickObject(&nbsp;<span style="color:#2b91af;">ObjectType</span>.Face,
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;select&nbsp;a&nbsp;face&quot;</span>&nbsp;);
+
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;selectedElement&nbsp;=&nbsp;doc.GetElement(
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;refFace&nbsp;);
+
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">GeometryObject</span>&nbsp;selectedGeoObject&nbsp;=&nbsp;selectedElement
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.GetGeometryObjectFromReference(&nbsp;refFace&nbsp;);
+
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Face</span>&nbsp;selectedFace&nbsp;=&nbsp;selectedGeoObject&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">Face</span>;
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">PlanarFace</span>&nbsp;selectedPlanarFace&nbsp;=&nbsp;selectedFace&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">PlanarFace</span>;
+
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BoundingBoxUV</span>&nbsp;box&nbsp;=&nbsp;selectedFace.GetBoundingBox();
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UV</span>&nbsp;faceCenter&nbsp;=&nbsp;(&nbsp;box.Max&nbsp;+&nbsp;box.Min&nbsp;)&nbsp;/&nbsp;2;
+
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;computedFaceNormal&nbsp;=&nbsp;selectedFace
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.ComputeNormal(&nbsp;faceCenter&nbsp;).Normalize();
+
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;faceNormal&nbsp;=&nbsp;selectedPlanarFace.FaceNormal;
+
+  &nbsp;&nbsp;&nbsp;&nbsp;MessageBox.Show(&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">$&quot;computedFaceNormal:&nbsp;</span>{computedFaceNormal.ToString()}<span style="color:#a31515;">,&nbsp;&quot;</span>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<span style="color:#a31515;">&quot;faceNormal:&nbsp;{faceNormal.ToString()}&quot;</span>&nbsp;);
+  &nbsp;&nbsp;}
+  &nbsp;&nbsp;<span style="color:blue;">catch</span>(&nbsp;Autodesk.Revit.Exceptions.<span style="color:#2b91af;">OperationCanceledException</span>&nbsp;e&nbsp;)
+  &nbsp;&nbsp;{
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#2b91af;">Result</span>.Cancelled;
+  &nbsp;&nbsp;}
+  }
+</pre>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d291b7e9970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d291b7e9970c image-full img-responsive" alt="Incorrect face normal" title="Incorrect face normal" src="/assets/image_d9dd84.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<p>When you say, "there are six sides having FaceNormal values as expected", do you mean the left face's normal of the right beam is (-1,0,0)?</p>
+
+<p><strong>Answer:</strong> Yes. I just read the solid's faces via RevitLookup. For both of the elements, there were six PlanarFaces, each with perfect <code>FaceNormal</code> values. May it be that the selection function itself returns a false face? Seems to be the front face instead of the displayed lateral one.</p>
+
+<p><strong>Response:</strong> I added this code to display the area:</p>
+
+<pre class="code">
+  MessageBox.Show(
+  &nbsp;&nbsp;<span style="color:#a31515;">$&quot;computedFaceNormal:&nbsp;</span>{computedFaceNormal.ToString()}<span style="color:#a31515;">,&nbsp;&quot;</span>
+  &nbsp;&nbsp;+&nbsp;<span style="color:#a31515;">&quot;faceNormal:&nbsp;{faceNormal.ToString()},&nbsp;&quot;</span>
+  &nbsp;&nbsp;+&nbsp;<span style="color:#a31515;">&quot;&nbsp;Area:&nbsp;{selectedFace.Area.ToString()}&quot;</span>&nbsp;);
+</pre>
+
+<p>I tested it again. The area is correct, but the face normal is not.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c9076e0e970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c9076e0e970b image-full img-responsive" alt="Incorrect face normal" title="Incorrect face normal" src="/assets/image_588b3d.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<p><strong>Answer:</strong> When getting the solids and their faces, I draw the normals as ModelLines, starting at the faces' centre points:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c9076e17970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c9076e17970b img-responsive" style="width: 400px; " alt="Incorrect face normal" title="Incorrect face normal" src="/assets/image_80bea7.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Everything looks correct, this way.</p>
+
+<p>When I pick a face, I get this result with the left one:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c9076e1f970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c9076e1f970b img-responsive" style="width: 400px; " alt="Incorrect face normal" title="Incorrect face normal" src="/assets/image_99247a.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>But I get this when picking the right one:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb09aa9e85970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb09aa9e85970d image-full img-responsive" alt="Incorrect face normal" title="Incorrect face normal" src="/assets/image_173071.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<p>What does it mean ?</p>
+
+<p>In fact, the face returned is not transformed to the project context.</p>
+
+<p>The solid resides around the 0/0/0 project origin.</p>
+
+<p>I've drawn the face boundaries, too:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c9076e3b970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c9076e3b970b image-full img-responsive" alt="Incorrect face normal" title="Incorrect face normal" src="/assets/image_eb4e9e.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<p>Strange. No idea.</p>
+
+<p><strong>Response:</strong> I did further investigation. I found that I've added coping on the left beam before picking it. So, when I add coping on the right one it works right! Why?</p>
+
+<h4><a name="5"></a>Solution &ndash; Detecting When to Use LCS versus WCS</h4>
+
+<p><strong>Answer:</strong> Your comment on coping is the last piece of the puzzle.</p>
+
+<p>When a family instance is</p>
+
+<ul>
+<li>cut,</li>
+<li>joined,</li>
+<li>coped</li>
+<li>and (apparently) has been copied</li>
+</ul>
+
+<p>Revit has to calculate the solids of the instance "in situ" as it will be different from the solids from the family definition. So, the normal of the face will be relative to the project.</p>
+
+<p>In all (??) other cases Revit treats the solids as "instances" of the solids from the family definition. And by some Revit-logic, when asked for <code>Face.ComputeNormal</code>, it gives the normal relative to the family. Quirkier still, it gives the <code>Face.Origin</code> in project coordinates.</p>
+
+<p>So, with family instances that are not cut, joined or coped, you need to transform the faceNormal to project coordinates.</p>
+
+<p>As you already have a reference to the face, you can easily test for this condition:</p>
+
+<pre class="code">
+  refFace.ConvertToStableRepresentation(&nbsp;doc&nbsp;)
+  &nbsp;&nbsp;.Contains(&nbsp;<span style="color:#a31515;">&quot;INSTANCE&quot;</span>&nbsp;)
+</pre>
+
+<p>So, add this to your code:</p>
+
+<pre class="code">
+  <span style="color:blue;">if</span>(&nbsp;refFace.ConvertToStableRepresentation(&nbsp;doc&nbsp;)
+  &nbsp;&nbsp;.Contains(&nbsp;<span style="color:#a31515;">&quot;INSTANCE&quot;</span>&nbsp;)&nbsp;)
+  {
+  &nbsp;&nbsp;<span style="color:#2b91af;">Transform</span>&nbsp;trans&nbsp;=&nbsp;(&nbsp;selectedElement&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">FamilyInstance</span>&nbsp;).GetTransform();
+
+  &nbsp;&nbsp;computedFaceNormal&nbsp;=&nbsp;trans.OfVector(&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;computedFaceNormal&nbsp;);
+
+  &nbsp;&nbsp;faceNormal&nbsp;=&nbsp;trans.OfVector(&nbsp;faceNormal&nbsp;);
+  }
+</pre>
+
+<p><strong>Response:</strong> Classic! Thank you all so much!</p>
+
+<p>Ever so many thanks to Fair59 for coming to the rescue once again!</p>
+
+<!---
+
+#### <a name="3"></a>
+
+... getting an [edge reference of a family instance](https://forums.autodesk.com/t5/revit-api-forum/edge-reference-of-a-family-instance/m-p/7115555)
+
+**Question:** I'm trying to create a tool that will host an adaptive component on an edge in the project environment. The tool should prompt for an adaptive family to host and then for the edge to host it on.
+
+I created the following helper method:
+
+
+
+582f141de279a99d7bd596f25deb9c41
+
+
+
+I then call it from an external command as follows:
+
+
+
+8ddd63ddf333cb6d5bb712d245ee00c1
+
+
+
+If I select a system family like a floor edge or a wall edge as the host it works as expected. (see attached GIF) If i select an edge of a loaded family such as a beam an internal exception is thrown (snippet attached).
+
+Additionally, if the I pick a loaded family that has been joined/cut/copped in the project the tool works as expected. 
+
+What is the correct way to create a pointOnEdge on an edge of a family instance?
+
+Attachment  hostExample.gif ‏622 KB
+Attachment  exception.PNG ‏285 KB
+
+
+**Answer:** The cause of your problem is that Revit has two ways of calculating solids, as explained in my answer to
+the [incorrect face normal](https://forums.autodesk.com/t5/revit-api-forum/incorrect-face-normal/td-p/7108787).
+
+In this case, I think it's an error in the Revit-API.  The perfect valid EdgeReference ( of the "SolidInstance") apparently can't be used in the  firstPoint.SetPointElementReference() method. I say perfect valid, because you can use the EdgeReference for the creation of a Dimension without a problem.
+
+If you have a familyInstance that is cut, joined (or Coped) your code will work.
+
+**Response:** Thanks for the tip. As suggested if the "host" family is joined/cut/copped by another element it works as expected. If not the exception is thrown.
+--->
+
+<h4><a name="6"></a>Retrieval of Picked Geometry Face from Instance is Untransformed</h4>
+
+<p>The discussion above also helps understand this old case on how to transform picked element face geometry to WCS:</p>
+
+<p><strong>Question:</strong> I am currently picking faces from geometry that is likely to be inside of a linked DWG file.</p>
+
+<p>From the reference, I access the element geometry like this:</p>
+
+<pre class="code">
+  <span style="color:#2b91af;">Element</span>&nbsp;e&nbsp;=&nbsp;<span style="color:#2b91af;">Document</span>.GetElement(&nbsp;reference&nbsp;);
+
+  <span style="color:#2b91af;">GeometryObject</span>&nbsp;go&nbsp;
+  &nbsp;&nbsp;=&nbsp;e.GetGeometryObjectFromReference(&nbsp;reference&nbsp;);
+</pre>
+
+<p>My problem is that the faces that are retrieved in this case are not transformed to the instance location.</p>
+
+<p><strong>Answer:</strong> I would imagine that if the element <code>e</code> is an instance, then:</p>
+
+<ol>
+<li>You can query it for its geometry.</li>
+<li>The geometry will contain a geometry instance.</li>
+<li>The transform is provided by the <code>GeometryInstance.Transform</code> property.</li>
+</ol>
+
+<p><strong>Response:</strong> The problem is that I'm trying to select specific faces from within a DWG instance which has hundreds of faces.</p>
+
+<p>So, while I can get all of the geometry from the element (transformed), I'm not sure if I can figure out which <code>Reference</code> or <code>GeometryObject</code> matches the selected face.</p>
+
+<p><strong>Answer:</strong> You can use the <code>Instance.GetTransform</code> method. That is at the element level.</p>
+
+<p><strong>Response:</strong> Yes, <code>Instance.GetTransform</code> would return the transform of the instance, but using that with the untransformed face from the pick would require me to transform everything that comes out of the face, such as normals, curvature, evaluated points, triangulation points, etc.</p>
+
+<p>That sounds like a lot of work!</p>
+
+<p><strong>Answer:</strong> Unfortunately, I see other option for this. If you are interested in the edges and edge points, the curves can be transformed. The face itself cannot.</p>

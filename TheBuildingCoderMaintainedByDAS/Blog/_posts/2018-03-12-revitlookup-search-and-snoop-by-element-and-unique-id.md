@@ -1,0 +1,161 @@
+---
+layout: "post"
+title: "RevitLookup Search by Element and Unique Id"
+date: "2018-03-12 06:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Data Access"
+  - "Debugging"
+  - "Plugin"
+  - "RevitLookup"
+  - "Update"
+  - "Utilities"
+original_url: "https://thebuildingcoder.typepad.com/blog/2018/03/revitlookup-search-and-snoop-by-element-and-unique-id.html "
+typepad_basename: "revitlookup-search-and-snoop-by-element-and-unique-id"
+typepad_status: "Publish"
+---
+
+<p>Александр Пекшев aka Modis <a href="https://github.com/Pekshev">@Pekshev</a> recently
+submitted a pull request
+to <a href="http://thebuildingcoder.typepad.com/blog/2018/03/export-geometry-and-snoop-stable-representation-of-reference.html#2">snoop the stable representation of references</a>
+for <a href="https://github.com/jeremytammik/RevitLookup">RevitLookup</a>.</p>
+
+<p>Now he implemented another useful enhancement to search and snoop elements by element id or unique id:</p>
+
+<ul>
+<li><a href="#2">Search and snoop by element id or unique id</a> </li>
+<li><a href="#3">File changes</a> </li>
+<li><a href="#4">The built-in Select by Id command, Zoom To and StringSearch</a> </li>
+<li><a href="#5">RevitLookup update</a> </li>
+</ul>
+
+<h4><a name="2"></a>Search and Snoop by Element Id or Unique Id</h4>
+
+<p>Alexander's RevitLookup <a href="https://github.com/jeremytammik/RevitLookup/pull/42">pull request #42 adds a 'search by and snoop' command</a>:</p>
+
+<p>Add "Search by and snoop" command that allows you to search and snoop for elements by condition:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c9577ad3970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c9577ad3970b img-responsive" style="width: 380px; display: block; margin-left: auto; margin-right: auto;" alt="Search and Snoop command" title="Search and Snoop command" src="/assets/image_f45306.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>A small addition to the project: search for items by <code>ElementId</code> or <code>UniqueId</code> and then snoop them.</p>
+
+<p>Search options implemented in the form of a drop-down list provide for the possibility of further future expansion (for example, search by parameters or something similar):</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb09fac097970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb09fac097970d img-responsive" style="width: 430px; display: block; margin-left: auto; margin-right: auto;" alt="Search and Snoop form" title="Search and Snoop form" src="/assets/image_631092.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>This view option can be useful for developers who receive an <code>ElementId</code> while debugging an application and need to learn about it later in Revit.</p>
+
+<p>Thank you very much, Alexander, for this great functionality added with minimal implementation effort, as you can see by looking and
+the <a href="https://github.com/jeremytammik/RevitLookup/pull/42/files">pull request files changed</a>.</p>
+
+<h4><a name="3"></a>File Changes</h4>
+
+<p>Besides the module <em>RevitLookup\CS\Snoop\Forms\SearchBy.cs</em> defining the new form, the only changes are the following to add the new menu entry and implement the new external command:</p>
+
+<p>In App.cs:</p>
+
+<pre class="code">
+  optionsBtn.AddPushButton(<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">PushButtonData</span>(
+    <span style="color:#a31515;">&quot;Search&nbsp;and&nbsp;Snoop...&quot;</span>,&nbsp;
+    <span style="color:#a31515;">&quot;Search&nbsp;and&nbsp;Snoop...&quot;</span>,&nbsp;
+    ExecutingAssemblyPath,&nbsp;<span style="color:#a31515;">&quot;
+    RevitLookup.CmdSearchBy&quot;</span>));
+</pre>
+
+<p>In TestCmds.cs:</p>
+
+<pre class="code">
+<span style="color:blue;">using</span>&nbsp;RevitLookup.Snoop.Forms;
+
+. . .
+
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;Search&nbsp;by&nbsp;and&nbsp;Snoop&nbsp;command:&nbsp;Browse&nbsp;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;elements&nbsp;found&nbsp;by&nbsp;the&nbsp;condition</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+[<span style="color:#2b91af;">Transaction</span>(&nbsp;<span style="color:#2b91af;">TransactionMode</span>.Manual&nbsp;)]
+[<span style="color:#2b91af;">Regeneration</span>(&nbsp;<span style="color:#2b91af;">RegenerationOption</span>.Manual&nbsp;)]
+<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">CmdSearchBy</span>&nbsp;:&nbsp;<span style="color:#2b91af;">IExternalCommand</span>
+{
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">Result</span>&nbsp;Execute(
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ExternalCommandData</span>&nbsp;cmdData,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">ref</span>&nbsp;<span style="color:blue;">string</span>&nbsp;msg,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ElementSet</span>&nbsp;elems&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Result</span>&nbsp;result;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">try</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Snoop.CollectorExts.<span style="color:#2b91af;">CollectorExt</span>.m_app&nbsp;=&nbsp;cmdData.Application;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UIDocument</span>&nbsp;revitDoc&nbsp;=&nbsp;cmdData.Application.ActiveUIDocument;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;dbdoc&nbsp;=&nbsp;revitDoc.Document;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Snoop.CollectorExts.<span style="color:#2b91af;">CollectorExt</span>.m_activeDoc&nbsp;=&nbsp;dbdoc;&nbsp;<span style="color:green;">//&nbsp;TBD:&nbsp;see&nbsp;note&nbsp;in&nbsp;CollectorExt.cs</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">SearchBy</span>&nbsp;searchByWin&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">SearchBy</span>(&nbsp;dbdoc&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ActiveDoc</span>.UIApp&nbsp;=&nbsp;cmdData.Application;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;searchByWin.ShowDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;=&nbsp;<span style="color:#2b91af;">Result</span>.Succeeded;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">catch</span>(&nbsp;System.<span style="color:#2b91af;">Exception</span>&nbsp;e&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msg&nbsp;=&nbsp;e.Message;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;=&nbsp;<span style="color:#2b91af;">Result</span>.Failed;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;result;
+&nbsp;&nbsp;}
+}
+</pre>
+
+<h4><a name="4"></a>The Built-in Select by Id Command, Zoom To and StringSearch</h4>
+
+<p>Revit does already provide a built-in command that you should be aware of providing similar functionality, at least for selecting an element by element id: Manage > Inquiry > Select by ID > Show:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c9577b1e970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c9577b1e970b img-responsive" style="width: 476px; display: block; margin-left: auto; margin-right: auto;" alt="Select by ID command" title="Select by ID command" src="/assets/image_3ad0c0.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>It prompts you to enter the element id and adds the element to the current selection with the option to zoom to it graphically as well:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb09fac0b5970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb09fac0b5970d img-responsive" style="width: 342px; display: block; margin-left: auto; margin-right: auto;" alt="Select by ID form" title="Select by ID form" src="/assets/image_8800bd.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Once you have selected an element in this manner, you can use the traditional RevitLookup 'snoop current selection' to explore its data.</p>
+
+<p>The 'zoom to' option is very similar to 
+the <a href="http://thebuildingcoder.typepad.com/blog/2018/03/switch-view-or-document-by-showing-elements.html#3">zoom to selected elements</a> functionality
+discussed last week, implemented using <code>ShowElements</code>.</p>
+
+<p>This could obviously be integrated into RevitLookup as well, if so desired.</p>
+
+<p>Another useful piece of functionality that could be integrated is an adaptation of my
+old <a href="http://thebuildingcoder.typepad.com/blog/2016/01/all-model-text-stringsearch-2016-and-new-jobs.html">StringSearch</a> add-in,
+originally <a href="http://thebuildingcoder.typepad.com/blog/2011/10/string-search-adn-plugin-of-the-month.html">ADN Plugin of the Month</a> back
+in 2011.</p>
+
+<p>It implements the possibility to search for, list modelessly, select and zoom to elements based on strings in their properties, parameters and other data, including support for regular expressions.</p>
+
+<h4><a name="5"></a>RevitLookup Update</h4>
+
+<p>Back to here and now, though.</p>
+
+<p>I integrated Alexander's code and fixed some minor compilation errors due to working with Visual Studio 2015.</p>
+
+<p>He presumably used a newer version supporting more permissive C# syntax to create the pull request.</p>
+
+<p>The new functionality is included 
+in <a href="https://github.com/jeremytammik/RevitLookup">RevitLookup</a>
+<a href="https://github.com/jeremytammik/RevitLookup/releases/tag/2018.0.0.8">release 2018.0.0.8</a>.</p>

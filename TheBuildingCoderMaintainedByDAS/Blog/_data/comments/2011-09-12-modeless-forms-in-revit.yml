@@ -1,0 +1,324 @@
+comments:
+- author: Jab
+  email: ljazouli.jabir@gmail.com
+  ip: 80.11.87.250
+  url: ''
+  date: '2011-09-12 05:19:42'
+  body: thank you very much for this wonderful blog
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-09-12 05:51:46'
+  body: 'Dear Jab,
+
+
+    Thank YOU very much for your appreciation!
+
+
+    Cheers, Jeremy.'
+- author: high replica
+  email: simyliu@gmail.com
+  ip: 222.77.224.254
+  url: http://www.aaareplicabag.com
+  date: '2011-10-18 09:37:03'
+  body: So amiable that i could see the chinese here in memory of mid-autumn festival,
+    which is the second great festival for chinese.It is also called as reunion festival
+    for family.
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://revitprogrammer.blogspot.com/
+  date: '2012-01-26 00:58:33'
+  body: 'Hello again, Jeremy.
+
+    As I understand from your posts it is very dangerous to call any Revit API methods
+    or functions in modeless form and I never must do it..
+
+    Does it mean that I cannot ever read some properties of Revit classes?
+
+    For example, I want to show list of Revit elements in TreeView in modeless form
+    and made some action with these elements. How can I do it properly?
+
+
+    Variant 1) <a href="http://wikihelp.autodesk.com/User:chekalin-v/sample1">http://wikihelp.autodesk.com/User:chekalin-v/sample1</a>
+
+    Variant 2) Or I must use ElementData? <a href="http://wikihelp.autodesk.com/User:chekalin-v/sample2">http://wikihelp.autodesk.com/User:chekalin-v/sample2</a>
+
+
+    Other question? If I want to get Element Parameters when I select element in TreeView
+    (form is still modeless) what I must to do? I cannot calls element.Parameters
+    directly. Am I right? So I must call it in Idling event and get back list of parameters
+    to the form from Idling. Right?
+
+
+    It would be great if you wrote example how to post back some data from idling
+    to the form.
+
+
+    Best Regards, Victor.'
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://revitprogrammer.blogspot.com/
+  date: '2012-01-26 03:39:11'
+  body: 'I''ve tried to write simple example to get element parameters via idling
+    event in modeless form and show them on it.
+
+    The code is here <a href="http://wikihelp.autodesk.com/User:chekalin-v/ModeLessFormSample/Form1.cs">http://wikihelp.autodesk.com/User:chekalin-v/ModeLessFormSample/Form1.cs</a>
+
+
+    I used "A Pattern For Asynchronously Updating Revit Documents" <a href="http://darenatwork.blogspot.com/2010/11/pattern-for-asynchronously-updating.html">http://darenatwork.blogspot.com/2010/11/pattern-for-asynchronously-updating.html</a>
+
+
+    What do you think? Is this code safe and reliable or not?
+
+
+    By the way, in "Asynchronous API Calls and Idling" post<a href="http://thebuildingcoder.typepad.com/blog/2010/04/asynchronous-api-calls-and-idling.html">http://thebuildingcoder.typepad.com/blog/2010/04/asynchronous-api-calls-and-idling.html</a>
+    you wrote "...I will expect some of you may ask if there is another way at all
+    for using multiple threads (and/or modeless dialogs) in external applications
+    and still be able to interact with Revit...". As I understood this sentence, modeless
+    form executed in other thread than Revit main thread. But in my sample code I
+    added  Debug.Print("Form thread number: {0}", Thread.CurrentThread.ManagedThreadId);
+    And I can see that OnIdling event and Form executed in the same thread. Is this
+    correct or I didn''t understand something?
+
+
+    Thanks, Victor.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 151.13.239.254
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-01-26 13:07:35'
+  body: 'Dear Victor,
+
+
+    To answer your first comment, which I addressed before noticing the second one:
+
+
+    Every single call to any Revit API method is completely unsafe except in an officially
+    supported Revit API context, which is always a callback from Revit such as the
+    external command Execute method, the external application OnStartup and OnShutdown
+    methods, various event handlers etc.
+
+
+    If you are trying to interact asynchronously, you can use the Idling event to
+    get such a callback.
+
+
+    If you are able to use the API for read-only access, go ahead at your own risk.
+    Lots of other people have done this as well. The worst that can happen is that
+    you crash the computer and lose the Revit model and that your customers sue or
+    kill you  :-)
+
+
+    Yes, your assumptions seem correct to me.
+
+
+    If you give me a couple of hours of time, I''ll write an example.
+
+
+    But so far, nobody was ever able to give me more time than what I already have
+    and am frenetically using up  :-)
+
+
+    To answer your second comment:
+
+
+    Thank you very much for the sample. I hope we get some time to turn it into a
+    stand-alone blog post some day.
+
+
+    I guess you are right about the threads.
+
+
+    Cheers, Jeremy.'
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://revitprogrammer.blogspot.com/
+  date: '2012-01-27 03:25:55'
+  body: 'Hello, Jeremy.
+
+    Thanks a lot for explain answer.
+
+
+    So. Now I understand the main rule - no Revit API calls except ICommand.Execute
+    method, OnStartUp OnShutdown Methods and Revit events.
+
+    I thought... if it is unsafe to call Revit API from other thread it would be great
+    to throw an exeption when you try to call a Revit API from non-revit thread. For
+    example, like if you try to change Windows Form control from other thread.
+
+
+    Our customer often complained about corrupted file. Now I made a simple way -
+    set main form of my add-on modal. In future, I''ll try to rewrite my code using
+    Idling event.
+
+
+    Waiting a new posts from you. May be you show my sample code to Arnost and comment
+    it together.
+
+
+    Best Regards, Victor.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 151.13.239.254
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-01-27 03:37:06'
+  body: 'Dear Victor,
+
+
+    The Revit API is absolutely not thread safe, so you can only use it in the one
+    and only thread containing the callback providing the proper context.
+
+
+    I can point Arnost to your sample code, but no guarantees for anything, of course.
+
+
+    Probably it would be better if you study his AU class materials mentioned here
+    first, so that he does not have to repeat to you what he already said there:
+
+
+    http://thebuildingcoder.typepad.com/blog/2012/01/avoid-idling.html
+
+
+    Cheers, Jeremy.'
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://revitprogrammer.blogspot.com/
+  date: '2012-01-27 03:58:47'
+  body: "Thanks for pointed out Arnost's AU class materials. \nI've already downloaded\
+    \ it. Will learn it carefully.\n\nBest regards, Victor."
+- author: Victor Chekalin
+  email: ''
+  ip: 91.221.195.201
+  url: http://profile.typepad.com/chekalin
+  date: '2012-10-02 23:43:18'
+  body: 'Hi, Jeremy.
+
+
+    Is there way to know when Revit application on idling or not? That I mean... When
+    Revit is not in idle it is not allowed to perform any external command: Revit
+    just disable External tools button (for instance when user select project browser)
+
+    <img src="https://dl.dropbox.com/u/62538318/Revit/externaltools.png"/>
+
+
+    I want to disable my modeless form when revit is not in idle. That do you think,
+    is it possible?
+
+
+    Have a nice day,
+
+    Victor.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 188.216.6.58
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-10-03 09:41:33'
+  body: "Dear Victor,\n\nCongratulations on submitting the first comment in The Building\
+    \ Coder history with an embedded image!\n\nYou should definitely have a look at\
+    \ the ModelessDialog SDK samples ModelessForm_IdlingEvent and ModelessForm_ExternalEvent.\n\
+    \nThey show one sensible way to disable the buttons in the modeless form when\
+    \ Revit is not ready for processing new requests.\n\nPlease also check the Application.IsQuiescent\
+    \ property. \n\nUnfortunately, afaik, this property is pretty useless, since it\
+    \ requires a valid Revit API context to be called, which is only available when\
+    \ Revit is ready to process requests anyway...\n\nStill, try it out, maybe you\
+    \ can discover something useful.\n\nI sense the next blog post looming...\n\n\
+    Cheers, Jeremy."
+- author: Victor Chekalin
+  email: ''
+  ip: 91.221.195.201
+  url: http://profile.typepad.com/chekalin
+  date: '2012-10-03 23:36:37'
+  body: "Hi Jeremy.\n\nThanks for giving me some advice.\nI forgot to say that I still\
+    \ work with Revit 2012. But of course I look at the modeless form samples. \n\
+    Unfortunately, the samples doesn't disabled the modeless form when Revit is not\
+    \ ready for processing requests.\nLook at the second embedded image :)\n<img src=\"\
+    http://imageshack.us/a/img831/8942/modelessform.png\"/>\nAs you can see I also\
+    \ selet the item in the project browser. Revit disable Extenal tools buttons,\
+    \ that means Revit is not ready. But the modeless form and buttons on it still\
+    \ enable.\nIn the samples buttons are disabled when I click to one of them, i.e.\
+    \ when I perform my own command. It is easy to implement this behavior. But it\
+    \ is not that I need.\n\nI need something like event which will occurs when Idling\
+    \ state is changed.\n\nI tried to subscribe on PropertyChanged event for External\
+    \ tools button and determine when IsEnabled property is changed. It doesn't work\
+    \ :(\n\nI'll try to find other ways to achieve that I want. If I find, I'll tell\
+    \ you.\n\nRegards,\nVictor"
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.227.239.189
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-10-04 05:57:01'
+  body: 'Dear Victor,
+
+
+    Yes, I see the difference, of course.
+
+
+    Please note that these samples work perfectly well and the management strategy
+    demonstrated is perfectly valid for Revit 2012 as well.
+
+
+    Looking forward to hearing what you find out.
+
+
+    Maybe some Windows API support, checking the activity?
+
+
+    An extreme solution might be to send Revit some kind of dummy message now and
+    then, something that you know will be ignored, and see whether it receives the
+    message, i.e. the queue is processed, or whether it hangs there, i.e. Revit is
+    too busy to process its message queue.
+
+
+    I''m no Windows expert, I am sure there are better ways.
+
+
+    Maybe the process monitor? You can ask Windows how busy a process is, even via
+    .NET, probably.
+
+
+    Good luck!
+
+
+    Cheers, Jeremy.'
+- author: Victor Chekalin
+  email: ''
+  ip: 91.221.195.201
+  url: http://profile.typepad.com/chekalin
+  date: '2012-10-04 08:58:31'
+  body: 'Hi, Jeremy.
+
+
+    Thanks for you thoughts.
+
+
+    In Revit 2012 works ModelessForm_IdlingEvent sample only. Obviously,  ModelessForm_ExternalEvent
+    could not work.
+
+
+    Now also I have no any ideas how to determine is revit idling or not. I''ll try
+    to implement it later. After my vacation.
+
+
+    Have a nice day, Victor.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 79.4.222.14
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-10-05 18:37:02'
+  body: 'Dear Victor,
+
+
+    Right you are, of course.
+
+
+    Good luck, happy holidays, and best wishes for you and your family!
+
+
+    Cheers, Jeremy.
+
+    -----'

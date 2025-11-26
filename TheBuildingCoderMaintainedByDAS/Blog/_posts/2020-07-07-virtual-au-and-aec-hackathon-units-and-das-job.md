@@ -1,0 +1,158 @@
+---
+layout: "post"
+title: "Virtual AU and AEC Hackathon, Units and DAS Job"
+date: "2020-07-07 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "360"
+  - "2021"
+  - "AU"
+  - "BIM"
+  - "Forge"
+  - "Getting Started"
+  - "Hackathon"
+  - "Job"
+  - "Units"
+original_url: "https://thebuildingcoder.typepad.com/blog/2020/07/virtual-au-and-aec-hackathon-units-and-das-job.html "
+typepad_basename: "virtual-au-and-aec-hackathon-units-and-das-job"
+typepad_status: "Publish"
+---
+
+<p>I have lots of exciting items to share today:</p>
+
+<ul>
+<li><a href="#2">No cost for Autodesk University 2020</a></li>
+<li><a href="#3">AU voting suggestion &ndash; modeless Revit add-ins</a></li>
+<li><a href="#4">Virtual AEC and BIM360 hackathon</a></li>
+<li><a href="#5">Do not print by category</a></li>
+<li><a href="#6">Using the new unit API to display length of multiple lines</a></li>
+<li><a href="#7">Job opening in Developer Advocacy and Support</a></li>
+<li><a href="#8">Intro to synchronous versus async programming</a></li>
+</ul>
+
+<h4><a name="2"></a> No Cost for Autodesk University 2020</h4>
+
+<p>There is <a href="https://www.autodesk.com/autodesk-university/blog/Announcing-AU-2020-Dates-and-Pricing-2020">no cost for Autodesk University 2020 &ndash; you can go ahead and just register</a>.</p>
+
+<p>The global, digital AU 2020 experience is coming into focus.
+We’re starting to get excited, and we hope you are, too.
+Here’s what you need to know:</p>
+
+<p><b>AU 2020 will take place November 17-20.</b>
+It will be a worldwide event with hundreds of classes to choose from in multiple languages, dozens of thought-provoking Theater talks, visionary main stage presentations, on-demand product support, and opportunities to connect with your professional community 1-on-1 and in small groups.</p>
+
+<p><b>There will be no cost to attend, but you still need to register.</b>
+Now, more than ever, we want to support your success and bring the AU community together to connect and share knowledge.
+That’s why there will be no cost to attend AU 2020.
+You’ll still need to register and sign up for classes—registration will open in mid-September.</p>
+
+<p><b>What is AU?</b> Autodesk University is the design and make conference for innovators everywhere who reimagine what’s possible.
+AU brings together professionals from the worlds of architecture, engineering, construction, manufacturing, media, and entertainment to ask questions and discover solutions together as a professional community.
+This year’s digital experience offers exciting new opportunities to share and connect globally.</p>
+
+<p><b>What’s happening right now?</b> We’re selecting classes, and you can be a part of it.
+<a href="https://www.autodesk.com/autodesk-university/conference/call-for-proposals/voting">Community voting</a> is open for English language proposals until July 13.
+The <a href="https://www.autodesk.com/autodesk-university/conference/call-for-proposals">call for proposals</a> for other languages is open until July 9.  </p>
+
+<h4><a name="3"></a> AU Voting Suggestion &ndash; Modeless Revit Add-Ins</h4>
+
+<p>Gopinath Rajendran of <a href="https://diroots.com">DiRoots</a> has an AU class voting suggestion for you:</p>
+
+<p>Are you interested in learning more about modeless Revit plugins?</p>
+
+<p>If so, the class on <em>Modeless Revit plugins with WPF</em> is for you.
+In this class, you will learn how to improve accessibility and user experience using WPF modeless windows.</p>
+
+<p>Key learnings:</p>
+
+<ul>
+<li>Learn why Revit API and C#</li>
+<li>Learn the basics of WPF, general advantages and disadvantages</li>
+<li>Modeless applications and external events</li>
+<li>Learn how to implement WFP and modeless</li>
+</ul>
+
+<p>To vote for it:</p>
+
+<ul>
+<li>Go to <a href="https://www.autodesk.com/autodesk-university/conference/call-for-proposals/voting">AU 2020 community voting</a></li>
+<li>Search for <em>Gopinath Rajendran</em></li>
+<li>Hit the vote button</li>
+</ul>
+
+<h4><a name="4"></a> Virtual AEC and BIM360 Hackathon</h4>
+
+<p><a href="https://constructionblog.autodesk.com/aec-hackathon">BIM 360 Users: Join Us for a Virtual AEC Hackathon</a>:</p>
+
+<p>Ready, steady, hack!</p>
+
+<p>AEC professionals are joining up for the first world-wide <a href="https://constructionblog.autodesk.com/aec-hackathon">virtual AEC hackathon July 10-23</a>.</p>
+
+<p>It includes Forge preparation workshops, Autodesk and third-party developers as speakers and two Forge challenges for best projects using Design Automation and the BIM 360 API.</p>
+
+<!--
+
+Linkedin: https://www.linkedin.com/posts/autodesk-bim-360_bim-360-users-join-us-for-a-virtual-aec-activity-6685969052873187328-Ph9D
+Twitter: https://twitter.com/BIM360/status/1280203161165332480?s=19
+
+<center>
+
+<a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263ec269c26200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263ec269c26200c img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="Virtual AEC and BIM360 Hackathon" title="Virtual AEC and BIM360 Hackathon" src="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263ec269c26200c-400wi" /></a><br />
+
+</center>
+
+-->
+
+<p>Here is a <a href="https://youtu.be/57R8DIOqZw0">succinct one-minute live description of the workshops, hackathon process, contents and presentations</a>:</p>
+
+<p><center></p>
+
+<p><iframe width="560" height="315" src="https://www.youtube.com/embed/57R8DIOqZw0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>
+
+<!-- <img src="img/aec_bim360_hackathon_2020-07.jpg" alt="Virtual AEC and BIM360 Hackathon" title="Virtual AEC and BIM360 Hackathon" width="400"/> <!-- 861 --> 
+
+<p></center></p>
+
+<h4><a name="5"></a> Do Not Print by Category</h4>
+
+<p><a href="https://boostyourbim.wordpress.com">Boost Your BIM</a> shares
+a <a href="https://boostyourbim.wordpress.com/2020/07/06/new-free-tool-do-not-print-by-category-subcategory">new free tool and open source initiative &ndash; do not print by category/subcategory</a>:</p>
+
+<p>Here is Harry's <a href="https://youtu.be/Ehas54IxCNo">3-minute video description and demo</a>:</p>
+
+<p><center>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Ehas54IxCNo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</center></p>
+
+<h4><a name="6"></a> Using the New Unit API to Display Length of Multiple Lines</h4>
+
+<p>Another recent posts by Boost Your BIM discusses how to handle
+the <a href="https://boostyourbim.wordpress.com/2020/06/10/2021-changes-units">Revit 2021 API Unit API changes</a>
+by modifying an existing external command that calculates and displays 
+the <a href="https://boostyourbim.wordpress.com/2016/06/21/total-length-of-multiple-lines">total length of multiple lines</a>:</p>
+
+<blockquote>
+  <p>Autodesk made a bunch of changes to the Revit API for Units in 2021.
+    Many frequently-used methods are now marked as obsolete.
+    They still work fine in 2021 but will probably be removed in 2022.
+    For one example of how to update your code, this old sample computes the total length of all selected objects and shows the result as a formatted string.
+    Here is the new code that uses the <code>UnitFormatUtils</code> method <code>Format</code> taking <code>Units</code>, <code>ForgeTypeId</code>, <code>Double</code> and <code>Boolean</code> input arguments...</p>
+</blockquote>
+
+<h4><a name="7"></a> Job Opening in Developer Advocacy and Support</h4>
+
+<p>A very exciting job opening to join me and my colleagues in the DAS Developer Advocacy and Support team.</p>
+
+<blockquote>
+  <p>Autodesk is seeking to hire a passionate Developer Advocate to join our team in Montreal-Quebec, Canada. As a member of a high-impact team, you will play an important role in the definition and development of web and cloud technologies that make up Autodesk’s new cloud infrastructure.</p>
+</blockquote>
+
+<p>Here is <a href="https://rolp.co/c0hMi">my personal referral link</a> to this rare opportunity.</p>
+
+<h4><a name="8"></a> Intro to Synchronous versus Async Programming</h4>
+
+<p>Let's end for today with this very nice explanation of synchronous versus async programming:
+<a href="https://devblogs.microsoft.com/visualstudio/how-do-i-think-about-async-code">how do I think about async code?!</a></p>
+
+<p>Take care.</p>

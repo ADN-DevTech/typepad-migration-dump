@@ -1,0 +1,524 @@
+---
+layout: "post"
+title: "High Performance Outline, Line-Plane Intersection"
+date: "2020-10-06 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "360"
+  - "AI"
+  - "Algorithm"
+  - "BIM"
+  - "C++"
+  - "Filters"
+  - "Forge"
+  - "Geometry"
+  - "Library"
+  - "Performance"
+original_url: "https://thebuildingcoder.typepad.com/blog/2020/10/high-performance-outline-and-line-plane-intersection.html "
+typepad_basename: "high-performance-outline-and-line-plane-intersection"
+typepad_status: "Publish"
+---
+
+<p>Today let's talk mainly about geometric analysis and performance:</p>
+
+<ul>
+<li><a href="#2">High-performance outline optimisation</a>
+<ul>
+<li><a href="#2.1">Solution</a></li>
+</ul></li>
+<li><a href="#3">Simple line-plane intersection</a></li>
+<li><a href="#4">Set base and survey clipped and unclipped</a></li>
+<li><a href="#5">Two German uni BIM360 construction cloud startups</a></li>
+<li><a href="#6">AI-based face streaming hits mainstream</a></li>
+</ul>
+
+<h4><a name="2"></a> High-Performance Outline Optimisation</h4>
+
+<p>If you are interested in high-performance use of the Revit API, you may be able to learn a trick or two from the StackOverflow discussion
+on <a href="https://stackoverflow.com/questions/63083938/revit-api-how-can-i-get-bounding-box-for-several-elements">how to get the bounding box for several elements</a>.</p>
+
+<p><strong>Question:</strong> I need to find an outline for many elements (>100'000 items).
+Target elements come from a <code>FilteredElementCollector</code>.
+As usual, I'm looking for the fastest possible way. </p>
+
+<p>For now, I tried to iterate over all elements to get its <code>BoudingBox.Min</code> and <code>BoudingBox.Max</code> and find out <code>minX</code>, <code>minY</code>, <code>minZ</code>, <code>maxX</code>, <code>maxY</code>, <code>maxZ</code>.
+It works pretty accurately but takes too much time.</p>
+
+<p>The problem described above is a part of a bigger one:</p>
+
+<p>I need to find all the intersections of ducts, pipes and other curve-based elements from a linked model with walls, ceilings, columns, etc. in the general model and then place openings in the intersections.</p>
+
+<p>I tried to use a combination of <code>ElementIntersectElement</code> filter and <code>IntersectSolidAndCurve</code> method to find a part of curve inside element.</p>
+
+<p>First, with an <code>ElementIntersectElement</code>, I tried to reduce a collection for further use of <code>IntersectSolidAndCurve</code>.</p>
+
+<p><code>IntersectSolidAndCurve</code> takes two arguments, solid and curve, and has to work in two nested one in the other loops.
+So, it takes for 54000 walls (after filtering) and 18000 pipes, in my case, 972'000'000 operations.</p>
+
+<p>With the number of operations 10 ^ 5, the algorithm shows an acceptable time.</p>
+
+<p>I decided to reduce the number of elements by dividing the search areas by levels.
+This works well for high-rise buildings, but is still bad for extended low structures.
+I decided to divide the building by length, but I did not find a method that finds boundaries for several elements (the whole building).</p>
+
+<p>I seem to be going in a wrong direction.
+Is there are right way to achieve this with the Revit API?</p>
+
+<p><strong>Answer:</strong> In principle, what you describe is the proper approach and the only way to do it.</p>
+
+<p>However, there may be many possibilities to optimise your code.
+The Building Coder provides various utility functions that may help.
+For instance, to <a href="https://thebuildingcoder.typepad.com/blog/2017/03/family-bounding-box-and-aec-hackathon-munich.html#3">determine the bounding box of an entire family</a>.
+Many more in <a href="https://github.com/jeremytammik/the_building_coder_samples/blob/master/BuildingCoder/BuildingCoder/Util.cs">The Building Coder samples <code>Util</code> module</a>.
+Search there for "bounding box".
+I am sure they can be further optimised as well for your case.
+For instance, you may be able to extract all the <code>X</code> coordinates from all the individual elements' bounding box <code>Max</code> values and use a generic <code>Max</code> function to determine their maximum in one single call instead of comparing them one by one.
+<a href="https://thebuildingcoder.typepad.com/blog/2012/01/timer-code-for-benchmarking.html">Benchmark your code</a> to discover optimisation possibilities and analyse their effect on the performance. </p>
+
+<p><strong>Response:</strong> Thanks to Jeremy for advice and input on this issue.
+I published my final result below and did some research on performance and accuracy.
+The code in my answer processed in 3-5 seconds / 100'000 elements and works accurate in most cases.
+However, there are cases where the <code>BoundingBoxIntersectsFilter</code> filters the item when it does not cross the <code>Outline</code>.
+This happens if there is invisible geometry in the family.
+There are other possible reasons that I have not yet found. More tests need to be done anyway.</p>
+
+<p><strong>Answer:</strong> Thank you very much for your appreciation and sharing your interesting code.
+Using the built-in Revit filtering mechanisms will definitely be a lot faster than anything you can achieve in .NET, outside Revit memory.
+However, I do not yet understand how you can use this to achieve the goal you describe above.
+I thought you needed the collective bounding box of all elements.
+You, however, seem to have an input variable of 500 meters and o be checking whether that contains all the elements.
+Can you please explain the exact use of this algorithm, and the exact input and output data?</p>
+
+<p><strong>Response:</strong> Jeremy, you're absolutely right.
+The minimum and maximum points in 3d-space are fed to the input to the method, so that all the elements are inside the outline built on that points, then we find the extreme points along <code>x</code> <code>y</code> <code>z</code>.
+The output is 2 outline points. </p>
+
+<h4><a name="2.1"></a> Solution</h4>
+
+<p>To find boundaries, we can take advantage of the binary search idea. </p>
+
+<p>The difference from the classic binary search algorithm is there is not an array, and we should find two numbers instead of one.</p>
+
+<p>Elements in Geometry space could be presented as a 3-dimensional sorted array of <code>XYZ</code> points. </p>
+
+<p>The Revit API provides an excellent <code>Quick Filter</code>, the <code>BoundingBoxIntersectsFilter</code>, that takes an instance of an <code>Outline</code>.</p>
+
+<p>So, let’s define an area that includes all the elements for which we want to find the boundaries.
+For my case, for example 500 meters, and create <code>min</code> and <code>max</code> point for the initial outline:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">double</span>&nbsp;b&nbsp;=&nbsp;500000&nbsp;/&nbsp;304.8;
+&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;min&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(&nbsp;-b,&nbsp;-b,&nbsp;-b&nbsp;);
+&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;max&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(&nbsp;b,&nbsp;b,&nbsp;b&nbsp;);
+</pre>
+
+<p>Below is an implementation for one direction; you can easily use it for three directions by calling and feeding the result of the previous iteration to the input:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">double</span>&nbsp;precision&nbsp;=&nbsp;10e-6&nbsp;/&nbsp;304.8;
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;bb&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;BinaryUpperLowerBoundsSearch(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;doc,&nbsp;precision&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>[]&nbsp;rx&nbsp;=&nbsp;bb.GetBoundaries(&nbsp;min,&nbsp;max,&nbsp;elems,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;BinaryUpperLowerBoundsSearch.Direction.X&nbsp;);
+&nbsp;&nbsp;rx&nbsp;=&nbsp;bb.GetBoundaries(&nbsp;rx[&nbsp;0&nbsp;],&nbsp;rx[&nbsp;1&nbsp;],&nbsp;elems,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;BinaryUpperLowerBoundsSearch.Direction.Y&nbsp;);
+&nbsp;&nbsp;rx&nbsp;=&nbsp;bb.GetBoundaries(&nbsp;rx[&nbsp;0&nbsp;],&nbsp;rx[&nbsp;1&nbsp;],&nbsp;elems,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;BinaryUpperLowerBoundsSearch.Direction.Z&nbsp;);
+</pre>
+
+<p>The <code>GetBoundaries</code> method returns two <code>XYZ</code> points: lower and upper, which change only in the target direction; the other two dimensions remain unchanged:</p>
+
+<pre class="code">
+<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">BinaryUpperLowerBoundsSearch</span>
+{
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc;
+
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">double</span>&nbsp;tolerance;
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;min;
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;max;
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;direction;
+
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;BinaryUpperLowerBoundsSearch(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;document,&nbsp;<span style="color:blue;">double</span>&nbsp;precision&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;doc&nbsp;=&nbsp;document;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">this</span>.tolerance&nbsp;=&nbsp;precision;
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">enum</span>&nbsp;<span style="color:#2b91af;">Direction</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;X,
+&nbsp;&nbsp;&nbsp;&nbsp;Y,
+&nbsp;&nbsp;&nbsp;&nbsp;Z
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Searches&nbsp;for&nbsp;an&nbsp;area&nbsp;that&nbsp;completely&nbsp;includes&nbsp;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;all&nbsp;elements&nbsp;within&nbsp;a&nbsp;given&nbsp;precision.</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;The&nbsp;minimum&nbsp;and&nbsp;maximum&nbsp;points&nbsp;are&nbsp;used&nbsp;for&nbsp;the&nbsp;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;initial&nbsp;assessment.&nbsp;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;The&nbsp;outline&nbsp;must&nbsp;contain&nbsp;all&nbsp;elements.</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">param</span><span style="color:gray;">&nbsp;name</span><span style="color:gray;">=</span><span style="color:gray;">&quot;</span>minPoint<span style="color:gray;">&quot;</span><span style="color:gray;">&gt;</span><span style="color:green;">The&nbsp;minimum&nbsp;point&nbsp;of&nbsp;the&nbsp;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;BoundBox&nbsp;used&nbsp;for&nbsp;the&nbsp;first&nbsp;approximation.</span><span style="color:gray;">&lt;/</span><span style="color:gray;">param</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">param</span><span style="color:gray;">&nbsp;name</span><span style="color:gray;">=</span><span style="color:gray;">&quot;</span>maxPoint<span style="color:gray;">&quot;</span><span style="color:gray;">&gt;</span><span style="color:green;">The&nbsp;maximum&nbsp;point&nbsp;of&nbsp;the</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;BoundBox&nbsp;used&nbsp;for&nbsp;the&nbsp;first&nbsp;approximation.</span><span style="color:gray;">&lt;/</span><span style="color:gray;">param</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">param</span><span style="color:gray;">&nbsp;name</span><span style="color:gray;">=</span><span style="color:gray;">&quot;</span>elements<span style="color:gray;">&quot;</span><span style="color:gray;">&gt;</span><span style="color:green;">Set&nbsp;of&nbsp;elements</span><span style="color:gray;">&lt;/</span><span style="color:gray;">param</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">param</span><span style="color:gray;">&nbsp;name</span><span style="color:gray;">=</span><span style="color:gray;">&quot;</span>axe<span style="color:gray;">&quot;</span><span style="color:gray;">&gt;</span><span style="color:green;">The&nbsp;direction&nbsp;along&nbsp;which&nbsp;the&nbsp;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;boundaries&nbsp;will&nbsp;be&nbsp;searched</span><span style="color:gray;">&lt;/</span><span style="color:gray;">param</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">returns</span><span style="color:gray;">&gt;</span><span style="color:green;">Returns&nbsp;two&nbsp;points:&nbsp;first&nbsp;is&nbsp;the&nbsp;lower&nbsp;bound,&nbsp;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;second&nbsp;is&nbsp;the&nbsp;upper&nbsp;bound</span><span style="color:gray;">&lt;/</span><span style="color:gray;">returns</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">XYZ</span>[]&nbsp;GetBoundaries(&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;minPoint,&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;maxPoint,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">ElementId</span>&gt;&nbsp;elements,&nbsp;<span style="color:#2b91af;">Direction</span>&nbsp;axe&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Since&nbsp;Outline&nbsp;is&nbsp;not&nbsp;derived&nbsp;from&nbsp;an&nbsp;Element&nbsp;class&nbsp;there&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;is&nbsp;no&nbsp;possibility&nbsp;to&nbsp;apply&nbsp;transformation,&nbsp;so</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;we&nbsp;have&nbsp;use&nbsp;as&nbsp;a&nbsp;possible&nbsp;directions&nbsp;only&nbsp;three&nbsp;vectors&nbsp;of&nbsp;basis</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">switch</span>(&nbsp;axe&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">Direction</span>.X:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;direction&nbsp;=&nbsp;<span style="color:#2b91af;">XYZ</span>.BasisX;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">Direction</span>.Y:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;direction&nbsp;=&nbsp;<span style="color:#2b91af;">XYZ</span>.BasisY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">Direction</span>.Z:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;direction&nbsp;=&nbsp;<span style="color:#2b91af;">XYZ</span>.BasisZ;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">default</span>:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Get&nbsp;the&nbsp;lower&nbsp;and&nbsp;upper&nbsp;bounds&nbsp;as&nbsp;a&nbsp;projection&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;on&nbsp;a&nbsp;direction&nbsp;vector</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Projection&nbsp;is&nbsp;an&nbsp;extention&nbsp;method</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">double</span>&nbsp;lowerBound&nbsp;=&nbsp;minPoint.Projection(&nbsp;direction&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">double</span>&nbsp;upperBound&nbsp;=&nbsp;maxPoint.Projection(&nbsp;direction&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Set&nbsp;the&nbsp;boundary&nbsp;points&nbsp;in&nbsp;the&nbsp;plane&nbsp;perpendicular&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;to&nbsp;the&nbsp;direction&nbsp;vector.&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;These&nbsp;points&nbsp;are&nbsp;needed&nbsp;to&nbsp;create&nbsp;BoundingBoxIntersectsFilter&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;when&nbsp;IsContainsElements&nbsp;calls.</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;min&nbsp;=&nbsp;minPoint&nbsp;-&nbsp;lowerBound&nbsp;*&nbsp;direction;
+&nbsp;&nbsp;&nbsp;&nbsp;max&nbsp;=&nbsp;maxPoint&nbsp;-&nbsp;upperBound&nbsp;*&nbsp;direction;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">double</span>[]&nbsp;res&nbsp;=&nbsp;UpperLower(&nbsp;lowerBound,&nbsp;upperBound,&nbsp;elements&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">XYZ</span>[&nbsp;2&nbsp;]
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;res[0]&nbsp;*&nbsp;direction&nbsp;+&nbsp;min,
+&nbsp;&nbsp;&nbsp;&nbsp;res[1]&nbsp;*&nbsp;direction&nbsp;+&nbsp;max,
+&nbsp;&nbsp;&nbsp;&nbsp;};
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Check&nbsp;if&nbsp;there&nbsp;are&nbsp;any&nbsp;elements&nbsp;contains&nbsp;in&nbsp;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;the&nbsp;segment&nbsp;[lower,&nbsp;upper]</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">returns</span><span style="color:gray;">&gt;</span><span style="color:green;">True&nbsp;if&nbsp;any&nbsp;elements&nbsp;are&nbsp;in&nbsp;the&nbsp;segment</span><span style="color:gray;">&lt;/</span><span style="color:gray;">returns</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">ElementId</span>&gt;&nbsp;IsContainsElements(&nbsp;<span style="color:blue;">double</span>&nbsp;lower,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">double</span>&nbsp;upper,&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">ElementId</span>&gt;&nbsp;ids&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;outline&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Outline</span>(&nbsp;min&nbsp;+&nbsp;direction&nbsp;*&nbsp;lower,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max&nbsp;+&nbsp;direction&nbsp;*&nbsp;upper&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc,&nbsp;ids&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.WhereElementIsNotElementType()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.WherePasses(&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">BoundingBoxIntersectsFilter</span>(&nbsp;outline&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.ToElementIds();
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">double</span>[]&nbsp;UpperLower(&nbsp;<span style="color:blue;">double</span>&nbsp;lower,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">double</span>&nbsp;upper,&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">ElementId</span>&gt;&nbsp;ids&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Get&nbsp;the&nbsp;Midpoint&nbsp;for&nbsp;segment&nbsp;mid&nbsp;=&nbsp;lower&nbsp;+&nbsp;0.5&nbsp;*&nbsp;(upper&nbsp;-&nbsp;lower)</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;mid&nbsp;=&nbsp;Midpoint(&nbsp;lower,&nbsp;upper&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Сheck&nbsp;if&nbsp;the&nbsp;first&nbsp;segment&nbsp;contains&nbsp;elements</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">ElementId</span>&gt;&nbsp;idsFirst&nbsp;=&nbsp;IsContainsElements(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lower,&nbsp;mid,&nbsp;ids&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">bool</span>&nbsp;first&nbsp;=&nbsp;idsFirst.Any();
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Сheck&nbsp;if&nbsp;the&nbsp;second&nbsp;segment&nbsp;contains&nbsp;elements</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">ElementId</span>&gt;&nbsp;idsSecond&nbsp;=&nbsp;IsContainsElements(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mid,&nbsp;upper,&nbsp;ids&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">bool</span>&nbsp;second&nbsp;=&nbsp;idsSecond.Any();
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;If&nbsp;elements&nbsp;are&nbsp;in&nbsp;both&nbsp;segments&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;then&nbsp;the&nbsp;first&nbsp;segment&nbsp;contains&nbsp;the&nbsp;lower&nbsp;border&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;and&nbsp;the&nbsp;second&nbsp;contains&nbsp;the&nbsp;upper</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;---------**|***--------</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;first&nbsp;&amp;&amp;&nbsp;second&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:blue;">double</span>[&nbsp;2&nbsp;]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lower(lower,&nbsp;mid,&nbsp;idsFirst),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Upper(mid,&nbsp;upper,&nbsp;idsSecond),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;If&nbsp;elements&nbsp;are&nbsp;only&nbsp;in&nbsp;the&nbsp;first&nbsp;segment&nbsp;it&nbsp;contains&nbsp;both&nbsp;borders.&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;We&nbsp;recursively&nbsp;call&nbsp;the&nbsp;method&nbsp;UpperLower&nbsp;until&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;the&nbsp;lower&nbsp;border&nbsp;turn&nbsp;out&nbsp;in&nbsp;the&nbsp;first&nbsp;segment&nbsp;and&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;the&nbsp;upper&nbsp;border&nbsp;is&nbsp;in&nbsp;the&nbsp;second</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;---*****---|-----------</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">else</span>&nbsp;<span style="color:blue;">if</span>(&nbsp;first&nbsp;&amp;&amp;&nbsp;!second&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;UpperLower(&nbsp;lower,&nbsp;mid,&nbsp;idsFirst&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Do&nbsp;the&nbsp;same&nbsp;with&nbsp;the&nbsp;second&nbsp;segment</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;-----------|---*****---</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">else</span>&nbsp;<span style="color:blue;">if</span>(&nbsp;!first&nbsp;&amp;&amp;&nbsp;second&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;UpperLower(&nbsp;mid,&nbsp;upper,&nbsp;idsSecond&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Elements&nbsp;are&nbsp;out&nbsp;of&nbsp;the&nbsp;segment</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;**&nbsp;-----------|-----------&nbsp;**</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">else</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">throw</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ArgumentException</span>(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;Segment&nbsp;does&nbsp;not&nbsp;contains&nbsp;elements.&nbsp;Try&nbsp;to&nbsp;make&nbsp;initial&nbsp;boundaries&nbsp;wider&quot;</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;lower,&nbsp;upper&quot;</span>&nbsp;);
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Search&nbsp;the&nbsp;lower&nbsp;boundary&nbsp;of&nbsp;a&nbsp;segment&nbsp;containing&nbsp;elements</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">returns</span><span style="color:gray;">&gt;</span><span style="color:green;">Lower&nbsp;boundary</span><span style="color:gray;">&lt;/</span><span style="color:gray;">returns</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">double</span>&nbsp;Lower(&nbsp;<span style="color:blue;">double</span>&nbsp;lower,&nbsp;<span style="color:blue;">double</span>&nbsp;upper,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">ElementId</span>&gt;&nbsp;ids&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;If&nbsp;the&nbsp;boundaries&nbsp;are&nbsp;within&nbsp;tolerance&nbsp;return&nbsp;lower&nbsp;bound</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;IsInTolerance(&nbsp;lower,&nbsp;upper&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;lower;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Get&nbsp;the&nbsp;Midpoint&nbsp;for&nbsp;segment&nbsp;mid&nbsp;=&nbsp;lower&nbsp;+&nbsp;0.5&nbsp;*&nbsp;(upper&nbsp;-&nbsp;lower)</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;mid&nbsp;=&nbsp;Midpoint(&nbsp;lower,&nbsp;upper&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Сheck&nbsp;if&nbsp;the&nbsp;segment&nbsp;contains&nbsp;elements</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">ElementId</span>&gt;&nbsp;idsFirst&nbsp;=&nbsp;IsContainsElements(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lower,&nbsp;mid,&nbsp;ids&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">bool</span>&nbsp;first&nbsp;=&nbsp;idsFirst.Any();
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;---*****---|-----------</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;first&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;Lower(&nbsp;lower,&nbsp;mid,&nbsp;idsFirst&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;-----------|-----***---</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">else</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;Lower(&nbsp;mid,&nbsp;upper,&nbsp;ids&nbsp;);
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Search&nbsp;the&nbsp;upper&nbsp;boundary&nbsp;of&nbsp;a&nbsp;segment&nbsp;containing&nbsp;elements</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">returns</span><span style="color:gray;">&gt;</span><span style="color:green;">Upper&nbsp;boundary</span><span style="color:gray;">&lt;/</span><span style="color:gray;">returns</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">double</span>&nbsp;Upper(&nbsp;<span style="color:blue;">double</span>&nbsp;lower,&nbsp;<span style="color:blue;">double</span>&nbsp;upper,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">ElementId</span>&gt;&nbsp;ids&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;If&nbsp;the&nbsp;boundaries&nbsp;are&nbsp;within&nbsp;tolerance&nbsp;return&nbsp;upper&nbsp;bound</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;IsInTolerance(&nbsp;lower,&nbsp;upper&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;upper;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Get&nbsp;the&nbsp;Midpoint&nbsp;for&nbsp;segment&nbsp;mid&nbsp;=&nbsp;lower&nbsp;+&nbsp;0.5&nbsp;*&nbsp;(upper&nbsp;-&nbsp;lower)</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;mid&nbsp;=&nbsp;Midpoint(&nbsp;lower,&nbsp;upper&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Сheck&nbsp;if&nbsp;the&nbsp;segment&nbsp;contains&nbsp;elements</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">ElementId</span>&gt;&nbsp;idsSecond&nbsp;=&nbsp;IsContainsElements(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mid,&nbsp;upper,&nbsp;ids&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">bool</span>&nbsp;second&nbsp;=&nbsp;idsSecond.Any();
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;-----------|----*****--</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;second&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;Upper(&nbsp;mid,&nbsp;upper,&nbsp;idsSecond&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;---*****---|-----------</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">else</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;Upper(&nbsp;lower,&nbsp;mid,&nbsp;ids&nbsp;);
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">double</span>&nbsp;Midpoint(&nbsp;<span style="color:blue;">double</span>&nbsp;lower,&nbsp;<span style="color:blue;">double</span>&nbsp;upper&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;=&gt;&nbsp;lower&nbsp;+&nbsp;0.5&nbsp;*&nbsp;(upper&nbsp;-&nbsp;lower);
+
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">bool</span>&nbsp;IsInTolerance(&nbsp;<span style="color:blue;">double</span>&nbsp;lower,&nbsp;<span style="color:blue;">double</span>&nbsp;upper&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;=&gt;&nbsp;upper&nbsp;-&nbsp;lower&nbsp;&lt;=&nbsp;tolerance;
+}
+</pre>
+
+<p><code>Projection</code> is an extension method for the vector class to determine the length of projection of one vector onto another:</p>
+
+<pre class="code">
+  <span style="color:blue;">public</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">PointExt</span>
+  {
+  &nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">double</span>&nbsp;Projection(
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">this</span>&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;vector,&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;other&nbsp;)&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt;&nbsp;vector.DotProduct(&nbsp;other&nbsp;)&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;other.GetLength();
+  }
+</pre>
+
+<p>Many thanks to <a href="https://stackoverflow.com/users/9958255/alexey-ovchinnikov">Alexey Ovchinnikov</a> for his impressive analysis and research and sharing this powerful and useful result.</p>
+
+<h4><a name="3"></a> Simple Line-Plane Intersection</h4>
+
+<p>Talking about geometric calculations and performance, I just took a quick look at a simple line-plane intersection algorithm this morning to answer 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/how-can-we-calculate-the-intersection-between-the-plane-and-the/m-p/9785834">how to calculate the intersection between a plane and a penetrating line</a>:</p>
+
+<p><strong>Question:</strong> I have a question about the way to calculate intersection point.
+We have four points and their coordinates.
+Let's assume we can create plane with these points.
+When there is a line penetrating the plane, I guess there is an intersection point which the plane and the line meet:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833026be417f818200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833026be417f818200d img-responsive" style="width: 350px; display: block; margin-left: auto; margin-right: auto;" alt="Line-plane intersection" title="Line-plane intersection" src="/assets/image_8c1748.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>How can we calculate the coordinates of the intersection point?</p>
+
+<p><strong>Answer:</strong> You will only need three points to uniquely define the face, so the fourth point can actually be used to verify that all four are coplanar.</p>
+
+<p>Calculating the intersection between a straight line and a plane is pretty easy, so the most efficient method to achieve this may possibly be to do it yourself:</p>
+
+<ul>
+<li><a href="https://duckduckgo.com/?q=line+plane+intersect">Search the Internet for 'line plane intersect'</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection">Read about line-plane intersection on Wikipedia</a></li>
+<li><a href="https://youtu.be/_W3aVWsMp14">Watch a YouTube video explaining the concepts</a></li>
+<li>Many algorithms in different languages to <a href="https://rosettacode.org/wiki/Find_the_intersection_of_a_line_with_a_plane">find the intersection of a line with a plane</a></li>
+<li>A StackOverflow discussion on <a href="https://stackoverflow.com/questions/5666222/3d-line-plane-intersection">3D line-plane intersection</a></li>
+</ul>
+
+<p>If you prefer to use the official Revit API, you can refer to
+the <a href="https://www.revitapidocs.com/2020/3513f5e2-a274-4f60-4d8f-78145930a9e3.htm"><code>Face</code> <code>Intersect</code> method taking a <code>Curve</code> argument</a>.</p>
+
+<p>I do not understand why you prefer to ask this question here instead of searching for these results yourself.</p>
+
+<p>It took me much longer to write them down than to find them.</p>
+
+<p>I even went ahead and implemented a <a href="https://github.com/jeremytammik/the_building_coder_samples/blob/master/BuildingCoder/BuildingCoder/Util.cs#L638-L681">line-plane intersection method <code>LinePlaneIntersection</code></a> for
+you in The Building Coder samples.</p>
+
+<p>Here is the code:</p>
+
+<pre class="code">
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;Return&nbsp;the&nbsp;3D&nbsp;intersection&nbsp;point&nbsp;between</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;a&nbsp;line&nbsp;and&nbsp;a&nbsp;plane.</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;https://forums.autodesk.com/t5/revit-api-forum/how-can-we-calculate-the-intersection-between-the-plane-and-the/m-p/9785834</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;https://stackoverflow.com/questions/5666222/3d-line-plane-intersection</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;Determine&nbsp;the&nbsp;point&nbsp;of&nbsp;intersection&nbsp;between&nbsp;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;a&nbsp;plane&nbsp;defined&nbsp;by&nbsp;a&nbsp;point&nbsp;and&nbsp;a&nbsp;normal&nbsp;vector&nbsp;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;and&nbsp;a&nbsp;line&nbsp;defined&nbsp;by&nbsp;a&nbsp;point&nbsp;and&nbsp;a&nbsp;direction&nbsp;vector.</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;planePoint&nbsp;-&nbsp;A&nbsp;point&nbsp;on&nbsp;the&nbsp;plane.</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;planeNormal&nbsp;-&nbsp;The&nbsp;normal&nbsp;vector&nbsp;of&nbsp;the&nbsp;plane.</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;linePoint&nbsp;-&nbsp;A&nbsp;point&nbsp;on&nbsp;the&nbsp;line.</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;lineDirection&nbsp;-&nbsp;The&nbsp;direction&nbsp;vector&nbsp;of&nbsp;the&nbsp;line.</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;lineParameter&nbsp;-&nbsp;The&nbsp;intersection&nbsp;distance&nbsp;along&nbsp;the&nbsp;line.</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;Return&nbsp;-&nbsp;The&nbsp;point&nbsp;of&nbsp;intersection&nbsp;between&nbsp;the&nbsp;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;line&nbsp;and&nbsp;the&nbsp;plane,&nbsp;null&nbsp;if&nbsp;the&nbsp;line&nbsp;is&nbsp;parallel&nbsp;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;to&nbsp;the&nbsp;plane.</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;LinePlaneIntersection(
+&nbsp;&nbsp;<span style="color:#2b91af;">Line</span>&nbsp;line,
+&nbsp;&nbsp;<span style="color:#2b91af;">Plane</span>&nbsp;plane,
+&nbsp;&nbsp;<span style="color:blue;">out</span>&nbsp;<span style="color:blue;">double</span>&nbsp;lineParameter&nbsp;)
+{
+&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;planePoint&nbsp;=&nbsp;plane.Origin;
+&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;planeNormal&nbsp;=&nbsp;plane.Normal;
+&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;linePoint&nbsp;=&nbsp;line.GetEndPoint(&nbsp;0&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;lineDirection&nbsp;=&nbsp;(line.GetEndPoint(&nbsp;1&nbsp;)&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;linePoint).Normalize();
+
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;Is&nbsp;the&nbsp;line&nbsp;parallel&nbsp;to&nbsp;the&nbsp;plane,&nbsp;i.e.,</span>
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;perpendicular&nbsp;to&nbsp;the&nbsp;plane&nbsp;normal?</span>
+
+&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;IsZero(&nbsp;planeNormal.DotProduct(&nbsp;lineDirection&nbsp;)&nbsp;)&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;lineParameter&nbsp;=&nbsp;<span style="color:blue;">double</span>.NaN;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">null</span>;
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;lineParameter&nbsp;=&nbsp;(planeNormal.DotProduct(&nbsp;planePoint&nbsp;)&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;planeNormal.DotProduct(&nbsp;linePoint&nbsp;))&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;planeNormal.DotProduct(&nbsp;lineDirection&nbsp;);
+
+&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;linePoint&nbsp;+&nbsp;lineParameter&nbsp;*&nbsp;lineDirection;
+}
+</pre>
+
+<p><strong>Response:</strong> Thank you for offering sample code. Actually, I intended to find the solution only with Revit Official API.</p>
+
+<p>Ah well.</p>
+
+<p>By the way, for many other high performance intersection and clipping algorithms, you may want to check
+out <a href="https://www.wykobi.com">Wykobi</a>, an</p>
+
+<blockquote>
+  <p>extremely efficient, robust and simple to use C++ 2D/3D oriented computational geometry library.</p>
+</blockquote>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e96bc2f6200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e96bc2f6200b img-responsive" alt="Wykobi segment intersection" title="Wykobi segment intersection"  src="/assets/image_7b007e.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="4"></a> Set Base and Survey Clipped and Unclipped</h4>
+
+<p>As we pointed out in the discussion on <a href="https://thebuildingcoder.typepad.com/blog/2012/11/survey-and-project-base-point.html">survey and project base points</a> in 2012, <em>the clipped/unclipped state of the base and survey points could not be set via the API. You could pin them using the Element.Pinned property</em>... back then.</p>
+
+<p>Happily and finally, Revit 2021.1 exposed a new property <code>Clipped</code> for the base point,
+cf. <a href="https://thebuildingcoder.typepad.com/blog/2020/08/revit-20211-sdk-and-whats-new.html#6.3.2">Clipped state of BasePoint</a>
+in <a href="https://thebuildingcoder.typepad.com/blog/2020/08/revit-20211-sdk-and-whats-new.html">What's New in the Revit 2021.1 API</a>.</p>
+
+<p>So, starting from this version, you have the ability to get and set the clipped state for the Survey Point.
+For Project Base Point, the property is read-only and will always return false, since the PBP clipped state has been removed.</p>
+
+<h4><a name="5"></a> Two German Uni BIM360 Construction Cloud Startups</h4>
+
+<p>Moving away from the Revit API to other AEC topics, two innovative BIM360 apps from German Forge developer university startups
+are now live, <a href="https://twitter.com/ADSK_Construct/status/1311699100312666113">says</a>
+Phil <a href="https://twitter.com/contech101">@contech101</a> Mueller, cf.
+the <a href="https://constructionblog.autodesk.com/15-integrations-autodesk-construction">15 new integrations with Autodesk construction cloud</a>:</p>
+
+<ul>
+<li><a href="https://construction.autodesk.com/integrations/gamma-ar">Gamma AR</a> &ndash; RWTH Aachen </li>
+<li><a href="https://construction.autodesk.com/integrations/4d-planner">4D-Planner</a> &ndash; TU Berlin</li>
+</ul>
+
+<h4><a name="6"></a> AI-Based Face Streaming hits Mainstream</h4>
+
+<p>Moving further away from pure AEC related topics, 
+AI-based face recognition and reconstruction is entering the mainstream through
+the <a href="https://developer.nvidia.com/maxine">Nvidia Maxine Cloud-AI Video-Streaming Platform</a>.</p>
+
+<p>It aims to drastically reduce video conferencing bandwidth requirements by transmitting only animated face keypoint data instead of the entire video keyframe information, and reconstructing the animated current presenters face based on some initial video data and the face keypoint data.</p>
+
+<p>Check out the two-and-a-half-minute video on <a href="https://youtu.be/NqmMnjJ6GEg">inventing virtual meetings of tomorrow with Nvidia AI research</a>:</p>
+
+<p><center>
+<iframe width="480" height="270" src="https://www.youtube.com/embed/NqmMnjJ6GEg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</center></p>
+
+<blockquote>
+  <p>New AI breakthroughs in NVIDIA Maxine, cloud-native video streaming AI SDK, slash bandwidth use while making it possible to re-animate faces, correct gaze and animate characters for immersive and engaging meetings.</p>
+</blockquote>

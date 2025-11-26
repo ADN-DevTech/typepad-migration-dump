@@ -1,0 +1,315 @@
+comments:
+- author: NAyche
+  email: ''
+  ip: 66.162.165.162
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2009-12-08 15:20:00'
+  body: "Jeremy, \n\nThe following selection method works fine with Revit 2009 but\
+    \ not Revit 2010.  Any idea why?\n\nSelElementSet selElements = doc.Selection.Elements;\n\
+    \n/*\n- code here for adding elements by whatever filter to the selElements, for\
+    \ example columns in a specific level or a view\n- debuging shows that selElements\
+    \ set has about 30 columns \n- Yet it does not actually select anything even if\
+    \ you do the following\n*/\n\ndoc.Selection.Elements = selElements;\n\nPleeeeeeeeeeeeeeeeease\
+    \ help.\n\nRegards,\nNadim"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-09 08:23:26'
+  body: "Dear Nadim,\n\nI know for a fact that the following code works:\n\n  SelElementSet\
+    \ selElements \n    = Document.Selection.Elements;\n\n  IEnumerable walls \n \
+    \   = GetTheWalls();\n\n  foreach( Wall wall in walls )\n  {\n    bool weWantIt\
+    \ = Check( wall );\n\n    if( weWantIt )\n    {\n      selElements.Add( wall );\n\
+    \    }\n  }\n\n  Document.Selection.Elements = selElements;\n\nPlease stop using\
+    \ the silly \"Pleeeeeeeeeeeeeeeeease\".\n\nCheers, Jeremy."
+- author: NAyche
+  email: ''
+  ip: 66.162.165.162
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2009-12-09 09:47:52'
+  body: "Jeremy,\n\nSorry for using that silly please, it is just that I spend all\
+    \ this time in the past few weeks writing code for Selection and Printing tools,\
+    \ suffering was with me all along until with your help and experimenting I got\
+    \ the plotting and selection to work fine. The changes they made to the API took\
+    \ me back to where I started.  Nothing is working on API 2010.  you can understand\
+    \ my frustration.\n\nback to this problem:\nI have a code that is the same as\
+    \ yours.  I also have the last statement \ndoc.Selection.Elements = selElements;\n\
+    if you degug it, the Selection.Elements is not empty.  However, on the screen,\
+    \ nothing is selected.\n\nHere is what I found today:  if I use the pan command\
+    \ and move the building, it colors the elements to be selected with Red (my selection\
+    \ color) but still I can get either of the following:\n\n1. No Contextual menu\
+    \ appears, i.e. I can't do anything to the selected elements (makes it useless)\n\
+    2. I don't get the Element Properties command, as if nothing is selected.\n\n\
+    Is there any extra code we have to write for Revit 2010 to give us the complete\
+    \ selection expectations\n\nThanks again,\nNadim"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-10 02:39:35'
+  body: 'Dear Nadim,
+
+
+    As I have probably said before, if you are doing this professionally, I strongly
+    suggest you join ADN:
+
+
+    <a href="http://www.autodesk.com/joinadn">http://www.autodesk.com/joinadn</a>
+
+
+    If you do not want to do so, there are other forums where you can discuss with
+    your peers:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/10/revit-api-forums.html">http://thebuildingcoder.typepad.com/blog/2009/10/revit-api-forums.html</a>
+
+
+    I am happy to answer any question when I can.
+
+
+    Cheers, Jeremy.'
+- author: NAyche
+  email: ''
+  ip: 68.62.251.149
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2009-12-10 07:50:08'
+  body: 'Thanks anyway, you''re doing a good job.
+
+
+    To answer your question, no I am not doing this professionaly, because I am a
+    Structural Engineer and not a programmer.  I just have some overhead time and
+    I spend on the API.
+
+
+    I wish we can join ADN; however, we do not meet the requirments to joint.
+
+
+    The reason I posted back to you is that It was obvious the issues I am having
+    are because of bugs they introduced to Revit 2010.  Just by installing Web Update
+    2 fixed half of my problems in all the commands I created.  It would be great
+    to know if I have to wait for another update for my code to work again or try
+    to figure it out my self?
+
+
+    Thanks anyway.
+
+    Regards,
+
+    Nadim'
+- author: Jeremy Tammik
+  email: ''
+  ip: 80.35.197.50
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-10 08:34:02'
+  body: 'Dear Nadim,
+
+
+    I am glad that half your problems are solved!
+
+
+    I am not aware of any requirements to join ADN, it is open to anybody interested
+    in using Autodesk APIs.
+
+
+    Cheers, Jeremy.'
+- author: NAyche
+  email: ''
+  ip: 66.162.165.162
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2009-12-10 09:13:57'
+  body: "Jeremy,\n\nHere are the requirments to join ADN:\n<a href=\"http://usa.autodesk.com/adsk/servlet/item?siteID=123112&id=723350\"\
+    >http://usa.autodesk.com/adsk/servlet/item?siteID=123112&id=723350</a> \n\nwe\
+    \ don't fullfil the following requirment for sure because we are a structural\
+    \ engineering company\n\n\"You have at least one full-time professional software\
+    \ developer on staff\"\n\nEven if we do, we might use it for a week and then get\
+    \ busy with engineering work and never use it again.\n\nI hope you bear with us\
+    \ even if we bug you with the same issue again, because sometimes I will find\
+    \ something new that your input would be valuable.\n\nExamples:\nAfter installign\
+    \ Web Update 2, \n- my selection commands start to give me the contextual menu\
+    \ but not the Element Properties (half is solved).\n- in printing, the tmpViewSet\
+    \ is not populated back to the ptManager...CurrentViewSet.Views but the printSetup\
+    \ and printParameters are not \n\nit is abvious that this problem was caused by\
+    \ changed on Autodesk side (it works well with 2009), yet they provide zero documenations\
+    \ on these changes and its effect on our existing code.\n\nRegards,\nNadim"
+- author: NAyche
+  email: ''
+  ip: 68.62.251.149
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2009-12-12 11:02:17'
+  body: 'Jeremy,
+
+
+    After enough research and testing, I found that the selection example in the manual
+    is actually having the same problem my code has. Which is: it selects the elements
+    and it provides the contextual menu, but it would not give access to element properties
+    like it does with the UI.
+
+
+    If the code in the Revit Manual is not working, then I gave up.
+
+
+    Regards,
+
+    Nadim'
+- author: Jeremy Tammik
+  email: ''
+  ip: 193.82.81.227
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-13 14:18:44'
+  body: 'Dear Nadim,
+
+
+    I am sorry to hear that you had to give up on this, and that I am unable to provide
+    any help ... at least you know more about the issue now than I do!
+
+
+    Congratulations on solving the view set problem, at least, as you mentioned in
+    your separate comment on
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/06/revit-mep-api.html">http://thebuildingcoder.typepad.com/blog/2009/06/revit-mep-api.html</a>
+
+
+    Cheers, Jeremy.'
+- author: NAyche
+  email: ''
+  ip: 66.162.165.162
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2009-12-14 10:40:27'
+  body: 'Thank Jeremy,
+
+
+    I am very humbled by your statement.  I will never know more than you do.  Your
+    blog was a savior for me.
+
+
+    I am just a structural engineer, and I am just trying to use my time in something
+    meaningful as we don''t have much engineering work to do :)  (The current economy
+    story)
+
+
+    Please don''t treat me as a professional programmer because I am not.  Until recently,
+    I only knew VB6.  I am new to the .NET, and thanks to you, I shifted to using
+    C# because your examples are in C#, and I love it.
+
+
+    Please keep the good work as amateurs like me need your help.
+
+
+    Regards,
+
+    Nadim'
+- author: Jeremy Tammik
+  email: ''
+  ip: 194.237.193.51
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-15 03:20:39'
+  body: 'Dear Nadim,
+
+
+    I am glad to hear that you like C#, and congratulations on getting into programming
+    and .NET. I am very glad to be able to help.
+
+
+    Cheers, Jeremy.'
+- author: NAyche
+  email: ''
+  ip: 68.62.251.149
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2009-12-23 20:40:40'
+  body: "Feedback on RevitAPI 2010:\n\nAfter I finished fixing my external application,\
+    \ I have the following feedback on two issues with RevitAPI 2010.\n\n1. The selection\
+    \ commands do not seem to work properly.  \nSometimes the elements are not highlighted,\
+    \ I worked around that by adding elementSet.Hide() and then elementSet.Unhide()\
+    \ methods to get elements highlighted always.\n\nContextual menu is showing now\
+    \ after installing the Revit Web Updates.\n\nAccess to the Element Properties\
+    \ of selected element is NOT possible (unline Revit 2009), no work around in the\
+    \ code.  At the user interface, I have to move the selected elements a zero distance\
+    \ and I would get the access to the properties.\n\n2. Print Project Sheets\n\n\
+    no matter what you do, ptManager.SubmitPrint() will always print the sheets in\
+    \ the order they are created.  I guess that Revit sorts ViewSets internally by\
+    \ the element id. Don't waste your time trying to implement a custom IComparer\
+    \ to compare ViewSheets by their names, it will not do it.\nThe work around is\
+    \ to save the names of the views in a Generic List and then sort it.  Then send\
+    \ sheets one at the time in the the sequence of the sorted List.\n\nRegards,\n\
+    Nadim"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.156.210
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-24 01:53:46'
+  body: 'Dear Nadim,
+
+
+    Congratulations on finishing your application and thank you for the feedback and
+    hints!
+
+
+    Cheers, Jeremy.'
+- author: NAyche
+  email: ''
+  ip: 68.62.251.149
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2009-12-24 10:13:22'
+  body: 'Thanks Jeremy,
+
+
+    Just like I benefit from this unique blog, I wanted to contribute to it too.
+
+
+    Best regards,
+
+    Nadim'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.156.210
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-24 10:22:30'
+  body: :-)
+- author: Vitor Gomes
+  email: vitorbsg@gmail.com
+  ip: 191.250.139.12
+  url: ''
+  date: '2015-01-27 08:29:03'
+  body: 'Hello Jeremy,
+
+
+    I''m brazilian, 22 years old and need some help with Revit API.
+
+
+    My question is: how can I retrieve the elements on the same order that I''ve selected?
+
+
+    I''m doing a foreach, and the order of sellection (sellecion.Elements) is by ElementId.
+
+
+    Is there a way to retrieve the Elements in order I selected?
+
+
+    Thank you.
+
+
+    PS: Please, forgive my language mistakes. I''m not fluent in english.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-01-27 09:14:38'
+  body: 'Dear Vitor,
+
+
+    Your English is perfectly fine, no need whatsoever to apologise or worry about
+    it.
+
+
+    If you select elements in bulk there is no control over the selection order.
+
+
+    If you need control over the selection order, you can implement a loop using the
+    Revit API picking them one at a time, putting them into a sorted collection that
+    you have total control over.
+
+
+    Cheers, Jeremy.
+
+    -----'

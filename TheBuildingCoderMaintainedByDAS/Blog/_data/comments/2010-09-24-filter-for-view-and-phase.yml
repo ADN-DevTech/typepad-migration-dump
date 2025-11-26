@@ -1,0 +1,341 @@
+comments:
+- author: Paolo Grigio
+  email: ''
+  ip: 87.5.183.163
+  url: http://profile.typepad.com/grigio
+  date: '2010-09-25 19:31:55'
+  body: 'Hello,
+
+    first of all, thanks for your site on the Revit API.
+
+
+    I have a question:
+
+    Is there a way to find all items of "Phase filter" ("New Construction", "Show
+    All", etc..)? Is easy to find the parameter "VIEW_PHASE_FILTER" for a view, but
+    not the full list.
+
+
+    In practice, all "Phase Filter" can be filtered by a specific class?
+
+
+    See you soon and thanks again.
+
+    Paolo Grigio'
+- author: Jeremy Tammik
+  email: ''
+  ip: 78.146.61.182
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-09-26 08:34:41'
+  body: 'Dear Paolo,
+
+
+    Thank you for the appreciation.
+
+
+    I don''t completely understand your question, I''m afraid. Are you looking for
+    all items that have any non-zero value whatsoever for the phase filter parameter?
+
+
+    I can think of a number of solutions to attempt, based on the building blocks
+    presented above.
+
+
+    For instance, you could implement a new method GetAllPhaseIds similar to GetPhaseId
+    which returns all phase element ids, and you could create a Boolean OR combination
+    of a number of parameter filters which check for equality with any one of these
+    ids.
+
+
+    I think you will need to do some experimentation based on your exact requirements
+    and the models you need to work with. I do hope the code presented above provides
+    a useful starting point.
+
+
+    Cheers, Jeremy.'
+- author: Paolo Grigio
+  email: ''
+  ip: 87.5.183.163
+  url: http://profile.typepad.com/grigio
+  date: '2010-09-26 17:34:08'
+  body: 'Thanks for the reply.
+
+
+    I try to explain. I don''t seek architectural objects with a particular value
+    of ''phase filter''. Instead, I would find the same values of ''phase filter''
+    manually created in Revit. For example, these default values in Revit (italian
+    version) are ''Mostra tutto'', ''Stato di fatto'', etc. in Revit (english version)
+    should be ''Show all'', ''New construction'', etc. and others that the user has
+    created.
+
+
+    Can you find all these values through API?
+
+
+    See you soon.
+
+    Paolo'
+- author: Matt M
+  email: mmason@avat.com
+  ip: 146.115.40.151
+  url: http://cadappdev.blogspot.com
+  date: '2010-09-26 19:35:44'
+  body: 'Paolo,
+
+
+    I''ve tried finding the elements before, and I think you''re out of luck.
+
+
+    If you look in RevitLookup, the phase filter elements are of type "Element", have
+    no category, no visible/meaningful parameters, and no similar elements.
+
+
+    All in all - they can only be found by name (if you know their names in advance)
+    or by finding views that are using them.
+
+
+    Best Regards,
+
+    Matt'
+- author: Paolo Grigio
+  email: ''
+  ip: 87.4.185.40
+  url: http://profile.typepad.com/grigio
+  date: '2010-09-27 06:58:55'
+  body: 'Matt,
+
+    unfortunately, my suspicions were correct.
+
+
+    This week has not started well... :) but thank you all heartily for the help.
+
+
+    Good bye.
+
+    Paolo'
+- author: Neda
+  email: neda.abaghery@cel.ca
+  ip: 38.99.165.82
+  url: ''
+  date: '2011-07-14 11:52:04'
+  body: 'Hi Jeremy,
+
+    Thank you for your useful site. I have a floor plan view and I need to change
+    the "Default View Template" property for it. I can use the ApplyTemplate method
+    to change the view representation with assigned Default View Template property,
+    but the problem is I can’t find a way how to set the Default View Template property
+    to my desired value.
+
+    I will appreciate your help.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-07-15 12:20:02'
+  body: 'Dear Neda,
+
+
+    Thank you for your appreciation!
+
+
+    I am sorry to say that there is no API access for that.
+
+
+    Cheers, Jeremy.'
+- author: Evgeny
+  email: evgeny.kurbatov@cel.ca
+  ip: 38.99.165.82
+  url: ''
+  date: '2011-07-18 09:45:40'
+  body: 'Hello Jeremy,
+
+    Can we have the option available in, say, the next Revit version?
+
+
+    Best Regards,
+
+    Evgeny.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-07-18 10:08:46'
+  body: 'Dear Evgeny,
+
+
+    First and foremost, we make no promises whatsoever about any future functionality.
+
+
+    Secondly, if you want to see it come, please ensure that we are aware of that
+    wish, e.g. by registering it as an API wish list item and participating in the
+    API wishlist survey. There are some other Revit API wish lists around, I think,
+    e.g. managed by AUGI.
+
+
+    If you are an ADN member, please submit a DevHelp Online case so we can register
+    a wish list item right away.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Martino
+  email: m.salvato@edilclima.it
+  ip: 195.72.203.170
+  url: ''
+  date: '2012-07-19 03:37:16'
+  body: "Dear Jeremy, thanks for this example about element phases.\nI try to apply\
+    \ the same phase filter to retrieve rooms and spaces created in a specific phase,\
+    \ but it seems that elements of type Room and Space were discarded. Is it correct?\
+    \ and in that case how can I build a filter.\nThis is my code:\n\nDim spatialElements\
+    \ As New List(Of Element)\nDim collector As New FilteredElementCollector(docRvt)\n\
+    \nDim roomSpaceFilter As New LogicalOrFilter(New RoomFilter(), New SpaceFilter())\n\
+    \nDim rule As New FilterElementIdRule(New ParameterValueProvider(New ElementId(BuiltInParameter.PHASE_CREATED)),\
+    \ _\n                                                New FilterNumericEquals(),\
+    \ _\n                                                New ElementId(myIdPhase))\n\
+    \            Dim phaseParamFilter As New ElementParameterFilter(rule)\n      \
+    \      Dim roomSpaceOfPhaseFilter As New LogicalAndFilter(phaseParamFilter, roomSpaceFilter)\n\
+    \n            spatialElements.AddRange(collector.WherePasses(phaseParamFilter).ToElements())\n\
+    \nthanks\nBest Regards\nMartino"
+- author: Martino
+  email: m.salvato@edilclima.it
+  ip: 195.72.203.170
+  url: ''
+  date: '2012-07-19 05:42:41'
+  body: "Hi Jeremy, maybe I found the problem.\nIt seems that for Room and Space object\
+    \ type the BuiltInParameter PHASE_CREATED doesn't returns a correct value... Instead\
+    \ I used BuiltInParameter ROOM_PHASE_ID. Filter works correctly, now. \nI hope\
+    \ this can help someone else...\nbye \nMartino"
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.8
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-08-22 07:27:38'
+  body: 'Dear Martino,
+
+
+    Wow, what a coincidence. I just spotted your comment, right after publishing the
+    same observation made by Håkon Clausen:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/08/adsk-file-import-and-phase-of-room.html#2">http://thebuildingcoder.typepad.com/blog/2012/08/adsk-file-import-and-phase-of-room.html#2</a>
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: madmed
+  email: marwa.adala.telecome@gmail.com
+  ip: 41.228.227.196
+  url: ''
+  date: '2013-01-18 05:02:23'
+  body: 'Hi Jeremy, I have a question: How to filter demolished elements?? tks'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-21 09:43:16'
+  body: 'Dear Madmed,
+
+
+    User RevitLookup to discover what parameter contains the value returned by the
+    PhaseDemolished property (is it BuiltInParameter.PHASE_DEMOLISHED?), and then
+    set up an appropriate parameter filter.
+
+
+    Also look at
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/03/create-room-on-level-in-phase.html">http://thebuildingcoder.typepad.com/blog/2009/03/create-room-on-level-in-phase.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/09/filter-for-view-and-phase.html">http://thebuildingcoder.typepad.com/blog/2010/09/filter-for-view-and-phase.html</a>
+
+
+    Oh, I see you posted your comment on this very discussion. Then I do not understand
+    why you ask this question. Does the discussion above not cover it already?
+
+
+    Cheers, Jeremy.'
+- author: Robert Sarkozi
+  email: sarkozi.robert@codespring.ro
+  ip: 213.164.252.45
+  url: http://codespring.ro
+  date: '2013-04-09 03:46:20'
+  body: "Hi Jeremy,\n\nI would like to thank you for your great and helpful posts\
+    \ and answers to community questions about Revit related know-how. They are very\
+    \ helpful, and I have used some of them too successfully.\n\nThere is one question\
+    \ I would like to ask you about: as you've already guessed, I would like to filter\
+    \ liked documents by the active view in Revit.\n\nThe scenario is the following:\
+    \ I have a document which is linked into another one which itself is opened in\
+    \ Revit, for example in a view of a level, say Level 1, or 3D view. What I would\
+    \ like to do is get the visible elements in this view but from all available linked\
+    \ models.\n\nIf I use the active view from the active document, Revit returns\
+    \ all the elements from the linked model, because the active view of the active\
+    \ document in not the active view of the linked document. \n\nActually, as I have\
+    \ found by reading the API, a linked document has no active view. Is there a nice,\
+    \ API-supported way to do this?\n\nThanks in advance and keep up the good work,\n\
+    \nRobert"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.182.77
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-04-09 04:10:59'
+  body: 'Dear Robert,
+
+
+    Thank you for your appreciation.
+
+
+    Unfortunately, there is no easy way to achieve what you want.
+
+
+    We have an open wish list for this functionality.
+
+
+    The workaround currently is:
+
+
+    1. get all elements from the linked model
+
+
+    2. filter those elements by active view categories
+
+
+    3. filter elements by active view range values (top and bottom elevations).
+
+
+    You can use the FilteredElementCollector class for all three of these phases.
+
+
+    Cheers, Jeremy.'
+- author: Robert Sarkozi
+  email: sarkozi.robert@codespring.ro
+  ip: 213.164.252.45
+  url: http://codespring.ro
+  date: '2013-04-09 06:59:33'
+  body: "Hi Jeremy,\n\nIf you are referring to using the PlanViewRange class in point\
+    \ 3, I have tried getting the range of the view, but it doesn't seem to work.\
+    \ \nThe returned Ids are invalid for the current view: LevelAbove and LevelBelow.\n\
+    There is a point in my code where I have for example all the Walls from a linked\
+    \ document, and the next step would be nr.3.\n\nCould you please provide more\
+    \ info on how you would filter these elements by the view range of the active\
+    \ view?\n\nThanks,\nRobert"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-04-10 09:48:36'
+  body: 'Dear Robert,
+
+
+    Oh dear, sorry about that. Nope, I have no further info on this. The answer above
+    was provided by a developer in a discussion with a colleague of mine, and I have
+    no further details beyond what is listed above. Sorry about that.
+
+
+    Cheers, Jeremy.
+
+    -----'

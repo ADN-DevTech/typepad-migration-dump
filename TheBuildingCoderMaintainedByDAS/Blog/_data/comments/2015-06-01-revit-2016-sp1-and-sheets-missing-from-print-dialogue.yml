@@ -1,0 +1,271 @@
+comments:
+- author: Matt Taylor
+  email: matthew.taylor@wspgroup.com
+  ip: 61.14.99.173
+  url: ''
+  date: '2015-06-01 19:07:27'
+  body: 'Hi Jeremy,
+
+    ''Dear Revit add-in developer, please take heed!''
+
+    Heeded, but can we be assured that this bug will be taken care of in Revit 2016
+    SP2?
+
+    If Sheets cause this issue, has anybody at The Factory investigated whether this
+    affects any other elements?
+
+
+    On a topical note, about the Revit 2016 API, and printing[CaseNo:10791836.]:
+
+    There are errors with ''ViewSheetSet.Views'', and casting its sheet views to db.ViewSheet.
+    Obviously there are other ways to get the db.ViewSheet object, but just an FYI
+    for those reading this.
+
+
+    Kind regards,
+
+
+    -Matt'
+- author: Caroline Clohesy
+  email: cclohesy@metier3.com.au
+  ip: 203.28.167.26
+  url: ''
+  date: '2015-06-02 01:19:06'
+  body: I'm disappointed that this Autodesk support query submitted via our subscription
+    support portal has been raised on this website without prior consent.
+- author: Jeremy Tammik
+  email: ''
+  ip: 185.12.131.109
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-06-02 03:01:37'
+  body: 'Dear Caroline,
+
+
+    I am sincerely sorry about this.
+
+
+    Please accept my apologies.
+
+
+    I am especially sorry that I did not ask permission before going ahead with this.
+
+
+    I normally always do ask for permission and perform a review prior to publishing.
+
+
+    Exceptionally, I omitted that step in this case.
+
+
+    The only excuse I can offer is that I am travelling, under time pressure, and
+    was in a hurry to get this out.
+
+
+    I am very sorry that I disappointed you and hope that we can reestablish confidence
+    again.
+
+
+    I removed all material that seemed sensitive before publishing and was not aware
+    that the remaining hints might still be an issue for you.
+
+
+    I cleaned up the post, removed more of the case description, and hope that what
+    is left preserves the required confidentiality:
+
+
+    I will happily remove whatever else you wish.
+
+
+    If you prefer, I can also rephrase the problem description and remove the question
+    and answer framework completely, just describing the solution directly with no
+    context.
+
+
+    I really am very sorry, hope that this resolution is acceptable to you, and ask
+    you to please accept my apology.
+
+
+    Thank you!
+
+
+    Best regards,
+
+
+    Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 185.12.131.109
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-06-02 03:02:30'
+  body: 'Dear Matt,
+
+
+    Thank you for your comment and understanding.
+
+
+    The factory is aware of your case 10791836 and is actively exploring it right
+    now.
+
+
+    Now that the problem and resolution described above is understood, I have good
+    hopes that the limitation causing it will be swiftly removed.
+
+
+    I cannot say where and when, though.
+
+
+    I will gladly keep you informed.
+
+
+    Cheers, Jeremy.'
+- author: Dale Bartlett
+  email: dale.bartlett@realtimeinternational.com.au
+  ip: 78.100.85.98
+  url: http://www.realtimeinternational.com.au
+  date: '2015-06-02 05:19:37'
+  body: 'I am surprised that this has been around since 2013! Fortunately (just good
+    luck) I am using separate transactions wrapped in a TransactionGroup:
+
+    public static ElementId GenerateSheet(Document pDoc, string pSheetName, etc).
+
+    Would a TransactionGroup be affected by the Undo/Redo bug mentioned above? And
+    Matt Taylor raises a good point about other elements being affected.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 79.130.175.51
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-06-03 03:04:26'
+  body: 'Dear Matt,
+
+
+    I just heard back from the development team on your case 10791836 on downcasting
+    View (type DrawingSheet) to ViewSheet in Revit 2016.
+
+
+    They confirm and say: we also observe this. Until we get this fixed, the workaround
+    is to retrieve the element (Document.GetElement(view2.Id) as ViewSheet) with the
+    id and cast from Element type to ViewSheet.
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 79.130.175.51
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-06-03 03:29:56'
+  body: 'Dear Dale,
+
+
+    Yes, indeed, surprise, surprise.
+
+
+    Congratulations on encapsulating everything elegantly in the way you describe.
+
+
+    That sounds safe to me.
+
+
+    I assume you have tested it, as well, along the lines described above?
+
+
+    Well done!
+
+
+    I should not think that the transaction group would be affected at all, but I
+    obviously cannot say anything at all for sure.
+
+
+    Also, as far as I understand, only view sheets are affected, and nothing else
+    whatsoever, the culprit being this one specific dedicated internal collection.
+
+
+    I hope this clarifies.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 79.130.175.51
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-06-03 04:19:04'
+  body: 'Dear Matt,
+
+
+    I just heard back from the development team on the main topic of this post, case
+    10776470 [Sheets missing from print dialogue] and the related change request REVIT-68252
+    [sheets missing from print dialogue].
+
+
+    The code change that fixes the problem has been submitted to the development code
+    stream and will thus appear in the next major release of Revit.
+
+
+    Unfortunately, it is too large and complicated for us to be able to submit it
+    to a service pack.
+
+
+    I hope this is no major issue for you, now that the workaround is known.
+
+
+    So please continue taking heed :-)
+
+
+    Cheers, Jeremy.'
+- author: Dale Bartlett
+  email: dale.bartlett@realtimeinternational.com.au
+  ip: 121.222.134.120
+  url: http://www.realtimeinternational.com.au
+  date: '2015-06-14 02:39:13'
+  body: Hi Jeremy, Firstly apologies for using your blog for support, we can take
+    it off-line if you wish. This missing-printable-sheet problem has now manifested
+    in our work and affects 100s (at least) of sheets. Whilst each sheet creation
+    is correctly wrapped in a separate transaction, I recently introduced a logging
+    process which rolls back the transaction group. I believe that this process is
+    the source of our problem based on your undo/redo comments above. I can change
+    the logging process to remove the roll-back, however my urgent and immediate need
+    is to repair the unprintable sheets in the existing projects. Can you please provide
+    some guidance as to how this can be achieved?
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-06-17 13:56:34'
+  body: 'Dear Dale,
+
+
+    No problem at all.
+
+
+    Do you mean that the workaround described above did not fix the issue for you?
+
+
+    Oh dear!
+
+
+    In that case, I would suggest submitting a new thread for your issue in the Revit
+    API discussion forum:
+
+
+    <a href="http://forums.autodesk.com/t5/revit-api/bd-p/160">http://forums.autodesk.com/t5/revit-api/bd-p/160</a>
+
+
+    The advantage of using that is that you can attach a minimal reproducible case
+    to the issue:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#1b">http://thebuildingcoder.typepad.com/blog/about-the-author.html#1b</a>
+
+
+    Oh no, re-reading your comment again, I have some bad news for you... well, not
+    catastrophic, but not so pleasant either. As far as I understand, you cannot fix
+    the mildly corrupted projects yourself. You will either have to revert to the
+    previous version or submit an issue to Autodesk product support and ask them to
+    fix them for you. Please refer to the issue numbers listed above to explain what
+    the problem is.
+
+
+    Cheers, Jeremy.
+
+    -----'

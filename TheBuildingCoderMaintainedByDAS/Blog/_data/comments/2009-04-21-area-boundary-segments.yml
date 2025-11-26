@@ -1,0 +1,119 @@
+comments:
+- author: Aaron
+  email: awagner@ahldesign.com
+  ip: 67.53.56.40
+  url: ''
+  date: '2010-02-24 18:02:11'
+  body: 'Jeremy,
+
+    Great blog!  Been a follower for some time now.
+
+    I apologize for reviving a nearly one-year-old post.  For a few years I''ve been
+    trying to "automate" many of our daily tasks, adding pieces at a time to help
+    our firm''s Revit adoption and growth (basically eliminate as much of the human-error
+    element as possible, without replacing responsibilities of actual people... delicate
+    balance)
+
+    Today''s venture has led me to revisit building code analysis.
+
+    I''m researching ways of:
+
+    1. Identifying adjacency relationships between area/rooms/spaces (e.g., Room 1
+    = Occupancy classification A-2, Room 2 = A-4)
+
+    2. Looking to Fire Rating parameter of walls to determine separation
+
+    3. Flag rooms with non-compliant separation (maybe even schedule separation required
+    as according to key schedule or a schedule driven by shared params versus separation
+    currently provided in the model)
+
+
+    Any ideas?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-03-01 12:03:00'
+  body: "Dear Aaron,\n\nI am very glad you like it and find it worthwhile following,\
+    \ that feels good.\n\nThere are many ways to identify adjacency relationships\
+    \ and they seem to be constantly growing as well:\n\nAll FamilyInstance objects\
+    \ have FromRoom and ToRoom properties, which at least are implemented on door\
+    \ elements:\n\n- FromRoom: The room from which the door or window is opened.\n\
+    \n- ToRoom: The room to which the door or window is opened.\n\nThey can be used\
+    \ to identify adjacent rooms with a connecting door between them.\n\nYou can make\
+    \ use of the GetRoomAtPoint and GetSpaceAtPoint methods. \n\nAnother interesting\
+    \ pair of methods in this context are the Room.IsPointInRoom and Space.IsPointInSpace\
+    \ methods, which determines whether a given point lies within the specified volume.\
+    \ Space.IsPointInSpace is used to analyse space adjacencies in \n\n<a href=\"\
+    http://thebuildingcoder.typepad.com/blog/2009/07/space-adjacency.html\">http://thebuildingcoder.typepad.com/blog/2009/07/space-adjacency.html</a>\n\
+    \nFrom a room you can also determine all its bounding elements such as walls etc.,\
+    \ and then set up a relationship graph to map all rooms to their bounding elements\
+    \ and vice versa. You can analyse this relationship graphs and use the fact that\
+    \ all rooms sharing the same bounding element will be neighbours.\n\nI hope this\
+    \ helps.\n\nCheers, Jeremy."
+- author: Ritish
+  email: ritish.d@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2010-09-28 03:05:52'
+  body: "Hi Jeremy,\nI am able to get the boundaries of a particular room. Now my\
+    \ problem is I am having a point say A(x,y,z) and I want to check whether this\
+    \ point lie on any of the boundary of the room? I am using the below code:\n foreach\
+    \ (BoundarySegmentArray bsa in room.Boundary)\n                            {\n\
+    \                                int flag = 0;\n                             \
+    \   foreach (BoundarySegment bs in bsa)\n                                {\n \
+    \                                   Wall revitWall = bs.Element as Wall;\n\n \
+    \                                   if (revitWall != null)\n                 \
+    \                   {\nCurve bsCrv = bs.Curve as Curve;\n\n                  \
+    \                      LocationCurve lcrv = revitWall.Location as LocationCurve;}\n\
+    }\n}\nhere the location curver give me only two points of the boundary and if\
+    \ i make an arc then I have to go for third point which will be not lie on the\
+    \ boundary and that make it unwanted.\n\nI also use the below code but arc become\
+    \ null in this case:\nforeach (BoundarySegmentArray bsa in room.Boundary)\n  \
+    \                          {\n                                int flag = 0;\n\
+    \                                foreach (BoundarySegment bs in bsa)\n       \
+    \                         {\n                                    Wall revitWall\
+    \ = bs.Element as Wall;\n\n                                    if (revitWall !=\
+    \ null)\n                                    {\n                             \
+    \           Options opt = revitApp.Create.NewGeometryOptions();\n            \
+    \                            opt.ComputeReferences = true;\n                 \
+    \                       opt.IncludeNonVisibleObjects = true;\n               \
+    \                         Autodesk.Revit.Geometry.Element geomElem = bs.Element.get_Geometry(opt);\n\
+    \                                        foreach (GeometryObject objj in geomElem.Objects)\n\
+    \                                        {\n                                 \
+    \           Arc arc = objj as Arc;\n                                         \
+    \   Line line = objj as Line;\n                                            Solid\
+    \ solid = objj as Solid;\n\n                                            if (arc\
+    \ != null)\n                                            {\n                  \
+    \                              \n                                            }\n\
+    \n                                        }\n}\n}\n}\n\nWill you please tell me\
+    \ how I can get that point is lie on the boundary of the room or not?\nThanks\
+    \ in advance"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-10-04 03:40:37'
+  body: 'Dear Ritish,
+
+
+    Thank you ever so much, I love geometrical questions!
+
+
+    Yes, I think this is really easy to solve, and provide much more functionality
+    than using the method you suggest above working from just the wall end points.
+    Instead, you can query the wall location curve for its geometrical curve C. Use
+    Curve.Project to project your point P onto C, calling the result of the projection
+    Q, and determine the distance from P to Q. If it is small enough, you can consider
+    P to lie on the room boundary.
+
+
+    Sound good?
+
+
+    It does to me!
+
+
+    Cheers, Jeremy.
+
+    -----'

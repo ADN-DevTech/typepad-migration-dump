@@ -1,0 +1,202 @@
+---
+layout: "post"
+title: "Cyrillic Encoding and Categories for Legends"
+date: "2020-07-28 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "2021"
+  - "Element Creation"
+  - "I18n"
+  - "Job"
+  - "News"
+original_url: "https://thebuildingcoder.typepad.com/blog/2020/07/cyrillic-encoding-and-categories-for-legends.html "
+typepad_basename: "cyrillic-encoding-and-categories-for-legends"
+typepad_status: "Publish"
+---
+
+<p>Solutions, criticism, opportunities:</p>
+
+<ul>
+<li><a href="#2">Categories for legend components</a></li>
+<li><a href="#3">Encoding issue with Cyrillic characters fixed</a></li>
+<li><a href="#4">AEC customers demand better value</a></li>
+<li><a href="#5">Construction executive job</a></li>
+</ul>
+
+<h4><a name="2"></a> Categories for Legend Components</h4>
+
+<p>Richard <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/1035859">RPThomas108</a> Thomas and
+Juan Jesús <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/3486289">jjesusdelpino</a> Del Pino Campos
+collaborated nicely to determine
+which <a href="https://forums.autodesk.com/t5/revit-api-forum/categories-that-can-create-legend-components/m-p/9659069">categories that can create legend components</a>:</p>
+
+<p><strong>Question:</strong> Is there a way to know if a legend component can be created from a determined category?
+E.g., I can create legend components from cable trays, but I can't do it with railings.
+I haven't seen any specific rule o parameter that specifies this property.
+Any ideas?
+Thanks.</p>
+
+<p><strong>Answer:</strong> I've found no obvious solution to this via the API, i.e., a Boolean property on the category class.</p>
+
+<p>I believe also that Legend views don't have a specific class.</p>
+
+<p>So, there is no static methods available on such for checking category suitability of placed elements that way either.</p>
+
+<p>You'll find sketch based system families (floors/Railings/Stairs...) are not applicable since Legend views don't have a sketch plane.</p>
+
+<p>If you think about it, apart from annotation objects, Legend views contain types not instances (since you usually drag the types onto the Legend from the project browser).</p>
+
+<p>However, there is also no property for this indicated on <code>ElementType</code> class.</p>
+
+<p><strong>Response:</strong> I also have not found any solution for this through API, so I have ended up checking and making the list manually.</p>
+
+<p>I put it here in case someone looking for the same thing comes:</p>
+
+<pre class="code">
+FamilyInstances = [“OST_DuctAccessory”, “OST_PipeAccessory”, “OST_PlumbingFixtures”, “OST_StructuralFraming”, “OST_StructuralFoundation”, “OST_ElectricalEquipment”, “OST_SpecialityEquipment”, “OST_MechanicalEquipment”, “OST_LightingFixtures”, “OST_Furniture”, “OST_Casework”, “OST_Columns”, “OST_StructuralColumns”, ”OST_Doors”, ”OST_Sprinklers”, “OST_DuctTerminal”, “OST_DuctFitting”, “OST_PipeFitting”, “OST_Planting”, “OST_Windows”];
+
+SystemFamilies = [“OST_CableTray”, ”OST_RoofSoffit”, “OST_Ceilings”, “OST_DuctCurves”, “OST_Roofs”, “OST_Walls”, “OST_StackedWalls”, ”OST_CurtainWallPanels”, “OST_Floors”, ”OST_PipeCurves”, ”OST_FlexPipeCurves”,” OST_Conduit”];
+</pre>
+
+<p>Many thanks to Juan Jesús and Richard for sharing this result.</p>
+
+<p>I cleaned it up and added it
+to <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder samples</a> for
+posterity like this:</p>
+
+<pre class="code">
+<span style="color:#2b91af;">BuiltInCategory</span>&nbsp;[]&nbsp;_bics_for_legend_component_with_FamilyInstance&nbsp;
+&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>[]&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_Casework,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_Columns,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_Doors,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_DuctAccessory,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_DuctFitting,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_DuctTerminal,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_ElectricalEquipment,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_Furniture,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_LightingFixtures,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_MechanicalEquipment,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_PipeAccessory,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_PipeFitting,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_Planting,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_PlumbingFixtures,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_SpecialityEquipment,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_Sprinklers,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_StructuralColumns,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_StructuralFoundation,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_StructuralFraming,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_Windows&nbsp;};
+
+<span style="color:#2b91af;">BuiltInCategory</span>[]&nbsp;_bics_for_legend_component_with_SystemFamily&nbsp;
+&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>[]&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_CableTray,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_Ceilings,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_Conduit,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_CurtainWallPanels,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_DuctCurves,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_FlexPipeCurves,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_Floors,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_PipeCurves,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_RoofSoffit,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_Roofs,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_StackedWalls,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_Walls&nbsp;};
+</pre>
+
+<p>Slightly <a href="https://en.wikipedia.org/wiki/Anal_retentiveness">&ast;&ast;&ast;&ast;</a>, I know.</p>
+
+<p><strong>Response:</strong> In the end I have had to use that list with <code>BuiltInCategory</code> entries in my code so your &ast;&ast;&ast;&ast; retentiveness has already been proven necessary haha.</p>
+
+<p><strong>Answer:</strong> Glad to hear it was useful for you!</p>
+
+<p>I am in discussion with friends on the topic of perfection versus
+the <a href="https://en.wikipedia.org/wiki/Pareto_principle">Pareto 80-20 principle</a>.</p>
+
+<p>I try to favour both.</p>
+
+<p>I see this as an  effective demonstration that both can be achieved simultaneously.</p>
+
+<p>In simple cases only, of course.</p>
+
+<p>Luckily, all programming issues are simple, always.</p>
+
+<p>Unless someone seriously messed them up.</p>
+
+<p>Unfortunately, the most common case...</p>
+
+<h4><a name="3"></a> Encoding Issue with Cyrillic Characters Fixed</h4>
+
+<p>The <a href="https://forums.autodesk.com/t5/revit-api-forum/russian-letters-doesn-t-export-in-lookup-tables/m-p/9056270">encoding issues when reading data from size lookup tables with Cyrillic characters</a>
+is resolved in the Revit 2021.1 update release.</p>
+
+<p>The development team resolved the issue <em>REVIT-153006 &ndash; Encoding issue reading data from size lookup table with Cyrillic characters -- 15738224</em> and report the good news:</p>
+
+<p>We have now fixed and closed this issue in the development release.</p>
+
+<p>It has been addressed in work done for <em>REVIT-161509</em>.</p>
+
+<p>That fix is present in Revit 2021.1 and any version of Revit after that.</p>
+
+<p>For previous versions, one option to try is to see if generating the CSV files as UTF-16 (i.e., 2 byte Unicode) will cause them to be read properly, even in older versions of Revit that do not contain the fix.</p>
+
+<p>Please note that our support for loading UTF-8 and UTF-16 requires that the files contain the proper UTF signature BOM at the beginning of the file.
+The UTF-8 files provided as samples DO NOT, but you can re-save them as UTF-8 in almost any text editor and force generation of this signature.
+Then Revit knows how to properly load and encode them with the fix. Revit is not a full blown text processor, so it relies on the presence of that BOM to properly handle files.
+Without it, Revit assume they are 'normal' ANSI encoded files and thus will not process them correctly.</p>
+
+<p>Correction after another, deeper, look at the code prior to this fix, in older versions of Revit:
+Unfortunately, upon further investigation, that code assumes the file is a set of single byte characters to load.
+Not even a proper ANSI code page encoding is being applied, although the workarounds look like that is possibly going on as part of the internal file read…
+Anyway, I do not think using any sort of Unicode encoding on the files in question for previous versions of Revit will work after all.
+It does in the current version, though.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263ec2a8060200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263ec2a8060200c img-responsive" style="width: 316px; display: block; margin-left: auto; margin-right: auto;" alt="Cyrillic characters" title="Cyrillic characters" src="/assets/image_75850b.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="4"></a> AEC Customers Demand Better Value</h4>
+
+<p>An interesting critical article in AEC Magazine discusses
+how <a href="https://www.aecmag.com/comment-mainmenu-36/2046-autodesk-aec-customers-demand-better-value">Autodesk AEC customers demand better value</a>.</p>
+
+<h4><a name="5"></a> Construction Executive Job</h4>
+
+<p>Are you interested and motivated to contribute to reimagining the construction business for the digital age?</p>
+
+<p>Autodesk is active in that area, enabling companies to address the most important challenges they face today while preparing for new ways of working in the future. The Autodesk Construction Cloud portfolio connects the office, trailer and field so customers can move seamlessly through each phase of a building’s lifecycle - from design and preconstruction to construction, turnover and operations - with best-in-class solutions that include Assemble Systems, BIM360, BuildingConnected and PlanGrid. General contractors, subcontractors, and owners around the world rely on ACS to win more work, enhance collaboration, speed decision-making, reduce risk, and improve overall project outcomes. We are looking for top Sales Professionals to join Autodesk Construction Solutions (ACS) team and work with clients in EMEA to uncover pain in their current processes and find value in leveraging the Autodesk Construction Cloud. Our Account Executives (AEs) represent ACS for their assigned geography in a fast paced and exciting industry! With a regional approach to selling into the construction industry, we are looking for someone to be the go-to resource and expert in their territory as we look to build net-new business and expand our existing account base across EMEA. </p>
+
+<p>If so, would you like to consider applying for a job as Construction Account Executive?</p>
+
+<ul>
+<li><a href="https://rolp.co/GrWoi">20WD39376 &ndash; Construction Account Executive working Home Office in Germany</a></li>
+</ul>
+
+<p>Responsibilities:</p>
+
+<ul>
+<li>Manage the sales cycle from prospect to close with a consistent track record of meeting or exceeding quotas</li>
+<li>Show potential customers the value of the Autodesk Construction Cloud portfolio, conducting both in-person and virtual demos (with the help of technical experts when required)</li>
+<li>Understand the competitive landscape and customer needs to effectively position the right Autodesk Construction Cloud products</li>
+<li>Manage and qualify inbound leads and pipeline, with accurate and timely responses</li>
+<li>Work with and mentor Business Development Reps (BDRs) to drive leads in territory</li>
+<li>Own and deliver on a territory plan and forecast</li>
+<li>Be ready to expand your sales career in the exciting &amp; growing Construction Tech space!</li>
+</ul>
+
+<p>Minimum qualifications:</p>
+
+<ul>
+<li>Three or more years of experience in selling SaaS/Cloud-based solutions in the field</li>
+<li>Results-driven and a consistent track record of exceeding quota</li>
+<li>Analytical, detail-driven and a master multitasker</li>
+<li>Experience demoing software and are comfortable selling to all audiences</li>
+<li>Entrepreneurial and thrive in a dynamic, growth-oriented environment</li>
+<li>Construction experience or familiarity is a plus, but not required (We can teach you!)</li>
+<li>Travel is expected, but AEs are trusted to manage their schedules appropriately based on territory and accounts</li>
+</ul>
+
+<p>Good luck applying for that or the many other opportunities that you can find all over the world in
+the <a href="https://www.autodesk.com/careers">Autodesk career site</a>!</p>

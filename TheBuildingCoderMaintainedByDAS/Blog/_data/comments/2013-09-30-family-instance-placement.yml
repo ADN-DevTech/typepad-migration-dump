@@ -1,0 +1,117 @@
+comments:
+- author: Mr Smith
+  email: one@two.com
+  ip: 86.176.228.108
+  url: http://www.ValidURL.com
+  date: '2013-10-05 09:44:32'
+  body: 'I recently discovered the following which seems to select the correct overload
+    for the given family (on the small number of occasions I have tried it). Not sure
+    how it deals with an incorrect view type for the family however.
+
+
+    UIDocument.PromptForFamilyInstancePlacement
+
+
+    This was introduced in the 2011 API apparently. My question would be as to what
+    are the limitations of it?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.153.239.83
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-10-06 07:24:33'
+  body: 'Dear Mr Smith,
+
+
+    Yes, indeed, PromptForFamilyInstancePlacement always selects the correct overload
+    of the NewFamilyInstance method.
+
+
+    Or, actually, no, it does do anything of the kind.
+
+
+    The NewFamilyInstance is the Revit API method, whereas the PromptForFamilyInstancePlacement
+    does whatever it does inside of Revit without ''going out'' to the .NET environment
+    and calling ''back in'' to Revit via the API.
+
+
+    The only limitation I am aware of is that this method does whatever it does, and
+    you have no access to modify that behaviour.
+
+
+    Here are some related discussions:
+
+
+    <ul>
+
+    <li><a href="http://thebuildingcoder.typepad.com/blog/2010/06/place-family-instance.html">Place
+    Family Instance</a></li>
+
+    <li><a href="http://thebuildingcoder.typepad.com/blog/2010/11/place-site-component.html">Place
+    Site Component</a></li>
+
+    <li><a href="http://thebuildingcoder.typepad.com/blog/2010/11/place-furniture-instance.html">Place
+    Furniture Instance</a></li>
+
+    <li><a href="http://thebuildingcoder.typepad.com/blog/2010/11/launching-a-revit-command.html">Launching
+    a Revit Command</a></li>
+
+    <li><a href="http://thebuildingcoder.typepad.com/blog/2011/12/loading-an-inventor-adsk-component.html">Loading
+    an Inventor ADSK Component</a></li>
+
+    <li><a href="http://thebuildingcoder.typepad.com/blog/2012/01/drag-and-drop-to-revit.html">Drag
+    and Drop to Revit</a></li>
+
+    <li><a href="http://thebuildingcoder.typepad.com/blog/2012/04/drag-and-drop-api.html">Drag
+    and Drop API</a></li>
+
+    <li><a href="http://thebuildingcoder.typepad.com/blog/2013/06/family-api-add-in-load-family-and-place-instances.html">Family
+    API Add-in &ndash; Load Family and Place Instances</a></li>
+
+    <li><a href="http://thebuildingcoder.typepad.com/blog/2013/09/set-a-suitable-view-for-family-instance-placement.html">Set
+    a Suitable View for Family Instance Placement</a></li>
+
+    </ul>
+
+
+    Cheers, Jeremy.'
+- author: jmc
+  email: jmcouffin@gmail.com
+  ip: 66.171.168.186
+  url: ''
+  date: '2014-02-03 08:48:08'
+  body: "Hi Jeremy, \nI have been reading you quite a bit in the paste few years and\
+    \ always manage to get my way through the big RVT monster.\ntoday, I face a new\
+    \ pb. I am trying to schedule a generic annotation that is across a linked file.\
+    \ - I know. I can't.-\nthe way I thought I could was to load the family of the\
+    \ linked file in my Central and then place it in a legend view - I have couple\
+    \ of hundreds instances of this family - the idea is OK but I forgot you cannot\
+    \ drag and drop all instances at once.\n\nany help would be appreciated / and\
+    \ or  / an other method!"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.25
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-02-04 08:47:07'
+  body: 'Dear Jmc,
+
+
+    Nice to hear that you are a regular, and were able to address all your needs so
+    far.
+
+
+    Whether or not you can or cannot drag and drop all instances at once ought to
+    be irrelevant.
+
+
+    Since the advent of the drag and drop API, you can drive that operation programmatically:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/05/copy-and-paste-api-applications-and-modeless-assertion.html">http://thebuildingcoder.typepad.com/blog/2013/05/copy-and-paste-api-applications-and-modeless-assertion.html</a>
+
+
+    You computer should not be too much bothered by such a repetitive task.
+
+
+    Cheers, Jeremy.
+
+    -----'

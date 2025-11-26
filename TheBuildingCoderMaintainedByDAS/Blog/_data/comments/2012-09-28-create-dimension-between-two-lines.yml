@@ -1,0 +1,250 @@
+comments:
+- author: sangsen
+  email: sangsen123@gmail.com
+  ip: 124.124.54.130
+  url: ''
+  date: '2012-12-07 04:19:51'
+  body: "Hi..Jeremy\n \n I trying to retreive dimension points from revit dimension.\
+    \ I am able to get orgin and direction from dimension.curve property and the curve\
+    \ is unbounded. How can I get the exact points for a Linear dimension?\n\nThanks"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.25
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-12-07 09:09:49'
+  body: 'Dear Sangsen,
+
+
+    I would assume that you go through the Dimension.References property.
+
+
+    After all, that is what is driving the dimension element.
+
+
+    Please show me your final solution, if it works, since this would be worth a blog
+    post, I think  :-)
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: sangsen
+  email: sangsen123@gmail.com
+  ip: 123.238.229.37
+  url: ''
+  date: '2012-12-09 03:15:20'
+  body: "Hi Jeremy..\n Thanks for your response.\n\nI tried with Dimension.References\
+    \ property. But I am not getting global point / UV point only getting referencing\
+    \ elementId. \n Is it possible to get exact points from reference? Because I have\
+    \ to pump exact dimension points to another appln.\n\nThanks"
+- author: Jeremy Tammik
+  email: ''
+  ip: 209.51.184.8
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-12-09 13:59:34'
+  body: 'Dear Sangsen,
+
+
+    Have you ever heard the abbreviation RTFM?
+
+
+    Sorry to put it so bluntly, but I believe this is appropriate, for the nonce.
+
+
+    Please take a look at the Revit API help file RevitAPI.chm, read the description
+    of the Reference.GlobalPoint property, and let us know whether that helps. Thank
+    you!
+
+
+    Cheers, Jeremy.'
+- author: sangsen
+  email: sangsen123@gmail.com
+  ip: 124.124.54.130
+  url: ''
+  date: '2012-12-11 00:45:46'
+  body: "Hi.. Jeremy\n\n   In earlier comment itself I mentioned that Reference.GlobalPoint\
+    \ and UVPoint properties are null. Thatswhy I am asking you jeremy.\n   Fully\
+    \ gone through Revit API.chm.I am not got any correct solution.\n\n  I can create\
+    \ dimension from origin and direction of dimension curve for plan view. In section\
+    \ view only i got some incorrect values."
+- author: LeeJaeYoung
+  email: isinegajok@naver.com
+  ip: 14.46.39.230
+  url: ''
+  date: '2013-01-08 04:20:01'
+  body: "Hi..Jeremy\n\n            Grid lineGrida = document.Create.NewGrid(geomLine);\n\
+    \n            Grid lineGridb = document.Create.NewGrid(geomLine);\n\n        \
+    \    SketchPlane skplane = findSketchPlane(document, XYZ.BasisZ);\n\n        \
+    \    if (null == skplane)\n            {\n                Plane geometryPlane\
+    \ = creApp.NewPlane(XYZ.BasisZ, XYZ.Zero);\n\n                skplane = document.Create.NewSketchPlane(geometryPlane);\n\
+    \            }\n\n\n            ReferenceArray ra = new ReferenceArray();\n  \
+    \          ra.Append(lineGrida.Curve.Reference);   --> this is error.\n      \
+    \      ra.Append(lineGridb.Curve.Reference);   --> this is error.\n          \
+    \  \n\n            start = new XYZ(0, 15, 0);\n\n\n            end = new XYZ(10,\
+    \ 15, 0);\n\n            line = creApp.NewLine(start, end, true);\n\n        \
+    \    Dimension dim = document.Create.NewDimension(document.ActiveView, line, ra);\n\
+    \ni want two grid line dimension but i don't know.\nI want your advice. please\n\
+    thank you"
+- author: LeeJaeYoung
+  email: isinegajok@naver.com
+  ip: 14.46.39.230
+  url: ''
+  date: '2013-01-08 04:28:37'
+  body: "i try location -curve-reference\n      location get_point(0) - curver....."
+- author: LeeJaeYoung
+  email: isinegajok@naver.com
+  ip: 14.46.39.230
+  url: ''
+  date: '2013-01-08 05:24:00'
+  body: "Curve linecu = lineGrida.Curve;\n\n            message += lineGrida.IsCurved;\
+    \   --> fault\n            Line linea = linecu as Line;\n            message +=\
+    \ \"\\nLine's Length: \" + linea.Length;  ---> this is error.\n            message\
+    \ += \"\\nStart point: \" + XYZToString(linecu.get_EndPoint(0));\n           \
+    \ message += \"; End point: \" + XYZToString(linecu.get_EndPoint(1));\n\n    \
+    \        TaskDialog.Show(\"Grid\", message);"
+- author: LeeJaeYoung
+  email: isinegajok@naver.com
+  ip: 36.39.213.19
+  url: ''
+  date: '2013-01-08 08:43:48'
+  body: error message "object reference not set to an instance of an object"
+- author: LeeJaeYoung
+  email: isinegajok@naver.com
+  ip: 36.39.213.19
+  url: ''
+  date: '2013-01-08 10:04:21'
+  body: "i test this\n Curve curve = lineGrida.Curve;\n if (null == curve)\n    {\n\
+    \       TaskDialog.Show(\"Grid\", \"Error\");\n\n     }\nbut curve is null.\n\
+    i don't know."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.183.161
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-08 10:24:08'
+  body: 'Dear LeeJaeYoung,
+
+
+    So, the grid curve is null, is it? How sad. Have you tried retrieving its location?
+
+
+    Cheers, Jeremy.'
+- author: LeeJaeYoung
+  email: isinegajok@naver.com
+  ip: 36.39.213.19
+  url: ''
+  date: '2013-01-08 17:48:50'
+  body: "yes, I did\nLocation locationline  = lineGrida.Location;\nmessage += \":\"\
+    \ + locationline.ToString();\nTaskDialog.Show(\"Grid\", message);\n\n\"Grid :\
+    \ Autodesk.Revit.DB.Location\"\n\nbut I want to have Reference\n\nLocationCurve\
+    \ locationcurve = locationline.curve as LocationCurve;\nif (null == locationcurve)\n\
+    \   {\n       TaskDialog.Show(\"Grid\", \"Error111\");\n    }\n\nalways I see\
+    \ \"Error111\"\n\ni try public void GetInfo_Grid(Grid grid)\n in revitapi sample\
+    \ code\n\nlocation is true but get_point,curve,location curve error\ni don't know\
+    \ my mistake.\ni need your advice. i am beginner. please"
+- author: LeeJaeYoung
+  email: isinegajok@naver.com
+  ip: 14.46.39.230
+  url: ''
+  date: '2013-01-14 23:16:42'
+  body: 'hahaha
+
+    my mistake is transaction.Start()
+
+    i think TransactionMode.Automatic don''t need transaction.Start()
+
+
+    Curve linecu = lineGrida.Curve is error.
+
+
+    have a nice day'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.183.16
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-15 02:40:33'
+  body: "Dear LeeJaeYoung,\n\nCongratulations!\n\nYes, indeed. \n\nAlso, automatic\
+    \ mode is discouraged nowadays: \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2012/05/read-only-and-automatic-transaction-modes.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2012/05/read-only-and-automatic-transaction-modes.html</a>\n\
+    \nCheers, Jeremy."
+- author: Miguel Alanis
+  email: miguel.alanis@dasoft.com.mx
+  ip: 187.162.96.191
+  url: http://dasoft.mx
+  date: '2013-04-15 14:04:31'
+  body: "Hi Jeremy, I'm making an AssemblyInstance an then with the with the AssemblyViewUtils.CreateDetailSection()\
+    \ method I created a View. Once the view is created I tried to create the dimension\
+    \ using the CropBox as reference to obtained the location point.\nSomething like\
+    \ the example\nXYZ location1 = new XYZ(views[0].CropBox.Min.X, views[0].CropBox.Min.Y,\
+    \ 0.0d),\n                        location2 = new XYZ(views[0].CropBox.Max.X,\
+    \ views[0].CropBox.Min.Y, 0.0d),\n                        location3 = new XYZ(views[0].CropBox.Min.X,\
+    \ views[0].CropBox.Max.Y, 0.0d),\n                        location4 = new XYZ(views[0].CropBox.Max.X,\
+    \ views[0].CropBox.Max.Y, 0.0d);\n                    Curve bottomCurve = revDef.RevitUiApp.Application.Create.NewLine(location1,\
+    \ location2, true),\n                          topCurve = revDef.RevitUiApp.Application.Create.NewLine(location3,\
+    \ location4, true),\n                          leftCurve = revDef.RevitUiApp.Application.Create.NewLine(location1,\
+    \ location3, true),\n                          rightCurve = revDef.RevitUiApp.Application.Create.NewLine(location2,\
+    \ location4, true);\n\nBut when I called the Create.NewDimension no matter wich\
+    \ points I choose to make the line The direction is (0,-1,0) or (0,1,0) and I\
+    \ get exception \"The direction of dimension is invalid\" The view I'm using is\
+    \ not the activeView, is one created in CreateDetailSection().\nThanks, have a\
+    \ nice day"
+- author: williams espinosa
+  email: wmespinosa@ing.ucsc.cl
+  ip: 190.101.93.92
+  url: ''
+  date: '2014-05-20 09:23:19'
+  body: 'Jeremy
+
+
+    Funciona muy bien
+
+
+    Gracias!!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.216.204
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-05-27 07:53:06'
+  body: 'Dear Williams,
+
+
+    Estoy contento que te puedo ayudar. Gracias. Buena suerte.
+
+
+    Cheers, Jeremy.'
+- author: james
+  email: james99@gmail.com
+  ip: 114.143.77.186
+  url: ''
+  date: '2014-10-06 07:28:22'
+  body: 'Dear Jeremy,
+
+    Unable to build  below code as .NewLine is missing in 2014 Revit API.
+
+
+    Curve curve1 = m_revitApp.Application.Create.NewLine( location1, location2, true
+    );
+
+
+    Thanks.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-10-06 07:44:33'
+  body: 'Dear James,
+
+
+    It is now Line.Create.
+
+
+    Cheers, Jeremy.'
+- author: james
+  email: james99@gmail.com
+  ip: 114.143.77.186
+  url: ''
+  date: '2014-10-06 08:17:55'
+  body: 'Thanks Jeremy.
+
+
+    -----'

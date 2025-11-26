@@ -1,0 +1,286 @@
+comments:
+- author: Adrian Hodos
+  email: adi.hodos@gmail.com
+  ip: 86.120.44.29
+  url: ''
+  date: '2013-09-25 11:07:41'
+  body: Hello, I was wondering if it is possible to export some restricted set of
+    elements from a project (for example only doors/windows).
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-26 06:38:56'
+  body: 'Dear Adrian,
+
+
+    Yes, it is:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/filters">http://thebuildingcoder.typepad.com/blog/filters</a>
+
+
+    If you wish to combine this with the above-mentioned custom exporter functionality,
+    you can use a filtered element collector to populate a view and then run the custom
+    exporter in that specific view.
+
+
+    Cheers, Jeremy.'
+- author: Zoltán Török
+  email: torokze@gmail.com
+  ip: 84.2.137.104
+  url: ''
+  date: '2014-06-24 04:01:59'
+  body: 'Hello,
+
+    As we know the Revit uses the imperial feet (coordinates, lengths, ...).
+
+
+    I assume this is true for the custom export too, all the coordinates in the OnPolymesh
+    method are feet. What about the vertex UV-s? Are those values calculated based
+    on this principle? Should I multiply them with 0.3048 to convert into metric system
+    (meters)?
+
+
+    Regards,'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.193.122
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-06-24 06:16:02'
+  body: 'Dear Zoltán,
+
+
+    Yes, you are perfectly correct.
+
+
+    I would assume this to apply to UV coordinates as well.
+
+
+    Do they have any relevant length, though, or are they just used to define a direction?
+
+
+    Please try it out and let us know.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Zoltán Török
+  email: torokze@gmail.com
+  ip: 84.2.194.39
+  url: ''
+  date: '2014-06-25 09:54:00'
+  body: 'Hi,
+
+
+    It seems you should convert the UV values too but you should divide (not multiply
+    as the coords) by 0.3048 (feet/meter factor).'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.193.108
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-06-25 16:29:50'
+  body: 'Dear Zoltán,
+
+
+    Thank you very much for testing and letting us know.
+
+
+    Cheers, Jeremy.'
+- author: Nick
+  email: nick.a.king@gmail.com
+  ip: 70.171.11.93
+  url: ''
+  date: '2014-08-14 14:01:01'
+  body: I can't seem to get the collada exporter to work as it requires the active
+    document to be in a 3d view, but revit greys out the external tools button whenever
+    I activate a 3d view
+- author: jtabtabai@tamu.edu
+  email: jtabtabi@tamu.edu
+  ip: 165.91.13.14
+  url: ''
+  date: '2014-10-15 18:05:42'
+  body: "Hello Jeremy,\nI'm trying to use the collada exporter but with no luck. it\
+    \ compiles ok, it saves the file, but no software that I have is able to read\
+    \ the file, though I can read any other collada file I download from the net.\
+    \ I'm actually not interested in exporting the textures. I'm rather interested\
+    \ in exporting material assignment. For example, if I export a wall from Revit\
+    \ as an FBX, is there a way that I can have the texture assignment attached to\
+    \ the file. Meaning the exterior of the wall ( which lets assume is bricks) would\
+    \ be different than the interior ( lets assume it is dry wall). I can handle the\
+    \ texturing in an external software, but with some software, for example Unity\
+    \ gaming engine, the FBX produces a wall with no distinction between exterior\
+    \ surface and interior surface. \nSo the question is this:\nis it possible, through\
+    \ the custom exporter, to export a single wall as an FBX where the polygons/triangles\
+    \ have different material assignment without any texture information. Any help\
+    \ or hints you can provide will be greatly appreciated."
+- author: Jennifer
+  email: ''
+  ip: 222.129.26.242
+  url: http://profile.typepad.com/6p01bb082e3f4e970d
+  date: '2015-05-14 05:10:06'
+  body: 'Hello Jeremy,
+
+    I use revit 2014 of rac_basic_sample_project drawing export the model geometry
+    data and texture information when it came to the issue.
+
+    1. Wall and sofa models'' location are not correct, some walls collapsed, sofa
+    stacked together.
+
+    2. Failed to get RPC model geometry and uv coordinates (such as trees, grass,
+    glass)
+
+    3. How to use transparent textures rendering? I got rac_basic_sample_project drawing
+    roof colors and textures, but I was unable to render a red roof.
+
+    Regards,'
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.114.43
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-14 06:00:57'
+  body: 'Dear Jennifer,
+
+
+    Yes, indeed, writing a complete custom exporter with all the frills is not a trivial
+    task.
+
+
+    Here are some other discussion of the topic that may help resolve some of the
+    issues:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.1">http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.1</a>
+
+
+    Possibly, the vA3C exporter RvtVa3c is most completely developed and tested sample
+    that I can offer you:
+
+
+    <a href="https://github.com/va3c/RvtVa3c">https://github.com/va3c/RvtVa3c</a>
+
+
+    You will have to put in more work to bring it to a really professional level,
+    though.
+
+
+    I hope this helps.
+
+
+    Please let us know how you get on and what you end up with.
+
+
+    Any enhancements you make to RvtVa3c will be much appreciated!
+
+
+    Cheers, Jeremy.'
+- author: Jennifer
+  email: zhangfenda@sina.com
+  ip: 61.49.232.71
+  url: ''
+  date: '2015-05-25 05:11:07'
+  body: 'Dear jeremy,
+
+    Thank you for your reply.Through your reply, I found the answer to the first two
+    questions I raised.
+
+    1. Wall and sofa models'' location are not correct, some walls collapsed, sofa
+    stacked together.
+
+    ---In the Custom Exporter interface,there are transforms,We need to use these
+    transform to calculate the model scene coordinates.
+
+    2.Failed to get RPC model geometry and uv coordinates (such as trees, grass, glass)
+
+    ---My negligence, when I read the code you uploaded only to find RPC because copyright
+    issues, only to provide Asset information.
+
+    Now I can export the revit 2014 of rac_basic_sample_project drawing  model and
+    render it, 80% of the data is correct.I can''t wait to get my model posted up
+    with Revit, but I don''t find the buttons to upload the pictures.
+
+    When I exported the model, I met three questions：
+
+    1.The transformation of the model is incorrect, such as the column,railing.
+
+    2.One column derives two Element, whose point data are exactly the same.There
+    is no mark found they are same model. How to excluded the same data?
+
+    3.Whether the data can be derived in accordance with the model is divided into
+    a Element, so that is conducive to editing.
+
+    Regards,'
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.121.207
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-26 04:07:57'
+  body: 'Dear Jennifer,
+
+
+    Thank you for your appreciation.
+
+
+    I am glad you solved some of your problems.
+
+
+    The new issues sound more complex.
+
+
+    I have no immediate fix for them.
+
+
+    They may be caused by your coding.
+
+
+    I would suggest lots of debugging, and lots of patience  :-)
+
+
+    Maybe the most efficient way to explore them is to use more intimate database
+    exploration methods:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/11/intimate-revit-database-exploration-with-the-python-shell.html">http://thebuildingcoder.typepad.com/blog/2013/11/intimate-revit-database-exploration-with-the-python-shell.html</a>
+
+
+    I hope this helps.
+
+
+    Good luck!
+
+
+    Cheers, Jeremy.'
+- author: Jennifer
+  email: zhangfenda@sina.com
+  ip: 114.254.141.228
+  url: ''
+  date: '2015-05-31 23:45:20'
+  body: 'Dear Jeremy,
+
+
+    Thank you for your patience and help me solve the problem.. Through your help,
+    I can already export all the models and guarantee their position，material,transparency
+    are all correct.This interface is very useful for exporting rendering models.
+
+
+    But I still have a question to ask you: can the CustomExport interface be derived
+    from the model?
+
+
+    At present, the minimum unit of CustomExport interface is based on Element, such
+    as a structural column model, which is composed of two parts of the top and the
+    column body, the export data is two Element. I want to merge them into a model,
+    so I look for all the attributes of Element, and only discover the name Category
+    attribute can be used.. But there are different models of the category name attribute
+    is the same, I can''t distinguish them.
+
+
+    If there is a distinction between the model, please tell me, it is useful for
+    the late model rendering and editing.
+
+
+    Regards,
+
+    -----'

@@ -1,0 +1,147 @@
+---
+layout: "post"
+title: "Create Swept Blend DirectShape in C++"
+date: "2018-01-24 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "Algorithm"
+  - "C++"
+  - "Element Creation"
+  - "Geometry"
+original_url: "https://thebuildingcoder.typepad.com/blog/2018/01/create-swept-blend-in-c.html "
+typepad_basename: "create-swept-blend-in-c"
+typepad_status: "Publish"
+---
+
+<p>This solution is shared by my colleague Ryuji Ogasawara:</p>
+
+<p><strong>Question:</strong> I am trying to create a swept blend geometry and assign it to a <code>DirectShape</code> element.</p>
+
+<p>The initial code threw an exception when calling the <code>GeometryCreationUtilities</code> <code>CreateSweptBlendGeometry</code> method, saying:</p>
+
+<blockquote>
+  <p>Plane of profile loop is not perpendicular to the sweep path at the specified attachment point.</p>
+</blockquote>
+
+<p>The Revit SDK sample GeometryCreation_BooleanOperation does not include any example code for <code>CreateSweptBlendGeometry</code>.</p>
+
+<p>How can I fix this exception?</p>
+
+<p><strong>Answer:</strong> The path parameters assume that they should be normalized or that the curve has a range of parameterization from 0 to 1.</p>
+
+<p>To use the unnormalized bounds for the curve, you should probably add these calls:</p>
+
+<pre class="code">
+&nbsp;&nbsp;pathParams-&gt;Add(pathCurve-&gt;GetEndParameter(0));
+&nbsp;&nbsp;pathParams-&gt;Add(pathCurve-&gt;GetEndParameter(1));
+</pre>
+
+<p>Here is the working code in .NET C++ CLR:</p>
+
+<pre class="code">
+&nbsp;&nbsp;Autodesk::Revit::DB::<span style="color:#2b91af;">Element</span>^&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;DirectShapeCreator::CreateDirectShape(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Autodesk::Revit::DB::<span style="color:#2b91af;">Document</span>^&nbsp;<span style="color:gray;">document</span>)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;Autodesk::Revit::DB::<span style="color:#2b91af;">Category</span>^&nbsp;directShapeCategory&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:gray;">document</span>-&gt;Settings-&gt;Categories-&gt;Item[
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Autodesk::Revit::DB::<span style="color:#2b91af;">BuiltInCategory</span>::<span style="color:darkslategray;">OST_GenericModel</span>];
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>&nbsp;(directShapeCategory&nbsp;==&nbsp;<span style="color:blue;">nullptr</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">nullptr</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;Autodesk::Revit::DB::<span style="color:#2b91af;">DirectShape</span>^&nbsp;directShape&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;Autodesk::Revit::DB::<span style="color:#2b91af;">DirectShape</span>::CreateElement(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">document</span>,&nbsp;directShapeCategory-&gt;Id);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>&nbsp;(directShape&nbsp;!=&nbsp;<span style="color:blue;">nullptr</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Create&nbsp;a&nbsp;path&nbsp;curve</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;XYZ^&gt;^&nbsp;controlPoints&nbsp;=&nbsp;<span style="color:blue;">gcnew</span>&nbsp;List&lt;XYZ^&gt;;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;controlPoints-&gt;Add(<span style="color:blue;">gcnew</span>&nbsp;XYZ(0,&nbsp;0,&nbsp;0));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;controlPoints-&gt;Add(<span style="color:blue;">gcnew</span>&nbsp;XYZ(0,&nbsp;0,&nbsp;10));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;controlPoints-&gt;Add(<span style="color:blue;">gcnew</span>&nbsp;XYZ(0,&nbsp;10,&nbsp;10));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;controlPoints-&gt;Add(<span style="color:blue;">gcnew</span>&nbsp;XYZ(0,&nbsp;10,&nbsp;20));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;<span style="color:blue;">double</span>&gt;^&nbsp;weights&nbsp;=&nbsp;<span style="color:blue;">gcnew</span>&nbsp;List&lt;<span style="color:blue;">double</span>&gt;;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;weights-&gt;Add(1.0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;weights-&gt;Add(1.0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;weights-&gt;Add(1.0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;weights-&gt;Add(1.0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Curve^&nbsp;pathCurve&nbsp;=&nbsp;NurbSpline::CreateCurve(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;controlPoints,&nbsp;weights);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Create&nbsp;a&nbsp;bottom&nbsp;profile</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;XYZ^&gt;^&nbsp;bottomProfilePoints&nbsp;=&nbsp;<span style="color:blue;">gcnew</span>&nbsp;List&lt;XYZ^&gt;;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bottomProfilePoints-&gt;Add(<span style="color:blue;">gcnew</span>&nbsp;XYZ(5,&nbsp;5,&nbsp;0));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bottomProfilePoints-&gt;Add(<span style="color:blue;">gcnew</span>&nbsp;XYZ(-5,&nbsp;5,&nbsp;0));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bottomProfilePoints-&gt;Add(<span style="color:blue;">gcnew</span>&nbsp;XYZ(-5,&nbsp;-5,&nbsp;0));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bottomProfilePoints-&gt;Add(<span style="color:blue;">gcnew</span>&nbsp;XYZ(5,&nbsp;-5,&nbsp;0));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CurveLoop^&nbsp;bottomProfile&nbsp;=&nbsp;<span style="color:blue;">gcnew</span>&nbsp;CurveLoop;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bottomProfile-&gt;Append(Line::CreateBound(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bottomProfilePoints[0],&nbsp;bottomProfilePoints[1]));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bottomProfile-&gt;Append(Line::CreateBound(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bottomProfilePoints[1],&nbsp;bottomProfilePoints[2]));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bottomProfile-&gt;Append(Line::CreateBound(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bottomProfilePoints[2],&nbsp;bottomProfilePoints[3]));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bottomProfile-&gt;Append(Line::CreateBound(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bottomProfilePoints[3],&nbsp;bottomProfilePoints[0]));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Create&nbsp;a&nbsp;top&nbsp;profile</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;XYZ^&gt;^&nbsp;topProfilePoints&nbsp;=&nbsp;<span style="color:blue;">gcnew</span>&nbsp;List&lt;XYZ^&gt;;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;topProfilePoints-&gt;Add(<span style="color:blue;">gcnew</span>&nbsp;XYZ(2,&nbsp;10&nbsp;+&nbsp;2,&nbsp;20));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;topProfilePoints-&gt;Add(<span style="color:blue;">gcnew</span>&nbsp;XYZ(-2,&nbsp;10&nbsp;+&nbsp;2,&nbsp;20));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;topProfilePoints-&gt;Add(<span style="color:blue;">gcnew</span>&nbsp;XYZ(-2,&nbsp;10&nbsp;-&nbsp;2,&nbsp;20));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;topProfilePoints-&gt;Add(<span style="color:blue;">gcnew</span>&nbsp;XYZ(2,&nbsp;10&nbsp;-&nbsp;2,&nbsp;20));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CurveLoop^&nbsp;topProfile&nbsp;=&nbsp;<span style="color:blue;">gcnew</span>&nbsp;CurveLoop;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;topProfile-&gt;Append(Line::CreateBound(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;topProfilePoints[0],&nbsp;topProfilePoints[1]));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;topProfile-&gt;Append(Line::CreateBound(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;topProfilePoints[1],&nbsp;topProfilePoints[2]));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;topProfile-&gt;Append(Line::CreateBound(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;topProfilePoints[2],&nbsp;topProfilePoints[3]));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;topProfile-&gt;Append(Line::CreateBound(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;topProfilePoints[3],&nbsp;topProfilePoints[0]));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;CurveLoop^&gt;^&nbsp;profiles&nbsp;=&nbsp;<span style="color:blue;">gcnew</span>&nbsp;List&lt;CurveLoop^&gt;;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Add&nbsp;above&nbsp;profiles</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;profiles-&gt;Add(bottomProfile);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;profiles-&gt;Add(topProfile);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;which&nbsp;value&nbsp;to&nbsp;be&nbsp;set&nbsp;exactly?&nbsp;He&nbsp;tried&nbsp;0&nbsp;and&nbsp;1.</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;<span style="color:blue;">double</span>&gt;^&nbsp;pathParams&nbsp;=&nbsp;<span style="color:blue;">gcnew</span>&nbsp;List&lt;<span style="color:blue;">double</span>&gt;;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pathParams-&gt;Add(pathCurve-&gt;GetEndParameter(0));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pathParams-&gt;Add(pathCurve-&gt;GetEndParameter(1));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Create&nbsp;a&nbsp;swept&nbsp;blend&nbsp;geometry.</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solid^&nbsp;solid&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;GeometryCreationUtilities::CreateSweptBlendGeometry(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pathCurve,&nbsp;pathParams,&nbsp;profiles,&nbsp;<span style="color:blue;">nullptr</span>);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;GeometryObject^&gt;^&nbsp;gs&nbsp;=&nbsp;<span style="color:blue;">gcnew</span>&nbsp;List&lt;GeometryObject^&gt;;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs-&gt;Add(solid);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;directShape-&gt;AppendShape(gs);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;directShape;
+&nbsp;&nbsp;}
+</pre>
+
+<p>The final result looks like this:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c948f912970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c948f912970b image-full img-responsive" alt="Swept blend DirectShape" title="Swept blend DirectShape" src="/assets/image_60bd63.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>

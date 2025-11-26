@@ -1,0 +1,132 @@
+comments:
+- author: Steve Germano
+  email: sgermano@vanderweil.com
+  ip: 63.138.153.161
+  url: ''
+  date: '2010-06-16 20:24:25'
+  body: 'Hi Jeremy,
+
+
+    I have a similar issue where after creating a extrusion I cannot get a valid reference
+    to a planar face of that extrusion in order to add a connector to it. The following
+    statement throws a null object exception even though I can get the properties
+    of that face prior to this statement. Regenerating keeps telling me that its set
+    to automatic even though I have it called out as manual.
+
+
+    Dim connSupplyAir As DuctConnector = RevitFIF.NewDuctConnector(m_planarFaces(4).Reference,
+    DuctSystemType.SupplyAir)
+
+
+    sorry for the vb, I know your a c# guy :)
+
+
+    thanks!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-17 03:24:52'
+  body: 'Dear Steve,
+
+
+    Yes, that sounds like a similar issue. How about creating the extrusion in one
+    transaction, closing that completely, starting up a new separate transaction afterwards,
+    and determining the reference and creating the connector in the second one?
+
+
+    Cheers, Jeremy.'
+- author: flower4wine
+  email: ''
+  ip: 116.231.167.169
+  url: http://profile.typepad.com/6p017ee3d89300970d
+  date: '2013-02-15 07:42:33'
+  body: "Hi Jeremy,\n\nChinese Spring Festival is coming to end and I'm back to Revit\
+    \ again. But this time I would ask question on behalf of Zhao Hu, one of my friends.\n\
+    \nZhao's scenario is to create about 80,000 sweeps in Revit in one shot. Per his\
+    \ test, it will take about 20 hours, while his workmate can achieve it in Rhino\
+    \ within 10 minutes. Zhao expects that Revit could do faster. \n\nAs Zhao's test\
+    \ was done in an open family document (with UIDocument), I tried to use in-memory\
+    \ document but it still take about 18 hours to draw all 80K sweeps.\n\nZhao noticed\
+    \ that although all the drawing work is done in a single transaction, it seems\
+    \ that Revit tries to regenerate the document after there are sweeps created already\
+    \ automatically. We did set the RegenerationOption to be Manual. We say it because\
+    \ we saw Revit progress bar in the bottom-left corner indicates it.\n\nOur questions:\n\
+    1. can we prohibit Revit's automatic regeneration?\n2. more straightly, do we\
+    \ have any approach to get the job done faster?\n\nThanks a lot! And Happy Chinese\
+    \ Snake Year!\n\nBest Regards,\nDavid Tan"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-02-16 07:53:21'
+  body: 'Dear David,
+
+
+    Happy New Year to you!
+
+
+    Welcome back to Revit development!
+
+
+    As I already just answered Hu Zhao, there may be a stray regeneration happening
+    in sweep creation.
+
+
+    If you can demonstrate that (with a sample that creates something less than 80,000
+    sweeps, please :-), please provide a reproducible case to prove that which I can
+    submit to the development team for further analysis.
+
+
+    It is also worth asking what the use case is for 80,000 sweeps in one family.
+    Are you possibly modelling things so detailed that that a building model with
+    multiple instances of this will have performance problems?
+
+
+    Maybe you could add an image of what you are creating to motivate the development
+    team by helping them understand.
+
+
+    Thank you!
+
+
+    To answer your questions:
+
+
+    1. Nope, no way you can stop that, afaik.
+
+
+    2. Nope, not that I know.
+
+
+    Sorry about that.
+
+
+    Cheers, Jeremy.'
+- author: flower4wine
+  email: ''
+  ip: 116.230.113.138
+  url: http://profile.typepad.com/6p017ee3d89300970d
+  date: '2013-02-16 10:25:51'
+  body: 'Hi Jeremy,
+
+
+    Thanks for your clarification!
+
+
+    About the scenario, I don''t have more details at this moment. Hu Zhao just told
+    me that it''s one of his study subjects. I''ll talk with him about it later and
+    see what we can provide to you furthermore. I don''t have the code or testing
+    data on this machine, but I''ll send them to you via email tomorrow, as well as
+    an image.
+
+
+    P.S. as you might already know, Hu Zhao is in Zurich now. And thanks for Internet
+    which makes me as "close" to you as him :)
+
+
+    Best Regards,
+
+    David Tan
+
+    -----'

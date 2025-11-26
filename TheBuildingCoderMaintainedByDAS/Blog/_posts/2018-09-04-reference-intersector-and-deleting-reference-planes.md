@@ -1,0 +1,274 @@
+---
+layout: "post"
+title: "Reference Intersector and Deleting Reference Planes"
+date: "2018-09-04 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "2019"
+  - "Algorithm"
+  - "Climbing"
+  - "Deletion"
+  - "Dimensioning"
+  - "Element Relationships"
+  - "Family"
+  - "Filters"
+  - "Geometry"
+  - "Update"
+original_url: "https://thebuildingcoder.typepad.com/blog/2018/09/reference-intersector-and-deleting-reference-planes.html "
+typepad_basename: "reference-intersector-and-deleting-reference-planes"
+typepad_status: "Publish"
+---
+
+<p>We already looked
+at <a href="http://thebuildingcoder.typepad.com/blog/2014/02/deleting-unnamed-non-hosting-reference-planes.html">deleting unnamed non-hosting reference planes</a> back
+in 2012 and 2014.
+Some things have changed since then, and the old code requires fixing and updating once again.</p>
+
+<p>Other interesting topics also want to be mentioned:</p>
+
+<ul>
+<li><a href="#2">Embodyment workshop</a> </li>
+<li><a href="#3">B&ouml;s Fulen mountain hike</a> </li>
+<li><a href="#4">Using <code>ReferenceIntersector</code> to place lighting fixture on ceiling face</a> </li>
+<li><a href="#5">Reformat stable representation string for dimensioning</a> </li>
+<li><a href="#6">Deleting unnamed non-hosting reference planes updated</a> </li>
+</ul>
+
+<h4><a name="2"></a> Embodyment Workshop</h4>
+
+<p>I attended a very nourishing dance workshop
+with <a href="https://www.facebook.com/pg/Alain-Allard-5-Rhythms-Moves-into-Consciousness-179038505454123">Alain Allard</a>
+of <a href="http://www.movesintoconsciousness.com">Moves into Consciousness</a>, UK.</p>
+
+<p>Alain is a dancer, fully licensed and practising psychotherapist, and meditates.</p>
+
+<p>On that basis, he led us through two very fulfilling days of attending to the rhythms of the body and listening more clearly the rhythms of life, the voice of the heart and gut intelligence, practicing giving up the everyday habits of dulling our creative response to Life’s unfolding by numbing down and overthinking.</p>
+
+<p>It was very enjoyable and enlivening indeed!</p>
+
+<p>Thank you, Alain, and thank you, Bea, for inviting and organising!</p>
+
+<h4><a name="3"></a> B&ouml;s Fulen Mountain Hike</h4>
+
+<p>I followed up on the dance workshop with a mountain hike with Alex to
+the <a href="https://en.wikipedia.org/wiki/B%C3%B6s_Fulen">B&ouml;s Fulen</a>,
+highest mountain in the Swiss Canton Schwyz:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="http://thebuildingcoder.typepad.com/.a/6a00e553e168978833022ad36859fd200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833022ad36859fd200c img-responsive" style="width: 300px; display: block; margin-left: auto; margin-right: auto;" alt="B&ouml;s Fulen" title="B&ouml;s Fulen" src="/assets/image_5dcfbc.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>In spite of its looks, it in in fact a pretty easy hike across the entire ridge a couple of hundred meters to the summit.</p>
+
+<p>Unfortunately, the weather we had was not as good as in the picture above.
+We had some sight, though much of it was of dramatic clouds forming all around us, and we got pretty wet walking out again.</p>
+
+<p>Here is Alex' <a href="https://youtu.be/jPsrhhfrUGs">15-minute GoPro video of the foggy walk back across the ridge</a>, just before the rain started coming in fully:</p>
+
+<p><center>
+<iframe width="480" height="270" src="https://www.youtube.com/embed/jPsrhhfrUGs" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</center></p>
+
+<h4><a name="4"></a> Using ReferenceIntersector to Place Lighting Fixture on Ceiling Face</h4>
+
+<p>Returning to the Revit API, Joshua Lumley shared a nice little example of using the <code>ReferenceIntersector</code> class to determine a point on and a reference to the ceiling face in a linked file to place a lighting fixture above a given point, in
+his <a href="http://thebuildingcoder.typepad.com/blog/2010/01/findreferencesbydirection.html#comment-4067218487">comment</a> on the old discussion of
+the <a href="http://thebuildingcoder.typepad.com/blog/2010/01/findreferencesbydirection.html"><code>FindReferencesByDirection</code> method</a>, the precursor of <code>ReferenceIntersector</code>.</p>
+
+<p>I generalised and simplified his code snippet to this <code>GetCeilingReferenceAbove</code> method, which I added
+to <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder Samples</a>
+in the module <code>CmdDimensionWallsFindRefs.cs</code>:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Return&nbsp;reference&nbsp;to&nbsp;ceiling&nbsp;face&nbsp;to&nbsp;place&nbsp;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;lighting&nbsp;fixture&nbsp;above&nbsp;a&nbsp;given&nbsp;point.</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:#2b91af;">Reference</span>&nbsp;GetCeilingReferenceAbove(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">View3D</span>&nbsp;view,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;p&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ElementClassFilter</span>&nbsp;filter&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ElementClassFilter</span>(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">Ceiling</span>&nbsp;)&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ReferenceIntersector</span>&nbsp;refIntersector&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ReferenceIntersector</span>(&nbsp;filter,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">FindReferenceTarget</span>.Face,&nbsp;view&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;refIntersector.FindReferencesInRevitLinks&nbsp;=&nbsp;<span style="color:blue;">true</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ReferenceWithContext</span>&nbsp;rwc&nbsp;=&nbsp;refIntersector.FindNearest(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p,&nbsp;<span style="color:#2b91af;">XYZ</span>.BasisZ&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Reference</span>&nbsp;r&nbsp;=&nbsp;(<span style="color:blue;">null</span>&nbsp;==&nbsp;rwc)&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?&nbsp;<span style="color:blue;">null</span>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;rwc.GetReference();
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;<span style="color:blue;">null</span>&nbsp;==&nbsp;r&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Windows.<span style="color:#2b91af;">MessageBox</span>.Show(&nbsp;<span style="color:#a31515;">&quot;no&nbsp;intersecting&nbsp;geometry&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;r;
+&nbsp;&nbsp;}
+</pre>
+
+<p>Here is a sample snippet showing how the method expects to be used:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">void</span>&nbsp;TestGetCeilingReferenceAbove(&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">View3D</span>&nbsp;view&nbsp;=&nbsp;doc.GetElement(&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ElementId</span>(&nbsp;147335&nbsp;)&nbsp;)&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">View3D</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Space</span>&nbsp;space&nbsp;=&nbsp;doc.GetElement(&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ElementId</span>(&nbsp;151759&nbsp;)&nbsp;)&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">Space</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;center&nbsp;=&nbsp;(&nbsp;(<span style="color:#2b91af;">LocationPoint</span>)&nbsp;space.Location&nbsp;).Point;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Reference</span>&nbsp;r&nbsp;=&nbsp;GetCeilingReferenceAbove(&nbsp;view,&nbsp;center&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Populate&nbsp;these&nbsp;as&nbsp;needed:</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;startPoint&nbsp;=&nbsp;<span style="color:blue;">null</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">FamilySymbol</span>&nbsp;sym&nbsp;=&nbsp;<span style="color:blue;">null</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Create.NewFamilyInstance(&nbsp;r,&nbsp;startPoint,&nbsp;<span style="color:#2b91af;">XYZ</span>.BasisY,&nbsp;sym&nbsp;);
+&nbsp;&nbsp;}
+</pre>
+
+<h4><a name="5"></a> Reformat Stable Representation String for Dimensioning</h4>
+
+<p>By the way, Joshua also added an important note on how 
+to <a href="http://thebuildingcoder.typepad.com/blog/2016/04/stable-reference-string-magic-voodoo.html#6">reformat the stable representation string for dimensioning</a> in the discussion
+on the <a href="http://thebuildingcoder.typepad.com/blog/2016/04/stable-reference-string-magic-voodoo.html">reference stable representation magic voodoo</a>.</p>
+
+<p>Many thanks for your helpful contributions, Joshua!</p>
+
+<h4><a name="6"></a> Deleting Unnamed Non-Hosting Reference Planes Updated</h4>
+
+<p>Another important update was initiated by Austin Sudtelgte, who pointed out that the approach described in 2014
+for <a href="http://thebuildingcoder.typepad.com/blog/2014/02/deleting-unnamed-non-hosting-reference-planes.html">deleting unnamed non-hosting reference planes</a> no longer works. 
+<a href="http://thebuildingcoder.typepad.com/blog/2014/02/deleting-unnamed-non-hosting-reference-planes.html#comment-3985629186">Austin adds</a>:</p>
+
+<blockquote>
+  <p>As of 2017 this method no longer works, because Revit doesn't throw an error when deleting a plane with something hosted to it. You will have to get all family instances in the document, check their host ID parameter, get all reference planes excluding the ones whose IDs we just collected, then delete. Dimensions that measure to a reference plane will be removed with the reference plane. The methods used above will still work to determine if one of those will be deleted or not. Alternatively, as of 2018.1, there is an <code>Element.GetDependentElements</code> method that will return the same things as what is returned when deleting the element, just without having to delete it and roll back a transaction.</p>
+</blockquote>
+
+<p>He also points out in
+his <a href="http://thebuildingcoder.typepad.com/blog/2018/04/whats-new-in-the-revit-2019-api.html#comment-3985568426">comment on <em>What's New in the Revit 23019 API</em></a>:</p>
+
+<blockquote>
+  <p><a href="http://thebuildingcoder.typepad.com/blog/2018/04/whats-new-in-the-revit-2019-api.html#4.2.3">Point 2.3 on finding element dependencies</a> with
+  <code>Element.GetDependentElements</code> seems to require an element filter rather than having it be optional as noted above. It's possible that in 2019 the filter is optional, but in 2018.1 it was not.</p>
+</blockquote>
+
+<p>This is relevant 
+in <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder sample</a>
+<code>CmdDeleteUnusedRefPlanes.cs</code> to delete unnamed non-hosting reference planes, originally discussed and implemented at
+the <a href="http://thebuildingcoder.typepad.com/blog/2012/03/melbourne-devlab.html#2">Melbourne DevLab</a> in 2012 to delete all reference planes that:</p>
+
+<ul>
+<li>Have not been assigned a name, and</li>
+<li>Do not host any elements.</li>
+</ul>
+
+<p>The original approach stopped working and was <a href="http://thebuildingcoder.typepad.com/blog/2014/02/deleting-unnamed-non-hosting-reference-planes.html">updated and added to The Building Coder samples in 2014</a>,
+when the <code>Delete</code> method overload taking an <code>Element</code> argument was deprecated in Revit 2014 and the deletion of a reference plane hosting elements started throwing an exception.</p>
+
+<p>Austin shared his version of the broken command, plus his new working solution.</p>
+
+<p>I added them both 
+to <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder Samples</a>
+<a href="https://github.com/jeremytammik/the_building_coder_samples/blob/master/BuildingCoder/BuildingCoder/CmdDeleteUnusedRefPlanes.cs">module <code>CmdDeleteUnusedRefPlanes.cs</code></a>.</p>
+
+<p>Yet again, I discovered a couple of optimisation possibilities that I very frequently keep pointing out and also added to Austin's code:</p>
+
+<ul>
+<li>Iterate directly over the filtered element collectors instead of converting it to a list, which wastes time and space for no benefit whatsoever.</li>
+<li>Use a <code>Dictionary</code> instead of a <code>List</code>, since it is much more efficient looking up a dictionary key than searching an unsorted list for a specific entry.</li>
+<li>Only instantiate the transaction if it is actually going to be used.</li>
+</ul>
+
+<p>You can see exactly what I modified in
+the <a href="https://github.com/jeremytammik/the_building_coder_samples/commit/21ef175572ee1b4ac7933af391135004c8889343">commit highlighting those changes</a>.</p>
+
+<p>Here Austin's solution in its current form:</p>
+
+<pre class="code">
+[<span style="color:#2b91af;">Transaction</span><span style="color:#2b91af;">Attribute</span>(&nbsp;<span style="color:#2b91af;">TransactionMode</span>.Manual&nbsp;)]
+<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">CmdDeleteUnusedRefPlanes</span>&nbsp;:&nbsp;<span style="color:#2b91af;">IExternalCommand</span>
+{
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">Result</span>&nbsp;Execute(
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ExternalCommandData</span>&nbsp;commandData,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">ref</span>&nbsp;<span style="color:blue;">string</span>&nbsp;message,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ElementSet</span>&nbsp;elements&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UIApplication</span>&nbsp;uiapp&nbsp;=&nbsp;commandData.Application;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UIDocument</span>&nbsp;uidoc&nbsp;=&nbsp;uiapp.ActiveUIDocument;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;=&nbsp;uidoc.Document;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">ElementId</span>&gt;&nbsp;refplaneids
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">ReferencePlane</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.ToElementIds();
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">using</span>(&nbsp;<span style="color:#2b91af;">TransactionGroup</span>&nbsp;tg&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">TransactionGroup</span>(&nbsp;doc&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tg.Start(&nbsp;<span style="color:#a31515;">&quot;Remove&nbsp;unused&nbsp;reference&nbsp;planes&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>&nbsp;instances
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">FamilyInstance</span>&nbsp;)&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Dictionary</span>&lt;<span style="color:#2b91af;">ElementId</span>,&nbsp;<span style="color:blue;">int</span>&gt;&nbsp;toKeep&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Dictionary</span>&lt;<span style="color:#2b91af;">ElementId</span>,&nbsp;<span style="color:blue;">int</span>&gt;();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">FamilyInstance</span>&nbsp;i&nbsp;<span style="color:blue;">in</span>&nbsp;instances&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Ensure&nbsp;the&nbsp;element&nbsp;is&nbsp;hosted</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;<span style="color:blue;">null</span>&nbsp;!=&nbsp;i.Host&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ElementId</span>&nbsp;hostId&nbsp;=&nbsp;i.Host.Id;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Check&nbsp;list&nbsp;to&nbsp;see&nbsp;if&nbsp;we&#39;ve&nbsp;already&nbsp;added&nbsp;this&nbsp;plane</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;!toKeep.ContainsKey(&nbsp;hostId&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;toKeep.Add(&nbsp;hostId,&nbsp;0&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++toKeep[hostId];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Loop&nbsp;through&nbsp;reference&nbsp;planes&nbsp;and&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;delete&nbsp;the&nbsp;ones&nbsp;not&nbsp;in&nbsp;the&nbsp;list&nbsp;toKeep.</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">ElementId</span>&nbsp;refid&nbsp;<span style="color:blue;">in</span>&nbsp;refplaneids&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;!toKeep.ContainsKey(&nbsp;refid&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">using</span>(&nbsp;<span style="color:#2b91af;">Transaction</span>&nbsp;t&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Transaction</span>(&nbsp;doc&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t.Start(&nbsp;<span style="color:#a31515;">&quot;Removing&nbsp;plane&nbsp;&quot;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;doc.GetElement(&nbsp;refid&nbsp;).Name&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Ensure&nbsp;there&nbsp;are&nbsp;no&nbsp;dimensions&nbsp;measuring&nbsp;to&nbsp;the&nbsp;plane</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;doc.Delete(&nbsp;refid&nbsp;).Count&nbsp;&gt;&nbsp;1&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t.Dispose();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">else</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t.Commit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tg.Assimilate();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#2b91af;">Result</span>.Succeeded;
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p>Many thanks to Austin for picking up and fixing this!</p>

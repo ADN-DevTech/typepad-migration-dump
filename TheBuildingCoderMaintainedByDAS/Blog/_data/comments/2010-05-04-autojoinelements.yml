@@ -1,0 +1,195 @@
+comments:
+- author: pnavarra
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.0.196
+  url: ''
+  date: '2010-05-04 05:33:21'
+  body: 'Hi Jeremy,
+
+    Iv''e got problems when I create a PulldownButtonData.
+
+    It is grayed out...do you know why.
+
+    When I create separated PushButtons, it works....
+
+
+    Cheers!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-05-11 12:26:46'
+  body: 'Dear Pierre,
+
+
+    No, I have never encountered this problem. Here are some sample code snippets
+    excerpted from the Revit API introduction Lab6_2_Ribbon application that work
+    for me:
+
+
+    // prepare data for creating stackable buttons
+
+    PushButtonData pbd1 = new PushButtonData( name1 + " 2", text1, addInPath, cmd1
+    );
+
+
+    PushButtonData pbd2 = new PushButtonData( name2, text2, addInPath, cmd2 );
+
+
+    PulldownButtonData pbd3 = new PulldownButtonData( name3, text3 );
+
+
+    // add stackable buttons
+
+    IList ribbonItems = panel.AddStackedItems( pbd1, pbd2, pbd3 );
+
+
+    // add two push buttons as sub-items of the Lab 1 commands
+
+    PulldownButton pb3 = ribbonItems[2] as PulldownButton;
+
+
+    pbd = new PushButtonData( name1, text1, addInPath, cmd1 );
+
+    PushButton pb3_1 = pb3.AddPushButton( pbd );
+
+
+    pbd = new PushButtonData( name2, text2, addInPath, cmd2 );
+
+    PushButton pb3_2 = pb3.AddPushButton( pbd );
+
+
+    Cheers, Jeremy.'
+- author: Konstantin
+  email: konstantin.udilovich@parsons.com
+  ip: 206.219.255.152
+  url: ''
+  date: '2011-06-08 19:13:32'
+  body: 'Jeremy,
+
+    Is there a way to prevent members from auto-joining? I have an issue where I have
+    structural framing with tiny offsets (intentionally introduced for connections).
+    During automatic import via code all that geometry gets messed up becuase Revit
+    readjusts member centerlines as it sees fit.'
+- author: Nitin
+  email: ''
+  ip: 61.11.14.102
+  url: http://profile.typepad.com/nitinjambhale2008
+  date: '2011-06-13 04:58:31'
+  body: 'Dear sir,
+
+    How can i connect two pipe programmatically?
+
+
+    Thanks & Regards,
+
+    Nitin'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.163.184
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-14 04:29:21'
+  body: 'Dear Konstantin,
+
+
+    Revit 2012 offers the possibility to allow and disallow wall end joins (cf. What''s
+    New in the help file), but I do not believe there is any API access to this for
+    other elements.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.163.184
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-14 04:40:43'
+  body: "Dear Nitin,\n\nYou can look at \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2011/04/use-of-newtakeofffitting-on-a-pipe.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2011/04/use-of-newtakeofffitting-on-a-pipe.html</a>\n\
+    \nThat presents a simple solution. \n\nApparently, there are a large number of\
+    \ potential complications, as our frequent correspondent Kailash Kute has pointed\
+    \ out. He explains a number of issues that he ran into and how to resolve some\
+    \ of them in his comments on \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2011/02/create-a-pipe-cap.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2011/02/create-a-pipe-cap.html</a>\n\
+    \nCheers, Jeremy."
+- author: Nitin
+  email: ''
+  ip: 61.11.14.102
+  url: http://profile.typepad.com/nitinjambhale2008
+  date: '2011-09-30 02:32:34'
+  body: 'Dear sir,
+
+    I m using AutoJoinElements() with pipes and couplings but it is not connecting
+    them.
+
+
+    What can be the problem?
+
+
+    Thanks & Regards,
+
+    -Nitin'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-10-03 09:23:24'
+  body: "Dear Nitin,\n\nI do not believe that AutoJoinElements will do anything to\
+    \ connect your pipes and couplings. \n\nTo achieve that, you can either connect\
+    \ them yourself manually by querying and using methods on their respective connector\
+    \ manager objects, or use the dedicated methods to insert fittings which will\
+    \ automatically connect the elements as well:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/05/cable-tray-orientation-and-fittings.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/05/cable-tray-orientation-and-fittings.html</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2011/02/use-of-newtakeofffitting-on-a-duct.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2011/02/use-of-newtakeofffitting-on-a-duct.html</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2011/02/create-a-pipe-cap.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2011/02/create-a-pipe-cap.html</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2011/04/use-of-newtakeofffitting-on-a-pipe.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2011/04/use-of-newtakeofffitting-on-a-pipe.html</a>\n\
+    \nCheers, Jeremy."
+- author: Augi Domeo
+  email: ''
+  ip: 113.160.5.114
+  url: http://profile.typepad.com/6p0192acc6680b970d
+  date: '2014-04-03 05:15:16'
+  body: 'Hi Jeremy,
+
+
+    When I creating wall or other component in working my project by revit, my revit
+    slowly progress (about 30 second ~ few minute.
+
+    Please help me in my picture at
+
+    <a href="http://dotuanhanh.blogspot.com/2014/04/revit-model-performance-optimization.html">http://dotuanhanh.blogspot.com/2014/04/revit-model-performance-optimization.html</a>
+
+
+    Regards,'
+- author: Jeremy Tammik
+  email: ''
+  ip: 88.76.48.21
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-04-03 05:25:07'
+  body: 'Dear Augi,
+
+
+    I will happily advise you on Revit API programming issues.
+
+
+    For product usage and performance issues, I would suggest talking with product
+    support.
+
+
+    Good luck.
+
+
+    Cheers, Jeremy.'
+- author: Augi Domeo
+  email: ''
+  ip: 113.160.5.114
+  url: http://profile.typepad.com/6p0192acc6680b970d
+  date: '2014-04-03 05:33:24'
+  body: 'Yes Sir,
+
+
+    Thank you so much.
+
+    -----'

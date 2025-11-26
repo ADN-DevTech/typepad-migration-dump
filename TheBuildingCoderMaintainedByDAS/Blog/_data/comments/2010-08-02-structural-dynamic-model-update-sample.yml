@@ -1,0 +1,298 @@
+comments:
+- author: Zhu XiaoMeng
+  email: zhuxiaomengjj@gmail.com
+  ip: 123.116.159.245
+  url: ''
+  date: '2010-08-02 20:44:45'
+  body: 'Hi, Jeremy:
+
+
+    In the revit application UI , I can create a FlexDuct properly(with the start
+    tangent of the hermit curve in an reasonable direction),
+
+    But while I create a flextDect in the API,the start tangent is always horizontal.
+    How can I do the same thing in API as in the UI?
+
+
+    The code is as flow:
+
+    FlexDuct flexDuct = doc.Create.NewFlexDuct(points, flexducttype);'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-08-03 23:29:30'
+  body: "Dear Zhu XiaoMeng,\n\nI checked with the development team, and it seems that\
+    \ the issue with the flex duct is not related to the Hermite spline issue that\
+    \ we recently discussed in your comment \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/07/debugging-in-visual-studio-2010-express.html?cid=6a00e553e168978833013485ce109c970c#comment-6a00e553e168978833013485ce109c970c\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/07/debugging-in-visual-studio-2010-express.html?cid=6a00e553e168978833013485ce109c970c#comment-6a00e553e168978833013485ce109c970c</a>\
+    \ \n\nHere is a suggestion for a possible workaround: \n\n1. Place a fitting with\
+    \ a connector temporarily where the direction of the connector matches the desired\
+    \ tangent.  \n\n2. Place the flex duct/pipe attached to the connector.  \n\n3.\
+    \ Delete the fitting.\n\nCheers, Jeremy."
+- author: Zhu XiaoMeng
+  email: zhuxiaomengjj@gmail.com
+  ip: 119.80.48.4
+  url: ''
+  date: '2010-08-05 17:39:52'
+  body: "Hi, Jeremy:\n\n    I did as what you say but, I get confused with the second\
+    \ step,\"Place the flex duct/pipe attached to the connector.\" I placed a fitting\
+    \ with two side connectors to the right place, and then placed the flex duct in\
+    \ the right position but they did not join. So the tangent did not changed. So\
+    \ the point is : how can I\nget them joined?\n\n Here is my code:\n\nFamily fittingFamily\
+    \ = lstElem.Where(e => e.Name == \"M_圆形活接头\").Select(e => e as Family).FirstOrDefault();\n\
+    \                            FamilySymbol fittingType = fittingFamily.Symbols.ToList().First();\n\
+    \                            const double fitLen = 1.5;\n                    \
+    \        var vectDown = (samplePoints[1] - samplePoints[0]).Normalize();\n   \
+    \                         var fittPos = ptA - vectDown * fitLen;\n           \
+    \                 //vectAb is the vector pointing from ptA(samplePoints[First])\
+    \ to ptB(samplePoints[Last])\n                            var vectAbHoriz = new\
+    \ XYZ(vectAb.X, vectAb.Y, 0); //revmove the z values (as the flexDuct first tangent\
+    \ do)\n                            FamilyInstance fittingInstance = _doc.Create.NewFamilyInstance(fittPos,\
+    \ fittingType, StructuralType.NonStructural);\n                            Line\
+    \ axis2 = _app.Create.NewLine(fittPos, vectDown.CrossProduct(XYZ.BasisZ), false);\n\
+    \                            //rotate the fitting to the desired angle\n     \
+    \                       bool success = _doc.Rotate(fittingInstance, axis2, -vectDown.AngleTo(vectAbHoriz));\n\
+    \                            SortedList valuePairs = new SortedList();\n     \
+    \                       valuePairs[\"长度 01\"] = fitLen;\n                    \
+    \        ChangeParametersValue(fittingInstance, valuePairs);\n               \
+    \             //\n                            FlexDuct flexDuct2 = CreateDuct(samplePoints,\
+    \ flexDuctType);"
+- author: Jeremy Tammik
+  email: ''
+  ip: 61.19.67.183
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-08-06 07:30:41'
+  body: 'Dear Zhu XiaoMeng,
+
+
+    You probably have to explicitly connect them with each other as demonstrated in
+    the AutoRoute and AvoidObstruction SDK samples.
+
+
+    Cheers, Jeremy.'
+- author: Zhu XiaoMeng
+  email: zhuxiaomengjj@gmail.com
+  ip: 119.80.48.3
+  url: ''
+  date: '2010-08-07 18:30:05'
+  body: "Thank you, it's solved! \nHere is my way for someone else encounter the same\
+    \ problem: \nFind the right connector of the fitting as well as the right connector\
+    \ of flexDuct, and call connector.ConnectTo method to join them. \nBefore deleting\
+    \ the temporary fitting , call document's Regenerate(), if not , the tangent will\
+    \ not change!"
+- author: Jeremy Tammik
+  email: ''
+  ip: 124.157.230.167
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-08-16 06:47:08'
+  body: "Dear Zhu Xiaomeng,\n\nThank you very much for this discussion and sharing\
+    \ the successful result! \n\nI think this is interesting and useful to summarise\
+    \ and publish as a separate blog post:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/08/flex-duct-start-tangent.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/08/flex-duct-start-tangent.html</a>\n\
+    \nThank you very much again!\n\nCheers, Jeremy."
+- author: seniut.konstantin@gmail.com
+  email: seniut.konstantin@gmail.com
+  ip: 84.15.188.162
+  url: ''
+  date: '2010-09-27 12:04:00'
+  body: "Hello Jeremy \nVery usefull example, everything works as supposed. But what\
+    \ I would like to add to such program, is automatic UIDynamicModelUpdateOn() call,\
+    \ when for example project is opend. Is it possible? With best regards Konstantin"
+- author: Jeremy Tammik
+  email: ''
+  ip: 86.158.243.43
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-09-27 17:31:39'
+  body: 'Dear Konstantin,
+
+
+    Thank you for posting this as a public comment.
+
+
+    Once you have registered the updater and installed a trigger to it, I am sure
+    there are an infinite number of different ways that you can "trigger the trigger".
+    For instance, you might try selecting the element you are interested in and calling
+    the Document.Move method on it, with a zero length translation vector, or changing
+    it in some other way that makes no real difference to the model but will still
+    trigger the trigger. Would that fulfil you need?
+
+
+    Cheers, Jeremy.'
+- author: Konstantin
+  email: seniut.konstantin@gmail.com
+  ip: 77.241.201.221
+  url: ''
+  date: '2010-09-28 01:06:01'
+  body: 'this is answser to my secon question which i had in mind :) thank you :)
+
+    talking about original question, what i would like to achieve is to pass also
+    ExternalCommandData to function which is trigered by triger :) which is why i
+    asked if is it posible to call UIDynamicModelUpdateOn()external command automaticaly
+    :)'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-10-04 03:38:32'
+  body: 'Dear Konstantin,
+
+
+    I am glad that I already answered your next question.
+
+
+    Regarding this one, I do not see the point of it, and suspect that it does not
+    make much sense.
+
+
+    Why would you want an ExternalCommandData instance? I bet you want to do something
+    naughty with it.
+
+
+    I would suggest that you just obtain the application and document object instances
+    in the standard fashion and make do with those, if you can.
+
+
+    Cheers, Jeremy.'
+- author: Manny Moon
+  email: wduncan@newcomb-boyd.com
+  ip: 38.116.6.210
+  url: ''
+  date: '2011-09-13 17:34:05'
+  body: 'Jeremy,
+
+
+    I have created a dynamic updater for piping, and I am implementing a radio button
+    to enable / disable the updater as you describe above. I was wondering if there
+    was anyway to be notified when you are opening a project if the updater has been
+    used on that project or not. That way, you could have a chance to disable it if
+    it had not previously been used on that project, to prevent the dialog from coming
+    up in the future when the project is opened on a machine without the Add-In.
+
+
+    I tried using Revit Lookup but could not find anywhere where it identifies which
+    updaters have been used on a project.
+
+
+    Thanks for all the good work!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.148.51
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-09-14 02:40:30'
+  body: "Dear Manny,\n\nThank you for your appreciation.\n\nHere is a possible idea\
+    \ to handle this:\n\nHow about using extensible storage to write something into\
+    \ the file when the updater runs? \n\nThen, when the project opens, you could\
+    \ run a check to see if this information exists.\n\nCheers, Jeremy."
+- author: Manny Moon
+  email: wduncan@newcomb-boyd.com
+  ip: 38.116.6.210
+  url: ''
+  date: '2011-09-14 17:09:39'
+  body: 'Excellent suggestion! Would not have thought of that, even though it is a
+    nice solution in retrospect.
+
+
+    I implemented this and have gotten it working, although I discovered something
+    odd when doing so. When I ran my code from an Application, it would not catch
+    any exceptions that were thrown. It would just exit out back to Revit. So I converted
+    the code to a Command to debug it and eliminate the numerous spots where I was
+    throwing exceptions. Once I got it to work I was able to put the good code back
+    into the Application and it ran fine.
+
+
+    I don''t know why I was having trouble. With my poor coding I have never had any
+    trouble throwing exceptions from an Application before...
+
+
+    Thanks again for all the help!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.150.1
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-09-15 01:39:56'
+  body: 'Dear Manny,
+
+
+    Thank you, very glad you like it, and glad that you got it sorted out.
+
+
+    I have not run into the issue you describe before, so no idea.
+
+
+    Cheers, Jeremy.'
+- author: Neda
+  email: neda.abaghery@cel.ca
+  ip: 38.99.165.82
+  url: ''
+  date: '2013-01-15 14:38:54'
+  body: 'Hello Jeremy,
+
+
+    I would like to create a dynamic model updater and set a trigger for the modify
+    updater. I need to apply Element.GetChangeTypeParameter() for my custom project
+    parameter.
+
+
+    I have done this for Mark property as follow and it works fine:
+
+
+    ElementId paramId = new ElementId(BuiltInParameter.ALL_MODEL_MARK);
+
+
+    UpdaterRegistry.AddTrigger(Markupdater.GetUpdaterId(), categoryFilter, Element.GetChangeTypeParameter(paramId));
+
+
+    How can I apply a trigger to a custom project parameter, say “CEL Mark”?
+
+
+    Thanks,
+
+
+    Neda'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-17 04:55:57'
+  body: 'Dear Neda,
+
+
+    A very valid question!
+
+
+    I believe that you need to obtain a pseudo element id for the custom project parameter,
+    to use similarly to the pseudo element id that you generate in your sample code
+    snippet from the built-in parameter enum.
+
+
+    For the custom parameter, you get hold of its associated Definition object and
+    use that element id as paramId.
+
+
+    Please confirm that this works and I''ll publish the information in a real post
+    so that it is not hidden down here in the comment section.
+
+
+    Cheers, Jeremy.'
+- author: Neda
+  email: neda.abaghery@cel.ca
+  ip: 38.99.165.82
+  url: ''
+  date: '2013-02-05 16:31:21'
+  body: 'Dear Jeremy,
+
+
+    I''m sorry for my late replay as your comment was hidden in Show more comments...,
+    so I found your comment late.
+
+
+    It didn''t work for me. Maybe I didn''t get your point.
+
+
+    Thanks again for all the help!
+
+
+    Neda,
+
+    -----'

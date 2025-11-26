@@ -1,0 +1,153 @@
+---
+layout: "post"
+title: "Avoid Exorbitant Coordinates"
+date: "2017-11-29 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Units"
+  - "View"
+original_url: "https://thebuildingcoder.typepad.com/blog/2017/11/avoid-exorbitant-coordinates.html "
+typepad_basename: "avoid-exorbitant-coordinates"
+typepad_status: "Publish"
+---
+
+<p>With help from the Revit API development team, my
+colleague <a href="http://thebuildingcoder.typepad.com/blog/2017/11/cloud-model-predicate-and-set-parameter-regenerates.html#2">Jim Jia</a> resolved 
+an issue involving large coordinates beyond
+the <a href="#2">20-mile limit</a> that is important to be aware of:</p>
+
+<p><strong>Question:</strong> My program sets the parameters for a precast concrete slab family.</p>
+
+<p>The family was created in Revit 2015 and all runs perfectly. </p>
+
+<p>The family has been upgraded to Revit 2016 and the plug in still runs fine. </p>
+
+<p>However, the slabs created in Revit 2016 look completely wrong.</p>
+
+<p>Here is how they appear correctly in Revit 2015:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c9385fff970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c9385fff970b img-responsive" style="width: 400px; " alt="Good slabs in Revit 2015" title="Good slabs in Revit 2015" src="/assets/image_07fbe7.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>In Revit 2016, the slabs are displayed incorrectly and look like this:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d2c2af7a970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d2c2af7a970c img-responsive" style="width: 400px; " alt="Bad slabs in Revit 2016" title="Bad slabs in Revit 2016" src="/assets/image_b3eb8b.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>If you hover the mouse over a slab in Revit 2016, the blue selection outline shows the correct slab geometry:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb09db75cd970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb09db75cd970d img-responsive" style="width: 400px; " alt="Hovering over slabs in Revit 2016" title="Hovering over slabs in Revit 2016" src="/assets/image_a0e943.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>I tried two different Revit 2016 installations with different graphics cards and get the same problem.</p>
+
+<p>I also tried Revit 2018 and get the same problem.</p>
+
+<p><strong>Answer:</strong> Is the slab possibly more than 20 miles from the origin?</p>
+
+<p>Yes!</p>
+
+<p>The instance locations I am getting from the input file are at:</p>
+
+<pre>
+  X = ~355 miles
+  Y = ~130 miles
+</pre>
+
+<p>For testing, I added this line to the macro:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;origin&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(&nbsp;slabDetail.OX&nbsp;/&nbsp;mmToFeetRatio,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;slabDetail.OY&nbsp;/&nbsp;mmToFeetRatio,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;slabDetail.OZ&nbsp;/&nbsp;mmToFeetRatio&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;<span style="color:#a31515;">&quot;Instance&nbsp;location&quot;</span>,&nbsp;origin.ToString()&nbsp;);
+</pre>
+
+<p>This is where I see feet values of <code>&gt;1.87</code> million for <code>X</code>.</p>
+
+<p>These coordinates are truly <a href="https://en.wiktionary.org/wiki/exorbitant#English">exorbitant</a>!</p>
+
+<p>Revit expects geometry to be placed relatively near its origin.</p>
+
+<p>If this is violated, graphical issues such as these can result.</p>
+
+<p>Why did it work in Revit 2015?</p>
+
+<p>No idea, but placing elements at these distances has never, ever, been a good idea.</p>
+
+<p><strong>Response:</strong> Wow, great!</p>
+
+<p>I moved the family instances near to the origin and they are now created well.</p>
+
+<h4><a name="2"></a>Why the Limit?</h4>
+
+<p><strong>Question:</strong> David Veld asks <a href="http://thebuildingcoder.typepad.com/blog/2017/11/avoid-exorbitant-coordinates.html#comment-3639729627">below</a>: I've always wondered where this 20 mile limit comes from, from a coding-technical point of view. If Revit is written in native C++ and stores its coordinates in feet, as doubles, the limit should be 1.8 × 10^308 (right?) &ndash; this is waaaay beyond 20 miles. Or does this mean they are not and perhaps stored in another way?  </p>
+
+<p><strong>Answer:</strong> First of all, read about <a href="https://blog.demofox.org/2017/11/21/floating-point-precision">demystifying floating point precision</a>.
+The precision is reduced the higher the number that is stored.</p>
+
+<p>20 miles is 105600 feet. According to the table there, the precision is about 0.008 feet at that range for floats. This is about 0.2 cm, which is pretty close to Revit's built-in precision limit of about 1/16th of an inch that we repeatedly encountered in the past:</p>
+
+<ul>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2009/07/think-big-in-revit.html">Think big in Revit</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2014/05/directshape-performance-and-minimum-size.html#3">DirectShape minimum size</a></li>
+</ul>
+
+<p>The Revit help clearly documents
+the <a href="https://knowledge.autodesk.com/support/revit-products/learn-explore/caas/CloudHelp/cloudhelp/2018/ENU/Revit-Model/files/GUID-3F79BF5A-F051-49F3-951E-D3E86F51BECC-htm.html">maximum distance limit of 20 miles</a>.</p>
+
+<p>It covers the projection of a plane onto a curved spherical surface, and also the double accuracy issue
+that is probably causing the weird slabs.</p>
+
+<p><strong>Response:</strong> This makes sense and also raises more questions.</p>
+
+<ol>
+<li><p>The shown calculations are based on 32bit floats; could it be that temporary upgrading to 64 bits environment Autodesk made coordinates 64 bit floats (thus showing Jim Jia's script working fine in 2015)? Then, later, when improving performance, they switched back to 32 bits? If this is possible could this be set as a variable setting (I'd love to be able to work beyond the 20-mile radius (with precision)).</p></li>
+<li><p>Autodesk sets the precision of 1/16th of an inch for the ENTIRE 20-mile zone; however, this should only apply for the very far exorbitant areas of the circle. Doesn't this mean there is A LOT of potential precision in your normal range of let say 250 feet or so from the origin where most buildings would fit in?</p></li>
+<li><p>Since we are talking about Cartesian coordinates (X &amp; Y), should the zone be a square rather than a circle?</p></li>
+</ol>
+
+<p>Food for thought, but Revit's (internal as well as shared) coordinate systems keeps surprising and confusing me.</p>
+
+<p><strong>Answer:</strong> Ours is not to wonder why; ours is but to do or die.</p>
+
+<p>No answer to any of these questions is going to help you or affect your work in any way whatsoever.</p>
+
+<p>I still find them interesting, of course, just as you and many others also.</p>
+
+<p>Revit coordinates are not stored in floats.</p>
+
+<p>However, even before precision issues actually cause full storage error as described in the article
+on <a href="https://blog.demofox.org/2017/11/21/floating-point-precision">demystifying floating point precision</a> mentioned
+above, imprecision can affect double calculations, e.g., when is 10 not equal to 10? When you add 0.1 (double) 100 times and expect it to be exactly 10. It never is. These effects are exacerbated at higher orders of magnitude.</p>
+
+<p>You cannot work beyond the 20-mile radius, and you cannot work below the 1/16th inch size, ca. 2mm.</p>
+
+<p>That is a fact you have to accept.</p>
+
+<p>That is why it is so clearly documented.</p>
+
+<p>As always, you can work around it. Here is an example of doing so,
+for <a href="http://thebuildingcoder.typepad.com/blog/2016/02/modelling-small-details.html">modelling small details</a>,
+by importing a DWG file &ndash; however, please also be aware that it is in general recommended
+to <a href="http://thebuildingcoder.typepad.com/blog/2016/09/avoid-cad-import-in-rfa-aag16-and-endtrip.html#2">avoid importing CAD into RFA</a>.</p>
+
+<p>The recommendation to avoid exorbitant coordinates is not specific to Revit, by the way.</p>
+
+<p>Almost all CAD systems start behaving weirdly at large distances from the origin.</p>
+
+<p>AutoCAD used to be an exception, making use of doubles, as demonstrated by John Walkers planetary system sample way back then.</p>
+
+<p>However, under certain circumstances, for certain workflows, this even applies to AutoCAD, I'm afraid.</p>
+
+<p>I recommend getting into the habit of staying close to the origin always, for everything, and managing some kind of base point information to offset your design to wherever you really want it in the larger universe of things.</p>

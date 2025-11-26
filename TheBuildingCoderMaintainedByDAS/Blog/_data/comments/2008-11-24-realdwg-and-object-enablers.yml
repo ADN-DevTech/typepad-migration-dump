@@ -1,0 +1,180 @@
+comments:
+- author: pierrenavarra
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.64.210
+  url: http://forums.augi.com/showthread.php?t=84766
+  date: '2008-11-24 06:10:48'
+  body: 'Hi,
+
+    Have you ever try to use the Import method?
+
+    I''d like to import an image by API.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typekey.com/1218580759s22477/
+  date: '2008-11-24 06:42:18'
+  body: "Hi Pierre, \n\nI assume you mean the Document.Import method, for importing\
+    \ a DWG file or a bitmap into Revit. No, sorry, I have never done anything special\
+    \ with that method. The first thing to do is always to look for a Revit SDK sample\
+    \ demonstrating the possibilities. One such sample in this case might be the ImportExport\
+    \ application. \n\nGood luck and best regards, Jeremy."
+- author: pierrenavarra
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.64.210
+  url: http://forums.augi.com/showthread.php?t=84766
+  date: '2008-11-24 08:28:08'
+  body: 'HI jeremy,
+
+    I have already look at the RevitSDK sample. I found this sample code called :
+    "ImportExport" but the Import fonction does not work.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typekey.com/1218580759s22477/
+  date: '2008-11-24 11:34:25'
+  body: "Hi Pierre, \n\nI am not aware of any problems with the Document.Import method.\
+    \ What are you doing with it, in what way is it failing?\n\nBest regards, Jeremy."
+- author: pierrenavarra
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.78.254
+  url: http://forums.augi.com/showthread.php?t=84766
+  date: '2008-11-24 11:54:40'
+  body: Anyway, do you know how to move an element?
+- author: pierrenavarra
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.78.254
+  url: http://forums.augi.com/showthread.php?t=84766
+  date: '2008-11-24 12:12:33'
+  body: 'I''m ok now with the Import fonction.
+
+    But, now, i try to move the element....do you know how to do it?
+
+
+    Best regards.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typekey.com/1218580759s22477/
+  date: '2008-11-24 12:18:46'
+  body: "Hi Pierre, \n\nCongratulations on solving your import issue. For moving an\
+    \ element, there are also various SDK samples. I suggest searching globally for\
+    \ \".Move\" through all the SDK samples.\n\nBest regards, Jeremy."
+- author: Andy
+  email: arobins@map-software.com
+  ip: 80.192.175.231
+  url: ''
+  date: '2009-03-30 17:12:17'
+  body: 'Hi Jeremy, thank you for this insite, it makes me question why does it not
+    use the enablers, when all the documentation on the adesk site suggests it does,
+    or am I reading it wrong?.
+
+
+    Also state
+
+    "Revit does not register itself as a RealDWG application, and so the object enabler
+    installers do not see it and do not set up any object enabler autoloading"
+
+
+    If I look at my registery ater installing Revit 2010, under key 69AB5C28B75C0B24697E99A66AB34651
+    which is the Host App Reg locations, Revit is listed.
+
+
+    I guess I dont realy follow what you are suggesting, does Revit use Object Enablers
+    to display custom entities or not? If not, are you suggesting it may be possible
+    to load the enabler myself withon Revit, if so, how would you get the graphics
+    to display in Revit?
+
+    Regards
+
+    Andy Robins'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.68.234
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-03-30 17:58:22'
+  body: "Hi Andy,\n\nI'm sorry that the statements are not clear enough. Of course\
+    \ all the information stated above was written for Revit 2009. I am not sure what\
+    \ the situation is for Revit 2010. \n\nWhat I am saying above is:\n\n1. Revit\
+    \ does not use object enablers to display custom entities.\n\n2. It is not possible\
+    \ to load an enabler into Revit.\n\nThe later statement about loading your own\
+    \ RealDWG-enabled plug-in would not provide any possibility whatsoever to affect\
+    \ the graphics displayed by Revit.\n\nI hope this clarifies.\n\nCheers, Jeremy."
+- author: Andy
+  email: arobins@map-software.com
+  ip: 80.193.152.84
+  url: ''
+  date: '2009-03-31 04:07:52'
+  body: 'perfect, thanks for clarification
+
+
+    Cheers
+
+    Andy'
+- author: Dave Kouts
+  email: dkouts@softwareengineering.com
+  ip: 64.207.34.118
+  url: ''
+  date: '2010-02-12 11:32:39'
+  body: 'Hi, Jeremy.
+
+
+    I am working with a custom RealDWG-registered app, and trying to pull the geometric
+    data for custom entities into an AcGiWorldDraw-derived class.
+
+
+    Within this app, I am able to load the enablers just fine.  Unfortunately, anytime
+    I use a custom entity''s worldDraw() method, it returns ''false'', and nothing
+    is added to my AcGiWorldDraw class.
+
+
+    In some cases, I can get around this by using the entity''s explode() method,
+    but this only works part of the time.
+
+
+    Any suggestions?
+
+
+    Thank you in advance for any ideas you may have!
+
+
+    - Dave'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-02-12 13:23:04'
+  body: "Dear Dave,\n\nYour question has nothing to do with the Revit API, which is\
+    \ what this blog focuses on, exclusively.\n\nStill, if memory serves right, he\
+    \ fact that the worldDraw returns false means that the entity wants its viewportDraw\
+    \ method called instead. To see the result of those calls, you have to implement\
+    \ and handle the AcGiViewportDraw interface. \n\nThis kind of behaviour is shown\
+    \ by AutoCAD Architecture custom entities, which display different graphics depending\
+    \ on the viewport they are drawn in and many other factors.\n\nCheers, Jeremy."
+- author: Dave Kouts
+  email: dkouts@softwareengineering.com
+  ip: 64.207.34.118
+  url: ''
+  date: '2010-02-12 16:32:18'
+  body: '[I apologize, I should have clarified.  I know my question doesn''t directly
+    relate to the blog above.  I asked it here, because you indirectly mentioned the
+    very things I was looking into (enablers, worldDraw method).]
+
+
+    Regarding your answer just now, thank you!  That explains a lot of the behavior
+    I was seeing, and gives me a direction in my work.  I really appreciate it.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-02-13 02:31:22'
+  body: 'Dear Dave,
+
+
+    Wow, I am glad and somewhat surprised that I could help. It''s been a long time
+    since I looked at that stuff :-)
+
+
+    Cheers, Jeremy.
+
+    -----'

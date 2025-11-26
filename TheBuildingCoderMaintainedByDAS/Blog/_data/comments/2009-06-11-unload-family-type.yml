@@ -1,0 +1,29 @@
+comments:
+- author: 'Yasir '
+  email: madi_yasir@hotmail.com
+  ip: 203.99.181.36
+  url: ''
+  date: '2010-10-08 20:28:38'
+  body: '1. And if I want to Delete Family along with all Family Types in it. How
+    can I do that?
+
+    2. How can I List all families in One Collection Including All Ducts and Pipes
+    also?
+
+    Many thanks.
+
+    Yasir'
+- author: Jeremy Tammik
+  email: ''
+  ip: 62.50.226.238
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-10-10 13:42:18'
+  body: "Dear Yasir,\n\n1. You can use the Document.Delete method. Its use in this\
+    \ context is described in\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/06/unload-family-type.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/06/unload-family-type.html</a>\n\
+    \n2. That sounds like a pretty weird request to me, but it is still doable:\n\n\
+    List.lt.ElementFilter.gt. a\n  = new List.lt.ElementFilter.gt.( 3 );\n\na.Add(\
+    \ new ElementClassFilter( \n  typeof( Family ) ) );\n\na.Add( new ElementClassFilter(\
+    \ \n  typeof( Duct ) ) );\n\na.Add( new ElementClassFilter( \n  typeof( Pipe )\
+    \ ) );\n\nFilteredElementCollector collector\n  = new FilteredElementCollector(\
+    \ doc )\n    .WherePasses( new LogicalOrFilter( a ) );\n\nCheers, Jeremy.\n-----"

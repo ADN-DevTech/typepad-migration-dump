@@ -1,0 +1,69 @@
+comments:
+- author: Adrian Hodos
+  email: adi.hodos@gmail.com
+  ip: 86.125.152.82
+  url: ''
+  date: '2014-02-18 12:42:42'
+  body: "Well, its nice to see that my (perhaps too strongly worded) feedback has\
+    \ reached someone. \nNow, regarding the managed only API access. You said that\
+    \ \"In my personal opinion, the .NET environment makes the API also more approachable\
+    \ to users that aren't professional developers\". It is good that you are trying\
+    \ to broaden the possible developer base of your product. But I don't see why\
+    \ you are forcing every developer out there to take the managed path. Why can't\
+    \ you provide a native API too ? (if I'm not mistaken this is exactly what Maya\
+    \ and Autocad do). \nAnother problem is the functionality (or lack of functionality)\
+    \ in the Revit API. Its 2014 and I still can't rotate/translate/scale a solid\
+    \ :) Come on people, you can do better than that (just look at Maya's API - its\
+    \ great)!\nAs pointed out by others, the lack of backward compatibility is also\
+    \ a major source of pain.\n\nI really hope to see some improvements in the future\
+    \ Revit APIs.\nHave a nice day."
+- author: Arnošt Löbel
+  email: arnost.lobel@autodesk.com
+  ip: 132.188.71.9
+  url: ''
+  date: '2014-02-18 21:30:04'
+  body: "Adrian, it would be a long-ish discussion if I’d tried to answer all your\
+    \ inquires. Not that I wouldn’t like to; not at all (ask Jeremy, right Jeremy?\
+    \ :-), but there is simply too many aspects of the API we normally do not mention\
+    \ anywhere, or not very often a perhaps clearly enough. I feel that this would\
+    \ be a very good discussion to have at, say AU or DevCamp, or some similar event.\
+    \ I will still try to fill at least some of the blanks here, however.\n\nYou have\
+    \ mentioned, Adrian, the differences between Revit and other applications, namely\
+    \ AutoCAD and Maya. And I confirmed that, indeed, there are differences. Not only\
+    \ those applications were written for different purpose and audiences, they were\
+    \ also developed with different philosophies (and by different companies, let’s\
+    \ not forget). While AutoCAD virtually stands and falls with its API (and really,\
+    \ what would AutoCAD be without its applications?), Revit, on the other hand was\
+    \ planned not to ever need an API. Yes, you read that correctly. In Revit, the\
+    \ API was an afterthought only introduced years after Revit 1.0. With that original\
+    \ concept being deeply embedded in Revit it is not easy and sometimes even not\
+    \ appropriate to expose the internal layer directly. The core components have\
+    \ simply not been written to be exposed. That is why we decided to introduce a\
+    \ proper API layer and at that time it sounded like most reasonable to  have it\
+    \ as a .NET API, since there is where most of Revit-tweaking customers come from.\n\
+    \nAs for the speed advantage of native programming, you do not have to convince\
+    \ me. I am a native programmer too, after all. However, I do not see the speed\
+    \ being the problem for most external applications. At least that is not the issue\
+    \ we hear the most complains about. I already mentioned our Cloud Rendering add-on\
+    \ in my previous comment. I did not tell the whole story though. That component\
+    \ was first written as a completely native application using a very-special back\
+    \ door to Revit. We had found it very unmaintainable (obviously!) and decided\
+    \ to rewrite it. A part of it we left as a native component (the part that communicates\
+    \ with the cloud), but the whole piece which interacts with Revit is now completely\
+    \ managed using only the public Revit API. Not only we got rid all of the maintenance\
+    \ issues, we also found, rather to our surprise, that this new add-on is now faster\
+    \ than the old one. Go figure! :-) Again, I do not want to argue over speed of\
+    \ native vs. managed applications. I am pretty sure that native applications would\
+    \ win. But it seems that a) it is not always as bad, and b) most users do not\
+    \ seem to care about that specifically.\n\nHonestly, I do not know what the lack\
+    \ of 3D operations in Revit is about. I thought the available geometric API was\
+    \ reasonably adequate. Well, maybe not Maya-adequate, but somehow adequate. It\
+    \ is not my area, but I know one can obtain geometry of any solid and use transformation\
+    \ utilities that include rotation, moving, mirroring, and other. If the API still\
+    \ lacks functionality (even in the about to be released R2015), requests can be\
+    \ made via customer support or ADN. I am confident that with enough pressure we,\
+    \ developers will be ordered to add more. For, you see, we developers only implement\
+    \ what we are told by project management, which is told by marketing department,\
+    \ which is told by customers. And, in my experience, the most influential and\
+    \ vocal customers get what they want. \n\nArnošt Löbel\nAutodesk, Revit R&D\n\
+    -----"

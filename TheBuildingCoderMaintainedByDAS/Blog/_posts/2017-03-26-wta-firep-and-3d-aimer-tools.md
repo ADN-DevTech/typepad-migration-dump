@@ -1,0 +1,161 @@
+---
+layout: "post"
+title: "WTA Elec, FireP and 3D Aimer Tools"
+date: "2017-03-26 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Accelerator"
+  - "Element Creation"
+  - "Family"
+  - "Modeless"
+  - "Parameters"
+  - "Ribbon"
+  - "RME"
+  - "Settings"
+  - "WPF"
+original_url: "https://thebuildingcoder.typepad.com/blog/2017/03/wta-firep-and-3d-aimer-tools.html "
+typepad_basename: "wta-firep-and-3d-aimer-tools"
+typepad_status: "Publish"
+---
+
+<p>I am traveling to Gothenburg for the
+<a href="http://thebuildingcoder.typepad.com/blog/2017/03/events-uv-coordinates-and-rooms-on-level.html#2">Forge accelerator</a>.</p>
+
+<p>On the way, I noticed another update to the interesting thread in 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a>
+by Allan Seidel,
+<a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/540057">@aksaks</a>
+and <a href="https://github.com/akseidel">@akseidel</a>, 
+sharing his <a href="https://forums.autodesk.com/t5/revit-api-forum/3d-aimer-just-because/m-p/6938219">3D Aimer, just because</a>.</p>
+
+<p>Later, I noticed that he shared a second, related project that also looks very useful and exciting,
+the mysteriously-named <a href="https://forums.autodesk.com/t5/revit-api-forum/another-family-plunk-concept-share/m-p/6972598">family plunk</a>:</p>
+
+<ul>
+<li><a href="#2">WTA FireP 3D Aimer tools</a></li>
+<li><a href="#3">GitHub repository and YouTube video</a></li>
+<li><a href="#4">Source code documentation</a></li>
+<li><a href="#5">WTA Elec &ndash; another family plunk and concept share</a></li>
+</ul>
+
+<h4><a name="2"></a>WTA FireP 3D Aimer Tools</h4>
+
+<p>Says Allan about <a href="https://forums.autodesk.com/t5/revit-api-forum/3d-aimer-just-because/m-p/6938219">3D Aimer, just because</a>:</p>
+
+<p>If a picture is worth a thousand words then maybe a video is at least that, well maybe not.</p>
+
+<p>Words for this might be,"What for?".</p>
+
+<p>The answer is, "Just because." Sorry for the file size. The guts to how this is done have been previously posted. </p>
+
+<ul>
+<li><a href="https://forums.autodesk.com/autodesk/attachments/autodesk/160/21574/1/AIM3D_DOWNSIZED.mp4">AIM3D_DOWNSIZED.mp4</a>, 21 MB</li>
+</ul>
+
+<p>The overall intent is to share ideas and show what has been used using information learned
+from <a href="http://thebuildingcoder.typepad.com/">The Building Coder</a> site.</p>
+
+<p>The 3d Aimer is a proof of concept.</p>
+
+<p>It has roots in something similar made in AutoCAD VBA 11 years ago that was part of a technical lighting design, but in Revit it is a curiosity. Perhaps someone might see that it performs a needed task.</p>
+
+<p>The other things going on in the video are just as much part of the show for sharing.</p>
+
+<p>Like what those rounded status windows are and how they come into being and change during the workflow or how a selection swipe across everything only selected the items that would be rotated. The whole megillah, from ribbon start to end, is best for seeing so that one starting from scratch can see the implementation, for good or for bad example.</p>
+
+<h4><a name="3"></a>GitHub Repository and YouTube Video</h4>
+
+<p>The 3d Aimer, which rotates a family in many directions, is part of a larger project.</p>
+
+<p>I have created a public GitHub repository and a YouTube posting for it:</p>
+
+<ul>
+<li><a href="https://github.com/akseidel/WTA_FireP">WTA_FireP GitHub repo</a></li>
+<li><a href="https://www.youtube.com/watch?v=fKrtMx0R9k8">Revit 3D Aimer add-in example concept</a></li>
+</ul>
+
+<p><center>
+<iframe width="480" height="270" src="https://www.youtube.com/embed/fKrtMx0R9k8?rel=0" frameborder="0" allowfullscreen></iframe>
+</center></p>
+
+<h4><a name="4"></a>Source Code Documentation</h4>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb09879b53970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb09879b53970d image-full img-responsive" alt="WTA FireP ribbon tab" title="WTA FireP ribbon tab" src="/assets/image_3abf80.jpg" border="0" /></a><br />
+</center></p>
+
+<p>Revit Add-in in C# : Creates a custom ribbon Tab with discipline related tools. The tools at this writing are for placing specific Revit family types with some families requiring parameter settings made on the fly.</p>
+
+<p>Included is the 3dAimer example that "aims" a special Revit family to a target. The enclosed Revit project is for demonstrating the 3dAimer.</p>
+
+<p>This repository is provided for sharing and learning purposes. Perhaps someone might provide improvements or education. Perhaps it will help to boost someone further up the steep learning curve needed to create Revit task add-ins. Hopefully it does not show too much of the wrong way.  </p>
+
+<p>Used by the tools in this ribbon are classes intended to provide a Revit family instance placement without the Revit use interface overhead normally required by Revit. The classes are intended to provide a universal mechanism for placing some types of Revit families. This includes tags, which is a task not in this discipline Tab but is in other discipline add-ins. The custom tab employs menu methods not commonly explained, for example a split button sets a family placement mode that is exposed to the functions called by command picks. Other tools use Add-in application settings as a way to persist settings or communicate to code that runs subsequent within a command that provides a task workflow.</p>
+
+<p>What goes on in this add-in is much of the typical tasks required for providing a Tab menu interface involving family placement tasks and for implementing those tasks. This means things like:</p>
+
+<ul>
+<li>Creating a ribbon tab populated with some controls
+<ul>
+<li>Tool tips</li>
+<li>Image file to Button image</li>
+<li>Communication between controls and commands the controls execute</li>
+</ul></li>
+<li>Establishing the family type for placement
+<ul>
+<li>Determine if the correct pairing exists in the current file</li>
+<li>Automatically discovering and loading the family if it does not exist in the current file but does exist somewhere staring from some set directory</li>
+</ul></li>
+<li>Providing the family type placement interface
+<ul>
+<li>In multiple mode or one shot mode</li>
+<li>With a heads-up status/instruction interface form</li>
+<li>As WPF with independent behavior
+<ul>
+<li>Sending focus back to the Revit view</li>
+</ul></li>
+<li>Returning the family instance placement for further processing after the instance has been placed</li>
+<li>Managing an escape out from the process</li>
+<li>Handling correct view type context</li>
+</ul></li>
+<li>Changing family parameter values</li>
+</ul>
+
+<p>Much of the code is by others. Its mangling and ignorant misuse is my ongoing doing. Much thanks to the professionals like Jeremy Tammik who provided the means directly or by mention one way or another for probably all the code needed.</p>
+
+<p>Many thanks to Allan for sharing this!</p>
+
+<h4><a name="5"></a>WTA Elec &ndash; Another Family Plunk and Concept Share</h4>
+
+<p>Allan shared a second, related project related to electrical fixtures in his thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/another-family-plunk-concept-share/m-p/6972598">another family plunk, concept share</a>:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb0987c816970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb0987c816970d img-responsive" style="width: 491px; " alt="WTA Elec ribbon tab" title="WTA Elec ribbon tab" src="/assets/image_f1f7bc.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Blurring the line between Revit API and Revit to visualize an abstraction, here is a video and code share. Perhaps it has value. One add-in picks ceilings and reports information about the lighting in the room that cannot be scheduled because Revit schedules lighting power by what it learns through the light fixture connector, which is apparent power, not dissipated power. Dissipated power is needed for some purposes. The second add-in picks ceilings to get the ceiling height and passes that information to a family plunk. The family's purpose is to visualize a detection field. The detection field geometry depends on the device hight. That gets passes to the family instance. The floating window seen in the video in both add-in examples is the same UI device concept.</p>
+
+<ul>
+<li><a href="https://github.com/akseidel/WTA_Elec">WTA_Elec GitHub repo</a></li>
+<li><a href="https://www.youtube.com/watch?v=KCu0yLzjRgE">Revit add-in, occupancy sensor, room lighting information</a> 55-second YouTube video</li>
+</ul>
+
+<p><center>
+<iframe width="480" height="270" src="https://www.youtube.com/embed/KCu0yLzjRgE?rel=0" frameborder="0" allowfullscreen></iframe>
+</center></p>
+
+<p>One task demonstrates rooms being selected with lighting information for that room being shown in a floating WPF. The information contains data not passed through light fixture load connectors and therefore cannot be seen via schedules.</p>
+
+<p>Another task places a non-face based family instance at a ceiling. Therefore the ceiling is selected and its height is passed to the family instance as its Revit level offset and also as a family parameter that controls the family's geometry. This family models the detection pattern for a specific manufacturer's lighting control occupancy sensor. In this example, the manufacturer's published detection pattern data is contradictory and incomplete, so this family needs to be corrected. The concept here is to provide a design tool that allows the lighting control engineer to make an informed decision regarding sensor selection and placement. The family instance is not the sensor but is the detection pattern. It would be disposed or retained. It is placed on a unique workset regardless of the current workset.</p>
+
+<p>The floating heads-up WPF status device seen during the task is actually the same device used in every instance it is seen. WPF's ability to handle itself makes this possible.</p>
+
+<p>The last sequence shows the family in the family editor. Every "blade" in the family is the same nested family. There are about five levels of nesting. In the last level, there are three polar arrays. Without the arrays you would see three blades, each a different size. Parameters control each of the three ways the blades can rotate. One way to describe this is to say the blades can flap up and down like an umbrella, sweep side to side like windshield wipers or twist on their long axis like the pitch to a propeller. Since all of the angles are constant for the sensor detection data the only geometry change this family does is calculate the blade length so that the major blade touches the floor.</p>
+
+<p>Read the full description in the <a href="https://github.com/akseidel/WTA_Elec">WTA_Elec GitHub repository documentation</a>.</p>
+
+<p>Thanks again, Allan, great job!</p>

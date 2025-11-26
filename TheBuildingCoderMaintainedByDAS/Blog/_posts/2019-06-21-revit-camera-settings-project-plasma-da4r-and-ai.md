@@ -1,0 +1,207 @@
+---
+layout: "post"
+title: "Revit Camera Settings, Project Plasma, DA4R and AI"
+date: "2019-06-21 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Accelerator"
+  - "AI"
+  - "Algorithm"
+  - "BIM"
+  - "DA4R"
+  - "Deep Learning"
+  - "Forge"
+  - "News"
+  - "View"
+  - "Viewer"
+original_url: "https://thebuildingcoder.typepad.com/blog/2019/06/revit-camera-settings-project-plasma-da4r-and-ai.html "
+typepad_basename: "revit-camera-settings-project-plasma-da4r-and-ai"
+typepad_status: "Publish"
+---
+
+<p>much too little time writing for The Building Coder.</p>
+
+<p>So, before the end of this week, here are some interesting items I want to share with you:</p>
+
+<ul>
+<li><a href="#2">Map Forge Viewer camera settings back to Revit</a></li>
+<li><a href="#3">Project Quantum becomes Plasma</a></li>
+<li><a href="#4">Mikako's DA4R overview</a></li>
+<li><a href="#5">AI is affecting human game strategies</a></li>
+<li><a href="#6">AI can convert speech to gesture</a></li>
+<li><a href="#7">Barcelona Forge accelerator</a></li>
+<li><a href="#8">Open positions at Autodesk</a></li>
+</ul>
+
+<h4><a name="2"></a> Map Forge Viewer Camera Settings back to Revit</h4>
+
+<p>My colleague Eason Kang invested some research
+in <a href="https://forge.autodesk.com/blog/map-forge-viewer-camera-back-revit">converting the camera state of the Forge Viewer back to the Revit model via Revit API</a>.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a46884d1200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a46884d1200c image-full img-responsive" alt="Camera mapping" title="Camera mapping" src="/assets/image_f1be3f.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Here is the main gist of the Revit part of his solution:</p>
+
+<pre class="code">
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;Create&nbsp;perspective&nbsp;view&nbsp;with&nbsp;camera&nbsp;settings&nbsp;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;matching&nbsp;the&nbsp;Forge&nbsp;Viewer.</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+<span style="color:blue;">void</span>&nbsp;CreatePerspectiveViewMatchingCamera(
+&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;)
+{
+&nbsp;&nbsp;<span style="color:blue;">using</span>(&nbsp;<span style="color:blue;">var</span>&nbsp;trans&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Transaction</span>(&nbsp;doc&nbsp;)&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;trans.Start(&nbsp;<span style="color:#a31515;">&quot;Map&nbsp;Forge&nbsp;Viewer&nbsp;Camera&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ViewFamilyType</span>&nbsp;typ
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">ViewFamilyType</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Cast&lt;<span style="color:#2b91af;">ViewFamilyType</span>&gt;()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.First&lt;<span style="color:#2b91af;">ViewFamilyType</span>&gt;(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x&nbsp;=&gt;&nbsp;x.ViewFamily.Equals(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ViewFamily</span>.ThreeDimensional&nbsp;)&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Create&nbsp;a&nbsp;new&nbsp;perspective&nbsp;3D&nbsp;view</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">View3D</span>&nbsp;view3D&nbsp;=&nbsp;<span style="color:#2b91af;">View3D</span>.CreatePerspective(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc,&nbsp;typ.Id&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Random</span>&nbsp;rnd&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Random</span>();
+&nbsp;&nbsp;&nbsp;&nbsp;view3D.Name&nbsp;=&nbsp;<span style="color:blue;">string</span>.Format(&nbsp;<span style="color:#a31515;">&quot;Camera{0}&quot;</span>,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rnd.Next()&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;By&nbsp;default,&nbsp;the&nbsp;3D&nbsp;view&nbsp;uses&nbsp;a&nbsp;default&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;orientation.&nbsp;Change&nbsp;that&nbsp;by&nbsp;creating&nbsp;and&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;setting&nbsp;up&nbsp;a&nbsp;suitable&nbsp;ViewOrientation3D.</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;position&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(&nbsp;-15.12436009332275,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-8.984616232971192,&nbsp;4.921260089050291&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;up&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(&nbsp;0,&nbsp;0,&nbsp;1&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;target&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(&nbsp;-15.02436066552734,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-8.984211875061035,&nbsp;4.921260089050291&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;sightDir&nbsp;=&nbsp;target.Subtract(&nbsp;position&nbsp;).Normalize();
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;orientation&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ViewOrientation3D</span>(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;position,&nbsp;up,&nbsp;sightDir&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;view3D.SetOrientation(&nbsp;orientation&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Turn&nbsp;off&nbsp;the&nbsp;far&nbsp;clip&nbsp;plane,&nbsp;etc.</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;view3D.LookupParameter(&nbsp;<span style="color:#a31515;">&quot;Far&nbsp;Clip&nbsp;Active&quot;</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Set(&nbsp;0&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;view3D.LookupParameter(&nbsp;<span style="color:#a31515;">&quot;Crop&nbsp;Region&nbsp;Visible&quot;</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Set(&nbsp;1&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;view3D.LookupParameter(&nbsp;<span style="color:#a31515;">&quot;Crop&nbsp;View&quot;</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Set(&nbsp;1&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;trans.Commit();
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p>I am sure this will prove very useful for anyone aiming to precisely adjust the camera settings in a Revit perspective view.</p>
+
+<p>Many thanks to Eason for his careful research and documentation!</p>
+
+<p>I added this
+to <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder samples</a>
+in the new method <a href="https://github.com/jeremytammik/the_building_coder_samples/commit/e332d672ccf4232aee7371a29a08a494dbbf248a">CreatePerspectiveViewMatchingCamera</a>.</p>
+
+<h4><a name="3"></a> Project Quantum Becomes Plasma</h4>
+
+<p>I read an interesting discussion by <a href="https://aecmag.com">AEC Magazine</a> of the past, present, potential future of Revit and the long-term Autodesk vision for BIM:
+<a href="https://aecmag.com/technology-mainmenu-35/1821-beyond-revit-autodesk-seeks-to-reinvent-collaborative-bim">What comes after Revit? Autodesk aims to reinvent collaborative BIM</a>.</p>
+
+<p>Here is a quick overview and executive summary of the contents:</p>
+
+<p>In 2016, Autodesk announced Project Quantum, described as a platform technology for “evolving the way BIM works, in the era of the cloud, by providing a common data environment”.</p>
+
+<p>The project then went dark but now it’s back and called Project Plasma:</p>
+
+<ul>
+<li>Awe inspiring</li>
+<li>Data Contracts and Escrow</li>
+<li>Quality issues</li>
+<li>Asynchronous vs Synchronous</li>
+<li>Speeding up Revit?</li>
+<li>Revit development</li>
+<li>Replacing Revit</li>
+<li>Typical customers</li>
+<li>Timeframe</li>
+<li>Conclusion</li>
+</ul>
+
+<p>The 'awe inspiring' section is based on an interview with chief software architect Jim Awe.</p>
+
+<p>Data contracts also mention blockchain and other, more lightweight, legally secure and binding technologies.</p>
+
+<p>Interestingly, AEC Magazine surmises that 'reading between the lines, Revit’s demise is a long way off, if ever'.</p>
+
+<p>I found it a very interesting read.</p>
+
+<h4><a name="4"></a> Mikako's DA4R Overview</h4>
+
+<p>I have been rather silent lately on the topic
+of <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#5.55">DA4R, Forge Design Automation for Revit</a>,
+mainly due to the fact that my Forge-focussed colleagues are dealing with that more than I am, focussing on the Revit instead.</p>
+
+<p>Mikako Harada now published her own overview
+of <a href="https://fieldofviewblog.wordpress.com/2019/05/24/da-for-revit-learning-materials">DA for Revit learning materials</a>
+and <a href="https://fieldofviewblog.wordpress.com/2016/10/27/where-to-get-help-about-forge">where to get help about Forge</a> that
+you might want to check out.</p>
+
+<h4><a name="5"></a> AI is Affecting Human Game Strategies</h4>
+
+<p>I enjoyed following the development
+of <a href="http://thebuildingcoder.typepad.com/blog/2017/10/au-recording-books-education-and-units.html#6">AlphaGo</a>
+and <a href="https://thebuildingcoder.typepad.com/blog/2019/03/ai-trends-and-yearly-deprecated-api-usage-cleanup.html#2">AlphaZero</a> quite closely in the past.</p>
+
+<p>My daughter Marie now pointed out an interesting book review
+on <a href="https://www.goodreads.com/review/show/2731237101">Game Changer &ndash; AlphaZero's Groundbreaking Chess Strategies and the Promise of AI</a> by
+Matthew Sadler.</p>
+
+<p>Next on my own reading list
+is <a href="https://en.wikipedia.org/wiki/Ian_McEwan">Ian McEwan</a>'s
+<a href="https://en.wikipedia.org/wiki/Machines_Like_Me_(novel)">Machines like me</a>,
+partially inspired by the recent 'game changing' developments in AI.</p>
+
+<h4><a name="6"></a> AI can Convert Speech to Gesture</h4>
+
+<p>Continuing on the topic of AI, here is an quite fascinating two-and-a-half-minute video
+on <a href="https://youtu.be/xzte5sobpfy">learning individual styles of conversational gesture</a> describing
+an AI system that generates realistic gestures and applies them to synthesise a video from a couple of photographs and an audio recording of a person speaking:</p>
+
+<p><center>
+<iframe width="480" height="270" src="https://www.youtube.com/embed/xzTE5sobpFY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</center></p>
+
+<h4><a name="7"></a> Barcelona Forge Accelerator</h4>
+
+<p>Where am I?</p>
+
+<p>I just arrived in Barcelona to participate in next week's <a href="http://autodeskcloudaccelerator.com/forge-accelerator">Forge accelerator</a> here.</p>
+
+<p>Looking forward very much to meeting my colleagues again and working on some inspiring and exciting new projects!</p>
+
+<h4><a name="8"></a> Open Positions at Autodesk</h4>
+
+<p>Autodesk is recruiting, with many open positions.</p>
+
+<p>One AEC-related European one is for a <a href="https://rolp.co/ceVeg">Director of Named Accounts AEC Sales &ndash; #19WD33872</a>:</p>
+
+<blockquote>
+  <p>The Director of Named Accounts AEC Sales, EMEA &amp; ANZ leads a sales organization responsible for selling our portfolio of products across Autodesk Named Accounts customers in the EMEA &amp; ANZ region. Success in this role is measured in terms of ACV growth, providing direction on account strategy, effective sales management, and execution to drive business results and meet/exceed financial and business objectives. The incumbent possesses strong sales management skills, international sales experience, and business acumen skills necessary for driving an overall AEC sales strategy in conjunction with Business Strategy &amp; Marketing (BSM) and Product Development (PDG) groups.</p>
+</blockquote>
+
+<p>If that is not up your alley, check out the numerous other positions at <a href="https://www.autodesk.com/careers">autodesk.com/careers</a>.</p>

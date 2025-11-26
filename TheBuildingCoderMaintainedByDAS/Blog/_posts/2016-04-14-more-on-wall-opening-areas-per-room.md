@@ -1,0 +1,101 @@
+---
+layout: "post"
+title: "More on Wall Opening Areas per Room"
+date: "2016-04-14 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Algorithm"
+  - "Analysis"
+  - "BIM"
+  - "BPA"
+  - "Data Access"
+  - "Element Relationships"
+  - "Geometry"
+original_url: "https://thebuildingcoder.typepad.com/blog/2016/04/more-on-wall-opening-areas-per-room.html "
+typepad_basename: "more-on-wall-opening-areas-per-room"
+typepad_status: "Publish"
+---
+
+<p>Håvard added some clarifications and background information on his sample code
+to <a href="http://thebuildingcoder.typepad.com/blog/2016/04/determining-wall-opening-areas-per-room.html">determine wall opening areas per room</a>:</p>
+
+<p><strong>Question:</strong> I have some questions on <a href="http://thebuildingcoder.typepad.com/blog/2016/04/determining-wall-cut-area-for-a-specific-room.html">Håvard's initial approaches</a>.</p>
+
+<p>Using a Boolean subtraction between transient solids from the actual wall and the family symbol sounds like the right track, but I don’t understand the need for the family instance, because the wall already provides the net geometry.</p>
+
+<p>Regarding the real solution, which IMHO applies to ANY wall, not just curtain walls, you say, 'intersect a curtain wall solid with the room solid, where the intersected solid holds the opening area for that specific room'. However, they won’t intersect, will they, as they are just touching. Further work is needed to achieve an intersection. That’s why I said that some complex geometrical manipulation based on the full wall geometry and the subfaces retrieved via <code>SpatialElement*</code> is needed.</p>
+
+<p><strong>Answer:</strong> Regarding activating the correct family symbol first:</p>
+
+<p>What I mean is to use the Opening Cut element in the Door family.
+I could not find any reference to that element in the project.
+Short of finding it I used the IFC utils instead, which returns the same curve loop, as far as I can tell.</p>
+
+<pre class="code">
+&nbsp; <span class="teal">CurveLoop</span> curveLoop
+&nbsp; &nbsp; = <span class="teal">ExporterIFCUtils</span>.GetInstanceCutoutFromWall(
+&nbsp; &nbsp; &nbsp; fi.Document, wall, fi, <span class="blue">out</span> cutDir );
+&nbsp;
+&nbsp; <span class="teal">IList</span>&lt;<span class="teal">CurveLoop</span>&gt; loops = <span class="blue">new</span> <span class="teal">List</span>&lt;<span class="teal">CurveLoop</span>&gt;( 1 );
+&nbsp; loops.Add( curveLoop );
+&nbsp;
+&nbsp; <span class="blue">return</span> <span class="teal">ExporterIFCUtils</span>.ComputeAreaOfCurveLoops( loops );
+</pre>
+
+<p>With stacked walls, it’s a little different story.</p>
+
+<p>Instead of returning <code>ExporterIFCUtils.ComputeAreaOfCurveLoops</code>, I create an 'opening' solid from the curve loop using <code>out cutDir</code> and intersect that with the stacked wall member solid, returning the 'opening' solid for just that member.</p>
+
+<p>Almost the same thing with embedded curtain walls but I intersect the room instead of the host wall.</p>
+
+<p>Embedded curtain walls in stacked walls might be yet another story J
+But it's probably the same or a combination.</p>
+
+<p>Here is an embedded curtain wall in stacked wall:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d1c05241970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d1c05241970c img-responsive" style="width: 186px; " alt="Curtain wall embedded in stacked wall" title="Curtain wall embedded in stacked wall" src="/assets/image_9119d4.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Here we see the real challenge using <code>SpatialElementBoundarySubface</code> in the first place.
+It will only pick up elements that have 'touching' surfaces.</p>
+
+<p>So if there was a room in this side of the pictured stacked wall, the top stacked member will not be detected.</p>
+
+<p>At AU2014, I remember Scott Conover did a demo of Revit API news.
+He had a slide where a room extended up, and then sideways.
+Either I'm mis-remembering this or I just haven't been able to recreate it yet.</p>
+
+<p>One could also get the bounding box of the curtain wall, rotate the box to the wall and intersect the room or host.</p>
+
+<p>This bounding box will be wider than the host wall due to this:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c83625f8970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c83625f8970b img-responsive" style="width: 250px; " alt="Wider bounding box" title="Wider bounding box" src="/assets/image_cba6e6.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Unless the host wall is unusually wide...</p>
+
+<p>So I guess the best thing is still what we do now done, get the profile and use a sufficient solid depth.</p>
+
+<p><strong>Response:</strong> Now I understand.
+I found the same &ndash; basically the Room volume seems like a '2.5D object' with the 'profile' detected at the specified bottom elevation and it does NOT then detect any elements which may start 'higher'. I can understand why it may be so as it is hard to 'close' the volume in all cases w/o making some kind of simplification assumption.</p>
+
+<p><strong>Comment:</strong> Arif Hanif added another <a href="http://thebuildingcoder.typepad.com/blog/2016/04/determining-wall-opening-areas-per-room.html#comment-2622637976">comment</a> to the post, saying, 'Very elegant; I was post processing with clipper. I will adapt my code for spaces in linked models. Håvard, awesome job!'</p>
+
+<p><strong>Answer:</strong> Thanks Arif.
+Linked models is on my todo-list as well.
+I would include the document of the subface element in the SpatialDataCache.
+So when you postprocess the cache ids to get names you have the correct document readily available.
+Other than that there are still improvements to be made.
+As I remember, the method for getting the elevation profile from a curtain wall will not get an edited profile.
+This is used to create the opening solid which intersects the room solid.
+And the <code>GetLargestFaceArea</code> method could use a <code>face.Normal</code> check, though you would have to have really thick wall, like 7 feet or so, for it to fail.</p>
+
+<p><strong>Response:</strong> That is what I did store the document of the subface, as I am primarily working on spaces with linked room data to translate over to energy modelling tool.</p>
+
+<p>Many thanks again to Miroslav, Arif and above all Håvard for your contributions!</p>

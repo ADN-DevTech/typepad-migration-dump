@@ -1,0 +1,362 @@
+comments:
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: ''
+  date: '2011-07-07 06:12:52'
+  body: 'Hi Jeremy,
+
+
+    after the SectionView has been created, you can alter its ElementType.
+
+    In your project file, you may find several different ElementTypes for Sections,
+    depending on the RTE you used.
+
+
+    Doing so, the new ViewSection will change from Detail View to Section View.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.143.164
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-07-07 06:19:52'
+  body: 'Dear Rudolf,
+
+
+    Wow, do you mean to say that the note in the developer guide does not actually
+    hold, in that the easy modification of the element type suggested by you changes
+    the situation?
+
+
+    That you can thus create a section view and then set up its type so that it really
+    appears as a section view in the project browser?
+
+
+    If so, we should update the developer guide to say so.
+
+
+    Thank you very much for pointing this out!
+
+
+    Cheers, Jeremy.'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: ''
+  date: '2011-07-07 06:43:36'
+  body: 'Hi Jeremy,
+
+
+    yes, I used that in several situations.
+
+    The point is to find a proper ElementType that can be assigned.
+
+    If you browse the database, you will find out that
+
+    the ElementType for any existing Section has a "null" category, so it is only
+    possible to get a valid ElementType by searching it by name, e.g. "Section" or
+    (like in my German files) "Schnitt", ID 828.
+
+
+    Since element names are not unique, this may fail if there are other ElementTypes
+    of category "null" named this way.
+
+    But most elementTypes have a valid category, so this is only a little risk.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.143.164
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-07-07 07:02:24'
+  body: 'Dear Rudolf,
+
+
+    Yes, that makes sense. If you want to make really sure, you can probably determine
+    some specific parameter values that only the desired section view element type
+    has to further ensure uniqueness.
+
+
+    Cheers, Jeremy.'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: ''
+  date: '2011-07-07 07:55:37'
+  body: 'Hi Jeremy,
+
+
+    If we use ourViewSection.GetVaildTypes(), we just need to search our section ElementType
+    in this little list. So the amount of possible errors will be reduced to a minimum.
+
+
+    Bye,
+
+
+    Rudolf'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.143.164
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-07-07 08:51:40'
+  body: "Dear Rudolf,\n\nThank you once again. Of course, that really limits it to\
+    \ a very few candidates! \n\nThese really are very powerful and useful tips you\
+    \ are providing!\n\nCheers, Jeremy."
+- author: Nick Kovach
+  email: nkovach@wraarchitects.com
+  ip: 76.184.144.80
+  url: ''
+  date: '2011-07-21 22:35:38'
+  body: 'Jeremy,
+
+
+    Potential rookie question about creating a new view section.  Is it possible to
+    assign a referencing view to the section?  In other words, instead of creating
+    a new section view it would actually create a section tag referencing an existing
+    view.
+
+
+    Any help would be appreciated.  I am still a novice at this but I am learning
+    as quickly as possible.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-07-25 12:08:25'
+  body: 'Dear Nick,
+
+
+    That does not sound rookie to me at all. I have no idea. Have you tried using
+    the Document.NewTag method? Or does that not fit at all?
+
+
+    Cheers, Jeremy.'
+- author: Revit Apprentice
+  email: vuja79@gmail.com
+  ip: 109.175.46.236
+  url: ''
+  date: '2011-10-07 03:46:37'
+  body: "Hello Jeremy,\n\ngreat blog you have here. I was wondering could you help\
+    \ me with problem that I am having. \nI am creating section view for each wall\
+    \ in a room using room boundary (viewer direction is perpendicular to room boundary\
+    \ segment). I was using BackSectionView (Revit 2011 SDK sample) as reference.\
+    \ Everything works fine, but problem is if in a model exists some additional Revit\
+    \ linked file. Then when I create section view, Outline property of created section\
+    \ view has this value \nsectionView.Outline = '((Autodesk.Revit.DB.View)(view)).Outline'\
+    \ threw an exception of type 'System.AccessViolationException'\tAutodesk.Revit.DB.BoundingBoxUV\
+    \ {System.AccessViolationException}.\nWhen I try to add this section view to some\
+    \ view sheet I get the exception: Attempted to read or write protected memory.\
+    \ This is often an indication that other memory is corrupt.\n\nCan you give me\
+    \ some advice, what is causing this?"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-10-17 07:04:12'
+  body: "Dear Revit Apprentice,\n\nThank you for your appreciation. \n\nNope, sorry,\
+    \ no idea. Please let us know how you resolve this. Thank you!\n\nCheers, Jeremy."
+- author: Revit Apprentice
+  email: vuja79@gmail.com
+  ip: 109.175.38.108
+  url: ''
+  date: '2011-10-19 05:32:29'
+  body: 'Hello, Jeremy!
+
+
+    I managed to solve my problem by regenerating document after creation of all section
+    views. After that I can place them on view sheets without any exception.
+
+
+    I still don''t know what is the reason behind that sectionView.Outline exception.
+
+
+    Best regards!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 80.58.205.37
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-10-20 08:14:29'
+  body: 'Dear Revit Apprentice,
+
+
+    Congratulations on solving it, very well done, and thank you for letting us know!
+
+
+    Cheers, Jeremy.'
+- author: leo
+  email: qxxleo@gmail.com
+  ip: 113.57.157.98
+  url: ''
+  date: '2012-05-03 23:12:16'
+  body: "Hi Jeremy,\n\n   How get LeftView or rightView?"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.182.38
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-04 03:03:41'
+  body: 'Dear Leo,
+
+
+    You are in the right place. Look at the sample code provided above.
+
+
+    Cheers, Jeremy.'
+- author: leo
+  email: qxxleo@gmail.com
+  ip: 113.57.157.98
+  url: ''
+  date: '2012-05-11 04:54:38'
+  body: How to judge toward of door？
+- author: leo
+  email: qxxleo@gmail.com
+  ip: 113.57.157.98
+  url: ''
+  date: '2012-05-11 05:03:11'
+  body: More difficult to abtain the correct facede because each door have different
+    toward in the view.
+- author: leo
+  email: qxxleo@gmail.com
+  ip: 122.82.74.232
+  url: ''
+  date: '2012-05-12 03:47:39'
+  body: Get to the door on the side wall, and the shows the door front.
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.161.160
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-20 07:12:13'
+  body: "Dear Leo, \n\nTo reach full illumination, we must realise the unity of all\
+    \ things and let go of all judgement.\n\nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.161.160
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-20 07:21:10'
+  body: "Dear Leo,\n\nHere are some family instance properties that you might want\
+    \ to take a look at:\n\n- CanFlipFacing \n- CanFlipHand \n- HandFlipped \n- HandOrientation\
+    \ \n- FacingFlipped \n- FacingOrientation \n- Mirrored \n\nI suggest searching\
+    \ for the use of these in the developer guide and the SDK samples.\n\nHere are\
+    \ some posts that may be of interest as well:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/01/transformations.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/01/transformations.html</a>\n\n\
+    <a href=\"http://thebuildingcoder.typepad.com/blog/2010/01/south-facing-walls.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/01/south-facing-walls.html</a>\n\
+    \nCheers, Jeremy."
+- author: leo
+  email: qxxleo@gmail.com
+  ip: 113.57.157.98
+  url: ''
+  date: '2012-05-21 03:16:50'
+  body: How to hide the view of the profile and the reference plane?
+- author: leo
+  email: qxxleo@gmail.com
+  ip: 113.57.157.98
+  url: ''
+  date: '2012-05-21 03:47:49'
+  body: 'Hi Jeremy,
+
+
+    1.How to hide the view of the section and the reference plane?
+
+
+    2.How to rename the type of detail view?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-22 06:19:21'
+  body: 'Dear Leo,
+
+
+    Rudolf Honke very kindly answered your questions here:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/05/change-section-view-type-and-hide-cut-line.html">http://thebuildingcoder.typepad.com/blog/2012/05/change-section-view-type-and-hide-cut-line.html</a>
+
+
+    Cheers, Jeremy.'
+- author: leo
+  email: qxxleo@gmail.com
+  ip: 122.82.39.55
+  url: ''
+  date: '2012-05-22 11:20:54'
+  body: "In the generated detail, I just want to show the door, so I made ​​the followingoperations:\
+    \ \n \n  private void setVisableDoors(ViewSection view)\n        {\n         \
+    \   ElementCategoryFilter filter = new ElementCategoryFilter(BuiltInCategory.OST_Doors);\n\
+    \            FilteredElementCollector collector = new FilteredElementCollector(view.Document);\n\
+    \            IList doors = collector.WherePasses(filter).WhereElementIsNotElementType().ToElements();\n\
+    \            ElementSet esdoors = new ElementSet();\n            foreach (Element\
+    \ elem in doors)\n            {\n                esdoors.Insert(elem);\n     \
+    \       }\n            view.Unhide(esdoors);\n            return;\n        }\n\
+    \ \nBut view shows, the effect has still retained some elements, such as:walls,\
+    \ beams, structural columns, they are not hidden, why?"
+- author: leo
+  email: qxxleo@gmail.com
+  ip: 122.82.39.55
+  url: ''
+  date: '2012-05-22 11:23:37'
+  body: "How to hide viewsection C, it blocked the view of the door？\n \nAs shown\
+    \ below ：\n\n\nHow up upload pictures?"
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-22 11:30:58'
+  body: 'Dear Leo,
+
+
+    I see you call Unhide for the doors, but I see no call asking the other elements
+    to be hidden.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-22 11:33:02'
+  body: 'Dear Leo,
+
+
+    1. No idea.
+
+
+    2. Look at other people''s comments ... some people have uploaded images to other
+    servers and then included the URL.
+
+
+    Cheers, Jeremy.'
+- author: leo
+  email: qxxleo@gmail.com
+  ip: 122.82.39.55
+  url: ''
+  date: '2012-05-22 11:38:10'
+  body: 'The picture url:
+
+    <a href="http://m3.img.libdd.com/farm5/16/48929D16443B2F9D80AD46114190C210_117_418.JPEG">http://m3.img.libdd.com/farm5/16/48929D16443B2F9D80AD46114190C210_117_418.JPEG</a>'
+- author: leo
+  email: qxxleo@gmail.com
+  ip: 122.82.39.55
+  url: ''
+  date: '2012-05-22 11:39:16'
+  body: 'The picture URL:
+
+    <a href="http://m3.img.libdd.com/farm5/16/48929D16443B2F9D80AD46114190C210_117_418.JPEG">http://m3.img.libdd.com/farm5/16/48929D16443B2F9D80AD46114190C210_117_418.JPEG</a>'
+- author: leo
+  email: qxxleo@gmail.com
+  ip: 122.82.39.55
+  url: ''
+  date: '2012-05-22 11:43:52'
+  body: Oh,I understand, display, and hidden functions needs to be done?
+- author: leo
+  email: qxxleo@gmail.com
+  ip: 122.82.39.55
+  url: ''
+  date: '2012-05-22 11:54:27'
+  body: 'Like this, it will result in some element does not have to be hidden in the
+    program, and so on to detail the effect of causing an error, such as: I only need
+    to show the door, the results of other elements.'
+- author: leo
+  email: qxxleo@gmail.com
+  ip: 113.57.157.98
+  url: ''
+  date: '2012-05-30 02:57:14'
+  body: 'Family facade, why some facade incomplete?
+
+    -----'

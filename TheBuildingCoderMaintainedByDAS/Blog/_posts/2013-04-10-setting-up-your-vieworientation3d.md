@@ -1,0 +1,190 @@
+---
+layout: "post"
+title: "Setting up your ViewOrientation3D"
+date: "2013-04-10 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "2013"
+  - "Algorithm"
+  - "Element Creation"
+  - "Geometry"
+  - "Migration"
+  - "View"
+original_url: "https://thebuildingcoder.typepad.com/blog/2013/04/setting-up-your-vieworientation3d.html "
+typepad_basename: "setting-up-your-vieworientation3d"
+typepad_status: "Publish"
+---
+
+<p>Here is a contribution from Mario Guttman of
+
+<a href="http://case-inc.com">
+CASE</a>,
+
+who already made various contributions here in the past.
+
+He says:
+
+<p>I have been purging my 2013 code of deprecated functions in preparation for my 2014 upgrade.
+One group of statements I have needed to replace are the view creations.
+They were previously using the Document.Create.NewView3D method and needed converting to the View3D.CreateIsometric with a separate ViewOrientation3D object defining the view direction.
+
+<p>Typically, in these kind of cases, I just search your blog for the answer.
+In this case I found a few references, for example your March 04, 2013 item on
+
+<a href="http://thebuildingcoder.typepad.com/blog/2013/03/whats-new-in-the-revit-2013-api.html">
+What's New in the Revit 2013 API &ndash; View API &ndash; View Creation</a>.
+
+This, together with the
+
+<a href="http://wikihelp.autodesk.com/Revit/enu/2013/Help/00006-API_Developer's_Guide/0039-Basic_In39/0067-Views67/0069-The_View69">
+wikihelp entry on the View3D class</a>,
+
+describe the new syntax, but they don't really explain how you would create the values.
+
+<p>After searching the inner reaches of my brain for some ancient math skills I figured out the following:
+
+<p>Assuming that your user interface has produced two angular values (in degrees):
+
+<pre class="code">
+&nbsp; <span class="gray">///</span><span class="green"> </span><span class="gray">&lt;summary&gt;</span>
+&nbsp; <span class="gray">///</span><span class="green"> The angle in the XY plane (azimuth),</span>
+&nbsp; <span class="gray">///</span><span class="green"> typically 0 to 360.</span>
+&nbsp; <span class="gray">///</span><span class="green"> </span><span class="gray">&lt;/summary&gt;</span>
+&nbsp; <span class="blue">double</span> angleHorizD;
+&nbsp;
+&nbsp; <span class="gray">///</span><span class="green"> </span><span class="gray">&lt;summary&gt;</span>
+&nbsp; <span class="gray">///</span><span class="green"> The vertical tilt (altitude),</span>
+&nbsp; <span class="gray">///</span><span class="green"> typically -90 to 90.</span>
+&nbsp; <span class="gray">///</span><span class="green"> </span><span class="gray">&lt;/summary&gt;</span>
+&nbsp; <span class="blue">double</span> angleVertD;
+</pre>
+
+<p>Then this utility function returns a unit vector in the specified direction:
+
+<pre class="code">
+&nbsp; <span class="gray">///</span><span class="green"> </span><span class="gray">&lt;summary&gt;</span>
+&nbsp; <span class="gray">///</span><span class="green"> Return a unit vector in the specified direction.</span>
+&nbsp; <span class="gray">///</span><span class="green"> </span><span class="gray">&lt;/summary&gt;</span>
+&nbsp; <span class="gray">///</span><span class="green"> </span><span class="gray">&lt;param name=&quot;angleHorizD&quot;&gt;</span><span class="green">Angle in XY plane </span>
+&nbsp; <span class="gray">///</span><span class="green"> in degrees</span><span class="gray">&lt;/param&gt;</span>
+&nbsp; <span class="gray">///</span><span class="green"> </span><span class="gray">&lt;param name=&quot;angleVertD&quot;&gt;</span><span class="green">Vertical tilt between </span>
+&nbsp; <span class="gray">///</span><span class="green"> -90 and +90 degrees</span><span class="gray">&lt;/param&gt;</span>
+&nbsp; <span class="gray">///</span><span class="green"> </span><span class="gray">&lt;returns&gt;</span><span class="green">Unit vector in the specified </span>
+&nbsp; <span class="gray">///</span><span class="green"> direction.</span><span class="gray">&lt;/returns&gt;</span>
+&nbsp; <span class="blue">private</span> <span class="teal">XYZ</span> VectorFromHorizVertAngles(
+&nbsp; &nbsp; <span class="blue">double</span> angleHorizD,
+&nbsp; &nbsp; <span class="blue">double</span> angleVertD )
+&nbsp; {
+&nbsp; &nbsp; <span class="green">// Convert degreess to radians.</span>
+&nbsp;
+&nbsp; &nbsp; <span class="blue">double</span> degToRadian = <span class="teal">Math</span>.PI * 2 / 360;
+&nbsp; &nbsp; <span class="blue">double</span> angleHorizR = angleHorizD * degToRadian;
+&nbsp; &nbsp; <span class="blue">double</span> angleVertR = angleVertD * degToRadian;
+&nbsp;
+&nbsp; &nbsp; <span class="green">// Return unit vector in 3D</span>
+&nbsp;
+&nbsp; &nbsp; <span class="blue">double</span> a = <span class="teal">Math</span>.Cos( angleVertR );
+&nbsp; &nbsp; <span class="blue">double</span> b = <span class="teal">Math</span>.Cos( angleHorizR );
+&nbsp; &nbsp; <span class="blue">double</span> c = <span class="teal">Math</span>.Sin( angleHorizR );
+&nbsp; &nbsp; <span class="blue">double</span> d = <span class="teal">Math</span>.Sin( angleVertR );
+&nbsp;
+&nbsp; &nbsp; <span class="blue">return</span> <span class="blue">new</span> <span class="teal">XYZ</span>( a * b, a * c, d );
+&nbsp; }
+</pre>
+
+<p>From this it is easy to create the ViewOrientation3D object as follows:
+
+<pre class="code">
+&nbsp; <span class="teal">XYZ</span> eye = <span class="teal">XYZ</span>.Zero;
+&nbsp;
+&nbsp; <span class="teal">XYZ</span> forward = VectorFromHorizVertAngles(
+&nbsp; &nbsp; angleHorizD, angleVertD );
+&nbsp;
+&nbsp; <span class="teal">XYZ</span> up = VectorFromHorizVertAngles(
+&nbsp; &nbsp; angleHorizD, angleVertD + 90 );
+&nbsp;
+&nbsp; <span class="teal">ViewOrientation3D</span> viewOrientation3D
+&nbsp; &nbsp; = <span class="blue">new</span> <span class="teal">ViewOrientation3D</span>( eye, up, forward );
+</pre>
+
+<p>Although it is already explained in one of your other posts, just for completeness, here is the final step is to apply the orientation to the view:
+
+<pre class="code">
+&nbsp; <span class="teal">ViewFamilyType</span> viewFamilyType3D
+&nbsp; &nbsp; = <span class="blue">new</span> <span class="teal">FilteredElementCollector</span>( doc )
+&nbsp; &nbsp; &nbsp; .OfClass( <span class="blue">typeof</span>( <span class="teal">ViewFamilyType</span> ) )
+&nbsp; &nbsp; &nbsp; .Cast&lt;<span class="teal">ViewFamilyType</span>&gt;()
+&nbsp; &nbsp; &nbsp; .FirstOrDefault&lt;<span class="teal">ViewFamilyType</span>&gt;(
+&nbsp; &nbsp; &nbsp; &nbsp; x =&gt; <span class="teal">ViewFamily</span>.ThreeDimensional
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; == x.ViewFamily );
+&nbsp;
+&nbsp; <span class="teal">View3D</span> view3d = <span class="teal">View3D</span>.CreateIsometric(
+&nbsp; &nbsp; doc, viewFamilyType3D.Id );
+&nbsp;
+&nbsp; view3d.SetOrientation( viewOrientation3D );
+</pre>
+
+<p>I hope you find this useful.</p>
+
+<p>Personally, I do indeed.</p>
+
+<p>Many thanks to Mario for sharing!</p>
+
+
+<a name="2"></a><h4>Addendum</h4>
+
+<p>Colmag adds in
+his <a href="http://thebuildingcoder.typepad.com/blog/2013/04/setting-up-your-vieworientation3d.html#comment-2904374676">comment</a> below:</p>
+
+<p>Thank you for sharing this info, it's made life a whole lot easier in setting 3D view orientation.</p>
+
+<p>It did take me a short while to work out the values to replicate top and bottom isometric views from each corner of the view cube, so I thought I'd share the values here for others. Looking at them listed out they are pretty obvious, but faced with a blank sheet things didn't seem so straight forward!</p>
+
+<ul>
+<li>Horizontal Angles:</li>
+<ul>
+<li>Left Front = 45</li>
+<li>Front Right = 135</li>
+<li>Right Back = 225</li>
+<li>Back Left = 310</li>
+</ul>
+<li>Vertical Angles:</li>
+<ul>
+<li>-30 = Top</li>
+<li>30 = Bottom</li>
+</ul>
+</ul>
+
+<p>Many thanks to Colmag for this useful addition!</p>
+
+
+<a name="3"></a><h4>Addendum 2</h4>
+
+<p>K C Tang added a further simplification in
+his <a href="http://thebuildingcoder.typepad.com/blog/2013/04/setting-up-your-vieworientation3d.html#comment-3137491963">comment</a> below:</p>
+
+<p>I found that the formula above using <code>( a * b, a * c, d )</code> to calculate the return value from <code>VectorFromHorizVertAngles</code> can be further simplified, because:</p>
+
+<pre>
+  ( a * b, a * c, d )
+    &equiv; ( a * b / a , a * c / a, d / a )
+    = (b, c, d/a)
+    = (b, c, e),
+</pre>
+
+<p>where</p>
+
+<pre>
+  double e = Math.Tan( angleVertR ).
+</pre>
+
+<p>In words, the return value from <code>VectorFromHorizVertAngles</code> can be defined as:</p>
+
+<ul>
+<li>cos (horizontal angle) for X</li>
+<li>sin (horizontal angle) for Y</li>
+<li>tan (vertical angle) for Z</li>
+</ul>
+
+<p>Many thanks to K C Tang for this simplification and explanation highlighting the basic trigonometric relationships between the angles and the vectors involved so much better than the original version!</p>

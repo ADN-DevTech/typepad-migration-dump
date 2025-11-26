@@ -1,0 +1,155 @@
+comments:
+- author: Rick
+  email: enonrick@gmail.com
+  ip: 114.32.162.82
+  url: ''
+  date: '2013-03-13 04:59:59'
+  body: 'Hi JEREMY
+
+    I faced a question about to fetch Room boundaries.
+
+    If I create wall with multiple structure and multiple core boundary,and set the
+    room area calculation to "core wall center",then the room just seen like this
+
+    <a href="http://www.flickr.com/photos/82824965@N04/8554380010/in/photostream">http://www.flickr.com/photos/82824965@N04/8554380010/in/photostream</a>
+
+
+    ,but in your snippet code I just only get all Center of the wall line instead,how
+    can I get the "Core wall center" line ??
+
+
+    Thanks.
+
+
+    Regards,
+
+    Rick'
+- author: Rick
+  email: enonrick@gmail.com
+  ip: 114.32.162.82
+  url: ''
+  date: '2013-04-22 22:33:37'
+  body: thanks, I think maybe revit 2014 sdk can solve my problem,thanks.
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.214.152
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-06-27 09:36:30'
+  body: 'Dear Rick,
+
+
+    I believe that internally, Revit always considers the wall location to be in the
+    wall center, and there is nothing you can do to change that.
+
+
+    Things that you do in the user interface to change the UI ''wall location" have
+    no effect on the API ''wall location''.
+
+
+    Same applies to the area calculation. It only affects the UI.
+
+
+    So, to obtain the center line of the wall core, you have to calculate and apply
+    the appropriate offset yourself.
+
+
+    I discussed that once in the distant past, in one of the very first posts, and
+    I think it still applies:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2008/11/wall-compound-layers.html">http://thebuildingcoder.typepad.com/blog/2008/11/wall-compound-layers.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.214.152
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-06-27 09:38:10'
+  body: 'Dear Rick,
+
+
+    I am not aware of any changes affecting this in the Revit 2014 API.
+
+
+    The following might provide some additional ideas, though:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/10/retrieving-detailed-wall-layer-geometry.html">http://thebuildingcoder.typepad.com/blog/2011/10/retrieving-detailed-wall-layer-geometry.html</a>
+
+
+    Cheers, Jeremy.'
+- author: scottmos@Yahoo.com
+  email: scottmos@yahoo.com
+  ip: 107.129.62.166
+  url: ''
+  date: '2014-12-31 03:54:27'
+  body: 'When I use the attached Code, I get the message that   doc.Create.NewSketchPlane(
+    levelPlane ); is obselete and I should use the method for 2014 API.
+
+
+    i am confused about how to write the arguments for 2014 version.
+
+
+    Next.I would then like to extrude the lines to create room extrusions.
+
+
+    It seems so confusing how to create classes and variables for revit.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.167.39
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-01-09 02:08:59'
+  body: 'Dear Scottmos,
+
+
+    As you have certainly discovered by now, you can simply ignore that message for
+    the moment. It is only a warning.
+
+
+    Fixing it is easy, though:
+
+
+    doc.Create.NewSketchPlane( levelPlane )
+
+
+    turns into
+
+
+    SketchPlane.Create( doc, levelPlane )
+
+
+    Regarding the extrusions, you have two options:
+
+
+    1. Create an appropriate extrusion family and insert an instance of it:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/06/creating-and-inserting-an-extrusion-family.html">http://thebuildingcoder.typepad.com/blog/2011/06/creating-and-inserting-an-extrusion-family.html</a>
+
+
+    2. Create a DirectShape element:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2014/05/directshape-performance-and-minimum-size.html">http://thebuildingcoder.typepad.com/blog/2014/05/directshape-performance-and-minimum-size.html</a>
+
+
+    Sorry about the confusion.
+
+
+    Have you worked through the getting started material, especially the DevTV and
+    My First Revit Plugin tutorials?
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#2">http://thebuildingcoder.typepad.com/blog/about-the-author.html#2</a>
+
+
+    Here is another recent note on getting started:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2015/01/cloud-accelerator-and-more-revit-stuff.html#3">http://thebuildingcoder.typepad.com/blog/2015/01/cloud-accelerator-and-more-revit-stuff.html#3</a>
+
+
+    Cheers, Jeremy.
+
+    -----'

@@ -1,0 +1,253 @@
+comments:
+- author: Dave
+  email: dfriberg23@gmail.com
+  ip: 70.168.34.66
+  url: ''
+  date: '2010-11-11 19:06:00'
+  body: 'Jeremy, I''m curious of there was ever a bug or feature request to modify
+    that exception message ("failed to insert elbow").
+
+
+    I am running into a similar situation with creating a cross fitting for 4 pipes.  As
+    far as I can tell, there should be nothing wrong with the way the pipes are oriented
+    and sized, but a similar InvalidOperationException is thrown with a similarly
+    vague message "failed to insert cross".
+
+
+    Any chance these exception messages could be improved somewhat?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-11-12 04:39:39'
+  body: 'Dear Dave,
+
+
+    No, I am not aware of any such plan. In order to file such a request, we would
+    need a reproducible test case. Please submit a minimal sample model and add-in
+    source code including the complete solution so that we can reproduce the issue,
+    and then we can log a wish for more detailed messages. If you are an ADN member,
+    please submit an ADN DevHelp Online request for it. Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Dave
+  email: dfriberg23@gmail.com
+  ip: 70.168.34.66
+  url: ''
+  date: '2010-11-12 11:03:57'
+  body: Ok, will look into that.  Thanks.
+- author: namit
+  email: ''
+  ip: 61.17.167.107
+  url: http://profile.typepad.com/6p014e88760c88970d
+  date: '2011-07-04 07:28:54'
+  body: 'Dear Jeremy Sir,
+
+
+    How can i create elbow Programatically in Revit MEp 2012.
+
+    Pls. Suggest
+
+
+    Thanks & Regards
+
+    Namit Jain'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-07-05 00:19:16'
+  body: 'Dear Namit,
+
+
+    Simply insert the appropriate family instance.
+
+
+    Cheers, Jeremy.'
+- author: Nitin
+  email: ''
+  ip: 61.17.167.107
+  url: http://profile.typepad.com/nitinjambhale2008
+  date: '2011-08-03 04:47:21'
+  body: 'Dear sir,
+
+    How to lock all the elements together programmatically?
+
+    For instance, i have two small pipes and i place coupling in between them so they
+    should automatically get locked?
+
+    Is this possible with current API(2012)? How?
+
+
+    Thanks & Regards,
+
+    -Nitin'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-08-09 05:41:25'
+  body: 'Dear Nitin,
+
+
+    I think you have several options for this: you could pin the elements to lock
+    them, or you could create a group of them. You could also use DMU, the dynamic
+    model update mechanism, to ensure that they stay together.
+
+
+    Cheers, Jeremy.'
+- author: cable tray
+  email: lukesay20@gmail.com
+  ip: 49.145.124.30
+  url: http://www.cabletiesandmore.com/cable-trays.php
+  date: '2012-05-18 22:24:58'
+  body: Six real scale cable tray fire tests both in horizontal and vertical orientation
+    to simulate actual end user's environments were carried out.
+- author: plumbing
+  email: amalberba@yahoo.com
+  ip: 180.194.246.242
+  url: http://www.bes.co.uk/
+  date: '2012-09-01 08:17:28'
+  body: Electronic cables can create an unsightly mess underneath a desk. Cable trays
+    are a convenient way of organizing your cables and getting them out of sight.
+    These wire mesh trays can be easily installed onto the back of just about any
+    desk (excluding glasstop desks). Though all cable trays will be shaped a little
+    bit differently, basic setup remains mostly the same. Your cable trays should
+    come with all the necessary brackets, screws and bolts necessary for installation.
+- author: Larry
+  email: jlarrica@hotmail.com
+  ip: 95.123.144.186
+  url: ''
+  date: '2014-03-26 15:55:48'
+  body: 'Hi Jeremy!!
+
+    The first, I''m sorry for my english language. I''m starting to learn api for
+    revit. i am trying to make a cable tray fitting and I have follow your code that
+    it help me a lot of. But I''ve a lot of questions, here some of there:
+
+    How can I change the dimensions for each cable tray I create by api in revit?
+
+    Can I to indicate a level before create a cable tray?
+
+    Is it possible to change the units to S.I. in mm in the Api?
+
+    I need to change the units, because I''ve list of points in ascii files for the
+    situation of the cable trays.
+
+    Thank you in advance
+
+
+    Thanks & Regards'
+- author: Olga
+  email: azot_m@ua.fm
+  ip: 212.3.115.3
+  url: ''
+  date: '2014-10-03 13:06:49'
+  body: "Hi Jeremy!\nCould you help me please with advice.\nI have to create several\
+    \ separate HVAC elements (that are not connected to any other elements). I have\
+    \ only coordinates of center points for Connectors (e.g. for Round Elbow I have\
+    \ 2 points - center of circles at the start and end of Elbow).\nTo create this\
+    \ elbow I can use method document.Create.NewFamilyInstance(location, FamilyType,\
+    \ StructuralType), but calculate location of Elbow by start and end is impossible.\n\
+    To use method \ndocument.Create.NewElbowFitting(connector1, connector2);\nI need\
+    \ connectors... I can't create connectors, because, as I can understand, it is\
+    \ more logical concept, not physical.\nI tried to create Elbow with any location\
+    \ (using NewFamilyInstance method) and then move its connectors to correct position.\n\
+    (foreach( Connector con in f.MEPModel.ConnectorManager.Connectors ) - get access\
+    \ to connectors),\nbut all position properties in Connector are readonly.\nCould\
+    \ you please give an advice - how can I solve this problem?\n\nRegards,\nOlga"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-10-06 07:00:25'
+  body: 'Dear Olga,
+
+
+    You create connector objects in the project context by adding connector family
+    elements to the family definition.
+
+
+    These elements are converted to non-element connectors when an instance is placed:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/04/mep-connectors.html">http://thebuildingcoder.typepad.com/blog/2009/04/mep-connectors.html</a>
+
+
+    To change their location in space, you need to transform the entire family instance,
+    e.g. using the functionality provided by the ElementTransformUtils class.
+
+
+    Here is an example:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2014/01/explicitly-placing-rolling-offset-pipe-elbow-fittings.html">http://thebuildingcoder.typepad.com/blog/2014/01/explicitly-placing-rolling-offset-pipe-elbow-fittings.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Olga
+  email: azot_m@ua.fm
+  ip: 212.3.115.3
+  url: ''
+  date: '2014-10-10 07:22:17'
+  body: "Thank you Jeremy!\n\nThis information was very helpful.\nSeems, that I have\
+    \ to create \"dummy\" ducts and then connect them, using NewElbowFitting/NewTeeFitting.\
+    \ \nThe only one thing that confuses me - is that we can't manage what type of\
+    \ Fitting Revit will choose.. We have to create correct type of dummy ducts in\
+    \ some positions, that won't give a chance  to Revit choose wrong Type of Fitting.\n\
+    To solve this task automatically seems to me not easy...\n\nRegards,\nOlga"
+- author: Gavin Guo
+  email: ''
+  ip: 175.156.194.87
+  url: http://profile.typepad.com/gavinguo
+  date: '2014-11-12 22:55:27'
+  body: "Jeremy, \n\nI download the code, and try to run it in my environment, but\
+    \ I always get \"Failed insert elbow\" error, I have posted one thread in Revit\
+    \ Forum, and attached my code. <a href=\"http://forums.autodesk.com/t5/revit-api/get-quot-failed-to-insert-elbow-quot-when-calling/m-p/5398815\"\
+    >http://forums.autodesk.com/t5/revit-api/get-quot-failed-to-insert-elbow-quot-when-calling/m-p/5398815</a>\n\
+    \nCould you help me to have a look if you have time?\n\nAppreciate for your help.\n\
+    \nThanks, \nGavin"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.168.136
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-11-25 05:07:30'
+  body: 'Dear Gavin,
+
+
+    Thank you for your query and posting to the Revit API discussion forum with sample
+    code.
+
+
+    I am taking a look at the issue now for you.
+
+
+    Thank you for your patience.
+
+
+    Cheers, Jeremy.'
+- author: moonseagrave
+  email: ''
+  ip: 175.9.25.243
+  url: http://profile.typepad.com/6p01b8d1154f08970c
+  date: '2015-05-17 07:39:43'
+  body: "Dear Jeremy,\n\nHow to get the top direction of cable trays in Revit?\n\n\
+    Thanks, \n\nWei"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-18 03:20:12'
+  body: 'Dear Wei,
+
+
+    I cannot tell you off-hand. I can think of a number of possible approaches. The
+    simplest might be to determine the orientation of the family instance insertion
+    transform. You might also be able to query the connector orientations. You can
+    definitely also analyse the geometry to determine it.
+
+
+    Cheers, Jeremy.
+
+    -----'

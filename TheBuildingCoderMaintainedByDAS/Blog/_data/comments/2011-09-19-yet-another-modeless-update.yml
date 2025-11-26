@@ -1,0 +1,186 @@
+comments:
+- author: Phillip Miller
+  email: phillip@kiwicodes.co.nz
+  ip: 115.189.46.231
+  url: http://revitfb.blogspot.com/
+  date: '2011-09-19 05:32:10'
+  body: 'What a stunning post Jeremy.
+
+
+    You have answered some of the things that I have struggled with in Subscribing
+    and unsubscribing from Revit events when building Family Browser.
+
+
+    Now back to my code lol.
+
+
+    Cheers
+
+    Phillip Miller
+
+    Kiwi Codes SOlutions Ltd'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-09-19 05:54:46'
+  body: "Dear Phillip,\n\nThank you very much for your appreciation! I quite like\
+    \ it myself, as well  :-)  \n\nI'll tell Arnošt also, he'll be pleased.\n\nCheers,\
+    \ Jeremy."
+- author: Yonsal Sanoy
+  email: bmihub@gmail.com
+  ip: 182.178.137.148
+  url: http://www.bimhub.com/bim-manager.html
+  date: '2011-09-19 12:56:03'
+  body: its is a good and informative post. i like him very much. thank u for sharing
+    this is information.
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://revitprogrammer.blogspot.com/
+  date: '2012-01-25 23:46:58'
+  body: 'Hi, Jeremy.
+
+    Thanks a lot for your posts!
+
+    I''ve read almost all your posts about modeless forms, idling event and async
+    API calls and understand that I must make a lot of changes in my project.
+
+
+    Thanks, Victor.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 151.13.239.254
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-01-26 12:04:35'
+  body: 'Dear Victor,
+
+
+    Thank you for your appreciation, glad you find them useful, and hope they don''t
+    cause too much work for you.
+
+
+    And remember, never change a working system  :-)
+
+
+    Cheers, Jeremy.'
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://revitprogrammer.blogspot.com/
+  date: '2012-02-17 03:24:21'
+  body: 'Hello, Jeremy.
+
+
+    Another question about Idling and safe using Revit API.
+
+    I have a modeless window. In this window I have command for open family. I use
+    UIApplication.OpenAndActivateDocument method to open a family.
+
+    |Window is modeless. So I''ve decided to use Idling event for safe call Revit
+    API methods.
+
+    But when I try to use this method in Idling event I get InvalidOperationException:
+    Cannot open a UI Document when executing an event.
+
+
+    If I''ll save global variable UIApplication (for example in Application.OnStartup)
+    and will use it in modeless form - is it a good and safe method or not?
+
+
+    Thanks, Victor'
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://revitprogrammer.blogspot.com/
+  date: '2012-02-20 01:16:38'
+  body: 'Hi, Jeremy. It is me again.
+
+    Today I''ve found one more problem with Idling event.
+
+
+    When application subscribed to Idling event Revit process increase processor load
+    up to 25% even there is no code in OnIdling Event handler.
+
+
+    Code is here: <a href="http://pastebin.com/NkEg6cTv">http://pastebin.com/NkEg6cTv</a>
+
+
+    VS solution with example here: <a href="http://dl.dropbox.com/u/62538318/Revit/IdlingSample.zip">http://dl.dropbox.com/u/62538318/Revit/IdlingSample.zip</a>
+
+
+    Also I''ve recorded video sample to demonstrate it: <a href="http://dl.dropbox.com/u/62538318/Revit/ScreenCapture_20.02.2012%2012.05.37.wmv">http://dl.dropbox.com/u/62538318/Revit/ScreenCapture_20.02.2012%2012.05.37.wmv</a>
+
+
+    Is it normal?
+
+
+    In my opinion it is serious reason not to use Idling event.
+
+    What do you think, Jeremy?
+
+
+    Best regards, Victor'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-02-23 06:44:54'
+  body: 'Dear Victor,
+
+
+    This is a known issue and is being addressed. Thank you for pointing it out. The
+    best advice I can give at the moment is to use the Idling event sparingly and
+    only when needed, and unsubscribe from it immediately when it is not required.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-02-23 06:47:27'
+  body: 'Dear Victor,
+
+
+    Yes, the UIApplication is always the same. The safest thing to do is read all
+    of Arnost''s comments on this topic. I asked the same thing once, and he replied
+    to that, and I posted it somewhere.
+
+
+    Cheers, Jeremy.'
+- author: Paul Kinnane
+  email: pkinnane@internode.on.net
+  ip: 118.210.139.232
+  url: ''
+  date: '2013-02-12 00:47:36'
+  body: "Hi Jeremy.  I'm been reading all the various blog postings you have made\
+    \ on Modeless dialogs and they have been a huge help, and also based my app around\
+    \ the ModelessForm_IdlingEvenet.  \n\nHowever I have an issue in that idling handler\
+    \ stops being called when I change from a floor, ceiling or non-perspective 3d\
+    \ view to a perspective 3d view.  It appears perspective 3d views do not generate\
+    \ the idling event.  Or perhaps I am doing something wrong?  I'm on 2012.\n\n\
+    Paul"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.185.81
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-02-12 04:05:30'
+  body: 'Dear Paul,
+
+
+    Thank you for the appreciation. I am glad it is useful.
+
+
+    What you observe is absolutely expected.
+
+
+    The Revit API is disabled in perspective views:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/06/rfa-version-grey-commands-family-context-and-rdb-link.html#2">http://thebuildingcoder.typepad.com/blog/2009/06/rfa-version-grey-commands-family-context-and-rdb-link.html#2</a>
+
+
+    Cheers, Jeremy.
+
+    -----'

@@ -1,0 +1,119 @@
+comments:
+- author: José Ignacio Montes
+  email: jmontes@avatarbim.com
+  ip: 88.20.168.202
+  url: http://www.avatarbim.com
+  date: '2014-04-19 17:09:44'
+  body: "Hi Jeremy. I find your posts very interesting. I use them almost every day!\n\
+    Talking about the outer loop of a floor perimeter. Contrary to roofs, revit lets\
+    \ you create more than one loop with floors. There is a possibility that you find\
+    \ several floor perimeters and none of them is a hole. Therefore, you have to\
+    \ take all of them as outer loops. \nI think it is simpler to test if one of the\
+    \ vertex is inside of any of the other perimeters. Revit won´t let you create\
+    \ intersecting loops, so if a single point of the loop is inside the polygon,\
+    \ then all of them will be inside.\nTo determine if a point is inside of a polygon\
+    \ you have to sum all angles between the point and the polygon vertexes. If the\
+    \ sum is 2*PI (or zero), then it is inside. Graphically is easy to verify: you\
+    \ need complete the whole circle to join the point with all polygon’s vertexes.\n\
+    \nI attach here a simple routine.\n\n//Obtaining perimeters\nList<List<XYZ>> Poligonos\n\
+    = CmdSlabBoundary.GetFloorBoundaryPolygons(fl, opt);\n                \nList<List<XYZ>>\
+    \ ExteriorPoligon = new List<List<XYZ>>();\nforeach (List<XYZ> poligon in Poligonos)\n\
+    \ {\n   ExteriorPoligon.Add(poligon);\n }\n\n//I need to take out the interior\
+    \ loops\n\nforeach (List<XYZ> poligono in Poligonos)\n  {\n    //I need to check\
+    \ a point in each poligon\n    XYZ ChkP = poligono[0];\n    //With each other\
+    \ poligon.\n    foreach (List<XYZ> pol2 in ExteriorPoligon)\n    {\n       if\
+    \ (pol2 == poligono) continue;\n       double totalangle = 0;\n       for (int\
+    \ i = 0; i < pol2.Count - 1; i++)\n          {\n            double angle = \n\
+    \                 GetAngle(ChkP, pol2[i], pol2[i + 1]);\n            totalangle\
+    \ += angle;\n           }\n           //And the last point is the first one again\n\
+    \         double angle2 = \n            GetAngle(ChkP, pol2[pol2.Count - 1], pol2[0]);\n\
+    \         totalangle += angle2;\n         winforms.MessageBox.Show(totalangle.ToString());\n\
+    \  //if the sum of all angles is 2*Pi, then the point is interior to the poligon\n\
+    \     if (totalangle == 2 * Math.PI\n         || totalangle ==0)\n       {\n \
+    \       //If it is an interior poligon exclude it \n        ExteriorPoligon.Remove(poligono);\n\
+    \       }\n    }\n}\n        private static double GetAngle(XYZ Or, XYZ P1, XYZ\
+    \ P2)\n        {\n            XYZ v0 = new XYZ(P1.X - Or.X, P1.Y - Or.Y,  P1.Z\
+    \ - Or.Z);\n            XYZ v1 = new XYZ(P2.X - Or.X, P2.Y - Or.Y, P2.Z - Or.Z);\n\
+    \            double scalarp = (v0.X * v1.X) + (v0.Y * v1.Y) + (v0.Z + v1.Z);\n\
+    \            double Mv0 = Math.Sqrt(Math.Pow(v0.X, 2) + Math.Pow(v0.Y, 2) + Math.Pow(v0.Z,\
+    \ 2));\n            double Mv1 = Math.Sqrt(Math.Pow(v1.X, 2) + Math.Pow(v1.Y,\
+    \ 2) + Math.Pow(v1.Z, 2));\n            double Cos = (scalarp) / (Mv0 * Mv1);\n\
+    \            double angle = Math.Acos(Cos);\n            return angle;\n     \
+    \   }"
+- author: Jeremy Tammik
+  email: ''
+  ip: 108.162.231.11
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-04-22 08:17:03'
+  body: 'Dear José,
+
+
+    Thank you for the idea, code and appreciation.
+
+
+    I published a similar polygon point containment algorithm here as well:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/12/point-in-polygon-containment-algorithm.html">http://thebuildingcoder.typepad.com/blog/2010/12/point-in-polygon-containment-algorithm.html</a>
+
+
+    It is actually not the same as what you suggest, because the version there is
+    significantly optimised to use quadrants instead of the complete exact angle between
+    points, significantly reducing the computational requirements and speeding up
+    the algorithm.
+
+
+    Cheers, Jeremy.'
+- author: Jay
+  email: jeffsforuminfo@gmail.com
+  ip: 72.128.20.97
+  url: ''
+  date: '2014-10-03 09:30:38'
+  body: 'Hi Jeremy,
+
+
+    Thanks for the code that you have shown.  Do you know if this supports concave
+    polygons, or polygons that may have a hole?  I am seeking a general solution for
+    this calculation and would like to use yours.  Also, are there any degenerate
+    polygon plane rotations that would cause the this code to fail?
+
+
+    Thanks,
+
+    Jay'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-10-06 06:52:18'
+  body: 'Dear Jay,
+
+
+    Thank you for your appreciation.
+
+
+    This algorithm does support concave polygons.
+
+
+    I order to support holes, I would suggest performing the calculation separately
+    for the outer and inner loops and subtracting the latter from the former.
+
+
+    Alternatively, use a full-fledged polygon library, e.g. the Generic Polygon Clipper
+    GPC:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/09/boolean-operations-for-2d-polygons.html">http://thebuildingcoder.typepad.com/blog/2013/09/boolean-operations-for-2d-polygons.html</a>
+
+
+    That is definitely most suited for the general solution.
+
+
+    Nope, I am not aware of any degenerate cases.
+
+
+    I would suggest you add unit tests for all the possible types of cases that might
+    appear in you usage scenarios.
+
+
+    Cheers, Jeremy.'

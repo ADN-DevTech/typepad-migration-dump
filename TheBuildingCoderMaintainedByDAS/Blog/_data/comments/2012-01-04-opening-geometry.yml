@@ -1,0 +1,38 @@
+comments:
+- author: celticblue
+  email: yyf2000@gmail.com
+  ip: 218.16.128.66
+  url: ''
+  date: '2012-01-05 09:53:11'
+  body: "Hi JEREMY, I'm a Chinese architect. Here is my question: When a structural\
+    \ column intersect an architectural wall, they can't join together automatically.\
+    \ And in elevation view, there're no intersection lines appear(Specifically refers\
+    \ to cylinder column). So I hope to use Revit API to join structural column and\
+    \ architectural wall, or to join beam/slab and wall. But I can't find the right\
+    \ method. Can I achieve this function? \nThank you!    celticblue"
+- author: Jeremy Tammik
+  email: ''
+  ip: 151.13.239.248
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-01-06 01:45:38'
+  body: "Dear Celticblue,\n\nI do not believe you can, I'm afraid. \n\nThe only joining\
+    \ control I am aware of is through the new Revit 2012 WallUtils class and its\
+    \ methods DisallowWallJoinAtEnd, AllowWallJoinAtEnd and IsWallJoinAllowedAtEnd.\n\
+    \nThey provide access to the setting for whether or not joining is allowed at\
+    \ a particular end of the wall. If joins exist at the end of a wall and joins\
+    \ are disallowed, the walls will become disjoint. If joins are disallowed for\
+    \ the end of the wall, and then the setting is toggled to allow the joins, the\
+    \ wall will automatically join to its neighbors if there are any.\n\nAll other\
+    \ joining in Revit is automatic, I believe.\n\nIf you can affect the behaviour\
+    \ through the user interface, then there is a chance that you can do it programmatically\
+    \ as well, so I suggest exploring it in the UI first.\n\nCheers, Jeremy."
+- author: celticblue
+  email: yyf2000@gmail.com
+  ip: 119.146.220.4
+  url: ''
+  date: '2012-01-07 09:37:34'
+  body: 'Thanks for answering the question! In the Revit user interface, this operation
+    can not be batch-processed, so I hope the next version of the Revit API can add
+    this feature.  celticblue.
+
+    -----'

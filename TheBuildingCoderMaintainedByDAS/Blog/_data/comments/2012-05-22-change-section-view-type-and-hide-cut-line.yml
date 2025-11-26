@@ -1,0 +1,225 @@
+comments:
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadgraph.de
+  date: '2012-05-22 08:53:08'
+  body: 'Hi Jeremy,
+
+
+    as we can see, the 2013 constructor needs a viewFamilyTypeId.
+
+    There is a ViewFamilyType.DefaultTemplateId, so perhaps we can get a proper "Section"
+    Symbol by this method instead of finding it by name.
+
+
+    This would be more reliable, I think.
+
+    Could you check this out ?
+
+
+    Cheers,
+
+    Rudolf'
+- author: leo
+  email: qxxleo@gmail.com
+  ip: 59.173.249.162
+  url: ''
+  date: '2012-05-23 20:53:17'
+  body: 'How to hide viewsection C, it blocked the view of the door？
+
+
+    As shown below ：
+
+
+    <a href="http://m3.img.libdd.com/farm5/16/48929D16443B2F9D80AD46114190C210_117_418.JPEG">http://m3.img.libdd.com/farm5/16/48929D16443B2F9D80AD46114190C210_117_418.JPEG</a>'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadgraph.de
+  date: '2012-05-24 03:00:34'
+  body: 'Hi Leo,
+
+
+    what can we see in the picture ?
+
+    It seems that we are in a section view itself and see the section line of another
+    section view.
+
+
+    In fact, we see the *viewer* of the other section view.
+
+    Every time you generate a new view section, there will appear new viewer representations
+    in your existing views, so you need to hide them by category.
+
+    Something like:
+
+    viewSection.setVisibility(BuiltInCategory.OST_Viewers), false);
+
+
+    Bye,
+
+    Rudolf'
+- author: leo
+  email: qxxleo@gmail.com
+  ip: 113.57.157.98
+  url: ''
+  date: '2012-05-27 22:49:45'
+  body: How to hide the reference lines ?
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadgraph.de
+  date: '2012-05-29 03:13:48'
+  body: 'Hi Leo,
+
+
+    you can hide elements in different ways.
+
+    As I said before, you can hide elements by category.
+
+    In your case, just use RevitLookup to determine the Category of the element you
+    want to disappear.
+
+    As you will see, reference lines have the Category "OST_ReferenceLines", so try
+    this:
+
+
+    viewSection.setVisibility(BuiltInCategory.ReferenceLines), false);
+
+
+    And so on.
+
+
+    Of course you also can hide/unhide *single* Elements. In this case, just use viewSection.HideElements(elementIdList).
+
+
+    Bye,
+
+    Rudolf'
+- author: leo
+  email: qxxleo@gmail.com
+  ip: 59.173.249.162
+  url: ''
+  date: '2012-05-29 20:58:53'
+  body: '"OST_ReferenceLines" is wrong, Don''t hide.'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadgraph.de
+  date: '2012-05-30 03:20:23'
+  body: 'Hi Leo again,
+
+
+    so just identify the category of the element you want to hide, using RevitLookup.
+
+
+    It may be that you confuse ReferenceLines with ReferencePlanes, whose twodimensional
+    representations may appear as lines although they are planes, depending on the
+    view.
+
+
+    Hope that helps.
+
+
+    Bye,
+
+    Rudolf'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-06-03 14:53:10'
+  body: 'Dear Rudolf,
+
+
+    Yes, sure, the new view API certainly provides more control than ever before.
+
+
+    Here is a new post discussing some aspects of this:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/06/create-structural-plan-view.html">http://thebuildingcoder.typepad.com/blog/2012/06/create-structural-plan-view.html</a>
+
+
+    Does that answer your question?
+
+
+    Cheers, Jeremy.'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadgraph.de
+  date: '2012-06-04 03:49:41'
+  body: 'Hi Jeremy,
+
+
+    yes, that answers my question.
+
+
+    Thanks,
+
+    Rudolf'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.181.135
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-06-04 04:43:36'
+  body: 'Dear Rudolf,
+
+
+    My pleasure entirely  :-)
+
+
+    Cheers, Jeremy.'
+- author: sachin
+  email: sachinkocharekar12@gmail.com
+  ip: 223.239.139.182
+  url: ''
+  date: '2013-03-23 03:55:03'
+  body: "Hello sir,\nI am getting problem to get a real time view(like in case inserting\
+    \ door on a wall,after selecting the door, i am not getting the door view of moving\
+    \ along with the mouse cursor only getting cursor and if click on wall directly\
+    \ it will inserting.) before placing family inserting.\n\nmy code is like this:\n\
+    \n public Autodesk.Revit.UI.Result Execute(ExternalCommandData commandData, ref\
+    \ string message, ElementSet elements)  \n        {      \n           ..........\n\
+    \            try\n            {\n              trans.Start();\n              \
+    \  Family family = null;\n                FamilySymbol symbol = null;\n      \
+    \           if (doc.LoadFamily(@h4, out family))\n                {\n        \
+    \          foreach (FamilySymbol s in family.Symbols)\n                    {\n\
+    \                        symbol = s;\n                    }\n                \
+    \    View view = uidoc.ActiveView;\n                    Reference r = sel.PickObject(ObjectType.PointOnElement,\
+    \ \"Select\");\n                    Element elem = doc.GetElement(r);\n      \
+    \              Wall wall = elem as Wall;\n                    XYZ globalPoint\
+    \ = r.GlobalPoint;\n                    XYZ levelPoint = new XYZ(10, 10, 1); \
+    \                 \n                    Wall wall = doc.GetElement(r) as Wall;\
+    \  \n                   FamilyInstance instance = doc.Create.NewFamilyInstance(levelPoint,\
+    \ symbol, wall,level,StructuralType.NonStructural);\n                       }\n\
+    \                     trans.Commit();\n                    }\n             catch\
+    \ (Exception)\n            {\n\n            }\n                return Result.Succeeded;\n\
+    \        }"
+- author: Modar Mayya
+  email: modar.einstein@gmail.com
+  ip: 188.226.172.203
+  url: ''
+  date: '2015-03-17 10:27:05'
+  body: 'Hello dears,
+
+    how to make gaps in segments to a section line which appears in the view of another
+    section
+
+    thanks,'
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.98.69
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-03-17 10:36:21'
+  body: 'Dear Modar Mayya,
+
+
+    Sorry, no idea.
+
+
+    Cheers, Jeremy.
+
+    -----'

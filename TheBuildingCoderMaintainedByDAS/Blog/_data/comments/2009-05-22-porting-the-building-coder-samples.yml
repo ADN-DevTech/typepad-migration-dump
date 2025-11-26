@@ -1,0 +1,213 @@
+comments:
+- author: Priit
+  email: priit@commuun.ee
+  ip: 193.40.244.211
+  url: ''
+  date: '2009-05-22 08:05:30'
+  body: 'It was next on my agenda: to make my first revit api program. Now this posts
+    makes me really worried, do i really need to rewrite it every year. That does
+    not sound good.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.96.93
+  url: ''
+  date: '2009-05-22 08:53:28'
+  body: 'Dear Priit,
+
+
+    Glad to hear you are interested in getting started with the Revit API. Fact is,
+    the API can change a little bit from release to release, but that should not be
+    a cause for too much concern. Only small changes are made to the API from one
+    release to the next. If you are not making any use of API functionality that changed,
+    your add-in may run unmodified on several releases of Revit. It is however recommended
+    to recompile fresh for each release. Mostly, this requires no or only very changes.
+
+
+    In this specific case, the addition of the new family API is an extremely big
+    step forward for Revit programming, and it would have been surprising if it had
+    not affected anything at all.
+
+
+    One command out of thirty-two in The Building Coder samples was affected by this
+    change, and even the update required for that change was very small. Thirty-one
+    of the thirty-two were not affected in any significant way, and twenty-seven out
+    of the thirty-two commands were not affected at all.
+
+
+    Eight lines of code out of a total of 15.000 needed editing.
+
+
+    Feedback from large application developers indicates that porting even the most
+    complex of applications requires no more than a few hours.
+
+
+    Cheers, Jeremy.'
+- author: Stewart Engelman Domain Sales
+  email: stuengelman@dniservices.com
+  ip: 75.68.244.166
+  url: http://www.dniservices.com
+  date: '2009-07-30 23:11:02'
+  body: 'Hello,
+
+
+    I sympathize with what you had to go through.  My primary occupation is programming
+    using Visual Studio.  On certain occasions, I have had to upgrade solutions to
+    newer versions of VS to add functionality that the older version did not have.  Sadly,
+    the VS "conversion wizard" can be very buggy, and on one occasion I was so stumped
+    I had to open an MS ticket to get help because I couldn''t figure out how to manually
+    adjust the converted files so the projects would compile.
+
+
+    I think MS needs to thoroughly test the conversion wizard against against specific
+    legacy versions of VS before allowing the wizard to run (for as of yet untested
+    scenarios, the system should pop a dialog saying that conversion can''t take place
+    right now, but may be possible later as patches from Windows Update are issued).'
+- author: Chris B
+  email: cbuckreus@lafp.com
+  ip: 204.15.53.146
+  url: http://www.lafp.com
+  date: '2009-12-09 09:17:31'
+  body: 'Jeremy,
+
+
+    Sorry to dig this up, but how does one accomplish the equivalent of Family.LoadedSymbols
+    within the context of the family''s parent document? I''ll do my best to explain.
+
+
+    For example, try manipulating the weld symbol:
+
+
+    If you use the EditFamily() method to enumerate through the family to retrieve
+    the "Fillet" symbol the elementId will be (for example) 1000.
+
+
+    Using RvtMgdDbg if one snoops the weld family once loaded in a project you can
+    see that the "Fillet" symbol is given an Id of (say) 800000.
+
+
+    So my question: How do you retrieve the loaded symbol''s Id in the context of
+    the parent document, not the family editor itself?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-10 02:56:08'
+  body: 'Dear Chris,
+
+
+    Filter or iterate the elements of whatever document it is that you need the element
+    id in, identify the symbol you are looking for, and Bob''s your uncle.
+
+
+    Cheers, Jeremy.'
+- author: Chris B
+  email: cbuckreus@lafp.com
+  ip: 204.15.53.146
+  url: http://www.lafp.com
+  date: '2009-12-11 18:03:58'
+  body: "Try as I might I'm still not having success finding the family's symbols\
+    \ in the parent document. For instance, I simply load up a new project (default\
+    \ structural template), drag in a weld symbol, select it, and run through the\
+    \ following code (I've trimmed the easy obvious parts):\n\nforeach (Element elem\
+    \ in selection)\n                {\n                    List weldSymbolList =\
+    \ new List();\n\n                    Parameter botSymbol = elem.get_Parameter(\"\
+    Bottom Symbol\");\n                    ElementId botSymId = botSymbol.AsElementId();\n\
+    \                    Element tester = revitDoc.get_Element(ref botSymId);\n\n\
+    \                    AnnotationSymbol elementAS = elem as AnnotationSymbol;\n\
+    \                    FamilyInstance elementFI = elementAS.AsFamilyInstance;\n\
+    \                    Family fam = elementFI.Symbol.Family;\n                 \
+    \   Document familyDoc = revitDoc.EditFamily(fam);\n\n                    if (familyDoc\
+    \ != null && familyDoc.IsFamilyDocument == true)\n                    {\n    \
+    \                    ElementIterator itrFS = familyDoc.get_Elements(typeof(AnnotationSymbolType));\n\
+    \                        itrFS.Reset();\n                        while (itrFS.MoveNext())\n\
+    \                        {\n                            Element eleFam = itrFS.Current\
+    \ as Element;\n                            if (eleFam != null)\n             \
+    \               {\n                                weldSymbolList.Add(eleFam.Name);\n\
+    \                            }\n                        }\n\n                \
+    \        ElementIterator itrParentDoc = revitDoc.Elements;\n                 \
+    \       itrParentDoc.Reset();\n                        while (itrParentDoc.MoveNext())\n\
+    \                        {\n                            Element eleDoc= itrParentDoc.Current\
+    \ as Element;\n                            if (eleDoc != null)\n             \
+    \               {\n                                if (weldSymbolList.IndexOf(eleDoc.Name)\
+    \ != -1)\n                                    MessageBox.Show(\"Found \" + eleDoc.Name\
+    \ + \" : \" + eleDoc.Id.Value);\n                            }\n             \
+    \           }\n                    }\n\nAnd the weld symbols are never found in\
+    \ the iteration. What may I be missing? Your help is much appreciated!"
+- author: Jeremy Tammik
+  email: ''
+  ip: 194.237.193.51
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-15 03:17:17'
+  body: 'Dear Chris,
+
+
+    I still have a hard time understanding what your difficulty is.
+
+
+    Maybe there is a misunderstanding here. Maybe it is just too simple. Maybe the
+    term ''parent'' document is causing confusion.
+
+
+    Does the following correctly describe your need?
+
+
+    1. Create a new project document.
+
+
+    2. Load a family document into the project document.
+
+
+    3. Determine the element ids of the family symbols in the project document context.
+
+
+    If so, then the Revit API Introduction lab Lab3_1_StandardFamiliesAndTypes does
+    exactly what you need.
+
+
+    Cheers, Jeremy.'
+- author: abby
+  email: abidrahmat@hotmail.com
+  ip: 58.26.82.158
+  url: ''
+  date: '2011-05-18 04:26:45'
+  body: "Hi Jeremy,\n\nFrom your answer, is it meant that we can load mass into curent\
+    \ project via revit API? I have search a correct function but seem it failed.\
+    \ \nWhat I meant is:\n1. create new project document\n2. using revit api\n   i.\
+    \  retrieve selected mass family\n   ii.load into new project into selected level\n\
+    \   iii.show in new project document\n\n\nThank you."
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-05-18 07:20:47'
+  body: "Dear Abby,\n\nI do not think you can load a mass directly into the current\
+    \ project, but if you have packaged it as a family  I see no reason why it should\
+    \ not be possible to load it. \n\nAny standard family can be loaded into Revit,\
+    \ and instances of its symbols inserted into and displayed in the current project.\n\
+    \nCheers, Jeremy."
+- author: abby
+  email: abidrahmat@hotmail.com
+  ip: 58.26.82.158
+  url: ''
+  date: '2011-05-19 00:18:24'
+  body: "Hi Jeremy.\n\nThank you for your reply. I managed to load mass into current\
+    \ project by package it as family.\nWhat i have done is:\n1. Create new project\n\
+    2. In Revit API,\n   i. it will check whether current document is family.\n  \
+    \ ii. if not family, it shall create new family.\n   iii. then i'll create new\
+    \ mass and save it.\n   iv. then i load new created family into current document.\n\
+    \nIt seem ok and what i need is to view mass manually since it doesn't shows in\
+    \ floor plan.\nIs is correct or there are better way to do that?\n\nThank you."
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-05-19 03:52:56'
+  body: 'Dear Abby,
+
+
+    That sounds fine to me.
+
+
+    Cheers, Jeremy.
+
+    -----'

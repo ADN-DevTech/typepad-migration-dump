@@ -1,0 +1,30 @@
+comments:
+- author: Mike King
+  email: mike.king@odehengineers.com
+  ip: 98.175.219.27
+  url: ''
+  date: '2010-02-15 14:32:34'
+  body: When constructing a slab, how can I specify openings?  Obviously just appending
+    them to the passed CurveArray doesn't produce the desired effect and I can't figure
+    out how to add them after-the-fact.  Any thoughts?
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-03-01 11:13:49'
+  body: "Dear Mike,\n\nSorry for the belated answer, I just returned from a vacation.\
+    \ \n\nActually, I believe there are two ways of creating openings. \n\nOne possibility\
+    \ is to use the Document.NewOpening method to create openings in an existing host\
+    \ element. \n\nThe second may indeed be to append additional loops to the passed-in\
+    \ curve array directly when creating the host object, as you can see from the\
+    \ comment by Ning on creating walls with openings, even though he points out that\
+    \ it is not always working reliably in his case:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/02/creating-a-wall-with-a-sloped-profile.html?cid=6a00e553e1689788330120a6cd4ccf970b#comment-6a00e553e1689788330120a6cd4ccf970b\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/02/creating-a-wall-with-a-sloped-profile.html?cid=6a00e553e1689788330120a6cd4ccf970b#comment-6a00e553e1689788330120a6cd4ccf970b</a>\n\
+    \nI presented some code to generate a slab in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2008/11/editing-a-floor-profile.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2008/11/editing-a-floor-profile.html</a>\n\
+    \nThe additional edge loops in the existing slab are intentionally eliminated\
+    \ in that code. You might be able to modify it to leave them in and thus create\
+    \ the required openings at the same time as the slab itself. I should add that\
+    \ I did attempt to do this myself and was unable to get it to work as expected.\
+    \ Although Ning seems to have used it to create walls with openings, it may not\
+    \ work for floors.\n\nCheers, Jeremy.\n-----"

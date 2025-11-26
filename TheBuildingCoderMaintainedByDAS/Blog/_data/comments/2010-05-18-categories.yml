@@ -1,0 +1,217 @@
+comments:
+- author: Rajeswara Rao
+  email: rajesh@cadsindia.dom
+  ip: 59.163.205.194
+  url: ''
+  date: '2010-06-17 03:17:17'
+  body: 'Hello Jeremy Tammik,
+
+
+    I am unable get the Category object of the BuiltInCategory.OST_SWallRectOpening
+    using Document.Settings.Categories.get_Item(BuiltInCategory.OST_SWallRectOpening).
+    Any idea?
+
+
+    Thanks,
+
+    Rajeswara Rao'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-17 03:46:35'
+  body: 'Dear Rajeswara,
+
+
+    There is no guaranteed match between the list of built-in categories and the entries
+    in the document settings Categories collection. In fact, they will never completely
+    match.
+
+
+    Some built-in categories will not have a corresponding instance in the document
+    Categories collection, and also vice versa, there may be instances in the Categories
+    collection that have no corresponding built-in category.
+
+
+    For instance, when you insert a DWG file into the project, a new category is created
+    for it which obviously lacks a matching built-in category:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2008/11/adding-a-shared-parameter-to-a-dwg-file.html">http://thebuildingcoder.typepad.com/blog/2008/11/adding-a-shared-parameter-to-a-dwg-file.html</a>
+
+
+    Your situation with a built-in category lacking a corresponding entry in the document
+    categories may possibly change if you add some specific element to the model.
+
+
+    What problem do you have with that?
+
+
+    Cheers, Jeremy.'
+- author: Rajeswara Rao
+  email: rajesh@cadsindia.dom
+  ip: 59.163.205.194
+  url: ''
+  date: '2010-06-17 06:29:26'
+  body: 'Dear Jeremy,
+
+
+    Thanks.
+
+
+    I am trying to add/bind some Parameters to the BuiltInCategory.OST_SWallRectOpening
+    category. This may nod be possible because this category will not allow to bound
+    parameters.
+
+
+    Thanks,
+
+    Rajeswara Rao'
+- author: NearlyNil
+  email: ''
+  ip: 213.88.211.18
+  url: http://profile.typepad.com/nearlynil
+  date: '2011-06-27 05:42:00'
+  body: 'Weird question: Where does the "Multi-category" category fit in the equation?
+    Is it a real top-level category, or some hybrid category? Is it possible to change,
+    for example, an annotation tag from "furniture" category to a "multi-category"?
+
+
+    Thanks for the brains'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-27 06:51:00'
+  body: 'Dear NearlyNil,
+
+
+    Thank you for your weird question, and thank God for the brains!
+
+
+    I have no idea, I never heard of multi-category. It may be that I just never encountered
+    it, or that it does not exist in the API, and is just a user interface artifact.
+    Where do you observe such a thing? I would suggest exploring the issue yourself
+    using RevitLookup.
+
+
+    Cheers, Jeremy.'
+- author: Alex
+  email: Alex.Billsy@gmail.com
+  ip: 219.90.177.195
+  url: ''
+  date: '2014-05-18 07:54:58'
+  body: "built-in category storage\n\nHi Jeremy,\nI want to add specific built-in\
+    \ categories to a list and store these as a schema in the projectinformation category.\
+    \ I have been able to add strings using the stringlist.add() method however Revit\
+    \ is reporting an error when I used \"builtincategory as the type.\"\nSo my question\
+    \ is if I cant use that type how can i add built-in cats to revit data storage?\
+    \ What is the easiest method if there is one to store and retrieve the builtincategories\
+    \ such as walls, floors etc.?\nYour blog has been quite helpful btw!\n\ncheers,\n\
+    alex  \n\n\n     public void StoreDataInProjectInfo(Document doc, Element projectInfoElement)\n\
+    \        {\n            Schema schema = Schema.Lookup(SchemaGuid);\n\n\n     \
+    \       List<BuiltInCategory> stringList = new List<BuiltInCategory>();\n\n  \
+    \          stringList.Add(BuiltInCategory.OST_Walls);\n            stringList.Add(BuiltInCategory.OST_Floors);\n\
+    \n           \n            using (Transaction transEstorage = new Transaction(doc))\n\
+    \            {\n                transEstorage.Start(\"add estorage list\");\n\n\
+    \n            if (null == schema)\n            {\n                SchemaBuilder\
+    \ sb = new SchemaBuilder(new Guid(\"AF5E4C3E-C2E2-493B-8236-BA0F5E323887\"));\n\
+    \n                //public accesibility\n                sb.SetReadAccessLevel(AccessLevel.Public);\n\
+    \                sb.SetWriteAccessLevel(AccessLevel.Public);\n\n             \
+    \   //Storage Filled for Cat List\n                FieldBuilder fb = sb.AddArrayField(\"\
+    UserCategoryList\", typeof(BuiltInCategory)); \n                fb.SetDocumentation(\"\
+    A Set Of Categories to be worksetted\");"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.197.176
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-05-23 09:51:41'
+  body: 'Dear Alex,
+
+
+    All enumerations are basically integers, so you could convert them to that.
+
+
+    There is also a certain amount of exchangeability between built-in categories
+    and non-built-in categories defined in the project file. The latter have element
+    ids. Therefore, you can also consider the built-in category integer value as an
+    element id, albeit with a negative value.
+
+
+    So you might use either integer or ElementId data type.
+
+
+    Please let us know how you fare.
+
+
+    Thank you and good luck!
+
+
+    Cheers, Jeremy.'
+- author: PaulGibson
+  email: ''
+  ip: 50.243.153.217
+  url: http://profile.typepad.com/6p01b8d0a0066c970c
+  date: '2014-12-02 18:37:21'
+  body: "Hi Jeremy,\n\nI am trying to write a little macro (pasted below) that will\
+    \ loop through the view templates and list out the various graphic overrides (model)\
+    \ that may exist.  I get the views ok, and list the name, scale and type.  I then\
+    \ was thinking (based on looking at the members of View) that by using GetCategoryOverrides\
+    \ I can list out how the various categories are modified by the template.  This\
+    \ apparently is not the case, or the way I am going about it is misguided.  My\
+    \ attempt to get a filtered element collection of Categories fails at runtime.\
+    \  here is the code and thanks for any insight you can provide:\n\n\t\tpublic\
+    \ void ViewTemplateList()\n\t\t{\n\t\t\tDocument doc = this.ActiveUIDocument.Document;\n\
+    \t\t\tFilteredElementCollector views = new FilteredElementCollector(doc).OfClass(typeof(Autodesk.Revit.DB.View));\n\
+    \t\t\tSaveFileDialog saveFile = new SaveFileDialog();\n\t\t\tsaveFile.FileName\
+    \ = \"Templates.txt\";\n\t\t\tsaveFile.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);\n\
+    \t\t\tif(saveFile.ShowDialog() == DialogResult.OK)\n\t\t\t{\n\t\t\t\tStreamWriter\
+    \ sw = new StreamWriter(saveFile.FileName);\n\t\t\t\ttry\n\t\t\t\t{\n\t\t\t\t\t\
+    foreach (Autodesk.Revit.DB.View v in views)\n\t\t\t\t\t{\n\t\t\t\t\t\tstring line\
+    \ = \"\";\n\t\t\t\t\t\tif (v.IsTemplate)\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tline +=\
+    \ v.Name;\n\t\t\t\t\t\t\tline += \"\\t\";\n\t\t\t\t\t\t\tline += v.Scale.ToString();\n\
+    \t\t\t\t\t\t\tline += \"\\t\";\n\t\t\t\t\t\t\tline += v.ViewType.ToString();\n\
+    \t\t\t\t\t\t\tFilteredElementCollector cCats = new FilteredElementCollector(doc).OfClass(typeof(Categories));\n\
+    \t\t\t\t\t\t\tforeach (Element c in cCats)\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\
+    OverrideGraphicSettings ogs = v.GetCategoryOverrides(c.Id);\n\t\t\t\t\t\t\t\t\
+    line += \"\\t\";\n\t\t\t\t\t\t\t\tline += c.Name;\n\t\t\t\t\t\t\t\tline += \"\\\
+    t\";\n\t\t\t\t\t\t\t\tline += ogs.CutFillColor;\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\
+    \tsw.WriteLine(line);\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t\tsw.Close();\n\t\t\
+    \t\t}\n\t\t\t\tcatch(Exception ex)\n\t\t\t\t{\n\t\t\t\t\tMessageBox.Show(ex.Message);\n\
+    \t\t\t\t\tsw.Close();\n\t\t\t\t}\n\t\t\t}\n\t\t}"
+- author: PaulGibson
+  email: ''
+  ip: 50.243.153.217
+  url: http://profile.typepad.com/6p01b8d0a0066c970c
+  date: '2014-12-02 19:03:22'
+  body: "Oops . . . I notice that I should not be using Categories as elements, and\
+    \ am now setting cCats as you have above: Categories cCats = doc.Settings.Categories;\n\
+    \nso my new inner foreach loop looks like this:\n\t\t\t\t\t\t\tforeach (Category\
+    \ c in cCats)\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\tif(c.get_AllowsVisibilityControl(v))\n\
+    \t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\tOverrideGraphicSettings ogs = v.GetCategoryOverrides(c.Id);\n\
+    \t\t\t\t\t\t\t\t\tline += \"\\t\";\n\t\t\t\t\t\t\t\t\tline += c.Name;\n\t\t\t\t\
+    \t\t\t\t\tline += \"\\t\";\n\t\t\t\t\t\t\t\t\tline += ogs.CutFillColor;\n\t\t\t\
+    \t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\nNow I get all categories, but I really just need\
+    \ the ones that are overridden . . . I don't see a way to filter or test on that.\
+    \  Any ideas?\n\nThanks, Paul"
+- author: Jeremy Tammik
+  email: ''
+  ip: 213.208.100.103
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-12-09 14:45:13'
+  body: 'Dear Paul,
+
+
+    I checked with the development team for you, and they reply:
+
+
+    I don’t think we offer a shortcut to do this.  GetCategoryOverrides() returns
+    a default overrides object if it’s not overridden.
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.
+
+    -----'

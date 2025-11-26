@@ -1,0 +1,536 @@
+---
+layout: "post"
+title: "DirectShape Element to Represent Room Volume"
+date: "2019-05-28 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "AI"
+  - "Export"
+  - "Forge"
+  - "Geometry"
+  - "JSON"
+  - "News"
+  - "Parameters"
+  - "RME"
+original_url: "https://thebuildingcoder.typepad.com/blog/2019/05/generate-directshape-element-to-represent-room-volume.html "
+typepad_basename: "generate-directshape-element-to-represent-room-volume"
+typepad_status: "Publish"
+---
+
+<p>Yesterday, I implemented a new add-in, RoomVolumeDirectShape, that creates <code>DirectShape</code> elements representing the volumes of all the rooms.</p>
+
+<p>I'll also mention some challenges encountered en route, some free add-ins shared by Cherry BIM Services, an insight in the meaning of the MEP fitting <code>Loss Method</code> property, and AI-generated talking head models:</p>
+
+<ul>
+<li><a href="#2">Request to display room volumes in Forge SVF file</a> </li>
+<li><a href="#3">RoomVolumeDirectShape functionality</a> </li>
+<li><a href="#4">Retrieving all element properties</a> </li>
+<li><a href="#5">Converting a .NET dictionary to JSON</a> </li>
+<li><a href="#6">Generating <code>DirectShape</code> from <code>ClosedShell</code></a> </li>
+<li><a href="#7">Complete external command class <code>Execute</code> method</a> </li>
+<li><a href="#8">Sample model and results</a> </li>
+<li><a href="#9">Challenges encountered underway</a> 
+<ul>
+<li><a href="#9.1">Licensing system error 22</a> </li>
+<li><a href="#9.2">Valid direct shape categories</a> </li>
+<li><a href="#9.3">Direct shape phase and visibility</a> </li>
+</ul></li>
+<li><a href="#10">Cherry BIM Services</a> </li>
+<li><a href="#11">On the value of the "Loss Method" property</a> </li>
+<li><a href="#12">AI-generated talking head models</a> </li>
+</ul>
+
+<h4><a name="2"></a> Request to Display Room Volumes in Forge SVF File</h4>
+
+<p>The <a href="https://github.com/jeremytammik/RoomVolumeDirectShape">RoomVolumeDirectShape add-in</a> was
+inspired by the following request:</p>
+
+<p>The context: We are building digital twins out of BIM data. To do so, we use Revit, Dynamo, and Forge.</p>
+
+<p>The issue: We rely on the rooms in Revit to perform a bunch of tasks (reassign equipment localization, rebuild a navigation tree, and so on).</p>
+
+<p>Unfortunately, these rooms are not displayed in the Revit 3D view.</p>
+
+<p>Therefore, they are nowhere to be found in the Forge SVF file.</p>
+
+<p>Our (so-so) solution: uses Dynamo to extract the room geometry and build Revit volumes.</p>
+
+<p>It works, but it is:</p>
+
+<ul>
+<li>Not very robust: Some rooms has to be recreated manually, Dynamo crashes, geometry with invalid faces is produced, etc.</li>
+<li>Not very fast: The actual script exports SAT files and reimports them.</li>
+<li>Manual: Obviously, and also tedious and error-prone.</li>
+</ul>
+
+<p>The whole process amounts to several hours of manual work.</p>
+
+<p>We want to fix this.</p>
+
+<p>Our goal: A robust implementation that will get rid of Dynamo, automate the process in Revit, and in the end, run that in a Forge Design Automation process.</p>
+
+<p>The ideal way forward is exactly what you describe: A native C# Revit API that find the rooms, creates a direct shape volume for them, and copy their properties to that.</p>
+
+<p>No intermediate formats, no UI, just straight automation work.</p>
+
+<h4><a name="3"></a> RoomVolumeDirectShape Functionality</h4>
+
+<p>Fulfilling this request, I implemented a
+new <a href="https://github.com/jeremytammik/RoomVolumeDirectShape">RoomVolumeDirectShape add-in</a> that
+performs the following simple steps:</p>
+
+<ul>
+<li>Retrieve all rooms in the BIM using a filtered element collector</li>
+<li>For each room:</li>
+<li>Query the room for its closed shell using
+the <a href="https://www.revitapidocs.com/2020/1a510aef-63f6-4d32-c0ff-a8071f5e23b8.htm">ClosedShell API call</a></li>
+<li>Generate a <a href="https://www.revitapidocs.com/2020/bfbd137b-c2c2-71bb-6f4a-992d0dcf6ea8.htm">DirectShape element</a> representing the room volume geometry</li>
+<li>Query the room for all its properties, stored in parameters
+(cf., <a href="https://thebuildingcoder.typepad.com/blog/2018/05/getting-all-parameter-values.html">getting all parameter values</a>
+and <a href="https://thebuildingcoder.typepad.com/blog/2018/05/getting-all-parameter-values.html#5">retrieving parameter values from an element</a>)</li>
+<li>Generate a JSON string representing a dictionary of the room properties</li>
+<li>Store the room property JSON string in the <code>DirectShape</code> element <code>Comment</code> property</li>
+</ul>
+
+<h4><a name="4"></a> Retrieving All Element Properties</h4>
+
+<p>The <code>GetParamValues</code> method retrieves and returns all the element parameter values in a dictionary mapping parameter names to the corresponding values.</p>
+
+<p>For each entry, it also appends a single-character indicator of the parameter storage type to the key.</p>
+
+<p>It makes use of two helper methods:</p>
+
+<ul>
+<li><code>ParameterStorageTypeChar</code>, to return a key character for each storage type</li>
+<li><code>ParameterToString</code>, to retrieve the parameter value as a string</li>
+</ul>
+
+<pre class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Return&nbsp;parameter&nbsp;storage&nbsp;type&nbsp;abbreviation</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">char</span>&nbsp;ParameterStorageTypeChar(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Parameter</span>&nbsp;p&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;<span style="color:blue;">null</span>&nbsp;==&nbsp;p&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">throw</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ArgumentNullException</span>(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;p&quot;</span>,&nbsp;<span style="color:#a31515;">&quot;expected&nbsp;non-null&nbsp;parameter&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">char</span>&nbsp;abbreviation&nbsp;=&nbsp;<span style="color:#a31515;">&#39;?&#39;</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">switch</span>(&nbsp;p.StorageType&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">StorageType</span>.Double:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;abbreviation&nbsp;=&nbsp;<span style="color:#a31515;">&#39;r&#39;</span>;&nbsp;<span style="color:green;">//&nbsp;real&nbsp;number</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">StorageType</span>.Integer:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;abbreviation&nbsp;=&nbsp;<span style="color:#a31515;">&#39;n&#39;</span>;&nbsp;<span style="color:green;">//&nbsp;integer&nbsp;number</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">StorageType</span>.String:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;abbreviation&nbsp;=&nbsp;<span style="color:#a31515;">&#39;s&#39;</span>;&nbsp;<span style="color:green;">//&nbsp;string</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">StorageType</span>.ElementId:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;abbreviation&nbsp;=&nbsp;<span style="color:#a31515;">&#39;e&#39;</span>;&nbsp;<span style="color:green;">//&nbsp;element&nbsp;id</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">StorageType</span>.None:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">throw</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ArgumentOutOfRangeException</span>(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;p&quot;</span>,&nbsp;<span style="color:#a31515;">&quot;expected&nbsp;valid&nbsp;parameter&nbsp;&quot;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<span style="color:#a31515;">&quot;storage&nbsp;type,&nbsp;not&nbsp;&#39;None&#39;&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;abbreviation;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Return&nbsp;parameter&nbsp;value&nbsp;formatted&nbsp;as&nbsp;string</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">string</span>&nbsp;ParameterToString(&nbsp;<span style="color:#2b91af;">Parameter</span>&nbsp;p&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;s&nbsp;=&nbsp;<span style="color:#a31515;">&quot;null&quot;</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;p&nbsp;!=&nbsp;<span style="color:blue;">null</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">switch</span>(&nbsp;p.StorageType&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">StorageType</span>.Double:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;=&nbsp;p.AsDouble().ToString(&nbsp;<span style="color:#a31515;">&quot;0.##&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">StorageType</span>.Integer:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;=&nbsp;p.AsInteger().ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">StorageType</span>.String:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;=&nbsp;p.AsString();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">StorageType</span>.ElementId:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;=&nbsp;p.AsElementId().IntegerValue.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">case</span>&nbsp;<span style="color:#2b91af;">StorageType</span>.None:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;=&nbsp;<span style="color:#a31515;">&quot;none&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;s;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Return&nbsp;all&nbsp;the&nbsp;element&nbsp;parameter&nbsp;values&nbsp;in&nbsp;a</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;dictionary&nbsp;mapping&nbsp;parameter&nbsp;names&nbsp;to&nbsp;values</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:#2b91af;">Dictionary</span>&lt;<span style="color:blue;">string</span>,&nbsp;<span style="color:blue;">string</span>&gt;&nbsp;GetParamValues(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;e&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Two&nbsp;choices:&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Element.Parameters&nbsp;property&nbsp;--&nbsp;Retrieves&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;a&nbsp;set&nbsp;containing&nbsp;all&nbsp;the&nbsp;parameters.</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;GetOrderedParameters&nbsp;method&nbsp;--&nbsp;Gets&nbsp;the&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;visible&nbsp;parameters&nbsp;in&nbsp;order.</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//IList&lt;Parameter&gt;&nbsp;ps&nbsp;=&nbsp;e.GetOrderedParameters();</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ParameterSet</span>&nbsp;pset&nbsp;=&nbsp;e.Parameters;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Dictionary</span>&lt;<span style="color:blue;">string</span>,&nbsp;<span style="color:blue;">string</span>&gt;&nbsp;d
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Dictionary</span>&lt;<span style="color:blue;">string</span>,&nbsp;<span style="color:blue;">string</span>&gt;(&nbsp;pset.Size&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">Parameter</span>&nbsp;p&nbsp;<span style="color:blue;">in</span>&nbsp;pset&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;AsValueString&nbsp;displays&nbsp;the&nbsp;value&nbsp;as&nbsp;the&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;user&nbsp;sees&nbsp;it.&nbsp;In&nbsp;some&nbsp;cases,&nbsp;the&nbsp;underlying</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;database&nbsp;value&nbsp;returned&nbsp;by&nbsp;AsInteger,&nbsp;AsDouble,</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;etc.,&nbsp;may&nbsp;be&nbsp;more&nbsp;relevant,&nbsp;as&nbsp;done&nbsp;by&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;ParameterToString</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;key&nbsp;=&nbsp;<span style="color:blue;">string</span>.Format(&nbsp;<span style="color:#a31515;">&quot;{0}({1})&quot;</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p.Definition.Name,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ParameterStorageTypeChar(&nbsp;p&nbsp;)&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;val&nbsp;=&nbsp;ParameterToString(&nbsp;p&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;d.ContainsKey(&nbsp;key&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;d[key]&nbsp;!=&nbsp;val&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d[key]&nbsp;+=&nbsp;<span style="color:#a31515;">&quot;&nbsp;|&nbsp;&quot;</span>&nbsp;+&nbsp;val;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">else</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d.Add(&nbsp;key,&nbsp;val&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;d;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+</pre>
+
+<h4><a name="5"></a> Converting a .NET Dictionary to JSON</h4>
+
+<p><code>FormatDictAsJson</code> converts the .NET dictionary of element properties to a JSON-formatted string:</p>
+
+<pre class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Return&nbsp;a&nbsp;JSON&nbsp;string&nbsp;representing&nbsp;a&nbsp;dictionary</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;mapping&nbsp;string&nbsp;key&nbsp;to&nbsp;string&nbsp;value.</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">string</span>&nbsp;FormatDictAsJson(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Dictionary</span>&lt;<span style="color:blue;">string</span>,&nbsp;<span style="color:blue;">string</span>&gt;&nbsp;d&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:blue;">string</span>&gt;&nbsp;keys&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:blue;">string</span>&gt;(&nbsp;d.Keys&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;keys.Sort();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:blue;">string</span>&gt;&nbsp;key_vals&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:blue;">string</span>&gt;(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;keys.Count&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:blue;">string</span>&nbsp;key&nbsp;<span style="color:blue;">in</span>&nbsp;keys&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key_vals.Add(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>.Format(&nbsp;<span style="color:#a31515;">&quot;\&quot;{0}\&quot;&nbsp;:&nbsp;\&quot;{1}\&quot;&quot;</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key,&nbsp;d[key]&nbsp;)&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#a31515;">&quot;{&quot;</span>&nbsp;+&nbsp;<span style="color:blue;">string</span>.Join(&nbsp;<span style="color:#a31515;">&quot;,&nbsp;&quot;</span>,&nbsp;key_vals&nbsp;)&nbsp;+&nbsp;<span style="color:#a31515;">&quot;}&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+</pre>
+
+<h4><a name="6"></a> Generating DirectShape from ClosedShell</h4>
+
+<p>With the element parameter property retrieval and JSON formatting helper methods in place, very little remains to be done.</p>
+
+<p>We gather all the rooms in the BIM using a filtered element collector, aware of the fact that the <code>Room</code> class only exists in the Revit API, not internally in Revit.</p>
+
+<p>The filtered element collector therefore has to retrieve <code>SpatialElement</code> objects instead and use .NET post-processing to extract the rooms,
+cf. <a href="http://thebuildingcoder.typepad.com/blog/2011/11/accessing-room-data.html">accessing room data</a>.</p>
+
+<p>Once we have the rooms, we can process each one as follows:</p>
+
+<ul>
+<li>Retrieve room volume from <code>ClosedShell</code></li>
+<li>Retrieve room properties</li>
+<li>Format properties into JSON string</li>
+<li>Create direct shape</li>
+<li>Set its geometry to the room volume</li>
+<li>Set its application data id to the room's <code>UniqueId</code></li>
+<li>Set its name to contain the room name</li>
+<li>Store the room property dictionary in its comment parameter</li>
+</ul>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:#2b91af;">GeometryElement</span>&nbsp;geo&nbsp;=&nbsp;r.ClosedShell;
+
+&nbsp;&nbsp;<span style="color:#2b91af;">Dictionary</span>&lt;<span style="color:blue;">string</span>,&nbsp;<span style="color:blue;">string</span>&gt;&nbsp;param_values
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;GetParamValues(&nbsp;r&nbsp;);
+
+&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;json&nbsp;=&nbsp;FormatDictAsJson(&nbsp;param_values&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">DirectShape</span>&nbsp;ds&nbsp;=&nbsp;<span style="color:#2b91af;">DirectShape</span>.CreateElement(
+&nbsp;&nbsp;&nbsp;&nbsp;doc,&nbsp;_id_category_for_direct_shape&nbsp;);
+
+&nbsp;&nbsp;ds.ApplicationId&nbsp;=&nbsp;id_addin;
+&nbsp;&nbsp;ds.ApplicationDataId&nbsp;=&nbsp;r.UniqueId;
+&nbsp;&nbsp;ds.SetShape(&nbsp;geo.ToList&lt;<span style="color:#2b91af;">GeometryObject</span>&gt;()&nbsp;);
+&nbsp;&nbsp;ds.get_Parameter(&nbsp;_bip_properties&nbsp;).Set(&nbsp;json&nbsp;);
+&nbsp;&nbsp;ds.Name&nbsp;=&nbsp;<span style="color:#a31515;">&quot;Room&nbsp;volume&nbsp;for&nbsp;&quot;</span>&nbsp;+&nbsp;r.Name;
+</pre>
+
+<h4><a name="7"></a> Complete External Command Class Execute Method</h4>
+
+<p>For the sake of completeness, here is the entire external command class and execute method implementation:</p>
+
+<pre class="code">
+<span style="color:blue;">#region</span>&nbsp;Namespaces
+<span style="color:blue;">using</span>&nbsp;System;
+<span style="color:blue;">using</span>&nbsp;System.Linq;
+<span style="color:blue;">using</span>&nbsp;System.Collections.Generic;
+<span style="color:blue;">using</span>&nbsp;System.Diagnostics;
+<span style="color:blue;">using</span>&nbsp;Autodesk.Revit.ApplicationServices;
+<span style="color:blue;">using</span>&nbsp;Autodesk.Revit.Attributes;
+<span style="color:blue;">using</span>&nbsp;Autodesk.Revit.DB;
+<span style="color:blue;">using</span>&nbsp;Autodesk.Revit.DB.Architecture;
+<span style="color:blue;">using</span>&nbsp;Autodesk.Revit.UI;
+<span style="color:blue;">#endregion</span>
+
+<span style="color:blue;">namespace</span>&nbsp;RoomVolumeDirectShape
+{
+&nbsp;&nbsp;[<span style="color:#2b91af;">Transaction</span>(&nbsp;<span style="color:#2b91af;">TransactionMode</span>.Manual&nbsp;)]
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">Command</span>&nbsp;:&nbsp;<span style="color:#2b91af;">IExternalCommand</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Cannot&nbsp;use&nbsp;OST_Rooms;&nbsp;DirectShape.CreateElement&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;throws&nbsp;ArgumentExceptionL:&nbsp;Element&nbsp;id&nbsp;categoryId&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;may&nbsp;not&nbsp;be&nbsp;used&nbsp;as&nbsp;a&nbsp;DirectShape&nbsp;category.</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Category&nbsp;assigned&nbsp;to&nbsp;the&nbsp;room&nbsp;volume&nbsp;direct&nbsp;shape</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ElementId</span>&nbsp;_id_category_for_direct_shape
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ElementId</span>(&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_GenericModel&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;DirectShape&nbsp;parameter&nbsp;to&nbsp;populate&nbsp;with&nbsp;JSON</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;dictionary&nbsp;containing&nbsp;all&nbsp;room&nbsp;properies</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>&nbsp;_bip_properties
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.ALL_MODEL_INSTANCE_COMMENTS;
+
+// ... Property retrieval and JSON formatting helper methods ...
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">Result</span>&nbsp;Execute(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ExternalCommandData</span>&nbsp;commandData,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">ref</span>&nbsp;<span style="color:blue;">string</span>&nbsp;message,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ElementSet</span>&nbsp;elements&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UIApplication</span>&nbsp;uiapp&nbsp;=&nbsp;commandData.Application;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UIDocument</span>&nbsp;uidoc&nbsp;=&nbsp;uiapp.ActiveUIDocument;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Application</span>&nbsp;app&nbsp;=&nbsp;uiapp.Application;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;=&nbsp;uidoc.Document;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;id_addin&nbsp;=&nbsp;uiapp.ActiveAddInId.ToString();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">IEnumerable</span>&lt;<span style="color:#2b91af;">Room</span>&gt;&nbsp;rooms
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.WhereElementIsNotElementType()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">SpatialElement</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Where(&nbsp;e&nbsp;=&gt;&nbsp;e.GetType()&nbsp;==&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">Room</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Cast&lt;<span style="color:#2b91af;">Room</span>&gt;();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">using</span>(&nbsp;<span style="color:#2b91af;">Transaction</span>&nbsp;tx&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Transaction</span>(&nbsp;doc&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tx.Start(&nbsp;<span style="color:#a31515;">&quot;Generate&nbsp;Direct&nbsp;Shape&nbsp;Elements&nbsp;&quot;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<span style="color:#a31515;">&quot;Representing&nbsp;Room&nbsp;Volumes&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">Room</span>&nbsp;r&nbsp;<span style="color:blue;">in</span>&nbsp;rooms&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Debug</span>.Print(&nbsp;r.Name&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">GeometryElement</span>&nbsp;geo&nbsp;=&nbsp;r.ClosedShell;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Dictionary</span>&lt;<span style="color:blue;">string</span>,&nbsp;<span style="color:blue;">string</span>&gt;&nbsp;param_values
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;GetParamValues(&nbsp;r&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;json&nbsp;=&nbsp;FormatDictAsJson(&nbsp;param_values&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">DirectShape</span>&nbsp;ds&nbsp;=&nbsp;<span style="color:#2b91af;">DirectShape</span>.CreateElement(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc,&nbsp;_id_category_for_direct_shape&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ds.ApplicationId&nbsp;=&nbsp;id_addin;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ds.ApplicationDataId&nbsp;=&nbsp;r.UniqueId;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ds.SetShape(&nbsp;geo.ToList&lt;<span style="color:#2b91af;">GeometryObject</span>&gt;()&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ds.get_Parameter(&nbsp;_bip_properties&nbsp;).Set(&nbsp;json&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ds.Name&nbsp;=&nbsp;<span style="color:#a31515;">&quot;Room&nbsp;volume&nbsp;for&nbsp;&quot;</span>&nbsp;+&nbsp;r.Name;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tx.Commit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#2b91af;">Result</span>.Succeeded;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p>For the full Visual Studio solution and updates to the code, please refer to
+The <a href="https://github.com/jeremytammik/RoomVolumeDirectShape">RoomVolumeDirectShape GitHub repository</a>.</p>
+
+<h4><a name="8"></a> Sample Model and Results</h4>
+
+<p>I tested this in the standard Revit <em>rac_basic_sample_project.rvt</em> sample model:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a48a0e24200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a48a0e24200d image-full img-responsive" alt="Revit Architecture rac_basic_sample_project.rvt" title="Revit Architecture rac_basic_sample_project.rvt" src="/assets/image_9dd3a6.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Isolated, the resulting direct shapes look like this:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a48a0e28200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a48a0e28200d image-full img-responsive" alt="DirectShape elements representing room volumes" title="DirectShape elements representing room volumes" src="/assets/image_20f54e.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="9"></a> Challenges Encountered Underway</h4>
+
+<p>I ran into a couple of issues en route that cost me time to resolve, ever though absolutely trivial, so I'll make a note of them here for my own future reference:</p>
+
+<ul>
+<li><a href="#9.1">Licensing system error 22</a> </li>
+<li><a href="#9.2">Valid direct shape categories</a> </li>
+<li><a href="#9.3">Direct shape phase and visibility</a> </li>
+</ul>
+
+<h4><a name="9.1"></a> Licensing System Error 22</h4>
+
+<p>Something happened on my virtual Windows machine, and I saw an error saying:</p>
+
+<pre>
+  ---------------------------
+  Autodesk Revit 2020
+  ---------------------------
+  Licensing System Error 22 
+  Failed to locate Adls
+  ---------------------------
+  OK   
+  ---------------------------
+</pre>
+
+<p>Luckily, a similar issue has already been discussed in the forum thread
+on <a href="https://forums.autodesk.com/t5/installation-licensing/error-de-sistema-de-licencias-22-failed-to-locate-adls/td-p/8771037">licensing system error 22 &ndash; failed to locate <code>Adls</code></a>.</p>
+
+<p>The solution described there worked fine in my case as well:</p>
+
+<ul>
+<li>Run Services.msc</li>
+<li>Check the entry for Autodesk Desktop Licensing Service</li>
+<li>If it is not already running, start the service</li>
+</ul>
+
+<h4><a name="9.2"></a> Valid Direct Shape Categories</h4>
+
+<p>I had to fiddle a bit choosing which category to use for the <code>DirectShape</code> element creation.</p>
+
+<p>The rooms category is not acceptable, generic model and structural framing is.</p>
+
+<p>Attempting to use an invalid category throws an ArgumentException saying, <em>Element id categoryId may not be used as a DirectShape category.</em></p>
+
+<h4><a name="9.3"></a> Direct Shape Phase and Visibility</h4>
+
+<p>Right away after the first trial run, I could see the resulting <code>DirectShape</code> elements in RevitLookup, and all their properties looked fine.</p>
+
+<p>However, try as I might, I was unable to see them in the Revit 3D view...</p>
+
+<p>...until I finally flipped through the phases and found the right one.</p>
+
+<p>The model is apparently in a state in which newly created geometry lands in a phase that is not displayed in the default 3D view.</p>
+
+<h4><a name="10"></a> Cherry BIM Services</h4>
+
+<p>Enough on my activities.</p>
+
+<p>Someone else has also been pretty active recently:</p>
+
+<p><a href="https://github.com/haninh2612">Ninh Truong Huu Ha</a> of <a href="http://www.cherrybimservices.com">Cherry BIM Services</a> recently
+shared several free Revit add-ins, and also published code for one of them.</p>
+
+<p>Oops, the code has disappeared again from Ninh's GitHub repository; in fact, the whole repository disappeared...</p>
+
+<blockquote>
+  <p>Inspired by Jeremy Tammik and Harry Mattison who always share their incredible knowledge to the world, I decided from now on, all of my Revit add-ins will be free to use for all Revit users.
+  One year ago, I had absolutely zero knowledge of the coding world, e.g., C#, Revit API, Visual Studio, etc.
+  I would never have thought that someday I could have my own Revit add-in published in the Autodesk Store.</p>
+</blockquote>
+
+<ul>
+<li>Start from my first add-in: <a href="https://www.dropbox.com/sh/fs1b60jewyfkdxd/AAArHy7C6Y7edtBGckl2AIeSa?dl=0">Batch Rename Revit Type name with Naming convention</a>.
+Here is a three-minute <a href="https://youtu.be/n91iyjOALdo">demonstration video</a>.</li>
+<li><a href="https://apps.autodesk.com/RVT/en/Detail/Index?id=7980350830610368901&amp;appLang=en&amp;os=Win64">Warning Manager by Cherry BIM Services</a></li>
+<li><a href="https://youtu.be/Sacd3K6RBbU">Auto-generate curtain grids</a> &ndash; <a href="https://www.dropbox.com/sh/rfllne68zjjjq9t/AAA7eLI-p1LqFHkRj3fBlxpza?dl=0">Auto curtain wall Dropbox download</a></li>
+<li><a href="https://youtu.be/rciLWaik2_0">Batch Upgrade models, templates and families</a></li>
+</ul>
+
+<p>Many thanks to Ninh for sharing these tools!</p>
+
+<h4><a name="11"></a> On the Value of the 'Loss Method' Property</h4>
+
+<p>Next, let's point out an MEP analysis related question raised and solved by Hanley Deng in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/how-to-get-the-value-of-the-property-quot-loss-method-quot/m-p/8816013">how to get the value of the property 'Loss Method'</a>:</p>
+
+<p><strong>Question:</strong> Pipe fittings have a property named "Loss Method".</p>
+
+<p>In the UI, its value is "Use Definition on Type".</p>
+
+<p>In the API, however, the value is a GUID, e.g., "3bf616f9-6b98-4a21-80ff-da1120c8f6d6":</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a48a0e2d200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a48a0e2d200d image-full img-responsive" alt="Loss method parameter property" title="Loss method parameter property" src="/assets/image_81a159.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>How can I convert the API GUID value, "3bf616f9-6b98-4a21-80ff-da1120c8f6d6", into the UI value, "Use Definition on Type"?</p>
+
+<p><strong>Answer:</strong> The loss method can be programmed, so the GUID you see might be something like the add-in identifier, c.f. this discussion on
+the <a href="https://thebuildingcoder.typepad.com/blog/2017/12/pipe-fitting-k-factor-archilab-and-installer.html">pipe fitting K factor</a>.</p>
+
+<p>**Response: Problem solved. This problem is solved in 2 cases:</p>
+
+<ol>
+<li>For Pipe fittings, when Loss Method is "Use definition on Type":
+In this case, the <code>parameter.AsString()</code> value equals the GUID stored in Autodesk.Revit.DB.MEPCalculatationServerInfo.PipeUseDefinitionOnTypeGUID.
+In this case, I cannot find the UI display string for it, so I hardcode the UI display string.</li>
+<li>I all other cases, including other values in Pipe Fittings, and all the values in Duct Fittings, the <code>ServerName</code> is the string in the UI display, accessible through the following API call:</li>
+</ol>
+
+<pre class="code">
+  Autodesk.Revit.DB.MEPCalculatationServerInfo
+    .GetMEPCalculationServerInfo(objFamilyInstance), 
+</pre>
+
+<p>Many thanks to Hanley for clarifying this.</p>
+
+<h4><a name="12"></a> AI-Generated Talking Head Models</h4>
+
+<p>Finally, let's close with this impressive demonstration of AI simulated talking head models, presented in the five-minute video 
+on <a href="https://youtu.be/p1b5aiTrGzY">few-shot adversarial learning of realistic neural talking head models</a>:</p>
+
+<p><center>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/p1b5aiTrGzY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</center>  </p>

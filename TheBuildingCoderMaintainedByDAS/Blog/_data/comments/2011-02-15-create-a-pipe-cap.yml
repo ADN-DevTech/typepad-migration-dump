@@ -1,0 +1,1830 @@
+comments:
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-03-16 09:24:53'
+  body: 'hi jeremy,
+
+    i m new in revit programming
+
+    i have a pipe with 45 degree angle
+
+    i want to place a coupling at 6 mtr distance its getting placed but it is not
+    getting rotated perpendicular to axis of pipe,
+
+    i have rotated it using rotate function but it is not getting placed properly
+    in proper angle.
+
+
+    how to get the angle to rotate it so it breaks the pipe and gets placed properly
+    in document.
+
+
+    thanks
+
+    Kailash Kute.'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-03-17 08:15:43'
+  body: 'in above mentioned question i came to know while testing my program is that
+    while i rotate the coupling, its x axis is rotating it in that direction,, but
+    actully its y axis should be rotated how to do that plz help
+
+    thanks in advance'
+- author: Jeremy Tammik
+  email: ''
+  ip: 213.210.236.146
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-03-18 12:02:53'
+  body: "Dear Kailash,\n\nIf you wish the coupling to break the pipe, I assume it\
+    \ is a tee of some kind, i.e. a pipe tap or spud. Please look at the discussion\
+    \ in\n\n<a href=\"http://forums.autodesk.com/t5/Autodesk-Revit-MEP/Pipe-Taps/mp/2073690/highlight/true#M2508\"\
+    >http://forums.autodesk.com/t5/Autodesk-Revit-MEP/Pipe-Taps/mp/2073690/highlight/true#M2508</a>\n\
+    \nThe thread includes a sample \"Pipe Spud\" family which you can save locally\
+    \ and test on a project. This is the recommended family type and category to use\
+    \ for now for a pipe outlet part.\n\nFor an example on using it manually, you\
+    \ can look at this video showing how to load the fitting into a project and use\
+    \ it when drawing a pipe:\n\n<a href=\"http://www.screencast.com/t/TApTeKqy\"\
+    >http://www.screencast.com/t/TApTeKqy</a>\n\nBasically, you do the following:\n\
+    \nLoad the family into a project\nSelect Pipe from the ribbon\nSelect Edit Type\n\
+    Change the preferred type to Tap\nSet the pipe spud as the default tap\nClick\
+    \ Apply/OK\n\nNow when you draw a branch pipe off of the main, the spud will be\
+    \ placed at the intersection.\n\nWhen the proper family is loaded, you can use\
+    \ the same approach for pipes as I did for ducts in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2011/02/use-of-newtakeofffitting-on-a-duct.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2011/02/use-of-newtakeofffitting-on-a-duct.html</a>\n\
+    \nCheers, Jeremy."
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2011-03-24 08:15:21'
+  body: "hi jeremy,\nRegards for the Day.\n\nthanks for the previous reply i learned\
+    \ a lot from that,\n\nbelow is the code for placing a coupling in all the 4 quadrants\
+    \ over a pipe\nif (angleinDegree = 0)\n                        {\n           \
+    \                 if (!endPoint.X.ToString().Contains(\"-\"))//  !startPoint.X.ToString().Contains(\"\
+    -\") && !startPoint.Y.ToString().Contains(\"-\"))\n                          \
+    \  {\n                                //1 Quadrant\n                         \
+    \       //MessageBox.Show(\"1st condition\");\n                              \
+    \  x = startPoint.X + 6 * Math.Cos(angle);\n                                y\
+    \ = startPoint.Y + 6 * Math.Sin(angle);\n                                z = startPoint.Z;\n\
+    \                                Pos = new XYZ(x, y, z);\n                   \
+    \         }\n                            else\n                            {\n\
+    \                                //MessageBox.Show(\"2 condition\");\n       \
+    \                         //3 Quadrant\n                                x = startPoint.X\
+    \ - 6 * Math.Cos(angle);\n                                y = startPoint.Y - 6\
+    \ * Math.Sin(angle);\n                                z = startPoint.Z;\n    \
+    \                            Pos = new XYZ(x, y, z);\n                       \
+    \     }\n                        }\n                        else if (angleinDegree\
+    \ = -90)\n                        {\n                            if (!endPoint.Y.ToString().Contains(\"\
+    -\"))\n                            {\n                                //2 Quadrant\n\
+    \                                //MessageBox.Show(\"3 condition\");\n       \
+    \                         x = startPoint.X - 6 * Math.Cos(angle);\n          \
+    \                      y = startPoint.Y - 6 * Math.Sin(angle);\n             \
+    \                   z = startPoint.Z;\n                                Pos = new\
+    \ XYZ(x, y, z);\n                            }\n                            else\n\
+    \                            {\n                                //4 Quadrant\n\
+    \                                //MessageBox.Show(\"4 condition\");\n       \
+    \                         x = startPoint.X + 6 * Math.Cos(angle);\n          \
+    \                      y = startPoint.Y + 6 * Math.Sin(angle);\n             \
+    \                   z = startPoint.Z;\n                                Pos = new\
+    \ XYZ(x, y, z);\n                        \n                            }\n   \
+    \                     }\n                        else\n                      \
+    \  {\n \n                        }\nand below is the line by which i am rotating\
+    \ a coupling around axis of pipe\n\nLine axis = _rvtDoc.Application.Create.NewLineBound(strtpnt,\
+    \ endpnt);\n                \n                bool flag = _rvtDoc.Rotate(f, axis,\
+    \ angle);\n\nnow here the f is my coupling which i want to place in such a position\
+    \ that it should break the pipe in two piece\ni m not able to do that \nplz help\
+    \ appreciated\nThanks\nkailash"
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-03-24 08:21:13'
+  body: "if (angleinDegree = 0)\n{\n  if (!endPoint.X.ToString().Contains(\"-\"))\n\
+    \   {\n     //1 Quadrant\n     //MessageBox.Show(\"1st condition\");\n     x =\
+    \ startPoint.X + 6 * Math.Cos(angle);\n     y = startPoint.Y + 6 * Math.Sin(angle);\n\
+    \     z = startPoint.Z;\n     Pos = new XYZ(x, y, z);\n    }\n else\n {\n   //MessageBox.Show(\"\
+    2 condition\");\n   //3 Quadrant\n   x = startPoint.X - 6 * Math.Cos(angle);\n\
+    \   y = startPoint.Y - 6 * Math.Sin(angle);\n   z = startPoint.Z;\n   Pos = new\
+    \ XYZ(x, y, z);\n }\n}\nelse if (angleinDegree = -90)\n{\n if (!endPoint.Y.ToString().Contains(\"\
+    -\"))\n {\n   //2 Quadrant\n   //MessageBox.Show(\"3 condition\");\n   x = startPoint.X\
+    \ - 6 * Math.Cos(angle);\n   y = startPoint.Y - 6 * Math.Sin(angle);\n   z = startPoint.Z;\n\
+    \   Pos = new XYZ(x, y, z);\n }\nelse\n{\n  //4 Quadrant\n  //MessageBox.Show(\"\
+    4 condition\");\n  x = startPoint.X + 6 * Math.Cos(angle);\n  y = startPoint.Y\
+    \ + 6 * Math.Sin(angle);\n  z = startPoint.Z;\n  Pos = new XYZ(x, y, z);\n   \
+    \         \n }\n}\nelse\n{\n any message \n}"
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2011-03-29 10:00:20'
+  body: "hi jeremy,\nRegards for the day,\n\ni am able to cut the pipe at the specified\
+    \ distance but the rest of the pipe is getting removed or deleted which i want\
+    \ for connecting it to coupling.\n\npublic virtual Autodesk.Revit.UI.Result Execute\
+    \ ( ExternalCommandData commandData\n           , ref string message, Autodesk.Revit.DB.ElementSet\
+    \ elements )\n        {\n            try\n            {\n\n                _rvtApp\
+    \ = commandData.Application;\n                _uidoc = _rvtApp.ActiveUIDocument;\n\
+    \                _app = _rvtApp.Application;\n                _rvtDoc = _uidoc.Document;\n\
+    \                // Process[ ] processlist = Process.GetProcesses();\n       \
+    \         // Verify if the active document is null\n                \n       \
+    \         UIDocument activeDoc = commandData.Application.ActiveUIDocument;\n \
+    \               if (activeDoc == null)\n                {\n                  \
+    \  //    MessageBox.Show(\"There's no active document in Revit.\", \"No Active\
+    \ Document\",\n                    //        MessageBoxButtons.OK, MessageBoxIcon.Warning);\n\
+    \                    return Autodesk.Revit.UI.Result.Failed;\n               \
+    \ }\n\n                // Verify the number of selected elements\n           \
+    \     Autodesk.Revit.UI.Selection.SelElementSet selElements = activeDoc.Selection.Elements;\n\
+    \                \n                //FamilyInstance f = null;\n              \
+    \  foreach (Element elem in selElements)\n                {\n                \
+    \    if (elem is Pipe)\n                    {\n                        eid = elem.Id;\n\
+    \                        \n                        Type type = elem.GetType (\
+    \ );\n                        t = elem.GetType();\n                        LocationCurve\
+    \ lc = elem.Location as LocationCurve;\n                        XYZ startPoint\
+    \ = lc.Curve.get_EndPoint ( 0 );\n                        XYZ endPoint = lc.Curve.get_EndPoint\
+    \ ( 1 );\n                       \n                        Double lenOfPipe =\
+    \ GetLength ( startPoint, endPoint );\n                        double angleinDegree\
+    \  = getAngle ( startPoint,endPoint);\n                        k1 = startPoint.X;\n\
+    \                        k2 = startPoint.Y;\n                        k3 = startPoint.Z;\n\
+    \n                        // below is used for placing a coupling in the respective\
+    \ quadrant\n                        if (angleinDegree = 0)\n                 \
+    \       {\n                            if (!endPoint.X.ToString().Contains(\"\
+    -\"))//  !startPoint.X.ToString().Contains(\"-\") && !startPoint.Y.ToString().Contains(\"\
+    -\"))\n                            {\n                                //1 Quadrant\n\
+    \                                //MessageBox.Show(\"1st condition\");\n     \
+    \                           x = startPoint.X + 6 * Math.Cos(angle);\n        \
+    \                        y = startPoint.Y + 6 * Math.Sin(angle);\n           \
+    \                     z = startPoint.Z;\n                                Pos =\
+    \ new XYZ(x, y, z);\n                            }\n                         \
+    \   else\n                            {\n                                //MessageBox.Show(\"\
+    2 condition\");\n                                //3 Quadrant\n              \
+    \                  x = startPoint.X - 6 * Math.Cos(angle);\n                 \
+    \               y = startPoint.Y - 6 * Math.Sin(angle);\n                    \
+    \            z = startPoint.Z;\n                                Pos = new XYZ(x,\
+    \ y, z);\n                            }\n                        }\n         \
+    \               else if (angleinDegree = -90)\n                        {\n   \
+    \                         if (!endPoint.Y.ToString().Contains(\"-\"))\n      \
+    \                      {\n                                //2 Quadrant\n     \
+    \                           //MessageBox.Show(\"3 condition\");\n            \
+    \                    x = startPoint.X - 6 * Math.Cos(angle);\n               \
+    \                 y = startPoint.Y - 6 * Math.Sin(angle);\n                  \
+    \              z = startPoint.Z;\n                                Pos = new XYZ(x,\
+    \ y, z);\n                                //angle =  (-angle);\n             \
+    \               }\n                            else\n                        \
+    \    {\n                                //4 Quadrant\n                       \
+    \         //MessageBox.Show(\"4 condition\");\n                              \
+    \  x = startPoint.X + 6 * Math.Cos(angle);\n                                y\
+    \ = startPoint.Y + 6 * Math.Sin(angle);\n                                z = startPoint.Z;\n\
+    \                                Pos = new XYZ(x, y, z);\n                   \
+    \             //angle =  (-angle);\n                            }\n          \
+    \              }\n                        else\n                        {\n \n\
+    \                        }\n                        myangle = (90 - angleinDegree);\n\
+    \                        \n                        newangleinradian = myangle\
+    \ * Math.PI / 180;\n                        strtpnt = startPoint;\n          \
+    \              endpnt = endPoint;\n                    }\n                }\n\n\
+    \n                Previw objPreview = new Previw ( );\n                objPreview.ShowDialog\
+    \ ( );\n                \n                if (objPreview.familyName != String.Empty)\n\
+    \                {\n                    AddFamilytoApplication ( objPreview.familyName\
+    \ );\n                }\n                \n                Transaction trans =\
+    \ new Transaction ( _rvtDoc, \"Load\" );\n                \n                trans.Start\
+    \ ( );\n                \n                Autodesk.Revit.DB.Structure.StructuralType\
+    \ structureType = Autodesk.Revit.DB.Structure.StructuralType.NonStructural;\n\
+    \                \n                FamilyInstance f = _rvtDoc.Create.NewFamilyInstance(Pos,\
+    \ (FamilySymbol)(m_familySymbolList[0]), structureType);\n                \n \
+    \               #region for test\n                 // below code is used to put\
+    \ the connector and break the pipe but it is deleting rest of the pipe\n     \
+    \            \n                ConnectorSet connector = f.MEPModel.ConnectorManager.Connectors;\n\
+    \                Connector cntr = null;\n               \n\n                foreach\
+    \ (Connector cntrs in connector)\n                {\n                    cntr\
+    \ = cntrs;\n                }\n                \n                \n\n        \
+    \        foreach (Element elem in selElements)\n                {\n          \
+    \          if (elem is Pipe)\n                    {\n\n                      \
+    \  Pipe pipe = (Pipe)_rvtDoc.get_Element(elem.Id);\n                        double\
+    \ len = GetLength(strtpnt, endpnt);\n                        connector = pipe.ConnectorManager.Connectors;\n\
+    \                        \n                    }\n                }\n        \
+    \        \n                Connector pipeend = null;\n                double dist\
+    \ = double.MaxValue;\n              \n                foreach (Connector contrs\
+    \ in connector)\n                {\n                    XYZ p = contrs.Origin;\n\
+    \                    double d = p.DistanceTo(endpnt);\n\n                    if\
+    \ (d < dist)\n                    {\n                        dist = d;\n     \
+    \                   pipeend = contrs;\n                    }\n               \
+    \     break;\n                }\n\n\n                \n                cntr.ConnectTo(pipeend);\n\
+    \                \n                \n\n                #endregion\n\n        \
+    \        \n                \n\n                \n                // statrt here\n\
+    \                // below code is used to place the coupling in a proper angle\
+    \ on the pipe with respect to pipe\n                bool rotated = false;\n  \
+    \              \n                XYZ aa = Pos;\n                XYZ cc = new XYZ(aa.X,\
+    \ aa.Y, aa.Z + 6);\n                Line axis = _rvtApp.Application.Create.NewLineBound(aa,\
+    \ cc);\n\n\n                rotated = _rvtDoc.Rotate(f, axis, angle);\n      \
+    \          \n                _uidoc.Selection.Elements.Add(f);\n             \
+    \                   \n                // end here           \n\n\n           \
+    \     //below code is used to resolve the cut or defects in joints of pipe and\
+    \ connector\n                #region for resolve\n                Resolver objpres\
+    \ = new Resolver(commandData);\n                objpres.Resolve();\n         \
+    \       #endregion\n                \n                trans.Commit ( );      \
+    \           \n                #region For Connectors\n\n                #endregion\n\
+    \                \n                return Autodesk.Revit.UI.Result.Succeeded;\n\
+    \                \n            }\n            catch (Exception ex)\n         \
+    \   {\n                message = ex.Message;\n                return Autodesk.Revit.UI.Result.Failed;\n\
+    \            }\n        }\n\n\nany help appreciated\n\nthanks\nkailash"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-04-01 05:11:38'
+  body: 'Dear Kailash,
+
+
+    I am glad that you found the first answer helpful.
+
+
+    I cannot say much about the code that you sent, I''m afraid ... I am not a computer
+    myself, you know  :-)
+
+
+    To get us a bit more synchronised again, or rather to try catching up with you,
+    I at least published the first solution that I provided to you:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/04/use-of-newtakeofffitting-on-a-pipe.html">http://thebuildingcoder.typepad.com/blog/2011/04/use-of-newtakeofffitting-on-a-pipe.html</a>
+
+
+    Maybe that will provide a better place to continue this discussion.
+
+
+    Please let me know how you get on with this. Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-04-05 08:27:12'
+  body: 'i used the above code of your''s published in <a href="http://thebuildingcoder.typepad.com/blog/2011/02/create-a-pipe-cap.html.">http://thebuildingcoder.typepad.com/blog/2011/02/create-a-pipe-cap.html.</a>
+
+
+    now my coupling is getting placed but my rest of the pipe is getting deleted which
+    i want for further process how to get that.
+
+
+    regards
+
+    kailash'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2011-04-07 07:31:44'
+  body: 'HI jeremy,
+
+    Regards for the day,
+
+
+    i have placed 3 coupling at 6 inch distance respectively on 20 inch pipe now my
+    coupling and pipe is at proper angle now only one thing is remaining that is to
+    break the pipe at position where my coupling resides but i used u r pipe cap code
+    it deleted the rest of pipe just let me know how to put one coupling on a pipe
+    and breaking pipe into two pieces
+
+
+    rest i will complete
+
+
+    Thanks
+
+    kailash kute'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-04-07 07:33:23'
+  body: 'one more thing i would like to know how i will be able to set the family
+    instance host property.
+
+
+    regards
+
+    kailash kute'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2011-04-14 03:18:31'
+  body: 'hi sir,
+
+    warm regards for the day
+
+    i want to put a family instance into combinable element how to do that
+
+    in below line i am getting family instance in elemItr
+
+    but when i check ce i get as null
+
+
+    CombinableElement ce = (Element)elemItr.Current as CombinableElement;
+
+
+    i just want to put the combinale element in combinableelementarray
+
+
+    Thanks
+
+    Kailash'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.166.159
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-04-15 05:58:56'
+  body: 'Dear Kailash,
+
+
+    Look at the CombinableElement in the Revit API help file. It is a base class for
+    GenericForm and GeomCombination. If your selected element is not one of these
+    two, the cast will return null.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-04-18 09:28:10'
+  body: 'Dear Kailash,
+
+
+    Possibly the host can only be specified in the call to the NewFamilyInstance method
+    at the time of creation of the new family instance.
+
+
+    Cheers, Jeremy.'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-04-19 03:39:44'
+  body: "Hi sir\nWarm Regards for the day\ni just want to know \nhow to get an single\
+    \ element as selected element programmatically\n\nThanks\nKailash Kute"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.166.158
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-04-20 03:05:11'
+  body: 'Dear Kailash,
+
+
+    How about PickObject?
+
+
+    It is amply documented in the Revit API help file RevitAPI.chm, the developer
+    guide, the SDK samples, The Building Coder samples, and a number of blog posts.
+
+
+    Cheers, Jeremy.'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-04-21 08:58:23'
+  body: 'Hi Sir,
+
+    Greetings for the day,
+
+
+    i have completed my basic task of placing a coupling over pipe at distance 6"
+    Depending on length of pipe. so that many couplings get added also my pipe is
+    breaking.
+
+    well under guidance of our sir i changed my approach of coding now i am rather
+    than breaking pipe i am creating new pipe in between couplings. but i must mentioned
+    all was possible because of this Blog posts and your replies which gave me basic
+    idea what is revit programming about thanks for creating such a blog. :)
+
+    also now i am going for enhancements in my task for that i will be sending u my
+    queries if any
+
+
+    Thanks
+
+    Kailash Kute'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.168.101
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-04-21 09:04:27'
+  body: 'Dear Kailash,
+
+
+    Thank you very much for letting us know, and many congratulations on successfully
+    resolving this complex task!
+
+
+    If you would like to share a simplified version of your final code, that might
+    be of interest to others as well.
+
+
+    Best regards and Happy Easter to you!
+
+
+    Cheers, Jeremy.'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-04-29 03:47:56'
+  body: 'hi sir,
+
+    regards for the day
+
+
+    well i want to reduce the diameter of family instance(coupling) programmatically
+    i saw the code in pdf file but it gives me an error of transaction in my above
+    project which we are discussing on this page i tried to change through coding
+    but still getting error also i like to ask that can we assign the look up table
+    to this family instance created dynamically if yes then how
+
+
+    thanks
+
+    kailash kute'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2011-05-02 07:52:02'
+  body: 'hi sir,
+
+    regards for the day.
+
+
+    actually as per the diameter of pipe my coupling that is family instance diameter
+    should be set. for 6" coupling diameter should be 6" for 8" pipe it should be
+    8". well right now when i placed my all coupling on pipe. i get all couplings
+    of 8" now one of my pipe is 6" in the drawing. so by design view with the help
+    of lookup table i am able to change the diameter of my coupling to 6". but the
+    task is like it should be done programmatically automatically it should accept
+    the diameter of pipe.
+
+    i done whole thing inside one transaction but no success. it is giving me an error
+    that is ""A transaction or sub-transaction was opened but not closed. All changes
+    to the active document made by External Command will be discarded.""
+
+    your guidance appreciated needed
+
+    Thanks in advance
+
+    Kailash kute'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-05-05 04:57:29'
+  body: 'hello sir,
+
+    greetings,
+
+
+    well i came to know that we don''t have to change any couplings diameter we just
+    have to change the size of a coupling as per the diameter of pipe. but now how
+    to change the size of coupling dynamically is a big task.
+
+
+    any suggesstion.
+
+
+    regards
+
+    kailash kute'
+- author: Kk Gandolf
+  email: ''
+  ip: 61.17.167.107
+  url: http://profile.typepad.com/gandolf
+  date: '2011-05-13 01:48:16'
+  body: 'Hello Sir,
+
+
+    Greetings for the day,
+
+    can i assign lookuptable in revit mep 2012 to a family instance programmtically
+    so it will load the family instance in my project according to the pipe size
+
+
+    Regards''
+
+    Kailash kute'
+- author: kailash n kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2011-05-26 09:06:33'
+  body: "hi sir,\ngreetings for the day\n\nfinally i have changed the diameter of\
+    \ my family instance (coupling) programmatically... well diameter doesnt worked\
+    \ for me. so i tried changing its nominal radius and guess what it worked...\n\
+    great na \n\nRegards\nKailash Kute"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-05-31 07:46:37'
+  body: 'Dear Kailash Kute,
+
+
+    Many congratulations on getting this to work. Have you seen the handling of the
+    diameter parameters demonstrated by the pipe to conduit converter?
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/05/pipe-to-conduit-converter.html">http://thebuildingcoder.typepad.com/blog/2010/05/pipe-to-conduit-converter.html</a>
+
+
+    Are you using the same approach?
+
+
+    If you would care to share your solution with us, I will be glad to publish it!
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-06-01 06:39:53'
+  body: "hello sir,\n\nGreetings for the day\n\ni have applied following logic for\
+    \ changing coupling diameter programmatically the logic is below\n\nbelow are\
+    \ the comments\n\nParameter couplingnominalradius = ficoupling.get_Parameter(\"\
+    Nom Radius\");\n                        \ndouble piperadius = selectedpipediameter\
+    \ / 2;\ncouplingnominalradius.Set(piperadius);\n\nhere selectedpipediameter is\
+    \ my pipe diameter.\n\nRegards\nKailash kute"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-01 08:26:49'
+  body: 'Dear Kailash,
+
+
+    Thank you very much for the explanation. It looks good to me. I am glad it is
+    working for you now.
+
+
+    Cheers, Jeremy.'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2011-06-02 09:03:20'
+  body: 'hello sir,
+
+    greetings for the day.
+
+
+    well final thing remaining in my solution to implement is joining the pipe and
+    couplings programmatically.
+
+
+    i read the link
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/05/autojoinelements.html">http://thebuildingcoder.typepad.com/blog/2010/05/autojoinelements.html</a>
+
+
+    and i found it very useful, i came to know how to implement the regeneration and
+    autojoin.
+
+
+    also i went through the zip file AecDevCamp2010-RevitPerformanceTipsTricks.zip
+    where i came to know how to implement in program.
+
+
+    still my pipe and couplings are not getting joined in it
+
+
+    i am applying it before return succeeded also my transaction and regeneration
+    is manual
+
+
+    Regards
+
+    Kailash Kute'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-06-08 06:03:46'
+  body: "Dear Sir,\n\nwell my question to you is \n1> can i change the hanger's vertical\
+    \ rod, length programmatically i want to extend it to the height of ceiling.\n\
+    \ \n2> can i change the diameter of hanger programmatically if user adds the insulation\
+    \ to the pipe,, after placing hanger the diameter of hanger should change if yes\
+    \ then which is the best event to do that\n \nRegards\nKailash Kute"
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-06-08 07:31:40'
+  body: "hello sir,\n\ncan i create a insulation over a pipe programmatically \nin\
+    \ revit mep 2012 if yes then how.\n\nRegards\nKailash kute"
+- author: Jeremy Tammik
+  email: ''
+  ip: 84.61.122.184
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-08 14:08:59'
+  body: "Dear Kailash,\n\nAs always, I would suggest exploring that yourself by \n\
+    \n1. creating the desired situation manually through the user interface, then\
+    \ \n\n2. analysing what elements were added by that operation and what their properties\
+    \ are. \n\nApproaches are described in many places, e.g. \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2008/11/exploring-element-parameters.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2008/11/exploring-element-parameters.html</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/11/title-block-of-sheet.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/11/title-block-of-sheet.html</a>\n\
+    \nI hope this helps.\n\nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 84.61.122.184
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-08 14:12:19'
+  body: 'Dear Kailash,
+
+
+    In Revit 2012, the new PipeInsulation class and related types support read, write
+    and create access to pipe insulation. These objects are accessible as standalone
+    elements related to their parent pipe or fitting. I hope this helps.
+
+
+    Cheers, Jeremy.'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-06-09 11:22:57'
+  body: 'Hi Sir,
+
+
+    Greetings for the day.
+
+
+    thanks for reply i went through the links and insulation class you mentioned....,
+    great Help from that.
+
+
+    well i placed the hanger over a pipe programmatically also diameter has been changed
+    with respect to pipe insulation ,also i changed the vertical rod length accordingly
+    by looking at properties ,well adding a pipe insulation dynamically has been removed
+    from my solution because Revit Mep 2012 gives us that facility.
+
+
+    Best Regards
+
+    Kailash Kute'
+- author: Jeremy Tammik
+  email: ''
+  ip: 88.66.113.155
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-10 16:09:21'
+  body: 'Dear Kailash,
+
+
+    A little additional note on this:
+
+
+    Of course it would be better to use a built-in parameter enumeration value to
+    identify it rather than the language dependent name string "Nom Radius".
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.163.184
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-14 04:31:07'
+  body: 'Dear Kailash,
+
+
+    Wow, congratulations! Sounds as if you are all sorted, then.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-17 06:14:42'
+  body: 'Dear Kailash,
+
+
+    Sorry for not responding to some of your comments!
+
+
+    Did you solve this issue, or any of the other ones that I have not yet answered?
+
+
+    If so, I would be interested in hearing about the solution you found.
+
+
+    The most wonderful thing would be if you would like to summarise some of the results
+    that you have achieved in your numerous investigations, and publish them as a
+    guest blog post.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-06-24 07:42:22'
+  body: "hi sir,\ngreetings for the day,\n\nhow to get the angle of a pipe which is\
+    \ placed above the ceiling ,i am getting BasisX angle as 90 degree only.but actual\
+    \ i drawn is 45 degree.\n\nhow to retrieve the slanting pipe angle when ceiling\
+    \ is added \nRegards\nKailash kute"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.148.222
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-24 07:57:45'
+  body: 'Dear Kailash,
+
+
+    It sounds to me as if you are trying to retrieve the angle of the pipe itself.
+    Is that correct?
+
+
+    Furthermore, it sounds to me as if you are trying to obtain its angle from one
+    of its connectors, yes?
+
+
+    Well, the first suggestion I can make is that a pipe is a curve driven element,
+    and therefore the value of its Location property should be a LocationCurve with
+    an underlying geometry line which should provide the pipe start and end points.
+
+
+    From those, you can easily determine the angle.
+
+
+    Alternatively, if you prefer working from the connectors only, how about simply
+    determining the pipe start and end points from the connector locations, and again
+    using those two points to determine the angle?
+
+
+    Cheers, Jeremy.'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2011-07-04 02:37:59'
+  body: "hi sir,\n\nwell i am considering startpoint and endpoint for the angle retrievation\
+    \ of pipe.\n\nhow to place the hanger over the slanted pipe in between structural\
+    \ floor as i am placing over the horizontal pipe it is working fine\nbut for slanting\
+    \ it is  not working. \n\nwhen i debug my solution i came to know that for horizontal\
+    \ as well as for slanting pipe when i retrieve angle i am getting 90 degree.\n\
+    \nis there any solution to get actual angle for the slanting pipe in between floors.\n\
+    \nRegards\nKailash kute"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-07-05 00:55:28'
+  body: 'Dear Kailash,
+
+
+    Are you telling me that the location curve of a slanted pipe does not include
+    the slope angle?
+
+
+    I find that very hard to believe!
+
+
+    Cheers, Jeremy.'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-07-05 05:03:30'
+  body: 'Hi Sir,
+
+
+    Thanks for giving me the idea of slope angle i was not aware of this slope angle.
+    which i got in built in parameters now i got that angle.
+
+
+    Thank you so much
+
+    Regards
+
+    Kailash Kute'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-07-06 05:14:30'
+  body: 'Hi Sir,
+
+    In Revit API 2012 how to retrieve the start point and end point of the Family
+    Instance -- Elbow.
+
+
+    that is both the XYZ points of Elbow where it is having Opening.
+
+
+    i need this points because i want to place a Coupling on this XYZ locations.
+
+
+    Regards
+
+    Kailash kute'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.143.76
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-07-06 05:23:06'
+  body: "Dear Kailash, \n\nI would suggest using the connectors and their location\
+    \ points for this.\n\nCheers, Jeremy."
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2011-07-06 09:10:53'
+  body: 'hi sir,
+
+
+    Greetings for the day
+
+
+    as you suggested i followed using connectors.
+
+
+    well i got the connectors of elbow and i placed my coupling on that location but
+    after addition of coupling my elbow got lost from the document don''t know how.any
+    idea why this is happening also is there any property to make that elbow fix in
+    my document so it wont get deleted from my application.
+
+
+    Regards
+
+    Kailash kute'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-07-07 11:36:31'
+  body: "Hi Sir,\nGreetings for the day\n\nwell by studying on your blog in the link\
+    \ <a href=\"http://thebuildingcoder.typepad.com/blog/2011/02/create-a-pipe-cap.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2011/02/create-a-pipe-cap.html</a>\n\
+    \ni came to know about filtered element collector\n\nwell i used your logic now\
+    \ i am able to select the specific elements without selecting by mouse\n\nbelow\
+    \ is my code for selecting Pipe,Floor,Level without selecting it by mouse.\n\n\
+    and i am able to union them together in one list\n\n              elemList = AddSelectionSet(selElements);\n\
+    \               FilteredElementCollector myCollector1 = new FilteredElementCollector(commandData.Application.ActiveUIDocument.Document);\n\
+    \               FilteredElementCollector myCollector2 = new FilteredElementCollector(commandData.Application.ActiveUIDocument.Document);\n\
+    \                FilteredElementCollector myCollector3 = new FilteredElementCollector(commandData.Application.ActiveUIDocument.Document);\n\
+    \n                if (elemList.Count == 0)\n                {\n              \
+    \      \n                    myCollector1.OfClass(typeof(Pipe));\n           \
+    \         myCollector2.OfClass(typeof(Floor));\n                    myCollector3.OfClass(typeof(Level));\n\
+    \                                       \n\n                    myCollector1.UnionWith(myCollector2);\n\
+    \                    myCollector1.UnionWith(myCollector3);\n\n               \
+    \     elemList = myCollector1.ToElements();\n                }\n             \
+    \   else\n                {\n \n                }\n\nthen in elemList i get all\
+    \ the elements with which i proceed further for processing\n\nRegards\nKailash\
+    \ kute"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.143.164
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-07-07 11:48:11'
+  body: "Dear Kailash,\n\nI am glad you found a working solution and that the blog\
+    \ post was helpful.\n\nThere is an easier way, actually, than creating three separate\
+    \ collectors and creating a union of their results.\n\nYou can also create three\
+    \ ElementClassFilter instances for the pipes, floors and levels, and then unite\
+    \ them using a LogicalOrFilter as demonstrated in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/06/retrieve-mep-elements-and-connectors.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/06/retrieve-mep-elements-and-connectors.html</a>\n\
+    \nFor an overview of more filtered element collector examples, please refer to\
+    \ \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/12/filtered-element-collector-sample-overview.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/12/filtered-element-collector-sample-overview.html</a>\n\
+    \nCheers, Jeremy."
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2011-07-08 08:41:33'
+  body: 'hi sir
+
+
+    thanks for replying i got my code reduced because of that.
+
+
+    Regards
+
+    Kailash kute'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-07-11 03:37:11'
+  body: 'Hi Sir,
+
+
+    Greetings for the day
+
+
+    i have placed hanger over the pipe at specified distance now the hangers vertical
+    rod get lengthen till above roof but my hangers are not associative with the pipe.
+    if i drag hanger they get moved i want them to be joined with the pipe can i make
+    them associative.
+
+    if yes how to do that ?
+
+
+    regards
+
+    Kailash kute'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-07-11 12:33:13'
+  body: 'Dear Kailash,
+
+
+    That is an interesting problem. Yes, you can implement your own associative behaviour
+    using the DMU or Dynamic Model Update.
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/04/element-level-events.html#2">http://thebuildingcoder.typepad.com/blog/2010/04/element-level-events.html#2</a>
+
+
+    Here is an RST sample:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/08/structural-dynamic-model-update-sample.html">http://thebuildingcoder.typepad.com/blog/2010/08/structural-dynamic-model-update-sample.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-07-27 03:47:11'
+  body: "Hi sir,\n\nGreetings for the day.\n\n1> hangers are placed over the pipe\
+    \ \n2> now i add insulation over it \ni want to fire my addin as soon as user\
+    \ changes the pipe insulation or adds it, the hanger diameter or nominal radius\
+    \ should change.\n\ncan i do this but which will be the better event to do this.\n\
+    i am not getting  anything. \n\nRegards\nKailash Kute"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-07-27 19:18:17'
+  body: 'Dear Kailash,
+
+
+    Have a look at DMU, the Dynamic Model Update framework.
+
+
+    Cheers, Jeremy.'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2011-07-29 06:14:19'
+  body: 'Hi Sir,
+
+
+    Greetings for the day
+
+
+    my pipe is in slanting position in between structural floors, but my hangers are
+    still getting placed vertically but not on pipe, i want my hangers to be placed
+    on pipe also slanted according to the pipe angle, i have the parameter BuiltInParameter.RBS_PIPE_SLOPE.
+    where i get the angle in radians of the pipe. now if i add hanger over the pipe
+    with this slope angle they get placed very nearby.
+
+
+    Any link or solution
+
+
+    Regards
+
+    Kailash Kute'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-08-02 11:26:45'
+  body: 'Hi sir,
+
+    Greetings for the day
+
+
+    Finally i have placed  hanger''s on slanting pipe programmatically through pipe
+    slope angle.
+
+
+    now i want to call Add Insulation Window Programmatically if yes then how ?
+
+
+    or what is the shortcut key for the Add Insulation for e.g. for Pipe it is PI
+    like that i want for Add Insulation.
+
+
+    Regards
+
+    Kailash Kute'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2011-08-04 02:23:00'
+  body: "Hi Sir,\n\nGreetings for the day\n\nBy reading this link in your Blog \n\n\
+    <a href=\"http://thebuildingcoder.typepad.com/blog/element-relationships/page/9/\"\
+    >http://thebuildingcoder.typepad.com/blog/element-relationships/page/9/</a>\n\n\
+    i came to know about this parameter ELEMENT_LOCKED_PARAM\n\nby using the below\
+    \ code i am able to lock all my elements(hangers and pipe) together in my document.\n\
+    \nParameter lockedorNot = fihanger.get_Parameter(BuiltInParameter.ELEMENT_LOCKED_PARAM);\n\
+    int yesornot = lockedorNot.AsInteger();\nlockedorNot.Set(1);\n\nRegards\nKailash\
+    \ Kute"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-08-09 04:34:11'
+  body: 'Dear Kailash,
+
+
+    Congratulations on placing the hangers on the slanting pipe!
+
+
+    I entered "revit shortcut key" in Google and found lots of answers, so I hope
+    you were able to solve that one yourself.
+
+
+    There are a couple of posts on how to programmatically launch Revit commands that
+    are not accessible through the API, either by simulating the user input of a shortcut
+    key or using UI Automation.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-08-09 04:44:14'
+  body: 'Dear Kailash,
+
+
+    Congratulations on finding a good solution for locking the elements together,
+    and thank you very much for letting us know!
+
+
+    Do you mean the discussion on Locked Dimensioning? Here is a quicker link than
+    scrolling through to page 9 of the element relationships category:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/02/locked-dimensioning.html">http://thebuildingcoder.typepad.com/blog/2009/02/locked-dimensioning.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2011-08-09 06:05:53'
+  body: 'Hi sir,
+
+
+    Greetings for the day
+
+
+    Is this possible to hide/invisible a Family Parameter from Family Types ?. i don''t
+    want to show users the formula i added dynamically in family types.
+
+
+    Thanks and Regards,
+
+    Kailash N Kute'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-08-09 08:09:13'
+  body: 'Dear Kailash,
+
+
+    This sounds extremely similar to the question by Nitin, which I already answered:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/08/shared-parameter-visibility.html#comment-6a00e553e16897883301539063554d970b">http://thebuildingcoder.typepad.com/blog/2009/08/shared-parameter-visibility.html#comment-6a00e553e16897883301539063554d970b</a>
+
+
+    Just out of curiosity, are you colleagues, or working together?
+
+
+    Anyway, to answer your question, the API allows you to define visibility in exactly
+    the same manner as the user interface, with the one single exception of additionally
+    allowing the creation of invisible shared parameters.
+
+
+    As regards family parameters, the visibility options are the same as in the user
+    interface.
+
+
+    So you probably cannot make the formula invisible to users, as far as I know.
+
+
+    Cheers, Jeremy.'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2011-08-25 08:51:19'
+  body: 'Hi Sir,
+
+
+    Greetings for the day.
+
+
+    i have a pipe in horizontal direction and my structural floor is in slanting position.i
+    want to place hangers on pipe but hanger''s vertical rod length should meet the
+    floor.
+
+
+    how i will be able to get the start point and end point of Floor.
+
+    is it possible to get these point if yes then how.
+
+
+    Regards
+
+    Kailash Kute'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-08-29 07:45:37'
+  body: "Dear Kailash,\n\nYou have many possibilities. \n\nOne is to query the floor\
+    \ for its geometry and determine its top and bottom face. I assume that they are\
+    \ roughly horizontal, even if the floor is slanted, so they should be easy to\
+    \ find. Then you can project your point onto them. Or calculate the intersection\
+    \ of a line with the planar face, which is easy.\n\nAnother approach would be\
+    \ to use the FindReferencesWithContextByDirection method, which would do all the\
+    \ intersection calculation for you, and also work for non-planar faces, in case\
+    \ your floor is really weird. Hundertwasser would love it!\n\nCheers, Jeremy."
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-09-16 06:36:40'
+  body: "hi sir,\n\ngreetings for the day\n\ni have pipe at offset of  9 now i change\
+    \ the offset of my pipe to 12 \nin my application i am placing coupling besides\
+    \ of elbow\nnow on my first elbow first connector i am able to place coupling\
+    \ but for send connecot i am not able to do that\n\nwhen i debug my application\
+    \ i am able to see that it is executing properly it shows that coupling gets created\
+    \ successfully but revit don't show the couplings over that point.\n\nplz help\
+    \ any thing i am not digging\n\nRegards\nKailash Kute"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-09-21 03:22:18'
+  body: 'Dear Kailash,
+
+
+    Sounds tricky to me, and hard to say anything without reproducing and studying
+    in depth. At this point, all I can do is wish you the best of luck with it...
+
+
+    Cheers, Jeremy.'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2011-09-23 02:20:00'
+  body: 'hi sir,
+
+    greetings for the day.
+
+
+    i just played with some offset and done coding for points for z in connector direction
+    and i solved it
+
+
+    Thanks & Regards
+
+    Kailash kute'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.150.209
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-09-23 02:41:10'
+  body: 'Dear Kailash,
+
+
+    Congratulations! Wow, you are really clearing every obstacle, one by one! Great
+    work.
+
+
+    Cheers, Jeremy.'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-09-29 08:26:55'
+  body: 'hi sir,
+
+    Greetings for the day
+
+
+    i am connecting a coupling that is family instance with the Pipe but when i connect
+    them i get the following message from Revit.
+
+
+    The duct/pipe has been modified to be in the opposite direction causing the connections
+    to be invalid.
+
+
+    Regards
+
+    Kailash Kute'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-10-03 09:16:05'
+  body: 'Dear Kailash Kute,
+
+
+    Sorry, I have not encountered that so far. By now, you know much more than me
+    in this area! I look forward to hearing how you resolve it. Good luck!
+
+
+    Cheers, Jeremy.'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-11-15 02:44:32'
+  body: 'Hi Sir,
+
+
+    Greetings for the day
+
+
+    i want to know the pipe offset programatically ? so i used below line,
+
+
+    Parameter paramOffset = newpipe.get_Parameter(BuiltInParameter.RBS_OFFSET_PARAM);
+
+    PreviousPipeOffset = paramOffset.AsDouble();
+
+
+    newpipe is the pipe drawn here.
+
+
+    when my pipe is at 9 offset i get the Offset as -0.999 and when i changed my offset
+    to 27 i get it as -17.0000
+
+
+    how will i get the exact offset of the pipe that is 9 and 27.
+
+
+    Regards
+
+    Kailash Kute'
+- author: Jeremy Tammik
+  email: ''
+  ip: 80.14.134.41
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-11-15 13:07:33'
+  body: "Dear Kailash,\n\nThe RBS_OFFSET_PARAM is the offset the pipe is relative\
+    \ to the level the pipe is assigned to. \n\nIn your case it might be that the\
+    \ pipe was set to the level above the current level causing the negative value.\
+    \ \n\nTo get the actual value, get the associated level of the pipe and combine\
+    \ the two, or get the start or end points of the pipe looking at the Z value for\
+    \ the raw elevation, which is not associated to a level.\n\nCheers, Jeremy."
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2011-11-24 01:06:12'
+  body: 'Hi sir,
+
+    Greetings for the day
+
+
+    well the offset which i was getting was right when i debugged my solution.There
+    was error in my function due to which i was getting this error i rectified it
+    now i am getting exact result with reference to level 2.
+
+
+    Thanks
+
+    Kailash Kute'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.146.233
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-11-24 01:16:18'
+  body: 'Dear Kailash,
+
+
+    I am very glad to hear you got it sorted out! Congratulations!
+
+
+    Cheers, Jeremy.'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2011-11-24 05:33:41'
+  body: "hello sir\n\nNow i want to draw a slanted pipe programatically from pipe\
+    \ start point to end point. i did it but the pipe is coming in horizontal position\
+    \ only i tried to retrieve the slope and again i tried to set it but no success\n\
+    \ slope is a readonly property... how to do it ?\nsome thing i am missing \nregards\n\
+    Kailash Kute"
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2011-12-21 00:28:14'
+  body: 'hello sir,
+
+
+    any idea regarding slanting pipe ?\
+
+
+    Regards
+
+    Kailash Kute'
+- author: Jeremy Tammik
+  email: ''
+  ip: 78.146.74.228
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-12-21 07:38:40'
+  body: "Dear Kailash,\n\nThat really does sound a bit confusing. \n\nSorry, no, I\
+    \ do not have any idea regarding this nor any time right now to look at it in\
+    \ any depth. \n\nI would suggest exploring it in one of the public discussion\
+    \ groups:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/10/revit-api-forums.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/10/revit-api-forums.html</a>\n\n\
+    If nothing else helps, you should consider joining the Autodesk Developer Network\
+    \ ADN to receive better support:\n\n<a href=\"http://www.autodesk.com/joinadn\"\
+    >http://www.autodesk.com/joinadn</a>\n\nCheers, Jeremy."
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2011-12-23 07:51:04'
+  body: 'hi sir,
+
+
+    well i got success and drawn pipe from start point to end point in slope of 30
+    degree but the logic behind it is we have to calculate angle from BasisZ direction
+    and calculated points using this angle and completed it.
+
+
+    regards
+
+    Kailash Kute'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.129.64
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-12-25 15:51:20'
+  body: 'Dear Kailash,
+
+
+    Congratulations! I am very glad you solved it!
+
+
+    Sorry I was unable to help more.
+
+
+    Merry Christmas!
+
+
+    Cheers, Jeremy.'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2011-12-26 08:15:39'
+  body: Merry Christmas Sir.
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2011-12-29 04:18:38'
+  body: 'Greetings Sir,
+
+
+    well is there the link for rotation of family instance
+
+    around axis plz do send me in this reply i am not getting.
+
+
+    Regards
+
+    Kailash kute'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2012-01-04 04:29:23'
+  body: 'Hi Sir,
+
+    Warm Greetings for the day.
+
+
+    well i placed a coupling on sloped pipe successfully and now it is perpendicular
+    to pipe axis and it is connected System.
+
+    the logic is first rotate the coupling by pipe angle then again we have to rotate
+    that coupling by creating new axis but this time the angle is 90 degree for coupling.
+
+
+    Regards
+
+    Kailash Kute'
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2012-01-05 05:30:53'
+  body: "Hi Sir,\n\nwarm greetings for the day.\n\ni have a elbow of 45 degree. i\
+    \ want to place a coupling on both the ends of elbow\ni have place one coupling\
+    \ where coupling is exactly connected to elbow and it is at 90 degree\nnow the\
+    \ second end of elbow is at 45 degree. where i am not able to place coupling it\
+    \ is getting created over \nthere but it not perpendicular also not connected\
+    \ to elbow.\n\nwhat may be the logic for this ?\n\nBest Regards\nKailash Kute"
+- author: Kailash Kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2012-01-06 05:24:25'
+  body: 'hi sir,
+
+    greetings for the day
+
+
+    i tried to place coupling on second end of elbow which is at 45 degree but i get
+    this following error message.
+
+
+    The family is connected in a network and can no longer keep the connectivity.
+    Disconnect the family from the network?
+
+
+    what is the meaning of this message.
+
+
+    Regards
+
+    Kailash  Kute'
+- author: kailash n kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2012-02-07 01:51:35'
+  body: "Hi Sir,\n\nwarm greetings for the day.\n\ni have a elbow of 45 degree. i\
+    \ want to place a coupling on both the ends of elbow\ni have place one coupling\
+    \ where coupling is exactly connected to elbow and it is at 90 degree\nnow the\
+    \ second end of elbow is at 45 degree. where i am not able to place coupling it\
+    \ is getting created over \nthere it is perpendicular but not properly aligned\
+    \ with the pipe direction.\n\nplease any help appreciated.\nRegards\nKailash Kute"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-02-08 05:53:16'
+  body: 'Dear Kailash,
+
+
+    Thank you very much for your query.
+
+
+    I have not done any more exploration in the realm of creating pipes and fitting
+    beyond what I published already on the blog.
+
+
+    I am very impressed that you have encountered and apparently also solved such
+    a huge number of issues.
+
+
+    I don''t know what to suggest regarding this new situation that you describe.
+
+
+    I am sure that it would make an extremely interesting (and huge) blog post if
+    you were to describe all the solutions that you have already developed.
+
+
+    Would you be interested in picking a few of the more typical ones and documenting
+    them for sharing here on the blog?
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: kailash kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2012-02-28 04:42:03'
+  body: 'Hi Jeremy,
+
+
+    well i tried,tried and finally got the solution for my coupling at the second
+    end of elbow which is at 45 degree.is getting oriented properly Now.
+
+
+    well i moved my Elbow from its original XYZ to New XYZ and again back to Original
+    XYZ that''s it and my Coupling got Oriented in Proper Direction Successfully.
+
+
+    Regards
+
+    Kailash Kute'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-02-29 06:41:48'
+  body: 'Dear Kailash,
+
+
+    You are fantastic! You should write a book about all your solutions! Congratulations!
+
+
+    Cheers, Jeremy.'
+- author: kailash kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2012-03-01 03:45:03'
+  body: Thanks a Lot Sir.
+- author: Kk Gandolf
+  email: ''
+  ip: 61.11.14.102
+  url: http://profile.typepad.com/gandolf
+  date: '2012-03-27 08:19:41'
+  body: 'hi sir,
+
+
+    warm greetings for the day.
+
+
+    By the use of text file i am able to create SharedParameters Successfully Programmatically.
+
+
+    but without use of text file i want to create SharedParameter Programmatically.is
+    it posiible ...
+
+
+    i tried using ExternalDefinition but still no Success.
+
+
+    Regards
+
+    Kailash Kute'
+- author: kailash kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2012-04-10 08:58:50'
+  body: 'hi jeremy,
+
+
+    warm greetings for the day,
+
+
+    well i have a one family instance,now i want to know whether this family instance
+    is of which template,
+
+    Imperial template or Metric template,rather than using its naming convention M_
+    for metric.
+
+
+    are there ways we come to know this Family Instance is of Imperial or Metric.
+
+
+    Regards
+
+    Kailash Kute'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-04-13 05:23:48'
+  body: 'Dear Kailash,
+
+
+    There are no completely reliable methods that I am aware of, since there are no
+    fixed rules when creating families and every user is free to create her own as
+    she likes.
+
+
+    Maybe there is some parameter that is found in every family which you can use
+    to check, some global scaling factor or something?
+
+
+    Please let us know if you find a solution.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-04-13 05:28:44'
+  body: "Dear Kailash,\n\nYes, sure you can create shared parameters programmatically.\
+    \ This is demonstrated by the FireRating SDK sample, and also by \n\n<a href=\"\
+    http://thebuildingcoder.typepad.com/blog/2009/06/model-group-shared-parameter.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/06/model-group-shared-parameter.html</a>\n\
+    \nA few more posts on shared parameters are mentioned here:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2011/04/extensible-storage.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2011/04/extensible-storage.html</a>\n\
+    \nCheers, Jeremy."
+- author: Jayshree
+  email: jshewale@building-data.net
+  ip: 61.11.14.102
+  url: ''
+  date: '2012-05-02 10:33:35'
+  body: "hi jeremy sir,\ni m new in revit programming\n i want to place hanger on\
+    \ pipe programatically.I have calculated lenght of the pipe bt not able to proceed\
+    \ further what to do next.\nCan u please help m to proceed futher\n\nThanks in\
+    \ Advance\nJayshree"
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-02 12:01:51'
+  body: 'Dear Jayshree,
+
+
+    Here is the one an only post dealing explicitly with this issue, which I strongly
+    suspect is completely out of date, unfortunately:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/03/mep-hangers.html">http://thebuildingcoder.typepad.com/blog/2010/03/mep-hangers.html</a>
+
+
+    Kailash Kute has successfully solved this issue, as you can see from his comments
+    below:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/02/create-a-pipe-cap.html?cid=6a00e553e168978833015434151d8c970c#comment-6a00e553e168978833015434151d8c970c">http://thebuildingcoder.typepad.com/blog/2011/02/create-a-pipe-cap.html?cid=6a00e553e168978833015434151d8c970c#comment-6a00e553e168978833015434151d8c970c</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/02/create-a-pipe-cap.html?cid=6a00e553e1689788330153905f7600970b#comment-6a00e553e1689788330153905f7600970b">http://thebuildingcoder.typepad.com/blog/2011/02/create-a-pipe-cap.html?cid=6a00e553e1689788330153905f7600970b#comment-6a00e553e1689788330153905f7600970b</a>
+
+
+    All I can do is suggest that you find out how to do it as well and then provide
+    a nice clean simple sample for me to publish for the edification of your peers.
+
+
+    Cheers, Jeremy.'
+- author: Jayshree
+  email: jayupatil5@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2012-05-04 06:20:33'
+  body: 'Hello sir
+
+
+    warm greetings for the day,
+
+
+    Thank you.I successfully place hanger on pipe bt i cant place hanger on slanting
+    pipe.Please provide some idea what to do?
+
+
+    Thanks in advance
+
+    Jayshree'
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-04 06:41:45'
+  body: 'Dear Jayshree,
+
+
+    Congratulations on solving your task!
+
+
+    I can only repeat what I answered to your last comment: I do not have the solution,
+    it is possible, and Kailash Kute reports that he solved it, as you can see from
+    his comments below, where he says "Finally i have placed hanger''s on slanting
+    pipe programmatically through pipe slope angle".
+
+
+    All I can do is wish you success on finding out how to do it as well and then
+    hope you provide a nice clean simple sample to publish for the edification of
+    your peers.
+
+
+    Cheers, Jeremy.'
+- author: Jayshree
+  email: jayupatil5@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2012-05-11 10:38:37'
+  body: "Hello sir\n\nwarm greetings for the day,\n\nI successfully place hanger on\
+    \ slanting pipe.Please provide some idea what to do? Now i started placing coupling\
+    \ on pipe i can place it but its not connected to pipe.whenever pipe is moved\
+    \ the coupling remains there only and pipe gets moved.Can You provide some idea\
+    \ \n\nThanks in advance\nJayshree"
+- author: kailash kute
+  email: kailashnkute@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2012-05-14 02:56:48'
+  body: 'Dear Jeremy,
+
+
+    i would like to inform you that since i have changed my current company to another
+    where there is no Revit,but till this whole time which i used to blog post on
+    building coder,was very good and fantastic journey,your blog was most useful stuff
+    for me ,i liked the coding,the posts,the information provided on this.i will miss
+    but i also like to appreciate the work you are doing for revit stuff.
+
+
+    Really it was a wonderful journey till this day on BuildingCoder.
+
+
+    Regards and cheers
+
+    Kailash kute'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.183.250
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-14 07:41:37'
+  body: "Dear Kailash,\n\nCongratulations on your new position!\n\nI also congratulate\
+    \ you on solving so very many tricky Revit MEP API challenges, most of them on\
+    \ your own. \n\nSorry I was not able to provide more help. You probably know a\
+    \ lot more about it now than I do, or almost anybody else in the world either,\
+    \ for that matter.\n\nI bid you farewell most officially in today's blog post,\
+    \ and wish you much success and all the best in your new role:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2012/05/devblog-devcamp-element-and-project-wide-data.html#3\"\
+    >http://thebuildingcoder.typepad.com/blog/2012/05/devblog-devcamp-element-and-project-wide-data.html#3</a>\n\
+    \nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.161.160
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-20 07:26:24'
+  body: 'Dear Jayshree,
+
+
+    Congratulations on placing the hanger on the slanting pipe!
+
+
+    It sounds as if you have to explicitly iterate over the family instance connector
+    objects, find the corresponding ones, and explicitly connect them with each other.
+
+
+    Good luck!
+
+
+    Cheers, Jeremy.'
+- author: Jitendra Dhande
+  email: jitudhande@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2012-06-28 02:20:28'
+  body: "hi sir,\n\n      I want to know about how to get instance parameter after\
+    \ loading family without placing it in document.\n\nRegards\nJitendra dhande"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.182.216
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-06-28 02:44:32'
+  body: "Dear Jitendra,\n\nI do not believe this is possible. Sorry. \n\nYou could\
+    \ always place a dummy instance within a temporary transaction and roll it back\
+    \ afterwards.\n\nCheers, Jeremy."
+- author: Jayshree
+  email: jayupatil5@gmail.com
+  ip: 61.11.14.102
+  url: ''
+  date: '2012-10-29 01:55:12'
+  body: 'Hello Sir,
+
+
+    Warm greetings for the day,
+
+
+    I want to ratoate Coupling on pipe in different View (Example: East Mech,West
+    Mech,North Mech,South Mech) programatically.
+
+
+    Is there any Method or property in revit to find out rotation angle and Axis..  for
+    different Mech
+
+
+    Thanks & regards
+
+    Jayshree
+
+
+    -----'

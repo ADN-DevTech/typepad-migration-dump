@@ -1,0 +1,61 @@
+comments:
+- author: BASIL
+  email: baselqyqony@gmail.com
+  ip: 82.137.200.7
+  url: ''
+  date: '2010-12-26 10:40:38'
+  body: would you please write complete example about drawing detailCurve USING REVIT
+    2011 ?
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.144.3
+  url: http://profile.typepad.com/jeremytammik
+  date: '2010-12-26 11:43:54'
+  body: 'Dear Basil,
+
+
+    Please have a look at the corresponding updated posting
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/05/detail-curve-must-indeed-lie-in-plane.html">http://thebuildingcoder.typepad.com/blog/2010/05/detail-curve-must-indeed-lie-in-plane.html</a>
+
+
+    Cheers, Jeremy.'
+- author: BASIL
+  email: baselqyqony@gmail.com
+  ip: 82.137.200.7
+  url: ''
+  date: '2010-12-29 09:10:52'
+  body: "Dear Jeremy Tammik\nthank you so much \nbut i still have that message :(\
+    \ \n\n i used  projection function to project points of the curve onto active\
+    \ view using project on plane function\n\nprivate XYZ ProjectPointOntoPlane( \n\
+    \      XYZ point, \n      XYZ planeNormal )\n    {\n      double a = planeNormal.X;\n\
+    \      double b = planeNormal.Y;\n      double c = planeNormal.Z;\n\n      double\
+    \ dx = ( b * b + c * c ) * point.X - ( a * b ) * point.Y - ( a * c ) * point.Z;\n\
+    \      double dy = -( b * a ) * point.X + ( a * a + c * c ) * point.Y - ( b *\
+    \ c ) * point.Z;\n      double dz = -( c * a ) * point.X - ( c * b ) * point.Y\
+    \ + ( a * a + b * b ) * point.Z;\n      return new XYZ( dx, dy, dz );\n    }\n\
+    \nconsidering ViewDirection is the same as view plane normal :\n\nstartPoint =\
+    \ ProjectPointOntoPlane(startPoint,view.ViewDirection);\n\ni still getting this\
+    \ bad message ): in some views while it's working in other views\nwould you help\
+    \ me in that please?\nthank you"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-01-01 17:26:32'
+  body: "Dear Basil,\n\nI cannot really say anything at all about your problem off-hand.\
+    \ I would have to debug it to understand the issue, which is pretty time-consuming\
+    \ and your job, not mine. \n\nHave you looked at and understood the discussions,\
+    \ implementation and usage of the GetCurveNormal method in the following subsequent\
+    \ posts?\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/05/model-curve-creator.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/05/model-curve-creator.html</a>\n\
+    \nand\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/10/plane-normal-and-points-on-plane.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/10/plane-normal-and-points-on-plane.html</a>\n\
+    \nCheers, Jeremy."
+- author: BASIL
+  email: baselqyqony@gmail.com
+  ip: 82.137.200.7
+  url: ''
+  date: '2011-01-02 01:11:34'
+  body: "dear Jeremy\nthank you and happy new year \n-----"

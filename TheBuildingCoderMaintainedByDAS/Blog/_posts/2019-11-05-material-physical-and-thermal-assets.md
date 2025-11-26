@@ -1,0 +1,232 @@
+---
+layout: "post"
+title: "Material, Physical and Thermal Assets"
+date: "2019-11-05 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Data Access"
+  - "Material"
+  - "Parameters"
+  - "Settings"
+original_url: "https://thebuildingcoder.typepad.com/blog/2019/11/material-physical-and-thermal-assets.html "
+typepad_basename: "material-physical-and-thermal-assets"
+typepad_status: "Publish"
+---
+
+<p>Today, we concentrate fully on material, physical and thermal assets:</p>
+
+<ul>
+<li><a href="#2">Issues accessing and creating material assets</a></li>
+<li><a href="#3">Access to all material asset properties</a></li>
+<li><a href="#4">No access to material keywords</a></li>
+<li><a href="#5">Access to environment and render settings</a></li>
+<li><a href="#6">Determine full path to texture bitmap</a></li>
+<li><a href="#7">Addendum &ndash; Modifying Material Assets</a></li>
+</ul>
+
+<h4><a name="2"></a> Issues Accessing and Creating Material Assets</h4>
+
+<p>Quite a number of issues were discussed in the past few months involving issues accessing and creating material assets.</p>
+
+<p>As far as I know, they can all be solved, <a href="#3">cf. below</a>.</p>
+
+<p>Sometimes, though, the access is slightly convoluted and confusing.</p>
+
+<p>Here is an overview over some recent issues:</p>
+
+<ul>
+<li><a href="https://stackoverflow.com/questions/58414284/revit-api-material-with-texture-from-filepath">Create new material and add texture from file path</a></li>
+<li><a href="https://forums.autodesk.com/t5/revit-api-forum/create-new-material-and-add-new-physical-and-thermal-assets-with/m-p/7311468">Create new material and add new physical and thermal assets with values</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2019/04/set-material-texture-path-in-editscope.html">Setting material texture path in <code>EditScope</code></a> &ndash; (<a href="https://forums.autodesk.com/t5/revit-api-forum/changing-material-texture-path-with-editscope/m-p/8017578">discussion forum thread</a>, case 14254618)</li>
+</ul>
+
+<!--
+
+15089722 [Revit Material Library] implemented CreateMaterialAsset sample add-in 
+15041727 [Unable to get correct texture path from Revit API]
+14887363 [Obtain Uv-coordinates from texture]
+
+- [Material asset textures](https://thebuildingcoder.typepad.com/blog/2016/10/list-material-asset-texture-and-forge-webinar-recordings.html)
+- [Render material texture image](https://forums.autodesk.com/t5/revit-api-forum/render-material-texture-image/m-p/8080636), case 14348365
+- [AddMaterials GitHub repository](https://github.com/jeremytammik/AddMaterials) &ndash; add materials from a list of properties defined in Excel
+
+-->
+
+<p>Older discussions are listed in the topic groups
+on <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#5.5">material management and libraries</a>
+and <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#5.42">texture bitmap and UV coordinate access</a>.</p>
+
+<h4><a name="3"></a> Access to All Material Asset Properties</h4>
+
+<p>I am very glad to announce that my colleagues Liz Fortune and Balaji Arunachalam confirm that they can access each and every parameter of the materials, appearance assets, thermal assets, and physical assets (with one single exception, <a href="4">cf. below</a>):</p>
+
+<p>Balaji and I have been able to access each and every parameter of the material, appearance asset, thermal asset, and physical asset EXCEPT for the keywords parameter that lives on the Identity tab of the Material UI in Revit.  We can connect to the keywords for all of the assets above but would like to also connect to the keywords that live on the material itself. </p>
+
+<p>To access this data, we used code snippets shared on The Building Coder blog to implement the following:</p>
+
+<pre class="code">
+<span style="color:blue;">void</span>&nbsp;GetElementMaterialInfo(&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;)
+{
+&nbsp;&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>&nbsp;collector
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.WhereElementIsNotElementType()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">Material</span>&nbsp;)&nbsp;);
+
+&nbsp;&nbsp;<span style="color:blue;">try</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">Material</span>&nbsp;material&nbsp;<span style="color:blue;">in</span>&nbsp;collector&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;material.Name.Equals(&nbsp;<span style="color:#a31515;">&quot;Air&quot;</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">AppearanceAssetElement</span>&nbsp;appearanceElement
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;doc.GetElement(&nbsp;material.AppearanceAssetId&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">AppearanceAssetElement</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Asset</span>&nbsp;appearanceAsset&nbsp;=&nbsp;appearanceElement
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.GetRenderingAsset();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">AssetProperty</span>&gt;&nbsp;assetProperties
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">AssetProperty</span>&gt;();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">PropertySetElement</span>&nbsp;physicalPropSet
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;doc.GetElement(&nbsp;material.StructuralAssetId&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">PropertySetElement</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">PropertySetElement</span>&nbsp;thermalPropSet
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;doc.GetElement(&nbsp;material.ThermalAssetId&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">PropertySetElement</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ThermalAsset</span>&nbsp;thermalAsset&nbsp;=&nbsp;thermalPropSet
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.GetThermalAsset();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">StructuralAsset</span>&nbsp;physicalAsset&nbsp;=&nbsp;physicalPropSet
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.GetStructuralAsset();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">Parameter</span>&gt;&nbsp;physicalParameters
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;physicalPropSet.GetOrderedParameters();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">Parameter</span>&gt;&nbsp;thermalParameters
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;thermalPropSet.GetOrderedParameters();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Appearance&nbsp;Asset</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">for</span>(&nbsp;<span style="color:blue;">int</span>&nbsp;i&nbsp;=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;appearanceAsset.Size;&nbsp;i++&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">AssetProperty</span>&nbsp;property&nbsp;=&nbsp;appearanceAsset[&nbsp;i&nbsp;];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assetProperties.Add(&nbsp;property&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">AssetProperty</span>&nbsp;assetProp&nbsp;<span style="color:blue;">in</span>&nbsp;assetProperties&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Type</span>&nbsp;type&nbsp;=&nbsp;assetProp.GetType();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">object</span>&nbsp;assetPropValue&nbsp;=&nbsp;<span style="color:blue;">null</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;prop&nbsp;=&nbsp;type.GetProperty(&nbsp;<span style="color:#a31515;">&quot;Value&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;prop&nbsp;!=&nbsp;<span style="color:blue;">null</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp;&nbsp;prop.GetIndexParameters().Length&nbsp;==&nbsp;0&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assetPropValue&nbsp;=&nbsp;prop.GetValue(&nbsp;assetProp&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Physical&nbsp;(Structural)&nbsp;Asset</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">Parameter</span>&nbsp;p&nbsp;<span style="color:blue;">in</span>&nbsp;physicalParameters&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Work&nbsp;with&nbsp;parameters&nbsp;here</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;The&nbsp;only&nbsp;parameter&nbsp;not&nbsp;in&nbsp;the&nbsp;orderedParameters&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;that&nbsp;is&nbsp;needed&nbsp;is&nbsp;the&nbsp;Asset&nbsp;name,&nbsp;which&nbsp;you&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;can&nbsp;get&nbsp;by&nbsp;&#39;physicalAsset.Name&#39;.</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Thermal&nbsp;Asset</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">Parameter</span>&nbsp;p&nbsp;<span style="color:blue;">in</span>&nbsp;thermalParameters&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">// Work&nbsp;with&nbsp;parameters&nbsp;here</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">// The&nbsp;only&nbsp;parameter&nbsp;not&nbsp;in&nbsp;the&nbsp;orderedParameters&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;that&nbsp;is&nbsp;needed&nbsp;is&nbsp;the&nbsp;Asset&nbsp;name,&nbsp;shich&nbsp;you&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;can&nbsp;get&nbsp;by&nbsp;&#39;thermalAsset.Name&#39;.</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color:blue;">catch</span>(&nbsp;<span style="color:#2b91af;">Exception</span>&nbsp;e&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Console</span>.WriteLine(&nbsp;e.ToString()&nbsp;);
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p>This code will get you everything for the thermal and structural assets and almost everything for the appearance asset.</p>
+
+<p><a href="https://thebuildingcoder.typepad.com/files/sd124625_visual_appearance_of_materials_api_boris_shafiro_handout-1.pdf">Boris Shafiro's PDF</a> from his AU presentation
+on <a href="https://thebuildingcoder.typepad.com/blog/2017/11/modifying-material-visual-appearance.html">modifying material visual appearance</a>
+was crucial in figuring out how to touch all the aspects of the appearance asset!</p>
+
+<p>Here is an image I put together showing mappings for the appearance asset:</p>
+
+<p>Here is an image I put together <a href="https://thebuildingcoder.typepad.com/files/assets_air_appearance_properties.png">showing mappings for the appearance asset</a>:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4c2f4d2200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4c2f4d2200d image-full img-responsive" alt="Air appearance properties" title="Air appearance properties" src="/assets/image_bc9f2b.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>The spreadsheet in this image was created from output of my code into a CSV.  Hope this helps.</p>
+
+<p>Many thanks to Liz and Balaji for their research and sharing the results!</p>
+
+<h4><a name="4"></a> No Access to Material Keywords</h4>
+
+<p>As mentioned above, one single property is apparently still not accessible: the keywords parameter that lives on the Identity tab of the Material UI in Revit.</p>
+
+<p>Apparently, the internal property <code>Material.getKeywords</code> is not exposed to the official Revit API, and there is no built-in parameter for it either.</p>
+
+<h4><a name="5"></a> Access to Environment and Render Settings</h4>
+
+<p>We also searched for the Environment and Render Settings values. They are common for all the Assets:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a499c487200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a499c487200c img-responsive" style="width: 559px; display: block; margin-left: auto; margin-right: auto;" alt="Environment assets" title="Environment assets" src="/assets/image_0105a4.jpg" /></a><br /></p>
+
+<p style="font-size: 80%; font-style:italic">Environment assets</p>
+
+<p></center></p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4c2f4de200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4c2f4de200d img-responsive" style="width: 296px; display: block; margin-left: auto; margin-right: auto;" alt="Render settings" title="Render settings" src="/assets/image_ca7ba6.jpg" /></a><br /></p>
+
+<p style="font-size: 80%; font-style:italic">Render settings</p>
+
+<p></center></p>
+
+<p>They are common for all assets, so they look like the other properties or parameters, but are in fact part of the UI config and saved into <code>MaterialUIConfig.xml</code>.</p>
+
+<h4><a name="6"></a> Determine Full Path to Texture Bitmap</h4>
+
+<p>Finally, to round off this collection, here is a result from
+a <a href="https://thebuildingcoder.typepad.com/blog/2016/10/list-material-asset-texture-and-forge-webinar-recordings.html#comment-4442686784">comment</a>
+on <a href="https://thebuildingcoder.typepad.com/blog/2016/10/list-material-asset-texture-and-forge-webinar-recordings.html">material asset textures</a>:</p>
+
+<p><strong>Question:</strong> Great tip, but how can we create the full path to the <code>unifiedbitmap_Bitmap</code> texture?
+I tried using the <code>Application</code> <code>GetLibraryPaths</code> method, but the material library is not listed in the dictionary. &nbsp; :(</p>
+
+<p><strong>Answer:</strong> If all else fails, you can try to use the operating system functionality to search globally for the given filename.
+You should cache the folders in which you find it.
+If the system is sensibly set up, you will only need to search for it globally once, or a very few times, since there should not be many different locations in which these files are stored.</p>
+
+<p><strong>Response:</strong> Thank you for this tip, especially for the cache recommendation.</p>
+
+<p>Works like a charm. &nbsp; :)</p>
+
+<h4><a name="7"></a> Addendum &ndash; Modifying Material Assets</h4>
+
+<p><strong>Question:</strong> Can you also confirm that you can create new materials and successfully populate all these properties as well?</p>
+
+<p><strong>Answer:</strong> I have successfully modified the values for the parameters.</p>
+
+<p>I attempted a handful.</p>
+
+<p>The trick I found was that I needed to identify the storage type of each so I could set the parameter accordingly.</p>

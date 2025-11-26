@@ -1,0 +1,403 @@
+comments:
+- author: Constantin Gherasim
+  email: constantin.gherasim@genivar.com
+  ip: 207.35.54.70
+  url: ''
+  date: '2013-06-03 12:02:48'
+  body: 'Hi Jeremy,
+
+
+    In conjunction with this article, I would like to present a very similar project
+    implemented by me for my company. Actually, the utility works on Revit 2012 and
+    2013, but I didn''t update the code for Revit 2014 yet (no project on Revit 2014
+    so far :)
+
+
+    Although I cannot disclose the code, I would like to present this thinking that
+    it might suggest alternative approaches for those who would like to modify/adapt
+    the code generously offered by Mr. Tartaglia.
+
+
+    This is another Revit "AutoExport" utility (the supported formats are PDF, DWG,
+    DXF, DWF and DGN), using almost the same approach (an overnight batch exporter
+    based on the Windows task scheduler and the Revit idling event). It uses also
+    a configuration file (XML), but it''s controlled through a few registry keys configured
+    for the task by an (AutoIT) script.
+
+
+    Of course, there are a lot of explanations in order to describe the whole process
+    and I could also provide a few screen shots, but obviously, this is not the place
+    to do this.
+
+
+    If you think this would be interesting enough, just let me know, and I''ll send
+    you the whole material.
+
+
+    Regards,
+
+
+    Constantin'
+- author: Jeremy Tammik
+  email: ''
+  ip: 63.149.67.7
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-06-03 12:10:25'
+  body: 'Dear Constantin,
+
+
+    Thank you for sharing this interesting information.
+
+
+    I would be happy to publish your material if and only if it makes sense and is
+    useful in some way for other developers to learn from or reuse.
+
+
+    Otherwise, all I can suggest is that you provide a URL in a comment in response
+    to this for people to go and look at your material themselves.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Constantin Gherasim
+  email: constantin.gherasim@genivar.com
+  ip: 207.35.54.70
+  url: ''
+  date: '2013-06-03 16:34:39'
+  body: 'I totally agree with your point of view Jeremy, this was my original intent,
+    to submit this to you and to let you evaluate if this could be somehow helpful
+    for the community.
+
+
+    In no way was my intention to brag on my accomplishments :)
+
+
+    Thank you for your time and interest,
+
+
+    Constantin'
+- author: Barry Ralphs
+  email: barry.ralphs@tippingmar.com
+  ip: 66.117.145.100
+  url: http://www.tippingmar.com
+  date: '2013-06-03 17:37:21'
+  body: 'Is this code similar or based on this one:
+
+    <a href="http://blog.rodhowarth.com/2011/11/at-last-years-autodesk-university.html">http://blog.rodhowarth.com/2011/11/at-last-years-autodesk-university.html</a>'
+- author: Jeremy Tammik
+  email: ''
+  ip: 63.149.67.7
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-06-03 19:33:35'
+  body: "Dear Barry,\n\nI was not previously aware of Rod's post. \n\nVery cool! \n\
+    \nThank you for pointing it out.\n\nI would spontaneously assume that neither\
+    \ of these is based on the other at all. \n\nThere is a very slight similarity,\
+    \ simply because both of these systems are based on somehow driving Revit from\
+    \ the outside and picking up the tasks to perform in the Revit Idling event handler.\n\
+    \nCheers, Jeremy."
+- author: Dan Tartaglia
+  email: dtartaglia@nbbj.com
+  ip: 74.202.85.246
+  url: ''
+  date: '2013-06-04 10:07:32'
+  body: 'Hi Barry,
+
+
+    I didn''t know about Rod''s AU presentation, I''m guessing a number of people
+    are using the idling event in a similar fashion. My next steps are to get it working
+    for DWG export and the creation of transmitted files. I''m using a simple text
+    file to keep it ''simple'' for when I create an interface and so the values can
+    be easily read by most of our users (we still have many users afraid/not used
+    to XML and other formats).'
+- author: Jeremy Tammik
+  email: ''
+  ip: 63.149.67.7
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-06-04 11:58:23'
+  body: 'Dear Dan,
+
+
+    I (naively and optimistically) think Rod''s implementation probably covers what
+    you need pretty well.
+
+
+    Furthermore, today''s post with the suggestions by Constantin should also prove
+    quite useful in the endeavour.
+
+
+    Also look at Daren''s very nice abstraction describing a pattern for semi-asynchronous
+    Idling API access:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/11/pattern-for-semi-asynchronous-idling-api-access.html">http://thebuildingcoder.typepad.com/blog/2010/11/pattern-for-semi-asynchronous-idling-api-access.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Frederic
+  email: f.beaupere@herzogdemueron.com
+  ip: 212.254.224.129
+  url: ''
+  date: '2014-07-01 08:57:13'
+  body: "Dear Dan, \n\nthank you very much for sharing this amazing tool - it would\
+    \ be very helpful for my current project! \nHowever I am missing the information\
+    \ where to put/what to do with: \"AutoPDFPrint.zip\" and \"AutoPDFPrint_Bridge.zip\"\
+    ? Everything else is well explained. Could you give me a hint on these last two\
+    \ missing pieces of the puzzle?\n\nThank you in advance, \nBest, Frédéric"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-07-01 09:20:16'
+  body: 'Dear Frédéric,
+
+
+    Thank you for your appreciation and submitting your query here as a comment.
+
+
+    You can do so forever, regardless of the age of the blog post.
+
+
+    I am glad you find it useful.
+
+
+    The installation is straightforward.
+
+
+    As you see above, there are two components: a stand-alone executable run by the
+    task scheduler, and a Revit add-in working with the Idling event.
+
+
+    You can install the exe anywhere you like. It is up to you to see that the task
+    scheduler finds and runs it.
+
+
+    The Revit add-in is installed like any other.
+
+
+    I hope this clarifies.
+
+
+    Cheers, Jeremy.'
+- author: Frederic
+  email: f.beaupere@herzogdemueron.com
+  ip: 212.254.224.129
+  url: ''
+  date: '2014-07-14 08:33:11'
+  body: "Dear Jeremy, \n\nthank you for your quick reply!\n\nConfig, exe, and scheduler\
+    \ are all working fine, but the installation of the add-in is a bit unclear to\
+    \ me, since it isn't the regular installer.\n\nDo I just place the content of\
+    \ the folder \"AutoPDFPrint.zip\" in \"C:\\Program Files\\Autodesk\\Revit Architecture\
+    \ 2014\\AddIns\" or do I need to get an *.msi somewhere else?\n\nThank you in\
+    \ advance,\nBest, Frédéric"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.209.154
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-07-14 08:39:46'
+  body: 'Dear Frédéric,
+
+
+    All Revit add-ins are installed in the same way.
+
+
+    They consist of an add-in manifest with the filename extension *.addin.
+
+
+    It is an XML file that you can edit and contains a tag pointing to the .NET add-in
+    assembly DLL.
+
+
+    The add-in manifest must be located in a folder that Revit searches, e.g. the
+    one you mention.
+
+
+    The add-in assembly can be placed anywhere you like.
+
+
+    I place small simple add-ins in the same folder as the add-in manifest.
+
+
+    Then there is no need to specify the full DLL pathname.
+
+
+    All of this information is fully covered by the Revit API getting started material:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#2">http://thebuildingcoder.typepad.com/blog/about-the-author.html#2</a>
+
+
+    Cheers, Jeremy.'
+- author: Atul Dusane
+  email: atul.dusane@mwhglobal.com
+  ip: 212.250.190.200
+  url: ''
+  date: '2015-01-13 06:57:28'
+  body: 'Hi Jeremy,
+
+
+    I am trying to print RVT files in bulk, few of my RVT files have link with other
+    RVT files. The Files which does not have link got printed correctly but the file
+    which has links got exception for transaction.
+
+
+    "Autodesk.Revit.Exceptions.ArgumentException: Document is a linked file. Transactions
+    can only be used in primary documents (projects or families.)"
+
+
+    Please suggest.
+
+    Thanks,
+
+    Atul'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.177.201
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-01-23 02:47:05'
+  body: 'Dear Atul,
+
+
+    How is the transaction initiated? Do you have control over that?
+
+
+    Cheers, Jeremy.'
+- author: Matt
+  email: mwilson@cea-ut.com
+  ip: 173.165.139.141
+  url: ''
+  date: '2015-02-11 10:15:07'
+  body: "Jeremy,\n\nI'm running into an issue with this code at the line:\nPM.SelectNewPrintDriver(\"\
+    Adobe PDF\"); \n\nOn some projects this pops up a dialog in Revit saying:\n\"\
+    Adobe PDF cannot be used with Full Size print settings. The &lt in-session&gt\
+    \ print settings will be used.\"\nand then Revit holds until I dismiss the dialog.\n\
+    \nI tried to put the SelectNewPrinterDriver in a try/catch, but it throws no exception.\
+    \ I tried to iterate through the documents print settings and set it to &lt in-session&gt\
+    \ before changing the printer, but doc.GetPrintSettingIds() does not expose the\
+    \ &lt in-session&gt setting.\n\nIs there anyway to either set the printsetting\
+    \ to &lt in-session&gt before selecting the printer or to ignore the dialog? \n\
+    \nAs always thank you for this blog."
+- author: Jeremy Tammik
+  email: ''
+  ip: 2.235.111.246
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-02-11 11:41:04'
+  body: 'Dear Matt,
+
+
+    Thank you for your appreciation.
+
+
+    There may well be some good and proper way to avoid this situation arising at
+    all in the first place that I am not aware of.
+
+
+    What I can say for sure is that you can automatically dismiss the dialogue if
+    you so wish:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.32">http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.32</a>
+
+
+    Cheers, Jeremy.'
+- author: Matt
+  email: mwilson@cea-ut.com
+  ip: 173.165.139.141
+  url: ''
+  date: '2015-02-12 16:16:00'
+  body: "Good grief, this blog has everything. Thank you for the help. \n\nAs a side\
+    \ note, I didn't see your response until today. So in the mean time I deleted\
+    \ all the saved print setups in the detached model, and then changed the printer,\
+    \ and then created the intended print settings and that worked too."
+- author: Jeremy Tammik
+  email: ''
+  ip: 213.96.67.148
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-02-13 05:02:52'
+  body: 'Dear Matt,
+
+
+    :-)
+
+
+    I wish it really did.
+
+
+    There are still plenty of unsolved issues around.
+
+
+    It is possible to be notified by the blog host when an answer is posted to your
+    comment.
+
+
+    Thank you very much for sharing your alternative solution!
+
+
+    Cheers, Jeremy.'
+- author: wes edell
+  email: wes.edell@gmail.com
+  ip: 216.100.202.18
+  url: ''
+  date: '2015-02-20 14:06:47'
+  body: "I was able to get this to work, but it outputs a single PDF rather than separate\
+    \ sheet files. Do you know of a way to fix this? \n\nThanks, \n-Wes"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-03-10 11:27:37'
+  body: 'Dear Wes,
+
+
+    Congratulations on getting it up and running.
+
+
+    As always the functionality being used is built in to Revit itself.
+
+
+    Does Revit provide such an option in the user interface?
+
+
+    Alternatively, simply print sheet by sheet in separate steps.
+
+
+    Cheers, Jeremy.'
+- author: Atul Dusane
+  email: atul.dusane@mwhglobal.com
+  ip: 159.21.64.128
+  url: ''
+  date: '2015-05-28 07:23:43'
+  body: "Hi Jeremy,\nI am having issue in setting Paper Size and ZoomType from using\
+    \ Revit PrintSettngs API.\n\nI am using Revit API for printing sheets and sheets\
+    \ set. My requirement is to set Paper Size and Zoom Type dynamically. \nI have\
+    \ used \n1) PrintSettings.PrintParameters.PaperSize= \"one of the paper size from\
+    \ PrintManager.PaperSizes collection\".  and 2) PrintSettings.PrintParameters.ZoomType=\
+    \ ZoomType.FittoPage.\n\nBut after printing it from my code, PDF Print does not\
+    \ show the correct Paper Size and ZoomType. Whereas If I used default Print Command\
+    \ from Revit and set paper size and zoom type over there then it prints correct\
+    \ output. \n\nCould you please suggest me, what I am doing wrong?\n\nThanks,\n\
+    Atul"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-28 07:51:37'
+  body: 'Dear Atul,
+
+
+    Nope, sorry, no idea.
+
+
+    Cheers, Jeremy.'
+- author: Atul Dusane
+  email: atul.dusane@mwhglobal.com
+  ip: 159.21.64.128
+  url: ''
+  date: '2015-05-29 07:52:27'
+  body: "Hi Jeremy,\n\nI got the answer from one of the AutoDesk forum, \nby doing\
+    \ PrintSetup.Save() it save the changes for one session. If one has to change\
+    \ the size again then he has to close the revit session and again open the new\
+    \ Revit window to accept the changes. \n\n\n\nfyi\n<a href=\"http://forums.autodesk.com/t5/revit-api/printermanager-printsetup-do-not-apply-settings/td-p/3676618\"\
+    >http://forums.autodesk.com/t5/revit-api/printermanager-printsetup-do-not-apply-settings/td-p/3676618</a>\n\
+    -----"

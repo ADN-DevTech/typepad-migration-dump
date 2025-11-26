@@ -1,0 +1,376 @@
+---
+layout: "post"
+title: "PDF Export, ForgeTypeId and Multi-Target Add-In"
+date: "2021-04-14 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "2022"
+  - "Export"
+  - "Migration"
+  - "Parameters"
+  - "PDF"
+  - "Settings"
+  - "Units"
+  - "Update"
+original_url: "https://thebuildingcoder.typepad.com/blog/2021/04/pdf-export-forgetypeid-and-multi-target-add-in.html "
+typepad_basename: "pdf-export-forgetypeid-and-multi-target-add-in"
+typepad_status: "Publish"
+---
+
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js" type="text/javascript"></script>
+
+<p>This is blog post number 1900, just fyi,
+cf. <a href="http://jeremytammik.github.io/tbc/a/#7">The Building Coder index and table of contents</a>.</p>
+
+<p><a href="https://thebuildingcoder.typepad.com/blog/2021/04/revit-2022-released.html">Revit 2022 has been released</a> and
+the time has come to migrate to the new version.</p>
+
+<p>Updates for <a href="https://github.com/jeremytammik/RevitLookup">RevitLookup</a>,
+the <a href="https://github.com/jeremytammik/VisualStudioRevitAddinWizard">Visual Studio Revit add-in wizards</a>
+and <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder samples</a> are
+in the works and not done yet... one-man-band lagging...
+all Revit 2021 add-ins should work just fine in Revit 2022 as well, though.</p>
+
+<p>Two important features are the parameter API enhancements and built-in PDF export functionality.
+Initial issues with these two have already been discussed:</p>
+
+<ul>
+<li><a href="#2">Replace deprecated <code>ParameterType</code> with <code>ForgeTypeId</code></a></li>
+<li><a href="#3">Multi-target 2021 and 2022 using MSBuild</a></li>
+<li><a href="#4">PDF export default paper format can fail</a></li>
+<li><a href="#5">PDF export output file naming</a></li>
+<li><a href="#6">Five beginner mistakes</a></li>
+</ul>
+
+<h4><a name="2"></a> Replace Deprecated ParameterType with ForgeTypeId</h4>
+
+<p>David Becroft of Autodesk 
+and Maxim Stepannikov of BIM Planet, aka Максим Степанников or <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/4552025">architect.bim</a>,
+helped address 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> question
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/revit-2022-parametertype-text-to-forgetypeid/m-p/10225741">Revit 2022 ParameterType.Text to ForgeTypeId</a>:</p>
+
+<p><strong>Question:</strong> Could somebody please help me out with this conversion from the deprecated <code>ParameterType</code> to <code>ForgeTypeId</code> for the Revit 2022 API?</p>
+
+<p>The 'old' code has a line like this:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;parameter.Definition.ParameterType&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;==&nbsp;ParameterType.Text&nbsp;)&nbsp;&nbsp;...
+</pre>
+
+<p>What would be the 2022 equivalent for it?</p>
+
+<p>It seems that the left side may be:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;parameter.Definition.GetDataType()&nbsp;==&nbsp;????)&nbsp;&nbsp;....
+</pre>
+
+<p>But, for some reason, I cannot find what I have to use on right side of the operation... there must be something I am overlooking.</p>
+
+<p><strong>Answer:</strong> To perform this check you need to create instance of ForgeTypeId class. Use one of the SpecTypeId's properties to get value to compare with. In your case (for text parameter) you need Number property:</p>
+
+<pre class="prettyprint">
+>>> element.Parameter[BuiltInParameter.ALL_MODEL_MARK].Definition.GetSpecTypeId() == SpecTypeId.Number
+True
+</pre>
+
+<p>Also take a look at the conversation
+ on <a href="https://forums.autodesk.com/t5/revit-api-forum/forgetypeid-how-to-use/td-p/9439210">how to use <code>ForgeTypeId</code></a>.</p>
+
+<p><strong>Response:</strong> Oh dear!
+This is super confusing.
+I've just checked and parameter definitions that store TEXT have a <code>SpecTypeId</code> = <code>SpecTypeId.Number</code>.</p>
+
+<p>Now how do you distinguish between actual Numbers and Text?</p>
+
+<p>It looks like the problem is this:</p>
+
+<p>The <code>Autodesk.Revit.DB.InternalDefinition</code> class has:</p>
+
+<ul>
+<li><code>ParameterType</code> &ndash; this can be: Invalid | Text | Integer | Number</li>
+<li><code>UnitType</code> &ndash; seemingly, for Text type parameters, this is <code>UT_Number</code></li>
+</ul>
+
+<p>Now with <code>ParameterType</code> becoming obsolete, we have to use <code>Parameter.GetSpecTypeId</code> that SEEMINGLY corresponds to the <code>UnitType</code> member above, and for Text parameters like <code>Comment</code>, it has a value of <code>SpecTypeId.Number</code>!</p>
+
+<p>The question is: How can I know if a Parameter is Text or not in Revit 2022 &ndash; without using Definition.ParameterType ?</p>
+
+<p>Same would apply to <code>YesNo</code> type parameters... <code>SpecTypeId</code> cannot be used to determine if a <code>ParameterDefinition</code> is for a <code>YesNo</code> type parameter...  </p>
+
+<p>And even more: The ONLY place where I can see if a parameter is a YesNo parameter is in the Parameter.Definition.ParameterType !! If ParameterType is obsolete... how to determine if a parameter is YesNo or something else?</p>
+
+<p><strong>Answer:</strong> It is a well-known fact that unit type of text is number.
+Actually, I don't know why &nbsp; :-) &nbsp;
+But you definitely should use the <code>Number</code> property.
+Each Parameter object also has a <code>StorageType</code> property.
+In case of a Yes/No parameter, its value is <code>Integer</code>.
+In case of Text parameter, <code>String</code>.
+I hope this solves your problem.</p>
+
+<p><strong>Response:</strong> Well, sorry for my ignorance but seemingly there is still one 'minor' issue left for me to be answered:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;option&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;ExternalDefinitionCreationOptions(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;ExampleParamForge&quot;</span>,&nbsp;SpecTypeId.XXX&nbsp;???);
+
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;definition&nbsp;=&nbsp;definitionGroup.Definitions.Create(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;option&nbsp;);
+</pre>
+
+<p>Using SpecTypeId.Number creates a Parameter that has the "Type of Parameter" set to Number (obviously!, right?)</p>
+
+<p>How do I create a simple TEXT Parameter definition using the Revit 2022 API?</p>
+
+<p>There must be something here that I am missing.</p>
+
+<p><strong>Answer:</strong> To create a text parameter, please use <code>SpecTypeId.String.Text</code>.</p>
+
+<p>For context, the <code>ForgeTypeId</code> properties directly in the <code>SpecTypeId</code> class identify the measurable data types, like <code>SpecTypeId.Length</code> or <code>SpecTypeId.Mass</code>.
+The non-measurable data types are organized into nested classes within <code>SpecTypeId</code>, like <code>SpecTypeId.String.Text</code>, <code>SpecTypeId.Boolean.YesNo</code>, <code>SpecTypeId.Int.Integer</code>, or <code>SpecTypeId.Reference.Material</code>.</p>
+
+<p>Regarding text parameters that report their type as "Number", here's the history:</p>
+
+<ul>
+<li>Prior to Revit 2021, a <code>Definition</code> had a <code>UnitType</code> and a <code>ParameterType</code>.
+The <code>UnitType</code> property was only meaningful for parameters with measurable <code>ParameterType</code> values, and a parameter with <code>ParameterType.Text</code> would report a meaningless <code>UnitType.Number</code> value.</li>
+<li>Revit 2021 deprecated the <code>UnitType</code> property and replaced it with the <code>GetSpecTypeId</code> method.
+But the behaviour remained the same &ndash; a parameter with <code>ParameterType.Text</code> would have <code>GetSpecTypeId</code> == <code>SpecTypeId.Number</code>.</li>
+<li>Revit 2022 deprecated the <code>ParameterType</code> property and the <code>GetSpecTypeId</code> method, replacing them both with the <code>GetDataType</code> method.
+A parameter with <code>ParameterType.Text</code> will report <code>GetDataType()</code> == <code>SpecTypeId.String.Text</code>.
+Side note: The <code>GetDataType</code> method can also return a category identifier, indicating a Family Type parameter of that category.</li>
+</ul>
+
+<p>Many thanks to Maxim and David for their clarification!</p>
+
+<h4><a name="3"></a> Multi-Target 2021 and 2022 Using MSBuild</h4>
+
+<p>Josiah Offord very kindly shared his solution to implement a multi-target add-in for several releases of Revit
+using <a href="https://docs.microsoft.com/en-us/visualstudio/msbuild/msbuild">the Microsoft Build Engine MSBuild</a> in both
+a <a href="https://thebuildingcoder.typepad.com/blog/2018/06/multi-targeting-revit-versions-cad-terms-texture-maps.html#comment-5339799009">comment</a>
+on <a href="https://thebuildingcoder.typepad.com/blog/2018/06/multi-targeting-revit-versions-cad-terms-texture-maps.html#2">multi-targeting Revit Versions using <code>TargetFrameworks</code></a> and in a dedicated <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/multi-target-2021-and-2022-using-msbuild/m-p/10235037">multi-targeting 2021 and 2022 using <code>MSBuild</code></a>:</p>
+
+<p>For those interested, you can configure a <code>.csproj</code> to multi-target both 2021 and 2022 on .NET Framework 4.8 using MSBuild.
+I posted this on a comment in The Building Coder blog and figured it'd be useful here too.</p>
+
+<p>The first task is to choose what .NET 4.8 add-in you want to actively program against.
+There can only be one active add-in per .NET framework as far as I know.
+In this example, I'm setting my default to Revit 2022 using the custom <code>RevitVersion</code> property if it hasn't been configured yet.</p>
+
+<pre class="code">
+<span style="color:blue;">&lt;</span><span style="color:#a31515;">Project</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Sdk</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">Microsoft.NET.Sdk.WindowsDesktop</span>&quot;<span style="color:blue;">&nbsp;</span><span style="color:red;">InitialTargets</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">Test</span>&quot;<span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;...
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">TargetFrameworks</span><span style="color:blue;">&gt;</span>net461;net47;net472;net48<span style="color:blue;">&lt;/</span><span style="color:#a31515;">TargetFrameworks</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Configurations</span><span style="color:blue;">&gt;</span>Debug;Release<span style="color:blue;">&lt;/</span><span style="color:#a31515;">Configurations</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">OutputPath</span><span style="color:blue;">&gt;</span>bin\$(Configuration)\<span style="color:blue;">&lt;/</span><span style="color:#a31515;">OutputPath</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">UseWindowsForms</span><span style="color:blue;">&gt;</span>true<span style="color:blue;">&lt;/</span><span style="color:#a31515;">UseWindowsForms</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">RevitVersion</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Condition</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">&nbsp;&#39;$(RevitVersion)&#39;&nbsp;==&nbsp;&#39;&#39;&nbsp;</span>&quot;<span style="color:blue;">&gt;</span>2022<span style="color:blue;">&lt;/</span><span style="color:#a31515;">RevitVersion</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;...
+<span style="color:blue;">&nbsp;&nbsp;&lt;/</span><span style="color:#a31515;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+</pre>
+
+<p>Next, define configurations changes per each version.</p>
+
+<pre class="code">
+<span style="color:blue;">&lt;</span><span style="color:#a31515;">PropertyGroup</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Condition</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">&nbsp;&#39;$(TargetFramework)&#39;&nbsp;==&nbsp;&#39;net461&#39;&nbsp;</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">PlatformTarget</span><span style="color:blue;">&gt;</span>x64<span style="color:blue;">&lt;/</span><span style="color:#a31515;">PlatformTarget</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">DefineConstants</span><span style="color:blue;">&gt;</span>DEBUG;REVIT2018<span style="color:blue;">&lt;/</span><span style="color:#a31515;">DefineConstants</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">OutputPath</span><span style="color:blue;">&gt;</span>bin\$(Configuration)\2018\<span style="color:blue;">&lt;/</span><span style="color:#a31515;">OutputPath</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&lt;/</span><span style="color:#a31515;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+
+<span style="color:blue;">&lt;</span><span style="color:#a31515;">PropertyGroup</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Condition</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">&nbsp;&#39;$(TargetFramework)&#39;&nbsp;==&nbsp;&#39;net47&#39;&nbsp;</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">PlatformTarget</span><span style="color:blue;">&gt;</span>x64<span style="color:blue;">&lt;/</span><span style="color:#a31515;">PlatformTarget</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">DefineConstants</span><span style="color:blue;">&gt;</span>$(DefineConstants);REVIT2019<span style="color:blue;">&lt;/</span><span style="color:#a31515;">DefineConstants</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">OutputPath</span><span style="color:blue;">&gt;</span>bin\$(Configuration)\2019<span style="color:blue;">&lt;/</span><span style="color:#a31515;">OutputPath</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&lt;/</span><span style="color:#a31515;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+
+<span style="color:blue;">&lt;</span><span style="color:#a31515;">PropertyGroup</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Condition</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">&nbsp;&#39;$(TargetFramework)&#39;&nbsp;==&nbsp;&#39;net472&#39;&nbsp;</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">PlatformTarget</span><span style="color:blue;">&gt;</span>x64<span style="color:blue;">&lt;/</span><span style="color:#a31515;">PlatformTarget</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">DefineConstants</span><span style="color:blue;">&gt;</span>$(DefineConstants);REVIT2020<span style="color:blue;">&lt;/</span><span style="color:#a31515;">DefineConstants</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">OutputPath</span><span style="color:blue;">&gt;</span>bin\$(Configuration)\2020\<span style="color:blue;">&lt;/</span><span style="color:#a31515;">OutputPath</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&lt;/</span><span style="color:#a31515;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+
+<span style="color:blue;">&lt;</span><span style="color:#a31515;">PropertyGroup</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Condition</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">&nbsp;&#39;$(TargetFramework)&#39;&nbsp;==&nbsp;&#39;net48&#39;&nbsp;And&nbsp;&#39;$(RevitVersion)&#39;&nbsp;==&nbsp;&#39;2021&#39;&nbsp;</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">PlatformTarget</span><span style="color:blue;">&gt;</span>x64<span style="color:blue;">&lt;/</span><span style="color:#a31515;">PlatformTarget</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">DefineConstants</span><span style="color:blue;">&gt;</span>$(DefineConstants);REVIT2021<span style="color:blue;">&lt;/</span><span style="color:#a31515;">DefineConstants</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">OutputPath</span><span style="color:blue;">&gt;</span>bin\$(Configuration)\2021<span style="color:blue;">&lt;/</span><span style="color:#a31515;">OutputPath</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&lt;/</span><span style="color:#a31515;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+
+<span style="color:blue;">&lt;</span><span style="color:#a31515;">PropertyGroup</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Condition</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">&nbsp;&#39;$(TargetFramework)&#39;&nbsp;==&nbsp;&#39;net48&#39;&nbsp;And&nbsp;&#39;$(RevitVersion)&#39;&nbsp;==&nbsp;&#39;2022&#39;&nbsp;</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">PlatformTarget</span><span style="color:blue;">&gt;</span>x64<span style="color:blue;">&lt;/</span><span style="color:#a31515;">PlatformTarget</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">DefineConstants</span><span style="color:blue;">&gt;</span>$(DefineConstants);REVIT2022<span style="color:blue;">&lt;/</span><span style="color:#a31515;">DefineConstants</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">OutputPath</span><span style="color:blue;">&gt;</span>bin\$(Configuration)\2022<span style="color:blue;">&lt;/</span><span style="color:#a31515;">OutputPath</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&lt;/</span><span style="color:#a31515;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+</pre>
+
+<p>Next, load the proper dll references for each version.</p>
+
+<pre class="code">
+<span style="color:blue;">&lt;</span><span style="color:#a31515;">ItemGroup</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Condition</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">&nbsp;&#39;$(TargetFramework)&#39;&nbsp;==&nbsp;&#39;net461&#39;&nbsp;</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Include</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">AdWindows</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>C:\Program&nbsp;Files\Autodesk\Revit&nbsp;2018\AdWindows.dll<span style="color:blue;">&lt;/</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;/</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Include</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">RevitAPI</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>C:\Program&nbsp;Files\Autodesk\Revit&nbsp;2018\RevitAPI.dll<span style="color:blue;">&lt;/</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;/</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Include</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">RevitAPIUI</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>C:\Program&nbsp;Files\Autodesk\Revit&nbsp;2018\RevitAPIUI.dll<span style="color:blue;">&lt;/</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;/</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&lt;/</span><span style="color:#a31515;">ItemGroup</span><span style="color:blue;">&gt;</span>
+
+<span style="color:blue;">&lt;</span><span style="color:#a31515;">ItemGroup</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Condition</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">&nbsp;&#39;$(TargetFramework)&#39;&nbsp;==&nbsp;&#39;net47&#39;&nbsp;</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Include</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">AdWindows</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>C:\Program&nbsp;Files\Autodesk\Revit&nbsp;2019\AdWindows.dll<span style="color:blue;">&lt;/</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;/</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Include</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">RevitAPI</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>C:\Program&nbsp;Files\Autodesk\Revit&nbsp;2019\RevitAPI.dll<span style="color:blue;">&lt;/</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>False<span style="color:blue;">&lt;/</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;/</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Include</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">RevitAPIUI</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>C:\Program&nbsp;Files\Autodesk\Revit&nbsp;2019\RevitAPIUI.dll<span style="color:blue;">&lt;/</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;/</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&lt;/</span><span style="color:#a31515;">ItemGroup</span><span style="color:blue;">&gt;</span>
+
+<span style="color:blue;">&lt;</span><span style="color:#a31515;">ItemGroup</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Condition</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">&nbsp;&#39;$(TargetFramework)&#39;&nbsp;==&nbsp;&#39;net472&#39;&nbsp;</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Include</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">AdWindows</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>C:\Program&nbsp;Files\Autodesk\Revit&nbsp;2020\AdWindows.dll<span style="color:blue;">&lt;/</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;/</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Include</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">RevitAPI</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>C:\Program&nbsp;Files\Autodesk\Revit&nbsp;2020\RevitAPI.dll<span style="color:blue;">&lt;/</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;/</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Include</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">RevitAPIUI</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>C:\Program&nbsp;Files\Autodesk\Revit&nbsp;2020\RevitAPIUI.dll<span style="color:blue;">&lt;/</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;/</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&lt;/</span><span style="color:#a31515;">ItemGroup</span><span style="color:blue;">&gt;</span>
+
+<span style="color:blue;">&lt;</span><span style="color:#a31515;">ItemGroup</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Condition</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">&nbsp;&#39;$(TargetFramework)&#39;&nbsp;==&nbsp;&#39;net48&#39;&nbsp;And&nbsp;&#39;$(RevitVersion)&#39;&nbsp;==&nbsp;&#39;2021&#39;&nbsp;</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Include</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">AdWindows</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>C:\Program&nbsp;Files\Autodesk\Revit&nbsp;2021\AdWindows.dll<span style="color:blue;">&lt;/</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;/</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Include</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">RevitAPI</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>C:\Program&nbsp;Files\Autodesk\Revit&nbsp;2021\RevitAPI.dll<span style="color:blue;">&lt;/</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;/</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Include</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">RevitAPIUI</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>C:\Program&nbsp;Files\Autodesk\Revit&nbsp;2021\RevitAPIUI.dll<span style="color:blue;">&lt;/</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;/</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&lt;/</span><span style="color:#a31515;">ItemGroup</span><span style="color:blue;">&gt;</span>
+
+<span style="color:blue;">&lt;</span><span style="color:#a31515;">ItemGroup</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Condition</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">&nbsp;&#39;$(TargetFramework)&#39;&nbsp;==&nbsp;&#39;net48&#39;&nbsp;And&nbsp;&#39;$(RevitVersion)&#39;&nbsp;==&nbsp;&#39;2022&#39;&nbsp;</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Include</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">AdWindows</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>C:\Program&nbsp;Files\Autodesk\Revit&nbsp;2022\AdWindows.dll<span style="color:blue;">&lt;/</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;/</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Include</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">RevitAPI</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>C:\Program&nbsp;Files\Autodesk\Revit&nbsp;2022\RevitAPI.dll<span style="color:blue;">&lt;/</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;/</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Include</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">RevitAPIUI</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>C:\Program&nbsp;Files\Autodesk\Revit&nbsp;2022\RevitAPIUI.dll<span style="color:blue;">&lt;/</span><span style="color:#a31515;">HintPath</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:#a31515;">Private</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;/</span><span style="color:#a31515;">Reference</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&lt;/</span><span style="color:#a31515;">ItemGroup</span><span style="color:blue;">&gt;</span>
+</pre>
+
+<p>At the end, you need to configure an additional build for whatever .NET 4.8 Revit add-in you didn't set as the default above. This is nice because it will catch build errors even though the active .NET 4.8 version is something else.</p>
+
+<pre class="code">
+<span style="color:blue;">&lt;</span><span style="color:#a31515;">Target</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Name</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">Test</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Message</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Importance</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">high</span>&quot;<span style="color:blue;">&nbsp;</span><span style="color:red;">Text</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">--&nbsp;Building&nbsp;$(MSBuildProjectFile),&nbsp;TF&nbsp;=&nbsp;$(TargetFramework),&nbsp;Config&nbsp;=&nbsp;$(Configuration),&nbsp;Revit&nbsp;Version&nbsp;=&nbsp;$(RevitVersion)&nbsp;--</span>&quot;<span style="color:blue;">&nbsp;/&gt;</span>
+<span style="color:blue;">&lt;/</span><span style="color:#a31515;">Target</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&lt;</span><span style="color:#a31515;">Target</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Name</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">Build2021</span>&quot;<span style="color:blue;">&nbsp;</span><span style="color:red;">BeforeTargets</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">DispatchToInnerBuilds</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Message</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Importance</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">high</span>&quot;<span style="color:blue;">&nbsp;</span><span style="color:red;">Text</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">***&nbsp;running&nbsp;pre-dispatch&nbsp;builds&nbsp;***</span>&quot;<span style="color:blue;">&nbsp;/&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">MSBuild</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Projects</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">myProject.csproj</span>&quot;<span style="color:blue;">&nbsp;</span><span style="color:red;">Properties</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">Configuration=$(Configuration);TargetFramework=net48;RevitVersion=2021</span>&quot;<span style="color:blue;">&gt;&lt;/</span><span style="color:#a31515;">MSBuild</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&lt;/</span><span style="color:#a31515;">Target</span><span style="color:blue;">&gt;</span>
+</pre>
+
+<p>Side note:
+Using a multi-target solution means you need to keep references to all the old versions of Revit.
+Be sure to copy out the needed dlls before removing that Revit version from your machine.</p>
+
+<p>Hope this helps.</p>
+
+<p>Thank you very much, Josiah, for this important and timely advice!</p>
+
+<h4><a name="4"></a> PDF Export Default Paper Format Can Fail</h4>
+
+<p>The new built-in PDF export is a certainly a very useful feature in Revit 2022 and has gathered a lot of interest.</p>
+
+<p>Unfortunately, it also caused some misunderstandings, and a first problem was discovered and described in the thread 
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/revit-2022-pdf-export-fails-with-paper-format-set-as-default/m-p/10223281">Revit 2022 PDF export fails with paper format set as default with other parameters</a>.</p>
+
+<p>The title says it all, and the development team explain:</p>
+
+<p>By design, if PaperFormat is default, then PaperPlacement should always be Center.
+However, there is no restriction ensuring this on the API side.
+We should either silently set PaperPlacement to Center during export, or throw  an exception notifying the add-in about this.</p>
+
+<p>Currently, in this case, nothing happens and no warning or error is raised.</p>
+
+<h4><a name="5"></a> PDF Export Output File Naming</h4>
+
+<p>Another thread question
+why <a href="https://forums.autodesk.com/t5/revit-api-forum/2022-pdf-exporter-cant-use-quot-sheet-number-quot-parameter/m-p/10220287">2022 PDF exporter can't use the "sheet number" parameter</a>.</p>
+
+<p>Apparently, you have to be sure that the Sheet Number parameter from the "Parameter Type" drop down menu is selected from the Sheet type fields.</p>
+
+<p>Also, if the sheet has no revision the filename, the words 'Current revision' may be inserted into the filename instead.</p>
+
+<p>The development team confirm this fallback behaviour; if the parameter you selected is empty, it will fill the parameter name (Sample Value) in the filename.</p>
+
+<p>The sheet number in the parameter set is confusing due to the parameter type.
+The designed scenario is: the customer will use this parameter only in either sheet or view, not in both of them.
+If you select a mixed type of both view and sheet with this parameter, one parameter will fallback to its name due to its absence in the view type.</p>
+
+<h4><a name="6"></a> Five Beginner Mistakes</h4>
+
+<p>Taking a quick look beyond Revit and .NET development for the desktop, the article
+on <a href="https://www.freecodecamp.org/news/common-mistakes-beginning-web-development-students-make">5 mistakes beginner web developers make &ndash; and how to fix them</a> addresses
+topics that are of use in a non-web environment as well, and that I actually adhere to pretty strictly myself on all platforms
+&ndash; possibly excepting the last &ndash; I am still practicing that:</p>
+
+<ul>
+<li>Avoid spaces in file names</li>
+<li>Respect case sensitivity</li>
+<li>Understand file paths</li>
+<li>Name the default page <code>index</code></li>
+<li>Take a break</li>
+</ul>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e99de0a2200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e99de0a2200b img-responsive" style="width: 300px; display: block; margin-left: auto; margin-right: auto;" alt="Taking a break and reading in the Swiss winter sun" title="Taking a break and reading in the Swiss winter sun" src="/assets/image_404db3.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<!-- mexico siesta  sombrero -->

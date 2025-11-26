@@ -1,0 +1,342 @@
+---
+layout: "post"
+title: "UV, Emergence, Fuzz and the get_ Prefix"
+date: "2023-03-31 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "AI"
+  - "ChatGPT"
+  - "Dynamo"
+  - "Geometry"
+  - "I18n"
+  - "Python"
+original_url: "https://thebuildingcoder.typepad.com/blog/2023/03/uv-emergence-fuzz-and-the-get_-prefix.html "
+typepad_basename: "uv-emergence-fuzz-and-the-get_-prefix"
+typepad_status: "Publish"
+---
+
+<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+
+<p>Here are some recent topics of interest that came up in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> and elsewhere:</p>
+
+<ul>
+<li><a href="#2">Switch metric + imperial units</a></li>
+<li><a href="#3">What is UV?</a></li>
+<li><a href="#4">What is fuzz?</a></li>
+<li><a href="#5">What is get_Parameter and get_Geometry?</a></li>
+<li><a href="#6">Default localised workset names</a></li>
+<li><a href="#7">Bing chat Python and Dynamo tutor</a></li>
+<li><a href="#8">Claude on Slack summarises and answers questions</a></li>
+<li><a href="#9">Sparks of artificial general intelligence</a></li>
+</ul>
+
+<h4><a name="2"></a> Switch Metric + Imperial Units</h4>
+
+<p>The Revit Idea Station wish list entry
+to <a href="https://forums.autodesk.com/t5/revit-ideas/change-project-units-between-imperial-and-metric-with-one-button/idc-p/11852849">change project units between imperial and metric with one button click</a> has
+already been addressed by providing 
+the <a href="https://github.com/jeremytammik/UnitMigration">UnitMigration add-in solution and source code</a>.
+However, since some people lack the possibility to compile it, I shared updated compiled .NET assemblies
+for <a href="https://github.com/jeremytammik/UnitMigration/releases/tag/2021.0.0.1">Revit 2021</a>
+and <a href="https://github.com/jeremytammik/UnitMigration/releases/tag/2023.0.0.1">Revit 2023</a> that
+can be downloaded and installed right out of the box.</p>
+
+<h4><a name="3"></a> What is UV?</h4>
+
+<p>Angelo Mastroberardino <a href="https://thebuildingcoder.typepad.com/blog/2014/09/planes-projections-and-picking-points.html#comment-6144595024">commented</a>
+on <a href="https://thebuildingcoder.typepad.com/blog/2014/09/planes-projections-and-picking-points.html">Planes, Projections and Picking Points</a> and
+the <a href="https://www.revitapidocs.com/2021.1/77ca18ef-783e-9db5-a37a-2d76f637d1a1.htm">revitapidocs <code>ComputeDerivatives</code> method</a> asking:</p>
+
+<p><strong>Question:</strong> What is the point <code>UV</code>?
+What is its reference frame and origin?
+Are these <code>UV</code> the same (x,y) coordinates of any <code>XYZ</code> points of the <code>Face.EdgeLoops</code> without the z-coordinate?</p>
+
+<p><strong>Answer:</strong> The best place to start understanding UV coordinates is Scott Conover's 2010 AU class
+on <a href="https://thebuildingcoder.typepad.com/blog/2010/01/analyse-building-geometry.html">Analysing Building Geometry</a>,
+spread out over ten or so blog posts.</p>
+
+<p>Read that and all will be clear.
+Drilling down into further detail and practical application, here is an article explaining
+the <a href="https://thebuildingcoder.typepad.com/blog/2011/03/converting-between-2d-uv-and-3d-xyz-coordinates.html">relationship between 2D UV and 3D XYZ coordinates</a>.</p>
+
+<p>To round off, here is a nice debugging explanation showing how you
+can <a href="https://thebuildingcoder.typepad.com/blog/2020/12/dynamo-book-and-texture-bitmap-uv-coordinates.html#2">use AVF to document and label the UV coordinates</a>.</p>
+
+<h4><a name="4"></a> What is Fuzz?</h4>
+
+<p>Confusion around comparison of floating point values persists, and came up again in the question
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/analytical-node-vs-analytical-member-coordinate-accuracy-issue/m-p/11848971">analytical node vs analytical member coordinate accuracy</a>:</p>
+
+<p><strong>Question:</strong> I came across a puzzling inconsistency with the new Analytical Members vs Analytical Nodes.
+It seems that somewhere in the guts of Revit, the geometry curve end point coordinates that get reported get mysteriously rounded, but the <code>ReferencePoint</code> coordinates do not.
+In my case, the AnalyticalNode ReferencePoint X Coordinate is 100.000002115674, but the AnalyticalMember Line.EndPoint(0) sees it's X coordinate as 100.000000000.
+I'm no expert, but that seems bad to me; even though it's very small numbers, any operation looking for A==B is not going to have any success unless someone knew ahead of time that they needed to go on and round down to 5 decimal places before doing a comparison.</p>
+
+<p><strong>Answer:</strong> Yes.
+In fact, anyone experienced in the comparison of real floating-point numbers does already know that you <a href="https://duckduckgo.com/?q=comparing+floating+point+number">need to perform some rounding operation when comparing any and all such numbers on a digital computer</a>.
+That is standard.
+The Building Coder quite regularly repeats the <a href="https://www.google.com/search?q=fuzz&amp;as_sitesearch=thebuildingcoder.typepad.com">need for fuzz</a>.</p>
+
+<p>In the case of Revit, matters are even worse than in some other areas, since the Revit database represents property values and dimensions such as length using <code>float</code> instead of <code>double</code>.
+Hence, the need to <a href="https://thebuildingcoder.typepad.com/blog/2009/07/think-big-in-revit.html">think big in Revit</a> and ignore every deviation below a certain (quite large) tolerance as irrelevant to the BIM, any "length below about 0.004 feet, i.e. ca. 0.05 inches or 1.2 millimetres".</p>
+
+<p>Personally, when I retrieve vertex or coordinate data from Revit, I simply round it to the closest millimetre while retrieving it. I add every vertex or coordinate data item as a key to a dictionary. Every new item is looked up in the dictionary and considered equal to the existing item if it lies within a millimetre of it.</p>
+
+<p>So, in my case, A==B if A-B is smaller than 1 mm.</p>
+
+<h4><a name="5"></a> What is get_Parameter and get_Geometry?</h4>
+
+<p>For a final FAQ reiteration, we address
+<a href="https://forums.autodesk.com/t5/revit-api-forum/whats-the-deal-with-get-parameter-insert-seinfeld-bassline-here/m-p/11845778">what's the deal with <code>get_Parameter</code></a>:</p>
+
+<p><strong>Question:</strong> This is more of a request for a history lesson here about the Revit API, but what's the deal with the method <code>get_Parameter</code>?
+I've seen it used in past forum posts for use in Revit versions before 2022, but I don't see any references to it in the <a href="https://www.revitapidocs.com/">revitapidocs</a>.
+Does anyone know where it stems from (the API, another API, the enchanted jungle of BIM?) and if still a valid method to use today in lieu of the <code>GetParameter</code> method (seems far easier to just use <code>get_Parameter</code> with a GUID vs <code>GetParameter</code>.</p>
+
+<p><strong>Answer:</strong> The <a href="https://www.revitapidocs.com/2023/9c22c68a-8fd5-850e-9aa8-cf7298ceebd0.htm"><code>GetParameter</code> method</a> is
+only available in the family definition environment, working with an RFA.
+The <code>get_</code> prefix is automatically generated by .NET to enable a C# client to pass in arguments to a property call, making the <a href="https://www.revitapidocs.com/2023/a742d71a-b415-9e99-2978-abd3b5bae7f2.htm"><code>Element.Parameter</code> property</a> with its various overloads taking a GUID, a parameter id or a parameter definition look like a method instead of a property.</p>
+
+<p>In C#, the same prefix is also added to the <a href="https://www.revitapidocs.com/2023/d8a55a5b-2a69-d5ab-3e1f-6cf1ee43c8ec.htm"><code>Geometry</code> property</a>, as explained by Maxim <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/4552025">architect.bim</a> Stepannikov
+in <a href="https://forums.autodesk.com/t5/revit-api-forum/importinstance-geometry-vs-get-geometry/m-p/11720577">ImportInstance Geometry vs get_Geometry</a>:</p>
+
+<p><strong>Question:</strong> I am working thru some sample code to get the geometry from an AutoCAD import instance and I have a question about the <code>get_Geometry</code> call.
+My understanding is that the code gets an <code>ImportInstance</code> element and then calls <code>get_Geometry</code> to get the geometry.
+However, when I look at the Revit API docs for this object, I see only a <code>Geometry</code> property, not a <code>get_Geometry</code> property or method.
+Shouldn't the code call the <code>Geometry</code> property, since that is what the API says is available?
+What am I missing?</p>
+
+<p>Also, when I am working in the Revit Python Shell app, the autocomplete shows that the <code>Geometry</code> property is available for use, but not <code>get_Geometry</code>.
+If I try to use the <code>Geometry</code> property, I get an error, but if I try <code>get_Geometry</code>, things work.
+So, why is <code>get_Geometry</code> not listed?
+And why does <code>Geometry</code> return an error, <i>TypeError: indexer# is not callable</i>?</p>
+
+<p><strong>Answer:</strong> I you look into the documentation, you can see that <code>Geometry</code> is actually
+an <a href="https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/indexers/">indexer</a>.
+To get its value, you need to specify the index in square brackets:</p>
+
+<pre class="prettyprint">
+# Python sample
+geometry = import.Geometry[Options()]
+</pre>
+
+<p>But also any property, including the indexer, can be replaced by a method with a <code>get</code> prefix.
+In this case, the value is passed in parentheses, not square brackets.
+This is not mentioned in the Revit API documentation, as it is the basic syntax of IronPython and C# languages:</p>
+
+<pre class="prettyprint">
+# Python sample
+geometry = import.get_Geometry(Options())
+</pre>
+
+<p><strong>Response:</strong> Thank you for the response and for including the link to Indexers.
+So, after reading the material on Indexers, I see that it is the word "this" (and maybe the square brackets) in the Revit API that indicates that ImportInstance.Geometry is an indexer.
+Since I don't know C# and barely remember the original C language, it was certainly something that flew over my head.</p>
+
+<pre class="prettyprint">
+public GeometryElement this[
+  Options options
+] { get; }
+</pre>
+
+<p>Is it correct to say, the statement <code>y = ImportInstance.Geometry[Options()]</code> returns a value based on the index presented by <code>Options()</code>?
+Put another way, if I had bucket of misc fruit with an indexer attached to it and wrote <code>y =  FruitBucket["apple"]</code>, the indexer would return an object associated with index of <code>"apple"</code> &ndash; that is, an <code>Apple</code> object?</p>
+
+<p>Also, if there is a <code>get_</code> prefix, would there also be a <code>set_</code> prefix in IronPython?</p>
+
+<p>Finally, would anyone know of a good book, or online link, that would discuss this <code>_get</code> prefix in more detail?</p>
+
+<p><strong>Answer:</strong> Here is a nice little booklet on the topic <a href="https://duckduckgo.com/?q=.net+get_+property+prefix">.net get_ property prefix</a> for you to print at your leisure... &nbsp; :-)</p>
+
+<h4><a name="6"></a> Default Localised Workset Names</h4>
+
+<p><a href="https://w7k.pl">Julian Wandzilak</a> raised a thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/doc-enableworksharing-amp-language-versions/m-p/11845252">doc.EnableWorksharing &amp; language versions</a> asking
+for all the different language-specific default names of the two predefined default worksets.
+Unfortunately, these are not provided by the Revit API, so he went ahead and implemented his own, which I also added
+to <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder samples</a>:</p>
+
+<div style="border: #000080 1px solid; color: #000; font-family: 'Cascadia Mono', Consolas, 'Courier New', Courier, Monospace; font-size: 10pt">
+<div style="background: #f3f3f3; color: #000000; max-height: 300px; overflow: auto">
+<ol start="2147" style="background: #ffffff; margin: 0; padding: 0;">
+<li><span style="color:#808080">///</span><span style="color:#008000"> </span><span style="color:#808080">&lt;summary&gt;</span></li>
+<li style="background: #f3f3f3"><span style="color:#808080">///</span><span style="color:#008000"> Return default workset names </span></li>
+<li><span style="color:#808080">///</span><span style="color:#008000"> for all languages supported by Revit</span></li>
+<li style="background: #f3f3f3"><span style="color:#808080">///</span><span style="color:#008000"> </span><span style="color:#808080">&lt;/summary&gt;</span></li>
+<li><span style="color:#808080">///</span><span style="color:#008000"> </span><span style="color:#808080">&lt;param</span> <span style="color:#808080">name=&quot;</span>sLanguage<span style="color:#808080">&quot;&gt;</span><span style="color:#008000">`app.Language.ToString()`</span><span style="color:#808080">&lt;/param&gt;</span></li>
+<li style="background: #f3f3f3"><span style="color:#808080">///</span><span style="color:#008000"> </span><span style="color:#808080">&lt;returns&gt;</span><span style="color:#008000">`false` if no valid language input argument provided, else `true`</span><span style="color:#808080">&lt;/returns&gt;</span></li>
+<li><span style="color:#0000ff">bool</span> GetDefaultWorksetNames(</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160; <span style="color:#0000ff">string</span> sLanguage, </li>
+<li>&#160;&#160;&#160; <span style="color:#0000ff">out</span> <span style="color:#0000ff">string</span> wsnLevelsAndGrids, </li>
+<li style="background: #f3f3f3">&#160;&#160;&#160; <span style="color:#0000ff">out</span> <span style="color:#0000ff">string</span> wsnWorkset1 )</li>
+<li>{</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160; wsnLevelsAndGrids = <span style="color:#0000ff">string</span>.Empty;</li>
+<li>&#160;&#160;&#160; wsnWorkset1 = <span style="color:#0000ff">string</span>.Empty;</li>
+<li style="background: #f3f3f3">&nbsp;</li>
+<li>&#160;&#160;&#160; <span style="color:#0000ff">switch</span> (sLanguage)</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160; {</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">case</span> <span style="color:#a31515">&quot;Unknown&quot;</span>:</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnLevelsAndGrids = <span style="color:#a31515">&quot;Shared Levels and Grids&quot;</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnWorkset1 = <span style="color:#a31515">&quot;Workset1&quot;</span>;</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">break</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">case</span> <span style="color:#a31515">&quot;English_USA&quot;</span>:</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnLevelsAndGrids = <span style="color:#a31515">&quot;Shared Levels and Grids&quot;</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnWorkset1 = <span style="color:#a31515">&quot;Workset1&quot;</span>;</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">break</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">case</span> <span style="color:#a31515">&quot;German&quot;</span>:</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnLevelsAndGrids = <span style="color:#a31515">&quot;Gemeinsam genutzte Ebenen und Raster&quot;</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnWorkset1 = <span style="color:#a31515">&quot;Bearbeitungsbereich1&quot;</span>;</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">break</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">case</span> <span style="color:#a31515">&quot;Spanish&quot;</span>:</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnLevelsAndGrids = <span style="color:#a31515">&quot;Niveles y rejillas compartidos&quot;</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnWorkset1 = <span style="color:#a31515">&quot;Subproyecto1&quot;</span>;</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">break</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">case</span> <span style="color:#a31515">&quot;French&quot;</span>:</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnLevelsAndGrids = <span style="color:#a31515">&quot;Quadrillages et niveaux partagés&quot;</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnWorkset1 = <span style="color:#a31515">&quot;Sous-projet 1&quot;</span>;</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">break</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">case</span> <span style="color:#a31515">&quot;Italian&quot;</span>:</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnLevelsAndGrids = <span style="color:#a31515">&quot;Griglie e livelli condivisi&quot;</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnWorkset1 = <span style="color:#a31515">&quot;Workset1&quot;</span>;</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">break</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#008000">//case &quot;Dutch&quot;:</span></li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#008000">//&#160; wsnLevelsAndGrids = &quot;Shared Levels and Grids&quot;;</span></li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#008000">//&#160; wsnWorkset1 = &quot;Workset1&quot;;</span></li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#008000">//&#160; break;</span></li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">case</span> <span style="color:#a31515">&quot;Chinese_Simplified&quot;</span>:</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnLevelsAndGrids = <span style="color:#a31515">&quot;共享标高和轴网&quot;</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnWorkset1 = <span style="color:#a31515">&quot;工作集1&quot;</span>;</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">break</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">case</span> <span style="color:#a31515">&quot;Chinese_Traditional&quot;</span>:</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnLevelsAndGrids = <span style="color:#a31515">&quot;共用的樓層和網格&quot;</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnWorkset1 = <span style="color:#a31515">&quot;工作集 1&quot;</span>;</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">break</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">case</span> <span style="color:#a31515">&quot;Japanese&quot;</span>:</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnLevelsAndGrids = <span style="color:#a31515">&quot;共有レベルと通芯&quot;</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnWorkset1 = <span style="color:#a31515">&quot;ワークセット1&quot;</span>;</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">break</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">case</span> <span style="color:#a31515">&quot;Korean&quot;</span>:</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnLevelsAndGrids = <span style="color:#a31515">&quot;공유 레벨 및 그리드&quot;</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnWorkset1 = <span style="color:#a31515">&quot;작업세트1&quot;</span>;</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">break</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">case</span> <span style="color:#a31515">&quot;Russian&quot;</span>:</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnLevelsAndGrids = <span style="color:#a31515">&quot;Общие уровни и сетки&quot;</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnWorkset1 = <span style="color:#a31515">&quot;Рабочий набор 1&quot;</span>;</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">break</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">case</span> <span style="color:#a31515">&quot;Czech&quot;</span>:</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnLevelsAndGrids = <span style="color:#a31515">&quot;Sdílená podlaží a osnovy&quot;</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnWorkset1 = <span style="color:#a31515">&quot;Pracovní sada1&quot;</span>;</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">break</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">case</span> <span style="color:#a31515">&quot;Polish&quot;</span>:</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnLevelsAndGrids = <span style="color:#a31515">&quot;Współdzielone poziomy i osie&quot;</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnWorkset1 = <span style="color:#a31515">&quot;Zadanie1&quot;</span>;</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">break</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#008000">//case &quot;Hungarian&quot;:</span></li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#008000">//&#160; wsnLevelsAndGrids = &quot;Shared Levels and Grids&quot;;</span></li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#008000">//&#160; wsnWorkset1 = &quot;Workset1&quot;;</span></li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#008000">//&#160; break;</span></li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">case</span> <span style="color:#a31515">&quot;Brazilian_Portuguese&quot;</span>:</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnLevelsAndGrids = <span style="color:#a31515">&quot;Níveis e eixos compartilhados&quot;</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnWorkset1 = <span style="color:#a31515">&quot;Workset1&quot;</span>;</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">break</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">case</span> <span style="color:#a31515">&quot;English_GB&quot;</span>:</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnLevelsAndGrids = <span style="color:#a31515">&quot;Shared Levels and Grids&quot;</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnWorkset1 = <span style="color:#a31515">&quot;Workset1&quot;</span>;</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">break</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">default</span>:</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnLevelsAndGrids = <span style="color:#a31515">&quot;Shared Levels and Grids&quot;</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; wsnWorkset1 = <span style="color:#a31515">&quot;Workset1&quot;</span>;</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">break</span>;</li>
+<li>&#160;&#160;&#160; }</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160; <span style="color:#0000ff">return</span> 0 &lt; wsnLevelsAndGrids.Length;</li>
+<li>}</li>
+</ol>
+</div>
+</div>
+
+<p>Additional comments on this by Julian: I decided to implement a default language checker returns names for the two default worksets.
+It was a rather tedious job, so please find it above.
+I haven't double-checked all of them, so please report if something is wrong.
+There are some interesting findings in it.</p>
+
+<p>There is an "Unknown type" &ndash; I didn't know if I should add it (default in a switch would cover it).
+In the end, I left it in the code.
+What should we do to get this type from Revit API?</p>
+
+<p>We have two language types in the Revit API, Hungarian and Dutch, that are not listed in
+the <a href="https://help.autodesk.com/view/RVT/2023/ENU/?guid=GUID-BD09C1B4-5520-475D-BE7E-773642EEBD6C">language help</a>.
+I assume that those language versions are being developed, so, for now, I commented them out in the code.</p>
+
+<p>Also, it is interesting that some translators decided to keep <code>Workset1</code> as default &ndash; we have it not only in English, but also in Italian and Brazilian Portuguese.
+I like this approach because, in my opinion,  the Polish translation <code>Zadanie1</code> is rather bad and confusing; it means something closer to "task".
+Because of that, I have seen some projects where worksets were named "Tasks of Adam", "Tasks of Kate", etc.</p>
+
+<p>The other interesting thing is lack of consistency regarding the number <code>1</code>.
+In most languages, there is no extra space between <code>Workset</code> and <code>1</code>, but in Russian, French and traditional Chinese there is.
+Chinese is double interesting, because in simplified Chinese, we don't have the empty space.</p>
+
+<p>It made me wonder about how Revit is treating languages &ndash; I knew before that if for example you load a family (with family types in text file) from different language libraries you will get an error (because of a translation of default parameters like height/width/ length).
+But you can open a project in a correct language, then load families into project and after opening again in your previous language you will be fine most of the time.</p>
+
+<p>Is it possible to get parameter name in a currently used language?
+That would be super useful for translations etc.</p>
+
+<p>Also, I started to look around and decided to test the levels &ndash; I was slightly disappointed to learn that <code>Level.Create(doc, elevation)</code> adds a level with a name similar to the last created or last renamed (whatever happened last).</p>
+
+<p>It works this way even if you decide to delete all the levels in a project &ndash; it is not easy, but I managed to delete them manually.
+After doing it, you might get into a problem of creating new levels.
+And here it starts to be interesting.
+If you add a level using Revit API, Revit still keeps the same way of naming the levels &ndash; for example, you will get <code>Level 3</code> (after deleting Level 1 and 2).
+But if you go to View/plan views/ you will get a pop-out which gives you a default Level 0 / Poziom 0 (I tested it also in Polish).</p>
+
+<p>That would mean that Revit saves somewhere the name of the next level to create, and at the same time somewhere keeps the default level values.
+Enough nerding for today.</p>
+
+<p>Many thanks to Julian for taking on this laborious task and sharing his interesting thoughts and results!</p>
+
+<h4><a name="7"></a> Bing Chat Python and Dynamo Tutor</h4>
+
+<p>Looking at some recent AI and LLM developments, Eric Boehlke shares some of his interesting
+experiences <a href="https://revthat.com/programming-with-bing-chat-ai-as-helper">programming Python and Dynamo with Bing chat AI as helper</a>.</p>
+
+<h4><a name="8"></a> Claude on Slack Summarises and Answers Questions</h4>
+
+<p><a href="https://www.anthropic.com/index/claude-now-in-slack">Claude, now in Slack</a> is
+an app that can summarise threads, answer questions, and more, with a focus on reliability, albeit including a caveat...</p>
+
+<h4><a name="9"></a> Sparks of Artificial General Intelligence</h4>
+
+<p>My most interesting read last week was
+the 154-page (101 + appendix) paper by Microsoft Research
+presenting some fascinating capability assessments and discussing the open question of emergence:</p>
+
+<p><a href="https://arxiv.org/abs/2303.12712">Sparks of Artificial General Intelligence: Early experiments with GPT-4</a></p>
+
+<blockquote>
+  <p>Artificial intelligence (AI) researchers have been developing and refining large language models (LLMs) that exhibit remarkable capabilities across a variety of domains and tasks, challenging our understanding of learning and cognition.
+  The latest model developed by OpenAI, GPT-4, was trained using an unprecedented scale of compute and data.
+  In this paper, we report on our investigation of an early version of GPT-4, when it was still in active development by OpenAI.
+  We contend that (this early version of) GPT-4 is part of a new cohort of LLMs (along with ChatGPT and Google's PaLM for example) that exhibit more general intelligence than previous AI models.
+  We discuss the rising capabilities and implications of these models.
+  We demonstrate that, beyond its mastery of language, GPT-4 can solve novel and difficult tasks that span mathematics, coding, vision, medicine, law, psychology and more, without needing any special prompting.
+  Moreover, in all of these tasks, GPT-4's performance is strikingly close to human-level performance, and often vastly surpasses prior models such as ChatGPT.
+  Given the breadth and depth of GPT-4's capabilities, we believe that it could reasonably be viewed as an early (yet still incomplete) version of an artificial general intelligence (AGI) system.
+  In our exploration of GPT-4, we put special emphasis on discovering its limitations, and we discuss the challenges ahead for advancing towards deeper and more comprehensive versions of AGI, including the possible need for pursuing a new paradigm that moves beyond next-word prediction.
+  We conclude with reflections on societal influences of the recent technological leap and future research directions.</p>
+</blockquote>
+
+<p>One aspect that especially caught my attention was the topic
+of <a href="https://en.wikipedia.org/wiki/Emergence">emergence</a> that
+is currently being observed (surprisingly) in the LLMs:</p>
+
+<blockquote>
+  <p>emergence occurs when an entity is observed to have properties its parts do not have on their own, properties or behaviours that emerge only when the parts interact in a wider whole.</p>
+</blockquote>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302b751796905200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302b751796905200b img-responsive" style="width: 420px; display: block; margin-left: auto; margin-right: auto;" alt="Emergence in snowflakes" title="Emergence in snowflakes" src="/assets/image_72a424.jpg" /></a><br /></p>
+
+<p></center></p>

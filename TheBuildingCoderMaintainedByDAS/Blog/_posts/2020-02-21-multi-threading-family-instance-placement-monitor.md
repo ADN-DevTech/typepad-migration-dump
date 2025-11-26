@@ -1,0 +1,222 @@
+---
+layout: "post"
+title: "Multi-Threading Family Instance Placement Monitor"
+date: "2020-02-21 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "Algorithm"
+  - "Events"
+  - "External"
+  - "Modeless"
+  - "Selection"
+  - "User Interface"
+  - "Utilities"
+original_url: "https://thebuildingcoder.typepad.com/blog/2020/02/multi-threading-family-instance-placement-monitor.html "
+typepad_basename: "multi-threading-family-instance-placement-monitor"
+typepad_status: "Publish"
+---
+
+<p>In the last post, I mentioned
+some <a href="https://thebuildingcoder.typepad.com/blog/2020/02/lat-long-to-metres-and-duplicate-legend-component.html#4">undocumented UIFrameworkService utility methods</a>
+pointed out by Kennan Chen of Shanghai in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/get-notified-when-a-family-type-is-about-to-place/m-p/9327282">getting notified when a family type is about to be placed</a>.</p>
+
+<p>He made use of them to implement a family instance placement monitor that could not be achieved using the pure documented Revit API alone.</p>
+
+<p>After the initial publication, he perfected it by elegantly combining the Revit API with additional .NET timer and multi-threading functionality in a novel fashion seldom seen in a Revit add-in.</p>
+
+<p>Let's return to the original question and start fresh from there:</p>
+
+<p><strong>Question:</strong> Is there an event which can notify when Revit is about to place a family type?</p>
+
+<p>There are events like <code>Application</code> <code>FamilyLoadedIntoDocument</code> and <code>FamilyLoadingIntoDocument</code>.</p>
+
+<p>Is it possible to have another event <code>FamilyTypePlacingIntoDocument</code> for this?</p>
+
+<p>Or is there a workaround?</p>
+
+<p><strong>Answer:</strong> As recently discussed, you
+can <a href="https://thebuildingcoder.typepad.com/blog/2020/01/torsion-tools-command-event-and-info-in-da4r.html#3">use the DocumentChanged event to detect the launching of a command</a>.</p>
+
+<p><strong>Response:</strong> It works great to catch the placing FamilyType event triggered by placing type directly from Revit UI.</p>
+
+<p>After hours of struggle to improve
+the <a href="https://thebuildingcoder.typepad.com/blog/2020/02/lat-long-to-metres-and-duplicate-legend-component.html#4">initial solution</a>,
+I finally completed this by simply using a <code>Timer</code> to constantly check the currently placing type until the UI refreshes and the API call returns correctly.
+It may not be the best solution, but at least it works.</p>
+
+<p>I wrapped the logic up in the following class to make it easier.
+Hope this can be helpful.
+Pay more attention to the potential multi-thread risk and UI performance impact if someone wants to use the code.</p>
+
+<p>It is my pleasure to share this to people who are in need.</p>
+
+<p>As a Chinese, I'm not quite good at explaining things in English. I'll try my best to be accurate &nbsp; :-)</p>
+
+<p>I'll ignore the part how to get notified about a family symbol placing event.</p>
+
+<p>Once the placing event is caught, the next job is to get the placing family symbol.</p>
+
+<p>The core method is the <code>UIFrameworkServices</code> <code>TypeSelectorService</code> <code>getCurrentTypeId</code> method from UIFrameworkServices.dll. This DLL ships with Revit, and can be easily found in the Revit root folder.</p>
+
+<p>I believe this method is designed for the Revit UI framework to get data for the Properties panel, since every time this method is invoked, the returned value is always the element id of the <code>ElementType</code> that is currently displayed in the Properties panel.</p>
+
+<p>The biggest problem is, when a family symbol is to be placed, by API call or by UI click, this method doesn't return correctly.
+I guess the state doesn't change before Revit really enters placing mode.
+But when Revit enters placing mode, no code can be run since the command loop in Revit is stuck.
+That's frustrating!</p>
+
+<p>Luckily, another loop is still running: the message loop in every Windows UI application running in STA mode.
+In WPF, the message loop is started by Dispatcher in the main UI thread.
+UI updates must be queued by the dispatcher to be executed in the main UI thread synchronously.
+That's exactly the same mechanism adopted by Revit known as <code>ExternalEvent</code>.
+In the <code>FamilyPlacingMonitorService</code> class, the <code>DispatcherInvoke</code> method tests whether the execution is currently in main UI thread.
+If not, it queues the delegate method to the UI thread.</p>
+
+<p>To run code after Revit entering placing mode, a <code>Timer</code> is created ahead of time to constantly try to resolve the currently placing symbol.
+But the Timer doesn't run code in the UI thread, which means it's not safe to call the Revit API.
+The trick is to queue the Timer callback to the main UI thread using Dispatcher.</p>
+
+<p>Every UI object (DispatcherObject specifically) holds a reference to the Dispatcher instance; it's easy to get that instance from the Ribbon object (Autodesk.Windows.ComponentManager.Ribbon).</p>
+
+<p>I added some comments to the code to explain it more clearly:</p>
+
+<pre class="code">
+<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">FamilyPlacingMonitorService</span>
+{
+&nbsp;&nbsp;<span style="color:gray;">#region</span>&nbsp;Constructors
+
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;FamilyPlacingMonitorService(&nbsp;<span style="color:#2b91af;">Application</span>&nbsp;app&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;app.DocumentChanged&nbsp;+=&nbsp;App_DocumentChanged;
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:gray;">#endregion</span>
+
+&nbsp;&nbsp;<span style="color:gray;">#region</span>&nbsp;Others
+
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">event</span>&nbsp;<span style="color:#2b91af;">EventHandler</span>&lt;<span style="color:#2b91af;">FamilySymbol</span>&gt;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;FamilySymbolPlacingIntoDocument;
+
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">void</span>&nbsp;App_DocumentChanged(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">object</span>&nbsp;sender,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;DocumentChangedEventArgs&nbsp;e&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;transactionName&nbsp;=&nbsp;e.GetTransactionNames()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.FirstOrDefault();
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;transactionName&nbsp;==&nbsp;<span style="color:#a31515;">&quot;Modify&nbsp;element&nbsp;attributes&quot;</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;treat&nbsp;transactions&nbsp;with&nbsp;the&nbsp;name&nbsp;&quot;Modify&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;element&nbsp;attributes&quot;&nbsp;as&nbsp;element&nbsp;placing</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;maybe&nbsp;not&nbsp;accurate,&nbsp;but&nbsp;enough&nbsp;to&nbsp;cover&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;most&nbsp;scenes</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;document&nbsp;=&nbsp;e.GetDocument();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;try&nbsp;to&nbsp;get&nbsp;the&nbsp;current&nbsp;placing&nbsp;family&nbsp;symbol</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;ResolveCurrentlyPlacingFamilySymbol(&nbsp;document&nbsp;)&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">is</span>&nbsp;<span style="color:#2b91af;">FamilySymbol</span>&nbsp;familySymbol&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;got&nbsp;ya,&nbsp;notify&nbsp;via&nbsp;event</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OnFamilySymbolPlacingIntoDocument(&nbsp;familySymbol&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">else</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;current&nbsp;type&nbsp;doesn&#39;t&nbsp;refreshed,&nbsp;create&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;a&nbsp;Timer&nbsp;to&nbsp;constantly&nbsp;try</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Timer&nbsp;timer&nbsp;=&nbsp;<span style="color:blue;">null</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;only&nbsp;queue&nbsp;one&nbsp;resolving&nbsp;logic&nbsp;to&nbsp;the&nbsp;main&nbsp;thread</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;checking&nbsp;=&nbsp;<span style="color:blue;">false</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;timer&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;Timer(&nbsp;s&nbsp;=&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;!checking&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;checking&nbsp;=&nbsp;<span style="color:blue;">true</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;try&nbsp;to&nbsp;queue&nbsp;the&nbsp;resolving&nbsp;logic&nbsp;to&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;main&nbsp;thread&nbsp;to&nbsp;avoid&nbsp;multi-thread&nbsp;risk</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DispatcherInvoke(&nbsp;()&nbsp;=&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;ResolveCurrentlyPlacingFamilySymbol(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document&nbsp;)&nbsp;<span style="color:blue;">is</span>&nbsp;<span style="color:#2b91af;">FamilySymbol</span>&nbsp;symbol&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;got&nbsp;ya,&nbsp;notify&nbsp;via&nbsp;event</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OnFamilySymbolPlacingIntoDocument(&nbsp;symbol&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;release&nbsp;the&nbsp;timer</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;timer?.Change(&nbsp;0,&nbsp;Timeout.Infinite&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;timer?.Dispose();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">else</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;checking&nbsp;=&nbsp;<span style="color:blue;">false</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},&nbsp;<span style="color:blue;">null</span>,&nbsp;0,&nbsp;100&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">void</span>&nbsp;DispatcherInvoke(&nbsp;<span style="color:#2b91af;">Action</span>&nbsp;action&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;ComponentManager.Ribbon.Dispatcher?
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.CheckAccess()&nbsp;??&nbsp;<span style="color:blue;">false</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;currently&nbsp;on&nbsp;main&nbsp;thread,&nbsp;execute&nbsp;directly</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action?.Invoke();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">else</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;not&nbsp;on&nbsp;main&nbsp;thread,&nbsp;queue&nbsp;the&nbsp;delegate&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;to&nbsp;main&nbsp;ui&nbsp;thread</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ComponentManager.Ribbon.Dispatcher?
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Invoke(&nbsp;action&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">void</span>&nbsp;OnFamilySymbolPlacingIntoDocument(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">FamilySymbol</span>&nbsp;symbol&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;FamilySymbolPlacingIntoDocument?.Invoke(&nbsp;<span style="color:blue;">this</span>,&nbsp;symbol&nbsp;);
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:#2b91af;">FamilySymbol</span>&nbsp;ResolveCurrentlyPlacingFamilySymbol(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;document&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;id&nbsp;=&nbsp;TypeSelectorService.getCurrentTypeId();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;id&nbsp;&gt;&nbsp;0&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;document.GetElement(&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ElementId</span>(&nbsp;id&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">is</span>&nbsp;<span style="color:#2b91af;">FamilySymbol</span>&nbsp;symbol&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;symbol;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">null</span>;
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:gray;">#endregion</span>
+}
+</pre>
+
+<p>Very great thanks to Kennan Chen for this extremely knowledgeable, clear and illuminating explanation and elegant juggling of the different threads and contexts!</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4e9d3df200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4e9d3df200d img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="Surveillance" title="Surveillance" src="/assets/image_c7ab37.jpg" /></a><br /></p>
+
+<p></center></p>

@@ -1,0 +1,247 @@
+comments:
+- author: Alexander Ignatovich
+  email: aignatovich@iv-com.ru
+  ip: 91.221.195.202
+  url: ''
+  date: '2015-05-10 03:08:00'
+  body: "Hi, Jeremy!\n\nI've found useful trick to Clone element geometry in Revit\
+    \ 2015. This is Iron Python script:\n\nfor wall in selection:\n\tt = Transaction(doc,\
+    \ \"temp\")\n\tt.Start()\n\tfor insId in wall.FindInserts(True, True, True, True):\n\
+    \t\tdoc.Delete(insId)\n\t\t\n\tdoc.Regenerate()\n\t\n\tfor s in wall.get_Geometry(Options()).GetTransformed(Transform.CreateTranslation(XYZ.Zero)):\n\
+    \t\tif s.GetType().Name == \"Solid\":\n\t\t\tprint s.IsElementGeometry, s.Volume\
+    \ # <= very strange, s.IsElementGeometry is \"true\"\n\t\t\tsolid = s\n\t\n\t\
+    t.RollBack()\n\t\n\tprint solid.Volume \n\t\nif you omit .GetTransformed(Transform.CreateTranslation(XYZ.Zero))\
+    \ it will fail on the last line"
+- author: Jeremy Tammik
+  email: ''
+  ip: 88.77.137.181
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-10 17:30:44'
+  body: 'Dear Alexander,
+
+
+    Wow, thank you for the very interesting hint!
+
+
+    Reminds me of the tricks to refresh graphics mentioned here:
+
+
+    http://thebuildingcoder.typepad.com/blog/2011/07/refresh-element-graphics-display.html
+
+
+    Unfortunately, all leading spaces are removed from the blog post text, so all
+    indentation is gone, making it hard to see where the Python blocks end. Can you
+    add points instead of spaces, or mark the end of each block somehow, or post it
+    in pastebin or something, please?
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Alexander Ignatovich
+  email: aignatovich@iv-com.ru
+  ip: 91.221.195.202
+  url: ''
+  date: '2015-05-13 02:24:20'
+  body: "Let's try (to test it just replace \"...\" to Tab symbol:\n\nfor wall in\
+    \ selection:\n...t = Transaction(doc, \"temp\")\n...t.Start()\n...for insId in\
+    \ wall.FindInserts(True, True, True, True):\n......doc.Delete(insId)\n\n...doc.Regenerate()\n\
+    \n...for s in wall.get_Geometry(Options()).GetTransformed(Transform.CreateTranslation(XYZ.Zero)):\n\
+    ......if s.GetType().Name == \"Solid\":\n.........print s.IsElementGeometry, s.Volume\
+    \ # <= very strange, s.IsElementGeometry is \"true\"\n.........solid = s\n\n...t.RollBack()\n\
+    \n...print solid.Volume\n\nI'm also interesting is it a bug, that s.IsElementGeometry\
+    \ is True after \ncalling GetTransformed method? It looks like detached from element\
+    \ geometry because it is available after transaction.RollBack?"
+- author: Jeremy Tammik
+  email: ''
+  ip: 80.135.199.180
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-13 12:58:42'
+  body: 'Dear Alexander,
+
+
+    Thank you, that clarifies.
+
+
+    Very interesting alternative!
+
+
+    The developer is currently using another approach:
+
+
+    I used the following steps to clone a solid in Revit 2015.
+
+
+    1. I obtained the largest face from the original solid.
+
+    2. Triangulate the largest face (public Mesh Triangulate())
+
+    3. I obtained a triangle whose edges are bigger than 0.0026 feet because Revit
+    API allows to create solids only with edges bigger than this value.
+
+    4. Using the triangle, I created a pyramid solid using the opposite vector Normal
+    of largest face.
+
+    5. Finally, I union the original solid with pyramid solid.
+
+
+    For now, it is working in the all cases that I tested. However, I could get some
+    issues using this workaround with more complex solids. If you have a better workaround,
+    please let me know.
+
+
+    Maybe suitable material for a follow-up post on cloning solids in Revit 2015...
+
+
+    Or have we all moved on to Revit 2016 already?
+
+
+    Cheers, Jeremy.'
+- author: Alexander Ignatovich
+  email: aignatovich@iv-com.ru
+  ip: 91.221.195.202
+  url: ''
+  date: '2015-05-14 01:28:31'
+  body: 'Dear Jeremy! I''ve tried this approach, but I have some problems with creating
+    3-sideded pyramid, so I replaced it with a small extrusion. It works in most cases,
+    but I''ve found a specific case, that fails. Can you ask the developer about creating
+    pyramid details? I am interesting in testing this approach, may be if I replace
+    extrusion with piramid it will work.
+
+
+    And yes, we still need to support Revit 2015...'
+- author: Lisa
+  email: Lisa.senauke@autodesk.com
+  ip: 99.75.95.81
+  url: ''
+  date: '2015-05-14 02:57:52'
+  body: The Web Fest was fantastic-full capacity, standing room only! Wish you had
+    been here!
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.114.43
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-14 03:04:09'
+  body: 'Dear Lisa,
+
+
+    Wow, fantastic!
+
+
+    I wish I could have joined.
+
+
+    Where can we read more about it?
+
+
+    Who won?
+
+
+    Cheers, Jeremy'
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.114.43
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-14 06:13:16'
+  body: 'Dear Alexander,
+
+
+    I don''t see why you should have any difficulty creating the pyramid.
+
+
+    Can''t you just do the following?
+
+
+    <ul>
+
+    <li>Triangulate a face.
+
+    <li>Pick an arbitrary mesh triangle.
+
+    <li>It has three vertex points.
+
+    <li>Determine its normal vector.
+
+    <li>Use the normal vector to calculate a fourth point on the inside of the solid.
+
+    <li>Create a tetrahedron between the four points.
+
+    </ul>
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.'
+- author: Alexander Ignatovich
+  email: aignatovich@iv-com.ru
+  ip: 91.221.195.202
+  url: ''
+  date: '2015-05-15 05:03:17'
+  body: 'Hi again, Jeremy!
+
+
+    After the battle with GeometryCreationUtilities.CreateSweptGeometry method, I''ve
+    realized my own implementation of this algorithm:
+
+    <a href="http://pastebin.com/vTkNjUuF">http://pastebin.com/vTkNjUuF</a>
+
+    and tried to test it in the project, downloaded from <a href="https://grabcad.com/library/manor-house-1">https://grabcad.com/library/manor-house-1</a>
+    (you can freely download this file after registration). Unfortunately, there are
+    a lot of cases, when it fails, first of all, there are a lot of cases, when you
+    get "Failed to perform the Boolean operation for the two solids" exception. The
+    other case is failing on GeometryCreationUtilities.CreateSweptGeometry. I suppose
+    it fails because there are less meaning digits in real number in Python, but I
+    don''t know exactly.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-18 03:43:24'
+  body: "Dear Alexander,\n\nI do not think Python has less meaningful digits in real\
+    \ numbers than C# or Revit.\n\nHere is Marcelo's implementation, in case you want\
+    \ to compare them (http://pastebin.com/rUi7gERi):\n\n<pre>\n  static private Solid\
+    \ GetJoinSolid(Solid solid)\n  {\n    Solid joinSolid = solid;\n    //Get the\
+    \ large face of the solid\n    Face largetsFace = solid.GetLargestFace();\n  \
+    \  if (largetsFace == null) { return joinSolid; }\n    // Get mesh\n    Mesh mesh\
+    \ = largetsFace.Triangulate();\n    if (mesh.NumTriangles == 0) { return joinSolid;\
+    \ }\n    List<XYZ> validTrianglePts = new List<XYZ>();\n    for (int i = 0; i\
+    \ < mesh.NumTriangles; i++)\n    {\n      MeshTriangle triangle = mesh.get_Triangle(i);\n\
+    \      XYZ vertex1 = triangle.get_Vertex(0);\n      XYZ vertex2 = triangle.get_Vertex(1);\n\
+    \      XYZ vertex3 = triangle.get_Vertex(2);\n      if (Math.Abs(vertex1.DistanceTo(vertex2))\
+    \ < 0.0026) { continue; }\n      if (Math.Abs(vertex2.DistanceTo(vertex3)) < 0.0026)\
+    \ { continue; }\n      if (Math.Abs(vertex3.DistanceTo(vertex1)) < 0.0026) { continue;\
+    \ }\n      validTrianglePts.Add(vertex1);\n      validTrianglePts.Add(vertex2);\n\
+    \      validTrianglePts.Add(vertex3);\n      break;\n    }\n    if (validTrianglePts.Count\
+    \ == 0) { return joinSolid; }\n\n    joinSolid = SolidUtils.SolidCreator.NewPyramid(\n\
+    \      validTrianglePts, -largetsFace.GetFaceNormal(), 0.1);\n    return joinSolid;\n\
+    \  }\n\n  //Return faces to create the pyramid solid\n  static public List<TessellatedFace>\
+    \ GetFacesForPyramid(\n    ElementId materialId,\n    List<XYZ> faceptsBottom,\n\
+    \    XYZ vecDir,\n    double height)\n  {\n    if (faceptsBottom == null) { return\
+    \ null; }\n    if (faceptsBottom.Count < 2) { return null; }\n    if (height ==\
+    \ 0) { return null; }\n\n    List<TessellatedFace> tFaces = new List<TessellatedFace>();\n\
+    \    tFaces.Add(new TessellatedFace(faceptsBottom, materialId));\n\n    XYZ ptAverage\
+    \ = faceptsBottom[0];\n    for (int i = 1; i < faceptsBottom.Count; i++)\n   \
+    \   ptAverage = ptAverage + faceptsBottom[i];\n    ptAverage = ptAverage / faceptsBottom.Count;\n\
+    \n    XYZ topPt = ptAverage + vecDir * height;\n    XYZ pt1 = faceptsBottom[0];\n\
+    \    for (int i = 1; i < faceptsBottom.Count; i++)\n    {\n      XYZ pt2 = faceptsBottom[i];\n\
+    \      List<XYZ> trianglePts = new List<XYZ>();\n      trianglePts.Add(pt1);\n\
+    \      trianglePts.Add(pt2);\n      trianglePts.Add(topPt);\n      tFaces.Add(new\
+    \ TessellatedFace(trianglePts, materialId));\n      pt1 = pt2;\n    }\n\n    List<XYZ>\
+    \ triangleEndPts = new List<XYZ>();\n    triangleEndPts.Add(faceptsBottom.Last());\n\
+    \    triangleEndPts.Add(faceptsBottom.First());\n    triangleEndPts.Add(topPt);\n\
+    \    tFaces.Add(new TessellatedFace(triangleEndPts, materialId));\n    return\
+    \ tFaces;\n  }\n</pre>\n\nHowever, this fails as well sometimes, he says.\n\n\
+    Cheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-19 02:40:50'
+  body: "Dear Alexander, \n\nThe fact that IsElementGeometry returns true is indeed\
+    \ strange, so I logged the issue <b>REVIT-67549</b> [IsElementGeometry returns\
+    \ true on non-element geometry] with our development team for this on your behalf\
+    \ as it requires further exploration and possibly a modification to our software.\
+    \ Please make a note of this number for future reference.\n\nCheers, Jeremy.\n\
+    -----"

@@ -1,0 +1,111 @@
+comments:
+- author: Ray Colins
+  email: ray_colins@hotmail.com
+  ip: 216.131.100.168
+  url: ''
+  date: '2010-12-21 11:55:27'
+  body: 'Hi Jeremy,
+
+    I urgently need your help, I managed to get my ACA 2011 working with VS 2010 Express
+    (thanks to your valuable posts), and started working on ACA.NET after watching
+    your 2 last web-casts. I am facing a problem with the Graph class when running
+    AecWallSystemSampleMgd (see code below)
+
+
+    Manager mgr = new Manager(db);
+
+    Graph theGraph = mgr.FindGraph(wall);
+
+
+    I am always getting null value for theGraph object, when I debug the mgr.GraphCount
+    is always 0.
+
+
+    I need the Joints,Sections and Connections to develop automatic details generation
+    of ICF system.
+
+
+    Any help in this regard will be highly appreciated and also if you have any resource
+    regarding ICF wall system in ACA would be very helpful'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2010-12-22 08:16:46'
+  body: "Dear Ray, \n\nCongratulations on getting it up and running in VS Express\
+    \ and thank you for the appreciation. I am glad that the posts were useful. \n\
+    \nI am sorry to say that I currently don't do that much with ACA, and I have no\
+    \ idea why your call might be returning null.\n\nI suggest that you log a query\
+    \ with ADN DevHelp Online, if you are a member, and otherwise try your luck on\
+    \ the other Autodesk and AUGI forums:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/10/revit-api-forums.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/10/revit-api-forums.html</a>\n\n\
+    Cheers, Jeremy."
+- author: Chuck Han
+  email: csh@stanfordalumni.org
+  ip: 207.47.37.202
+  url: ''
+  date: '2011-06-27 19:28:01'
+  body: 'Hi Jeremy,
+
+
+    The issue of intersecting walls is problematic.  The trick would be to insert
+    a pre-processing step to identify intersecting walls and split the secondary wall
+    (if it can be identified) into two walls--it makes sense to do so from a construction
+    standpoint although from a drafting standpoint, it makes things more cumbersome
+    since you now have to drag multiple walls instead of one when adjusting the design.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.145.185
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-29 06:14:04'
+  body: "Dear Chuck,\n\nYes, sounds feasible to me. Also, please note that in Revit\
+    \ 2012, you have the option to allow and disallow wall end joins. \n\n\"The new\
+    \ WallUtils class methods DisallowWallJoinAtEnd, AllowWallJoinAtEnd and IsWallJoinAllowedAtEnd\
+    \ provide access to the setting for whether or not joining is allowed at a particular\
+    \ end of the wall. If joins exist at the end of a wall and joins are disallowed,\
+    \ the walls will become disjoint. If joins are disallowed for the end of the wall,\
+    \ and then the setting is toggled to allow the joins, the wall will automatically\
+    \ join to its neighbors if there are any.\"\n\nCheers, Jeremy."
+- author: Chuck Han
+  email: csh@stanfordalumni.org
+  ip: 207.47.37.202
+  url: ''
+  date: '2011-07-26 12:32:17'
+  body: FYI, I've come across a couple of examples where walls are joined at a T,
+    if I select one of the walls, neighbors.count is 2 (if I delete the wall that
+    is reported as joined, neighbors.count is still 2, so the regenerated wall graph
+    thinks the remaining wall is joined to the selected wall).  Unfortunately, I can't
+    show you the file as it is proprietary :-(  Have you come across this situation?
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-07-27 19:12:49'
+  body: 'Dear Chuck,
+
+
+    The ElementsAtJoin method will only report neighbours at the end points of the
+    wall location curve; the Revit API help file states:
+
+
+    "Get all elements joining to the end of this element''s location curve or change
+    the order of elements participation in the end join with this location curve''s
+    end."
+
+
+    Therefore, if walls join in a T shape, the wall connecting at the midpoint will
+    never be reported by this method.
+
+
+    To detect neighbour walls which do not connect at the endpoint of the location
+    curve, you can use an intersection filter, e.g. as shown by the Geometry2012 sample
+    demonstrating the new Boolean operations available in the Revit 2012 API and presented
+    at the last DevDays conferences:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/04/devdays-2010-online-with-revit-2012-api-news.html#3">http://thebuildingcoder.typepad.com/blog/2011/04/devdays-2010-online-with-revit-2012-api-news.html#3</a>
+
+
+    Cheers, Jeremy.
+
+    -----'

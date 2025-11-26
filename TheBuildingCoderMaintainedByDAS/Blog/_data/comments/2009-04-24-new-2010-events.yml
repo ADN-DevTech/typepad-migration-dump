@@ -1,0 +1,506 @@
+comments:
+- author: Phillip Miller
+  email: phillip@caonline.co.nz
+  ip: 60.234.31.3
+  url: ''
+  date: '2009-05-04 05:32:28'
+  body: HI.  This was a great article.  I'm having trouble with the DocumentClosingEvent.  I'm
+    wanting to set Params of objects as Revit closes down the document.  I'm using
+    element.Parameter("Schedule").Set(nul) but the error is saying that Revit can't
+    do it out side of the transaction.  I have tried wrapping the command in a Transaction
+    but that fails as well.  I can however using the same code set Params on object
+    through the DocumentOPened event.  Any suggestions or can it even be done?
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-05-04 07:31:55'
+  body: 'Dear Phillip,
+
+
+    I''m very glad you liked it, thank you.
+
+
+    I have written an answer to your question as a draft for a blog post which I plan
+    to publish soon, and sent you a draft of the posting for review by mail.
+
+
+    Cheers, Jeremy.'
+- author: Shifali
+  email: shifali.a@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-10-30 05:47:41'
+  body: "Hi Jeremy,\n \n         We are developing a Revit Architecture 2010 plug-in.\
+    \ This plug in is basically for extracting the revit file information into the\
+    \ datatbase and generating reports from International Building Code Sections.\
+    \ We are stuck at many points as we are not getting help on any forum but when\
+    \ we checked your site, We feel that it is definitely going to help us. We have\
+    \ some queries. Can we post it on this site only?\n\n       positive response\
+    \ from your side will be helpful for us.\n\nThanks in advance,\nShifali"
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.117.227
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-10-30 06:24:42'
+  body: "Dear Shifali,\n\nGlad to hear you are working on a plug-in, and I wish you\
+    \ much fun and success with that.\n\nYou can post queries on this site, of course.\
+    \ The smaller and more specific they are, the larger are your chances of getting\
+    \ an answer. And of course it helps if they are related to an existing post. So\
+    \ far, I have been answering most of the comments ... I would love to see others\
+    \ joining in as well. On the other hand, there are a number of dedicated forums\
+    \ for discussing the Revit API with your peers. \n\nI just published an explanation\
+    \ on a few of those other places to go for information:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/10/revit-api-forums.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/10/revit-api-forums.html</a>\n\n\
+    Cheers, Jeremy."
+- author: Shifali
+  email: shifali.a@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-10-31 02:35:05'
+  body: "Thank you so much Jeremy..I am really happy to see your so quick and encouraging\
+    \ respone.\nNow onwards we will post our queries on your forums. \nI hope discussions\
+    \ with you will be a good learning for me and my team as well.\n\nOnce again I\
+    \ thank you.\nShifali"
+- author: shifali
+  email: shifali.a@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-11-05 04:13:12'
+  body: "Jeremy,\n\nWe get the document from ExternalCommandData object's Application\
+    \ as I have demonstrated in the demo code. We get the project information in document.\
+    \ we need to store the construction type of the current document/project file.\
+    \ Moreover, we get the Room elements of the document but we need to store the\
+    \ occupancy type of each room for applying the International Building Code for\
+    \ compliance reports of the project.\n\nDemo Code:\n\npublic IExternalCommand.Result\
+    \ Execute(ExternalCommandData commandData, ref string message, ElementSet elements)\n\
+    \        {\n            try\n            {\n                Autodesk.Revit.Application\
+    \ revitApp = commandData.Application;\n                Document  doc = revitApp.ActiveDocument;\n\
+    \                ElementIterator elementIterator = document.Elements;\n      \
+    \          Autodesk.Revit.Element elems = new Autodesk.Revit.Element();\n    \
+    \            elementIterator.Reset();\n                BOElementCollection ElementCollectionBO\
+    \  = new BOElementCollection();\n            while (elementIterator.MoveNext())\n\
+    \            {\n                object obj = elementIterator.Current;\n      \
+    \          elems = (Autodesk.Revit.Element)obj;\n                \n          \
+    \      Room tmpRoom = obj as Room;\n                if (null != tmpRoom)\n   \
+    \             {\n                    //how can I get the occupancy type of the\
+    \ current room element, i.e. \"tmpRoom\" \n                }\n            }\n\
+    \        }\n\nRegards,\nShifali"
+- author: shifali
+  email: shifali.a@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-11-05 04:21:21'
+  body: '----continued part of above query----
+
+
+    //for construction type of document, we tried as:
+
+
+    //it throws exception
+
+    doc.ProjectInformation.gbXMLSettings.BuildingConstruction
+
+
+    //it always shows kOffice until set by the creator of doc
+
+    doc.ProjectInformation.gbXMLSettings.BuildingType
+
+
+    Can you please recommend me some method to achieve these properties.
+
+
+    Thanks,
+
+    Shifali'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-06 07:17:52'
+  body: 'Dear Shifali,
+
+
+    Thank you for your interesting query. I think I''ll need some time to look at
+    this.
+
+
+    One important note on the side, if you are interested only in room elements, is
+    to use a filter to retrieve these. That will be much faster and more efficient
+    than using an element iterator over all elements.
+
+
+    Cheers, Jeremy.'
+- author: shifali
+  email: shifali.a@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-11-09 02:00:52'
+  body: "Dear Jeremy,\n\nThanks to you for your interest in our query.Jeremy,As you\
+    \ are saying to pick elements using filter instead of using element iterator.\
+    \ You mean we can get elements using BuilIn categories like \"BuiltInCategory.OST_Rooms\"\
+    \ etc.?\n   Actually, we need to extract all the elemenets of revitApplication\
+    \ active document, so our process is getting hanged up for 15-20 mins approx for\
+    \ large files. So,I guess we can try with filters of categories.\nCan you please\
+    \ guide us so that we can reduce this time..\n\nRegards,\nShifali"
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.73.150
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-09 03:14:35'
+  body: 'Dear Shifali,
+
+
+    We discussed element filtering and the tremendous speed improvement that can be
+    achieved using it in a number of posts. Here is the conclusion of the initial
+    discussion:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2008/10/filter-performance-conclusion.html">http://thebuildingcoder.typepad.com/blog/2008/10/filter-performance-conclusion.html</a>
+
+
+    Filters are used in many of the Building Coder samples as well. If you really
+    need absolutely all elements, then there is no filter that you can use, but I
+    cannot imagine any situation at all in which absolutely all elements would be
+    useful, since that would include all kinds of arcane internal stuff from Revit
+    that you cannot really make any sense or use of.
+
+
+    Cheers, Jeremy.'
+- author: shifali
+  email: shifali.a@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-11-09 03:44:49'
+  body: 'Hello Jeremy,
+
+
+    By All elements in my previous query did not mean that we are extracting all the
+    elements of active document.We are extracting most of the elements which are of
+    our use like Project Information, Levels,Doors,Door Tags Rooms,Walls,Furniture,Windows,Speciality
+    Equipment,Stairs, Ramps,Floors,Ceilings etc. Apart from these are Detail Items,Title
+    Blocks,Structural Framing,Entourage,Generic Models,Curtain Panels,Balusters.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-09 04:14:27'
+  body: "Dear Shifali,\n\nWell, in that case I would definitely recommend you use\
+    \ element filtering. You can use Boolean combinations of filters to access all\
+    \ of the elements you list. For example, look at \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/06/category-comparison-and-model-element-selection-revisited.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/06/category-comparison-and-model-element-selection-revisited.html</a>\n\
+    \nYou can add and remove categories and System.Type specifications to exactly\
+    \ fit your requirements. See also the Revit SDK ElementsFilter sample, which provides\
+    \ a user interface to interactively experiment to find the exact filter you need.\n\
+    \nCheers, Jeremy."
+- author: shifali
+  email: shifali.a@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-11-09 06:08:25'
+  body: 'Thank you Jeremy..
+
+    We will use Filters and built-In categories of revit api to extract the required
+    elements.
+
+
+    Regards,
+
+    Shifali'
+- author: shifali
+  email: shifali.a@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-11-10 04:15:12'
+  body: "Jeremy,\n\nWe are trying to get the ceiling element as following:\n\nAutodesk.Revit.Creation.Filter\
+    \ filterCreator = document.Application.Create.Filter;\n\nTypeFilter elementOnlyFilter\
+    \ = filterCreator.NewTypeFilter(typeof(Autodesk.Revit.Element), false);\n\nCategoryFilter\
+    \ ceilingsCategoryfilter = filterCreator.NewCategoryFilter(BuiltInCategory.OST_Ceilings);\n\
+    \nFilter ceilingsFilter = filterCreator.NewLogicAndFilter(elementOnlyFilter, ceilingsCategoryfilter);\n\
+    \nElementIterator ceilingsIterator = document.get_Elements(ceilingsFilter);\n\
+    ceilingsIterator.Reset();\n\nElementIterator elementIterator = document.Elements;\n\
+    \nAutodesk.Revit.Element tempCeilings = new Autodesk.Revit.Element();\n\nwhile\
+    \ (ceilingsIterator.MoveNext())\n            {\n                try\n        \
+    \        {\n                    object obj = elementIterator.Current;\n      \
+    \              tempCeilings = (Autodesk.Revit.Element)obj;\n                 \
+    \   if (tempCeilings is Autodesk.Revit.Element)\n                    {\n     \
+    \                   if (tempCeilings.Category != null)\n                     \
+    \   {\n                            if (tempCeilings.Category.Name.Equals(\"Ceilings\"\
+    ))\n                            {\n}\n}\n}\n}\n}\n\n\nBut, we are not getting\
+    \ the ceiling elements and same is happening for other elements like Electical\
+    \ Fixtures, Lighting Fixtures, Generic Models etc where in we are getting the\
+    \ Rooms,Levels,Doors,Stairs etc.\n\nPlease provide some solution"
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.102.166
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-10 05:58:43'
+  body: 'Dear Shifali,
+
+
+    You have two iterators above: ceilingsIterator and elementIterator. You seem to
+    be confusing yourself with these two. For instance, you are iterating over the
+    former using ceilingsIterator.MoveNext and accessing objects from the latter using
+    elementIterator.Current. How about eliminating the one that you do not need?
+
+
+    Furthermore, the elementOnlyFilter makes very little sense, because all elements
+    returned by any of the filters are always guaranteed to be Element instances,
+    so there is not much use adding an additional filter to ensure this.
+
+
+    I recommend that you find some friend or colleague to mutually review and discuss
+    each others'' code with from time to time. Maybe you can get in touch with someone
+    via AUGI?
+
+
+    Cheers, Jeremy.'
+- author: shifali
+  email: shifali.a@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-11-10 06:10:30'
+  body: "Hi Jeremy,\n\nThe above code contains error but the code on my machine is\
+    \ absolutly fine and still we do not extract any ceiling or speciality equipment\
+    \ elements etc. using filter. \n\nActually, the matter is that no one is open\
+    \ to discussions on revit forums and we dnt even get replies on any of the forums.\n\
+    \nKind Regards,\nShifali"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-10 07:41:37'
+  body: "Dear Shifali,\n\nI am very sorry to hear that you get no replies on the forums.\
+    \ I can see a lot of activity on some topics, though. \n\nIt is not much use if\
+    \ you ask questions on one version of your code and actually are working on a\
+    \ different version.\n\nAnd of course it is obviously important that you explore\
+    \ your issues in depth on your own before asking someone else to explore them\
+    \ for you.\n\nFor instance, to select all ceilings, you can easily follow the\
+    \ steps described in various posts on this blog to put together an effective filter\
+    \ to retrieve those.\n\nStart by looking at one of the very first posts,\n\n<a\
+    \ href=\"http://thebuildingcoder.typepad.com/blog/2008/09/selecting-all-w.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2008/09/selecting-all-w.html</a>\n\n\
+    Look at the Revit API help documentation to see that there is a dedicated class\
+    \ CeilingAndFloor to represent all ceiling and floor objects.\n\nCreate a sample\
+    \ model and examine the category and parameters to see how to differentiate between\
+    \ ceiling and floor elements.\n\nCreate a Boolean combination of filters as explained\
+    \ in many places in this blog.\n\nAs I already pointed out to you, the Revit SDK\
+    \ ElementsFilter sample provides a user interface to interactively experiment\
+    \ to find the exact filter you need. I do not have the impression that you paid\
+    \ any attention to that suggestion so far.\n\nI hope this helps and wish you good\
+    \ luck with your further research.\n\nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-11 05:25:34'
+  body: 'Dear Shifali,
+
+
+    I created a new post to answer your question:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/11/room-occupancy.html">http://thebuildingcoder.typepad.com/blog/2009/11/room-occupancy.html</a>
+
+
+    I hope this resolves the issue.
+
+
+    Cheers, Jeremy.'
+- author: shifali
+  email: shifali.a@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-11-13 07:52:16'
+  body: 'Dear Jeremy,
+
+
+    I went through your post for Room Occupancy type and Construction. I got your
+    solution for room occupancy. But for the construction, You have suggested to use
+    Revit MEP. We have Revit Architecture 2010 only and we dont have Revit MEP installed.
+    Moreover, our plug in is for Revit Architecture 2010 only. Can you please tell
+    us how we can find it for Revit Architecture 2010 using Revit API
+
+
+    Regards,
+
+    Shifali'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-16 02:56:45'
+  body: "Dear Shifali,\n\nI just tried accessing that data in RAC both through the\
+    \ project information and by directly reading the gbXMLParamElem element in RvtMgdDbg,\
+    \ and it crashes in both cases. I have not debugged RvtMgdbg to find out what\
+    \ exactly is causing the crash as described in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/08/fixing-rvtmgddbg-for-mep-connectors.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/08/fixing-rvtmgddbg-for-mep-connectors.html</a>\n\
+    \nNor have I tried to access the element myself using a simple element filter.\
+    \ I suggest you do that yourself and let us know what you find out. Thank you!\
+    \ \n\nCheers, Jeremy."
+- author: shifali
+  email: shifali.a@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-11-16 07:31:09'
+  body: 'Dear Jeremy,
+
+
+    I configured RvtMgdDbg for Revit Architecture 2010 version and debugged the commands
+    Snoop db, snoop Application etc. The gbxml settings threw exception as ''gbXml.BuildingConstruction
+    = ''gbXml.BuildingConstruction'' threw an exception of type ''System.NotSupportedException''
+    user is hown error message that ''This function is only enabled in MEP''.
+
+
+    Regards,
+
+    Shifali'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-16 08:02:24'
+  body: 'Dear Shifali,
+
+
+    Oh dear, that sounds as if there really is no way to access this information without
+    running the application in Revit MEP. Sorry for the bad news.
+
+
+    Cheers, Jeremy.'
+- author: shifali
+  email: shifali.a@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-11-16 23:01:33'
+  body: 'Thanks to you Jeremy.
+
+
+    Is there any other workaround for extracting this information through Revit API'
+- author: shifali
+  email: shifali.a@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-11-17 01:50:46'
+  body: "Hi jeremy,\n\n         I have one more confusion to discuss. I want to draw\
+    \ the lines in Revit active document based on levels, i.e. Level 1 will have lines\
+    \ with different co-ordinates and Level 2 will have different. Earlier, I was\
+    \ drawing lines as shown in below code example and labeling with some text note\
+    \ but now I want to draw the lines for all levels of document.\n\nMy code is as:\n\
+    \nXYZ startPoint = GetStartPoint();\nXYZ endPoint = GetEndPoint();\nXYZ sPoint=new\
+    \ XYZ();\nsPoint.X=startPoint.X;\nsPoint.Y=startPoint.Y;\n\nXYZ ePoint=new XYZ();\n\
+    ePoint.X=endPoint.X;\nePoint.Y=endPoint.Y;\n\nLine line = revitApp.Create.NewLineBound(sPoint,\
+    \ ePoint);\n\nAutodesk.Revit.Elements.Grid g = new Autodesk.Revit.Elements.Grid();\n\
+    \ng = revitApp.ActiveDocument.Create.NewGrid(line);\n\ng.GridType.get_Parameter(BuiltInParameter.LINE_COLOR).Set(00128064);\n\
+    \             \ng.GridType.get_Parameter(BuiltInParameter.LINE_PATTERN).Set(\"\
+    Solid\");\n\ng.GridType.get_Parameter(BuiltInParameter.GRID_BUBBLE_END_2).Set(0);\n\
+    \nstring strTxt = \"textNote\";    \n                        Autodesk.Revit.Enums.TextAlignFlags\
+    \ alignFlag = Autodesk.Revit.Enums.TextAlignFlags.TEF_ALIGN_CENTER;\n        \
+    \                    Autodesk.Revit.Elements.TextNote txtNote = new TextNote();\n\
+    \n XYZ ptOrig = new XYZ();\n XYZ ptBase = new XYZ();\n XYZ ptUp = new XYZ();\n\
+    \nptOrig.X = (sPoint.X + ePoint.X) / 2; \nptOrig.Y = (sPoint.Y + ePoint.Y) / 2;\n\
+    \nptBase.Y = ePoint.Y;                \nptBase.X = ePoint.X - 2;\nptUp.X = sPoint.X;\n\
+    ptUp.Y = sPoint.Y;\n\ntxtNote = revitApp.ActiveDocument.Create.NewTextNote(revitApp.ActiveDocument.ActiveView,\
+    \ ptOrig, ptBase, ptUp, 0.0, alignFlag, strTxtNote);\n                       \
+    \     txtNote.TextNoteType.get_Parameter(BuiltInParameter.TEXT_SIZE).Set(0.005);\n\
+    \n\nNote: \"revitApp\" is the externalcommand application\n\nThe above code example\
+    \ draws the lines of green color on the document,but these are visible in all\
+    \ levels. I want to show them to a particular level.\n\nHos is it possible? Please\
+    \ provide help.\n\nThanks for your genuine support."
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.76.200
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-17 06:41:54'
+  body: 'Dear Shifali,
+
+
+    I checked with the engineering team, and they say that there is no way to get
+    around this restriction. Sorry for the bad news.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.76.200
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-17 06:59:09'
+  body: 'Dear Shifali,
+
+
+    First of all I would strongly suggest that you discuss the possibility of joining
+    ADN with your local representative. The amount and quality of questions that you
+    are asking is a clear indication that you are working professionally with the
+    Revit API and could profit significantly from the benefits offered by ADN. Please
+    visit the following page and find out more:
+
+
+    <a href="http://www.autodesk.com/joinadn">http://www.autodesk.com/joinadn</a>
+
+
+    Secondly, why do you attach all that code with grids and text elements and stuff
+    if all you are interested in are the lines? As far as I understand your query,
+    the only relevant line is
+
+
+    Line line = revitApp.Create.NewLineBound(sPoint, ePoint);
+
+
+    All the rest is just confusing. Or am I misunderstanding your question?
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.76.200
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-17 07:12:29'
+  body: 'Dear Shifali,
+
+
+    You can use the method NewDetailCurve instead of NewModelCurve in order to display
+    the lines on individual levels instead of as part of the entire model.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-18 00:52:47'
+  body: 'Dear Shifali,
+
+
+    One more question on this: Are you able to access these setting in the Revit Architecture
+    user interface?
+
+
+    Cheers, Jeremy.'
+- author: 'Arjun '
+  email: arjun.y@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-11-25 02:13:41'
+  body: "Dear Jeremy,\n\nI really thank you for your generous support. \nI can not\
+    \ access this Construction type of project in user interface of Revit Architecture,but\
+    \ I can get the Building Type under Manage --> Project Information --> Energy\
+    \ Data option in UI. I can also access this building type in my C# program as:\n\
+    \nstring buildingType = application.ActiveDocument.ProjectInformation.gbXMLSettings.BuildingType;\n\
+    \nnote: where application is ExternalCommandData.Application\n\nBut I need construction\
+    \ type of project which I can not access in UI of Revit Architecture.\n\nRegards,\n\
+    Shifali"
+- author: Jeremy Tammik
+  email: ''
+  ip: 24.120.216.199
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-01 18:02:54'
+  body: 'Dear Shifali,
+
+
+    I am afraid that if you cannot access it through the RAC UI, there is no API access
+    to it either.
+
+
+    Cheers, Jeremy.
+
+    -----'

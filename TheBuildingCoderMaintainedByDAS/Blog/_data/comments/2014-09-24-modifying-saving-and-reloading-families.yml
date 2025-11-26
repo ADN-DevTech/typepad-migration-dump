@@ -1,0 +1,123 @@
+comments:
+- author: Jean-Marc Couffin
+  email: ''
+  ip: 192.168.200.225
+  url: http://profile.typepad.com/couffin
+  date: '2014-10-06 13:22:39'
+  body: "Hi, nice routine, I want to try it out, and I am a bit too new to coding\
+    \ to understand everything but the foolowing:\n\"You can use the GetParameters\
+    \ or LookupParameter method instead. You should obviously no longer use the obsolete\
+    \ get_Parameter method, if you can avoid it.\"\n\nwhen I get to build your solution\
+    \ in VS, I get the error: \"Error\t1\t'Autodesk.Revit.DB.TextNoteType' does not\
+    \ contain a definition for 'GetParameters' and no extension method 'GetParameters'\
+    \ accepting a first argument of type 'Autodesk.Revit.DB.TextNoteType' could be\
+    \ found (are you missing a using directive or an assembly reference?)\"\n\nif\
+    \ I missed a reference, could you point me where I should look at, please.\n\n\
+    I might try to use the routine to purge my families... I can't wait/\nthanks"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-10-06 13:44:21'
+  body: 'Dear Jean-Marc,
+
+
+    I have no idea how you managed to produce that error message.
+
+
+    The GetParameters method was introduced in Revit 2015, so it does not exist in
+    previous versions.
+
+
+    It looks to me as if you are referencing an earlier version of the Revit API assembly,
+    e.g. from Revit 2014.
+
+
+    Cheers, Jeremy.'
+- author: Jean-Marc Couffin
+  email: ''
+  ip: 192.168.200.225
+  url: http://profile.typepad.com/couffin
+  date: '2014-10-06 13:50:25'
+  body: "indeed/// \nis there a way to make it work in 2014?\nthks"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-10-06 14:11:22'
+  body: 'Dear Jean-Marc,
+
+
+    Sure.
+
+
+    In Revit 2014, you can use get_Parameter.
+
+
+    Cheers, Jeremy.'
+- author: Jean-Marc Couffin
+  email: ''
+  ip: 192.168.200.225
+  url: http://profile.typepad.com/couffin
+  date: '2014-10-06 14:22:31'
+  body: thank you Jeremy
+- author: Jean-Marc Couffin
+  email: jmcouffin@gmail.com
+  ip: 192.168.200.203
+  url: ''
+  date: '2014-10-17 13:56:20'
+  body: "Hi Jeremy, \n\nI got it to work in 2015. \nit takes a while to process, even\
+    \ on a OutOfTheBox template. but it works.\n\nthat is a big headstart for what\
+    \ I would like to achieve: open families of a project and purge them and then\
+    \ reload them... \n\nI have seen ways to 'purge'/delete items in the families\
+    \ doing some filtering per category getting reverse Ids list of families with\
+    \ instances in the family/or model through Harry Mattison. \nbut is there a way,\
+    \ or a better workaround? because filtering each category one by on seems a big\
+    \ task to ask for each family. \n\nthe process of purging these family would take\
+    \ forever (but that is just a guess)\n\nis there a way to access the built in\
+    \ purge command in revit though the API. I have looked through the API doc of\
+    \ 2015, and I could not find anything relevant besides an IsPurgeable member i\
+    \ think"
+- author: Jeremy Tammik
+  email: ''
+  ip: 93.220.244.110
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-10-22 09:23:47'
+  body: 'Dear Jean-Marc,
+
+
+    Congratulations on getting it to work!
+
+
+    Yes, that would be cool. Unfortunately, this functionality is currently not accessible.
+    We have an open wish list item for this access...
+
+
+    Cheers, Jeremy.'
+- author: karam
+  email: samerhabib91@gmail.com
+  ip: 213.171.220.217
+  url: ''
+  date: '2015-04-02 17:48:02'
+  body: "Hi Jeremy,\nI found this code:\npublic void PlaceStiffenerOnWallFace(Autodesk.Revit.DB.Document\
+    \ doc, Wall wall)\n{\n    // The structural stiffeners family type is compatible\
+    \ with line-based face placement\n    FilteredElementCollector fsCollector = new\
+    \ FilteredElementCollector(doc);\n    fsCollector.OfClass(typeof(FamilySymbol)).OfCategory(BuiltInCategory.OST_StructuralStiffener);\n\
+    \    FamilySymbol stiffenerSymbol = fsCollector.FirstElement() as FamilySymbol;\n\
+    \n    // The only way to get a Face to use with this NewFamilyInstance overload\n\
+    \    // is from Element.Geometry with ComputeReferences turned on\n    Face face\
+    \ = null;\n    Options geomOptions = new Options();\n    geomOptions.ComputeReferences\
+    \ = true;\n    GeometryElement wallGeom = wall.get_Geometry(geomOptions);\n  \
+    \  foreach (GeometryObject geomObj in wallGeom)\n    {\n        Solid geomSolid\
+    \ = geomObj as Solid;\n        if (null != geomSolid)\n        {\n           \
+    \ foreach (Face geomFace in geomSolid.Faces)\n            {\n                face\
+    \ = geomFace;\n                break;\n            }\n            break;\n   \
+    \     }\n    }\n\n    // Generate line for path\n    BoundingBoxUV bbox = face.GetBoundingBox();\n\
+    \    UV lowerLeft = bbox.Min;\n    UV upperRight = bbox.Max;\n    double deltaU\
+    \ = upperRight.U - lowerLeft.U;\n    double deltaV = upperRight.V - lowerLeft.V;\n\
+    \    double vOffset = deltaV * 0.80; // 80% up the wall face\n\n    UV firstPoint\
+    \ = lowerLeft + new UV(deltaU * 0.30, vOffset);\n    UV lastPoint = lowerLeft\
+    \ + new UV(deltaU * 0.70, vOffset);\n\n    Line line = Line.CreateBound(face.Evaluate(firstPoint),\
+    \ face.Evaluate(lastPoint));\n\n    doc.Create.NewFamilyInstance(face, line, stiffenerSymbol);\
+    \     \n}\n\nis there a way to place PlaceStiffener On column Face, I try but\
+    \ the new element host = null \n\n-----"

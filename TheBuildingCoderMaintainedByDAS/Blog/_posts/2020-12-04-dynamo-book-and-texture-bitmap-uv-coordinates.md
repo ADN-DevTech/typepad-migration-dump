@@ -1,0 +1,216 @@
+---
+layout: "post"
+title: "Dynamo Book and Texture Bitmap UV Coordinates"
+date: "2020-12-04 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Algorithm"
+  - "Analysis"
+  - "AVF"
+  - "Data Access"
+  - "Export"
+  - "News"
+  - "Python"
+  - "Units"
+  - "View"
+original_url: "https://thebuildingcoder.typepad.com/blog/2020/12/dynamo-book-and-texture-bitmap-uv-coordinates.html "
+typepad_basename: "dynamo-book-and-texture-bitmap-uv-coordinates"
+typepad_status: "Publish"
+---
+
+<p>The week is coming to an end all too quickly... here are some compelling topics before we enter the weekend:</p>
+
+<ul>
+<li><a href="#2">Explaining texture <code>UV</code> mapping using AVF</a></li>
+<li><a href="#3">Más Allá de Dynamo &ndash; Spanish-language book</a></li>
+<li><a href="#4">A detailed 3D model of a human cell</a></li>
+</ul>
+
+<h4><a name="2"></a> Explaining Texture UV Mapping Using AVF</h4>
+
+<p>A question was raised and partially discussed a while ago in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/revit-api-iexportcontext-converting-uv-to-the-range-0-1/m-p/9908386"><code>IExportContext</code> converting <code>UV</code> to the range (0,1)</a>.</p>
+
+<p>Back then, I summarised and preserved the initial part of this discussion in the blog post discussion
+on <a href="https://thebuildingcoder.typepad.com/blog/2020/07/revit-20211-update-and-normalising-custom-export-uv.html#3">normalising UVs in custom exporter</a>.</p>
+
+<p>Now Jason expanded on the question, the Revit development team admitted to the dearth of information in this area,
+provided some hints, and, above all,
+Richard <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/1035859">RPThomas108</a> Thomas once again
+jumped in with a crucial and powerful solution to both answer the question and show how you can use the Analysis Visualisation Framework or AVF functionality for <code>UV</code> debugging to research and resolve this question yourself.</p>
+
+<p><strong>Question:</strong>  I'm writing an exporter for Revit and encountered with a problem when exporting <code>UV</code>.
+When I call <code>PolymeshTopology.GetUV</code>, the coordinates given are often larger than 1.
+My questions are:</p>
+
+<ol>
+<li>How can I convert them to the desired range (0,1)? Or how should I understand these UV values?</li>
+<li>Are they coordinates on the image? If so, how can I access the size of the image in IExportContext?</li>
+</ol>
+
+<p>To give a concrete example: say I have a texture of size 4096x4096, the corresponding UV data I read in IExportContext is around 25, and the RealWorldScale from the UnifiedBitmapAsset is about 141.
+I cannot seem to be able to discern a formula or something...</p>
+
+<p>The Building Coder article on <a href="https://thebuildingcoder.typepad.com/blog/2010/01/faces.html">Faces</a> helps somewhat.</p>
+
+<p>However, it explains UV as two variables that parameterize a face, but they are related to the structure of the face in 3D space, not how each vertex of the face is mapped to the bitmap.
+I'd appreciate it very much if you can elaborate on this, that is, how can I convert the <code>UV</code> coordinates returned by <code>PolymeshTopology.GetUV</code> to pixel coordinate on the image or in the range (0,1).</p>
+
+<p>The article on <a href="https://forums.autodesk.com/t5/revit-api-forum/polymeshtopology-uvs/td-p/8641007">PolymeshTopology UVs</a> is relevant;
+however, the answer given is not detailed enough to actually solve the problem.</p>
+
+<p><strong>Answer:</strong> Here is my current approach:</p>
+
+<p>The PolymeshTopology.GetUV method returns a UV coordinate that represents the parameters of a face.
+Therefore, I guess they are related to the dimension of the face that they parameterize.
+These UV coordinates can be converted to display units via UnitUtils.ConvertFromInternalUnits (deprecated, but anyway...), and, in my add-in, centimeters are used.
+So, we have the UV in centimeters.</p>
+
+<p>The next step is to obtain the size of the bitmap.
+That is given by the properties with name UnifiedBitmap.TextureRealWorldScaleX/Y.
+These values are actually given in inches, so you can call <code>UnitUtils.Convert</code> to convert them from <code>DisplayUnitType.DUT_DECIMAL_INCHES</code> to  <code>DisplayUnitType.DUT_CENTIMETERS</code>.
+In fact, I found DisplayUnitType.DUT_FRACTIONAL_INCHES gives the same result; I don't know what's the difference.
+The AssetPropertyDistance class actually has a DisplayUnitType property, which should be used instead of DUT_DECIMAL_INCHES.</p>
+
+<p>After that, the UV coordinates can be scaled to the range [0,1] or whatever.</p>
+
+<p>This approach was preserved by The Building Coder in the note  on <a href="https://thebuildingcoder.typepad.com/blog/2020/07/revit-20211-update-and-normalising-custom-export-uv.html#3">normalising UVs in custom exporter</a>.</p>
+
+<p><strong>Question:</strong> Jason's follow-up request for more details that Richard helps resolve:</p>
+
+<p>This is all a bit confusing, because UVs are generally a relative spatial coordinate system.
+"Relative" is the key word as they do not correspond to measurable distances.
+So, why would there be a need to convert TextureRealWorldScaleX/Y to another unit, if normalization is ultimately x/y or y/x?
+How is Revit calculating its UVs?</p>
+
+<p>It seems crazy that the UVs provided are not usable UVs (unless the texture dimensions are 1:1) &ndash; the whole purpose of UVs is to allow us to ignore texture dimensions. All I understand is that it may make the Revit developers' lives easier, as it allows for interesting tiling dynamics when interchanging textures.</p>
+
+<p>In any case, I attempted what I thought was a way to normalize given texture dimensions:</p>
+
+<pre class="code">
+  normalize_multiplier = scaleX / (scaleY + ((scaleX - scaleY) / 2))
+</pre>
+
+<p>If <code>scaleX</code> is 14 and <code>scaleY</code> 10 (inch, cm, it shouldn't really matter), then I see UVs that go from (0, 0) to (1.167, 0.833) and <code>normalize_multiplier</code> comes out to be 1.167.
+So, (/, *) results in (1, 1).</p>
+
+<p>But, unfortunately, that doesn't always work, and I see erroneous UVs elsewhere.</p>
+
+<p>So, I need more information:</p>
+
+<ol>
+<li>What are the UVs we are getting from Revit &ndash; they are not classic UVs so what do they really represent?</li>
+<li>What is the appropriate algorithm to convert or normalize the UVs based on texture dimensions?</li>
+<li>Is there a function that already does this conversion?</li>
+<li>How does TextureRealWorldOffsetX/Y affect the UVs?</li>
+<li>How does TextureWAngle affect the UVs?</li>
+</ol>
+
+<p><strong>Answer:</strong> I think this depends on the type of face; I find they are not always normalised from 0 to 1.</p>
+
+<p>You can plot the <code>UV</code> coords on the surface using AVF; I believe the <code>UV</code> tends to follow the parameter of the curves around the edges of the face.</p>
+
+<p>So, I believe, last time I checked, in a cylindrical face, the straight edges have ord related to raw parameter of curve (line), and the curved edges have normalised parameter of the arc, i.e., for the face on a vertical curved wall, the <code>V</code> was raw and the U was normalised (or the other way around). Sometimes, especially with cylindrical faces, the system is not oriented with <code>V</code> increasing in the same direction as <code>Basis.Z</code> (depends on face orientation). If you have a complete circle with two cylindrical faces, one will have <code>V</code> pointing downwards and the other pointing up to maintain face normal outwards.</p>
+
+<p>Anyway, my suggestion is to use AVF to understand how <code>UV</code> is applied to different types of faces.</p>
+
+<p>Actually, I recalled wrong, results as below:</p>
+
+<p>Generally, the <code>UV</code> is based on raw parameter of curved edges, but, for some faces, i.e., ruled face, it is normalised.
+Below are some examples (note the direction of increase in all cases).
+The below is based on difference between Face <code>BoundingBoxUV</code> <code>Max</code>/<code>Min</code>, dividing into 10 segments and adding the UV values to the <code>ValueAtPoint</code> collection.
+Many of the walls below are 9.8 feet high with base at 0.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e97d445b200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e97d445b200b img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="Planar face U" title="Planar face U" src="/assets/image_67d1a2.jpg" /></a></p>
+
+<p style="font-size: 80%; font-style:italic">Planar face U</p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e97d446e200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e97d446e200b img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="Planar face V" title="Planar face V" src="/assets/image_7baeb9.jpg" /></a></p>
+
+<p style="font-size: 80%; font-style:italic">Planar face V</p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e97d44db200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e97d44db200b img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="Ruled face U" title="Ruled face U" src="/assets/image_c59c0e.jpg" /></a></p>
+
+<p style="font-size: 80%; font-style:italic">Ruled face U</p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833026bdeaa9cc0200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833026bdeaa9cc0200c img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="Ruled face V" title="Ruled face V" src="/assets/image_b0a74b.jpg" /></a></p>
+
+<p style="font-size: 80%; font-style:italic">Ruled face V</p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833026bdeaa9cd3200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833026bdeaa9cd3200c img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="Cylinder face U" title="Cylinder face U" src="/assets/image_e28e72.jpg" /></a></p>
+
+<p style="font-size: 80%; font-style:italic">Cylinder face U</p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e97d44f7200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e97d44f7200b img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="Cylinder face V" title="Cylinder face V" src="/assets/image_cb0daf.jpg" /></a></p>
+
+<p style="font-size: 80%; font-style:italic">Cylinder face V</p>
+
+<p></center></p>
+
+<p>This seems logical to me, in that a Ruled face has to transition from one curve to another (opposite edges), so it makes sense for those two opposite curves to be normalised, so the points along it can be mapped to one another.
+Imagine, otherwise you would have an arc at one edge opposing a line at the other (both with different lengths); you would have to normalise at some stage.</p>
+
+<p>At the same time, other types of faces, such as cylindrical or planar, may be constructed with a curve projected in a given direction by a length, so raw parameters also seem more appropriate for that form of construction.
+Regarding cylindrical face, you can also see the U-Value are related to the parameter of the curve, i.e., that curved wall is obviously longer that 1.5ft if it is 9.8ft high (so, needs to be multiplied by its radius).</p>
+
+<p>I always prefer normalised curve parameters; they inherently tell you more and tell you everything when combined with a length and start point. I know what my preference would be, but I think we just get the leftovers of the internal geometry system.</p>
+
+<p>The development team comments:</p>
+
+<p>Richard provides a great explanation by using AVF.
+When the UVs are in real world units, normalizing them can be accomplished on a per-object basis (if the wall is 9.8 feet high, divide by 9.8).
+However, ruled surface is already normalized.
+It seems to me that the two cases can only be reconciled by taking into account vertex position.
+I wonder if normalization is the right approach here, since it would scale any texture to the size of the object, when in Revit the intention is to keep the detail in the texture (e.g., bricks) at a realistic scale relative to the object.</p>
+
+<p>So, for general texturing, the AVF illustration provides all the answers, which is that most of the coordinates are in real units. The rest depends on what kind of texture mapping is needed.
+It is possible to use the UVs of most Revit objects directly by normalizing them if needed (and paying attention to the special case of ruled surfaces).
+More complex texturing may be possible for some imported objects.
+If this is not enough, then the answer is to compute <code>UV</code> coordinates from vertex positions.</p>
+
+<p>For what it's worth, the <code>PolymeshTopology</code> code and the internal code it uses have no description whatsoever of what the UVs are, never mind how they're supposed to be used.
+It seems that anything related to texture mapping is sorely lacking in documentation.</p>
+
+<p>Very many thanks to Richard for his great <code>UV</code> debugging idea using AVF and the obvious conclusions he so clearly draws from that.</p>
+
+<h4><a name="3"></a> Más Allá de Dynamo &ndash; Spanish-Language Book</h4>
+
+<p>Kevin Himmelreich published a Spanish-language book <em>Beyond Dynamo</em>,
+the first Python manual focused on Dynamo and the Revit API, and currently the only publication in Spanish on this subject.</p>
+
+<blockquote>
+  <p>Ya se encuentra disponible mi manual <em>Más allá de Dynamo</em>.</p>
+  
+  <p>Adjunto el link de Amazon España:
+  <a href="https://www.amazon.es/dp/B08P1FCBZY/ref=cm_sw_r_cp_api_fabc_JwrYFbTE394ZR">Más allá de Dynamo: Manual de Python para Revit</a></p>
+  
+  <p>También, en LinkedIn, os dejo el índice de contenidos por si queréis saber el alcance de este manual.</p>
+</blockquote>
+
+<p>Kevin's <a href="https://www.linkedin.com/posts/kevinhimmelreich_%C3%ADndice-m%C3%A1s-all%C3%A1-de-dynamo-activity-6738089981346160640-kjoj">post on LinkedIn</a> includes
+the table of contents to show the scope of his manual.</p>
+
+<!-- 
+<li class="carousel-slide carousel-slide-active" data-ssplayer-slide-index="3" style="width: 549px; height: 714px;">
+<img class="carousel-lazy-element carousel-slide-is-portrait carousel-element-loaded carousel-element-load-success" data-src="https://media-exp1.licdn.com/dms/image/C4E1FAQFHa_Qe3xWsjg/feedshare-document-images_800/4/1606485815490?e=1607097600&amp;v=beta&amp;t=G9uShg4FGk9f-bRUFpB4EuYqNtH923PUF0qzz1rTeMk" alt="4" src="https://media-exp1.licdn.com/dms/image/C4E1FAQFHa_Qe3xWsjg/feedshare-document-images_800/4/1606485815490?e=1607097600&amp;v=beta&amp;t=G9uShg4FGk9f-bRUFpB4EuYqNtH923PUF0qzz1rTeMk">
+</li>
+--> 
+
+<h4><a name="4"></a> A Detailed 3D Model of a Human Cell</h4>
+
+<p>Moving on from the Revit API, Python and Dynamo to science and modelling in general, here is a very impressive example of the latter in a non-architectural and even non-technological context, <a href="https://gaelmcgill.artstation.com/projects/Pm0JL1">a detailed 3D model of a human cell</a>:</p>
+
+<blockquote>
+  <p>... inspired by the stunning art of David Goodsell, this 3D rendering of a eukaryotic cell is modelled using X-ray, nuclear magnetic resonance (NMR), and cryo-electron microscopy datasets for all of its molecular actors. It is an attempt to recapitulate the myriad pathways involved in signal transduction, protein synthesis, endocytosis, vesicular transport, cell-cell adhesion, apoptosis, and other processes. Although dilute in its concentration relative to a real cell, this rendering is also an attempt to visualize the great complexity and beauty of the cell’s molecular choreography. Interactive versions of parts of this landscape can be explored at <a href="http://www.digizyme.com/cst_landscapes.html">www.digizyme.com/cst_landscapes.html</a>.</p>
+</blockquote>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833026be429a3d0200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833026be429a3d0200d img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="Human cell" title="Human cell" src="/assets/image_3e07a4.jpg" /></a><br /></p>
+
+<p style="font-size: 80%; font-style:italic">Cellular landscape cross-section through a eukaryotic cell, by Evan Ingersoll & Gael McGill &ndash; Digizyme’s Molecular Maya custom software, Autodesk Maya, and Foundry Modo used to import, model, rig, populate, and render all structural datasets</p>
+
+<p></center></p>

@@ -1,0 +1,263 @@
+comments:
+- author: Srinivasan
+  email: vsrinivasan@srinsofttech.com
+  ip: 61.246.236.157
+  url: http://www.srinsofttech.com
+  date: '2010-04-28 05:49:04'
+  body: 'Object Level events are not available in the latest SDK. Can you post the
+    latest changemonitor solution file?
+
+
+    Thanks'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-04-28 08:14:27'
+  body: 'Dear Srinivasan,
+
+
+    I assume you mean "are now available".
+
+
+    The latest version of the SDK including the ChangesMonitor sample is publicly
+    available at
+
+
+    <a href="http://www.autodesk.com/developrevit">http://www.autodesk.com/developrevit</a>
+
+
+    The file details from that location are:
+
+
+    2010-04-28  13:42 110,098,139 revit2011sdk.exe
+
+
+    The versions of the SDK included with the Revit Architecture, MEP and Structure
+    products are:
+
+
+    2010-03-26  21:23  110,416,595 RevitSDK.exe
+
+
+    It does not really make any difference which SDK you use. The SDK really just
+    provides information and samples. The actual API is completely defined by and
+    contained in the Revit API assemblies which are provided with the Revit product,
+    in the Program subdirectory of the main installation folder where Revit.exe also
+    resides. On my system they are
+
+
+    2010-03-26 20:27 15,494,656 RevitAPI.dll
+
+    2010-03-26 20:28 711,168 RevitAPIUI.dll
+
+
+    I have not compared the two versions of the SDK, but I think the differences are
+    negligible.
+
+
+    On my system I installed the one coming with the product, i.e. the 110,416,595
+    byte version, and I have not noticed any problems with that.
+
+
+    Cheers, Jeremy.'
+- author: Srinivasan
+  email: vsrinivasan@srinsofttech.com
+  ip: 61.246.236.157
+  url: http://www.srinsofttech.com
+  date: '2010-04-29 03:33:45'
+  body: 'Hi Jeremy
+
+
+    Iam mean that the eventsmonitor sample in the SDK doesn''t show any function related
+    to the document changed event.
+
+
+    I wanted to test with the object level event & was looking for some sample.
+
+
+    Srini'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-04-29 12:36:44'
+  body: 'Dear Srini,
+
+
+    I do not know when you say "the eventsmonitor sample". Do you mean the ChangesMonitor
+    sample, which demonstrates the use of the Application.DocumentChanged event? If
+    yes, then please see above for all the details. If not, please clarify.
+
+
+    Cheers, Jeremy.'
+- author: Ken Goulding
+  email: ''
+  ip: 68.171.130.190
+  url: http://profile.typepad.com/kengoulding
+  date: '2010-08-20 11:41:14'
+  body: "When you mentioned \"Element Level\", I was hoping that included element\
+    \ selection events, but that does not seem to be the case.\n\nAs a work-around,\
+    \ I created this class that subscribes to the application \"Idle\" event and checks\
+    \ for selection changes. Given that its an \"Idle\" event, I have tried to be\
+    \ as efficient as possible at figuring out whether a change has happened, but\
+    \ there may be a simpler way?\n\nUsage:\npublic Autodesk.Revit.UI.Result OnStartup(UIControlledApplication\
+    \ application) {\n\t\tselectionChangedWatcher = new SelectionChangedWatcher(application);\n\
+    \t\tselectionChangedWatcher.SelectionChanged += new EventHandler(selectionChangedWatcher_SelectionChanged);\n\
+    ...\n\nCode:\n\npublic class SelectionChangedWatcher\n{\n\tpublic event EventHandler\
+    \ SelectionChanged;\n\tprotected void Call_SelectionChanged() {\n\t\tif (SelectionChanged\
+    \ != null) {\n\t\t\tSelectionChanged(null, new EventArgs());\n\t\t}\n\t}\n\n\t\
+    private UIApplication uiApplication;       \n\tprivate List m_Selection;\n\tpublic\
+    \ List Selection {\n\t\tget {\n\t\t\treturn m_Selection;\n\t\t}\n\t\tset {\n\t\
+    \t\tm_Selection = value;\n\t\t}\n\t}\n\tpublic SelectionChangedWatcher(UIControlledApplication\
+    \ application) {\n\t\tapplication.ControlledApplication.DocumentOpened += new\
+    \ EventHandler(ControlledApplication_DocumentOpened);\n\t\tapplication.Idling\
+    \ += new EventHandler(application_Idling);\n\t}\n\n\tvoid ControlledApplication_DocumentOpened(object\
+    \ sender, Autodesk.Revit.DB.Events.DocumentOpenedEventArgs e) {\n\t\tif (uiApplication\
+    \ == null) {//--doesn't really need to listen to documentOpened event, but this\
+    \ seems the easiest way to get a reference to the UIApplication\n\t\t\tuiApplication\
+    \ = new UIApplication(e.Document.Application);\n\t\t}\n\t}\n\n\tprivate string\
+    \ selectionUID;\n\tvoid application_Idling(object sender, Autodesk.Revit.UI.Events.IdlingEventArgs\
+    \ e) {            \n\t\tif (uiApplication == null) return;\n\t\tif (uiApplication.ActiveUIDocument\
+    \ == null) return;\n\t\tSelElementSet selected = uiApplication.ActiveUIDocument.Selection.Elements;\n\
+    \t\tif (selected.Size == 0) {\n\t\t\tif (m_Selection != null && m_Selection.Count\
+    \ > 0) {\n\t\t\t\tHandleSelectionChange(selected);\n\t\t\t}\n\t\t} else {\n\t\t\
+    \tif (m_Selection == null) {                    \n\t\t\t\tHandleSelectionChange(selected);\n\
+    \t\t\t} else {\n\t\t\t\tif (m_Selection.Count != selected.Size) {\n\t\t\t\t\t\
+    HandleSelectionChange(selected);\n\t\t\t\t} else {//--count is the same... compare\
+    \ UID to see if selection has changed\n\t\t\t\t\tstring uid = \"\";          \
+    \              \n\t\t\t\t\tforeach (Element elem in selected) {              \
+    \              \n\t\t\t\t\t\tuid += \"_\" + elem.Id;\n\t\t\t\t\t}\n\t\t\t\t\t\
+    if (uid != selectionUID) {\n\t\t\t\t\t\tHandleSelectionChange(selected);\n\t\t\
+    \t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\tprivate void HandleSelectionChange(SelElementSet\
+    \ selected) {\n\t\tm_Selection = new List();\n\t\tselectionUID = \"\";\n\t\tforeach\
+    \ (Element elem in selected) {\n\t\t\tm_Selection.Add(elem);\n\t\t\tselectionUID\
+    \ += \"_\" + elem.Id;\n\t\t}\n\t\tCall_SelectionChanged();\n\t}\n}"
+- author: Ken Goulding
+  email: ''
+  ip: 68.171.130.190
+  url: http://profile.typepad.com/kengoulding
+  date: '2010-08-23 10:57:59'
+  body: 'Sorry for the unreadable code. Here are some PasteBin URLs:
+
+    Class: <a href="http://visualstudio.pastebin.com/X5rBXSA6">http://visualstudio.pastebin.com/X5rBXSA6</a>
+
+    Usage: <a href="http://visualstudio.pastebin.com/aNwEFRkZ">http://visualstudio.pastebin.com/aNwEFRkZ</a>'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-08-25 05:15:12'
+  body: "Dear Ken,\n\nThank you for your query with the interesting idea and the source\
+    \ code. \n\nNo worry about its readability, one can easily copy and paste it into\
+    \ a Visual Studio project to automatically reformat it.\n\nThank you also for\
+    \ the interesting PasteBin URLs. I was not previously aware of this possibility.\n\
+    \nRegarding the element selection events, you are correct in your assessment that\
+    \ these are currently not provided by the Revit API.\n\nYour use of the Idling\
+    \ event to implement a work-around sounds like a brilliant idea to me.\n\nWould\
+    \ you like to provide a complete little sample solution with the code and a minimal\
+    \ testing script, so I can run through it with a minimum of fuss?\n\nI would love\
+    \ to promote this to a full-fledged blog post to increase awareness of it and\
+    \ provide an additional example of using the Idling event in creative ways including\
+    \ stopping gaps in the existing API. My contact details are listed in the page\
+    \ 'About the Author'. \n\nI tried to contact you directly using the link attached\
+    \ to your name above, but that does not work for me, unfortunately.\n\nThank you!\n\
+    \nCheers, Jeremy."
+- author: Vilo
+  email: vilo176@gmail.com
+  ip: 92.103.238.133
+  url: ''
+  date: '2015-03-16 06:20:08'
+  body: "Hi all,\n\nAs many others Revit API users, I miss the \"element selection\
+    \ changed\" API access.\n\nAs mentioned in this post, there are several solutions,\
+    \ each having some caveats :\n\n1. Use the OnIdling event to check current selection.\n\
+    This may not be reliable, because there is no guaranty it will be fired by Revit.\n\
+    Secondly, this is an asynchronous method.\n\n2. Use a Timer to raise an event\
+    \ at a specified interval.\nMore reliable, but still asynchronous and the more\
+    \ accurate it is (i.e. shorter timer delay), the more unneeded event are generated.\n\
+    \n3. There is a third method that solve all the above \"issues\".\nIn Revit, when\
+    \ the user select/unselect an object, there is a special ribbon tab that dynamically\
+    \ changes, its name is \"Modify\".\n\nKnowing that, and using the standard Autodesk\
+    \ assembly \"AdWindows.dll\", we can register an event that will be fired when\
+    \ this Tab's title changes.\nHere it is :\n\nforeach (Autodesk.Windows.RibbonTab\
+    \ tab in Autodesk.Windows.ComponentManager.Ribbon.Tabs)\n{\n  if (tab.Id == \"\
+    Modify\")\n  {\n    tab.PropertyChanged += PanelEvent;\n    break;\n  }\n}\n\n\
+    void PanelEvent(object sender, System.ComponentModel.PropertyChangedEventArgs\
+    \ e)\n{\n  if (sender is Autodesk.Windows.RibbonTab)\n  {\n    if (e.PropertyName\
+    \ == \"Title\")\n    {\n      //selection changed !\n    }\n  }\n}\n\nNot the\
+    \ cleanest way I admit, but until Autodesk adds the relevant API methods, this\
+    \ is (for me) the best."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-03-16 07:24:31'
+  body: 'Dear Vilo,
+
+
+    That is an absolutely superb idea and brilliant little workaround.
+
+
+    I''ll promote it to a main blog post asap.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Vilo
+  email: vilo176@gmail.com
+  ip: 92.103.238.133
+  url: ''
+  date: '2015-03-16 09:25:21'
+  body: 'Hi Jeremy,
+
+
+    Feel free to make what you want with this workaround ;o)
+
+
+    Since I posted, I can added the following elements :
+
+
+    - The test "if (sender is Autodesk.Windows.RibbonTab)" is not needed.
+
+
+    - The Tab''s name is not dependent to current language.
+
+    My Revit is in french, and the tab''s name is still "Modify" at start (then it
+    changes according to current selection of course).
+
+
+    - There is actually a limitation I''m working on : the event is not fired after
+    selecting the 3rd element (and 4th, 5th, ...) in a multiselection.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-03-16 09:55:48'
+  body: "Dear Vilo,\n\nThank you for your update, permission to share and pointer\
+    \ to the current limitations. \n\nI implemented a new external command for The\
+    \ Building Coder samples exercising this:\n\n<a href=\"https://github.com/jeremytammik/the_building_coder_samples/blob/master/BuildingCoder/BuildingCoder/CmdSelectionChanged.cs\"\
+    >https://github.com/jeremytammik/the_building_coder_samples/blob/master/BuildingCoder/BuildingCoder/CmdSelectionChanged.cs</a>\n\
+    \nObviously it would normally not be used in a command, but on startup in an external\
+    \ application.\n\nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-03-16 14:58:23'
+  body: 'Dear Vilo,
+
+
+    Thank you again for your wonderful idea!
+
+
+    I published it as a stand-alone post now:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2015/03/element-selection-changed-event.html">http://thebuildingcoder.typepad.com/blog/2015/03/element-selection-changed-event.html</a>
+
+
+    Cheers, Jeremy.
+
+    -----'

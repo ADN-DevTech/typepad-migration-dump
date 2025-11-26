@@ -1,0 +1,270 @@
+---
+layout: "post"
+title: "Preview, Code Signing and Element Type Predicates"
+date: "2020-09-01 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "AI"
+  - "Filters"
+  - "Installation"
+  - "Security"
+  - "Settings"
+  - "User Interface"
+original_url: "https://thebuildingcoder.typepad.com/blog/2020/09/code-signing-preview-and-element-type-predicates.html "
+typepad_basename: "code-signing-preview-and-element-type-predicates"
+typepad_status: "Publish"
+---
+
+<p>Picking up a few interesting threads from
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> and AI news:</p>
+
+<ul>
+<li><a href="#2">Revit add-in code signing YAML</a></li>
+<li><a href="#3">Preview control rotates model</a></li>
+<li><a href="#4">Element type predicates</a></li>
+<li><a href="#5">AI ethics</a></li>
+</ul>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e9617211200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e9617211200b image-full img-responsive" alt="Weight of a heart versus feather of truth in Book of the Dead" title="Weight of a heart versus feather of truth in Book of the Dead" src="/assets/image_07df38.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a></p>
+
+<p style="font-size: 80%; font-style:italic">Weight of a heart versus feather of truth in Book of the Dead</p>
+
+<p></center></p>
+
+<h4><a name="2"></a>Revit Add-In Code Signing YAML</h4>
+
+<p>Peter Hirn's <a href="https://thebuildingcoder.typepad.com/blog/2020/08/revitlookup-continuous-integration-and-graphql.html#3">YAML file for automating the code signing</a> of
+the <a href="https://thebuildingcoder.typepad.com/blog/2020/08/revitlookup-continuous-integration-and-graphql.html#2">continuous integration build of RevitLookup</a> helps solve
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/revit-2018-code-signing/m-p/9715700">Revit 2018 Code Signing</a>:</p>
+
+<p><strong>Question:</strong> I am attempting to code sign my Revit add-in and I cannot seem to get Revit to recognise it.
+I have a self-signed certificate which I have manually installed into my trusted root authorities, I have built out the add-in in Visual Studio and copied all DLL's and addin file to the addins folder. I have then run the sign tool command:</p>
+
+<pre class="code">
+  signtool sign /f "Path/To/codesign.pfx" /t \
+    http://timestamp.comodoca.com/authenticode \
+    /p "MyPassword" "Path/To/Addins//2018/AppName.dll"
+</pre>
+
+<p>This command executes successfully and I can see a digital signatures tab containing the information I added for my self-signed certificate in the DLL properties.
+Yet, When I start Revit, it still says it is unsigned...
+Where did I go wrong?</p>
+
+<p>I have tried various other combinations of this command including passing in the .addin file which errors out saying unrecognized file and signing all dlls in my addins folder.</p>
+
+<p><strong>Answer:</strong> Peter Hirn added an automatic signing step to the <a href="https://thebuildingcoder.typepad.com/blog/2020/08/revitlookup-continuous-integration-and-graphql.html#2">RevitLookup continuous integration on GitLab</a>.</p>
+
+<p>The YAML file executing the add-in signing is available in the <a href="https://github.com/jeremytammik/RevitLookup">RevitLookup GitHub repository</a>.</p>
+
+<p>The pertinent bits are
+the <a href="https://github.com/jeremytammik/RevitLookup/blob/master/.gitlab-ci.yml#L53-L79">lines 53-79 in <code>.gitlab-ci.yml</code></a>:</p>
+
+<pre class="prettyprint">
+  script:
+    - apt-get update && apt-get install -y --no-install-recommends osslsigncode
+    - mkdir -p .secrets && mount -t ramfs -o size=1M ramfs .secrets/
+    - echo "${CODESIGN_CERTIFICATE}" | base64 --decode > .secrets/authenticode.spc
+    - echo "${CODESIGN_KEY}" | base64 --decode > .secrets/authenticode.key
+    - osslsigncode -h sha1 -spc .secrets/authenticode.spc -key .secrets/authenticode.key -t ${TIMESERVER} -in "${ASSEMBLY}" -out "${ASSEMBLY}-sha1"
+    - osslsigncode -nest -h sha2 -spc .secrets/authenticode.spc -key .secrets/authenticode.key -t ${TIMESERVER} -in "${ASSEMBLY}-sha1" -out "${ASSEMBLY}"
+    - rm "${ASSEMBLY}-sha1"
+</pre>
+
+<p><strong>Response:</strong> This is great!
+I am going to utilize that in my own Repos.
+Ok, I finally got windows to recognize my cert;
+Let me track through what I did and how I got it to work.</p>
+
+<p>Originally, I was using <code>openssl</code> on a linux server to generate the certs and private keys.
+I then used <code>openssl</code> to convert those to a <code>pfx</code> file and was using that to sign stuff;
+Looks like that does not work too well.</p>
+
+<p>I followed the post in this thread and that worked...</p>
+
+<p>To rehash what I did to make this work:</p>
+
+<p>Notes before you begin: <code>MakeCert.exe</code>, <code>pvk2pfx.exe</code>, and <code>signtool.exe</code> are all located in *C:\Program Files (x86)\Windows Kits\8.1\bin\x64*.
+I have already added this to my environment variables; make sure you do so too, otherwise you will have to specify in your command where to find these exes.</p>
+
+<pre class="code">
+MakeCert.exe -r -sv AVT_CodeSign.pvk -n "CN=AVT" AVTCodeSign.cer -b 01/01/2020 -e 12/31/2020
+</pre>
+
+<p>NOTE: MakeCert is deprecated according to official Microsoft sources, but at the time of this writing that command still works.
+They have an alternative PowerShell commandlet that does the same thing though I did not try that since MakeCert worked for me.</p>
+
+<pre class="code">
+pvk2pfx.exe -pvk codesign.pvk -pi MySecurePassword -spc codesign.cer -pfx codesign.pfx -po MyOtherSecurePassword
+</pre>
+
+<p>NOTE: The passwords can be the same here; The password I'm using here is from a prompt from Step 1.
+That prompt will ask you to supply a password for the private key or give you the option to press "none".
+Whichever you choose, supply that password in step 2.</p>
+
+<p>Step 3: Use <code>CertMgr.msc</code> to install your <code>codesign.pfx</code> file NOT the certificate.
+Install it Trusted Publishers, then in Trusted Root Certification Authorities</p>
+
+<p>NOTE: It's important here to click your <code>.pfx</code> file as when I did this step, the default was choosing the cert file.
+I'm unsure if this way is better than simply right clicking and hitting "install cert" but it seems both will get you to the same spot.</p>
+
+<pre class="code">
+signtool sign /f "Path\To\codesign.pfx" /t http://timestamp.verisign.com/scripts/timstamp.dll /p "MySecurePassword" "Path\To\RevitAddin.dll"
+</pre>
+
+<p>Following this process, I was able to get a valid digital signature.
+I'm not sure why generating it using <code>openssl</code> on linux was causing an issue but there may be something to this method that works better.</p>
+
+<p>Many thanks to ShinyKey for testing and confirming this, and thanks again to Peter Hirn for the smooth RevitLookup CI and code signing workflow.</p>
+
+<h4><a name="3"></a>Preview Control Rotates Model</h4>
+
+<p>Scott Ehrenworth of <a href="https://www.microdesk.com">Microdesk Inc.</a> pointed out a few interesting aspects of using and interacting with the Revit API <a href="https://www.revitapidocs.com/2020/50112279-5c9d-0351-bbd1-698e76be9e36.htm">PreviewControl class</a> in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/used-previewcontrol-elementhost-amp-pickpoint/m-p/9715680">using PreviewControl ElementHost and PickPoint</a>:</p>
+
+<p>Firstly, The <code>PreviewControl</code> is <u>not</u> a pure preview control, providing read-only access and no user interaction with the model.</p>
+
+<p>Proof: When changing the orientation or rotation of a 3D view inside of a <code>PreviewControl</code> window, the model's 3D view will rotate as well:</p>
+
+<p><center>
+<video style="display:block; width:100%; height:auto;" autoplay="" muted="" loop="loop">
+<!-- <source src="img/preview_control_rotates_model.mp4" type="video/mp4"> -->
+<source src="https://thebuildingcoder.typepad.com/2020/preview_control_rotates_model.mp4" type="video/mp4">
+</video>
+</center></p>
+
+<p>Zoom and Pan do not have this effect.</p>
+
+<p>Secondly, even though the preview control modifies the model's current view settings, it does not require a transaction to do so.
+However, it does require the manual transaction option, presumably so that it can start and commit its own transaction internally.</p>
+
+<p>This could be like the <code>PromptForFamilyInstancePlacement</code> method that has a transaction control built in.
+The PreviewControl class is full of Event Handlers, so maybe this is the case?</p>
+
+<p>Here's the very basic sample of the external command I used to test this for 3D views.</p>
+
+<pre class="code">
+&nbsp;&nbsp;[<span style="color:#2b91af;">Transaction</span>(&nbsp;<span style="color:#2b91af;">TransactionMode</span>.Manual&nbsp;)]
+&nbsp;&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">PreviewControlTest</span>&nbsp;:&nbsp;<span style="color:#2b91af;">IExternalCommand</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">Result</span>&nbsp;Execute(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ExternalCommandData</span>&nbsp;commandData,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">ref</span>&nbsp;<span style="color:blue;">string</span>&nbsp;message,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ElementSet</span>&nbsp;elements&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UIApplication</span>&nbsp;uiapp&nbsp;=&nbsp;commandData.Application;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UIDocument</span>&nbsp;uidoc&nbsp;=&nbsp;uiapp.ActiveUIDocument;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;=&nbsp;uidoc.Document;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WPF_GridContainer&nbsp;newGrid&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;WPF_GridContainer();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newGrid.theGrid.Children.Add(&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">PreviewControl</span>(&nbsp;doc,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">View3D</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.FirstElementId()&nbsp;)&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newGrid.ShowDialog();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#2b91af;">Result</span>.Succeeded;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+</pre>
+
+<p>I assume it will refuse to run in read-only transaction mode, then...</p>
+
+<p>Yes, I can confirm:</p>
+
+<p>Switching the <code>TransactionMode</code> to <code>ReadOnly</code> is now just hanging the command (never opens the window for the PreviewControl).</p>
+
+<p>Funky stuff, but good to know!</p>
+
+<p>Many thanks to Scott for this useful information and research.</p>
+
+<p>For pointers to several previous discussions of various aspects of the <code>PreviewControl</code>, check out the post
+on <a href="https://thebuildingcoder.typepad.com/blog/2013/09/appstore-advice-and-zooming-in-a-preview-control.html#4">zooming in a preview control</a>.</p>
+
+<h4><a name="4"></a>Element Type Predicates</h4>
+
+<p>Here are a bunch of ways to check and filter for Revit element types making use of both .NET generics and the Revit API filtering functionality suggested in the question on how 
+to <a href="https://forums.autodesk.com/t5/revit-api-forum/determine-if-element-is-elementtype/m-p/9713330">determine if element is <code>ElementType</code></a>:</p>
+
+<p><strong>Question:</strong> I'm listening to the <code>Application</code> <code>DocumentChanged</code> event and would like to see if the element modified is an Instance or an ElementType.
+I'm currently doing the following but it doesn't quite satisfy all the conditions:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">bool</span>&nbsp;IsElementType(&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;element&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;typeId&nbsp;=&nbsp;element?.GetTypeId();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;typeId&nbsp;==&nbsp;<span style="color:blue;">null</span>&nbsp;||&nbsp;typeId&nbsp;==&nbsp;<span style="color:#2b91af;">ElementId</span>.InvalidElementId&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;!(element&nbsp;<span style="color:blue;">is</span>&nbsp;Room)&nbsp;&amp;&amp;&nbsp;!(element&nbsp;<span style="color:blue;">is</span>&nbsp;PipeSegment)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">true</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">false</span>;
+&nbsp;&nbsp;}
+</pre>
+
+<p>I'm not native to Revit sorry if my terminology is off.
+How does the <code>FilterCollector.WhereElementIsElementType()</code> determine it's an ElementType?</p>
+
+<p><strong>Answer:</strong> This will return false if type is <code>ElementType</code> but true if is derived from <code>ElementType</code>:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">bool</span>&nbsp;Bl&nbsp;=&nbsp;element.GetType().IsSubclassOf(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">ElementType</span>&nbsp;)&nbsp;);
+</pre>
+
+<p>This will return true if type is ElementType or is derived from ElementType:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">bool</span>&nbsp;B2&nbsp;=&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">ElementType</span>&nbsp;).IsAssignableFrom(&nbsp;element.GetType()&nbsp;);
+</pre>
+
+<p>Here's a more Revit orientated approach in VB: you asked how a collector determines an ElementType, but you can always pass a list of a single element into a collector and filter that:</p>
+
+<pre class="code">
+  Dim FEC As New FilteredElementCollector(element.Document, {element.Id}.ToList)
+  Dim B3 As Boolean = FEC.WhereElementIsElementType.ToElementIds.Count > 0
+</pre>
+
+<p>You can't do it in C# in this abbreviated fashion due to the need to use <code>ICollection&lt;T&gt;</code> directly (option <code>Strict</code> <code>off</code> in VB), but you can do similar.</p>
+
+<p><strong>Answer 2:</strong> Here's a simpler way of putting it:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">bool</span>&nbsp;IsElementType(&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;element&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;element&nbsp;<span style="color:blue;">is</span>&nbsp;<span style="color:#2b91af;">ElementType</span>;
+&nbsp;&nbsp;}
+</pre>
+
+<p>I'd suggest not even making a method for this and just using the <code>is</code> expression.</p>
+
+<p><strong>Answer 3:</strong> I use the <code>is</code> operator quite often in my work.</p>
+
+<p>Here is an online method which will use a <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/is#type-pattern">type pattern</a> to give you the <code>EType</code> as a variable:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;element&nbsp;<span style="color:blue;">is</span>&nbsp;<span style="color:#2b91af;">ElementType</span>&nbsp;EType&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;<span style="color:#a31515;">&quot;Type&nbsp;Name&quot;</span>,&nbsp;EType.Name&nbsp;);
+&nbsp;&nbsp;}
+</pre>
+
+<p>Interesting to note that in VB the <code>is</code> statement only returns true if the exact same type is compared.
+Since <code>is</code> is used to check if two things are the same object instance.
+The equivalent to the way it is used in C# seems to be:</p>
+
+<pre class="code">
+  Dim B1 As Boolean = TypeOf Element Is ElementType
+</pre>
+
+<h4><a name="5"></a>AI Ethics</h4>
+
+<p>A very interesting and promising first stab at creating 'good' AI and NLP that conforms with common human ethical judgement and behaviour is presented in the research paper 
+on <a href="https://arxiv.org/pdf/2008.02275v1.pdf">Aligning AI With Shared Human Values</a>.</p>

@@ -1,0 +1,29 @@
+comments:
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadgraph.de
+  date: '2012-02-21 03:08:33'
+  body: 'Hi Jeremy,
+
+
+    s.EndsWith( ".jpg" ) is not sufficient because the picture source file extension
+    may be ".JPG", ".jpeg" or ".JPEG".
+
+
+    (Additionally, there could be both ".bmp" and ".BMP" files.)
+
+
+
+    Cheers,
+
+    Rudolf'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-02-23 06:22:47'
+  body: "Dear Rudolf,\n\nThank you for pointing this out. Yes, all these filename\
+    \ extension permutations obviously need to be taken into account, e.g. like this:\n\
+    \nstring s = e.Name.ToLower();\n\nreturn s.EndsWith( \".jpg\" )\n  || s.EndsWith(\
+    \ \".jpeg\" )\n  || s.EndsWith( \".bmp\" );\n\nCheers, Jeremy.\n-----"

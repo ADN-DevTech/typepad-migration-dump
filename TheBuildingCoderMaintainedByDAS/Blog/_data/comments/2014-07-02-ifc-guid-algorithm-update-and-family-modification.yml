@@ -1,0 +1,163 @@
+comments:
+- author: Matt Taylor
+  email: matthew.taylor@wspgroup.com
+  ip: 61.14.99.173
+  url: ''
+  date: '2014-07-02 20:04:15'
+  body: 'I''ve got a couple of ideas.
+
+    1. Try and load the family from a trusted/unedited location. If the family has
+    been modified, the ''Family Already Exists'' dialog will appear. This dialog can
+    be dealt with via the API (cancel?), then act on that information.
+
+    2. (Less robust) Most people edit a family from Revit. e.g. Right-click on family
+    in the project browser, then ''edit''.
+
+    Doing so creates a bunch of what I call ''junk'' in the family file:
+
+    - half a dozen or so materials
+
+    - half a dozen or so fill patterns
+
+    - ten or so line patterns
+
+
+    To check whether a user has edited the family, you could check for one of these,
+    or for the number of the listed elements (more language independent) in the family.
+
+
+    Good luck finding a workable solution.'
+- author: Adrian Esdaile
+  email: aesdaile@woolworths.com.au
+  ip: 203.26.178.133
+  url: ''
+  date: '2014-07-03 04:24:14'
+  body: 'I have considered a few, mostly brute-force ways. My skills with the API
+    aren''t (yet) up to implementing them though:
+
+
+    1. Capture ANY call to the Family Editor and intercept it. This could be a friendly
+    reminder to not edit families, then let you edit a family (if you legitimately
+    need to create one), OR it could just say "see your friendly content creator"
+    and drop you back to your drawing. (At the end of some days I tend to think a
+    function like this that could route, say, 50V to mouse would work best)
+
+
+    2.Implement an ''Edit Fuse'' - using the read-only parameters, create a parameter
+    that is altered by a standard user creating or editing a family. Again this would
+    need code triggered by calling the Family Editor. The authorized content creators
+    can then reset this ''fuse'' using a separate function added to the family editor.
+
+
+    As for ways I currently use, they are clunky & ugly, but they work. Sort-of.
+
+    A. Like method 1 from the previous comment, we only load families from a trusted
+    location, so at least we get the ''Family Already Exists'' message.
+
+    B. We have included a parameter into which we place a random GUID, for each family
+    AND each edit(!). We track this in a spreadsheet (only 7,500 or so families...)
+    that can match GUID with Family Type/name. We export a schedule from Revit and
+    do a lookup/compare - mismatches are ''unauthorised'' families. We also have a
+    strict Type naming system that avoids ''Type n'' - this is a dead giveaway for
+    a ''rogue'' family as it is Revit''s default.
+
+
+    Anyone smart enough to actively avoid any of the above should immediately trained
+    as a Content Creator! :-)'
+- author: Adrian Esdaile
+  email: aesdaile@woolworths.com.au
+  ip: 203.26.178.133
+  url: ''
+  date: '2014-07-03 04:34:41'
+  body: 'I like the idea of a Checksum, and to be honest I cannot see why this capability
+    hasn''t been built in by Autodesk.
+
+
+    Jeremy''s ''binary lump'' idea has merit, but there might be some issues to overcome:
+    ObjectID being the first. Families have an objectID similar to the itemID within
+    a project. The problem is that this GUID-like value is altered *every* time the
+    family is used (not just edited), thus any binary image is going to always have
+    a different checksum.
+
+
+    Families also have instance parameters which can legitimately be different in-project
+    compared to the ''master'' version, and these would also presumably alter a checksum.
+
+
+    The things in-family that would need to be monitored for change are:
+
+    vertex locations & total (captures geometry edits)
+
+    Type Parameter edits (none should be allowed)
+
+    Material Assignment (not just Type Parameters, but direct assignment)
+
+    Reference Plane location & number
+
+    Family Category
+
+    Fill Patterns
+
+    Line Styles
+
+    Object Styles
+
+
+    Thats all I can think of right now.'
+- author: Alexander Buschmann
+  email: buschmann@idat.de
+  ip: 213.157.2.74
+  url: http://www.idat.de
+  date: '2014-08-20 06:24:58'
+  body: 'I''m a little bit late, but still:
+
+
+    Since Revit2015 there is a class "DocumentVersion" - this consists of a GUID and
+    the number of saves of the document. Together, this information should make it
+    possible to identify changes to a document. Store the data in a readonly-parameter,
+    and you should be set, without the need to implement a custom checksum thing.
+
+
+    The DocumentVersion can be obtained by callig BasicFileInfo.GetDocumentVersion.
+
+
+    I have not tried it, but it looks promising.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-08-20 09:23:39'
+  body: 'Dear Alexander,
+
+
+    Thank you very much for sharing this very cool hint.
+
+
+    I had not noticed this before. I''ll check it out asap.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-08-21 08:50:32'
+  body: 'Dear Alexander,
+
+
+    I checked it out really fast and published my findings and an updated version
+    of The Building Coder defining a new external command CmdDocumentVersion:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2014/08/document-version-guid-and-number-of-saves.html">http://thebuildingcoder.typepad.com/blog/2014/08/document-version-guid-and-number-of-saves.html</a>
+
+
+    You were perfectly right, and it works perfectly well.
+
+
+    Thank you very much again for the suggestion!
+
+
+    Cheers, Jeremy.
+
+    -----'

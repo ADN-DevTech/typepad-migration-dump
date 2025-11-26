@@ -1,0 +1,106 @@
+comments:
+- author: Matt Taylor
+  email: matthew.taylor@wspgroup.com
+  ip: 61.14.99.173
+  url: ''
+  date: '2014-06-02 20:25:16'
+  body: "Hi Jeremy,\nI had the issue with auto-sizing gridview columns also.\nI did\
+    \ a little research, and found that it's easier to set it per column (hope this\
+    \ formats okay!):\n\n  Public Sub SetDataGridColumnWidthMode(ByVal column As Integer,\
+    \ ByVal mode As DataGridViewAutoSizeColumnMode)\n        dgData.Columns(column).AutoSizeMode\
+    \ = mode\n    End Sub\n\n     mainForm.SetDataGridColumnWidthMode(2, DataGridViewAutoSizeColumnMode.DisplayedCells)\n\
+    \                    mainForm.SetDataGridColumnWidthMode(3, DataGridViewAutoSizeColumnMode.Fill)"
+- author: Jeremy Tammik
+  email: ''
+  ip: 10.20.13.216
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-06-03 21:08:11'
+  body: "Dear Matt,\n\nThank you for the suggestion!\n\nDid you try it out in this\
+    \ case?\n\nI did, and it appears that due to my usage of the DataSource property,\
+    \ I have no columns in that sense.\n\nThe Count property of Columns is zero, so\
+    \ attempting to make calls like this throws an exception:\n\n  dg.Columns[2].AutoSizeMode\n\
+    \    = DataGridViewAutoSizeColumnMode.DisplayedCells;\n\n  dg.Columns[3].AutoSizeMode\n\
+    \    = DataGridViewAutoSizeColumnMode.Fill;\n\nCheers, Jeremy."
+- author: Matt Taylor
+  email: matthew.taylor@wspgroup.com
+  ip: 61.14.99.173
+  url: ''
+  date: '2014-06-04 01:37:31'
+  body: 'Hi Jeremy,
+
+
+    Ah, sorry that didn''t help. (I didn''t test it.)
+
+    The thing I used it for was printer devices, their status, and queue length etc
+    (read-only), so a DataTable was a perfect Datasource for that.
+
+
+    From what I read about the column count on the datasource (list) issue, it''s
+    to do with late-binding of data - so I guess your solution works best!!
+
+
+    I hope you''re having fun in Toronto!
+
+
+    Kind regards,
+
+
+    Matt'
+- author: Jeremy Tammik
+  email: ''
+  ip: 10.20.13.216
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-06-04 20:02:50'
+  body: 'Dear Matt,
+
+
+    Thank you for the suggestion, anyway, and for your good wishes!
+
+
+    Cheers, Jeremy.'
+- author: Vipul Surana
+  email: vipul.surana@gmail.com
+  ip: 111.118.247.50
+  url: ''
+  date: '2015-05-23 03:18:15'
+  body: 'Hello Jeremy,
+
+
+    I didn''t understand the above example completely.
+
+    I have questions like: which file are you talking about ? there is no namespace
+    and the filename + extension.
+
+
+    I am a very layman person, just started working 2 days before on Revit 2016.
+
+
+    Need to ask you how to get started with creating a solution (class library / usercontrol
+    library / wpf application) and connect with Revit, there are no proper guidelines
+    for this.
+
+
+    Can you make a layman blog post for me and for the starters.
+
+    I am very desperate to learn this tech.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.121.207
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-26 03:53:12'
+  body: 'Dear Vipul,
+
+
+    You will be very happy to hear that we have already created a full set of getting
+    started material:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#2">http://thebuildingcoder.typepad.com/blog/about-the-author.html#2</a>
+
+
+    I guarantee that it covers all your needs :-)
+
+
+    Cheers, Jeremy.
+
+    -----'

@@ -1,0 +1,185 @@
+comments:
+- author: David Bartliff
+  email: david.bartliff@cscworld.com
+  ip: 217.113.167.34
+  url: ''
+  date: '2010-06-18 09:25:58'
+  body: 'I guess from this that it is not possible to set the tag type before creation
+    of a tag. Is it even possible to find which tag type would be used?
+
+    In a similar manner I would like to know which level type will be used for a new
+    level because I need to know whether the elevation to be set should be Project
+    or Shared. In fact I want to set the ProjectElevation but it is Read-Only.
+
+    The workaround will be
+
+    a) Create the new level
+
+    b) Check the ProjectElevation value is what I need
+
+    c) If not change the elevation so that the ProjectElevation is correct'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-18 10:26:25'
+  body: 'Dear David,
+
+
+    I am not sure that it is impossible to define the tag type before its creation,
+    if it defined in a standard RFA file. You may be able to open the family file
+    and both read and modify the default type to use. It might just mean opening an
+    additional file in the background and manipulating that in addition to the project
+    document that you may be more accustomed to be working in. Maybe there is even
+    no need to save the modified library file to disk before reloading it. No guarantees,
+    though.
+
+
+    Another way to approach this issue is to use the manual regeneration option, insert
+    the instance without caring exactly what type it is, modifying it after inserting
+    it, and not regenerating between these two steps.
+
+
+    I cannot really say anything about the levels, I have not looked at them from
+    that point of view yet at all. If you really want to know that and have a concrete
+    problem that you would like to solve, I would suggest submitting an ADN case so
+    that we can have a look at it in more depth.
+
+
+    Cheers, Jeremy.'
+- author: jude
+  email: jude2012@126.com
+  ip: 110.83.55.211
+  url: ''
+  date: '2011-10-27 01:42:17'
+  body: hello.my name is jude ,i want to create a new tag in the middle of a column.and
+    the newtag() method need the xyz parameter, but i don't know how to set the XYZ
+    for the tag.would you please tell me how to do?
+- author: jude
+  email: jude2012@126.com
+  ip: 110.83.55.211
+  url: ''
+  date: '2011-10-27 01:53:47'
+  body: in other words,i want to know how to get the middlepoint of a column.
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.151.141
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-11-10 01:56:53'
+  body: "Dear Jude,\n\nThat should be pretty easy. In all cases that I know of, the\
+    \ location point of the column family instance is in its center. You can access\
+    \ it though the Location property, casting the value to a LocationPoint. There\
+    \ are lots of samples of doing this on the blog. \n\nThere are various other ways.\
+    \ That might be the simplest, though.\n\nCheers, Jeremy."
+- author: Dickins John
+  email: dickinsjohn@gmail.com
+  ip: 123.63.24.30
+  url: ''
+  date: '2013-10-10 01:48:43'
+  body: "Dear Jeremy,\nIts feels great to read through your blog. Its a one stop solution\
+    \ for solution to most of the problems. Also description of your adventures are\
+    \ awesome.\n\nI need some help regarding rotating the Label in the tags and I\
+    \ want to keep it aligned with the tagged elements. This happens automatically\
+    \ in case of Wall Tags but not for Electrical Fixtures.\nTagOrientation property\
+    \ is available but can only be set to Vertical or Horizontal. Rotating tag rotates\
+    \ only the Leader line and not the label. Can you suggest a solution for the problem.\
+    \ \nAnyway awesome work. Keep going."
+- author: Dickins John
+  email: dickinsjohn@gmail.com
+  ip: 123.63.24.30
+  url: ''
+  date: '2013-10-10 05:07:42'
+  body: I came to know that, tags are not rotating with all components because rotate
+    with component property is associated only with curve based elements. Is there
+    any way to force the tags (labels in tags) to rotate based on any imaginary angle
+    found from the tagged element?
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.201.138
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-11-06 08:41:56'
+  body: 'Dear John,
+
+
+    Thank you very much for your appreciation.
+
+
+    Mostly, the API will only allow you to set up situations that can also be constructed
+    manually through the UI somehow.
+
+
+    Can you solve this task manually?
+
+
+    One powerful API feature is the DMU, or Dynamic Model Update:
+
+
+    <a href="http://lmgtfy.com/?q=revit+api+dmu">http://lmgtfy.com/?q=revit+api+dmu</a>
+
+
+    Using that, you can align one element with another and ensure that it updates
+    appropriately, as demonstrated, for example, by the Revit SDK DynamicModelUpdate
+    sample.
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.'
+- author: konrad
+  email: ksobon1986@gmail.com
+  ip: 72.226.7.244
+  url: http://www.archi-lab.net
+  date: '2014-06-29 21:10:23'
+  body: 'Jeremy,
+
+
+    Can you explain in detail what it would take to make the Element.ChangeTypeId(Document,
+    ICollection<ElementId>), ElementId) command work on a set of tags instead of just
+    one. I am trying to change multiple tags all at once to avoid regeneration, but
+    I am not sure how to use that method. if I call it on a element it returns an
+    error saying that it was expecting just one argument. what is the proper way to
+    use this method? thank you'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-06-30 11:11:01'
+  body: "Dear Konrad,\n\nThe Element.ChangeTypeId (Document, ICollection(Of ElementId),\
+    \ ElementId) method changes the element type of all elements whose ids are included\
+    \ in the collection.\n\nHere is a simple and senseless example assigning a wall\
+    \ the wall type that it already has:\n\n  Wall wall = null;\n  WallType wallType\
+    \ = wall.WallType;\n  List[ElementId] ids = new List[ElementId]( 1 );\n  ids.Add(\
+    \ wall.Id );\n  Element.ChangeTypeId( wall.Document, ids, wallType.Id );\n\n(replace\
+    \ [] by 'smaller than' and 'greater than' signs)\n\n<a href=\"https://gist.github.com/jeremytammik/dda73fb51550cd7c1611\"\
+    >https://gist.github.com/jeremytammik/dda73fb51550cd7c1611</a>\n\nCheers, Jeremy."
+- author: Preetesh
+  email: sunil.magdum@gmail.com
+  ip: 115.115.193.158
+  url: ''
+  date: '2014-10-13 06:31:50'
+  body: 'JEREMY,
+
+
+    i want know if there is any way or API that can be create to add level detail
+    of a door in door tag.
+
+    for ex.. door D1 has a tag which shows D1 in the tag similary can i add level
+    no or level detail of door into the tag...??'
+- author: Preetesh
+  email: sunil.magdum@gmail.com
+  ip: 115.115.193.158
+  url: ''
+  date: '2014-10-13 06:35:55'
+  body: 'DJ help me out with this....
+
+
+    i want know if there is any way or API that can be create to add level detail
+    of a door in door tag.
+
+    for ex.. door D1 has a tag which shows D1 in the tag similary can i add level
+    no or level detail of door into the tag...??
+
+
+
+    -----'

@@ -1,0 +1,123 @@
+comments:
+- author: m.vallee
+  email: m.vallee@bouygues-construction.com
+  ip: 79.174.225.131
+  url: ''
+  date: '2013-08-30 08:38:36'
+  body: 'Hi Jeremy,
+
+
+    Thanks for your article about schedules.
+
+
+    I have a question that is not directly linked to what you explained but linked
+    with the creation of schedules.
+
+
+    I would like to add the wall "base constraint" and "unconnected height" parameters
+    in my automatic wall schedule but it seems impossible.
+
+
+    I used the built-in parameters WALL_BASE_CONSTRAINT and WALL_USER_HEIGHT_PARAM
+    but it failed :
+
+
+    ScheduleField level = schedule.Definition.AddField(ScheduleFieldType.Instance,
+    new ElementId(BuiltInParameter.WALL_BASE_CONSTRAINT));
+
+
+    ScheduleField height = schedule.Definition.AddField(ScheduleFieldType.Instance,
+    new ElementId(BuiltInParameter.WALL_USER_HEIGHT_PARAM));
+
+
+    I know these parameters are not schedulable for Revit users but I thought I could
+    simply add them with some code since they are built-in parameters.
+
+
+    But... I checked and they are not in the list that we get with the GetAvailableParameters()
+    method for OST_Walls.
+
+
+    What do you think about that ? Do I have to create a shared parameter, copy the
+    BIP value in it, then schedule it ? Are there any other workarounds ?
+
+
+    Thanks in advance for your help.
+
+
+    Cheers.
+
+
+    Maxime'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.219.98
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-08-30 08:43:15'
+  body: 'Dear Maxime,
+
+
+    Thank you for your appreciation and interesting question.
+
+
+    I am not sure off-hand.
+
+
+    Can you achieve that in the user interface?
+
+
+    If so, it should certainly be doable programmatically as well.
+
+
+    Could you please submit an ADN query with a reproducible case for us to explore?
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: m.vallee
+  email: m.vallee@bouygues-construction.com
+  ip: 82.235.199.127
+  url: ''
+  date: '2013-08-31 10:16:05'
+  body: "Hi Jeremy, \n\nUnfortunately this is not doable in the user interface.\n\
+    The built-in parameters seem to be unauthorized to be scheduled because adding\
+    \ the corresponding fields to the wall schedule's definition raises exceptions.\
+    \ \nIf you google \"revit wall schedule\" + \"level\" or \"unconnected height\"\
+    \ you will see it is a problem shared by many Revit users.\nI will give you a\
+    \ test case next week if you want.\n\nCheers. \n\nMaxime"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-08-31 16:21:32'
+  body: 'Dear Maxime,
+
+
+    Oh dear. If it is not possible in the user interface, then there is not much we
+    can do API-wise either.
+
+
+    Yes, please submit an ADN issue with a reproducible test case and an explanation
+    of why you need this, including:
+
+
+    <ul>
+
+    <li>A complete yet minimal Revit sample model.</li>
+
+    <li>Detailed step-by-step instructions for reproducing the issue.</li>
+
+    <li>Specification of the exact behaviour you observe versus what you expect.</li>
+
+    </ul>
+
+
+    Best would be if you explain why you need it as a standard non-API product feature,
+    without mentioning that you wish to drive it programmatically.
+
+
+    Cheers, Jeremy.
+
+    -----'

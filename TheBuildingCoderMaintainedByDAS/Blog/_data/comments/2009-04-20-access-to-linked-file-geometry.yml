@@ -1,0 +1,88 @@
+comments:
+- author: Bas Hendriks
+  email: bas.hendriks@inbo.com
+  ip: 194.151.221.98
+  url: http://www.inbo.com
+  date: '2010-03-04 05:53:46'
+  body: 'Dear Jeremy,
+
+
+    I hope you can give me some advise on this. Based on the information in this blog
+    I was thinking of creating a separate rvt file with all our wall system families.
+    Then remove the wall system families from our company template. Via the API, link
+    the rvt file with all our wall system families to a project and show these walls
+    in a listbox. Then add the selected walls to the Revit project for further use.
+
+
+    Is there a more logic approach for this? If not is there a way to load an rvt
+    file via API?
+
+
+    Regards,
+
+
+    Bas Hendriks'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-03-04 12:38:44'
+  body: 'Dear Bas,
+
+
+    To start at the end, yes, for sure you can load a file via the API. Do you mean
+    load a family into a project? That would be an RFA file, not RVT. Do you mean
+    open an existing project? That would be an RVT file. Yes, you can open a project
+    in the API, but it does not become visible to the user, it can only be manipulated
+    via the API.
+
+
+    The rest of your ideas sound fine to me, but I am not a user, so I cannot tell
+    whether the workflow is optimal. It sounds doable from the API point of view,
+    as far as I can tell.
+
+
+    Cheers, Jeremy.'
+- author: Bas Hendriks
+  email: bas.hendriks@inbo.com
+  ip: 86.92.255.222
+  url: http://www.inbo.com
+  date: '2010-03-04 15:24:55'
+  body: 'Dear Jeremy,
+
+
+    Correct me if I''m wrong but as far as I know a System Familiy as in my case Walls
+    can''t reside into a project RFA file. Therefor I thought of putting the Wall
+    System Families into a RVT file and link it to a project so I can add them if
+    required.
+
+
+    Do you have an example of opening a project RVT file? Together with the code on
+    "linked files" I can realise my idea.
+
+
+    Many thanks,
+
+
+    Bas'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-03-09 11:15:06'
+  body: 'Dear Bas,
+
+
+    Oops, yes, of course, right you are, system families are built in and cannot be
+    redefined in RFA files.
+
+
+    You can use the Application OpenDocumentFile method to open an RVT project file.
+    The only example of calling it that I found off-hand is in the FamilyCreation
+    AutoParameter sample, although it is only interested in opening family files.
+    It is pretty straight-forward to use.
+
+
+    Cheers, Jeremy.
+
+    -----'

@@ -1,0 +1,117 @@
+comments:
+- author: Santos95400864
+  email: ''
+  ip: 190.248.192.119
+  url: http://profile.typepad.com/santos95400864
+  date: '2013-02-16 18:34:49'
+  body: 'Hi Jeremy,
+
+
+    Nice work, but i have a question. It''s possible to hide the schedules of project
+    using API?..
+
+
+    Thanks!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-29 10:34:22'
+  body: "Dear Santos, \n\nYes, of course! You can simply delete them, just like any\
+    \ other element, can't you?\n\nCheers, Jeremy."
+- author: José Ignacio Montes
+  email: ji@montesherraiz.com
+  ip: 80.38.38.156
+  url: http://www.avatarbim.com
+  date: '2014-02-12 08:41:54'
+  body: "Hi Jeremy, I have a question.\nIs it possible to retrieve the viewsheet from\
+    \ a ScheduleSheetInstance without iterating through all viewsheets? \nI have 500\
+    \ sheets and 7 ScheduleSheetInstance. It takes ten minutes to retrieve the seven\
+    \ ScheduleSheetInstances.\n\nThanks!\n\nJosé Ignacio Montes"
+- author: Jose Ignacio Montes
+  email: ji@montesherraiz.com
+  ip: 80.38.38.156
+  url: http://www.avatarbim.com
+  date: '2014-02-12 13:33:57'
+  body: "Ok, I´ve got it:\nI only have to ask the ScheduleSheetInstance for its sheet\
+    \ through the property OwnerViewId;\nI have 500 sheets and only 7 schedules. Goes\
+    \ a lot faster than going through all sheets:\n\nScheduleSheetInstance vsch =\
+    \ \nviewSchedule as ScheduleSheetInstance;\nElementId shid = vsch.OwnerViewId;"
+- author: Paulus Present
+  email: paulus.present@b-b.be
+  ip: 81.82.199.179
+  url: ''
+  date: '2014-06-10 04:53:29'
+  body: 'Dear Jeremy,
+
+
+    How would you go about retrieving only the materials that are scheduled in a material
+    takeoff schedule?
+
+    As you said above, inserting the ViewScheduleId as a filter in an elementscollector,
+    in case of a material takeoff, retrieves the scheduled elements but also the entire
+    material library..
+
+    This is annoying as I would like to make unique records of ''ElementId + MaterialId''
+    for each entry in each material takeoff in the project, to check if the Revit
+    user hasn''t created duplicate measurements. This happens and can be quite a costly
+    error.
+
+
+    Thanks in advance for any help or direction,
+
+
+    Kind regards,
+
+
+    Paulus'
+- author: Paulus Present
+  email: pasulus.present@b-b.be
+  ip: 81.82.199.179
+  url: ''
+  date: '2014-06-20 06:25:42'
+  body: 'I got it to work, but it is quite ugly code, making use of some collectors
+    and filters (if anyone cares to see it, be my guest =).
+
+
+    It would be a lot easier and save a lot of trouble if the API would be reprogrammed
+    to only include the scheduled materials instead of the entire library.
+
+
+    There''s no point in having the entire material library as the result of a schedulefilter,
+    as you can get all materials simply by applying an OffCategory filter to a collector.
+
+
+    Kind regards,
+
+
+    Paulus'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.193.108
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-06-25 16:57:07'
+  body: 'Dear Paulus,
+
+
+    Thank you for letting us know.
+
+
+    Yes indeed, I would love to take a look.
+
+
+    Maybe we can find some room for improvement and possibly even simplification.
+
+
+    Can you share it as a gist or something?
+
+
+    <a href="https://gist.github.com">https://gist.github.com</a>
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.
+
+    -----'

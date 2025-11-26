@@ -1,0 +1,259 @@
+comments:
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 189.59.174.201
+  url: http://arxdummies.blogspot.com
+  date: '2010-03-29 15:00:32'
+  body: 'Jeremy,
+
+
+    Any guidelines about how to port your code from 2010 to 2011 but keep it compiling
+    on both versions?
+
+
+    How to use the new 2011-only features and make them be ignored by the 2010 compilation?
+
+
+    Are there any #if preprocessor directive which allow our code to guess it is being
+    compiled along 2010 or 2011 SDK?
+
+
+    Most of times we cannot just trash our current version in favor of a smooth and
+    definitive migration to the new SDK.
+
+
+    Cheers.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.153.67
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-03-29 17:57:20'
+  body: "Dear Fernando,\n\nThank you for these very pertinent questions. Here are\
+    \ some quick and dirty spontaneous answers to them:\n\n1. Nope.\n\n2. Use an #if\
+    \ preprocessor directive.\n\n3. Nothing predefined, but you can set them up yourself,\
+    \ of course. I added some #if _2010 directives to The Building Coder samples,\
+    \ but they are more decorative than functional, since I have no intention of compiling\
+    \ the ported version for 2010. I simply added them to preserve some 2010 version\
+    \ code here and there for comparison purposes, and intend to possibly use that\
+    \ to explain some of the main differences at some point.\n\n4. Yes, I definitely\
+    \ understand and agree with that, and I would suggest that you do exactly what\
+    \ you are sort of suggesting, use a preprocessor directive to switch between 2010\
+    \ and 2011 version code, or even other versions as well, if needed. You can of\
+    \ course also use .NET reflection to determine at runtime what version of Revit\
+    \ has loaded your add-in, and switch dynamically between differenc versions of\
+    \ your functions appropriately, cf. the end of \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/10/revit-2010-subscription-pack.html#2\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/10/revit-2010-subscription-pack.html#2</a>\n\
+    \nIf you like, we can work together to set up a little sample demonstrating the\
+    \ technique for publishing here on the blog to explain to others how this works.\n\
+    \nCheers, Jeremy."
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 189.59.174.201
+  url: http://arxdummies.blogspot.com
+  date: '2010-03-30 08:15:15'
+  body: 'Jeremy,
+
+
+    I think this issue is pretty much related to the project configuration than the
+    sample features itself.
+
+
+    I think if you get a sample which contains code that have changed significantly
+    from 2010 to 2011 this would be a very nice example of the problems users may
+    face when they are trying to migrate their codes.
+
+
+    You could show them how to create the #if preprocessor definition and how to address
+    the namespaces changes, changed signatures, removed API methods, etc.
+
+
+    How does it sound for you?
+
+    Cheers.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-03-30 08:29:06'
+  body: 'Dear Fernando,
+
+
+    Yes, I absolutely agree. Please go ahead and send a minimal but not completey
+    uninteresting sample along  :-)
+
+
+    Please send me some free time as well.  ;-)
+
+
+    Cheers, Jeremy.'
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 189.59.174.201
+  url: http://arxdummies.blogspot.com
+  date: '2010-03-30 08:39:54'
+  body: "Ok, I will think about something simple and representative. \n\nIf I can\
+    \ find some free time I will send you but it will cost some money...hehehe\n\n\
+    Cheers."
+- author: Steffen Rabe
+  email: ''
+  ip: 62.225.166.11
+  url: http://profile.typepad.com/steffenrabe
+  date: '2010-03-31 06:19:12'
+  body: "Hi there,\n\nwe did the migration to 2011 keeping the 2010 even 2009 running.\
+    \ \nFinally we create a seperate DLLs for 2011/2010/2009, but we use the same\
+    \ source code.\n\nWe addded special using statments for the major objects changed\
+    \ like:\n\n#if Revit2011\nusing Autodesk.Revit.DB;\nusing RvtGeoElement = Autodesk.Revit.DB.GeometryElement;\n\
+    using RvtGeoInstance = Autodesk.Revit.DB.GeometryInstance;\nusing Symbol = Autodesk.Revit.DB.ElementType;\t\
+    \n...\n#else\nusing RvtGeoElement = Autodesk.Revit.Geometry.Element;\nusing RvtGeoInstance\
+    \ = Autodesk.Revit.Geometry.Instance;\nusing Symbol = Autodesk.Revit.Symbol;\t\
+    \n...\n#endif\n\nAnd it works fine for us.\n\nRegards,\nSteffen"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-03-31 06:53:37'
+  body: 'Dear Steffen,
+
+
+    Thank you for the information.
+
+
+    That is exactly the kind of approach I had in mind.
+
+
+    Congratulations on handling all three versions so effectively and elegantly.
+
+
+    Do you have any bits of source code or other functionality that also need conditional
+    compilation?
+
+
+    If so, which are they, please?
+
+
+    If you like, I will happily publish some small non-confidential parts of your
+    code as an multi-version example.
+
+
+    Cheers, Jeremy.'
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 189.26.202.156
+  url: http://arxdummies.blogspot.com
+  date: '2010-03-31 08:34:14'
+  body: 'Jeremy,
+
+
+    I still don''t understand why Autodesk does not provide a some native SDK preprocessor
+    symbols for each AutoCAD/Revit release. It is very annoying to keep creating custom
+    preprocessor definitions for every single new product release.
+
+
+    Steffen,
+
+
+    Did you create different VStudio ouput configurations for each Revit release/platform?
+
+
+    Something like:
+
+
+    Release Revit 2009
+
+    Debug Revit 2009
+
+
+    Release x32 Revit 2010
+
+    Release x64 Revit 2010
+
+    Debug x32 Revit 2010
+
+    Debug x64 Revit 2010
+
+
+    Release x32 Revit 2011
+
+    Release x64 Revit 2011
+
+    Debug x32 Revit 2011
+
+    Debug x64 Revit 2011
+
+
+    It is a nightmare for us.
+
+    Cheers.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-03-31 10:15:48'
+  body: "Dear Fernando,\n\nThe reason is simply the KISS principle, as described in\
+    \ \n\n<a href=\"http://en.wikipedia.org/wiki/KISS_principle\">http://en.wikipedia.org/wiki/KISS_principle</a>\n\
+    \nThere is no need for it, it would only complicate things unnecessarily for those\
+    \ who do not require that kind of support, and unnecessarily limit those who do.\n\
+    \nJust imagine if we at Autodesk had designed support for all those platforms\
+    \ in our own fashion.\n\nI promise you it would not fulfil your needs, AND it\
+    \ would make it MUCH harder for you to do so yourself, because you would have\
+    \ to battle our principles.\n\nI am absolutely convinced that there is nothing\
+    \ in the world stopping you from creating a completely comfortable and efficient\
+    \ system to manage the different versions with no pain at all, and certainly no\
+    \ nightmares.\n\nIf you like, you can drop me a mail when a new release comes\
+    \ out and I will invent a pre-processor symbol for you  :-)\n\nCheers, Jeremy."
+- author: Steffen Rabe
+  email: ''
+  ip: 85.180.10.36
+  url: http://profile.typepad.com/steffenrabe
+  date: '2010-03-31 17:13:23'
+  body: "Hi Fernando,\n\nWe only have different copies of the initial solution file\
+    \ from 2009 and added the define Revt2010 and now Revit2011.\nWhy different solutions?\
+    \ We need to add differnet files for the installaton packages. \n\nBecause we\
+    \ use .net we always compile with AnyCPU, so we only have two configurations for\
+    \ every sln. Debug/Release as usual.\n\nRegards,\nSteffen"
+- author: Steffen Rabe
+  email: ''
+  ip: 85.180.10.36
+  url: http://profile.typepad.com/steffenrabe
+  date: '2010-03-31 17:15:49'
+  body: "Jeremy,\n\nSure we have a some more. The rest is very specific for our naming\
+    \ conventions. \n\nRegards,\nSteffen\n\n\n1.)inside main class\n#if Revit2011\n\
+    \    [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]\n\
+    \    [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]\n\
+    #endif\n\tpublic class Command : IExternalCommand\n\n\t\n2.)inside Execute method\n\
+    #if Revit2011\n\t\tRevitCore.ActiveDocument = commandData.Application.ActiveUIDocument.Document;\n\
+    \t\tRevitCore.Application = commandData.Application.Application;\n\t\tRevitCore.Document\
+    \ = commandData.Application.ActiveUIDocument.Document;\n\t\tRevitCore.RevitUIApplication\
+    \ = commandData.Application;\n#else\n\t\tRevitCore.ActiveDocument = commandData.Application.ActiveDocument;\n\
+    \t\tRevitCore.Application = commandData.Application;\n        RevitCore.Document\
+    \ = commandData.Application.ActiveDocument;\n#endif\n\n3.)to create the ribbon\n\
+    //create cpi pulldown menu\n        RibbonPanel rvtRibbonPanel = app.CreateRibbonPanel(NLS.Revit2010_TLB_PanelName);\n\
+    #if Revit2011\n        PulldownButton cpiPullDownBtn = rvtRibbonPanel.AddItem(new\
+    \ PulldownButtonData(NLS.Revit2010_TLB_PullDownMenuName, NLS.Revit2010_TLB_PullDownMenuName))\
+    \ as PulldownButton;\n#else\n\t\tPulldownButton cpiPullDownBtn = rvtRibbonPanel.AddPulldownButton(NLS.Revit2010_TLB_PullDownMenuName,\
+    \ NLS.Revit2010_TLB_PullDownMenuName);\n#endif\n\n#if Revit2011\n        PushButton\
+    \ cpiPushBtn = cpiPullDownBtn.AddPushButton(new PushButtonData(NLS.Revit2010_TLB_ButtonText,\
+    \ NLS.Revit2010_TLB_ButtonText, ExecutingAssemblyPath, \"Commandclass\"));\n#else\n\
+    \t\tPushButton cpiPushBtn = cpiPullDownBtn.AddItem(NLS.Revit2010_TLB_ButtonText,\
+    \ ExecutingAssemblyPath, \"Commandclass\");\n#endif\n\n\n4.)to get all elements\n\
+    #if Revit2011\n        IEnumerator allElementsEnumerator = RevitCore.Document.get_Elements_Bridge();\n\
+    #else\n\t\tIEnumerator allElementsEnumerator = RevitCore.Document.Elements;\n\
+    #endif"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-03-31 17:24:50'
+  body: 'Dear Steffen,
+
+
+    Thank you very much for the useful examples, they are just like I would have imagined
+    them.
+
+
+    I think the principle is totally clear.
+
+
+    Cheers, Jeremy.
+
+    -----'

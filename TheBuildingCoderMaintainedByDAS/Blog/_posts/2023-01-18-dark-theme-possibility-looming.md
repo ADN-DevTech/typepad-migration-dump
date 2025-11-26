@@ -1,0 +1,231 @@
+---
+layout: "post"
+title: "New Roadmaps, Dark Theme Possibility Looming"
+date: "2023-01-18 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "News"
+  - "Ribbon"
+  - "Roadmap"
+  - "User Interface"
+original_url: "https://thebuildingcoder.typepad.com/blog/2023/01/dark-theme-possibility-looming.html "
+typepad_basename: "dark-theme-possibility-looming"
+typepad_status: "Publish"
+---
+
+<p>Happy New Year of the Rabbit, xīnnián hǎo, 新年好!</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302af1c98691e200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302af1c98691e200d img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="Happy New Year of the Rabbit!" title="Happy New Year of the Rabbit!" src="/assets/image_e811e4.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>The Spring Festival is coming up this weekend, starting on Sunday, January 22, celebrating 
+the <a href="https://en.wikipedia.org/wiki/Chinese_New_Year">Chinese New Year</a> and 
+another <a href="https://en.wikipedia.org/wiki/Rabbit_(zodiac)">Year of the Rabbit</a>.</p>
+
+<p>In the lunar calendar, 2023 is a Water Rabbit Year.
+The sign of the Rabbit is a symbol of longevity, peace, and prosperity in Chinese culture.
+2023 is predicted to be a year of hope, especially after the long pandemic period.
+Wishing all of us lots of health, energy and happiness in the new year!</p>
+
+<p>In this new year, the Revit development team has another topic to share with us:</p>
+
+<ul>
+<li><a href="#2">Dark theme possibility looming</a></li>
+<li><a href="#2.1">Dark theme switching</a></li>
+<li><a href="#2.2">Dark theme API</a></li>
+<li><a href="#2.3">Dark theme icons</a></li>
+<li><a href="#2.4">Code example: handling themed ribbon icons</a></li>
+<li><a href="#2.5">Dark theme additional notes</a></li>
+<li><a href="#2.6">Autodesk icon guidelines snapshot</a></li>
+<li><a href="#3">Autodesk AEC Public Roadmaps</a></li>
+</ul>
+
+<h4><a name="2"></a> Dark Theme Possibility Looming</h4>
+
+<p>We recently announced internal thoughts
+on <a href="https://thebuildingcoder.typepad.com/blog/2022/11/64-bit-element-ids-maybe.html">possibly converting the internal representation of Revit element ids from 32 to 64 bit in a future release of Revit</a>.</p>
+
+<p>In a similar vein, here is another internal topic being pondered.
+Please note the important safe harbor statement concerning these thoughts:</p>
+
+<blockquote>
+  <p>Roadmaps are plans, not promises.
+  We’re as excited as you to see new functionality make it into the products, but the development, releases, and timing of any features or functionality remains at our sole discretion.
+  These updates should not be used to make purchasing decisions.</p>
+</blockquote>
+
+<p>So, the possibility that I would like to present today concerns supporting the Dark Theme and how to handle it in a Revit add-in:</p>
+
+<h4><a name="2.1"></a> Dark Theme Switching</h4>
+
+<p>Setting the UI Active Theme will switch the appearance of the Ribbon between light grey and dark blue, with three options:</p>
+
+<ul>
+<li>Light</li>
+<li>Dark </li>
+<li>Use system setting
+&ndash; Windows supports light and dark colour schemes.
+If you choose this option, Revit will use the Windows colour scheme and switch to a matching theme accordingly.</li>
+</ul>
+
+<p>Light:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302af14aeb346200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302af14aeb346200b image-full img-responsive" alt="Dark theme &ndash; light" title="Dark theme &ndash; light" src="/assets/image_042835.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Dark:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302af148d1d25200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302af148d1d25200c image-full img-responsive" alt="Dark theme &ndash; dark" title="Dark theme &ndash; dark" src="/assets/image_d5a3e1.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>The UI Active Theme options can define other colour settings to override the default ones:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302af14aeb34a200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302af14aeb34a200b img-responsive" alt="Dark theme" title="Dark theme" src="/assets/image_1969d8.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="2.2"></a> Dark Theme API</h4>
+
+<p>New properties and events may be added for dark theme support:</p>
+
+<ul>
+<li>ThemeChangedEventArgs &ndash; Arguments for the ThemeChanged event</li>
+<li>UIThemeManager.CurrentTheme &ndash; Allows you to set /get the overall theme for the Revit session</li>
+<li>UIThemeManager.FollowSystemColorTheme &ndash; Allows you to set /get if the overall theme follows operating system color theme </li>
+<li>UIThemeManager.CurrentCanvasTheme &ndash; Allows you to set/get a canvas theme for the current Revit session (as opposed to the default theme)</li>
+<li>ColorOption &ndash; Allows you to set/get the colours in the current canvas theme</li>
+</ul>
+
+<h4><a name="2.3"></a> Dark Theme Icons</h4>
+
+<p>Here are samples of the default dark theme ribbon background and button colour settings:</p>
+
+<p>Light ribbon background:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302af14aeb350200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302af14aeb350200b img-responsive" alt="Dark theme &ndash; light ribbon background" title="Dark theme &ndash; light ribbon background" src="/assets/image_48d928.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Dark ribbon background:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302af148d1d29200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302af148d1d29200c img-responsive" alt="Dark theme &ndash; light ribbon background" title="Dark theme &ndash; light ribbon background" src="/assets/image_160dfe.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Light ribbon buttons:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302af14aeb355200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302af14aeb355200b image-full img-responsive" alt="Dark theme &ndash; light ribbon buttons" title="Dark theme &ndash; light ribbon buttons" src="/assets/image_e09538.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Dark ribbon buttons:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302af14aeb359200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302af14aeb359200b image-full img-responsive" alt="Dark theme &ndash; dark ribbon buttons" title="Dark theme &ndash; dark ribbon buttons" src="/assets/image_a4fcd2.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<ul>
+<li>Small button size: 16x16px</li>
+<li>Large button size: 32x32px</li>
+<li>Resolution: 96 DPI</li>
+<li>Icons</li>
+</ul>
+
+<h4><a name="2.4"></a> Code Example: Handling Themed Ribbon Icons</h4>
+
+<div style="border: #000080 1px solid; color: #000; font-family: 'Cascadia Mono', Consolas, 'Courier New', Courier, Monospace; font-size: 10pt">
+<div style="background: #f3f3f3; color: #000000; max-height: 500px; overflow: auto">
+<ol start="18" style="background: #ffffff; margin: 0; padding: 0;">
+<li><span style="color:#0000ff">internal</span> <span style="color:#0000ff">class</span> <span style="color:#2b91af">TestRibbon</span> : IExternalApplication</li>
+<li style="background: #f3f3f3">{</li>
+<li>&#160; <span style="color:#0000ff">private</span> PushButton m_ribbonBtn;</li>
+<li style="background: #f3f3f3">&#160; <span style="color:#0000ff">public</span> Result OnStartup(UIControlledApplication application)</li>
+<li>&#160; {</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160; <span style="color:#0000ff">var</span> ribbonPanel = application.CreateRibbonPanel(<span style="color:#a31515">&quot;33900745-04F5-4CC2-9BAC-3230716E3A54&quot;</span>, <span style="color:#a31515">&quot;Test&quot;</span>);</li>
+<li>&#160;&#160;&#160; <span style="color:#0000ff">var</span> buttonData = <span style="color:#0000ff">new</span> PushButtonData(<span style="color:#a31515">&quot;Test&quot;</span>, <span style="color:#a31515">&quot;Test&quot;</span>, <span style="color:#0000ff">typeof</span>(CmdEntry).Assembly.Location, <span style="color:#0000ff">typeof</span>(CmdEntry).FullName);</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160; buttonData.AvailabilityClassName = <span style="color:#0000ff">typeof</span>(CmdEntry).FullName;</li>
+<li>&#160;&#160;&#160; m_ribbonBtn = ribbonPanel.AddItem(buttonData) <span style="color:#0000ff">as</span> PushButton;</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160; updateImageByTheme();</li>
+<li>&#160;&#160;&#160; application.ThemeChanged += ThemeChanged;</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160; <span style="color:#0000ff">return</span> Result.Succeeded;</li>
+<li>&#160; }</li>
+<li style="background: #f3f3f3">&#160; <span style="color:#0000ff">private</span> <span style="color:#0000ff">void</span> setButtonImage(<span style="color:#0000ff">string</span> pic, <span style="color:#0000ff">string</span> largePic)</li>
+<li>&#160; {</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160; <span style="color:#0000ff">var</span> assemblyLocation = <span style="color:#0000ff">typeof</span>(TestRibbon).Assembly.Location;</li>
+<li>&#160;&#160;&#160; <span style="color:#0000ff">var</span> assemblyDirectory = Path.GetDirectoryName(assemblyLocation);</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160; <span style="color:#0000ff">var</span> imagePath = Path.Combine(assemblyDirectory, pic);</li>
+<li>&#160;&#160;&#160; <span style="color:#0000ff">var</span> largeImagePath = Path.Combine(assemblyDirectory, largePic);</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160; <span style="color:#0000ff">if</span> (File.Exists(imagePath))</li>
+<li>&#160;&#160;&#160;&#160;&#160; m_ribbonBtn.Image = <span style="color:#0000ff">new</span> System.Windows.Media.Imaging.BitmapImage(<span style="color:#0000ff">new</span> Uri(imagePath));</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160; <span style="color:#0000ff">if</span> (File.Exists(largeImagePath))</li>
+<li>&#160;&#160;&#160;&#160;&#160; m_ribbonBtn.LargeImage = <span style="color:#0000ff">new</span> System.Windows.Media.Imaging.BitmapImage(<span style="color:#0000ff">new</span> Uri(largeImagePath));</li>
+<li style="background: #f3f3f3">&#160; }</li>
+<li>&#160; <span style="color:#0000ff">private</span> <span style="color:#0000ff">void</span> updateImageByTheme()</li>
+<li style="background: #f3f3f3">&#160; {</li>
+<li>&#160;&#160;&#160; UITheme theme = UIThemeManager.CurrentTheme;</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160; <span style="color:#0000ff">switch</span> (theme)</li>
+<li>&#160;&#160;&#160; {</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">case</span> UITheme.Dark:</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160; setButtonImage(<span style="color:#a31515">&quot;dark.png&quot;</span>, <span style="color:#a31515">&quot;darkLarge.png&quot;</span>);</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">break</span>;</li>
+<li>&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">case</span> UITheme.Light:</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160;&#160;&#160;&#160;&#160; setButtonImage(<span style="color:#a31515">&quot;light.png&quot;</span>, <span style="color:#a31515">&quot;lightLarge.png&quot;</span>);</li>
+<li>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span style="color:#0000ff">break</span>;</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160; }</li>
+<li>&#160; }</li>
+<li style="background: #f3f3f3">&#160; <span style="color:#0000ff">private</span> <span style="color:#0000ff">void</span> ThemeChanged(<span style="color:#0000ff">object</span> sender, Autodesk.Revit.UI.Events.ThemeChangedEventArgs e)</li>
+<li>&#160; {</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160; updateImageByTheme();</li>
+<li>&#160; }</li>
+<li style="background: #f3f3f3">}</li>
+</ol>
+</div>
+</div>
+
+<h4><a name="2.5"></a> Dark Theme Additional Notes</h4>
+
+<p>Please note that only the 1st level UI supports the dark theme option.</p>
+
+<h4><a name="2.6"></a> Autodesk Icon Guidelines Snapshot</h4>
+
+<p>Prompted by <a href="https://thebuildingcoder.typepad.com/blog/2023/01/dark-theme-possibility-looming.html#comment-6093239283">Luiz'</a>
+and <a href="https://thebuildingcoder.typepad.com/blog/2023/01/dark-theme-possibility-looming.html#comment-6093873493">Gábor's comments below</a>,
+I acquired and posted an up-to-date snapshot of the current state of the Autodesk icon guidelines including the images above:</p>
+
+<ul>
+<li><a href="https://thebuildingcoder.typepad.com/icon/2023-01-20_icon_design_guidelines.pdf">Autodesk icon guidelines PDF</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/icon/2023-01-20_icon_design_guideline.zip">Zip file including badges and PNG instructiuons</a></li>
+</ul>
+
+<p>Thank you for asking, Luiz and Gábor.</p>
+
+<h4><a name="3"></a> Autodesk AEC Public Roadmaps</h4>
+
+<p>For more exciting news on possible upcoming product enhancements, check out
+the <a href="https://blogs.autodesk.com/revit/roadmap">Autodesk AEC Public Roadmaps</a> with dozens of items in each of the sections:</p>
+
+<ul>
+<li>Revit &ndash; Architecture</li>
+<li>Revit &ndash; Structures</li>
+<li>Revit &ndash; MEP</li>
+<li>Dynamo Public Roadmap</li>
+</ul>

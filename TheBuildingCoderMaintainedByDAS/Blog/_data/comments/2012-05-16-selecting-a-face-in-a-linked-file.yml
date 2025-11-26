@@ -1,0 +1,211 @@
+comments:
+- author: Maxence
+  email: maxence.delannoy@wiip.fr
+  ip: 92.155.168.229
+  url: http://wiip.fr
+  date: '2012-10-18 07:54:19'
+  body: "+1 for\n\n> this part is not mine, i found it on the internet, \n> i don't\
+    \ anderstand all the code"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-10-18 08:33:40'
+  body: 'Dear Maxence,
+
+
+    Thank you! All praise goes to Valentin  :-)
+
+
+    Cheers, Jeremy.'
+- author: Ted
+  email: Tfitzemeyer@f-t.com
+  ip: 74.92.29.89
+  url: http://www.f-t.com
+  date: '2013-01-17 16:18:34'
+  body: "Jeremy,\nIn a Revit architectural model we are able to retreive the walls\
+    \ that make up the boundaries of a space via BoundarySegment.  When in a mechanical\
+    \ model with a linked architectural file the boundarysegment only returns the\
+    \ linked file id.  We were hoping to use the ConverttoStableRepresentation code\
+    \ above to get to the linked element data but the boundarysegment only returns\
+    \ the link file without the id of the surface.\n  \nAny ideas on how we can get\
+    \ the id of walls that make up the boundaries of a space that are in a linked\
+    \ file?\n\nWe learn alot from you blog.  Please keep it coming!\nThanks so much,"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-29 08:22:47'
+  body: 'Dear Ted,
+
+
+    Thank you very much for your appreciation. I am glad it helps.
+
+
+    Nope, sorry, I have no off-hand solution for the issue you describe. You can of
+    course open the linked file and start analysing its geometry yourself.
+
+
+    Rest assured that both user and API access to geometry in linked files is being
+    continuously enhanced, though, so we are getting there...
+
+
+    Cheers, Jeremy.'
+- author: Andreas
+  email: aricke@y7mail.com
+  ip: 101.160.38.169
+  url: ''
+  date: '2013-12-10 18:10:12'
+  body: "Hi Jeremy,\n\nif you include the following (in a vb.net version)\n\nIf elem.Name.Contains(d.Title)\
+    \ Then\n   Dim rli As Instance = TryCast(elem, Instance)\n   If rli Is Nothing\
+    \ Then Continue For\n   Dim t As Transform = rli.GetTransform\n   pos = t.Inverse.OfPoint(pos)\n\
+    \nthen you can get the face regardless of the location/rotation of the revitlinkinstance.\
+    \ The critical lines are the last two. (The first line matches \n\nif( elem.Name.Contains(\
+    \ d.Title ) )\n\nin the above code."
+- author: Rolando
+  email: rolandohijar@gmail.com
+  ip: 181.64.203.35
+  url: ''
+  date: '2014-07-04 09:57:36'
+  body: "Hi Jeremy. Could you please give some example code about the use of Reference.CreateLinkReference(RvtLink)\
+    \ to place a face based family in a linked model. \nThanks"
+- author: Paul Marsland
+  email: Paul@rpmwebs.com
+  ip: 86.15.110.127
+  url: ''
+  date: '2014-07-16 15:16:33'
+  body: 'Jeremy
+
+
+    Like Rolando, I have been toying (unsuccessfully) with CreateLinkReference since
+    it appeared in the API, documentation and examples of how this is implemented
+    are virtually non existent. I would greatly appreciate a code example showing
+    how a face based family can be attached to a face in a linked file.
+
+
+    I eagerly await a response
+
+    Paul M'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.214.151
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-07-21 11:29:56'
+  body: 'Dear Rolando,
+
+
+    Thank you for asking about this and sorry for the delay. Your wish is my command  :-)
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2014/07/createlinkreference-sample-code.html">http://thebuildingcoder.typepad.com/blog/2014/07/createlinkreference-sample-code.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.214.151
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-07-21 11:30:52'
+  body: 'Dear Paul,
+
+
+    Thank you for adding your request to Rolando''s.
+
+
+    That really got me going:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2014/07/createlinkreference-sample-code.html">http://thebuildingcoder.typepad.com/blog/2014/07/createlinkreference-sample-code.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Paul Marsland
+  email: paul@rpmwebs.com
+  ip: 86.15.110.127
+  url: ''
+  date: '2014-07-22 05:22:41'
+  body: "Jeremy\n\nWhere I am having trouble using this is where I prompt the user\
+    \ to select a ceiling in a linked model (in my case I am specifically interested\
+    \ in ceiling grids as the API in 2014 does not allow the user to select a horizontal\
+    \ face when using PromptForFamilyInstancePlacement).\n\nI am prompting the user\
+    \ to select a Ceiling grid in a linked file using:\n\nReference eRefLink = choices.PickObject(ObjectType.LinkedElement,\
+    \ CeilingFilter, \"Select a Ceiling Grid in a linked document\");\n\nThe reference\
+    \ returned (eRefLink) has the CreateLinkReference method exposed to it (ie: it\
+    \ is listed automatically in Visual Studio) but it is the selected element eRefLink.LinkedElementId\
+    \ for which I need a LinkReference. I want to pass the reference to:\n\nNewFamilyInstance(face,\
+    \ position, direction, symbol).\n\nAll works fine in the host document using:\n\
+    \nPickObject(ObjectType.Face, \"Select a Face in this document\");\n\nFrom above\
+    \ I can pass the reference returned directly to NewFamilyInstance. I extracted\
+    \ all the ElementId's using both methods (whilst the model is the host and as\
+    \ a linked file) and the Id returned from the face picked in the host exactly\
+    \ matches the Id when extracted using eRefLink.LinkedElementId. \n\nI know I must\
+    \ just be missing a few steps but cannot work out what.\n\nAny help on this would\
+    \ be greatly appreciated as its the last piece of my jigsaw.\n\nregards\nPaul\
+    \ Marsland"
+- author: Paul Marsland
+  email: paul@rpmwebs.com
+  ip: 86.15.110.127
+  url: ''
+  date: '2014-07-22 07:27:31'
+  body: 'Jeremy
+
+
+    I tried getting the code posted at: <a href="http://thebuildingcoder.typepad.com/blog/links/">http://thebuildingcoder.typepad.com/blog/links/</a>
+
+    to function. First I tried modifying it to work with a ceiling but received the
+    "Reference direction is parallel to face normal at insertion point" error.
+
+
+    So I tried using the code exactly as is for the wall but received the same error.
+
+
+    I had attempted to use another snippet posted previously to you blog by Valentin
+    Louzeau at:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/05/selecting-a-face-in-a-linked-file.html">http://thebuildingcoder.typepad.com/blog/2012/05/selecting-a-face-in-a-linked-file.html</a>
+
+
+    But I could never get this code to work because regardless of what orientation
+    I used I always received the same "Reference direction is parallel to face normal
+    at insertion point" error.|
+
+
+    In every case if I open the link file directly I can insert to the ceiling or
+    wall without any problems.
+
+
+    regards
+
+    Paul Marsland'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.213.90
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-07-22 12:24:17'
+  body: 'Dear Paul,
+
+
+    The first link you point out is very unspecific, so I don''t know exactly what
+    you mean.
+
+
+    I think the best way forward would be for you to submit a simple, minimal, reproducible
+    case so that we know exactly what we are talking about and can monitor the progress
+    we make resolving it:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#1b">http://thebuildingcoder.typepad.com/blog/about-the-author.html#1b</a>
+
+
+    You could either submit it as an ADN case, if you are a member, or post it to
+    the Autodesk community Revit API discussion forum, and I will escalate it to an
+    ADN case for you. That will provide a handy container for the associated files.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.
+
+    -----'

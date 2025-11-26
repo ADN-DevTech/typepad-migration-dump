@@ -1,0 +1,125 @@
+comments:
+- author: Roman
+  email: romagorshkov@gmail.com
+  ip: 80.70.237.149
+  url: ''
+  date: '2009-08-18 00:43:29'
+  body: "Hi Jeremy,\nI am using Revit since 7 version , but i never make some programming\
+    \ work in it.\n\nCan you help me? \n1.What language i must to use ?\n2.What i\
+    \ need to start programming?\n3.Some useful links for biginer!\n\nI am interesting\
+    \ in FreeForm programming.\nTo make Revit do something like this (it was made\
+    \ in Maya (MEL):<a href=\"http://www.flickr.com/photos/daniloarsic/\">http://www.flickr.com/photos/daniloarsic/</a>\n\
+    \n<a href=\"http://www.flickr.com/photos/danielwidrig\">http://www.flickr.com/photos/danielwidrig</a>\n\
+    \nBig Thanks"
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.123.144
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-08-18 02:14:25'
+  body: "Dear Roman,\n\nI am glad to hear of your interest. Regarding your specific\
+    \ questions:\n\n1. You can use any .NET language. C# or VB is easiest and recommended.\
+    \ \n\n2. VSTA or Visual Studio Tools for Applications is built in to the Revit\
+    \ product. The recommended external development environment is Microsoft Visual\
+    \ Studio. You can also use the Express edition, which is free.\n\n3. The Building\
+    \ Coder blog includes a category named 'Getting Started' which includes many topics\
+    \ that are useful for novice Revit API users. A succinct overview of helpful additional\
+    \ resources for getting started is provided in\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/04/getting-started-with-the-revit-2009-api.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/04/getting-started-with-the-revit-2009-api.html</a>\n\
+    \nIt is written for the Revit 2009 API, but most of it applies equally well to\
+    \ Revit 2010.\n\nGood luck and cheers, Jeremy."
+- author: A Facebook User
+  email: ''
+  ip: 202.73.42.163
+  url: http://profile.typepad.com/d101588311302903564
+  date: '2012-09-05 05:38:19'
+  body: "Hi, Jeremy,\nI think this way to get bottom is not exact, if the wall has\
+    \ door, It will get two bottom faces which is the wall bottom face splitted by\
+    \ door.\n  \n   thanks,\n   Jinshou."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.182.211
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-09-05 06:07:59'
+  body: 'Dear Jinshou,
+
+
+    You are absolutely right, and all kinds of exceptional and not so exceptional
+    cases will need special handling for production use.
+
+
+    Above all, you need lots of testing, and automated testing, and an ever-expanding
+    collection of test cases to insure against regression.
+
+
+    Cheers, Jeremy.'
+- author: A Facebook User
+  email: ''
+  ip: 202.73.42.163
+  url: http://profile.typepad.com/d101588311302903564
+  date: '2012-09-24 22:53:00'
+  body: 'Hi, Jeremy,
+
+    I found that the Revit 2012 API has some problems.Like that if the wall has one
+    door, the bottom face should be split into two bottom faces by door, but by API
+    get wall''s solid and get solid''s faces, only can get one bottom face, it should
+    be two bottom faces. And if more than one door also can only get one bottom face.
+
+
+    thanks,
+
+    Jinshou.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-09-26 03:20:31'
+  body: "Dear Jinshou,\n\nI believe the Revit development team might disagree with\
+    \ you there. \n\nWhy should there be two faces? One single face may contain multiple\
+    \ loops, both disconnected outer loops and inner hole loops.\n\nThe bottom face\
+    \ of a wall is probably always just one single face, as long as the wall has a\
+    \ flat bottom at all, regardless of any doors it may contain. \n\nThat one face\
+    \ may have holes in it, if the door really breaks through the bottom of the wall.\
+    \ \n\nAlso, the door may be a little bit up in the wall, off the floor, with no\
+    \ break at all in the bottom face.\n\nCheck out that one face and see whether\
+    \ it contains multiple loops.\n\nCheers, Jeremy."
+- author: A Facebook User
+  email: ''
+  ip: 202.73.42.163
+  url: http://profile.typepad.com/d101588311302903564
+  date: '2012-09-26 22:26:09'
+  body: "Hi, Jeremy,\n\nI'm sorry, I made a mistake. \n\nAs you said, after add a\
+    \ doors into the wall, it still one face, but the face contains multiple loops.\n\
+    \nThanks,\nJinshou."
+- author: Dickins John
+  email: dickinsjohn@gmail.com
+  ip: 123.63.24.30
+  url: ''
+  date: '2014-06-05 00:43:39'
+  body: "Hi Jeremy,\nI am trying to get the bottom face of a Beam (structural Framing).\
+    \ In some beams I am getting bottom face when I use Normal.Z<0, whereas in some\
+    \ beams it is giving top face when I use Normal.Z<0. In such cases if I use Normal.Z>0,\
+    \ it is giving me the required bottom face. Can you explain why this happens?\
+    \ kindly help me.\n\nHere is my code:\n\n//methdo to get the bottom face of element\
+    \ passed to it\n        public static List<Face> GetBottomFace(Element ele, Document\
+    \ doc)\n        {\n            try\n            {\n                List<Face>\
+    \ faces = new List<Face>();\n\n                if (ele is Floor)\n           \
+    \     {\n                    IList<Reference> bottomFaces = HostObjectUtils.GetBottomFaces((Floor)ele);\n\
+    \n                    foreach (Reference refer in bottomFaces)\n             \
+    \       {\n                        faces.Add((doc.GetElement(refer)).GetGeometryObjectFromReference(refer)\
+    \ as Face);\n                    }\n\n                    return faces;\n    \
+    \            }\n\n                Options opt = new Options();\n             \
+    \   opt.DetailLevel = ViewDetailLevel.Fine;\n                \n              \
+    \  GeometryElement geoEle = ele.get_Geometry(opt);\n                IEnumerator\
+    \ enu = geoEle.GetEnumerator();\n                enu.Reset();\n              \
+    \  \n                while (enu.MoveNext())\n                {\n             \
+    \       Solid solid = enu.Current as Solid;\n                    if (null != solid)\n\
+    \                    {\n                        foreach (Face face in solid.Faces)\n\
+    \                        {\n                            PlanarFace pf = face as\
+    \ PlanarFace;\n\n                            if (null != pf)\n               \
+    \             {\n                                if (pf.Normal.Z < 0)\n      \
+    \                          {\n                                    faces.Add(face);\n\
+    \                                    return faces;\n                         \
+    \       }\n                            }\n                        }\n        \
+    \            }\n                }\n\n                return null;\n          \
+    \  }\n            catch\n            {\n                throw new Exception();\n\
+    \            }\n        }\n-----"

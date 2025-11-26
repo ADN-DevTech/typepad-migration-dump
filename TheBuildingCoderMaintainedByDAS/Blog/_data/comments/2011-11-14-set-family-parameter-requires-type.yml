@@ -1,0 +1,124 @@
+comments:
+- author: David
+  email: david.vanslyke@mcquay.com
+  ip: 66.195.50.129
+  url: ''
+  date: '2011-11-14 12:38:26'
+  body: 'Consider insetead of creating a type called "Type 1" you instead create a
+    type with the same name as the short family file name, which can be retrieved
+    using the API from the current document.
+
+
+    A family loaded into a project that has no types in it will get a default type
+    assigned to it in the project editor that''s the same as the short family file
+    name.
+
+
+    By naming your type that way, it will behave the same way in the project editor
+    as if no types were defined.
+
+
+    The only way it would behave differently is if the family file name itself changes
+    in the future.  Then the old family file name will show up as the only type available
+    in the project browser.'
+- author: grace
+  email: gracerodgers@hotmail.co.uk
+  ip: 2.97.13.210
+  url: http://www.jeanettemohr.de
+  date: '2011-11-15 04:46:13'
+  body: Wow that leaf is amazing, my little girl would love to find a leaf like that,
+    it is really unusual, what sort of tree is this leaf off.
+- author: Amelia
+  email: ameliasmith@talktalk.net
+  ip: 89.241.198.176
+  url: http://www.annamaria-bort.de/
+  date: '2011-11-22 04:09:35'
+  body: Love the picture of the leaf, it is very rare that you find something so beautiful
+    which is natural and untouched.
+- author: Dave
+  email: dfriberg23@gmail.com
+  ip: 68.13.179.191
+  url: ''
+  date: '2012-12-10 16:44:34'
+  body: 'Thanks, there''s no way I would have found this without reading your comment
+    here.
+
+
+    Should be documented, or Revit should be changed to produce this type automatically.  It''s
+    a detail I should not need to concern myself with as a plug-in developer.'
+- author: Mayur
+  email: mayur.gujrathi@yahoo.com
+  ip: 61.17.160.112
+  url: ''
+  date: '2013-05-10 02:05:14'
+  body: 'Hi Jeremy ,
+
+
+    I am creating new family type and adding several parameters to it..Is there any
+    way to add parameter without adding family type or can we remove it after adding
+    parameter..application is getting hanged because having too many family type..
+
+    please suggest'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.223.205
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-05-10 02:54:01'
+  body: 'Dear Mayur,
+
+
+    You must have at least one type defined to add parameters, and that''s it.
+
+
+    There is no reason why the number should grow beyond that.
+
+
+    Cheers, Jeremy.'
+- author: sadot.arefin@gmail.com
+  email: sadot.arefin@gmail.com
+  ip: 202.59.128.226
+  url: ''
+  date: '2013-09-11 01:29:30'
+  body: 'Hi Jeremy,
+
+
+    Its kind a late for asking but let me ask you...
+
+
+    I have only one Type in my family say "RoundPipe" and when I place my instance
+    of this RoundPipe type I must change its value before sending it to "PromptForFamilyInstancePlacement"
+
+
+    What I want to say is that my instances will have different parameter value but
+    all will be derived from same family type (FamilySymbol) without creating a new
+    type or new symbol
+
+
+    Thanks
+
+
+    Shourov'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-11 07:06:57'
+  body: 'Dear Shourov,
+
+
+    I assume that you mean ''change a parameter value'' when you say ''change its
+    value''.
+
+
+    Unfortunately, you cannot do this before placing it, so the call to PromptForFamilyInstancePlacement
+    must come first, and the initial value will be whatever default is defined for
+    your family symbol.
+
+
+    You can change the value immediately after placement, however, e.g. using the
+    dynamic model updater framework DMU.
+
+
+    Cheers, Jeremy.
+
+    -----'

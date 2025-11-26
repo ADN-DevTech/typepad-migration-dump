@@ -1,0 +1,181 @@
+---
+layout: "post"
+title: "Self-Organising Architecture, Voxel-Based Energy Analysis"
+date: "2016-07-14 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "360"
+  - "2016"
+  - "Analysis"
+  - "BIM"
+  - "BPA"
+  - "Insight360"
+  - "Python"
+  - "RME"
+original_url: "https://thebuildingcoder.typepad.com/blog/2016/07/self-organising-architecture-and-voxel-based-energy-analysis.html "
+typepad_basename: "self-organising-architecture-and-voxel-based-energy-analysis"
+typepad_status: "Publish"
+---
+
+<p>I had an interesting chat last week with a group of students from the University of Augsburg.</p>
+
+<p>The original question they raised was how to perform energy analysis on a bunch of autonomously assembled small building blocks, such as a colony of ants might put together.</p>
+
+<p>The question is: how can the resulting small building blocks be converted to a valid Revit BIM that can be used for building performance analysis?</p>
+
+<p>That led to the following topics:</p>
+
+<ul>
+<li><a href="#2">BPA is now Insight360</a></li>
+<li><a href="#3">Self-organising construction and architecture</a></li>
+<li><a href="#4">Back to the ants &ndash; project summary</a></li>
+<li><a href="#5">Q &amp; A</a></li>
+<li><a href="#6">Two different energy model types</a></li>
+<li><a href="#7">Addendum &ndash; Advances in Architectural Geometry 2016</a></li>
+</ul>
+
+<h4><a name="2"></a>BPA is now Insight360</h4>
+
+<p>Talking about <a href="http://autodesk.typepad.com/bpa">building performance analysis</a>,
+I just noticed that <a href="http://autodesk.typepad.com/bpa/2015/11/weve-moved-.html">BPA has now become insight360</a>.</p>
+
+<p>With the release of <a href="https://insight360.autodesk.com">Insight 360</a>,
+the Autodesk Building Performance Analysis blog migrated to a new platform:</p>
+
+<p><center>
+<a href="http://blogs.autodesk.com/insight360">blogs.autodesk.com/insight360</a>
+</center></p>
+
+<p><br/></p>
+
+<h4><a name="3"></a>Self-Organising Construction and Architecture</h4>
+
+<p>The Augsburg university has the only chair in Germany researching Self-Organising Construction in the architectural realm.</p>
+
+<p>They are also hosting the <a href="https://saso2016.informatik.uni-augsburg.de">SASO 2016 conference</a>,
+the 10th IEEE International Conference on Self-Adaptive and Self-Organizing Systems, University of Augsburg, Germany, September 12-16 2016.</p>
+
+<h4><a name="4"></a>Back to the Ants &ndash; Project Summary</h4>
+
+<p>Here is the project summary, first in German, followed by my feeble attempt at beating Google translate:</p>
+
+<p>Innovationen in Software, Robotik und 3D-Druck rücken Selbstorganisation als Planungs- und Konstruktionsansatz in greifbare Nähe. Die Vorteile sind mannigfach und reichen von der automatischen Generierung einer Vielzahl von Designs über deren ideale Integration in die gebaute Umgebung, deren strukturelle und automatisierte Optimierung bis zur dynamischen Adaptivität über lange Zeiträume. Motiviert durch neuste Erkenntnisse aus der Natur über die Konstruktionsweisen sozialer Insekten, werden in diesem Projekt Softwareansätze aufgezeigt, wie man Selbstorganisation in den Designprozess von Architektur einfließen lassen kann. Die wissenschaftlichen Arbeiten des Hauptreferenten umfassen beispielsweise das Design und die Optimierung selbstorganisierender Softwareagenten und deren produzierte Artefakte. Ein entsprechender programmatischer Ansatz zur selbstorganisierten Konstruktion wird vorgestellt, der die API des Revit 2016 Softwareframeworks nutzt.</p>
+
+<!-- 
+Innovations in software, robotics and 3D printing ruecken self-organization as a planning and design approach in tangible proximity. The advantages are manifold, ranging from the automatic generation liking by their perfect integration in the built environment, whose structural and automated optimization to dynamic adaptivity for long periods. Motivated by the latest findings from nature about the construction methods of social insects, Softwareansaetze be shown how to make self-organization incorporated in the design process of architecture in this project. The scientific work of the keynote speakers include, for example, the design and optimization of self-organizing software agents and their produced artifacts. A corresponding programmatic approach to self-assembled structure is presented, which uses the API of Revit 2016 software frameworks.
+-->
+
+<p><em>Innovations in software, robotics and 3D printing enable self-organization as a feasible planning and design approach with many advantages, ranging from the automatic generation of huge numbers of designs to their perfect integration into the built environment, their structural and automated optimization, all the way to dynamic adaptivity over long periods of time. Motivated by the latest findings from nature about the construction methods used by social insects, we demonstrate software approaches to incorporate self-organization in the architectural design process. The scientific work of the main speaker includes the design and optimization of self-organizing software agents and their produced artefacts. We present a corresponding programmatic approach to self-assembled construction using the Revit API.</em></p>
+
+<p>That sounds pretty exciting to me.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb091f41ed970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb091f41ed970d img-responsive" style="width: 246px; " alt="Ant" title="Ant" src="/assets/image_738c40.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="5"></a>Q &amp; A</h4>
+
+<p>Here are the notes from the Q &amp; A session we had in the conversation between Simon, Manuel, Sarah, Phil and Jeremy:</p>
+
+<ul>
+<li>C# vs Python?
+<ul>
+<li>The APIs are equivalent, all code is compiled to Intermediate Language (IL) that can be decompiled again using  <a href="http://www.red-gate.com/products/dotnet-development/reflector">Reflector</a> and the .NET Reflection library, e.g. for reverse engineering.</li>
+</ul></li>
+<li>Families
+<ul>
+<li>Inefficient in this case, since the advantages of families are not used here and cost time and effort, both for implementation and at runtime.</li>
+<li>DirectShape elements are better for this use case.</li>
+</ul></li>
+<li>DirectShape
+<ul>
+<li>Better performance, by several orders of magnitude.</li>
+<li>Can be used as room dividers.</li>
+<li>Can be assigned a category, e.g., Walls, Floors, Ceilings.</li>
+<li>Minimal size ca. 1.2 mm, 1/16th of an inch.</li>
+<li>All API lengths are handled in imperial feet.</li>
+</ul></li>
+<li>Analysis Cloud
+<ul>
+<li><a href="http://autodesk.typepad.com/bpa">BPA blog</a>, now <a href="http://blogs.autodesk.com/insight360">Insight360 blog</a>.</li>
+<li>The BPA team and various universities already implemented programmatic iteratively improving building analysis projects evaluating numerous variants.</li>
+<li>Besides <a href="https://insight360.autodesk.com">Insight 360</a> we might also want to evaluate the open source <a href="https://energyplus.net">EnergyPlus</a> package.</li>
+</ul></li>
+<li>Journal files
+<ul>
+<li>Automatically log all Revit user interface interaction from every session.</li>
+<li>Complete session can be reproduced for unit testing &ndash; or machine learning?</li>
+</ul></li>
+<li>Join Geometry
+<ul>
+<li>Join concrete elements or family definition geometry.</li>
+<li>Irrelevant for DirectShape elements.</li>
+</ul></li>
+<li>Energy Analysis
+<ul>
+<li>Supports <a href="#5">two different energy model types</a>.</li>
+</ul></li>
+<li>Do DirectShape elements have to form a closed shell to make use of the energy analysis tools?
+<ul>
+<li>Open.</li>
+</ul></li>
+</ul>
+
+<h4><a name="6"></a>Two Different Energy Model Types</h4>
+
+<p>This question has come up repeatedly in the past, so it is worthwhile pointing out again.</p>
+
+<p>By default, the energy analysis is performed on rooms or spaces and treats their boundaries as vertical.</p>
+
+<p>This is inappropriate in buildings using free-form geometry.</p>
+
+<p>Therefore, a second setting was introduced in Revit 2016, so that we now have two different Energy Model Types: surface versus <a href="https://en.wikipedia.org/wiki/Voxel">voxel</a>.</p>
+
+<p>Calculations are based either on the 2D plan surface views or by filling the entire building volumes with voxels, little sugar cubes.</p>
+
+<p>The two different options are selected by settings in the <code>EnergyAnalysisDetailModelOptions</code> to base calculations either on spatial elements &ndash; i.e., rooms and spaces, assuming vertical boundaries &ndash; or bounded by actual building elements &ndash; i.e., floors, walls and ceilings, which may be arbitrarily shaped.</p>
+
+<p>For more detail, please refer
+to <a href="http://thebuildingcoder.typepad.com/blog/2015/04/whats-new-in-the-revit-2016-api.html">What's New in the Revit 2016 API</a>,
+<a href="http://thebuildingcoder.typepad.com/blog/2015/04/whats-new-in-the-revit-2016-api.html#4.06">Energy Analysis and gbXML API changes</a>:</p>
+
+<p><code>EnergyModelType</code></p>
+
+<ul>
+<li>SpatialElement &ndash; Energy model based on rooms or spaces. This is the default for calls when this option is not set, and matches the behaviour prior to Revit 2016.</li>
+<li>BuildingElement &ndash; Energy model based on analysis of building element volumes.</li>
+</ul>
+
+<h4><a name="7"></a>Addendum &ndash; Advances in Architectural Geometry 2016</h4>
+
+<p>Talking about exciting computational generative architectural innovation, you should take a look at the wonderful, impressive, beautiful and exciting ETH Zürich <a href="http://vdf.ch/advances-in-architectural-geometry-2016-e-book.html">Advances in Architectural Geometry 2016</a>. </p>
+
+<p>Here is its table of contents:</p>
+
+<ul>
+<li>Analysis and Design of Curved Support Structures</li>
+<li>Measuring and Controlling Fairness of Triangulations</li>
+<li>Face-Offsetting Polygon Meshes with Variable Offset Rates</li>
+<li>Marionette Mesh: From Descriptive Geometry to Fabrication-Aware Design</li>
+<li>Designing with Curved Creases: Digital and Analog Constraints</li>
+<li>A Double-Layered Timber Plate Shell: Computational Methods for Assembly, Prefabrication, and Structural Design</li>
+<li>On the Hierarchical Construction of SL Blocks: A Generative System that Builds Self-Interlocking Structures</li>
+<li>Tree Fork Truss: Geometric Strategies for Exploiting Inherent Material Form</li>
+<li>Textile Fabrication Techniques for Timber Shells: Elastic Bending of Custom-Laminated Veneer for Segmented Shell Construction Systems</li>
+<li>Bending-Active Plates: Form and Structure</li>
+<li>Underwood Pavilion: A Parametric Tensegrity Structure</li>
+<li>Safra Neuron Screen: Design and Fabrication</li>
+<li>Scissor Mechanisms for Transformable Structures with Curved Shape: The 'Jet d’Eau' Movable Footbridge in Geneva</li>
+<li>Mastering the 'Sequential Roof': Computational Methods for Integrating Design, Structural Analysis, and Robotic Fabrication</li>
+<li>Adaptive Meshing for Bi-directional Information Flows: A Multi-Scale Approach to Integrating Feedback between Design, Simulation, and Fabrication</li>
+<li>Dimensionality Reduction for Parametric Design Exploration</li>
+<li>Force Adaptive Hot-Wire Cutting: Integrated Design, Simulation, and Fabrication of Double-Curved Surface Geometries</li>
+<li>Designing for Hot-Blade Cutting: Geometric Approaches for High-Speed Manufacturing of Doubly-Curved Architectural Surfaces</li>
+<li>Cuttable Ruled Surface Strips for Milling</li>
+<li>The Armadillo Vault: Computational Design and Digital Fabrication of a Freeform Stone Shell</li>
+<li>CASTonCAST Shell Structures: Realisation of a 1:10 Prototype of a Post-Tensioned Shell Structure from Precast Stackable Components</li>
+<li>Lightweight Conical Components for Rotational Parabolic Domes: Geometric Definition, Structural Behaviour, Optimisation and Digital Fabrication</li>
+</ul>

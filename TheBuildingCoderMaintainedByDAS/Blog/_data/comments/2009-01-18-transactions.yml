@@ -1,0 +1,123 @@
+comments:
+- author: Phil
+  email: phillip.mcneill@redbike.com.au
+  ip: 27.32.232.68
+  url: ''
+  date: '2012-05-01 05:32:38'
+  body: 'Hi Jeremy,
+
+    Love your work. Not sure if this is the right place but just thought I''d ask
+    for a favour...I''m having a little trouble finding a solution to a problem.
+
+
+    Simply put I have an app that uses Selection.PickPoint to retrieve a location
+    from the user. I won''t go into too much detail here because all works great...except
+    for the scenario where the user may run the app (which requests a location) while
+    a Revit command like Wall is still active.
+
+
+    I think what I''m looking for is a way to determine if a command/transaction is
+    active and to terminate it.
+
+
+    Any ideas? Thanks in advance.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.178.36
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-01 06:18:26'
+  body: "Dear Phil,\n\nThank you for your appreciation.\n\nThe scenario you describe\
+    \ is utterly impossible. Or should be, at least.\n\nIf you have created such a\
+    \ situation, you are strongly advised to un-create it.\n\nI suspect you are launching\
+    \ your command from a modeless context, so you are not in an external command\
+    \ at all and thus not in a valid Revit API context.\n\nPlease read the thread\
+    \ on modeless interaction with the Revit API and the Idling event:\n\n<a href=\"\
+    http://thebuildingcoder.typepad.com/blog/idling\">http://thebuildingcoder.typepad.com/blog/idling</a>\n\
+    \nHere is a good entry point:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2012/01/avoid-idling.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2012/01/avoid-idling.html</a>\n\nBy\
+    \ the way, to answer your question, there is actually such a method as you as\
+    \ for: \n\nThe Application.IsQuiescent property can be used check if the current\
+    \ application is quiescent.\n\nBut I would not try to fix your problem using that,\
+    \ but rather rearchitect your situation after properly understanding the modeless\
+    \ interaction issues.\n\nCheers, Jeremy."
+- author: Phil
+  email: phillip.mcneill@redbike.com.au
+  ip: 27.32.232.68
+  url: ''
+  date: '2012-05-04 16:07:07'
+  body: 'Thanks Jeremy, you are correct and thanks for the info. I''ll follow it and
+    re-design.
+
+
+    Cheers
+
+
+    Phil'
+- author: Phil
+  email: phillip.mcneill@redbike.com.au
+  ip: 27.32.232.68
+  url: ''
+  date: '2012-05-05 18:35:41'
+  body: 'Thanks again for the info and helps to explain the major concerns with modeless
+    apps. I hear the warnings.
+
+
+    The app that I''m building is essentially a space management tool where a user
+    can place one or more room elements by selecting from a databound treeview control,
+    pre-poulating parameters and allowing some management of room areas. Also creates
+    a ''connection'' between each room element and it''s corresponding record in the
+    database.
+
+
+    As I mentioned, this works very well in all testing to date (more to do), except
+    where a Revit command is started while the dialog is open, and then try to place
+    a room from the treeview while that command is still active. This consistently
+    shuts Revit without warning!!
+
+
+    Through testing there have been other situations that had the same reult but these
+    were programming bugs and seem resolved.
+
+
+    I''ll re-visit the design, particularly in 2013 and beyond but for now I''ve created
+    a handler for the documentChanged event to pick up when the user is editing the
+    model and to politely close the dialog. Functionally, this is fine. For safety
+    and consistency, I''ve created handlers for the other events to do the same.
+
+
+    I know, I''m breaking some rules but I think the development is well worth persisting
+    with, particularly since it''s highly functional and very user friendly - and
+    part of a bigger solution outside Revit.
+
+
+    BTW, I''m not using the Idling event, and Application.IsQuiescent always returns
+    false in this case.
+
+
+    Thanks again, Cheers.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-06 14:50:35'
+  body: 'Dear Phil,
+
+
+    Glad to hear you have it working and are happy with it.
+
+
+    I would still recommend checking out the Revit 2013 ModelessForm_ExternalEvent
+    and ModelessForm_IdlingEvent SDK samples and rewriting your application using
+    the architecture demonstrated there. That would make it nore future proof, and
+    the ModelessForm_IdlingEvent approach would work for Revit 2012 as well as 2013.
+
+
+    Cheers, Jeremy.'
+- author: Phil
+  email: phillip.mcneill@redbike.com.au
+  ip: 27.32.232.68
+  url: ''
+  date: '2012-05-14 09:48:56'
+  body: 'Shall do...thanks!
+
+    -----'

@@ -1,0 +1,128 @@
+comments:
+- author: NAyche
+  email: ''
+  ip: 68.62.251.149
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2009-11-08 10:40:03'
+  body: 'Jeremy,
+
+    How could the Elements or get_Elements() return and iterator while the Document
+    class does not implement IComparable. (according to the help file that comes with
+    Revit SDK)
+
+
+    Thanks in advance.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.106.83
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-08 11:17:53'
+  body: 'Dear Nadim,
+
+
+    "Ours is not to wonder why, ours is but to do or die."
+
+
+    That''s the way it is, take it or leave it. It works.
+
+
+    Cheers, Jeremy.'
+- author: NAyche
+  email: ''
+  ip: ''
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2009-11-08 14:40:22'
+  body: 'I will take it anyway.
+
+
+
+
+
+    It is just that I have been studing .NET collections and enumration for days,
+    and the Autodesk.Revit.Document class confused me because it does not implement
+    IEnumrable or IEnumerableT, yet we still can enumerate through its elements using
+    get_Elements() or Elements property.
+
+
+
+
+
+
+
+
+
+
+    Thanks,
+
+
+
+
+
+    Nadim'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.106.83
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-08 15:51:15'
+  body: 'Dear Nadim,
+
+
+    I see what you mean now. Well, the Elements property returns an iterator. The
+    document itself is not an iterator.
+
+
+    Cheers, Jeremy.'
+- author: NAyche
+  email: ''
+  ip: 68.62.251.149
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2009-11-08 21:32:34'
+  body: 'Thanks, it make sense now.
+
+    Here is another confusion I hope you would clariy.
+
+    In general I feel that the RevitAPI has quite a few redundant classes.
+
+
+    If you want to retreive the selected elements in a document, which one of the
+    following two statements would you use? and Why?  (they both look the same to
+    me especially that SelElementSet inherits ElementSet)
+
+
+    1) ElementSet selElemSet = document.Selection.Elements
+
+
+    2) SelElementSet selElemSet = document.Selection.Elements
+
+
+    regards,
+
+    Nadim'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.73.150
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-09 00:42:17'
+  body: 'Dear Nadim,
+
+
+    As you say, SelElementSet inherits from ElementSet. If you need the additional
+    functionality provided by the derived class, use it. If not, use whichever you
+    prefer. I would personally go for the one with the shorter, simpler name, if all
+    else is equal. If you look at the selection code I present in The Building Coder
+    samples, especially in the region ''Element Selection'' in the Util class, you
+    can see what style I prefer.
+
+
+    Cheers, Jeremy.'
+- author: NAyche
+  email: ''
+  ip: 66.162.165.162
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2009-11-09 10:52:59'
+  body: 'Thanks.  I looked again at both sets in the RevitAPI Help.chm and I can see
+    the additional methods in the SelElementSet. Sorry about that.
+
+
+
+    -----'

@@ -1,0 +1,38 @@
+comments:
+- author: Paul Gibson
+  email: pgibson@bawarch.com
+  ip: 50.243.153.217
+  url: ''
+  date: '2014-09-04 18:15:35'
+  body: "Hi, I am trying to write a little macro to open a file and set up sheet parameters\
+    \ according to file contents (each line is a sheet number along with 2 other parameters\
+    \ to be set: name and a drawing number).  I have several standalone projects (nothing\
+    \ to do with Revit) that do similar things, but getting Revit macros to do this\
+    \ is proving difficult.\n\nI get an error that \"The type or namespace name 'OpenFileDialog'\
+    \ could not be found\" . . . I have a using System.IO entry, but it seems that\
+    \ the macro works differently than the dll route.  Any insight into how to get\
+    \ this to work as a macro?\n\nHere is my code:\n\t\tpublic void LoadDrawingNumbers()\n\
+    \t\t{\n\t\t\t//Get document object\n            Document doc = this.ActiveUIDocument.Document;\n\
+    \            FilteredElementCollector Sheets = new FilteredElementCollector(doc);\n\
+    \            OpenFileDialog openFile = new OpenFileDialog();\n            openFile.InitialDirectory\
+    \ = \"c:\\\\\";\n            openFile.Filter = \"txt files (*.txt)|*.txt|All Files\
+    \ (*.*)|*.*\";\n            openFile.FilterIndex = 2;\n            openFile.RestoreDirectory\
+    \ = true;\n            \n            if(openFile.ShowDialog() == TaskDialogResult.OK)\
+    \ {\n            \ttry\n            \t{\n            \t\t// line by line\n   \
+    \         \t}\n            \tcatch (Exception ex) {\n            \t\tMessageBox.Show(\"\
+    Error: \" + ex.Message);\n            \t}\n            }\n }"
+- author: Jeremy Tammik
+  email: ''
+  ip: 84.137.122.14
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-09-11 04:53:38'
+  body: 'Dear Paul,
+
+
+    No, I am not very familiar with the macro environment, so I don''t know offhand.
+    Did you solve this? How, please? Thank you!
+
+
+    Cheers, Jeremy.
+
+    -----'

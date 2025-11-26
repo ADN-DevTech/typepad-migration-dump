@@ -1,0 +1,84 @@
+comments:
+- author: Jenny
+  email: jennyj@yahoo.com
+  ip: 68.196.252.244
+  url: ''
+  date: '2010-11-14 21:42:18'
+  body: 'Jeremy
+
+    I am working on some project where I need to import a few .dwg files into a Revit
+    family and to satisfy the need of project I have to move/translate the dwg files
+    from one location to another (I can not export it with right origin point before
+    it gets imported- it has to happen once its imported into the family), but unfortunately
+    when I try to use "move" method, the code fails with the error saying that the
+    element(in this case the imported dwg) is pinned and can not be moved. I looked
+    into element.pinned property but it seems like it is a read-only property. I am
+    wondering is there any way I can un-pin the drawing so that I can move it to right
+    location?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-11-15 02:55:40'
+  body: 'Dear Jenny,
+
+
+    I am sorry to say no, there is no such access in Revit 2011:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/07/prompt-the-user-for-pinning-and-ifc-export.html">http://thebuildingcoder.typepad.com/blog/2009/07/prompt-the-user-for-pinning-and-ifc-export.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Sandra
+  email: sandrulka1@gmail.com
+  ip: 77.241.201.221
+  url: ''
+  date: '2011-08-03 08:59:22'
+  body: 'Dear Jeremy,
+
+    Maybe there is some similiar approach for used line patterns? For example level
+    has parameter Line Pattern, but how to get line pattern for example for reference
+    plane? Is there any solution for this to get used line patterns for purge of unused?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-08-09 05:34:39'
+  body: 'Dear Sandra,
+
+
+    I would explore the reference plane using RevitLookup and the built-in parameter
+    checker as described in several places, e.g.
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/04/deeper-parameter-exploration.html">http://thebuildingcoder.typepad.com/blog/2009/04/deeper-parameter-exploration.html</a>
+
+
+    Maybe the link to the line pattern is in there somewhere, hidden in some parameter.
+    If not, I assume there is no access to it.
+
+
+    Cheers, Jeremy.'
+- author: Dale Bartlett
+  email: dale.bartlett@realtimeinternational.com.au
+  ip: 212.72.17.154
+  url: http://www.realtimeinternational.com.au
+  date: '2012-06-19 08:42:32'
+  body: Hi Jeremy, Given this is an old post, is there new Purge functionality in
+    2013, or is this worth a revisit? Regards, Dale
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-06-19 08:57:14'
+  body: "Dear Dale,\n\nI am not aware of any new purge functionality in the Revit\
+    \ 2013 API.\n\nOn the other hand, it would be a neat thing to revisit, and actually\
+    \ a Revit file purger project would be a neat open source project for all to participate\
+    \ in.\n\nI have had numerous cases from people wanting to purge different bits\
+    \ and pieces, and it would definitely make sense to put them all into one single\
+    \ framework.\n\nI can't say much than that, though, except that here is another\
+    \ one of those almost uncountable potential little pieces, to delete all reference\
+    \ planes not hosting any elements: \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2012/03/melbourne-devlab.html#2\"\
+    >http://thebuildingcoder.typepad.com/blog/2012/03/melbourne-devlab.html#2</a>\n\
+    \nCheers, Jeremy.\n-----"

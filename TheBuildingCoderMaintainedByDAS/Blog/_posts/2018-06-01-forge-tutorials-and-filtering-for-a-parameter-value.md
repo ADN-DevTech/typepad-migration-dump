@@ -1,0 +1,178 @@
+---
+layout: "post"
+title: "Forge Tutorials and Filtering for a Parameter Value"
+date: "2018-06-01 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Algorithm"
+  - "Data Access"
+  - "Filters"
+  - "Forge"
+  - "Getting Started"
+  - "Parameters"
+  - "Performance"
+original_url: "https://thebuildingcoder.typepad.com/blog/2018/06/forge-tutorials-and-filtering-for-a-parameter-value.html "
+typepad_basename: "forge-tutorials-and-filtering-for-a-parameter-value"
+typepad_status: "Publish"
+---
+
+<p>As always, I am active in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a>.</p>
+
+<p>Today, let's revisit the topic of filtering for a parameter value, and mention the updated Forge tutorials:</p>
+
+<ul>
+<li><a href="#2">Learning Forge tutorials</a> </li>
+<li><a href="#3">Filtering for a specific parameter value</a> </li>
+<li><a href="#4">Filtered element collector optimisation</a></li>
+</ul>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="http://thebuildingcoder.typepad.com/.a/6a00e553e1689788330223c84fb756200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330223c84fb756200c img-responsive" style="width: 245px; display: block; margin-left: auto; margin-right: auto;" alt="Query filter" title="Query filter" src="/assets/image_cc5123.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="2"></a>Learning Forge Tutorials</h4>
+
+<p>The new <a href="http://learnforge.autodesk.io">Learning Forge Tutorials</a> have
+been live for a few months &ndash; cf. individual launch dates below.</p>
+
+<p>So far, they have been used and validated in the San Francisco, Boston, Bangalore and Munich accelerators.</p>
+
+<p>It is wonderful to behold how the accelerator attendees just follow them and get a starting app up and running in days!</p>
+
+<p>Here is some data gathered so far: we had around 1900 unique visitors; 1402 went to the 2-legged tutorial first page, and 517 (37%) completed one of the languages (last page); 284 went for the 3-legged one, and 46 completed it (16%). 302 unique visitors to the extensions tutorials:</p>
+
+<table>
+<tr><td class="r"></td><td class="r"></td><td class="r">2legged</td><td class="r"></td><td class="r">3legged</td></tr>
+<tr><td class="r">Tutorial</td><td class="r">Date</td><td class="r">1402</td><td></td><td class="r">284</td></tr>
+<tr><td class="r">Nodejs</td>  <td class="r">Feb, 23</td><td class="r">229</td><td class="r">&nbsp;&nbsp;&nbsp;&nbsp;April, 27</td><td class="r">37</td></tr>
+<tr><td class="r">.NET</td>    <td class="r">Feb, 23</td><td class="r">193</td><td class="r">May, 18</td><td class="r">9</td></tr>
+<tr><td class="r">Go</td>      <td class="r">&nbsp;&nbsp;&nbsp;&nbsp;March, 15</td><td class="r">13</td><td></td><td class="r">&ndash;</td></tr>
+<tr><td class="r">PHP</td>     <td class="r">April, 12</td><td class="r">37</td><td></td><td class="r">&ndash;</td></tr>
+<tr><td class="r">Java</td>    <td class="r">May, 9</td><td class="r">45</td><td></td><td class="r">&ndash;</td></tr>
+<tr><td class="r">Total</td>   <td class="r"></td><td class="r">517</td><td class="r"></td><td class="r">46</td></tr>
+<tr><td class="r"></td><td class="r"></td><td class="r">37%</td><td class="r"></td><td class="r">16%</td></tr>
+<tr><td class="r">Extensions</td><td class="r">April, 17</td><td class="r">302</td></tr>
+</table>
+
+<p><br/></p>
+
+<p>Check them out for yourself at your leisure at</p>
+
+<p><center></p>
+
+<p><span style="font-size: 120%; font-weight: bold">
+<a href="http://learnforge.autodesk.io">learnforge.autodesk.io</a>
+</span></p>
+
+<p><a class="asset-img-link" href="http://learnforge.autodesk.io"><img class="asset  asset-image at-xid-6a00e553e1689788330223c84fb75f200c img-responsive" style="width: 201px; display: block; margin-left: auto; margin-right: auto;" alt="Forge building blocks" title="Forge building blocks" src="/assets/image_d114c3.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="3"></a>Filtering for a Specific Parameter Value</h4>
+
+<p>Returning to the Revit API, a frequent  task is to extract elements based on specific parameter values.</p>
+
+<p>This question was raised yet again and brought up some fresh aspects in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/filter-elements-by-parameter-value/m-p/8035505">filtering for elements by parameter value</a>:</p>
+
+<p><strong>Question:</strong> Hi, I've searched the forums for this but couldn't find a clear answer.</p>
+
+<p>I'm trying to select all elements in a filtered element collector where a parameter, let's say, "house number", equals "12".</p>
+
+<p>Any other solution where I'd be able to loop through or list all elements that have this parameter value are welcome too.</p>
+
+<p><strong>Answer:</strong> I think you can just do the following:</p>
+
+<pre class="code">
+  var collector = new FilteredElementCollector(doc)
+    .Where(a => a.LookupParameter("house number")
+      .AsString() == "12")
+</pre>
+
+<p>Assuming that the storage type of your parameter is string.</p>
+
+<p><strong>Response:</strong> I tried using it (also checked whether the parameter was a string just to be sure), but the var <code>collector</code> end up <code>null</code>.</p>
+
+<p>The message I get when looking at it in the locals is: "The collector does not have a filter applied.  Extraction or iteration of elements is not permitted without a filter."</p>
+
+<p><strong>Answer 1:</strong> My mistake.</p>
+
+<p>The <code>Where</code> clause is actually a .NET post-processing <code>LINQ</code> statement, so the filtered element collector does not see any filter at all.</p>
+
+<p>I normally always look for a specific element type when using a collector. </p>
+
+<p>This code filters for family instances first and works for me:</p>
+
+<pre class="code">
+  List<FamilyInstance> list
+    = new FilteredElementCollector(doc)
+      .OfClass(typeof(FamilyInstance))
+      .Where(a => a.LookupParameter("house number")
+        .AsString() == "12")
+      .Cast<FamilyInstance>()
+      .ToList();
+</pre>
+
+<p>It creates a list of <code>FamilyInstance</code> elements.</p>
+
+<p>You can change the type to any desired one.</p>
+
+<p>There are other ways to not apply a filter
+and <a href="http://thebuildingcoder.typepad.com/blog/2010/06/filter-for-all-elements.html">get all element types in one go</a>;
+however, I would not recommend that, because you never know beforehand which kind of elements may pass the filter if you do.</p>
+
+<p><strong>Answer 2:</strong> The first answer uses post-processing in .NET.</p>
+
+<p>That means that the initial filtering takes place in Revit; then, all family instances are transferred to .NET to check the parameter value.</p>
+
+<p>That causes a huge overhead.</p>
+
+<p>The overhead can be eliminated by using a parameter filter instead, that checks for the parameter value directly in Revit, before transferring any data to .NET.</p>
+
+<p>If you don't care, the first solution is fine, of course.</p>
+
+<p>Here are some examples of using parameter filters:</p>
+
+<ul>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2010/06/parameter-filter.html">Parameter filter</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2010/06/element-name-parameter-filter-correction.html">Element name parameter filter correction</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2009/12/parameter-filter-units.html">Parameter filter units</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/06/finding-an-exit-path-and-elementid-parameter-values.html#3">Finding all possible <code>ElementId</code> values for a specific parameter</a></li>
+</ul>
+
+<p><a href="http://thebuildingcoder.typepad.com">The Building Coder</a> provides many more.</p>
+
+<h4><a name="4"></a>Filtered Element Collector Optimisation</h4>
+
+<p><strong>Response:</strong> Hmmm...</p>
+
+<p>Now I'm in doubt about whether or not I should rewrite the collectors in all my own add-ins to remove that overhead myself...</p>
+
+<p>Some commands that take a long time might actually benefit from that if it's a big difference.</p>
+
+<p>Most commands are nearly instant, though, so I don't think it would matter in that case.</p>
+
+<p>Thanks for the insight Jeremy, as always, very helpful! &nbsp; :-)</p>
+
+<p><strong>Answer:</strong> Thank you for your appreciation and very glad to hear you find it useful.</p>
+
+<p>Years ago, <a href="http://thebuildingcoder.typepad.com/blog/2010/04/collector-benchmark.html">I benchmarked different filtered element collectors</a> and
+found that moving from .NET post-processing to a parameter filter will save at least 50% overhead.</p>
+
+<p>In a large model, it might be more.</p>
+
+<p>Benchmark first, before you do anything!</p>
+
+<p>If it works, don't fix it.</p>
+
+<p>Also, the most important thing to start with is to always be aware of the differences between quick and slow filters, and post-processing in .NET,
+cf. <a href="http://thebuildingcoder.typepad.com/blog/2015/12/quick-slow-and-linq-element-filtering.html">Quick, Slow and LINQ Element Filtering</a>.</p>
+
+<p>To start with, apply as many filter shortcuts to the filtered element collector as you can.
+All filter shortcuts are quick filters.
+They are provided by methods that are available directly 
+as <a href="http://www.revitapidocs.com/2018/163d1fae-e9d8-e4de-7452-c3b140b6daad.htm"><code>FilteredElementCollector</code> member methods</a>.</p>

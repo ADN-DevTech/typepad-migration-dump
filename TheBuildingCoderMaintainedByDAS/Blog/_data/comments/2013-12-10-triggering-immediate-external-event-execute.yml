@@ -1,0 +1,90 @@
+comments:
+- author: Arnošt Löbel
+  email: arnost.lobel@autodesk.com
+  ip: 132.188.64.219
+  url: http://autodesk.com
+  date: '2013-12-13 15:13:03'
+  body: 'The danger of the proposed solution is that switching foreground windows
+    might be done against the end user’s will and desire. Maybe the user did not want
+    to go back to Revit for a while. Maybe she does not care about backend threads
+    finishing just yet. Maybe she is chatting with her manager in a messenger window
+    and the moment. If I were she I would be rather surprise finding that I''ve stop
+    typing, apparently. As elegant as this solution may seem I would recommend using
+    it very cautiously. In fact, I believe it should be used only (if at all) when
+    using external events from a modeless dialog upon some explicit request/action
+    of the end user, because only then it is perfectly clear that the user wants to
+    work with Revit at that time. For external events doing some work for background
+    threads (like analysis, etc., i.e. job not really visible to the end user) I''d
+    recommend against playing with foreground windows. Just my opinion.
+
+
+    Arnošt Löbel
+
+    Autodesk Revit R&D'
+- author: Jeremy Tammik
+  email: ''
+  ip: 85.4.214.207
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-12-14 14:11:38'
+  body: 'Dear Arnošt,
+
+
+    Thank you very much for these words of wisdom and experience!
+
+
+    I fully agree.
+
+
+    To be clear: the solution designed above is very specifically targeted at my own
+    personal needs in order to demo this specific application.
+
+
+    It is cool to hit the Save button in my JavaScript-generated browser interface
+    and immediately see the BIM updated with no noticeable change whatsoever in the
+    window arrangement.
+
+
+    For many and possibly all real-world workflows, however, this behaviour is not
+    optimal or even useful, just as you point out.
+
+
+    Thank you very much for highlighting and clarifying this!
+
+
+    Cheers, Jeremy.'
+- author: Jon
+  email: jon.stelly@assemblesystems.com
+  ip: 50.175.106.104
+  url: ''
+  date: '2014-07-29 12:19:08'
+  body: "It looks like triggering the WPF message loop also triggers immediate ExternalEvent\
+    \ calls.  The following is working for me in Revit 2015:\n            System.Windows.Application.Current.Dispatcher.InvokeAsync(()\
+    \ => { }, DispatcherPriority.Background);"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-07-29 12:53:03'
+  body: 'Dear Jon,
+
+
+    Congratulations on that very useful discovery!
+
+
+    Thank you for letting us know!
+
+
+    Cheers, Jeremy.'
+- author: Ken
+  email: kenny.geyskens@gmail.com
+  ip: 81.82.212.38
+  url: ''
+  date: '2014-09-05 09:17:13'
+  body: 'The suggested method only works ones. Afterwards, only real user interaction
+    will trigger the idle event.
+
+    I''ve also tried different triggering the WPF messagepump as Jon suggested but
+    that doesn''t work in R14.
+
+
+    -----'

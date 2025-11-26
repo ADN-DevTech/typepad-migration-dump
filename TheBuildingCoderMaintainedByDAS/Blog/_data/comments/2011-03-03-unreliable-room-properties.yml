@@ -1,0 +1,34 @@
+comments:
+- author: kamalanathan
+  email: S.Kamalanathan2010@gmail.com
+  ip: 59.90.240.146
+  url: ''
+  date: '2011-03-08 00:54:06'
+  body: "Hi Jeremy,\n\nNow I am having a problem, in extracting elements which belongs\
+    \ to BuiltInCategory.OST_WallsFinish1 with the following code.\n\n           \
+    \ ElementCategoryFilter filterCat = new ElementCategoryFilter(BuiltInCategory.OST_WallsFinish1);\n\
+    \            FilteredElementCollector col = new FilteredElementCollector(ActiveUIDocument.Document);\n\
+    \            IList lstElms = col.WhereElementIsNotElementType().WherePasses(filterCat).ToElements();\n\
+    \nI created the Wall with the material structure with Finish1.\n\nPlease teach\
+    \ me, how to extract the elements which belongs to OST_WallsFinish1 Category."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-03-09 08:00:29'
+  body: 'Dear Kamalanathan,
+
+
+    As you already heard from Joe Ye on your ADN query 1267461 [Extracting Elements
+    belongs to sub category], the OST_WallsFinish1 category does not have any corresponding
+    elements in the Revit database. The wall layer Finish1 has this category, however
+    there do not exist any corresponding Revit Element derived class instances.
+
+
+    Since the FilteredElementCollector can only extract instances of classes derived
+    from the Element class, there is no access to the wall layer objects you are targeting.
+
+
+    Cheers, Jeremy.
+
+    -----'

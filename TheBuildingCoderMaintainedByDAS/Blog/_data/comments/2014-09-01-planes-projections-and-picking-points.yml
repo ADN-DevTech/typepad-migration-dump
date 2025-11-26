@@ -1,0 +1,90 @@
+comments:
+- author: Konrads Samulis
+  email: ''
+  ip: 115.70.163.134
+  url: http://profile.typepad.com/konradssamulis
+  date: '2014-09-09 02:34:21'
+  body: "Hi Jeremy,\n\nI was trying to find an appropriate post to ask a question\
+    \ about Navisworks and coordinates (this sorta looked appropriate...) \n\nGiven\
+    \ in 'Clash Report' in Navisworks with xyz 'Clash Point' coordinates, how can\
+    \ they be related back to the originating Revit model?\n\nI have been doing a\
+    \ bit of testing by inserting elements at 'known' XYZ coordinates in Revit and\
+    \ trying to determine the relationship between the coordinate systems.. (obviously\
+    \ without any luck...) \n\nAny suggestions or pointers would be great!!\n\nCheers,\n\
+    Kon."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-09-09 02:53:38'
+  body: 'Dear Kon,
+
+
+    Your approach of inserting elements with known coordinates sounds very promising
+    to me.
+
+
+    I am not familiar with the transformations applied to export the model to Navisworks
+    specifically.
+
+
+    However, in general, the Revit project location defines a transformation from
+    the local Revit document model space to world coordinates.
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/01/project-location.html">http://thebuildingcoder.typepad.com/blog/2010/01/project-location.html</a>
+
+
+    These are absolute and real earth coordinates.
+
+
+    I would assume that Navisworks would respect these.
+
+
+    Therefore, I would suggest that you do a couple of things:
+
+
+    1. Set up a Revit model with a trivial project location, if that is possible at
+    all. That might enable you to export the Revit coordinates to Navisworks directly
+    with no transformation. That should help understand the rest.
+
+
+    2. Determine the transformation to apply to go from Revit model to real world
+    earth coordinates and vice versa.
+
+
+    I believe the setout point add-in implements all you need for that:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/08/structural-concrete-setout-point-add-in.html">http://thebuildingcoder.typepad.com/blog/2012/08/structural-concrete-setout-point-add-in.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Konrads Samulis
+  email: ''
+  ip: 115.70.163.134
+  url: http://profile.typepad.com/konradssamulis
+  date: '2014-10-01 19:51:51'
+  body: 'Jeremy,
+
+
+    Thanks for your hints - they came in handy...
+
+    ..In the end, it actually *was* the coordinates from Revit, but I forgot that
+    Revit internally is imperial and the files from Navisworks were exported in metric.
+    So, I got it to work by converting to imperial, as well as playing around with
+    the Project Location transformation to get the right rotation and ''offset''.
+
+
+    Regards,
+
+    Kon.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-10-06 05:37:18'
+  body: "Dear Kon,\n\nCool. Glad it helped. Congratulations on your good progress.\
+    \ \n\nIf you would like to share a sample code snippet and minimal demonstration\
+    \ project, I would be happy to put together a blog post illustrating your solution\
+    \ for others to enjoy. \n\nThank you!\n\nCheers, Jeremy.\n-----"

@@ -1,0 +1,134 @@
+comments:
+- author: David
+  email: david.vanslyke@mcquay.com
+  ip: 63.163.54.129
+  url: ''
+  date: '2010-03-15 10:09:05'
+  body: 'I have a stock installation of Revit 2010.  I do not see AddInManager anywhere.
+
+
+    How does one get AddInManager to appear in Revit?
+
+
+    Thanks.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-03-17 11:57:31'
+  body: 'Dear David,
+
+
+    Sorry I was so slow in answering...
+
+
+    The add-in manager is part of the standard Revit SDK, and you will find it in
+    the ''Add-In Manager'' subdirectory of the main SDK installation folder:
+
+
+    Directory of C:\a\lib\revit\2010\SDK\Add-In Manager:
+
+
+    2009-04-27 08:25 482,816 setup.exe
+
+
+    Cheers, Jeremy.'
+- author: Winston
+  email: winstony@risatech.com
+  ip: 98.189.134.76
+  url: ''
+  date: '2010-04-23 14:16:34'
+  body: 'Very nice post. Finally got to use it after I found it in the RTM version
+    of the SDK for 2011 (I was using the pre-release version previously and it wasn''t
+    included).
+
+
+    However, whenever I need to make a change to my code, I didn''t need to change
+    the project name, unload the previously loaded dll and reload the new dll, as
+    stated in the post. All I did was make my changes in my code, build it, and re
+    run it using the AddInManager, which makes this an even better tool.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-04-23 14:36:44'
+  body: 'Dear Winston,
+
+
+    Thank you very much for pointing that out!
+
+
+    Yes, this post was written before I was able to talk openly about Revit 2011 in
+    public, which is why I had to keep quiet about the improved functionality of the
+    updated version.
+
+
+    Just as you say, the AddInManager now allows recompilation and dynamic reloading
+    of an already loaded add-in, which should significantly facilitate some debugging
+    operations, especially if they require setting up some complex context in the
+    Revit project for testing.
+
+
+    Cheers, Jeremy.'
+- author: Gregory
+  email: info@mertens3d.com
+  ip: 108.178.111.97
+  url: http://mertens3d.com
+  date: '2012-09-29 19:28:20'
+  body: "Jeremy,\n\nThe way I had been working on my add-ins (up until 2013) was this.\n\
+    \n• inside VB.net express\n• compile/ recompile the dll\n• within revit (already\
+    \ running), use add-in manager to load the dll and run the command. \n• discover\
+    \ bugs\n• fix\n• repeat\n\nI didn't have to restart revit.\n(I don't think I can\
+    \ do the attach exe method with express. I'm not certain and I'm out of my league\
+    \ on that. )\n\nAnyway, in 2013 this no longer seems to work. I can't even get\
+    \ helloRevit to run from the add-in manager. \n\nI wonder if you have any input\
+    \ on why that might be happening?\n\nand/or\n\nIf you are still using the add-in\
+    \ manager for 2013. Are you able to load and execute dll's from the manager?\n\
+    \n...gregory"
+- author: Gregory
+  email: info@mertens3d.com
+  ip: 108.178.111.97
+  url: http://mertens3d.com
+  date: '2012-09-29 19:46:35'
+  body: "Hmmm....I may have discovered something. Or possibly rediscovered (this feels\
+    \ a little familiar. I may be thinking of the issue where if one of the dll's\
+    \ security is not set to full, then AM won't work).\n\nIt looks like you can't\
+    \ compile your dll directly to the add-ins folder if you wish to run it from the\
+    \ add-in manager. It has to be a separate folder. \n\n...gregory"
+- author: Jeremy Tammik
+  email: ''
+  ip: 188.216.6.58
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-10-03 09:56:18'
+  body: 'Dear Gregory,
+
+
+    Thank you very much for your notes.
+
+
+    No, I had not noticed this change. I don''t use the AddInManager regularly myself.
+    I just start Revit from the Visual Studio debugger, test, and restart if I have
+    a need to edit and recompile.
+
+
+    If I really needed immediate edit-debug cycles without restarting Revit, I would
+    isolate the bit of code I am working on an move it temporarily to a SharpDevelop
+    macro, then move it back to the external add-in when I finished.
+
+
+    Does the compilation to a separate folder solve the issue for you?
+
+
+    Congratulations and thank you for letting us know.
+
+
+    Cheers, Jeremy.'
+- author: teocomi
+  email: matteo@cominetti.org
+  ip: 78.13.67.230
+  url: http://teocomi.com
+  date: '2013-01-11 06:37:05'
+  body: 'Thanks a lot for all these useful information, I''m starting now to code
+    for Revit and your blog is like heaven!
+
+    -----'

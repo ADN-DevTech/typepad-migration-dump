@@ -1,0 +1,131 @@
+---
+layout: "post"
+title: "Revit 2024.2 Update with UDA Preview"
+date: "2023-11-11 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "2024"
+  - "Data Access"
+  - "Dynamo"
+  - "Geometry"
+  - "Storage"
+  - "Update"
+original_url: "https://thebuildingcoder.typepad.com/blog/2023/11/revit-20242-update-with-uda-preview.html "
+typepad_basename: "revit-20242-update-with-uda-preview"
+typepad_status: "Publish"
+---
+
+<p>The recent Revit 2024 update release is interesting for developers as well:</p>
+
+<ul>
+<li><a href="#2">Autodesk Revit 2024.2 update</a></li>
+<li><a href="#3">Extensible storage schema conflicts in Revit 2024</a></li>
+<li><a href="#4">Universal data access UDA in Revit 2024.2</a></li>
+<li><a href="#5">Inpoly.c point in polygon algorithm</a></li>
+</ul>
+
+<h4><a name="2"></a> Autodesk Revit 2024.2 Update</h4>
+
+<p><a href="https://blogs.autodesk.com/aec/2023/11/08/revit-2024-2-is-now-available/">Autodesk Revit 2024.2 is now available</a>.</p>
+
+<p>2024.2 is compatible with the previous 2024.1.1 update and can be used together with it on project work.</p>
+
+<p>The 2024.1.1 and 2024.2 updates are especially important for work-sharing users.
+In such a context, all project team members should be using at least these releases of Revit or higher to avoid
+the <a href="#3">extensible storage schema conflicts in Revit 2024</a>
+described below.</p>
+
+<p>Other API-related enhancement include:</p>
+
+<ul>
+<li>Fixed an issue in which API function Parameter.Definition.GetDataType().TypeId returned obsolete specs (spec schemas that inherit from the obsolete base specs "autodesk.spec:spec.int64-1.0.0", "autodesk.spec:spec.measurable-1.0.0", and "autodesk.spec:spec.string-1.0.0".)</li>
+<li>Added an API for adding points (plural) on SlabShapeEditor</li>
+<li>Fixed an issue when an element with Entity attached is operated by a user in an upgraded file and a previous version file is opened in the same session containing the same schema, cf. <a href="#3">below</a></li>
+<li>MEP Electrical Circuits: Improved the API ElectricalSystem.Create() to make it use the voltage of the first matched connector when creating an electrical system with the connectors whose voltages were mapped to an instance parameter, cf. ricaun's comment on the Revit API forum discussion thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/newelectricalsystem-specify-voltage-amp-poles/m-p/12366308#M75140">NewElectricalSystem specify voltage and poles</a> &ndash; thank you, Luiz!</li>
+<li>Dynamo for Revit: Upgraded Dynamo Core version to 2.19.3. Please refer to
+the <a href="https://github.com/DynamoDS/Dynamo/wiki/Release-Notes#219">DynamoDS 2.19 release notes</a> for more details</li>
+</ul>
+
+<p>Non-API-related enhancements cover Area Plans, Data Analytics, Design Option, Edit, Materials, Properties Dialog, UI Frameworks, Worksharing, Energy &ndash; Analytical Model and MEP Fabrication + Analytical Systems + Electrical Analytical + Electrical Circuits.</p>
+
+<p>For full details, please refer to
+the <a href="https://blogs.autodesk.com/aec/2023/11/08/revit-2024-2-is-now-available/">Revit 2024.2 announcement</a>,
+the <a href="https://help.autodesk.com/view/RVT/2024/ENU/?guid=RevitReleaseNotes_2024updates_2024_2_html">2024.2 update release notes</a>,
+the <a href="https://help.autodesk.com/view/RVT/2024/ENU/?guid=RevitReleaseNotes_2024updates_2024_2_Resolved_Issues_2024_2_html">issues resolved</a> and
+the <a href="https://help.autodesk.com/view/RVT/2024/ENU/?guid=RevitReleaseNotes_2024updates_2024_2_Enhancements_2024_2_html">list of enhancements</a>.</p>
+
+<h4><a name="3"></a> Extensible Storage Schema Conflicts in Revit 2024</h4>
+
+<p>One import issue resolved by Revit 2024.2 and especially related to the Revit API addresses an extensible storage schema issue affecting addons and projects that are upgraded for Revit 2024,
+cf. <a href="https://forums.autodesk.com/t5/revit-api-forum/not-able-to-delete-extensible-storage-schema/m-p/10729533">not able to delete extensible storage schema</a>.</p>
+
+<p>The 2024.1.1 and 2024.2 updates are especially important for work-sharing users.
+In such a context, all project team members should be using at least these releases of Revit or higher to avoid the possibility of older versions of Revit 2024 reintroducing schema problems back to the project models.
+To learn more about this issue, please refer to the support article
+on <a href="https://www.autodesk.com/support/technical/article/caas/sfdcarticles/sfdcarticles/Schema-Conflicts-with-DatasmithRevitExportSettings-and-DataStorageUniqueId-in-Revit-2024-1.html">schema conflicts in Revit 2024</a>.</p>
+
+<h4><a name="4"></a> Universal Data Access UDA in Revit 2024.2</h4>
+
+<p>Revit 2024.2 includes a Tech Preview of the new Revit Home page, including Universal Data Access (UDA) components.
+Revit customers using this version can access their data &ndash; including cloud data in BIM and ACC &ndash; with the same seamless experience as other products that have adopted UDA such as AutoCAD, Fusion, Civil3D and Inventor.</p>
+
+<!--
+
+For a quick first impression, watch the three-minute [UDA in Revit 2024.2 demo](https://share.autodesk.com/sites/DesignAndMakeData/_layouts/15/stream.aspx?id=%2Fsites%2FDesignAndMakeData%2FShared%20Documents%2FDemos%2FUDA%20in%20Revit%202024%2E2%20Demo%2Emp4&ga=1&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview) video:
+
+<center>
+
+
+a8e2f8942535219fc69fc931f4a6ab2d
+
+
+</center>
+
+-->
+
+<p>In Revit App Home, toggle the new Revit Home button to activate UDA:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c8d3a2d7cf200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302c8d3a2d7cf200d image-full img-responsive" alt="New Revit Home" title="New Revit Home"  src="/assets/image_ec037b.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<ul>
+<li>UDA offers both a list view and grid view granting access to recent files data in ACC and Bing 360.</li>
+<li>In the recent panel, you can use the pin command to secure files at the top of the list.</li>
+<li>Filters are available to sort files by date and type and you can click on the column head to sort files.</li>
+<li>Switching to grid view will reveal detailed preview thumbnails.</li>
+<li>Pin command is also available in grid view.</li>
+<li>The search functionality can be used to locate files within the Recent files.</li>
+<li>Moving to the Autodesk Projects panel, users can explore cloud data.</li>
+<li>You can switch between hubs, select a project and navigate through folders and files.</li>
+<li>Use the column settings to adjust column visibility and display order.</li>
+<li>Files in the cloud can be filtered by their dates and types.</li>
+<li>Simply click on the file name to open it.</li>
+<li>By clicking the top left toggle button, you can transition between app home and the design environment.</li>
+<li>UDA offers flexibility, allowing product teams to incorporate their workflows into UDA, including features like relinquish file version management.</li>
+<li>One of the significant benefits that UDA brings to rapid users is the search feature.</li>
+<li>It enables users to find files and projects in the Autodesk cloud swiftly and easily.</li>
+<li>Command entries are consistently available in both list view and grid view.</li>
+<li>UDA allows products to display data items in various states.</li>
+<li>In Revit, users can choose to hide projects and files not in the current version or opt to display them in a disabled state.</li>
+<li>An enhanced tooltip is also provided for displaying detailed information.</li>
+</ul>
+
+<p>We are looking forward to your valuable feedback on this functionality.</p>
+
+<h4><a name="5"></a> Inpoly.c Point in Polygon Algorithm</h4>
+
+<p>Let's close with a useful algorithm and somewhat funny article pointed out by Andrzej Malesa in his post
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/analytical-opening-creation-throws-argumentexception/m-p/12368576/highlight/false#M75167">analytical opening creation throws ArgumentException</a>:</p>
+
+<ul>
+<li><a href="https://www.visibone.com/inpoly/">A Point about Polygons</a> including
+the source code listing of the INPOLY.C algorithm to determine whether a point is inside a polygon</li>
+</ul>
+
+<p>I enjoyed that read and maybe you will as well.</p>
+
+<p>Happy weekend!</p>

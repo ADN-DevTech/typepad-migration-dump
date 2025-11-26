@@ -1,0 +1,137 @@
+comments:
+- author: CoderBoy
+  email: davidv@cadtechnologycenter.com
+  ip: 63.156.157.178
+  url: http://www.revitexpresstools.com
+  date: '2014-01-09 08:59:23'
+  body: 'I find the reasons Autodesk doesn''t digitally sign their API assemblies
+    to be somewhat lame.  I believe only the first 2 octets of a version number "count"
+    when a .NET add-in loads a digitally signed assembly (only change the later digits,
+    guys, or don''t change it at all because only one ever gets loaded at runtime,
+    right?), and SO WHAT if you need to deploy it to the GAC to improve performance???  (That''s
+    the real reason, as I read it...Autodesk''s complex installer can''t do gacutil
+    -i???)
+
+
+    In our case, we have reusable DLLs that depend on the Revit API DLLs, and those
+    reusable DLLs are used in multiple add-ins (with separate installs to separate
+    folders, conforming to the Autodesk Exchange Apps requirements).  As the Revit
+    API DLLs aren''t signed, we can''t sign our reusable DLLs.
+
+
+    If an older add-in is run first, it loads our older reusable DLLs into memory
+    and because they''re not signed those older ones that are already in memory will
+    get used by the newer add-in, which when run may really depend on features in
+    a newer version of the reusable DLL that shipped with it.  Crashola.  Or worse:  quiet
+    misbehaving.
+
+
+    As neither "workaround" is suitable for us, the inability for us to <i>easily</i>
+    sign our reusable DLLs that depend on the Revit API with Visual Studio can actually
+    be quite problematic.'
+- author: CoderBoy
+  email: davidv@cadtechnologycenter.com
+  ip: 63.156.157.178
+  url: http://www.revitexpresstools.com
+  date: '2014-01-09 09:17:00'
+  body: Hmmm...upon further reflection I can see how the version number problem could
+    be more complicated than I first thought.  You could publish all versions to the
+    GAC with every update release, but then any bug fixes may not get picked up automatically
+    by add-ins that were originally built against older releases of the API DLLs.  Obviously
+    that would be desirable.  Ugggh.
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.25
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-01-09 09:30:03'
+  body: 'Dear CoderBoy,
+
+
+    Thank you very much for your input!
+
+
+    Do you have access to the Autodesk beta Meridian forum?
+
+
+    That is the origin of this discussion. It would be cool if you would like to explore
+    this further there directly with members of the development team.
+
+
+    Meanwhile, I have passed on your suggestions internally.
+
+
+    Cheers, Jeremy.'
+- author: Adrian Hodos
+  email: adi.hodos@gmail.com
+  ip: 86.120.44.29
+  url: ''
+  date: '2014-01-10 11:00:06'
+  body: To put it frankly, the Revit API is an abomination. It should be taught as
+    a model of how not to program at CS schools everywhere. I could spend hours talking
+    about the coding horrors one has to make just to do something trivial (in other
+    CAD programs) like applying a transform to a solid, or infer a relation between
+    a bunch of objects. And let's not forget about the "wise" decision of only allowing
+    access from managed languages. This makes wonders for the performance of the code
+    :) And don't even mention the word multi-threaded, it is an unknown concept in
+    the Revit world.
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.25
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-01-10 11:36:46'
+  body: 'Dear Adrian,
+
+
+    Wow, cool.
+
+
+    Thank you for your frank view  :-)
+
+
+    I very sincerely hope nobody is forcing you to work with the Revit API!
+
+
+    I wish you the very best of luck on all your (hopefully) non-Revit related programming
+    projects!
+
+
+    Cheers, Jeremy.'
+- author: Arnošt Löbel
+  email: arnost.lobel@autodesk.com
+  ip: 96.233.113.149
+  url: ''
+  date: '2014-02-13 22:25:57'
+  body: "I hear you, Adrian, I really do. However, I would like you to (try) understand\
+    \ that there are always important reasons for the decisions the Revit R&D makes\
+    \ and serious considerations are always part of the decision process. For one,\
+    \ we believe that having a .NET API shell over Revit native internal provides\
+    \ most users with more stable platform, and that applies to Revit API developers\
+    \ as well as the end users that enjoy their add-ins. In my personal opinion, the\
+    \ .NET environment makes the API also more approachable to users that aren’t professional\
+    \ developers. At the same time, we do not restrict what advanced developers can\
+    \ do in their add-ins. If they wish to delegate some heavy calculations to other\
+    \ modules written in unmanaged languages, they quite easily may do that. In fact,\
+    \ Revit supplies some of its own add-ons that are written as multi-language, the\
+    \ cloud renderer being one example.\nAs for multithreading, I actually do not\
+    \ believe our users think we ignore their wishes and requests out of spite. I\
+    \ know they understand that putting together a multithreaded environment is not\
+    \ trivial. It is not easy to write such applications from scratch. It is far more\
+    \ difficult to rewrite an old application to be completely multithreaded. And\
+    \ even with that difficulty being always part of the equation, some applications\
+    \ are just mode difficult to multithread than others. I am not saying impossible,\
+    \ but sometimes it is just too darn hard. Revit actually has many internal components\
+    \ that are threaded; however, trying to thread access to a database as complex\
+    \ and tiered as Revit’s data model is another task all together.\nI’d like to\
+    \ add one comment about the complexity (and, well, ugliness) of the Revit API.\
+    \ I think the same could be said about Revit itself when comparing it with other\
+    \ applications. Revit is indeed different. I do believe there are trivial tasks\
+    \ that would take minutes to do in AutoCAD while they can take an hour easily\
+    \ in Revit. On the other hand, however, I would not have to be pressed hard to\
+    \ come up with tasks which take minutest in Revit, but days in AutoCAD. I believe\
+    \ the same sentiment can be extended to other platforms and applications. There\
+    \ are users who swear to be much faster on their Macs then others can be on their\
+    \ Windows, and vice versa. And of course, the Unix hard-core crowd swears to be\
+    \ much more efficient with their command lines than all the GUI lovers combined.\
+    \ :-) But at the end of the day it is all about the right tool for the right tasks,\
+    \ isn’t it.\n \nArnošt Löbel\nSr. Principal Engineer\nAutodesk, Revit R&D\n\n\
+    -----"

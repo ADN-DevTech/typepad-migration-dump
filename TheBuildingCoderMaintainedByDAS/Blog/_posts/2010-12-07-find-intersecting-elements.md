@@ -1,0 +1,162 @@
+---
+layout: "post"
+title: "Find Intersecting Elements"
+date: "2010-12-07 07:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "2011"
+  - "AU 2010"
+  - "Element Relationships"
+  - "Filters"
+  - "Geometry"
+  - "RST"
+original_url: "https://thebuildingcoder.typepad.com/blog/2010/12/find-intersecting-elements.html "
+typepad_basename: "find-intersecting-elements"
+typepad_status: "Publish"
+---
+
+<p>Right now I am sitting in the Tel Aviv Ben Gurion airport, which very friendlily provides free public wifi Internet access, unlike the also very friendly staff with an unfortunately less generous wifi policy in the Sheraton hotel we stayed at, who (try to) charge USD 20 per day for the same service.
+
+<p>Yesterday we looked at the 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2010/12/xml-family-usage-report.html">
+XML family usage report</a> from 
+
+Kevin Vandecar's 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2010/10/filtered-element-collectors.html">
+filtering and optimisation</a> presentation 
+
+at the 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2010/03/devcamp-devlabs-and-updated-api-training-schedule.html">
+AEC DevCamp</a> conference
+
+in Boston in June, which formed the base of my  
+
+<a href="http://thebuildingcoder.typepad.com/blog/2010/11/autodesk-university-2010-class-materials.html">
+AU class CP234-2</a> on
+
+the same topic.
+
+<p>I would like to present another of Kevin's filtering examples, which I find rather neat and demonstrates one approach to find all element in close proximity to a selected one.
+This frequently requested function is easy to implement, because the filtered element collector framework offers classes providing exactly the functionality we need for this:
+
+<ul>
+<li>The collector viewId constructor narrows down the selection to only viewable elements.
+<li>The BoundingBoxIntersectsFilter returns all elements that intersect a given bounding box.
+<li>An 
+exclusion filter can be used to eliminate known elements to exclude, specifically:
+<ul>
+<li>The view itself, which often will have an intersecting bounding box.
+<li>The selected element.
+</ul>
+</ul>
+
+<p>Here is the short external command Execute mainline implementation putting this together:
+
+<pre class="code">
+[<span class="teal">Transaction</span>( <span class="teal">TransactionMode</span>.ReadOnly )]
+[<span class="teal">Regeneration</span>( <span class="teal">RegenerationOption</span>.Manual )]
+<span class="blue">public</span> <span class="blue">class</span> <span class="teal">FilterEx2</span> : <span class="teal">IExternalCommand</span>
+{
+&nbsp; <span class="blue">public</span> <span class="teal">Result</span> Execute(
+&nbsp; &nbsp; <span class="teal">ExternalCommandData</span> commandData,
+&nbsp; &nbsp; <span class="blue">ref</span> <span class="blue">string</span> message,
+&nbsp; &nbsp; <span class="teal">ElementSet</span> elements )
+&nbsp; {
+&nbsp; &nbsp; <span class="teal">UIApplication</span> uiApp = commandData.Application;
+&nbsp; &nbsp; <span class="teal">UIDocument</span> uiDoc = uiApp.ActiveUIDocument;
+&nbsp; &nbsp; <span class="teal">Application</span> app = uiApp.Application;
+&nbsp; &nbsp; <span class="teal">Document</span> doc = uiDoc.Document;
+&nbsp;
+&nbsp; &nbsp; <span class="green">// Select something to use as base bounding box.</span>
+&nbsp;
+&nbsp; &nbsp; <span class="teal">Reference</span> r = uiDoc.Selection.PickObject(
+&nbsp; &nbsp; &nbsp; <span class="teal">ObjectType</span>.Element );
+&nbsp;
+&nbsp; &nbsp; <span class="green">// Find the bounding box from the selected </span>
+&nbsp; &nbsp; <span class="green">// object and convert to outline.</span>
+&nbsp;
+&nbsp; &nbsp; <span class="teal">BoundingBoxXYZ</span> bb = r.Element.get_BoundingBox(
+&nbsp; &nbsp; &nbsp; doc.ActiveView );
+&nbsp;
+&nbsp; &nbsp; <span class="teal">Outline</span> outline = <span class="blue">new</span> <span class="teal">Outline</span>( bb.Min, bb.Max );
+&nbsp;
+&nbsp; &nbsp; <span class="green">// Create a BoundingBoxIntersectsFilter to </span>
+&nbsp; &nbsp; <span class="green">// find everything intersecting the bounding </span>
+&nbsp; &nbsp; <span class="green">// box of the selected element.</span>
+&nbsp;
+&nbsp; &nbsp; <span class="teal">BoundingBoxIntersectsFilter</span> bbfilter 
+&nbsp; &nbsp; &nbsp; = <span class="blue">new</span> <span class="teal">BoundingBoxIntersectsFilter</span>( outline );
+&nbsp;
+&nbsp; &nbsp; <span class="green">// Use a view to construct the filter so we </span>
+&nbsp; &nbsp; <span class="green">// get only visible elements. For example, </span>
+&nbsp; &nbsp; <span class="green">// the analytical model will be found otherwise.</span>
+&nbsp;
+&nbsp; &nbsp; <span class="teal">FilteredElementCollector</span> collector 
+&nbsp; &nbsp; &nbsp; = <span class="blue">new</span> <span class="teal">FilteredElementCollector</span>( 
+&nbsp; &nbsp; &nbsp; &nbsp; doc, doc.ActiveView.Id );
+&nbsp;
+&nbsp; &nbsp; <span class="green">// Lets also exclude the view itself (which </span>
+&nbsp; &nbsp; <span class="green">// often will have an intersecting bounding box), </span>
+&nbsp; &nbsp; <span class="green">// and also the element selected.</span>
+&nbsp;
+&nbsp; &nbsp; <span class="teal">ICollection</span>&lt;<span class="teal">ElementId</span>&gt; idsExclude 
+&nbsp; &nbsp; &nbsp; = <span class="blue">new</span> <span class="teal">List</span>&lt;<span class="teal">ElementId</span>&gt;();
+&nbsp;
+&nbsp; &nbsp; idsExclude.Add( r.Element.Id );
+
+&nbsp; &nbsp; <span class="green">// No need for this, BoundingBoxIntersectsFilter </span>
+&nbsp; &nbsp; <span class="green">// excludes all objects derived from View, as </span>
+&nbsp; &nbsp; <span class="green">// pointed out by Jim Jia below:</span>
+&nbsp; &nbsp; <span class="green">//</span>
+&nbsp; &nbsp; <span class="green">//idsExclude.Add( doc.ActiveView.Id );</span>
+&nbsp;
+&nbsp; &nbsp; <span class="green">// Get the set of elements that pass the </span>
+&nbsp; &nbsp; <span class="green">// criteria. Note both filters are quick, </span>
+&nbsp; &nbsp; <span class="green">// so order is not so important.</span>
+&nbsp;
+&nbsp; &nbsp; collector.Excluding( idsExclude )
+&nbsp; &nbsp; &nbsp; .WherePasses( bbfilter );
+&nbsp;
+&nbsp; &nbsp; <span class="green">// Generate a report to display in the dialog.</span>
+&nbsp;
+&nbsp; &nbsp; <span class="blue">int</span> nCount = 0;
+&nbsp; &nbsp; <span class="blue">string</span> report = <span class="blue">string</span>.Empty;
+&nbsp; &nbsp; <span class="blue">foreach</span>( <span class="teal">Element</span> e <span class="blue">in</span> collector )
+&nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; <span class="blue">string</span> name = e.Name;
+&nbsp;
+&nbsp; &nbsp; &nbsp; report += <span class="maroon">&quot;\nName = &quot;</span> + name 
+&nbsp; &nbsp; &nbsp; &nbsp; + <span class="maroon">&quot; Element Id: &quot;</span> + e.Id.ToString();
+&nbsp;
+&nbsp; &nbsp; &nbsp; nCount++;
+&nbsp; &nbsp; }
+&nbsp;
+&nbsp; &nbsp; <span class="teal">Util</span>.ShowTaskDialog( 
+&nbsp; &nbsp; &nbsp; <span class="maroon">&quot;Bounding Box + View + Exclusion Filter&quot;</span>,
+&nbsp; &nbsp; &nbsp; <span class="maroon">&quot;Found &quot;</span> + nCount.ToString() 
+&nbsp; &nbsp; &nbsp; + <span class="maroon">&quot; elements whose bounding box intersects&quot;</span>, 
+&nbsp; &nbsp; &nbsp; report );
+&nbsp;
+&nbsp; &nbsp; <span class="blue">return</span> <span class="teal">Result</span>.Succeeded;
+&nbsp; }
+}
+</pre>
+
+<p>Running this in the StructuralUsage.rvt model, I select the following highlighted beam:</p>
+
+<center>
+
+<a style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e1689788330147e0723b42970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330147e0723b42970b image-full" alt="Beam intersecting various elements" title="Beam intersecting various elements" src="/assets/image_28b344.jpg" border="0" /></a> <br />
+
+</center>
+
+<p>This produces the following report of intersecting elements:</p>
+
+<center>
+
+<a style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e1689788330147e0723ab5970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330147e0723ab5970b" alt="Report of intersecting elements" title="Report of intersecting elements" src="/assets/image_e25cee.jpg" border="0" /></a> <br />
+
+</center>

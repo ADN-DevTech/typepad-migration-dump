@@ -1,0 +1,262 @@
+---
+layout: "post"
+title: "Initiating BIM360 Collaboration and Linking"
+date: "2019-11-04 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "360"
+  - "BIM"
+  - "Cloud"
+  - "Docs"
+  - "Forge"
+original_url: "https://thebuildingcoder.typepad.com/blog/2019/11/initiating-bim360-collaboration-and-linking.html "
+typepad_basename: "initiating-bim360-collaboration-and-linking"
+typepad_status: "Publish"
+---
+
+<p>Today, we look at a couple of BIM360 and cloud related issues:</p>
+
+<ul>
+<li><a href="#2">Programmatically initiating BIM360 collaboration</a></li>
+<li><a href="#3">Setting up external references in BIM360 Docs</a></li>
+<li><a href="#4">Jay Zallan, the text terminator</a></li>
+<li><a href="#5">Free for developers</a></li>
+<li><a href="#6">Tracks on the Internet</a></li>
+<li><a href="#7">Quantum computers explained</a></li>
+</ul>
+
+<p>Additional motivation is provided by this quote of the day:</p>
+
+<p><center>
+<i></p>
+
+<p>Today, most software exists, not to solve a problem, but to interface with other software.</p>
+
+<p style="text-align: right; font-style: italic">Ian Angell</p>
+
+<p></i>
+</center></p>
+
+<p>Especially applicable to Forge, BIM360, Design Automation for Revit, and all the other cloud-based workflows evolving today.</p>
+
+<p>People no longer need to buy amplifiers or players of any kind, or lay any wires at all &ndash; modern loudpeakers can be driven straight from the Internet, grab the music tracks to play from there, communicate via WLAN or Bluetooth, and be controlled through a smartphone app.</p>
+
+<p>Imagine streamlining and automating building construction and maintenance in a similar fashion.</p>
+
+<p>Significant parts of these tasks are still hands-on, of course; however, an inordinate amount of effort is wasted by inefficient and outdated management processes driving (or failing to) those hands-on parts of the job.</p>
+
+<h4><a name="2"></a> Programmatically Initiating BIM360 Collaboration</h4>
+
+<p><strong>Question:</strong> In order to upgrade to the current version of Revit, we have to migrate our files from BIM360 Teams to BIM360 Docs.
+Since we have hundreds of documents, I am looking to automate this process as much as possible. </p>
+
+<p>The Forge API allows me to download all Revit files from BIM360 Teams.
+I am also able to upgrade them all to Revit 2019, using either the Revit API or a third party app such
+as <a href="https://apps.autodesk.com/RVT/fr/Detail/Index?id=9014092593843843383">this bulk file upgrader</a>. </p>
+
+<p>Using the Forge BIM360 API, I am able to create new projects programmatically, and upload the files and folders from the Team Drive.
+The step that I am having difficulty accomplishing in an automated fashion is to initiate collaboration for the upgraded Revit 2019 files.
+Is there a way that this can be accomplished with either the Revit API or the Forge API?
+Or is there another way that allows me to automatically accomplish the migration between these two Autodesk Cloud Collaboration solutions? </p>
+
+<p>I came across <a href="https://forge.autodesk.com/en/docs/data/v2/tutorials/publish-model">this tutorial on publishing models</a> that
+suggests that one needs to manually initiate collaboration for each Revit file through the Revit UI.
+I hope to find an alternative solution to this suggestion. </p>
+
+<p><strong>Answer:</strong></p>
+
+<p>This issue sounds similar to the one raised in the Revit API discussion forum and escalated to
+the ADN case 14906646 <a href="https://forums.autodesk.com/t5/revit-api-forum/old-topic-brought-back-changing-link-paths-to-cloud-paths/m-p/8476438">old topic brought back &ndash; changing link paths to cloud paths</a>.</p>
+
+<p>The development team are discussing this issue (ticketed as REVIT-140793) and suggested a possible workaround:</p>
+
+<p>Revit 2019.2 and future releases include support for the "Single user workflow"; that is the non-workshared cloud model.
+At the same time, they expose the API to initiate the non-workshared cloud model and convert the non-workshared cloud model to a workshared cloud model (C4R). </p>
+
+<p>So, I think you can use the single user APIs to workaround the cases you mentioned as follows:</p>
+
+<ul>
+<li>Save the downloaded files and non-workshared files (local files).</li>
+<li>Initiate non-workshared cloud model through the API call to <code>Document.SaveAsCloudModel</code>.</li>
+<li>Convert it to a C4R model via the API <code>Document.EnableCloudWorksharing</code>.</li>
+</ul>
+
+<p>My colleague Eason Kang, 康益昇, now confirmed that you can indeed use these steps to achieve your goal.</p>
+
+<p>Here is his report, including the solution to a credentials issue on the way:</p>
+
+<p><strong>Question:</strong> I would like to save a local RVT to my BIM360 account &ndash; with Design Collaboration service activated &ndash; using the Revit 2020 API, but Revit always throws an exception saying that I do not have the required access rights.
+I have a valid C4R license and able to open C4R models from the folder id I passed to the API with the Revit UI.
+What is missing? </p>
+
+<p>This is the code snippet:</p>
+
+<pre class="code">
+  doc.SaveAsCloudModel(
+    "urn:adsk.wipprod:fs.folder:co.8rtX03jDQXKnssA1FfrEXw",
+    doc.Title);
+</pre>
+
+<p>It throws an exception:</p>
+
+<ul>
+<li>Autodesk.Revit.Exceptions.RevitServerUnauthorizedException: You do not have cloud model entitlement to access this resource in cloud</li>
+</ul>
+
+<p><strong>Answer:</strong> You need to have the 'Cloud Models for Revit' entitlement set up in <code>manage.autodesk.com</code>.</p>
+
+<p><strong>Response:</strong> Thank you for clarifying.
+I confused the 'Cloud Models for Revit' with the C4R, and I didn't have the 'Cloud Models for Revit' entitlement set up in my manage.autodesk.com.</p>
+
+<p><strong>Answer:</strong> 'Cloud Models for Revit' is a new service provided since Revit 2019.2.
+It is part of the Revit and Revit LT subscription. </p>
+
+<p>Btw, the major difference to the C4R models is that only one user at a time can work on the model created by this method.</p>
+
+<p><strong>Response:</strong> Great!</p>
+
+<p>I set up my Revit subscription as required, followed the steps shared above by Jeremy and confirmed that it works!</p>
+
+<p>Here is my test code implementing this:</p>
+
+<pre class="code">
+<span style="color:blue;">using</span>&nbsp;System;
+<span style="color:blue;">using</span>&nbsp;System.Collections.Generic;
+<span style="color:blue;">using</span>&nbsp;System.Linq;
+<span style="color:blue;">using</span>&nbsp;System.Text;
+<span style="color:blue;">using</span>&nbsp;System.Threading.Tasks;
+
+<span style="color:blue;">using</span>&nbsp;Autodesk.Revit.ApplicationServices;
+<span style="color:blue;">using</span>&nbsp;Autodesk.Revit.Attributes;
+<span style="color:blue;">using</span>&nbsp;Autodesk.Revit.DB;
+<span style="color:blue;">using</span>&nbsp;Autodesk.Revit.UI;
+<span style="color:blue;">using</span>&nbsp;Autodesk.Revit.UI.Selection;
+
+<span style="color:blue;">namespace</span>&nbsp;adsk.c4r
+{
+&nbsp;&nbsp;[<span style="color:#2b91af;">Transaction</span>(&nbsp;<span style="color:#2b91af;">TransactionMode</span>.Manual&nbsp;)]
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">Command</span>&nbsp;:&nbsp;<span style="color:#2b91af;">IExternalCommand</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">Result</span>&nbsp;Execute(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ExternalCommandData</span>&nbsp;commandData,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">ref</span>&nbsp;<span style="color:blue;">string</span>&nbsp;message,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ElementSet</span>&nbsp;elements&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UIApplication</span>&nbsp;uiapp&nbsp;=&nbsp;commandData.Application;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UIDocument</span>&nbsp;uidoc&nbsp;=&nbsp;uiapp.ActiveUIDocument;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Application</span>&nbsp;app&nbsp;=&nbsp;uiapp.Application;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;template&nbsp;=&nbsp;app.DefaultProjectTemplate;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;filename&nbsp;=&nbsp;<span style="color:maroon;">@&quot;D:\DevZone\ADN\t5021\revit_api_c4r_test_6.rvt&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;name&nbsp;=&nbsp;System.IO.<span style="color:#2b91af;">Path</span>.GetFileName(&nbsp;filename&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;=&nbsp;app.NewProjectDocument(&nbsp;template&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.SaveAs(&nbsp;filename&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">try</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.SaveAsCloudModel(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;urn:adsk.wipprod:fs.folder:co.aCd1tMmrTxucmJcmtYTLBQ&quot;</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;cloudPath&nbsp;=&nbsp;doc.GetCloudModelPath();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;doc.CanEnableCloudWorksharing()&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.EnableCloudWorksharing();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;<span style="color:#a31515;">&quot;Revit&quot;</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>.Format(&nbsp;<span style="color:#a31515;">&quot;{0}&nbsp;is&nbsp;a&nbsp;C4R&nbsp;model&nbsp;now&quot;</span>,&nbsp;name&nbsp;)&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Close();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uiapp.OpenAndActivateDocument(&nbsp;cloudPath,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">OpenOptions</span>(),&nbsp;<span style="color:blue;">false</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">catch</span>(&nbsp;<span style="color:#2b91af;">Exception</span>&nbsp;ex&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Diagnostics.<span style="color:#2b91af;">Trace</span>.WriteLine(&nbsp;ex.Message&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#2b91af;">Result</span>.Cancelled;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#2b91af;">Result</span>.Succeeded;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p>Many thanks to Eason for confirming this procedure!</p>
+
+<h4><a name="3"></a> Setting up External References in BIM360 Docs</h4>
+
+<p>Eason published another blog post on a related topic,
+on <a href="https://forge.autodesk.com/blog/bim360-docs-setting-external-references-between-files-upload-linked-files">BIM360 Docs: Setting up external references between files (Upload Linked Files)</a>.</p>
+
+<blockquote>
+  <p>The Forge Model Derivative API provides the ability to translate composite models (i.e., multiple models linked by xRefs or external links) into a single Forge Viewer model (the SVF) by uploading a ZIP file containing the host model and its links and passing both <code>rootFilename</code> and <code>compressedUrn</code> parameters to the <code>POST</code> job request payload.</p>
+  
+  <p>What If we want to achieve the same goal on BIM360 Docs?
+  How can that be achieved?
+  BIM360 Docs currently doesn't support the ZIP file format translation.</p>
+  
+  <p>Fortunately, the BIM360 Docs Web UI provides a function called "Upload Linked Files". The Forge API support a similar functionality.</p>
+  
+  <p>So, let's see how magic it is!</p>
+  
+  <p>...</p>
+</blockquote>
+
+<p>For the full story, please refer to <a href="https://forge.autodesk.com/blog/bim360-docs-setting-external-references-between-files-upload-linked-files">Eason's clear explanation on the blog</a>.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4e74566200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4e74566200b image-full img-responsive" alt="BIM360 Docs linking" title="BIM360 Docs linking" src="/assets/image_740503.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="4"></a> Jay Zallan, the Text Terminator</h4>
+
+<p>Looking at something related to the end user aspects of BIM for a change, instead of just focussing at the Revit API, I read an informative, provocative and amusing recommendation by Jay B Zallan
+<a href="https://www.augi.com/articles/detail/on-putting-the-i-into-revit-bim-01-getting-rid-of-text">On Putting the ‘I’ Into Revit, BIM | 01: getting rid of text</a>:</p>
+
+<blockquote>
+  <p>Why do we want <u>No Text</u>?
+  One reason is that if the information is not embedded into a corresponding object (as long as one exists, lol), it is not BIM.
+  That is called drafting and has no place in Revit or BIM.
+  It is and would be like putting hay into the gas tank of a Ferrari...
+  a little tinge of "well, we’ve always done it that way and it always worked fine fuelling the horses"
+  ...need I speculate as to how that Ferrari is doing?</p>
+</blockquote>
+
+<h4><a name="5"></a> Free for Developers</h4>
+
+<p>Back to programming, especially cloud based, an inspiring resource lists a huge number of other resources:</p>
+
+<p><a href="https://free-for.dev">Free for developers</a> &ndash;
+<a href="https://github.com/ripienaar/free-for-dev">on GitHub</a> &ndash;
+provides an extensive list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev.</p>
+
+<blockquote>
+  <p>Developers and open source authors now have a massive amount of services offering free tiers, but it can be hard to find them all in order to make informed decisions.</p>
+</blockquote>
+
+<h4><a name="6"></a> Tracks on the Internet</h4>
+
+<p>One important aspect as many move to ever more cloud usage and presence is the issue of data collection and tracking.</p>
+
+<p>On this topic, I found
+the <a href="https://www.nytimes.com/2019/10/04/smarter-living/10-tips-internet-privacy-crowdwise.html">10 tips to avoid leaving tracks around the Internet</a> an
+interesting read, 
+and the <a href="https://www.tunnelbear.com">TunnelBear</a> VPN looks like a useful option; it encrypts your Internet connection to keep your online activity private on any network, providing a slightly more secure way to browse the web.</p>
+
+<h4><a name="7"></a> Quantum Computers Explained</h4>
+
+<p>One final item that caught my eye in the past few days is this seven-minute presentation 
+on <a href="https://youtu.be/JhHMJCUmq28">quantum computers explained and limits of human technology</a>
+by <a href="https://www.youtube.com/channel/UCsXVk37bltHxD1rDPwtNM8Q">Kurzgesagt &ndash; in a nutshell</a>:</p>
+
+<p><center>
+<iframe width="480" height="270" src="https://www.youtube.com/embed/JhHMJCUmq28" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</center></p>
+
+<p>Have fun pondering your own desktop API and cloud-based solutions and have a wonderful week of fruitful, creative programming!</p>

@@ -1,0 +1,266 @@
+---
+layout: "post"
+title: "Traversing and Exporting all MEP System Graphs"
+date: "2016-06-22 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "Accelerator"
+  - "Data Access"
+  - "Element Relationships"
+  - "Export"
+  - "Forge"
+  - "Photo"
+  - "RME"
+  - "SDK Samples"
+  - "View"
+original_url: "https://thebuildingcoder.typepad.com/blog/2016/06/traversing-and-exporting-all-mep-system-graphs.html "
+typepad_basename: "traversing-and-exporting-all-mep-system-graphs"
+typepad_status: "Publish"
+---
+
+<p>The <a href="http://forge.autodesk.com/conference">Forge DevCon</a> last week completed successfully.</p>
+
+<p>I had a <a href="https://www.artec3d.com/events/autodesk-forge-devcon-2016">full body 3D scan</a> created there in
+the <a href="https://www.artec3d.com/hardware/shapifybooth">Shapify Booth</a> and explained
+on <a href="http://thebuildingcoder.typepad.com/">The 3D Web Coder</a> how I
+used <a href="https://en.wikipedia.org/wiki/Sed"><code>sed</code></a>
+to <a href="http://the3dwebcoder.typepad.com/blog/2016/06/flipping-obj-axes-with-texture-for-forge-viewer.html">flip the axes of the resulting OBJ model</a>.</p>
+
+<p>This week, I am sitting in the Autodesk offices at One Market in San Francisco, supporting the fourth <a href="http://autodeskcloudaccelerator.com">Cloud Accelerator</a> taking place here.</p>
+
+<p>One of the projects we are working on is from USC,
+the <a href="http://www.usc.edu">University of Southern California</a>
+<a href="http://facilities.usc.edu">Facilities Management</a>
+<a href="http://facilities.usc.edu/multisidebar_sublinks.asp?ItemID=236">CAD Services</a>.</p>
+
+<p>One of its goals is to interact with Revit MEP systems in the Forge viewer.</p>
+
+<p>That requires traversing the MEP systems in the Revit model to store, recreate and represent their graph structures in the viewer.</p>
+
+<p>Below, I present the Revit add-in that I have started implementing to generate and supply that information:</p>
+
+<ul>
+<li><a href="#2">Revit MEP System Traversal</a></li>
+<li><a href="#3">TraverseAllSystems Revit Add-in</a></li>
+<li><a href="#4">Download</a></li>
+<li><a href="#5">To do</a></li>
+<li><a href="#6">Thanks to Mustafa Salaheldin</a></li>
+</ul>
+
+<p>Before getting to that, here are a couple of pictures from the past weekend.</p>
+
+<p>Saturday, I crossed the Golden Gate bridge and the Marin headlands to Sausalito:</p>
+
+<p><center>
+<a data-flickr-embed="true"  href="https://www.flickr.com/photos/jeremytammik/albums/72157667256410223" title="Golden Gate Sausalito Walk"><img src="/assets/27152336233_188c438306_n.jpg" width="320" height="240" alt="Golden Gate Sausalito Walk"></a><script async src="//embedr.flickr.com/assets/client-code.js" charset="utf-8"></script>
+</center></p>
+
+<p>Sunday, I participated in
+the <a href="http://ecstaticdance.org/SF">ecstatic dance event</a>
+(<a href="https://www.facebook.com/groups/EcstaticSF">FB</a>) in their great new location and enjoyed the views from
+the <a href="http://sfrecpark.org/destination/buena-vista-park">Buena Vista</a>
+and <a href="https://en.wikipedia.org/wiki/Presidio_Park">Presidio</a> parks:</p>
+
+<p><center>
+<a data-flickr-embed="true"  href="https://www.flickr.com/photos/jeremytammik/albums/72157669044915670" title="Buena Vista and Presidio"><img src="/assets/27508672390_cd57261689_n.jpg" width="320" height="240" alt="Buena Vista and Presidio"></a><script async src="//embedr.flickr.com/assets/client-code.js" charset="utf-8"></script>
+</center></p>
+
+<h4><a name="2"></a>Revit MEP System Traversal</h4>
+
+<p>Today, I present a simple Revit add-in that analyses all MEP systems in the model and determines the graph structure representing the connections between the systems elements.</p>
+
+<p>I discussed a <a href="http://thebuildingcoder.typepad.com/blog/2013/02/simple-mep-system-traversal.html">simple MEP system traversal</a> in 2013.</p>
+
+<p>The graph information required in this case, however, requires the more advanced traversal algorithms determining the correct order of the individual system elements in the direction of the flow implemented by
+the <a href="http://thebuildingcoder.typepad.com/blog/2009/06/revit-mep-api.html">TraverseSystem SDK sample</a>
+(<a href="http://thebuildingcoder.typepad.com/blog/2009/09/the-revit-mep-api.html#6">2010</a>,
+<a href="http://thebuildingcoder.typepad.com/blog/2010/05/the-revit-mep-2011-api.html#samples">2011</a>) for mechanical systems and
+the <a href="http://thebuildingcoder.typepad.com/blog/2012/05/the-adn-mep-sample-adnrme-for-revit-mep-2013.html">AdnRme sample</a>
+(<a href="https://github.com/jeremytammik/AdnRme">GitHub repo</a>) for electrical ones.</p>
+
+<h4><a name="3"></a>TraverseAllSystems Revit Add-in</h4>
+
+<p>I implemented a simple C# .NET Revit API add-in that performs the following steps:</p>
+
+<ul>
+<li>Process the BIM in read-only mode.</li>
+<li>Retrieve all MEP systems from the model.</li>
+<li>Filter out the ones we are interested in by applying the <code>IsDesirableSystemPredicate</code> method.</li>
+<li>For each of these systems, instantiate a <code>TraversalTree</code> object, scavenged from the Revit SDK TraverseSystem sample.</li>
+<li>Create a temporary output folder to store the resulting XML files storing the graph information.</li>
+<li>Export a separate XML file for each system.</li>
+</ul>
+
+<p>Here is the main implementation file of the external command:</p>
+
+<pre class="code">
+ [<span style="color:#2b91af;">Transaction</span>(&nbsp;<span style="color:#2b91af;">TransactionMode</span>.ReadOnly&nbsp;)]
+ <span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">Command</span>&nbsp;:&nbsp;<span style="color:#2b91af;">IExternalCommand</span>
+ {
+ &nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+ &nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Return&nbsp;true&nbsp;to&nbsp;include&nbsp;this&nbsp;system&nbsp;in&nbsp;the&nbsp;</span>
+ &nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;exported&nbsp;system&nbsp;graphs.</span>
+ &nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+ &nbsp;&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">bool</span>&nbsp;IsDesirableSystemPredicate(&nbsp;<span style="color:#2b91af;">MEPSystem</span>&nbsp;s&nbsp;)
+ &nbsp;&nbsp;{
+ &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;s&nbsp;<span style="color:blue;">is</span>&nbsp;<span style="color:#2b91af;">MechanicalSystem</span>&nbsp;||&nbsp;s&nbsp;<span style="color:blue;">is</span>&nbsp;<span style="color:#2b91af;">PipingSystem</span>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp;&nbsp;!s.Name.Equals(&nbsp;<span style="color:#a31515;">&quot;unassigned&quot;</span>&nbsp;)
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp;&nbsp;1&nbsp;&lt;&nbsp;s.Elements.Size;
+ &nbsp;&nbsp;}
+
+ &nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+ &nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Create&nbsp;a&nbsp;and&nbsp;return&nbsp;the&nbsp;path&nbsp;of&nbsp;a&nbsp;random&nbsp;temporary&nbsp;directory.</span>
+ &nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+ &nbsp;&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">string</span>&nbsp;GetTemporaryDirectory()
+ &nbsp;&nbsp;{
+ &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;tempDirectory&nbsp;=&nbsp;<span style="color:#2b91af;">Path</span>.Combine(
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Path</span>.GetTempPath(),&nbsp;<span style="color:#2b91af;">Path</span>.GetRandomFileName()&nbsp;);
+
+ &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Directory</span>.CreateDirectory(&nbsp;tempDirectory&nbsp;);
+
+ &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;tempDirectory;
+ &nbsp;&nbsp;}
+
+ &nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">Result</span>&nbsp;Execute(
+ &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ExternalCommandData</span>&nbsp;commandData,
+ &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">ref</span>&nbsp;<span style="color:blue;">string</span>&nbsp;message,
+ &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ElementSet</span>&nbsp;elements&nbsp;)
+ &nbsp;&nbsp;{
+ &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UIApplication</span>&nbsp;uiapp&nbsp;=&nbsp;commandData.Application;
+ &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UIDocument</span>&nbsp;uidoc&nbsp;=&nbsp;uiapp.ActiveUIDocument;
+ &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Application</span>&nbsp;app&nbsp;=&nbsp;uiapp.Application;
+ &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;=&nbsp;uidoc.Document;
+
+ &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>&nbsp;allSystems
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc&nbsp;)
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">MEPSystem</span>&nbsp;)&nbsp;);
+
+ &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;nAllSystems&nbsp;=&nbsp;allSystems.Count&lt;<span style="color:#2b91af;">Element</span>&gt;();
+
+ &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">IEnumerable</span>&lt;<span style="color:#2b91af;">MEPSystem</span>&gt;&nbsp;desirableSystems
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;allSystems.Cast&lt;<span style="color:#2b91af;">MEPSystem</span>&gt;().Where&lt;<span style="color:#2b91af;">MEPSystem</span>&gt;(
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;=&gt;&nbsp;IsDesirableSystemPredicate(&nbsp;s&nbsp;)&nbsp;);
+
+ &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;nDesirableSystems&nbsp;=&nbsp;desirableSystems
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Count&lt;<span style="color:#2b91af;">Element</span>&gt;();
+
+ &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;outputFolder&nbsp;=&nbsp;GetTemporaryDirectory();
+
+ &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;n&nbsp;=&nbsp;0;
+
+ &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">MEPSystem</span>&nbsp;system&nbsp;<span style="color:blue;">in</span>&nbsp;desirableSystems&nbsp;)
+ &nbsp;&nbsp;&nbsp;&nbsp;{
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Debug</span>.Print(&nbsp;system.Name&nbsp;);
+
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">FamilyInstance</span>&nbsp;root&nbsp;=&nbsp;system.BaseEquipment;
+
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Traverse&nbsp;the&nbsp;system&nbsp;and&nbsp;dump&nbsp;the&nbsp;</span>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;traversal&nbsp;graph&nbsp;into&nbsp;an&nbsp;XML&nbsp;file</span>
+
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">TraversalTree</span>&nbsp;tree&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">TraversalTree</span>(&nbsp;system&nbsp;);
+
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;tree.Traverse()&nbsp;)
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;filename&nbsp;=&nbsp;system.Id.IntegerValue.ToString();
+
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filename&nbsp;=&nbsp;<span style="color:#2b91af;">Path</span>.ChangeExtension(
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Path</span>.Combine(&nbsp;outputFolder,&nbsp;filename&nbsp;),&nbsp;<span style="color:#a31515;">&quot;xml&quot;</span>&nbsp;);
+
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tree.DumpIntoXML(&nbsp;filename&nbsp;);
+
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Uncomment&nbsp;to&nbsp;preview&nbsp;the&nbsp;</span>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;resulting&nbsp;XML&nbsp;structure</span>
+
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//Process.Start(&nbsp;fileName&nbsp;);</span>
+
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++n;
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+ &nbsp;&nbsp;&nbsp;&nbsp;}
+
+ &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;main&nbsp;=&nbsp;<span style="color:blue;">string</span>.Format(
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;{0}&nbsp;XML&nbsp;files&nbsp;generated&nbsp;in&nbsp;{1}&nbsp;({2}&nbsp;total&quot;</span>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<span style="color:#a31515;">&quot;systems,&nbsp;{3}&nbsp;desirable):&quot;</span>,
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n,&nbsp;outputFolder,&nbsp;nAllSystems,
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nDesirableSystems&nbsp;);
+
+ &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:blue;">string</span>&gt;&nbsp;system_list&nbsp;=&nbsp;desirableSystems
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Select&lt;<span style="color:#2b91af;">Element</span>,&nbsp;<span style="color:blue;">string</span>&gt;(&nbsp;e&nbsp;=&gt;
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>.Format(&nbsp;<span style="color:#a31515;">&quot;{0}({1})&quot;</span>,&nbsp;e.Id,&nbsp;e.Name&nbsp;)&nbsp;)
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.ToList&lt;<span style="color:blue;">string</span>&gt;();
+
+ &nbsp;&nbsp;&nbsp;&nbsp;system_list.Sort();
+
+ &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;detail&nbsp;=&nbsp;<span style="color:blue;">string</span>.Join(&nbsp;<span style="color:#a31515;">&quot;,&nbsp;&quot;</span>,
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;system_list.ToArray&lt;<span style="color:blue;">string</span>&gt;()&nbsp;);
+
+ &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>&nbsp;dlg&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">TaskDialog</span>(&nbsp;n.ToString()
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<span style="color:#a31515;">&quot;&nbsp;Systems&quot;</span>&nbsp;);
+
+ &nbsp;&nbsp;&nbsp;&nbsp;dlg.MainInstruction&nbsp;=&nbsp;main;
+ &nbsp;&nbsp;&nbsp;&nbsp;dlg.MainContent&nbsp;=&nbsp;detail;
+
+ &nbsp;&nbsp;&nbsp;&nbsp;dlg.Show();
+
+ &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#2b91af;">Result</span>.Succeeded;
+ &nbsp;&nbsp;}
+ }
+</pre>
+
+<p>I ran the command in the RME advanced sample project included with the standard Revit installation, <code>rme_advanced_sample_project.rvt</code>.</p>
+
+<p>The result of doing so looks like this:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d1fbd3fb970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d1fbd3fb970c img-responsive" style="width: 450px; " alt="TraverseAllSystems result in rme_advanced_sample_project.rvt" title="TraverseAllSystems result in rme_advanced_sample_project.rvt" src="/assets/image_6ad214.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>It contains 240 MEP systems, 51 of which were deemed 'desirable' by the <code>IsDesirableSystemPredicate</code> method, of which only 35 produced any interesting graph data, exported to individual XML files in a random temporary directory.</p>
+
+<h4><a name="4"></a>Download</h4>
+
+<p>The current state of this project is available from
+the <a href="https://github.com/jeremytammik/TraverseAllSystems">TraverseAllSystems GitHub repository</a>, and the version discussed above
+is <a href="https://github.com/jeremytammik/TraverseAllSystems/releases/tag/2017.0.0.1">release 2017.0.0.1</a>.</p>
+
+<h4><a name="5"></a>To Do</h4>
+
+<p>The next step will be to implement a Forge viewer extension displaying a custom panel in the user interface hosting a tree view of the MEP system graphs and implementing two-way linking and selection functionality back and forth between the tree view nodes and the 2D and 3D viewer elements.</p>
+
+<p>We also need to figgure out how to transport the graph information from the Revit add-in to the Forge viewer.</p>
+
+<p>Presumably, we will encode it in JSON instead of XML, to start with, to make it easier to handle directly in JavaScript, e.g. by implementing a viewer extension making use of <a href="https://www.jstree.com/docs/json">jstree</a> to interact with the graph.</p>
+
+<p>Here are some of the storage options:</p>
+
+<ul>
+<li>Store the graph data in a stand-alone cloud-based repository and link it with the viewer elements dynamically</li>
+<li>Store the graph data as neighbourship relationships in each MEP system element, for instance in a shared parameter.</li>
+<li>Store the entire graph data in one single JSON structure, for instance on each MEP system base equipment element.</li>
+</ul>
+
+<p>These options can obviously be combined, and even all implemented at once.</p>
+
+<p>Probaly, the easiest way to transport the data from the BIM to the Forge platform will be to store it in shared parameter data on Revit elements.</p>
+
+<p>Then it will be automatically included and handled by the standard Forge translation process for Revit RVT files.</p>
+
+<p><a class="asset-img-link"  style="float: right;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c872110e970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c872110e970b img-responsive" style="width: 231px; margin: 0px 0px 5px 5px;" alt="Mustafa Salaheldin ranking" title="Mustafa Salaheldin ranking" src="/assets/image_e0bfd0.jpg" /></a></p>
+
+<h4><a name="6"></a>Thanks to Mustafa Salaheldin</h4>
+
+<p>One last important point before closing.</p>
+
+<p>In the past weeks,
+<a href="http://forums.autodesk.com/t5/user/viewprofilepage/user-id/1227311">Mustafa Salaheldin</a> has answered more cases on
+the <a href="http://forums.autodesk.com/t5/revit-api/bd-p/160">Revit API forum</a> than any other person before him ever was able to do in the past:</p>
+
+<p>Nobody ever reached that ranking before.</p>
+
+<p>I cannot even imagine how he does it.</p>
+
+<p>Thank you very much, Mustafa!</p>
+
+<p>It is extremely appreciated by the entire community!</p>

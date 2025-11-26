@@ -1,0 +1,255 @@
+---
+layout: "post"
+title: "Forge Rooms, Effective Filtered Element Collectors"
+date: "2019-12-10 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "Accelerator"
+  - "Algorithm"
+  - "DA4R"
+  - "Element Relationships"
+  - "Filters"
+  - "Forge"
+  - "Performance"
+original_url: "https://thebuildingcoder.typepad.com/blog/2019/12/forge-rooms-effective-filtered-element-collectors.html "
+typepad_basename: "forge-rooms-effective-filtered-element-collectors"
+typepad_status: "Publish"
+---
+
+<p>I successfully made it from Switzerland to Paris by train yesterday, in spite of the strikes here.</p>
+
+<p>Now I am happily occupied with the Forge accelerator in the Autodesk office.</p>
+
+<p>My only worry is how to get back again tomorrow.
+This time again, the train I had originally booked has been cancelled.</p>
+
+<p>We'll see how it goes.</p>
+
+<p>Meanwhile, let's take a look at:</p>
+
+<ul>
+<li><a href="#2">DA4R room support and new samples</a></li>
+<li><a href="#3">Effective filtered element collection</a></li>
+<li><a href="#4">Don't waste time optimising prematurely</a></li>
+</ul>
+
+<h4><a name="2"></a> DA4R Room Support and New Samples</h4>
+
+<p>Some recent <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#5.55">Forge Design Automation for Revit or DA4R</a> news
+and samples:</p>
+
+<p>Most importantly,
+a <a href="https://forge.autodesk.com/blog/new-rvt-svf-model-derivative-parameter-generates-additional-content-including-rooms-and-spaces">new RVT to SVF model derivative parameter generates additional content, including rooms and spaces</a>.</p>
+
+<p>Lots of other exciting <a href="https://forge.autodesk.com/categories/code-samples">new samples</a> are available, including:</p>
+
+<ul>
+<li>Run additional programs inside a WorkItem</li>
+<li>Get number of BIM 360 projects per user</li>
+<li>Working with 2D and 3D scenes and geometry in Forge Viewer</li>
+<li>Fast track your cross-platform React native Forge app with the Expo SDK</li>
+<li>How to convert your plugin to work with Design Automation API for AutoCAD</li>
+<li>Go semantic with Viewer-custom web component for Forge Viewer</li>
+<li>New RVT->SVF Model Derivative parameter generates additional content, including rooms and spaces</li>
+<li>Combining PointClouds and Revit models in Forge Viewer</li>
+<li>Switch to orthographic corner view</li>
+<li>Custom BIM 360 search with Elasticsearch</li>
+<li>Get volume and surface area in the Viewer</li>
+<li>Run command from an AutoCAD AppBundle</li>
+<li>Run iLogic Rule without AppBundle</li>
+</ul>
+
+<p>Here is a <a href="https://forge.autodesk.com/categories/code-samples">link to view all samples</a>.</p>
+
+<h4><a name="3"></a> Effective Filtered Element Collection</h4>
+
+<p>Back to the desktop Revit API, one issue that almost every Revit add-in developer faces is the efficiency of filtered element collectors.</p>
+
+<p>Several interesting aspects are pointed out (and repeated) in the thread on 
+an <a href="https://forums.autodesk.com/t5/revit-api-forum/efficient-way-to-check-if-an-element-exists-in-a-view/m-p/9187613">efficient way to check if an element exists in a view</a>:</p>
+
+<p><strong>Question:</strong> I'm creating a list of views that contain .dwg ImportInstance(s).
+For each view in the document, I'm using a <code>FilteredElementCollector</code> to get a list of elements meeting the criteria; if this list is not empty, the view is added to the list:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;e&nbsp;<span style="color:blue;">in</span>&nbsp;viewElements&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">View</span>&nbsp;view&nbsp;=&nbsp;(<span style="color:#2b91af;">View</span>)&nbsp;e;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;stopwatch&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Stopwatch</span>();
+&nbsp;&nbsp;&nbsp;&nbsp;stopwatch.Start();
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">Element</span>&gt;&nbsp;elementsInView
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc,&nbsp;view.Id&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">ImportInstance</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Where(&nbsp;e&nbsp;=&gt;&nbsp;e.Category.Name.EndsWith(&nbsp;<span style="color:#a31515;">&quot;.dwg&quot;</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfType&lt;<span style="color:#2b91af;">Element</span>&gt;()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.ToList();
+
+&nbsp;&nbsp;&nbsp;&nbsp;stopwatch.Stop();
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Debug</span>.WriteLine(&nbsp;view.Name&nbsp;+&nbsp;<span style="color:#a31515;">&quot;:&nbsp;&quot;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;stopwatch.ElapsedMilliseconds&nbsp;+&nbsp;<span style="color:#a31515;">&quot;ms&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;if&nbsp;the&nbsp;current&nbsp;view&nbsp;contains&nbsp;at&nbsp;least&nbsp;1&nbsp;DWG</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;ImportInstance,&nbsp;add&nbsp;the&nbsp;view&nbsp;to&nbsp;the&nbsp;list</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;elementsInView.Count&nbsp;&gt;&nbsp;0&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;viewsWithCAD.Add(&nbsp;view&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">continue</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+</pre>
+
+<p>The FilteredElementCollector can understandably take more than 4000 ms to collect elements from a view containing many elements.</p>
+
+<p>My goal is only to see if a single element exists in a view &ndash; not to collect all of the elements meeting the criteria; if I could make the FilteredElementCollector stop immediately after finding an element meeting the criteria, that would be helpful. </p>
+
+<p>I would appreciate any advice on how to achieve this more efficiently.</p>
+
+<p>Thank you.</p>
+
+<p><strong>Answer by Fair59</strong>, <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/2083518">Frank Aarssen</a>:
+Stopping the collector at the first element:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;e1
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc,&nbsp;view.Id&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">ImportInstance</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.FirstElement();
+</pre>
+
+<p>Possible further speed improvement:</p>
+
+<ul>
+<li>Select all <code>ImportInstance</code> elements</li>
+<li>If it is not a DWG: exclude from collector in view-loop &rarr; no need for <code>category.Name</code> check</li>
+<li>Else: if DWG is ViewSpecific, i.e., is "2D annotation" in view &rarr; <code>ownerview</code> contains DWG, can be added to <code>viewsWithCAD</code>, and can be excluded from view-loop</li>
+</ul>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:#2b91af;">IEnumerable</span>&lt;<span style="color:#2b91af;">ImportInstance</span>&gt;&nbsp;instances
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">ImportInstance</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Cast&lt;<span style="color:#2b91af;">ImportInstance</span>&gt;();
+
+&nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">ElementId</span>&gt;&nbsp;toExclude&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">ElementId</span>&gt;();
+&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">ImportInstance</span>&nbsp;instance&nbsp;<span style="color:blue;">in</span>&nbsp;instances&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;!instance.Category.Name.EndsWith(&nbsp;<span style="color:#a31515;">&quot;.dwg&quot;</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;toExclude.Add(&nbsp;instance.Id&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">continue</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;instance.ViewSpecific&nbsp;)&nbsp;<span style="color:green;">//&nbsp;dwg&nbsp;only&nbsp;exists&nbsp;in&nbsp;ownerview</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">View</span>&nbsp;ownerview&nbsp;=&nbsp;doc.GetElement(&nbsp;instance.OwnerViewId&nbsp;)&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">View</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;viewsWithCAD.Add(&nbsp;ownerview&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;viewElements.Contains(&nbsp;ownerview&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;viewElements.Remove(&nbsp;ownerview&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;e&nbsp;<span style="color:blue;">in</span>&nbsp;viewElements&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">View</span>&nbsp;view&nbsp;=&nbsp;(<span style="color:#2b91af;">View</span>)&nbsp;e;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;stopwatch&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Stopwatch</span>();
+&nbsp;&nbsp;&nbsp;&nbsp;stopwatch.Start();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;e1&nbsp;=&nbsp;<span style="color:blue;">null</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;toExclude.Count&nbsp;&gt;&nbsp;0&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e1&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc,&nbsp;view.Id&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Excluding(&nbsp;toExclude&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">ImportInstance</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.FirstElement();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">else</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e1&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc,&nbsp;view.Id&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">ImportInstance</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.FirstElement();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;stopwatch.Stop();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Debug</span>.WriteLine(&nbsp;view.Name&nbsp;+&nbsp;<span style="color:#a31515;">&quot;:&nbsp;&quot;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;stopwatch.ElapsedMilliseconds&nbsp;+&nbsp;<span style="color:#a31515;">&quot;ms&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;if&nbsp;the&nbsp;current&nbsp;view&nbsp;contains&nbsp;at&nbsp;least&nbsp;1&nbsp;DWG</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;ImportInstance,&nbsp;add&nbsp;the&nbsp;view&nbsp;to&nbsp;the&nbsp;list</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;e1&nbsp;!=&nbsp;<span style="color:blue;">null</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;viewsWithCAD.Add(&nbsp;view&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+</pre>
+
+<p>Many thanks for the interesting question, and many thanks to Fair59 for yet another extremely knowledgeable and helpful solution!</p>
+
+<p><strong>Notes:</strong> I do keep pointing out that converting a filtered element collector to a List is an inefficient thing to do, if you can avoid it.</p>
+
+<p>It forces the collector to retrieve all the data, convert it to the .NET memory space, duplicate it, costing time and space.</p>
+
+<p>For the same reasons, it is much more efficient to test and apply as many filters as possible within the Revit memory space before passing any data across to .NET.</p>
+
+<p>In this case, you can test the parameter values using a parameter filter instead of the LINQ post-processing that you are applying in you sample code snippet.</p>
+
+<p>As Fair59 points out and we have discussed in the past, you can cancel a collector as soon as your target has been reached:</p>
+
+<ul>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2019/02/cancelling-filtered-element-collection.html">Aborting filtered element collection</a></li>
+</ul>
+
+<p>So, you can save time and space in several ways:</p>
+
+<ul>
+<li>Use a parameter filter instead of LINQ or .NET post-processing</li>
+<li>Do not convert to a <code>List</code></li>
+</ul>
+
+<p>Both of these force the filtered element collector to retrieve and return all results.</p>
+
+<p>Here is an explanation of the various types of filters versus post-processing in .NET:</p>
+
+<ul>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2019/04/slow-slower-still-and-faster-filtering.html">Slow, slower still and faster filtering</a></li>
+</ul>
+
+<p>Here are some discussions and a benchmark of the results of using a parameter filter versus LINQ and .NET post-processing:</p>
+
+<ul>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2018/06/forge-tutorials-and-filtering-for-a-parameter-value.html#3">Filtering for a specific parameter value</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2019/05/filtered-element-collector-benchmark.html#3">Filtered element collector benchmark</a></li>
+</ul>
+
+<p>We also discussed the issue of finding all views displaying an element a couple of times in the past:</p>
+
+<ul>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2014/05/views-displaying-given-element-svg-and-nosql.html#6">Views displaying given element</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2016/12/determining-views-showing-an-element.html">Determining views showing an element</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2017/05/retrieving-elements-visible-in-view.html">Retrieving elements visible in view</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2019/10/generating-graphics-and-collecting-assets.html#2">Can you avoid generating graphics?</a></li>
+</ul>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4f53fc8200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4f53fc8200b img-responsive" style="width: 321px; display: block; margin-left: auto; margin-right: auto;" alt="Harvester" title="Harvester" src="/assets/image_6394b3.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="4"></a> Don't Waste Time Optimising Prematurely</h4>
+
+<p><a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/1058186">Mastjaso</a> adds
+some important professional advice in
+his <a href="https://thebuildingcoder.typepad.com/blog/2019/12/forge-rooms-effective-filtered-element-collectors.html#comment-4719321388">comment below</a>:</p>
+
+<blockquote>
+  <p>Interesting discussion on filtered element collectors, though I have to say that I have personally spend far too much time worrying about the efficiencies of those collectors when it has turned out to be inconsequential.</p>
+  
+  <p>For new developers starting out, or ones tackling a new project for the first time, I'd remember the adage that premature optimization is the death of software.
+  I start basically all my projects with super basic <code>OfClass</code> filtered element collectors and then cast and convert them to the .NET memory space so that I can use LINQ which produces shorter, more readable, and easier to debug code than the filtered element collection API.
+  It's only near the end of a project, once features are settled that I'll start swapping out LINQ for more nuanced uses of the FEC, but even then I'll only do it <em>if</em> I need the performance boost somewhere.</p>
+</blockquote>
+
+<p>Before optimising anything at all, benchmark or profile to find out where and whether there are any serious performance issues at all.</p>

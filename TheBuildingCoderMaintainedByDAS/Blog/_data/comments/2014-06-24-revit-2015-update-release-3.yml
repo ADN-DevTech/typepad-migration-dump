@@ -1,0 +1,168 @@
+comments:
+- author: John
+  email: John123@yahoo.com
+  ip: 114.143.77.186
+  url: ''
+  date: '2014-06-26 06:07:01'
+  body: 'Dear Jeremy,
+
+
+    I want to set System Type (System Air,Exhust Air) To duct. But i am not getting.
+    how to do this using Code. Plz help me ASAP.
+
+
+
+    Thanks in Advance.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.195.220
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-06-26 07:17:06'
+  body: 'Dear John,
+
+
+    Thank you for your query.
+
+
+    I have also just grabbed your associated ADN case 09691948 [Unable to change a
+    duct''s System Type in an Add-in].
+
+
+    I am very sorry that the initial reply provided by my colleagues was completely
+    beside the point and that nothing has happened since then.
+
+
+    They are all very busy right now, all with exciting stuff, and so am I  :-)
+
+
+    Still, I''ll take a look at this as soon as I can.
+
+
+    Thank you for your patience!
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.195.220
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-06-26 07:39:06'
+  body: 'Dear John,
+
+
+    The quickest answer I can provide to your query is this:
+
+
+    Look at the AdnRme HVAC sample:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/05/the-adn-mep-sample-adnrme-for-revit-mep-2013.html">http://thebuildingcoder.typepad.com/blog/2012/05/the-adn-mep-sample-adnrme-for-revit-mep-2013.html</a>
+
+
+    Search the source code for some permutation of ''air'' and ''supply''.
+
+
+    The most up-to-date version that I have provided of it is for Revit 2014:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/06/the-adn-sample-adnrme-for-revit-mep-2014.html">http://thebuildingcoder.typepad.com/blog/2013/06/the-adn-sample-adnrme-for-revit-mep-2014.html</a>
+
+
+    I am working on a version for Revit 2015 for you at this very moment.
+
+
+    Thank you for your patience!
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.195.220
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-06-26 08:24:35'
+  body: 'Dear John,
+
+
+    I created a GitHub repository for the AdnRme sample to share it with you more
+    easily:
+
+
+    <a href="https://github.com/jeremytammik/AdnRme">https://github.com/jeremytammik/AdnRme</a>
+
+
+    I then migrated it to Revit MEP 2015 for you:
+
+
+    <a href="https://github.com/jeremytammik/AdnRme/releases/tag/2015.0.0.0">https://github.com/jeremytammik/AdnRme/releases/tag/2015.0.0.0</a>
+
+
+    Have you found the solution to your query in there yet?
+
+
+    Please let us know how it works out for you.
+
+
+    Thank you.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.195.220
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-06-26 08:41:11'
+  body: "Dear John,\n\nI now searched for the answer to your question in the AdnRme\
+    \ sample.\n\nI initially implemented what you need using standard generic Revit\
+    \ element parameter functionality.\n\nHowever, there is a newer and simpler way\
+    \ to do is using MEP specific API functionality as well.\n\nWisely, I stored that\
+    \ answer in the code:\n\n\"You should be able to just use RBS_SYSTEM_CLASSIFICATION_PARAM\
+    \ instead of RBS_SYSTEM_TYPE_PARAM if you like. \n\nThe former System Type property\
+    \ on duct and piping systems (RBS_SYSTEM_TYPE_PARAM) has been renamed to System\
+    \ Classification (RBS_SYSTEM_CLASSIFICATION_PARAM). We are renaming it for clarify\
+    \ and to avoid confusion with the new duct and piping system type elements. This\
+    \ naming also goes in line with other similar parameters like Load Classification.\n\
+    \nThe former System Type property on duct and pipe connectors to has been renamed\
+    \ to System Classification. The associated parameters RBS_DUCT_SYSTEM_TYPE and\
+    \ RBS_PIPE_SYSTEM_TYPE has been renamed to RBS_DUCT_CONNECTOR_SYSTEM_CLASSIFICATION_PARAM\
+    \ and RBS_PIPE_CONNECTOR_SYSTEM_CLASSIFICATION_PARAM.\n\nAnother more 'correct'\
+    \ way to do this would be to get the Autodesk::Revit::DB::ElementType::MEPSystemType\
+    \ using the *new* RBS_DUCT_SYSTEM_TYPE_PARAM param from the family instance as\
+    \ above. You should then be able to check the system classification enum (Autodesk::Revit::DB::MEPSystemClassification)\
+    \ in the duct system type element to identify what kind of air system it is (Supply,\
+    \ Return, Exhaust etc). This would also work for piping system components using\
+    \ the RBS_PIPING_SYSTEM_TYPE_PARAM param.\"\n\nPlease let us know how you make\
+    \ use of this.\n\nActually, please add it to the AdnRme sample yourself and let\
+    \ me know so I can integrate it into the master branch.\n\nThank you!\n\nI hope\
+    \ this helps.\n\nCheers, Jeremy."
+- author: Victor Chekalin
+  email: ''
+  ip: 5.79.223.239
+  url: http://profile.typepad.com/6p017ee5f8b354970d
+  date: '2014-08-05 09:49:27'
+  body: 'Hi Jeremy,
+
+
+    Can you clarify please what does mean ''Improves retention of parameters in line
+    boundary condition objects.'' in the Revit API enhancements list?
+
+
+    Thanks,
+
+    Victor.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-08-07 10:10:02'
+  body: 'Dear Victor,
+
+
+    I believe there was an issue with the parameters passed in to the boundary condition
+    constructor. Their values were lost, so you had to set their values (again) using
+    parameters after calling the constructor. Now the values passed in to the constructor
+    are retained, as they should be. I think.
+
+
+    Cheers, Jeremy.
+
+    -----'

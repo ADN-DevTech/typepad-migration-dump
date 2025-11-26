@@ -1,0 +1,83 @@
+comments:
+- author: Sam
+  email: sam.zielke@exds.com.au
+  ip: 14.200.130.224
+  url: ''
+  date: '2013-10-28 20:13:27'
+  body: "Thanks, this was incredibly useful regarding adding Parameters to ModelGroups\
+    \ :)\n\nI understand that you said that ModelGroup parameters cannot be visible\
+    \ to the user. But this post was written in 2009, so I am hoping that later versions\
+    \ of Revit will now allow ModelGroups to have visible parameters? \n\nSee, I would\
+    \ like to add parameters to a Group such as \"Name\", \"Breakline\", etc. Is there\
+    \ any other way to group elements (FamilyInstances) in my case in a manor that\
+    \ will allow me to add visible Parameters to this 'Group'/outer container?"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.189.229
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-10-29 03:57:55'
+  body: "Dear Sam,\n\nThank you, very glad to hear it was useful.\n\nSame message\
+    \ as always: if the user interface supports it, there is a chance that the API\
+    \ does also.\n\nIn this case, I am pretty sure that the user interface does not.\
+    \ \n\nDo you know?\n\nYou can easily create your own user interface to modify\
+    \ these properties, even if Revit considers that they should be hidden from the\
+    \ user.\n\nCheers, Jeremy."
+- author: Sam
+  email: sam.zielke@exds.com.au
+  ip: 122.150.191.24
+  url: ''
+  date: '2013-10-29 04:34:25'
+  body: 'No, I haven''t found a way to add visible params through the interface.
+
+
+    "You can easily create your own user interface to modify these properties, even
+    if Revit considers that they should be hidden from the user."
+
+
+    Thats sounds like a solution I''ll try. What would be even better is when the
+    user selects the ModelGroup it will open my user interface that lists all the
+    (hidden) parameters that ModelGroup has. Do you think this is possible? Maybe
+    I can register for mouse click events? I''ve seen your post about hooking but
+    that would be my last resort. I''d rather register my callback for Revit events
+    as opposed to every mouse click.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.200.163
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-11-04 08:16:40'
+  body: 'Dear Sam,
+
+
+    Yes, that is possible. I cannot say how it would affect performance, though. Here
+    is an example of an add-in that continually monitors and displays the contents
+    of the current Revit selection set:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/09/selection-watcher-using-idling-event.html">http://thebuildingcoder.typepad.com/blog/2010/09/selection-watcher-using-idling-event.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Lotfi
+  email: ltf.ferchichi@gmail.com
+  ip: 92.98.9.16
+  url: ''
+  date: '2013-12-10 01:43:08'
+  body: "Hi, I need to list all parametertype into a combobox, I couldn't get the\
+    \ list, I've got this code \n  Dim allElements As List(Of Element) = ElementFinder.FindAllElements(app.ActiveUIDocument.Document)\n\
+    \            '\n            Dim dictStorageTypeList As New Dictionary(Of StorageType,\
+    \ List(Of ParameterType))\n            '\n            For Each e As Element In\
+    \ allElements\n                For Each p As Parameter In e.Parameters\n     \
+    \               '\n                    If Not dictStorageTypeList.ContainsKey(p.StorageType)\
+    \ Then\n                        dictStorageTypeList.Add(p.StorageType, New List(Of\
+    \ ParameterType)())\n                    End If\n                    If Not dictStorageTypeList(p.StorageType).Contains(p.Definition.ParameterType)\
+    \ Then\n                        dictStorageTypeList(p.StorageType).Add(p.Definition.ParameterType)\n\
+    \                    End If\n                Next\n            Next\n        \
+    \    'MsgBox(\"hi\")\n            'Using sw As New StreamWriter(\"c:\\ParameterTypeToStorageTypeMap.txt\"\
+    )\n\n            'Dim pttt As String = \"C:\\Users\\ltf\\Desktop\\paramtypes.txt\"\
+    \n            'Dim pts As New List(Of String)\n\n            For Each kvp As KeyValuePair(Of\
+    \ StorageType, List(Of ParameterType)) In dictStorageTypeList\n              \
+    \  Application.DoEvents()\n                For Each pt As ParameterType In kvp.Value\n\
+    \                    Application.DoEvents()\n                    '\n         \
+    \           If Not Me.cmb_types.Items.Contains(pt) Then\n                    \
+    \    Me.cmb_types.Items.Add(pt)\n                    End If\n                Next\n\
+    \            Next\n-----"

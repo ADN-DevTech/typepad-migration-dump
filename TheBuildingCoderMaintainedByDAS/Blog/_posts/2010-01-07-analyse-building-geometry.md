@@ -1,0 +1,119 @@
+---
+layout: "post"
+title: "Analyse Building Geometry"
+date: "2010-01-07 10:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "AU 2009"
+  - "Geometry"
+  - "Getting Started"
+  - "SDK Samples"
+original_url: "https://thebuildingcoder.typepad.com/blog/2010/01/analyse-building-geometry.html "
+typepad_basename: "analyse-building-geometry"
+typepad_status: "Publish"
+---
+
+<p>In a loose series of upcoming posts, I plan to present the content of Scott Conover's brilliant class held at Autodesk University 2009:
+
+<ul>
+<li><a href="http://au.autodesk.com/?nd=class&session_id=5256">
+CP222-3</a> Analyze Geometry of Buildings Using the Autodesk Revit API.
+</li>
+</ul>
+
+<p>As stated in the class summary, it provides tips and techniques to extract geometric and measurement data from Revit models using the Revit API and teaches how Revit parameterizes 2D and 3D geometry of various building elements, including walls, floors, roofs and structural framing, including techniques for measuring quantities related to the building construction, such as areas, volumes, and material usage. It also shows how ray-tracing utilities can assist with analysis of the physical relationships between elements in the Revit model. 
+
+<p>In the live presentation, Scott summarised it even more succinctly, highlighting the importance of this material even more, because this class has three objectives: 
+
+<ul>
+<li>Cover some areas missing from the Revit API documentation.
+<li>Highlight the use of ray tracing.
+<li>Demonstrate good quantity takeoff practices.
+</ul>
+
+<p>Scott created the best handout I have ever seen for any AU class previously.
+One reason he did is in fact that some of the information provided in it is still missing in the official Revit API documentation, and the handout is partially intended for direct inclusion in future versions.
+So I am very glad to be able to discuss it here and am sure that it will be of great interest to everybody currently working in these areas.
+It also ensures that the material becomes easily accessible and available to online searches.
+
+<a name="toc"></a>
+
+<h4>Table of Contents</h4>
+
+<p>I am splitting up Scott's wealth of material into the following blog post sized chunks which I plan to publish in the near future:
+
+<ol>
+
+<li>
+<a href="http://thebuildingcoder.typepad.com/blog/2010/01/geometry-options.html">
+Geometry options</a>.
+</li>
+
+<li>
+<a href="http://thebuildingcoder.typepad.com/blog/2010/01/curve-parameterisation.html">
+Curve parameterisation</a>.
+</li>
+
+<li>
+<a href="http://thebuildingcoder.typepad.com/blog/2010/01/south-facing-walls.html">
+South facing walls</a>.
+</li>
+
+<li>
+<a href="http://thebuildingcoder.typepad.com/blog/2010/01/curves.html">
+Curves</a>.
+</li>
+
+<li>
+<a href="http://thebuildingcoder.typepad.com/blog/2010/01/faces.html">
+Faces</a>.
+</li>
+
+<li>
+<a href="http://thebuildingcoder.typepad.com/blog/2010/01/face-edges.html">
+Face Edges and the PanelEdgeLengthAngle SDK Sample</a>.
+</li>
+
+<li>
+<a href="http://thebuildingcoder.typepad.com/blog/2010/01/transformations.html">
+Transformations</a>.
+</li>
+
+<li>
+<a href="http://thebuildingcoder.typepad.com/blog/2010/01/project-location.html">
+Project location</a>.
+</li>
+
+<li>
+<a href="http://thebuildingcoder.typepad.com/blog/2010/01/findreferencesbydirection.html">
+Finding elements, distance measurement, FindReferencesByDirection and the RayTraceBounce SDK Sample</a>.
+</li>
+
+<li>
+<a href="http://thebuildingcoder.typepad.com/blog/2010/02/material-quantity-extraction.html">
+Material quantities</a>.
+</li>
+
+</ol>
+
+<p>If you are eager to jump ahead with any of these topics, please feel free to download and analyse Scott's AU course material already today.
+
+
+
+<a name="2"></a>
+
+<p><strong>Addendum:</strong> On request, I now uploaded Scott's ORIGINAL AU 2009 class handout,
+
+<!-- http://thebuildingcoder.typepad.com/au/2009/AU09_CP222-3_Analyze_Geometry_Revit_API.pdf -->
+
+<a href="file:////a/doc/au/2009/doc2/AU09_CP222-3_Analyze_Geometry_Revit_API.pdf">
+AU09_CP222-3_Analyze_Geometry_Revit_API.pdf</a>.</p>
+
+<p>Please also take a look at the article on
+
+<a href="http://thebuildingcoder.typepad.com/blog/2013/04/curve-following-face-and-bounding-box-implementation.html">
+AsCurveFollowingFace and SortCurvesContiguous</a>; 
+
+it presents an updated version of Scott Conover's Geometry API handout document from the Autodesk University 2011 class,
+
+<a href="zip/cp4011_conover.pdf">cp4011_conover.pdf</a>.</p>

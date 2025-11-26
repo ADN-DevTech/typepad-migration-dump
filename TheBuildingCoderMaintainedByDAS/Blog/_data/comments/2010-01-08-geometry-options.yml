@@ -1,0 +1,284 @@
+comments:
+- author: Owen
+  email: owen1226@gmail.com
+  ip: 69.165.164.71
+  url: ''
+  date: '2010-01-08 13:00:23'
+  body: "Hi, Sir, Happy new year\n\nI get a question about the color of model line.\
+    \ \n\nThis is my code. Is it right?\n\nModelCurve modelCurve = doc.Create.NewModelCurve(line,\
+    \ NewSketchPlanePassLine(line)) as ModelLine;\n\nmodelCurve.Category.LineColor\
+    \ = new Color(255, 255, 0);\n\nThe color of model line is still green, and I want\
+    \ to change to other color."
+- author: Owen
+  email: owen1226@gmail.com
+  ip: 206.248.175.1
+  url: ''
+  date: '2010-01-09 20:18:56'
+  body: 'And I get another question. After my application creates a model line, but
+    it do not show up in view immediately. Only if I close the application window,
+    and it will show up roughly 1 second, and disappear again.
+
+
+    And I want to know how to let my application to create the model line in view
+    before my application closed, and save it in the BIM file?'
+- author: Marcin Klocek
+  email: marcin@netvigator.com
+  ip: 118.143.3.98
+  url: ''
+  date: '2010-01-11 04:51:33'
+  body: 'Dear Jeremy,
+
+    Please let me know ( to my e-mail if possible ) what is the best way to send You
+    my API Macro which I would like to get some help with.
+
+    Thanx a lot !!!!!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.153.123
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-11 11:31:02'
+  body: 'Dear Marcin,
+
+
+    I am sorry to say that I have absolutely no time left over to look at individual
+    macros right now. Sorry about that.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.153.123
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-11 15:55:30'
+  body: "Dear Owen,\n\nHappy New Year to you too. \n\nThis looks like another one\
+    \ of those questions that you should better first find a solution for through\
+    \ the user interface before you try to address it programmatically.\n\nAs far\
+    \ as I know, the colour of model lines is determined through the view settings\
+    \ of the model line category, so the question does not really have much to do\
+    \ with the Revit API. \n\nI don't think you can set line colour completely freely.\
+    \ In Revit, things are generally managed in a systematic and parametric manner,\
+    \ which ensures that the model remains well structured. In this case, you can\
+    \ modify model line colours by changing line style settings. I did the following\
+    \ to test this:\n\n- Create a couple of model lines\n\n- For each one of these,\
+    \ right click for the context menu and select Element Properties... > Line style\
+    \ and pick a different line style.\n\n- Right click somewhere in empty space in\
+    \ the current view to bring up the view context menu, and select View Properties...\
+    \ > Visibility/Graphics Overrides > Edit... > Model Categories > Visibility and\
+    \ search for the Lines entry. Click on the little plus sign to display the lines\
+    \ subcategories.\n\n- For each of the line styles you selected above, find the\
+    \ corresponding subcategory and change the colour displayed in its Projection/Surface\
+    \ Lines column.\n\nIn addition to this, there are also two posts that deal with\
+    \ the colour of Revit elements:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/03/more-questions.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/03/more-questions.html</a>\n\n\
+    <a href=\"http://thebuildingcoder.typepad.com/blog/2009/04/revit-api-cases-1.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/04/revit-api-cases-1.html</a>\n\
+    \nI hope this helps.\n\nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.153.123
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-11 15:58:35'
+  body: 'Dear Owen,
+
+
+    This issue probably has to do with the view porperties as well, and not with the
+    API.
+
+
+    Cheers, Jeremy.'
+- author: Jon Albert
+  email: jalbert@lotspec.com
+  ip: 24.11.149.5
+  url: http://www.lotspec.com
+  date: '2011-06-24 20:41:52'
+  body: 'Hi Jeremy,
+
+
+    I am trying to dimension a Window Family Instance, but am having trouble getting
+    at the Center Reference Plane.
+
+
+    You specifically mention this above "(for example, the center plane of a window
+    family instance)".
+
+
+    Do you have a sample, or instruction on how to get the Center Reference Plane
+    of a Window, or how to go about dimensioning a Window, or any other Family Instance
+    for that matter?
+
+
+    Thanks,
+
+
+    Jon'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-26 17:28:22'
+  body: "Dear Jon Albert,\n\nI worked on a similar issue once. The first reply I received\
+    \ at the time was that one should dimension to geometry, not to reference planes,\
+    \ and the workaround was to add a piece of geometry to the family definition in\
+    \ order to hook up the dimensioning to a reference to it. On the other hand, later,\
+    \ the development team agreed that it shold be possible to obtain a reference\
+    \ to and dimension to reference planes as well. I thought that was fixed now.\
+    \ Have you tried on the most recent versions?\n\nOh, actually I see it was not\
+    \ fixed until in April this year, so it may not be in the product yet. However,\
+    \ once it percolates through the system, the following has been tested and should\
+    \ be possible:\n\nTo different elements, access all visible and invisible geometry\
+    \ objects and obtain references; Use each reference as input to other API methods,\
+    \ e.g. Document.GetElement(reference) and Element.GetGeometryObjectFromReference(reference);\
+    \ obtain all reference planes in family and use references to dimension.\n\nUntil\
+    \ that time, you may have to insert an additional piece of geometry into the family\
+    \ definition and dimension to that.\n\nI hope this helps. \n\nCheers, Jeremy."
+- author: Jon Albert
+  email: jalbert@lotspec.com
+  ip: 24.11.149.5
+  url: http://www.lotspec.com
+  date: '2011-06-27 11:37:19'
+  body: 'Thanks Jeremy,
+
+
+    As far as I can tell, the 2012 API does not have these enhancements.(However,
+    I will try the latest download from Autodesk website)
+
+
+    When I request the "GeometryElement" from my "FamilyInstance"(with IncludeNonVisibleObjects
+    set to TRUE), I receive a single GeometryInstance, and then use it''s "GetInstanceGeometry"
+    method which then returns Solids and Lines, no Ref Planes.
+
+
+    The "GetInstanceGeometry" does not have an "Options" property, so maybe I am not
+    looking in the right place?
+
+
+    Am looking in the right place at least?
+
+
+    Thanks,
+
+
+    Jon'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-27 12:27:20'
+  body: 'Dear Jon,
+
+
+    Yes, you certainly are looking in the right place, and only the FamilyInstance
+    Geometry property (actually get_Geometry method) takes the options which allow
+    you to specify non-visible objects.
+
+
+    Ok, then you will either have to wait a bit or else use a piece of geometry for
+    the time being instead of the reference plane.
+
+
+    Cheers, Jeremy.'
+- author: Jon Albert
+  email: jalbert@lotspec.com
+  ip: 24.11.149.5
+  url: http://www.lotspec.com
+  date: '2011-06-27 13:12:33'
+  body: 'Thanks Jeremy,
+
+
+    I look forward to the update!
+
+
+    Jon'
+- author: Jon Albert
+  email: jalbert@lotspec.com
+  ip: 50.89.4.67
+  url: http://www.lotspec.com
+  date: '2011-07-04 19:54:54'
+  body: 'Hi Jeremy,
+
+
+    I installed the Revit 2012 Update 1, and still no luck getting Family Instance
+    Ref Planes.
+
+
+    Do you find it likely that a fix made in April did not make the update?
+
+
+    I ask because I have tried everything I can think of, and figured to double check
+    with you before giving up.
+
+
+    Thanks,
+
+
+    Jon'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-07-05 00:14:39'
+  body: "Dear Jon, \n\nI am very sorry. I see now that they are indeed not part of\
+    \ the UR, nor will they be. We will have to wait until the next major release\
+    \ before we get to see them, I'm afraid. Sorry for getting your hopes up so!\n\
+    \nCheers, Jeremy."
+- author: Jon
+  email: jalbert@lotspec.com
+  ip: 71.43.101.218
+  url: http://www.lotspec.com
+  date: '2011-07-05 15:18:58'
+  body: 'Ok, no problem, I can work around it.
+
+
+    Thanks Again!
+
+
+    Jon'
+- author: Kristoffer
+  email: kkv@selvaag.no
+  ip: 93.190.80.105
+  url: ''
+  date: '2012-04-20 08:49:01'
+  body: "Hello Jeremy,\n\nWe're trying to get hold of the 2D visual representation\
+    \ of family instances that Revit displays in plan views, in order to calculate\
+    \ a \"footprint\" for the objects. Reading the documentation and poking around\
+    \ with the snoop lookup tool indicates that there are (excuse my inexact phrase\
+    \ here) three kinds of geometrical representation available: solids, curves and\
+    \ arcs.\n\nSolids are easy to understand: they are lists of edges and faces and\
+    \ provide us with a 3D representation. They seem to correspond to what we see\
+    \ in 3D views in the Family Editor.\n\nBut curves (and arcs) do not seem to be\
+    \ the 2D representation that Revit itself uses when displaying instances as 2D.\
+    \ The information in curves and arcs are not always enough to recreate the 2D\
+    \ representation we would like to have (often they constitute just a line whereas\
+    \ in Revit 2D the object is presented as some kind of well defined polygon shape).\n\
+    \nIs there a way to get hold of the nice and complete 2D representations that\
+    \ we've missed?\n\nThen there is another issue that we stumbled upon while trying\
+    \ to use curves and arcs to calculate such a footprint: the geometry Options object\
+    \ can have a view assigned to it. If a view is assigned to it, the detail level\
+    \ of that view (ie, coarse, medium, fine) is the detail level that will be used\
+    \ when retrieving the geometry using the Options object, and we cannot set a specific\
+    \ detail level for the Options object. We thought that it would be better to specify\
+    \ the detail level 'Fine' in all cases, instead of using a view which the user\
+    \ has set the detail level of. However, when we tried this, the API returned nothing\
+    \ for curves and arcs for the objects that we examined. So it seems that we have\
+    \ to assign a view to the Options object in order to get hold of curves/arcs,\
+    \ and that introduces some arbitrariness for us, since the user controls the detail\
+    \ level of the view (the view we have chosen is the planview that has the level\
+    \ of the object we're examining as its 'GenLevel').\n\nCould you explain the phenomenon\
+    \ we're observing here? Is it perhaps that curves and arcs are invisible/non-existing\
+    \ in the default 3D view? (As usual, a message of \"Read The Fine Manual, page\
+    \ xx..\" will be an excellent answer :-) \n\n\n\nThanks!"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.181.251
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-02 06:36:26'
+  body: "Dear Kristoffer,\n\nI have not tried all possible combinations of settings.\n\
+    \nI don't know what the lines you observe are. When I analyse Revit element geometry,\
+    \ I almost always just get solids and work from there. That works reliably for\
+    \ me.\n\nI would say that you can eliminate the arbitrariness by creating your\
+    \ own view programmatically and using that.\n\nOther method for obtaining a footprint\
+    \ are mentioned in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2011/12/top-faces-of-sloped-wall-update.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2011/12/top-faces-of-sloped-wall-update.html</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2012/02/section-view-geometry-not-cropped.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2012/02/section-view-geometry-not-cropped.html</a>\n\
+    \nCheers, Jeremy.\n-----"

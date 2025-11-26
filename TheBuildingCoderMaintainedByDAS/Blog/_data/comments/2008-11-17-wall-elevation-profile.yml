@@ -1,0 +1,254 @@
+comments:
+- author: Art
+  email: montieri@gmail.com
+  ip: 89.97.241.18
+  url: ''
+  date: '2008-11-17 05:59:09'
+  body: "Thank you Jeremy, \nbased on our previous discussion in the comment section\
+    \ I have just tried a similar solution, but what is important in your implementation\
+    \ is about right wall face orientation and its Flipped property.\nGood job ;)\n\
+    \nRegards,\n\nArt"
+- author: Jeremy Tammik
+  email: jeremy.tammik@autodesk.com
+  ip: 132.188.32.100
+  url: http://profile.typekey.com/1218580759s22477/
+  date: '2008-11-17 06:14:16'
+  body: 'Hi Art,
+
+
+    Glad you like it!
+
+
+    Best regards,'
+- author: Sandeep
+  email: sdpatil.1984@rediffmail.com
+  ip: 122.200.19.34
+  url: ''
+  date: '2008-12-02 00:50:18'
+  body: 'Hi, i have queston about revit that..
+
+    How can i attach information to elements of revit so that i can get it in GBXML
+    and also through progrm like wall material?
+
+
+    thanks in advance.'
+- author: Jeremy Tammik
+  email: jeremy.tammik@autodesk.com
+  ip: 65.160.18.173
+  url: http://profile.typekey.com/1218580759s22477/
+  date: '2008-12-02 10:43:43'
+  body: 'Hi Sandeep,
+
+
+    The standard method to attach arbitrary additional data to elements in Revit is
+    by using a shared parameter, as discussed in the examples and samples listed in
+    the blog category "Parameters". I do not know whether there is any way to cause
+    this information custom information of your application to be automatically included
+    in the gbXML export. I suspect not. The alternative is to export some kind of
+    table of your own mapping the elements you are interested in to the relevant data,
+    and then making use of this information in parallel with the gbXML data. You could
+    implement an external utility to read in the two files exported from Revit, i.e.
+    your table mapping element id to shared parameter value and the Revit generated
+    gbXML file, and joining the two to write a new enhanced gbXML file including your
+    data. I am not sure whether it is possible to add any custom data at all to a
+    gbXML file, but if it is, this should be a viable workaround.
+
+
+    Best regards, Jeremy.'
+- author: Winnie
+  email: winstoon@gmail.com
+  ip: 64.58.160.183
+  url: ''
+  date: '2009-02-03 21:04:10'
+  body: 'Hey Jeremy,
+
+
+    I''m having problems trying to create walls that have constant sloped top edge.
+    I tried using the NewWall method and passed in a CurveArray that contains the
+    edges of the wall that would create a sloped top but the result was still a rectangular
+    wall. Also, how would you alter an existing wall to have a top sloped edge?
+
+
+    Thanks!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.80.148
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-02-05 07:31:27'
+  body: 'Hi Winnie,
+
+
+    I created a new post to answer your qeustion in full:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/02/creating-a-wall-with-a-sloped-profile.html">http://thebuildingcoder.typepad.com/blog/2009/02/creating-a-wall-with-a-sloped-profile.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Ning
+  email: superjoe302@yahoo.ca
+  ip: 75.158.236.16
+  url: ''
+  date: '2009-11-23 21:03:28'
+  body: 'hi Jeremy,
+
+    I tried using the NewWall method and passed in a CurveArray that contains the
+    curves of the window opening(s), works most of times, for cases not working, is
+    it because Curves of the window opening(s) not getting sorted? how to sort CurveArray
+    w/ inner Curve(s) for wall creation? thanks.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 88.65.143.231
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-25 04:57:45'
+  body: "Dear Ning,\n\nI see you also raised this question in a second thread\n\n\
+    <a href=\"http://thebuildingcoder.typepad.com/blog/2009/02/creating-a-wall-with-a-sloped-profile.html?cid=6a00e553e1689788330120a6cd4ccf970b#comment-6a00e553e1689788330120a6cd4ccf970b\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/02/creating-a-wall-with-a-sloped-profile.html?cid=6a00e553e1689788330120a6cd4ccf970b#comment-6a00e553e1689788330120a6cd4ccf970b</a>\
+    \ \n\nI will answer your comments there.\n\nCheers, Jeremy."
+- author: ning
+  email: superjoe302@yahoo.ca
+  ip: 216.123.247.50
+  url: ''
+  date: '2009-11-30 18:30:49'
+  body: 'thanks Jeremy for your comments regarding wall elevation profile generated
+    from existing walls.
+
+
+    i noticed the followings will affect the result:
+
+    1) embeded sweep/reveal of existing walls
+
+    2) allow join of existing walls
+
+
+    don''t know if there''s a way to:
+
+    1) temporarily "delete" sweep/reveal
+
+    2) temporarily disallow join
+
+
+    Cheers
+
+
+    Ning'
+- author: ning
+  email: superjoe302@yahoo.ca
+  ip: 216.123.247.50
+  url: ''
+  date: '2009-12-03 12:10:17'
+  body: well, seems i can get much better result by using lines from existing walls
+    (set to bearing temporarily) instead of solid/face/edge way, what a discovery!
+- author: Jeremy Tammik
+  email: ''
+  ip: 24.120.216.233
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-03 12:36:17'
+  body: "Dear Ning,\n\nWhat a great discovery indeed! Congratulations! I liked the\
+    \ sample that you sent me very much and was thinking of asking you whether I can\
+    \ publish that ... have you got an improved version now that is more reliable\
+    \ with no need for a workaround? Would you like to share that? \n\nCheers, Jeremy."
+- author: Matt T
+  email: matthew.taylor@wspgroup.com
+  ip: 62.6.164.67
+  url: ''
+  date: '2012-02-16 13:04:03'
+  body: 'Hello Jeremy,
+
+    As always this is a very informative post, provoking many thoughts for possible
+    uses.
+
+
+    I''m trying to modify your code so that I can get the footprint geometry of each
+    individual wall at the current framing plan level (including the joint area with
+    joined walls) and allowing for wall openings.
+
+    (I''ll use this geometry to lay out the wall reinforcement.)
+
+
+    Would you mind showing me how to modify the code or explain a little more of what
+    you''re doing at each step so I can work it out for myself?
+
+
+    To date I''ve managed to get some of the points, but I''m obviously not fully
+    understanding everything that''s going on!
+
+
+    Thanks and regards,
+
+
+    Matt'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-02-23 06:13:36'
+  body: 'Dear Matt,
+
+
+    Thank you for your appreciation!
+
+
+    Yes, I agree that there are infinite possibilities for using this kind of geometric
+    analysis.
+
+
+    For getting a footprint, I would suggest having a look at a completely different
+    approach as well, though.
+
+
+    Keep in mind that for that kind of analysis, you are interested in a specific
+    2D section view. This might be most easily obtained by making optimal use of built-in
+    Revit functioanklity, e.g. by defining a section view at the exact height you
+    are interested in and then extracting the geometry from its cut plane only, ignoring
+    everything else:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/08/section-view-geometry.html">http://thebuildingcoder.typepad.com/blog/2011/08/section-view-geometry.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/02/section-view-geometry-not-cropped.html">http://thebuildingcoder.typepad.com/blog/2012/02/section-view-geometry-not-cropped.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Matt T
+  email: matthew.taylor@wspgroup.com
+  ip: 62.6.164.67
+  url: ''
+  date: '2012-02-24 12:34:57'
+  body: 'Dear Jeremy,
+
+    Mmm, I didn''t think about using that approach even though I''d read those posts.
+    I like it.
+
+
+    Thanks for your advice!
+
+
+    Cheers,
+
+
+    Matt'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-02-29 06:55:55'
+  body: "Dear Matt,\n\nThank you for your appreciation and glad that you like it!\n\
+    \nHope it helps solve your issue. \n\nFeel free to write and let us know, and\
+    \ if you implement a generic solution that you would like to share I'll be happy\
+    \ to publish it.\n\nCheers, Jeremy."
+- author: hassan.fahmy@gmail.com
+  email: hassan.fahmy@gmail.com
+  ip: 197.132.204.108
+  url: ''
+  date: '2014-01-09 11:05:06'
+  body: 'Jeremy,
+
+    Any news from ning on his way of getting wall profile skipping wall joins? (simply
+    a joined wall will report 7 polygon points instead of 5),
+
+    I could not figure out from his post how he could overcome this using "lines"
+    instead of solid/face/edges?
+
+    -----'

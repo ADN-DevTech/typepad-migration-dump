@@ -1,0 +1,124 @@
+---
+layout: "post"
+title: "Ini File, Localisation and Torsion Tools Two"
+date: "2020-02-12 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Algorithm"
+  - "Geometry"
+  - "Getting Started"
+  - "I18n"
+  - "Settings"
+  - "Utilities"
+original_url: "https://thebuildingcoder.typepad.com/blog/2020/02/ini-file-localisation-and-torsion-tools-two.html "
+typepad_basename: "ini-file-localisation-and-torsion-tools-two"
+typepad_status: "Publish"
+---
+
+<p>More Revit API tutorial material and tools plus a couple of hints from the Revit API discussion forum and the Forge blog:</p>
+
+<ul>
+<li><a href="#2">Torsion Tools two</a></li>
+<li><a href="#3">Retrieve path to Revit.ini</a></li>
+<li><a href="#4">Updated NeXLT localization URL</a></li>
+<li><a href="#5">Volume and area of triangulated solid</a></li>
+</ul>
+
+<h4><a name="2"></a>Torsion Tools Two</h4>
+
+<p>Continuing right on from the
+fruitful <a href="https://thebuildingcoder.typepad.com/blog/2020/02/search-for-getting-started-tutorials-and-videos.html">collection of videos and tutorials</a> presented
+yesterday, an update to
+the <a href="https://thebuildingcoder.typepad.com/blog/2020/01/torsion-tools-command-event-and-info-in-da4r.html">Torsion Tools add-in template with code examples for common tools</a> introduced last week:</p>
+
+<ul>
+<li><a href="https://youtu.be/C2dBRqXl9UA">Torsion Tools Update #2 &ndash; Copy Linked Legends, Schedules and Reference Views</a>:</li>
+</ul>
+
+<blockquote>
+  <p>Autodesk Revit 2020 API Visual Studio Solution Template with Code Examples for Common Tools.
+  Update #2 walks through the added tools to copy legends, schedules, and reference views from a linked model.</p>
+  
+  <p>The Copy Legends and Schedules tools allow you to select the Link to copy them from, then select the Legends or Schedules you would like to copy.
+  It will check whether they already exist in the project and prompt you if they do.</p>
+  
+  <p>The Linked Views tool allows you to select a linked model, title block, viewport type and then the views you would like from the linked model.
+  It creates a drafting view in the current document with the name, detail number and sheet of the linked model.</p>
+  
+  <p><a href="https://github.com/TorsionTools/R20">TorsionTools GitHub repo</a></p>
+</blockquote>
+
+<p><center>
+<iframe width="480" height="270" src="https://www.youtube.com/embed/C2dBRqXl9UA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</center></p>
+
+<p>Many thanks to Torsion Tools for creating and sharing this powerful resource!</p>
+
+<h4><a name="3"></a>Retrieve Path to Revit.ini</h4>
+
+<p>A small note from
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/adding-project-template-to-new-project-via-api/m-p/8585348">adding project template to 'New Project' via API</a> by 
+Peter @cig_ad Ciganek:</p>
+
+<blockquote>
+  <p>The <em>Autodesk.Revit.ApplicationServices.Application</em> property <code>CurrentUsersDataFolderPath</code> returns the path where Revit.ini is located.</p>
+</blockquote>
+
+<h4><a name="4"></a>Updated NeXLT Localization URL</h4>
+
+<p>In another small not from 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on the <a href="https://forums.autodesk.com/t5/revit-api-forum/localization-website/m-p/8500166">localization website</a>,
+Susan Renna points out the new URL:</p>
+
+<blockquote>
+  <p>You can find the Autodesk NeXLT localization website here:
+  <a href="https://ls-wst.autodesk.com/app/nexlt-plus/app/home/search">ls-wst.autodesk.com/app/nexlt-plus/app/home/search</a></p>
+</blockquote>
+
+<h4><a name="5"></a>Volume and Area of Triangulated Solid</h4>
+
+<p>Finally, a useful generic pure geometry utility that might come in handy in the Revit environment as well
+<a href="https://stackoverflow.com/questions/1406029/how-to-calculate-the-volume-of-a-3d-mesh-object-the-surface-of-which-is-made-up">to calculate the volume of a 3D mesh object, the surface of which is made up triangles</a>:</p>
+
+<p><a href="http://chenlab.ece.cornell.edu/Publication/Cha/icip01_Cha.pdf">Reading this paper</a>,
+it is actually a pretty simple calculation.</p>
+
+<p>The trick is to calculate the <strong>signed volume</strong> of a tetrahedron &ndash; based on your triangle and topped off at the origin.
+The sign of the volume comes from whether your triangle is pointing in the direction of the origin
+(The normal of the triangle is itself dependent upon the order of your vertices, which is why you don't see it explicitly referenced below).</p>
+
+<p>This all boils down to the following simple function:</p>
+
+<pre class="code">
+  public float SignedVolumeOfTriangle(Vector p1, Vector p2, Vector p3) {
+    var v321 = p3.X*p2.Y*p1.Z;
+    var v231 = p2.X*p3.Y*p1.Z;
+    var v312 = p3.X*p1.Y*p2.Z;
+    var v132 = p1.X*p3.Y*p2.Z;
+    var v213 = p2.X*p1.Y*p3.Z;
+    var v123 = p1.X*p2.Y*p3.Z;
+    return (1.0f/6.0f)*(-v321 + v231 + v312 - v132 - v213 + v123);
+  }
+</pre>
+
+<p>A driver uses it to calculate the volume of the mesh:</p>
+
+<pre class="code">
+  public float VolumeOfMesh(Mesh mesh) {
+    var vols = from t in mesh.Triangles
+      select SignedVolumeOfTriangle(t.P1, t.P2, t.P3);
+    return Math.Abs(vols.Sum());
+  }
+</pre>
+
+<p>Adam Nagy picked this up and used it
+to <a href="https://forge.autodesk.com/blog/get-volume-and-surface-area-viewer">calculate volume and surface area in the Forge viewer</a>,
+verifying that the resulting values match the corresponding properties provided by Inventor:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4e6b31e200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4e6b31e200d image-full img-responsive" alt="Volume and surface area in the Forge viewer" title="Volume and surface area in the Forge viewer" src="/assets/image_3f78d2.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>

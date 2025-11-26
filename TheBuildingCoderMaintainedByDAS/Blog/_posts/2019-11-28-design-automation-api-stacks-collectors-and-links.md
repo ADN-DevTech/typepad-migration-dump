@@ -1,0 +1,364 @@
+---
+layout: "post"
+title: "Design Automation API, Stacks, Collectors and Links"
+date: "2019-11-28 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Cloud"
+  - "DA4R"
+  - "Forge"
+  - "Ribbon"
+  - "Selection"
+  - "User Interface"
+original_url: "https://thebuildingcoder.typepad.com/blog/2019/11/design-automation-api-stacks-collectors-and-links.html "
+typepad_basename: "design-automation-api-stacks-collectors-and-links"
+typepad_status: "Publish"
+---
+
+<p>If you are looking for the ultimatively painless introduction to the Forge Design Automation API, you are in luck: the Design Automation webinars are coming up soon.</p>
+
+<p>If you are more interested in the desktop Revit API, the solution for creating two stacked ribbon items instead of three might be more to your taste.</p>
+
+<p>In either case, the tip on reinitialising a filtered element collector before reusing it is importantissimo in both contexts:</p>
+
+<ul>
+<li><a href="#2">Forge Design Automation API webinars</a></li>
+<li><a href="#3">Stacking two 24x24 ribbon items</a></li>
+<li><a href="#4">Reinitialising the filtered element collector</a></li>
+<li><a href="#5">Use <code>CreateReferenceInLink</code> to select a face in a linked file</a></li>
+</ul>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4f044ca200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4f044ca200b img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="Forge Design Automation API for AutoCAD, Inventor, Revit and 3DS Max" title="Forge Design Automation API for AutoCAD, Inventor, Revit and 3DS Max" src="/assets/image_cac9a9.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="2"></a> Forge Design Automation API Webinars</h4>
+
+<p>A new series of webinars on
+the <a href="https://forge.autodesk.com/en/docs/design-automation/v3/developers_guide/overview/">Forge Design Automation APIs for AutoCAD, Inventor, Revit and 3DS Max</a> is
+coming up.</p>
+
+<p>You can register now to participate and also to gain access to the recordings that will be posted after the live events.</p>
+
+<p>There is still time to get hands on with the new Design Automation APIs.
+Four webinars are scheduled in December that will cover each of the Design Automation APIs in depth.
+The recordings will be posted after so be sure to register to take advantage.</p>
+
+<p>All webinars begin at 8:00 AM Pacific Standard Time.</p>
+
+<ul>
+<li><u>AutoCAD</u> &ndash; December 5
+<br/>Design Automation API for AutoCAD on Forge &ndash; <u>Albert Szilvasy</u>, software Architect will share details about the new and updated API.
+<br/>This webinar discusses how the Design Automation for AutoCAD empowers customers and partners to get more work done more quickly, reliably and collaboratively using cloud-based web services.
+We will demonstrate the ability to run scripts on your design files, leveraging the scale of the Forge Platform to automate repetitive tasks.
+&ndash; <a href="https://autodesk.zoom.us/webinar/register/WN_n-yZWaSNSW-OIMJRDdJBZw">Register</a></li>
+<li><u>Revit</u> &ndash; December 10
+<br/>Design Automation API for REVIT on Forge &ndash; <u>Sasha Crotty</u>, Senior Product Manager, Revit Platform &amp; Services to share updates on this API.
+<br/>This webinar discusses how the Design Automation for Revit empowers customers and partners to get more work done more quickly, reliably and collaboratively using cloud-based web services.
+We will demonstrate how you can automate your most common, manual, and error-prone work to improve responsiveness and free up your time so you can focus on more valuable work. 
+&ndash; <a href="https://autodesk.zoom.us/webinar/register/WN_50PU3thnSfC8m-Rh2PE2Ag">Register</a></li>
+<li><u>Inventor</u> &ndash; December 11
+<br/>Design Automation API for Inventor on Forge &ndash; <u>Andrew Akenson</u>, software Architect will shares details about the new and updated APIs added to the Design Automation for Inventor on Forge.
+<br/>This webinar discusses how the Design Automation for Inventor empowers customers and partners to get more work done more quickly, reliably and collaboratively using cloud-based web services.
+We will demonstrate how you can automate your most common, manual, and error-prone work to improve responsiveness and free up your time so you can focus on more valuable work.
+&ndash; <a href="https://autodesk.zoom.us/webinar/register/WN_8poFofy4QWCfq0ciL0AYjg">Register</a></li>
+<li><u>3DS Max</u> &ndash; December 12
+<br/>Design Automation API for 3ds Max on Forge &ndash; <u>Kevin Vandecar</u>, Developer Advocate on the Forge Partner Development team will share details about the newly launched Design Automation API for 3ds Max on Forge.
+<br/>In this webinar, we will discuss how the Design Automation for 3ds Max empowers customers and partners to get more work done more quickly, reliably and collaboratively using cloud-based web services.
+Using automation routines, you can build custom solutions using 3ds Max in the cloud.
+No local resources are needed, so it could be a commercial website/configurator type webapp, or it could be a pipeline automation that run from your in-house tools.
+The sky (or rather the cloud) is the limit.
+We will demonstrate how you can easily automate common workflows in 3ds Max.
+&ndash; <a href="https://autodesk.zoom.us/webinar/register/WN_7jTFtqz3Tte76LswrUACvw">Register</a></li>
+</ul>
+
+<h4><a name="3"></a> Stacking Two 24x24 Ribbon Items</h4>
+
+<p>Jameson Nyp, BIM Manager and IS Director at <a href="https://teliospc.com">Telios Engineering</a> in Dallas, Texas, shares a nice solution for stacking two ribbon items in
+his <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/24x24-stackeditems/m-p/9168470">24x24 StackedItems</a>:</p>
+
+<p><strong>Question:</strong> This may be an easy one, but so far I am struggling to find anything specific about it.</p>
+
+<p>How do you make a <code>StackedItem</code> where the icons are 24x24 when there are only 2 in the stack?</p>
+
+<p>It seems like it should be possible, as it is used multiple times in the modify tab:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4cb9a3f200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4cb9a3f200d img-responsive" style="width: 246px; display: block; margin-left: auto; margin-right: auto;" alt="Modify tab icon sizes" title="Modify tab icon sizes" src="/assets/image_1827c9.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>I have been able to set the <code>ShowText</code> property to false to get the 3 stacked icons, but when I use the same methodology with the 2-icon stack, it remains 16x16, regardless of the icon resolution.</p>
+
+<p>I tried to obtain and change the button's height and width, minWidth and minHeight through the Autodesk.Window.RibbonItem object to no avail.</p>
+
+<p>Has anyone had any success in creating these icons?</p>
+
+<p><strong>Answer:</strong> I found a solution.</p>
+
+<p>In order to display the button at the 24x24 size, the Autodesk.Windows.RibbonItem.Size needs to be manually set to Autodesk.Windows.RibbonItemSize.Large enum and a 24x24 icon needs to be set to the button's <code>LargeImage</code> property.</p>
+
+<p>Here is a code sample:</p>
+
+<pre class="code">
+<span style="color:blue;">using</span>&nbsp;Autodesk.Revit.UI;
+<span style="color:blue;">using</span>&nbsp;Autodesk.Windows;
+<span style="color:blue;">using</span>&nbsp;System.Collections.Generic;
+<span style="color:blue;">using</span>&nbsp;System.IO;
+<span style="color:blue;">using</span>&nbsp;System.Reflection;
+<span style="color:blue;">using</span>&nbsp;System.Windows.Media.Imaging;
+<span style="color:blue;">using</span>&nbsp;YourCustomUtilityLibrary;
+
+<span style="color:blue;">namespace</span>&nbsp;ReallyCoolAddin
+{
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">StackedButton</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">IList</span>&lt;Autodesk.Revit.RibbonItem&gt;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create(&nbsp;<span style="color:#2b91af;">RibbonPanel</span>&nbsp;ribbonPanel&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Get&nbsp;Assembly</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Assembly</span>&nbsp;assembly&nbsp;=&nbsp;<span style="color:#2b91af;">Assembly</span>.GetExecutingAssembly();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;assemblyLocation&nbsp;=&nbsp;assembly.Location;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Get&nbsp;DLL&nbsp;Location</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;executableLocation&nbsp;=&nbsp;<span style="color:#2b91af;">Path</span>.GetDirectoryName(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assemblyLocation&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;dllLocationTest&nbsp;=&nbsp;<span style="color:#2b91af;">Path</span>.Combine(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;executableLocation,&nbsp;<span style="color:#a31515;">&quot;TestDLLName.dll&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Set&nbsp;Image</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BitmapSource</span>&nbsp;pb1Image&nbsp;=&nbsp;UTILImage.GetEmbeddedImage(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assembly,&nbsp;<span style="color:#a31515;">&quot;Resources.16x16_Button1.ico&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BitmapSource</span>&nbsp;pb2Image&nbsp;=&nbsp;UTILImage.GetEmbeddedImage(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assembly,&nbsp;<span style="color:#a31515;">&quot;Resources.16x16_Button2.ico&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BitmapSource</span>&nbsp;pb1LargeImage&nbsp;=&nbsp;UTILImage.GetEmbeddedImage(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assembly,&nbsp;<span style="color:#a31515;">&quot;Resources.24x24_Button1.ico&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BitmapSource</span>&nbsp;pb2LargeImage&nbsp;=&nbsp;UTILImage.GetEmbeddedImage(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assembly,&nbsp;<span style="color:#a31515;">&quot;Resources.24x24_Button2.ico&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Set&nbsp;Button&nbsp;Name</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;buttonName1&nbsp;=&nbsp;<span style="color:#a31515;">&quot;ButtonTest1&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;buttonName2&nbsp;=&nbsp;<span style="color:#a31515;">&quot;ButtonTest2&quot;</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Create&nbsp;push&nbsp;buttons</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">PushButtonData</span>&nbsp;buttondata1&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">PushButtonData</span>(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;buttonName1,&nbsp;buttonTextTest,&nbsp;dllLocationTest,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;Command1&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;buttondata1.Image&nbsp;=&nbsp;pb1Image;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;buttondata1.LargeImage&nbsp;=&nbsp;pb1LargeImage;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">PushButtonData</span>&nbsp;buttondata2&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">PushButtonData</span>(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;buttonName2,&nbsp;buttonTextTest,&nbsp;dllLocationTest,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;Command2&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;buttondata2.Image&nbsp;=&nbsp;pb2Image;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;buttondata2.LargeImage&nbsp;=&nbsp;pb2LargeImage;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Create&nbsp;StackedItem</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">IList</span>&lt;Autodesk.Revit.RibbonItem&gt;&nbsp;ribbonItem&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;ribbonPanel.AddStackedItems(&nbsp;buttondata1,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;buttondata2&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Find&nbsp;Autodes.Windows.RibbonItems</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UTILRibbonItem&nbsp;utilRibbon&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;UTILRibbonItem();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;btnTest1&nbsp;=&nbsp;utilRibbon.getButton(&nbsp;<span style="color:#a31515;">&quot;Tab&quot;</span>,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;Panel&quot;</span>,&nbsp;buttonName1&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;btnTest2&nbsp;=&nbsp;utilRibbon.getButton(&nbsp;<span style="color:#a31515;">&quot;Tab&quot;</span>,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;Panel&quot;</span>,&nbsp;buttonName2&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Set&nbsp;Size&nbsp;and&nbsp;Text&nbsp;Visibility</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;btnTest1.Size&nbsp;=&nbsp;<span style="color:#2b91af;">RibbonItemSize</span>.Large;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;btnTest1.ShowText&nbsp;=&nbsp;<span style="color:blue;">false</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;btnTest2.Size&nbsp;=&nbsp;<span style="color:#2b91af;">RibbonItemSize</span>.Large;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;btnTest2.ShowText&nbsp;=&nbsp;<span style="color:blue;">false</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Return&nbsp;StackedItem</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;ribbonItem;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p>Many thanks to Jameson for raising and solving this issue.</p>
+
+<h4><a name="4"></a> Reinitialising the Filtered Element Collector</h4>
+
+<p>Yet another important hint
+from Frank <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/2083518">@Fair59</a> Aarssen
+on reinitialising the filtered element collector
+for <a href="https://forums.autodesk.com/t5/revit-api-forum/collection-of-elements-created-using-elementworksetfilter-giving/m-p/9164018">collection of elements created using <code>ElementWorksetFilter</code> giving incorrect count</a>:</p>
+
+<p>You need to reinitialise a filtered element collector before reusing it.
+All the filters that you add to it are accumulated.
+If they are mutually exclusive, you will get zero results.</p>
+
+<p><strong>Question:</strong> I'm trying to retrieve empty worksets, but the count method of the collection of elements in a particular workset is not giving correct results.
+Here is my code:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>&nbsp;fec&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">FilteredWorksetCollector</span>&nbsp;fwc&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredWorksetCollector</span>(&nbsp;doc&nbsp;);
+
+&nbsp;&nbsp;fwc.OfKind(&nbsp;<span style="color:#2b91af;">WorksetKind</span>.UserWorkset&nbsp;);
+
+&nbsp;&nbsp;<span style="color:blue;">try</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;msg&nbsp;=&nbsp;<span style="color:#a31515;">&quot;&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;count&nbsp;=&nbsp;0;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Transaction</span>&nbsp;t&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Transaction</span>(&nbsp;doc&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;t.Start(&nbsp;<span style="color:#a31515;">&quot;Check&nbsp;Empty&nbsp;Worksets&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">Workset</span>&nbsp;w&nbsp;<span style="color:blue;">in</span>&nbsp;fwc&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ElementWorksetFilter</span>&nbsp;ewf&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ElementWorksetFilter</span>(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;w.Id,&nbsp;<span style="color:blue;">false</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">ElementId</span>&gt;&nbsp;elemIds&nbsp;=&nbsp;fec.WherePasses(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ewf&nbsp;).ToElementIds();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;foundElems&nbsp;=&nbsp;elemIds.Count;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;<span style="color:#a31515;">&quot;Elements:&quot;</span>,&nbsp;w.Name&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<span style="color:#a31515;">&quot;:&nbsp;&quot;</span>&nbsp;+&nbsp;foundElems.ToString()&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;foundElems&nbsp;==&nbsp;0&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count++;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msg&nbsp;+=&nbsp;count.ToString()&nbsp;+&nbsp;<span style="color:#a31515;">&quot;.&nbsp;&quot;</span>&nbsp;+&nbsp;w.Name&nbsp;+&nbsp;<span style="color:#a31515;">&quot;\n&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;count&nbsp;==&nbsp;0&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msg&nbsp;=&nbsp;<span style="color:#a31515;">&quot;None&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;<span style="color:#a31515;">&quot;Empty&nbsp;Worksets:&nbsp;&quot;</span>,&nbsp;msg&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;t.Commit();
+&nbsp;&nbsp;&nbsp;&nbsp;t.Dispose();
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color:blue;">catch</span>(&nbsp;<span style="color:#2b91af;">Exception</span>&nbsp;e&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;<span style="color:#a31515;">&quot;Error&quot;</span>,&nbsp;e.ToString()&nbsp;);
+&nbsp;&nbsp;}
+</pre>
+
+<p><strong>Answer:</strong> A <code>FilteredElementCollector</code> isn't a static variable, but a dynamic collection.</p>
+
+<p>Every time you apply a filter, the elements that don't pass the filter are removed from the collection.</p>
+
+<p>So, after the first pass of the <code>foreach</code> loop, the collector only contains the elements belonging to the first workset.</p>
+
+<p>All those elements aren't part of the second workset (2nd pass) and therefore the collector is empty after the second pass. </p>
+
+<p>Solution: reinitialize the collector in every pass:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">Workset</span>&nbsp;w&nbsp;<span style="color:blue;">in</span>&nbsp;fwc&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ElementWorksetFilter</span>&nbsp;ewf&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ElementWorksetFilter</span>(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;w.Id,&nbsp;<span style="color:blue;">false</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">ElementId</span>&gt;&nbsp;elemIds&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.WherePasses(&nbsp;ewf&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.ToElementIds();
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;foundElems&nbsp;=&nbsp;elemIds.Count;
+
+&nbsp;&nbsp;&nbsp;&nbsp;count++;
+
+&nbsp;&nbsp;&nbsp;&nbsp;msg&nbsp;+=&nbsp;foundElems.ToString()&nbsp;+&nbsp;<span style="color:#a31515;">&quot;.&nbsp;&quot;</span>&nbsp;+&nbsp;w.Name&nbsp;+&nbsp;<span style="color:#a31515;">&quot;\n&quot;</span>;
+&nbsp;&nbsp;}
+</pre>
+
+<p>Many thanks to Fair59 for yet another invaluable hint.</p>
+
+<p>By the way, you might also want
+to <a href="https://thebuildingcoder.typepad.com/blog/2012/04/using-using-automagically-disposes-and-rolls-back.html">simplify your transaction handling by wrapping it in a <code>using</code> statement</a>.
+However, I also wonder whether you need any transaction at all for this read-only operation.</p>
+
+<p>This misunderstanding caused a similar initial problem in another recent case involving 
+a <a href="https://forums.autodesk.com/t5/revit-api-forum/material-assets-collector-appearance-structural-physical-amp/m-p/7256944">material assets collector for appearance, structural (physical) and thermal</a>.</p>
+
+<h4><a name="5"></a> Use CreateReferenceInLink to Select a Face in a Linked File</h4>
+
+<p>Back in 2012, we discussed a pretty convoluted solution 
+for <a href="https://thebuildingcoder.typepad.com/blog/2012/05/selecting-a-face-in-a-linked-file.html#comment-4704876157">selecting a face in a linked file</a>.</p>
+
+<p>Joshua Lumley added a <a href="https://thebuildingcoder.typepad.com/blog/2012/05/selecting-a-face-in-a-linked-file.html#comment-4704877758">comment</a> to
+that old post, pointing out that:</p>
+
+<blockquote>
+  <p>The <code>CreateReferenceInLink</code> was added after that discussion, in Revit 2014.</p>
+  
+  <p>To select any face anywhere, all you need is this:</p>
+</blockquote>
+
+<pre class="code">
+<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:#2b91af;">Face</span>&nbsp;SelectFace(&nbsp;<span style="color:#2b91af;">UIApplication</span>&nbsp;uiapp&nbsp;)
+{
+&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;=&nbsp;uiapp.ActiveUIDocument.Document;
+
+&nbsp;&nbsp;<span style="color:#2b91af;">IEnumerable</span>&lt;<span style="color:#2b91af;">Document</span>&gt;&nbsp;doc2&nbsp;=&nbsp;GetLinkedDocuments(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;doc&nbsp;);
+
+&nbsp;&nbsp;Autodesk.Revit.UI.Selection.<span style="color:#2b91af;">Selection</span>&nbsp;sel&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;uiapp.ActiveUIDocument.Selection;
+
+&nbsp;&nbsp;<span style="color:#2b91af;">Reference</span>&nbsp;pickedRef&nbsp;=&nbsp;sel.PickObject(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;Autodesk.Revit.UI.Selection.<span style="color:#2b91af;">ObjectType</span>.PointOnElement,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;Please&nbsp;select&nbsp;a&nbsp;Face&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;elem&nbsp;=&nbsp;doc.GetElement(&nbsp;pickedRef.ElementId&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">Type</span>&nbsp;et&nbsp;=&nbsp;elem.GetType();
+
+&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">RevitLinkType</span>&nbsp;)&nbsp;==&nbsp;et&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">RevitLinkInstance</span>&nbsp;)&nbsp;==&nbsp;et&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">Instance</span>&nbsp;)&nbsp;==&nbsp;et&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;d&nbsp;<span style="color:blue;">in</span>&nbsp;doc2&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;elem.Name.Contains(&nbsp;d.Title&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Reference</span>&nbsp;pickedRefInLink&nbsp;=&nbsp;pickedRef
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.CreateReferenceInLink();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;myElement&nbsp;=&nbsp;d.GetElement(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pickedRefInLink.ElementId&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Face</span>&nbsp;myGeometryObject&nbsp;=&nbsp;myElement
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.GetGeometryObjectFromReference(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pickedRefInLink&nbsp;)&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">Face</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;myGeometryObject;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color:blue;">else</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;myElement&nbsp;=&nbsp;doc.GetElement(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pickedRef.ElementId&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Face</span>&nbsp;myGeometryObject&nbsp;=&nbsp;myElement
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.GetGeometryObjectFromReference(&nbsp;pickedRef&nbsp;)&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">Face</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;myGeometryObject;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">null</span>;
+}
+</pre>
+
+<p>Many thanks to Joshua for this important update.</p>

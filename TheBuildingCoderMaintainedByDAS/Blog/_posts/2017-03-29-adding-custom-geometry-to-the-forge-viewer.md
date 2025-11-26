@@ -1,0 +1,183 @@
+---
+layout: "post"
+title: "Adding Custom Geometry to the Forge Viewer"
+date: "2017-03-29 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Accelerator"
+  - "Debugging"
+  - "Element Creation"
+  - "Forge"
+  - "Getting Started"
+  - "JavaScript"
+  - "Viewer"
+original_url: "https://thebuildingcoder.typepad.com/blog/2017/03/adding-custom-geometry-to-the-forge-viewer.html "
+typepad_basename: "adding-custom-geometry-to-the-forge-viewer"
+typepad_status: "Publish"
+---
+
+<p>I am in Gothenburg supporting the
+<a href="http://thebuildingcoder.typepad.com/blog/2017/03/events-uv-coordinates-and-rooms-on-level.html#2">Forge accelerator</a>.</p>
+
+<p>My project here is <a href="https://github.com/jeremytammik/forgefader">ForgeFader</a>,
+implementing the same end user functionality as
+the <a href="https://github.com/jeremytammik/RvtFader">RvtFader</a> Revit
+C# .NET API add-in that I implemented last week.</p>
+
+<p>I have not quite finished it yet, but the existing functionality looks as if it already ought to be very useful indeed to anyone working with geometry in the Forge viewer.</p>
+
+<ul>
+<li><a href="#2">Working in Visual Studio Code</a></li>
+<li><a href="#3">ForgeFader</a></li>
+<li><a href="#4">Implementation</a></li>
+<li><a href="#5">Adding custom geometry to the Forge Viewer</a></li>
+<li><a href="#6">Next steps</a></li>
+<li><a href="#7">Detailed notes and pointers</a></li>
+</ul>
+
+<h4><a name="2"></a>Working in Visual Studio Code</h4>
+
+<p>Inspired by Kean Walmsley's note
+on <a href="http://through-the-interface.typepad.com/through_the_interface/2017/02/enabling-visual-studio-codes-integrated-web-debugging.html">enabling Visual Studio Code’s integrated web debugging</a>,
+I am using <a href="https://code.visualstudio.com">Visual Studio Code</a> to develop ForgeFader and very happy with it indeed.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb09892d1d970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb09892d1d970d image-full img-responsive" alt="ForgeFaver in Visual Studio Code" title="ForgeFaver in Visual Studio Code" src="/assets/image_222d37.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<p>I have not actually enabled
+the <a href="https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome">integration with Chrome debugging</a> that
+is the main point of Kean's article, but just using this as an editor is a good start.</p>
+
+<h4><a name="3"></a>ForgeFader</h4>
+
+<p>ForgeFader implements a Forge viewer extension to calculate and display signal attenuation caused by distance and obstacles in a building model with a floor plan containing walls.</p>
+
+<p>It implements a functionality similar to <a href="https://github.com/jeremytammik/RvtFader">RvtFader</a>:</p>
+
+<p>Given a source point, calculate the attenuation in a widening circle around it and display that as a heat map.</p>
+
+<p>Two signal attenuation values in decibels are defined in the application settings:</p>
+
+<ul>
+<li>Attenuation per metre in air</li>
+<li>Attenuation by a wall</li>
+</ul>
+
+<p>This app is based on Philippe Leefsma's <a href="https://github.com/Autodesk-Forge/forge-react-boiler.nodejs">Forge React boilerplate sample</a>.</p>
+
+<p>Please refer to that for more details on the underlying architecture and components used.</p>
+
+<h4><a name="4"></a>Implementation</h4>
+
+<p>The ForgeFader implementation lives
+in <a href="https://github.com/jeremytammik/forgefader/blob/master/src/client/viewer.components/Viewing.Extension.Fader/Viewing.Extension.Fader.js">Viewing.Extension.Fader.js</a>.</p>
+
+<p>On loading, in <code>onGeometryLoaded</code>, it determines the Revit BIM wall fragments for subsequent ray tracing.</p>
+
+<p>On picking a point on a floor in the model, in <code>onSelection</code>, it launches the <code>attenuationCalculator</code> function to do the work.</p>
+
+<p>That fiddles around a bit to determine the picked floor top faces and add a new mesh to the model on which to draw the attenuation map.</p>
+
+<p>Once the mesh has been added, it in turn calls <code>rayTraceToFindWalls</code> to create a bitmap representing the signal attenuation to be displayed by a custom shader.</p>
+
+<h4><a name="5"></a>Adding Custom Geometry to the Forge Viewer</h4>
+
+<p>When debugging any kind of geometrical programming task, it is of utmost importance to be able to comfortably visualise the situation.</p>
+
+<p>In this app, I add three different kinds of geometry dynamically to the model displayed by the Forge viewer:</p>
+
+<ul>
+<li>Points and lines representing the top face of the floor and the picked source point.</li>
+<li>A mesh representing the top face of the floor to be equipped with a custom shader and offset slightly above and away from the floor element surface.</li>
+<li>Points and lines representing the raytracing rays.</li>
+</ul>
+
+<p>Three example screen snapshots illustrate what I mean.</p>
+
+<p>Display points and lines for debugging using <code>drawVertex</code> and <code>drawLine</code>:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb09892d26970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb09892d26970d img-responsive" style="width: 300px; " alt="Line and vertex debug markers" title="Line and vertex debug markers" src="/assets/image_5f4996.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Create a mesh to represent the floor top face and offset it up slightly above the floor surface:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d27049df970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d27049df970c img-responsive" style="width: 250px; " alt="Floor top face mesh" title="Floor top face mesh" src="/assets/image_e22b10.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>A debug helper displaying lines in the model representing the ray tracing rays:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c8e5d156970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c8e5d156970b img-responsive" style="width: 250px; " alt="Ray tracing rays" title="Ray tracing rays" src="/assets/image_7afd30.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="6"></a>Next Steps</h4>
+
+<ul>
+<li>Perform the raytracing to determine the number of walls between the picked signal source point and a grid of target points</li>
+<li>Generate a bitmap based on that information, or simply a mapping of <code>(u.v)</code> values to the desired colour value.</li>
+<li>Implement a custom fragment shader to display the (u,v) to colour mapping on the floor top face mesh.</li>
+</ul>
+
+<h4><a name="7"></a>Detailed Notes and Pointers</h4>
+
+<p>I made the following notes during the research and implementation steps.</p>
+
+<ul>
+<li>Colour gradient examples:
+<ul>
+<li>A series of three consecutive approaches to solve the task, starting with the most obvious, for the learning curve.
+However, the last in the series, using shaders, although last in the learning curve, once understood, is actually probably the most effective and simplest approach.</li>
+<li><a href="https://forge.autodesk.com/cloud_and_mobile/2016/07/projecting-dynamic-textures-onto-flat-surfaces-with-threejs.html">Projecting Dynamic Textures onto Flat Surfaces with Three.js</a>.</li>
+<li><a href="https://forge.autodesk.com/cloud_and_mobile/2016/07/using-shaders-to-generate-dynamic-textures.html">Using Shaders to Generate Dynamic Textures in the Viewer API</a>.</li>
+<li><a href="https://github.com/mourner/simpleheat">mourner/simpleheat</a>, A super-tiny JavaScript library for drawing heatmaps with Canvas</li>
+</ul></li>
+<li>Setting up the new project based on boilerplate code:
+<ul>
+<li>Fork <a href="https://github.com/Autodesk-Forge/forge-react-boiler.nodejs">forge-react-boiler.nodejs</a>.</li>
+<li>Clone, npm install, npm start.</li>
+<li>Translate my Revit model to obtain a <code>urn</code>: <a href="https://models.autodesk.io">models.autodesk.io</a>.</li>
+<li>Load model into boilerplate: <a href="http://localhost:3000/viewer?urn=...">localhost:3000/viewer?urn=...</a></li>
+<li>My urn for the little house floor is <code>dXJuOm...ydnQ</code></li>
+<li><a href="http://localhost:3000/viewer?urn=dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDE3LTAzLTI3LTEwLTM4LTMzLWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlL2xpdHRsZV9ob3VzZV9mbG9vci5ydnQ">localhost:3000/viewer?urn=dXJuOm...ydnQ</a></li>
+</ul></li>
+<li>Looked at <code>forge-rcdb.nodejs</code> sample <code>Viewing.Extension.Configurator.Predix.js</code> <code>onSelection</code>; it relies on <code>EventTool</code> and <code>EventsEmitter</code>.</li>
+<li><a href="http://stackoverflow.com/questions/41558468/how-to-get-the-model-object-tree-of-2d-drawing">How to get the model object tree of 2d drawing</a>.</li>
+<li><code>Viewer.Toolkit/Viewer.Toolkit.js</code> <code>getLeafNodes</code>.</li>
+<li>For ray tracing, look at <code>library-javascript-viewer-extensions</code> <code>Viewing.Extension.Transform/Viewing.Tool.Rotate.js</code> <code>onPointerDown</code> and <code>pointerToRaycaster</code>.</li>
+<li><a href="http://stackoverflow.com/questions/9252764/how-to-create-a-custom-mesh-on-three-js">Create a custom mesh</a> with a finer resolution than the original face.</li>
+<li><a href="http://stackoverflow.com/questions/32063065/assigning-non-interpolated-colors-on-a-mesh-in-three-js">Assign colours to the mesh</a>.</li>
+<li>Call <code>scene.add</code> and pass a mesh.</li>
+<li>The viewer does not have any concept of the face of an element. 
+It is all just individual triangular fragments.</li>
+<li>Philippe implemented a snapper tool to collect as many triangles as possible to guess what the face might be in
+his  <a href="http://viewer.autodesk.io/node/gallery/embed?id=560c6c57611ca14810e1b2bf&amp;extIds=Autodesk.ADN.Viewing.Extension.GeometrySelector">GeometrySelector</a> in
+the <a href="https://github.com/Autodesk-Forge/library-javascript-viewer-extensions">library-javascript-viewer-extensions</a>.</li>
+<li>Check out the function <code>drawFace</code> in <a href="https://github.com/Autodesk-Forge/library-javascript-viewer-extensions/blob/master/src/Autodesk.ADN.Viewing.Extension.GeometrySelector/Autodesk.ADN.Viewing.Tool.Snapper.js">Snapper.js</a>.</li>
+<li>Shader produces all the points, calculates and sets result.</li>
+<li><a href="https://stemkoski.github.io/Three.js/">Stemkoski Three.js Examples</a>,
+<a href="https://stemkoski.github.io/Three.js/Shader-Attributes.html">Shader &ndash; Attributes</a>
+(<a href="view-source:https://stemkoski.github.io/Three.js/Shader-Attributes.html">source</a>).</li>
+<li><a href="https://www.airtightinteractive.com/2013/02/intro-to-pixel-shaders-in-three-js">Intro to Pixel Shaders in Three.js</a>.</li>
+</ul>
+
+<p>I want to attach a fragment shader to the picked floor face.
+My shader should draw an image or texture directly, i.e., the desired 'heat map'.
+Here are <a href="https://threejs.org/examples/webgl_shader2.html">som more complex pixel shader samples</a>.
+I need to implement a fragment shader script and equip it with an id.</p>
+
+<ul>
+<li>WebGL shaders are written in GLSL, the <a href="https://en.wikipedia.org/wiki/OpenGL_Shading_Language">OpenGL Shading Language</a>.</li>
+<li><a href="http://pixelshaders.com">Pixel Shaders</a> by Toby Schachman and the <a href="http://pixelshaders.com/sample">sample tutorial chapter</a>.</li>
+<li>Philippe's first article on <a href="http://adndevblog.typepad.com/cloud_and_mobile/2017/01/forge-viewer-custom-shaders-part-1.html">Forge viewer custom shaders</a>.</li>
+</ul>

@@ -1,0 +1,206 @@
+---
+layout: "post"
+title: "Max' Revision Wrapper Class"
+date: "2013-09-27 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Data Access"
+  - "Parameters"
+original_url: "https://thebuildingcoder.typepad.com/blog/2013/09/max-revision-wrapper-class.html "
+typepad_basename: "max-revision-wrapper-class"
+typepad_status: "Publish"
+---
+
+<p>Max posted a
+
+<a href="http://thebuildingcoder.typepad.com/blog/2013/04/whats-new-in-the-revit-2014-api.html?cid=6a00e553e168978833019aff7c6098970c#comment-6a00e553e168978833019aff7c6098970c">
+comment</a> on
+
+<a href="http://thebuildingcoder.typepad.com/blog/2013/04/whats-new-in-the-revit-2014-api.html">
+what's new in the Revit 2014 API</a> presenting
+
+a neat little revision parameter wrapper class that I have taken the liberty of adding to The Building Coder sample collection.</p>
+
+<p>In Max' own words:
+For everyone also looking for the Revision parameters:
+Here a little wrapper class in C#:</p>
+
+<pre class="code">
+<span class="blue">using</span> System;
+<span class="blue">using</span> Autodesk.Revit.DB;
+&nbsp;
+<span class="blue">namespace</span> BuildingCoder
+{
+&nbsp; <span class="gray">///</span><span class="green"> </span><span class="gray">&lt;summary&gt;</span>
+&nbsp; <span class="gray">///</span><span class="green"> A Revision parameter wrapper class by Max.</span>
+&nbsp; <span class="gray">///</span><span class="green"> </span><span class="gray">&lt;/summary&gt;</span>
+&nbsp; <span class="blue">class</span> <span class="teal">JtRevision</span>
+&nbsp; {
+&nbsp; &nbsp; <span class="gray">///</span><span class="green"> </span><span class="gray">&lt;summary&gt;</span>
+&nbsp; &nbsp; <span class="gray">///</span><span class="green"> The BIM element.</span>
+&nbsp; &nbsp; <span class="gray">///</span><span class="green"> </span><span class="gray">&lt;/summary&gt;</span>
+&nbsp; &nbsp; <span class="teal">Element</span> _e;
+&nbsp;
+&nbsp; &nbsp; <span class="gray">///</span><span class="green"> </span><span class="gray">&lt;summary&gt;</span>
+&nbsp; &nbsp; <span class="gray">///</span><span class="green"> Internal access to the named parameter. </span>
+&nbsp; &nbsp; <span class="gray">///</span><span class="green"> </span><span class="gray">&lt;/summary&gt;</span>
+&nbsp; &nbsp; <span class="teal">Parameter</span> _p( <span class="blue">string</span> parameter_name )
+&nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; <span class="blue">return</span> _e.get_Parameter( parameter_name );
+&nbsp; &nbsp; }
+&nbsp;
+&nbsp; &nbsp; <span class="gray">///</span><span class="green"> </span><span class="gray">&lt;summary&gt;</span>
+&nbsp; &nbsp; <span class="gray">///</span><span class="green"> Create a Revision parameter accessor </span>
+&nbsp; &nbsp; <span class="gray">///</span><span class="green"> for the given BIM element.</span>
+&nbsp; &nbsp; <span class="gray">///</span><span class="green"> </span><span class="gray">&lt;/summary&gt;</span>
+&nbsp; &nbsp; <span class="blue">public</span> JtRevision( <span class="teal">Element</span> e )
+&nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; _e = e;
+&nbsp; &nbsp; }
+&nbsp;
+&nbsp; &nbsp; <span class="blue">public</span> <span class="blue">string</span> Date
+&nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; <span class="blue">get</span> { <span class="blue">return</span> _p( <span class="maroon">&quot;Revision Date&quot;</span> ).AsString(); }
+&nbsp; &nbsp; &nbsp; <span class="blue">set</span> { _p( <span class="maroon">&quot;Revision Date&quot;</span> ).Set( <span class="blue">value</span> ); }
+&nbsp; &nbsp; }
+&nbsp;
+&nbsp; &nbsp; <span class="blue">public</span> <span class="blue">string</span> IssuedTo
+&nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; <span class="blue">get</span> { <span class="blue">return</span> _p( <span class="maroon">&quot;Issued to&quot;</span> ).AsString(); }
+&nbsp; &nbsp; &nbsp; <span class="blue">set</span> { _p( <span class="maroon">&quot;Issued to&quot;</span> ).Set( <span class="blue">value</span> ); }
+&nbsp; &nbsp; }
+&nbsp;
+&nbsp; &nbsp; <span class="blue">public</span> <span class="blue">string</span> Number
+&nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; <span class="blue">get</span> { <span class="blue">return</span> _p( <span class="maroon">&quot;Revision Number&quot;</span> ).AsString(); }
+&nbsp; &nbsp; &nbsp; <span class="blue">set</span> { _p( <span class="maroon">&quot;Revision Number&quot;</span> ).Set( <span class="blue">value</span> ); }
+&nbsp; &nbsp; }
+&nbsp;
+&nbsp; &nbsp; <span class="blue">public</span> <span class="blue">int</span> Issued
+&nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; <span class="blue">get</span> { <span class="blue">return</span> _p( <span class="maroon">&quot;Issued&quot;</span> ).AsInteger(); }
+&nbsp; &nbsp; &nbsp; <span class="blue">set</span> { _p( <span class="maroon">&quot;Issued&quot;</span> ).Set( <span class="blue">value</span> ); }
+&nbsp; &nbsp; }
+&nbsp;
+&nbsp; &nbsp; <span class="blue">public</span> <span class="blue">int</span> Numbering
+&nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; <span class="blue">get</span> { <span class="blue">return</span> _p( <span class="maroon">&quot;Numbering&quot;</span> ).AsInteger(); }
+&nbsp; &nbsp; &nbsp; <span class="blue">set</span> { _p( <span class="maroon">&quot;Numbering&quot;</span> ).Set( <span class="blue">value</span> ); }
+&nbsp; &nbsp; }
+&nbsp;
+&nbsp; &nbsp; <span class="blue">public</span> <span class="blue">int</span> Sequence
+&nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; <span class="blue">get</span> { <span class="blue">return</span> _p( <span class="maroon">&quot;Revision Sequence&quot;</span> ).AsInteger(); }
+&nbsp; &nbsp; &nbsp; <span class="blue">set</span> { _p( <span class="maroon">&quot;Revision Sequence&quot;</span> ).Set( <span class="blue">value</span> ); }
+&nbsp; &nbsp; }
+&nbsp;
+&nbsp; &nbsp; <span class="blue">public</span> <span class="blue">string</span> Description
+&nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; <span class="blue">get</span> { <span class="blue">return</span> _p( <span class="maroon">&quot;Revision Description&quot;</span> ).AsString(); }
+&nbsp; &nbsp; &nbsp; <span class="blue">set</span> { _p( <span class="maroon">&quot;Revision Description&quot;</span> ).Set( <span class="blue">value</span> ); }
+&nbsp; &nbsp; }
+&nbsp;
+&nbsp; &nbsp; <span class="blue">public</span> <span class="blue">string</span> IssuedBy
+&nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; <span class="blue">get</span> { <span class="blue">return</span> _p( <span class="maroon">&quot;Issued by&quot;</span> ).AsString(); }
+&nbsp; &nbsp; &nbsp; <span class="blue">set</span> { _p( <span class="maroon">&quot;Issued by&quot;</span> ).Set( <span class="blue">value</span> ); }
+&nbsp; &nbsp; }
+&nbsp; }
+}
+</pre>
+
+<p>As you can see for yourself, there is no magic to this, and the principle could be used for many other purposes.</p>
+
+<p>In fact, all this does is hard code a mapping of parameter names to wrapper class methods.</p>
+
+<p>Mille grazie, Max, for providing this nice implementation!</p>
+
+<p>I wish everybody a nice weekend!</p>
+
+
+<a name="#2"></a><h3>Addendum</h3>
+
+<p>Thorsten Meinecke pointed out the importance of avoiding the use of display names to identify the element parameters in his comment below.</p>
+
+<p>Three years later, Jose Ignacio Montes was kind enough to actually do the work and re-implement this class using that approach:</p>
+
+<pre class="code">
+<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">JtRevision</span>
+{
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;The&nbsp;BIM&nbsp;element.</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;_e;
+ 
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Internal&nbsp;access&nbsp;to&nbsp;the&nbsp;named&nbsp;parameter.</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:#2b91af;">Parameter</span>&nbsp;_p(&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>&nbsp;bip&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;_e.get_Parameter(&nbsp;bip&nbsp;);
+&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Create&nbsp;a&nbsp;Revision&nbsp;parameter&nbsp;accessor</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;for&nbsp;the&nbsp;given&nbsp;BIM&nbsp;element.</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;JtRevision(&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;e&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;_e&nbsp;=&nbsp;e;
+&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">string</span>&nbsp;Date
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">get</span>&nbsp;{&nbsp;<span style="color:blue;">return</span>&nbsp;_p(&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.PROJECT_REVISION_REVISION_DATE&nbsp;).AsString();&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">set</span>&nbsp;{&nbsp;_p(&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.PROJECT_REVISION_REVISION_DATE&nbsp;).Set(&nbsp;<span style="color:blue;">value</span>&nbsp;);&nbsp;}
+&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">string</span>&nbsp;IssuedTo
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">get</span>&nbsp;{&nbsp;<span style="color:blue;">return</span>&nbsp;_p(&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.PROJECT_REVISION_REVISION_ISSUED_TO&nbsp;).AsString();&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">set</span>&nbsp;{&nbsp;_p(&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.PROJECT_REVISION_REVISION_ISSUED_TO&nbsp;).Set(&nbsp;<span style="color:blue;">value</span>&nbsp;);&nbsp;}
+&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">string</span>&nbsp;Number
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">get</span>&nbsp;{&nbsp;<span style="color:blue;">return</span>&nbsp;_p(&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.PROJECT_REVISION_REVISION_NUM&nbsp;).AsString();&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">set</span>&nbsp;{&nbsp;_p(&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.PROJECT_REVISION_REVISION_NUM&nbsp;).Set(&nbsp;<span style="color:blue;">value</span>&nbsp;);&nbsp;}
+&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">int</span>&nbsp;Issued
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">get</span>&nbsp;{&nbsp;<span style="color:blue;">return</span>&nbsp;_p(&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.PROJECT_REVISION_REVISION_ISSUED&nbsp;).AsInteger();&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">set</span>&nbsp;{&nbsp;_p(&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.PROJECT_REVISION_REVISION_ISSUED&nbsp;).Set(&nbsp;<span style="color:blue;">value</span>&nbsp;);&nbsp;}
+&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">int</span>&nbsp;Numbering
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">get</span>&nbsp;{&nbsp;<span style="color:blue;">return</span>&nbsp;_p(&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.PROJECT_REVISION_ENUMERATION&nbsp;).AsInteger();&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">set</span>&nbsp;{&nbsp;_p(&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.PROJECT_REVISION_ENUMERATION&nbsp;).Set(&nbsp;<span style="color:blue;">value</span>&nbsp;);&nbsp;}
+&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">int</span>&nbsp;Sequence
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">get</span>&nbsp;{&nbsp;<span style="color:blue;">return</span>&nbsp;_p(&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.PROJECT_REVISION_SEQUENCE_NUM&nbsp;).AsInteger();&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">set</span>&nbsp;{&nbsp;_p(&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.PROJECT_REVISION_SEQUENCE_NUM&nbsp;).Set(&nbsp;<span style="color:blue;">value</span>&nbsp;);&nbsp;}
+&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">string</span>&nbsp;Description
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">get</span>&nbsp;{&nbsp;<span style="color:blue;">return</span>&nbsp;_p(&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.PROJECT_REVISION_REVISION_DESCRIPTION&nbsp;).AsString();&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">set</span>&nbsp;{&nbsp;_p(&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.PROJECT_REVISION_REVISION_DESCRIPTION&nbsp;).Set(&nbsp;<span style="color:blue;">value</span>&nbsp;);&nbsp;}
+&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">string</span>&nbsp;IssuedBy
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">get</span>&nbsp;{&nbsp;<span style="color:blue;">return</span>&nbsp;_p(&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.PROJECT_REVISION_REVISION_ISSUED_BY&nbsp;).AsString();&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">set</span>&nbsp;{&nbsp;_p(&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.PROJECT_REVISION_REVISION_ISSUED_BY&nbsp;).Set(&nbsp;<span style="color:blue;">value</span>&nbsp;);&nbsp;}
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p>Many thanks to Jose Ignacio for this very cool and overdue improvement!</p>
+
+<p>I added the updated version to <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder samples</a>.</p>
+
+<p>The new class lives beside the obsolete old one in the module <a href="https://github.com/jeremytammik/the_building_coder_samples/blob/master/BuildingCoder/BuildingCoder/JtRevision.cs">JtRevision.cs</a>.</p>

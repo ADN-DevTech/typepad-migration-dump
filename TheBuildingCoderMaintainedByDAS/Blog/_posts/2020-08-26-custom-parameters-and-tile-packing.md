@@ -1,0 +1,270 @@
+---
+layout: "post"
+title: "Custom Parameters and Tile Packing"
+date: "2020-08-26 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "2021"
+  - "AI"
+  - "Algorithm"
+  - "Forge"
+  - "Geometry"
+  - "Parameters"
+  - "Philosophy"
+original_url: "https://thebuildingcoder.typepad.com/blog/2020/08/custom-parameters-and-tile-packing.html "
+typepad_basename: "custom-parameters-and-tile-packing"
+typepad_status: "Publish"
+---
+
+<p>Parameter changes and tile packing using the Revit API and AI, plus some other notes on Forge and general stuff:</p>
+
+<ul>
+<li><a href="#2">Parameter type changes to <code>Custom</code></a></li>
+<li><a href="#3">Tile packing and determining cut tiles in room</a></li>
+<li><a href="#3.1">Bin packing and container loading in Dynamo and Excel</a></li>
+<li><a href="#4">Optimal banana sandwich slice packing with AI</a></li>
+<li><a href="#5">Forge solution showcase</a></li>
+<li><a href="#6">Effect of home office on meeting culture</a></li>
+<li><a href="#7">Motivating kids can be harder than business success</a></li>
+</ul>
+
+<h4><a name="2"></a>Parameter Type Changes to Custom</h4>
+
+<p>A question came up on why a number of parameter types can no longer be created programmatically, in 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/parameter-type-changes-to-custom-in-revit-2021-1/m-p/9693021">parameter type changes to custom in Revit 2021.1</a>:</p>
+
+<p><strong>Question:</strong> In Revit 2021.1, the following parameter types are automatically changed to <code>custom</code> after creation:</p>
+
+<ul>
+<li>Angular Speed</li>
+<li>Cost per Area</li>
+<li>Cost Rate Energy</li>
+<li>Cost Rate Power</li>
+<li>Diffusivity</li>
+<li>Distance</li>
+<li>Flow per Power</li>
+<li>Isothermal Moisture Capacity</li>
+<li>Mass per Time</li>
+<li>Power per Flow</li>
+<li>Power per Length</li>
+<li>Rotation Angle</li>
+<li>Stationing Interval</li>
+<li>Thermal Gradient Coefficient for Moisture Capacity</li>
+</ul>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833026bde8cf8eb200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833026bde8cf8eb200c image-full img-responsive" alt="Parameter type Custom in 2021.1" title="Parameter type Custom in 2021.1" src="/assets/image_3f3013.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>It looks like we don't have API support (for creating) these parameter types.</p>
+
+<p>Is that intentional?</p>
+
+<p><strong>Answer:</strong> The development team replied:</p>
+
+<p>Yes, it's intentional, and we recognise it as a limitation.</p>
+
+<p>A future major release of Revit will offer a better experience.</p>
+
+<p>The reason behind it is that the new data types in this list can be identified by <code>ForgeTypeId</code> but do not map to values in the deprecated <code>UnitType</code> enumeration or the <code>ParameterType</code> enumeration (which will be deprecated in future releases of Revit).</p>
+
+<p>You can use these new data types to create parameters in the Revit user interface, but if you try to read the <code>ParameterType</code> value in the API, you'll get Custom.</p>
+
+<p>However, I believe you can use the <code>Definition.GetSpecTypeId</code> method to distinguish between these Custom parameters.</p>
+
+<p>So, you are absolutely correct: currently no support for these parameter types.</p>
+
+<p>That support will come in a future major release of Revit.</p>
+
+<p>It is in fact also already available in the current preview release.</p>
+
+<h4><a name="3"></a>Tile Packing and Determining Cut Tiles in Room</h4>
+
+<p>Richard <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/1035859">RPThomas108</a> Thomas
+has been extremely active and helpful lately in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a>.</p>
+
+<p>Here is some very down-to-earth (or -floor) advice of his on 
+<a href="https://forums.autodesk.com/t5/revit-api-forum/how-to-get-number-of-cut-tiles-in-a-room-using-revit-api/m-p/9696586">how to get the number of cut tiles in a room using the Revit API</a>:</p>
+
+<p><strong>Question:</strong> I want to get number of tiles in a room.</p>
+
+<p>After getting the number of tiles I also want to get the cut tiles in percentage of tiles.</p>
+
+<p>Having collected rooms in floor plan, is there any way to get the tiles?</p>
+
+<p><strong>Answer:</strong> This is an interesting task.</p>
+
+<p>I am not aware of any support for this in the Revit API right out of the box.</p>
+
+<p>Is this functionality provided by the Revit end user interface?</p>
+
+<p>The API hardly ever provides functionality that is not available in the end user interface.</p>
+
+<p>If not, you can definitely implement something yourself to retrieve the exact area that you wish to cover with tiles and run some kind of partitioning and optimisation algorithm on it to achieve the task you describe.</p>
+
+<p>First, some rather abstract theoretical research in this area:</p>
+
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Euclidean_tilings_by_convex_regular_polygons">Euclidean tilings by convex regular polygons</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Tiling_with_rectangles">Tiling with rectangles</a></li>
+<li><a href="https://cs.stackexchange.com/questions/16661/tiling-an-orthogonal-polygon-with-squares">Tiling an orthogonal polygon with squares</a></li>
+<li><a href="https://github.com/datagovsg/hextile">hextile &ndash; Generate tile representations of polygon objects on map</a></li>
+</ul>
+
+<p>Another idea:</p>
+
+<p>Implement a family instance representing one tile.
+Use the Revit 2021 generative design functionality to place a maximum number of tiles on the desired surface.</p>
+
+<p>Continued researching this:</p>
+
+<ul>
+<li><a href="https://stackoverflow.com/questions/2675123/nesting-maximum-amount-of-shapes-on-a-surface">Nesting maximum amount of shapes on a surface</a></li>
+</ul>
+
+<p>The proper term to search for is 'packing':</p>
+
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Packing_problems">Packing problems</a></li>
+<li><a href="https://github.com/topics/packing-algorithm">Packing algorithms</a></li>
+<li><a href="https://stackoverflow.com/questions/1213394/what-algorithm-can-be-used-for-packing-rectangles-of-different-sizes-into-the-sm">What algorithm can be used for packing rectangles of different sizes into the smallest rectangle possible in a fairly optimal way?</a></li>
+</ul>
+
+<p>Addendum while editing the blog post: check
+out <a href="https://github.com/markfink/nest2D">Nest2D, a C++ 2D bin packaging tool for Python</a>,
+mentioned below for optimised banana slice packing.
+That looks as if it will solve the problem for you right out of the box.</p>
+
+<p>In any case, do remember to appropriately align the polygon surface you wish to fill (or tile).</p>
+
+<p>Now for the more down-to-earth aspects:</p>
+
+<p>Not to complicate the issue but is this tiles with grout tolerance allowance between the tiles?</p>
+
+<p>If I were thinking of how I would do it then I'd place the tiles as solids in a given grid arrangement overlapping the room boundary, get the total volume of this grid arrangement = Vol1.</p>
+
+<p>Cut the room shape out of this tile arrangement to get the volume again = Vol2.</p>
+
+<p>You can then get the volume inside the room by deducting Vol2 from Vol1.</p>
+
+<p>Separate out the disjoined solids in Vol2 (I believe there is a function for that).</p>
+
+<p>Then you can also identify the cut tiles around the perimeter of the room in Vol2 because each of those have a volume less than a tile. This is the inverse volume so you deduct each of these from the tile size to give you each partial tile size and its location.
+I speak in terms of volumes because volume is easy to determine from solids and then you can divide by tile thickness.</p>
+
+<p>Also, I'm using the inverse because I know the boundary of the room to use for deducting from the overall set. I could do it the other way around (deduct the excess from around the room) but I would have to allow a border around the room to ensure all the excess tiles are deducted and this seems slightly more complicated in determining that border width (probably a tile size plus an allowance).</p>
+
+<p>I think where you start the tiling becomes arbitrary in a sense because rarely in reality are tiles set out on site to such precision. I imagine you usually start from the centre and work your way out to the edges so it gives the impression of symmetry.  I'm wondering how many variations you'd get by changing the tile offset i.e. if all the tiles are the same size do you cover the variations by offsetting through the tile unit dimensions? Do you then discount arrangements that lead to impractical tile sizes?</p>
+
+<p>In the end, what area of tiles do you need to fill a room of 10m2? Workmanship will play a large part in how many tiles you need so costs are usually not that specific. It'll likely be 10m2 worth of tiles + tolerance because I can't sell you half tiles (you cut them).
+Also, I'll sell you boxes of 20 tiles not individual ones.
+Then, there is colour variations in tiles; perhaps you have a pattern and you want to know how many of each colour?</p>
+
+<p><strong>Response:</strong> Thank you for reply.
+We are not considering tolerance part or the colour of different tiles as of now.</p>
+
+<p>I am thinking to do some different way.</p>
+
+<p>Assuming room is rectangular:</p>
+
+<p>I will get centre of rectangle.</p>
+
+<p>Then I fire a reference intersector in both directions (x,y).</p>
+
+<p>I know the size of the tiles (width,height).
+Divide reference intersector by length.
+That returns the no of tiles in that line.</p>
+
+<p>Multiply by room dimension get total tiles.</p>
+
+<p>If reference intersector is not divide equally, then last tiles are cut tiles; I will get total cut tiles by multiplying with length of room.</p>
+
+<p><strong>Answer:</strong> Sounds like an approach but I'm not sure you need a <code>ReferenceIntersector</code> for a rectangular room.</p>
+
+<p>If the room is rectangular then you just need to find the room boundaries with opposite or same vector direction and measure the distance between them to get your room size.</p>
+
+<p>Then, it's just as you say, dividing room dimension into tile dimension to give you a count.
+The remainder is then the portion of cut tile at either end:</p>
+
+<p>5000 / 300 = 16.6666 recurring (16 full units).</p>
+
+<p>0.6666 * 300 = 200 (rounded) so a strip of 100mm at each end to close the gap.</p>
+
+<p>That kind of thing?</p>
+
+<p>Grout tolerance is likely means to artificially increase the tile size dimensions by the grout width.
+We do similar with reinforcement bars to get maximum spacing but we are then counting the gaps.</p>
+
+<h4><a name="3.1"></a>Bin Packing and Container Loading in Dynamo and Excel</h4>
+
+<p>Kostya added some further useful suggestions
+in <a href="https://thebuildingcoder.typepad.com/blog/2020/08/custom-parameters-and-tile-packing.html#comment-5053479490">his comment below</a>:</p>
+
+<p>I have recently been looking for 1D/2D/3D bin packaging algorithms as well. Reference links helped me a lot.</p>
+
+<p>In addition to them I think it worth mentioning
+the <a href="https://github.com/thomascorrie/Miscellany">Dynamo package Miscellany</a>, based on
+the <a href="https://github.com/davidmchapman/3DContainerPacking">C# library 3DContainerPacking</a>.</p>
+
+<p>I also came across two free Excel workbooks by Güneş Erdoğan for representing, solving, and visualising the results of Bin Packing Problems (BPPs) and Container Loading Problems (CLPs), also known as 3D Bin Packing Problems:</p>
+
+<ul>
+<li><a href="https://people.bath.ac.uk/ge277/bpp-spreadsheet-solver">BPP Spreadsheet Solver (2D)</a> </li>
+<li><a href="https://people.bath.ac.uk/ge277/clp-spreadsheet-solver">CLP Spreadsheet Solver (3D)</a></li>
+</ul>
+
+<p>They implement Large Neighborhood Search:</p>
+
+<ul>
+<li>Step 1 (Initialization): Sort the items with respect to their priority, size, and profit. Sort bins with respect to their size and cost.</li>
+<li>Step 2 (Constructive step): Use the First-Fit-Decreasing heuristic to pack the items into the bins.</li>
+<li>Step 3 (Perturbation): Randomly remove items from bins, and randomly empty a number of bins. Sort the bins with respect to the area packed into them and their cost per unit area.</li>
+<li>Step 4 (Reoptimization): Use the First-Fit-Decreasing heuristic to repack the removed items.</li>
+<li>Step 5 (Solution update): If the new solution is better than the best known solution, update the best known solution. Otherwise, revert back to the best known solution. If the time limit is not exceeded, go to Step 3.</li>
+</ul>
+
+<p>Many thanks to Kostya for these helpful links!</p>
+
+<h4><a name="4"></a>Optimal Banana Sandwich Slice Packing with AI</h4>
+
+<p>On the topic of optimal packing, a full-fledged solution with a modern and thorough approach for solving a challenging real-world problem is addressed in the article
+on <a href="https://www.ethanrosenthal.com/2020/08/25/optimal-peanut-butter-and-banana-sandwiches">optimal peanut butter and banana sandwiches</a>:</p>
+
+<p><center>
+<video style="display:block; width:600px; height:auto;" autoplay="" muted="" loop="loop">
+<!-- <source src="img/banana_small.mp4" type="video/mp4"> -->
+<source src="https://thebuildingcoder.typepad.com/2020/banana_small.mp4" type="video/mp4">
+</video>
+</center></p>
+
+<p>It uses a pretrained torchvision deep learning model for image recognition and labelling to find the banana and slice of bread in a photo,  geometrically analyses and virtually slices the banana to produce the packing polygons, and finally packs the banana slices onto the sandwich
+using <a href="https://github.com/markfink/nest2D">Nest2D, a C++ 2D bin packaging tool for Python</a>.</p>
+
+<h4><a name="5"></a>Forge Solution Showcase</h4>
+
+<p>The new <a href="https://forge.autodesk.com/solution-showcase">Forge solution showcase web page</a> is now live.</p>
+
+<p>The goal of this page is to showcase what you can do with Forge.
+It features solutions created by the community for things like Digital Twins, Visual Insights, and Design Automation.</p>
+
+<p>It includes a call to action for others to submit their stories as well. 
+The Forge Fund team receives these notifications as well, so if there is an opportunity for the Forge Fund, they can reach out.</p>
+
+<h4><a name="6"></a>Effect of Home Office on Meeting Culture</h4>
+
+<p>Some interesting aspects of meeting culture working at home were discovered and discussed 
+as <a href="https://hbr.org/2020/07/microsoft-analyzed-data-on-its-newly-remote-workforce">Microsoft analysed data on its newly remote workforce</a>.</p>
+
+<h4><a name="7"></a>Motivating Kids can be Harder than Business Success</h4>
+
+<p>An inspiring motivational article by Jesse Hall on semi-unintentionally starting a successful YouTube channel and ending up earning money with it, all just to prove a point to his two teenage kids:
+<a href="https://www.freecodecamp.org/news/how-to-grow-your-youtube-channel">How I Went From 0 to 70k Subscribers on YouTube in 1 Year &ndash; And How Much Money I Made</a>:</p>
+
+<blockquote>
+  <p>In conclusion, I just want to say that anyone can do anything.
+  If you have (1) the proper motivation, (2) realistic expectations, and (3) you don't overwork yourself, you can be successful.</p>
+</blockquote>

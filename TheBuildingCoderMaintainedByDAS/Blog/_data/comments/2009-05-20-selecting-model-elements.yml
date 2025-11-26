@@ -1,0 +1,882 @@
+comments:
+- author: Saeed Karshenas
+  email: saeed.karshenas@marquette.edu
+  ip: 65.26.254.38
+  url: ''
+  date: '2009-05-21 03:38:34'
+  body: 'Jeremy,
+
+
+    As you know some Revit elements do not have a level. For example a wall footing
+    does not have a level. So using your simpler option for selecting model elements
+    will not find some elements that represent physical parts of a building model.
+    Isn''t it?
+
+
+    Thanks.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.64.5
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-05-21 04:37:51'
+  body: 'Dear Saeed,
+
+
+    Thank you very much for pointing this out. Indeed, absolutely right you are. So
+    I guess the selection will have to be some more complicated combination accounting
+    for several different groups of elements after all.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-19 06:36:20'
+  body: "For additional information on this topic, please refer to \n\n<a href=\"\
+    http://thebuildingcoder.typepad.com/blog/2009/06/category-comparison-and-model-element-selection-revisited.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/06/category-comparison-and-model-element-selection-revisited.html</a>\n\
+    \nCheers, Jeremy."
+- author: Ritish
+  email: ritishrocky1@gmail.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-10-14 04:48:15'
+  body: 'How Can we find below properties for stairs using c# code revit 2010?
+
+    Elem_Room_ID,
+
+    Elem_Room_Name,
+
+    Elem_Room_Number etc.
+
+    Please reply as soon as possible it''s urgent'
+- author: Jeremy Tammik
+  email: ''
+  ip: 12.160.193.229
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-10-15 04:27:39'
+  body: 'Dear Ritish,
+
+
+    Please have a look at the posts describing parameter access, e.g.
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/parameters">http://thebuildingcoder.typepad.com/blog/parameters</a>
+
+
+    The following may be especially appropriate:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2008/11/exploring-element-parameters.html">http://thebuildingcoder.typepad.com/blog/2008/11/exploring-element-parameters.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/04/deeper-parameter-exploration.html">http://thebuildingcoder.typepad.com/blog/2009/04/deeper-parameter-exploration.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/06/model-group-shared-parameter.html">http://thebuildingcoder.typepad.com/blog/2009/06/model-group-shared-parameter.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Ritish
+  email: ritishrocky1@gmail.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-10-20 23:54:23'
+  body: "Hi Jeremy\n\nI want to get the location of the stairs and after that x,y\
+    \ points from the location curve.\nBut the code i use show me null in the location\
+    \ curve.the code i use is below:\n\n Location LOC = tempRamps.Location as Location;\
+    \ LocationCurve Locrve = tempRamps.Location as LocationCurve;\n\nHere location\
+    \ is shown as Autodesk.Revit.Location but no value is shown and in location curve\
+    \ it is coming null.\nWill u plz tell me how can i get the location of stairs\
+    \ and ramps.\nThanks in Advance\nRitish"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-10-21 02:06:14'
+  body: 'Dear Ritish,
+
+
+    I have news for you on the RAMP_SLOPE parameter: it is apparently declared but
+    never used anywhere at all. It may be obsolete, or maybe it was never used at
+    all.
+
+
+    Regarding the location property on the stairs, I mentioned in my previous answer
+    that I was observing the same behaviour as you describe. Unfortunately, the Location
+    property of ramps appears not to be properly exposed. It does not contain a LocationPoint
+    or LocationCurve instance, and therefore the data is probably inaccessible through
+    the API.
+
+
+    Please note that both stairs and ramps have not been completely exposed to the
+    API yet, e.g. there is no method to create them through the API, and apparently
+    the location is not available either.
+
+
+    Therefore, you will have to resort to reading the geometry and trying to deduce
+    the required points from that.
+
+
+    Cheers, Jeremy.'
+- author: Ritish
+  email: ritishrocky1@gmail.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-10-21 05:55:49'
+  body: "Hi Jeremy\n\nThanks for your reply\nCan you please help me some code for\
+    \ getting the geometry elements of the stairs and ramps.\nAs the code given in\
+    \ the .chm file and in blog <a href=\"http://thebuildingcoder.typepad.com/blog/2009/04/revit-api-cases-1.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/04/revit-api-cases-1.html</a> do\
+    \ not work for me. Because in the example it is used for walls and i am unable\
+    \ to understand the parameter Option passed in get_geometry() method for stairs\
+    \ and ramps. I am confused what does the options means for stairs as in below\
+    \ code:\nOptions opt = app.Create.NewGeometryOptions();\nNewGeometryOptions()\
+    \ is not getting in the code?\nI am using the below code:\nprivate void GetStairType(Autodesk.Revit.Document\
+    \ document)\n        {\n            // Create a Filter to get all the stairs in\
+    \ the document\n            Autodesk.Revit.Creation.Filter filterCreator = document.Application.Create.Filter;\n\
+    \            // Stairs are type Element, so we don't need to include derived types\n\
+    \            TypeFilter elementOnlyFilter = filterCreator.NewTypeFilter(typeof(Autodesk.Revit.Element),\
+    \ false);\n            CategoryFilter stairsCategoryfilter = filterCreator.NewCategoryFilter(BuiltInCategory.OST_Stairs);\n\
+    \            Filter stairsFilter = filterCreator.NewLogicAndFilter(elementOnlyFilter,\
+    \ stairsCategoryfilter);\n           \n            // Apply the filter to the\
+    \ elements in the active document\n            ElementIterator iterator = document.get_Elements(stairsFilter);\n\
+    \            iterator.Reset();\n            while (iterator.MoveNext())\n    \
+    \        {\n                Autodesk.Revit.Element stair = iterator.Current as\
+    \ Autodesk.Revit.Element;\n                \n\n                if (null == stair.ObjectType)\n\
+    \                {\n\n                    string temp = \"temp\";\n          \
+    \      }\n                else\n                {\n                    string\
+    \ info = \"Stair type is: \" + stair.ObjectType.Name;\n                    MessageBox.Show(info,\
+    \ \"Revit\");\n                }\n            }\n}"
+- author: Arjun
+  email: arjun.y@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-10-22 06:24:45'
+  body: "Hi Jeremy..\n\n      We also get the same behaviuor of the stair elements(i.e.\
+    \ the location and room id comes out to be null). But we exported the revit file\
+    \ to ms access database through export feature of Revit Architecture 2010. It\
+    \ does not save the location and room id for the stair element. \n         From\
+    \ here, can we say that the stair will not support these two properties.\n\nWaiting\
+    \ for your positive reply..."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-10-22 07:51:24'
+  body: 'Dear Ritish,
+
+
+    One of the first things you can do is to explore the stair geometry with one of
+    the Revit SDK sample geometry viewers, e.g. the ElementViewer sample. I just tried
+    it out and it works fine. Then, you can also search for various examples of instantiating
+    geometry options in the Revit SDK samples and The Building Coder sample code.
+
+
+    Find all "NewGeometryOptions", Match case, Whole word, Subfolders, Find Results
+    1, "Entire Solution", "*"
+
+
+    - CmdColumnRound.cs(121)
+
+    - CmdEditFloor.cs(79)
+
+    - CmdGetMaterials.cs(115)
+
+    - CmdNestedInstanceGeo.cs(117)
+
+    - CmdSlabBoundary.cs(110)
+
+    - CmdSlabSides.cs(78)
+
+    - CmdTransformedCoords.cs(44)
+
+    - CmdWallBottomFace.cs(43)
+
+    - CmdWallDimensions.cs(198)
+
+    - CmdWallProfile.cs(126)
+
+
+    Please also look at
+
+
+    http://thebuildingcoder.typepad.com/blog/2008/09/geometry-viewer.html
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-10-22 07:56:01'
+  body: 'Dear Arjun,
+
+
+    Yes, I agree that the stair element location property is currently inaccessible.
+
+
+    The stair element has simply not been fully exposed through the API yet.
+
+
+    Sorry about that.
+
+
+    Cheers, Jeremy.'
+- author: Arjun
+  email: arjun.y@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-10-30 07:57:01'
+  body: "Hi jeremy,\nwill u plz help me to get the \n1) rise and run,\n2) landing\
+    \ size \n3) headroom \nfor a code compliant stairs.\nas I am unable to get these\
+    \ properties in the c# file.\n\nThanks in Advance"
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.96.129
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-02 02:33:49'
+  body: 'Dear Arjun,
+
+
+    I do not know off-hand how to extract this data or whether it is possible at all.
+    To explore that issue, you will have to build a sample model and use debugging
+    and analysis tools such as RvtMgdDbg, the element lister and the built-in parameter
+    checker. Their use is described in numerous blog posts, e.g.
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2008/11/exploring-element-parameters.html">http://thebuildingcoder.typepad.com/blog/2008/11/exploring-element-parameters.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/02/locked-dimensioning.html">http://thebuildingcoder.typepad.com/blog/2009/02/locked-dimensioning.html</a>
+
+
+    Please explore this a bit yourself first and let us know if you run into any insurmountable
+    obstacles. Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Arjun
+  email: arjun.y@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-11-03 05:30:56'
+  body: 'Hi Jeremy,
+
+
+    I explored the links suggested by you but they proved to be of no use.I get the
+    rise of stairs through built-in paramter "Stairs_Actual_Riser_Height" but I am
+    failed to get the other parameters.
+
+
+    All the best for your efforts.'
+- author: Shifali
+  email: shifali.a@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-11-03 06:39:37'
+  body: "Hi Jeremy,\nI would like to pitch into this discussion.Stairs Rise is the\
+    \ height between the floors that the flight of stairs is spanning. Thus, I think\
+    \ we can take the elevation point(height) of the top level of the stairs as the\
+    \ \"RISE OF STAIRS\". \nNow ,If we talk about the \nRun of Stairs, in theoretical\
+    \ terms, its the horizontal distance between first riser and last riser, does\
+    \ it have any relation with tread width of stairs?\n\nPlease clarify my points.\n\
+    \nThanks in advance..."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-03 06:39:47'
+  body: 'Dear Arjun,
+
+
+    I am sorry to hear that. If you have used the tools I described and explored all
+    the associated elements and their parameters and still not found access to the
+    data you are looking for, chances are that it is not accessible, unfortunately.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-03 06:49:07'
+  body: 'Dear Shifali,
+
+
+    Thank you very much for pitching in, and I think your points are pretty clear
+    and make sense as they stand.
+
+
+    They triggered some other ideas, such as analysing the stair geometry to determine
+    these properties.
+
+
+    To determine the stair rise, we could simply calculate the maximum difference
+    between the Z coordinate or elevation of all its horizontal faces.
+
+
+    To determine the stair run, we could calculate the maximum horizontal pairwise
+    distance between all of its vertical faces, assuming it is a straight run.
+
+
+    I don''t see why it would have any relation to the tread width, though.
+
+
+    Cheers, Jeremy.'
+- author: Shifali
+  email: shifali.a@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-11-03 07:26:25'
+  body: 'Dear Jeremy,
+
+
+    We can calculate the rise from elevation.I am not clear at my own point of Run
+    of Stairs. As you are saying we can calculate it from maximum horizontal pairwise
+    distance between all of its vertical faces, I dint get your point too...
+
+    Can you explain it more?'
+- author: shifali
+  email: shifali.a@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-11-04 03:58:06'
+  body: "Hi Jeremy..\n        I have one more query regarding stairs. We need to calculate\
+    \ the width for stairs. We get the Tread Width using Buil-In paramter \"STAIRS_ATTR_TREAD_WIDTH\"\
+    . According to us, the stairs width will be sum of tread width and railing width.\
+    \ But the Revit Architecture 2010 in the Instance properties dialogue shows the\
+    \ Width that is equal to tread width only. What should be the Final width of stairs?\
+    \ \nPlease guide.."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-04 06:28:39'
+  body: "Dear Shifali,\n\nI mean an approach similar to the one described in \n\n\
+    <a href=\"http://thebuildingcoder.typepad.com/blog/2008/10/slab-boundary.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2008/10/slab-boundary.html</a>\n\n<a\
+    \ href=\"http://thebuildingcoder.typepad.com/blog/2008/11/slab-side-faces.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2008/11/slab-side-faces.html</a>\n\n\
+    <a href=\"http://thebuildingcoder.typepad.com/blog/2008/11/wall-elevation-profile.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2008/11/wall-elevation-profile.html</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2008/12/2d-polygon-areas-and-outer-loop.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2008/12/2d-polygon-areas-and-outer-loop.html</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2008/12/3d-polygon-areas.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2008/12/3d-polygon-areas.html</a>\n\n\
+    See the overview in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/04/cylindrical-column.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/04/cylindrical-column.html</a>\n\
+    \nYou can extract the solid from the stair geometry, identify all vertical surfaces,\
+    \ which will be either the sides of the stair or the vertical faces of the treads,\
+    \ and search for the pair of vertical surfaces with a maximal distance between\
+    \ the projections onto the horizontal XY plane. I would think that this distance\
+    \ will give you the run of the stairs, more or less.\n\nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-04 07:47:56'
+  body: 'Dear Shifali,
+
+
+    I would say that what the final width of the stairs should be in your case depends
+    completely on what purpose you are trying to achieve. If I look at the geometry
+    of a stair, I see that it includes a long list of lines and three solids. You
+    could try to determine the two largest planar faces of all the three solids and
+    hope that those are parallel and represent the two outer sides of your staircase.
+    In that case, the total width of the stairs would be the distance between them.
+    This depends on the exact stair geometry and numerous other assumptions, of course.
+
+
+    Cheers, Jeremy.'
+- author: Arjun
+  email: arjun.y@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-11-13 06:22:21'
+  body: 'Hi Jeremy,
+
+    We are extracting the Revit file elements using revit API 2010 in c#. Our next
+    task is to calculate the exit paths for each room element from door of rooms to
+    Exit door of the file.we have calculated the path for the ground level of the
+    revit project but we have to find the exit path of the "multi level Project".
+    How can we calculate this and move ahead. Plz help we need it urgently.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-16 02:43:46'
+  body: 'Dear Arjun,
+
+
+    Sounds like a very interesting issue. I don''t know exactly how your exit path
+    is calculated or represented even for one level. Would you like to discuss your
+    current solution for the ground floor in a guest blog post, so that we can understand
+    what the problem is?
+
+
+    Cheers, Jeremy.'
+- author: Arjun
+  email: arjun.y@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-11-18 02:11:55'
+  body: 'Hi Jeremy,
+
+    will u send me the link for guest blog or your email Id, so that i can share it
+    with you...
+
+
+    Thanks in Advance'
+- author: Jeremy Tammik
+  email: ''
+  ip: 83.68.201.12
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-18 04:06:43'
+  body: 'Dear Arjun,
+
+
+    I sent you a mail with the info. Thank you!
+
+
+    Cheers, Jeremy.'
+- author: 'Arjun '
+  email: arjun.y@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-11-24 23:58:58'
+  body: "Hi Jeremy,\n\nI have received your reply to my query in the mail. \nThank\
+    \ you so much.\n\nRegards,\nArjun"
+- author: Shifali
+  email: shifali.a@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-12-17 07:42:30'
+  body: "hi Jeremy,\n\nwe are able to draw a line in a level using below Method:\n\
+    \ private static void CreateModelLine(Autodesk.Revit.Application app, XYZ p, XYZ\
+    \ q)\n        {\n            if (p.AlmostEqual(q))\n            {\n          \
+    \      throw new ArgumentException(\n                  \"Expected two different\
+    \ points.\");\n            }\n\n            Line line = app.Create.NewLine(p,\
+    \ q, true);\n\n            if (null == line)\n            {\n                throw\
+    \ new Exception(\n                  \"Geometry line creation failed.\");\n   \
+    \         }\n            app.ActiveDocument.Create.NewModelCurve(line,\n     \
+    \         NewSketchPlanePassLine(app, line));\n        }\n\n        private static\
+    \ SketchPlane NewSketchPlanePassLine(Autodesk.Revit.Application app, Line line)\n\
+    \        {\n            XYZ p = line.get_EndPoint(0);\n            XYZ q = line.get_EndPoint(1);\n\
+    \            XYZ norm;\n            if (p.X == q.X)\n            {\n         \
+    \       norm = XYZ.BasisX;\n            }\n            else if (p.Y == q.Y)\n\
+    \            {\n                norm = XYZ.BasisY;\n            }\n          \
+    \  else\n            {\n                norm = XYZ.BasisZ;\n            }\n  \
+    \          Plane plane = app.Create.NewPlane(norm, p);\n            return app.ActiveDocument.Create.NewSketchPlane(plane);\n\
+    \        }\n\nThat's working fine for drawing solid lines. But we need to change\
+    \ the pattern of line from solid to dotted.\nplease suggest a way to do it.\n\n\
+    Regards,\nShifali"
+- author: Jeremy Tammik
+  email: ''
+  ip: 80.14.37.68
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-19 02:40:14'
+  body: 'Dear Shifali,
+
+
+    As in most cases, to discover how to solve this using the Revit API, it will help
+    to first explore how to solve this issue manually through the user interface.
+
+
+    I would have a look at the visibility and graphics settings. Once you know the
+    manual procedure, you can explore how to automate it.
+
+
+    Cheers, Jeremy.'
+- author: shifali
+  email: shifali.a@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-12-20 23:50:00'
+  body: 'Dear Jeremy,
+
+
+    I checked it in User interface of Revit, we can change style of line from solid
+    to demolished,dotted etc. So,I was finding some option to change the style of
+    line of detail curve.
+
+
+    Regards,
+
+    Shifali'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.154.164
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-21 04:02:21'
+  body: 'Dear Shifali,
+
+
+    I am unclear on what you are saying here. Have you found a solution? What is the
+    exact approach you found? Or do you mean ''searching for'' instead of ''finding''?
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: shifali
+  email: shifali.a@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-12-22 06:32:09'
+  body: "Dear Jeremy,\n\nI checked in Revit User Interface, in it we can change line\
+    \ style to demolished to make it of dotted pattern, but I am unable to do it through\
+    \ revit api in my program. Actually, my main motive is to highlight complete area\
+    \ spanned by detail arc in active document. So,I just wanted your help on this.\
+    \ \n\nRegards,\nShifali"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.156.210
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-24 01:51:06'
+  body: "Dear Shifali,\n\nThe API cannot be used to create new line styles, but existing\
+    \ line styles can be applied to lines as follows.\n\npublic class LineStyleTest\
+    \ : IExternalCommand\n{\n  public IExternalCommand.Result Execute(\n    ExternalCommandData\
+    \ commandData,\n    ref string message,\n    ElementSet elements )\n  {\n    ExternalCommandData\
+    \ cdata = commandData;\n    Autodesk.Revit.Application app = commandData.Application;\n\
+    \    Document doc = app.ActiveDocument;\n    XYZ startpt = new XYZ( 0, 0, 0 );\n\
+    \    XYZ endpt = new XYZ( 50, 50, 0 );\n\n    Line line = app.Create.NewLineBound(\
+    \ startpt, endpt );\n    DetailCurve detailCurve = app.ActiveDocument.Create.NewDetailCurve(\
+    \ doc.ActiveView, line );\n    ElementArray lsArr = detailCurve.LineStyles;\n\
+    \    foreach( Autodesk.Revit.Element e in lsArr )\n    {\n      if( e.Name ==\
+    \ \"\" )\n      {\n        detailCurve.LineStyle = e;\n        break;\n      }\n\
+    \    }\n    return IExternalCommand.Result.Succeeded;\n  }\n}\n\nCheers, Jeremy."
+- author: shifali
+  email: shifali.arora@gmail.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-12-24 06:58:21'
+  body: "Dear Jeremy,\n\nThanks for your reply to my above query. I got your point\
+    \ that we can not create a Line style through Revit API but we can apply the existing\
+    \ ones,like we change line color of detail arc using graphicstyles. I really feel\
+    \ bad on my part that I could not clarify my query in the above post.SO I just\
+    \ want to give a brief explanation of my problem.\n\nI am drawing the detail arcs\
+    \ in the active document(revit file).Now, I want to highlight the arc area, i.e.\
+    \ color fill the arc on the document after drawing it.At present, I am drawing\
+    \ model curves in the arc area, but this process takes a lot of time(around 10-20mins)\
+    \ which will not be acceptable to user. \nCan you please recommend any other way\
+    \ around to do this?"
+- author: Rocky
+  email: rockyrock007@hotmail.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-12-24 08:18:24'
+  body: 'Hi Jeremy,
+
+    I am able to draw a model line using c# code in revit file.
+
+    Will u please help me How can I:
+
+    1) Delete the drawn model lines using c#?
+
+    2) Hide or making the model lines invisible using c#?
+
+
+    Thanks In advance
+
+    Rocky'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.156.210
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-24 10:09:38'
+  body: 'Dear Shifali,
+
+
+    First of all, how would you do it through the user interface? Whatever you do
+    there you can try to reproduce programmatically. Some things do are not possible,
+    however.
+
+
+    You can also have a look at the post
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/04/create-an-area.html">http://thebuildingcoder.typepad.com/blog/2009/04/create-an-area.html</a>
+
+
+    The associated comments are also interesting.
+
+
+    An example of a hatched area created programmatically is shown in
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/02/boolean-operations-for-2d-polygons.html">http://thebuildingcoder.typepad.com/blog/2009/02/boolean-operations-for-2d-polygons.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.156.210
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-24 10:21:33'
+  body: 'Dear Rocky,
+
+
+    You should be able to answer these questions yourself by searching the blog and
+    other sources of information:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/08/online-revit-api-help.html">http://thebuildingcoder.typepad.com/blog/2009/08/online-revit-api-help.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/10/revit-api-forums.html">http://thebuildingcoder.typepad.com/blog/2009/10/revit-api-forums.html</a>
+
+
+    As a special personal Christmas present for you, here are some additional pointers
+    anyway:
+
+
+    Seven different posts discuss various aspects and usages of the Document.Delete
+    method.
+
+
+    A pretty recent post discusses element visibility in some depth, and mentions
+    the Element.IsHidden method:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/11/visible-elements.html">http://thebuildingcoder.typepad.com/blog/2009/11/visible-elements.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Rocky
+  email: rockyrock007@hotmail.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-12-26 07:31:15'
+  body: "Hi Jeremy,\nAfter searching lots of blogs and other sites.I had try many\
+    \ methods but none of them gets succeed. :( . \nPlease have a look in my work\
+    \ below: \nI am drawing model curves using the following code:\n\n\nprivate static\
+    \ void CreateModelLine(Autodesk.Revit.Application app, XYZ p, XYZ q)\n{\nif (p.AlmostEqual(q))\n\
+    {\nthrow new ArgumentException(\n\"Expected two different points.\");\n}\nLine\
+    \ line = app.Create.NewLine(p, q, true);\n//LinePattern lp = new LinePattern();\n\
+    if (null == line)\n{\nthrow new Exception(\n\"Geometry line creation failed.\"\
+    );\n}\napp.ActiveDocument.Create.NewModelCurve(line,\nNewSketchPlanePassLine(app,\
+    \ line));\n\n}\n\nprivate static SketchPlane NewSketchPlanePassLine(Autodesk.Revit.Application\
+    \ app, Line line)\n{\nXYZ p = line.get_EndPoint(0);\nXYZ q = line.get_EndPoint(1);\n\
+    XYZ norm;\nif (p.X == q.X)\n{\nnorm = XYZ.BasisX;\n}\nelse if (p.Y == q.Y)\n{\n\
+    norm = XYZ.BasisY;\n}\nelse\n{\nnorm = XYZ.BasisZ;\n}\nPlane plane = app.Create.NewPlane(norm,\
+    \ p);\nreturn app.ActiveDocument.Create.NewSketchPlane(plane);\n}\n\n\n\n\nNow\
+    \ I want to delete all the model lines on another command click using below code.I\
+    \ am using following code, but it is not deleting the lines and giving errors\
+    \ at run time. Thereforei had commented all the stuff I had done.:\n\n\nprivate\
+    \ static void DeleteLines(Autodesk.Revit.Application revitApp, Document document)\n\
+    {\nAutodesk.Revit.Application app = revitApp;\nDocument doc = document;\n\nAutodesk.Revit.Creation.Filter\
+    \ cf = app.Create.Filter;\nint count = 0;\nList elemSet = new List();\nstring\
+    \ NewDrwanLine=\"NewDrwanLine\"; \nFilter f = cf.NewTypeFilter(typeof(ModelLine));\n\
+    int n = document.get_Elements(f, elemSet);\nbool Chk = true;\ntry\n{\n//if (app.ActiveDocument.IsModified\
+    \ == true)\n//{\n// app.ActiveDocument.Settings.Categories.Erase(\"Lines\");\n\
+    \n//}\nforeach (Element elemLine in elemSet)\n{\nif (elemLine.Category != null)\n\
+    {\nif (elemLine.Category.Name.ToString().IndexOf(\"Lines\") !=-1)\n{\n//GraphicsStyle\
+    \ gs = new GraphicsStyle();\n//gs.GraphicsStyleCategory.LineColor = new Autodesk.Revit.Color(255,\
+    \ 0, 0);\n//elemLine.Category.GetGraphicsStyle(gs.GraphicsStyleType);\n\n//FamilyInstance\
+    \ inst = elemLine as FamilyInstance;\n//inst.SimilarObjectTypes.Erase(elemLine);\n\
+    \n//revitApp.ActiveDocument.Delete(elemLine);\n//app.ActiveDocument.Settings.Categories.Erase(elemLine.Category.Name);\n\
+    app.ActiveDocument.Settings.Categories.Erase(elemLine.Category.Id.Value.ToString());\n\
+    //elemLine.Category.LineColor.Green = lineColorGreen;\n//elemLine.Category.LineColor.Red\
+    \ = lineColorRed;\n\n//elemLine.GetVisibility().Equals(false);\n// break;\n}\n\
+    } \ncount += 1;\n}\n}\ncatch\n{\nthrow;\n}\n}\n\n\n\n\n\nNote:\n1) I tried to\
+    \ remove the lines using delete method of active document, but its taking lot\
+    \ of time, which would not be acceptable to the user and gives error at runtime.\n\
+    2) tried to use Graphic style, just to change the color of line to white, so that\
+    \ lines can be hidden, but it throws null exception error.\n3) then i used erase\
+    \ method to erase the category of model lines, but it also throws exception at\
+    \ runtime.\n4) I am unable to set the vsisibility property of line to false. It\
+    \ was also showing that its read only.\n5) I had also used bewlo method to hide\
+    \ the element:\n static bool IsHiddenElementOrCategory(Element e, Autodesk.Revit.Elements.View\
+    \ v)\n        {\n            bool hidden = e.IsHidden(v);\n\n            if (!hidden)\n\
+    \            {\n                Category cat = e.Category;\n                while\
+    \ (null != cat && !hidden)\n                {\n                    hidden = !cat.get_Visible(v);\n\
+    \                    cat = cat.Parent;\n                }\n            }\n   \
+    \         return hidden;\n        }\nBut it also made me sad by throwing exception\
+    \ that unable to get visible prperty as it is read only.\n\nSo i am unable to\
+    \ getting any way out to do so.\nWill u please tell me the exact way to hide or\
+    \ erase or delete the drwan lines..\n\nThanks in advance\nRocky"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-08 03:20:19'
+  body: 'Dear Rocky,
+
+
+    I would simply use the Document.Delete method, which you apparently tried first
+    and found to be slow.
+
+
+    I would definitely recommend you not to use any of the other methods you describe.
+
+
+    Deleting the category is impossible and makes no sense.
+
+
+    Changing the colour to white or making the lines invisible if you in fact don''t
+    want them to exist at all also sounds extremely wasteful of resources.
+
+
+    Cheers, Jeremy.'
+- author: Cosmas
+  email: tzavelis@hotmail.com
+  ip: 69.125.221.221
+  url: ''
+  date: '2010-03-02 05:53:36'
+  body: 'Hello Jeremy,
+
+    I am using Revit.ActiveDocument.Element(ID), to try to get a structural floor
+    element when I know its ID, but I get an exception: "Value does not fall within
+    the expected range". I checked the floor properties in RST and that ID exists.
+    The same routine has worked for Beams and Columns, but not for floors! What is
+    the problem?
+
+
+    In addition, is there anyway to programmatically highlight elements in revit?
+
+
+    Can a Hyperlink be attached to an element, so that when a revit element is clicked
+    by the user, it jumps to the url.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-03-02 06:11:18'
+  body: 'Dear Cosmas,
+
+
+    1) No idea, that sounds strange. Have you looked at the element in RvtMgdDbg?
+    Can it be selected using Modify > Element ID > Select by ID and then displayed
+    in RvtMgdDbg using Snoop current selection?
+
+
+    2) You can programmatically highlight an element by using the Document.ShowElements
+    method. Another way is to add the element you want highlighted to the ElementSet
+    argument of the Execute method of an external command and then return IExternalCommand.Result.Failed
+    or Cancelled.
+
+
+    3) Nope, not as far as I know. You could write an external command that implements
+    that, but that would require two clicks from the user, one to select the element
+    and another to launch your command.
+
+
+    Cheers, Jeremy.'
+- author: Cosmas
+  email: tzavelis@hotmail.com
+  ip: 69.125.223.46
+  url: ''
+  date: '2010-03-03 01:11:17'
+  body: 'Thank you Jeremy,
+
+
+    I just found out that when using ActiveDocument.Element(ID), the ID has to be
+    the UNIQUE ID, the regular ID does ot work!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-03-03 01:45:06'
+  body: 'Dear Cosmas,
+
+
+    Please look at the Document.Element property in the API help file:
+
+
+    Retrieves an element from the document given an identifier. Overload List:
+
+
+    - Element(ElementId) retrieves an element from the document given a Revit element
+    id.
+
+
+    - Element(String) retrieves an element from the document given a unique id string.
+
+
+    That leaves no question open, at least not for me.
+
+
+    Cheers, Jeremy.'
+- author: Allan
+  email: ateramura@wmta.ca
+  ip: 74.14.123.238
+  url: ''
+  date: '2010-04-15 06:47:21'
+  body: 'Hi Jeremy
+
+
+    I am told this is impossible however I thought I''d ask anyway. I''d like to add
+    a column of text to the keynote legend (translated version of the text, to automate
+    the creation of bilingual docs.) While it''s simple to modify the tab delimited
+    text file, there''s no apparent way to modify the visibility of this info in the
+    keynote legend. Any thoughts?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-04-15 07:53:45'
+  body: 'Dear Allan,
+
+
+    Just as you say, I would be surprised if you could alter the visibility of this
+    info in the keynote legend. However, I have heard of people adding simple text
+    elements and detail lines to the Revit document to simulate tables, so there may
+    be a way to achieve something similar. It would probably be pretty hard, though.
+
+
+    Cheers, Jeremy.'
+- author: Rocky
+  email: rockyrock007@hotmail.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2010-04-19 08:45:45'
+  body: 'Hi jeremy,
+
+    Will you please help me out to know How we know that exact stairs of both levels:
+
+    E:g:- if there are two stairs on first level of the building then on second level
+    how we can get these stairs?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.160.122
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-04-20 05:12:52'
+  body: 'Dear Rocky,
+
+
+    Thank you for your question. I wrote a new blog post to answer it in completeness:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/04/retrieve-stairs-on-level.html">http://thebuildingcoder.typepad.com/blog/2010/04/retrieve-stairs-on-level.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Nitin
+  email: nitin.k@idsil.com
+  ip: 202.164.45.14
+  url: ''
+  date: '2012-06-25 05:43:18'
+  body: "Hi Jeremy,\n\nI am using Revit API 2013, and as we know API 2013 has new\
+    \ features for Stairs. But i am still unable to find the stairs and location point\
+    \ of the stairs.\nMethod i am using to find the stairs: \nAutodesk.Revit.DB.Document\
+    \ doc = document.Document;\nBuiltInCategory bic= BuiltInCategory.OST_Stairs;\n\
+    DataSet dsStairs =  BALStairs.GetStairs(BOCommon.ProjectId);\nFilteredElementCollector\
+    \ collector = new FilteredElementCollector(doc);\ncollector.OfCategory(bic);\n\
+    List stairs = new List();\n\nbut it returns null value for stairs.\nPlease help\
+    \ me out.\n\nThanks in advance."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.182.216
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-06-28 03:30:27'
+  body: 'Dear Nitin,
+
+
+    You can use RevitLookup to discover the proper category to filter for the stairs
+    you are interested in.
+
+
+    Cheers, Jeremy.
+
+    -----'

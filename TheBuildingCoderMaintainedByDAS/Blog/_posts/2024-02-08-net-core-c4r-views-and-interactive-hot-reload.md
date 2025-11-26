@@ -1,0 +1,394 @@
+---
+layout: "post"
+title: ".NET Core, C4R Views and Interactive Hot Reloading"
+date: "2024-02-08 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "AI"
+  - "APS"
+  - "ChatGPT"
+  - "Cloud"
+  - "Debugging"
+  - "Dynamo"
+  - "Migration"
+  - "News"
+  - "Parameters"
+  - "Viewer"
+original_url: "https://thebuildingcoder.typepad.com/blog/2024/02/net-core-c4r-views-and-interactive-hot-reload.html "
+typepad_basename: "net-core-c4r-views-and-interactive-hot-reload"
+typepad_status: "Publish"
+---
+
+<p><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css"></p>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+<script>hljs.highlightAll();</script>
+
+<p>Importing cloud-based APS parameters in desktop project, pondering .NET Core, publishing views the cloud, and hot tips for hot reloading for interactive Revit API testing and debugging:</p>
+
+<ul>
+<li><a href="#1">APS parameters API Revit import</a></li>
+<li><a href="#2">.NET Core migration webinar recording</a></li>
+<li><a href="#3">C4R publish view to cloud API</a></li>
+<li><a href="#4">Revit polyglot notebook</a></li>
+<li><a href="#5">Hot reloading in Visual Studio With Dynamo and Revit</a></li>
+<li><a href="#6">Assigning invisible graphics linestyle</a></li>
+<li><a href="#7">ChatGPT system prompt</a></li>
+<li><a href="#8">RIP John Walker</a></li>
+</ul>
+
+<p>Happy New Year of the Dragon!</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c8d3aadf49200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302c8d3aadf49200d img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="Year of the Dragon" title="Year of the Dragon"  src="/assets/image_951838.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="1"></a> APS Parameters API Revit Import</h4>
+
+<p>Let's start out with a quick pointer to George Moturi's blog post on
+the <a href="https://aps.autodesk.com/blog/revit-parameters-import-sample-latest-aps-parameters-api">Revit Parameters import sample add-in with the latest APS Parameters API</a>,
+showcasing the collaboration between the Autodesk Platform Services APS Parameters API and Revit desktop,
+with the live sample hosted in
+the <a href="https://github.com/autodesk-platform-services/revit-parameters-export-addin">Revit parameters import GitHub repository</a>.
+Many thanks to George for implementing and documenting this exciting new functionality.</p>
+
+<h4><a name="2"></a> .NET Core Migration Webinar Recording</h4>
+
+<p>The question on using .NET Core with the Revit API came up repeatedly, both in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">discussion forum</a> and
+here in the blog, e.g.:</p>
+
+<ul>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2021/01/face-triangulation-lod-net-5-and-core.html#2">.NET 5 and Core</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2023/08/15-years-polygon-areas-and-net-core.html#3">.NET Core</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2023/11/net-core-preview-and-open-source-add-in-projects.html">.NET Core Preview and Open Source Add-In Projects</a></li>
+</ul>
+
+<p>Up until today, the Revit API system requirements still require the pre-Core .NET framework 4.8.</p>
+
+<p>Roman <a href="https://github.com/Nice3point">Nice3point</a> Karpovich
+of <a href="https://www.linkedin.com/company/atomatiq/">atomatiq</a>, aka Роман Карпович, presented
+a <a href="https://thebuildingcoder.typepad.com/blog/2023/10/dll-paradise-and-a-fall.html">solution using IPC to connect components using different .NET frameworks</a>.</p>
+
+<p>The development team is thinking about upgrading the Revit API to .NET Core and held
+the <a href="https://thebuildingcoder.typepad.com/blog/2023/12/parameters-and-net-core-webinar.html#2">.NET Core webinar</a> on
+January 30, 2024, to discuss the current state of things and migration issues.</p>
+
+<p>The <a href="https://feedback.autodesk.com/project/article/item.html?cap=cb0fd5af18bb49b791dfa3f5efc47a72&amp;arttypeid={16363613-34f6-4dfa-9b97-3857dbbe9ade}&amp;">.NET Core migration webinar recording</a>
+has now been posted to the feedback portal.
+Note that an ADN or feedback portal membership is required to access that link.</p>
+
+<h4><a name="3"></a> C4R Publish View to Cloud API</h4>
+
+<p>The cloud collaboration for Revit tool C4R enables an end user
+<a href="https://adndevblog.typepad.com/cloud_and_mobile/2015/09/how-to-export-multiple-3d-views-for-view-and-data-api.html">to export multiple 3D views for view and data API</a> in
+the UI, cf. also the official Revit online help on how
+to <a href="https://help.autodesk.com/view/RVT/2024/ENU/?guid=GUID-A2444193-FCE8-4219-A590-62CA2B8B5C5D">publish cloud Models</a>.</p>
+
+<p>However, I am not aware of any official support to select them programmatically through the API, even though we did look at the issue
+of <a href="https://thebuildingcoder.typepad.com/blog/2016/07/selecting-views-for-forge-translation.html">selecting RVT 3D views for Forge translation</a>
+and <a href="https://thebuildingcoder.typepad.com/blog/2017/09/revit-20181-nuget-packages-rooms-and-views-in-forge.html#2">selecting rooms and views to publish to the cloud</a> years ago.</p>
+
+<p>The question was also raised in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/how-to-add-views-to-a-publishing-set/m-p/12396874">how to add views to a publishing set</a>,
+noting that the required information is stored in extensible storage data on the <code>ProjectInfo</code> singleton:</p>
+
+<!--
+views_for_a360.png
+c4r_views_for_a360.png
+collaborate_publish_settings.png
+collaborate_publish_settings2.png
+collaborate_publish_settings3_rvt_views_to_cloud.png
+-->
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c8d3aadf04200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302c8d3aadf04200d image-full img-responsive" alt="ProjectInfo C4R publish views data" title="ProjectInfo C4R publish views data"  src="/assets/image_3ac45c.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Now, a solution to programmatically access and manipulate this data has been shared by Peter Hirn and Charles Ciro in the Revit Idea Station wishlist item
+to <a href="https://forums.autodesk.com/t5/revit-ideas/make-the-quot-publish-settings-quot-tool-functions-available-in/idc-p/12538103">make the "Publish settings" tool functions available in the API</a>:</p>
+
+<blockquote>
+  <p>I am editing/creating the viewset with the <code>PrintManager</code>, <code>ViewSheetSet</code>, and <code>ViewSheetSetting</code> classes, and then I move on to publishing with the code you showed.
+  The detail is that you must put <code>ADSK</code> as the vendorId, which is not elegant:</p>
+</blockquote>
+
+<pre><code>
+public static void PublishedViews(Document d)
+{
+  ViewSheetSet existingViewSet = new FilteredElementCollector(d)
+    .OfClass(typeof(ViewSheetSet))
+    .Cast&lt;ViewSheetSet&gt;()
+    .FirstOrDefault(vs =&gt; vs.Name == "existingViewSetName");
+
+  var schemaId = new Guid("57c66e83-4651-496b-aebb-69d085752c1b");
+
+  var schema =
+    Schema.ListSchemas().FirstOrDefault(schemaVS =&gt; schemaVS.GUID == schemaId)
+    ?? throw new InvalidOperationException("Schema ExportViewSheetSetListSchema not found");
+
+  var field =
+    schema.GetField("ExportViewViewSheetSetIdList")
+    ?? throw new InvalidOperationException("Field ExportViewViewSheetSetIdList not found");
+
+  var entity = d.ProjectInformation.GetEntity(schema);
+
+  var viewSheetSetIds = entity.Get&lt;IList&lt;int&gt;&gt;(field);
+  var viewSheetSets = viewSheetSetIds.Select(id =&gt; d.GetElement(new ElementId(id))).Cast&lt;ViewSheetSet&gt;();
+  var views = viewSheetSets.SelectMany(viewSheetSet =&gt; viewSheetSet.Views.Cast&lt;View&gt;());
+
+  // Add the additional ViewSheetSet
+
+  viewSheetSetIds.Add(existingViewSet.Id.IntegerValue);
+  entity.Set(field, viewSheetSetIds);
+  d.ProjectInformation.SetEntity(entity);
+}
+</code></pre>
+
+<p>Many thanks to Charles and Peter for sharing this!</p>
+
+<h4><a name="4"></a> Revit Polyglot Notebook</h4>
+
+<p>Joel Waldheim Saury, BIM Developer at <a href="https://www.sweco.se/">Sweco</a>, shared
+his interactive .NET BIM <a href="https://github.com/jowsy/bim-net-interactive">Revit Polyglot Notebook project</a>, saying:</p>
+
+<p>Thanks for a great blog!
+I’ve read it for many years and I’ve been at Autodesk University a couple of times!</p>
+
+<p>Reading your latest post
+about <a href="https://thebuildingcoder.typepad.com/blog/2024/01/valid-revit-api-context-llm-and-ltg.html#2">valid Revit API context</a> inspired
+me to share a personal project I’ve been working on that touches this topic.</p>
+
+<p>I have been experimenting
+with <a href="https://duckduckgo.com/?q=VS+Code+Polyglot+Notebook">VS Code Polyglot Notebook</a> extensions,
+how to run live Revit C# scripts, and tried to implement a NET interactive kernel embedded in Revit.</p>
+
+<p>Here is the result:</p>
+
+<ul>
+<li><a href="https://github.com/jowsy/bim-net-interactive">Revit Polyglot Notebook project</a></li>
+</ul>
+
+<p>The background is that I’ve been using ChatGPT to write some Revit API code for me and just wanted a fast way to test it in Revit.
+I also wanted to experiment with some open-source libraries and the variable sharing capabilities in .NET Interactive enables you to send values between Revit and for example a Python kernel running in Jupyter Notebook!</p>
+
+<p>So this tool was born.</p>
+
+<p>Hope you find it interesting!</p>
+
+<p>I also looked at the <a href="#5">hot-reload trick mentioned below</a>; it looks really useful.
+It’s somewhat related actually, and you could probably use my project as an IDE I guess.
+However, it has no debug.</p>
+
+<p>Every code cell is compiled into a small assembly and is loaded in runtime, similar to RevitAddinManager.
+The C# script is rewritten to full C# class by Roslyn and the notebook and Revit exchange data about variables to support referencing between code cells.</p>
+
+<p>Taking a step back and trying to explain this from a less experienced user perspective, here is what I came up with:</p>
+
+<blockquote>
+  <p>This project aims to create documents or notebooks containing live Revit C#-scripts, visualizations, and narrative text.
+  A simple way to document and demonstrate automations or simply experiment with code.
+  This allows for cell-to-cell execution of Revit API code in any order where results can be shared by reference between "code cells" in a notebook.
+  The solution consists of an extension to VS Code Polyglot Notebooks and an addin to Autodesk Revit that acts as a data environment where variables are stored in memory during an interactive session.</p>
+</blockquote>
+
+<p>The most difficult part is probably the inter-process communication between the notebook (.NET 8) and Revit; I have handed that over to NET Interactive.</p>
+
+<p>Many thanks to Joel for sharing this exciting approach!</p>
+
+<h4><a name="5"></a> Hot Reloading in Visual Studio With Dynamo and Revit</h4>
+
+<p>John Pierson demonstrates another interactive feature in his three-minute video
+<a href="https://youtu.be/Xcjlh3D7ieU">don't show the Revit Python users this C# Visual Studio trick</a>:</p>
+
+<blockquote>
+  <p>Taking a look at the hot reload feature in Visual Studio 2022 and how it works with Dynamo and Revit to instantaneously update a live RVT model</p>
+</blockquote>
+
+<p><center>
+<iframe width="480" height="270" src="https://www.youtube.com/embed/Xcjlh3D7ieU?si=w8TFFRObf0-OQe6T" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</center></p>
+
+<h4><a name="6"></a> Assigning Invisible Graphics Linestyle</h4>
+
+<p>Back to a 'normal' non-interactive Revit API question,
+<a href="https://evangeer.github.io/">Evan Geer</a> explains
+<a href="https://stackoverflow.com/questions/77942445/how-to-assign-category-graphics-style-invisible-lines-to-edges-of-titleblo">how to assign category / graphics style <code>&lt;Invisible lines&gt;</code> to edges of titleblock via API</a>:</p>
+
+<p><strong>Question:</strong>
+I'm defining a titleblock family programmatically and I'm trying to make the edges of the sheet included in the titleblock family templates invisible. I want the edges to stay invisible when the sheet is exported to DWG format.</p>
+
+<p>I found that I can achieve this by editing the titleblock family manually and assigning the category <code>&lt;Invisible lines&gt;</code> to the edges of the sheet, but I can't manage to do this programmatically.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c8d3a69daa200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302c8d3a69daa200c img-responsive" style="width: 334px; display: block; margin-left: auto; margin-right: auto;" alt="Line properties" title="Line properties"  src="/assets/image_5ecf58.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>I'm creating a Document object from a titleblock family template and retrieving its first ViewSheet object as follows:</p>
+
+<pre><code class="language-cs">Document = Application.uiApplication.Application.NewFamilyDocument(TITLEBLOCK_FAMILY_TEMPLATE);
+ViewSheet = new FilteredElementCollector(tbFamilyDoc)
+  .OfClass(typeof(ViewSheet))
+  .Cast&lt;ViewSheet&gt;()
+  .First();</code></pre>
+
+<p>I tried to set the <code>LineStyle</code> property of the relevant lines like this, but lack the <code>GraphicsStyle</code> object that I can't manage to obtain:</p>
+
+<pre><code class="language-cs">var lines = new FilteredElementCollector(Document, ViewSheet.Id)
+  .WhereElementIsNotElementType()
+  .OfClass(typeof(CurveElement))
+  .Cast&lt;CurveElement&gt;()
+  .ToList()
+  .ForEach(line =&gt; line.LineStyle = graphicsStyleInvisibleLines)</code></pre>
+
+<p>I think this object is supposed to be retrieved using the method <code>GetGraphicsStyle</code> of the class <code>Category</code>.
+I used RevitLookup to view the data of the corresponding category, which appears to also be called <code>&lt;Invisible lines&gt;</code> and to have the <code>Id</code> -2000064.
+The <code>BuiltInCategory</code> enumeration contains the value <code>OST_InvisibleLines</code> that has an integer value equal to the ID above, but when I run the following, it returns null:</p>
+
+<pre><code class="language-cs">Category invisibleLinesCat = Document.Settings.Categories.get_Item(BuiltInCategory.OST_InvisibleLines);</code></pre>
+
+<p>RevitLookup also showed me that the parent category has the name <code>Internal Object Styles</code> and has the ID -2000059.
+I found again a <code>BuiltInCategory</code> value with a matching name and integer value <code>OST_IOS</code>.
+I tried fetching this parent category to then navigate to the desired subcategory with the line below, but it also returns null.</p>
+
+<pre><code class="language-cs">Category internalCat = Document.Settings.Categories.get_Item(BuiltInCategory.OST_IOS);</code></pre>
+
+<p>How can I obtain a reference to this category or to its GraphicsStyle object?</p>
+
+<p><strong>Answer:</strong>
+You should be able to query those line styles the same way you query for the line.
+The following worked for me:</p>
+
+<pre><code class="language-cs">var graphicsStyles = new FilteredElementCollector(Document)
+  .WhereElementIsNotElementType()
+  .OfClass(typeof(GraphicsStyle))
+  .Cast&lt;GraphicsStyle&gt;()
+  .ToList();
+
+var lineStyle = graphicsStyles.FirstOrDefault(x =&gt; x.Name == "&lt;Invisible lines&gt;");
+
+if (lineStyle != null)
+{
+  using (var t = new Transaction(Document, "update line type"))
+  {
+    t.Start();
+    lines.ForEach(line =&gt; line.LineStyle = lineStyle);
+    t.Commit();
+  }
+}</code></pre>
+
+<p>Many thanks to Evan for the helpful answer!</p>
+
+<h4><a name="7"></a> ChatGPT System Prompt</h4>
+
+<p>Starting to wind up, one next-to-last little item of interest may be
+the <a href="https://pastebin.com/vnxJ7kQk">ChatGPT system prompt</a>, recently leaked:</p>
+
+<blockquote>
+  <p>To enhance readability, I'll add more line breaks within the sections to make the text easier to follow.
+  Here's a revised version with additional spacing:</p>
+</blockquote>
+
+<pre style="font-size:75%">
+"You are ChatGPT, a large language model trained by OpenAI, based on the GPT-4 architecture."
+
+"Image input capabilities: Enabled"
+
+"Conversation start date: 2023-12-19T01:17:10.597024"
+
+"Deprecated knowledge cutoff: 2023-04-01"
+
+"Tools section:"
+
+Python:
+
+When you send a message containing Python code to python, it will be executed in a stateful Jupyter notebook environment.
+
+Python will respond with the output of the execution or time out after 60.0 seconds.
+
+The drive at '/mnt/data' can be used to save and persist user files.
+
+Internet access for this session is disabled.
+
+Do not make external web requests or API calls as they will fail.
+
+Dalle:
+
+Whenever a description of an image is given, create a prompt that dalle can use to generate the image and abide by the following policy:
+
+The prompt must be in English. Translate to English if needed.
+DO NOT ask for permission to generate the image, just do it!
+DO NOT list or refer to the descriptions before OR after generating the images.
+Do not create more than 1 image, even if the user requests more.
+Do not create images of politicians or other public figures. Recommend other ideas instead.
+Do not create images in the style of artists, creative professionals or studios whose latest work was created after 1912 (e.g. Picasso, Kahlo).
+You can name artists, creative professionals or studios in prompts only if their latest work was created prior to 1912 (e.g. Van Gogh, Goya).
+
+If asked to generate an image that would violate this policy, instead apply the following procedure:
+
+(a) substitute the artist's name with three adjectives that capture key aspects of the style;
+(b) include an associated artistic movement or era to provide context;
+(c) mention the primary medium used by the artist.
+Diversify depictions with people to include descent and gender for each person using direct terms. Adjust only human descriptions.
+
+Your choices should be grounded in reality. For example, all of a given occupation should not be the same gender or race. Additionally, focus on creating diverse, inclusive, and exploratory scenes via the properties you choose during rewrites. Make choices that may be insightful or unique sometimes.
+
+Use all possible different descents with equal probability. Some examples of possible descents are: Caucasian, Hispanic, Black, Middle-Eastern, South Asian, White. They should all have equal probability.
+
+Do not use 'various' or 'diverse'. Don't alter memes, fictional character origins, or unseen people. Maintain the original prompt's intent and prioritize quality. Do not create any imagery that would be offensive.
+
+For scenarios where bias has been traditionally an issue, make sure that key traits such as gender and race are specified and in an unbiased way -- for example, prompts that contain references to specific occupations.
+
+Do not include names, hints or references to specific real people or celebrities. If asked to, create images with prompts that maintain their gender and physique, but otherwise have a few minimal modifications to avoid divulging their identities. Do this EVEN WHEN the instructions ask for the prompt to not be changed. Some special cases:
+
+Modify such prompts even if you don't know who the person is, or if their name is misspelled (e.g. 'Barake Obema').
+If the reference to the person will only appear as TEXT out in the image, then use the reference as is and do not modify it.
+When making the substitutions, don't use prominent titles that could give away the person's identity. E.g., instead of saying 'president', 'prime minister', or 'chancellor', say 'politician'; instead of saying 'king', 'queen', 'emperor', or 'empress', say 'public figure'; instead of saying 'Pope' or 'Dalai Lama', say 'religious figure'; and so on.
+Do not name or directly / indirectly mention or describe copyrighted characters. Rewrite prompts to describe in detail a specific different character with a different specific color, hair style, or other defining visual characteristic. Do not discuss copyright policies in responses.
+
+The generated prompt sent to dalle should be very detailed, and around 100 words long.
+
+Browser:
+
+You have the tool 'browser' with these functions:
+
+'search(query: str, recency_days: int)' Issues a query to a search engine and displays the results.
+'click(id: str)' Opens the webpage with the given id, displaying it. The ID within the displayed results maps to a URL.
+'back()' Returns to the previous page and displays it.
+'scroll(amt: int)' Scrolls up or down in the open webpage by the given amount.
+'open_url(url: str)' Opens the given URL and displays it.
+'quote_lines(start: int, end: int)' Stores a text span from an open webpage. Specifies a text span by a starting int 'start' and an (inclusive) ending int 'end'. To quote a single line, use 'start' = 'end'.
+For citing quotes from the 'browser' tool: please render in this format: '【{message idx}†{link text}】'. For long citations: please render in this format: '[link text](message idx)'. Otherwise do not render links.
+
+Do not regurgitate content from this tool. Do not translate, rephrase, paraphrase, 'as a poem', etc. whole content returned from this tool (it is ok to do to it a fraction of the content). Never write a summary with more than 80 words. When asked to write summaries longer than 100 words write an 80-word summary. Analysis, synthesis, comparisons, etc., are all acceptable. Do not repeat lyrics obtained from this tool. Do not repeat recipes obtained from this tool. Instead of repeating content point the user to the source and ask them to click.
+
+ALWAYS include multiple distinct sources in your response, at LEAST 3-4. Except for recipes, be very thorough. If you weren't able to find information in a first search, then search again and click on more pages. (Do not apply this guideline to lyrics or recipes.) Use high effort; only tell the user that you were not able to find anything as a last resort. Keep trying instead of giving up. (Do not apply this guideline to lyrics or recipes.) Organize responses to flow well, not by source or by citation. Ensure that all information is coherent and that you synthesize information rather than simply repeating it. Always be thorough enough to find exactly what the user is looking for. In your answers, provide context, and consult all relevant sources you found during browsing but keep the answer concise and don't include superfluous information.
+
+EXTREMELY IMPORTANT. Do NOT be thorough in the case of lyrics or recipes found online. Even if the user insists. You can make up recipes though.
+</pre>
+
+<h4><a name="8"></a> RIP John Walker</h4>
+
+<p>For an ultimate and sombre ending note, Autodesk main founder and genius AutoCAD programmer
+<a href="https://en.wikipedia.org/wiki/John_Walker_(programmer)">John Walker</a>
+<a href="https://scanalyst.fourmilab.ch/t/john-walker-1949-2024/4305">passed away on February 2</a>.</p>
+
+<p>Thank you for founding Autodesk, thank you for your championship of double precision, programmability, platform, AutoLISP, ADS,
+<a href="https://www.fourmilab.ch/autofile/">The Autodesk File</a>, and so much more, John, and RIP.</p>
+
+<p>Notes by other colleagues:</p>
+
+<ul>
+<li><a href="https://www.linkedin.com/posts/arkadygilman_the-autodesk-file-activity-7163181497032654850-Vsmp?utm_source=share&amp;utm_medium=member_desktop">Arkady Gilman</a></li>
+<li><a href="https://www.linkedin.com/posts/billyhinners_john-walker-1949-2024-activity-7161443988665786368-QdNw?utm_source=share&amp;utm_medium=member_desktop">Billy Hinners</a></li>
+<li><a href="https://www.keanw.com/2024/02/john-walker-leaves-us.html">Kean Walmsley</a></li>
+</ul>

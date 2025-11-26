@@ -1,0 +1,176 @@
+---
+layout: "post"
+title: "Hiding Edges, AU, Roadmaps and Vasa"
+date: "2021-10-04 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "AU"
+  - "Dynamo"
+  - "Geometry"
+  - "Roadmap"
+  - "RST"
+original_url: "https://thebuildingcoder.typepad.com/blog/2021/10/au-roadmaps-and-vasa.html "
+typepad_basename: "au-roadmaps-and-vasa"
+typepad_status: "Publish"
+---
+
+<p>Numerous exciting announcements leading up to AU this week:</p>
+
+<ul>
+<li><a href="#2">Revit roadmap update and AMA at AU</a></li>
+<li><a href="#3">Structural news at AU</a></li>
+<li><a href="#4">Revit category guide</a></li>
+<li><a href="#5">How to hide internal edges of solids</a></li>
+<li><a href="#6">VASA 3D voxel-based architectural space analysis</a></li>
+</ul>
+
+<h4><a name="2"></a> Revit Roadmap Update and AMA at AU</h4>
+
+<p>To provide an idea where Revit is headed and enable you to contribute and influence the plans, 
+<a href="https://twitter.com/AutodeskRevit">@AutodeskRevit</a> shares
+the <a href="https://blogs.autodesk.com/revit/2021/09/30/revit-public-roadmap-update-fall-2021">Revit Public Roadmap Update Fall 2021</a>:</p>
+
+<blockquote>
+  <p>The <a href="https://twitter.com/hashtag/Revit">#Revit team</a> is out with the latest edition of the Revit Public Roadmap.
+  Check it on the blog and don't forget to register
+  for <a href="https://twitter.com/hashtag/AU21">#AU21</a>,
+  where we're hosting <a href="https://twitter.com/hashtag/AMA">3 #AMA sessions</a> (ask me anything) to
+  take your questions on what's new, what's in development, and the road ahead.</p>
+</blockquote>
+
+<h4><a name="3"></a> Structural News at AU</h4>
+
+<p><a href="https://twitter.com/piechnikp">Pawel Piechnik</a>, Product Manager, Strategist and Structural Engineer standing at the intersection of AEC and IT industries, shares numerous other important recommendations for Revit Structural at AU, e.g.,</p>
+
+<blockquote>
+  <p>Check out <a href="https://lnkd.in/e2SS9J7N">this session</a> discussing an immersive, 'inside-#revit' structural design case study: "Revit-driven design of steel structures with real-time model updating using ENERCALC Structural Engineering Library design calculations.", 
+  <a href="https://events-platform.autodesk.com/event/autodesk-university-2021/planning/UGxhbm5pbmdfNjY2OTI4">BIM-Driven Engineering: Structural Design Without Redundant Workload &ndash; <em>BES500004</em></a></p>
+</blockquote>
+
+<h4><a name="4"></a> Revit Category Guide</h4>
+
+<p>Talking about roadmaps, here is a handy
+<a href="https://docs.google.com/spreadsheets/d/1uNa77XYLjeN-1c63gsX6C5D5Pvn_3ZB4B0QMgPeloTw/edit#gid=1549586957">Revit Category Guide</a>, a spreadsheet listing all category names and associating Category Name, Built In Enum, User Mapped, Display Category Name, and Display Category Name in Russian.</p>
+
+<h4><a name="5"></a> How to Hide Internal Edges of Solids</h4>
+
+<p>Back to a pure programming topic, we gleaned some new information on how to hide internal edges of solids in a discussion on the appearance of <code>DirectShape</code> elements created with Dynamo vs directly using the Revit API:</p>
+
+<p><strong>Question:</strong> I made a custom node that creates volumes using <code>DesignScript.Geometry.Solid</code>.
+If I convert this solid to a <code>DirectShape</code> in my node, the resulting solids obtained in Revit, <code>Revit.DB.Solid</code>, display the internal mesh edges.
+If I use the Dynamo <code>DirectShape.ByGeometry</code> node instead, the resulting Revit is smooth and no internal mesh edges are shown.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833026bdef63a37200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833026bdef63a37200c img-responsive" style="width: 460px; display: block; margin-left: auto; margin-right: auto;" alt="DirectShape tessellation edges" title="DirectShape tessellation edges" src="/assets/image_1c99ef.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Why?</p>
+
+<p>How do I create a solid without mesh edges in my own code? </p>
+
+<p>See my code for the creation of DirectShape:</p>
+
+<pre class="code">
+&nbsp;&nbsp;RevitDB.Material&nbsp;material&nbsp;=&nbsp;GetPassMaterial(&nbsp;doc&nbsp;);
+
+&nbsp;&nbsp;<span style="color:blue;">using</span>(&nbsp;RevitDB.Transaction&nbsp;t&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;RevitDB.Transaction(&nbsp;doc,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;Create&nbsp;sphere&nbsp;direct&nbsp;shape&quot;</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;t.Start();
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;sens&nbsp;=&nbsp;1;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;sortedPointsVolumesDS&nbsp;=&nbsp;pointsVolumesDS.ToArray().OrderBy(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pv&nbsp;=&gt;&nbsp;origine.DistanceTo(&nbsp;pv.Key&nbsp;)&nbsp;*&nbsp;sens&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;passNumber&nbsp;=&nbsp;1;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;var&nbsp;item&nbsp;<span style="color:blue;">in</span>&nbsp;sortedPointsVolumesDS&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;name&nbsp;=&nbsp;<span style="color:#a31515;">$&quot;</span>{fanName}<span style="color:#a31515;">_</span>{driName}<span style="color:#a31515;">_</span>{passNumber}<span style="color:#a31515;">&quot;</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;creation&nbsp;de&nbsp;la&nbsp;géometrie</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IList&lt;RevitDB.GeometryObject&gt;&nbsp;revitGeometry&nbsp;=&nbsp;item.Value.ToRevitType(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RevitDB.TessellatedShapeBuilderTarget.Solid,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RevitDB.TessellatedShapeBuilderFallback.Abort,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;material.Id&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//IList&lt;RevitDB.GeometryObject&gt;&nbsp;tessellatedShape&nbsp;=&nbsp;null;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;tessellatedShape&nbsp;=&nbsp;item.Value.ToRevitType(</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;RevitDB.TessellatedShapeBuilderTarget.AnyGeometry,</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;RevitDB.TessellatedShapeBuilderFallback.Abort,</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;material.Id);</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;revitGeometry?.Count&nbsp;&gt;&nbsp;0&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RevitDB.DirectShape&nbsp;ds&nbsp;=&nbsp;RevitDB.DirectShape.CreateElement(&nbsp;doc,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">new</span>&nbsp;RevitDB.ElementId(&nbsp;RevitDB.BuiltInCategory.OST_GenericModel&nbsp;)&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ds.ApplicationId&nbsp;=&nbsp;name;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ds.ApplicationDataId&nbsp;=&nbsp;Guid.NewGuid().ToString();&nbsp;<span style="color:green;">//&nbsp;&quot;Geometry&nbsp;object&nbsp;id&quot;;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ds.SetShape(&nbsp;revitGeometry&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//ds.SetShape(tessellatedShape);</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;on&nbsp;incremente&nbsp;le&nbsp;numéro&nbsp;de&nbsp;la&nbsp;passe</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;passNumber++;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;t.Commit();
+&nbsp;&nbsp;}
+</pre>
+
+<p><strong>Answer:</strong> The quick answer is simple:</p>
+
+<p>The entire Dynamo framework is open source, giving you access to
+the <a href="https://github.com/DynamoDS">full implementation source code</a></p>
+
+<p>So, you might be able to find out how yourself from the Dynamo source code.
+You could also discuss this in detail with the Dynamo experts in
+the <a href="https://forum.dynamobim.com">Dynamo discussion forum</a>.</p>
+
+<p>However, I have a suspicion or two of my own that I would like to check with the Revit development team for you first:</p>
+
+<p>Maybe, the direct shape showing all the internal face tessellation edges has been defined using lots of separate individual triangular faces, whereas the other one uses just one single more complex planar face for the top and bottom.</p>
+
+<p>Actually, I believe that direct shapes are not limited to linear edges, but can include curved edges as well. Maybe, the non-tessellated shape face does not consist of triangles at all, but just two straight edges and an arc.</p>
+
+<p>Later: the development team confirm my hunch:</p>
+
+<p>The Revit API doesn't have a way to turn on or off mesh edges.
+However, creating a mesh through <code>TessellatedShapeBuilder</code> may attempt to hide certain edges depending on the topology of the mesh. </p>
+
+<p>We have not yet changed or added any API functions for our recent project to hide (some) interior mesh edges.
+We simply modified the function that marks certain mesh edges as hidden so that it marks all two-sided mesh edges as hidden.
+Previously, it only marked (nearly) tangential edges as hidden.</p>
+
+<p>It was already the case that <code>TessellatedShapeBuilder</code> called that function when it created a mesh.
+However, <code>TessellatedShapeBuilder</code> may create a 'faceted' BRep, i.e., a BRep with planar faces and straight edges, instead of a mesh, in which case no edge hiding is done (as far as I know).
+Moreover, the effectiveness of the new edge-hiding depends very much on the topological structure of the mesh, which itself depends on several factors.</p>
+
+<p>Given that the sample code uses the option <code>TessellatedShapeBuilderTarget.Solid</code>, it could be that the Revit object is a <code>Solid</code> (internally, a BRep) and not a <code>Mesh</code> (internally, a GPolyMesh).</p>
+
+<p>Dynamo is not hiding interior mesh edges.
+It is simply creating a proper solid in this case, which it will do when it can.
+Note that in the next major release, we will hide the mesh edges, although that will unfortunately fool the user into creating sub-optimal geometry as a result, creating a mesh, when a solid is possible.</p>
+
+<p>In exploring this further, you might also appreciate this GitHub link to the open source Dynamo for Revit code base <a href="https://github.com/DynamoDS/DynamoRevit/blob/5c3b0d869ccdc2f4d5fd24b5346933f22d39f279/src/Libraries/RevitNodes/Elements/DirectShape.cs">DirectShape.cs module</a>.</p>
+
+<p>Might not solve this problem entirely, but it should give a few strings to pull at.</p>
+
+<p>To summarise: if the input geometry is a solid or surface, Dynamo tries to use the <code>BrepBuilder</code>; if it fails, it uses the tessellated shape builder, e.g., if the input geometry is a <code>Mesh</code>, then it uses the tessellated shape builder directly. </p>
+
+<h4><a name="6"></a> VASA 3D Voxel-Based Architectural Space Analysis</h4>
+
+<p>Talking about Dynamo, solids and volumes, you might be interested in Kean's presentation
+of <a href="https://www.keanw.com/2021/09/introducing-vasa-for-voxel-based-architectural-space-analysis.html">VASA, a Dynamo tool for 3D voxel-based architectural space analysis</a>:</p>
+
+<blockquote>
+  <p>Here’s a quick animation from the 'overview' sample that shows daylight, visibility and pathfinding combined. Performance is impressive &ndash; it’s very nearly interactive as we change the distance for the visibility field’s cut-off:</p>
+</blockquote>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833026bdef63a2a200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833026bdef63a2a200c image-full img-responsive" alt="VASA overview sample" title="VASA overview sample" src="/assets/image_627067.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>

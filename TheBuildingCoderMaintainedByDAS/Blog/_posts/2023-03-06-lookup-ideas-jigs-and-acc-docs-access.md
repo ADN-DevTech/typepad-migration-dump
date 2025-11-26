@@ -1,0 +1,280 @@
+---
+layout: "post"
+title: "Lookup Ideas, Jigs and ACC Docs Access"
+date: "2023-03-06 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "360"
+  - "ACC"
+  - "AI"
+  - "APS"
+  - "Audio"
+  - "BIM"
+  - "Docs"
+  - "News"
+  - "Photo"
+  - "Regen"
+  - "RevitLookup"
+  - "User Interface"
+original_url: "https://thebuildingcoder.typepad.com/blog/2023/03/lookup-ideas-jigs-and-acc-docs-access.html "
+typepad_basename: "lookup-ideas-jigs-and-acc-docs-access"
+typepad_status: "Publish"
+---
+
+<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+
+<p>Today, we look at a request for new ideas for enhancing RevitLookup, implementing a pickpoint rubber band and opening BIMs on ACC Docs:</p>
+
+<ul>
+<li><a href="#2">Request for RevitLookup ideas</a></li>
+<li><a href="#3">Transient elements for jig</a></li>
+<li><a href="#3.1">Transient <code>DirectShape</code> jig</a></li>
+<li><a href="#4">Opening a model in ACC Docs</a></li>
+<li><a href="#5">Stop using JPEG</a></li>
+<li><a href="#6">Stop using voice id</a></li>
+</ul>
+
+<h4><a name="2"></a> Request for RevitLookup Ideas</h4>
+
+<p>Do you have any ideas
+for <a href="https://github.com/jeremytammik/RevitLookup">RevitLookup</a> enhancements?</p>
+
+<p>A lot of exciting functionality has already been worked on in
+the <a href="https://github.com/jeremytammik/RevitLookup/tree/dev">dev</a>
+and <a href="https://github.com/jeremytammik/RevitLookup/tree/dev_winui">dev_winui</a> branches.
+We expect to see that coming out quite soon.</p>
+
+<p>Meanwhile, Roman <a href="https://github.com/Nice3point">Nice3point</a> opened a discussion for collecting
+<a href="https://github.com/jeremytammik/RevitLookup/discussions/146">RevitLookup Ideas</a>.
+Your contributions there are welcome.
+Thank you!</p>
+
+<h4><a name="3"></a> Transient Elements for Jig</h4>
+
+<p>A couple of ideas on creating transient elements graphics similar to the AutoCAD jig functionality using
+the <code>IDirectContext3DServer</code> functionality or the temporary InCanvas graphics API were recapitulated in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/draw-line-visible-on-screen/m-p/11778165">drawing line visible on screen</a>:</p>
+
+<ul>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2020/10/onbox-directcontext-jig-and-no-cdn.html" target="_blank" rel="noopener">Onbox, DirectContext Jig and No CDN</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2021/01/transient-graphics-humane-ai-basic-income-and-lockdown.html" target="_blank" rel="noopener">Transient Graphics, Humane AI, BI and Lockdown</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2021/05/flip-mirror-transform-and-transient-graphics.html" target="_blank" rel="noopener">Flip, Mirror, Transform and Transient Graphics</a></li>
+</ul>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302b751750d28200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302b751750d28200b img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="Pick point ruber band" title="Pick point ruber band" src="/assets/image_2da7f2.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Lorenzo Virone shared a <a href="https://forums.autodesk.com/t5/revit-api-forum/draw-line-visible-on-screen/m-p/11778165#M69522">different approach</a>, creating and deleting database-resident Revit elements on the fly in a loop:</p>
+
+<p>I faced a similar UI problem to create a rubber band between two points.
+I used two functions, <code>Line.CreateBound</code> and <code>NewDetailCurve</code>, inside a loop to create a line at the cursor position, refresh, and delete the line every 0.1 seconds, until the user chooses the second point.
+A little tricky, but it works fine for me, and Revit seems to execute these 2 functions very fast.</p>
+
+<p>This trick will technically work with anything:
+create new elements on each mouse movement, refresh, delete the created elements and replace them with new ones.
+You can use either model or detail elements.
+It's easy to implement, because you just need to call the two methods, e.g., like this:</p>
+
+<div style="border: #000080 1px solid; color: #000; font-family: 'Cascadia Mono', Consolas, 'Courier New', Courier, Monospace; font-size: 10pt">
+<div style="background: #f3f3f3; color: #000000; max-height: 300px; overflow: auto">
+<ol start="28" style="background: #ffffff; margin: 0; padding: 0;">
+<li style="background: #f3f3f3">&#160; <span style="color:#0000ff">bool</span> done = <span style="color:#0000ff">false</span>;</li>
+<li>&#160; List&lt;ElementId&gt; temp = <span style="color:#0000ff">new</span> List&lt;ElementId&gt;();</li>
+<li style="background: #f3f3f3">&nbsp;</li>
+<li>&#160; <span style="color:#0000ff">while</span> (!done)</li>
+<li style="background: #f3f3f3">&#160; {</li>
+<li>&#160;&#160;&#160; doc.Delete(temp);</li>
+<li style="background: #f3f3f3">&nbsp;</li>
+<li>&#160;&#160;&#160; <span style="color:#008000">// Create temp elements</span></li>
+<li style="background: #f3f3f3">&#160;&#160;&#160; <span style="color:#008000">// Save their IDs in `temp`</span></li>
+<li>&#160;&#160;&#160; <span style="color:#008000">// Set `done` to `true` when finished</span></li>
+<li style="background: #f3f3f3">&nbsp;</li>
+<li>&#160;&#160;&#160; doc.regenerate();</li>
+<li style="background: #f3f3f3">&#160;&#160;&#160; uidoc.RefreshActiveView();</li>
+<li>&#160;&#160;&#160; Thread.Sleep(500); <span style="color:#008000">// milliseconds</span></li>
+<li style="background: #f3f3f3">&#160; }</li>
+<li>&nbsp;</li>
+<li style="background: #f3f3f3">&#160; <span style="color:#008000">// Your final elements are in `temp`</span></li>
+</ol>
+</div>
+</div>
+
+<p>Many thanks to Lorenzo for sharing this nice solution.</p>
+
+<h4><a name="3.1"></a> Transient DirectShape Jig</h4>
+
+<p>Chuong Ho adds: This technique can also be used with a <code>DirectShape</code> element:</p>
+
+<div style="border: #000080 1px solid; color: #000; font-family: 'Cascadia Mono', Consolas, 'Courier New', Courier, Monospace; font-size: 10pt">
+<div style="background: #f3f3f3; color: #000000; max-height: 300px; overflow: auto">
+<ol start="1" style="background: #ffffff; margin: 0; padding: 0;">
+<li><span style="color:#0000ff">using</span> Autodesk.Revit.DB;</li>
+<li style="background: #f3f3f3"><span style="color:#0000ff">using</span> Autodesk.Revit.UI.Selection;</li>
+<li><span style="color:#0000ff">using</span> System.Collections.Generic;</li>
+<li style="background: #f3f3f3"><span style="color:#0000ff">using</span> Line = Autodesk.Revit.DB.Line;</li>
+<li><span style="color:#0000ff">using</span> Point = Autodesk.Revit.DB.Point;</li>
+<li>&nbsp;</li>
+<li style="background: #f3f3f3"><span style="color:#0000ff">var</span> Doc = commandData.Application.ActiveUIDocument.Document;</li>
+<li>&nbsp;</li>
+<li style="background: #f3f3f3"><span style="color:#0000ff">using</span> TransactionGroup trang = <span style="color:#0000ff">new</span> TransactionGroup(Doc, <span style="color:#a31515">&quot;test&quot;</span>);</li>
+<li>trang.Start();</li>
+<li style="background: #f3f3f3">XYZ a = UIDoc.Selection.PickPoint(ObjectSnapTypes.None);</li>
+<li>SetPoint(a);</li>
+<li style="background: #f3f3f3">XYZ b = UIDoc.Selection.PickPoint(ObjectSnapTypes.None);</li>
+<li>SetPoint(b);</li>
+<li style="background: #f3f3f3">SetLine(a, b);</li>
+<li>XYZ p1 = UIDoc.Selection.PickPoint(ObjectSnapTypes.None);</li>
+<li style="background: #f3f3f3">SetPoint(p1);</li>
+<li>XYZ p2 = UIDoc.Selection.PickPoint(ObjectSnapTypes.None);</li>
+<li style="background: #f3f3f3">SetPoint(p2);</li>
+<li><span style="color:#0000ff">bool</span> isSamSide = IsSamSide(p1, p2, a, b);</li>
+<li style="background: #f3f3f3">MessageBox.Show(isSamSide.ToString());</li>
+<li>trang.Assimilate();</li>
+<li style="background: #f3f3f3">&nbsp;</li>
+<li><span style="color:#008000">// visualize a point</span></li>
+<li style="background: #f3f3f3"><span style="color:#0000ff">void</span> SetPoint(XYZ xyz)</li>
+<li>{</li>
+<li style="background: #f3f3f3">&nbsp;&nbsp;<span style="color:#0000ff">using</span> (Transaction tran = <span style="color:#0000ff">new</span> Transaction(Doc, <span style="color:#a31515">&quot;Add point&quot;</span>))</li>
+<li>&nbsp;&nbsp;{</li>
+<li style="background: #f3f3f3">&nbsp;&nbsp;&nbsp;&nbsp;tran.Start();</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;Point point1 = Point.Create(xyz);</li>
+<li style="background: #f3f3f3">&nbsp;&nbsp;&nbsp;&nbsp;DirectShape ds =</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DirectShape.CreateElement(Doc, <span style="color:#0000ff">new</span> ElementId(BuiltInCategory.OST_GenericModel));</li>
+<li style="background: #f3f3f3">&nbsp;&nbsp;&nbsp;&nbsp;ds.SetShape(<span style="color:#0000ff">new</span> List&lt;GeometryObject&gt;() { point1 });</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;tran.Commit();</li>
+<li style="background: #f3f3f3">&nbsp;&nbsp;}</li>
+<li>}</li>
+<li style="background: #f3f3f3">&nbsp;</li>
+<li><span style="color:#008000">// visualize a line</span></li>
+<li style="background: #f3f3f3"><span style="color:#0000ff">void</span> SetLine(XYZ x1, XYZ x2)</li>
+<li>{</li>
+<li style="background: #f3f3f3">&nbsp;&nbsp;<span style="color:#0000ff">using</span> (Transaction tran = <span style="color:#0000ff">new</span> Transaction(Doc, <span style="color:#a31515">&quot;Add line&quot;</span>))</li>
+<li>&nbsp;&nbsp;{</li>
+<li style="background: #f3f3f3">&nbsp;&nbsp;&nbsp;&nbsp;tran.Start();</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;Line line = Line.CreateBound(x1, x2);</li>
+<li style="background: #f3f3f3">&nbsp;&nbsp;&nbsp;&nbsp;DirectShape ds = DirectShape.CreateElement(</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Doc, <span style="color:#0000ff">new</span> ElementId(BuiltInCategory.OST_GenericModel));</li>
+<li style="background: #f3f3f3">&nbsp;&nbsp;&nbsp;&nbsp;ds.SetShape(<span style="color:#0000ff">new</span> List&lt;GeometryObject&gt;() { line });</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;tran.Commit();</li>
+<li style="background: #f3f3f3">&nbsp;&nbsp;}</li>
+<li>}</li>
+</ol>
+</div>
+</div>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302b75175198c200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302b75175198c200b img-responsive" alt="Pick point rubber band" title="Pick point rubber band" src="/assets/image_965eb9.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Many thanks to Chuong Ho for this addition!</p>
+
+<h4><a name="4"></a> Opening a Model in ACC Docs</h4>
+
+<p>We started out
+discussing <a href="https://forums.autodesk.com/t5/revit-api-forum/opening-a-cloud-model-with-revit-api/m-p/11767222">opening a cloud model with Revit API</a> in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a>,
+but then moved it over to StackOverflow, the better place for such a cloud-related topic, where my colleague Eason Kang explains
+how to <a href="https://stackoverflow.com/questions/75530623/open-files-located-in-the-accdocs">open files located in ACC Docs</a>:</p>
+
+<p><strong>Question:</strong> My Visual Studio Revit API add-in open Revit files to export data in a batch.
+I can add many files which are on the networks and the plugin automatically opens them all.
+Is it possible to also open files that are in the ACC Docs cloud?</p>
+
+<p>I know I can open AccDocs which were be already downloaded locally by searching for them in the collaboration cache folder, but how to open files which have not yet been downloaded?</p>
+
+<p><strong>Answer:</strong> Since you mention the collaboration cache folder, I assume you are using
+the <a href="https://knowledge.autodesk.com/support/bim-360/learn-explore/caas/CloudHelp/cloudhelp/ENU/About-BIM360/files/about-bim-360-design/About-BIM360-about-bim-360-design-about-revit-cloud-worksharing-html-html.html">Revit Cloud Worksharing model</a>,
+a.k.a. <code>C4R</code>, the model for Autodesk Collaboration for Revit.</p>
+
+<p>If so, you can make use of
+the <a href="https://aps.autodesk.com/en/docs/data/v2/developers_guide/overview/">APS Data Management API</a> to
+obtain the <code>projectGuid</code> and <code>modelGuid</code> in the model version tip like this:</p>
+
+<pre class="prettyprint lang-json">
+{
+   "type":"versions",
+   "id":"urn:adsk.wipprod:fs.file:vf.abcd1234?version=1",
+   "attributes":{
+      "name":"fileName.rvt",
+      "displayName":"fileName.rvt",
+      ...
+      "mimeType":"application/vnd.autodesk.r360",
+      "storageSize":123456,
+      "fileType":"rvt",
+      "extension":{
+         "type":"versions:autodesk.bim360:C4RModel",
+         ....
+         "data":{
+            ...
+            "projectGuid":"48da72af-3aa6-4b76-866b-c11bb3d53883",
+            ....
+            "modelGuid":"e666fa30-9808-42f4-a05b-8cb8da576fe9",
+            ....
+         }
+      }
+   },
+   ....
+}
+</pre>
+
+<p>With those in hand, you can open the C4R model using Revit API like this:</p>
+
+<pre class="prettyprint lang-cs">
+  // where is your BIM360/ACC account based, US or EU?
+
+  var region = ModelPathUtils.CloudRegionUS;
+
+  var projectGuid = new Guid("48da72af-3aa6-4b76-866b-c11bb3d53883");
+  var modelGuid = new Guid("e666fa30-9808-42f4-a05b-8cb8da576fe9");
+
+  // For Revit 2023 and newer:
+
+  var modelPath = ModelPathUtils.ConvertCloudGUIDsToCloudPath(
+    region, projectGuid, modelGuid );
+
+  // For Revit 2019 - 2022:
+
+  //var modelPath = ModelPathUtils.ConvertCloudGUIDsToCloudPath(
+  //  projectGuid, modelGuid );
+
+  var openOptions = new OpenOptions();
+
+  app.OpenAndActivateDocument( modelPath, openOptions ); // on desktop
+
+  // on Design Automation for Revit or
+  // to not activate the model on Revit desktop:
+
+  // app.OpenDocumentFile( modelPath, openOptions );
+</pre>
+
+<p>You can also make use
+the <a href="https://www.nuget.org/packages/Autodesk.Forge">Visual Studio APS Data Management package on NuGet</a> for this.
+The <a href="https://tutorials.autodesk.io/tutorials/hubs-browser/">Hubs Browser tutorial</a> demonstrates its use.</p>
+
+<p>References:</p>
+
+<ul>
+<li><a href="https://aps.autodesk.com/blog/accessing-bim-360-design-models-revit">Accessing BIM 360 design models on Revit</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2020/04/revit-2021-cloud-model-api.html#4.4">How to open a cloud model</a></li>
+<li><a href="https://help.autodesk.com/view/RVT/2023/ENU/?guid=Revit_API_Revit_API_Developers_Guide_Introduction_Application_and_Document_CloudFiles_html">Developer's guide online help on cloud models</a></li>
+</ul>
+
+<p>Many thanks to Eason for this comprehensive answer!</p>
+
+<h4><a name="5"></a> Stop Using JPEG</h4>
+
+<p>Moving away from Revit and its API to other interesting current news, Daniel Immke suggests
+that <a href="https://daniel.do/article/its-the-future-stop-using-jpegs">it’s the future &ndash; you can stop using JPEGs </a> and
+presents an overview and rationale for some compelling alternatives, e.g., AVIF and WebP.</p>
+
+<h4><a name="6"></a> Stop Using Voice Id</h4>
+
+<p>Joseph Cox describes <a href="https://www.vice.com/en/article/dy7axa/how-i-broke-into-a-bank-account-with-an-ai-generated-voice">how he broke into a bank account with an AI-generated voice</a>
+&ndash; some banks tout voice ID as a secure way to log into your account.
+He proves it's possible to trick such systems with free or cheap AI-generated voices.</p>

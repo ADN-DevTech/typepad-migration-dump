@@ -1,0 +1,174 @@
+---
+layout: "post"
+title: "Protecting a Family from Tampering"
+date: "2018-09-28 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Accelerator"
+  - "Algorithm"
+  - "Content"
+  - "Family"
+  - "Forge"
+  - "Geometry"
+  - "Security"
+original_url: "https://thebuildingcoder.typepad.com/blog/2018/09/protecting-a-family-from-tampering.html "
+typepad_basename: "protecting-a-family-from-tampering"
+typepad_status: "Publish"
+---
+
+<p>The <a href="https://autodesk-forge.github.io">Forge</a>
+<a href="http://autodeskcloudaccelerator.com">accelerator in Rome</a>  is
+winding down with the demonstrations of what was achieved being recorded as I write.</p>
+
+<p>An interesting conversation I had at the celebratory dinner last night gave me an idea for a solution to a longstanding question on family tampering protection:</p>
+
+<ul>
+<li><a href="#2">Roma accelerator group photo</a> </li>
+<li><a href="#3">Protecting a family from tampering</a> </li>
+<li><a href="#4">Implementing a canonical key for geometrical objects</a> </li>
+</ul>
+
+<h4><a name="2"></a> Roma Accelerator Group Photo</h4>
+
+<p>I missed the Roma Accelerator group photo by a few seconds:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="http://thebuildingcoder.typepad.com/.a/6a00e553e168978833022ad3b45a6f200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833022ad3b45a6f200b img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="Roma accelerator participants lacking Jeremy" title="Roma accelerator participants lacking Jeremy" src="/assets/image_b1608f.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>In what certainly must be one of the worst photoshop jobs ever, Jaime very kindly added me to it afterwards:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="http://thebuildingcoder.typepad.com/.a/6a00e553e168978833022ad3b45a92200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833022ad3b45a92200b img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="Roma accelerator participants plus Jeremy" title="Roma accelerator participants plus Jeremy" src="/assets/image_8454b4.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Thank you for that, Jaime! &nbsp; Keep practicing...</p>
+
+<h4><a name="3"></a> Protecting a Family from Tampering</h4>
+
+<p>Here are two different aspects of protecting Revit families:</p>
+
+<ul>
+<li>Copy protection, to stop the competition from stealing them and the <a href="https://en.wikipedia.org/wiki/Intellectual_property">IP or intellectual property</a> they contain.</li>
+<li>Tampering protection, to stop the customer from corrupting her own models, intentionally or not.</li>
+</ul>
+
+<p>Often discussed, various solutions suggested.</p>
+
+<p>For example, we discussed one example of a copy protection solution <br />
+by <a href="http://thebuildingcoder.typepad.com/blog/2018/06/simplifying-nested-family-instances.html">simplifying nested family instances</a> to
+protect the intellectual property built into a complex hierarchy of nested family instances by replacing them with a flatter and simpler hierarchy, yet retaining all the relevant non-confidential custom data.</p>
+
+<p>Here is an AUGI discussion from 2009 on the pros and cons
+of <a href="http://forums.augi.com/showthread.php?73233-Protecting-Revit-Families">protecting Revit families</a>.</p>
+
+<p>Today, I make a suggestion to protect from tampering, nothing totally safe yet afaik.</p>
+
+<p>You want a fool-proof method to protect your family definitions from tampering?</p>
+
+<p>You can encode a secret hash code or something and hide it somewhere.</p>
+
+<p>For brevity, let's call this secret hash code your <u>key</u>.</p>
+
+<p>However, the tamperer might just retain it, either intentionally or not.</p>
+
+<p>How can you still detect tampering?</p>
+
+<p>Well, you can easily encode bits and pieces of whatever she might want to tamper with into you key as well.</p>
+
+<p>Especially, you should ensure that you generate a hash key or something that includes references to every single bit of data that is relevant for you.</p>
+
+<p>If you have an algorithm to rebuild your key at will from the current state of the family, you can check the following:</p>
+
+<ul>
+<li>Does the original key exist? If not, alarm.</li>
+<li>Recompute the current key from the current state of the family. does it match the stored key? If not, alarm.</li>
+</ul>
+
+<p><a href="http://thebuildingcoder.typepad.com/blog/2012/03/great-ocean-road-and-creating-your-own-key.html#2">Creating your own key</a> can
+be useful in numerous ways, so I already discussed this topic and suggested doing so back in 2012.</p>
+
+<p>Therefore, I hope that all the families that you care about are already adequately protected against tampering.</p>
+
+<p>If not, go ahead and do so now.</p>
+
+<h4><a name="4"></a> Implementing a Canonical Key for Geometrical Objects</h4>
+
+<p>To further illustrate what I mean by the key I mentioned above, let's illustrate how to generate a checksum or hash code from geometry, preferably using
+a <a href="https://en.wikipedia.org/wiki/Canonical_form">canonical form</a>.</p>
+
+<p>Let's explore defining a simple canonical form for a point, line (two ordered points), curve, etc.</p>
+
+<p>A very simple and useful way to go is to define your canonical form as a string.</p>
+
+<p>You can use this string as a dictionary key, if that fits your needs.</p>
+
+<p>You can also calculate a hash from it, which should ensure that any change in the string will also cause a change in the hash.</p>
+
+<p>To ensure that this works, you need to create a hash of sufficient length.</p>
+
+<p>If you care about protection, you might also want to encrypt the hash after you have created it.</p>
+
+<p>Here are some simplistic examples of defining canonical forms for real numbers, points, lines, and curves:</p>
+
+<ul>
+<li>Real number <code>a</code>, using as many decimal places as required to achieve the precision you need:</li>
+</ul>
+
+<pre class="code">
+  <span style="color:blue;">public</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">string</span>&nbsp;RealString(&nbsp;<span style="color:blue;">double</span>&nbsp;a&nbsp;)
+  {
+  &nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;a.ToString(&nbsp;<span style="color:#a31515;">&quot;0.######&quot;</span>&nbsp;);
+  }
+</pre>
+
+<ul>
+<li><code>XYZ p</code>:</li>
+</ul>
+
+<pre class="code">
+  <span style="color:blue;">public</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">string</span>&nbsp;PointString(&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;p&nbsp;)
+  {
+  &nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">string</span>.Format(&nbsp;<span style="color:#a31515;">&quot;({0},{1},{2})&quot;</span>,
+  &nbsp;&nbsp;&nbsp;&nbsp;RealString(&nbsp;p.X&nbsp;),
+  &nbsp;&nbsp;&nbsp;&nbsp;RealString(&nbsp;p.Y&nbsp;),
+  &nbsp;&nbsp;&nbsp;&nbsp;RealString(&nbsp;p.Z&nbsp;)&nbsp;);
+  }
+</pre>
+
+<ul>
+<li>A sorted array of points:</li>
+</ul>
+
+<pre class="code">
+  <span style="color:blue;">public</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">string</span>&nbsp;PointArrayString(&nbsp;<span style="color:#2b91af;">IList</span>&lt;<span style="color:#2b91af;">XYZ</span>&gt;&nbsp;pts&nbsp;)
+  {
+  &nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">string</span>.Join(&nbsp;<span style="color:#a31515;">&quot;,&nbsp;&quot;</span>,
+  &nbsp;&nbsp;&nbsp;&nbsp;pts.Select&lt;<span style="color:#2b91af;">XYZ</span>,&nbsp;<span style="color:blue;">string</span>&gt;(
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&gt;&nbsp;PointString(&nbsp;p&nbsp;)&nbsp;)&nbsp;);
+  }
+</pre>
+
+<ul>
+<li>A bounded line <code>(p,q)</code>:
+<ul>
+<li>Sort <code>p</code> and <code>q</code> lexicographically</li>
+<li>Return <code>PointArrayString( [p,q] )</code></li>
+</ul></li>
+<li>A curve <code>c</code>:
+<ul>
+<li>Return <code>PointArrayString( c.Tessellate() )</code></li>
+</ul></li>
+</ul>
+
+<p>Most of these are implemented
+in <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder samples</a>
+<a href="https://github.com/jeremytammik/the_building_coder_samples/blob/master/BuildingCoder/BuildingCoder/Util.cs">Util module</a>.</p>
+
+<p>I'll leave it up to your imagination to improve these and define canonical keys for more complex data as required.</p>
+
+<p>Migliori saluti a Stefano!</p>

@@ -1,0 +1,154 @@
+comments:
+- author: Guy
+  email: info@r-e-d.co.nz
+  ip: 60.234.213.83
+  url: ''
+  date: '2012-04-24 07:33:09'
+  body: "Ouch ;-) completely unnecessary and worthless.. true. That'll teach me for\
+    \ copy/pasting from the initial example. \n\nusing is certainly more elegant to\
+    \ write but Arnošt (unless I'm missing something) is not explaining how when using\
+    \ 'using' blocks we should be capturing exceptions? To me 'using' & try/catch/finally\
+    \ have very different purposes as 'using' is essentially try/finally. So to capture\
+    \ the exception you must wrap it in a try/catch.\n\nHowever, 'using' can be an\
+    \ advantage with TransactionGroups rather than standard transactions as commit\
+    \ order is not an issue for standard transactions.\n\nI also note he doesn't test\
+    \ for !group.HasEnded() in the final snippet. The exception may have occurred\
+    \ after a safe commit though?\n\nInteresting discussion.\n\nCheers,Guy"
+- author: Guy
+  email: info@r-e-d.co.nz
+  ip: 60.234.213.83
+  url: ''
+  date: '2012-04-24 07:50:59'
+  body: "In the original article Arnošt wrote:\n\n\"\"This is the safest way to guarantee\
+    \ that scoped objects are destroyed in the proper order \"\"\n\nActually is major\
+    \ point in the original article? That we shouldn't be relying on the CLR to dispose\
+    \ of the transactions or other scoped objects and we should be doing this if we\
+    \ want to capture the exceptions in our try/catch/finally blocks ? \n\nThis discussion\
+    \ is well timed for those of us porting code to R13..."
+- author: Arnošt Löbel
+  email: arnost.lobel@autodesk.com
+  ip: 72.52.96.9
+  url: ''
+  date: '2012-04-24 11:55:15'
+  body: "Yes, that is exactly the point – CLR cannot guarantee that scope objects\
+    \ that are not scoped will be destroyed in time before Revit (all some other part\
+    \ of your application) starts complaining about the object not being destroyed\
+    \ yet. This can happen when calling an external command. Revit does not permit\
+    \ external command to leave transactions or transactions groups being left open\
+    \ after returning from the command. When it happens, the command is rendered as\
+    \ unsuccessful and all changes made in the command will be automatically rolled\
+    \ back. Since it is not exactly possible to schedule garbage disposal (well, it\
+    \ is possible, but it should not be done), relying on \"using\" block is the only\
+    \ way, besides explicit exception handling.\nThis policy has not changed since\
+    \ (at least) R2010. \nArnošt"
+- author: Arnošt Löbel
+  email: arnost.lobel@autodesk.com
+  ip: 72.52.96.9
+  url: ''
+  date: '2012-04-24 12:14:25'
+  body: 'I am sorry, Guy, I did not mean any disrespect. Please understand there is
+    a lot of communications sometimes between me and Jeremy before he publishes his
+    article, and sometimes there are quotes left exactly how they were written in
+    our internal email exchanges. In no way I meant you write worthless code. I respect
+    your knowledge and work very much. That being said though, the fact remains that
+    if there is try-catch around a using block in which an object is scoped and then
+    later checked in the catch clause, that catch part will never be used. From that
+    respect, the code is workless, because it had to be written (which takes time)
+    but it never does anything during real execution, hence the effort was not worth
+    of anything.
+
+
+    Yes, I agree, try-catch has a different purpose other then what the "using" block
+    does. I am not saying that programmers should only use "using" and never use exception
+    handling. Of course a programmer needs exception catching in cases when some exceptions
+    are sort of "expected" and the application can gracefully recover from them. However
+    that was not the point I wanted to demonstrate. What I wanted was to make sure
+    programmers understand  that there are scope objects in the Revit API (such as
+    transactions) which  should be scoped  in order to guarantee they are destroyed
+    properly before returning back to Revit. If exception handling is not needed for
+    no other reason, using the "using" block is a perfect and elegant way of achieving
+    the objective.
+
+
+    I do not understand your note about transaction and their issue with commit. I
+    also do not understand your comment about group.HasEnded. If group has started,
+    it cannot have been ended yet (this is not necessarily the case for transactions,
+    but that is a different subject.)
+
+
+    Arnošt'
+- author: Guy
+  email: info@r-e-d.co.nz
+  ip: 60.234.213.83
+  url: ''
+  date: '2012-04-24 16:41:42'
+  body: 'Absolutely no disrespect taken ;-) You were quite right. I''ve also realised
+    HasEnded shouldn''t be in catch but the finally.
+
+
+    Cheers,
+
+
+    Guy'
+- author: Guy
+  email: info@r-e-d.co.nz
+  ip: 60.234.213.83
+  url: ''
+  date: '2012-04-24 16:48:20'
+  body: "OK. So this is interesting. Normal .NET practice is to leave garbage disposal\
+    \ to the CLR. I didn't realise this was the recommendation for Revit scoped classes.\
+    \ I'm going to experiment more but for now I think this is going to be my transaction(transactiongroup)\
+    \ template:\n\nvar transaction = new Transaction(doc);\n            try\n    \
+    \        {\n                transaction.Start(\"new transaction\");\n        \
+    \        //do something\n                transaction.Commit();\n            }\n\
+    \            catch (Exception ex)\n            {\n                if (transaction.HasStarted())\
+    \ transaction.RollBack();\n            }\n            finally\n            {\n\
+    \                if (transaction.HasEnded()) transaction.Dispose();\n        \
+    \    }\n\nVery interesting discussion and appreciate the feedback Arnošt.\n\n\
+    Cheers,\n\nGuy"
+- author: Arnošt Löbel
+  email: arnost.lobel@autodesk.com
+  ip: 72.52.96.9
+  url: ''
+  date: '2012-04-24 17:53:57'
+  body: Guy, your solution is all right. You are an experienced developer and you
+    know your way around exception handling. If that is what you prefer to always
+    use, it is perfectly fine. For the typical cases though, and for our general user,
+    I do recommend the "using" block. It is simple enough, easy to adapt to, and it
+    covers what needs to be covered. By the way, you do not have to dispose your transaction
+    objects. That can be left for the GC. Revit only requires that you properly "end"
+    transactions (and transaction groups, and sub transactions, and other scope-like
+    objects) either by committing them or rolling them back. Yes, the "using" block
+    also disposes the transaction, but that is actually not we are after. It is only
+    because we know that the Dispose method will call the destructor which in turn
+    will roll the transaction back if it is not ended yet – and that is what we want.
+    In another words, we do not necessarily need the destructor, but we need what
+    the destructor does and we like that it happens automatically upon leaving a "using"
+    block. I hope I did not make my statement too complicated :-)
+- author: Guy
+  email: info@r-e-d.co.nz
+  ip: 60.234.213.83
+  url: ''
+  date: '2012-04-24 21:35:02'
+  body: "This is an interesting discussion. For the general or beginner developer\
+    \ the fact 'using' hides thrown exceptions is a debugging and learning nightmare\
+    \ IMO. I guess we'll agree to disagree.\n FWIW I did some tests and the try/catch/finally\
+    \ solution is about .3% slower than a 'using' with the advantage we can handle\
+    \ exceptions. My only other thought is if ITransactionFinalizer had an OnException\
+    \ method that would probably be ideal but not sure if this is possible internally.\
+    \ Will keep experimenting.\n\nCheers,\n\nGuy"
+- author: Arnošt Löbel
+  email: arnost.lobel@autodesk.com
+  ip: 72.52.96.11
+  url: ''
+  date: '2012-04-25 14:54:56'
+  body: 'But a ''using'' block does not hide any exceptions at all; it looks like
+    you misunderstood it. It only makes sure that the object scoped by the block is
+    destroyed before leaving it. The exception, is any, is thrown after that in their
+    original form. From that perspective a single ''using'' block is better that the
+    code in your example, because you ''swallowed'' the exception without re-throwing
+    it, which is often inappropriate and unsafe thing to do.
+
+    Arnošt
+
+    -----'

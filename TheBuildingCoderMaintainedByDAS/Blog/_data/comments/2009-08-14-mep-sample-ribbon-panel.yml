@@ -1,0 +1,64 @@
+comments:
+- author: Krispy5
+  email: kparsons@au.westfield.com
+  ip: 203.202.124.168
+  url: ''
+  date: '2009-11-02 01:36:28'
+  body: "Hi Jeremy,\n\nJust though i would provide an alternaitve to retrieving a\
+    \ resource bitmap:\n\nSystem.Windows.Media.Imaging.BitmapSource GetEmbeddedImage(string\
+    \ Name)\n{\n    try\n    {\n        System.Reflection.Assembly a = System.Reflection.Assembly.GetExecutingAssembly();\n\
+    \        Stream imgStream = a.GetManifestResourceStream(Name);\n        return\
+    \ System.Windows.Media.Imaging.BitmapFrame.Create(imgStream);\n    }\n    catch\n\
+    \    {\n        return null;\n    }\n}"
+- author: Krispy5
+  email: kparsons@au.westfield.com
+  ip: 203.202.124.168
+  url: ''
+  date: '2009-11-02 01:38:33'
+  body: forgot to mention that this retrieves an embedded resource.. i.e. has it's
+    build action set to "Embedded Resource"
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.96.129
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-02 08:27:20'
+  body: 'Dear Krispy,
+
+
+    Thank you very much for the suggestion! It is ever so nice to receive a comment
+    making a suggestion instead of asking a question every now and then!
+
+
+    Cheers, Jeremy.'
+- author: Krispy5
+  email: kparsons@au.westfield.com
+  ip: 203.202.124.168
+  url: ''
+  date: '2009-11-02 16:26:08'
+  body: 'no problem, just another note, the "Name" argument is the fully qualified
+    name, i.e. includes the application namespace etc.
+
+    for example, my applications namespace is "MyNamespace" and i have an image "MyImage.png"
+    you would call the function like this:
+
+    MyPushButton.LargeImage = GetEmebeddedImage("MyNamespace.MyImage.png");'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-06 07:24:03'
+  body: 'Dear Krispy,
+
+
+    Thank you very much once again for additional hint, and yet another non-question!
+
+
+    I used your ideas to create a new post:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/11/ribbon-embed-image.html">http://thebuildingcoder.typepad.com/blog/2009/11/ribbon-embed-image.html</a>
+
+
+    Cheers, Jeremy.
+
+    -----'

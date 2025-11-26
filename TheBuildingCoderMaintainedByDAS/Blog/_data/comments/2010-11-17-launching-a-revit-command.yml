@@ -1,0 +1,165 @@
+comments:
+- author: Dan Tartaglia
+  email: dtartaglia@nbbj.com
+  ip: 74.202.85.246
+  url: ''
+  date: '2011-04-26 15:17:59'
+  body: 'Hi Jeremy,
+
+
+    The Document.Close() in the 2011 API did/does close my active document. The same
+    code does not work in Revit 2012 :( With the above logic, how can I click the
+    ''application R'' button then select Close?
+
+
+    Thanks,
+
+    Dan'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-05-03 06:28:48'
+  body: 'Dear Dan,
+
+
+    Oh, so you could use Document.Close to close the active document in Revit 2011.
+    How strange. Others went to more effort to achieve this, by sending a Ctrl + F4
+    keystroke:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/10/closing-the-active-document-and-why-not-to.html">http://thebuildingcoder.typepad.com/blog/2010/10/closing-the-active-document-and-why-not-to.html</a>
+
+
+    In Revit 2012, I believe you can close the active document as well or even better
+    ... but probably you will not need to, in your case, since the solution I just
+    posted is simpler and more elegant:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/05/cascaded-events-and-renaming-the-active-document.html">http://thebuildingcoder.typepad.com/blog/2011/05/cascaded-events-and-renaming-the-active-document.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Ahmed
+  email: ahmad4343@hotmail.com
+  ip: 188.248.106.194
+  url: ''
+  date: '2012-07-31 07:41:58'
+  body: 'Hi,i wish to make a wall from multi selection , i mean i made refrence planes
+    and dashed lines as primary skeleton for my project.
+
+    is that anyway to make a wall from all refrence plane selected i am sure that
+    coding an do it but i am just asking to see if you made that before or if it is
+    possible to make this addin thanks'
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-08-16 09:03:40'
+  body: 'Dear Ahmed,
+
+
+    Yes, sure, this is perfectly possible. For example, please refer to the command
+    Lab2_0_CreateLittleHouse in the Revit API labs XtraCs Labs2.cs module:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/04/xtra-adn-revit-2013-api-training-labs.html">http://thebuildingcoder.typepad.com/blog/2012/04/xtra-adn-revit-2013-api-training-labs.html</a>
+
+
+    It creates a little house as shown in several posts:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2008/09/selecting-all-w.html">http://thebuildingcoder.typepad.com/blog/2008/09/selecting-all-w.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/05/autojoinelements.html">http://thebuildingcoder.typepad.com/blog/2010/05/autojoinelements.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/06/set-tag-type.html">http://thebuildingcoder.typepad.com/blog/2010/06/set-tag-type.html</a>
+
+
+    The data for creating the walls and other BIM elements can come from anywhere.
+
+
+    Cheers, Jeremy.'
+- author: George
+  email: gsk3rd@gmail.com
+  ip: 144.228.23.130
+  url: ''
+  date: '2012-11-14 16:00:32'
+  body: "Jeremy,\n    I have a question. How can I use the key press out of this.\
+    \ Example, I want to use a button to zoom extents. The keystroke for that is ZE.\
+    \ I have a panel with buttons setup. I would ultimatly like to use this to open\
+    \ a specified drafting view, zoom extents, close hidden windows and then sync\
+    \ without modifying setting. this it possible?\n\n\nGeorge"
+- author: Russ Green
+  email: russ@origin3studio.co.uk
+  ip: 86.185.60.156
+  url: ''
+  date: '2012-12-30 04:45:07'
+  body: Press.keys() doesn't seem to work from my addin's dialog.  I seem to have
+    to close the dialog and then use press.keys().  Is that correct?
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-02 16:19:52'
+  body: 'Dear Russ,
+
+
+    If you are trying to send keys to Revit to launch a command, then of course this
+    will not work as long as your modal form is still open, since this means that
+    your own command is still active. Revit can only run one command at a time.
+
+
+    Cheers, Jeremy.'
+- author: Michael Coffey
+  email: revitarkitek@gmail.com
+  ip: 96.224.218.71
+  url: ''
+  date: '2014-11-15 11:20:13'
+  body: I was able to use Press.Keys() to update the Properties window from my modeless
+    dialog.  I first noticed that after selecting an element from my modeless dialog
+    that I was able to hit the command to initiate the modeless dialog again and voila
+    the properties updated to match the selected element.  Since the form was already
+    open, it recognized that and ignored the rest of the application.  So by using
+    Press.Keys() I send the shortcut command to initiate my modeless dialog after
+    selecting the items in the UIDocument.  This has worked great so far.  It's much
+    better than the other workaround of opening a family.  Thanks!
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-11-15 13:03:43'
+  body: 'Dear Michael,
+
+
+    That sounds great! Thank you for letting us know. If you could package that as
+    a generic stand-alone reproducible sample, I would love to test and publish it
+    for others to enjoy as well. Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Michael
+  email: revitarkitek@gmail.com
+  ip: 4.28.75.94
+  url: ''
+  date: '2014-11-19 13:41:13'
+  body: Most of the work I do is in 2014 still.  I updated the ModelessForm_ExternalEvent
+    sample for 2015 and realized the problem was corrected now making the workaround
+    not needed for 2015.  Seems as though the new UIDocument.Selection.SetElementIds()
+    fixed it.
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.174.72
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-11-24 15:48:26'
+  body: 'Dear Michael,
+
+
+    Glad to hear the problem is now resolved.
+
+
+    Cheers, Jeremy.
+
+    -----'

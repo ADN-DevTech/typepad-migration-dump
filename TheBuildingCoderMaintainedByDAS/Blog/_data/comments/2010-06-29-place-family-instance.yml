@@ -1,0 +1,511 @@
+comments:
+- author: Dan Tartaglia
+  email: dtartaglia@nbbj.com
+  ip: 66.195.32.251
+  url: ''
+  date: '2011-02-12 22:39:19'
+  body: 'Hi Jeremy,
+
+
+    Is it possible to envoke the Escape key, Modify command or end the transaction
+    so that PromptForFamilyInstancePlacement() can be used to place a different symbol
+    without user input? For example, I''d like to specify a listbox containing al
+    family types for a specific catagory of families, allow a user to select a type/symbol
+    and place the family. The user could then select another type to place without
+    ending the command.
+
+
+    Thanks,
+
+    Dan'
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.19.159.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-02-13 14:38:30'
+  body: 'Dear Dan,
+
+
+    Nothing in the current Revit API that I am aware of enables you to switch the
+    symbol being used by PromptForFamilyInstancePlacement. Hhowever, you can still
+    take a look at
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/11/launching-a-revit-command.html">http://thebuildingcoder.typepad.com/blog/2010/11/launching-a-revit-command.html</a>
+
+
+    It describes a workaround for a similar specific case, namely simulating some
+    user keystrokes and using the ''Create Similar'' command in a clever combination
+    to set up the wall command so that a specific wall type is pre-selected. I don''t
+    seeing it being much help for your specific case, but it shows you the limitations
+    and possibilities and may hopefully help trigger some brilliant idea for you.
+
+
+    Cheers, Jeremy.'
+- author: Nitin
+  email: ''
+  ip: 61.17.167.107
+  url: http://profile.typepad.com/nitinjambhale2008
+  date: '2011-06-17 02:40:52'
+  body: 'Dear sir,
+
+    How can i give user prompt to draw PVC pipe by PromptFamilyInstance() .
+
+
+    Thanks & Regards,
+
+    -Nitin'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-17 03:23:31'
+  body: "Dear Nitin,\n\nI assume you mean PromptForFamilyInstancePlacement, not PromptFamilyInstance.\n\
+    \nI do not believe that a PVC is in fact a family instance. \n\nTherefore, I do\
+    \ not believe that you can use PromptForFamilyInstancePlacement to manipulate\
+    \ it, can you?\n\nCheers, Jeremy."
+- author: Nitin
+  email: ''
+  ip: 61.11.14.102
+  url: http://profile.typepad.com/nitinjambhale2008
+  date: '2011-06-17 04:33:55'
+  body: No, i cannot. Thanks for quick reply.
+- author: Shawn Schrader
+  email: shawn.schrader@pec1.com
+  ip: 24.248.163.18
+  url: ''
+  date: '2011-07-14 10:19:42'
+  body: 'Jeremy,
+
+
+    When using PromptForFamilyInstancePlacement(), is there a way to change the default
+    from "Place on Vertical Face" to "Place on Face"?  Also, is there a way to turn
+    the default "Tag on Placement" off?
+
+
+    Thanks,
+
+    Shawn'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-07-15 11:59:06'
+  body: 'Dear Shawn,
+
+
+    As far as I know, there is no possibility at all to influence the behaviour of
+    PromptForFamilyInstancePlacement.
+
+
+    Is there a way to turn off the default "Tag on Placement" in the standard user
+    interface?
+
+
+    If so, it should work for PromptForFamilyInstancePlacement as well.
+
+
+    Cheers, Jeremy.'
+- author: sangsen
+  email: sangsen123@gmail.com
+  ip: 124.124.54.130
+  url: ''
+  date: '2012-01-06 00:32:30'
+  body: "Hi Jeremy,\n\n  Is there any way to use ISelectionFilter or to filter out\
+    \ some elts in promptforfamilyInstancePlacement() method.\n\nThanks in advance,"
+- author: Jeremy Tammik
+  email: ''
+  ip: 151.13.239.248
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-01-06 01:24:10'
+  body: 'Dear Sangsen,
+
+
+    No, because PromptForFamilyInstancePlacement places one single pre-defined symbol
+    passed in as an argument and does not do any picking.
+
+
+    Cheers, Jeremy.'
+- author: Matt T
+  email: matthew.taylor@wspgroup.com
+  ip: 62.6.164.67
+  url: ''
+  date: '2012-01-23 11:36:28'
+  body: 'Hi Jeremy,
+
+    Do you have a vb.net version of this example?
+
+    I can normally translate macros, but I''m having trouble with the RaiseEvents
+    part.
+
+
+    Thanks & regards,'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-01-23 12:22:13'
+  body: "Dear Matt,\n\nNope, sorry, I don't, I never touch the stuff :-)\n\nYou can\
+    \ recreate this entire application from scratch in VB in about 86 seconds, though,\
+    \ so there should not really be any need to use a translator...\n\nTo prove the\
+    \ point, I used the Visual Studio Revit add-in wizard and created the following\
+    \ code:\n\nHere it is, except I don't know how to do typeof in VB:\n\n  Dim _added_element_ids\
+    \ As List(Of ElementId) _\n    = New List(Of ElementId)\n\n  Public Function Execute(\n\
+    \    ByVal commandData As ExternalCommandData,\n    ByRef message As String,\n\
+    \    ByVal elements As ElementSet) _\n  As Result Implements IExternalCommand.Execute\n\
+    \n    Dim uiapp As UIApplication = commandData.Application\n    Dim uidoc As UIDocument\
+    \ = uiapp.ActiveUIDocument\n    Dim app As Application = uiapp.Application\n \
+    \   Dim doc As Document = uidoc.Document\n\n    Dim collector As FilteredElementCollector\
+    \ _\n      = New FilteredElementCollector(doc)\n\n    collector.OfCategory(BuiltInCategory.OST_Doors)\n\
+    \    'collector.OfClass( typeof(Autodesk.Revit.DB.FamilySymbol) )\n\n    Dim symbol\
+    \ As FamilySymbol _\n      = collector.FirstElement()\n\n    _added_element_ids.Clear()\n\
+    \n    AddHandler app.DocumentChanged,\n      AddressOf OnDocumentChanged\n\n \
+    \   uidoc.PromptForFamilyInstancePlacement(symbol)\n\n    RemoveHandler app.DocumentChanged,\n\
+    \      AddressOf OnDocumentChanged\n\n    Dim n As Integer = _added_element_ids.Count\n\
+    \n    Return Result.Succeeded\n  End Function\n\n  Public Sub OnDocumentChanged(\
+    \ _\n    ByVal sender As Object, _\n    ByVal e As DocumentChangedEventArgs)\n\
+    \n    _added_element_ids.AddRange(e.GetAddedElementIds())\n  End Sub\n\nCheers,\
+    \ Jeremy."
+- author: Matt T
+  email: matthew.taylor@wspgroup.com
+  ip: 62.6.164.67
+  url: ''
+  date: '2012-01-24 05:36:15'
+  body: "Hi Jeremy,\nOh dear, I think I was overthinking it...\nI appreciate your\
+    \ help.\n\nFYI, the usage of oftype in VB.NET:\ncollector.OfType(Of DB.FamilySymbol)()\n\
+    \    \nTake care & stay well.\n\nRegards,\n\nMatt"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-01-24 09:49:57'
+  body: 'Dear Matt,
+
+
+    Thinking is error prone and should be avoided whenever possible  :-)
+
+
+    Thank you for the VB snippet  :-)
+
+
+    No, actually, trying to use your suggestion, I discover it does not work at all
+    and is completely different from what I meant.
+
+
+    I do not mean OfType, I mean to call the filtered element collector method OfClass.
+    In C#, it takes a argument typeof(Autodesk.Revit.DB.FamilySymbol). I still don''t
+    know how to formulate that in VB. Well, actually, searching the samples, I found
+    the solution, which is
+
+
+    collector.OfClass(GetType(FamilySymbol))
+
+
+    Cheers, Jeremy.'
+- author: Matt T
+  email: matthew.taylor@wspgroup.com
+  ip: 62.6.164.67
+  url: ''
+  date: '2012-01-24 10:11:43'
+  body: 'Jeremy,
+
+    I agree. But if you have to think, coffee helps!
+
+
+    Haha, I use ofclass (as you show it) a lot. I tested the oftype in connection
+    with other filter refinements, so I guess I just got lucky when it worked!
+
+
+    Thanks for your help - have a good week! :)
+
+
+    Matt'
+- author: ahmed ali
+  email: ahmed.alimahmoud@dargroup.com
+  ip: 163.121.166.35
+  url: ''
+  date: '2012-09-23 10:14:43'
+  body: 'thank you put this method only place element in vertical face
+
+    and im asked that if thier is any way to place the face based objects.
+
+    for example place face based  lighting family on ceilling
+
+
+
+    regards
+
+    ahmed ali'
+- author: Jeremy Tammik
+  email: ''
+  ip: 84.174.242.46
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-09-24 06:21:26'
+  body: 'Dear Ahmed,
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/02/hosting-a-light-fitting-on-a-reference-plane.html">http://thebuildingcoder.typepad.com/blog/2012/02/hosting-a-light-fitting-on-a-reference-plane.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/01/newfamilyinstance-overloads.html">http://thebuildingcoder.typepad.com/blog/2011/01/newfamilyinstance-overloads.html</a>
+
+
+    Research, research, and have fun!
+
+
+    Cheers, Jeremy.'
+- author: Enoch
+  email: enoch@enochsears.com
+  ip: 99.3.124.77
+  url: ''
+  date: '2012-10-25 20:47:04'
+  body: Jeremy, How would I adapt this code to place a detail component in a drafting
+    view?
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.183.170
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-10-26 10:51:07'
+  body: 'Dear Enoch,
+
+
+    I don''t see any need to change anything at all. Do you?
+
+
+    Cheers, Jeremy.'
+- author: Enoch
+  email: enoch@enochsears.com
+  ip: 99.3.124.77
+  url: ''
+  date: '2012-10-29 12:45:47'
+  body: How do I pass my symbol name in as an argument for this to place my symbol
+    from a command button?
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-10-29 13:24:19'
+  body: 'Dear Enoch,
+
+
+    You can encapsulate the code above into a method ''f'' taking the symbol and family
+    names or better still the symbol element id as an argument.
+
+
+    Implement an external application setting up the command button and an external
+    command to handle the button click.
+
+
+    On the button click launching the command, determine the symbol element id and
+    pass it in to your method ''f''.
+
+
+    To see how to implement an external application and an external command and filter
+    for elements to determine the symbol element id, work through the Revit API getting
+    started material:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/07/obj-model-exporter-with-transparency-support.html#4">http://thebuildingcoder.typepad.com/blog/2012/07/obj-model-exporter-with-transparency-support.html#4</a>
+
+
+    Cheers, Jeremy.'
+- author: Skootamota
+  email: holditch@gmail.com
+  ip: 216.154.103.40
+  url: ''
+  date: '2013-05-13 23:12:26'
+  body: 'Hello Jeremy,
+
+    How would you go about inserting a family instance on a work-plane. Using
+
+    PromptForFamilyInstancePlacement
+
+
+    it defaults to face based placement.  How could you insert a family instance with
+    Placement - Place on work-plane?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-05-14 07:37:41'
+  body: 'Dear Skootamota,
+
+
+    Thank you, good question.
+
+
+    Yes, indeed, how would you?
+
+
+    No idea.
+
+
+    Can you tell me?
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Skootamota
+  email: holditch@gmail.com
+  ip: 216.154.107.123
+  url: ''
+  date: '2013-05-30 20:36:50'
+  body: 'Hello Jeremy,
+
+
+    Do you know if there is a fix from the API development team in the works for this?  Everything
+    I''m coding needs this work plane placement to work somehow, but I can''t seem
+    to come up with a fix.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.216.200
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-06-13 06:11:19'
+  body: 'Dear Skootamota,
+
+
+    Nope, and I am not aware of any such problem either.
+
+
+    Is there one at all?
+
+
+    Try looking at this:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/11/pick-a-point-in-3d.html">http://thebuildingcoder.typepad.com/blog/2011/11/pick-a-point-in-3d.html</a>
+
+
+    Please let us know if you still have trouble.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Skootamota
+  email: holditch@gmail.com
+  ip: 216.154.106.150
+  url: ''
+  date: '2013-06-18 21:45:13'
+  body: 'Hello Jeremy,
+
+
+    I''m not sure how this would help?  With the PromptForFamilyInstancePlacement
+    command, you can see the instance before placement, align the instance up against
+    a 2D line, like a wall line in a DWG (that''s on the workplane) before finally
+    selecting the placement location.  Like placing a receptacle annotation (with
+    3d family model) for instance.  I have found how to select a workplane, but there
+    doesn''t seem to be any method to place an instance on the workplane.  If you
+    know of a way to get this to work, I''d really appreciate even the smallest of
+    code snippets.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-06-19 02:00:53'
+  body: "Dear Skootamota,\n\nYup, I hear what you say. \n\nAfaik, PromptForFamilyInstancePlacement\
+    \ is the only way to achieve that.\n\nAre you sure you are going with the flow,\
+    \ and not fighting it?\n\nMaybe your family definition is simply inappropriate?\
+    \ What template is it based on? What is the purpose?\n\nCheers, Jeremy."
+- author: Skootamota
+  email: holditch@gmail.com
+  ip: 216.154.106.150
+  url: ''
+  date: '2013-06-19 21:28:10'
+  body: Everytime I reply it doesn't seem to show up.
+- author: Skootamota
+  email: holditch@gmail.com
+  ip: 216.154.106.150
+  url: ''
+  date: '2013-06-19 21:28:44'
+  body: 'Hello Jeremy,
+
+
+    There are many instances where it is desirable to place instances on a work-plane.  For
+    one, Electrical Fixtures that are suspended from a ceiling.  For a second, with
+    linked DWG files on levels (work-planes) used to create a wire frame model, you
+    could do the entire design in Revit.
+
+    I''m at an impasse to our company adopting Revit and programming up automation
+    features until this work-plane placement works somehow.  Any chance you could
+    convince the API developers to add this feature?  I''ll join ADN Professional
+    if that would help speed up the process somehow.'
+- author: Skootamota
+  email: holditch@gmail.com
+  ip: 216.154.106.150
+  url: ''
+  date: '2013-06-20 08:33:18'
+  body: 'Hello Jeremy,
+
+
+    The option to choose between a work-plane and face is presented on the Ribbon
+    for instance placement.  It''s surprising that this super important option isn''t
+    available from the API.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.219.32
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-06-20 09:20:07'
+  body: "Dear Skootamota,\n\nThank you for pointing out that Revit itself does support\
+    \ this functionality. \n\nI'll check for you.\n\nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.220.110
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-06-21 11:17:58'
+  body: "Dear Skootamota,\n\nSorry to say, I confirmed that this functionality is\
+    \ not currently available. \n\nWe have registered wish list item #188792 for it.\n\
+    \nCheers, Jeremy."
+- author: skootamota
+  email: holditch@gmail.com
+  ip: 216.154.106.150
+  url: ''
+  date: '2013-06-23 21:22:19'
+  body: Thanks, that's good to hear.  I hope they will push this one through quickly,
+    as it deals with essential fundamental use of Revit.
+- author: Skootamota
+  email: holditch@gmail.com
+  ip: 216.154.111.211
+  url: ''
+  date: '2013-11-26 23:03:37'
+  body: 'Hello Jeremy,
+
+
+    Is there any chance the API ''wish list'' item #188792 is in the works?  Is there
+    a way users can check the status of a wish list item?  If it''s not being worked
+    on is there anything I can do to speed up development?'
+- author: Harry Mattison
+  email: boostyoubim@gmail.com
+  ip: 146.115.46.19
+  url: ''
+  date: '2015-02-20 14:56:33'
+  body: 'Hi Jeremy,
+
+
+    Is there any update for 2015 or beyond about placing a family instance via the
+    API on a work plane?
+
+
+    Thanks
+
+    Harry'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-03-10 11:24:15'
+  body: 'Dear Harry,
+
+
+    Not that I am aware of.
+
+
+    Are you after something specific?
+
+
+    Cheers, Jeremy.
+
+    -----'

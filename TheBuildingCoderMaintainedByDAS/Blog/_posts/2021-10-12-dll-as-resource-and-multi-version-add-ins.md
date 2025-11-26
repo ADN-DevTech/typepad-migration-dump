@@ -1,0 +1,167 @@
+---
+layout: "post"
+title: "DLL as Resource and Multi-Version Add-Ins"
+date: "2021-10-12 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Deployment"
+  - "Getting Started"
+  - "Installation"
+  - "Mac"
+  - "Template"
+  - "Utilities"
+  - "Wizard"
+original_url: "https://thebuildingcoder.typepad.com/blog/2021/10/dll-as-resource-and-multi-version-add-ins.html "
+typepad_basename: "dll-as-resource-and-multi-version-add-ins"
+typepad_status: "Publish"
+---
+
+<p>Successfully moved from my broken-screen laptop to a loaner machine, updated <code>ExportCncFab</code>, collected a list of options to implement multi-version add-ins and some hints on storing dependencies in your add-in resources:</p>
+
+<ul>
+<li><a href="#2">Migration assistant rocks</a></li>
+<li><a href="#3">ExportCncFab 2022</a></li>
+<li><a href="#4">Multi-version Revit add-in</a></li>
+<li><a href="#5">Deploying a DLL file as a resource</a></li>
+</ul>
+
+<h4><a name="2"></a> Migration Assistant Rocks</h4>
+
+<p>I mentioned
+my <a href="https://thebuildingcoder.typepad.com/blog/2021/10/localised-forge-intros-and-apply-code-changes.html#2">computer mishap resulting in a broken screen</a> and
+the happy fact that the rest of the system still works.
+Unfortunately, requiring an external screen and hence mains power significantly reduces mobility.</p>
+
+<p>As a next step, I was able to transfer the entire system with all user and application data to a temporary loaner machine using the Mac migration assistant.</p>
+
+<p>That worked right out the box.
+The only problem remaining being that the updated OS prevented me
+from <a href="https://thebuildingcoder.typepad.com/blog/2021/08/revit-roadmap-api-and-da4r-survey.html#4">setting up my personal root level directories</a>.
+I am forced to rewrite all my (numerous) shell scripts and add <code>$HOME</code> to them.
+I guess I can live with that.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833026bdef82f6c200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833026bdef82f6c200c img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="Problem &ndash; no problem" title="Problem &ndash; no problem" src="/assets/image_4e1e96.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="3"></a> ExportCncFab 2022</h4>
+
+<p>By popular demand, I now
+updated <a href="https://github.com/jeremytammik/ExportCncFab">ExportCncFab</a> for Revit 2022.</p>
+
+<p>It is a Revit .NET API add-in that exports Revit wall parts to DXF or SAT for CNC fabrication, demonstrating various useful aspects along the way, such as:</p>
+
+<ul>
+<li>Implement the external application</li>
+<li>Create ribbon panel and command push buttons</li>
+<li>Load icons from assembly resources</li>
+<li>Select wall parts and handle optional pre-selection</li>
+<li>Export wall part elements to DWF or SAT</li>
+<li>Manage, create and populate shared parameter values</li>
+</ul>
+
+<p>The flat migration is captured
+in <a href="https://github.com/jeremytammik/ExportCncFab/releases/tag/2022.0.0.0">ExportCncFab release 2022.0.0.0</a> and
+some deprecated API usage is eliminated in the subsequent
+<a href="https://github.com/jeremytammik/ExportCncFab/releases/tag/2022.0.0.1">release 2022.0.0.1</a>.</p>
+
+<h4><a name="4"></a> Multi-Version Revit Add-In</h4>
+
+<p>There has been a lot of interest and several new threads on multi-version Revit add-ins recently, e.g.,
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/multi-version-revit-template/m-p/10659412">multi-version Revit template</a>.</p>
+
+<p>Several Visual Studio Revit add-in templates now implement support for that functionality right out of the box.</p>
+
+<p>To provide an overview of the some available options, I added
+a <a href="https://github.com/jeremytammik/VisualStudioRevitAddinWizard#alternatives">list of alternatives</a> to
+the <a href="https://github.com/jeremytammik/VisualStudioRevitAddinWizard">VisualStudioRevitAddinWizard GitHub repository</a>.</p>
+
+<h4><a name="4.2"></a> Addendum &ndash; Multiple Projects in Single SLN</h4>
+
+<p>Pablo Derendinger adds:</p>
+
+<p>Hi! I would like to share our experience with multi-version projects.</p>
+
+<p>After a lot of work with scripting and pre/post build steps, we found a solution that works like a charm.</p>
+
+<p>We use a shared project with all the code and a "build" project for each Revit version.</p>
+
+<p>Each build version retrieves its specific Revit dlls from nuget. </p>
+
+<p>To support a new version, we just copy <code>csproj</code>, change it's name and nuget references.</p>
+
+<p>To support changes in the API, we use compile rules to ignore deprecated features.</p>
+
+<p>At the end of the day we have a single <code>sln</code> with a <code>csproj</code> per Revit version.</p>
+
+<p>Works perfectly under a CI/CD workflow.</p>
+
+<p>Hope you find it useful.</p>
+
+<h4><a name="5"></a> Deploying a DLL File as a Resource</h4>
+
+<p>In the thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/additional-dll-files-as-resource/m-p/10653802#M58650">additional <code>.dll</code> files as resource</a>,
+Luiz Henrique <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/4176855">@ricaun</a> Cassettari provides
+a pointer to some useful examples showing how to embed a DLL in the add-in assembly, saying:</p>
+
+<blockquote>
+  <p>You could
+  use <a href="https://github.com/Fody/Costura">Fody.Costura</a> to
+  embed the .dll references automatically.
+  The <a href="https://github.com/Fody/Costura/tree/develop/src/Costura.Template">Costura.Template</a> provides
+  <code>ILTemplate.cs</code> and <code>Common.cs</code> to handle all the load resources files.
+  If the Assembly is already loaded, the code does not force it to load again.
+  I use this technique on
+  the <a href="https://apps.autodesk.com/RVT/en/Detail/Index?id=9120027511121592515">ConduitMaterial</a> and
+  other plugins.
+  Adding <code>ILTemplate.Attach()</code> on the <code>IExternalApplication</code> should do the trick.</p>
+</blockquote>
+
+<p>Many thanks to Luiz Henrique for sharing this!</p>
+
+<h4><a name="6"></a> Addendum &ndash; Handling MahApps Dependencies</h4>
+
+<p>Micah <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/4045014">@kraftwerk15</a> Gray adds:</p>
+
+<p>‎I also wanted to chime in here with resources.
+Ehsan actually hopped on a call with me and showed me his process with submodules.
+Since then that's how I have been handling other libraries that I need to use in my project.</p>
+
+<p>While I started with an <code>AssemblyResolver</code>, loading in a newer version of the assembly will not resolve correctly when a previous version has already been loaded.
+This came about because of the CTC addins still used the MahApps version 2 (I believe).
+Then I come barrelling in to the situation with the new 3.x versions of MahApps because I wanted to use the new, fancy features.
+Revit will resolve everything up to the point where you wanted to use one of the 3.x features that the 2.x didn't have.
+Then my app would throw an Exception telling me that it couldn't find that 3.x feature because CTC had loaded the 2.x version first.</p>
+
+<p>So, Ehsan told me about submodules in git (which I had to learn about) and re-building MahApps open-source code under a new .dll name.</p>
+
+<p>Opening the open-source project, changing the name, building the submodules, and then referencing the new submodules have been fantastic.</p>
+
+<p>Here is a snippet of my library with the re-built MahApps content:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833027880502162200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833027880502162200d image-full img-responsive" alt="MahApps dependencies" title="MahApps dependencies" src="/assets/image_5d6635.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Also, if you look in pyRevit's library, Ehsan does the same thing, or at least used to.</p>
+
+<p>Kudos of course to Ehsan for showing me this and thanks to Jeremy for pointing out this thread from the blog.</p>
+
+<p>Hopefully this helps someone in the future.</p>
+
+<p>Kennan Chen adds:</p>
+
+<p>Same issue with MahApps before and I also rebuilt the whole project.</p>
+
+<p>Life can be easier to compile MahApps project with another Public/Private key pair (.snk file), which will sign a unique strong name to the dll.
+Referencing a strong-named dll is supposed to be a common practise to address the "dll hell" issue:</p>
+
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/standard/assembly/strong-named">Strong-named assemblies | Microsoft Docs</a></li>
+</ul>

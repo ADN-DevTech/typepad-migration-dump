@@ -1,0 +1,265 @@
+comments:
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2012-09-10 07:45:46'
+  body: 'Hi Jeremy,
+
+
+    nice to see that you are planning to use Kean''s web service.
+
+
+    One thought:
+
+    In contrary to AutoCAD, there are length limitations that one must have in mind
+    when creating geometrical objects.
+
+    So it may be that you cannot create too tiny spheres; also, it may happen that
+    you cannot create the lines and arcs which you need for the rotation operation.
+
+    And so on...
+
+
+
+    Cheers,
+
+    Rudolf'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.184.244
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-09-10 09:08:11'
+  body: 'Dear Rudolf,
+
+
+    Thank you for the hint. Yes, I thought of that already. I''ll just have to make
+    them really big, then.
+
+
+    Cheers, Jeremy.'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2012-09-10 09:49:44'
+  body: 'Hi Jeremy,
+
+
+    as far as I know, there is also an *upper* size limitation in Revit files.
+
+    So please avoid to generate objects of planetary scale...
+
+    ;-)
+
+
+
+    Cheers,
+
+    Rudi'
+- author: Kondaments
+  email: ''
+  ip: 203.44.3.225
+  url: http://profile.typepad.com/kondaments
+  date: '2012-11-25 23:00:19'
+  body: "Jeremy,\n\nWhat lovely looking balls you have there!\n\nIs it possible to\
+    \ scale a ball 'up' (eg make your balls  even bigger) - maybe scale it up a 'percentage'\
+    \ ...\n\nIve been looking at the post from March 17, 2009 'Transform' <a href=\"\
+    http://thebuildingcoder.typepad.com/blog/2009/03/transform.html\">http://thebuildingcoder.typepad.com/blog/2009/03/transform.html</a>\
+    \ \n\nIm trying to figure out how to use 'ScaleBasis'\n\nCould you demonstrate\
+    \ how to enlarge your balls using this method?\n\nMany Thanks!\nKon."
+- author: Jeremy Tammik
+  email: ''
+  ip: 70.165.203.13
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-11-26 00:36:30'
+  body: 'Dear Kon,
+
+
+    :-)
+
+
+    I am tempted to treat you comment as a joke.
+
+
+    Seriously speaking, just change the radius.
+
+
+    Cheers, Jeremy.'
+- author: Kondaments
+  email: ''
+  ip: 203.44.3.225
+  url: http://profile.typepad.com/kondaments
+  date: '2012-11-27 07:11:36'
+  body: 'Jeremy,
+
+
+    Glad I could put a smile on your face... but if an object has been made, how can
+    I use ScaleBasis to enlarge something?
+
+
+    Regards,
+
+    Kon.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 70.165.201.56
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-11-28 01:30:54'
+  body: 'Dear Kon,
+
+
+    Please remember that Revit is not AutoCAD:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/02/bim-versus-free-geometry-and-product-training.html">http://thebuildingcoder.typepad.com/blog/2012/02/bim-versus-free-geometry-and-product-training.html</a>
+
+
+    Forget TransformBy.
+
+
+    Imagine scaling a wall by a factor of two. What happens? Its width doubles. What
+    does that mean? It is no longer the same wall type. The neww required wall type
+    does not even exist. Basically, forget scaling in Revit. You change the type,
+    or you change the parameters. You do not scale.
+
+
+    Of course, if you are working with pure geometrical objects, then you might be
+    able to scale something. That is then purely abstract and has nothing to do with
+    BIM elements or the real world.
+
+
+    Best regards from AU in Las Vegas!
+
+
+    Cheers, Jeremy.'
+- author: Kondaments
+  email: ''
+  ip: 124.168.109.1
+  url: http://profile.typepad.com/kondaments
+  date: '2013-06-20 00:15:10'
+  body: 'Jeremy,
+
+
+    Its been a while, but I need to re-visit your balls!
+
+
+    I take your point about AutoCAD and indeed I would not want to scale a family
+    or other object.
+
+
+    I need to scale a ''solid''/''GeometryElement'' for a bit of ''rough What-If''
+    visual analysis...
+
+    Sometimes its a complex shape, so I cant re-create the element (easily)
+
+
+    Is there a way to scale up a soild from its ''center point'' or centroid?
+
+
+    Ive been playing around with ScaleBasis and every time I apply it, the object
+    moves as well!
+
+
+    Cheers,
+
+    Kon'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.214.152
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-06-27 08:20:35'
+  body: 'Dear Kondaments,
+
+
+    Nope, sorry.
+
+
+    I searched very hard for something similar:
+
+
+    "It would be great if there was a possibility to grow the solid just slightly,
+    e.g. offset all its faces outwards by an inch or two or define a tolerance before
+    executing the intersection check, like for the bounding box. Unfortunately, growing
+    or shrinking an arbitrary solid is much harder than a bounding box and therefore
+    not implemented."
+
+
+    Here are some of the alternatives that I explored:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/03/supporting-columns.html">http://thebuildingcoder.typepad.com/blog/2013/03/supporting-columns.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Kondaments
+  email: ''
+  ip: 124.168.109.1
+  url: http://profile.typepad.com/kondaments
+  date: '2013-06-27 10:02:00'
+  body: "Hi Jeremy,\n\nI must have missed that post ... ooops.. I usually read all\
+    \ of them very closely.\n\nJust a quick one then, in the above linked post you\
+    \ mentioned that you nudged the solid down a little .. how did you do it? That\
+    \ may in fact be all that I need. \n\neg. make a 2 copies of the Origional solid\
+    \ \nSo OrigionalSolid, copyA, copyB\n    nudge copyB down a bit\n    union copyA\
+    \ and copyB both together, that makes a new (larger) solid (solidC).\n    This\
+    \ time, create only one copy, dudge it in another direction then join that to\
+    \ SolidC .....\nrepeat as necessary...\n\nCheers,\nKon."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.214.152
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-06-27 10:32:18'
+  body: 'Dear Kon,
+
+
+    Please download the source code from that post and look:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/03/supporting-columns.html">http://thebuildingcoder.typepad.com/blog/2013/03/supporting-columns.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/files/getbeamcolumns06.zip">http://thebuildingcoder.typepad.com/files/getbeamcolumns06.zip</a>
+
+
+    I normally never delete anything, just comment out the parts that I end up not
+    using, so it should still be in there somewhere.
+
+
+    Cheers, Jeremy.'
+- author: Kondaments
+  email: ''
+  ip: 124.168.109.1
+  url: http://profile.typepad.com/kondaments
+  date: '2013-06-27 20:41:48'
+  body: 'Thanks!
+
+
+    I will let you know how I go!
+
+
+    Cheers,
+
+    Kon.'
+- author: Sarkate
+  email: ''
+  ip: 74.95.5.115
+  url: http://profile.typepad.com/sarkate
+  date: '2015-04-21 19:56:52'
+  body: "Hi Jeremy\nWhat happen if the solid is being created without applying the\
+    \ AVF? Is the solid still states in the Revit model and making the Revit file\
+    \ bigger? \nThanks"
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.110.213
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-04-22 00:52:16'
+  body: 'Dear Sarkate,
+
+
+    No, the solid is in-memory only. It is not a Revit database element.
+
+
+    Cheers, Jeremy.
+
+    -----'

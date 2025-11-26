@@ -1,0 +1,126 @@
+comments:
+- author: m.vallee
+  email: m.vallee@bouygues-construction.com
+  ip: 79.174.225.131
+  url: ''
+  date: '2013-08-19 11:34:20'
+  body: "Hi Jeremy,\n\nGreat article, thanks...\n\nHow do you think we could dynamically\
+    \ hide the ribbon panel based on the type of Revit file that is opened (family,\
+    \ project) ? For instance if you want to show it only when a family document is\
+    \ active, and without any toggle button. \n\nEven with a Ribbon panel global instance\
+    \ in the \"App\" class, I don't see where to make it visible/unvisible without\
+    \ a toggle button to control it. In the \"Command\" class ? With an updater ?\n\
+    \nThanks."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.215.171
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-08-21 07:48:37'
+  body: 'Dear Maxime,
+
+
+    Thank you for your appreciation! Glad you like it.
+
+
+    As mentioned above, you can activate and deactivate individual buttons using command
+    availability classes.
+
+
+    In those classes you can implement any kind of checking functionality you desire,
+    e.g. using the type of Revit document opened, the time of day, or any other trigger.
+
+
+    Maybe you can call the RibbonPanel.Visible property from withing a command availability
+    class?
+
+
+    Please do let us know how you fare with this! Thank you!
+
+
+    Cheers, Jeremy.'
+- author: m.vallee
+  email: m.vallee@bouygues-construction.com
+  ip: 79.174.225.131
+  url: ''
+  date: '2013-08-22 10:48:47'
+  body: "Hi Jeremy,\n\nI tried what you said, creating this command availability class\
+    \ :\nclass FamilyOnlyAvailability : IExternalCommandAvailability\n    {\n    \
+    \    public bool IsCommandAvailable(UIApplication applicationData, CategorySet\
+    \ selectedCategories)\n        {\n            // we want to display the rp when\
+    \ a family doc is active\n            bool result = (null != applicationData.ActiveUIDocument)\
+    \ && applicationData.ActiveUIDocument.Document.IsFamilyDocument;\n\n         \
+    \   // hide or display the ribbonpanel\n            List<RibbonPanel> liste_rp\
+    \ = applicationData.GetRibbonPanels();\n            foreach (RibbonPanel rp in\
+    \ liste_rp)\n            {\n                if (rp.Name == Util.Caption)\n   \
+    \             {\n                    if (!result)\n                        rp.Visible\
+    \ = false;\n                    else rp.Visible = true;\n\n                  \
+    \  break;\n                }\n            }\n\n            return result;\n  \
+    \      }\n    }\n\nThe problem is once the Ribbon panel has been hidden, the command\
+    \ availability class is no more used... so it can't be displayed again... :("
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.215.184
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-08-22 12:33:57'
+  body: "Dear Maxime,\n\nThank you for this very cool partial result.\n\nOk, so you\
+    \ can hide it successfully. \n\nNow you can try to implement something to display\
+    \ it again, e.g. using a separate command button in a separate main control panel\
+    \ of your application.\n\nThis sounds pretty useful to me, provided your application\
+    \ is large and complex enough to warrant multiple panels, some of which you wish\
+    \ to sometimes hide.\n\nCheers, Jeremy."
+- author: m.vallee
+  email: m.vallee@bouygues-construction.com
+  ip: 79.174.225.131
+  url: ''
+  date: '2013-08-23 03:43:09'
+  body: 'Hi Jeremy.
+
+
+    That would be a good trick, but this is not what I want to do. My idea was to
+    completely hide the ribbon panel except when there is a family document active,
+    because it is the only case where the commands in the rp can be used. I don''t
+    want to add a button to control visibility because we now have plenty of ribbon
+    panels and commands in the add-in tab, so lighten it becomes quite necessary...
+
+
+    I think it would be nice if there was a IRibbonPanelAvailability class to implement,
+    which would be the equivalent of IExternalCommandAvailability but for panels.
+
+
+    Cheers.
+
+
+    Maxime'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-08-23 05:25:49'
+  body: 'Dear Maxime,
+
+
+    Thank you for your research and clear analysis.
+
+
+    I submitted the wish list item CF-6 [API wish: ribbon panel availability class]
+    for you for the requested functionality.
+
+
+    Cheers, Jeremy.'
+- author: m.vallee
+  email: m.vallee@bouygues-construction.com
+  ip: 79.174.225.131
+  url: ''
+  date: '2013-08-23 08:19:54'
+  body: 'Dear Jeremy,
+
+
+    Thanks a lot for your help and for submitting the request.
+
+
+    Cheers.
+
+
+    Maxime
+
+    -----'

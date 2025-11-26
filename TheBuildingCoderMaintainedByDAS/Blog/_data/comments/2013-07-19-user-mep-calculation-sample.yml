@@ -1,0 +1,115 @@
+comments:
+- author: Anon
+  email: lukewallace1990@gmail.com
+  ip: 71.28.39.53
+  url: ''
+  date: '2013-12-06 13:38:34'
+  body: "Jeremy, using this method, could you theoretically calculate the friction\
+    \ loss of sprinkler piping systems?\n\nTo do so, in addition to what you show,\
+    \ it would need to be able to know pipe/fitting elevations (pressure loss due\
+    \ to elevation), take into account pressure increases due to fire pumps, take\
+    \ out flows due to open hydrants, and only flow sprinklers (with a given k-factor)\
+    \ which are set to \"flowing\" (in the sprinkler family), at a specified minimum\
+    \ pressure.\n\nYou would also need a script that adds node tags to every junction/equipment\
+    \ like inlet/outlet of fire pumps. \n\nIf you could do all that, sprinkler layout\
+    \ technicians like me (and our companies) would be paying you around $1000-5000\
+    \ for each license of your add-on... There are only two other companies that have\
+    \ Revit \"solutions\" for fire sprinkler hydraulics right now, and both rely on\
+    \ external programs or import/export functionality, both are buggy and no good,\
+    \ and probably will never utilize this feature because they want to keep the hefty\
+    \ $5000-12000 pricetag for their external software."
+- author: Gary
+  email: garyn@gmb.com
+  ip: 173.13.19.177
+  url: ''
+  date: '2013-12-16 12:56:27'
+  body: Can you provide instructions on how to build and install the add-in?
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.200.168
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-12-20 09:43:10'
+  body: 'Dear Gary,
+
+
+    The procedure is identical for all Revit add-ins. It is described in full detail
+    in the DevTV and interactive tutorials provided by the Revit developer centre
+    and getting started materials:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#2">http://thebuildingcoder.typepad.com/blog/about-the-author.html#2</a>
+
+
+    Cheers, Jeremy.'
+- author: Matt
+  email: mwilson@cea-ut.com
+  ip: 173.165.139.141
+  url: ''
+  date: '2015-04-09 13:27:53'
+  body: 'Jeremey,
+
+
+    I have a comment and question about this addin.
+
+    Under:
+
+    static public void getSectionsFromSystem(MEPSystem system, List<MEPSection> sections)
+
+
+    I had to change this line:
+
+    MEPSection section = system.GetSectionByNumber(ii);
+
+    to
+
+    MEPSection section = system.GetSectionByIndex(ii);
+
+
+    Because the sections weren''t necessarily in numerical order, and also didn''t
+    always start at one. Maybe I misunderstood what you were doing there, but I was
+    having a rough time getting all the sections until I changed this to index.
+
+
+    My question is, when I use section.TotalPressureLoss, I get a double of 9.27246709...
+    The API documentation under "MEPSection.TotalPressureLoss Property" states that
+    the default value for this is Kgf per square feet, which converts to almost 4
+    inches of water, way beyond what''s actually in my 2 diffuser system. Is KgF per
+    square feet correct? Pascals, inhg, KgF per square meter, stones, slugs, furlongs,
+    yards and atmospheres, don''t seem to correspond with the Revit reported value
+    (using the system inspector) of 0.1222531 inwg either.
+
+
+    As always thank you for this blog and the examples you provide.'
+- author: Arif Hanif
+  email: ahanif@aeieng.com
+  ip: 64.220.44.54
+  url: ''
+  date: '2015-04-17 11:54:04'
+  body: 'Jeremey,
+
+
+    Have you seen in the API a way to turn off system calculations for all piping
+    and duct work instead of individually as currently required?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-04-22 09:22:59'
+  body: 'Dear Arif (or Arief  :-),
+
+
+    No, I am not aware of any such switch.
+
+
+    However, in the far distant past, I sometimes ran an MEP-specific add-in that
+    only manipulated generic Revit element parameters in Revit Architecture, with
+    no Revit MEP machinery available.
+
+
+    That enabled me to make changes to the parameters and thus change the MEP model
+    without any recalculations being triggered.
+
+
+    Cheers, Jeremy.
+
+    -----'

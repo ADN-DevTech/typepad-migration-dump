@@ -1,0 +1,146 @@
+comments:
+- author: Jamie Johnson
+  email: jamie@strandsystems.com
+  ip: 64.244.14.194
+  url: http://www.strandsystems.com
+  date: '2009-06-29 15:31:58'
+  body: 'I was looking at AvoideObstruction for inteference checking hints, when it
+    dawned on me that Revit does an inteference check when I create a new family instance,
+    and then throws it''s own errors (like if I placed 2 columns in the same position).  Is
+    there a way to tap into this built in interference checking tool?
+
+
+    jvj'
+- author: Jamie Johnson
+  email: jamie@strandsystems.com
+  ip: 64.244.14.194
+  url: http://www.strandsystems.com
+  date: '2009-06-29 15:50:17'
+  body: 'While I was reviewing AvoidObstruction, I realized that Revit performs an
+    Interference Dection for me, then throws its own errors.  Example: create 2 of
+    the same columns in the same position.  Is there a way to tap into this interference
+    checking system, or the error system, to capture this list before the user, and
+    delete the duplcates via code?
+
+
+    jvj'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-30 05:08:06'
+  body: 'Dear Jamie,
+
+
+    Sorry, not that I am aware of. Sounds like an interesting future feature, though.
+
+
+    Cheers, Jeremy.'
+- author: Ritish
+  email: ritishrocky1@gmail.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2010-05-24 09:12:05'
+  body: 'Hi Jeremy,
+
+    Will u please suggest How do i get doors of wall? means which door belong to which
+    wall?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-05-24 11:54:46'
+  body: 'Dear Ritish,
+
+
+    I already have. There are a number of posts that deal explicitly with this question,
+    e.g.
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/03/object-relationships.html">http://thebuildingcoder.typepad.com/blog/2010/03/object-relationships.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Joo Lee
+  email: bybyby@empal.com
+  ip: 180.69.172.52
+  url: ''
+  date: '2010-08-03 04:03:14'
+  body: 'Dear Jeremy,
+
+
+    I tested your cmdWallFooting command in revit architecture 2011.
+
+    But it is not work.
+
+    transaction is not start.
+
+    how can i work with transaction?
+
+    sorry, my english is to bad.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 61.19.67.219
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-08-03 07:46:32'
+  body: "Dear Joo Lee,\n\nPlease don't worry about your English, it sounds just fine\
+    \ to me.\n\nThank you very much for pointing this out!\n\nThis command was flat\
+    \ migrated from Revit 2010 and never tested. \n\nI tested it now as well and discovered\
+    \ two problems with it: \n\n1. It did not have any active transaction open at\
+    \ all, since it was set to read-only transaction mode.\n\n2. The Revit 2010 transaction\
+    \ was replaced by a Revit 2011 sub-transaction, which requires a call to Start\
+    \ before it can be used.\n\nFix 1: The read-only transaction mode causes the following\
+    \ error whan trying to delete the wall: \"Attempt to modify the model outside\
+    \ of transaction.\"\n\nIt can be fixed by specifying the transaction attribute\
+    \ like this:\n\n  [Transaction( TransactionMode.Automatic )]\n\nFix 2: The sub-transaction\
+    \ can be started by calling its Start method. Then the code to temporarily delete\
+    \ the wall looks like this:\n\n        SubTransaction t = new SubTransaction(\
+    \ doc );\n        ICollection delIds = null;\n        try\n        {\n       \
+    \   t.Start();\n          delIds = doc.Delete( wall );\n          t.RollBack();\n\
+    \        }\n        catch ( Exception ex )\n        {\n          message = \"\
+    Deletion failed: \" + ex.Message;\n          t.RollBack();\n          return Result.Failed;\n\
+    \        }\n\nI posted the updated version of The Building Coder sample code:\n\
+    \nhttp://thebuildingcoder.typepad.com/blog/2010/08/transaction-migration-errors.html\n\
+    \nCheers, Jeremy."
+- author: Joo Lee
+  email: bybyby@empal.com
+  ip: 180.69.172.52
+  url: ''
+  date: '2010-08-04 01:31:31'
+  body: "Dear Jeremy,\n\nThanks for your reply.\n\nI create a form. it have a button.\n\
+    I want use transaction in form.\nbut InvalidOperationException is occured.\n\n\
+    private void button1_Click(object sender, EventArgs e)\n{\n    UIApplication app\
+    \ = m_commandData.Application;\n    UIDocument uidoc = app.ActiveUIDocument;\n\
+    \    Document doc = uidoc.Document;\n\n    ContFooting footing = null;\n\n   \
+    \ Wall wall = Util.SelectSingleElementOfType(\n      uidoc, typeof(Wall), \"a\
+    \ wall\") as Wall;\n\n    if (null != wall)\n    {\n        SubTransaction t =\
+    \ new SubTransaction(doc);\n        ICollection delIds = null;\n        try\n\
+    \        {\n            t.Start();\n            delIds = doc.Delete(wall);\n \
+    \           t.RollBack();\n        }\n        catch (System.Exception)\n     \
+    \   {\n            //message = \"Deletion failed.\";\n            t.RollBack();\n\
+    \            return;// Result.Failed;\n        }\n\n        foreach (ElementId\
+    \ id in delIds)\n        {\n            Element elem = doc.get_Element(id);\n\
+    \            if (null != elem)\n            {\n                footing = elem\
+    \ as ContFooting;\n                if (null != footing)\n                    break;\n\
+    \            }\n        }\n    }\n    string s = Util.ElementDescription(wall);\n\
+    \n    Util.InfoMsg((null == footing)\n      ? string.Format(\"No footing found\
+    \ for {0}.\", s)\n      : string.Format(\"{0} has {1}.\", s,\n        Util.ElementDescription(footing)));\n\
+    }"
+- author: Jeremy Tammik
+  email: ''
+  ip: 61.19.67.252
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-08-04 01:47:32'
+  body: 'Dear Joo Lee,
+
+
+    Maybe your form is modeless, in which case you have no access to the Revit API
+    at all:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/07/modeless-loose-connectors.html">http://thebuildingcoder.typepad.com/blog/2010/07/modeless-loose-connectors.html</a>
+
+
+    Cheers, Jeremy.
+
+    -----'

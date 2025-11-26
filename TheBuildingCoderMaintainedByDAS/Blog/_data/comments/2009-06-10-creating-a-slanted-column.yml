@@ -1,0 +1,268 @@
+comments:
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.31.195
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-06-10 06:36:25'
+  body: 'Hi Jeremy,
+
+
+    Nothing to see here but, I''ve got a question.
+
+    I didn''t find it, maybe you can confirm it but, I can''t see the "Underlay" properties
+    in a View object.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-10 13:09:44'
+  body: 'Dear Pierre,
+
+
+    Do you mean the values specified in Manage > Settings > Halftone / Underlay command,
+    which displays the Halftone/Underlay dialogue?
+
+
+    I''ll check for you and let you know what I find out.
+
+
+    Cheers, Jeremy.'
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.89.137
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-06-11 02:32:47'
+  body: 'Hi Jeremy,
+
+
+    No, I mean, when you select a FloorPlan, Click on Properties, Underlay and choose
+    a FloorPlan level to Underlay it under my current view.
+
+
+    Cheers!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-11 11:35:43'
+  body: "Dear Pierre,\n\nWell I'm glad I checked with you first then, and thank you\
+    \ for the clarification. \n\nI selected Level 1 in the Floor Plans node in the\
+    \ project browser, right clicked on it, and then selected Properties > Underlay.\
+    \ In the drop-down list I specified Level 2, i.e. Level 1 will now display Level\
+    \ 2 as an underlay.\n\nTo determine how to access this information through the\
+    \ API I used RvtMgdDbg > Snoop Db... > ViewPlan > Level 1 > Parameters > Underlay,\
+    \ et voila, the value of this parameter is Level 2, just like I set it through\
+    \ the user interface.\n\nWhen I set the underlay back to none, the parameter value\
+    \ changes to null.\n\nCheers, Jeremy."
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.89.137
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-06-11 12:09:15'
+  body: 'Jeremy,
+
+
+    Very good...I''m going to have a look on it...Never look on the RvtMgdDbg. Keep
+    in touch.
+
+
+    ManyThx.
+
+    Cheers!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-11 12:20:36'
+  body: "Dear Pierre, \n\nBig mistake, not looking at and using RvtMgdDbg. I can hardly\
+    \ believe it! Have you not read the posts and the enthusiastic response on it\
+    \ in some of the comments? It really is the most useful and powerful tool any\
+    \ Revit programmer can wish for. One discussion on it is in\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/02/rvtmgddbg.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/02/rvtmgddbg.html</a>\n\nCheers,\
+    \ Jeremy."
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.89.137
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-06-12 03:25:05'
+  body: 'Jeremy,
+
+
+    This tool is great!
+
+    Thx for all!
+
+    Your post is formidable!
+
+
+    Cheers!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-12 13:53:13'
+  body: :-)
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.64.11
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-06-17 11:40:52'
+  body: 'Jeremy,
+
+
+    No way to change this VIEW_UNDERLAY_ID parameter value by API!....
+
+    Do you have an Idea?
+
+
+    Cheers!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-18 02:05:20'
+  body: 'Dear Pierre,
+
+
+    I proceeded as follows to verify that the VIEW_UNDERLAY_ID is writeable, not read-only:
+
+
+    - Set Level 2 as an underlay for Level 1, so that it has a value.
+
+    - Look at the parameters of Level 1 in RvtMgdDbg as described above.
+
+    - Make a note of the Level 1 element id, which is 13073 in my case.
+
+    - Select by id using Modify > Element ID >Select by ID and entering 13073.
+
+    - Look at the Level 1 parameters in the ADN Revit Introduction Labs built-in parameters
+    checker.
+
+
+    It reports that the parameter is read-write:
+
+
+    VIEW_UNDERLAY_ID  Underlay  ElementId  read-write  Levels ''Level 2''  15913
+
+
+    You just have to set it to the element id of the level you want to use as an underlay.
+
+
+    Cheers, Jeremy.'
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.64.11
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-06-18 05:53:45'
+  body: 'Jeremy,
+
+
+    I''m testing. I was looking on the FloorPlan objects, not on Level objects...
+
+
+    Keep in touch.
+
+    Thx a lot.
+
+
+    Cheers!'
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.64.11
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-06-18 06:12:39'
+  body: 'It works!
+
+    Fabulous!
+
+
+    Cheers!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-18 06:16:52'
+  body: 'Dear Pierre,
+
+
+    I am very glad to hear that! Congratulations!
+
+
+    Cheers, Jeremy.'
+- author: Jamie Johnson
+  email: jamie@strandsystems.com
+  ip: 64.244.14.194
+  url: http://www.strandsystems.com
+  date: '2009-11-11 15:19:46'
+  body: 5 months later, and your blog is still awesome.  As Revit becomes more popular
+    the complication of programmers becomes greater.  Now I find myself automating
+    the insertion of complex families that were created for a very specific task.
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.105.160
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-12 08:36:24'
+  body: 'Dear Jamie,
+
+
+    Thank you very much, I am very glad you like it and find it useful, and it is
+    great to hear that you are getting real heavy duty use out of the API.
+
+
+    Cheers, Jeremy.'
+- author: sangsen
+  email: sangsen123@gmail.com
+  ip: 124.124.54.130
+  url: ''
+  date: '2011-02-16 02:11:34'
+  body: 'Hi..
+
+
+    I need to create straight column with two points (Start,end/node points) through
+    API (C#).'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-02-16 02:28:39'
+  body: "Dear Sangsen,\n\nHow nice for you. Well, I see no problem with that. Most\
+    \ columns are straight, anyway. Do you mean vertical? Have you looked at \n\n\
+    <a href=\"http://thebuildingcoder.typepad.com/blog/2009/02/inserting-a-column.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/02/inserting-a-column.html</a>\n\
+    \nCheers, Jeremy."
+- author: sangsen
+  email: sangsen123@gmail.com
+  ip: 124.124.54.130
+  url: ''
+  date: '2011-02-16 03:11:38'
+  body: Thanks for your reply jeremy..ya I meant vertical column.I have only start
+    node point and end node point.Vertical column should draw within that point limits..
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-02-16 03:18:15'
+  body: 'Dear Sangsen,
+
+
+    As always with family instances, it depends on the family definition, so there
+    is no clear-cut answer.
+
+
+    As far as I know, most vertical columns are designed using the column template.
+    Have a look at that. It shows you that the top and bottom nodes are defined by
+    the levels which the column attaches to. So if you want to use standard vertical
+    columns, I think you need to set up the levels appropriately to define the start
+    and end Z coordinates, and just have the XY coordinates defined by the insertion
+    point.
+
+
+    Cheers, Jeremy.'
+- author: sangsen
+  email: sangsen123@gmail.com
+  ip: 124.124.54.130
+  url: ''
+  date: '2011-02-18 00:11:05'
+  body: 'Thanks Jeremy
+
+    -----'

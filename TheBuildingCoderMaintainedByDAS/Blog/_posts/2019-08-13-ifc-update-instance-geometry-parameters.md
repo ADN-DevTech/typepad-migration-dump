@@ -1,0 +1,138 @@
+---
+layout: "post"
+title: "IFC Update, Instance Geometry, Parameters"
+date: "2019-08-13 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Family"
+  - "IFC"
+  - "Labs"
+  - "News"
+  - "Parameters"
+  - "Update"
+original_url: "https://thebuildingcoder.typepad.com/blog/2019/08/ifc-update-instance-geometry-parameters.html "
+typepad_basename: "ifc-update-instance-geometry-parameters"
+typepad_status: "Publish"
+---
+
+<p>I completed the move to my new computer, and happily all systems go now.</p>
+
+<p>Here are some other topics that came up in the past few days:</p>
+
+<ul>
+<li><a href="#2">Revit-IFC Release 20.1.0</a></li>
+<li><a href="#3">Community discussion on Revit</a></li>
+<li><a href="#4">Solid or instance, depending</a></li>
+<li><a href="#5">Exporting parameters to Access</a></li>
+<li><a href="#6">Store globals on custom <code>DataStorage</code>, not <code>ProjectInfo</code></a>
+<!-- - <a href="#7">Iranian civil engineering project video</a> --> </li>
+</ul>
+
+<p><center>
+<br/>
+<a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4760aaf200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4760aaf200c image-full img-responsive" alt="Mahab Ghodss civil engineering app" title="Mahab Ghodss civil engineering app" src="/assets/image_e313e0.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a></p>
+
+<p style="font-size: 80%; font-style:italic">Mahab Ghodss civil engineering project (<a href="https://thebuildingcoder.typepad.com/files/mahabghodss_video.mp4">video</a>)</p>
+
+<p>
+</center></p>
+
+<h4><a name="2"></a> Revit-IFC Release 20.1.0</h4>
+
+<p><a href="https://github.com/Autodesk/revit-ifc/releases/tag/IFC_v20.1.0">Release 20.1.0 for Revit 2020</a> has been released.</p>
+
+<p>It includes 20.0.0.0 plus the out-of-the-box Revit 2020 IFC functionalities, bug fixes and various regression fixes.</p>
+
+<p>Says Angel <a href="https://twitter.com/avelezsosa">@avelezsosa</a> Velez:</p>
+
+<p><center></p>
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Finally! <a href="https://twitter.com/hashtag/Revit?src=hash&amp;ref_src=twsrc%5Etfw">#Revit</a> <a href="https://twitter.com/hashtag/IFC?src=hash&amp;ref_src=twsrc%5Etfw">#IFC</a> <a href="https://twitter.com/hashtag/OpenSource?src=hash&amp;ref_src=twsrc%5Etfw">#OpenSource</a> <a href="https://twitter.com/hashtag/GitHub?src=hash&amp;ref_src=twsrc%5Etfw">#GitHub</a> v20.1 is out! <a href="https://t.co/TmCc62uDjA">https://t.co/TmCc62uDjA</a>. Up next: App Store version, v19.3.</p>&mdash; Angel Velez (@avelezsosa) <a href="https://twitter.com/avelezsosa/status/1159476876538187777?ref_src=twsrc%5Etfw">August 8, 2019</a></blockquote>
+
+<p><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</center></p>
+
+<h4><a name="3"></a> Community Discussion on Revit</h4>
+
+<p>In the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a>,
+Daniel Alvarado invites all Revit API users to
+a <a href="https://forums.autodesk.com/t5/revit-api-forum/community-discussion-revit/m-p/8962297">community discussion on Revit</a>, saying:</p>
+
+<blockquote>
+  <p>I found an interesting article on the Revit Blog.
+  I am sharing this article by Amie Vaccaro to discuss</p>
+  
+  <ul>
+  <li><a href="https://blogs.autodesk.com/revit/2019/08/12/how-ongoing-innovations-have-made-revit-more-automated-than-ever">How ongoing innovations have made Revit more automated than ever</a></li>
+  </ul>
+  
+  <p>To participate in the discussion, write your comments, thoughts, and questions and feel free to agree or disagree with the ideas presented in the article. I would like to hear all kinds of feedback &nbsp; :-)</p>
+  
+  <p>Discussion questions:</p>
+  
+  <ul>
+  <li>What features of Revit do you wish were automated?  </li>
+  <li>Now that you know what features are automated, which one is most useful for you?  </li>
+  </ul>
+  
+  <p>We invite anyone to participate in these discussions and look forward to animated conversations! </p>
+</blockquote>
+
+<h4><a name="4"></a> Solid or Instance, Depending</h4>
+
+<p>Also in the discussion forum, in the thread asking why
+the <a href="https://forums.autodesk.com/t5/revit-api-forum/solid-element-is-missing/m-p/8950786">solid element is missing</a>,
+Bobby C Jones points out two important basic knowledgebase articles clarifying how to retrieve geometry from family instances:</p>
+
+<p>First, the article
+on <a href="https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2016/ENU/Revit-API/files/GUID-B4F83374-0DF6-4737-91EB-900E676E862B-htm.html">GeometryInstances</a> explains:</p>
+
+<blockquote>
+  <p>Note that not all Family instances will include GeometryInstances.
+    When Revit needs to make a unique copy of the family geometry for a given instance (because of the effect of local joins, intersections, and other factors related to the instance placement), no GeometryInstance will be encountered; instead, the Solid geometry will be found at the top level of the hierarchy.</p>
+</blockquote>
+
+<p>It also points to the helpful <a href="https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2016/ENU/Revit-API/files/GUID-F092BCCC-77E9-4DA9-9264-10F0DB354BF5-htm.html">Example: Retrieve Geometry Data from a Beam</a>, which reiterates:</p>
+
+<blockquote>
+  <p>The <code>GeometryElement</code> may contain the desired geometry as a <code>Solid</code> or <code>GeometryInstance</code>, depending on whether a beam is joined or standalone, and this code covers both cases...</p>
+</blockquote>
+
+<p>If this is unclear to you, please refer to the detailed knowledgebase explanations.</p>
+
+<h4><a name="5"></a> Exporting Parameters to Access</h4>
+
+<p>Another short note from the discussion forum
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/how-to-export-selected-parameters-to-ms-access-using-my-own/m-p/8960356">how to export selected parameters to MS access using my own ribbon</a>:</p>
+
+<p><strong>Question:</strong> If I want to create my own ribbon within add-ins menu of Revit 2019. And when I click the ribbon, it will show the window that asks me which parameters I want to export to MS access file. (I want to be able to select the required parameters of each element.) Can you suggest any API sample code? Thank you.</p>
+
+<p><strong>Answer:</strong> Look at the <a href="https://github.com/jeremytammik/AdnRevitApiLabsXtra">ADN Xtra labs</a>, 
+in the <code>XtraCs</code> project, module Lab4.cs, especially the external
+commands <a href="https://github.com/jeremytammik/AdnRevitApiLabsXtra/blob/master/XtraCs/Labs4.cs#L45-L266">Lab4_1_ElementParameters</a>
+and <a href="https://github.com/jeremytammik/AdnRevitApiLabsXtra/blob/master/XtraCs/Labs4.cs#L268-L509">Lab4_2_ExportParametersToExcel</a>.</p>
+
+<h4><a name="6"></a> Store Globals on Custom DataStorage, not ProjectInfo</h4>
+
+<p>Talking about parameters, I implemented an add-in to round-trip Revit element parameters to Forge and back, enabling
+the <a href="https://thebuildingcoder.typepad.com/blog/2017/09/use-forge-or-spreadsheet-to-create-shared-parameters.html">use of Forge or an external spreadsheet to create shared parameters</a>.</p>
+
+<p>A recent <a href="https://thebuildingcoder.typepad.com/blog/2017/09/use-forge-or-spreadsheet-to-create-shared-parameters.html#comment-4568543582">comment</a> on that once again brought up the topic of storing global information in the model.</p>
+
+<p>If you wish to do so, do not store it on the <code>ProjectInfo</code> singleton element; rather, you can and should create your own <code>DataStorage</code> element for this purpose, as explained in the note
+on <a href="https://thebuildingcoder.typepad.com/blog/2016/11/1500-posts-devday-and-storing-a-dictionary.html#5">storing a dictionary &ndash; use <code>DataStorage</code>, not <code>ProjectInfo</code></a>.</p>
+
+<!--
+
+####<a name="7"></a> Iranian Civil Engineering Project Video
+
+To close, Ahmad Rouzbehani, Civil Engineer and Software Developer at [Mahab Ghodss](http://mahabghodss.net/ExternalSites/new/en/DefaultEN.aspx),
+shared an impressive [video](https://dms.licdn.com/playback/C4D05AQGxc2GCtF1W5A/5b63cbd0e027484da68e17ef5504d8ad/feedshare-mp4_3300-captions-thumbnails/1507940147251-drlcss?e=1565766000&v=beta&t=wrjeczTUvfw8Y-oamIE17J3GX_A9DU9iCAgsyHH9-GQ) (<a href="https://thebuildingcoder.typepad.com/files/mahabghodss_video.mp4">local link</a>) on LinkedIn:
+
+> This video shows how I automate Revit to produce 3D models by reusing pre-built families in a Revit project after reshaping them by user parameter values &ndash; an intake in this case.
+
+> By programming on the server side to automate Autodesk Revit and Autodesk Civil 3D, as well as a lot of JavaScript coding on the client side, engineers are able to design the irrigation network and belonging structures, get true 3D images of structural models, print shop drawings, as well as have quantities measured for structures or excavation volumes simply through a web browser or a mobile device which is connected to the local network.
+
+Thanks to Ahmad for sharing this, and congratulations on implementing this impressive workflow!
+
+-->

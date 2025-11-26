@@ -1,0 +1,175 @@
+comments:
+- author: guming
+  email: guming_yu@yahoo.cn
+  ip: 115.236.88.90
+  url: ''
+  date: '2011-09-14 22:59:30'
+  body: 'Hi Jeremy:
+
+    I have a question need you help.How can I use Revit API to set workplane?For example,I
+    create a sketch plane and I want to set this sketch plane to workplane.Can you
+    give me some help?
+
+    Thanks very much!
+
+    Guming.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.150.1
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-09-15 01:52:02'
+  body: 'Dear Guming,
+
+
+    Use the View.SketchPlane property introduced in the Revit 2011 API.
+
+
+    For an example, please refer to the PlaceAtPickedFaceWorkplane command presented
+    by the Selections SDK sample.
+
+
+    Cheers, Jeremy.'
+- author: guming
+  email: guming_yu@yahoo.cn
+  ip: 115.236.88.90
+  url: ''
+  date: '2011-09-15 20:44:35'
+  body: "Dear Jeremy:\n     Thanks for reply,I will try it.\nThank you very much!\n\
+    Guming."
+- author: Peter
+  email: watcherkb@web.de
+  ip: 195.71.68.208
+  url: ''
+  date: '2011-12-20 07:59:46'
+  body: 'Dear Jeremy,
+
+
+    can you please show a sample how I can transfer complete walls with structures
+    and layers between 2 projects with API?
+
+    Thank you very much!
+
+    Peter'
+- author: Jeremy Tammik
+  email: ''
+  ip: 78.146.74.228
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-12-21 08:01:09'
+  body: 'Dear Peter,
+
+
+    Sorry, I do not have anything at hand right now, nor any time to explore.
+
+
+    If you do, please share it with us and I will create a new post on this.
+
+
+    The above should provide a usable starting point, and the good news is that the
+    Revit 2012 API does provide all the tools you need to create the required compound
+    layer structure.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Dhananjay
+  email: dmdixit@gmail.com
+  ip: 198.173.7.31
+  url: ''
+  date: '2014-09-25 14:22:36'
+  body: 'Hi Jeremy,
+
+    With Revit 2014 and 2015, is there an API which will help in doing Transfer Project
+    Standards?
+
+    Thanks
+
+    regards,
+
+    Dhananjay'
+- author: Parley
+  email: parley.burnett@inviewlabs.com
+  ip: 174.45.100.33
+  url: ''
+  date: '2015-05-01 18:10:49'
+  body: We could still really use this.. This post originally was from 2011.  Any
+    update on API access for this tool?
+- author: Jeremy Tammik
+  email: ''
+  ip: 88.76.70.212
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-05 05:57:04'
+  body: 'Dear Parley,
+
+
+    Glad to hear it sounds useful to you.
+
+
+    Well, nothing that I present here is really a tool, just sample source code for
+    you to create your own tools from.
+
+
+    This should be pretty straightforward to migrate to Revit 2016, though.
+
+
+    On second thoughts, looking more closely at the text, I notice that I included
+    the code above in The Building Coder samples as an external command CmdCopyWallType.
+
+
+    Therefore, it has been continually migrated every year, and the Revit 2015 version
+    is provided in The Building Coder samples GitHub repository:
+
+
+    <a href="https://github.com/jeremytammik/the_building_coder_samples">https://github.com/jeremytammik/the_building_coder_samples</a>
+
+
+    The code shown above is thus available there, already migrated to Revit 2015,
+    and all the intervening versions as well:
+
+
+    <a href="https://github.com/jeremytammik/the_building_coder_samples/blob/master/BuildingCoder/BuildingCoder/CmdCopyWallType.cs">https://github.com/jeremytammik/the_building_coder_samples/blob/master/BuildingCoder/BuildingCoder/CmdCopyWallType.cs</a>
+
+
+    As an added bonus, though, I went and tested the command for you.
+
+
+    I discovered that the transaction was not nicely encapsulated in a using statement,
+    as it should be, so I fixed that.
+
+
+    I also discovered that a bug was introduced during the migration from Revit 2013
+    to 2014. Apparently, this command was never tested in Revit 2014 and the error
+    has been undetected since. So I fixed that as well.
+
+
+    The updated version is release 2015.0.120.10:
+
+
+    <a href="https://github.com/jeremytammik/the_building_coder_samples/releases/tag/2015.0.120.10">https://github.com/jeremytammik/the_building_coder_samples/releases/tag/2015.0.120.10</a>
+
+
+    So there you are.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 88.76.70.212
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-05 06:29:54'
+  body: 'Dear Parley,
+
+
+    Since I like your question and my answer so much, I promoted the whole thread
+    to a new dedicated blog post:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2015/05/transferring-a-wall-type.html">http://thebuildingcoder.typepad.com/blog/2015/05/transferring-a-wall-type.html</a>
+
+
+    Cheers, Jeremy.
+
+
+
+    -----'

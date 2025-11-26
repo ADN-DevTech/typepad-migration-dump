@@ -1,0 +1,124 @@
+---
+layout: "post"
+title: "Stacked Ribbon Button Panel Options"
+date: "2016-09-06 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Ribbon"
+  - "Settings"
+  - "User Interface"
+original_url: "https://thebuildingcoder.typepad.com/blog/2016/09/stacked-ribbon-button-panel-options.html "
+typepad_basename: "stacked-ribbon-button-panel-options"
+typepad_status: "Publish"
+---
+
+<p>Topic: a C# .NET Revit add-in demonstrating use of a split ribbon button to access a secondary command, e.g., option settings.</p>
+
+<p>In the <a href="http://forums.autodesk.com/t5/revit-api/bd-p/160">Revit API discussion forum</a> thread
+on using <a href="http://forums.autodesk.com/t5/revit-api/a-stackbutton-can-be-a-pushbutton-with-options/td-p/6530274">a StackButton as a PushButton with options</a>,
+<a href="http://wmtao.com">Allan 'aksaks' Seidel</a> recently proposed a neat UI trick, saying:</p>
+
+<p>Perhaps this idea might be usable for others.</p>
+
+<p>The <code>StackButton</code> ribbon control is a stack of different <code>PushButton</code> instances where the last used <code>PushButton</code> remains visible to be used again. That visible button is reflected in the stack button's <code>CurrentButton</code> property. Imagine if the <code>StackButton</code> control always shows the first button in the stack, and the other button(s) are secondary to the first button's purpose.</p>
+
+<p>Using the call-back concept described in The Building Coder suggestion 
+to <a href="http://thebuildingcoder.typepad.com/blog/2012/11/roll-your-own-toggle-button.html">roll your own toggle button</a>, you can have the second <code>Pushbutton</code> in a two-button <code>StackButton</code> reset the current button property back to that of the first button. Therefore, this <code>StackButton</code> item always shows and activates the first button's action on its button face, but also has a secondary option to invoke a settings manager activated by the second button.</p>
+
+<p>Set the first button in the button stack to your add-in command of choice. Set the second button in the button stack to show a Windows Forms or WPF window to be the first button's settings manager. Have the settings communicated through the add-in's Properties.Settings. The first button's command reads the current settings prior to acting. The second button's actions reads, sets and saves the settings the first button uses. It ends with a call-back function that resets the StackButton's current button to the first button in the stack. These settings would also persist between Revit sessions.</p>
+
+<p>For example, this is what a second button might invoke:</p>
+
+<pre class="code">
+[<span style="color:#2b91af;">Transaction</span>(&nbsp;<span style="color:#2b91af;">TransactionMode</span>.Manual&nbsp;)]
+<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">SectionFarClipResetOptions</span>&nbsp;:&nbsp;<span style="color:#2b91af;">IExternalCommand</span>
+{
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">Result</span>&nbsp;Execute(
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ExternalCommandData</span>&nbsp;commandData,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">ref</span>&nbsp;<span style="color:blue;">string</span>&nbsp;message,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ElementSet</span>&nbsp;elements&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UIApplication</span>&nbsp;uiapp&nbsp;=&nbsp;commandData.Application;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UIDocument</span>&nbsp;uidoc&nbsp;=&nbsp;uiapp.ActiveUIDocument;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;thisDoc&nbsp;=&nbsp;uidoc.Document;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">FarClipSettingWPF</span>&nbsp;settingWPF&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FarClipSettingWPF</span>(&nbsp;thisDoc&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;settingWPF.ShowDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">AppFarClip</span>.Instance.SetSplitButtonFarClipToTop();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#2b91af;">Result</span>.Succeeded;
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p>This is what the call-back function might be in a hardcoded style:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;SetSplitButtonFarClipToTop()&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">IList</span>&lt;<span style="color:#2b91af;">PushButton</span>&gt;&nbsp;sbList&nbsp;=&nbsp;sbFarClip.GetItems();
+&nbsp;&nbsp;&nbsp;&nbsp;sbFarClip.CurrentButton&nbsp;=&nbsp;sbList[0];
+&nbsp;&nbsp;}
+</pre>
+
+<p><code>sbFarClip</code> is a public <code>SplitButton</code> in this case.</p>
+
+<p>Many thanks to Allan for this neat suggestion and sample code.</p>
+
+<p>He provided the <a href="http://thebuildingcoder.typepad.com/files/as_splitbuttonoptionconcept.zip">SplitButtonOptionConcept</a>Visual Studio solution implementing a full sample Revit add-in demonstrating the concept.</p>
+
+<p>I created the new <a href="https://github.com/jeremytammik/SplitButtonOptionConcept">SplitButtonOptionConcept GitHub repository</a> for it to live in.</p>
+
+<p>His original solution is set up to compile with the Revit 2013 API assemblies and be automatically installed in the post-build event for Revit 2015 and Revit 2016.</p>
+
+<p>I stored that initial version as <a href="https://github.com/jeremytammik/SplitButtonOptionConcept/releases/tag/2016.0.0.0">release 2016.0.0.0</a>.</p>
+
+<p>Next, I migrated and tested it in Revit 2017, tagging that as <a href="https://github.com/jeremytammik/SplitButtonOptionConcept/releases/tag/2017.0.0.0">release 2017.0.0.0</a>.</p>
+
+<p>The add-in displays the following ribbon panel:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d21a05c0970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d21a05c0970c img-responsive" style="width: 107px; " alt="SplitButtonOptionConcept ribbon panel" title="SplitButtonOptionConcept ribbon panel" src="/assets/image_ba75c6.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>You can either click the main button, which is always displayed at the top as the current option, to trigger the main command, or drop down the rest of the stacked button contents to display the option button:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d21a05c4970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d21a05c4970c img-responsive" style="width: 108px; " alt="SplitButtonOptionConcept buttons" title="SplitButtonOptionConcept buttons" src="/assets/image_b9be08.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>The current version is <a href="https://github.com/jeremytammik/SplitButtonOptionConcept/releases/tag/2017.0.0.2">release 2017.0.0.2</a> including
+some further minor clean-up.</p>
+
+<p>As Allan says, perhaps this idea is usable for others as well.</p>
+
+<p>I plan to use it right away for my Revit add-in complementing Kean Walmsley's <a href="http://through-the-interface.typepad.com/through_the_interface/2016/08/my-entry-for-autodesks-first-global-hackathon-a-hololens-based-tool-for-navigating-low-visibility-environments.html">entry for Autodesk’s first Global Hackathon: a HoloLens-based tool for navigating low visibility environments</a>,
+part of his <a href="http://through-the-interface.typepad.com/through_the_interface/hololens">HoloLens project series</a>, including and not limited to:</p>
+
+<ul>
+<li><a href="http://through-the-interface.typepad.com/through_the_interface/2016/08/using-hololens-to-display-diagnostic-information-for-building-components.html">Using HoloLens to display diagnostic information for building components</a></li>
+<li><a href="http://through-the-interface.typepad.com/through_the_interface/2016/08/scaling-our-unity-model-in-hololens.html">Scaling our Unity model in HoloLens</a></li>
+<li><a href="http://through-the-interface.typepad.com/through_the_interface/2016/08/adding-spatial-sound-to-our-unity-model-in-hololens-part-3.html">Adding spatial sound to our Unity model in HoloLens</a></li>
+<li><a href="http://through-the-interface.typepad.com/through_the_interface/2016/07/displaying-your-unity-model-in-3d-using-hololens.html">Displaying your Unity model in 3D using HoloLens</a></li>
+</ul>
+
+<p>Many thanks again to Allan, have fun yourself, and please wish me and Kean lots of luck, fun and success in our hackathon efforts during the next two days.</p>
+
+<h4><a name="2"></a>Addendum &ndash; Simpler Solution</h4>
+
+<p>Please do not overlook the much simpler solution to this task provided directly by the Revit API and pointed out in
+the <a href="http://thebuildingcoder.typepad.com/blog/2016/09/stacked-ribbon-button-panel-options.html#comment-2880240616">comment</a> below by Ehsan Iran Nejad:</p>
+
+<blockquote>
+  <p>Or you can just set the <code>RibbonItem.IsSynchronizedWithCurrentItem</code> to <code>False</code> after creating the <code>SplitButton</code>. The first button will be fixed and all the other buttons can only be used from the dropdown menu.</p>
+</blockquote>
+
+<h4><a name="3"></a>Not so fast...</h4>
+
+<p>Allan responds to the simpler solution suggestion:</p>
+
+<blockquote>
+  <p>Not so fast. Perhaps that is missing the forest because of the trees. The example is just a two button split button where the second button is the settings button. Consider that split button having three or more buttons where the last button is the settings button and you want the split button to show the last button activated, but never the settings button. The other method no longer works, but the same concepts used in the roll your own method do work. One way, and there may be better ones, takes advantage of the splitbutton's current button value not yet having changed when the newly selected settings button is activated. That name can be saved and then used just before the command return to reset the split button back to what was showing when the used pulled the split button down to select the settings button.</p>
+</blockquote>

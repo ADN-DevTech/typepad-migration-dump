@@ -1,0 +1,95 @@
+comments:
+- author: Kon Samulis
+  email: ''
+  ip: 115.70.163.134
+  url: http://profile.typepad.com/samulis
+  date: '2013-11-08 00:19:23'
+  body: "Jeremy,\n\nThis is brilliant - just what I needed...\n\nFor whatever reason,\
+    \ I had to apply a .Inverse eg.\n\n rvtlink.GetTotalTransform.Inverse\n\nI was\
+    \ getting (for example) -4, -4, 0. I needed +4, +4, 0 as I am applying a transformation\
+    \ to an object, rather than just getting a point.\n\nMany thanks,\nKon."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-11-08 03:41:13'
+  body: 'Dear Kon,
+
+
+    Great, thank you, very glad you like it and it helps.
+
+
+    I may have got it wrong above, maybe I need an inverse as well.
+
+
+    After all, I do nothing but print the result for the subjective pleasure of the
+    viewing user, no objective test, so it may be the wrong way round  :-)
+
+
+    Cheers, Jeremy.'
+- author: Emanuel Ceballos
+  email: ema.ceballos@gmail.com
+  ip: 190.106.97.90
+  url: ''
+  date: '2014-01-29 16:54:04'
+  body: 'Hi Jeremy, this post has been really useful to me. I have a couple of questions
+    about it:
+
+    <ol><li>I also use version 2012 of the API, how could I achieve the same with
+    that version?
+
+    </li><li>In the sample above file B contains 4 walls and a linked file (A); what
+    if I had another linked file (let''s say file C) and wanted to transform the coordinate
+    system from file A to file C, is that possible?
+
+    </li>
+
+    </ol>
+
+
+    Thanks in advance!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.253.73.107
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-01-29 17:54:48'
+  body: 'Dear Emanuel,
+
+
+    In principle, it should work in 2012 as well.
+
+
+    Yes, sure, transforming from A to C is possible, with both being linked in to
+    B.
+
+
+    Determine the transformation from A''s coordinate system into B, say Ta, and C''s
+    transformation into B, say Tc.
+
+
+    Then you just need to calculate the inverse Tc'' of Tc, and the concatenation
+    Ta * Tc''.
+
+
+    Cheers, Jeremy.'
+- author: Emanuel Ceballos
+  email: ema.ceballos@gmail.com
+  ip: 190.106.97.90
+  url: ''
+  date: '2014-01-29 19:06:05'
+  body: 'The thing is that there is no
+
+    ''RevitLinkInstance'' object in the
+
+    2012 API, I do see it in the 2014
+
+    API though.
+
+    I will test the transformation that
+
+    way and see how it goes. Thanks again!
+
+
+    Kind regards, Emanuel.
+
+    -----'

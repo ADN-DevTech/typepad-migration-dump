@@ -1,0 +1,228 @@
+comments:
+- author: r4i
+  email: sandramathews01@gmail.com
+  ip: 122.169.38.30
+  url: http://www.r4-nintendo-ds.com.mx
+  date: '2009-11-27 01:24:13'
+  body: It improves the modification behaviour of hosted sweeps (i.e. gutters) attached
+    to joined roofs.
+- author: Jeremy Tammik
+  email: ''
+  ip: 64.134.224.60
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-27 23:23:00'
+  body: 'Dear r4i,
+
+
+    Thank you for pointing this out :-)
+
+
+    Cheers, Jeremy.'
+- author: Brad Harter
+  email: the_cad_monkey@yahoo.com
+  ip: 75.13.227.53
+  url: ''
+  date: '2009-12-03 09:40:23'
+  body: 'Jeremy,
+
+    Is there any way we can use this new functionality to rename shared parameters?
+
+    The_Cad_Monkey'
+- author: Jeremy Tammik
+  email: ''
+  ip: 24.120.216.222
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-04 00:35:16'
+  body: 'Dear Brad,
+
+
+    I don''t really believe any of the new functionality affects the handling of shared
+    parameters. If you really need to, I am sure there are ways to achieve this with
+    existing functionality, however. There may be more effective methods, but if the
+    worst come to the worst, you could export all the values of an existing shared
+    parameter into a temporary storage mapping each element id to its shared parameter
+    value, delete the shared parameter in the project file, create a new shared parameter
+    with the updated name, and repopulate the values again. I can well imagine that
+    there are also other much simpler and more efficient methods of achieving this.
+
+
+    Cheers, Jeremy.'
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.19.104
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-12-18 04:33:34'
+  body: 'Hi Jeremy.
+
+    I downloaded the SDK update pack and installed the Add-In Manager for my Revit
+    64 bits.
+
+    My problem : External tools are grayed...is it normal?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 80.14.37.68
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-19 02:51:50'
+  body: 'Dear Pierre,
+
+
+    All I know about greyed out commands is summarised in
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/06/rfa-version-grey-commands-family-context-and-rdb-link.html#2">http://thebuildingcoder.typepad.com/blog/2009/06/rfa-version-grey-commands-family-context-and-rdb-link.html#2</a>
+
+
+    There are also some comments on that issue that may be helpful.
+
+
+    Cheers, Jeremy.'
+- author: Mike Taylor
+  email: mtaylor@hewv.com
+  ip: 64.206.238.94
+  url: http://www.hewv.com
+  date: '2009-12-21 10:29:42'
+  body: 'Jeremy,
+
+    Thanks for the link and info.
+
+    Quick Q.
+
+    There is an Update 2, Subscription Release Pack and several Hot Fixes... Is there
+    anywhere on the web that explains the correct install order for these (and whether
+    there is overlap)?
+
+    This is quite confusing and not well documented that I can find.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.156.210
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-24 01:46:20'
+  body: "Dear Mike,\n\nThank you, it is my pleasure.\n\nI know nothing at all about\
+    \ installation issues, so I asked my colleagues. The best answer I got was this:\n\
+    \nI’m not an expert on this, but I know this:\n\n1. Q3 SAP = UR2 + features. \n\
+    \n2. If you have both, don’t bother with UR2, only install the Q3 SAP.\n\nI believe\
+    \ thereafter the hotfixes should be installed. I doubt there’s a necessary order\
+    \ of those.\n\nSAP stands for the subscription pack, and UR2 is the update release.\n\
+    \nI hope this helps.\n\nCheers, Jeremy."
+- author: Tam Tran-Minh
+  email: tmtam1983@gmail.com
+  ip: 118.69.224.123
+  url: ''
+  date: '2009-12-28 06:37:00'
+  body: 'Hi Jeremy,
+
+    I am creating a custom Tag Family (i.e. for a room) and want to associate some
+    shared parameter of the Room elements to some of the labels of this custom tag
+    family so that it would show the parameter values when being placed inside a room.
+
+    Using the Family API of Revit SDK 2010, I''ve created the the Tag Family (based
+    on the family template: Generic Tag.rft) successfully. However, I am stuck when
+    trying to associate a shared parameter with a "Label" (just like we can do that
+    in the Revit Family Editor). I see a Label property in Dimension and LinearArray
+    class but these annotations are not what I need. I could not create a new Label
+    which is a System Family. Does the SDK support to do that or not? If the answer
+    is yes, would you please give me some hints?
+
+    I really appreciate your help.
+
+
+    Tam'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-08 04:14:03'
+  body: 'Dear Tam,
+
+
+    I think the answer is no.
+
+
+    There is no API to create a label for the annotation symbol, and also no API to
+    access the label property of the existing label.
+
+
+    Its parameter type is invalid, as you can see using RvtMgdDbg to snoop a TextElement
+    object and looking at its parameters. The InternalDefinition of its Label parameter
+    has an invalid parameter type.
+
+
+    Cheers, Jeremy.'
+- author: Tam Tran-Minh
+  email: tmtam1983@gmail.com
+  ip: 118.69.224.123
+  url: ''
+  date: '2010-01-12 00:02:11'
+  body: "Dear Jeremy,\nThank you for your answer. I've decided to use TextNote to\
+    \ show the shared parameter values (of an Area/Room elements). It looks good.\
+    \ However, because there is no association between the parameter and the TextNote,\
+    \ I have to delete the old TextNote and create a new one after I update the parameter.\
+    \ \n\nI have one more question. I know that Revit does not support Annotation\
+    \ represent a Hyperlink (a real one that you can click on and open the page on\
+    \ the browser) like AutoCAD. Do we have any workaround for this problem? I need\
+    \ the Hyperlinks to be placed on the DWF Area Plan. Can we use other SDK such\
+    \ as the DWF Viewer SDK (in .NET)/Javascript or some tricks to do that? I know\
+    \ that the DWF Toolkit is capable of doing this but learning its C++ API is not\
+    \ convenient for me. Did I ask too much? :)\n\nCheers,\nTam."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-12 12:17:52'
+  body: 'Dear Tam,
+
+
+    I am glad that you found a workable solution. That makes sense to me.
+
+
+    Regarding the hyperlink issue, one easy thing that you could implement would be
+    a two-click process. Implement an external command and an external application
+    which implements its own panel hosting the command button. Float that panel on
+    the graphics area. The user can click the button, launching the command, and then
+    click the text note which is actually a hyperlink. Within the command, you read
+    the URL contents of the text note and launch a browser for it.
+
+
+    That''s the best I can think of off-hand that really easily fits into the available
+    functionality.
+
+
+    Cheers, Jeremy.'
+- author: Tam Tran-Minh
+  email: tmtam1983@gmail.com
+  ip: 118.69.224.123
+  url: ''
+  date: '2010-01-12 23:53:20'
+  body: 'Dear Jeremy,
+
+    Thanks for your solution regarding the hyperlink issue; however, I can imagine
+    that your two-click process only works in Revit, which is not actually what I
+    need. Maybe I haven''t described this issue clearly. I would like to clarify it
+    again. I need the real hyperlinks in an published DWF file. When the DWF is opened
+    in the web browser or the DWF Viewer, the user can see the hyperlinks there and
+    click on a hyperlink to navigate to another web page. A possible way is to use
+    the DWF C++ Toolkit to modify the DWF file after being published by Revit. I wonder
+    if we have an easier/better way to achieve this goal without much effort. Do you
+    have any idea about it? I hope Revit will support this feature in its next release.
+
+
+    Cheers,
+
+    Tam'
+- author: Jeremy Tammik
+  email: ''
+  ip: 12.160.193.229
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-14 03:07:22'
+  body: "Dear Tam,\n\nI don't know anything about this area myself, but here are some\
+    \ hints I received from colleagues.\n\nJust as you say, you *may* be able to create\
+    \ the hyperlinks using the DWF toolkit which is in C++ and undocumented. It does\
+    \ include a number of samples though.\n\nThere is also the Design Review API,\
+    \ but it does not provide any capability to create any kind of DWF entities. It\
+    \ allows you to create different kinds of mark-ups but no hyperlinks.\n\nYou could\
+    \ use the Design Review API to find the ID of an element you’re mousing over or\
+    \ clicking on and serve up data related to that ID (be that hyperlinks, info from\
+    \ some data source, etc). It is possible but there is a problem with the mouse-over\
+    \ and mouse-click event APIs in design review. It is flaky and does not always\
+    \ allow us to identify the entity clicked. \n\nPersonally I would take a look\
+    \ at the DWF toolkit after all, but then I like C++.\n\nCheers, Jeremy.\n-----"

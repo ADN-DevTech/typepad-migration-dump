@@ -1,0 +1,173 @@
+---
+layout: "post"
+title: "Precast API and Cloud Open Callback"
+date: "2019-05-20 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "360"
+  - "2019"
+  - "BIM"
+  - "Cloud"
+  - "RST"
+original_url: "https://thebuildingcoder.typepad.com/blog/2019/05/precast-api-and-cloud-open-callback.html "
+typepad_basename: "precast-api-and-cloud-open-callback"
+typepad_status: "Publish"
+---
+
+<p>As usual, I am over-active in 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a>, so
+you can see most of what I have been up to right there.</p>
+
+<p>Here and now, I'll highlight one of those threads and clarify how to access the Revit 2019 Precast API:</p>
+
+<ul>
+<li><a href="#2">Structural Precast API</a> </li>
+<li><a href="#3"><code>IOpenFromCloudCallback</code> and the <code>DefaultOpenFromCloudCallback</code> class</a> </li>
+</ul>
+
+<h4><a name="2"></a> Structural Precast API</h4>
+
+<p><strong>Question:</strong> I saw a slide on Precast for Revit:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4acd322200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4acd322200b image-full img-responsive" alt="Precast API slide" title="Precast API slide" src="/assets/image_39a730.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>The slide indicates that Precast also exposes an API.</p>
+
+<p>It sounds as if it has its own specific API, instead of the general Revit API.</p>
+
+<p>Where can I find some information on this API, please?</p>
+
+<p><strong>Answer:</strong> Check out the blog posts discussing
+the <a href="https://blogs.autodesk.com/revit/tag/structural-precast-extension">Structural Precast Extension</a>, especially 
+the <a href="https://blogs.autodesk.com/revit/2018/05/09/new-structural-precast-extension-for-revit-2019">Autodesk Structural Precast Extension for Revit 2019</a>.</p>
+
+<p>It includes a section on the <em>API for precast automation</em>.</p>
+
+<p>Its software installation folder <em>%programfiles%/Autodesk/Structural Precast for Revit 2019</em> provides a subfolder named <code>SDK</code> containing:</p>
+
+<ul>
+<li>A help file that listing all the exposed classes, methods and properties;</li>
+<li>An archive containing code samples</li>
+</ul>
+
+<h4><a name="3"></a> IOpenFromCloudCallback and the DefaultOpenFromCloudCallback Class</h4>
+
+<p>Next, let's highlight a question raised in
+a <a href="https://thebuildingcoder.typepad.com/blog/2018/04/whats-new-in-the-revit-2019-api.html#comment-4464470775">comment</a>
+on <a href="https://thebuildingcoder.typepad.com/blog/2018/04/whats-new-in-the-revit-2019-api.html">What's New in the Revit 2019 API</a> and
+also in 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/how-to-implement-iopenfromcloudcallback-interface/m-p/8794693">how to implement <code>IOpenFromCloudCallback</code> interface</a>:</p>
+
+<p><strong>Question:</strong> I am using the Revit API 2019 to detach a model from BIM360 with the following code: </p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:#2b91af;">UIApplication</span>&nbsp;app&nbsp;=&nbsp;commandData.Application;
+
+&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;path&nbsp;=&nbsp;<span style="color:#a31515;">&quot;BIM&nbsp;360://myfile&quot;</span>;
+&nbsp;&nbsp;<span style="color:#2b91af;">ModelPath</span>&nbsp;modelPath&nbsp;=&nbsp;<span style="color:#2b91af;">ModelPathUtils</span>
+&nbsp;&nbsp;&nbsp;&nbsp;.ConvertUserVisiblePathToModelPath(&nbsp;path&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">OpenOptions</span>&nbsp;openOptions&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">OpenOptions</span>();
+&nbsp;&nbsp;openOptions.DetachFromCentralOption&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:#2b91af;">DetachFromCentralOption</span>.DetachAndDiscardWorksets;
+
+&nbsp;&nbsp;<span style="color:blue;">using</span>(&nbsp;<span style="color:#2b91af;">Transaction</span>&nbsp;t&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Transaction</span>(&nbsp;doc&nbsp;)&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;t.Start(&nbsp;<span style="color:#a31515;">&quot;Open&nbsp;Cloud&nbsp;model&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;app.OpenAndActivateDocument(&nbsp;modelPath,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;openOptions,&nbsp;<span style="color:blue;">true</span>,&nbsp;<span style="color:#2b91af;">IOpenFromCloudCallback</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;t.Commit();
+&nbsp;&nbsp;}
+</pre>
+
+<p>The problem is, I don't know how to implement <code>IOpenFromCloudCallback</code> correctly, so if anyone has experience with this, please help me. </p>
+
+<p>Thank you so much :)</p>
+
+<p>Later: I just figured out how to implement it like this:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">Result</span>&nbsp;Execute(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ExternalCommandData</span>&nbsp;commandData,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">ref</span>&nbsp;<span style="color:blue;">string</span>&nbsp;message,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ElementSet</span>&nbsp;elements&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UIDocument</span>&nbsp;uIDocument&nbsp;=&nbsp;commandData.Application.ActiveUIDocument;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UIApplication</span>&nbsp;app&nbsp;=&nbsp;commandData.Application;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;document&nbsp;=&nbsp;uIDocument.Document;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">View</span>&nbsp;currentview&nbsp;=&nbsp;document.ActiveView;
+
+&nbsp;&nbsp;&nbsp;&nbsp;Guid&nbsp;projectid&nbsp;=&nbsp;Guid.Parse(&nbsp;<span style="color:#a31515;">&quot;myProjectGUID&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;Guid&nbsp;modelid&nbsp;=&nbsp;Guid.Parse(&nbsp;<span style="color:#a31515;">&quot;myModelGUID&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ModelPath</span>&nbsp;modelPath&nbsp;=&nbsp;<span style="color:#2b91af;">ModelPathUtils</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.ConvertCloudGUIDsToCloudPath(&nbsp;projectid,&nbsp;modelid&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">OpenOptions</span>&nbsp;openOptions&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">OpenOptions</span>();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">IOpenFromCloudCallback</span>&nbsp;openFromCloudCallback&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">cloudinterdace</span>();
+
+&nbsp;&nbsp;&nbsp;&nbsp;app.OpenAndActivateDocument(&nbsp;modelPath,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;openOptions,&nbsp;<span style="color:blue;">true</span>,&nbsp;openFromCloudCallback&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#2b91af;">Result</span>.Succeeded;
+&nbsp;&nbsp;}
+
+<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">cloudinterdace</span>&nbsp;:&nbsp;<span style="color:#2b91af;">IOpenFromCloudCallback</span>
+{
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">OpenConflictResult</span>&nbsp;OnOpenConflict(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">OpenConflictScenario</span>&nbsp;scenario&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">throw</span>&nbsp;<span style="color:blue;">new</span>&nbsp;NotImplementedException();
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p><strong>Answer by Phil Xia:</strong> I am Phil from Revit engineering team.</p>
+
+<p>I saw your sample and the exception thrown in your implementation of <code>IOpenFromCloudCallback</code>.
+That is probably not a good choice.</p>
+
+<p>You can use the default implementation provided by the <code>DefaultOpenFromCloudCallback</code> class that will always use the latest version for an open conflict.</p>
+
+<p>Here is the introduction for this callback in the <em>Revit API 2019 What's New</em> sections
+on <a href="https://thebuildingcoder.typepad.com/blog/2018/04/whats-new-in-the-revit-2019-api.html#4.1.5">Existing APIs now support open from cloud paths (Collaboration for Revit)</a>
+and <a href="https://thebuildingcoder.typepad.com/blog/2018/04/whats-new-in-the-revit-2019-api.html#4.1.5.2">Callback for conflict cases when opening from a cloud path</a>:</p>
+
+<p><font color="darkblue"></p>
+
+<p>The callback method:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.IOpenFromCloudCallback.OnOpenConflict()</li>
+</ul>
+
+<p>can be passed to the document open methods to gain to handle conflict cases.
+The method is passed an <code>OpenConflictScenario</code> value identifying the reason for the conflict (Rollback, Relinquished or OutOfDate) and should return an <code>OpenConflictResult</code> with the desired response (keep local changes, discard local changes and open the latest version or cancel).</p>
+
+<p>The new class:</p>
+
+<ul>
+<li>DefaultOpenFromCloudCallback</li>
+</ul>
+
+<p>provides a default way to handle conflicts: it always discards the local change and gets the latest version from the cloud.</p>
+
+<p></font> </p>
+
+<p>The <a href="https://www.revitapidocs.com/2019/7db711fa-cfb1-39da-a184-5aaf4230b660.htm"><code>OpenConflictScenario</code> enumeration</a> lists the values you can use to implement your handling logic to return <code>KeepLocalChanges</code>, <code>DiscardLocalChangesAndOpenLatestVersion</code> or just cancel the opening.</p>
+
+<ul>
+<li>Rollback &ndash; Central model is restored to an earlier version.</li>
+<li>Relinquished &ndash; Ownership to model elements is relinquished.</li>
+<li>OutOfDate &ndash; Model is out of date.</li>
+</ul>
+
+<p>Many thanks to Phil for jumping in and clarifying!</p>

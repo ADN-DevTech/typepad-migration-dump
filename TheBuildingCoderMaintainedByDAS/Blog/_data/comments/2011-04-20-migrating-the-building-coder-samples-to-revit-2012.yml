@@ -1,0 +1,103 @@
+comments:
+- author: Isidoro
+  email: isidoro.aguilera@aplicad.com
+  ip: 62.43.212.35
+  url: ''
+  date: '2011-04-27 03:40:09'
+  body: "I'm migrating a plugin from 2011 and 2012 and experienced problems with leveltype\
+    \ parameters BuiltInParameter.LEVEL_ATTR_ROOM_COMPUTATION_AUTOMATIC and BuiltInParameter.LEVEL_ATTR_ROOM_COMPUTATION_HEIGHT,\
+    \ that in Revit 2011 were writable, but in Revit 2012 are READONLY!!!!\n\nHave\
+    \ you experencied a similiar issue when migrating your samples? I writed a support\
+    \ request to ADN too, i'm waiting for the answer...\n\nNext code worked in Revit\
+    \ 2011, and fails in 2012:\n\nFilteredElementCollector collector = new FilteredElementCollector(App.Document);\n\
+    \nIList elementos = collector.OfCategory(BuiltInCategory.OST_Levels).WhereElementIsElementType().ToElements();\n\
+    \nforeach(Element e in elementos)\n{\n  Parameter p = e.get_Parameter(BuiltInParameter.LEVEL_ATTR_ROOM_COMPUTATION_AUTOMATIC);\n\
+    \n  p.Set(0);\n\n  p = e.get_Parameter(BuiltInParameter.LEVEL_ATTR_ROOM_COMPUTATION_HEIGHT);\n\
+    \  \n  p.Set(0);\n}"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-05-17 12:20:06'
+  body: 'Dear Isidoro,
+
+
+    I created a new post to answer your question:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/05/new-room-computation-parameters.html">http://thebuildingcoder.typepad.com/blog/2011/05/new-room-computation-parameters.html</a>
+
+
+    Cheers, Jeremy.'
+- author: tzavelis@hotmail.com
+  email: tzavelis@hotmail.com
+  ip: 67.81.70.38
+  url: ''
+  date: '2011-06-09 22:28:54'
+  body: "Hello Jeremy,\nI have been trying for the last few days to figure out why\
+    \ my code for iterating through Type Floor or Wall does not work in Revit Structures\
+    \ 2012, while worked in Revit 2011. Iterating with Type FamilyInstance works!\n\
+    \nI am getting the following error:\n\n\nAn exception of type 'System.MissingMethodException'\
+    \ occurred in ctRevitDll.dll but was not handled in user code\n\nAdditional information:\
+    \ Method not found: \n'Autodesk.Revit.DB.CompoundStructure Autodesk.Revit.DB.HostObjAttributes.get_CompoundStructure()'.\n\
+    \n\nAm I missing a reference or namespace?\n\n\n\n\nI get the error in the following\
+    \ loop even though the compiler shows that Flr is loaded with Revit Floor data!\n\
+    \  For Each Flr As Autodesk.Revit.DB.Floor In Flrs\n            Dim CreateObj\
+    \ As oRvtFloor = New oRvtFloor(Flr)\n        Next"
+- author: tzavelis@hotmail.com
+  email: tzavelis@hotmail.com
+  ip: 67.81.70.38
+  url: ''
+  date: '2011-06-10 02:00:11'
+  body: 'I just found the answer to the Floor and Wall error.
+
+    I was referencing Revit 2011 and not 2012
+
+
+    Cosmas'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.163.184
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-14 04:33:41'
+  body: 'Dear Cosmas,
+
+
+    Hehe :-)
+
+
+    Cheers, Jeremy.'
+- author: nsybs86
+  email: nsybs.86@gmail.com
+  ip: 175.143.108.241
+  url: ''
+  date: '2013-01-02 04:31:39'
+  body: "Hello Jeremy\n\nI have developed an add-in application using RevitAPI(ver\
+    \ 2011). unfortunately, some of the method is obsolete and can't be used anymore\
+    \ in the later version. It is quite hard for me to maintain two version of code,\
+    \ any solution for this? \np.s A suggestion I get is to use System.Reflection,\
+    \ but i just wonder is there any other way to handle two different API in single\
+    \ code?"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-02 16:51:37'
+  body: 'Dear nsybs86,
+
+
+    Please think for one moment...
+
+
+    If I knew an easier way, would I be describing my steps above?
+
+
+    All I can suggest, really, is to use conditional compilation:
+
+
+    <a href="http://en.wikipedia.org/wiki/Conditional_compilation">http://en.wikipedia.org/wiki/Conditional_compilation</a>
+
+
+    Cheers, Jeremy.
+
+    -----'

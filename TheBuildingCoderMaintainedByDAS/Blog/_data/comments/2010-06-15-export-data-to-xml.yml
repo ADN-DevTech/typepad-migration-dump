@@ -1,0 +1,115 @@
+comments:
+- author: Paul Gibson
+  email: pgibson@bawarch.com
+  ip: 50.243.153.217
+  url: ''
+  date: '2014-09-10 11:15:57'
+  body: "Hi Jeremy,\n\nI am trying to set viewsheet parameters from a text file, and\
+    \ have a mysterious exception upon commit.  I have an error handler that does\
+    \ not capture an error, so am at a loss and have begun breaking things apart.\n\
+    \nI read the values from a text file, so my outer loop is a streamreader.ReadLine()\
+    \ call\n\nThen I loop through my viewSheets collector to find the right sheet.\
+    \  It strikes me that I may be better off using LINQ to find the particular sheet,\
+    \ but cannot find a suitable example.  I am assuming that Revit won't allow a\
+    \ sheet to have a Sheet Number that is not unique (untested assumption for now).\n\
+    \nSo here is what I'm doing, but the compiler doesn't like it.  Can you help?\n\
+    \nstring[] linearray;\nViewSheet vQuery;\nFilteredElementCollector Sheets = new\n\
+    \    FilteredElementCollector(doc).OfClass(typeof(ViewSheet));\n\nvar query =\
+    \ from element in Sheets\n    where \n    element.get_Parameter(KeyParameter.Text).AsString()\
+    \ == linearray[0]\n    select element; //linearray is a split (\\t) on the ReadLine\n\
+    if (query.Count.AsValue() > 0) //doesn't like this\n    vQuery = (ViewSheet) query.ElementAt(0);\
+    \ // I know this is wrong . . . how do I get the actual sheet?\n\n\nThanks for\
+    \ your help!"
+- author: Jeremy Tammik
+  email: ''
+  ip: 84.137.123.167
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-09-10 15:57:01'
+  body: 'Dear Paul,
+
+
+    First you talk about an exception. That is a runtime error.
+
+
+    Then you say the compiler is complaining. That is a compile time error, and not
+    an exception.
+
+
+    Anyway, I would suggest that you search for some examples of using the .NET generic
+    templated collection extension method FirstOrDefault in conjunction with a FilteredElementCollector.
+
+
+    <a href="http://lmgtfy.com/?q=FirstOrDefault+FilteredElementCollector">http://lmgtfy.com/?q=FirstOrDefault+FilteredElementCollector</a>
+
+
+    I use that myself on a regular basis, and I think that does exactly what you need.
+
+
+    LINQ will not be any better than anything else.
+
+
+    The only thing that makes a difference performance-wise is whether you use the
+    Revit filtered element collector functionality, which is very fast, or something
+    based on .NET that post processes the results of the former. That is significantly
+    slower.
+
+
+    Cheers, Jeremy.'
+- author: Frank Halliday
+  email: frankhalliday@gmail.com
+  ip: 115.64.197.13
+  url: ''
+  date: '2014-10-20 07:42:10'
+  body: 'Hi Jeremy,
+
+    I am looking to read xml data into a revit addin. Are there any Revit specific
+    tutorials I could possibly read up on?
+
+
+    Cheers,
+
+    Frank'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-10-20 07:50:27'
+  body: 'Dear Frank,
+
+
+    There are about umpteen zillion .NET XML libraries you can use, plus this functionality
+    is provided by the standard .NET framework:
+
+
+    <a href="http://lmgtfy.com/?q=.NET+XML+library">http://lmgtfy.com/?q=.NET+XML+library</a>
+
+
+    Cheers, Jeremy.'
+- author: Frank Halliday
+  email: frankhalliday@gmail.com
+  ip: 115.64.197.13
+  url: ''
+  date: '2014-10-22 08:09:10'
+  body: thanx jeremy, thats C# power I love it
+- author: Jeremy Tammik
+  email: ''
+  ip: 93.220.244.110
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-10-22 09:11:58'
+  body: :-)
+- author: frank halliday
+  email: frankhalliday@gmail.com
+  ip: 115.64.197.13
+  url: ''
+  date: '2014-11-08 03:08:11'
+  body: 'Hi Jeremy,
+
+    Why do we need to set the transaction property to read-only? How can I edit the
+    family doc to acquire it''s path then famdoc.close() it in readonly mode as this
+    causes an exception.
+
+    cheers
+
+    fabs
+
+    -----'

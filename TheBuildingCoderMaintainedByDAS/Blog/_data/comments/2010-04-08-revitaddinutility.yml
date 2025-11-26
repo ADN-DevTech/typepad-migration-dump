@@ -1,0 +1,200 @@
+comments:
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-04-08 16:56:26'
+  body: After some further thought, one of our developers says that it sounds feasible
+    to deploy the addin utility in GAC. It may still be better to copy it to the install
+    package, since that can avoid problems in case Revit has not been installed at
+    all on the target machine or the add-in utility is not found in the GAC. So you
+    might want to check first whether it is in GAC and then run the local installer
+    version otherwise.
+- author: Joel
+  email: jkarr@cadworks.net
+  ip: 208.70.16.234
+  url: ''
+  date: '2010-05-14 16:09:21'
+  body: 'I am trying to create a single installer for both 32 bit and 64 bit but it
+    seems that RevitAddInUtility.dll is compiled for x64 in the 64 bit install and
+    x86 in the 32 bit install.
+
+
+    Is there an Any CPU compilation?
+
+
+    Or am I just missing something?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-05-17 09:38:30'
+  body: 'Dear Joel,
+
+
+    In general, since you are an ADN member, submitting an ADN DevHelp Online request
+    is the safer way to go to obtain an answer, because my colleagues will see it
+    as well as me. In addition, that automatically hooks up to our knowledgebase.
+
+
+    I have asked the development team about this, and their response is that a request
+    will need to be filed.
+
+
+    So for the moment, I think you will have to live with the two separate versions
+    for 32 and 64 bits.
+
+
+    Cheers, Jeremy.'
+- author: Joel
+  email: jkarr@cadworks.net
+  ip: 208.70.16.234
+  url: ''
+  date: '2010-05-17 11:39:16'
+  body: Thanks Jeremy.  I put in an ADN request.
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-05-19 05:29:18'
+  body: 'Dear Joel,
+
+
+    Thank you very much for that. I handled your case and also pubished your and Rod''s
+    workaround suggestions:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/05/revitaddinutility-for-32-and-64-bit-systems.html">http://thebuildingcoder.typepad.com/blog/2010/05/revitaddinutility-for-32-and-64-bit-systems.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Dan
+  email: dan@nottellin.com
+  ip: 85.9.57.158
+  url: ''
+  date: '2010-05-20 08:28:24'
+  body: I just wanted to say that the new way to register an Add-In (via RevitAddinUtility)
+    is simply awesome. So you understand why I say that having to cope with two versions
+    (32 & 64 bit), having to copy the right dll or having to include it in my msi
+    or having to resort to any other trick simply negates the above mentioned awesomeness.
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-05-20 08:34:13'
+  body: 'Dear Dan,
+
+
+    Shall we agree on "mitigates"?
+
+
+    There are already known effective work-arounds, and we are looking into a purer
+    long-term solution:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/05/revitaddinutility-for-32-and-64-bit-systems.html">http://thebuildingcoder.typepad.com/blog/2010/05/revitaddinutility-for-32-and-64-bit-systems.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Dan
+  email: danut.petre@altiscadsoftware.ro
+  ip: 85.9.57.158
+  url: ''
+  date: '2010-05-20 09:14:23'
+  body: 'Hi Jeremy,
+
+
+    I agree with you, there are several effective workarounds - this is not the issue.
+    I was so amazed when RevitAddInUtility got out that in my eyes the trouble of
+    using workarounds looked very big (although it''s not); it''s like having a very
+    very nice cake without the cherry on top. It''s so very easy to use (when developing)
+    only that it''s not (when installing the product).
+
+
+    I don''t want to offend anyone, on the contrary. I can''t wait for the long-term
+    solution.
+
+
+    By the way, I didn''t expected your answer. I want to use this opportunity to
+    thank you for your posts, you got me out of my trouble several time.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-05-20 09:20:24'
+  body: 'Dear Dan,
+
+
+    Thank you for the clarification, and no offense taken, don''t worry.
+
+
+    Yes, I am looking forward to the perfect long-term solution as well. I like the
+    cherry on the top!
+
+
+    Thank you for your appreciation!
+
+
+    Cheers, Jeremy.'
+- author: Hector Diaz
+  email: hedg79@hotmail.com
+  ip: 189.251.58.25
+  url: ''
+  date: '2011-02-01 22:35:29'
+  body: "Hi Jeremy, I put the following code in Visual Studio:\nImports System\nImports\
+    \ Autodesk.Revit.ApplicationServices\nImports Autodesk.Revit.Attributes\nImports\
+    \ Autodesk.Revit.DB\nImports Autodesk.Revit.UI\n _\n _\nPublic Class SampleAccessibilityCheck\n\
+    \    Implements IExternalCommandAvailability\n    Public Function IsCommandAvailable(ByVal\
+    \ applicationData As UIApplication, ByVal selectedCategories As CategorySet) As\
+    \ Boolean Implements IExternalCommandAvailability.IsCommandAvailable\n       \
+    \ ' Allow button click if there is no active selection\n        If selectedCategories.IsEmpty\
+    \ Then\n            Return True\n        End If\n        ' Allow button click\
+    \ if there is at least one wall selected\n        For Each c As Category In selectedCategories\n\
+    \            If c.Id.IntegerValue = DirectCast(BuiltInCategory.OST_Walls, Integer)\
+    \ Then\n                Return True\n            End If\n        Next\n      \
+    \  Return False\n    End Function\n   \nEnd Class\n\nWhen I started-up Revit and\
+    \ ran the application it failed. This error appeared: ClassLibrary1.SampleAccessibilityCheck\
+    \ does not inherit IExternalCommand. Then I tried to write the code for the IExternalCommand\
+    \ with the Execute Method but the application didn't work ¿Do you know what could\
+    \ I do to solve this problem?...Thks a lot Jeremy....Regards, Hector"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-02-03 02:33:45'
+  body: "Dear Hector,\n\nIt sounds to me as if you specified your SampleAccessibilityCheck\
+    \ class as an external command implementation class, in which case it would have\
+    \ to be derived from IExternalCommand and implement an Execute method, which it\
+    \ does not. \n\nUse of the IExternalCommandAvailability interface only makes sense\
+    \ in a call to one of the Revit API element selection methods such as the Selection.PickObject\
+    \ method. That method would normally be called from within an external command.\
+    \ Where is this command? That is what Revit is looking for and what is specified\
+    \ for loading in the add-in manifest.\n\nCheers, Jeremy."
+- author: Michele
+  email: michele.verda@gmail.com
+  ip: 89.249.176.210
+  url: ''
+  date: '2013-09-16 09:34:56'
+  body: 'Hi Jeremy,
+
+    can I use RevitAddInUtility to find a Revit Server installation or it works only
+    for Revit installations?
+
+
+    Regards,
+
+    Michele'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.203.13
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-27 04:37:58'
+  body: 'Dear Michele,
+
+
+    1. no and 2. yes.
+
+
+    Cheers, Jeremy.
+
+    -----'

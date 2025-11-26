@@ -1,0 +1,28 @@
+comments:
+- author: Danny Polkinhorn
+  email: dpolkinhorn@watg.com
+  ip: 66.175.73.45
+  url: ''
+  date: '2012-04-18 15:21:58'
+  body: "Hi Jeremy,\n\nThanks for this.  Should we also use Try...Catch blocks as\
+    \ well?  Do we need to Rollback the exception or does the Using block take care\
+    \ of that?\n\nThanks again,\n-Danny\n\nusing (Transaction trans = new Transaction(doc))\
+    \ {\n  try {\n    trans.Start();\n    //code here\n    trans.Commit();\n  } catch\
+    \ (Exception ex) {\n    trans.Rollback();\n    //exception code here\n  }\n}"
+- author: Danny Polkinhorn
+  email: dpolkinhorn@watg.com
+  ip: 66.175.73.45
+  url: ''
+  date: '2012-04-18 15:23:10'
+  body: Sorry, "do we need to Rollback the" *transaction*?
+- author: Guy
+  email: info@r-e-d.co.nz
+  ip: 60.234.213.83
+  url: ''
+  date: '2012-04-18 17:41:10'
+  body: "I'm with Danny here, prefer to gracefully fail so use this format:\n\nTransactionGroup\
+    \ group;\n            try\n            {\n                using (group= new TransactionGroup(doc))\n\
+    \                {\n                    group.Start(\"Some group\");\n       \
+    \             ...\n                }\n            }\n            catch (Exception)\n\
+    \            {\n                if (group.HasStarted() && !group.HasEnded()) group.RollBack();\n\
+    \            }\n-----"

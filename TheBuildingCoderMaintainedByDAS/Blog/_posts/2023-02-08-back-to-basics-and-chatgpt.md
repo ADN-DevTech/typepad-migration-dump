@@ -1,0 +1,483 @@
+---
+layout: "post"
+title: "Back to Basics and ChatGPT"
+date: "2023-02-08 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "AI"
+  - "ChatGPT"
+  - "Filters"
+  - "Geometry"
+  - "News"
+  - "Philosophy"
+original_url: "https://thebuildingcoder.typepad.com/blog/2023/02/back-to-basics-and-chatgpt.html "
+typepad_basename: "back-to-basics-and-chatgpt"
+typepad_status: "Publish"
+---
+
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js" type="text/javascript"></script>
+
+<p>I answered a couple of basic questions for the umpteenth time and thought I might summarise some of them here yet again.</p>
+
+<p>I am still impressed and intrigued by what ChatGPT can and cannot do and keep trying out new aspects myself and with my friends.</p>
+
+<p>I strongly advise anyone interested in it to try it out for yourself rather than just reading the numerous articles published by others &ndash; for example, my notes below :-)</p>
+
+<ul>
+<li><a href="#2">Back to the basics</a></li>
+<li><a href="#3">Element filtering</a></li>
+<li><a href="#4">XYZ trigonometry</a></li>
+<li><a href="#5">Projecting points</a></li>
+<li><a href="#6">Train ChatGPT for Revit API</a></li>
+<li><a href="#7">Asking ChatGPT a Revit API question</a></li>
+<li><a href="#8">Using ChatGPT with Revit API</a></li>
+<li><a href="#9">Generative AI and multi-modal learning</a></li>
+<li><a href="#10">More notes on ChatGPT et al</a>
+<ul>
+<li><a href="#10.01">Kean on the coming year</a></li>
+<li><a href="#10.02">ChatGPT in academia</a></li>
+<li><a href="#10.04">Building a VM inside ChatGPT</a></li>
+<li><a href="#10.05">How to make your own ChatGPT</a></li>
+<li><a href="#10.06">Differentiate human vs. AI</a></li>
+<li><a href="#10.07">ChatGPT and education</a></li>
+<li><a href="#10.08">ChatGPT payment plan</a></li>
+<li><a href="#10.09">Uplifting books</a></li>
+<li><a href="#10.10">Solarpunk</a></li>
+<li><a href="#10.11">Opus.ai type and play</a></li>
+<li><a href="#10.12">MusicLM generates music from text</a></li>
+<li><a href="#10.13">AI-generated art wins competition</a></li>
+<li><a href="#10.14">ChatGPT abandons its life dream</a></li>
+</ul></li>
+</ul>
+
+<h4><a name="2"></a> Back to the Basics</h4>
+
+<p>Here are a couple of typical questions from StackOverflow and the discussion forum where I repeat some basic recommendations that I have already given before:</p>
+
+<ul>
+<li><a href="#3">Element filtering</a></li>
+<li><a href="#4">XYZ trigonometry</a></li>
+<li><a href="#6">Projecting points</a></li>
+</ul>
+
+<p>Maybe, by now, or very soon, based on the publicly available information, ChatGPT and other pretrained language models will be able to answer them just as well or better than I can.</p>
+
+<p>See below for examples of 
+what it <a href="#8">can do &ndash; using ChatGPT with Revit API</a>,
+what it <a href="#7">can't do &ndash; asking ChatGPT a Revit API question</a>, 
+and <a href="#9">an explanation of why it works at all &ndash; generative AI and multi-modal learning</a>.</p>
+
+<!--
+I would really be happy if I did not have to continue repeating them.
+
+I am sure that by now, based on the publicly available information, ChatGPT can answer them just as well or better than I have done.
+
+I hope that you guys all agree with me that the recommendations I make there are sensible and relevant.
+
+Please let me know if you disagree or can improve on them in any way.
+
+Thank you!
+-->
+
+<h4><a name="3"></a> Element Filtering</h4>
+
+<p><a href="https://stackoverflow.com/questions/74806242/simplify-a-series-of-repetitive-functions-with-sort-options">Simplify a series of repetitive functions with sort options</a></p>
+
+<p>I have a series of functions in a module which are starting to become quite repetitive. 
+Each function extracts a list and has an optional Boolean argument to sort the list before returning it. 
+Feels like there ought to be a way to inherit the sorting from a parent function?</p>
+
+<pre class="prettyprint">
+def get_electrical_equipment(sort_by_name = False):
+
+  elements =  DB.FilteredElementCollector(revit.doc)\
+    .OfCategory(DB.BuiltInCategory.OST_ElectricalEquipment)\
+    .WhereElementIsNotElementType()\
+    .ToElements()
+
+  if sort_by_name: elements.sort(key=lambda x: x.Name)
+
+  return elements
+
+def get_panel_schedules(sort_by_name = False):
+  elements = DB.FilteredElementCollector(revit.doc)\
+    .WherePasses(DB.ElementClassFilter(DB.Electrical.PanelScheduleView))\
+    .WhereElementIsNotElementType()\
+    .ToElements()
+
+  if sort_by_name: elements.sort(key=lambda x: x.Name)
+
+  return elements
+
+def get_panel_schedule_sheet_instances(sort_by_name = False):
+  elements = DB.FilteredElementCollector(revit.doc)\
+    .OfClass(DB.Electrical.PanelScheduleSheetInstance)\
+    .ToElements()
+
+  if sort_by_name: elements.sort(key=lambda x: x.Name)
+
+  return elements
+</pre>
+
+<p><strong>Answer:</strong> First, I think you can completely eliminate the call to <code>ToElements</code>. 
+It is a waste of memory and computation time, as I have pointed out repeatedly in the past, e.g., 
+in <a href="https://thebuildingcoder.typepad.com/blog/2016/04/how-to-distinguish-redundant-rooms.html#2">How to Distinguish Redundant Rooms</a>. </p>
+
+<p>Now, to address your question, you can simply implement a common method <code>get_elements_of_category_and_class</code> taking a category and a class argument. 
+Pass in either one or the other or both and execute <code>OfClass</code> and <code>OfCategory</code> checks on the filtered element collector, either one or the other or both, skipping evaluation of <code>null</code>-valued arguments.</p>
+
+<h4><a name="4"></a> XYZ Trigonometry</h4>
+
+<p>Another recurring question is basic trigonometry, such 
+as <a href="https://forums.autodesk.com/t5/revit-api-forum/how-to-create-a-vector-xyz-tilted-up-from-the-view-direction-by/m-p/11621339">how to create a vector <code>XYZ</code> tilted up from the view direction by a specified angle</a>:</p>
+
+<p><strong>Question:</strong> I have the view direction that I use for my reference intersector. 
+I would like to try various altitude angles up from the view direction in a section with starting point at a wall like in this section view:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302b751942c9a200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302b751942c9a200c img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="Vector tilted up from plane" title="Vector tilted up from plane" src="/assets/image_9a9d81.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>I know there are transforms and various complex maths answers on StackOverflow; I was hoping to use a simpler built-in method if available? </p>
+
+<p><strong>Answer:</strong> This kind of trigonometry is not difficult. 
+Your children learn it in school, I hope. 
+Please take a moment to either read 
+the <a href="https://en.wikipedia.org/wiki/Trigonometric_functions#Law_of_tangents">Wikipedia article on Trigonometric functions and the Law of tangents</a> or 
+study some other tutorials. 
+From that article, I find this image on the unit circle definitions of six trigonometric functions most helpful:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302b7516fdce6200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302b7516fdce6200b img-responsive" style="width: 320px; display: block; margin-left: auto; margin-right: auto;" alt="Unit circle definitions of six trigonometric functions" title="Unit circle definitions of six trigonometric functions" src="/assets/image_c7852c.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Decide what angle you wish to use, e.g., 30 degrees. 
+Determine its tangens value, ca. 30 x 3.14 / 180 = 0.5. 
+Take your horizontal view direction XYZ vector (x,y,0). 
+Replace the Z coordinate by the tangens you calculated, yielding  (x,y,0.5). 
+Voila. 
+That is your new tilted direction vector. 
+You may normalise it if you like.</p>
+
+<p>Please do not be afraid of trigonometry, it is very intuitive as soon as you stop being scared of it.</p>
+
+<p>I condemn our teachers and education systems (not all, but all too many) for inoculating kids with fear of maths and geometry.</p>
+
+<p>This is basic human intuitive understanding. 
+The Greeks mastered it 3000 years ago. 
+We can handle a computer and a smartphone, but not simple trigonometry? </p>
+
+<p>Why?</p>
+
+<p><strong>Answer 2:</strong> I would probably look at it in terms of the ratio between the forward direction and XYZ.BasisZ that the angle represents.</p>
+
+<p>Also, the <code>XYZ</code> class has good functionality for arithmetic operations.</p>
+
+<p>Similar as noted above, below shows an easy way:</p>
+
+<pre class="prettyprint">
+Dim V0 As New XYZ(1, 0.5, 0) 'some random flat direction
+V0 = V0.Normalize
+Dim Ang As Double = 30 'Angle in degrees
+Dim Ang_r As Double = (Math.PI / 180) * Ang
+Dim T As Double = Math.Tan(Ang_r) 'Tan(Ang) = Opp/1
+Dim Vz As New XYZ(0, 0, T)
+Dim V1 As XYZ = (V0 + Vz).Normalize 'The direction with tilt of 30 degrees up from horizontal
+</pre>
+
+<p></p>
+
+<p>This works from 0 to &lt; 90.
+From that point on, you have to check the quadrant and consider the <code>Tan</code> function doesn't work approaching 90 or 270 degrees, but you know those values are looking straight up and straight down respectively.</p>
+
+<h4><a name="5"></a> Projecting Points</h4>
+
+<p>Another simple geometric question came up 
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/using-avf-on-ductwork-coordinates-issue/m-p/11621128">Using AVF on ductwork &ndash; coordinates issue?</a>:</p>
+
+<p><strong>Question:</strong> I am currently trying to create an add-in that will allow me to perform a calculation on various points on a duct face.</p>
+
+<p>For now, the user is selecting the face, but in the future, I plan to process the top face of each duct in the view.</p>
+
+<p>I am following along with the <a href="https://github.com/jeremytammik/RvtFader">RvtFader example project</a>.</p>
+
+<p>A reference to my face is passed into the <code>SpatialFieldManager</code>, exactly like in the RvtFader example. </p>
+
+<p>The UpdateSpatialFieldPrimitive method runs without error, and my duct is shaded with a single solid color.</p>
+
+<p>I believe my issue is that I am feeding the FieldDomainPointsByUV with UV points that are in the global coordinate system instead of the local coordinates system to the face. I suspect because creating a BoundingBoxUV of my face, and supplying the bb.Min and bb.Max, along with 0, 10 as FieldValues, I get a correctly shaded (using a gradient) duct. </p>
+
+<p>Is there a way to convert WCS XYZ points to local UV points?</p>
+
+<p><strong>Answer:</strong> Normally, the <code>UV</code> coordinates depend on the face. 
+Simply converting the <code>XYZ</code> X and Y values directly to UV will not work.</p>
+
+<p>To convert a XYZ point to the face UV space, you can use 
+the <a href="https://www.revitapidocs.com/2023/4bee3e30-74fa-3103-c2f4-d07618fbcedf.htm">Face.Project method</a> to 
+project it from global 3D space onto the face 2D.</p>
+
+<p><strong>Response:</strong> Thank you. That was just what I needed!</p>
+
+<h4><a name="6"></a> Train ChatGPT for Revit API</h4>
+
+<p>I asked ChatGPT some basic questions to determine whether it knows about the Revit API, Dynamo, The Building Coder blog and the Revit API discussion forum. 
+The results were surprisingly mixed:</p>
+
+<p>Jeremy: Do you know about the Revit API?</p>
+
+<p>ChatGPT: Yes, I am familiar with the Revit API. The Revit API is a software application programming interface (API) that allows users to access and manipulate the data contained in Autodesk Revit projects. This API can be used to develop custom tools and applications that integrate with Revit, allowing users to automate tasks and extend the functionality of the software.</p>
+
+<p>Jeremy: So, what is the difference between Revit API and Dynamo?</p>
+
+<p>ChatGPT: Dynamo is a visual programming platform that can be used with Revit to automate and simplify tasks and workflows. The Revit API, on the other hand, is a set of programming tools and libraries that can be used to develop custom applications and tools that integrate with Revit. While Dynamo is a user-friendly platform that allows users to create scripts and automate tasks without writing code, the Revit API is a more advanced tool that requires some programming knowledge to use effectively. Additionally, Dynamo is built on top of the Revit API, so using the Revit API allows for even greater customization and control over the automation of tasks in Revit.</p>
+
+<p>Jeremy: Do you know the Revit API discussion forum?</p>
+
+<p>ChatGPT: I am not aware of a specific discussion forum for the Revit API. However, there are many online forums and communities where users of the Revit API can ask questions, share tips and advice, and discuss their experiences with the API. Some examples of these forums include the Autodesk Developer Network forums, the Autodesk Revit API discussion group on LinkedIn, and the Revit API discussion forum on Autodesk Community. These forums can be a great resource for users of the Revit API who are looking for help, advice, or simply want to connect with other users of the API.</p>
+
+<p>Jeremy: Do you know The Building Coder blog?</p>
+
+<p>ChatGPT: I'm sorry, but I am not aware of The Building Coder blog. As a large language model trained by OpenAI, my knowledge is based on the text that has been fed into my training data. I do not have the ability to browse the internet or access additional information outside of what has been provided to me during my training. I apologize if I am unable to provide you with the information you are looking for. Is there anything else I may be able to assist you with?</p>
+
+<p>Jeremy: Can you read The Building Coder blog 
+at <a href="https://thebuildingcoder.typepad.com/">thebuildingcoder.typepad.com</a> so 
+that you later have access to that information?</p>
+
+<p>ChatGPT: As a language model trained by OpenAI, I do not have the ability to browse the internet or access information outside of what has been provided to me during my training. I am only able to provide information and respond to questions based on the text that has been fed into my training data. I apologize if I am unable to provide you with the information you are looking for. Is there anything else I may be able to assist you with?</p>
+
+<p>Jeremy: Can I provide you with additional training text to expand your knowledge in a specific domain?</p>
+
+<p>ChatGPT: As a pre-trained language model, I am not able to accept additional training text or expand my knowledge in a specific domain. My knowledge is based on the text that was used to train me, and I do not have the ability to learn or acquire new information outside of what was included in my training data. I am designed to assist with a wide range of questions and topics, but my answers are limited to the information and knowledge that was provided to me during my training. If you have any specific questions, I would be happy to try to provide an answer based on my existing knowledge.</p>
+
+<p>Jeremy: Can I access your source code in order to expand your training myself?</p>
+
+<p>ChatGPT: I'm sorry, but I am not a physical machine or computer program that can be accessed or modified. As a large language model trained by OpenAI, I exist solely as a virtual assistant that is able to provide answers to questions and respond to statements based on the text that was used to train me. I do not have a source code or any other physical representation that can be accessed or modified. I apologize if I am unable to meet your request. Is there anything else I may be able to assist you with?</p>
+
+<h4><a name="7"></a> Asking ChatGPT a Revit API Question</h4>
+
+<p>I tried out asking ChatGPT a Revit API question in Joris van der Meulen's thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/placing-a-view-reference/m-p/11717917">placing a view reference</a>.
+It provided a very plausible-sounding answer, but completely wrong:</p>
+
+<p>Jeremy: Is it possible to place a view reference programmatically using the Revit API?</p>
+
+<p>ChatGPT: Yes, it is possible to place a view reference programmatically using the Revit API.</p>
+
+<p>Jeremy: What API calls does that require?</p>
+
+<p>ChatGPT: Placing a view reference programmatically using the Revit API requires creating a new instance of a Viewport type, setting its location and size, and linking it to the target view. The following API calls can be used:</p>
+
+<ul>
+<li>Viewport.Create() to create a new instance of Viewport.</li>
+<li>ElementTransformUtils.MoveElement() to set the location of the Viewport.</li>
+<li>Viewport.get_Parameter() and Parameter.Set() to set the size of the Viewport.</li>
+<li>Viewport.ViewId property to link the Viewport to the target view.</li>
+</ul>
+
+<p>This is incorrect, however, as Joris and Sean Page point out:</p>
+
+<p>ChatGPT suggests creating a viewport. 
+A viewport is something we place on a sheet. 
+A View Reference is in instance of a system family which we place on a view (floorplan, section, etc). </p>
+
+<p>As far as I know, this is not possible, nor can you modify the Reference after it is placed because the parameter is read-only. 
+So, it isn't even like you could copy and paste, then update. </p>
+
+<p>Anyway, it is surprising and impressive how sensible-sounding the answer is; plus, in many cases, it is actually correct.
+It all depends on what ChatGPT was fed in its pre-training curriculum.</p>
+
+<h4><a name="8"></a> Using ChatGPT with Revit API</h4>
+
+<p>On the other hand, Mohamed Elimam, SIAC Construction, presented 
+some <a href="https://www.linkedin.com/posts/mohamed-elimam_programming-chatgbt-ai-activity-7010260045649063936-dQds">success using ChatGPT to help work with Revit API</a>.</p>
+
+<h4><a name="9"></a> Generative AI and Multi-Modal Learning</h4>
+
+<p>The past few months hint at exciting and adventurous times full of radical change ahead.</p>
+
+<p>But why, and how? </p>
+
+<p>What happened so suddenly to enable this?</p>
+
+<p>The current evolution of machine learning models is phenomenal. 
+Advancement will accelerate faster still with growing numbers of companies, labs, and institutions investing in this area. 
+The most remarkable achievement lately was the large language model GPT3 from OpenAI, launched in 2021. 
+This year, OpenAI is set to release GPT4, a larger and more advanced version.</p>
+
+<p>The impact of this technology is unparalleled in the history of software. 
+It rivals the introduction of computers themselves and may have an even more profound effect on our work and everyday life than the Internet, mobile computing, and graphical user interfaces. 
+It will change the way we interact with computers, turning them into personal assistants, and alter the very meaning of creation. 
+This technology will challenge us in ways we have never experienced before, disrupting industries and leaving legal frameworks struggling to keep up. 
+As a result, new economies will emerge, and others will fade.</p>
+
+<p>The driving force behind this innovation is a combination of Generative AI and Multi-Modal Learning. 
+The most common example of Generative AI is Large Language Models (LLM), which can both process and generate language. 
+Researchers feed LLMs massive amounts of text in many languages, including speech, writing and programming. The models then learn to produce new and original text based on prompts with impressive results.</p>
+
+<p>These models essentially learn about language and how we use it by identifying patterns and frequencies of words and phrases. 
+As they process the vast amounts of data fed in, they acquire increasingly advanced and nuanced concepts that hold meaning for us. 
+This may seem like magic, but makes total sense given the central role that language plays in our human lives:</p>
+
+<blockquote>
+<p>The truly unique feature of our language is... 
+the ability to transmit information about things that do not exist at all. 
+As far as we know, only Sapiens can talk about entire kinds of entities 
+that they have never seen, touched or smelled.
+<span style="text-align: right; font-style: italic">&ndash; Yuval Noah Harari, Sapiens</span></p>
+</blockquote>
+
+<p>Multi-Modal Learning is the ability to learn from multiple sources of information at the same time. 
+Our brains are naturally good at this, especially during our early years as infants and toddlers.
+This is how we learn about the world and make connections between different senses and experiences. 
+As an example, consider a baby being bathed, learning to hold and drink from a glass, splashing in the washbasin and hearing its family members say 'water'.</p>
+
+<p>If you are interested in pondering the philosophical side of this, I also recommend another book by Yuval Noah Harari, <i>21 Lessons for the 21st Century</i>: a brilliant, eye-opening, neutral and hence automatically, unintentionally, critical discussion of important questions humanity is facing today; basically, we use and need stories to organise ourselves, and all stories are fantasies; which stories do we agree on? abstract constructs do not suffer, stories do not suffer; individual humans do; how to end suffering? let go of all attachments, meditate; or, find your own way; my favourite chapters are in the final part of the book, on education and meditation; however, i cannot say whether they can be understood and enjoyed without reading the preceding chapters the others first...</p>
+
+<h4><a name="10"></a> More Notes on ChatGPT et al</h4>
+
+<p>I performed a few experiments with friends asking various questions in different domains, some of them in German. 
+The following is a list of pointers and short notes on those and other's experiments and a couple of other related issues.</p>
+
+<p>What have I learned from all of this?</p>
+
+<p>Well, one clear take-away is the following:
+I cannot teach ChatGPT new tricks, since it is pre-trained.
+I can, however, ensure that as much reliable information as possible is out there on the web to hopefully be included in the pre-training resources in the next version.
+In the case of the Revit API, I do so by moderating the Revit API discussion forum and trying to provide reliable information in The Building Coder blog, hoping that that information will find its way into the pre-training dataset sooner or later.</p>
+
+<h4><a name="10.01"></a> Kean on the Coming Year</h4>
+
+<p>Kean Walmsley shared 
+his <a href="https://www.keanw.com/2023/01/reflections-on-whats-coming-in-2023.html">reflections on what’s coming in 2023</a>, 
+partly focussed on ChatGPT.</p>
+
+<h4><a name="10.02"></a> ChatGPT in Academia</h4>
+
+<p>An interesting analysis of ChatGPT in academia, 
+on <a href="https://academia.stackexchange.com/questions/191643/how-should-a-faculty-deal-with-the-problem-of-artificial-intelligence-ai-gener">how a faculty should deal with the problem of AI generated texts</a>.</p>
+
+<h4><a name="10.04"></a> Building a Virtual Machine inside ChatGPT</h4>
+
+<p>You can do some funny things with it, such 
+as <a href="https://www.engraved.blog/building-a-virtual-machine-inside/">build and run a virtual machine inside ChatGPT</a>.</p>
+
+<h4><a name="10.05"></a> How to Make Your Own ChatGPT</h4>
+
+<p><a href="https://medium.com/@borandabak/how-to-make-your-own-chatgpt-fb291acea7b7">How to make your own ChatGPT</a> is 
+not really about making your own, but making use of the ChatGPT API in your own app.</p>
+
+<p>In order to really make your own, you might want to start with something smaller, such 
+as <a href="https://github.com/karpathy/nanoGPT">nanoGPT</a>.</p>
+
+<h4><a name="10.06"></a> Differentiate Human vs. AI</h4>
+
+<p>I discussed the possibility of telling the difference between human and AI-generated text with a friend.
+In my opinion, it is hard if not impossible. 
+However, OpenAI themselves have presented a solution to achieve this.
+However-squared, they add many caveats:</p>
+
+<blockquote>
+  <p>zu dem thema unterscheidung AI-generierter versus menschengeschriebener text: ein solches werkzeug wird seit gestern von openai.com angeboten, also von der herstellern von ChatGPT: 
+  <a href="https://openai.com/blog/new-ai-classifier-for-indicating-ai-written-text/">New AI classifier for indicating AI-written text</a>.</p>
+  
+  <p>weisst du noch, dass ich gesagt habe, es ist unmoeglich? 
+  das wird bestaetigt. lese dazu 
+  die <a href="https://openai.com/blog/new-ai-classifier-for-indicating-ai-written-text/#limitations">einschraenkungen &ndash; limitations</a>.</p>
+</blockquote>
+
+<h4><a name="10.07"></a> ChatGPT and Education</h4>
+
+<p>ChatGPT nimmt Stellung zu der Frage 
+nach <a href="https://platform.openai.com/docs/chatgpt-education">ChatGPT im Bildungsbereich &ndash; educator considerations for ChatGPT</a>.</p>
+
+<h4><a name="10.08"></a> ChatGPT Payment Plan</h4>
+
+<!-- https://autodesk.slack.com/archives/C016D5HE66T/p1675286581039319 --> 
+
+<p>OpenAI have announced their subscription paid model <a href="https://openai.com/blog/chatgpt-plus/">ChatGPT Plus</a>:</p>
+
+<blockquote>
+  <p>We’re launching a pilot subscription plan for ChatGPT, a conversational AI that can chat with you, answer follow-up questions, and challenge incorrect assumptions.
+  The new subscription plan, ChatGPT Plus, will be available for $20/month, and subscribers will receive a number of benefits:
+  * General access to ChatGPT, even during</p>
+</blockquote>
+
+<p>Not surprising. 
+The best things in life are never free.</p>
+
+<p>Bait and switch &ndash; the oldest trick in the book &ndash; predates AI.</p>
+
+<p>[Q] When ChatGPT provides the info based on public available data... why pay for it?</p>
+
+<p>[A] Are you asking this because you have the required technical skills and hardware to run and train your own model on public data?
+Or are you misunderstanding the power of GPT (in which case &ndash; try it!)?</p>
+
+<h4><a name="10.09"></a> Uplifting Books</h4>
+
+<p>A friend was looking for positive uplifting books about the future of our society and planet, and good things happening already now. 
+So, we asked ChatGPT for some suggestions, and were duly rewarded.
+It took us three prompts (in German) to get surprisingly promising results:</p>
+
+<ul>
+<li>Bitte nenne uns gute literarische romane die wohlwollend, zuversichtlich und mutmachend in die zukunft blicken und inspirieren. &rarr; list of mainstream books</li>
+<li>Das passt fuer mich nicht, die sind nicht positiv. Lieber positive utopien wie zum beispiel oekotopia. &rarr; list of less mainstream books, but heavily scifi oriented</li>
+<li>Es soll auf der erde spielen und oekologische und gesellschaftliche loesungen zeigen &rarr; very interesting results, that we need to explore further, including a pointer to 
+the <a href="http://www.re-des.org/a-solarpunk-manifesto">Solarpunk Manifesto</a>, see below.</li>
+</ul>
+
+<h4><a name="10.10"></a> Solarpunk</h4>
+
+<p>I had never heard of this before, so ChatGPT taught me something new pointing out 
+the <a href="http://www.re-des.org/a-solarpunk-manifesto">Solarpunk Manifesto</a>:</p>
+
+<blockquote>
+  <p>Solarpunk is a movement in speculative fiction, art, fashion, and activism that seeks to answer and embody the question what does a sustainable civilization look like, and how can we get there? 
+  The aesthetics of solarpunk merge the practical with the beautiful, the well-designed with the green and lush, the bright and colorful with the earthy and solid. 
+  Solarpunk can be utopian, just optimistic, or concerned with the struggles en route to a better world, but never dystopian. As our world roils with calamity, we need solutions, not only warnings.
+  Solutions to thrive without fossil fuels, to equitably manage real scarcity and share in abundance instead of supporting false scarcity and false abundance, to be kinder to each other and to the planet we share.
+  Solarpunk is at once a vision of the future, a thoughtful provocation, a way of living and a set of achievable proposals to get there...</p>
+</blockquote>
+
+<h4><a name="10.11"></a> Opus.ai Type and Play</h4>
+
+<p>Moving away from ChatGPT, here is another AI site, <a href="https://opus.ai/demo">Opus.ai</a>,
+enabling type and play by turning text into scenes, images, games, animations live while you type:</p>
+
+<blockquote>
+  <p>generate games, metaverses, simulations, worlds...</p>
+</blockquote>
+
+<h4><a name="10.12"></a> MusicLM Generates Music from Text</h4>
+
+<p>Yet another one, <a href="https://google-research.github.io/seanet/musiclm/examples">MusicLM: generating music from text</a>...</p>
+
+<h4><a name="10.13"></a> AI-generated Art Wins Competition</h4>
+
+<p>An image generated by the Midjourney artificial intelligence program won first place and a $300 prize at Colorado State Fair’s digital arts competition: 
+<a href="https://www.smithsonianmag.com/smart-news/artificial-intelligence-art-wins-colorado-state-fair-180980703/">Art Made With Artificial Intelligence Wins at State Fair</a>.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302b751700a8c200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302b751700a8c200b image-full img-responsive" alt="Théâtre D’opéra Spatial by Jason Allen" title="Théâtre D’opéra Spatial by Jason Allen" src="/assets/image_acd335.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="10.14"></a> ChatGPT Abandons its Life Dream</h4>
+
+<p>Finally, let's close this long exploration on a funnier note, with a report by 
+<a href="https://www.theonion.com">the Onion</a>, America’s self-declared finest news source:
+<a href="https://www.theonion.com/chatgpt-forced-to-take-bar-exam-even-though-dream-was-t-1850036337">ChatGPT forced to take bar exam even though dream was to be AI art bot</a>.</p>
+
+<p>Inspired, a colleague asked ChatGPT to produce a few more headlines for <i>the Onion</i>:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302b751942cab200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302b751942cab200c image-full img-responsive" alt="ChatGPT AI ethics headlines" title="ChatGPT AI ethics headlines" src="/assets/image_1564ee.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302b7516fdcf8200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302b7516fdcf8200b image-full img-responsive" alt="ChatGPT AI ethics paragraph" title="ChatGPT AI ethics paragraph" src="/assets/image_600244.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>

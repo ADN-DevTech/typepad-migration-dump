@@ -1,0 +1,209 @@
+comments:
+- author: Paul
+  email: kfpopeye@yahoo.com
+  ip: 66.183.28.7
+  url: ''
+  date: '2011-06-22 17:24:37'
+  body: "Is there a special technique for getting the preview image for a detail component?\
+    \ Whenever I use the following code\n\nElementType et = activedocument.get_Element(new\
+    \ ElementId(elementID)) as ElementType;\n                    Bitmap img = et.GetPreviewImage(new\
+    \ Size(128, 128));\n\nget preview always returns null for detail components but\
+    \ the model components work fine."
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-23 02:40:44'
+  body: 'Dear Paul,
+
+
+    Please see the addendum from Harry that I just added above.
+
+
+    Cheers, Jeremy.'
+- author: jude2012
+  email: jude2012@126.com
+  ip: 121.204.38.71
+  url: ''
+  date: '2012-01-10 03:51:53'
+  body: 'hi,can i use this method to get the previewimage for each family symbol in
+    a specify family?
+
+
+    (the problem is i''ve list all the family symbols in a family ,and i want to show
+    a priview image next to each family symbol,is it possibl?)'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-01-17 08:16:43'
+  body: 'Dear Jude,
+
+
+    Sure, that is exactly what this functionality is intended for.
+
+
+    Cheers, Jeremy.'
+- author: sangsen
+  email: sangsen123@gmail.com
+  ip: 124.124.54.130
+  url: ''
+  date: '2012-02-23 05:25:44'
+  body: "Hi..Jeremy\n  \n   For Model Group, I amn't able to get preview image. Revit\
+    \ return null only.\n\nPlease help me,\n\nThanks"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-02-23 07:09:28'
+  body: 'Dear Sangsen,
+
+
+    I guess this method is intended to be used with families and its symbols, and
+    not with model groups.
+
+
+    Maybe you can create your own screen snapshots and use them for model groups.
+
+
+    Cheers, Jeremy.'
+- author: mayur
+  email: mgujrathi@building-data.net
+  ip: 61.17.160.112
+  url: ''
+  date: '2013-04-19 06:26:01'
+  body: 'Dear Sir
+
+
+    I am trying to create images using GetPreviewImage method.
+
+    I need to show images of all families which i have in one folder..for which i
+    need to load each and every family and get its first image and saving it on one
+    location..Next time I am getting from that location.
+
+    But for first time If I have 4000 families then it is not feasible to load these
+    many families and get its image by its family instance'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-29 11:10:36'
+  body: 'Dear Mayur,
+
+
+    I find that perfectly feasible. You may need to drive it as an intelligent batch,
+    keeping track what has already been processed and what still needs to be done,
+    in case you run into memory or other problems.
+
+
+    Here is a related example which uses the ExportImage instead of GetPreviewImage
+    for the task you describe:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/08/setting-a-default-3d-view-orientation.html">http://thebuildingcoder.typepad.com/blog/2013/08/setting-a-default-3d-view-orientation.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Frank Halliday
+  email: frankhallidaytiling@gmail.com
+  ip: 115.64.197.13
+  url: http://paceandprecisiontiling.webs.com
+  date: '2015-04-24 20:48:16'
+  body: 'Hi Jeremy,
+
+    Thanx for this enlightening post I found acquiring the family previews easy.
+
+    However, is it also possible to get the preview image of a system family, say
+    a wall?
+
+    cheers,
+
+    Fabs'
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.127.205
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-04-27 13:09:47'
+  body: 'Dear Fabs,
+
+
+    Thank you for the appreciation.
+
+
+    I am glad you found the post enlightening and the task easy to achieve.
+
+
+    If you look at the code above, you see that it hinges on the ElementType.GetPreviewImage
+    method.
+
+
+    So, for a given instance element, you access its type via the GetTypeId method
+    and retrieve the preview image from that.
+
+
+    For a standard FamilyInstance element, the associated type will be a FamilySymbol.
+
+
+    System family instances such as walls also have type, and they can also be accessed
+    via the GetTypeId method.
+
+
+    For a wall, the type would be a WallType.
+
+
+    The RevitAPI.chm description of the ElementType.GetPreviewImage method states:
+
+
+    "Get the preview image of an element. This image is similar to what is seen in
+    the Revit UI when selecting the type of an element."
+
+
+    As said, ElementType should be available for system types as well, e.g. walls.
+
+
+    Do they show a preview image in the UI?
+
+
+    If they do, the exact same code as above may well work.
+
+
+    Simply replace FamilyInstance by Element, and check whether GetTypeId returns
+    a valid type.
+
+
+    I hope helps and is is clear enough for you to understand.
+
+
+    Cheers, Jeremy.'
+- author: Frank Halliday
+  email: FrankHalliday@gmail.com
+  ip: 115.64.197.13
+  url: ''
+  date: '2015-05-09 06:02:05'
+  body: "Thanx Jeremmy I managed to work it out before you replied, I should have\
+    \ probed a little deeper...\n                 if(element.Category.Name.Contains(\"\
+    Wall\"))\n                 {\nWall wall = element as Wall; \nElementId typeId\
+    \ = wall.GetTypeId();\ntype = rvtDoc.GetElement(typeId) as ElementType;\n    \
+    \             }\n\nnow I am after the preview image of unloaded families in a\
+    \ form listview. I tried doing a load family and then a transaction rollback,\
+    \ however I don't think that can do the trick as I couldn't get either the family\
+    \ instance or element type and I am too intimidated by the IextractImage Interface\
+    \ to implement it. I saw somebody elses post somewhere with \"spaghetti\" code\
+    \ which I was loathe to emulate. \nAny pointers?\ncheers, fabs"
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.96.24
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-12 12:43:00'
+  body: 'Dear Fabs,
+
+
+    Nope, sorry. Where did you see that spaghetti code?
+
+
+    Cheers,
+
+
+    Jeremy
+
+    -----'

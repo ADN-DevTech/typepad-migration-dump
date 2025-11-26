@@ -1,0 +1,134 @@
+comments:
+- author: Namit Jain
+  email: namitj_in@yahoo.com
+  ip: 61.17.160.112
+  url: ''
+  date: '2013-03-06 05:24:19'
+  body: 'Dear Jeremy,
+
+
+    Please suggest, How to set Insulation thickness for pipe.
+
+
+    Thanks & Regards
+
+    Namit Jain'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-03-10 17:37:16'
+  body: 'Dear Namit Jain,
+
+
+    Use the InsulationLiningBase.Thickness property on the pipe insulation class.
+
+
+    How to access the pipe insulation is demonstrated here:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/05/pipe-insulation-and-insulation-material.html">http://thebuildingcoder.typepad.com/blog/2012/05/pipe-insulation-and-insulation-material.html</a>
+
+
+    Cheers, Jeremy.'
+- author: dave.smith@cadspec.co.uk
+  email: dave.smith@cadspec.co.uk
+  ip: 92.237.37.58
+  url: ''
+  date: '2013-04-16 09:00:48'
+  body: can the opposite be done using a duct ie from a ductInsulation can you find
+    the duct associated
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.183.209
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-04-16 09:25:41'
+  body: 'Dear Dave,
+
+
+    Sure. A quick glance at the documentation will tell you so: look at the InsulationLiningBase.HostElementId
+    property.
+
+
+    Cheers, Jeremy.'
+- author: New-pipe
+  email: thenewpipe818@gmail.com
+  ip: 210.56.104.127
+  url: ''
+  date: '2013-04-20 06:54:19'
+  body: thank you so much for the amazing info for my project! i wish i could give
+    u something back for the amazing help and effort! and this is 1 of the best sites
+    i found, i appreciate it a lot and this is totally true!
+- author: Jason Isherwod
+  email: jason.isherwood@cadspec.co.uk
+  ip: 81.138.30.67
+  url: ''
+  date: '2013-05-28 07:21:57'
+  body: "Jeremy\n\nIf a duct has insulation and then that insulation is removed, is\
+    \ there a way to find out which duct has been modified?\nI have the following\
+    \ start code :\n\nICollection<ElementId> deletedIds = data.GetDeletedElementIds();\n\
+    \            foreach (ElementId id in deletedIds)\n\nFor the life of me I can't\
+    \ work out how to use InsulationLiningBase.HostElementId in this context \n Help\
+    \ ! \n\nMany thanks\nJason"
+- author: Jeremy Tammik
+  email: ''
+  ip: 63.149.67.7
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-06-03 07:08:27'
+  body: 'Dear Jason,
+
+
+    I am sorry to say that once an element has been deleted, there is no way to retrieve
+    any information about it at all any longer, neither using the DocumentChanged
+    event nor the dynamic model update DMU.
+
+
+    So to achieve what you describe you would have to somehow retrieve and store this
+    information before the deletion happens.
+
+
+    This may possibly require you to retrieve and cache all duct insulation relationships
+    in the entire model, and then determine from GetDeletedElementIds which of these
+    were affected.
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.'
+- author: John Cena
+  email: johncena4319@gmail.com
+  ip: 114.143.77.186
+  url: ''
+  date: '2014-07-30 05:03:23'
+  body: 'Dear Jeremy,
+
+    Can you please tell me, How to remove PipeInsulation from a insulated pipe.
+
+
+    Thanks.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.194.69
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-07-30 05:08:35'
+  body: 'Dear John,
+
+
+    I have no idea. I would have to try it out. Have you tried simply deleting the
+    pipe insulation element?
+
+
+    Cheers, Jeremy.'
+- author: John Cena
+  email: johncena4319@gmail.com
+  ip: 114.143.77.186
+  url: ''
+  date: '2014-07-30 05:30:35'
+  body: 'Thanks for quick reply.
+
+    It worked!!!
+
+    Cheers.
+
+    -----'

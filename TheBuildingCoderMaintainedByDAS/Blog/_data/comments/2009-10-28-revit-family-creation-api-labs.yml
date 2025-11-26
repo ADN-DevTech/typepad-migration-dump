@@ -1,0 +1,240 @@
+comments:
+- author: bsyap
+  email: nsybs.86@gmail.com
+  ip: 60.51.122.215
+  url: ''
+  date: '2010-08-03 04:28:39'
+  body: "Hi Jeremy Tammik,\n\nI have created a Rectangular Concrete Column using Structural\
+    \ Column.rft(provided by default) and have set the tempalteCategory equals to\
+    \ OST_Structural.\n \nI have added in two parameter 'b' and 'h' which control\
+    \ the width and depth of the column, however, when i load this newly created family\
+    \ into a revit project and try to modified the 'b' and 'h' parameter value, the\
+    \ size of the column (width and depth) doesn't show any changes, am i missing\
+    \ something here?\n\nThe height of the column created is not constrained to the\
+    \ upper level, how do i add a constraint for it?\n\nBy the way, when i try to\
+    \ add a new alignment using  newalignment() method, the project throw me an exception\
+    \ stated that invalid argument where the 'reference' argument must be one of the\
+    \ following combination, \n2 planar faces\n2 lines\nline and point\n2 arcs\n2\
+    \ cylindrical faces,\nIn rfa_labs20091028 columnrectangle.cs, the newalignment()\
+    \ using reference of refence plane and planarface will throw an exception of invalid\
+    \ argument in revit 2011. \nAny solution for this?"
+- author: Jeremy Tammik
+  email: ''
+  ip: 61.19.67.219
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-08-03 08:21:25'
+  body: 'Dear Bsyap,
+
+
+    First of all, please build your family manually once via the user interface before
+    you try to do it programmatically. Once you have done that, you can examine your
+    manually created family using RevitLookup and hopefully answer some of your questions
+    yourself.
+
+
+    Regarding the modification of ''b'' and ''h'', have you applied the AssociateElementParameterToFamilyParameter
+    method as demonstrated in lab 3 above?
+
+
+    Cheers, Jeremy.'
+- author: Mihai
+  email: mpruna@thorntontomasetti.com
+  ip: 38.221.208.79
+  url: http://www.solvengineer.com
+  date: '2011-02-07 09:35:39'
+  body: 'Hey Jeremy, I just be having a brain fart, but how do I download the examples?
+
+    Thanks!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-02-07 10:24:09'
+  body: 'Dear Mihai,
+
+
+    The Family API labs are available for download from the original discussion of
+    the Family API at
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/08/the-revit-family-api.html">http://thebuildingcoder.typepad.com/blog/2009/08/the-revit-family-api.html</a>
+
+
+    Easier still, they are also available directly in this post. Look for the following
+    link: "For your convenience, I am including them *here* as well."
+
+
+    Cheers, Jeremy.'
+- author: Mihai
+  email: mpruna@thorntontomasetti.com
+  ip: 38.221.208.79
+  url: http://www.solvengineer.com
+  date: '2011-02-07 11:06:48'
+  body: 'thanks Jeremy for the quick respons, I was just able to get them fro AU clicking
+    on the link you provided at the top.
+
+    Like I said I was having a Monday morning muddle :)'
+- author: Mihai
+  email: mpruna@thorntontomasetti.com
+  ip: 38.221.208.79
+  url: http://www.solvengineer.com
+  date: '2011-02-07 11:29:36'
+  body: "Jeremy, I have looked at the code and have a question. I noticed that you\
+    \ don't use the \"saveas\" command at all. When I try that, after editing an existing\
+    \ family programmatically,that is, adding anew extrusion, I end up with rfa files\
+    \ that somehow cannot be deleted by Windows.\nAny idea if this is a known bug\
+    \ or am I doing something wrong?\n\n if (File.Exists(filename)\n             \
+    \  {\n\n               }\n               else\n               {\n            \
+    \   familyDocument.SaveAs(filename);\n               }\n               familyDocument.Close(false);\n\
+    \           \n               familyDocument.Dispose();"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-02-07 11:38:32'
+  body: 'Dear Mihai,
+
+
+    I am glad you were able to access the sample files in the end.
+
+
+    Nope, no idea. This is probably a Windows Monday morning muddle.
+
+
+    Cheers, Jeremy.'
+- author: Mihai
+  email: mpruna@thorntontomasetti.com
+  ip: 38.221.208.79
+  url: http://www.solvengineer.com
+  date: '2011-02-07 15:32:52'
+  body: "I fixed that issue. It had something to do with creating a new family using\
+    \ a template and then saving it as an RFA. And the template, I had created by\
+    \ just renaming an RFA to RFT.\nBut once I switched to loading the original file\
+    \ as an RFA, the saveas works fine!\nThanks for all your help, could I bother\
+    \ you with just one more question?\nI can't seem to be able to retrieve reference\
+    \ planes in this existing family which I am modifying. I have 4 reference planes\
+    \ and I get a collection size of 0:\n\n         FilteredElementCollector pcollector\
+    \ = new FilteredElementCollector(familyDocument);\n                   ICollection\
+    \ pcollection = collector.OfClass(typeof(ReferencePlane)).ToElements();"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-02-09 12:38:17'
+  body: 'Dear Mihai,
+
+
+    I am not surprised at all that you ran into problems trying to manipulate an RFT
+    file telling Revit it was am RFA. I am glad you found the reason and solved it.
+
+
+    The filtered element collector looks OK to me. When I enter a family file, for
+    instance by creating a new one from the Metric Column template, and then use RevitLookup
+    to explore the reference places, I see them via Add-Ins > Revit Lookup > Snoop
+    DB... > ReferencePlane. So I think the filtered element collector should pick
+    them up as well.
+
+
+    Cheers, Jeremy.'
+- author: Mihai
+  email: mihai_pruna@yahoo.com
+  ip: 38.221.208.79
+  url: ''
+  date: '2011-02-10 13:57:20'
+  body: Thanks for the tip Jeremy, I will install the revit lookup!
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.19.159.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-02-13 14:49:55'
+  body: 'Dear Mihai,
+
+
+    Oh wow, yes, you must, that is the very first thing to install before you start
+    doing anything else with the Revit API.
+
+
+    It is by far THE most important exploration tool for Revit development.
+
+
+    Cheers, Jeremy.'
+- author: Mihai
+  email: mpruna@thorntontomasetti.com
+  ip: 38.221.208.79
+  url: http://www.solvengineer.com
+  date: '2011-02-14 10:15:57'
+  body: wish I'd known about it for the past three years :)
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-02-15 17:14:13'
+  body: 'Dear Mihai,
+
+
+    All I can do is point at it again and again, every few posts. I''m glad you know
+    it now!
+
+
+    Cheers, Jeremy.'
+- author: Nitin
+  email: ''
+  ip: 61.11.14.102
+  url: http://profile.typepad.com/nitinjambhale2008
+  date: '2011-07-01 01:32:35'
+  body: 'Dear sir,
+
+    How can i create ''elbow'' family programmatically?
+
+
+    Thanks & Regards,
+
+    Nitin'
+- author: Jeremy Tammik
+  email: ''
+  ip: 79.20.50.225
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-07-03 17:04:32'
+  body: "Dear Nitin,\n\n1. cd \"C:\\ProgramData\\Autodesk\\RME 2012\\Libraries\"\n\
+    \n2. Search recursively for all families named *elbow*. I find 168 of them in\
+    \ my installation. \n\n3. Analyse how they are designed.\n\n4. Have fun.\n\nCheers,\
+    \ Jeremy."
+- author: Nitin
+  email: ''
+  ip: 61.17.167.107
+  url: http://profile.typepad.com/nitinjambhale2008
+  date: '2011-07-05 03:21:02'
+  body: 'Dear sir,
+
+    I think you haven''t get my questions sir?
+
+
+    I mean is the Revit API 2012 provides all features to create family programmatically
+    especially of type ''elbow''?
+
+
+    Thanks & Regards,
+
+    Nitin.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-07-05 04:40:28'
+  body: "Dear Nitin,\n\nYes, you can create an elbow family programmatically. To do\
+    \ so, start from the appropriate template file, e.g. \n\nC:\\ProgramData\\Autodesk\\\
+    RME 2012\\Family Templates\\English\\M_Duct Elbow.rft\n\nThen implement the same\
+    \ steps programmatically as you would manually.\n\nThe process is demonstrated\
+    \ by the Revit SDK samples CreateAirHandler and WindowWizard, in fact by several\
+    \ of the samples in the FamilyCreation folder. I also wrote about various aspects:\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/08/the-revit-family-api.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/08/the-revit-family-api.html</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2011/02/family-api-labs-for-revit-2011.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2011/02/family-api-labs-for-revit-2011.html</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/11/connector-direction-and-createairhandler.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/11/connector-direction-and-createairhandler.html</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2011/06/creating-and-inserting-an-extrusion-family.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2011/06/creating-and-inserting-an-extrusion-family.html</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2011/07/basic-parametric-cube-family-tutorial.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2011/07/basic-parametric-cube-family-tutorial.html</a>\n\
+    \nCheers, Jeremy.\n-----"

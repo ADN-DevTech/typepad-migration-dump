@@ -1,0 +1,200 @@
+---
+layout: "post"
+title: "Changing Element Colour and Material"
+date: "2020-06-08 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Material"
+  - "View"
+original_url: "https://thebuildingcoder.typepad.com/blog/2020/06/changing-element-colour-and-material.html "
+typepad_basename: "changing-element-colour-and-material"
+typepad_status: "Publish"
+---
+
+<p>The question of how to change the colour and material of individual elements has come up repeatedly over time:</p>
+
+<ul>
+<li><a href="#2">Change element colour in a view</a></li>
+<li><a href="#3">Assign new material to an element</a></li>
+<li><a href="#4">Replace a material in a wall or floor</a></li>
+</ul>
+
+<h4><a name="2"></a> Change Element Colour in a View</h4>
+
+<p>We discussed
+how to <a href="https://thebuildingcoder.typepad.com/blog/2011/03/change-element-colour.html">change element colour</a> way
+back in 2011.
+The principle remains unchanged, but some API details have changed a bit since then.</p>
+
+<p>Various solutions to change colour have been provided in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a>,
+e.g., <a href="https://forums.autodesk.com/t5/revit-api-forum/how-change-the-color-a-element/m-p/5651177">how to change the colour of an element</a>
+and <a href="https://forums.autodesk.com/t5/revit-api-forum/change-color-by-element-id-color-palette/m-p/4768209">changing colour by element id + colour palette</a>,
+but most of them are also out of date.</p>
+
+<p>So, to pick this up once again, I added a new sample external command <code>CmdChangeElementColor</code>
+to <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder samples</a>.</p>
+
+<p><strong>Question:</strong> How can I change the element display colour in a given view?</p>
+
+<p><strong>Answer:</strong> You can use
+the <a href="https://www.revitapidocs.com/2020/eb2bd6b6-b7b2-5452-2070-2dbadb9e068a.htm">OverrideGraphicSettings class</a> and
+its <a href="https://www.revitapidocs.com/2020/6b780d28-87fb-2ba6-04fa-f973d85ca552.htm">SetProjectionLineColor method</a> to
+change the colour of a selected element in the current view like this:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">void</span>&nbsp;ChangeElementColor(&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc,&nbsp;<span style="color:#2b91af;">ElementId</span>&nbsp;id&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Color</span>&nbsp;color&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Color</span>(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span style="color:blue;">byte</span>)&nbsp;200,&nbsp;(<span style="color:blue;">byte</span>)&nbsp;100,&nbsp;(<span style="color:blue;">byte</span>)&nbsp;100&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">OverrideGraphicSettings</span>&nbsp;ogs&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">OverrideGraphicSettings</span>();
+&nbsp;&nbsp;&nbsp;&nbsp;ogs.SetProjectionLineColor(&nbsp;color&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">using</span>(&nbsp;<span style="color:#2b91af;">Transaction</span>&nbsp;tx&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Transaction</span>(&nbsp;doc&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tx.Start(&nbsp;<span style="color:#a31515;">&quot;Change&nbsp;Element&nbsp;Color&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.ActiveView.SetElementOverrides(&nbsp;id,&nbsp;ogs&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tx.Commit();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">Result</span>&nbsp;Execute(
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ExternalCommandData</span>&nbsp;commandData,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">ref</span>&nbsp;<span style="color:blue;">string</span>&nbsp;message,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ElementSet</span>&nbsp;elements&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UIApplication</span>&nbsp;uiapp&nbsp;=&nbsp;commandData.Application;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UIDocument</span>&nbsp;uidoc&nbsp;=&nbsp;uiapp.ActiveUIDocument;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;=&nbsp;uidoc.Document;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">View</span>&nbsp;view&nbsp;=&nbsp;doc.ActiveView;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ElementId</span>&nbsp;id;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">try</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Selection</span>&nbsp;sel&nbsp;=&nbsp;uidoc.Selection;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Reference</span>&nbsp;r&nbsp;=&nbsp;sel.PickObject(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ObjectType</span>.Element,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;Pick&nbsp;element&nbsp;to&nbsp;change&nbsp;its&nbsp;colour&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;=&nbsp;r.ElementId;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">catch</span>(&nbsp;Autodesk.Revit.Exceptions.<span style="color:#2b91af;">OperationCanceledException</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#2b91af;">Result</span>.Cancelled;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;ChangeElementColor(&nbsp;doc,&nbsp;id&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#2b91af;">Result</span>.Succeeded;
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p>This code now lives in the 
+new <a href="https://github.com/jeremytammik/the_building_coder_samples/blob/master/BuildingCoder/BuildingCoder/CmdChangeElementColor.cs">sample command <code>CmdChangeElementColor</code></a>
+in <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder samples</a>.</p>
+
+<h4><a name="3"></a> Assign new Material to an Element</h4>
+
+<p>A slightly trickier question is how to assign a new material:</p>
+
+<p><strong>Question:</strong> I would like to assign a material to a selected element. The material assigned will come from spreadsheet data. I already know how to create a material object from the data, and now I would like to assign it to selected elements in Revit. How can this be achieved?</p>
+
+<p><strong>Answer:</strong> Regarding the assignment of a material to a BIM element:</p>
+
+<p>Please be aware that Revit is a BIM software. It produces a realistic building model.</p>
+
+<p>In reality, you cannot simply change the material of an existing building element such as a wall or a floor.</p>
+
+<p>If your floor is made of concrete, it stays concrete.</p>
+
+<p>If you prefer a wooden floor, you have to remove the concrete one first.</p>
+
+<p>Hence, simply swapping the material of a wall or floor is not as straightforward as one might assume.</p>
+
+<p>Furthermore, the material is not determined by the wall or floor itself, but by its type.</p>
+
+<p>Maybe you can simply swap the type.</p>
+
+<p>Higher up in the controlling hierarchy comes the category.</p>
+
+<p>The category does in fact provide
+a <a href="https://www.revitapidocs.com/2020/00aa768a-fca2-172f-e5d4-a4d787803983.htm"><code>Material</code> property</a> that
+can be read and written.</p>
+
+<p>So, one way to control the material of a wall is to set its category's material.</p>
+
+<p>However, this will affect other walls sharing the same category.</p>
+
+<p>You may be better served manipulating a sub-category instead.</p>
+
+<p>In any case, you need to proceed with care to avoid wrecking your model.</p>
+
+<p>Here is a code snippet that demonstrates changing an element category's material to a randomly chosen different material:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">void</span>&nbsp;ChangeElementMaterial(&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc,&nbsp;<span style="color:#2b91af;">ElementId</span>&nbsp;id&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;e&nbsp;=&nbsp;doc.GetElement(&nbsp;id&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;<span style="color:blue;">null</span>&nbsp;!=&nbsp;e.Category&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;im&nbsp;=&nbsp;e.Category.Material.Id.IntegerValue;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">Material</span>&gt;&nbsp;materials&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">Material</span>&gt;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.WhereElementIsNotElementType()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">Material</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.ToElements()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Where&lt;<span style="color:#2b91af;">Element</span>&gt;(&nbsp;m&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt;&nbsp;m.Id.IntegerValue&nbsp;!=&nbsp;im&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Cast&lt;<span style="color:#2b91af;">Material</span>&gt;()&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Random</span>&nbsp;r&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Random</span>();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;i&nbsp;=&nbsp;r.Next(&nbsp;materials.Count&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">using</span>(&nbsp;<span style="color:#2b91af;">Transaction</span>&nbsp;tx&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Transaction</span>(&nbsp;doc&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tx.Start(&nbsp;<span style="color:#a31515;">&quot;Change&nbsp;Element&nbsp;Material&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Category.Material&nbsp;=&nbsp;materials[&nbsp;i&nbsp;];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tx.Commit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+</pre>
+
+<p>I added  a call to this method as well in <code>CmdChangeElementColor</code>.</p>
+
+<p>This command is available
+in <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder samples</a>
+new <a href="https://github.com/jeremytammik/the_building_coder_samples/releases/tag/2021.0.149.1">release 2021.0.149.1</a>.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e94f366b200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e94f366b200b img-responsive" style="width: 500px; display: block; margin-left: auto; margin-right: auto;" alt="Materials" title="Materials" src="/assets/image_397f7b.jpg" /></a></p>
+
+<p></center></p>
+
+<h4><a name="4"></a> Addendum &ndash; Replace a Material in a Wall or Floor</h4>
+
+<p>Please refer to
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on how to <a href="https://forums.autodesk.com/t5/revit-api-forum/replace-material/m-p/9570625">replace material</a> for
+a more realistic and professional discussion on replacing materials in walls and floor in real-life BIMs.</p>
+
+<p>I'll skip all the trivial technical details and jump right to the end, to the real-world experience
+of Richard <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/1035859">RPThomas108</a> Thomas
+and <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/767846">Lukas Kohout</a>:</p>
+
+<blockquote>
+  <p>The reality is that if you are an AEC consultant then the wall types you use are based on the company specification for such you have developed over numerous projects. It would be unusual or inefficient not to have all the wall types you commonly use already defined in a Revit file for import (made up of the materials your specification covers).</p>
+  
+  <p>On the other hand, say you’ve developed those types and due to project development (contractor/employer proposals) etc. the materials need to change (for acoustic/sustainability etc.). Do you manually remake the wall types with the new material, or do you create new types from existing types changing the one material that has changed? Probably you don't want to make new types due to the instance assignment of type-based sweeps/reveals etc. So instead should swap the material in the existing types. In theory you could redefine the material itself, but it may be used in elements where the change isn’t required. I'm not surprised people would turn to the API for this kind of task. </p>
+  
+  <p>I would also add, from my experience that sometimes you want to create new wall types and materials and you need API to do that.</p>
+  
+  <p>In my previous job, we developed a Revit add-in that was connected to building material manufacturers product database. From that data, it created new wall, floor and ceiling types in project. New types had different compound structures, materials assigned and parameters filled. Doing that manually is really tedious, never mind that you would have to find the data from product lists and put them into project yourself.</p>
+  
+  <p>At that time, you had to duplicate an existing type in project and then add the new compound structure to it.
+  Maybe that changed now.</p>
+</blockquote>

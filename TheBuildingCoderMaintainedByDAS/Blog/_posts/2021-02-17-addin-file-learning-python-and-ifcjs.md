@@ -1,0 +1,386 @@
+---
+layout: "post"
+title: "Addin File, Learning Python and IFC.js"
+date: "2021-02-17 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Deployment"
+  - "Dynamo"
+  - "IFC"
+  - "Installation"
+  - "JavaScript"
+  - "Python"
+original_url: "https://thebuildingcoder.typepad.com/blog/2021/02/addin-file-learning-python-and-ifcjs.html "
+typepad_basename: "addin-file-learning-python-and-ifcjs"
+typepad_status: "Publish"
+---
+
+<p>Today, we look at the add-in manifest, learning Python and Dynamo, the status of the Revit Python shell and a useful stand-alone IFC viewer:</p>
+
+<ul>
+<li><a href="#2">Personalised add-in manifest</a></li>
+<li><a href="#2.1">Addin manifest using a relative path</a></li>
+<li><a href="#3">Learning Python and Dynamo</a>
+<ul>
+<li><a href="#3.1">Jacob's Dynamo learning resources</a></li>
+<li><a href="#3.2">Take Dynamo further using Python</a></li>
+</ul></li>
+<li><a href="#4">Quo vadis, RevitPythonShell?</a></li>
+<li><a href="#5">IFC.js</a></li>
+</ul>
+
+<h4><a name="2"></a> Personalised Add-In Manifest</h4>
+
+<p>Andrea Tassera of <a href="https://www.woodsbagot.com">Woods Bagot</a> raised an interesting question in 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/use-relative-paths-appdata-in-addin-file/m-p/10074984">using relative paths (<code>%appdata%</code>) in <code>.addin</code> file</a>:</p>
+
+<p><strong>Question:</strong> Is it possible to use a relative path, such as <code>%appdata%</code> in the <code>Assembly</code> section of the addin file?</p>
+
+<p>I am developing this plugin that will be deployed to other people in the company, and the DLLs will live somewhere in C:\Users\&lt;USERNAME&gt;\AppData\Roaming\NameOfFolder... so writing the explicit path with the user name is not a real option. Normally, in Windows, you would use <code>%appdata%</code>, but it doesn't seem to be working in the .addin.</p>
+
+<p>Is there a way?</p>
+
+<p>This is what I tried but isn't working:</p>
+
+<pre>
+<span style="color:blue;">&lt;?</span><span style="color:#a31515;">xml</span><span style="color:blue;">&nbsp;</span><span style="color:red;">version</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">1.0</span>&quot;<span style="color:blue;">&nbsp;</span><span style="color:red;">encoding</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">utf-8</span>&quot;<span style="color:blue;">?&gt;</span>
+<span style="color:blue;">&lt;</span><span style="color:#a31515;">RevitAddIns</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&lt;</span><span style="color:#a31515;">AddIn</span><span style="color:blue;">&nbsp;</span><span style="color:red;">Type</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">Application</span>&quot;<span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Name</span><span style="color:blue;">&gt;</span>Wb.ModelEstablishment.Revit<span style="color:blue;">&lt;/</span><span style="color:#a31515;">Name</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">FullClassName</span><span style="color:blue;">&gt;</span>Wb.ModelEstablishment.Revit.Ribbon<span style="color:blue;">&lt;/</span><span style="color:#a31515;">FullClassName</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Text</span><span style="color:blue;">&gt;</span>Wb.ModelEstablishment.Revit<span style="color:blue;">&lt;/</span><span style="color:#a31515;">Text</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Description</span><span style="color:blue;">&gt;</span>Model&nbsp;Establishment<span style="color:blue;">&lt;/</span><span style="color:#a31515;">Description</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">VisibilityMode</span><span style="color:blue;">&gt;</span>AlwaysVisible<span style="color:blue;">&lt;/</span><span style="color:#a31515;">VisibilityMode</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">Assembly</span><span style="color:blue;">&gt;</span>%appdata%\folder\subfolder\Wb.ModelEstablishment.Revit.dll<span style="color:blue;">&lt;/</span><span style="color:#a31515;">Assembly</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">AddInId</span><span style="color:blue;">&gt;</span>d06838e1-44e3-4c05-b9f1-f79ca101075c<span style="color:blue;">&lt;/</span><span style="color:#a31515;">AddInId</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">VendorId</span><span style="color:blue;">&gt;</span>WB<span style="color:blue;">&lt;/</span><span style="color:#a31515;">VendorId</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">VendorDescription</span><span style="color:blue;">&gt;</span>Woods&nbsp;Bagot<span style="color:blue;">&lt;/</span><span style="color:#a31515;">VendorDescription</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&lt;/</span><span style="color:#a31515;">AddIn</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&lt;/</span><span style="color:#a31515;">RevitAddIns</span><span style="color:blue;">&gt;</span>
+</pre>
+
+<p>But, if I use the explicit path:</p>
+
+<pre>
+  <span style="color:blue;">&lt;</span><span style="color:#a31515;">Assembly</span><span style="color:blue;">&gt;</span>C:\Users\sydata\AppData\Roaming\folder\subfolder\Wb.ModelEstablishment.Revit.dll<span style="color:blue;">&lt;/</span><span style="color:#a31515;">Assembly</span><span style="color:blue;">&gt;</span>
+</pre>
+
+<p>... it works fine.</p>
+
+<p><strong>Answer:</strong> Yes, it is definitely possible to use relative paths in the add-in manifest.</p>
+
+<p>However, <code>%appdata%</code> is not a relative path.</p>
+
+<p>That is a variable in an MS-DOS or Windows batch file, or possibly nowadays in a PowerShell script or something suchlike.</p>
+
+<p>Revit add-in manifest files do not support variables, neither MS-DOS nor Windows nor Unix nor any other flavour.</p>
+
+<p>You can read about what is and is not supported in manifest files in the Revit online help section
+on <a href="https://help.autodesk.com/view/RVT/2021/ENU/?guid=Revit_API_Revit_API_Developers_Guide_Introduction_Add_In_Integration_Add_in_Registration_html">add-in registration</a>.</p>
+
+<p>Look there for 'In a non-user-specific location in "application data"'.</p>
+
+<p><strong>Response:</strong> I have read the page you sent, but the whole 'user-specific' or 'non-user specific "application data"' talks about where to save the <code>.addin</code> file, not how to point to dlls placed in the <code>%appdata%</code> folder through the <code>Assembly</code> XML tag inside the <code>.addin</code> file.</p>
+
+<p>The .addin file can be in the user folder:</p>
+
+<ul>
+<li>C:\Users\&lt;user&gt;\AppData\Roaming\Autodesk\Revit\Addins...</li>
+</ul>
+
+<p>That's not a problem.
+The problem is that the <code>Assembly</code> tag needs to point to a roaming folder:</p>
+
+<ul>
+<li>C:\Users\&lt;user&gt;\AppData\Roaming...</li>
+</ul>
+
+<p>I don't know how to achieve that without using the absolute path.</p>
+
+<p>I can't write one specific addin file for every user in the office.</p>
+
+<p>Does it make sense?</p>
+
+<p><strong>Answer:</strong> Yes, absolutely, it makes perfect sense.</p>
+
+<p>As said, the <code>%appdata%</code> variable that you are referring to is a Windows specific variable that is not understood or supported by the add-in manifest file.</p>
+
+<p>One simple option I see for you is to (automatically) generate a user-specific add-in manifest for each user and place each one in the appropriate user-specific location.</p>
+
+<p>Another possible approach would be to place one single add-in manifest file for all users into the system-wide global location, and then use other run-time criteria to determine whether or not to make individual add-in functionality and components available to each user on a case-by-case basis, e.g., using the Revit API <code>AvailabilityClassName</code>.</p>
+
+<p>Oh, and another thing, much simpler:</p>
+
+<p>I almost never use the add-in assembly DLL path at all.</p>
+
+<p>I just place the add-in assembly DLL in the same location as the add-in manifest <code>*.addin</code> file, and then it is found without specifying any path at all.</p>
+
+<p>If you are already placing the add-in manifest file in the user-specific location, why don't you just put the DLL in the same place?</p>
+
+<p><strong>Response:</strong> Thanks for clarifying. I get what you mean now!</p>
+
+<p>Unfortunately, the DLLs are in the <code>%appdata%</code> folder because they come through <code>pyRevit</code>, and the repository gets pulled under:</p>
+
+<ul>
+<li>%appdata%\pyRevit\Extensions...</li>
+</ul>
+
+<p>Usually, pyRevit doesn't need addin files, but this is a linkbutton, because I need things to happen at application level (like registering a dockable panel), so it needs to have an addin file to load the DLLs when the Revit application is loading.
+It's a bit more complex than usual.</p>
+
+<p>We could maybe write a PowerShell script that moves those DLLs somewhere else, but it seems a bit convoluted.</p>
+
+<p>Creating an automatic generator of the addin sounds interesting though.
+From the docs you posted, I don't understand where that code would live though.
+It says that "It is intended for use from product installers and scripts".
+Does that mean something like a PowerShell script?</p>
+
+<p><strong>Answer:</strong> You mean the RevitAddInUtility.dll?</p>
+
+<p>The answer is Yes, cf. The Building Coder article
+on <a href="https://thebuildingcoder.typepad.com/blog/2010/04/revitaddinutility.html">RevitAddInUtility</a>.</p>
+
+<h4><a name="2.1"></a> Addin Manifest Using a Relative Path</h4>
+
+<p>Jason Masters added a more direct and down-to-earth solution:</p>
+
+<p>I believe the answer you're looking for is to just use the relative path modifier for moving up a folder level <code>..\</code>.
+There's no need to run a script at install just to get to a user's <code>appdata</code> folder. </p>
+
+<p>For instance, if I put my add-in DLLs under a different roaming folder like so:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833026bdebe2a8d200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833026bdebe2a8d200c image-full img-responsive" alt="Add-in manifest relative path" title="Add-in manifest relative path" src="/assets/image_eb9e69.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Then, to access those DLL files from my add-in, I can simply use <code>..\</code> to navigate up to my roaming folder;
+in this case, I'm navigating up 4 levels:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833026bdebe2a94200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833026bdebe2a94200c image-full img-responsive" alt="Add-in manifest relative path" title="Add-in manifest relative path" src="/assets/image_cb3ab3.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>When I launch Revit, you'll see that it's parsed the path correctly and will load the add-in:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833026bdebe2a9e200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833026bdebe2a9e200c image-full img-responsive" alt="Add-in manifest relative path" title="Add-in manifest relative path" src="/assets/image_926f13.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302788016051c200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302788016051c200d image-full img-responsive" alt="Add-in manifest relative path" title="Add-in manifest relative path" src="/assets/image_4ceeb7.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Also, <code>%appdata%</code> is the specific notation that <code>cmd.exe</code> and other Windows utilities use to refer to the <code>appdata</code> environment variable, but environment variables are in no way Windows specific and are commonly used on all operating systems.
+Revit really should support the use of environment variables in these addin files.</p>
+
+<h4><a name="3"></a> Learning Python and Dynamo</h4>
+
+<p>Next, let's look at the recurring question of beginners materials for Revit API using Python from 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on a <a href="https://forums.autodesk.com/t5/revit-api-forum/books-or-other-sources-to-learn-python-to-be-used-in-revit/m-p/10063424">best book for Python for Revit and Dynamo</a>:</p>
+
+<p><strong>Question:</strong> I'm starting to learn Python (and Dynamo) and encounter the problem of how to learn to use it for my actual needs in Revit.
+I got a whole bunch of Python books from the library.
+One problem is the books are either focused on examples to make simple videogames, or are way to advanced (and also not based on examples one would use in Revit).
+I have to admit, some children-oriented books were easier to understand :-)</p>
+
+<p>There is
+a <a href="https://books.google.com/books/about/Dynamo_for_Revit_Python_Scripting.html?id=ROYkygEACAAJ">Dynamo for Revit: Python Scripting</a> book,
+but that is not currently available.
+Are there actually books or sources that would teach Python on examples one would use for Revit/Dynamo?
+I'm learning best on an example I actually use.</p>
+
+<p>I also found there is a Revit Python Shell (RPS) on GitHub, but none for Revit 2021.
+Is there something similar?
+I saw some videos of how one can do some useful things in Revit.</p>
+
+<p><strong>Answer:</strong> The best and most up to date sources tend to be online these days.
+The second source is for RPS as you mentioned but would probably be my starting point for something specific to Revit.</p>
+
+<ul>
+<li><a href="https://wiki.python.org/moin/IntroductoryBooks">IntroductoryBooks &ndash; Python Wiki</a></li>
+<li><a href="https://daren-thomas.gitbooks.io/scripting-autodesk-revit-with-revitpythonshell/content">Introduction &ndash; Scripting Autodesk Revit with RevitPythonShell (gitbooks.io)</a></li>
+</ul>
+
+<p>People seem really passionate about Python, don't they.
+I'm no expert on this so maybe people have good book suggestions, but I prefer online for all aspects of learning generally.</p>
+
+<p><strong>Answer:</strong> The “book” you refer to is actually
+a <a href="https://www.lynda.com/course-tutorials/Dynamo-Revit-Python-Scripting-REVISION/779745-2.html">video tutorial by Jeremy Graham on LinkedIn</a>.
+Probably one of the best ways to get started.</p>
+
+<p><strong>Answer:</strong> To start with Python and Dynamo, I think this Autodesk University Class
+on <a href="https://www.autodesk.com/autodesk-university/class/Untangling-Python-Crash-Course-Dynamos-Python-Node-2017">Untangling Python: A Crash Course on Dynamo‘s Python Node</a> by
+Gui Talarico is a great resource.</p>
+
+<p>If you have some basis but you don´t know how to move on, a good way to learn Python applying to Dynamo is to download <b>3rd party packages</b> (Archilab, Clockwork, Lunchbox, Rhythm, Bimorph, Spring nodes, etc.)  and read the code that the nodes contain.  You will see really good implementations and good practices. You will be able to see how others think about problems and write the solutions.</p>
+
+<p>Have a good understanding of <b>Object-oriented programming</b> will help you on this and is a key aspect to understand how to use the Revit API with Python.</p>
+
+<p>About the resources, as is mentioned in the previous posts, I would take a look on LinkedIn learning and also at <a href="https://thinkparametric.com">thinkparametric.com</a>.
+There are good courses there.</p>
+
+<p>Good luck!</p>
+
+<p><strong>Answer:</strong> RevitPythonShell for Revit 2020 works just fine in Revit 2021 as well, cf. <a href="https://github.com/architecture-building-systems/revitpythonshell/issues/106">issue #106</a>.</p>
+
+<p><strong>Response:</strong> Thanks all.
+I'll digest what was offered. </p>
+
+<p>So far the <em>Automate the Boring Stuff with Python</em> book seems to be the best I could find in the library.
+So, I guess I will look more and start to dig deeper when I create some dynamo programs.</p>
+
+<p>I won't be able to install the Python shell in Revit.
+Since that is free, they don't really provide the security certificates our IT requires to allow installation.
+My hope is Revit will include it at some point (since Autodesk is already approved by IT).
+Until then I have to limit myself to the Python in dynamo nodes. </p>
+
+<p><strong>Answer:</strong> The vast majority API support examples are in C# but Python is sexy.</p>
+
+<p><strong>Answer:</strong> If you have Revit installed, Python is included: it is supported by the built-in Revit macro IDE (integrated development environment).</p>
+
+<p><strong>Response:</strong> You mean the macro manager? </p>
+
+<p>I haven't done anything with that yet.
+So, if that does what the Python shell does, I use what I already have.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302788015e4ec200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302788015e4ec200d image-full img-responsive" alt="Macro manager for Python" title="Macro manager for Python" src="/assets/image_885ae8.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p><strong>Answer:</strong> The macro manager does not quite do the same thing as RPS.</p>
+
+<p>RPS provides a <a href="https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop">REPL, read-evaluate-print loop</a>.</p>
+
+<p>That enables you to interactively program something, line by line, and execute each line as you type it.</p>
+
+<p>The macro environment enables you to create and execute macros.
+That means that you have to complete an entire macro and compile it before it can be executed.</p>
+
+<p>In any case, the simplest way forward for you would be to use what you have and work through a Revit macro tutorial first of all.</p>
+
+<p><strong>Response:</strong> Thanks for the advice. I'll look into that.</p>
+
+<p>I have a (growing) list of features or solutions I need in Revit and will try to work on solutions. Some will require some general Revit trickery, some dynamo, some macros etc. that way I will learn to sue the tools inc. Python. </p>
+
+<p><strong>Answer:</strong> Oh yes, we mentioned another book just two months ago,
+<a href="">Más Allá de Dynamo &ndash; Beyond Dynamo</a>,
+a Spanish-Language book by Kevin Himmelreich and the first Python manual focused on Dynamo and the Revit API.
+Even though it is in Spanish, you can understand most.
+It includes a bunch of examples and pretty much everything about the Revit API is covered in Python.</p>
+
+<h4><a name="3.1"></a> Jacob's Dynamo Learning Resources</h4>
+
+<p>My colleague Jacob Small reacted to the above and adds:</p>
+
+<blockquote>
+  <p>Just saw your latest blog post, and thought I'd share a few
+  more <a href="zip/Dynamo_Learning_Resources.pdf">Dynamo and Dynamo Python educational resources (PDF)</a>,
+  in case they help. Feel free to share around as needed... Thanks as always for the great content on the blog &ndash; they're on my 'always read' list as, even if it's not a need today, they usually come up eventually.  &nbsp; :-)</p>
+</blockquote>
+
+<ul>
+<li>Dynamo Info / News
+<ul>
+<li>Main: <a href="http://dynamobim.org/">http://dynamobim.org</a></li>
+<li>Blog: <a href="https://dynamobim.org/blog/">https://dynamobim.org/blog</a></li>
+<li>Dynamo Builds: <a href="http://dynamobuilds.com/">http://dynamobuilds.com</a></li>
+<li>Dynamo GitHub: <a href="https://github.com/DynamoDS/Dynamo">https://github.com/DynamoDS/Dynamo</a></li>
+</ul></li>
+<li>Dynamo Learning
+<ul>
+<li>Dynamo Primer: <a href="http://primer.dynamobim.org">http://primer.dynamobim.org</a></li>
+<li>Dynamo Forums: <a href="https://forum.dynamobim.com/">https://forum.dynamobim.com</a></li>
+<li>Dynamo Dictionary: <a href="https://dictionary.dynamobim.com">https://dictionary.dynamobim.com</a></li>
+<li>Dynamo Nodes: <a href="https://dynamonodes.com/">https://dynamonodes.com</a></li>
+</ul></li>
+<li>Design Script:
+<ul>
+<li>Design Script Language Summary: <a href="http://designscript.io/DesignScript_user_manual_0.1.pdf">http://designscript.io/DesignScript_user_manual_0.1.pdf</a></li>
+<li>Design Script Language Guide: <a href="https://dynamobim.org/wp-content/links/DesignScriptGuide.pdf">https://dynamobim.org/wp-content/links/DesignScriptGuide.pdf</a></li>
+<li>Design Script Presentation: <a href="https://github.com/Amoursol/dynamoDesignScript">https://github.com/Amoursol/dynamoDesignScript</a></li>
+</ul></li>
+<li>Dynamo Python:
+<ul>
+<li>Python for Dynamo AU Lab Handout: <a href="https://github.com/Amoursol/dynamoPython/blob/master/images/DivingDeeper_ABeginnersLookAtPythonInDynamo_AU_London2018.pdf">https://github.com/Amoursol/dynamoPython/blob/master/images/DivingDeeper_ABeginnersLookAtPythonInDynamo_AU_London2018.pdf</a></li>
+<li>Python for Dynamo examples: <a href="https://github.com/Amoursol/dynamoPython">https://github.com/Amoursol/dynamoPython</a></li>
+<li>Dynamo Python Primer: <a href="https://dynamopythonprimer.gitbook.io/dynamo-python-primer/">https://dynamopythonprimer.gitbook.io/dynamo-python-primer</a></li>
+</ul></li>
+<li>Revit API
+<ul>
+<li>Revit API Docs: <a href="https://www.revitapidocs.com/">https://www.revitapidocs.com</a></li>
+<li>Building Coder: <a href="https://thebuildingcoder.typepad.com">https://thebuildingcoder.typepad.com/</a></li>
+</ul></li>
+<li>Generative Design:
+<ul>
+<li>Info: <a href="https://www.autodesk.com/campaigns/refinery-beta">https://www.autodesk.com/campaigns/refinery-beta</a></li>
+<li>Primer: <a href="https://www.generativedesign.org/">https://www.generativedesign.org</a></li>
+<li>Beta Site: <a href="https://feedback.autodesk.com/key/RefineryLanding">https://feedback.autodesk.com/key/RefineryLanding</a></li>
+</ul></li>
+</ul>
+
+<p>Many thanks to Jacob for this useful collection!</p>
+
+<h4><a name="3.2"></a> Take Dynamo Further Using Python</h4>
+
+<p>Wayne Patrick <a href="https://twitter.com/waynepdalton">@waynepdalton</a> Dalton adds:</p>
+
+<blockquote>
+  <p>Hello Jeremy, not sure if this was mentioned in the section on Dynamo and Python (don't think it was?)</p>
+  
+  <p><a href="https://twitter.com/Oliver_E_Green">@Oliver_E_Green</a> put
+  together a great resource for <a href="https://twitter.com/DynamoBIM">@DynamoBIM</a>
+  and <a href="https://twitter.com/hashtag/Python">#Python</a>...
+  thought it might be helpful to flag it for those wanting to learn:</p>
+  
+  <p><a href="https://dynamopythonprimer.gitbook.io">Take Dynamo Further</a> &ndash;
+  using Python will take your Dynamo definitions to the next level</p>
+</blockquote>
+
+<p>Thank you, Wayne, for the helpful pointer!</p>
+
+<h4><a name="4"></a> Quo Vadis, RevitPythonShell?</h4>
+
+<p>I just happened to hear
+that <a href="https://github.com/architecture-building-systems/revitpythonshell">RevitPythonShell</a> is
+no longer actively supported by its creator and hitherto maintainer Daren Thomas, cf. our conversation
+on <a href="https://github.com/architecture-building-systems/revitpythonshell/issues/111">issue #111</a>.</p>
+
+<p>Says Daren:</p>
+
+<blockquote>
+  <p>As of next month, I will not have access to Revit anymore, and the project will need a new maintainer.</p>
+</blockquote>
+
+<p>I am very sorry to hear that, and ever so grateful to Daren for creating RPS in the first place and maintaining it for so long.</p>
+
+<p>RevitPythonShell was the first interactive REPL for Revit, followed by the sexier but less
+long-lived <a href="https://github.com/hakonhc/RevitRubyShell">RevitRubyShell</a>.</p>
+
+<p>In case of interest, please vote for <a href="https://github.com/eirannejad/pyRevit/issues/1161">pyRevit issue #1161 &ndash; pyRevit Python Shell?</a></p>
+
+<h4><a name="5"></a> IFC.js</h4>
+
+<p>From Python, let's turn to JavaScript and note the very interesting
+project <a href="https://github.com/agviegas/IFC.js">IFC.js</a>,
+described by <a href="https://www.aechive.net/agviegas/ifc-js-em4">Antonio González Viegas on aechive.net</a>:</p>
+
+<blockquote>
+  <p>an open source IFC web viewer.
+  <br/>It is fully built on JavaScript and Three.js, and everything is done client-side...
+  <br/>anyone with a browser can navigate IFC files (geometry and information) without depending on native applications...
+  <br/>advantages...</p>
+  
+  <ul>
+  <li>Scalability: the non-dependence of connection with a remote service to process an IFC means that there could be thousands of users visualising IFCs simultaneously with no processing cost, since each user supplies her own computational power to visualize her model.</li>
+  <li>Flexibility and ease of use: the library enables developers to operate without having to mount an API with HTTP calls. A clear example of this flexibility is having been able to deploy the entire application on github pages, creating a basic IFC viewer compatible with any modern device.</li>
+  <li>No internet connection necessary: as pure JavaScript, you can create desktop or mobile apps with React Native or Electron that enable offline IFC viewing</li>
+  </ul>
+</blockquote>

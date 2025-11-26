@@ -1,0 +1,110 @@
+---
+layout: "post"
+title: "Command Binding Conflicts and Face UV Coords"
+date: "2020-03-20 06:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Dynamo"
+  - "Geometry"
+  - "User Interface"
+original_url: "https://thebuildingcoder.typepad.com/blog/2020/03/command-binding-conflicts-and-understanding-face-uvs.html "
+typepad_basename: "command-binding-conflicts-and-understanding-face-uvs"
+typepad_status: "Publish"
+---
+
+<p>Today, let's pick up two recent discussions on the <code>UV</code> coordinate space on a face and the replacement of add-in command bindings:</p>
+
+<ul>
+<li><a href="#2">Understanding the Face <code>BoundingBoxUV</code></a></li>
+<li><a href="#3">Handling add-in command binding conflicts</a></li>
+</ul>
+
+<h4><a name="2"></a>Understanding the Face BoundingBoxUV</h4>
+
+<p>This question was raised in 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/how-to-understand-the-boundingboxuv-of-face/m-p/9374555">how to understand the <code>BoundingBoxUV</code> of face</a>:</p>
+
+<p><strong>Question:</strong> I am doing something with AVF, and have some problems with the <code>BoundingBoxUV</code> of face.</p>
+
+<p>I use the following code to find the feature points in the bottom-left corner area of the face:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:#2b91af;">BoundingBoxUV</span>&nbsp;bb&nbsp;=&nbsp;face.GetBoundingBox();
+&nbsp;&nbsp;<span style="color:#2b91af;">UV</span>&nbsp;pmid&nbsp;=&nbsp;0.5&nbsp;*&nbsp;(bb.Min&nbsp;+&nbsp;bb.Max);
+</pre>
+
+<p>However, the result shows that these points refer to the upper-right corner area:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4f40058200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4f40058200d img-responsive" style="width: 362px; display: block; margin-left: auto; margin-right: auto;" alt="Face bounding box lower left" title="Face bounding box lower left" src="/assets/image_382e89.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>I'm confused about this result! Can anyone can help me? Thanks in advance!</p>
+
+<p><strong>Answer:</strong> You need to know in which <code>XYZ</code> direction in 3D space the <code>UV</code> vector components <code>U</code> and <code>V</code> are pointing.</p>
+
+<p>You can find out by using
+the <a href="https://www.revitapidocs.com/2020/802cc09b-d0a4-dfc5-8ca1-e8c5e8cd4ced.htm">Project method</a> to
+project a <code>XYZ</code> point onto the face surface and seeing where it ends up.</p>
+
+<p>There is probably some more direct way to query either the face or its underlying surface for the U and V directions in 3D space.</p>
+
+<p><strong>Response:</strong> Forgive me, I don't understand your method, but it inspired me to think of another way.</p>
+
+<p>I use Dynamo to query the U and V directions of the face, and I am glad to share it:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a518ab14200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a518ab14200b image-full img-responsive" alt="Dynamo query for face U and V" title="Dynamo query for face U and V"  src="/assets/image_72b5c4.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Many thanks to Bing Yongcao for sharing this solution!</p>
+
+<h4><a name="3"></a>Handling Add-In Command Binding Conflicts</h4>
+
+<p>An interesting question was raised by Smcoder and addressed by Autodesk developer Phil Xia in
+a <a href="https://thebuildingcoder.typepad.com/blog/2012/06/replacing-built-in-commands-and-their-ids.html#comment-4837624436">series</a>
+<a href="https://thebuildingcoder.typepad.com/blog/2012/06/replacing-built-in-commands-and-their-ids.html#comment-4837714095">of</a>
+<a href="https://thebuildingcoder.typepad.com/blog/2012/06/replacing-built-in-commands-and-their-ids.html#comment-4838966941">comments</a>
+on <a href="https://thebuildingcoder.typepad.com/blog/2012/06/replacing-built-in-commands-and-their-ids.html">replacing built-in commands and obtaining their ids</a>:</p>
+
+<p><strong>Question:</strong> Do you know how it is handled if two different external applications bind to the same Revit Built-In Command?
+I haven't found any documentation, so I'm thinking of testing it myself to see what happens.
+In the case of a commercial product, you don't want your external application to conflict with any other product that may be running.
+So, how does Revit handle precedence when multiple add-ins subscribe to the same events or commands?</p>
+
+<p>Update: From conducting my own testing, it appears that <code>AddInCommandBinding</code> is first come, first served.
+On Revit startup, the various addins load alphabetically based on the name of the manifest file.
+It appears to me that when multiple external apps all attempt to bind the same built-in command, only the first app to load gets it.
+That being the case, one and only one of the applications responds when the desired BuiltInCommand is detected.
+If this is true, then any reliance on <code>AddInCommandBinding</code> would be extremely risky business if you're producing commercial software.
+If you had the bad fortune of the user installing another addin that ties up the same command and happens to alphabetize before your app, then you could have core features that will not fire.</p>
+
+<p>Can anyone confirm this finding?</p>
+
+<p><strong>Answer:</strong> I am Phil from development team.
+Yes, you are right, and the <code>AddInCommandBinding</code> is indeed first come, first served, based on the name of manifest file alphabetically.</p>
+
+<p>I would suggest that use a <code>try</code> <code>catch</code> handler to wrap the code to create the addincommand binding so it will throw an exception to say "The command xxx has already been replaced by xxx addin" in this case.
+You can build your UI experience based on this exception to help customer to make the decision to choose which addin they want to use or not.
+It is not an elegant solution because the customer has to unload one addin and restart Revit.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a518aad3200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a518aad3200b img-responsive" style="width: 362px; display: block; margin-left: auto; margin-right: auto;" alt="AddInCommandBinding already replaced" title="AddInCommandBinding already replaced" src="/assets/image_dc1f40.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p><strong>Response:</strong> Thank you for following up on this.
+It's great to know exactly how the binding works so that I can plan accordingly.
+In my case, I may opt for an altogether different solution that does not require binding to the built-in command.</p>
+
+<p>On closer inspection, I now see the mistake that prevented me from highlighting this issue earlier.
+I had over-constrained my external application's <code>OnStartup</code> routine with an overall <code>try</code> <code>catch</code> wrapper that simply returned "Result.Failed" on exception.
+So, the routine was being stopped and the error was being caught, but no actionable information was returned in the form of exception text, etc.</p>
+
+<p>Many thanks to Phil and Smcoder for raising and clarifying this question.</p>

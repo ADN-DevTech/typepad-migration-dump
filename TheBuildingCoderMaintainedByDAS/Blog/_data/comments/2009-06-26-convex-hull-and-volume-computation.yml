@@ -1,0 +1,198 @@
+comments:
+- author: Jim Bish
+  email: ''
+  ip: 70.174.20.92
+  url: http://profile.typepad.com/6p011571708a2a970b
+  date: '2009-06-27 09:49:22'
+  body: 'Hi Jeremy!
+
+
+    Could you please tell me how I can force pinning of a Rvt Link in code?... I have
+    a filter set up to select them, but the .pinned property is a read only boolean.'
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.15.110
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-06-29 03:38:11'
+  body: 'Hi Jeremy.
+
+    Thx again for this post.
+
+
+    Have you ever eard about a solution to see if an element is visible into a view?
+
+
+    Cheers!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-29 08:56:45'
+  body: 'Dear Jim,
+
+
+    Yes, the Pinned property on the Element class is read-only, just as you say. The
+    remarks say that an element which is pinned may not be moved, and warnings will
+    be issued when an attempt is made to delete it. The same property on the ImportInstance
+    offers a set method as well, so it is read-write. No, sorry, I do not know how
+    you might work around this to set the property through the API.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-29 09:01:31'
+  body: "Dear Pierre,\n\nGlad you liked it!\n\nHow about the property View.Elements?\
+    \ For a given view, it returns a set of all elements that will be drawn in the\
+    \ view. Elements that belong to this set have graphics that may be visible in\
+    \ this view. Some elements may still be hidden because they are obscured by other\
+    \ elements. \n\nCheers, Jeremy."
+- author: Jim Bish
+  email: jbish@inletechnology.com
+  ip: 76.160.17.130
+  url: ''
+  date: '2009-06-29 16:49:48'
+  body: 'Jeremy,
+
+
+    If I use a filter on OST_RvtLinks, two items are returned.  One is the Autodesk.Revit.Symbol
+    -&- the other is Autodesk.Revit.Instance.  "Supposedly", the Instance has a property
+    .pinned that is editable.  Is that true, and if so, How do we access it?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-30 05:56:17'
+  body: "Dear Jim,\n\nHmm, I am afraid the Instance you have got hold of is not an\
+    \ ImportInstance element.\n\nAn example of recursively iterating through all import\
+    \ instances is given in the discussion in\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/05/imports-in-families.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/05/imports-in-families.html</a>\n\
+    \nI massaged the code presented there slightly as follows to read and modify the\
+    \ Pinned property:\n\nforeach ( ImportInstance i in imports )\n{\n  string s =\
+    \ i.Pinned ? \"\" : \"not \";\n\n  Debug.Print( indent \n    + \"  '{0}' {1}pinned\"\
+    , \n    i.ObjectType.Name, s );\n\n  i.Pinned = !i.Pinned;\n}\n\nCheers, Jeremy."
+- author: Jim Bish
+  email: jbish@inletechnology.com
+  ip: 70.174.20.92
+  url: ''
+  date: '2009-06-30 06:55:58'
+  body: "No, this is not an ImportInstance.  It is a native .rvt file with 100% native\
+    \ geometry linked into the project... more specifically, the site plan (100% Revit).\
+    \  Here's a snip of the selection set filter.\n\nPublic Function Execute(ByVal\
+    \ commandData As Autodesk.Revit.ExternalCommandData, _\n        ByRef message\
+    \ As String, ByVal elements As Autodesk.Revit.ElementSet) As  _\n        Autodesk.Revit.IExternalCommand.Result\
+    \ Implements Autodesk.Revit.IExternalCommand.Execute\n\n        Dim rvtApp As\
+    \ Autodesk.Revit.Application = commandData.Application\n        Dim doc As Autodesk.Revit.Document\
+    \ = rvtApp.ActiveDocument\n        Dim element As Autodesk.Revit.Element = Nothing\n\
+    \        Dim CatFilter As Autodesk.Revit.Filter\n\n        CatFilter = rvtApp.Create.Filter.NewCategoryFilter(Autodesk.Revit.BuiltInCategory.OST_RvtLinks)\n\
+    \n        Dim result As New List(Of Autodesk.Revit.Element)\n        Dim NumLinks\
+    \ As String = rvtApp.ActiveDocument.Elements(CatFilter, result)\n\n        For\
+    \ Each element In result\n            If TypeOf (element) Is Autodesk.Revit.Elements.Instance\
+    \ Then\n                If element.Pinned = False Then\n                    MessageBox.Show(\"\
+    Hello!... \" & element.Name & \" is not pinned!... Please pin it.\")\n       \
+    \         End If\n            End If\n        Next"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-30 07:51:49'
+  body: 'Dear Jim,
+
+
+    Thank you very much for the sample code, that always helps clarify things a lot.
+    Unfortunately, I do not believe this is currently possible. I guess that pinning
+    objects involves so many constraints in the background that it has not been exposed
+    as read-write through the API yet.
+
+
+    Cheers, Jeremy.'
+- author: Max
+  email: mrevelli@infosys.it
+  ip: 94.81.33.18
+  url: ''
+  date: '2012-05-15 11:16:44'
+  body: "Hi Jeremy,\nI need to get intersection point from a volume define by a list\
+    \ of points and a line outside Revit (not with revit api), or determine whether\
+    \ a point is contained in a volume; is there any library in c/c# that I can use?\
+    \ \nCheers\nMax"
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.8
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-15 11:57:47'
+  body: 'Dear Max,
+
+
+    I would guess that there are tens of thousands of solutions for that out there.
+
+
+    Start off by looking at wikipedia, of course:
+
+
+    <a href="http://en.wikipedia.org/wiki/Line-plane_intersection">http://en.wikipedia.org/wiki/Line-plane_intersection</a>
+
+
+    When you say your volume is defined by a list of points, that leaves a lot of
+    possibilities. Are you dealing with the convex hull of the points?
+
+
+    <a href="http://en.wikipedia.org/wiki/Convex_hull">http://en.wikipedia.org/wiki/Convex_hull</a>
+
+
+    If so, you are lucky and everything is well defined and easy.
+
+
+    I talked a bit about convex hulls and volume computation way back, and point to
+    a powerful open source library for that:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/06/convex-hull-and-volume-computation.html">http://thebuildingcoder.typepad.com/blog/2009/06/convex-hull-and-volume-computation.html</a>
+
+
+    Oh, I see now, that is the article you were looking at  :-)
+
+
+    If you do not have a convex hull, which I strongly assume, you are dealing with
+    a polytope, or a polyhedron in 3D:
+
+
+    <a href="http://en.wikipedia.org/wiki/Polytope">http://en.wikipedia.org/wiki/Polytope</a>
+
+
+    Looking at that article, I see the following link which describes an algorithm
+    answering your question:
+
+
+    <a href="http://en.wikipedia.org/wiki/Intersection_of_a_polyhedron_with_a_line">http://en.wikipedia.org/wiki/Intersection_of_a_polyhedron_with_a_line</a>
+
+
+    That in turn points to some pseudo code for an implementation:
+
+
+    <a href="http://adrianboeing.blogspot.com/2010/02/intersection-of-convex-hull-with-line.html">http://adrianboeing.blogspot.com/2010/02/intersection-of-convex-hull-with-line.html</a>
+
+
+    Oops, that is for a convex hull again.
+
+
+    Actually, googling for "C# .net line plane intersection" returns tons of hits,
+    e.g.
+
+
+    http://stackoverflow.com/questions/30080/how-to-know-if-a-line-intersects-a-plane-in-c-basic-2d-geometry
+
+
+    There you go.
+
+
+    As you can see, you will have to do some research on your own.
+
+
+    That wasn''t so hard, was it?
+
+
+    Cheers, Jeremy.
+
+    -----'

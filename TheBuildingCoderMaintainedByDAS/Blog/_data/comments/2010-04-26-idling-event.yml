@@ -1,0 +1,53 @@
+comments:
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 189.26.197.254
+  url: http://arxdummies.blogspot.com
+  date: '2010-04-28 08:48:39'
+  body: 'Jeremy,
+
+
+    By reading your explanation (very detailed by the way, thanks) I was thinking
+    about the following scenario:
+
+
+    - The user is working within Revit performing general commands
+
+    - From time to time he stops and make Revit enter into an idle state for a moment
+
+    - At this moment I expect Revit to fire the Idling event
+
+    - My Revit plugin captures the idling event
+
+    - It gets control of Revit and perform some process, say a quick select over some
+    families and collect some parameter information (it should be quick)
+
+
+    My questions in this scenario would be:
+
+
+    1)How Revit will react if the user tries to fire some command during my idling
+    process? Do I need to handle this possibility?
+
+
+    2)Can I lock the Revit UI during this idling process?
+
+
+    3)Any special Transaction management in this scenario?
+
+
+    Regards.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-04-28 09:29:01'
+  body: "Dear Fernando,\n\nThank you for your appreciation, I am glad you like it.\n\
+    \nI have no idea what the answer is, although I suspect that a lot of thought\
+    \ and care has been given to these issues by Arnost and his colleagues as described\
+    \ in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/04/asynchronous-api-calls-and-idling.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/04/asynchronous-api-calls-and-idling.html</a>\n\
+    \nIf you want to write to the Revit database in your Idling handler, you have\
+    \ to open a transaction. That will probably lock Revit and its UI in the manner\
+    \ you intend.\n\nTry it out and let us know what you find out.\n\nCheers, Jeremy.\n\
+    -----"

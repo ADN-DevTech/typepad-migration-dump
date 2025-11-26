@@ -1,0 +1,251 @@
+comments:
+- author: KR
+  email: swiftbim@gmail.com
+  ip: 173.8.109.58
+  url: ''
+  date: '2012-11-01 10:48:24'
+  body: "Hi Jeremy,\n\nI have implemented this pattern before and I noticed that one\
+    \ of my CPU cores was running at 100% when using e.SetRaiseWithoutDelay(). As\
+    \ you know, this is because Revit is constantly raising the Idling event. I would\
+    \ only suggest a minor change to the code as below:\n\nif( !TaskContainer.Instance.HasTaskToPerform\
+    \ )\n      Threading.Thread.Sleep(1000);\n      return;\n\nThough, this would\
+    \ increase latency by a second. You can try different values of sleep and see\
+    \ how it affects the CPU usage."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-11-01 11:05:20'
+  body: 'Dear KR,
+
+
+    Thank you for your valid and helpful suggestion.
+
+
+    It all depends on your needs, of course: immediate response to the Revit task
+    request versus overall load on the CPU.
+
+
+    When in heaven''s name are we ever going to be allowed to keep our cake and eat
+    it too?
+
+
+    Cheers, Jeremy.'
+- author: KR
+  email: swiftbim@gmail.com
+  ip: 173.8.109.58
+  url: ''
+  date: '2012-11-01 11:08:35'
+  body: 'Jeremy,
+
+
+    I was hoping that we could do more with the ExternalEvent when it was introduced
+    with 2013. As you know, it does require the user to be active in order to be raised.
+    It would be nice if this was not the case. Hopefully in 2014.
+
+
+    KR'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-11-01 11:11:47'
+  body: "Dear KR,\n\nWhat is 2014? Never heard of it! \n\nI do not expect any changes\
+    \ in the external events at all.\n\nIf you want any, please make sure a wish list\
+    \ item is submitted.\n\nCheers, Jeremy."
+- author: Victor Chekalin
+  email: ''
+  ip: 91.221.195.201
+  url: http://profile.typepad.com/chekalin
+  date: '2012-11-01 23:04:56'
+  body: 'Hello, KR.
+
+    I also don''t think that ExternalEvent would help. <a href="http://thebuildingcoder.typepad.com/files/devcamp_2012_2-3_asynchronous_interactions.pdf"><b>External
+    Events are internally still based on Revit idling</b></a>
+
+    In my opinion the only correct subscribing and unsubscribing idling event can
+    avoid CPU loading.
+
+
+    Regards, Victor.'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2012-11-05 03:14:31'
+  body: 'Hi all,
+
+
+    there are sitations where OnIdling event won''t be fired.
+
+
+    Think of error or warning dialogs.
+
+    In fact, each dialog which remains opened will block the event.
+
+
+    Additionally, there are types of views in which no transactions can be performed,
+    for example all 3D views (excepting "{3D}") plus list views.
+
+
+    If you want Revit to show an element, think of handling the "Looking for good
+    view" dialog which needs to be closed before proceeding, anyway.
+
+
+    Best regards,
+
+    Rudolf'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-11-05 06:41:06'
+  body: 'Dear Rudolf,
+
+
+    I think you do not mean *all* 3D views except "{3D}", only all *perspective* views.
+
+
+    Cheers, Jeremy.'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2012-11-05 07:40:51'
+  body: "Hi Jeremy,\n\nyes, there are some sorts of Views which prevent the user from\
+    \ executing commands. \nPerspective views, for example.\n\nButtons are greyed\
+    \ out/disabled if such a view is the active one (this is also version depending,\
+    \ e.g. in Schedule Views, you can execute commands in 2013 but not in 2012).\n\
+    \nThus, the service must check if any command can be performed at all. \nOr think\
+    \ about the zero document environment...\n\n\nCheers,\nRudolf"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-11-05 08:37:49'
+  body: "Dear Rudolf,\n\nThank you for the valuable warnings. \n\nAlso, please be\
+    \ aware that the API can very well be active and used in a zero document context:\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2011/02/enable-ribbon-items-in-zero-document-state.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2011/02/enable-ribbon-items-in-zero-document-state.html</a>\n\
+    \nCheers, Jeremy."
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2012-11-05 08:55:17'
+  body: 'Hi Jeremy,
+
+
+    I know very well that API may be *active* in zero document environment.
+
+    But of course there is no document database to work with, so there is no much
+    sense in performing commands on this level, except opening files or returning
+    some application level data, e.g. Revit product info, version etc., of course.
+
+
+
+    Best regards,
+
+    Rudolf'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-11-05 09:14:26'
+  body: 'Dear Rudolf,
+
+
+    You could open an unlimited number of *background* documents. That should give
+    you enough to play with. Who needs a user interface, or a human user, for that
+    matter? Just another source of errors and confusion.  :-)
+
+
+    Cheers, Jeremy.'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2012-11-05 09:36:43'
+  body: 'Hi Jeremy,
+
+
+    I''ve done *both* so far:
+
+    driving Revit from outside (11/12/13) and creating/opening (family) documents
+    in the background.
+
+
+    When editing documents, it may happen that user interaction is needed.
+
+    We cannot handle all possible errors by the failure API (many, many BuiltInFailure
+    definitions, and think about overriding the default settings accidentally; in
+    fact we could suppress even severe errors without the user even noticing it).
+
+    So of course I who needs a user if you could do the job using a script ;-)
+
+    But no, noo, there will always some dialogs which must be handled by user.
+
+    Auto-clicking them, will be difficult because of localization issues and because
+    of the fact that Revit (and its plug-ins) may use a mixture of WPF and WinForm
+    controls. See UIAutomation for further information ;-)
+
+
+
+    Cheers,
+
+    Rudolf'
+- author: Albert
+  email: archilles0203@gmail.com
+  ip: 114.34.14.190
+  url: ''
+  date: '2014-08-23 07:49:25'
+  body: "Hi \nThis program is in revit 2013? and we should setup the revit sever 2013?"
+- author: Albert
+  email: archilles0203@gmail.com
+  ip: 1.163.177.129
+  url: ''
+  date: '2014-08-24 09:55:20'
+  body: 'Hi!!
+
+
+    I''m really want your help!!!!!!
+
+
+    I saw your blog (url:<a href="http://thebuildingcoder.typepad.com/blog/2012/11/drive-revit-through-a-wcf-service.html).">http://thebuildingcoder.typepad.com/blog/2012/11/drive-revit-through-a-wcf-service.html).</a>
+    Downloading the code, I installed the Revit 2013 in window sever2012 R2, Anything
+    I tried!!!!!
+
+
+    But there is a problen "RevitExternalAccessClient.exe cannot connect Revit & revit
+    has no response"
+
+
+    like this:<a href="http://localhost:56789">http://localhost:56789</a> is a incorrect
+    web site, Reject connection.127.0.0.1:56789. System.Net.Exception cannot connect
+    to sever......................................................................
+
+
+    Can You Help Me???? PLEASE!!!!!!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.183.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-08-25 13:20:09'
+  body: "Dear Albert,\n\nWhat we present here is not so much a program as a programming\
+    \ solution. \n\nYou can implement your own solution based on this in any version\
+    \ of Revit that you like. You do need it to support the Idling event or external\
+    \ events, though. Revit 2013 or anything newer than that is fine. \n\nRevit Server\
+    \ is not required. This has nothing whatsoever to do with Revit Server.\n\nCheers,\
+    \ Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.182.172
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-08-26 02:46:20'
+  body: "Dear Albert,\n \nPlease do not yell.\n \nThank you.\n \nNo sorry, I cannot\
+    \ provide much advice on this, beyond underlining that the example you refer to\
+    \ is a programming example.\n \nMainly, it presents source code that you can reuse\
+    \ in your own programming efforts.\n \nYou can implement your own solution based\
+    \ on it in any version of Revit that you like.\n \nYou do need it to support the\
+    \ Idling event or external events, though. Revit 2013 or any later version is\
+    \ fine.\n \nI hope this helps.\n \nCheers, Jeremy.\n-----"

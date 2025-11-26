@@ -1,0 +1,211 @@
+---
+layout: "post"
+title: "DevDays, Keynote Manager and REX Extensions"
+date: "2018-02-12 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "DevDays"
+  - "Getting Started"
+  - "Links"
+  - "News"
+  - "Parameters"
+  - "REX"
+  - "Ribbon"
+  - "Units"
+  - "Update"
+original_url: "https://thebuildingcoder.typepad.com/blog/2018/02/devdays-keynote-manager-and-rex-extensions.html "
+typepad_basename: "devdays-keynote-manager-and-rex-extensions"
+typepad_status: "Publish"
+---
+
+<p>Let's highlight a few recent threads from
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a>.</p>
+
+<p>Before getting to those, a quick pointer to the DevDays Online recording from last week:</p>
+
+<ul>
+<li><a href="#2">DevDays Online Presentations on Revit API Updates</a> </li>
+<li><a href="#3">External Command with Ribbon Button Sample</a> </li>
+<li><a href="#4">RevitAddinKeyNoteSystem Keynote Manager</a> </li>
+<li><a href="#5">REX Extensions versus Revit Add-Ins</a> </li>
+<li><a href="#6">Reloading Revit Links from User Selected Folder</a> </li>
+<li><a href="#7">Converting All Parameter Values to Metric</a> </li>
+</ul>
+
+<h4><a name="2"></a>DevDays Online Presentations on Revit API Updates</h4>
+
+<p>Here is the 55-minute YouTube recording of
+the <a href="https://youtu.be/w1WskGTzX3s">Autodesk DevDays Online 2017 presentation on Revit API, Civil 3D and InfraWorks updates</a>:</p>
+
+<p><center>
+<iframe width="480" height="270" src="https://www.youtube.com/embed/w1WskGTzX3s" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</center></p>
+
+<p>For ADN members only, a companion recording containing additional confidential information
+on <a href="https://adn.autodesk.io/index.php?r=custom_pages%2Fview&amp;id=143">Revit API updates for ADN members</a> has
+been posted to the ADN site.</p>
+
+<h4><a name="3"></a>External Command with Ribbon Button Sample</h4>
+
+<p>Continuing with the forum threads, let's begin with this simple one
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/revit-addins/m-p/7767351">Revit add-ins</a>:</p>
+
+<p><strong>Question:</strong> I want to start an external tool from a button in the ribbon.</p>
+
+<p><strong>Answer:</strong> Read the <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#2">Revit API getting started material</a>.
+That explains all you need.</p>
+
+<p>If you wish to skip all documentation, you can also just run through
+the <a href="http://help.autodesk.com/view/RVT/2018/ENU/?guid=Revit_API_Revit_API_Developers_Guide_Introduction_Getting_Started_Walkthroughs_html">hello world examples in the developer guide</a>.</p>
+
+<p>Finally, you can look at a real-world example in 
+the <a href="https://github.com/akseidel/RevitAddinKeyNoteSystem">RevitAddinKeyNoteSystem GitHub repository</a>.</p>
+
+<p>It contains an add-in that does exactly what you are asking about.</p>
+
+<p>It installs a ribbon panel where the <em>KeyNote Editor</em> button on the panel starts an external tool.</p>
+
+<p>The file <a href="https://github.com/akseidel/RevitAddinKeyNoteSystem/blob/master/RevitAddinKeyNoteSystem/AppKNS.cs">AppKNS.cs</a> contains
+the code that builds the ribbon.</p>
+
+<p><a href="https://github.com/akseidel/RevitAddinKeyNoteSystem/blob/master/RevitAddinKeyNoteSystem/OpenKeyNoteSystemCommand.cs">OpenKeyNoteSystemCommand.cs</a> implements
+the code that starts the external application.</p>
+
+<h4><a name="4"></a>RevitAddinKeyNoteSystem Keynote Manager</h4>
+
+<p>The pointer above from <a href="https://github.com/akseidel">Allan 'aksaks' 'akseidel' Seidel</a> of <a href="http://wmtao.com">WmTao</a> answers
+a very basic query on getting started with the Revit API.</p>
+
+<p>Allan's <a href="https://github.com/akseidel/RevitAddinKeyNoteSystem">RevitAddinKeyNoteSystem keynote manager</a> does much more, though.</p>
+
+<p>It implements the Revit ribbon component for the <a href="https://github.com/akseidel/WpfRevitUserKeynoteManager">WpfRevitUserKeynoteManager</a> application.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c94f0c39970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c94f0c39970b img-responsive" style="width: 111px; display: block; margin-left: auto; margin-right: auto;" alt="RevitAddinKeyNoteSystem" title="RevitAddinKeyNoteSystem" src="/assets/image_861163.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>The ribbon panel it creates handles four basic user needs in regard to Revit User Keynotes:</p>
+
+<ul>
+<li><strong>KeyNote Editor</strong> &ndash; launches the WpfRevitUserKeynoteManager application, a user keynote editor, with the current Revit project's user keynote file loaded up ready for creating and editing user keynotes. This editor provides a few convenient editing features germane to user keynote table files. It allows more than one person to edit the same user keynotes file at the same time, provided they edit different keynote categories.</li>
+<li><strong>UpDate</strong> &ndash; reloads the current Revit project's user keynote table file.</li>
+<li><strong>KeyNote</strong> &ndash; launches the Revit place keynote command.</li>
+<li><strong>Display Help</strong> &ndash; explains how to use the WpfRevitUserKeynoteManager application by launching it in its own documentation mode.</li>
+</ul>
+
+<p>Many thanks to Allan for sharing this!</p>
+
+<p>Here are some other of Allan's contributions here:</p>
+
+<ul>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2016/09/stacked-ribbon-button-panel-options.html">Stacked Ribbon Button Panel Options</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/03/wta-firep-and-3d-aimer-tools.html">WTA Elec, FireP and 3D Aimer Tools</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/03/wta-mech-and-ttt-for-provision-for-voids.html#3">WTA Mechanical Family Placement Add-in</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/04/work-half-aks-opener-rvtfader-and-forgefader.html#3">AKS Opener</a></li>
+</ul>
+
+<h4><a name="5"></a>REX Extensions versus Revit Add-Ins</h4>
+
+<p>This should really be pretty obvious, but somebody asked
+about <a href="https://stackoverflow.com/questions/48707506/revit-extensions-vs-plugins">REX extensions vs Revit add-ins</a>:</p>
+
+<p><strong>Question:</strong> What is the difference between extensions and plug-ins?</p>
+
+<p>I've been writing many plug-ins, and while diffing through the SDK folder I came across the REX framework and extensions.</p>
+
+<p>What are the benefits of one over the other?</p>
+
+<p><strong>Answer:</strong> The REX framework and extensions are Revit structure specific and built on top of pure simple Revit API add-ins.</p>
+
+<p>Here are some previous discussions of various aspects of REX:</p>
+
+<ul>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2011/04/the-rex-sdk.html">The REX SDK</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2011/12/rex-content-generator.html">REX content generator</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/06/structural-analytical-code-checking-and-results-builder.html">Structural Analytical Code Checking and Results Builder</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/12/security-framing-cross-section-analyser-and-rex.html">Framing Cross Section Analyser and REX</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2015/03/framing-cross-section-analyser-and-rex-in-revit-2015.html">Framing Cross Section Analyser and REX in Revit 2015</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2015/12/rex-app-development-and-migration.html">REX Add-In Development and Migration</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2016/10/au-revit-20171-and-rex-freezedrawing.html#5">REX SDK FreezeDrawing Sample</a></li>
+</ul>
+
+<h4><a name="6"></a>Reloading Revit Links from User Selected Folder</h4>
+
+<p>We discussed <a href="http://thebuildingcoder.typepad.com/blog/2016/08/automatically-reload-links-after-migration.html">automatically reloading links after migration</a>
+and <a href="http://thebuildingcoder.typepad.com/blog/2014/12/last-western-european-devdays-links-textures-ur4-vs-r2.html#2">loading and unloading Revit links</a>
+quite a while ago.</p>
+
+<p>A pretty basic question on how to use this functionality was raised and solved 
+by Andrea <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/5528189">@ATassera</a> Tassera in 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread 
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/reload-revit-links-from/m-p/7722248">reloading Revit links from...</a>.</p>
+
+<p><strong>Question:</strong> My add-in is currently getting the names of all linked files in the model, reading the file path from each; the user is prompted to choose from a folder depending on whether the name of the link is contained in the file path; now, what I want to do is to actually reload the files from the new file path ... but it's not working.</p>
+
+<p>I actually had a look at the discussion
+on <a href="http://thebuildingcoder.typepad.com/blog/2016/08/automatically-reload-links-after-migration.html">automatically reloading links after migration</a> while developing my script.</p>
+
+<p>Later, after several iterations, Andrea ended up sharing the following solution:</p>
+
+<p><strong>Solution:</strong> Thanks a lot for your reply and for the suggestions. I actually applied that bit of methodology that you suggested and I ended up finding the solution and making the tool work!</p>
+
+<p>The error was the <code>revLinkType</code> parameter that was pointing to the wrong thing.</p>
+
+<p>I modified the loading part completely pairing <code>ModelPath</code> from where to reload (taken by the user selection) and the <code>RevitLinkType</code> to actually reload (the files linked in the folder) through the <code>Zip</code> and <code>Tuple.Create</code> methods.</p>
+
+<p>The final code is available in the forum thread.</p>
+
+<p>The purpose of the script is to prompt the use with a file browser to select which files wants to be reloaded, then match file path of the new files where they contain the name of the linked file, create a tuple so you have the same order of <code>ModelPath</code> and <code>RevitLinkOption</code> and you <code>LoadFrom</code> with a for each file.</p>
+
+<h4><a name="7"></a>Converting All Parameter Values to Metric</h4>
+
+<p>Another solution was shared by <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/5242763">Ali Asad</a> in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread 
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/converting-all-parameter-values-from-imperial-units-to-metric/m-p/7707054">converting all parameter values from imperial units to metric units</a>:</p>
+
+<p><strong>Question:</strong> Following up <a href="https://forums.autodesk.com/t5/revit-api-forum/reading-wrong-type-parameters-values/m-p/7693187">Jeremy's solution on converting imperial unit to metric unit</a>.</p>
+
+<p>It's hard for me to figure out which enumeration value of <code>DisplayUnitType</code> to choose for all parameters, because all parameters may have values in different formats i.e., mm, V, VA.</p>
+
+<p>Currently, I'm retrieving the properties values in imperial units and I'd like to know, does the Revit API provide any easy way to automatically convert the return value format of any type-parameter to metric units?</p>
+
+<p>I cannot determine which <code>DisplayUnityType</code> enum I should use to get the value in the right format.</p>
+
+<p><strong>Answer:</strong> I do not think there is a generic method to convert all imperial units to metric.</p>
+
+<p>Basically, Revit uses standard metric SI units for everything except length, which is in feet.</p>
+
+<p>This is (almost) the only non-SI unit used.</p>
+
+<p>You will probably need to implement a conversion for each unit type you encounter.</p>
+
+<p>It is probably quite easy once you understand the basic principles.</p>
+
+<p>I looked at <a href="http://thebuildingcoder.typepad.com/blog/units">The Building Coder category on units</a>.</p>
+
+<p>Here are the posts that look most useful to me to help answer your question:</p>
+
+<ul>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/08/unit-abbreviations.html">Unit abbreviations</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2016/08/unitutils-converting-units-for-unit-weight.html">UnitUtils converting units for unit weight</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/11/localised-unit-abbreviations.html">Localised unit abbreviations</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/11/mapping-display-unit-type-to-unit-types.html">Mapping display unit type to unit types</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/11/unit-abbreviations.html">Unit abbreviations</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/01/revit-2013-unit-conversion-utility.html">Revit 2013 unit conversion utility</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2011/12/unit-conversion-and-display-string-formatting.html">Unit conversion and display string formatting</a></li>
+</ul>
+
+<p>You could parse the unit abbreviation string, determine how many inches, feet, mm, metres, etc. it contains, and multiply by a conversion factor from imperial to metric for each imperial unit encountered. </p>
+
+<p><strong>Response:</strong> Thanks for the solution!</p>
+
+<p>I used it to write
+a <a href="https://gist.github.com/imAliAsad/01893377dedef31b1e059a6241fc9b22#file-unitconvertor-cs">UnitConverter</a> script
+that converts all imperial units to metric units automatically.</p>
+
+<p>Here is
+the <a href="https://gist.github.com/imAliAsad/01893377dedef31b1e059a6241fc9b22#file-extractfamilyparameterdata-cs">ExtractFamilyParameterData.cs module</a> showing how it is used.</p>
+
+<p>Please feel free to share it with the community.</p>

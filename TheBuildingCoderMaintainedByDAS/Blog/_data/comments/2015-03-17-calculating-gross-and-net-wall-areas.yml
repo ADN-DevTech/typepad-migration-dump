@@ -1,0 +1,210 @@
+comments:
+- author: Arif Hanif
+  email: ahanif@aeieng.com
+  ip: 64.220.44.54
+  url: ''
+  date: '2015-03-17 14:34:19'
+  body: "Thanks Jeremy This is really helpful, I was able to piece a lot of the information\
+    \ together to get started.\n\nI am having an issue with obtaining opening X,Y,Z\
+    \ coordinates.\n\n\t        \t\t\tforeach (MyOpening opening in surface.openings)\n\
+    \t        \t\t\t{\n\t        \t\t\t\ts += \"     Opening:\\n        Area: \" +\
+    \ opening.area + \"\\n        Uvalue: \" + opening.type.Uvalue + \"\\n\";\n\t\
+    \        \t\t\t\ts += \"     Opening Points:\\n\";\n\t        \t\t\t\tforeach\
+    \ (XYZ element in opening.edges)\n\t        \t\t\t\t{\n\t        \t\t\t\t\ts +=\
+    \ \"     Normal:\\n\";\n\t        \t\t\t\t\ts += \" \" + string.Format(\"({0},{1},{2})\"\
+    , opening.normal.X, opening.normal.Y, opening.normal.Z) + \"\\n\";\n\t       \
+    \ \t\t\t\t}\n\t        \t\t\t}"
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.98.69
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-03-17 14:42:21'
+  body: 'Dear Arif,
+
+
+    Thank you for your appreciation.
+
+
+    I am glad you are making progress.
+
+
+    Your code does not make much sense to me, though.
+
+
+    Are you sure it even compiles?
+
+
+    The setout point application basically shows you all there is to know about obtaining
+    XYZ coordinates from Revit element geometry.
+
+
+    You should possibly do some more reading and experimenting before asking any further
+    questions  :-)
+
+
+    Cheers, Jeremy.'
+- author: Vilo
+  email: vilo176@gmail.com
+  ip: 92.103.238.133
+  url: ''
+  date: '2015-03-18 03:52:11'
+  body: 'Hi Jeremy,
+
+
+    Why not using "(wall as HostObject).FindInserts(...)" to determine the instances
+    nested into the given wall ?
+
+
+    Maybe the method above give better performances ?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.5.248.135
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-03-18 07:27:41'
+  body: 'Dear Vilo,
+
+
+    That is a very valid question indeed.
+
+
+    The simple answer is: I was unaware of it.
+
+
+    In olden times, methods similar to that shown above were the only way to retrieve
+    this information. Hence, for instance, this relationship inverter:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2008/10/relationship-in.html">http://thebuildingcoder.typepad.com/blog/2008/10/relationship-in.html</a>
+
+
+    Thank you very much for this valuable hint!
+
+
+    By the way, there is no need to say ''wall as HostObject'', because the wall is
+    a HostObject, being derived from it. You can simply use wall. FindInserts directly.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.5.248.135
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-03-18 07:39:47'
+  body: "Dear Vilo,\n\nI see what you mean now, of course. In the code above, the\
+    \ 'wall' variable is of type Element. I added the following debug code to verify\
+    \ that at least the number of openings retrieved is equal:\n\n  // This approach\
+    \ is much more efficient and \n  // entirely avoids the use of all filtered \n\
+    \  // element collectors.\n\n  IList<ElementId> inserts = ( wall as HostObject\
+    \ )\n    .FindInserts( true, true, true, true );\n\n  Debug.Assert( \n    lstTotempDel.Count.Equals(\
+    \ inserts.Count ),\n    \"expected FindInserts to return the same openings\" );\n\
+    \nThe GitHub repository code is updated now.\n\nThank you!\n\nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.97.120
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-03-19 06:48:21'
+  body: 'Dear Vilo,
+
+
+    Thank you again for this important suggestion.
+
+
+    I passed it on to Phillip as well, and he confirms that it is even more useful
+    in other way as well, e.g. for compound walls.
+
+
+    I published the new findings and updated C# solution as a new post:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2015/03/findinserts-retrieves-all-openings-in-all-wall-types.html">http://thebuildingcoder.typepad.com/blog/2015/03/findinserts-retrieves-all-openings-in-all-wall-types.html</a>
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Dave
+  email: dfriberg23@gmail.com
+  ip: 69.63.106.210
+  url: ''
+  date: '2015-03-26 13:24:42'
+  body: "Hi Jeremy,\n\nThis is pretty much just a gripe, but bear with me if you don't\
+    \ mind.  From the diff you posted above:\n\n-        foreach( View v in sheet.Views\
+    \ )\n+        foreach( ElementId id in viewIds )\n         {\n+          View\
+    \ v = doc.GetElement( id ) as View;\n+\n\nWhat?  That's hardly an improvement!\
+    \  Now client code is even more verbose.\n\nAlso the old paradigm, if it had been\
+    \ updated to return IEnumerable&lt;View&gt;, would be more amenable to use with\
+    \ Linq queries for post filtering.\n\nI'm not a fan of this one either:\n\n- \
+    \           pipe = doc.Create.NewPipe( q0, q1,\n-              pipe_type_standard\
+    \ );\n+            //pipe = doc.Create.NewPipe( q0, q1, pipe_type_standard );\
+    \ // 2014\n+\n+            pipe = Pipe.Create( doc, systemTypeId, \n+        \
+    \      pipe_type_standard.Id, levelId, q0, q1 ); // 2015\n           }\n\nFor\
+    \ the pipe, I now need to go find a systemTypeId from somewhere, but what if I\
+    \ don't want to assign this at creation time? \n\nNot sure it's doing any good\
+    \ to post this, but I like to vent occasionally."
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.5.248.118
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-03-29 14:53:21'
+  body: "Dear Dave,\n\nThank you for your comments, which I will reinterpret as constructive\
+    \ questions that raise interesting issues which help illustrate some API design\
+    \ principles and future trends important and worthwhile understanding.\n\nI asked\
+    \ Arnošt Löbel for an in-depth explanation, and he replies:\n\nBoy, is that a\
+    \ loaded question of what? Where do I start? I am afraid I cannot give a satisfactory\
+    \ answer and be brief at the same time. I’ll try to answer in stages for that\
+    \ very reason.\n\nA) Very brief explanation\n\nWe tend to use functions which\
+    \ take or return element Ids rather then element objects because:\n\n<ul>\n<li>It’s\
+    \ faster</li>\n<li>It’s safer</li>\n<li>It’s consistent and ties directly to what\
+    \ Revit does internally</li>\n</ul>\n\nB) Detailed and boring explanation\n\n\
+    When we originally exposed the API (2005?), there was no direct link between the\
+    \ API and internal Revit code. That had turned out to be a maintenance nightmare.\
+    \ As the API has developed from tiny to large and huge we have realised we simply\
+    \ cannot maintain two parallel hierarchies. That’s why we have developed a framework\
+    \ which allows us to generate the public API directly from the internal native\
+    \ code. Now, basically, what we Revit programmers see, the API programmer gets.\
+    \ Sometime we add certain public method for the API programmer’s convenience,\
+    \ but the majority of the API is pretty much a mirror of Revit internal classes\
+    \ and interfaces.\n\nThis applies both to the case of methods using Ids as well\
+    \ as the originally used element creating factories. For the latter, it’s very\
+    \ straightforward: We simply do not have such factories internally and we would\
+    \ not like having them. We believe that element creation is easier when it lives\
+    \ with the element class itself. It is also discoverable better that way.\n\n\
+    As for the element Ids - it has been part of Revit coding standard pretty much\
+    \ since ever. I mentioned that the main reasons are safety and speed. We often\
+    \ can do with just element Ids because that allows us to use elements without\
+    \ loading them to memory. For example, if I am looking for certain kind of a view,\
+    \ I can quickly get a list of their Ids, test what they are without expanding\
+    \ them (this is a fast test), and then only get the view I need. That mean I would\
+    \ be expanding one potential element only instead of, say, some hundred of view\
+    \ elements.\n\nThe safety aspect has to do with the fact that element objects\
+    \ can become inaccessible when deleted (naturally) or undone or redone. Such operations\
+    \ are not always obvious or visible to the internal programmer who holds a pointer\
+    \ to an element, which leads to very undesirable problem of dangling, invalid\
+    \ pointers. If the programmer uses the element's Id instead, however, then operations\
+    \ on the element are safe. All the programmer needs to do is to test if the element\
+    \ obtained for the given Id is NULL or not. Yes, it is somehow less convenient,\
+    \ but it is incomparably safer with almost no performance penalty. We have made\
+    \ internal element lookup so fast, that it is practically instant. \n\nC) The\
+    \ case of Pipe creation\n\nOn top of the above explanation, there is more about\
+    \ this API that perhaps deserves further explanation. I would need to talk to\
+    \ the MEP team to be certain, but I have seen the pattern in other APIs, thus\
+    \ I assume my guess will be very close to what the MEP folks would tell me. The\
+    \ changes the user see in 2015 are due to our continuing effort to separate Revit\
+    \ UI layer from the underlying model, to which we typically refer to as Revit\
+    \ DB. Without going into great details, the separation between those two should\
+    \ be such that the DB does not know about the UI, while the UI can know about\
+    \ the DB. Makes sense? So, even though it is not apparent when looking at the\
+    \ original pre-2015 pipe creation, the method (which is obviously a DB method)\
+    \ used to reach out to the UI layer to fetch the current type a pipe would be\
+    \ created with if the creation started via the UI. That, for us, is no longer\
+    \ acceptable and it is not how Revit works internally. The original pipe-creation\
+    \ method did what it did because it was written manually and did nor reflect Revit\
+    \ internals. With our effort of tying the API tightly with Revit internals, such\
+    \ approach is no longer possible. The API programmer now needs to do what Revit\
+    \ programmers do too, which is:\n\n<ul>\n<li>If there is UI, find out via the\
+    \ UI interface what the current type is and use that.</li>\n<li>If UI is not accessible\
+    \ (for whatever reason), the programmer simply must know what type is to be used.</li>\n\
+    </ul>\n\nI hope my answers are satisfactory. I realise they are not the briefest,\
+    \ but I tried my best.\n\nMany thanks to Arnošt for his detailed explanation!\n\
+    \nI hope this helps.\n\nCheers, Jeremy.\n-----"

@@ -1,0 +1,77 @@
+---
+layout: "post"
+title: "UIView Windows Coordinate Ray Casting Tooltip"
+date: "2017-01-25 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Algorithm"
+  - "Data Access"
+  - "Events"
+  - "External"
+  - "Git"
+  - "Idling"
+  - "Migration"
+  - "Update"
+  - "View"
+  - "Win32"
+original_url: "https://thebuildingcoder.typepad.com/blog/2017/01/uiview-windows-coordinate-referenceintersector-tooltip.html "
+typepad_basename: "uiview-windows-coordinate-referenceintersector-tooltip"
+typepad_status: "Publish"
+---
+
+<p>I was prompted by a recent Revit API support case to revisit the custom tooltip implementation that I prepared to demonstrate the Revit 2013 API features including the View API and its <code>UIView</code> class.</p>
+
+<p>As far as I know, the <code>UIView</code> class still provides the only possibility to convert back and forth between Revit model coordinates and Windows device screen points.</p>
+
+<p>That functionality can be combined with the <code>ReferenceIntersector</code> to shoot a ray through the model to determine what Revit database element is located under the current cursor position and display a custom tooltip presenting information about it or anything else you please.</p>
+
+<p>I explained the principles of doing so and the nitty-gritty implementation details of the <code>WinTooltip</code> sample add-in back in 2012:</p>
+
+<ul>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2012/06/uiview-and-windows-device-coordinates.html">UIView and Windows Device Coordinates</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2012/10/uiview-windows-coordinates-referenceintersector-and-my-own-tooltip.html">UIView, Windows Coordinates, ReferenceIntersector and My Own Tooltip</a></li>
+</ul>
+
+<p>Hosted on GitHub and migrated to Revit 2017, <a href="https://github.com/jeremytammik/WinTooltip">WinTooltip</a> now
+displays Revit database element information in a very rough custom tooltip like this:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d258514d970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d258514d970c img-responsive" style="width: 238px; " alt="WinTooltip custom tooltip in Revit" title="WinTooltip custom tooltip in Revit" src="/assets/image_2819f7.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>If you are lucky, WinTooltip and Revit will agree on what element you are pointing at and both display information about the same item simultaneously:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb097141fc970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb097141fc970d img-responsive" style="width: 302px; " alt="Simultaneous Revit and WinTooltip tooltips" title="Simultaneous Revit and WinTooltip tooltips" src="/assets/image_3d80b0.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>By the way, you might be surprised what minimal modifications were required for the migration.</p>
+
+<p>The code was not modified at all.</p>
+
+<p>I only changed the .NET framework version, updated the Revit API references
+and <a href="http://thebuildingcoder.typepad.com/blog/2014/09/architecture-mismatch-warning-disabler-update.html">eliminated the architecture mismatch warning using <code>DisableMismatchWarning.exe</code></a>.</p>
+
+<p>You can examine the exact changes made by looking at the GitHub diffs:</p>
+
+<ul>
+<li><a href="https://github.com/jeremytammik/WinTooltip/compare/2013.0.0.0...2017.0.0.0">Update Revit API references</a></li>
+<li><a href="https://github.com/jeremytammik/WinTooltip/compare/2017.0.0.0...2017.0.0.1">Remove architecture mismatch warning messages</a></li>
+</ul>
+
+<p>Please note that several important improvements on handling the <code>Idling</code> event properly that have been learned since 2012 have <b><i>not</i></b> been incorporated into this sample.</p>
+
+<p>For more information about those, especially the recommendation
+to <a href="http://thebuildingcoder.typepad.com/blog/2013/12/replacing-an-idling-event-handler-by-an-external-event.html">avoid <code>Idling</code> in favour of external events except for one-off calls</a>,
+please refer to The Building Coder topic group
+on <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.28"><code>Idling</code> and external events for modeless access and driving Revit from outside</a>.</p>
+
+<p>In its current form, WinTooltip for Revit 2017 is still just a flat migration of the original Revit 2013 implementation with all its flaws, just as a proof of concept, and not suitable for production use.</p>
+
+<p>I hope you find it interesting and useful despite this caveat.</p>
+
+<p>Check it out in its new <a href="https://github.com/jeremytammik/WinTooltip">WinTooltip GitHub repository</a>.</p>

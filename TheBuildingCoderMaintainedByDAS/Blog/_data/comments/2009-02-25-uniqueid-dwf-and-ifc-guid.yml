@@ -1,0 +1,770 @@
+comments:
+- author: David Bartliff
+  email: david.bartliff@cscworld.com
+  ip: 195.224.155.98
+  url: ''
+  date: '2009-03-16 10:36:18'
+  body: 'Our external application is linked to Revit via the Revit API using code
+    we have written ourselves. We use standard GUIDs to track objects in our application
+    and we would like to use those in the links but have not been able to so far.
+    Our workaround which was suggested by Autodesk is as follows
+
+    1. On export from Revit create a new standard GUID and add that and the ElementID
+    as parameters to the object. The ElementID is just a check to trap objects copied
+    in Revit.
+
+    2. On import to Revit check for an existing object with the standard guid parameter
+    else create a new one.
+
+    This works OK, although it is a little inefficient, but the major problem is that
+    we cannot export if the model contains groups because we need to have 2 similar
+    objects with different guids and so different parameter values.
+
+    Is there anyway we can use what you have written to solve our problem? We have
+    asked ADN support but I dont think they understood the issue.
+
+    Obviously we can get a standard guid for export but can you get from a standard
+    guid to a Revit unique id without knowing the ElementId and can you force the
+    EpisodeId when creating objects throught the API.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.84.203
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-03-27 07:07:55'
+  body: 'Hi David,
+
+
+    For one thing, I would suggest you re-raise the issue with ADN support and ensure
+    that we reach full understanding of the issue on both sides. Please raise a new
+    case and we will happily take a closer look at it.
+
+
+    Actually, I do not quite understand the problem from your description above either,
+    so probably a concrete example would be helpful.
+
+
+    I am pretty sure that there is no way to control the EpisodeId, which is generated
+    internally by Revit.
+
+
+    Getting from the GUID to the Revit unique id without knowing the element id is
+    not possible without additional information. One piece of additional information
+    that we do have access to is a list of all the existing unique ids in the model.
+    Together with the knowledge that the first bytes are identical, this might possibly
+    help us identify the object.
+
+
+    Cheers, Jeremy.'
+- author: henry medina
+  email: henry.medina@arup.com
+  ip: 62.189.175.212
+  url: ''
+  date: '2009-03-27 20:22:56'
+  body: 'Hi Jeremy,
+
+
+
+    How do I read an IFC format file?
+
+
+    Sincerely,
+
+    Henry'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.120.19
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-03-28 08:56:36'
+  body: "Dear Henry,\n\nWell, you have several options: \n\nIf you just want to peek\
+    \ into it, it is very simple, a line-based text file, every line represents one\
+    \ record. You can use this to extract individual snippets of information, but\
+    \ obviously not the entire complex structure. Have a look at it in a text editor\
+    \ to get a basic idea of how it is strucutred and how the inter-object relationships\
+    \ are defined.\n\nTo read the complex structure, i.e. all the inter-object relationships,\
+    \ you also have several options: \n\nThe IFC file is in fact a STEP file. Several\
+    \ public domain toolkits for reading STEP files are available, and you can use\
+    \ one of those to read the file including all relationships.\n\nIn addition, there\
+    \ are specialised IFC toolkits available. \n\nFinally, new XML based versions\
+    \ of the IFC standard have been defined.\n\nThis information may be out of date,\
+    \ since I have not worked with the format for a long time.\n\nFor more info, please\
+    \ contact the IFC and IAI experts directly.\n\nCheers, Jeremy."
+- author: Steve Lockley
+  email: Steve.Lockley@northumbria.ac.uk
+  ip: 212.219.25.75
+  url: ''
+  date: '2009-04-28 12:30:12'
+  body: "I have been looking at some IFC Guids and I wonder if there might be a problem\
+    \ in IfcGuid code.\nTake an Ifc encoded GUID = \"97VOzB2oqKW000000002XS\" this\
+    \ was produced by Autocad Architecture 2009. Convert it to a Guid and back and\
+    \ you get \"17VOzB2oqKW000000002XS\"\nThe 9 at the start is changed to a 1\nThis\
+    \ is not surprising as the function getGuidFromString64 sets the first Data1 value\
+    \ as \npGuid->Data1= (unsigned long) (num[0] * 16777216 + num[1]); Effectively\
+    \ this bit shifts the first two bytes 24 bits and loses one byte of the encoded\
+    \ number.\nIs this an error?"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-28 12:49:48'
+  body: 'Dear Steve,
+
+
+    Oh dear, you may be right and this may be an error. It certainly looks like one
+    to me. I only tested this code on a very limited set of GUIDs, and they were all
+    produced by Revit.
+
+
+    If you have any suggestion for a fix, or even an improved data set to perform
+    some validation tests on, that would be very much appreciated! Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Steve Lockley
+  email: Steve.Lockley@northumbria.ac.uk
+  ip: 212.219.25.75
+  url: ''
+  date: '2009-04-30 03:30:07'
+  body: 'Dear Jeremy, after a bit (too much) digging, I think the error may be with
+    the Autodesk Architecture Ifc Encoder rather than your algorithm. Here is a brief
+    description of the problem.
+
+    The Ifc documentation describes a regime for laying out a Guid into a 22 character
+    string of base 64 characters (consuming 6 bits each). This provides a maximum
+    of 22 * 6 = 132 bits to hold the 128 bits of the GUID. 4 bits of these 132 are
+    therefore clearly redundant. If we assume that the bits of the GUID are laid out
+    consecutively then one of the base 64 characters must be representing only 2 bits
+    of the GUID (21*6 = 126 leaving 128-126 = 2 bits). It therefore follows that one
+    of the base 64 characters will always carry a value that can be represented in
+    2 bits, in the case of the Ifc scheme this would be a value of "0" "1" "2" or
+    "3"
+
+
+    Inspection of a sample set of Ifc files produced by AllPlan, Revit, Bentley etc
+    shows that this character is the first character of the encoded string. "2UThZl83vEPujFbEyXRdpc",
+    "1UGYHEprT6ZQcbBS4RSbss" etc.
+
+
+    AutoCad Architecture 2009 Build 5.7.68.0 ifc files produced using ST-Developer
+    from STEP Tools does not however always conform to this rule and can produce GUIDs
+    such as "97VOzB2oqKW000000002Xg"
+
+    When these are read using the method set out in the Ifc documentation the first
+    character overflows the 128 bit structure and only the first two bits are processed,
+    resulting in a different Guid on a rewrite, "17VOzB2oqKW000000002Xg", the 9 being
+    transformed to a 1.
+
+
+    Theoretically, as the four bits are redundant and therefore ignored, the underlying
+    GUID should be the same. However, any attempt to match a GUID as a string comparison
+    would fail and furthermore it raises concerns that the Autocad Architecture GUID
+    may be laid out differently to other GUIDs. If this would be the case the GUID
+    would be different on exchange.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-30 04:09:27'
+  body: "Dear Steve,\n\nThank you very much for your thorough digging. I hope it as\
+    \ not in fact too much, at least your results seem very relevant and your explanation\
+    \ sounds perfectly plausible to me. Thank god, my encoding and decoding algorithm\
+    \ also remains unblemished by your explanation. \n\nI understand your concern\
+    \ about the conventions used in AutoCAD Architecture for the IFC GUID encoding,\
+    \ and the resulting problems in round-tripping and matching. I'll point out our\
+    \ discussion to some colleagues dealing with AutoCAD Architecture and IFC and\
+    \ ask their opinion on this matter.\n\nCheers, Jeremy."
+- author: NAyche
+  email: ''
+  ip: 68.62.251.149
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2009-11-25 21:45:02'
+  body: 'Jeremy,
+
+
+    Is there any logical reason on why Revit API developers did not override the object.Equals()
+    method to compare object ids
+
+
+    also, overriding the object.GetHashCode() to return the id.value instead of having
+    to say element.Id.value every time
+
+
+    I know we can live without them, I am just curious on why not?
+
+
+    Regards,
+
+    Nadim'
+- author: Jeremy Tammik
+  email: ''
+  ip: 64.134.224.60
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-28 20:37:00'
+  body: 'Dear Nadim,
+
+
+    Thank you for pointing this out!
+
+
+    I forwarded your comment to the development team, and they replied that they are
+    aware of this inconsistency and will consider addressing it in future releases.
+
+
+    Cheers, Jeremy.'
+- author: NAyche
+  email: ''
+  ip: 68.62.251.149
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2009-11-29 01:55:08'
+  body: 'Great.
+
+    Maybe they can also override the ToString() method to return element.Name, the
+    Name property is created in the base Element class, i.e. it should be fairly easy
+    too.
+
+
+    thanks Jeremy
+
+
+    Regards,
+
+    Nadim'
+- author: Jeremy Tammik
+  email: ''
+  ip: 64.134.224.60
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-29 11:33:39'
+  body: 'Dear Nadim,
+
+
+    Actually, you may be able to do it yourself using extension methods:
+
+
+    <a href="http://msdn.microsoft.com/en-us/library/bb383977.aspx">http://msdn.microsoft.com/en-us/library/bb383977.aspx</a>
+
+
+    Cheers, Jeremy.'
+- author: NAyche
+  email: ''
+  ip: 66.162.165.162
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2009-11-30 09:44:17'
+  body: 'That true.
+
+    I was still trying to restrain myself from messing up with the RevitAPI classes
+    :)
+
+    Besides, extension methods are new methods with new names.
+
+
+    it is not a big deal, but it would be good if they add this one line of code to
+    their base Element class :)
+
+
+    regards,
+
+    Nadim'
+- author: Wyan
+  email: nds9710@yahoo.com
+  ip: 165.91.196.74
+  url: ''
+  date: '2009-12-01 11:15:05'
+  body: 'Dear Jeremy,
+
+
+    Is there a way to convert DWF GUID to Revit UniqueID (and therefore to Revit ElementID)?
+    If this is possible, we can query Revit exported ODBC database from DWF.
+
+
+    Thank you,
+
+
+    Wyan'
+- author: Jeremy Tammik
+  email: ''
+  ip: 24.120.216.199
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-01 18:17:03'
+  body: 'Dear Nadim,
+
+
+    Yes, that makes sense. As said, the development team are aware of this and are
+    considerong addressing it in future releases.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 24.120.217.10
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-01 18:50:25'
+  body: 'Dear Wyan,
+
+
+    I would say, yes, more or less ... as explained above.
+
+
+    Cheers, Jeremy.'
+- author: Wyan
+  email: nds9710@yahoo.com
+  ip: 165.91.196.73
+  url: ''
+  date: '2009-12-03 17:02:25'
+  body: "Thanks, Jeremy. \n\nI still haven't got it. I understand that you can get\
+    \ GUID from EpisodeId and ElementID, but how to decompose GUID to EpisodeId and\
+    \ ElementID?\n\nCould you give me a little more hint? Thanks.\n\nBest,\n\nWYan"
+- author: Jeremy Tammik
+  email: ''
+  ip: 24.120.216.222
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-03 18:25:05'
+  body: "Dear Wyan,\n\nAs far as I remember, it is not possible to generate the Revit\
+    \ UniqueId from the GUID, because the EpisodeId information is not completely\
+    \ included in the GUID information. \n\nI do have an idea for a workaround for\
+    \ determining the complete UniqueId. It assumes that you have the GUID from the\
+    \ external source and also can access the Revit database to read all the existing\
+    \ UniqueId values. Create a dictionary of all the available UniqueId values and\
+    \ use the partial mapping information obtainable from the GUID to determine which\
+    \ of them is the one you need. \n\nCheers, Jeremy."
+- author: Hubert G
+  email: kr007517@reading.ac.uk
+  ip: 134.225.202.61
+  url: http://www.irc.reading.ac.uk
+  date: '2010-04-16 07:26:38'
+  body: 'Dear Jeremy,
+
+
+    I''m working on a dynamic building model prototype, potentially for intelligent
+    buildings, which should be compatible with IFC. I''ve recently learned from the
+    guys in charge of the BIM server that most software dealing with IFC automatically
+    regenerates GUIDs every time the file is saved. This is problematic for me as
+    it makes change control and the recognition of new/edited/deleted objects very
+    difficult, since the GUID is not static between different file versions. Is there
+    a reason why these applications feel the need to regenerate GUIDs and are any
+    suggestions you can make for circumventing this problem? Is it possible for instance
+    to somehow include the old and new guids when the file is saved so there is a
+    back-pointer to the previous version of the object?
+
+
+    Regards,
+
+
+    Hubert'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.160.122
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-04-20 03:35:50'
+  body: 'Dear Hubert,
+
+
+    I completely understand that the regeneration of GUIDs is problematic for you,
+    and I think that is a serious flaw in the IFC implementations that you are dealing
+    with. They should store the IFC GUID of each element when they read it in, and
+    reuse the same GUID on writing out the element again. That is trivial to do and
+    of fundamental importance. Please ensure that the vendors you are dealing with
+    are aware of your needs and this atrocious flaw in their IFC implementation.
+
+
+    IFC is an extremely open and flexible file format, so there are theoretically
+    lots of ways that you can add your own information to the building elements stored
+    in the file. For instance, you could also add the old GUID in your own custom
+    data container, so that if some application changes the element GUID, you still
+    have the old one available as well. The problem is that the software developers
+    are often lazy and selfish and do not support these useful flexible features unless
+    they are really forced to do so for their own purposes, so even though the IFC
+    format itself provides thus support, the different implementations may make it
+    very hard or even impossible for you to take advantage of them.
+
+
+    One approach that might help handle this problem is to set up your own external
+    database independently of all the software packages that read and write IFC files
+    for you, and keep track of the mapping between the various GUIDs that they produce
+    for yourself.
+
+
+    Cheers, Jeremy.'
+- author: Håkon Clausen
+  email: hakonhc@hclausen.net
+  ip: 77.40.227.62
+  url: ''
+  date: '2010-06-09 09:49:24'
+  body: 'Thanks for a great article!
+
+    Since I''m not a great fan of dependencies to unmanaged code I did some work on
+    converting the C part to C#. I could post it if someone is interested.
+
+
+    I''m having some trouble though with mismatch between the GUID I calculate and
+    the one exported to IFC.
+
+    If I try to calculate the IFC GUID for some family symbols it does only work for
+    some of them.
+
+    For instance, the GUID on furnitures seems to match with the GUID on the IfcFurnitureType
+    (the corresponding IFC object), however the GUID on a door symbol does not correspond
+    with the GUID on the exported IfcDoorStyle. I guess it has to do with the IfcDoorStyle
+    often being exported multiple times for some strange reasons, but even if it''s
+    one to one, the GUID does not match. Is there any way to calculate the right GUID
+    for these elements to?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.71.6
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-10 14:31:58'
+  body: "Dear Håkon,\n\nThank you for your appreciation, I am very glad you like it.\n\
+    \nYes, sure, I would gladly post a C# version of this algorithm, if you can provide\
+    \ a sample project and source code, preferably with a short description documenting\
+    \ what it does and why you chose to rewrite it. That would be great!\n\nI cannot\
+    \ say much about why it might fail for some family symbols (do you mean instances?)\n\
+    \nIn Revit 2011, there is a new API method which may provide the correct exported\
+    \ element GUIDs that you are looking for: \n\n\"Export id: The static method ExportUtils.GetExportId()\
+    \ retrieves the GUID representing an element in DWF and IFC export.  This id is\
+    \ used in the contents of DWF export and IFC export and it should be used only\
+    \ when cross-referencing to the contents of these export formats.  When storing\
+    \ Ids that will need to be mapped back to elements in future sessions, UniqueId\
+    \ must be used instead.\"\n\nPlease let me know whether this helps.\n\nCheers,\
+    \ Jeremy."
+- author: Mvaerle
+  email: ''
+  ip: 86.93.219.180
+  url: http://profile.typepad.com/mvaerle
+  date: '2010-10-17 09:39:23'
+  body: "Dear Jeremy,\n\nFrom your reply to Hubert G, the very nice reply you've sent\
+    \ to my e-mail and from the reply to Håkon I understand that the usage of the\
+    \ IFC GUIDs might be a little limited.\n\nWe are working on an external application\
+    \ the uses the IFC GUIDs to connect other resources to objects in the IFC file.\
+    \ However when a new version of the IFC file is uploaded after making some changes\
+    \ in Revit I understand that the GUIDs are regenerated? \n\nIn our case this would\
+    \ mean all the mappings will be gone.\n\nCheers, and thanks a lot for all the\
+    \ valuable information provided here."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-10-18 13:57:21'
+  body: 'Dear Marijn,
+
+
+    Thank you for your appreciation! I am glad the information is useful for you.
+
+
+    As stated, the GUID for DXF and IFC purposes is generated the same as long as
+    the document itself does not change (as when merging with other changes in a central
+    file, during which elements could be remapped).
+
+
+    When ExportUtils.GetExportId is called several times, it should give you the same
+    GUID. Also, when you export a document twice, the GUIDs for each element should
+    match. That’s, again, when you either export during one Revit session (without
+    syncing), or if during different session then when nothing is done to the elements
+    (like syncing with central, upgrading, etc.)
+
+
+    If you need some reliable persistent element identification, you can use the Element
+    UniqueId property. Adding a table mapping the UniqueId property to the current
+    element id should allow you to synchronize with the IFC file as well.
+
+
+    Cheers, Jeremy.'
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: ''
+  date: '2011-09-15 05:19:21'
+  body: "Is there way to get Element.UniqueId knowing just ElementId? In other post\
+    \ I wrote the function <a href=\"http://pastebin.com/bwzqbHBn.\">http://pastebin.com/bwzqbHBn.</a>\n\
+    \ The function works well. But it works if element exists in the document. \n\
+    \ Is it possible to calculate Element.UniqueId if I know ElementId and Document?\
+    \ I want to use it in Dynamic Model Update when elements was deleted."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.150.1
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-09-15 09:00:17'
+  body: "Dear Виктор,\n\nCongratulations on your elegant function implementation and\
+    \ thank you for the interesting discussion and solution you suggest in the related\
+    \ thread attached to \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/10/access-deleted-element.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/10/access-deleted-element.html</a>\n\
+    \nUnfortunately, there is no way to determine an element's UniqueId if you do\
+    \ not have access to both the element and the document.\n\nThe other component\
+    \ of the unique id is the id of the workset in which the element was created,\
+    \ and there is no way to guess this for workshared files.\n\nCheers, Jeremy."
+- author: paresh
+  email: pmodi@asite.com
+  ip: 203.88.134.189
+  url: ''
+  date: '2011-12-05 02:23:37'
+  body: 'Hi,
+
+
+    So the size of IFC GUID is always 22 character for all type ?
+
+
+    Thanks
+
+    Paresh'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-12-05 02:31:05'
+  body: 'Dear Paresh,
+
+
+    As far as I know... but don''t trust me! Don''t trust anyone!
+
+
+    Just assume so for the time being, if you like, and add an assertion to your code
+    to check that this assumption holds under all circumstances you encounter in all
+    of your hopefully extensive test cases.
+
+
+    Cheers, Jeremy.'
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://revitprogrammer.blogspot.com/
+  date: '2012-01-19 05:27:48'
+  body: 'Hi, Jeremy.
+
+    Interesting thing I''ve found today.
+
+    As we know about link between Element.UniqueId and ElementId that last 8 characters
+    of UniqueId is a hexadecimal representation of Id.
+
+    I use this feature in my project when I use DMU.
+
+    E.g. Element with UniqueId "4f0a3f58-d92d-4808-bc33-b67ba14a29d6-001e5323" must
+    have 1987363 Id
+
+
+    But look at the picture. <a href="http://s11.radikal.ru/i183/1201/40/de3741e543e0.png">http://s11.radikal.ru/i183/1201/40/de3741e543e0.png</a>
+    Element.UniqueId = 4f0a3f58-d92d-4808-bc33-b67ba14a29d6-001e5323 has Id = 1987378
+
+
+    How it can be possible?
+
+    What do you think about it?
+
+
+    I have at least 10 elements which UniqueId doesn''t correspond to Id.'
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://revitprogrammer.blogspot.com/
+  date: '2012-01-19 05:45:12'
+  body: "One more example. \nCompletely difference.\n\n<a href=\"http://s018.radikal.ru/i521/1201/75/6210924623df.png\"\
+    >http://s018.radikal.ru/i521/1201/75/6210924623df.png</a>\n\n3227577 in hex is\
+    \ 313fb9\nbut from uniqueid: 3080d6 = 3178710\n\nRegards, Victor"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-01-20 05:54:17'
+  body: "Dear Victor,\n\nThank you for this important discovery!\n\nSo that means\
+    \ that the above algorithms is not always reliable.\n\nBy the way, element ids\
+    \ are always unreliable, they can be changed by various circumstances. \n\nThe\
+    \ unique id is more reliable.\n\nTo obtain an element id from a given unique id,\
+    \ the only reliable way that I am aware of is to open the element using the Document.Element\
+    \ property taking a string argument, i.e. the get_Element method in C#.\n\nAnother\
+    \ related but different method is ExportUtils.GetExportId, but that does not help\
+    \ in this case.\n\nCheers, Jeremy."
+- author: Samuel
+  email: mrsamuelnelson@gmail.com
+  ip: 97.90.225.64
+  url: ''
+  date: '2012-09-08 15:32:42'
+  body: 'Jeremy,
+
+    How are the episodeid and elementid generated. Do all walls, for example, in all
+    Revit projects share the same episodeid for walls? If this is the case for episodeids,
+    and elementids themselves are not unique, how does combining an episodeid with
+    an elementid to create the uniqueid in truth actually result in an id that is
+    ''unique''? Furthermore, how either would xoring an episodeid with an elementid
+    to get a GUID, result in an id that is unique (for the purpose of GUIDs is to
+    have a cross-application id that is unique)?
+
+    I thank you greatly, in advance, for any input you can give me on this.
+
+    Thanks,
+
+    Samuel'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-09-09 15:17:55'
+  body: 'Dear Samuel,
+
+
+    I can say that the episode id has something with time to do, and maybe with the
+    current transaction. So no, walls will not share the same one. It is anyone''s
+    guess how the episode id is generated, and how the combination of episode id and
+    element id can be guaranteed to be unique. As you know, every wall will have its
+    own unique (within the project) element id.
+
+
+    That''s really all I can say, and the answer to all your remaining questions is
+    simply ''no idea''.
+
+
+    Cheers, Jeremy.'
+- author: Paul Marsland
+  email: paul.marsland@ngbailey.co.uk
+  ip: 86.15.110.127
+  url: http://www.ngbailey.co.uk
+  date: '2013-07-09 07:20:08'
+  body: 'Jeremy
+
+
+    The above has been extremely useful, Do you by any chance know how AutoCAD generates
+    it GUID''s on export to ifc.
+
+
+    I have tried using the same logic as above XORing the DrawingFingerprintGuid with
+    the entity handle (seemed a logical way to do it) but this results in a different
+    GUID to the encoded ifc GUID you get on export. It is also different to the GUID
+    you get when importing into Navisworks.
+
+
+    There must be a consistent way the IFC export and Navisworks import GUID''s are
+    created from data associated with the object so that both (created by different
+    applications) result in the same GUID (one IFC coded the other a standard representation
+    of it)'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.219.61
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-07-09 07:36:32'
+  body: "Dear Paul,\n\nThank you for your appreciation. I am glad you found it useful.\
+    \ \n\nNo, sorry, I have no idea how AutoCAD manages this. You could ask Through\
+    \ the Interface or on an Autodesk AutoCAD API discussion forum.\n\nCheers, Jeremy."
+- author: Laszlo
+  email: laszlo.hermann@gmail.com
+  ip: 188.213.217.254
+  url: ''
+  date: '2015-05-07 06:42:54'
+  body: "Hi Jeremy,\n\nIt's clear that shrinking the 156-bit Revit ID to a standard\
+    \ 128-bit Guid will result in duplicate guids in some (rare) cases.\n\nYou're\
+    \ XORing the last 32 bits bits of the EpisodeID with the ElementId - is there\
+    \ a reason behind choosing the last 32 bits to be altered? Why not the first 32\
+    \ bits? \n\nWill altering the last 32 bits result in less duplicate guids than\
+    \ altering the first 32 bits?\n\nIs there a rule on how the EpisodeID changes?\
+    \ If the last 32 bits change more often than the first 32 bits, then I'd think\
+    \ that xor'ing the last 32 bits will result in duplicates more often than xor'ing\
+    \ the first 32 bits.\n\n\nCheers,\nLaszlo."
+- author: Jeremy Tammik
+  email: ''
+  ip: 94.200.181.34
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-07 07:37:09'
+  body: 'Dear Laszlo,
+
+
+    Thank you for your pertinent questions.
+
+
+    Unfortunately, I can provide exactly zero answers.
+
+
+    No idea.
+
+
+    You will just have to take it or leave it.
+
+
+    Well, actually, I can add a teeny weeny little bit: whether the cases are rare
+    or not will depend on your use cases.
+
+
+    So, not necessarily rare.
+
+
+    All the rest you would have to ask the development team, and I don''t think they
+    will see any reason to answer.
+
+
+    And I myself cannot, unfortunately.
+
+
+    Good luck making use of this exactly the way it is!
+
+
+    Cheers, Jeremy.'
+- author: Paul Marsland
+  email: paul.marsland@ngbailey.co.uk
+  ip: 86.15.110.127
+  url: ''
+  date: '2015-06-16 02:33:10'
+  body: 'In Revit the ElementId is simply the next sequential number in the Revit
+    database. Because Revit uses worksets (ie: different users can take a copy of
+    the Revit Model, work on it and then Synchronise back to the Master) The ElementId''s
+    will get duplicated in each of the copies. Revit re-numbers such duplications
+    to avoid conflict when models are synchronised.
+
+
+    In order to keep the UniqueId''s unique the ElementId is XOR''ed with the EpisodeID
+    when an instance is created (EpisodeId''s are different for each copy of Revit
+    opened). Because of this it is not possible to get the original ElementId back
+    from either the UniqueId or GUID.
+
+
+    This can be very annoying as it effectively means an element cannot be mapped
+    forwards and backwards using its GUID (or base 64 ifc GUID). You have to use the
+    UniqueId in order to do this. And Autodesk in their wisdom don''t export the UniqueId
+    (by default it has to be enabled) when exporting to formats such as Navisworks.
+
+
+    This effectively means that the UniqueId is much more useful than the GUID. (which
+    is not good). Autodesk need to resolve this issue, using the GUID as Revit''s
+    unique reference rather than the UniqueId would solve the issue.
+
+
+    Paul Marsland'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-06-22 05:10:06'
+  body: 'Dear Paul,
+
+
+    I agree with a lot of what you say.
+
+
+    Still, unfortunately, as you certainly understand, we cannot change the state
+    of the element identification just like that.
+
+
+    I discussed the issue with Arnošt Löbel and Angel Velez of the Revit development
+    team, and we came to the following conclusions:
+
+
+    <ul>
+
+    <li>UniqueIds must stay the way they are due to their important role in worksharing.</li>
+
+    <li>IFC and DXF must receive GUIDs because that is what they require.</li>
+
+    <li>UniqueIds could certainly be added to the export along with the GUIDs in the
+    long run. That is actually something you can achieve today yourself, especially
+    for IFC, which can be customised, being open source.</li>
+
+    <li>The method ExportUtils.GetExportId can be useful if you need a mapping between
+    export GUIDs. The direction of UniqueId to GUID is trivial - just call the method.
+    The reverse is possible too, albeit painful. Doable too, however, especially in
+    cases when you know what you are looking for. Given the GUID of a wall, you can
+    retrieve all walls from the model and test which one of them matches the given
+    GUID.  As said, it could be painful and require a lot of time to map all GUIDs
+    to their original elements. Keep in mind that Revit does not see IFC, DWF, DWG,
+    etc. as round-trip formats. This is due to the formats themselves, not Revit.</li>
+
+    </ul>
+
+
+    I hope this clarifies and helps.
+
+
+    Cheers, Jeremy.
+
+    -----'

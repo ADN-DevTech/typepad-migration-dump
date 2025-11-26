@@ -1,0 +1,43 @@
+comments:
+- author: Guy Robinson
+  email: info@r-e-d.co.nz
+  ip: 60.234.255.173
+  url: ''
+  date: '2008-12-04 15:17:54'
+  body: '"""If it is important to the add-in to not "modify" the model inadvertently,
+    you need to keep track of whether you have made modifications, return Succeeded
+    if you did, and Cancelled or Failed if you did not."""
+
+
+    You can have readonly commands that don''t modify the model and can run successfully
+    or be cancelled by the user. As far as the journal is concerned a command has
+    one transaction. It''s for that reason I''d argue Result.Succeeded needs to be
+    split into Result.Succeeded and Result.SucceedTransact with IsModified set for
+    SucceedTransact but not Succeeded. Allowing a true indication of user response
+    v''s command transaction state.
+
+
+    Guy'
+- author: Jeremy Tammik
+  email: jeremy.tammik@autodesk.com
+  ip: 65.160.18.165
+  url: http://profile.typekey.com/1218580759s22477/
+  date: '2008-12-04 15:40:58'
+  body: 'Hi Guy,
+
+
+    Thank you for the clarification! I completely agree. To keep it as simple as possible
+    for the default case and simultaneously maintain maximum backwards compatibility,
+    Result.Succeeded could close the transaction and a new enumeration value Result.SucceededUnmodified
+    could be added to indicate succcess and still abort the transaction.
+
+
+    Best regards, Jeremy.'
+- author: Ian
+  email: jesta192@gmail.com
+  ip: 67.162.162.79
+  url: ''
+  date: '2010-01-04 00:48:18'
+  body: 'I vote for Result.Completed
+
+    -----'

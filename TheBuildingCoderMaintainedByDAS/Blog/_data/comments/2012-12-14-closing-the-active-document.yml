@@ -1,0 +1,132 @@
+comments:
+- author: celticblue
+  email: yyf2000@gmail.com
+  ip: 61.140.195.61
+  url: ''
+  date: '2012-12-17 11:56:30'
+  body: 'Hi Jeremy, I''ve try to solve this problem for one night long and failed.
+    Can you help me?
+
+    When I create a pipe in Revit, the new pipe''s parameter "PipingSystemType" has
+    a default value. But when I create a pipe using Revit API as:
+
+    Pipe pipe = doc.Create.NewPipe(xyz_1, xyz_2, pt);
+
+    //pt is PipeType.
+
+    The new pipe''s parameter "PipingSystemType" has no value, and I can''t set a
+    value to it(whether in Revit or using API). I''ve try this:
+
+    pipe.get_Parameter(BuiltInParameter.RBS_PIPING_SYSTEM_TYPE_PARAM).Set(id);
+
+    //id is one of PipingSystemType''s Id.
+
+
+    I hope to get your help, thank you!  celticblue'
+- author: JonM
+  email: jonm@geometrygym.com
+  ip: 197.87.106.78
+  url: http://geometrygym.blogspot.com
+  date: '2013-04-09 05:46:55'
+  body: 'Hi Celticblue,
+
+
+    Doesn''t look good.  Refer <a href="http://forums.autodesk.com/t5/Autodesk-Revit-API/Pipe-placeholder-set-system-type/td-p/3840383">http://forums.autodesk.com/t5/Autodesk-Revit-API/Pipe-placeholder-set-system-type/td-p/3840383</a>'
+- author: abby
+  email: abidrahmat@hotmail.com
+  ip: 175.143.74.203
+  url: ''
+  date: '2013-06-23 23:02:18'
+  body: 'Hi Jeremy,
+
+
+    I created a new macro in Revit Architecture 2014. Once created, the compiler detect
+    3 errors:
+
+    1. Source file ''..\..\..\..\..\..\..\..\..\..\..\user\AppData\Local\Temp\{97DBBD85-D12F-4B51-BBAB-3B32D8362E1E}\Architecture\DocHookups9096\267001088\SDPMacro\Source\SDPMacro\ThisDocument.Designer.cs''
+    could not be found (CS2001)
+
+
+    2. Source file ''..\..\..\..\..\..\..\..\..\..\..\user\AppData\Local\Temp\{97DBBD85-D12F-4B51-BBAB-3B32D8362E1E}\Architecture\DocHookups9096\267001088\SDPMacro\Source\SDPMacro\ThisDocument.cs''
+    could not be found (CS2001)
+
+
+    3. Source file ''..\..\..\..\..\..\..\..\..\..\..\user\AppData\Local\Temp\{97DBBD85-D12F-4B51-BBAB-3B32D8362E1E}\Architecture\DocHookups9096\267001088\SDPMacro\Source\SDPMacro\Properties\AssemblyInfo.cs''
+    could not be found (CS2001)
+
+
+    Have you encountered this error?
+
+
+    Thank you.
+
+    Abby'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.214.152
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-06-27 08:05:35'
+  body: 'Dear Abby,
+
+
+    Nope, sorry.
+
+
+    But then I never use macros, personally.
+
+
+    Cheers, Jeremy.'
+- author: Andrew
+  email: Andrew.Salveson@perkinswill.com
+  ip: 208.17.25.123
+  url: ''
+  date: '2013-12-23 10:54:10'
+  body: I'm seeing this exact problem and have been unable to determine what the compiler
+    is missing, as the files definitely exist in the referenced path; did you ever
+    resolve this?
+- author: Moustafa Khalil
+  email: mostafa90@gmail.com
+  ip: 197.134.127.212
+  url: ''
+  date: '2013-12-30 02:57:34'
+  body: 'me too , it seems that the macro manager itself can''t create the propitiate
+    files needed for C#/VB if you look back to the macro manager window you will see
+    it has nothing created inside.
+
+
+    so weird...???!!!!'
+- author: Paul Matthews
+  email: paul.matthews@aww-uk.com
+  ip: 92.238.216.84
+  url: http://aww-uk.com/
+  date: '2014-05-26 15:31:52'
+  body: "For who ever trawls the web looking for an answer to the above:\n\nI eventually\
+    \ found the answer:\n\n<a href=\"http://boostyourbim.wordpress.com/2013/01/02/how-to-use-these-macros-basic-overview/\"\
+    >http://boostyourbim.wordpress.com/2013/01/02/how-to-use-these-macros-basic-overview/</a>\n\
+    \nAnd it is the very last entry by Joao\nApril 23, 2014 at 12:38 pm - which reads:\n\
+    \n\"I see that the problem is located to Document Macros. When I create an Application\
+    \ Macro I don’t get the error.\"\n\nEven then I had to Google that statement!\
+    \ \n\nWhen starting out with a macro within Revit the Macro Manager presents the\
+    \ user with 2 tabs:\n\n'Application' - Use this option and none of the above build\
+    \ problems occur.\n'(Revit project file name - which is the 'Document')' - This\
+    \ gives rise to the build problems noted in the above train. Why SharpDevelop\
+    \ cannot see the 3 files during the build process even though they are visible\
+    \ in the 'Projects' folder etc defies logic.\n\nI hope this helps those who come\
+    \ across the same hurdle, whilst starting their journey on the Revit API road,\
+    \ as I am currently doing; \n\nKind regards\n\nPaul Matthews\n\nP.S. Thanks for\
+    \ the blog Jeremy"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-05-26 15:42:46'
+  body: 'Dear Paul,
+
+
+    Wow, thank you for your appreciation, and thank you ever so much more again for
+    clarifying this long-standing issue!
+
+
+    Cheers, Jeremy.
+
+    -----'

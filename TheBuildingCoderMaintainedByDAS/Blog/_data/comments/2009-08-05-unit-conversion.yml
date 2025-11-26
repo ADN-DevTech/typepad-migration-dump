@@ -1,0 +1,164 @@
+comments:
+- author: Paul Hildebrandt
+  email: kfpopeye@yahoo.com
+  ip: 99.199.36.239
+  url: ''
+  date: '2010-05-29 18:37:33'
+  body: 'Hi Jeremy,
+
+
+    Thanks for the great article on unit conversion. I''ve been combing through the
+    API trying to create something similar but that works outside the family editor
+    to convert user inputted lengths to decimal feet (internal units). I''m having
+    a heck of a time trying to access a parameter to do this however. You can''t just
+    create parameters and when I try to get a length parameter from a detailcurve
+    it comes back as read only.
+
+
+    Can you point me in the right direction?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 85.34.247.161
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-05-30 07:27:18'
+  body: 'Dear Paul,
+
+
+    Thank you, I am glad you like it. Why do you say "that works outside the family
+    editor"? This does work in the project environment. It may work in the family
+    editor as well, but I have not actually even tested it there. Did you maybe mean
+    inside the family editor? You don''t need any parameter to convert a user input
+    value to the desired units, at least not if the input comes from your own user
+    interface. How do you mean access a parameter to do this? Of course the curve
+    length is read-only, because it is determined by all kinds of constraints. It
+    is totally accessible, though, using the built-in parameter CURVE_ELEM_LENGTH.
+    To point you in any direction at all, I would first have to hazard a daring guess
+    on what you are trying to achieve. If, for instance, you were trying to insert
+    a detail line starting at a given point P at an angle A of a given length L, and
+    you were to ask your user to input that length in millimetres, then bla, bla,
+    bla. All very easy, but I have no idea whether that is what you are after. I suggest
+    that you first try to find out whether what you are trying to do can already be
+    achieved using the standard user interface. That is what it sounds like to me
+    so far.
+
+
+    Cheers, Jeremy.'
+- author: Paul Hildebrandt
+  email: kfpopeye@yahoo.com
+  ip: 99.199.36.239
+  url: ''
+  date: '2010-05-31 02:02:14'
+  body: 'What I''m trying to do is create an app that will help with travel distances
+    in code analysis. The user selects a series of lines then the app reports back
+    the total length of the lines and the user can then input what the total line
+    should be adjusted to and the app lengthens or shortens one of the lines.
+
+
+    Also the reason I say "outside the family editor" is that your code uses the FamilyManager
+    class which is only accessible from inside the Revit Family Editor (or at least
+    thats the error message I get when I tried your code). I''m trying to rewrite
+    the code to be used from the project document but can''t see a way to do it.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 85.34.247.161
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-01 06:57:44'
+  body: 'Dear Paul,
+
+
+    Oh yes, right you are, this is built to work in the family editor. Look at the
+    other posts on unit handling, they are all based on the project environment:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/units">http://thebuildingcoder.typepad.com/blog/units</a>
+
+
+    Using Revit to manage travel distances sounds like a very original (not to say
+    weird) idea  :-)
+
+
+    Cheers, Jeremy.'
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: ''
+  date: '2011-11-29 05:52:38'
+  body: "Hello Jeremy. It is me again with stupid questions:)\nI need convert any\
+    \ parameter numeric value to ProjectUnit value. I didn't find how to do it in\
+    \ Revit help and began search the answer in your amazing site. Then I found Unit\
+    \ Conversion I thought it is that I need. But I was wrong :(\nI saw code of Unit\
+    \ Converter and discovered that retrieving scale factor to internal units it is\
+    \ not easy and you used some trick to get it: you change ProjectUnit, write \"\
+    1\" to family parameter, read value from this parameter, change ProjectUnit back.\
+    \ It is work but it really hard and it is not official way.\n\nIs there easy way\
+    \ to convert internal database numeric value to Project unit value? I expect something\
+    \ like UnitConverter class.\nFor example,\n\nParameter param = element.get_Parameter(BuiltInParameter.STRUCTURAL_FOUNDATION_LENGTH);\n\
+    double paramValue = param.AsDouble(); //internalValue\ndouble projectUnitValue\
+    \ = UnitConverter.Convert(paramValue, param.DisplayUnitType);\n\nor maybe \ndouble\
+    \ projectUnitValue = param.AsProjectUnitDouble(); // As Parameter.AsValueString\
+    \ but with double value\n\nWhy Autodesk still didn't add similar class to Revit\
+    \ API?\n\nI think I'll try write UnitConverter Class myself :)\n\nP.S. Hrm...\
+    \ I invented one more way to convert: parse Parameter.AsValueString value. But\
+    \ it also awful.\n\nThanks. Victor."
+- author: Jeremy Tammik
+  email: ''
+  ip: 98.188.80.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-11-30 14:29:32'
+  body: "Dear Victor,\n\nNo question is stupid! And yours least of all!\n\nI fully\
+    \ agree with you.\n\nTry this on some otherwise unused length parameter:\n\n \
+    \ Dim value as String = \"=2' + 4'/3\"\n  Dim t As New Transaction(doc, \"Format\
+    \ Length\")\n  t.Start()\n  param.SetValueString(value)\n  value = pLength.AsValueString\n\
+    \  t.RollBack()\n  Return value\n\nThat is probably exactly what you are doing\
+    \ anyway...\n\nCheers, Jeremy."
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: ''
+  date: '2011-11-30 22:11:40'
+  body: 'Hello, Jeremy. Thanks for answer.
+
+    As I promise I wrote simple extension class for parameter to get value in project
+    units and in meters value. Now it works with Length, Volume and Area (now I don''t
+    need anymore). It take much time to convert all units
+
+    You can see it here: <a href="http://pastebin.com/ULHxU95E">http://pastebin.com/ULHxU95E</a>
+
+    I used some function from your Unit converter.
+
+
+
+
+    And using
+
+    <a href="http://pastebin.com/Pu26SPAN">http://pastebin.com/Pu26SPAN</a>
+
+
+    Hope you''ll find this functions useful.
+
+
+    Best regards, Victor'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-12-05 02:26:39'
+  body: 'Dear Victor,
+
+
+    Thank you very much for the update and sample code.
+
+
+    I edited and published it in a new dedicated blog post:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/12/unit-conversion-and-display-string-formatting.html">http://thebuildingcoder.typepad.com/blog/2011/12/unit-conversion-and-display-string-formatting.html</a>
+
+
+    It also includes some improvements over the code defined by the Unit Conversion
+    tool, e.g. a replacement for the BuildUnitTypeToParameterTypeMapping method.
+
+
+    Cheers, Jeremy.
+
+    -----'

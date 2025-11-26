@@ -1,0 +1,269 @@
+---
+layout: "post"
+title: "Dynamic Model Updater Macro"
+date: "2019-10-17 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "DMU"
+  - "Events"
+  - "Macro"
+original_url: "https://thebuildingcoder.typepad.com/blog/2019/10/dynamic-model-updater-macro.html "
+typepad_basename: "dynamic-model-updater-macro"
+typepad_status: "Publish"
+---
+
+<p>Let's take a quick look at implementing a dynamic model updater in a macro:</p>
+
+<ul>
+<li><a href="#2">Task</a></li>
+<li><a href="#3">Solution</a></li>
+<li><a href="#4">Drill up the filter</a></li>
+</ul>
+
+<h4><a name="2"></a> Task</h4>
+
+<p>Dave raised and solved an interesting issue concerning macros, an area that we have not discussed much here yet, in
+his <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/iupdater-in-a-project-macro-on-startup/m-p/9087481"><code>IUpdater</code> in a project macro on startup</a>:</p>
+
+<p>I'm trying to use <code>IUpdater</code> in a macro that automatically starts when a project opens.
+Is this possible?</p>
+
+<p>So far, I used Macro Manager / Create to set up some boilerplate.</p>
+
+<p>Then, I pasted in Autodesk's <code>WallUpdater</code> example code from the knowledge article
+on <a href="https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2015/ENU/Revit-API/files/GUID-6D434229-0A2E-41FE-B29D-1BB2E6471F50-htm.html">Implementing IUpdater</a>
+into my <code>public partial class ThisDocument</code>.</p>
+
+<p>I figured out how to run the code on project startup by calling it from the boilerplate's <code>private void Module_Startup</code>.</p>
+
+<p>But I haven't had any luck calling <code>WallUpdater</code>.</p>
+
+<p>Here is my code:</p>
+
+<pre class="code">
+<span style="color:blue;">using</span>&nbsp;System;
+<span style="color:blue;">using</span>&nbsp;Autodesk.Revit;
+<span style="color:blue;">using</span>&nbsp;Autodesk.Revit.DB;
+<span style="color:blue;">using</span>&nbsp;Autodesk.Revit.UI.Selection;
+<span style="color:blue;">using</span>&nbsp;Autodesk.Revit.UI;
+<span style="color:blue;">using</span>&nbsp;Autodesk.Revit.Attributes;
+<span style="color:blue;">using</span>&nbsp;System.Collections.Generic;
+<span style="color:blue;">using</span>&nbsp;System.Linq;
+
+<span style="color:blue;">namespace</span>&nbsp;test
+{
+&nbsp;&nbsp;[<span style="color:#2b91af;">Transaction</span>(&nbsp;<span style="color:#2b91af;">TransactionMode</span>.Manual&nbsp;)]
+&nbsp;&nbsp;[Autodesk.Revit.DB.Macros.<span style="color:#2b91af;">AddInId</span>(&nbsp;<span style="color:#a31515;">&quot;redacted&quot;</span>&nbsp;)]
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">partial</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">ThisDocument</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">void</span>&nbsp;Module_Startup(&nbsp;<span style="color:blue;">object</span>&nbsp;sender,&nbsp;<span style="color:#2b91af;">EventArgs</span>&nbsp;e&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;<span style="color:#a31515;">&quot;hello&quot;</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;this&nbsp;pops&nbsp;up&nbsp;when&nbsp;you&nbsp;open&nbsp;the&nbsp;project&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">void</span>&nbsp;Module_Shutdown(&nbsp;<span style="color:blue;">object</span>&nbsp;sender,&nbsp;<span style="color:#2b91af;">EventArgs</span>&nbsp;e&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">#region</span>&nbsp;Revit&nbsp;Macros&nbsp;generated&nbsp;code
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">void</span>&nbsp;InternalStartup()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">this</span>.Startup&nbsp;+=&nbsp;<span style="color:blue;">new</span>&nbsp;System.<span style="color:#2b91af;">EventHandler</span>(&nbsp;Module_Startup&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">this</span>.Shutdown&nbsp;+=&nbsp;<span style="color:blue;">new</span>&nbsp;System.<span style="color:#2b91af;">EventHandler</span>(&nbsp;Module_Shutdown&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">#endregion</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">WallUpdaterApplication</span>&nbsp;:&nbsp;<span style="color:#2b91af;">IExternalApplication</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">Result</span>&nbsp;OnStartup(&nbsp;<span style="color:#2b91af;">UIControlledApplication</span>&nbsp;a&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Register&nbsp;wall&nbsp;updater&nbsp;with&nbsp;Revit</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">WallUpdater</span>&nbsp;updater&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">WallUpdater</span>(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a.ActiveAddInId&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UpdaterRegistry</span>.RegisterUpdater(&nbsp;updater&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Change&nbsp;Scope&nbsp;=&nbsp;any&nbsp;Wall&nbsp;element</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ElementClassFilter</span>&nbsp;wallFilter
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ElementClassFilter</span>(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">Wall</span>&nbsp;)&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Change&nbsp;type&nbsp;=&nbsp;element&nbsp;addition</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UpdaterRegistry</span>.AddTrigger(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;updater.GetUpdaterId(),&nbsp;wallFilter,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Element</span>.GetChangeTypeElementAddition()&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#2b91af;">Result</span>.Succeeded;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">Result</span>&nbsp;OnShutdown(&nbsp;<span style="color:#2b91af;">UIControlledApplication</span>&nbsp;a&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">WallUpdater</span>&nbsp;updater&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">WallUpdater</span>(&nbsp;a.ActiveAddInId&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UpdaterRegistry</span>.UnregisterUpdater(&nbsp;updater.GetUpdaterId()&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#2b91af;">Result</span>.Succeeded;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">WallUpdater</span>&nbsp;:&nbsp;<span style="color:#2b91af;">IUpdater</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:#2b91af;">AddInId</span>&nbsp;m_appId;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:#2b91af;">UpdaterId</span>&nbsp;m_updaterId;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">WallType</span>&nbsp;m_wallType&nbsp;=&nbsp;<span style="color:blue;">null</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;constructor&nbsp;takes&nbsp;the&nbsp;AddInId&nbsp;for&nbsp;the&nbsp;add-in</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;associated&nbsp;with&nbsp;this&nbsp;updater</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;WallUpdater(&nbsp;<span style="color:#2b91af;">AddInId</span>&nbsp;id&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_appId&nbsp;=&nbsp;id;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_updaterId&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">UpdaterId</span>(&nbsp;m_appId,&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Guid</span>(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;FBFBF6B2-4C06-42d4-97C1-D1B4EB593EFF&quot;</span>&nbsp;)&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;Execute(&nbsp;<span style="color:#2b91af;">UpdaterData</span>&nbsp;data&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;=&nbsp;data.GetDocument();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Cache&nbsp;the&nbsp;wall&nbsp;type</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;m_wallType&nbsp;==&nbsp;<span style="color:blue;">null</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;<span style="color:#a31515;">&quot;hello&quot;</span>,&nbsp;<span style="color:#a31515;">&quot;world&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;m_wallType&nbsp;!=&nbsp;<span style="color:blue;">null</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;<span style="color:#a31515;">&quot;hello&quot;</span>,&nbsp;<span style="color:#a31515;">&quot;world&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">string</span>&nbsp;GetAdditionalInformation()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#a31515;">&quot;Wall&nbsp;type&nbsp;updater&nbsp;example:&nbsp;updates&nbsp;all&nbsp;&quot;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<span style="color:#a31515;">&quot;newly&nbsp;created&nbsp;walls&nbsp;to&nbsp;a&nbsp;special&nbsp;wall&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">ChangePriority</span>&nbsp;GetChangePriority()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#2b91af;">ChangePriority</span>.FloorsRoofsStructuralWalls;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">UpdaterId</span>&nbsp;GetUpdaterId()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;m_updaterId;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">string</span>&nbsp;GetUpdaterName()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#a31515;">&quot;Wall&nbsp;Type&nbsp;Updater&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p>All the samples I've found so far appear to be written as add-ins.</p>
+
+<p>I found one single sample showing an <code>IUpdater</code> in a macro, 
+for <a href="https://thebuildingcoder.typepad.com/blog/2014/02/wrangling-revisions-with-ruby.html">wrangling revisions with Ruby</a>.
+Unfortunately, that's a bit too complex for me to follow at this point, especially in Ruby.</p>
+
+<p>I was hoping to find an RVT with a vanilla C# <code>IUpdater</code> macro embedded, similar to the SDK <em>Revit_Macro_Samples.rvt</em>.</p>
+
+<h4><a name="3"></a> Solution</h4>
+
+<p>The Boost your BIM article
+on <a href="https://boostyourbim.wordpress.com/2012/12/17/automatically-run-api-code-when-your-model-changes">automatically running API code when your model changes</a> looks
+promising...</p>
+
+<p>Yes, I got it working!</p>
+
+<p>Here are the steps I followed:</p>
+
+<ul>
+<li>Use MacroManager to create a new C# module.</li>
+<li>Edit the new module in SharpDevelop.</li>
+<li>Add <code>RegisterUpdater</code> to <code>Module_Startup</code> as follows:</li>
+</ul>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">void</span>&nbsp;Module_Startup(&nbsp;<span style="color:blue;">object</span>&nbsp;sender,&nbsp;<span style="color:#2b91af;">EventArgs</span>&nbsp;e&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;RegisterUpdater();
+&nbsp;&nbsp;}
+</pre>
+
+<ul>
+<li><p>Add <code>UnregisterUpdater</code> to <code>Module_Shutdown</code> as above.</p></li>
+<li><p>Just below the boilerplate <code>#endregion</code>, add the boostyourbim code:</p></li>
+</ul>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">FamilyInstanceUpdater</span>&nbsp;:&nbsp;<span style="color:#2b91af;">IUpdater</span>
+&nbsp;&nbsp;{&nbsp;...&nbsp;}
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;RegisterUpdater()
+&nbsp;&nbsp;{&nbsp;...&nbsp;}
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;UnregisterUpdater()
+&nbsp;&nbsp;{&nbsp;...&nbsp;}
+</pre>
+
+<p>Make sure <code>FamilyInstanceUpdater</code>, <code>RegisterUpdater</code>, and <code>UnregisterUpdater</code> are inside the scope of <code>ThisDocument</code>.</p>
+
+<p>For testing, I found it handy to replace boostyourbim's <code>Execute</code> code with this:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;Execute(&nbsp;<span style="color:#2b91af;">UpdaterData</span>&nbsp;data&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;=&nbsp;data.GetDocument();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;<span style="color:#a31515;">&quot;Revit&quot;</span>,&nbsp;<span style="color:#a31515;">&quot;hello&quot;</span>&nbsp;);
+&nbsp;&nbsp;}
+</pre>
+
+<ul>
+<li>Save and hit F9 to build the macro.
+Check the MacroManager to see if the build was successful.
+For some reason, the build occasionally fails for me.
+I've found that having AssemblyInfo.cs open in SharpDevelop helps.
+No idea why.</li>
+</ul>
+
+<p>At this point, the macro should be working.
+Any time you draw an element, you'll get a little popup that says 'hello'.</p>
+
+<p>If you close your project with a successfully built macro, the macro will run automatically the next time you open the project.</p>
+
+<p>I'm sure lots of improvements can be made.
+For instance, Jeremy recommended using DocumentOpened.
+And my version currently works for columns and beams, but not for walls.
+Any input would be appreciated.</p>
+
+<p>Meanwhile, thanks very much to Jeremy for taking a look and to boostyourbim for their code.
+Hope this helps someone.</p>
+
+<p>Many thanks to Dave for his research and sharing the solution!</p>
+
+<h4><a name="4"></a> Drill Up the Filter</h4>
+
+<p>The initial version works for columns and beams, but not for walls.</p>
+
+<p>This is due to the <code>FamilyInstanceUpdater</code>.</p>
+
+<p>It defines a <code>familyInstanceFilter</code> variable as <code>new ElementClassFilter( typeof( FamilyInstance ) )</code>.</p>
+
+<p>Beams and columns are family instances, and walls are not.</p>
+
+<p>To expand the filter to include <code>Wall</code> objects as well as <code>FamilyInstance</code> objects, you can change its name and definition to something like this:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:#2b91af;">ElementFilter</span>&nbsp;f&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">LogicalOrFilter</span>(
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ElementClassFilter</span>(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">FamilyInstance</span>&nbsp;)&nbsp;),
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ElementClassFilter</span>(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">Wall</span>&nbsp;)&nbsp;);
+</pre>
+
+<p><center>
+<p/>
+<br/></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4926dcb200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4926dcb200c img-responsive" style="width: 380px; display: block; margin-left: auto; margin-right: auto;" alt="Macro photography" title="Macro photography" src="/assets/image_e73a6b.jpg" /></a><br /></p>
+
+<p></center></p>

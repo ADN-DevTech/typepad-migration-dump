@@ -1,0 +1,160 @@
+comments:
+- author: Eric Anastas
+  email: aireq303@gmail.com
+  ip: 12.149.154.5
+  url: ''
+  date: '2008-12-18 14:38:38'
+  body: 'If you use PickOne rather then window select then you know that there is
+    only one element selected. Is there a way to efficiently get at the single selected
+    element, rather then using for each? Here what I''ve been doing:
+
+
+
+    ElementSetIterator elemIter;
+
+    Element pickedElement
+
+
+    //clears the current selection
+
+    doc.Selection.Elements.Clear();
+
+
+    //prompts the user to select an element
+
+    doc.Selection.StatusbarTip = "Please select an object";
+
+
+    //checks if the user hit escape
+
+    if (doc.Selection.PickOne() == false)
+
+    {
+
+    return IExternalCommand.Result.Cancelled;
+
+    }
+
+
+    //Creates an element iterator
+
+    elemIter = doc.Selection.Elements.ForwardIterator();
+
+
+    //move to the first item
+
+    elemIter.MoveNext();
+
+
+    //Assigns pickedElement
+
+    pickedElement = elemIter.Current as Autodesk.Revit.Element;
+
+
+    What I really want to do is reference the single selected object in one line.
+    Something like.
+
+
+    Element pickedElement = doc.Selection.Elements[0];'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2008-12-18 14:50:31'
+  body: 'Hi Eric,
+
+
+    Your query makes perfect sense, but I am not aware of any other method to get
+    at the member elements in the document selection set. The only access to member
+    elements provided by the SelElementSet class and its base class ElementSet are
+    through the ForwardIterator and GetEnumerator members, which both return a forward
+    moving iterator to the set. There is no indexed access.
+
+
+    Cheers, Jeremy.'
+- author: Trang
+  email: dangtrang37@gmail.com
+  ip: 141.54.153.131
+  url: ''
+  date: '2011-04-14 13:19:20'
+  body: 'Hi Jeremy,
+
+    I am a beginner at Revit API (C#). I am trying to isolate/hide selected elements
+    but I couldn''t find out the function to do it. Could you show me the way to solve
+    this problem? Thank you in advance.
+
+
+    Trang.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.166.159
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-04-15 05:45:14'
+  body: 'Dear Trang,
+
+
+    The Revit SDK VisibilityControl sample shows how to control visibility by category.
+
+
+    To control the visibility of individual selected elements, you can use the View.Hide
+    Method and pass in selected elements to be hidden in the view.
+
+
+    Cheers, Jeremy.'
+- author: Trang
+  email: dangtrang37@gmail.com
+  ip: 141.54.153.131
+  url: ''
+  date: '2011-04-17 15:53:08'
+  body: 'Thank Jeremy. It works (^_^)
+
+
+    Trang.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-04-18 09:18:48'
+  body: 'Brilliant! Thank you for letting us know!
+
+
+    Cheers, Jeremy.'
+- author: Trang
+  email: dangtrang@hcmutrans.edu.vn
+  ip: 141.54.138.6
+  url: ''
+  date: '2011-04-27 02:49:21'
+  body: "Hi Jeremy,\n\nI still have a problem with the ActiveView. I can hide selected\
+    \ elements directly in Commands (inherited from IExternalCommand), but I can't\
+    \ if I use a userform to interact with Revit. \nIt is so, I have a form and a\
+    \ button on it. When I click the button, I can read attributes of selected elements\
+    \ but I can't hide them. \nI don't know if I must activate the ActiveView again\
+    \ before I want to hide elements. And if that is necessary, I also don't know\
+    \ how to do that. I tried but  I couldn't find it out.\n\nThanks.\nTrang."
+- author: Trang
+  email: dangtrang37@gmail.com
+  ip: 141.54.138.76
+  url: ''
+  date: '2011-05-03 02:34:16'
+  body: 'Hey,
+
+
+    everything now is OK, Tim in AUGI forum showed me. I didn''t use Transaction and
+    maybe, that was the reason; when I add Transaction, it works :D
+
+
+    Trang.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-05-03 06:19:47'
+  body: 'Dear Trang,
+
+
+    Congratulations on solving the issue, I am glad for you!
+
+
+    Cheers, Jeremy.
+
+    -----'

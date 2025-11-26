@@ -1,0 +1,185 @@
+---
+layout: "post"
+title: "How to Distinguish Redundant Rooms"
+date: "2016-04-04 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Algorithm"
+  - "Data Access"
+  - "Filters"
+original_url: "https://thebuildingcoder.typepad.com/blog/2016/04/how-to-distinguish-redundant-rooms.html "
+typepad_basename: "how-to-distinguish-redundant-rooms"
+typepad_status: "Publish"
+---
+
+<p>A couple of interesting Revit API issues were resolved during my recent absence.</p>
+
+<p>Let's start with this question raised by Miroslav Schonauer and resolved by Diane Christoforo:</p>
+
+<p><strong>Question:</strong> Using the terminology as shown in Schedules, I need to report all 'Not Placed', 'Redundant' and 'Not Enclosed' rooms.</p>
+
+<p>I cannot rely on any particular schedule being present in the model.</p>
+
+<p>So far, my research shows that:</p>
+
+<ul>
+<li>All of these 3 'failure' cases have <code>.Area</code> as 0.</li>
+<li>'Not Placed' additionally has <code>.Location</code> as null.</li>
+</ul>
+
+<p>The only remaining issue is how to distinguish between 'Redundant' and 'Not Enclosed' rooms.</p>
+
+<p>Do you have any ideas how can I do this comprehensively and deterministically from the room properties and params?</p>
+
+<p>BTW, I'm aware that an alternative approach would be via the Failure API. I can see, e.g., the enumeration value  <code>BuiltInFailures.RoomFailures.RoomNotEnclosed</code>.</p>
+
+<p>After just reading about it and looking into some samples, I worry about this approach and think that it is possible to 'override' the failures, which may prevent me from determining whether the rooms really are Not Enclosed or Redundant.</p>
+
+<p>Here is sample code illustrating the approach I have been able to develop so far:</p>
+
+<pre class="code">
+&nbsp; <span class="gray">///</span><span class="green"> </span><span class="gray">&lt;summary&gt;</span>
+&nbsp; <span class="gray">///</span><span class="green"> Distinguish 'Not Placed', 'Redundant' and 'Not Enclosed' rooms.</span>
+&nbsp; <span class="gray">///</span><span class="green"> </span><span class="gray">&lt;/summary&gt;</span>
+&nbsp; <span class="blue">void</span> DistinguishRooms(
+&nbsp; &nbsp; <span class="teal">Document</span> doc,
+&nbsp; &nbsp; <span class="blue">ref</span> <span class="teal">StringBuilder</span> sb,
+&nbsp; &nbsp; <span class="blue">ref</span> <span class="blue">int</span> numErr,
+&nbsp; &nbsp; <span class="blue">ref</span> <span class="blue">int</span> numWarn )
+&nbsp; {
+&nbsp; &nbsp; sb = <span class="blue">new</span> <span class="teal">StringBuilder</span>();
+&nbsp;
+&nbsp; &nbsp; <span class="teal">FilteredElementCollector</span> rooms
+&nbsp; &nbsp; &nbsp; = <span class="blue">new</span> <span class="teal">FilteredElementCollector</span>( doc );
+&nbsp;
+&nbsp; &nbsp; rooms.WherePasses( <span class="blue">new</span> <span class="teal">RoomFilter</span>() );
+&nbsp;
+&nbsp; &nbsp; <span class="blue">foreach</span>( <span class="teal">Room</span> r <span class="blue">in</span> rooms )
+&nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; sb.AppendFormat( <span class="maroon">&quot;\r\n&nbsp; Room {0}:'{1}': &quot;</span>,
+&nbsp; &nbsp; &nbsp; &nbsp; r.Id.ToString(), r.Name );
+&nbsp;
+&nbsp; &nbsp; &nbsp; <span class="blue">if</span>( r.Area &gt; 0 ) <span class="green">// OK if having Area</span>
+&nbsp; &nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; &nbsp; sb.AppendFormat( <span class="maroon">&quot;OK (A={0}[ft3])&quot;</span>, r.Area );
+&nbsp; &nbsp; &nbsp; }
+&nbsp; &nbsp; &nbsp; <span class="blue">else</span> <span class="blue">if</span>( <span class="blue">null</span> == r.Location ) <span class="green">// Unplaced if no Location</span>
+&nbsp; &nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; &nbsp; sb.AppendFormat( <span class="maroon">&quot;UnPlaced (Location is null)&quot;</span> );
+&nbsp; &nbsp; &nbsp; }
+&nbsp; &nbsp; &nbsp; <span class="blue">else</span>
+&nbsp; &nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; &nbsp; sb.AppendFormat( <span class="maroon">&quot;NotEnclosed or Redundant &quot;</span>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; + <span class="maroon">&quot;- how to distinguish?&quot;</span> );
+&nbsp; &nbsp; &nbsp; }
+&nbsp; &nbsp; }
+&nbsp; }
+</pre>
+
+<p>Any ideas if this is possible?</p>
+
+<p><strong>Answer:</strong> Rooms that are redundant still have normal boundaries.</p>
+
+<p>So you can call <code>Room.GetBoundarySegments</code> to test.</p>
+
+<p>The list will be empty for a non-enclosed or unplaced room.</p>
+
+<p><strong>Response:</strong> Thank you, Diane!</p>
+
+<p>Here is the final solution implementing your suggestion:</p>
+
+<pre class="code">
+&nbsp; <span class="blue">public</span> <span class="blue">enum</span> <span class="teal">RoomState</span>
+&nbsp; {
+&nbsp; &nbsp; Unknown,
+&nbsp; &nbsp; Placed,
+&nbsp; &nbsp; NotPlaced,
+&nbsp; &nbsp; NotEnclosed,
+&nbsp; &nbsp; Redundant
+&nbsp; }
+&nbsp;
+&nbsp; <span class="gray">///</span><span class="green"> </span><span class="gray">&lt;summary&gt;</span>
+&nbsp; <span class="gray">///</span><span class="green"> Distinguish 'Not Placed',&nbsp; 'Redundant' </span>
+&nbsp; <span class="gray">///</span><span class="green"> and 'Not Enclosed' rooms.</span>
+&nbsp; <span class="gray">///</span><span class="green"> </span><span class="gray">&lt;/summary&gt;</span>
+&nbsp; <span class="teal">RoomState</span> DistinguishRoom( <span class="teal">Room</span> room )
+&nbsp; {
+&nbsp; &nbsp; <span class="teal">RoomState</span> res = <span class="teal">RoomState</span>.Unknown;
+&nbsp;
+&nbsp; &nbsp; <span class="blue">if</span>( room.Area &gt; 0 )
+&nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; <span class="green">// Placed if having Area</span>
+&nbsp;
+&nbsp; &nbsp; &nbsp; res = <span class="teal">RoomState</span>.Placed;
+&nbsp; &nbsp; }
+&nbsp; &nbsp; <span class="blue">else</span> <span class="blue">if</span>( <span class="blue">null</span> == room.Location )
+&nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; <span class="green">// No Area and No Location =&gt; Unplaced</span>
+&nbsp;
+&nbsp; &nbsp; &nbsp; res = <span class="teal">RoomState</span>.NotPlaced;
+&nbsp; &nbsp; }
+&nbsp; &nbsp; <span class="blue">else</span>
+&nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; <span class="green">// must be Redundant or NotEnclosed</span>
+&nbsp;
+&nbsp; &nbsp; &nbsp; <span class="teal">SpatialElementBoundaryOptions</span> opt
+&nbsp; &nbsp; &nbsp; &nbsp; = <span class="blue">new</span> <span class="teal">SpatialElementBoundaryOptions</span>();
+&nbsp;
+&nbsp; &nbsp; &nbsp; <span class="teal">IList</span>&lt;<span class="teal">IList</span>&lt;<span class="teal">BoundarySegment</span>&gt;&gt; segs
+&nbsp; &nbsp; &nbsp; &nbsp; = room.GetBoundarySegments( opt );
+&nbsp;
+&nbsp; &nbsp; &nbsp; res = ( <span class="blue">null</span> == segs || segs.Count == 0 )
+&nbsp; &nbsp; &nbsp; &nbsp; ? <span class="teal">RoomState</span>.NotEnclosed
+&nbsp; &nbsp; &nbsp; &nbsp; : <span class="teal">RoomState</span>.Redundant;
+&nbsp; &nbsp; }
+&nbsp; &nbsp; <span class="blue">return</span> res;
+&nbsp; }
+</pre>
+
+<p>Jeremy adds: I added Miro's test methods as <code>DistinguishRoomsDraft</code> and <code>DistinguishRoom</code>
+to <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder samples</a>
+<a href="https://github.com/jeremytammik/the_building_coder_samples/releases/tag/2016.0.126.8">release 2016.0.126.8</a> in
+the module <a href="https://github.com/jeremytammik/the_building_coder_samples/blob/master/BuildingCoder/BuildingCoder/CmdListAllRooms.cs#L30-L110">CmdListAllRooms.cs</a>.</p>
+
+<p>Many thanks to Miro and Diane for the interesting question, research and answer.</p>
+
+<p>I actually cleaned up both the draft and final methods before publishing them, with the two following strong recommendations
+on <a href="#2">performance</a> and <a href="#3">exception handling</a>:</p>
+
+<h4><a name="2"></a>Performance</h4>
+
+<p>Looking at your code, I notice an important inefficiency:</p>
+
+<pre>
+  foreach( Element elRoom in fecRooms.ToElements() )
+  {
+    Room r = elRoom as Room;
+</pre>
+
+<p>You can save yourself the duplication of the entire list of rooms by eliminating the call to <code>ToElements</code>, and the cast is not needed either:</p>
+
+<pre>
+  foreach( Room r in fecRooms )
+</pre>
+
+<p>I hope this helps... systematically!</p>
+
+<p>I hope you can eliminate a thousand calls to <code>ToElements</code> all over all your projects.</p>
+
+<p>I discussed this and other similar issues many times here in the past, e.g.
+for <a href="http://thebuildingcoder.typepad.com/blog/2012/09/findelement-and-collector-optimisation.html">FindElement and filtered element collector optimisation</a>
+and
+<a href="http://thebuildingcoder.typepad.com/blog/2012/12/toelementids-performance.html">ToElementIds performance</a>.</p>
+
+<h4><a name="3"></a>Exception Handling</h4>
+
+<p>I eliminated a catch-all exception handler from Miro's solution.</p>
+
+<p>Are you aware of the strong recommendation against never, ever, catching all exceptions?</p>
+
+<p>Using a <code>catch</code> with no specific exceptions listed is very strongly discouraged, cf. e.g. these articles
+on <a href="http://stackoverflow.com/questions/315948/c-catching-all-exceptions">C# catching all exceptions</a>
+and <a href="http://blogs.msdn.com/b/dotnet/archive/2009/02/19/why-catch-exception-empty-catch-is-bad.aspx">why <code>catch(Exception)</code> and empty <code>catch</code> is bad</a>.</p>
+
+<p>Here is another more extensive discussion
+on <a href="http://www.codeproject.com/Articles/7557/Exception-Handling-in-C-with-the-quot-Do-Not-Catch">exception handling in C# with the "Do Not Catch Exceptions That You Cannot Handle" rule in mind</a>.</p>

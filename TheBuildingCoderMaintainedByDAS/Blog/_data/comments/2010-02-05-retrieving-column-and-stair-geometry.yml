@@ -1,0 +1,149 @@
+comments:
+- author: Christian Schwöbel
+  email: christian.schwoebel@web.de
+  ip: 130.83.206.3
+  url: ''
+  date: '2010-02-16 07:23:49'
+  body: "Hi Jeremy,\n\nthank you for posting this solution! \nI tried another approach,\
+    \ which also seems to work. I accessed the Instance Geometry of the Geometry Element.\
+    \ Is there any difference between Symbol Geometry + Transform and Instance Geometry?\n\
+    \n\n Autodesk.Revit.Geometry.Element geoElement = geoInst.GetInstanceGeometry();\n\
+    \n                        GeometryObjectArray geoInstObjectArray = geoElement.Objects;\n\
+    \n\nCheers, Christian"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-03-01 11:19:02'
+  body: "Dear Christian,\n\nThank you for your appreciation and sorry for the belated\
+    \ answer, I just returned from a vacation. \n\nYes, there may be a difference\
+    \ between the two, cf.\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/02/unmodified-element-geometry.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/02/unmodified-element-geometry.html</a>\n\
+    \nI hope that helps explain.\n\nCheers, Jeremy."
+- author: Jeff
+  email: ''
+  ip: 198.51.229.30
+  url: http://profile.typepad.com/jsimon1
+  date: '2010-05-24 16:39:38'
+  body: 'Hi Jeremy,
+
+    Is it possible to get the actual storage size of any Revit element as it is sized
+    in its Revit file?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-05-24 17:38:12'
+  body: "Dear Jeff,\n\nI am not aware of any such possibility. I would also assume\
+    \ that the storage size depends on a huge number of factors. If there is some\
+    \ specific element that you are interested in, I would try the following:\n\n\
+    1. Create an empty project and save it in a file A. \n\n2. Create a certain number\
+    \ N elements of the type you are interested in, preferrably at least a couple\
+    \ of thousand, and save that in a file B.\n\n3. Calculate the file size used per\
+    \ element as (size B -  size A) / N.\n\nCheers, Jeremy."
+- author: Jeff
+  email: ''
+  ip: 198.51.229.30
+  url: http://profile.typepad.com/jsimon1
+  date: '2010-05-24 17:49:53'
+  body: "Jeremy,\n\nI appreciate the help and suggestion.  I am actually interested\
+    \ in all elements in a Revit file, determining size relationships.  An elements\
+    \ should be sized relational to its properties and type, but it would help to\
+    \ have a function that when loading a project one could optionally parse each\
+    \ element size when it is not yet in its runtime loaded state. \n\nJeff"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-05-25 00:20:48'
+  body: 'Dear Jeff,
+
+
+    What an unusual request. What do you need this for, please?
+
+
+    Cheers, Jeremy.'
+- author: Jeff
+  email: ''
+  ip: 198.51.229.30
+  url: http://profile.typepad.com/jsimon1
+  date: '2010-05-25 14:39:40'
+  body: "Jeremy,\nThis was a request that was given to me.  I would imagine from a\
+    \ top down perspective if one knew potential bottlenecks in a project in terms\
+    \ of element category sizes etc, one could better approach layouts and planning\
+    \ of a Revit project, especially in a group or team setting. \n\nJeff"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-05-26 11:03:30'
+  body: 'Dear Jeff,
+
+
+    Seems like a very strange thought to me. Sorry, I cannot suggest anything beyond
+    what I said above.
+
+
+    Cheers, Jeremy.'
+- author: Basel
+  email: baselqyqony@gmail.com
+  ip: 65.49.14.57
+  url: ''
+  date: '2011-07-23 09:30:37'
+  body: 'Dear Jeremy Tammik
+
+    is that possible to get stair vertics to make reinforcement plugin for it ?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-07-25 12:10:28'
+  body: 'Dear Basel,
+
+
+    You can easily find out for yourself. Simply select a stair object and use RevitLookup
+    to snoop the current selection. If you can read the stair geometry and access
+    its solid, you can get the vertices from there.
+
+
+    Cheers, Jeremy.'
+- author: bb
+  email: brett.burling@gmail.com
+  ip: 203.118.243.245
+  url: ''
+  date: '2013-06-03 02:10:23'
+  body: 'Jeremy,
+
+
+    I followed the above code and was able to retrieve the nested geometry solid.
+    Any chance you could post a few pointers how you''d go about transforming the
+    solid to the instance coordinate system?'
+- author: bb
+  email: brett.burling@gmail.com
+  ip: 124.168.39.4
+  url: ''
+  date: '2013-06-03 06:19:46'
+  body: 'sorted...
+
+
+    I used the <i>getTransform</i> method
+
+
+    :)
+
+
+    answer was staring me right in the face the whole time!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 63.149.67.7
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-06-03 06:48:22'
+  body: 'Dear Brett,
+
+
+    Cool, congratulations.
+
+
+    Cheers, Jeremy.
+
+    -----'

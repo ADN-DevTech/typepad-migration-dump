@@ -1,0 +1,193 @@
+comments:
+- author: Jarico
+  email: zhuxiaomengjj@gmail.com
+  ip: 123.116.156.140
+  url: ''
+  date: '2010-07-23 02:40:46'
+  body: 'Hi，Jeremy,
+
+    how can I do interference check through the API?
+
+    since the Revit application provide a tool "Interference Check",
+
+    but what can we do it through the API?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-07-26 03:28:29'
+  body: "Dear Jarico, \n\nUnfortunately, there is no direct programmatic access to\
+    \ the built-in Revit Interference Check command.\n\nThe Revit API does provide\
+    \ some lower level interference checking methods, which are described in the following\
+    \ post and the previous ones that it points to:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/06/intersection-between-elements.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/06/intersection-between-elements.html</a>\n\
+    \nIt would be possible to build a full interference checking tool using those\
+    \ methods. For an example of two such tools for specialised cases, please have\
+    \ a look at the Revit SDK samples AvoidObstruction and FindColumns.\n\nCheers,\
+    \ Jeremy."
+- author: nicholas.broadbent@hotmail.com
+  email: nicholas.broadbent@hotmail.com
+  ip: 114.76.81.228
+  url: ''
+  date: '2010-09-05 02:29:54'
+  body: 'Hi Jeremy,
+
+    In a project i can get the File name of a family that has been loaded into the
+    Project but not the Full Path of the family, How do i get the Full Path? Do i
+    need to edit the family?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 213.65.251.246
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-09-10 06:40:11'
+  body: 'Dear Nick,
+
+
+    Good question. Unfortunately, I do not believe that there is any API access to
+    the full path of the linked file:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2008/12/linked-files.html">http://thebuildingcoder.typepad.com/blog/2008/12/linked-files.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Sandeep
+  email: sdpatil.1984@rediffmail.com
+  ip: 122.200.17.210
+  url: ''
+  date: '2011-01-20 02:59:34'
+  body: 'Hi Jeremy,
+
+    Can i use this code for cutting the certain object? like room with boundaries?
+
+
+    Thanks Sandeep'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-01-20 09:08:28'
+  body: 'Dear Sandeep,
+
+
+    This can almost certainly not be used to cut a room and its boundaries, because
+    that is not represented as a solid at all.
+
+
+    Cheers, Jeremy.'
+- author: Bhavana
+  email: bgahlot@building-data.net
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-02-03 02:00:44'
+  body: 'Hi Jeremy,
+
+
+
+    In a project i am able to get FamilyTemplatePath. How can i get the selected template
+    name?
+
+    Please suggest.
+
+
+    Thanks Bhavana'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-02-03 02:19:41'
+  body: 'Dear Bhavana,
+
+
+    Well, there is of course a fundamental difference between the path and the selected
+    filename in that the path is a pretty constant application-wide setting, whereas
+    the selected filename is an ephemeral user selected choice of the moment.
+
+
+    I don''t know off-hand. Some things you can try are to enumerate all the files
+    in the current template path, and check the category of the current family document.
+    That might at least help you limit down things. You could probably use Windows
+    tools like FileMon or Process Monitor to determine which template file was read
+    last by Revit, or the underlying Windows APIs to monitor the file access:
+
+
+    <a href="http://technet.microsoft.com/en-us/sysinternals/bb896642">http://technet.microsoft.com/en-us/sysinternals/bb896642</a>
+
+
+    <a href="http://technet.microsoft.com/en-us/sysinternals/bb896645">http://technet.microsoft.com/en-us/sysinternals/bb896645</a>
+
+
+    What is the context within which you need this information, and what do you need
+    it for?
+
+
+    Cheers, Jeremy.'
+- author: Bhavana
+  email: bgahlot@building-data.net
+  ip: 61.11.14.102
+  url: ''
+  date: '2011-02-03 05:38:57'
+  body: "Thank for this quick Reply.\nIn my project \ni need to map families folder\
+    \ programmaticaly based on the selected template .\n\nPlease suggest.\nThanks\
+    \ \nBhvaana"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-02-03 05:55:34'
+  body: 'Dear Bhavana,
+
+
+    Why?
+
+
+    What for?
+
+
+    What does that mean?
+
+
+    In what way is you mapping based on the selected template, and why does that have
+    to be so?
+
+
+    I don''t understand your objective at all, so there is nothing I can suggest.
+
+
+    Cheers, Jeremy.'
+- author: Bhavana
+  email: bgahlot@building-data.net
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-02-03 06:06:24'
+  body: 'Dear Jeremy,
+
+
+    I have created some families with different family category
+
+    when i want to load  families in my project suupose i select electriccal template
+    then only electrical families from a particular path needs to be loaded.
+
+
+    Thanks
+
+    Bhavana'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-02-03 06:22:05'
+  body: "Dear Bhavana,\n\nYes, that sounds sensible. \n\nTry checking the family category.\n\
+    \nDocument.OwnerFamily.Category might help.\n\nCheers, Jeremy."
+- author: Leo
+  email: Hexu@ualberta.ca
+  ip: 129.128.253.187
+  url: ''
+  date: '2013-01-07 15:51:28'
+  body: 'Hello Jeremy,
+
+
+    I just downloaded the code, and run it without any change. but it always throw
+    me an exception "Family Loading Failed". Do you know why? Thanks
+
+    -----'

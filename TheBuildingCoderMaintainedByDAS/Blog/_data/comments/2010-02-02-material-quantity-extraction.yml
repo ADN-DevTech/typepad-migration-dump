@@ -1,0 +1,235 @@
+comments:
+- author: Matt Mason
+  email: mmason@avat.com
+  ip: 146.115.40.151
+  url: http://cadappdev.blogspot.com
+  date: '2010-02-02 17:07:11'
+  body: 'Jeremy,
+
+
+    Can you remind me - the latest APIs still don''t support split faces, correct?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-02-03 07:04:14'
+  body: 'Dear Matt,
+
+
+    I have not seen any update on this, nope.
+
+
+    cheers, Jeremy.'
+- author: Dragan Kesic
+  email: keze_d@yahoo.com
+  ip: 95.140.120.142
+  url: ''
+  date: '2010-04-19 09:47:59'
+  body: "Hi Jeremy,\n\nhave you any idea on how the extract exact quantities of materials\
+    \ in walls?\n\nWhen I saw methods \nElement.GetMaterialVolume and \nElement.GetMaterialArea\
+    \ I thought they are very useful, but unfortunately they are not very accurate.\
+    \ These methods calculate areas/volumes badly on L or T joints. They do not calculate\
+    \ parts of materials in adjecent wall."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.160.122
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-04-20 05:29:47'
+  body: 'Dear Dragan,
+
+
+    The Revit API does not seem to provide any more detailed analysis or volume calculation
+    access than the methods you mention.
+
+
+    If you are interested in more precise results, you might have to perform some
+    additional geometric analysis yourself, for instance along the lines presented
+    for determining the interior wall component layer geometry:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/02/compound-wall-layer-volumes.html">http://thebuildingcoder.typepad.com/blog/2009/02/compound-wall-layer-volumes.html</a>
+
+
+    Cheers, Jeremy.'
+- author: asheshrocky@gmail.com
+  email: asheshrocky@gmail.com
+  ip: 203.116.165.110
+  url: ''
+  date: '2010-11-23 01:33:58'
+  body: 'Hi Jeremy,
+
+
+    Do u know abt any plugins which can extract the 3D geometric information from
+    revit including the IFC data format'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-11-23 09:23:58'
+  body: 'Dear Asheshrocky,
+
+
+    Nope.
+
+
+    Cheers, Jeremy.'
+- author: José Ignacio
+  email: info@montesherraiz.com
+  ip: 87.216.144.81
+  url: http://www.montesherraiz.com
+  date: '2011-03-28 18:54:06'
+  body: 'Hi Jeremy,
+
+    I find this very, very usefull. Tanks'
+- author: José Ignacio
+  email: info@montesherraiz.com
+  ip: 87.216.144.81
+  url: http://www.montesherraiz.com
+  date: '2011-03-28 18:55:04'
+  body: I meant Thanks!! (not tanks) ;)
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.164.106
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-03-31 06:03:53'
+  body: 'Dear José,
+
+
+    Thank you for your appreciation! Most of the thanks is due to Scott, of course!
+
+
+    Cheers, Jeremy.'
+- author: Neelima
+  email: neeluptk@gmail.com
+  ip: 192.168.10.10
+  url: ''
+  date: '2014-08-08 08:24:07'
+  body: "Hi Jeremy,\n\nWhen I am trying to execute the below code, I got the error.\
+    \ Please help me in correcting the code.\n\nPublic Sub WallfromLine()\n'Prompt\
+    \ user to select level for new walls\nDim curlevel As ElementId\ncurlevel = Me.Selection.PickObject(ObjectType.Element,\"\
+    Select level for new wall\").ElementId\n'Create collection of all line elements\
+    \ in the current project file\nDim curcollector As New FilteredElementCollector(Me.Document)\n\
+    curcollector.OfCategory(BuiltInCategory.OST_Lines)\n'Loop through the elements\
+    \ - if element is a model line, create a wall\nFor each curelem In curcollector.ToElements\n\
+                If curelem.Name Like \"Model Lines\" Then\n                'Convert\
+    \ element to model line    \n                Dim curline As ModelLine\n                curline\
+    \ = curelem\n                'Create transaction and insert wall using current\
+    \ wall type\n                Using t As New Transaction(Me.Document,\"Add new\
+    \ wall\")\n                If t.Start = TransactionStatus.Started Then\n                    'Create\
+    \ a new wall    \n                    Dim newWall As Wall\n                    newWall\
+    \ = Wall.Create ( Me.Document, curline.GeometryCurve, curlevel, False )\n                End\
+    \ If\n                'Commit changes\n                t.Commit()\n                End\
+    \ Using\n            End If\n            Next         \n    End Sub \n\nRegards,\n\
+    Neelima"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-08-11 10:40:51'
+  body: 'Dear Neelima,
+
+
+    I see a number of interesting issues with your code.
+
+
+    The first is that you appear to be picking an arbitrary building element using
+    PickObject and assigning its element id to the curlevel variable, which is assumed
+    to be the element id of a level. Since that will never be the case, the call to
+    create the wall will presumably fail.
+
+
+    I would suggest working through the getting started material first:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#2">http://thebuildingcoder.typepad.com/blog/about-the-author.html#2</a>
+
+
+    While working through that, you will get the hang of using the Visual Studio debugger
+    and the RevitLookup database exploration tool.
+
+
+    With these in hand, you will be well equipped to make further progress.
+
+
+    Cheers, Jeremy.'
+- author: Neelima
+  email: neeluptk@gmail.com
+  ip: 192.168.10.10
+  url: ''
+  date: '2014-08-12 02:38:44'
+  body: 'Thank you so much Jeremy.
+
+
+    Will follow the link you shared.
+
+
+    Thanks,
+
+    Neelima'
+- author: Miu
+  email: contact@flavien-normand.fr
+  ip: 80.74.72.10
+  url: ''
+  date: '2014-12-15 05:38:18'
+  body: 'Hey there,
+
+
+    Sorry for this 4-years-after comment but i have a problem with one of your link,
+    the one we need to get scott''s material AU class is broken, so i can''t try this
+    one without it, can you please fix it?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 10.59.2.19
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-12-15 08:10:44'
+  body: 'Dear Miu,
+
+
+    Thank you for your very valid request.
+
+
+    Scott''s sample code described above was promoted to an official Revit SDK sample,
+    MaterialQuantities, and mentioned here and there in subsequent discussions, e.g.:
+
+
+    <ul>
+
+    <li><a href="http://thebuildingcoder.typepad.com/blog/2010/02/material-quantity-extraction.html">Material
+    Quantity Extraction</a></li>
+
+    <li><a href="http://thebuildingcoder.typepad.com/blog/2010/10/selecting-model-elements.html">Selecting
+    Model Elements</a></li>
+
+    <li><a href="http://thebuildingcoder.typepad.com/blog/2010/10/model-elements-revisited.html">Model
+    Elements Revisited</a></li>
+
+    <li><a href="http://thebuildingcoder.typepad.com/blog/2011/08/wall-joins-and-geometry.html">Wall
+    Joins and Geometry</a></li>
+
+    <li><a href="http://thebuildingcoder.typepad.com/blog/2012/10/the-temporary-transaction-trick-for-gross-slab-data.html">The
+    Temporary Transaction Trick for Gross Slab Data</a></li>
+
+    <li><a href="http://thebuildingcoder.typepad.com/blog/2013/08/attributes-relationships-and-other-stuff.html">Attributes,
+    Relationships and Other Stuff</a></li>
+
+    </ul>
+
+
+    So you can grab the updated sample code from the SDK.
+
+
+    Regarding the AU class handout, I just added it to the post above:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/02/material-quantity-extraction.html#2">http://thebuildingcoder.typepad.com/blog/2010/02/material-quantity-extraction.html#2</a>
+
+
+    It does not say anything specific about the MaterialQuantities sample, though.
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.
+
+    -----'

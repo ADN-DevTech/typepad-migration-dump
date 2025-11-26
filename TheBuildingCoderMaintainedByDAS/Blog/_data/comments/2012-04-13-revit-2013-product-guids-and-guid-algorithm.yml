@@ -1,0 +1,250 @@
+comments:
+- author: Valentin
+  email: vlouzeau@gmail.com
+  ip: 80.70.42.54
+  url: ''
+  date: '2012-04-16 05:46:19'
+  body: 'I''m sorry to post here, my question has realy no report but when I want
+    to ask you a question which I didn''t found on your website, where can I post
+    it?
+
+
+    V.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-04-16 06:23:32'
+  body: 'Dear Valentin,
+
+
+    What is your question about? Just submit it as a comment on any old related blog
+    post.
+
+
+    Cheers, Jeremy.'
+- author: Valentin
+  email: vlouzeau@gmail.com
+  ip: 80.70.42.54
+  url: ''
+  date: '2012-04-16 06:33:06'
+  body: 'Ok thanks.
+
+
+    My question is, i''m working on a plugin which ask the user to select a face,
+    but it don''t work on linked file. i found something using ObjectType.PointOnElement
+    for selection but it don''t for with any face for the moment. Is there an easy
+    way to do that or do you already have a solution?
+
+
+    Thank you for help
+
+
+    V.'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadgraph.de
+  date: '2012-04-17 03:52:32'
+  body: 'Hi Jeremy,
+
+
+    when comparing the 2013 ProductType enumeration with the former one, I see that
+    some new members are not represented by these product GUIDs.
+
+
+    May it be possible that the gap between MEP [3] and One-Box [5] will be filled
+    up during the next time ?
+
+
+
+    Bye,
+
+    Rudolf'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.181.107
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-04-17 04:43:16'
+  body: 'Dear Valentin,
+
+
+    Nope, sorry, there is no easy way to work on a face in a linked file, and I am
+    not aware of any solution for this.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.181.107
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-04-17 04:49:13'
+  body: 'Dear Rudolf,
+
+
+    Very astute observation, even if I say so myself... I had the same question as
+    well... great minds think alike  :-)
+
+
+    Unfortunately, the answer to this is "no comment"  :-)
+
+
+    Cheers, Jeremy.'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadgraph.de
+  date: '2012-04-17 05:10:06'
+  body: 'Hi Jeremy,
+
+
+    "No comment" says more than a thousand words ;-)
+
+
+
+    Bye,
+
+    Rudolf'
+- author: Valentin
+  email: vlouzeau@gmail.com
+  ip: 80.70.42.54
+  url: ''
+  date: '2012-04-19 03:57:43'
+  body: 'I found a solution using reference.ConvertToStableRepresentation(Document).
+
+    This string contains the ref document unique ID, his name, and the ID of the picked
+    element in this doc. You can get his position in the ref doc and if you insert
+    origin to origin, the element have the same position in the two documents. It''s
+    quite long to write it here but i can send the cs if you want.
+
+
+    Thank you for help
+
+
+    V.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.68.148
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-04-19 04:52:38'
+  body: "Dear Valentin,\n\nWow, fantastic, that sounds like an absolutely brilliant\
+    \ solution! \n\nCongratulations on discovering that. \n\nYes, please send me the\
+    \ source code, preferably with a short description of the problem and the solution\
+    \ in your own words, and I will happily create a post from it. Thank you!\n\n\
+    Cheers, Jeremy."
+- author: Valentin
+  email: vlouzeau@gmail.com
+  ip: 80.70.42.54
+  url: ''
+  date: '2012-04-20 05:11:33'
+  body: "I tried to write it here but it don't looks fine so i made an sln.\nWhere\
+    \ can i send the file?\n\nV.\n\nusing System;\nusing System.Collections.Generic;\n\
+    using System.Linq;\nusing System.Windows.Forms;\n\nusing Autodesk.Revit.DB;\n\
+    using Autodesk.Revit.UI;\nusing Autodesk.Revit.UI.Selection;\nusing Autodesk.Revit.Attributes;\n\
+    \nnamespace SelectFaceInLinkedFile\n{\n    [TransactionAttribute(TransactionMode.Manual)]\n\
+    \    public class SelectFaceInLinkedFile : IExternalCommand\n    {\n        public\
+    \ Result Execute(ExternalCommandData commandData, ref string message, ElementSet\
+    \ elements)\n        {\n            UIApplication uiapp = commandData.Application;\n\
+    \            PlanarFace Plan = SelectFace(uiapp);\n\n            return Result.Succeeded;\n\
+    \        }\n        public static PlanarFace SelectFace(UIApplication uiapp)\n\
+    \        {\n            Document doc = uiapp.ActiveUIDocument.Document;\n    \
+    \        //get all ref doc. \n            System.Collections.Generic.IEnumerable\
+    \ doc2 = GetLinkedDocuments(doc);\n\n            //get the ref of a selected plane\n\
+    \            Reference pickedRef = null;\n            Selection sel = uiapp.ActiveUIDocument.Selection;\n\
+    \            pickedRef = sel.PickObject(ObjectType.PointOnElement, \"Please select\
+    \ a Face\");\n            Element elem = doc.get_Element(pickedRef.ElementId);\n\
+    \n            //get the true position picked in the active document\n        \
+    \    XYZ pos = pickedRef.GlobalPoint;\n\n            //get the ID of the element\
+    \ containing the face you picked in the active document and in his host document\n\
+    \            string s = pickedRef.ConvertToStableRepresentation(doc);\n      \
+    \      string[] tab_str = s.Split(':');\n            string id = tab_str[tab_str.Length\
+    \ - 3];\n            int ID;\n            Int32.TryParse(id, out ID);\n      \
+    \      if ((elem.GetType() == typeof(RevitLinkType)) || ((elem.GetType() == typeof(Instance))))\n\
+    \            {\n                foreach (Document d in doc2)\n               \
+    \ {\n                    if (elem.Name.Contains(d.Title))\n                  \
+    \  {\n                        Element element = d.get_Element(new ElementId(ID));\n\
+    \                        Options ops = new Options();\n                      \
+    \  ops.ComputeReferences = true;\n                        //write the name of\
+    \ the element and the number of solids in this only for control ut show the possibilities\n\
+    \                        MessageBox.Show(element.Name, element.get_Geometry(ops).Objects.Size.ToString());\n\
+    \                        GeometryObject obj = element.get_Geometry(ops).Objects.get_Item(0);\n\
+    \                        //test all surfaces of solids in the element and return\
+    \ the one containing the picked point as a planarface to build my sketchplan\n\
+    \                        foreach (GeometryObject obj2 in element.get_Geometry(ops).Objects)\n\
+    \                        {\n                            if (obj2.GetType() ==\
+    \ typeof(Solid))\n                            {\n                            \
+    \    Solid solid2 = obj2 as Solid;\n                                foreach (Face\
+    \ face2 in solid2.Faces)\n                                {\n                \
+    \                    try\n                                    {\n            \
+    \                            if (face2.Project(pos).XYZPoint.DistanceTo(pos) ==\
+    \ 0)\n                                        {\n                            \
+    \                return face2 as PlanarFace;\n                               \
+    \         }\n                                    }\n                         \
+    \           catch (NullReferenceException)\n                                 \
+    \   {\n\n                                    }\n                             \
+    \   }\n                            }\n                        }\n            \
+    \        }\n                }\n            }\n            return null;\n     \
+    \   }\n        //this part is not mine, i found it on the internet, i don't anderstand\
+    \ all the code\n        public static IEnumerable GetLinkedFileReferences(Document\
+    \ _document)\n        {\n            var collector = new FilteredElementCollector(_document);\n\
+    \            var linkedElements = collector.OfClass(typeof(RevitLinkType)).Select(x\
+    \ => x.GetExternalFileReference()).ToList();\n\n            return linkedElements;\n\
+    \        }\n\n        public static IEnumerable GetLinkedDocuments(Document _document)\n\
+    \        {\n            var linkedfiles = GetLinkedFileReferences(_document);\n\
+    \n            var linkedFileNames = linkedfiles.Select(x => ModelPathUtils.ConvertModelPathToUserVisiblePath(x.GetAbsolutePath())).ToList();\n\
+    \            return _document.Application.Documents.Cast().Where(doc => linkedFileNames.Any(fileName\
+    \ => doc.PathName.Equals(fileName)));\n        }\n    }\n}"
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-25 08:40:22'
+  body: 'Dear Valentin,
+
+
+    Thank you very much for your great idea, research and sample!
+
+
+    I published it last week:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/05/selecting-a-face-in-a-linked-file.html">http://thebuildingcoder.typepad.com/blog/2012/05/selecting-a-face-in-a-linked-file.html</a>
+
+
+    I hope you like the result  :-)
+
+
+    Cheers, Jeremy.'
+- author: CGsoldier
+  email: paolo.hilario@m-six.com
+  ip: 107.0.87.46
+  url: http://www.m-six.com
+  date: '2012-12-05 13:29:01'
+  body: If searched hi and low and can't seem to find an equivalent list for AutoCAD
+    Products. Do you happen to know if there is one out there Jeremy?
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.25
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-12-06 09:20:21'
+  body: 'Dear CGsoldier,
+
+
+    Nope. You can always ask Kean:
+
+
+    <a href="http://through-the-interface.typepad.com">http://through-the-interface.typepad.com</a>
+
+
+    Or try the Autodesk AutoCAD API discussion group.
+
+
+    Cheers, Jeremy.'
+- author: CGsoldier
+  email: paolo.hilario@m-six.com
+  ip: 107.0.87.46
+  url: http://www.m-six.com
+  date: '2012-12-10 16:19:44'
+  body: 'Thanks Jeremy
+
+    -----'

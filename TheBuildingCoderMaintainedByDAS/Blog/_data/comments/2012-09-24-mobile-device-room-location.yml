@@ -1,0 +1,249 @@
+comments:
+- author: Adrian Esdaile
+  email: aesdaile@iinet.net.au
+  ip: 203.26.178.133
+  url: ''
+  date: '2012-09-24 23:27:17'
+  body: 'Fascinating!
+
+
+    I work as a Revit Systems Manager with a large retailer, and we have been looking
+    at ways of solving a similar problem - how to work out where a customer or product
+    is located in one of over 800 stores; aach store being a 100-150MB Revit file...
+
+
+    We have started looking at DWF as a lighter and easier dataset to access, and
+    it contains the same room data as Revit; record a location or path as a markup
+    in DWF, then pull that back into Revit.
+
+
+    Its only one option we are looking at, and its very early days for us!
+
+
+    Love your blog by the way, I''m still a beginner with the Revit API, but I find
+    your insights very useful.
+
+
+    10 PRINT "I have not yet learned Visual C#"
+
+    20 GOTO 10
+
+    RUN'
+- author: David Tan
+  email: david7767@hotmail.com
+  ip: 116.235.139.166
+  url: ''
+  date: '2012-09-25 03:12:35'
+  body: 'Hi Jeremy,
+
+
+    That''s an amazing project!
+
+
+    I''m working on a digital platform for a Industrialized Housing system. What you
+    just described is a typical scenario of its lean-agile workflow chain. Looking
+    forward to your progress on it.
+
+
+    On the other hand, I have a question on ViewSchedule. In some cases I need to
+    insert customized layout table into my view sheet. So I need to control the schedule
+    format via Revit API. However, I cannot find way to group ScheduleFields via Revit
+    API, although it has intuitive button "Group"/"Ungroup" on panel of "Modify Schedule/Quantities"
+    panel.
+
+
+    Futher more, sometimes I need a table as flexible as EXCEL. As current version
+    of ViewSchedule cannot afford, I have to draw line and insert text to generate
+    a table family and insert instance of it. I wrote some code to automates this
+    work. But it can only cover the formats I encountered so far, and definitely needs
+    modification for new formats which I cannot foresee at this moment.
+
+
+    Do you have any suggestion for me about the "flexible format table"? Thanks a
+    lot!
+
+
+    Best Regards,
+
+    David Tan'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2012-09-25 03:35:45'
+  body: "Hi Jeremy,\n\nexporting just the room boundaries is a good idea, but I think\
+    \ the results may look too simple.\n\nPerhaps someone wants also to know \n\n\
+    -where the doors and windows are, or \n-what furniture is inside a room\n\nSo\
+    \ what about displaying the room boundaries but also an underlying screenshot\
+    \ ?\nAs far as I know, SVG allows to mix both vector and raster data.\n\n\nCheers,\n\
+    Rudolf"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-09-26 03:25:48'
+  body: "Dear Adrian,\n\nThank you for your appreciation.\n\nBy the way, a possible\
+    \ low tech way to get around the current limitations in indoor positioning facilities\
+    \ might be sticking a Qcode on the wall in every room. \n\nI'll be interested\
+    \ to hear about your final solution.\n\nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-09-26 03:30:23'
+  body: 'Dear David,
+
+
+    Glad you like it.
+
+
+    Nope, sorry, the view schedule formatting is still kind of limited, so all I can
+    suggest at the moment is doing what you already: fiddling with lines and stuff
+    in Revit, or moving it out of Revit to some external report.
+
+
+    Here is a real early example of doing that, before the advent of the electrical
+    panel schedules:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/12/uk-electrical-schedule-sample.html">http://thebuildingcoder.typepad.com/blog/2009/12/uk-electrical-schedule-sample.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-09-26 03:32:42'
+  body: 'Dear Rudolf,
+
+
+    That sounds like a nice idea, for sure.
+
+
+    I''ll probably be looking at making the project smaller rather than larger, though  :-)
+
+
+    Suggest something to reduce the scope, please  :-)
+
+
+    Or do you happen to have some code handy to create nice colour-fill screen snapshots
+    of every room?
+
+
+    Cheers, Jeremy.'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2012-09-26 03:43:44'
+  body: 'Hi Jeremy,
+
+
+    sorry for making the second step before the first one.
+
+
+    Just cannot stop exploring the possibilities.
+
+    ;-)
+
+
+    Rudolf'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2012-09-26 04:41:00'
+  body: 'Hi Jeremy,
+
+
+    for the room pictures, you could create images from either whole floor plans or
+    single rooms.
+
+
+    For single rooms, first zoom in:
+
+
+    ActiveUIDocument.ShowElements(room);
+
+    (here you could need a dialog closer for the "searching for good view" dialog
+    which appears if there is no opened view for our room)
+
+
+    After zoomed in, export the picture:
+
+
+    ImageExportOptions ieo = new ImageExportOptions();
+
+    ieo.ExportRange = ExportRange.VisibleRegionOfCurrentView;
+
+    ieo.FilePath = yourfilepath;
+
+    etc. (e.g. modify resolution)
+
+
+    ActiveUIDocument.Document.ExportImage(ieo);
+
+
+    Since there could be several vaild views of a room, you cannot be sure that the
+    room is displayed in the correct area scheme since this is view depending.
+
+
+    For images of whole viewplans, the ImageExportOptions must be modified:
+
+
+    ieo.ExportRange = ExportRange.CurrentView;
+
+
+
+
+    Cheers,
+
+    Rudolf'
+- author: flower4wine
+  email: ''
+  ip: 124.77.250.115
+  url: http://profile.typepad.com/6p017ee3d89300970d
+  date: '2012-09-30 03:48:15'
+  body: 'Hi Jeremy,
+
+
+    Thanks for your confirmation that I''m on the right track. I used to concern that
+    I had reinvented wheels :-)
+
+
+    You link about the "UK Electrical Schedule Sample" is kind of close to my another
+    idea of the my "Revit Table Functionality":
+
+    1. Use defines table format in EXCEL, which is powerful in table format.
+
+    2. Revit Add-in reads the table format and draw a table family by drawing lines
+    and inserting text.
+
+    3. Create a family instance of the table family
+
+    4. Populate the table family instance by inserting data text
+
+
+    It''s just an idea (maybe navie) at this moment because it''s kind of complex.
+    And it seems more promising to wait for Revit API to expose more Schedule functions.
+
+
+    Best Regards,
+
+    David Tan'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-10-01 12:02:49'
+  body: 'Dear David,
+
+
+    I am hoping that basic schedule formatting functionality will become available
+    in the Revit API in the not all too distant future...
+
+
+    Cheers, Jeremy.
+
+    -----'

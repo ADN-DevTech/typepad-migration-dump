@@ -1,0 +1,141 @@
+---
+layout: "post"
+title: "SDK, Add-In Wizard and TrackChanges Updates"
+date: "2023-01-11 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Journal"
+  - "SDK Samples"
+  - "Template"
+  - "Update"
+  - "Wizard"
+original_url: "https://thebuildingcoder.typepad.com/blog/2023/01/sdk-add-in-wizard-and-trackchanges-updates.html "
+typepad_basename: "sdk-add-in-wizard-and-trackchanges-updates"
+typepad_status: "Publish"
+---
+
+<p>Analysing the recent Revit SDK update, and
+still <a href="https://thebuildingcoder.typepad.com/blog/2022/12/exploring-arm-chatgpt-nairobi-and-the-tsp.html#11">setting up my new Mac PC</a>:</p>
+
+<ul>
+<li><a href="#1">What's new in Revit 2023.1</a></li>
+<li><a href="#2">Revit 2023.1 SDK update</a></li>
+<li><a href="#3">Add-In wizard template in VS 2022</a></li>
+<li><a href="#4">Track work with element lister + TrackChanges</a></li>
+</ul>
+
+<h4><a name="1"></a> What's New in Revit 2023.1</h4>
+
+<p>Revit 2023.1 has been released and includes numerous important enhancements, 
+cf. <a href="https://help.autodesk.com/view/RVT/2023/ENU/?guid=GUID-C81929D7-02CB-4BF7-A637-9B98EC9EB38B">What's New in Revit 2023</a> &gt; 2023.1 Release.</p>
+
+<p>Here are two that stand out at first glance for us API aficionados:</p>
+
+<ul>
+<li><a href="https://help.autodesk.com/view/RVT/2023/ENU/?guid=GUID-3451EA78-36B5-41CA-9577-76BD9CBC330D">Automatically Enabled Tag Leader</a>,
+answering the recent <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/quot-add-leader-quot-failure-resolution/td-p/11612092">"Add Leader" failure resolution</a></li>
+<li><a href="https://help.autodesk.com/view/RVT/2023/ENU/?guid=GUID-0D839F7D-3B73-41C3-8134-3FDF40B793BB">Curved Analytical Panel</a>,
+reflected in the SDK update discussed next</li>
+</ul>
+
+<h4><a name="2"></a> Revit 2023.1 SDK Update</h4>
+
+<p>An update of the Revit SDK has been released for Revit 2023.1 to
+the <a href="https://www.autodesk.com/developer-network/platform-technologies/revit">Revit Developer Center autodesk.com/developrevit</a>.</p>
+
+<p>I installed and compared it with the original Revit 2023 SDK and detected
+only <a href="https://thebuildingcoder.typepad.com/files/diff_2023_2023_1.txt">very small differences</a>.</p>
+
+<p>Comparing only directories indicates no changes whatsoever in the folder structure:</p>
+
+<pre>
+% diff du2023.txt du2023_1.txt
+
+842c842
+< 2023
+---
+> 542280    2023.1
+</pre>
+
+<p>Comparing files and directories uncovers one new and one modified file:</p>
+
+<pre>
+% diff ff2023.txt ff2023_1.txt
+
+1009a1010
+> ./Samples/ContextualAnalyticalModel/CS/CreateAnalyticalCurvedPanel.cs
+1966c1967
+< ./Samples/GeometryAPI/GeometryCreation_BooleanOperation/CS/AnalysisVisualizationFramework .cs
+---
+> ./Samples/GeometryAPI/GeometryCreation_BooleanOperation/CS/AnalysisVisualizationFramework.cs
+3913d3913
+< ./ff2023.txt
+</pre>
+
+<p>In summary, the extraneous space character that I reported to the development team was removed in the <code>AnalysisVisualizationFramework.cs</code> module filename, and a new C# sample module <code>CreateAnalyticalCurvedPanel.cs</code> was added to the ContextualAnalyticalModel SDK sample.</p>
+
+<p>So, no need to update unless you happen to be specifically interested in those.</p>
+
+<p>I integrated these two changes manually into
+the <a href="https://github.com/jeremytammik/RevitSdkSamples">RevitSdkSamples GitHub repo</a>
+in <a href="https://github.com/jeremytammik/RevitSdkSamples/releases/tag/2023.1.0.0">release 2023.1.0.0</a>.</p>
+
+<h4><a name="3"></a> Add-In Wizard Template in VS 2022</h4>
+
+<p>After that analysis, I encountered the need to implement a new Revit add-in skeleton, and hence get
+my <a href="https://github.com/jeremytammik/VisualStudioRevitAddinWizard">Visual Studio Revit add-in wizard <code>VisualStudioRevitAddinWizard</code></a> up
+and running on the new machine, for the first time on Visual Studio 2022.
+First, Visual Studio 2022 prompted me to update it to version 17.4.3.
+<code>install.bat</code> was set up to copy the template zip files to the <code>C:</code> drive, which required me to modify
+the <a href="https://thebuildingcoder.typepad.com/blog/2022/10/bim360-links-and-programming-add-ins.html#6">VS wizard template location</a> last
+time I tried.
+I then noticed that the <code>\\mac\</code> folder actually maps to my <code>Y:</code> drive and left the VS Options setting as is.
+I also <a href="https://learn.microsoft.com/en-us/answers/questions/714454/location-of-visual-studio-2022-project-template-ca.html">cleared the Visual Studio 2022 project template cache</a>.
+Without really knowing which of these steps was required and which was not, I ended up with a working template in the end:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302af148c7365200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302af148c7365200c image-full img-responsive" alt="Add-In Wizard Template in VS 2022 " title="Add-In Wizard Template in VS 2022" src="/assets/image_2baef6.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<!--
+PS C:\Users\jta\Documents> mkdir "Visual Studio 2022\Templates\ProjectTemplates"
+PS Y:\a\src\rvt\VisualStudioRevitAddinWizard> .\install.bat 2022
+-->
+
+<p>The current state of my template is captured
+in <a href="https://github.com/jeremytammik/VisualStudioRevitAddinWizard/releases/tag/2023.0.0.2">VisualStudioRevitAddinWizard release 2023.0.0.2</a>.</p>
+
+<h4><a name="4"></a> Track Work with Element Lister + TrackChanges</h4>
+
+<p>The <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/journal-step-by-step/m-p/11625744">journal step by step</a>:
+already generated one note of interest here in the lost blog post,
+on the <a href="https://thebuildingcoder.typepad.com/blog/2023/01/cultureinfochanger-and-ironpython3.html#4">journal files AU class</a>.
+Now, another point came up:</p>
+
+<p><strong>Question:</strong> Some managers are concerned about staffers working remotely, partly because managers can’t be sure that work is actually being done.
+Can Revit journals be queried to determine how much actual work happened during a Revit session?</p>
+
+<p><strong>Answer:</strong> I am sure they can. </p>
+
+<p>Personally, I would approach that question differently, using a technique more similar to the super-simple element lister or the <code>TrackChanges</code> app:</p>
+
+<ul>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2014/09/debugging-and-maintaining-the-image-relationship.html#2"> Element Lister Description and Questions</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2016/01/tracking-element-modification.html">Tracking Element Modification</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2016/03/implementing-the-trackchangescloud-external-event.html">Implementing the TrackChangesCloud External Event</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2018/02/retrieving-newly-created-element-ids.html">Retrieving Newly Created Element Ids &ndash; Using the Element Lister</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2021/01/line-subcategory-filter-nw-and-modification-tracking.html#3">Revit Project Modification Tracking</a></li>
+</ul>
+
+<p><strong>Response:</strong> Thanks very much, Mr. T.!
+I am acutely aware that discussing this sort of tracking can seem like shades of Big Brother, but in defence of company management, since they are paying money to people in exchange for work, management has some right to ensuring that the work is being done.
+How management then uses that information is a separate consideration, of course.
+Thanks again, sir.</p>
+
+<p><strong>Answer:</strong> Yup, such is the world we inhabit and co-create.
+I guess the most complete understanding of work done may be achieved using a combination of all three methods:
+step-by-step commands in the journal file, list of new and modified elements between certain snapshots, and evolution of the entire BIM from humble beginnings to soaring architectural glory...</p>

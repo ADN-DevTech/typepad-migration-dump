@@ -1,0 +1,118 @@
+---
+layout: "post"
+title: "Installer Asset, FormIt and Quaternions"
+date: "2021-11-19 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "Geometry"
+  - "Git"
+  - "Installation"
+  - "JavaScript"
+  - "Plugin"
+  - "RevitLookup"
+original_url: "https://thebuildingcoder.typepad.com/blog/2021/11/installer-asset-formit-and-quaterions.html "
+typepad_basename: "installer-asset-formit-and-quaterions"
+typepad_status: "Publish"
+---
+
+<p>Notes on FormIt and its API, the new automatically generated RevitLookup installer asset, transformations and quaternions:</p>
+
+<ul>
+<li><a href="#2">FormIt API and geographical context</a></li>
+<li><a href="#3">RevitLookup MSI installer asset</a></li>
+<li><a href="#4">Transform and quaternions</a></li>
+</ul>
+
+<h4><a name="2"></a> FormIt API and Geographical Context</h4>
+
+<p>Good things are happening
+with <a href="https://formit.autodesk.com">FormIt</a>,
+a multi-platform architectural modelling, conceptual design and analysis tool.
+With FormIt, you can sketch, collaborate, analyse, and revise early-stage design concepts with BIM-based conceptual design.</p>
+
+<p>Kean Walmsley took a closer look
+at <a href="https://www.keanw.com/2021/11/autodesk-formit-and-its-javascript-api.html">FormIt and its JavaScript API</a> and
+describes in detail how to get started with FormIt plugins.</p>
+
+<p>That prompted Radu <a href="https://twitter.com/radugidei">@radugidei</a> Gidei
+to <a href="https://twitter.com/radugidei/status/1458370952652378113?s=20">mention</a>
+the Matterlab FormIt plugin making use of this to provide geographical context in Revit;</p>
+
+<blockquote>
+  <p>Nice one and great intro to FormIt API!
+  Look forward to the VASA integration, sounds very cool! 
+  Btw, some of our team are working on some FormIt stuff as we speak, some cool things  coming for the community! (cough docs cough)</p>
+</blockquote>
+
+<ul>
+<li><a href="https://github.com/matterlab-co/FormIt-Context-Plugin">Matterlab FormiIt 3D Context Creator</a></li>
+</ul>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833026bdf016764200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833026bdf016764200c img-responsive" alt="3D context creator" title="3D context creator" src="/assets/image_26bad6.jpg" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Thanks to Kean and Radu for sharing these!</p>
+
+<h4><a name="3"></a> RevitLookup MSI Installer Asset</h4>
+
+<p>Yet another update to RevitLookup brings us
+to <a href="https://github.com/jeremytammik/RevitLookup/releases/tag/2022.0.2.5">release 2022.0.2.5</a>,
+adding automatic generation of a release for the master branch and attaching the completed installer as an asset to the release:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833027880594362200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833027880594362200d img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="RevitLookup 2022.0.2.5" title="RevitLookup 2022.0.2.5" src="/assets/image_9781b6.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>This is the result of <a href="https://github.com/jeremytammik/RevitLookup/pull/118">pull request #118 to release by GitAction</a>,
+including an intensive and very instructive conversation
+between <a href="https://github.com/Nice3point">Roman @Nice3point</a>
+and Luiz Henrique <a href="https://github.com/ricaun">@ricaun</a> Cassettari
+on how to optimally set it up, and a renewed summary by Roman on how to handle future pull requests:</p>
+
+<blockquote>
+  <p>Once again, I will repeat the steps that you must take to publish:</p>
+</blockquote>
+
+<ul>
+<li>Developers send PR to the <code>dev</code> branch.</li>
+<li>We check, write a code review.</li>
+<li>Accept PR.</li>
+<li>Upgrade the build version in <a href="https://github.com/jeremytammik/RevitLookup/blob/dev/RevitLookup/RevitLookup.csproj#L8"><code>csproj</code> line 8</a></li>
+<li>Log changes in the <a href="https://github.com/jeremytammik/RevitLookup/blob/dev/Doc/Changelog.md">changelog</a>;
+multiple lines are supported;
+the main thing is that a line does not start with a hyphen '-'; 
+that means the end of the description of the current release.</li>
+<li>Merge the <code>dev</code> branch into <code>master</code>.</li>
+<li>Release will be generated automatically.</li>
+</ul>
+
+<p>Many thanks to Luiz Henrique and Roman for their deep discussion, insight and implementation!</p>
+
+<h4><a name="4"></a> Transform and Quaternions</h4>
+
+<p>In
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/get-translation-and-rotation-for-a-familyinstance-export/m-p/10758975">getting translation and rotation for a <code>FamilyInstance</code></a>,
+Matthew <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/8377999">mhannonQ65N2</a> Hannon
+shares a very nice and succinct explanation of quaternions and how they relate to Revit transformations:</p>
+
+<p>For rotations, what you are trying to do is transform between two different representations of the 3d rotation group (aka the Special Orthogonal group of dimension 3, SO(3)). Revit provides rotations in the form of a 3x3 matrix whose three columns are the BasisX, BasisY, and BasisZ properties of Transform. This rotates vectors by standard matrix multiplication.</p>
+
+<p>However, what you are using in SharpGLTF requires a quaternion. To be precise, it actually requires a unit quaternion, which is a quaternion of length 1. The equation for this is <i>x²+y²+z²+w²=1</i> (this is identical to the equation of the unit sphere in 4-dimensional space, known as the 3-sphere because its 'surface' is 3-dimensional). Furthermore, the product of two unit quaternions is also a unit quaternion. Unit quaternions rotate 3d vectors in a more mathematically complicated way that is actually faster to compute (I won't get into the details). A significant consequence of how unit quaternions are used to rotate vectors is that multiplying the unit quaternion by <i>-1</i> does not change how the vector is rotated. As such each 3d rotation can be represented by two different quaternions, <i>q</i>, and <i>-q</i>. As such, the group of unit quaternions is called a 'double cover' of SO(3).</p>
+
+<p>Given an axis you wish to rotate about (as a unit vector, <b>v</b>) and the amount you wish to rotate, <b>θ</b>, (in radians), the process of constructing a unit quaternion for that rotation is straight forward. The x, y, and z components of the unit quaternion are the x, y, and z components of v, multiplied by sin(θ/2) and the fourth component is cos(θ/2).</p>
+
+<p>If you don't know the axis and angle but only have the rotation matrix (i.e. a Revit Transform), there are algorithms for converting from a 3d rotation matrix to a quaternion, though I won't go into any here. Alternatively, it looks like in the latest version of SharpGLTF, AffineTransform has a constructor that takes a 4x4 matrix. To make such a matrix from a Revit Transform, the first 3 columns should be the BasisX, BasisY, and BasisZ of the Transform, with the fourth member of the column being zero, and the last column should be the Transform's origin, with the fourth member of the column being one.</p>
+
+<p>Many thanks to Matthew for this very nice overview!</p>
+
+<p>Barry @bnewcombe adds: ... Quarternion explanations always seem very confusing;
+the best explanation (primer) video I found were
+the <a href="https://youtu.be/1yoFjjJRnLY">10 mins GameDev Quaternion tips</a>.
+Thank you, Barry!</p>

@@ -1,0 +1,153 @@
+comments:
+- author: Jordi
+  email: jordi_attencia@hotmail.com
+  ip: 93.17.66.13
+  url: ''
+  date: '2015-04-07 05:08:13'
+  body: 'Dear Jeremy,
+
+
+    Indeed Britanny is beautiful, I live there !
+
+
+    I have a question about the API : I''ve determined translation and rotations parameters
+    through a least square method, but the rotations are calculated considering they
+    will be applied from the (0,0,0) point. But when I apply them with ElementTransformUtils.RotateElement
+    it seems they are not applied from that point. I tried to change my least square
+    treatment to consider the survey point as the (0,0,0) point but I still got small
+    errors. Any ideas how to apply them from (0,0,0) ?
+
+
+    Jordi'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-04-07 16:00:58'
+  body: 'Dear Jordi,
+
+
+    Wow, how nice, luck you. I love Brittany!
+
+
+    You are forced to specify a rotation axis when you call the ElementTransformUtils.RotateElements
+    method.
+
+
+    That axis will always determine the axis of rotation, including the center point
+    of the rotation, so it should give you absolutely all you need.
+
+
+    What axis are you specifying?
+
+
+    To rotate in the XY plane around the origin, you can use a line from the origin,
+    (0,0,0) = XYZ.Zero, to an arbitrary point on the Z axis, e.g. (0,0,1) = XYZ.BasisZ.
+
+
+    Cheers, Jeremy.'
+- author: Jordi
+  email: jordi_attencia@hotmail.com
+  ip: 93.17.66.13
+  url: ''
+  date: '2015-04-14 08:09:23'
+  body: "Dear Jeremy\n\nWhat I do is this :\n            Line axeX=Line.CreateBound(new\
+    \ XYZ(0,0,0),new XYZ(1,0,0));\n            Line axeY = Line.CreateBound(new XYZ(0,\
+    \ 0, 0), new XYZ(0, 1, 0));\n            Line axeZ = Line.CreateBound(new XYZ(0,\
+    \ 0, 0), new XYZ(0, 0, 1));\n\nSo I guess it is what you suggested. I must have\
+    \ a bug somewhere. I manage a workaround : I substract to all my data the coordinates\
+    \ of my survey point. Still not the right point for me apparently but since the\
+    \ angle is right I just have to apply new translation to fix it.\n\nThank you\
+    \ for your answer\n\nJordi"
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.103.43
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-04-14 09:11:45'
+  body: "Dear Jordi,\n\nIn theory, it might be ever so slightly more efficient to\
+    \ use this instead:\n\n  Line axeX = Line.CreateBound( XYZ.Zero, XYZ.BasisX );\n\
+    \  Line axeY = Line.CreateBound( XYZ.Zero, XYZ.BasisY );\n  Line axeZ = Line.CreateBound(\
+    \ XYZ.Zero, XYZ.BasisZ );\n\nThe last one, axeZ, is the one I was thinking of,\
+    \ yes.\n\nGlad to hear you have found a solution.\n\nYup, if you are working with\
+    \ very large coordinates, it will indeed often help to move the whole problem\
+    \ closer to the origin.\n\nCheers, Jeremy."
+- author: Jordi
+  email: jordi_attencia@hotmail.com
+  ip: 93.17.66.13
+  url: ''
+  date: '2015-04-15 04:54:14'
+  body: 'Dear Jeremy
+
+
+    Yup I tried that too but it gave me the exact same results.
+
+    The workaround is good and my plugin works perfectly fine at the moment so I''m
+    very glad. Thanks for all the help these past months, your blog is awesome. Keep
+    it up !
+
+
+    Jordi'
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.105.72
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-04-16 06:10:58'
+  body: 'Dear Jordi,
+
+
+    I am very glad it works for you now!
+
+
+    Thank you for your appreciation!
+
+
+    I will do my best.
+
+
+    Have you checked out my new, second, blog yet?
+
+
+    <a href="http://the3dwebcoder.typepad.com">http://the3dwebcoder.typepad.com</a>
+
+
+    I hope that is of interest to you as well!
+
+
+    Cheers,
+
+
+    Jeremy'
+- author: Jordi
+  email: jordi_attencia@hotmail.com
+  ip: 93.17.66.13
+  url: ''
+  date: '2015-04-17 02:42:27'
+  body: 'Dear Jeremy,
+
+
+    Yeah I did, it''s pretty nice. I fell for the april fools, I didn''t see the date.
+    I was kind of exited then I was very disapointed. I''m a very gullible person
+    !
+
+
+    Cheers,
+
+
+    Jordi'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-04-22 09:25:07'
+  body: 'Dear Jordi,
+
+
+    Oh, how nice to hear  :-)
+
+
+    I am very gullible too!
+
+
+    Cheers, Jeremy.
+
+    -----'

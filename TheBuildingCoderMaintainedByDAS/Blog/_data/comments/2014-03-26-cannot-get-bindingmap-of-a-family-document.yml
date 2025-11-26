@@ -1,0 +1,58 @@
+comments:
+- author: Manish
+  email: manishsingh12jan@gmail.com
+  ip: 114.143.77.186
+  url: ''
+  date: '2014-03-27 03:16:20'
+  body: "Dear Jeremy\n\nOn 11 Feb-2014 \n<a href=\"http://thebuildingcoder.typepad.com/blog/geometry/\"\
+    >http://thebuildingcoder.typepad.com/blog/geometry/</a>\n\nElement elem = doc.GetElement(\
+    \ ref1 );\nFamilyInstance fi = elem as FamilyInstance;\n LocationCurve lc = fi.Location\
+    \ as LocationCurve;\n \nuidoc.Selection.Elements.Clear();\n ElementArray startarray\
+    \ = lc\n      .get_ElementsAtJoin( 0 );\n\n this code give element that joint\
+    \ to beam but not give result for pipe and duct and its associated fitting such\
+    \ as elbow and tee. please suggest me , what i do to get joint element to Elbow\
+    \ or tee or Duct."
+- author: Brad
+  email: nlharter@sbcglobal.net
+  ip: 172.9.207.66
+  url: ''
+  date: '2014-03-29 10:10:58'
+  body: 'Jeremy,
+
+    Thanks for the help, removing the binding made it possible, but has brought up
+    another issue. It is saving the changes in the family level, not the project level.
+    If the user makes another change, say adding another shared parameters, it will
+    add the change to the family itself but not the family within the project. I am
+    assuming what happens is the first time we place the family it updates the parameters
+    first and inserts the family but without binding it any changes after the model
+    is placed does not update. We are trying to resolve this, but any tips would be
+    appreciated.
+
+    Thanks,
+
+    Brad'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.193.28
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-04-10 06:49:22'
+  body: 'Dear Brad,
+
+
+    Thank you for the appreciation. I am glad it helped.
+
+
+    It sounds like you need to force Revit to reload the family.
+
+
+    It may refuse to do so if it is under the impression that nothing relevant changed.
+
+
+    In that case, you may need to force the reloading even more, e.g. by deleting
+    the existing instances in the project, including its symbols and the family definition
+    itself.
+
+
+    Cheers, Jeremy.
+
+    -----'

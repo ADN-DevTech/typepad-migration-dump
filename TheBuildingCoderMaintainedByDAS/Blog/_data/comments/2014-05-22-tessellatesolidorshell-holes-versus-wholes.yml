@@ -1,0 +1,42 @@
+comments:
+- author: Matt Taylor
+  email: matthew.taylor@wspgroup.com
+  ip: 61.14.99.173
+  url: ''
+  date: '2014-05-22 20:22:30'
+  body: Perhaps the issue could be solved by rounding *every* ordinate to (say) 1mm,
+    and use the dictionary method with the rounded values?
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.203.246
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-05-28 11:30:42'
+  body: 'Dear Matt,
+
+
+    Yes, exactly, it absolutely could.
+
+
+    Thank you very much for the suggestion!
+
+
+    That is basically what I do in the OBJ exporter.
+
+
+    I avoid the costly conversion to strings for the dictionary keys, though, by two
+    alternative means:
+
+
+    1. Using XYZ real number coordinates and the XyzEqualityComparer in the the VertexLookupXyz.
+
+
+    2. Even more efficiently: converting the XYZ real number coordinates to integer
+    based millimetres, after which I can use standard integer equality comparison.
+
+
+    What you suggest would in principle achieve the same thing.
+
+
+    Cheers, Jeremy.
+
+    -----'

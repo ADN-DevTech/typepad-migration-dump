@@ -1,0 +1,233 @@
+comments:
+- author: niki
+  email: niki.funky@gmail.com
+  ip: 195.34.102.98
+  url: ''
+  date: '2011-08-29 07:00:56'
+  body: "Hi, \nWe have just implemented Revit in our office. And I made  DWG Export\
+    \ Setup according to our company standard. But if I use - DWGExportOptions.GetPredefinedOptions(\n\
+    \tDocument document,string setup)\nthen -  bool MergedViews { get; set; } returns\
+    \ always false, no matter how it is in the Setup. I need help. \nI'm just starting\
+    \ to learn C# and Revit API. \n\nbest regards\narch. N.Marinov"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-08-29 07:28:26'
+  body: 'Dear Niki,
+
+
+    Congratulations on implementing Revit.
+
+
+    There was an issue with this once upon a time, but it should be fixed in Revit
+    2012.
+
+
+    What version are you using?
+
+
+    Cheers, Jeremy.'
+- author: niki
+  email: niki.funky@gmail.com
+  ip: 195.34.102.98
+  url: ''
+  date: '2011-08-29 07:33:11'
+  body: 'Hi
+
+    We use Revit Architecture 2012.
+
+
+    best regards'
+- author: niki
+  email: niki.funky@gmail.com
+  ip: 195.34.102.98
+  url: ''
+  date: '2011-08-29 07:37:30'
+  body: 'I was wrong MergedViews always return as true. All linked rvt files are exported
+    as external references, no matter how I put it in the DWG Export Setup.
+
+
+    best regards'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-08-29 07:40:08'
+  body: 'Dear Niki,
+
+
+    Well, then it should work  :-)
+
+
+    I see no other reports on such a problem, and it was looked at prior to the 2012
+    release...
+
+
+    Cheers, Jeremy.'
+- author: niki
+  email: niki.funky@gmail.com
+  ip: 195.34.102.98
+  url: ''
+  date: '2011-08-29 08:36:10'
+  body: "//parameter : DWGExportOptions \n            DWGExportOptions dwgExportOptions\
+    \ = DWGExportOptions.GetPredefinedOptions(m_activeDoc, \"AIA2\");\n\n        \
+    \    //Export\n            exported = m_activeDoc.Export(m_exportFolder, m_exportFileName,\
+    \ views, dwgExportOptions);\n\nusing this code Revit uses all settings from AIA2\
+    \ setup, except whether to merge the views. \n\nbest regards"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-08-29 08:53:49'
+  body: "Dear Niki,\n\nAre you an ADN member? \n\n<a href=\"http://www.autodesk.com/joinadn\"\
+    >http://www.autodesk.com/joinadn</a>\n\nIf so, please submit a DevHelp Online\
+    \ request. Otherwise, hmm, don't know what to do.\n\nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-08-31 06:37:50'
+  body: 'Dear Niki,
+
+
+    Some interesting news on this:
+
+
+    1. The merge views check box in the UI has no effect; views are never merged in
+    the UI regardless of the setting.
+
+
+    2. The MergedViews property in the API is initially always set to false, regardless
+    of the UI setting.
+
+
+    3. The good news: The MergedViews property in the API does do the job you would
+    expect, e.g. control whether or not views are merged.
+
+
+    It seems to be the only way to control this, since the UI check box does not.
+
+
+    Thank you for bringing this to our attention!
+
+
+    Cheers, Jeremy.'
+- author: mnav
+  email: ntlsoft@gmail.com
+  ip: 217.35.108.169
+  url: ''
+  date: '2011-11-14 10:27:50'
+  body: "hi\n in revit 2011 i was able to cast CADExportOptions type object to DWGExportOptions.\
+    \ but as i changed the dll to 2012 version its start giving me error: \nCannot\
+    \ convert type 'Autodesk.Revit.DB.CADExportOptions' to 'Autodesk.Revit.DB.DWGExportOptions'\n\
+    \ \npls help."
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-11-14 11:26:34'
+  body: 'Dear Mnav,
+
+
+    In the Revit 2012 API, DWGExportOptions is derived from ACADExportOptions, which
+    in turn is based directly on the base class System.Object:
+
+
+    System.Object
+
+    > Autodesk.Revit.DB.ACADExportOptions
+
+    > > Autodesk.Revit.DB.DWGExportOptions
+
+    > > Autodesk.Revit.DB.DXFExportOptions
+
+
+    CADExportOptions is the parent class of the other export option classes for DGN,
+    DWF and SAT, but not DWG, so they are now unrelated:
+
+
+    System.Object
+
+    > Autodesk.Revit.DB.CADExportOptions
+
+    > > Autodesk.Revit.DB.DGNExportOptions
+
+    > > Autodesk.Revit.DB.DWFExportOptions
+
+    > > Autodesk.Revit.DB.SATExportOptions
+
+
+    In the Revit 2011 API, CADExportOptions was the parent class of ACADExportOptions
+    as well, and thus the grandparent of DWGExportOptions:
+
+
+    System.Object
+
+    > Autodesk.Revit.DB.CADExportOptions
+
+    > > Autodesk.Revit.DB.ACADExportOptions
+
+    > > Autodesk.Revit.DB.DGNExportOptions
+
+    > > Autodesk.Revit.DB.DWFExportOptions
+
+    > > Autodesk.Revit.DB.SATExportOptions
+
+
+    So you will have to address whatever you are trying to achieve differently in
+    2012.
+
+
+    Cheers, Jeremy.'
+- author: mnav
+  email: ntlsoft@gmail.com
+  ip: 81.138.244.129
+  url: ''
+  date: '2011-11-16 05:23:59'
+  body: thanks.....
+- author: Mira Saad
+  email: mira.saad@dargroup.com
+  ip: 85.112.95.23
+  url: ''
+  date: '2012-06-18 05:00:51'
+  body: 'Dear Sir,
+
+
+    I am trying to customize the Revit 2012 Export to CAD to suit our company standards.
+    I need the application to take the layer mapping as it is fixed in the Revit file
+    and not being read from a txt file or from a standard. The users are editing the
+    export settings in the revit files and I need the export application to read these
+    settings.
+
+
+    Please advise.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.181.254
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-06-18 05:16:38'
+  body: 'Dear Mira,
+
+
+    I am not aware of much customisation access to the built-in Revit CAD export functionality.
+
+
+    I would suggest using it as is, and implementing your own add-in to export other
+    additional data, such as the desired layer information, in parallel.
+
+
+    At the other end of the process, e.g. from a stand-alone command line application
+    or in the target CAD system, read in both the exported CAD file and your additional
+    layer data information and merge the two in whatever way you like.
+
+
+    For instance, if you are working with DWG, a stand-alone application could be
+    implemented based on RealDWG, or you could use a .NET add-in inside of (or outside
+    of, and driving) AutoCAD.
+
+
+    Cheers, Jeremy.
+
+
+    -----'

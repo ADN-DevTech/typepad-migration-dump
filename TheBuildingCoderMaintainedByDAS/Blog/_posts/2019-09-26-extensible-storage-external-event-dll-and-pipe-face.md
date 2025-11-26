@@ -1,0 +1,168 @@
+---
+layout: "post"
+title: "Extensible Storage, External Event, DLL, Pipe Face"
+date: "2019-09-26 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "Data Access"
+  - "Events"
+  - "External"
+  - "Geometry"
+  - "Storage"
+original_url: "https://thebuildingcoder.typepad.com/blog/2019/09/extensible-storage-external-event-dll-and-pipe-face.html "
+typepad_basename: "extensible-storage-external-event-dll-and-pipe-face"
+typepad_status: "Publish"
+---
+
+<p>Preserving another couple of interesting recent threads from
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> on
+various extensible and external topics:</p>
+
+<ul>
+<li><a href="#2">Extensible storage reading trouble</a></li>
+<li><a href="#3">External event implementation</a></li>
+<li><a href="#4">External DLL loading</a></li>
+<li><a href="#5">External side face of a pipe</a></li>
+</ul>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4d6bc11200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4d6bc11200b image-full img-responsive" alt="Autumn leaves" title="Autumn leaves" src="/assets/image_8ccc87.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a></p>
+
+<p style="font-size: 80%; font-style:italic">Autumn leaves</p>
+
+<p></center></p>
+
+<h4><a name="2"></a> Extensible Storage Reading Trouble</h4>
+
+<p>A creative suggestion for reading existing extensible storage data was made even after discovering a happy resolution for 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/trouble-reading-entity-schema/m-p/9046186">trouble reading entity schema</a>:</p>
+
+<p><strong>Question:</strong> I seem to be having some trouble getting access to the entity schema I created.</p>
+
+<p>About 7 years ago, I created an app that reads &amp; writes a schema to the project info element. A year later I created another app that only reads this schema. Now I am updating the second app and I find with Revit 2019 it can no longer read the schema. I keep getting the error "Schema not available to this application" but in the schema builder the read/write access is set to vendor. The name, GUID and vendor id are set the same in both apps. I can still get the schema with the latest version of the app that created it, it's just the second app that can't.</p>
+
+<p>Is this a bug in the most recent API's?</p>
+
+<p>Later: Never mind. I figured it out.
+I had loaded my app through the wonderful add-in manager you created.
+So, the schema thought it was the add-in manager that was trying to access my schema.
+Everything works properly if I load my app with the manifest file without ever having loaded the app through the manager.</p>
+
+<p><strong>Answer by Christian @cwaluga Waluga:</strong> Glad to hear you figured it out!</p>
+
+<p>You can also try to change the vendor and add-in identification in the AddInManager <code>.addin</code> manifest file to yours.</p>
+
+<p>I do the same with RevitLookup to snoop my own extensible storage.</p>
+
+<p>Many thanks to Christian for this useful hint!</p>
+
+<h4><a name="3"></a> External Event Implementation</h4>
+
+<p>A pointer to a useful Autodesk knowledge base article was mentioned in 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/externalevent/m-p/9029731">ExternalEvent</a>,
+prompting me to copy it to this blog for secure preservation for posterity:</p>
+
+<p><strong>Question:</strong> I want to create an <code>ExternalEvent</code> on button click.
+But I get an exception: <em>Attempting to create an ExternalEvent outside of a standard API execution</em>.
+When I checked the thread of the main window and the <code>Command</code> class, they were the same thread.
+What's the magic? I created the class for resetting event in <code>Command</code> class.</p>
+
+<p><strong>Answer:</strong> Look at the Revit SDK sample <em>ModelessDialog/ModelessForm_ExternalEvent</em>
+and <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#5.28">The Building Coder samples implementing external events</a>.</p>
+
+<p>Sean Page adds a helpful pointer, saying:</p>
+
+<blockquote>
+  <p>I found this site to be exceptionally helpful when creating external event handlers:
+  <a href="https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2016/ENU/Revit-API/files/GUID-0A0D656E-5C44-49E8-A891-6C29F88E35C0-htm.html">External Events in knowledge.autodesk.com</a></p>
+</blockquote>
+
+<p>This knowledgebase article refers to Revit 2016.
+Strangely, I cannot find an updated link for Revit 2020
+For safety's sake, I created a <a href="https://thebuildingcoder.typepad.com/files/external_events_knowledgebase.html">local copy here of the External Events knowledgebase article</a>.</p>
+
+<p>Bobby C. Jones completes the answer, explaining: You cannot call <code>ExternalEvent.Create</code> outside of a valid Revit API context, and a callback from a button click is most definitely not a valid context.</p>
+
+<p>What I do is create an instance of the <code>IExternalEventHandler</code> and call <code>ExternalEvent.Create</code> from the <code>IExternalCommand</code>, or other valid context, and pass them to the viewmodel (or create them in the ViewModel constructor if you're newing up the ViewModel in the <code>IExternalCommand</code>.
+I prefer MVVM; if you do not, then pass them to or create them where you're UI logic resides, a Controller, directly in the Form, or wherever.
+In your button click callback, you pass necessary state info to your <code>IExternalEventHandler</code> and then call <code>Raise</code>.</p>
+
+<h4><a name="4"></a> External DLL Loading</h4>
+
+<p>Another recurring issue deals with a problem loading an external DLL; in this case,
+<a href="https://forums.autodesk.com/t5/revit-api-forum/syste-data-sqlite-can-not-loaded/m-p/9039972">System.Data.Sqlite cannot be loaded</a>:</p>
+
+<p><strong>Question:</strong> I am writing an app that uses sqlite to write to a db and I make a reference to <code>System.Data.Sqlite</code>, but when I run the app inside Revit, I get the error message <em>Could not load file or assembly or one of its dependencies</em>.</p>
+
+<p>What can be the cause of that error? </p>
+
+<p><strong>Answer by Revitalizer:</strong> Autodesk itself uses a bunch of .NET DLL files in its own add-ins that are shipped with Revit.</p>
+
+<p>Since they are loaded before your add-in, there may be conflicts if different versions are used.</p>
+
+<p>So, make sure you use the same DLL versions as Autodesk does.</p>
+
+<p>This applies to all the DLLs you see in the Revit.exe directory, e.g., Sqlite, Log4Net, ...</p>
+
+<h4><a name="5"></a> External Side Face of a Pipe</h4>
+
+<p>Finally, on a topic that I really enjoy, geometrical, on finding the external side face of a pipe, in the thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/get-sides-of-cylinder-element/td-p/9044459">get sides of cylinder element</a>:</p>
+
+<p><strong>Question:</strong> Does anyone have ideas on specifying a particular side of a cylinder/element?</p>
+
+<p>I need to get the northern/top side in this view.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4d6bc0c200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4d6bc0c200b image-full img-responsive" alt="Pipe cylinder element sides" title="Pipe cylinder element sides" src="/assets/image_9f1291.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>I know this could be done manually by picking one side or the other on the element, however I am attempting to this with no user input.  </p>
+
+<p>I have attempted using the actual geometry class in hope of being able to cycle through the faces, but, since it is a cylinder, I am only getting mesh objects which I am not entirely sure how to use in this way. Any ideas are much appreciated.</p>
+
+<p><strong>Answer:</strong> Depending on how the cylinder has been constructed, the two sides you point out may actually belong to the same face. Therefore, there are possibly no two faces there at all. So, you will have to specify more exactly what you actually want to achieve. If you need a point on the north side of the cylinder face, you can calculate it by projecting a point lying further north down onto the cylinder face, for instance.</p>
+
+<p><strong>Response:</strong> Unfortunately, I came to the same realization.
+Using a point that is just somewhere north of the pipe in the original pdf would work perfectly for that instance, but it would not always be the case.
+I realize now I should have given some deeper context and thought out the question more thoroughly.
+To elaborate...</p>
+
+<p>In general, this is only needed in instances where the pipe is connecting into an elbow, as shown above.
+When it does so, I need to get the side of the pipe that is on the corresponding longer radius side of the elbow it is connecting into.
+Here is a clearer picture with more examples:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4d6bbfb200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4d6bbfb200b image-full img-responsive" alt="Pipe cylinder sides needed" title="Pipe cylinder sides needed" src="/assets/image_2024ed.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>I suppose the real question is, how to get the longer radius side of an elbow fitting.</p>
+
+<p>I have tried a few approaches thus far... first bounding boxes, then connectors, and now geometry.
+But haven't yet yielded any consistent results due to the variably of the instances. </p>
+
+<p><strong>Answer:</strong> Oh, but that is pretty easy, though.</p>
+
+<p>Of course, there are innumerable ways to approach and solve it.</p>
+
+<p>Here is the first that comes to mind:</p>
+
+<p>The elbow has two connectors, and they each have a connection point and a direction pointing out of the elbow, say, <code>p</code>, <code>q</code>, <code>v</code> and <code>w</code>. These two points and vectors define two infinite lines. The two lines intersect somewhere, let's say in <code>r</code>. The intersection point is the same as the intersection point of the two connected pipes location lines, extended to meet. The outside edges of the two pipes lie on the 'outside' of <code>r</code>, where the 'inside' of <code>r</code> is defined as the part of the plane spanned from <code>r</code> by all positive linear combinations of <code>v</code> and <code>w</code>.</p>
+
+<p>I hope you get the idea. Here is a sketch to clarify:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a488dafc200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a488dafc200c img-responsive" style="width: 191px; display: block; margin-left: auto; margin-right: auto;" alt="Positive sides of an elbow" title="Positive sides of an elbow" src="/assets/image_3f99fa.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Please excuse my poor digital drawing skills.</p>

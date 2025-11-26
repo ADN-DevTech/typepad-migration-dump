@@ -1,0 +1,351 @@
+comments:
+- author: Revit Newbie
+  email: richard.shealy@gmail.com
+  ip: 64.244.14.194
+  url: ''
+  date: '2011-06-27 11:28:37'
+  body: "Hi Jeremy, let me first say that I enjoy reading your blog and it has helped\
+    \ me, as I am just getting started programming in revit.\n\nI have a (non revit)\
+    \ line class I use and I want to use something like this in my code :\n\n For\
+    \ Each rfi As RoofFaceInfo In RoofFaceList.GetList\n            Dim testface As\
+    \ PlanarFace = rfi.Face\n            Dim results As New IntersectionResultArray\n\
+    \n\n            testface.Intersect(line, results)\n\nhowever I get an error in\
+    \ the last part (line, results). stating the value cannot be converted from line\
+    \ to revit.db.curve.\n\nDo you hjave any ideas I could use"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-27 12:23:32'
+  body: 'Dear Revit Newbie,
+
+
+    If the line instance that you are supplying is your own class, and not a Revit
+    API class, then obviously it is not derived from Revit.DB.Curve, and thus does
+    not fulfill the expectations of the PlanarFace Intersect method.
+
+
+    Yes, I have a suggestion: convert your non Revit line data to a Revit Line, e.g.
+    using one of the Autodesk.Revit.Creation.Application.NewLine, NewLineBound or
+    NewLineUnbound methods.
+
+
+    Cheers, Jeremy.'
+- author: Namit
+  email: namitj_in@yahoo.com
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-09-02 02:37:38'
+  body: 'Dear Jeremy Sir,
+
+
+    Pls suggest how to set Family Parameter value (Retrieve from extensible storage)
+    in Project Editor.
+
+
+    Thanks & Regards
+
+    Namit Jain'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-09-12 03:56:54'
+  body: "Dear Namit,\n\nI do not completely understand your question. \n\nAre you\
+    \ thinking of reading data from estorage in a family definition and using that\
+    \ to populate the family instance parameter value in the project when it is inserted?\
+    \ \n\nThat sounds like a useful thing to want to do. Please confirm, and I'll\
+    \ look into it.\n\nCheers, Jeremy."
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://revitprogrammer.blogspot.com/
+  date: '2011-12-27 04:14:55'
+  body: "Hello, Jeremy. \nI need your help again:)\nI want to store some data in Family\
+    \ and Family Symbols using Extensible Storage. Then I want to save this family\
+    \ to file and use this family in other projects.\nThere are no problem to set\
+    \ some data in the Family and its Symbols:\n\n....\nEntity entity = family.GetEntity(schema);\n\
+    if (entity == null || !entity.IsValid())\n{\n entity = new Entity(schema);\n}\n\
+    entity.Set(field, \"Family some value\");\nfamily.SetEntity(entity);\n....\nforeach\
+    \ (FamilySymbol symbol in family.Symbols)\n{\n   Entity symbolEntity = symbol.GetEntity(schema);\n\
+    if (symbolEntity == null || !symbolEntity.IsValid())\n{\n   symbolEntity = new\
+    \ Entity(schema);\n}\n\nsymbolEntity.Set(field, string.Format(\"FamylySymbol value:\
+    \ {0}\", symbol.Name));\n   symbol.SetEntity(entity);\n}\n...\n\nNext I save family.\
+    \ (Edit family - Save)\n\nBut then I load saved family into other project my data\
+    \ in FamilySymbol is absent.:(\n\n....\nEntity entity = family.GetEntity(schema);\n\
+    if (entity == null || !entity.IsValid())\n{\n  return Result.Failed;\n}\nvar str\
+    \ = entity.Get(field);\n//here everithing ok. str = \"Family some value\"\n....\n\
+    but\n....\nforeach (FamilySymbol symbol in family.Symbols)\n{\n   Entity symbolEntity\
+    \ = symbol.GetEntity(schema);\n   //here entity is always not valid.\n}\n....\n\
+    \nIs there way to keep data in Family file for each FamilySymbols?\nI tried shared\
+    \ parameters, but they also doesn't save in Family file.\n\nBest regards, Victor"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.148.224
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-12-27 06:29:02'
+  body: "Dear Victor,\n\nI would say that your question is demonstrating a basic misunderstanding\
+    \ of families and symbols.\n\nThink of it like this: a family is a database table.\
+    \ The family parameters are the database table fields, and each type in the family\
+    \ is a record. The family types in the family definition are not represented as\
+    \ individual Revit elements and thus do not really exist. \n\nWhen a family is\
+    \ loaded into a project, the family types are converted into family symbols, or\
+    \ rather cause them to be generated. The family symbols exist as individual Revit\
+    \ elements, but only within the project into which the family was loaded. \n\n\
+    If you attach extensible storage data to the family symbols, it likewise only\
+    \ exists within the project into which the family was loaded.\n\nThe family file\
+    \ remains unaffected.\n\nI hope you understand what I mean and see the error of\
+    \ your ways  :-)\n\nI trust you will find an efficient alternative approach to\
+    \ fulfill your requirements.\n\nMerry Christmas and Happy New Year!\n\nCheers,\
+    \ Jeremy."
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://revitprogrammer.blogspot.com/
+  date: '2011-12-27 06:54:29'
+  body: "Hi Jeremy. Thanks for your response.\nNow I understand how families and symbols\
+    \ works.\nI made same suggestion then I tried get Symbols of Family when document.IsFamilyDocument.\
+    \ In this case Symbols is empty. \n\nI can see two ways to achieve my requirements:\n\
+    1) use BuiltInParameters of FamilySymbols (it saves in files). But I don't like\
+    \ this approach\n2) Use ExtensibleStorage for Family and save needed Symbols info\
+    \ in it.\n\nI've chosen second way.\nI've created two schemes: one for family\
+    \ and one for symbol. In symbol schemes I save needed information for each Symbol.\n\
+    For example, <a href=\"http://pastebin.com/M1XhkZg0\">http://pastebin.com/M1XhkZg0</a>\n\
+    \nFamily schema contains only one MAP field where key is Symbol.Name and value\
+    \ is SymbolEntity: <a href=\"http://pastebin.com/CetyXhh2\">http://pastebin.com/CetyXhh2</a>\n\
+    \nI'm already applied this approach in my solution and it works well. Now when\
+    \ I save family and open it in other project I can retrieve data that I saved\
+    \ in Family.\n\nHappy New Year!\n\nBest regards, Victor."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.148.224
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-12-27 07:17:12'
+  body: 'Dear Victor,
+
+
+    Wow, that was quick!
+
+
+    Congratulations on solving this!
+
+
+    I would have chosen the same solution as you did  :-)
+
+
+    Happy New Year!
+
+
+    Cheers, Jeremy.'
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://revitprogrammer.blogspot.com/
+  date: '2011-12-27 23:51:52'
+  body: 'Hi, Jeremy.
+
+    Extensible storage is a great feature but I have a problem again using it.
+
+    I have a simple test project. I SetEntity to the Family in this project. Save
+    file. Then I delete schema which belongs to this entity and save project again
+    and close it. But then I reopen this project I get error: "Element XXXXXX became
+    corrupt at some time before this session.  To continue with this project, save
+    a recovery file, this element will be deleted to fix the problem."
+
+
+    The XXXXXX element - is the element which I SetEntity before.
+
+    But if I close this message project doesn''t loaded and Revit close with error.
+
+
+    in journal I see next logs:
+
+    <a href="http://pastebin.com/APwMp5N8">http://pastebin.com/APwMp5N8</a>
+
+
+    So, it is very bad. How can I avoid this behavior? I''m afraid if I install my
+    add-in that use Extensible storage and designers will get this error and cannot
+    open file they kill me:)
+
+    May be exists some utility from Autodesk that can recover corrupted file?
+
+
+    Is this  a bug?
+
+
+    Regards, Victor'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.150.122
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-12-28 02:09:02'
+  body: "Dear Victor,\n\nYou really are diving in deep with the extensible storage.\
+    \ \n\nCongratulations again on discovering this issue. Your testing is good and\
+    \ important!\n\nI hope very strongly that you are running on the initial release\
+    \ of Revit 2012, or only the first update release. Some issues with extensible\
+    \ storage were fixed in Revit 2012 Update Release 2:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2011/10/product-and-add-in-wizard-updates.html#2\"\
+    >http://thebuildingcoder.typepad.com/blog/2011/10/product-and-add-in-wizard-updates.html#2</a>\n\
+    \nYou should ensure that you and your customers are running on that version or\
+    \ higher to avoid the issue.\n\nHappy New Year!\n\nCheers, Jeremy."
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://revitprogrammer.blogspot.com/
+  date: '2011-12-28 02:33:28'
+  body: 'Good afternoon, Jeremy.
+
+    I don''t know good it or bad but I use last version of Revit Architecture. I''ve
+    read Enhancements list of update 1 and 2 and I hope that there are no errors in
+    ExStorage after update but I was wrong:(
+
+
+    I''ve already got this issue:(
+
+
+    P.S. I really doesn''t remember when I installed Update 2. May be installation
+    was not correct. What do you think if I''ll send you this file and you''ll test
+    it in your computer?
+
+
+    Thanks, Victor'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.149.128
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-12-29 13:47:24'
+  body: 'Dear Victor,
+
+
+    Sounds pretty bad to me if there is any such issue still in there.
+
+
+    If you really are using the most recent version and your ADN membership has come
+    through by now, then please submit an ADN DevHelp Online case for it. I am on
+    holiday tight now.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://www.facebook.com/profile.php?id=100003616852588&ref=tn_tnmn
+  date: '2012-03-20 04:15:18'
+  body: 'Hello, Jeremy.
+
+    You write about strong advantage of EStorage when store ElementId there because
+    entity ElementId value mapped with real Element. I fully agree with you.
+
+    But now I''ve found if I rollback transaction ElementId doesn''t remapped to entity.
+
+
+    That I mean.
+
+    I have a schema with ElementId field. I store Level.Id there but it is not important
+    in this case. Then I create an entity and set it to some element. Next I delete
+    level. So, if get my entity and extract field value, I''ll get ElementId.InvalidElementId
+    because I''ve deleted element before. But if I rollback transaction I also get
+    ElementId.InvalidElementId field value. So the ElementId does remapped with entity.
+
+
+    How do you think, is it a bug?
+
+
+    Best regards, Victor.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 123.3.225.237
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-03-20 08:28:50'
+  body: 'Dear Victor,
+
+
+    Thank you very much for noticing and reporting this.
+
+
+    It definitely sounds to me like something the development team should have a closer
+    look at.
+
+
+    Could you please provide a reproducible case and submit an ADN issue for further
+    investigation of this?
+
+
+    Thant would be a great help!
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Victor Chekalin
+  email: ''
+  ip: 91.221.195.131
+  url: http://profile.typepad.com/chekalin
+  date: '2012-03-20 23:32:16'
+  body: 'Hello, Jeremy.
+
+    Yes, sure. Case #07060034.
+
+
+    In my opinion Extensible storage use DMU for updating ElementId in entities that
+    doesn''t support transaction rollback. But maybe I was wrong.
+
+
+    Best regards, Victor.'
+- author: sangsen
+  email: sangsen123@gmail.com
+  ip: 59.163.205.194
+  url: ''
+  date: '2012-07-09 06:43:52'
+  body: "Hi..Jeremy\n   \n   I am creating \"Group\" through API and setting some\
+    \ entities to the grouptype. When I save the group locally and reuse in some other\
+    \ document(using Load as Group option) new group instance doesn't contain any\
+    \ schema information. But i need to retrive that entities?\n \n  please advise\
+    \ me..How can i acheive this?\n\nThanks"
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.8
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-08-22 07:46:31'
+  body: 'Dear Sangsen,
+
+
+    Yes, indeed, schema information is not automatically copied by Revit. That is
+    left up to the add-in to handle as it wishes, e.g. using a dynamic model updater
+    DMU.
+
+
+    Cheers, Jeremy.'
+- author: Maxence DELANNOY
+  email: maxence.delannoy@wiip.fr
+  ip: 92.155.168.84
+  url: http://wiip.fr
+  date: '2012-08-25 10:18:30'
+  body: +1 for a filter for retrieving elements with a specific schema entity. It
+    would be very useful. It's my second project where this kind of filter could have
+    helped me.
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.183.72
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-08-27 09:47:42'
+  body: 'Dear Maxence,
+
+
+    I get the gist of what you mean, i.e. the importance of being able to retrieve
+    elements with extensible data for a specific schema. You will be happy to hear
+    that we are working on that.
+
+
+    I don''t know exactly what you mean by "+1 for ..."
+
+
+    Does that refer to ''top priority'', or ''one more request for'', or what?
+
+
+    Cheers, Jeremy.
+
+    -----'

@@ -1,0 +1,27 @@
+comments:
+- author: sachin
+  email: sachinkocharekar12@gmail.com
+  ip: 223.239.139.182
+  url: ''
+  date: '2013-03-23 03:57:25'
+  body: "hello sir\n\nI am getting problem to get a real time view(like in case inserting\
+    \ door on a wall,after selecting the door, i am not getting the door view of moving\
+    \ along with the mouse cursor only getting cursor and if click on wall directly\
+    \ it will inserting.) before placing family inserting.\n\nmy code is like this:\n\
+    \n public Autodesk.Revit.UI.Result Execute(ExternalCommandData commandData, ref\
+    \ string message, ElementSet elements)  \n        {      \n           ..........\n\
+    \            try\n            {\n              trans.Start();\n              \
+    \  Family family = null;\n                FamilySymbol symbol = null;\n      \
+    \           if (doc.LoadFamily(@h4, out family))\n                {\n        \
+    \          foreach (FamilySymbol s in family.Symbols)\n                    {\n\
+    \                        symbol = s;\n                    }\n                \
+    \    View view = uidoc.ActiveView;\n                    Reference r = sel.PickObject(ObjectType.PointOnElement,\
+    \ \"Select\");\n                    Element elem = doc.GetElement(r);\n      \
+    \              Wall wall = elem as Wall;\n                    XYZ globalPoint\
+    \ = r.GlobalPoint;\n                    XYZ levelPoint = new XYZ(10, 10, 1); \
+    \                 \n                    Wall wall = doc.GetElement(r) as Wall;\
+    \  \n                   FamilyInstance instance = doc.Create.NewFamilyInstance(levelPoint,\
+    \ symbol, wall,level,StructuralType.NonStructural);\n                       }\n\
+    \                     trans.Commit();\n                    }\n             catch\
+    \ (Exception)\n            {\n\n            }\n                return Result.Succeeded;\n\
+    \        }  \n\n\n-----"

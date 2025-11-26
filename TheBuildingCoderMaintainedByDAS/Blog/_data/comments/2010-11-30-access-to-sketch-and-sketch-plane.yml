@@ -1,0 +1,74 @@
+comments:
+- author: Trang
+  email: dangtrang37@gmail.com
+  ip: 141.54.153.131
+  url: ''
+  date: '2011-09-06 10:45:21'
+  body: "Hi Jeremy,\n\nI try to get coordinates of corners of a FilledRegion but I\
+    \ couldn't. As what I read, get_Geometry function does not make sense with annotate\
+    \ objects. Could you show me how I can get the boundary of a FilledRegion. \n\n\
+    Thanks.\n\nTrang"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-09-07 02:36:51'
+  body: "Dear Trang,\n\nI don't know whether there is any direct access. I just asked\
+    \ some colleagues. \n\nMeanwhile, however, just creating a filled region on the\
+    \ fly and using RevitLookup to analyse the results, I see that a FilledRegion\
+    \ element was created with the element id 161178. Immediately before, a sketch\
+    \ with id 161176 was created. Its profile defines a curve array, and the lines\
+    \ are accessible. Maybe this kind of approach can help you retrieve the data you\
+    \ are looking for?\n\nIf so, please let us know, and I will write up a blog post\
+    \ on the topic.\n\nCheers, Jeremy."
+- author: Trang
+  email: dangtrang37@gmail.com
+  ip: 141.54.153.131
+  url: ''
+  date: '2011-09-07 10:56:25'
+  body: "Thanks Jeremy, I could retrieve the data of the boundary through the sketch\
+    \ with id = FilledRegion.ElementId-1. \n\nThanks again :)\n\nTrang."
+- author: Trang
+  email: dangtrang37@gmail.com
+  ip: 141.54.153.131
+  url: ''
+  date: '2011-09-07 11:32:36'
+  body: "What I want is coordinates of a FilledRegion, so here is my code.\n\npublic\
+    \ List getBoundaryCorner(FilledRegion region, Document doc)\n        {\n     \
+    \       List result = new List();\n\n            ElementId id = new ElementId(region.Id.IntegerValue\
+    \ - 1);\n            Sketch boundary = doc.get_Element(id) as Sketch;\n      \
+    \      if (null != boundary)\n            {\n                CurveArray curBoundary\
+    \ = boundary.Profile.get_Item(0);\n                if (null != curBoundary)\n\
+    \                {\n                    foreach (Curve cur in curBoundary)\n \
+    \                   {\n                        XYZ corner = cur.get_EndPoint(0);\n\
+    \                        result.Add(corner);\n                    }\n        \
+    \        }\n\n            }\n            return result;\n        }"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-09-08 05:51:30'
+  body: 'Dear Trang,
+
+
+    Congratulations on getting it working and thank you very much for the code sample!
+
+
+    I created a blog post from it and our discussion, and added a command demonstrating
+    this to The Building Coder samples:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/09/filledregion-corrdinates.html">http://thebuildingcoder.typepad.com/blog/2011/09/filledregion-corrdinates.html</a>
+
+
+    It is perfectly ok to post the code here, as long as it is not all too much.
+
+
+    Yes, it does become a bit unreadable by loosing all leading spaces. Very unfortunate,
+    but still usable. I just copy and paste it into a Visual Studio project, and it
+    is all perfectly formatted again.
+
+
+    Cheers, Jeremy.
+
+    -----'

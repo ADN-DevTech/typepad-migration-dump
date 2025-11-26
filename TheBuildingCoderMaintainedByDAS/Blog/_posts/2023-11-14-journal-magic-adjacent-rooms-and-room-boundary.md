@@ -1,0 +1,155 @@
+---
+layout: "post"
+title: "Journal Magic, Adjacent Rooms and Room Boundary"
+date: "2023-11-14 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "AI"
+  - "Analysis"
+  - "Forge"
+  - "Geometry"
+  - "Journal"
+  - "Parameters"
+  - "VB"
+original_url: "https://thebuildingcoder.typepad.com/blog/2023/11/journal-magic-adjacent-rooms-and-room-boundary.html "
+typepad_basename: "journal-magic-adjacent-rooms-and-room-boundary"
+typepad_status: "Publish"
+---
+
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js" type="text/javascript"></script>
+
+<p>Taking a look at journal files, room boundaries, adjacent rooms, a ForgeTypeId question and one view of where AI might lead:</p>
+
+<ul>
+<li><a href="#2">Harry's journal file magic</a></li>
+<li><a href="#3">Closed contiguous room boundary loop</a></li>
+<li><a href="#4">Challenges identifying adjacent rooms</a></li>
+<li><a href="#5">ForgeTypeId for 'Other' parameter group</a></li>
+<li><a href="#6">AI may obsolete all apps</a></li>
+</ul>
+
+<h4><a name="2"></a> Harry's Journal File Magic</h4>
+
+<p>Boost Your BIM by Harry Mattison published a nice series
+on <a href="https://boostyourbim.wordpress.com/2023/11/03/journal-file-magic-exporting-groups-to-file-the-grand-finale/">journal file magic and exporting groups to file</a>.
+To be precise, it consists of three instalments:</p>
+
+<ul>
+<li><a href="https://boostyourbim.wordpress.com/2023/11/01/journal-file-magic-exporting-groups-to-file-part-1/">Journal File Magic &amp; Exporting Groups to File (part 1)</a></li>
+<li><a href="https://boostyourbim.wordpress.com/2023/11/02/journal-file-magic-exporting-groups-to-file-part-2/">Journal File Magic &amp; Exporting Groups to File (part 2)</a></li>
+<li><a href="https://boostyourbim.wordpress.com/2023/11/03/journal-file-magic-exporting-groups-to-file-the-grand-finale/">Journal File Magic &amp; Exporting Groups to File (grand finale)</a></li>
+</ul>
+
+<p>Many thanks to Harry for implementing and sharing this useful and educational solution.</p>
+
+<h4><a name="3"></a> Closed Contiguous Room Boundary Loop</h4>
+
+<p>Loren Routh of <a href="https://www.gsa.gov">GSA</a> presents a quick and easy method to reliably retrieve a closed contiguous boundary loop for a room using <code>GetRoomBoundaryAsCurveLoopArray</code> from the <code>ExporterIFC</code> module in his answer
+to <a href="https://forums.autodesk.com/t5/revit-api-forum/creating-a-generic-model-from-area-boundaries/m-p/12371317#M75201">creating a generic model from area boundaries</a>:</p>
+
+<blockquote>
+  <p>This just in:
+  I tried the <code>GetRoomBoundaryAsCurveLoopArray</code> method, and it totally worked!
+  You need to import the <code>ExporterIFC</code> module, etc.
+  This method eliminated a chunk of code, no sorting or extracting the curves.
+  It let me create an extrusion (manually) with no errors at all!
+  As you can see by the pic below, this was not a rectangle.
+  Definitely has my vote to be included in the regular Revit API.
+  Now to make it work with Generic Models...</p>
+</blockquote>
+
+<pre class="prettyprint">
+  import clr
+  clr.AddReferenceToFileAndPath(r'C:\Program Files\Autodesk\Revit 2023\AddIns\IFCExporterUI\Autodesk.IFC.Export.UI.dll')
+  clr.AddReference("RevitAPIIFC")
+  from Autodesk.Revit.DB.IFC import ExporterIFC
+  from Autodesk.Revit.DB.IFC import ExporterIFCUtils
+
+  opt = DB.SpatialElementBoundaryOptions()
+
+  curve_loop = ExporterIFCUtils.GetRoomBoundaryAsCurveLoopArray(selected_area, opt, True)
+
+  with DB.Transaction(doc, "Create Model Lines") as tx:
+    tx.Start()
+
+    sketch_plane = DB.SketchPlane.Create(doc,selected_area.LevelId)
+
+    for loop in curve_loop:
+      for line in loop:
+        crv = doc_create.NewModelCurve(line, sketch_plane)
+
+    tx.Commit()
+</pre>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c8d39eb208200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302c8d39eb208200c image-full img-responsive" alt="GetRoomBoundaryAsCurveLoopArray" title="GetRoomBoundaryAsCurveLoopArray"  src="/assets/image_cf6991.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Many thanks to Loren for sharing this valuable hint.</p>
+
+<h4><a name="4"></a> Challenges Identifying Adjacent Rooms</h4>
+
+<p>Ilia Krachkovskii <a href="https://www.linkedin.com/posts/ilia-krachkovskii_im-currently-working-on-a-so-called-spatial-activity-7125803558834167808-NXwt?utm_source=share&amp;utm_medium=member_desktop">shared</a> some
+thoughts and challenges identifying adjacent rooms</p>
+
+<blockquote>
+  <p>I'm currently working on a so-called "Spatial Breakdown System" that identifies location and generates corresponding location code for each element in Revit model. It will allow architects at Marco Casamonti &amp; Partners / Archea Associati to create very flexible schedules and will help with data management inside the projects.</p>
+  
+  <p>I have been working with Revit API for quite some time, and just recently started to understand all the complaints one can find on countless threads: so far I have 15 different methods for calculating the room (or the nearest room) for various types of elements. Here are some of them:</p>
+  
+  <ul>
+  <li>non-bounding walls: place points on wall curve every X meters using Evaluate() method, check room on each point using GetRoomAtPoint() method.</li>
+  <li>bounding walls: same, but for each point I calculate the normal to the curve (using ComputeDerivatives() method) and check the points on a specified distance from wall curve.</li>
+  <li>roofs: usually they cover lots of rooms, so it's just excessive.</li>
+  <li>furniture: LocationPoint and LocationCurve don't always work, so the backup plan is just checking the centerpoint of a BoundingBox.</li>
+  <li>door and windows: fairly easy, since they have a built-in FromRoom and ToRoom property.</li>
+  <li>floors and ceilings: along with walls, one of the most tricky, but more precise method that features cross-referencing. Find all rooms that contain BoundingBox of a floor, get LocationPoint of each room, and shoot a checking ray from each point using ReferenceIntersector up or down, depending on the element class. If there is an intersection - boom, there's a room that contains your floor or ceiling. Pretty fascinating approach that deserves its own article.</li>
+  <li>stair runs and landings are harder to collect, since they act as a part of the Stair. Getting location can be done with GetRoomAtPoint() method using a BoundingBox centerpoint, however, it may be more reliable to calculate run curve midpoint using GetStairsPath().</li>
+  <li>model in place is the most atrocious piece to work with. They don't have built-in level parameters or anything else that easily identifies them in space. They have only geometry, so the easiest approach, again, would be simply checking the bounding box points - which has many accuracy issues.</li>
+  <li>curtain wall panels and mullions: one could get the location from the host wall, but they usually cover several rooms. My approach: take BoundingBox, enlarge X and Y dimensions by K meters and check for intersection with any rooms in the project.</li>
+  </ul>
+  
+  <p>Code sample below is used to calculate all the rooms that are formed by (or those that are very near to) a particular wall:</p>
+</blockquote>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c8d3a312b9200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302c8d3a312b9200d image-full img-responsive" alt="Retrieve adjacent rooms" title="Retrieve adjacent rooms"  src="/assets/image_2150bb.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="5"></a> ForgeTypeId for 'Other' Parameter Group</h4>
+
+<p>Kevin Fielding shared a quick, easy and effective solution for replacing the <code>Other</code> parameter group or the <code>BuiltInParameterGroup</code> <code>INVALID</code> in his thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/revit-2024-other-parameter-group/td-p/12086226">Revit 2024 'Other' parameter group</a>:</p>
+
+<p>With the changeover to <code>ForgeTypeId</code> and <code>GroupTypeId</code> in Revit 2024 instead of the <code>BuiltInParameterGroup</code> enumerations, I just wanted to share how to define the 'Other' group for parameters, as it doesn't appear to be documented.</p>
+
+<p>Whereas previously you would use</p>
+
+<pre class="prettyprint">
+  BuiltInParameterGroup.INVALID
+</pre>
+
+<p>In 2024 and beyond you need to use</p>
+
+<pre class="prettyprint">
+  new ForgeTypeId(string.Empty)
+</pre>
+
+<p>Other groups can be found using the <code>GroupTypeId</code> class, like <code>GroupTypeId.Data</code>.</p>
+
+<p>Hope this helps others searching for this.</p>
+
+<p>In fact, the same question came up again in the question
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/revit-2024-grouptypeid-missing-parametergroup-other-invalid/m-p/12288651/highlight/false#M74502">Revit 2024 GroupTypeId missing ParameterGroup Other (Invalid)</a>.</p>
+
+<p>Thanks, Kevin, for clarifying this!</p>
+
+<h4><a name="6"></a> AI May Obsolete All Apps</h4>
+
+<p>Bill Gates presents an interesting vision of the future of personal computing
+in <a href="https://www.gatesnotes.com/AI-agents">The future of agents &ndash; AI is about to completely change how you use computers &ndash; and upend the software industry</a>.</p>

@@ -1,0 +1,30 @@
+comments:
+- author: Lotfi Ferchichi
+  email: mail.ltf@gmail.com
+  ip: 80.227.32.22
+  url: http://www.ltfsoft.org
+  date: '2011-03-17 04:45:40'
+  body: 'i wanna list all elements using filters, i''ve tried this code :
+
+
+    Dim coll As Autodesk.Revit.DB.FilteredElementCollector = New Autodesk.Revit.DB.FilteredElementCollector(myDoc)
+
+
+    coll.WhereElementIsNotElementType
+
+
+    but it doesn''t return eveything, don''t mean element type...
+
+    thx for any help'
+- author: Jeremy Tammik
+  email: ''
+  ip: 213.210.236.146
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-03-18 12:11:56'
+  body: "Dear Lotfi,\n\nThe post above is obsolete by now, referring to the Revit\
+    \ 2009 and 2010 filtering mechanisms. \n\nIn Revit 2011, you can use a Boolean\
+    \ OR combination of any filter and its negation, e.g. \n\nFilteredElementCollector\
+    \ collector\n  = new FilteredElementCollector( doc )\n    .WhereElementIsElementType();\n\
+    \nFilteredElementCollector collector2\n  = new FilteredElementCollector( doc )\n\
+    \    .WhereElementIsNotElementType();\n\ncollector.UnionWith( collector2 );\n\n\
+    Cheers, Jeremy.\n-----"

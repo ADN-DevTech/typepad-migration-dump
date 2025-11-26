@@ -1,0 +1,386 @@
+comments:
+- author: David Rushforth
+  email: david@rushforth.org
+  ip: 184.1.8.15
+  url: ''
+  date: '2015-04-26 15:32:08'
+  body: 'Jeremy,
+
+    Per your list, the TextElement.HorizontalAlignment and TextElement.VerticalAlignment
+    properties were added to the API, but in testing, it appears that only the horizontal
+    alignment was added to the textnoteoptions when creating a new textnote.  The
+    vertical alignment is missing from the options when creating and is read-only
+    after creating.  The original text align flags that are being deprecated for vertical
+    alignment have stopped working as well, but the horizontal alignment still works.  Can
+    you confirm if the vertical alignment was removed from the API or if it can be
+    found elsewhere?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.127.205
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-04-27 12:56:03'
+  body: 'Dear David,
+
+
+    Thank you very much for pointing that out.
+
+
+    I am checking with the development team and raised the issue REVIT-65682 [VerticalAlignment
+    is read-only] for them to explore it in more depth.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.117.145
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-04-28 09:02:21'
+  body: 'Dear David,
+
+
+    I heard back from the development team, who provided some illuminating insights
+    into the issue you raised:
+
+
+    The stated problem is not a bug - it works as designed.
+
+
+    Vertical alignment is supposed to be read-only.
+
+
+    The main reason is that there is no UI control in Revit to adjust it; thus, if
+    an API user modifies a text note to anything else than the default vertical alignment,
+    the end-user has no way to get rid of that modification again.
+
+
+    Therefore, I suggest that we mark this issue as "won''t fix".
+
+
+    I hope this is clear and makes sense.
+
+
+    Cheers, Jeremy.'
+- author: David Rushforth
+  email: david@rushforth.org
+  ip: 199.66.103.99
+  url: ''
+  date: '2015-04-29 13:34:20'
+  body: Thank you for following up on this.  That is unfortunate that they "won't
+    fix" the issue.  It worked fine in previous versions of Revit using the text alignment
+    flags and allows for text to be imported from Excel with the same justification
+    and positioning (yes, there are actual reasons why you would want to do this).  P.S.  Wouldn't
+    it be just as easy for them to allow for modifying this in the UI as it was for
+    them to spend the time to remove the feature from the API?
+- author: David Rushforth
+  email: david@rushforth.org
+  ip: 199.66.103.99
+  url: ''
+  date: '2015-04-29 13:41:58'
+  body: Tags have a vertical align property for text in the Family editor.  Why is
+    this not on the Text Notes in the project environment?  I am just confused at
+    the logic in this decision.
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-04-29 18:21:26'
+  body: "Dear David,\n\nI passed this on to the development team again, and they say:\n\
+    \nI do not know what else to answer.\n \nTags are tags, and have their respective\
+    \ features; Text notes are text notes and have features on their own. The classes\
+    \ do not necessarily derive from each other. Currently, there is no support for\
+    \ vertical alignment of text in text notes. That is why there cannot be an API\
+    \ for it either, even though it is technically possible through the infamous alignment\
+    \ flag. It was a mistake to make the flag available in the API without realising\
+    \ it was not proper. We had to fix it, because Text notes with vertical alignment\
+    \ cause problems for the end users who do not have any tools to manage it and,\
+    \ most importantly, getting rid of it.\n \nThere might be vertical alignment available\
+    \ for text notes as well at some future point in time, but not before it is generally\
+    \ supported in Revit and its UI.\n\nI hope this clarifies.\n\nCheers, Jeremy."
+- author: Samer Habib
+  email: samerhabib91@gmail.com
+  ip: 31.9.142.142
+  url: ''
+  date: '2015-05-12 03:23:56'
+  body: 'Dear Jeremy,
+
+    I am trying to create a new Dimension between Grid and an edge of face .
+
+    I get the reference of grid by grid.Curve.reference and i get the reference of
+    face edge .
+
+    In the NewDimension method  the references:  An array of geometric references
+    to which the dimension is to be bound .
+
+    the grid does not have a geometric  reference .
+
+    when i use newDimension method, I got Invalid number of references Error.
+
+    please help .'
+- author: Jeremy Tammik
+  email: ''
+  ip: 88.76.16.30
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-12 03:41:29'
+  body: 'Dear Samer,
+
+
+    Please note the description of dimensioning between instance insertion points:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2014/11/picking-pairs-and-dimensioning-family-instance-origin.html">http://thebuildingcoder.typepad.com/blog/2014/11/picking-pairs-and-dimensioning-family-instance-origin.html</a>
+
+
+    Here are a few more hints that might help:
+
+
+    <ul>
+
+    <li>Set IncludeNonVisibleGeometry when requesting the element geometry.
+
+    <li>The geometry must be extracted from a view where the reference would be useful.  In
+    the example below, no View is passed to the geometry options.  In that case, the
+    model level geometry is extracted, which lacks view specific references like reference
+    planes orthogonal to the view.
+
+    <li>Once you pass in a suitable view and obtain these extra references, there
+    is nothing to identify them.  You  have to analyse the geometry to figure out
+    which one is the one you need.  For instance, for 2D views, reference planes may
+    be returned as lines (Curve instances) instead of planes.
+
+    </ul>
+
+
+    I hope this helps.
+
+
+    Please let us know how it works out for you.
+
+
+    Thank you!
+
+
+    Best regards,'
+- author: Modar Mayya
+  email: modar.einstein@gmail.com
+  ip: 178.253.108.181
+  url: ''
+  date: '2015-05-12 05:11:19'
+  body: 'Dear Jeremy,
+
+    Hope you are fine,
+
+    I''m trying to create viewsheets in link revit file, but the instruction Viewport.create
+    throws an (Access violation Exception), How to handle it?
+
+    Please Advice,'
+- author: Samer Habib
+  email: samerhabib91@gmail.com
+  ip: 146.185.173.170
+  url: ''
+  date: '2015-05-12 07:40:58'
+  body: "Thanks Jeremy,\nI set \nOptions goption = new Options();\ngoption.ComputeReferences\
+    \ = true;\ngoption.IncludeNonVisibleObjects = true;\ngoption.View = doc.ActiveView;\
+    \ \n\nthen I get grid geometric and the problem have been solved."
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.96.24
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-12 12:23:25'
+  body: 'Dear Samer,
+
+
+    Thank you for your confirmation!
+
+
+    Congratulations on getting it to work!
+
+
+    Best regards,'
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.96.24
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-12 12:26:22'
+  body: 'Dear Modar,
+
+
+    Many things can go wrong, and there are several things that you need to pay attention
+    to.
+
+
+    Have you opened the linked document properly? Have you opened a transaction for
+    it?
+
+
+    Cheers, Jeremy.'
+- author: Modar Mayya
+  email: modar.einstein@gmail.com
+  ip: 178.253.108.181
+  url: ''
+  date: '2015-05-13 10:10:29'
+  body: 'Dear Jeremy,
+
+    Thank you very much for your reply,
+
+    Actually the problem has been solved when I used Manual Transaction Instead of
+    Automatic Transaction,
+
+    Cheers,'
+- author: Jeremy Tammik
+  email: ''
+  ip: 80.135.199.180
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-13 11:05:28'
+  body: 'Dear Modar,
+
+
+    Thank you for your update and appreciation.
+
+
+    Congratulations on solving the issue.
+
+
+    Yes, indeed. Automatic transaction mode opens a transaction in the current active
+    document and nowhere else.
+
+
+    You have to use manual transaction mode to open transactions and apply modifications
+    in other documents, like the linked file you are working in.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 80.135.199.180
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-05-13 12:32:33'
+  body: 'Dear Samer,
+
+
+    Thank you again for your query and confirmation.
+
+
+    To ensure these hints are easily found, I promoted our discussion to a main blog
+    post:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2015/05/how-to-retrieve-dimensioning-references.html#3">http://thebuildingcoder.typepad.com/blog/2015/05/how-to-retrieve-dimensioning-references.html#3</a>
+
+
+    Best regards,'
+- author: Tim
+  email: tim.newman@powercad.com.au
+  ip: 202.45.111.66
+  url: ''
+  date: '2015-06-10 02:24:44'
+  body: 'Dear Jeremy
+
+
+    We are having trouble aligning text vertically with REVIT 2016.  Our 2015 version
+    works fine but in 2016 with the changes to the API the textElement.VerticalAlignment
+    seems to be a read only property. Is there any other way to align the text to
+    the bottom of the text box so as we add more lines, the bottom line is always
+    in the same position.
+
+
+    Cheers'
+- author: Ramzi Al Halaby
+  email: Ramzi.Al-Halaby@khatibalami.com
+  ip: 195.112.198.67
+  url: ''
+  date: '2015-06-16 07:56:29'
+  body: what is the replacement for the following removed Collection FloorTypeSet
+    & WallTypeSet?
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-06-17 13:27:41'
+  body: 'Dear Ramzi,
+
+
+    All custom collections that are removed from the Revit API are replaced by generic
+    collections.
+
+
+    In addition, some of the custom collections of Revit elements or objects derived
+    from them are replaced by generic collections of ElementId instead.
+
+
+    For an example were this is the case, and how to handle it, please look at this
+    migration discussion of replacing the Selection.Elements property by the GetElementIds
+    method:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2015/06/cnc-direct-export-wall-parts-to-dxf-and-sat.html#2015.1">http://thebuildingcoder.typepad.com/blog/2015/06/cnc-direct-export-wall-parts-to-dxf-and-sat.html#2015.1</a>
+
+
+    Cheers, Jeremy.'
+- author: Modar Mayya
+  email: modar.einstein@gmail.com
+  ip: 78.155.82.155
+  url: ''
+  date: '2015-06-18 05:50:18'
+  body: 'Dear Jeremy,
+
+    Hope You are fine
+
+    I''m trying to change the location of "Label Outline" of the viewport without
+    moving whole viewport Box, In Debugging I see Maximum point and Minimum point
+    take the new values I set, But in Revit, no change!
+
+    Please Advice,'
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.5.251.20
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-06-23 04:08:37'
+  body: 'Dear Modar,
+
+
+    Did you regenerate the document after making the change?
+
+
+    Did you solve the issue in the meantime?
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.5.251.20
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-06-23 04:18:51'
+  body: 'Dear Tim,
+
+
+    Yes, sorry about that.
+
+
+    I heard about this issue from others as well and even went and submitted an issue
+    to have it resolved, REVIT-65682 [VerticalAlignment is read-only].
+
+
+    However, this is not an issue at all (unfortunately for you--sorry!), and the
+    resolution is completely different, as you can see from the extensive discussion
+    above with with David Rushforth.
+
+
+    To cut a long story short, it should never have worked like that in the first
+    place, i.e. in 2015.
+
+
+    Cheers, Jeremy.'
+- author: Modar Mayya
+  email: modar.einstein@gmail.com
+  ip: 31.9.232.229
+  url: ''
+  date: '2015-06-24 05:43:52'
+  body: "Thank you dear for your reply,\nI'm trying to Change \"Label Outline\" place\
+    \ Independently,\nUnfortunately, I have not solved it yet,\nThis is my code:\n\
+    \nTransaction t = new Transaction(doc);\nt.Start(\"Addin Transaction\");\nviewport.GetLabelOutline().MaximumPoint\
+    \ = XYZ.Zero;         \ndoc.Regenerate();\nt.Commit();\n\nThe regeneration didn't\
+    \ solve the problem,\nIs there any another way to move it?\n\nBest Regards,\n\
+    -----"

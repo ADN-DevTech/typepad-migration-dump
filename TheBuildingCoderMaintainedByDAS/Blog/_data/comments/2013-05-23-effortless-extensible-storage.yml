@@ -1,0 +1,91 @@
+comments:
+- author: Stevedowning
+  email: ''
+  ip: 202.177.218.43
+  url: http://profile.typepad.com/stevedowning
+  date: '2013-05-28 02:36:44'
+  body: 'Another way to avoid some of the pain of ExtensibleStorage or storing structured
+    data in Project Parameters is to use JSON.
+
+
+    Create a single parameter and then serialize your object as a string into that
+    parameter.
+
+
+    We''ve found that to be flexible enough for us to deserialise settings into POCO''s,
+    but also evolve those settings objects over time.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-05-28 07:54:41'
+  body: "Dear Steve,\n\nThank you for the helpful suggestion.\n\nUninitiated, please\
+    \ refer to \n\n<a href=\"http://en.wikipedia.org/wiki/Plain_Old_CLR_Object\">http://en.wikipedia.org/wiki/Plain_Old_CLR_Object</a>\n\
+    \n<a href=\"http://en.wikipedia.org/wiki/JSON\">http://en.wikipedia.org/wiki/JSON</a>\n\
+    \nDid you notice that the CouchDB implementation of a NoSQL database that I have\
+    \ been messing around with lately stores its entire repository in JSON and nothing\
+    \ else? Very powerful, flexible, extensible and scalable.\n\nCheers, Jeremy."
+- author: RevitArkitek
+  email: revitarkitek@gmail.com
+  ip: 65.123.206.130
+  url: ''
+  date: '2015-04-22 07:21:27'
+  body: Hello,  I've been using Extensible Storage in Revit 2014 and has worked quite
+    well except in one instance.  If user uses "Create Similar" tool on an element,
+    the new created element will not have the data assigned from the previous element.  If
+    user copies like normal, the new element has the data.  Is there anyway you can
+    suggest that the new element created by "Create Similar" tool can have the same
+    data?  Thanks.
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-04-22 09:12:47'
+  body: 'Dear RevitArkitek,
+
+
+    I am glad to hear you have been using it successfully and it mostly does what
+    you want.
+
+
+    Yes, this is exactly how extensible storage is designed to work.
+
+
+    It does indeed get copied, and that is desirable, since by definition the extensible
+    storage data is part of the element, once added.
+
+
+    However, ''create similar'' cannot create the storage, for Revit does not know
+    what it is, and thus cannot create ''similar'' data.
+
+
+    If you really need this functionality, you can implement it programmatically,
+    e.g. by using a DMU dynamic model updater or by programmatically detecting the
+    newly added elements after the ''create similar'' operation and adding your extensible
+    storage data to them in the manner you see fit.
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-04-22 10:33:50'
+  body: 'Dear RevitArkitek,
+
+
+    By the way, it is important to note that if it is important for you that all elements
+    of interest to you have some specific extensible storage data attached, you need
+    an updater anyway, since these objects can also be created from scratch at any
+    time.
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.
+
+    -----'

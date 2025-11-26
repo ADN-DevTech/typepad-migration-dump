@@ -1,0 +1,131 @@
+comments:
+- author: Matt Mason
+  email: mmason@avat.com
+  ip: 146.115.40.151
+  url: http://cadappdev.blogspot.com
+  date: '2008-10-16 23:51:51'
+  body: 'Great topic Jeremy...
+
+
+    I''ve often wondered about some of the interaction between the different Materials
+    in an element...
+
+
+    In a multi-layered wall, you need to get the CompoundLayerStructure to get at
+    the interior/exterior wall material - do these translate out to the Interior/Exterior
+    Wall faces?
+
+
+    Also, I presume when you "paint" a material onto a wall face it picks it up with
+    the approach listed above?
+
+
+    Thanks - Matt'
+- author: Jeremy
+  email: jeremy.tammik@eur.autodesk.com
+  ip: 80.58.205.45
+  url: http://thebuildingcoder.typepad.com
+  date: '2008-10-27 05:42:34'
+  body: 'Hi Matt,
+
+
+    Thanks for your appreciation! Yes, for a multi-layered wall you would look at
+    the CompoundLayerStructure, and I would assume that each layer would produce its
+    own faces with its own material assignments, some of them corresponding to the
+    interior and exterior wall faces ... I have not tried it out, though.
+
+
+    And yes, in response to your second assumption above, ''when you "paint" a material
+    onto a wall face it picks it up with the approach listed above'' ... that is true
+    as far as I know.
+
+
+    Both of these might be topics for future posts.
+
+
+    Best regards,
+
+
+    Jeremy'
+- author: pnavarra
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.31.147
+  url: http://forums.augi.com/showthread.php?t=84766
+  date: '2009-02-16 03:56:59'
+  body: 'Hi Jeremy,
+
+
+    I got a question...
+
+
+    Can you get the area of materials associated to the face also?
+
+
+    Cheers!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.217.182.164
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-02-16 04:51:58'
+  body: "Hi Pierre,\n\nThank you very much for resubmitting your email question as\
+    \ a comment to the post! I prefer questions and answers becoming part of a public\
+    \ dialogue, as much as possible.\n\nIf you look where the materials come from\
+    \ in the method GetMaterials, you will note that each material is associated with\
+    \ a face. The Face class has a property Area, so you can determine the area of\
+    \ each material per face. If you want the total area of the material, you can\
+    \ accumulate all those areas for each one. This could be designed similarly to\
+    \ the volume summation presented in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/02/compound-wall-layer-volumes.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/02/compound-wall-layer-volumes.html</a>\n\
+    \nAnd bear in mind that all areas are in square feet.\n\nCheers, Jeremy."
+- author: Max
+  email: massimiliano.revelli@infosys.it
+  ip: 94.81.33.18
+  url: ''
+  date: '2009-08-04 05:12:14'
+  body: 'Hi Jeremy,
+
+    ...another question.
+
+    Can you get the volume of materials associated to the face also?
+
+    Well ,the face don''t have a volume but the materials associated to this face
+    is also associated to an Element,so it has a volume.
+
+    Can I have the volume of element / material which is projected on the face ?
+
+    Cheers
+
+    Max'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-08-04 06:41:48'
+  body: "Dear Max,\n\nThank you for your query, although it appears a bit confusing\
+    \ to me. \n\nAs you say, the face has no volume, just an area. If you are applying\
+    \ material evenly to the face and know its thickness, then you can calculate the\
+    \ volume from that. \n\nIf the material is represented by some element, then you\
+    \ can query that element for its geometry and calculate the volume from that.\n\
+    \nThe last part of the question is still more confusing, because if you project\
+    \ anything at all onto a face, it will once again become two-dimensional and thus\
+    \ not have any volume.\n\nCheers, Jeremy."
+- author: 'building materials roofing '
+  email: nina@fcmsupply.com
+  ip: 65.51.21.162
+  url: http://products.construction.com.
+  date: '2009-10-26 16:57:08'
+  body: that's is very cool thanks for the tip.
+- author: Jeremy Tammik
+  email: ''
+  ip: 84.74.144.143
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-10-27 06:23:43'
+  body: 'Dear Nina,
+
+
+    Thank you very much for the appreciation, it''s a pleasure!
+
+
+    Cheers, Jeremy.
+
+    -----'

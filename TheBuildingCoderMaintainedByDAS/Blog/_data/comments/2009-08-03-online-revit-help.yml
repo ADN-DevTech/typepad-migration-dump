@@ -1,0 +1,111 @@
+comments:
+- author: Rod Howarth
+  email: rodhowarth257@gmail.com
+  ip: 150.101.189.86
+  url: http://roddotnet.blogspot.com/
+  date: '2009-08-04 19:04:59'
+  body: "This is great.\n\nIt would also be great if the SDK CHM file and the developers\
+    \ guide (and maybe even the listing of samples) were online in a google indexable\
+    \ location, so then I could add them to the custom API search engine I've created:\n\
+    <a href=\"http://roddotnet.blogspot.com/2009/07/revit-api-search-engine.html\"\
+    >http://roddotnet.blogspot.com/2009/07/revit-api-search-engine.html</a> \n\nI'm\
+    \ guessing that I cannot upload this to a server myself as they would be under\
+    \ copyright, but it would be great if they were somewhere that the search engine\
+    \ can look through!"
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.121.247
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-08-05 03:47:32'
+  body: 'Dear Rod,
+
+
+    Yes it is great indeed, isn''t it? I think your idea is great as well and makes
+    perfect sense. Since you are an ADN member, could you log a DevHelp Online request
+    for this functionality, please, so I have a case to link the request to? Thank
+    you!
+
+
+    I tried out your custom search engine, and it seems to work absolutely wonderfully,
+    doing exactly what I would wish it to. Congratulations!
+
+
+    Cheers, Jeremy.'
+- author: ahmed ali
+  email: ahmed.mahmoud5@dargroup.com
+  ip: 213.152.78.3
+  url: ''
+  date: '2009-08-16 02:34:39'
+  body: 'We need help regarding extracting data from parameter
+
+    What happen when we extract these data for example
+
+    The value of pipe flow 15.0 GPM in Revit  MEP  when exported to excel it become
+    like (0.033420141)
+
+    Why this change?? I need it to be extracted as 15.0 GPM and so on
+
+    Please advise'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-08-17 07:41:11'
+  body: "Dear Ahmed,\n\nFirst of all, congratulations on successfully exporting your\
+    \ data to Excel  :-)\n\nYou question has to do with the Revit internal database\
+    \ units. Please see the explanations in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2008/09/units.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2008/09/units.html</a>\n\nand \n\n<a\
+    \ href=\"http://thebuildingcoder.typepad.com/blog/2008/11/formatting-units-strings.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2008/11/formatting-units-strings.html</a>\n\
+    \nRevit allows the user to define different units to display in the user interface,\
+    \ for instance the 15.0 GPM that you are seeing in Revit MEP. Internally, however,\
+    \ Revit always uses a fixed set of database units which cannot be changed. The\
+    \ number you see in the API is in internal database units. You need to determine\
+    \ a conversion factor between the two. An easy way to do so is to set the parameter\
+    \ to a value of 1.0 GPM through the user interface and then check what the resulting\
+    \ internal database value is through the API, or using RvtMgdDbg.\n\nYou can also\
+    \ use the powerful unit conversion tool to calculate the required conversion factor:\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/08/unit-conversion.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/08/unit-conversion.html</a>\n\n\
+    Cheers, Jeremy."
+- author: ahmed.alimahmoud@dargroup.com
+  email: ahmed.alimahmoud@dargroup.com
+  ip: 163.121.166.35
+  url: http://www.dargroup.com/flash/index_flash.php?isvars=false
+  date: '2010-12-19 05:38:17'
+  body: "hi Jeremy.\nthanks for reply \ni solved the debugging issue\ni have still\
+    \ dont know from which loop in this sample i can extract data to excel and this\
+    \ data maped in paranttochilled relation\ni know how to export to excel\nput i\
+    \ dont know how to mape this data according\nmapparentochilled relation\ni sent\
+    \ the code in adn case no 1265564"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2010-12-21 12:43:23'
+  body: 'Dear Ahmed,
+
+
+    Congratulations on solving the debugging issue!
+
+
+    Thank you very much for submitting the ADN DevHelp Online case. That is always
+    much more reliable than posting a comment on the blog, since ADN guarantees that
+    you receive an answer.
+
+
+    The parent to children relationship is maintained in the MapParentToChildren dictionary,
+    which is simply a Dictionary>. It is described in detail in the source code comments
+    on the MapParentToChildren class definition.
+
+
+    You can simply iterate over the dictionary and extract the information from there.
+
+
+    Alternatively, you can completely skip the instantiation and population of this
+    dictionary and implement the data export directly.
+
+
+    Cheers, Jeremy.
+
+    -----'

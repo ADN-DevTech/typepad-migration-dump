@@ -1,0 +1,227 @@
+comments:
+- author: Alan
+  email: sovereign250@gmail.com
+  ip: 115.70.163.30
+  url: ''
+  date: '2013-08-14 23:56:16'
+  body: "Dear Jeremy\n\nDo you know if it is possible to store created Schemas onto\
+    \ a material and have that persist through a material library? I would like be\
+    \ to able to add some extra data onto a material and then be able to bring in\
+    \ those materials with the extra data on them through the material library.\n\n\
+    I am a bit new to Revit so I'm sure that I'm missing something.\n\nThanks, \n\
+    Alan"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.206.65
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-08-15 04:55:35'
+  body: 'Dear Alan,
+
+
+    Thank you for a pertinent and interesting question.
+
+
+    A material library is unfortunately not a Revit document, so it does not contain
+    Revit database elements, so it cannot include extensible storage in the same manner.
+
+
+    You would have to find some other way to associate your additional data with the
+    desired material.
+
+
+    You might have a Revit ''material project'' somewhere, and interact with that.
+
+
+    Here is a vaguely related discussion on managing materials that might be of interest
+    and useful for this question:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/05/copy-and-paste-api-applications-and-modeless-assertion.html#4">http://thebuildingcoder.typepad.com/blog/2013/05/copy-and-paste-api-applications-and-modeless-assertion.html#4</a>
+
+
+    Please let us know if you implement a generic solution to this. That would be
+    very interesting. Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Alan
+  email: sovereign250@gmail.com
+  ip: 115.70.163.30
+  url: ''
+  date: '2013-08-15 19:10:22'
+  body: 'Dear Jermey,
+
+
+    Thanks for the clarification, we had already looked into having a Revit material
+    project which we did get working and it did work very well. We just wanted to
+    avoid having extra work involved with pulling in materials, since we always want
+    them available.
+
+
+    We decided to simply add an id to one of the parameters like the Comments field
+    and look for the id somewhere in there.
+
+
+    Thanks again,
+
+    Alan'
+- author: Matt Brown
+  email: matt.brown@brrarch.com
+  ip: 64.235.150.153
+  url: ''
+  date: '2014-02-06 10:12:50'
+  body: 'Dear Jeremy,
+
+
+    I have a problem with a few of our Revit files where the error "The file ... modified
+    by the third-party updater AREXRevitStart : REXExtension: DReinfWall which is
+    not currently installed." appears.  I would like to use code to find references
+    to this extension and delete it.  However, when I call Schema.ListSchemas() there
+    are no schemas returned.  How is it that the file is still using the extensible
+    storage from the third-party updater?  I have no linked Revit files but I still
+    run into this issue.
+
+
+    Thanks,
+
+    Matt'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.25
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-02-10 16:15:03'
+  body: 'Dear Matt,
+
+
+    ListSchemas will not return anything, because it only lists loaded schemata. The
+    error message is telling you that this schema is referenced but not loaded, probably
+    because the add-in that defined and stored a reference to it in the model no longer
+    is present.
+
+
+    All you have to do to get rid of this is to open the model once, click ''ignore
+    and continue'', and then save it again:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/12/vsta-to-stay-and-updater-to-go.html#2">http://thebuildingcoder.typepad.com/blog/2010/12/vsta-to-stay-and-updater-to-go.html#2</a>
+
+
+    I do not know of any other way to get rid of the message.
+
+
+    It should be possible to automate this process, though:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/12/vsta-to-stay-and-updater-to-go.html#3">http://thebuildingcoder.typepad.com/blog/2010/12/vsta-to-stay-and-updater-to-go.html#3</a>
+
+
+    Cheers, Jeremy.'
+- author: Jimmy P
+  email: jimmyplante@gmail.com
+  ip: 207.134.226.182
+  url: ''
+  date: '2014-12-15 21:09:30'
+  body: "Dear Jeremy,\n\nI'm using the revit element GUID to create the schema. Now\
+    \ that I want to update this schema (Create a new one), I can not use anymore\
+    \ this GUID, i get this kind of message: A different Schema with the same identity\
+    \ already exists.\n\nDo you have any suggestion for my update? Can i get rid of\
+    \ the old schema before creating the new one? I need to use this GUID to create\
+    \ the new schema. \n\nCheers,"
+- author: Jeremy Tammik
+  email: ''
+  ip: 10.59.2.19
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-12-16 01:30:26'
+  body: 'Dear Jimmy,
+
+
+    That''s a nice pickle you''ve gotten yourself into.
+
+
+    A GUID that must have a certain value cannot really be called a GUID, you know.
+
+
+    So you have set up a system in which the Revit element UniqueID is used a a key
+    to determine a hard-wired GUID value for your extensible storage data.
+
+
+    That does not sound like a very good idea to me.
+
+
+    It is utterly impossible to modify the extensible storage schema in any way whatsoever,
+    as far as I know:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/08/deleting-and-updating-extensible-storage-schema.html">http://thebuildingcoder.typepad.com/blog/2013/08/deleting-and-updating-extensible-storage-schema.html</a>
+
+
+    So, just as you say, you will have to define an entirely new schema, and transfer
+    the existing data you wish to preserve from the old to the new.
+
+
+    If you are forced to specify the same key, you will definitely have to delete
+    the old schema before you can create the new one.
+
+
+    Whether or not Revit will allow you to create a new schema using the same GUID
+    as the old one had I cannot say.
+
+
+    I can imagine that there might be difficulties with that.
+
+
+    In any case, you will have to completely remove every trace of the old before
+    trying to define the new.
+
+
+    Good luck with that, and please let us know how it goes.
+
+
+    Cheers, Jeremy.'
+- author: Jimmy P
+  email: jimmyplante@gmail.com
+  ip: 207.134.226.182
+  url: ''
+  date: '2014-12-16 13:09:50'
+  body: "I found this: EraseSchemaAndAllEntities! Save my addin! \nCheers"
+- author: Jimmy P
+  email: jimmyplante@gmail.com
+  ip: 207.134.226.182
+  url: ''
+  date: '2014-12-16 13:14:34'
+  body: 'Just see your answer Jeremy, thanks for the reply!
+
+
+    So as I said, I did an upgrader that loop over all my "old" schemas, save temporally
+    the data, erase all the "old" schemas with EraseSchemaAndAllEntities, then create
+    the new schema.
+
+
+    People will have to upgrade their revit file before continue using the addin.
+
+
+    Thanks again!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-12-22 01:10:47'
+  body: 'Dear Jimmy,
+
+
+    Congratulations on solving the issue.
+
+
+    I am glad to hear that it is possible to redefine a schema reusing its original
+    GUID once it has been completely removed.
+
+
+    I was previously not aware of that.
+
+
+    Merry Christmas and a Happy New Year to you!
+
+
+    Cheers, Jeremy.
+
+    -----'

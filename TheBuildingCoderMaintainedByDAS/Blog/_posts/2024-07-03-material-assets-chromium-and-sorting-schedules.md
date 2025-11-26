@@ -1,0 +1,161 @@
+---
+layout: "post"
+title: "Material Assets, Chromium and Sorting Schedules"
+date: "2024-07-03 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "AI"
+  - "Element Creation"
+  - "Material"
+  - "News"
+  - "Properties"
+  - "Schedule"
+  - "User Interface"
+original_url: "https://thebuildingcoder.typepad.com/blog/2024/07/material-assets-chromium-and-sorting-schedules.html "
+typepad_basename: "material-assets-chromium-and-sorting-schedules"
+typepad_status: "Publish"
+---
+
+<p><link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet" /></p>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+<p><style> code[class*=language-], pre[class*=language-] { font-size : 90%; } </style></p>
+
+<p>Today, we look at the Revit API to personalise material assets, access the built-in browser functionality, create schedules, search text and miscellaneous LLM-related news items:</p>
+
+<ul>
+<li><a href="#2">Personalised material asset properties</a></li>
+<li><a href="#3">CefSharp versus WebView2 embedded browser</a></li>
+<li><a href="#4">Twentytwo on schedule creation</a></li>
+<li><a href="#5">Ugrep enhanced grep</a></li>
+<li><a href="#6">AI mesh understanding</a></li>
+<li><a href="#7">LLM self-reflection</a></li>
+<li><a href="#8">LLM deep stupidity</a></li>
+<li><a href="#9">LLM AI sans <code>MatMul</code></a></li>
+<li><a href="#10">Local LLM AI the easy way</a></li>
+</ul>
+
+<h4><a name="2"></a> Personalised Material Asset Properties</h4>
+
+<p>Jacob Small provided a useful and succinct summary of info to help answer how
+to <a href="https://forums.autodesk.com/t5/revit-api-forum/create-a-custom-material-asset/m-p/12700408">create a custom material asset</a>:</p>
+
+<p><strong>Question:</strong>
+I would like to know if it is possible to create a personalised material asset with personalised properties that can be displayed in the Material Browser. For example, a material asset called "Test" placed after "Thermal". And in "Test" put a property like "Address".
+If this isn't possible, is it possible to add the "Address" property to an asset that already exists, for example "Identity"?
+If so, can we then create a new section in the Identity asset as "Additional information"?</p>
+
+<p><strong>Answer:</strong>
+Some quick 'info' on what I think I know about material assets:</p>
+
+<p>The only "asset types" in the UI are Appearance, Thermal, and Physical. In the API these are called Appearance, Thermal, and Structural (because why would they match?). I'll be using the API names going forward because we're in that forum (perhaps someone curious can ask about the UI stuff in the other forum).</p>
+
+<p>The Thermal and Structural asset types can be deleted from a material in the UI and set as an invalid Element Id in the API. The Appearance asset cannot.</p>
+
+<p>The other tabs in the material editor are collections of properties and parameters of the material element itself, not a linked asset - but are masquerading as an asset due to how they are presented in the UI.  For example to get the name (shows in the identity tab) you get the Name property of a material element. To get the foreground surface pattern (shows in the graphics tab) you'd get the SurfaceForegroundPatternId property. To set the Comments in the Identity tab you'd use a Set method on the comment parameter.</p>
+
+<p>The only thing unavailable is the keywords (noted as missing in 2019 and as far as I know still unavailable).</p>
+
+<p>So the question becomes, how can you accomplish what you're after?</p>
+
+<p>You could map a property from the identity tab (URL looks like an option) to an extensible storage object with the data you need; however users won't be able to edit it in the material editor. Personally I would make 'non-UserModifiable' parameters on the materials category, and associate them to the materials in your template, and let them be edited/reviewed via an add-in which would also allow updating the rest of the assets. This add-in could also ensure that materials added via your tool would have these hidden parameters quickly set when materials from your library (a sub-component of your add-in) are added to the model.</p>
+
+<p>It'd be a big lift but likely one which would benefit many beyond your company.</p>
+
+<p>Many thanks to Jacob for this helpful summary.</p>
+
+<h4><a name="3"></a> CefSharp versus WebView2 Embedded Browser</h4>
+
+<p>Revit currently includes the CefSharp embedded Chromium browser, and many internal and external add-ins make use of that.
+Another option for Chromium embedding is provided by WebView2, and some add-ins already use that instead.
+This StackOverflow question provides a comparison
+of <a href="https://stackoverflow.com/questions/70360189/cefsharp-vs-webview2">CefSharp vs WebView2</a>.
+If you are interested in new developments in this area in the context of Revit API add-in development,
+you might want to check in to the corresponding discussion currently opened in
+the <a href="https://feedback.autodesk.com/key/LHMJFVHGJK085G2M">Revit Preview Project</a>.</p>
+
+<h4><a name="4"></a> Twentytwo on Schedule Creation</h4>
+
+<p><a href="https://twentytwo.space">Twentytwo</a>, written by Min Naung, provides a place and resources for BIM Programming enthusiasts.
+Quite a while ago, I already mentioned
+the <a href="https://thebuildingcoder.typepad.com/blog/2022/10/element-level-and-ifc-properties-.html#2">TwentyTwo add-ins and tutorials</a>.
+They also write a blog with high quality Revit API articles,
+the <a href="https://twentytwo.space/revit-api-series/">Revit API series</a>.</p>
+
+<p>One of them, for instance,
+on <a href="https://twentytwo.space/2021/05/02/revit-api-schedule-creation/">schedule creation</a>,
+recently came in useful and helped solve the question
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/sort-grouping-field-in-schedule/m-p/12869665">sort/grouping field in schedule</a>.</p>
+
+<p>Many thanks to Min Naung for their work on writing and sharing this material!</p>
+
+<h4><a name="5"></a> Ugrep Enhanced Grep</h4>
+
+<p>I use <code>grep</code> in my everyday work to search for text in text files.
+With <code>ugrep</code>, this workflow can be easily expanded to cover all kinds of other file formats and directory structures,
+cf. <a href="https://ugrep.com">the ugrep file pattern searcher</a>, with
+its <a href="https://github.com/Genivia/ugrep">ugrep GitHub repo</a>.</p>
+
+<p>For instance, PDF support can be obtained by specifying a filter like this:</p>
+
+<pre><code class="language-sh">ug --filter='pdf:pdftotext % -' -i searchtext *pdf</code></pre>
+
+<p>The <code>ug+</code> command is the same as the <code>ug</code> command plus built-in filters to search PDFs, documents, and image metadata:</p>
+
+<pre><code class="language-sh">ug+ -i searchtext *pdf</code></pre>
+
+<p>Fuzzy search is also supported, among tons of other features:</p>
+
+<pre><code class="language-sh">ug+ -Z -i searchtext *pdf</code></pre>
+
+<h4><a name="6"></a> AI Mesh Understanding</h4>
+
+<p>AI and LLMs can be used with 3D objects, but often have trouble understanding and efficiently handling them.
+The MeshAnything project aims to generate more effective meshing of 3D objects:</p>
+
+<ul>
+<li>44-second video blurb: <a href="https://youtu.be/rQolOT4tuUY">AI just figured out Meshes</a></li>
+<li>Original paper on <a href="https://huggingface.co/papers/2406.10163">MeshAnything: Artist-Created Mesh Generation with Autoregressive Transformers</a></li>
+<li><a href="https://huggingface.co/spaces/Yiwen-ntu/MeshAnything">MeshAnything demo</a></li>
+<li><a href="https://github.com/buaacyw/MeshAnything">MeshAnything GitHub code repository</a></li>
+<li>Huggingface <a href="https://huggingface.co/learn/ml-for-3d-course/unit0/introduction">Machine Learning for 3D Course</a></li>
+</ul>
+
+<h4><a name="7"></a> LLM Self-Reflection</h4>
+
+<p><a href="https://x.com/joshwhiton/">Josh Whiton</a> performed an experiment on LLM self-reflection showing
+that <a href="https://x.com/joshwhiton/status/1806000237728931910">Claude Sonnet 3.5 passes the AI mirror test</a>,
+ending with an LLM-generated poem on the topic:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c8d3b4c649200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302c8d3b4c649200c img-responsive" style="width: 500px; display: block; margin-left: auto; margin-right: auto;" alt="Claude Sonnet selfreflects" title="Claude Sonnet selfreflects"  src="/assets/image_c60a9d.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="8"></a> LLM Deep Stupidity</h4>
+
+<p>On the other hand, Mark Bishop shares a critical article stating
+that <a href="https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2020.513474/full">artificial intelligence is stupid and causal reasoning will not fix it</a>,
+also presented as a 90-minute video
+on <a href="https://youtu.be/sN-vsd7SVqs">deep stupidity, a provocation on the things LLMs can and cannot do</a>.</p>
+
+<h4><a name="9"></a> LLM AI Sans MatMul</h4>
+
+<p>This new research may affect both the enormous resources consumed by AI and the chip maker stock prices:
+<a href="https://arstechnica.com/information-technology/2024/06/researchers-upend-ai-status-quo-by-eliminating-matrix-multiplication-in-llms/">Researchers upend AI status quo by eliminating matrix multiplication in LLMs</a>.</p>
+
+<h4><a name="10"></a> Local LLM AI the Easy Way</h4>
+
+<p>For experimentation and learning,
+the <a href="https://www.codeproject.com/Articles/5322557/CodeProject-AI-Server-AI-the-easy-way">CodeProject.AI Server provides AI the easy way</a>:</p>
+
+<blockquote>
+  <p>CodeProject.AI Server is a locally installed, self-hosted, fast, free and open-source AI server for any platform, any language.
+  No off-device or out of network data transfer, no messing around with dependencies, and able to be used from any platform, any language.
+  Runs as a Windows Service or a Docker container.</p>
+</blockquote>

@@ -1,0 +1,138 @@
+comments:
+- author: Edgar
+  email: ebocanegra@fxfowle.com
+  ip: 71.5.70.34
+  url: ''
+  date: '2009-08-19 17:31:41'
+  body: "Hello Jeremy, \nI couldn't find an appropriate place to contact you so I'll\
+    \ post here.\n\nI'm having trouble updating the revit options for library paths,\
+    \ below is my code. I'm not sure what I'm missing to updating back to the database.\n\
+    \npublic class AddLibraryPaths : IExternalCommand\n  {\n    public CmdResult Execute(\n\
+    \      ExternalCommandData commandData,\n      ref string message,\n      ElementSet\
+    \ elements )\n    {\n      try\n      {\n        Application app = commandData.Application;\n\
+    \        Document doc = app.ActiveDocument;\n       // string LibraryPaths = \
+    \ \"\";\n        string strLibPaths = \"\";        \n        int count = 0;  \n\
+    \        foreach (String path in app.Options.LibraryPaths)\n        {\n      \
+    \      strLibPaths += path + \"\\n\";            \n            count +=count;\n\
+    \            //strLibPaths = path.Substring(1);\n        }\n        count ++;\n\
+    \n        string MetricLibraryKey = \"\";\n \n        MetricLibraryKey = app.Options.LibraryPaths.get_Item(\"\
+    Metric Library\");\n\n        app.Options.LibraryPaths.Insert(\"ImperialTestCreate\"\
+    , \"C:\\'Documents and Settings\\'All Users\\'Application Data\\'Autodesk\\'RAC\
+    \ 2010\\'Imperial Library\\'Detail Components\");\n         \n        app.Options.LibraryPaths.set_Item(\"\
+    ImperialTestCreate\",\"C:\\'Temp\");\n\n//        app.Options.LibraryPaths.Equals(app.Options.LibraryPaths);\n\
+    \n     // app.Options.LibraryPaths.IsReadOnly;\n        Util.InfoMsg( string.Format(strLibPaths+MetricLibraryKey));\
+    \ \n        return CmdResult.Succeeded;\n      }\n      catch( Exception ex )\n\
+    \      {\n        message = ex.Message;\n        return CmdResult.Failed;\n  \
+    \    }\n    }\n  }\n\nAny advice would be greatly appreciated!"
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.82.85
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-08-19 19:28:50'
+  body: 'Dear Edgar,
+
+
+    Thank you for your interesting question. Posting a comment here on the blog is
+    a fine way to contact me. I have created a draft for a new blog post to answer
+    your question and mailed it to you directly for reviewing.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.68.17
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-08-21 06:38:10'
+  body: 'Dear Edgar,
+
+
+    The post is published now:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/08/library-paths.html">http://thebuildingcoder.typepad.com/blog/2009/08/library-paths.html</a>
+
+
+    Thank you again for your question, review and feedback.
+
+
+    Cheers, Jeremy.'
+- author: Matt Landress
+  email: matt_landress@hermanmiller.com
+  ip: 24.63.94.112
+  url: http://www.hermanmiller.com
+  date: '2010-03-11 08:04:50'
+  body: 'Hi Jeremy,
+
+    I''ve looked around and haven''t found a way to do this yet. As we''ve been creating
+    content for Revit, we''ve been saving our Symbols/Types into a txt file.  LoadFamilySymbol
+    works great if the Revit Types are built into the rfa file but when they are separated
+    out into a txt file, it doesn''t work.  Is there a way to load a single family
+    when they are separated out into a txt file?
+
+    Thanks for time/assistance!!
+
+    Matt'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-03-17 11:46:27'
+  body: "Dear Matt,\n\nPlease pardon my ignorance, but I thought a TXT file was always\
+    \ just associated with an RFA file, and all it did was define a list of additional\
+    \ combinations of parameters to define specialised types?\n\nI have heard of cases\
+    \ where people wanted to load a specific symbol that was defined in such a pair\
+    \ of RFA plus TXT file and used LoadFamilySymbol successfully, so I don't quite\
+    \ understand what is not working for you?\n\nOne way to circumvent any possible\
+    \ problems with the TX file would be to just define one single type in the RFA\
+    \ file, load that, and then use the Duplicate method to create any other types\
+    \ that you need, as explained in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2008/11/creating-a-new-family-symbol.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2008/11/creating-a-new-family-symbol.html</a>\n\
+    \nThe technique is used to create new column and beam types in \n\n<a href=\"\
+    http://thebuildingcoder.typepad.com/blog/2009/02/inserting-a-column.html\">http://thebuildingcoder.typepad.com/blog/2009/02/inserting-a-column.html</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/02/inserting-a-beam.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/02/inserting-a-beam.html</a>\n\n\
+    Cheers, Jeremy."
+- author: Vasco Granadeiro
+  email: vascogranadeiro@hotmail.com
+  ip: 18.85.54.100
+  url: ''
+  date: '2010-06-22 15:49:19'
+  body: 'Dear Jeremy,
+
+    I have been trying to load a family type and then create an instance of that family
+    type but I can''t get pass of the FamilySymbol issue. How do I get this object?
+    I want to insert isolated foundations "M_Pile Cap-Rectangular : 1400 x 1300 x
+    350mm". How do I get the FamilySymbol for this? I have been going through your
+    blog, API Labs and the Developer Guide and I can''t find an answer.
+
+    Thank you.
+
+
+    Best regards,
+
+    Vasco Granadeiro'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-25 05:20:53'
+  body: 'Dear Vasco,
+
+
+    You will definitely need to hone up your searching skills a bit.
+
+
+    How about using the GetFirstFamilySymbol method in this recent post as a starting
+    point:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/06/set-tag-type.html">http://thebuildingcoder.typepad.com/blog/2010/06/set-tag-type.html</a>
+
+
+    If you need to search for the symbol by name, there are several previous posts
+    which show exactly how to do this.
+
+
+    Cheers, Jeremy.
+
+    -----'

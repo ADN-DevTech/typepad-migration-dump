@@ -1,0 +1,61 @@
+comments:
+- author: LADO
+  email: lado7595@gmail.com
+  ip: 121.166.165.188
+  url: ''
+  date: '2012-02-03 02:41:01'
+  body: "Dear Tammik\nI'm trying to rotate a section box about X axis in \"{3D}\"\
+    \ view programmatically.\nAs you know, rotating it about Z axis only is possible.\n\
+    I tried it with my codes as below, but it didn't work.\n(but rotating about Z\
+    \ axis was successfully done. How ridiculous!)\nIs there any other way to make\
+    \ it ? or is it impossible in Revit?\n\nView3D view = commandData.Application.ActiveUIDocument.Document.ActiveView\
+    \ as View3D;\n\t\t\tif (view != null)\n\t\t\t{\n\t\t\t\tBoundingBoxXYZ box = view.SectionBox;\n\
+    \t\t\t\tif (false == box.Enabled)\n\t\t\t\t{\n\t\t\t\t\tTaskDialog.Show(\"Revit\"\
+    , \"The section box for View3D isn't Enable.\");\n\t\t\t\t\treturn Result.Failed;\n\
+    \t\t\t\t}\n\t\t\t\t// Create a rotation transform,  \n\t\t\t\tXYZ origin = box.Min;\n\
+    \t\t\t\tXYZ axis = new XYZ(1, 0, 0);\n\t\t\t\t\n\t\t\t\tTransform rotate = Transform.get_Rotation(origin,\
+    \ axis, 0.5);\n\t\t\t\t// Transform the View3D's SectionBox with the rotation\
+    \ transfrom\n\t\t\t\tbox.Transform = box.Transform.Multiply(rotate);\n\t\t\t\t\
+    view.SectionBox = box;\n\n\t\t\t}\n\nThanks."
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-02-05 12:05:27'
+  body: 'Dear Lado,
+
+
+    I believe that this is an intentional limitation because there is no clear use
+    case for this and therefore it is impossible to define the proper behavior. If
+    you have a good use case including an exact description of what you expect to
+    see, please file a request for it through some wish list forum, e.g AUGI or ADN.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: LADO
+  email: lado7595@gmail.com
+  ip: 121.166.165.188
+  url: ''
+  date: '2012-02-06 02:03:26'
+  body: 'Dear Mr. Tammik
+
+
+    Thank you for your kind reply.
+
+    I just want to cut a section of a building model in oblique(not orthogonal) direction.
+
+    ArchiCAD supports some powerful functions like that.
+
+    I want to do that with section box because, you know, making a section view in
+    Revit is not exactly intuitive. (it''s impossible to check the result of section
+    work immediately)
+
+    So, as you recommanded, I''ll send a request for it to AUGI wish list.
+
+
+    Thank you again.
+
+    -----'

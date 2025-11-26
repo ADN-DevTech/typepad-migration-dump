@@ -1,0 +1,95 @@
+comments:
+- author: Antonio Sanna
+  email: atsanna@tiscali.it
+  ip: 151.11.210.2
+  url: ''
+  date: '2009-03-03 08:03:12'
+  body: "Hello, \nYou can know the working phase in which it was created a room. \n\
+    \nI tried to read the parameters, but ... \n\nBuiltInParameter.ROOM_PHASE = \"\
+    Nothing\" \nBuiltInParameter.ROOM_PHASE_ID = \"Nothing\" \nBuiltInParameter.ROOM_PHASE_NAME\
+    \ = \"\" \n\nIs there a solution? \n\nThank you very much \nAntonio"
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.118.205
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-03-03 08:18:45'
+  body: 'Dear Antonio,
+
+
+    Have you checked the PhaseCreated property? According to the section 12.3 ''Phase''
+    in the SDK developer guide ''Revit 2009 API Developer Guide.pdf'', the Phase Created
+    property has the following characteristics:
+
+
+    - It identifies the phase in which the component was added.
+
+    - The default value is the same as the current view Phase value.
+
+    - Change the Phase Created parameter by selecting a new value from the drop-down
+    list.
+
+
+    Does that work for you?
+
+
+    Cheers, Jeremy.'
+- author: Antonio Sanna
+  email: atsanna@tiscali.it
+  ip: 151.11.210.2
+  url: ''
+  date: '2009-03-03 09:23:38'
+  body: "Dear Jeremy, \n\nThanks for your reply. \nWhat I'm trying to get is a list\
+    \ of rooms in a particular phase. \n\nThe list of steps in the document I have\
+    \ already obtained. \nWhen questioned the ownership of the room with the API,\
+    \ the field is empty. \n\nIf, however, questionable ownership with Revit, I see\
+    \ that the stage was assigned. \n\nimage: \n<a href=\"http://www.studiotecnicodesign.com/public/data/atsanna/RoomPhase.jpg\"\
+    >http://www.studiotecnicodesign.com/public/data/atsanna/RoomPhase.jpg</a> \n\n\
+    I can not read the parameter (highlighted in the picture) with the API. \n\nThank\
+    \ you very much. \nAntonio"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-03-03 10:28:25'
+  body: 'Dear Antonio,
+
+
+    I just started a new Revit project and created a room using the default settings.
+    The Phase property in the element properties dialogue in your screen snapshot
+    shows ''New Construction''. The PhaseCreated and PhaseDemolished properties are
+    indeed both null, at least as far as RvtMgdDbg tells me. But the parameters that
+    you mention are not null for me:
+
+
+    ROOM_PHASE     Phase     110001 ''New Construction''
+
+    ROOM_PHASE_ID  Phase Id  110001 ''New Construction''
+
+
+    These are both ElementId properties. I do not see a ROOM_PHASE_NAME property,
+    however. This is in Revit Architecture 2009, build 20080915_2100.
+
+
+    I created another phase named ''Phase 1'', set the view property Phase property
+    to that, created another new room, and determined that its parameters also return
+    the expected value:
+
+
+    ROOM_PHASE     Phase     130449 Phases ''Phase 1''
+
+    ROOM_PHASE_ID  Phase Id  130449 Phases ''Phase 1''
+
+
+    Cheers, Jeremy.'
+- author: Antonio Sanna
+  email: atsanna@tiscali.it
+  ip: 151.11.210.2
+  url: ''
+  date: '2009-03-03 11:50:04'
+  body: "Dear Jeremy, \n\nThank you for your kind response. \n\nI'm working with Revit\
+    \ Architecture 2009 Build 20081118_1045. \nThis is an example for the part of\
+    \ my code that does not work ... \n\n... \nDim list As New List (Of Revit.Element)\
+    \ 'rooms in the project \ndoc.Elements (GetType (Room), list) \n... \n\nGetProperty\
+    \ (list (0), BuiltInParameter.ROOM_PHASE) = \"Nothing\" \nGetProperty (list (0),\
+    \ BuiltInParameter.ROOM_PHASE_ID) = \"Nothing\" \nGetProperty (list (0), BuiltInParameter.ROOM_PHASE_NAME)\
+    \ = \"\""

@@ -1,0 +1,307 @@
+---
+layout: "post"
+title: "Revit 2021.1 SDK and What's New"
+date: "2020-08-04 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "2021"
+  - "Migration"
+  - "SDK Samples"
+  - "Update"
+original_url: "https://thebuildingcoder.typepad.com/blog/2020/08/revit-20211-sdk-and-whats-new.html "
+typepad_basename: "revit-20211-sdk-and-whats-new"
+typepad_status: "Publish"
+---
+
+<p>Two weeks ago, we mentioned
+the <a href="https://thebuildingcoder.typepad.com/blog/2020/07/revit-20211-update-and-normalising-custom-export-uv.html#2">Revit 2021.1 update release</a>.</p>
+
+<p>Now, the corresponding updated SDK (Software Developer's Kit) is also available.</p>
+
+<p>Here are some notes on that, together with an online copy of the information from its <em>What's New</em> section:</p>
+
+<ul>
+<li><a href="#2">The Revit 2021.1 SDK</a></li>
+<li><a href="#3">What's New in Previous Versions</a></li>
+<li><a href="#4">Deprecated versus obsolete</a></li>
+<li><a href="#5">API changes</a>
+<ul>
+<li><a href="#5.1">ConnectorType API change</a></li>
+<li><a href="#5.2">Export API change</a></li>
+<li><a href="#5.2">Save As API change</a></li>
+</ul></li>
+<li><a href="#6">API additions</a>
+<ul>
+<li><a href="#6.1">Civil Alignments API</a></li>
+<li><a href="#6.2">Dimension API additions</a></li>
+<li><a href="#6.3">Shared Coordinates API additions</a>
+<ul>
+<li><a href="#6.3.1">Reset Shared Coordinates</a></li>
+<li><a href="#6.3.2">Clipped state of BasePoint</a></li>
+</ul></li>
+<li><a href="#6.4">MEP API Additions</a>
+<ul>
+<li><a href="#6.4.1">Building and Space Type additions</a></li>
+<li><a href="#6.4.2">Zone additions</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#7">Random Selection of Issues Resolved</a></li>
+</ul>
+
+<h4><a name="2"></a> The Revit 2021.1 SDK</h4>
+
+<p>Please note that the updated SDK (Software Developer's Kit) for
+the <a href="https://thebuildingcoder.typepad.com/blog/2020/07/revit-20211-update-and-normalising-custom-export-uv.html#2">Revit 2021.1 update release</a>
+is now available for download from
+the <a href="https://www.autodesk.com/developer-network/platform-technologies/revit">Revit developer centre</a>.</p>
+
+<ul>
+<li>REVIT_2021_1_SDK.msi (378,425,344 bytes)</li>
+</ul>
+
+<p>The information below is based on the contents of the <em>Revit Platform API Changes and Additions.docx</em> document included with
+the Revit 2021.1 SDK.
+It is also provided in the section on <em>What's New</em> in the Revit 2021.1 API help file <code>RevitAPI.chm</code> included with the SDK:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263ec2bdbe3200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263ec2bdbe3200c image-full img-responsive" alt="Revit 2021.1 API help file section on What's New" title="Revit 2021.1 API help file section on What's New" src="/assets/image_09ac9b.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>For convenient, easy and effective web searching, this blog post provides an online version of that information.</p>
+
+<p>The <em>What's New</em> section and the <em>Changes and Additions</em> document provide important information, both for discovering and exploring the newly added API functionality and for later reference.</p>
+
+<p>If you encounter any issues migrating your existing add-ins between different versions, this is one of the first places to look.</p>
+
+<p>For detailed information on all other aspects of the Revit API, please refer to the rest of the API documentation and samples provided in the SDK.</p>
+
+<p>The most important things to install and always keep at hand are:</p>
+
+<ul>
+<li>The Revit API help file <code>RevitAPI.chm</code></li>
+<li>The Visual Studio solution containing all the SDK samples, <code>Samples\SDKSamples.sln</code></li>
+</ul>
+
+<p>You will need both of these regularly for research on how to solve specific Revit API programming tasks.</p>
+
+<p>More in-depth official explanations and background information is provided by the
+online <a href="http://help.autodesk.com/view/RVT/2021/ENU/?guid=Revit_API_Revit_API_Developers_Guide_html">Revit API Developers Guide</a> included 
+in the <a href="http://help.autodesk.com/view/RVT/2021/ENU">Revit 2021 online help</a>.</p>
+
+<h4><a name="3"></a>What's New in Previous Versions</h4>
+
+<p>Here are links to previous discussions of <em>What's New in the Revit API</em>:</p>
+
+<ul>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/02/whats-new-in-the-revit-2010-api.html">What's New in the Revit 2010 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/02/whats-new-in-the-revit-2011-api.html">What's New in the Revit 2011 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/02/whats-new-in-the-revit-2012-api.html">What's New in the Revit 2012 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/03/whats-new-in-the-revit-2013-api.html">What's New in the Revit 2013 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/04/whats-new-in-the-revit-2014-api.html">What's New in the Revit 2014 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2014/04/whats-new-in-the-revit-2015-api.html">What's New in the Revit 2015 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2015/04/whats-new-in-the-revit-2016-api.html">What's New in the Revit 2016 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2016/04/whats-new-in-the-revit-2017-api.html">What's New in the Revit 2017 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2016/11/whats-new-in-the-revit-20171-api.html">What's New in the Revit 2017.1 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/04/whats-new-in-the-revit-2018-api.html">What's New in the Revit 2018 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/08/revit-20181-and-the-visual-materials-api.html">Revit 2018.1 and the Visual Materials API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/09/revit-201811-fixes-cropbox-setting.html">Revit 2018.1.1 and 2018.1 API Docs Online</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/11/modifying-material-visual-appearance.html">Revit 2018.1 Visual Materials API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/12/whats-new-in-the-revit-20182-api.html">What's New in the Revit 2018.2 API</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2018/04/whats-new-in-the-revit-2019-api.html">What's New in the Revit 2019 API</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2019/04/whats-new-in-the-revit-2020-api.html">What's New in the Revit 2020 API</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2019/09/whats-new-in-the-revit-20201-api.html">What's New in the Revit 2020.1 API</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2020/04/whats-new-in-the-revit-2021-api.html">What's New in the Revit 2021 API</a></li>
+</ul>
+
+<h4><a name="4"></a> Deprecated versus Obsolete</h4>
+
+<p>Before we get deeper into the API changes and additions, a short clarification on the terminology used.</p>
+
+<p><strong>Question:</strong> What does the below statement “deprecation/replacement” mean?</p>
+
+<p>We should keep the compatibility for API, right?? </p>
+
+<p>Is this just an update to the SDK/documentation?</p>
+
+<p><strong>Answer:</strong> Deprecated means 'it now has less value'.</p>
+
+<p>Wikipedia explains <a href="https://en.wikipedia.org/wiki/Deprecation">Deprecation</a> like this:</p>
+
+<blockquote>
+  <p>In several fields, deprecation is the discouragement of use of some terminology, feature, design, or practice, typically because it has been superseded or is no longer considered efficient or safe, without completely removing it or prohibiting its use.</p>
+  
+  <p>It can also imply that a feature, design, or practice will be removed or discontinued entirely in the future.</p>
+</blockquote>
+
+<p>It is not gone, not worthless.</p>
+
+<p>Using it may produce a warning message during compilation, but it will still work.</p>
+
+<p><strong>Response:</strong> But note says 'replaced'. If so, the same code won’t work. Then, it’s a breaking change.</p>
+
+<p><strong>Answer:</strong> It does not say 'replaced', but 'replacement'.</p>
+
+<p>There is a subtle and significant difference between these two terms.</p>
+
+<p>The former 'replaced' means that is has been replaced and is hence no longer available.</p>
+
+<p>In that case, the method would not be marked as deprecated, but as obsolete.</p>
+
+<p>The latter, 'replacement', means that a replacement is available in case you wish to stop using the deprecated method, but nobody forces you to do so.</p>
+
+<p>'Deprecated' and 'replaced' has always been the terminology used by the Revit API team to mean, 'We have deprecated some functions. Here are the new ones we would like you to use as replacements. The deprecated functions will be removed in the next release.'</p>
+
+<p>With that potential misunderstanding out of the way, here is an overview of the major additions to the Revit 2021.1 API, split into separate sections
+on <a href="#5">API changes</a> and <a href="#6">API additions</a>:</p>
+
+<h4><a name="5"></a> API changes</h4>
+
+<h4><a name="5.1"></a> ConnectorType API change</h4>
+
+<p>The following function has been deprecated and replaced:</p>
+
+<ul>
+<li>ConnectorType.MasterSurface() &rarr; ConnectorType.MainSurface()</li>
+</ul>
+
+<h4><a name="5.2"></a> Export API change</h4>
+
+<p>The following property has been deprecated and replaced:</p>
+
+<ul>
+<li>DGNExportOptions.MasterUnits &rarr; DGNExportOptions.WorkingUnits</li>
+</ul>
+
+<h4><a name="5.2"></a> Save As API change</h4>
+
+<p>The following properties have been deprecated and replaced:</p>
+
+<ul>
+<li>DocumentSavingAsEventArgs.IsSavingAsMasterFile &rarr; DocumentSavingAsEventArgs.IsSavingAsCentralFile</li>
+<li>DocumentSavedAsEventArgs.IsSavingAsMasterFile &rarr; DocumentSavedAsEventArgs.IsSavingAsCentralFile</li>
+</ul>
+
+<h4><a name="6"></a> API additions</h4>
+
+<h4><a name="6.1"></a> Civil Alignments API</h4>
+
+<p>Revit now provides support for Civil Alignments and their associated annotations.
+Alignments are imported from InfraWorks as a part of the workflow to transfer Civil Structures.
+The API supports read of alignment properties and geometric information, along with read/write and create of associated annotations.
+All new classes for the Alignments API are exposed through a different assembly in the Revit installation, located at:</p>
+
+<ul>
+<li>Addins\CivilAlignments\Autodesk.CivilAlignments.DBApplication.dll </li>
+</ul>
+
+<p>The new class:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.Infrastructure.Alignment</li>
+</ul>
+
+<p>represents an alignment and can be used to find alignments in a document, and to query a particular alignment's properties and to analyse alignment geometry. This object is not an Element, but the underlying Element can be obtained from this object if needed.</p>
+
+<p>The new class:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.Infrastructure.AlignmentStationLabel</li>
+</ul>
+
+<p>represents an alignment station label annotation and can be used to find such labels in a document as well as to create and modify such labels. This object is not an Element, but the underlying Element (which is a SpotDimension instance) can be obtained from this object if needed.</p>
+
+<p>The new classes:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.Infrastructure.AlignmentStationLabelOptions</li>
+<li>Autodesk.Revit.DB.Infrastructure.AlignmentStationLabelSetOptions</li>
+</ul>
+
+<p>provide options for creating a single alignment label or for creating a set of alignment labels.</p>
+
+<h4><a name="6.2"></a> Dimension API additions</h4>
+
+<p>Several new properties allow access to positioning for various parts of a dimension:</p>
+
+<ul>
+<li>Dimension.TextPosition</li>
+<li>Dimension.LeaderEndPosition</li>
+<li>Dimension.HasLeader</li>
+<li>SpotDimension.LeaderElbowPosition</li>
+<li>SpotDimension.LeaderHasElbow</li>
+</ul>
+
+<h4><a name="6.3"></a> Shared Coordinates API additions</h4>
+
+<h4><a name="6.3.1"></a> Reset Shared Coordinates</h4>
+
+<p>The new method:</p>
+
+<ul>
+<li>Document.ResetSharedCoordinates()</li>
+</ul>
+
+<p>resets the shared coordinates for the host model. It provides the same functionality as the UI Command "Reset Shared Coordinates". </p>
+
+<p>After resetting coordinates, the following changes will take place:</p>
+
+<ol>
+<li>GIS coordinate system will be erased</li>
+<li>Shared coordinates relationships with other linked models will be eliminated.</li>
+<li>The Survey Point will be moved back to the startup location, where it coincides with the Internal Origin.</li>
+<li>The angle between Project North and True North will be reset to 0.</li>
+</ol>
+
+<p>Note: There will be no changes to linked models.</p>
+
+<h4><a name="6.3.2"></a> Clipped state of BasePoint</h4>
+
+<p>The new property: </p>
+
+<ul>
+<li>bool BasePoint.Clipped</li>
+</ul>
+
+<p>will get or set the clipped state of the survey point BasePoint based on the active ProjectLocation of its Document. For the project base point, the get method will always return false, and the set method will throw an exception.</p>
+
+<h4><a name="6.4"></a> MEP API Additions</h4>
+
+<h4><a name="6.4.1"></a> Building and Space Type additions</h4>
+
+<p>Several new properties have been added for Building and Space Types:</p>
+
+<ul>
+<li>HVACLoadType.HeatingSetPoint &ndash; The heating temperature set point in unit Kelvin (K).</li>
+<li>HVACLoadType.CoolingSetPoint &ndash; The cooling temperature set point in unit Kelvin (K).</li>
+<li>HVACLoadType.HumidificationSetPoint &ndash; The humidification set point as a number between 0 and 1.</li>
+<li>HVACLoadType.DehumidificationSetPoint &ndash; The dehumidification set point as a number between 0 and 1.</li>
+</ul>
+
+<h4><a name="6.4.2"></a> Zone additions</h4>
+
+<p>The new property:</p>
+
+<ul>
+<li>GenericZone.LevelOffset</li>
+</ul>
+
+<p>gets or sets the offset distance from this zone to the associated level.</p>
+
+<h4><a name="7"></a> Random Selection of Issues Resolved</h4>
+
+<p>The Revit 2021.1 update release resolves a number of reported issues.</p>
+
+<p>This is mainly a note to self on the following microscopic and totally random selection of a handful of development tickets that I encountered myself:</p>
+
+<ul>
+<li><a href="https://forums.autodesk.com/t5/revit-api-forum/issue-on-revit-2021-with-assembly-protections-and-addin-loading/m-p/9433973">Obfuscation problem</a>
+&ndash; <em>REVIT-160709 RVTPR-00662: AddinManager Error for Obfuscated Add-ins</em></li>
+<li><a href="https://forums.autodesk.com/t5/revit-api-forum/russian-letters-doesn-t-export-in-lookup-tables/m-p/9056270">Cyrillic characters in lookup tables</a>
+&ndash; <em>REVIT-153006 Encoding issue reading data from size lookup table with Cyrillic characters -- 15738224</em></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2020/04/whats-new-in-the-revit-2021-api.html#comment-4883962120">Extensible storage schema with <code>UT_Custom</code></a>
+&ndash; <em>REVIT-161725 R2021 Schema with UT_Custom causes internal error</em></li>
+<li>Documentation errors and an invalid error reporting email address in the SDK itself
+&ndash; <em>REVIT-163108 incorrect email and year in Revit API docs -- 16587872</em></li>
+</ul>

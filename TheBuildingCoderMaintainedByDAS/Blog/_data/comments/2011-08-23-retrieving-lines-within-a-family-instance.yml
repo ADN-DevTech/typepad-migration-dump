@@ -1,0 +1,37 @@
+comments:
+- author: Sam
+  email: sam.zielke@exds.com.au
+  ip: 14.200.130.224
+  url: http://www.exds.com.au
+  date: '2013-09-22 21:49:47'
+  body: 'Thanks for the information. But when I run the code sample on a FamilyInstance
+    I have just created, the GeometryElement is always null? Can you provide any advice
+    on why this is happening? Note famInst exists and is not null.
+
+
+    FamilyInstance famInst = doc.Create.NewFamilyInstance(strt, pipeSymbol, StructuralType.NonStructural);
+
+    Options opts = activeDoc.Application.Create.NewGeometryOptions();
+
+    TaskDialog.Show("Is Options null " + (opts == null).ToString());     // outputs
+    "Is Options null false"
+
+    GeometryElement geoEle = famInst.get_Geometry(opts);                 // error
+    occurs here
+
+    TaskDialog.Show("Is geoEle null " + (geoEle == null).ToString());    // outputs
+    "Is geoEle null true"'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.203.13
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-27 03:46:52'
+  body: 'Dear Sam,
+
+
+    The geometry is not actually generated until you commit the transaction.
+
+
+    Cheers, Jeremy.
+
+    -----'

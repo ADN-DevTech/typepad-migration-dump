@@ -1,0 +1,394 @@
+comments:
+- author: Matt Landress
+  email: matt_landress@hermanmiller.com
+  ip: 24.63.94.112
+  url: http://www.hermanmiller.com
+  date: '2010-03-19 14:20:46'
+  body: 'Hi Jeremy,
+
+    I am trying to use move on a new family instance. Since I haven''t found a get
+    point command, I''ve gone and used PickOne to grab an existing object in the drawing
+    so that I know where the new family instance is going to get moved to. I first
+    load a family, then use newfamilyinstance to insert it into the drawing and then
+    move it to the location point of the object/family I picked earlier.  The problem
+    is that I won''t always have an item in the location that I need the new family
+    instance to go to.  So, what I would like to do,is to use the move command where
+    I can specify the start point of the newfamilyinstance and then have the item
+    on my cursor to place wherever I need to in the drawing. Is there a way to do
+    this in the API?
+
+
+    Thanks for your time.
+
+    Matt'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-03-22 06:37:12'
+  body: 'Dear Matt,
+
+
+    Unfortunately, the Revit 2010 API does not provide any method for interactively
+    picking a point on the graphics screen, cf.
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2008/10/picking-a-point.html">http://thebuildingcoder.typepad.com/blog/2008/10/picking-a-point.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/02/selection-questions.html">http://thebuildingcoder.typepad.com/blog/2009/02/selection-questions.html</a>
+
+
+    Neither is there currently a way attach a family instance to be inserted to the
+    cursor and then drag it around on the graphics screen to select the desired location.
+
+
+    But, I still have good news for you, anyway, if you can just hang on for a little
+    while longer ... so, please, just a little bit of patience for a short while more...
+
+
+    Cheers, Jeremy.'
+- author: Vasco Granadeiro
+  email: vascogranadeiro@hotmail.com
+  ip: 64.61.135.10
+  url: ''
+  date: '2010-05-19 03:29:35'
+  body: 'Dear Jeremy,
+
+    I am using the VSTA IDE to generate a grid to be the starting point for the generation
+    of parametric houses but I am having a problem with the ''Item'' property of the
+    ''XYZArray'' Class. I need to retrieve XYZ objects out of an arrays, to draw lines,
+    but I am getting the following error message: ''Autodesk.Revit.Geometry.XYZArray''
+    does not contain a definition for ''Item''. However, I can find this property
+    for this class in the RevitAPI Help file. Can you help me, please?
+
+
+    Best regards,
+
+    Vasco Granadeiro'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-05-19 03:46:56'
+  body: "Dear Vasco,\n\nI don't use VSTA at all myself, so I cannot test it for you.\
+    \ The only thing that comes to mind is that you might have to use get_Item instead\
+    \ of Item. Can't you use Intellisense or the object browser to see what the methods\
+    \ are called? I hope this helps. \n\nCheers, Jeremy."
+- author: Vasco Granadeiro
+  email: vascogranadeiro@hotmail.com
+  ip: 64.61.135.10
+  url: ''
+  date: '2010-05-21 03:40:34'
+  body: 'Dear Jeremy,
+
+
+    In the object browser this property does not appear, although it does on the RevitAPI
+    Help file... Let me try to put the question in another way: if you create a XYZArray
+    with three XYZ objects, how do you retrieve (call) the first and the second objects,
+    for example to create a line? Thanks.
+
+
+    Best,
+
+    Vasco'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-05-21 04:30:35'
+  body: 'Dear Vasco,
+
+
+    I have used code like this in C# to access points in an XYZArray:
+
+
+    XYZArray points = e.Tessellate();
+
+    XYZ p = points.get_Item( 0 );
+
+    int n = points.Size;
+
+    XYZ q = points.get_Item( n - 1 );
+
+
+    As said, I have no experience with VSTA, this is in standard .NET.
+
+
+    Also, it may possibly just be ''Item'' without the ''get_'' prefix in VB.NET.
+
+
+    Please also note that the XYZArray class has been replaced by standard .NET collections
+    in the Revit 2011 API.
+
+
+    Cheers, Jeremy.'
+- author: jane
+  email: j.zhang@strucsoftsolutions.com
+  ip: 70.25.48.22
+  url: ''
+  date: '2010-09-08 14:25:34'
+  body: "Hi,Jeremy,\nI am trying to create a section view in revit project using API\
+    \ and use BoundBoxXYZ in Revit Structure 2011 while I get exception. Would you\
+    \ please help me?\nBoundingBoxXYZ bbox = new BoundingBoxXYZ();\n\nbut I cannot\
+    \ change bbox.Transform. Its default is An identity Matrix. \n\nTransform trans\
+    \ = new Transform(Transform.Identity);\ntrans.BasisX= ...;\ntrans.BasisY= ...;\n\
+    trans.BasisZ= ...;\n\nBut When bbox.Transform = trans, An argumentexception is\
+    \ trown. \n\nAnd I also try to \nbbox.Transform.set_Basis(0, trans.BasisX);\n\
+    bbox.Transform.set_Basis(1, trans.BasisY);\nbbox.Transform.set_Basis(2, trans.BasisZ);\n\
+    bbox.Transform.Origin = trans.Origin; \n\nThere is no use. bbox.Transform keeps\
+    \ its identity format."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-09-15 07:58:25'
+  body: "Dear Jane,\n\nProbably the problem is that your transform is not uniform,\
+    \ and therefore being rejected.\n\nYou should probably have a look at the Revit\
+    \ SDK CreateViewSection sample.\n\nIt includes a method named GenerateBoundingBoxXYZ\
+    \ which calls a helper method GenerateTransform to generate a valid transformation,\
+    \ and then assign that to the bounding box transform property just as you attempted\
+    \ to do using \n\nm_box = new BoundingBoxXYZ();\nTransform transform = GenerateTransform();\n\
+    m_box.Transform = transform;\n\nCheers, Jeremy"
+- author: Urly
+  email: ThisIsMyEmail@TheplacewhereIkeepmymail.com
+  ip: 81.157.163.36
+  url: ''
+  date: '2010-12-30 21:57:08'
+  body: "Hi Jeremy\n\nIs it possible to rotate Grid objects? The code below, adapted\
+    \ from the API documentation, does't seem to do anything for grids.   \n\n\n Public\
+    \ Function RotateElement(ByVal element As Autodesk.Revit.DB.Element, ByVal AxisStart\
+    \ As Autodesk.Revit.DB.XYZ, ByVal AxisEnd As Autodesk.Revit.DB.XYZ, ByVal Rotation\
+    \ As Double) As Boolean\n        ' The axis should be a bound line.\n        'Dim\
+    \ axis As Line = IntUIApp.Application.Create.NewLineBound(AxisEnd, AxisStart)\n\
+    \        Dim x As Autodesk.Revit.DB.Line = Autodesk.Revit.DB.Line.Bound(AxisStart,\
+    \ AxisEnd)\n\n        Dim successful As Boolean = IntUIApp.ActiveUIDocument.Document.Rotate(element,\
+    \ x, Rotation)\n        Return successful\n    End Function\n\nRegards\n\nUrly"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-01-02 09:29:25'
+  body: 'Dear Urly,
+
+
+    Sorry, as far as I know there is currently no way at all to rotate a grid object
+    programmatically. Sorry for the bad news.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 62.50.252.181
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-12-14 03:02:25'
+  body: 'Dear Urly,
+
+
+    Correction: the following code works fine for grids just as it does for walls
+    and lines:
+
+
+    ElementId id = uidoc.Selection.PickObject(ObjectType.Element).ElementId;
+
+
+    Line axis = app.Create.NewLine(XYZ.Zero, new XYZ(0, 0, 10), true);
+
+
+    ElementTransformUtils.RotateElement(doc, id, axis, Math.PI / 4);
+
+
+    Cheers, Jeremy.'
+- author: Nathan Miller
+  email: n.miller@case-inc.com
+  ip: 24.252.49.218
+  url: http://theprovingground.org
+  date: '2013-02-17 22:51:50'
+  body: "Hello Jeremy,\nThis is the closest snippet of a conversation I could find\
+    \ related to modifying existing Grids.  \n\nI am trying to modify a Grid line\
+    \ by changing the underlying curve (line or arc) or setting the grid to a newly\
+    \ defined curve.  Is this even possible?\n\nThank you,\n-Nate"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.184.163
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-03-13 03:17:00'
+  body: 'Dear Nate,
+
+
+    Sorry, currently that does not seem possible. I added a note of your request to
+    the existing wish list item SPR #151715 [API functionality request: to change
+    Grid''s start/end point coordinates via API].
+
+
+    Cheers, Jeremy.'
+- author: Andy
+  email: akuznetsov@icad.spb.ru
+  ip: 85.235.197.230
+  url: http://icad.spb.ru
+  date: '2013-10-17 06:52:23'
+  body: 'Hi Jeremy
+
+    How can I scale the Annotation Elements?
+
+
+    Thank you'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.195.198
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-10-17 09:45:28'
+  body: 'Dear Andy,
+
+
+    You should set up the required situation manually through the user interface first
+    and then explore it using RevitLookup, the BipChecker, the interactive Python
+    or Ruby shell, and any other tools that you find useful to detect the differences.
+
+
+    That will tell you how to achieve your manual adjustment programmatically as well,
+    if you are lucky and it is possible at all.
+
+
+    Please let us know what you find out. Thank you.
+
+
+    Cheers, Jeremy.'
+- author: Moustafa Khalil
+  email: mostafa90@gmail.com
+  ip: 41.232.112.81
+  url: ''
+  date: '2014-01-24 18:38:43'
+  body: 'Hi Jeremy
+
+
+    how can i make a copy of existing inclined line. something like offset by a known
+    distance in user interface. i have tried using this
+
+
+    ElementTransformUtils.CopyElement(doc, line.Id,new XYZ(0,2,0));
+
+
+    but not working... may you help me in this regard?'
+- author: Moustafa Khalil
+  email: mostafa90@gmail.com
+  ip: 41.232.112.81
+  url: ''
+  date: '2014-01-24 18:40:19'
+  body: correction!! it is working but not giving me the expected results, it offsets
+    the line but not perpendicular to inclination. any suggestions ??!!!!
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.195.240
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-02-03 07:19:01'
+  body: 'Dear Moustafa,
+
+
+    You simply need to specify a vector that is indeed perpendicular to the inclination,
+    whatever you may mean by that.
+
+
+    Here are some instructions on how to determine a perpendicular vector:
+
+
+    <a href="http://en.wikipedia.org/wiki/Normal_%28geometry%29">http://en.wikipedia.org/wiki/Normal_%28geometry%29</a>
+
+
+    For 2D, it is very simple indeed:
+
+
+    <a href="http://www.wikihow.com/Find-Perpendicular-Vectors-in-2-Dimensions">http://www.wikihow.com/Find-Perpendicular-Vectors-in-2-Dimensions</a>
+
+
+    In other words, given v=(a,b), its perpendicular vector equals w=(-b,a).
+
+
+    Cheers, Jeremy.'
+- author: bcb
+  email: bcb.tb87@gmail.com
+  ip: 14.160.55.90
+  url: ''
+  date: '2014-10-23 03:04:44'
+  body: "Hi Jeremy Tammik,\n\ni am a very new in Revit API, I have some questions\
+    \ want to your help.\n\n1. Why the all objects's LocationPoint imported from the\
+    \ IFC file has value (0,0,0)? \n2. How to define LocationPoint of a Family? \n\
+    3. LocationPoint same centroid?\n \nHelp me please!"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-10-30 03:52:39'
+  body: 'Dear Bcb,
+
+
+    When an object is imported from IFC, it is impossible to know exactly what insertion
+    point it is supposed to have.
+
+
+    The software could possible make a more intelligent guess than (0,0,0), of course.
+
+
+    For instance, it could pick the centroid of the union of all the object''s solids,
+    assuming that they all have the same specific weight.
+
+
+    However, whatever point it picks, it would still be a guess, and therefore (0,0,0)
+    is considered as good as any.
+
+
+    Do you understand?
+
+
+    The location point of a family is simply the origin of the defining family project
+    world coordinate system, which turns into the local coordinate system when an
+    instance of the family is placed into the project document.
+
+
+    It could be defined as the centroid, but it could also be located somewhere completely
+    different.
+
+
+    I would suggest playing around a bit in the family editor, manually, through the
+    user interface, and exploring the behaviour of the resulting family instances
+    when you place them in a project.
+
+
+    Then, very quickly, all will become clear.
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.'
+- author: bcb
+  email: bcb.tb87@gmail.com
+  ip: 14.160.55.90
+  url: ''
+  date: '2014-10-31 23:21:26'
+  body: 'Hi Jeremy Tammik,
+
+
+    Thank you very much for all your support.
+
+    It is helpful for me.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 84.72.112.174
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-11-03 15:05:25'
+  body: 'Dear Bcb,
+
+
+    :-)
+
+
+    Thank you for your appreciation.
+
+
+    My pleasure entirely.
+
+
+    Cheers, Jeremy.
+
+    -----'

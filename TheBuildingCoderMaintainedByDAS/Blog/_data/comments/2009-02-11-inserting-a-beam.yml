@@ -1,0 +1,485 @@
+comments:
+- author: Rooz
+  email: r_ashoori@yahoo.com
+  ip: 78.51.162.250
+  url: ''
+  date: '2009-04-01 17:06:08'
+  body: 'Hello Jeremy :)
+
+    Thank you very much for your useful Blog.
+
+    Here is my question: Is it possible to make a Family which is not of a Revit predefined
+    Template. I mean in the above example could you have "USER_NAME" instead of "Columns"
+    in the project browser. I thought I should create a user defied Template but I
+    get the name of the Template which I used to create my template.:(
+
+    Thanks'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-02 02:21:25'
+  body: 'Hi Rooz,
+
+
+    I am not an expert on family creation, since there was no API for that in 2009,
+    where it was an almost pure product and user interface feature. That is changing
+    with 2010, of course. As far as I can tell, the user interface forces you to select
+    a predefined template. Also, already in 2009 the API does actually provide the
+    Application NewFamilyDocument method, which provides the same functionality. However,
+    it also requires a template filename argument. I don''t know what happens if you
+    provide a blank string here. Sorry for the meagre information on this one.
+
+
+    Cheers, Jeremy.'
+- author: Rooz
+  email: r_ashoori@yahoo.com
+  ip: 92.227.76.105
+  url: ''
+  date: '2009-04-02 07:41:03'
+  body: "Hi Jeremy,\nthanks for your fast answer Jeremy. \nI have three other related\
+    \ questions:\n\n1. How are the template files created in Revit? Actually I mean\
+    \ \"the first template file .rft\" ever. \nIf the user tries to create one through\
+    \ API or the user interface he has to choose a template, otherwise it doesn't\
+    \ work!? \n\n 2.Is it possible to create a rft-file without using another rft-file.\n\
+    \n3. What I am trying here is like trying to define a new \"Family category\"\
+    , Settings->Family Category and Parameters-> \"USER_DEFINED\". Possible?\nThanks\
+    \ \nRoozbeh"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-02 07:51:00'
+  body: 'Hi Roozbeh,
+
+
+    I don''t know about questions 1 or 2, but to 3 I can definitely answer nope, sorry,
+    no way.
+
+
+    Cheers, Jeremy.'
+- author: Roozbeh
+  email: r_ashoori@yahoo.com
+  ip: 130.83.86.118
+  url: ''
+  date: '2009-04-03 05:44:31'
+  body: 'Hi Jeremy,
+
+    thanks for the answer. It seems that I have no other choice than defining myFamily
+    under a revit predefined template.
+
+    I have decided to use a Mass Template and I  defined  myFamily which is "Fire"
+    under Mass. It could be "FireFamily".... Somehow there can be no fire where there
+    is no mass. Makes sense! ;) I should be able to make it make sense, if I am going
+    to get a gut point.
+
+
+    Regads
+
+    Roozbeh'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-03 10:51:56'
+  body: 'Hi Roozbeh,
+
+
+    Makes sense to me! One gut point credit.
+
+
+    Before committing to anything, you can always discuss the issue with your peers
+    in the Revit API discussion group at <a href="http://discussion.autodesk.com,">http://discussion.autodesk.com,</a>
+    who know a lot more about defining families than I do.
+
+
+    Cheers, Jeremy.'
+- author: Rooz
+  email: r_ashoori@yahoo.com
+  ip: 130.83.86.185
+  url: ''
+  date: '2009-04-16 10:14:13'
+  body: "Hi Jeremy,\nI have figured out that when I create a Family(load through API)\
+    \ and do nothing else  (for example not creating a family Instance of it) it can\
+    \ be seen in the Project browser but disappears as soon as I save the Revit file.\n\
+    The same happens with a new Family Symbol which I create like above. \nHow could\
+    \ I solve this problem?\n\nRegards \nRoozbeh"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-18 02:24:24'
+  body: 'Dear Roozbeh,
+
+
+    I guess you would have to somehow insert an instance into the model to ensure
+    the definition is preserved. Maybe there is some way to create elements which
+    do not affect the rest of the model and remain invisible to the user? Maybe a
+    sort of invisible building phase or something? Or just hidden elements?
+
+
+    In general, I would recommend to never fight the system. If Revit does not want
+    you to save family symbol definitions in a model with no inserted instances, so
+    be it. You can save the family definition in an external file instead. Or just
+    keep track of what it was that you defined, and retain the possibility to redefine
+    it again when you really do need an instance in the model.
+
+
+    Cheers, Jeremy.'
+- author: Rooz
+  email: r_ashoori@yahoo.com
+  ip: 92.229.220.214
+  url: ''
+  date: '2009-04-19 15:43:25'
+  body: "Hi Jeremy , \nthank you very much for the answer. I think it is a good idea\
+    \ too. I would serialize my App. and the next time I want to use the family (which\
+    \ was loaded and not used) it would be loaded if it is no longer in Revit.\nRegards\
+    \ \nRoozbeh"
+- author: Jeff
+  email: jsimon@hntb.com
+  ip: 198.51.229.30
+  url: ''
+  date: '2009-10-13 15:21:32'
+  body: "Jeremy,\n\nFirst thanks for all the great explanations using the revit api.\
+    \ The question I have is, Is there a maximum limit as to calling: \n\nFamilyInstance\
+    \ fi = doc.Create.NewFamilyInstance(\nline, s, null, stBeam );\n\nDoes the Revit\
+    \ database have a limitation as to how many instances it can create? Is it better\
+    \ to split large grouping of instances into separate entry sets? \nThanks Again\n\
+    Jeff"
+- author: Jeremy Tammik
+  email: ''
+  ip: 12.160.193.229
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-10-13 15:40:48'
+  body: 'Dear Jeff,
+
+
+    I am not aware of any limitation in the number of family instances that can be
+    managed, and would be very surprised if such a limit exists, short of limitations
+    imposed by the available system resources and memory space.
+
+
+    When inserting large numbers of instances, please check whether the optimisations
+    offered by the SuspendUpdating class are of any use to you, and be aware of the
+    batch creation functionality provided by the creation document NewFamilyInstances
+    method and FamilyInstanceCreationData class, demonstrated by the ElementsBatchCreation
+    SDK sample.
+
+
+    Cheers, Jeremy.'
+- author: Jeff
+  email: jsimon@hntb.com
+  ip: 198.51.229.30
+  url: ''
+  date: '2009-10-13 16:58:43'
+  body: 'Hi Jeremy,
+
+    Thanks for the response. Yes I am currently using the the ElementsBatchCreation
+    example as a template and my processing has not completed after a very long period
+    of time. My task is to create 20k plus beams programmatically so this must be
+    stretching it with the available memory that I have.(4gigs) Thanks for the SuspendUpdating
+    suggestion, I will take a look at that (whenever revit returns)
+
+    Jeff'
+- author: Jeremy Tammik
+  email: ''
+  ip: 12.160.193.229
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-10-15 03:42:35'
+  body: 'Dear Jeff,
+
+
+    Oh, that sounds as if you are on the right track and already have the important
+    basics set then. Make sure that you have installed the web 2 update. Performance
+    issues such as this are being continuously improved. Good luck!
+
+
+    Cheers, Jeremy.'
+- author: Jason
+  email: gardjay@gmail.com
+  ip: 69.62.244.244
+  url: ''
+  date: '2009-10-22 14:18:05'
+  body: "Hi Jeremy,\nI was able to insert a sybmol with NewFamilyInstance into the\
+    \ 3D view using these examples. Now I am trying to insert a single metal stud\
+    \ from the \"C Studs-Section.rfa\" family into one of the drafting views. However,\
+    \ nothing shows up. I am thinking API can't do this with NewFamilyInstance or\
+    \ the overload I am using has mistakes. Any ideas? Thanks!\n\n            // Declare\
+    \ constant for symbol name\n            const string symName = \"1 5/8\\\"\";\n\
+    \            // get document\n            Autodesk.Revit.Application app = commandData.Application;\n\
+    \            Document doc = app.ActiveDocument;\n            //load the Family\
+    \ and symbol\n            doc.ActiveView.Document.LoadFamilySymbol(\"C:\\\\Program\
+    \ Files\\\\Autodesk Revit Structure 2010\\\\Content\\\\Imperial Library\\\\Detail\
+    \ Components\\\\Div 05-Metals\\\\054100-Structural Metal Studs Framing\\\\C Studs-Section.rfa\"\
+    , symName);\n            // Assign the FamilySymbol to object s\n            Autodesk.Revit.Symbols.FamilySymbol\
+    \ s = FindFamilySymbol(doc, \"C Studs-Section\", symName);\n            MessageBox.Show(\"\
+    Family: \" + s.Family.Name + \" Symbol: \" + s.Name + \"Category: \" + s.Category.Name);\n\
+    \            // Insert the detail component symbol\n            FamilyInstance\
+    \ metalstud = doc.Create.NewFamilyInstance(XYZ.Zero, s, StructuralType.NonStructural);\n\
+    \            //check for success\n            if (null == metalstud)\n       \
+    \     {\n                MessageBox.Show(\"Create NewFamilyInstance Failed!\"\
+    );\n            }\n            else\n            {\n                MessageBox.Show(\"\
+    Name: \" + metalstud.Name);\n            }"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-10-22 14:56:46'
+  body: 'Dear Jason,
+
+
+    I fear you are out of luck here. This is a known problem. You can add detail item
+    components to plan views and all works well. If you add them to non-plan views,
+    however, the facing orientation is still (0,0,1), and the element is invisible
+    in the view, even though it has been added to the database. Sorry for the bad
+    news.
+
+
+    Cheers, Jeremy.'
+- author: Karl
+  email: karlh_us@yahoo.com
+  ip: 76.212.6.253
+  url: ''
+  date: '2010-06-01 23:54:21'
+  body: 'Hi Jeremy,
+
+
+    In Revit Structure 2011, the "C Studs-Section.rfa" family can be showed in the
+    drafting views using the following instance creation:
+
+
+    FamilyInstance metalstud = doc.Create.NewFamilyInstance(XYZ.Zero, s, StructuralType.NonStructural);
+
+
+    However, it is unselectable or editable.  Do you have idea?  By the way, how to
+    create similar type element using revit API in Csharp?
+
+
+    Thanks,
+
+
+    Karl'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-02 01:48:32'
+  body: 'Dear Karl,
+
+
+    I do not now off-hand which overload of NewFamilyInstance to use, but similar
+    issues have cropped up many times in the past. Some family instances require a
+    curve, for instance. Look at the developer guide overview of the NewFamilyInstance
+    overloads, do some experimenting, and let us know what you find out.
+
+
+    Regarding the similar element type, do you mean ''instance'' or ''type''? For
+    ''type'', you can use the Duplicate method, I think:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2008/11/creating-a-new-family-symbol.html">http://thebuildingcoder.typepad.com/blog/2008/11/creating-a-new-family-symbol.html</a>
+
+
+    For ''instance'' one workaround is to create and duplicate a grouped object:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/05/duplicate-legend-component.html">http://thebuildingcoder.typepad.com/blog/2010/05/duplicate-legend-component.html</a>
+
+
+    Cheers, Jeremy.'
+- author: bsyap
+  email: nsybs.86@gmail.com
+  ip: 60.50.206.48
+  url: ''
+  date: '2010-06-29 00:37:20'
+  body: "Hi Jeremy,\n\nThanks for all the good work and explanation. I have a problem\
+    \ during insert a single beam on specific level.\nIn Revit 2011 SDK samples, CurvedBeam,\
+    \ i have noticed that i can't create a curved beam instance on certain level.\
+    \ \nInside the CurvedBeam program, there is a combo-box which provide user the\
+    \ option of on which level the beam should be placed, everything works fine if\
+    \ user choose to input a beam on level 1, however, when user try to create a beam\
+    \ on level 2, its fail. Nothing appeared on level 2 plan, however, the beam is\
+    \ created on level 1 instead. I have also try to create a beam on different level,\
+    \ however, everything end up where all the beam is created and placed on level\
+    \ 1. Any idea or solution about this problem?\n\nIn revit 2011 Curvedbeam samples:\n\
+    beam = m_revit.ActiveUIDocument.Document.Create.NewFamilyInstance(center, fsBeam,\
+    \ level, StructuralType.Beam);\nCurvedBeam.cs LN 293 Col 91\n\nMy own program\
+    \ : \nICollection levels = levelcollector.OfClass(typeof(Level)).ToElements();\n\
+    \nLevel level2 = (Level)levels.ElementAt(1);\n\nbeam = m_docCreator.NewFamilyInstance(line,\
+    \ beamsymbol, level2, Autodesk.Revit.DB.Structure.StructuralType.Beam);\n\nAny\
+    \ suggestion is appreciated.\n\nRegards \nBSYap"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-29 01:22:00'
+  body: 'Dear BSYap,
+
+
+    Thank you for the query. I checked what you said and can reproduce it using the
+    CurvedBeam SDK sample. I reported it to the development team and hope that they
+    can explain.
+
+
+    Cheers, Jeremy.'
+- author: bsyap
+  email: nsybs.86@gmail.com
+  ip: 60.50.206.48
+  url: ''
+  date: '2010-06-30 02:41:45'
+  body: "Hi Jeremy,\n\nThanks so much for your help. Does this error occurred related\
+    \ to the unspecified workplane? By the way, how do we set the workplane because\
+    \ i can't get any method related to workplane in Revit 2011 API. \n\nBy the way,\
+    \ i have also noticed that there is a problem when input a level-base element.\
+    \ Revit Structure depicts elements going from higher levels to lower levels. For\
+    \ instance, a column created in Level 2 would go from Level 2 down to Level 1,\
+    \ however, this totally against the way of input when insert a column instance\
+    \ using a Revit API, please refer below: \n\n//Get level instance of level 2\n\
+    ICollection levels = levelcollector.OfClass(typeof(Level)).ToElements();\nLevel\
+    \ level2= (Level)levels.ElementAt(1);\n\n//Create column instance on level 2 using\
+    \ overloaded method NewFamilyInstance(XYZ,FamilySymbol,Level,StructuralType)\n\
+    \nGuess what..\nThe column is created on level 2 with Base Level property set\
+    \ to Level 2, but Top level property set to level 3 (which is moving upwards),\
+    \ but according to the revit structural insertion, when a column is insert on\
+    \ level 2, the column should goes down to level 1 where the column must have it's\
+    \ base level set to level 1 and top level set to level 2.\n\nAny idea bout this?\n\
+    \nThanks.\n\nBSYap"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-30 07:15:05'
+  body: 'Dear BSYap,
+
+
+    Nope, no more ideas on this, sounds pretty confusing. I went through a bit of
+    confusion creating the initial posts on inserting beams and columns as well ...
+    I hope you find a working solution that fulfils your needs!
+
+
+    Since I will be going on holiday now, I will not be able to answer any updates
+    for while, so please be patient ... Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Kristoffer
+  email: kkv@selvaag.no
+  ip: 62.148.57.120
+  url: ''
+  date: '2010-11-04 06:24:31'
+  body: "Hi Jeremy,\n\nI'm struggling with inserting a furniture component in my model\
+    \ (Revit 2011) and I wonder if what I'm seeing is the same phenomenon that bsyap\
+    \ is describing.\n\nWhat I want to do is to insert a piece of furniture (a bed)\
+    \ onto the first floor (ie, the first with elevation > 0). The Revit 2011 API\
+    \ Developer Guide.pdf says on page 134 that \"Some FamilyInstance objects do not\
+    \ have host elements, such as tables and other furniture..\". However, an example\
+    \ of \"Insert(ing) a new instance of a family into the document..\" in the Revit\
+    \ 2011 API help doc uses this call:\n\nFamilyInstance instance = document.Create.NewFamilyInstance(location,\
+    \ symbol, direction, floor, StructuralType.NonStructural);\n\n.. which seems to\
+    \ be exactly what I want (the furniture in the example is even a \"bedbox\"),\
+    \ so I tried that. I have ensured that both the location (including the Z-coordinate)\
+    \ and the floor are correct. But the bed is nevertheless located on the zeroeth\
+    \ floor. In the Property dialog I see that the bed has been assigned a host, which\
+    \ is a floor, but not a level. But confusingly, when I inspect the bed using the\
+    \ Snoop tool, the host property as shown there is null. If I set a break point\
+    \ after the bed has been created and check its host property in the Immediate\
+    \ Window, it is also null.\n\nWhen I place the bed manually, I see that it has\
+    \ both a host (although the Snoop tool still says it hasn't) and also a level.\
+    \ The manually placed bed is on the correct floor, so my next thought was that\
+    \ I should use an overload that includes the Level argument. In the guide-to-placing-family-instances-with-the-api.doc\
+    \ document I found an overload appropriate for furniture with this comment: \"\
+    If it is to be hosted on a wall, floor or ceiling and associated to a reference\
+    \ level\" which sounded good, so I tried:\n\nFamilyInstance revitBed =\n DBDocument.Create.NewFamilyInstance(location,\
+    \ bedFamilySymbol,\n floorBedIsOn, levelBedIsOn, StructuralType.NonStructural);\n\
+    \n.. and now the bed is located on the correct floor; the property dialog says\
+    \ its host is a floor; and it also has a Level (which is the correct level), just\
+    \ as when I insert the bed manually. \n\nHowever, this overload doesn't include\
+    \ the referenceDirection argument, and I have so far not succeeded in finding\
+    \ a way of rotating the bed after it has been created.\n\nClearly there are many\
+    \ more things to try out (yet more overloads, using a Rotate method post-creation,\
+    \ etc) but I suspect that there might be something not quite right here, and that\
+    \ the first overload I attempted \"should have worked\".. could you throw some\
+    \ light upon this? Have I misunderstood something? (like so many times before..\
+    \ :-)\n\n\nThanks,\n\nKristoffer"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-11-05 09:47:38'
+  body: "Dear Kristoffer,\n\nPlease have a look at my newest post, and let me know\
+    \ whether that and the tools presented there help you:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/11/place-detail-instance.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/11/place-detail-instance.html</a>\n\
+    \nAlso, I have the following theory, which I would like you to confirm: \n\nThe\
+    \ Z coordinate that you specify on the insertion point when calling NewFamilyInstance\
+    \ is ignored, and this is by design. You should specify zero there, even if you\
+    \ want the family instance to have a non-zero height later. The non-zero height\
+    \ is achieved by setting a parameter, maybe the built-in parameter INSTANCE_FREE_HOST_OFFSET_PARAM,\
+    \ which is displayed and editable in the user interface as 'Offset'.\n\nRemember,\
+    \ Revit manages a parametrically driven model, so the height is defined by a parameter\
+    \ as well. The insertion point is irrelevant; the relationship to the host is\
+    \ the important driving factor.\n\nMy favourite NewFamilyInstance overload candidate\
+    \ to choose for your case would probably be one of\n\nFamilyInstance NewFamilyInstance(\
+    \ XYZ location, FamilySymbol, Level, StructuralType );\n\nFamilyInstance NewFamilyInstance(\
+    \ XYZ location, FamilySymbol, Element host, Level, StructuralType );\n\nBut please\
+    \ test all of them and let us know what solves the issue.\n\nThe issue with the\
+    \ reference direction may need some additional functionality added to the API,\
+    \ or you may be able to solve this after inserting the family instance.\n\nPlease\
+    \ keep us up to date with your progress.\n\nThis looks like a very common problem\
+    \ to me, I have heard others struggling with similar issues, and it definitely\
+    \ looks like a candidate for another blog post. So please document you solution\
+    \ well, keep it general, and be ready to edit a guest blog post, if you don't\
+    \ mind sharing your results. Thank you!\n\nCheers, Jeremy."
+- author: Kristoffer
+  email: kkv@selvaag.no
+  ip: 62.148.57.120
+  url: ''
+  date: '2010-11-09 09:45:55'
+  body: 'Jeremy,
+
+
+    I solved the problem by using this overload:
+
+
+    XYZ, FamilySymbol, Element (host), Level, StructuralType
+
+
+    .. ie, the one that specifies both a host and a level, and then rotating the furniture
+    with the Document.Rotate method after it is created. This way, the property dialog
+    of the bed displays the same information when I put in the bed using the API as
+    when I do it manually (ie, both a host and a level) and the bed has the correct
+    orientation.
+
+
+    Regarding the Z-coordinate: I suspected that it possibly should be zero and I
+    tried that as well with the first overload I thought should be correct (XYZ, FamilySymbol,
+    XYZ (direction), Element (host), StructuralType) but I saw no difference in behaviour:
+    the bed still ended up on the zeroeth floor, not the first.
+
+
+    Finally, I tried to set the offset-parameter as you suggested (with location.Z
+    = 0) just to see the effect, but with little luck: the bed seems to be positioned
+    right at the top of the floor it''s on and in the UI I cannot find the "Offset"
+    parameter, neither on the instance nor the type.  I do find it with the Snoop-tool
+    however, but the value is zero despite me setting it to 6.5.
+
+
+    But in any case, thanks so much for your as always informative reply.
+
+
+    Kristoffer'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-11-09 11:31:48'
+  body: 'Dear Kristoffer,
+
+
+    Thank you for the positive update, and congratulations on solving it satisfactorily.
+    I am very glad that it worked out for you. I suggest creating a new blog post
+    to document this result.
+
+
+    Cheers, Jeremy.
+
+    -----'

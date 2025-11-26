@@ -1,0 +1,114 @@
+comments:
+- author: Guy
+  email: info@r-e-d.co.nz
+  ip: 60.234.213.83
+  url: ''
+  date: '2012-05-21 07:13:14'
+  body: "Haven't tested but groupby simplifies it further. c# I'm sorry.\n\npublic\
+    \ static void CreateFamilyTreeTest(Document myDoc)\n        {\n            IEnumerable\
+    \ familiesCollector =\n                new FilteredElementCollector(myDoc).OfClass(typeof\
+    \ (FamilyInstance))\n                    .WhereElementIsNotElementType()\n   \
+    \                 .Cast()\n                    .GroupBy(fi => fi.Symbol.Family)\
+    \ // (family,familyInstances)\n                    .Select(f=>f.Key);        \
+    \ \n\n            var mapCatToFam = new Dictionary>();\n            var categoryList\
+    \ = new Dictionary();\n\n            foreach (var f in familiesCollector)\n\t\
+    \        {\n\t            var catName = f.Category.Name;\n                if (mapCatToFam.ContainsKey(catName))\n\
+    \                {\n                    mapCatToFam[catName].Add(f);\n       \
+    \         }\n                else\n                {\n                    mapCatToFam.Add(catName,\
+    \ (new List {f}));\n                    categoryList.Add(catName, f.Category);\n\
+    \                }\n            }\n        }"
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-21 08:22:37'
+  body: 'Dear Guy,
+
+
+    Thank you very much for the interesting improvement!
+
+
+    It''s a real shame that all the .lt. and .gt. characters in the code are chewed
+    up by the comment formatting.
+
+
+    I reformatted your sample and added it to the main post above to make it more
+    readable.
+
+
+    I think that C# helps with this as well, by the way.
+
+
+    Cheers, Jeremy.'
+- author: Bill
+  email: bcoffey28@gmail.com
+  ip: 158.48.133.2
+  url: ''
+  date: '2012-05-22 10:44:24'
+  body: Was this code generated for Revit 2012 or Revit 2013?
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-22 10:58:29'
+  body: "Dear Bill, \n\nIt originated on 2012, but it really makes no difference.\n\
+    \nCheers, Jeremy."
+- author: Matt Taylor
+  email: matthew.taylor@wspgroup.com
+  ip: 61.14.99.173
+  url: ''
+  date: '2013-05-24 00:19:59'
+  body: 'The returned selection doesn''t tell the whole story.
+
+    It leaves out:
+
+    - All tag symbols/families (independent tags)
+
+    - Any symbols/families nested within used and unused types (such as level head
+    symbols within level types).
+
+    There''s probably a lot more.'
+- author: watcher
+  email: watcherkb@web.de
+  ip: 217.170.179.80
+  url: ''
+  date: '2013-08-20 11:16:44'
+  body: 'Hey Jeremy,
+
+
+    I try to get your code working in Revit 2013 but I have an (German)Error. Hope
+    you can help me?
+
+
+    "Autodesk.Revit.DB.FilteredElementCollector" enthält keine Definition für "Cast",
+    und es konnte keine Erweiterungsmethode "Cast" gefunden werden, die ein erstes
+    Argument vom Typ "Autodesk.Revit.DB.FilteredElementCollector" akzeptiert. (Fehlt
+    eine Using-Direktive oder ein Assemblyverweis?)'
+- author: watcher
+  email: watcherkb@web.de
+  ip: 217.170.179.80
+  url: ''
+  date: '2013-08-21 01:58:00'
+  body: 'ok got it...
+
+    using System.Linq; --> solved the problem'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.215.171
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-08-21 02:04:53'
+  body: 'Dear Watcher,
+
+
+    Congratulations!
+
+
+    Just what I was going to suggest  :-)
+
+
+    Thank you for letting us know!
+
+
+    Cheers, Jeremy.
+
+    -----'

@@ -1,0 +1,84 @@
+comments:
+- author: Ruslan
+  email: susel@narod.ru
+  ip: 72.43.111.83
+  url: ''
+  date: '2010-02-03 15:15:42'
+  body: 'Hello Jeremy. Sorry for my English. Thank you for your blog.
+
+    Hm... I am create parameter "Length" type (project unit setup for length "Feet
+    and fractional lines" rounding ''to the nearest 1/32" ), and I set random double
+    value...
+
+    When I am trying use AsValueString() to retrieve string, data returned correct,
+    but only not rounded correctly... like (123'' 3 47/256")
+
+    am I something missing? How to round length or other parameter type data? hope
+    for your respond...'
+- author: Jeremy Tammik
+  email: ''
+  ip: 88.32.175.201
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-02-04 03:36:41'
+  body: 'Dear Ruslan,
+
+
+    AsValueString performs the same rounding as Revit does for the user interface.
+    What is ''correct'' is a very debatable topic. If you are not happy with the Revit
+    formatting, you should not use it. Instead, use AsDouble to retrieve the raw database
+    value in the standard database unit and round it and format it any way you please.
+
+
+    Cheers, Jeremy.'
+- author: Olga
+  email: azot_m@ua.fm
+  ip: 212.3.115.3
+  url: ''
+  date: '2014-06-30 10:55:04'
+  body: 'Hi Jeremy.
+
+    I have a strange behavior of AsValueString method. All sources and you also wrote,
+    that:"AsValueString performs the same rounding as Revit does for the user interface".
+
+    In Revit UI I have several properties:
+
+    Fitting Outside Diameter = 206.4 mm
+
+    Center to End Label = 115.9 mm
+
+    etc.
+
+    But when I try to get values of these parameters through AsValueString it returns
+    respectively:
+
+    Fitting Outside Diameter = 206 mm
+
+    Center to End Label = 116 mm
+
+    Do you have any idea what could I miss or do wrong?
+
+    (I''m working with Revit Architecture 2014).
+
+
+    Thank you,
+
+    Olga'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-06-30 10:59:10'
+  body: 'Dear Olga,
+
+
+    Nope, sorry, I have never heard of such an issue before.
+
+
+    Cheers, Jeremy.'
+- author: Olga
+  email: azot_m@ua.fm
+  ip: 212.3.115.3
+  url: ''
+  date: '2014-06-30 11:31:27'
+  body: "What a pity!\nBut anyway - thank you for your reply. \nI will look for other\
+    \ way of getting parameters.\n\nRegards,\nOlga\n-----"

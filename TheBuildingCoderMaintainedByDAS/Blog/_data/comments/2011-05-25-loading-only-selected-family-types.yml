@@ -1,0 +1,101 @@
+comments:
+- author: Nitin
+  email: ''
+  ip: 61.17.167.107
+  url: http://profile.typepad.com/nitinjambhale2008
+  date: '2011-06-01 03:29:02'
+  body: 'Dear Sir,
+
+    How can i get family information (symbols, instances) without loading family?
+
+
+    Thanks & Regards,
+
+    Nitin J.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-01 04:44:25'
+  body: 'Dear Nitin,
+
+
+    That is explained above, in the last paragraph: open the family file as a background
+    document and use element filtering as normal.
+
+
+    Cheers, Jeremy.'
+- author: Nitin
+  email: ''
+  ip: 61.17.167.107
+  url: http://profile.typepad.com/nitinjambhale2008
+  date: '2011-06-01 08:13:33'
+  body: 'Dear Sir,
+
+    Its working perfectly but when the family already present in revit its showing
+    the dialog to overwrite family.
+
+    Do u have an idea how to skip or by default select overwrite programmatically?
+
+
+    Thanks Again!!!
+
+    - Nitin J.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-01 08:30:14'
+  body: "Dear Nitin,\n\nThere are lots of posts here on The Building Coder explaining\
+    \ how to handle or suppress dialogues, including automatically selecting a specific\
+    \ option and then dismissing the dialogue. \n\nGood luck!\n\nCheers, Jeremy."
+- author: Jinsol Kim
+  email: jinsol.kim@smartbim.com
+  ip: 66.192.20.99
+  url: ''
+  date: '2011-09-15 17:25:51'
+  body: "Hello Jeremy,\n\nI would like to delete family types with opening the family\
+    \ file as a separate background document. Is there any way to get ICollection\
+    \ of Familytype? I would like to collect elementid to use document.delete(ICollection);\n\
+    \nWhen I try it using ElementClassFilter, it gives me an error. \nElementClassFilter\
+    \ filter=new ElementClassFilter(typeof(FamilyType));\n\nPlease let me know if\
+    \ you have any ideas.\nThanks,"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-09-21 03:08:27'
+  body: 'Dear Jinsol Kim,
+
+
+    Yes, I would say that filtering for FamilyType objects will only work in the project
+    environment. Within the family context, the family types are not represented using
+    individually accessible elements at all. Instead, they are more like entries in
+    a table managed by the FamilyManager class. The family manager class manages the
+    family types and parameters in a family document. One of its member methods is
+    DeleteCurrentType, which removes the current family type.
+
+
+    Cheers, Jeremy.'
+- author: Babu
+  email: babu.rajan@live.com.au
+  ip: 101.167.5.116
+  url: ''
+  date: '2012-06-09 23:33:00'
+  body: "Hi Jeremy,\nI am trying to create a command button to bring the family instead\
+    \ dragging from the family tree.\nIf the family not in the document load it or\
+    \ run it.\nBut the below code load it all the time.\nIf the family is not in the\
+    \ document use doc.LoadFamilySymbol to load it and how can i come back to loadFamily\n\
+    Not sure what is wrong. help please\n\npublic void activeFamily(Document doc,\
+    \ UIDocument uiDoc, string familyName, string fileName)\n    { \n      FilteredElementCollector\
+    \ familyCollector = new FilteredElementCollector(doc); \n        familyCollector.OfClass(typeof(FamilySymbol));\
+    \ \n        FamilySymbol familySymbolToFind = null; \n        foreach (FamilySymbol\
+    \ familySymbol in familyCollector) \n        { \n            if (familySymbol.Name\
+    \ == familyName) \n            { \n                familySymbolToFind = familySymbol;\
+    \ \n                uiDoc.PromptForFamilyInstancePlacement(familySymbolToFind);\
+    \ \n            } \n            else \n            { \n                loadFamily(doc,\
+    \ fileName, familyName);                      \n            } \n        } \n \
+    \   } \n    private void loadFamily(Document doc, string fileName, string familyName)\
+    \ \n    { \n        Transaction transNew = new Transaction(doc, \"RealLoading\"\
+    ); \n        transNew.Start(); \n        if (doc.LoadFamilySymbol(fileName, familyName))\
+    \ \n        transNew.Commit(); \n    } \n \n-----"

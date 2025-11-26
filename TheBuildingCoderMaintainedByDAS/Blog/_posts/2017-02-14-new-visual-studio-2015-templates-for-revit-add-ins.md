@@ -1,0 +1,272 @@
+---
+layout: "post"
+title: "New Visual Studio Templates for Revit Add-Ins"
+date: "2017-02-14 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "Debugging"
+  - "External"
+  - "Getting Started"
+  - "Settings"
+  - "Utilities"
+  - "Win32"
+  - "Wizard"
+original_url: "https://thebuildingcoder.typepad.com/blog/2017/02/new-visual-studio-2015-templates-for-revit-add-ins.html "
+typepad_basename: "new-visual-studio-2015-templates-for-revit-add-ins"
+typepad_status: "Publish"
+---
+
+<p>I have been maintaining a
+simple <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.20">Visual Studio Revit add-in wizard</a> for
+a number of years, hosted in
+the <a href="https://github.com/jeremytammik/VisualStudioRevitAddinWizard">VisualStudioRevitAddinWizard GitHub repo</a>.</p>
+
+<p>Now Andrey Bushman implemented a set of more advanced and convenient Visual Studio templates for creation of  Revit add-ins for his own use.</p>
+
+<p>The discussion of those led us to once more revisit the topic of the Visual Studio settings for debugging Revit add-ins:</p>
+
+<ul>
+<li><a href="#2">New Visual Studio 2015 templates for Revit add-ins</a>
+<ul>
+<li><a href="#3">Feature comparison</a></li>
+<li><a href="#4">Q &amp; A</a></li>
+</ul></li>
+<li><a href="#5">Use Managed Compatibility Mode or Enable Native Code Debugging?</a></li>
+<li><a href="#6">Machine learning software engineer job in Switzerland</a></li>
+<li><a href="#7">FreeCodeCamp</a></li>
+</ul>
+
+<h4><a name="2"></a>Visual Studio 2015 Templates for Revit Add-Ins</h4>
+
+<p>Andrey Bushman shared a new and more advanced set of convenient Visual Studio templates for creation of Revit add-ins in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="http://forums.autodesk.com/t5/revit-api-forum/visual-studio-2015-templates-for-revit-add-ins/m-p/6866605">Visual Studio 2015 Templates for Revit Add-Ins</a>:</p>
+
+<p>In Andrey's own words:</p>
+
+<p>I need a set of convenient Visual Studio templates for creation of  Revit add-ins.
+I am a very lazy person and I prefer that the boring operations were done by a template instead of me.</p>
+
+<p>At first I wanted to improve
+the <a href="https://github.com/jeremytammik/VisualStudioRevitAddinWizard">VisualStudioRevitAddinWizard</a> template by Jeremy Tammik.
+But Jeremy ignored <a href="https://github.com/jeremytammik/VisualStudioRevitAddinWizard/pull/3">my pull request</a>.
+Therefore, I refused the subsequent attempts to improve his template.
+Therefore, I made templates myself.</p>
+
+<p>Here are my <a href="https://github.com/Andrey-Bushman/Revit2017AddInTemplateSet">Visual Studio 2015 templates for Revit add-in creation</a>.</p>
+
+<p>This repo also contains a set of video lessons with English comments:</p>
+
+<ol>
+<li><a href="https://www.youtube.com/watch?v=SYm-yxQ9jFk&amp;t=1s">Download and install the templates</a></li>
+<li><a href="https://www.youtube.com/watch?v=TU5HoTxpgbk&amp;t=5s">Create new project</a></li>
+<li><a href="https://www.youtube.com/watch?v=mtw8PAf5eus&amp;t=2s">Add new command</a></li>
+<li><a href="https://www.youtube.com/watch?v=-_79p0CnKJY&amp;t=8s">Link the command with the command availability</a></li>
+<li><a href="https://www.youtube.com/watch?v=wlskC5PTmH8&amp;t=4s">Add ribbon tabs and panels</a></li>
+<li><a href="https://www.youtube.com/watch?v=_aQ30GHl3as&amp;t=1s">Template resources using</a></li>
+<li><a href="https://www.youtube.com/watch?v=abxy-Ynff3w">Multilanguage add-ins creating</a></li>
+</ol>
+
+<p>Also, I wrote an article <a href="https://revit-addins.blogspot.ru/2017/02/revit-visual-studio.html">Revit Visual Studio</a> about it in my blog (Russian text).</p>
+
+<p>Perhaps these templates will be useful for other programmers too.</p>
+
+<h4><a name="3"></a>Feature Comparison</h4>
+
+<p>Andrey provided the following table comparing the feature list of the old and simple VisualStudioRevitAddinWizard <code>W</code> versus the new and feature-packed Revit2017AddInTemplateSet <code>T</code>:</p>
+
+<ol>
+<li>Templates for C#.</li>
+<li>Templates for VB.NET.</li>
+<li>Use NuGet-packages for Revit assemblies.</li>
+<li>Visual Studio Project Templates for external application.</li>
+<li>Visual Studio Project Templates for external DB-level application.</li>
+<li>Visual Studio Item Templates for external command.</li>
+<li>Visual Studio Item Templates for external command availability.</li>
+<li>Visual Studio Item Templates for Updater.</li>
+<li>Require writing of additional code for the registration of commands.</li>
+<li>Automatically create the ribbon tabs, panels, and buttons for your commands. Also, allows to you to manage by this behaviour.</li>
+<li>Automatically create the binding for your commands and some default topic for the stub help file.</li>
+<li>Allow creation of multilanguage add-ins.</li>
+<li>Create a subfolder for each add-in in the Revit Add-Ins folder (for the DEBUG configuration).</li>
+<li>Uses PVS-Studio static code analyzer.</li>
+</ol>
+
+<p><center></p>
+
+<table>
+ <tr>
+ <td style="text-align: right">#&nbsp;&nbsp;&nbsp;</td>
+ <td><code>W</code></td>
+ <td><code>T</code></td>
+ </tr>
+ <tr>
+ <td style="text-align: right">1&nbsp;&nbsp;&nbsp;</td>
+ <td>+</td>
+ <td>+</td>
+ </tr>
+ <tr>
+ <td style="text-align: right">2&nbsp;&nbsp;&nbsp;</td>
+ <td>+</td>
+ <td>-</td>
+ </tr>
+ <tr>
+ <td style="text-align: right">3&nbsp;&nbsp;&nbsp;</td>
+ <td>-</td>
+ <td>+</td>
+ </tr>
+ <tr>
+ <td style="text-align: right">4&nbsp;&nbsp;&nbsp;</td>
+ <td>+</td>
+ <td>+</td>
+ </tr>
+ <tr>
+ <td style="text-align: right">5&nbsp;&nbsp;&nbsp;</td>
+ <td>-</td>
+ <td>+</td>
+ </tr>
+ <tr>
+ <td style="text-align: right">6&nbsp;&nbsp;&nbsp;</td>
+ <td>-</td>
+ <td>+</td>
+ </tr>
+ <tr>
+ <td style="text-align: right">7&nbsp;&nbsp;&nbsp;</td>
+ <td>-</td>
+ <td>+</td>
+ </tr>
+ <tr>
+ <td style="text-align: right">8&nbsp;&nbsp;&nbsp;</td>
+ <td>-</td>
+ <td>+</td>
+ </tr>
+ <tr>
+ <td style="text-align: right">9&nbsp;&nbsp;&nbsp;</td>
+ <td>+</td>
+ <td>-</td>
+ </tr>
+ <tr>
+ <td style="text-align: right">10&nbsp;&nbsp;&nbsp;</td>
+ <td>-</td>
+ <td>+</td>
+ </tr>
+ <tr>
+ <td style="text-align: right">11&nbsp;&nbsp;&nbsp;</td>
+ <td>-</td>
+ <td>+</td>
+ </tr>
+ <tr>
+ <td style="text-align: right">12&nbsp;&nbsp;&nbsp;</td>
+ <td>-</td>
+ <td>+</td>
+ </tr>
+ <tr>
+ <td style="text-align: right">13&nbsp;&nbsp;&nbsp;</td>
+ <td>-</td>
+ <td>+</td>
+ </tr>
+ <tr>
+ <td style="text-align: right">14&nbsp;&nbsp;&nbsp;</td>
+ <td>-</td>
+ <td>+</td>
+ </tr>
+</table>
+
+<p></center></p>
+
+<h4><a name="4"></a>Q &amp; A</h4>
+
+<p><b>[Q]</b> Is the new <code>Revit2017AddInTemplateSet</code> compatible with the previous <code>VisualStudioRevitAddinWizard</code>?</p>
+
+<p><b>[A]</b> Revit2017AddInTemplateSet is not based on the VisualStudioRevitAddinWizard. Revit2017AddInTemplateSet has other architecture and ideas.
+Therefore, Revit2017AddInTemplateSet cannot automatically be merged with VisualStudioRevitAddinWizard.</p>
+
+<p><b>[Q]</b> What about a version for Visual Basic?</p>
+
+<p><b>[A]</b> I don't use VB.NET. I created the templates for the programming language which I use. If someone creates variant for VB and sends this patch to me, then I won't mind and I will accept this patch provided that it is made qualitatively.</p>
+
+<p><b>[Q]</b> If possible, I imagine it would be useful for the entire Revit API developer community if we can manage to maintain a single optimal set of Wizards that satisfies all needs.
+What do you think? Should we aim at maintaining just one version together, or keep the two separate?</p>
+
+<p><b>[A]</b> Jeremy, if you apply my pull request and replace the hard references of Revit API to their NuGet package then your template will be more convenient for using.</p>
+
+<!-- I described my wishes about VisualStudioRevitAddinWizard in my article which I pointed to in [my previous post](???). -->
+
+<p>All developers are different. Some of them prefer to write code manually completely. VisualStudioRevitAddinWizard template can be interesting for such people. Other developers prefer to concentrate completely on the solvable task, without being distracted by the minor things, such as UI creation. For such people, the Revit2017AddInTemplateSet templates can be interesting.</p>
+
+<p>My template is more difficult than yours because it shall decide automatically much more tasks. But my template isn't so difficult that it was difficult to be understood. Having created the new project on the basis of my template it is possible to study the generated code and to understand how it works.</p>
+
+<p>Therefore, perhaps it makes a sense that at the same time there were two different templates (VisualStudioRevitAddinWizard and Revit2017AddInTemplateSet) that allow to people to select that which more suits them.</p>
+
+<p>In my opinion your template requires improving. If it is interesting for you then I am ready to discuss it. At this case I recommend to you to read those notes which I listed in the article of my blog.</p>
+
+<p><b>[Q]</b> In that case, we should also compile a list of differences to explain to people why they might want to choose one above the other.</p>
+
+<p>No problem. I can do it if it will be necessary.</p>
+
+<p>P.S.</p>
+
+<p>In my opinion VisualStudioRevitAddinWizard is not a "wizard". I expected that wizard opens some dialog window and allows to user to point some predefined settings on the base of which wizard will generate a new project. Am I right? Therefore, my projects haven't "Wizard" word inside of their names.</p>
+
+<p>On a slightly different topic that lead to the following subsequent discussion, 
+I turned off the <code>Enable native code debugging</code> option in the project templates.</p>
+
+<h4><a name="5"></a>Use Managed Compatibility Mode or Enable Native Code Debugging?</h4>
+
+<p>Andrey raised another topic in the thread 
+on <a href="http://forums.autodesk.com/t5/revit-api-forum/use-managed-compatibility-mode-or-enable-native-code-debugging/m-p/6868848">using <code>Managed compatibility mode</code> or <code>Enable native code debugging</code></a>:</p>
+
+<p><strong>Question:</strong> I write .NET add-ins for Autodesk Revit using Visual Studio 2015. Revit is an unmanaged application. So, for successfully debugging I have to turn ON either the <code>Use managed compatibility mode</code> or <code>Enable native code debugging</code> option (or for both). Otherwise, debugging cannot be launched.</p>
+
+<p>The first of them is applied for all projects. The second of them is used for each project individually.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb097901d5970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb097901d5970d image-full img-responsive" alt="Debugging options" title="Debugging options" src="/assets/image_5d73d2.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<p>What is the difference between these options? I don't understand what they do. What option it is more correct to use in my case?</p>
+
+<p><strong>Answer 1:</strong> Hans Passant answered. I underlined what may be the reason why I am to use this option for Revit add-ins debugging:</p>
+
+<p>You do not have to enable unmanaged debugging to debug your plugin. Breakpoints in your code will activate (turn from hollow to solid) when the host application loads your add-in. If you are not sure if this happened then have a look at the Debug &gt; Windows &gt; Modules window.</p>
+
+<p>Enabling unmanaged debugging does not otherwise greatly affect the debugging session, it can however take quite a bit longer to get started and you may need to temporarily disable the symbol server to avoid getting annoyed at it.</p>
+
+<p>The Tools &gt; Options settings have rather poor names. Microsoft has been working on new debugging engines but was forced (or chose) to drop some features. "Use Managed Compatibility Mode" forces an older version of the managed debugger to be loaded, the one that was used in VS2010. It is required when you debug C++/CLI code. <u>It can be also useful in VS2015, its managed debugging engine is very buggy.</u> You'll miss out on some new debugging features like return value inspection and 64-bit edit+continue. You don't otherwise need it to debug your add-in.</p>
+
+<p>Much the same story for "Use Native Compatibility Mode", it enables an older version of the unmanaged debugging engine, the one in VS2012 afaik. You'll miss out on the new Natvis visualizers. I have not yet found a compelling reason to need it, other than keep the old visualizers working.</p>
+
+<p><strong>Answer 2 by Matt Taylor:</strong> Here are my successful Revit 2017 / Visual Studio Pro 2013 (Update 5) settings, if anyone is interested:</p>
+
+<p>Project specific debug options:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d2603413970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d2603413970c img-responsive" style="width: 312px; " alt="Project specific debug options" title="Project specific debug options" src="/assets/image_df59b7.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>General debug options:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d2603429970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d2603429970c image-full img-responsive" alt="General debug options" title="General debug options" src="/assets/image_309e53.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="6"></a>Machine Learning Software Engineer Job in Switzerland</h4>
+
+<p>Autodesk is seeking a <a href="https://autodesk.taleo.net/careersection/adsk_gen/jobdetail.ftl?job=17WD22765">Machine Learning Software Engineer for a post in Neuch&acirc;tel</a>.</p>
+
+<p>Check it out in case of interest.</p>
+
+<h4><a name="7"></a>FreeCodeCamp</h4>
+
+<p>I took a quick look at <a href="https://www.freecodecamp.com">FreeCodeCamp</a> and am very impressed.</p>
+
+<p>A non-profit organisation that also does not accept donations of any kind, their goal is to efficiently educate new software engineers, and they have a track record of doing so with great success.</p>
+
+<p>If you would like to learn more about programming and practice the skills that are of real importance today and for the future, this is probably one of the best choices you can make.</p>

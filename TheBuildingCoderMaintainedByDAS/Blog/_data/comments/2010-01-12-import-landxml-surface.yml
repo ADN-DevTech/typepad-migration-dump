@@ -1,0 +1,220 @@
+comments:
+- author: Ramon Jesus Gonzalez-Marquez
+  email: ''
+  ip: 83.213.18.240
+  url: http://profile.typepad.com/6p010536d50073970c
+  date: '2010-01-12 06:22:07'
+  body: 'Happy New Year Jeremy!!!
+
+
+    You are my king.... I was fighting with this issue for a long long time and you
+    have saved me tons of my time. I really appreciate the help you provide us. It''s
+    invaluable.....
+
+
+    My proposal: Can we improve this by taking into account other info from the LandXML
+    as the lines for the corridor model..... so we can upload the Civil 3D solution
+    into Revit ....
+
+    Thanks a lot in advance.
+
+
+    Cheers, Ramon.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.154.179
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-20 07:00:26'
+  body: 'Dear Ramon,
+
+
+    Thank you for the appreciation and Happy New Year to you too, rather belatedly,
+    and sorry for the late answer.
+
+
+    Sure you can improve this ... you can see above how certain nodes in the LandXML
+    file are accessed and that information is extracted to be passed into the Revit
+    API creation method. Obviously, all other information in the LandXML file can
+    be accessed as well, and all other creation methods provided by the Revit API
+    can be fed with the appropriate extracted information.
+
+
+    Cheers, Jeremy.'
+- author: Mark
+  email: petersonm@msoe.edu
+  ip: 155.92.42.53
+  url: ''
+  date: '2010-12-01 11:29:06'
+  body: "Hi I know this thread is almost a year old... but I have been looking for\
+    \ a while to find a solution to import landxml. I have tried downloading this\
+    \ and implementing it into revit 2011 with no luck. I am getting an error that\
+    \ says - Revit encountered a System.MissingMethodException: Method not found:\
+    \ 'Autodesk.Revit.DB.Document\nAutodesk.Revit.ApplicationServices.Application.get_ActiveDocumnet()'.\n\
+    \  at LandXMLSurface.Command.Execute(ExternalCommandData commandData, String&\
+    \ message, ElementSet elements)\n\ntheir is more... but i dont really want to\
+    \ type it all. if you need to know more let me know, and thanks for any help in\
+    \ advance."
+- author: Jeremy Tammik
+  email: ''
+  ip: 24.120.215.220
+  url: http://profile.typepad.com/jeremytammik
+  date: '2010-12-01 12:45:37'
+  body: "Dear Mark,\n\nI just extracted the sample LandXML file GSG_features_surfaces_with_volumes.xml\
+    \ provided in the zip file above and ran the command in Revit Architecture 2011,\
+    \ 20100903_2115, Web Update 2 Service Pack. \n\nIt created the topo surface without\
+    \ any problems whatsoever.\n\nDo the other Building Coder sample commands work\
+    \ for you?\n\nCheers, Jeremy."
+- author: Mark
+  email: petersonm@msoe.edu
+  ip: 155.92.42.53
+  url: ''
+  date: '2010-12-01 14:23:50'
+  body: "Well first off I am completely new to adding add-ins. This is the first add-in\
+    \ that i have tried to do. \nI guess for me it would help if I just got a quick\
+    \ run down how to \"install\" them. (or a link to some info)\nAs far as I have\
+    \ figured out...\n\n1. extact the file to c:/LandXML/\n2. open the revit.ini file\
+    \ in c:/program files/autodesk/revit architecture 2011/program/ and add the lines\
+    \ of code from the revit.ini file included in the zip. and make sure the link\
+    \ points to the landxml file.\n3. start up revit and use it. \n\nThe add-ins menu\
+    \ is there, and the import landxml surface button shows up, but then i get that\
+    \ error while trying to use it. Did i miss something? Do i need to put the code\
+    \ shown above on this page somewhere? \n\nrevit version file20100326_1700(x64)\
+    \ is 64 bit a problem?\n\nthanks for the quick response and the help.\n-Mark"
+- author: Jeremy Tammik
+  email: ''
+  ip: 24.120.215.220
+  url: http://profile.typepad.com/jeremytammik
+  date: '2010-12-01 14:44:37'
+  body: 'Dear Mark,
+
+
+    I suggest that you learn the basics of the Revit API to sort this out. Download
+    the Revit SDK, look at Chapter 2, Walkthroughs, and work through the DevTV recordings.
+    All of this is available on the Revit Developer Center:
+
+
+    <a href="http://www.autodesk.com/developrevit">http://www.autodesk.com/developrevit</a>
+
+
+    I cannot check this on 64 bit right now. Can you try it out on 32 bit your end?
+
+
+    Cheers, Jeremy.'
+- author: Mark
+  email: petersonm@msoe.edu
+  ip: 155.92.203.61
+  url: ''
+  date: '2010-12-01 15:11:42'
+  body: "Alright I am downloading the SDK right now. Ill work through it and figure\
+    \ it out. Thanks for the point in the right direction. Ill post back on here if\
+    \ i figure anything out about the 64 bit thing. Again thanks. \n-Mark"
+- author: sherif
+  email: sherif-zanaty@hotmail.com
+  ip: 41.237.102.184
+  url: ''
+  date: '2010-12-26 08:38:47'
+  body: "Dear jeremy,\n\nhow to get the points xyz of the TopographySurface or floor\
+    \ \n\nthank you"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.144.3
+  url: http://profile.typepad.com/jeremytammik
+  date: '2010-12-26 12:09:16'
+  body: 'Dear Sherif,
+
+
+    One possibility is to choose an arbitrary XY point which lies vertically below
+    or above the surface and shoot a vertical ray through the surface using FindReferencesByDirection
+    to find the corresponding Z coordinate.
+
+
+    This has been used e.g. to place detail component family instances such as trees,
+    c.f.
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/11/ray-tracing-to-place-family-instance.html">http://thebuildingcoder.typepad.com/blog/2010/11/ray-tracing-to-place-family-instance.html</a>
+
+
+    Cheers, Jeremy.'
+- author: eric
+  email: eric4today@gmail.com
+  ip: 158.132.107.86
+  url: ''
+  date: '2011-04-28 21:45:22'
+  body: Hi Jeremy, how could I merge two topographysurfaces programmtically?
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-05-17 12:23:06'
+  body: 'Dear Eric,
+
+
+    I do not believe that is currently possible through the API. Sorry about that.
+    I noticed you also submitted a ADN DevHelp Online case about this. If you would
+    like to submit a wish list item for this functionality, please update that and
+    let us know. Thank you!
+
+
+    Cheers, Jeremy.'
+- author: D
+  email: ''
+  ip: 141.51.121.189
+  url: http://profile.typepad.com/d107020802685114123
+  date: '2013-02-13 14:09:50'
+  body: 'Hi Jeremy,
+
+    I want to create  TopographySurface that has a shape of concave polygon. With
+    the Method NewTopographySurface i can only create TopographySurface that has a
+    shape of Convex polygon.
+
+
+    Habib'
+- author: Jeremy Tammik
+  email: ''
+  ip: 109.11.204.153
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-02-13 16:10:36'
+  body: 'Dear Habib,
+
+
+    Yes, of course, the method just takes a list of points and does not provide any
+    way to specify that some of the possible triangles spanned by them should not
+    be populated, so the resulting shape will always be convex when projected onto
+    the 2D plane.
+
+
+    Currently I see no way to create a concave shape.
+
+
+    Stay tuned for improvements in this area, though.
+
+
+    Cheers, Jeremy.'
+- author: Peace
+  email: ''
+  ip: 141.51.121.189
+  url: http://profile.typepad.com/d99924804757198605
+  date: '2013-02-25 04:10:32'
+  body: 'Hi Jeremy,
+
+    How to create subregion (Toposurface ) in revit using revit API ?
+
+    thx'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.184.163
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-03-13 02:58:17'
+  body: 'Dear Peace,
+
+
+    Do you mean split a topography surface?
+
+
+    Sorry, that is currently not possible.
+
+
+    Cheers, Jeremy.
+
+    -----'

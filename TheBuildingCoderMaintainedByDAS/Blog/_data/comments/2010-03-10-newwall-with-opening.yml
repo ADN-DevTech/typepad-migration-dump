@@ -1,0 +1,114 @@
+comments:
+- author: ning zhou
+  email: nzhou@cedarglenhomes.com
+  ip: 216.123.247.50
+  url: ''
+  date: '2010-03-15 14:12:16'
+  body: 'as discussed w/ Jeremy just recently, i''ll add some comments here:
+
+    1) the first loop is NOT always the outer one, guess that''s the case for floor/roof
+    too(?)
+
+    2) i used solid/face/edge method (from Jeremy''s sample code) to get wall profile
+    (include all openings) in my previous code, but now i switched to much easy one
+    which will temporarily set original walls to bearing wall, then you can access
+    all needed edges (wall and opening edges only) directly
+
+    3) in some cases, you still cannot create new wall using already sorted CurveArray,
+    this bring out the following questions to Autodesk:
+
+    question 1) in which special cases that CurveArray CAN or CANNOT be used to create
+    new wall?
+
+    question 2) can wall join be accessible in API? if can, then there''s no need
+    to get opening profile at all, just join new wall w/ original wall will do the
+    trick.
+
+    question 3) in general term, can we use API to do element join at project? to
+    my knowledge, you can join element at family only (?)
+
+    question 4) seems Revit''s wall "autojoin" may cause some issues, can we enable/disable
+    "autojoin" in API?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-03-17 12:25:35'
+  body: "Dear Ning,\n\nSorry I was so slow in answering...\n\n1) True, we did actually\
+    \ mention the fact that one may have to calculate the polygon areas to determine\
+    \ which one is the outer loop:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2008/12/2d-polygon-areas-and-outer-loop.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2008/12/2d-polygon-areas-and-outer-loop.html</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2008/12/3d-polygon-areas.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2008/12/3d-polygon-areas.html</a>\n\n\
+    2) That sounds very interesting! I saw from your email that you are setting the\
+    \ built-in parameters WALL_STRUCTURAL_USAGE_PARAM and STRUCTURAL_ANALYTICAL_MODEL\
+    \ to one before querying the geometry, and then resetting them back to zero afterwards,\
+    \ but I do not actually know what the effect of this is or what you mean when\
+    \ you say that this makes it easier to access the edges. Let us discuss this off-line\
+    \ and maybe write a complete new post on it, please.\n\n3) I have passed on this\
+    \ issue to the development team. Let's see what they say. \n\nI am also discussing\
+    \ your questions with them and will let you know what we come up with.\n\nThank\
+    \ you!\n\nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-03-17 12:41:51'
+  body: "Dear Ning,\n\nAlthough I may be slow in answering, my colleagues in the development\
+    \ team are not, so here are the answers to your questions already:\n\nq1) We need\
+    \ to look deeper into this.\n\nq2) No, it is not, unfortunately. We have an open\
+    \ wish list item for this. \n\nq3) Just like you say: in general, not in a project,\
+    \ although there are exceptions such as the Mullion.JoinMullion method, and we\
+    \ have registered this wish. Yes in the family editor: Document.CombineElements.\n\
+    \nq4) No.\n\nSorry for the many negatives here.\n\nCheers, Jeremy."
+- author: Rajeswara Rao
+  email: rajesh@cadsindia.dom
+  ip: 59.163.205.194
+  url: ''
+  date: '2010-08-03 09:50:07'
+  body: 'Dear Jeremy,
+
+
+    In your BuildingCoder sample, there is a function GetWallProfilePolygons() available
+    to get the outer most face points of a wall. That is fine.
+
+
+    When a multiple layer wall connects to another wall each layer geometry is varies.
+    Is it possible to get the polygon points of each layer of a wall? Any idea please.
+
+
+    Thanks and Regards,
+
+    Rajeswara Rao'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-08-03 23:36:52'
+  body: "Dear Rajeswara,\n\nCode that determines and displays the exact geometric\
+    \ location of the individual wall layers is provided in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2008/11/wall-compound-layers.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2008/11/wall-compound-layers.html</a>\n\
+    \nCheers, Jeremy."
+- author: Martin
+  email: martin@masterseries.co.uk
+  ip: 217.39.165.49
+  url: ''
+  date: '2013-12-05 11:14:03'
+  body: Thanks. Great post. Was very helpful to me.
+- author: Jeremy Tammik
+  email: ''
+  ip: 199.36.244.25
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-12-05 20:39:33'
+  body: 'Dear Martin,
+
+
+    Thank you for your appreciation.
+
+
+    I am very glad to hear you find it useful.
+
+
+    Cheers, Jeremy.
+
+    -----'

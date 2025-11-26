@@ -1,0 +1,271 @@
+---
+layout: "post"
+title: "IFC Property Set, Bulk Instances and Vary by Group"
+date: "2022-08-17 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "AI"
+  - "Element Creation"
+  - "Family"
+  - "Forge"
+  - "Hackathon"
+  - "Parameters"
+  - "Performance"
+original_url: "https://thebuildingcoder.typepad.com/blog/2022/08/ifc-property-set-bulk-instances-and-vary-by-group.html "
+typepad_basename: "ifc-property-set-bulk-instances-and-vary-by-group"
+typepad_status: "Publish"
+---
+
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js" type="text/javascript"></script>
+
+<p>Today, we talk about Forge, IFC, family instance creation in bulk, parameters that vary by group instance and a handy spell checker:</p>
+
+<ul>
+<li><a href="#2">Forge hackathon</a></li>
+<li><a href="#3">Forge IFC exporter</a></li>
+<li><a href="#4">NewFamilyInstances2 creates 27000 instances</a></li>
+<li><a href="#5">Set parameter to vary by group instance</a></li>
+<li><a href="#6">AI-enhanced web-based spell checker</a></li>
+</ul>
+
+<h4><a name="2"></a> Forge Hackathon</h4>
+
+<p><a href="https://forge.autodesk.com/hackathon">Registration is open</a> for 
+the <a href="https://forge.autodesk.com/blog/save-date-2022-forge-hackathon">Forge Hackathon 2022</a>,
+being held virtually from September 19-23.</p>
+
+<p>Prize categories:</p>
+
+<ul>
+<li>You had me at 3D game</li>
+<li>Show me the Data!</li>
+<li>I feel the need, the need for Digital Twin</li>
+<li>Task automation is a state of mind</li>
+<li>There’s no place like ACC</li>
+</ul>
+
+<p>Judging criteria:</p>
+
+<ul>
+<li>Innovation</li>
+<li>Elegance</li>
+<li>Business problem solved</li>
+<li>Progress made during the week</li>
+<li>Depth of Forge use</li>
+<li>Wow factor</li>
+</ul>
+
+<p>For further details, please refer to the <a href="https://forge.autodesk.com/blog/save-date-2022-forge-hackathon">Forge Hackathon 2022 blog post</a>.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302a308db6f9f200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302a308db6f9f200c img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="Forge Hackathon 2022" title="Forge Hackathon 2022" src="/assets/image_4ca44a.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="3"></a> Forge IFC Exporter</h4>
+
+<p>Eason Kang updated his IFC exporter add-in to now support user defined property sets and the new JSON schema from the Revit IFC repository.
+Check it out in
+the <a href="https://github.com/yiskang/forge-revit-ifc-exporter-appbundle">forge-revit-ifc-exporter-appbundle GitHub repo</a>.</p>
+
+<h4><a name="4"></a> NewFamilyInstances2 Can Create 27000 Instances</h4>
+
+<p>Here are some useful and exciting notes from an internal discussion on performance issues creating 27000 family instances:</p>
+
+<p><strong>Question:</strong> I need to create 27000+ FamilyInstances in a Revit Document.</p>
+
+<p>However, this takes more than 1.5 hours, because the performance of <em>Document.Create.NewFamilyInstance(XYZ, FamilySymbol, StructuralType)</em> degrades from 190 FamilyInstances / sec to 4 FamilyInstances / sec over the course of the execution.
+The process memory maxes at 1.5 GB on my machine.
+Are there any recommendations on how to improve the performance?
+I was thinking that splitting the task into chunks of not more than 200 FamilyInstances might produce some benefits but I'm wondering if the time required to commit and start the transactions would erode them. </p>
+
+<p><strong>Answer:</strong> We used to have batch creation routines for FamilyInstances.
+Back then, those were needed, because the API used to regenerate after nearly every model change, and this could be much less performant when not necessary.
+So, when we switched, those became less important and were mostly removed.
+Some of the problems I suspect relate to adding 27000+ expanded elements.
+There is no way to unexpand the elements in memory once they are expanded.
+If this is a batch/non-visible process, maybe saving/closing the model and reopening periodically might help with the overall performance and memory consumption?
+If the model is visible, this might be disruptive to the user.</p>
+
+<p>Actually, we do still have one routine in place, <code>NewFamilyInstances2</code> &ndash; horrible name &ndash; takes a collection of family instance creation data objects. </p>
+
+<p>If it's a regeneration issue, perhaps placing empty families first to reduce (if not remove) the regeneration time, then swapping for the family you want to use?</p>
+
+<p><strong>Response:</strong> Regeneration is not an issue for now, but I'll keep that suggestion in mind in case it becomes a problem, thanks.</p>
+
+<p>I used <code>NewFamilyInstances2</code> in batches of 200, without committing the transaction, and it was able to generate the families in 4:48 seconds, very promising.
+Now I need to see how it handles updating the parameters of the instances; it would be nice to have a similar method for that.</p>
+
+<p>with further optimization on the logic, the instances went down to about 22000 and even setting 3 or 4 parameters from Excel on each instance and running interpolations takes less than 3.5 minutes, that is a great result.</p>
+
+<p><strong>Answer:</strong> Now I'm wondering what type of optimizations are in that <code>NewFamilyInstances2</code> method.
+I thought it was just trying to avoid excess regenerations...</p>
+
+<p><strong>Response:</strong> They display a Voxel representation of soil based on boreholes samples; if there is some kind of vectorization happening in <code>NewFamilyInstances2</code>, it would be nice to have a similar approach to edit parameters in bulk.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302a2eed175bf200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302a2eed175bf200d image-full img-responsive" alt="Creating many instances" title="Creating many instances" src="/assets/image_f77f8e.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p><strong>Answer:</strong> Looks like <code>NewFamilyInstance</code> commits a subtransaction for each call.
+That may be the main reason why it is much slower than the batch <code>NewFamilyInstance2</code> method.</p>
+
+<h4><a name="5"></a> Set Parameter to Vary by Group Instance</h4>
+
+<p>Mark Ackerley demonstrates how
+to <a href="https://forum.dynamobim.com/t/set-parameter-to-vary-by-group-instance">set parameter to vary by group instance</a> in
+the <a href="https://forum.dynamobim.com">Dynamo BIM forum</a>, saying:</p>
+
+<blockquote>
+  <p>Might be useful to people…</p>
+  
+  <p>This is limited by the types of parameter which are allowed to vary by group instance, this does not include Yes/No or Length.</p>
+  
+  <p>Thanks to @jeremytammik and anyone else who has done work in this area.</p>
+</blockquote>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302a308db6fa5200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302a308db6fa5200c img-responsive" alt="Set parameter to vary by group instance" title="Set parameter to vary by group instance" src="/assets/image_1ea3b6.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<pre class="prettyprint">
+import clr
+
+import System
+from System import *
+
+clr.AddReference('RevitServices')
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+from System.Collections.Generic import *
+
+clr.AddReference('RevitAPI')
+import Autodesk
+from Autodesk.Revit.DB import *
+
+doc = DocumentManager.Instance.CurrentDBDocument
+
+# The inputs to this node will be stored as a list in the IN variables.
+dataEnteringNode = IN
+keyWord = IN[0]
+
+def isInstance(definition_Name):
+    #for some reason, returning the name of the Key in the bindings iterator
+    #fails sometimes and says item can't be managed? so then restart Revit
+
+    #the list of parameters in doc.ParameterBindings is only the ones which are
+    #added in the Project Parameters box, so you're not getting ones which
+    #just exist in families
+
+    #this is the only way to see if a parameter is 'bound' to the doc as
+    #a type or an instance parameter
+
+    bindings = doc.ParameterBindings
+    it = doc.ParameterBindings.ForwardIterator()
+    defs = []
+    value = False
+    while(it.MoveNext()):
+        d = it.Key
+        b = it.Current
+        if d.Name == definition_Name and b.GetType() == InstanceBinding:
+            value = True
+            break
+    return value    
+
+def canBeEditableInGroup(parameter):
+  parameter_Type = parameter.ParameterType
+
+  variable_Parameter_Types_List = [ParameterType.Text, 
+    ParameterType.Area, 
+    ParameterType.Volume, 
+    ParameterType.Currency, 
+    ParameterType.MassDensity, 
+    ParameterType.URL, 
+    ParameterType.Material]
+
+  if parameter_Type in variable_Parameter_Types_List:
+    return True
+  else:
+    return False
+
+# Place your code below this line
+output = []
+#catch anything that doesn't work and output the error
+sPs = FilteredElementCollector(doc).OfClass(SharedParameterElement)
+
+try:
+  sPs = FilteredElementCollector(doc).OfClass(SharedParameterElement)
+  errorReport = None 
+
+  #begin transaction
+  TransactionManager.Instance.EnsureInTransaction(doc)
+  for sP in sPs:
+    #we are interested in the shared parameter 'definition'
+    #the 'definition' is a container of the shared parameter
+    #that holds the information about whether
+    #the parameter is variable by instance in a group
+
+    #we only want the shared parameters with our key word
+    #we only want them if they are a type which can vary
+    #we only want them if they are not already true
+    #we only want them if they are instance parameters
+
+    definition = sP.GetDefinition()  
+
+    varies_Query = definition.VariesAcrossGroups
+
+
+    if keyWord in definition.Name and canBeEditableInGroup(definition) and isInstance(definition.Name) and varies_Query != True:
+      try:
+        definition.SetAllowVaryBetweenGroups(doc, True)
+        output.append("Success: " + definition.Name + " can now vary across group instances")
+      except:
+        import traceback
+        errorReport_SP = traceback.format_exc()
+        exception = ' does not support the specified value of allowVaryBetweenGroups'        
+        if exception in errorReport_SP:
+          output.append("Failure: " + definition.Name + "cannot be set to vary between groups")
+        else:
+          output.append([definition.Name, errorReport_SP])
+
+  #finish transaction
+  TransactionManager.Instance.TransactionTaskDone()
+
+#Assign your output to the OUT variable.
+except:
+  import traceback
+  errorReport = traceback.format_exc()
+
+if errorReport == None:
+  OUT = output
+
+else:
+  OUT = errorReport
+
+OUT = output
+</pre>
+
+<p>Many thanks to Mark for sharing this useful solution!</p>
+
+<h4><a name="6"></a> AI-Enhanced Web-Based Spell Checker</h4>
+
+<p>I recently installed
+the <a href="https://www.grammarly.com">Grammarly</a> integrated
+AI-enhanced spell and grammar checking including advanced writing support such as suggestions on better wording for clarity.
+It works in web browser edit boxes and also in my email editor.
+It made several suggestions that improved my wording and I am quite impressed, with better suggestions than any other tools I ever tried in the past...</p>
+
+<p>Somebody else suggested
+the <a href="https://www.websiteplanet.com/webtools/spell-checker">websiteplanet Online Spell Checker</a>,
+but I have not looked at all at that myself.</p>
+
+<p>On the topic of AI...</p>
+
+<p class="quote">Are you concerned about the increase in artificial intelligence?
+<br/>I am more concerned about the decrease in real intelligence.</p>

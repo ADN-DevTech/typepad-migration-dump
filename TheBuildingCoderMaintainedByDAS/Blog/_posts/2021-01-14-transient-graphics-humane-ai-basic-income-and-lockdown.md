@@ -1,0 +1,91 @@
+---
+layout: "post"
+title: "Transient Graphics, Humane AI, BI and Lockdown"
+date: "2021-01-14 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "AI"
+  - "AVF"
+  - "News"
+  - "User Interface"
+  - "View"
+  - "Win32"
+original_url: "https://thebuildingcoder.typepad.com/blog/2021/01/transient-graphics-humane-ai-basic-income-and-lockdown.html "
+typepad_basename: "transient-graphics-humane-ai-basic-income-and-lockdown"
+typepad_status: "Publish"
+---
+
+<p>Today, I take a quick look at various methods to integrate transient graphics into Revit and point to articles of interest on other current non-API-related topics such as chess AI, basic income and the effectiveness of lockdowns:</p>
+
+<ul>
+<li><a href="#2">Transient graphics</a></li>
+<li><a href="#3">AI learns to emulate human-style chess</a></li>
+<li><a href="#4">Basic income as fault-tolerant engineering</a></li>
+<li><a href="#5">Lockdown effectivity</a></li>
+</ul>
+
+<h4><a name="2"></a> Transient Graphics</h4>
+
+<p>Here is an answer I put together to address 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/how-to-draw-transient-graphics-in-revit/m-p/10000065">how to draw transient graphics in Revit</a>:</p>
+
+<p><strong>Question:</strong> I want to draw 2D texts in a view, like Transient Graphics in AutoCAD.
+These texts draw upon all model elements and will not adapt their size when scaling the view.
+This can be applied to a situation such as when the grid names are outside of the view, the texts representing the grids display at the edge of view, so the user can easily know the current position while modelling.</p>
+
+<p><strong>Answer:</strong> Two pieces of Revit API functionality come to mind: the older <a href="https://thebuildingcoder.typepad.com/blog/avf">Analysis Visualisation Framework or AVF</a> and the more recent DirectContext3D.</p>
+
+<p>AVF is designed for displaying structural and other analysis results on the BIM element faces.
+The Building Coder has presented numerous examples in the past, starting with the decade-old <a href="https://thebuildingcoder.typepad.com/blog/2012/02/revit-webcam-2012.html">Revit webcam</a>.</p>
+
+<p>DirectContext3D is for displaying external graphics in the context of a Revit model:</p>
+
+<ul>
+<li>The <a href="https://www.revitapidocs.com/2020/7709521d-9954-ef80-1f13-3bc6ee660d5d.htm"><code>IDirectContext3DServer</code> interface</a> for
+displaying arbitrary 3D graphics in Revit, <a href="https://thebuildingcoder.typepad.com/blog/2017/04/whats-new-in-the-revit-2018-api.html#3.26">introduced in Revit 2018</a></li>
+<li>The <a href="https://thebuildingcoder.typepad.com/blog/2017/05/revit-2017-and-2018-sdk-samples.html#4.2">DuplicateGraphics SDK sample</a> demonstrates
+basic usage</li>
+<li>How to <a href="https://forums.autodesk.com/t5/revit-api-forum/draw-render-over-the-activeview/m-p/7074503">draw or render over the active view</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2020/10/onbox-directcontext-jig-and-no-cdn.html#3">DirectContext Rectangle Jig</a> example</li>
+<li><a href="https://forums.autodesk.com/t5/revit-api-forum/idirectcontext3dserver-and-scene-size/m-p/9939322">IDirectContext3DServer and scene size</a></li>
+</ul>
+
+<p>For your use case, however, I can well imagine that a simpler and more effective solution can be implemented independently of Revit and its API, by making use of the native Windows API or .NET libraries.
+However, that lies outside my area of expertise, so I have no specific advice to offer in that area.
+Except: maybe you can simply use the <a href="https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-drawtext"><code>DrawText</code> function from <code>winuser.h</code></a>.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e9885042200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e9885042200b image-full img-responsive" alt="Transient nature art by Andy Goldsworthy" title="Transient nature art by Andy Goldsworthy" src="/assets/image_46cedb.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="3"></a> AI Learns to Emulate Human-Style Chess</h4>
+
+<p>The Microsoft Research Blog published an article
+on <a href="https://www.microsoft.com/en-us/research/blog/the-human-side-of-ai-for-chess">the human side of AI for chess</a> demonstrating
+how AI can be taught to emulate human moves rather than the 'non-human' style developed by pure self-learning AI implementations.</p>
+
+<h4><a name="4"></a> Basic Income as Fault-Tolerant Engineering</h4>
+
+<p>Scott Santens
+presents <a href="https://scottsantens.com/engineering-argument-for-unconditional-universal-basic-income-ubi-fault-tolerance-graceful-failure-redundancy">an engineering argument for basic income</a> based
+on the fundamental engineering principle of utilising fault-tolerant design in critical life support systems.</p>
+
+<h4><a name="5"></a> Lockdown Effectivity</h4>
+
+<p>Lockdown effectivity is scientifically analysed in a peer-reviewed article in
+the European Journal of Clinical Investigation (EJCI)
+on <a href="https://onlinelibrary.wiley.com/doi/10.1111/eci.13484">Assessing Mandatory Stay-at-Home and Business Closure Effects on the Spread of COVID-19</a>,
+concluding that:</p>
+
+<blockquote>
+  <p>While small benefits cannot be excluded, we do not find significant benefits on case growth of more restrictive NPIs (nonpharmaceutical interventions).
+  Similar reductions in case growth may be achievable with less restrictive interventions.</p>
+</blockquote>
+
+<!--
+Stanford Studie mit Top Medizin-Wissenschaftler Ioannidis zeigt keinen Nutzen von Lockdowns
+https://tkp.at/2021/01/11/stanford-studie-mit-top-medizin-wissenschaftler-ioannidis-zeigt-keinen-nutzen-von-lockdowns/
+-->

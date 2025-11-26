@@ -1,0 +1,191 @@
+comments:
+- author: Chad Boss
+  email: email.chadboss@gmail.com
+  ip: 198.62.124.245
+  url: http://www.thebossfamily.com
+  date: '2010-02-19 13:41:00'
+  body: Very interesting. Very useful. I wonder, is it possible to loop through all
+    types within a given .rfa file without loading the .rfa into the project? I see
+    LoadFamilySymbol(rfafilename, typetoload) in the Revit SDK, but that assumes you
+    know the name of the type you want to load. Can you first examine all of the types
+    in the rfa file and then pick one to load? Sorry to bother you with this. I know
+    your time is valuable.
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-03-01 11:29:41'
+  body: 'Dear Chad,
+
+
+    I am glad you find this useful! Thank you!
+
+
+    Yes, I would say it is. When your command is active, you can use Application.OpenDocumentFile
+    method to open the .rfa file and then use the Document.FamilyManager and FamilyManager.Types
+    properties to iterate over its types without it ever being loaded into your current
+    project, and even without your project ever being aware of the analysis your plug-in
+    is performing.
+
+
+    Cheers, Jeremy.'
+- author: Charlie Parks
+  email: cpo@bgark.com
+  ip: 12.230.48.34
+  url: ''
+  date: '2011-05-20 15:22:30'
+  body: 'When I call this:
+
+    Private _non_rst As StructuralType = StructuralType.NonStructural
+
+
+    I get the following error:
+
+    ''StructuralType'' is not accessible in this context because it is ''Friend''.
+
+
+    Is there away to get around this error?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 88.66.116.119
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-05-20 16:03:41'
+  body: 'Dear Charlie,
+
+
+    From your error message, I would guess that you are using Visual Basic. Is that
+    correct?
+
+
+    I always get that error in Visual Basic as well.
+
+
+    Therefore, my first recommendation would be to use C# instead.
+
+
+    If you prefer to stick with Basic anyway, then the only workaround that I am aware
+    of is to not use the ''Imports'' statement locally in each module, but to import
+    the namespaces that you wish to have accessible through the global Visual Basic
+    project settings instead, i.e. through Solution Explorer > [project] > Properties
+    > References > Imported namespaces. Then the namespaces will be imported globally
+    for the entire project, into all modules. In my case, that has mostly resolved
+    the problem. I hope it helps for you too.
+
+
+    If anyone is aware of a better solution, I would love to hear about it!
+
+
+    Cheers, Jeremy.'
+- author: jmcouffin
+  email: jmcouffin@gmail.com
+  ip: 66.171.168.186
+  url: http://jmcouffin.com
+  date: '2013-11-06 09:29:23'
+  body: "I have quite a bit of a challenge.\nthe context:\noffices families with nested\
+    \ items (from the desk to the trash bin) in a fairly big project. this family\
+    \ is strechable to the size of the room.\nthat worked well till construction documentation,\
+    \ now I have to fix conflicts with columns location/this office family. So I am\
+    \ thinking of 'exploding' it which is not possible in theory... \n\nwould some\
+    \ API lines fix my issue and let me explode a nested family?\n\na way I used as\
+    \ a workaround to do some curtains that were made out of lines in a group beforehand\
+    \ was to place a family in the group and remove the line. I don't know if that\
+    \ makes sense, but that is the approach I can think of.\n\nany help here... ?\
+    \ i am using Rvt 2013"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-11-08 03:51:58'
+  body: 'Dear Jmcouffin,
+
+
+    Sure the Revit API can help; it always does; it is your good and trusty friend.
+
+
+    It will help you especially well if you can achieve what you need manually, and
+    wish to reduce that manual effort by automating the repetitive steps.
+
+
+    Just identify those clearly and go ahead and automate them.
+
+
+    It sounds to me as if you need to make your family more flexible, and possibly
+    create new custom family definitions for the different location requirements.
+    I am no content creation or family expert, though, by any means, so don''t ask
+    me, please.
+
+
+    Cheers, Jeremy.'
+- author: Zhmayev Yaroslav (Salaros)
+  email: ''
+  ip: 2.229.21.82
+  url: http://profile.typepad.com/6p01bb0829b704970d
+  date: '2015-06-18 03:22:01'
+  body: 'Hi Jeremy,
+
+
+    I know that this post is quite old, but I have some question regarding the nested
+    families.
+
+    We''ve found out that connectors (piping, electrical etc) of the nested families
+    are "invisible" to the designers inside the project.
+
+    So far we''ve managed to display nested family''s parameters inside the schedule
+    and map some of them to the connector parameters, but these families are still
+    quite useless, because they cannot be interconnected in a real-world project.
+
+    Do you have any solution for that?
+
+    Would you like to have a sample family to play with?
+
+
+    Best regards,
+
+    Yaroslav'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-06-22 04:58:34'
+  body: 'Dear Yaroslav,
+
+
+    The connectors do indeed become invisible in a certain way.
+
+
+    In the family definition context, they are represented by individual elements.
+
+
+    When the MEP fitting is inserted as a family instance into the project, the individual
+    connector elements are assimilated into connector objects on the family instance
+    element:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/04/mep-connectors.html">http://thebuildingcoder.typepad.com/blog/2009/04/mep-connectors.html</a>
+
+
+    From then on, the connector objects are accessible via and managed by the ConnectorManager,
+    a property of the FamilyInstance.MEPModel, which can be any one of ElectricalEquipment,
+    LightingDevice, LightingFixture, MechanicalEquipment and MechanicalFitting.
+
+
+    These objects and their properties are absolutely not useless, as demonstrated
+    by the ADN MEP sample application AdnRme:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.40">http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.40</a>
+
+
+    A pretty exhaustive example demonstrating various ways to connect MEP elements
+    with each other is provided, for pipes at least, by the rolling offset add-in:
+
+
+    http://thebuildingcoder.typepad.com/blog/2014/01/final-rolling-offset-using-pipecreate.html
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.
+
+    -----'

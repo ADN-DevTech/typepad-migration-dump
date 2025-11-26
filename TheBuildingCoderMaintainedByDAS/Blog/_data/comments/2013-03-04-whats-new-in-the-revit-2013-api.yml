@@ -1,0 +1,175 @@
+comments:
+- author: Olivier
+  email: olivier.martinarcas@gmail.com
+  ip: 81.57.186.89
+  url: ''
+  date: '2013-03-12 05:21:18'
+  body: 'Jeremy,
+
+
+    How can I join floor and wall geometries using Revit 2013 API ?
+
+
+    Best Regards,
+
+
+    Olivier'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.184.163
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-03-13 02:00:51'
+  body: "Dear Olivier,\n\nBasically, in many cases, Revit decides for itself which\
+    \ elements are to be joined, and how.\n\nYou can only force it to perform this\
+    \ calculation, but not influence the results:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/05/autojoinelements.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/05/autojoinelements.html</a>\n\n\
+    Some additional control was provided in Revit 2012:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2013/02/whats-new-in-the-revit-2012-api.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2013/02/whats-new-in-the-revit-2012-api.html</a>\n\
+    \nAllow and disallow wall end joins\n\nThe new methods\n\n- WallUtils.DisallowWallJoinAtEnd()\n\
+    - WallUtils.AllowWallJoinAtEnd()\n- WallUtils.IsWallJoinAllowedAtEnd() \n\nprovide\
+    \ access to the setting for whether or not joining is allowed at a particular\
+    \ end of the wall. If joins exist at the end of a wall and joins are disallowed,\
+    \ the walls will become disjoint. If joins are disallowed for the end of the wall,\
+    \ and then the setting is toggled to allow the joins, the wall will automatically\
+    \ join to its neighbors if there are any.\n\nFor beams, you can use the IExtension\
+    \ property to exercise some control over how and whether they join with other\
+    \ beams.\n\nFinally, the FamilyInstance.AddCoping method can be used to add a\
+    \ coping (cut) to a steel beam.\n\nAfaik, this currently just about covers the\
+    \ control over joining provided by the Revit API.\n\nSo joining of floor and wall\
+    \ geometry is still controlled purely by Revit itself.\n\nCheers, Jeremy."
+- author: Olivier
+  email: olivier.martinarcas@gmail.com
+  ip: 193.57.110.171
+  url: ''
+  date: '2013-03-14 06:37:35'
+  body: 'Dear Jeremy,
+
+
+    Thank you for your reactivity and your exhaustive answer.
+
+
+    Cheers, Olivier'
+- author: Anatoly Vasilenko
+  email: anatoly.vasilenko@cel.ca
+  ip: 38.99.165.82
+  url: ''
+  date: '2013-08-09 09:15:05'
+  body: 'Advice please, how to set Electrical Loads properties for Spaces: Lighting
+    Load Density and Power Load Density via API. Thanks'
+- author: Bo Huang
+  email: bo.huang@raptsoftware.com
+  ip: 123.243.177.103
+  url: ''
+  date: '2013-11-17 06:38:49'
+  body: "Hi, Jeremy,\nI recently upgraded to Revit Structure 2014 and just followed\
+    \ your sample code to use ViewPlan.Create() to create a new Floor Plan. However,\
+    \ when I run the code, it gives me an exception:\n\nA first chance exception of\
+    \ type 'Autodesk.Revit.Exceptions.ArgumentException' occurred in RevitAPI.dll\n\
+    \nAdditional information: \nStructuralPlans can only be created when the structural\
+    \ discipline is enabled whereas \nFloorPlans and CeilingPlans can only be created\
+    \ when architecture or MEP disciplines are enabled.\n\nIs there any way to get\
+    \ around this exception?\nThanks a lot."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.164.92
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-11-17 16:37:19'
+  body: "Dear Bo,\n\nYes, sure. If you are running in Revit onebox, enable the structural\
+    \ discipline, c.f.\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2013/03/whats-new-in-the-revit-2013-api.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2013/03/whats-new-in-the-revit-2013-api.html</a>\n\
+    \n<b>Discipline controls</b>\n\nThe properties:\n\n<ul>\n<li>Application.IsArchitectureEnabled\n\
+    <li>Application.IsStructureEnabled\n<li>Application.IsStructuralAnalysisEnabled\n\
+    <li>Application.IsMassingEnabled\n<li>Application.IsEnergyAnalysisEnabled\n<li>Application.IsSystemsEnabled\n\
+    <li>Application.IsMechanicalEnabled\n<li>Application.IsMechanicalAnalysisEnabled\n\
+    <li>Application.IsElectricalEnabled\n<li>Application.IsElectricalAnalysisEnabled\n\
+    <li>Application.IsPipingEnabled\n<li>Application.IsPipingAnalysisEnabled \n</ul>\n\
+    \nprovide read and modify access to the available disciplines. Your application\
+    \ can read the properties to determine when to enable or disable aspects of the\
+    \ UI.\n\nEnabling and disabling disciplines is available only in Autodesk Revit\
+    \ (and not in any other Revit product). When a discipline's status is toggled,\
+    \ Revit's UI will be adjusted, and certain operations and features will be enabled\
+    \ or disabled as appropriate.\n\nIf you are not running Revit Onebox or Revit\
+    \ Structure, I do not think there is anything you can do.\n\nIf it is not your\
+    \ intention to create a structural plan view, then select a different view type\
+    \ element id to pass into the Create method.\n\nCheers, Jeremy."
+- author: Bo Huang
+  email: bo.huang@raptsoftware.com
+  ip: 123.243.177.103
+  url: ''
+  date: '2013-11-18 07:41:39'
+  body: "Thanks, Jeremy,\n\nI am running Autodesk Revit Structure 2014 Update Release\
+    \ 2. I checked:\n\n1. My Application.Product is ProductType.Structure.\n\n2. Application.IsStructureEnabled\
+    \ is True,\nApplication.IsArchitectureEnabled is True, \nApplication.IsMechanicalEnabled\
+    \ is False.\n\nAccording to the ArgumentException message, FloorPlan can be created\
+    \ when Architecture is enabled. But I still failed to create new FloorPlan. \n\
+    \nIf I try to set Application.IsMechanicalEnabled = true, I get a different exception:\n\
+    InvalidOperationException: The current product type is not ProductType.Revit and\
+    \ discipline controls are not enabled.\n\nIt seems to indicate that only Revit\
+    \ Onebox can set IsMechanicalEnabled. \n\nDoes this means Revit Structure user\
+    \ will not be able to create FloorPlans?\n\nCheers,\nBo"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.212.38
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-11-19 10:34:46'
+  body: 'Dear Bo,
+
+
+    The first question should always be: can I achieve what I want in the user interface?
+
+
+    Can you create the desired floor plan manually, regardless of the API?
+
+
+    Aha, yes, apparently only Revit Onebox can toggle disciplines. That makes sense,
+    of course.
+
+
+    Cheers, Jeremy.'
+- author: Bo Huang
+  email: bo.huang@raptsoftware.com
+  ip: 123.243.177.103
+  url: ''
+  date: '2013-11-22 16:17:18'
+  body: 'Hi, Jeremy,
+
+    I found out that in Revit Structure 2014, it won''t allow me to create Floor Plan
+    from the UI but I can create Structural Plan. In Revit Architecture 2014, I can
+    create Floor Plan without any problem.
+
+
+    Thanks for the help.'
+- author: hazem
+  email: hazem_el_amir@hotmail.com
+  ip: 197.40.111.12
+  url: ''
+  date: '2014-09-05 14:10:39'
+  body: 'Dear Jeremy,
+
+    i hope your fine,
+
+    i use view duplicate method put i can''t change the view type after duplication.
+
+    can you help me.
+
+    thanks for your time
+
+    hazem_el_amir@hotmail.com'
+- author: hazem
+  email: hazem_el_amir@hotmail.com
+  ip: 197.40.111.12
+  url: ''
+  date: '2014-09-05 14:10:40'
+  body: 'Dear Jeremy,
+
+    i hope your fine,
+
+    i use view duplicate method put i can''t change the view type after duplication.
+
+    can you help me.
+
+    thanks for your time
+
+    hazem_el_amir@hotmail.com
+
+    -----'

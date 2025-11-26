@@ -1,0 +1,175 @@
+comments:
+- author: YarUnderoaker
+  email: YarUnderoaker@email.ua
+  ip: 109.122.0.78
+  url: ''
+  date: '2013-03-28 09:05:39'
+  body: Oh God, site API finally
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-03-28 11:02:54'
+  body: 'Dear Yar,
+
+
+    Yes, indeed!  :-)
+
+
+    Cheers, Jeremy.'
+- author: Adam Gimpert
+  email: agimpert@gmail.com
+  ip: 87.88.131.89
+  url: ''
+  date: '2013-05-21 08:19:42'
+  body: 'Hi Jeremy,
+
+
+    You mentioned "linked element selection" and I found in the 2014 SDK, "PickObject()
+    and PickObjects() now allow selection of elements in RVT Links."
+
+
+    However, can we get currently selected elements in linked models like we can from
+    ActiveUIDocument.Selection.Elements? (Without prompting the user?)
+
+
+    I''m finding that ActiveUIDocument.Selection.Elements does not include selected
+    elements in linked models. Maybe there''s a work-around?
+
+
+    All the best,
+
+    Adam'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.153.229.70
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-05-22 00:17:18'
+  body: 'Dear Adam,
+
+
+    That is a very valid question.
+
+
+    ActiveUIDocument.Selection.Elements cannnot return elements in any other document,
+    simply because it would be returning duplicate elelement ids from multiple different
+    documents, which would lead to great confusion.
+
+
+    In theory, there could be a way: UIDocument(linked_document).Selection.Elements
+    could work, eventually; I do not think it does right now, though.
+
+
+    I don''t even think we instantiating a UIDocument off a linked document is currently
+    allowed...
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-05-22 13:04:16'
+  body: 'Dear Adam,
+
+
+    Here is another idea regarding the selection of elements in a linked file:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/05/selecting-a-face-in-a-linked-file.html">http://thebuildingcoder.typepad.com/blog/2012/05/selecting-a-face-in-a-linked-file.html</a>
+
+
+    Cheers, Jeremy.'
+- author: 'Arslan '
+  email: mohammadarslan@hotmail.com
+  ip: 39.47.70.169
+  url: ''
+  date: '2013-05-24 03:15:55'
+  body: "Hi, \nCan you please tell me how can i select the boundary of a room or the\
+    \ whole room area in the Revit 2D model using API C# Language ?"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-05-27 07:13:20'
+  body: 'Dear Arslan,
+
+
+    Here is an example:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/04/room-and-furniture-loops-using-symbols.html">http://thebuildingcoder.typepad.com/blog/2013/04/room-and-furniture-loops-using-symbols.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-06-17 10:01:40'
+  body: 'Dear Adam,
+
+
+    Just for future reference, I submitted a wish list item SPR #237075 [PickObjects
+    in linked document] for this.
+
+
+    Cheers, Jeremy.'
+- author: Moustafa Khalil
+  email: mostafa90@gmail.com
+  ip: 197.134.127.192
+  url: ''
+  date: '2014-01-15 02:39:55'
+  body: "Hi Jeremy\n\ni can see that the above code is for rectangular based room,\
+    \ and even if there is an arc the code still gets the end and start points XYZ\
+    \ only.\n\nso Eventually i have add this code piece of statement, to get any projected\
+    \ point on the Arc, if there is.\n\nthe main target of my exercise is to create\
+    \ floor from the room boundary... would you please advise if there is any better\
+    \ idea to initialize 3 point curve.\n\nif (seg.Curve.GetType().ToString().Contains(\"\
+    Arc\"))\n                    {\n                        XYZ parc = new XYZ(seg.Curve.Project(seg.Curve.GetEndPoint(1)\
+    \ - seg.Curve.GetEndPoint(0)).XYZPoint.X + .1, seg.Curve.Project(seg.Curve.GetEndPoint(1)\
+    \ - seg.Curve.GetEndPoint(0)).XYZPoint.Y, 0);\n                        \n    \
+    \                    Arc arc = Arc.Create(seg.Curve.GetEndPoint(0), seg.Curve.GetEndPoint(1),\
+    \ (seg.Curve.Project(parc).XYZPoint));\n                        \n           \
+    \             curvearray.Append(arc);\n                    }\n               \
+    \     else\n                    {\n                        Line l = Line.CreateBound(seg.Curve.GetEndPoint(0),\
+    \ seg.Curve.GetEndPoint(1));\n                        curvearray.Append(l);\n\n\
+    \                    }"
+- author: Jimmy Plante
+  email: jimmy.plante@bimone.ca
+  ip: 24.49.239.22
+  url: http://bimone.ca
+  date: '2014-03-22 11:55:21'
+  body: 'Hi Jeremy,
+
+
+    Can''t wait to see the same post but for Revit 2015! :-) Do you know when you
+    will post something avec the Revit 2015 API highlights?
+
+
+    Cheers,'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-03-24 01:45:30'
+  body: 'Dear Jimmy,
+
+
+    I would have thought that the wording of your comment violates your non-disclosure
+    agreement. Aren''t you mentioning confidential information which may not currently
+    be revealed in public?
+
+
+    Cheers, Jeremy.'
+- author: RevitArkitek
+  email: revitarkitek@gmail.com
+  ip: 65.123.206.130
+  url: ''
+  date: '2015-04-01 15:00:59'
+  body: 'Any news regarding getting user selected linked elements?  I wish to employ
+    a tool where user may select a light fixture in host model or linked model first
+    and then click tool to get info.  But when selecting linked elements they are
+    not recognized as being part of the selections set.  I''m still in 2014.  Thanks.
+
+    -----'

@@ -1,0 +1,103 @@
+comments:
+- author: Stefan Plaikhner
+  email: stefan.plaikner@wolfsystem.it
+  ip: 217.199.15.213
+  url: ''
+  date: '2009-11-09 04:19:21'
+  body: "Hallo Jeremy.\n\nIch bin dabei mich in die Revit-Programierung einzuleben.\n\
+    Bin gerade dabei ein Fensterbuch zu schreiben und bin auf folgendes Problem gestossen:\n\
+    \nIch will für jedes Fenster auch den Raum auslesen, in dem es eingebaut ist.\n\
+    \nFunktioniert soweit perfekt, nur sobalt ein Fenster im Projekt ist, das in einem\
+    \ noch nicht definierten Raum ist, gibt mir das Programm einen Fehler aus. Selbst\
+    \ der Zugriff auf den Paramter (fromRoom.id.value) füht zum Fehler.\nWäre super\
+    \ wenn du mir dabei kurz helfen könntest.\n\nDanke Stefan\n\nPS: Schick dir mal\
+    \ den Code mit\n\nCode:\n     Shared Function FensterFlächenBerechnung(ByVal doc\
+    \ As Document)\n\n\n            Dim filterCreator As Autodesk.Revit.Creation.Filter\
+    \ = doc.Application.Create.Filter\n            Dim familyInstanceFilter As TypeFilter\
+    \ = filterCreator.NewTypeFilter(GetType(Autodesk.Revit.Elements.FamilyInstance),\
+    \ True)\n            Dim WindowsCategoryfilter As CategoryFilter = filterCreator.NewCategoryFilter(BuiltInCategory.OST_Windows)\n\
+    \            Dim WindowsInstancesFilter As Filter = filterCreator.NewLogicAndFilter(familyInstanceFilter,\
+    \ WindowsCategoryfilter)\n\n\n            Dim Windowsiterator As ElementIterator\
+    \ = doc.Elements(WindowsInstancesFilter)\n\n            Dim FensterNR As String\
+    \ = \"\"\n            Dim AktuelleNr As Integer = 0\n            PutzFlächeFenster\
+    \ = 0\n            PutzVolumenFenster = 0\n            Fensteranzahl = 0\n   \
+    \         Dim RaumID As Double = 0\n\n\n            Dim frmBelichtung As Fensterliste\
+    \ = New Fensterliste\n\n\n\n\n\n            Windowsiterator.Reset()\n\n      \
+    \      While Windowsiterator.MoveNext()\n                Dim Windows As Autodesk.Revit.Elements.FamilyInstance\
+    \ = TryCast(Windowsiterator.Current, Autodesk.Revit.Elements.FamilyInstance)\n\
+    \                Dim FensterParameterSet As ParameterSet = Windows.Parameters\n\
+    \                Dim FensterParameterAufgehrichtungKurzWert As String = \"\"\n\
+    \n                ReDim Fensterliste(AktuelleNr, 5)\n\n\n                For Each\
+    \ FensterParameter As Parameter In FensterParameterSet\n\n                   \
+    \ If FensterParameter.Definition.Name = \"Nummer\" Then FensterNR = FensterParameter.AsDouble\n\
+    \                    If FensterParameter.Definition.Name = \"Breite\" Then FensterBreite\
+    \ = FensterParameter.AsDouble\n                    If FensterParameter.Definition.Name\
+    \ = \"Höhe\" Then FensterHöhe = FensterParameter.AsDouble\n\n                Next\n\
+    \n                FensterFläche = FensterBreite * FensterHöhe * QuadratFootToQuadratMeter\n\
+    \                Fenstervolumen = FensterBreite * FensterHöhe * 0.01 * QuadratFootToQuadratMeter\n\
+    \n                If FensterFläche >= Putzabzugszahl And CheckStateGipsAbzug =\
+    \ True Then\n                    PutzFlächeAbzug = PutzFlächeAbzug + FensterFläche\n\
+    \                    PutzVolumenAbzug = PutzVolumenAbzug + Fenstervolumen\n  \
+    \              End If\n                If FensterFläche >= Putzabzugszahl And\
+    \ CheckBoxPutzAbzugfläche = True Then PutzFlächeAbzug = PutzFlächeAbzug + FensterFläche\n\
+    \                If FensterFläche >= GipsflacheAbzugszahl And CheckBoxPutzAbzugfläche\
+    \ = True Then FlächeGipsAbzug = FlächeGipsAbzug + FensterFläche\n\n          \
+    \      'RaumID = \n\n                'If Windows.Room.Id.Value = -1 Then MsgBox(\"\
+    Fehler\")\n\n\n\n\n\n                PutzFlächeFenster = PutzFlächeFenster + FensterFläche\n\
+    \                PutzVolumenFenster = PutzVolumenFenster + Fenstervolumen\n\n\n\
+    \n                Fensterliste(AktuelleNr, 0) = Windows.Id.Value\n           \
+    \     Fensterliste(AktuelleNr, 1) = Windows.Name.ToString\n                Fensterliste(AktuelleNr,\
+    \ 2) = FensterNR\n                Fensterliste(AktuelleNr, 3) = FensterBreite\n\
+    \                Fensterliste(AktuelleNr, 4) = FensterHöhe\n                'Fensterliste(AktuelleNr,\
+    \ 5) = RaumID\n\n\n\n\n\n\n            End While\n\n\n\n        End Function"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-09 06:10:21'
+  body: 'Dear Stefan,
+
+
+    I would prefer the comments in English, if possible, so that a large world-wide
+    audience can participate.
+
+
+    Still, I understand what you are saying: when a window is located in an undefined
+    room, accessing the parameter fromRoom.id.value throws an exception.
+
+
+    The strange thing is that I cannot see any access to FromRoom in the code you
+    appended.
+
+
+    I do see the commented-out line
+
+
+    ''If Windows.Room.Id.Value = -1 Then MsgBox("Fehler")
+
+
+    Do you mean that simply uncommenting that line will cause an exception to be thrown?
+
+
+    First of all, I would create explicit variables for the element ids you are interested
+    in, something like this:
+
+
+    ElementId idRoom = window.Room
+
+    ElementId idRoomFrom = window.FromRoom
+
+    ElementId idRoomTo = window.ToRoom
+
+
+    That will prove that you can at least access the element id value without causing
+    an exception.
+
+
+    Then you can either check the value of the element id, or pass it in to Document.get_Element
+    and see whether a valid non-null element is returned.
+
+
+    Cheers, Jeremy.
+
+    -----'

@@ -1,0 +1,220 @@
+---
+layout: "post"
+title: "Q4R4 tbc Import and RevitLookup"
+date: "2017-03-16 06:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "cURL"
+  - "Elasticsearch"
+  - "NoSQL"
+  - "Python"
+  - "Q4R4"
+  - "RevitLookup"
+  - "Update"
+original_url: "https://thebuildingcoder.typepad.com/blog/2017/03/q4r4-tbc-import-and-revitlookup.html "
+typepad_basename: "q4r4-tbc-import-and-revitlookup"
+typepad_status: "Publish"
+---
+
+<p>I started working on the question answering
+system <a href="http://thebuildingcoder.typepad.com/blog/2017/03/q4r4-revit-api-question-answering-system.html">Q4R4 <em>Question Answering for Revit API</em></a>.</p>
+
+<p>The first step is to import The Building Coder blog posts into Elasticsearch and experiment with full-text queries on them.</p>
+
+<p>Furthermore, we are proud to present yet more enhancements to the revamped version of RevitLookup:</p>
+
+<ul>
+<li><a href="#2">Q4R4 sources and result presentation</a></li>
+<li><a href="#3">Importing <code>tbc</code> blog posts into Elasticsearch</a></li>
+<li><a href="#4">Listing and clearing the Elasticsearch <code>tbc</code> index</a></li>
+<li><a href="#5">Strip and clean up HTML for JSON document</a></li>
+<li><a href="#6">Q4R4 GitHub repo and <code>tbcimport.py</code> script</a></li>
+<li><a href="#7">RevitLookup bug fixes</a></li>
+<li><a href="#8">RevitLookup icons</a></li>
+</ul>
+
+<h4><a name="2"></a>Q4R4 Question Sources and Result Presentation</h4>
+
+<p>One aspect of q4r4 is searching, and another is what results to present and how.</p>
+
+<p>One useful approach that comes to mind might be:</p>
+
+<p>Given a query, return the most relevant results separately from several different resource collections:</p>
+
+<ul>
+<li>The Revit API help file</li>
+<li>The Revit add-in developer guide</li>
+<li>The Revit SDK sample collection</li>
+<li>Revit API discussion forum threads</li>
+<li>The Building Coder blog posts</li>
+<li>Anonymised ADN case answers</li>
+<li>StackOverflow queries</li>
+</ul>
+
+<h4><a name="3"></a>Importing <code>tbc</code> Blog Posts into Elasticsearch</h4>
+
+<p>As mentioned
+in <a href="http://thebuildingcoder.typepad.com/blog/2017/03/q4r4-revit-api-question-answering-system.html">the last post on q4r4</a>,
+I should start off implementing a simple but intelligent search engine without worrying about machine learning or AI in any of its forms.</p>
+
+<p>I am still reading
+about <a href="https://www.elastic.co/products/elasticsearch">Elasticsearch</a> and
+figuring out how to set up an experimental system to try this out.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb09843c4f970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb09843c4f970d img-responsive" style="width: 84px; " alt="Elasticsearch" title="Elasticsearch" src="/assets/image_9ed3f6.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>I started with the The Building Coder blog posts, since I have them all in handy text format, either HTML or Markdown, publicly accessible in
+the <a href="https://github.com/jeremytammik/tbc">tbc GitHub repository</a>.</p>
+
+<p>I want to import all posts' full text into Elasticsearch.</p>
+
+<p>A similar topic is discussed 
+in <a href="https://bitquabit.com/post/having-fun-python-and-elasticsearch-part-1/">having fun with Python and Elasticsearch, Part 1</a>.</p>
+
+<p>I installed the <a href="https://www.elastic.co/guide/en/elasticsearch/client/python-api/current/index.html">Elasticsearch Python library</a> and
+implemented a module <code>tbcimport.py</code> to read
+the <a href="http://jeremytammik.github.io/tbc/a">tbc main blog post index</a> and open each HTML file on the local system.</p>
+
+<h4><a name="4"></a>Listing and Clearing the Elasticsearch <code>tbc</code> Index</h4>
+
+<p>For testing purposes, it is useful to be able to list all posts imported so far and delete the entire collection to clean up and retry; here are two <code>curl</code> commands to achieve that:</p>
+
+<ul>
+<li>List all posts:</li>
+</ul>
+
+<pre>
+curl -XGET 'localhost:9200/tbc/_search?pretty'
+</pre>
+
+<ul>
+<li>Clear the <code>tbc</code> index:</li>
+</ul>
+
+<pre>
+curl -XDELETE 'localhost:9200/tbc?pretty'
+</pre>
+
+<h4><a name="5"></a>Strip and Clean Up HTML for JSON Document</h4>
+
+<p>After reading the main blog post index file, I need to extract the text from the HTML contents and put it into a JSON document for Elasticsearch to imbibe.</p>
+
+<p>Some useful hints for this are provided here:</p>
+
+<ul>
+<li><a href="http://docs.python-guide.org/en/latest/scenarios/scrape/">Hitchhiker's Guide to Python &ndash; HTML scraping</a></li>
+<li><a href="http://stackoverflow.com/questions/328356/extracting-text-from-html-file-using-python">Extracting text from HTML file using Python</a></li>
+</ul>
+
+<p>I settled for a very simple HTML text extractor using the <code>htmllib</code> <code>HTMLParser</code>.</p>
+
+<p>It initially wrote the text to standard output, but I was able to pass a file-like <code>StringIO</code> object into the <code>DumbWriter</code> constructor to intercept it.</p>
+
+<p>On the first attempt, I successfully imported the first nine posts.
+Post number 10, <em>Selecting all Walls</em>, failed with a <code>UnicodeDecodeError</code> error message.</p>
+
+<pre>
+UnicodeDecodeError: 'utf8' codec can't decode byte 0xa0 in position 2595: invalid start byte
+</pre>
+
+<p>As it turned out, the offending file was stored in a Windows encoding.
+I converted it to UTF-8.</p>
+
+<p>Next, I went one step further and eliminated all non-ASCII characters by adding <code>re.sub( r'[^\x00-\x7f]', r'', my_stringio.getvalue() )</code> to the result of stripping the HTML tags.</p>
+
+<p>This will presumably corrupt some foreign names, expressions, and text passages.
+I would not expect those passages to be of any major importance for Revit API related queries anyway.</p>
+
+<p>I also added an assertion to ensure that the filenames listed in <code>index.html</code> really do exist.</p>
+
+<p>A surprising number of errors were discovered and fixed in the process.</p>
+
+<p>Now I have successfully imported all The Building Coder blog posts into Elasticsearch.</p>
+
+<h4><a name="6"></a>Q4R4 GitHub Repo and <code>tbcimport.py</code> Script</h4>
+
+<p>I celebrated this first step by creating
+the <a href="https://github.com/jeremytammik/q4r4">q4r4 GitHub repository</a>,
+adding <a href="https://github.com/jeremytammik/q4r4/blob/master/tbcimport.py">tbcimport.py</a> to it in its current functional state, 
+and creating <a href="https://github.com/jeremytammik/q4r4/releases/tag/1.0.0">q4r4 release 1.0.0</a>.</p>
+
+<p>Here is the script in its current state:</p>
+
+<script src="https://gist.github.com/jeremytammik/d834055f2f4943c4bbe97beb85d803cc.js"></script>
+
+<p>The next thing to do is to start experimenting with queries, and presumably with ways to optimise the resulting hits.</p>
+
+<h4><a name="7"></a>RevitLookup Bug Fixes</h4>
+
+<p>While I am fiddling with q4r4,
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> and 
+other Revit API related issues remain as vibrant as ever.</p>
+
+<p>Some new enhancements were added to our irreplaceable Revit BIM database exploration
+tool <a href="https://github.com/jeremytammik/RevitLookup">RevitLookup</a>.</p>
+
+<p>In the last few weeks, it was significantly restructured to use <code>Reflection</code> and reduce code duplication:</p>
+
+<ul>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/02/revitlookup-using-reflection-for-cross-version-compatibility.html">Using <code>Reflection</code> for cross-version compatibility</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/02/revitlookup-with-reflection-cleanup.html">Basic clean-up of the new version</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/02/revitlookup-extensible-storage-restored.html#3">Restore access to extensible storage data</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/03/revitlookup-enhancements-future-revit-and-other-api-news.html#8">Further enhancements</a></li>
+</ul>
+
+<p>Alexander Ignatovich, <a href="https://github.com/CADBIMDeveloper">@CADBIMDeveloper</a>, aka Александр Игнатович,
+now submitted a few new bug fixes in
+his <a href="https://github.com/jeremytammik/RevitLookup/pull/29/commits">pull request #29</a>:</p>
+
+<ul>
+<li>Move <code>CollectorExtElement</code> field initialization to constructor, use linq extension methods instead of linq syntax</li>
+<li>Get types only from <code>AppDomain.CurrentDomain.BaseDirectory</code>, the Revit.exe directory path. 
+I have a dll with a name that contains the substring "revit".
+This library depends on another library in another location.
+I have an <code>Assembly.Resolve</code> event subscription to load dependencies correctly.
+In such case this code fails, because it can't be aware of correct paths to load referenced libraries.</li>
+<li>Fix bug in getting <code>Application.Documents</code> when more than one document is opened.
+The <code>Close</code> method must not be called &ndash; it successfully closes non-active documents and fails to get information about them.</li>
+</ul>
+
+<p>Many thanks to Alexander for these improvements!</p>
+
+<p>I integrated them 
+into <a href="https://github.com/jeremytammik/RevitLookup/releases/tag/2017.0.0.19">RevitLookup release 2017.0.0.19</a>.</p>
+
+<h4><a name="8"></a>RevitLookup Icons</h4>
+
+<p>Just a few hours after Alexander's bug fixes,
+Ehsan <a href="https://github.com/eirannejad">@eirannejad</a> Iran-Nejad chipped in with some further important improvements in
+his <a href="https://github.com/jeremytammik/RevitLookup/pull/30/commits">pull request #30</a>:</p>
+
+<ul>
+<li>Added and updated icon package
+<ul>
+<li>Added icon for RevitLookup button in Revit UI</li>
+<li>Added icon to RevitLookup forms</li>
+<li>Revised icons for RevitLookup menu bar</li>
+</ul></li>
+<li>Added exception handling
+<ul>
+<li><code>Path.GetDirectoryName</code> throws <code>System.ArgumentException if the assembly</code>Location` is null.</li>
+</ul></li>
+</ul>
+
+<p>Many thanks to Ehsan for these improvements!</p>
+
+<p>I integrated them 
+into <a href="https://github.com/jeremytammik/RevitLookup/releases/tag/2017.0.0.20">RevitLookup release 2017.0.0.20</a>.</p>
+
+<p>The most up-to-date version is always provided in the master branch of 
+the <a href="https://github.com/jeremytammik/RevitLookup">RevitLookup GitHub repository</a>.</p>
+
+<p>If you would like to access any part of the functionality that was removed when switching to the <code>Reflection</code> based approach, please grab it
+from <a href="https://github.com/jeremytammik/RevitLookup/releases/tag/2017.0.0.13">release 2017.0.0.13</a> or earlier.</p>
+
+<p>I am also happy to restore any other code that was removed and that you would like preserved.
+Simply create a pull request for that, explain your need and motivation, and I will gladly merge it back again.</p>

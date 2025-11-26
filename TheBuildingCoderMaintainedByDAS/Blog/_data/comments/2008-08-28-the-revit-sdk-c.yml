@@ -1,0 +1,782 @@
+comments:
+- author: Senthil Prabu
+  email: senthilprb@yahoo.co.in
+  ip: 122.164.1.78
+  url: http://www.sconce.com.sg
+  date: '2008-09-25 01:40:27'
+  body: "Jeremy Tammik,\n\nI am new for Autodesk Revit, But i have 4 yrs of exp in\
+    \ Autocad Vlisp, VBA, C#.Net, ObjectArx. Now i want to create new family in revit\
+    \ using .Net API, i don't know it can be done or not? \n\ni searched in the Revit\
+    \ SDK samples, But i did't found the samples program. Please help me \"How to\
+    \ create new family in Revit using .Net API\".\n\nThanks in advance.\nSenthil\
+    \ Prabu B R"
+- author: Jeremy
+  email: jeremy.tammik@eur.autodesk.com
+  ip: 132.188.32.100
+  url: http://thebuildingcoder.typepad.com
+  date: '2008-09-25 06:06:23'
+  body: 'Hi Senthil,
+
+
+    Thank you for your suggestion. Unfortunately, I am sorry to say that the Revit
+    API currently does not provide any functionality for creating families.
+
+
+    Best regards,
+
+
+    Jeremy'
+- author: Senthil Prabu
+  email: senthilprb@yahoo.co.in
+  ip: 122.164.1.78
+  url: ''
+  date: '2008-09-25 06:36:35'
+  body: 'Is there any other alternate way to create Revit family at runtime and utilize
+    that in the active project? Please give me some idea.
+
+
+    Thanks,
+
+    Senthil Prabu B R'
+- author: Jeremy
+  email: jeremy.tammik@eur.autodesk.com
+  ip: 132.188.32.100
+  url: http://thebuildingcoder.typepad.com
+  date: '2008-09-25 07:22:07'
+  body: "Hi Senthil,\n\nRevit currently provides no API at all within the family editor.\
+    \ This feature is very high on the developer wish list. You can generate a new\
+    \ family document using app.NewFamilyDocument(), and you can populate it from\
+    \ a command running within another document using code like the following:\n\n\
+    \  public void createProfileFamilyDoc()\n  {\n    Application app = mRevit;\n\
+    \    Autodesk.Revit.Creation.Application creApp = app.Create;\n\n    // draw some\
+    \ lines forming a unit square in the XY plane:\n\n    CurveArray curves = new\
+    \ CurveArray();\n\n    XYZ startPt = new XYZ();\n    XYZ endPt = new XYZ();\n\n\
+    \    startPt.X = 0.0;\n    startPt.Y = 0.0;\n    startPt.Z = 0.0;\n    endPt.X\
+    \ = 10.0;\n    endPt.Y = 0.0;\n    endPt.Z = 0.0;\n    curves.Append( creApp.NewLineBound(\
+    \ startPt, endPt ) );\n\n    startPt.X = 10.0;\n    endPt.Y = 10.0;\n    curves.Append(\
+    \ creApp.NewLineBound( startPt, endPt ) );\n\n    startPt.Y = 10.0;\n    endPt.X\
+    \ = 0.0;\n    curves.Append( creApp.NewLineBound( startPt, endPt ) );\n\n    startPt.X\
+    \ = 0.0;\n    endPt.Y = 0.0;\n    curves.Append( creApp.NewLineBound( startPt,\
+    \ endPt ) );\n\n    Plane basePlane = creApp.NewPlane( XYZ.BasisZ, XYZ.Zero );\n\
+    \n    mFamilyDoc.BeginTransaction();\n    Autodesk.Revit.Creation.Document creDoc\
+    \ = mFamilyDoc.Create;\n    SketchPlane plane = creDoc.NewSketchPlane( basePlane\
+    \ );\n    ModelCurveArray mc = creDoc.NewModelCurveArray( curves, plane );\n \
+    \   mFamilyDoc.EndTransaction();\n    mFamilyDoc.SaveAs( mFamilyFileName );\n\
+    \    mFamilyDoc.Close();\n  }\n\nHowever, you will probably run into some severe\
+    \ limitations very quickly. For a deeper discussion, I would suggest trying the\
+    \ Revit API discussion group at http://discussion.autodesk.com.\n\nBest regards,\n\
+    \nJeremy"
+- author: Senthil Prabu
+  email: senthilprb@yahoo.co.in
+  ip: 122.164.6.12
+  url: ''
+  date: '2008-09-29 07:53:23'
+  body: 'Hi Jeremy,
+
+
+    Thanks for the instant replay, I am able to draw model lines in the family editor
+    using API. But now i want to draw Solid Extrusion in family editor. Please help
+    me.
+
+
+    Thanks & Regards,
+
+    Senthil Prabu B R'
+- author: Jeremy
+  email: jeremy.tammik@eur.autodesk.com
+  ip: 132.188.32.100
+  url: http://thebuildingcoder.typepad.com
+  date: '2008-09-29 08:09:11'
+  body: 'Hi Senthil,
+
+
+    Glad you liked it! Unfortunately, as said, there is basically no support for drawing
+    anything at all through the API in the family editor. Regarding extrusions, the
+    situation is even more limited ... the Extrusion class is read-only, so to speak.
+    It is derived from GenericForm, which can be *queried* for a generic form for
+    use in family modelling and massing. The Revit API currently provides no methods
+    at all for creating these kinds of shapes. So I am completely unable to help you
+    any further in this. Sorry about that. Good luck finding an alternative solution!
+
+
+    Best regards,
+
+
+    Jeremy'
+- author: dharanidharan
+  email: ''
+  ip: 61.16.162.164
+  url: http://profile.typepad.com/6p0105364c8f8b970c/
+  date: '2008-12-08 01:05:13'
+  body: 'Hi Jeremy Tammik
+
+
+    Hi i am new in revit sdk. Now i want to different between lenght and cutlenght.
+    and also need a actual  lenght of the family object, i don''t know it can be done
+    or not?
+
+
+
+    i searched in the Revit SDK samples, But i did''t found the samples program. Please
+    help me "How to find the family object lenght. e.g., family library include the
+    more than two material. In material takeoff display the common parameter list.
+    I need actual start and end point of each material. Please help me".
+
+
+
+    Thanks in Advance.
+
+
+    Dharanidharan R'
+- author: Jeremy Tammik
+  email: jeremy.tammik@autodesk.com
+  ip: 88.131.80.14
+  url: http://profile.typekey.com/1218580759s22477/
+  date: '2008-12-09 02:08:17'
+  body: "Hi Dharanidharan,\n\nI'm aftraid I do not know of any solution offhand. All\
+    \ I can think of is to explore the geometrical representation in detail. Maybe\
+    \ different materials are represented on separate faces, and you can query and\
+    \ analyse the dimensions of each face. \n\nGood luck and best regards, Jeremy."
+- author: Dharanidharan
+  email: dharanidharan.r@gmail.com
+  ip: 61.16.162.164
+  url: ''
+  date: '2008-12-10 01:11:04'
+  body: "Hi Jeremy Tammik\n\n\nThanks for your replay. One additional question. How\
+    \ to retrirve the current display unit (Like Feet and Fractionaly inch its display\
+    \ 1'-5 1/2\") how to display this. and how to change the current display unit\
+    \ in api.\n\nI have the project unit sample. But it can raise some error. \"RiseRunOrAngleType\
+    \ does not exist in the Enum Namespace\". I am straggle this point. please guide\
+    \ me.\n\n\nRegards \n\nDharanidharan R"
+- author: Jeremy Tammik
+  email: jeremy.tammik@autodesk.com
+  ip: 151.13.38.170
+  url: http://profile.typekey.com/1218580759s22477/
+  date: '2008-12-11 03:04:27'
+  body: 'Dear Dharanidharan,
+
+
+    Sorry, I cannot answer your query offhand. Right now I am travelling and have
+    no possiblity to explore it in depth.
+
+
+    Best regards, Jeremy.'
+- author: Dharanidharan
+  email: dharanidharan.r@gmail.com
+  ip: 61.16.162.164
+  url: ''
+  date: '2009-01-11 23:40:57'
+  body: "Hi Jeremy Tammik\n\nI Hope you can return your trip. How to duplicate the\
+    \ family type name in revit sdk.\n\n\nRegards \n\nDharanidharan R"
+- author: Jeremy Tammik
+  email: ''
+  ip: 88.87.203.45
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-01-12 18:41:17'
+  body: 'Dear Dharanidharan,
+
+
+    Thank you, I returned, and now I am on the road once again ... I am not completely
+    clear on the meaning of your question ... if you are asking how to duplicate a
+    family symbol, then the question is answered by
+
+
+    http://thebuildingcoder.typepad.com/blog/2008/11/creating-a-new-family-symbol.html.
+
+
+    Best regards, Jeremy.'
+- author: Dharanidharan
+  email: dharanidharan.r@gmail.com
+  ip: 61.16.162.164
+  url: ''
+  date: '2009-01-15 00:53:45'
+  body: "Hi Jeremy Tammik\n\nThanks for your replay. Its my previous query. I Can\
+    \ retrieve the current display unit. but i dont know how to change unit (i.e.,\
+    \ Project Units -> Format -> Units -> Decimal feet to some other). set command\
+    \ posible to change the units? help me.\n\n\nRegards \n\nDharanidharan R"
+- author: Jeremy Tammik
+  email: ''
+  ip: 62.37.183.46
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-01-15 01:14:29'
+  body: "Dear Dharanidharan,\n\nPlease refer to the ProjectUnit SDK sample mentioned\
+    \ in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2008/09/units.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2008/09/units.html</a>\n\nIt lists and\
+    \ sets units and format options. In more detail, it implements an external command\
+    \ which lists all the units in the current project and displays their format information;\
+    \ displays the decimal symbol type of the current project units, which can be\
+    \ set to comma or dot; and displays the slope type of current project units, which\
+    \ can be either rise or angle.\n\nCheers, Jeremy."
+- author: Michael
+  email: ''
+  ip: 84.191.201.41
+  url: http://profile.typepad.com/6p010536ef7411970b
+  date: '2009-01-26 18:14:30'
+  body: 'Hi Jeremy,
+
+    I''m just starting with the revit api/ide, so maybe a trivial question, how would
+    you write a ''purge unused materials'' program. My project files often get overloaded
+    with all sorts of unwanted materials from loaded families or pasted elements so
+    that it becomes a hassle to find and select those materials needed.If its easy
+    for you could you provide the code for this?
+
+    Thanks, Michael'
+- author: Jeremy Tammik
+  email: ''
+  ip: 85.18.94.89
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-01-27 11:25:31'
+  body: "Hi Michael,\n\nSounds like a sweet little project. I'll make a note of it.\
+    \ If anyone has a contribution to make, feel free to do so and I will be happy\
+    \ to publish it. It will probably be a while before I get around to it ... unless\
+    \ I use it right here and now as an example in the current training ... I wonder\
+    \ whether there is one single parameter that is used to store the current material\
+    \ of an element? If so, it would be a simple matter of implementing a filter that\
+    \ selects all elements with an entry for that parameter and identifying all unique\
+    \ values. All other material definitions can be eliminated. Maybe. \n\nIt would\
+    \ help if you could provide a good sample project as a starting point and list\
+    \ what materials are used in it and which should be eliminated.\n\nCheers, Jeremy."
+- author: Michael
+  email: mcoviello@trojungbrannen.com
+  ip: 65.78.3.116
+  url: ''
+  date: '2009-01-28 09:50:11'
+  body: "Hi Jeremy,\nI would like to create a solution which searches the current\
+    \ .rvt for any/all in-place families and produce an html report of these items.\
+    \  Is there a way to use the filtering capabilities for this?\nThe reason for\
+    \ this is because it's our experience that in-place families seriously degrade\
+    \ performance.  We'd like to identify in-place instances and see if they can be\
+    \ recreated as external families.  \nThank you."
+- author: Jeremy Tammik
+  email: ''
+  ip: 85.18.94.89
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-01-29 02:53:16'
+  body: 'Hi Michael,
+
+
+    Sounds like another great idea for a sweet and doable little project. I''ll make
+    a note of this as well. If anyone has a contribution to make, please feel free
+    to do so and I will be happy to publish it. It will probably be a while before
+    I get around to it. It would help if you could provide a sample project as a starting
+    point with a couple of in-place families and a specification of what the list
+    that you expect as a result should look like. Actually, even better than a sample
+    project would be a journal file that creates such a project from scratch.
+
+
+    Cheers, Jeremy.'
+- author: Michael Coviello
+  email: mcoviello@trojungbrannen.com
+  ip: 216.195.208.35
+  url: http://www.trojungbrannen.com
+  date: '2009-03-06 16:18:28'
+  body: 'Hello,
+
+    I have both a sample file and the journal file. What''s the best way to send it
+    to you?'
+- author: dharanidharan
+  email: ''
+  ip: 115.118.99.5
+  url: http://profile.typepad.com/6p0105364c8f8b970c
+  date: '2009-03-09 07:13:34'
+  body: "Hi Jeremy Tammik,\n\nNow i am create sheets for all drafting view at runtime.\
+    \ i can do it. but it has raised one problem. for. e.g. Drafting view (E20) it\
+    \ create the only one sheet at a time then i can create the another sheet with\
+    \ same Drafting view (E20) it show the error (\"The View E20 is not appropriate,\
+    \ or it was placed in another sheet\"). Then i can change the Drafting view\n\
+    \ i.e. E20->right click-> Duplicate view-> duplicate with detailing.\nchange E20\
+    \ -> E20-A. Then i can create the sheet it will be create. Right now i will create\
+    \ Drafting view (Duplicate with detailing ) at run time. How do i will make change\
+    \ this. pls guide me. \nI can create 50 sheet at runtime with same Drafting View\
+    \ (E20) and different operation and cut length.\n\nRegards,\nDharanidharan R"
+- author: Adam Nagy
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2009-03-18 10:22:15'
+  body: "Hi Michael,\n\nI got the following feedback about determining if a family\
+    \ is in-place or not:\n\nYou can use the fact that the doc.EditFamily throws exception\
+    \ for in-place families. For other elements either EditFamily will return a valid\
+    \ document or fi will be null.\n\nSystem..::.ArgumentException is thrown when\
+    \ the input argument-\"loadedFamily\"-is an in-place family. \n\nforeach (Autodesk.Revit.Element\
+    \ e in collection) \n{\n  FamilyInstance fi = e as FamilyInstance;\n  if (fi !=\
+    \ null) \n  {\n    try\n    {\n      Document famDoc = doc.EditFamily(fi.Symbol.Family);\n\
+    \    }\n    catch\n    {\n      MessageBox.Show(\"In Place Family\");\n    }\n\
+    \  }\n}\n\nCheers,\nAdam"
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.84.203
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-03-27 07:48:33'
+  body: 'Dear Dharanidharan,
+
+
+    I am glad the creation of sheets for drafting views works for you. I understand
+    that you have a problem when you try to create multiple sheets displaying the
+    same view. You can work around this problem by duplicating the view manually using
+    the context menu. You are now asking how to duplicate the view through the API
+    to avoid the manual step. Is that correct?
+
+
+    I do not know offhand whether it is possible to duplicate a view through the API.
+    How have these views been generated? If they were generated through the API as
+    well, it might be simpler to generate all the required copies of them right from
+    the beginning to avoid the need to duplicate them later.
+
+
+    Cheers, Jeremy.'
+- author: dharanidharan
+  email: ''
+  ip: 218.248.29.131
+  url: http://profile.typepad.com/6p0105364c8f8b970c
+  date: '2009-05-14 00:38:45'
+  body: "Hi Jeremy Tammik,\n\nDo you have any idea about duplicate a view through\
+    \ API. If its possible pls guide me. \n\nRegards,\nDharanidharan R"
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.209.53.175
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-05-18 03:35:57'
+  body: "Dear Dharanidharan,\n\nI assume you are aware of the various methods available\
+    \ to create new views on the Autodesk.Revit.Creation.Document class, e.g. \n\n\
+    \ ViewDrafting NewViewDrafting()\n ViewSheet NewViewSheet( FamilySymbol titleBlock\
+    \ )\n View3D NewView3D( XYZ viewDirection )\n ViewPlan NewViewPlan( string viewName,\
+    \ Level, ViewType )\n ViewSection NewViewSection( BoundingBoxXYZ )\n\nThere are\
+    \ also some samples in the Revit SDK demonstrating how to make use of some of\
+    \ these methods, e.g. AllViews, CreateViewSection, and FrameBuilder.\n\nHowever,\
+    \ none of these exactly address your need of exactly duplicating an existing view.\
+    \ I asked the development team for advice on this issue, and their reply is that\
+    \ unfortunately there is currently no way to duplicate a view through the API,\
+    \ and there is no known work-around to do it either (duplicate/duplicate with\
+    \ detail/duplicate as dependent). Sorry for the bad news.\n\nCheers, Jeremy."
+- author: dharanidharan
+  email: ''
+  ip: 218.248.29.131
+  url: http://profile.typepad.com/6p0105364c8f8b970c
+  date: '2009-05-29 02:05:39'
+  body: 'Hi Jeremy Tammik
+
+
+    Thanks for your suggestion, now i''d hold that process. I need another help to
+    you. How to bring the View (3D viwe or detail view) in Picture box (Front End
+    Form). You have any idea about that. please guide me.
+
+
+    Thanks in Advance
+
+
+    Dharanidharan R'
+- author: Jeremy Tammik
+  email: ''
+  ip: 85.69.124.206
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-05-30 03:41:56'
+  body: 'Dear Dharanidharan,
+
+
+    Do you mean how to redraw some of the Revit model geometry in your own dialogue''s
+    picture box? There is no direct support for that in the Revit API, but some of
+    the Revit SDK samples demonstrate rudimentary approaches. Some of them are mentioned
+    in the discussions on geometry viewers and workarounds for picking a point:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2008/09/geometry-viewer.html">http://thebuildingcoder.typepad.com/blog/2008/09/geometry-viewer.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2008/10/picking-a-point.html">http://thebuildingcoder.typepad.com/blog/2008/10/picking-a-point.html</a>
+
+
+    Cheers, Jeremy.'
+- author: dharanidharan
+  email: ''
+  ip: 220.227.66.2
+  url: http://profile.typepad.com/6p0105364c8f8b970c
+  date: '2009-07-21 09:15:40'
+  body: 'Hi Jeremy Tammik,
+
+
+    How can i get Material properties (Identity). Now i want to create, edit or remove
+    the materials names on runtime. and also share the material identity property.
+    you have any idea about this, help me.
+
+
+    Dharanidharan R'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-07-21 09:43:53'
+  body: 'Dear Dharanidharan,
+
+
+    Here are some posts that deal with materials which might be of use to you:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2008/10/element-materials.html">http://thebuildingcoder.typepad.com/blog/2008/10/element-materials.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2008/10/family-instance-materials.html">http://thebuildingcoder.typepad.com/blog/2008/10/family-instance-materials.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/03/more-questions.html">http://thebuildingcoder.typepad.com/blog/2009/03/more-questions.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/05/new-material.html">http://thebuildingcoder.typepad.com/blog/2009/05/new-material.html</a>
+
+
+    I suggest you start with those first.
+
+
+    Cheers, Jeremy.'
+- author: Justin
+  email: justinq2002@hotmail.com
+  ip: 209.125.84.23
+  url: ''
+  date: '2009-07-23 18:38:01'
+  body: 'Jeremy,
+
+
+    After looking through the documentation, I am correct in stating that it is not
+    possible with the API to create new ViewTypes?  This appears to be possible in
+    the UI (by renaming the type in the type properties dialog).  Thanks!
+
+
+    Justin'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-07-27 13:24:29'
+  body: 'Dear Justin,
+
+
+    In the API, the ViewType is an enumeration. You cannot add new entries to that
+    except by recompiling Revit.
+
+
+    Cheers, Jeremy.'
+- author: dharanidharan
+  email: ''
+  ip: 220.227.66.2
+  url: http://profile.typepad.com/6p0105364c8f8b970c
+  date: '2009-08-07 09:50:36'
+  body: "Hi Jeremy Tammik,\n\nHow to export current view in image (jpg or bmp) you\
+    \ have an idea. pls share with me.\n\n\nRegards \nDharanidharan"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-08-10 01:21:48'
+  body: 'Dear Dharanidharan,
+
+
+    Thank you for your query. The export options provided by the Revit API currently
+    include gbXML, DGN, DWF, DWG and FBX, as  you can see from the list of overloads
+    of the Document.Export method. Screen snapshots and bitmap formats are not included.
+
+
+    One option that comes to mind, however, is that you can easily implement your
+    own screen snapshot utility as part of your Revit plug-in. I googled for the search
+    keys ".net screen snapshot", and the following first two hits which appeared both
+    include source code for a screen snapshot utility:
+
+
+    <a href="http://www.developerfusion.com/code/4630/capture-a-screen-shot/">http://www.developerfusion.com/code/4630/capture-a-screen-shot/</a>
+
+
+    <a href="http://www.vbdotnetheaven.com/Uploadfile/mgold/ScreenCaptureUtilityVB11162005063518AM/ScreenCaptureUtilityVB.aspx">http://www.vbdotnetheaven.com/Uploadfile/mgold/ScreenCaptureUtilityVB11162005063518AM/ScreenCaptureUtilityVB.aspx</a>
+
+
+    Cheers, Jeremy.'
+- author: dharanidharan
+  email: ''
+  ip: 123.201.59.99
+  url: http://profile.typepad.com/6p0105364c8f8b970c
+  date: '2009-08-17 13:21:02'
+  body: "Hi Jeremy Tammik,\n\nNow i am create \"Detail item\" in Elevation view (East,\
+    \ West, North or South). But i am not able to create the that view, its created\
+    \ only on level (Plane View Level 1). And i am also try Model Line (2009 sdk sample)\
+    \ it also create in Level based view only. Not in Elevation view.\n\nNow i'm using\
+    \  \"Detail items\" based on\n\n   (i) First Create the mLine = Model line (geo_info,current\
+    \ Sketch(Elevation South).\n   (ii) Newfamilyinstance(mLine.geomentrycurve,symbol,level,\
+    \ nonstructuraltype)\n\nIn this method correct or not. advice me.\n\n   Another\
+    \ question. How can i create the Dimension, between the two stuctural column \n\
+    dynamically. and I'm not understand the \"Arrayreference\". how is handle that\
+    \ references. and how to add two column information on Arrayreference.\n\nRegards,\n\
+    Dharanidharan"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-08-17 14:06:33'
+  body: "Dear Dharanidharan,\n\nI think there is currently a problem creating detail\
+    \ items in anything but plan views, so I am afraid I cannot help you with that.\
+    \ I don't know off-hand about the detail lines either. \n\nTo create dimensioning,\
+    \ you need to provide references to the underlying geometry. These are obtained\
+    \ from the standard get_Geometry call, where the options argument needs to have\
+    \ the ComputeReferences set to true. Here is an example for a wall element:\n\n\
+    \  Options opt = app.Create.NewGeometryOptions();\n  opt.ComputeReferences = true;\n\
+    \  opt.DetailLevel = Options.DetailLevels.Fine;\n  GeoElement geoElement = wall.get_Geometry(\
+    \ opt );\n\nLook at the external command CmdAddDimensionForRacWall in the geometry\
+    \ portion of the Revit API tips and tricks sample code provided in rac_tips_20090303.zip\
+    \ in the post \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/03/back-again.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/03/back-again.html</a>\n\nCheers,\
+    \ Jeremy."
+- author: Samir
+  email: ''
+  ip: 12.159.231.245
+  url: http://profile.typepad.com/bim
+  date: '2009-09-02 12:49:08'
+  body: 'Hi Jeremy,
+
+    I see that there was another request for "Purge Unused". I tried doing that in
+    VSTA but iterating though unused Families and Family Types is a daunting task.
+
+
+    Thanks, Samir'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-09-02 15:04:56'
+  body: 'Dear Samir,
+
+
+    Looking through previous comments and posts for purge, I discovered that I have
+    actually already mentioned a very simple solution to this which is readily available:
+
+
+    ''Purge Unused'' is listed as one of the functions that have been made accessible
+    using AutoHotkey for Revit 2009. That is mentioned in
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/01/autohotkey.html">http://thebuildingcoder.typepad.com/blog/2009/01/autohotkey.html</a>
+
+
+    I hope that a similar approach is usable in Revit 2010 as well.
+
+
+    Cheers, Jeremy.'
+- author: dharanidharan
+  email: ''
+  ip: 220.227.66.2
+  url: http://profile.typepad.com/6p0105364c8f8b970c
+  date: '2009-09-03 02:12:14'
+  body: 'hi Tammik,
+
+
+
+    Autodesk Design Review 2010 chm found in autodesk site. But it don''t any Documentation
+    and pdf.ADR 2010 introduce the Markup api. but i don''t know how it is use(create,
+    retrieve the property of markup dynamically). I know this is not your subject.
+    if you have any idea about this pls tell me. its very urgent.
+
+
+    Thanks in advance
+
+    Dharanidharan R'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-09-03 02:30:55'
+  body: 'Dear Dharanidharan,
+
+
+    Sorry, no idea whatsoever. Good luck in your search!
+
+
+    Cheers, Jeremy.'
+- author: dharanidharan
+  email: ''
+  ip: 220.227.66.2
+  url: http://profile.typepad.com/6p0105364c8f8b970c
+  date: '2009-10-01 08:06:34'
+  body: "Hi Jeremy Tammik,\n\n I need some clarification. In CreateBeamsColumnsBraces\
+    \ sample. I give the information on column, beam and etc.\non external application(Not\
+    \ in revit application, its a stand alone project), and click submit. That information\
+    \ stored in some other database (mdb or txt) file.\n\n Now i will open the Revit\
+    \ application, fetch the value from that database, load the library family files\
+    \ (initially i have stored in family path(structural column, or beam)), and create\
+    \ Frame or elevation. \n \n  Today onward im start this task. i tried this method\
+    \ onDocumentopen events. it is usefull for me. i need some idea about this task.\
+    \ pls guid me.\n\nRegards & thanks in advance\nDharanidharan R"
+- author: Jeremy Tammik
+  email: ''
+  ip: ''
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-10-01 12:10:36'
+  body: 'Dear Dharanidharan,
+
+
+    I think your approach sounds fine. Store the creation data externally, start Revit,
+    fetch the data, load the required families and create the framing. It would be
+    easier to implement this as an external command, though, rather than using the
+    document open event. In any case, I wish you good luck with your project!
+
+
+    Cheers, Jeremy.'
+- author: dharanidharan
+  email: ''
+  ip: 220.227.66.2
+  url: http://profile.typepad.com/6p0105364c8f8b970c
+  date: '2009-10-12 09:32:20'
+  body: "Hi Jeremy Tammik,\n\n how to call iExternal command on Iexternal application.\
+    \ In earlier post i was said Document open even handler. it not to provider application\
+    \ and when i call any family at runtime. its call repeatedly call that event.\n\
+    \n  Simplly im said. i'm open the revit application and click the revit file (its\
+    \ already load the families, like template) then run external commands without\
+    \ any click. it's make possible, pls guid.\n\nRegards,\nDharanidharan R"
+- author: Vasco Granadeiro
+  email: vascogranadeiro@gmail.com
+  ip: 18.85.49.92
+  url: ''
+  date: '2009-10-13 09:04:36'
+  body: 'Dear Jeremy,
+
+
+    I need a tool capable of drawing, by programming, parametric models of buildings.
+    By parametric I mean drawing objects (e.g beams) which parameters (e.g. dimensions)
+    are not fixed but depend on another parameters, of the same object or of other
+    objects. Hence, changing one parameter of one object affects other parameters,
+    of the same object or of other objects.
+
+
+    Can I do this with Revit? If yes, is using VSTA the easier way?
+
+
+    Thank you.
+
+
+    Best regards,
+
+    Vasco Granadeiro'
+- author: Jeremy Tammik
+  email: ''
+  ip: 12.160.193.229
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-10-13 11:04:51'
+  body: "Dear Dharanidharan,\n\nI am sorry to say that you cannot call an external\
+    \ command directly from the OnStartup event handler method of an external application.\
+    \ You can however inside of the OnStartup method set up an event handler for the\
+    \ OnDocumentOpened event, and then install some code implementing your required\
+    \ functionality inside of that. One sample that may be of interest to you in this\
+    \ context is the AutoExecuteOnOpen example described in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/07/journal-file-replay.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/07/journal-file-replay.html</a>\n\
+    \nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 12.160.193.229
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-10-13 13:06:25'
+  body: "Dear Vasco,\n\nYes, you can definitely do this with Revit, and it is exactly\
+    \ what Revit and its API are intended for.\n\nVSTA is good for learning and experimenting\
+    \ and testing, and also for implementing little personal macros, but for a serious\
+    \ application such as you are suggesting, I would prefer to work in a full-fledged\
+    \ programming environment and create a .NET plug-in instead as described in \n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/04/getting-started-with-the-revit-2009-api.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/04/getting-started-with-the-revit-2009-api.html</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/09/getting-started-with-the-revit-2010-api.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/09/getting-started-with-the-revit-2010-api.html</a>\n\
+    \nFor a simple starting point of creating an entire though minimal parameterised\
+    \ BIM through the Revit API, you can have a look at Lab2_0_CreateLittleHouse in\
+    \ the Revit API introduction labs. It is briefly described in and can be downloaded\
+    \ from\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2008/09/selecting-all-w.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2008/09/selecting-all-w.html</a>\n\n\
+    <a href=\"http://thebuildingcoder.typepad.com/blog/2009/01/walls-and-doors-on-two-levels.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/01/walls-and-doors-on-two-levels.html</a>\n\
+    \nCheers, Jeremy."
+- author: dharanidharan
+  email: ''
+  ip: 220.227.66.2
+  url: http://profile.typepad.com/6p0105364c8f8b970c
+  date: '2010-02-03 06:54:54'
+  body: "Hi Jeremy,\n\n  Now i'm creating the family creation in revit 2010. It's\
+    \ successfully created. But it could create only for when family document (.rfa)\
+    \ are opened.\n  In the same way i can open document(.rvt) -> External Command\
+    \ -> click. Internally i can call \"m_revit.OpenDocumentFile(Generic Model.rft)\"\
+    \ and m_familyDocument = m_revit.NewFamilyDocument(Generic Model.rft). it can\
+    \ be created. don't make error.\n\n My quary is how to load or how to bring family\
+    \ file (.rfa) in project document during run time (without save). \n\nRegards,\
+    \ \nDharanidharan"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-02-03 12:17:39'
+  body: 'Dear Dharanidharan,
+
+
+    I assume you are trying to open a document so that it is displayed in the Revit
+    user interface. Unfortunately, that is currently not possible. We have an open
+    wish list item to be able to set the active document through the API.
+
+
+    Cheers, Jeremy.'
+- author: dharanidharan
+  email: ''
+  ip: 220.227.66.2
+  url: http://profile.typepad.com/6p0105364c8f8b970c
+  date: '2010-02-04 05:34:36'
+  body: "Hi Jeremy,\n I could try to this way,\n\n PrjDoc = m_revit.ActiveDocument\
+    \ // First Active Document\n FmyDoc = m_revit.NewFamilyDocument(\"Generic Model.rft\"\
+    ); // Second Active Document\n\n CreateGenericModel() // FmyDoc create rectangle\
+    \ mode.\n FmyDoc.save()\n string Fname = FmyDoc.Title.Tostring();\n \n if (FmyDoc.IsFamilyDocument)\n\
+    \      PrjDoc.LoadFamily(Fname);\n\n Once you have save the family, then it can\
+    \ be loaded on project.\n   My query is how to save the perticular path (static\
+    \ or predefined). The user won't know the path. \n How to create the Model In-place\
+    \ family in revit sdk.\n\nRegards,\nDharanidharan"
+- author: Jeremy Tammik
+  email: ''
+  ip: 94.81.53.42
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-02-05 05:15:17'
+  body: 'Dear Dharanidharan,
+
+
+    If you do not want to specify a path for the document, there is no need to do
+    so at all. You can use the overload of the Document.LoadFamily method taking a
+    Document argument instead of a string pathname to a file.
+
+
+    In-place families are currently not supported by the API at all.
+
+
+    Cheers, Jeremy.'
+- author: dharanidharan
+  email: ''
+  ip: 220.227.66.2
+  url: http://profile.typepad.com/6p0105364c8f8b970c
+  date: '2010-02-09 09:44:39'
+  body: "Hi Jeremy,\n\n Now i am create (or) modify the family  by using Editfamily\
+    \ method. When i was create the Extrusion then stored the each Extrusion Id value\
+    \ (Extrusion.Id.value.tostring()) to the database or notepad. Then i modify the\
+    \ same family, just find the existing extrution with represent id value. it doesn't\
+    \ find. because each id value differ from database value. \nThe different is -1\
+    \ for each value. i don't know how it changed the id value. Then i can manually\
+    \ check the RibbonMenu -> Modify -> Element id that value is match with database\
+    \ value. when i was open the family on runtime it will show the -1 different.\
+    \ pls clarify.\n\n Next, I can create the Extrusion then assign the material name\
+    \ (Glass). \n Materials materials=m_familyDocument.Settings.Materials;\n Autodesk.Revit.Elements.Material\
+    \ GlassMaterial = null;\n GlassMaterial = materials.get_Item(\"Glass\");\n \n\
+    \ foreach (Autodesk.Revit.Elements.Material material in materials)\n   if (\"\
+    Glass\" == material.Name)\n    GlassMaterial = material; break;\n I'm find the\
+    \ material, but i don't know how to assign the family(Extrusion) Material parameter.\n\
+    \n\nRegards,\nDharanidharan R"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.153.231
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-02-12 00:15:20'
+  body: "Dear Dharanidharan,\n\nThe issue with the element id sounds mysterious to\
+    \ me. The element id should and does retain its value between sessions. There\
+    \ must be something strange in your code there. If you save the integer value\
+    \ of an element id and later reconstruct the element id again, the Document.Element(\
+    \ ElementId ) method should retrieve the specified element from the database again.\
+    \ \n\nYou might also try using the unique if provided by the Element.UniqueId\
+    \ property and provided as an argument to the  Document.Element( String ) method,\
+    \ which retrieves an element from the document given a unique id string.\n\nFor\
+    \ setting the material on the extrusion element, you might have a look at the\
+    \ Revit Family Creation API Lab 3, Add Formulae and Materials:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/10/revit-family-creation-api-labs.html#3\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/10/revit-family-creation-api-labs.html#3</a>\n\
+    \nCheers, Jeremy.\n-----"

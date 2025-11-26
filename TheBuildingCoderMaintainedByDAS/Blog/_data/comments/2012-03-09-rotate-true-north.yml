@@ -1,0 +1,252 @@
+comments:
+- author: Alfredo Medina
+  email: info@planta1.com
+  ip: 50.73.159.101
+  url: ''
+  date: '2012-03-09 09:32:58'
+  body: 'Hello, Jeremy
+
+
+    How do you write Rotate True North in Mandarin? Now I know, it''s on your first
+    image (above).
+
+
+    :)'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadgraph.de
+  date: '2012-03-09 11:01:04'
+  body: 'Hi Alfredo,
+
+
+    Mandarin is Chinese, not Japanese, I think.
+
+    But nontheless, both of them look quite strange.
+
+    It shows how important icons are.
+
+
+    Best regards,
+
+    Rudolf'
+- author: Sa Li
+  email: ''
+  ip: 12.19.148.114
+  url: http://profile.typepad.com/sali2
+  date: '2012-03-27 15:33:48'
+  body: "My understanding is that rotation of True North only changes the view, the\
+    \ document and elements should not be affected.\n\nThen, after rotating the true\
+    \ north, I assume that the Document.ActiveProjectLocation.GetTotalTransform()\
+    \ and Document.ActiveProjectLocation.GetTransform() should return different results,\
+    \ the first one includes trueNorth effect, the latter one does not. \n\nHowever,\
+    \ after rotating the true north, I found they got the same result, both reflecting\
+    \ true north rotation.\n\nCould you please help me with that? How can I tell rotation\
+    \ of true north and project north? Should the two GetTransform() functions return\
+    \ different results for the two cases?\n\nThanks a lot:)"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.180.57
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-03-28 03:39:48'
+  body: "Dear Sa Li,\n\nMy understanding of this is limited. At the DevLab last week,\
+    \ one participant said that rotating the true north is an absolutely crazy thing\
+    \ to do, affects everything, and should be completely avoided. He questions the\
+    \ sense of having such a command at all.\n\nI would suggest resolving this issue\
+    \ from a product point of view first. Maybe simply avoid rotating the true north,\
+    \ make it completely taboo, and the issue is resolved.\n\nAll I can say is that\
+    \ you can bring element geometry into real world coordinates by applying the project\
+    \ location transform as described in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/01/project-location.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/01/project-location.html</a>\n\n\
+    I do see that the Revit API documentation states the difference that you are testing\
+    \ between the ProjectLocation members GetTotalTransform and GetTransform.\n\n\
+    I'll check this with the development team.\n\nHowever, why do you care?\n\nCheers,\
+    \ Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.180.57
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-03-28 07:09:34'
+  body: "Dear Sa Li,\n\nI heard back from the development team, and they confirm that\
+    \ the difference between the two is the relationship to True North. \n\nIf you\
+    \ can reproduce the problem please send me some ready-to-compile source code for\
+    \ this with an exact description of the steps to reproduce the issue.\n\nIf you\
+    \ are an ADN member, please submit an ADN case for this and attach the files to\
+    \ that.\n\nThank you!\n\nCheers, Jeremy."
+- author: sali98
+  email: sali98@gmail.com
+  ip: 12.19.148.114
+  url: http://sali98.blogspot.com/
+  date: '2012-03-29 19:52:43'
+  body: 'Hi, Jeremy,
+
+
+    Thanks a lot for your replies.
+
+
+    I have tried to play with the Revit 2012 with updates 2, and after rotating true
+    north, in any external command implementation, we can find current Document.ActiveProjectLocation.GetTotalTransform()
+    and the GetTransform() return the same results, both reflecting the true north
+    changes. While if before applying true north changes, an external instance is
+    created, then we can retrieve the instance after rotating true north, its transform
+    is still Identity, which is correct and that is what we want to get.
+
+
+    As for our case, we are planning to add some external Instance to the existing
+    project, and can be opened explicitly after user opens some project. And the transformation
+    of the instance should be correct. Then, if user creates a project, rotates true
+    north, then open the external Instance files, then trouble comes, we cannot get
+    the correct Instance transformation when creating it.
+
+
+    Thank you so much for your kind helps and wish to hear from you about the problem:)'
+- author: sali98
+  email: sali98@gmail.com
+  ip: 12.19.148.114
+  url: http://sali98.blogspot.com/
+  date: '2012-04-03 00:20:13'
+  body: 'Dear Jeremy,
+
+
+    Do you have any feedback for the question about GetTotalTransform() for the true
+    north rotation?
+
+
+    Thanks a lot for your time and helps:)
+
+
+    Best Regards,
+
+    Sa Li'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-04-03 04:00:02'
+  body: 'Dear Sa Li,
+
+
+    Nope, no more news. All I can say is stated above. Good luck!
+
+
+    Cheers, Jeremy.'
+- author: Namit
+  email: namitj_in@yahoo.com
+  ip: 61.17.160.112
+  url: ''
+  date: '2013-02-04 01:38:30'
+  body: "Dear Jeremy,\nHow to place family at the end of pipe connector so that it\
+    \ dont need to rotate rather it automatically get rotated like manually working\
+    \ in Revit Mep API 2013.\n \nThanks & Regards,\nNamit."
+- author: Frank Halliday
+  email: frankhalliday@gmail.com
+  ip: 115.64.197.13
+  url: ''
+  date: '2014-08-18 06:45:39'
+  body: "Hi Jeremy,\nHow can I find the direction the user rotated the true north(ie\
+    \ Clockwise or Counterclockwise)? \nThis as I understand it determines if the\
+    \ BuiltInParameter.BASEPOINT_ANGLETON_PARAM is equal to some rotation say 90 deg\
+    \ or the negative -90 (which will return 270 deg). \n\n//here is an example of\
+    \ some of my code...\nFilteredElementCollector collector = new FilteredElementCollector(doc);\
+    \              collector.OfCategory(BuiltInCategory.OST_ProjectBasePoint;\nIList<Element>\
+    \ elements = collector.ToElements();\n//get first element\nElement projectInfoElement\
+    \ = elements.First();\n\n//get project info, project status parameter\nBuiltInParameter\
+    \ BIP_TrueNorth = BuiltInParameter.BASEPOINT_ANGLETON_PARAM;\nParameter param_TrueNorth\
+    \ = projectInfoElement.get_Parameter(BIP_TrueNorth);"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-08-20 08:31:41'
+  body: "Dear Frank,\n\nThere are some interesting observations on this issue in the\
+    \ other comments above.\n\nDo they help at all?\n\nIn addition, you can take a\
+    \ look at the  The Building Coder sample command 'Unrotate North', implemented\
+    \ in the class CmdUnrotateNorth:\n\n<a href=\"https://github.com/jeremytammik/the_building_coder_samples/blob/master/BuildingCoder/BuildingCoder/CmdUnrotateNorth.cs\"\
+    >https://github.com/jeremytammik/the_building_coder_samples/blob/master/BuildingCoder/BuildingCoder/CmdUnrotateNorth.cs</a>\n\
+    \nWhen I select a single wall in a newly created project and run it, it displays\
+    \ a dialogue box that says:\n\nSelected element location: (0.58,0.84,0)\nAngle\
+    \ between project north and true north: 0 degrees\nUnrotated element location:\
+    \ (0.58,0.84,0) (0.58,0.84,0) (0.58,0.84,0)\n\nAfter rotating the true north 90\
+    \ degrees clockwise using Manage > Project Location > Position > Rotate Project\
+    \ North, it displays the following for the same element:\n\nSelected element location:\
+    \ (0.84,-0.58,0)\nAngle between project north and true north: 90 degrees\nUnrotated\
+    \ element location: (0.58,0.84,0) (0.84,-0.58,0) (0.58,0.84,0)\n\nTo answer your\
+    \ question in a second way by retrieving the rotation of the Project Base Point\
+    \ via the BASEPOINT_ANGLETON_PARAM built-in parameter, I added the following lines\
+    \ based on your sample code to the command:\n\n  Element projectInfoElement\n\
+    \    = new FilteredElementCollector(doc)\n      .OfCategory(BuiltInCategory.OST_ProjectBasePoint)\n\
+    \      .FirstElement();\n\n  BuiltInParameter bipAtn\n    = BuiltInParameter.BASEPOINT_ANGLETON_PARAM;\n\
+    \n  Parameter patn = projectInfoElement.get_Parameter(\n    bipAtn );\n\n  double\
+    \ atn = patn.AsDouble();\n\n  Debug.Print(\n    \"Angle to north from project\
+    \ info: {0}\",\n    Util.AngleString( atn ) );\n\nIn the first case, it reports:\n\
+    \nAngle to north from project info: 0 degrees\n\nAfter rotating 90 degrees clockwise,\
+    \ it reports:\n\nAngle to north from project info: 270 degrees\n\nThat seems to\
+    \ me to indicate the direction perfectly well: 90 degrees is one direction, 270\
+    \ the other.\n\nI hope that makes sense.\n\nThe updated version of the command\
+    \ is provided in the version 2015.0.110.3 or The Building Coder samples:\n\n<a\
+    \ href=\"https://github.com/jeremytammik/the_building_coder_samples/releases/tag/2015.0.110.3\"\
+    >https://github.com/jeremytammik/the_building_coder_samples/releases/tag/2015.0.110.3</a>\n\
+    \nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-08-21 08:47:22'
+  body: 'Dear Frank,
+
+
+    I also briefly mentioned the updated version of The Building Coder and enhancements
+    made to explore this issue here:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2014/08/document-version-guid-and-number-of-saves.html#3">http://thebuildingcoder.typepad.com/blog/2014/08/document-version-guid-and-number-of-saves.html#3</a>
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.'
+- author: Frank Halliday
+  email: frankhalliday@gmail.com
+  ip: 115.64.197.13
+  url: ''
+  date: '2014-08-24 05:55:07'
+  body: 'Thank you Jeremy,
+
+    I will have to get back to you on this one after some reading, there are still
+    questions in my mind about what the true north value reads relative to the project
+    north, for example what happens after a user rotates the project north 180 deg?'
+- author: Frank Halliday
+  email: frankhalliday@gmail.com
+  ip: 115.64.197.13
+  url: ''
+  date: '2014-08-24 05:56:12'
+  body: Also, can the project north rotation be accessed? which object stores it?
+- author: Frank Halliday
+  email: frankhalliday@gmail.com
+  ip: 115.64.197.13
+  url: ''
+  date: '2014-08-24 06:08:20'
+  body: 'ok,
+
+    I should have read the post you provided a link to  thanks again Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.183.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-08-25 13:16:50'
+  body: 'Dear Frank,
+
+
+    Thank you for your appreciation.
+
+
+    I am sure you will resolve your issue.
+
+
+    Good luck!
+
+
+    Cheers, Jeremy.
+
+    -----'

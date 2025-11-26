@@ -1,0 +1,425 @@
+---
+layout: "post"
+title: "Roomedit3dv3 Diff from Forge Boilerplate Code"
+date: "2016-11-02 06:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "BIM"
+  - "Events"
+  - "Forge"
+  - "Getting Started"
+  - "Update"
+  - "Viewer"
+original_url: "https://thebuildingcoder.typepad.com/blog/2016/11/roomedit3dv3-diff-from-boilerplate-code.html "
+typepad_basename: "roomedit3dv3-diff-from-boilerplate-code"
+typepad_status: "Publish"
+---
+
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?autoload=true" defer="defer"></script>
+
+<p>I am still busy preparing
+my <a href="http://thebuildingcoder.typepad.com/blog/2016/10/au-revit-20171-and-rex-freezedrawing.html#2">Autodesk University sessions</a>,
+and more urgently 
+the <a href="http://www.bim.tu-darmstadt.de">Forge and BIM</a> presentation
+and hands-on workshop this coming Friday 
+at <a href="http://www.tu-darmstadt.de">Technische Universität Darmstadt</a>,
+<a href="http://www.iib.tu-darmstadt.de">Institut für Numerische Methoden und Informatik im Bauwesen</a>,
+the institute for numerical methods and computer science in the construction industry at the technical university in the very pleasant German
+city <a href="https://en.wikipedia.org/wiki/Darmstadt">Darmstadt</a>,
+in Hessen, just south of Frankfurt.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb094e4300970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb094e4300970d img-responsive" style="width: 309px; " alt="Technische Universität Darmstadt" title="Technische Universität Darmstadt" src="/assets/image_21e05e.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>The agenda there consists of two parts:</p>
+
+<ul>
+<li>10:45-12:15 presentation &ndash; <a href="http://thebuildingcoder.typepad.com/blog/2016/10/connecting-desktop-and-cloud-at-rtc-material.html">Connecting desktop and  cloud</a></li>
+<li>13:00-17:00 hands-on workshop with two topics:
+<ul>
+<li>Revit API &ndash; <a href="http://thebuildingcoder.typepad.com/blog/2016/10/revit-api-and-connecting-desktop-and-cloud-tuda.html#4">creating a Revit add-in with one single click</a></li>
+<li>Connecting BIM with the cloud &ndash; <a href="http://thebuildingcoder.typepad.com/blog/2016/10/revit-api-and-connecting-desktop-and-cloud-tuda.html#5">connecting Revit and Forge in 55 minutes</a></li>
+</ul></li>
+</ul>
+
+<p>I already prepared the material pointed to by the links above.</p>
+
+<p>Now I would like to add a more detailed analysis of the exact changes I made to
+the <a href="https://github.com/Autodesk-Forge/forge-boilers.nodejs">forge-boilers.nodejs</a> boilerplate
+code to implement 
+the <a href="https://github.com/Autodesk-Forge/forge-boilers.nodejs/tree/roomedit3d">roomedit3dv3 sample</a> connecting
+BIM with the cloud.</p>
+
+<ul>
+<li><a href="#2">Comparing the root folder contents</a></li>
+<li><a href="#3">Comparing the Forge node.js boilerplate</a></li>
+<li><a href="#4">Starting fresh from scratch</a></li>
+<li><a href="#5">Copy, install and load the viewer extension</a></li>
+<li><a href="#6">Adding the link to load the viewer extension</a></li>
+<li><a href="#7">Renamed viewer extension base and toolkit <code>js</code> modules</a></li>
+<li><a href="#8">All Viewer Extension Modifications</a></li>
+<li><a href="#9">Successful test and final diff  &ndash; 25 lines of code</a></li>
+</ul>
+
+<p>Please note that I abandoned my initial comparison attempt after the first two steps listed above, so if you are not interested in the painful beginnings of this exploration, you can skip straight to <a href="#4">starting fresh from scratch</a>.</p>
+
+<p>Or, if you are really in a hurry, just skip straight to the end to the <a href="#9">successful test and final diff</a> to examine the 25 lines of code that I modified or added all in all.</p>
+
+<h4><a name="2"></a>Comparing the Root Folder Contents</h4>
+
+<p>I cloned the <code>master</code> and <code>roomedit3d</code> branches of
+the <a href="https://github.com/Autodesk-Forge/forge-boilers.nodejs">forge-boilers.nodejs repo</a> in
+two separate directories:</p>
+
+<ul>
+<li>/a/src/web/forge/forge-boilers.nodejs/</li>
+<li>/a/src/web/forge/roomedit3dv3/</li>
+</ul>
+
+<p>These are the files and subfolders in the former:</p>
+
+<pre>
+/a/src/web/forge/forge-boilers.nodejs $ ls -1
+1 - viewer-offline
+2 - viewer-barebone
+3 - viewer+server
+4 - viewer+server+oss
+5 - viewer+server+oss+derivatives
+6 - viewer+server+data-mng+derivatives
+LICENSE
+README.md
+app.json
+package.json
+resources
+</pre>
+
+<p>As a first step to implement roomedit3dv3, I copied the entire contents of the boilerplate step 6 into a new folder 7:</p>
+
+<pre>
+/a/src/web/forge/roomedit3dv3 $ ls -1
+7 - viewer+extension+server+data-mng+derivatives
+LICENSE
+README.md
+app.json
+package.json
+resources
+</pre>
+
+<p>In the root folder, the following files differ in obvious ways:</p>
+
+<ul>
+<li>.gitignore</li>
+<li>README.md</li>
+<li>app.json</li>
+<li>package.json</li>
+</ul>
+
+<p>I completely rewrote the readme file.</p>
+
+<p>Here are the differences between the two versions of the other three:</p>
+
+<pre>
+/a/src/web/forge $ diff forge-boilers.nodejs/.gitignore roomedit3dv3/.gitignore
+0a1,4
+&gt; 7 - viewer+extension+server+data-mng+derivatives/node_modules
+&gt; 7 - viewer+extension+server+data-mng+derivatives/dist
+&gt; 7 - viewer+extension+server+data-mng+derivatives/TMP
+
+/a/src/web/forge $ diff forge-boilers.nodejs/app.json roomedit3dv3/app.json
+2,4c2,4
+&lt;   "name": "forge-boiler.nodejs",
+&lt;   "description": "Forge boiler: viewer + server + oss + derivatives",
+&lt;   "repository": "https://github.com/Autodesk-Forge/forge-boilers.nodejs",
+---
+&gt;   "name": "roomedit3dv3",
+&gt;   "description": "Forge Viewer extension to move building elements and update the Revit BIM in real-time",
+&gt;   "repository": "https://github.com/Autodesk-Forge/forge-boilers.nodejs/tree/roomedit3d",
+6c6
+&lt;   "keywords": ["autodesk", "forge", "node", "express"],
+---
+&gt;   "keywords": ["autodesk", "forge", "node", "express", "revit"],
+16a17,19
+&gt;     },
+&gt;     "HOST_URL": {
+&gt;       "description": "Host url: for Heroku App use 'https://myApp.herokuapp.com', where 'myApp' is name of your app. Important: the name of your App needs to match the callback URL you specified on Forge Developer Portal"
+
+/a/src/web/forge $ diff forge-boilers.nodejs/package.json roomedit3dv3/package.json
+2,4c2,4
+&lt;   "name": "forge-boilers.nodejs",
+&lt;   "description": "A collection of node.js based boiler projects for the Autodesk Forge Web Services APIs",
+&lt;   "version": "1.0.0",
+---
+&gt;   "name": "roomedit3dv3",
+&gt;   "description": "Forge Viewer extension to move building elements and update the Revit BIM in real-time",
+&gt;   "version": "0.0.16",
+9c9,10
+&lt;     "Philippe Leefsma &lt;philippe.leefsma@autodesk.com&gt;"
+---
+&gt;     "Philippe Leefsma &lt;philippe.leefsma@autodesk.com&gt;",
+&gt;     "Jeremy Tammik &lt;jeremy.tammik@autodesk.com&gt;"
+13,18c14,16
+&lt;     "start": "npm start --prefix ./5\\ -\\ viewer+server+oss+derivatives",
+&lt;     "install-boiler3": "npm install --prefix ./3\\ -\\ viewer+server",
+&lt;     "install-boiler4": "npm install --prefix ./4\\ -\\ viewer+server+oss",
+&lt;     "install-boiler5": "npm install --prefix ./5\\ -\\ viewer+server+oss+derivatives",
+&lt;     "install-boiler6": "npm install --prefix ./6\\ -\\ viewer+server+data-mng+derivatives",
+&lt;     "postinstall": "npm run install-boiler5"
+---
+&gt;     "start": "npm start --prefix ./7\\ -\\ viewer+extension+server+data-mng+derivatives",
+&gt;     "install-boiler7": "npm install --prefix ./7\\ -\\ viewer+extension+server+data-mng+derivatives",
+&gt;     "postinstall": "npm run install-boiler7"
+22c20
+&lt;     "url": "https://github.com/Developer-Autodesk/forge-boilers.nodejs"
+---
+&gt;     "url": "https://github.com/Autodesk-Forge/forge-boilers.nodejs/tree/roomedit3d"
+25d22
+</pre>
+
+<h4><a name="3"></a>Comparing the Forge Node.js Boilerplate</h4>
+
+<p>Next, let's look at the differences between the original step 6 boilerplate code and the roomedit3dv3 version.</p>
+
+<p>The list of files in the two folders is almost identical, except that I added a placeholder <code>README.md</code> to the roomedit version to suppress the npm warning message about a lack of one during deployment, <code>npm WARN package.json Forge-boiler-6@1.0.0 No README data</code>:</p>
+
+<ul>
+<li>README.md</li>
+<li>TMP</li>
+<li>app.json</li>
+<li>bin</li>
+<li>config</li>
+<li>dist</li>
+<li>etc</li>
+<li>heroku.config.sh</li>
+<li>layout</li>
+<li>nodemon.json</li>
+<li>package.json</li>
+<li>resources</li>
+<li>src</li>
+<li>webpack</li>
+</ul>
+
+<p>Some of these folders are generated by or just contain the <code>webpack</code> output, so they are of no concern to us.</p>
+
+<p><code>app.json</code> contains some obvious differences similar to the root folder ones:</p>
+
+<pre>
+/a/src/web/forge $ diff forge-boilers.nodejs/6\ -\ viewer+server+data-mng+derivatives/app.json roomedit3dv3/7\ -\ viewer+extension+server+data-mng+derivatives/app.json
+2,4c2,4
+&lt;   "name": "forge-boiler.nodejs",
+&lt;   "description": "Forge boiler: viewer + server + data-management + derivatives",
+&lt;   "repository": "https://github.com/Autodesk-Forge/forge-boilers.nodejs",
+---
+&gt;   "name": "roomedit3dv3",
+&gt;   "description": "Forge Viewer extension to move building elements and update the Revit BIM in real-time",
+&gt;   "repository": "https://github.com/Autodesk-Forge/forge-boilers.nodejs/tree/roomedit3d",
+6c6
+&lt;   "keywords": ["autodesk", "forge", "node", "express"],
+---
+&gt;   "keywords": ["autodesk", "forge", "node", "express", "revit"],
+</pre>
+
+<p>The same applies to <code>package.json</code>:</p>
+
+<pre>
+/a/src/web/forge $ diff forge-boilers.nodejs/6\ -\ viewer+server+data-mng+derivatives/package.json roomedit3dv3/7\ -\ viewer+extension+server+data-mng+derivatives/package.json
+2,4c2,4
+&lt;   "name": "Forge-boiler-6",
+&lt;   "description": "Forge boiler: viewer + server + data-management + derivatives",
+&lt;   "version": "1.0.0",
+---
+&gt;   "name": "roomedit3dv3",
+&gt;   "description": "Forge Viewer extension to move building elements and update the Revit BIM in real-time",
+&gt;   "version": "0.0.15",
+41d40
+&lt;     "jquery-jsonview": "^1.2.3",
+43d41
+&lt;     "jsoneditor": "^5.5.9",
+46d43
+&lt;     "lodash": "^4.16.4",
+50d46
+&lt;     "node-sass": "^3.10.1",
+54d49
+&lt;     "sass-loader": "^4.0.2",
+57c52
+&lt;     "socket.io-client": "^1.4.8",
+---
+&gt;     "socket.io-client": "*",
+69c64,65
+&lt;     "Philippe Leefsma &lt;philippe.leefsma@autodesk.com&gt;"
+---
+&gt;     "Philippe Leefsma &lt;philippe.leefsma@autodesk.com&gt;",
+&gt;     "Jeremy Tammik &lt;jeremy.tammik@autodesk.com&gt;"
+81c77
+&lt;     "url": "https://github.com/Developer-Autodesk/forge-boilers.nodejs"
+---
+&gt;     "url": "https://github.com/Autodesk-Forge/forge-boilers.nodejs/tree/roomedit3d"
+</pre>
+
+<p>No, this analysis is getting too tough, and the differences are too many at this point.</p>
+
+<p>Philippe seems to have changed quite a lot  since I initially implemented this branch.</p>
+
+<p>I'll start fresh from scratch.</p>
+
+<h4><a name="4"></a>Starting Fresh from Scratch</h4>
+
+<p>Let's grab an updated version of his boilerplate code and run it as is in the development environment.</p>
+
+<p>Before starting with the sample itself, set up environment variables for the boilerplate app to access your Forge credentials:</p>
+
+<pre class="prettyprint">
+export FORGE_DEV_CLIENT_ID=$ROOMEDIT3DV3_DEV_CONSUMER_KEY
+export FORGE_DEV_CLIENT_SECRET=$ROOMEDIT3DV3_DEV_CONSUMER_SECRET
+export FORGE_CALLBACK_URL=$ROOMEDIT3DV3_DEV_CALLBACK_URL
+export PORT=3000
+</pre>
+
+<p>With your Forge credential environment variables defined, we can install and test the unmodified boilerplate code:</p>
+
+<ul>
+<li>Create a fresh clone of the <a href="https://github.com/Autodesk-Forge/forge-boilers.nodejs">forge-boilers.nodejs repo</a>.</li>
+<li>Navigate to the step 6 sample app: <code>$ cd forge-boilers.nodejs/6\ -\ viewer+server+data-mng+derivatives/</code></li>
+<li>Install the required npm modules: <code>npm install</code></li>
+<li>Build: <code>npm run build-dev</code></li>
+<li>Run: <code>npm run dev</code></li>
+<li>Test: open <code>http://localhost:3000</code> in your browser</li>
+</ul>
+
+<p>That works fine for me.</p>
+
+<h4><a name="5"></a>Copy, Install and Load the Viewer Extension</h4>
+
+<p>I copied the working updated code into my own repository hosting the <code>roomedit3d</code> branch and started updating it to run my extension.</p>
+
+<p>First of all, I install the viewer extension.</p>
+
+<p>In my case, I can copy it from my previous version:</p>
+
+<pre>
+/a/src/web/forge/roomedit3dv3/7 - viewer+extension+server+data-mng+derivatives/src/client/Components/Viewer $ cp -R extensions /a/src/web/forge/roomedit3dv3/6\ -\ viewer+server+data-mng+derivatives/src/client/Components/Viewer
+</pre>
+
+<p>If you prefer to grab it from the original repository, clone
+Philippe's <a href="https://github.com/Developer-Autodesk/library-javascript-viewer-extensions">library-javascript-viewer-extensions</a> and
+copy the four files from the <code>library-javascript-viewer-extensions/src/Viewing.Extension.Transform</code> folder to a new subfolder <code>src/client/Components/Viewer/extensions</code>:</p>
+
+<ul>
+<li>TransformGizmos.js</li>
+<li>Viewing.Extension.Transform.js</li>
+<li>Viewing.Tool.Rotate.js</li>
+<li>Viewing.Tool.Translate.js</li>
+</ul>
+
+<p>Import the viewer extension into the viewer panel by editing <code>src/client/Components/Viewer/Viewer.Panel.js</code>:</p>
+
+<pre class="prettyprint">
+import './extensions/Viewing.Extension.Transform.js'
+</pre>
+
+<p>In the panel's <code>initialize</code> function, add the event listeners to handle the load and unload extension events:</p>
+
+<pre class="prettyprint">
+  // Load and unload extension events
+
+  var loadBtn = document.getElementById('loadBtn');
+
+  loadBtn.addEventListener("click", () =&gt; {
+    this.viewer.loadExtension('Viewing.Extension.Transform', {})
+  });
+
+  var unloadBtn = document.getElementById('unloadBtn');
+
+  unloadBtn.addEventListener("click", () =&gt; {
+    this.viewer.unloadExtension('Viewing.Extension.Transform')
+  });
+</pre>
+
+<p>Here is the <a href="https://github.com/Autodesk-Forge/forge-boilers.nodejs/commit/91bb9209a4ec577759a295ee22247b27b4027aa2">commit diff to install and load the viewer extension</a> showing the exact changes I made.</p>
+
+<h4><a name="6"></a>Adding the Link to Load the Viewer Extension</h4>
+
+<p>The original sample implements a settings menu that is prepared for further configuration by the programmer:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c8ab46f2970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c8ab46f2970b image-full img-responsive" alt="Forge boilerplate settings menu" title="Forge boilerplate settings menu" src="/assets/image_491cad.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<p>I prefer to implement two simple links to load and unload the transform viewer extension instead.</p>
+
+<p>For that, I modify <code>layout/index.ejs</code> and replace the right navigation bar contents with this:</p>
+
+<pre class="prettyprint">
+  &lt;ul class="nav navbar-nav navbar-right"&gt;
+    &lt;li&gt;&lt;a href="https://github.com/Autodesk-Forge/forge-boilers.nodejs/tree/roomedit3d"&gt;About Roomedit3d...&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a id="loadBtn"&gt;Start&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a id="unloadBtn"&gt;Stop&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+</pre>
+
+<p>Here is the <a href="https://github.com/Autodesk-Forge/forge-boilers.nodejs/commit/9f14a9508275d16ae9664a0cd7d1c606fef03c5c">commit diff to add the roomedit3dv3 about, start and stop links</a>.</p>
+
+<h4><a name="7"></a>Renamed Viewer Extension Base and Toolkit <code>js</code> Modules</h4>
+
+<p>Philippe renamed the JavaScript modules defining the viewer <code>ExtensionBase</code> and <code>Toolkit</code> classes.</p>
+
+<p>After a little bit of searching, I found the solution and updated the module names accordingly in <code>Viewing.Extension.Transform.js</code>:</p>
+
+<pre class="prettyprint">
+-import ExtensionBase from 'ExtensionBase'
+-import ViewerToolkit from 'ViewerToolkit'
++import ExtensionBase from 'Viewer.ExtensionBase'
++import ViewerToolkit from 'Viewer.Toolkit'
+</pre>
+
+<p>Here is the <a href="https://github.com/Autodesk-Forge/forge-boilers.nodejs/commit/381abe7be657085daed066dfc9eea067d15eecd1">commit diff to rename the viewer extension base and toolkit js modules</a>.</p>
+
+<h4><a name="8"></a>All Viewer Extension Modifications</h4>
+
+<p>Besides adding the viewer extension to the boilerplate app, I also need to modify it slightly to ensure that the BIM element translation we are interested in and want to broadcast to be picked up by the Revit add-in is properly retrieved and transmitted.</p>
+
+<p>I copied the original <code>Viewing.Extension.Transform</code> viewer extension implementation
+from <a href="https://github.com/Developer-Autodesk/library-javascript-viewer-extensions">library-javascript-viewer-extensions</a>,
+tagged it as <a href="https://github.com/Autodesk-Forge/forge-boilers.nodejs/releases/tag/0.0.21">release 0.0.21</a>,
+reapplied the required changes,
+and tagged that as <a href="https://github.com/Autodesk-Forge/forge-boilers.nodejs/releases/tag/0.0.22">release 0.0.22</a>
+in order to present this nice
+little <a href="https://github.com/Autodesk-Forge/forge-boilers.nodejs/compare/0.0.21...0.0.22">comparison showing the exact differences</a> to you...</p>
+
+<p>15 lines of code modified or added.</p>
+
+<h4><a name="9"></a>Successful Test and Final Diff &ndash; 25 Lines of Code</h4>
+
+<p>After those steps and some further clean-up, I had the updated roomedit3dv3 viewer extension successfully up and running
+in <a href="https://github.com/Autodesk-Forge/forge-boilers.nodejs/releases/tag/0.0.23">release 0.0.23</a> of 
+the <a href="https://github.com/Autodesk-Forge/forge-boilers.nodejs/tree/roomedit3d">roomedit3d branch</a> of
+the <a href="https://github.com/Autodesk-Forge/forge-boilers.nodejs">forge-boilers.nodejs repo</a>.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d23513c7970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d23513c7970c image-full img-responsive" alt="Roomedit3dv3 in action" title="Roomedit3dv3 in action" src="/assets/image_ed7ae1.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<p>By the way, note that the new version of the boilerplate code implements tabs to explore the model derivative information:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c8ab4a85970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c8ab4a85970b img-responsive" style="width: 378px; " alt="Model derivative tabs" title="Model derivative tabs" src="/assets/image_6eaa64.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>The important changes to the app are shown by the diffs
+between <a href="https://github.com/Autodesk-Forge/forge-boilers.nodejs/compare/0.0.18...0.0.20">0.0.18 and 0.0.20</a>,
+and the viewer extension ones
+by <a href="https://github.com/Autodesk-Forge/forge-boilers.nodejs/compare/0.0.21...0.0.22">0.0.21...0.0.22</a>.</p>
+
+<p>All in all, I added and modified about 25 lines of code.</p>
+
+<p>I hope this simplifies your job of creating your own extensions.</p>
+
+<p>Happy <a href="https://forge.autodesk.com">Forge</a> coding!</p>

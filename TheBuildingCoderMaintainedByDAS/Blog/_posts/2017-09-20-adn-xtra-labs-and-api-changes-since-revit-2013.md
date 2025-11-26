@@ -1,0 +1,162 @@
+---
+layout: "post"
+title: "ADN Xtra Labs and API Changes since Revit 2013"
+date: "2017-09-20 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Docs"
+  - "Events"
+  - "Labs"
+  - "Migration"
+  - "Photo"
+  - "Ribbon"
+  - "Training"
+  - "Update"
+original_url: "https://thebuildingcoder.typepad.com/blog/2017/09/adn-xtra-labs-and-api-changes-since-revit-2013.html "
+typepad_basename: "adn-xtra-labs-and-api-changes-since-revit-2013"
+typepad_status: "Publish"
+---
+
+<p>As usual, I am answering Revit API cases and maintaining the documentation and training material.</p>
+
+<p>What I really should be doing is preparing my upcoming class for Autodesk University in Darmstadt.</p>
+
+<p>On the good side, I went for a 
+nice <a href="https://flic.kr/s/aHsm4AuoeE">climb up the south ridge of Bergseeschijen</a>:</p>
+
+<p><center>
+<a data-flickr-embed="true"  href="https://www.flickr.com/photos/jeremytammik/albums/72157686328819344" title="Bergseeschijen"><img src="/assets/bergseeschijen_813_500x375.jpg" width="500" height="375" alt="Bergseeschijen"></a><script async src="//embedr.flickr.com/assets/client-code.js" charset="utf-8"></script>
+</center></p>
+
+<p>Here are some of the things I dealt with today:</p>
+
+<ul>
+<li><a href="#2">API changes from Revit 2013 to Revit 2017</a></li>
+<li><a href="#3">ADN Xtra Revit API Labs for Revit 2018</a></li>
+<li><a href="#4">Access to modified combo box setting</a></li>
+</ul>
+
+<h4><a name="2"></a>API Changes from Revit 2013 to Revit 2017</h4>
+
+<p><a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/1979353">Stever66</a> very
+kindly shared an useful document in 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread 
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/changes-and-additions-to-the-revit-api-2013-to-2017/m-p/6395846">changes and additions to the Revit API 2013 to 2017</a> that
+deserves mentioning and safeguarding here as well:</p>
+
+<ul>
+<li><a href="http://thebuildingcoder.typepad.com/files/revit_api_changes_and_additions_2013-2017.pdf">Revit_API_Changes_and_Additions_2013-2017.pdf</a></li>
+</ul>
+
+<p>He says:</p>
+
+<blockquote>
+  <p>I got tired of searching 4 or 5 different documents for keywords that have been changed.  So I put together a single PDF with all the Changes and Additions to the Revit API from 2013 to 2017.</p>
+  
+  <p>I assume there is no problem posting this information in one single document, and I hope it is helpful to others.</p>
+</blockquote>
+
+<p><a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/11510">Dale.Bartlett</a> adds:</p>
+
+<blockquote>
+  <p>... your document will indeed be very helpful. When this Web thing runs out of steam, the hordes will be willing to trade a lot for a real pdf.</p>
+</blockquote>
+
+<p>Many thanks to Steve for this useful work, and Dale for his humorous (or frightening) contribution.</p>
+
+<p>In any case, I created a copy of it here as well now.</p>
+
+<p>Furthermore, I take this opportunity to point out that that all the <em>What's New</em> documents are also provided online by The Building Coder:</p>
+
+<ul>
+<li><a href="#http://thebuildingcoder.typepad.com/blog/2013/02/whats-new-in-the-revit-2010-api.html">What's New in the Revit 2010 API</a></li>
+<li><a href="#http://thebuildingcoder.typepad.com/blog/2013/02/whats-new-in-the-revit-2011-api.html">What's New in the Revit 2011 API</a></li>
+<li><a href="#http://thebuildingcoder.typepad.com/blog/2013/02/whats-new-in-the-revit-2012-api.html">What's New in the Revit 2012 API</a></li>
+<li><a href="#http://thebuildingcoder.typepad.com/blog/2013/03/whats-new-in-the-revit-2013-api.html">What's New in the Revit 2013 API</a></li>
+<li><a href="#http://thebuildingcoder.typepad.com/blog/2013/04/whats-new-in-the-revit-2014-api.html">What's New in the Revit 2014 API</a></li>
+<li><a href="#http://thebuildingcoder.typepad.com/blog/2014/04/whats-new-in-the-revit-2015-api.html">What's New in the Revit 2015 API</a></li>
+<li><a href="#http://thebuildingcoder.typepad.com/blog/2015/04/whats-new-in-the-revit-2016-api.html">What's New in the Revit 2016 API</a></li>
+<li><a href="#http://thebuildingcoder.typepad.com/blog/2016/04/whats-new-in-the-revit-2017-api.html">What's New in the Revit 2017 API</a></li>
+<li><a href="#http://thebuildingcoder.typepad.com/blog/2016/11/whats-new-in-the-revit-20171-api.html">What's New in the Revit 2017.1 API</a></li>
+<li><a href="#http://thebuildingcoder.typepad.com/blog/2017/04/whats-new-in-the-revit-2018-api.html">What's New in the Revit 2018 API</a></li>
+</ul>
+
+<p>If you prefer it offline, I provide an option for that as well:</p>
+
+<p>As you hopefully know, you can
+download <a href="https://github.com/jeremytammik/tbc">The Building Coder blog source</a> in
+its entirety from its GitHub repository to keep it locally &ndash; and search using your own tools &ndash; in a safe place.</p>
+
+<p>You can also use <a href="https://jeremytammik.github.io/tbc/a">The Building Coder complete index</a> viewable
+in any browser either locally or online on GitHub pages to help find specific items.</p>
+
+<p>I hope you find this useful.</p>
+
+<h4><a name="3"></a>ADN Xtra Revit API Labs for Revit 2018</h4>
+
+<p>Rather overdue, I migrated
+the <a href="https://github.com/jeremytammik/AdnRevitApiLabsXtra">AdnRevitApiLabsXtra</a> to Revit 2018, producing the 
+new <a href="https://github.com/jeremytammik/AdnRevitApiLabsXtra/releases/tag/2018.0.0.0">release 2018.0.0.0</a>.</p>
+
+<p>As with all add-in migrations that I performed so far from Revit 2017 to Revit 2018, nothing much was required.</p>
+
+<p>The compilation after the flat migration simply updating the Revit API assembly references
+produced <a href="http://thebuildingcoder.typepad.com/files/adn_xtra_2018_warnings_01.txt">7 warnings</a>.</p>
+
+<p>I removed one of them by deleting references to Revit API namespaces containing no members from the <code>FamilyVb</code> project,
+leaving <a href="http://thebuildingcoder.typepad.com/files/adn_xtra_2018_warnings_02.txt">6 warnings</a> due to use of a deprecated API call in <code>Labs2</code>, where tags are added to the little house model:</p>
+
+<ul>
+<li>C# warning CS0618: <em>Document.NewTag(View, Element, bool, TagMode, TagOrientation, XYZ)</em> is obsolete: This method is deprecated in Revit 2018 and will be removed in a future version. Use <em>IndependentTag.Create()</em> instead.</li>
+<li>VB warning BC40000: <em>Public Overloads Function NewTag(dbview As View, elemToTag As Element, addLeader As Boolean, tagMode As TagMode, tagOrientation As TagOrientation, pnt As XYZ) As IndependentTag</em> is obsolete: This method is deprecated in Revit 2018 and will be removed in a future version. Use <em>IndependentTag.Create()</em> instead.</li>
+</ul>
+
+<p>I still need to find out how to determine the proper reference to the family instance to pass in to the new method.</p>
+
+<p>If anyone knows off-hand, please tell me.</p>
+
+<p>Thank you!</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb09c5368f970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb09c5368f970d image-full img-responsive" alt="ADN Xtra Labs in Revit 2018.1" title="ADN Xtra Labs in Revit 2018.1" src="/assets/image_1f4ad0.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="4"></a>Access to Modified Combo Box Setting</h4>
+
+<p>The ADN Xtra Labs migration was prompted by a question on accessing
+the <a href="https://forums.autodesk.com/t5/revit-api-forum/ribbon-combobox-string/m-p/7392732">ribbon combobox string</a>:</p>
+
+<p><strong>Question:</strong> I have a combobox located on my Ribbon. I would like to retrieve the selected value as a string to use in an external command. I set the value as a public string for the application but I can’t access it outside of it. Is there something special that needs to happen for this to work?</p>
+
+<p><strong>Answer:</strong> This should be pretty simple.</p>
+
+<p>The <a href="https://github.com/ADN-DevTech/RevitTrainingMaterial">ADN Revit API labs</a> and
+my <a href="https://github.com/jeremytammik/AdnRevitApiLabsXtra">Xtra labs</a> include
+the C# and VB projects <code>UiCs</code> and <code>UiVb</code> demonstrating how to create the combo boxes.</p>
+
+<p>Prompted by my look at them to answer your question, I migrated the latter to Revit 2018, while I was at it.</p>
+
+<p>Take a look at the <a href="https://github.com/jeremytammik/AdnRevitApiLabsXtra/blob/master/2_Revit_UI_API/SourceCS/1_Ribbon.cs#L395-L452">lines 395 to 452 in 1_Ribbon.cs</a>,
+defining the methods <code>AddComboBox</code> and <code>comboBx_CurrentChanged</code>, or the corresponding ones in the VB version.</p>
+
+<p>The <code>comboBx_CurrentChanged</code> event handler is notified and called when the combo box value changes:</p>
+
+<pre class="code">
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;Event&nbsp;handler&nbsp;for&nbsp;the&nbsp;above&nbsp;combo&nbsp;box&nbsp;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span><span style="color:green;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color:blue;">void</span>&nbsp;comboBx_CurrentChanged(
+&nbsp;&nbsp;<span style="color:blue;">object</span>&nbsp;sender,
+&nbsp;&nbsp;<span style="color:#2b91af;">ComboBoxCurrentChangedEventArgs</span>&nbsp;e&nbsp;)
+{
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;Cast&nbsp;sender&nbsp;as&nbsp;TextBox&nbsp;to&nbsp;retrieve&nbsp;text&nbsp;value</span>
+&nbsp;&nbsp;<span style="color:#2b91af;">ComboBox</span>&nbsp;combodata&nbsp;=&nbsp;sender&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">ComboBox</span>;
+&nbsp;&nbsp;<span style="color:#2b91af;">ComboBoxMember</span>&nbsp;member&nbsp;=&nbsp;combodata.Current;
+&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;<span style="color:#a31515;">&quot;Combobox&nbsp;Selection&quot;</span>,
+    <span style="color:#a31515;">&quot;Your&nbsp;new&nbsp;selection:&nbsp;&quot;</span>&nbsp;+&nbsp;member.ItemText&nbsp;);
+}
+</pre>
+
+<p>Store the updated value somewhere and make it available via an externally accessible method or property on your class and you will be all set and ready to go.</p>

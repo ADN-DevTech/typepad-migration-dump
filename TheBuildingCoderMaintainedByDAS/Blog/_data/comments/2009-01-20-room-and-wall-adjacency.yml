@@ -1,0 +1,269 @@
+comments:
+- author: Howard Roman
+  email: hroman@rand.com
+  ip: 208.125.116.210
+  url: ''
+  date: '2009-01-29 09:42:25'
+  body: This is off of this topic but you might be able to help.  Is there a way in
+    the family editor to align to faces of a layer of a composite wall.  For instance,
+    if I want the inside of a sill to always align flush with the inside face of the
+    brick exterior of the wall.  If this isn't in your realm, who might know.  Thanks
+- author: Jeremy Tammik
+  email: ''
+  ip: 85.18.94.89
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-01-29 09:55:14'
+  body: "Hi Howard,\n\nIt is possible through the API to determine the exact location\
+    \ of the internal layers of a composite wall. This is demonstrated in \n\n<a href=\"\
+    http://thebuildingcoder.typepad.com/blog/2008/11/wall-compound-layers.html\">http://thebuildingcoder.typepad.com/blog/2008/11/wall-compound-layers.html</a>\n\
+    \nUnfortunately, this will not help you at all inside the family editor, because\
+    \ the API is not active in that context. I do not know whether you have access\
+    \ to the data of the wall's internal layer structure through other means in the\
+    \ family editor.\n\nCheers, Jeremy."
+- author: Arno de Lange
+  email: a.d.lange@burgergrunstra.nl
+  ip: 82.204.34.165
+  url: http://www.burgergrunstra.nl
+  date: '2009-09-08 03:54:06'
+  body: 'Jeremy,
+
+
+    I love your blog, but i don''t have a clue about C#..
+
+    But i like the posibilities it has.
+
+
+    Is it posible to add a wall sweep to the walls of the room boundery. And to place
+    the wall sweep only over the portion of the wall that is in the room.
+
+
+    This way you would be able to apply a wall finish automaticly....'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-09-08 04:30:23'
+  body: "Dear Arno,\n\nWow, thank you very much for your appreciation! Sorry to hear\
+    \ that C# is not your thing. As I pointed out a few times, all .NET languages\
+    \ are equivalent and code can be automatically translated from one to the other.\
+    \ \n\nI don't know off hand about your wall sweep issue. Is it possible to achieve\
+    \ what you wish through the user interface? If not, it is probably not possible\
+    \ through the API either.\n\nCheers, Jeremy."
+- author: Dawit Ghebrehiwet
+  email: dawit.ghebrehiwet@stud.tu-darmstadt.de
+  ip: 130.83.86.249
+  url: ''
+  date: '2009-10-08 13:31:56'
+  body: "Hello Jeremy,\n\nthank you for this wonderful site. I am currently working\
+    \ on my master thesis and your blog is a wonderful ressource for the BIM part\
+    \ with Revit. Currently i am facing a problem i have not been able to solve. I\
+    \ am trying to find out the 'to room' and 'from room' for a given set of doors.\
+    \ Working with VS 2008 and Autodesk Revit MEP 2010 in C# i am trying to find out\
+    \ if a door is connecting two rooms:\n\n    ElementSetIterator elementsetiteratorBIMDoors\
+    \ = bimdoors.getBIMDoors().ForwardIterator();\n    \n    while (elementsetiteratorBIMDoors.MoveNext())\n\
+    \    {\n    \tAutodesk.Revit.Element elementDoor = elementsetiteratorBIMDoors.Current\
+    \ as Autodesk.Revit.Element;\n    \n    \tif ((null != elementDoor.get_Parameter(BuiltInParameter.FROM_ROOM_ID))\
+    \ && (null != elementDoor.get_Parameter(BuiltInParameter.FROM_ROOM_ID)))\n   \
+    \ \t{\n    \t\tstring sDoorFromRoomID = elementDoor.get_Parameter(BuiltInParameter.FROM_ROOM_ID).ToString();\n\
+    \    \t\tstring sDoorToRoomID = elementDoor.get_Parameter(BuiltInParameter.TO_ROOM_ID).ToString();\n\
+    \    \n    \t\tgraph.addLink(new Link(sDoorFromRoomID, sDoorToRoomID));\n    \t\
+    }\n    }\n\nThis approach seem not work because the return value of elementDoor.get_Parameter(BuiltInParameter.FROM_ROOM_ID)\
+    \ is always null. \n\nI have read on <a href=\"http://thebuildingcoder.typepad.com/blog/2009/02/rvtmgddbg.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/02/rvtmgddbg.html</a> that \"Built-in\
+    \ parameters are not an officially supported portion of API. In future we expect\
+    \ it will be replaced by data being properly exposed as a property.\"\n\nIs that\
+    \ statement true?\n\nCan anyone point me to an efficient way to get the relation\
+    \ between doors and rooms.\n\nThanks a lot,\n\nDawit Ghebrehiwet"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-10-09 06:33:52'
+  body: "Dear Dawit,\n\nThank you for your appreciation, I am glad you like it and\
+    \ find it useful.\n\nThe statement that you refer to was once made and has not\
+    \ been revoked, but on the other hand every single Revit application that I am\
+    \ aware of does make use of parameters after all, so it is to be taken with a\
+    \ large pinch of salt.\n\nOn the 'third' hand, since a door is always a FamilyInstance\
+    \ object, you should be able to make use of the FamilyInstance FromRoom and ToRoom\
+    \ properties and not need to resort to any direct parameter access after all:\n\
+    \n- FromRoom: The room from which the door or window is opened.\n\n- ToRoom: The\
+    \ room to which the door or window is opened.\n\nIf for some reason that does\
+    \ not work, you can always go back to basics and make use of the GetRoomAtPoint\
+    \ method. Simply take the insertion point of the door, use a perpendicular offset\
+    \ vector to define points in the two adjacent rooms, and feed them into that method\
+    \ to determine their identities. \n\nAnother interesting method in this context\
+    \ is Room.IsPointInRoom, which determines whether a given point lies within the\
+    \ volume of a room. The similar Space.IsPointInSpace method is used to analyse\
+    \ space adjacencies, a problem similar to the one you describe, in \n\n<a href=\"\
+    http://thebuildingcoder.typepad.com/blog/2009/07/space-adjacency.html\">http://thebuildingcoder.typepad.com/blog/2009/07/space-adjacency.html</a>\n\
+    \nI hope this helps and wish you the best of luck!\n\nCheers, Jeremy."
+- author: Chris Eversole
+  email: cle@spectrum-engineers.com
+  ip: 68.178.118.126
+  url: ''
+  date: '2013-08-05 16:28:17'
+  body: 'JEREMY,
+
+
+    Please help. I am new to coding and C# and I am trying to build a complete app
+    based off of the sample code you showed above. Can you please complete the full
+    code so a newbie like me can see and try to understand.'
+- author: Kenny Geyskens
+  email: kenny.geyskens@gmail.com
+  ip: 84.192.231.222
+  url: ''
+  date: '2014-08-08 07:33:03'
+  body: Hi Jeremy, would this also work with walls in separate linked documents while
+    the room is defined on the top-level doc?
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-08-11 10:46:13'
+  body: 'Dear Kenny,
+
+
+    Interesting question. It would depend on whether the BoundarySegment.Element property
+    returns the walls in linked documents. Please try it out and let us know. Thank
+    you!
+
+
+    Cheers, Jeremy.'
+- author: Arif Hanif
+  email: ahanif@aeieng.com
+  ip: 173.66.176.241
+  url: ''
+  date: '2015-03-14 22:55:37'
+  body: 'Jeremy,
+
+
+    Love the website, I have recently started to learn C# and have started exploring
+    the API to help with MEP Design. It has been frustrating dealing with gbXML. I
+    am trying to get Wall Area and Orientation for Room to excel. Can you point me
+    to some of your past postings that could help me.
+
+
+    Arif'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-03-16 05:36:49'
+  body: 'Dear Arif,
+
+
+    Thank you for your appreciation.
+
+
+    I am glad you like The Building Coder.
+
+
+    There are a lot of discussions on getting the wall area, e.g.
+
+
+    Mass quantities: Revit SDK MaterialQuantities sample
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/02/material-quantity-extraction.html">http://thebuildingcoder.typepad.com/blog/2010/02/material-quantity-extraction.html</a>
+
+
+    2D Polygon Areas and Outer Loop
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2008/12/2d-polygon-areas-and-outer-loop.html">http://thebuildingcoder.typepad.com/blog/2008/12/2d-polygon-areas-and-outer-loop.html</a>
+
+
+    Here is a recent discussion on getting the wall net and gross surface:
+
+
+    <a href="http://forums.autodesk.com/t5/revit-api/door-window-areas/td-p/5535565">http://forums.autodesk.com/t5/revit-api/door-window-areas/td-p/5535565</a>
+
+
+    For the orientation, here are some starting points:
+
+
+    Azimuth
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2008/10/azimuth.html">http://thebuildingcoder.typepad.com/blog/2008/10/azimuth.html</a>
+
+
+    Facing North
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/01/project-location.html">http://thebuildingcoder.typepad.com/blog/2010/01/project-location.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.98.69
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-03-17 12:25:27'
+  body: 'Dear Arif,
+
+
+    I summarised our little conversation and added a few more pointers that might
+    be of interest to you here:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2015/03/calculating-gross-and-net-wall-areas.html#2">http://thebuildingcoder.typepad.com/blog/2015/03/calculating-gross-and-net-wall-areas.html#2</a>
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.'
+- author: Geert
+  email: gvgorp@gmail.com
+  ip: 86.90.212.12
+  url: http://www.vabisoftware.com
+  date: '2015-04-07 18:25:14'
+  body: "Dear Jeremy,\n\nI've got some questions concerning above topic.\n\n1. We\
+    \ have found out that some walls are not recognized by the room, because these\
+    \ walls do not get to become room bounded. For example when you have two walls\
+    \ stacked up on each other, when the upper wall is smaller than the bottom wall,\
+    \ the bottom wall is room bounded and the upper wall is not. How can you find\
+    \ these missing (upper) walls?\n\n2. How can I get the wall adjacency for composite\
+    \ walls if the wall is separated into parts by using the \"create parts\" function?\
+    \ For example a separating composite wall with cavity does not see two room adjacencies,\
+    \ because the cavity has no room/space.\n\n3. Is there any way to get the building\
+    \ envelope data  (construction areas of outer facade, roofs, ground floors) without\
+    \ having rooms/spaces defined? For example when a user only has modeled constructions\
+    \ such as walls, floors and roofs? \n\n4. What if some rooms (eg. ventilation\
+    \ shafts and spaces behind retention walls) don't have room definitions? Will\
+    \ this become adjacent to outside? Can you ignore these unintended wall adjacencies?\n\
+    \nI may have missed already given answers to above questions. If so, can you please\
+    \ provide URL's to further reading?\n\nAppreciate your answers very much!\n\n\
+    Regards,\n\nGeert"
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.7.103.43
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-04-14 03:55:29'
+  body: 'Dear Geert,
+
+
+    I hope and believe that the SpatialElementGeometryCalculator class can answer
+    all of the questions you raise.
+
+
+    Can you please take a look at the following much more recent discussion and let
+    us know whether that helps solve them and addresses all your needs?
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2015/03/findinserts-retrieves-all-openings-in-all-wall-types.html">http://thebuildingcoder.typepad.com/blog/2015/03/findinserts-retrieves-all-openings-in-all-wall-types.html</a>
+
+    e553e16897883301b7c7789a82970b
+
+
+    Please also note the relevant additional questions raised and addressed there
+    in the comment by Håkon Clausen.
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.
+
+    -----'

@@ -1,0 +1,87 @@
+comments:
+- author: bkR
+  email: babu.rajan@hotmail.com.au
+  ip: 60.240.82.26
+  url: ''
+  date: '2011-04-30 09:11:18'
+  body: "Using Revit 2012, Visual studio 2010 getting an errer - Inconsistent accessibility:\
+    \ parameter type 'Addpanel.UIControlledapplication' is less accessible than Method\
+    \ 'Addpanel.CSAddpanel.OnStartup(Addpanel.UIControlledapplication)'\t\n\n###################################\n\
+    \nusing System;\nusing System.Collections.Generic;\nusing System.Linq;\nusing\
+    \ System.Text;\nusing Autodesk.Revit.UI;\nusing System.Windows.Media.Imaging;\n\
+    \nnamespace Addpanel\n{\n    public class CSAddpanel : Autodesk.Revit.UI.IExternalApplication\n\
+    \    {\n        public Autodesk.Revit.UI.Result OnStartup(UIControlledapplication\
+    \ application)\n        {\n            Ribbonpanel ribbonPanel = application.CreateRibbonPanel(\"\
+    NewRibbonPanel\");\n\n            PushButton pushButton = ribbonPanel.AddItem(new\
+    \ PushButtonData(\"Helloworld\",\n                \"Helloworld\", @\"C:\\ProgramData\\\
+    Autodesk\\Revit\\Addins\\2012\\HelloWorld.dll\", \"HelloWorld.CSHelloWorld\"))\
+    \ as PushButton;\n\n            Uri uriImage = new Uri(@\"C:\\ProgramData\\Autodesk\\\
+    Revit\\Addins\\2012\\Addpanel_33X32.png\");\n\n            BitmapImage largeImage\
+    \ = new BitmapImage(uriImage);\n            pushButton.LargeImage = largeImage;\n\
+    \n            return Result.Succeeded;\n        }\n\n        public Result OnShutdown(UIControlledApplication\
+    \ application)\n        {\n            return Result.Succeeded;\n\n        }\n\
+    \    }\n}"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-05-03 07:41:58'
+  body: 'Dear Baju,
+
+
+    C# is case sensitive. You need to replace the class names UIControlledapplication
+    by UIControlledApplication (capital A) and Ribbonpanel by RibbonPanel (capital
+    P).
+
+
+    Cheers, Jeremy.'
+- author: Matt H.
+  email: harrison-matt@hotmail.com
+  ip: 68.230.182.214
+  url: ''
+  date: '2012-09-08 11:18:21'
+  body: 'Jeremy,
+
+
+    How would I go about updating this template to work for RME 2012? Is there a wizard
+    for developing on this platform? The only issues that I have noticed with working
+    with this wizard is the locations of the API is referencing the RAC location.
+
+
+    With Regards,
+
+
+    Matt'
+- author: Matt H.
+  email: harrison-matt@hotmail.com
+  ip: 68.230.182.214
+  url: ''
+  date: '2012-09-08 11:47:12'
+  body: 'Jeremy,
+
+
+    I have figured it out... Simply by editing the TemplateRevitCS.csproj file and
+    replacing the .dll''s with the correct ones for my version.
+
+
+    Thank you for disregarding my first post.
+
+
+    With Regards,
+
+
+    Matt'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-09-09 15:29:12'
+  body: "Dear Matt H,\n\nYup, exactly. \n\nCongratulations on figuring it out, and\
+    \ thanks for letting us know.\n\nThe latest version of the wizard is available\
+    \ here:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2012/06/update-api-assembly-references-and-wizards.html#4\"\
+    >http://thebuildingcoder.typepad.com/blog/2012/06/update-api-assembly-references-and-wizards.html#4</a>\n\
+    \nThat link also points to the various previous versions.\n\nYou simply unpack\
+    \ a couple of them and compare differences to see how to modify them for other\
+    \ Revit installations.\n\nAs you say, just unpack any one, edit the files as required,\
+    \ pack them up again and install the updated zip file to produce the result you\
+    \ desire.\n\nCheers, Jeremy.\n-----"

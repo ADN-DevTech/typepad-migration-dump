@@ -1,0 +1,48 @@
+comments:
+- author: Chris
+  email: chris.j.mckeown@hotmail.com
+  ip: 110.148.136.172
+  url: ''
+  date: '2014-04-02 16:19:39'
+  body: Hi Jeremy, How would you convert the List<Point[]> loops back to a any View?
+- author: Jeremy Tammik
+  email: ''
+  ip: 88.76.48.21
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-04-03 05:27:28'
+  body: 'Dear Chris,
+
+
+    Thank you for your question.
+
+
+    I would love to answer it.
+
+
+    Unfortunately, I have no idea whatsoever what you mean.
+
+
+    Cheers, Jeremy.'
+- author: Chris
+  email: chris.j.mckeown@hotmail.com
+  ip: 203.28.167.26
+  url: ''
+  date: '2014-04-03 22:59:39'
+  body: Hi Jeremy, sorry for the confusion, what I mean is instead of "graphics.DrawPath(
+    pen, path );" drawing the lines to the a windows dialog, drawing the lines back
+    in a Revit View, say plan or elevation? I have been playing with this and can
+    get it to work sometimes to some Views, but not all views. Regards Chris
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.189.84
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-04-04 02:07:41'
+  body: "Dear Chris,\n\nOh, I see what you mean.\n\nSure, that is absolutely possible.\n\
+    \nYou need model lines in model views, and detail lines in plan views. Each line\
+    \ needs a sketch plane, and the line must lie in that plane. \n\nThe Creator class\
+    \ in The Building Coder samples sets that up automatically for model lines:\n\n\
+    <a href=\"https://github.com/jeremytammik/the_building_coder_samples/blob/master/BuildingCoder/BuildingCoder/Creator.cs\"\
+    >https://github.com/jeremytammik/the_building_coder_samples/blob/master/BuildingCoder/BuildingCoder/Creator.cs</a>\n\
+    \nIt would be more efficient to reuse the same sketch plane for all lines that\
+    \ are coplanar instead of creating a new sketch plane for each line.\n\nCheers,\
+    \ Jeremy.\n-----"

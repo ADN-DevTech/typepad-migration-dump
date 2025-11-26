@@ -1,0 +1,380 @@
+---
+layout: "post"
+title: "Generating Graphics and Collecting Assets"
+date: "2019-10-31 06:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "BIM"
+  - "Debugging"
+  - "Installation"
+  - "Job"
+  - "Material"
+  - "OBJ"
+  - "Performance"
+  - "SDK Samples"
+  - "STL"
+  - "Utilities"
+  - "View"
+  - "Viewer"
+original_url: "https://thebuildingcoder.typepad.com/blog/2019/10/generating-graphics-and-collecting-assets.html "
+typepad_basename: "generating-graphics-and-collecting-assets"
+typepad_status: "Publish"
+---
+
+<p>As always, many important ongoing issues are being presented and resolved in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a>.</p>
+
+<p>I continue struggling to create time to pick out and highlight the most relevant topics here.</p>
+
+<p>I ended up with quite a number today:</p>
+
+<ul>
+<li><a href="#2">Can you avoid generating graphics?</a></li>
+<li><a href="#3">Read all thermal and physical assets</a></li>
+<li><a href="#4">Collection of old add-in managers</a></li>
+<li><a href="#5">Compiling an add-in without Revit installed</a></li>
+<li><a href="#6">Xeokit 3D BIM and CAD viewer</a></li>
+<li><a href="#7">Software development manager job opportunity</a></li>
+</ul>
+
+<h4><a name="2"></a> Can You Avoid Generating Graphics?</h4>
+
+<p>Several developers encountered performance problems filtering for elements based on the view containing them.</p>
+
+<p>In order to determine which elements are displayed in a view, the view has to be regenerated.</p>
+
+<p>The first time this happens, Revit may display a progress bar saying 'Generating graphics'.</p>
+
+<p>This can be triggered by a filtered element collector as well.</p>
+
+<p>In the following, I'll summarise a couple of discussions around this topic.</p>
+
+<p>The most recent was is the StackOverflow question
+on <a href="https://stackoverflow.com/questions/58593436/revit-get-all-viewsheet-is-very-slow">Revit : get all ViewSheet is very slow</a>:</p>
+
+<p><strong>Question:</strong> For a plugin, I need to get all the viewsheets in the RVT file and display information from them in a XAML dialog.
+This process is very, very slow the first time I use it:
+with the debugger, it takes 500 ms for 83 plan views, and it is very slow without the debugger too.
+If I execute the code again, the execution is instantaneous.
+This code is causing it:</p>
+
+<pre class="code">
+<span style="color:blue;">protected</span>&nbsp;<span style="color:#2b91af;">IEnumerable</span>&lt;<span style="color:#2b91af;">Element</span>&gt;&nbsp;GetAllEl(&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;)
+{
+&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;.OfCategory(&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_Sheets&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;.WhereElementIsNotElementType()
+&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">ViewSheet</span>&nbsp;)&nbsp;);
+}
+</pre>
+
+<p><strong>Answer:</strong> I do not think there is currently a known generic solution for that problem.</p>
+
+<p>A similar issue was just discussed with the development team:</p>
+
+<p><strong>Question:</strong> For a given element id, we need to find the list of sheet ids displaying it.
+Current solution: we loop through all the sheets and views and use <code>FilteredElementCollector( doc, sheet.Id )</code>.
+With the results from that, we perform one more call to <code>FilteredElementCollector( doc, view.Id )</code> and look for the element id.
+Issue: the current solution takes a lot of time and displays a Revit progress bar saying <code>Generating graphics</code>.
+Is there any better way to know if a given element id is available in the sheet or not?
+For example, some API methods like this would be very useful:</p>
+
+<pre class="code">
+  getAllSheets(&nbsp;<span style="color:#2b91af;">ElementId</span>&nbsp;)&nbsp;<span style="color:green;">//&nbsp;returns&nbsp;array&nbsp;of&nbsp;sheet&nbsp;id</span>
+  hasGuid(&nbsp;<span style="color:#2b91af;">ElementId</span>,&nbsp;sheetId&nbsp;)&nbsp;<span style="color:green;">//&nbsp;return&nbsp;true/false</span>
+</pre>
+
+<p>Does the API provide any such methods, to check whether a given <code>ElementId</code> is available in the sheet?</p>
+
+<p><strong>Answer:</strong> So. the goal is to find a view that displays a particular element on a sheet?
+Many model elements could be visible on multiple views, while most annotation elements are typically present only in one view.
+What type of elements are you checking for?
+And what will you do with that info?</p>
+
+<p><strong>Response:</strong> The goal is to find a view that displays a particular element on a sheet.
+It can be any type of element.</p>
+
+<p><strong>Answer:</strong> Here are some previous related discussions:</p>
+
+<ul>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2016/12/determining-views-showing-an-element.html">Determining Views Showing an Element</a></li>
+<li>The inverse, <a href="https://thebuildingcoder.typepad.com/blog/2017/05/retrieving-elements-visible-in-view.html">Retrieving Elements Visible in View</a></li>
+</ul>
+
+<p><strong>Response:</strong> The problem is that the first call to <code>FilteredElementCollector( doc, viewId )</code> shows <code>generating graphics</code> in the progress bar.
+Only the first-time search does so.
+The second time, search on the same view has no issues with performance.</p>
+
+<p><strong>Answer:</strong> The first time is slow because in order to iterate on the elements visible in a view, the graphics for that view must be generated.
+I can't think of a workaround to get a precise answer.
+You might be able to skip sheets which don't have model views in their viewport list to save a bit of time.
+Some sheets may only have drafting views and schedules and annotations.</p>
+
+<p>The development team provided a very helpful suggestion which helped work around the <code>generating graphics</code> call by avoiding that specific filtering operation completely in another case,
+to <a href="https://forums.autodesk.com/t5/revit-api-forum/loop-through-sheets-generating-graphics/m-p/8719256">loop through sheets generating graphics</a>.</p>
+
+<p>The solution there consisted in analysing exactly what relationship you are trying to retrieve.
+In that specific case, the Revit API provided direct support for the inverse relationship, so you can retrieve that and invert it to access the required elements.</p>
+
+<p>Maybe you can optimise in a similar manner for your needs?</p>
+
+<h4><a name="3"></a> Read all Thermal and Physical Assets</h4>
+
+<p><strong>Question:</strong> Is there a way to get the list of all Thermal and Physical assets using Revit 2019 API?</p>
+
+<p><strong>Answer:</strong> Those are used in Materials. I think you'd want to iterate over all materials in the document and look at each for its StructuralAssetId and ThermalAssetId.
+You can then look at the PropertySetElements that use those ids.
+You could probably also iterate PropertySetElements directly, which would be fine if you don't need to know what materials are using them.</p>
+
+<p><strong>Response:</strong> Thanks, just now got them as you suggested from the discussion 
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/material-assets-collector-appearance-structural-physical-amp/m-p/7269088">material assets collector for appearance, structural (physical) and thermal</a>:</p>
+
+<p>We are trying to gather all the material assets loaded into a project file but ran into a roadblock.
+We can successfully do this for the appearance assets, but for the other assets the approach does not work.</p>
+
+<p>The only way that we can gather the structural and thermal assets is by starting with materials and cycle through the assets that are assigned.
+This approach will omit assets that are not assigned to materials.</p>
+
+<p>Please see C# code below for reference. Any insight into how this can be achieved will be much appreciated.</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>&nbsp;collector&nbsp;
+    =&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc&nbsp;);
+&nbsp;&nbsp;<span style="color:green;">//code&nbsp;works&nbsp;for&nbsp;appearance&nbsp;assets</span>
+&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">Element</span>&gt;&nbsp;appearanceAssets&nbsp;
+    =&nbsp;collector.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">AppearanceAssetElement</span>&nbsp;)&nbsp;).ToElements();
+&nbsp;&nbsp;<span style="color:green;">//code&nbsp;throws&nbsp;an&nbsp;error</span>
+&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">Element</span>&gt;&nbsp;physicalAssets&nbsp;
+    =&nbsp;collector.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">StructuralAssetClass</span>&nbsp;)&nbsp;).ToElements();
+&nbsp;&nbsp;<span style="color:green;">//code&nbsp;throws&nbsp;an&nbsp;error</span>
+&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">Element</span>&gt;&nbsp;physicalAssets2&nbsp;
+    =&nbsp;collector.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">StructuralAsset</span>&nbsp;)&nbsp;).ToElements();
+&nbsp;&nbsp;<span style="color:green;">//code&nbsp;returns&nbsp;zero&nbsp;elements</span>
+&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">Element</span>&gt;&nbsp;propertySet&nbsp;
+    =&nbsp;collector.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">PropertySetElement</span>&nbsp;)&nbsp;).ToElements();
+&nbsp;&nbsp;<span style="color:green;">//code&nbsp;throws&nbsp;an&nbsp;error</span>
+&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">Element</span>&gt;&nbsp;thermalAssets&nbsp;
+    =&nbsp;collector.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">ThermalAsset</span>&nbsp;)&nbsp;).ToElements();
+</pre>
+
+<p>Error:</p>
+
+<ul>
+<li>Autodesk.Revit.Exceptions.ArgumentException: Input type (Autodesk.Revit.DB.StructuralAssetClass) is not a recognized Revit API type</li>
+</ul>
+
+<p>Other observations:</p>
+
+<ul>
+<li>The reason the Appearance Assets work might be because the <code>AppearanceAssetElement</code> class is called out.</li>
+<li>Appearance asset has the <code>AppearanceAsset</code> that seems analogous to the <code>StructuralAsset</code> and <code>ThermalAsset</code> classes.</li>
+<li>However, there are no <code>StructuralAssetElement</code> or <code>ThermalAssetElement</code> classes.</li>
+</ul>
+
+<p>The appearance asset also has a built-in category <code>OST_AppearanceAsset</code>, while the structural and thermal assets do not have any corresponding built-in category.</p>
+
+<p>The links below are our references to date:</p>
+
+<ul>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2010/08/filtering-for-a-nonnative-class.html">Filtering for a non-native class</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2012/04/getelement-method-and-get-element-type.html"><code>GetElement</code> method and get element type</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2016/05/roomedit3d-console-test-and-rendering-assets.html#3">Rendering assets</a></li>
+<li><a href="https://adndevblog.typepad.com/aec/2015/03/revitapi-how-to-get-asset-properties-of-material-i-want.html">How to get asset properties of material I want?</a></li>
+<li><a href="https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2016/ENU/Revit-API/files/GUID-F0C7BA6A-8C58-45B4-8639-1E08CBC6781D-htm.html">General Material Information</a></li>
+<li><a href="http://www.revitapidocs.com/2016/b492ddf4-3058-8f9b-dfcc-8d5c4abb3605.htm"><code>ElementCategoryFilter</code> class</a></li>
+</ul>
+
+<p><strong>Answer:</strong> Structural and Thermal Assets are contained in <code>PropertySetElement</code> objects.
+So, the line you wrote filtering for that should work.
+I checked in one of our templates and found 62 elements matching the filter.</p>
+
+<p><strong>Response:</strong> Yes, thank you for your direction.</p>
+
+<p>The reason zero elements were collected in our previous code sample was because we used the same collector instance several times over, both for the appearance assets and the property set.</p>
+
+<p>As soon as we defined a new one <code>collector2</code>, it worked.</p>
+
+<p>The  propertySet element hosts thermal and structural assets.
+However, there can be two property sets that have the same name (<code>Air</code>, for example), and one property set is dedicated to the structural, while the other to the thermal.
+You cannot easily discern whether setting the property set element to a material will set the thermal or structural assets.
+Essentially, the property set is either thermal or structural when applied to a material.</p>
+
+<p>It seems like the Revit UI categorizes property sets further into thermal and structural categories, while API access is limited.</p>
+
+<p>Below is an attempt to try to categorize the propertyset elements.
+Some property sets return a null value when the thermal asset info is missing and vice-versa.</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;property&nbsp;set:&nbsp;thermal&nbsp;and&nbsp;structural</span>
+&nbsp;&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>&nbsp;collector2&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">Element</span>&gt;&nbsp;propertySet&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;collector2.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">PropertySetElement</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.ToElements();
+
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;loop&nbsp;through&nbsp;property&nbsp;sets&nbsp;to&nbsp;gather&nbsp;</span>
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;structural&nbsp;and&nbsp;thermal&nbsp;assets</span>
+&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">PropertySetElement</span>&nbsp;psEle&nbsp;<span style="color:blue;">in</span>&nbsp;propertySet&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">try</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;gather</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">StructuralAsset</span>&nbsp;structAsset&nbsp;=&nbsp;psEle.GetStructuralAsset();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;process&nbsp;-&nbsp;currently&nbsp;add&nbsp;both&nbsp;aspects&nbsp;of&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;property&nbsp;set&nbsp;if&nbsp;they&nbsp;exist.&nbsp;this&nbsp;method&nbsp;can&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;have&nbsp;same&nbsp;p-set&nbsp;element&nbsp;id&nbsp;in&nbsp;both&nbsp;thermal&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;and&nbsp;structural</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;structAsset&nbsp;!=&nbsp;<span style="color:blue;">null</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;structuralAssets.Add(&nbsp;psEle&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">catch</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;code</span>
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">try</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;gather</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ThermalAsset</span>&nbsp;thermAsset&nbsp;=&nbsp;psEle.GetThermalAsset();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;process&nbsp;-&nbsp;currently&nbsp;add&nbsp;both&nbsp;aspects&nbsp;of&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;property&nbsp;set&nbsp;if&nbsp;they&nbsp;exist.&nbsp;this&nbsp;method&nbsp;can&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;have&nbsp;same&nbsp;p-set&nbsp;element&nbsp;id&nbsp;in&nbsp;both&nbsp;thermal&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;and&nbsp;structural</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;thermAsset&nbsp;!=&nbsp;<span style="color:blue;">null</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thermalAssets.Add(&nbsp;psEle&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">catch</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;code</span>
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+</pre>
+
+<p>Here is the <code>ThermalAsset</code> data extracted from a propertySet originally assigned to a StructuralAssetID of a material:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4e5f3b5200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4e5f3b5200b image-full img-responsive" alt="Snooping property set element" title="Snooping property set element" src="/assets/image_a9f1df.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>If the property set elements that host primarily the structural assets can be separated from the ones that host the thermal assets, then we would have to lists of property sets that we can work with.</p>
+
+<p>Is there any way to get all the list directly instead of checking the PropertySetElements?</p>
+
+<p><strong>Answer:</strong> Sorry, checking the elements is the only way to get into the document's database for these items.</p>
+
+<h4><a name="4"></a> Collection of Old Add-In Managers</h4>
+
+<p>An old thread
+requesting <a href="https://forums.autodesk.com/t5/revit-api-forum/add-in-manager-2018-compiled-version/m-p/9040405">Add-in Manager 2018 compiled version</a> came
+up again:</p>
+
+<p><strong>Question:</strong> Is there a place where I can find a compiled version of the Add-in Manager for Revit 2018?
+Previous versions also, if possible.
+In our company, we have administrator restriction rights, so we can't easily install the Revit SDK.</p>
+
+<p><strong>Answer by Jim Jia:</strong> Here is a zip file <a href="https://thebuildingcoder.typepad.com/files/jj_add_in_manager_2015_2018.zip">add_in_manager_2015_2018.zip</a> containing
+multiple versions of the Add-in Manager from the Revit SDK, for Revit 2015, 2016, 2017 and 2018.</p>
+
+<p>Please also note that the Revit 2020 SDK was lacking the add-in manager,
+but <a href="https://thebuildingcoder.typepad.com/blog/2019/05/spatial-geometry-add-in-manager-and-show-reels.html#3">the version from the Revit 2019 SDK still works in Revit 2020</a> as
+well.</p>
+
+<h4><a name="5"></a> Compiling an Add-In Without Revit Installed</h4>
+
+<p><a href="https://thebuildingcoder.typepad.com/blog/2018/06/multi-targeting-revit-versions-cad-terms-texture-maps.html#comment-4668774970">Question by Armand</a>
+on <a href="https://thebuildingcoder.typepad.com/blog/2018/06/multi-targeting-revit-versions-cad-terms-texture-maps.html">multi-targeting Revit versions using TargetFrameworks</a>:</p>
+
+<p><strong>Question:</strong> Is it possible to write/compile Revit add-ins without having the specific version of Revit installed on your development machine?
+I am currently supporting add-ins that I have written for Revit versions 2016 thru 2020.
+I am setting up a new development machine and do not want to install 2016, 2017, &amp; 2018.
+Does this mean I can no longer maintain the code that targeted those versions?
+Is there a way to just reference copies of those specific DLL files?</p>
+
+<p><strong>Answer:</strong> I have good news for you.
+You do not need to install Revit on your development machine.
+All you need are the Revit API .NET assemblies.
+As a minimum, they include <code>RevitAPI.dll</code> and <code>RevitAPIUI.dll</code>.
+There are many more that are optional.
+You can even create a NuGet package to deploy them to your development machine, or possibly
+use <a href="https://www.nuget.org/packages?q=revit+api">an existing Revit API NuGet package</a>.</p>
+
+<h4><a name="6"></a> Xeokit 3D BIM and CAD Viewer</h4>
+
+<p>The <a href="http://xeokit.io">xeokit</a> is a software development kit from <a href="http://xeolabs.com">xeolabs</a> for viewing high-detail 3D BIM and CAD models in the web browser.</p>
+
+<p>Check out all the details in the <a href="https://github.com/xeokit/xeokit-sdk">xeokit-sdk JavaScript SDK GitHub repository</a>.</p>
+
+<p>It can load multiple models into the same 3D scene, from source formats including glTF, OBJ, 3DXML, STL, 3DS and BIMServer.</p>
+
+<h4><a name="7"></a> Software Development Manager Job Opportunity</h4>
+
+<p>Let's close for today with a current job opportunity here in Switzerland that may be of interest, for
+a <a href="https://rolp.co/EcSHh">Software Development Manager in Rümligen, Bern, Switzerland, Job ID 19WD35458</a>:</p>
+
+<p>Position Overview</p>
+
+<p>The Autodesk Construction Solutions group is seeking a Software Development Manager to lead one or more agile teams. You and your team will design, build and run full stack web, mobile and cloud applications. As the Software Development Manager, you have a critical role in setting direction and expectations for the team. You will oversee both process and technology and help teams to make the right decisions when needed.
+You will be part of the Preconstruction organization working on new BIM 360 products that enable our customers to work more efficiently and collaboratively. If you are a leader that enjoys working with highly talented individuals, latest technologies and the best tools available, we would love to hear from you!</p>
+
+<p>Responsibilities</p>
+
+<ul>
+<li>Lead one or more agile teams of local and remote software engineers working on full stack web, mobile and cloud applications and services. Oversee process and technology and influence the decision-making process</li>
+<li>Plan and manage your team's successful continuous delivery of cloud applications and services</li>
+<li>Work with product owners, scrum masters, software architects, and key stakeholders to build agile release plans to deliver software iteratively and incrementally by following agile principles</li>
+<li>Collaborate with other teams to accomplish cross-organizational project goals</li>
+<li>Be the spokesperson for the team and champion its accomplishments and causes with upper management and adjacent teams.</li>
+<li>Manage the performance of your team by communicating clear organizational goals and removing technical and organizational impediments</li>
+<li>Inspire and motivate team members to achieve maximum productivity and optimal creativity, Support individual training and career development</li>
+<li>Foster a culture of continuous improvement through ongoing feedback, coaching, training and tracking performance metrics.</li>
+<li>Partner with HR and other business partners to build and maintain a high performing team</li>
+</ul>
+
+<p>Minimum Qualifications</p>
+
+<ul>
+<li>BS or MS in Computer Science or related technical field.</li>
+<li>Extensive experience working with software development teams delivering product or services to customers.</li>
+<li>Experience leading local and remote mid and senior level developers.</li>
+<li>Experience in managing complex software projects with dependencies to other development teams and timelines.</li>
+<li>Experience in fast-pace product delivery and agile practices.</li>
+<li>Big picture thinker who thrives in an ever-changing environment.</li>
+<li>Strong verbal and written communication skills.</li>
+</ul>
+
+<p>Preferred Qualifications</p>
+
+<ul>
+<li>Agile certification is a plus</li>
+<li>German language skills are a plus</li>
+</ul>
+
+<p>The Ideal Candidate</p>
+
+<p>You are a strategic thinker with a strong desire to deliver results. You can see the big picture and help the team to deliver in a dynamic, agile environment with changing priorities. You are not afraid to ask critical questions and influence the decision-making process. You can work independently and manage multiple priorities.
+You’re an effective communicator and easily build collaborative relationships. You are experienced in adapting language and content to the type of conversation. You enjoy the daily collaboration with your team, other disciplines and senior management. You build collaborative relationships through open feedback in an environment of trust.
+You enjoy leading people. You have mastered various leadership styles and you enjoy leading talented people with diverse seniority in different project phases. You can sense unleashed potential and strive to work with individuals to maximize their performance and engagement.</p>
+
+<p>How You’d Spend Your Day</p>
+
+<ul>
+<li>You will manage one or more teams of local and remote software engineers.</li>
+<li>In close collaboration with product owner and Scrum master, you will lead the development of web, mobile and cloud application and services for customers</li>
+<li>You will collaborate with other teams, disciplines and senior management to build and iterate on agile delivery plans, manage dependencies and align roadmaps</li>
+<li>You will report to senior management and provide the necessary information to plan and adjust product roadmaps and resource plans</li>
+<li>You will spend time with your direct reports to plan their individual career development</li>
+</ul>
+
+<p>If you are interested in other jobs and other locations, please take a look at the possibilities listed at <a href="https://www.autodesk.com/careers">www.autodesk.com/careers</a>.</p>
+
+<p>If you see an opportunity that you are interested in, you can send me the job id for it and I will provide you with a personal referral link for it.</p>
+
+<p>Good luck!</p>

@@ -1,0 +1,148 @@
+---
+layout: "post"
+title: "Revit 2021.1 and Normalising Custom Export UV"
+date: "2020-07-22 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "2021"
+  - "Export"
+  - "News"
+  - "Units"
+  - "Update"
+  - "Utilities"
+  - "View"
+original_url: "https://thebuildingcoder.typepad.com/blog/2020/07/revit-20211-update-and-normalising-custom-export-uv.html "
+typepad_basename: "revit-20211-update-and-normalising-custom-export-uv"
+typepad_status: "Publish"
+---
+
+<p>The hottest news for today is the Revit update release, seasoned with other titbits of interest:</p>
+
+<ul>
+<li><a href="#2">The Revit 2021.1 update</a></li>
+<li><a href="#3">Normalising UVs in custom exporter</a></li>
+<li><a href="#4">Set up your own free VPN server</a></li>
+</ul>
+
+<p>Before we get to those, another nice quote of the week, courtesy of <a href="https://www.freecodecamp.org/news/author/quincylarson">Quincy Larson</a>:</p>
+
+<blockquote>
+<p><i>Programming is the only job I can think of where I get to be both an engineer and an artist.
+There's an incredible, rigorous, technical element to it, which I like because you have to do very precise thinking.
+On the other hand, it has a wildly creative side where the boundaries of imagination are the only real limitation.</i></p>
+<p style="text-align: right; font-style: italic">&ndash; Andy Hertzfeld</p>
+</blockquote>
+
+<h4><a name="2"></a> The Revit 2021.1 Update</h4>
+
+<p>The long-awaited Revit 2021.1 update release is now available.</p>
+
+<p>Check out the top experts' and product managers' detailed report
+on <a href="https://blogs.autodesk.com/revit/2020/07/22/whats-new-in-revit-2021-1">What’s new in Revit 2021.1</a>.</p>
+
+<p>Here are the top highlights from their release run-down, grouping features into four benefit categories: Automation and Computation, Interoperability and Data Exchange, Productivity and Ease of Use, and Coordination and Collaboration.</p>
+
+<ul>
+<li>Automation and Computation
+<ul>
+<li>Dynamo 2.6 for Revit and many new nodes</li>
+<li>New sample studies for Generative Design in Revit</li>
+</ul></li>
+<li>Interoperability and Data Exchange
+<ul>
+<li>FormIt Converter in Revit Enhancements</li>
+<li>Import and export enhancements</li>
+<li>Civil structures alignment in Revit</li>
+</ul></li>
+<li>Productivity and Ease of Use
+<ul>
+<li>Faster Revit install and deployment</li>
+<li>Improved view switching</li>
+<li>Improved panel schedule properties</li>
+<li>Quickly identify the rebar host</li>
+<li>User profile improvements</li>
+<li>New units</li>
+<li>Resizable shared parameters dialogue</li>
+</ul></li>
+<li>Collaboration and Coordination
+<ul>
+<li>Shared 3D views</li>
+<li>Cloud model upgrade</li>
+<li>Cloud worksharing improvements</li>
+<li>Reset shared coordinates</li>
+<li>Acquire Coordinates Notification</li>
+<li>EU Region support for Piping and Instrumentation Diagram (P&amp;ID) modeler</li>
+</ul></li>
+</ul>
+
+<h4><a name="3"></a> Normalising UVs in Custom Exporter</h4>
+
+<p>Sunsflower (sic) shared a nice explanation in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/revit-api-iexportcontext-converting-uv-to-the-range-0-1/m-p/9638219"><code>IExportContext</code> converting <code>UV</code> to the range (0,1)</a>:</p>
+
+<p><strong>Question:</strong> I'm writing an exporter for Revit and encountered with a problem when exporting UV.</p>
+
+<p>When I call <code>PolymeshTopology.GetUV</code>, the coordinates given are often larger than 1.</p>
+
+<p>My questions are:</p>
+
+<ul>
+<li>How can I convert them to the desired range (0,1)? Or how should I understand these UV values?</li>
+<li>Are they coordinates on the image? And If they are indeed coordinate on the image, how can I access the size of the image in <code>IExportContext</code>?</li>
+</ul>
+
+<p>To give a concrete example:</p>
+
+<p>Say I have a texture of size 4096x4096, the corresponding <code>UV</code> data I read in <code>IExportContext</code> is around 25, and the RealWorldScale from the UnifiedBitmapAsset is about 141.</p>
+
+<p>I cannot seem to be able to discern a formula or anything...</p>
+
+<p><strong>Answer:</strong> Maybe this background information
+on <a href="https://thebuildingcoder.typepad.com/blog/2010/01/faces.html">faces and their coordinates in the Revit API</a> will
+help?</p>
+
+<p><strong>Response:</strong> That post explains UV as two variables that parametrise a face, but as far as I can see they are related to the structure of the face in 3d space, not how each vertex of the face are mapped to the bitmap.</p>
+
+<p>How can I convert the UV coordinates returned by <code>PolymeshTopology.GetUV</code> to pixel coordinates on the image or in the range (0,1).</p>
+
+<p>I found the discussion
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/polymeshtopology-uvs/td-p/8641007">PolymeshTopology UVs</a> to
+be relevant, but the answer given is not detailed enough for me to actually solve the problem.</p>
+
+<p><strong>Later:</strong> Okay, I think I've figured it out and I'll list the solution found just in case someone else also has this problem...</p>
+
+<p>The <code>PolymeshTopology.GetUV</code> method returns a <code>UV</code> coordinate, which corresponds to the parameters of a face.</p>
+
+<p>Therefore, I guess they are related to the dimension of the face that they parameterize.</p>
+
+<p>These UV coordinates can be converted to display units via <code>UnitUtils.ConvertFromInternalUnits</code> (which is probably deprecated now, but anyway...). 
+My add-in uses centimetres.
+So far, we have the UV in centimetres.</p>
+
+<p>The next step is to obtain the size of the bitmap.
+This is given by the properties with name <code>UnifiedBitmap.TextureRealWorldScaleX/Y</code>.
+These values are actually given in inches, so you can call <code>UnitUtils.Convert</code> from  <code>DisplayUnitType.DUT_DECIMAL_INCHES</code> to <code>DisplayUnitType.DUT_CENTIMETERS</code> to convert them.
+In fact, I've found <code>DisplayUnitType.DUT_FRACTIONAL_INCHES</code> gives the same result.
+I don't know what the difference is... maybe someone could elaborate on that.</p>
+
+<p>After that, the UV coordinates can be scaled to the range [0,1] or whatever.</p>
+
+<p><strong>Correction:</strong> the <code>AssetPropertyDistance</code> class actually has a <code>DisplayUnitType</code> property, which should be used instead of the <code>DUT_DECIMAL_INCHES</code>.</p>
+
+<p>Many thanks to Sunsflower for this useful research and helpful documentation!</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e957f1e3200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e957f1e3200b img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="Sunflower" title="Sunflower" src="/assets/image_ed9ac5.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="4"></a> Set up your own Free VPN Server</h4>
+
+<p>I have not tried this myself yet, but the detailed steps sound perfectly simple, sound and doable in the 5 minute read
+on <a href="https://www.freecodecamp.org/news/how-to-set-up-a-vpn-server-at-home">how to set up your own VPN server at home for free using Linux and WireGuard</a>:</p>
+
+<blockquote>
+  <p>This is a great way to boost your own privacy and security without needing to share your data with a paid VPN service. </p>
+</blockquote>

@@ -1,0 +1,193 @@
+---
+layout: "post"
+title: "New Analytical Model API"
+date: "2021-11-11 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "2022"
+  - "JavaScript"
+  - "Modeless"
+  - "RevitLookup"
+  - "RST"
+  - "Storage"
+original_url: "https://thebuildingcoder.typepad.com/blog/2021/11/new-analytical-model-api.html "
+typepad_basename: "new-analytical-model-api"
+typepad_status: "Publish"
+---
+
+<p>Important news coming for structural developers, further development in RevitLookup, notes on extensible storage and JavaScript:</p>
+
+<ul>
+<li><a href="#2">New Analytical Model API</a></li>
+<li><a href="#3">Praise for modeless RevitLookup</a></li>
+<li><a href="#4">Benchmarking generic <code>Any</code> versus <code>Count</code></a></li>
+<li><a href="#5">Escape RevitLookup</a></li>
+<li><a href="#6">Use extensible storage carefully</a></li>
+<li><a href="#7">jQuery is widespread but outdated</a></li>
+</ul>
+
+<h4><a name="2"></a> New Analytical Model API</h4>
+
+<p>We have just added a new item to
+the <a href="https://trello.com/b/ldRXK9Gw/revit-public-roadmap">Revit Public Roadmap</a> announcing
+a new API for analytical modelling in Revit.
+This is quite an evolution (if not revolution, as the old one will be deprecated).
+Please take a close look at it if you are interested in this area.</p>
+
+<blockquote>
+  <p><strong>New API Analytical Model</strong></p>
+  
+  <p>New API to enable direct control of the structural analytical model that allows developers to operate independently the creation and modification of analytical elements, offering simplified implementations that work in abstraction from physical elements.</p>
+</blockquote>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330282e12f96c1200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330282e12f96c1200b image-full img-responsive" alt="New Analytical Model API" title="New Analytical Model API" src="/assets/image_a8bd7b.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>To further track progress and news on analytical modelling, you are also invited to apply to join
+the <a href="https://feedback.autodesk.com/key/LHMJFVHGJK085G2M">Revit preview project</a>.</p>
+
+<p>Just like the <a href="https://forums.autodesk.com/t5/revit-ideas/idb-p/302">Revit Idea Station</a>,
+the roadmap enables you to vote for the roadmap items that have the greatest importance for your specific projects.</p>
+
+<h4><a name="3"></a> Praise for Modeless RevitLookup</h4>
+
+<p>We received praise on Twitter and LinkedIn for
+the new <a href="https://thebuildingcoder.typepad.com/blog/2021/10/bridges-regeneration-and-modeless-revitlookup.html">modeless RevitLookup</a>:</p>
+
+<ul>
+<li>This is a breakthrough. &ndash; <i>Joshua Lumley @joshnewzealand</i></li>
+<li>These are some nice adds. Thanks @jeremytammik. &ndash; <i>Timon Hazell @TmnHzll</i></li>
+<li>A dream come true. &ndash; <i>Manjaka Rakotoarisoa @RaManjaka</i></li>
+<li>A huge thank you to <a href="https://github.com/NeVeSpl">@NeVeSpl</a> who took on my improvement request right away and made it real!
+&ndash; <i>Jean-Marc Couffin @JeanMarcCouffin</i></li>
+<li>Thanks Jeremy, RevitLookup is my favourite addin. It is the must-have add-in for me. &ndash; <i>Carl S @CarlSirid</i></li>
+<li>Installed it yesterday. Thanks very much. &ndash; <i>David Wilson</i></li>
+<li>Great! 👍👍👍 &ndash; <i>Roy Qian</i></li>
+<li>Nice! Thanks Jeremy. &ndash; <i>Daniel Swearson</i></li>
+<li>You are my hero ❤️ &ndash; <i>Micheal Ibrahim</i></li>
+<li>Just tried. Thanks! &ndash; <i>Chenzhang Wang</i></li>
+</ul>
+
+<p>Thank you for your appreciation, everybody, and yet again a huge thanks to <a href="https://github.com/NeVeSpl">@NeVeSpl</a> from me too.</p>
+
+<h4><a name="4"></a> Benchmarking Generic Any versus Count</h4>
+
+<p>One interesting little item that came up after
+the subsequent <a href="https://thebuildingcoder.typepad.com/blog/2021/11/revit-20221-sdk-revitlookup-build-and-install.html#4">RevitLookup cleanup</a> questions the use of the <a href="">generic <code>Any</code> method</a> to check for an empty collection
+in <a href="https://github.com/jeremytammik/RevitLookup/issues/113">issue #113 &ndash; error snooping family type from project browser</a>,
+where <a href="https://github.com/Nice3point">Roman @Nice3point</a> points out:</p>
+
+<blockquote>
+  <p>It would be nice to remove this filter and replace <code>ids.Any()</code> with <code>ids.Count &gt; 0</code>.
+  This will improve performance, as <code>Any</code> creates a new <code>Enumerator</code>.
+  Proof:</p>
+</blockquote>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833026bdeff39dc200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833026bdeff39dc200c img-responsive" style="width: 464px; display: block; margin-left: auto; margin-right: auto;" alt="Any versus Count" title="Any versus Count" src="/assets/image_6a7449.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<blockquote>
+  <p>I agree that sometimes code readability is more important, but in this case additional lines or conditions are not added.
+  The difference in speed is 1200 times with memory allocation =(</p>
+  
+  <p>It takes 27 NANO seconds, and 40 Bytes in instruction that is invoked only once per use case 🤣.</p>
+</blockquote>
+
+<p>Many thanks to Roman for this little suggestion and benchmark, and much more so for all his other outstanding work recently improving and maintaining RevitLookup!</p>
+
+<h4><a name="5"></a> Escape RevitLookup</h4>
+
+<p>Before we escape this topic, yet another little RevitLookup update bears mentioning:</p>
+
+<p>Luiz Henrique <a href="https://github.com/ricaun">@ricaun</a> Cassettari submitted
+<a href="https://github.com/jeremytammik/RevitLookup/pull/115">pull request #115 to add keyboard escape to close form</a>:</p>
+
+<blockquote>
+  <p>After the Modeless update, the Escape button stop working.
+  This PR reenables the Escape keyboard feature; now the focused form closes if the Escape button is pressed, and the Owner regains focus.</p>
+</blockquote>
+
+<p>Published in <a href="https://github.com/jeremytammik/RevitLookup/releases/tag/2022.0.2.4">RevitLookup release 2022.0.2.4</a>.</p>
+
+<p>Many thanks to Luiz Henrique for catching this!</p>
+
+<h4><a name="6"></a> Use Extensible Storage Carefully</h4>
+
+<p>Moving away from RevitLookup to more general Revit API topics, 
+@aalondoqor ran into a problem similar to the one reported two years ago in 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on a <a href="https://forums.autodesk.com/t5/revit-api-forum/bug-unable-to-open-revit-2019-model-after-saving-custom-schema/m-p/10736885">Bug: Unable to open Revit 2019 model after saving custom schema in Project Info</a>.</p>
+
+<p>With the help of the invaluable advice provided once again by
+Richard <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/1035859">RPThomas108</a> Thomas,
+it turns out not to be a bug after all...</p>
+
+<p>The original problem description includes
+an <a href="zip/extensible_storage_test_1.zip">an archive with a project CS.Revit.TestLib.zip</a> to
+run in Revit 2019 with a README.md specifying the problem reproduction steps.</p>
+
+<p>In the new iteration, @aalondoqor asks:</p>
+
+<p><strong>Question:</strong> Hi, can you solve this bug?</p>
+
+<p><strong>Answer:</strong> Does the sample material provided previously exactly cover your problem as well?</p>
+
+<p><strong>Response:</strong> Yes, is the same case exactly.</p>
+
+<p><strong>Answer:</strong> You have to be careful with Extensible Storage; it can cause these issues.</p>
+
+<p>I experienced the same issue with that sample in Revit 2022 when upgraded;
+I made the enclosed changes to <code>Application.cs</code> and no longer experienced the problem.</p>
+
+<p>Essentially, the changes consist of:</p>
+
+<ul>
+<li>Constructing the schema when it is needed, not at start-up</li>
+<li>Not passing entities <code>ByRef</code></li>
+<li>Looking for an existing schema </li>
+<li>Creating it if not found via <code>Schema.Lookup(SchemaGuid)</code>, rather than just supplying GUID</li>
+<li>Using <code>new Entity(Schema)</code> instead of <code>new Entity(GUID)</code></li>
+<li>Making use of <code>ExtensibleStorageFilter</code>.</li>
+</ul>
+
+<p>I guess the 'archive error' failure to open should be investigated regardless, but comparison between enclosed and original may indicate the cause.</p>
+
+<p>The sample includes producing a library in netcore3.0 and dotnet47.
+I upgraded to dotnet48 and dropped the netcore3.0 version.
+Due to referencing the Revit 2022 API, I had to change aspects related to <code>DisplayUnitType</code>.
+Updated solution enclosed, not original:</p>
+
+<ul>
+<li><a href="zip/ApplicationREVISED.cs.txt">ApplicationREVISED.cs</a></li>
+<li><a href="zip/extensible_storage_test_2.zip">CS.Revit.TestLib updated</a></li>
+</ul>
+
+<p>When Extensible storage was introduced, we all went through a small period of time when we were using it wrong and we didn't see the implications until later (often the next year when we updated the add-ins but had the old schemas).
+So, will always be an important subject to developers with limited experience of it.</p>
+
+<p>I have to thank The Building Coder, because the majority of my knowledge of this subject is due to the AU handouts by Jeremy Tammik that are available on the web.
+They may not incorporate the latest ways of obtaining Schema's etc., but the process is still outlined correctly.
+From what I've seen, people often get into difficulties when they go too far away from these ways of doing it.
+I think the general rule is, don't hold onto objects and keep interactions as finite as possible.
+The Revit SDK also provides a good basic example under <code>SchemaBuilder</code>.</p>
+
+<p>If you conclude my fixes solved the issue or even if you demonstrate a better way (I did rewrite in a bit of a hurry), I would be happy to read that on the blog.</p>
+
+<p>We could ask Autodesk to find a more graceful way for Revit to handle the issue, but I think that is perhaps easier said than done (is a memory issue, is not new, we all have our part to play in terms of program stability).
+Often if you can't open a file, it may be possible to open it on a Revit version without the add-ins.
+The add-in in question was creating the schema <code>OnStartUp</code>, so would have already put something in memory before the document with the conflict was opened (could open it without the add-in when I checked later).</p>
+
+<p><strong>Response:</strong> Thank you all very much, I fixed my problem with the example file supplied by RPTHOMAS108; thanks for sharing your knowledge.</p>
+
+<h4><a name="7"></a> jQuery is Widespread but Outdated</h4>
+
+<p>Moving away from the Revit .NET API to the web, I have used <a href="https://jquery.com">jQuery</a> in
+the past and would maybe continue doing so if I had not just noticed this article
+explaining <a href="https://thenewstack.io/why-outdated-jquery-is-still-the-dominant-javascript-library">why outdated jQuery is still the dominant JavaScript library</a>.</p>

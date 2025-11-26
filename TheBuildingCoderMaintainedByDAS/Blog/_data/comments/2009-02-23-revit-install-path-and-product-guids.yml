@@ -1,0 +1,140 @@
+comments:
+- author: Jose Guia
+  email: joseguia@gmail.com
+  ip: 63.173.125.10
+  url: http://www.cadkicks.com
+  date: '2009-02-23 10:15:41'
+  body: 'You''ve been kicked - a good thing ;-)
+
+    <a href="http://www.cadkicks.com/adkrevitarch/Revit_Install_Path_and_Product_GUIDs">http://www.cadkicks.com/adkrevitarch/Revit_Install_Path_and_Product_GUIDs</a>
+
+
+    Excellent info - bookmarked for future reference.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-02-23 13:29:40'
+  body: 'Hi Jose,
+
+
+    Thank you for the good kick  :-)
+
+
+    Cheers, Jeremy.'
+- author: NAyche
+  email: ''
+  ip: 68.62.251.149
+  url: http://profile.typepad.com/6p0120a6afb0f2970c
+  date: '2009-11-05 23:33:57'
+  body: "Jeremy,\nI am creating a setup project for my Revit External Application,\
+    \ and I am trying to edit the Revit.ini through the setup.\nI have read tons of\
+    \ pages on MSDN about Custom Action, \nimplemented it, but never worked.\n\nI\
+    \ know the changes to Revit.ini could be done through a DLL that uses StreamReader\
+    \ and StreamWriter, this is the easy part. but I can't get them to be executed\
+    \ by the windows installer.\n\nHere is what I did for testing:\n1. Created compiled\
+    \ a DLL with a single method that sends a message box.\n\n2. I added a custom\
+    \ action to the setup project in my solution where I browsed and added the DLL\
+    \ created in step 1 to the Install folder in the Custom Action editor.\n\n3. It\
+    \ never executed.\n\nI tried that with a DLL, DLL compiled as a windows application,\
+    \ an exe, ... you name it.\n\nPlease help or at least guide me to where I can\
+    \ find the solution before I loose my eyes staring for hours at websites trying\
+    \ to find it.\n\nRegards,\nNadim"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-06 07:36:08'
+  body: "Dear Nadim,\n\nI have very little experience with installers, so I cannot\
+    \ do much to help you here. I can point you to the MidasLink sample application,\
+    \ which does include an installer, but the source code is only available to ADN\
+    \ members:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/04/revit-structure-resources.html#midaslink\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/04/revit-structure-resources.html#midaslink</a>\n\
+    \nYou can also have a look at the Revit SDK ModifyIniFile sample, which shows\
+    \ how to parse and modify Revit.ini, but that is really no big deal. \n\nExcept\
+    \ for that, I suggest discussing the issue with your peers:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/10/revit-api-forums.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/10/revit-api-forums.html</a>\n\n\
+    Cheers, Jeremy"
+- author: Nadim Ayche
+  email: nayche@pjfweb.com
+  ip: 66.162.165.162
+  url: ''
+  date: '2009-11-06 09:23:17'
+  body: 'You''re the best.
+
+    Thanks.'
+- author: NAyche
+  email: ''
+  ip: 68.62.251.149
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2009-12-06 13:28:09'
+  body: "Jeremy,\n\nI did a publish command for my company a few weeks ago.\nThe following\
+    \ bug showed up after the command is been in use on other machines.\nIt basically\
+    \ happens with PDF plots, here is exception message and stacktrace\n\n[\nThe files\
+    \ already exist!\n\n   at Autodesk.Revit.PrintManager.SubmitPrint()\n\n   at PJF.Revit.Plotting.PlotUtilities.PlotExecute(Document&\
+    \ xDoc, String& xPrinterName, PaperSize& xPaperSize, ZoomType& xZoomType, Int32&\
+    \ xZoom, PageOrientationType& xPageOrientation) in C:\\PJF Revit 2009\\Plotting\\\
+    PlotUtilities.cs:line 168\n\n   at PJF.Revit.Plotting.Plot.Execute(ExternalCommandData\
+    \ commandData, String& message, ElementSet elements) in C:\\PJF Revit 2009\\Plotting\\\
+    PlotForm.cs:line 147\n]\n\nbasically, it happens at the final SubmitPrint() method.\n\
+    And it happens only when the file is already plotted before.\nOddly enough, this\
+    \ happens only if a copy of the pdf file is already saved on the My Document.\
+    \  if I go to My Documents and delete the pdf file, it works fine again.\n\nHave\
+    \ you come across this?  Any idea why this SubmitPrint() method is confilicting\
+    \ with an existing pdf plot in the My Documents?\n\nyour help and guidance are\
+    \ highly appreciated.\n\nRegards,\nNadim"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-08 09:53:38'
+  body: 'Dear Nadim,
+
+
+    Nope, I have not come across this before, but then I never print anything. Have
+    you tried checking for existence of the file and deleting it if found before you
+    launch the print?
+
+
+    Cheers, Jeremy.'
+- author: NAyche
+  email: ''
+  ip: 66.162.165.162
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2009-12-08 11:41:27'
+  body: 'I found the problem.
+
+    Basically, it is caused by the PrintManager.PrintToFileName property.
+
+
+    I did work around it; however, I think the problem is in the Revit UI setup for
+    printing electronic files.
+
+
+    Example: when you print a pdf, the pdf printer will give you the choice to pick
+    a folder to save at.  It will overrite it if you choose to.
+
+
+    With that said, I don''t undertand why the Revit asks you to put a path for the
+    file before. It is redudant.  It will be overriden by the pdf printer anyway.
+    and it is causing this issue.  IF you can pass it on to Revit Developers would
+    be great.
+
+
+    I hope this help.
+
+    Thanks.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-09 07:59:13'
+  body: 'Dear Nadim,
+
+
+    Congratulations on finding a solution and thank you very much for letting us know.
+
+
+    Cheers, Jeremy.
+
+    -----'

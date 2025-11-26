@@ -1,0 +1,325 @@
+---
+layout: "post"
+title: "Convex Outer Loop, Non-Migration and 15-Year Stint"
+date: "2020-05-07 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "2021"
+  - "Forge"
+  - "Geometry"
+  - "Job"
+  - "Migration"
+  - "Update"
+original_url: "https://thebuildingcoder.typepad.com/blog/2020/05/convex-outer-loop-non-migration-and-15-year-stint.html "
+typepad_basename: "convex-outer-loop-non-migration-and-15-year-stint"
+typepad_status: "Publish"
+---
+
+<p>Various noteworthy items this week, both Revit API related and not:</p>
+
+<ul>
+<li><a href="#2">My second stint of 15 years at Autodesk</a></li>
+<li><a href="#3">Forge trainee career launched</a></li>
+<li><a href="#4">Why does my add-in still run?</a></li>
+<li><a href="#5">Determine outer loop around points</a></li>
+</ul>
+
+<h4><a name="2"></a> My Second Stint of 15 Years at Autodesk</h4>
+
+<p>I just completed my second 15-year stint of work at Autodesk, joining May 1. 2005.</p>
+
+<p>The first one was for six years, from 1988 to 1994.</p>
+
+<p>By the way, The Building Coder is now in its twelfth year...</p>
+
+<p>To my great surprise, I was seriously congratulated on this milestone:</p>
+
+<ul>
+<li>Mikako Harada: Happy 15-year anniversary with Autodesk!!  A big milestone! 
+<p style="font-size: 40%"> </p>
+Jeremy joined Autodesk as a member of Autodesk Consultant and shortly after he moved to our team. At that time, Revit API was still toddler. We were pushing API both directions: internally to push Revit toward API first, and externally evangelize with very little API. Jeremy was instrumental for that task, especially for external customer facing side. At that time, many of us were not sure how much we can form for community based support. Jeremy made a big success with his Building Coder blog. He got a nickname “King of Revit API”.  Some developer said Jeremy is posting like “machinegun.” Now Revit API community is the most active one among Autodesk product APIs.
+<p style="font-size: 40%"> </p>
+Many thanks for your contribution, Jeremy~  Great to have you in our team!
+<p style="font-size: 40%"> </p></li>
+<li>Chandra Shekar G: Congratulations Jeremy on completion of big milestone!!! 
+<p style="font-size: 40%"> </p></li>
+<li>Virupaksha Aithal K M: Thank you, Jeremy, &ndash; “King of Revit” &#x263A; ... Good one.
+<p style="font-size: 40%"> </p></li>
+<li>Jim Quanci: And Jeremy "really" has over 20 years at Autodesk being a "double dipper"... I fondly remember meeting Jeremy for the first time in the early '90s when he gave our very first (in the world) ObjectARX class.
+<p style="font-size: 40%"> </p>
+You might say Jeremy has over 25 years given he was still in the community working for an ADN member when he left Autodesk for a bit.
+<p style="font-size: 40%"> </p>
+Autodesk (and our whole dev community) was/is so lucky to have him.
+<p style="font-size: 40%"> </p>
+Well done Jeremy!
+<p style="font-size: 40%"> </p>
+*What a long strange trip it's been* &ndash; The Grateful Dead
+<p style="font-size: 40%"> </p></li>
+<li>Natalia Polikarpova: Jeremy, you are the King!!! Congratulations and thank you for your help and passion &#x263A; 
+<p style="font-size: 40%"> </p></li>
+<li>Adam Nagy: Happy anniversary! &#x263A;
+<p style="font-size: 40%"> </p></li>
+<li>Cyrille Fauvel: Hourra !
+<p style="font-size: 40%"> </p></li>
+<li>Augusto Goncalves: Many thanks, Jeremy! Proud to be on the same team as the “king of Revit” &#x263A;
+<p style="font-size: 40%"> </p></li>
+<li>Madhukar Moogala: Great! &#x263A;  Happy Anniversary! Jeremy &#x27FA; Revit
+<p style="font-size: 40%"> </p></li>
+<li>Xiao Dong Liang: Indeed, Jeremy’s blog and contributions on forum tremendously extends the knowledgebase of API help document. It is first place where many customers (and I) will check when they have specific questions and google always ranks the articles topmost if searching Revit API questions. And the blog is not just an article, but also a sharing with the journey and interesting stories &#x263A; 
+<p style="font-size: 40%"> </p>
+Happy anniversary Jeremy! Well deserved with the  title “King of Revit API” ! &#x263A; 
+<p style="font-size: 40%"> </p></li>
+<li>Jaime Rosales Duque: Happy Anniversary Jeremy!!
+<p style="font-size: 40%"> </p>
+I remember when I was back in my Startup days, your content and support helped me tremendously advance with the development of the Glue Plugins in Revit and I will always be grateful for that help you provided.
+It is always nice to see how people get excited to know you will be present at the events we host, and you will be able to share your input live with the Revit API knowledge only you have.
+<p style="font-size: 40%"> </p>
+A couple of pictures from my phone to commemorate the celebration &#x263A;
+<center>
+
+<a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263ec17cf02200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263ec17cf02200c img-responsive" alt="15 year stint at Autodesk" title="15 year stint at Autodesk" src="/assets/image_317cdd.jpg" style="display: block; margin-left: auto; margin-right: auto;" /></a><br />
+
+<a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e86108a6200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e86108a6200d img-responsive" alt="15 year stint at Autodesk" title="15 year stint at Autodesk" src="/assets/image_37053f.jpg" style="display: block; margin-left: auto; margin-right: auto;" /></a><br />
+
+<a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e86108a8200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e86108a8200d img-responsive" alt="15 year stint at Autodesk" title="15 year stint at Autodesk" src="/assets/image_e05979.jpg" style="display: block; margin-left: auto; margin-right: auto;" /></a><br />
+</center>
+<p style="font-size: 40%"> </p></li>
+<li>Naveen Kumar T: Happy Anniversary Jeremy!!
+<p style="font-size: 40%"> </p></li>
+<li>Zhong (John) Wu: Great moment! Congratulations Jeremy, I love what Jim mentioned, it’s great and so lucky to have you within the Autodesk Developer Community &#x263A;
+<p style="font-size: 40%"> </p>
+Including one of mine to celebrate the great moment:
+<center>
+
+<a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e9461b0e200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e9461b0e200b img-responsive" alt="15 year stint at Autodesk" title="15 year stint at Autodesk"  src="/assets/image_9fee8a.jpg" style="display: block; margin-left: auto; margin-right: auto;" /></a><br />
+
+</center>
+<p style="font-size: 40%"> </p></li>
+<li>Deepali Srivastava: Happy Anniversary &#x263A;
+<p style="font-size: 40%"> </p></li>
+<li>Nachikethan S: Happy Anniversary Jeremy &#x263A;
+<p style="font-size: 40%"> </p></li>
+<li>Toshiaki Isezaki: Cool! You are Revit API master to me.
+<p style="font-size: 40%"> </p></li>
+<li>Kean Walmsley: Happy belated anniversary, Jeremy! &#x263A;  
+<p style="font-size: 40%"> </p>
+Thanks for all you’ve done for Autodesk and our developer community, over the years.
+<p style="font-size: 40%"> </p>
+May the 4th be with you,
+<p style="font-size: 40%"> </p></li>
+<li>Peter Schlipf: Congratulations Jeremy !
+15 years is only part of your journey with Autodesk, as Jim wrote.
+Here is one more picture from one of our famous Barcelona events:
+<center>
+
+<a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263ec17cf06200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263ec17cf06200c img-responsive" alt="15 year stint at Autodesk" title="15 year stint at Autodesk" src="/assets/image_b32689.jpg" style="display: block; margin-left: auto; margin-right: auto;" /></a><br />
+
+</center>
+And from the Munich Accelerator:
+<center>
+
+<a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e9461b2d200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e9461b2d200b img-responsive" alt="15 year stint at Autodesk" title="15 year stint at Autodesk" src="/assets/image_892c09.jpg" style="display: block; margin-left: auto; margin-right: auto;" /></a><br />
+</center>
+<p style="font-size: 40%"> </p></li>
+<li>Petr Broz: Congratulations Jeremy, what a journey! I've only known you for a couple of years but even that was enough to understand what a rockstar you are &#x263A; Cheers!
+<p style="font-size: 40%"> </p></li>
+<li>Kevin Vandecar: Congratulations Jeremy! Agree with Kean! Huge contributions to developer community! And May the 4th be with you.
+<p style="font-size: 40%"> </p>
+I remember first meeting you in Neuchatel many years ago, and seeing the incredible work you were doing in AutoCAD developer community. Was awesome to see you switch your passion to Revit. I remember when your blog first came online and someone said you were taking the “machine gun” approach to get everything important out there as fast as possible. I was so impressed. You set the bar very high for the rest of us trying to blog. &#x263A;
+<p style="font-size: 40%"> </p></li>
+<li>Adam Nagy: "You set the bar very high for the rest of us trying to blog." Right! We’re still just trying to catch up &#x263A;
+<p style="font-size: 40%"> </p></li>
+<li>Sergio Leon: Congratulations Jeremy!!
+<p style="font-size: 40%"> </p></li>
+<li>Michael Beale: Jeremy - Congratulations and Happy 15th Anniversary!  
+Words don’t seem to do your contributions, any justice.
+Cheers mate
+<center>
+
+<a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e9461b36200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e9461b36200b img-responsive" alt="15 year stint at Autodesk" title="15 year stint at Autodesk" src="/assets/image_3ceaf0.jpg" style="display: block; margin-left: auto; margin-right: auto;" /></a><br />
+
+<a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e86108ba200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e86108ba200d img-responsive" alt="15 year stint at Autodesk" title="15 year stint at Autodesk"  src="/assets/image_2106d2.jpg" style="display: block; margin-left: auto; margin-right: auto;" /></a><br />
+
+</center>
+<p style="font-size: 40%"> </p></li>
+<li>Eason Kang: Congratulations Jeremy!!! 
+<p style="font-size: 40%"> </p>
+Indeed, Jeremy's contributions to the Revit API community help a lot of our customers (included me). Without you, the Revit API community won't grow so big and quickly.
+<p style="font-size: 40%"> </p>
+You're the abecedarian teacher of Revit API to me! :)</li>
+</ul>
+
+<p>Wow, I am overwhelmed!</p>
+
+<p>I thought this was no big deal.</p>
+
+<p>Slowly and gradually the flood of congratulations made me realise otherwise...</p>
+
+<p>Thank you very much, everybody, for your many kind words and great support!</p>
+
+<p>I love working with this team!</p>
+
+<h4><a name="3"></a> Forge Trainee Career Launched</h4>
+
+<p>Philipp Mueller, Project and Program Manager dealing with Universities and Education, pointed out another happy Forge story:</p>
+
+<blockquote>
+  <p>TU Darmstadt was one of the first Universities in Germany working with Forge.
+  Thanks to the support of Peter Schlipf and Cyrille Fauvel, Jeremy Tammik hosted
+  a <a href="https://www.iib.tu-darmstadt.de/willkommen/news_archiv_iib/iib_archiv_114240.en.jsp">hands-on Forge Workshop for Construction Computing Students</a> back in 2016.</p>
+  
+  <p>Just recently, the PhD student who helped to host the workshop graduated and immediately landed a job at NA Max Bögl as Program Leader for Lean Construction.
+  A major element factor in achieving this was his Phd Thesis
+  a <a href="zip/2019_tu_darmstadt_phd_thesis_christian_leifgen.pdf">Contribution for the Digital Transformation of Lean Construction</a>  leaning strongly on Autodesk Forge and Dynamo.
+  The thesis is in German; here is an English Excerpt:</p>
+  
+  <p>In the construction industry there, is a high demand and considerable potential for transforming current ways of thinking and working in order to improve cooperation in projects, increase productivity and added value and compensate for decreasing manpower. One prerequisite for this is a transformation towards holistic, process-oriented and digital value chains based on an open-minded, collaborative mentality of all participants. The Building Information Modelling (BIM) methodology and Lean Construction (LC) are two approaches that can facilitate this. In this context, the Work Cycle based approach is examined regarding possibilities for its digital implementation &ndash; in particular, by applying and integrating the BIM methodology. For this purpose, scientific work and software solutions used in practice are analysed. Based on this, a concept of a software system is presented that comprises a holistic approach for the digital transformation of Work Cycle Based Time Planning and Control. The software concept consists of a visual programming based application for planning as well as a modular, web-based application based on the central control tool, Work Cycle Control Panels. Underlying these two software applications, the use of a central database and a digital LC model also introduced in this paper ensures a continuous data flow. Finally, demonstration applications are implemented to demonstrate the realisation of a software implementation with usage examples.</p>
+</blockquote>
+
+<h4><a name="4"></a> Why Does My Add-In Still Run?</h4>
+
+<p>Michel Alofs provided a detailed explanation about how the Revit API updates handle the steps of signalling deprecated code and removing it a year later after it has become obsolete, raised in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/updating-plugins-to-revit-2021/m-p/9494369">updating plugins to Revit 2021</a>:</p>
+
+<p><strong>Question:</strong> I'm trying to update a Revit plugin for Revit 2021.</p>
+
+<p>The code of the plugin was designed for Revit 2019, but it also works in Revit 2020.</p>
+
+<p>I Followed the guide 
+on <a href="https://archi-lab.net/how-to-maintain-revit-plug-ins-for-multiple-versions/">how to maintain Revit plug-ins for multiple versions</a> and
+it works for Revit 2021 too. </p>
+
+<p>I've seen that the Revit 2021 API had several changes, one of then regarding the <code>UnitUtils.ConvertFromInternalUnits</code> method.
+Now it uses a <code>ForgeUnitID</code> instead of a <code>DisplayUnitType</code> enum member.</p>
+
+<p>My question is: Why does the code that's been originally written in the 2019 version works seamlessly in Revit 2021?</p>
+
+<p><strong>Answer:</strong> Good question.</p>
+
+<p>The answer is simple: the methods provided by the Revit API assemblies to serve the Revit API calls made by your add-in remain unchanged.</p>
+
+<p>New methods have been added, for instance, the new unit API ones that you mention. However, you are not using them, so that makes no difference for your add-in.</p>
+
+<p>Other methods may have been changed or even removed. However, luckily for you, you have not been using them, so that makes no difference for your add-in.</p>
+
+<p>In the code for R2019, you haven't used any of the removed 'obsolete' code in R2020/R2021.</p>
+
+<p>For instance, the rules for filters changed in R2019 and the old style was removed in R2020.</p>
+
+<p>So, if you had used a command with these methods, the add-in wouldn't run or crash (attempting to use the same assembly for R2020/R2021); also, the .NET Framework version could be an issue.</p>
+
+<p>See the post on <a href="https://thebuildingcoder.typepad.com/blog/2019/04/whats-new-in-the-revit-2020-api.html">What's New in the Revit 2020 API</a>.</p>
+
+<p><strong>Response:</strong> I actually have used a lot of methods that have been replaced in the 2021 version of the Revit API.</p>
+
+<p>I use some of the methods of the <code>UnitUtils</code> class... some of them were replaced.</p>
+
+<p>When Visual Studio compiles my code, does it adapt, or recognize the old methods and somehow translate them to the new ones?</p>
+
+<p>That's the only thing I can think of.</p>
+
+<p><strong>Answer:</strong> <code>UnitUtils</code> hasn't been removed in R2021, it will be gone in R2022 (if it follows the same route as always).</p>
+
+<p>See <a href="https://thebuildingcoder.typepad.com/blog/2020/04/whats-new-in-the-revit-2021-api.html">Obsolete API removal</a>.</p>
+
+<p>Only the <em>Autodesk.Revit.DB.ImageImportOptions</em> and methods relating to it have now been removed (and would return an error).</p>
+
+<p>Once a function is replaced or obsolete (deprecated), it will be removed in the next Revit version.</p>
+
+<p>For instance, <code>ParameterFilterElement.GetRules</code> is marked as deprecated in the Revit 2019 API and was removed completely in Revit 2020.</p>
+
+<p>That gives you one year's time to update your code to remove all dependencies on deprecated API.</p>
+
+<p>Ensure that your add-in compiles with zero warnings, and you will be ready to compile it for the next major release of Revit as well.</p>
+
+<p>If your code generates warnings about using deprecated code now, it will no longer run unmodified in the next major release of Revit.</p>
+
+<p>Many thanks to Michel for the detailed explanation!</p>
+
+<p>To summarise and point out the gist of this:</p>
+
+<p>This procedure gives you one year's time to update your code to remove all dependencies on deprecated API.</p>
+
+<p>Ensure that your add-in compiles with zero warnings, and you will be ready to compile it for the next major release of Revit as well.</p>
+
+<p>If your code generates warnings about using deprecated code now, it will no longer run unmodified in the next major release of Revit.</p>
+
+<h4><a name="5"></a> Determine Outer Loop Around Points</h4>
+
+<p>I had a nice discussion with Francisco Contreras on determine an outer loop around given points in
+a <a href="https://thebuildingcoder.typepad.com/blog/2017/10/disjunct-outer-loops-from-planar-face-with-separate-parts.html#comment-4898621997">series</a>
+of <a href="https://thebuildingcoder.typepad.com/blog/2017/10/disjunct-outer-loops-from-planar-face-with-separate-parts.html#comment-4900661008">comments</a> on the article
+on <a href="https://thebuildingcoder.typepad.com/blog/2017/10/disjunct-outer-loops-from-planar-face-with-separate-parts.html">disjunct planar face outer loops</a>:</p>
+
+<p><strong>Question:</strong> I have a <code>List&amp;lt;xyz&amp;gt;</code> with elements that always are circumscribed to a quad.</p>
+
+<p>I need to get the outer loop of it and store it like a face.</p>
+
+<p>I know you cannot create faces, but the outer loop is good enough; I created a class that store it.</p>
+
+<p>Do you know how can I do it?</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e9461e4a200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e9461e4a200b img-responsive" style="width: 320px; display: block; margin-left: auto; margin-right: auto;" alt="Outer loop around points" title="Outer loop around points" src="/assets/image_93ef0a.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p><strong>Answer:</strong> This is either very simple or just plain simple.</p>
+
+<p>The very simple solution is to determine the concave hull of your points.</p>
+
+<p>The less simple task would be to retrieve the (non-concave, convex) outer loop.</p>
+
+<p>Very much less simple, actually.</p>
+
+<p>What <em>IS</em> the outer loop unless you have a convex hull?</p>
+
+<p>Take another look at your points:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263ec17d296200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263ec17d296200c img-responsive" style="width: 320px; display: block; margin-left: auto; margin-right: auto;" alt="Outer loop around points" title="Outer loop around points" src="/assets/image_6f9da6.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Is the outer loop A-B-C-E-G-H?</p>
+
+<p>Why is it not A-B-C-D-E-G-H?</p>
+
+<p>Or A-B-C-D-E-F-G-H?</p>
+
+<p>Or A-B-C-E-G-H-F-D-A?</p>
+
+<p>I recommend you just go for
+the <a href="https://www.google.com/search?q=convex+hull&amp;as_sitesearch=thebuildingcoder.typepad.com">convex hull</a>,
+e.g., with this <a href="https://thebuildingcoder.typepad.com/blog/2016/08/online-revit-api-docs-and-convex-hull.html#3">algorithm</a>.</p>
+
+<p>Oh, I see now that you mention it is a quad... so it is convex in any case.</p>
+
+<p>Problem solved.</p>
+
+<p><strong>Response:</strong> Many thanks for your help, I´m trying to implement it.</p>
+
+<p>Question, this should work for any set of points on a given plane?</p>
+
+<p>Or, should I change something if the plane is vertical or horizontal?</p>
+
+<p>Because the code Written by Maxence is giving me an infinite loop, the program does not go beyond the third point.</p>
+
+<p><strong>Answer:</strong> For a 2D convex hull computation, you would normally expect to be working with 2D points.</p>
+
+<p>If your points are in a horizontal plane, discard all Z coordinates.</p>
+
+<p>In a vertical plane aligned with the X axis, discard Y; aligned with Y axis, discard X. Else rotate the coordinates appropriately.</p>
+
+<p>In a slanted plane, transform your coordinates into the XY plane.</p>
+
+<p>I implemented
+a <a href="https://thebuildingcoder.typepad.com/blog/2016/08/online-revit-api-docs-and-convex-hull.html">2D convex hull calculation</a>
+in <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder samples</a>.</p>
+
+<p>I implemented <a href="http://thebuildingcoder.typepad.com/blog/2008/12/3d-polygon-areas.html">transformation of 3D points into a 2D plane</a> in
+order to make use of
+the <a href="http://thebuildingcoder.typepad.com/blog/2008/12/2d-polygon-areas-and-outer-loop.html">2D polygon area calculation for 3D planar polygons</a>.</p>

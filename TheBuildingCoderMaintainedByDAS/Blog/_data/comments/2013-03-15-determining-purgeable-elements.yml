@@ -1,0 +1,86 @@
+comments:
+- author: Arnošt Löbel
+  email: arnost.lobel@autodesk.com
+  ip: 8.19.13.68
+  url: ''
+  date: '2013-03-15 10:20:09'
+  body: 'Actually, the best way to approach purging is to ask the Revit Development
+    Team for providing a Purging API. If enough customers ask for it, it will be added,
+    eventually. In the meantime various techniques can be used, but none can do exactly
+    what Revit does. There is a danger in purging anything that appears unused, because
+    often unused types and other elements need to be present in order for Revit function
+    correctly (e.g. when certain edit modes or sketches start). Removing those essential
+    elements could lead to undesirable problems.
+
+
+    Arnošt Löbel
+
+    Autodesk Revit R&D'
+- author: Dima Chiriacov
+  email: dchiriacov@gmail.com
+  ip: 98.242.190.216
+  url: http://dimak1999.blogspot.com
+  date: '2013-03-17 13:07:00'
+  body: 'Amen!
+
+    Where can I send a request? I totally agree that replicating native purging functionality
+    gets cumbersome. Purging API would be a great addition, because a lot of people
+    write custom and very specific to their company tools to exchange / prepare models
+    for sharing and purging is ALWAYS a big part of this procedure!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-03-17 14:33:08'
+  body: "Dear Dima,\n\nIf it can be simply described using text only, you can just\
+    \ submit a comment requesting it right here.\n\nSlightly more officially, you\
+    \ can submit it to an Autodesk discussion forum.\n\nFor a totally official one,\
+    \ you can submit an ADN DevHelp case, if you are a member.\n\nAUGI also manages\
+    \ a wishlist which is taken very seriously by Autodesk.\n\nIf it not possible\
+    \ or easy to describe you request in just simple text, you should create a more\
+    \ detailed description, possibly including images, sample code, a minimal sample\
+    \ model etc. There are various places you can post such material on the Internet\
+    \ and include a link to it in your submission.\n\nWe often need a reproducible\
+    \ case to discover an error, i.e. \n\n- Detailed step-by-step instructions for\
+    \ reproducing the issue.\n\n- Specification of the exact behaviour you observe\
+    \ versus what you expect.\n\n- A complete yet minimal Revit sample model to run\
+    \ a test in.\n\n- A complete yet minimal Visual Studio solution with add-in manifest\
+    \ so that we can compile, load and run the application with a single click and\
+    \ explore its behaviour live in the sample model you provide.\n\nI hope this helps.\n\
+    \nCheers, Jeremy."
+- author: frank halliday
+  email: paceandprecisiontiles@gmail.com
+  ip: 115.64.197.13
+  url: ''
+  date: '2015-01-30 07:38:41'
+  body: "Hi Jeremmy,\ncould you explain what this...\ndoc.GetUnusedFamilies()\n\n\
+    is it a return reference for a list of ElementIds that can be purged? If so how\
+    \ can it be an extension method that is not recognised by the Revit API and yet\
+    \ grabs the Document doc handle? I am a little confused.\nmany thanx fabs\n\n\
+    \          \nHashSet<ElementId> hashSet = new HashSet<ElementId>();\n        \
+    \  using (IEnumerator<ElementId> enumerator =     ((IEnumerable<ElementId>) doc.GetUnusedAppearances()).GetEnumerator())\n\
+    \          {\n            while (((IEnumerator) enumerator).MoveNext())\n    \
+    \        {\n              ElementId current = enumerator.Current;\n          \
+    \    hashSet.Add(current);\n            }\n          }\n          using (IEnumerator<ElementId>\
+    \ enumerator = ((IEnumerable<ElementId>) doc.GetUnusedMaterials()).GetEnumerator())\n\
+    \          {\n            while (((IEnumerator) enumerator).MoveNext())\n    \
+    \        {\n              ElementId current = enumerator.Current;\n          \
+    \    hashSet.Add(current);\n            }\n          }\n          using (IEnumerator<ElementId>\
+    \ enumerator = ((IEnumerable<ElementId>) doc.GetUnusedFamilies()).GetEnumerator())\n\
+    \          {\n            while (((IEnumerator) enumerator).MoveNext())\n    \
+    \        {\n              ElementId current = enumerator.Current;\n          \
+    \    hashSet.Add(current);\n            }\n          }"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-01-30 07:50:11'
+  body: "Dear Frank,\n\nNo idea whatsoever.\n\nWhere did you get that from?\n\nWhat\
+    \ gave you the idea to ask me?\n\nIt does indeed look like a couple of extension\
+    \ methods that somebody added to the Document class.\n\nIt also looks a little\
+    \ bit old-fashioned...\n\nYou do know what extension methods are, don't you? \n\
+    \nAnybody can create one, on any class, e.g. like this:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/02/getpolygon-extension-methods.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/02/getpolygon-extension-methods.html</a>\n\
+    \nHere is a rather more recent example:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2014/12/selfilter-a-powerful-generic-selection-filter-utility.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2014/12/selfilter-a-powerful-generic-selection-filter-utility.html</a>\n\
+    \nCheers, Jeremy.\n-----"

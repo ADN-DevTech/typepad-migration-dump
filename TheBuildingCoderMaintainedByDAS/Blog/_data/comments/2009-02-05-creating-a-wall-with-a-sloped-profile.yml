@@ -1,0 +1,576 @@
+comments:
+- author: Winnie
+  email: winstoon@gmail.com
+  ip: 64.58.160.183
+  url: ''
+  date: '2009-02-11 18:26:45'
+  body: "Hey Jeremy,\n\nI tried it out and it works but I had to use \n\n\"doc.Create.NewWall(\
+    \ profile, true );\" \n\ninstead of \n\n\"doc.Create.NewWall( profile, false );\"\
+    \ \n\nbefore the wall appeared. Maybe I have the view options set to not show\
+    \ non-structural items. I'm working with Revit Structure by the way.\n\nThanks\
+    \ so much for the lightning fast response! I was working on something else after\
+    \ I sent you that question so I didnt have the time to try this out until now.\
+    \ Your response was awesome!"
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.122.118
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-02-12 01:41:57'
+  body: 'Hi Winnie,
+
+
+    I''m very glad to hear it worked so well, and thank you very much for the appreciation!
+
+
+    Cheers, Jeremy.'
+- author: Malcolm Carvalho
+  email: malcolm.carvalho@geometricglobal.com
+  ip: 58.68.116.98
+  url: ''
+  date: '2009-06-04 08:17:36'
+  body: How do I create a wall with a given thickness? I have been able to set the
+    length and height of the wall before creating it, but am clueless about setting
+    the wall width. Can you help?
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.91.184
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-06 01:51:45'
+  body: "Dear Malcolm,\n\nThe thickness of a wall is determined by its type. To change\
+    \ between different thicknesses, you need to switch wall type using the Wall.WallType\
+    \ property. To define a type with a new wall thickness, you can duplicate and\
+    \ modify an existing type. This is demonstrated in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2008/11/creating-a-new-family-symbol.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2008/11/creating-a-new-family-symbol.html</a>\n\
+    \nCreating new types for other categories is also discussed in \n\n<a href=\"\
+    http://thebuildingcoder.typepad.com/blog/2009/02/inserting-a-column.html\">http://thebuildingcoder.typepad.com/blog/2009/02/inserting-a-column.html</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/02/inserting-a-beam.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/02/inserting-a-beam.html</a>\n\n\
+    I hope this helps.\n\nCheers, Jeremy."
+- author: vishal
+  email: vishalbhanu84@gmail.com
+  ip: 125.18.59.225
+  url: ''
+  date: '2009-06-09 11:28:09'
+  body: 'Hi Jeremy,
+
+
+    I am searching around for a simple thing that how to add a new layer in wall using
+    Revit API? Here idea is to create wall with multiple layers and assigning thickness
+    to each of the layer.
+
+    i have tried Append and Insert options but failed to do so.
+
+
+    Will be much much thankful if you can guide me.
+
+
+    waiting for your reply.
+
+
+    -Bye'
+- author: Malcolm Carvalho
+  email: malcolm.carvalho@geometricglobal.com
+  ip: 58.68.116.98
+  url: ''
+  date: '2009-06-10 02:32:08'
+  body: 'Thanks Jeremy.
+
+    Now I need to create a custom wall type , where I can add layers, and also change
+    the attributes of the layers (thickness, material). Do let me know how this can
+    be done.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-10 04:54:51'
+  body: "Dear Vishal and Malcolm,\n\nThank you for your two queries. You are both\
+    \ asking how to add new layers to a compound wall structure.\n\nI looked into\
+    \ this issue and note that the CompoundStructureLayerArray class does indeed provide\
+    \ methods to append and insert new layers, which is what you would need to do.\
+    \ However, I see no way to create a new layer yet, i.e. a CompoundStructureLayer\
+    \ instance. I am looking into this further and will add more info as soon as I\
+    \ find out something.\n\nVishal, when you say that you tried the Append and Insert\
+    \ methods, where did you obtain the layer from to pass in to them?\n\nMalcolm,\
+    \ to change attributes of existing layers should not be hard. The two following\
+    \ posts show how you can access the compound layer structure of the wall, and\
+    \ once you have that, you should be able to modify all the writeable properties\
+    \ of each layer: \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2008/11/wall-compound-layers.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2008/11/wall-compound-layers.html</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/02/compound-wall-layer-volumes.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/02/compound-wall-layer-volumes.html</a>\n\
+    \nCreating a new wall type is explained in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2008/11/creating-a-new-family-symbol.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2008/11/creating-a-new-family-symbol.html</a>\n\
+    \nCheers, Jeremy."
+- author: Vishal
+  email: vishalbhanu84@gmail.com
+  ip: 58.68.116.98
+  url: ''
+  date: '2009-06-11 11:16:19'
+  body: "Thanks Jeremy.\nThis is the code I have used to append a layer to the wall\
+    \ type.\n\n\tIEnumerator wallTypeEnum = currentDoc.WallTypes.GetEnumerator();\n\
+    \twallTypeEnum.Reset();\n\twallTypeEnum.MoveNext();\n\tWallType type1 = wallTypeEnum.Current\
+    \ as WallType;\n\tWallType newWallType = type1.Duplicate(\"MyType\") as WallType;\n\
+    \twallTypeEnum.MoveNext();\n\ttype1 = wallTypeEnum.Current as WallType;\n\tCompoundStructureLayer\
+    \ layer = type1.CompoundStructure.Layers.get_Item(0);\n\n//I get an exception\
+    \ saying \"Collection is read-only\" when I call Append\nnewWallType.CompoundStructure.Layers.Append(layer);\n\
+    \n\n//even insert fails\n//newWallType.CompoundStructure.Layers.Append(layer,newWallType.CompoundStructure.Layers.Size);\n\
+    \nCan you let me know what should be done?\n\nRegards,\nVishal"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-11 11:45:41'
+  body: "Dear Vishal,\n\nThank you for the sample code and yes, I can tell you exactly\
+    \ what to do:\n\n1. Wait, and\n\n2. Don't hold your breath.\n\nSorry for the bad\
+    \ news, but I tested some similar code and received similar results, and that\
+    \ is the current state of affairs. There is currently no way to create a valid\
+    \ CompoundStructureLayer instance through the API, and the CompoundStructureLayerArray\
+    \ instance is in fact read-only, in spite of providing the two methods Append\
+    \ and Insert to append and insert new layers.\n\nSorry, there is currently no\
+    \ way to do this. \n\nThe development team is aware of the wish to create a new\
+    \ CompoundStructureLayer and make the CompoundStructureLayerArray writeable, but\
+    \ I cannot say when that functionality will become available.\n\nA work-around\
+    \ would be to create the required number of layers manually and save the wall\
+    \ types in the template file. Then, when your application needs a new wall type\
+    \ with a specific number of layers, it can use a suitable one of the manually\
+    \ created predefined wall types and duplicate and modify that.\n\nCheers, Jeremy."
+- author: vishal
+  email: vishalbhanu84@gmail.com
+  ip: 125.18.59.225
+  url: ''
+  date: '2009-06-16 06:10:28'
+  body: "Much thanks Jeremy for your reply.\n\nOne question i would like to ask here\
+    \ is which will be better option,\n1.Creating customized library files (.rfa)\
+    \ 2.Creating Template file (.rte){As you have mentioned}.\n\nAlso It will be great\
+    \ help if i can get any reference document on this topics.Sample code will be\
+    \ much appreciated......\n \nWaiting for your reply.\n\n-Bye,TC."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-16 07:15:40'
+  body: 'Dear Vishal or TC,
+
+
+    I am no expert on the optimal Revit product implementation, usage, or content
+    generation, so I cannot give you any well-founded advice on those two options,
+    I''m afraid.
+
+
+    We are currently working at gathering experience and preparing training material
+    to demonstrate the use of the new family API, so there will be some news in that
+    area in the near future.
+
+
+    Cheers, Jeremy.'
+- author: Deric
+  email: deric.wallace@gmail.com
+  ip: 68.230.103.73
+  url: ''
+  date: '2009-06-29 16:19:45'
+  body: 'Jeremy,
+
+
+    Thanks for your informative blog.
+
+
+    I''ve been trying a few ways to create walls that have faces that are tapered,
+    not just profile edges as shown in this example. As you probably know, your example
+    will not work if you specify differing Y values for the profile curves (at least
+    I haven''t been successful). Is there currently a way to do this in the API? So
+    far in my examination of the API, the best I can hope for is to create a geometric
+    Form with tapered faces (using the API) and then in Revit (not the API) use the
+    massing tools to create a wall from a mass face.
+
+
+    Do you have any thoughts or suggestions on this matter?
+
+
+    Thanks for your time,
+
+
+    Deric'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-30 05:34:04'
+  body: 'Dear Deric,
+
+
+    Thank you for your appreciation and your interesting query. Tapered which way,
+    I wonder? Do you mean that the wall profile in plan view is tapered, or the wall
+    cross section, i.e. in a section view perpendicular to the wall location line?
+
+
+    Next question: can you create the kind of wall you require through the user interface?
+    If not, it almost certainly cannot be done through the API either. If so, could
+    you please briefly describe how? Thank you!
+
+
+    I saw a case about creating a stone wall that tapers as it ascends, i.e. reduces
+    in thickness. To create such a battered wall through the user interface, one can
+    use the in-place family tools and make an extrusion or sweep. In another case,
+    I saw mention of using the vertical compound wall system, and specifically top
+    and bottom extensions.
+
+
+    In Revit 2010, we have the new family API which offers a lot of possibilities
+    for standard families, but unfortunately it does not cover in-place families,
+    nor system ones such as walls.
+
+
+    Cheers, Jeremy.'
+- author: Deric
+  email: deric.wallace@gmail.com
+  ip: 68.230.103.73
+  url: ''
+  date: '2009-06-30 19:54:48'
+  body: 'Hi Jeremy,
+
+
+    Thank you for your response. My apologies if I wasn''t clear regarding the taper
+    direction. I am referring to a taper in cross section. Here is a link to a simple
+    example of what I am trying to achieve:
+
+
+    <a href="http://www.dericwallace.com/tapered_wall.jpg">http://www.dericwallace.com/tapered_wall.jpg</a>
+
+
+    The way that it is done through the user interface is to first create a mass that
+    has a taper in cross section. Then, using the Wall By Face command in the Massing
+    tools, I select the desired wall type in the selector, then I click on the tapered
+    face.
+
+
+    I have examined the possiblity of creating a wall via the API and getting the
+    top edge and moving it in the XY plane but the method "MoveSubElement" only applies
+    to Form objects. This leads me to believe that I will not be able to fully achieve
+    what I would like using the API only. Instead I would have to use the API to create
+    these tapered masses then apply a wall to a face using the user interface.
+
+
+    I think using an in-place wall family for this is not desirable as I would not
+    be able to get the wall layers as you can see in the above link. As you have said,
+    in-place families are not covered in the API.
+
+
+    Thanks again,
+
+
+    Deric'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-07-01 03:44:41'
+  body: 'Dear Deric,
+
+
+    Thank you for the sample image, it helps a lot to explain. I would actually not
+    call that wall tapered at all, but slanted. For me, tapered means that its thickness
+    changes, but as far as I can see you only mean the wall is at an angle instead
+    of being vertical. I am checking with my colleagues about this and will get back
+    to you when I have some news.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-07-01 08:24:39'
+  body: "Dear Deric,\n\nI had a chat with my colleagues, and we are pretty sure that\
+    \ this cannot be done through the API in 2010. \n\nYour two-step approach generating\
+    \ a mass through the API and a wall in the UI seem the closest one we can currently\
+    \ achieve via API.\n\nThe good news is that functionality is in place to achieve\
+    \ this in a future release.\n\nCheers, Jeremy."
+- author: Deric
+  email: deric.wallace@gmail.com
+  ip: 68.230.103.73
+  url: ''
+  date: '2009-07-01 11:31:41'
+  body: 'Thanks Jeremy.
+
+
+    Sorry about the taper confusion. I guess I was referring to the original mass
+    that I had used to generate the wall.
+
+
+    Thanks for your help. I really appreciate it.
+
+
+    Deric'
+- author: Salvador Elizarrarás
+  email: masivacore@hotmail.com
+  ip: 189.234.15.245
+  url: http://profile.typepad.com/6p0115710bcd5d970c
+  date: '2009-07-13 22:52:03'
+  body: 'Hi Jeremy,
+
+
+    Your blog is better than the Developer''s Guide haha. I saw this post and I have
+    a doubt about this topic, How can I get the profile of a wall or a floor? (Location
+    Property is only a single curve).
+
+
+    Regards,
+
+    Salvador'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-07-14 01:59:19'
+  body: "Dear Ivan,\n\nThank you for the nice compliment :-)\n\nAccess to the detailed\
+    \ internal structure of layered walls is described in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2008/11/wall-compound-layers.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2008/11/wall-compound-layers.html</a>\n\
+    \nand\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/02/compound-wall-layer-volumes.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/02/compound-wall-layer-volumes.html</a>\n\
+    \nCheers, Jeremy."
+- author: MikeC
+  email: mcotreau@langan.com
+  ip: 68.196.72.75
+  url: ''
+  date: '2009-07-23 21:49:54'
+  body: 'Hi Jeremy,
+
+
+    I am struggling to figure out how to set a wall''s "Location Line" to "Finish
+    Face: Interior" in code prior to drawing the wall.  I would like the interior
+    face of the wall to be at the coordinate points I supply instead of the default
+    "wall Centerline".  Do you happen to have any example code along these lines just
+    sitting around waiting to be posted?
+
+
+    Thanks in advance
+
+
+    Mike'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-07-27 13:33:12'
+  body: 'Dear Mike,
+
+
+    You can explore this as follows:
+
+
+    Create a new wall and look at its parameters, e.g. using the Revit API Introduction
+    labs built-in parameter checker. One of the parameters is
+
+
+    WALL_KEY_REF_PARAM ''Location Line'' Integer read-write
+
+
+    It has an initial value of zero. Looking at the wall properties in the UI, I see
+    that the location line property is set to centre line. If I change the property
+    to ''Finish Face: Interior'' through the UI and then look at the parameter again,
+    its value has now changed to 3.
+
+
+    You should be able to invert this process, i.e. set the built-in parameter WALL_KEY_REF_PARAM
+    to have a value of 3 through the API, and that should correspond to ''Finish Face:
+    Interior''.
+
+
+    Cheers, Jeremy.'
+- author: MikeC
+  email: mcotreau@langan.com
+  ip: 68.196.74.188
+  url: ''
+  date: '2009-08-19 21:15:57'
+  body: "Thanks Jeremy,\n\nPerhaps I can coax you into providing an answer to another\
+    \ problem I am having.  I want to use the \"NewSweep\" method to create a 3D curb\
+    \ line that follows along a path of 3D points.  The NewSweep method can be invoked\
+    \ in two ways, one uses a ReferenceArray and the second uses a CurveArray.  There\
+    \ is an example provided in the VSTAFamily Sample code that illustrates the CurveArray\
+    \ version and I have used that code to layout an entire curbline without issues.\
+    \ Unfortunately, I need to use the first version that allows for a sweep to follow\
+    \ a 3D path using the ReferenceArray version.  I keep getting an error saying\
+    \ the object is not referenced, and I am clueless as to why.\n\nI am using VB.NET\
+    \ and here is the code I modified from the sample code:\n\n--- \n            Dim\
+    \ arrarr As CurveArrArray = m_revit.Create.NewCurveArrArray()\n   \t    Dim arr\
+    \ As CurveArray = m_revit.Create.NewCurveArray()\n\n            '******  This\
+    \ creates the section for the curb ********\n\t    Dim normal As XYZ = XYZ.BasisZ\n\
+    \            Dim sketchPlane As SketchPlane = CreateSketchPlane(normal, XYZ.Zero)\n\
+    \n            Dim pnt1 As XYZ = m_revit.Create.NewXYZ(0, 0, 0)\n            Dim\
+    \ pnt2 As XYZ = m_revit.Create.NewXYZ(0, 0.5, 0)\n            Dim pnt3 As XYZ\
+    \ = m_revit.Create.NewXYZ(0.5, 0.5, 0)\n            Dim pnt4 As XYZ = m_revit.Create.NewXYZ(0.5,\
+    \ -1, 0)\n            Dim pnt5 As XYZ = m_revit.Create.NewXYZ(0, -1, 0)\n\n  \
+    \          arr.Append(m_revit.Create.NewLineBound(pnt1, pnt2))\n            arr.Append(m_revit.Create.NewLineBound(pnt2,\
+    \ pnt3))\n            arr.Append(m_revit.Create.NewLineBound(pnt3, pnt4))\n  \
+    \          arr.Append(m_revit.Create.NewLineBound(pnt4, pnt5))\n            arr.Append(m_revit.Create.NewLineBound(pnt5,\
+    \ pnt1))\n\n            arrarr.Append(arr)\n            Dim profile As SweepProfile\
+    \ = m_revit.Create.NewCurveLoopsProfile(arrarr)\n\n            Dim curves As CurveArray\
+    \ = m_revit.Create.NewCurveArray()\n            Dim refArray As ReferenceArray\
+    \ = m_revit.Create.NewReferenceArray\n\n            Dim pt1 As XYZ = m_revit.Create.NewXYZ(-265.9978,\
+    \ -358.3954, 0)\n            Dim pt2 As XYZ = m_revit.Create.NewXYZ(-265.9374,\
+    \ -340.4006, 0)\n            Dim curve As Curve = m_revit.Create.NewLineBound(pt1,\
+    \ pt2)\n            curves.Append(curve)\n            refArray.Append(curve.Reference)\n\
+    \n            'Create the Sweep\n            Dim sweep1 As Sweep = m_creationFamily.NewSweep(True,\
+    \ refArray, profile, 0, ProfilePlaneLocation.Start)\n\n            ' move to proper\
+    \ place \n            Dim transPoint1 As XYZ = m_revit.Create.NewXYZ(11, 0, 0)\n\
+    \            m_familyDocument.Move(sweep1, transPoint1)\n            \n------\
+    \   \nAn exception is thrown on the NewSweep method.  I have also tried building\
+    \ the Reference array using code like this without any luck:\n\nrefArray.Append(curve.get_EndPointReference(0))\n\
+    refArray.Append(curve.get_EndPointReference(1))\n\nAny help you can provide that\
+    \ allows me to sweep along a 3D path would be GREATLY appreciated.\n\nThanks in\
+    \ advance, Mike"
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.106.66
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-08-20 03:26:44'
+  body: 'Dear Mike,
+
+
+    Thank you for your interesting question. I have created a draft for a new blog
+    post to answer it and mailed that to you directly for reviewing.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-08-26 06:01:58'
+  body: 'Dear Mike,
+
+
+    Here is is now:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/08/new-sweep-and-references.html">http://thebuildingcoder.typepad.com/blog/2009/08/new-sweep-and-references.html</a>
+
+
+    Glad that we seem to be moving forward to resolve your issue.
+
+
+    Cheers, Jeremy.'
+- author: Ritish
+  email: ritishrocky1@gmail.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2009-10-20 08:31:12'
+  body: 'Hi jeremy I have two queries:
+
+    what does below parameter represents for Ramp?
+
+    Ramps.get_Parameter(BuiltInParameter.RAMP_SLOPE)
+
+
+    1)Is it giving the values of the x,y cordinates?
+
+
+    2) How do we get the (x,y,z)cordinates for stairs, ramps ?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-10-20 09:27:38'
+  body: "Dear Ritish,\n\nI can see the RAMP_SLOPE built-in parameter enumeration value\
+    \ listed when I look at the enumeration in the development environment, but I\
+    \ do not see it being used in the actual parameters of a ramp in the BIM. \n\n\
+    I looked at a ramp instance, which happens to have an element id of 132281 in\
+    \ my model, and I do not see any RAMP_SLOPE parameter on that.\n\nI looked at\
+    \ its symbol with id 15922, and I do not see that parameter there either. \n\n\
+    You can get lots of X, Y, Z coordinates for stairs and ramps by querying them\
+    \ for their geometry. The question is what coordinates exactly are you interested\
+    \ in?\n\nNormally, I would suggest querying the ramp for its location as well,\
+    \ but I do not see that property properly exposed on the ramp object, or at least\
+    \ it does not seem to be a LocationPoint or LocationCurve instance, and therefore\
+    \ the data is probably inaccessible through the API.\n\nCheers, Jeremy."
+- author: Dissertation Structure
+  email: marryjohn4@gmail.com
+  ip: 221.132.118.230
+  url: http://www.ukdissertation.co.uk/Dissertation_Structure.htm
+  date: '2009-11-19 02:21:57'
+  body: Blogs are so informative where we get lots of information on any topic. Nice
+    job keep it up!!
+- author: Ning
+  email: superjoe302@yahoo.ca
+  ip: 75.158.236.16
+  url: ''
+  date: '2009-11-23 23:21:52'
+  body: 'hi Jeremy,
+
+    i posed an issue on the thread of November 17, 2008 Wall Elevation Profile regarding
+    create new wall w/ CurveArray of more than one "loops" (inner loops are edges
+    of the window/door opennings), sometimes it won''t generate new wall even though
+    temporary model lines generated from CurveArray looks OK.
+
+    i don''t know what exactly causes such issue, sorting of inner loops is my best
+    guess, if so, then what is the rule of loops? outer loop in one direction and
+    all inner loops in another direction? or how to make CurveArray of wall profile
+    correct if inner loops exists?
+
+    my case is simple:
+
+    1) select wall which has window/door(s).
+
+    2) use solid/edge method to get points/lines list (from your sample).
+
+    3) convert to CurveArray.
+
+    4) create new wall w/ opening(s) of window/door(s).
+
+    works great most of time.
+
+    very appreciated for your help!'
+- author: ning
+  email: superjoe302@yahoo.ca
+  ip: 216.123.247.50
+  url: ''
+  date: '2009-11-24 18:19:52'
+  body: 'hi Jeremy,
+
+    even though i''m not quite sure if i''ve already figured out, but seems whenever
+    the 1st edge of outer loop is perpendicular to the 1st edge of inner loop, the
+    NewWall won’t work for the CurveArray based on outer loop + inner loop(s), after
+    i add the following code to “shift” around inner loop(s), then i works, don’t
+    know why?
+
+    // v1 - vector of 1st edge of outer loop
+
+    // v2 - vector of 1st edge of inner loop(s)
+
+    // vertices - inner loop
+
+    while (Math.Abs((v1.Angle(v2) * 180 / Math.PI - 90)) < 0.00001)
+
+    {
+
+    vertices.Insert(0, vertices[vertices.Count - 1]);
+
+    vertices.RemoveAt(vertices.Count - 1);
+
+    v2 = vertices[1].Subtract(vertices[0]);
+
+    }'
+- author: Jeremy Tammik
+  email: ''
+  ip: 88.65.143.231
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-25 05:01:39'
+  body: 'Dear Ning,
+
+
+    Thank you for this interesting question. I already discussed it with some colleagues,
+    and the consensus is that it should probably work. Could you submit a complete
+    working Visual Studio solution and the source code that you are using together
+    with examples of situations of where it works and does not work? Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-03-02 06:11:25'
+  body: "Dear Deric,\n\nPlease note that I just published some updated information\
+    \ on access to slanted walls: \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2011/03/the-facewall-class-and-slanted-walls.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2011/03/the-facewall-class-and-slanted-walls.html</a>\n\
+    \nCheers, Jeremy.\n-----"

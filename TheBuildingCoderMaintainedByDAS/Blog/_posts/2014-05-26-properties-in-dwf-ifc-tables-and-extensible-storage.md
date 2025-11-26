@@ -1,0 +1,223 @@
+---
+layout: "post"
+title: "Properties in DWF, IFC, Tables and Extensible Storage"
+date: "2014-05-26 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Climbing"
+  - "DWF"
+  - "IFC"
+  - "Parameters"
+  - "Storage"
+  - "Update"
+original_url: "https://thebuildingcoder.typepad.com/blog/2014/05/properties-in-dwf-ifc-tables-and-extensible-storage.html "
+typepad_basename: "properties-in-dwf-ifc-tables-and-extensible-storage"
+typepad_status: "Publish"
+---
+
+<p>Let's discuss a couple of questions that accumulated recently on various aspects of properties in general:</p>
+
+<ul>
+<li><a href="#2">Properties in DWF export</a></li>
+<li><a href="#3">Mapping Revit and IFC properties</a></li>
+<li><a href="#4">Storing a table in a project</a></li>
+<li><a href="#5">Updating versus adding new extensible storage schemas</a></li>
+</ul>
+
+<p>Before getting to that, I'll briefly mention the happy fact that I yesterday went on my first outdoor climb for a while, up the Balmflue south ridge, a nice long route of 16 rope lengths in the Swiss Jura hills close to Solothurn, just above the
+
+<a href="https://en.wikipedia.org/wiki/Balm_ruins">
+Balm ruins</a>.</p>
+
+<center>
+
+<a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301a73dcb55c1970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301a73dcb55c1970d img-responsive" style="width: 432px; " alt="Balmflue" title="Balmflue" src="/assets/image_105fdb.jpg" /></a><br />
+
+</center>
+
+<p>Back to the Revit API.</p>
+
+
+<a name="2"></a>
+
+<h4>Properties in DWF Export</h4>
+
+<p><strong>Questions:</strong>
+
+<p>1. The 'Type' properties created through a shared parameter in Revit are not exported in DWF. Only instance properties from a shared parameter are exported. Any idea?</p>
+
+<p>2. Furniture and other family instances have a 'room belonging' property that you can schedule in Revit, but this property can't be found in the DWF. Any idea of how to get this info in the DWF?</p>
+
+<p>3. Surface area and volume are not displayed when exported to DWF in the DWF Room properties. Is it normal? Is there a way to get it?</p>
+
+<!--
+<p>1. The 'Type' properties created through a Shared parameter in Revit are Not exported in DWF. Only Instance properties from a Shared parameters are exported. Any idea?</p>
+>Yes. I think types are not exported at all, only instances. Therefore, there is no place to attach the type properties to. does that make sense?
+<p>EDG: Is it as designed you think? It's strange that the type properties are not exported. It seems more like a bug or a non-tested stuff. As Instance Properties are exported, normally Type Properties should be exported.</p>
+
+<p>2. A Furniture in a room has a Room belonging property that you can schedule in Revit but this room belonging property can't be found in the DWF. Any idea of how to get this info in the DWF?</p>
+>Yes. You could define a shared parameter as an instance property and copy the desired data into that.
+<p>Alternatively, you could write an application using the DWF toolkit to post-process the DWF file to add the desired data yourself.</p>
+<p>EDG: The issue is that it's a manual process and you're losing all the benefits of Revit's parametric engine and its associated DWF export.</p>
+
+<p>3. Surface and Volume area are not displayed when exported to DWF in the DWF Room properties. Is it normal? Is there a way to get it?</p>
+> Yes. You could defined a shared parameter as an instance property and copy the desired data into that.
+<p>EDG: Again, the issue is that it's a manual process and you're losing all the benefits of Revit's parametric engine and its associated DWF export. And if the data changes, you have to change it manually which is very risky.</p>
+-->
+
+<p><strong>Answer:</strong> Since Revit 2013, shared parameters for family instance can be exported to DWF.</p>
+
+<p>So far, though, for family types, only system parameters can be exported:</p>
+
+<center>
+
+<a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301a3fd1077f5970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301a3fd1077f5970b image-full img-responsive" alt="DWF properties" title="DWF properties" src="/assets/image_5b4e24.jpg" border="0" /></a><br />
+
+</center>
+
+<p>Custom parameters, i.e. family parameters and shared parameters, cannot be exported:</p>
+
+<center>
+
+<a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301a3fd1077ff970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301a3fd1077ff970b image-full img-responsive" alt="DWF properties" title="DWF properties" src="/assets/image_80893f.jpg" border="0" /></a><br />
+
+</center>
+
+<p>For room area and volume, did you check the following DWF export settings?</p>
+
+<center>
+
+<a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301a511c01f7b970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301a511c01f7b970c image-full img-responsive" alt="DWF properties" title="DWF properties" src="/assets/image_4494bc.jpg" border="0" /></a><br />
+
+</center>
+
+<p>Once properly set, these properties ought to show up:</p>
+
+<center>
+
+<a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301a73dcb560c970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301a73dcb560c970d image-full img-responsive" alt="DWF properties" title="DWF properties" src="/assets/image_411b0c.jpg" border="0" /></a><br />
+
+</center>
+
+<p><strong>Response:</strong> Thanks for your help.
+I just checked the Area and Volume export options and so it works now!
+Fine.
+For the other questions, if it's as designed, no worries, we'll find another way to get this.</p></p>
+
+
+<a name="3"></a>
+
+<h4>Mapping Revit and IFC Properties</h4>
+
+<p><strong>Question:</strong> We are currently looking at mapping IFC properties against Revit type properties.</p>
+
+<p>I understand from the
+
+<a href="http://www.wbdg.org/resources/cobie.php">COBie community</a>
+
+(Construction Operations Building Information Exchange) that Autodesk have already gone through this exercise.</p>
+
+<p>Where can I find more information about this?</p>
+
+<p>Essentially we are transferring our shared parameter file into an online database, so any work already undertaken would be hugely beneficial.</p>
+
+<p><strong>Answer:</strong> The best resources to look at are the notes provided by the open source IFC for Revit project, e.g.:
+
+<ul>
+<li><a href="http://sourceforge.net/p/ifcexporter/wiki/Notes%20on%20support%20for%20FMHandOverView">FMHandOverView</a></li>
+<li><a href="http://sourceforge.net/p/ifcexporter/wiki/Custom%20parameter%20mapping/">Custom parameter mapping</a></li>
+</ul>
+
+<p>The first item in particular includes a PDF document covering the COBie to IFC mapping that might be of use.</p>
+
+
+<a name="4"></a>
+
+<h4>Storing a Table in a Project</h4>
+
+<p><strong>Question:</strong> I'm working on a daylighting analysis plug-in and using extensible storage quite heavily in my implementation.
+
+<p>I'm currently saving some data with each Floor object, but I would like to change this to store the data in more of a table format, with one entry per floor, and save this as an object with the model.</p>
+
+<p>I thought I read somewhere on your blog about how to save a singleton data object using ES, but I can't find the post now.</p>
+
+<p>I know how to create array objects in ES, but I'm not sure what to store the data with.</p>
+
+<p>I thought I'd read that ProjectInfo is not the best place, but again, I can't find where I read that, so I may be mistaken.</p>
+
+<p>Can you give me some pointers, or send me the link to the relevant blog post, if I'm remembering correctly that I read it on your blog.</p>
+
+<p>I think I found my answer. I want to use the DataStorage object. I found your entry on it. If you have any other advice for me, please share it, but otherwise, I think I answered my question.</p>
+
+<p><strong>Answer:</strong> Yes, absolutely right, using a DataStorage element is optimal.</p>
+
+<p>That also keeps your data nicely packaged and tucked away to avoid interfering with others in a workshared environment, as explained in Scott Conover's AU class on
+
+<a href="http://thebuildingcoder.typepad.com/blog/2013/12/au-day-2-worksharing-and-revit-2014-api-roundtables.html#4">
+Revit add-ins that cooperate with worksharing</a>.</p>
+
+<p>Based on that, I no longer recommend using the ProjectInfo element at all.</p>
+
+
+
+<a name="5"></a>
+
+<h4>Updating Versus Adding New Extensible Storage Schemas</h4>
+
+<p><strong>Question:</strong> I have released a version of my software that uses schemas to store data.</p>
+
+<p>I am now working on my next version. I need to expand my schemas to store more data.</p>
+
+<p>When I add data, I can create a new schema and transfer my data to it, or I can create another schema.</p>
+
+<p>Creating another schema seems simplest. Are there any drawbacks to creating another I should look out for? I continue to do this and end up with a large number of schemas, will there eventually be space or time costs?</p>
+
+<p><strong>Answer:</strong> I assume your issue has to do with extensible storage schemata.</p>
+
+"Create a new schema and transfer my data to it" and "create another schema" sounds almost like the same thing to me.
+
+<p>In any case, and luckily simplifying the issue, I can tell you for sure that you do not really have any choice.</p>
+
+<p>If you need to make any changes whatsoever to an extensible storage schema, the only possibility you have is to define a completely new one.</p>
+
+<p>There is no way to alter an existing one, as explained in the detailed discussion on
+
+<a href="http://thebuildingcoder.typepad.com/blog/2013/08/deleting-and-updating-extensible-storage-schema.html#3">deleting and updating an extensible storage schema</a>.</p>
+
+<p>An example of defining a new schema to replace an existing one and transferring data from the old schema to the new one is provided by the UpgradeSchema sample included in my Autodesk University 2011
+
+<a href="http://thebuildingcoder.typepad.com/blog/2012/03/melbourne-day-two.html#3">
+extensible storage class and lab</a>.</p>
+
+<p>Finally, I put together a list of all The Building Coder
+
+<a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.23">
+extensible storage topics</a> for you.
+
+<p><strong>Question:</strong> Let me clarify a little further.</p>
+
+<p>I have a schema with ten fields. I need to add one more.</p>
+
+<p>I can create a new schema with eleven fields. That requires me to transfer the data (which as you add more fields, is tedious at best and error-prone at worst). It also results in duplicate data. Not sure if the extra data in old projects would ever become a concern.</p>
+
+<p>Or, I can create a new schema with one field. Now I have two schemas with eleven fields between them. Are there any problems with having lots of active schemas on an element? What if I continue to do this as the program evolves, and end up with five or ten or twenty schemas?</p>
+
+<p>Or, and this is what I came up with after I sent the email, what if I create a map field where I store all my data? Then I have a single schema with a single map. If I have to update one value, I have to pull out the whole map, change one value, then put it back. Is the performance on that significantly different from updating just a string or int field?</p>
+
+
+<p><strong>Answer:</strong> Oh, now I see what you mean.</p>
+
+<p>Your idea of a map sounds perfect to me.</p>
+
+<p>The other would certainly also work, but sounds much more complex, with unlimited growing complexity as time goes on.</p>
+
+<p>I like the idea of maintaining one single map and one single schema much better.</p>
+
+<p>The only one who can say anything about the relative performance of the various options is you.</p>
+
+<p>Please
+
+<a href="http://lmgtfy.com/?q=revit+api+building+coder+benchmark">
+benchmark it</a>,
+
+and let us know what you find out.</p>

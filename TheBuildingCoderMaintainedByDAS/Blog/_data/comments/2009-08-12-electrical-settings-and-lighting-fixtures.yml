@@ -1,0 +1,168 @@
+comments:
+- author: Mira Saad
+  email: mira.saad@dargroup.com
+  ip: 85.112.95.24
+  url: ''
+  date: '2011-10-11 05:15:05'
+  body: 'Hi Jeremy,
+
+
+    this is a very usueful code if you want to create a new instance and pick a host
+    for it.
+
+    however, i am not finding a way to re-host a given fixture through code.
+
+    Is there is a way to call the command "Pick new host"  (Vertical face, reference
+    plane..)via API?
+
+    Please advise as soon as possible on the way to rehost a fixture through code.
+    (to nearest element that intersects it)
+
+
+    Regards'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-10-11 06:27:17'
+  body: "Dear Mira,\n\nThank you, glad you like it.\n\nUnfortunately, I do not see\
+    \ a direct way to programmatically rehost a family instance such as an electrical\
+    \ fixture to a given host, e.g. a wall element. \n\nThe only workaround I can\
+    \ think of would be to note the location and family symbol of the family instance,\
+    \ delete it, and create a new one by calling the NewFamilyInstance method with\
+    \ the overload taking the host element argument, using the location and the symbol\
+    \ information extracted from the existing instance before its deletion.\n\nThis\
+    \ will create an identical fixture with the host information included.\n\nCheers,\
+    \ Jeremy."
+- author: Mona Akkoush
+  email: Mona.Akkoush@dargroup.com
+  ip: 85.112.95.24
+  url: ''
+  date: '2011-10-15 05:02:57'
+  body: 'Hi Jeremy,
+
+    I tried this workaround & it works great if the host element is in the same file
+    as the lighting fixture.
+
+    On the other hand, if the host element which is a wall in my case, is in a linked
+    revit document, then am not able to host the new family instance on the wall''s
+    face.
+
+    I tried to retrieve the wall''s faces, but the faces array returned zero elements
+    as the wall is in a linked file.
+
+    Please can you advise on how to create a new family instance hosted on the face
+    of a wall found in a linked document..
+
+    Thanks a lot.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.150.197
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-10-16 08:10:07'
+  body: 'Dear Mona,
+
+
+    Oh dear, with linked files it is a lot trickier. I don''t even know if you can
+    host the fixture at all on a wall in a linked file. Is that possible even through
+    the user interface? If not, then it will probably not be possible through the
+    API either.
+
+
+    Cheers, Jeremy.'
+- author: Mona Akkoush
+  email: Mona.Akkoush@dargroup.com
+  ip: 85.112.95.24
+  url: ''
+  date: '2011-10-17 04:59:56'
+  body: "Hi Jeremy,\n\nIn Revit, you can host a fixture on the face of a wall in a\
+    \ Revit architectural linked file. Kindly note that I was able to get the side\
+    \ face of the wall where the fixture will be hosted using \"HostObjectUtils.GetSideFaces(wall\
+    \ element, ShellLayerType.Exterior)\". \nYet, when using the method \"NewFamilyInstance(wall\
+    \ element side face as FACE, wall element location curve as Line, fixture symbol\
+    \ as FamilySymbol)\" to host the new fixture on the face of the wall element,\
+    \ I get the following error \"The Reference of the input face is null.If the face\
+    \ was obtained from Element.Geometry, make sure to turn on the option ComputeReferences\"\
+    . I have checked the reference object in the code & it was not null & the ComputeReferences\
+    \ was set to true.\n\nPlease advise..\nBest Regards,"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-10-17 06:32:06'
+  body: 'Dear Mona,
+
+
+    I am sorry to say I cannot do much more off-hand since this will probably require
+    some research to answer. Please submit an ADN DevHelp Online case for this. Thank
+    you!
+
+
+    Cheers, Jeremy.'
+- author: Mona Akkoush
+  email: Mona.Akkoush@dargroup.com
+  ip: 85.112.95.24
+  url: ''
+  date: '2011-10-17 08:04:47'
+  body: 'Hi Jeremy,
+
+
+    Thanks a lot, I submitted my case to DevHelp.
+
+    An aside question, any idea why the retrieved Face object might have a null Reference,
+    taking into consideration that the face is a side-face of a wall found in a linked
+    file.
+
+    Thanks in advance,
+
+    Best Regards,'
+- author: Jeremy Tammik
+  email: ''
+  ip: 80.58.205.37
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-10-20 08:08:22'
+  body: 'Dear Mona,
+
+
+    Thank you for submitting the case!
+
+
+    I would say that the problem may be that it is in a linked file  :-)
+
+
+    Sorry.
+
+
+    Cheers, Jeremy.'
+- author: ahmed attia
+  email: ahmedattia2010@hotmail.com
+  ip: 41.178.147.49
+  url: http://www.ecgsa.com
+  date: '2011-12-31 06:13:45'
+  body: "hi jeremy i tried this code and i can't seem \nto make it work \n\ncan u\
+    \ send it to me in c# project format\n\nthanks\n\n\nahmedattia2010@hotmail.com"
+- author: ahmed attia
+  email: ahmedattia2010@hotmail.com
+  ip: 41.178.139.1
+  url: http://www.ecgsa.com
+  date: '2011-12-31 09:25:06'
+  body: "Autodesk.Revit.Creation.Filter\n\nis not recognized by vc# \n\n?????????????"
+- author: ahmed attia
+  email: ahmedattia2010@hotmail.com
+  ip: 41.178.139.1
+  url: http://www.ecgsa.com
+  date: '2011-12-31 09:56:36'
+  body: "sorry for too many posts but i noticed\nthat some of this functions are not\
+    \ in revit \n2010 api can't you update the example to revit 2011 api\n\n\n\nthanks"
+- author: ahmed attia
+  email: ahmedattia2010@hotmail.com
+  ip: 41.178.139.1
+  url: http://www.ecgsa.com
+  date: '2011-12-31 13:13:46'
+  body: "after some work i realized this is not exactly \nwhat i want my project was\
+    \ to copy\nan ( already loaded lighting fixture) by selecting it\nand then selecting\
+    \ the point where it will\nbe copied and develop it later to lighting distribution\
+    \ plugin \nthe problem is i can't find a function of copy or anything similar\
+    \ and i don't know if i must provide a host programatically or not but your code\
+    \ for selecting ceiling will work i guess n\n\nnow if u can help i'll greatly\
+    \ appreciate it\n\nthanx a lot\n\n\nahmed.attiaali@ecgsa.com\n\n-----"

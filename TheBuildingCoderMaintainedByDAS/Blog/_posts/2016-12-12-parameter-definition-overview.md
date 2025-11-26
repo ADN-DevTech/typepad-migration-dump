@@ -1,0 +1,155 @@
+---
+layout: "post"
+title: "Parameter Definition Overview"
+date: "2016-12-12 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Element Creation"
+  - "Getting Started"
+  - "Parameters"
+  - "SDK Samples"
+original_url: "https://thebuildingcoder.typepad.com/blog/2016/12/parameter-definition-overview.html "
+typepad_basename: "parameter-definition-overview"
+typepad_status: "Publish"
+---
+
+<p>We have repeatedly discussed all kinds of different aspects
+of <a href="http://thebuildingcoder.typepad.com/blog/parameters">Revit element parameters</a>,
+but not put together
+a <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5">topic group</a> for them yet.</p>
+
+<p>Today I am happy to present a pretty comprehensive overview and explanation of the process of defining a shared parameter by none less than Scott Conover himself, Senior Revit Engineering Manager:</p>
+
+<p><strong>Question:</strong> What do I need to do to programmatically create a shared parameter?
+I would like to set the <code>SetAllowVaryBetweenGroups</code> flag on it. </p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb095e50d8970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb095e50d8970d img-responsive" style="width: 332px; " alt="New shared parameter" title="New shared parameter" src="/assets/image_a2d104.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p><strong>Answer:</strong> You create the details needed to define a shared parameter from <code>ExternalDefinition</code>.
+Existing shared parameter file entries can be read to become an <code>ExternalDefinition</code> in your code, or you can create a new entry in the current shared parameter file using the <code>DefinitionGroup.Create</code> method.</p>
+
+<p>The sample code listed in the Revit API help file <code>RevitAPI.chm</code> or the online Revit API docs
+under <a href="http://www.revitapidocs.com/2017/7978cb57-0a48-489e-2c8f-116fa2561437.htm">InstanceBinding class</a> shows
+this process best.</p>
+
+<p>Here is part of that sample snippet:</p>
+
+<pre class="code">
+<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">bool</span>&nbsp;SetNewParameterToInstanceWall(
+&nbsp;&nbsp;<span style="color:#2b91af;">UIApplication</span>&nbsp;app,
+&nbsp;&nbsp;<span style="color:#2b91af;">DefinitionFile</span>&nbsp;myDefinitionFile&nbsp;)
+{
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;Create&nbsp;a&nbsp;new&nbsp;group&nbsp;in&nbsp;the&nbsp;shared&nbsp;parameters&nbsp;file</span>
+&nbsp;&nbsp;<span style="color:#2b91af;">DefinitionGroups</span>&nbsp;myGroups&nbsp;=&nbsp;myDefinitionFile.Groups;
+&nbsp;&nbsp;<span style="color:#2b91af;">DefinitionGroup</span>&nbsp;myGroup&nbsp;=&nbsp;myGroups.Create(&nbsp;<span style="color:#a31515;">&quot;MyParameters&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;Create&nbsp;an&nbsp;instance&nbsp;definition&nbsp;in&nbsp;definition&nbsp;group&nbsp;MyParameters</span>
+&nbsp;&nbsp;<span style="color:#2b91af;">ExternalDefinitionCreationOptions</span>&nbsp;option
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ExternalDefinitionCreationOptions</span>(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;Instance_ProductDate&quot;</span>,&nbsp;<span style="color:#2b91af;">ParameterType</span>.Text&nbsp;);
+
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;Don&#39;t&nbsp;let&nbsp;the&nbsp;user&nbsp;modify&nbsp;the&nbsp;value,&nbsp;only&nbsp;the&nbsp;API</span>
+&nbsp;&nbsp;option.UserModifiable&nbsp;=&nbsp;<span style="color:blue;">false</span>;
+
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;Set&nbsp;tooltip</span>
+&nbsp;&nbsp;option.Description&nbsp;=&nbsp;<span style="color:#a31515;">&quot;Wall&nbsp;product&nbsp;date&quot;</span>;
+&nbsp;&nbsp;<span style="color:#2b91af;">Definition</span>&nbsp;myDefinition_ProductDate
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;myGroup.Definitions.Create(&nbsp;option&nbsp;);
+
+  . . .
+</pre>
+
+<p>The return from <code>DefinitionGroup.Create</code> is an <code>ExternalDefinition</code>, even though the type declared is the parent class.</p>
+
+<p>Once you have an <code>ExternalDefinition</code>, you add it to the document.</p>
+
+<p>There are several ways:</p>
+
+<ol>
+<li>Use <code>InstanceBinding</code> as shown in that sample.</li>
+<li>Use <code>FamilyManager.AddParameter</code> to add the parameter to a family.</li>
+<li>Use <code>FamilyManager.ReplaceParameter</code> to replace a family parameter with the shared one.</li>
+<li>Use <code>SharedParameterElement.Create</code> to create the element that represents the parameter without binding it to any categories.</li>
+</ol>
+
+<p>There are also some <code>RebarShape</code> related utilities which I would not recommend for general usage but might be OK for rebar-specific code.</p>
+
+<p>Once the parameter is in the document, it has an <code>InternalDefinition</code>.</p>
+
+<p>The best ways to get it:</p>
+
+<ol>
+<li>If you have the <code>ParameterElement</code> from #4 you can use <code>ParameterElement.GetDefinition</code>.</li>
+<li>If you have the GUID (which you should, since it is provided by the <code>ExternalDefinition</code>), you can use <code>SharedParameterElement.Lookup</code> followed by <code>ParameterElement.GetDefinition</code>.</li>
+<li>If you have an instance of an element whose category has this parameter bound, get the <code>Parameter</code> and use <code>Parameter.Definition</code>.</li>
+</ol>
+
+<p>Once you have the <code>InternalDefinition</code>, you can access the vary across groups option as well as other things.
+You can also use an <code>InternalDefintion</code> for adding and removing <code>InstanceBindings</code> to categories.</p>
+
+<p>Many thanks to Scott for this nice comprehensive summary and overview!</p>
+
+<h4><a name="2"></a>Addemdum</h4>
+
+<p>Joshua Lumley pointed out some possible enhancements
+in <a href="http://thebuildingcoder.typepad.com/blog/2016/12/parameter-definition-overview.html#comment-3079825547">his two</a>
+<a href="http://thebuildingcoder.typepad.com/blog/2016/12/parameter-definition-overview.html#comment-3079829813">comments</a> below:</p>
+
+<p>To run the code more than twice I added:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">bool</span>&nbsp;dgMatchFound&nbsp;=&nbsp;<span style="color:blue;">false</span>;
+&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">DefinitionGroup</span>&nbsp;dg&nbsp;<span style="color:blue;">in</span>&nbsp;myGroups&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;dg.Name&nbsp;==&nbsp;myGroupName&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dgMatchFound&nbsp;=&nbsp;<span style="color:blue;">true</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myGroup&nbsp;=&nbsp;dg;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;dgMatchFound&nbsp;==&nbsp;<span style="color:blue;">false</span>&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;myGroup&nbsp;=&nbsp;myGroups.Create(&nbsp;myGroupName&nbsp;);
+&nbsp;&nbsp;}
+</pre>
+
+<p>and</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">bool</span>&nbsp;dMatchFound&nbsp;=&nbsp;<span style="color:blue;">false</span>;
+
+&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">Definition</span>&nbsp;d&nbsp;<span style="color:blue;">in</span>&nbsp;myGroup.Definitions&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;d.Name&nbsp;==&nbsp;newParameterName&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dMatchFound&nbsp;=&nbsp;<span style="color:blue;">true</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myDefinition_ProductDate&nbsp;=&nbsp;d;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;!dMatchFound&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;myDefinition_ProductDate
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;myGroup.Definitions.Create(&nbsp;option&nbsp;);
+&nbsp;&nbsp;}
+</pre>
+
+<p>I called it like this:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:#2b91af;">DefinitionFile</span>&nbsp;defFile&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;GetOrCreateSharedParamsFile(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ActiveUIDocument.Application.Application&nbsp;);
+
+&nbsp;&nbsp;<span style="color:blue;">bool</span>&nbsp;AddParameterResult&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;SetNewParameterToInstanceWall(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ActiveUIDocument.Application,&nbsp;defFile&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;<span style="color:#a31515;">&quot;Did&nbsp;it&nbsp;work&quot;</span>,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;AddParameterResult.ToString()&nbsp;);
+</pre>
+
+<p>Many thanks to Josh for the helpful usage hints!</p>

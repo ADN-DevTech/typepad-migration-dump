@@ -1,0 +1,141 @@
+comments:
+- author: Renzo
+  email: renzo.vanrijswijk@strukton.com
+  ip: 217.140.7.27
+  url: ''
+  date: '2010-11-16 03:03:26'
+  body: 'Hi Jeremy,
+
+
+    I am trying to Add Railing and Ramp instances to the ElementFilter, like:
+
+    b.Add(new ElementClassFilter(typeof(Railing)));
+
+    b.Add(new ElementClassFilter(typeof(Ramp )));
+
+    b.Add(new ElementClassFilter(typeof(Stair)));
+
+    However, that does not work. I studied the project with DB Lookup. It seems that
+    I need an Element or something to reach these objects. Or do I have to solve it
+    in a different way?
+
+
+    Greetings, Renzo'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-11-16 06:30:27'
+  body: 'Dear Renzo,
+
+
+    What is the problem that you run into, then?
+
+
+    Do you get an exception saying "Input type is of an element type that exists in
+    the API, but not in Revit''s native object model"?
+
+
+    Are the classes you list possibly so-called non-native classes?
+
+
+    We discussed that issue several times in the past:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/08/filtering-for-a-nonnative-class.html">http://thebuildingcoder.typepad.com/blog/2010/08/filtering-for-a-nonnative-class.html</a>
+
+
+    Even the Revit SDK sample developers ran into it:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/10/measurepanelarea-update.html">http://thebuildingcoder.typepad.com/blog/2010/10/measurepanelarea-update.html</a>
+
+
+    I am not sure that that is what you mean, though.
+
+
+    Cheers, Jeremy.'
+- author: Renzo
+  email: renzo.vanrijswijk@strukton.com
+  ip: 83.81.148.228
+  url: ''
+  date: '2010-11-17 07:39:51'
+  body: 'Hi Jeremy,
+
+
+    I was using your example...When I tried to add these objecttypes (Railing, Ramp,
+    Stair) they are not recognized by the API... So I have to create a workaround
+    for that...
+
+
+    Now, this works:
+
+    FilteredElementCollector collActive3 = new FilteredElementCollector(doc);
+
+    FilteredElementCollector coll4 = new FilteredElementCollector(doc);
+
+
+    collActive3.OfCategory(BuiltInCategory.OST_StairsRailing );
+
+    coll4.OfCategory(BuiltInCategory.OST_Ramps);
+
+    collActive3.UnionWith(coll4);
+
+    collActive3.WhereElementIsNotElementType() ; //takes care to select only instances!!!
+
+
+
+    Greetins, Renzo'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-11-17 08:15:48'
+  body: 'Dear Renzo,
+
+
+    Congratulations on solving your issue. Actually, you can probably achieve the
+    same thing a little bit simpler and more efficiently by using a logical Boolean
+    OR filter instead of instantiating four separate collectors and using UnionWith.
+
+
+    For instance, have a look at the method GetStructuralElements in
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/07/retrieve-structural-elements.html">http://thebuildingcoder.typepad.com/blog/2010/07/retrieve-structural-elements.html</a>
+
+
+    Or look at the even more extreme example to retrieve MEP elements:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/06/retrieve-mep-elements-and-connectors.html">http://thebuildingcoder.typepad.com/blog/2010/06/retrieve-mep-elements-and-connectors.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Renzo
+  email: renzo.vanrijswijk@strukton.com
+  ip: 83.81.148.228
+  url: ''
+  date: '2010-11-17 08:47:36'
+  body: "Hi Jeremy,\n\nI will share my solution. Finally, I got it to work.\nI had\
+    \ some difficulties understanding the filter mechanism. \nIn this way I select\
+    \ all instances of the Categories I want...\n\nThanks for your help, Renzo\n===\
+    \ === ===\nFilteredElementCollector collector = new FilteredElementCollector(doc);\n\
+    IList elFilter = new List(bics.Length);\nforeach (BuiltInCategory bic in bics)\n\
+    {\n    elFilter.Add(new ElementCategoryFilter(bic));\n}\nLogicalOrFilter logOrFilter\
+    \ = new LogicalOrFilter(elFilter);\ncollector.WherePasses(logOrFilter);\ncollector.WhereElementIsNotElementType();\
+    \ //takes care to select only instances!!!"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-11-17 08:59:06'
+  body: 'Dear Renzo,
+
+
+    Looks great now! Thank you!
+
+
+    Cheers, Jeremy.
+
+    -----'

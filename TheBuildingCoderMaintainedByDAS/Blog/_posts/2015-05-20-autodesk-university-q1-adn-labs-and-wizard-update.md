@@ -1,0 +1,142 @@
+---
+layout: "post"
+title: "Autodesk University, Q1, ADN Labs and Wizard Update"
+date: "2015-05-20 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "2016"
+  - "AU"
+  - "BIM"
+  - "BPA"
+  - "Getting Started"
+  - "Glue"
+  - "News"
+  - "Training"
+  - "Update"
+  - "VB"
+original_url: "https://thebuildingcoder.typepad.com/blog/2015/05/autodesk-university-q1-adn-labs-and-wizard-update.html "
+typepad_basename: "autodesk-university-q1-adn-labs-and-wizard-update"
+typepad_status: "Publish"
+---
+
+<p>I submitted my yearly Autodesk University proposal for the Revit API expert panel.</p>
+
+<p>Time for you to submit yours as well.</p>
+
+<p>The call for proposals closes in one week &ndash; the deadline is May 26<sup>th</sup>.</p>
+
+<p>Besides that, here are some other things I want to point out:</p>
+
+<ul>
+<li><a href="#2">Titbits from the Q1 report</a></li>
+<li><a href="#3">Autodesk University proposals</a></li>
+<li><a href="#4">ADN Revit API labs training material for Revit 2016</a></li>
+<li><a href="#5">Updated Visual Studio add-in wizards for Revit 2016</a></li>
+</ul>
+
+
+<a name="2"></a>
+
+<h4>Titbits from the Q1 Report</h4>
+
+<p>Autodesk <a href="http://gfxspeak.com/2015/05/19/autodesk-despite-strong">posted a solid Q1 despite the strong US Dollar</a>. It was another solid quarter for the AEC business. Continued adoption of BI​M in the building and infrastructure industries drove growth of the Building Design and Infrastructure Design Suites. Multiple deals across geographies were closed with important and strategic customers, including Nabholz, TBI Holdings, KHIDI, AMEC and Japan Central Rail, showing the strength of the portfolio in every segment.</p>
+
+<p>While The Building Coder is normally not interested in any such nitty-gritty financial details, I thought I would still pick out a couple of AEC and Revit related highlights for you:</p>
+
+<ol>
+<li>Revit 2016’s scalability and performance improvements made a difference for our customers. But don’t just take my word for it, this quote is from one very happy customer, "I have our 1.2 GB Architecture Model of a hospital opened in Revit 2016, and all I can say is 2016 is reDONKulously fast. Insanely. And our models are intensely detailed in terms of modelling geometry. 2016 refreshes views (now multi-core) in a stupid fast way."  ReDONKulously, his word, not mine!</li>
+<li>Solar analysis for Revit downloads more than doubled in the last month, and Lighting Analysis also continues to grow at 30% average per month.  According to Elizabeth Ratner of Little (Architects), "...As I keep telling you, it’s been a game-changer for our firm."</li>
+<li>BIM 360 continued to deliver solid billings growth with 19% Y/Y net new billings growth.  And BIM 360 Plan (formally Project Falcon) is now being used by Suffolk Construction (pilot part of their recent EBA) who plan to use it on a mixed-use high rise in Boston. This project will construct one of the tallest buildings in Boston. DPR also began live pilots on several projects including Apple HQ and Disney World. The Apple project is a joint venture with Skanska and the Disney project is the first IPD (Integrated Project Delivery) project in the hospitality sector. BIM 360 Field added Daily Reports that gives users mobile daily project reports.</li>
+</ol>
+
+
+<a name="3"></a>
+
+<h4>Autodesk University Proposals</h4>
+
+<p>As said, the AU 2015 call for proposals ends May 26.
+Don't miss your chance to join the AU community of experts.
+Contribute to industry excellence, creative design, and the future of making things around the world.
+Submit your class proposal at <a href="http://au.autodesk.com/speaker-resource-center/call-for-proposals">autode.sk/CFPAU2015</a>.</p>
+
+<p>By the way, in case you need any help with it,
+<a href="http://through-the-interface.typepad.com/through_the_interface/2015/05/autodesk-university-2015-class-proposals.html">
+Kean Walmsley is offering free AU proposal advice</a> &nbsp; :-)</p>
+
+<center>
+
+<a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c78d5828970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c78d5828970b img-responsive" style="width: 474px; " alt="Autodesk University 2015" title="Autodesk University 2015" src="/assets/image_d6c815.jpg" /></a><br />
+
+</center>
+
+<p>Today I submitted my proposal for the annual 90-minute Revit API expert panel:</p>
+
+<blockquote>
+<p><strong>Revit API Expert Roundtable: Open House on the Factory Floor</strong></p>
+<p>Interact with a panel of Revit API experts from Autodesk to answer your questions and discuss all relevant topics of your choice. For anyone writing add-ins for Revit, this is the perfect forum to get to know the people who shape the APIs you work with better and explain your views, ideas and problems directly face to face. Please note that prior .NET programming and Revit add-in development experience is required and that this class is not suitable for beginners.</p>
+</blockquote>
+
+<p>Here are the notes from
+<a href="http://thebuildingcoder.typepad.com/blog/2014/12/the-revit-api-panel-at-autodesk-university.html#2">
+the corresponding session last year</a>.</p>
+
+
+
+<a name="4"></a>
+
+<h4>ADN Revit API Labs Training Material for Revit 2016</h4>
+
+<p>The
+<a href="http://www.autodesk.com/developrevit">Revit Developer Centre</a> provides
+the ADN Revit API training material, aka Revit API labs, updated for Revit 2016.</p>
+
+<p>This is the material we use for our two-day hands-on Revit API training classes.</p>
+
+<p>It includes both the labs themselves, consisting of sample source code exercises in both C# and VB for you to fill in, corresponding instruction documents for both languages, and an accompanying slide deck.</p>
+
+<p>The labs cover three main areas:</p>
+
+<ul>
+<li>Introduction for getting started with the Revit API, database, elements and properties</li>
+<li>User interface programming to create an external application and custom ribbon</li>
+<li>Family API for programmatic family generation</li>
+</ul>
+
+<p>The entire package is hosted in the <a href="https://github.com/ADN-DevTech/RevitTrainingMaterial">Revit API Training GitHub repository</a>.</p>
+
+
+<a name="5"></a>
+
+<h4>Updated Visual Studio Add-in Wizards for Revit 2016</h4>
+
+<p>I recently published the
+<a href="http://thebuildingcoder.typepad.com/blog/2015/04/add-in-migration-to-revit-2016-and-updated-wizards.html#3">
+Visual Studio add-in generator wizard for Revit 2016</a>.</p>
+
+<center>
+
+<a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c78d5836970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c78d5836970b image-full img-responsive" alt="Visual Studio Revit add-in wizard for Revit 2016" title="Visual Studio Revit add-in wizard for Revit 2016" src="/assets/image_503ba0.jpg" border="0" /></a><br />
+
+</center>
+
+<p>At the time, I had not yet installed the final version of Revit 2016, so some of the paths still referred to its development codename Copernicus.</p>
+
+<p>As said, you should be prepared to
+<a href="http://thebuildingcoder.typepad.com/blog/2015/04/add-in-migration-to-revit-2016-and-updated-wizards.html#4">
+adapt these wizards to your own specific needs and preferences</a> anyway, and that is easy.</p>
+
+<p>Here are the updated wizards, now referring to the official install location; to use, simply copy the zip file of your choice to the corresponding Visual Studio project template folder in your local file system:</p>
+
+<ul>
+<li>C# &ndash; copy 
+<span class="asset  asset-generic at-xid-6a00e553e16897883301b7c78d57e3970b img-responsive"><a href="http://thebuildingcoder.typepad.com/files/revit2016addinwizardcs1.zip">Revit2016AddinWizardCs1.zip</a></span> to
+<br>[My Documents]\Visual Studio 2012\Templates\ProjectTemplates\Visual C#
+<li>Visual Basic &ndash; copy 
+<span class="asset  asset-generic at-xid-6a00e553e16897883301b7c78d5805970b img-responsive"><a href="http://thebuildingcoder.typepad.com/files/revit2016addinwizardvb1.zip">Revit2016AddinWizardVb1.zip</a></span> to
+<br>[My Documents]\Visual Studio 2012\Templates\ProjectTemplates\Visual Basic
+</ul>
+
+<p>For further details, please refer to the recent
+<a href="http://thebuildingcoder.typepad.com/blog/2015/04/add-in-migration-to-revit-2016-and-updated-wizards.html#3">
+more complete discussion of this topic</a>.</p>

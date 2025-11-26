@@ -1,0 +1,59 @@
+---
+layout: "post"
+title: "View Discipline Enumeration Values"
+date: "2011-08-15 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Parameters"
+  - "User Interface"
+original_url: "https://thebuildingcoder.typepad.com/blog/2011/08/view-discipline-enumeration-values.html "
+typepad_basename: "view-discipline-enumeration-values"
+typepad_status: "Publish"
+---
+
+<p>In his workaround to 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2010/11/refresh-referencing-sheet-parameter-display.html">
+refresh the referencing sheet parameter display</a>,
+
+Piotr Zurek pointed out that you can change the discipline of the view back and forth using the built-in parameter VIEW_DISCIPLINE.
+That leads to the following query on which values to use for the different disciplines:
+
+
+<p><strong>Question:</strong> I can create a new plan view using Document.Create.NewViewPlan. 
+How can I set the discipline of the resulting view?
+
+<p>I noticed the built-in parameter VIEW_DISCIPLINE. 
+It values seem to reflect the view discipline in some way, maybe as an enumeration, but I cannot find the corresponding values in the Revit API documentation. 
+
+<p>Can you tell me which enumeration values I can use here?
+
+
+<p><strong>Answer:</strong> You are perfectly right, and you can use the built-in parameter VIEW_DISCIPLINE to determine discipline of a view.
+Its storage type is Integer.
+The most direct and effective method for you to determine which values to use would be to simply set the different disciplines through the user interface one by one and make a note of the resulting parameter values.
+Here is such a list of the values to use and their corresponding disciplines:
+
+<ol>
+<li>Architecture
+<li>Structure
+<li value="4">Mechanical
+<li value="8">Electrical
+<li value="4095">Coordination
+</ol>
+
+<p>As far as I can tell, the Revit API currently does not define an explicit enumeration of these values anywhere, so you can simply define your own or use the integer values directly, for example like this:
+
+<pre class="code">
+&nbsp; <span class="teal">Document</span> doc = commandData.Application
+&nbsp; &nbsp; .ActiveUIDocument.Document;
+&nbsp;
+&nbsp; <span class="teal">Transaction</span> trans = <span class="blue">new</span> <span class="teal">Transaction</span>( doc );
+&nbsp; trans.Start( <span class="maroon">&quot;Change Discipline&quot;</span> );
+&nbsp;
+&nbsp; doc.ActiveView.get_Parameter( 
+&nbsp; &nbsp; <span class="teal">BuiltInParameter</span>.VIEW_DISCIPLINE )
+&nbsp; &nbsp; &nbsp; .Set( 4 );
+&nbsp;
+&nbsp; trans.Commit();
+</pre>

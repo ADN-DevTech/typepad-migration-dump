@@ -1,0 +1,41 @@
+comments:
+- author: Alexander Buschmann
+  email: buschmann@idat.de
+  ip: 213.188.119.247
+  url: http://www.idat.de
+  date: '2013-01-30 08:46:04'
+  body: "And all this is possible without touching a parameter:\n\nMaterial material\
+    \ = null;\n\nforeach( Material mat in e.Materials )\n{\n  material = mat;\n  break;\n\
+    }\nPropertySetElement pse = doc.GetElement( \n  material.StructuralAssetId ) \n\
+    \    as PropertySetElement;\n\nStructuralAsset asset = pse.GetStructuralAsset();\n\
+    \ndouble a = asset.WoodBendingStrength;\ndouble b = asset.WoodParallelCompressionStrength;\n\
+    double c = asset.WoodParallelShearStrength;\ndouble d = asset.WoodPerpendicularCompressionStrength;\n\
+    double f = asset.WoodPerpendicularShearStrength;\n\n... and lots of other informations\n\
+    \nIt's probably a matter of taste - I just don't like parameters."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.185.201
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-31 06:50:40'
+  body: 'Dear Alexander,
+
+
+    Wow, thank you very much for that improvement!
+
+
+    That really clears things up a lot.
+
+
+    It is not only a matter of taste, actually. I think everybody would agree that
+    parameters are harder to use, and unfortunately still undocumented. I also always
+    prefer using direct property access such as the steps you describe, since it is
+    properly documented and easier to read.
+
+
+    I''ll promote your comment to a main blog post sometime soon to ensure nobody
+    misses it.
+
+
+    Cheers, Jeremy.
+
+    -----'

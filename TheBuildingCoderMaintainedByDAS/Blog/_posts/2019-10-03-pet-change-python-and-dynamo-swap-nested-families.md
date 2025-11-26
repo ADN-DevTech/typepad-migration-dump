@@ -1,0 +1,349 @@
+---
+layout: "post"
+title: "Pet Change &ndash; Python + Dynamo Swap Nested Family"
+date: "2019-10-03 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Content"
+  - "Dynamo"
+  - "Family"
+  - "Library"
+  - "Python"
+original_url: "https://thebuildingcoder.typepad.com/blog/2019/10/pet-change-python-and-dynamo-swap-nested-families.html "
+typepad_basename: "pet-change-python-and-dynamo-swap-nested-families"
+typepad_status: "Publish"
+---
+
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js" type="text/javascript"></script>
+
+<p>Pieter Schipper of <a href="https://www.roosros.nl">RoosRos Architecten</a> in The Netherlands
+worked hard at solving the task of swapping nested families using Python and Dynamo and very kindly shares his solution here with us today, including
+his <a href="https://thebuildingcoder.typepad.com/files/ps_pet_change_python_scripts.txt">four Python scripts</a>.</p>
+
+<p>Parts of the code can be used for several different purposes, so they might be helpful for others as well.</p>
+
+<ul>
+<li><a href="#2">Task at hand</a></li>
+<li><a href="#3">Problems faced</a></li>
+<li><a href="#4">Solution and detailed implementation</a></li>
+<li><a href="#4.1">Code 1 &ndash; Collect all family instances in document</a></li>
+<li><a href="#4.2">Code 2 &ndash; Export families via <code>SaveAs</code></a></li>
+<li><a href="#4.3">Code 3 &ndash; Update Nested Family Definitions</a></li>
+<li><a href="#4.4">Code 4 &ndash; Reload updated families</a></li>
+<li><a href="#5">Initial conversation, questions and answers</a></li>
+</ul>
+
+<h4><a name="2"></a> Task at Hand</h4>
+
+<p>Swap out and overwrite a nested family instance to a different one with the same name, in one single background workflow.</p>
+
+<p>I have a family instance placed in my current project. It contains a nested family instance. The nested family instance needs to be replaced by a different one of the same name. I would like this modification to be performed in the background, with only my current project open.</p>
+
+<p>Below, I discuss this simplified example for illustration purposes.
+We use the same approach for more complex things in our professional workflow:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4b57de9200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4b57de9200d image-full img-responsive" alt="Pet change task description" title="Pet change task description" src="/assets/image_fcec32.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a></p>
+
+<p style="font-size: 80%; font-style:italic">Pet change task description</p>
+
+<p><br/></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a48c3325200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a48c3325200c image-full img-responsive" alt="Pet change scenario rendering" title="Pet change scenario rendering" src="/assets/image_07f4e7.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a></p>
+
+<p style="font-size: 80%; font-style:italic">Pet change scenario rendering</p>
+
+<p><br/>
+</center></p>
+
+<h4><a name="3"></a> Problems Faced</h4>
+
+<p>The main problem I encountered initially was that it didn’t work out correctly to copy one family into another family all in the background.</p>
+
+<h4><a name="4"></a> Solution and Detailed Implementation</h4>
+
+<p>The solution I found was to introduce an extra step (also all in the background):</p>
+
+<ul>
+<li>First: Create two directories (folders), one containing the families to modify, the other the nested not shared family placed into the package project.</li>
+<li>Second: Copy the families from the second folder into the first, overwriting the original families.</li>
+<li>Third: Load the families from the first folder into the current project.</li>
+</ul>
+
+<p>I found some Python code on the Internet and adapted it for my needs.
+This is the code I used in my Dynamo nodes:</p>
+
+<ul>
+<li><a href="#4.1">Code 1 &ndash; Collect all family instances in document</a></li>
+<li><a href="#4.2">Code 2 &ndash; Export families via <code>SaveAs</code></a></li>
+<li><a href="#4.3">Code 3 &ndash; Update Nested Family Definitions</a></li>
+<li><a href="#4.4">Code 4 &ndash; Reload updated families</a></li>
+</ul>
+
+<h4><a name="4.1"></a> Code 1 &ndash; Collect all Family Instances in Document</h4>
+
+<pre class="prettyprint">
+import clr
+import System
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+doc = IN[0]
+
+clr.AddReference("RevitAPI")
+from Autodesk.Revit.DB import *
+
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+
+familieCollector = FilteredElementCollector(doc).OfClass(FamilyInstance).ToElements()
+
+families = list()
+
+for d in familieCollector:
+    #if d.IsTemplate != True:
+        families.append(d)
+
+#Assign your output to the OUT variable.
+OUT = families
+</pre>
+
+<h4><a name="4.2"></a> Code 2 &ndash; Export Families via SaveAs</h4>
+
+<pre class="prettyprint">
+import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+
+clr.AddReference('RevitAPI')
+import Autodesk
+
+clr.AddReference('RevitServices')
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+doc = DocumentManager.Instance.CurrentDBDocument
+
+#Close all transactions
+
+trans = TransactionManager.Instance
+trans.ForceCloseTransaction()
+
+fams = IN[0]
+paths = IN[1]
+
+#unwrap the Dynamo elements
+
+fams = map(UnwrapElement, fams)
+for i in xrange(len(fams)):
+
+    famDoc = doc.EditFamily(fams[i])
+    famDoc.SaveAs(paths[i])
+    famDoc.Close(False)
+
+OUT = 0
+</pre>
+
+<h4><a name="4.3"></a> Code 3 &ndash; Update Nested Family Definitions</h4>
+
+<pre class="prettyprint">
+import clr
+clr.AddReference('RevitAPI')
+from Autodesk.Revit.DB import *
+clr.AddReference('RevitServices')
+
+# Revit and Dynamo modules
+from Autodesk.Revit.DB import Document, FamilySource, IFamilyLoadOptions
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+
+uiapp = DocumentManager.Instance.CurrentUIApplication
+app = uiapp.Application
+
+#input assigned to IN variable
+paths = IN[0]
+docpaths = IN[1]
+
+#wrap input inside a list if not a list.
+if not isinstance(paths, list): 
+    paths = [paths]
+if not isinstance(docpaths, list): 
+    docpaths = [docpaths]
+
+#ensure loaded families can overwrite existing families.
+class FamilyOption(IFamilyLoadOptions):
+    def OnFamilyFound(self, familyInUse, overwriteParameterValues):
+        overwriteParameterValues = True
+        return True
+
+    def OnSharedFamilyFound(self, sharedFamily, familyInUse, source, overwriteParameterValues):
+        source = FamilySource.Family
+        overwriteParameterValues = True
+        return True     
+
+#core data processing
+documents = []
+families = []
+for docpath in docpaths:
+    doc=app.OpenDocumentFile(docpath)
+    documents.append(doc)
+for path in paths:
+    family_doc = app.OpenDocumentFile(path)
+    families.append(family_doc)
+
+for document in documents:
+    map(lambda family: family.LoadFamily(document, FamilyOption()),
+    families)
+
+map(lambda x: x.Close(False), families)
+map(lambda x: x.Close(True), documents)
+
+# output assigned to the OUT variable
+OUT = [paths, docpaths]
+
+#core data processing
+for path in paths:
+    try:
+        famDoc = app.OpenDocumentFile(path)
+        famDoc.LoadFamily(doc, FamilyOption())
+        famDoc.Close(False)
+    except:
+        pass
+
+#output assigned the OUT variable
+OUT = paths
+</pre>
+
+<h4><a name="4.4"></a> Code 4 &ndash; Load Updated Families</h4>
+
+<pre class="prettyprint">
+import clr
+clr.AddReference('RevitAPI')
+from Autodesk.Revit.DB import *
+
+clr.AddReference('RevitServices')
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+doc = DocumentManager.Instance.CurrentDBDocument
+uiapp = DocumentManager.Instance.CurrentUIApplication
+app = uiapp.Application
+
+#input assigned the IN variable
+paths = IN[0]
+
+#wrap input inside a list (if not a list)
+if not isinstance(paths, list): paths = [paths]
+
+#ensure loaded families can overwrite existing families.
+class FamilyOption(IFamilyLoadOptions):
+    def OnFamilyFound(self, familyInUse, overwriteParameterValues):
+        overwriteParameterValues = True
+        return True
+
+    def OnSharedFamilyFound(self, sharedFamily, familyInUse, source, overwriteParameterValues):
+        source = FamilySource.Family
+        overwriteParameterValues = True
+        return True
+
+#core data processing
+for path in paths:
+    try:
+        famDoc = app.OpenDocumentFile(path)
+        famDoc.LoadFamily(doc, FamilyOption())
+        famDoc.Close(False)
+    except:
+        pass
+
+#output assigned the OUT variable
+OUT = paths
+</pre>
+
+<h4><a name="5"></a> Initial Conversation, Questions and Answers</h4>
+
+<p>The text above describes the final working solution.</p>
+
+<p>Here is a summary of the preceding discussions clarifying the task before completing the solution.</p>
+
+<p><strong>Question:</strong> I want to overwrite one family with another.</p>
+
+<p>I want to do this behind the screens with only one project open, as indicated in the overview image above describing the task.</p>
+
+<p>I can’t solve it with my very basic Python knowledge.</p>
+
+<p>I have solved 90% of the problem and hope you can help me out with the remaining most difficult 10%.</p>
+
+<p><strong>Answer:</strong> Your question is not yet clear to me.</p>
+
+<p>You say, 'keeping the green cage'.</p>
+
+<p>Keeping which green cage?</p>
+
+<p>The green cage containing the mouse?</p>
+
+<p>Or the green cage containing the pig?</p>
+
+<p>But there is no green cage containing the pig to start with.</p>
+
+<p>The pig is in a red cage. You want a mouse in the red cage?</p>
+
+<p><strong>Response:</strong> In project <em>Aunt Anna.rvt</em>, I have the same family green cage with mouse, as I have in the project <em>animal shelter.rvt</em>.</p>
+
+<p>If I work in one project (Aunt Anna.rvt) I want to change the mouse into a pig or rabbit from the red or blue cage out of the animal shelter.rvt project. All animal.rfa families (mouse/rabbit/pig) are not shared and have the same name. So, I need to overwrite one animal.rfa with another animal.rfa. But the difficulty is that I want to do it all in the background.</p>
+
+<p>Dynamo is a very nice program and I can go (in the background) to the (animal.rfa) families I need. But I am having trouble overwriting one with another.</p>
+
+<p>In Dynamo, I can open a document in the background, and with a Python script, I get all family instances.</p>
+
+<p>Then, there is a node that gets the family document from the family type that allows me to use the python script again to get the families one step deeper.</p>
+
+<p>I think that this all will be possible in Python itself, but Dynamo works easy for non-programmers like me.</p>
+
+<p>Background information:</p>
+
+<p>In our company, we made our own window generator. The generators on the market are mostly not the ones we need at an architectural office.
+We need the freedom to change windows in a late stage, without taking a lot of time.
+Therefore, we made our own window generator.
+This is a flexible window family which can change into aluminium, wood and plastic, and also includes possibilities to store a lot of other information.
+I want to make it easy for our draftsman to change all windows of a project to another material.
+That’s the reason behind the question.</p>
+
+<p><strong>Answer:</strong> If it is possible in Python, it is possible in Dynamo.</p>
+
+<p>They are the same, under the hood.</p>
+
+<p>If it is possible in C#, it is possible in Python.</p>
+
+<p>They both make use of the same, one and only underlying Revit .NET API.</p>
+
+<p>So, it can certainly be done.</p>
+
+<p><strong>Response:</strong> I think so too, only don’t know how to finish the last step (copy and overwrite).</p>
+
+<p>Not with Dynamo (copy nodes won’t work) and not with Python.</p>
+
+<p>I thought maybe you would have the solution in one minute, but I know that it takes often more time.</p>
+
+<p><strong>Answer:</strong> Yes, that may be possible. Unfortunately, I have done hardly any work at all in Python, and none whatsoever in Dynamo, yet.</p>
+
+<p><strong>Response:</strong> I just want to let you know that I found a solution.</p>
+
+<p>I was able to solve this issue with a few extra actions.</p>
+
+<p>I first let Dynamo create two temporary directories</p>
+
+<p>Then Save with the first Python script family “1” and “2” (see picture) to the directories.</p>
+
+<p>With the second python script I saved family “1” in family “2”.</p>
+
+<p>With the third python script I Load the family “2” into current document.</p>
+
+<p>So, it worked with only Project <em>aunt Anna</em> opened. I could not solve this without saving first the families to an actual directory.</p>
+
+<p>With my knowledge I just search the Internet and copy/paste parts of code till it works. It can probably be done more efficiently, but I’m happy.</p>
+
+<p>The only thing is that when I want to use run the script twice, I have to restart Revit. But that is not a big problem.</p>
+
+<p>Many thanks to Pieter for documenting and sharing this!</p>

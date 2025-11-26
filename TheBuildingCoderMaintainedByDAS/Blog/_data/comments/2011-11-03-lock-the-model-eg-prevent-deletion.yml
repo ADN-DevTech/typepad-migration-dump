@@ -1,0 +1,325 @@
+comments:
+- author: Jason
+  email: jason.tuck@perkinswill.com
+  ip: 204.214.48.91
+  url: ''
+  date: '2011-11-03 15:33:50'
+  body: "I've successfully implemented a command that prevents non-electrical users\
+    \ from deleting circuited mechanical equipment. It's admittedly heavy-handed,\
+    \ but does ensure a higher level of coordination and collaboration, and prevents\
+    \ any suprises at print time. \n\nThanks!\nJason"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-11-04 03:30:51'
+  body: 'Dear Jason,
+
+
+    Thank you for your update and appreciation, and for raising this sweet little
+    issue.
+
+
+    I am very glad it helped!
+
+
+    Cheers, Jeremy.'
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: ''
+  date: '2011-11-11 00:20:12'
+  body: "Hello, Jeremy.\nI wrote my own Updater which delete elements from external\
+    \ database when user delete it from model. Our designers use worksets and use\
+    \ shared file. When somebody try open this file in computer without my Updater\
+    \ they see the following warning:\nCaption: Missing Third Party Updater\nText:\
+    \ The file .... was modified by the third-party updater  which is not currently\
+    \ installed.\n\nIf you continue to edit the file, data maintained by  will not\
+    \ be updated properly. This may create problems when  is later opened with \n\n\
+    And 4 commands:\nContinue working with the file\nDo not warn about this updater\
+    \ again and continue working with the file\nClose without saving\nSave the file\
+    \ under a different name and continue working\n\nDid you ever see this warning?\n\
+    \nI tell them, \"choose continue...\". Designers do it, but when they try synchronize\
+    \ file Revit close with error.\n\nHow can I avoid this situation? As I understand\
+    \ information about updater saved in revit project file. And when there are no\
+    \ this updater warning is showing. But in my test project I cannot repeat this\
+    \ situation: test file opened without some warning.\n\nI'm confused.\n\nThanks!\
+    \ Victor"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-11-11 05:15:29'
+  body: 'Dear Victor,
+
+
+    Of course I have seen that warning, and discussed it in some depth as well:
+
+
+    http://thebuildingcoder.typepad.com/blog/2010/12/vsta-to-stay-and-updater-to-go.html#2
+
+
+    I hope that helps clarify.
+
+
+    Cheers, Jeremy.'
+- author: Andreas Ricke
+  email: aricke@y7mail.com
+  ip: 150.101.222.88
+  url: ''
+  date: '2011-11-14 23:51:56'
+  body: "Hi Jeremy,\n\nI have your Deleted Element Protection routine working but\
+    \ I'm trying to work out how to store the IDs in the Revit file so that when I\
+    \ save and later reopen the file, the protected elements are still protected.\
+    \ \n\nI looked at extensible storage, and worked out you can assign information\
+    \ to elements, but couldn't work out if you can store the list of IDs using extensible\
+    \ storage or some other technique.\n\nAny suggestions?\n\n\nThanks for a great\
+    \ blog. I'm referencing your stuff almost every day."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.152.224
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-11-15 00:21:45'
+  body: "Dear Andreas,\n\nThank you for your appreciation, and I am very glad you\
+    \ find it all useful!\n\nYes, sure, extensible storage is probably exactly the\
+    \ right way to go for this, because it will automatically update stored element\
+    \ ids should they change for some reason.\n\nHere are some posts on it:\n\n<a\
+    \ href=\"http://thebuildingcoder.typepad.com/blog/2011/04/extensible-storage.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2011/04/extensible-storage.html</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2011/05/extensible-storage-of-a-map.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2011/05/extensible-storage-of-a-map.html</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2011/06/extensible-storage-features.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2011/06/extensible-storage-features.html</a>\n\
+    \nYou would presumably not use a map, but a list, i.e. \n\n  FieldBuilder fieldBuilder\n\
+    \    = schemaBuilder.AddArrayField( \"Ids\",\n      typeof( ElementId ) );\n\n\
+    to define it and \n\n  List[ElementId] ids\n    = new List[ElementId]();\n\n \
+    \ ...\n\n  entity.Set[IList[ElementId]](\n    field, ids );\n\nto populate it.\n\
+    \nYou can use the singleton project info element to store that data.\n\nCheers,\
+    \ Jeremy."
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://revitprogrammer.blogspot.com/
+  date: '2012-01-12 05:18:35'
+  body: 'Hi, Jeremy.
+
+    I have one more question about DMU.
+
+    Maybe you still remember in my project I use my own Updater that delete elements
+    from external database when I delete elements from model (I asked you some questions
+    about it months ago).
+
+
+    Now I have next problem: I must temporary disable my updater and then enable it
+    again.
+
+
+    Of course you''ll ask me ''Why?'' :)
+
+
+    The answer is - Collaborate.
+
+
+    I have following situation: two or more users work with local files. One of them
+    delete one or more elements. At this time IUpdater.Execute() method called and
+    I check are there deleting elements in external db. If they exists I delete them
+    from model an external db.
+
+    Next, user synchronize your local copy with central file.
+
+    Second user also synchronize your local copy. In his copy those elements which
+    first user deleted also will be deleted on sync. That means that updater will
+    execute. But I don''t need it because it can take a lot of time to check elements
+    in external db.
+
+
+    My idea: disable updater then user start sync with central and enable it again
+    then sync will finished. Fortunately we have to Events for it: DocumentSynchronizingWithCentral
+    - then start the sync and DocumentSynchronizedWithCentral then finish sync.
+
+
+    The problem:
+
+    In OnApplicationStart I register updater and trigger.
+
+    I Unregister updater in DocumentSynchronizingWithCentral event handle and register
+    it again in DocumentSynchronizedWithCentral.
+
+    But It is not enough to register updater again. Also I must register trigger.
+
+    Of course I can register as updater as trigger but I think it will be better to
+    disable and enable updater like IUpdater.Enable() and IUpdater.Disable() or UpdaterRegistry.DisableUpdater(UpdaterId)
+    and UpdaterRegistry.Enable(UpdaterId). Futhermore I think better way deny execute
+    updater then you sync with central because in many cases it is not nessesary.
+    Somthing like this UpdaterRegistry.RegisterUpdater(IUpdater updater, bool doNotExecuteOnSync)
+
+
+    Is it possible? If not - it is my wish)
+
+
+    P.S. In API help I see some static methods in UpdaterRegistry: GetIsUpdaterOptional()
+    and SetIsUpdaterOptional. Also in UpdaterRegistry.RegisterUpdater I can see parameter
+    isOptional. But that does this ''Optional'' mean? In Help I just see strange description
+    of this parameter: ''Kind of the updater ''. Do you know that does this parameter
+    means?
+
+
+    Thanks. Regards, Victor.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-01-17 08:13:36'
+  body: 'Dear Victor,
+
+
+    Thank you for these very interesting and useful suggestions.
+
+
+    Could you please submit an ADN DevHelp Online case for these? That would make
+    it much easier to manage. Thank you!
+
+
+    Regarding the SetIsUpdaterOptional functionality, that was implemented to avoid
+    the warning popping up if an updater that was once registered in a model is later
+    missing:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/12/vsta-to-stay-and-updater-to-go.html#2">http://thebuildingcoder.typepad.com/blog/2010/12/vsta-to-stay-and-updater-to-go.html#2</a>
+
+
+    Cheers, Jeremy.'
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://revitprogrammer.blogspot.com/
+  date: '2012-01-18 05:04:34'
+  body: 'Hi Jeremy.
+
+    Yeah of course I''ll submit my suggestion to ADN DevHelp Online.
+
+
+    And you can congratulate me. Today i''ve got an access to ADN. And now I''m ADN
+    member.:)
+
+
+    Best regards
+
+    Victor.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-01-18 08:52:02'
+  body: 'Dear Victor,
+
+
+    Great, fantastic, congratulations!
+
+
+    Looking forward to seeing your case.
+
+
+    Cheers, Jeremy.'
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: http://revitprogrammer.blogspot.com/
+  date: '2012-01-19 23:17:52'
+  body: 'Hi, Jeremy. As I promised I open the case.
+
+    Case #06907739.
+
+
+    Best Regards, Victor'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-01-20 03:37:29'
+  body: 'Dear Victor,
+
+
+    Thank you for submitting it, I see it and picked it up as case 06907739 [Dynamic
+    Model Update API improvement].
+
+
+    Cheers, Jeremy.'
+- author: Casey
+  email: caseyh@ctagroup.com
+  ip: 74.116.160.71
+  url: http://www.ctagroup.com
+  date: '2013-05-02 10:23:01'
+  body: 'Jeremy,
+
+
+    I''m not sure if this is possible, but what I''d like to do is lock a few items
+    within our company template. We have a standards view, and then some standard
+    text types, etc. Would it be possible to lock them with a list of their element
+    IDs?
+
+
+    I''m fairly new to .net programming as well as the Revit SDK. I played around
+    a bit with your code but am thinking it might not be as simple as I had hoped.
+
+
+    Thanks,
+
+    Casey'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.217.41
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-05-02 10:36:42'
+  body: 'Dear Casey,
+
+
+    Nope, sorry, there is no official support for this afaik.
+
+
+    Cheers, Jeremy.'
+- author: Casey
+  email: caseyh@ctagroup.com
+  ip: 74.116.160.71
+  url: http://www.ctagroup.com
+  date: '2013-05-02 10:47:33'
+  body: 'Too bad, maybe some day.
+
+
+    Thanks for the quick reply. I guess we''ll just have to push out knowledge instead
+    of forcing the standards upon the masses.
+
+
+    Thanks again!
+
+    Casey'
+- author: Aris
+  email: aris.aquino@wspgroup.com
+  ip: 206.169.50.242
+  url: ''
+  date: '2014-08-14 20:04:56'
+  body: 'Hi Jeremy,
+
+
+    I''m new to all this but I was able to get your Deleted Prevention routine working,
+    but how do I make sure that the protected elements I''ve selected in the model
+    will be protected from other users?
+
+
+    Thanks in advance,
+
+
+    AJ'
+- author: Kailas Dhage
+  email: kailas.dhage@struengineers.com
+  ip: 195.198.200.194
+  url: ''
+  date: '2014-08-15 05:33:26'
+  body: "Hi Jeremy,\n\nI want to update our product external database on the deletion\
+    \ of elements having custom data attached. We do not store revit element Ids.\n\
+    \nWhen I delete element I get the list of deleted ElementIds but when I try to\
+    \ get Element from ElementId I get the null reference.\n\nIs there way to get\
+    \ the deleting element? Following my code for reference.\npublic void Execute(UpdaterData\
+    \ data)\n{\n   var document = data.GetDocument();\n   var elementIds = data.GetDeletedElementIds();\n\
+    \   foreach(ElementId id in elementIds)\n   {\n      var ent = document.GetElement(id);\
+    \ //The ent is always NULL ... ..., Need Help \n   }\n}\n\n-----"

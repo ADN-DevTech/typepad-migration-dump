@@ -1,0 +1,159 @@
+---
+layout: "post"
+title: "Torsion Tools, Command Event and Info in DA4R"
+date: "2020-01-21 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "BIM"
+  - "DA4R"
+  - "Data Access"
+  - "Events"
+  - "Forge"
+  - "Getting Started"
+  - "RST"
+original_url: "https://thebuildingcoder.typepad.com/blog/2020/01/torsion-tools-command-event-and-info-in-da4r.html "
+typepad_basename: "torsion-tools-command-event-and-info-in-da4r"
+typepad_status: "Publish"
+---
+
+<p>As always, interesting topics keep pouring in from
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> and
+elsewhere:</p>
+
+<ul>
+<li><a href="#2">Torsion Tools GitHub launch and solution overview</a></li>
+<li><a href="#3">Detect command launch</a></li>
+<li><a href="#4">SelectableInViewFilter</a></li>
+<li><a href="#5">Access project location in Forge</a></li>
+<li><a href="#6">Distinguish structural elements and access volume information in Forge</a></li>
+</ul>
+
+<h4><a name="2"></a>Torsion Tools GitHub Launch and Solution Overview</h4>
+
+<p>A recent <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+announces the <a href="https://forums.autodesk.com/t5/revit-api-forum/torsion-tools-github-launch-and-basic-solution-overview/m-p/9254509">Torsion Tools GitHub launch and basic solution overview</a>:</p>
+
+<blockquote>
+  <p>I wanted to share my Autodesk Revit 2020 API Visual Studio Solution Template with Code Examples for Common Tools.</p>
+  
+  <p>The intent of the repository is to help provide Revit API support and to share code examples and solutions for common issues or time-consuming tasks in Revit.
+  I will provide examples and tools of items as I have created and use them, and then other are free to manipulate them to fit how they need them to work, but without any expressed or implied warranty and/or guarantee of functionality or errors.
+  I think this will be the best way to share some of the work I have done without having to create installers for every single tool or publishing everything to the Autodesk App Store.</p>
+</blockquote>
+
+<ul>
+<li><a href="https://github.com/TorsionTools/R20">TorsionTools GitHub repository</a></li>
+<li><a href="https://youtu.be/3EVx9SzKJbk">Six-minute video recording on YouTube</a>:</li>
+</ul>
+
+<p><center>
+<iframe width="480" height="270" src="https://www.youtube.com/embed/3EVx9SzKJbk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</center></p>
+
+<p>Many thanks to Torsion Tools for sharing and documenting this!</p>
+
+<h4><a name="3"></a>Detect Command Launch</h4>
+
+<p>In the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on a <a href="https://forums.autodesk.com/t5/revit-api-forum/group-edit-event/m-p/8169237">group edit event</a>,
+<a href="https://www.linkedin.com/in/anabil1">Ahmed Nabil</a> suggested
+a neat method to detect when a specific command is launched by checking for its name in the <code>DocumentChanged</code> event:</p>
+
+<p><strong>Question:</strong> Is it possible somehow to know when a user enters the group edit mode? </p>
+
+<p><strong>Answer:</strong> You can do this by handling the <code>DocumentChanged</code> event and checking if the transaction name is "Edit Group":</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">Result</span>&nbsp;OnStartup(&nbsp;<span style="color:#2b91af;">UIControlledApplication</span>&nbsp;a&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;a.ControlledApplication.DocumentChanged
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+=&nbsp;ControlledApplication_DocumentChanged;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#2b91af;">Result</span>.Succeeded;
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">void</span>&nbsp;ControlledApplication_DocumentChanged(
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">object</span>&nbsp;sender,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">DocumentChangedEventArgs</span>&nbsp;e&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;txname&nbsp;=&nbsp;e.GetTransactionNames()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.FirstOrDefault();
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;txname&nbsp;==&nbsp;<span style="color:#a31515;">&quot;Edit&nbsp;Group&quot;</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;user&nbsp;enters&nbsp;Edit&nbsp;Group&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+</pre>
+
+<p>This event is fired both on entering the Edit Group (under the transaction name "Edit Group") and on exiting it (under the transaction name "Finish Edit Group").</p>
+
+<p>Thank you, Ahmed, for the nice solution!</p>
+
+<h4><a name="4"></a>SelectableInViewFilter</h4>
+
+<p>I never before noticed, much less used, the <a href="https://www.revitapidocs.com/2018.2/4def5498-f47f-870c-ea25-0408b6603dac.htm">SelectableInViewFilter</a>:</p>
+
+<blockquote>
+  <p>A filter that passes elements that are selectable in the given view.</p>
+  
+  <p>This filter is a slow filter... This filter is designed to operate on a list of elements visible in the given view. This can be obtained from a <code>FilteredElementCollector</code> constructed with the view id. This filter may not correctly restrict elements which are not a part of the visible elements of the view.</p>
+</blockquote>
+
+<p>Sounds pretty interesting, and useful...</p>
+
+<p>Do you happen to have any interesting examples?</p>
+
+<h4><a name="5"></a>Access Project Location in Forge</h4>
+
+<p><strong>Question:</strong> I am working with Forge and I have a JSON file of the model, but there is no Location information inside that file.
+I can only access the project information address, but that isn’t what I want. 
+Is there a way to get the Location info inside the JSON file during the conversion?
+I mean, the location info you have in Revit at:</p>
+
+<ul>
+<li>Manage &rarr; Project location section &rarr; Location</li>
+</ul>
+
+<p><strong>Answer:</strong> I can only suggest that you explore the Forge JSON and SVF data further and search deeper.
+If the project information is not present there, I would suggest that you export it from the RVT using the Revit API and store it somewhere else in your own data.
+You can do so either on the desktop in an installed Revit session, or in the Forge environment using the Design Automation API.</p>
+
+<h4><a name="6"></a>Distinguish Structural Elements and Access Volume Information in Forge</h4>
+
+<p><strong>Question:</strong> I heard that one way to distinguish structural elements in a model authored by Revit was that they would possess a volume property.</p>
+
+<p>However, I have encountered Revit models that do not contain a volume property on elements that should have one.
+They are indeed structural elements. Have you encountered this problem? Could it be caused by a problem in Revit, or is it more likely to be an error when the client enters the data for the model? Is there any other way we could determine a structural element?</p>
+
+<p>The second issue I have is that I inevitably have to support models that are authored by other programs that do not provide a volume property. I imagine it will be very difficult, if not impossible, to find a solution that can cover all possible authoring programs. One thing I was hoping that might be a workaround is to use the Design Automation API to process "other" models with Revit. Would this be possible? This would only be a solution provided we can solve the first issue of reliably distinguishing structural elements.</p>
+
+<p><strong>Answer:</strong> You can easily and reliably distinguishing structural elements in a Revit model by simply checking their <code>Category</code> property.</p>
+
+<p>If a CAD model produced by a third party can be imported properly into Revit so that structural elements are correctly recognised, they will also be equipped with the appropriate category.</p>
+
+<p>I would definitely not try to use the volume property to distinguishing structural elements.
+All BIM elements that have a volume can be equipped with a property reporting its value.
+That property is in no way whatsoever specific to structural elements.</p>
+
+<p>If you really are interested in the volume of an element for other reasons, please read on. Else, you can skip the following:</p>
+
+<p>Many Revit elements may include a pre-calculated volume property. Its value may be unreliable. In the Revit API, I would recommend calculating the volume of an element by querying the element solid for its volume, not using any data stored in the pre-calculated element properties.</p>
+
+<p>However, the main part of the question is on how to achieve this with non-Revit models.
+I see no problem, and only one obvious answer: grab the geometry from the model in any format you can get, assembly solids from those, and query their volume. If you can import the models in Revit, then it is fine, otherwise of course you would require a robust solid modeler library to achieve this.</p>
+
+<p>Retrieving the solid geometry from an element and querying its volume is an operation that the Forge Design Automation for Revit will support.
+Several discussions by The Building Coder deal with determining areas and volumes of BIM elements using the desktop Revit API, e.g.:</p>
+
+<ul>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2015/03/calculating-gross-and-net-wall-areas.html">Calculating gross and net wall areas</a></li>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2015/04/gross-and-net-wall-area-calculation-enhancement-and-events.html">Gross and net wall area calculation enhancement</a></li>
+</ul>
+
+<p>The same processing can also be performed in <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#5.55">Forge Design Automation for Revit (DA4R)</a>.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4de7c7f200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4de7c7f200d image-full img-responsive" alt="Steel frame" title="Steel frame" src="/assets/image_c6eaaa.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>

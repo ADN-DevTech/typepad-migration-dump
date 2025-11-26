@@ -1,0 +1,1035 @@
+comments:
+- author: Guy
+  email: info@r-e-d.co.nz
+  ip: 60.234.255.173
+  url: http://www.redbolts.com/blog
+  date: '2008-12-05 16:28:03'
+  body: 'Jeremy,
+
+
+    The problem is not so much that OpenDocumentFile doesn''t support activating a
+    project. It''s more that it doesn''t give you the control over how that project
+    is opened as per the standard dialog. ie workset control. Doable but a lot lot
+    more work.
+
+
+    Are these discussions from AU going to be posted on ADN or the AU site Jeremy?'
+- author: Jeremy Tammik
+  email: jeremy.tammik@autodesk.com
+  ip: 63.164.47.227
+  url: http://profile.typekey.com/1218580759s22477/
+  date: '2008-12-05 20:18:34'
+  body: 'Hi Guy,
+
+
+    Thank you for the clarification! Please do submit requests for the functionality
+    you require to ADN, Anthony Hauck once again pointed out how important and eagerly
+    awaited all developer input is to guide future development. The discussions at
+    AU were a little bit too unstructured to be published as is, they provided lots
+    of ideas and inspiration but cannot be immediately converted into a blog posting,
+    I''m afraid.
+
+
+    Best regards, Jeremy.'
+- author: Guy Robinson
+  email: info@r-e-d.co.nz
+  ip: 60.234.255.173
+  url: ''
+  date: '2008-12-08 15:41:22'
+  body: 'Hi Jeremy, Anthony is well aware of my wishes ;-) Have presented alternative
+    approach to getting the handle here: http://redbolts.com/blog/post/2008/12/08/Zoom-your-BIM.aspx'
+- author: OwenWengerd
+  email: ''
+  ip: 24.140.117.84
+  url: http://profile.typekey.com/manusoft/
+  date: '2008-12-08 17:15:03'
+  body: 'Jeremy, I wanted to ask you a question an AU, but every time I saw you, your
+    head was buried in your laptop.
+
+
+    I''ve never used Revit, and know nothing about its API, but I received numerous
+    requests from AU attendees to make Revit dialogs resizable the way my QuikPik
+    utility makes AutoCAD dialogs resizable. To do that, I need a way to load an unmanaged
+    DLL into the Revit process. Does Revit support that? Is it just a matter of adding
+    a registry entry to tell Revit to load my DLL (like AutoCAD''s demand loading
+    system)?'
+- author: Jeremy Tammik
+  email: jeremy.tammik@autodesk.com
+  ip: 88.131.80.14
+  url: http://profile.typekey.com/1218580759s22477/
+  date: '2008-12-09 02:13:25'
+  body: 'Hi Guy,
+
+
+    Glad to hear it and thank you for the pointer to your post. Unfortunately there
+    is something garbled in it, I cannot see all of the source code, the first section
+    is collapsed and I am unable to uncollapse it somehow.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: jeremy.tammik@autodesk.com
+  ip: 88.131.80.14
+  url: http://profile.typekey.com/1218580759s22477/
+  date: '2008-12-09 02:16:26'
+  body: 'Hi Owen,
+
+
+    Oh dear, I am awfully sorry that I missed the chance of discussing this with you
+    at AU. I was rather overdue preparing my presentations  :-)  Nope, I do not know
+    of any way to load an unmanaged DLL into the Revit process.
+
+
+    Cheers, Jeremy.'
+- author: Grant Soremekun
+  email: grant@phoenix-int.com
+  ip: 76.126.33.68
+  url: http://phoenix-int.com
+  date: '2009-02-09 12:06:34'
+  body: 'Does Autodesk have plans to update the API so that an external application
+    can drive Revit without the need for Win32 API function calls?
+
+
+    Regards,
+
+    Grant'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-02-09 12:16:30'
+  body: 'Hi Grant,
+
+
+    Long-term probably yes, but first of all we cannot make any binding statements
+    whatsoever about future products, and secondly please don''t hold your breath.
+
+
+    Cheers, Jeremy.'
+- author: Hakan WIkemar
+  email: haw@aec.se
+  ip: 62.20.11.130
+  url: ''
+  date: '2009-02-18 13:17:18'
+  body: 'Hi Jeremy!
+
+    I hope all is well with you, last time I saw you I was working with Autodesk in
+    Gothenburg and you were visiting, now I''m working with a reseller/CAD consultant.
+    Any who, I have a similar issue, Im trying to call a second dll''s IExternalCommand...Execute
+    from within the ExternalCommand of a main one. It seems to work perfectly reading
+    all the right values and properties, calling up dialogs from within that dll,
+    but I can''t seem to be able to write values to the database (i.e. edit a sharedParameter
+    (I''m just passing along the CommandData, message and ElementSet. Do you know
+    if this is at all possible?
+
+    Cheers
+
+    /Hakan Wikemar'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-02-19 02:03:53'
+  body: "Hejsan Håkan,\n\nNice to hear from you and hope you are enjoying the new\
+    \ job! \n\nSo, if I understand you correctly, you have defined two external commands,\
+    \ e.g. A and B. You are registering external command A with Revit and executing\
+    \ it as normal. A is calling B and passing in all three arguments unmodified,\
+    \ the command data, message and element set. I see no reason why that should not\
+    \ work. I have done that myself in C#, and actually my rather convoluted F# example\
+    \ is doing the very same thing as well:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/01/hello-f-via-c.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/01/hello-f-via-c.html</a>\n\nNote\
+    \ that Ralf Huvendiek's direct solution for loading an F# module avoids my unnecessary\
+    \ intermediate step:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/01/use-f-directly-in-revit.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/01/use-f-directly-in-revit.html</a>\n\
+    \nOh, on second thoughts, none of the samples I have made that call a second external\
+    \ command from a first one try to modify the database. Do you remain within the\
+    \ context of Revit calling the external command? I would have expected it to work,\
+    \ but have actually never tried it myself.\n\nBest regards, Jeremy."
+- author: Hakan WIkemar
+  email: haw@aec.se
+  ip: 62.20.11.130
+  url: ''
+  date: '2009-02-19 04:02:57'
+  body: 'Hej Jeremy, Jag får bland annat koda applikationer till Revit så jag trivs
+    mycket bra :).
+
+    Yes the hello-f-via-c is exactly what I am attempting (well more like helloandmodifydatabase-vb-via-c).
+    I''m trying to build my own UI to call other individual applications (with the
+    bonus that they could be written in any language) that also could be loaded independantly.
+    My code looks almost exactly like yours:
+
+
+    MyTools.MyCommand aCommand = new MyTools.MyCommand();
+
+    aCommand.Execute(commandData, ref message, elements);
+
+
+    It works beutifully except I can''t get it to modify the database.
+
+    I would expect it to work as I suspect that for example the REX explorer works
+    like this.
+
+
+    I tried to call the SDK Example Revit.SDK.Samples.DoorSwing.CS.InitializeCommand
+
+    Using this method and the UI works but the properties does not get written :(.
+
+
+    I must be doing something wrong, I''ll investigate further. Thanks again!
+
+    Cheers
+
+    /Hakan'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-02-19 04:09:31'
+  body: 'Hejsan Håkan,
+
+
+    Glad you are enjoying it. I always thought it would work, but I do not know whether
+    I ever actually tried to modify anything that way. One important thing before
+    modifying a database is to have a transaction opened, but that happens automatically
+    when an external command is executed.
+
+
+    Cheers, Jeremy.'
+- author: Hakan WIkemar
+  email: haw@aec.se
+  ip: 62.20.11.130
+  url: ''
+  date: '2009-02-19 13:01:40'
+  body: 'Yey! I got it to work and the reason was of couse me. Somehow it seems like
+    it found its way to a:
+
+    return IExternalCommand.Result.Cancelled;
+
+    on every run and i guess this cancels the automatic transaction, right?
+
+    It''s allways something simple that takes forever to find that turns out to be
+    the issue :)
+
+    Thanks a million for your input
+
+    Cheers
+
+    /Hakan'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.111.103
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-02-21 09:57:55'
+  body: "Dear Håkan,\n\nWow, congratulations, I am very glad you found a solution\
+    \ and it was a pleasure supporting you in the search. \n\nYes, exactly, returning\
+    \ IExternalCommand.Result.Cancelled cancels the automatic transaction that Revit\
+    \ starts for your external command invocation, c.f.\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2008/12/document-ismodified-property.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2008/12/document-ismodified-property.html</a>\n\
+    \nCheers, Jeremy."
+- author: Pierre-Nelson
+  email: ''
+  ip: 82.126.66.204
+  url: http://profile.typepad.com/6p0111689529f6970c
+  date: '2009-02-24 11:56:58'
+  body: "Hi jeremy,\n\nHere, they ask me to have a new command which can do an export\
+    \ and a print of views in one command.\n\n[QUOTE]So, I've done it :\n\nprivate\
+    \ void SendKey()\n{\n\nIntPtr revitHandle = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;\n\
+    \nSetForegroundWindow(revitHandle);\n// appelle l'export\n                \nSendKeys.SendWait(\"\
+    (%F)EO\");\n                \n// appelle le print           \nSendKeys.SendWait(\"\
+    (%F){I}\");\n\nreturn;\n\n}\n[/QUOTE]\n\nCan't run the Print command!\nWhen I\
+    \ try to do an other command after (%F)EO, it works (for exemple, open, or else),\
+    \ but print command does not work....\n\nDo you have an idea?\n\nCheers"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-02-24 12:03:59'
+  body: 'Hi Pierre-Nelson,
+
+
+    Hmm, one idea might be to use the API to do the printing, via the print manager?
+    That would give you full control.
+
+
+    Have you tested invoking each of the two commands separately first? Have you tried
+    reversing the order?
+
+
+    Cheers, Jeremy.'
+- author: Pierre-Nelson
+  email: ''
+  ip: 82.126.66.204
+  url: http://profile.typepad.com/6p0111689529f6970c
+  date: '2009-02-25 03:18:30'
+  body: 'Hi jeremy,
+
+
+    Thx for answering.
+
+    Yes, I''ve already tested to run just print command and does not work.
+
+    Anyway, no panic, I''ll try to print by the API.
+
+
+    Cheers.'
+- author: Jake
+  email: louisjacobs@cadplan.co.za
+  ip: 196.207.35.246
+  url: ''
+  date: '2009-04-29 16:32:59'
+  body: 'Jeremy
+
+
+    I am looking at the New Ribbon in Revit 2010. Would it be possible to re-order
+    the items, (possibly create new items) on the Ribbon?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-29 17:03:23'
+  body: 'Dear Jake,
+
+
+    Thank you for this question. Especially for you, I''ll publish a little article
+    on the topic of ribbons sometime soon  :-)
+
+
+    To answer your question directly, as far as I understand it:
+
+
+    - All Revit add-ins are added to the Add-Ins tab and nowhere else. There is no
+    way in 2010 for a Revit add-in to appear anywhere else in the ribbon.
+
+
+    - All external commands are grouped into one single pull down menu provided by
+    the External Tools button in the Add-Ins tab.
+
+
+    - An external application can define its own panels inside the Add-Ins tab and
+    populate them with items as it pleases. These items can include separators and
+    standard and pull-down buttons. They can be arranged in a single or stacked layout
+    with two or three rows.
+
+
+    The ribbon sample creates the following items within the Add-Ins ribbon tab:
+
+
+    - Two add-in application ribbon panels
+
+    - A push button ''Create Wall''
+
+    - A three-layered stacked button
+
+    - A pull-down button ''Move Walls''
+
+    - Tooltips
+
+    - Separators
+
+
+    I do not think these items can be reordered once they have been created, but obviously
+    the application can define their order by creating them in the desired sequence.
+
+
+    I hope this answers your question.
+
+
+    Cheers, Jeremy.'
+- author: Jake
+  email: louisjacobs@cadplan.co.za
+  ip: 41.208.11.160
+  url: ''
+  date: '2009-04-30 08:10:04'
+  body: 'Hi Jeremy
+
+
+    Thanks for the answer, but my question is not really about the Add-ins area in
+    the Ribbon, more the Ribbon Control itself.
+
+
+    At the moment I have an application that uses the Command IDs in Revit itself,
+    and I use the following to call a command in the Revit Application:
+
+    "PostMessage(iHwnd, WM_COMMAND, 33867, 0&)"
+
+    This call starts the [Show ElementIds]function in Revit. I then use a series of
+    API calls to type text in the text boxes and press the buttons etc.
+
+
+    Because I can access the Menu in Revit2009, I can:
+
+    1. Create a new pulldown menu
+
+    2. Create a button on that pulldown menu and give it the commandID 33867, which,
+    when I press it, it runs the Revit command.
+
+
+    This allows me to create a ''custom'' menu in Revit and add whatever I want onto
+    it.
+
+
+    NOW - Autodesk created a Revit Ribbon control to replace the menu, and although
+    the menu is still there (it seems) just not shown, I have lost the ability to
+    ''hack'' the menu. (Or rather... hack I can, but can''t show it)
+
+
+    I''d like to use the Windows API and create a Ribbon Tab, and add my ''favourites''
+    to it, and show that on the Ribbon.
+
+
+    OR even better - Add my ''favourites'' to the Quick Access Toolbar. This seems
+    fairly straight forward, I would imagine it to be working like this:
+
+    Use the Windows API to add a new menu item to the QAT, give it the ID (that I
+    know) and now it should be available in Revit.
+
+
+    My problem?
+
+    I know how to add a new menu item to a toolbar and to a menu in Revit
+
+    I know how to remove existing menu items from the Revit menu
+
+    I don''t know how to add anything to a ribbon in Revit.
+
+
+    My goal No1:
+
+    Add two non functional buttons to the QAT to seperate the Undo and Redo buttons
+    (Why? Because I have a 30" display monitor and the QAT buttons are a blur and
+    I have to concentrate really intensely to click the right one)
+
+
+    Goal No2:
+
+    Add buttons to the QAT in the order that I want them
+
+
+    Goal No3:
+
+    Add ''Other'' buttons to the QAT
+
+
+    Goal No4:
+
+    Resize the QAT to show 24x24 or even 32x32 size buttons'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-30 11:49:15'
+  body: 'Dear Jake,
+
+
+    Thank you for the update, I understand your issue now. Wow. You have set yourself
+    an impressive list of very interesting goals indeed, and I would be very interested
+    to hear more about the experiences you make, especially if you succeed. I am sure
+    many others would be very interested as well. Unfortunately, all of those topics
+    are completely beyond the scope of the Revit API, as you are aware, and I am sorry
+    to say that I don''t have any relevant suggestions to make to you. I hope some
+    other interested parties will chip in, though.
+
+
+    I also find the statements you make about being able to create your own custom
+    menu in Revit 2009 interesting. I always believed this was possible and quite
+    easy, but I never tried it out myself. I''m glad you succeeded and would have
+    been interested to hear more about it. Water under the bridge, by now.
+
+
+    One completely different approach that you might like to think about is creating
+    some kind of modeless custom pane or toolbar that floats around and possibly interacts
+    with the Revit ribbon and your add-in. That might be easier to implement that
+    hacking the ribbon itself, which might be pretty closely wired in to Revit.
+
+
+    Cheers, Jeremy.'
+- author: Jake
+  email: louisjacobs@cadplan.co.za
+  ip: 41.208.11.160
+  url: ''
+  date: '2009-04-30 12:20:42'
+  body: 'Jeremy
+
+
+    I''ll keep you informed of my progress.
+
+
+    Thanks
+
+
+    Jake'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-30 12:30:39'
+  body: Thank you very much, and best of luck to you!
+- author: moiz
+  email: moiz_eb@rediffmail.com
+  ip: 58.68.116.98
+  url: ''
+  date: '2009-06-09 11:43:44'
+  body: 'Hi Jeremy,
+
+
+    Hope you are fine..
+
+
+    I am working with Autodesk Revit Architecture 2010.I am trying to invoke Revit
+    External Tools Menu from outside using SendKeys.SendWait() command as mentioned
+    in your blog.
+
+
+    But i am not able to get upto External Tools sub menus (External Command MenuItem
+    from Revit.ini)
+
+
+    following is the sequence
+
+    SendKeys.SendWait("^{F10}{D}{E}{DOWN}{ENTER}")
+
+
+    Please see if you can help on this
+
+
+    Thanks and Regards,
+
+    Moiz'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-10 04:11:40'
+  body: "Dear Moiz,\n\nThank you, I am fine.\n\nThe string you are trying to send\
+    \ also looks perfectly good to me.\n\nI tried to get my SendCmd application running\
+    \ with Revit 2010 and have not succeeded yet.\n\nOne thing that definitely needs\
+    \ changing are the window class names. In my case, for Revit Architecture 2010\
+    \ Build 20090317_2115, the window captions and class names for the zero document\
+    \ state and when a project is open seem to be\n\n\"Autodesk Revit Architecture\
+    \ 2010 - [Recent Files] - [Recent Files]\"\n\n\"Autodesk Revit Architecture 2010\
+    \ - [wall_footing.rvt - 3D View: {3D}] - [wall_footing.rvt - 3D View: {3D}]\"\n\
+    \n\"Afx:00400000:8:00010011:00000000:0090083F\"\n\n\"Afx:00400000:8:00010011:00000000:016707B7\"\
+    \n\nUsing this updated window class name, and sending the string that you provide\
+    \ does activate the Add-Ins tab and the External Commands panel but does not trigger\
+    \ the external command. \n\nFurthermore, even the tab and panel activation is\
+    \ not completely reliable ... it sometime works and sometimes does not.\n\nI tried\
+    \ another approach as well to solve your issue, by defining a keyboard shortcut\
+    \ for the external command as described in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/04/addin-keyboard-shortcut.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/04/addin-keyboard-shortcut.html</a>\n\
+    \nI am using the Revit SDK HelloWorld sample to test, so I added a shortcut\n\n\
+    \"HW\" ribbon:\"Add_Ins-External-External Tools-Hello World (CS)\"\n\nThen I tried\
+    \ to send the string \"HW\" to the Revit window. Strangely enough, Revit seems\
+    \ to be interpreting this as Shift + W and displaying the navigation wheel instead.\
+    \ When I type in \"HW\" manually, it works every time.\n\nWhat I also noticed\
+    \ is that the window class name changed from one session to the next. In a later\
+    \ session, when a document was opened, it was \n\n\"Afx:00400000:8:00010011:00000000:00010E4F\"\
+    \n\nIn other words, the last part changed from \"016707B7\" to \"00010E4F\".\n\
+    \nSo one will probably have to change the call using FindWindow to something more\
+    \ flexible which tests for a partial window class name, and maybe the partial\
+    \ window caption as well, to identify the Revit window. Or use the process name\
+    \ instead, as I did in\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/02/revit-window-handle-and-modeless-dialogues.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/02/revit-window-handle-and-modeless-dialogues.html</a>\n\
+    \nI am sorry I cannot dive deeper still into this at the moment.\n\nI hope this\
+    \ helps you with your further research, and look forward to hearing about a solution,\
+    \ hopefully, from somebody.\n\nCheers, Jeremy."
+- author: moiz
+  email: moiz_eb@rediffmail.com
+  ip: 125.18.59.225
+  url: ''
+  date: '2009-06-12 11:59:26'
+  body: 'Hi Jeremy,
+
+
+    We are using Autodesk revit Architecture 2010
+
+    We have used External Application as plugin to revit
+
+
+    We are facing Problem in Save, SaveAs and Close API.It throws , "Save is temporarily
+    disabled" exception
+
+
+    Do you any clue on this ?
+
+
+    Regards,
+
+    Moiz'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-12 13:59:30'
+  body: 'Dear Moiz,
+
+
+    Nope, sorry, never heard of that problem before.
+
+
+    By the way, in your SendKeys.SendWait issue, are you just starting up Revit with
+    a project file, running a single command, and then closing down Revit again immediately?
+    If it is such a simple sequence, or similarly simple, then you can also achieve
+    it by driving Revit through a journal file:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/05/vb-samples-and-other-questions.html#1">http://thebuildingcoder.typepad.com/blog/2009/05/vb-samples-and-other-questions.html#1</a>
+
+
+    Cheers, Jeremy.'
+- author: Jake
+  email: louisjacobs@cadplan.co.za
+  ip: 41.243.251.34
+  url: ''
+  date: '2009-06-30 08:29:19'
+  body: 'Moiz
+
+
+    I found that some commands are disabled in different views. I normally switch
+    to {3D} view is these commands don''t work, and then execute the function. I guess
+    you might have the same problem.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-06-30 09:10:12'
+  body: 'Moiz to you too, dear Jake,
+
+
+    That is a greeting I have never seen before, nor can I find any mention of it
+    in Wikipedia. Did you invent it yourself? Or is it just a typo?
+
+
+    Anyway, yes, I think this problem or maybe simply feature is common and pretty
+    well understood. There are various situations that can cause commands in the ribbon
+    to be greyed out or disabled:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/06/rfa-version-grey-commands-family-context-and-rdb-link.html#2">http://thebuildingcoder.typepad.com/blog/2009/06/rfa-version-grey-commands-family-context-and-rdb-link.html#2</a>
+
+
+    Have you encountered some situations that are not described there? Then maybe
+    you might like to add a comment describing them to that post. Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.4.134
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-06-30 11:24:24'
+  body: 'Hi jeremy,
+
+    Does SendKeys.SendWait works on Revit2009 API?
+
+
+    Cheers!'
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.4.134
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-07-01 02:56:41'
+  body: 'Actually, the SendKeys.SendWait works with for exemple {F1} but noway with
+    "VG" for example.
+
+    Do you have an idea?
+
+
+    Cheers!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-07-01 03:28:53'
+  body: "Dear Pierre,\n\nThe approach presented above to drive Revit from outside\
+    \ through SendKeys.SendWait does not have anything whatsoever to do with the Revit\
+    \ API, so you cannot really say it works with the Revit 2009 API. It does however\
+    \ work perfectly well and reliably with Revit 2009, as far as I know. \n\nI tried\
+    \ to convert my SendKeys console application to work with Revit 2010 and was unfortunately\
+    \ unable to do so, as you can see from my reply to Moiz further up. \n\nThe only\
+    \ idea that I have is that Revit 2010 is managing several different windows and\
+    \ sub-windows, and that we may be sending the messages to the wrong one.\n\nWhen\
+    \ you say it does not work to send a key sequence such as \"VG\", do you mean\
+    \ to Revit 2009 or 2010? I was under the impression that this worked in 2009.\
+    \ Is \"VG\" a keyboard shortcut?\n\nOh, and rereading this thread now in sequence,\
+    \ I understand that Jake was speaking to Moiz, not greeting ... oops, sorry about\
+    \ that!\n\nCheers, Jeremy."
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.4.134
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-07-01 05:06:50'
+  body: 'Jeremy,
+
+
+    First : thx for answering.
+
+    Yes, VG is a shortCut.
+
+    Actually, I''d like to send a command to my revit 2009.
+
+    I''ve you ever try to send a command?
+
+
+    Cheers'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-07-01 05:36:26'
+  body: 'Dear Pierre,
+
+
+    Oh, it is for 2009. I thought it worked there, but I may have never actually done
+    it with a self-defined shortcut key. You might have a look at this AUGI thread
+    dealing with Revit and SendKeys and entitled ''keyboardshortcuts'':
+
+
+    <a href="http://forums.augi.com/showthread.php?p=765178">http://forums.augi.com/showthread.php?p=765178</a>
+
+
+    Unfortunately, that thread may be even older still, for Revit 2008.
+
+
+    Cheers, Jeremy.'
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.4.134
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-07-01 05:56:12'
+  body: 'Thx for the link.
+
+    I''m having a look on it.
+
+    Keep in touch.
+
+
+    Cheers'
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.4.134
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-07-01 08:45:29'
+  body: "Can't get my Handle with this code :\n\nIntPtr revitHandle = FindWindow(_window_class_name_project_open,\
+    \ null);\n            \n            //\n            // try alternative window\
+    \ class if no project is open in Revit:\n            //\n            if (IntPtr.Zero\
+    \ == revitHandle)\n            {\n                revitHandle = FindWindow(_window_class_name_zero,\
+    \ null);\n                \n            }\n      \n\nI use Spyy++ or WinSpector\
+    \ to get my const string _window_class_name_zero \"Afx:00400000:8:00010011:00000000:007B05A1\"\
+    ;\nbut, it's not the same.....\n\nI used by Process[] processes = Process.GetProcessesByName(\"\
+    Revit\"); but only works with sendKeys {F1}.....\n\nmhh...problem"
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.4.134
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-07-01 09:01:47'
+  body: "Jeremy,\n\nhere is my code : \n\nWindowHandle _hWndRevit = null;\n      \
+    \      if (null == _hWndRevit)\n            {\n                Process[] processes\
+    \ = Process.GetProcessesByName(\"Revit\");\n\n                \n             \
+    \   //if (0 < processes.Length)\n                //{\n                //    IntPtr\
+    \ h = processes[0].MainWindowHandle;\n                //    _hWndRevit = new WindowHandle(h);\n\
+    \                //}\n                //\n\n                Process process\n\
+    \                  = Process.GetCurrentProcess();\n\n                IntPtr h\
+    \ = process.MainWindowHandle;\n                _hWndRevit = new WindowHandle(h);\n\
+    \n\n                SetForegroundWindow(h);\n                //SendKeys.SendWait(cmdToSend);\n\
+    \                SendKeys.SendWait(\" \");\n                SendKeys.SendWait(\"\
+    +{F1}\");\n\n                return;\n\n            }\n\nI get an Handle but nothing\
+    \ happens  on SendWait...."
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.4.134
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-07-01 09:19:18'
+  body: 'Sorry for pollute your section comments....
+
+    But, I''ve tried with a NotePad window and it works.....
+
+
+    Mhh....strange...'
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.4.134
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-07-01 09:47:24'
+  body: Nothing to see with 64 bits, it does not work with 32 bits....
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-07-02 01:59:47'
+  body: "Dear Pierre,\n\nI'm very sorry to hear you are having such trouble with this.\
+    \ As said, I had the SendCmd console application working as described above to\
+    \ drive Revit 2009, but was unable to get it to work for 2010. In some other later\
+    \ posts, we discussed alternative methods to determine the Revit windows handle,\
+    \ but I don't know which of them would be most effective, or whether it makes\
+    \ any difference. \n\nIn any case, since discovering that it is harder to send\
+    \ keystrokes to Revit 2010 than to 2009, I am tending more towards recommending\
+    \ alternative approaches. One of these is using the journal file to drive Revit,\
+    \ which is also not officially supported. Another approach is one I will post\
+    \ on today: using the API to determine a certain state that requires an action;\
+    \ if this action is not available through the API, but is through the UI, then\
+    \ simply prompt the user to execute it.\n\nI hope you finally resolved you problem!\n\
+    \nGood luck and cheers, Jeremy."
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.4.134
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-07-02 04:57:47'
+  body: 'Thx Jeremy,
+
+
+    Have you already try to use the SenCmd to send ShortCuts commands?
+
+    In my case, it does-not work...
+
+    I am in vista 64 bits and Revit 64 bits....maybe, that''s the problem....I''m
+    looking at it...
+
+
+    Cheers!'
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.4.134
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-07-02 08:37:36'
+  body: 'Some news : if I do SendKeys on my Autocad 2009 64 bits : it works.....'
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.4.134
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-07-03 06:47:55'
+  body: "Hi jeremy\n\nIs it possible to invoke a command with the ID wich is saved\
+    \ in the file journal?\n\nI mean, for exemple : here is a line :\nJrn.Command\
+    \ \"KeyboardShortcut\" , \"Agrandit tout à la taille de la fenêtre , ID_ZOOM_FIT\"\
+    \ \n\nCan we do something with ID_ZOOM_FIT?\n\nCheers!"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-07-03 07:01:06'
+  body: 'Dear Pierre,
+
+
+    The only thing I can think of to use that command id for ‘as is’ would be to plug
+    it in to a journal file again to drive Revit with. The problem with journal files
+    is that they cannot be executed in the middle of a running session, as far as
+    I know, so you have to shut down Revit, run the journal file, including starting
+    up Revit, executing a command or two and shutting down Revit again, and then you
+    can restart again to continue your interactive session. So it does not seem all
+    that useful to me under ordinary circumstances.
+
+
+    You might be able to use the Visual Studio Spy tool or some other Windows API
+    debugging utility to find out what Windows message is actually represented by
+    a given journal file id such as ID_ZOOM_FIT, and try to send that same message
+    to Revit similarly to the way you tried to send the keyboard input. You may or
+    may not face the same problems there as you had above, though. Did you find a
+    solution for the keyboard shortcuts yet?
+
+
+    Cheers, Jeremy.'
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.67.53
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-07-08 06:20:54'
+  body: 'Hi Jeremy,
+
+    It works!
+
+    Thx to you and Chuck.
+
+    <a href="http://discussion.autodesk.com/forums/thread.jspa?messageID=6214765&#6214765">http://discussion.autodesk.com/forums/thread.jspa?messageID=6214765&#6214765</a>
+
+
+    Now, I must integrate more commands..
+
+
+    Cheers!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-07-08 06:55:54'
+  body: 'Dear Pierre,
+
+
+    Wow, congratulations, you persevered and succeeded, fantastic!
+
+
+    The link you specified does not work. There is an extra character at the end.
+    This one does:
+
+
+    <a href="http://discussion.autodesk.com/forums/thread.jspa?messageID=6214765">http://discussion.autodesk.com/forums/thread.jspa?messageID=6214765</a>
+
+
+    Oh, I see, this is still for Revit 2009?
+
+
+    I wonder whether anyone has succeeded in launching an external command programmatically
+    in Revit 2010?
+
+
+    Good luck integrating the additional commands!
+
+
+    Cheers, Jeremy.'
+- author: Pierre NAVARRA
+  email: p.navarra@enet-dolowy.fr
+  ip: 82.126.67.53
+  url: http://forums.augi.com/forumdisplay.php?f=953
+  date: '2009-07-08 08:29:28'
+  body: 'Thx for correcting the link Jeremy.
+
+    Yes, still for RAC2009.
+
+    Here, we still waiting until we updrage to RAC2010.
+
+
+    Cheers and thx a lot for all.'
+- author: Adam
+  email: Adam@digirati.co.nz
+  ip: 122.56.193.34
+  url: ''
+  date: '2009-10-01 08:54:21'
+  body: 'Hey Jeremy,
+
+    thanks for the article. Do you think I could use this method to relead the keynotes
+    file given the fact that it can only be done throug the ui and doesn''t appear
+    to be able to be released throgh the API? Thanks adam'
+- author: Jeremy Tammik
+  email: ''
+  ip: ''
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-10-01 12:17:43'
+  body: 'Dear Adam,
+
+
+    Sure sounds like it to me. It might be easiest to try it out with a journal file
+    or some Windows keyboard simulator first, though. You might have a look at the
+    other posts mentioned in the discussion on exporting an IFC file:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/05/vb-samples-and-other-questions.html#1">http://thebuildingcoder.typepad.com/blog/2009/05/vb-samples-and-other-questions.html#1</a>
+
+
+    Good luck with your project!
+
+
+    Cheers, Jeremy.'
+- author: Rajeswara Rao
+  email: rajesh@cadsindia.dom
+  ip: 124.124.54.130
+  url: ''
+  date: '2010-07-20 00:43:08'
+  body: 'Dear Jeremy,
+
+
+    Is it possible to open the Project Information Dialog using SendKeys.SendWait("{F10}{N}{PI}");
+    in Revit 2011.
+
+
+    Thanks,
+
+    Rajesh'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.136.146
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-07-20 01:34:55'
+  body: 'Dear Rajeswara,
+
+
+    I don''t know, you tell me. Does it work for you?
+
+
+    Cheers, Jeremy.'
+- author: abidrahmat
+  email: nor.abidah.rahmat@simedarby.com
+  ip: 58.26.82.158
+  url: ''
+  date: '2010-11-02 03:42:03'
+  body: "Hi Jeremy,\n\nCurrently, I developed an application to get some building\
+    \ information from revit model. My idea is within the application, users are allowed\
+    \ open revit model.\nAn revit API will trigger that Revit software is opening\
+    \ using function \nOnStartup(UIControlledApplication controlled_app):\n\npublic\
+    \ Result OnStartup(UIControlledApplication io_controlled_application)\n{\ntry\n\
+    {\nio_controlled_application.ControlledApplication.DocumentOpened += new EventHandler(ApplicationDocumentOpened);\n\
+    }\ncatch(Exception)\n{\nreturn Autodesk.Revit.UI.Result.Failed;\n}\n\nreturn Result.Succeeded;\n\
+    }\n\npublic void ApplicationDocumentOpened(object io_sender, DocumentOpenedEventArgs\
+    \ io_args)\n{\n//extract information\n\nTaskDialogResult taskDialogResult = TaskDialog.Show(\"\
+    Extract Building Information\", \"Building Information successfully extracted\"\
+    , TaskDialogCommonButtons.Ok);\n\nif (taskDialogResult == TaskDialogResult.Ok)\n\
+    {\nSystem.Diagnostics.Process.GetCurrentProcess().CloseMainWindow(); \n}\n}\n\n\
+    It will success if i didnt set WindowStyle to \"Hidden\".\nOtherwise it will hang\
+    \ and i need to close revit application via TaskManager.\n\nWhat should I do?\
+    \ Did I missed something?"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-11-02 10:33:56'
+  body: "Dear Abidrahmat,\n\nThe Revit API is designed to only work within very specific\
+    \ contexts, as explained in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/04/asynchronous-api-calls-and-idling.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/04/asynchronous-api-calls-and-idling.html</a>\n\
+    \nCalling CloseMainWindow() from within a Revit callback is certain to upset Revit\
+    \ very much indeed!\n\nCheers, Jeremy."
+- author: Hector Diaz
+  email: hedg79@hotmail.com
+  ip: 190.46.249.176
+  url: ''
+  date: '2011-06-03 15:48:43'
+  body: "Dear Jeremy, I hope everything’s going well with you. I wonder if Autodesk\
+    \ Revit 2011 has a Batch Mode or the “Command Line Interface”. If it’s right,\
+    \ How can I access to the Revit´s Batch Mode?. \nOn the other hand, I wonder as\
+    \ well, if a Revit file can be opened and managed from MS Excel or another application,\
+    \ suppose I’d like to change some model’s parameters from excel without opening\
+    \ Revit and when I open the file in Revit, it’s is updated, is it possible? \n\
+    Thank you so much for your help\nSincerely, \nHéctor Díaz"
+- author: Jeremy Tammik
+  email: ''
+  ip: 188.105.93.34
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-05 14:29:19'
+  body: 'Dear Héctor,
+
+
+    Revit does not offer a command line or anything like that.
+
+
+    The only very remotely similar functionality is provided by the journal file.
+    That is not officially supported for any customisation purposes.
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/07/journal-file-replay.html">http://thebuildingcoder.typepad.com/blog/2009/07/journal-file-replay.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/07/external-command-replay.html">http://thebuildingcoder.typepad.com/blog/2009/07/external-command-replay.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/07/ifc-import-and-conversion-journal-script.html">http://thebuildingcoder.typepad.com/blog/2010/07/ifc-import-and-conversion-journal-script.html</a>
+
+
+    Another option might be the Revit Python shell. That is the closest thing to a
+    command line that I am aware of:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/12/revit-python-shell.html">http://thebuildingcoder.typepad.com/blog/2009/12/revit-python-shell.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/03/dynamically-load-and-debug-plugins.html">http://thebuildingcoder.typepad.com/blog/2010/03/dynamically-load-and-debug-plugins.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/03/adding-noncommands-to-the-revit-ribbon.html">http://thebuildingcoder.typepad.com/blog/2010/03/adding-noncommands-to-the-revit-ribbon.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/09/access-to-curtain-grid-panels.html">http://thebuildingcoder.typepad.com/blog/2010/09/access-to-curtain-grid-panels.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/11/unit-testing-in-revit.html">http://thebuildingcoder.typepad.com/blog/2010/11/unit-testing-in-revit.html</a>
+
+
+    Cheers, Jeremy.
+
+
+    -----'

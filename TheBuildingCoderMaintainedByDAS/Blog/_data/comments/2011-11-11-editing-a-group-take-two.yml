@@ -1,0 +1,138 @@
+comments:
+- author: JF
+  email: jf.dupuis@pomerleau.ca
+  ip: 206.162.171.11
+  url: ''
+  date: '2012-08-21 15:45:21'
+  body: "HI,\n\nI'm triing to move several instances of a group.  Before I move a\
+    \ group I have to ungroup and move it, but the problem is that when I do this\
+    \ code:\nGroup grpNew = doc.Create.NewGroup( \n      newgrpElements );\n \n  \
+    \  // Access the name of the previous group type \n    // and change the new group\
+    \ type to previous \n    // group type to retain the previous group \n    // configuration\n\
+    \ \n    FilteredElementCollector coll \n      = new FilteredElementCollector(\
+    \ doc )\n        .OfClass( typeof( GroupType ) );\n \n    IEnumerable<GroupType>\
+    \ grpTypes \n      = from GroupType g in coll \n        where g.Name == name select\
+    \ g;\n \n    grpNew.GroupType = grpTypes.First<GroupType>();\n\nthe instances\
+    \ of the group are move but there orientation that was different from each others\
+    \ before the “ungroup, move and regroup” is all return to the original orientation\
+    \ of the group.  \n   \nSo I tried to only change the name of the group instead\
+    \ of the GroupType. This time the orientation of the instances is good, all the\
+    \ instances have kept there orientation but this time the problem is that when\
+    \ I want to regroup these instances after a move, instead of having one group\
+    \ and several instances of this group, I get a new group for each instances of\
+    \ this group. Do you think of a way to solve that?\n\nThanks!\nSorry for my english"
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.8
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-08-22 07:01:20'
+  body: 'Dear Jf,
+
+
+    Your English is just fine!
+
+
+    I think that just changing the name is definitely the wrong approach.
+
+
+    If you have multiple instances with different orientations, and they lose their
+    orientation when you update their group type, then the solution is pretty obvious:
+    iterate over all instances and make a note of their desired orientation. Then
+    change the type, and iterate over them again to fix the orientation as required.
+
+
+    Cheers, Jeremy.'
+- author: JF
+  email: jf.dupuis@pomerleau.ca
+  ip: 206.162.171.11
+  url: ''
+  date: '2012-08-23 11:37:04'
+  body: "Hi Jeremy, \nThanks for the tips. Your blog is very helpful!\n\nI have another\
+    \ problem:\nI tried to retrieve the rotation of the instances of my group with\
+    \ this code:\n\ndouble Rotati = 0;\nforeach (ElementId id in ids)\n{\n   Element\
+    \ e = CachedDoc.GetElement(id);\n\n   if (e.Group != null)\n   {\n      i++;\n\
+    \      LocationPoint Groupe_Emplacement = e.Group.Location as LocationPoint;\n\
+    \      Groupe_Emplacement = e.Group.Location as LocationPoint;\n      Rotati =\
+    \ Groupe_Emplacement.Rotation;\n   }\n…\n\nBut I can’t retrieve the rotation parameter?\
+    \ Is it possible to retrieve the rotation angle of a group? I also tried with\
+    \ an element of the group but same result...  Each time it gives me an error.\
+    \ \n\nSince I wasn’t able to get the rotation angle I didn’t try to rotate the\
+    \ new groups but I suppose that I won’t be able to rotate them if it isn’t possible\
+    \ to move them?\n\nThanks, JF"
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.8
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-08-23 11:59:02'
+  body: 'Dear Jf,
+
+
+    Est-ce que ça veut dire Jean-François?
+
+
+    Thank you for your appreciation.
+
+
+    I have not tried to access the rotation of a group, so I''ll take your word for
+    it.
+
+
+    I would tend to agree that if you can''t move them, then rotating them will not
+    be possible either.
+
+
+    For what little it is worth...
+
+
+    Cheers, Jeremy.'
+- author: Ning Zhou
+  email: superjoe302@yahoo.ca
+  ip: 203.117.217.147
+  url: ''
+  date: '2013-02-04 03:15:00'
+  body: 'hi Jeremy,
+
+
+    i just noticed the group instances created from array command cannot be swapped
+    to old group type sucessfully, i mean the last step you mentioned:
+
+    . Change the new group type to the old group type
+
+
+    it simply throw exception, i can no longer have old group type like "Array Group
+    1", my current workaround is to rename new types to something like "Array Group
+    1_1", "Array Group 1_2", "Array Group 1_3", etc.
+
+
+    did i miss something or is there a better solution? thanks.
+
+
+    Ning'
+- author: Christopher Mckeown
+  email: ''
+  ip: 203.28.167.26
+  url: http://profile.typepad.com/christophermckeown
+  date: '2013-02-26 01:16:48'
+  body: "Hi Jeremy, I have been playing with groups in the family editor with strange\
+    \ results. \n(1) I can't seem to build a group that contains an extrusion and\
+    \ a model line \n(2) if i create a new group of extrusions and then select it...\n\
+    \nGroup grpExisting = doc.GetElement(uidoc.Selection.PickObject(Autodesk.Revit.UI.Selection.ObjectType.Element,\
+    \ \"Select an existing group\")) as Group;\nstring name = grpExisting.Name;\n\n\
+    The name ends up as \"Group 1 (members excluded)\" instead of Group 1"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-29 10:53:52'
+  body: 'Dear Christopher,
+
+
+    Yes, I agree that sounds strange. Does issue (1) affect only the API, or only
+    the user interface, or both? Does it hinder you in any way? What are you actually
+    trying to achieve? For issue (2), I basically have the same questions. And for
+    both, I have no answers at all off-hand.
+
+
+    Cheers, Jeremy.
+
+    -----'

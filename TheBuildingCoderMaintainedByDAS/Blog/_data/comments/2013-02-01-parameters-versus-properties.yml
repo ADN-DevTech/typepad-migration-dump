@@ -1,0 +1,69 @@
+comments:
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2013-02-01 05:36:01'
+  body: 'Hi Jeremy,
+
+
+    some notices:
+
+
+    I found out that there could be the case that Element.Level property is null while
+    a Level parameter contains a *valid* value.
+
+
+    Also, think of the fact that the BuiltInParameter (for displaying the Level) may
+    be depending on Element''s type and/or Category.
+
+
+    Type Area''s level is represented by BIP.ROOM_LEVEL_ID, for example...
+
+
+    "ROOM" !? It''s the same with the BIP.DOOR_COST parameter (which can be found
+    by elements which aren''t doors at all).
+
+
+
+    Cheers,
+
+    Rudolf'
+- author: Aleksey
+  email: aleksey.antonoff@gmail.com
+  ip: 212.164.165.123
+  url: ''
+  date: '2013-05-14 12:09:43'
+  body: 'Hi Jeremy,
+
+    I have created a family of elements and asked them the dimension values (width,
+    hight, lenght and volume).
+
+
+    <a href="https://docs.google.com/file/d/0B-mguLjIXRoQSXRvQ3o3TGQ2Sjg/edit?usp=sharing">https://docs.google.com/file/d/0B-mguLjIXRoQSXRvQ3o3TGQ2Sjg/edit?usp=sharing</a>
+
+
+    They are displayed only in the type properties.
+
+    How do I get these values? (C#, Revit 2011)'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-05-14 13:07:40'
+  body: 'Dear Aleksey,
+
+
+    To query the type properties instead of the instance ones, retrieve the parameter
+    from the type element instead of the instance element.
+
+
+    This is demonstrated in numerous places, e.g. by the BipChecker:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/01/built-in-parameter-enumeration-duplicates-and-bipchecker-update.html">http://thebuildingcoder.typepad.com/blog/2013/01/built-in-parameter-enumeration-duplicates-and-bipchecker-update.html</a>
+
+
+    Cheers, Jeremy.
+
+    -----'

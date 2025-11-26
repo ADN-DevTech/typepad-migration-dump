@@ -1,0 +1,71 @@
+comments:
+- author: abidrahmat
+  email: nor.abidah.rahmat@simedarby.com
+  ip: 58.26.82.158
+  url: ''
+  date: '2010-11-21 23:32:39'
+  body: 'Hi Jeremy,
+
+
+    Is it possible to change project information id?
+
+    How Revit generate this id?
+
+    Is it possible that Revit generate the same id to different project?
+
+
+    Thank you,
+
+
+    abidrahmat'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-11-22 08:07:44'
+  body: 'Dear Abidrahmat,
+
+
+    What exactly is the ''project information id'' for you?
+
+
+    There is no mention of any such thing in the Revit API help file or developer
+    guide.
+
+
+    Cheers, Jeremy.'
+- author: abidrahmat
+  email: nor.abidah.rahmat@simedarby.com
+  ip: 58.26.82.158
+  url: ''
+  date: '2010-11-22 20:29:19'
+  body: 'Hi Jeremy,
+
+    Sorry for not being detailed.
+
+    In Revit, each element has ID including ProjectInformation table (I got it after
+    export into database). The ProjectInformation shall keep ProjectIssueDate, ProjectStatus,
+    ClientName, ProjectAddress, ProjectName, ProjectNumber, DocumentGUID value.
+
+    I read in the Revit''s forum; it said that there are possibility that another
+    element in a different model may have element with the same id.
+
+    My application need to store a few model in one database and the id should be
+    unique.
+
+    In that forum, it did mention about "unique id".
+
+    Do I need to add one more parameter in model to keep unique id? Or I can simply
+    change the element id?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-11-23 09:19:19'
+  body: "Dear Abidrahmat,\n\nI would suggest that you read the Revit API help file\
+    \ RevitAPI.chm. It says:\n\nElement.UniqueId Property \n\nThe UniqueId can be\
+    \ used to store an identifier in an external database and to retrieve the exact\
+    \ same element in the future if it still exists. This id can be passed the to\
+    \ the Document Element property to retrieve the element. The UniqueId is stable\
+    \ across upgrades and workset operations such as save to central, whereas the\
+    \ Autodesk::Revit::DB::ElementId^ property may change.\n\nCheers, Jeremy.\n-----"

@@ -1,0 +1,166 @@
+comments:
+- author: Ritish
+  email: ritish.d@idsil.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2010-10-13 09:09:44'
+  body: "Hi Jeremy,\n\nI am using revit api 2010 to filter the furniture in a room.\
+    \ I am using below code function:\n\npublic static void getFurniture(Autodesk.Revit.Application\
+    \ revitApp, string sRoomNumber)\n        {\n            Filter filterType = revitApp.Create.Filter.NewTypeFilter(typeof(FamilySymbol));\n\
+    \            Filter filterFamilyName = revitApp.Create.Filter.NewFamilyFilter(BuiltInCategory.OST_Furniture.ToString());\n\
+    \            Filter filter = revitApp.Create.Filter.NewLogicAndFilter(filterType,\
+    \ filterFamilyName);\n            ElementArray elementList = new ElementArray();\n\
+    \            int n = revitApp.ActiveDocument.get_Elements(filter, elementList);\n\
+    \                       \n        }\n\nIn the above code, I don't know why but\
+    \ the value for integer n is coming null. But furniture is there in room.\nWill\
+    \ you please suggest how can i be able to get the furniture information in the\
+    \ room?\nI am using revit api 2010 with c#.\n\nThanks in advance\nRitish"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-10-15 12:00:14'
+  body: "Dear Ritish,\n\nThank you for your query.\n\nFirst of all, I would recommend\
+    \ that you get your customer or yourself to move to Revit 2011, if that is possible.\
+    \ I guess that may not be easy, or you would have done so already?  :-)\n\nSecondly,\
+    \ if you have placed family instances into a room in the Revit model and wish\
+    \ to retrieve these, then you should be searching for family instances, not family\
+    \ symbols, as your code above does.\n\nFiltering for family instances instead\
+    \ like this may help:\n\n  TypeFilter elementOnlyFilter = collector.NewTypeFilter(\
+    \ typeof( FamilyInstance ) );\n\nOnce you have retrieved a family instance with\
+    \ the furniture category, you can use its location point property and check whether\
+    \ the point is contained in the room's bounding box, or better still use the Room.IsPointInRoom\
+    \ method to determine the furniture contained in a given room.\n\nI hope this\
+    \ helps.\n\nCheers, Jeremy."
+- author: Sandeep
+  email: sdpatil.1984@rediffmail.com
+  ip: 122.200.17.210
+  url: ''
+  date: '2010-12-16 05:00:49'
+  body: "Hi Jeremy,\nThank you very much for posting very useful article for retrieving\
+    \ elements from Specific room.\n\nHere there is an error by using below code directly,\n\
+    \nFilteredElementCollector collector = new FilteredElementCollector( doc );\n\n\
+    without applying filter\n\nso i used this as below,\n\nList array = new List();\n\
+    FilteredElementCollector roomElementcollector = new FilteredElementCollector(commandData.Application.ActiveUIDocument.Document);\
+    \     \n                            array.AddRange(roomElementcollector.WherePasses(roomElementfilter).ToElements());\n\
+    \nhere roomElementfilter is \"ElementParameterFilter\" as in post.\nAnd then i\
+    \ used \"foreach\" statement\n\nAnd problem get sorted out.\n\nThanks\nSandeep"
+- author: Jeremy Tammik
+  email: ''
+  ip: 151.20.69.20
+  url: http://profile.typepad.com/jeremytammik
+  date: '2010-12-18 13:17:25'
+  body: 'Dear Sandeep,
+
+
+    Thank you very much for noticing and pointing this out!
+
+
+    I added ''WherePasses( filter )'' to the code for ''Retrieving Elements in a Specific
+    Room'' above, and I hope it is correct now.
+
+
+    Cheers, Jeremy.'
+- author: Sandeep
+  email: sdpatil.1984@rediffmail.com
+  ip: 122.200.17.210
+  url: ''
+  date: '2010-12-22 09:52:10'
+  body: 'Hi Jeremy,
+
+    Yes the code is correct :). I am just trying to finding out some situation to
+    get elements from room when we have same room number even same room name.
+
+
+    Thanks again
+
+    Sandeep'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2010-12-23 02:53:33'
+  body: 'Dear Sandeep,
+
+
+    Yes, it is correct now that I added a line of code that was missing until you
+    pointed it out. Thank you again for that. Good luck with your room checker!
+
+
+    Cheers, Jeremy.'
+- author: Sandeep
+  email: sdpatil.1984@rediffmail.com
+  ip: 115.240.93.202
+  url: ''
+  date: '2010-12-23 13:33:08'
+  body: 'Hi Jeremy,
+
+    Thank you for adding me on facebook.
+
+    For room checker i got the logic and it will go as like, checking room element
+    for particular room id which is very unique to identify irrespective of the "room
+    number" for two rooms are same.
+
+    And finally it worked.
+
+
+    Thanks,
+
+    Sandeep'
+- author: Kristoffer
+  email: kkv@selvaag.no
+  ip: 93.190.80.105
+  url: ''
+  date: '2011-11-01 11:44:36'
+  body: 'Jeremy,
+
+
+    I''ve been following your recipe for finding elements in specific rooms with great
+    success. However, recently I''ve been given a Revit model with one more phase
+    than what I suspect are the default phases (Existing and New Construction). This
+    new phase has presented me with some problems having to do with the ToRoom/FromRoom
+    properties of doors and windows, and Room property of all FamilyInstances.
+
+
+    The issue is that in the presence of this new, later phase, these three properties
+    become null (because the rooms/family instances are created in an earlier phase),
+    and I have to use the get_xx methods with the current phase as an argument to
+    get the useful values. And the filter-based method to retrieve elements in a room
+    stops working.
+
+
+    I have not been able to understand how to incorporate the phase in the filter-utilizing
+    code that you supplied in this blog entry. I think it will involve the ElementPhaseStatusFilter,
+    but cannot see how. Could you help?
+
+
+    As an aside, I''m a little confused by phases which makes me worried that I''ve
+    misunderstood how to use this part of the API, so I''d like to just run some questions
+    by you:
+
+
+    I don''t really understand why the relationship between the (e.g.) doors and rooms
+    "breaks" just because a new phase is added. I would think that only if an object
+    is demolished should this occur? In other words, if a room and a door are created
+    in phase New Construction, why doesn''t the relationship between them as captured
+    in the From/ToRoom property carry over into a new phase if neither of these objects
+    are demolished? A consequence of the current functionality, as far as I can tell,
+    is that the three properties in question are of little use to the developer, since
+    a Revit model may have any number of phases added after the one in which the room/door
+    are created. Wouldn''t it be better then to remove these properties and only provide
+    the get-methods?
+
+
+    Thanks!
+
+
+    Kristoffer'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.146.16
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-11-01 18:16:21'
+  body: "Dear Kristoffer, \n\nThis behaviour does not sound correct. How is the new\
+    \ phase added? Does this have anything to do with the API or are the phase properties\
+    \ the same when viewed through the Properties dialog in the Revit UI?\n\nCheers,\
+    \ Jeremy.\n-----"

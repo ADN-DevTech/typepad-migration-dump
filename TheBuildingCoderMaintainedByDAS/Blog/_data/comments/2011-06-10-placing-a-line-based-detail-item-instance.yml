@@ -1,0 +1,88 @@
+comments:
+- author: Mike
+  email: stealthnyc@gmail.com
+  ip: 69.86.10.73
+  url: ''
+  date: '2013-10-06 17:49:02'
+  body: 'Hi Jeremy,
+
+    I''ve been trying to place a line-based Generic model on the floor plan''s active
+    workplane.  I thought "Reference, Line, FamilySymbol" would work but the Reference
+    has to be to a face.  I''m not sure what then the difference is between "Reference,
+    Line, FamilySymbol" and "Face, Line, FamilySymbol".  I tried using the level as
+    reference but didn''t seem to work.  Any thoughts?  Thanks.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.210.243
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-10-07 02:00:45'
+  body: 'Dear Mike,
+
+
+    I can only repeat the same suggestion as always: explore how it works manually,
+    look at the results and resulting relationships in RevitLookup.
+
+
+    When working with families, it always helps to define such a family yourself so
+    you understand it properly ''from the other end'' as well.
+
+
+    You can test which NewFamilyInstance overload works by testing all possibilities
+    like this:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/11/place-site-component.html">http://thebuildingcoder.typepad.com/blog/2010/11/place-site-component.html</a>
+
+
+    Here are other explorations in the area:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/01/newfamilyinstance-overloads.html">http://thebuildingcoder.typepad.com/blog/2011/01/newfamilyinstance-overloads.html</a>
+
+
+    Oh, and definitely do not forget to look at the family placement type property
+    via Family.FamilyPlacementType.
+
+
+    Cheers, Jeremy.'
+- author: Mike
+  email: stealthnyc@gmail.com
+  ip: 69.86.10.73
+  url: ''
+  date: '2013-10-13 09:24:57'
+  body: Thanks Jeremy, I missed your overloads post and it helped.  Using "Curve,
+    FamilySymbol, Level, StructuralType" worked for my line-based Generic Model component.
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.192.55
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-10-14 08:04:48'
+  body: 'Dear Mike,
+
+
+    Thank you for your appreciation and confirmation.
+
+
+    I am very glad it helped.
+
+
+    Cheers, Jeremy.'
+- author: Frank Halliday
+  email: frankhalliday@gmail.com
+  ip: 115.64.197.13
+  url: ''
+  date: '2014-09-05 07:20:12'
+  body: 'Jeremy,
+
+    When you use the term line-based details, are you talking about the two point
+    click detail component family? I am using a standard detail component in a view
+    and the component is being rotated cyclicly every 4 elevation views within the
+    same elevation mark. is this anything to do with my detail family template not
+    being line-based?
+
+
+    cheers,
+
+    fabs
+
+    -----'

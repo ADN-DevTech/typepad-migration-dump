@@ -1,0 +1,89 @@
+comments:
+- author: Vilo
+  email: vilo176@gmail.com
+  ip: 92.103.238.133
+  url: ''
+  date: '2015-03-18 04:42:36'
+  body: 'Hi Jeremy,
+
+
+    Thanks a lot for this blog post, and for having completed my comment with very
+    useful extra elements :o)
+
+
+    The use of "ExternalEvent" mechanism is, indeed, the way to go to re-enter a valid
+    Revit context (that''s what I''m using).
+
+
+    By the way, as I stated in my comments, this method gives great overall results,
+    but fails in one situation : multiple homogeneous selections where selections
+    3+ may not trigger the event.
+
+
+    To solve this issue, I think there may be something to do with the StatusBar.
+
+
+    As you may have noticed, when the user select/deselect any object in the model,
+    the small "filter icon" at the end of the statusbar changes to reflect the number
+    of selected items (i.e. text changes from ":0" to ":1" and so on).
+
+
+    If we were able to get access to this statusbar button, and be notified when its
+    text changes, I think this could be the ultimate solution.
+
+
+    The bad news is that UI Automation (AdWindows.dll) does not expose the statusbar
+    control ...
+
+
+    The only trick I see would be to create a HOOK to monitor messages for this very
+    button, but I don''t want to go to the dark side of the force.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-03-24 06:00:27'
+  body: 'Dear Vilo,
+
+
+    Thank you again for initiating all this, and for your important observations regarding
+    the multiple selection issue.
+
+
+    Actually, I think the status bar is very well accessible using UI Automation,
+    and, unless I misunderstood, Revitalizer alias Rudolf Honke just demonstrated
+    how to do so to list and switch design options:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2015/03/list-and-switch-design-options-using-ui-automation.html">http://thebuildingcoder.typepad.com/blog/2015/03/list-and-switch-design-options-using-ui-automation.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Vilo
+  email: vilo176@gmail.com
+  ip: 92.103.238.133
+  url: ''
+  date: '2015-03-31 03:49:17'
+  body: 'Yes indeed Jeremy,
+
+
+    The example shows how to get access to StatusBar, but through standard windows
+    API and Handles, not through AdWindows.
+
+
+    Sadly, accessing the StatusBar via AdWindows mechanism is (as far as I can say)
+    mandatory to be able to add an event listener through "PropertyChanged".
+
+
+    Accessing it via Handles, as I stated above, can grant us the possibility to place
+    a system wide Hook to monitor text change.
+
+    But this is a far uglier solution that may lead to other problems (harder to code,
+    slower, not reliable, etc ...).'
+- author: Jeremy Tammik
+  email: ''
+  ip: 2.10.56.221
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-03-31 04:11:27'
+  body: "Dear Vilo,\n\nRight you are. Well, well...\n\nThank you for the clarification!\
+    \ \n\nCheers, Jeremy.\n-----"

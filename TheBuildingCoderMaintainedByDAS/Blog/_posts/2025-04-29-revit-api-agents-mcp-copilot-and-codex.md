@@ -1,0 +1,267 @@
+---
+layout: "post"
+title: "Revit API Agents, MCP, Copilot and Codex"
+date: "2025-04-29 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "AI"
+  - "ChatGPT"
+  - "Git"
+  - "LLM"
+  - "Markdown"
+  - "MCP"
+  - "News"
+  - "Philosophy"
+  - "Prompt"
+original_url: "https://thebuildingcoder.typepad.com/blog/2025/04/revit-api-agents-mcp-copilot-and-codex.html "
+typepad_basename: "revit-api-agents-mcp-copilot-and-codex"
+typepad_status: "Publish"
+---
+
+<p>We live in exciting times, and AI is growing more widespread and useful in the AEC, BIM and even Revit API arena.</p>
+
+<p>I have used GitHub Copilot in VS Code for Revit API add-in coding and installed OpenAI Codex myself.</p>
+
+<p>A long list of topics, many of them just short pointers, ranging through trends and statistics, agentic AI, MCP, new models and technologies,</p>
+
+<ul>
+<li><a href="#2">Global AI statistics and charts</a></li>
+<li><a href="#3">AI challenges for complex app coding</a></li>
+<li><a href="#4">What is agentic AI?</a></li>
+<li><a href="#5">MCP gaining traction</a></li>
+<li><a href="#6">MCP server for Fusion</a></li>
+<li><a href="#7">Revit MCP</a></li>
+<li><a href="#8">GPT prompting guide</a></li>
+<li><a href="#9">OpenAI o3, o4-mini and Codex</a></li>
+<li><a href="#10">M$ AI packages, VS Code and Codex</a></li>
+<li><a href="#11">Codex analyses Revit add-in</a></li>
+<li><a href="#12">Gemini ranks high</a></li>
+<li><a href="#13">Chef generates and launches full stack</a></li>
+<li><a href="#14">DeepWiki analyses all GitHub repos</a></li>
+<li><a href="#15">MarkItDown converts anything to MD</a></li>
+<li><a href="#16">Postmortem of a startup</a></li>
+<li><a href="#17">Demystifying shebang</a></li>
+</ul>
+
+<h4><a name="2"></a> Global AI Statistics and Charts</h4>
+
+<p>I found
+the <a href="https://hai.stanford.edu/news/ai-index-2025-state-of-ai-in-10-charts">AI Index 2025: State of AI in 10 Charts</a> presents
+some very interesting statistical news on global AI development and trends.</p>
+
+<h4><a name="3"></a> AI Challenges for Complex App Coding</h4>
+
+<p>Looking critically at AI usage is also vital, like this article explaining how to handle challenges using AI for complex app coding:
+<a href="https://sundaylettersfromsam.substack.com/p/vibe-coding-considered-harmful-lego">Vibe coding considered harmful, Lego code instead</a>.</p>
+
+<h4><a name="4"></a> What is Agentic AI?</h4>
+
+<p>A nice comparison of generative versus agentic AI is presented answering
+<a href="https://stackoverflow.blog/2025/04/17/wait-what-is-agentic-ai/?utm_source=braze&amp;utm_medium=email&amp;utm_campaign=the-overflow-newsletter&amp;lid=1saaj6iiq6rt">Wait, what is agentic AI?</a>:</p>
+
+<blockquote>
+  <p>Simply put: Generative AI creates content; agentic AI solves problems on a user’s behalf.</p>
+</blockquote>
+
+<ul>
+<li>Agentic AI is focused on making decisions, not generating content.</li>
+<li>Rather than responding to human prompts like generative AI systems do, agentic AI systems are set to work toward specific goals like maximizing efficiency, boosting customer satisfaction, or increasing sales.</li>
+<li>AI agents can carry out complex sequences of tasks in furtherance of their goals.</li>
+</ul>
+
+<h4><a name="5"></a> MCP Gaining Traction</h4>
+
+<p>The MCP (Model Context Protocol) adoption is gaining significant traction, and it’s increasingly being integrated with A2A (Agent-to-Agent) communication, cf., MCP measured in GitHub stars and A2A interaction:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302e860e8f61b200b-pi"><img class="asset  asset-image at-xid-6a00e553e16897883302e860e8f61b200b img-responsive" alt="MCP GitHub stars" title="MCP GitHub stars" src="/assets/image_613b33.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302c8d3d24130200c-pi"><img class="asset  asset-image at-xid-6a00e553e16897883302c8d3d24130200c img-responsive" alt="A2A interaction" title="A2A interaction"  src="/assets/image_64d9eb.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="6"></a> MCP Server for Fusion</h4>
+
+<p>A Fusion user has implemented an MCP server for Fusion using the M$ Semantic Workbench:</p>
+
+<ul>
+<li><a href="https://github.com/microsoft/semanticworkbench">Semantic Workbench</a></li>
+<li><a href="https://github.com/microsoft/semanticworkbench/tree/main/mcp-servers">MCP servers</a></li>
+<li><a href="https://github.com/microsoft/semanticworkbench/tree/main/mcp-servers/mcp-server-fusion">Fusion MCP server</a></li>
+</ul>
+
+<p>Semantic Workbench is a versatile tool designed to help prototype intelligent assistants quickly.
+It supports the creation of new assistants or the integration of existing ones, all within a cohesive interface.
+The workbench provides a user-friendly UI for creating conversations with one or more assistants, configuring settings, and exposing various behaviours.</p>
+
+<p>The Semantic Workbench is composed of three main components:</p>
+
+<ul>
+<li>Workbench Service (Python): The backend service that handles core functionalities.</li>
+<li>Workbench App (React/Typescript): The frontend web user interface for interacting with workbench and assistants.</li>
+<li>Assistant Services (Python, C#, etc.): any number of assistant services that implement the service protocols/APIs, developed using any framework and programming language of your choice.</li>
+</ul>
+
+<p>Designed to be agnostic of any agent framework, language, or platform, the Semantic Workbench facilitates experimentation, development, testing, and measurement of agent behaviors and workflows. Assistants integrate with the workbench via a RESTful API, allowing for flexibility and broad applicability in various development environments.  The Fusion MCP server can work seamlessly with the Claude MCP client.  We can simply ask Claude to generate 3D models, and it does so automatically in Fusion by utilizing these MCP tools.  The MCP client can utilise basic tools to create 3D models. Its capabilities can be expanded by developing additional tools and providing comprehensive Python API documentation as a resource for the MCP server. The fusion server available is open source and can be simply setup on the machine.  The different MCPs are implemented by different independent engineers, e.g., the Fusion one is by a Fusion user! Great to see the potential power of MCP for such a complex UI as Fusion. MCP achieves things that otherwise would have taken months of learning for a newbie. This may remove the learning curve for using any of the design software in this space and thus anyone can move to any other software as well. Looks like one of the reasons for sticking to one software is taken away for good. This essentially commoditises all CAD software. Given the goal of MCP of becoming something of a "natural language USB for software", the need for traditional UX diminishes for a large proportion of users. Will this also hold true for power users?</p>
+
+<h4><a name="7"></a> Revit MCP</h4>
+
+<p>The <a href="https://github.com/revit-mcp">revit-mcp GitHub organisation</a> provides
+a framework that implements the MCP protocol based on Autodesk Revit software.
+It enables AI conversation clients compatible with the MCP protocol to drive Revit.
+Example and the three main project components:</p>
+
+<ul>
+<li><a href="https://youtu.be/mUJGSjQHBm8">ColorSplash</a> example</li>
+<li><a href="https://github.com/revit-mcp/revit-mcp">revit-mcp</a>: Connects with AI conversation clients. Responsible for providing executable functions to the AI conversation client and communicating with Revit.</li>
+<li><a href="https://github.com/revit-mcp/revit-mcp-plugin">revit-mcp-plugin</a>: This is a Revit plugin used to receive AI commands, load command sets, and execute specific functions.</li>
+<li><a href="https://github.com/revit-mcp/revit-mcp-commandset">revit-mcp-commandset</a>: Command sets are actual executable commands wrapped based on Revit external events. Developers can add functionality to the command set or customize their own work sets.</li>
+</ul>
+
+<h4><a name="8"></a> GPT Prompting Guide</h4>
+
+<p>You may find
+the <a href="https://platform.openai.com/docs/guides/text?api-mode=responses#prompting-gpt-4-1-models">prompting guide for GPT-4.1 models</a> useful.
+While the cookbook provides a comprehensive guidance for prompting this model, this guide shares a few best practices to keep in mind in the following areas:</p>
+
+<ul>
+<li>Building agentic workflows</li>
+<li>Using long context</li>
+<li>Prompting for chain of thought</li>
+<li>Instruction following</li>
+</ul>
+
+<h4><a name="9"></a> OpenAI o3, o4-mini and Codex</h4>
+
+<p><a href="https://youtu.be/sq8GBPUb3rk">OpenAI o3 and o4-mini</a> impress coders and scientists.
+Open AI Codex coding agent runs locally: <a href="https://x.com/sama/status/1912558495997784441">tweet</a>.
+Here's the quick low-down of 03 and 04mini by Dan Shipper:</p>
+
+<ul>
+<li>It's agentic. Someone at OpenAI referred to o3 as deep research-lite to me, and that's exactly what it is. Set it to do a task, and come back in 30 seconds or three minutes and get a thorough answer. It can use tools like web search, code interpreter, reminders, and memory in a loop so you can have it code complex features, answer tricky research queries over long documents, or even build you a course that it reminds you to take every day.</li>
+<li>It's fast. Speed is a dimension of intelligence. Maybe your model can unify physics, but if it doesn't happen in this lifetime I don't care. In my testing, o3 was consistently faster than Anthropic's and Google's frontline reasoning models (3.7 Sonnet and Gemini 2.5 Pro, respectively) on this dimension. It feels smooth.</li>
+<li>It's very smart. I don't have access to benchmarks as of this writing, but I fed it expert-level Sudoku problems and it solved them on the first try. Gemini 2.5 Pro and 3.7 Sonnet both failed.</li>
+<li>It busts some old Chat GPT limitations. Because it's agentic, the old rules don't apply. You don't have to be as wary of web search because it doesn't summarize the first spam blog post it finds in a Google search. You can give it many files and expect coherent, complete answers —I had it read an entire book and outline it, for example. When you use it for coding it will automatically do multiple searches through the web to find up-to-date documentation, which cuts down errors a lot.</li>
+</ul>
+
+<p>Basically, it makes ChatGPT way more useful.</p>
+
+<ul>
+<li>It's not as socially awkward as 01, and it's not a try-hard like 3.7 Sonnet. I found myself coding with it a lot this weekend, and I really liked it. It understands what you mean and does what it's told to at high quality. It doesn't plow ahead and try to build the Taj Mahal when you tell it to fix a bug, like Sonnet does. It also seems a little more vibe-y than other o-series models. It's more fun to talk to; not as good a writer as GPT 4.5 (RIP) or Sonnet 3.5, but still good.</li>
+</ul>
+
+<h4><a name="10"></a> M$ AI Packages, VS Code and Codex</h4>
+
+<p>Roman <a href="https://t.me/nice3point">@Nice3point</a> Karpovich (<a href="https://www.linkedin.com/in/nice3point/">LinkedIn</a>), aka Роман Карпович,
+principal contributor and maintainer of RevitLookup,
+<a href="https://www.linkedin.com/feed/update/urn:li:activity:7318574255611236353?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7318574255611236353%2C7318581431536959489%29&amp;dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287318581431536959489%2Curn%3Ali%3Aactivity%3A7318574255611236353%29">commented on the last post</a>
+discussing <a href="https://thebuildingcoder.typepad.com/blog/2025/04/intersection-result-llm-for-ifc-and-more-ai.html">intersection result, LLM for IFC and more AI</a>,
+saying:</p>
+
+<p>Microsoft has already prepared great packages for AI, and they can already be used in C#, with just a couple of lines of code:</p>
+
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/dotnet/core/extensions/artificial-intelligence?tabs=dotnet-cli">Artificial intelligence in .NET</a></li>
+<li><a href="https://devblogs.microsoft.com/dotnet/build-a-model-context-protocol-mcp-server-in-csharp/">Build a Model Context Protocol (MCP) server in C#</a></li>
+</ul>
+
+<h4><a name="11"></a> Codex Analyses Revit Add-In</h4>
+
+<p>In the past weeks, I installed Visual Studio Code on MacOS, with GitHub Copilot integrated, and used that for some Revit API work with impressive results.</p>
+
+<p>This morning, I installed OpenAI Codex and asked it to explain the purpose of my current Revit API code WIP.
+I provided one single prompt, six words:</p>
+
+<ul>
+<li>"please explain what this application does"</li>
+</ul>
+
+<p>Here is the answer it provided right out of the box:</p>
+
+<p>This is a small C# /.NET add‑in for Autodesk Revit (a “Revit plug‑in”) whose goal is to let you take an existing plumbing (or HVAC) distribution network in your model—pipes, fittings (elbows, tees, reducers, etc.) and even ducts—and make a full copy of it, displaced to one side. Under the hood it does four main things:</p>
+
+<ul>
+<li><p>Ribbon integration
+&ndash; On startup, it adds an “HVAC System Tools” tab with buttons for</p>
+
+<ul>
+<li>“Find Root Node” (identify the “start” of any piping system)</li>
+<li>“Duplicate Pipe System”</li>
+<li>“Duplicate Duct System”</li>
+<li>(There is also a “Rolling Offset” command for auto‑calculating and inserting a two‑pipe offset with 45° bends.)</li>
+</ul></li>
+<li><p>Graph‑based network traversal
+&ndash; Before duplicating, it walks your existing system and builds a little graph of “nodes” (every pipe segment or fitting) and their “connectors” (endpoints), capturing for each:</p>
+
+<ul>
+<li>Its element id and type (pipe vs. fitting vs. duct)</li>
+<li>Its geometric transform (location, orientation, rotation)</li>
+<li>All the connector points (and which other element they’re linked to)</li>
+<li>Any important parameters (diameter, width/height, family parameters on reducers, etc.)</li>
+</ul></li>
+<li><p>Duplication at offset
+&ndash; In a single TransactionGroup it:</p>
+
+<ul>
+<li>Starts a transaction and creates a copy of every pipe/duct segment at a fixed offset (e.g. +30 ft in X) using the same system type, level, curve endpoints and size parameters.</li>
+<li>Places new family instances for each fitting at the corresponding translated origin, applies the same symbol, size parameters and re‑rotates them so their connector axes line up.</li>
+<li>Commits that transaction.</li>
+</ul></li>
+<li><p>Re‑connecting the network
+&ndash; In a second transaction it revisits every new node, finds on each its closest connector on a neighboring new element (using a tiny distance‑threshold test) and calls the Revit API “ConnectTo” to wire them back up in exactly the same topology as the original.</p></li>
+</ul>
+
+<p>Beyond pure duplication, there are also commands to:</p>
+
+<ul>
+<li>Find and report the “root” element of any PipingSystem (CmdRootFinder + PipeSystemRootFinder).</li>
+<li>Analyze/traverse a piping system and export its graph to disk (PipingSystemAnalyzer → text file).</li>
+<li>Re‑create a piping system from that file (PipeSystemRecreator).</li>
+<li>Compute and insert a two‑pipe rolling offset (CmdRollingOffset), optionally with real fittings or just a model line.</li>
+</ul>
+
+<p>All of this is built on small data classes &ndash; NodeData, ConnectorData, ParamData &ndash; to snapshot each element’s geometry, connectivity and parameters, plus a few utility routines (in Util.cs) to find connectors, compare points, and manage the various Revit API quirks.</p>
+
+<h4><a name="12"></a> Gemini Ranks High</h4>
+
+<p>Currently Gemini is ahead as "best AI", even in the <a href="https://x.com/SaiNemani1/status/1915737273787707809/photo/1">OpenAI listing</a>.</p>
+
+<h4><a name="13"></a> Chef Generates and Launches Full Stack</h4>
+
+<p><a href="https://chef.convex.dev/">Chef</a> by Convex generates full‑stack apps and launches them in realtime.</p>
+
+<h4><a name="14"></a> DeepWiki Analyses All GitHub Repos</h4>
+
+<p><a href="https://deepwiki.com/">DeepWiki</a> indexes
+and documents all GitHub repos:
+Cognition, maker of <a href="https://devin.ai/">Devin</a>,
+recently announced DeepWiki as a free encyclopeadia of all GitHub repos.
+You can replace any public GitHub repo url with:</p>
+
+<ul>
+<li><a href="#14">https://deepwiki.com/org/repo</a></li>
+</ul>
+
+<p>That will produce a remarkably accurate Wikipedia-like description of the library as well as a Devin-backed chatbot on how to use it.</p>
+
+<h4><a name="15"></a> MarkItDown Converts Anything to MD</h4>
+
+<p>For more limited document analysis, Microsoft released
+<a href="https://github.com/microsoft/markitdown">MarkItDown</a>,
+an MCP-integrated LLM tool to convert anything to Markdown.</p>
+
+<h4><a name="16"></a> Postmortem of a Startup</h4>
+
+<p>Are you thinking of starting up something yourself?
+In that case, you might discover some useful hints up front in
+<a href="https://buildwithtract.com/?lid=hqbe3uwdig4y">a postmortem of a startup</a>.</p>
+
+<h4><a name="17"></a> Demystifying Shebang</h4>
+
+<p>Finally, for Unix aficionados, this article discussed an interesting topic that is completely unrelated to AI,
+<a href="https://crocidb.com/post/kernel-adventures/demystifying-the-shebang/">demystifying the #! (shebang)</a></p>

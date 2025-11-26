@@ -1,0 +1,94 @@
+comments:
+- author: S.Kamalanathan
+  email: S.Kamalanathan@live.com
+  ip: 155.63.240.39
+  url: ''
+  date: '2014-07-21 10:53:57'
+  body: 'Hi Jeremy,
+
+
+    I have to do some silent task(like AutoCAD pushDBMode, popDbmod), on opening the
+    revit project file. I meant to say that save confirmation dialog should not occur,
+    because of my task.
+
+
+    Is it possible to do like this?
+
+
+    S.Kamalanathan'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.214.151
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-07-21 11:23:43'
+  body: 'Dear S. Kamalanathan,
+
+
+    Yes, of course this is possible.
+
+
+    Here is a whole bunch of discussions on topics related to detecting and handling
+    dialogues and failures:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.32">http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.32</a>
+
+
+    Cheers, Jeremy.'
+- author: S.Kamalanathan
+  email: S.Kamalanathan@live.com
+  ip: 155.63.240.39
+  url: ''
+  date: '2014-07-21 23:58:49'
+  body: "Hi Jeremy,\n\nThank you so much for the quick reply.\n\nSorry my words are\
+    \ not clear, I think so.\n\nPlease refer the following case in AutoCAD:\n1. Open\
+    \ the drawing.\n2. On Document_Created event do the following task.\n    PushDbMod\
+    \ -> do some task -> popDbMod.\n3. If the close the drawing, No confirmation will\
+    \ be asked, also the drawing will not saved.\nI mean, the \"upgrade\" task done\
+    \ by us, will be hidded to user.\n\nIs the above case possible(Because in recommended\
+    \ posts will suppress the dialogs or save the drawing)?\n\nSo Sorry, If I am wrong.\n\
+    \nRegards,\nS.Kamalanathan."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.213.90
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-07-22 03:01:56'
+  body: 'Dear S. Kamalanathan,
+
+
+    Thank you for the clarification.
+
+
+    Revit does not provide an equivalent of the AutoCAD DBMOD variable.
+
+
+    In order to modify the Revit model, you need to at least start and commit a transaction.
+
+
+    That will mark the database as modified, and there is no way to suppress that.
+
+
+    Please be aware of the deep and far-reaching paradigm differences between Revit
+    and AutoCAD:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/10/porting-an-autocad-application.html">http://thebuildingcoder.typepad.com/blog/2012/10/porting-an-autocad-application.html</a>
+
+
+    Cheers, Jeremy.'
+- author: S.Kamalanathan
+  email: S.Kamalanathan@live.com
+  ip: 155.63.240.39
+  url: ''
+  date: '2014-07-23 00:32:06'
+  body: 'Hi Jeremy,
+
+
+    I understood. Thank you so much for the clarification.
+
+
+    Regards,
+
+    S.Kamalanathan.
+
+    -----'

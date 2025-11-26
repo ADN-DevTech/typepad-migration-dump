@@ -1,0 +1,280 @@
+---
+layout: "post"
+title: "Sustainability, Lookup, Sub-Elements and Wall Types"
+date: "2023-06-01 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Forma"
+  - "RevitLookup"
+  - "Sustainability"
+  - "Update"
+  - "User Interface"
+original_url: "https://thebuildingcoder.typepad.com/blog/2023/06/sustainability-lookup-sub-elements-and-wall-types.html "
+typepad_basename: "sustainability-lookup-sub-elements-and-wall-types"
+typepad_status: "Publish"
+---
+
+<p>A whole bunch of exciting stuff going on:</p>
+
+<ul>
+<li><a href="#2">Forma sustainability flyer</a></li>
+<li><a href="#3">RevitLookup 2024.0.6</a></li>
+<li><a href="#4">RevitLookup supports previous releases</a></li>
+<li><a href="#5">Modify view workset editable</a></li>
+<li><a href="#6">Selection <code>SetReferences</code></a></li>
+<li><a href="#7"><code>WallType</code> naming best practices</a></li>
+</ul>
+
+<h4><a name="2"></a> Forma Sustainability Flyer</h4>
+
+<p>AU 2022 introduced <a href="https://thebuildingcoder.typepad.com/blog/2022/09/aps-au-and-miter-wall-join-for-full-face.html#3">Forma for AEC</a>.
+Now, its vision is explained further by
+the <a href="https://thebuildingcoder.typepad.com/files/forma_sustainability_flyer.pdf">Forma sustainability flyer</a>:</p>
+
+<blockquote>
+  <p><a href="https://blogs.autodesk.com/forma/2023/05/08/sustainability-solutions">Design a Better Future with Forma’s Suite of Sustainability Solutions</a>:</p>
+  
+  <p>Cities consume more than two-thirds of the world’s energy and account for over 70% of global carbon emissions
+  (<a href="https://unfccc.int/news/urban-climate-action-is-crucial-to-bend-the-emissions-curve#:~:text=Cities%20consume%20over%20two%2Dthirds,Asia%20and%20Sub%2DSaharan%20Africa">source</a>).
+  This means architects, real estate developers, and urban planners have an exceptional opportunity to mitigate the environmental impact of our cities by designing buildings and communities with sustainable outcomes in mind.</p>
+  
+  <p>Sustainable outcomes are best achieved through a proactive, data-driven approach that starts at the earliest stages of design before it becomes costly and difficult to make changes.
+  Autodesk Forma’s powerful suite of real-time analyses equips design teams with the quick, visual insights needed to prioritize sustainability from day one of a project.</p>
+</blockquote>
+
+<h4><a name="3"></a> RevitLookup 2024.0.6</h4>
+
+<p><a href="https://github.com/jeremytammik/RevitLookup/releases/tag/2024.0.6">RevitLookup 2024.0.6</a> has
+been released, bringing a wealth of new and enhanced functionality:</p>
+
+<ul>
+<li>User interface Icons &ndash; a collection of new icons for properties, methods, fields, and events, ensuring a visually appealing representation &ndash; <a href="https://github-production-user-asset-6210df.s3.amazonaws.com/20504884/242402267-ffbba475-e240-4928-bf02-68d8f75cbc4c.png">image</a></li>
+<li>Enhanced Performance with Separate UI Thread &ndash; the RevitLookup user interface now operates in a dedicated thread, independent of Revit's workload. This architectural improvement significantly enhances smoothness and responsiveness.</li>
+<li>New Additional Setting Options &ndash; Introducing a range of new setting options that expand customization capabilities and provide users with greater control over the tool's behaviour</li>
+<li>Enhanced Member Support Options <a href="https://github.com/jeremytammik/RevitLookup/pull/168">#168</a>
+<ul>
+<li>Class fields &ndash; support for displaying class fields, enabling a comprehensive understanding of the class structure &ndash;
+<a href="https://github-production-user-asset-6210df.s3.amazonaws.com/20504884/242403456-a4304fd4-4537-4bd2-8d90-88f46137a55a.png">image</a></li>
+<li>Class events &ndash; support for displaying class events, facilitating better comprehension of event-driven programming within the class &ndash; <a href="https://github-production-user-asset-6210df.s3.amazonaws.com/20504884/242403960-3b7ae347-e7bc-4642-89a0-99cd089f0abe.png">image</a></li>
+<li>Class private members &ndash; ability to visualize and access class private fields, properties, methods, and events, providing a complete overview of the class implementation &ndash; <a href="https://github-production-user-asset-6210df.s3.amazonaws.com/20504884/242406752-4c6e4459-cf2f-4d35-9b03-fe0b259b3c9a.png">image</a></li>
+</ul></li>
+<li>ElementId Redirection to Category &ndash; automatically redirect <code>ElementId</code> to <code>Category</code>, whenever applicable. This simplifies navigation and enhances the user experience</li>
+<li>Content Virtualization &ndash; applied content virtualization to the dashboard and settings page, optimizing performance by efficiently managing large amounts of data and dynamically loading content as needed. This results in a smoother and more efficient user interaction</li>
+</ul>
+
+<p>We still need to discuss which options should be enabled by default;
+so, please share your feedback on the new release in the
+<a href="https://github.com/jeremytammik/RevitLookup">RevitLookup GitHub repository</a>.</p>
+
+<h4><a name="4"></a> RevitLookup Supports Previous Releases</h4>
+
+<p>The new release has 10 assets and thus supports previous releases of Revit all the way back to Revit 2021:</p>
+
+<ul>
+<li>RevitLookup-2021.2.6-MultiUser.msi</li>
+<li>RevitLookup-2021.2.6-SingleUser.msi</li>
+<li>RevitLookup-2022.2.6-MultiUser.msi</li>
+<li>RevitLookup-2022.2.6-SingleUser.msi</li>
+<li>RevitLookup-2023.2.6-MultiUser.msi</li>
+<li>RevitLookup-2023.2.6-SingleUser.msi</li>
+<li>RevitLookup-2024.0.6-MultiUser.msi</li>
+<li>RevitLookup-2024.0.6-SingleUser.msi</li>
+<li>Source code (zip)</li>
+<li>Source code (tar.gz)</li>
+</ul>
+
+<p>Visit the <a href="https://github.com/jeremytammik/RevitLookup/releases">release page</a> to download them.</p>
+
+<h4><a name="5"></a> Modify View Workset Editable</h4>
+
+<p>A nice explanation and succinct solution
+by Richard <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/1035859">RPThomas108</a> Thomas
+and <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/8174024">Jonas Hoyer</a>
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/view-s-workset-editable-change-from-no-to-yes-with-the-api/m-p/11997681">view's workset editable &ndash; change from No to Yes with the API?</a>:</p>
+
+<p><strong>Question:</strong> Can anyone tell me if it's possible to change a view's workset status from "No" to "Yes" (editable) using the Revit API (Revit 2023 or earlier), in this form:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302b68539177f200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302b68539177f200d img-responsive" style="width: 313px; display: block; margin-left: auto; margin-right: auto;" alt="View workset editable" title="View workset editable" src="/assets/image_65064c.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>I searched the Internet and found several similar posts saying it wasn't possible, but they were for much older versions of Revit.
+Thanks in advance!</p>
+
+<p><strong>Explanation:</strong> When you take ownership of a workset, it becomes editable to that user 'Yes'; when you relinquish the workset it reverts to 'No' (which doesn't actually mean you can't edit it).</p>
+
+<p><a href="https://www.revitapidocs.com/2023/39b55560-c85b-bebc-e825-b76b5ba313a7.htm">WorksharingUtils CheckoutWorksets</a> allows
+the user to take ownership of the workset and make them editable to that user.</p>
+
+<p><a href="https://www.revitapidocs.com/2023/09f4e163-cb8f-de87-d641-3ba667adf4e0.htm">RelinquishOwnership</a> allows
+user to decide via RelinquishOptions what is relinquished (given back) including various workset types.</p>
+
+<p>I believe the 'editable' indicator is just a function of if the current user has taken ownership of a certain workset or not, i.e., they can take ownership of a workset for whatever time period to be sole editor of it until they relinquish it.
+The 'Yes/No' is only meaningful when you are the owner of it.
+The interface is probably outdated and contains bad terminology to a certain extent.
+The default is 'No (Non Editable)' meaning everyone can edit items on a workset via borrowing elements (so 'non editable' means you can edit it and so can everyone else).</p>
+
+<p>I believe the only other time it is 'yes' is when you've just created a workset but are yet to synchronise it to central.
+You can't make it 'non editable' available to all users until after you've synchronised it (because it doesn't yet exist in the central file).
+So, under that circumstance, you would have to synchronise then relinquish.
+Similarly, if you wanted to rename a workset you would have to make it 'editable' first.</p>
+
+<p>So, in summary, the 'Editable/Non Editable' aspect should be read as relating to if current user can solely edit the workset or not rather than just being a borrower of elements on a workset.</p>
+
+<p>The 'Owner' column exists separately from the 'Yes/No' one because some types of workset you decide to be the editor/owner of (user created ones) whereas when you create a view the ownership of the view workset is inherently you until synchronised.</p>
+
+<p>Have you tried the <a href="https://www.revitapidocs.com/2023/ae7857a0-4e9b-f9c1-84c7-8b250af68068.htm">WorsharingUtils</a> class for the View worksets in question?</p>
+
+<p>Under certain circumstances described above you will not be able to influence this 'editable/non editable' aspect via the API for a single user because it is related to how two or more people are interacting in a workshared environment, e.g., if someone else owns the workset then you can only ask they relinquish it.</p>
+
+<p>Choosing to take ownership of entire worksets is generally the old way of working before element borrowing was used.
+Mostly, people take ownership just to do infrequent things such as change workset names but that isn't applicable to View worksets.
+They may also take ownership to restrict access but again not for views.</p>
+
+<p><strong>Solution:</strong> To set the editable status of the view workset to <code>yes</code> you have to check out the workset of the view by using
+the <a href="https://www.revitapidocs.com/2023/97f0d4eb-ad2a-ca9d-a896-5144bd68c5a5.htm">CheckoutWorksets</a> method
+of the WorksharingUtils class.
+You can retrieve the <code>WorksetId</code> of the view with the <code>ELEM_PARTITION_PARAM</code> <code>BuiltInParameter</code>.
+Then, you can construct a <code>WorksetId</code> with the returned integer and use that to checkout the view's workset.
+That will set the editable status to yes.
+Hope this helps!</p>
+
+<p>Many thanks to Richard and Jonas for the explanation and solution!</p>
+
+<h4><a name="6"></a> Selection SetReferences</h4>
+
+<p>Since we have not mentioned it before, here is a quick heads-up to a relatively new API method enabling sub-element highlighting:</p>
+
+<p><strong>Question:</strong> After retrieving an element in a linked file via <code>PickObjects</code> with a 'LinkedElement' 'ObjectType', how can I highlight the linked element selected in the current view to achieve the effect of using the TAB key to select the linked element in the UI?</p>
+
+<p><strong>Answer:</strong> Since Revit 2023, you can use the Selection <a href="https://www.revitapidocs.com/2023/813a9d31-bc4f-1ebc-9a7b-69a2a99d22ac.htm"><code>SetReferences</code> method</a> to highlight the references passed in to it.
+A reference can be an element or a subelement in the host or a linked document.</p>
+
+<p><strong>Question:</strong> How about previous releases of Revit?</p>
+
+<p><strong>Answer:</strong> In Revit pre-2023, you only
+have <a href="https://www.revitapidocs.com/2023/813a9d31-bc4f-1ebc-9a7b-69a2a99d22ac.htm">SetElementIds</a>.
+That only enables you to select top-level elements in the host document.
+I am not aware of any other way to select an element from another document in pre-2023 Revit.</p>
+
+<h4><a name="7"></a> WallType Naming Best Practices</h4>
+
+<p>A discussion on best practices naming <code>WallType</code> elements in the thread
+asking <a href="https://forums.autodesk.com/t5/revit-api-forum/is-it-possible-to-change-the-walltype-name-through-api/m-p/11990210">is it possible to change the <code>WallType</code> name through API?</a></p>
+
+<!---
+
+**Question:** Is this possible?
+I am trying to change the WallType for all walls in the selection like this:
+
+
+
+97ab64e3a3eb28e8f445d0b77735bb22
+
+
+
+The above code stopped in the second iteration.
+The first change is successful.
+However, the second iteration throws an exception.
+
+I don't just want to change the WallType.Name, since it will change the name of all walls of the same type.
+I am trying to give each wall a new name.
+
+**Answer:** I see several issues with your code.
+Before addressing those, though, are you absolutely sure that you know what you are doing?
+What you are trying to achieve sounds rather questionable to me.
+Do you have an in-depth understanding of the underlying Revit BIM paradigm and best practices?
+
+Anyway, if you really want to achieve what you say, I have the following suggestions:
+
+I recommend [encapsulating the transaction instantiation in a C# 'using' statement](https://thebuildingcoder.typepad.com/blog/2012/04/using-using-automagically-disposes-and-rolls-back.html).
+
+Furthermore, it will probably clarify and simplify things if you separate the different steps of your operation, instead of lumping them all into one single big iteration, e.g.:
+
+- Iterate over the selection and collect the walls that need updating. Close the iteration.
+- Iterate over excelWallInfo and determine the required wall types. Close the iteration.
+- Open a transaction.
+- Duplicate the required wall types.
+- Iterate over the walls that need modifying and do the dirty deed.
+- Commit the transaction.
+
+--->
+
+<p><strong>Question:</strong> I am thinking in develop a script that changes all walls' types' names based on properties of the wall types.</p>
+
+<p>I sometimes see a name of the type that mentions 30cm Thickness and does not match the real thickness of the wall type, so my script should generate the wall type name based on the function (exterior, interior , etc.), the material of each layer of the wall and thickness and the total wall thickness.</p>
+
+<p>For example, <code>InteriorWall_Concrete-100</code> for a one layer interior wall and 100mm thickness, or, more complex,</p>
+
+<ul>
+<li><code>ExteriorWall_Concrete-100_Bricks-100_200</code></li>
+</ul>
+
+<p>Is that against best practices?</p>
+
+<p>That plugin would avoid having different naming systems and ensure that the name of the type matches the real properties... sounds a crazy thing for you? or super complicated task?</p>
+
+<p><strong>Answer 1:</strong> For me, as a programmer, that makes perfect sense and is perfectly feasible.
+However, I am not a BIM expert and cannot advise you on best practices.
+I would suggest that you also raise that question in the generic architectural forum.</p>
+
+<p><strong>Answer 2:</strong> I might be able to add a bit of info for you;
+my primary job is Revit tech (and support) in an Architectural firm (I just do a little coding when needed to get things working the way we need them to) and I have worked as CAD/BIM Manager at a couple of firms over the many years and I can confirm:</p>
+
+<p>That is an excellent idea and will greatly benefit those working in the model(s).</p>
+
+<p><strong>Answer 3:</strong> This is one of the fundamental things we all want to do at some point: reduce what a type is to a string value of the main things that define it. The idea works fine until there is a certain minor detail which distinguishes two types. In the end, human beings use Revit models not robots. So, there is only a certain extent to which you can codify such things and it still be readable and fit on screen where it is read. What features are most important to represent and in which order, that is always the endless discussion.</p>
+
+<!---
+
+Hi @jeffreybo.liu ,
+
+I can't follow the code completely some context is missing, but from what I think it does I would not recommend it.
+
+Couple of things with the code / logic:
+
+1. It tries to Duplicate a WallType X each time with a Wall Type Named Y, this fails because Wall Type Y already exists.
+
+You should first retrieve all walltypes and if Wall Type Y already exists it can't be recreated!
+
+Imagine creating a second walltype "EmptyName", that won't work either.
+
+2. Why create a new Walltype altogether?, it's based on it's type properties, then just rename it.
+
+do check if the name already exists, .... what action to take if it already exist??
+
+3. Level, what does this have to do with the Type name of a wall, from what I see the Level is stripped from the new name, so 2 walls with identical types but on different levels would have different names (?) in the ExcelWallInfo but would be renamed identicall, again each name can only exist once in project.
+
+4. The ExcelWallInfo list, how is this built, seems it doesn't take the layers, thickness, interior into account
+
+5. Model Groups; walls in groups can't have their walltype changed by API etc...
+
+6. Can't read the code clearly, (use the forums Code insert button), looks that the commit happens each iteration of the selected walls, call the Commit after all walls are processed.
+
++ If all this could be corrected you would end up with a lot of WallTypes....and what about the description or other text fields?
+
+If I would need to force a naming structure just iterate the WallTypes in the project and base it's name on the properties as total width (as in you're other post), with maybe a translation dictionary if certain materials(names) are used in layers.
+
+This is one of the fundamental things we all want to do at some point: reduce what a type is to a string value of the main things that define it. The idea works fine until there is a certain minor detail which distinguishes two types. In the end human beings use Revit models not robots. So there is only a certain extent to which you can codify such things and it still be readable and fit on screen where it is read. What features are most important to represent and in which order, that is always the endless discussion.
+
+Regarding original post from 2014 by others the issue is likely related to:
+
+- Name cannot contain any of the following characters:
+<br/>(:01:&lt;&gt; ?'~
+or any of the non-printable characters.
+
+/Users/jta/a/doc/revit/tbc/git/a/img/invalid_symbol_characters.png
+Pixel Height: 203
+Pixel Width: 357
+
+They are also using the name from GetType rather than Revit parameter value or API property i.e. not using something written specifically for RevitAPI but instead depending on a general programming feature (things inherited from object).
+
+
+
+275c76cf5e1e3e5604f262edf38106e9
+
+
+
+--->

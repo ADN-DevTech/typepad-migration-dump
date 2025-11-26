@@ -1,0 +1,224 @@
+---
+layout: "post"
+title: "New PC, KLH Snoop, Annotations and Vertex Handling"
+date: "2019-08-09 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Data Access"
+  - "Fun"
+  - "Geometry"
+  - "Mac"
+  - "RevitLookup"
+original_url: "https://thebuildingcoder.typepad.com/blog/2019/08/new-pc-klh-snoop-annotations-and-vertices.html "
+typepad_basename: "new-pc-klh-snoop-annotations-and-vertices"
+typepad_status: "Publish"
+---
+
+<p>I have been very busy and motivated indeed setting up a new computer this week.</p>
+
+<p>Nonetheless, I was able to keep going full steam with Revit API related issues as well:</p>
+
+<ul>
+<li><a href="#2">Setting up a new MacBook</a></li>
+<li><a href="#3">KLH Engineers RevitDeveloperTools snooping tool</a></li>
+<li><a href="#4">Pulling text from annotation tags</a></li>
+<li><a href="#5">Vertex handling</a></li>
+<li><a href="#6">The true meaning of pizza</a></li>
+</ul>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a473fc82200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a473fc82200c img-responsive" style="width: 300px; display: block; margin-left: auto; margin-right: auto;" alt="Baby lizard on MacBook" title="Baby lizard on MacBook" src="/assets/image_96a578.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="2"></a> Setting up a New MacBook</h4>
+
+<p>I picked up my new computer on Monday, a MacBook Pro.</p>
+
+<p>Migration worked very well so far, installation was easier than ever before, and I am already almost completely done moving over.</p>
+
+<p>These components are now up and running:</p>
+
+<ul>
+<li>Google Chrome</li>
+<li>Pulse Secure</li>
+<li>Microsoft Office</li>
+<li>Outlook credentials</li>
+<li>Komodo Edit</li>
+<li>iterm2</li>
+<li>Parallels</li>
+<li>Windows 10</li>
+<li>Visual Studio 2017</li>
+<li>Revit 2020</li>
+<li>VeraCrypt and osxfuse</li>
+<li>Skype</li>
+<li>VLC</li>
+<li>Firefox and downloadhelper</li>
+<li>git</li>
+<li>Personal Komodo editor scripts</li>
+<li>Created and set up new GitHub SSH key</li>
+<li>Migrated personal disk data to new machine</li>
+<li>Restored bash profile</li>
+<li>Python 3.7.4 </li>
+<li><a href="https://pypi.org/project/pip">pip</a> &ndash; <code>pip3 install --upgrade pip</code></li>
+<li><a href="https://pypi.python.org/pypi/Markdown">Python markdown</a>: <code>pip3 install Markdown</code></li>
+<li><a href="https://git-lfs.github.com">git-lfs</a> &ndash; <a href="https://help.github.com/en/articles/installing-git-large-file-storage">installation</a> </li>
+<li>Internet browser bookmarks</li>
+</ul>
+
+<p>A few security related issues remain to do:</p>
+
+<ul>
+<li>Desktop Duo for VPN access</li>
+<li>Replacing
+my <a href="https://www.comparitech.com/blog/information-security/truecrypt-is-discoutinued-try-these-free-alternatives">obsolete TrueCrypt encryption system</a> </li>
+</ul>
+
+<p>I am writing this blog on the new system, with significant help and inspiration provided by my baby lizard friend presented in the image above.</p>
+
+<p>By chance, now that I almost finished, I also just read this helpful article
+on <a href="https://www.freecodecamp.org/news/how-to-set-up-a-brand-new-macbook">how to set up your new MacBook for coding</a> by Amber Wilkie
+on <a href="https://www.freecodecamp.org">freeCodeCamp.org</a>.
+I have already completed many of the steps she suggests; still, a few are new and useful for me as well.</p>
+
+<h4><a name="3"></a> KLH Engineers RevitDeveloperTools Snooping Tool</h4>
+
+<p>More Revit API related, John D'Alessandro, Software Engineer at <a href="http://www.klhengrs.com">KLH Engineers, PSC</a> shared a powerful new Revit database snooping utility, explaining:</p>
+
+<blockquote>
+  <p>We at KLH Engineers decided to roll our own Revit Snoop tool a while ago and we thought we’d show it to you so you can check it out.</p>
+</blockquote>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4c1d744200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4c1d744200b image-full img-responsive" alt="KLH Snoop" title="KLH Snoop" src="/assets/image_5a9a1b.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<blockquote>
+  <p>We released it as a class library on our GitHub so that others can use it in their own tools and solutions.</p>
+  
+  <p>We’re also accepting issues and PRs, so the more people use the tool the better it’ll get. Let me know if you have any feedback on it or questions.</p>
+  
+  <p>The repo is at <a href="https://github.com/klhengineers/RevitDeveloperTools">KLH Engineers RevitDeveloperTools</a>.</p>
+  
+  <p>It has some similarities and overlap with  <a href="https://github.com/jeremytammik/RevitLookup">RevitLookup</a>, and adds a number of features not available there.</p>
+  
+  <p>The README includes a feature list comparing the two snooping tools:</p>
+</blockquote>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a49d30ae200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a49d30ae200d img-responsive" style="width: 530px; display: block; margin-left: auto; margin-right: auto;" alt="KLH Snoop feature list" title="KLH Snoop feature list" src="/assets/image_9d95db.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Many thanks to John and KLH for implementing and generously sharing this powerful new snooping tool!</p>
+
+<h4><a name="4"></a> Pulling Text from Annotation Tags</h4>
+
+<p>One quick note on a small issue that was not discussed in
+the public <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> seems
+worthwhile sharing here:</p>
+
+<p><strong>Question:</strong> I'm trying to pull the text from the annotation tags on a drawing using the Revit API.
+Is that possible?
+How? </p>
+
+<p><strong>Answer:</strong> Yes, this is definitely possible.</p>
+
+<p>You can use a filtered element collector to collect all the annotation tags, and then access their text via their properties.</p>
+
+<p>To retrieve the tags, you need to determine what class they have. I assume they
+are <a href="https://www.revitapidocs.com/2020/e52073e2-9d98-6fb5-eb43-288cf9ed2e28.htm">IndependentTag class instances</a>.</p>
+
+<p>The property to access their text is presumably
+the <a href="https://www.revitapidocs.com/2020/8e297dee-920d-f620-6198-0bed494e3f04.htm">TagText property</a>.</p>
+
+<p>You can install and use <a href="https://github.com/jeremytammik/RevitLookup">RevitLookup</a> yourself
+to validate these assumptions of mine in your own specific model.</p>
+
+<p>If these assumptions are correct, the final solution might look something like this in  C#:</p>
+
+<pre class="code">
+<span style="color:blue;">#region</span>&nbsp;Pull&nbsp;Text&nbsp;from&nbsp;Annotation&nbsp;Tags
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;Return&nbsp;the&nbsp;text&nbsp;from&nbsp;all&nbsp;annotation&nbsp;tags&nbsp;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;in&nbsp;a&nbsp;list&nbsp;of&nbsp;strings</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+<span style="color:#2b91af;">List</span>&lt;<span style="color:blue;">string</span>&gt;&nbsp;PullTextFromAnnotationTags(
+&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;)
+{
+&nbsp;&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>&nbsp;tags
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">IndependentTag</span>&nbsp;)&nbsp;);
+
+&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:blue;">string</span>&gt;(&nbsp;tags
+&nbsp;&nbsp;&nbsp;&nbsp;.Cast&lt;<span style="color:#2b91af;">IndependentTag</span>&gt;()
+&nbsp;&nbsp;&nbsp;&nbsp;.Select&lt;<span style="color:#2b91af;">IndependentTag</span>,&nbsp;<span style="color:blue;">string</span>&gt;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t&nbsp;=&gt;&nbsp;t.TagText&nbsp;)&nbsp;);
+}
+<span style="color:blue;">#endregion</span>&nbsp;<span style="color:green;">// Pull&nbsp;Text&nbsp;from&nbsp;Annotation&nbsp;Tags</span>
+</pre>
+
+<p>For future reference, I also added this code to <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder samples</a> in
+the <a href="https://github.com/jeremytammik/the_building_coder_samples/blob/master/BuildingCoder/BuildingCoder/CmdCollectorPerformance.cs#L1223-L1240">CmdCollectorPerformance.cs module</a></p>
+
+<p>Finally, you can use the built-in Revit macro IDE (integrated development environment) to convert this code from C# to Python, if you like.</p>
+
+<h4><a name="5"></a> Vertex Handling</h4>
+
+<p>Another recent recurring question on vertex handling may also be of general interest:</p>
+
+<p><strong>Question:</strong> When processing meshes or other collections of triangles, is there any way to know if one vertex is shared by multiple triangles?</p>
+
+<p>Thus, the final data does not have to contain duplicate vertices and can reuse the existing vertex indices in order to save data size.</p>
+
+<p><strong>Answer:</strong> I have often used strategies similar to the following when collecting mesh data:</p>
+
+<ul>
+<li>Implement a comparison operator for the mesh vertex coordinate data.</li>
+<li>Store all mesh vertices in a dedicated dictionary using the mesh vertex coordinates as keys, e.g., <code>Dictionary&lt;XYZ,int&gt;</code>.
+The <code>int</code> is not really important, just the keys.
+I often use the <code>ìnt</code> value to count the number of vertices encountered at each location.</li>
+<li>For each new mesh vertex received, check whether it is already listed in the dictionary.
+If so, increment its count; else, add a new entry for it.</li>
+</ul>
+
+<p>The comparison operator needs to accommodate an appropriate amount of <a href="https://thebuildingcoder.typepad.com/blog/2017/12/project-identifier-and-fuzzy-comparison.html#3">fuzz</a>,
+cf. this <a href="https://thebuildingcoder.typepad.com/blog/2018/12/rebars-in-host-net-framework-and-importance-of-fuzz.html#4">dimensioning application</a>.</p>
+
+<p>For some examples, look at <code>GetCanonicVertices</code>
+for <a href="https://thebuildingcoder.typepad.com/blog/2016/01/tracking-element-modification.html">tracking element modification</a> and
+this <a href="https://thebuildingcoder.typepad.com/blog/2017/08/birthday-post-on-the-xyz-class.html#3">post on the <code>XYZ</code> class</a>.</p>
+
+<p>For yet more examples and use cases, you can search The Building Coder for</p>
+
+<ul>
+<li><code>XyzComparable</code></li>
+<li><code>XyzEqualityComparer</code></li>
+<li><code>XyzProximityComparer</code></li>
+</ul>
+
+<h4><a name="6"></a> The True Meaning of Pizza</h4>
+
+<p>I am writing this visiting my friend Dani in Verbania, Italy.</p>
+
+<p>Hence, this little note in closing:</p>
+
+<p>Did you ever wonder why pizza is called pizza?</p>
+
+<p>Well, pretty obviously, it simply represents the formula used by a hungry mathematician to determine its volume from its radius <code>z</code> and thickness <code>a</code>:</p>
+
+<pre>
+  Volume = &pi; &middot; z <sup>2</sup> &middot; a = pi &middot; z &middot; z &middot; a
+</pre>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4c1d758200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4c1d758200b img-responsive" style="width: 360px; display: block; margin-left: auto; margin-right: auto;" alt="Pizza volume formula" title="Pizza volume formula" src="/assets/image_81a561.jpg" /></a><br /></p>
+
+<p style="font-size: 80%; font-style:italic">Pizza volume formula V = pi&middot;z&middot;z&middot;a</p>
+
+<p></center></p>

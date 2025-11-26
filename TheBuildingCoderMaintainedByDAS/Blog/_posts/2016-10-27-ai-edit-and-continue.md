@@ -1,0 +1,181 @@
+---
+layout: "post"
+title: "AI, Edit and Continue"
+date: "2016-10-27 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Debugging"
+  - "External"
+  - "Getting Started"
+  - "Macro"
+  - "News"
+  - "SDK Samples"
+original_url: "https://thebuildingcoder.typepad.com/blog/2016/10/ai-edit-and-continue.html "
+typepad_basename: "ai-edit-and-continue"
+typepad_status: "Publish"
+---
+
+<p>I am still in Munich supporting the
+one-week <a href="http://autodeskcloudaccelerator.com">Forge accelerator</a> workshop,
+returning back to Switzerland by train tonight.</p>
+
+<p>For ecological reasons, I prefer to avoid flying whenever I possibly can.</p>
+
+<p>Lots of exciting development is going on here, and we are making great progress.</p>
+
+<p>I have another important detail to report from the
+the <a href="http://www.rtcevents.com/rtc2016eur">RTC Revit Technology Conference Europe</a> in
+Porto last week, and other little titbits to share as well:</p>
+
+<ul>
+<li><a href="#2">Use AddInManager and attach to process to edit and continue</a>
+<ul>
+<li><a href="#2.1">Resurrect</a></li>
+</ul></li>
+<li><a href="#3">Can I replace myself by artificial intelligence?</a></li>
+<li><a href="#4">Autodesk Design Graph</a></li>
+<li><a href="#5">Artificial intelligence recognises conversational speech</a></li>
+<li><a href="#5.1">Artificial intelligence teaching assistant</a></li>
+<li><a href="#6">Good portable loudspeakers</a></li>
+</ul>
+
+<h4><a name="2"></a>Using AddInManager and Attach to Process to Edit and Continue</h4>
+
+<p>As I mentioned in the notes from
+the <a href="http://thebuildingcoder.typepad.com/blog/2016/10/rtc-revit-api-panel-idea-station-edit-and-continue.html">Revit API discussion panel</a>,
+one of the topics we touched upon was how
+to <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.49">edit and continue, aka debug without restart or live development</a>,
+i.e., enable the full cycle of debugging an add-in, discovering an error, editing the code to fix it, and continuing debugging in the same Revit model without being forced to terminate and restart Revit and reload the project.</p>
+
+<p>This is not immediately achievable, because if you use the Visual Studio debugger to launch Revit, it will lock the DLL that you are debugging, and you will not be able to edit it.</p>
+
+<p>The standard suggestion to work around this that I made in the past is to convert your add-in code to a macro for debugging, and then convert it back again when done.</p>
+
+<p>Various other suggestions have been made (and are listed in <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.49">The Building Coder topic group 5.49</a> mentioned above) to enable reloading the add-in without converting the code to a macro, e.g., by loading it from an in-memory byte stream instead of a file.</p>
+
+<p>Michael Porskær of <a href="http://www.orbicon.dk">Orbicon A/S</a> pointed out that he uses a much simpler and more direct method by running Revit.exe in normal standalone mode instead of launching it from the Visual Studio debugger, attaching the debugger to the Revit.exe process, and using the AddInManager provided with the Revit SDK to load the add-in.</p>
+
+<p>Here are the exact steps:</p>
+
+<ol>
+<li>Load add-in project in Visual Studio.</li>
+<li>Compile/build DLL.</li>
+<li>Start Revit externally.</li>
+<li>In Visual Studio, click on Debug &gt; Attach to Process.</li>
+<li>Find and select the Revit.exe process in the list.</li>
+<li>Load the DLL-file through Add-In Manager in Revit (you will find Add-In Manager in the SDK).</li>
+<li>Click on the command you would like to debug and click Run.</li>
+<li>Debug your code.</li>
+<li>Stop debug.</li>
+<li>Fix your code and start from number 4 again.</li>
+</ol>
+
+<p>Michael published the <a href="https://youtu.be/I3NA2VUB8Hc">52-second video <em>DebugCommandWithoutRestartRevit</em></a> showing these steps live:</p>
+
+<p><center>
+<iframe width="480" height="270" src="https://www.youtube.com/embed/I3NA2VUB8Hc?rel=0" frameborder="0" allowfullscreen></iframe>
+</center></p>
+
+<p>Thank you very much, Michael, for documenting and sharing this!</p>
+
+<h4><a name="2.1"></a>Resurrect</h4>
+
+<p>I am very glad that Sander Obdeijn of <a href="http://www.itannex.com/">Itannex</a> is here participating in the Munich Forge accelerator.</p>
+
+<p>He has extremely deep Revit experience, both in the user interface and API.</p>
+
+<p>He uses the approach described above to debug his Revit add-ins and pointed out a handy tool to make it yet more efficient:</p>
+
+<p><a class="asset-img-link"  style="float: left;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c8a7f526970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c8a7f526970b img-responsive" style="width: 32px; margin: 0px 5px 5px 0px;" alt="Resurrect_icon32" title="Resurrect_icon32" src="/assets/image_a2e1a7.jpg" /></a></p>
+
+<blockquote>
+  <p>You can use the <a href="https://visualstudiogallery.msdn.microsoft.com/043c7c91-e127-4616-bce0-39b869cee4b3">Resurrect Visual Studio extension</a> (<a href="https://github.com/jwaliszko/Resurrect">source on GitHub</a>) to automatically re-attach the debugger to previously debugged processes with one single click.</p>
+</blockquote>
+
+<h4><a name="3"></a>Can I Replace Myself by Artificial Intelligence?</h4>
+
+<p>I answered a lot of repetitive questions in the last couple of weeks and months &ndash; not to mention years and decades.</p>
+
+<p>That led me to realise recently that I am pretty sure that at least 10-20% of my work could be automated.</p>
+
+<p>The tasks that seem most easy to address are responses to simple questions on getting started raised in email messages and discussion forum threads.</p>
+
+<p>I would need tools to:</p>
+
+<ul>
+<li>Monitor all my computer interaction, specifically email and discussion forum thread responses.</li>
+<li>Observe and learn which cases lead to similar and simple replies.</li>
+<li>Be able to automatically and autonomously scan my email input and certain discussion forums.</li>
+</ul>
+
+<p>After a couple of months of training, I think the system should be able to:</p>
+
+<ul>
+<li>Monitor my incoming email and a couple of forums for issues to arise that it recognises.</li>
+<li>Automatically generate a response and rate the probability that it is appropriate.</li>
+</ul>
+
+<p>Initially, I would expect it to rate all probabilities at zero percent.</p>
+
+<p>At that point, I should be able to start training it.</p>
+
+<p>Some of the auomatically generated reponses I would classify as acceptable and use as is.</p>
+
+<p>Others (or all?) might need some tweaking, and could also be used after slight improvement.</p>
+
+<p>Same might be way off, of course.</p>
+
+<p>Training would begin.</p>
+
+<p>Who knows, maybe I am already much further, and the text you read here now was AI generated?</p>
+
+<p>Check out these other AI, CAD and communication related items:</p>
+
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/AlphaGo">AlphaGo</a> (already <a href="http://thebuildingcoder.typepad.com/blog/2016/01/bim-programming-madrid-and-spanish-connectivity.html#7">mentioned in January</a>)</li>
+<li><a href="#4">Autodesk Design Graph</a></li>
+<li><a href="#5">AI recognises conversational speech</a></li>
+<li><a href="#5.1">AI teaching assistant</a></li>
+</ul>
+
+<h4><a name="4"></a>Autodesk Design Graph</h4>
+
+<p><a href="https://dg.autodesk.com">Design Graph</a> provides a new way to explore your 3D design data using shape-based machine learning to recognize and understand parts, assemblies and entire designs. It learns to identify the relationships between all parts within and across all of your designs, irrespective of whether cross-references exist. It learns to interpret designs in terms of those parts and provides a way to navigate your data using simple text search, learned categories of parts, shape similarity, usage patterns and even smart filters for part numbers, materials and other properties.</p>
+
+<h4><a name="5"></a>Artificial Intelligence Recognises Conversational Speech</h4>
+
+<p>Microsoft announced progress and
+a <a href="http://blogs.microsoft.com/next/2016/10/18/historic-achievement-microsoft-researchers-reach-human-parity-conversational-speech-recognition">historic achievement reaching human parity in conversational speech recognition</a>.</p>
+
+<h4><a name="5.1"></a>Artificial Intelligence Teaching Assistant</h4>
+
+<p>Matt Taylor pointed out the interesting report on an <a href="http://www.news.gatech.edu/2016/05/09/artificial-intelligence-course-creates-ai-teaching-assistant">artificial intelligence course creating an AI teaching assistant</a>.</p>
+
+<p>The students didn’t even know their TA was a computer.</p>
+
+<p>The key phrase for me is that "... the number of questions increases if you have more students, but the number of <em>different</em> questions doesn’t really go up ... the same questions [are repeated] over and over again."</p>
+
+<p>That is exactly what I have been noting more and more in my work recently, and what spawned my interest in this.</p>
+
+<p>"The students ... studying artificial intelligence ... were unknowingly interacting with it... The goal is to have the virtual teaching assistant answer 40 percent of all questions by the end of year."</p>
+
+<p>Thank you very much, Matt, for pointing out this perfect example of what I am after!</p>
+
+<h4><a name="6"></a>Good Portable Loudspeakers</h4>
+
+<p>On a completely different topic...</p>
+
+<p>I went to a nice little <a href="http://openfloor.org/">open floor</a> dance event last Sunday evening immediately after my arrival here in Munich, in
+the <a href="http://www.mohr-villa.de/">Mohr-Villa Kulturzentrum</a>, organised
+by <a href="http://www.moving-awareness.com">Juliana Barrett</a>.</p>
+
+<p>I only mention it to point out (and as a note to self) that she was using a portable sound system with pretty good loudpseakers,
+the <a href="http://hkaudio.com/products.php?id=414">HK Audio Lucas Nano 600</a>.</p>
+
+<p>A picture from my last morning walk to the office across the Isar:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link" href="https://flic.kr/s/aHskKjyb4g"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c8a7ec27970b img-responsive" alt="Isar" title="Isar" src="/assets/image_5ff2db.jpg" /></a></p>
+
+<p></center></p>

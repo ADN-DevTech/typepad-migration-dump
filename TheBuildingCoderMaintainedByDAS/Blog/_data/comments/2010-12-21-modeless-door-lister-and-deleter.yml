@@ -1,0 +1,129 @@
+comments:
+- author: Jim Jia
+  email: jhfgrh@gmail.com
+  ip: 58.32.239.82
+  url: ''
+  date: '2010-12-23 01:44:40'
+  body: "This sample is so cool! thanks for sharing this!\nPer my experience, just\
+    \ once concern: I noticed the\n modeless Form was initialized and exists within\
+    \ Command class, it'll be better & safer if the Form exists within Application\
+    \ class?  because the Command and its resources may be GC-ed after exectuing the\
+    \ Command? I ever played with the SDK EventsMoniter, all forms resources belong\
+    \ to Application... Btw, your shared sample works well currently, my comment is\
+    \ just FYR."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2010-12-23 02:38:15'
+  body: "Dear Jim,\n\nThank you very much for your appreciation, completely due to\
+    \ Agnius, of course!\n\nAnd even more thanks for the hint about the modeless form\
+    \ resource ownership.\n\nI never thought about that before.\n\nHow exactly would\
+    \ you suggest fixing this? \n\nSimply moving the variable declarations from the\
+    \ Commands class to the Application class, or what?\n\nYes, I can see that the\
+    \ modeless forms in the Revit SDK EventsMonitor sample all live in the ExternalApplication\
+    \ class. \n\nGood point and great catch!\n\nCheers, Jeremy."
+- author: Dante
+  email: dante_van_wettum@hotmail.com
+  ip: 62.173.206.33
+  url: ''
+  date: '2010-12-23 04:26:15'
+  body: 'Dear Jeremy
+
+    this question is not really related to this specific post above. but i have no
+    other way to contact you ;)
+
+
+    i was wondering about 2 things for cording and maybe you know if it would be possible
+    (and if, how)
+
+
+    1) Coordinates. for a pileplan i really want to get the X and Y (and if possible
+    Z too) to be used in the Schedules.
+
+    Now i found some stuff like "RBS_PROJECT_LOCATION_PARAM" and i think this is what
+    should be used ?
+
+    maybe you can make some info on this subject too ?
+
+
+    2) Schedules have no option within the revit 2011 program to sort/filter on the
+    Type name of elements. so currently we have added a text parameter and make it
+    the same as type name by hand. and than it is possible so sort/filter on that.
+    but as you can see it is a real de-tour. now i wonder, how you look at this problem?
+    again i found this  "ALL_MODEL_TYPE_NAME" and maybe it would be possible to link
+    some param to this one ? so there cant be made typing errors ?
+
+    maybe this can be a nice subject too for this blog ?
+
+
+    Dante'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2010-12-23 11:17:56'
+  body: 'Dear Dante,
+
+
+    Thank you for the suggestions!
+
+
+    Yes, these would definitely be wonderful subjects for the blog.
+
+
+    Right now I have no time at all for research, unfortunately, we have masses of
+    ADN questions, a backlog from the Developer Days conference tour, and end-of-year
+    administrative tasks.
+
+
+    I wish I had more time...
+
+
+    Still, I can definitely say that the second issue seems very easy to address in
+    one way or another. You could for example create a shared parameter and simply
+    programmatically populate it with the type name of each element. That is really
+    easy to do.
+
+
+    Cheers, Jeremy.'
+- author: Dante
+  email: Dante_van_wettum@hotmail.com
+  ip: 80.61.83.33
+  url: http://www.aqua-page.nl
+  date: '2010-12-23 15:00:01'
+  body: 'im still not very into the coding myself. but some of the colleagues are.
+
+    I will aks them too to take some look at it later on, although i guess they are
+    also pretty busy at the moment ;-)
+
+
+    looking forward to the blogs.'
+- author: Jim Jia
+  email: jhfgrh@gmail.com
+  ip: 58.32.239.82
+  url: ''
+  date: '2010-12-26 21:43:39'
+  body: "hi Jeremy,\n\nIMO, moving the variable and its accordingly codes to application\
+    \ is one good enhancement, it can avoid potential resource problem mentioned above,\
+    \ though this sample has no such problem currently.\n\nAs a matter of fact, the\
+    \ idling handler(app_Idling) is yet another potential ehance: because it belongs\
+    \ to Command class, it has same defect with Form resource, it'll be better if\
+    \ this handler belongs to Application class too. \n\nIn other words, if events\
+    \ will be triggered by UI operations(or outside Command domain), it's safer if\
+    \ the handlers/resources live within Application class.\n\nComments above are\
+    \ just personal best practicses, FYI."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.162.159
+  url: http://profile.typepad.com/jeremytammik
+  date: '2010-12-27 03:42:25'
+  body: 'Hi Jim,
+
+
+    Thank you for the suggestions, they make good sense to me!
+
+
+    Cheers, Jeremy.
+
+    -----'

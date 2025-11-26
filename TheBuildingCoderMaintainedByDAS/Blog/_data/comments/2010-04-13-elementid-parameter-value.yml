@@ -1,0 +1,134 @@
+comments:
+- author: BASIL
+  email: baselqyqony@gmail.com
+  ip: 82.137.200.20
+  url: ''
+  date: '2011-02-19 08:16:44'
+  body: 'dear Jeremy Tammik
+
+
+    where from could I get the ids of path reinforcement parameters such as : "Primary
+    Bar - Start Hook Type " :None
+
+    and Face :("Exterior" and "Interior")
+
+
+    for example : i want to change "face" of Path Reinforcement Object by code to
+    make it "Exterior" insted of  "Interior" where could i find Exterior parameter
+    ID?
+
+    thanks you'
+- author: Jeremy Tammik
+  email: ''
+  ip: 188.98.94.69
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-02-19 11:55:28'
+  body: "Dear Basil,\n\nAs so often when exploring how to automate things in Revit,\
+    \ you will probably need to explore some of this for yourself interactively. Create\
+    \ a sample model and toggle the features you are interested in on and off manually\
+    \ through the user interface. At the same time, check what parameters are affected\
+    \ by analysing the model using RevitLookup. That should provide all the answers\
+    \ you need.\n\nI did notice that the Revit Structure 2011 API introduced a new\
+    \ NewRebarHookType method:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/05/the-revit-structure-2011-api.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/05/the-revit-structure-2011-api.html</a>\n\
+    \nI also once had a conversation on setting the rebar end hook parameters using\
+    \ \nBuiltInParameter.REBAR_ELEM_HOOK_START_TYPE and BuiltInParameter.REBAR_ELEM_HOOK_END_TYPE.\
+    \ If you set them to new ElementId( -1 ), you can simulate setting them to End\
+    \ Hook “None”. Here is the code we looked at back then:\n\ntransaction.Start(\
+    \ \"Turn Off End Hook 1\" );\nParameter hookStartParam = rebar.get_Parameter(\
+    \ \n  BuiltInParameter.REBAR_ELEM_HOOK_START_TYPE );\n\nElementId oldId = hookStartParam.AsElementId();\n\
+    hookStartParam.Set( new ElementId( -1 ) );\ntransaction.Commit();\n\ntransaction.Start(\
+    \ \"Turn Off End Hook 2\" );\nParameter hookEndParam = rebar.get_Parameter( \n\
+    \  BuiltInParameter.REBAR_ELEM_HOOK_END_TYPE );\n\nElementId oldId = hookEndParam.AsElementId();\n\
+    \nhookEndParam.Set( new ElementId( -1 ) );\ntransaction.Commit();\n\nI hope this\
+    \ helps.\n\nCheers, Jeremy."
+- author: Locost7
+  email: ''
+  ip: 74.95.5.115
+  url: http://profile.typepad.com/locost7
+  date: '2015-04-07 14:10:00'
+  body: 'Hi Jeremy
+
+    When I create a new moment connection type.(for example new symbol for RBS Moment
+    Frame) a new StructuralConnectionType Id is generated randomly by Revit.(something
+    like 3975667)
+
+    Are there anyway to make the Id state the same?
+
+    Thanks'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-04-07 15:50:02'
+  body: 'Dear Locost7,
+
+
+    The StructuralConnectionType element id is probably not generated randomly.
+
+
+    Instead, I imagine that Revit is generating a new StructuralConnectionType element
+    for you, and that is its element id.
+
+
+    You can check this by using the element lister:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2014/09/debugging-and-maintaining-the-image-relationship.html#2">http://thebuildingcoder.typepad.com/blog/2014/09/debugging-and-maintaining-the-image-relationship.html#2</a>
+
+
+    You can also simply snoop the current database in RevitLookup and manually check
+    whether a new StructuralConnectionType element has been added.
+
+
+    If the newly generated StructuralConnectionType element is identical to another
+    StructuralConnectionType element that you already have in your project and would
+    like to reuse, you can probably do so through the following steps:
+
+
+    1. Make a note of the newly generated element id X.
+
+
+    2. Determine the element id Y of the StructuralConnectionType that you would like
+    to reuse for your new moment connection type Z.
+
+
+    3. Assign Y to Z, e.g. using the Element.ChangeTypeId method.
+
+
+    4. Delete X, e.g. using the Document.Delete method.
+
+
+    I hope this helps.
+
+
+    Please let us know how you end up solving this.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Sarkate
+  email: ''
+  ip: 108.225.129.205
+  url: http://profile.typepad.com/sarkate
+  date: '2015-04-09 02:15:24'
+  body: "Thanks for your reply Jeremy\nI think I was thinking in a wrong direction\
+    \ when I was asking for help.\nActually I’m trying to write a code to assign Start/End\
+    \ Connection. To do this I need to \nset new ElementID to the build in parameter.\
+    \ In this case a different ElementID mapping can be problematic. But  I just found\
+    \ out there is no need to make the ElementID state the same. My solution is to\
+    \ retrieve the ElementID from the name of the Connection Type. \n\n//Get Parameter:\n\
+    BuiltInParameter.STRUCT_CONNECTION_BEAM_START\n\n//filter by the StructuralConnectionType\
+    \ class\nforeach (Element ConnType in new FilteredElementCollector(doc)\n .OfClass(typeof(StructuralConnectionType))\n\
+    \  .Cast<StructuralConnectionType>()\n  .Where( m => m.Name.Equals(\"Moment Frame\
+    \ RBS\")))\n\n  // Get ElementID and Convert to integer: \n   string NewId = ConnType.Id.ToString();\n\
+    \   int idInt = Convert.ToInt32(NewId);\n    p.Set(new ElementId(idInt));\n  \
+    \               \nThe key is to make sure the name is always the same for every\
+    \ project. \nso now what I planing to do is to write a code to create the new\
+    \ Structural Connection Types instead of make them in the Structural Setting Panel\
+    \ manually. But somehow I got stuck on the StructuralConnectionType.Create Method.\
+    \ I’m not able to find any code snippets yet.\nany suggestion for my solution?\
+    \ \n\nBTW I just replaced my temporary username Locost7 to Sarkate which match\
+    \ the one I use in the  official Autodesk API forum.\n\nThanks \n-----"

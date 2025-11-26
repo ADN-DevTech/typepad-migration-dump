@@ -1,0 +1,154 @@
+comments:
+- author: Jitendra Dhande
+  email: jitudhande@gmail.com
+  ip: 122.170.103.215
+  url: ''
+  date: '2012-10-01 02:13:38'
+  body: "Hi Jeremy ,\n\n         i want to know about how to show selected pipe type\
+    \ in properties window in Revit  using C#.\n\n    \n\n\nThank You\n   \nJitendra\
+    \ Dhande"
+- author: Ken Marsh
+  email: kenneth.i.marsh@gmail.com
+  ip: 209.6.86.183
+  url: ''
+  date: '2012-10-18 12:21:28'
+  body: 'Ok, this is a fascinating article and answered part of my latest quandry.  As
+    far as the next part, thank you to Simon for all the research!  Based on this,
+    can anyone rationalize the meaning of direction vector as used in NewFamilyInstance(reference,
+    xyz location, xyz direction, familySymbol)?  I found that by using a direction
+    of (-1,0,0) the placement side flipped. (same effect Simon found where drawing
+    the refplane the opposite way caused the placement side to flip)
+
+    It appears that direction is the orientation of the family in the placement plane
+    but it doesn''t suggest why the direction of drawing the refplane makes a difference
+    unless it is relative to the plane normal.  e.g., any angle -90 to 90 is on same
+    side as normal, any angle 91 to 270 is placed on side opposite to normal?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-10-18 12:37:12'
+  body: 'Hi Ken,
+
+
+    My standard evasive answer to these kind of issues: understand it from the user
+    interface point of view first.
+
+
+    In Revit, the UI philosophy often helps a lot to clarify the API behaviour.
+
+
+    So, have you asked a manual content creation expert, an application engineer?
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-10-18 12:43:53'
+  body: 'Dear Jitendra Dhande,
+
+
+    Here is a discussion of this very topic:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/09/updating-properties-and-announcing-revit-lt.html">http://thebuildingcoder.typepad.com/blog/2012/09/updating-properties-and-announcing-revit-lt.html</a>
+
+
+    Note that it does not work reliably, though, as some of the comments explain.
+
+
+    Cheers, Jeremy.'
+- author: Mona
+  email: Mona.Akkoush@dargroup.com
+  ip: 5.57.6.24
+  url: ''
+  date: '2014-03-04 09:06:59'
+  body: "Hi Jeremy, \n\nThanks for the blog. But I tried all possible options & yet\
+    \ am still getting the following error when creating a lighting fixture on a horizontal\
+    \ reference plane. \n\nAutodesk.Revit.Exceptions.ArgumentsInconsistentException:\
+    \ Reference direction is parallel to face normal at insertion point.\n\nThanks,\n\
+    Mona"
+- author: Bart
+  email: clintsandoz@gmail.com
+  ip: 108.162.221.9
+  url: ''
+  date: '2014-04-23 16:42:30'
+  body: Did you ever figure this out?  It works for me in Revit 2012, but does not
+    work in 2013 with 2013 API.
+- author: Jeremy Tammik
+  email: ''
+  ip: 108.162.229.17
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-04-23 18:28:12'
+  body: 'Dear Bart,
+
+
+    Sorry for not replying earlier.
+
+
+    This is probably an error in one of your arguments.
+
+
+    The Revit API improves error checking release by release, so erroneous input argument
+    that went unnoticed in previous versions may throw and exception later.
+
+
+    Very probably the problem is exactly what the error message says: the reference
+    direction is parallel to the face normal at the insertion point.
+
+
+    You probably need to understand that and fix it.
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.'
+- author: Bart
+  email: clintsandoz@gmail.com
+  ip: 173.245.50.154
+  url: ''
+  date: '2014-04-28 19:43:55'
+  body: 'Thanks for your reply because I haven''t found a lot of sources to help me
+    on this.
+
+
+    bubbleEnd = new xyz(5, 0, 0);
+
+    freeEnd = new xyz(-5, 0, 0);
+
+    cutVec = new xyz(0, 0, 1);
+
+
+    The reference plane created from these points and vector has a normal of (0, -1,
+    0) and a direction of (1, 0, 0).  It''s length runs horizontal when on a floor
+    plan view and it''s height is the cutVec or the global Z.  In 2012 version, when
+    I set the reference direction to 1 or -1 unit vector for the X or Z value it will
+    work.  But in 2013 and 2014 I tried all the possible reference directions and
+    still get the exception the ref dir is parallel.  Shouldn''t one of them work?!  It
+    appears to be the same issue Mona replied with.  None of the vectors work.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 173.245.53.69
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-04-29 02:52:00'
+  body: 'Dear Bart,
+
+
+    The best thing to do for you will be to submit a reproducible case for us to explore,
+    and the easiest place to do that is in the Revit API discussion forum:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#1">http://thebuildingcoder.typepad.com/blog/about-the-author.html#1</a>
+
+
+    Cheers, Jeremy.'
+- author: sherif zanaty
+  email: ''
+  ip: 197.162.28.214
+  url: http://profile.typepad.com/6p01a73dfae332970d
+  date: '2014-08-04 03:18:23'
+  body: "Dear Jeremy\n\n Can i Host the Family instance on Linked Element Ceiling\
+    \ ?\n-----"

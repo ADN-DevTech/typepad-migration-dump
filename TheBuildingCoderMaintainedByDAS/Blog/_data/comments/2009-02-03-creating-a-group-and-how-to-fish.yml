@@ -1,0 +1,224 @@
+comments:
+- author: John Balciar
+  email: jbalciar@mii.com
+  ip: 206.196.148.150
+  url: ''
+  date: '2009-02-24 16:00:22'
+  body: I followed the steps to find the NewGroup method listed in the API documentation.  However,
+    the NewGroup method does not exist in the Autodesk.Revit.Creation Namespace or
+    anywhere else that I can find.  (I am using the RevitStructure 2010 beta).  Have
+    you found a NewGroup method elesewhere in the API?
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-02-24 16:23:57'
+  body: 'Hi John,
+
+
+    I tried to NOT find NewGroup, but was unable to do so in the 2009 documentation  :-)
+
+
+    In the Revit API help file RevitAPI.chm, I open the search tab and type NewGroup.
+
+
+    It displays a couple of hits, three to be precise, and they all lead to the Document
+    class in the Autodesk.Revit.Creation namespace and its NewGroup method.
+
+
+    In the Revit 2010 version of the help file I get seven hits, three of which are
+    the same as in the 2009 version. This is in Revit 2010 Beta 1. Please be aware
+    that the 2010 material may be incomplete because it is still under development.
+
+
+    Cheers, Jeremy.'
+- author: John Balciar
+  email: jbalciar@mii.com
+  ip: 206.196.148.150
+  url: ''
+  date: '2009-02-24 16:29:47'
+  body: Thanks Jeremy, I found the method and have it working now, thank you for your
+    time.
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-02-24 16:38:46'
+  body: 'Hi John,
+
+
+    It''s a pleasure, and I''m glad you have it working now.
+
+
+    Cheers, Jeremy.'
+- author: rocky
+  email: rockyrock007@hotmail.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2010-04-30 07:05:00'
+  body: 'Hi Jeremy,
+
+    will u please suggest
+
+    How can i get the model group drawn of model lines from revit application using
+    c#?
+
+    I am using revit archtitecture 2010 with c#
+
+
+    Regards
+
+    Rocky'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.158.182
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-04-30 07:34:14'
+  body: 'Dear Rocky,
+
+
+    Have a look at the discussion in
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/06/model-group-shared-parameter.html">http://thebuildingcoder.typepad.com/blog/2009/06/model-group-shared-parameter.html</a>
+
+
+    That shows how to determine the model group category. With the category and normal
+    Revit 2010 filtering, retrieving the model groups is easy.
+
+
+    And remember what I said in my answer to your last comment  :-)
+
+
+    Cheers, Jeremy.'
+- author: rocky
+  email: rockyrock007@hotmail.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2010-04-30 08:33:23'
+  body: 'Hi Jeremy,
+
+    Thanks for your useful information and time. the link above help me lot. Actually
+    i have model lines in the model group and I want to get the properties of these
+    model lines in c#. Please help me or suggest something so that i can make step
+    forward in this.
+
+
+    Regards
+
+    Rocky'
+- author: Ceorl
+  email: Chuckd@scottgoble.com
+  ip: 216.23.14.28
+  url: ''
+  date: '2010-07-19 17:05:57'
+  body: "Hi Jeremy,\nHave you worked with attached detail groups, by chance?  I've\
+    \ created code to place a model group in my model, but can't seem to get an attached\
+    \ detail group to show up.  I can find the detail group by filtering the document,\
+    \ and thought it would be a matter of hiding/unhiding the detail group in the\
+    \ proper view as such:\n\nPublic Sub ShowDetailGroupInstances(ByVal GroupName\
+    \ As String)\n        Dim ElemSet As New ElementSet\n\n        Dim GroupTypeCollector1\
+    \ = _\n        New FilteredElementCollector(myDoc.Document)\n\n        Dim View\
+    \ As View = myDoc.Document.ActiveView\n\n        GroupTypeCollector1.OfClass(GetType(GroupType))\n\
+    \n        Dim GroupElements = From element _\n        In GroupTypeCollector1 _\n\
+    \        Where element.Name.ToUpper = GroupName.ToUpper _\n        Select element\n\
+    \n        For Each ee As Element In GroupElements\n            MsgBox(ee.Name)''Just\
+    \ reporting\n            ElemSet.Insert(ee)\n        Next ee\n\n        View.Unhide(ElemSet)\n\
+    \n    End Sub\n\nUltimately, I'd like to know what method or property I need to\
+    \ use to control the display of the attached group.\n\nAny insight would be be\
+    \ appreciated.\nThanks,\nCeorl"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-07-19 17:54:24'
+  body: 'Dear Ceorl,
+
+
+    Nope, I have never worked with attached detail groups, neither by chance nor otherwise.
+
+
+    I don''t completely understand your problem, yet. Are you saying that you have
+    implemented code to insert such a group successfully, and that it remains invisible
+    but can be retrieved using the element collector?
+
+
+    Cheers, Jeremy.'
+- author: Chuck Han
+  email: csh@stanfordalumni.org
+  ip: 68.165.169.171
+  url: ''
+  date: '2011-06-06 17:13:38'
+  body: 'Hey Jeremy,
+
+
+    In looking through the documentation, I was not able to locate any method(s) that
+    would allow me to programmatically bring in a RVT file as a group, analogous to
+    the user-driven "Insert->Load as Group" command.  Am I missing something?
+
+
+    thanks in advance, Chuck'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-06 23:28:22'
+  body: 'Dear Chuck,
+
+
+    Nope, sorry, you are not missing anything. That is currently still a wish list
+    item.
+
+
+    Cheers, Jeremy.'
+- author: sangsen
+  email: sangsen123@gmail.com
+  ip: 124.124.54.130
+  url: ''
+  date: '2012-02-22 04:07:13'
+  body: "Hi..Jeremy..\n        \n          How can i save group as revit file through\
+    \ API..and load it in Revit 2012\n\nThanks in advance.."
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-02-23 07:05:53'
+  body: "Dear Sangsen, \n\nSorry, I do not believe that this functionality is available\
+    \ through the API.\n\nCheers, Jeremy."
+- author: sangsen
+  email: sangsen123@gmail.com
+  ip: 124.124.54.130
+  url: ''
+  date: '2012-02-24 08:19:45'
+  body: Thanks Jeremy
+- author: sangsen
+  email: sangsen123@gmail.com
+  ip: 59.163.205.194
+  url: ''
+  date: '2012-03-29 05:35:02'
+  body: "Hi..Jeremy\n\n      I am trying to place group using  API place group() method.But\
+    \ i am not getting snap(Hover) when i place the group.\nPlease help me to get\
+    \ the snap using API.\n\nThanks,"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.182.42
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-04-02 05:49:42'
+  body: 'Dear Sangsen,
+
+
+    The only access to any snap functionality in the Revit API that I am aware of
+    is the Selection.PickPoint method taking an ObjectSnapTypes argument.
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.'
+- author: Israel Rodriguez
+  email: ''
+  ip: 177.81.26.34
+  url: http://profile.typepad.com/6p01a51166ccaa970c
+  date: '2014-03-12 17:33:48'
+  body: "Hi Jeremy, \n\nIs there any news on this \"Load as Group\" feature on the\
+    \ API?\n-----"

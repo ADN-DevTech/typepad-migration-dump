@@ -1,0 +1,290 @@
+comments:
+- author: Nick Kovach
+  email: ''
+  ip: 76.184.144.80
+  url: http://profile.typepad.com/nickkovach
+  date: '2013-06-29 22:48:21'
+  body: "Jeremy,\n\nI have run into an issue a few times while attempting to <b>PromptForFamilyInstancePlacement</b>,\
+    \ when there are multiple types (symbols) for a family, occasionally a user attempts\
+    \ to select a different symbol.  \n\nSeems like the easiest way to solve this\
+    \ is to create a dialog with a list of symbols for that specific family (for easy\
+    \ selection).  It just seems like there should be an easier way to load a different\
+    \ type \"on the fly\" if a user decides to select something different after the\
+    \ fact.  Am I expecting too much?  Thanks."
+- author: Dhiraj Patil
+  email: ''
+  ip: 61.17.160.112
+  url: http://profile.typepad.com/patildhiraj
+  date: '2013-08-13 07:35:14'
+  body: "Dear Sir,\n        I am placing family instance using below method:\n\n FamilyInstance\
+    \ fi = Document.Create.NewFamilyInstance(pCurve, symbol,pipe.ReferenceLevel, StructuralType.NonStructural);\n\
+    \nbut fi is getting null & it is not placing in Document.\nplease Help\nRegards\
+    \ \nDhiraj."
+- author: Dhiraj patil
+  email: patil.dhiraj48@gmail.com
+  ip: 61.17.160.112
+  url: ''
+  date: '2013-09-25 06:57:10'
+  body: "Dear Sir,\nI am placing family instance using below method:\n\nFamilyInstance\
+    \ fi = Document.Create.NewFamilyInstance(pCurve, symbol,pipe.ReferenceLevel, StructuralType.NonStructural);\n\
+    \nbut fi is getting null & it is not placing in Document.\nplease Help\nRegards\
+    \ \nDhiraj."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-26 06:44:20'
+  body: 'Dear Dhiraj,
+
+
+    Can you place the symbol manually?
+
+
+    You need to find out which NewFamilyInstance overload is suitable for your specific
+    family:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/01/newfamilyinstance-overloads.html">http://thebuildingcoder.typepad.com/blog/2011/01/newfamilyinstance-overloads.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/06/placing-a-line-based-detail-item-instance.html">http://thebuildingcoder.typepad.com/blog/2011/06/placing-a-line-based-detail-item-instance.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/02/hosting-a-light-fitting-on-a-reference-plane.html">http://thebuildingcoder.typepad.com/blog/2012/02/hosting-a-light-fitting-on-a-reference-plane.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-29 11:55:16'
+  body: 'Dear Nick,
+
+
+    Yes, sorry, currently there is no way that I know of to programmatically control
+    default type that gets placed by this method. We are working on it, though  :-)
+
+
+    Cheers, Jeremy.'
+- author: Dhiraj Patil
+  email: patil.dhiraj48@gmail.com
+  ip: 61.17.160.112
+  url: ''
+  date: '2013-10-03 03:33:49'
+  body: "Dear Sir,\nYes i can place instance manually.\nMy goal is to break pipe as\
+    \ soon as union get placed on it.\nI have tried placing on XYZs but it is not\
+    \ breaking pipe.\nRegards \nDhiraj."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.193.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-10-08 11:22:42'
+  body: 'Dear Dhiraj,
+
+
+    You can try going the other way:
+
+
+    Instead of starting by placing the pipe, and then adding fittings, you could place
+    the fittings at the correct locations without any pipes at all.
+
+
+    Then when you call the API methods to connect the fittings with each other, the
+    intermediate pipes may be placed automatically.
+
+
+    Cheers, Jeremy.'
+- author: vinothkumar
+  email: vinothkumar.s@indpro.se
+  ip: 115.115.81.250
+  url: http://www.indpro.se
+  date: '2013-10-11 01:53:07'
+  body: 'Hi Jeremy,
+
+    I wish to place the instance of a family object once i click a button. I need
+    some replacement for the method "PromptForFamilyInstancePlacement" . It should
+    not prompt user in UI to place the instance on a phase. It should prompt the user
+    to select the 2 or more multpile phase and then it should place it in the joining
+    point of the selected phases. Is this possible in API programming?'
+- author: Paul M
+  email: paul@rpmwebs.com
+  ip: 86.15.110.127
+  url: ''
+  date: '2013-12-12 17:42:11'
+  body: 'Hi Jeremy
+
+    Another interesting and very useful article.
+
+    I have utilised some of your code above to create an icon/image driven system
+    where families are presented in a dialogue. I have everything working almost exactly
+    as I need it with the exception of one thing. When I select an image in my dialogue
+    my dialogue form has focus. I then need to click in my Revit model twice (once
+    for it to regain focus, again to place the family) Is there any way I can programmatically
+    give focus back to the Revit Model/document.
+
+
+    Revit API newcomer
+
+    Paul M'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.200.168
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-12-20 10:13:24'
+  body: 'ear Paul,
+
+
+    Thank you for your update and appreciation.
+
+
+    I am very glad you find it useful.
+
+
+    For one thing, your form should set Revit as its parent window.
+
+
+    To see how, search for JtWindowHandle
+
+
+    <a href="http://lmgtfy.com/?q=JtWindowHandle">http://lmgtfy.com/?q=JtWindowHandle</a>
+
+
+    Here is a current implementation of this trivial wrapper class:
+
+
+    <a href="https://github.com/jeremytammik/RoomEditorApp/blob/master/RoomEditorApp/JtWindowHandle.cs">https://github.com/jeremytammik/RoomEditorApp/blob/master/RoomEditorApp/JtWindowHandle.cs</a>
+
+
+    As you can see, it is used in my RoomEditorApp.
+
+
+    With that in place, I think your problem should disappear immediately.
+
+
+    If not, the RoomEditorApp also includes code to explicitly set the foreground
+    window.
+
+
+    Try not to use it, though, since that is something the user should retain control
+    over.
+
+
+    Cheers, Jeremy.'
+- author: Nik Mulconray
+  email: nikmulconray.architecture@gmail.com
+  ip: 101.113.12.95
+  url: ''
+  date: '2014-02-15 20:12:56'
+  body: 'Jeremy,
+
+    I want to load some mass instances from one file(the store file) to another file(the
+    proj. file) in revit arch. 2013. I know there is a new method copy and paste between
+    open documents in the same session however i would have to reference the 2014
+    api, which I cant at the moment. I think that I would have to do this by loading
+    mass families (12 of them) onto the same x,y coordinates simultaneously. Is this
+    even possible? Could you provide tips to achieve this?
+
+    Many thanx,
+
+    Nik'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-02-18 06:48:04'
+  body: 'Dear Nik,
+
+
+    Yes indeed, the copy and paste API sounds appropriate and was introduced in Revit
+    2014.
+
+
+    The other approach you suggest sounds perfectly feasible as well for this simple
+    case.
+
+
+    Yes, I believe this is possible.
+
+
+    As usual, you should try it out through the user interface first.
+
+
+    Placing multiple overlapping instances might cause errors or warnings, and you
+    may have to use the failure API to handle those.
+
+
+    Cheers, Jeremy.'
+- author: Nik Mulconray
+  email: nikmulconray.architecture@gmail.com
+  ip: 101.113.12.95
+  url: ''
+  date: '2014-02-19 03:30:36'
+  body: Thanx, Jeremy I will give it a shot.
+- author: frank halliday
+  email: frankhalliday@gmail.com
+  ip: 115.64.197.13
+  url: ''
+  date: '2014-11-08 03:24:42'
+  body: 'Hi Jeremy,
+
+    Do you know of a method of obtaining the families file path without using editFamily
+    method? this requires a transaction I believe and I have to work in a read only
+    mode transaction within my external command.
+
+    cheers,
+
+    fabs'
+- author: Frank
+  email: oakam@hotmail.com
+  ip: 90.231.112.19
+  url: ''
+  date: '2014-12-24 06:25:51'
+  body: "Hi Jeremy \nThanks for the code.One thing only where can I find the Util\
+    \ class. I got the error that Util is not in the current context. I am a biginner.\
+    \ :-)\nthanks"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-12-24 07:16:23'
+  body: 'Dear Frank,
+
+
+    Thank you for your appreciation.
+
+
+    Look in the archive file FamilyApi10.zip in the third and final part of the detailed
+    discussion on use of the Family API:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/07/family-api-nested-type-instance-and-symbol-retrieval.html">http://thebuildingcoder.typepad.com/blog/2013/07/family-api-nested-type-instance-and-symbol-retrieval.html</a>
+
+
+    Good luck getting started with the Revit API!
+
+
+    Have you worked through the getting started material, especially the ''My First
+    Plugin'' and DevTV tutorials?
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#2">http://thebuildingcoder.typepad.com/blog/about-the-author.html#2</a>
+
+
+    Have you installed RevitLookup? An absolute must!
+
+
+    Merry Christmas and a Happy New Year to you!
+
+
+    Cheers, Jeremy.'
+- author: Samer Habib
+  email: samerhabib91@gmail.com
+  ip: 213.171.220.217
+  url: ''
+  date: '2015-04-05 09:16:19'
+  body: "Hi Jeremy,\nI tried to place a Generic Model to a column face :\nNewFamilyInstance(Reference\
+    \ reference, XYZ location, XYZ referenceDirection, FamilySymbol symbol);\nthe\
+    \ face normal is (0,1,0) \nfor each location XYZ (x,y,z) I putted, the location\
+    \ of the new familyinstance is (x, 0.34, z) !!\nwhy y is not equal to my input\
+    \ value?\nplease Help ..\n-----"

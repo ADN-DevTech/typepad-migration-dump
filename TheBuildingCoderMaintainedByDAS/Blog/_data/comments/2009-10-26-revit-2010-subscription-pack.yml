@@ -1,0 +1,173 @@
+comments:
+- author: Prasad
+  email: ''
+  ip: 124.43.47.127
+  url: http://profile.typepad.com/6p01156ef6bc41970c
+  date: '2009-10-27 01:32:41'
+  body: 'Hello JEREMY TAMMIK,
+
+
+    Help me About IFamilyLoadOptions. I want to open Existing Family & change Parameter
+    values & load it Existing Project(using API).
+
+    Problem of this how to overwrite Existing parameter values.
+
+
+    Thank You,
+
+    Prasad.'
+- author: Prasad
+  email: ''
+  ip: 124.43.47.127
+  url: http://profile.typepad.com/6p01156ef6bc41970c
+  date: '2009-10-27 01:34:30'
+  body: 'Hello JEREMY TAMMIK,
+
+
+    Help me About IFamilyLoadOptions. I want to open Existing Family & change Parameter
+    values & load it Existing Project(using API).
+
+    Problem of this how to overwrite Existing parameter values.
+
+
+    Thank You,
+
+    Prasad.'
+- author: Michael
+  email: mcoviello@trojb.com
+  ip: 209.117.74.150
+  url: ''
+  date: '2009-10-27 13:55:35'
+  body: 'Hello Jeremy.
+
+    Could you verify this?
+
+    ....The Revit 2010 subscription packs provide the same minor fixes and enhancements
+    and the web update 2 plus significant additional new features........
+
+
+    I asked the question through Autodesk Support Request and they responded saying
+    that the two need to be installed separately (WU2 and Advantage Pack)
+
+    Thank you.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.84.173
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-10-29 06:52:09'
+  body: 'Dear Michael,
+
+
+    Yes, I can confirm this. Here is a statement on this from Anthony Hauck, Revit
+    Design Product Line Manager:
+
+
+    Confirmed. If you have access to both, installing the Subscription Release Pack
+    is sufficient to receive both the bug fixes of UR2 and the feature enhancements.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.84.173
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-10-29 06:54:42'
+  body: 'Dear Prasad,
+
+
+    I am investigating your question and will keep you posted when I have something
+    to report on this issue.
+
+
+    Cheers, Jeremy.'
+- author: Prasad Sumanasekara
+  email: prasadgalle@gmail.com
+  ip: 124.43.62.171
+  url: ''
+  date: '2009-10-29 23:44:35'
+  body: "Dear Jeremy,\n\nThank you so much for responding so quickly. \nI will see\
+    \ good Solution from you.\n\nThank You,\nPrasad"
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.96.129
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-02 02:18:00'
+  body: 'Dear Prasad,
+
+
+    I finally received a thorough explanation for the current and future situations
+    with IFamilyLoadOptions.
+
+
+    This is an interface class which provides call-back functionality for specific
+    family load situations through the two events OnFamilyFound and OnSharedFamilyFound,
+    called when a family or a shared family being loaded was already present in the
+    target document, respectively.
+
+
+    They do both take an output argument in which the event handler has the opportunity
+    to specify whether the existing family''s parameter values should be overwritten,
+    so it looks as if they should be just what you need to handle the situation you
+    describe.
+
+
+    Unfortunately, this does currently not work the way one might expect. Once a family
+    has been loaded into the project, it will not be reloaded later, even if it was
+    modified, and attempting to use this event handler throws an exception.
+
+
+    Ultimately, we would like the family to be reloaded if it has been edited, even
+    if it is already loaded. That behaviour will be provided in a future release.
+
+
+    Sorry for the bad news.
+
+
+    Cheers, Jeremy.'
+- author: Travis
+  email: travis@nwlarchitects.com
+  ip: 68.178.112.134
+  url: ''
+  date: '2009-11-06 11:24:22'
+  body: 'Jeremy,
+
+    I have installed the x86 version of the subscription pack.  I tried accessing
+    the new keyboard shortcut utility you mention above, however, I am unable to locate
+    it?  The feature summary states to review the user guide, however, there is not
+    an updated user guide to download. Any ideas?
+
+    Thank you
+
+    Travis'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-06 11:33:29'
+  body: 'Dear Travis,
+
+
+    Nope, sorry, no idea. I copied the text quoted above out of whatsnew_architectureq3.pdf
+    and assume that the same is provided in whatsnew_mepq3.pdf and whatsnew_structureq3.pdf
+    as well. Good luck hunting it down.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.153.231
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-02-12 06:13:34'
+  body: 'Dear Prasad,
+
+
+    Gamal Kira now provided some sample code which actually does show the IFamilyLoadOptions
+    in action:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/02/ifamilyloadoptions-and-gemini.html">http://thebuildingcoder.typepad.com/blog/2010/02/ifamilyloadoptions-and-gemini.html</a>
+
+
+    Cheers, Jeremy.
+
+    -----'

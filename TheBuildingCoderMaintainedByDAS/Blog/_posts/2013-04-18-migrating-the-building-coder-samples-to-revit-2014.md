@@ -1,0 +1,196 @@
+---
+layout: "post"
+title: "Migrating The Building Coder Samples to Revit 2014"
+date: "2013-04-18 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "2014"
+  - "Migration"
+  - "Units"
+  - "Update"
+original_url: "https://thebuildingcoder.typepad.com/blog/2013/04/migrating-the-building-coder-samples-to-revit-2014.html "
+typepad_basename: "migrating-the-building-coder-samples-to-revit-2014"
+typepad_status: "Publish"
+---
+
+<p>I started migrating The Building Coder samples to Revit 2014.
+Funnily enough, on the exact same date as last year for the previous version.
+
+<p>The changes are very small this time around.</p>
+
+<p>Furthermore, I am well prepared, since I recently intentionally eliminated all
+
+<a href="http://thebuildingcoder.typepad.com/blog/2013/02/eliminating-compiler-warnings-and-deprecated-calls.html">
+compiler warnings and deprecated calls</a> compiling
+
+the code for Revit 2013.
+
+<p>First, however, a picture or three from my ski tour last weekend over Il Chapütschin (3386 m) and La Sella (3584 m) in the Swiss Engadin.
+Here I am on the first summit:</p>
+
+<center>
+
+
+<a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e168978833017eea5b37e3970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833017eea5b37e3970d" style="width: 200px; " alt="Il Chapütschin" title="Il Chapütschin" src="/assets/image_8f7877.jpg" /></a><br />
+
+</center>
+
+<p>The panorama is grandiose:</p>
+
+<center>
+
+<a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e168978833017d42e6ea2f970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833017d42e6ea2f970c image-full" alt="Mountain panorama around Il Chapütschin" title="Mountain panorama around Il Chapütschin" src="/assets/image_0aa147.jpg" border="0" /></a><br />
+
+</center>
+
+<p>We arrive back at the hut tired and happy:</p>
+
+<center>
+
+
+<a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e168978833017d42e6fbcb970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833017d42e6fbcb970c" alt="Coffee in the hut" title="Coffee in the hut" src="/assets/image_b0f624.jpg" /></a><br />
+
+</center>
+
+
+<a name="1"></a>
+
+<h4>Migrating The Building Coder Samples to Revit 2014</h4>
+
+<p>Back at the desk and steeped in the Revit API, Here is what I have done so far to migrate The Building Coder samples from Revit 2013 to Revit 2014:</p>
+
+<ul>
+<li><a href="#2">Update the Revit API assembly references</a>
+<li><a href="#3">Remove obsolete Collections namespace and RoomCreationData class</a>
+<li><a href="#4">TopographySurface namespace changed</a>
+<li><a href="#5">Some unit API changes</a>
+<li><a href="#6">Initial Revit 2014 version</a>
+</ul>
+
+
+<a name="2"></a>
+
+<h4>Update the Revit API Assembly References</h4>
+
+<p>Every Revit add-in needs to reference the API assemblies.
+
+<p>They now live in the main Revit installation folder, together with Revit.exe.</p>
+
+<p>In my case, this folder is "C:\Program Files\Autodesk\Revit Architecture 2014", and I am referencing the three assemblies RevitAPI, RevitAPIUI and UIFrameworkServices.</p>
+
+<p>Just updating the references and recompiling generated
+
+<span class="asset  asset-generic at-xid-6a00e553e168978833017eea55d751970d"><a href="http://thebuildingcoder.typepad.com/files/bc_migr_2014_a.txt">5 errors and 3 warnings</a></span>.
+
+
+<a name="3"></a>
+
+<h4>Remove Obsolete Collections Namespace and RoomCreationData Class</h4>
+
+<p>Four of the five errors say "The type or namespace name 'Collections' does not exist in the namespace 'Autodesk.Revit' (are you missing an assembly reference?)".</p>
+
+<p>To my surprise, I did indeed have several obsolete statements like this left over from previous versions:</p>
+
+<pre class="code">
+<span class="blue">using</span> Autodesk.Revit.Collections;
+</pre>
+
+<p>They were actually not required at all by the Revit 2013 compilation, just left over from still older versions.</p>
+
+<p>The fifth warning is similar, saying "The type or namespace name 'RoomCreationData' does not exist in the namespace 'Autodesk.Revit.Creation' (are you missing an assembly reference?)", and could also be resolved simply by removing this obsolete using statement:
+
+<pre class="code">
+<span class="blue">using</span> <span class="teal">RoomCreationData</span>
+&nbsp; = Autodesk.Revit.Creation.<span class="teal">RoomCreationData</span>;
+</pre>
+
+<p>Removing these erroneous using statements enables the compilation proper to execute and raises the number of problems reported to
+
+<span class="asset  asset-generic at-xid-6a00e553e168978833017c38b276f6970b"><a href="http://thebuildingcoder.typepad.com/files/bc_migr_2014_b.txt">3 errors and 108 warnings</a></span>.
+
+<p>Just three errors!
+Looking good...</p>
+
+
+<a name="4"></a>
+
+<h4>TopographySurface Namespace Changed</h4>
+
+<p>Now we hit some real errors caused by slight shifts and redefinitions in the API.</p>
+
+<p>The first error is in CmdLandXml.cs:
+
+<pre class="code">
+&nbsp; <span class="teal">TopographySurface</span> surface
+&nbsp; &nbsp; = doc.Create.NewTopographySurface( pts );
+</pre>
+
+<p>It says "The type or namespace name 'TopographySurface' could not be found (are you missing a using directive or an assembly reference?)".
+
+<p>The TopographySurface class apparently moved from one namespace to another.
+In Revit 2013, it lived in Autodesk.Revit.DB.</p>
+
+<p>This is easily remedied by placing the cursor over the offending class name and pressing Ctrl + '.', which brings up a menu listing the fully qualified class name and offering to automatically correct the error for you:</p>
+
+<center>
+
+<a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e168978833017d42e19171970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833017d42e19171970c" alt="Using Ctrl + '.'" title="Using Ctrl + '.'" src="/assets/image_e0ff1b.jpg" border="0" /></a><br />
+
+</center>
+
+
+
+<a name="5"></a>
+
+<h4>Some Unit API Changes</h4>
+
+<p>The other two errors refer to units, one of the few areas seriously modified in the Revit 2014 API, and say:</p>
+
+<ul>
+<li>'Autodesk.Revit.DB.Document' does not contain a definition for 'ProjectUnit' and no extension method 'ProjectUnit' accepting a first argument of type 'Autodesk.Revit.DB.Document' could be found (are you missing a using directive or an assembly reference?)</li>
+<li>'Autodesk.Revit.DB.FormatOptions' does not contain a definition for 'Units' and no extension method 'Units' accepting a first argument of type 'Autodesk.Revit.DB.FormatOptions' could be found (are you missing a using directive or an assembly reference?)</li>
+</ul>
+
+<p>They are caused by the following lines in ParameterUnitConverter.cs:</p>
+
+<pre class="code">
+&nbsp; <span class="teal">FormatOptions</span> fo = document.ProjectUnit
+&nbsp; &nbsp; .get_FormatOptions( ut );
+&nbsp;
+&nbsp; <span class="teal">DisplayUnitType</span> dut = fo.Units;
+</pre>
+
+<p>They are easily fixed by using the following new methods and properties:</p>
+
+<pre class="code">
+&nbsp; <span class="teal">FormatOptions</span> fo = document.GetUnits()
+&nbsp; &nbsp; .GetFormatOptions( ut );
+&nbsp;
+&nbsp; <span class="teal">DisplayUnitType</span> dut = fo.DisplayUnits;
+</pre>
+
+<p>We are left with
+
+<span class="asset  asset-generic at-xid-6a00e553e168978833017c38b274d4970b"><a href="http://thebuildingcoder.typepad.com/files/bc_migr_2014_c.txt">zero errors and 111 warnings</a></span>,
+
+which we will leave to deal with another day.
+
+
+<a name="6"></a>
+
+<h4>Initial Revit 2014 Version</h4>
+
+<p>So here is the result, the very first
+
+<span class="asset  asset-generic at-xid-6a00e553e168978833017c38b27135970b"><a href="http://thebuildingcoder.typepad.com/files/bc_14_100_2.zip">version 2014.0.100.2</a></span> of
+
+The Building Coder samples for Revit 2014.
+
+<p>To compare with the last version for Revit 2013, look at the
+
+<span class="asset  asset-generic at-xid-6a00e553e168978833017c36d284b0970b"><a href="http://thebuildingcoder.typepad.com/files/bc_13_100_2.zip">version 2013.0.100.2</a></span> that
+
+I provided after eliminating all
+
+<a href="http://thebuildingcoder.typepad.com/blog/2013/02/eliminating-compiler-warnings-and-deprecated-calls.html">
+compiler warnings and deprecated calls</a>.

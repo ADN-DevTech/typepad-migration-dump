@@ -1,0 +1,196 @@
+comments:
+- author: HarryC
+  email: harryc@bbse.com
+  ip: 69.62.244.244
+  url: ''
+  date: '2009-10-12 16:53:38'
+  body: "How do I extract the coordinates of the viewports on the sheet?  I can place\
+    \ a view on the sheet and supply the specific coordinates, so, I assume I can\
+    \ reverse this and extract the coordinates of the viewpsorts on a sheet.  I've\
+    \ tried:\n            ViewSheet currentSheet = doc.ActiveView as ViewSheet;\n\
+    \            foreach (Autodesk.Revit.Elements.View v in currentSheet.Views)\n\
+    \            {\n                BoundingBoxUV loc = v.Outline;\n             \
+    \   MessageBox.Show(\"Coordiinates of: \" + v.Name + \", \" + v.ViewType + \"\\\
+    r\\n\" + loc.Min.U + \", \" + loc.Min.V);\n            }\n but the values returned\
+    \ don't appear correct."
+- author: Jeremy Tammik
+  email: ''
+  ip: 12.160.193.229
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-10-13 09:30:35'
+  body: "Dear Harry, \n\nI implemented an external command using the sample code you\
+    \ provided and was also initially unable to interpret the resulting coordinates\
+    \ returned by the View Outline property. According to the documentation, it returns\
+    \ the bounds of the view in paper space in inches. Running the code in a simple\
+    \ sample drawing did return something that looked vaguely reasonable:\n\nCoordinates\
+    \ of FloorPlan view 'Level 1': (-0.88,-0.88)\nCoordinates of FloorPlan view 'Level\
+    \ 2': (-0.58,-0.38)\nCoordinates of Elevation view 'North': (-0.62,-0.06)\nCoordinates\
+    \ of Elevation view 'East': (-0.45,-0.06)\n\nOn closer inspection, however, these\
+    \ coordinate values have no discernable relationship with the actual position\
+    \ of the views on the sheet.\n\nI checked with my colleagues, and received the\
+    \ answer that you are not doing anything wrong, but unfortunately there is currently\
+    \ simply no API access to this information. Sorry for the bad news!\n\nThe information\
+    \ returned by View.Outline is not wrong in any way, it is just describing the\
+    \ size of the view and returning the bounding box of the origin of the view, not\
+    \ its position on the sheet.\n\nCheers, Jeremy."
+- author: HarryC
+  email: harryc@bbse.com
+  ip: 69.62.244.244
+  url: ''
+  date: '2009-10-14 11:11:45'
+  body: Thanks for that answer.  At least I won't spend any more time trying to figure
+    this one out.  IT would be nice, in a future version of the API to be able to
+    do this.  I have 50+- typical sheets in our library and if I could programaticaly
+    extract the position of the views, then I could use my complimentary routine to
+    rebuild the sheets when view in the library is updated.  I wrote a program to
+    do this with the locations stored in an XML data file.  So all our users can dynamically
+    create typical sheets for their projects using the latest versions of our details.  Pre
+    assembled sheets are static and a pain to maintain / update as time goes on.
+- author: HarryC
+  email: harryc@bbse.com
+  ip: 69.62.244.244
+  url: ''
+  date: '2009-10-14 11:39:28'
+  body: 'In that same train of thought.  In the future API it would be nice to be
+    able to access the GUI feature to "Insert from File -> Views...".  Then my application
+    to dynamically create the typical sheets in a project will be completely automated.
+
+
+    Unless there is a way to put all the drafting views into a family file.  Then
+    I could use the currently available API functions to do this.'
+- author: HarryC
+  email: harryc@bbse.com
+  ip: 69.62.244.244
+  url: ''
+  date: '2009-10-14 11:44:54'
+  body: 'One more question on views / viewports.  Using the API can I assign the viewport
+    type (ie: title family style) and the detail number property of the viewport once
+    the view is placed on a sheet?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 12.160.193.229
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-10-15 04:31:55'
+  body: "Dear Harry, \n\nYes, definitively, I see your point, and thank you for the\
+    \ suggestions and explanation!\n\nThis wish has been registered and this functionality\
+    \ will certainly become available at some point.\n\nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 12.160.193.229
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-10-15 04:42:33'
+  body: "Dear Harry, \n\nYes, definitively, the detail number property is accessible\
+    \ using the built-in parameter VIEWPORT_DETAIL_NUMBER, and its value can be both\
+    \ read and written to.\n\nUse the Revit API intro built-in parameter checker to\
+    \ find out things like this, as described in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/04/deeper-parameter-exploration.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/04/deeper-parameter-exploration.html</a>\n\
+    \nI don't know what property 'viewport type (ie: title family style)' might refer\
+    \ to, but I am sure you will see it as soon as you check it out.\n\nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 12.160.193.229
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-10-15 04:47:55'
+  body: "Dear Harry, \n\nPlease keep good track of these wishes of yours and make\
+    \ sure to submit them all at every official opportunity that is offered, especially\
+    \ when the next API Wish List Survey comes around:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/07/api-wish-list-survey-reminder.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/07/api-wish-list-survey-reminder.html</a>\n\
+    \nCheers, Jeremy."
+- author: Thomas Fink
+  email: thomas.fink@sofistik.de
+  ip: 93.104.158.148
+  url: http://www.sofistik.de
+  date: '2010-08-16 14:51:20'
+  body: 'Jeremy,
+
+
+    any new info around this thread? Will it come with 2012?
+
+
+    I urgently need the coordinates of each view on a certain sheet.
+
+
+    Unfortunately I searched quite a long time until I had the idea to search in your
+    blog.
+
+
+    Kind regards, Thomas'
+- author: Jeremy Tammik
+  email: ''
+  ip: 124.157.230.167
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-08-16 22:23:53'
+  body: 'Dear Thomas,
+
+
+    There is no public information at all about any future versions of any products
+    whatsoever that I know about.
+
+
+    When you say ''2012'', I must answer that I have no idea what you are talking
+    about.
+
+
+    I am glad you thought about searching the blog, though. I try to make all information
+    that I come across available here. It always applies exclusively to existing public
+    versions, of course. I hope it won''t take you so long to think of it next time
+    you need something  :-)
+
+
+    Wish list items are better handled by an ADN request, though.
+
+
+    Cheers, Jeremy.'
+- author: abby
+  email: abidrahmat@hotmail.com
+  ip: 175.143.74.203
+  url: ''
+  date: '2013-07-11 21:43:11'
+  body: 'Hi Jeremy,
+
+
+    I know this is an old thread but I didnt find any thread that similar with my
+    problem.
+
+    I want to insert an image on the sheet programatically based on the origin (0,
+    0, 0) at the bottom left. I knew from your blog that the sheet not provide the
+    information about coordinate.
+
+    So to get the exact location for my image, I play around with the coordinate value
+    until I get the correct position which is at top right. I have to hardcoded all
+    the position for each type of sheet.
+
+    My question is:
+
+    Is there any possibility that the origin are different between type of sheet or
+    if user create their own sheet?
+
+
+    Thank you.
+
+    Abby'
+- author: Jeremy Tammik
+  email: ''
+  ip: 78.146.59.167
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-07-12 06:40:10'
+  body: "Dear Abby,\n\nI would assume yes. \n\nYou would have to research for yourself,\
+    \ though, e.g. using RevitLookup. \n\nHere is another old but slightly less outdated\
+    \ post on a related topic:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/09/view-location-on-sheet.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/09/view-location-on-sheet.html</a>\n\
+    \nCheers, Jeremy."
+- author: Elias Karakoulakis
+  email: elias.karakoulakis@gmail.com
+  ip: 46.198.231.155
+  url: http://greekrevitusers.wordpress.com
+  date: '2014-02-22 14:04:56'
+  body: "Hi Jeremy,\n\nI can't figure out a way to get a handle on a Viewport's *title*\
+    \ so as to resize or move it on the ViewSheet (note: I'm referring to the viewport's\
+    \ *title*, not the viewport itself)\nA worrying fact is that there's no elementID\
+    \ on the title symbol:\n- go to a sheet with at least a viewport whose type defines\
+    \ a title symbol, \n- click on the title so as to highlight it\n- use Revit's\
+    \ \"Element ID\" to try to reveal its ID\n- but it comes back empty!\n\nI suspect\
+    \ that Viewport title is a <i>private member of the Viewport class</i> and the\
+    \ API does not expose anything about it. Shouldn't it at least expose methods\
+    \ to manipulate 1) the title's position and 2) the title line's length? \n\nWarm\
+    \ regards,\nElias\n-----"

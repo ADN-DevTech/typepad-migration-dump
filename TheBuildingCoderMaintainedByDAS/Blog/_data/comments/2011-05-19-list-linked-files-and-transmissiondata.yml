@@ -1,0 +1,371 @@
+comments:
+- author: Dale Bartlett
+  email: dale.bartlett@realtimeinternational.com.au
+  ip: 212.72.17.154
+  url: http://www.realtimeinternational.com.au
+  date: '2011-05-21 05:38:53'
+  body: Hi Jeremy, Unfortunately I missed the webcast (time zone). Will it be available
+    as a download? Incidently I backpacked through Dogubayazit past Mt Ararat in the
+    mid 70s. Fascinating area.
+- author: Jeremy Tammik
+  email: ''
+  ip: 94.218.141.234
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-05-21 06:37:56'
+  body: 'Dear Dale,
+
+
+    Sorry to hear that you missed the webcast, but not to worry. It was recorded and
+    will be published quite soon. The recording will be made available from the ADN
+    training schedule site, and I''ll point to it from the blog as well.
+
+
+    Wow, you were in Dogubayazit in the 70s? Yes, very fascinating indeed! That was
+    our base base (base-squared?) camp, where we stayed in a hotel the nights before
+    and after spending four days and three nights in tents on the mountain. Our guides
+    were kurds, and they gave us an impression of kurdish culture, songs and cuisine.
+
+
+    Cheers, Jeremy.'
+- author: Steve Faust
+  email: sfaust@revolutiondesign.biz
+  ip: 70.59.40.117
+  url: http://www.revolutiondesign.biz
+  date: '2011-06-02 13:29:28'
+  body: 'Jeremy,
+
+
+    2 questions on this; First, I see that you can list out the keynote file, is there
+    any way to reload the file into Revit? Any way to change it?
+
+
+    Second, Can you tell me how to find the location or tranform of a linked file
+    in a document?  I am trying to determine if family instances in a linked document
+    are in a room in the current document.  I can get into the linked file and find
+    the location of instances in that file, and I can find out if a point is in a
+    room in main file, but I need to figure out how to transform the coordinates based
+    on the location of the linked file in the main file...
+
+
+    Thanks for any help you can give,
+
+    Steve'
+- author: Jeremy Tammik
+  email: ''
+  ip: 188.105.93.34
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-05 14:33:53'
+  body: 'Dear Steve,
+
+
+    I am not aware of any possibility to reload the keynote file programmatically.
+
+
+    Regarding the location of linked files, that should all be completely solved in
+    the Revit 2012 API. Have a look at the What''s New section in the SDK documentation.
+
+
+    Cheers, Jeremy.'
+- author: Mike Caruso
+  email: mike@mepcad.com
+  ip: 66.65.244.74
+  url: ''
+  date: '2011-07-19 14:20:29'
+  body: 'Hi Jeremy,
+
+
+    Reviving an old thread, I know, but could you tell me what method is used to set
+    a new path on an RVT link? Let''s say the original link was moved to another drive...
+
+
+    Thank you,
+
+    Mike'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-07-19 15:22:59'
+  body: "Dear Mike,\n\nReviving an old thread is perfectly fine!\n\nTeaching an old\
+    \ dog new tricks? Yes, we can!\n\nAnd actually, it is not that old at all.\n\n\
+    I guess TransmissionData is the right place to look, at least. How about:\n\n\
+    GetLastSavedReferenceData: Gets the ExternalFileReference representing path and\
+    \ load status information concerning the most recent time this TransmissionData's\
+    \ document was opened.  \n\nGetDesiredReferenceData: Gets the ExternalFileReference\
+    \ representing path and load status information to be used the next time this\
+    \ TransmissionData's document is loaded.\n\nOr maybe what you are looking for\
+    \ is WriteTransmissionData? That seems to allow you to specify a new path...\n\
+    \nThe RevitAPI.chm entry on the TransmissionData class includes a sample. \n\n\
+    Please let us know how it works out for you, I'd love to write about that.\n\n\
+    Cheers, Jeremy."
+- author: Mike Caruso
+  email: mike@mepcad.com
+  ip: 66.65.244.74
+  url: ''
+  date: '2011-07-25 11:26:40'
+  body: 'Hi Jeremy,
+
+
+    WriteTransmissionData looks like what I need but throws an exception (Unable to
+    write transmission data). My code is very similar to the API help, just in my
+    case I am changing the paths, not unloading the links.
+
+
+    Have you taken a stab at using that method?
+
+
+    Regards,
+
+    Mike'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-07-26 00:23:55'
+  body: "Dear Mike,\n\nI have not myself, but my colleagues have and encountered no\
+    \ problems.\n\nAre you following the restriction that the file being modified\
+    \ must be closed?\n\nHere is some code that works fine:\n\n    [Transaction(TransactionMode.Manual)]\n\
+    \    public class Foo : IExternalCommand\n    {      \n        static AddInId\
+    \ m_appId = new AddInId(new Guid(\"CF184371-E65A-4a35-BA4F-2959CA87A42D\"));\n\
+    \        public Result Execute(ExternalCommandData commandData, ref string message,\
+    \ ElementSet elements)\n        {\n            UIApplication uiapp = commandData.Application;\n\
+    \            UIDocument uidoc = uiapp.ActiveUIDocument;\n            Autodesk.Revit.ApplicationServices.Application\
+    \ app = uiapp.Application;\n            Document doc = uidoc.Document;\n\n   \
+    \         FilePath location = new FilePath(\"C:\\\\file.rvt\");\n            TransmissionData\
+    \ transData = TransmissionData.ReadTransmissionData(location);\n\n           \
+    \ if (transData != null)\n            {\n                // collect all (immediate)\
+    \ external references in the model\n                ICollection externalReferences\
+    \ = transData.GetAllExternalFileReferenceIds();\n\n                // find every\
+    \ reference that is a link\n                foreach (ElementId refId in externalReferences)\n\
+    \                {\n                    ExternalFileReference extRef = transData.GetLastSavedReferenceData(refId);\n\
+    \n                    if (extRef.ExternalFileReferenceType == ExternalFileReferenceType.RevitLink)\n\
+    \                    {\n                        // we do not want to change neither\
+    \ the path nor the path-type\n                        // we only want the links\
+    \ to be unloaded (shouldLoad = false)\n                        transData.SetDesiredReferenceData(refId,\
+    \ new FilePath(\"C:\\\\MyNewPath\\\\cut.rvt\"), extRef.PathType, true);\n    \
+    \                }\n                }\n\n                // make sure the IsTransmitted\
+    \ property is set \n                transData.IsTransmitted = true;\n\n      \
+    \          // modified transmission data must be saved back to the model\n   \
+    \             TransmissionData.WriteTransmissionData(location, transData);\n \
+    \           }\n            else\n            {\n                Autodesk.Revit.UI.TaskDialog.Show(\"\
+    Unload Links\", \"The document does not have any transmission data\");\n     \
+    \       }\n            return Result.Succeeded;\n        }\n    }\n\nCan you confirm\
+    \ that this works for you as well? Thank you!\n\nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-10-03 08:54:54'
+  body: 'Dear Mike,
+
+
+    I wanted to do this anyway, and now a comment from Guming prompted me to finally
+    go ahead and promote the answer to your comment to above to a blog post of its
+    own:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/10/using-the-writetransmissiondata-method.html">http://thebuildingcoder.typepad.com/blog/2011/10/using-the-writetransmissiondata-method.html</a>
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Anthony Tiefenbach
+  email: ''
+  ip: 66.195.250.66
+  url: http://profile.typepad.com/tiefenbach
+  date: '2012-06-26 08:33:07'
+  body: Jeremy, sorry for posting on an older post, but I'm using this example to
+    find the KeynoteTable path.  I've noticed, however, that if a user changes the
+    Keynote Settings in a project the KeynoteTable is not updated to the correct path.
+    Is there someway to have the KeynoteTable update after a users has changed the
+    Keynote Settings?
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.182.216
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-06-28 03:54:45'
+  body: 'Dear Anthony,
+
+
+    Not to worry, feel free to comment anywhere you please.
+
+
+    I am glad that you can make use of this sample.
+
+
+    Nope, I was not aware that it is not updated, and I do not know how that could
+    be forced.
+
+
+    If you are an ADN member, please submit a DevHelp Online case for use to explore
+    this further.
+
+
+    Cheers, Jeremy.'
+- author: Anthony Tiefenbach
+  email: ''
+  ip: ''
+  url: http://profile.typepad.com/tiefenbach
+  date: '2012-06-28 06:38:55'
+  body: 'Thanks for your response.  The TransmissionData must be written when the
+    file closes, which makes sense.  Since I wanted the option for the user to update
+    the paths I used ExternalFileUtils.GetAllExternalFileReferences to read the KyenoteTable
+    path.
+
+
+
+    Im not a developer at all, just a guy trying to develop a few addins for me and
+    my companys use so I only use the ADN Open forums and reference your blog for
+    sample code.  I completed my first addin utilizing a bunch of samples you had
+    to update a series of keynote tags in a drafting for all the materials keynotes
+    in the project.  Its not glamorous, but it allows us to have a keynote generated
+    in a view, which populates a Master Keynote Legend with the materials keynotes.
+
+
+
+
+    Thanks for the great resources and response!!!'
+- author: flower4wine
+  email: ''
+  ip: 180.173.6.29
+  url: http://profile.typepad.com/6p017ee3d89300970d
+  date: '2013-01-19 19:51:37'
+  body: "Hi Jeremy,\n\nI got a question about phase map between host doc and linked\
+    \ doc. \n\nI know Revit provides a UI to manage the mapping, which is triggered\
+    \ by selecting the linked model and clicking Edit Type in Property Panel. However\
+    \ I didn't find anything relative in API doc or your blogs. \n\nDid I miss something?\
+    \ Thanks a lot!\n\nBest Regards,\nDavid Tan"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-21 09:57:36'
+  body: 'Dear David,
+
+
+    Nope, sorry, I am not aware of any such mapping in the API.
+
+
+    We do have an open wish list item SPR #203054 [Access to data in RVT_LINK_PHASE_MAP]
+    related to this.
+
+
+    I added a note of your wish to this item in order to make the development team
+    aware of its importance.
+
+
+    Cheers, Jeremy.'
+- author: flower4wine
+  email: ''
+  ip: ''
+  url: http://profile.typepad.com/6p017ee3d89300970d
+  date: '2013-01-23 21:57:51'
+  body: 'Hi Jeremy,
+
+
+
+    Thanks for your clarification and efforts on the wish list!
+
+
+
+    At this moment, I can unify the phase name to make program knows the consistency
+    between host RVT phases and linked RVT phases.
+
+
+
+    On the other hand, I got a mess about host and links recently, while the phase
+    mapping issue is one of them. We have a big RVT model which contains a couple
+    of linked RVTs. The customer expects that the program could handle the selection
+    event of the element in linked RVT.&nbsp;
+
+
+
+    I found a solution of selection event on your blog, which is sweet. But it doesn&#39;t
+    work for element in the linked RVT. You know, via Revit UI, we can move the mouse
+    over the element in the linked RVT and press TAB to make it highlighted. Although
+    the Property Panel won&#39;t show the properties of this highlighted element in
+    the linked RVT, but it&nbsp;looks like to be selected.
+
+
+
+    I know how to retrieve the element in linked RVT from DB document (from your blog
+    again). But how to make it selected in UI document? It seems Revit doesn&#39;t
+    support this feature. Do you have any suggestion on this? Thanks a lot!
+
+
+
+
+
+    Best Regards,
+
+    David Tan
+
+
+
+
+    To: flower4wine@outlook.com'
+- author: CR Zhao
+  email: soft_rainy@163.com
+  ip: 166.111.80.191
+  url: ''
+  date: '2013-05-03 11:15:25'
+  body: 'Hello,Jeremy
+
+    I wonder how to creat "Groups-Model"using revit api.
+
+    And how to load group using revit api.
+
+    Thank you ..
+
+
+    Best Regards,
+
+    Chengrui Zhao
+
+    To: soft_rainy@163.com'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.219.98
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-05-03 11:56:17'
+  body: "Dear Chengrui Zhao,\n\nUse the ItemFactoryBase.NewGroup method to create\
+    \ a group.\n\nThere is no way to load one directly. \n\nIn Revit 2014 you can\
+    \ use the new copy and paste API to bring one in from another document, though.\n\
+    \nCheers, Jeremy."
+- author: dolives@techniptps.com
+  email: dolives@techniptps.com
+  ip: 78.206.28.183
+  url: ''
+  date: '2014-03-20 11:04:28'
+  body: 'Hi Jeremy,
+
+    With SharpDevelop now is it possible to do the same thing:
+
+    List Linked Files and TransmissionData
+
+    And how ?
+
+
+    Daniel OLIVES (A french user)
+
+    dolives@techniptps.com'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.186.112
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-03-20 11:12:07'
+  body: 'Dear Daniel,
+
+
+    I would assume that you create a SharpDevelop macro and plug in the code above
+    into it.
+
+
+    Good luck!
+
+
+    Cheer, Jeremy.
+
+    -----'

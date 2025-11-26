@@ -1,0 +1,114 @@
+comments:
+- author: Rick
+  email: enonrick@gmail.com
+  ip: 114.32.162.82
+  url: ''
+  date: '2012-07-17 02:35:40'
+  body: "Hi JEREMY TAMMIK\nAbout target view with duplicated objects. I just figured\
+    \ out another way recently.\ndays ago I am trying drawing windows/doors legend\
+    \ component into LegendView with it's own parameter value,dimensions with Width\
+    \ / Height / SillHeight,and some Lines.\n\nI found this page and it's big help\
+    \ to me,thanks.\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/05/duplicate-legend-component.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/05/duplicate-legend-component.html</a>\n\
+    \nafter working I faced some problem.\n1.group duplicate has bad performance to\
+    \ element\n2.problem just same as this topic talk about\n\nabout problem 1 ,after\
+    \ using ElementTransformUtils.CopyElement instead Create.PlaceGroup,for now it's\
+    \ has acceptable performance\nand problem 2,no matter CopyElement or PlaceGroup,that's\
+    \ all can't assign target view just like Create.NewDetailCurve do so.\n\nSo I\
+    \ had a concept below\nCreate a empty LegendView with ONE LegendComponent,and\
+    \ this VIEW just used to be \"Locating\"\nreference pic <a href=\"http://www.flickr.com/photos/82824965@N04/7588337638/in/photostream\"\
+    >http://www.flickr.com/photos/82824965@N04/7588337638/in/photostream</a>\nin this\
+    \ sample pic I named the prepared view to \"positionLegend\"\n\"DoorWindow Page1\"\
+    \ and \"DoorWindow Page2\" are created by programmatic.\n\nthis is how to work:\n\
+    1.function clicked , Pick LegendComponent with API:PickObject in \"positionLegend\"\
+    , then use API:pickedElem.get_Geometry(new Options()) to fetch Origin coordinate,that's\
+    \ important because it can let me drawing DetailLine in the right position\n\n\
+    2.duplicating LegendView with ViewDuplicateOption.WithDetailing,at this time I\
+    \ determine how much page want to create,for this sample I want drawing six componet\
+    \ each page,and 8 component want to listed:\nint neededPage = (unionFamilies.Count()\
+    \ / pageCnt) + (((unionFamilies.Count() % pageCnt) > 0) ? 1 : 0);\nmanipulateViews\
+    \ = new Autodesk.Revit.DB.View[neededPage];\n\n3.in LegendComponent creating process,int\
+    \ the loop I filled some condition to fetch working view and it's own Element(the\
+    \ duplicated LegendComponent):\nint validCnt = 0;\nElement positionElem = null;\n\
+    \nfor (int i = 0; i < unionFamilies.Count(); i++)\n{\n  if ((validCnt % pageCnt)\
+    \ == 0)\n  {\n\tif (positionElem != null)\n\t  m_Document.Delete(positionElem);\
+    \ //new page,delete it\n\n\tpositionElem = GetPositionElem(manipulateViews[viewIndex]);\n\
+    \tlegendView = manipulateViews[viewIndex++];\n  }\n}\n\nprivate Element GetPositionElem(Autodesk.Revit.DB.View\
+    \ view)\n{\n  FilteredElementCollector viewCollector = new FilteredElementCollector(m_Document,\
+    \ view.Id);\n  return viewCollector.OfCategory(BuiltInCategory.OST_LegendComponents).ToElements().ElementAt(0);\n\
+    \  //need some error handle of course\n}\n\n4.everyone are set. starting to CopyElement\
+    \ and drawing DetailLine\nnewSets = ElementTransformUtils.CopyElement(m_Document,\
+    \ positionElem.Id, dupObjPoint);\n\nfor now that's working great to me.\nIn this\
+    \ concept,maybe that's a way to help how specified target view,just Finding \"\
+    Locating Object\" if you CAN."
+- author: Dale Bartlett
+  email: dale.bartlett@realtimeinternational.com.au
+  ip: 212.72.17.154
+  url: http://www.realtimeinternational.com.au
+  date: '2012-07-17 03:57:14'
+  body: Hi Jeremy, You mention closing all non-active (hidden) views. I understood
+    this was not possible, did I doze off? Dale
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-08-15 06:52:52'
+  body: 'Dear Dale,
+
+
+    Well, if worst comes to worst, there is always this:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/10/closing-the-active-document-and-why-not-to.html">http://thebuildingcoder.typepad.com/blog/2010/10/closing-the-active-document-and-why-not-to.html</a>
+
+
+    But, yes, as far as I know, you can close all views except the very last active
+    one.
+
+
+    Hmm, I wonder how that went?
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-08-15 07:07:05'
+  body: "Dear Rick,\n\nWow, this sounds pretty interesting. \n\nWould you like to\
+    \ flesh it out to a full-blown guest blog post of its own?\n\nThank you!\n\nCheers,\
+    \ Jeremy."
+- author: Rick
+  email: enonrick@gmail.com
+  ip: 114.32.162.82
+  url: ''
+  date: '2012-08-23 05:33:07'
+  body: 'sure,but where is suitable.
+
+    thanks.
+
+
+    Rick'
+- author: Matt Taylor
+  email: matthew.taylor@wspgroup.com
+  ip: 61.14.99.173
+  url: ''
+  date: '2015-06-22 20:03:36'
+  body: Now you can use postcommand to close the last active document.
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.5.251.20
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-06-23 03:46:10'
+  body: 'Dear Matt,
+
+
+    Cool!
+
+
+    Thank you very much for pointing it out!
+
+
+    Cheers, Jeremy.
+
+    -----'

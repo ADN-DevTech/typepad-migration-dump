@@ -1,0 +1,302 @@
+comments:
+- author: Sebastian
+  email: sebastian.tam.tran@somotsoft.com
+  ip: 118.69.224.123
+  url: ''
+  date: '2009-04-24 06:32:49'
+  body: 'Hi Jeremy,
+
+    I have found out the error before seeing this post. It came from getting the SketchPlan
+    instance wrongly when I create an AreaViewPlan element. I successfully created
+    a new Area View Plan, added Area elements corresponding to the underlying Room
+    elements inside the AreaBoundaryLines (your command does not create any AreaBoundaryLines,
+    thus when I tried to use it, an exception "Area not in enclosed region" was raised)
+    automatically created by using the RoomBoundaryLines. Nevertheless, I greatly
+    appreciate your help. Your example command helps me assure that I am going the
+    correct direction.
+
+
+    If you have time, I have some more really interesting questions to ask ^^:
+
+    1. A user can create a custom Area Scheme and create an Area Plan with this scheme.
+    I want to do the same thing in my code. But I found that the API only supports
+    two built-in schemes: BOMA (Rentable) and Gross Building. Is it true?
+
+
+    2. Assuming a custom Area Scheme is already available, I would like to change
+    the current Area Plan''s scheme from Rentable to this scheme. I tried to set the
+    ObjectType to this Symbol (I used RvtMgdDbg to snoop and found the scheme is actually
+    a Symbol instance), but Revit also forbid this operation (ArgumentException raised
+    "value does not fall within the expected range".
+
+
+    3. I would like to add a shared parameter to an Area Plan. I tried but it seems
+    that Revit does not permit this operation.
+
+
+    I really need to solve these issues for the upcoming project. If you need to see
+    my code, please send me an email, I will reply with the attached source code.
+
+
+    Looking forward to your comment.
+
+    Sebastian'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-24 07:30:19'
+  body: 'Dear Sebastian,
+
+
+    Thank you for your update. Are you saying that the code above does not work for
+    you? Strange, it did work for me. Did you make any simple changes or additions
+    to it to create the area boundary lines you mention? Could you send me the updated
+    code to show what you mean, please, or describe in more detail what it was that
+    did not work and how you fixed it, so that I can complete the code above to work
+    reliably under all circumstances? Thank you!
+
+
+    I will have to do some research before responding to your additional interesting
+    questions 1 and 2.
+
+
+    I can respond partially to number 3. at least: to attach a shared parameter to
+    a Revit object, it needs to have a category. If I insert a rentable area plan
+    into a project, I see some available categories associated with it. OST_AreaShemes
+    for the gross building and rentable area scheme, OST_Views for the area plan view
+    ViewPlan instance Rentable. As far as I can tell off-hand, you could associate
+    shared parameters with either the area schemes or the views. If you associate
+    them with the schemes, there will only be one set of parameters per scheme. If
+    you associate them with the views, they will be available on all views, whether
+    area plan, plan, or other. The latter should give you what you want. You just
+    have to ignore all the non-area and non-plan views.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 88.64.45.51
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-25 12:47:04'
+  body: 'Dear Sebastian,
+
+
+    I had a chat with my colleagues regarding your questions. Here are their replies
+    to the first two, and my follow-up on the third:
+
+
+    1. There is no API method to create a new area scheme.
+
+
+    2. This cannot be done through the Revit UI or the API. ViewPlan.AreaScheme is
+    read-only.
+
+
+    3. Did you try to do anything according to my suggestions above? If you are still
+    having problems, can you send me the code that you are using to try to add the
+    shared parameter to the area plan? Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Sebastian
+  email: sebastian.tam.tran@somotsoft.com
+  ip: 118.69.224.123
+  url: ''
+  date: '2009-04-27 02:14:05'
+  body: "Dear Jeremy,\nHere are my feedback about your suggestions and replies from\
+    \ your colleagues (I really appreciate!)\n\n** Question number 1 & 2: Originally,\
+    \ I tried to develop a function that:\n\n(a) can automatically create a new custom\
+    \ Area Scheme \n\n=> With your answers, my conclusion is that it is impossible\
+    \ to create a custom Area Scheme by code.\nAccording to my understanding, the\
+    \ only way to create an Area View Plan having a custom area scheme is to create\
+    \ it by hand (using the Settings/Area and Volume Computations.../Area Schemes\
+    \ command in the Revit UI).\n\n(b) Then, create a new area plan (which belongs\
+    \ to the custom Area Scheme) corresponding to a floor plan with the activeDocument.Create.NewAreaViewPlan()\
+    \ \n\n=> The API only supports to create an area plan which belongs to one of\
+    \ 2 built-in schemes: Rentable or Gross Building.\n\n(c) An Area view plan will\
+    \ have Area elements overlaying the Room elements. \n\n=> And we can only manipulate\
+    \ these pre-created Area Plans (belongs to a custom Area Scheme) by code (i.e.\
+    \ adding area boundary lines and area elements inside it - with activeDocument.Create.NewAreaBoundaryLine()\
+    \ and activeDocument.Create.NewArea() methods)\n\n** About Question number 3:\
+    \ Initially I tried to attach a shared parameter which has OST_Views category.\
+    \ My first effort failed because of a known bug of Revit API: when using revit.ActiveDocument.Settings.Categories.get_Item(BuiltInCategory.OST_Views)\
+    \ to get the category instance, this method always return null, as discussed in\
+    \ this thread: <a href=\"http://forums.augi.com/showthread.php?p=857657\">http://forums.augi.com/showthread.php?p=857657</a>\
+    \ . GuyR gave us a workaround solution in the very last post using CategoryFilter.\
+    \ I tried his and finally got the new shared parameter added successfully.\n\n\
+    Regards,\nSebastian"
+- author: Sebastian
+  email: sebastian.tam.tran@somotsoft.com
+  ip: 118.69.224.123
+  url: ''
+  date: '2009-04-27 03:13:55'
+  body: 'One more thing, I will post the code fragment that creates the Area Boundary
+    Lines and places an Area element inside the enclosed region ASAP. If I am right,
+    an Area element can only be placed inside a region bounded by a set of joined
+    Area Boundary Line (ModelCurve elements).
+
+
+    Cheers,
+
+    Sebastian'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-04-27 05:28:56'
+  body: 'Dear Sebastian,
+
+
+    I am glad it helped clarify things and that you made further progress. Thank you
+    very much for your appreciation! I am looking forward to seeing your sample code.
+
+
+    Cheers, Jeremy.'
+- author: Sowmya
+  email: ''
+  ip: 61.246.236.157
+  url: http://profile.typepad.com/cnr
+  date: '2009-12-17 04:01:31'
+  body: 'Hi,
+
+
+    I would like to thank Mr.Sebastian for his excellent information on Area object.
+
+
+    But I am not able to get what the below point means
+
+
+    Then, create a new area plan (which belongs to the custom Area Scheme) corresponding
+    to a floor plan with the activeDocument.Create.NewAreaViewPlan() .
+
+
+    Can you please explain this?
+
+
+    Thanks'
+- author: Fongue
+  email: fongue.fongue@activeplan.co.uk
+  ip: 83.223.195.10
+  url: ''
+  date: '2010-08-03 12:26:09'
+  body: 'Hi Jeremy,
+
+
+    I took a plunge into Revit 2010 3 weeks ago and have done a good progress; unfortunately
+    insufficient to solve the problem I am now facing.
+
+    I am actually developing an External App to generate a series of rooms given the
+    boundaries of each room, its location and name.
+
+
+    this is working great with the regions and the rooms been created. But only the
+    first room in the list is bound to its related region; and the rest report this
+    error: Room is not in a properly enclosed region.
+
+
+    below is my code:
+
+
+    Dim SketchPlane As SketchPlane = mdlInsert.CreateSketchPlane(oRevitApp)
+
+    Dim arrCurve As CurveArray = New CurveArray
+
+    Dim oLine As Line = oRevitApp.Create.NewLineBound(oStart, oEnd)
+
+
+    arrCurve.Append(oLine)
+
+
+    Dim arrRoomBoundary As ModelCurveArray
+
+    arrRoomBoundary =  RevitApp.ActiveDocument.Create.NewRoomBoundaryLines(SketchPlane,
+    arrCurve, oView)
+
+
+    Dim oRoomLocation As UV = New UV(intLocX, intLocY)
+
+    oRoom = oRevitApp.ActiveDocument.Create.NewRoom(oLevel, oRoomLocation)
+
+
+
+    Could you please shed some light here?
+
+
+    Regards;
+
+    Fongue'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-08-03 23:49:39'
+  body: 'Dear Fongue,
+
+
+    Congratulations on your good progress. Any special reason why you are working
+    on Revit 2010 instead of 2011?
+
+
+    Sorry, I have no idea what is going on from your source code snippet.
+
+
+    Some samples of using the NewRoom method are provided in
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/01/plantopology-class.html">http://thebuildingcoder.typepad.com/blog/2009/01/plantopology-class.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/03/create-room-on-level-in-phase.html">http://thebuildingcoder.typepad.com/blog/2009/03/create-room-on-level-in-phase.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/04/create-an-area.html">http://thebuildingcoder.typepad.com/blog/2009/04/create-an-area.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/04/failure-api.html">http://thebuildingcoder.typepad.com/blog/2010/04/failure-api.html</a>
+
+
+    The Revit SDK samples AutoTagRooms, ElementsBatchCreation, Rooms, RoomSchedule
+    may also be of interest. RoomSchedule  makes use of the NewRoom method, and ElementsBatchCreation
+    uses NewRooms to create a whole batch of rooms, which sounds like a good match
+    for your requirement.
+
+
+    Cheers, Jeremy.'
+- author: Fongue
+  email: fongue.fongue@activeplan.co.uk
+  ip: 83.223.195.10
+  url: ''
+  date: '2010-08-04 12:08:34'
+  body: 'Hello Jeremy,
+
+
+    Thanks for your reply. I haven''t been through the links you sent in your reply
+    yet due to the fact that I''m busy installing Revit 2011 and VS 2010.
+
+
+    To answer your question regarding my choice of 2010 instead on 2011, my company
+    just has the policy not to implement on a latest revision; but on the top previous
+    one to avoid being ahead of the users'' market and also to pick up clients who
+    are not on the latest version yet; since the latest version usually works with
+    the previous one.
+
+
+    I''ll go through ur proposed solution and definitely let you know.
+
+
+    Thank you very much to helping us out with this wonderful blog of yours . You
+    are a Great!
+
+
+    Fongue'
+- author: Jeremy Tammik
+  email: ''
+  ip: 61.19.67.183
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-08-06 07:10:56'
+  body: "Dear Fongue,\n\nI understand your company's position, and thank you very\
+    \ much for your appreciation. \n\nIn the case of the Revit API, there is no guaranteed\
+    \ backwards compatibility, you normally have to create a separate version of your\
+    \ plug-in for each major release of Revit.\n\nGood luck and best regards, Jeremy.\n\
+    -----"

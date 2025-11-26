@@ -1,0 +1,40 @@
+comments:
+- author: Mr West
+  email: MrWest@Dot.Com
+  ip: 86.181.254.108
+  url: ''
+  date: '2012-04-07 06:02:04'
+  body: "I've always seemed to have avoided this problem by a similar approach but\
+    \ instead of renaming the panel you can find the existing panel and add to that\
+    \ if it exists.\n\npublic class GetPanel\n{\n\n\tpublic static object GetNewOrExistingRibbonPanel(UIControlledApplication\
+    \ CApp, string TabName, string PanelName)\n\t{\n\t\treturn TheInternalDoingPart(CApp,\
+    \ TabName, null, PanelName);\n\t}\n\n\tpublic static object GetNewOrExistingRibbonPanel(UIControlledApplication\
+    \ CApp, Tab Tab, string PanelName)\n\t{\n\t\treturn TheInternalDoingPart(CApp,\
+    \ null, Tab, PanelName);\n\t}\n\n\tprivate static object TheInternalDoingPart(UIControlledApplication\
+    \ CApp, string TabName, Tab Tab, string PanelName)\n\t{\n\t\tIList ERPs = null;\n\
+    \t\tif (Tab == null) {\n\t\t\tERPs = CApp.GetRibbonPanels(TabName);\n\t\t} else\
+    \ if (TabName == null) {\n\t\t\tERPs = CApp.GetRibbonPanels(Tab);\n\t\t} else\
+    \ {\n\t\t\treturn null;\n\t\t}\n\n\t\tAutodesk.Revit.UI.RibbonPanel NewOrExtgRevitPanel\
+    \ = null;\n\t\tforeach (Autodesk.Revit.UI.RibbonPanel Pan in ERPs) {\n\t\t\tif\
+    \ (Pan.Name == PanelName) {\n\t\t\t\tNewOrExtgRevitPanel = Pan;\n\t\t\t\tgoto\
+    \ FoundSoJumpPastNew;\n\t\t\t}\n\t\t}\n\t\tAutodesk.Revit.UI.RibbonPanel NewRevitPanel\
+    \ = CApp.CreateRibbonPanel(TabName, PanelName);\n\t\tNewOrExtgRevitPanel = NewRevitPanel;\n\
+    \t\tFoundSoJumpPastNew:\n\n\t\treturn NewOrExtgRevitPanel;\n\t}\n\n}"
+- author: Mr West
+  email: MrWest@Dot.Com
+  ip: 86.181.254.108
+  url: ''
+  date: '2012-04-07 06:12:37'
+  body: "I spotted a slight error I made on the doing part above not respecting both\
+    \ overload code paths.\n\nprivate static object TheInternalDoingPart(UIControlledApplication\
+    \ CApp, string TabName, Tab Tab, string PanelName)\n{\n\tIList ERPs = null;\n\t\
+    if (Tab == null) {\n\t\tERPs = CApp.GetRibbonPanels(TabName);\n\t} else if (TabName\
+    \ == null) {\n\t\tERPs = CApp.GetRibbonPanels(Tab);\n\t} else {\n\t\treturn null;\n\
+    \t}\n\n\tAutodesk.Revit.UI.RibbonPanel NewOrExtgRevitPanel = null;\n\tforeach\
+    \ (Autodesk.Revit.UI.RibbonPanel Pan in ERPs) {\n\t\tif (Pan.Name == PanelName)\
+    \ {\n\t\t\tNewOrExtgRevitPanel = Pan;\n\t\t\tgoto FoundSoJumpPastNew;\n\t\t}\n\
+    \t}\n\n\tAutodesk.Revit.UI.RibbonPanel NewRevitPanel = null;\n\tif (Tab == null)\
+    \ {\n\t\tNewRevitPanel = CApp.CreateRibbonPanel(TabName, PanelName);\n\t} else\
+    \ {\n\t\tNewRevitPanel = CApp.CreateRibbonPanel(Tab, PanelName);\n\t}\n\n\tNewOrExtgRevitPanel\
+    \ = NewRevitPanel;\n\tFoundSoJumpPastNew:\n\n\treturn NewOrExtgRevitPanel;\n}\n\
+    \n-----"

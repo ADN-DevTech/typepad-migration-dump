@@ -1,0 +1,92 @@
+comments:
+- author: Eduardo Tavares
+  email: edu.rocha.tavares@gmail.com
+  ip: 177.46.138.3
+  url: ''
+  date: '2013-08-28 15:49:16'
+  body: "Hello, Jeremy\n\nI have been following your blog for a long time! Thank you\
+    \ for sharing your knowledge with the Revit API community!\n\nThere is something\
+    \ I am trying to accomplish with CURVES and I am stuck at a very \"beginner\"\
+    \ issue.\n\nI have the following line from which I get the build error \"The type\
+    \ 'Autodesk.Revit.DB.Curve' has no constructors defined\":\n\n Curve gridCurveStart\
+    \ = new Curve();\n\nWhere I may find instructions on how to work with constructors?\n\
+    \nThanks a lot,\n\nEduardo Tavares"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.219.170
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-08-29 10:06:58'
+  body: 'Dear Eduardo,
+
+
+    Thank you for your interest and appreciation!
+
+
+    The Revit API does not implement or use constructors for many classes.
+
+
+    The old way to do this is via the creation application and document, e.g. Autodesk.Revit.Creation.Application
+    NewLine, NewArc,  NewHermiteSpline etc. methods. These are now obsolete.
+
+
+    The new approach is to use static creation methods on each class instead, e.g.
+    Autodesk.Revit.DB.Line CreateBound and CreateUnbound  methods.
+
+
+    This an answer you can easily find for yourself by looking at the SDK samples
+    or reading the blog, though.
+
+
+    It is not much use reading it if you make no use of the information.
+
+
+    Cheers, Jeremy.'
+- author: Eduardo Tavares
+  email: edu.rocha.tavares@gmail.com
+  ip: 177.46.128.115
+  url: ''
+  date: '2013-08-29 15:23:17'
+  body: 'Thanks a lot, Jeremy!
+
+
+    One last question (I hope!) on this subject:
+
+
+    - I am trying to GET the Hand Orientation XYZ values from Curtain Wall MULLIONS.
+    Is that even possible? I see that those values can be seen within Revit Lookup.
+
+
+    Regards,
+
+
+    Eduardo'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.219.98
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-08-30 07:34:42'
+  body: "Dear Eduardo,\n\nRevitLookup is available to you in source code. You can\
+    \ run it in the debugger and see for yourself how it access the values you are\
+    \ interested in. \n\nSo of course it is possible. \n\nYou can do absolutely everything\
+    \ that RevitLookup does.\n\nCheers, Jeremy."
+- author: Eduardo Tavares
+  email: edu.rocha.tavares@gmail.com
+  ip: 200.236.211.248
+  url: ''
+  date: '2013-09-02 09:03:11'
+  body: Already found the solution! I was getting the TYPE properties instead of the
+    INSTANCE properties. Now I managed getting the HandOrientation values.
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.221.136
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-02 09:47:38'
+  body: 'Dear Eduardo,
+
+
+    Cool. Congratulations.
+
+
+    Cheers, Jeremy.
+
+    -----'

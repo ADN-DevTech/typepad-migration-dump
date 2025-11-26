@@ -1,0 +1,296 @@
+---
+layout: "post"
+title: "Material Shared Parameters and ADN Xtra Labs"
+date: "2016-12-05 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "2017"
+  - "AU"
+  - "DevDays"
+  - "Forge"
+  - "Getting Started"
+  - "Labs"
+  - "Material"
+  - "Migration"
+  - "Parameters"
+  - "SDK Samples"
+  - "Training"
+  - "Update"
+original_url: "https://thebuildingcoder.typepad.com/blog/2016/12/material-shared-parameters-and-adn-xtra-labs.html "
+typepad_basename: "material-shared-parameters-and-adn-xtra-labs"
+typepad_status: "Publish"
+---
+
+<p>Can we attach a shared parameter to <code>Material</code> elements?</p>
+
+<p>Yes, we can!</p>
+
+<p>In the course of proving that, I finally updated the ADN Xtra labs to remove all deprecated API usage.</p>
+
+<p>I also implemented a new addin that creates and populates a shared parameter to provide material information for each element to the Forge translation process... basically, the opposite of the above, if you will.</p>
+
+<p>And, talking about materials, the Autodesk University 2016 class materials have now been posted, including the recording of my session on connecting desktop and cloud.</p>
+
+<p>Finally, I end with an absolutely non-technical topic, on healing:</p>
+
+<ul>
+<li><a href="#2">AU2016 Classes posted</a></li>
+<li><a href="#3">ADN Xtra labs updated</a></li>
+<li><a href="#4">Linking <code>Material</code> elements to external database entries</a></li>
+<li><a href="#5">Binding a shared parameter to elements</a></li>
+<li><a href="#6">Attaching a shared parameter to <code>Material</code> elements</a></li>
+<li><a href="#7">Create and populate a shared parameter <code>ForgeMaterial</code></a></li>
+<li><a href="#8">Cornelius story &ndash; cured by natural remedies</a></li>
+</ul>
+
+<p>Before getting to all that, let me mention that I am now busy at the Munich DevDays conference.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb095c0907970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb095c0907970d img-responsive" style="width: 500px; " alt="Munich DevDay" title="Munich DevDay" src="/assets/image_aba419.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>For more impressions from this event, check out Kean Walmsley's notes on <a href="http://through-the-interface.typepad.com/through_the_interface/2016/12/the-european-devday-in-munich.html">the European DevDay in Munich</a>.</p>
+
+<h4><a name="2"></a>AU2016 Classes Posted</h4>
+
+<p>All the recordings made of Autodesk University 2016 classes have now been posted and are available
+via <a href="http://au.autodesk.com/au-online/overview">AU Online</a>.</p>
+
+<p>You can explore the material
+for <a href="http://thebuildingcoder.typepad.com/blog/2016/10/au-revit-20171-and-rex-freezedrawing.html#2">my two classes</a>
+by <a href="http://au.autodesk.com/au-online/classes-on-demand/search?full-text=tammik">filtering for <code>tammik</code></a>,
+or directly through the following links:</p>
+
+<ul>
+<li><a href="http://au.autodesk.com/au-online/classes-on-demand/class-catalog/2016/revit/sd20891"><strong>SD20891</strong> &ndash; Revit API Expert Roundtable &ndash; Open House on the Factory Floor</a></li>
+<li><a href="http://au.autodesk.com/au-online/classes-on-demand/class-catalog/2016/revit/sd20908"><strong>SD20908</strong> &ndash; Connect Desktop and Cloud &ndash; Free Your BIM Data!</a></li>
+</ul>
+
+<p><center></p>
+
+<script height="468px" width="832px" src="http://player.ooyala.com/iframe.js#pbid=34ee2c04f0304af88c76585f87c5bd8c&ec=xyM2hvNzE6uwSdozxVspBc0eDumVZA5F"></script>
+
+<p></center></p>
+
+<p>A related class that may also be of interest is
+Fernando Malard's <a href="http://au.autodesk.com/au-online/classes-on-demand/class-catalog/2016/forge/sd16837"><strong>SD16837</strong> <em>From Desktop to the Cloud with Autodesk Forge</em></a>.</p>
+
+<p>In case you have not yet enjoyed it, you might also want to check out
+the great <a href="http://au.autodesk.com/au-online/classes-on-demand/class-catalog/2016/class-detail/22760">AU2016 opening keynote</a>.</p>
+
+<h4><a name="3"></a>ADN Xtra Labs Updated</h4>
+
+<p>The last time I worked on the <em>ADN Xtra Labs</em> hosted in
+the <a href="https://github.com/jeremytammik/AdnRevitApiLabsXtra">AdnRevitApiLabsXtra GitHub repository</a> was for
+the <a href="http://thebuildingcoder.typepad.com/blog/2016/08/trusted-signature-and-updated-revit-2017-api-resources.html#5">Revit 2017 migration</a>,
+and the <a href="http://thebuildingcoder.typepad.com/blog/2015/06/adn-labs-xtra-multi-version-add-ins-and-cnc-direct.html#2">migration to Revit 2016</a> before that.</p>
+
+<p>They are a superset of the
+official <a href="">ADN Revit API labs training material</a>
+(<a href="http://thebuildingcoder.typepad.com/blog/2015/05/autodesk-university-q1-adn-labs-and-wizard-update.html#4">2016</a>)
+available from
+the <a href="http://www.autodesk.com/developrevit">Revit Developer Centre</a> and
+the <a href="https://github.com/ADN-DevTech/RevitTrainingMaterial">Revit API Training GitHub repository</a>.</p>
+
+<p>They are used for our standard two- or three-day hands-on Revit API introduction training courses.
+They are also suitable for self-learning and include full step-by-step instructions, separate for both C# and VB add-ins.</p>
+
+<p>I maintain an extended version of these including the precursor versions, repackaged in the ADN Revit API Training Labs Xtra modules.</p>
+
+<p>The Xtra version Visual Studio solution implements the following projects:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb095c09f9970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb095c09f9970d img-responsive" style="width: 210px; " alt="ADN Revit API Training Labs Xtra Visual Studio solution" title="ADN Revit API Training Labs Xtra Visual Studio solution" src="/assets/image_80672b.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>The first six are the official, standard, ADN training labs to introduce the Revit API basics, UI programming and Family API.</p>
+
+<p>Obviously, the Xtra labs have advantages and disadvantages over the standard labs, so you should check out both and decide which you prefer for yourself.</p>
+
+<p>They also include a couple of additional utilities that I frequently find useful, especially a simplified version of the
+<a href="http://thebuildingcoder.typepad.com/blog/2015/05/geometry-creation-and-line-intersection-exceptions.html#5">BipChecker</a>
+(<a href="http://thebuildingcoder.typepad.com/blog/2014/05/bipchecker-for-revit-2015-on-github.html#3">2015</a>) and the
+<a href="http://thebuildingcoder.typepad.com/blog/2014/09/debugging-and-maintaining-the-image-relationship.html#2">element lister</a>.</p>
+
+<p>Anyway, I left off the migration to the Revit 2017 API before it was entirely completed; several of the external commands were still making use of the obsolete and deprecated automatic transaction mode.</p>
+
+<p>I finally got around to fixing that now, resulting in a
+new <a href="https://github.com/jeremytammik/AdnRevitApiLabsXtra/releases/tag/2017.0.0.7">release 2017.0.0.7</a>.</p>
+
+<p>You can examine the changes I made
+by comparing the last few versions using the GitHub comparison functionality, e.g.,
+<a href="https://github.com/jeremytammik/AdnRevitApiLabsXtra/compare/2017.0.0.3...2017.0.0.7">between 2017.0.0.4 and 2017.0.0.7</a>.</p>
+
+<p>Here is my external application RvtSamples listing entry points to launch all the Revit SDK, ADN Xtra lab and The Building Coder samples:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb095c09d6970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb095c09d6970d img-responsive" style="width: 452px; " alt="RvtSamples listing SDK, Adn Xtra and The Building Coder samples" title="RvtSamples listing SDK, Adn Xtra and The Building Coder samples" src="/assets/image_2d6f87.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>As always, the most up-to-date version of the ADN Revit API Training Labs Xtra is provided in the
+<a href="https://github.com/jeremytammik/AdnRevitApiLabsXtra">AdnRevitApiLabsXtra GitHub repository</a>,
+and the current version right now is
+<a href="https://github.com/jeremytammik/AdnRevitApiLabsXtra/releases/tag/2017.0.0.7">release 2017.0.0.7</a>.</p></p>
+
+<h4><a name="4"></a>Linking <code>Material</code> Elements to External Database Entries</h4>
+
+<p><strong>Question:</strong> Is it possible (maybe through API?) to assign new parameters for materials?</p>
+
+<p>The original question in in German:</p>
+
+<p><em>Um die Bilanzierung der Materialmassen zu automatisieren, wäre es hilfreich den Materialien in Revit eine Datenbank-ID zuzuschreiben, welche dauerhaft im Modell mitwandert. Über shared Parameter konnte ich bisher nur Elemente (Wand), aber nicht den untergeordneten Materialien zuschreiben. Die Funktionenen des Materialkatalogs wirken eingeschränkt. Gibt es hierfür Möglichkeiten Materialparameter neu zu erstellen?</em></p>
+
+<p>In other words, he would like to add specific IDs (parameters) to materials that he could write out to a database. He mentions the analogy with shared parameters &ndash; it seems he would like to create custom shared parameters and add them to materials.</p>
+
+<p>Do you know any solution for this idea?</p>
+
+<p><strong>Answer 1:</strong> So, the user has an external database and wishes to link Revit materials to database entries.</p>
+
+<p>That is good, and easy.</p>
+
+<p>Now I would suggest that we all switch on our brains for a moment.</p>
+
+<p>The Revit materials reside in the Revit database and are therefore Revit elements.</p>
+
+<p>They are therefore equipped with an element id and a unique id.</p>
+
+<p>The external database exists and has entries for the materials, and needs some kind of link.</p>
+
+<p>You might consider adding something new to the Revit database, e.g. a shared parameter on each material.</p>
+
+<p>That is completely unnecessary, as far as I can tell.</p>
+
+<p>Since you are already managing an external database, and since each material already is equipped with a unique id, I would suggest that you use that existing unique id to identify the material, and store that in the database.</p>
+
+<p>If you need to link multiple materials to the same database entry and are using a relational database, you might want to implement a <code>1:n</code> link using an auxiliary table.</p>
+
+<p>Unless there is more to the problem than has been mentioned so far, I would maintain that this is the most efficient solution.</p>
+
+<p>It also has the advantage of solving the problem without introducing any new data elements or shared parameters anywhere.</p>
+
+<p>What do you think?</p>
+
+<p>On the other hand, if you insist on pursuing the suggested path, the fact is that as far as I know any Revit element can be equipped with a shared parameter, as long as it has a valid category.</p>
+
+<p>Is there a category for materials?</p>
+
+<p>Yes, there is.</p>
+
+<p>Therefore, materials can have a shared parameter attached to them.</p>
+
+<p>Here is an explanation of this that I wrote while <a href="http://thebuildingcoder.typepad.com/blog/2008/11/adding-a-shared-parameter-to-a-dwg-file.html">adding a shared parameter to a DWG file</a>.</p>
+
+<p>You can look at the <a href="https://github.com/jeremytammik/AdnRevitApiLabsXtra/blob/master/XtraCs/Labs4.cs#L511-L535">list of things I already tested right there in the C# source code</a>.</p>
+
+<p>I am just in the process of testing for myself whether a shared param can be added to a material as well.</p>
+
+<p>I'll let you know when I know.</p>
+
+<p><strong>Answer 2:</strong> I verified and tested successfully that shared parameters can be added to material elements.</p>
+
+<p>You can see so by checking out and
+running <a href="https://github.com/jeremytammik/AdnRevitApiLabsXtra/releases/tag/2017.0.0.6">version 2017.0.0.6</a>.</p>
+
+<p>I switched back to the standard test using doors again after that, 
+in <a href="https://github.com/jeremytammik/AdnRevitApiLabsXtra/releases/tag/2017.0.0.7">version 2017.0.0.7</a>.</p>
+
+<p>The link to the list of things I already tested has changed, since the line numbers moved
+to <a href="https://github.com/jeremytammik/AdnRevitApiLabsXtra/blob/master/XtraCs/Labs4.cs#L518-L539">Labs4.cs#L518-L539</a>.</p>
+
+<p>You should also always be aware of the possibility to
+use <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.23">extensible storage</a> instead
+of shared parameters to store custom data, cf. also the SDK samples ExtensibleStorageManager and ExtensibleStorageUtility.</p>
+
+<p>Shared parameters make sense if the user and/or Revit should be aware of the properties, e.g. to view or edit them in the properties panel or to make us of them for scheduling purposes.</p>
+
+<p>If the data is purely intended for internal add-in use, extensible storage is normally the better way to go.</p>
+
+<h4><a name="5"></a>Binding a Shared Parameter to Elements</h4>
+
+<p>One way to add custom properties to Revit elements is by using a shared parameter.
+If you can do that in the user interface, then you can do so programmatically as well.</p>
+
+<p>The FireRating SDK sample shows how this can be achieved, and so does my modernised version of it,
+<a href="https://github.com/jeremytammik/FireRatingCloud">FireRatingCloud</a>, in
+the <a href="https://github.com/jeremytammik/FireRatingCloud/blob/master/FireRatingCloud/Cmd_1_CreateAndBindSharedParameter.cs">module Cmd_1_CreateAndBindSharedParameter.cs</a>.</p>
+
+<p>However, this is one of the few things that can be done programmatically for some element types even when it is not allowed in the UI.
+If the Revit development team decided that the end user should not be able to add a shared parameter to a certain element type, it will not show up in the UI.
+As long as it has a valid category, you can mostly attach a shared parameter to it programmatically anyway.</p>
+
+<p>The option <code>AllowsBoundParameters</code> is related to this, determining the so-called visibility of the new parameter: the
+<code>Category.AllowsBoundParameters</code> property determines whether a category is allowed to have user-visible shared or project parameters. If it is false, it may not be bound to visible shared parameters using the BindingMap. Note that non-user-visible parameters can still be bound to these categories.</p>
+
+<h4><a name="6"></a>Attaching a Shared Parameter to <code>Material</code> Elements</h4>
+
+<p>I have repeatedly used the external command <code>Lab4_3_1_CreateAndBindSharedParam</code> implemented in
+the <a href="https://github.com/jeremytammik/AdnRevitApiLabsXtra">AdnRevitApiLabsXtra </a>
+<a href="https://github.com/jeremytammik/AdnRevitApiLabsXtra/blob/master/XtraCs/Labs4.cs">module Labs4.cs</a> to
+test and verify the possibility of binding shared parameters to various classes of elements.</p>
+
+<p>I added <code>Material</code> elements to that list now as well, and that worked fine.</p>
+
+<p>Here is the complete list of the element types we are interested in:</p>
+
+<p>The standard SDK FireRating sample uses BuiltInCategory.OST_Doors. 
+We also test using BuiltInCategory.OST_Walls to demonstrate that the same technique
+works with system families just as well as with standard ones.</p>
+
+<p>To test attaching shared parameters to inserted DWG files,
+which generate their own category on the fly, we also identify
+the category by category name.
+Note that every DWG file linked in generates an own new category named after the DWG filename.
+Therefore, I use the filename stem to determine the category to use for a DWG file, and the built-in category for all other classes of elements.</p>
+
+<p>Further tests confirm the possibility to attach 
+shared parameters to model groups, model lines, 
+rectangular straight wall openings and material 
+elements.</p>
+
+<p>I successfully tested the following built-in categories:</p>
+
+<ul>
+<li>OST_Doors</li>
+<li>OST_Walls</li>
+<li>OST_Lines </li>
+<li>OST_SWallRectOpening </li>
+<li>OST_Materials </li>
+</ul>
+
+<p>You can examine exactly what modifications I made to test adding a shared parameter to <code>Material</code> elements by looking at the differences between the releases before and after doing so:</p>
+
+<ul>
+<li><a href="https://github.com/jeremytammik/AdnRevitApiLabsXtra/compare/2017.0.0.5...2017.0.0.6">compare 2017.0.0.5...2017.0.0.6</a> &ndash; compare the original code binding to the <code>Doors</code> category and the modifications made to switch to <code>Materials</code> instead.</li>
+<li><a href="https://github.com/jeremytammik/AdnRevitApiLabsXtra/compare/2017.0.0.6...2017.0.0.7">compare 2017.0.0.6...2017.0.0.7</a> &ndash; compare the code binding to the <code>Materials</code> category and the code after switching back to <code>Doors</code>.</li>
+</ul>
+
+<h4><a name="7"></a>Create and Populate a Shared Parameter <code>ForgeMaterial</code></h4>
+
+<p>Funnily enough, Philippe just came up with a request to equip a sample BIM that he needs for his Forge demo with some enhanced material information.</p>
+
+<p>I chose to create and populate a new shared parameter named <code>ForgeMaterial</code> to transport that through the translation process across to the Forge ecosystem.</p>
+
+<p>You can check it out in its new <a href="https://github.com/jeremytammik/PopulateMaterialProperty">PopulateMaterialProperty GitHub repository</a>.</p>
+
+<p>Note that my algorithm to determine what material to use for each element is rather arbitrary:</p>
+
+<p>If the element category <code>HasMaterialQuantities</code> property is true, the element is deemed to consist of the first material with non-zero area.</p>
+
+<p>Otherwise, the material element is simply set to the element category name.</p>
+
+<h4><a name="8"></a>Cornelius Story &ndash; Cured by Natural Remedies</h4>
+
+<p>Let me finish off on a personal note, sharing with you my
+son <a href="http://on-lyme.org/en/sufferers/lyme-stories/item/241-cornelius-story-cured-by-natural-remedies">Cornelius story &ndash; cured by natural remedies</a> on suffering and recovering from Lyme chronic disease.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d242c942970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d242c942970c img-responsive" style="width: 200px; " alt="Iris" title="Iris" src="/assets/image_845aa8.jpg" /></a><br /></p>
+
+<p></center></p>

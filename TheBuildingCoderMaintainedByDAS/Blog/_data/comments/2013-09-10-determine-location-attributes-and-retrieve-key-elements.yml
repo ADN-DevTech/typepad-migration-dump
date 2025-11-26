@@ -1,0 +1,124 @@
+comments:
+- author: Constantin Gherasim
+  email: constantin.gherasim@genivar.com
+  ip: 207.35.54.70
+  url: ''
+  date: '2013-09-10 15:03:25'
+  body: 'Hi Jeremy,
+
+
+    Excuse me please for asking here about a different topic, but I don''t know any
+    other email address where I could ask different questions from time to time.
+
+
+    I would like to know if there is any possibility (API or not) that I could define
+    a shared parameter and then somehow display it in different languages depending
+    upon the Revit language (like in French for French Revit and in English for the
+    English version of Revit).
+
+
+    This would be something similar to Revit built-in SHEET_SCALE built-in parameter
+    which is displayed Échelle in French and Scale in English.
+
+
+    Thank you for your attention,
+
+
+    Constantin'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-10 15:11:22'
+  body: 'Dear Constantin,
+
+
+    Thank you, cool question.
+
+
+    Unfortunately, I am not aware of any such functionality, whether API or not.
+
+
+    I have heard of developers defining different shared parameter text files reusing
+    the same shared parameter GUID for different languages, but that is a bit different.
+
+
+    A Revit add-in can be internationalised and localised by using resource DLLs,
+    and these can also be specified via the add-in manifest.
+
+
+    None of this addresses you exact need, though.
+
+
+    All I can suggest is to file a wish list item through all conceivable channels,
+    such as Autodesk product support, ADN, AUGI, direct contact to product managers
+    etc.
+
+
+    Cheers, Jeremy.'
+- author: Constantin Gherasim
+  email: constantin.gherasim@genivar.com
+  ip: 207.35.54.70
+  url: ''
+  date: '2013-09-11 09:32:08'
+  body: 'Thank you for the quick response, Jeremy!
+
+
+    Have a great day,
+
+
+    Constantin :)'
+- author: Chandan Munnalal Kawad
+  email: ckawad@knottmechanical.com
+  ip: 209.251.39.115
+  url: ''
+  date: '2013-12-31 13:28:49'
+  body: "Hello Jeremy,\n\nI have question regarding GetRoomAtPoint().\n\nI used get\
+    \ room data feature to get list of rooms.\nUsing which I paased one of point of\
+    \ such room to test whether GetRoomAtPoint() picks up the room back.\n\nIt always\
+    \ returns null.\n\nHere is the code.\nXYZ p = new XYZ(115.64,23.75,4.36); //these\
+    \ are actual points of a room\n\nRoom r = doc.GetRoomAtPoint(p);\n\nif (r != null)\n\
+    {\n   System.Windows.Forms.MessageBox.Show(r.Name);\n}\n\nPlease highlight what\
+    \ I am missing. [New to Revit World]\n\nThanks and Happy New Year"
+- author: Chandan Munnalal Kawad
+  email: ckawad@knottmechanical.com
+  ip: 209.251.39.115
+  url: ''
+  date: '2013-12-31 15:17:27'
+  body: 'Hello Jeremy,
+
+
+    I wasn''t passing phase info [Phase Dependent Room Properties <a href="http://thebuildingcoder.typepad.com/blog/2011/02/phase-dependent-room-properties.html]">http://thebuildingcoder.typepad.com/blog/2011/02/phase-dependent-room-properties.html]</a>
+
+
+    It shows room no now.
+
+
+    Thanks,
+
+    Chandan Munnalal Kawad'
+- author: M.Vallée
+  email: m.vallee@bouygues-construction.com
+  ip: 79.174.225.131
+  url: ''
+  date: '2014-07-31 09:13:22'
+  body: "Hi Jeremy,\n\nYour fantastic blog is still useful for me, thanks a lot for\
+    \ sharing your work.\n\n\"A surprisingly simple method to access the set of all\
+    \ elements listed in a schedule is to instantiate a filtered element collector\
+    \ providing the schedule view as an initial input argument. That returns exactly\
+    \ the desired elements. This works for key schedules as well.\"\n\nThis is what\
+    \ I successfully did. However I still have some trouble attempting to populate\
+    \ a Windows forms combobox datasource with the possible values for my key parameter\
+    \ : how can I get/add the \"none\" value, which is represented in the French Revit\
+    \ version by the string \"(aucun)\", to the combobox datasource ?\n\n\n public\
+    \ static List<Element> GetPossibleKeyParamValues(Document document)\n        {\n\
+    \            // Get key schedule from param name\n            ViewSchedule key_schedule\
+    \ = Utils.GetKeyScheduleFromParameterName(document, \"MyKeyParamName\");\n   \
+    \            \n            // Return elements of that key schedule\n         \
+    \   if (null == key_schedule)\n                return null;\n            \n  \
+    \          List<Element> res = new List<Element>(new FilteredElementCollector(document,\
+    \ key_schedule.Id));\n\n      // How to add the \"none\" value to this Element\
+    \ list? \n      // because what I get is Val1, Val2, ..., Valn\n           \n\
+    \ return res;\n        }\n\n\nThen in the form init method :\n\n\n comboBox.DataSource\
+    \ = GetPossibleKeyParamValues(document);\n comboBox.DisplayMember = \"Name\";\n\
+    \           \nThanks in advance for your ideas :)\n\nM.VALLEE\n           \n-----"

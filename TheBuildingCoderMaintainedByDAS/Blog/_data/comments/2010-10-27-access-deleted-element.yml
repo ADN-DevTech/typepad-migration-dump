@@ -1,0 +1,249 @@
+comments:
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: ''
+  date: '2011-09-15 01:03:37'
+  body: "Hello, Jeremy. \nYou write \"updater Execute method will be called while\
+    \ the transaction is still open, and you can analyse and even modify the elements\
+    \ being deleted before the transaction is terminated\".\nAs I understand it 's\
+    \ possible to get element info (element parameters for example) before they will\
+    \ be deleted or even cancel deleting, i.e. rollback transaction using DMU.\nCan\
+    \ you give some example how to do that?\n\nWhat I want.. I need when user delete\
+    \ some elements in model check existence this elements in external database (MS\
+    \ SQL). If elements exist in database ask user for confirmation. If user confirm\
+    \ this operation delete those elements from external database and then delete\
+    \ from model. If exception are throws during deleting from database or user say\
+    \ \"No\" in confirmation dialog need to rollback transaction.\nIs it possible?\n\
+    \nI've tried to do that.\nFirst of all I've created ElementsDeleteUpdater class\
+    \ implements IUpdater interface. Code of this class: <a href=\"http://pastebin.com/61r4yvGx\"\
+    >http://pastebin.com/61r4yvGx</a>\n\nIn Execute method of this class I want to\
+    \ get Element.UniqueId of each deleted elements:\nvar doc = data.GetDocument();\n\
+    var deletedElementIds = data.GetDeletedElementIds();\n\nforeach (var deletedElementId\
+    \ in deletedElementIds)\n{\n                var el = doc.get_Element(deletedElementId);\n\
+    }\n\nbut el always null. Why? Transaction is still open\n\n\n\nAnd my code for\
+    \ register updater and trigger\n<a href=\"http://pastebin.com/dk2JFcJc\">http://pastebin.com/dk2JFcJc</a>\n\
+    \nHope to your help.\nBest regards, Victor."
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-09-15 02:20:25'
+  body: "Dear Виктор,\n\nI am very sorry to say that the statement you refer to is\
+    \ in error.\n\nThere is no way to access an element or its data once it has been\
+    \ deleted.\n\nIf you need any information about it after it has been deleted,\
+    \ you need to somehow store it somewhere else before the deletion takes place.\n\
+    \nHere is another older mention of this fact, in the comments on \n\n<a href=\"\
+    http://thebuildingcoder.typepad.com/blog/2010/10/power-to-the-user-and-application.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/10/power-to-the-user-and-application.html</a>\n\
+    \n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/10/power-to-the-user-and-application.html?cid=6a00e553e1689788330133f5511cc1970b#comment-6a00e553e1689788330133f5511cc1970b\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/10/power-to-the-user-and-application.html?cid=6a00e553e1689788330133f5511cc1970b#comment-6a00e553e1689788330133f5511cc1970b</a>\n\
+    \nThank you for bringing up the issue, I corrected the statement above and hope\
+    \ it is clearer now.\n\nSorry for the misunderstanding!\n\nCheers, Jeremy."
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: ''
+  date: '2011-09-15 04:24:12'
+  body: "Thanks for quick answer, Jeremy. \nIt's a bad news for me:(\n\nI want to\
+    \ use another way to resolve my problem. Actually I store ElementUniqueId in my\
+    \ external database. And for deleting element from database I need UniqueId.\n\
+    \nSo, I think, if I I have ElementId (in UpdaterData.GetDeletedElementIds Method)\
+    \ may be there is a way to get Element.UniqueId from ElementId.\n\nI've found\
+    \ and read your article about UniqueId, DWF and IFC GUID <a href=\"http://thebuildingcoder.typepad.com/blog/2009/02/uniqueid-dwf-and-ifc-guid.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/02/uniqueid-dwf-and-ifc-guid.html</a>\
+    \ and wrote function:\n\n private String GetElementUniqueIdFromElementId(Document\
+    \ document, ElementId elementId)\n        {\n            if (elementId == null)\
+    \ throw new ArgumentNullException(\"elementId\");\n\n            var exportId\
+    \ = ExportUtils.GetExportId(document, elementId);\n\n            int last32Bits\
+    \ = Int32.Parse(exportId.ToString().Substring(28), NumberStyles.AllowHexSpecifier);\n\
+    \n            int xor = last32Bits ^ elementId.IntegerValue;\n\n            var\
+    \ sb = new StringBuilder();\n            sb.Append(exportId.ToString().Substring(0,\
+    \ 28));\n            sb.Append(xor.ToString(\"x8\"));\n            sb.Append(\"\
+    -\");\n            sb.Append(elementId.IntegerValue.ToString(\"x8\"));\n\n   \
+    \         return sb.ToString();\n        }\n\n<a href=\"http://pastebin.com/bwzqbHBn\"\
+    >http://pastebin.com/bwzqbHBn</a>\n\nJeremy, is this correct function for transformation\
+    \ ElementId to UniqueId? I test my function in model with a lot of elements (226000\
+    \ elements). Function works well.\n\nUsing this way I can deleted elements from\
+    \ external database.\n\nBut I still doesn't know how to cancel transaction. I\
+    \ wondered, if exception is throw in Execute method, transaction was rolledback.\
+    \ But user receive many error messages.:(\n\nI hope that in next Revit version\
+    \ we'll see Cancellable DocumentChanging Event that will be occurs before transaction\
+    \ started."
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-09-15 05:54:59'
+  body: 'Dear Виктор,
+
+
+    I do not believe that you can cancel the transaction, so you will probably have
+    to find some alternative approach to solve your needs.
+
+
+    If you really want to see this functionality in a future release, you need to
+    make sure this is logged as a wish list item.
+
+
+    Your function looks fine to me, and I am happy you tested it thoroughly.
+
+
+    Cheers, Jeremy.'
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: ''
+  date: '2011-09-15 06:46:34'
+  body: 'Dear Jeremy,
+
+
+    I''ve tested to cancel transaction again.
+
+    Here is the Execute Method of my Updater
+
+    <a href="http://pastebin.com/u34WiM9A">http://pastebin.com/u34WiM9A</a>
+
+
+    Then user push "No, no..." exception is throw. In this case user will see warning
+    message: "Third party updater has performed an invalid operation". If user choose
+    "Cancel" transaction will rolled back. You can see it if you subscribe to DocumentChanged
+    Event.
+
+    That situation is described in Developer Guide chapter 25.4.2.
+
+
+    As a result I''ve resolved problem of transaction. But I still didn''t know how
+    to get UniqueId of deleted element. My function doesn''t work when ElementId does
+    not exist in document:( I checked it at first on non deleted elements. I ask a
+    question about it this post <a href="http://thebuildingcoder.typepad.com/blog/2009/02/uniqueid-dwf-and-ifc-guid.html#comment-6a00e553e16897883301543571a3bb970c">http://thebuildingcoder.typepad.com/blog/2009/02/uniqueid-dwf-and-ifc-guid.html#comment-6a00e553e16897883301543571a3bb970c</a>
+
+
+    Now I think to store UniqueId somewhere when document opening and update it then
+    adding element.
+
+    For example in Dictionary, where ElementId is a Id of each element in model and
+    String is a UniqueId of this element.
+
+    But I don''t like it, because it will work slow on model with 260000 elements
+    )
+
+
+    Best regards, Victor'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-09-15 07:03:52'
+  body: 'Dear Виктор,
+
+
+    Thank you for the update and glad to hear you solved the transaction issue.
+
+
+    Your solution sounds perfect to me, and is probably the only way to go at the
+    current time.
+
+
+    I trust that you will be able to optimise it so that performance is not impacted
+    too much.
+
+
+    I saw your other question and am discussing it with my colleagues.
+
+
+    Cheers, Jeremy.'
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: ''
+  date: '2011-09-16 07:16:02'
+  body: 'Hello, Jeremy. Thanks for your answers.
+
+    I want to say you that I''ve found more corrected and more safe method for rollback
+    transaction in IUpdater.Execute method.
+
+
+    I found Document.PostFailure Method. User also will see a message but without
+    exception.
+
+
+    First of all we must create your own FailureDefinition in OnStartUp Event: <a
+    href="http://pastebin.com/gQLi2CLv">http://pastebin.com/gQLi2CLv</a>
+
+
+    Next, I upgraded Execute Method of my Updater. <a href="http://pastebin.com/0XuvD0iW">http://pastebin.com/0XuvD0iW</a>
+
+
+    I think it is more correct then throw exception.
+
+    May be it''s possible doesn''t show error message using other FailureXXX classes
+    and their methods, but I didn''t learn yet all of them.
+
+
+    Jeremy, may be you''ll write a thread about cancelation transaction? ;)
+
+
+    Best Regards, Victor.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-09-16 07:57:27'
+  body: 'Dear Виктор,
+
+
+    I would love to write such a thread.
+
+
+    Then I might understand the entire situation better as well  :-)
+
+
+    Would you like to edit a draft for such a post yourself to start with?
+
+
+    If you summarise your original needs, the experiences made, the problems encountered,
+    the research, workarounds and solutions, I can happily work together with you
+    on editing and getting it posted.
+
+
+    Basically, you have already stated all the important points, I think.
+
+
+    Still, it is probably better if you summarise them and see whether anything comes
+    to mind to add before I start working on it as well.
+
+
+    What do you think?
+
+
+    Cheers, Jeremy.'
+- author: Victor
+  email: ChekalinVV@itc-srv.ru
+  ip: 91.221.195.131
+  url: ''
+  date: '2011-09-19 06:27:42'
+  body: "Hello, Jeremy. \nThank you for you trust :) \nMy English not so good, but\
+    \ I think I'll try to write a thread about deleting elements and cancel transaction.\
+    \ But little bit later when I will have finished my current work.\nBest regards,\
+    \ Victor."
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-09-19 13:40:49'
+  body: 'Dear Victor,
+
+
+    My pleasure, and of course I have trust, after the good comments you posted and
+    solutions you came up with.
+
+
+    Good luck with your work, and I look forward to see what we end up with! I''ll
+    happily clean up any problems with the language, and we can pass it back and forth
+    a few times for the sake of clarity, completeness, and ultimate perfection  :-)
+
+
+    Cheers, Jeremy.
+
+    -----'

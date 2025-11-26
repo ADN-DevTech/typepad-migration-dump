@@ -1,0 +1,312 @@
+---
+layout: "post"
+title: "Sheet View Xform, Coords, Img Export and Title Block"
+date: "2021-01-21 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Data Access"
+  - "Export"
+  - "View"
+original_url: "https://thebuildingcoder.typepad.com/blog/2021/01/sheet-view-xform-coords-img-export-and-title-block.html "
+typepad_basename: "sheet-view-xform-coords-img-export-and-title-block"
+typepad_status: "Publish"
+---
+
+<p>Today, we look at accessing and exporting sheet view coordinates, transforms, images and title block data, including the title block geometry and text values:</p>
+
+<ul>
+<li><a href="#2">Extracting title block geometry and text</a></li>
+<li><a href="#3">Element coordinates on sheet</a></li>
+<li><a href="#4">Export view as high quality image</a></li>
+</ul>
+
+<h4><a name="2"></a> Extracting Title Block Geometry and Text</h4>
+
+<p>Here is a lengthy in-depth look at accessing, extracting and exporting title block geometry and text from 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/how-to-extract-the-geometry-and-the-texts-of-the-title-block-in/m-p/9998687">how to extract the geometry and the texts of the title block in a sheetview</a>,
+with several interesting new insights provided once again by 
+Richard <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/1035859">RPThomas108</a> Thomas,
+e.g., the possibility of programmatically exploiting the Revit print to <code>XPS</code> functionality:</p>
+
+<p><strong>Question:</strong> I want to extract all visible text and geometry in this image of a sheet view with its title block, including correct placement of all attributes:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833026bdeb753a6200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833026bdeb753a6200c image-full img-responsive" alt="Sheet view title block geometry and text" title="Sheet view title block geometry and text" src="/assets/image_185013.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>To be more precise, I want to recreate an identical representation of the sheet view in my own exportable non-Revit document.</p>
+
+<p><strong>Answer:</strong> If you want to access the text and visible geometry to recreate a facsimile outside of Revit, you might be able to access text and geometry separately, e.g., using a filtered element collector for real data and a screen snapshot for the appearance.</p>
+
+<p>Most of the text data can be accessed using built-in parameters.</p>
+
+<p>The Title Block is a Revit family, so its geometry can be accessed by reading it from the family definition.</p>
+
+<p>You can Filter for specific elements and retrieve their parameters, e.g., using:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>&nbsp;collector&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;document&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">Element</span>&gt;&nbsp;lines&nbsp;=&nbsp;collector
+&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">FamilyInstance</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;.OfCategory(&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_Lines&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;.ToElements();
+
+&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">Element</span>&gt;&nbsp;texts&nbsp;=&nbsp;collector
+&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">FamilyInstance</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;.OfCategory(&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_TextNotes&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;.ToElements();
+
+&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">Element</span>&gt;&nbsp;filledRegions&nbsp;=&nbsp;collector
+&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">FamilyInstance</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;.OfCategory(&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_FilledRegion&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;.ToElements();
+
+&nbsp;&nbsp;<span style="color:green;">//etc.</span>
+</pre>
+
+<p>Please note that the call to <code>ToElements</code> is very often a waste of performance time and memory space.
+Avoid it when you can, i.e., mostly.</p>
+
+<p><strong>Response:</strong> Yes, I want to create a facsimile outside of Revit.</p>
+
+<p>I managed to extract the content of the views that compose it but at real size and not yet find how to extract the cartridge and its content.</p>
+
+<p>The solution you suggest above does not work, the filtered element collector result lists are empty.</p>
+
+<p><strong>Answer:</strong> As always, you can use RevitLookup to analyse the properties and other attributes of the Revit elements you are trying to retrieve with the filtered element collector.
+That will show you which filters you need to apply to extract the desired elements.
+If the filter returns no elements, you are applying too restrictive or downright erroneous filters.</p>
+
+<p><strong>Response:</strong> On the FamilyInstance of my ViewSheet, it finds neither <code>OST_Lines</code> nor <code>OST_TextNodes</code> (for the extract the Title Block).</p>
+
+<p>Do you have a filter syntax that could find them ?</p>
+
+<p><strong>Answer:</strong> The most efficient way to define such a filter is for you to pick the elements you are filtering for and explore their properties using RevitLookup, cf., <a href="https://thebuildingcoder.typepad.com/blog/2017/01/virtues-of-reproduction-research-mep-settings-ontology.html#3">how to research to find a Revit API solution</a>.</p>
+
+<p><strong>Response:</strong> I have already explored the viewsheet and the associated family instance as well as the symbol and the family.
+None has geometry.</p>
+
+<p><strong>Answer:</strong> The family definition document of the title block will contain the geometry.
+You have to open the family for editing.
+It may have various nested annotation symbols that also need to be traversed.</p>
+
+<p>Besides that, there is the issue of items such as images and schedules.</p>
+
+<p>It would probably be easier to read the fixed document sequence of a printed <code>xps</code> file, cf.,
+<a href="https://en.wikipedia.org/wiki/Open_XML_Paper_Specification">XPS or the Open XML Paper Specification</a>.</p>
+
+<p>This is an XML file containing path data represented in a mini language similar to what you get in <code>Xaml</code> and 'Glyphs' entries for text objects with render transforms to give their positions.
+It takes a while to print an XPS, but if it is only the title block, it may be quicker.
+You would still have to interpret the xml, but, as difficult to impossible tasks go, it is slightly less impossible.</p>
+
+<p><code>XPS</code> is a <code>zip</code> file; change the extension to <code>Zip</code> and unpack it, or, alternatively, there are namespaces for reading packages for such directly (System.IO.Packaging).</p>
+
+<p>I don't envy your task, I usually just print a <code>pdf</code> when I want a copy of something.</p>
+
+<p><code>HPGL</code> is another historic plotter vector format that could be easily interpreted.</p>
+
+<p><strong>Response:</strong> My project is to export a viewsheet in <code>svg</code> format.
+Currently, my code correctly exports all viewports, but I still have the title block (drawing and data) to export.
+If I understand correctly, there is no way to export the title block (curve and position of the data)?</p>
+
+<p><strong>Answer:</strong> As you've noted, <code>Element.Geometry</code> is null for title blocks.</p>
+
+<p>The only approach I know of with the Revit API would be to open the title block family using <code>Document.EditFamily</code> and extract such lines from the plan view within that. As noted above, however, this family could also contain revision schedule that you can't extract lines from and other nested generic annotation families and images. The parameter text values would not be correct, but from the text strings used in Labels and parameter names you can sometimes infer such a relationship (between text locations in your title block family and positions on your ViewSheet in the project). If label has a preview parameter value (which is often the case), then this can't be done. Also, the placement of multiple parameters with line breaks etc. in the same label add to complexity. You don't get a description of these with the API (which parameters used in which label).</p>
+
+<p>Ideally, this task would be suited to <code>CustomExporter</code>, but I believe from previous discussions that this doesn't support ViewSheets.</p>
+
+<p><code>XLST</code> could potentially be used to convert the <code>XPS</code> path data previously noted to <code>SVG</code>, although I know of no existing templates for such.</p>
+
+<p>Another potential long winded option would be to export the sheet with only the title block showing to <code>DWG</code> and import that on a drafting view to analyse the geometry. Not sure it is a good option, but could be done. DWG links favour polylines: any lines of the same layer joined together will be grouped into polylines. Text object positions could only be found by exploding the dwg (not sure if there is API function for that).</p>
+
+<p><strong>Response:</strong> I confirm that <code>CustomExporter2D</code> does not work on ViewSheets.</p>
+
+<p>I tested the other approach:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;vs&nbsp;=&nbsp;current&nbsp;view&nbsp;(Viewsheet)</span>
+
+&nbsp;&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;El&nbsp;=&nbsp;doc.GetElement(&nbsp;vs.Id&nbsp;);
+&nbsp;&nbsp;<span style="color:#2b91af;">FamilyInstance</span>&nbsp;FI&nbsp;=&nbsp;<span style="color:blue;">null</span>;
+&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">ElementId</span>&nbsp;ElI&nbsp;<span style="color:blue;">in</span>&nbsp;El.GetDependentElements(&nbsp;<span style="color:blue;">null</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;El1&nbsp;=&nbsp;El.Document.GetElement(&nbsp;ElI&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;FI&nbsp;=&nbsp;El1&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">FamilyInstance</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;FI&nbsp;!=&nbsp;<span style="color:blue;">null</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color:#2b91af;">FamilySymbol</span>&nbsp;FS&nbsp;=&nbsp;FI.Symbol;
+&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;DocFamily&nbsp;=&nbsp;doc.EditFamily(&nbsp;FS.Family&nbsp;);
+&nbsp;&nbsp;<span style="color:#2b91af;">FamilyManager</span>&nbsp;famManager&nbsp;=&nbsp;DocFamily.FamilyManager;
+&nbsp;&nbsp;<span style="color:#2b91af;">FamilyTypeSet</span>&nbsp;famTypes&nbsp;=&nbsp;famManager.Types;
+&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;nb&nbsp;=&nbsp;famTypes.Size;
+
+&nbsp;&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>&nbsp;collector&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;docFamily&nbsp;);
+
+&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;ElF&nbsp;<span style="color:blue;">in</span>&nbsp;collector&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">DetailLine</span>&nbsp;line&nbsp;=&nbsp;ElF&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">DetailLine</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;line&nbsp;!=&nbsp;<span style="color:blue;">null</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Curve</span>&nbsp;curve&nbsp;=&nbsp;line.GeometryCurve;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Line</span>&nbsp;LI&nbsp;=&nbsp;(<span style="color:#2b91af;">Line</span>)&nbsp;curve;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;LI&nbsp;!=&nbsp;<span style="color:blue;">null</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">double</span>&nbsp;XD&nbsp;=&nbsp;(LI.GetEndPoint(&nbsp;0&nbsp;).X&nbsp;*&nbsp;25.4&nbsp;*&nbsp;12);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">double</span>&nbsp;YD&nbsp;=&nbsp;(LI.GetEndPoint(&nbsp;0&nbsp;).Y&nbsp;*&nbsp;25.4&nbsp;*&nbsp;12);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">double</span>&nbsp;XF&nbsp;=&nbsp;(LI.GetEndPoint(&nbsp;1&nbsp;).X&nbsp;*&nbsp;25.4&nbsp;*&nbsp;12);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">double</span>&nbsp;YF&nbsp;=&nbsp;(LI.GetEndPoint(&nbsp;1&nbsp;).Y&nbsp;*&nbsp;25.4&nbsp;*&nbsp;12);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Deb.Write(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;&nbsp;&lt;line&nbsp;x1=\&quot;{0}\&quot;&nbsp;y1=\&quot;{1}\&quot;&nbsp;x2=\&quot;{2}\&quot;&nbsp;y2=\&quot;{3}\&quot;&nbsp;style=\&quot;stroke-width:{4};&nbsp;stroke:rgb({5},&nbsp;{6},&nbsp;{7})\&quot;&nbsp;{8}/&gt;\n&quot;</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XD,&nbsp;V&nbsp;-&nbsp;YD,&nbsp;XF,&nbsp;V&nbsp;-&nbsp;YF,&nbsp;1,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;<span style="color:#a31515;">&quot;&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">else</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;<span style="color:#a31515;">&quot;Test&quot;</span>,&nbsp;<span style="color:#a31515;">&quot;No&nbsp;Line&quot;</span>&nbsp;);
+&nbsp;&nbsp;}
+</pre>
+
+<p>This code extracts only 33 lines and nothing else.</p>
+
+<p>How to have access to the text positions?</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e98a05a7200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e98a05a7200b image-full img-responsive" alt="Sheet view title block geometry and text" title="Sheet view title block geometry and text" src="/assets/image_9358ab.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p><strong>Answer:</strong> Your code extracts nothing but lines, because that is exactly what you have instructed it to do.</p>
+
+<p>You can expand you code to analyse other elements besides lines.</p>
+
+<p>Alternatively, and probably more effectively, you can analyse your family definition document interactively using RevitLookup to discover what other elements it contains.</p>
+
+<p><strong>Response:</strong> This family is internal (A0 metric).</p>
+
+<p>How can I use RevitLookup to explore this family?</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330278800f28e1200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330278800f28e1200d image-full img-responsive" alt="Snoop title block family" title="Snoop title block family" src="/assets/image_867d2f.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p><strong>Answer:</strong> Application &gt; Documents &gt; select the family definition document.</p>
+
+<p><strong>Response:</strong> Ok, I found some <code>TextNode</code>, <code>TextElement</code> and <code>ImageInstance</code> elements.</p>
+
+<p>But my filters are not working.</p>
+
+<p>Is there any documentation of element filtering?</p>
+
+<p>My code:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>&nbsp;collector&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;DocFamily&nbsp;);
+
+&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">Element</span>&gt;&nbsp;lines&nbsp;=&nbsp;collector
+&nbsp;&nbsp;&nbsp;&nbsp;.OfCategory(&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_Lines&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;.ToElements();
+
+&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">Element</span>&gt;&nbsp;texts&nbsp;=&nbsp;collector
+&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">TextNote</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;.ToElements();
+</pre>
+
+<p>They return no elements.</p>
+
+<p>Where is the error?</p>
+
+<p><strong>Answer:</strong> You really do need to learn to search the Internet.</p>
+
+<p>In this case, for instance, you can just search
+for <a href="https://duckduckgo.com/?q=revit+api+filtered+element+collector">Revit API filtered element collector</a>.</p>
+
+<p>Please practice this for a bit before asking the next question.</p>
+
+<p>The specific problem that you ran into was discussed in the note
+on <a href="https://thebuildingcoder.typepad.com/blog/2019/11/design-automation-api-stacks-collectors-and-links.html#4">reinitialising the filtered element collector</a>.</p>
+
+<p>Happily, that seems to have resolved the problem for the moment, with no further response so far.</p>
+
+<h4><a name="3"></a> Element Coordinates on Sheet</h4>
+
+<p>Richard helped with two other sheet related issues as well.</p>
+
+<p>One is
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/getting-element-coordiantes-on-sheet/m-p/9989539">Getting element coordinates on sheet</a>.</p>
+
+<p>To cut a long story short, here is his final answer:</p>
+
+<blockquote>
+  <p>I think you have just wrongly assumed the other two points of the bounding box, i.e., two points represent more than one unique rectangle. If you get all four points of the bounding box corners on plan without transformation and then transform them you can draw lines between them as below. I think what confused me when I looked at this originally was the double door families. Note however that in the case of the sample file all doors were parallel with the internal coordinate system. If your door instances were rotated (hosted on a non-vertical or non-horizontal directional wall) the bounding box would still be orientated to the internal system not rotated with the door. So, that aspect may add a layer of confusion, you would have to orientate the bounding box using the door instance transform first. This may not be possible actually since original two points circumscribe door with a box parallel to internal system, so when rotated this would be meaningless. In such a circumstance you likely need to build your own bounding box within the new orientation by looking at max/mins you get for the geometry in the new system.</p>
+  
+  <p>You can't get the rotation of a scope box but if you set a view to one then you can compare 1,0,0 to the right direction of the view to get scope box rotation. This should not be required here because the view right direction is used so transform should already incorporate it. Useful to know however that the orientation of a scope box can be found this way (using one of those transaction rollback workflows). The alternative may be to interrogate the geometry of the scope box to find direction of lines around the scope box bounding box centre (for the top or bottom rectangle of the cube). Although you likely couldn't get a full rotation between 0 and 2Pi for this due to symmetry. Depends on how geometry of cube is constructed in terms of line directions there may be some non-symmetrical pattern of this (looking at all 12 lines etc.).</p>
+</blockquote>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330278800f28d9200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330278800f28d9200d image-full img-responsive" alt="Element coordinates on sheet" title="Element coordinates on sheet" src="/assets/image_c4fe59.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<pre class="code">
+  <span style="color:blue;">Dim</span>&nbsp;Dr&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;=&nbsp;Doors(DRi)
+  <span style="color:blue;">Dim</span>&nbsp;BB&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">BoundingBoxXYZ</span>&nbsp;=&nbsp;Dr.BoundingBox(V)
+  <span style="color:blue;">Dim</span>&nbsp;BL&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(BB.Min.X,&nbsp;BB.Min.Y,&nbsp;0)
+  <span style="color:blue;">Dim</span>&nbsp;BR&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(BB.Max.X,&nbsp;BB.Min.Y,&nbsp;0)
+  <span style="color:blue;">Dim</span>&nbsp;TL&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(BB.Min.X,&nbsp;BB.Max.Y,&nbsp;0)
+  <span style="color:blue;">Dim</span>&nbsp;TR&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">XYZ</span>(BB.Max.X,&nbsp;BB.Max.Y,&nbsp;0)
+  BL&nbsp;=&nbsp;T.Inverse.OfPoint(BL).Multiply(1&nbsp;/&nbsp;Scale)&nbsp;+&nbsp;Offset
+  BR&nbsp;=&nbsp;T.Inverse.OfPoint(BR).Multiply(1&nbsp;/&nbsp;Scale)&nbsp;+&nbsp;Offset
+  TL&nbsp;=&nbsp;T.Inverse.OfPoint(TL).Multiply(1&nbsp;/&nbsp;Scale)&nbsp;+&nbsp;Offset
+  TR&nbsp;=&nbsp;T.Inverse.OfPoint(TR).Multiply(1&nbsp;/&nbsp;Scale)&nbsp;+&nbsp;Offset
+
+  <span style="color:blue;">Dim</span>&nbsp;LN_B&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">Line</span>&nbsp;=&nbsp;<span style="color:#2b91af;">Line</span>.CreateBound(BL,&nbsp;BR)
+  <span style="color:blue;">Dim</span>&nbsp;LN_R&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">Line</span>&nbsp;=&nbsp;<span style="color:#2b91af;">Line</span>.CreateBound(BR,&nbsp;TR)
+  <span style="color:blue;">Dim</span>&nbsp;LN_T&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">Line</span>&nbsp;=&nbsp;<span style="color:#2b91af;">Line</span>.CreateBound(TR,&nbsp;TL)
+  <span style="color:blue;">Dim</span>&nbsp;LN_L&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">Line</span>&nbsp;=&nbsp;<span style="color:#2b91af;">Line</span>.CreateBound(TL,&nbsp;BL)
+
+  doc.Create.NewDetailCurve(AcView,&nbsp;LN_B)
+  doc.Create.NewDetailCurve(AcView,&nbsp;LN_R)
+  doc.Create.NewDetailCurve(AcView,&nbsp;LN_T)
+  doc.Create.NewDetailCurve(AcView,&nbsp;LN_L)
+</pre>
+
+<h4><a name="4"></a> Export View as High Quality Image</h4>
+
+<p>Another interested thread addressed by Richard is on how
+to <a href="https://forums.autodesk.com/t5/revit-api-forum/export-2d-sheets-as-images-with-high-quality/m-p/9989471">export 2D sheets as images with high quality</a>,
+wrapping up with:</p>
+
+<blockquote>
+  <p>Without the annotation objects visible here are two images of the same view (not from exports); the top is set to 1:1000 and the bottom 1:200.</p>
+  
+  <p>The line weights are scaled in relation to paper space units, so if you set to 1:1 etc., then your lines end up thinner, which may carry through to images exported if you can temporarily set this before export:</p>
+</blockquote>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833026bdeb75394200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833026bdeb75394200c image-full img-responsive" alt="Sheet as image" title="Sheet as image" src="/assets/image_349c86.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330278800f28cd200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330278800f28cd200d image-full img-responsive" alt="Sheet as image" title="Sheet as image" src="/assets/image_c9083d.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="4.1"></a> Mustafa Salaheldin Ali adds:</h4>
+
+<blockquote>
+  <p>This works fine if you are exporting from a normal view, as changing the scale is not an issue.</p>
+  
+  <p>However, you can’t change the scale in the case of Sheets, because that will affect the viewport size and location.</p>
+</blockquote>

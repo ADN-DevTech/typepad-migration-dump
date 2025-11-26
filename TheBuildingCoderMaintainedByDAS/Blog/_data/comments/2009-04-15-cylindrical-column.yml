@@ -1,0 +1,80 @@
+comments:
+- author: Mona Akkoush
+  email: Mona.Akkoush@dargroup.com
+  ip: 85.112.95.24
+  url: ''
+  date: '2011-11-15 08:24:34'
+  body: 'Hi Jeremy,
+
+    Hope you enjoyed your vacation :)
+
+    I am trying to get the origin for the faces of a structural column. The column
+    I have is a cylindrical column & I am using the same code as the one you included
+    above. Yet, the code is always returning a PlanarFace type & never a CylindricalFace
+    although when inspecting the element using Revit Lookup Add-in, I get both Planar
+    & Cylindrical Face categories.
+
+    Please advise.
+
+
+    Thank you,'
+- author: Jeremy Tammik
+  email: ''
+  ip: 80.14.134.41
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-11-15 10:50:08'
+  body: 'Dear Mona,
+
+
+    Thank you, I did indeed.
+
+
+    It should be simple. I cannot think of any reason why the above approach should
+    not work.
+
+
+    If you see the desired data in RevitLookup, you should see it in your add-in as
+    well.
+
+
+    All I can suggest is to start from scratch and try again, debug RevitLookup and
+    see what it does, implement the identical approach in your add-in. You have the
+    code. The power is yours  :-)
+
+
+    Maybe some trivial bug, a variable not intialised correctly, the loop counter
+    not increment?
+
+
+    Cheers, Jeremy.'
+- author: Mona Akkoush
+  email: Mona.Akkoush@dargroup.com
+  ip: 85.112.95.24
+  url: ''
+  date: '2011-11-16 04:20:42'
+  body: "Hi Jeremy, \nThanks for the tip :)\nActually, my problem resides in the fact\
+    \ that the Geometry Instance object is null in my case [save revealed by Revit\
+    \ Lookup]. I applied some update to my code whereby am targeting the solid Face\
+    \ Array directly. \nI am able to catch the cylindrical Faces, but am not able\
+    \ to distinguish the top from the bottom cylindrical faces since both return an\
+    \ axis (0,0,1) with the same origin [same case as Revit Lookup]. Any idea why?\
+    \ \nBest Regards,\nCode Snippet:\n'//loop on the solid faces\nFor Each f As Face\
+    \ In sol.Faces\nIf TypeOf (f) Is CylindricalFace Then\nDim c As CylindricalFace\
+    \ = f\nDim n As XYZ = c.Axis\n'//Same axis is retrieved for the 2 cylindrical\
+    \ faces retrieved\nEnd If\nNext '//end loop on faces"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-11-22 03:53:23'
+  body: 'Dear Mona,
+
+
+    Take a look at the face normal as returned by the Face.ComputeDerivatives method.
+    One should point up and the other down. Or, more generally, they should point
+    in opposite directions.
+
+
+    Cheers, Jeremy.
+
+    -----'

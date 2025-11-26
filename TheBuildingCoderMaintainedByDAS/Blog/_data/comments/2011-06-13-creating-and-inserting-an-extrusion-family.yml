@@ -1,0 +1,275 @@
+comments:
+- author: Jian
+  email: owen1226@gmail.com
+  ip: 216.165.203.141
+  url: ''
+  date: '2011-06-13 12:12:09'
+  body: 'Hi, sir, how are you?
+
+
+    Could you please tell me how to set a camera in Revit Architecture by using its
+    API. Thanks'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: ''
+  date: '2011-06-14 03:15:34'
+  body: "Hi Jeremy,\n\nis it possible to get a list of all hard-coded ElementIds ?\n\
+    By the way, is it really a good idea to rely on hard-coded ElementIds ? \nAutodesk's\
+    \ Revit developers may change them without any documentation...\n\nBye, Rudolf"
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: ''
+  date: '2011-06-14 04:05:48'
+  body: 'Hi again,
+
+    it says in your text that the ElementId (501) is defined in your own RFT file,
+    so it may not be changed by Autodesk''s engineers, of course.
+
+
+    But what about other Revit files?
+
+    Many Elements in a RVT file with an ID < 1000 have an GUID beginning with "cad...-",
+    is this just a little in-joke ?
+
+    In all of my (German) RVTs, ID 0 is given to the Phase "Neu", and ID 3 is assigned
+    to Phase "Bestand", which may mean "New" and "Construction" in English Revits.
+
+    So, besides the fact that IDs are depending on the template file, is it possible
+    that there are IDs which are that fundamental that they are used in every Revit
+    file ?
+
+
+    Bye,
+
+    Rudolf'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.163.184
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-14 04:21:43'
+  body: 'Dear Rudolf,
+
+
+    There is no such list that I am aware of, and I certainly would not rely on any
+    element id anywhere except in a file that I have complete control over myself.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-14 04:46:51'
+  body: 'Dear Jian,
+
+
+    Nope, sorry, this is an open wish list item, as far as I know.
+
+
+    Cheers, Jeremy.'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: ''
+  date: '2011-06-14 04:48:46'
+  body: "Hi Jeremy,\n\nyes, of course, you shouldn't rely on fixed IDs, but was just\
+    \ curious about whether there is such a list or not.\nNow I've learned:\nEven\
+    \ \"special\" IDs like \"0\" (zero) are not reserved, there is no such list. \n\
+    \nThanks for your reply,\n\nRudolf\n\nI'm looking forward to the boolean operations\
+    \ theme ;-)"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-14 04:59:49'
+  body: "Dear Rudolf, \n\nAs always, there is no guarantee that I speak the truth.\
+    \ There may be reserved or fixed values that I don't know about.\n\nGlad I raised\
+    \ you interest  :-)\n\nCheers, Jeremy."
+- author: abby
+  email: abidrahmat@hotmail.com
+  ip: 211.24.233.162
+  url: ''
+  date: '2011-07-04 04:54:42'
+  body: 'Hi Jeremy
+
+
+    I have inserted family mass. I want to change the mass color. Do I need to create
+    new parameter(color) into material? Or there are a way to change the color?
+
+
+    Thanks
+
+
+    Abby'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-07-05 00:51:04'
+  body: 'Dear Abby,
+
+
+    Interesting question. I don''t really know off-hand. There are a lot off possibilities.
+    Some are mentioned here:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/01/model-and-detail-curve-colour.html">http://thebuildingcoder.typepad.com/blog/2010/01/model-and-detail-curve-colour.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2011/03/change-element-colour.html">http://thebuildingcoder.typepad.com/blog/2011/03/change-element-colour.html</a>
+
+
+    But as you point out, there are other ways to handle materials and colour as well.
+
+
+    Also be sure to look at the developer guide, e.g.
+
+
+    <a href="http://wikihelp.autodesk.com/Revit/enu/2012/Help/API_Dev_Guide/0074-Revit_Ge74/0118-Material118">http://wikihelp.autodesk.com/Revit/enu/2012/Help/API_Dev_Guide/0074-Revit_Ge74/0118-Material118</a>
+
+
+    Please let us know what you find out. Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Israel Rodriguez
+  email: ''
+  ip: 201.93.57.54
+  url: http://profile.typepad.com/rodriguezisrael
+  date: '2012-05-08 17:04:36'
+  body: "Hi Jeremy, just like to point out a little mistake in the sample code on\
+    \ the blog:\n\nWhere it is:\n\nint n = a.Count( \n    e => e.Name.Equals( _family_name\
+    \ ) );\n \n  if( 0 () as Family;\n  }\n\nShould be:\n\nint n = a.Count( \n   \
+    \ e => e.Name.Equals( _family_name ) );\n \n  if( 0  e.Name.Equals( _family_name\
+    \ )).First() as Family;\n  }\n\nYou need to repeat the Equals condition to find\
+    \ the correct family.\n\nAnd thanks for this post. It helped a LOT!"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.164.91
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-09 11:21:40'
+  body: 'Dear Israel,
+
+
+    Thank you ever so much for joining the small and illustrious circle of people
+    who ever bothered to point out a mistake on The Building Coder blog.
+
+
+    I really appreciate it a lot!
+
+
+    I corrected the code above and updated the zip file to download as well.
+
+
+    I am very glad that you found this useful, and thank you for your appreciation!
+
+
+    Cheers, Jeremy.'
+- author: Israel Rodriguez
+  email: ''
+  ip: 201.93.57.54
+  url: http://profile.typepad.com/rodriguezisrael
+  date: '2012-05-10 19:22:17'
+  body: 'Hi Jeremy, thanks for the compliments.
+
+
+    I kept on going with this code, but I ran into a problem today and I need help.
+    I need to Pick a host Element to Create a Door/Window instance in it. I created
+    this code, but it is throwing a null exception. How can I achieve this?
+
+
+    Here is my current code:
+
+    Reference r = uidoc.Selection.PickObject(ObjectType.Element);
+
+    Wall w = uidoc.Document.get_Element(r.ElementId) as Wall;
+
+    var lc = w.Location as LocationCurve;
+
+    var ponto0 = lc.Curve.get_EndPoint(0);
+
+    var ponto1 = lc.Curve.get_EndPoint(1);
+
+    Line linha = uiapp.Application.Create.NewLineBound(ponto0, ponto1);
+
+    uidoc.Document.Create.NewFamilyInstance(r, linha, simbolo);
+
+
+    Thanks,
+
+    Israel Rodriguez'
+- author: Israel Rodriguez
+  email: ''
+  ip: 201.93.57.54
+  url: http://profile.typepad.com/rodriguezisrael
+  date: '2012-05-10 19:37:04'
+  body: 'I''ve tried this other variation, and I don''t get the null exception, but
+    still doesn''t work:
+
+
+    Reference r = uidoc.Selection.PickObject(ObjectType.Element);
+
+    Wall w = uidoc.Document.get_Element(r.ElementId) as Wall;
+
+    var lc = w.Location as LocationCurve;
+
+    Line linha = uiapp.Application.Create.NewLineBound(ponto0, ponto1);
+
+    uidoc.Document.Create.NewFamilyInstance(lc.Curve, simbolo, w.Level, st);'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.161.160
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-20 07:09:43'
+  body: "Dear Israel,\n\nSimple. Please look at the explanation in \n\n<a href=\"\
+    http://thebuildingcoder.typepad.com/blog/2011/01/newfamilyinstance-overloads.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2011/01/newfamilyinstance-overloads.html</a>\n\
+    \nSpecifically, you can use the code provided in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/06/set-tag-type.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/06/set-tag-type.html</a>\n\nCheers,\
+    \ Jeremy."
+- author: Johnny
+  email: bestlove_charlene@hotmail.com
+  ip: 211.72.221.249
+  url: ''
+  date: '2013-12-16 22:07:23'
+  body: 'Hi Jeremy,
+
+    I tried to create extrusion based on room''s bounding and most of that work great,
+    but in some case while creating the extrusion, i got some error message from revit.
+    The error message is "Autodesk.Revit.Exceptions.ApplicationException:Unexpected
+    internal error:code:20", Is there any way to solve this error?
+
+
+    Thanks
+
+
+    Johnny'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.200.168
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-12-20 09:49:52'
+  body: 'Dear Johnny,
+
+
+    Sorry, no idea off-hand.
+
+
+    Try creating model curves from the boundary instead of an extrusion.
+
+
+    Then you can look at them in the user interface and try to create the extrusion
+    manually.
+
+
+    That should provide more information on the problem, cf.
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/07/debug-geometric-form-creation.html">http://thebuildingcoder.typepad.com/blog/2009/07/debug-geometric-form-creation.html</a>
+
+
+    Cheers, Jeremy.
+
+    -----'

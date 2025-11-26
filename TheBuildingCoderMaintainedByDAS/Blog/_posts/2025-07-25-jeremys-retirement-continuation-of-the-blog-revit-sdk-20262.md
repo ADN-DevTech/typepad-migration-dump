@@ -1,0 +1,66 @@
+---
+layout: "post"
+title: "Jeremy's Retirement, Continuation of the Blog, Revit SDK 2026.2"
+date: "2025-07-25 03:15:34"
+author: "Pedro Nadal"
+categories:
+  - "2026"
+  - "News"
+  - "SDK Samples"
+  - "Update"
+original_url: "https://thebuildingcoder.typepad.com/blog/2025/07/jeremys-retirement-continuation-of-the-blog-revit-sdk-20262.html "
+typepad_basename: "jeremys-retirement-continuation-of-the-blog-revit-sdk-20262"
+typepad_status: "Publish"
+---
+
+<p><span style="font-family: arial, helvetica, sans-serif;">By <a href="https://adndevblog.typepad.com/aec/pedro-nadal.html">Pedro Nadal</a></span></p>
+<ul>
+<li><a href="#section1"><span style="font-family: arial, helvetica, sans-serif;">Jeremy&#39;s Retirement and continuation of the Blog</span></a></li>
+<li><a href="#section2"><span style="font-family: arial, helvetica, sans-serif;">Revit 2026.2 SDK release</span></a></li>
+<li><a href="#section3"><span style="font-family: arial, helvetica, sans-serif;">API additions</span></a></li>
+<li><a href="#section4"><span style="font-family: arial, helvetica, sans-serif;">CefSharp Removal</span></a></li>
+</ul>
+<p><span style="font-family: arial, helvetica, sans-serif;"><strong><a id="section1"></a>Jeremy&#39;s Retirement and continuation of the Blog</strong></span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">After almost 17 years at the forefront of the Revit developer community, Jeremy Tammik has officially stepped into retirement.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">For many in the AEC and developer space, The Building Coder has been more than just a blog — it has been a beacon of clarity, consistency, and generosity. Jeremy’s deep expertise, tireless dedication, and ability to make even the most complex Revit API topics approachable have left a lasting impact on thousands of developers, partners, and colleagues around the world.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">Although Jeremy is now enjoying a well-earned retirement, we’re happy to share that he is going to remain as an occasional contributor to the blog. His voice and insights are always welcome, and we look forward to hearing from him again in future posts.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">Going forward, the Developer Advocacy and Support team will join the authorship of The Building Coder. While we all know that no single person can truly fill Jeremy’s shoes, we as a team are committed to continuing the blog in the same spirit of openness, technical excellence, and community support that he so thoughtfully fostered.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">Thank you, Jeremy, for everything you’ve built — not just in terms of code and content, but in community.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;"><strong><a id="section2"></a>Revit 2026.2 SDK release</strong></span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">Alongside the <a href="https://www.autodesk.com/blogs/aec/2025/07/09/whats-new-in-revit-2026-2-residential-content-and-productivity-enhancements/" rel="noopener" target="_blank">recent release of Revit 2026.2</a>, which introduced enhancements in residential modeling, content usability, and productivity tools, Autodesk has also published the Revit 2026.6 SDK update.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">You can review the full list of Revit improvements in the <a href="https://help.autodesk.com/view/RVT/2026/ENU/?guid=RevitReleaseNotes_2026updates_2026_2_html" rel="noopener" target="_blank">official Revit 2026.2 release notes</a>.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">The latest Revit SDK version is available for download at: <a href="https://aps.autodesk.com/developer/overview/revit" rel="noopener" target="_blank">aps.autodesk.com/developer/overview/revit</a></span><br /><span style="font-family: arial, helvetica, sans-serif;">or direct download link: <a href="https://autodesk-adn-transfer.s3.us-west-2.amazonaws.com/ADN+Extranet/Revit/REVIT_2026_2_SDK.msi" rel="noopener" target="_blank">Revit 2026.2 SDK</a></span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;"><strong><a id="section3"></a>API Additions</strong></span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;"><strong>Add-In Manager: Grouping Add-ins in the UI</strong></span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">A small but useful improvement has been introduced in the <strong>RevitAddInUtility</strong> API to help better organize your tools inside Revit’s Add-In Manager.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">A new optional flag called:</span></p>
+<pre><code><span style="font-family: arial, helvetica, sans-serif;">RevitAddInManifestSettings.UnifyInAddInManager</span></code></pre>
+<p><span style="font-family: arial, helvetica, sans-serif;">allows developers to <strong>group multiple AddIn entries into a single line</strong> in both the Add-Ins Manager and Admin Add-Ins Manager UI.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">If you have several external commands or applications defined in the same manifest file, enabling this flag can simplify the user interface by presenting them as a single item, avoiding clutter and potential confusion.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;"><strong>Sample manifest with grouping enabled:</strong></span></p>
+<pre><code>
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;RevitAddIns&gt;
+  &lt;AddIn Type=&quot;DBApplication&quot;&gt;
+    &lt;Name&gt;SampleApplication&lt;/Name&gt;
+    &lt;FullClassName&gt;SampleApplication.Application&lt;/FullClassName&gt;
+    &lt;Assembly&gt;SampleApplication.dll&lt;/Assembly&gt;
+    &lt;ClientId&gt;C96B32A3-98C6-4B47-99DA-562E64689C6F&lt;/ClientId&gt;
+    &lt;VendorId&gt;Autodesk&lt;/VendorId&gt;
+  &lt;/AddIn&gt;
+  &lt;ManifestSettings&gt;
+    <strong>&lt;UnifyInAddInManager&gt;True&lt;/UnifyInAddInManager&gt;</strong>
+  &lt;/ManifestSettings&gt;
+&lt;/RevitAddIns&gt;
+</code></pre>
+<p><span style="font-family: arial, helvetica, sans-serif;">When this setting is enabled (True), users won’t be able to toggle individual commands on/off; the entire group is managed as a single unit.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;"><strong>MEP API: Resetting Fabrication Assembly Types</strong></span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">In Revit 2026.2, a change was made to how <strong>FabricationPart</strong> elements are organized within <strong>assembly types</strong>.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">Originally, in Revit 2026 RTM, multiple fabrication parts could share the same assembly type based on the similarity of geometry and transformation. However, based on user feedback, the behavior has been reverted: <strong>each FabricationPart now has its own unique assembly type</strong>, as it was in previous versions.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">To support this change, a new method has been introduced:</span></p>
+<pre><code><span style="font-family: arial, helvetica, sans-serif;">FabricationPartType.ResetAssemblyTypes(Document doc)</span></code></pre>
+<p><span style="font-family: arial, helvetica, sans-serif;">This method allows you to <strong>manually reset all assembly type definitions</strong> for fabrication parts in your model. Use this method during migration workflows or when consistency across fabrication elements is critical.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;"><strong><a id="section4"></a>CefSharp Removal</strong></span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">The <strong>CefSharp</strong> dependency has been fully removed from Revit as of the 2026 release. This change was already announced in the initial <strong>Revit 2026 SDK</strong>, but it&#39;s worth highlighting again due to its impact on many existing add-ins.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">If your add-ins relied on CefSharp to render HTML-based user interfaces within Revit, you may consider migrating to an alternative solution. The recommended approach is to adopt <strong>Microsoft Edge WebView2</strong>, which is actively supported and provides modern capabilities for hosting web content in desktop applications.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">Note: Starting with Revit 2026, the required <strong>WebView2 DLLs are already included</strong> in the Revit installation, so no additional runtime installation is needed for end users.</span></p>

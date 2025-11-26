@@ -1,0 +1,89 @@
+comments:
+- author: Krispy5
+  email: kparsons@au.westfield.com
+  ip: 203.202.124.168
+  url: ''
+  date: '2010-04-20 00:34:32'
+  body: 'Hi Jeremy,
+
+
+    When using the RevitLookup tool I am trying to use the "Snoop Application..."
+    tool to get to the categories in the active document, however when I click on
+    the "Documents" field i get an error.'
+- author: Krispy5
+  email: kparsons@au.westfield.com
+  ip: 203.202.124.168
+  url: ''
+  date: '2010-04-20 00:36:40'
+  body: 'Sorry, that was a bit vague, the specific exception is:
+
+    Autodesk.Revit.Exceptions.ModificationOutsideTransactionException: Attempt to
+    modify the model outside of transaction.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-04-20 07:48:55'
+  body: "Dear Krispy,\n\nThank you for the note, I have passed it on.\n\nSince you\
+    \ have the source code, you should also be able to fix it yourself, you know.\
+    \ \n\nJust determine exactly where the exception is thrown and wrap the offending\
+    \ line of code in an exception handler. Ignore the exception, and you can continue\
+    \ snooping.\n\nCheers, Jeremy."
+- author: Krispy5
+  email: kparsons@au.westfield.com
+  ip: 203.202.124.168
+  url: ''
+  date: '2010-04-20 20:41:08'
+  body: 'Thanks Jeremy,
+
+
+    Turned out to be a few problems:
+
+    The initial problem was caused by the call to doc.PlanTopologies in the CollectorExtDoc.cs
+    file (line 156), this call requires a Transaction and the command was in Manual
+    Transaction mode. I changed the command to Automatic mode (in the TextCmds.cs
+    file).
+
+
+    After fixing that problem, another occured; the lines directly below the previous
+    problem line create an element set and adds this to the snoop data, this was casuing
+    exceptions so i wrapped this in a try block.
+
+
+    Finally, another exception occured further down the same file where it is attempting
+    to snoop the electrical settings. This was already wrapped in a try/catch block
+    but was still throwing an exception, i change the type of exception it was try
+    to catch from ''SystemException'' to just ''Exception'' and this seemed to fix
+    the problem (not sure why).
+
+
+    So i now have it running and am able to get to the Categories as I originally
+    planned.
+
+
+    Hope this helps someone.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-04-21 00:36:30'
+  body: 'Dear Krispy,
+
+
+    Congratulations on solving the problem, and very many thanks for explaining how
+    to do so!
+
+
+    I submitted a problem report to the team responsible for this tool, so they will
+    be taking a look at it as well.
+
+
+    I will add your explanation to the report and I am sure they will find that useful.
+
+
+    Thanks again and enjoy your snooping!
+
+
+    Cheers, Jeremy.
+
+    -----'

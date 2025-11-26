@@ -1,0 +1,108 @@
+comments:
+- author: adi
+  email: apatel1110@gmail.com
+  ip: 173.70.80.67
+  url: ''
+  date: '2009-12-03 06:23:18'
+  body: "jeremy,\ni am working on a facade design project and my facade geometry is\
+    \ driven by the ecotect analysis data, based on that data my facade panel parameters\
+    \ change, I am using divided surface tool to tessellate the panels on surface\
+    \ of the building, since my building surface is based on double curve i am having\
+    \ a lot of difficulty in populating my panels, its weird but sometimes it fails\
+    \ giving me the error saying \"Not a Rect2DTilePattern\", Is there a work around\
+    \ for this?  My code is based on one of your massing examples, \nprivate void\
+    \ assignDistParam(double[] excelOrientArray)\n        {\n\n            List dsList\
+    \ = GetElements();\n            foreach (DividedSurface ds in dsList)\n      \
+    \      // here, ds is the panel which needs the distance parameter changed according\
+    \ to the values from array, to control the aperture of it.\n            {\n  \
+    \              GridNode gn = new GridNode();\n\n                int uCount = ds.NumberOfUGridlines;\n\
+    \                int vCount = ds.NumberOfVGridlines;\n                int u =\
+    \ (uCount - 3);\n                while (u > 0)\n                {\n          \
+    \          gn.UIndex = u;\n                    int v = 0;\n                  \
+    \  while (v  0))\n                                    {\n                    \
+    \                    int i;\n                                        double paramValue;\n\
+    \                                        \n                                  \
+    \     \n                                                                     \
+    \           i = (((vCount - 3) * (u - 1)) + v);\n                            \
+    \            //correspond with excel data array\n\n                          \
+    \              double angleHolder  = excelOrientArray[i - 1];\n              \
+    \                         \n                                        int lowbound\
+    \ = 155;\n                                        int upperbound = 205;\n    \
+    \                                    double R1;\n                            \
+    \            double R2;\n                                        double R3;\n\
+    \                                        double R4;\n\n                      \
+    \                  if (lowbound <= angleHolder & angleHolder < upperbound)\n \
+    \                                       {\n                                  \
+    \          R1 = (angleHolder - 180);\n                                       \
+    \     if (R1 != 0)\n                                            {\n          \
+    \                                      R2 = (180 / R1);\n                    \
+    \                            R3 = (90 / R2);\n                               \
+    \                 if (R1 < 0)\n                                              \
+    \  {\n                                                    R4 = (90 + R3);\n  \
+    \                                              }\n                           \
+    \                     else\n                                                {\n\
+    \                                                    R4 = (90 - R3);\n       \
+    \                                         }\n                                \
+    \                param.Set(R4);\n                                            }\n\
+    \                                            else\n                          \
+    \                  {\n                                                param.Set(R1);\n\
+    \                                            }\n                             \
+    \           }\n                                        else\n                \
+    \                        {\n                                            paramValue\
+    \ = 30;\n                                            param.Set(paramValue);\n\n\
+    \                                        }\n                                 \
+    \   }\n                                    else\n                            \
+    \        {\n                                    }\n                          \
+    \      }\n\n                            }\n                        }\n       \
+    \                 v = v + 1;\n                    }\n                    u = u\
+    \ - 1;\n                }\n            }\n        }"
+- author: adi
+  email: apatel1110@gmail.com
+  ip: 173.70.80.67
+  url: ''
+  date: '2009-12-03 06:31:33'
+  body: "Jeremy,\nseems like some parts of the code is missing in my previous comment,so\
+    \ i am posting it again,\n private void assignDistParam(double[] excelOrientArray)\n\
+    \        {\n\n            List dsList = GetElements();\n            foreach (DividedSurface\
+    \ ds in dsList)\n            // this part of the code reads the analysis values\
+    \ from the array and assings them to parameters those which are matching the criteria.\n\
+    \            {\n                GridNode gn = new GridNode();\n              \
+    \  int uCount = ds.NumberOfUGridlines;\n                int vCount = ds.NumberOfVGridlines;\n\
+    \                \n                int u = (uCount - 3);\n                while\
+    \ (u > 0)\n                {\n                    gn.UIndex = u;\n           \
+    \         int v = 0;\n                    while (v  0))\n                    \
+    \                {\n                                        int i;\n         \
+    \                               double paramValue;\n                         \
+    \               i = (((vCount - 3) * (u - 1)) + v);\n                        \
+    \                double angleHolder  = excelOrientArray[i - 1];\n            \
+    \                            \n                                        int lowbound\
+    \ = 155;\n                                        int upperbound = 205;\n    \
+    \                                    double R1;\n                            \
+    \            double R2;\n                                        double R3;\n\
+    \                                        double R4;\n                        \
+    \                // panels which meet this criteria will update the parameters..\n\
+    \                                        if (lowbound  GetElements() where T :\
+    \ Autodesk.Revit.Element\n        {\n            List elements = new List();\n\
+    \            ElementIterator eit = m_doc.get_Elements(typeof(T));\n\n        \
+    \    eit.Reset();\n            while (eit.MoveNext())\n            {\n       \
+    \         T element = eit.Current as T;\n                if (element != null)\n\
+    \                {\n                    elements.Add(element);\n             \
+    \   }\n            }\n            return elements;\n        }\n\n\n    }\n}"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-08 09:55:29'
+  body: 'Dear Adi,
+
+
+    Sorry for the late response. As you may have seen, I am travelling right now and
+    will continue doing so for the rest of the year, so I have not been able to look
+    into your issue. By the way, I searched my samples globally for the string ''assignDistParam''
+    but cannot find it, so I do not know what sample you are referring to. I hope
+    that you have been able to make some progress in spite of my lack of response.
+
+
+    Cheers, Jeremy.
+
+    -----'

@@ -1,0 +1,218 @@
+---
+layout: "post"
+title: "Birthday, DevDays, PostCommand + SendKeys"
+date: "2021-02-05 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "Automation"
+  - "DevDays"
+  - "Forge"
+  - "Getting Started"
+  - "SVG"
+  - "Training"
+  - "Win32"
+original_url: "https://thebuildingcoder.typepad.com/blog/2021/02/birthday-devdays-postcommand-sendkeys.html "
+typepad_basename: "birthday-devdays-postcommand-sendkeys"
+typepad_status: "Publish"
+---
+
+<p>Birthday in the past, DevDays in the future, and running a Revit command in the present moment:</p>
+
+<ul>
+<li><a href="#2">Happy Birthday, Autodesk!</a></li>
+<li><a href="#3">DevDays online 2021</a></li>
+<li><a href="#2.1">For everyone</a></li>
+<li><a href="#2.2">For ADN members</a></li>
+<li><a href="#4"><code>PostCommand</code> + <code>SendKeys</code></a></li>
+<li><a href="#5">SVG tutorial</a></li>
+</ul>
+
+<h4><a name="2"></a> Happy Birthday, Autodesk!</h4>
+
+<p>As Shaan Hurley pointed out,
+<a href="https://autodesk.blogs.com/between_the_lines/2021/01/autodesk-turns-39-years-old.html">Autodesk turned 39 years old</a> on
+January 30, last Saturday.</p>
+
+<p>Enjoy this snapshot of the flying Autodesk founders:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e98dd1e1200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e98dd1e1200b image-full img-responsive" alt="Autodesk founders" title="Autodesk founders" src="/assets/image_ce32d3.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>From left to right: Rudolf Künzli, Mike Ford, Dan Drake, Mauri Laitinen, Greg Lutz, David Kalish, Lars Moureau, Richard Handyside, Kern Sibbald, Hal Royaltey, Duff Kurland, John Walker, Keith Marcelius.</p>
+
+<p>Rudolf Künzli was still actively leading the Swiss office in Gundeldingen, Basel, when I first joined Autodesk in 1988.</p>
+
+<p>Kern Sibbald was my direct manager when he started leading the European Technical Centre in Neuch&acirc;tel, and he didn't even realise so for over half a year, until I happened to mention the fact while chatting together on a ferry in Gothenburg &nbsp; :-)</p>
+
+<h4><a name="3"></a> DevDays Online 2021</h4>
+
+<p>Back to modern times...
+just as usual, the annual DevDays Online events are taking place in the beginning of March, presented by my team, the Autodesk DAS or Developer Advocacy and Support, formerly ADN, Autodesk Developer Network.</p>
+
+<p>The first week will focus on public information, mainly news related to
+the <a href="https://forge.autodesk.com">Forge platform</a>.</p>
+
+<p>The second week is for
+registered <a href="https://autodesk.com/joinadn">Autodesk Developer Network members</a> and
+focuses mainly on our desktop products and APIs.</p>
+
+<p>Please <a href="https://adndevblog.typepad.com/autocad/2021/01/join-us-for-our-devdays-online-webinars.html">refer to the official announcement for more complete information</a>.</p>
+
+<p>All webinars start at 4pm GMT | 17h00 CET | 11am EST | 8am PST.</p>
+
+<p>The sessions will be recorded, in case the timing doesn’t work for you.</p>
+
+<p>Here is the schedule overview including links to register to each session:</p>
+
+<h4><a name="2.1"></a> For Everyone</h4>
+
+<ul>
+<li>March 2 &ndash; <a href="https://autodesk.zoom.us/webinar/register/WN_gWKcZ9miQaWPsLL8MQkn-w">DevDays Keynotes</a> &ndash; Jim Quanci</li>
+<li>March 3 &ndash; <a href="https://autodesk.zoom.us/webinar/register/WN_unMOWlS_QIWa5zFHsToEvw">Forge API update</a> &ndash; Augusto Goncalves</li>
+<li>March 4 &ndash; <a href="https://autodesk.zoom.us/webinar/register/WN_YMXE1hErSuuCysUFWyDnzQ">Autodesk Construction Cloud and API update</a> &ndash; Mikako Harada</li>
+</ul>
+
+<h4><a name="2.2"></a> For ADN Members</h4>
+
+<ul>
+<li>March 9 &ndash; <a href="https://autodesk.zoom.us/webinar/register/WN_-lPyJKCxSayfTqyj39FKpA">The next release of AutoCAD APIs</a> &ndash; Madhukar Moogala</li>
+<li>March 10 &ndash; <a href="https://autodesk.zoom.us/webinar/register/WN_vOr2gzcDSgKbfjQ67D7bTw">Revit API, Civil 3D &amp; InfraWorks updates</a>
+<ul>
+<li>Civil 3D and InfraWorks update (10 minutes)</li>
+<li>Revit API update (45 minutes)</li>
+</ul></li>
+<li>March 11 &ndash; <a href="https://autodesk.zoom.us/webinar/register/WN_r6eNOmsuRgaxP9jIdZaDRA">Inventor, Vault and Fusion 360 API update</a></li>
+</ul>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e98dd1ef200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e98dd1ef200b img-responsive" style="width: 460px; display: block; margin-left: auto; margin-right: auto;" alt="Forge developers" title="Forge developers" src="/assets/image_70c676.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="4"></a> PostCommand + SendKeys</h4>
+
+<p>Diving back into the Revit API, Yuko of shared a very nice solution in 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/twinmotion-dynamic-link-export-fbx-automatically/m-p/10028748">TwinMotion dynamic link export FBX automatically</a>,
+showing how to launch a built-in Revit command using <code>PostCommand</code> and then proceed to programmatically accept all its default UI setting by using <code>SendKeys</code> to simulate the user input:</p>
+
+<p><strong>Question:</strong> I have been trying to export FBX using the TwinMotion Dynamic Link.</p>
+
+<p>I would like to export FBX files from many Revit files, so I would like to know how I can use <code>PostCommand</code> and then operate Windows forms on the export panel.</p>
+
+<p>I tried to use <code>SendKeys</code> but I couldn't make it.</p>
+
+<p>Here are the forms I need to step through:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302788012ff25200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302788012ff25200d img-responsive" style="width: 200px; display: block; margin-left: auto; margin-right: auto;" alt="TwinMotion FBX export" title="TwinMotion FBX export" src="/assets/image_24dd95.jpg" /></a><br /></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e98dd201200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e98dd201200b img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="TwinMotion FBX export" title="TwinMotion FBX export" src="/assets/image_a7d378.jpg" /></a><br /></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302788012ff2d200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302788012ff2d200d img-responsive" style="width: 400px; display: block; margin-left: auto; margin-right: auto;" alt="TwinMotion FBX export" title="TwinMotion FBX export" src="/assets/image_1d4d9e.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>I am a very new on Revit API forum. Any advice would be greatly appreciated! &nbsp; :-) </p>
+
+<p><strong>Answer:</strong> Welcome to the Revit API!</p>
+
+<p>Unfortunately, the Revit API provides no support for the scenario you describe.</p>
+
+<p>The native Windows API does provide all the required functionality to simulate any user input you like.</p>
+
+<p>Therefore, you can use the Windows API to drive the required workflow.</p>
+
+<p>I used such a mechanism to implement <a href="https://github.com/jeremytammik/JtClicker">JtClicker, a simple Windows form clicker</a>.</p>
+
+<p>You can try to implement something similar for your requirements.</p>
+
+<p>However, as said, that has nothing whatsoever to do with the Revit API.</p>
+
+<p><strong>Response:</strong> Thank you for your reply!</p>
+
+<p>I am able to export automatically by Windows API as you showed me the example! </p>
+
+<pre class="code">
+  <span style="color:blue;">void</span>&nbsp;OnDialogBoxShowing(&nbsp;
+  &nbsp;&nbsp;<span style="color:blue;">object</span>&nbsp;sender,
+  &nbsp;&nbsp;<span style="color:#2b91af;">DialogBoxShowingEventArgs</span>&nbsp;args&nbsp;)
+  {
+  &nbsp;&nbsp;<span style="color:green;">//DialogBoxShowingEventArgs&nbsp;args</span>
+  &nbsp;&nbsp;<span style="color:#2b91af;">TaskDialogShowingEventArgs</span>&nbsp;e2&nbsp;=&nbsp;args
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">TaskDialogShowingEventArgs</span>;
+
+  &nbsp;&nbsp;e2.OverrideResult(&nbsp;(<span style="color:blue;">int</span>)&nbsp;<span style="color:#2b91af;">TaskDialogResult</span>.Ok&nbsp;);
+  }
+
+  <span style="color:blue;">static</span>&nbsp;<span style="color:blue;">async</span>&nbsp;<span style="color:blue;">void</span>&nbsp;RunCommands(
+  &nbsp;&nbsp;<span style="color:#2b91af;">UIApplication</span>&nbsp;uiapp,
+  &nbsp;&nbsp;<span style="color:#2b91af;">RevitCommandId</span>&nbsp;id_addin&nbsp;)
+  {
+  &nbsp;&nbsp;uiapp.PostCommand(&nbsp;id_addin&nbsp;);
+  &nbsp;&nbsp;<span style="color:blue;">await</span>&nbsp;<span style="color:#2b91af;">Task</span>.Delay(&nbsp;400&nbsp;);
+  &nbsp;&nbsp;<span style="color:#2b91af;">SendKeys</span>.Send(&nbsp;<span style="color:#a31515;">&quot;{ENTER}&quot;</span>&nbsp;);
+  &nbsp;&nbsp;<span style="color:blue;">await</span>&nbsp;<span style="color:#2b91af;">Task</span>.Delay(&nbsp;400&nbsp;);
+  &nbsp;&nbsp;<span style="color:#2b91af;">SendKeys</span>.Send(&nbsp;<span style="color:#a31515;">&quot;{ENTER}&quot;</span>&nbsp;);
+  &nbsp;&nbsp;<span style="color:blue;">await</span>&nbsp;<span style="color:#2b91af;">Task</span>.Delay(&nbsp;400&nbsp;);
+  &nbsp;&nbsp;<span style="color:#2b91af;">SendKeys</span>.Send(&nbsp;<span style="color:#a31515;">&quot;{ENTER}&quot;</span>&nbsp;);
+  &nbsp;&nbsp;<span style="color:blue;">await</span>&nbsp;<span style="color:#2b91af;">Task</span>.Delay(&nbsp;400&nbsp;);
+  &nbsp;&nbsp;<span style="color:#2b91af;">SendKeys</span>.Send(&nbsp;<span style="color:#a31515;">&quot;{ESCAPE}&quot;</span>&nbsp;);
+  &nbsp;&nbsp;<span style="color:blue;">await</span>&nbsp;<span style="color:#2b91af;">Task</span>.Delay(&nbsp;400&nbsp;);
+  &nbsp;&nbsp;<span style="color:#2b91af;">SendKeys</span>.Send(&nbsp;<span style="color:#a31515;">&quot;{ESCAPE}&quot;</span>&nbsp;);
+  }
+
+  <span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;myMacro(&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;)
+  {
+  &nbsp;&nbsp;<span style="color:green;">//Document&nbsp;doc&nbsp;=&nbsp;this.ActiveUIDocument.Document;</span>
+  &nbsp;&nbsp;<span style="color:#2b91af;">Application</span>&nbsp;app&nbsp;=&nbsp;doc.Application;
+  &nbsp;&nbsp;<span style="color:#2b91af;">UIApplication</span>&nbsp;uiapp&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">UIApplication</span>(app);
+
+  &nbsp;&nbsp;<span style="color:blue;">try</span>
+  &nbsp;&nbsp;{
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">RevitCommandId</span>&nbsp;id&nbsp;=&nbsp;<span style="color:#2b91af;">RevitCommandId</span>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.LookupPostableCommandId(
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">PostableCommand</span>.PlaceAComponent&nbsp;);
+
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;name&nbsp;=&nbsp;<span style="color:#a31515;">&quot;CustomCtrl_%CustomCtrl_%&quot;</span>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<span style="color:#a31515;">&quot;Twinmotion&nbsp;2020%Twinmotion&nbsp;Direct&nbsp;Link%&quot;</span>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<span style="color:#a31515;">&quot;ExportButton&quot;</span>;
+
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">RevitCommandId</span>&nbsp;id_addin&nbsp;=&nbsp;<span style="color:#2b91af;">RevitCommandId</span>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.LookupCommandId(&nbsp;name&nbsp;);
+
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;id_addin&nbsp;!=&nbsp;<span style="color:blue;">null</span>&nbsp;)
+  &nbsp;&nbsp;&nbsp;&nbsp;{
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uiapp.DialogBoxShowing&nbsp;+=&nbsp;<span style="color:blue;">new</span>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">EventHandler</span>&lt;<span style="color:#2b91af;">DialogBoxShowingEventArgs</span>&gt;(
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OnDialogBoxShowing&nbsp;);
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RunCommands(&nbsp;uiapp,&nbsp;id_addin&nbsp;);
+  &nbsp;&nbsp;&nbsp;&nbsp;}
+  &nbsp;&nbsp;}
+
+  &nbsp;&nbsp;<span style="color:blue;">catch</span>
+  &nbsp;&nbsp;{
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;<span style="color:#a31515;">&quot;Test&quot;</span>,&nbsp;<span style="color:#a31515;">&quot;error&quot;</span>&nbsp;);
+  &nbsp;&nbsp;}
+  &nbsp;&nbsp;<span style="color:blue;">finally</span>
+  &nbsp;&nbsp;{
+  &nbsp;&nbsp;&nbsp;&nbsp;uiapp.DialogBoxShowing&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">EventHandler</span>&lt;<span style="color:#2b91af;">DialogBoxShowingEventArgs</span>&gt;(&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OnDialogBoxShowing&nbsp;);
+  &nbsp;&nbsp;}
+  }
+</pre>
+
+<p>Many thanks to Yuko for sharing this nice clean solution, and congratulations for getting up to speed with the Revit API so fast!</p>
+
+<h4><a name="5"></a> SVG Tutorial</h4>
+
+<p>I really like the quick and compelling introduction to SVG presented by Aleksandr Hovhannisyan in
+his <a href="https://www.aleksandrhovhannisyan.com/blog/svg-tutorial-how-to-code-svg-icons-by-hand">SVG Tutorial: How to Code SVG Icons by Hand</a>.</p>

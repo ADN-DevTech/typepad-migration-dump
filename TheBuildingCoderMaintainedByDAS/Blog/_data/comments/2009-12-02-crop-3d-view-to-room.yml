@@ -1,0 +1,206 @@
+comments:
+- author: Prasad Sumanasekara
+  email: prasadgalle@gmail.com
+  ip: 124.43.98.123
+  url: ''
+  date: '2009-12-03 06:31:21'
+  body: 'Hello Jeremy,
+
+
+    How to create model lines, filled regions in Genaric anotation template using
+    API.
+
+
+    Prasad.'
+- author: Prasad Sumanasekara
+  email: prasadgalle@gmail.com
+  ip: 124.43.158.199
+  url: ''
+  date: '2009-12-04 04:48:35'
+  body: "Hello Jeremy,\n\nwe can create detail line using API in Generic annotation\
+    \ template.\npossible to create filled regions using API in Generic annotation\
+    \ template. \n\nPrasad."
+- author: Jeremy Tammik
+  email: ''
+  ip: 12.160.193.229
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-04 16:35:08'
+  body: "Dear Prasad,\n\nI am glad to hear that you solved your issue of creating\
+    \ model lines. \n\nI do not believe that you can currently create filled regions\
+    \ via the API. At least I see that we have an open wish list item for that functionality.\n\
+    \nSorry for the bad news.\n\nCheers, Jeremy."
+- author: Sowmya
+  email: ''
+  ip: 61.246.236.157
+  url: http://profile.typepad.com/cnr
+  date: '2009-12-10 07:43:52'
+  body: 'Hi Jeremy,
+
+
+    I  added shared parameter to the revit elements in the host file. I also want
+    to add a shared parameter to the linked file elements. I mean to say the shared
+    parameter should be added to the elements of the host file as well as likned file
+    while executing my command.Is this possible ?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 80.35.197.50
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-10 08:30:47'
+  body: "Dear Sowmya,\n\nAs far as I know, all you need to do is access the linked\
+    \ files from the application documents collection, or, if they do not appear them,\
+    \ open them in the background using \n\nApplication.Documents: Return all the\
+    \ documents inside Revit. \n\nApplication.OpenDocumentFile method: Opens a document\
+    \ from disk. \n\nEither of these provides you the document instance, and you can\
+    \ use that to add shared parameters as normal.\n\nCheers, Jeremy."
+- author: Sandeep
+  email: sdpatil.1984@rediffmail.com
+  ip: 122.200.17.210
+  url: ''
+  date: '2011-01-13 08:40:01'
+  body: 'Dear Jeremy,
+
+    Is it possible here to use section box instead of Crop Box?
+
+    If yes the that''s very good.'
+- author: Sandeep
+  email: sdpatil.1984@rediffmail.com
+  ip: 122.200.17.210
+  url: ''
+  date: '2011-01-13 09:00:50'
+  body: 'Hi Jeremy,
+
+    Sorry for half comment.Do you have any reference for it if we can able to use
+    section box for particular level?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-01-13 10:12:58'
+  body: 'Dear Sandeep,
+
+
+    Nope. Please try it out and let us know what you discover. Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Sandeep
+  email: sdpatil.1984@rediffmail.com
+  ip: 122.200.17.210
+  url: ''
+  date: '2011-01-14 05:19:04'
+  body: "Hi Jeremy,\nI got some code for working assuming section box of 3D View is\
+    \ checked (We can set parameter from programming also).\nThis is the code for\
+    \ one element only(Demo)now i need to explore more :\n\nTransaction trans = new\
+    \ Transaction(m_extCommandData.Application.ActiveUIDocument.Document, \"SectionBox\"\
+    );\ntrans.Start();\n\nSelection sel = m_extCommandData.Application.ActiveUIDocument.Selection;\n\
+    \nView3D view = m_extCommandData.Application.ActiveUIDocument.Document.ActiveView\
+    \ as View3D;            \n\nElementSet elements = sel.Elements;\nBoundingBoxXYZ\
+    \ elementBoundingBox = new BoundingBoxXYZ();\n\nforeach (Element element in elements)\n\
+    {\n    elementBoundingBox = element.get_BoundingBox(view);\n}\n\nBoundingBoxXYZ\
+    \ boundingboxfor3D = view.SectionBox;\nview.SectionBox = elementBoundingBox;\n\
+    \ntrans.Commit();"
+- author: Nitin
+  email: ''
+  ip: 61.17.167.107
+  url: http://profile.typepad.com/nitinjambhale2008
+  date: '2011-04-07 02:24:51'
+  body: 'Dear Jeremy sir,
+
+    How can i show 3D realistic view of family in windows form?
+
+
+    Thanks & Regards,
+
+    Nitin'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-04-08 01:57:28'
+  body: 'Dear Nitin,
+
+
+    As far as I know, there is no ready-made control that can do this for you. You
+    can create your own, of course, by querying the Revit elements for their geometry
+    and rendering it to a window using OpenGL or any other technology you like.
+
+
+    Cheers, Jeremy.'
+- author: Nitin
+  email: ''
+  ip: 61.17.167.107
+  url: http://profile.typepad.com/nitinjambhale2008
+  date: '2011-06-27 00:51:29'
+  body: 'Dear sir,
+
+    How to change/set active of document.
+
+    Actually i have created a new 3dview but i m not able to set it programmatically.
+    I have to click it from project browser.
+
+
+    Thanks & Regards,
+
+    Nitin'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-06-27 06:28:44'
+  body: 'Dear Nitin,
+
+
+    In the Revit 2012 API, the new property UIDocument.ActiveView has both a getter
+    and setter, so it allows you to query the currently active view of the currently
+    active document, and also to set it similarly to what an end user can do by changing
+    a view in the Project Browser in Revit.
+
+
+    Cheers, Jeremy.'
+- author: Thanh Chương Nguyễn
+  email: ''
+  ip: 140.112.4.176
+  url: http://profile.typepad.com/6p01a511827d18970c
+  date: '2014-03-11 23:35:38'
+  body: Hello Mr. Jeremy,  I'm working on a project that needs to calculate the Footprint
+    area of a building in Revit. I believe the above example is related to my question
+    because It also needs to projects all vertex to the ground plan. But how to identify
+    the boundary and calculate the boundary area is beyond my knowledge. Could you
+    please help me with the instruction how to achieve that.   Thank you very much
+    in advance :)
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-03-19 17:03:30'
+  body: 'Dear Thanh Chương Nguyễn,
+
+
+    The answer depends on your needs and your model.
+
+
+    Maybe you can just grab the outline of the base level floors, or project the roof
+    boundary onto the XY plane.
+
+
+    Maybe you can create a union of all building elements and use the extrusion analyser
+    to project those onto the XY plane.
+
+
+    Maybe you can project all building elements that you are interested in onto the
+    XY plane, and then create a union of all the 2D polygons, e.g. using the 2D Boolean
+    operations:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/09/boolean-operations-for-2d-polygons.html">http://thebuildingcoder.typepad.com/blog/2013/09/boolean-operations-for-2d-polygons.html</a>
+
+
+    The options are innumerable.
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.
+
+    -----'

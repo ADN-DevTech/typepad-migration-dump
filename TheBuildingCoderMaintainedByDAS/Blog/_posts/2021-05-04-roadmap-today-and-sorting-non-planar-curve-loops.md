@@ -1,0 +1,432 @@
+---
+layout: "post"
+title: "Roadmap Today and Sorting Non-Planar Curve Loops"
+date: "2021-05-04 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Algorithm"
+  - "Analysis"
+  - "Geometry"
+  - "News"
+  - "Roadmap"
+original_url: "https://thebuildingcoder.typepad.com/blog/2021/05/roadmap-today-and-sorting-non-planar-curve-loops.html "
+typepad_basename: "roadmap-today-and-sorting-non-planar-curve-loops"
+typepad_status: "Publish"
+---
+
+<p>Very short notice on the <em>Ask Me Anything</em> session taking place later today, and a vastly enhanced method for sorting curve loops:</p>
+
+<ul>
+<li><a href="#2">Today: Inside the Factory, Ask Me Anything</a></li>
+<li><a href="#3">Sorting non-planar curve loops</a></li>
+</ul>
+
+<p>Before getting technical, a personal note:</p>
+
+<p>I celebrated my covid coronation last week.</p>
+
+<p>I suffered very mildly.
+My partner had a strong headache and took a positive test.
+Next day, I felt slightly dizzy with tired and hurting bones and eyes in the evening,
+followed by a scratchy throat, slight fever, ache in the legs and back, exhaustion, higher pulse.
+I slept more, stopped drinking coffee for five days and otherwise kept to my normal everyday routines and work.
+Now, all is well and I count myself lucky.</p>
+
+<h4><a name="2"></a> Today: Inside the Factory, Ask Me Anything</h4>
+
+<p>The annual Revit Inside the Factory <em>Ask Me Anything</em> session is taking place later today, May the Fourth,
+at <a href="https://www.timeanddate.com/worldclock/converter.html?iso=20210504T183000&amp;p1=tz_pt&amp;p2=tz_et&amp;p3=tz_cet">11:30am PT / 14:30pm ET / 19:30 CET</a>.</p>
+
+<p>Questions about the future of Revit?
+Join for the Public Roadmap and to ask me anything.</p>
+
+<ul>
+<li><a href="https://trello.com/b/ldRXK9Gw/revit-public-roadmap">Revit Public Roadmap</a></li>
+<li><a href="https://youtu.be/KNG4PPpKgzM">AMA YouTube Livestream</a></li>
+</ul>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302788027863c200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302788027863c200d img-responsive" style="width: 450px; display: block; margin-left: auto; margin-right: auto;" alt="Ask me anything" title="Ask me anything" src="/assets/image_2c91f3.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="3"></a> Sorting Non-Planar Curve Loops</h4>
+
+<p>Stefano Menci picked up an old solution for sorting curve loops and expanded it to handle non-planar faces by transforming the 3D loop coordinates from the curved face XYZ space to its 2D UV parametrisation space.</p>
+
+<p>The original question was raised in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/is-the-first-edgeloop-still-the-outer-loop/m-p/10242847">is the first edge loop still the outer loop?</a>,
+solved by Richard <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/1035859">RPThomas108</a> Thomas
+and edited by The Building Coder in two posts:</p>
+
+<ul>
+<li><a href="https://thebuildingcoder.typepad.com/blog/2017/08/edge-loop-point-reference-plane-and-column-line.html#3">Determining the outer-most EdgeLoop</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/10/disjunct-outer-loops-from-planar-face-with-separate-parts.html">Disjunct planar face outer loops</a> </li>
+</ul>
+
+<p>Here is a summary of the new conversation with Stefano and Richard:</p>
+
+<p><strong>Question:</strong> I tried using <code>SortCurveLoops</code> on the face shown below, expecting to get one list with the outer loop and one list with the 3 inner loops, but I got one list containing one list containing two loops.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e9a24875200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e9a24875200b img-responsive" style="width: 181px; display: block; margin-left: auto; margin-right: auto;" alt="Curved face loops" title="Curved face loops" src="/assets/image_a1137a.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>The article
+on <a href="https://thebuildingcoder.typepad.com/blog/2015/01/exporterifcutils-curve-loop-sort-and-validate.html"><code>ExporterIfcUtils</code> curve loop sort and validate</a> also
+mentions co-planar loops in the description of <code>ValidateCurveLoops</code>.
+Perhaps the problem I had is caused by the fact that also <code>SortCurveLoops</code> only works with co-planar loops?</p>
+
+<p>Here implemented code to find the outer loop and all the inner loops.
+It finds the outer loop by cycling through all the tessellated points of all the loop edges and finding the one with the lowest U.</p>
+
+<p>I did a few tests, and it seems to work well.
+I am surprised to see that my short function does the same job as other long functions shown in the previous posts.
+I am learning LINQ, so I spent some time to get this to work with LINQ, but my previous version using 3 nested <code>foreach</code> was very simple to do.</p>
+
+<p>Am I doing something wrong?</p>
+
+<p>Am I doing something different from what this post describes?</p>
+
+<p><strong>Answer:</strong> If it works it works.</p>
+
+<p>One thing I considered at the time was resolution of the points you get from tessellate, i.e., if you have a curve does one of the points on that curve (from tessellate) describe the actual minimum location of that curve (for some curves that is unlikely to be the case).
+Since there is the parametric curve and the actual points are obtained from that.
+Here is an exaggerated example of what I mean by that:</p>
+
+<p>Depends also on rotation of UV axis on face in comparison to those points.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330263e9a24885200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330263e9a24885200b img-responsive" style="width: 237px; display: block; margin-left: auto; margin-right: auto;" alt="Tessellation resolution" title="Tessellation resolution" src="/assets/image_87e962.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>For the most part I don't think such a thing would cause issues unless you set out to prove it didn't work, i.e., in a real-world scenario, there is no arrangement you would likely have that would be affected by such things. So it's a question of comfort level through testing, really.</p>
+
+<p>I think it has also since been noted that there are patterns in how the faces are constructed that gives away the actual outer loop of a face.</p>
+
+<p>Was also at the time dealing with PlanarFaces only so also should note that for those you can use Face.IsInside with solid creation utils, this makes things far more straightforward than my original above code and perhaps more reliable i.e. extrude each loop and check points from each within faces of one another to find other loop.</p>
+
+<p><strong>Response:</strong> The documentation of <code>Curve.Tessellate</code> says both the tolerance is slightly larger than 1/16" and is defined internally by Revit to be adequate for display purposes.</p>
+
+<p>Tessellation in computer graphics is often adjusted to the zoom level or to the desired rendering quality.
+In other words, if "you can see" that one curve is below the other curve, then the tessellation can see it too.
+But I don't know if Curve.Tessellation is the same tessellation used for the graphics card.
+We could also talk about the definition of "you can see", but let's not add speculation to the speculation &nbsp; :-)</p>
+
+<p><strong>Answer:</strong> You say above you got one list with one list with two loops...</p>
+
+<p>If you are unsure which loop is which, or, in any case, I would highly recommend implementing some little debugging utility functions to display those loops graphically, or it will be very hard to understand what you are getting.</p>
+
+<p>I implemented such stuff in several blog posts using the <code>Creator</code> class:</p>
+
+<!-- 0031 0032 0033 0038 0039 0374 0375 0576 0620 0666 0839 0999 1070 1085 1217 1307 1410 -->
+
+<ul>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2008/10/slab-boundary.html">Slab Boundary</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2008/11/model-line-creation.html">Model Line Creation</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2008/11/slab-side-faces.html">Slab Side Faces</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2008/11/wall-compound-layers.html">Wall Compound Layers</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2008/11/wall-elevation-profile.html">Wall Elevation Profile</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2010/05/curtain-wall-geometry.html">Curtain Wall Geometry</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2010/05/model-curve-creator.html">Model Curve Creator</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2011/05/iteration-and-springtime-change-is-the-only-constant.html">Iteration and Springtime &ndash; Change is the Only Constant</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2011/07/top-faces-of-wall.html">Top Faces of Sloped Wall</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2011/10/retrieving-detailed-wall-layer-geometry.html">Retrieving Detailed Wall Layer Geometry</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2012/10/slab-boundary-revisited.html">Slab Boundary Revisited</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/08/generating-a-midcurve-between-two-curve-elements.html">Generating a MidCurve Between Two Curve Elements</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/12/au-day-1-revit-2014-api-class-and-bounding-box-rotation.html">AU Day 1, Revit 2014 API Class and Bounding Box Rotation</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2014/01/calculating-a-rolling-offset-between-two-pipes.html">Calculating a Rolling Offset Between Two Pipes</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2014/10/creating-a-sloped-wall.html">Creating a Sloped Wall</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2015/04/curved-wall-elevation-profile-and-creator-class-update.html">Curved Wall Elevation Profile and Creator Class Update</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2016/03/index-reloading-curves-distance-and-deleting-printsetup.html">Index, Debug, Curves, Distance, Deleting PrintSetup</a></li>
+</ul>
+
+<p><strong>Response:</strong> Thank you for the list of articles, it will be very helpful in the near future!</p>
+
+<p>The article
+on the <a href="https://thebuildingcoder.typepad.com/blog/2015/04/curved-wall-elevation-profile-and-creator-class-update.html">curved wall elevation profile</a> seems
+to mention the same problem that I found in <code>SortCurveLoops</code>.</p>
+
+<p>I did another test with <code>SortCurveLoops</code>, and indeed it seems to be working reliably only with planar faces.
+With curved faces, it usually does nothing.
+Only in one curved face I was able to get 2 out of the 4 loops, but it usually gets none.</p>
+
+<p>Here are two masses:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833027880278651200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833027880278651200d img-responsive" style="width: 300px; display: block; margin-left: auto; margin-right: auto;" alt="Two masses" title="Two masses" src="/assets/image_275a7a.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>The first one has only planar faces, the second one is a copy of the first one with a void that creates a curved face.</p>
+
+<p>The texts show the first line of each loop with the loop indexes as returned by SortCurveLoops.
+I like to create texts at 1/3 of each line, so it visually gives an idea of the direction of the loop.
+Just looking at the texts you immediately understand which loops are clockwise and which ones are counterclockwise.</p>
+
+<p>I have the feeling that SortCurveLoops projects the curves to a plane, then crunches the numbers on the projected curves.
+If this is the case, then it will never be reliable on curved faces.
+The correct approach would be to work on the UV coordinates.</p>
+
+<p>Here is the code I used:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;loops&nbsp;=&nbsp;face.GetEdgesAsCurveLoops();
+&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;sortedLoops&nbsp;=&nbsp;ExporterIFCUtils.SortCurveLoops(&nbsp;loops&nbsp;);
+&nbsp;&nbsp;<span style="color:blue;">for</span>(&nbsp;<span style="color:blue;">var</span>&nbsp;i&nbsp;=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;sortedLoops.Count;&nbsp;i++&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">for</span>(&nbsp;<span style="color:blue;">var</span>&nbsp;j&nbsp;=&nbsp;0;&nbsp;j&nbsp;&lt;&nbsp;sortedLoops[&nbsp;i&nbsp;].Count;&nbsp;j++&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CreateTextNote(&nbsp;<span style="color:#a31515;">$&quot;[</span>{i}<span style="color:#a31515;">][</span>{j}<span style="color:#a31515;">]&quot;</span>,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sortedLoops[&nbsp;i&nbsp;][&nbsp;j&nbsp;].First().Evaluate(&nbsp;0.33,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">true</span>&nbsp;),&nbsp;doc&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;TextNote&nbsp;CreateTextNote(&nbsp;<span style="color:blue;">string</span>&nbsp;text,&nbsp;XYZ&nbsp;origin,&nbsp;Document&nbsp;doc&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;options&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;TextNoteOptions
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HorizontalAlignment&nbsp;=&nbsp;HorizontalTextAlignment.Center,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VerticalAlignment&nbsp;=&nbsp;VerticalTextAlignment.Middle,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TypeId&nbsp;=&nbsp;doc.GetDefaultElementTypeId(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ElementTypeGroup.TextNoteType&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;};
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;TextNote.Create(&nbsp;doc,&nbsp;doc.ActiveView.Id,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;origin,&nbsp;text,&nbsp;options&nbsp;);
+&nbsp;&nbsp;}
+</pre>
+
+<p><strong>Answer:</strong> Below is another issue I now recall that you might want to consider:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833026bdecf95ee200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833026bdecf95ee200c img-responsive" style="width: 300px; display: block; margin-left: auto; margin-right: auto;" alt="Disjunct loops" title="Disjunct loops" src="/assets/image_768f82.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>When face is disjunct (single solid made of two or more parts), you need to be able to identify both outer loops of the face, not just the outer loop to the furthest left or right.</p>
+
+<p>Solved previously for this purpose.</p>
+
+<p><strong>Response:</strong> I created a version of <code>SortCurveLoops</code> that converts the <code>XYZ</code> points to <code>UV</code> points, then works on planar loops.
+I only tested it with a few cases where <code>ExporterIFCUtils.SortCurveLoops</code> fails, and it works well.
+I will start using it and see if it breaks in the next weeks.</p>
+
+<p>My function takes in input a Face instead of a list of CurveLoops, because all the curves are tessellated and converted to UV.
+The Face is used for both finding the CurveLoops and converting to UV.</p>
+
+<p>If there are outer loops contained in other outer loops (like in the third snapshot), the innermost loops are first in the resulting list.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302788027865b200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302788027865b200d img-responsive" style="width: 300px; display: block; margin-left: auto; margin-right: auto;" alt="UV planar" title="UV planar" src="/assets/image_961844.jpg" /></a></p>
+
+<p style="font-size: 80%; font-style:italic">Planar</p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833026bdecf9602200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833026bdecf9602200c img-responsive" style="width: 300px; display: block; margin-left: auto; margin-right: auto;" alt="UV curved" title="UV curved" src="/assets/image_e18f18.jpg" /></a>
+<img src="img/sort_curve_loops_sm_uv_solution_2_curved.png" width="300"/> <!-- 338 --></p>
+
+<p style="font-size: 80%; font-style:italic">Curved</p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833027880278671200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833027880278671200d img-responsive" style="width: 300px; display: block; margin-left: auto; margin-right: auto;" alt="UV disjunct" title="UV disjunct" src="/assets/image_6f0cdd.jpg" /></a></p>
+
+<p style="font-size: 80%; font-style:italic">Disjunct</p>
+
+<p></center></p>
+
+<p>Here is the model I used for testing, <a href="https://thebuildingcoder.typepad.com/files/sort_multiple_edge_loops.rvt">sort_multiple_edge_loops.rvt</a>.
+As you can tell, I'm learning how Revit works; I'm sure there are better ways to create faces with multiple nested loops.</p>
+
+<p><strong>Answer:</strong> Wow! Fantastic job! This is real research, with real test cases.
+I love it. Thank you very much for your work and important results.</p>
+
+<p>Thank you also for your <a href="https://github.com/jeremytammik/the_building_coder_samples/pull/16">pull request to The Building Coder Samples</a>.</p>
+
+<p>I integrated it into <a href="https://github.com/jeremytammik/the_building_coder_samples/releases/tag/2021.0.150.25">release 2021.0.150.25</a>.
+Here is the <a href="https://github.com/jeremytammik/the_building_coder_samples/compare/2021.0.150.24...2021.0.150.25">diff to the previous release</a>.</p>
+
+<p>Here is the code:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">static</span>&nbsp;List&lt;List&lt;CurveLoop&gt;&gt;&nbsp;SortCurveLoops(&nbsp;Face&nbsp;face&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;allLoops&nbsp;=&nbsp;face.GetEdgesAsCurveLoops().Select(&nbsp;loop&nbsp;=&gt;&nbsp;<span style="color:blue;">new</span>&nbsp;CurveLoopUV(&nbsp;loop,&nbsp;face&nbsp;)&nbsp;).ToList();
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;outerLoops&nbsp;=&nbsp;allLoops.Where(&nbsp;loop&nbsp;=&gt;&nbsp;loop.IsCounterclockwise&nbsp;).ToList();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;innerLoops&nbsp;=&nbsp;allLoops.Where(&nbsp;loop&nbsp;=&gt;&nbsp;!outerLoops.Contains(&nbsp;loop&nbsp;)&nbsp;).ToList();
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;sort&nbsp;outerLoops&nbsp;putting&nbsp;last&nbsp;the&nbsp;ones&nbsp;that&nbsp;are&nbsp;outside&nbsp;all&nbsp;the&nbsp;preceding&nbsp;loops</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">bool</span>&nbsp;somethingHasChanged;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">do</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;somethingHasChanged&nbsp;=&nbsp;<span style="color:blue;">false</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">for</span>(&nbsp;<span style="color:blue;">var</span>&nbsp;i&nbsp;=&nbsp;1;&nbsp;i&nbsp;&lt;&nbsp;outerLoops.Count();&nbsp;i++&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;point&nbsp;=&nbsp;outerLoops[&nbsp;i&nbsp;].StartPointUV;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;loop&nbsp;=&nbsp;outerLoops[&nbsp;i&nbsp;-&nbsp;1&nbsp;];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;loop.IsPointInside(&nbsp;point&nbsp;)&nbsp;<span style="color:blue;">is</span>&nbsp;CurveLoopUV.PointLocation.Inside&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;tmp&nbsp;=&nbsp;outerLoops[&nbsp;i&nbsp;];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outerLoops[&nbsp;i&nbsp;]&nbsp;=&nbsp;outerLoops[&nbsp;i&nbsp;-&nbsp;1&nbsp;];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outerLoops[&nbsp;i&nbsp;-&nbsp;1&nbsp;]&nbsp;=&nbsp;tmp;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;somethingHasChanged&nbsp;=&nbsp;<span style="color:blue;">true</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span style="color:blue;">while</span>(&nbsp;somethingHasChanged&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;result&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;List&lt;List&lt;CurveLoop&gt;&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;var&nbsp;outerLoop&nbsp;<span style="color:blue;">in</span>&nbsp;outerLoops&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;list&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;List&lt;CurveLoop&gt;&nbsp;{&nbsp;outerLoop.Loop3d&nbsp;};
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">for</span>(&nbsp;<span style="color:blue;">var</span>&nbsp;i&nbsp;=&nbsp;innerLoops.Count&nbsp;-&nbsp;1;&nbsp;i&nbsp;&gt;=&nbsp;0;&nbsp;i--&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;innerLoop&nbsp;=&nbsp;innerLoops[&nbsp;i&nbsp;];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;outerLoops.Count&nbsp;==&nbsp;1&nbsp;<span style="color:green;">//&nbsp;skip&nbsp;testing&nbsp;when&nbsp;the&nbsp;inner&nbsp;loop&nbsp;is&nbsp;inside&nbsp;the&nbsp;outer&nbsp;loop</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;outerLoop.IsPointInside(&nbsp;innerLoop.StartPointUV&nbsp;)&nbsp;==&nbsp;CurveLoopUV.PointLocation.Inside&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.Add(&nbsp;innerLoop.Loop3d&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;innerLoops.RemoveAt(&nbsp;i&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result.Add(&nbsp;list&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;result;
+&nbsp;&nbsp;}
+</pre>
+
+<p>This is the class CurveLoopUV that converts the curves from 3D XYZ to UV, then to planar XYZ. </p>
+
+<pre class="code">
+<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">CurveLoopUV</span>&nbsp;:&nbsp;IEnumerable&lt;Curve&gt;
+{
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">const</span>&nbsp;<span style="color:blue;">double</span>&nbsp;Epsilon&nbsp;=&nbsp;0.000001;
+
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">enum</span>&nbsp;<span style="color:#2b91af;">PointLocation</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;Outside,
+&nbsp;&nbsp;&nbsp;&nbsp;OnTheEdge,
+&nbsp;&nbsp;&nbsp;&nbsp;Inside,
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;CurveLoop&nbsp;Loop3d&nbsp;{&nbsp;<span style="color:blue;">get</span>;&nbsp;}
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">readonly</span>&nbsp;CurveLoop&nbsp;_loop2d;
+
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">readonly</span>&nbsp;<span style="color:blue;">double</span>&nbsp;MinX,&nbsp;MaxX,&nbsp;MinY,&nbsp;MaxY;
+
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;CurveLoopUV(&nbsp;CurveLoop&nbsp;curveLoop,&nbsp;Face&nbsp;face&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;Loop3d&nbsp;=&nbsp;curveLoop;
+&nbsp;&nbsp;&nbsp;&nbsp;_loop2d&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;CurveLoop();
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;points3d&nbsp;=&nbsp;Loop3d.SelectMany(&nbsp;curve&nbsp;=&gt;&nbsp;curve.Tessellate().Skip(&nbsp;1&nbsp;)&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;pointsUv&nbsp;=&nbsp;points3d.Select(&nbsp;point3d&nbsp;=&gt;&nbsp;face.Project(&nbsp;point3d&nbsp;).UVPoint&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;points2d&nbsp;=&nbsp;pointsUv.Select(&nbsp;pointUv&nbsp;=&gt;&nbsp;<span style="color:blue;">new</span>&nbsp;XYZ(&nbsp;pointUv.U,&nbsp;pointUv.V,&nbsp;0&nbsp;)&nbsp;).ToList();
+
+&nbsp;&nbsp;&nbsp;&nbsp;MinX&nbsp;=&nbsp;MinY&nbsp;=&nbsp;1.0e100;
+&nbsp;&nbsp;&nbsp;&nbsp;MaxX&nbsp;=&nbsp;MaxY&nbsp;=&nbsp;-1.0e100;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;nPoints&nbsp;=&nbsp;points2d.Count;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">for</span>(&nbsp;<span style="color:blue;">var</span>&nbsp;i&nbsp;=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;nPoints;&nbsp;i++&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;p1&nbsp;=&nbsp;points2d[&nbsp;i&nbsp;];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;p2&nbsp;=&nbsp;points2d[&nbsp;(i&nbsp;+&nbsp;1)&nbsp;%&nbsp;nPoints&nbsp;];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_loop2d.Append(&nbsp;Line.CreateBound(&nbsp;p1,&nbsp;p2&nbsp;)&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;p1.X&nbsp;&lt;&nbsp;MinX&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MinX&nbsp;=&nbsp;p1.X;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;p1.Y&nbsp;&lt;&nbsp;MinY&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MinY&nbsp;=&nbsp;p1.Y;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;p1.X&nbsp;&gt;&nbsp;MaxX&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MaxX&nbsp;=&nbsp;p1.X;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;p1.Y&nbsp;&gt;&nbsp;MaxY&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MaxY&nbsp;=&nbsp;p1.Y;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;PointLocation&nbsp;IsPointInside(&nbsp;XYZ&nbsp;point&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Check&nbsp;if&nbsp;the&nbsp;point&nbsp;is&nbsp;outside&nbsp;of&nbsp;the&nbsp;loop&nbsp;bounding&nbsp;box</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;point.X&nbsp;-&nbsp;Epsilon&nbsp;&lt;&nbsp;MinX
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;point.X&nbsp;+&nbsp;Epsilon&nbsp;&gt;&nbsp;MaxX
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;point.Y&nbsp;-&nbsp;Epsilon&nbsp;&lt;&nbsp;MinY
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;point.Y&nbsp;+&nbsp;Epsilon&nbsp;&gt;&nbsp;MaxY&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;PointLocation.Outside;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Check&nbsp;if&nbsp;the&nbsp;point&nbsp;is&nbsp;on&nbsp;the&nbsp;loop</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;_loop2d.Any(&nbsp;curve&nbsp;=&gt;&nbsp;curve.Distance(&nbsp;point&nbsp;)&nbsp;&lt;&nbsp;Epsilon&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;PointLocation.OnTheEdge;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Create&nbsp;a&nbsp;Line&nbsp;that&nbsp;starts&nbsp;from&nbsp;point&nbsp;and&nbsp;ends&nbsp;outside&nbsp;of&nbsp;the&nbsp;loop.&nbsp;Adding&nbsp;non-integer</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;values&nbsp;decreases&nbsp;the&nbsp;chances&nbsp;of&nbsp;special&nbsp;cases,&nbsp;where&nbsp;line&nbsp;passes&nbsp;through&nbsp;loop</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;endpoints.&nbsp;These&nbsp;cases&nbsp;can&nbsp;still&nbsp;happen&nbsp;and&nbsp;are&nbsp;managed&nbsp;by&nbsp;the&nbsp;function,&nbsp;but&nbsp;using&nbsp;a</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;different&nbsp;offset&nbsp;costs&nbsp;nothing&nbsp;and&nbsp;may&nbsp;help&nbsp;staying&nbsp;out&nbsp;of&nbsp;trouble.&nbsp;(The&nbsp;trouble</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;could&nbsp;show&nbsp;up&nbsp;when&nbsp;a&nbsp;point&nbsp;doesn&#39;t&nbsp;really&nbsp;lay&nbsp;on&nbsp;a&nbsp;line,&nbsp;or&nbsp;two&nbsp;points&nbsp;are&nbsp;not&nbsp;exactly</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;the&nbsp;identical.&nbsp;Using&nbsp;Epsilon&nbsp;helps&nbsp;a&nbsp;little,&nbsp;but,&nbsp;again,&nbsp;when&nbsp;the&nbsp;distance&nbsp;between&nbsp;two</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;points&nbsp;is&nbsp;exactly&nbsp;Epsilon,&nbsp;here&nbsp;comes&nbsp;the&nbsp;trouble.)&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;line&nbsp;=&nbsp;Line.CreateBound(&nbsp;point,&nbsp;<span style="color:blue;">new</span>&nbsp;XYZ(&nbsp;MaxX&nbsp;+&nbsp;0.1234,&nbsp;MaxY&nbsp;+&nbsp;0.3456,&nbsp;0&nbsp;)&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Count&nbsp;the&nbsp;number&nbsp;of&nbsp;intersections&nbsp;between&nbsp;the&nbsp;line&nbsp;just&nbsp;created&nbsp;and&nbsp;the&nbsp;loop.</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;If&nbsp;the&nbsp;number&nbsp;of&nbsp;intersection&nbsp;is&nbsp;odd,&nbsp;then&nbsp;point&nbsp;is&nbsp;inside&nbsp;the&nbsp;loop.</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Discard&nbsp;the&nbsp;solutions&nbsp;where&nbsp;the&nbsp;intersection&nbsp;is&nbsp;the&nbsp;edge&nbsp;start&nbsp;point,&nbsp;because&nbsp;these</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;intersections&nbsp;have&nbsp;already&nbsp;been&nbsp;counted&nbsp;when&nbsp;intersecting&nbsp;the&nbsp;end&nbsp;point&nbsp;of&nbsp;the</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;previous&nbsp;segments.</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;nIntersections&nbsp;=&nbsp;_loop2d
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Where(&nbsp;edge&nbsp;=&gt;&nbsp;edge.Intersect(&nbsp;line&nbsp;)&nbsp;==&nbsp;SetComparisonResult.Overlap&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Count(&nbsp;edge&nbsp;=&gt;&nbsp;line.Distance(&nbsp;edge.GetEndPoint(&nbsp;0&nbsp;)&nbsp;)&nbsp;&gt;&nbsp;Epsilon&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;nIntersections&nbsp;%&nbsp;2&nbsp;==&nbsp;1&nbsp;?&nbsp;PointLocation.Inside&nbsp;:&nbsp;PointLocation.Outside;
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">bool</span>&nbsp;IsCounterclockwise&nbsp;=&gt;&nbsp;_loop2d.IsCounterclockwise(&nbsp;XYZ.BasisZ&nbsp;);
+
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;XYZ&nbsp;StartPointUV&nbsp;=&gt;&nbsp;_loop2d.First().GetEndPoint(&nbsp;0&nbsp;);
+
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;IEnumerator&lt;Curve&gt;&nbsp;GetEnumerator()&nbsp;=&gt;&nbsp;_loop2d.GetEnumerator();
+
+&nbsp;&nbsp;IEnumerator&nbsp;IEnumerable.GetEnumerator()&nbsp;=&gt;&nbsp;GetEnumerator();
+}
+</pre>
+
+<p>Very many thanks to Stefano for his careful research and brilliant solution!</p>
+
+<!--
+
+Revit native project identifier
+
+A very knowledgeable Revit MEP add-in developer, Olli Kattelus of MagiCAD Group, raises a serious question that I would appreciate some guidance on:
+
+I have been studying how to get an unique (Guid) identifier for the project. I know there has been few posts already here and in The Building Coder blog about the subject.
+
+But the bottom line is that I REALLY would like to have a Revit native method, mainly to avoid challenges in the work sharing environment. Below some highlights from my study:
+
+- I have managed to confirm that using a project information element unique id is NOT an option, as several different projects can have identical id (perhaps it comes from the template...?).
+- Utilizing the `ExportUtils.GetExportId()` with project information seems to result exactly the same. So probably this method uses the unique id too. Not usable.
+- `ExportUtils.GetGBXMLDocumentId()` works somewhat better, and seems pretty good
+- `ExporterIFCUtils.CreateProjectLevelGUID()` seems to be best though. Difference to previous is that this method results different id for project that has been detached from the central and saved with Save as (which sound reasonable).
+
+So... I was pretty much already made my decision to use `CreateProjectLevelGUID()`... until I saw compilation warning from R2022 build. It has been deprecated :-(. "Ok, no problem" I though, as there has always been new alternative mentioned in the warning text. In this case it says:
+
+"This function is deprecated in Revit 2022. Please see the IFC open source function `CreateProjectLevelGUID` for examples of how to do this starting in Revit 2022."
+
+So eventually I decided to download the source codes from the "https://github.com/Autodesk/revit-ifc", as that's what it means, right!?
+
+Moreover, I found the method `CreateProjectLevelGUID()` and took a look of the implementation. There's no native Revit mechanism I could utilize:
+
+- Seems that the project information element dos NOT have following parameters by default (even in the R2022 level project): `IfcProjectGuid`, `BuiltInParameter.IFC_PROJECT_GUID`
+- The implementation in the comments (refering also to R2022) seems incorrect to me, as a) it is utilizing the `IFCProjectLevelGUIDType` enumeration which is also deprecated. b) moreover creating an `ElementId` from the enumeration value seems quite odd as according to the IL reflection tool, the enumeration values are using default enum values (0,1,2...)
+
+So my questions basically is:
+
+Is there a native method/technique replacing the deprecated `CreateProjectLevelGUID()`, or, what's the best alternative (not necessarily specific to IFC)?
+
+-->

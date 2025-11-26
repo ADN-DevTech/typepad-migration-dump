@@ -1,0 +1,146 @@
+---
+layout: "post"
+title: "External Events and 10 Year Forum Anniversary"
+date: "2015-12-09 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Events"
+  - "External"
+  - "Idling"
+  - "Modeless"
+  - "News"
+original_url: "https://thebuildingcoder.typepad.com/blog/2015/12/external-event-and-10-year-forum-anniversary.html "
+typepad_basename: "external-event-and-10-year-forum-anniversary"
+typepad_status: "Publish"
+---
+
+<p><a class="asset-img-link"  style="float: left;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d18122bb970c-pi"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d18122bb970c img-responsive" style="width: 120px; margin: 0px 5px 5px 0px;" alt="Ten year anniversary" title="Ten year anniversary" src="/assets/image_5c73e4.jpg" /></a></p>
+
+<p>Ten years ago today, on December 9, 2005, Jim Quanci posted
+the <a href="http://forums.autodesk.com/t5/revit-api/getting-started-with-the-revit-net-api/m-p/1506776">first thread</a> on
+the <a href="http://forums.autodesk.com/t5/revit-api/bd-p/160">Revit API discussion forum</a>.</p>
+
+<p><a class="asset-img-link"  style="float: right;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d18122d6970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d18122d6970c img-responsive" style="width: 60px; margin: 0px 0px 5px 5px;" alt="Revitalizer" title="Revitalizer" src="/assets/image_5a5269.jpg" /></a></p>
+
+<p>This was pointed out by Revitalizer, one of the forum's chief contributors.</p>
+
+<p>Thank you very much for this, Revitalizer, and thank you even more for all the good advice and numerous solutions you have provided to the community!</p>
+
+<p>I celebrated this momentous event by revamping The Building Coder navigation bar at the bottom of this page, adding direct links to the <a href="http://forums.autodesk.com/t5/revit-api/bd-p/160">forum</a>,
+<a href="http://revitapisearch.com">online Revit API help</a>, and
+<a href="http://help.autodesk.com/view/RVT/2016/ENU/?guid=GUID-F0A122E0-E556-4D0D-9D0F-7E72A9315A42">developer guide</a>.</p>
+
+<p>The number of my forum posts right now is 1366, so it has not yet quite overtaken the number of blog posts, 1383, but it certainly will really soon.</p>
+
+<h4><a name="2"></a>Use of the Revit API Requires a Valid Context</h4>
+
+<p>One of the most frequently raised questions around the Revit API
+is <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.28">how to drive Revit from outside</a>,
+e.g., from a separate thread, a modeless dialogue, or a stand-alone executable.</p>
+
+<p>As an indication of this, The Building Coder defines four different related categories,
+<a href="http://thebuildingcoder.typepad.com/blog/events">events</a>,
+<a href="http://thebuildingcoder.typepad.com/blog/external">external</a>,
+<a href="http://thebuildingcoder.typepad.com/blog/idling">Idling</a> and
+<a href="http://thebuildingcoder.typepad.com/blog/modeless">modeless</a>.</p>
+
+<p>It was raised again just yesterday by Sizy458 in the query on how
+to [call Revit's API from an external thread]:</p>
+
+<p><strong>Question:</strong> I created a transaction in the event handler for <code>ComponentManager_UIElementActivated</code> raised by a ribbon button.</p>
+
+<p>That throws an exception saying 'Starting a transaction from an external application running outside of API context is not allowed'.</p>
+
+<p>Have you a solution?</p>
+
+<p><strong>Answer by Arnošt Löbel:</strong> As you have deduced and as the exception message indicates, calling into the Revit API from outside threads (which include calls from modeless dialogs, for they too run on their own threads) is not permitted in Revit. This policy applies to every API method (except a very few). Some of them, e.g., transactions, enforce this rule by throwing an exception.</p>
+
+<p>That said, there is a solution for those who want to communicate with the Revit API from their modeless dialogs or other external work threads. The key is that all communication between the outside thread and Revit API must be done either inside a handler of an Idling event or an External Event. Both are Revit API features and are described in the SDK documentation. The SDK even includes a sample of a Modeless Dialog, in which both the above mentioned approaches are demonstrated - one for the Idling event, one for an External Event. Please look in the SDK folder ModelessDialog for more information. Also, since this is a very frequently asked and answered question, it may be to your benefit to search the web or even this very forum for more details yourself.</p>
+
+<p><strong>Answer by Jeremy:</strong> This topic has probably come up and been answered a few hundred times in the past.</p>
+
+<p>The short answer is: it is completely impossible to drive Revit or make any use whatsoever of the Revit API from an external thread.</p>
+
+<p>The Revit API can only be used within a valid Revit API context.</p>
+
+<p>Such a context is only available within callback methods that you provide to Revit and that Revit calls back when it is ready to accept your input.</p>
+
+<p>A typical example of such a callback method is the Execute method of an external command.</p>
+
+<p>The Building Coder provides an overview of the main discussions and explanations related
+to <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#5.28">Idling and external events for modeless access and driving Revit from outside</a>.</p>
+
+<p>You might want to start exploring the links provided there beginning at the end.</p>
+
+<h4><a name="3"></a>Driving Revit from Outside through an External Event</h4>
+
+<p>Size458 replied just a few hours later with a perfect summary of a perfect solution:</p>
+
+<p><strong>Response:</strong> That resolves my problem.</p>
+
+<p>I used an external event like this:</p>
+
+<pre class="code">
+&nbsp; <span class="teal">IExternalEventHandler</span> handler_event
+&nbsp; &nbsp; = <span class="blue">new</span> <span class="teal">ExternalEventMy</span>();
+&nbsp;
+&nbsp; <span class="teal">ExternalEvent</span> exEvent
+&nbsp; &nbsp; = <span class="teal">ExternalEvent</span>.Create( handler_event );
+</pre>
+
+<p>The external event handler class implements the actions I need to execute in a valid Revit API context:</p>
+
+<pre class="code">
+&nbsp; <span class="blue">class</span> <span class="teal">ExternalEventMy</span> : <span class="teal">IExternalEventHandler</span>
+&nbsp; {
+&nbsp; &nbsp; <span class="blue">public</span> <span class="blue">void</span> Execute(<span class="teal">UIApplication</span> uiapp)
+&nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; <span class="teal">UIDocument</span> uidoc = uiapp.ActiveDocument;
+&nbsp; &nbsp; &nbsp; if( null == uidoc )
+&nbsp; &nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; &nbsp; return; // no document, nothing to do
+&nbsp; &nbsp; &nbsp; }
+&nbsp; &nbsp; &nbsp; <span class="teal">Document</span> doc = uidoc.Document;
+&nbsp; &nbsp; &nbsp; <span class="blue">using</span>( <span class="teal">Transaction</span> tx = <span class="blue">new</span> <span class="teal">Transaction</span>(doc))
+&nbsp; &nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; &nbsp; tx.Start(<span class="maroon">&quot;MyEvent&quot;</span>);
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="green">// Action within valid Revit API context thread</span>
+&nbsp; &nbsp; &nbsp; &nbsp; tx.Commit();
+&nbsp; &nbsp; &nbsp; }
+&nbsp; &nbsp; }
+&nbsp; &nbsp; <span class="blue">public</span> <span class="blue">string</span> GetName()
+&nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; <span class="blue">return</span> <span class="maroon">&quot;my event&quot;</span>;
+&nbsp; &nbsp; }
+&nbsp; }
+</pre>
+
+<p>I can raise the external event from another thread like this:</p>
+
+<pre class="code">
+  exEvent.Raise();
+</pre>
+
+<p>Many thanks Sizy458 for sharing this nice and succinct example of how to address this need.</p>
+
+<h4><a name="4"></a>Addendum &ndash; Idling versus External Event</h4>
+
+<p>I added this a day later, prompted
+by <a href="http://thebuildingcoder.typepad.com/blog/2013/12/replacing-an-idling-event-handler-by-an-external-event.html#comment-2402180196">Michael's comment</a>:</p>
+
+<p><strong>Question:</strong> I have an Idling function that checks to see if Revit links have been updated so that I can prompt the user to reload the link if its newer. It works great when there are only a couple of links. More than that and it appears the Idling event will stop and start over, in which case the first idling event never finished so I get a repeating dialog. Do you think this is a problem with the Idling event that it could end and fire again without completing the rest of the code in it? If so I can try changing it to an external event. Thanks.</p>
+
+<p><strong>Answer:</strong> In general, I recommend not to use the Idling event at all, except for a one-off call.</p>
+
+<p>If you want to use it for continuous polling, it gives you absolutely no control over the frequency.</p>
+
+<p>Revit will call it as often as it can, hogging the entire CPU time and bringing performance down.</p>
+
+<p>An external event will give you much more control and flexibility.</p>
+
+<p>Therefore, I definitely recommend you switch to an external event instead of using Idling.</p>
+
+<p>That is why I did this myself, as described in the description
+on <a href="http://thebuildingcoder.typepad.com/blog/2013/12/replacing-an-idling-event-handler-by-an-external-event.html">replacing an Idling event handler by an external event</a>.
+You can explore
+the <a href="https://github.com/jeremytammik/RoomEditorApp">RoomEditorApp</a> for more details on that.</p>

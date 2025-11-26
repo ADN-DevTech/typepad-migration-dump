@@ -1,0 +1,97 @@
+comments:
+- author: Dave Echols
+  email: d.echols@haengineers.com
+  ip: 199.72.3.238
+  url: http://www.haengineers.com
+  date: '2009-07-17 11:29:50'
+  body: "Hi Jeremy,\n      Great article on the use of existing DWG/DWF content. I\
+    \ am curious about how Revit stores the DWG/DWF geometry. Is it stored in their\
+    \ native binary format, or converted to Revit elements during the import? If they\
+    \ are stored in their native format, are there any consequences over the long\
+    \ term for storing the objects this way. Is there a significant impoact on Revit\
+    \ performance using this method, or recreating the objects from scratch in Revit."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-07-20 07:55:59'
+  body: 'Dear Dave,
+
+
+    Thank you, I am glad you like it. I am sorry to say that I honestly don''t know
+    how this geometry is stored. As far as I know, there is no way at all to access
+    it via the Revit API or otherwise. I also don''t know about the performance impact.
+    It will obviously depend on the complexity. I would assume that simply storing
+    and regenerating this static geometry is more performant than regenerating native
+    parametrically defined Revit geometry, but this again might be more or less complex.
+
+
+    For example, when defining a family for a complex three dimensional part, it will
+    definitely enhance performance if you define different geometry for fine, medium
+    and coarse representations, for instance a full solid model for fine, a couple
+    of 3D bounding box quadrilaterals for medium, and a single line for the coarse
+    representation.
+
+
+    Cheers, Jeremy.'
+- author: Deyan Nenov
+  email: dido.nenov@gmail.com
+  ip: 80.194.9.185
+  url: ''
+  date: '2015-06-18 07:41:02'
+  body: "Dear Jeremy,\n\nFirst of all, I have to say that I am enormously thankful\
+    \ for your work and contribution to the community. I've learnt what I've learnt\
+    \ on how to code Revit Add-ins, from ground zero, thanks to you. So, thank you.\
+    \ :)\n\nI have a question in regards to the subject of this post. When you suggest\
+    \ that the family can be created and loaded on the fly by using the .loadFamily\
+    \ with the Document overload, that still means you need to create a new family\
+    \ document, is that correct? And if so, you need to supply the new family document\
+    \ with a valid template. What I am trying to achieve is pretty much the same as\
+    \ the original poster - load DWG/DWF into a family file and load it to an open\
+    \ document. And so the skeleton of the add-in is something like that:\n - create\
+    \ new family document from a generic template\n - import the DWG/DWF information\
+    \ inside of it\n - evaluate the information (2D/3D)\n - assign appropriate category\
+    \ \n - load into the opened document\n\nAgain, thank you for your support to coding\
+    \ toddlers like me. :D It is much appreciated.\n\nDeyan"
+- author: Deyan Nenov
+  email: dido.nenov@gmail.com
+  ip: 80.194.9.185
+  url: ''
+  date: '2015-06-18 08:28:13'
+  body: 'And as it often happens, I found the answer, or at least part of it, in another
+    post of yours: <a href="http://thebuildingcoder.typepad.com/blog/2011/06/creating-and-inserting-an-extrusion-family.html">http://thebuildingcoder.typepad.com/blog/2011/06/creating-and-inserting-an-extrusion-family.html</a>
+
+    Obviously you have to go through saving the new family somewhere.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-06-22 03:47:33'
+  body: 'Dear Deyan,
+
+
+    Thank you very much for your nice appreciation.
+
+
+    I am very glad it helped and you have made such good progress.
+
+
+    I am also glad you found part of the answer in the other post.
+
+
+    Thank you for letting us know.
+
+
+    I am not sure that you really need to save the new family to a file anymore, though.
+
+
+    In theory, it should always have been possible to create a new family definition
+    in memory only and load the resulting document without ever saving it to disk.
+
+
+    That did not work for a while, but it may do so now.
+
+
+    Cheers, Jeremy.
+
+    -----'

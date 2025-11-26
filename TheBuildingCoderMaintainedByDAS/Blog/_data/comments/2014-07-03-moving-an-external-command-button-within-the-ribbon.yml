@@ -1,0 +1,91 @@
+comments:
+- author: Phillip Miller
+  email: phillip@kiwicodes.com
+  ip: 115.188.136.35
+  url: http://www.kiwicodes.com
+  date: '2014-07-03 06:22:20'
+  body: Wow this is interesting.  Over the years I have had many requests by people
+    if we could disable the explode command.  Now I'm assuming we could remove that
+    button altogether from the ribbon?  I wonder how this works on contextual panels???
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-07-03 06:35:21'
+  body: 'Dear Phillip,
+
+
+    Power to the people, or at least to you.
+
+
+    Cheers, Jeremy.'
+- author: Scott Wilson
+  email: sdwil2k5@gmail.com
+  ip: 59.167.212.98
+  url: ''
+  date: '2014-07-03 11:36:54'
+  body: 'Yes you can indeed remove the explode buttons (I tried it out) and they stay
+    removed for the remainder of the Revit session. The trick is to catch them while
+    they are showing, I did it by selecting an imported cad file to bring up the context
+    panel and then ran an external command that searches for the buttons and removes
+    them, it''s a manual process though.
+
+
+    For automation I think it would be possible to place the seek and remove code
+    into an IExternalCommandAvailability class associated with an API button that
+    has been added to the modify tab. It would then get triggered automatically along
+    with the display of the contextual panel. The button could then even remove itself
+    once it has done its job (the perfect crime).
+
+
+    There''s probably a race condition though, as the explode buttons might not always
+    be added before the availability checker is triggered, but its worth a try.'
+- author: Gamal Kheder
+  email: e.gamalkheder@gmail.com
+  ip: 41.44.157.78
+  url: ''
+  date: '2014-07-11 05:58:05'
+  body: 'Dear Jeremy
+
+
+    I have a question in another issue and i need your advise :)
+
+    How to tag element in a linked project ?
+
+    I use the this method to tag a linked pipe element but it throw an error please
+    advise thanks :)
+
+
+    LocationCurve loc = pipe.Location as LocationCurve;
+
+    XYZ startp = loc.Curve.GetEndPoint(0);
+
+    XYZ endp = loc.Curve.GetEndPoint(1);
+
+    XYZ midp = loc.Curve.Evaluate(0.5, true);
+
+    newtag = DOC.Create.NewTag(view, pipe, false, tagmode, tagorian, midp);'
+- author: TroyGates
+  email: troygates@gmail.com
+  ip: 12.237.251.66
+  url: http://profile.typepad.com/troygates
+  date: '2014-10-21 19:56:56'
+  body: 'I''ve got some code working based on this article. The code loops through
+    an xml file and sets ribbonItem.IsVisible per button in my addin. This works for
+    all of my buttons except for a PullDownButton. The buttons that are added to the
+    PullDownButton aren''t included as items in RibbonPanel.Source.Items. Any idea
+    how to get the buttons in the PullDownButton that is found in there?
+
+
+    Thanks'
+- author: Michael
+  email: revitarkitek@gmail.com
+  ip: 4.28.75.94
+  url: ''
+  date: '2014-11-07 08:32:12'
+  body: '@ TroyGates.  If the button is PullDownButton you should be able to cast
+    it to a PullDownButton.  Then use the GetItems() method to get an IList<PushButton>
+    that you can then iterate through to set the visibility.  I''ve implemented this
+    in an addin before.
+
+    -----'

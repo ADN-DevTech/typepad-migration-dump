@@ -1,0 +1,54 @@
+comments:
+- author: Marcin Klocek
+  email: marcin@netvigator.com
+  ip: 118.143.3.98
+  url: ''
+  date: '2009-12-28 04:19:16'
+  body: "Dear Jeremy,\n\nI am pretty new to ReviT API and have a following issue:\
+    \ I am batch creating a number ( big number ) of family types - actually instances\
+    \ of different type each, but they are all surfaces, not solids. So after every\
+    \ element is created, Revit displays a warning, which requires answer OK or CANCEL\
+    \ and this kills my idea of batch creating. How to make API answer always OK to\
+    \ such window ? I have already a function which handles this dialog box from Revit,\
+    \ but I can only ignore it using dialogBoxData.OverrideResult(1) function. And\
+    \ this of course prevents the element from being created .... prevents. I am working\
+    \ in Revit VSTA and IDE. My code is \nbelow: \nsing System;\nusing System.Windows.Forms;\n\
+    using Autodesk;\nusing Autodesk.Revit;\nusing Autodesk.Revit.Elements;\nusing\
+    \ Autodesk.Revit.Structural.Enums;\nusing Autodesk.Revit.Symbols;\nusing Autodesk.Revit.Geometry;\n\
+    using Autodesk.Revit.Events;\n\nnamespace V_family_test\n{\n    [System.AddIn.AddIn(\"\
+    ThisApplication\", Version = \"1.0\", Publisher = \"\", Description = \"\")]\n\
+    \    public partial class ThisApplication\n    {\n        private void Module_Startup(object\
+    \ sender, EventArgs e)\n        {\n            this.OnDialogBox += new DialogBoxEventHandler(ThisApplication_OnDialogBox);\n\
+    \        }\n\n        private void Module_Shutdown(object sender, EventArgs e)\n\
+    \        {\n            this.OnDialogBox -= new DialogBoxEventHandler(ThisApplication_OnDialogBox);\n\
+    \        }\n\n        void ThisApplication_OnDialogBox(DialogBoxData dialogBoxData)\n\
+    \        {\n            dialogBoxData.OverrideResult(3);\n        }\n\n      \
+    \  #region VSTA generated code\n        private void InternalStartup()\n     \
+    \   {\n            this.Startup += new System.EventHandler(Module_Startup);\n\
+    \            this.Shutdown += new System.EventHandler(Module_Shutdown);\n    \
+    \    }\n        #endregion\n\n        public void Create_V_test()\n        {\n\
+    \n            String fileName = @\"C:\\Test_Macro\\WesternFins_Module.rfa\";\n\
+    \            Document document = this.ActiveDocument;\n\n            document.BeginTransaction();\n\
+    \n            Family family = null;\n            if (!document.LoadFamily(fileName,\
+    \ out family))\n            {\n                throw new Exception(\"Unable to\
+    \ load\" + fileName);\n            }\n\n            document.EndTransaction();\n\
+    \n            FamilySymbolSetIterator symbolItor = family.Symbols.ForwardIterator();\n\
+    \            while (symbolItor.MoveNext())\n            {\n                FamilySymbol\
+    \ symbol = symbolItor.Current as FamilySymbol;\n\n                document.BeginTransaction();\n\
+    \                XYZ location = this.Create.NewXYZ(0.0, 0.0, 0.0);\n         \
+    \       FamilyInstance instance = document.Create.NewFamilyInstance(location,\
+    \ symbol, StructuralType.NonStructural);\n                document.EndTransaction();\n\
+    \            }\n        }\n    }\n}"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-08 03:31:44'
+  body: "Dear Marcin,\n\nLook at the Revit API documentation on the DialogBoxShowingEventArgs.OverrideResult\
+    \ method.\n\nAny non-zero result will close the message box, not just the number\
+    \ 1.\n\nYou can return any standard Windows message box ID, such as IDOK and IDCANCEL,\
+    \ and all custom text buttons have custom IDs with incremental values starting\
+    \ at 1001, so they are all non-zero.\n\nFind the ID corresponding to the button\
+    \ you want clicked and use that instead of the number 1.\n\nIf nothing else helps,\
+    \ you can also use the technique described in \n\nhttp://thebuildingcoder.typepad.com/blog/2009/10/dismiss-dialogue-using-windows-api.html\n\
+    \nCheers, Jeremy.\n-----"

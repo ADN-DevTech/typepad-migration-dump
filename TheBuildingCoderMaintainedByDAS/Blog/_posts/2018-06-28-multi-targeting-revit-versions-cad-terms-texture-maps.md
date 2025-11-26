@@ -1,0 +1,343 @@
+---
+layout: "post"
+title: "Multi-Targeting Revit Versions, CAD Terms, Textures"
+date: "2018-06-28 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "Data Access"
+  - "External"
+  - "Forge"
+  - "I18n"
+  - "Installation"
+  - "Settings"
+original_url: "https://thebuildingcoder.typepad.com/blog/2018/06/multi-targeting-revit-versions-cad-terms-texture-maps.html "
+typepad_basename: "multi-targeting-revit-versions-cad-terms-texture-maps"
+typepad_status: "Publish"
+---
+
+<p>Here comes another solution for efficiently compiling add-ins for multiple Revit version targets from one single code base, a note on resources for CAD term databases for consistent terminology translation, and a discussion on accessing custom texture maps in Forge and Revit:</p>
+
+<ul>
+<li><a href="#2">Multi-targeting Revit versions using <code>TargetFrameworks</code></a> </li>
+<li><a href="#3">Further enhancement using the <code>CSPROJ</code> <code>Import</code> tag</a> </li>
+<li><a href="#4">CAD terminology resources for consistent translation</a> </li>
+<li><a href="#5">Showing a custom Revit texture map in the Forge Viewer</a> </li>
+</ul>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="http://thebuildingcoder.typepad.com/.a/6a00e553e168978833022ad39cdcc7200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833022ad39cdcc7200b img-responsive" style="width: 360px; display: block; margin-left: auto; margin-right: auto;" alt="Change target" title="Change target" src="/assets/image_1f748f.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="2"></a> Multi-Targeting Revit Versions Using TargetFrameworks</h4>
+
+<p>Just recently, we pointed out a suggestion
+for <a href="http://thebuildingcoder.typepad.com/blog/2018/05/multi-target-add-ins-ai-markdown-and-job-offer.html">compiling add-ins for multiple Revit versions</a>.</p>
+
+<p>Here are some other, previous, related discussions:</p>
+
+<ul>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2010/06/addin-applications-for-multiple-revit-products.html">Add-In Applications for Multiple Revit Products</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2012/07/multi-version-add-in.html">Multi-Version Add-in</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2013/11/multi-version-visual-studio-revit-add-in-wizard.html">Multi-Version Visual Studio Revit Add-In Wizard</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2015/05/revitlookup-in-python-shell-and-multi-release-solution.html">RevitLookup in Python Shell and Multi-Release Solution</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2015/06/adn-labs-xtra-multi-version-add-ins-and-cnc-direct.html">ADN Labs Xtra, Multi-Version Add-Ins and CNC Direct</a></li>
+</ul>
+
+<p>Today, Olivier 'Vilo' Bastide of <a href="http://www.bbs-slama.com">BBS Slama</a>, <em>éditeur de logiciels de calculs thermiques</em>,
+thermal calculation software editor, suggests a different and simpler approach making use of the <code>TargetFrameworks</code> functionality, and a further enhancement to that using the <code>Import</code> tag.</p>
+
+<p>In his own words:</p>
+
+<p>I'd like to give you some new stuff I've recently found, that can vastly simplify Revit add-in deployment.</p>
+
+<p>This is about add-in multi-targeting.</p>
+
+<p>Targeting all Revit versions can become a nightmare in terms of VS projects.</p>
+
+<p>I'm personally developing 6 projects for Revit, and I have to compile each one for all Revit versions (2016 to 2019), resulting in 24 projects to maintain.</p>
+
+<p>Source code is (thankfully) unique using conditional coding, but having all these projects is not elegant at all.</p>
+
+<p>You recently posted 
+a <a href="http://thebuildingcoder.typepad.com/blog/2018/05/multi-target-add-ins-ai-markdown-and-job-offer.html#2">suggestion for handling this</a>, but after some tuning I couldn't manage to make it work as I wanted.</p>
+
+<p>So, I dug into new <code>csproj</code> format (introduced with .NET Core) and managed to find a pretty simple solution to target all Revit versions with only one <code>csproj</code> and source code per project.</p>
+
+<p>Here is the <code>csproj</code> code skeleton; it works with the latest VS Community 2017, at least:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Project</span>&nbsp;<span style="color:red;">Sdk</span><span style="color:blue;">=</span><span style="color:blue;">&quot;Microsoft.NET.Sdk&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">TargetFrameworks</span><span style="color:blue;">&gt;</span>net452;net46;net47<span style="color:blue;">&lt;/</span><span style="color:maroon;">TargetFrameworks</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Configurations</span><span style="color:blue;">&gt;</span>Debug;Release<span style="color:blue;">&lt;/</span><span style="color:maroon;">Configurations</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Platforms</span><span style="color:blue;">&gt;</span>x64<span style="color:blue;">&lt;/</span><span style="color:maroon;">Platforms</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">OutputPath</span><span style="color:blue;">&gt;</span>bin\$(Configuration)\<span style="color:blue;">&lt;/</span><span style="color:maroon;">OutputPath</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">PropertyGroup</span>&nbsp;<span style="color:red;">Condition</span><span style="color:blue;">=</span><span style="color:blue;">&quot;&#39;$(Configuration)&#39;==&#39;Debug&#39;&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">PlatformTarget</span><span style="color:blue;">&gt;</span>x64<span style="color:blue;">&lt;/</span><span style="color:maroon;">PlatformTarget</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">DefineConstants</span><span style="color:blue;">&gt;</span>DEBUG<span style="color:blue;">&lt;/</span><span style="color:maroon;">DefineConstants</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Optimize</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">Optimize</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">DebugType</span><span style="color:blue;">&gt;</span>full<span style="color:blue;">&lt;/</span><span style="color:maroon;">DebugType</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">DebugSymbols</span><span style="color:blue;">&gt;</span>true<span style="color:blue;">&lt;/</span><span style="color:maroon;">DebugSymbols</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">PropertyGroup</span>&nbsp;<span style="color:red;">Condition</span><span style="color:blue;">=</span><span style="color:blue;">&quot;&#39;$(Configuration)&#39;==&#39;Release&#39;&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">PlatformTarget</span><span style="color:blue;">&gt;</span>x64<span style="color:blue;">&lt;/</span><span style="color:maroon;">PlatformTarget</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">DebugType</span><span style="color:blue;">&gt;</span>none<span style="color:blue;">&lt;/</span><span style="color:maroon;">DebugType</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">DebugSymbols</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">DebugSymbols</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">PropertyGroup</span>&nbsp;<span style="color:red;">Condition</span><span style="color:blue;">=</span><span style="color:blue;">&quot;&nbsp;&#39;$(TargetFramework)&#39;&nbsp;==&nbsp;&#39;net452&#39;&nbsp;&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">DefineConstants</span><span style="color:blue;">&gt;</span>$(DefineConstants);REVIT2017<span style="color:blue;">&lt;/</span><span style="color:maroon;">DefineConstants</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">AssemblyName</span><span style="color:blue;">&gt;</span>SomeProject_2017<span style="color:blue;">&lt;/</span><span style="color:maroon;">AssemblyName</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">PropertyGroup</span>&nbsp;<span style="color:red;">Condition</span><span style="color:blue;">=</span><span style="color:blue;">&quot;&nbsp;&#39;$(TargetFramework)&#39;&nbsp;==&nbsp;&#39;net46&#39;&nbsp;&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">DefineConstants</span><span style="color:blue;">&gt;</span>$(DefineConstants);REVIT2018<span style="color:blue;">&lt;/</span><span style="color:maroon;">DefineConstants</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">AssemblyName</span><span style="color:blue;">&gt;</span>SomeProject_2018<span style="color:blue;">&lt;/</span><span style="color:maroon;">AssemblyName</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+
+&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">PropertyGroup</span>&nbsp;<span style="color:red;">Condition</span><span style="color:blue;">=</span><span style="color:blue;">&quot;&nbsp;&#39;$(TargetFramework)&#39;&nbsp;==&nbsp;&#39;net47&#39;&nbsp;&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">DefineConstants</span><span style="color:blue;">&gt;</span>$(DefineConstants);REVIT2019<span style="color:blue;">&lt;/</span><span style="color:maroon;">DefineConstants</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">AssemblyName</span><span style="color:blue;">&gt;</span>SomeProject_2019<span style="color:blue;">&lt;/</span><span style="color:maroon;">AssemblyName</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+
+&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">ItemGroup</span>&nbsp;<span style="color:red;">Condition</span><span style="color:blue;">=</span><span style="color:blue;">&quot;&nbsp;&#39;$(TargetFramework)&#39;&nbsp;==&nbsp;&#39;net452&#39;&nbsp;&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Reference</span>&nbsp;<span style="color:red;">Include</span><span style="color:blue;">=</span><span style="color:blue;">&quot;AdWindows,&nbsp;Version=2015.11.1.0,&nbsp;Culture=neutral,&nbsp;PublicKeyToken=null&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">HintPath</span><span style="color:blue;">&gt;</span>......\2017\AdWindows.dll<span style="color:blue;">&lt;/</span><span style="color:maroon;">HintPath</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Private</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">Private</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">Reference</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Reference</span>&nbsp;<span style="color:red;">Include</span><span style="color:blue;">=</span><span style="color:blue;">&quot;RevitAPI&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">HintPath</span><span style="color:blue;">&gt;</span>......\2017\RevitAPI.dll<span style="color:blue;">&lt;/</span><span style="color:maroon;">HintPath</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Private</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">Private</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">Reference</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Reference</span>&nbsp;<span style="color:red;">Include</span><span style="color:blue;">=</span><span style="color:blue;">&quot;RevitAPIUI&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">HintPath</span><span style="color:blue;">&gt;</span>......\2017\RevitAPIUI.dll<span style="color:blue;">&lt;/</span><span style="color:maroon;">HintPath</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Private</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">Private</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">Reference</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">ItemGroup</span><span style="color:blue;">&gt;</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">ItemGroup</span>&nbsp;<span style="color:red;">Condition</span><span style="color:blue;">=</span><span style="color:blue;">&quot;&nbsp;&#39;$(TargetFramework)&#39;&nbsp;==&nbsp;&#39;net46&#39;&nbsp;&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Reference</span>&nbsp;<span style="color:red;">Include</span><span style="color:blue;">=</span><span style="color:blue;">&quot;AdWindows&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">HintPath</span><span style="color:blue;">&gt;</span>......\2018\AdWindows.dll<span style="color:blue;">&lt;/</span><span style="color:maroon;">HintPath</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Private</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">Private</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">Reference</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Reference</span>&nbsp;<span style="color:red;">Include</span><span style="color:blue;">=</span><span style="color:blue;">&quot;RevitAPI&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">HintPath</span><span style="color:blue;">&gt;</span>......\2018\RevitAPI.dll<span style="color:blue;">&lt;/</span><span style="color:maroon;">HintPath</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Private</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">Private</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">Reference</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Reference</span>&nbsp;<span style="color:red;">Include</span><span style="color:blue;">=</span><span style="color:blue;">&quot;RevitAPIUI&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">HintPath</span><span style="color:blue;">&gt;</span>......\2018\RevitAPIUI.dll<span style="color:blue;">&lt;/</span><span style="color:maroon;">HintPath</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Private</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">Private</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">Reference</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">ItemGroup</span><span style="color:blue;">&gt;</span>
+
+&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">ItemGroup</span>&nbsp;<span style="color:red;">Condition</span><span style="color:blue;">=</span><span style="color:blue;">&quot;&nbsp;&#39;$(TargetFramework)&#39;&nbsp;==&nbsp;&#39;net47&#39;&nbsp;&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Reference</span>&nbsp;<span style="color:red;">Include</span><span style="color:blue;">=</span><span style="color:blue;">&quot;AdWindows&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">HintPath</span><span style="color:blue;">&gt;</span>......\2019\AdWindows.dll<span style="color:blue;">&lt;/</span><span style="color:maroon;">HintPath</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Private</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">Private</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">Reference</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Reference</span>&nbsp;<span style="color:red;">Include</span><span style="color:blue;">=</span><span style="color:blue;">&quot;RevitAPI&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">HintPath</span><span style="color:blue;">&gt;</span>......\2019\RevitAPI.dll<span style="color:blue;">&lt;/</span><span style="color:maroon;">HintPath</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Private</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">Private</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">Reference</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Reference</span>&nbsp;<span style="color:red;">Include</span><span style="color:blue;">=</span><span style="color:blue;">&quot;RevitAPIUI&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">HintPath</span><span style="color:blue;">&gt;</span>......\2019\RevitAPIUI.dll<span style="color:blue;">&lt;/</span><span style="color:maroon;">HintPath</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Private</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">Private</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">Reference</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">ItemGroup</span><span style="color:blue;">&gt;</span>
+
+&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">ItemGroup</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Compile</span>&nbsp;<span style="color:red;">Include</span><span style="color:blue;">=</span><span style="color:blue;">&quot;SomeFile.cs&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">Compile</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">ItemGroup</span><span style="color:blue;">&gt;</span>
+</pre>
+
+<p>Obviously, you will have to customize the file paths appropriately...</p>
+
+<p>By using the new <code>TargetFrameworks</code> mechanism, it is possible to configure separate settings for each version.</p>
+
+<p>Actually, the trick is possible because each Revit version is targeting a different .NET framework...</p>
+
+<p>I've included 'non-mandatory' things in the above example.</p>
+
+<p>For example, the <code>AssemblyName</code> tag is optional, but I've included it to show how to change the output DLL filename according to the Revit version.</p>
+
+<p>When a new Revit version is released, the only thing to do is to declare a new target in the <code>TargetFrameworks</code> tag and configure the matching <code>ItemGroup</code> to tell VS where to find new SDK's DLLs.</p>
+
+<p>If the new version does not target a different .NET framework, it is possible to keep the thing working by targeting a sub-version (like 4.7.1).</p>
+
+<p>Finally, to make your source code <code>version agnostic</code>, you can use conditional definitions such as <code>REVIT2017</code>, <code>REVIT2018</code>, <code>REVIT2019</code>, etc., as usual.</p>
+
+<p>Hope this will help.</p>
+
+<h4><a name="3"></a> Further Enhancement Using the <code>CSPROJ</code> <code>Import</code> Tag</h4>
+
+<p>MultiTarget addins : season 01 episode 02...</p>
+
+<p>Here is an addendum to my preceding suggestion with a further enhancement.</p>
+
+<p>In the eternal fight to reduce efforts involved to obtain the same achievements, I've made some new progress.</p>
+
+<p>The <code>csproj</code> format (both old and new) supports a kind of sequential inheritance through the tag <code>&lt;Import&gt;</code>.</p>
+
+<p>Using that, you can tailor a 'root' <code>.csproj</code> file that contains all the basic logic about Revit versions, and then inherits from it in each of the 'real' projects, overriding only the specific varying tags.</p>
+
+<p>Here is a sample root <code>csproj</code>, named <em>C:\ROOT.CSPROJ</em> for this sample to work:</p>
+
+<pre class="code">
+<span style="color:blue;">&lt;</span><span style="color:maroon;">Project</span>&nbsp;<span style="color:red;">Sdk</span><span style="color:blue;">=</span><span style="color:blue;">&quot;Microsoft.NET.Sdk&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">PropertyGroup</span>&nbsp;<span style="color:red;">Condition</span><span style="color:blue;">=</span><span style="color:blue;">&quot;&#39;$(TargetFrameworks)&#39;==&#39;&#39;&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">TargetFrameworks</span><span style="color:blue;">&gt;</span>net45;net452;net46;net47<span style="color:blue;">&lt;/</span><span style="color:maroon;">TargetFrameworks</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;
+&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Configurations</span><span style="color:blue;">&gt;</span>Debug;Release<span style="color:blue;">&lt;/</span><span style="color:maroon;">Configurations</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Platforms</span><span style="color:blue;">&gt;</span>x64<span style="color:blue;">&lt;/</span><span style="color:maroon;">Platforms</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">EnableDefaultCompileItems</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">EnableDefaultCompileItems</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">EnableDefaultItems</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">EnableDefaultItems</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;
+&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">PropertyGroup</span>&nbsp;<span style="color:red;">Condition</span><span style="color:blue;">=</span><span style="color:blue;">&quot;&nbsp;&#39;$(TargetFramework)&#39;&nbsp;==&nbsp;&#39;net45&#39;&nbsp;&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">RevitVersion</span><span style="color:blue;">&gt;</span>2016<span style="color:blue;">&lt;/</span><span style="color:maroon;">RevitVersion</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+
+&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">PropertyGroup</span>&nbsp;<span style="color:red;">Condition</span><span style="color:blue;">=</span><span style="color:blue;">&quot;&nbsp;&#39;$(TargetFramework)&#39;&nbsp;==&nbsp;&#39;net452&#39;&nbsp;&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">RevitVersion</span><span style="color:blue;">&gt;</span>2017<span style="color:blue;">&lt;/</span><span style="color:maroon;">RevitVersion</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+
+&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">PropertyGroup</span>&nbsp;<span style="color:red;">Condition</span><span style="color:blue;">=</span><span style="color:blue;">&quot;&nbsp;&#39;$(TargetFramework)&#39;&nbsp;==&nbsp;&#39;net46&#39;&nbsp;&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">RevitVersion</span><span style="color:blue;">&gt;</span>2018<span style="color:blue;">&lt;/</span><span style="color:maroon;">RevitVersion</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+
+&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">PropertyGroup</span>&nbsp;<span style="color:red;">Condition</span><span style="color:blue;">=</span><span style="color:blue;">&quot;&nbsp;&#39;$(TargetFramework)&#39;&nbsp;==&nbsp;&#39;net47&#39;&nbsp;&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">RevitVersion</span><span style="color:blue;">&gt;</span>2019<span style="color:blue;">&lt;/</span><span style="color:maroon;">RevitVersion</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;
+&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">DefineConstants</span><span style="color:blue;">&gt;</span>$(DefineConstants);REVIT$(RevitVersion)<span style="color:blue;">&lt;/</span><span style="color:maroon;">DefineConstants</span><span style="color:blue;">&gt;</span>&nbsp;<span style="color:darkgreen;">&lt;!--&nbsp;defines&nbsp;conditional&nbsp;directive&nbsp;REVIT2016,&nbsp;REVIT2017&nbsp;...&nbsp;--&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">AssemblyName</span><span style="color:blue;">&gt;</span>$(PrefixAssembly)_$(RevitVersion)<span style="color:blue;">&lt;/</span><span style="color:maroon;">AssemblyName</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;
+&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Path_DLL_API</span><span style="color:blue;">&gt;</span>...&nbsp;FQPN&nbsp;to&nbsp;folder&nbsp;with&nbsp;API&nbsp;dlls,&nbsp;separated&nbsp;into&nbsp;subfolders&nbsp;named&nbsp;2016,&nbsp;2017,&nbsp;2018,&nbsp;2019,&nbsp;etc&nbsp;...<span style="color:blue;">&lt;/</span><span style="color:maroon;">Path_DLL_API</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;
+&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">ItemGroup</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Reference</span>&nbsp;<span style="color:red;">Include</span><span style="color:blue;">=</span><span style="color:blue;">&quot;AdWindows&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">HintPath</span><span style="color:blue;">&gt;</span>$(Path_DLL_API)\$(RevitVersion)\AdWindows.dll<span style="color:blue;">&lt;/</span><span style="color:maroon;">HintPath</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Private</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">Private</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">Reference</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Reference</span>&nbsp;<span style="color:red;">Include</span><span style="color:blue;">=</span><span style="color:blue;">&quot;RevitAPI&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">HintPath</span><span style="color:blue;">&gt;</span>$(Path_DLL_API)\$(RevitVersion)\RevitAPI.dll<span style="color:blue;">&lt;/</span><span style="color:maroon;">HintPath</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Private</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">Private</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">Reference</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Reference</span>&nbsp;<span style="color:red;">Include</span><span style="color:blue;">=</span><span style="color:blue;">&quot;RevitAPIUI&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">HintPath</span><span style="color:blue;">&gt;</span>$(Path_DLL_API)\$(RevitVersion)\RevitAPIUI.dll<span style="color:blue;">&lt;/</span><span style="color:maroon;">HintPath</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">EmbedInteropTypes</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Private</span><span style="color:blue;">&gt;</span>false<span style="color:blue;">&lt;/</span><span style="color:maroon;">Private</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">Reference</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">ItemGroup</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&lt;/</span><span style="color:maroon;">Project</span><span style="color:blue;">&gt;</span>
+</pre>
+
+<p>This one is suitable to compile for Revit versions 2016 to 2019 (by targeting 4 different frameworks).</p>
+
+<p>And here is a sample child project using it:</p>
+
+<pre class="code">
+<span style="color:blue;">&lt;</span><span style="color:maroon;">Project</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:darkgreen;">&lt;!--&nbsp;this&nbsp;group&nbsp;must&nbsp;stay&nbsp;before&nbsp;&lt;Import&gt;&nbsp;!!&nbsp;--&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+<span style="color:darkgreen;">&lt;!--&nbsp;this&nbsp;tag&nbsp;allows&nbsp;generic&nbsp;naming,&nbsp;for&nbsp;example&nbsp;this&nbsp;will&nbsp;lead&nbsp;to&nbsp;assemblies&nbsp;named&nbsp;&quot;SomeAssembly_2016&quot;,&nbsp;&quot;SomeAssembly_2017&quot;,&nbsp;...&nbsp;--&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">PrefixAssembly</span><span style="color:blue;">&gt;</span>SomeAssembly<span style="color:blue;">&lt;/</span><span style="color:maroon;">PrefixAssembly</span><span style="color:blue;">&gt;</span>&nbsp;
+
+<span style="color:darkgreen;">&lt;!--&nbsp;by&nbsp;setting&nbsp;this&nbsp;tag&nbsp;here,&nbsp;you&nbsp;can&nbsp;override&nbsp;default&nbsp;behaviour&nbsp;that&nbsp;is&nbsp;to&nbsp;compile&nbsp;for&nbsp;versions&nbsp;2016&nbsp;to&nbsp;2019
+Delete&nbsp;it&nbsp;to&nbsp;restore&nbsp;default&nbsp;behaviour&nbsp;and&nbsp;compile&nbsp;for&nbsp;2016&nbsp;to&nbsp;2019&nbsp;--&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">TargetFrameworks</span><span style="color:blue;">&gt;</span>net452<span style="color:blue;">&lt;/</span><span style="color:maroon;">TargetFrameworks</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">PropertyGroup</span><span style="color:blue;">&gt;</span>
+
+<span style="color:darkgreen;">&lt;!--&nbsp;import&nbsp;root&nbsp;csproj&nbsp;--&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">Import</span>&nbsp;<span style="color:red;">Project</span><span style="color:blue;">=</span><span style="color:blue;">&quot;C:\ROOT.CSPROJ&quot;</span>&nbsp;<span style="color:blue;">/&gt;</span>&nbsp;<span style="color:darkgreen;">&lt;!--&nbsp;FQPN&nbsp;to&nbsp;file&nbsp;defined&nbsp;above&nbsp;--&gt;</span>
+
+<span style="color:darkgreen;">&lt;!--&nbsp;all&nbsp;other&nbsp;stuff&nbsp;that&nbsp;is&nbsp;project&nbsp;specific&nbsp;--&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;...
+<span style="color:blue;">&lt;/</span><span style="color:maroon;">Project</span><span style="color:blue;">&gt;</span>
+</pre>
+
+<p>Of course, these 2 samples are just a proof of concept, and tailored for my own needs.</p>
+
+<p>Feel free to make what you want with it ;-)</p>
+
+<p>Many thanks to Olivier 'Vilo' for researching and sharing this very sensible solution!</p>
+
+<p><a name="3.1"></a> Vilo responds: Cool &nbsp; &nbsp; ;-) &nbsp; &nbsp; Hope it will help some people simplify their DevEnv.</p>
+
+<p>Jeremy answers: if people take the trouble to read and the time to improve, it will for sure &nbsp; &nbsp; :-) &nbsp; &nbsp; all too often, however, one does not take the time to improve things, even though it would save ten times the time it costs to make the improvement...</p>
+
+<h4><a name="4"></a> CAD Terminology Resources for Consistent Translation</h4>
+
+<p>People occasionally ask for help translating CAD terms, and I already mentioned a couple of useful resources for this in the past.</p>
+
+<p>This question came up again in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on a <a href="https://forums.autodesk.com/t5/revit-api-forum/dictionary-for-revit-and-autocad-terms-for-localisation/m-p/8074233">dictionary for Revit and AutoCAD terms for localisation</a>:</p>
+
+<p><strong>Question:</strong> I want to use the correct Autodesk terms in our localized add-in user documentation.</p>
+
+<p>I am searching for a table of translations of Revit and AutoCAD terms into multiple languages which can be used for our automated translation dictionary.  I just need a mapping English term &rarr; Localized term. The supported languages are currently German, French, Spanish (Mexico), Chinese (Simplified), Portuguese (Brazil), Japanese and Italian.</p>
+
+<p>I found a good <a href="https://knowledge.autodesk.com/de/support/autocad/learn-explore/caas/CloudHelp/cloudhelp/2016/DEU/AutoCAD-Core/files/GUID-C4325DCB-3648-4463-8135-629EA7F72AB0-htm.html?_ga=2.226928601.558689868.1529839545-2130181328.1465883366">Glossary of German AutoCAD Terms</a> which
+can be displayed in different languages.</p>
+
+<p>I see that, e.g., <code>LAYER</code> in English is the same in German, but <code>SOLID</code> is <code>VOLUMENKÖRPER</code>.</p>
+
+<p>I would prefer a table instead of an HTML page for more automation.</p>
+
+<p><strong>Answer:</strong> I provided an answer to a similar question
+on <a href="http://thebuildingcoder.typepad.com/blog/2014/10/autodesk-open-source-all-over-germany-and-japan.html#4">CAD terminology translation back in 2014</a>.</p>
+
+<p>It mentions a number of useful resources back then.</p>
+
+<p>Here is an expanded and updated list for today:</p>
+
+<ul>
+<li><a href="https://knowledge.autodesk.com/support/autocad/learn-explore/caas/CloudHelp/cloudhelp/2016/ENU/AutoCAD-Core/files/GUID-C4325DCB-3648-4463-8135-629EA7F72AB0-htm.html">Glossary of AutoCAD Terms</a>.</li>
+<li><a href="http://knowledge.autodesk.com/support/autocad/downloads/caas/downloads/content/autocad-2019-language-packs.html">AutoCAD language packs, e.g., for AutoCAD 2019</a>.</li>
+<li><a href="http://www.cadforum.cz/cadforum_en/command.asp">AutoCAD command dictionary</a>
+&ndash; lists AutoCAD command translations and does not support all languages.</li>
+<li>AutoCAD end user online document per language:
+<ul>
+<li><a href="http://help.autodesk.com/view/ACD/2019/ENU/">English</a></li>
+<li><a href="http://help.autodesk.com/view/ACD/2019/JPN/">Japanese</a></li>
+<li><a href="http://help.autodesk.com/view/ACD/2019/FRA/">French</a></li>
+<li><a href="http://help.autodesk.com/view/ACD/2019/KOR/">Korean</a></li>
+<li><a href="http://help.autodesk.com/view/ACD/2019/RUS/">Russian</a></li>
+<li>etc.</li>
+</ul></li>
+<li><a href="http://langtech.autodesk.com/nexlt">Autodesk localisation team cross product corpus database NeXLT</a> &ndash; terminology and message translation.</li>
+</ul>
+
+<p>The latter resource is product agnostic, so it will hopefully include all you need for Revit, AEC and BIM.</p>
+
+<h4><a name="5"></a> Showing a Custom Revit Texture Map in the Forge Viewer</h4>
+
+<p>To help address the recurring question of accessing texture map data in a Revit model, my colleague Eason Kang researched and published how 
+to <a href="https://forge.autodesk.com/blog/show-revit-custom-texture-map-viewer">show Revit custom texture map in the Forge Viewer</a>.</p>
+
+<p>Many thanks to Eason for sharing this important information!</p>

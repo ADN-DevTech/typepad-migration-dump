@@ -1,0 +1,228 @@
+comments:
+- author: Benson
+  email: gzlps@hotmail.com
+  ip: 59.37.3.2
+  url: ''
+  date: '2010-10-26 01:38:52'
+  body: "Hello Jemery,\n\nif i select one element and right click it, \nfrom the pop-up\
+    \ menu \"Hide in View\"->\"By Filter\", \nadd one filter to hide the element,\
+    \ \nthen the method \"IsHiddenElementOrCategory\" doesn't work.\n\nthat is, the\
+    \ filter has no influence to \nmethod \"IsHiddenElementOrCategory\".\n\nwhat i\
+    \ wanted is to obtain all the elements hidden via \"By Filter\", not from by \"\
+    Elements\" or by \"Category\".\n\ni saw REVIT2011 API provides new class ParameterFilterElement\
+    \ and FilterRule. \n\nthe method FilterRule.ElementPasses(Element) can be used\
+    \ to determine if the element is hidden \"By Filter\",\nbut the filter can be\
+    \ disabled by uncheck it in the view Visibility/Graphic dialog.\n\nis it able\
+    \ to get the filter visibility in selected view?\n\ni can iterate all the filters\
+    \ and all the rules, but i can't get the visibility of the filters.\n\nthanks!"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-10-26 12:03:54'
+  body: 'Dear Benson,
+
+
+    I am sorry to say that the Revit 2011 API classes that you mention above all have
+    to do with the filtered element collectors, and nothing at all with filters related
+    to visibility in views.
+
+
+    As far as I know, there is corrently no API access to the functionality you are
+    asking for, and we have an open wish list item for it. I added a note of your
+    reqeust to it to make the development team aware of its importance.
+
+
+    Cheers, Jeremy.'
+- author: Benson
+  email: gzlps@hotmail.com
+  ip: 59.37.3.2
+  url: ''
+  date: '2010-11-08 02:50:55'
+  body: "Dear Jemery,\n\nIn Revit2010/Revit2011, the user can set the \nprimary design\
+    \ option from the menu \nManage->Design Options,\n\nmy question is how can i obtain\
+    \ the primary \ndesign option via Revit2010 api?\n\nin Revit2011 api, we can use\
+    \ the static \nmethod:\nDesignOption.GetActiveDesignOptionId(Document)\nto get\
+    \ the primary design option, \nbut Revit2010 api not provides such method.\n\n\
+    thanks in advance!\n\nBTW:\nin Revit2010, the Document.Elements \nnot contains\
+    \ those elemnts which design option \nare not primary design option.\n\nbut in\
+    \ Revit2011, when i use the code:\nFilteredElementCollector collector = new \n\
+    \             FilterElementCollector(documnet);\nFilteredElementIterator it =\
+    \   \n   collector.WhereElementIsNotElementType()\n                      .GetElementIterator()\n\
+    the iterator \"it\" contains all the elements \neven their design option are not\
+    \ primary\ndesign option."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-11-08 14:46:21'
+  body: 'Dear Benson,
+
+
+    Sorry, I am not aware of any method to retrieve the primary design option programmatically
+    in Revit 2010.
+
+
+    And yes, you can use the Element.DesignOption property to filter for elements
+    in a specific design option or the main model in Revit 2011. There is presumably
+    a parameter that you can use as well to optimise the filtering.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-11-12 04:46:56'
+  body: 'Dear Benson,
+
+
+    Have you looked at the method DesignOption.GetActiveDesignOptionId, which gets
+    the ''active'' design option id for the current design option set. Is that the
+    primary design option?
+
+
+    Cheers, Jeremy.'
+- author: Benson
+  email: gzlps@hotmail.com
+  ip: 59.37.3.2
+  url: ''
+  date: '2010-11-15 05:00:36'
+  body: "Dear Jeremy,\n\nThanks for your reply!\n\nyes, you are right, the method\
+    \ DesignOption.GetActiveDesignOptionId\nexists in Revit2011 api, this method can\
+    \ get 'active' design option id, \nhowever it is not the primary design option\
+    \ id.\n\nclass property DesignOption.IsPrimary indicates if the design option\
+    \ is primary id. \nso, we can iterate all design option and then get the primary\
+    \ option.\n\n\n\nbut in Revit2010 api,it not provides the method 'GetActiveDesignOptionId'\n\
+    and property 'IsPrimary', so, it seems impossible to get the active design \n\
+    option and primary option.\n \nfortunately, i don't need to consider the design\
+    \ option in Revit2010 so far,\njust need to consider it in Revit2011,\nso, it\
+    \ is not a problem for us currently.\n\nthanks again!\n\nBest regards,\nBenson"
+- author: Mike
+  email: mike.s.anderton@gmail.com
+  ip: 76.67.18.83
+  url: ''
+  date: '2011-08-21 23:42:39'
+  body: 'Hi Jeremy,
+
+
+    I''d like to hide an element in a dependent view but when i query the OwnerViewId
+    of the element it returns the view id of the primary view. Is there a way to determine
+    the id of the dependent view?
+
+
+    Thanks for your very informative blog.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-08-22 06:03:33'
+  body: 'Dear Mike,
+
+
+    Thank you for your appreciation!
+
+
+    The first thing I would do is an exhaustive analysis of the relationships between
+    the views using RevitLookup. Make sure to look at all the built-in parameters
+    as well using the built-in enum snoop. Maybe you can dig up some parameter or
+    other data item that will help you track down the dependencies. Good luck!
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-08-23 02:12:33'
+  body: 'Dear Mike,
+
+
+    Here is an update on your question after a chat with the development team:
+
+
+    The API currently does not provide any list of views dependent on a given view.
+
+
+    Can you try to check the Dependency parameter of all views to find the ones that
+    are dependent on the OwnerView?
+
+
+    I hope this helps. Please let us know what your solution ends up looking like.
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Mike
+  email: mike.s.anderton@gmail.com
+  ip: 76.67.18.83
+  url: ''
+  date: '2011-08-24 18:16:39'
+  body: 'Hi Jeremy,
+
+
+    Thanks for your replies.
+
+
+    I think your suggestion is similar to what i did. Because I want to hide a particular
+    element in all views including dependent views I first query the elements OwnerViewId.
+    Then I check the VIEW_DEPENDENCY of that view. If it is ''Primary'' I search for
+    all views that are dependent of this view. In each of these views I hide the selected
+    element. This method certainly would not work if I wanted to hide the element
+    in only 1 dependent view however. I have thought about the possibility of trying
+    to locate the elements within bounding boxes however I''m not sure if that would
+    be possible, I''ll have to check again, I don''t remember if I can get the box
+    of the dependent view in the API.
+
+
+    Thanks very much for your help.
+
+
+    ps. I use RevitLookup all the time, it''s great!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.147.154
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-09-01 02:39:51'
+  body: 'Dear Mike,
+
+
+    I heard back from the development team. The issue is resolved and will become
+    available in the intermediate release. Obviously no guarantee, but that''s the
+    plan. Quick action, eh! Thank you for reporting the problem!
+
+
+    Cheers, Jeremy.'
+- author: Le Zhang
+  email: zhangletju@gmail.com
+  ip: 97.65.99.154
+  url: ''
+  date: '2013-09-11 19:58:37'
+  body: "Hi Jeremy, \nThanks for the code sample. However, I encountered some weird\
+    \ issue running the code today. After some digging, it seems before calling someCategroy.get_Visible(someView),\
+    \ one might want to check someCategory.get_AllowsVisibilityControl(someViwe) is\
+    \ true first."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-09-13 07:22:54'
+  body: 'Dear Le Zhang,
+
+
+    Thank you for the appreciation and the improvement.
+
+
+    That definitely makes sense.
+
+
+    Did you notice this way to detect element visibility, which is probably currently
+    the most reliable approach?
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/08/determining-absolutely-all-visible-elements.html">http://thebuildingcoder.typepad.com/blog/2013/08/determining-absolutely-all-visible-elements.html</a>
+
+
+    Cheers, Jeremy.
+
+    -----'

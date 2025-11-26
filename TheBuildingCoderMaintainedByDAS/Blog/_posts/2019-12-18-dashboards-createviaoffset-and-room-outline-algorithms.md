@@ -1,0 +1,345 @@
+---
+layout: "post"
+title: "Dashboard, CreateViaOffset and Room Outer Outline"
+date: "2019-12-18 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "360"
+  - "Algorithm"
+  - "AU"
+  - "BIM"
+  - "Data Access"
+  - "Forge"
+  - "Geometry"
+original_url: "https://thebuildingcoder.typepad.com/blog/2019/12/dashboards-createviaoffset-and-room-outline-algorithms.html "
+typepad_basename: "dashboards-createviaoffset-and-room-outline-algorithms"
+typepad_status: "Publish"
+---
+
+<p>An inconclusive struggle to use <code>CurveLoop.CreateViaOffset</code> leads us once again to thank the powers that be for the integer-based 2D Boolean Clipper library, and some thoughts on project dashboards:</p>
+
+<ul>
+<li><a href="#2">Extracting data for project dashboard</a></li>
+<li><a href="#3">Specifying a list of offsets to <code>CreateViaOffset</code></a></li>
+<li><a href="#4">Alternatives to determine room outline including surrounding walls</a></li>
+</ul>
+
+<h4><a name="2"></a> Extracting Data for Project Dashboard</h4>
+
+<p><strong>Question:</strong> We are investigating whether some parts of our project management procedures can be automated. Today, we create an overview using PowerBI on project progression by combining data from financials, project controlling (hours, job packages etc.) and the likes. However, progress on the content and completion of design tasks is done manually with input from the project manager, making it difficult to track progress directly.</p>
+
+<p>The assumption is that many of our graphic files such as .dwg contain data that describes how many documents that have been created and how many tasks have been completed. If can to extract this data, it could be built into some tool to provide an overview. </p>
+
+<p>Let’s imagine we are preparing a renovation of a building and know that we have to complete a set number of PI diagrams as part of the overall design. If this information can easily be extracted from the .dwg files, we could add this to the PowerBI datasets to be included in the overall reporting.</p>
+
+<p>Today, many projects are running smoothly due to experienced project leaders. We would like to create smooth systems to support the process as well as mitigate the risk of not being able to attract senior or skilled enough people to handle the project.</p>
+
+<p>We tried to investigate whether or not information/lists/drawing overviews from Revit and AutoCAD can be exported into something like .csv, .xlsx and similar user/human friendly formats. Until now, we have not been able to answer this question. We have talked with different people from Autodesk chat support and read several of your blog post answers.</p>
+
+<p>Could you somehow simplify this for me? Is it at all possible to generally export overview of the content of a dwg file in a simple format readable for other applications?</p>
+
+<p><strong>Answer:</strong> I am not currently very involved with AutoCAD and DWG development, more with Revit RVT.</p>
+
+<p>However, I can certainly confirm that it is definitely both possible and easy to extract all the data you can possibly want from both of them.</p>
+
+<p>You can do that using AutoCAD and Revit add-ins making use of the desktop .NET APIs.</p>
+
+<p>If you are making use of any cloud-based workflows and storage, you can also do so online in the web, e.g., making use of the Forge APIs.</p>
+
+<p>In fact, several people have already done so to create a number of different so-called dashboards that implement exactly what you are asking for.</p>
+
+<p>Here are two in-depth demonstrations of such technology from Autodesk University 2018, a year ago:</p>
+
+<ul>
+<li><a href="https://www.autodesk.com/autodesk-university/class/Using-Forge-Revolutionize-Coordinated-Project-Information-2018">Using Forge to revolutionise coordinated project information</a></li>
+<li><a href="https://www.autodesk.com/autodesk-university/class/How-Use-Forge-and-BIM-360-Get-Insight-and-Improve-BIM-Management-Your-Project-2018">How to Use Forge and BIM 360 to get insight and improve the BIM management of your project</a></li>
+</ul>
+
+<p>By the way, the latter also mentions PowerBI.</p>
+
+<p>These are just two random hits that popped up in my first quick Internet search
+for <a href="https://duckduckgo.com/?q=autodesk+forge+project+overview">Autodesk Forge project overview</a>.</p>
+
+<p>Maybe you should try it yourself with 'dashboard' and other such terms.</p>
+
+<p>There are probably much more advanced samples available today, a year later.</p>
+
+<p>Here is a <a href="https://forge.autodesk.com/categories/code-samples">link to view all Forge samples</a>.</p>
+
+<p>You might also want to search for 'dashboard' on the Forge blog site using the Google search
+string <a href="https://www.google.com/search?q=dashboard+site%3Aforge.autodesk.com%2Fblog">dashboard site:forge.autodesk.com/blog</a>.</p>
+
+<h4><a name="3"></a> Specifying a List of Offsets to CreateViaOffset</h4>
+
+<p>Stephen Harrison has been valiantly and persistently working on a solution to crop views to rooms, as discussed in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> threads
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/room-boundary-polygons/m-p/9157379">room boundary polygons</a>,
+<a href="https://forums.autodesk.com/t5/revit-api-forum/createviaoffset/m-p/9159500">CreateViaOffset to offset room boundary inwards or outwards</a> and
+<a href="https://forums.autodesk.com/t5/revit-api-forum/createviaoffset-curveloop-original-ilist-lt-double-gt/m-p/9196659">CreateViaOffset taking a list of offset distances</a>.</p>
+
+<p>I set up
+the <a href="https://github.com/jeremytammik/CropViewToRoom">CropViewToRoom GitHub repository</a> to
+play around with various approaches.</p>
+
+<p>I now received some useful guidance from the development on the latest question in this series:</p>
+
+<p><strong>Question:</strong> I have raised a previous post regarding generating views from rooms but feel that has probably run its course.</p>
+
+<p>The problem I now face is how to follow the outer face of the wall where the wall changes thickness over its length and when room separators are utilised.</p>
+
+<p>When the walls step back like this, there is an error “Curve loop couldn't be properly trimmed”:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4aa8f15200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4aa8f15200c img-responsive" style="width: 300px; display: block; margin-left: auto; margin-right: auto;" alt="Walls with varying thicknesses" title="Walls with varying thicknesses" src="/assets/image_ccc800.jpg" /></a></p>
+
+<p style="font-size: 80%; font-style:italic">Walls with varying thicknesses</p>
+
+<p></center></p>
+
+<p>Regarding room separators, another problem occurs with a separator like this, Error “Curve loop couldn't be properly trimmed”:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4f85acd200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4f85acd200b img-responsive" style="width: 213px; display: block; margin-left: auto; margin-right: auto;" alt="Walls with room separator" title="Walls with room separator" src="/assets/image_f56561.jpg" /></a></p>
+
+<p style="font-size: 80%; font-style:italic">Walls with room separator</p>
+
+<p></center></p>
+
+<p>There have been no errors so far in situations like this:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4f85ad7200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4f85ad7200b img-responsive" style="width: 300px; display: block; margin-left: auto; margin-right: auto;" alt="Walls with room separator offset" title="Walls with room separator offset" src="/assets/image_0d5e0f.jpg" /></a></p>
+
+<p style="font-size: 80%; font-style:italic">Walls with room separator offset</p>
+
+<p></center></p>
+
+<p>I am working in C# with Revit 2020 and utilising the following to create the offset:</p>
+
+<pre>
+  CreateViaOffset(
+    CurveLoop original,
+    IList&lt;double&gt; offsetDists,
+    XYZ normal)
+</pre>
+
+<p><code>offsetDists</code> is set to the thicknesses of the surrounding walls plus a standard set offset for the room separator.</p>
+
+<p><strong>Answer:</strong> I integrated and cleaned up your code
+in <a href="https://github.com/jeremytammik/CropViewToRoom/releases/tag/2020.0.0.2">CropViewToRoom release 2020.0.0.2</a> for
+further analysis.</p>
+
+<p>I have not solved it yet, but at least uncovered one definite problem.</p>
+
+<p>In the room separator model, the curve loop that you assemble has 11 elements, whereas the wall thickness list only has 10. That obviously causes a problem.</p>
+
+<p>I implemented a new method <code>CreateModelCurves</code> that creates a set of model curves to display the curve loop:</p>
+
+<pre class="code">
+  <span style="color:blue;">void</span>&nbsp;CreateModelCurves(
+  &nbsp;&nbsp;<span style="color:#2b91af;">View</span>&nbsp;view,
+  &nbsp;&nbsp;<span style="color:#2b91af;">CurveLoop</span>&nbsp;loop&nbsp;)
+  {
+  &nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;=&nbsp;view.Document;
+  &nbsp;&nbsp;<span style="color:#2b91af;">SketchPlane</span>&nbsp;sp&nbsp;=&nbsp;view.SketchPlane;
+
+  &nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">Curve</span>&nbsp;curve&nbsp;<span style="color:blue;">in</span>&nbsp;loop&nbsp;)
+  &nbsp;&nbsp;{
+  &nbsp;&nbsp;&nbsp;&nbsp;doc.Create.NewModelCurve(&nbsp;curve,&nbsp;sp&nbsp;);
+  &nbsp;&nbsp;}
+  }
+</pre>
+
+<p>The result for the room separator model looks like this:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4d3b132200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4d3b132200d img-responsive" style="width: 300px; display: block; margin-left: auto; margin-right: auto;" alt="Room separator boundary model curve loop" title="Room separator boundary model curve loop" src="/assets/image_216f86.jpg" /></a></p>
+
+<p style="font-size: 80%; font-style:italic">Room separator boundary model curve loop</p>
+
+<p></center></p>
+
+<p>I leave it up to you to figure out where that extra segment is coming from, what it represents, and how to deal with the wall thickness for that one.</p>
+
+<p>Maybe that will help sort out the other issue as well.</p>
+
+<p>I also reproduced the exception you mentioned creating the offset loop for the wall thickness sample model RVT.</p>
+
+<p>I sent the following question to the development team for a usage example of the method to see what we might be doing wrong.</p>
+
+<p>I am having trouble using
+the <a href="https://www.revitapidocs.com/2020/3097f423-9b0e-5496-bae2-3a82b6875414.htm">CreateViaOffset method taking a list of doubles for different offsets</a>:</p>
+
+<p>Can you provide a simple sample showing how to use this method?</p>
+
+<p>I tested it passing in five curves representing the following five walls:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4d3b141200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4d3b141200d img-responsive" style="width: 300px; display: block; margin-left: auto; margin-right: auto;" alt="Rectangular room with five walls" title="Rectangular room with five walls" src="/assets/image_2d3fa8.jpg" /></a></p>
+
+<p style="font-size: 80%; font-style:italic">Rectangular room with five walls</p>
+
+<p></center></p>
+
+<p>Starting with the bottom horizontal wall and moving counterclockwise to the right, top two and left, I pass in five straight line segment curves and curves and the corresponding five offset distances:</p>
+
+<pre>
+  5 curves with lengths 9.19,9.51,3.61,5.58,9.51
+  and 5 thicknesses 1.08,.43,.43,.76,1.08
+</pre>
+
+<p>This call throws an <code>Autodesk.Revit.Exceptions.InvalidOperationException</code> saying 'Curve loop couldn't be properly trimmed.'</p>
+
+<p><strong>Answer from the development team:</strong> 
+In the customer's example, it looks like one of the walls is split in two and meet in the middle.
+Perhaps the curves he has are not colinear to start?
+That, it would seem, could easily result in a disconnected loop.</p>
+
+<p>This is a sample from our add-in code:</p>
+
+<pre class="code">
+  <span style="color:green;">//&nbsp;previously&nbsp;filled&nbsp;list&nbsp;with&nbsp;simple&nbsp;double&nbsp;</span>
+  <span style="color:green;">//&nbsp;values&nbsp;that&nbsp;represent&nbsp;the&nbsp;distance&nbsp;to&nbsp;offset;&nbsp;</span>
+  <span style="color:green;">//&nbsp;that&nbsp;distance&nbsp;is&nbsp;calculated&nbsp;as&nbsp;the&nbsp;length&nbsp;of&nbsp;</span>
+  <span style="color:green;">//&nbsp;a&nbsp;segment&nbsp;that&nbsp;is&nbsp;perpendicular&nbsp;on&nbsp;the&nbsp;curve&nbsp;</span>
+  <span style="color:green;">//&nbsp;to&nbsp;be&nbsp;offset</span>
+
+  <span style="color:#2b91af;">List</span>&lt;<span style="color:blue;">double</span>&gt;&nbsp;offsetArray;
+  <span style="color:#2b91af;">IList</span>&lt;<span style="color:#2b91af;">Curve</span>&gt;&nbsp;polyCurves&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">Curve</span>&gt;();
+
+  <span style="color:blue;">foreach</span>(&nbsp;<span style="color:blue;">var</span>&nbsp;curve&nbsp;<span style="color:blue;">in</span>&nbsp;contour3D.curves&nbsp;)
+  {
+  &nbsp;&nbsp;polyCurves.Add(&nbsp;curve.asRevitCurve(&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;doc.Application&nbsp;)&nbsp;);
+  }
+
+  <span style="color:blue;">if</span>(&nbsp;polyCurves.none()&nbsp;)
+  &nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">false</span>;
+
+  <span style="color:#2b91af;">CurveLoop</span>&nbsp;curveLoop&nbsp;=&nbsp;<span style="color:#2b91af;">CurveLoop</span>.Create(
+  &nbsp;&nbsp;polyCurves&nbsp;);
+
+  <span style="color:blue;">if</span>(&nbsp;curveLoop&nbsp;!=&nbsp;<span style="color:blue;">null</span>&nbsp;)
+  {
+  &nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;normal&nbsp;=&nbsp;<span style="color:#2b91af;">XYZ</span>.BasisZ;
+
+  &nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;curveLoop.HasPlane()&nbsp;)
+  &nbsp;&nbsp;&nbsp;&nbsp;normal&nbsp;=&nbsp;curveLoop.GetPlane().Normal;
+
+  &nbsp;&nbsp;curveLoop&nbsp;=&nbsp;<span style="color:#2b91af;">CurveLoop</span>.CreateViaOffset(&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;curveLoop,&nbsp;offsetArray,&nbsp;normal&nbsp;);
+
+  &nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;curveLoop&nbsp;!=&nbsp;<span style="color:blue;">null</span>&nbsp;)
+  &nbsp;&nbsp;{
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;do&nbsp;stuff&nbsp;with&nbsp;curve</span>
+  &nbsp;&nbsp;}
+  }
+</pre>
+
+<p>It's nothing special. BUT... </p>
+
+<p>I suspect the problem stems from the little vertical segment where the different width walls meet.
+We had problems with this method treating small segments from a structural contour, so the code above is put in a big try/catch and if it fails, we go to another offset algorithm that is far worse in general but treats small segments/self-intersections slightly better (Revit's offset seems more sceptical to prolong segments when it's the case, and I couldn't find code for self-intersections).
+L.E. Edited testing assumptions that are invalid since offset is positive, not negative.</p>
+
+<p>I tested on our code the drawing provided as follows: the contour line is based on the exterior contour of the wall; the first curve in loop is the small one, contour being parsed clockwise; based on your/their code, the offset array is:</p>
+
+<pre>
+  [0]   0.75616799999999995 double
+  [1]   0.42808400000000002 double
+  [2]   0.42808400000000002 double
+  [3]   1.0842520000000000  double
+  [4]   1.0842520000000000  double
+  [5]   0.75616799999999995 double
+</pre>
+
+<p>I tried both positive and negative offsets, and here is the result:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4d3b157200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4d3b157200d image-full img-responsive" alt="Successful result" title="Successful result" src="/assets/image_1f1205.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a></p>
+
+<p style="font-size: 80%; font-style:italic">Successful result</p>
+
+<p></center></p>
+
+<p>No exceptions, everything worked.</p>
+
+<p>I still stand on my original assumption that it has to do with the small segment, depending on the epsilon set by the add-in; instead of using wall thickness + 0.1 (which is in imperial feet, if not converted), you may try with a fixed percentage based on the wall thickness instead, e.g., 5-10%? &ndash; that may reduce problems with peculiar situations like teeny weeny tiny segments after offset that can't be handled properly.</p>
+
+<p><strong>Response:</strong> Thank you again for your time and patience in helping me resolve this issue. It is much appreciated.</p>
+
+<p>All my tests would suggest that the suspected short vertical were the walls meet is the problem. However, I make the following observations.</p>
+
+<p>I have previously tried a fixed percentage based on the wall thickness instead of +0.1 but received the same error.</p>
+
+<p>I have tried exaggerated the wall thickness difference substantially and still received the same error.</p>
+
+<p>If I have understood the response from the development team correctly, the solution they have proposed needs to be placed in a try catch as it may still fail and a therefore a more complex solution is required in this instance ? Is this alternative solution available through the API and if so, how may it be implemented?</p>
+
+<p><strong>Answer:</strong> Yes, they suggest using a moderate percentage of the wall thickness, I believe, e.g., 10-20%.
+I guess that for your needs, 110-120% is required.
+They also say that they tested it that way, and it worked well, offsetting both inwards and outwards.
+The sample code that they provided was extracted from some internal Revit module and is thus not present in the SDK nor restricted to using the public API.
+It just shows an example of using the method, regardless of where the input comes from.</p>
+
+<p>I'll try out this percentage thingy on your sample models and see how I fare.</p>
+
+<p>Later: I tried to follow the devteam suggestion of using a percentage instead of a fixed additional offset, and it did not work for me at all.
+I tried both 110%, which would suit your needs, and 10%.
+In both cases, it still throws the <code>InvalidOperationException</code> saying 'loop couldn't be properly trimmed.'</p>
+
+<p>Maybe they tested on a more recent development version of Revit.</p>
+
+<p>So, I think it might be time to step away from <code>CreateViaOffset</code> for the time being.</p>
+
+<p>On the other hand, your goal is almost reached: you have the room boundary, its boundary elements and their thicknesses.
+From those, it is possible to create a curve loop tracing the outside edges of the walls.</p>
+
+<h4><a name="4"></a> How to Determine Room Outline Including Surrounding Walls</h4>
+
+<p><strong>Question:</strong> I started to look at the possibility of tracing the outside of the walls several weeks ago, when I was at a loss utilising <code>CreateViaOffset</code>.</p>
+
+<p>I was finding it difficult to create the closed loop necessary, and particularly how I would achieve this were the wall thickness changes across its length.</p>
+
+<p>Could you point me in the right direction, possibly some sample code that I could examine and see if I could get it to work to my requirements.</p>
+
+<p>Hope you have a good festive season.</p>
+
+<p><strong>Answer:</strong> I see several possible alternative approaches avoiding the use of <code>CreateViaOffset</code>, based on:</p>
+
+<ul>
+<li>Room boundary curves and wall thicknesses</li>
+<li>Room boundary curves and wall bottom face edges</li>
+<li>Projection of 3D union of room and wall solids</li>
+<li>2D union of room and wall footprints</li>
+</ul>
+
+<p>The most immediate and pure Revit API approach would be to get the curves representing the room boundaries, determine the wall thicknesses, offset the wall boundary curves outwards by wall thickness plus minimum offset, and ensure that everything is well connected by adding small connecting segments in the gaps where the offset jumps.</p>
+
+<p>Several slightly more complex pure Revit API approaches could be designed by using the wall solids instead of just offsetting the room boundary curves based on the wall thickness. For instance, we could query the wall bottom face for its edges, determine and patch together all the bits of edge segments required to go around the outside of the wall instead of the inside.</p>
+
+<p>Slightly more complex still, and still pure Revit API: determine the room closed shell solid, unite it with all the wall solids, and make use of the extrusion analyser to project this union vertically onto the XY plane and grab its outside edge.</p>
+
+<p>Finally, making use of a minimalistic yet powerful 2D Boolean operation library, perform the projection onto the XY plane first, and unite the room footprint with all its surrounding wall footprints in 2D instead. Note that the 2D Booleans are integer based. To make use of those, I convert the geometry from imperial feet units using real numbers to integer-based millimetres.</p>
+
+<p>The two latter approaches are both implemented in
+my <a href="https://github.com/jeremytammik/ElementOutline">ElementOutline add-in</a>.</p>
+
+<p>I mentioned it here in two previous threads:</p>
+
+<ul>
+<li><a href="https://forums.autodesk.com/t5/revit-api-forum/question-regarding-svg-data-from-revit/m-p/9106146">Question regarding SVG data</a></li>
+<li><a href="https://forums.autodesk.com/t5/revit-api-forum/how-do-i-get-the-outline-and-stakeout-path-of-a-built-in-loft/m-p/9148138">How do I get the outline and stakeout path of a built-in loft family</a></li>
+</ul>
+
+<p>Probably all the pure Revit API approaches will run into various problematic exceptional cases, whereas the 2D Booleans seem very fast, reliable and robust and may well be able to handle all the exceptional cases that can possibly occur, so I would recommend trying that out first.</p>
+
+<p>I hope this suggestion makes for a nice gift to you in this festive season.</p>
+
+<p>Happy advent!</p>

@@ -1,0 +1,297 @@
+---
+layout: "post"
+title: "64-Bit Element Ids, Maybe?"
+date: "2022-11-30 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Cloud"
+  - "CSS"
+  - "Data Access"
+  - "JavaScript"
+  - "News"
+  - "Philosophy"
+original_url: "https://thebuildingcoder.typepad.com/blog/2022/11/64-bit-element-ids-maybe.html "
+typepad_basename: "64-bit-element-ids-maybe"
+typepad_status: "Publish"
+---
+
+<p>We may need to scale up the handling of element id integer values in future, a sample snippet to retrieve schedule headers, a Dynamo book, and a web-based family showroom browser:</p>
+
+<ul>
+<li><a href="#2">64-Bit element ids</a></li>
+<li><a href="#2.1">Amendment &ndash; how to handle overflow</a></li>
+<li><a href="#3">Revit schedule title headers</a></li>
+<li><a href="#4">Beyond Dynamo: Python manual for Revit</a></li>
+<li><a href="#5">Web-based family management showroom</a></li>
+<li><a href="#6">Tree view in pure CSS</a></li>
+<li><a href="#7">High-documentation, low-meeting work culture</a></li>
+</ul>
+
+<h4><a name="2"></a> 64-Bit Element Ids</h4>
+
+<p>Autodesk almost never discusses any upcoming functionality in future products whatsoever, for legal reasons.</p>
+
+<p>Still, just as a heads-up warning, the development team thought it worthwhile to point out that we are thinking about possibly converting the internal representation of Revit element ids from 32 to 64 bit in a future release of Revit.</p>
+
+<!--
+
+> Forward looking statements Disclaimer. This document contains “forward looking statements” as defined or implied in common law and within the meaning of the Corporations Law. All expressions an expectations or belief sas to future events or results are expressed in good faith... However, forward looking statements are subject to risks, uncertainties and other factors, which could cause actual results to differ materially from future results expressed, projected or implied by such forward looking statements...
+
+-->
+
+<p>Here is a writeup of what that would imply and what a developer would need to do about it:</p>
+
+<p>ElementIds will change from storing 32-bit integers to storing 64-bit values (type <code>long</code> in C# or <code>Int64</code> in .NET).
+This will allow for larger and more complicated models.
+Most functions which take or return ElementIds will continue to work with no changes.
+However, there are a few things to keep in mind:</p>
+
+<p>If you are storing ElementIds externally as integers, you will need to update your storage to take 64-bit values.</p>
+
+<p>The constructor Autodesk.Revit.DB.ElementId(Int32) has been deprecated and replaced by a new constructor, Autodesk.Revit.DB.ElementId(Int64).</p>
+
+<p>The property Autodesk.Revit.DB.ElementId.IntegerValue has been deprecated.
+It returns only the lowest 32-bits of the ElementId value.
+Please use the replacement property Autodesk.Revit.DB.ElementId.Value, which will return the entire value.</p>
+
+<p>Support has been added for using 64-bit types in ExtensibleStorage.
+Both Autodesk.Revit.DB.ExtensibleStorage.SchemaBuilder.AddSimpleField() and AddMapField() can now take in 64-bit values for the fieldType, keyType, and valueType parameters.</p>
+
+<p>Two binary breaking changes have been made.
+Both Autodesk.Revit.DB.BuiltInCategory and Autodesk.Revit.DB.BuiltInParameter have been updated so that the size type of the underlying enums are 64-bits instead of 32.
+Code built against earlier versions of the API may experience type cast and other type related exceptions when run against the next versions of the API when working with the enum.
+Please rebuild your addins against the next release's API when it is available.</p>
+
+<p>Here is an overview mapping the deprecated to the replacement members:</p>
+
+<ul>
+<li>Autodesk.Revit.DB.ElementId(Int32) <br/> &rarr; Autodesk.Revit.DB.ElementId(Int64)</li>
+<li>Autodesk.Revit.DB.ElementId.IntegerValue <br/> &rarr; Autodesk.Revit.DB.ElementId.Value</li>
+</ul>
+
+<!--
+
+Here is a table showing the deprecated and replacement members:
+
+<center>
+
+
+ab20b71d77523d4656465578a2d47c32
+
+
+</center>
+
+-->
+
+<h4><a name="2.1"></a> Amendment &ndash; How to Handle Overflow</h4>
+
+<p>We have an amendment to add to the original post.
+One of the things we originally said above has actually changed, and I think it also helps
+address <a href="https://thebuildingcoder.typepad.com/blog/2022/11/64-bit-element-ids-maybe.html#comment-6054377627">cadferret’s question below</a>:</p>
+
+<p>With the caveat that anything we say here might change, we want to amend the initially published proposal.</p>
+
+<p>The previous version stated that <code>ElementId.IntegerValue</code> would
+handle <a href="https://en.wikipedia.org/wiki/Integer_overflow">integer overflow</a> by
+truncating 64-bit values down to 32 bits.
+For values which will fit in 32 bits, we will return the value as an integer.
+However, if the value would actually need more than 32 bits to represent it, we will throw an exception.</p>
+
+<p>To add a bit more about our intentions, as things currently stand:</p>
+
+<p>Our intention is to find an optimal balance between 64-bit readiness and minimising disruption for API developers.
+We would NOT remap existing ElementIds to higher values.
+An <code>Element</code> with an <code>Id</code> of 50 would still have an <code>Id</code> of 50, and either property would return the correct value.</p>
+
+<p>Most models will not get so large as to exhaust the 32-bit id space.
+So, in general, <code>ElementId.IntegerValue</code> would still work.
+This would give developers a chance to update their applications, rather than having the function immediately disappear.</p>
+
+<p>However, if a model were so large as to have Ids that needed more than 32 bits to store the value, the <code>ElementId.IntegerValue</code> property would throw an exception, return a truncated value, or something similar.</p>
+
+<p>This is an attempt to allow models which need 64-bit ids sooner, simultaneously minimising outright breaking changes in the API.</p>
+
+<h4><a name="3"></a> Revit Schedule Title Headers</h4>
+
+<p>A number of developers asked for a snippet of sample code in 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/revit-schedule-title-headers/m-p/11573145">Revit schedule title/headers</a>.</p>
+
+<p>Hernan  <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/3063892">H.echeva</a> Echevarria
+kindly jumped in and shared his implementation:</p>
+
+<blockquote>
+  <p>I found this post, which was very helpful; thank you for the info.</p>
+  
+  <p>I created a small example macro that gets the header text.
+  I hope this helps:</p>
+</blockquote>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;This&nbsp;macro&nbsp;gets&nbsp;the&nbsp;header&nbsp;text&nbsp;of&nbsp;the&nbsp;active&nbsp;Schedule&nbsp;View</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;<span style="color:#74531f;">ScheduleHeader</span>()
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;UIDocument&nbsp;<span style="color:#1f377f;">uidoc</span>&nbsp;=&nbsp;<span style="color:blue;">this</span>.ActiveUIDocument;
+&nbsp;&nbsp;&nbsp;&nbsp;Document&nbsp;<span style="color:#1f377f;">doc</span>&nbsp;=&nbsp;uidoc.Document;
+
+&nbsp;&nbsp;&nbsp;&nbsp;ViewSchedule&nbsp;<span style="color:#1f377f;">mySchedule</span>&nbsp;=&nbsp;uidoc.ActiveView&nbsp;<span style="color:blue;">as</span>&nbsp;ViewSchedule;
+
+&nbsp;&nbsp;&nbsp;&nbsp;TableData&nbsp;<span style="color:#1f377f;">myTableData</span>&nbsp;=&nbsp;mySchedule.GetTableData();
+
+&nbsp;&nbsp;&nbsp;&nbsp;TableSectionData&nbsp;<span style="color:#1f377f;">myData</span>&nbsp;=&nbsp;myTableData.GetSectionData(SectionType.Header);
+
+&nbsp;&nbsp;&nbsp;&nbsp;TaskDialog.Show(<span style="color:#a31515;">&quot;Header&nbsp;Info&quot;</span>,&nbsp;<span style="color:#a31515;">&quot;The&nbsp;Header&nbsp;Text&nbsp;is:&nbsp;\n&quot;</span>&nbsp;+&nbsp;myData.GetCellText(0,&nbsp;0));
+&nbsp;&nbsp;}
+</pre>
+
+<p>Thank you, Hernan!</p>
+
+<h4><a name="4"></a> Beyond Dynamo: Python Manual for Revit</h4>
+
+<p>I avoid advertising commercial products, but I made an exception
+for <a href="https://thebuildingcoder.typepad.com/blog/2020/12/dynamo-book-and-texture-bitmap-uv-coordinates.html#3">Más Allá de Dynamo</a>,
+the Spanish-Language Python manual focused on Dynamo and the Revit API.</p>
+
+<p>It is now also available in English
+as <a href="https://www.amazon.com/dp/B0BMSV6YXD">Beyond Dynamo: Python manual for Revit</a>,
+by Kevin Himmelreich, Alejandro Martín-Herrer and Ignacio Moreu:</p>
+
+<blockquote>
+  <p>This is a Python handbook specifically created for working on BIM methodology with Autodesk Dynamo and Revit.
+  It has a practical approach aimed at professionals who have never programmed before.
+  If you know how to program in Python, it will be equally useful, as it explains deeply most of the classes, methods and properties of the Revit API.</p>
+</blockquote>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e16897883302af148651f1200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883302af148651f1200c img-responsive" style="width: 252px; display: block; margin-left: auto; margin-right: auto;" alt="Beyond Dynamo" title="Beyond Dynamo" src="/assets/image_37f5e6.jpg" /></a><br />
+</center></p>
+
+<p>Note that we also discussed lots of other resources
+for <a href="https://thebuildingcoder.typepad.com/blog/2021/02/addin-file-learning-python-and-ifcjs.html#3">learning Python and Dynamo</a>.</p>
+
+<h4><a name="5"></a> Web-Based Family Management Showroom</h4>
+
+<p>Emiliano Capasso, Head of BIM at <a href="https://www.citterio-viel.com">Antonio Citterio Patricia Viel</a>,
+shared some interesting advice on managing thousands of families and
+on <a href="https://www.linkedin.com/pulse/how-make-interior-designer-happy-electron-ifcjs-revit-capasso">how to make an interior designer happy with Electron, IFC.js and Revit API</a>.</p>
+
+<p>The aim is to speed up the process of comparing and selecting families for large interior design projects.
+They require numerous categories of families with hundreds of families in each.
+Initial idea: developing a nice web viewer in IFC.js for viewing families instead of buildings.
+Now, every interior designer or architect in the office can navigate (way faster than opening the showrooms in Revit) inside all the showrooms using their browser.
+That leads to the even better idea...</p>
+
+<p>Thank you, Emiliano, for sharing this great idea and nice write-up.</p>
+
+<h4><a name="6"></a> Tree views in pure CSS</h4>
+
+<p>A very nice, clean and lean tree view (collapsible list) can be created using only HTML and CSS, without any need for JavaScript.
+Check out the demonstration and detailed step-by-step explanation,
+<a href="https://iamkate.com/code/tree-views">tree views in CSS</a>.</p>
+
+<!--
+
+<style>
+.tree-padding{
+  --spacing    : 1.5rem;
+  --radius     : 10px;
+  padding-left : 1rem;
+}
+
+.tree-padding li{
+  display      : block;
+  position     : relative;
+  padding-left : calc(2 * var(--spacing) - var(--radius) - 2px);
+}
+
+.tree-padding ul{
+  margin-left  : calc(var(--radius) - var(--spacing));
+  padding-left : 0;
+}
+
+.tree-vertical-lines ul li{
+  border-left : 2px solid var(--dark-grey);
+}
+
+.tree-vertical-lines ul li:last-child{
+  border-color : transparent;
+}
+
+.tree-horizontal-lines ul li::before{
+  content      : '';
+  display      : block;
+  position     : absolute;
+  top          : calc(var(--spacing) / -2);
+  left         : -2px;
+  width        : calc(var(--spacing) + 2px);
+  height       : calc(var(--spacing) + 1px);
+  border       : solid var(--dark-grey);
+  border-width : 0 0 2px 2px;
+}
+
+.tree-summaries summary{
+  display : block;
+  cursor  : pointer;
+}
+
+.tree-summaries summary::marker,
+.tree-summaries summary::-webkit-details-marker{
+  display : none;
+}
+
+.tree-summaries summary:focus{
+  outline : none;
+}
+
+.tree-summaries summary:focus-visible{
+  outline : 1px dotted #000;
+}
+
+.tree-markers li::after,
+.tree-markers summary::before{
+  content       : '';
+  display       : block;
+  position      : absolute;
+  top           : calc(var(--spacing) / 2 - var(--radius));
+  left          : calc(var(--spacing) - var(--radius) - 1px);
+  width         : calc(2 * var(--radius));
+  height        : calc(2 * var(--radius));
+  border-radius : 50%;
+  background    : var(--dark-grey);
+}
+
+.tree-buttons summary::before{
+  content     : '+';
+  z-index     : 1;
+  background  : var(--accent);
+  color       : #fff;
+  font-weight : 400;
+  line-height : calc(2 * var(--radius) - 2px);
+  text-align  : center;
+}
+
+.tree-buttons details[open] > summary::before{
+  content : '−';
+}
+</style>
+
+<center>
+
+
+0c63af29229599013fb4fbc9428d5662
+
+
+</center>
+
+-->
+
+<h4><a name="7"></a> High-Documentation, Low-Meeting Work Culture</h4>
+
+<p>I enjoyed this analysis
+of <a href="https://www.tremendous.com/blog/the-perks-of-a-high-documentation-low-meeting-work-culture">the perks of a high-documentation, low-meeting work culture</a>.
+It seems highly relevant to our distributed DAS team, Autodesk Developer Advocacy and Support.
+It also lines up very well with my personal experience working within our team, and also in my external interactions, both with the diffuse blog- and forum-based Revit API pseudo-community as well as occasionally consulting individually add-in developers with special requirements.
+Looking forward to hearing what you think of it.</p>

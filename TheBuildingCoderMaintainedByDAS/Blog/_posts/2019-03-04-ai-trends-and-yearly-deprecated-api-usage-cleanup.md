@@ -1,0 +1,149 @@
+---
+layout: "post"
+title: "AI, Trends and Yearly API Usage Cleanup"
+date: "2019-03-04 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "2019"
+  - "AI"
+  - "Deep Learning"
+  - "Migration"
+  - "News"
+  - "Update"
+original_url: "https://thebuildingcoder.typepad.com/blog/2019/03/ai-trends-and-yearly-deprecated-api-usage-cleanup.html "
+typepad_basename: "ai-trends-and-yearly-deprecated-api-usage-cleanup"
+typepad_status: "Publish"
+---
+
+<p>Same procedure as every year:
+eliminate all deprecated Revit API usage warnings before even thinking of migrating to the next major release.</p>
+
+<p>First, however, two other technical news items:</p>
+
+<ul>
+<li><a href="#2">Self-teaching AI surpasses human knowledge</a> </li>
+<li><a href="#3">CAD trends 2019</a> </li>
+<li><a href="#4">Deprecated API usage warnings</a> </li>
+<li><a href="#5">Replace <code>GetRules</code> by <code>GetElementFilter</code></a> </li>
+<li><a href="#6">Deprecated material asset accessors</a> </li>
+<li><a href="#7">Update with zero compilation warnings</a> </li>
+</ul>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a46ab437200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a46ab437200d img-responsive" style="width: 363px; display: block; margin-left: auto; margin-right: auto;" alt="AlphaZero vs. Stockfish 8" title="AlphaZero vs. Stockfish 8" src="/assets/image_3806ac.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="2"></a> Self-Teaching AI Surpasses Human Knowledge</h4>
+
+<p>I followed the progress of <a href="https://en.wikipedia.org/wiki/AlphaGo">AlphaGo</a> with great fascination.</p>
+
+<p>Now, <a href="https://en.wikipedia.org/wiki/AlphaZero">AlphaZero</a> seems more fascinating still:</p>
+
+<blockquote>
+  <p>AlphaZero is a computer program or algorithm by DeepMind to master go, chess and shogi. On December 5, 2017 the DeepMind team released a preprint introducing AlphaZero, which, within 24 hours, achieved a superhuman level of play in these three games by defeating world-champion programs, Stockfish, elmo, and the 3-day version of AlphaGo Zero, in each case making use of custom tensor processing units (TPUs) that the Google programs were optimized to use.
+  AlphaZero was trained solely via "self-play" using 5,000 first-generation TPUs to generate the games and 64 second-generation TPUs to train the neural networks, all in parallel, with no access to opening books or endgame tables.
+  After ... 9 hours of training, the algorithm decisively defeated Stockfish 8 in a time-controlled 100-game tournament (28 wins, 0 losses, and 72 draws)...</p>
+</blockquote>
+
+<p><a href="https://www.chess.com">Chess.com</a> describes the chess implications in the article <a href="https://www.chess.com/news/view/google-s-alphazero-destroys-stockfish-in-100-game-match">Google's AlphaZero Destroys Stockfish In 100-Game Match</a>:</p>
+
+<blockquote>
+  <p>Chess changed forever today. And maybe the rest of the world did, too.</p>
+  
+  <p>A little more than a year after AlphaGo sensationally won against the top Go player, the artificial-intelligence program AlphaZero has obliterated the highest-rated chess engine. </p>
+  
+  <p>Oh, and it took AlphaZero only four hours to "learn" chess...</p>
+  
+  <p>AlphaZero was not "taught" the game in the traditional sense. That means no opening book, no endgame tables, and apparently no complicated algorithms dissecting minute differences between center pawns and side pawns. </p>
+  
+  <p>One expert said, "After reading the paper but especially seeing the games I thought, well, I always wondered how it would be if a superior species landed on earth and showed us how they play chess. I feel now I know."</p>
+  
+  <p>Ex-champion Kasparov said, "We have always assumed that chess required too much empirical knowledge for a machine to play so well from scratch, with no human knowledge added at all... The ability of a machine to replicate and surpass centuries of human knowledge in complex closed systems is a world-changing tool."</p>
+</blockquote>
+
+<h4><a name="3"></a> CAD Trends 2019</h4>
+
+<p>Possibly more relevant to us today, or possibly not,
+the <a href="https://www.business-advantage.com">Business Advantage Group</a> published
+its survey of 2018/2019 CAD trends in the form of both
+a <a href="http://www.business-advantage.com/CAD-Trends-Webinar-2018.php">webinar recording</a>
+and <a href="https://www.business-advantage.com/CAD-Trends-Results-2018.php">survey results</a>.</p>
+
+<p>16 Key CAD trends were identified for the survey this year; newly added ones italic:</p>
+
+<ul>
+<li>3D Modelling, BIM, Cloud Based CAD, Mobile access to CAD, <em>Collaborative Design</em>, PLM, <em>Rendering</em>, CAD Licensing Options, PDM, Augmented Reality, 2D Drafting, CAM, <em>Virtual Reality</em>, <em>Machine Learning</em>, <em>Artificial Intelligence</em>, <em>Generative Design</em></li>
+</ul>
+
+<p>The analysis includes aspects such as:</p>
+
+<ul>
+<li>Adoption ratio, Awareness, Current usage, Changes in awareness over time, Usage over time, Importance ranking, Looking to the future and Predicted future usage.</li>
+</ul>
+
+<p>Download the webinar or survey results from the links above in case you are interested in the detailed results.</p>
+
+<h4><a name="4"></a> Deprecated API Usage Warnings</h4>
+
+<p>Back to the nitty-gritty details of the Revit API...</p>
+
+<p>As pointed out above, we expect a new major release sometime in the future, and I highly recommend eliminating all deprecated Revit API usage warnings before even thinking of migrating to the next major release.</p>
+
+<p>Before I started out eliminating the deprecated Revit API usage warnings,
+compiling <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder samples</a>
+generated <a href="zip/tbc_samples_2019_errors_warnings_2.txt">eight warnings</a>.</p>
+
+<p>The first is just a notification of unreachable code in the module <code>CmdListAllRooms.cs</code> that I recently worked on
+to <a href="https://thebuildingcoder.typepad.com/blog/2019/01/room-boundaries-to-csv-and-wpf-template.html#2">export room boundaries to CSV for Forge surface classification</a>,
+so I'll fix that first.</p>
+
+<p>It was caused by a <code>const bool</code> variable <code>_exportInMillimetres</code>.
+The warning disappeared after I changed that to <code>static bool</code> instead.</p>
+
+<p>That leaves <a href="zip/tbc_samples_2019_errors_warnings_3.txt">seven warnings</a>, all numbered <code>CS0618</code> and caused by deprecated Revit API usage, from two different API calls:</p>
+
+<ul>
+<li>In CmdCollectorPerformance.cs: <code>ParameterFilterElement.GetRules</code> is obsolete: This method is deprecated in Revit 2019 and will be removed in the next version of Revit. We suggest you use <code>GetElementFilter</code> instead.</li>
+<li>In CmdGetMaterials.cs, repeated six times: <code>AssetProperties.this[]</code> is obsolete: This property is deprecated in Revit 2019 and will be removed in the next version of Revit. We suggest you use the <code>FindByName(String)</code> or <code>Get(int)</code> method instead.</li>
+</ul>
+
+<p>Both of these deprecated API usages can be easily fixed by following the instructions given by the warning messages.</p>
+
+<h4><a name="5"></a> Replace GetRules by GetElementFilter</h4>
+
+<p>To eliminate the first warning, we can replace <code>GetRules</code> by <code>GetElementFilter</code> and simplify the code using it like as follows; before:</p>
+
+<pre class="code">
+  <span style="color:#2b91af;">ParameterFilterElement</span>&nbsp;pfe ...
+
+&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">FilterRule</span>&nbsp;rule&nbsp;<span style="color:blue;">in</span>&nbsp;pfe.GetRules()&nbsp;)&nbsp;<span style="color:green;">//&nbsp;2018</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">IEnumerable</span>&lt;<span style="color:#2b91af;">Element</span>&gt;&nbsp;elemsByFilter2
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;elemsByFilter.Where(&nbsp;e
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt;&nbsp;rule.ElementPasses(&nbsp;e&nbsp;)&nbsp;);
+&nbsp;&nbsp;}
+</pre>
+
+<p>After:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:#2b91af;">ElementFilter</span>&nbsp;ef&nbsp;=&nbsp;pfe.GetElementFilter();&nbsp;<span style="color:green;">//&nbsp;2019</span>
+&nbsp;&nbsp;<span style="color:#2b91af;">IEnumerable</span>&lt;<span style="color:#2b91af;">Element</span>&gt;&nbsp;elemsByFilter2
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;elemsByFilter.WherePasses(&nbsp;ef&nbsp;);
+</pre>
+
+<h4><a name="6"></a> Deprecated Material Asset Accessors</h4>
+
+<p>That leaves <a href="zip/tbc_samples_2019_errors_warnings_4.txt">six warnings caused by calls to deprecated material asset accessors</a>.</p>
+
+<p>Again, easily eliminated by doing what the man says, calling <code>Get</code> for <code>int</code> accessors and <code>FindByName</code> for the ones taking a string argument.</p>
+
+<h4><a name="7"></a> Update with Zero Compilation Warnings</h4>
+
+<p>The cleaned-up code is available
+from <a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder samples</a>
+<a href="https://github.com/jeremytammik/the_building_coder_samples/releases/tag/2019.0.145.11">release 2019.0.145.11</a>.</p>
+
+<p>We are now ready to face whatever it takes to migrate to the new major release, if and when that shows up.</p>

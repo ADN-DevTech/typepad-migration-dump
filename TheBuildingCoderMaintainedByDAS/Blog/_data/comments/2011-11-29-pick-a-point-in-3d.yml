@@ -1,0 +1,133 @@
+comments:
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: ''
+  date: '2011-11-30 03:31:22'
+  body: 'Hi Jeremy,
+
+
+    you may extend this method for measuring purposes.
+
+
+    Pick two different points and calculate the three distances in relation to x,
+    y and z axis plus the direct distance between the points.
+
+
+    For Example, in my German AutoCAD there is a command called "Abstand", this means
+    "distance" in English.
+
+
+    Befehl: AB
+
+    ABSTAND
+
+    Ersten Punkt angeben:
+
+    Zweiten Punkt angeben oder [Mehrere Punkte]:
+
+    Abstand = 30.3549,  Winkel in XY-Ebene = 339.45,  Winkel von XY-Ebene = 0.00
+
+    Delta X = 28.4242,  Delta Y = -10.6531,   Delta Z = 0.0000
+
+
+    This AutoCAD command returns much more than only the direct distance between two
+    points, as you see.
+
+    I think this method could easily implemented via Revit API, too.
+
+
+    So what would you say ?
+
+
+
+    Cheers,
+
+
+    Rudolf'
+- author: Matt Mason
+  email: Mmason@rand.com
+  ip: 198.228.213.37
+  url: ''
+  date: '2011-11-30 12:44:59'
+  body: 'Jeremy,
+
+    I think you can do this with just one call. When you pick a face, the reference
+    also includes a point that indicates the place you picked.
+
+
+    Matt'
+- author: Jeremy Tammik
+  email: ''
+  ip: 98.188.80.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-11-30 13:27:35'
+  body: "Dear Matt, \n\nYou are absolutely, right, of course, and thank you very much\
+    \ for pointing it out so clearly.\n\nI actually use and highlight that very technique\
+    \ in the first lesson of my extensible storage AU class, as follows:\n\n// Pick\
+    \ an element and define the XYZ \n// data to store at the same time\n\nReference\
+    \ r = uidoc.Selection.PickObject(\nObjectType.Face,\nnew WallFilter(),\n\"Please\
+    \ pick a wall at a point on one of its faces\" );\n\nWall wall = doc.get_Element(\
+    \ r.ElementId ) as Wall;\nXYZ dataToStore = r.GlobalPoint;\n\nI hope the technique\
+    \ to set the active work plane still has some kind of use or interest for someone\
+    \ anyway :-)\n\nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 98.188.80.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-11-30 13:30:04'
+  body: 'Dear Rudolf,
+
+
+    Yes, I would say ''Yes''.  :-)
+
+
+    Cheers, Jeremy.'
+- author: José Messias
+  email: jmsarq@gmail.com
+  ip: 189.83.114.177
+  url: ''
+  date: '2011-12-02 07:22:11'
+  body: 'Jeremy, good morning,
+
+
+    Is there a command to work with camera perspectives instead of isometric view
+    in Revit?
+
+
+    Thank you,
+
+
+    Att,
+
+
+    José Messias'
+- author: Jeremy Tammik
+  email: ''
+  ip: 85.158.90.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-12-03 13:35:36'
+  body: 'Dear Jose,
+
+
+    Hola, ¿que tal?
+
+
+    You can look at Chapter 18 Views in the developer guide to see what you can do
+    programmatically to set up and manipulate views. That includes creating and activating
+    a perspective view.
+
+
+    On the other hand, you should be aware that Revit disables add-in commands and
+    use of the API when a perspective view is active:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/06/rfa-version-grey-commands-family-context-and-rdb-link.html#2">http://thebuildingcoder.typepad.com/blog/2009/06/rfa-version-grey-commands-family-context-and-rdb-link.html#2</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/05/addin-visibility-mode.html">http://thebuildingcoder.typepad.com/blog/2010/05/addin-visibility-mode.html</a>
+
+
+    Cheers, Jeremy.
+
+    -----'

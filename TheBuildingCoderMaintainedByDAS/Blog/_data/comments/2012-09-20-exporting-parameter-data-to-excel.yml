@@ -1,0 +1,213 @@
+comments:
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadGraph.de
+  date: '2012-09-20 08:18:06'
+  body: 'Hi Jeremy,
+
+
+    additionally, there are Excel methods for formatting/colorizing cells; they also
+    could be merged (think of column headers etc.).
+
+
+    But if one would really use these layout methods, it would be difficult to re-read
+    such a file back to Revit.
+
+
+    Nonetheless, one could customize the output xls.
+
+
+
+    Cheers,
+
+    Rudolf'
+- author: KR
+  email: swiftbim@gmail.com
+  ip: 75.72.28.151
+  url: ''
+  date: '2012-09-20 20:42:25'
+  body: 'Hello Jeremy,
+
+
+    Thanks for this great resource, it is a constant learning with Revit API. It would
+    be great if you could clarify to me and your readers in broad terms as to when
+    to dispose Revit API objects. I have read one of your previous posts on disposing
+    Transaction Objects. Many objects in the Revit API implement IDisposable, for
+    example FilteredElementCollector, DB.Document. If I create a new FilteredElementCollector
+    within the confines of Revit API, external commands, idling events, external events
+    etc., would I still have to dispose these objects.
+
+
+    Thanks
+
+
+    KR'
+- author: KR
+  email: swiftbim@gmail.com
+  ip: 75.72.28.151
+  url: ''
+  date: '2012-09-20 20:43:53'
+  body: 'Edit on the previous post, the rule of thumb in the .Net world is ''Always
+    dispose objects, implementing IDisposable, that you instantiated''
+
+
+    KR'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-09-26 02:56:41'
+  body: 'Dear KR,
+
+
+    Right you are.
+
+
+    I had a chat with Arnošt Löbel to clarify this important question, and here is
+    the result:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/09/disposal-of-revit-api-objects.html">http://thebuildingcoder.typepad.com/blog/2012/09/disposal-of-revit-api-objects.html</a>
+
+
+    Thank you for raising the issue.
+
+
+    Cheers, Jeremy.'
+- author: sabatierae
+  email: sab.alexandre@gmail.com
+  ip: 93.187.46.145
+  url: ''
+  date: '2014-08-26 05:03:07'
+  body: 'Hi Jeremy,
+
+
+    I manage to compile your code and all categories are exported in a worksheet.
+    the problem is that types aren''t exported : for examples I''ve 4 phases but the
+    name aren''t exported and there are not 4 phases in the excel file.
+
+
+    I''ve changed hardly your code because I didn''t used other labs library. Maybe
+    this is where the error comes from?
+
+
+    Can I send you my code to look at it plz?
+
+
+    Thank !
+
+
+    sabatierae'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.182.172
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-08-26 05:35:03'
+  body: 'Dear Sabatierae,
+
+
+    Congratulations on compiling.and exporting successfully.
+
+
+    The original code for Revit 2013 is provided in the zip file adn_labs_2013_2012-09-19.zip
+    above.
+
+
+    A more up-to-date version of the ADN labs for Revit 2014 is provided here:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/09/10000000000th-post-and-element-type-parameters.html">http://thebuildingcoder.typepad.com/blog/2013/09/10000000000th-post-and-element-type-parameters.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/10/revit-2013-api-developer-guide-pdf.html">http://thebuildingcoder.typepad.com/blog/2013/10/revit-2013-api-developer-guide-pdf.html</a>
+
+
+    Note that the elements to export are selected using a filtered element collector.
+
+
+    Maybe the phases are not normal Revit database elements and are not retrieved
+    through the filtered element collector.
+
+
+    Do you see the phases in RevitLookup?
+
+
+    That uses the same approach to retrieve the elements it displays when snooping
+    the database.
+
+
+    Debugging RevitLookup should show you how you can retrieve the phases you are
+    after.
+
+
+    Or, if RevitLookup does not display them either, it proves that you need to use
+    some other method, e.g. by iterating over the Document.Phases property.
+
+
+    Cheers, Jeremy.'
+- author: sabatierae
+  email: sab.alexandre@gmail.com
+  ip: 93.187.46.145
+  url: ''
+  date: '2014-08-26 12:05:17'
+  body: "Dear Jeremy\n\nThank for your fast answer.\nMy problem is bigger than that..\
+    \ :-S\n\nI took the example of phases but it the same for every category.. For\
+    \ example when I create a project with  walls I don't have any element in my wall\
+    \ worksheet.\n\nI think I'm missing something in the collector. I think my error\
+    \ comes from the definition of the variables..: Does the elementSet list contains\
+    \ every elements of one category?\n\n\n Dictionary<string, List<Element>> sortedElements\n\
+    \              = new Dictionary<string, List<Element>>();\n\n            // Iterate\
+    \ over all elements, both symbols and \n            // model elements, and them\
+    \ in the dictionary.\n\n            ElementFilter f = new LogicalOrFilter(\n \
+    \             new ElementIsElementTypeFilter(false),\n              new ElementIsElementTypeFilter(true));\n\
+    \n            FilteredElementCollector collector\n              = new FilteredElementCollector(doc)\n\
+    \                .WherePasses(f);\n\n            string name;\n\n            //\
+    \ A loop for every elements of the model\n\n            foreach (Element e in\
+    \ collector)\n            {\n                Category category = e.Category;\n\
+    \n                if (null != category)\n                {\n                 \
+    \   name = category.Name;\n\n                    // If this category was not yet\
+    \ encountered,\n                    // add it and create a new container for its\n\
+    \                    // elements.\n\n\n                    if (!sortedElements.ContainsKey(name))\n\
+    \                    {\n                        sortedElements.Add(name,\n   \
+    \                       new List<Element>());\n                    }\n       \
+    \             else\n                    {\n                        continue;\n\
+    \                    }\n                    sortedElements[name].Add(e);\n   \
+    \             }\n                else\n                {\n                   \
+    \ continue;\n                }\n\n[...]\nList<string> keys = new List<string>(\n\
+    \              sortedElements.Keys);\nforeach (string categoryName in keys)\n\
+    \            {\n                workseetNumber = workseetNumber + 1;\n       \
+    \         string worksheetNumberString = workseetNumber.ToString();\n        \
+    \        List<Element> elementSet\n                  = sortedElements[categoryName];\n\
+    \n                // Test to verify elementSet is not empty\n\n\n            \
+    \    string abc = null;\n                foreach (Element element in elementSet)\n\
+    \                {\n                    string elementString = element.ToString();\n\
+    \                    abc = abc + \";\" + elementString;\n                }\n\n\
+    \                TaskDialog.Show(\"test\", abc);\n\n\n\nThank a lot !"
+- author: sabatierae
+  email: sab.alexandre@gmail.com
+  ip: 93.187.46.145
+  url: ''
+  date: '2014-08-29 11:10:21'
+  body: 'I tried the new version (2014) and it works. I don''t know why the first
+    collector didn''t work..
+
+
+    Thank
+
+
+    Sabatierae'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-08-29 11:38:28'
+  body: 'Dear Sabatierae,
+
+
+    Glad to hear it works now.
+
+
+    Cheers, Jeremy.
+
+    -----'

@@ -1,0 +1,328 @@
+comments:
+- author: Damian Kobak
+  email: ''
+  ip: 89.171.143.34
+  url: http://profile.typepad.com/6p0120a548cc47970b
+  date: '2009-09-04 13:06:18'
+  body: 'Hi Jeremy,
+
+    I''m making and external application to automaticly create dimensions between
+    reference planes in section views. I''m having troubles creating horizontal dimensions.
+    There is no problem when section view is parallel to yz plane, but in other situations
+    it''s problematic. Most of the time I get "Direction of dimension is invalid"
+    exception. Could you publish any sample?
+
+    Regards,
+
+    Damian'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-09-05 08:50:59'
+  body: 'Dear Owen,
+
+
+    Thank you for your interesting query. I would love to implement an example like
+    that. Just to make sure that I get it right, could you please send me some minimal
+    sample source code that you are using that works for a section view parallel to
+    the YZ plane, and a sample model demonstrating a situation that cannot be solved
+    using your code? Also, please note that I will be going on vacation the week after
+    next, so I will probably not be able to look at this question in depth until after
+    I return toward the end of September.
+
+
+    Cheers, Jeremy.'
+- author: nayche@pjfweb.com
+  email: nayche@pjfweb.com
+  ip: 66.162.165.162
+  url: ''
+  date: '2009-11-02 13:18:03'
+  body: 'Jeremy,
+
+    thank you for this blog.
+
+    I am trying to create a command that applies the Default View Template to every
+    view before going to printing.
+
+    I am trying to use the view.ApplyView(View viewTemplate) in an iteration of document
+    views.  However, the parameter for this method is of View type and I need to apply
+    the value of the view parameter "Default View Template".
+
+    - What is the solution to this?
+
+
+    regards,
+
+    Nadim'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.96.129
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-02 13:50:21'
+  body: "Dear Nadim,\n\nI am glad that you like the blog.\n\nWhat a strange question,\
+    \ because I cannot find any method named ApplyView in the Revit API help.\n\n\
+    I do however find the method View.ApplyTemplate( View viewTemplate ).\n\nIn any\
+    \ case, the Default View Template parameter corresponds to the built-in parameter\
+    \ VIEW_DEFAULT_TEMPLATE and its data type is ElementId. So you can simply take\
+    \ the value of this parameter and if it is not invalid or null, you should be\
+    \ able to access the corresponding Revit element by calling doc.get_Element( element_id\
+    \ ). \n\nI do not know the exact usage of this parameter, but at least that will\
+    \ get you one step closer to your objective, from the parameter value to the element\
+    \ id to the element itself, which may or may not be the view template object required\
+    \ for the call to ApplyTemplate or ApplyView or whatever you wish to call.\n\n\
+    Cheers, Jeremy."
+- author: Nadim Ayche
+  email: nayche@pjfweb.com
+  ip: 66.162.165.162
+  url: ''
+  date: '2009-11-02 16:00:56'
+  body: 'Thanks alot for your quick response.
+
+    I meant to type View.ApplyTemplate, sorry for the confusion.
+
+    Basically, the View Template is an information object that includes scale, visibility,
+    View Range, ...etc
+
+    Becuase of the changes we have to make to the view properties especially when
+    shifting between Arch linked file and our Structural file, we haveto re-apply
+    these templates to the views before we plot.  Otherwise it won''t plot write.
+    I am just trying to make it automatic with the use of Revit API.
+
+
+    I will try what you said.  Thanks.
+
+    Nadim'
+- author: Nadim Ayche
+  email: nayche@pjfweb.com
+  ip: 66.162.165.162
+  url: ''
+  date: '2009-11-02 16:34:18'
+  body: "Jeremy,\nI hate to bug with this again but I really need your advice.  I\
+    \ already searched the help, manual, and googled it, nothing came out.\nthe viewTemplate\
+    \ View Element at the end is always returning null.\nwhat can I do?\nPlease see\
+    \ below:\n\ntry\n            {\n                Autodesk.Revit.Application app\
+    \ = cmdData.Application;\n                Document aDoc = app.ActiveDocument;\
+    \                         \n                Autodesk.Revit.Elements.View aView\
+    \ = aDoc.ActiveView;        \n\n                Autodesk.Revit.Filter filterView\
+    \ = \n                    app.Create.Filter.NewCategoryFilter(BuiltInCategory.OST_Views);\n\
+    \                System.Collections.IEnumerator iEnum = \n                   \
+    \ aDoc.get_Elements(filterView);\n                iEnum.Reset();\n\n         \
+    \       while (iEnum.MoveNext())\n                {\n                    Autodesk.Revit.Elements.View\
+    \ curView =\n                        iEnum.Current as Autodesk.Revit.Elements.View;\n\
+    \n                    if (curView == null) { continue; }\n                   \
+    \ Parameter defaultViewTemplate = curView.get_Parameter\n                    \
+    \    (Autodesk.Revit.Parameters.BuiltInParameter.VIEW_DEFAULT_TEMPLATE);\n   \
+    \                 ElementId viewID = defaultViewTemplate.AsElementId();\n    \
+    \                Autodesk.Revit.Elements.View viewTemplate = \n              \
+    \          aDoc.get_Element(ref viewID) as Autodesk.Revit.Elements.View;\n\n \
+    \                   if (viewTemplate == null) { continue; }\n                \
+    \    curView.ApplyTemplate(viewTemplate);\n\n                }\n\n           \
+    \     return IExternalCommand.Result.Succeeded;\n            }"
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.69.106
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-03 02:08:50'
+  body: 'Dear Nadim,
+
+
+    Yes, I noticed that the value of the VIEW_DEFAULT_TEMPLATE was null in all the
+    views I looked at as well.
+
+
+    I have no idea what other options you may have. I can pass this on to my colleagues
+    and ask whether they have any suggestions.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-03 03:17:23'
+  body: 'Dear Nadim,
+
+
+    I heard back from my colleagues, and I am sorry to say that there is no way to
+    get the view templates in a project via the current API. View templates and plan
+    views shared an internal class but it cannot be cast to a view object. The View.ApplyTemplate
+    method is obsolete. It will copy some properties from the template view (not a
+    view template), including view scale, view range, detail level, etc. Possibly
+    view template is a new feature, and ApplyTemplate would need to be updated to
+    support it.
+
+
+    Sorry for the bad news.
+
+
+    Cheers, Jeremy.'
+- author: Nadim Ayche
+  email: nayche@pjfweb.com
+  ip: 66.162.165.162
+  url: ''
+  date: '2009-11-03 10:22:49'
+  body: 'Jeremy,
+
+    I appologize if I did voilate any term of use, I was just not aware I am.
+
+
+    Here is the question again in a generic way:
+
+    I retreived the element id from the Default View Template parameter using the
+    curView.get_Paramter method and then assigning its element id to and instance
+    of ElementID class using parameter.AsElementID method.
+
+
+    every thing is fine until now, the elementid instance has a value equal to the
+    view template, however, when I use the suggested doc.get_Element(ref ElementId
+    id), it always return null.  This defeats the next step using curView.ApplyTemplate(View
+    viewTemplatea) method.
+
+
+    Book:
+
+    Are you planning on writting a book on Revit API.  I don''t know if a single book
+    that exist so far, I think somebody like you should.
+
+
+    I appologize again.
+
+    Nadim'
+- author: Nadim Ayche
+  email: nayche@pjfweb.com
+  ip: 66.162.165.162
+  url: ''
+  date: '2009-11-03 10:24:33'
+  body: 'I didn''t see that you re-posted my question.
+
+    thanks for the answer.
+
+    I hope it is not one of those things where the API is not covering well yet.
+
+
+    regards,
+
+    Nadim'
+- author: Nadim Ayche
+  email: nayche@pjfweb.com
+  ip: 66.162.165.162
+  url: ''
+  date: '2009-11-03 12:31:36'
+  body: 'Are you planning on writting a book on Revit API. I don''t know of a single
+    book that exist so far, I think somebody like you should.
+
+
+    concerning the view templates, I found it weird that the View Templates share
+    an internal class with the View.
+
+    I think View Templates should have thier own base class which should be an information
+    elements class as classified by section 5.1.6 in API manual.
+
+
+    Regards,
+
+    Nadim'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-04 06:34:53'
+  body: "Dear Nadim,\n\nNo need whatsoever for any apologies, everything is perfectly\
+    \ in order.\n\nI assume you saw my answer above. It is unfortunately not possible\
+    \ to retrieve the view templates with the Revit 2010 API.\n\nI would love to write\
+    \ a book, but unfortunately my real job and the blog on the side leaves no time\
+    \ over whatsoever for things like that, so I have no such plans. \n\nCheers, Jeremy."
+- author: Sowmya
+  email: ''
+  ip: 61.246.236.157
+  url: http://profile.typepad.com/cnr
+  date: '2009-12-09 03:52:51'
+  body: 'Hi Jeremy,
+
+
+    Is there any way to get the top and bottom elevation of an element?'
+- author: jane
+  email: j.zhang@strucsoftsolutions.com
+  ip: 70.25.48.22
+  url: ''
+  date: '2010-09-15 14:31:09'
+  body: "Hi Jeremy,\nI has been working for dimensioning of a section view for a week.\
+    \ And not get much progress. Would you please tell me the section view's crop\
+    \ box's min and max are in revit's coordinate system or not. what about dimension\
+    \ line, should it be in revit's coordinate system or not? If not, which coordinate\
+    \ system it is in? Would you please help this?\n\nrevit's  coordinate system is:\
+    \ \nY is true north direction\nX is east direction\nZ is elevation direction.\n\
+    \nLet say i create a wall from west to east. Now the transform of boundingbox\
+    \ is like the following:\nY is up direction(z axis in revit coordinate system)\n\
+    Z is wall.orientation\nX is Y*Z;\norigin is Wall's start point(Get it from location\
+    \ point)\n\nmin and max is like (0, 0, wallthickness/2),(walllength,wallheight,-wallthickness/2),\
+    \ sometimes a little different\n\nThe section view is created and Now i have to\
+    \ populate dimension. And which confused me is I don't know which coordinate system\
+    \ section view  is in. All elements's seems still in revit coordinate system.\
+    \ But when I create a dimension line, I confused.\n\nThanks a lot!\njane"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-09-16 01:32:54'
+  body: "Dear Jane,\n\nThose are very interesting and important questions, and I definitely\
+    \ think that the answers, once we have them, should be summarised into a full-fledged\
+    \ post. \n\nI guess the only thing I have published so far, except the very basic\
+    \ info listed above, is in\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/12/crop-3d-view-to-room.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/12/crop-3d-view-to-room.html</a>\n\
+    \nHave you looked at that yet?\n\nAnd did your look at the Revit SDK CreateViewSection\
+    \ sample and its GenerateBoundingBoxXYZ method help in any way?\n\nCheers, Jeremy."
+- author: Konstantin
+  email: seniut.konstantin@gmail.com
+  ip: 78.63.158.148
+  url: ''
+  date: '2010-10-01 15:16:02'
+  body: 'Hello Jeremy,
+
+    I am working on tool which is supposed to create three blue prints - top, side
+    and front view of any element. For this moment, to do this task am working with
+    NewViewSection method. My question is : is it possible to make such tool? Maybe
+    you have some propositions about the best way in your opinion to make such thing?
+
+    And one more simple question : is it possible to rotate and move programaticaly
+    detail section view, which was also created using NewSectionView method? If it
+    is possible, then how to do that, because document.Move or document.Rotate does
+    not do anything :( created section view is detail section. Is it posible to create
+    building section? because my investigations showed, that building section is rotated
+    and moved using rotate and move methods easily. Looking forward to your answers
+    and propositions :)'
+- author: Konstantin
+  email: seniut.konstantin@gmail.com
+  ip: 78.63.158.148
+  url: ''
+  date: '2010-10-01 16:04:36'
+  body: 'one thought: is it bounding box I need to manipulate(rotate, scale it, move
+    it and etc) before creating section view? Looking forward for your answers and
+    propositions :)'
+- author: Ning Zhou
+  email: superjoe302@yahoo.ca
+  ip: 203.117.217.147
+  url: ''
+  date: '2013-02-20 02:44:41'
+  body: 'hi Jeremy,
+
+
+    is there a way to know which elevation maker is related to specific elevation
+    view?
+
+    in my case, i want to hide all unreferenced view tags along w/ ref planes and
+    scope boxs on each sheet, well, for the reason of exporting to DWGs, works well
+    except elevation marker, i havn''t find any relationship yet of elevation view
+    vs. elevation marker using lookup, thanks.
+
+
+    Ning'
+- author: Ning Zhou
+  email: superjoe302@yahoo.ca
+  ip: 203.117.217.147
+  url: ''
+  date: '2013-02-20 03:06:17'
+  body: 'never mind, i should use Built-in Enums Snoop...
+
+    -----'

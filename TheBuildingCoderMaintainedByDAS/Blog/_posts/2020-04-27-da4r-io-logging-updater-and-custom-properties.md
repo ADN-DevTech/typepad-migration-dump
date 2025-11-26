@@ -1,0 +1,167 @@
+---
+layout: "post"
+title: "DA4R I/O, Logging, Updater and Custom Properties"
+date: "2020-04-27 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Accelerator"
+  - "DA4R"
+  - "Data Access"
+  - "Fun"
+  - "JavaScript"
+  - "Update"
+original_url: "https://thebuildingcoder.typepad.com/blog/2020/04/da4r-io-logging-updater-and-custom-properties.html "
+typepad_basename: "da4r-io-logging-updater-and-custom-properties"
+typepad_status: "Publish"
+---
+
+<p>Forge Design Automation for Revit or DA4R is really starting to take off.</p>
+
+<p>Let's take a look at some recent topics:</p>
+
+<ul>
+<li><a href="#2">Display custom properties using DA4R</a></li>
+<li><a href="#3">Upgrade Revit file version with DA4R</a></li>
+<li><a href="#4">Logging in a Revit Design Automation add-in</a></li>
+<li><a href="#5">DA4R input and output files</a></li>
+<li><a href="#6">CesiumJS open source 3D mapping</a></li>
+<li><a href="#7">Banksy's wife hates home office</a></li>
+</ul>
+
+<p>By the way, if you are interested in diving in deeper into DA4R yourself, one of the easiest and most effective way to do so is 
+to <a href="https://forge.autodesk.com/accelerator-program">join a Forge accelerator</a>.
+Since they are virtual nowadays, a larger number of developers can participate.
+Participating actively will guarantee you answers to any questions you may encounter and ensure you have ongoing support for the proof of concept.
+You might even get your whole application completed right away during the accelerator.</p>
+
+<p>I wish you good luck and lots of fun diving into DA4R!</p>
+
+<h4><a name="2"></a> Display Custom Properties using DA4R</h4>
+
+<p>Augusto <a href="https://twitter.com/augustomaia">@augustomaia</a> Goncalves published a nice article
+on <a href="https://forge.autodesk.com/blog/custom-properties-using-design-automation">custom properties using Design Automation</a> showing
+how to implement a Forge viewer extension that displays standard Revit data already available in the RVT model but not handled by the standard Forge translation using DA4R to extract the Revit properties from BIM360 and add them as custom properties to the Forge viewer.</p>
+
+<p>He picked the compound layer structure of walls as an example of pre-existing BIM data to display in Forge.</p>
+
+<p>The sample code is provided in
+the <a href="https://github.com/augustogoncalves/forge-customproperty-revit">forge-customproperty-revit GitHub repository</a>.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a524913d200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a524913d200b image-full img-responsive" alt="Custom properties displaying RVT data using DA4R" title="Custom properties displaying RVT data using DA4R" src="/assets/image_31d73c.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="3"></a> Upgrade Revit File Version with DA4R</h4>
+
+<p>Another recent Forge sample by Zhong <a href="https://twitter.com/johnonsoftware">@johnonsoftware</a> Wu,
+<a href="https://github.com/Autodesk-Forge/forge-upgradefiles-revit">forge-upgradefiles-revit</a>,
+demonstrates how to upgrade Revit project, family and template files to the latest version using Design Automation for Revit, including support for either individual files or entire folder.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a5249168200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a5249168200b image-full img-responsive" alt="DA4R file upgrader" title="DA4R file upgrader" src="/assets/image_6a7c70.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="4"></a> Logging in a Revit Design Automation Add-In</h4>
+
+<p>In the StackOverflow discussion 
+on <a href="https://stackoverflow.com/questions/61384581/logging-in-revit-design-automation-add-in">logging in Revit Design Automation add-in</a>,
+Rahul Bhobe clarifies that all the add-in's <code>SystemConsole.WriteLine</code> output is captured in the running workitem's <code>report.txt</code>.</p>
+
+<h4><a name="5"></a> DA4R Input and Output Files</h4>
+
+<p>Another StackOverflow question asks
+<a href="https://stackoverflow.com/questions/61395452/autodesk-design-automation-revit-text-file-as-input">how to pass a text file as input to DA4R</a>:</p>
+
+<p><strong>Question:</strong> I developed a Revit add-in that takes 3D point data from a text file as input and creates <!-- adaptive components --> RVT family files and eventually complex geometry by placing them at the appropriate point coordinates.</p>
+
+<p>The text file looks like this:</p>
+
+<pre>
+  1.002, 20,502, 21.706
+  12.502, 5,502, 7.706
+  21.002, 15,502, 14.706
+  ...
+</pre>
+
+<p>I am basically reading the text data as input for creating the <!-- adaptive component --> family definition.
+<!-- and then creating complex geometry by placing the adaptive components. -->
+Now, when converting the add-in to use the Design Automation API, I guess I will not be able to continue using this simple text file as input.</p>
+
+<p>My question is, what type of input file should I use to pass the 3D point coordinates described above? Should it be JSON? If it needs to be JSON, then how I should write it to represent these point coordinates? </p>
+
+<p><strong>Answer:</strong> The slightly more complex question is how to generate multiple output files.</p>
+
+<p>That is answered by the article
+on <a href="https://forge.autodesk.com/blog/how-generate-dynamic-number-output-design-automation-revit-v3">how to generate dynamic number of output with Design Automation for Revit V3</a>.</p>
+
+<p>In passing, it also mentions multiple input files, saying:</p>
+
+<blockquote>
+  <p>... For the zipped input file, it's well documented at https://forge.autodesk.com/en/docs/design-automation/v3/tutorials/revit/step6-post-workitem/, but for the output zipped result, it's not so clear...?</p>
+</blockquote>
+
+<p>Trying to follow that link, I note that it is out of date.</p>
+
+<p>The updated link that worked for me is <a href="https://forge.autodesk.com/en/docs/design-automation/v3/tutorials/revit/step7-post-workitem">forge.autodesk.com/en/docs/design-automation/v3/tutorials/revit/step7-post-workitem</a>.
+Apparently, a new step was added to the tutorial after publishing the original article.</p>
+
+<p>Looking at the Forge documentation and <a href="https://forge.autodesk.com/en/docs/design-automation/v3/tutorials/revit/step7-post-workitem/#additional-notes">additional notes on input arguments</a>,
+I see the instructions on how to pass JSON input data directly in the workitem itself.</p>
+
+<p>I would assume that you can also use a different prefix instead of <code>data:application/json</code> such as <code>data:application/text</code> to pass in the data in its current form.</p>
+
+<p>Please try that out and let us know how it works for you.</p>
+
+<p>Alternatively, you can just stay on the safe side and convert your text data to JSON format.</p>
+
+<p>There are innumerable ways of doing so.</p>
+
+<p>The most minimalistic and simple would look like this:</p>
+
+<pre>
+  [1.002, 20,502, 21.706,
+  12.502, 5,502, 7.706,
+  21.002, 15,502, 14.706,
+  ...]
+</pre>
+
+<p>That represents on single array of doubles.</p>
+
+<p>A slightly more structured approach might be to pass in an array of triples of doubles like this:</p>
+
+<pre>
+  [[1.002, 20,502, 21.706],
+  [12.502, 5,502, 7.706],
+  [21.002, 15,502, 14.706],
+  ...]
+</pre>
+
+<p>As you see, it is not hard.</p>
+
+<p><strong>Response:</strong> Many Thanks Jeremy. All nice help. I am going through it. I will make it JSON, to be on the safe side :) </p>
+
+<h4><a name="6"></a> CesiumJS Open Source 3D Mapping</h4>
+
+<p>Moving away from the Revit API and DA4R, I stumbled across this very powerful and beautiful 3D world-wide mapping platform that I want to share with you:</p>
+
+<ul>
+<li><a href="https://www.cesium.com/cesiumjs">CesiumJS</a> &ndash; an open source JavaScript library for creating world-class 3D globes and maps with the best possible performance, precision, visual quality, and ease of use.</li>
+</ul>
+
+<p>Take a look at the <a href="https://www.cesium.com/docs/tutorials/getting-started/">getting started introduction</a> to get a feel for it.</p>
+
+<h4><a name="7"></a> Banksy's Wife Hates Home Office</h4>
+
+<p>Let's round off with something non-technical, a new contribution
+from <a href="https://en.wikipedia.org/wiki/Banksy">Banksy</a>, saying,
+<a href="https://www.instagram.com/p/B_Aqdh4Jd5x">My wife hates it when I work from home</a>:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833025d9b4a8350200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833025d9b4a8350200c image-full img-responsive" alt="Banksy working from home" title="Banksy working from home" src="/assets/image_7245e8.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>

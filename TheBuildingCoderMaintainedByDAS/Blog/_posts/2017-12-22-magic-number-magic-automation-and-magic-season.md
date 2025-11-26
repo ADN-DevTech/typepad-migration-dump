@@ -1,0 +1,197 @@
+---
+layout: "post"
+title: "Magic Number, Magic Automation and Magic Season"
+date: "2017-12-22 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "Automation"
+  - "Fun"
+  - "News"
+  - "Schedule"
+  - "Win32"
+original_url: "https://thebuildingcoder.typepad.com/blog/2017/12/magic-number-magic-automation-and-magic-season.html "
+typepad_basename: "magic-number-magic-automation-and-magic-season"
+typepad_status: "Publish"
+---
+
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js" type="text/javascript"></script>
+
+<p>Time to wind down for the year...</p>
+
+<p>Here are some last things to share before signing off:</p>
+
+<ul>
+<li><a href="#2">Magic number for schedule instance bounding box margin</a></li>
+<li><a href="#3">Using PostCommand with the Windows Automation API</a></li>
+<li><a href="#4">Programmer jokes</a></li>
+<li><a href="#5">Season's greetings</a></li>
+</ul>
+
+<h4><a name="2"></a>Magic Number for Schedule Instance Bounding Box Margin</h4>
+
+<p>I discussed
+the <a href="https://forums.autodesk.com/t5/revit-api-forum/schedulesheetinstance-bounding-box/m-p/7619803">ScheduleSheetInstance bounding box</a> 
+with Alexander <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/1257478">@aignatovich</a> Ignatovich in 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a>,
+and the Revit development team confirmed the magic number he determined empirically for the hidden margin width:</p>
+
+<p><strong>Question:</strong> I am trying to place schedules to the view sheet in a vertical chain. The result should be something like:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d2c96bb7970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d2c96bb7970c image-full img-responsive" alt="Target" title="Target" src="/assets/image_835acd.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Actually, there are 2 (or more) schedules. I've already achieved what I want. I retrieve bounding box on active viewsheet of each ScheduleSheetInstance and move insertion point for each schedule.</p>
+
+<p>The problem is that ScheduleSheetInstance bounding box is a bit larger than actual schedule table:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b8d2c96bfa970c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b8d2c96bfa970c img-responsive" style="width: 282px; display: block; margin-left: auto; margin-right: auto;" alt="Borders" title="Borders" src="/assets/image_388d56.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>I've draw borders with this Python shell code:</p>
+
+<pre class="prettyprint">
+  shInst = selection[0] # a ScheduleSheetInstance should be selected to run this code
+
+  bb = shInst.get_BoundingBox(doc.ActiveView)
+
+  tx = Transaction(doc, "bounds")
+  tx.Start()
+
+  doc.Create.NewDetailCurve(doc.ActiveView,
+    Line.CreateBound(bb.Min, XYZ(bb.Min.X, bb.Max.Y, 0)))
+  doc.Create.NewDetailCurve(doc.ActiveView,
+    Line.CreateBound(XYZ(bb.Min.X, bb.Max.Y, 0), bb.Max))
+  doc.Create.NewDetailCurve(doc.ActiveView,
+    Line.CreateBound(bb.Max, XYZ(bb.Max.X, bb.Min.Y, 0)))
+  doc.Create.NewDetailCurve(doc.ActiveView,
+    Line.CreateBound(XYZ(bb.Max.X, bb.Min.Y, 0), bb.Min))
+
+  tx.Commit()
+</pre>
+
+<p>The distance is ~2.12 mm. I hardcoded this value in my code. It seems it works, but I don't know if it works in every possible case.</p>
+
+<p>So, the question is:</p>
+
+<p>Is there any way to retrieve this value via API?</p>
+
+<p><strong>Answer:</strong> The development team confirm your current approach and provide the magic constant that you were looking for:</p>
+
+<p>For a schedule instance in the sheet view, we add an invisible margin around the actual schedule table.</p>
+
+<p>This margin will show up when selecting the schedule instance.</p>
+
+<p>The margin width is a hardcoded value in the schedule code.</p>
+
+<p>It is 1/12", which is around 2.12 mm.</p>
+
+<p>Right now, there is no way to retrieve this value through API as it is not exposed yet.</p>
+
+<p>I think it is safe to use this hardcoded value as it has been there and remained constant for years.</p>
+
+<p>This is what the schedule instance margin looks like when selecting the schedule instance.</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb09e22a26970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb09e22a26970d image-full img-responsive" alt="Schedule instances" title="Schedule instances" src="/assets/image_fd7e5c.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>You can see that the move control and the drag height control are showing at the margin bounding box.</p>
+
+<h4><a name="3"></a>Using PostCommand with the Windows Automation API</h4>
+
+<p><a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/3909731">Fausto Mendez</a> shared
+a very nice example of using <code>PostCommand</code> in conjunction with
+the <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ff486375.aspx">Windows Automation API</a> to
+simulate user input to drive the Revit user interface programmatically in 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/revit-links-graphic-overrides/m-p/7604332">Revit links graphic overrides</a>:</p>
+
+<p><code>PostCommand</code> enables you to launch the Revit command.</p>
+
+<p>That displays an interactive form expecting manual user input.</p>
+
+<p>That input can be provided programmatically as well, like this:</p>
+
+<pre class="code">
+  RevitCommandId vgCmdId = RevitCommandId.LookupCommandId("ID_VIEW_CATEGORY_VISIBILITY");
+
+  uidoc.Application.PostCommand(vgCmdId);
+
+  Jrn.TabCtrl _
+    "Modal , Visibility/Graphic Overrides for 3D View: 3D View And Sheets Start View , 0" _
+    , "AFX_IDC_TAB_CONTROL" _
+    , "Select" , "Revit Links"
+
+  Jrn.Grid _
+    "ChildControl; Page , Revit Links , Dialog_Revit_RvtLinkVisibility; ID_TREEGRID_GRID" _
+    , "MoveCurrentCell" , "1" , "Halftone"
+
+  Jrn.Grid _
+    "ChildControl; Page , Revit Links , Dialog_Revit_RvtLinkVisibility; ID_TREEGRID_GRID" _
+    , "PartialEdit" , "1" , "Halftone" , "Yes"
+
+  Jrn.Grid _
+    "ChildControl; Page , Revit Links , Dialog_Revit_RvtLinkVisibility; ID_TREEGRID_GRID" _
+    , "MoveCurrentCell" , "1" , "Halftone"
+
+  Jrn.PushButton _
+    "Modal , Visibility/Graphic Overrides for 3D View: 3D View And Sheets Start View , 0" _
+    , "OK, IDOK"
+</pre>
+
+<p>For full details, please refer to
+the <a href="https://forums.autodesk.com/t5/revit-api-forum/revit-links-graphic-overrides/m-p/7604332">original discussion thread</a>.</p>
+
+<p>Many thanks to Fausto for demonstrating this powerful approach!</p>
+
+<h4><a name="4"></a>Programmer Jokes</h4>
+
+<p>To celebrate the quiet days coming, I wasted some time reading the StackOverflow list
+of <a href="https://stackoverflow.com/questions/234075/what-is-your-best-programmer-joke">best programmer jokes</a>.</p>
+
+<p>Here is a selection:</p>
+
+<ul>
+<li>When your hammer is C++, everything begins to look like a thumb.</li>
+<li>An SQL query walks into a bar and sees two tables. He walks up to them and says, 'Can I join you?'</li>
+<li>To understand what recursion is, you must first understand recursion.</li>
+<li>Q: What's the object-oriented way to become wealthy?
+<br/>A: Inheritance.</li>
+<li>Q: How many programmers does it take to change a light bulb?
+<br/>A: None; that's a hardware problem.</li>
+</ul>
+
+<p>More Christmas related:</p>
+
+<ul>
+<li>Q: Why do programmers always mix up Halloween and Christmas?
+<br/>A: Because Oct 31 == Dec 25!</li>
+</ul>
+
+<p>Finally, to end it all:</p>
+
+<ul>
+<li>Command line Russian roulette:
+<br/><pre>[ $[ $RANDOM % 6 ] == 0 ] &amp;&amp; rm -rf / || echo &ast;Click&ast;</pre></li>
+</ul>
+
+<h4><a name="5"></a>Season's Greetings</h4>
+
+<p>A little <a href="https://kevinvandecar.github.io">3D holiday greeting by Kevin Vandecar</a> using the Forge Viewer... click, zoom, pan at will:</p>
+
+<p><center>
+<embed src="https://kevinvandecar.github.io" width="600" height="400"> </embed>
+</center></p>
+
+<p>Thank you, Kevin, for sharing this!</p>
+
+<p>Merry Christmas and Happy New Year!</p>

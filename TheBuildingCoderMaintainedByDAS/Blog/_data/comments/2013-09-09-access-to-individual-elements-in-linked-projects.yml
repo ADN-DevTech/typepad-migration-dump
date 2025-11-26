@@ -1,0 +1,95 @@
+comments:
+- author: Kon
+  email: kondaments@gmail.com
+  ip: 115.70.163.134
+  url: ''
+  date: '2013-11-05 19:30:50'
+  body: 'Hello Again!
+
+
+    Ive got an interesting situation with a (consultant''s) Revit file that is linked
+    in...("origin to origin"/auto by shared coordinates)
+
+
+    When I try to relate the ''internal'' XYZ LocationPoint of the linked document
+    to the main model, they are ''off'', because the Project Point was set ''differently''
+    (relative to the geometry of the project)
+
+
+    I thought that I could just get the ''Project Point'' from each model and figure
+    out the ''offset''/difference is between the two with -:
+
+
+    ElementCategoryFilter filter = new ElementCategoryFilter(BuiltInCategory.OST_ProjectBasePoint);
+
+
+    But .... the "Internal" XYZ "LocationPoint" of the ProjectBasePoint is not exposed
+    via the API/Snoop tool.
+
+
+    So, How can one relate 2 model''s XYZ coordinates accurately, when their ''Internal''
+    0,0,0 are in "different" positions relative to the ''common'' Project Base Point?
+
+
+    I must admit, I am not an architect/draftsperson/modler or math(s) expert - maybe
+    it is straight forward...
+
+
+    Many thanks,
+
+    Kon.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.201.138
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-11-06 05:47:27'
+  body: "Dear Kon,\n\nI just published an answer to your question: \n\n<a href=\"\
+    http://thebuildingcoder.typepad.com/blog/2013/11/determining-host-document-location-of-a-linked-element.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2013/11/determining-host-document-location-of-a-linked-element.html</a>\n\
+    \nI hope that solves it for you!\n\nCheers, Jeremy."
+- author: Gamal Kheder
+  email: e.gamalkheder@gmail.com
+  ip: 41.196.156.46
+  url: ''
+  date: '2014-07-09 04:19:34'
+  body: 'Dear Jeremy
+
+
+    How to tag element in a linked project ?
+
+    I use the this method to tag a linked pipe element but it throw an error  please
+    advise thanks :)
+
+
+    LocationCurve loc = pipe.Location as LocationCurve;
+
+    XYZ startp = loc.Curve.GetEndPoint(0);
+
+    XYZ endp = loc.Curve.GetEndPoint(1);
+
+    XYZ midp = loc.Curve.Evaluate(0.5, true);
+
+    newtag = DOC.Create.NewTag(view, pipe, false, tagmode, tagorian, midp);'
+- author: vinay
+  email: vinay.krishna@atkinsglobal.com
+  ip: 103.225.248.6
+  url: ''
+  date: '2015-06-09 02:00:41'
+  body: where to insert this code
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-06-17 14:06:44'
+  body: 'Dear Vinay,
+
+
+    Read the getting started material and all will become clear:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#2">http://thebuildingcoder.typepad.com/blog/about-the-author.html#2</a>
+
+
+    Cheers, Jeremy.
+
+    -----'

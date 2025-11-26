@@ -1,0 +1,357 @@
+comments:
+- author: Hu  Zhao
+  email: ''
+  ip: 129.132.204.142
+  url: http://profile.typepad.com/6p017ee882c284970d
+  date: '2013-02-14 08:16:49'
+  body: 'Hello Jeremy,
+
+    I have 80,000 elements to generate, now I use sweep, do you know sweep and extrusion
+    which is faster? and which can offer a better performance for the computer?
+
+
+    It took 40 hours for the sweep operations.
+
+    Is it possible to accelerate the operations?
+
+    In rhino script, only 10 minutes is enough for this operation.
+
+
+    Hope to see you reply!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-02-16 07:50:16'
+  body: "Dear Hu Zhao,\n\nThere may be a stray regeneration happening in sweep creation.\n\
+    \nIf you can demonstrate that (with a sample that creates something less than\
+    \ 80,000 sweeps, please  :-), please provide a reproducible case to prove that\
+    \ which I can submit to the development team for further analysis.\n \nIt is also\
+    \ worth asking what the use case is for 80,000 sweeps in one family.  Are you\
+    \ possibly modelling things so detailed that that a building model with multiple\
+    \ instances of this will have performance problems? \n\nMaybe you could add an\
+    \ image of what you are creating to motivate the development team by helping them\
+    \ understand.\n\nThank you!\n\nCheers, Jeremy."
+- author: Hu  Zhao
+  email: ''
+  ip: ''
+  url: http://profile.typepad.com/6p017ee882c284970d
+  date: '2013-02-16 13:29:42'
+  body: 'Dear Jeremy,
+
+
+
+    Thank you for your quick reply.
+
+
+
+    I am now working in a project plan team for the design of Arch_Tec_Lab in ETH
+    Zürich. You can refer to the below &nbsp;youtube link.
+
+
+    <a href="http://www.youtube.com/watch?v=tzKfXra9o54">http://www.youtube.com/watch?v=tzKfXra9o54</a>
+
+
+
+    The parametric roof is generated in Rhino by my colleague, and the wooden beams
+    will be assembled by robotic arms.
+
+
+
+
+    Before my join this team, they imported the roof (including roof wooden structure)
+    in DWG format, which could not show right in some plan view or section view. And
+    in 3D view, it always led to revit crash because of so many triangle meshes and
+    this imported format.&nbsp;
+
+
+
+
+    So I wrote a plugin to import the wooden beams (around 8k) of the roof.&nbsp;
+
+
+
+    We choose xml to exchange the position information. And I choose sweep instead
+    of extrusion to generate each beam(which I also have question about the performance
+    of these methods to inquire you).
+
+
+
+
+    For now, the roof structure is divided into 7 parts of xml, which was generated
+    into 7 families.It took me about 20 hours by using 3 dell precision computers.
+
+
+
+    Because the roof will be modified in the following days for some times, so I am
+    now finding a way to reduce the generation time.
+
+
+
+
+    I found that the speed of sweep is slower when the amount&nbsp;increased, and
+    the regeneration which I can not avoid &nbsp;is especially slow when the amount
+    is above 1500.
+
+
+
+    Yesterday I found a way to&nbsp;accelerate&nbsp;the generation greatly.
+
+
+    I did like this: divided each 1 part &nbsp;into 24 pieces sections with the mark
+    in XML, then generate each section into single family, and then combine them into
+    a major family.&nbsp;
+
+    these action all made by plugin.
+
+
+
+
+    which is much more quicker.
+
+
+
+
+
+    Let me introduce our project once again.
+
+
+
+    The Arch_Tec_Lab is a role model project of department of Architecture, ETH Zürich.
+    And the team include most important professors in Institue of Technology in Architecture.
+    The project aims to realize the BIM control in the life circle. Now we using Revit
+    to a extremely detail, and we enjoy the cloud rendering in autodesk 360, except
+    we wish it can realize animation rendering. &nbsp;Now we are working for the construction
+    drawings in Revit.
+
+
+
+
+    In Switzerland, few architects use Autodesk products, because of the majority
+    of the MAC users. But we want build a model for the architects and the students
+    in department.
+
+
+
+    We proposed once that we want to apply the chance of being the loading image of
+    the future Revit Version. I don&#39;t know whether you can help.
+
+
+
+
+    Thank you very much for your time!
+
+
+
+    Best Wishes,
+
+
+
+    Hu'
+- author: Charles Lim
+  email: charlesyclim@gmail.com
+  ip: 42.61.175.210
+  url: ''
+  date: '2013-03-04 08:40:13'
+  body: 'Hi Jeremy,
+
+    I would like to track the intersections of a type of element with another type
+    of element in another revit drawing that I have linked in using the "Link Revit"
+    function. I tried and was unable to get ElementIntersectsElementFilter to track
+    the intersection. Do you have any suggestion for me to achieve this?
+
+
+    Thanks,
+
+    Charles YCL'
+- author: Mike
+  email: mhannig7@gmail.com
+  ip: 199.127.102.182
+  url: ''
+  date: '2013-03-05 15:06:01'
+  body: 'Hi Jeremy,
+
+
+    Thank you for maintaining this website. This has helped me a lot so far.
+
+
+    I would be very grateful if you could clarify something about family documents
+    for me. Let''s say you extract a piece of geometry such as an extrusion from a
+    family document. Is there a way to figure out to if the lines/edges/faces creating
+    that piece of geometry are locked to reference planes or other family geometry
+    (e.g. a trim being locked to a wall face)? I went through obtaining all Sketches/CurveArrays/Curves
+    of extrusions in the hope that the Reference property of Curve class would direct
+    to the constraint that the curve is locked to. But none of the references I could
+    get pointed to a reference plane, while the family document has several extrusions
+    with edges locked to many constraints.
+
+
+    Another thing I tried was the get_Geometry method, but don''t know about any property
+    that can give that information to me.
+
+
+    I have spent a good amount of time trying to find this out. I would appreciate
+    if you could inform me whether this is possible at all, and if so, how I can go
+    about it.
+
+
+    Thanks,
+
+
+    Mike'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-03-10 17:35:34'
+  body: 'Dear Charles,
+
+
+    The filter will currently not automatically honour or follow links.
+
+
+    You will have to parse the linked file yourself, access the geometry of interest
+    to you, and recreate it appropriately transformed in the host project document
+    to implement that.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.184.163
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-03-13 02:40:53'
+  body: 'Dear Mike,
+
+
+    Thank you for your appreciation. I am glad it helps.
+
+
+    Cool question!
+
+
+    You need to realise that these constraints are created programmatically though
+    the ItemFactoryBase.NewAlignment method and generate locked alignment dimension
+    elements.
+
+
+    It should be possible to search for these elements.
+
+
+    On these, the Dimension.References property returns an array of geometric references
+    to which the dimension is attached.
+
+
+    Please let me know whether this works for you. If you could provide a small working
+    sample, I would promote this to a main blog post. Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Stéphan
+  email: no@mail.com
+  ip: 82.247.91.212
+  url: ''
+  date: '2013-04-21 12:45:27'
+  body: Hello Jeremy, Thanks for those Mutagen scripts ! :-) I was feeling a bit lazy
+    on that Sunday to fix my own script but thanks to you my mp3 collection has nice
+    tags now.
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-04-21 13:15:47'
+  body: "Dear Stéphan,\n\nThank you for your appreciation! \n\nI am glad you found\
+    \ it useful.\n\nI wish you a nice and restful Sunday  :-)\n\nCheers, Jeremy."
+- author: Mike iLL
+  email: mike@mZoo.org
+  ip: 108.205.61.114
+  url: http://www.mZoo.org
+  date: '2014-10-31 18:48:29'
+  body: Thanks for taking the time to post this, man. Helped in an echonest project.
+- author: Jeremy Tammik
+  email: ''
+  ip: 84.72.112.174
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-11-03 14:43:48'
+  body: 'Dear Mike,
+
+
+    Cool. Happy to hear it was useful.
+
+
+    Cheers, Jeremy.'
+- author: Chris Worthington
+  email: ''
+  ip: 153.232.26.10
+  url: http://profile.typepad.com/chrisworthington
+  date: '2015-06-15 09:36:03'
+  body: I tried the MP3 artist code. The good news? It worked - it did add the album
+    artist tag. The bad news? It erased all other existing tags. Since I've had bad
+    luck with this before I created a backup and tested on that. But is there a way
+    to run that code without wiping out the other ID3 tags? Thank you.
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-06-17 13:50:43'
+  body: 'Dear Chris,
+
+
+    Wow, whoops, I am very sorry indeed to hear that.
+
+
+    Good thing you made a backup.
+
+
+    Strange though... it worked for me just the way it is listed above.
+
+
+    Haven''t used it for a while, though...
+
+
+    From your description, I don''t know exactly which code above you are referring
+    to...
+
+
+    Did you grab just a partial snippet and adapt it to your needs?
+
+
+    Yes, certainly you can add tags without wiping out the existing ones.
+
+
+    For instance, you can read the collection of all the existing tags, append a new
+    entry to it, and write the updated and expanded list back to the audio data.
+
+
+    Cheers, Jeremy.'
+- author: Chris Worthington
+  email: ''
+  ip: 153.232.26.10
+  url: http://profile.typepad.com/chrisworthington
+  date: '2015-06-17 17:57:23'
+  body: 'Hey Jeremy,
+
+
+    The only difference to the code was I specified my test directory instead of current
+    directory ("."). But I did run it on Windows instead of Linux - and Windows might
+    handle ID3 tags differently.
+
+
+    I''ll try it on Linux and see how it works.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-06-18 01:29:49'
+  body: 'Dear Chris,
+
+
+    Hmm. Yes, maybe that will help. I am on Mac Unix. I am so glad I left Windows  :-)
+
+
+    Good luck!
+
+
+    Cheers, Jeremy.
+
+    -----'

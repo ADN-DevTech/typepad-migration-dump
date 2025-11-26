@@ -1,0 +1,411 @@
+comments:
+- author: Krispy
+  email: kparsons@au.westfield.com
+  ip: 124.188.233.72
+  url: ''
+  date: '2008-12-23 02:32:46'
+  body: Hi Jeremy, i am currently working with revit links and am having trouble getting
+    the location of the link (i.e. its x,y,z "insertion" point). ADN inform me that
+    it is not currently supported, but i was hoping someone out there might have a
+    creative way of retrieving this information?
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.96.53
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2008-12-23 03:51:35'
+  body: 'Dear Krispy,
+
+
+    Yes, I noticed your case and followed it with interest. If I knew a good answer,
+    I would have piped up. One further thing you might try is to raise the issue with
+    other developers in the discussion group at http://discussion.autodesk.com > Revit
+    API ... there are some pretty knowledgeable and creative spirits out there. Please
+    let us know if you find a solution :-) Good luck and happy holidays!
+
+
+    Jeremy'
+- author: Rod Howarth
+  email: rodhowarth257@gmail.com
+  ip: 150.101.189.86
+  url: http://roddotnet.blogspot.com
+  date: '2009-01-13 00:29:17'
+  body: "Jeremy,\n\nI have a quick question. I'm trying to make a command to turn\
+    \ off the visibility of linked revit (and dwg) models in the current view. \n\n\
+    For DWG I simply loop through doc.settings.categories and if it ends with .dwg\
+    \ i make it invisible in the current view.\n\nHowever this does not work for RVT,\
+    \ so I had a look with rvtmgdbg and it says that my linked file on the plan is\
+    \ part of the OST_Rvtlinks build in category. \n\nSo I changed my code to do:\n\
+    \            //get category for linked files\n            Category linkedRevitCat\
+    \ = _doc.Settings.Categories.get_Item(BuiltInCategory.OST_RvtLinks);\n       \
+    \     //loop through all categories in document\n            foreach (Category\
+    \ c in _doc.Settings.Categories) {\n\n               \n                //if they\
+    \ end with dwg or rvt set them as !curvisibility in current view\n           \
+    \     if (c.Name.ToLower().EndsWith(\".dwg\") || c.Name.ToLower().Contains(\"\
+    .rvt\") ||\n                    c.Name.ToLower().EndsWith(\".dwf\")\n        \
+    \            || c.Name.ToLower().EndsWith(\".dxf\") || c.Name.ToLower().EndsWith(\"\
+    .dwfx\") ||\n                    (linkedRevitCat != null &&c.Id.Equals(linkedRevitCat.Id)))\n\
+    \n                    //set visibility to be opposite of what tehy are now\n \
+    \                   _app.ActiveDocument.ActiveView.setVisibility(c, !c.get_Visible(_app.ActiveDocument.ActiveView));\n\
+    \            }\n\nunfortunately, linkedRevitCat always is null, and when I run\
+    \ the elements filter api sample, ost_rvtlinks doesnt come up as a category list?"
+- author: Jeremy Tammik
+  email: ''
+  ip: 88.87.203.45
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-01-13 01:16:51'
+  body: 'Hi Rod,
+
+
+    Thank you for the interesting question and for the positive information on how
+    simple it is to hide the linked DWG files. I am looking the OST_RvtLinks issue.
+    Right now I am on the road, however, giving Revit API training in Barcelona, so
+    it might be a while before I am able to find a resolution.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 62.37.183.46
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-01-14 14:10:16'
+  body: 'Hi again Rod,
+
+
+    Here are some ideas on this topic:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/01/hiding-linked-files.html">http://thebuildingcoder.typepad.com/blog/2009/01/hiding-linked-files.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Ben
+  email: gzlps@hotmail.com
+  ip: 59.37.3.2
+  url: ''
+  date: '2009-02-26 01:35:00'
+  body: "hi,\n\nDo you konw how to get the links instance's Rotation,\n\nFor example,\
+    \ \nI create project A, the links to project B,\nthen rotate the instance of Project\
+    \ B.\nI want to get the rotation of project B,\nbecause there is no way to get\
+    \ the elements right geometry inside instance."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-02-26 05:19:31'
+  body: 'Hi Ben,
+
+
+    I had a quick look at an Instance element. I would have assumed that we could
+    get some information from its Location property, but unfortunately that is not
+    the case. So sorry, I don''t know offhand.
+
+
+    Cheers, Jeremy.'
+- author: Ben
+  email: gzlps@hotmail.com
+  ip: 59.37.3.2
+  url: ''
+  date: '2009-02-27 00:22:09'
+  body: "Hi Jeremy,\n\nThanks for your replay so quickly, \nIt seems that there has\
+    \ no chance to get the right position and rotation from Revit API.\n\nI had searched\
+    \ it form internet, but nothing for help.\n\nMaybe Revit API does provide this\
+    \ functionality. \n\nThanks again!\n\nRegards Ben."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-02-27 05:35:38'
+  body: 'Hi Ben,
+
+
+    Just to be completely sure and wrap this up, I had a chat with the development
+    team about this. They confirm that there is no known way to determine the rotation
+    of an instance of a linked file via the current API. We will consider API wish
+    to expose the Transform information of the Revit.Elements.Instance.
+
+
+    Cheers, Jeremy.'
+- author: Ben
+  email: gzlps@hotmail.com
+  ip: 59.37.3.2
+  url: ''
+  date: '2009-02-27 19:29:00'
+  body: "Hi Jeremy,\n\nThanks!\n\nHere is the backgroud about this question,\nthe\
+    \ nesting links,  for example, \nproject A Links B Links C,\nthen open project\
+    \ A,  can't get the Instance C positon inside B, only the position in A,\n\ninstance.get_BoundingBox(activeView),\
+    \ this method can only get the BoundingBox in project C. Imposibble to get the\
+    \ BoundingBox inside B.\n\nIn AutoCAD , it provide one method to loop objects\
+    \ of the reference project:  entity.explode .\nand its position is the right position.\n\
+    \nso , I'm wondering what RevitAPI doesn't provide it.\n\nRegares\nBen"
+- author: Ben
+  email: gzlps@hotmail.com
+  ip: 59.37.3.2
+  url: ''
+  date: '2009-02-27 20:21:03'
+  body: 'In Revit UI , user can bind the Links instance.
+
+
+    But I can''t find the method from API.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-03-02 09:49:41'
+  body: 'Dear Ben,
+
+
+    I do not completely understand you question, except that you are trying to determine
+    the position of nested linked files. I do believe that this can be achieved using
+    the BuondingBox property, as you seem to be attempting to do. I will gladly explore
+    this issue in a future post.
+
+
+    Regarding the binding of a linked instance, the Revit API currently does not support
+    the binding or importing of linked files.
+
+
+    Cheers, Jeremy.'
+- author: shifali
+  email: shifali.arora@gmail.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2010-01-21 04:44:32'
+  body: "Hi Jeremy,\n\nI want to draw detail arcs on active document using revitapi\
+    \ on multiple levels.\nAt present, I am using following method to draw curve:\n\
+    \nregion Draw Circle\n\n// Create an arc which is placed on the plane and whose\
+    \ center is the plane's origin\n\nXYZ norm;\nif (end0.X == end1.X)\n{\n      \
+    \ norm = XYZ.BasisZ;\n}\nelse if (end0.Y == end1.Y)\n{\n       norm = XYZ.BasisZ;\n\
+    }\nelse\n{\n    norm = XYZ.BasisZ;\n}\n\ndouble startAngle = 0;      // The unit\
+    \ is radian\ndouble endAngle = 2 * Math.PI;  // this arc is a circle\ndouble radiusOfArc\
+    \ = geomArc.Radius;\nAutodesk.Revit.Geometry.Plane objPlane = new Plane(norm,\
+    \ doorPt);\n//drawing the arc of the circle\nArc arcCircle = revitApp.Create.NewArc(objPlane,\
+    \ radiusOfArc, startAngle, endAngle);\nDetailArc detailArcCircle = doc.Create.NewDetailCurve(doc.ActiveView,\
+    \ arcCircle) as DetailArc;\n\n\nI want to draw detail arc on different levels\
+    \ but the above code draws the curves on active level of active view of document.\n\
+    How can I accomplish it? Please suggest.\n\n\nRegards,\nShifali"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-21 04:57:51'
+  body: 'Dear Shifali,
+
+
+    Once again, I suspect this is an issue that first needs some clarification on
+    the user interface level before attempting to address it through the API.
+
+
+    Question: is it possible at all in Revit to create a detail curve that appears
+    on multiple levels?
+
+
+    I suspect that a detail curve is associated with one single view and thus with
+    one single level. If you wish to display the same detail curve in multiple views
+    or levels, you *may possibly* have to create separate instances of the curve for
+    each view and level. Not being a user interface expert or even knowledgeable in
+    this area, I don''t know the answer to this. Please check that first and let us
+    know the result. Thank you!
+
+
+    For instance, in the Revit MEP user interface help file HelpMEPENU.chm, I see
+    the following note in the section on detail lines:
+
+
+    "Detail Lines: The Detail Line tool creates detail lines for detailing drawings.
+    Detail lines are visible only in the view in which they are drawn... Note: If
+    you want to sketch lines that exist in 3D space and display in all views, see
+    Model Lines."
+
+
+    Cheers, Jeremy.'
+- author: shifali
+  email: shifali.arora@gmail.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2010-01-22 00:24:09'
+  body: 'Dear Jeremy,
+
+
+    I really thank you for your reply.
+
+    Actually, I am not finding option in Revit Architecture User Interface to draw
+    a detail arc.
+
+    In my above code, I amm passing the z-coordinate of arc equal to height of level,
+    It should draw the arc on that particular level but i guess the "doc.activeview"
+    in statement:
+
+
+    "DetailArc detailArcCircle = doc.Create.NewDetailCurve(doc.ActiveView, arcCircle)
+    as DetailArc;"
+
+
+    is overriding this.
+
+    how should I resolve this issue in my program?
+
+
+    Thanks & Regards,
+
+    Shifali'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.165.1
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-22 02:16:46'
+  body: 'Dear Shifali,
+
+
+    Well, I can find the detail arc in the user interface, and if I can, then everybody
+    can  :-)
+
+
+    Ribbon > Annotate > Detail Line > Draw.
+
+
+    I believe the Z coordinate is completely ignored when you draw a detail arc, so
+    that will almost definitely not do anything to place the arc on a specific level.
+
+
+    The only thing you can specify is the view, and that will determine the level
+    as well, won''t it?
+
+
+    Cheers, Jeremy.'
+- author: shifali
+  email: shifali.arora@gmail.com
+  ip: 202.164.43.67
+  url: ''
+  date: '2010-01-22 04:31:12'
+  body: 'Dear Jeremy,
+
+
+    I found the Revit UI option of detail arc, thank you so much.
+
+    I am passing the active view of document as parameter, no doubt it determines
+    the level also but only active level in the document not the one particular level
+    i want.
+
+
+    Regards,
+
+    Shifali'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.152.175
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-01-25 10:34:57'
+  body: "Dear Shifali,\n\nI am glad you found the detail curve in the user interface.\
+    \ What a relief  :-)\n\nYou need to set the first argument of NewDetailCurve()\
+    \ method to the specific level's ViewPlan. For example, to draw an arc in the\
+    \ second level, first find the ViewPlan instance that corresponds to the second\
+    \ level. You can iterate over all ViewPlan instances and check whether its GenLevel\
+    \ property matches the required level:\n\n// ViewPlan of \"Level 2\"\n\nViewPlan\
+    \ vp2 = null;  \n\nElementIterator ei = doc.get_Elements( typeof( ViewPlan ) );\n\
+    \nwhile( ei.MoveNext() )\n{\n  ViewPlan vp = ei.Current as ViewPlan;\n\n  if(\
+    \ vp.GenLevel.Name.Equals( \"Level 2\" ) )\n  {\n    vp2 = vp;\n    break;\n \
+    \ }\n}\n\nif( null == vp2 )\n{\n  vp2 = doc.ActiveView;\n}\n\nArc arc = app.Create.NewArc(\
+    \ objPlane, radiusOfArc, startAngle, endAngle );\n\nDetailArc detArc = doc.Create.NewDetailCurve(\
+    \ vp2, arc ) as DetailArc;\n\nCheers, Jeremy."
+- author: Andras Kiss
+  email: akiss@intersoftstudio.ro
+  ip: 86.125.139.139
+  url: ''
+  date: '2010-07-28 03:45:01'
+  body: '"We will consider API wish to expose the Transform information of the Revit.Elements.Instance."
+
+
+    Hi Jeremy,
+
+    Do you happen to know if this issue is resolved in the present API (2010 or 2011)?
+
+
+    Andras'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-07-29 10:05:03'
+  body: 'Dear Andras,
+
+
+    Are you an ADN member? The ADN DevHelp Online would be a much more appropriate
+    place to ask such a question. Anyway, what I can tell you here and now is that
+    I do see that some work has been done to "expose API to read the instance''s transform".
+    However, as always, I cannot make any statements whatsoever about anybody''s future
+    products. After all, who knows?
+
+
+    Cheers, Jeremy.'
+- author: Phil
+  email: phillip.mcneill@redbike.com.au
+  ip: 114.75.172.183
+  url: ''
+  date: '2011-01-21 17:00:45'
+  body: 'Hi Jeremy
+
+
+    Love your work and has been been very helpfull.
+
+
+    One question on the original topic of RvtLinks, which is now a couple of years
+    old. I''m trying to find a way to access the elements of the linked RVT. There
+    is the LinkElementId which represents an element in the linked document but I''m
+    struggling to figure out how all this works. Any ideas you can offer would be
+    greatly appreciated.
+
+
+    Thanks again'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-01-26 08:11:16'
+  body: "Dear Phil,\n\nThis is a an interesting question on a slightly complicated\
+    \ topic that exceeds what I can explain here in a short comment. I suggest that\
+    \ you start by exploring in depth the sample application presented in \n\n<a href=\"\
+    http://thebuildingcoder.typepad.com/blog/2009/02/list-linked-elements.html\">http://thebuildingcoder.typepad.com/blog/2009/02/list-linked-elements.html</a>\n\
+    \nCheers, Jeremy."
+- author: Phil
+  email: phillip.mcneill@redbike.com.au
+  ip: 27.33.154.72
+  url: ''
+  date: '2011-01-28 20:46:38'
+  body: Thanks heaps...I'll follow it thru.
+- author: 'iss '
+  email: iss.syncarp@gmail.com
+  ip: 182.72.246.193
+  url: ''
+  date: '2014-01-10 06:11:55'
+  body: 'hi Jeremey
+
+
+    i am working with revit application.
+
+    i want to covert the revit(.rvt) file  to sqlserver file(i:e .mdf extension).
+
+
+    any helpful way tracked would be really appreciable.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.211.6
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-01-10 06:29:57'
+  body: 'Dear Iss,
+
+
+    As usual, you should explore an optimal solution for this through the user interface
+    first, before thinking about possibly automating it. For that, I would suggest
+    asking an application engineer, product usage expert, or product support for help
+    on finding an suitable workflow.
+
+
+    Please let us know what you find out. Thank you.
+
+
+    Good luck!
+
+
+    Cheers, Jeremy.
+
+    -----'

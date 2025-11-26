@@ -1,0 +1,56 @@
+comments:
+- author: florin ursache
+  email: ''
+  ip: 79.115.187.60
+  url: http://profile.typepad.com/6p0176168d223b970c
+  date: '2012-07-18 16:45:29'
+  body: 'hello. sorry for my post. is not related to this post.
+
+    i,m a revit user for 1 year, i,m not an specialist in coding& script and  i have
+    a question -  if you can help me. How i can protect my revit projects or families
+    from stealing by others i have some families that i made and i want to lock them
+    in projects from not be able to be copied or modified - is there a way to lock
+    a revit file? Thanks..'
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.8
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-08-22 07:33:43'
+  body: 'Dear Florin,
+
+
+    Sorry, I am not aware of any solution for this at the moment. There is a wish
+    list item for this functionality, though.
+
+
+    Cheers, Jeremy.'
+- author: Andreas
+  email: aricke@y7mail.com
+  ip: 124.180.217.65
+  url: ''
+  date: '2013-02-26 23:44:08'
+  body: "Hi Jeremy,\n\nabove you mention using the OnStartup and DocumentOpened events\
+    \ to run commands when Revit opens. \n\nUnfortunately it is not possible to use\
+    \ the document.export command when doing this. Error is \"Exporting is not allowed\
+    \ in the current application mode.\"\n\nDo you have any suggestions?"
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.241.62.65
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-02-27 16:17:04'
+  body: 'Dear Andreas,
+
+
+    Yes, sure. In the document opened handler, unsubscribe from the document opened
+    event and subscribe to the Idling event.
+
+
+    In the Idling event handler, unsubscribe from the Idling event and do the job.
+
+
+    I described this in at least one, and possibly more blog posts.
+
+
+    Cheers, Jeremy.
+
+    -----'

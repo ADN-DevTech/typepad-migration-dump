@@ -1,0 +1,89 @@
+comments:
+- author: Lin Jerry
+  email: ''
+  ip: 166.111.44.40
+  url: http://profile.typepad.com/linjerry
+  date: '2012-04-03 03:39:33'
+  body: 'hi，jeremy，i encountered a question when creating an extrusion roof- the exception
+    "invalid profile" occurred. Then i tested the SDK examples  of revit 2011, the
+    same error occurred. Do you know why?
+
+    here is the code:
+
+
+
+    var rvtApp = commandData.Application.Application;
+
+    var rvtDoc = commandData.Application.ActiveUIDocument.Document;
+
+    var appCreation = rvtApp.Create;
+
+
+    XYZ startPtBtm = new XYZ(0, 0, height-thickness);
+
+    XYZ startPtTop = new XYZ(0, 0, height);
+
+    XYZ endPtBtm = new XYZ(0, width, height-thickness);
+
+    XYZ endPtTop = new XYZ(0, width, height);
+
+    XYZ midPtBtm = new XYZ(0, width / 2, height + width / 3 - thickness);
+
+    XYZ midPtTop = new XYZ(0, width / 2, height + width / 3);
+
+
+    Line line1 = appCreation.NewLineBound(startPtBtm, startPtTop);
+
+    Line line2 = appCreation.NewLineBound(endPtTop, endPtBtm);
+
+    Arc arc1 = appCreation.NewArc(startPtTop, endPtTop, midPtTop);
+
+    Arc arc2 = appCreation.NewArc(startPtBtm, endPtBtm, midPtBtm);
+
+
+    CurveArray profile = appCreation.NewCurveArray();
+
+    profile.Append(line1);
+
+    profile.Append(arc1);
+
+    profile.Append(line2);
+
+    profile.Append(arc2);
+
+
+    XYZ bubbleEnd = new XYZ(0, 0, 0);
+
+    XYZ freeEnd = new XYZ(0, width, 0);
+
+    View view = rvtDoc.ActiveView;
+
+    ReferencePlane refPlane = rvtDoc.Create.NewReferencePlane(bubbleEnd, freeEnd,
+    XYZ.BasisX, view);
+
+
+    RoofType roofType = new FilteredElementCollector(rvtDoc).OfClass(typeof(RoofType)).FirstElement()
+    as RoofType;
+
+
+    ExtrusionRoof roof = rvtDoc.Create.NewExtrusionRoof(profile, refPlane, level02,
+    roofType, 0, length);'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-04-03 03:55:40'
+  body: "Dear Lin Jerry,\n\nNope, no idea. All I can suggest is \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/07/debug-geometric-form-creation.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/07/debug-geometric-form-creation.html</a>\n\
+    \nGood luck!\n\nCheers, Jeremy."
+- author: Lin Jerry
+  email: ''
+  ip: 166.111.44.40
+  url: http://profile.typepad.com/linjerry
+  date: '2012-04-03 05:01:54'
+  body: 'Dear Jeremy，Thanks for your quick response! I''ll try the suggestion from
+    you!
+
+    Regards, Lin
+
+    -----'

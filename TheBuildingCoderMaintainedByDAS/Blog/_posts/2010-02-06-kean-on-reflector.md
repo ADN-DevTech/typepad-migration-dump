@@ -1,0 +1,36 @@
+---
+layout: "post"
+title: "Kean on Reflector"
+date: "2010-02-06 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Debugging"
+  - "External"
+  - "News"
+  - "Utilities"
+original_url: "https://thebuildingcoder.typepad.com/blog/2010/02/kean-on-reflector.html "
+typepad_basename: "kean-on-reflector"
+typepad_status: "Publish"
+---
+
+<p>I repeatedly mentioned the topic of 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2008/10/converting-between-vb-and-c-and-net-decompilation.html">
+converting between C# and VB</a>,
+
+and how I use the 
+
+<a href="http://www.red-gate.com/products/reflector">
+Reflector</a>
+
+tool for this task, for example to 
+
+<a href="http://thebuildingcoder.typepad.com/blog/2009/05/vb-samples-and-other-questions.html#2">
+convert Revit SDK samples</a>.
+
+<p>If you are as keen on Reflector as I am, you will probably find Kean Wamsley's series on the new 
+
+<a href="http://through-the-interface.typepad.com/through_the_interface/2010/02/debugging-into-autocads-net-api-layer-using-reflector-part-1.html">
+Reflector pro</a>
+
+version very interesting as well.

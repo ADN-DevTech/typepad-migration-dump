@@ -1,0 +1,620 @@
+comments:
+- author: jonz
+  email: jonz.si@gmail.com
+  ip: 109.182.96.123
+  url: ''
+  date: '2010-06-15 15:01:02'
+  body: 'Hi Jeremy,
+
+
+    I had trouble with displaying Modify ribbon after I select elements from code.
+    I found out, that if I use doc.BeginTransaction() and doc.EndTransaction() right
+    after, it works perfectly.
+
+
+    Now I had to reinstal Revit Architecture 2010 and the problem reappeared. I tried
+    few different selection methods, but nothing helped. Is there an "update ribbon"
+    method or something similar, that would solve the thing?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-16 01:08:23'
+  body: 'Dear Jonz,
+
+
+    Nope, the Revit API does not provide any methods to updated the ribbon or refresh
+    the user interface in any way, as far as I know. Revit seems to assume that it
+    can take care of that internally. I have also not heard of any similar issues
+    in the past. Is this all in Revit 2010? Have you tried it in 2011?
+
+
+    Cheers, Jeremy.'
+- author: jonz
+  email: jonz.si@gmail.com
+  ip: 195.210.234.35
+  url: ''
+  date: '2010-06-18 12:19:50'
+  body: "Hi Jeremy,\n\nthis is in Revit 2010, I haven't been able to run the command\
+    \ in 2011 yet, since I have a problem selecting elements from model.\n\nSince\
+    \ I am talking to a guru, I would like to ask you, if you know, what is going\
+    \ on with new selection method. In 2010 for example it was:\nElementIterator ei\
+    \ = _document.Elements;\nei.Reset();\nwhile (ei.MoveNext())\n{\n// do something\
+    \ - worked like charm\n}\n\nIn 2011 I use:\nFilteredElementCollector collector\
+    \ = new FilteredElementCollector(_document);\nICollection elements = collector.WhereElementIsNotElementType().ToElements();\n\
+    \nforeach (Element e in elements)\n{\ntry\n{\n   // do something - I need try-catch,\
+    \ because sometimes e != null, but the properties of e are null (e.g. e.Category\
+    \ == null)\n}\ncatch\n{}\n}\n\n\nIs that correct approach, or did I miss something\
+    \ (e.g. new RemoveNullElementsFilter or something similar :)?\n\n\nCheers, jonz"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.160.152
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-19 17:21:08'
+  body: "Dear Jonz,\n\nIn principle you are completely right, but there is room for\
+    \ improvement on two counts:\n\n1) You do not have to convert your collector to\
+    \ an ICollection if you do not want to for other reasons. The collector itself\
+    \ already provides an IEnumerator interface, so you can directly say 'foreach\
+    \ Element e in collector'.\n\n2) If you are expecting some elements to have a\
+    \ null category property, which is a sensible expectation and also was so in 2010,\
+    \ then you should NOT, DEFINITELY NOT, use an expception to handle that case.\
+    \ An exception is for handling exceptional cases, not an expected situation. Just\
+    \ test whether the category is null instead. An exception is a hundred times more\
+    \ expensive, both in time and other resources.\n\nSo you code might look like\
+    \ this:\n\nFilteredElementCollector collector = new FilteredElementCollector(_document);\n\
+    collector.WhereElementIsNotElementType();\n\nforeach( Element e in collector )\n\
+    {\n  if( null != e.Category )\n  {\n    // do something\n  }\n}\n\nCheers, Jeremy."
+- author: Purnima
+  email: nspurnima@gmail.com
+  ip: 24.99.232.64
+  url: ''
+  date: '2010-06-23 17:40:52'
+  body: "Hi,\n\n\nI am making a call to my .NET application from Revit. (setting up\
+    \ the information in ini file)\n\n\nAs soon as my .NET application opened, it\
+    \ is making a call to the following method.\n\n\npublic ExternalCommandData m_CommandData;\
+    \ // class member\n\n\npublic IExternalCommand.Result Execute(Autodesk.Revit.ExternalCommandData\
+    \ revit, ref string message, ElementSet elements)\n{\n    m_CommandData = revit;\n\
+    \n\n    FormHighlight l_FormHighlight = new FormHighlight();\n    l_FormHighlight.Show();\n\
+    \n\n    Document l_Doc = m_CommandData.Application.ActiveDocument;\n    ElementId\
+    \ l_ElementId = new ElementId();\n    l_ElementId.Value = 157145;\n    Element\
+    \ l_Element = l_Doc.get_Element(ref l_ElementId);\n    l_Doc.ShowElements(l_Element);\n\
+    \n\n    return IExternalCommand.Result.Succeeded;\n}\n\n\nHere I have hardcoded\
+    \ the element id value and it perfectly highlighing the relevent Element on Revit.\
+    \ \n\n\nIn my .NET application I have a Data Grid where I will have the set of\
+    \ records with Element id, Date, Floor Level, Direction, Volume, Length, etc.,\
+    \ and upon clicking on the row, I will pick the element id and passit to the l_ElementId.Value\
+    \ = >\n\n\nFollowing is the code piece inside the Data Grid Cell Click event.\
+    \ Here \"m_CommandData\" I have already set the value globally inside Execute\
+    \ method.\n\n\nprivate void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs\
+    \ e)\n{\nDocument l_Doc = m_CommandData.Application.ActiveDocument;\nElementId\
+    \ l_ElementId = new ElementId();\nl_ElementId.Value = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[0].Value);\n\
+    Element l_Element = l_Doc.get_Element(ref l_ElementId);\nl_Doc.ShowElements(l_Element);\n\
+    }\n\n\nBut I am getting the error which says m_CommandData is null. \n\n\nCan\
+    \ you please help me how to sort out the issue?\n\n\nThank you, \nPurnima"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-24 04:23:45'
+  body: 'Dear Purnima,
+
+
+    Your issue looks like a fundamental problem of understanding the structure of
+    our own application.
+
+
+    As far as I can tell, you have made m_CommandData a class member of your command
+    class. The data grid view is presumably located in a different class, so it has
+    different class members. If you want to access the document from the data grid
+    view class, you will need to pass in that information somehow from the command
+    class.
+
+
+    I suggest learning more basic .NET technology and object oriented design principles
+    before proceeding any further with this :-)
+
+
+    Cheers, Jeremy.'
+- author: Purnima
+  email: nspurnima@gmail.com
+  ip: 24.99.232.64
+  url: ''
+  date: '2010-07-01 00:39:21'
+  body: "Dear Jeremy,\nThank you so much for the guidance! \nActually I am in the\
+    \ learning process of .NET technology. \n\nIn my project the m_CommandData and\
+    \ DataGrid are in the same class. So is there a way to resolve the issue?\n\n\
+    Thank you,\nPurnima"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-07-16 02:39:14'
+  body: "Dear Purnima,\n\nIf they are in the same class, then you should be able to\
+    \ simply set the global class variable\n\nm_CommandData = commandData\n\nin the\
+    \ Execute method, and access the non-null value of m_CommandData elsewhere in\
+    \ the class.\n\nPlease be aware that you can only access the m_CommandData functionality\
+    \ before you return from the Execute method. Afterwards, you are no longer in\
+    \ a valid Revit API context. This topic is discussed in many places in this blog,\
+    \ e.g. most recently in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2010/07/modeless-loose-connectors.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2010/07/modeless-loose-connectors.html</a>\n\
+    \nCheers, Jeremy."
+- author: Sandeep
+  email: sdpatil.1984@rediffmail.com
+  ip: 122.200.17.210
+  url: ''
+  date: '2010-12-13 01:23:34'
+  body: "Hi Jeremy,\nTh code line\n\nuiDoc.Selection.Elements = selElements;\n\nDoesn't\
+    \ work for some time and work for some time. So for this i used the code like\
+    \ as below..\n\n uiDoc.Selection.Elements.Clear();\n uiDoc.Selection.Elements\
+    \ = totalEmelemnt; //ElementSet\n uiDoc.ShowElements(totalEmelemnt);\n\nNow its\
+    \ working perfectly for me.\n\nThank You\nSandeep"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2010-12-13 11:40:30'
+  body: "Dear Sandeep,\n\nThank you very much for the hint!\n\nI am very glad that\
+    \ you found a solution!\n\nYou are using a rather strange spelling in your variable\
+    \ naming: totalEmelemnt; \n\nHappily, the computer does not care  :-)\n\nCheers,\
+    \ Jeremy."
+- author: Agnius
+  email: vasiliauskas.agnius@gmail.com
+  ip: 84.32.222.96
+  url: http://coding-experiments.blogspot.com/
+  date: '2010-12-16 08:36:03'
+  body: 'Actually there is one method for refreshing currentView =>
+
+
+    ActiveUIDocument.RefreshActiveView()
+
+
+    good luck, and very thanks for great tutorials !!!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 151.20.69.20
+  url: http://profile.typepad.com/jeremytammik
+  date: '2010-12-18 13:37:53'
+  body: 'Dear Agnius,
+
+
+    Right you are, thank you very much for pointing that out! And for your appreciation!
+
+
+    Cheers, Jeremy.'
+- author: A Facebook User
+  email: ''
+  ip: 202.73.42.163
+  url: http://profile.typepad.com/d101588311302903564
+  date: '2012-04-13 03:54:57'
+  body: "Hi Jeremy,\nI tried the first method to highlight the element by adding them\
+    \ to the current selection. and I only need to highlight one element. When I invoked\
+    \ : m_uiDocument.Selection.Elements = selectElements; it worked.\nBut on the Revit\
+    \ Architecture (I use 2012 version). the \"properties\" window the the left it\
+    \ doesn't change to the selected element's property info and still the before\
+    \ one. I  don't know how to let it change.\n thank you,\n Jeremy"
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-04-13 05:12:29'
+  body: 'Dear Jinshou Lee,
+
+
+    Sorry, I am not aware of a reliable method to force this update. Maybe you can
+    flush the view, somehow. Maybe the UIDocument RefreshActiveView method can help:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/04/devcamp-and-refresh-display-for-a-kinetic-facade.html">http://thebuildingcoder.typepad.com/blog/2012/04/devcamp-and-refresh-display-for-a-kinetic-facade.html</a>
+
+
+    Please let us know if you find a solution.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: A Facebook User
+  email: ''
+  ip: 202.73.42.163
+  url: http://profile.typepad.com/d101588311302903564
+  date: '2012-04-13 06:26:56'
+  body: "Hi, Jeremy.\n What a pity. I tried to invoke UIDocument RefreshActiveView\
+    \ method after add element to m_uiDocument.Selection.Elements. But still can not\
+    \ update the \"Properties\" window on the Revit Architecture 2012. I think maybe\
+    \ RefreshActiveView method can only refresh the view but the \"Properties\" window\
+    \ isn't belong to the view. Thank you.\n  Best Regards,\n  Jinshou."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.181.107
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-04-17 04:52:44'
+  body: 'Dear Jinshou,
+
+
+    Ah, that''s a shame indeed. There may be something else that can be done to refresh
+    that window. For instance, you could try moving the element by a small distance,
+    and then moving it back again.
+
+
+    Please let us know if you find a solution. Thank you!
+
+
+    Cheers, Jeremy.'
+- author: A Facebook User
+  email: ''
+  ip: 202.73.42.163
+  url: http://profile.typepad.com/d101588311302903564
+  date: '2012-04-20 04:49:18'
+  body: "Hi,Jeremy,\n thanks for your help hint, but I tried moving the element and\
+    \ still can not update the 'properties' window info. \nBy the way, I have another\
+    \ question. I wanted to get every view's elements(like walls,windows...), so looped\
+    \ every view I invoked: FilteredElementCollector windowCollector = new FilteredElementCollector(m_document,\
+    \ curView.Id)\n                        .OfCategory(BuiltInCategory.OST_Windows);\
+    \ but after executing this statement will consume much memory and as a result\
+    \ throw a out of memory exception (big model). but if I invoked:windowCollector\
+    \ = new FilteredElementCollector(m_document)\n                        .OfCategory(BuiltInCategory.OST_Windows);\
+    \ to get all document's elements and it consumed almost no memory. I don't know\
+    \ if it is bug of revit. if get all document's elements first, I don't know which\
+    \ elements is visible in every views.\nThank you.\n  Best Regards,\n  Jinshou"
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.8
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-04-20 05:52:02'
+  body: 'Dear Jinshou,
+
+
+    Oh dear. Well, there are thousands of other things you can try to refresh the
+    properties window. Switch the discipline. Switch the view. Call ShowElements.
+    Be creative.
+
+
+    The other issue sounds very worrying. On the other hand, nobody else has reporting
+    any such thing, so there is probably something else wrong somewhere.
+
+
+    If the problem persists, we will need a reproducible case to look at.
+
+
+    Cheers, Jeremy.'
+- author: A Facebook User
+  email: ''
+  ip: 202.73.42.163
+  url: http://profile.typepad.com/d101588311302903564
+  date: '2012-04-20 07:10:58'
+  body: "Hi,Jeremy,\n   Thank you for your hint, I will try to refresh the properties\
+    \ window by other way.\n  the second issue. I tried write the follow simple funtion\
+    \ to invoke:\n\nprivate void test(){\n            FilteredElementCollector viewCollector\
+    \ = new FilteredElementCollector(m_document).OfCategory(BuiltInCategory.OST_Views);\n\
+    \            foreach (Element viewElem in viewCollector)\n            {\n    \
+    \            Autodesk.Revit.DB.View curView = viewElem as Autodesk.Revit.DB.View;\n\
+    \n             if(!FilteredElementCollector.IsViewValidForElementIteration(m_document,\
+    \ curView.Id)) continue;\n\n                FilteredElementCollector viewElems\
+    \ = new FilteredElementCollector(m_document,curView.Id).WhereElementIsNotElementType();\n\
+    \            }\n        }\n   after running test() increased about 800MB of revit(model\
+    \ has 217 views and every views has the average of about 8000 elements). Whether\
+    \ it is normal situation to consume so much memory. Or if should invoke some function\
+    \ to release the collector. but if I changed the last statement that remove the\
+    \ second param 'curView.id' to run again. test() consumed very little memory,\
+    \ it also was invoked 217 times.\n   And if run the changed test() to get all\
+    \ document's elements. Whether I can classify the elements to every views, I can't\
+    \ find the reference method to invoke.Thank you.\n  Best regards,\n  Jinshou"
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.8
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-04-20 07:35:55'
+  body: 'Dear Jinshou,
+
+
+    If you are an ADN mmeber, please submit a DevHelp Online case for this.
+
+
+    We need a reproducible case to explore this, i.e. a complete single-click ready-to-run
+    solution plus sample model.
+
+
+    Cheers, Jeremy.'
+- author: A Facebook User
+  email: ''
+  ip: 202.73.42.163
+  url: http://profile.typepad.com/d101588311302903564
+  date: '2012-04-22 22:15:12'
+  body: 'Hi, Jeremy
+
+    OK, thank you.
+
+
+    Best regards,
+
+    Jinshou'
+- author: A Facebook User
+  email: ''
+  ip: 202.73.42.163
+  url: http://profile.typepad.com/d101588311302903564
+  date: '2012-05-08 22:42:19'
+  body: 'Hi, Jeremy,
+
+    I tried my best to update the ''properties'' window info and still failed. Whether
+    ADN member can get more API to solve the problem.
+
+    Thank you.
+
+    Best Regards,
+
+    Jinshou.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.161.160
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-05-20 07:00:16'
+  body: "Dear Jinshou,\n\nSorry to hear that you did not yet find a solution. \n\n\
+    You can submit a wish list item for it in the Revit API wish list survey:\n\n\
+    <a href=\"http://thebuildingcoder.typepad.com/blog/2012/05/revit-and-navisworks-api-wishlist-surveys.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2012/05/revit-and-navisworks-api-wishlist-surveys.html</a>\n\
+    \nCheers, Jeremy."
+- author: A Facebook User
+  email: ''
+  ip: 202.73.42.163
+  url: http://profile.typepad.com/d101588311302903564
+  date: '2012-09-05 05:17:08'
+  body: "Hi, Jeremy,\nI found how to update the 'properties' window, And  If I invoke\
+    \ the function OpenAndActivateDocument()of class UIApplication firstly, then highlight\
+    \ elements like this blog you wrote, the 'properties' window can be updated.\n\
+    \    But firstly you should guarantee that the document you want to highlight\
+    \ should not be the active document, so I create a empty rvt file, then invoke\
+    \ OpenAndActivateDocument() to active, now the document which elements want to\
+    \ highlight isn't active document, then I invoke OpenAndActivateDocument() again\
+    \ to active the document which elements want to highlight and highlight elements\
+    \ like this blog you wrote, and don't forget to close the empty rvt file at last.\
+    \ By this way can refresh the 'properties' window info."
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-09-09 15:49:04'
+  body: 'Dear Jinshou,
+
+
+    Thank you for the interesting tip, which I promoted to a main blog post:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/09/updating-properties-and-announcing-revit-lt.html#2">http://thebuildingcoder.typepad.com/blog/2012/09/updating-properties-and-announcing-revit-lt.html#2</a>
+
+
+    We do have an internal wish list item for this functionality, and I added a note
+    of your solution there as well for future reference.
+
+
+    Cheers, Jeremy.'
+- author: José Ignacio Montes
+  email: jmontes@avatarbim.com
+  ip: 80.38.38.156
+  url: http://avatarbim.com
+  date: '2014-06-02 14:09:08'
+  body: "Dear Jeremy: \n\nI am trying to highlight a face on a wall, but selection\
+    \ sets only allow elements. \nIs it possible to highlight just a face of a Wall?\n\
+    \n\nThank you very much.\n\nJosé Ignacio Montes"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-06-02 14:16:17'
+  body: 'Dear José Ignacio,
+
+
+    You could prompt the user to select elements and request face subelements.
+
+
+    That would highlight faces.
+
+
+    It would require user interaction, though.
+
+
+    Without user interaction, I am not aware of any such possibility.
+
+
+    Cheers, Jeremy.'
+- author: Carlos Collado
+  email: ccolladopiriz@gmail.com
+  ip: 85.152.12.2
+  url: ''
+  date: '2014-06-23 06:50:44'
+  body: 'Dear Jeremy,
+
+
+    I am trying to highlight a room with this method but only works after ExternalCommand
+    end. Are there any way to do it before?
+
+
+    Thanks a lot.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.193.122
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-06-24 06:24:59'
+  body: 'Dear Carlos,
+
+
+    Yes, it should be possible to update the model graphics before terminating the
+    command.
+
+
+    You can try to call document Regenerate, or terminate a transaction.
+
+
+    The latter is more expensive.
+
+
+    The DisplacementElementAnimation sows something like this:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2013/08/animation-and-the-displacementelement-class.html">http://thebuildingcoder.typepad.com/blog/2013/08/animation-and-the-displacementelement-class.html</a>
+
+
+    So does the kinetic facade sample, which may actually be exactly what you are
+    looking for:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/04/devcamp-and-refresh-display-for-a-kinetic-facade.html">http://thebuildingcoder.typepad.com/blog/2012/04/devcamp-and-refresh-display-for-a-kinetic-facade.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Sean
+  email: kukuzry@gmail.com
+  ip: 192.207.123.2
+  url: ''
+  date: '2014-07-07 13:48:30'
+  body: 'Hello Jeremy,
+
+
+    My plugin will show a Window From with different rooms properties listed on it.  What
+    I want is to highlight the room when I select the room from GUI.  Is there any
+    simple way to do it?
+
+
+    The method mentioned in your code can highlight an element only after the Execute()
+    function is finished.  However, I want the element to be highlighted in between
+    (i.e., GUI is still running)'
+- author: Ricky
+  email: wsw_0725@hotmail.com
+  ip: 128.243.2.144
+  url: ''
+  date: '2015-04-19 12:18:30'
+  body: "Hi Jeremy,\n\nI am a new student of Revit API and your blog is being extremmelly\
+    \ helpfull for me. At the moment I am trying to make my addin to highlight some\
+    \ specific element in revit, but i am really struggled some far. \n\nMy problem\
+    \ are:\nI use \"TaskDialog.Show(\"Selected Element\", info);\" to show the specific\
+    \ element in zoom-in-mode but the element still haven't selected (highlighted\
+    \ in blue). So Is there any codes to do that?\n\nMy other question is How can\
+    \ I create a API that can open the Type Property once I run it.\n\nThanks in advance.\n\
+    Ricky"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-04-20 02:16:20'
+  body: 'Dear Ricky,
+
+
+    Thank you for your appreciation. I am glad you find it useful.
+
+
+    I can think of two possibilities off-hand. Not sure that they still work, though.
+
+
+    1. Specify the Revit selection set, e.g. using the Selection.SetElementIds method.
+
+
+    2. Not so elegant... add the elements you want highlighted to the ElementSet argument
+    passed in to your external command Execute method, and return Result.Cancelled
+    or Result.Failed. That causes them to be highlighted. This method is used by the
+    south facing windows sample:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/01/south-facing-walls.html">http://thebuildingcoder.typepad.com/blog/2010/01/south-facing-walls.html</a>
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.'
+- author: 'ricky '
+  email: wsw_0725@hotmail.com
+  ip: 92.40.248.158
+  url: ''
+  date: '2015-04-20 10:50:01'
+  body: "Hi Jeremy, \n\nThanks for your help and I would give it a try. \n\nIs there\
+    \ any command that could open the type property under the \n\"edit type\" of each\
+    \ element.\n\nThanks\n\nRicky"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-04-20 11:41:15'
+  body: 'Dear Ricky,
+
+
+    Only Revit can activate the property panel.
+
+
+    That is actually obvious, once you think about it.
+
+
+    However, if you can programmatically activate an element, then Revit may display
+    its properties.
+
+
+    In this case, since you are after type properties, you would have to set the element
+    type as the active selected element.
+
+
+    You can try to do that manually through the Manage > Select by ID, and programmatically
+    using the Selection.SetElementIds method.
+
+
+    I have heard that Revit sometimes does not update the property panel even when
+    the selection has changed, though, so I cannot guarantee that will work.
+
+
+    Please let us know how you get on.
+
+
+    If you solve this, it may be worth a blog post.
+
+
+    Thank you!
+
+
+    Cheers, Jeremy.'
+- author: Ricky
+  email: wsw_0725@hotmail.com
+  ip: 128.243.2.140
+  url: ''
+  date: '2015-04-20 12:14:10'
+  body: "Dear Jeremy, \n\nThanks for your response.\n\nI have selected the element\
+    \ by its ID and showed it on the screen using the command \"ShowElements(id);\"\
+    , however it doesn't highlight the element(in blue). Do you know any command that\
+    \ would help with that?\n\nI have tried the \"Selection.SetElementIds\" method\
+    \ but it still doesn't show the element.\n\nThanks for your help\n\nKind regards,\n\
+    Ricky"
+- author: Ricky
+  email: wsw_0725@hotmail.com
+  ip: 128.243.2.140
+  url: ''
+  date: '2015-04-20 12:18:39'
+  body: 'Dear Jeremy,
+
+
+    Thanks for your response.
+
+
+    I have selected the element by its ID and showed it on the screen using the command
+    "ShowElements(id);", however it doesn''t highlight the element(in blue). Do you
+    know any command that would help with that?
+
+
+    I have tried the "Selection.SetElementIds" method but it still doesn''t show the
+    element.
+
+
+    Thanks for your help
+
+
+    Kind regards,
+
+    Ricky'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-04-20 13:07:10'
+  body: "Dear Ricky,\n\nThe instance element may be visible and highlighted on the\
+    \ screen.\n\nIts type is never visible on the screen and therefore cannot be highlighted.\n\
+    \nYou will have to decide which of the two you want.\n\nYou cannot have both simultaneously.\n\
+    \nThis is a typical case where it some end user experience helps understand the\
+    \ situation better.\n\nIf you want to display type properties to the user, it\
+    \ may be more effective to define your own user interface instead of using the\
+    \ standard Revit property panel.\n\nCheers, Jeremy. \n-----"

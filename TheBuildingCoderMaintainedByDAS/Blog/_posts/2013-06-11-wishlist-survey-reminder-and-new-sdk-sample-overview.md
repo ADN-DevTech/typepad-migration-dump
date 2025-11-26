@@ -1,0 +1,152 @@
+---
+layout: "post"
+title: "Wishlist Survey Reminder and New SDK Sample Overview"
+date: "2013-06-11 04:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "2014"
+  - "Events"
+  - "News"
+  - "SDK Samples"
+  - "Training"
+original_url: "https://thebuildingcoder.typepad.com/blog/2013/06/wishlist-survey-reminder-and-new-sdk-sample-overview.html "
+typepad_basename: "wishlist-survey-reminder-and-new-sdk-sample-overview"
+typepad_status: "Publish"
+---
+
+<p>Here is a quick post to
+
+<a href="#2">remind you of the Revit API wishlist survey</a> and
+
+provide the first
+
+<a href="#3">overview of new SDK samples</a> added
+
+in Revit 2014.</p>
+
+
+<a name="2"></a>
+
+<h4>Revit API Wishlist Survey Reminder</h4>
+
+<p>I recently
+
+<a href="http://thebuildingcoder.typepad.com/blog/2013/05/revit-api-wishlist-survey.html">
+mentioned</a> that this year's
+
+<a href="https://www.surveymonkey.com/s/RL8HDKF">
+Revit API wishlist survey</a> is
+
+now open.
+
+<p>It closes end of this week, on <b>June 15<sup>th</sup>, 2013</b>.</p>
+
+<p>Only five more days to go.</p>
+
+<p>These are the relative numbers of repsonses for the various products in percent so far:</p>
+
+<table border="0" align="center">
+<tr><td style="text-align: right;">39</td><td>&nbsp;</td><td>AutoCAD</td></tr>
+<tr><td style="text-align: right;"><b>22</b></td><td>&nbsp;</td><td><b>Revit</b></td></tr>
+<tr><td style="text-align: right;">19</td><td>&nbsp;</td><td>Inventor</td></tr>
+<tr><td style="text-align: right;">11</td><td>&nbsp;</td><td>Civil 3D</td></tr>
+<tr><td style="text-align: right;"> 7</td><td>&nbsp;</td><td>Maya</td></tr>
+<tr><td style="text-align: right;"> 1</td><td>&nbsp;</td><td>3DS Max</td></tr>
+</table>
+
+<p>Please put in some extra effort and show that we really care about the evolution and enhancement of the Revit API.</p>
+
+<p>Let's try to surpass the number of AutoCAD API wishlist responses  :-)</p>
+
+<p>The survey will take less than 5 minutes to complete.</p>
+
+<p>The Revit engineering team uses the results to understand your needs and help prioritize the areas of API enhancements in future planning, so is has a strong and immediate influence on the future API direction.</p>
+
+<p>If you leave your email address, we will send you the final result after it is concluded.
+Your email address will be used solely for this purpose and not shared or used in any other way.</p>
+
+<p>We look forward to receiving your feedback!</p>
+
+<a name ="2b"></a>
+
+<p><strong>Addendum:</strong> If you have any input and suggestions for enhancements to the survey, please add those to the open ended section for wishes and comments in the wishlist survey itself.
+
+<p>That way, your input will become part of the survey results, be preserved and become available to the wish list survey management team.
+
+<p>Thank you!</p>
+
+<center>
+
+<a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e1689788330192aafa53bf970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330192aafa53bf970d" alt="Wishlist survey" title="Wishlist survey" src="/assets/image_8b01d8.jpg" border="0" /></a><br />
+
+</center>
+
+
+<a name="3"></a>
+
+<h4>Revit 2014 SDK Sample Overview</h4>
+
+<p>I am preparing for the upcoming
+
+<a href="http://www.autodesk.ru/adsk/servlet/pc/index?id=21516340&siteID=871736">
+Moscow Revit DevCamp</a> on
+
+June 25<sup>th</sup>, in just two weeks, as
+
+well as the Revit 2014 API training in Sydney, Australia, in July.</p>
+
+<p>Part of this preparation is updating the
+
+<a href="http://thebuildingcoder.typepad.com/blog/2013/06/migrating-the-adn-training-labs-to-revit-2014.html">
+ADN training material</a> that
+
+I finally got started on.
+
+<p>Another step is performing my habitual comparison of the differences between the previous and the current version of the Revit SDK samples.
+
+<p>Here is a quick overview:</p>
+
+<p>The following samples were <strong>removed</strong>:</p>
+
+<ul>
+<li>BarDescriptions
+<li>ModifyIniFile
+<li>ProjectUnit
+</ul>
+
+<p>The following samples were <strong>added</strong>:</p>
+
+<ul>
+<li>DisplacementElementAnimation
+<li>DockableDialogs
+<li>DuplicateViews
+<li>ExtensibleStorageUtility
+<li>FreeFormElement
+<li>PostCommandWorkflow
+<li>ScheduleAutomaticFormatter
+<li>ScheduleToHTML
+<li>SinePlotter
+<li>Site
+<li>Units
+<li>WinderStairs
+</ul>
+
+<p>Another exciting addition is the Structural Analysis SDK, which includes several sub-directories providing extensive documentation and the following samples covering the new code checking API and other areas:</p>
+
+<ul>
+<li>Concrete</li>
+<ul>
+<li>CodeCheckingConcreteExample</li>
+<li>ConcreteCalculationsExample</li>
+</ul>
+<li>ExtensibleStorageDocumentation</li>
+<li>ExtensibleStorageUI</li>
+<li>ResultsInRevit</li>
+<ul>
+<li>QueryingResults</li>
+<li>StoringResults</li>
+</ul>
+<li>SectionPropertiesExplorer</li>
+</ul>
+
+<p>I wish you lots of fun and excitement and many new ideas exploring all of this!</p>

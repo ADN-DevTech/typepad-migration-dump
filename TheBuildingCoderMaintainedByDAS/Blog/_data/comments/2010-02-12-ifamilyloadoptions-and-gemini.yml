@@ -1,0 +1,205 @@
+comments:
+- author: jonz
+  email: jonz.si@gmail.com
+  ip: 89.143.100.116
+  url: ''
+  date: '2010-02-27 10:07:53'
+  body: 'Hi,
+
+
+    I hope I understand correctly what are you trying to tell us: that this example
+    should show us how to deal with annoying "Family Already Exists" dialog box.
+
+
+    If that is correct, then your example does not do the job - I still get the dialog,
+    when this code is executed:
+
+    if (doc.LoadFamily(filename, out family))
+
+
+    If I didn''t understand your post, then I would like to ask you, to provide us
+    with the example, how to programmatically suppress "Family Already Exists" dialog
+    box.
+
+
+    Thank you and keep up the good work!'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-03-01 12:11:36'
+  body: "Dear Jonz,\n\nActually this post is trying to tell you that under certain\
+    \ convoluted circumstances, it is possible to make use of the IFamilyLoadOptions\
+    \ call-back. The problems that make it hard to use right now are being worked\
+    \ on, so it should work more seamlessly in the near future.\n\nThe dialogue may\
+    \ not be suppressed by this usage. If that is your main problem, then you might\
+    \ want to try the suggestion making use of the Revit API discussed in \n\n<a href=\"\
+    http://thebuildingcoder.typepad.com/blog/2009/06/autoconfirm-save-using-dialogboxshowing-event.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/06/autoconfirm-save-using-dialogboxshowing-event.html</a>\n\
+    \nIf that is not sufficient, you can try the more ubiquitous and hard core Windows\
+    \ API dialogue clicker solution to dismiss any dialogue presented in\n\n<a href=\"\
+    http://thebuildingcoder.typepad.com/blog/2009/10/dismiss-dialogue-using-windows-api.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/10/dismiss-dialogue-using-windows-api.html</a>\n\
+    \nCheers, Jeremy."
+- author: jonz
+  email: jonz.si@gmail.com
+  ip: 109.182.138.168
+  url: ''
+  date: '2010-03-07 05:59:33'
+  body: It works, thank you for your help!
+- author: Fizze
+  email: fizze10@gmail.com
+  ip: 117.6.64.148
+  url: http://harmonysoft.com.vn
+  date: '2010-06-03 03:44:27'
+  body: 'Hi,
+
+    Can you help me with problem similar.
+
+    I use  doc.LoadFamily(filename) to load family and I get the dialog with title
+    is "Shared family already exits" and i want remove automatic this dialog with
+    revit API 2011.  It not easy with me that is beginner.
+
+    Can you post example code to solve this problem?
+
+    I hope you help me.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 91.137.20.132
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-03 10:47:12'
+  body: 'Dear Fizze,
+
+
+    Please have a look at the new Revit 2011 Failure API and the ErrorHandling SDK
+    sample.
+
+
+    Cheers, Jeremy.'
+- author: ning zhou
+  email: superjoe302@yahoo.ca
+  ip: 69.31.200.202
+  url: ''
+  date: '2010-06-18 17:25:33'
+  body: 'hi Jeremy,
+
+
+    i had the exact same issue regarding dynamically change family and reload into
+    current project.
+
+
+    just wonder if there''s better way other than using redundant modeless dialogue
+    and then supress it (i assume it can be supressed, right?), i''m using 2011 API
+    now.
+
+
+    i already filed an ADN request, and mentioned this issue to Joe Ye, along w/ your
+    blog''s link to this particular issue.
+
+
+    very appreciated for your clarification.
+
+
+    have a great weekends!
+
+
+    Ning'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-19 04:00:48'
+  body: "Dear Ning, \n\nMy understanding is that all issues with IFamilyLoadOptions\
+    \ have been resolved in Revit 2011.\n\nI don't quite understand what you mean\
+    \ by the redundant modeless dialogue?\n\nI would suggest that you update the ADN\
+    \ request and ask again to obtain a complete solution.\n\nThank you, I wish you\
+    \ a wonderful weekend as well.\n\nCheers, Jeremy."
+- author: Ning Zhou
+  email: superjoe302@yahoo.ca
+  ip: 198.53.187.24
+  url: ''
+  date: '2010-06-19 11:09:45'
+  body: 'thanks Jeremy for your reply.
+
+
+    what i means is -> in 2011 API, do we still have to call the LoadFamily method
+    outside of a command context? i tested yesterday, seems it''s still the case,
+    so i used modeless dialogue just as your RevitTest sample, but i don''t need that
+    modeless dialogue indeed, that''s why i call it redundant modeless dialogue.
+
+
+    very appreciated for your help.
+
+
+    cheers.
+
+
+    Ning'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.160.152
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-06-19 17:09:05'
+  body: "Dear Ning, \n\nNo, you no longer have to call it outside the command context\
+    \ in Revit 2011, as far as I know, it should work completely normally now.\n\n\
+    The only issue that you need to be aware of in Revit 2011 is as designed: when\
+    \ you reload a family, nothing happens unless the family really has been modified\
+    \ since it was last loaded.\n\nTherefore, this call is not executed either unless\
+    \ the family really was modified since it was last loaded.\n\nThat has confused\
+    \ some users, and that is the only issue I am aware of nowadays. Maybe this is\
+    \ the same thing you have run into as well?\n\nCheers, Jeremy."
+- author: ning zhou
+  email: superjoe302@yahoo.ca
+  ip: 69.31.200.202
+  url: ''
+  date: '2010-06-21 10:24:46'
+  body: right, it works for 2011, thanks Jeremy.
+- author: sami
+  email: algorythm001@yahoo.com
+  ip: 71.249.255.140
+  url: ''
+  date: '2011-02-08 16:43:33'
+  body: 'Jeremy,
+
+    is there any example of IFamilyLoadOptions method implemented that you know of
+    for Revit 2011?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-02-09 12:44:09'
+  body: 'Dear Sami,
+
+
+    I have had contact with people using it with success, but no code to provide.
+    Hope this helps.
+
+
+    Cheers, Jeremy.'
+- author: aditi
+  email: lunatics_frmoon@yahoo.com
+  ip: 71.249.255.140
+  url: ''
+  date: '2011-02-23 13:07:46'
+  body: 'jeremy,
+
+    Just need more details about "IFamilyLoadOptions" in 2011, I tried using the example
+    you have posted here, options work in 2011, and we dont need to call them outside
+    the project, But, if i am trying to reload(overwrite existing) family into the
+    project I still get the warning box asking the user to select "overwrite the existing
+    family and its parameters" (somehow i thought "IFamilyLoadOptions" should have
+    taken care of this) how can i resolve this problem?'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.167.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-02-23 15:55:45'
+  body: "Dear Aditi,\n\nI do indeed believe that implementing IFamilyLoadOptions can\
+    \ resolve the problem. I have seen an elegant example where an external command\
+    \ implementation was derived from both ExternalCommand and IFamilyLoadOptions,\
+    \ and obviously implemented all the required methods: Execute, OnFamilyFound and\
+    \ OnSharedFamilyFound. The latter two were simply:\n\npublic bool OnFamilyFound(\
+    \ \n  bool familyInUse, \n  ref bool overwriteParameterValues )\n{\n  return true;\n\
+    }\n\npublic bool OnSharedFamilyFound( \n  Family sharedFamily, \n  bool familyInUse,\
+    \ \n  ref FamilySource source, \n  ref bool overwriteParameterValues )\n{\n  return\
+    \ true;\n}\n\nDoes that help in any way?\n\nCheers, Jeremy.\n-----"

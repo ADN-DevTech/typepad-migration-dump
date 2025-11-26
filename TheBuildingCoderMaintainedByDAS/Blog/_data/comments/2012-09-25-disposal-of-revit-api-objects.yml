@@ -1,0 +1,45 @@
+comments:
+- author: KR
+  email: swiftbim@gmail.com
+  ip: 75.72.28.151
+  url: ''
+  date: '2012-09-25 20:53:34'
+  body: Thanks for following up on it Jeremey
+- author: Jeremy Tammik
+  email: ''
+  ip: 84.174.232.36
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-09-26 02:49:49'
+  body: "Dear KR, \n\nMy pleasure entirely. Thank you for raising the issue.\n\nCheers,\
+    \ Jeremy."
+- author: David Tan
+  email: david7767@hotmail.com
+  ip: 124.77.250.115
+  url: ''
+  date: '2012-09-27 05:15:09'
+  body: "Hi Jeremy,\n\nI seemingly encountered a memory issue a couple of weeks ago.\
+    \ I tried to  create a set of view sheets most of which were inserted a raster\
+    \ image. After about 25+ view sheets created, I found my Windows is close to running\
+    \ out of memory (93% of physical memory usage), while CPU usage was fine.I noticed\
+    \ that the memory usage increasing along with view sheet creation one by one.\n\
+    \nHere's my code to insert raster image to view sheet:\n\nprotected Element InsertImage(string\
+    \ imageFile)\n{\n\tImageImportOptions options = new ImageImportOptions();\n\t\
+    options.Placement = BoxPlacement.Center;\n\toptions.RefPoint = new XYZ(0, 0, 0);//图片的初始化位置为图片的几何中心在原点。\n\
+    \n\tElement elemImage = null;\n\n\tusing (Transaction trans = new Transaction(RevitDoc))\n\
+    \t{\n\t\ttrans.Start(\"Insert Image\");\n\n\t\tif (!(RevitDoc.Import(imageFile,\
+    \ options, ViewSheet, out elemImage)))\n\t\t{\n\t\t\tstring message = string.Format(\"\
+    错误！！！向视图导入图片“{0}”\", imageFile);\n\t\t\tthrow new InvalidOperationException(message);\n\
+    \t\t}\n\n\t\ttrans.Commit();\n\t}\n\n\treturn elemImage;\n}\n\nI tried to dispose\
+    \ the raster image element after insertion but it didn't work. Is that possible\
+    \ that Revit doesn't handle raster image element properly? Could you please give\
+    \ me some hints? Thanks a lot!\n\nBest Regards,\nDavid Tan"
+- author: David Tan
+  email: david7767@hotmail.com
+  ip: 124.77.250.115
+  url: ''
+  date: '2012-09-27 05:18:25'
+  body: 'I forgot to mention that all images inserted to the view sheets were actually
+    exported from Revit project and family. The size of these image files are from
+    500KB to 1.5MB, which I don''t think is large.
+
+    -----'

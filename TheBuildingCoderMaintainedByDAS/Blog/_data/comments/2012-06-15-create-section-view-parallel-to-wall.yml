@@ -1,0 +1,214 @@
+comments:
+- author: Do Tuan Hanh
+  email: augidomeo@gmail.com
+  ip: 118.70.128.100
+  url: http://dotuanhanh.blogspot.com
+  date: '2012-06-15 05:34:05'
+  body: 'Dear Jeremy,
+
+    Help me at Wrapping of Wall layer finishing in view
+
+    <a href="http://thebuildingcoder.typepad.com/.a/6a00e553e1689788330176157ad409970c-800wi">http://thebuildingcoder.typepad.com/.a/6a00e553e1689788330176157ad409970c-800wi</a>
+
+    Thanks'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-06-15 07:07:16'
+  body: 'Dear Do Tuan Hanh,
+
+
+    ?
+
+
+    Cheers, Jeremy.'
+- author: Hep
+  email: hepzichandra@yahoo.com
+  ip: 59.163.205.194
+  url: ''
+  date: '2012-07-04 00:59:41'
+  body: 'Hi Jeremy,
+
+
+    How do I do this (Create Section View Parallel to Wall)without creating new section
+    views, ie by changing only the crop box of an exisitng view.
+
+
+
+    Regards,
+
+    Hep'
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.8
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-08-23 09:14:25'
+  body: 'Dear Hep,
+
+
+    In the code above, I create a bounding box and pass it into the view creator method
+    CreateSection.
+
+
+    To modify an existing view, simply set up the same bounding box and assign it
+    to the view SectionBox property instead.
+
+
+    Cheers, Jeremy.'
+- author: Nik
+  email: nikmulconray.architecture@gmail.com
+  ip: 115.64.197.13
+  url: ''
+  date: '2014-08-31 01:09:52'
+  body: "Hi Jeremy,\nHave you been outdoor adventuring much lately?\nHere is a question\
+    \ I have been googling and had no success on so far. \nDo you know of a better\
+    \ method or a way to encourage the marker.CreateElevation() method to not get\
+    \ confused when it sees a second floor and create a view with a height close to\
+    \ the top of the floor rather than the ceiling?\n\nheres an example of my code:\n\
+    ==============================\nElevationMarker marker = ElevationMarker.CreateElevationMarker(doc,\
+    \ viewFamilyTypes.First().Id, xyz, elevationScale);\n             \n         \
+    \   \n//create 4 internal elevations for on each marker index\nfor (int i = 0;\
+    \ i < 4; i++)\n                     {\n                    \nViewSection elevationView\
+    \ =\n marker.CreateElevation(doc, floorView.Id, i);\n\ncheers,\nNik"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-09-01 06:08:08'
+  body: 'Dear Nik,
+
+
+    Thanks for asking. No, not as much as I would like and need, I''m afraid. Too
+    many comments on the blog, and other queries  :-)
+
+
+    No, I have never heard of such an issue before. How strange.
+
+
+    It also seems a bit strange to me to create the marker first, and then use that
+    to drive the elevation. Sounds like a very user interface oriented sort of approach.
+
+
+    Have you tried to create the elevation all on its own? And add a marker afterwards?
+
+
+    Alternatively, you should actually be able to create the new elevation anywhere
+    you want and then modify its Z coordinate later to anything you like.
+
+
+    I hope this helps.
+
+
+    Cheers, Jeremy.'
+- author: nik mulconray
+  email: nikmulconray.architecture@gmail.com
+  ip: 115.64.197.13
+  url: ''
+  date: '2014-09-09 07:41:09'
+  body: 'Hi Jeremy,
+
+    I was in a Mountaineering club in Adelaide, however I have been kept busy by my
+    firm and as such have done one rail trail since moving to Brisbane.
+
+    I will give your approaches a go and will let you know what works.
+
+    Thanx again,
+
+    Nik'
+- author: Jeremy Tammik
+  email: ''
+  ip: 84.137.123.167
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-09-10 16:19:06'
+  body: 'Dear Nik,
+
+
+    Best of luck to you with all your approaches, both in programming, business and
+    mountains!
+
+
+    Cheers, Jeremy.'
+- author: Luis
+  email: tito.herrero@gmail.com
+  ip: 85.86.25.92
+  url: ''
+  date: '2014-12-20 14:57:06'
+  body: "Hi Jeremy, i am a newbie in programming and, for me, is has been a victory\
+    \ to make this little app run.\n The problem is when the wall is not located in\
+    \ a 0 elevation level, in this case, the new section view appears some distance\
+    \ up respect the wall (the Y coordinate appears to be wrong, X and Z are correct).\
+    \ I have tried to understand all the steps you made, but i miss myself in the\
+    \ transformation of the coordinates from the wall's bounding box to the models\
+    \ coordinates, and i am afraid that there is the problem but dont know hot to\
+    \ solve.\nThe next step for me is to isolate the wall in the section view and\
+    \ apply a view template to this view. (some suggestions will be apreciated )\n\
+    \nCheers from Spain\nLuis"
+- author: Luis
+  email: tito.herrero@gmail.com
+  ip: 85.86.25.92
+  url: ''
+  date: '2014-12-21 14:18:30'
+  body: 'Well, i have found a way to avoid my problem.
+
+    In the part where you create the new sectionbox, if you add the minZ and the maxZ
+    to the new min and max points, you are adding a full level height more. I noticed
+    thath if my wall level is 10 meters, the new view appears 10 meters upper of where
+    it has to appear...
+
+
+    This are my "new" min and max, and they work.
+
+    I also changed the lenght of the view to adjust to my wall.
+
+
+    XYZ min = new XYZ( -w / 2, - offset, -offset );
+
+    XYZ max = new XYZ( w / 2 , h + offset, offset );
+
+
+    Now, i am trying to select the new sectionview, apply a view template and isolate
+    the wall... and have no idea of how to do it hehe'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-12-22 01:05:26'
+  body: 'Dear Luis,
+
+
+    Congratulations on your good progress.
+
+
+    You will crack this  :-)
+
+
+    Cheers, Jeremy.'
+- author: modar
+  email: modar.einstein@gmail.com
+  ip: 178.62.50.88
+  url: ''
+  date: '2015-02-10 07:07:46'
+  body: 'Dear Jeremy,
+
+    how to get the solid of a column
+
+    thanks'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2015-02-10 07:14:20'
+  body: 'Dear Modar,
+
+
+    There are about a hundred answers to that question right here on The Building
+    Coder.
+
+
+    Hint: search for get_Geometry.
+
+
+    Cheers, Jeremy.
+
+    -----'

@@ -1,0 +1,135 @@
+---
+layout: "post"
+title: "DevDay Conference in Munich and WPF DoEvents"
+date: "2016-01-18 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "DevDays"
+  - "Events"
+  - "External"
+  - "WPF"
+original_url: "https://thebuildingcoder.typepad.com/blog/2016/01/devday-conference-in-munich-and-wpf-doevents.html "
+typepad_basename: "devday-conference-in-munich-and-wpf-doevents"
+typepad_status: "Publish"
+---
+
+<p>Let's talk about doing events, from two radically different perspectives, one great big external one and lots of teeny-weeny little internal ones.</p>
+<p>I'll share some pictures from the European DevDay conference and snow in Munich today, then discuss a WPF issue that came up last week:</p>
+<ul>
+<li><a href="#2">DevDay conference in Munich</a></li>
+<li><a href="#3">WPF DoEvents</a></li>
+<li><a href="#4">Addendum on WPF versus WinForms</a></li>
+<li><a href="#5">Addendum on Not Using Revit API within WPF <code>DataContext</code></a></li>
+<li><a href="#6">WPF element id converter</a></li>
+</ul>
+<h4><a name="2"></a>DevDay Conference in Munich</h4>
+<p>Today we held the one and only European DevDay conference in Munich:</p>
+<center><a data-flickr-embed="true" href="https://www.flickr.com/photos/jeremytammik/albums/72157662970001709" title="DevDay Conference Munich"><img src="/assets/23827373054_eb50a70d72_n.jpg" alt="DevDay Conference Munich" width="320" height="240" /></a>
+<script src="//embedr.flickr.com/assets/client-code.js"></script>
+</center>
+<p><a href="http://adndevblog.typepad.com/aec/jaime-rosales.html">Jaime Rosales Duque</a> came all the way from New York to help, and <a href="http://dances-with-elephants.typepad.com/blog/about-the-author.html">Jim Quanci</a> even further, from San Francisco.</p>
+<p>We have participants from all over Europe and even some from India.</p>
+<p>The next few days are dedicated to an abbreviated <a href="http://autodeskcloudaccelerator.com">Cloud Accelerator</a> here that I am looking forward to very much.</p>
+<p>Meanwhile, here is Maciej Szlek's WPF issue and solution:</p>
+<h4><a name="3"></a>WPF DoEvents</h4>
+<p>Exactly two months back, we discussed <a href="http://thebuildingcoder.typepad.com/blog/2015/11/pickpoint-with-wpf-and-no-threads.html">PickPoint with WPF and no threads attached</a>.</p>
+<p>Now another modeless WPF issue was raised and solved by <a href="http://maciejszlek.pl">Maciej 'Max' Szlek</a>:</p>
+<p><strong>Question:</strong> I'm creating a WPF addin that performs operations which will take much time.</p>
+<p>During this time the add-in dialogue don't respond until the operation ends, even when calling the external event Raise method by view-model command.</p>
+<p>Do you have some workaround to achieve dialogue responsively during performing API operations?</p>
+<p><strong>Answer:</strong> Yes, I have heard about similar issues in the past involving blocking of modeless WPF forms.</p>
+<p>Unfortunately, I cannot find the relevant thread any longer.</p>
+<p>The workarounds involved stuff like setting the window focus, e.g. using GetForegroundWindow and SetForegroundWindow, and allowing the WPF form to access the Windows message queue.</p>
+<p>I think Revit was somehow blocking the message queue, for some reason.</p>
+<p>I think the solution involved <a href="http://stackoverflow.com/questions/5181777/use-of-application-doevents">calling the DoEvents method</a>.</p>
+<p>A couple of WPF issues came up in the forum in the past couple of years, e.g.:</p>
+<ul>
+<li><a href="http://forums.autodesk.com/t5/revit-API/revit-API-dll-preventing-wpf-window-regeneration/m-p/5545975">Revit API preventing WPF window regeneration</a></li>
+<li><a href="http://forums.autodesk.com/t5/revit-API/wpf-window-loses-control-when-revit-API-displays-an-error/m-p/5319853">WPF window loses control when Revit API displays an error</a></li>
+<li><a href="http://tech.pro/tutorial/799/wpf-tutorial-using-wpf-in-winforms">WPF tutorial using WPF in Winforms</a></li>
+</ul>
+<p>On the other hand, you can tell from these discussions that some people are successfully using WPF forms, and the development team are not aware of any issues with them.</p>
+<p>I recommend <a href="http://forums.autodesk.com/t5/revit-API/winforms-or-wpf/m-p/5558289">sticking with Windows Forms</a> if you have a choice.</p>
+<p>Here is another recent article on <a href="http://thebuildingcoder.typepad.com/blog/2015/11/pickpoint-with-wpf-and-no-threads.html">modeless WPF forms, PickPoint and multithreading</a>, addressing other issues that also might be of interest to you, an <a href="http://thebuildingcoder.typepad.com/blog/2012/10/ensure-wpf-add-in-remains-in-foreground.html#2">older one on WPF</a>, and a <a href="http://thebuildingcoder.typepad.com/blog/2013/12/triggering-immediate-external-event-execute.html?cid=6a00e553e16897883301a3fd3c071c970b#comment-6a00e553e16897883301a3fd3c071c970b">comment on triggering an event from Jon</a>.</p>
+<p>Later, one little addition; I searched for "<a href="https://duckduckgo.com/?q=revit+API+WPF+doevents">Revit API WPF DoEvents</a>" and found this article on <a href="http://thebuildingcoder.typepad.com/blog/2014/05/multithreading-throws-exceptions-in-revit-2015.html">multithreading throwing exceptions in Revit 2015</a>.</p>
+<p><strong>Response:</strong> I grabbed this <a href="http://stackoverflow.com/a/11899439">DoEvents implementation on StackOverflow</a> to "start work on a method that runs on the Dispatcher thread, and it needs to block without blocking the UI Thread... implement a DoEvents based on the Dispatcher itself".</p>
+<p>I don't like it, it's not too elegant, it forces to break <a href="https://de.wikipedia.org/wiki/Model_View_ViewModel">mvvm</a> pattern, but it works.</p>
+<p>If you would like to see my ugly non-refactored test code, clone my <a href="https://bitbucket.org/kedziormsz/externaleventtests.git">ExternalEventTests sample on BitBucket</a>, also <a href="zip/kedziormsz-externaleventtests-6c9eee0b346a.zip">saved locally</a> here on The Building Coder.</p>
+<p>I haven't tested it much yet but it seems to be stable.</p>
+<p>You can run it from the add-in manager – lack of static references to IExternalApplication.</p>
+<p>On the occasion it allows to check if raised external events are queued or running next to each other. They are queued which is gooood but I think safer would be adapting below solution to the one external event – we don't know how the API engine will change in the future... ;) <a href="http://thebuildingcoder.typepad.com/blog/2010/11/pattern-for-semi-asynchronous-idling-API-access.html">pattern for semi-asynchronous Idling API access</a>...</p>
+<p>Anyways thank you for your very accurate advice!</p>
+<p>What would be in your circle of interest is WpfCommand.</p>
+<p>WpfWindow contains a WPF implementation of the DoEvents method (in the way mentioned before) which is injected to ViewModel to minimize dependencies.</p>
+<p>ViewModel contains 3 commands.</p>
+<p>The first picks doors (it use part of my little cross API version framework) – simply to check how modeless WPF window would behave during hiding, picking and showing again.</p>
+<p>The second and third flip doors – both have their own external event with different handler implementation. ViewModel's setStatus method calls injected DoEvents method.</p>
+<p>If you have some more questions let me know.</p>
+<p>Oh, and you can feel free to publish this solution on the blog of course, I don't have any problem with that ;)</p>
+<p><strong>Answer:</strong> When you mention picking and flipping doors, that reminds me of the Revit SDK ModelessDialog <code>ModelessForm_ExternalEvent</code> and <code>ModelessForm_IdlingEvent</code> samples.</p>
+<p>Are you aware of those?</p>
+<p>Is there any similarity, or is your sample completely unrelated to those?</p>
+<p><strong>Response:</strong> Yes, I'm aware of those, but my approach is quite different.</p>
+<p>Congratulations to Max on solving this, and many thanks for sharing it here with us!</p>
+<h4><a name="4"></a>Addendum on WPF versus WinForms</h4>
+<p>Jeroen Van Vlierden adds an update:</p>
+<blockquote>
+<p>Just to let you know: I noticed that you mentioned my thread on
+a <a href="http://forums.autodesk.com/t5/revit-API/wpf-window-loses-control-when-revit-API-displays-an-error/m-p/5319853">WPF window losing control when Revit API displays an error</a> above.</p>
+<p>I can add to this that I managed to work around the issue by converting the wpf form to a user control and using this user control in a winforms window with a wpf element host.</p>
+<p>That works fine.</p>
+<p>It was however disappointing that I was forced to do this after I spent a lot of work on my application.</p>
+<p>Converting the application to winforms is no longer an option, so I will stick to this for now.</p>
+</blockquote>
+
+<h4><a name="5"></a>Addendum on Not Using Revit API within WPF <code>DataContext</code></h4>
+<p>Hps Anave shares another nugget of WPF experience in
+the <a href="http://forums.autodesk.com/t5/revit-api/bd-p/160">Revit API discussion forum</a> thread 
+on <a href="http://forums.autodesk.com/t5/revit-api-forum/revit-api-dll-preventing-wpf-window-regeneration/m-p/6742531">Revit API DLL preventing WPF window regeneration</a>:</p>
+<blockquote>
+<p>Well, after a very long time integrating WPF in my own programs, my recommendation is NOT to use any Revit API class inside the view model class where you assign to the WPF window's <code>DataContext</code>.</p>
+<p>If ever you want to pass or get any information coming from an element or a parameter, it is better to extract its element Id's <code>IntegerValue</code>, and, when you are done with the WPF window, just create an <code>ElementId</code> from the integer value you acquired from the WPF window.</p>
+<p>There may be other solutions out there but this is the solution I have so far.</p>
+</blockquote>
+<p>Many thanks to Hps for sharing this!</p>
+<h4><a name="6"></a>WPF Element Id Converter</h4>
+<p>In the same thread, Gonçalo Feio shared his WPF element id converter, saying, This works for me:</p>
+<pre class="code">
+<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">ElementIdConverter</span>&nbsp;:&nbsp;IValueConverter
+{
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">object</span>&nbsp;Convert(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">object</span>&nbsp;value,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Type</span>&nbsp;targetType,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">object</span>&nbsp;parameter,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;CultureInfo&nbsp;culture&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;value&nbsp;<span style="color:blue;">is</span>&nbsp;R.ElementId&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;(&nbsp;value&nbsp;<span style="color:blue;">as</span>&nbsp;ElementId&nbsp;).IntegerValue;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;-1;
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">object</span>&nbsp;ConvertBack(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">object</span>&nbsp;value,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Type</span>&nbsp;targetType,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">object</span>&nbsp;parameter,
+&nbsp;&nbsp;&nbsp;&nbsp;CultureInfo&nbsp;culture&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;value&nbsp;<span style="color:blue;">is</span>&nbsp;<span style="color:blue;">string</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;id;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;<span style="color:blue;">int</span>.TryParse(&nbsp;value&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:blue;">string</span>,&nbsp;<span style="color:blue;">out</span>&nbsp;id&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">new</span>&nbsp;ElementId(&nbsp;id&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;ElementId.InvalidElementId;
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p>In this case, I expose a ElementId property in the view model.</p>
+<p>You can also add validation to give some feedback to the end user.</p>
+<p>Many thanks to Gonçalo for sharing this!</p>

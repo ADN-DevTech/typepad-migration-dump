@@ -1,0 +1,248 @@
+comments:
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadgraph.de
+  date: '2012-01-27 06:16:32'
+  body: 'Hi Jeremy,
+
+
+    there are still many other interesting topics in the 2012 API which haven''t found
+    their way to your blog yet.
+
+
+    I would like to see more about the new Utils methods.
+
+
+    If you seach for "*utils" in the 2011 RevitAPI.chm, there are 43 results; in 2012,
+    you''ll find 265 entries.
+
+    There are much static classes whose names end with "-Utils", e.g. PlumbingUtils,
+    WallUtils, FamilyUtils, HostObjectUtils, OptionalFunctionalityUtils...
+
+
+    Most of them provide useful methods which someone should know before trying to
+    implement their functionality on his own, which would be unnecessary.
+
+
+    Bye,
+
+    Rudolf'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-02-02 11:22:34'
+  body: "Dear Rudolf,\n\nYes, I fully agree with you.\n\nI asked around internally,\
+    \ and we do not have any unpublished documentation that we are holding back. The\
+    \ \"What's New\" section in the Revit API help file RevitApi.chm is all we have.\n\
+    \nApparently, you have done some little research on this already. If you would\
+    \ like to put together a little overview of what you found out so far, that might\
+    \ be useful as a starting point. Optimistically assuming that the class names\
+    \ have anything at all to do with their purpose, of course  :-)\n \nCheers, Jeremy."
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadgraph.de
+  date: '2012-02-06 03:29:43'
+  body: 'Hi Jeremy,
+
+
+    I didn''t mean that I needed more information than I already can get from the
+    RevitAPI.chm.
+
+    I think the API documentation is sufficient.
+
+
+    But for the readers of your blog, it could be useful if the different Utils methods
+    would be displayed next to each other, in a table, as an additional documentation,
+    so to speak.
+
+    A little overview, as you said.
+
+
+    Unfortunately, I don''t have time for doing that.
+
+
+
+    Bye,
+
+    Rudolf'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-02-08 03:45:29'
+  body: 'Dear Rudolf,
+
+
+    Great idea, I fully agree. Most of those classes I have not explored yet either.
+    I would love to do so. We are in the same boat timewise, though. Any takers?
+
+
+    Do you have any bright ideas on how to extract the data for such a table?
+
+
+    When I search for ''utils'' in the Revit 2012 API help file, I see 500 results
+    listed, and no way to copy an overview of them to a text file or any other destination
+    outside the help window.
+
+
+    Maybe it would be more efficient and less work to use Reflection instead and extract
+    the data directly from the Revit namespaces in the API assemblies?
+
+
+    Cheers, Jeremy.'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadgraph.de
+  date: '2012-02-09 03:52:36'
+  body: "Hi Jeremy,\n\nI would just copy-paste it from the API.chm.\n\nYou could start\
+    \ a new series named \"Utils\" in which you \"present\" a single *Utils class\
+    \ every third day or so. \n\nSome additional explanations, hints or code samples\
+    \ will be sufficient.\nPerhaps there is a particular method that must be handled\
+    \ with care, so you could just point out that without talking about the other\
+    \ methods.\n\nThe word \"Utils\" then appears both in your tag cloud and in the\
+    \ tag list; using Google search with your blog, will help visitors to find all\
+    \ the *Utils stuff, too.\n\nBy the way, what about a new namespace called \"Autodesk.Revit.Utils\"\
+    \ which contains all the *Utils classes (plus some new geometrical helper methods\
+    \ like an offset method for a polygon, for example)? \nThat's a suggestion to\
+    \ the API Dev team, in fact.\n\nYeah, just start a series.\nKean does it this\
+    \ way, remember his Kinect stuff.\n\n\nBest regards,\nRudolf"
+- author: Jeremy Tammik
+  email: ''
+  ip: 151.13.239.254
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-02-10 04:15:49'
+  body: 'Dear Rudolf,
+
+
+    I am very glad that you find the API documentation sufficient, that is really
+    good news!
+
+
+    I like you suggestions a lot. Somehow I suspect that Kean sold his soul and now
+    has a couple of extra hours per day to play with Kinect, and another couple to
+    play with F#. I''m still considering something similar, but have not taken the
+    plunge yet. Until I do so, I don''t really feel like wading through 500 hits in
+    the API documentation and manually extracting information from them.
+
+
+    By the way, the Revit API already includes a namespace named Autodesk.Revit.Utility,
+    providing functionality related to material assets, I believe.
+
+
+    Cheers, Jeremy.'
+- author: Rudolf Honke
+  email: rudolf.honke@acadGraph.de
+  ip: 193.158.119.50
+  url: http://www.acadgraph.de
+  date: '2012-02-10 06:54:29'
+  body: 'Hi Jeremy,
+
+
+    yes, I know that there is already a namespace named "Utility", but as you said,
+    it refers more to materials but it is not a namespace for common utilities.
+
+
+    Talking about Kean, there is another point I want to say.
+
+    What about porting his AutoCAD sample code to Revit ?
+
+
+    There is a loose series about geometrical phenomenons, for example, about fractals
+    or the Apollonian gasket.
+
+
+    I think that AcDBLine is equivalent to ModelLine (or DetailLine), every AcGeSomething
+    has a counterpart in the Revit geometry classes.
+
+    As for creating solids, we are forced to use the family context (or the AVF),
+    but nearly everything could also be performed in Revit.
+
+
+    To be honest, much of the AutoCAD stuff is just playing around, but you are not
+    forbidden to have fun when coding ;-)
+
+
+    What about this:
+
+    Firstly, let Kean do all the AutoCAD work.
+
+    Wait some time until he has finished the code and goes to bed.
+
+    Then, when he is asleep, grab his code and adjust it to Revit environment.
+
+
+    When he wakes up, he sees a new entry in YOUR blog, too.
+
+
+    Perhaps he does''nt sleep at all (so he has more time for the Kinect stuff). In
+    this case, he will prevent you from getting his code clandestinely.
+
+
+
+    Best regards,
+
+    Rudolf'
+- author: Dima
+  email: dchiriacov@gmail.com
+  ip: 76.109.244.16
+  url: http://dimak1999.blogspot.com/
+  date: '2012-04-16 08:17:19'
+  body: Oh my god, cannot believe I just stumbled upon you mentioning ElementIntersectsElementFilter!!!!
+    I went thru so much hustle to recreate this functionality from scratch :(
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.181.107
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-04-17 04:45:19'
+  body: 'Dear Dima,
+
+
+    Yes, terrible, isn''t it? There is so much stuff in the Revit API that I have
+    never heard or dreamed about. And obviously I cannot go searching for something
+    if I have no idea that it exists. The same thing happens to me all the time, and
+    I am continuously flabbergasted by new stuff that was in there all the time and
+    I was unaware of. So you have my full sympathy  :-)
+
+
+    Cheers, Jeremy.'
+- author: Dima
+  email: dchiriacov@gmail.com
+  ip: 76.109.244.16
+  url: http://dimak1999.blogspot.com/
+  date: '2012-04-17 21:04:56'
+  body: Jeremy, Yes it happens all the time. I usually try to think of it as a time
+    spent towards practicing rather than wasted time - just to avoid to feel bad about
+    the time wasted ;) I usually just have "abuse" the search text box on your blog
+    ;)
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.182.129
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-04-18 01:45:53'
+  body: 'Dear Dima,
+
+
+    Yes, of course, absolutely! And that is by no means abuse, absolutely intended
+    usage, and I wish you that you always find everything you are looking for  :-)
+
+
+    Cheers, Jeremy.'
+- author: Eric Anastas
+  email: ''
+  ip: 12.149.154.5
+  url: http://profile.typepad.com/ericanastas
+  date: '2012-05-24 00:58:03'
+  body: 'Jeremy,
+
+
+    If I make and register a custom IPerformanceAdviserRule does Revit ever automatically
+    run this rule? Or do I always have to manualy trigger it from PerformanceAdviser?
+
+
+    - Eric Anastas
+
+    -----'

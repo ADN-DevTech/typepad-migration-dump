@@ -1,0 +1,12 @@
+comments:
+- author: BXW
+  email: ''
+  ip: 68.178.118.126
+  url: http://profile.typepad.com/6p01b8d06cc763970c
+  date: '2014-09-18 13:24:56'
+  body: "I struggled with this for a bit before figuring this out.  You can determine\
+    \ if an Electrical Equipment family is a Panel or Switchboard by accessing the\
+    \ 'Part Type' information stored on the family.  \n\nFamilyInstance ee = e as\
+    \ Autodesk.Revit.DB.FamilyInstance;\nFamilySymbol fs = ee.Symbol as Autodesk.Revit.DB.FamilySymbol;\n\
+    \nFamily eeFamily = fs.Family;\n\neeFamily.get_Parameter(BuiltInParameter.FAMILY_CONTENT_PART_TYPE).AsInteger()\n\
+    \n14 = Panelboard\n16 = Switchboard\n\nHope this helps,\n\nBen\n-----"

@@ -1,0 +1,551 @@
+---
+layout: "post"
+title: "Modeless Form Keep Revit Focus and On Top"
+date: "2017-10-15 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - ".NET"
+  - "2018"
+  - "Modeless"
+  - "Photo"
+  - "User Interface"
+  - "Win32"
+  - "WPF"
+original_url: "https://thebuildingcoder.typepad.com/blog/2017/10/modeless-form-keep-revit-focus-and-on-top.html "
+typepad_basename: "modeless-form-keep-revit-focus-and-on-top"
+typepad_status: "Publish"
+---
+
+<p>I am back from a nice break in Italy, including a visit to
+the <a href="https://en.wikipedia.org/wiki/Tarot_Garden">Giardino dei Tarocchi</a>,
+the Tarot Garden sculpture garden based on the tarot cards, created by Niki de Saint Phalle
+(<a href="https://flic.kr/s/aHsm6U4nnA">photos</a>):</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb09cd6074970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb09cd6074970d image-full img-responsive" alt="Breakfost on the beach" title="Breakfost on the beach" src="/assets/image_a505ef.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<p>Before I get back to work properly attending the European Autodesk University in Darmstadt, Germany, here is a note from Hank DiVincenzo, Sr. Software Engineer at <a href="http://www.ideateinc.com">Ideate, Inc</a>, on keeping Revit focused and on top when working with a modeless form, and an important heads-up warning from the Revit development team on a future change coming:</p>
+
+<ul>
+<li><a href="#2">Two issues</a></li>
+<li><a href="#3">First issue problem</a></li>
+<li><a href="#4">The first resolution</a></li>
+<li><a href="#5">Code example for first resolution</a></li>
+<li><a href="#6">Second issue context</a></li>
+<li><a href="#7">The second problem</a></li>
+<li><a href="#8">The second resolution</a></li>
+<li><a href="#9">Code example for second resolution</a></li>
+<li><a href="#10">Warning! Things will change in the next release</a></li>
+</ul>
+
+<p>We here at Ideate Software are seeing what appears to be Revit add-in ownership issues with Revit's main window. </p>
+
+<p>The behavior has changed between Revit 2017 and Revit 2018 for modeless add-ins.</p>
+
+<p>For Revit 2018, when a modeless add-in is closed, Revit does not retain is focus; it is pushed behind another application. </p>
+
+<p>With some experimentation, it was found the application that had focus before Revit is the one that gains focus after the modeless add-in is closed. </p>
+
+<p>Revit 2016 and 2017 do not show this behavior, only Revit 2018 does. </p>
+
+<!--- Looking for advice on this issue. Is this a known issue? And is there a known method to solve it?  --->
+
+<p>Also Note: </p>
+
+<p>What we understand as the preferred method of getting Revit's MainWindowHandle has issues when there are multiple modeless add-ins opened. </p>
+
+<p>When the MainWindowHandle is gotten from the Revit process (i.e. using the <code>Process.GetCurrentProcess()</code> <code>MainWindowHandle</code> property), modeless add-in ownership is incorrect. </p>
+
+<p>Any modeless add-in that is started after the first one has its ownership set to that previous modeless add-in. This can be seen by closing any of the interim modeless add-ins and any modeless add-ins started after the one being closed, also closes. </p>
+
+<p>What I have called 'owner' is also known as the parent-child window relationship.</p>
+
+<!---
+Any information or assistance on this would be appreciated, though our current concern is the change in the 2018 behavior.
+
+**Answer:**
+
+I assume that you in fact mean 'parent relationship of the modeless form' when you say 'ownership of the add-in'.
+
+Is that assumption correct?
+
+I myself have always used the JtWindowHandle class to retrieve the main Revit window handle, and set up the parent window relationship for my modeless forms using that as described here:
+
+http://thebuildingcoder.typepad.com/blog/2010/06/revit-parent-window.html
+
+I have been notified by the development team that this method will cease to work in the next major release of Revit, after Revit 2018.
+
+I am not aware of any such issues in Revit 2018.
+
+Did it appear in the initial release or a subsequent update?
+
+**Response:**
+
+First thanks for the response and yes, what I have called Owner is the parent relationship. 
+
+Further note:
+
+- The add-in is a WPF add-in. 
+- The Revit focus issue is only seen in Revit 2018 
+
+To reproduce the Revit 2018 focus issue: 
+
+1) Start another app, like the Windows File Manager 
+2) Start Revit 2018 
+3) From the Addin-Ins Tab >> External Tool Panel Start the app “Id8 SearchWindow Owner Setup” 
+4) From the add-in's dialog open the model dialog by pressing the button “Start Dialog” in the lower right corner of the add-in dialog. 
+5) Close the second/modal dialog 
+6) Close the add-in 
+7) At this point the first app that was started, “File Manager”, will be brought to the foreground, covering Revit; Revit is no longer the top application having focus. 
+
+Now for Some perinate history: 
+
+Within the External Tools there are two applications. 
+
+The “Search Window” add-in is currently how we are getting Revit's main window and exhibits the issue I am talking about. 
+
+The second or “Id8 MainWindow Owner Setup” is how we use to get Revit's main window, and uses the prescribed way of getting the main window the Process.GetCurrentProcess.MainWindow property. 
+
+When we moved to using WPF add-ins, using the “current process” MainWindow property had issues and we came up with the current method what I am calling the “Search Window”. This method of getting Revit's Main Window is somewhat complicated but got us working for the Revit 2017 release, it was only during the 2018 release did we see the loss of focus issue within Revit 2018. 
+
+Now the issues we had with using the Process.GetCurrentProcess.MainWindow property. 
+
+When multiple (any number) of modeless add-ins are started, when the first add-in that was open is closed all of the modeless add-ins close. 
+
+Matter of fact if any modeless add-in is closed all modeless add-in start after the one being closed also close. 
+
+i.e. if three modeless add-ins are opened, if the second add-in is closed the third started add-in is closed also. 
+
+NOTE: this was first seen with two Forms base add-ins so WPF was not in play when we ran into this behavior. 
+
+To Reproduce the original Closing issue: 
+
+1) Start Revit 
+2) From the Addin-Ins Tab >> External Tool Panel Start the app “Id8 MainWindow Owner Setup” 
+3) Start a second “Id8 MainWindow Owner Setup” 
+4) Start a third “Id8 MainWindow Owner Setup” 
+5) Close the first “Id8 MainWindow Owner Setup” App 
+6) All three of the “Id8 MainWindow Owner Setup” Apps close down. 
+
+**Answer:**
+
+Can you work around it for the time being, or live with it?
+
+The reason I ask is the following information I received from the development team:
+
+One of the Revit Advanced Steel developers pointed out that they followed The Building Code advice in building a new add-in:
+
+http://thebuildingcoder.typepad.com/blog/2012/10/ensure-wpf-add-in-remains-in-foreground.html
+
+This was written about 5 years ago.
+
+Please note that as of Revit 2019, the method described in the blog will no longer work. 
+
+There is a way to fix this. The Revit API team has added two new APIs that provide an official way to get the application window handle:
+
+- `Autodesk.Revit.UI.UIControlledApplication.MainWindowHandle`
+- `Autodesk.Revit.UI.UIApplication.MainWindowHandle`
+- Get the handle of the Revit main window.
+- Returns the main window handle of the Revit application. This handle should be used when displaying modal dialogs and message windows to ensure that they are properly parented. This property replaces the System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle property, which is no longer a reliable method for retrieving the main window handle starting with Revit 2019.
+
+Therefore, the issue you describe has already been resolved for future versions.
+
+I don't know how much can be done about it for the current version.
+
+I would expect that an experienced Windows programming expert could devise some kind of workaround.
+
+Do you have one already, or can you create one?
+
+**Response:**
+
+Yes, I did solve it but was hoping there was a solution like you have explained below, where an add-in could just get the Main Window handle from a Revit API call, so this is good news, I will look for it in the latest Revit Preview?
+
+I am more than willing to do a write up on what was done to solve the issue. Let me know what form you want it in, via this case, a direct email, etc.
+
+Let me know if you need more information or clarification.
+
+The project is a Visual Studio 2013 project.
+
+Thanks, Hank
+
+--->
+
+<p>Here is the write-up of the two window issues we ran into and have solved.</p>
+
+<p>To demonstrate, I am also sharing the Visual Studio 2013
+project <a href="http://thebuildingcoder.typepad.com/files/hdv_modelessaddinsolution.zip">ModelessAddinSolution.zip</a>.</p>
+
+<p>It implements an add-in that can be used to demonstrate the focus issue and its solution following the instructions provided below. It also includes the add-in manifest <code>.addin</code> file in the <em>External Application</em> folder.</p>
+
+<h4><a name="2"></a>Two Issues</h4>
+
+<p>This describes my journey to solve two issues with Revit add-in windows.</p>
+
+<p>The first issue was a general problem seen in all version of Revit, the second issue was specific to Revit 2018.</p>
+
+<h4><a name="3"></a>First Issue Problem</h4>
+
+<p>While developing a second modeless add-in, we ran into an issue with add-in window parenting/ownership. The problem manifested itself when having two modeless add-ins open: when the first add-in opened was closed, the second add-in opened also closed. With this behavior, it was apparent the second add-in was somehow being associated with the first add-in. We were using <em>Process.GetCurrentProcess().MainWindow</em> to get main Revit window. Somehow, once the first modeless add-in was opened, the <code>MainWindow</code> property for the Revit process changed. A new method for getting Revit's main window was needed.</p>
+
+<h4><a name="4"></a>The First Resolution</h4>
+
+<p>An alternate solution was needed to get the window handle for Revit's main window, the window that holds the ribbon and is the first window opened.</p>
+
+<p>The following solution was implemented:</p>
+
+<ul>
+<li>Find all windows within the Revit process</li>
+<li>Find the Revit windows that do not have a parent assigned to them, i.e. their parent/owner property is null.</li>
+</ul>
+
+<p>The thought here is windows that have no parent are those opened by the OS and not another part of Revit.</p>
+
+<ul>
+<li>Then, for the Revit windows not having a parent, find the one window that has “Autodesk Revit” within its title.</li>
+</ul>
+
+<p>This method seems fragile because it depends on text from Revit's main window title, but it consistently gets the Revit main window no matter what add-ins are open. And localization is not an issue, the main window title text “Autodesk Revit” does not change for other languages, cf. the following two language examples.</p>
+
+<p>French:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c92a4181970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c92a4181970b image-full img-responsive" alt="French Revit title bar" title="French Revit title bar" src="/assets/image_e6076b.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<p>German:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301b7c92a418d970b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301b7c92a418d970b image-full img-responsive" alt="German Revit title bar" title="German Revit title bar" src="/assets/image_652912.jpg" border="0" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="5"></a>Code Example for First Resolution</h4>
+
+<p>Class usage within the add-in's main window; the add-in is WPF a app:</p>
+
+<pre class="code">
+  <span style="color:green;">//&nbsp;Set&nbsp;Revit&nbsp;as&nbsp;owner&nbsp;of&nbsp;given&nbsp;child&nbsp;window</span>
+  <span style="color:#2b91af;">WindowHandleSearch</span>&nbsp;handle
+  &nbsp;&nbsp;=&nbsp;<span style="color:#2b91af;">WindowHandleSearch</span>.MainWindowHandle;
+
+  handle.SetAsOwner(<span style="color:blue;">this</span>);
+</pre>
+
+<p>Main Window Handle Class:</p>
+
+<pre class="code">
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;Wrapper&nbsp;class&nbsp;for&nbsp;window&nbsp;handles</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">WindowHandleSearch</span>
+&nbsp;&nbsp;:&nbsp;IWin32Window,&nbsp;System.Windows.Forms.IWin32Window
+{
+&nbsp;&nbsp;<span style="color:blue;">#region</span>&nbsp;Static&nbsp;methods
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Revit&nbsp;main&nbsp;window&nbsp;handle</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">WindowHandleSearch</span>&nbsp;MainWindowHandle
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">get</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Get&nbsp;handle&nbsp;of&nbsp;main&nbsp;window</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;revitProcess&nbsp;=&nbsp;<span style="color:#2b91af;">Process</span>.GetCurrentProcess();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">WindowHandleSearch</span>(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GetMainWindow(&nbsp;revitProcess.Id&nbsp;)&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color:blue;">#endregion</span>
+
+&nbsp;&nbsp;<span style="color:blue;">#region</span>&nbsp;Constructor
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Constructor&nbsp;-&nbsp;From&nbsp;WinForms&nbsp;window&nbsp;handle</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">param</span><span style="color:gray;">&nbsp;name</span><span style="color:gray;">=</span><span style="color:gray;">&quot;</span>hwnd<span style="color:gray;">&quot;</span><span style="color:gray;">&gt;</span><span style="color:green;">Window&nbsp;handle</span><span style="color:gray;">&lt;/</span><span style="color:gray;">param</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;WindowHandleSearch(&nbsp;<span style="color:#2b91af;">IntPtr</span>&nbsp;hwnd&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Assert&nbsp;valid&nbsp;window&nbsp;handle</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Debug</span>.Assert(&nbsp;<span style="color:#2b91af;">IntPtr</span>.Zero&nbsp;!=&nbsp;hwnd,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;Null&nbsp;window&nbsp;handle&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;Handle&nbsp;=&nbsp;hwnd;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color:blue;">#endregion</span>
+
+&nbsp;&nbsp;<span style="color:blue;">#region</span>&nbsp;Methods
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Window&nbsp;handle</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">IntPtr</span>&nbsp;Handle&nbsp;{&nbsp;<span style="color:blue;">get</span>;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">set</span>;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Set&nbsp;this&nbsp;window&nbsp;handle&nbsp;as&nbsp;the&nbsp;owner&nbsp;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;of&nbsp;the&nbsp;given&nbsp;window</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">param</span><span style="color:gray;">&nbsp;name</span><span style="color:gray;">=</span><span style="color:gray;">&quot;</span>childWindow<span style="color:gray;">&quot;</span><span style="color:gray;">&gt;</span><span style="color:green;">Child&nbsp;window&nbsp;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;whose&nbsp;parent&nbsp;will&nbsp;be&nbsp;set&nbsp;to&nbsp;be&nbsp;this&nbsp;window&nbsp;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;handle</span><span style="color:gray;">&lt;/</span><span style="color:gray;">param</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;SetAsOwner(&nbsp;Window&nbsp;childWindow&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;helper&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;WindowInteropHelper(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;childWindow&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;Owner&nbsp;=&nbsp;Handle&nbsp;};
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;User32.dll&nbsp;calls&nbsp;used&nbsp;to&nbsp;get&nbsp;the&nbsp;Main&nbsp;Window&nbsp;for&nbsp;a&nbsp;Process&nbsp;Id&nbsp;(PID)</span>
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">delegate</span>&nbsp;<span style="color:blue;">bool</span>&nbsp;<span style="color:#2b91af;">EnumWindowsProc</span>(
+&nbsp;&nbsp;&nbsp;&nbsp;HWND&nbsp;hWnd,&nbsp;<span style="color:blue;">int</span>&nbsp;lParam&nbsp;);
+
+&nbsp;&nbsp;[DllImport(&nbsp;<span style="color:#a31515;">&quot;user32.DLL&quot;</span>&nbsp;)]
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">extern</span>&nbsp;<span style="color:blue;">bool</span>&nbsp;EnumWindows(
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">EnumWindowsProc</span>&nbsp;enumFunc,&nbsp;<span style="color:blue;">int</span>&nbsp;lParam&nbsp;);
+
+&nbsp;&nbsp;[DllImport(&nbsp;<span style="color:#a31515;">&quot;user32.dll&quot;</span>,&nbsp;ExactSpelling&nbsp;=&nbsp;<span style="color:blue;">true</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;CharSet&nbsp;=&nbsp;CharSet.Auto&nbsp;)]
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">extern</span>&nbsp;<span style="color:#2b91af;">IntPtr</span>&nbsp;GetParent(&nbsp;<span style="color:#2b91af;">IntPtr</span>&nbsp;hWnd&nbsp;);
+
+&nbsp;&nbsp;[DllImport(&nbsp;<span style="color:#a31515;">&quot;user32.dll&quot;</span>,&nbsp;SetLastError&nbsp;=&nbsp;<span style="color:blue;">true</span>&nbsp;)]
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">extern</span>&nbsp;<span style="color:blue;">uint</span>&nbsp;GetWindowThreadProcessId(
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">IntPtr</span>&nbsp;hWnd,&nbsp;<span style="color:blue;">out</span>&nbsp;<span style="color:blue;">uint</span>&nbsp;processId&nbsp;);
+
+&nbsp;&nbsp;[DllImport(&nbsp;<span style="color:#a31515;">&quot;user32.DLL&quot;</span>&nbsp;)]
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">extern</span>&nbsp;<span style="color:#2b91af;">IntPtr</span>&nbsp;GetShellWindow();
+
+&nbsp;&nbsp;[DllImport(&nbsp;<span style="color:#a31515;">&quot;user32.DLL&quot;</span>&nbsp;)]
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">extern</span>&nbsp;<span style="color:blue;">bool</span>&nbsp;IsWindowVisible(&nbsp;HWND&nbsp;hWnd&nbsp;);
+
+&nbsp;&nbsp;[DllImport(&nbsp;<span style="color:#a31515;">&quot;user32.DLL&quot;</span>&nbsp;)]
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">extern</span>&nbsp;<span style="color:blue;">int</span>&nbsp;GetWindowTextLength(&nbsp;HWND&nbsp;hWnd&nbsp;);
+
+&nbsp;&nbsp;[DllImport(&nbsp;<span style="color:#a31515;">&quot;user32.DLL&quot;</span>&nbsp;)]
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">extern</span>&nbsp;<span style="color:blue;">int</span>&nbsp;GetWindowText(&nbsp;HWND&nbsp;hWnd,
+&nbsp;&nbsp;&nbsp;&nbsp;StringBuilder&nbsp;lpString,&nbsp;<span style="color:blue;">int</span>&nbsp;nMaxCount&nbsp;);
+
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Returns&nbsp;the&nbsp;main&nbsp;Window&nbsp;Handle&nbsp;for&nbsp;the&nbsp;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Process&nbsp;Id&nbsp;(pid)&nbsp;passed&nbsp;in.</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;IF&nbsp;the&nbsp;Main&nbsp;Window&nbsp;is&nbsp;not&nbsp;found&nbsp;then&nbsp;a&nbsp;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;handle&nbsp;value&nbsp;of&nbsp;Zreo&nbsp;is&nbsp;returned,&nbsp;no&nbsp;handle.</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">param</span><span style="color:gray;">&nbsp;name</span><span style="color:gray;">=</span><span style="color:gray;">&quot;</span>pid<span style="color:gray;">&quot;</span><span style="color:gray;">&gt;&lt;/</span><span style="color:gray;">param</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">returns</span><span style="color:gray;">&gt;&lt;/</span><span style="color:gray;">returns</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:#2b91af;">IntPtr</span>&nbsp;GetMainWindow(&nbsp;<span style="color:blue;">int</span>&nbsp;pid&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;HWND&nbsp;shellWindow&nbsp;=&nbsp;GetShellWindow();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;HWND&gt;&nbsp;windowsForPid&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">IntPtr</span>&gt;();
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">try</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EnumWindows(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;EnumWindowsProc&nbsp;Function,&nbsp;does&nbsp;the&nbsp;work&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;on&nbsp;each&nbsp;window.</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">delegate</span>&nbsp;(&nbsp;HWND&nbsp;hWnd,&nbsp;<span style="color:blue;">int</span>&nbsp;lParam&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;hWnd&nbsp;==&nbsp;shellWindow&nbsp;)&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">true</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;!IsWindowVisible(&nbsp;hWnd&nbsp;)&nbsp;)&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">true</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">uint</span>&nbsp;windowPid&nbsp;=&nbsp;0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GetWindowThreadProcessId(&nbsp;hWnd,&nbsp;<span style="color:blue;">out</span>&nbsp;windowPid&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;if&nbsp;window&nbsp;is&nbsp;from&nbsp;Pid&nbsp;of&nbsp;interest,&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;see&nbsp;if&nbsp;it&#39;s&nbsp;the&nbsp;Main&nbsp;Window</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;windowPid&nbsp;==&nbsp;pid&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;By&nbsp;default&nbsp;Main&nbsp;Window&nbsp;has&nbsp;a&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Parent&nbsp;Window&nbsp;of&nbsp;Zero,&nbsp;no&nbsp;parent.</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HWND&nbsp;parentHwnd&nbsp;=&nbsp;GetParent(&nbsp;hWnd&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;parentHwnd&nbsp;==&nbsp;<span style="color:#2b91af;">IntPtr</span>.Zero&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;windowsForPid.Add(&nbsp;hWnd&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">true</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;lParam,&nbsp;nothing,&nbsp;null...</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;0&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">catch</span>(&nbsp;<span style="color:#2b91af;">Exception</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;DetermineMainWindow(&nbsp;windowsForPid&nbsp;);
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Finds&nbsp;Revit&#39;s&nbsp;Main&nbsp;Window&nbsp;from&nbsp;the&nbsp;list&nbsp;of&nbsp;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;window&nbsp;handles&nbsp;passed&nbsp;in.</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;If&nbsp;the&nbsp;Main&nbsp;Window&nbsp;for&nbsp;Revit&nbsp;is&nbsp;not&nbsp;found&nbsp;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;then&nbsp;a&nbsp;Null&nbsp;(IntPtr.Zero)&nbsp;handle&nbsp;is&nbsp;returnd.</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">param</span><span style="color:gray;">&nbsp;name</span><span style="color:gray;">=</span><span style="color:gray;">&quot;</span>handles<span style="color:gray;">&quot;</span><span style="color:gray;">&gt;&lt;/</span><span style="color:gray;">param</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">returns</span><span style="color:gray;">&gt;&lt;/</span><span style="color:gray;">returns</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:#2b91af;">IntPtr</span>&nbsp;DetermineMainWindow(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;HWND&gt;&nbsp;handles&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Safty&nbsp;conditions,&nbsp;bail&nbsp;if&nbsp;not&nbsp;met.</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;handles&nbsp;==&nbsp;<span style="color:blue;">null</span>&nbsp;||&nbsp;handles.Count&nbsp;&lt;=&nbsp;0&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#2b91af;">IntPtr</span>.Zero;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;default&nbsp;Null&nbsp;handel</span>
+&nbsp;&nbsp;&nbsp;&nbsp;HWND&nbsp;mainWindow&nbsp;=&nbsp;<span style="color:#2b91af;">IntPtr</span>.Zero;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;only&nbsp;one&nbsp;window&nbsp;so&nbsp;return&nbsp;it,&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;must&nbsp;be&nbsp;the&nbsp;Main&nbsp;Window??</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;handles.Count&nbsp;==&nbsp;1&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mainWindow&nbsp;=&nbsp;handles[0];
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;more&nbsp;than&nbsp;one&nbsp;window</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">else</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;more&nbsp;than&nbsp;one&nbsp;candidate&nbsp;for&nbsp;Main&nbsp;Window&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;so&nbsp;find&nbsp;the&nbsp;Main&nbsp;Window&nbsp;by&nbsp;its&nbsp;Title,&nbsp;it&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;will&nbsp;contain&nbsp;&quot;Autodesk&nbsp;Revit&quot;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:blue;">var</span>&nbsp;hWnd&nbsp;<span style="color:blue;">in</span>&nbsp;handles&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;length&nbsp;=&nbsp;GetWindowTextLength(&nbsp;hWnd&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;length&nbsp;==&nbsp;0&nbsp;)&nbsp;<span style="color:blue;">continue</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StringBuilder&nbsp;builder&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;StringBuilder(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;length&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GetWindowText(&nbsp;hWnd,&nbsp;builder,&nbsp;length&nbsp;+&nbsp;1&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Depending&nbsp;on&nbsp;the&nbsp;Title&nbsp;of&nbsp;the&nbsp;Main&nbsp;Window&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;to&nbsp;have&nbsp;&quot;Autodesk&nbsp;Revit&quot;&nbsp;in&nbsp;it.</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;builder.ToString().ToLower().Contains(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;autodesk&nbsp;revit&quot;</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mainWindow&nbsp;=&nbsp;hWnd;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;&nbsp;<span style="color:green;">//&nbsp;found&nbsp;Main&nbsp;Window&nbsp;stop&nbsp;and&nbsp;return&nbsp;it.</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;mainWindow;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color:blue;">#endregion</span>
+}
+</pre>
+
+<h4><a name="6"></a>Second Issue Context</h4>
+
+<p>With the main window found and working for Revit 2016 and 2017, all was good and a couple more WPF modeless applications were developed. Then came Revit 2018...</p>
+
+<h4><a name="7"></a>The Second Problem</h4>
+
+<p>While porting our add-in(s) to Revit 2018, we noticed Revit lose focus from time to time. When our modeless (WinForms based) add-in window was closed, Revit was not left on top with focus; instead, the application that had focus <b>before</b> Revit was placed on top. This was a surprise, being something that Windows should handle. Notable was this new losing focus behavior was only seen in Revit 2018, and not in 2017 or 2016.</p>
+
+<p>An example of the sequence would be:</p>
+
+<ul>
+<li>Open Revit</li>
+<li>Open Windows File Manager and ensure it is placed on top of Revit</li>
+<li>Switch back to Revit</li>
+<li>Open the add-in</li>
+<li>Close the add-in</li>
+</ul>
+
+<p>File Manager would now be placed on top, i.e., Revit lost its position in the application stack/show, and was replaced by File Manager.</p>
+
+<p>The above was the case for the WinForms based add-ins, but WPF based add-ins needed additional steps:</p>
+
+<ul>
+<li>Open Revit</li>
+<li>Open Windows File Manager and ensure it is placed on top of Revit</li>
+<li>Switch back to Revit</li>
+<li>Open the add-in</li>
+<li>Open a modal dialog from the modeless add-in</li>
+<li>Close the modal dialog</li>
+<li>Close the add-in</li>
+</ul>
+
+<p>File Manager would then be placed on top, replacing Revit as the top application.</p>
+
+<h4><a name="8"></a>The Second Resolution</h4>
+
+<p>The resolution for the loss of focus ended up being somewhat simple.</p>
+
+<p>I registered for the <code>OnClosing</code> event in the add-in's main window. Within the <code>OnClosing</code> event handler, I set Revit to be on top with the User32.dll call <code>SetForegroundWindow</code>.</p>
+
+<p>Because the owner/parent of the add-in window was set correctly for Revit, setting the add-in's owner (Revit) on closing to be in the foreground solved the focus problem.</p>
+
+<p>NOTE: See the section “Code for Second Resolution” below for the solution to this issue.</p>
+
+<p>To Run the Sample Add-In:</p>
+
+<ul>
+<li>Open Revit 2018</li>
+<li>Open File Manager, ensure it is on top of Revit</li>
+<li>Switch back Revit, bring Revit to the top</li>
+<li>To see the solution</li>
+<li>Pick the “Id8 Revit 2018 Focus Solution” command From the Add-Ins Panel > Extern Tools</li>
+<li>Press the “Start Dialog” button</li>
+<li>Close the new dialog</li>
+<li>Close the Add-In dialog</li>
+<li>Revit Stays on top</li>
+<li>To see the Focus issue</li>
+<li>Pick the “Id8 Revit 2018 Focus Solution” command From the Add-Ins Panel > Extern Tools</li>
+<li>Uncheck the “Fix Focus Issue” checkbox</li>
+<li>Press the “Start Dialog” button</li>
+<li>Close the new dialog</li>
+<li>Close the Add-In dialog</li>
+<li>Revit is no longer on top, replaced by File Manager</li>
+</ul>
+
+<h4><a name="9"></a>Code Example for Second Resolution</h4>
+
+<pre class="code">
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;User32&nbsp;calls&nbsp;used&nbsp;to&nbsp;set&nbsp;Revit&nbsp;focus</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+[DllImport(&nbsp;<span style="color:#a31515;">&quot;USER32.DLL&quot;</span>&nbsp;)]
+<span style="color:blue;">internal</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">extern</span>&nbsp;<span style="color:blue;">bool</span>&nbsp;SetForegroundWindow(&nbsp;HWND&nbsp;hWnd&nbsp;);
+
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;Use&nbsp;the&nbsp;OnClose&nbsp;event&nbsp;to&nbsp;ensure&nbsp;Revit&nbsp;is&nbsp;brought&nbsp;back&nbsp;into&nbsp;focus.</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">param</span><span style="color:gray;">&nbsp;name</span><span style="color:gray;">=</span><span style="color:gray;">&quot;</span>e<span style="color:gray;">&quot;</span><span style="color:gray;">&gt;&lt;/</span><span style="color:gray;">param</span><span style="color:gray;">&gt;</span>
+<span style="color:blue;">protected</span>&nbsp;<span style="color:blue;">override</span>&nbsp;<span style="color:blue;">void</span>&nbsp;OnClosing(&nbsp;CancelEventArgs&nbsp;e&nbsp;)
+{
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;do&nbsp;the&nbsp;base&nbsp;work&nbsp;first.</span>
+&nbsp;&nbsp;<span style="color:blue;">base</span>.OnClosing(&nbsp;e&nbsp;);
+
+&nbsp;&nbsp;<span style="color:green;">//&nbsp;Set&nbsp;Revit&nbsp;to&nbsp;the&nbsp;foreground</span>
+&nbsp;&nbsp;<span style="color:blue;">try</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">IntPtr</span>&nbsp;ownerIntPtr&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;WindowInteropHelper(&nbsp;<span style="color:blue;">this</span>&nbsp;).Owner;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;ownerIntPtr&nbsp;!=&nbsp;<span style="color:#2b91af;">IntPtr</span>.Zero&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User32.SetForegroundWindow(&nbsp;ownerIntPtr&nbsp;);
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color:blue;">catch</span>(&nbsp;<span style="color:#2b91af;">Exception</span>&nbsp;)
+&nbsp;&nbsp;{&nbsp;}
+}
+</pre>
+
+<p>Very many thanks to Hank for his persistent research and sharing this valuable solution.</p>
+
+<h4><a name="10"></a>Warning! Things Will Change in the Next Release</h4>
+
+<p>I myself always used the <code>JtWindowHandle</code> class to retrieve the main Revit window handle in the past, and use that
+to <a href="http://thebuildingcoder.typepad.com/blog/2010/06/revit-parent-window.html">set up the parent window relationship for my modeless forms</a> for
+simple single modeless forms.</p>
+
+<p>I have been warned by the development team that this method will cease to work in the next major release of Revit, after Revit 2018:</p>
+
+<p>A developer followed the advice 
+to <a href="http://thebuildingcoder.typepad.com/blog/2012/10/ensure-wpf-add-in-remains-in-foreground.html">ensure a WPF add-in remains in foreground</a> in
+building a new add-in. </p>
+
+<p>This was written about 5 years ago.</p>
+
+<p>As of the next major release of Revit, the method described there will no longer work.</p>
+
+<p>An easy way to fix this will be provided. The Revit API will include new API calls providing an official way to get the application window handle:</p>
+
+<ul>
+<li>Get the handle of the Revit main window.</li>
+<li>Return the main window handle of the Revit application. This handle should be used when displaying modal dialogs and message windows to ensure that they are properly parented. This property replaces the <em>System.Diagnostics.Process.GetCurrentProcess()</em> <code>MainWindowHandle</code> property.</li>
+</ul>

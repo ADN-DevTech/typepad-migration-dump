@@ -1,0 +1,177 @@
+comments:
+- author: Steve Faust
+  email: sfaust@revolutiondesign.biz
+  ip: 67.41.145.160
+  url: http://www.revolutiondesign.biz
+  date: '2011-08-08 11:44:50'
+  body: 'Hi Jeremy,
+
+
+    This isn''t directly related to this, but I couldn''t find a better place to post...
+
+
+    I''m trying to figure out if there is a way to change the workplane of a workplane
+    based family via API.  I can find the workplane parameter but all I can get out
+    of it is the string value and can''t set it.  I also don''t see any methods to
+    rehost to a new workplane.  Is this possible?
+
+
+    Thanks,
+
+    Steve'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-08-09 05:23:56'
+  body: 'Dear Steve,
+
+
+    It sounds to me as if it is not possible, unfortunately.
+
+
+    Cheers, Jeremy.'
+- author: Steve Faust
+  email: sfaust@revolutiondesign.biz
+  ip: 67.41.145.160
+  url: http://www.revolutiondesign.biz
+  date: '2011-08-09 11:33:35'
+  body: Ok, thanks for the confirmation at least...
+- author: Ning Zhou
+  email: superjoe302@yahoo.ca
+  ip: 203.117.217.147
+  url: ''
+  date: '2013-01-16 05:12:28'
+  body: 'hi Jeremy,
+
+
+    does ObjRel have updated version say 2012? somehow i cannot make it 100% work,
+    i must miss something somewhere.
+
+
+    many thanks.
+
+
+    Ning'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.183.33
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-16 05:30:42'
+  body: 'Dear Ning,
+
+
+    No, sorry, I have not updated it nor heard of anyone else doing so. People continue
+    making use of this basic technique, though, so it should certainly work:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/10/the-temporary-transaction-trick-for-gross-slab-data.html">http://thebuildingcoder.typepad.com/blog/2012/10/the-temporary-transaction-trick-for-gross-slab-data.html</a>
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2012/11/temporary-transaction-trick-touchup.html">http://thebuildingcoder.typepad.com/blog/2012/11/temporary-transaction-trick-touchup.html</a>
+
+
+    What problem do you observe?
+
+
+    Cheers, Jeremy.'
+- author: Ning Zhou
+  email: superjoe302@yahoo.ca
+  ip: 203.117.217.147
+  url: ''
+  date: '2013-01-17 22:57:38'
+  body: 'thanks Jeremy for your quick reply, and links are very helpful!
+
+
+    temporary transaction trick is great, but i noticed that group instance(s) is
+    perhaps an exception(?), for instance, if i delete a level, then group instance(s)
+    based on that level won''t be listed in the "deleted" element list, well, i have
+    to use separate group filter to add these group instances into the "deleted" element
+    list, perhaps i missed something?
+
+
+    Cheers,
+
+
+    Ning'
+- author: Ning Zhou
+  email: superjoe302@yahoo.ca
+  ip: 203.117.217.147
+  url: ''
+  date: '2013-01-18 00:39:14'
+  body: furthermore, if i rehost that group instance to another level, then all IDs
+    are changed (both group ID and group member IDs), even unique IDs are changed
+    too, any tricks to deal w/ group in API, especially when rehost multiple group
+    instances to another level? thanks, Ning
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-21 09:49:05'
+  body: 'Dear Ning,
+
+
+    Thank you for your appreciation. I am glad it helped.
+
+
+    Oh dear, yes, the groups may well be an exception. Glad to hear you know how to
+    handle it.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-21 09:51:24'
+  body: 'Dear Ning,
+
+
+    Wow, all the unique ids are changed, even the members'' ones? That sounds pretty
+    spectacular.
+
+
+    Nope, I am not aware of any such tricks, but it sounds as if a toolkit for dealing
+    with this would be pretty useful.
+
+
+    Cheers, Jeremy.'
+- author: Ning Zhou
+  email: superjoe302@yahoo.ca
+  ip: 203.117.217.147
+  url: ''
+  date: '2013-01-24 01:26:02'
+  body: thanks Jeremy, i figured out that if not a single member of group instance
+    is sit on the level to be deleted, then it really doesn't matter if group instance
+    is sit on that level or not, well, this also solved the (unique) ID issue as i
+    mentioned in previous message, because i do not have to rehost group instances
+    before processing them (ungroup and swap as you described before).
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.184.147
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-24 02:24:12'
+  body: 'Dear Ning,
+
+
+    Thank you for the good news! Glad that you found at least a partial solution.
+
+
+    So what happens to the group instance on a level that is deleted? Do you simply
+    move it to a different level, or what? Before or after deleting the level?
+
+
+    Cheers, Jeremy.'
+- author: Ning Zhou
+  email: superjoe302@yahoo.ca
+  ip: 203.117.217.147
+  url: ''
+  date: '2013-01-24 20:17:20'
+  body: "thanks Jeremy,\n\n2 cases of group instance sit on the level to be deleted:\n\
+    1) if no member sits on that level then that group instance will remain even after\
+    \ level is already deleted\n2) if at least one member sits on that level then\
+    \ that group instance will be deleted too after level is deleted \n\nso basically\
+    \ i only have to check if any member of that group instance sits on that level,\
+    \ won't have to rehost group instance at all as i previously did which will eventually\
+    \ changed (unique) IDs before i start using ungroup and swap.\n\nCheers,\n\nNing\n\
+    -----"

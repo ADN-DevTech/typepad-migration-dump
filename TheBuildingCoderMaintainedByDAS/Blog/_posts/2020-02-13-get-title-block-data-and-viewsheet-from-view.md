@@ -1,0 +1,278 @@
+---
+layout: "post"
+title: "Getting Title Block Data and ViewSheet from View"
+date: "2020-02-13 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Data Access"
+  - "Element Relationships"
+  - "Filters"
+  - "Parameters"
+  - "View"
+original_url: "https://thebuildingcoder.typepad.com/blog/2020/02/get-title-block-data-and-viewsheet-from-view.html "
+typepad_basename: "get-title-block-data-and-viewsheet-from-view"
+typepad_status: "Publish"
+---
+
+<p>Today, let's highlight to view related data access topics:</p>
+
+<ul>
+<li><a href="#2">Get ViewSheet from View</a></li>
+<li><a href="#3">Title block data access</a></li>
+</ul>
+
+<h4><a name="2"></a>Get ViewSheet from View</h4>
+
+<p>An interesting in-depth conversation in 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on how to <a href="https://forums.autodesk.com/t5/revit-api-forum/get-viewsheet-from-view/m-p/7075550">get ViewSheet from View</a> presents
+two different approaches to determine relationships between sheets and the views they host:</p>
+
+<p><strong>Question:</strong> Is there a way to get the <code>ViewSheet</code> or <code>ElementId</code> of the <code>ViewSheet</code> from a <code>View</code> that is placed on that sheet?</p>
+
+<p>I can get the sheet name and sheet number from the provided parameters but do not see one for the actual ViewSheet.
+Am I missing something?
+The only thing I can think of to do without this info is to loop through all ViewSheets to match the one with the same sheet number (since sheet number is required to be unique).   </p>
+
+<p><strong>Answer:</strong> Have you looked at the sample code provided in the <a href="http://www.revitapidocs.com/2017/af2ee879-173d-df3a-9793-8d5750a17b49.htm">description of the ViewSheet class</a>?</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">ElementId</span>&gt;&nbsp;views&nbsp;=&nbsp;viewSheet.GetAllPlacedViews();
+&nbsp;&nbsp;message&nbsp;+=&nbsp;<span style="color:#a31515;">&quot;\nNumber&nbsp;of&nbsp;views&nbsp;in&nbsp;the&nbsp;sheet&nbsp;:&nbsp;&quot;</span>&nbsp;+&nbsp;views.Count;
+</pre>
+
+<p>If all else fails, you could use this relationship and invert it, just as you suggest.</p>
+
+<p>The <a href="http://www.revitapidocs.com/2017/bfa96650-310e-5385-3a9d-1a1248b623ce.htm">View.Title property</a> also
+generally consists of the view name plus other modifiers, such as the view type, sheet number, area scheme, and/or assembly type, depending on the specifics of the view:</p>
+
+<p><strong>Response:</strong> You must have misunderstood my question.  I don't have the ViewSheet in order to use the method to get its placed views.  I have a view, that I know is on a sheet (because its sheet number parameter is not null), but I want to get a direct reference to that sheet that it is placed on.  It seems to me that you are still suggesting that I must loop through all ViewSheets to get the View that I'm concerned with.  Thanks.</p>
+
+<p><strong>Answer:</strong> Yes, indeed, that is exactly what I am suggesting.</p>
+
+<p>Get all the view sheets, keep track of them and the views they host, and invert that relationship, as described in one of the very early discussions by The Building Coder back in 2008 on a <a href="http://thebuildingcoder.typepad.com/blog/2008/10/relationship-in.html">relationship inverter</a>.</p>
+
+<p>That gives you a complete dictionary lookup both ways: you can look up the sheet hosting any view and you can look up all the views hosted by any sheet, instantaneously.</p>
+
+<p>It takes a moment to set up the relationships; after that, all data is available and lookup is very fast.</p>
+
+<p><strong>Other answer:</strong> I maybe have a workaround for this question, something similar I assume.</p>
+
+<p>Select some views in the Project Browser to know if the views are placed on sheet(s).</p>
+
+<p>Then, run a macro or external command to execute something like code below.</p>
+
+<p>If the view is placed on a sheet, it shows the sheet number, sheet name and whatever data you are interested in from the ViewSheet referenced by the views selected in the Project Browser:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;GetViewSheetFromView(&nbsp;<span style="color:#2b91af;">UIDocument</span>&nbsp;uidoc&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;=&nbsp;uidoc.Document;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;data&nbsp;=&nbsp;<span style="color:#a31515;">&quot;&quot;</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ICollection</span>&lt;<span style="color:#2b91af;">ElementId</span>&gt;&nbsp;selectedIds&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;uidoc.Selection.GetElementIds();
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">ElementId</span>&nbsp;selectedid&nbsp;<span style="color:blue;">in</span>&nbsp;selectedIds&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">View</span>&nbsp;e&nbsp;=&nbsp;doc.GetElement(&nbsp;selectedid&nbsp;)&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">View</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">View</span>&nbsp;v&nbsp;<span style="color:blue;">in</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">View</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Cast&lt;<span style="color:#2b91af;">View</span>&gt;()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Where(&nbsp;q&nbsp;=&gt;&nbsp;q.Id.Equals(&nbsp;e.Id&nbsp;)&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;thisSheet&nbsp;=&nbsp;<span style="color:#a31515;">&quot;&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">ViewSheet</span>&nbsp;vs&nbsp;<span style="color:blue;">in</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">ViewSheet</span>&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Cast&lt;<span style="color:#2b91af;">ViewSheet</span>&gt;()&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">ElementId</span>&nbsp;eid&nbsp;<span style="color:blue;">in</span>&nbsp;vs.GetAllPlacedViews()&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">View</span>&nbsp;ev&nbsp;=&nbsp;doc.GetElement(&nbsp;eid&nbsp;)&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">View</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;ev.Id&nbsp;==&nbsp;v.Id&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thisSheet&nbsp;+=&nbsp;vs.SheetNumber&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<span style="color:#a31515;">&quot;&nbsp;-&nbsp;&quot;</span>&nbsp;+&nbsp;vs.Name&nbsp;+&nbsp;<span style="color:#2b91af;">Environment</span>.NewLine;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;thisSheet&nbsp;!=&nbsp;<span style="color:#a31515;">&quot;&quot;</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data&nbsp;+=&nbsp;v.ViewType&nbsp;+&nbsp;<span style="color:#a31515;">&quot;:&nbsp;&quot;</span>&nbsp;+&nbsp;v.Name&nbsp;+&nbsp;<span style="color:#a31515;">&quot;&nbsp;&quot;</span>&nbsp;+&nbsp;<span style="color:#2b91af;">Environment</span>.NewLine&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;thisSheet.TrimEnd(&nbsp;<span style="color:#a31515;">&#39;&nbsp;&#39;</span>,&nbsp;<span style="color:#a31515;">&#39;,&#39;</span>&nbsp;)&nbsp;+&nbsp;<span style="color:#2b91af;">Environment</span>.NewLine;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">else</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data&nbsp;+=&nbsp;v.ViewType&nbsp;+&nbsp;<span style="color:#a31515;">&quot;:&nbsp;&quot;</span>&nbsp;+&nbsp;v.Name&nbsp;+&nbsp;<span style="color:#a31515;">&quot;&nbsp;&quot;</span>&nbsp;+&nbsp;<span style="color:#2b91af;">Environment</span>.NewLine&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;thisSheet.TrimEnd(&nbsp;<span style="color:#a31515;">&#39;&nbsp;&#39;</span>,&nbsp;<span style="color:#a31515;">&#39;,&#39;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data&nbsp;+=&nbsp;<span style="color:#a31515;">&quot;&nbsp;NOT&nbsp;ON&nbsp;SHEET&nbsp;&quot;</span>&nbsp;+&nbsp;<span style="color:#2b91af;">Environment</span>.NewLine&nbsp;+&nbsp;<span style="color:#a31515;">&quot;\n&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(&nbsp;<span style="color:#a31515;">&quot;View&nbsp;Report&quot;</span>,&nbsp;data&nbsp;);
+&nbsp;&nbsp;}
+</pre>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4bdce00200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4bdce00200c image-full img-responsive" alt="Get ViewSheet from View" title="Get ViewSheet from View" src="/assets/image_15f8a2.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p><strong>Yet another answer:</strong> You can perhaps get VIEWPORT_SHEET_NUMBER from Parameters.</p>
+
+<p><strong>Yet another answer:</strong> As suggested above, using the BIP for viewport sheet number with an ElementParameterFilter is probably the best approach.
+Sheet numbers are unique in each Revit model, so it is safe to search by them and get the right result.</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">Public</span>&nbsp;<span style="color:blue;">Function</span>&nbsp;TObj43(<span style="color:blue;">ByVal</span>&nbsp;commandData&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">ExternalCommandData</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">ByRef</span>&nbsp;message&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:blue;">String</span>,&nbsp;<span style="color:blue;">ByVal</span>&nbsp;elements&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">ElementSet</span>)&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">Result</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">If</span>&nbsp;commandData.Application.ActiveUIDocument&nbsp;<span style="color:blue;">Is</span>&nbsp;<span style="color:blue;">Nothing</span>&nbsp;<span style="color:blue;">Then</span>&nbsp;<span style="color:blue;">Return</span>&nbsp;<span style="color:#2b91af;">Result</span>.Cancelled&nbsp;<span style="color:blue;">Else</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;AcView&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">View</span>&nbsp;=&nbsp;commandData.Application.ActiveUIDocument.ActiveGraphicalView
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;P_Ns&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">Parameter</span>&nbsp;=&nbsp;AcView.Parameter(<span style="color:#2b91af;">BuiltInParameter</span>.VIEWPORT_SHEET_NUMBER)
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">If</span>&nbsp;P_Ns&nbsp;<span style="color:blue;">Is</span>&nbsp;<span style="color:blue;">Nothing</span>&nbsp;<span style="color:blue;">Then</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">GoTo</span>&nbsp;Monday
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">End</span>&nbsp;<span style="color:blue;">If</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;Txt&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:blue;">String</span>&nbsp;=&nbsp;P_Ns.AsString
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">If</span>&nbsp;<span style="color:blue;">String</span>.IsNullOrEmpty(Txt)&nbsp;<span style="color:blue;">Then</span>&nbsp;<span style="color:blue;">GoTo</span>&nbsp;Monday&nbsp;<span style="color:blue;">Else</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;SeFR&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">FilterRule</span>&nbsp;=&nbsp;<span style="color:#2b91af;">ParameterFilterRuleFactory</span>.CreateEqualsRule(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">ElementId</span>(<span style="color:#2b91af;">BuiltInParameter</span>.SHEET_NUMBER),&nbsp;Txt,&nbsp;<span style="color:blue;">True</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;PFilt&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">ElementParameterFilter</span>(SeFR,&nbsp;<span style="color:blue;">False</span>)
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;FEC&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(AcView.Document)
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;ECF&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">ElementClassFilter</span>(<span style="color:blue;">GetType</span>(<span style="color:#2b91af;">ViewSheet</span>))
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;LandF&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">LogicalAndFilter</span>(ECF,&nbsp;PFilt)
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;Els&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:#2b91af;">List</span>(<span style="color:blue;">Of</span>&nbsp;<span style="color:#2b91af;">Element</span>)&nbsp;=&nbsp;FEC.WherePasses(LandF).ToElements
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">If</span>&nbsp;Els.Count&nbsp;&lt;&gt;&nbsp;1&nbsp;<span style="color:blue;">Then</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">GoTo</span>&nbsp;Monday
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">Else</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">Dim</span>&nbsp;TD&nbsp;<span style="color:blue;">As</span>&nbsp;<span style="color:blue;">New</span>&nbsp;<span style="color:#2b91af;">TaskDialog</span>(<span style="color:#a31515;">&quot;Was&nbsp;this&nbsp;your&nbsp;sheet...&quot;</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TD.MainInstruction&nbsp;=&nbsp;Txt&nbsp;&amp;&nbsp;<span style="color:#a31515;">&quot;-&quot;</span>&nbsp;&amp;&nbsp;Els(0).Name
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TD.MainContent&nbsp;=&nbsp;<span style="color:#a31515;">&quot;Note&nbsp;that&nbsp;view&nbsp;types&nbsp;that&nbsp;can&nbsp;appear&nbsp;on&nbsp;&quot;</span>&nbsp;_
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<span style="color:#a31515;">&quot;multiple&nbsp;sheets&nbsp;(Legends,&nbsp;Images,&nbsp;Schedules&nbsp;etc.)&nbsp;will&nbsp;&quot;</span>&nbsp;_
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<span style="color:#a31515;">&quot;&nbsp;not&nbsp;be&nbsp;returned&nbsp;by&nbsp;this&nbsp;method.&quot;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TD.Show()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">GoTo</span>&nbsp;Friday
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">End</span>&nbsp;<span style="color:blue;">If</span>
+Monday:
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">TaskDialog</span>.Show(<span style="color:#a31515;">&quot;Something&nbsp;went&nbsp;amiss...&quot;</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;We&nbsp;looked&nbsp;hard&nbsp;in&nbsp;many&nbsp;places&nbsp;but&nbsp;were&nbsp;unable&nbsp;to&nbsp;&quot;</span>&nbsp;_
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<span style="color:#a31515;">&quot;find&nbsp;your&nbsp;sheet&nbsp;on&nbsp;this&nbsp;occasion.&quot;</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">Return</span>&nbsp;<span style="color:#2b91af;">Result</span>.Failed
+Friday:
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">Return</span>&nbsp;<span style="color:#2b91af;">Result</span>.Succeeded
+&nbsp;&nbsp;<span style="color:blue;">End</span>&nbsp;<span style="color:blue;">Function</span>
+</pre>
+
+<p><strong>Yet another answer:</strong> Here is a pretty quick way of checking for a specific sheet:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:#2b91af;">ViewSheet</span>&nbsp;CheckSheet(&nbsp;<span style="color:blue;">string</span>&nbsp;_sheetNumber&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ParameterValueProvider</span>&nbsp;pvp&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ParameterValueProvider</span>(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ElementId</span>(&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.SHEET_NUMBER&nbsp;)&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">FilterStringRuleEvaluator</span>&nbsp;fsr&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilterStringEquals</span>();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">FilterRule</span>&nbsp;fRule&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilterStringRule</span>(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pvp,&nbsp;fsr,&nbsp;_sheetNumber,&nbsp;<span style="color:blue;">true</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ElementParameterFilter</span>&nbsp;filter&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ElementParameterFilter</span>(&nbsp;fRule&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfCategory(&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_Sheets&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.WherePasses(&nbsp;filter&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.FirstOrDefault()&nbsp;<span style="color:blue;">is</span>&nbsp;<span style="color:#2b91af;">ViewSheet</span>&nbsp;vs&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;vs;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">else</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">null</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+</pre>
+
+<p><strong>Summary:</strong> I believe this last solution is unbeatable if you are interested in one single lookup.</p>
+
+<p>It uses a parameter filter and the <code>SHEET_NUMBER</code> built-in parameter.</p>
+
+<p>Probably, the VB function <code>TObj43</code> above is similarly efficient.</p>
+
+<p><code>GetViewSheetFromView</code> demonstrates the lookup of the inverted relationship I described, but just for one single view.</p>
+
+<p>That code could be used to store the entire relationships mapping sheet to hosted views and the inverted one mapping each view to hosting sheets for all views and sheets. That might possibly be more efficient if you frequently need to look up several different view to sheet relationships.</p>
+
+<p>Thank you all for the very illuminating and helpful answers!</p>
+
+<h4><a name="3"></a>Title Block Data Access</h4>
+
+<p><strong>Question:</strong> I am searching for some sample code for use in a Design Automation API project.</p>
+
+<p>Rather than reinvent to wheel, I thought you might have a snippet handy showing how to read Revit drawing title block attributes like these:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4e6f660200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4e6f660200d image-full img-responsive" alt="Title block data access" title="Title block data access" src="/assets/image_b53d1d.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p><strong>Answer:</strong> I discussed accessing
+the <a href="https://thebuildingcoder.typepad.com/blog/2009/11/title-block-of-sheet.html">title block of a sheet</a> myself
+back in 2009, but that information is rather antiquated now.</p>
+
+<p>The question was also raised and answered in 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/titleblock/td-p/3802588">TitleBlock</a>,
+and that information is perfectly valid.</p>
+
+<p>Ah, I now found a more recent and useful article on how
+to <a href="https://thebuildingcoder.typepad.com/blog/2010/05/determine-sheet-size.html">determine sheet size</a> that
+should provide all you need.</p>
+
+<p>The code is included in
+<a href="https://github.com/jeremytammik/the_building_coder_samples">The Building Coder samples</a>
+<a href="https://github.com/jeremytammik/the_building_coder_samples/blob/master/BuildingCoder/BuildingCoder/CmdSheetSize.cs">module CmdSheetSize.cs</a>.</p>
+
+<p>The title block instances are family instance elements.
+You can access the title block element using a filtered element collector, e.g.:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>&nbsp;title_block_instances
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(&nbsp;doc&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfCategory(&nbsp;<span style="color:#2b91af;">BuiltInCategory</span>.OST_TitleBlocks&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;<span style="color:#2b91af;">FamilyInstance</span>&nbsp;)&nbsp;);
+</pre>
+
+<p>You can loop through these elements and retrieve the required data from their built-in parameters, such as SHEET_NAME, SHEET_NUMBER, SHEET_DRAWN_BY, SHEET_CHECKED_BY etc., like this:</p>
+
+<pre class="code">
+  <span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">FamilyInstance</span>&nbsp;e&nbsp;<span style="color:blue;">in</span>&nbsp;a&nbsp;)
+  {
+  &nbsp;&nbsp;p&nbsp;=&nbsp;e.get_Parameter(
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.SHEET_NUMBER&nbsp;);
+
+  &nbsp;&nbsp;<span style="color:#2b91af;">Debug</span>.Assert(&nbsp;<span style="color:blue;">null</span>&nbsp;!=&nbsp;p,
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;expected&nbsp;valid&nbsp;sheet&nbsp;number&quot;</span>&nbsp;);
+
+  &nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;sheet_number&nbsp;=&nbsp;p.AsString();
+
+  &nbsp;&nbsp;p&nbsp;=&nbsp;e.get_Parameter(
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.SHEET_WIDTH&nbsp;);
+
+  &nbsp;&nbsp;<span style="color:#2b91af;">Debug</span>.Assert(&nbsp;<span style="color:blue;">null</span>&nbsp;!=&nbsp;p,
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;expected&nbsp;valid&nbsp;sheet&nbsp;width&quot;</span>&nbsp;);
+
+  &nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;swidth&nbsp;=&nbsp;p.AsValueString();
+  &nbsp;&nbsp;<span style="color:blue;">double</span>&nbsp;width&nbsp;=&nbsp;p.AsDouble();
+
+    . . . 
+  }
+</pre>
+
+<p>Als always, you can use <a href="https://github.com/jeremytammik/RevitLookup">RevitLookup</a> to explore this data interactively yourself in your own model to see which properties are available where and what other title block information may be of interest to your application.</p>

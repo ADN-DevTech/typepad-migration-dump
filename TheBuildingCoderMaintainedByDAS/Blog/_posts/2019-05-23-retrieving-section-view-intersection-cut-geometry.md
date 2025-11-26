@@ -1,0 +1,465 @@
+---
+layout: "post"
+title: "Retrieving Section View Intersection Cut Geometry"
+date: "2019-05-23 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Algorithm"
+  - "Data Access"
+  - "Family"
+  - "Geometry"
+  - "Performance"
+  - "View"
+original_url: "https://thebuildingcoder.typepad.com/blog/2019/05/retrieving-section-view-intersection-cut-geometry.html "
+typepad_basename: "retrieving-section-view-intersection-cut-geometry"
+typepad_status: "Publish"
+---
+
+<p>I played around creating a
+new <a href="https://github.com/jeremytammik/SectionCutGeo">SectionCutGeo add-in</a> to
+retrieve the geometry resulting from cutting a family instance in a section view.</p>
+
+<p>This was prompted
+by Martin von Kessel, <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/3883640">@Hacklberg</a>, in 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/how-to-receive-intersection-of-section-and-familyinstance/m-p/8802202">getting intersection lines from cut in section view</a>:</p>
+
+<ul>
+<li><a href="#2">Intersection of section and family instance task</a> </li>
+<li><a href="#3">Solution options, geometry elements and view settings</a> </li>
+<li><a href="#4">Retrieving curves in the cut plane</a> </li>
+<li><a href="#5">Helper methods and external command mainline</a> </li>
+<li><a href="#6">Sample model and results</a> </li>
+<li><a href="#7">Caveat</a> </li>
+</ul>
+
+<h4><a name="2"></a> Intersection of Section and Family Instance Task</h4>
+
+<p><strong>Question:</strong> I am trying to get the Intersection of Section and <code>FamilyInstance</code>.</p>
+
+<p>The <code>GeometryElement</code> of the family returns all faces, even if they are outside of the section.</p>
+
+<p>Here is what I am after:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a45fdbe0200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a45fdbe0200c img-responsive" alt="Section cut request" title="Section cut request" src="/assets/image_6d2996.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>Is there any predefined function to receive the Solid or BoundingBox inside the section? </p>
+
+<h4><a name="3"></a> Solution Options, Geometry Elements and View Settings</h4>
+
+<p>It is definitely possible, as was explained by Saeed Karshenas in his demonstration
+of <a href="https://thebuildingcoder.typepad.com/blog/2011/08/section-view-geometry.html">visualising section view geometry in OpelGL</a>.</p>
+
+<p>To achieve this, you need to specify the section view in the options passed in to get the geometry:</p>
+
+<pre class="code">
+  <span style="color:#2b91af;">Options</span>&nbsp;option&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Options</span>();
+  option.View&nbsp;=&nbsp;viewSection;
+
+  <span style="color:#2b91af;">GeometryElement</span>&nbsp;geometryElement&nbsp;=&nbsp;familyInstance
+  &nbsp;&nbsp;.get_Geometry(&nbsp;option&nbsp;);
+
+  <span style="color:#2b91af;">GeometryInstance</span>?&nbsp;gInst&nbsp;=&nbsp;geometryElement.First()&nbsp;
+  &nbsp;&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">GeometryInstance</span>;
+
+  <span style="color:#2b91af;">GeometryElement</span>&nbsp;gSymbol&nbsp;=&nbsp;gInst.GetInstanceGeometry();
+</pre>
+
+<p>The crucial point, however, if you want to retrieve the intersection lines of the family instance and the section cut plane, is to set the <code>VIEWER_BOUND_FAR_CLIPPING</code> parameter appropriately.</p>
+
+<p>The default setting is <code>2</code>, 'Clip without line'.</p>
+
+<p>I changed it to <code>1</code>, 'Clip with line', and then the intersection lines are returned:</p>
+
+<pre class="code">
+  viewSection.get_Parameter(&nbsp;
+  &nbsp;&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.VIEWER_BOUND_FAR_CLIPPING&nbsp;)
+  &nbsp;&nbsp;&nbsp;&nbsp;.Set(&nbsp;1&nbsp;);
+
+  viewSection.DetailLevel&nbsp;=&nbsp;<span style="color:#2b91af;">ViewDetailLevel</span>.Fine;
+</pre>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4892a2d200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4892a2d200d img-responsive" style="width: 279px; display: block; margin-left: auto; margin-right: auto;" alt="Section view far clipping setting" title="Section view far clipping setting" src="/assets/image_e0c520.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="4"></a> Retrieving Curves in the Cut Plane</h4>
+
+<p>In the SectionCutGeo add-in, I only want to retrieve the intersection curves of the family instance with the cut plane of the section view.</p>
+
+<p>The geometry returned includes the entire truncated solid.</p>
+
+<p>How to determine which of its curves lie in a specific plane?</p>
+
+<p>Initially, I simply called <code>NewModelCurve</code>, specifying the sketch plane in that cut plane, for each of the curves I retrieved from the geometry.</p>
+
+<p>It works for the curves that lie in that plane and throws an exception for all the ones that do not:</p>
+
+<ul>
+<li>An exception of type <em>Autodesk.Revit.Exceptions.ArgumentException</em> occurred in RevitAPI.dll;
+Additional information: Curve must be in the plane</li>
+</ul>
+
+<p>Throwing all those exceptions is a very horrible thing to do and costs a huge amount of time.</p>
+
+<p>It provides a brain-dead simple way to get rid of the off-plane curves, though.</p>
+
+<p>So far, we simply tried to create a model curve in the given plane. This throws an exception if the curve does not lie in the plane. That is bad and costs a huge amount of performance. Better would be to programmatically check whether the curve lies in the plane beforehand, instead of throwing an exception. How can we determine whether a curve lies in a plane?</p>
+
+<p>I asked the development team whether they can suggest a method to check beforehand whether a curve lies in a given plane or not:</p>
+
+<p>Jeremy: Is there a way to check whether a <code>Curve</code> lies in a given <code>Plane</code>? I can simply call <code>NewModelCurve</code> on it. That throws exception if the curve does not lie in the plane. However, it would be much cleaner and more efficient to check that programmatically instead. Does the Revit API offer anything that I could use for that check, or is this a case of DIY?</p>
+
+<p>Devteam: <code>Face</code> has <code>Intersect(Curve)</code>.
+<code>Plane</code> (or other <code>Surface</code>) does not.
+Could you project the curve end-points (and one intermediate point) with <code>Surface.Project</code> and check the distances? <br />
+Alternatively, can’t you build a plane via 3 points on the curve, confirm matching normal vectors and then check on point on the target plane for intersection with the generated plane? Also, check that the initiating curve is planar (no idea how in Revit API but non-planar 3D splines are a thing that ruins all of the above).</p>
+
+<p>Jeremy: Yes, I could project and test the distance. I think I only have arcs and lines, though, so it may be easier to implement my own is-curve-in-plane predicate, much faster, probably... I think the Revit API once boasted a method on the <code>Curve</code> class to return the plane it was lying in, but that seems to have vanished...</p>
+
+<p>I added a counter to track all the different kinds of geometry elements I am handling, and it reported:</p>
+
+<pre>
+    3 Element
+    2 FamilyInstance
+    7 GeometryElement
+    2 GeometryInstance
+  261 Line
+    2 null
+    9 Solid
+    2 Wall
+</pre>
+
+<p>Apparently, all the curves I have to handle are <code>Line</code> objects, and that is easy using <code>Plane.Project</code>:</p>
+
+<pre class="code">
+  <span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+  <span style="color:gray;">///</span><span style="color:green;">&nbsp;Predicate&nbsp;returning&nbsp;true&nbsp;if&nbsp;the&nbsp;given&nbsp;line</span>
+  <span style="color:gray;">///</span><span style="color:green;">&nbsp;lies&nbsp;in&nbsp;the&nbsp;given&nbsp;plane</span>
+  <span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+  <span style="color:blue;">static</span>&nbsp;<span style="color:blue;">bool</span>&nbsp;IsLineInPlane(
+  &nbsp;&nbsp;<span style="color:#2b91af;">Line</span>&nbsp;line,
+  &nbsp;&nbsp;<span style="color:#2b91af;">Plane</span>&nbsp;plane&nbsp;)
+  {
+  &nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;p0&nbsp;=&nbsp;line.GetEndPoint(&nbsp;0&nbsp;);
+  &nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;p1&nbsp;=&nbsp;line.GetEndPoint(&nbsp;1&nbsp;);
+  &nbsp;&nbsp;<span style="color:#2b91af;">UV</span>&nbsp;uv0,&nbsp;uv1;
+  &nbsp;&nbsp;<span style="color:blue;">double</span>&nbsp;d0,&nbsp;d1;
+
+  &nbsp;&nbsp;plane.Project(&nbsp;p0,&nbsp;<span style="color:blue;">out</span>&nbsp;uv0,&nbsp;<span style="color:blue;">out</span>&nbsp;d0&nbsp;);
+  &nbsp;&nbsp;plane.Project(&nbsp;p1,&nbsp;<span style="color:blue;">out</span>&nbsp;uv1,&nbsp;<span style="color:blue;">out</span>&nbsp;d1&nbsp;);
+
+  &nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;_eps&nbsp;&gt;&nbsp;<span style="color:#2b91af;">Math</span>.Abs(&nbsp;d0&nbsp;)
+  &nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp;&nbsp;_eps&nbsp;&gt;&nbsp;<span style="color:#2b91af;">Math</span>.Abs(&nbsp;d1&nbsp;);
+  }
+</pre>
+
+<p>Jeremy: I wonder if <code>d0</code> and <code>d1</code> are guaranteed to be positive in any case?
+Or can they be negative also?
+The documentation should tell me, but it does not.</p>
+
+<p>Devteam: The distance output will always be non-negative (up to floating-point rounding error).
+You are correct in saying that the API documentation should state that explicitly, though it probably uses "distance" to generally mean unsigned distance.
+You're also correct in saying that it would be helpful for Revit's API to provide a function to determine if a curve lies in a plane (or more generally, on any given surface).
+There is an internal function that does so, but it's not exposed via the API.</p>
+
+<h4><a name="5"></a> Helper Methods and External Command Mainline</h4>
+
+<p>Using my own curve-in-plane predicate to eliminate all curves not lying in the plane instead of throwing an exception for each one sped up execution tremendously.</p>
+
+<p>It also enabled me to separate the curve collection and the model curve creation from each other.</p>
+
+<p>I implemented a read-only curve collection section followed by a separate, later, transaction for the model curve creation.</p>
+
+<p>The code now looks like this:</p>
+
+<pre class="code">
+<span style="color:blue;">namespace</span>&nbsp;SectionCutGeo
+{
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;A&nbsp;class&nbsp;to&nbsp;count&nbsp;and&nbsp;report&nbsp;the&nbsp;</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;number&nbsp;of&nbsp;objects&nbsp;encountered.</span>
+&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">JtObjCounter</span>&nbsp;:&nbsp;<span style="color:#2b91af;">Dictionary</span>&lt;<span style="color:blue;">string</span>,&nbsp;<span style="color:blue;">int</span>&gt;
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Count&nbsp;a&nbsp;new&nbsp;occurence&nbsp;of&nbsp;an&nbsp;object</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;Increment(&nbsp;<span style="color:blue;">object</span>&nbsp;obj&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;key&nbsp;=&nbsp;<span style="color:blue;">null</span>&nbsp;==&nbsp;obj
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?&nbsp;<span style="color:#a31515;">&quot;null&quot;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;obj.GetType().Name;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;!ContainsKey(&nbsp;key&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Add(&nbsp;key,&nbsp;0&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++<span style="color:blue;">this</span>[key];
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Report&nbsp;the&nbsp;number&nbsp;of&nbsp;objects&nbsp;encountered.</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;Print()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:blue;">string</span>&gt;&nbsp;keys&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:blue;">string</span>&gt;(&nbsp;Keys&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;keys.Sort();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:blue;">string</span>&nbsp;key&nbsp;<span style="color:blue;">in</span>&nbsp;keys&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Debug</span>.Print(&nbsp;<span style="color:#a31515;">&quot;{0,5}&nbsp;{1}&quot;</span>,&nbsp;<span style="color:blue;">this</span>[key],&nbsp;key&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;[<span style="color:#2b91af;">Transaction</span>(&nbsp;<span style="color:#2b91af;">TransactionMode</span>.Manual&nbsp;)]
+&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">Command</span>&nbsp;:&nbsp;<span style="color:#2b91af;">IExternalCommand</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Maximum&nbsp;distance&nbsp;for&nbsp;line&nbsp;to&nbsp;be&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;considered&nbsp;to&nbsp;lie&nbsp;in&nbsp;plane</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">const</span>&nbsp;<span style="color:blue;">double</span>&nbsp;_eps&nbsp;=&nbsp;1.0e-6;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;User&nbsp;instructions&nbsp;for&nbsp;running&nbsp;this&nbsp;external&nbsp;command</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">const</span>&nbsp;<span style="color:blue;">string</span>&nbsp;_instructions&nbsp;=&nbsp;<span style="color:#a31515;">&quot;Please&nbsp;launch&nbsp;this&nbsp;&quot;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<span style="color:#a31515;">&quot;command&nbsp;in&nbsp;a&nbsp;section&nbsp;view&nbsp;with&nbsp;fine&nbsp;level&nbsp;of&nbsp;&quot;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<span style="color:#a31515;">&quot;detail&nbsp;and&nbsp;far&nbsp;bound&nbsp;clipping&nbsp;set&nbsp;to&nbsp;&#39;Clip&nbsp;with&nbsp;line&#39;&quot;</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Predicate&nbsp;returning&nbsp;true&nbsp;if&nbsp;the&nbsp;given&nbsp;line&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;lies&nbsp;in&nbsp;the&nbsp;given&nbsp;plane</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">bool</span>&nbsp;IsLineInPlane(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Line</span>&nbsp;line,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Plane</span>&nbsp;plane&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;p0&nbsp;=&nbsp;line.GetEndPoint(&nbsp;0&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">XYZ</span>&nbsp;p1&nbsp;=&nbsp;line.GetEndPoint(&nbsp;1&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UV</span>&nbsp;uv0,&nbsp;uv1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">double</span>&nbsp;d0,&nbsp;d1;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;plane.Project(&nbsp;p0,&nbsp;<span style="color:blue;">out</span>&nbsp;uv0,&nbsp;<span style="color:blue;">out</span>&nbsp;d0&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;plane.Project(&nbsp;p1,&nbsp;<span style="color:blue;">out</span>&nbsp;uv1,&nbsp;<span style="color:blue;">out</span>&nbsp;d1&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Debug</span>.Assert(&nbsp;0&nbsp;&lt;=&nbsp;d0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;expected&nbsp;non-negative&nbsp;distance&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Debug</span>.Assert(&nbsp;0&nbsp;&lt;=&nbsp;d1,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;expected&nbsp;non-negative&nbsp;distance&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;(&nbsp;_eps&nbsp;&gt;&nbsp;d0&nbsp;)&nbsp;&amp;&amp;&nbsp;(&nbsp;_eps&nbsp;&gt;&nbsp;d1&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Recursively&nbsp;handle&nbsp;geometry&nbsp;element</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">void</span>&nbsp;GetCurvesInPlane(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">Curve</span>&gt;&nbsp;curves,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">JtObjCounter</span>&nbsp;geoCounter,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Plane</span>&nbsp;plane,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">GeometryElement</span>&nbsp;geo&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;geoCounter.Increment(&nbsp;geo&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;<span style="color:blue;">null</span>&nbsp;!=&nbsp;geo&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">GeometryObject</span>&nbsp;obj&nbsp;<span style="color:blue;">in</span>&nbsp;geo&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;geoCounter.Increment(&nbsp;obj&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Solid</span>&nbsp;sol&nbsp;=&nbsp;obj&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">Solid</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;<span style="color:blue;">null</span>&nbsp;!=&nbsp;sol&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">EdgeArray</span>&nbsp;edges&nbsp;=&nbsp;sol.Edges;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">Edge</span>&nbsp;edge&nbsp;<span style="color:blue;">in</span>&nbsp;edges&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Curve</span>&nbsp;curve&nbsp;=&nbsp;edge.AsCurve();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Debug</span>.Assert(&nbsp;curve&nbsp;<span style="color:blue;">is</span>&nbsp;<span style="color:#2b91af;">Line</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;we&nbsp;currently&nbsp;only&nbsp;support&nbsp;lines&nbsp;here&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;geoCounter.Increment(&nbsp;curve&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;IsLineInPlane(&nbsp;curve&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">Line</span>,&nbsp;plane&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;curves.Add(&nbsp;curve&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">else</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">GeometryInstance</span>&nbsp;inst&nbsp;=&nbsp;obj&nbsp;<span style="color:blue;">as</span>&nbsp;<span style="color:#2b91af;">GeometryInstance</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;<span style="color:blue;">null</span>&nbsp;!=&nbsp;inst&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GetCurvesInPlane(&nbsp;curves,&nbsp;geoCounter,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;plane,&nbsp;inst.GetInstanceGeometry()&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">else</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Debug</span>.Assert(&nbsp;<span style="color:blue;">false</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;unsupported&nbsp;geometry&nbsp;object&nbsp;&quot;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;obj.GetType().Name&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">Result</span>&nbsp;Execute(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ExternalCommandData</span>&nbsp;commandData,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">ref</span>&nbsp;<span style="color:blue;">string</span>&nbsp;message,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">ElementSet</span>&nbsp;elements&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UIApplication</span>&nbsp;uiapp&nbsp;=&nbsp;commandData.Application;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UIDocument</span>&nbsp;uidoc&nbsp;=&nbsp;uiapp.ActiveUIDocument;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Application</span>&nbsp;app&nbsp;=&nbsp;uiapp.Application;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Document</span>&nbsp;doc&nbsp;=&nbsp;uidoc.Document;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">View</span>&nbsp;section_view&nbsp;=&nbsp;commandData.View;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Parameter</span>&nbsp;p&nbsp;=&nbsp;section_view.get_Parameter(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">BuiltInParameter</span>.VIEWER_BOUND_FAR_CLIPPING&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;<span style="color:#2b91af;">ViewType</span>.Section&nbsp;!=&nbsp;section_view.ViewType
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;<span style="color:#2b91af;">ViewDetailLevel</span>.Fine&nbsp;!=&nbsp;section_view.DetailLevel
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;1&nbsp;!=&nbsp;p.AsInteger()&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;message&nbsp;=&nbsp;_instructions;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#2b91af;">Result</span>.Failed;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>&nbsp;a
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">FilteredElementCollector</span>(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc,&nbsp;section_view.Id&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Options</span>&nbsp;opt&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Options</span>()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ComputeReferences&nbsp;=&nbsp;<span style="color:blue;">false</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IncludeNonVisibleObjects&nbsp;=&nbsp;<span style="color:blue;">false</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;View&nbsp;=&nbsp;section_view
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">SketchPlane</span>&nbsp;plane1&nbsp;=&nbsp;section_view.SketchPlane;&nbsp;<span style="color:green;">//&nbsp;this&nbsp;is&nbsp;null</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Plane</span>&nbsp;plane2&nbsp;=&nbsp;<span style="color:#2b91af;">Plane</span>.CreateByNormalAndOrigin(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;section_view.ViewDirection,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;section_view.Origin&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">JtObjCounter</span>&nbsp;geoCounter&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">JtObjCounter</span>();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">Curve</span>&gt;&nbsp;curves&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">Curve</span>&gt;();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">Element</span>&nbsp;e&nbsp;<span style="color:blue;">in</span>&nbsp;a&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;geoCounter.Increment(&nbsp;e&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">GeometryElement</span>&nbsp;geo&nbsp;=&nbsp;e.get_Geometry(&nbsp;opt&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GetCurvesInPlane(&nbsp;curves,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;geoCounter,&nbsp;plane2,&nbsp;geo&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Debug</span>.Print(&nbsp;<span style="color:#a31515;">&quot;Objects&nbsp;analysed:&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;geoCounter.Print();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Debug</span>.Print(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;{0}&nbsp;cut&nbsp;geometry&nbsp;lines&nbsp;found&nbsp;in&nbsp;section&nbsp;plane.&quot;</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;curves.Count&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">using</span>(&nbsp;<span style="color:#2b91af;">Transaction</span>&nbsp;tx&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Transaction</span>(&nbsp;doc&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tx.Start(&nbsp;<span style="color:#a31515;">&quot;Create&nbsp;Section&nbsp;Cut&nbsp;Model&nbsp;Curves&quot;</span>&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">SketchPlane</span>&nbsp;plane3&nbsp;=&nbsp;<span style="color:#2b91af;">SketchPlane</span>.Create(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc,&nbsp;plane2&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;<span style="color:#2b91af;">Curve</span>&nbsp;c&nbsp;<span style="color:blue;">in</span>&nbsp;curves&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Create.NewModelCurve(&nbsp;c,&nbsp;plane3&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tx.Commit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:#2b91af;">Result</span>.Succeeded;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p>Note that the code listed above is a momentary snapshot at the time of writing.</p>
+
+<p>For the full Visual Studio solution and updates to the code, please refer to
+the <a href="https://github.com/jeremytammik/SectionCutGeo">SectionCutGeo GitHub repository</a>.</p>
+
+<h4><a name="6"></a> Sample Model and Results</h4>
+
+<p>Sample model 3D view:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4892a40200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4892a40200d img-responsive" style="width: 279px; display: block; margin-left: auto; margin-right: auto;" alt="Sample model 3D view" title="Sample model 3D view" src="/assets/image_ea0b1d.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Plan view showing section location:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4adb325200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4adb325200b img-responsive" style="width: 403px; display: block; margin-left: auto; margin-right: auto;" alt="Plan view showing section location" title="Plan view showing section location" src="/assets/image_bcd561.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Cut geometry in section view:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a4adb329200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a4adb329200b img-responsive" style="width: 373px; display: block; margin-left: auto; margin-right: auto;" alt="Cut geometry in section view" title="Cut geometry in section view" src="/assets/image_c3e5a8.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Model lines representing the cut geometry of the window family instance produced by the add-in in section view:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a45fdbf9200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a45fdbf9200c img-responsive" style="width: 361px; display: block; margin-left: auto; margin-right: auto;" alt="Model lines representing cut geometry in section view" title="Model lines representing cut geometry in section view" src="/assets/image_7b8814.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Model lines representing the cut geometry of walls, door and window isolated in 3D view:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330240a45fdc00200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330240a45fdc00200c img-responsive" style="width: 216px; display: block; margin-left: auto; margin-right: auto;" alt="Model lines representing cut geometry isolated in 3D view" title="Model lines representing cut geometry isolated in 3D view" src="/assets/image_f6108a.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Listing the number of processed elements, geometry objects and curves actually lying in the cut plane for this sample:</p>
+
+<pre>
+  Objects analysed:
+      3 Element
+      2 FamilyInstance
+      7 GeometryElement
+      2 GeometryInstance
+    261 Line
+      2 null
+      9 Solid
+      2 Wall
+
+  77 cut geometry lines found in section plane.
+</pre>
+
+<h4><a name="7"></a> Caveat</h4>
+
+<p>This sample currently only handles solid and instance geometry objects.</p>
+
+<p>There may well be other object types that need to be handled as well to provide full coverage for all situations.</p>

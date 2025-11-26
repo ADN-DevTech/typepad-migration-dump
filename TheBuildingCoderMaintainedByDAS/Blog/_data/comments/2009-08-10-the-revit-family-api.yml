@@ -1,0 +1,850 @@
+comments:
+- author: zorcad
+  email: rmuhammad.ali@gmail.com
+  ip: 115.186.66.183
+  url: ''
+  date: '2009-08-16 00:57:17'
+  body: "Hi Jeremy,\nFirst of all thanks for this wonderful and resourceful blog for\
+    \ all the revit community.\n\nMy Question is not directly related to the new Family\
+    \ API for Revit 2010. \n\nHow can we access geometry object (particularly Geometry.Solid)\
+    \ for Structural Framing, Lighting Fixtures, Railings (stair railing,   Hand rail\
+    \ rectangular etc.) and similar Family instances ?\n\nPlease give a solution that\
+    \ works with the  Revit 2009 API."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-08-17 07:38:51'
+  body: "Dear Zorcad,\n\nThank you very much for your appreciation, I am really glad\
+    \ that you find it useful!\n\nOne example of accessing the geometry of a family\
+    \ instance is given in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/05/nested-instance-geometry.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/05/nested-instance-geometry.html</a>\n\
+    \nIt searches for the first family instance in the current project and iterates\
+    \ over its geometry, extracting and listing all vertices from each of its solids.\
+    \ It then continues to explore the symbol family components using the Symbol.Family.Components\
+    \ property which was available in the Revit 2009 API but has been replaced by\
+    \ the family API in Revit 2010. You don't need that part. The first part will\
+    \ work unchanged in both Revit 2009 and 2010.\n\nCheers, Jeremy."
+- author: zorcad
+  email: rmuhammad.ali@gmail.com
+  ip: 115.186.64.97
+  url: ''
+  date: '2009-08-17 17:04:41'
+  body: "Hi Jeremy,\nThanks for the reply, \nActually I already have gone through\
+    \ all of your previous posts before asking the question.\n\nIn the link you gave:\n\
+    \nif( !Util.GetSelectedElementsOrAll( a, doc,\n  typeof( FamilyInstance ) ) )\n\
+    \nthis selects the elements of FamilyInstance type and we can get the geometry\
+    \ info., and on another of your posts of selecting all of the model elements in\
+    \ a scene which is;\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/05/selecting-model-elements.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/05/selecting-model-elements.html</a>\n\
+    \nsays:\n if( !(e is Symbol)\n    && !(e is FamilyBase)\n    && (null != e.Category)\n\
+    \    && (_CategoryNameLegendComponents != e.Category.Name)\n    && (null != e.get_Geometry(opt))\
+    \ )\n  {\n    // . . .\n  }\n\nwhich selects all the model elements. \n\nNow the\
+    \ problem I am facing is that a few of these selected model elements I can't access\
+    \ their geometry info. Example is a Railing.\n\nSo, I was asking if there is way\
+    \ to have geometry information of these type of model elements too.\n\nThanks\
+    \ and regards,"
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.123.144
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-08-18 02:02:57'
+  body: "Dear Zorcad,\n\nThank you for your update and for going through the other\
+    \ posts before asking. I see what you mean now.\n\nThere are a few model elements\
+    \ in Revit that are not exposed in the API. In that case, they are stored in the\
+    \ document elements collection as instances of the generic Element base class,\
+    \ which makes them a bit hard to identify. \n\nTo explore these elements further,\
+    \ you can make use of the Revit element lister implemented in Lab2_1_Elements.\
+    \ Its use is described in \n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2008/11/exploring-element-parameters.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2008/11/exploring-element-parameters.html</a>\n\
+    \nThat will show you how to create a railing instance and get a handle on it to\
+    \ explore its parameters and other properties, so you can see what is available\
+    \ and accessible. I would expect the geometry to be provided as normal. The properties\
+    \ and other data may enable you to create a filter to access all railings.\n\n\
+    Cheers, Jeremy."
+- author: zorcad
+  email: rmuhammad.ali@gmail.com
+  ip: 202.133.47.28
+  url: ''
+  date: '2009-08-18 08:03:13'
+  body: 'Hi Jeremy,
+
+    Thanks for details.
+
+    Actually I am able to access all these elements, I was just asking a way (probably
+    code) to access their geometry. Anyways I am working on this as I waiting for
+    your coming reply :-).
+
+    Thanks,'
+- author: Jeremy Tammik
+  email: ''
+  ip: 89.59.123.144
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-08-18 08:36:37'
+  body: 'Dear Zorcad,
+
+
+    Oh, great, if you can access these elements, the hard part is done. The access
+    to geometry is always identical. You use the Geometry property on the Element
+    class, provided in form of the get_Geometry method in C#:
+
+
+    Autodesk.Revit.Element e;
+
+    Autodesk.Revit.Geometry.Options opt = app.Create.NewGeometryOptions();
+
+    Autodesk.Revit.Geometry.Element ge = e.get_Geometry( opt );
+
+
+    There are lots of examples of accessing and analysing element geometry in the
+    Geometry category of this blog, e.g. in the latest geometrical post
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/08/bottom-face-of-a-wall.html">http://thebuildingcoder.typepad.com/blog/2009/08/bottom-face-of-a-wall.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Prasad Sumanasekara
+  email: prasadgalle@gmail.com
+  ip: 124.43.45.181
+  url: ''
+  date: '2009-10-02 02:44:56'
+  body: "Hello JEREMY TAMMIK,\n\n How to set foramula using Family manger\nFamilyParameter\
+    \ ^famiPara = famiManager->AddParameter(\"numSize\",BuiltInParameterGroup::PG_GRAPHICS,ParameterType::Integer,false);\n\
+    \ famiPara = famiManager->AddParameter(\n\"size1\",BuiltInParameterGroup::PG_GRAPHICS,Parameters::ParameterType::YesNo,false);\n\
+    String ^formula =\"numSize=\"+Convert::ToString(1);\nfamiManager->SetFormula(famiPara,formula);\n\
+    \nthis is not Work.\n\nplease help me about set formula \nThank You,\nPrasad."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-10-02 05:06:58'
+  body: 'Dear Prasad,
+
+
+    I entered SetFormula as a search key in Rod Howarth''s custom Google search for
+    global online Revit API help mentioned in
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/08/online-revit-api-help.html">http://thebuildingcoder.typepad.com/blog/2009/08/online-revit-api-help.html</a>
+
+
+    It turned up one single hit:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/08/the-revit-family-api.html">http://thebuildingcoder.typepad.com/blog/2009/08/the-revit-family-api.html</a>
+
+
+    Which takes us right back home again  :-)
+
+
+    The Lab 3 ''Add Formulas and Materials'' of the sample code of the family API
+    presentation demonstrates adding a formula.
+
+
+    I hope that solves your issue.
+
+
+    Cheers, Jeremy.'
+- author: Pramod R Shinde
+  email: pramods@zconsolutions.com
+  ip: 122.169.124.138
+  url: ''
+  date: '2009-11-03 12:04:08'
+  body: "Hi JEREMY TAMMIK,\nWe are working on API of Revit Architecture 2010. We want\
+    \ to get all Parameters and their values from the Family document. We are referring\
+    \ AutoParmeter example from SDK. With the help of this example, we are able to\
+    \ get parameters of Family, but didn\x19t get any property or method for getting\
+    \ Value of those parameters. \n\nSo please give any code example for getting values\
+    \ of the Family Parameters."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-06 07:15:04'
+  body: 'Dear Pramod,
+
+
+    Thank you for your interesting query. I picked up the identical question from
+    the case that you submitted to ADN through DevHep Online and answered that.
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-11-10 08:25:48'
+  body: 'Dear Pramod,
+
+
+    I ended up creating a new blog post to answer your question in depth:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/11/family-parameter-value.html">http://thebuildingcoder.typepad.com/blog/2009/11/family-parameter-value.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Lars Rådman
+  email: lars.radman@cad-q.se
+  ip: 62.20.34.110
+  url: ''
+  date: '2009-12-15 04:15:36'
+  body: "Hi Jeremy!\nI'm wondering if you have a good example of the use of the IFamilyLoadOptions\
+    \ callback interface? \n(I've searched the API docs and the Family API. It's mentioned,\
+    \ but I haven't found it used in any examples.)\n\nThe reason I'm asking is that\
+    \ I am programatically modifying (adding new types to) a set of families containing\
+    \ lighing fixtures, and I need to load the modified families into existing Revit\
+    \ projects already containing the old versions of the families. As far as I understand,\
+    \ this is where the callbacks of IFamilyLoadOptions come into play. \nI'we written\
+    \ some test code (C#) that compiles, but when running it in the debugger I don't\
+    \ get any callbacks. )-;\n\nThanks in advance,\n/ Lars"
+- author: Jeremy Tammik
+  email: ''
+  ip: 194.237.193.51
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2009-12-15 04:59:31'
+  body: 'Dear Lasse,
+
+
+    Yes, I think your understanding is right. I have seen sample code for using IFamilyLoadOptions
+    and heard from colleagues who have tried to use it, but as far as I know this
+    event currently does not work as expected, so I am not surprised that you are
+    not receiving any notification call-backs. The reason is that Revit 2010 simply
+    refuses to reload the family, even if it has been edited. Sorry for the bad news.
+
+
+    Cheers, Jeremy.'
+- author: NAyche
+  email: ''
+  ip: 66.162.165.162
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2010-02-02 09:09:15'
+  body: 'Jeremy,
+
+
+    I hope everything is going well for you.
+
+    I am trying to use the FamilyItemFactory to create a label inside the family document.  I
+    can see all kinds of creation functions like NewDimension, NewSweep, NewTextNote,...
+
+    but I can''t find any function to do NewLabel()
+
+
+    How do we go about that?
+
+
+    Regards,
+
+    Nadim'
+- author: NAyche
+  email: ''
+  ip: 66.162.165.162
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2010-02-02 10:46:14'
+  body: 'Jeremy,
+
+
+    Another question.
+
+    I am trying to create an instance of a Generic Annotation Family using
+
+
+    FamilyInstance instance = xDoc.Create.NewFamilyInstance(new Autodesk.Revit.Geometry.XYZ(0,
+    Y, 0), symbol, Autodesk.Revit.Structural.Enums.StructuralType.NonStructural);
+
+
+    However, "instance" return null always.
+
+
+    Any idea why?
+
+
+    Regards,
+
+    Nadim'
+- author: Jeremy Tammik
+  email: ''
+  ip: 85.34.247.161
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-02-02 11:51:23'
+  body: 'Dear Nadim,
+
+
+    I am fine, thank you, and I hope you are too.
+
+
+    I''ll try my standard answer first of all, for the umpteenth time: can you do
+    that in the user interface?
+
+
+    If not, you probably will not have access to it in the API either.
+
+
+    Cheers, Jeremy'
+- author: NAyche
+  email: ''
+  ip: 66.162.165.162
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2010-02-02 11:54:36'
+  body: 'Thanks Jeremy.
+
+    Yes, you can do that in the user interface, inside a family editor.  The label
+    might be the most common element used in the Annotation Families.
+
+
+    Regards,
+
+    Nadim'
+- author: Jeremy Tammik
+  email: ''
+  ip: 85.34.247.161
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-02-02 11:59:39'
+  body: 'Dear Nadim,
+
+
+    If you read carefully in the following post on detail lines, you will notice the
+    phrase ''They are annotation elements and are visible only in the view in which
+    they are drawn. They can currently only be created in plan views.''
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/09/detail-lines.html">http://thebuildingcoder.typepad.com/blog/2009/09/detail-lines.html</a>
+
+
+    Maybe the same is true for the annotation family. Once again, try it in the user
+    interface first.
+
+
+    Cheers, Jeremy'
+- author: Jeremy Tammik
+  email: ''
+  ip: 88.32.175.201
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-02-04 05:39:20'
+  body: 'Dear Nadim,
+
+
+    On one hand, I found out that there is an open API enhancement request for "Label"
+    support in the family API.
+
+
+    On the other hand, Harry Mattison very friendlily provided some code to create
+    a new dimension label, which I hope is what you are in fact looking for:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/02/creating-a-dimension-label.html">http://thebuildingcoder.typepad.com/blog/2010/02/creating-a-dimension-label.html</a>
+
+
+    Cheers, Jeremy.'
+- author: NAyche
+  email: ''
+  ip: 66.162.165.162
+  url: http://profile.typepad.com/6p0120a65f154e970b
+  date: '2010-02-04 08:57:04'
+  body: 'Thanks Jeremy,
+
+
+    I was able to complete my extesnion without having to use a Label.  But to answer
+    your question, the dimension label is a bit different.  In the user interface,
+    any label can be assigned to the dimension as long it has one parameter.  But,
+    labels may have an infinite number of parameters.
+
+
+    Programmatically, API is able to assign the parameter to the dimension directly
+    as you saw in dim.Label = familyParam, but really no actual lable is created.
+
+
+    What I was trying to do is to create a label that has n-number of parameters.
+    I was going to associate the instances of that family with a Note Block.  What
+    I found is that you can create the family, add the parameters to it and then load
+    it into the project.  It will do the job without nothing physical is been created
+    in the project.
+
+
+    I hope this helps in explaining the difference.
+
+
+    Regards,
+
+    Nadim'
+- author: Jeremy Tammik
+  email: ''
+  ip: 94.81.53.42
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-02-05 05:04:17'
+  body: 'Dear Nadim,
+
+
+    Thank you for the explanation and congratulations on completing your project and
+    working around the missing functionality.
+
+
+    One very important aspect of the art of programming and any other art as well
+    for that matter is making do with what you have, not fighting windmills.
+
+
+    Cheers, Jeremy.'
+- author: Jeff
+  email: jsimon@hntb.com
+  ip: 198.51.229.30
+  url: ''
+  date: '2010-02-11 13:43:08'
+  body: "Hello Jeremy,\n\nThank you for this page on the Family API. Its a good start\
+    \ for me. I have a question regarding instance parameters. I managed to create\
+    \ an instance parameter but it does not show up when the user activates the instance\
+    \ properties window for the selected element. The code I used was:\n\nFamDoc.FamilyManager.AddParameter(\"\
+    TESTPARAMETER\", BuiltInParameterGroup.PG_CONSTRUCTION,ParameterType.Text,true);\n\
+    \nIs there a way to set the visibility of this parameter so that the user can\
+    \ work with it in the \"Instance Properties\" window? \n\nThanks again,\nJeff"
+- author: Jeff
+  email: jsimon@hntb.com
+  ip: 198.51.229.30
+  url: ''
+  date: '2010-02-11 15:05:11'
+  body: My temporary work around for this is to save the family back out and reload
+    it.  Not sure if this is my only option, though.
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.153.231
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-02-12 00:26:31'
+  body: 'Dear Jeff,
+
+
+    Thank you for your appreciation, I am glad this page is useful for you!
+
+
+    I am not quite sure about the whole workflow or the context of the operation you
+    describe. If you say that saving and reloading the document helps, but you would
+    like to avoid that, then I would suggest trying to encapsulate the operation in
+    a transaction and committing it ... that might result in a similar update as the
+    save and reload operation. Cf.
+
+
+    http://thebuildingcoder.typepad.com/blog/2010/01/extra-transaction-required.html
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.176.153.231
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-02-12 06:11:32'
+  body: 'Dear Lasse,
+
+
+    Gamal Kira now provided some sample code which actually does show the IFamilyLoadOptions
+    in action:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2010/02/ifamilyloadoptions-and-gemini.html">http://thebuildingcoder.typepad.com/blog/2010/02/ifamilyloadoptions-and-gemini.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Klaus Munkholm
+  email: ''
+  ip: 77.212.20.131
+  url: http://profile.typepad.com/munkholm
+  date: '2010-02-12 15:26:22'
+  body: "Jeremy.\n\nFirst of all, thanks for sharing your valued knowledge ! I´m not\
+    \ a programmer, but have a urgent question to a Revit API expert... \nAs we all\
+    \ know, Revit has limited modeling tools in the family editor (disregard conceptual\
+    \ mass´s)\nWould it be possible to create complex shapes, using the API ? I´m\
+    \ thinking that it MIGHT be possiple to read 3D Point files from AutoCAD, or maybe\
+    \ even create true Revit geometry form importet .dwg/.sat files ?\nI´m looking\
+    \ to create some complex geometry for chairs, sofas etc, but there´s no way, that\
+    \ I can model it with the current tools, and imported geometry (non parametric)\
+    \ is not really an option... Hope you can point me in the right direction. Thanks."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-02-13 02:38:38'
+  body: 'Dear Klaus,
+
+
+    I definitely do not know what you are asserting we all know, and do not agree
+    with it either. As far as I know, you can easily build pretty amazing shapes using
+    the Revit Form Creation API:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/07/revit-form-creation-api.html">http://thebuildingcoder.typepad.com/blog/2009/07/revit-form-creation-api.html</a>
+
+
+    The form creation labs mentioned at the end of that presentation create free-from
+    surfaces from points, so that should enable what you are asking for. You should
+    also check out Zach''s blog:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/07/practical-notes-on-impractical-things.html">http://thebuildingcoder.typepad.com/blog/2009/07/practical-notes-on-impractical-things.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Klaus Munkholm
+  email: ''
+  ip: 77.212.20.131
+  url: http://profile.typepad.com/munkholm
+  date: '2010-02-17 15:03:43'
+  body: 'Ha ha - OK, I´ll redraw that statement, and change it to:
+
+
+    "Most architects/designers (Not programmers), find that Revit (Out Of The Box),
+    has limited modeling tools in the family editor (disregard conceptual mass´s)"
+
+
+    Besides that :-) Thanks for pointing me to the Revit Form Creation API ! Now I
+    "just" need to learn some programming... Thanks again !'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-03-01 11:21:01'
+  body: "Dear Klaus,\n\nOh, well I know next to nothing about actually using Revit,\
+    \ so I cannot comment on that part. \n\nGood luck learning programming, and watch\
+    \ out for the addictive side effects :-)\n\nCheers, Jeremy."
+- author: Kees Barnhoorn
+  email: kees.barnhoorn@centric.eu
+  ip: 217.149.140.2
+  url: ''
+  date: '2010-11-02 04:08:01'
+  body: 'Jeremy,
+
+
+    Thank you for writing all the helpful blogs! I use them very often.
+
+
+    But now I have a little question. Is it not possible to create an in-place family
+    trough the API? I am looking for an answer on the internet. But I can''t find
+    a clear answer or solution. Can you help me?
+
+
+    Thanks
+
+    Kees'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-11-02 10:37:35'
+  body: "Dear Kees, \n\nThank you for your appreciation!\n\nHere is a very clear and\
+    \ short answer to your question: No.\n\nIt is currently not possible to create\
+    \ an in-place family programmatically.\n\nYou can easily work around this by creating\
+    \ a standard family in the background and inserting an instance of it into the\
+    \ model.\n\nCheers, Jeremy."
+- author: bhavana
+  email: bgahlot@building-data.net
+  ip: 61.17.167.107
+  url: ''
+  date: '2011-03-23 04:34:30'
+  body: 'Hi Jeremy,
+
+
+    Thaks for your valuable support.
+
+    I have a requirement where i need to show 3 dimension view of revit families in
+    web application.
+
+    Please suggest how can i crete 3d image of revit families.
+
+    Regards,
+
+    Bhavana'
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-03-31 10:44:55'
+  body: "Dear Bhavana,\n\nThank you for your appreciation.\n\nI have actually had\
+    \ similar requests in the past, and created some sample code that solves the problem.\
+    \ I would very much like to publish this, but it still needs a little bit of cleaning\
+    \ up and testing.\n\nI will send you the sample code as it stands right now if\
+    \ you promise me to clean it up and return the working solution that you create\
+    \ from it. \n\nDeal?\n\nCheers, Jeremy."
+- author: sangsen
+  email: sangsen123@gmail.com
+  ip: 124.124.54.130
+  url: ''
+  date: '2011-04-27 00:36:04'
+  body: "Hi..jeremy..\n            \n    I have Revit family mapping issue,because\
+    \ family naming varies from version to version and countrywise also.plz help me\
+    \ to solve it.\n  In revit 2012,librarypaths() method return library path as \
+    \ \"C:\\ProgramData\\Autodesk\\RST 2012\\Libraries\\South Asia\\\".But i am actually\
+    \ have \"C:\\ProgramData\\Autodesk\\RST 2012\\Libraries\\India\\\".Is it problem\
+    \ with installation?."
+- author: Jeremy Tammik
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-05-03 06:52:18'
+  body: "Dear Sangsen, \n\nI really don't know, nor do I have any idea how to find\
+    \ out. I would contact product support on this if I were you. \n\nBy the way,\
+    \ I passed on your other question on library paths to my colleagues but have still\
+    \ not heard back from them:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2011/04/revit-2012-wikihelp-overview.html?cid=6a00e553e168978833014e61196c5b970c#comment-6a00e553e168978833014e61196c5b970c\"\
+    >http://thebuildingcoder.typepad.com/blog/2011/04/revit-2012-wikihelp-overview.html?cid=6a00e553e168978833014e61196c5b970c#comment-6a00e553e168978833014e61196c5b970c</a>\n\
+    \nI'll let you know when I find out anything.\n\nMeanwhile, you can of course\
+    \ always use the API to set the library paths as you wish via the ControlledApplication\
+    \ LibraryPaths property:\n\n<a href=\"http://thebuildingcoder.typepad.com/blog/2009/08/library-paths.html\"\
+    >http://thebuildingcoder.typepad.com/blog/2009/08/library-paths.html</a>\n\nCheers,\
+    \ Jeremy."
+- author: T
+  email: info@t-gibson.co.uk
+  ip: 94.1.216.193
+  url: ''
+  date: '2012-12-13 07:14:38'
+  body: 'I have setup project parameters from a shared parameter file which contains
+    custom attributes/labels for use with my titlesheet.
+
+
+    I can access these from project information - can you point me in the right direction
+    on how I can access these via API.
+
+
+    I want to be able to load these values from the current selected sheet onto a
+    custom form (each label value into a textbox) and export these values to SQL.'
+- author: Du Nguyen phuoc
+  email: ''
+  ip: 113.161.81.59
+  url: http://profile.typepad.com/dunguyenphuoc
+  date: '2013-01-15 12:39:24'
+  body: 'Hi Jeremy Tammik,
+
+    I want to create a template family (rft) but without using the exiting family
+    template file. Is there a tool to do it?
+
+    Means that I want to design an unprecedented file. For example, the symbol rebar
+    system.
+
+    Thank a lot.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-15 12:42:45'
+  body: 'Dear Du Nguyen Phuoc,
+
+
+    Sorry, no way.
+
+
+    Cheers, Jeremy.'
+- author: Du Nguyen phuoc
+  email: ''
+  ip: 113.161.81.59
+  url: http://profile.typepad.com/dunguyenphuoc
+  date: '2013-01-15 20:27:01'
+  body: 'Dear Jeremy Tammik,
+
+    The *.rft file, can only Autodesk Create ? I think we can code it.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.146.183.33
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-01-16 03:49:21'
+  body: 'Dear Du Nguyen Phuoc,
+
+
+    As far as I know, only Autodesk can create RFT files. The Revit API enables creation
+    of RVT and RFA. If you know of any method to achieve this, please let us know.
+    Thank you.
+
+
+    Cheers, Jeremy.'
+- author: Prasad
+  email: prasadgalle@gmail.com
+  ip: 103.247.51.13
+  url: ''
+  date: '2013-11-06 10:44:36'
+  body: 'Hello Jeremy,
+
+    I think,It is possible to create RFT file
+
+    First create RFA file and rename file extention then It will work as RFT file.Am
+    i wrong?
+
+
+    Best Regards
+
+    Prasad'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.148.201.138
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-11-06 12:09:55'
+  body: 'Dear Prasad,
+
+
+    I really have no idea. Have you tried it out? Does it behave well? Can you successfully
+    create new families from the template that you created? What do other people say
+    about this solution? Have you researched on the Internet for observations made
+    by others trying this?
+
+
+    Cheers, Jeremy.'
+- author: Prasad
+  email: prasadgalle@gmail.com
+  ip: 103.247.51.13
+  url: ''
+  date: '2013-11-06 14:13:47'
+  body: "Dear Jeremy,\nYes,I have done it few months ago.I havecreated RFT file as\
+    \ following steps.\nFirst open Generic model template \nthen add some Ref plans\
+    \ and needed parameter to template \nthen save it as Rfa\nRename extension\n\n\
+    Best Regards\nPrasad"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2013-11-08 03:45:23'
+  body: 'Dear Prasad,
+
+
+    Cool. Thank you for the confirmation.
+
+
+    Cheers, Jeremy.'
+- author: Corbin_S
+  email: ''
+  ip: 70.181.64.70
+  url: http://profile.typepad.com/6p01a3fcdc017e970b
+  date: '2014-03-22 04:23:34'
+  body: "Thanks to geniuses like you. Software, technology, and engineering can progress!\
+    \ Science is an art thanks to you Germans =D\n\nI am very fascinated with Revit\
+    \ and I love using it for designing buildings simply because there is no other\
+    \ practical way... You can turn a napkin 'elevation overlay' sketch into a virtual\
+    \ building very quickly. I love it!!!\n\nRecently. One thought that came across.\
+    \ Is it possible to create 'linked' network central database that organizes/contains\
+    \ wall types, details, families, materials, regular/shared parameters, company\
+    \ standards (annotation, view templates, those types of things....). This database\
+    \ would be managed by few with admin access. However, there should be a temp dump\
+    \ folder for new developing families/detail during earlier stages that can be\
+    \ accessed and updated the same way, however, this will be less strict and accessible\
+    \ to select people. \nOverall. It would be nice to have a database of components\
+    \ that are created once, organized once, and updated once updating all the projects\
+    \ that depend on this without having to do transfer project standard or copy/load\
+    \ things manually. It is a HUGE hassle trying to organize certain things for multiple\
+    \ projects. There always seems to be things I don't want in the Revit file. In\
+    \ the end it creates a mess and it just bloats the file with junk and it slows\
+    \ down the performance...\nThe interface handling would be the most interesting\
+    \ workaround. How do you know what your database elements are versus everything\
+    \ else... There should be four possible subcategories in order to know which:\n\
+    \nDatabase elements (used for standards/production).\n\nDeveloping database elements\
+    \ (in the works/early design/or user defined)\n\nUnreconciled elements (elements\
+    \ that are copied from foreign projects that live in the actual file itself/not\
+    \ organized correctly)\n\nThen system family/element (non editable elements that\
+    \ are defaults by the software).\n\nNow in order to see what each element is.\
+    \ There should be an automatic description labeled for each element, and an automatic\
+    \ filtering hierarchy once the element exists in the database. For example element\
+    \ would be something like '*6\"Stud-Plaster (Material/Color)_*DATABASE ELEMENT*'\
+    \ This family would only exist inside the linked database, and once updated it\
+    \ will automatically update all instances in all projects. In order to choose\
+    \ and create from the drop down selection window. It will be in a category:\n\n\
+    Basic Wall/*DATABASE ELEMENT*/(Wall Type)\n\nThis is just a thought. But, if anything\
+    \ like this exists please let me know. If it does not exist I am sure you can\
+    \ create in a day or two, I'll buy you a few beers =D.\n\nThanks,\n\nCorbin"
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-03-24 01:51:40'
+  body: 'Dear Corbin,
+
+
+    Thank you for your idea, enthusiasm and appreciation.
+
+
+    Sure, something like what you suggest is certainly doable and is being done all
+    over the world today.
+
+
+    I would just raise your time estimate a teeny weeny little bit...
+
+
+    Cheers, Jeremy.'
+- author: Drew
+  email: drewj4rvis@yahoo.ca
+  ip: 174.1.253.59
+  url: ''
+  date: '2014-07-30 18:38:10'
+  body: 'I have been trying to place a dwg into a generic annotation, but there is
+    no named view in a generic annotation family, is there a way to import a dwg into
+    this type of family?
+
+
+    Thanks for any guidance you can give,
+
+
+    Drew'
+- author: Jeremy Tammik
+  email: ''
+  ip: 87.102.230.236
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-07-31 02:43:00'
+  body: 'Dear Drew,
+
+
+    Same answer as always (well, often): can you place the DWG manually, through the
+    user interface?
+
+
+    If so, it is probably possible programmatically as well. You can explore the manually
+    generated model using RevitLookup and other tools to determine how and where the
+    DWG was placed, and then reproduce that by coding.
+
+
+    If not, then it is probably not possible through the API either.
+
+
+    Cheers, Jeremy.'
+- author: Drew
+  email: drewj4rvis@yahoo.ca
+  ip: 174.1.253.59
+  url: ''
+  date: '2014-07-31 12:02:40'
+  body: Thanks Jeremy, I will look into RevitLookup, much appreciated.
+- author: Drew
+  email: drewj4rvis@yahoo.ca
+  ip: 174.1.253.59
+  url: ''
+  date: '2014-07-31 12:37:41'
+  body: Using RevitLookup I found that of the 2 views in the family ("Sheet" and "Project
+    View") its actually the "Sheet" view that the annotation gets placed into, so
+    I was trying to import into the wrong view when I was trying to import into "Project
+    View", Thanks again for pointing me to RevitLookup
+- author: Atul Dusane
+  email: atul.dusane@mwhglobal.com
+  ip: 212.250.190.200
+  url: ''
+  date: '2014-09-30 05:21:15'
+  body: 'Hello Jeremy,
+
+
+    I am trying to read Revit Family (RFA) file attribute with or without using Revit
+    application thread. Could you please suggest me Revit APIs which can help me to
+    read attributes either inside Revit Application or outside of Revit Application.
+
+
+    Thanks,
+
+    Atul Dusane'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/jeremytammik
+  date: '2014-09-30 05:25:39'
+  body: 'Dear Atul Dusane,
+
+
+    It is not possible outside of a Revit application thread. Even more, it requires
+    a valid API context, i.e. a callback function or event handler called by Revit.
+
+
+    Within the Revit API context, the question is answered by the standard getting
+    started material:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/about-the-author.html#2">http://thebuildingcoder.typepad.com/blog/about-the-author.html#2</a>
+
+
+    Cheers, Jeremy.
+
+    -----'

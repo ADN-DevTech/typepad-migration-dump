@@ -1,0 +1,187 @@
+comments:
+- author: Kenny
+  email: kredman@cgvisions.com
+  ip: 74.204.24.162
+  url: http://www.cgvisions.com
+  date: '2010-11-16 11:48:48'
+  body: Thanks a lot!
+- author: Jenney
+  email: jenneyj@yahoo.com
+  ip: 66.202.130.38
+  url: ''
+  date: '2010-11-16 18:08:21'
+  body: 'Dear Jeremy,
+
+    I am working on a process to create some sections during automation routine, to
+    create section I used Autodesk.Revit.Creation.NewViewSection method, which creates
+    horizontal sections under detail views branch (Later i found out mention about
+    this in developer guide pdf ) However, I need to create vertical section(wall
+    section). How can I create it?'
+- author: Emmanuel Garcia
+  email: ''
+  ip: 69.230.52.227
+  url: http://profile.typepad.com/caddguru
+  date: '2010-11-17 08:00:57'
+  body: 'Hi Jeremy,
+
+
+    How can I emulate the following AutoCAD code excerpt in Revit? (setq p1 (getpoint)).
+    Regards,
+
+
+    Emmanuel'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-11-17 08:09:33'
+  body: 'Dear Jenney,
+
+
+    I assume that you mean NewViewSection, not NewSectionView. I am astounded how
+    much people love to type, and hate to copy and paste. I avoid typing at all costs
+    -- to avoid typos.
+
+
+    As far as I know, the method NewViewSection(BoundingBoxXYZ) can create vertical
+    views:
+
+
+    <a href="http://thebuildingcoder.typepad.com/blog/2009/09/elevation-view.html">http://thebuildingcoder.typepad.com/blog/2009/09/elevation-view.html</a>
+
+
+    Cheers, Jeremy.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-11-17 08:21:10'
+  body: "Dear Emmanuel,\n\nThank you for the slightly funny question. I hope you will\
+    \ be appropriately horrified to hear that this was not even possible in the Revit\
+    \ API prior to Revit 2011. Happily, the Revit 2011 API provides a PickPoint method,\
+    \ so that the code could be very roughly translated to \n\nXYZ targetPoint \n\
+    \  = m_document.Selection\n    .PickPoint(\"Please pick a point.\");\n\nThis line\
+    \ is taken from the Revit SDK sample 'Selections'.\n\nCheers, Jeremy."
+- author: Emmanuel Garcia
+  email: ''
+  ip: 69.230.52.227
+  url: http://profile.typepad.com/caddguru
+  date: '2010-11-17 08:39:28'
+  body: 'Dear Jeremy,
+
+
+    I was aware of the limitation and now elated at the wonderful news. Thank you
+    very much.
+
+
+    Warm regards from Los Angeles,
+
+
+    Emmanuel'
+- author: jenney
+  email: jeeneyj@yahoo.com
+  ip: 66.202.130.38
+  url: ''
+  date: '2010-11-17 09:35:21'
+  body: "Dear Jeremy, \nI think i did copy and paste the method ,but you made a read\
+    \ typo!! :)\nAnyways, I looked into the link you sent me before i posted the first\
+    \ comment as i used the same method to cut section but it always comes back with\
+    \ a horizontal cut section created under detail view branch in tree.Have you been\
+    \ able to test this method to create vertical section?\n I also found out about\
+    \ it later in \"Revit 2011 API Developer Guide.pdf\" page 218 - in last paragraph/Note.\
+    \ Which basically says \"When you create a section using the command View > New\
+    \ > Section, the created view is located in the Sections (Building Section) node\
+    \ in the Project Browser. The view class type is Elements.View, and the view type\
+    \ is ViewType.Section. However, when you create a section using the Autodesk.Revit.Creation.NewViewSection\
+    \ method(), the created view is in the Detail Views (Detail) node. The class type\
+    \ is Elements.ViewSection and the view type is ViewType.Detail.\""
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-11-17 10:05:35'
+  body: 'Dear Jenney,
+
+
+    So you did, and I apologise. Yes, the read typo happened because I was referring
+    to another document as well which included that mistake which shocked me so.
+
+
+    Thank you very much for the reference to the developer guide. I was aware of this
+    fact, I guess, but not the explicit statement. That helps a lot.
+
+
+    Since I never look much at the user interface, I never worried about where the
+    view appeared in the browser, but now that you explain it I understand that it
+    might be significant for some users, or most, in fact.
+
+
+    Cheers, Jeremy.'
+- author: jenney
+  email: jeeneyj@yahoo.com
+  ip: 66.202.130.38
+  url: ''
+  date: '2010-11-17 12:09:29'
+  body: 'Jeremy,
+
+    I can still ignore the fact that it places the view in different location in browser,
+    but I am not aware of any other methods to cut the vertical section. Would you
+    know any other way to make it work?'
+- author: Brad
+  email: bts@bgark.com
+  ip: 12.230.48.34
+  url: ''
+  date: '2010-11-18 16:39:08'
+  body: "Jeremy, \n\nWhere are the documents available on the AU site?  I downloaded\
+    \ yours from here, but I am looking for handouts for my other classes.  I tried\
+    \ looking on the AU site for your handouts for the Revit MEP API class, but couldn't\
+    \ find them either.  Thanks!"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-11-19 02:10:16'
+  body: "Dear Brad,\n\nBasically, all I can say is 'ask the AU organisers'. \n\nThe\
+    \ way that I would attempt to access them on the AU site goes like this:\n\n<a\
+    \ href=\"http://au.autodesk.com/?nd=au2010_event\">http://au.autodesk.com/?nd=au2010_event</a>\n\
+    \n> Class Catalog > Speaker: Tammik, Jeremy > Search > CP228-2 > ooops.\n\nI don't\
+    \ see them either.\n\nAsk the AU organisers. \n\nCheers, Jeremy."
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-11-19 02:22:26'
+  body: "Dear Jenney,\n\nSorry, I don't understand your question. \"Other way to make\
+    \ it work\"? Why other? What does not work? \n\nCheers, Jeremy."
+- author: David Whitford
+  email: david_whitford@gensler.com
+  ip: 138.208.5.3
+  url: ''
+  date: '2010-11-19 16:31:37'
+  body: 'Jeremy,
+
+    thanks for the advanced copy of the class handouts.  Can you tell me if the "Exactly
+    what you want and faster: Autodesk Revit 2011 Programming Optimization" is the
+    correct handout.  all three handouts have different info on them but the page
+    headers all read for "CP316-3U - All systems Go in Autodesk Revit MEP Programming"
+
+
+    Thanks again.'
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/1218580759s22477
+  date: '2010-11-19 19:06:56'
+  body: 'Dear David,
+
+
+    Thank you ever so much for pointing that out!
+
+
+    That is a typo, of course. I corrected the headers and posted updated versions
+    of the files now.
+
+
+    Cheers, Jeremy.
+
+    -----'

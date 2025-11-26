@@ -1,0 +1,84 @@
+---
+layout: "post"
+title: "DirectObjLoader for Revit 2017"
+date: "2016-10-09 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "2017"
+  - "Element Creation"
+  - "Git"
+  - "Migration"
+  - "OBJ"
+  - "Update"
+original_url: "https://thebuildingcoder.typepad.com/blog/2016/10/directobjloader-for-revit-2017.html "
+typepad_basename: "directobjloader-for-revit-2017"
+typepad_status: "Publish"
+---
+
+<p>Here is a last quick Sunday morning post before I head off on vacation, prompted
+by <a href="https://github.com/truevis">truevis</a>' comment on
+the <a href="https://github.com/jeremytammik/DirectObjLoader">DirectObjLoader</a>
+<a href="https://github.com/jeremytammik/DirectObjLoader/issues/2">GitHub issue #2</a>:</p>
+
+<h4><a name="2"></a>Question</h4>
+
+<p>What do we have to change to get this to work in Revit 2017? Seems there are changes in <code>DirectShape.CreateElement</code> and <code>TessellatedShapeBuilderResult</code>.</p>
+
+<h4><a name="3"></a>Answer</h4>
+
+<p>I migrated the sample to Revit 2017 for you.</p>
+
+<p>Here is what I did:</p>
+
+<ul>
+<li>Updated the Revit API references</li>
+<li>Incremented the .NET framework from 4.5 to 4.5.2</li>
+<li>Reinstalled the FileFormatWavefront NuGet package</li>
+<li>Recompiled</li>
+</ul>
+
+<p>That produced two warnings:</p>
+
+<ul>
+<li>Error CS1501 No overload for method 'Build' takes 3 arguments DirectObjLoader C:\a\vs\DirectObjLoader\DirectObjLoader\Command.cs 126 Active</li>
+<li>Warning CS0618 'DirectShape.CreateElement(Document, ElementId, string, string)' is obsolete: 'This function will be obsolete in Revit 2017. Use DirectShape.CreateElement(Document, ElementId) instead. Use DirectShape.ApplicationId, DirectShape.ApplicationDataId properties to set application id and application data id.' DirectObjLoader C:\a\vs\DirectObjLoader\DirectObjLoader\Command.cs 131 Active</li>
+</ul>
+
+<p>The warning is completely self-explanatory and trivial.</p>
+
+<p>To fix it, just do what the man says.</p>
+
+<p>The error is caused by the changes described
+in <a href="http://thebuildingcoder.typepad.com/blog/2016/04/whats-new-in-the-revit-2017-api.html">What's New in the Revit 2017 API</a>:</p>
+
+<p><font color="darkblue"></p>
+
+<h4><a name="4"></a><a href="http://thebuildingcoder.typepad.com/blog/2016/04/whats-new-in-the-revit-2017-api.html#2.12.2">TessellatedShapeBuilder Changes</a></h4>
+
+<p>The options for building are now set as options in the <code>TessellatedShapeBuilder</code> itself. Access these options through the new properties:</p>
+
+<ul>
+<li>TessellatedShapeBuilder.Target</li>
+<li>TessellatedShapeBuilder.Fallback</li>
+<li>TessellatedShapeBuilder.GraphicsStyleId</li>
+</ul>
+
+<p></font></p>
+
+<p>Furthermore, the build result is now accessible through <code>GetBuildResult</code> instead of being returned by the <code>Build</code> method.</p>
+
+<p>I published a new <a href="https://github.com/jeremytammik/DirectObjLoader/releases/tag/2017.0.0.0">release 2017.0.0.0</a> including the corresponding changes.</p>
+
+<p>You can <a href="https://github.com/jeremytammik/DirectObjLoader/compare/2015.0.0.22...2017.0.0.0">compare the changes</a> to see exactly what I did.</p>
+
+<p>Here is the code for Revit 2017:</p>
+
+<script src="https://gist.github.com/jeremytammik/1b1b36cbcadc0be957ea4492b0093fca.js"></script>
+
+<p>The flat migration works fine, and this image was produced as a result from a 6 MB OBJ apartment model:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  style="display: inline;" href="http://thebuildingcoder.typepad.com/.a/6a00e553e16897883301bb09409f78970d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e16897883301bb09409f78970d image-full img-responsive" alt="DirectObjLoader loaded a 6 MB OBJ model of an apartment" title="DirectObjLoader loaded a 6 MB OBJ model of an apartment" src="/assets/image_0813a6.jpg" border="0" /></a><br /></p>
+
+<p></center></p>

@@ -1,0 +1,282 @@
+---
+layout: "post"
+title: "Topo from Lines, Asset Keyword and Regeneration"
+date: "2021-06-30 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "Element Creation"
+  - "Group"
+  - "Material"
+  - "Parameters"
+  - "Parts"
+  - "Regen"
+original_url: "https://thebuildingcoder.typepad.com/blog/2021/06/topo-from-lines-asset-keyword-and-regeneration.html "
+typepad_basename: "topo-from-lines-asset-keyword-and-regeneration"
+typepad_status: "Publish"
+---
+
+<p>Two <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> threads
+reinforce the ever-present <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#5.33">need to regenerate</a>,
+the development team clarifies access to various asset keyword properties, and Harry Mattison shares a free tool to create and update a toposurface from a set of model lines:</p>
+
+<ul>
+<li><a href="#2">Asset keyword access</a></li>
+<li><a href="#3">Modifying group requires regen</a></li>
+<li><a href="#4">Modifying part material requires regen</a></li>
+<li><a href="#5">Topo from lines</a></li>
+</ul>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833027880342103200d-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833027880342103200d image-full img-responsive" alt="Keyword clustering" title="Keyword clustering" src="/assets/image_3061ad.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<h4><a name="2"></a> Asset Keyword Access</h4>
+
+<p><strong>Question:</strong> I have an issue setting a string value to the material appearance asset keyword property.
+In one material, it can be set as expected, but another material returns an error saying, "The input value is invalid for this AssetPropertyString property; Parameter name: value".
+I found the blog article
+on <a href="https://thebuildingcoder.typepad.com/blog/2019/11/material-physical-and-thermal-assets.html">Material, Physical and Thermal Assets</a> and the internal development ticket <em>REVIT-170824</em> which explains that the keyword property on the <code>Identity</code> tab is not exposed yet.
+However, I still expect the "keyword" property on the appearance tab to accept a string value.
+In addition, I can see some error message in the journal file when I try to run the code below.
+Is it possible to set the "keyword" property of the appearance asset?</p>
+
+<pre class="code">
+<span style="color:blue;">void</span>&nbsp;SetMaterialAppearanceAssetKeywordProperty(
+&nbsp;&nbsp;AppearanceAssetElement&nbsp;assetElem,
+&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;new_keyword&nbsp;)
+{
+&nbsp;&nbsp;Document&nbsp;doc&nbsp;=&nbsp;assetElem.Document;
+
+&nbsp;&nbsp;<span style="color:blue;">using</span>(&nbsp;Transaction&nbsp;tx&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;Transaction(&nbsp;doc&nbsp;)&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;tx.Start(&nbsp;<span style="color:#a31515;">&quot;Transaction&nbsp;Set&nbsp;Keyword&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">using</span>(&nbsp;AppearanceAssetEditScope&nbsp;editScope&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;AppearanceAssetEditScope(&nbsp;assetElem.Document&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Asset&nbsp;editableAsset&nbsp;=&nbsp;editScope.Start(&nbsp;assetElem.Id&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">try</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;parameter&nbsp;=&nbsp;editableAsset.FindByName(&nbsp;<span style="color:#a31515;">&quot;keyword&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;parameter&nbsp;!=&nbsp;<span style="color:blue;">null</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AssetPropertyString&nbsp;propKeyword&nbsp;=&nbsp;parameter&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">as</span>&nbsp;AssetPropertyString;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;propKeyword&nbsp;!=&nbsp;<span style="color:blue;">null</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;<span style="color:blue;">string</span>.IsNullOrEmpty(&nbsp;propKeyword.Value&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;propKeyword.Value&nbsp;=&nbsp;new_keyword;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">else</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;!propKeyword.Value.Contains(&nbsp;new_keyword&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;val&nbsp;=&nbsp;propKeyword.Value&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<span style="color:#a31515;">&quot;:&nbsp;&quot;</span>+&nbsp;new_keyword;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;propKeyword.Value&nbsp;=&nbsp;val;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">catch</span>(&nbsp;Exception&nbsp;ex&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.WriteLine(&nbsp;ex.Message&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;editScope.Commit(&nbsp;<span style="color:blue;">true</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;tx.Commit();
+&nbsp;&nbsp;}
+}
+</pre>
+
+<p><strong>Answer:</strong> Yes, indeed, we already have a request <em>REVIT-171312</em> for this improvement.</p>
+
+<p>The API does support modification of the <code>Keyword</code> property on an appearance asset.
+You can set keyword under the <code>Appearance</code> tab in the material dialog through API.
+You currently cannot set the <code>Keyword</code> property for <code>Structural</code> and <code>Thermal</code> through the API. </p>
+
+<p>After testing, I can reproduce this issue in the public release Revit 2022.
+It works in my internal development version, however.
+I created an issue <em>REVIT-179045</em> to track why this fails in Revit 2022 and will evaluate it for an upcoming point release fix.
+Here is our understanding of the current situation accessing the keyword property in the various tabs:</p>
+
+<ul>
+<li>For keywords under the <code>Identity</code> tab, which is the keyword for <code>Material</code>, there is currently no API exposed for either <code>get</code> or <code>set</code>.</li>
+<li>Keywords under <code>Appearance</code> can be both <code>get</code> and <code>set</code> using the code above.</li>
+<li>Keywords under <code>Thermal</code> and <code>Structural</code> can be read using <code>get</code>, as described in the article
+on <a href="https://thebuildingcoder.typepad.com/blog/2019/11/material-physical-and-thermal-assets.html">material, physical and thermal assets</a>.
+<code>Set</code> is currently not supported for historical reasons (cf. internal tickets <em>REVIT-171312</em> and <em>REVIT-170824</em>).</li>
+</ul>
+
+<h4><a name="3"></a> Modifying Group Requires Regen</h4>
+
+<p>Forgetting or not realising
+the <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#5.33">need to regenerate</a> and
+accessing stale data can lead to pretty confusing and challenging problems.</p>
+
+<p>As already noted in some previous examples, certain operations require more than just a call to <code>Regenerate</code>, e.g., starting and committing two or more separate transactions in a row.
+Happily, in such cases, they can be assimilated into one single <code>TransactionGroup</code>, cf. the additional discussion
+on <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#5.50">handling transactions and transaction groups</a>.</p>
+
+<p>It took a lengthy discussion with input from a couple of experienced add-in developers to clarify this need in the thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/modifying-group-in-api-results-in-duplicate-group/m-p/10374430">modifying group in API results in duplicate group</a>.</p>
+
+<h4><a name="4"></a> Modifying Part Material Requires Regen</h4>
+
+<p>Another example of 
+the <a href="https://thebuildingcoder.typepad.com/blog/about-the-author.html#5.33">need to regenerate</a> was
+raised and solved
+by Joseph <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/7726218">@jrtlatta</a> Latta
+and Richard <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/1035859">@RPThomas108</a> Thomas in
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread on how
+to <a href="https://forums.autodesk.com/t5/revit-api-forum/set-different-materials-to-parts-of-a-wall/m-p/10427403">set different materials to parts of a wall</a>.</p>
+
+<p>In this case, careful observation and thorough understanding of the user interface helps significantly to resolve the problem, since the property to modify is greyed out &ndash; disabled or enabled &ndash; depending on the setting of another value:</p>
+
+<p><strong>Question:</strong> I am trying to set different materials to different parts of a wall as shown in the picture below:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330282e10c8a43200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330282e10c8a43200b image-full img-responsive" alt="Different materials to parts" title="Different materials to parts" src="/assets/image_a7fceb.jpg" border="0" style="display: block; margin-left: auto; margin-right: auto;" /></a><br /></p>
+
+<p></center></p>
+
+<p>My current method allows me to set all the parts to have the same material, but doesn't let me assign each part its own material. Here is my current approach:</p>
+
+<ul>
+<li>Get all the parts in the file (this is a controlled file where I know exactly what parts are there)</li>
+<li>Check whether a part is currently set to material "Facade Material" &ndash; this is how I've organized my wall ahead of time and I only want to change the material of parts of the wall that have material "Facade Material"</li>
+<li>Set each part's built-in parameter "Material by original" to false</li>
+<li>Set each part's built-in material parameter to my desired one</li>
+</ul>
+
+<p>The issue is, once I set the material parameter for a given part, then it changes the material parameters for all the other parts.
+I'm not sure if the concept of instance parameter vs type parameter vs family parameter holds for Parts, but from the object browser in Revit, the material parameter seems to be an instance parameter.</p>
+
+<pre class="code">
+&nbsp;&nbsp;IEnumerable&lt;Part&gt;&nbsp;facadePanels2&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;FilteredElementCollector(&nbsp;doc&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OfClass(&nbsp;<span style="color:blue;">typeof</span>(&nbsp;Part&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Cast&lt;Part&gt;();
+
+&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;Part&nbsp;p&nbsp;<span style="color:blue;">in</span>&nbsp;facadePanels2&nbsp;)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">using</span>(&nbsp;<span style="color:blue;">var</span>&nbsp;trans&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;Transaction(&nbsp;doc&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;trans.Start(&nbsp;<span style="color:#a31515;">&quot;Modify1&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parameter&nbsp;pMat&nbsp;=&nbsp;p.get_Parameter(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BuiltInParameter.DPART_MATERIAL_ID_PARAM&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Diagnostics.Debug.Print(&nbsp;pMat.AsValueString()&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;pMat.AsValueString()&nbsp;==&nbsp;<span style="color:#a31515;">&quot;Facade&nbsp;Material&quot;</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Diagnostics.Debug.Print(&nbsp;<span style="color:#a31515;">&quot;Facade&nbsp;Material&nbsp;Found&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parameter&nbsp;pOrig&nbsp;=&nbsp;p.get_Parameter(&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BuiltInParameter.DPART_MATERIAL_BY_ORIGINAL&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;pOrig.IsReadOnly&nbsp;==&nbsp;<span style="color:blue;">false</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pOrig.Set(&nbsp;0&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;pMat.IsReadOnly&nbsp;==&nbsp;<span style="color:blue;">false</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ElementId&nbsp;matId&nbsp;=&nbsp;materialIds[&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getMaterialOfPart(&nbsp;p,&nbsp;panels,&nbsp;viewDefault3D&nbsp;)&nbsp;];
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pMat.Set(&nbsp;matId&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;trans.Commit();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+</pre>
+
+<p>Any thoughts?</p>
+
+<p>I've seen this thing done before, so I know it's possible.</p>
+
+<p><strong>Answer:</strong> First, thoughts that have little to do with your question:</p>
+
+<ul>
+<li>I mostly recommend avoiding use of <code>AsValueString</code>.
+I prefer the methods that return the raw parameter value: <code>AsInteger</code>, <code>AsDouble</code>, <code>AsElementId</code>, <code>AsString</code>.</li>
+<li>Why do you start a new transaction for each part in the loop?
+Can't you just use one single large transaction and run the loop within that?</li>
+</ul>
+
+<p><strong>Response:</strong> I figured it out.
+It had to do with my transactions.</p>
+
+<p>Once I wrapped the setting of the two parameters (<code>pOrig</code> and <code>pMat</code>) in their own transactions for each part, it now works properly.
+It looks like all other parameters get set to read only when you change 1 parameter for a part in a single transaction?</p>
+
+<p>Here's the code that's working, for those who care:</p>
+
+<pre class="code">
+&nbsp;&nbsp;<span style="color:blue;">foreach</span>(&nbsp;Part&nbsp;p&nbsp;<span style="color:blue;">in</span>&nbsp;facadePanels2&nbsp;)
+&nbsp;&nbsp;{ 
+&nbsp;&nbsp;&nbsp;&nbsp;Parameter&nbsp;pMat&nbsp;=&nbsp;p.get_Parameter(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BuiltInParameter.DPART_MATERIAL_ID_PARAM&nbsp;);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;pMat.AsElementId().IntegerValue&nbsp;==&nbsp;309859&nbsp;)&nbsp;<span style="color:green;">//&nbsp;&quot;Facade&nbsp;Material&quot;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Diagnostics.Debug.Print(&nbsp;<span style="color:#a31515;">&quot;Facade&nbsp;Material&nbsp;Found&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parameter&nbsp;pOrig&nbsp;=&nbsp;p.get_Parameter(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BuiltInParameter.DPART_MATERIAL_BY_ORIGINAL&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;pOrig.IsReadOnly&nbsp;==&nbsp;<span style="color:blue;">false</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">using</span>(&nbsp;<span style="color:blue;">var</span>&nbsp;trans&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;Transaction(&nbsp;doc&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;trans.Start(&nbsp;<span style="color:#a31515;">&quot;Modify1&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pOrig.Set(&nbsp;0&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;trans.Commit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">if</span>(&nbsp;pMat.IsReadOnly&nbsp;==&nbsp;<span style="color:blue;">false</span>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ElementId&nbsp;matId&nbsp;=&nbsp;materialIds[&nbsp;getMaterialOfPart(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p,&nbsp;panels,&nbsp;viewDefault3D&nbsp;)&nbsp;];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">using</span>(&nbsp;<span style="color:blue;">var</span>&nbsp;trans&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;Transaction(&nbsp;doc&nbsp;)&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;trans.Start(&nbsp;<span style="color:#a31515;">&quot;Modify1&quot;</span>&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pMat.Set(&nbsp;matId&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;trans.Commit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+</pre>
+
+<p><strong>Answer:</strong> Yes.
+That makes sense, since the second parameter would also be greyed out in UI if the first is not set to false, i.e., the ability to set thew second parameter is dependent on the value of first.</p>
+
+<p>This also highlights the importance of order when batch processing built-in parameter values.
+There are a few add-ins out there that populate parameter values, but they probably are not considering such relationships between parameters.</p>
+
+<p>In that case, you can probably increase performance by using only one transaction after all and replacing the multiple mini-transactions by calls to <code>doc.Regenerate</code> after each call to set <code>DPART_MATERIAL_BY_ORIGINAL</code>.</p>
+
+<p>Many thanks to Joseph and Richard for sharing and explaining this!</p>
+
+<h4><a name="5"></a> Topo From Lines</h4>
+
+<p><a href="https://twitter.com/BoostYourBIM">Harry Mattison</a>'s new post
+on <a href="https://boostyourbim.wordpress.com">Boost Your BIM</a> presents
+<a href="https://boostyourbim.wordpress.com/2021/06/24/topo-from-lines-now-in-the-free-revit-tool-set">Topo From Lines now in the free Revit tool set</a>:</p>
+
+<blockquote>
+  <p>This tool is an "oldie but goodie" that lets you create and update a toposurface from a set of model lines.
+  A new version for 2022 was recently requested, so I added it to the Terrific Tool project and created a 2022 build.
+  You can download the current installer here and if you like code, that is <a href="https://bitbucket.org/BoostYourBIM/boostyourbimterrifictools/src/master/BoostYourBIMTerrificTools/TopoFromLines.cs">here</a>.</p>
+</blockquote>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e168978833026bdedc43bc200c-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e168978833026bdedc43bc200c img-responsive" style="width: 327px; display: block; margin-left: auto; margin-right: auto;" alt="Topo from lines" title="Topo from lines" src="/assets/image_75534c.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p>Many thanks to Harry for implementing and sharing this and so many other useful tools!</p>

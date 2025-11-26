@@ -1,0 +1,284 @@
+---
+layout: "post"
+title: "Detailed 2D Text and Other Element Geometry"
+date: "2022-01-19 05:00:00"
+author: "Jeremy Tammik"
+categories:
+  - "2016"
+  - "Export"
+  - "Geometry"
+  - "VB"
+original_url: "https://thebuildingcoder.typepad.com/blog/2022/01/detailed-2d-text-and-other-element-geometry.html "
+typepad_basename: "detailed-2d-text-and-other-element-geometry"
+typepad_status: "Publish"
+---
+
+<p>Determining the extents of a text element has been a recurring and challenging task with several tricky solutions suggested in the past, e.g.:</p>
+
+<!-- 0610 0646 1223 1440 1517 -->
+
+<ul>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2011/07/text-size.html">Text Size</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2011/09/textnote-lost-in-space.html">TextNote Lost in Space?</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2014/10/new-text-note-and-text-width-calculation.html">New Text Note and Text Width Calculation</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2016/05/idea-station-and-textnote-bounding-box.html">TextNote Bounding Box</a></li>
+<li><a href="http://thebuildingcoder.typepad.com/blog/2017/01/textnote-rotation-forge-devcon-tensorflow-and-keras.html">TextNote Rotation</a></li>
+</ul>
+
+<p>The 2D custom exporter provides a basis for a much more powerful approach to address this, as already discussed once way back then 
+in <a href="https://thebuildingcoder.typepad.com/blog/2015/11/au-begins-and-using-a-custom-exporter-for-2d.html#2">using a custom exporter for 2D</a>:</p>
+
+<ul>
+<li><a href="#2">Retrieve Dimension Text Height and Width</a></li>
+<li><a href="#3">Determine Text Font Geometry</a></li>
+<li><a href="#4">Retrieve 2D Geometry of any Element</a></li>
+</ul>
+
+<h4><a name="2"></a> Retrieve Dimension Text Height and Width</h4>
+
+<p>The latest question in this series asks how to determine
+<a href="https://forums.autodesk.com/t5/revit-api-forum/the-height-and-width-of-the-dimension-text/m-p/10873262">the height and width of the dimension text</a>:</p>
+
+<p><strong>Question:</strong> When dimension text overlaps, I want to move one of the dimensions to avoid the overlap.
+My idea is to calculate the rectangular border of the text through the position of the text and the width and height of the text, and then judge whether the rectangular borders intersect.
+So, how to calculate the width and height of dimension text?</p>
+
+<p><strong>Answer:</strong> That should be possible using the approaches described in these two other recent threads:</p>
+
+<p>Look at these two recent threads here in the forum:</p>
+
+<ul>
+<li>Get the text font outline geometry from the <code>TextNode</code> in a 2D custom export as described
+for <a href="https://forums.autodesk.com/t5/revit-api-forum/converting-text-to-geometry-when-performing-a-2d-view-export/m-p/10201712">converting text to geometry when performing a 2D view export</a></li>
+<li>Retrieve 2D geometry of generic element, explained in the question
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/view-reference-location/m-p/10867150">view reference location</a></li>
+</ul>
+
+<h4><a name="3"></a> Determine Text Font Geometry</h4>
+
+<p>Haroon Haider describes his successful approach to access text font geometry in 
+the <a href="http://forums.autodesk.com/t5/revit-api-forum/bd-p/160">Revit API discussion forum</a> thread
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/converting-text-to-geometry-when-performing-a-2d-view-export/m-p/10201712">converting text to geometry when performing a 2D view export</a>:</p>
+
+<p><strong>Question:</strong> We have been able to get access to the lines, grids, annotations and other basic elements of a 2D view using the <code>IExportContext2D</code> interface.
+Is there a way to convert the annotation text from strings to geometry using Revit API similar to how you can do in AutoCAD? 
+I'm looking to get something like this:</p>
+
+<p><center></p>
+
+<p><a class="asset-img-link"  href="https://thebuildingcoder.typepad.com/.a/6a00e553e1689788330282e13f0a42200b-popup" onclick="window.open( this.href, '_blank', 'width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' ); return false"><img class="asset  asset-image at-xid-6a00e553e1689788330282e13f0a42200b img-responsive" style="width: 223px; display: block; margin-left: auto; margin-right: auto;" alt="Text font geometry" title="Text font geometry" src="/assets/image_5a052e.jpg" /></a><br /></p>
+
+<p></center></p>
+
+<p><strong>Answer:</strong> I ended up getting what I need by processing a <code>TextNode</code> from the export context method <code>OnText</code> call.
+There is enough information in the text node class to be able to convert it to a <code>GraphicsPath</code> and pull out the geometry from there.</p>
+
+<p>Many thanks to Haroon for sharing this!</p>
+
+<h4><a name="4"></a> Retrieve 2D Geometry of any Element</h4>
+
+<p>Richard <a href="https://forums.autodesk.com/t5/user/viewprofilepage/user-id/1035859">RPThomas108</a> Thomas
+shares a generic solution to retrieve the 2D geometry of any element in the thread 
+on <a href="https://forums.autodesk.com/t5/revit-api-forum/view-reference-location/m-p/10867150">view reference location</a>:</p>
+
+<p><strong>Question:</strong> I am making a simple tool to add a leader annotation symbol to a View Reference, but have run into a bit of an issue.
+In RevitLookup, it doesn't appear that the location of a View Reference is defined anywhere in the API.
+Looking through the API docs as well, I can't find a class for View Reference either, which makes me think that its properties aren't accessible.
+Am I missing something?
+Obviously, a simple workaround is to just have the user click a start and end point, but ideally I'd like to have the start be defined by the View Reference location.</p>
+
+<p><strong>Answer:</strong> The Revit API supports exactly (and only) two data types for the Location property: <code>LocationPoint</code> and <code>LocationCurve</code>.
+Some elements have different kinds of location definitions that do not fit into either of these two.
+In that case, they are not accessible in the API, just as you surmised.
+Is the view reference location visible in any way in the end user interface?
+What does it look like in that context?
+Is there any reason why it might be considered something that does not fit into a point or a curve?</p>
+
+<p>In general, classes that show up as <code>Element</code> in RevitLookup have no specific API functionality beyond the element base class.</p>
+
+<p>As the location of the element it not exposed, nor is the geometry, you have two options:</p>
+
+<ul>
+<li>Centre of BoundingBox, or</li>
+<li>Implement <code>IExportContext2D</code> and gather the geometry via that.</li>
+</ul>
+
+<p>I would do the latter as it gives you more control.</p>
+
+<ul>
+<li>Use <code>OnElementBegin2D</code> to check the id against the element you want to look at; then pass <code>Skip</code> or <code>Proceed</code> depending on whether your id matches.</li>
+<li><code>OnCurve</code> will give you details of curves (called for each).</li>
+<li><code>OnText</code> will give you details of text.</li>
+</ul>
+
+<p>Note that this will happen regardless of what you set for <code>RenderNodeAction</code> in <code>OnElementBegin2D</code>.
+The best way to avoid calling <code>OnText</code> for text elements you are not interested in is to do as follows:</p>
+
+<ul>
+<li>During <code>OnElementBegin2d</code>, store the <code>ElemendId</code> as a variable</li>
+<li>During <code>OnElementEnd2d</code> set the <code>ElementId</code> variable to <code>InvalidElementId</code></li>
+<li>During <code>OnText</code> exit the sub if variable is not set to <code>InvalidElementId</code></li>
+</ul>
+
+<p>To export text, you also need to set <code>Export2DIncludingAnnotationObjects</code> to true.</p>
+
+<p>I'm finding the best approach is to implement <code>IExportContext2D</code> via a general class and then inherit that.
+This avoids having to implement all the members each time and you can build in some filtering similar to above:</p>
+
+<pre class="code">
+Imports Autodesk.Revit.DB
+
+Public Class RT_ExportContext2d_Limited
+  Implements IExportContext2D
+
+  Private IntDoc As Document = Nothing
+  Private FilterEIDs As List(Of ElementId) = Nothing
+  Private IntCurrentEID As ElementId = ElementId.InvalidElementId
+
+  Public Property DefaultAction As RenderNodeAction = RenderNodeAction.Proceed
+
+  Public Sub New(D As Document, Optional TargetElementIds As List(Of ElementId) = Nothing)
+    FilterEIDs = TargetElementIds
+    IntDoc = D
+  End Sub
+
+  Public Overridable Function Start() As Boolean Implements IExportContext.Start
+    Return True
+  End Function
+  Public Overridable Sub Finish() Implements IExportContext.Finish
+  End Sub
+  Public Overridable Function IsCanceled() As Boolean Implements IExportContext.IsCanceled
+    Return False
+  End Function
+
+#Region "OnBegins"
+  Public Overridable Function OnViewBegin(node As ViewNode) As RenderNodeAction Implements IExportContext.OnViewBegin
+    Return DefaultAction
+  End Function
+  Public Function OnElementBegin2D(node As ElementNode) As RenderNodeAction Implements IExportContext2D.OnElementBegin2D
+    IntCurrentEID = node.ElementId
+
+    If FilterEIDs IsNot Nothing Then
+      If FilterEIDs.Contains(node.ElementId) Then
+        Return RenderNodeAction.Proceed
+      Else
+        Return RenderNodeAction.Skip
+      End If
+    Else
+      Return RenderNodeAction.Proceed
+    End If
+
+    OnElementBegin2D_Overridable(node)
+  End Function
+  Public Overridable Sub OnElementBegin2D_Overridable(node As ElementNode)
+  End Sub
+
+  Public Function OnElementBegin(elementId As ElementId) As RenderNodeAction Implements IExportContext.OnElementBegin
+    'Never called for 2D export
+    Return DefaultAction
+  End Function
+  Public Function OnInstanceBegin(node As InstanceNode) As RenderNodeAction Implements IExportContext.OnInstanceBegin
+    Return DefaultAction
+  End Function
+  Public Function OnFaceBegin(node As FaceNode) As RenderNodeAction Implements IExportContext.OnFaceBegin
+    Return DefaultAction
+  End Function
+  Public Overridable Function OnFaceEdge2D(node As FaceEdgeNode) As RenderNodeAction Implements IExportContext2D.OnFaceEdge2D
+    Return DefaultAction
+  End Function
+
+  Public Function OnLinkBegin(node As LinkNode) As RenderNodeAction Implements IExportContext.OnLinkBegin
+    Return DefaultAction
+  End Function
+
+#End Region
+
+#Region "OnFunctions_Returns"
+  Public Overridable Function OnFaceSilhouette2D(node As FaceSilhouetteNode) As RenderNodeAction Implements IExportContext2D.OnFaceSilhouette2D
+    Return DefaultAction
+  End Function
+  Public Overridable Function OnCurve(node As CurveNode) As RenderNodeAction Implements IExportContextBase.OnCurve
+    Return DefaultAction
+  End Function
+  Public Overridable Function OnPolyline(node As PolylineNode) As RenderNodeAction Implements IExportContextBase.OnPolyline
+    Return DefaultAction
+  End Function
+#End Region
+
+#Region "OnEnds_NoReturns"
+  Public Sub OnElementEnd2D(node As ElementNode) Implements IExportContext2D.OnElementEnd2D
+    IntCurrentEID = Nothing
+    OnElementEnd2D_Overridable(node)
+  End Sub
+  Public Overridable Sub OnElementEnd2D_Overridable(node As ElementNode)
+  End Sub
+
+  Public Overridable Sub OnViewEnd(elementId As ElementId) Implements IExportContext.OnViewEnd
+  End Sub
+  Public Sub OnElementEnd(elementId As ElementId) Implements IExportContext.OnElementEnd
+  End Sub
+
+  Public Overridable Sub OnInstanceEnd(node As InstanceNode) Implements IExportContext.OnInstanceEnd
+  End Sub
+  Public Overridable Sub OnLinkEnd(node As LinkNode) Implements IExportContext.OnLinkEnd
+  End Sub
+  Public Overridable Sub OnFaceEnd(node As FaceNode) Implements IExportContext.OnFaceEnd
+  End Sub
+#End Region
+
+#Region "OnSubs_NoReturns"
+  Public Overridable Sub OnLineSegment(segment As LineSegment) Implements IExportContextBase.OnLineSegment
+  End Sub
+
+  Public Overridable Sub OnPolylineSegments(segments As PolylineSegments) Implements IExportContextBase.OnPolylineSegments
+  End Sub
+
+  Public Sub OnText(node As TextNode) Implements IExportContextBase.OnText
+    'For tags etc. some calls to this will be during on instance
+    'e.g. fixed text within family
+    'Some call will be outside OnInstance but before OnElementEnd2D of associated element
+    'e.g. tag values (variable text).
+
+    If IntCurrentEID = ElementId.InvalidElementId Then Exit Sub Else
+    OnText_Overridable(node)
+  End Sub
+
+  Public Overridable Sub OnText_Overridable(node As TextNode)
+  End Sub
+
+  Public Overridable Sub OnRPC(node As RPCNode) Implements IExportContext.OnRPC
+  End Sub
+  Public Overridable Sub OnLight(node As LightNode) Implements IExportContext.OnLight
+  End Sub
+  Public Overridable Sub OnMaterial(node As MaterialNode) Implements IExportContext.OnMaterial
+  End Sub
+  Public Overridable Sub OnPolymesh(node As PolymeshTopology) Implements IExportContext.OnPolymesh
+  End Sub
+#End Region
+
+End Class
+</pre>
+
+<p>A lot of the members are not called for the 2D scenario.</p>
+
+<p>Here is a correction required to <code>OnText</code>, i.e., check the list of filtered contains the current id.</p>
+
+<pre class="code">
+ Public Sub OnText(node As TextNode) Implements IExportContextBase.OnText
+    If FilterEIDs IsNot Nothing Then
+      If FilterEIDs.Contains(IntCurrentEID) = False Then
+        Exit Sub
+      End If
+    End If
+
+    OnText_Overridable(node)
+End Sub
+</pre>
+
+<p>The best way to understand the order of the exporter method calls is to log them.</p>
+
+<p><strong>Response:</strong> Thanks so much!
+That's a clever implementation of <code>IExportContext2d</code>.
+Appreciate the help!</p>
+
+<p>Many thanks to Richard for sharing this!</p>
