@@ -1,0 +1,42 @@
+comments:
+- author: Rod Wing
+  email: rod@envisioncad.com
+  ip: 69.130.248.66
+  url: ''
+  date: '2014-07-08 13:01:09'
+  body: "I am using Civil 3D 2014 and trying to use the SetAlignmentAbbreviation method.\
+    \ On the first run through it works fine. On subsequent runs I get a Null Exception\
+    \ using the method. On checking both arguments they are valid, non-null, values.\n\
+    \nI have included my code below.\n\nAny ideas?\nThanks.\nRod\n\nPrivate Function\
+    \ UpdateAbbreviationSettings(ByRef civDoc As Autodesk.Civil.ApplicationServices.CivilDocument)\
+    \ As Boolean\n        Dim i As Integer\n        Dim iStart As Integer\n      \
+    \  Dim iEnd As Integer\n        Dim strValue As String\n\n        UpdateAbbreviationSettings\
+    \ = False\n\n        Try\n            Dim abAlgET() As Autodesk.Civil.Settings.AbbreviationAlignmentEnhancedType\n\
+    \            abAlgET = {Autodesk.Civil.Settings.AbbreviationAlignmentEnhancedType.AlignmentBeginningPoint,\
+    \ _\n                   Autodesk.Civil.Settings.AbbreviationAlignmentEnhancedType.AlignmentEndPoint,\
+    \ _\n                   Autodesk.Civil.Settings.AbbreviationAlignmentEnhancedType.CompoundSpiralLargeRadiusAtBeginning,\
+    \ _\n                   Autodesk.Civil.Settings.AbbreviationAlignmentEnhancedType.CompoundSpiralLargeRadiusAtEnd,\
+    \ _\n                   Autodesk.Civil.Settings.AbbreviationAlignmentEnhancedType.CompoundSpiralSmallRadiusAtBeginning,\
+    \ _\n                   Autodesk.Civil.Settings.AbbreviationAlignmentEnhancedType.CompoundSpiralSmallRadiusAtEnd,\
+    \ _\n                   Autodesk.Civil.Settings.AbbreviationAlignmentEnhancedType.CurveBeginning,\
+    \ _\n                   Autodesk.Civil.Settings.AbbreviationAlignmentEnhancedType.CurveEnd,\
+    \ _\n                   Autodesk.Civil.Settings.AbbreviationAlignmentEnhancedType.LineBeginning,\
+    \ _\n                   Autodesk.Civil.Settings.AbbreviationAlignmentEnhancedType.LineEnd,\
+    \ _\n                   Autodesk.Civil.Settings.AbbreviationAlignmentEnhancedType.SimpleSpiralLargeRadiusAtBeginning,\
+    \ _\n                   Autodesk.Civil.Settings.AbbreviationAlignmentEnhancedType.SimpleSpiralLargeRadiusAtEnd,\
+    \ _\n                   Autodesk.Civil.Settings.AbbreviationAlignmentEnhancedType.SimpleSpiralSmallRadiusAtBeginning,\
+    \ _\n                   Autodesk.Civil.Settings.AbbreviationAlignmentEnhancedType.SimpleSpiralSmallRadiusAtEnd\
+    \ _\n                  }\n            iStart = LBound(abAlgET)\n            iEnd\
+    \ = UBound(abAlgET)\n            For i = iStart To iEnd\n                strValue\
+    \ = civDoc.Settings.DrawingSettings.AbbreviationsSettings.AlignmentGeoPointEntityData.GetAlignmentEnhancedAbbreviation(abAlgET(i))\n\
+    \                civDoc.Settings.DrawingSettings.AbbreviationsSettings.AlignmentGeoPointEntityData.SetAlignmentEnhancedAbbreviation(abAlgET(i),\
+    \ strValue & \"ABC\")\n            Next\n\n            UpdateAbbreviationSettings\
+    \ = True\n        Catch ex As Exception\n\n        End Try\nEnd Function"
+- author: Augusto Goncalves
+  email: ''
+  ip: 177.43.194.106
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2014-07-15 09:44:20'
+  body: "Hi Rod, \n\nI tried the code and worked fine... maybe the problem is somewhere\
+    \ else. \n\nMy suggestion is remove the 'ByRef' on the parameter, this is not\
+    \ needed in this case.\n\nRegards,\nAugusto Goncalves\n-----"

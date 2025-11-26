@@ -1,0 +1,48 @@
+comments:
+- author: joantopo
+  email: joantopo@hotmail.com
+  ip: 88.25.47.114
+  url: ''
+  date: '2016-06-30 00:22:09'
+  body: 'After this line:
+
+    "For i As Integer = 0 To entCount - 1"
+
+
+    you should start with "Try{..."
+
+
+    Because the "GetEntityByOrder" could throw an exception due to:
+
+    This function behaves like the GUI in that disconnected alignment entities are
+    not considered.'
+- author: Augusto Goncalves
+  email: ''
+  ip: 189.103.246.22
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2016-06-30 05:59:55'
+  body: 'You''re right, we just prefer to avoid error checking to keep code clean/small
+    for blog posts, but glad you pointed out.
+
+
+    Cheers,
+
+    Augusto Goncalves'
+- author: joantopo
+  email: joantopo@hotmail.com
+  ip: 88.9.44.129
+  url: ''
+  date: '2016-07-31 09:53:17'
+  body: "I have a question about replacing alignment entities.\nI know that we can\
+    \ retain the ObjectId in AutoCAD API if we remove it and we replace it to another\
+    \ object, but the ID of the alignment entities is an Integer value. \nCan we stablish\
+    \ an old Id entity to a new alignment entity?"
+- author: Augusto Goncalves
+  email: ''
+  ip: 187.106.202.86
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2016-08-01 07:39:12'
+  body: "Hi, \n\nI don't believe you can change this ID, it's read-only and not a\
+    \ parameter while creating the align entity. That's where this approach comes\
+    \ in: remove and replace ensuring the previous and next remains. \n\nRegards,\n\
+    Augusto Goncalves\n-----"

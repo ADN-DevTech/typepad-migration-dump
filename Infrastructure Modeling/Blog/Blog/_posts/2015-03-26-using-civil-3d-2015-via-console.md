@@ -1,0 +1,14 @@
+---
+layout: "post"
+title: "Using Civil 3D 2015 via console"
+date: "2015-03-26 05:35:23"
+author: "Augusto Goncalves"
+categories:
+  - "Augusto Goncalves"
+  - "AutoCAD Civil 3D 2015"
+original_url: "https://adndevblog.typepad.com/infrastructure/2015/03/using-civil-3d-2015-via-console.html "
+typepad_basename: "using-civil-3d-2015-via-console"
+typepad_status: "Publish"
+---
+
+<p>By <a href="http://adndevblog.typepad.com/infrastructure/augusto-goncalves.html">Augusto Goncalves</a></p>  <p>Since release 2013, we can use AutoCAD in console mode. This is intended to developers, there is no graphical interface and only the command line is available through the console window or via programming.</p>  <p>Back on Autodesk University 2012, <a href="http://au.autodesk.com/au-online/classes-on-demand/class-catalog/2012/autocad/using-net-programming-to-create-new-possibilities-with-the-autocad-core-console">this class</a> covered the basics on how use and automate AutoCAD Console, including how to load custom .NET applications. Is this possible on Civil 3D? Yes!</p>  <p>To use the console with Civil 3D 2015 .NET API we just need to launch the console and load an additional .NET assembly: AeccDbMgd.dll. After that, a custom .NET DLL should work. The image below show the result. Note how we NETLOAD the AeccDbMgd, then NETLOAD a custom DLL C3D_2015_CS.dll that contains a simple command that count alignment styles.</p>  <p>Of course the AutoCAD Console was not designed to be used like this (via Windows Console), this is just a test. To take full advantage, you can use .bat files (simplest approach) or a full .NET application that will manage and control instances of it. As mentioned above, <a href="http://au.autodesk.com/au-online/classes-on-demand/class-catalog/2012/autocad/using-net-programming-to-create-new-possibilities-with-the-autocad-core-console">the AU class</a> show several samples and ideas, just need to include the additional NETLOAD AeccDbMgd.</p>  <p><a href="http://adndevblog.typepad.com/.a/6a0167607c2431970b01bb080faa2a970d-pi"><img title="original" style="border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px; display: inline" border="0" alt="original" src="/assets/image_717245.jpg" width="485" height="497" /></a>&#160;</p>  <blockquote>   <p><em>Tip: AutoCAD is now blocking DLLs that are not on the trusted folders. On the UI we can simply include our folders on the trusted path list. Via console this can take extra time, that’s why I copied my custom DLL to Program Files folder (which is trusted by default).</em></p> </blockquote>  <p>The console approach can significantly reduce batch processing time and, as you can launch one instance per drawing, also improve error handling (if one instance freeze, just kill the process and start again). In summary, at least consider and evaluate this option!</p>

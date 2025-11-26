@@ -1,0 +1,15 @@
+---
+layout: "post"
+title: "Welcome to the ADN DevBlog"
+date: "2012-02-20 12:17:25"
+author: "Madhukar Moogala"
+categories: []
+original_url: "https://adndevblog.typepad.com/infrastructure/2012/02/welcome-to-the-adn-devblog.html "
+typepad_basename: "welcome-to-the-adn-devblog"
+typepad_status: "Publish"
+---
+
+<p>Welcome to our ADN DevBlog for Civil 3D, Map 3D and AIMS and other Autodesk Infrastructure Modeling technologies from Autodesk. This blog is maintained by the Developer Technical Services (DevTech) team – the worldwide team of API gurus providing technical services through the Autodesk Developer Network.</p>
+<p>Whenever any of us comes across some information on programming for Autodesk technology that we think you’ll be interested in, then you can expect it to be posted here. That will be technical (how-to) solutions derived from answering questions from ADN partners and from Autodesk forum users, sample projects, white papers screencasts, conference presentation material, and other information derived from our work.</p>
+<p>This blog is a vehicle to quickly put lots of up to date information in one place so you can easily find what you need to solve your programming problems. Don’t expect poetry and prose – just good, old-fashioned hard facts. Every member of the DevTech team will be posting information here – and lots of it. Follow us on Twitter, RSS, or just visit us when you need to browse or search for specific information.</p>
+<p>You’re very welcome to post additional information on topics or ask questions in the comments section for any blog post you’re interested in. Other Work Groups in DevTech are also starting DevBlogs covering Programming aspects in respective Industry focused areas and relevant Autodesk Technologies in the same domain which you might be interested to know.</p>

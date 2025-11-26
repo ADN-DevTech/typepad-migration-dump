@@ -1,0 +1,92 @@
+comments:
+- author: Karl Anich
+  email: karl.anich@tirol.gv.at
+  ip: 194.8.61.5
+  url: ''
+  date: '2013-09-19 02:01:47'
+  body: "hello, i have a problem to run the query (see below) with VB.NET in AutoCad\
+    \ Map 2013 64bit (windows7). The definition of the query works fine, but i am\
+    \ not able to bring it into execution. When i do this step within the programm\
+    \ manually it works fine.\ni would be pleased for an answer, thanks.\n\n\n  _\n\
+    \    Sub TestQuery()\n        Dim prjModel As ProjectModel = HostMapApplicationServices.Application.ActiveProject\n\
+    \        Dim mapApp As Autodesk.Gis.Map.MapApplication = Autodesk.Gis.Map.HostMapApplicationServices.Application\n\
+    \        Dim topoName As String = \"Bestände\"\n        Dim flNr As Integer =\
+    \ 3503\n\n\n        'Topologie laden\n        Dim Topos As Topologies = prjModel.Topologies\n\
+    \        Dim TopoBest As TopologyModel = Nothing\n        If Topos.Exists(topoName)\
+    \ = True Then\n            TopoBest = Topos.Item(topoName)\n            Try\n\
+    \                TopoBest.Open(Topology.OpenMode.ForRead)\n            Catch MEx\
+    \ As MapException\n                If MEx.ErrorCode <> 1002 Then\n           \
+    \         System.Windows.MessageBox.Show(\"Errorcode: \" & MEx.ErrorCode.ToString\
+    \ & ControlChars.CrLf _\n                                                 & \"\
+    Errormessage: \" & MEx.Message.ToString, \"MapException\")\n                 \
+    \   Exit Sub\n                End If\n            End Try\n        Else\n    \
+    \        System.Windows.MessageBox.Show(\"Topolgie ist nicht vorhanden!\", \"\
+    Information\")\n            Exit Sub\n        End If\n\n        'Abfrage\n   \
+    \     Dim qryModel As QueryModel = prjModel.CreateQuery(True)\n        qryModel.Clear(True)\n\
+    \        qryModel.TopologyName = topoName\n        qryModel.Mode = QueryType.QueryDraw\n\
+    \        Dim qryRoot As QueryBranch = QueryBranch.Create()\n        Dim DatCond\
+    \ As DataCondition = New DataCondition()\n        DatCond.Column = \"ID\"\n  \
+    \      DatCond.ConditionOperator = ConditionOperator.ConditionEqual\n        DatCond.DataType\
+    \ = DataQueryType.DataIrd\n        DatCond.Flag = True\n        DatCond.HasOperatorNot\
+    \ = False\n        DatCond.JoinOperator = JoinOperator.OperatorAnd\n        DatCond.Table\
+    \ = \"TPMCNTR_\" & topoName\n        DatCond.Value = flNr\n\n        qryRoot.AppendOperand(DatCond)\n\
+    \        qryModel.Define(qryRoot)\n\n        'Eigenschaften\n        Dim propChange\
+    \ As PropertyAlterationDefinition = qryModel.PropertyAlteration\n        Dim propColor\
+    \ As PropertyAlteration = Nothing\n        propColor = propChange.AddAlteration(AlterationType.AlterationColor)\n\
+    \        propColor.Expression = 6\n        qryModel.EnablePropertyAlteration(True)\n\
+    \n        'Ausführen\n        If qryModel.Defined Then\n            Try\n    \
+    \            qryModel.Run()\n            Catch Mex As MapException\n         \
+    \       System.Windows.MessageBox.Show(\"Errorcode: \" & Mex.ErrorCode.ToString\
+    \ & ControlChars.CrLf _\n                                             & \"Errormessage:\
+    \ \" & Mex.Message.ToString, \"MapException\")\n            End Try\n        End\
+    \ If\n    End Sub"
+- author: Partha Sarkar
+  email: ''
+  ip: 59.92.176.188
+  url: http://profile.typepad.com/6p0168e7e4ef23970c
+  date: '2013-09-19 09:24:57'
+  body: "Hi Karl,\n\nIs it specific to any DWG file ? Do you get any error ? \n\n\
+    Unless I debug with that DWG file, it hard to say why it's not showing any result.\n\
+    \nThanks,\nPartha"
+- author: Karl Anich
+  email: karl.anich@tirol.gv.at
+  ip: 194.8.61.5
+  url: ''
+  date: '2013-09-23 00:27:27'
+  body: "Hi Partha,\nthank you for quick response!\nThe problem is not specific to\
+    \ a DWG. You can test it with any DWG using a topology. No error message is reported.\
+    \  I debugged it with a test DWG and topology (named test) and defined the query\
+    \ as shown below. The query (property change) is defined in the drawing but I\
+    \ have to execute it manually.\n\n     _\n    Sub TestQuery()\n        Dim prjModel\
+    \ As ProjectModel = HostMapApplicationServices.Application.ActiveProject\n   \
+    \     Dim mapApp As Autodesk.Gis.Map.MapApplication = Autodesk.Gis.Map.HostMapApplicationServices.Application\n\
+    \        Dim topoName As String = \"Test\"\n        Dim flNr As Integer = 9\n\n\
+    \n        'Topologie laden\n        Dim Topos As Topologies = prjModel.Topologies\n\
+    \        Dim TopoBest As TopologyModel = Nothing\n        If Topos.Exists(topoName)\
+    \ = True Then\n            TopoBest = Topos.Item(topoName)\n            Try\n\
+    \                TopoBest.Open(Topology.OpenMode.ForRead)\n            Catch MEx\
+    \ As MapException\n                If MEx.ErrorCode <> 1002 Then\n           \
+    \         System.Windows.MessageBox.Show(\"Errorcode: \" & MEx.ErrorCode.ToString\
+    \ & ControlChars.CrLf _\n                                                 & \"\
+    Errormessage: \" & MEx.Message.ToString, \"MapException\")\n                 \
+    \   Exit Sub\n                End If\n            End Try\n        Else\n    \
+    \        System.Windows.MessageBox.Show(\"Topolgie ist nicht vorhanden!\", \"\
+    Information\")\n            Exit Sub\n        End If\n\n        'Abfrage\n   \
+    \     Dim qryModel As QueryModel = prjModel.CreateQuery(True)\n        qryModel.Clear(True)\n\
+    \        qryModel.TopologyName = topoName\n        qryModel.Mode = QueryType.QueryDraw\n\
+    \        Dim qryRoot As QueryBranch = QueryBranch.Create()\n        Dim DatCond\
+    \ As DataCondition = New DataCondition()\n        DatCond.Column = \"ID\"\n  \
+    \      DatCond.ConditionOperator = ConditionOperator.ConditionEqual\n        DatCond.DataType\
+    \ = DataQueryType.DataIrd\n        DatCond.Flag = True\n        DatCond.HasOperatorNot\
+    \ = False\n        DatCond.JoinOperator = JoinOperator.OperatorAnd\n        DatCond.Table\
+    \ = \"TPMCNTR_\" & topoName\n        DatCond.Value = flNr\n\n        qryRoot.AppendOperand(DatCond)\n\
+    \        qryModel.Define(qryRoot)\n\n        'Eigenschaften\n        Dim propChange\
+    \ As PropertyAlterationDefinition = qryModel.PropertyAlteration\n        Dim propColor\
+    \ As PropertyAlteration = Nothing\n        propColor = propChange.AddAlteration(AlterationType.AlterationColor)\n\
+    \        propColor.Expression = 6\n        qryModel.EnablePropertyAlteration(True)\n\
+    \n        'Ausführen\n        If qryModel.Defined Then\n            Try\n    \
+    \            qryModel.Run()\n            Catch Mex As MapException\n         \
+    \       System.Windows.MessageBox.Show(\"Errorcode: \" & Mex.ErrorCode.ToString\
+    \ & ControlChars.CrLf _\n                                             & \"Errormessage:\
+    \ \" & Mex.Message.ToString, \"MapException\")\n            End Try\n        End\
+    \ If\n    End Sub\n\n\nThanks,\nKarl\n-----"

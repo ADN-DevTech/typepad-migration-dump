@@ -1,0 +1,221 @@
+comments:
+- author: Mark P.
+  email: mrp@coredesigninc.com
+  ip: 50.125.99.122
+  url: ''
+  date: '2013-01-22 08:04:40'
+  body: 'Great code Partha!
+
+
+    As a side note, I don''t believe there is a need to call GetProjectedCurve() unless
+    you want to project the baseCurve to a plane other than world.
+
+
+    Also, if the survey figure has different elevations at each vertex the curve information
+    will be represented as 3d line segments.  In order for the curve data to come
+    across in that situation, you would need to flatten the figure first.
+
+
+    -Mark P.'
+- author: Partha Sarkar
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p0168e7e4ef23970c
+  date: '2013-01-22 20:48:58'
+  body: 'Thanks Mark ! You are right. GetProjectedCurve() is redundant here, unless
+    someone want to project the baseCurve to a plane other than world. To retain the
+    curves as it is we can simple get the BaseCurve and add that to DWG database using
+    AddNewlyCreatedDBObject(). I have updated the original code snippet above to make
+    it simpler.
+
+
+    Cheers,
+
+    Partha
+
+    ADN'
+- author: Anton Huizinga
+  email: a.huizinga@gmail.com
+  ip: 82.95.108.202
+  url: ''
+  date: '2013-01-24 11:27:54'
+  body: "You forgot to change the line: \n\nmodel.AppendEntity(projectedCurve);\n\n\
+    That should be the baseCurve."
+- author: Partha Sarkar
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p0168e7e4ef23970c
+  date: '2013-01-24 20:29:51'
+  body: 'Thanks Anton ! Corrected now :)
+
+
+    Cheers,
+
+    Partha
+
+    ADN'
+- author: jim haglund
+  email: jim@kpg.com
+  ip: 63.235.80.142
+  url: ''
+  date: '2013-01-29 15:16:00'
+  body: 'Love what your code does.  How can I load and use this code in Civil 3d drawings?
+
+
+    Thanks
+
+    Jim'
+- author: Partha Sarkar
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p0168e7e4ef23970c
+  date: '2013-02-06 00:54:17'
+  body: 'Hi Jim,
+
+
+    You need to build a simple .NET plug-in app using this code and Civil 3D .NET
+    API assembly. Then netload your application in Civil 3D and call your custom command.
+    In the following link you will see useful resource like DevTV to build your plugin
+    for Civil 3D or AutoCAD.
+
+
+    <a href="http://usa.autodesk.com/adsk/servlet/index?id=1911627&siteID=123112">http://usa.autodesk.com/adsk/servlet/index?id=1911627&siteID=123112</a>
+
+
+    <a href="http://usa.autodesk.com/adsk/servlet/index?siteID=123112&id=8007696">http://usa.autodesk.com/adsk/servlet/index?siteID=123112&id=8007696</a>
+
+
+    Thanks,
+
+    Partha'
+- author: BlackBox
+  email: ''
+  ip: 207.34.120.71
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2013-10-16 15:37:38'
+  body: "Hi Partha - \n\nSilly question, but how does one go about converting SurveyFigure\
+    \ to Polyline2d to retain the 'intelligent' arcs, etc.?\n\nDo we need to 'flatten'\
+    \ the SurveyFigure first, to allow for BaseCurve to yield Polyline2d (with arcs,\
+    \ etc.)?\n\nCheers"
+- author: Partha Sarkar
+  email: ''
+  ip: 59.92.135.96
+  url: http://profile.typepad.com/6p0168e7e4ef23970c
+  date: '2013-10-21 00:10:36'
+  body: "Hi BlackBox -\n\nNo need to flatten. We can get the base curve as shown in\
+    \ the above code sample - \n\nCurve baseCurve = survFig.BaseCurve;\n\nIf you want\
+    \ Polyline2d, you can use the curve geometry to create a Polyline2d out of it.\n\
+    \nThanks,\nPartha"
+- author: joantopo
+  email: joantopo@hotmail.com
+  ip: 88.7.218.117
+  url: ''
+  date: '2013-11-11 10:23:07'
+  body: 'Hi.
+
+    That code snippet is the same for Feature Lines to convert to polylines?
+
+
+    Can I get Id of polyline after this:?
+
+    " trans.AddNewlyCreatedDBObject(baseCurve, true);"
+
+
+    I would like to get a ObjectIdCollection of news polylines for erase later.
+
+
+    Thank you.'
+- author: Stacy
+  email: stacy_dunn_@hotmail.com
+  ip: 64.251.230.39
+  url: ''
+  date: '2013-11-15 13:03:47'
+  body: 'Partha,
+
+    I have tried .basecurve, .GetProjectedCurve and .GetOrthoProjectedCurve to generate
+    a 2d polyline, but each method will not generate a polyline with arc segments.  They
+    are the only approximated curves with line segments.
+
+
+    The only way I can get a polyline with curves is to flatten the figure to a dummy
+    surface first.
+
+
+    Is there another method or is there a way to programatically flatten the figure
+    to the same elevation?
+
+
+    Thank you,
+
+    Stacy'
+- author: Stacy
+  email: ''
+  ip: 64.251.230.39
+  url: http://profile.typepad.com/6p019b01250f3d970c
+  date: '2013-11-15 13:15:31'
+  body: 'Partha,
+
+    You said that there is no need to flatten, but each method I have tried does not
+    produce a polyline with curves.
+
+
+    I tried:
+
+    survfig.BaseCurve
+
+    survfig.GetProjectedCurve
+
+    survig.GetOrthoprojectedCurve
+
+
+    If if manually flatten the figure using a dummy suface and the AeccFeatureElevsFromSurf
+    command, the polyline derived from survfig.BaseCurve will then have actual arc
+    segments.
+
+
+    Is there another method or a way to flatten the figure programatically first?
+
+
+    Thank you,
+
+    Stacy'
+- author: Stacy
+  email: ''
+  ip: 64.251.230.39
+  url: http://profile.typepad.com/6p019b01250f3d970c
+  date: '2013-11-15 13:16:24'
+  body: 'Partha,
+
+    You said that there is no need to flatten, but each method I have tried does not
+    produce a polyline with curves.
+
+
+    I tried:
+
+    survfig.BaseCurve
+
+    survfig.GetProjectedCurve
+
+    survig.GetOrthoprojectedCurve
+
+
+    If if manually flatten the figure using a dummy suface and the AeccFeatureElevsFromSurf
+    command, the polyline derived from survfig.BaseCurve will then have actual arc
+    segments.
+
+
+    Is there another method or a way to flatten the figure programatically first?
+
+
+    Thank you,
+
+    Stacy'
+- author: Partha Sarkar
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p0168e7e4ef23970c
+  date: '2013-11-18 02:27:10'
+  body: "Hi Stacy,\n\nI don't see any API to flatten the SurveyFigure.\n\nYou can\
+    \ try projecting the BaseCurve from SurveyFigure to a specific plane using the\
+    \ following - \n\nCurve projectedCurve = survFig.BaseCurve.GetProjectedCurve(plane,\
+    \ dir);\n\nThanks,\nPartha\nADN\n\n-----"

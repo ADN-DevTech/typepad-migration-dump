@@ -1,0 +1,22 @@
+comments:
+- author: Chuck
+  email: chuckwilbur@spatialnet.net
+  ip: 75.132.4.27
+  url: ''
+  date: '2012-05-15 19:33:11'
+  body: 'Aren''t you Disposing trans twice? Once in the finally block and once invisibly
+    as you leave the using clause?
+
+
+    See <a href="http://msdn.microsoft.com/en-us/library/yh598w02.aspx">http://msdn.microsoft.com/en-us/library/yh598w02.aspx</a>'
+- author: Partha
+  email: partha.sarkar@autodesk.com
+  ip: 203.116.198.71
+  url: ''
+  date: '2012-05-15 21:53:20'
+  body: "Hi Chuck,\n\nThanks for the comments! In this particular code snippet it's\
+    \ redundant; I have updated the code snippet accordingly, but it might be useful\
+    \ in a larger code sample where exceptions are not handled appropriately and in\
+    \ that situation we should call trans.Dispose() and I would rather use it in this\
+    \ way :\n\nfinally\n{\n if (trans != null)\n   {\n      trans.Dispose();\n   }\n\
+    }\n\nThanks,\nPartha\n-----"

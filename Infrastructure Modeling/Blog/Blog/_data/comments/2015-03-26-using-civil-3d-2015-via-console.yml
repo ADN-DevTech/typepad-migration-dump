@@ -1,0 +1,58 @@
+comments:
+- author: Norman Yuan
+  email: norman.yuan@focus.ca
+  ip: 207.229.13.65
+  url: ''
+  date: '2015-08-21 19:01:55'
+  body: 'Since AutoCAD Map 3D is subset of AutoCAD Civil 3D, does that mean that after
+    "NETLOADING" AeccDbMgd.dll, the Civil 3D console can also be used with AutoCAD
+    Map 3D API?
+
+
+    I have tried the console with AutoCAD Map 2014 installation with Map API: code
+    based on MAP API does not run in the console. However, I may have to do similar
+    thing as you described here: NETLOADING some MAP specific managed assemblies first?'
+- author: Norman Yuan
+  email: ''
+  ip: 207.229.13.65
+  url: http://profile.typepad.com/normanyuan
+  date: '2015-08-21 19:13:13'
+  body: 'Since AutoCAD Map3D is a subset included AutoCAD Civil3D, does that mean
+    that after NETLOADING AeccDbMgd.dll, MAP API is also available as Civil3D API?
+
+
+    I have tried to use MAP API in console with AutoCAD Map 2014 installation and
+    failed. Have not tried it with Map 2015/16.
+
+
+    Also, since AutoCAD I/O services are the online version of console, does that
+    mean Civil API (or other vertical AutoCAD products, for that matter) is/will be
+    available with AutoCAD I/O?'
+- author: Augusto Goncalves
+  email: ''
+  ip: 177.140.171.253
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2015-08-25 06:37:32'
+  body: "Norman,\n\nThe trick was to NETLOAD the API assemblies (aeccdbmgd.dll) to\
+    \ ensure it's loaded. I haven't tried with Map (don't have it installed), have\
+    \ you trie NETLOADing them?\n\nIn fact the Console is an AutoCAD feature, that's\
+    \ why I used this workaround (NETLOAD the API DLLs).\n\nAlso, this approach is\
+    \ improving on newer versions. Not sure if was working fine on 2014. \n\nRegards,\n\
+    Augusto Goncalves"
+- author: Augusto Goncalves
+  email: ''
+  ip: 177.140.171.253
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2015-08-25 06:40:10'
+  body: 'Norman,
+
+
+    AutoCAD I/O does not yet support C3D specific assemblies. When we use it locally
+    we''re actually using all C3D files installed locally, but I/O is a vanilla AutoCAD.
+
+
+    Regards,
+
+    Augusto Goncalves
+
+    -----'

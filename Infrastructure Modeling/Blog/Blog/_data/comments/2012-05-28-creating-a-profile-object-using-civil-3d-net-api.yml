@@ -1,0 +1,88 @@
+comments:
+- author: Ulrikw
+  email: ''
+  ip: 90.230.94.62
+  url: http://profile.typepad.com/ulrikw
+  date: '2012-10-05 04:10:59'
+  body: Interesting article! Is the method for creating a QuickProfiles almost the
+    same? I have tried this for some time but didn't succeed. Maybe you can help?
+- author: surajit biswas
+  email: surajit.biswas1984@gmail.com
+  ip: 101.210.246.146
+  url: ''
+  date: '2012-12-30 06:11:41'
+  body: sir how i creat profile from file in autocad civil3d
+- author: Partha Sarkar
+  email: ''
+  ip: 203.202.234.246
+  url: http://profile.typepad.com/6p0168e7e4ef23970c
+  date: '2013-01-01 23:02:57'
+  body: 'Hi Surajit,
+
+
+    I don''t see any public API available at moment to create a Profile from a file
+    which is equivalent of the UI command _AeccCreateProfileFromFile, sorry. I am
+    logging a wish list to address this in future release of Civil 3D.
+
+
+    Thanks,
+
+    Partha Sarkar
+
+    Autodesk Developer Network'
+- author: Partha Sarkar
+  email: ''
+  ip: 203.202.234.246
+  url: http://profile.typepad.com/6p0168e7e4ef23970c
+  date: '2013-01-01 23:18:33'
+  body: 'Hi Ulrikw,
+
+
+    My apologies for missing your comment earlier :(
+
+
+    If you are referring to the CREATEQUICKPROFILE command which draws temporary profiles
+    along line, arc, polyline, lot line, feature line etc., then I find the direct
+    or equivalent public API is missing in the current release. However, Profile.CreateFromFeatureLine()
+    would help in creating a Profile from a corridor feature line.
+
+    For a quick Profile, we should be able to work-around with few extra steps (though
+    I haven''t tried yet), however, an equivalent API to UI command CREATEQUICKPROFILE
+    or _AeccCreateQuickProfile would be a better option. I am logging a wish list
+    for the same to expose a .NET API equivalent for CREATEQUICKPROFILE or _AeccCreateQuickProfile.
+
+
+
+    Thanks,
+
+    Partha Sarkar
+
+    Autodesk Developer Network'
+- author: steve
+  email: prisimage@yahoo.com
+  ip: 24.149.102.0
+  url: ''
+  date: '2013-01-04 07:08:35'
+  body: "I'm using VB.net & would like to delete a profile with a given name so that\
+    \ I can create a new profile (from surface) with the same name. \n\nI've tried\
+    \ using the erase method of the profile object, but when it is time the create\
+    \ the new profile, I get an error due to the name already existing. I don't want\
+    \ to get into any profile name management algorithms. The reason to delete it\
+    \ is because it is static and it should be replaced with a dynamic one.\n\nOk,\
+    \ I just tried to make it dyanamic (instead of trying to delete it) via:\n\nTempProfile.UpdateMode\
+    \ = ProfileUpdateType.Dynamic\n\nthat doesn't work either (no errors)(transaction\
+    \ is committed). the profile in the drawing remains static."
+- author: Partha Sarkar
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p0168e7e4ef23970c
+  date: '2013-01-07 01:07:32'
+  body: "Hi Steve,\n\nDeleting a Profile using Erase() works fine. I tried the following\
+    \ code snippet which works fine in my testing in Civil 3D 2013 on Win7 64 bit.\n\
+    \nProfile profile = trans.GetObject(profileId, OpenMode.ForWrite) as Profile;\n\
+    profile.Erase(true);\ntrans.Commit();\n\n\nRegarding Profile update using UpdateMode,\
+    \ it would work on Surface Profile only. That's what mentioned in the Civil 3D\
+    \ API Ref document. I have published a blog post on the same - \n\n<a href=\"\
+    http://adndevblog.typepad.com/infrastructure/2013/01/updating-a-profile-mode-using-profileupdatemode.html\"\
+    >http://adndevblog.typepad.com/infrastructure/2013/01/updating-a-profile-mode-using-profileupdatemode.html</a>\n\
+    \nHope this helps.\n\nThanks,\nPartha Sarkar\nADN\n-----"

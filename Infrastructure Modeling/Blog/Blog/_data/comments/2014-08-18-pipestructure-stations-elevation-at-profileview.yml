@@ -1,0 +1,24 @@
+comments:
+- author: Sebastian Schoeller
+  email: sebastian.schoeller@gmail.com
+  ip: 172.16.49.167
+  url: ''
+  date: '2017-11-06 09:16:37'
+  body: "Hello Augusto,\n\nthanks for your sample. When I alter that to\n\n      \
+    \      using (Transaction trans = db.TransactionManager.StartTransaction())\n\
+    \            {\n                // get the part showing on the view\n        \
+    \        ProfileViewPressurePart partPV = trans.GetObject(per.ObjectId, OpenMode.ForRead)\
+    \ as ProfileViewPressurePart;\n                PressurePart part = trans.GetObject(partPV.ModelPartId,\
+    \ OpenMode.ForRead) as PressurePart;\n\n                // get the network for\
+    \ the part\n                PressurePipeNetwork ppNet = trans.GetObject(part.NetworkId,\
+    \ OpenMode.ForRead) as PressurePipeNetwork;\n\nin order to fetch a pipe network\
+    \ via pressure pipes I receive an error while trying to browse the variable ppNet\
+    \ which reads\n\n'ppNet.AcadObject' threw an exception of type 'System.Runtime.InteropServices.COMException'\n\
+    \nDo you have an idea why this could be?\n\nBest regars\n\nSebastian"
+- author: Augusto Goncalves
+  email: ''
+  ip: 209.201.110.48
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2017-11-14 09:45:05'
+  body: "Sebastian,\n\nUnfortunately the Pipe Pressure network is not exposed as COM\
+    \ objects, therefore this will not work.\n\nRegards,\nAugusto Goncalves \n-----"

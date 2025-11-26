@@ -1,0 +1,41 @@
+comments:
+- author: James Maeding
+  email: jmaeding@hunsaker.com
+  ip: 24.249.247.46
+  url: ''
+  date: '2013-09-30 10:34:06'
+  body: 'this is a big deal, as I recall I could only remove groups of breaklines
+    before.
+
+    I have tools that make 3d plines and add to a surface. Updates need the ability
+    to remove items and add on a pline by pline basis.
+
+    Are you sure this does not refer to groups of breaklines, as that is not what
+    I need. thanks'
+- author: Partha Sarkar
+  email: ''
+  ip: 59.92.207.214
+  url: http://profile.typepad.com/6p0168e7e4ef23970c
+  date: '2013-10-03 00:35:01'
+  body: "Hi James - \n\nWhich release of Civil 3D and what API (COM / .NET) you used\
+    \ >>> I recall I could only remove groups of breaklines before. <<<\n\nIf you\
+    \ provide me these details, I can investigate it further.\n\nThanks,\nPartha Sarkar\n\
+    ADN"
+- author: Augusto Goncalves
+  email: ''
+  ip: 177.43.194.106
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2015-03-25 11:33:36'
+  body: "James,\n\nIt's being a while... but I made some testing with this: the RemoveAt\
+    \ will act at the operation level, not at each breakline. For instance, if you\
+    \ add a Std Breakline and select 3 plines, the RemoveAt will remove all 3 plines.\n\
+    \nDatabase db = Application.DocumentManager.MdiActiveDocument.Database;\nusing\
+    \ (Transaction trans = db.TransactionManager.StartTransaction())\n{\n  TinSurface\
+    \ tinSurface = trans.GetObject(surfaceId, OpenMode.ForWrite) as TinSurface;\n\
+    \  for (int b = 0; b < tinSurface.BreaklinesDefinition.Count; b++)\n  {\n    SurfaceOperationAddBreakline\
+    \ operation = tinSurface.BreaklinesDefinition[b];\n\n    // the RemoveAt will\
+    \ act at this level\n    ed.WriteMessage(\"\\n{0}\", operation.Description); \n\
+    \n    foreach (SurfaceBreakline breakline in operation)\n    {\n      // this\
+    \ level don't have a Remove method...\n      ed.WriteMessage(\"\\n\\t{0}\", breakline.Description);\n\
+    \    }\n  }\n  //tinSurface.BreaklinesDefinition.RemoveAt(...);\n  //tinSurface.Rebuild();\n\
+    \  //trans.Commit();\n}\n\nRegards,\nAugusto Goncalves\n-----"

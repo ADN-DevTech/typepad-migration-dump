@@ -1,0 +1,102 @@
+comments:
+- author: Richard Sincovec
+  email: sinc@quuxsoft.com
+  ip: 64.25.237.238
+  url: http://www.quuxsoft.com
+  date: '2012-04-23 08:14:24'
+  body: NOT pleased with this change.  It's made our life much more difficult.  But
+    it helps explain some of the problems we've been encountering, trying to create
+    a 2013 build of our software.
+- author: RasmusB
+  email: rfb@focus.no
+  ip: 176.11.27.232
+  url: ''
+  date: '2012-04-23 09:10:54'
+  body: 'Hi Augusto,
+
+    Thanks for clearing things up. Up until now I have built the 32 bit version of
+    my Civil 3D application on a 32 bit machine - just in case, really. However, having
+    read the different blog posts about migration code, I am tempted to try to build
+    both versions (32 and 64 bit) of my app on my 64 bit machine. Though when I set
+    platform target to x86, I do get a warning saying that the .net wrappers AecBaseMgd
+    etc. (referenced from the Civil installation folder) targets a different platform...should
+    I set platform target to Any CPU when building the 32 bit version?'
+- author: Jeff Mishler
+  email: jeffm@quuxsoft.com
+  ip: 99.105.62.248
+  url: http://www.quuxsoft.com
+  date: '2012-04-23 22:12:51'
+  body: "And I still can't get a simple test project to correctly build for both 32/64\
+    \ from my Win7x64. They both build, and I can actually get the AeccApplication\
+    \ and AeccDocument objects in a 32 bit OS, but attempting to access an Aecc* object\
+    \ yields the Nointerface error. Just this simple line of code fails:\n AeccAlignment\
+    \ align = (AeccAlignment)aeccdoc.AlignmentsSiteless.Item(0);\n\nI thought these\
+    \ new changes were supposed to making things better? So far, I'm not real impressed."
+- author: RasmusB
+  email: rfb@focus.no
+  ip: 84.202.42.85
+  url: ''
+  date: '2012-04-24 12:16:08'
+  body: To build the 32 bit version of a Civil app on a 64 bit machine; is it sufficient
+    to copy the dlls we want to reference, from the Civil 3D 2013 installation folder
+    on a 32 bit machine, on to a folder on the 64 bit machine, and reference them
+    from there, or must the 32 bit version be built on a 32 bit machine?
+- author: Jeff Mishler
+  email: jeffm@quuxsoft.com
+  ip: 99.105.62.248
+  url: http://www.quuxsoft.com
+  date: '2012-04-24 20:15:44'
+  body: I am now successfully building 32-bit versions on my Win7x64. I ended up copying
+    the Aec* interop dll's from a x86 install to the inc-win32 folder in ObjectARX2013
+    and set the references for the x86 build there. It took some trickery in the csproj
+    file so all I have to do is switch platforms between x86 & x64, but it's working
+    fine now. Still more work than it should've been, IMHO.
+- author: RasmusB
+  email: rfb@focus.no
+  ip: 195.159.18.131
+  url: ''
+  date: '2012-04-24 23:36:43'
+  body: And for a C++/ObjectARX project, one have to copy the .tlb-files from the
+    Civil Engineering 100-folder on a x86 install, I guess?
+- author: Augusto Goncalves
+  email: ''
+  ip: 189.8.69.39
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2012-04-25 08:36:44'
+  body: Thank you all for the comments and reports so far, I'm currently investigating
+    this with the engineers responsible, soon will publish more data. Regards.
+- author: Richard Sincovec
+  email: sinc@quuxsoft.com
+  ip: 66.129.59.44
+  url: http://www.quuxsoft.com
+  date: '2012-04-26 00:15:59'
+  body: This problem would probably not exist if we could actually build .NET versions
+    of our apps, and avoid the Interops.  But having so many features still missing
+    from the .NET stuff, we still have to include Interops (Sheet Set Manager stuff
+    is a key example for the core ACAD stuff, there's TONS of stuff in Civil 3D that
+    require Interops).  If we're really supposed to switch to a .NET interface, as
+    we've been told we should, for several years now, we need Autodesk to give us
+    some help, and make everything available via .NET.
+- author: Richard Sincovec
+  email: sinc@quuxsoft.com
+  ip: 66.129.59.44
+  url: http://www.quuxsoft.com
+  date: '2012-04-26 00:19:37'
+  body: Oh, sorry, I guess this might not help the C++ programmers...  But a FULL
+    .NET API would sure help all us .NET programmers (C#, VB, F#, etc.....)
+- author: RasmusB
+  email: rfb@focus.no
+  ip: 195.18.137.50
+  url: ''
+  date: '2012-04-26 06:15:00'
+  body: 'If I copy the TLBs (AecXBase70, AecXUIBase70, AeccXLand etc) from the Civil
+    Engineering 100-folder on a x86 install, on to my Win7 x64 machine to build a
+    32 bit version, I get errors when trying to import them (the TLBs) in my C++-project:
+
+    error C4772: #import referenced a type from a missing type library.
+
+
+    Importing the equivalent TLBs from the Civil Engineering 100-folder on my machine
+    for 64 bit build goes on without errors.
+
+    -----'

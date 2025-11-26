@@ -1,0 +1,36 @@
+comments:
+- author: Kim Jjong
+  email: ''
+  ip: 125.7.242.86
+  url: http://profile.typepad.com/jjong
+  date: '2013-08-30 01:54:38'
+  body: "Hi Partha Sarkar, \n\nI would like to ask you about \"ed.\" and \"trans\"\
+    \n\nWhen I was compiling , VS2012 Alerted me that \" 'ed' name isn't  context.\n\
+    \nCould you please tell me more details explanations.\nThank you."
+- author: Partha Sarkar
+  email: ''
+  ip: 203.202.234.246
+  url: http://profile.typepad.com/6p0168e7e4ef23970c
+  date: '2013-08-30 03:05:52'
+  body: 'Hi Kim,
+
+
+    Use this :
+
+
+    Editor ed = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor;
+
+
+    Transaction trans = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Database.TransactionManager.StartTransaction();
+
+
+    Hope this helps!
+
+
+    Thanks,
+
+    Partha Sarkar
+
+    ADN
+
+    -----'

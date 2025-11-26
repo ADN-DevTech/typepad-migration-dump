@@ -1,0 +1,17 @@
+comments:
+- author: Peter Kolbe
+  email: ''
+  ip: 84.58.13.68
+  url: http://profile.typepad.com/peterkolbe
+  date: '2012-09-28 09:19:41'
+  body: "Dear Partha,\nusing your sample \"How to extract all of the coordinate system...\"\
+    \ I can enumerate them and will get \"XY-M\" and \"LL84\".\nWhen I call the coordSysFactory.GetTransform()\
+    \ method I get an \norg.osgeo.mapguide.MgCoordinateSystemInitializationFailedException.\n\
+    Do you know the reason? Is there something missing?\nI'm using IMS2012. \nBelow\
+    \ my coding. Thank you for your response!\nRegards,\nPeter\n\nMgCoordinateSystemFactory\
+    \ coordSysFactory = new MgCoordinateSystemFactory();\nMgCoordinateSystemCatalog\
+    \ csCatalog = coordSysFactory.GetCatalog();\nMgCoordinateSystemDictionary csDict\
+    \ = csCatalog.GetCoordinateSystemDictionary();\nMgCoordinateSystem coordSys =\
+    \ csDict.GetCoordinateSystem(\"XY-M\");\nMgCoordinateSystem wgs84Sys = csDict.GetCoordinateSystem(\"\
+    LL84\");\nMgCoordinateSystemTransform transform = coordSysFactory.GetTransform(wgs84Sys,\
+    \ coordSys);\n-----"

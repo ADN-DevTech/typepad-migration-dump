@@ -1,0 +1,66 @@
+comments:
+- author: James Maeding
+  email: jmaeding@hunsaker.com
+  ip: 24.249.247.46
+  url: ''
+  date: '2012-07-11 07:02:09'
+  body: 'Its very hard to make non-version independent add-ons in my experience. I
+    have to split out portions of code where the .net api is different between versions.
+    This leads to one .net project per acad version, which is annoying. I have several
+    "helper" projects too, so its a lot of stuff.
+
+    I wish I could see more posts on real life project organization and what impacts
+    it has, as that is what is hard about .net.'
+- author: Augusto Goncalves
+  email: ''
+  ip: 200.57.88.172
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2012-07-11 07:11:04'
+  body: Hi James, I'll be glad to investigate issues you're facing and try post something
+    on that subject. If you can, please email me a few issues so I can research what
+    can be done to improve version compatibility for Civil 3D. My email is first dot
+    last_name at autodesk.com
+- author: steve
+  email: prisimage@yahoo.com
+  ip: 172.250.251.24
+  url: ''
+  date: '2014-09-11 01:57:59'
+  body: '"''second try cast, which will return Nothing case it is impossible
+
+
+    oAeccCorridor = TryCast(oCorridor.AcadObject, AeccCorridor)
+
+
+    ''cast succeeded?
+
+
+    If (oAeccCorridor Is Nothing) Then"
+
+
+
+    could you elaborate on your comment please, specifically "case it is impossible"?
+
+
+    & shouldn''t the IF statement be testing thatoAeccCorridor is NOT nothing?'
+- author: Augusto Goncalves
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2014-09-11 09:00:26'
+  body: 'Steve,
+
+
+    About #1, the cast should always be possible. But if you have the wrong references,
+    then the cast may not happen... that''s why we have this TryCast
+
+
+    Now #2 you are right, but the code is checking ''If NOT (oCorridor Is Nothing)
+    Then'' because the ''is not'' will not compile...
+
+
+    Regards,
+
+    Augusto Goncalves
+
+
+    -----'

@@ -1,0 +1,106 @@
+comments:
+- author: Steve
+  email: stevenh0616@gmail.com
+  ip: 173.161.87.42
+  url: http://www.beyondcivil3d.blogspot.com
+  date: '2013-02-05 05:33:52'
+  body: 'Great post Partha, thanks!!
+
+
+    One question regarding surface labels...
+
+
+    If I wanted to add a selection for the style to be used and wanted to list all
+    the styles for a spot elevation label, how can I get the child styles? I know
+    how to get the parent styles through  Dim styles As ACD.Styles.LabelStyleCollection
+    = CivilDoc.Styles.LabelStyles.SurfaceLabelStyles.SpotElevationLabelStyles, but
+    the Child styles are stumping me.
+
+
+    I would suppose they would be a part of the parent style. So my thought was to
+    check the children count on each style, and if > 0 then loop through the children.
+
+
+    Are child style stored under Item? If so, what else is stored under item, as it
+    throws errors when I try to cast the each item to a LabelStyle type.
+
+
+    Thanks.'
+- author: Partha Sarkar
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p0168e7e4ef23970c
+  date: '2013-02-05 22:51:20'
+  body: "Hi Steve,\n\nYou can access the Surface Spot Elevation Child label style\
+    \ from the parent label style through index or name like the following -\n\nIf\
+    \ (osurfaceElevnLabelStyle.ChildrenCount >0) then               \n   Dim childLblStyleId\
+    \ As ObjectId =   osurfaceElevnLabelStyle(0)\nEnd If\n\nLet me post this in detail\
+    \ in another topic soon.\n\nThanks,\nPartha\nADN"
+- author: Steve Hill
+  email: stevenh0616@gmail.com
+  ip: 173.161.87.42
+  url: http://www.beyondcivil3d.blogspot.com
+  date: '2013-07-15 11:38:48'
+  body: 'Partha,
+
+
+    One additional question I ran into the other day is apply the surface labels to
+    an XREF''d Drawing''s surface. The Civil 3D command allows for this, and I''ve
+    actually been able to do it with .NET as well. My issue is that when a surface
+    label is applied to the ObjectID of a surface that resides in the XREF, the label
+    is embedded into the XREF block in the current drawing. Thus leaving it unselectable
+    or modifiable - and deceiving to other users as the label is not technically in
+    the XREF drawing - just in the XREF block of the current drawing.
+
+
+    Can you point me in the right direction to make this work?
+
+
+    Thanks.
+
+
+    Steve'
+- author: Partha Sarkar
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p0168e7e4ef23970c
+  date: '2013-07-17 22:52:32'
+  body: 'Hi Steve,
+
+
+    There is no direct way to achieve it other than opening the Xref file and do the
+    modifcation using .NET API. In ADN Knowledge base we have a devnote on "Editing
+    Xref In-place" that lists the detailed steps using C++ / ObjectARX API.
+
+
+    Thanks,
+
+    Partha'
+- author: Steve Hill
+  email: stevenh0616@gmail.com
+  ip: 173.161.87.42
+  url: http://www.beyondcivil3d.blogspot.com
+  date: '2013-07-31 14:02:25'
+  body: 'Thanks for the reply Partha.
+
+
+    Can you clarify a bit more with this, because I''m not looking to edit the XREF
+    at all, just reference it. In Civil 3D it is possible to do add a surface label,
+    select an XREF''d surface and place the label. The label resides in the current
+    drawing, but the datasource surface is the XREF''d surface.
+
+
+    I have achieved this for the most part by searching through the block table for
+    record entities that are of the Civil 3D surface type. Then I add a label referenced
+    to the surface object. It does work, however the label is embedded in the XREF
+    block of my current drawing. I want the label to be in the current drawing and
+    reference the XREF surface.
+
+
+    Are you saying it''s not possible to achieve because it''s not available in the
+    .NET API?
+
+
+    Thanks.
+
+    -----'

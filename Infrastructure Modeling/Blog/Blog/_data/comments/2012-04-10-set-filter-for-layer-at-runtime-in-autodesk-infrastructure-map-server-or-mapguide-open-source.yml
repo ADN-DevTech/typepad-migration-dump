@@ -1,0 +1,84 @@
+comments:
+- author: Kent
+  email: kent@lake-eng.com
+  ip: 71.116.63.25
+  url: ''
+  date: '2012-09-18 11:57:12'
+  body: I need some help getting my flexible layout to work on a xp and ie 8 machine.  I
+    get a fusionsf-compressed.js error
+- author: Tom
+  email: thomas.croux@pt-consulting.eu
+  ip: 195.46.241.19
+  url: ''
+  date: '2013-09-11 06:47:56'
+  body: "Dear Daniel, \n\nthank you very much for this sample, and the explanations.\n\
+    I try to adapt this code to my needs, in AutoCAD Map 3D 2013.\n\nIn SetFilterForLayer\
+    \ method, when executing the final SetResource, I get an Exception telling me\
+    \ that the XML Layer Definition is incorrect. This Exception occurs even if I\
+    \ bypass the Xml Content modification (by appending the child filterNode). Even\
+    \ with the original XML content, I get the Exception.\n\nOSGeo.MapGuide.MgInvalidArgumentException:\
+    \ Argument(s) incorrect(s):\nLa définition du calque XML est incorrecte.\n   à\
+    \ OSGeo.MapGuide.MapApiPINVOKE.SWIGExceptionHelper.ThrowCustomException(String\
+    \ className, IntPtr cptr)\n   à OSGeo.MapGuide.MapApiPINVOKE.AcMapResourceService_SetResource(IntPtr\
+    \ jarg1, IntPtr jarg2, IntPtr jarg3, IntPtr jarg4)\n   à Autodesk.Gis.Map.Platform.AcMapResourceService.SetResource(MgResourceIdentifier\
+    \ resource, MgByteReader content, MgByteReader header)\n   à Takm.AutoCadMap3D2013.TakmAutoCadHelper.SetFilterForLayer(String\
+    \ layerResId, String strFilter) dans D:\\TAKM_PRODUCT\\trunk\\takm.AutoCAD_MAP_3D_2013\\\
+    TakmAutocadHelper.cs:ligne 149\n   à Takm.AutoCadMap3D2013.TakmAutoCad.TakmTestFilter()\
+    \ dans D:\\TAKM_PRODUCT\\trunk\\takm.AutoCAD_MAP_3D_2013\\TAKMAutoCAD.cs:ligne\
+    \ 663\n   à Autodesk.AutoCAD.Runtime.CommandClass.InvokeWorker(MethodInfo mi,\
+    \ Object commandObject, Boolean bLispFunction)\n   à Autodesk.AutoCAD.Runtime.CommandClass.InvokeWorkerWithExceptionFilter(MethodInfo\
+    \ mi, Object commandObject, Boolean bLispFunction)\n   à Autodesk.AutoCAD.Runtime.PerDocumentCommandClass.Invoke(MethodInfo\
+    \ mi, Boolean bLispFunction)\n   à Autodesk.AutoCAD.Runtime.CommandClass.CommandThunk.Invoke()\n\
+    \nBelow is the code I adapted from your one :\n\n        public static String\
+    \ SetFilterForLayer(String layerResId, String strFilter)\n        {\n        \
+    \    MgResourceIdentifier templateLayerId = new MgResourceIdentifier(layerResId);\n\
+    \            MgResourceService resSvc = AcMapServiceFactory.GetService(MgServiceType.ResourceService)\
+    \ as MgResourceService;\n            MgByteReader reader = resSvc.GetResourceContent(templateLayerId);\n\
+    \            string layoutXml = GetXmlFromByteReader(reader);\n\n            XmlDocument\
+    \ doc = new XmlDocument();\n            doc.LoadXml(layoutXml);\n            XmlNodeList\
+    \ objNodeList = doc.SelectNodes(\"//VectorLayerDefinition/Filter\");\n\n     \
+    \       if (objNodeList.Count > 0)\n            {\n                objNodeList.Item(0).InnerXml\
+    \ = strFilter;\n            }\n            else\n            {\n             \
+    \   XmlNode filterNode;\n                filterNode = doc.CreateElement(\"Filter\"\
+    );\n                filterNode.InnerText = strFilter;\n                doc.GetElementsByTagName(\"\
+    VectorLayerDefinition\")[0].AppendChild(filterNode);\n            }\n\n      \
+    \      MgByteSource byteSource = ByteSourceFromXMLDoc(doc);\n            string\
+    \ sessionLayerName = templateLayerId.GetName();\n            string sessionLayer\
+    \ = @\"Library://\" + sessionLayerName + \".LayerDefinition\";\n            MgResourceIdentifier\
+    \ sessionLayerResId = new MgResourceIdentifier(sessionLayer);\n\n            resSvc.SetResource(sessionLayerResId,byteSource.GetReader(),null);\n\
+    \n\n\n            return sessionLayer;\n        }\n\n\n\nDo you have any idea\
+    \ ?\nThanks a lot again ;)\n\ntom."
+- author: Daniel Du
+  email: ''
+  ip: 221.216.250.60
+  url: http://profile.typepad.com/daniel_du
+  date: '2013-09-11 17:23:59'
+  body: "Hi Tom,\n\nFor AutoCAD Map 3D, there is no concept of \"session layer\",\
+    \ so you cannot use code snippet like below: \n\nstring sessionLayerName = templateLayerId.GetName();\n\
+    string sessionLayer = @\"Library://\" + sessionLayerName + \".LayerDefinition\"\
+    ;\nMgResourceIdentifier sessionLayerResId = new MgResourceIdentifier(sessionLayer);\n\
+    \nresSvc.SetResource(sessionLayerResId,byteSource.GetReader(),null);\n\nYou have\
+    \ to change the layer definition of library resources.\n\nPS. blog is not a good\
+    \ place for technical support, if you have question, you are recommended to go\
+    \ to forums.autodesk.com or ADN if you are a member."
+- author: Anil Kumar K B
+  email: anilkb1105@gmail.com
+  ip: 183.83.59.62
+  url: ''
+  date: '2013-11-07 19:51:12'
+  body: 'Hi, Could you please help me on the query below.
+
+
+    For displaying the pole symbol over PGIS Browser Web Application i have configured
+    the pole layer in MapGuide Studio and when i am trying to set the query conditions
+    like POLE_CLASS =''NULL'' to display the pole symbol for the pole_class null its
+    not reflecting over Application.
+
+
+    But for other query conditions like POLE_CLASS in (''SB'', ''CB'',''SWR'') its
+    working fine.
+
+
+    Could you please help me on this.
+
+    -----'

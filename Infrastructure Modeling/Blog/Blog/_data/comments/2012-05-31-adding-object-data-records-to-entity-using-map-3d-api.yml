@@ -1,0 +1,35 @@
+comments:
+- author: Chuck
+  email: chuckwilbur@spatialnet.net
+  ip: 68.191.200.106
+  url: ''
+  date: '2012-07-10 11:47:49'
+  body: Where is the step where you get the odTables object? I don't see it Dimmed
+    or set anywhere in your sample.
+- author: Partha Sarkar
+  email: ''
+  ip: 115.112.233.72
+  url: http://profile.typepad.com/6p0168e7e4ef23970c
+  date: '2012-07-10 20:56:10'
+  body: "Here you go :\n\n  Dim db As Database = Application.DocumentManager.MdiActiveDocument.Database\
+    \        \n  Dim mapApp As MapApplication = Autodesk.Gis.Map.HostMapApplicationServices.Application\n\
+    \  Dim projModel As ProjectModel = mapApp.ActiveProject\n  Dim odTable As ObjectData.Table\n\
+    \  Dim odTables As ObjectData.Tables = projModel.ODTables\n  Dim id As ObjectId\n\
+    \n\nThanks for asking this,\n\nCheers,\nPartha"
+- author: Anton Huizinga
+  email: a.huizinga@gmail.com
+  ip: 82.95.108.202
+  url: ''
+  date: '2012-11-01 00:45:02'
+  body: Is it possible to expand the FieldDefinitions in an existing Table? If I use
+    the function myTable.FieldDefinitions.AddColumn(FieldDefinition.Create(...)) and
+    debug it, the code does not generate an exception, it seems to run well, but the
+    field does not exist in the table.
+- author: Partha Sarkar
+  email: ''
+  ip: 203.202.234.243
+  url: http://profile.typepad.com/6p0168e7e4ef23970c
+  date: '2012-11-01 08:03:32'
+  body: "Hi Anton,\n\nDid you try calling Tables:: UpdateTable -> Updates the object\
+    \ data table in the project and all its active attached drawings. \n\nDoes it\
+    \ help ?\n\nThanks,\nPartha\n-----"

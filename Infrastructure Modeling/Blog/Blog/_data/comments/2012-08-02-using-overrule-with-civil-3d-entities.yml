@@ -1,0 +1,35 @@
+comments:
+- author: Sergey Makarov
+  email: sergey_a_makarov@mail.ru
+  ip: 89.223.5.154
+  url: ''
+  date: '2012-12-28 01:06:15'
+  body: "Hello Augusto!\nI have a Large Problem with GripOverrule of Alignment - Fatal\
+    \ Error.\n\nWhen I start move the mouse after hover on a grip point which created\
+    \ by GripDataCollection.Add(myGripData) in GetGripPoints(Entity entity, GripDataCollection\
+    \ grips, ...) appears Fatal Error: Unhandled e0434353h Exception at fdbebccdh.\n\
+    \ \nI try Overrule GripPoints for Alignment. For FeatureLine it works.\nPossible,\
+    \ the reason is that Alignment is AlignmentEntityCollection and different approach\
+    \ is required.\n \nPlease help me to solve the problem.\n\npublic class GripVectorOverrule\
+    \ : GripOverrule\n{\n    static public GripVectorOverrule theOverrule =\n    \
+    \    new GripVectorOverrule();\n \n    public override void GetGripPoints(\n \
+    \       Entity entity, \n        GripDataCollection grips,\n        double curViewUnitSize,\n\
+    \        int gripSize,\n        Vector3d curViewDir,\n        GetGripPointsFlags\
+    \ bitFlags)\n    {\n        myGripData data = new myGripData();\n        data.GripPoint\
+    \ = newPoint3d(0.0, 0.0, 0.0);\n        grips.Add(data);\n    }\n}\n \npublic\
+    \ class myGripData  :  GripData\n{\n    public bool result;\n \n    public myGripData()\n\
+    \    {\n        result = false;\n        base.DrawAtDragImageGripPoint = true;\n\
+    \        base.RubberBandLineDisabled = true;\n    }\n\n    //try change AutoDelete\
+    \ to false\n    public new bool AutoDelete\n    {\n        get { return result;\
+    \ }\n    }\n}\n \n[CommandMethod(\"Test\")]\npublic void OverruleStart()\n{\n\
+    \    ObjectOverrule.AddOverrule(\n        RXClass.GetClass(typeof(Alignment)),\n\
+    \        GripVectorOverrule.theOverrule, true);\n}"
+- author: Augusto Goncalves
+  email: ''
+  ip: 200.57.88.172
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2013-01-30 03:34:18'
+  body: "Hi Makarov,\n\nAs we discussed on the forum, this is not supported due Civil3D\
+    \ way to implement its grips points. \n\n<a href=\"http://forums.autodesk.com/t5/AutoCAD-Civil-3D-Customization/Alignment-GripOverrule-Fatal-Error/td-p/3743082\"\
+    >http://forums.autodesk.com/t5/AutoCAD-Civil-3D-Customization/Alignment-GripOverrule-Fatal-Error/td-p/3743082</a>\n\
+    \nRegards,\nAugusto Goncalves\n-----"

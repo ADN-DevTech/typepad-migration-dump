@@ -1,0 +1,68 @@
+comments:
+- author: Mehdi
+  email: edh777@gmail.com
+  ip: 2.176.128.118
+  url: ''
+  date: '2014-10-05 13:21:45'
+  body: "Hi Augusto,\n\nI was wondering if you know anything about the unhandled exception\
+    \ in the following code:\n\nPromptEntityOptions prompt = new PromptEntityOptions(\"\
+    \\nSelect Base Line Region:\");\nprompt.SetRejectMessage(\"\\nObject must be a\
+    \ Base Line Region:\\n\");\nprompt.AddAllowedClass(typeof(BaselineRegion), true);\n\
+    \nThe last line throws the following exception:\n\nSystem.IndexOutOfRangeException\
+    \ was unhandled\n  HResult=-2146233080\n  Message=Index was outside the bounds\
+    \ of the array.\n  Source=Acdbmgd\n  StackTrace:\n       at Autodesk.AutoCAD.Runtime.RXObject.GetClass(Type\
+    \ type)\n       at Autodesk.AutoCAD.EditorInput.PromptEntityOptions.AddAllowedClass(Type\
+    \ type, Boolean exactMatch)\n  InnerException:"
+- author: Augusto Goncalves
+  email: ''
+  ip: 177.43.194.106
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2014-10-06 11:16:30'
+  body: 'Mehdi,
+
+
+    In fact this Prompt option will only work for Database resident entities... as
+    the BaselineRegion is not one of those, it will not work...
+
+
+    Note there is no ObjectId property, meaning is not a database entity...
+
+
+    Hope this clarifies.
+
+
+    Regards,
+
+    Augusto Goncalves
+
+
+    (Some comments are requiring a manual approval, so don''t worry, we''re receive
+    the notification)'
+- author: Jeremy
+  email: jeremywarren@ufl.edu
+  ip: 68.101.79.155
+  url: ''
+  date: '2015-07-15 21:01:33'
+  body: "Augusto,\n\nI also have a question about an Unhandled Exception.  I wrote\
+    \ a program that downloads GIS data.  The URL has the year in it, and this varies\
+    \ from file to file.  It runs through a loop using different years and calls the\
+    \ following function to check the URL before downloading:\n\n    Public Function\
+    \ CheckURL(ByVal URL As String) As Boolean\n\n        Try\n            Dim request\
+    \ As WebRequest = WebRequest.Create(URL)\n            Dim response As WebResponse\
+    \ = request.GetResponse()\n            response.Close()\n            request =\
+    \ Nothing\n            response = Nothing\n\n        Catch ex As Exception\n \
+    \           Return False\n        End Try\n\n        Return True\n\n    End Function\n\
+    \nWhen I compile a standalone executable, it runs perfect.  When I copy this into\
+    \ the Civil3d template and call the command after net-loading the .dll, it crashes\
+    \ at the \"GetResponse()\" line when the URL is not valid.  Why does it work in\
+    \ a standalone, but not in Civil3D?  I can't figure out why the 'try-catch-ex'\
+    \ doesn't catch this exception like it is supposed to.\n\nAny thoughts would be\
+    \ greatly appreaciated.  Thanks!"
+- author: Augusto Goncalves
+  email: ''
+  ip: 177.43.194.106
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2015-07-16 05:47:37'
+  body: "Jeremy, \n\nI would suggest check permissions and/or .NET version. As this\
+    \ question is not on this post, please create a new question at http://forums.autodesk.com/t5/autocad-civil-3d-customization/bd-p/190\
+    \ so we can discuss it.\n\nRegards,\nAugusto Goncalves\n-----"

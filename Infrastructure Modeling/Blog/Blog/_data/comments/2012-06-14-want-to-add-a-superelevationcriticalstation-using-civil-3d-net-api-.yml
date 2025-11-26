@@ -1,0 +1,153 @@
+comments:
+- author: joantopo
+  email: joantopo@hotmail.com
+  ip: 88.7.221.6
+  url: ''
+  date: '2013-09-28 07:50:32'
+  body: "Hi.\n\nI´m trying to do the same but SuperelevationCriticalStationType= BeginAlignment.\n\
+    \nBeginAlingment station=0\n\n// get the critical station at the station 0.000\n\
+    \      SuperelevationCriticalStation scs1000 = criteriaStationColl.GetCriticalStationAt(0,\
+    \ 0.01);\n      scs1000.SetSlope(SuperelevationCrossSegmentType.LeftOutLaneCrossSlope,\
+    \ -0.02);\n\nBut I Civil 3D doesn´t change slopes for BeginAlingment.\n\nIf I\
+    \ edit a superelevations *.csv file (for the first row-->beginalignment slopes)\
+    \ and then export again the file, I neither change slopes.\n\nHelp me, pleease."
+- author: Partha Sarkar
+  email: ''
+  ip: 59.92.205.254
+  url: http://profile.typepad.com/6p0168e7e4ef23970c
+  date: '2013-10-03 02:45:30'
+  body: "Hi joantopo,\n\nIt seems to be working fine for me. I checked in Civil 3D\
+    \ 2014 (Win 7, 64 bit) and I could set the Slope for BeginAlignment.\n\nCould\
+    \ you check the slope value before you try to set it ?\ndouble getSlopeValue =\
+    \ scsStartStn.GetSlope(SuperelevationCrossSegmentType.LeftOutLaneCrossSlope);\n\
+    \nFor me this worked fine - \n\nscsStartStn.SetSlope(SuperelevationCrossSegmentType.LeftOutLaneCrossSlope,\
+    \ -0.04);\n\nThanks,\nPartha Sarkar\nADN"
+- author: Martin
+  email: martin.folber@cadstudio.cz
+  ip: 194.228.205.74
+  url: http://www.cadstudio.cz
+  date: '2014-01-06 01:47:27'
+  body: 'Hi guys, we have very first snippet code, what we already tried… to set superelevation
+    values in editor table. The problem is, that Critical superelevation stations
+    and its values are somehow disordered. Can you help me, why?
+
+
+    CivilDocument doc = CivilApplication.ActiveDocument;
+
+
+    using (Transaction tr = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.TransactionManager.StartTransaction())
+
+    {
+
+    foreach (ObjectId aligmentID in doc.GetAlignmentIds())
+
+    {
+
+    Alignment al = aligmentID.GetObject(OpenMode.ForWrite) as Alignment;
+
+
+    SuperelevationCriticalStationCollection criteriaStationColl = al.SuperelevationCriticalStations;
+
+
+    al.SuperelevationCriticalStations.Add(10, Autodesk.Civil.SuperelevationCriticalStationType.EndNormalCrown);
+
+    SuperelevationCriticalStation st = criteriaStationColl.GetCriticalStationAt(10,
+    0.01);
+
+    st.SetSlope(Autodesk.Civil.SuperelevationCrossSegmentType.LeftOutLaneCrossSlope,
+    -0.025);
+
+    st.SetSlope(Autodesk.Civil.SuperelevationCrossSegmentType.RightOutLaneCrossSlope,
+    -0.025);
+
+
+    al.SuperelevationCriticalStations.Add(30, Autodesk.Civil.SuperelevationCriticalStationType.LevelCrown);
+
+    st = criteriaStationColl.GetCriticalStationAt(30, 0.01);
+
+    st.SetSlope(Autodesk.Civil.SuperelevationCrossSegmentType.LeftOutLaneCrossSlope,
+    0);
+
+    st.SetSlope(Autodesk.Civil.SuperelevationCrossSegmentType.RightOutLaneCrossSlope,
+    -0.025);
+
+
+    al.SuperelevationCriticalStations.Add(50, Autodesk.Civil.SuperelevationCriticalStationType.ReverseCrown);
+
+    st = criteriaStationColl.GetCriticalStationAt(50, 0.01);
+
+    st.SetSlope(Autodesk.Civil.SuperelevationCrossSegmentType.LeftOutLaneCrossSlope,
+    0.025);
+
+    st.SetSlope(Autodesk.Civil.SuperelevationCrossSegmentType.RightOutLaneCrossSlope,
+    -0.025);
+
+
+    al.SuperelevationCriticalStations.Add(70, Autodesk.Civil.SuperelevationCriticalStationType.BeginFullSuper);
+
+    st = criteriaStationColl.GetCriticalStationAt(70, 0.01);
+
+    st.SetSlope(Autodesk.Civil.SuperelevationCrossSegmentType.LeftOutLaneCrossSlope,
+    0.07);
+
+    st.SetSlope(Autodesk.Civil.SuperelevationCrossSegmentType.RightOutLaneCrossSlope,
+    -0.07);
+
+
+    al.SuperelevationCriticalStations.Add(110, Autodesk.Civil.SuperelevationCriticalStationType.EndFullSuper);
+
+    st = criteriaStationColl.GetCriticalStationAt(110, 0.01);
+
+    st.SetSlope(Autodesk.Civil.SuperelevationCrossSegmentType.LeftOutLaneCrossSlope,
+    0.07);
+
+    st.SetSlope(Autodesk.Civil.SuperelevationCrossSegmentType.RightOutLaneCrossSlope,
+    -0.05);
+
+
+    al.SuperelevationCriticalStations.Add(130, Autodesk.Civil.SuperelevationCriticalStationType.ReverseCrown);
+
+    st = criteriaStationColl.GetCriticalStationAt(130, 0.01);
+
+    st.SetSlope(Autodesk.Civil.SuperelevationCrossSegmentType.LeftOutLaneCrossSlope,
+    0.025);
+
+    st.SetSlope(Autodesk.Civil.SuperelevationCrossSegmentType.RightOutLaneCrossSlope,
+    -0.025);
+
+
+    al.SuperelevationCriticalStations.Add(150, Autodesk.Civil.SuperelevationCriticalStationType.LevelCrown);
+
+    st = criteriaStationColl.GetCriticalStationAt(150, 0.01);
+
+    st.SetSlope(Autodesk.Civil.SuperelevationCrossSegmentType.LeftOutLaneCrossSlope,
+    0);
+
+    st.SetSlope(Autodesk.Civil.SuperelevationCrossSegmentType.RightOutLaneCrossSlope,
+    -0.025);
+
+
+    al.SuperelevationCriticalStations.Add(170, Autodesk.Civil.SuperelevationCriticalStationType.BeginNormalCrown);
+
+    st = criteriaStationColl.GetCriticalStationAt(170, 0.01);
+
+    st.SetSlope(Autodesk.Civil.SuperelevationCrossSegmentType.LeftOutLaneCrossSlope,
+    -0.025);
+
+    st.SetSlope(Autodesk.Civil.SuperelevationCrossSegmentType.RightOutLaneCrossSlope,
+    -0.025);
+
+
+    }
+
+    tr.Commit();
+
+    }
+
+
+
+    Thanks
+
+    Martin
+
+    -----'
