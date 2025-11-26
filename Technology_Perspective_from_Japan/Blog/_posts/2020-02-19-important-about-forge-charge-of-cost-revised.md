@@ -1,0 +1,60 @@
+---
+layout: "post"
+title: "【重要】Forge サブスクリプション"
+date: "2020-02-19 00:08:34"
+author: "Toshiaki Isezaki"
+categories:
+  - "API カスタマイズ"
+  - "クラウドサービス"
+original_url: "https://adndevblog.typepad.com/technology_perspective/2020/02/important-about-forge-charge-of-cost-revised.html "
+typepad_basename: "important-about-forge-charge-of-cost-revised"
+typepad_status: "Publish"
+---
+
+<p><span style="background-color: #ffff00;">Autodesk Platform Services（旧 Autodesk Forge）の課金制度は、2022年11月7日に Autodesk Flex に移行しています。詳しくは、<strong><a href="https://adndevblog.typepad.com/technology_perspective/2022/11/flex-token-adoption-into-aps-on-11-7.html" rel="noopener" style="background-color: #ffff00;" target="_blank">11月7日 APS へ Flex トークンを導入</a></strong>&#0160;の記事をご確認ください。</span></p>
+<p><span style="text-decoration: line-through;">Forge トライアルが終了した開発者のみなさまには、逐次、Forge サブスクリプションのご契約（クラウド クレジットのご購入）を促す通知メールが送られます。もし、通知メールを受け取られた場合には、Forge サブスクリプションのご契約のご検討をお願いしたいします。</span></p>
+<ul>
+<li><span style="text-decoration: line-through;">ご注意： クラウド クレジットを Forge で利用するためには、Autodesk ID への Forge アカウント（別名&#0160;<strong>Forge コントラクト</strong>）の作成と関連付けの処理が必要になるため、初回購入時は、オートデスク側で内部的な処理が必要です（トライアル時には Forge アカウントが作成されていない状態）。</span></li>
+<li><span style="text-decoration: line-through;">Forge サブスクリプションをはじめてご契約いただくと、Forge コントラクトが作成されて、同時に 100 クラウドクレジットが付与されることになります。</span></li>
+</ul>
+<p><span style="text-decoration: line-through;">Forge トライアルが終了したアカウントで Forge サブスクリプションをご契約いただけない場合、または、Forge サブスクリプション終了時に契約を更新されない場合、同アカウント（Autodesk ID）で取得したデベロッパ キー（Client ID＆Client Secret）を利用する Forge アプリの API アクセスが遮断されることになります。ただし、API アクセスの遮断前には、Forge サブスクリプションの新規契約（購入）、あるいは、サブスクリプションの更新を促すメールが届くはずです。</span></p>
+<p><span style="text-decoration: line-through;"><strong>Forge サブスクリプション</strong></span></p>
+<p style="padding-left: 40px;"><span style="text-decoration: line-through;">初回のクラウド クレジットご購入は、Forge サブスクリプションのご契約とサブスクリプションの開始を意味します。Forge サブスクリプションは、一般のサブスクリプション契約のように、１年毎の更新のような仕組みをとることになります。Forge サブスクリプションの更新時には 、1 年間のサブスクリプション期間の延長とともに、100 クラウド クレジットが付与されます。</span></p>
+<p style="padding-left: 40px;"><span style="text-decoration: line-through;"><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b026bdeb01d19200c-pi" style="display: inline;"><img alt="Forge_subscription" border="0" class="asset  asset-image at-xid-6a0167607c2431970b026bdeb01d19200c image-full img-responsive" src="/assets/image_251533.jpg" title="Forge_subscription" /></a></span></p>
+<p style="padding-left: 40px;"><span style="text-decoration: line-through;"><span style="background-color: #ffff00;">Forge サブスクリプションには、一般のオートデスク製品のサブスクリプションのように、管理者と指名ユーザといった考え方はありません。このため、Autodesk ID に紐づけられる Forge サブスクリプションは 1 つのみです。逆に 1 つのアカウントで複数の Forge サブスクリプションを購入、紐づけることは出来ません。Forge 開発者が社内に複数存在するような場合には、共通で使用出来る Autodesk ID（共通アカウント）を作成して、Forge サブスクリプションをご購入いただくことをお勧めしています。Forge アプリ登録（Client ID と Client Secretの取得）は、1 つのアカウントで複数おこなうことが可能です。</span></span></p>
+<p><span style="text-decoration: line-through;"><strong>Forge サブスクリプションのご契約（購入）方法</strong></span></p>
+<p style="padding-left: 40px;"><span style="text-decoration: line-through;">現在、日本から Forge サブスクリプションをご契約いただく場合には、「<strong>オートデスク Forge チームへのコンタクトによるご契約</strong>」か「<strong>オートデスク ダイレクト セールスからのご契約</strong>」、または、「<strong>eStoreからのご契約</strong>」のいずれかを選択していただけます。</span></p>
+<p><span style="text-decoration: line-through;"><strong>オートデスク ダイレクト セールスからのご契約</strong></span></p>
+<p style="padding-left: 40px;"><span style="text-decoration: line-through;">「オートデスク ダイレクト セールスからのご契約」は、オートデスクの担当営業を把握されている一部企業に限定されてしまいますので、初めてのクラウド クレジットを購入される場合は、<strong>eStoreからのご契約</strong>&#0160;をお勧めしています。</span></p>
+<p style="padding-left: 40px;"><span style="text-decoration: line-through;">なお、オートデスクとの間で EBA（Enterprise Business Agreement）契約をお持ちで Token Flex（トークン フレックス）の仕組みを使ってオートデスク製品をお使いの場合、１トークン＝１クラウドクレジット換算で Forge をお使いいただくことが可能です。ただし、バックエンド システム上の調整が必要となりますので、オートデスクの担当営業の者にご相談ください。</span></p>
+<p><span style="text-decoration: line-through;"><strong>eStoreからのご契約</strong></span></p>
+<p style="padding-left: 40px;"><span style="text-decoration: line-through;">「eStoreからのご契約」は、先のブログ記事 <strong><a href="https://adndevblog.typepad.com/technology_perspective/2020/02/purchasing-cloud-credit-on-store-from-japan.html" rel="noopener" target="_blank">日本からの eStore での Forge サブスクリプション購入</a></strong> でご紹介しています。すでに Forge サブスクリプション契約されていて（Forge コントラクトに紐づいた Autodesk ID をお持ち）、追加のクラウドクレジット購入をご希望の場合には、後述の「<strong>追加のクラウドクレジットのご購入</strong>」をご覧ください。</span></p>
+<p><span style="text-decoration: line-through;"><strong>オートデスク Forge チームへのコンタクトによるご契約</strong></span></p>
+<p style="padding-left: 40px;"><span style="text-decoration: line-through;"><span style="background-color: #ffffff;">ここでは <a href="https://forge.autodesk.com/pricing" rel="noreferrer" style="background-color: #ffffff;"><strong>https://forge.autodesk.com/pricing</strong></a> からの「オートデスク Forge チームへのコンタクトによるご契約」についてご紹介しておきたいと</span>思います。この方法で利用いただくオンラインフォームへは、ページ上段の&#0160; [営業担当へのお問い合わせ]&#0160;&#0160;からアクセスすることが出来ます。</span></p>
+<p style="padding-left: 40px;"><span style="text-decoration: line-through;"><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b0263e94d37a4200b-pi" style="display: inline;"><img alt="Contact_sales" border="0" class="asset  asset-image at-xid-6a0167607c2431970b0263e94d37a4200b image-full img-responsive" src="/assets/image_42159.jpg" title="Contact_sales" /></a></span></p>
+<p style="padding-left: 40px;"><span style="text-decoration: line-through;">[営業担当へのお問い合わせ] とタイトルされたフォームが表示されたら、次の各項目にご記入ください。すべての項目を入力後には、フォーム下の&#0160;&#0160;[送信]&#0160;&#0160;ボタンでお申込みください。</span></p>
+<p style="padding-left: 40px;"><span style="text-decoration: line-through;"><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b0264e2df482c200d-pi" style="display: inline;"><img alt="Contact_form" border="0" class="asset  asset-image at-xid-6a0167607c2431970b0264e2df482c200d image-full img-responsive" src="/assets/image_920604.jpg" title="Contact_form" /></a></span></p>
+<p style="padding-left: 40px;"><span style="text-decoration: line-through;">フォームのご提出後には、上記データに基づいた見積書の発行（オートデスク）→ 見積書への同意署名（購入者）→ 署名済の見積書のスキャン データのオートデスクへに提出（購入者）→ 最後に注文書（PO、Purchase Order）をオートデスクへ発行（購入者）、の手順を経て、クラウド クレジットをご購入いただくこととなります。<a href="https://adndevblog.typepad.com/technology_perspective/2018/01/about-charging-to-forge.html" rel="noopener" target="_blank"></a></span></p>
+<p><span style="text-decoration: line-through;"><strong><a id="buy_addcc"></a>追加のクラウドクレジットのご購入</strong></span></p>
+<p style="padding-left: 40px;"><span style="text-decoration: line-through;">上記、「<strong>オートデスク Forge チームへのコンタクトによるご契約</strong>」か「<strong>オートデスク ダイレクト セールスからのご契約</strong>」、または、「<strong>eStoreからのご契約</strong>」のいずれかで、すでに Forge サブスクリプション契約されている場合（Forge コントラクトに紐づいた Autodesk ID をお持ちの場合）、オンラインで Forge サブスクリプションの間有効な追加のクラウドクレジットをご購入いただくことが出来ます。手順は次のとおりです。なお、Forge コントラクトをお持ちの場合には、追加のクラウドクレジットをオートデスク認定リセラーからご購入いただくことも出来ます。</span></p>
+<p style="padding-left: 40px;"><span style="text-decoration: line-through;"><span style="background-color: #ffff00;">Autodesk Flex への移行に伴い、2022年3月29日から eStore を使ったクラウドクレジットの販売を一時的に中止しています。29日以降の購入方法については、<a href="https://adndevblog.typepad.com/technology_perspective/2022/03/purchasing-forge-subs-and-cloud-credit-after-29-3.html" rel="noopener" target="_blank"><strong>3月29日以降の Forge サブスクリプションとクラウドクレジット購入</strong></a> の記事をご参照ください。</span></span></p>
+<ol>
+<li><span style="text-decoration: line-through;">当該 Autodesk ID で <strong>Autodesk Accounts ページ</strong>（<strong><a href="https://accounts.autodesk.com/" rel="noopener" target="_blank">https://accounts.autodesk.com/</a></strong>）にサインイン後、ページ上部の「製品とダウンロードを管理」をクリックしてください。</span><br /><span style="text-decoration: line-through;"><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b026be408ae34200d-pi" style="display: inline;"><img alt="Autodesk_accounts" border="0" class="asset  asset-image at-xid-6a0167607c2431970b026be408ae34200d image-full img-responsive" src="/assets/image_547784.jpg" title="Autodesk_accounts" /></a></span></li>
+<li><span style="text-decoration: line-through;">アカウント（Autodesk ID）に Forge コントラクトが紐づいていると、遷移した「製品とダウンロードを管理」ページの「すべての製品とサービス」の中に「Forge」が記載されているはずです。</span><br /><span style="text-decoration: line-through;"><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b026be408ae73200d-pi" style="display: inline;"><img alt="Manage_products" border="0" class="asset  asset-image at-xid-6a0167607c2431970b026be408ae73200d image-full img-responsive" src="/assets/image_790539.jpg" title="Manage_products" /></a></span></li>
+<li><span style="text-decoration: line-through;">同じページの「クラウド サービスの使用状況」をクリックすると、ページが遷移して、[クラウド クレジットを取得] ボタンが現れます。</span><br /><span style="text-decoration: line-through;"><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b026be408af10200d-pi" style="display: inline;"><img alt="Purchase_additional_cc" border="0" class="asset  asset-image at-xid-6a0167607c2431970b026be408af10200d image-full img-responsive" src="/assets/image_162808.jpg" title="Purchase_additional_cc" /></a></span></li>
+<li><span style="text-decoration: line-through;">[クラウド クレジットを取得] ボタンをクリックすると、<span style="background-color: #ffff00;">クラウドクレジット 100 パック単位</span>で追加購入するための eStore ページが表示されます。追加のパック数を入力の上、チェックアウトして画面の指示に従い、購入プロセスを進めてください。<a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b026bde89ecaf200c-pi" style="display: inline;"><img alt="Estore" border="0" class="asset  asset-image at-xid-6a0167607c2431970b026bde89ecaf200c image-full img-responsive" src="/assets/image_773369.jpg" title="Estore" /></a></span></li>
+</ol>
+<p><span style="text-decoration: line-through;"><strong><a id="ccpack"></a>クラウドクレジット パック</strong></span></p>
+<p style="padding-left: 40px;"><span style="text-decoration: line-through;">100 クラウドクレジット単位ではなく、より多くのクラウドクレジットを追加購入、あるいは、Forge サブスクリプション更新時に同時購入をご希望の場合には、ボリューム ディスカウントが適用されるクラウドクレジット パックをご検討いただくことが出来ます。</span></p>
+<p style="padding-left: 40px;"><span style="text-decoration: line-through;">100 クラウドクレジット パック以上のご購入は、上記、「<strong>オートデスク Forge チームへのコンタクトによるご契約</strong>」と同じ手順をとって、Web フォームからお問い合わせください。</span></p>
+<p style="padding-left: 40px;"><span style="text-decoration: line-through;"><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b02942fa15c48200c-pi" style="display: inline;"><img alt="New_cc_packs" border="0" class="asset  asset-image at-xid-6a0167607c2431970b02942fa15c48200c image-full img-responsive" src="/assets/image_875365.jpg" title="New_cc_packs" /></a></span></p>
+<p style="padding-left: 40px;"><span style="text-decoration: line-through;"><span style="background-color: #ffff00;">ご購入いただくクラウドクレジットは、ご購入から 1 年間の有効期限があります。Forge サブスクリプション期間中に追加購入いただいたクラウドクレジットは、Forge サブスクリプションを更新した場合に限り、ご購入から 1 年間の有効期限が維持されます。Forge サブスクリプションを更新されない場合、また、Forge サブスクリプションを更新した場合でも 、購入から 1 年間経過した段階で無効となりますので、過剰な数のクラウドクレジットのご購入はお控えください。</span></span></p>
+<p><strong>その他留意点</strong></p>
+<p style="padding-left: 40px;">Forge を利用したアプリ/サービスを受託開発される場合には、運用時の課金も意識していただく必要があります。次のブログ記事をご一読ください。</p>
+<div>
+<p dir="auto" style="padding-left: 80px;"><a href="https://adndevblog.typepad.com/technology_perspective/2018/06/development-business-using-forge-and-charging-const.html" rel="noopener" target="_blank"><strong>Forge を使った開発ビジネスと課金について</strong></a></p>
+<p dir="auto" style="padding-left: 40px;">また、Forge Platform API のどの API に、どのようにクラウド クレジット消費が実施されるかについては、次のブログ記事をご確認ください。</p>
+<p dir="auto" style="padding-left: 80px;"><a href="https://adndevblog.typepad.com/technology_perspective/2018/01/about-charging-to-forge.html" rel="noopener" target="_blank"><strong>Forge 課金について</strong></a></p>
+</div>
+<p style="padding-left: 40px;"><span style="background-color: #ffffff;">なお、課金対象になっていない Viewer のみをお使いの場合でも、継続した API アクセスを維持していただくために、Forge サブスクリプションのご購入は必要となりますのでご注意ください。BIM 360、Fuson Team をサブスクリプションでお使いの方は、OAuth API、Data Management API、WebHooks API、BIM 360 API を同サブスクリプションの範囲で無償でお使いいただくことが出来ます（BIM 360、Fuson Team サブスクライバご自身のアカウントで Forge をお使いいただく場合）。</span></p>
+<p>By Toshiaki Isezaki</p>

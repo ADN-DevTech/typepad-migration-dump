@@ -1,0 +1,47 @@
+---
+layout: "post"
+title: "APS チュートリアル：ACC Admin"
+date: "2024-09-04 00:42:30"
+author: "Toshiaki Isezaki"
+categories:
+  - "API カスタマイズ"
+  - "クラウドサービス"
+original_url: "https://adndevblog.typepad.com/technology_perspective/2024/09/aps-tutorial-acc-admin.html "
+typepad_basename: "aps-tutorial-acc-admin"
+typepad_status: "Publish"
+---
+
+<p>APS 学習サイト、Learn APS Tutorials（<a href="https://tutorials.autodesk.io/" rel="noopener" target="_blank">https://tutorials.autodesk.io/</a>）に <a href="https://adndevblog.typepad.com/technology_perspective/2023/11/acc-project-admin-api-project-creation-and-user-management.html" rel="noopener" target="_blank">ACC Project Admin API: プロジェクト作成とユーザー管理</a> でご紹介した ACC Administrator（Autodesk Construction Cloud Admin API）をカバーするコンテンツが加わっていますので、GitHub リポジトリ-&#0160; <a href="https://github.com/autodesk-platform-services/aps-acc-admin-tutorial-nodejs" rel="noopener" target="_blank">GitHub - autodesk-platform-services/aps-acc-admin-tutorial-nodejs</a>（<a href="https://github.com/autodesk-platform-services/aps-acc-admin-tutorial-nodejs" rel="noopener" target="_blank">https://github.com/autodesk-platform-services/aps-acc-admin-tutorial-nodejs</a>）をローカル環境（Windows）にクローンして実行する手順を記しておきたいと思います。</p>
+<ul>
+<li>ACC Administrator サンプルは、現在、Node.js 版のみの提供になています。</li>
+<li>このサンプルは、<a href="https://adndevblog.typepad.com/technology_perspective/2024/06/migrating-to-the-new-aps-nodejs-sdk.html" rel="noopener" target="_blank">新しい APS Node.js SDK への移行</a> でご紹介した APS Node.js SDK を利用しています。</li>
+</ul>
+<hr />
+<p><strong>事前準備：</strong></p>
+<ol>
+<li>事前に <strong><a href="https://adndevblog.typepad.com/technology_perspective/2016/07/app-registration-and-getting-keys-for-forge-api.html" rel="noopener" target="_blank">APS API を利用するアプリの登録とキーの取得</a></strong> の手順でアプリを登録してください。アプリは 3-legged 認証を使用するので、Callback URL に&#0160;<strong>http://localhost:8080/api/auth/callback</strong> で設定してください。</li>
+<li>登録したアプリが Autodesk Construction Cloud に出来るよう、アプリにアクセスさせたい Autodesk Construction Cloud の Account Admin の方が、<strong><a href="https://adndevblog.typepad.com/technology_perspective/2024/02/acc-new-custom-integration-ui.html" rel="noopener" target="_blank">ACC：新しいカスタム統合 UI </a>&#0160;</strong>でご紹介している「カスタム統合」の手順で、アプリの Client ID を登録しておく必要があります。</li>
+</ol>
+<hr />
+<p><strong>実行手順：</strong></p>
+<ol>
+<li>Web ブラウザで GitHub 上の <strong> <a href="https://github.com/autodesk-platform-services/aps-acc-admin-tutorial-nodejs" rel="noopener" target="_blank">aps-acc-admin-tutorial-nodejs</a> &#0160;</strong>リポジトリ ページを開きます。</li>
+<li>画面右側の [Code] ボタンをクリックして、クローン元のリポジトリ URL<strong> https://github.com/autodesk-platform-services/aps-acc-admin-tutorial-nodejs.git</strong>&#0160;を<a href="https://ja.wikipedia.org/wiki/%E3%82%AF%E3%83%AA%E3%83%83%E3%83%97%E3%83%9C%E3%83%BC%E3%83%89" rel="noopener noreferrer" target="_blank">クリップボード</a>にコピーしておきます。<br /><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b02c8d3be482d200b-pi" style="display: inline;"><img alt="Repogitry" border="0" class="asset  asset-image at-xid-6a0167607c2431970b02c8d3be482d200b image-full img-responsive" src="/assets/image_437962.jpg" title="Repogitry" /></a><br /><br /></li>
+<li>リポジトリの内容をクライアント コンピュータにクローン（コピー）します。コマンド プロンプトを起動して、リポジトリ内容をコピーしたいフォルダ（ディレクトリ）に CD コマンドで移動し、<strong>git clone&#0160; https://github.com/autodesk-platform-services/aps-acc-admin-tutorial-nodejs.git</strong>（クリップボード内の URL）と入力します。 <strong>aps-acc-admin-tutorial</strong> フォルダが作成されて、GitHub リポジトリからソースコードがクローンされます。<br /><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b02c8d3be4846200b-pi" style="display: inline;"><img alt="Clone" border="0" class="asset  asset-image at-xid-6a0167607c2431970b02c8d3be4846200b image-full img-responsive" src="/assets/image_750829.jpg" title="Clone" /></a></li>
+<li>クローンされたプロジェクトに Node.js の実行で必要となるパッケージ（ミドルウェア）をインストールします。CD コマンドで現在のフォルダを <strong>aps-acc-admin-tutorial</strong> フォルダへ移動してから、<strong>npm install</strong>&#0160;と入力します。<br /><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b02c8d3baafc1200c-pi" style="display: inline;"><img alt="Npm_install" border="0" class="asset  asset-image at-xid-6a0167607c2431970b02c8d3baafc1200c image-full img-responsive" src="/assets/image_602701.jpg" title="Npm_install" /></a></li>
+<li>このサンプルは実行時にシステム環境変数から Client ID と Client Secret、コールバック URL を取得するので、先にコマンド プロンプトでそれらを指定します。作成したアプリは、システム環境変数、<strong>APS_CLIENT_ID</strong>（使用する Client ID）、<strong>APS_CLIENT_SECRET</strong>（使用する Client Secret）、<strong>APS_CALLBACK_URL</strong>（3-legged OAuth で使用するコールバック URL）、<strong>SERVER_SESSION_SECRET</strong>（サーバー セッションクッキーの暗号化/復号化で使用する任意のフレーズ）を取得、利用します。メモ帳などのテキスト エディタとクリップボードを交互に利用して（コピー＆ペースト）、SET コマンドを実行してください。<br /><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b02c8d3be486a200b-pi" style="display: inline;"><img alt="Set_environment_variable" border="0" class="asset  asset-image at-xid-6a0167607c2431970b02c8d3be486a200b image-full img-responsive" src="/assets/image_815966.jpg" title="Set_environment_variable" /></a><br />
+<pre><code>set APS_CLIENT_ID=&lt;&lt;YOUR CLIENT ID&gt;&gt;
+set APS_CLIENT_SECRET=&lt;&lt;YOUR CLIENT SECRET&gt;&gt;
+set APS_CALLBACK_URL=http://localhost:8080/api/auth/callback
+set SERVER_SESSION_SECRET=&lt;&lt;セッションクッキーの暗号化/復号化に使用される任意の文字列&gt;&gt;</code></pre>
+</li>
+<li>ここまでの手順で実行の準備は完了です。カレント フォルダが&#0160;<strong>aps-acc-admin-tutorial</strong><strong>&#0160;</strong>フォルダであることを確認したら、<strong>npm start</strong>&#0160;と入力して Node.js サーバーを起動します。<br /><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b02c8d3baafff200c-pi" style="display: inline;"><img alt="Npm_start" border="0" class="asset  asset-image at-xid-6a0167607c2431970b02c8d3baafff200c image-full img-responsive" src="/assets/image_681584.jpg" title="Npm_start" /></a></li>
+<li>Web ブラウザを起動して、URL 欄に&#0160;<strong>localhost:8080</strong>&#0160;と入力すると、ページが表示されるはずです。3-legged OAuth を使ってオートデスク クラウドストレージにアクセスするためのアクセストークンを取得します。ページ右上の [Login] ボタンをクリックしてください。<br /><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b02c8d3bab011200c-pi" style="display: inline;"><img alt="Initial_page" border="0" class="asset  asset-image at-xid-6a0167607c2431970b02c8d3bab011200c image-full img-responsive" src="/assets/image_153980.jpg" title="Initial_page" /></a></li>
+<li>Autodesk ID（オートデスク アカウント）の入力を求める画面が表示されます。Autodesk Construction Cloud にアクセス可能なアカウント ユーザ名を入力して [次へ] ボタンをクリックします。&#0160;<br /><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b02c8d3bab023200c-pi" style="display: inline;"><img alt="Sigmin" border="0" class="asset  asset-image at-xid-6a0167607c2431970b02c8d3bab023200c image-full img-responsive" src="/assets/image_637542.jpg" title="Sigmin" /></a></li>
+<li>アカウントのパスワードを入力して [サインイン] ボタンをクリックします。<br /><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b02c8d3be48e2200b-pi" style="display: inline;"><img alt="Password" border="0" class="asset  asset-image at-xid-6a0167607c2431970b02c8d3be48e2200b image-full img-responsive" src="/assets/image_875355.jpg" title="Password" /></a></li>
+<li>このアプリが、サインインしたアカウントがアクセス許可を持つ Autodesk Construction Cloud リソースにアクセスを許可（認可）するか確認を求められます。[許可] ボタンをクリックしてください。<br /><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b02c8d3bab035200c-pi" style="display: inline;"><img alt="Authorize" border="0" class="asset  asset-image at-xid-6a0167607c2431970b02c8d3bab035200c image-full img-responsive" src="/assets/image_266345.jpg" title="Authorize" /></a></li>
+<li>サインインが完了すると（3-legged 認証でアクセス トークンが取得出来ると）、左手に アカウントがアクセス出来る Autodesk Construction Cloud の Hub と、同じくアクセス出来る Hub 配下の Project が表示されます。Hub をクリックすると、右手の [PROJECTS] タブに Hub 配下のプロジェクト情報を表示します。<br /><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b02dad0ce7f08200d-pi" style="display: inline;"><img alt="Hub_info" border="0" class="asset  asset-image at-xid-6a0167607c2431970b02dad0ce7f08200d image-full img-responsive" src="/assets/image_339225.jpg" title="Hub_info" /></a><br />同様に、Project をクリックすると、[PROJECT] タブにクリックしたプロジェクトの情報を表示します。<br /><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b02c8d3be495b200b-pi" style="display: inline;"><img alt="Project_info" border="0" class="asset  asset-image at-xid-6a0167607c2431970b02c8d3be495b200b image-full img-responsive" src="/assets/image_850491.jpg" title="Project_info" /></a><br />[USERS] タブにクリックしたプロジェクトのユーザー情報を表示します。<br /><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b02dad0ce7f50200d-pi" style="display: inline;"><img alt="User_info" border="0" class="asset  asset-image at-xid-6a0167607c2431970b02dad0ce7f50200d image-full img-responsive" src="/assets/image_180688.jpg" title="User_info" /></a><br />ページ右上には、表示しているページ内容によって、左からプロジェクト/ユーザー検索、ページ更新、プロジェクト/ ユーザー情報書き出し、プロジェクト/ ユーザー情報読み込みの機能コントロールが配置されます。<br /><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b02c8d3bab29b200c-pi" style="display: inline;"><img alt="Helper_functions" border="0" class="asset  asset-image at-xid-6a0167607c2431970b02c8d3bab29b200c img-responsive" src="/assets/image_744254.jpg" title="Helper_functions" /></a></li>
+</ol>
+<p style="padding-left: 40px;">サインインしたアカウントがアクセス可能な Autodesk Construction Cloud Hub と配下のプロジェクトでも、「カスタム統合」処理をしていない 場合には、左手のツリーには表示されせん。</p>
+<hr />
+<p>By Toshiaki Isezaki</p>

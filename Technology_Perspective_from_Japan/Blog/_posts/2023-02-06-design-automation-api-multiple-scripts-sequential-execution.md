@@ -1,0 +1,24 @@
+---
+layout: "post"
+title: "Design Automation API：複数のスクリプトの連続実行"
+date: "2023-02-06 00:18:44"
+author: "Toshiaki Isezaki"
+categories:
+  - "API カスタマイズ"
+  - "クラウドサービス"
+original_url: "https://adndevblog.typepad.com/technology_perspective/2023/02/design-automation-api-multiple-scripts-sequential-execution.html "
+typepad_basename: "design-automation-api-multiple-scripts-sequential-execution"
+typepad_status: "Publish"
+---
+
+<p>1 つの WorkItem の中で別々のスクリプトを連続して使用したい場合があります。</p>
+<p>例えば、Design Automation API for AutoCAD の <a href="https://knowledge.autodesk.com/ja/support/autocad-lt/learn-explore/caas/CloudHelp/cloudhelp/2019/JPN/AutoCAD-LT/files/GUID-86C80CA1-F237-4AE6-8A43-2E9CA06A03A8-htm.html" rel="noopener" target="_blank">EXPORTTOAUTOCAD</a> コマンドを使って、図面内の AEC オブジェクトを AutoCAD で扱える図面ファイルを出力させて、その後、出力されたファイルに対してカスタム コマンドで処理を加えるような場合です。EXPORTTOAUTOCAD コマンドは、処理結果を外部の図面ファイルに出力することしか出来ないため、Activity を個々に設定してしまうと、2 つの WorkItem 実行が必要になってしまいます。</p>
+<p><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b02b68524f790200b-pi" style="display: inline;"><img alt="2workitems" border="0" class="asset  asset-image at-xid-6a0167607c2431970b02b68524f790200b image-full img-responsive" src="/assets/image_874281.jpg" title="2workitems" /></a></p>
+<p>この方法だと、WorkItem の実行毎に作成される仮想環境から見て、ストレージからの素材ファイルのダウンロードと、ストレージへの成果ファイルのスアップロードが合計 2 回発生してしまいます。図面が意図する内容は同じなので、冗長な印象が否めません。</p>
+<p>ここで、Design Automation で Activity 登録で、commandLine 属性で指定する値が JSON の配列表現（&quot;[&quot; ～ &quot;]&quot;）になっている点に注意してみてください。</p>
+<p>つまり、EXPORTTOAUTOCAD コマンドを最初のスクリプト ”Script1” で、カスタム コマンドを起動するスクリプトを ”Script2” として、1 の Activity で指定することが可能です。 Script2 で Script1 で出力したファイルを開くよう指定すれば、結果、１つの WorkItem で連続した処理を実現することが出来ます。</p>
+<p><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b02b685266ebb200d-pi" style="display: inline;"><img alt="1workitem2scripts" border="0" class="asset  asset-image at-xid-6a0167607c2431970b02b685266ebb200d image-full img-responsive" src="/assets/image_919100.jpg" title="1workitem2scripts" /></a></p>
+<p>この例の Activity ペイロードは次のようになります。 Script1 で temp.dwg を出力し、Script2 が同 temp.dwg を開いていることがわかります。</p>
+<pre><code>  // Create Activity<br />  var payload =<br />  {<br />   &quot;id&quot;: DA4A_UQ_ID,<br />   &quot;commandLine&quot;: [<br /><span style="color: #ff0000;">&#39;$(engine.path)\\accoreconsole.exe /i &quot;$(args[DWGInput].path)&quot; /s &quot;$(settings[<strong>script1</strong>].path)&quot; /recover&#39;<span style="color: #111111;">,</span></span><br /><span style="color: #0000ff;">&#39;$(engine.path)\\accoreconsole.exe /i &quot;temp.dwg&quot; /al &quot;$(appbundles[TestHarness].path)&quot; /s &quot;$(settings[<strong>script2</strong>].path)&quot; /recover&#39;<br /></span>                  ],<br />   &quot;parameters&quot;: {<br />    &quot;DWGInput&quot;: {<br />     &quot;zip&quot;: false,<br />     &quot;ondemand&quot;: false,<br />     &quot;verb&quot;: &quot;get&quot;,<br />     &quot;description&quot;: &quot;Source drawing&quot;,<br />     &quot;required&quot;: true<br />    },<br />    &quot;Params&quot;: {<br />     &quot;zip&quot;: false,<br />     &quot;ondemand&quot;: false,<br />     &quot;verb&quot;: &quot;get&quot;,<br />     &quot;description&quot;: &quot;Input parameters to specify behavior&quot;,<br />     &quot;required&quot;: true,<br />     &quot;localName&quot;: &quot;params.json&quot;<br />    },<br />    &quot;DWGOutput&quot;: {<br />     &quot;zip&quot;: false,<br />     &quot;ondemand&quot;: false,<br />     &quot;verb&quot;: &quot;put&quot;,<br />     &quot;description&quot;: &quot;Output DWG drawing&quot;,<br />     &quot;required&quot;: false,<br />     &quot;localName&quot;: &quot;temp.dwg&quot;<br />    }<br />   },<br />   &quot;settings&quot;: {<br /><span style="color: #ff0000;">    &quot;<strong>script1</strong>&quot;: {</span><br /><span style="color: #ff0000;">     &quot;value&quot;: &quot;-EXPORTTOAUTOCAD\n\ntemp.dwg\n&quot;</span><br /><span style="color: #ff0000;">    }</span>,<br /><span style="color: #0000ff;">    &quot;<strong>script2</strong>&quot;: {</span><br /><span style="color: #0000ff;">     &quot;value&quot;: &quot;MyCommand\n&quot;</span><br /><span style="color: #0000ff;">    }</span><br />   },<br />   &quot;engine&quot;: DA4A_ENGINE,<br />   &quot;appbundles&quot;: [DA4A_FQ_ID],<br />   &quot;description&quot;: &quot;DA4A Test harness&quot;<br />  };</code></pre>
+<p>この方法だと、WorkItem 起動時に作成された仮想環境内で、作業フォルダ内で成果ファイルに再利用が出来るので、ストレージからの素材ファイルのダウンロードと成果ファイルのアップロードが 1 度だけで済むことになります。<a href="https://adndevblog.typepad.com/technology_perspective/2020/02/estimate-design-automation-costs.html" rel="noopener" target="_blank">Design Automation API の課金とコスト算出について</a>&#0160;のとおり、Design Automation API の課金計測には、このダウンロード/アップロードの時間も含まれるので、パフォーマンスだけでなく、コスト面でも有利なはずです。</p>
+<p>By Toshiaki Isezaki</p>

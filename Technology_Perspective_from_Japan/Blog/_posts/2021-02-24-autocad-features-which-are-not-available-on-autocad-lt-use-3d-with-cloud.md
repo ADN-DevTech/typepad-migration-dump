@@ -1,0 +1,39 @@
+---
+layout: "post"
+title: "AutoCAD LT にない AutoCAD 機能：クラウドによる 3D の活用"
+date: "2021-02-24 00:05:54"
+author: "Toshiaki Isezaki"
+categories:
+  - "クラウドサービス"
+  - "デスクトップ製品"
+original_url: "https://adndevblog.typepad.com/technology_perspective/2021/02/autocad-features-which-are-not-available-on-autocad-lt-use-3d-with-cloud.html "
+typepad_basename: "autocad-features-which-are-not-available-on-autocad-lt-use-3d-with-cloud"
+typepad_status: "Publish"
+---
+
+<p>前回、<a href="https://adndevblog.typepad.com/technology_perspective/2021/02/autocad-features-which-are-not-available-on-autocad-lt-3d.html" rel="noopener" target="_blank"><strong>AutoCAD LT にない AutoCAD 機能：3D</strong></a> のブログ記事では、AutoCAD が持つ 3D 機能の概要をご案内しました。</p>
+<p><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b026bdebeef97200c-pi" style="display: inline;"><img alt="Shadingedge_displaystyle" border="0" class="asset  asset-image at-xid-6a0167607c2431970b026bdebeef97200c image-full img-responsive" src="/assets/image_849389.jpg" title="Shadingedge_displaystyle" /></a></p>
+<p>AutoCAD でモデリングしたりインポートしたりした 3D 形状は、フォトリアルなレンダリング画像を作成したり、アニメーション動画を作成することが出来ます。ただ、それらを作成するための演算処理中は、お使いのコンピュータ リソースがほぼレンダリング処理に割り当てられてしまい、短くない時間、同じコンピュータでストレスなく他の作業をおこなうことが難しくなりがちです。</p>
+<p><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b026bdebeefa0200c-pi" style="display: inline;"><img alt="Viewport_rendering_midium" border="0" class="asset  asset-image at-xid-6a0167607c2431970b026bdebeefa0200c image-full img-responsive" src="/assets/image_256079.jpg" title="Viewport_rendering_midium" /></a></p>
+<p>そんな時に使えるのが<strong>クラウド レンダリング</strong>の機能です。[3D モデリング] ワークスペースか [3D 基本] ワークスペースで表示される [ビジュアライズ] リボンタブの [レンダリング] パネルに起動ボタンが表示されます。</p>
+<p><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b026bdebef1b7200c-pi" style="display: inline;"><img alt="Cloud_remdering" border="0" class="asset  asset-image at-xid-6a0167607c2431970b026bdebef1b7200c image-full img-responsive" src="/assets/image_287142.jpg" title="Cloud_remdering" /></a></p>
+<p><strong><a href="https://rendering-beta.360.autodesk.com/new" rel="noopener" target="_blank">クラウド レンダリング</a></strong>は演算にクラウド リソースを利用するので、演算処理中もお使いのコンピュータ リソースは使用されず、ストレスなく他の作業をおこなうことが可能になります。クラウド レンダリングには、演算する内容によって、<strong>クラウド クレジット</strong>（1 クラウド クレジット＝税抜き 160 円）が消費されます。サブスクリプション契約があれば利用することが出来ますので、契約管理者の方に確認してみてください。</p>
+<p>クラウド レンダリングには、単に静止イメージを生成するだけではなく、AutoCAD 本体にはない、さまざまな機能が用意されています。ここでは、簡単にそれら機能をご紹介しておきたいと思います。</p>
+<p><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b026bdebef453200c-pi" style="display: inline;"><img alt="Rendering_kind" border="0" class="asset  asset-image at-xid-6a0167607c2431970b026bdebef453200c image-full img-responsive" src="/assets/image_726862.jpg" title="Rendering_kind" /></a></p>
+<p>「<a href="http://docs.autodesk.com/ADSK360/help/JPN/rendering/index.html?url=files/GUID-387E4CB4-CD53-48C9-BB1A-E7A243CF4383.htm,topicNumber=d30e100#!/url=./files/GUID-580C238E-BA22-4763-9F2F-25A3B61B67D5.htm" rel="noopener" target="_blank"><strong>ターンテーブル</strong></a>」では、対象モデルを 360 度回転させて俯瞰するアニメーション動画、または、インタラクティブな HTML を、最大 36 コマで生成、ダウンロードすることが出来ます。</p>
+<p><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b0263e9919f74200b-pi" style="display: inline;"><img alt="Turn_table" border="0" class="asset  asset-image at-xid-6a0167607c2431970b0263e9919f74200b image-full img-responsive" src="/assets/image_955350.jpg" title="Turn_table" /></a></p>
+<p>「<a href="http://docs.autodesk.com/ADSK360/help/JPN/rendering/index.html?url=files/GUID-387E4CB4-CD53-48C9-BB1A-E7A243CF4383.htm,topicNumber=d30e100#!/url=./files/GUID-6EDA722B-5A71-4F12-8B8A-77E97D01BE8D.htm" rel="noopener" target="_blank"><strong>照度</strong></a>」では、指定した単位、範囲で照度をヒートマック表示する静止イメージを生成、ダウンロードすることが出来ます。</p>
+<p><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b0263e9919df5200b-pi" style="display: inline;"><img alt="AUTODESK_2021.DWG_2021-Feb-21_06-30-46AM-000_Reception_jpg" border="0" class="asset  asset-image at-xid-6a0167607c2431970b0263e9919df5200b image-full img-responsive" src="/assets/image_140811.jpg" title="AUTODESK_2021.DWG_2021-Feb-21_06-30-46AM-000_Reception_jpg" /></a></p>
+<p>「<a href="http://docs.autodesk.com/ADSK360/help/JPN/rendering/index.html?url=files/GUID-387E4CB4-CD53-48C9-BB1A-E7A243CF4383.htm,topicNumber=d30e100#!/url=./files/GUID-8E32DA3D-7719-4528-8243-A4905CADF851.htm" rel="noopener" target="_blank"><strong>日照シミュレーション</strong></a>」では、最小 15 分間隔で指定した時間内の日照（太陽光と影）の状態を動画にすることが可能です。</p>
+<p style="text-align: left;"><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b0263e99162cd200b-pi" style="display: inline;"><img alt="LRT.dwg_2021-Feb-20_03-38-43AM-000__mp4" border="0" class="asset  asset-image at-xid-6a0167607c2431970b0263e99162cd200b image-full img-responsive" src="/assets/image_605135.jpg" title="LRT.dwg_2021-Feb-20_03-38-43AM-000__mp4" /></a></p>
+<p>「<a href="http://docs.autodesk.com/ADSK360/help/JPN/rendering/index.html?url=files/GUID-387E4CB4-CD53-48C9-BB1A-E7A243CF4383.htm,topicNumber=d30e100#!/url=./files/GUID-1FC8312E-8F5A-4317-A321-4A84AEC17983.htm" rel="noopener" target="_blank"><strong>パノラマ</strong></a>」では、Web ブラウザ上のマウスカーソルの動きに合わせて周囲を俯瞰できる状態を生成、表示します。この画面には共有可能な URL、または、QA コードを生成してくれるので、他のユーザが持つコンピュータやスマートフォン、タブレットでも閲覧が可能になります。</p>
+<p><iframe height="440" src="https://pano.autodesk.com/pano.html?mono=jpgs/e35227e2-4249-408d-93c8-ea1ccb47db02&amp;version=2" width="700"></iframe></p>
+<p>そして「<a href="http://docs.autodesk.com/ADSK360/help/JPN/rendering/index.html?url=files/GUID-387E4CB4-CD53-48C9-BB1A-E7A243CF4383.htm,topicNumber=d30e100#!/url=./files/GUID-04ABDDCA-4F5D-4EB7-B360-2A164C221A68.htm" rel="noopener" target="_blank"><strong>ステレオ パノラマ</strong></a>」では、簡易的な VR（バーチャル リアリティ）表示を提供します。スマートフォンで横向きに表示させれば、ジャイロセンサーによってスマートフォンの上下左右の動きに追従しながら、左右の視差を使った画面を表示させることが出来ます。<a href="https://arvr.google.com/intl/ja_jp/cardboard/get-cardboard/" rel="noopener" target="_blank"><strong>Cardboard</strong></a> を使うと効果的です。</p>
+<p>ジャイロセンサーの使用するには、スマートフォン側での許可が必要です。次の手順で許可をしてみてください。</p>
+<p><a class="asset-img-link" href="https://adndevblog.typepad.com/.a/6a0167607c2431970b026bdebf1d68200c-pi" style="display: inline;"><img alt="Steps__show_pano" border="0" class="asset  asset-image at-xid-6a0167607c2431970b026bdebf1d68200c img-responsive" src="/assets/image_348898.jpg" title="Steps__show_pano" /></a></p>
+<p>スマートフォンでこの記事をご覧いただいている方は、次の画像をタップすると、ステレオパノラマを表示することが出来ます。コンピュータでご覧いただいている方は、スマートフォンで画像内の QR コードを読み取ってみてください。表示の際にモデルの縦横比がおかしな場合は、ページの再読み込みで補正されるはずです。</p>
+<p><a class="asset-img-link" href="https://pano.autodesk.com/pano.html?url=jpgs/379cdafe-c60f-4a3f-bc0b-5027a68391ca&amp;version=2" rel="noopener" style="display: inline;" target="_blank"><img alt="Stereo_pano1" border="0" class="asset  asset-image at-xid-6a0167607c2431970b02788016faba200d image-full img-responsive" src="/assets/image_378993.jpg" title="Stereo_pano1" /></a></p>
+<p><a class="asset-img-link" href="https://pano.autodesk.com/pano.html?url=jpgs/fbf25ae2-4bc1-422a-86e3-44857568df1f&amp;version=2" rel="noopener" style="display: inline;" target="_blank"><img alt="Stereo_pano2" border="0" class="asset  asset-image at-xid-6a0167607c2431970b0263e991a625200b image-full img-responsive" src="/assets/image_616805.jpg" title="Stereo_pano2" /></a></p>
+<p><a class="asset-img-link" href="https://pano.autodesk.com/pano.html?url=jpgs/2a38177a-ae42-472d-beaf-01edda1591cf&amp;version=2" rel="noopener" style="display: inline;" target="_blank"><img alt="Stereo_pano3" border="0" class="asset  asset-image at-xid-6a0167607c2431970b02788016d706200d image-full img-responsive" src="/assets/image_360134.jpg" title="Stereo_pano3" /></a></p>
+<p>AutoCAD の 3D モデルをクラウド レンダリングで活用すると、さらにコンセプト モデル/デザインをさまざまな角度で表示していくことが出来るようになります。</p>
+<p>By Toshiaki Isezaki</p>

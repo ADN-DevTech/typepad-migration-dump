@@ -1,0 +1,60 @@
+comments:
+- author: yamarah
+  email: yamada@freeradical.jp
+  ip: 220.211.184.183
+  url: https://www.freeradical.jp
+  date: '2025-07-15 17:00:48'
+  body: 'こんにちわ。
+
+
+    AppStoreにApprenticeServerを利用しているツールを公開しているのですが、ここ数週間でInventor2026ユーザーから使用できないとの問い合わせが届くようになりました。
+
+    都度、「Inventor Apprentice Server 2026を別途installしてくれ」と返答しているものの、ユーザー体験としてあまり良くないと思っています。
+
+
+    もう、
+
+    "C:\Program Files\Autodesk\Inventor 202x\Bin\Autodesk.Inventor.Interop.dll"
+
+    を動的リンクするのが良いかと思ってきました。
+
+
+    現在有効な(somename.iptをダブルクリックしたら起動する)Inventor.exeのpathを簡単に得る方法があれば、教えてください。
+
+    ファイル関連付けをレジストリで追いかけるのが一番早いでしょうか。'
+- author: Takehiro Kato
+  email: takehiro.kato@autodesk.com
+  ip: 128.77.45.225
+  url: ''
+  date: '2025-07-15 17:57:59'
+  body: '>ファイル関連付けをレジストリで追いかけるのが一番早いでしょうか。
+
+    ご賢察の様に、レジストリ情報から取得する形となります。
+
+
+    ファイルの関連付から起動されるInventorは、その端末で最後に起動されたバージョンのInventorが起動するため、外部プロセスからCOMインターフェイス経由(CreateInstance(”Inventor.Application”)
+    等の方法） で起動するInventorのバージョンが登録されている、以下のレジストリ配下の起動パス情報を参照いただく方法が簡便と思われます。
+
+
+    HKEY_CLASSES_ROOT\CLSID\{B6B5DC40-96E3-11d2-B774-0060B0F159EF}\LocalServer32'
+- author: yamarah
+  email: yamada@freeradical.jp
+  ip: 220.211.184.183
+  url: https://www.freeradical.jp
+  date: '2025-07-15 19:37:50'
+  body: "有難うございます。\n以下のコードでdllのpathを取得できました。\n\nusing Microsoft.Win32;\nusing System.Diagnostics.CodeAnalysis;\n\
+    \nnamespace ConsoleApp1;\n\ninternal class Program\n{\n    private static void\
+    \ Main(string[] args)\n    {\n        if (TryGetApprenticeServerDllPath(out var\
+    \ path))\n        {\n            Console.WriteLine(path);\n        }\n    }\n\n\
+    \    private static bool TryGetApprenticeServerDllPath([NotNullWhen(true)] out\
+    \ string? apprenticeServerDllPath)\n    {\n        apprenticeServerDllPath = null;\n\
+    \        try\n        {\n            var reg = Registry.ClassesRoot.OpenSubKey(@\"\
+    CLSID\\{B6B5DC40-96E3-11d2-B774-0060B0F159EF}\\LocalServer32\");\n           \
+    \ if (reg?.GetValue(null) is not string commandLine) return false;\n\n       \
+    \     var inventorPath = commandLine.Split('/')[0];\n            var inventorDirectory\
+    \ = Path.GetDirectoryName(inventorPath);\n            if (inventorDirectory is\
+    \ null) return false;\n            var dllPath = Path.Combine(inventorDirectory,\
+    \ \"Autodesk.Inventor.Interop.dll\");\n            if (!File.Exists(dllPath))\
+    \ return false;\n            apprenticeServerDllPath = dllPath;\n\n          \
+    \  return true;\n        }\n        catch\n        {\n            return false;\n\
+    \        }\n\n    }\n}\n\n-----"
