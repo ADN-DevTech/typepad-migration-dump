@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<head>
+  <!-- head-common-bootstrap-individual -->
+     <meta charset="utf-8">
+     <meta name="generator" content="http://www.typepad.com/" />
+     <meta name="description" content="According to Wikipedia, a Gizmo is &quot; ... a bounding box used for manipulating objects in 3D modeling computer programs&quot;. Well ... not necessary a box ... and not always used for manipulating objects - couldn't a Gizmo be used just as an onscreen informative tool? In the following post..." />
+     <link rel="canonical" href="https://getcoreinterface.typepad.com/blog/2016/07/how-to-create-a-gizmo-in-3ds-max.html" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<meta property="og:title" content="How to create a Gizmo in 3ds Max" />
+<meta property="og:site_name" content="GetCOREInterface" />
+<meta property="og:type" content="blog" />
+<meta property="og:url" content="https://getcoreinterface.typepad.com/blog/2016/07/how-to-create-a-gizmo-in-3ds-max.html" />
+<meta property="og:description" content="According to Wikipedia, a Gizmo is &quot; ... a bounding box used for manipulating objects in 3D modeling computer programs&quot;. Well ... not necessary a box ... and not always used for manipulating objects - couldn't a Gizmo be used just as an onscreen informative tool? In the following post..." />
+<meta property="fb:admins" content="" />
+<meta property="fb:app_id" content="55753818692" /><meta property="og:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01bb0909c0ce970d-600wi" />
+<meta property="og:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01b8d1f01782970c-600wi" />
+<meta property="og:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01bb0909c14e970d-600wi" />
+<meta property="og:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01bb0909c157970d-600wi" />
+<meta property="og:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01b8d1f01812970c-600wi" />
+<meta property="og:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01bb0909c234970d-600wi" />
+<meta property="og:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01b8d1f018ee970c-600wi" />
+<meta property="og:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01bb0909c274970d-600wi" />
+
+
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="">
+<meta name="twitter:creator" content="">
+<meta name="twitter:title" content="How to create a Gizmo in 3ds Max">
+<meta name="twitter:description" content="According to Wikipedia, a Gizmo is &quot; ... a bounding box used for manipulating objects in 3D modeling computer programs&quot;. Well ... not necessary a box ... and not always used for manipulating objects - couldn't a Gizmo be used just as an onscreen informative tool? In the following post..."><meta name="twitter:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01bb0909c0ce970d-600wi" />
+<meta name="twitter:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01b8d1f01782970c-600wi" />
+<meta name="twitter:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01bb0909c14e970d-600wi" />
+<meta name="twitter:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01bb0909c157970d-600wi" />
+<meta name="twitter:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01b8d1f01812970c-600wi" />
+<meta name="twitter:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01bb0909c234970d-600wi" />
+<meta name="twitter:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01b8d1f018ee970c-600wi" />
+<meta name="twitter:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01bb0909c274970d-600wi" />
+
+
+
+     <!-- Custom fonts for this template -->
+
+    <!-- Bootstrap core CSS -->
+    <link href="/.shared/themes/common/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap bridge -->
+    <link href="/.shared/themes/common/bootstrap/css/bootstrap-bridge.css" rel="stylesheet" />
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="https://getcoreinterface.typepad.com/blog/styles.css?v=6" type="text/css" media="screen" />
+    <style>.navbar-header, .nav { display:block !important; }</style>
+
+        <link rel="stylesheet" href="https://static.typepad.com/.shared/themes/common/print.css" type="text/css" media="print" />
+        <link rel="alternate" type="application/atom+xml" title="Posts on 'GetCOREInterface' (Atom)" href="https://getcoreinterface.typepad.com/blog/atom.xml" />
+        <link rel="alternate" type="application/rss+xml" title="Posts on 'GetCOREInterface' (RSS 1.0)" href="https://getcoreinterface.typepad.com/blog/index.rdf" />
+        <link rel="alternate" type="application/rss+xml" title="Posts on 'GetCOREInterface' (RSS 2.0)" href="https://getcoreinterface.typepad.com/blog/rss.xml" />
+
+    <script src="//code.jquery.com/jquery.js"></script>
+
+        <script type="text/javascript">
+                var TPApp = {};
+                TPApp.app_uri = "https://www.typepad.com/";
+        </script>
+<!-- why does this load from prod? -->
+        <script type="text/javascript" src="https://static.typepad.com/.shared/js/yui/yahoo-dom-event.js,/js/app/thumbnail-gallery-min.js,/js/app/flyouts-min.js"></script>
+
+<!--- head google analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-225723-36', 'auto', {'name': 'Typepad'}, {'allowLinker': true} );  // Separate tracker for Typepad.
+ga('Typepad.require', 'linker');
+ga('Typepad.linker:autoLink', ['none']);
+ga('Typepad.set', 'dimension1', '6a019104a31725970c019104a321e0970c');
+ga('Typepad.set', 'dimension2', 'Individual');
+ga('Typepad.send', 'pageview');
+</script>
+
+
+
+    <script type="text/javascript" src="//tags.tiqcdn.com/utag/autodesk/typepad/prod/utag.js"></script>
+
+
+        <link rel="alternate" type="application/atom+xml" title="Comments on 'How to create a Gizmo in 3ds Max' (Atom)" href="https://getcoreinterface.typepad.com/blog/2016/07/how-to-create-a-gizmo-in-3ds-max/comments/atom.xml" />
+        <link rel="alternate" type="application/rss+xml" title="Comments on 'How to create a Gizmo in 3ds Max' (RSS 2.0)" href="https://getcoreinterface.typepad.com/blog/2016/07/how-to-create-a-gizmo-in-3ds-max/comments/rss.xml" />
+        <title>How to create a Gizmo in 3ds Max - GetCOREInterface</title>
+        <link rel="start" href="https://getcoreinterface.typepad.com/blog/" title="Home" />
+        <link rel="prev" href="https://getcoreinterface.typepad.com/blog/2016/04/3ds-max-2017-features-and-sdk-changes.html?no_prefetch=1" title="3ds Max 2017 Features and SDK Changes" />
+        <link rel="next" href="https://getcoreinterface.typepad.com/blog/2016/10/autodesk-university-and-developer-days-2016.html?no_prefetch=1" title="Autodesk University 2016, Developer Days 2016, and @AutodeskForge APIs" />
+
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+</head>
+
+
+
+<body class="layout-two-column-right post">
+	
+	<div id="container" class="container">
+		<div id="container-inner" class="pkg">
+			
+                <div class="row">
+     
+
+
+<a id="home"></a>
+   
+
+              <div id="banner" class="jumbotron">
+                <h1><a href="https://getcoreinterface.typepad.com/blog/" accesskey="1">GetCOREInterface</a></h1>
+                <h2>3ds Max customization, automation, plug-in development, and related ramblings!</h2>
+              </div>
+
+     
+     
+      <div id="autocollapse" class="navbar navbar-default navbar-fixed-top">
+
+<div class="navbar-inner">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+          </button>
+         <a class="navbar-brand" href="https://getcoreinterface.typepad.com/blog/">home</a>
+        </div>
+
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+<li><a href="https://getcoreinterface.typepad.com/blog/archives.html">archives</a></li>
+<li><a href="https://getcoreinterface.typepad.com/blog/kevin-vandecar.html">profile</a></li>
+<li><a href="https://getcoreinterface.typepad.com/blog/atom.xml">subscribe</a></li>
+<li><a href="https://twitter.com/kevinvandecar">twitter</a></li>
+<li><a href="http://area.autodesk.com/">area</a></li>
+<li><a href="http://area.autodesk.com/forum/autodesk-3ds-max/programming">forum</a></li>
+<li><a href="http://www.autodesk.com/me-sdk-docs">api docs</a></li>
+
+          </ul><!-- end main navbar -->
+        </div><!--/.nav-collapse-->
+</div><!--/.navbar-inner-->
+
+      </div><!--/.navbar-->
+
+     
+
+
+
+			<div id="pagebody">
+
+
+				<div id="pagebody-inner" class="pkg">
+                                        <div id="alpha" class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+						<div id="alpha-inner" class="pkg">
+							<!-- the plain version removes the extra jquery -->
+<!-- content nav -->
+<p class="content-nav">
+	<a class="content-nav-prev" href="https://getcoreinterface.typepad.com/blog/2016/04/3ds-max-2017-features-and-sdk-changes.html">&laquo; 3ds Max 2017 Features and SDK Changes</a> |
+	<a class="content-nav-main" href="https://getcoreinterface.typepad.com/blog/">Main</a>
+	| <a class="content-nav-next" href="https://getcoreinterface.typepad.com/blog/2016/10/autodesk-university-and-developer-days-2016.html">Autodesk University 2016, Developer Days 2016, and @AutodeskForge APIs &raquo;</a>
+</p>
+<script type="text/javascript">
+   $(function(){
+       var query = window.location.search.substring(1);
+       if( query == "pintix=1" ) {
+          var e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','https://static.typepad.com/.shared//js/pinmarklet.js?r='+Math.random()*99999999);document.body.appendChild(e);
+       }
+   });
+</script>
+<!-- entry -->
+
+	<h2 class="date-header">07/20/2016</h2>
+
+
+<div class="entry-category-c entry-author-denis_grigor entry-type-post entry" id="entry-6a019104a31725970c01b7c86645a2970b">
+   <div class="entry-inner">
+			<h3 class="entry-header">How to create a Gizmo in 3ds Max</h3>
+	
+
+
+
+	<div class="entry-content">
+		<div class="entry-body">
+			<p>According to <a href="https://en.wikipedia.org/wiki/Gizmo">Wikipedia</a>, a Gizmo is &quot; ... a bounding box used for manipulating objects in 3D modeling computer programs&quot;.<br /> Well ... not necessary a box ... and not always used for manipulating objects - couldn&#39;t a Gizmo be used just as an onscreen informative tool?<br /> <br /> In the following post I invite you to explore with me the visual customization of modifiers and how gizmos or as 3ds Max call them <a href="http://help.autodesk.com/view/3DSMAX/2017/ENU/?guid=__files_GUID_525A8226_35C4_4607_88A5_FB9DFE983E05_htm">modifier apparatus</a> are drawn on the screen. All this will be examined by creating a simple modifier plugin that will serve as an on-screen informative tool for the object it modifies.<br /> <br /> Of course, to implement a modifier we have to rely on the <a href="http://help.autodesk.com/view/3DSMAX/2016/ENU/?guid=__cpp_ref_class_modifier_html">Modifier class</a>, and its always worth starting class analysis by having a look at inheritance diagram of the class we have under the scope:</p>
+<p><a class="asset-img-link" href="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01bb0909c0ce970d-popup" onclick="window.open( this.href, &#39;_blank&#39;, &#39;width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0&#39; ); return false" style="float: left;"><img alt="04.inheritance" class="asset  asset-image at-xid-6a019104a31725970c01bb0909c0ce970d img-responsive" src="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01bb0909c0ce970d-320wi" style="margin: 0px 5px 5px 0px;" title="04.inheritance" /></a><br /> According to class description for the <a href="http://help.autodesk.com/view/3DSMAX/2016/ENU/?guid=__cpp_ref_class_base_object_html">BaseObject Class</a></p>
+<blockquote>&quot;Anything with a representation in the 3D viewports is derived from BaseObject (including modifiers and controllers whose gizmos appear in the viewports)&quot;.</blockquote>
+<p>&#0160;</p>
+<p><br /> Ok, so this is where it all starts and why we have the following <a href="http://help.autodesk.com/view/3DSMAX/2016/ENU/?guid=__files_GUID_525A8226_35C4_4607_88A5_FB9DFE983E05_htm">requirement</a>:</p>
+<blockquote>A modifier plug-in must implement a method to display the modifier&#39;s gizmo in the 3D viewport. This is done by implementing a member function of the BaseObject class called BaseObject::Display(). The GraphicsWindow class provides a number of drawing routines for this purpose.</blockquote>
+<p>Having defined our starting point, let us continue by gathering the implementation pieces that we will need for our project.</p>
+<h3>Implementation</h3>
+<p>As already stated above, to have something displayed, we have to inherit from the <a href="http://help.autodesk.com/view/3DSMAX/2016/ENU/?guid=__cpp_ref_class_base_object_html">BaseObject class</a>, but for our particular need we are going to take the Modifier branch.</p>
+<p><a class="asset-img-link" href="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01b8d1f01782970c-pi" style="display: inline;"><img alt="05.inheritance2" class="asset  asset-image at-xid-6a019104a31725970c01b8d1f01782970c img-responsive" src="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01b8d1f01782970c-500wi" style="display: block; margin-left: auto; margin-right: auto;" title="05.inheritance2" /></a></p>
+<p>&#0160;</p>
+<p>Within the BaseObject class, we have a special interest in the BaseObject::Display() method:</p>
+<pre>virtual int Display(TimeValue t, INode* inode, ViewExp* vpt, int flags);</pre>
+<p>This method is called by 3ds Max when it is time to draw the object. It will &quot;point&quot; you to the viewport information given by <a href="http://help.autodesk.com/view/3DSMAX/2016/ENU/?guid=__cpp_ref_class_view_exp_html">ViewExp class</a> and provides other information. The <a href="http://help.autodesk.com/view/3DSMAX/2016/ENU/?guid=__cpp_ref_class_view_exp_html">ViewExp class</a> contains the information on GraphicWindow associated with the given viewport:</p>
+<pre>virtual ViewExp::GraphicsWindow* getGW();</pre>
+<p>Now comes the real fun:<br />The <a href="http://help.autodesk.com/view/3DSMAX/2016/ENU/?guid=__cpp_ref_class_graphics_window_html">GraphicsWindow class</a> “provides low-level access to 3ds Max&#39;s graphics system“, that we will be using to explicitly draw lines, texts, markers, etc. to the viewport - everything we need for drawing our Gizmo. To make the drawing task easier, we will use the <a href="http://help.autodesk.com/view/3DSMAX/2016/ENU/?guid=__cpp_ref_class_draw_line_proc_html">DrawLineProc Class</a>, that&quot;... provides a simplified way to draw a connected series of lines to the GraphicsWindow&quot;:</p>
+<pre>int DrawLineProc::proc(Point3 *p, int n);</pre>
+<p>However, for the text draw, we still are going to use the &quot;raw&quot; approach with:</p>
+<pre>void GraphicsWindow::text(Point3* xyz,const MCHAR* s);</pre>
+<p>We have all the details we need to create an interesting gozmo, so let&#39;s pass from theory to practice by building something.</p>
+<h3>Hands-on</h3>
+<p>We will start by setting up a project and creating a Modifier type plugin. For simplicity, (to avoid having implementing a lot of methods uninteresting to our current task), it will be based on SimpleMod2, but the same approach is also applicable to modifiers directly based on the Modifier Class. We can use the Plugin Wizard to start the project as seen below. In this example, we will call the plugin “Informix”.</p>
+<p><a class="asset-img-link" href="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01bb0909c14e970d-pi" style="display: inline;"><img alt="01.project" class="asset  asset-image at-xid-6a019104a31725970c01bb0909c14e970d img-responsive" src="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01bb0909c14e970d-500wi" style="display: block; margin-left: auto; margin-right: auto;" title="01.project" /></a></p>
+<p>Before firing up the plugin, don&#39;t forget to make the necessary adjustments and switch to the Hybrid configuration:</p>
+<p>&#0160; <a class="asset-img-link" href="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01bb0909c157970d-pi" style="display: inline;"><img alt="02.setting" class="asset  asset-image at-xid-6a019104a31725970c01bb0909c157970d img-responsive" src="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01bb0909c157970d-500wi" style="display: block; margin-left: auto; margin-right: auto;" title="02.setting" /></a></p>
+<p>To start with the basic implementation, if we run our “Informix” plugin on the iconic Teapot, we will get a displayed bounding box. For example:<br /><br /></p>
+<p><a class="asset-img-link" href="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01b8d1f01812970c-pi" style="display: inline;"><img alt="03.first_run" class="asset  asset-image at-xid-6a019104a31725970c01b8d1f01812970c img-responsive" src="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01b8d1f01812970c-500wi" style="display: block; margin-left: auto; margin-right: auto;" title="03.first_run" /></a></p>
+<p>This bounding box is given by the default implementation of the Display within the SimpleMod class, but we should not have problems in overriding it:</p>
+<pre>int Display(TimeValue t, INode* inode, ViewExp* vpt, int flagst, ModContext* mc) override;</pre>
+<p>Here is a basic implementation that will start our task of providing a more interesting gizmo:</p>
+<pre>int Informix::Display(TimeValue t, INode* inode, ViewExp* vpt, int flagst, ModContext* mc)<br />{<br />    GraphicsWindow *gw = vpt-&gt;getGW();<br />    DrawLineProc lp(gw);<br />    lp.SetLineColor(1, 0, 0);<br />    Point3 my_gismo_points[5] = { Point3(0, 0, 0), Point3(-80, 0, 0), <br />                                  Point3(-60, 10, 0), Point3(-80, 0, 0), <br />                                  Point3(-60, -10, 0) };<br />    lp.proc(my_gismo_points, 5);<br />    gw-&gt;setColor(TEXT_COLOR, 1, 1, 1);<br />    gw-&gt;text(&amp;my_gismo_points[1], L&quot;Here&#39;s the tip of my GIZMO!!!&quot;);<br /><br />    return 0;<br />}</pre>
+<p>Now, if you run the plugin again, you should see something like this:<br /><br /></p>
+<p><a class="asset-img-link" href="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01bb0909c234970d-pi" style="display: inline;"><img alt="06.first_gizmo" border="0" class="asset  asset-image at-xid-6a019104a31725970c01bb0909c234970d image-full img-responsive" src="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01bb0909c234970d-800wi" style="display: block; margin-left: auto; margin-right: auto;" title="06.first_gizmo" /></a><a class="asset-img-link" href="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01bb0909c215970d-popup" onclick="window.open( this.href, &#39;_blank&#39;, &#39;width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0&#39; ); return false" style="display: inline;"><br /></a></p>
+<p>Quite simple, right? A bunch of points and some calls to draw lines.<br /> Well ... easy things get complicated very fast when you draw something custom and parametric.<br />Now we can start by creating a method responsible for drawing a double arrowhead segment with a label in the center of the segment:</p>
+<pre><code>void Informix::drawMyArrows(Point3 p1, Point3 p2, const wchar_t* my_text, ViewExp* vpt)<br />{<br />    float arrow_scale_factor = 0.05;<br />    float arrow_wing_factor = 10.0f; // max(max(p1.z + p2.z, p1.x + p2.x)*arrow_scale_factor, 1);<br />    pblock2-&gt;GetValue(pb_wing_spin, GetCOREInterface()-&gt;GetTime(), arrow_wing_factor, FOREVER);<br />    Point3 wing_side_point(0,0,0);<br />    Point3 wing_other_side_point(0,0,0);<br />    Point3 ref_point((p1.x + p2.x), (p1.y + p2.y), (p1.z + p2.z));<br />    Point3 midpoint = ref_point / 2;<br /><br />    //prepare point for left arrow<br />    Point3 left_reference_point = p1*(1-arrow_scale_factor)+p2*arrow_scale_factor;<br />    makeWingsidePoints(left_reference_point, wing_side_point, wing_other_side_point, arrow_wing_factor, p1);<br />    Point3 my_gizmo_point_left[5] = { p2, p1, wing_side_point, p1, wing_other_side_point };<br /><br />    //prepare point for right arrow<br />    Point3 right_reference_point = p1*arrow_scale_factor + p2*(1 - arrow_scale_factor);<br />    makeWingsidePoints(right_reference_point, wing_side_point, wing_other_side_point, arrow_wing_factor, p1);<br />    Point3 my_gizmo_point_right[5] = { p1, p2, wing_side_point, p2, wing_other_side_point };<br /><br />    //draw points and labels<br />    GraphicsWindow *gw = vpt-&gt;getGW();<br />    DrawLineProc lp(gw);<br />    lp.SetLineColor(0, 0, 0);<br />    lp.proc(my_gizmo_point_left, 5);<br />    lp.proc(my_gizmo_point_right, 5);<br />    gw-&gt;setColor(TEXT_COLOR, 0, 0, 0);<br />    gw-&gt;text(&amp;midpoint, my_text);<br /><br />}</code></pre>
+<p>Now we can organize some repetitive code into a helper method:</p>
+<pre>void Informix::makeWingsidePoints(  Point3 reference_point, <br />                                    Point3 &amp;wing_side_point, <br />                                    Point3 &amp;wing_other_side_point, <br />                                    float arrow_wing_factor, <br />                                    const Point3 source)<br />{<br />        wing_side_point = reference_point;<br />        wing_other_side_point = wing_side_point;<br /><br />        if(reference_point.x != source.x)<br />        {<br />            wing_side_point.z -= arrow_wing_factor;<br />            wing_other_side_point.z += arrow_wing_factor;<br />        }<br />        else<br />        {<br />            wing_side_point.x -= arrow_wing_factor;<br />            wing_other_side_point.x += arrow_wing_factor;<br />        }<br />        wing_side_point.y -= arrow_wing_factor;<br />        wing_other_side_point.y += arrow_wing_factor;<br />}</pre>
+<p>Now our updated Modifier::Display() method is easier to read:</p>
+<pre>int Informix::Display(TimeValue t, INode* inode, ViewExp* vpt, int flagst, ModContext* mc)<br />{<br />    TimeValue current_time = GetCOREInterface()-&gt;GetTime();<br />    Box3 bounding_box;<br />    inode-&gt;EvalWorldState(current_time).obj-&gt;GetLocalBoundBox(current_time, inode,vpt,bounding_box);<br />    Point3 min = bounding_box.Min();<br />    Point3 max = bounding_box.Max();<br />    Point3 x_max(max.x, min.y, min.z);<br />    Point3 y_max(min.x, max.y, min.z);<br />    Point3 z_max(min.x, min.y, max.z);<br /><br />    std::wstring label_x = std::to_wstring(max.x - min.x) + L&quot; units&quot;;<br />    std::wstring label_y = std::to_wstring(max.y - min.y) + L&quot; units&quot;;<br />    std::wstring label_z = std::to_wstring(max.z - min.z) + L&quot; units&quot;;<br /><br />    drawMyArrows(min, x_max, label_x.c_str(), vpt);<br />    drawMyArrows(min, y_max, label_y.c_str(), vpt);<br />    drawMyArrows(min, z_max, label_z.c_str(), vpt);<br /><br />    return 0;<br />}</pre>
+<p><span class="Apple-style-span"><span class="Apple-style-span">Basically this is it. <br />Having this coded in a simple combination, we end up having the following result when applying our modifier to an object:</span></span> <br /><br /></p>
+<p><a class="asset-img-link" href="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01b8d1f018ee970c-pi" style="display: inline;"><img alt="07.final_gizmo2" border="0" class="asset  asset-image at-xid-6a019104a31725970c01b8d1f018ee970c image-full img-responsive" src="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01b8d1f018ee970c-800wi" style="display: block; margin-left: auto; margin-right: auto;" title="07.final_gizmo2" /></a></p>
+<h3>Conclusion</h3>
+<p>Although this example is not terribly useful, I hope the sample code shows you enough to implement your own cool gizmos!</p>
+<p><a class="asset-img-link" href="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01bb0909c274970d-pi" style="display: inline;"><img alt="00.final_candidate_02" border="0" class="asset  asset-image at-xid-6a019104a31725970c01bb0909c274970d image-full img-responsive" src="https://getcoreinterface.typepad.com/.a/6a019104a31725970c01bb0909c274970d-800wi" style="display: block; margin-left: auto; margin-right: auto;" title="00.final_candidate_02" /></a></p>
+<p>and coming back to Wikipedia definition ...</p>
+<blockquote>Is it a box?</blockquote>
+<p>I think not.</p>
+<blockquote>Is it used to manipulate objects?</blockquote>
+<p>Not really.</p>
+<blockquote>Is it useful?</blockquote>
+<p>Wait a minute ... the definition doesn&#39;t say that it should be useful.</p>
+<blockquote>Then, is it a Gizmo?</blockquote>
+<p>I have no idea, but somewhere along the way of its creation, it was.<br /> If you are interested in the source code, it is available <a href="https://github.com/apprentice3d/3dsmax_gismo_howto">here</a>, which is great for a beginner, but for those who found it boring, you can look at the Symmetry plugin (Symmetry.cpp), available in the SDK samples within the .\maxsdk\samples\modifiers\BasicOps\ folder.</p>
+		</div>
+		
+
+                        <!-- SIGNATURE -->
+                        
+
+		
+	</div>
+
+	<div class="entry-footer">
+			<p class="entry-footer-info">
+				<span class="post-footers">Posted by <a rel="author" href="https://profile.typepad.com/6p01b8d176f91e970c">Denis Grigor</a> at 05:12 PM in <a href="https://getcoreinterface.typepad.com/blog/c/">C++</a> </span> <span class="separator">|</span> <a class="permalink" href="https://getcoreinterface.typepad.com/blog/2016/07/how-to-create-a-gizmo-in-3ds-max.html">Permalink</a>
+			</p>
+		
+		<!-- technorati tags -->
+
+
+		<!-- post footer links -->
+	<p class="entry-footer-share entry-footer-share-buttons">
+		<span class="entry-footer-links-twitter">
+     <a href="https://twitter.com/share?url=https%3A%2F%2Fgetcoreinterface.typepad.com%2Fblog%2F2016%2F07%2Fhow-to-create-a-gizmo-in-3ds-max.html&text=How%20to%20create%20a%20Gizmo%20in%203ds%20Max" target="_blank"><img src="/.shared/images/circle-twitter.png" alt="Twitter" /></a>
+</span>
+	</p>
+
+
+	</div>
+   </div>
+</div>
+
+
+
+        
+        
+        <a id="comments"></a>
+	<div class="comments" id="all-comments">
+		<h3 class="comments-header">Comments</h3>
+					<div class="comments-info">
+				<p><a href="https://getcoreinterface.typepad.com/blog/2016/07/how-to-create-a-gizmo-in-3ds-max/comments/atom.xml"><img src="https://static.typepad.com/.shared/images/feed.png" alt="Feed" width="10" height="10" /></a> You can follow this conversation by subscribing to the <a href="https://getcoreinterface.typepad.com/blog/2016/07/how-to-create-a-gizmo-in-3ds-max/comments/atom.xml">comment feed</a> for this post.</p>
+			</div>
+		
+		<div class="comments-content" id="comments-content">
+                <!-- comment list -->
+
+		</div>
+        
+	</div>
+<script type="text/javascript">var c943723d42e77e9214eb884a1d898ea="</form>";</script>
+<script type="text/javascript">var ffe51c373e0873b7778b6324a0b5533 = '<form id="comment-form" action="';</script>
+<script type="text/javascript">var c943723d42e77e9214eb884a1d898za = '" method="post"><input type="hidden" name="entry_xid" id="comment-entry-xid" value="6a019104a31725970c01b7c86645a2970b" \/><input type="hidden" name="token" value="1756834615-8fee59e09313d56d7eb349923706a4b979340156:LZwUmuR9oFWzOkPH" \/>';</script>
+<script type="text/javascript">var OOcd55d4dc47109d7b462b01c7dd4dab = "aHR0cHM6Ly9nZXRjb3JlaW50ZXJmYWNlLnR5cGVwYWQuY29tLy5zZXJ2aWNlcy9jb21tZW50cw";</script>
+<script type="text/javascript">var bad4dd7c10b264b7d90174cd4d55dc00 = atob(OOcd55d4dc47109d7b462b01c7dd4dab);</script>
+
+<!-- comment-form-atp -->
+
+
+<p class="comments-closed font-entrybody">
+	The comments to this entry are closed.
+</p>
+
+
+
+
+
+    
+    
+
+
+
+
+						</div>
+					</div>
+                                        <div id="beta" class="well col-xs-12 col-sm-4 col-md-4 col-lg-4">
+						<div id="beta-inner" class="pkg">
+							
+<!-- sidebar -->
+
+
+	<div class="module-archives module">
+		<h2 class="module-header"><a href="https://getcoreinterface.typepad.com/blog/archives.html">Archives</a></h2>
+		<div class="module-content">
+												<ul class="module-list">
+				
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2025/05/index.html">May 2025</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2024/01/index.html">January 2024</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/06/index.html">June 2023</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/04/index.html">April 2023</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/02/index.html">February 2023</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/01/index.html">January 2023</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2022/04/index.html">April 2022</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2021/05/index.html">May 2021</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2021/04/index.html">April 2021</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2020/05/index.html">May 2020</a></li>
+									</ul>
+									<p class="module-more"><a href="https://getcoreinterface.typepad.com/blog/archives.html">More...</a></p>
+				
+				
+			
+		</div>
+	</div>
+
+<!-- list_inlcude.tt  -->
+<div id="about" class="module-typelist module">
+<h2 class="module-header">About</h2>
+	<div class="typelist-plain module-content">
+		<ul class="module-list">
+							<li class="module-list-item"><div class="typelist-note"><table> <tr> 
+	<td> 
+	<a href="https://getcoreinterface.typepad.com/blog/kevin-vandecar.html"> <img src="https://getcoreinterface.typepad.com/blog/KDV_Fall_Color_100.jpg"></a> <a href="https://getcoreinterface.typepad.com/blog/kevin-vandecar.html">Kevin Vandecar</a> <br> <br> 
+	<a href="https://getcoreinterface.typepad.com/blog/denis-grigor.html"> <img src="https://getcoreinterface.typepad.com/blog/denis_grigor.jpg"></a> 
+	<a href="https://getcoreinterface.typepad.com/blog/denis-grigor.html">Denis Grigor</a> <br> <br> 
+	<a href="https://getcoreinterface.typepad.com/blog/allan-koech.html"> <img src="https://getcoreinterface.typepad.com/blog/allan-koech.jpg"></a> 
+	<a href="https://getcoreinterface.typepad.com/blog/allan-koech.html">Allan Koech</a> 
+
+	</td> </tr> </table> 
+	
+	<br> <a href="http://www.autodesk.com/joinadn" title="Information on the Autodesk Developer Network"> <img src="https://getcoreinterface.typepad.com/blog/join_adn.png" border="0" /> </a> <link rel="icon" href="/favicon.ico" type="image/x-icon" /> <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /> <link rel="icon" type="image/gif" href="/favicon.gif" /> <meta name="application-name" content="GetCOREInterface" /> <meta name="msapplication-tooltip" content="Open GetCOREInterface blog" /> <meta name="msapplication-starturl" content="http://getcoreinterface.typepad.com" /> <meta name="msapplication-window" content="width=1024;height=768" /> <meta name="msapplication-navbutton-color" content="#000000" /> <meta name="msapplication-task" content="name=Search TtIf;action-uri=http://www.google.com/search?btnG=%C2%BB&domains=getcoreinterface.typepad.com&sitesearch=getcoreinterface.typepad.com;icon-uri=http://google.com/favicon.ico" /></div></li>
+			
+		</ul><!-- last /ul -->
+	</div>
+</div>
+<!-- end list_include.tt -->
+
+<!-- list_inlcude.tt  -->
+<div id="google_search" class="module-typelist module">
+<h2 class="module-header">Google Search</h2>
+	<div class="typelist-plain module-content">
+		<ul class="module-list">
+							<li class="module-list-item"><div class="typelist-note"><script>
+  (function() {
+    var cx = '001717393972716514223:-ybiyil2pts';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search></div></li>
+			
+		</ul><!-- last /ul -->
+	</div>
+</div>
+<!-- end list_include.tt -->
+
+<!-- list_inlcude.tt  -->
+<div id="translate" class="module-typelist module">
+<h2 class="module-header">Translate</h2>
+	<div class="typelist-plain module-content">
+		<ul class="module-list">
+							<li class="module-list-item"><div class="typelist-note"><div id='MicrosoftTranslatorWidget' class='Dark' style='color:white;background-color:#555555'>
+</div>
+<script type='text/javascript'>setTimeout(function(){{var s=document.createElement('script');s.type='text/javascript';s.charset='UTF-8';s.src=((location && location.href && location.href.indexOf('https') == 0)?'https://ssl.microsofttranslator.com':'http://www.microsofttranslator.com')+'/ajax/v3/WidgetV3.ashx?siteData=ueOIGRSKkd965FeEGM5JtQ**&ctf=True&ui=true&settings=Manual&from=en';var p=document.getElementsByTagName('head')[0]||document.documentElement;p.insertBefore(s,p.firstChild); }},0);</script>
+</div></li>
+			
+		</ul><!-- last /ul -->
+	</div>
+</div>
+<!-- end list_include.tt -->
+
+<div class="module-calendar module">
+	<h2 class="module-header">May 2025</h2>
+	<div class="module-content table-responsive">
+		<table class="table" summary="Monthly calendar with links to each day's posts">
+                        <tr>
+                                                                 <th>Sun</th>
+                                                                 <th>Mon</th>
+                                                                 <th>Tue</th>
+                                                                 <th>Wed</th>
+                                                                 <th>Thu</th>
+                                                                 <th>Fri</th>
+                                                                 <th>Sat</th>
+                                
+                        </tr>
+                                                   <tr>
+                                        <td>&nbsp;</td>
+                                
+                                                   
+                                        <td>&nbsp;</td>
+                                
+                                                   
+                                        <td>&nbsp;</td>
+                                
+                                                   
+                                        <td>&nbsp;</td>
+                                
+                                                   
+                                        <td>1</td>
+                                
+                                                   
+                                        <td>2</td>
+                                
+                                                   
+                                        <td>3</td>
+                                </tr>
+                                                   <tr>
+                                        <td>4</td>
+                                
+                                                   
+                                        <td>5</td>
+                                
+                                                   
+                                        <td>6</td>
+                                
+                                                   
+                                        <td>7</td>
+                                
+                                                   
+                                        <td>8</td>
+                                
+                                                   
+                                        <td>9</td>
+                                
+                                                   
+                                        <td>10</td>
+                                </tr>
+                                                   <tr>
+                                        <td>11</td>
+                                
+                                                   
+                                        <td>12</td>
+                                
+                                                   
+                                        <td>13</td>
+                                
+                                                   
+                                        <td>14</td>
+                                
+                                                   
+                                        <td>15</td>
+                                
+                                                   
+                                        <td>16</td>
+                                
+                                                   
+                                        <td>17</td>
+                                </tr>
+                                                   <tr>
+                                        <td>18</td>
+                                
+                                                   
+                                        <td>19</td>
+                                
+                                                   
+                                        <td>20</td>
+                                
+                                                   
+                                        <td>21</td>
+                                
+                                                   
+                                        <td>22</td>
+                                
+                                                   
+                                        <td>23</td>
+                                
+                                                   
+                                        <td>24</td>
+                                </tr>
+                                                   <tr>
+                                        <td>25</td>
+                                
+                                                   
+                                        <td>26</td>
+                                
+                                                   
+                                        <td>27</td>
+                                
+                                                   
+                                        <td><a href="https://getcoreinterface.typepad.com/blog/2025/05/whats-new-in-3ds-max-2026.html">28</a></td>
+                                
+                                                   
+                                        <td>29</td>
+                                
+                                                   
+                                        <td><a href="https://getcoreinterface.typepad.com/blog/2025/05/upgrading-3ds-max-net-projects-from-net-framework-to-net-8.html">30</a></td>
+                                
+                                                   
+                                        <td>31</td>
+                                </tr>
+                        
+		</table>
+	</div>
+</div>
+<!-- list_inlcude.tt  -->
+<div id="rss_feed" class="module-typelist module">
+<h2 class="module-header">RSS Feed</h2>
+	<div class="typelist-plain module-content">
+		<ul class="module-list">
+							<li class="module-list-item"><div class="typelist-note"><a href="http://feeds.feedburner.com/autodesk/GetCoreInterface"><img src="https://getcoreinterface.typepad.com/feed.png" border="0" align="absmiddle">
+&nbsp;Subscribe</a></div></li>
+			
+		</ul><!-- last /ul -->
+	</div>
+</div>
+<!-- end list_include.tt -->
+
+<div class="module-search module">
+    <h2 class="module-header">Search</h2>
+    <div class="module-content">
+        <form id="search-blog" method="get" action="https://getcoreinterface.typepad.com/.services/blog/6a019104a31725970c019104a321e0970c/search" class="form-search form-inline" role="search">
+            
+<div class="form-group"><input type="search" name="filter.q" results="5" value="" class="form-control" placeholder="Search" /></div><button type="submit" value="Search" class="btn btn-default">Submit</button>
+
+        </form>
+    </div>
+</div>
+<!-- END Blog Search Module -->
+	<div class="module-archives module">
+		<h2 class="module-header">Recent Posts</h2>
+		<div class="module-content">
+			<ul class="module-list">
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2025/05/upgrading-3ds-max-net-projects-from-net-framework-to-net-8.html">Upgrading 3ds Max .NET projects from .NET Framework to .NET 8</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2025/05/whats-new-in-3ds-max-2026.html">What's new in 3ds Max 2026?</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2025/05/porting-plugins-from-3ds-max-2024-to-3ds-max-2025.html">Porting Plugins from 3ds Max 2024 to 3ds Max 2025</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2024/01/saving-qwidget-docking-states-per-3ds-max-scene.html">Saving QWidget Docking States per 3ds Max Scene</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/06/porting-maxplus-to-pymxs-what-you-need-to-know-1.html">Porting MaxPlus to pymxs - What you need to know</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/04/3ds-max-2024-released.html">3ds Max 2024 Released!</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/02/learning-3ds-max-sdk-my-journey.html">Learning 3ds Max SDK - My Journey</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/01/custom-valuetype-maxscript.html">MAXScript Custom Value Types from 3ds MAX SDK</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2022/04/3ds-max-2023-released.html">3ds Max 2023 Released!</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2021/05/tips-for-troubleshooting-visual-studio-output-and-getting-qt-to-work-with-3ds-max-sdk.html">Tips for troubleshooting Visual Studio output and getting Qt to work with 3ds Max SDK</a></li>
+					
+				
+			</ul>
+		</div>
+	</div>
+<div class="module-categories module">
+	<h2 class="module-header"><a href="https://getcoreinterface.typepad.com/blog/archives.html">Categories</a></h2>
+	<div class="module-content">
+                   <ul class="module-list">
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/net-api/">.NET API <span class="category-count">(15)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/announcement/">Announcement <span class="category-count">(24)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/c/">C++ <span class="category-count">(21)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/cloud-service/">Cloud Service <span class="category-count">(4)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/cuiactioncommandadapter/">CuiActionCommandAdapter <span class="category-count">(4)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/debug/">debug <span class="category-count">(4)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/design-automation/">Design Automation <span class="category-count">(2)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/devdocs/">DevDocs <span class="category-count">(3)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/event/">Event <span class="category-count">(10)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/forge/">Forge <span class="category-count">(7)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/job/">job <span class="category-count">(2)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/maxscript/">MAXScript <span class="category-count">(11)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/open-position/">open position <span class="category-count">(1)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/python/">Python <span class="category-count">(8)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/qt/">qt <span class="category-count">(7)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/samples-1/">Samples <span class="category-count">(3)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/tiptrick/">Tip/Trick <span class="category-count">(10)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/training/">Training <span class="category-count">(4)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/webcast/">webcast <span class="category-count">(3)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/weblogs/">Weblogs <span class="category-count">(1)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/wpf/">WPF <span class="category-count">(2)</span></a></li>
+</span>
+		</ul>
+
+<a style="font-size:85%;display:none;" class="cat-more" href="https://getcoreinterface.typepad.com/blog/archives.html">See More</a>
+	</div>
+</div>
+
+
+
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+</div> <!-- row -->
+			
+
+
+<!-- container-footer -->
+<div id="footer">
+<div class="row well"><div class="col-md-12">
+	<div id="footer-inner">
+		<ul class="footer-list pkg list-inline" >
+			<li class="last-footer-list-item footer-list-item"><a href="https://getcoreinterface.typepad.com/blog/">GetCOREInterface</a></li>
+		</ul>
+	</div>
+</div></div>
+</div>
+
+		</div>
+	</div>
+	
+
+
+
+
+
+
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <script src="/.shared/themes/common/bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+     function autocollapse() {
+        var navbar = jQuery('#autocollapse'); navbar.removeClass('collapsed');
+            if(navbar.innerHeight() > 50) {
+               navbar.addClass('collapsed');
+               $('.navbar button').css("visibility","visible");
+             }
+     }
+autocollapse();
+
+$('.navbar-nav,.navbar-header').fadeIn('slow');
+jQuery(window).on('resize', autocollapse);
+</script>
+
+
+
+
+
+<script type="text/javascript">
+function resizebanner() {
+     var $div = $('#banner');
+     bg = $div.css('background-image');
+       if (bg) {
+         var src = bg.replace(/(^url\()|(\)$|[\"\'])/g, '');
+           $img = $('<img>').attr('src', src).on('load', function() {
+              var img = new Image;
+              img.src = src;
+              var imgW = img.width;
+              var imgH = img.height;             
+              var newW = $('#banner').width();
+              var newH = imgH / imgW * newW;
+       $('#banner').height(newH);
+       $('#banner').css('visibility', 'visible');
+      });//end when loaded
+  }//end if bg
+}//end 
+    (function($) {
+       $(document).on('ready', resizebanner);
+       $(window).on('resize', resizebanner);
+    })(jQuery);
+</script>
+
+
+
+<script type="text/javascript">
+<!--
+var extra_happy = Math.floor(1000000000 * Math.random());
+document.write('<img src="https://www.typepad.com/t/stats?blog_id=112876564355520268&amp;user_id=&amp;page=' + escape(location.href) + '&amp;referrer=' + escape(document.referrer) + '&amp;i=' + extra_happy + '" width="1" height="1" alt="" style="position: absolute; top: 0; left: 0;" />');
+// -->
+</script>
+
+
+
+
+<!-- Begin disqus Tag -->
+
+<!-- End disqus Tag -->
+</body>
+</html>
+
+<!-- ph=1 -->

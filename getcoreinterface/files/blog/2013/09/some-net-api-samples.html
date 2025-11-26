@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<head>
+  <!-- head-common-bootstrap-individual -->
+     <meta charset="utf-8">
+     <meta name="generator" content="http://www.typepad.com/" />
+     <meta name="description" content="Well, already a week has passed by since my first post. I spent some time trying to make the blog format cleaner, so now I can get into the groove and post good stuff more often. :-) This is a quick post to share some sample code that I've been..." />
+     <link rel="canonical" href="https://getcoreinterface.typepad.com/blog/2013/09/some-net-api-samples.html" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<meta property="og:title" content="Some .NET API Samples" />
+<meta property="og:site_name" content="GetCOREInterface" />
+<meta property="og:type" content="blog" />
+<meta property="og:url" content="https://getcoreinterface.typepad.com/blog/2013/09/some-net-api-samples.html" />
+<meta property="og:description" content="Well, already a week has passed by since my first post. I spent some time trying to make the blog format cleaner, so now I can get into the groove and post good stuff more often. :-) This is a quick post to share some sample code that I've been..." />
+<meta property="fb:admins" content="" />
+<meta property="fb:app_id" content="55753818692" />
+
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="">
+<meta name="twitter:creator" content="">
+<meta name="twitter:title" content="Some .NET API Samples">
+<meta name="twitter:description" content="Well, already a week has passed by since my first post. I spent some time trying to make the blog format cleaner, so now I can get into the groove and post good stuff more often. :-) This is a quick post to share some sample code that I've been...">
+
+
+     <!-- Custom fonts for this template -->
+
+    <!-- Bootstrap core CSS -->
+    <link href="/.shared/themes/common/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap bridge -->
+    <link href="/.shared/themes/common/bootstrap/css/bootstrap-bridge.css" rel="stylesheet" />
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="https://getcoreinterface.typepad.com/blog/styles.css?v=6" type="text/css" media="screen" />
+    <style>.navbar-header, .nav { display:block !important; }</style>
+
+        <link rel="stylesheet" href="https://static.typepad.com/.shared/themes/common/print.css" type="text/css" media="print" />
+        <link rel="alternate" type="application/atom+xml" title="Posts on 'GetCOREInterface' (Atom)" href="https://getcoreinterface.typepad.com/blog/atom.xml" />
+        <link rel="alternate" type="application/rss+xml" title="Posts on 'GetCOREInterface' (RSS 1.0)" href="https://getcoreinterface.typepad.com/blog/index.rdf" />
+        <link rel="alternate" type="application/rss+xml" title="Posts on 'GetCOREInterface' (RSS 2.0)" href="https://getcoreinterface.typepad.com/blog/rss.xml" />
+
+    <script src="//code.jquery.com/jquery.js"></script>
+
+        <script type="text/javascript">
+                var TPApp = {};
+                TPApp.app_uri = "https://www.typepad.com/";
+        </script>
+<!-- why does this load from prod? -->
+        <script type="text/javascript" src="https://static.typepad.com/.shared/js/yui/yahoo-dom-event.js,/js/app/thumbnail-gallery-min.js,/js/app/flyouts-min.js"></script>
+
+<!--- head google analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-225723-36', 'auto', {'name': 'Typepad'}, {'allowLinker': true} );  // Separate tracker for Typepad.
+ga('Typepad.require', 'linker');
+ga('Typepad.linker:autoLink', ['none']);
+ga('Typepad.set', 'dimension1', '6a019104a31725970c019104a321e0970c');
+ga('Typepad.set', 'dimension2', 'Individual');
+ga('Typepad.send', 'pageview');
+</script>
+
+
+
+    <script type="text/javascript" src="//tags.tiqcdn.com/utag/autodesk/typepad/prod/utag.js"></script>
+
+
+        <link rel="alternate" type="application/atom+xml" title="Comments on 'Some .NET API Samples' (Atom)" href="https://getcoreinterface.typepad.com/blog/2013/09/some-net-api-samples/comments/atom.xml" />
+        <link rel="alternate" type="application/rss+xml" title="Comments on 'Some .NET API Samples' (RSS 2.0)" href="https://getcoreinterface.typepad.com/blog/2013/09/some-net-api-samples/comments/rss.xml" />
+        <title>Some .NET API Samples - GetCOREInterface</title>
+        <link rel="start" href="https://getcoreinterface.typepad.com/blog/" title="Home" />
+        <link rel="prev" href="https://getcoreinterface.typepad.com/blog/2013/09/welcome-to-the-new-3ds-max-customization-and-programming-blog.html?no_prefetch=1" title="Welcome to GetCOREInterface!" />
+        <link rel="next" href="https://getcoreinterface.typepad.com/blog/2013/09/capturing-viewport-input-using-the-net-api.html?no_prefetch=1" title="Capturing viewport input using the .NET API" />
+
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+</head>
+
+
+
+<body class="layout-two-column-right post">
+	
+	<div id="container" class="container">
+		<div id="container-inner" class="pkg">
+			
+                <div class="row">
+     
+
+
+<a id="home"></a>
+   
+
+              <div id="banner" class="jumbotron">
+                <h1><a href="https://getcoreinterface.typepad.com/blog/" accesskey="1">GetCOREInterface</a></h1>
+                <h2>3ds Max customization, automation, plug-in development, and related ramblings!</h2>
+              </div>
+
+     
+     
+      <div id="autocollapse" class="navbar navbar-default navbar-fixed-top">
+
+<div class="navbar-inner">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+          </button>
+         <a class="navbar-brand" href="https://getcoreinterface.typepad.com/blog/">home</a>
+        </div>
+
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+<li><a href="https://getcoreinterface.typepad.com/blog/archives.html">archives</a></li>
+<li><a href="https://getcoreinterface.typepad.com/blog/kevin-vandecar.html">profile</a></li>
+<li><a href="https://getcoreinterface.typepad.com/blog/atom.xml">subscribe</a></li>
+<li><a href="https://twitter.com/kevinvandecar">twitter</a></li>
+<li><a href="http://area.autodesk.com/">area</a></li>
+<li><a href="http://area.autodesk.com/forum/autodesk-3ds-max/programming">forum</a></li>
+<li><a href="http://www.autodesk.com/me-sdk-docs">api docs</a></li>
+
+          </ul><!-- end main navbar -->
+        </div><!--/.nav-collapse-->
+</div><!--/.navbar-inner-->
+
+      </div><!--/.navbar-->
+
+     
+
+
+
+			<div id="pagebody">
+
+
+				<div id="pagebody-inner" class="pkg">
+                                        <div id="alpha" class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+						<div id="alpha-inner" class="pkg">
+							<!-- the plain version removes the extra jquery -->
+<!-- content nav -->
+<p class="content-nav">
+	<a class="content-nav-prev" href="https://getcoreinterface.typepad.com/blog/2013/09/welcome-to-the-new-3ds-max-customization-and-programming-blog.html">&laquo; Welcome to GetCOREInterface!</a> |
+	<a class="content-nav-main" href="https://getcoreinterface.typepad.com/blog/">Main</a>
+	| <a class="content-nav-next" href="https://getcoreinterface.typepad.com/blog/2013/09/capturing-viewport-input-using-the-net-api.html">Capturing viewport input using the .NET API &raquo;</a>
+</p>
+<script type="text/javascript">
+   $(function(){
+       var query = window.location.search.substring(1);
+       if( query == "pintix=1" ) {
+          var e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','https://static.typepad.com/.shared//js/pinmarklet.js?r='+Math.random()*99999999);document.body.appendChild(e);
+       }
+   });
+</script>
+<!-- entry -->
+
+	<h2 class="date-header">09/17/2013</h2>
+
+
+<div class="entry-category-net_api entry-category-cuiactioncommandadapter entry-category-wpf entry-author-kevin_vandecar entry-type-post entry" id="entry-6a019104a31725970c019aff7442a3970b">
+   <div class="entry-inner">
+			<h3 class="entry-header">Some .NET API Samples</h3>
+	
+
+
+
+	<div class="entry-content">
+		<div class="entry-body">
+			<p>Well, already a week has passed by since my first post. I spent some time trying to make the blog format cleaner, so now I can get into the groove and post good stuff more often. :-) </p>
+<p>This is a quick post to share some sample code that I&#39;ve been building up for use with the 3ds Max .NET API. The &quot;enhanced&quot; API was introduced in the 2012 Subscription Advantage Pack (SAP), and then rolled into the main product for 2013 and 2014. The samples should work in each version with some small modifications. Currently it is setup to use 3ds Max Design 2014, and uses the&#0160;ADSK_MAXDES_x64_2014 environment variable to find the asemblies in the 3ds Max Design install folder. If you are using 3ds Max, you can text-edit the ADNCuiSamples.csproj before loading it, and search for $(ADSK_MAXDES_x64_2014), then replace all instances with $(ADSK_3DSMAX_x64_2014).</p>
+<p>BTW, using environment variables makes it easy to reference the assemblies from the csproj file, and they will expand during the project load. You can also do this if you want to build and support both 3ds Max and 3ds Max Design by using your own environment variables. Note that the Visual Studio C# project editor does not allow you to use them directly via the UI.</p>
+<p>A few of the samples use WPF UI elements and each are using the CuiActionCommandAdaptor to provide an action command to run the sample. The first time after building and loading, you will need to use the Customize User Interface (CUI) dialog to manually add the actions to a menu or toolbar. </p>
+<p>Find the sample code here: <a href="https://getcoreinterface.typepad.com/blog/samples/AdnCuiSamples_BlogV01.zip" target="_self" title="AdnCuiSamples_BlogV01">AdnCuiSamples_BlogV01</a></p>
+<p>&#0160;</p>
+		</div>
+		
+
+                        <!-- SIGNATURE -->
+                        
+
+		
+	</div>
+
+	<div class="entry-footer">
+			<p class="entry-footer-info">
+				<span class="post-footers">Posted by <a rel="author" href="https://profile.typepad.com/6p019104a31725970c">Kevin Vandecar</a> at 05:06 PM in <a href="https://getcoreinterface.typepad.com/blog/net-api/">.NET API</a>, <a href="https://getcoreinterface.typepad.com/blog/cuiactioncommandadapter/">CuiActionCommandAdapter</a>, <a href="https://getcoreinterface.typepad.com/blog/wpf/">WPF</a> </span> <span class="separator">|</span> <a class="permalink" href="https://getcoreinterface.typepad.com/blog/2013/09/some-net-api-samples.html">Permalink</a>
+			</p>
+		
+		<!-- technorati tags -->
+
+
+		<!-- post footer links -->
+	<p class="entry-footer-share entry-footer-share-buttons">
+		<span class="entry-footer-links-twitter">
+     <a href="https://twitter.com/share?url=https%3A%2F%2Fbit.ly%2F1emJ67m&text=Some%20.NET%20API%20Samples" target="_blank"><img src="/.shared/images/circle-twitter.png" alt="Twitter" /></a>
+</span>
+	</p>
+
+
+	</div>
+   </div>
+</div>
+
+
+
+        
+        
+        <a id="comments"></a>
+	<div class="comments" id="all-comments">
+		<h3 class="comments-header">Comments</h3>
+					<div class="comments-info">
+				<p><a href="https://getcoreinterface.typepad.com/blog/2013/09/some-net-api-samples/comments/atom.xml"><img src="https://static.typepad.com/.shared/images/feed.png" alt="Feed" width="10" height="10" /></a> You can follow this conversation by subscribing to the <a href="https://getcoreinterface.typepad.com/blog/2013/09/some-net-api-samples/comments/atom.xml">comment feed</a> for this post.</p>
+			</div>
+		
+		<div class="comments-content" id="comments-content">
+                <!-- comment list --><a id="c6a019104a31725970c019aff9a0ee6970b"></a>
+<div class="comment font-entrybody comment-odd comment-by-owner comment-has-avatar" id="comment-6a019104a31725970c019aff9a0ee6970b">
+	<div class="comment-avatar">
+		<img id="comment-6a019104a31725970c019aff9a0ee6970b-avatarimg" src="https://static.typepad.com/.shared/default-userpics/10-50si.gif" alt="Kevin Vandecar" width="50" height="50" at:flyout-userxid="6p019104a31725970c" at:flyout-enabled="yes" />
+	</div>
+	<div class="comment-content font-entrybody" id="comment-6a019104a31725970c019aff9a0ee6970b-content">
+		<span id="comment-6a019104a31725970c019aff9a0ee6970b-content"><p>Hi Andrew, yes that error can be ignored. I do not know exactly why only that 3ds Max Assembly has the warning, but it is common when assemblies are targeted to a specific architecture. A colleague of mine, who blogs about Revit, has an nice article about it (<a href="http://thebuildingcoder.typepad.com/blog/2013/06/processor-architecture-mismatch-warning.html)." rel="nofollow">http://thebuildingcoder.typepad.com/blog/2013/06/processor-architecture-mismatch-warning.html).</a> I would suggest for anyone wanting to remove the warning during the build, that they also choose the &quot;option 2&quot; described there. (This option refers to: <a href="http://connect.microsoft.com/VisualStudio/feedback/details/759796/mismatch-between-the-processor-architecture-of-the-project-being-built-msil-and-the-processor-architecture-of-the-reference)." rel="nofollow">http://connect.microsoft.com/VisualStudio/feedback/details/759796/mismatch-between-the-processor-architecture-of-the-project-being-built-msil-and-the-processor-architecture-of-the-reference).</a> </p></span>
+	</div>
+	<p class="comment-footer font-entryfooter">
+		Posted by:
+		<a rel="nofollow" target="_blank" title="https://profile.typepad.com/6p019104a31725970c" href="https://profile.typepad.com/6p019104a31725970c">Kevin Vandecar</a> |
+		<a rel="nofollow" href="https://getcoreinterface.typepad.com/blog/2013/09/some-net-api-samples.html?cid=6a019104a31725970c019aff9a0ee6970b#comment-6a019104a31725970c019aff9a0ee6970b">09/25/2013 at 01:20 PM</a>
+	</p>
+</div><a id="c6a019104a31725970c019aff9999c7970b"></a>
+<div class="comment font-entrybody comment-even comment-has-avatar" id="comment-6a019104a31725970c019aff9999c7970b">
+	<div class="comment-avatar">
+		<img id="comment-6a019104a31725970c019aff9999c7970b-avatarimg" src="https://static.typepad.com/.shared/default-userpics/20-50si.gif" alt="Drew Avis" width="50" height="50" />
+	</div>
+	<div class="comment-content font-entrybody" id="comment-6a019104a31725970c019aff9999c7970b-content">
+		<span id="comment-6a019104a31725970c019aff9999c7970b-content"><p>Thanks for the samples!  I&#39;m seeing a compiler warning: <br />
+&quot;Warning	1	There was a mismatch between the processor architecture of the project being built &quot;MSIL&quot; and the processor architecture of the reference &quot;ManagedServices&quot;, &quot;AMD64&quot;. This mismatch may cause runtime failures.&quot;  etc.</p>
+
+<p>However, the samples compile and run fine in Max.  Can this warning be safely ignored?</p></span>
+	</div>
+	<p class="comment-footer font-entryfooter">
+		Posted by:
+		Drew Avis |
+		<a rel="nofollow" href="https://getcoreinterface.typepad.com/blog/2013/09/some-net-api-samples.html?cid=6a019104a31725970c019aff9999c7970b#comment-6a019104a31725970c019aff9999c7970b">09/25/2013 at 11:27 AM</a>
+	</p>
+</div>
+
+		</div>
+        
+	</div>
+<script type="text/javascript">var c943723d42e77e9214eb884a1d898ea="</form>";</script>
+<script type="text/javascript">var ffe51c373e0873b7778b6324a0b5533 = '<form id="comment-form" action="';</script>
+<script type="text/javascript">var c943723d42e77e9214eb884a1d898za = '" method="post"><input type="hidden" name="entry_xid" id="comment-entry-xid" value="6a019104a31725970c019aff7442a3970b" \/><input type="hidden" name="token" value="1756833543-1c9912ab21f4268de0707e09b1be86bd1c723ba2:mmbdzzYyJB8ZZC8T" \/>';</script>
+<script type="text/javascript">var OOcd55d4dc47109d7b462b01c7dd4dab = "aHR0cHM6Ly9nZXRjb3JlaW50ZXJmYWNlLnR5cGVwYWQuY29tLy5zZXJ2aWNlcy9jb21tZW50cw";</script>
+<script type="text/javascript">var bad4dd7c10b264b7d90174cd4d55dc00 = atob(OOcd55d4dc47109d7b462b01c7dd4dab);</script>
+
+<!-- comment-form-atp -->
+
+
+<p class="comments-closed font-entrybody">
+	The comments to this entry are closed.
+</p>
+
+
+
+
+
+    
+    
+
+
+
+
+						</div>
+					</div>
+                                        <div id="beta" class="well col-xs-12 col-sm-4 col-md-4 col-lg-4">
+						<div id="beta-inner" class="pkg">
+							
+<!-- sidebar -->
+
+
+	<div class="module-archives module">
+		<h2 class="module-header"><a href="https://getcoreinterface.typepad.com/blog/archives.html">Archives</a></h2>
+		<div class="module-content">
+												<ul class="module-list">
+				
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2025/05/index.html">May 2025</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2024/01/index.html">January 2024</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/06/index.html">June 2023</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/04/index.html">April 2023</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/02/index.html">February 2023</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/01/index.html">January 2023</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2022/04/index.html">April 2022</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2021/05/index.html">May 2021</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2021/04/index.html">April 2021</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2020/05/index.html">May 2020</a></li>
+									</ul>
+									<p class="module-more"><a href="https://getcoreinterface.typepad.com/blog/archives.html">More...</a></p>
+				
+				
+			
+		</div>
+	</div>
+
+<!-- list_inlcude.tt  -->
+<div id="about" class="module-typelist module">
+<h2 class="module-header">About</h2>
+	<div class="typelist-plain module-content">
+		<ul class="module-list">
+							<li class="module-list-item"><div class="typelist-note"><table> <tr> 
+	<td> 
+	<a href="https://getcoreinterface.typepad.com/blog/kevin-vandecar.html"> <img src="https://getcoreinterface.typepad.com/blog/KDV_Fall_Color_100.jpg"></a> <a href="https://getcoreinterface.typepad.com/blog/kevin-vandecar.html">Kevin Vandecar</a> <br> <br> 
+	<a href="https://getcoreinterface.typepad.com/blog/denis-grigor.html"> <img src="https://getcoreinterface.typepad.com/blog/denis_grigor.jpg"></a> 
+	<a href="https://getcoreinterface.typepad.com/blog/denis-grigor.html">Denis Grigor</a> <br> <br> 
+	<a href="https://getcoreinterface.typepad.com/blog/allan-koech.html"> <img src="https://getcoreinterface.typepad.com/blog/allan-koech.jpg"></a> 
+	<a href="https://getcoreinterface.typepad.com/blog/allan-koech.html">Allan Koech</a> 
+
+	</td> </tr> </table> 
+	
+	<br> <a href="http://www.autodesk.com/joinadn" title="Information on the Autodesk Developer Network"> <img src="https://getcoreinterface.typepad.com/blog/join_adn.png" border="0" /> </a> <link rel="icon" href="/favicon.ico" type="image/x-icon" /> <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /> <link rel="icon" type="image/gif" href="/favicon.gif" /> <meta name="application-name" content="GetCOREInterface" /> <meta name="msapplication-tooltip" content="Open GetCOREInterface blog" /> <meta name="msapplication-starturl" content="http://getcoreinterface.typepad.com" /> <meta name="msapplication-window" content="width=1024;height=768" /> <meta name="msapplication-navbutton-color" content="#000000" /> <meta name="msapplication-task" content="name=Search TtIf;action-uri=http://www.google.com/search?btnG=%C2%BB&domains=getcoreinterface.typepad.com&sitesearch=getcoreinterface.typepad.com;icon-uri=http://google.com/favicon.ico" /></div></li>
+			
+		</ul><!-- last /ul -->
+	</div>
+</div>
+<!-- end list_include.tt -->
+
+<!-- list_inlcude.tt  -->
+<div id="google_search" class="module-typelist module">
+<h2 class="module-header">Google Search</h2>
+	<div class="typelist-plain module-content">
+		<ul class="module-list">
+							<li class="module-list-item"><div class="typelist-note"><script>
+  (function() {
+    var cx = '001717393972716514223:-ybiyil2pts';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search></div></li>
+			
+		</ul><!-- last /ul -->
+	</div>
+</div>
+<!-- end list_include.tt -->
+
+<!-- list_inlcude.tt  -->
+<div id="translate" class="module-typelist module">
+<h2 class="module-header">Translate</h2>
+	<div class="typelist-plain module-content">
+		<ul class="module-list">
+							<li class="module-list-item"><div class="typelist-note"><div id='MicrosoftTranslatorWidget' class='Dark' style='color:white;background-color:#555555'>
+</div>
+<script type='text/javascript'>setTimeout(function(){{var s=document.createElement('script');s.type='text/javascript';s.charset='UTF-8';s.src=((location && location.href && location.href.indexOf('https') == 0)?'https://ssl.microsofttranslator.com':'http://www.microsofttranslator.com')+'/ajax/v3/WidgetV3.ashx?siteData=ueOIGRSKkd965FeEGM5JtQ**&ctf=True&ui=true&settings=Manual&from=en';var p=document.getElementsByTagName('head')[0]||document.documentElement;p.insertBefore(s,p.firstChild); }},0);</script>
+</div></li>
+			
+		</ul><!-- last /ul -->
+	</div>
+</div>
+<!-- end list_include.tt -->
+
+<div class="module-calendar module">
+	<h2 class="module-header">May 2025</h2>
+	<div class="module-content table-responsive">
+		<table class="table" summary="Monthly calendar with links to each day's posts">
+                        <tr>
+                                                                 <th>Sun</th>
+                                                                 <th>Mon</th>
+                                                                 <th>Tue</th>
+                                                                 <th>Wed</th>
+                                                                 <th>Thu</th>
+                                                                 <th>Fri</th>
+                                                                 <th>Sat</th>
+                                
+                        </tr>
+                                                   <tr>
+                                        <td>&nbsp;</td>
+                                
+                                                   
+                                        <td>&nbsp;</td>
+                                
+                                                   
+                                        <td>&nbsp;</td>
+                                
+                                                   
+                                        <td>&nbsp;</td>
+                                
+                                                   
+                                        <td>1</td>
+                                
+                                                   
+                                        <td>2</td>
+                                
+                                                   
+                                        <td>3</td>
+                                </tr>
+                                                   <tr>
+                                        <td>4</td>
+                                
+                                                   
+                                        <td>5</td>
+                                
+                                                   
+                                        <td>6</td>
+                                
+                                                   
+                                        <td>7</td>
+                                
+                                                   
+                                        <td>8</td>
+                                
+                                                   
+                                        <td>9</td>
+                                
+                                                   
+                                        <td>10</td>
+                                </tr>
+                                                   <tr>
+                                        <td>11</td>
+                                
+                                                   
+                                        <td>12</td>
+                                
+                                                   
+                                        <td>13</td>
+                                
+                                                   
+                                        <td>14</td>
+                                
+                                                   
+                                        <td>15</td>
+                                
+                                                   
+                                        <td>16</td>
+                                
+                                                   
+                                        <td>17</td>
+                                </tr>
+                                                   <tr>
+                                        <td>18</td>
+                                
+                                                   
+                                        <td>19</td>
+                                
+                                                   
+                                        <td>20</td>
+                                
+                                                   
+                                        <td>21</td>
+                                
+                                                   
+                                        <td>22</td>
+                                
+                                                   
+                                        <td>23</td>
+                                
+                                                   
+                                        <td>24</td>
+                                </tr>
+                                                   <tr>
+                                        <td>25</td>
+                                
+                                                   
+                                        <td>26</td>
+                                
+                                                   
+                                        <td>27</td>
+                                
+                                                   
+                                        <td><a href="https://getcoreinterface.typepad.com/blog/2025/05/whats-new-in-3ds-max-2026.html">28</a></td>
+                                
+                                                   
+                                        <td>29</td>
+                                
+                                                   
+                                        <td><a href="https://getcoreinterface.typepad.com/blog/2025/05/upgrading-3ds-max-net-projects-from-net-framework-to-net-8.html">30</a></td>
+                                
+                                                   
+                                        <td>31</td>
+                                </tr>
+                        
+		</table>
+	</div>
+</div>
+<!-- list_inlcude.tt  -->
+<div id="rss_feed" class="module-typelist module">
+<h2 class="module-header">RSS Feed</h2>
+	<div class="typelist-plain module-content">
+		<ul class="module-list">
+							<li class="module-list-item"><div class="typelist-note"><a href="http://feeds.feedburner.com/autodesk/GetCoreInterface"><img src="https://getcoreinterface.typepad.com/feed.png" border="0" align="absmiddle">
+&nbsp;Subscribe</a></div></li>
+			
+		</ul><!-- last /ul -->
+	</div>
+</div>
+<!-- end list_include.tt -->
+
+<div class="module-search module">
+    <h2 class="module-header">Search</h2>
+    <div class="module-content">
+        <form id="search-blog" method="get" action="https://getcoreinterface.typepad.com/.services/blog/6a019104a31725970c019104a321e0970c/search" class="form-search form-inline" role="search">
+            
+<div class="form-group"><input type="search" name="filter.q" results="5" value="" class="form-control" placeholder="Search" /></div><button type="submit" value="Search" class="btn btn-default">Submit</button>
+
+        </form>
+    </div>
+</div>
+<!-- END Blog Search Module -->
+	<div class="module-archives module">
+		<h2 class="module-header">Recent Posts</h2>
+		<div class="module-content">
+			<ul class="module-list">
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2025/05/upgrading-3ds-max-net-projects-from-net-framework-to-net-8.html">Upgrading 3ds Max .NET projects from .NET Framework to .NET 8</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2025/05/whats-new-in-3ds-max-2026.html">What's new in 3ds Max 2026?</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2025/05/porting-plugins-from-3ds-max-2024-to-3ds-max-2025.html">Porting Plugins from 3ds Max 2024 to 3ds Max 2025</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2024/01/saving-qwidget-docking-states-per-3ds-max-scene.html">Saving QWidget Docking States per 3ds Max Scene</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/06/porting-maxplus-to-pymxs-what-you-need-to-know-1.html">Porting MaxPlus to pymxs - What you need to know</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/04/3ds-max-2024-released.html">3ds Max 2024 Released!</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/02/learning-3ds-max-sdk-my-journey.html">Learning 3ds Max SDK - My Journey</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/01/custom-valuetype-maxscript.html">MAXScript Custom Value Types from 3ds MAX SDK</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2022/04/3ds-max-2023-released.html">3ds Max 2023 Released!</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2021/05/tips-for-troubleshooting-visual-studio-output-and-getting-qt-to-work-with-3ds-max-sdk.html">Tips for troubleshooting Visual Studio output and getting Qt to work with 3ds Max SDK</a></li>
+					
+				
+			</ul>
+		</div>
+	</div>
+<div class="module-categories module">
+	<h2 class="module-header"><a href="https://getcoreinterface.typepad.com/blog/archives.html">Categories</a></h2>
+	<div class="module-content">
+                   <ul class="module-list">
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/net-api/">.NET API <span class="category-count">(15)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/announcement/">Announcement <span class="category-count">(24)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/c/">C++ <span class="category-count">(21)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/cloud-service/">Cloud Service <span class="category-count">(4)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/cuiactioncommandadapter/">CuiActionCommandAdapter <span class="category-count">(4)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/debug/">debug <span class="category-count">(4)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/design-automation/">Design Automation <span class="category-count">(2)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/devdocs/">DevDocs <span class="category-count">(3)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/event/">Event <span class="category-count">(10)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/forge/">Forge <span class="category-count">(7)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/job/">job <span class="category-count">(2)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/maxscript/">MAXScript <span class="category-count">(11)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/open-position/">open position <span class="category-count">(1)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/python/">Python <span class="category-count">(8)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/qt/">qt <span class="category-count">(7)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/samples-1/">Samples <span class="category-count">(3)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/tiptrick/">Tip/Trick <span class="category-count">(10)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/training/">Training <span class="category-count">(4)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/webcast/">webcast <span class="category-count">(3)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/weblogs/">Weblogs <span class="category-count">(1)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/wpf/">WPF <span class="category-count">(2)</span></a></li>
+</span>
+		</ul>
+
+<a style="font-size:85%;display:none;" class="cat-more" href="https://getcoreinterface.typepad.com/blog/archives.html">See More</a>
+	</div>
+</div>
+
+
+
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+</div> <!-- row -->
+			
+
+
+<!-- container-footer -->
+<div id="footer">
+<div class="row well"><div class="col-md-12">
+	<div id="footer-inner">
+		<ul class="footer-list pkg list-inline" >
+			<li class="last-footer-list-item footer-list-item"><a href="https://getcoreinterface.typepad.com/blog/">GetCOREInterface</a></li>
+		</ul>
+	</div>
+</div></div>
+</div>
+
+		</div>
+	</div>
+	
+
+
+
+
+
+
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <script src="/.shared/themes/common/bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+     function autocollapse() {
+        var navbar = jQuery('#autocollapse'); navbar.removeClass('collapsed');
+            if(navbar.innerHeight() > 50) {
+               navbar.addClass('collapsed');
+               $('.navbar button').css("visibility","visible");
+             }
+     }
+autocollapse();
+
+$('.navbar-nav,.navbar-header').fadeIn('slow');
+jQuery(window).on('resize', autocollapse);
+</script>
+
+
+
+
+
+<script type="text/javascript">
+function resizebanner() {
+     var $div = $('#banner');
+     bg = $div.css('background-image');
+       if (bg) {
+         var src = bg.replace(/(^url\()|(\)$|[\"\'])/g, '');
+           $img = $('<img>').attr('src', src).on('load', function() {
+              var img = new Image;
+              img.src = src;
+              var imgW = img.width;
+              var imgH = img.height;             
+              var newW = $('#banner').width();
+              var newH = imgH / imgW * newW;
+       $('#banner').height(newH);
+       $('#banner').css('visibility', 'visible');
+      });//end when loaded
+  }//end if bg
+}//end 
+    (function($) {
+       $(document).on('ready', resizebanner);
+       $(window).on('resize', resizebanner);
+    })(jQuery);
+</script>
+
+
+
+<script type="text/javascript">
+<!--
+var extra_happy = Math.floor(1000000000 * Math.random());
+document.write('<img src="https://www.typepad.com/t/stats?blog_id=112876564355520268&amp;user_id=&amp;page=' + escape(location.href) + '&amp;referrer=' + escape(document.referrer) + '&amp;i=' + extra_happy + '" width="1" height="1" alt="" style="position: absolute; top: 0; left: 0;" />');
+// -->
+</script>
+
+
+
+
+<!-- Begin disqus Tag -->
+
+<!-- End disqus Tag -->
+</body>
+</html>
+
+<!-- ph=1 -->

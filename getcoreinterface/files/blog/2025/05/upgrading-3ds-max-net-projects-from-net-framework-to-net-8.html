@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<head>
+  <!-- head-common-bootstrap-individual -->
+     <meta charset="utf-8">
+     <meta name="generator" content="http://www.typepad.com/" />
+     <meta name="keywords" content=".NET,3ds-max,upgrade" /><meta name="description" content="3ds Max 2025 and earlier versions have used the .NET Framework for building plugins, but, with the VFX world transitioning to .NET, 3ds Max 2026 brings this support with it. As such, .NET projects require a bit of housekeeping to get them compiled and working in .NET 8 for our..." />
+     <link rel="canonical" href="https://getcoreinterface.typepad.com/blog/2025/05/upgrading-3ds-max-net-projects-from-net-framework-to-net-8.html" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<meta property="og:title" content="Upgrading 3ds Max .NET projects from .NET Framework to .NET 8" />
+<meta property="og:site_name" content="GetCOREInterface" />
+<meta property="og:type" content="blog" />
+<meta property="og:url" content="https://getcoreinterface.typepad.com/blog/2025/05/upgrading-3ds-max-net-projects-from-net-framework-to-net-8.html" />
+<meta property="og:description" content="3ds Max 2025 and earlier versions have used the .NET Framework for building plugins, but, with the VFX world transitioning to .NET, 3ds Max 2026 brings this support with it. As such, .NET projects require a bit of housekeeping to get them compiled and working in .NET 8 for our..." />
+<meta property="fb:admins" content="" />
+<meta property="fb:app_id" content="55753818692" /><meta property="og:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c02e860eb6305200b-600wi" />
+<meta property="og:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c02e861024f9a200d-600wi" />
+<meta property="og:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c02e860eb6359200b-600wi" />
+<meta property="og:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c02e861025005200d-600wi" />
+<meta property="og:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c02e860eb6321200b-600wi" />
+
+
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="">
+<meta name="twitter:creator" content="">
+<meta name="twitter:title" content="Upgrading 3ds Max .NET projects from .NET Framework to .NET 8">
+<meta name="twitter:description" content="3ds Max 2025 and earlier versions have used the .NET Framework for building plugins, but, with the VFX world transitioning to .NET, 3ds Max 2026 brings this support with it. As such, .NET projects require a bit of housekeeping to get them compiled and working in .NET 8 for our..."><meta name="twitter:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c02e860eb6305200b-600wi" />
+<meta name="twitter:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c02e861024f9a200d-600wi" />
+<meta name="twitter:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c02e860eb6359200b-600wi" />
+<meta name="twitter:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c02e861025005200d-600wi" />
+<meta name="twitter:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c02e860eb6321200b-600wi" />
+
+
+
+     <!-- Custom fonts for this template -->
+
+    <!-- Bootstrap core CSS -->
+    <link href="/.shared/themes/common/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap bridge -->
+    <link href="/.shared/themes/common/bootstrap/css/bootstrap-bridge.css" rel="stylesheet" />
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="https://getcoreinterface.typepad.com/blog/styles.css?v=6" type="text/css" media="screen" />
+    <style>.navbar-header, .nav { display:block !important; }</style>
+
+        <link rel="stylesheet" href="https://static.typepad.com/.shared/themes/common/print.css" type="text/css" media="print" />
+        <link rel="alternate" type="application/atom+xml" title="Posts on 'GetCOREInterface' (Atom)" href="https://getcoreinterface.typepad.com/blog/atom.xml" />
+        <link rel="alternate" type="application/rss+xml" title="Posts on 'GetCOREInterface' (RSS 1.0)" href="https://getcoreinterface.typepad.com/blog/index.rdf" />
+        <link rel="alternate" type="application/rss+xml" title="Posts on 'GetCOREInterface' (RSS 2.0)" href="https://getcoreinterface.typepad.com/blog/rss.xml" />
+
+    <script src="//code.jquery.com/jquery.js"></script>
+
+        <script type="text/javascript">
+                var TPApp = {};
+                TPApp.app_uri = "https://www.typepad.com/";
+        </script>
+<!-- why does this load from prod? -->
+        <script type="text/javascript" src="https://static.typepad.com/.shared/js/yui/yahoo-dom-event.js,/js/app/thumbnail-gallery-min.js,/js/app/flyouts-min.js"></script>
+
+<!--- head google analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-225723-36', 'auto', {'name': 'Typepad'}, {'allowLinker': true} );  // Separate tracker for Typepad.
+ga('Typepad.require', 'linker');
+ga('Typepad.linker:autoLink', ['none']);
+ga('Typepad.set', 'dimension1', '6a019104a31725970c019104a321e0970c');
+ga('Typepad.set', 'dimension2', 'Individual');
+ga('Typepad.send', 'pageview');
+</script>
+
+
+
+    <script type="text/javascript" src="//tags.tiqcdn.com/utag/autodesk/typepad/prod/utag.js"></script>
+
+
+        <link rel="alternate" type="application/atom+xml" title="Comments on 'Upgrading 3ds Max .NET projects from .NET Framework to .NET 8' (Atom)" href="https://getcoreinterface.typepad.com/blog/2025/05/upgrading-3ds-max-net-projects-from-net-framework-to-net-8/comments/atom.xml" />
+        <link rel="alternate" type="application/rss+xml" title="Comments on 'Upgrading 3ds Max .NET projects from .NET Framework to .NET 8' (RSS 2.0)" href="https://getcoreinterface.typepad.com/blog/2025/05/upgrading-3ds-max-net-projects-from-net-framework-to-net-8/comments/rss.xml" />
+        <title>Upgrading 3ds Max .NET projects from .NET Framework to .NET 8 - GetCOREInterface</title>
+        <link rel="start" href="https://getcoreinterface.typepad.com/blog/" title="Home" />
+        <link rel="prev" href="https://getcoreinterface.typepad.com/blog/2025/05/whats-new-in-3ds-max-2026.html?no_prefetch=1" title="What's new in 3ds Max 2026?" />
+
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+</head>
+
+
+
+<body class="layout-two-column-right post">
+	
+	<div id="container" class="container">
+		<div id="container-inner" class="pkg">
+			
+                <div class="row">
+     
+
+
+<a id="home"></a>
+   
+
+              <div id="banner" class="jumbotron">
+                <h1><a href="https://getcoreinterface.typepad.com/blog/" accesskey="1">GetCOREInterface</a></h1>
+                <h2>3ds Max customization, automation, plug-in development, and related ramblings!</h2>
+              </div>
+
+     
+     
+      <div id="autocollapse" class="navbar navbar-default navbar-fixed-top">
+
+<div class="navbar-inner">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+          </button>
+         <a class="navbar-brand" href="https://getcoreinterface.typepad.com/blog/">home</a>
+        </div>
+
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+<li><a href="https://getcoreinterface.typepad.com/blog/archives.html">archives</a></li>
+<li><a href="https://getcoreinterface.typepad.com/blog/kevin-vandecar.html">profile</a></li>
+<li><a href="https://getcoreinterface.typepad.com/blog/atom.xml">subscribe</a></li>
+<li><a href="https://twitter.com/kevinvandecar">twitter</a></li>
+<li><a href="http://area.autodesk.com/">area</a></li>
+<li><a href="http://area.autodesk.com/forum/autodesk-3ds-max/programming">forum</a></li>
+<li><a href="http://www.autodesk.com/me-sdk-docs">api docs</a></li>
+
+          </ul><!-- end main navbar -->
+        </div><!--/.nav-collapse-->
+</div><!--/.navbar-inner-->
+
+      </div><!--/.navbar-->
+
+     
+
+
+
+			<div id="pagebody">
+
+
+				<div id="pagebody-inner" class="pkg">
+                                        <div id="alpha" class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+						<div id="alpha-inner" class="pkg">
+							<!-- the plain version removes the extra jquery -->
+<!-- content nav -->
+<p class="content-nav">
+	<a class="content-nav-prev" href="https://getcoreinterface.typepad.com/blog/2025/05/whats-new-in-3ds-max-2026.html">&laquo; What's new in 3ds Max 2026?</a> |
+	<a class="content-nav-main" href="https://getcoreinterface.typepad.com/blog/">Main</a>
+	
+</p>
+<script type="text/javascript">
+   $(function(){
+       var query = window.location.search.substring(1);
+       if( query == "pintix=1" ) {
+          var e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','https://static.typepad.com/.shared//js/pinmarklet.js?r='+Math.random()*99999999);document.body.appendChild(e);
+       }
+   });
+</script>
+<!-- entry -->
+
+	<h2 class="date-header">05/30/2025</h2>
+
+
+<div class="entry-category-net_api entry-category-cuiactioncommandadapter entry-category-maxscript entry-category-tiptrick entry-author-allan_k_koech entry-type-post entry" id="entry-6a019104a31725970c02e860eb3aa0200b">
+   <div class="entry-inner">
+			<h3 class="entry-header">Upgrading 3ds Max .NET projects from .NET Framework to .NET 8</h3>
+	
+
+
+
+	<div class="entry-content">
+		<div class="entry-body">
+			<p>
+<script language="JavaScript">&amp;amp;amp;lt;!--
+function msoCommentShow(anchor_id, com_id)
+{
+	if(msoBrowserCheck()) 
+		{
+		c = document.all(com_id);
+		a = document.all(anchor_id);
+		if (null != c &amp;amp;amp;amp;&amp;amp;amp;amp; null == c.length &amp;amp;amp;amp;&amp;amp;amp;amp; null != a &amp;amp;amp;amp;&amp;amp;amp;amp; null == a.length)
+			{
+			var cw = c.offsetWidth;
+			var ch = c.offsetHeight;
+			var aw = a.offsetWidth;
+			var ah = a.offsetHeight;
+			var x  = a.offsetLeft;
+			var y  = a.offsetTop;
+			var el = a;
+			while (el.tagName != &amp;amp;amp;quot;BODY&amp;amp;amp;quot;) 
+				{
+				el = el.offsetParent;
+				x = x + el.offsetLeft;
+				y = y + el.offsetTop;
+				}
+			var bw = document.body.clientWidth;
+			var bh = document.body.clientHeight;
+			var bsl = document.body.scrollLeft;
+			var bst = document.body.scrollTop;
+			if (x + cw + ah / 2 &amp;amp;amp;gt; bw + bsl &amp;amp;amp;amp;&amp;amp;amp;amp; x + aw - ah / 2 - cw &amp;amp;amp;gt;= bsl ) 
+				{ c.style.left = x + aw - ah / 2 - cw; }
+			else 
+				{ c.style.left = x + ah / 2; }
+			if (y + ch + ah / 2 &amp;amp;amp;gt; bh + bst &amp;amp;amp;amp;&amp;amp;amp;amp; y + ah / 2 - ch &amp;amp;amp;gt;= bst ) 
+				{ c.style.top = y + ah / 2 - ch; }
+			else 
+				{ c.style.top = y + ah / 2; }
+			c.style.visibility = &amp;amp;amp;quot;visible&amp;amp;amp;quot;;
+}	}	}
+function msoCommentHide(com_id) 
+{
+	if(msoBrowserCheck())
+		{
+		c = document.all(com_id);
+		if (null != c &amp;amp;amp;amp;&amp;amp;amp;amp; null == c.length)
+		{
+		c.style.visibility = &amp;amp;amp;quot;hidden&amp;amp;amp;quot;;
+		c.style.left = -1000;
+		c.style.top = -1000;
+		} } 
+}
+function msoBrowserCheck()
+{
+	ms = navigator.appVersion.indexOf(&amp;amp;amp;quot;MSIE&amp;amp;amp;quot;);
+	vers = navigator.appVersion.substring(ms + 5, ms + 6);
+	ie4 = (ms &amp;amp;amp;gt; 0) &amp;amp;amp;amp;&amp;amp;amp;amp; (parseInt(vers) &amp;amp;amp;gt;= 4);
+	return ie4;
+}
+if (msoBrowserCheck())
+{
+	document.styleSheets.dynCom.addRule(&amp;amp;amp;quot;.msocomanchor&amp;amp;amp;quot;,&amp;amp;amp;quot;background: infobackground&amp;amp;amp;quot;);
+	document.styleSheets.dynCom.addRule(&amp;amp;amp;quot;.msocomoff&amp;amp;amp;quot;,&amp;amp;amp;quot;display: none&amp;amp;amp;quot;);
+	document.styleSheets.dynCom.addRule(&amp;amp;amp;quot;.msocomtxt&amp;amp;amp;quot;,&amp;amp;amp;quot;visibility: hidden&amp;amp;amp;quot;);
+	document.styleSheets.dynCom.addRule(&amp;amp;amp;quot;.msocomtxt&amp;amp;amp;quot;,&amp;amp;amp;quot;position: absolute&amp;amp;amp;quot;);
+	document.styleSheets.dynCom.addRule(&amp;amp;amp;quot;.msocomtxt&amp;amp;amp;quot;,&amp;amp;amp;quot;top: -1000&amp;amp;amp;quot;);
+	document.styleSheets.dynCom.addRule(&amp;amp;amp;quot;.msocomtxt&amp;amp;amp;quot;,&amp;amp;amp;quot;left: -1000&amp;amp;amp;quot;);
+	document.styleSheets.dynCom.addRule(&amp;amp;amp;quot;.msocomtxt&amp;amp;amp;quot;,&amp;amp;amp;quot;width: 33%&amp;amp;amp;quot;);
+	document.styleSheets.dynCom.addRule(&amp;amp;amp;quot;.msocomtxt&amp;amp;amp;quot;,&amp;amp;amp;quot;background: infobackground&amp;amp;amp;quot;);
+	document.styleSheets.dynCom.addRule(&amp;amp;amp;quot;.msocomtxt&amp;amp;amp;quot;,&amp;amp;amp;quot;color: infotext&amp;amp;amp;quot;);
+	document.styleSheets.dynCom.addRule(&amp;amp;amp;quot;.msocomtxt&amp;amp;amp;quot;,&amp;amp;amp;quot;border-top: 1pt solid threedlightshadow&amp;amp;amp;quot;);
+	document.styleSheets.dynCom.addRule(&amp;amp;amp;quot;.msocomtxt&amp;amp;amp;quot;,&amp;amp;amp;quot;border-right: 2pt solid threedshadow&amp;amp;amp;quot;);
+	document.styleSheets.dynCom.addRule(&amp;amp;amp;quot;.msocomtxt&amp;amp;amp;quot;,&amp;amp;amp;quot;border-bottom: 2pt solid threedshadow&amp;amp;amp;quot;);
+	document.styleSheets.dynCom.addRule(&amp;amp;amp;quot;.msocomtxt&amp;amp;amp;quot;,&amp;amp;amp;quot;border-left: 1pt solid threedlightshadow&amp;amp;amp;quot;);
+	document.styleSheets.dynCom.addRule(&amp;amp;amp;quot;.msocomtxt&amp;amp;amp;quot;,&amp;amp;amp;quot;padding: 3pt 3pt 3pt 3pt&amp;amp;amp;quot;);
+	document.styleSheets.dynCom.addRule(&amp;amp;amp;quot;.msocomtxt&amp;amp;amp;quot;,&amp;amp;amp;quot;z-index: 100&amp;amp;amp;quot;);
+}
+// --&amp;amp;amp;gt;</script>
+</p>
+<div class="WordSection1">
+<p class="MsoNormal" style="margin: 12.0pt 0cm 12.0pt 0cm;">3ds Max 2025 and earlier versions have used the .NET Framework for building plugins, but, with the VFX world transitioning to .NET, 3ds Max 2026 brings this support with it. As such, .NET projects require a bit of housekeeping to get them compiled and working in .NET 8 for our case. This blog is a simple walkthrough of the upgrade process, using the public `Explode Geometry` Sample hosted on our ADN GitHub Page <a href="https://github.com/ADN-DevTech/3dsMax-Explode-Geometry" rel="noopener" target="_blank">here</a>.</p>
+<h2 class="MsoNormal"><strong><span class="Heading2Char"><span style="font-size: 16.0pt; line-height: 116%;">The Upgrade Assistant</span></span></strong></h2>
+<p class="MsoNormal">Microsoft provides an <a href="https://dotnet.microsoft.com/en-us/platform/upgrade-assistant" rel="noopener" target="_blank">Upgrade Assistant</a> extension to help with porting .NET Framework projects to .NET as well as .NET Core to .NET and much more. The tool simplifies and aids in handling the upgrade intricacies, leaving just a few more steps for us to complete.</p>
+<p class="MsoNormal" style="margin: 12.0pt 0cm 12.0pt 0cm;">First, to get things going, check if you have the Upgrade Assistant installed. If not installed, the Visual Studio Extensions Manager should be your first stop. With Visual Studio opened, navigate to <em>Menu &gt; Extensions &gt; Manage Extensions. Under the Extensions Manager</em>, search for &#39;Upgrade Assistant&#39; and get it installed as shown below.</p>
+<p class="MsoNormal" style="margin: 12.0pt 0cm 12.0pt 0cm;"><a class="asset-img-link" href="https://getcoreinterface.typepad.com/.a/6a019104a31725970c02e860eb6305200b-pi" style="display: inline;"><img alt="Image002" border="0" class="asset  asset-image at-xid-6a019104a31725970c02e860eb6305200b image-full img-responsive" src="https://getcoreinterface.typepad.com/.a/6a019104a31725970c02e860eb6305200b-800wi" title="Image002" /></a></p>
+<p class="MsoNormal" style="margin: 12.0pt 0cm 12.0pt 0cm;">With the assistant downloaded, follow the instructions to get it installed. This may include having to restart the IDE to get the extension installed and loaded for use.</p>
+<p class="MsoNormal" style="margin: 12.0pt 0cm 12.0pt 0cm;">Please note that the Upgrade Assistant is available as both a Visual Studio extension and a command-line utility. In this blog, we will only cover using the Visual Studio extension.</p>
+<h2 style="margin: 14.95pt 0cm 14.95pt 0cm;"><strong><span style="font-size: 18.0pt; line-height: 116%; font-family: &#39;Aptos&#39;,sans-serif;">Explode Geometry Project .NET Upgrade</span></strong></h2>
+<p class="MsoNormal" style="margin: 12.0pt 0cm 12.0pt 0cm;">Let&#39;s work with our <a href="https://github.com/ADN-DevTech/3dsMax-Explode-Geometry" rel="noopener" target="_blank">ADN Explode Geometry</a><span style="font-family: Consolas;"> Sample</span>&#0160;available on GitHub and see how we can get it building and running in .NET 8.</p>
+<h3 style="margin: 14.05pt 0cm 14.05pt 0cm;"><strong>Fetching the project</strong></h3>
+<p class="MsoNormal" style="margin: 12.0pt 0cm 12.0pt 0cm;">This is an easy step: clone the repo (SSH, HTTPS, ZIP, or any format you prefer). For this step, we will clone the branch on tag v2.7 as the repo is already updated to support .NET.</p>
+<p class="MsoNormal" style="margin: 12.0pt 0cm 12.0pt 0cm;"><a></a><code><a><span style="font-family: Consolas;">git clone --branch v2.7 https://github.com/ADN-DevTech/3dsMax-Explode-Geometry<br /></span></a><span style="font-family: Consolas;">cd <a>3dsMax-Explode-Geometry</a></span></code></p>
+<p class="MsoNormal" style="margin: 12.0pt 0cm 12.0pt 0cm;">In the Source folder, open the <span style="font-family: Consolas;">.csproj</span> in Visual Studio.</p>
+<h3 style="margin: 14.05pt 0cm 14.05pt 0cm;"><strong>Upgrading to .NET, the Assistant-way</strong></h3>
+<p class="MsoNormal" style="margin: 12.0pt 0cm 12.0pt 0cm;">As detailed in the <a href="https://learn.microsoft.com/en-us/dotnet/core/porting/upgrade-assistant-overview">Microsoft Blog</a> on the assistant, we can upgrade by Right Clicking the project &gt; Upgrade &gt; A new project upgrade page is opened.</p>
+<p class="MsoNormal" style="margin: 12.0pt 0cm 12.0pt 0cm;">Here, we select the project upgrade way and work with `<span style="font-family: Consolas;">in place project upgrade`</span> but feel free to test the other options if it suits your needs.</p>
+<p class="MsoNormal" style="margin: 12.0pt 0cm 12.0pt 0cm;"><a class="asset-img-link" href="https://getcoreinterface.typepad.com/.a/6a019104a31725970c02e861024f9a200d-pi" style="display: inline;"><img alt="Image003" border="0" class="asset  asset-image at-xid-6a019104a31725970c02e861024f9a200d image-full img-responsive" src="https://getcoreinterface.typepad.com/.a/6a019104a31725970c02e861024f9a200d-800wi" title="Image003" /></a></p>
+<p class="MsoNormal" style="margin: 12.0pt 0cm 12.0pt 0cm;">With the upgrade type ironed out, next we need to select the .NET version to upgrade to. For our case, we are going for .NET 8.0 LTS; this is the expectation for 3ds Max 2026 .NET plugins. You may get an action requirement to download and install .NET SDK if you don&#39;t have it yet; if so, proceed with that installation, then pick it up from here once done.</p>
+<p class="MsoNormal" style="margin: 12.0pt 0cm 12.0pt 0cm;"><a class="asset-img-link" href="https://getcoreinterface.typepad.com/.a/6a019104a31725970c02e860eb6359200b-pi" style="display: inline;"><img alt="Image004" border="0" class="asset  asset-image at-xid-6a019104a31725970c02e860eb6359200b image-full img-responsive" src="https://getcoreinterface.typepad.com/.a/6a019104a31725970c02e860eb6359200b-800wi" title="Image004" /></a></p>
+<p class="MsoNormal" style="margin: 12.0pt 0cm 12.0pt 0cm;">In the next step, we are required to select the files to upgrade. By default, all files in the project are checked, including the project file. Let&#39;s leave it as is and proceed with upgrading the selection. After the process completes, if no errors came up, then our project will have been transformed. Probably, the project will try to build but fail; we will fix that shortly. To check the logs, switch the combo box as shown below to the <span style="font-family: Consolas;">Upgrade Assistant</span> option.<a class="asset-img-link" href="https://getcoreinterface.typepad.com/.a/6a019104a31725970c02e861024fae200d-pi" style="display: inline;"><br /><br /></a><a class="asset-img-link" href="https://getcoreinterface.typepad.com/.a/6a019104a31725970c02e861025005200d-pi" style="display: inline;"><img alt="Image005" border="0" class="asset  asset-image at-xid-6a019104a31725970c02e861025005200d image-full img-responsive" src="https://getcoreinterface.typepad.com/.a/6a019104a31725970c02e861025005200d-800wi" title="Image005" /></a><a class="asset-img-link" href="https://getcoreinterface.typepad.com/.a/6a019104a31725970c02e861024fae200d-pi" style="display: inline;"><br /></a></p>
+<p class="MsoNormal" style="margin: 12.0pt 0cm 12.0pt 0cm;">At the end of this process, you should have a project file `.csproj` that has been updated to conform to the .NET 8 project format. Running a build fails due to missing references to the Autodesk assemblies that may have been dropped in the upgrade.</p>
+<p class="MsoNormal" style="margin: 12.0pt 0cm 12.0pt 0cm;">To fix the missing Autodesk assemblies or any other internal or 3rd-party assemblies, we can achieve that either by</p>
+<ul>
+<li class="MsoNormal">Directly edit the <strong><em>csproj</em></strong> file by copying the <strong><em><span style="font-family: Consolas;">ItemGroup</span></em></strong> for the assemblies from the old project file and updating where necessary. For instance, for the <span style="font-family: Consolas;">Autodesk.Max.dll</span> assembly, we can have it included in the new project file as shown below, with the version updated to 2026 - of course. The same will be done for the other project dependencies like <span style="font-family: Consolas;">CSharpUtilities.dll</span>, <span style="font-family: Consolas;">ManagedServices.dll</span>, etc.<br /><br /><code>&lt;ItemGroup&gt; </code><br /><code>&#0160;&#0160;&#0160;&#0160;&lt;Reference Include=&quot;Autodesk.Max&quot;&gt; </code><br /><code>&#0160;&#0160;&#0160; &#0160;&#0160;&#0160;&#0160;&lt;HintPath&gt;$(ADSK_3DSMAX_x64_2026)\Autodesk.Max.dll&lt;/HintPath&gt; </code><br /><code>&#0160;&#0160;&#0160;&#0160;&lt;/Reference&gt; <br />&#0160;&#0160;&#0160;&#0160;.... other assemblies </code><br /><code>&lt;/ItemGroup&gt;</code></li>
+</ul>
+<ul>
+<li class="MsoListParagraphCxSpFirst">A<a></a><a>nother way is making use of the Visual Studio </a><span style="font-family: Consolas;">Reference Manager</span> that is accessed from the <code>Menu &gt; Project &gt; Add Project Reference &gt; Browse</code> &amp; find your assemblies. Once all intended libraries are selected, click OK to add them. Just as in the option above, the new assemblies will be added back into the project file. Just FYI, we can change the assembly paths for the Autodesk assemblies to make use of the path variables. This way, any user can use our plugin despite the installation path they chose. For our case, we will use the path as <span style="font-family: Consolas;">$(ADSK_3DSMAX_x64_2026)\&lt;assembly name&gt;</span>.</li>
+</ul>
+<p class="MsoListParagraphCxSpMiddle" style="margin-bottom: 0cm;">&#0160;</p>
+<p class="MsoListParagraphCxSpLast" style="margin-bottom: 0cm;"><a class="asset-img-link" href="https://getcoreinterface.typepad.com/.a/6a019104a31725970c02e860eb6321200b-pi" style="display: inline;"><img alt="Image006" border="0" class="asset  asset-image at-xid-6a019104a31725970c02e860eb6321200b img-responsive" src="https://getcoreinterface.typepad.com/.a/6a019104a31725970c02e860eb6321200b-800wi" title="Image006" /></a></p>
+<p class="MsoNormal" style="margin: 12.0pt 0cm 12.0pt 0cm;">At this stage, we can build our project, and everything should now be okay. But, looking at the logs, our build outputs are going to the default Visual Studio project build directory and not the one defined under our debug/release property group. <a>In .NET Framework project configuration, we had defined <code>&lt;OutputPath&gt;</code> inside each build type (Build/Debug). In .NET, we define it inside the <code>&lt;PropertyGroup&gt;</code>, where we have our project defaults as shown below:</a></p>
+<p class="MsoNormal" style="margin: 12.0pt 0cm 12.0pt 0cm;"><code><span style="font-size: 10.0pt; font-family: Consolas;">&lt;PropertyGroup&gt; <br /></span><span style="font-size: 10.0pt; font-family: Consolas;">&#0160;&#0160;&#0160;&#0160;&lt;TargetFramework&gt;net8.0-windows&lt;/TargetFramework&gt; <br /></span><span style="font-size: 10.0pt; font-family: Consolas;">&#0160;&#0160;&#0160;&#0160;... the other config here &lt;OutputPath&gt;C:\Our\intended\path\for\the\assembly&lt;/OutputPath&gt;<br /></span><span style="font-size: 10.0pt; font-family: Consolas;">&lt;/PropertyGroup&gt;</span></code></p>
+<p class="MsoNormal" style="margin: 12.0pt 0cm 12.0pt 0cm;">For our case, we will be using the Autodesk plugin path as our output path. This way, any plugin development changes can be updated in the sample.</p>
+<p class="MsoNormal" style="margin: 12.0pt 0cm 12.0pt 0cm;">Note: There may be extra steps to getting the assembly loaded into 3ds Max. If using <span style="font-family: Consolas;">PackageContents.xml</span>, update where necessary to get the assembly and its dependencies loaded. Refer to the following documentation pages for help: <a href="https://help.autodesk.com/view/MAXDEV/2026/ENU/?guid=menu_migration_guide" rel="noopener" target="_blank">Menu System Porting</a>, <a href="https://help.autodesk.com/view/MAXDEV/2025/ENU/?guid=packaging_plugins" rel="noopener" target="_blank"><span class="MsoHyperlink">Packaging Samples</span></a></p>
+<h2 style="margin: 14.95pt 0cm 14.95pt 0cm;"><strong><span style="font-size: 18.0pt; line-height: 116%; font-family: &#39;Aptos&#39;,sans-serif;">Final Housekeeping</span></strong></h2>
+<p class="MsoNormal" style="margin: 12.0pt 0cm 12.0pt 0cm;">As a close, we need to do a bit of housekeeping. Here are a few things to consider:</p>
+<ul>
+<li class="MsoNormal">Setting included assemblies as not private: When we add assembly references in our project, the build process ends up copying the assembly references and their dependencies to the `OutputPath` directory, which is not the intended behavior. This results in duplication of assemblies, which may cause 3ds Max to crash. To resolve this, update each of the included assemblies as follows:<br /><br /><code><em><span lang="EN-US" style="font-size: 10.0pt; line-height: 116%;">&lt;Reference Include=&quot;ManagedServices&quot;&gt;<br /></span></em><em style="text-indent: 36pt;"><span lang="FR" style="font-size: 10.0pt; line-height: 116%;">&#0160;&#0160;&#0160;&#0160;&lt;HintPath&gt;<br /></span></em><em><span lang="FR" style="font-size: 10.0pt; line-height: 116%;">&#0160;&#0160;&#0160; &#0160;&#0160;&#0160;&#0160;$(ADSK_3DSMAX_x64_2026)\ManagedServices.dll <br /></span></em><em><span lang="FR" style="font-size: 10.0pt; line-height: 116%;">&#0160;&#0160;&#0160;&#0160;&lt;/HintPath&gt;<br /></span></em><em style="text-indent: 36pt;"><span lang="FR" style="font-size: 10.0pt; line-height: 116%;">&#0160;&#0160;&#0160;&#0160;&lt;Private&gt; false &lt;/Private&gt;<br /></span></em></code><em><span lang="FR" style="font-size: 10.0pt; line-height: 116%;"><code>&lt;/Reference&gt;</code><br /><br /></span></em></li>
+</ul>
+<ul>
+<li class="MsoListParagraphCxSpMiddle">Disabling the <code>AppendTargetFrameworkToOutputPath</code> flag: Since plugins for 3ds Max are meant for Windows, we can disable the flag above to ensure the assemblies don&#39;t end up nested in a target framework directory.<br /><br /><code><em><span style="font-size: 10.0pt; line-height: 116%;">&lt;AppendTargetFrameworkToOutputPath &gt;false&lt;/ AppendTargetFrameworkToOutputPath &gt;</span></em></code></li>
+</ul>
+<ul>
+<li class="MsoNormal"><em><span style="font-size: 10.0pt; line-height: 116%;">&#0160;</span></em>Updating/bumping up plugin versions. This applies to both <span style="font-family: Consolas;">ApplicationVersion</span> and <span style="font-family: Consolas;">AssemblyVersion</span> keys.</li>
+<li class="MsoNormal">Adding additional library information that was maybe dropped in the upgrade or new in the new project version. For instance, <span style="font-family: Consolas;">FileVersion</span><span style="text-indent: -18pt;">, </span><span style="font-family: Consolas;">AssemblyVersion</span><span style="text-indent: -18pt;">, etc.</span></li>
+</ul>
+<p class="MsoListParagraphCxSpLast" style="margin-bottom: 0cm; text-indent: -18.0pt;"><span style="font-family: Symbol;"> <span style="font: 7.0pt &#39;Times New Roman&#39;;">&#0160;&#0160;&#0160;&#0160;&#0160;&#0160; </span></span>You can find the full sample and code in our <a href="https://github.com/ADN-DevTech/3dsMax-Explode-Geometry" rel="noopener" target="_blank">ADN Github Repo</a>.</p>
+</div>
+<div>
+<div>
+<div class="msocomtxt" id="_com_5">
+<p class="MsoNormal">&#0160;</p>
+</div>
+</div>
+</div>
+		</div>
+		
+
+                        <!-- SIGNATURE -->
+                        
+
+		
+	</div>
+
+	<div class="entry-footer">
+			<p class="entry-footer-info">
+				<span class="post-footers">Posted by <a rel="author" href="https://profile.typepad.com/allankoech">Allan K. Koech</a> at 03:51 AM in <a href="https://getcoreinterface.typepad.com/blog/net-api/">.NET API</a>, <a href="https://getcoreinterface.typepad.com/blog/cuiactioncommandadapter/">CuiActionCommandAdapter</a>, <a href="https://getcoreinterface.typepad.com/blog/maxscript/">MAXScript</a>, <a href="https://getcoreinterface.typepad.com/blog/tiptrick/">Tip/Trick</a> </span> <span class="separator">|</span> <a class="permalink" href="https://getcoreinterface.typepad.com/blog/2025/05/upgrading-3ds-max-net-projects-from-net-framework-to-net-8.html">Permalink</a>
+			</p>
+		
+		<!-- technorati tags -->
+
+
+		<!-- post footer links -->
+	<p class="entry-footer-share entry-footer-share-buttons">
+		<span class="entry-footer-links-twitter">
+     <a href="https://twitter.com/share?url=https%3A%2F%2Fgetcoreinterface.typepad.com%2Fblog%2F2025%2F05%2Fupgrading-3ds-max-net-projects-from-net-framework-to-net-8.html&text=Upgrading%203ds%20Max%20.NET%20..." target="_blank"><img src="/.shared/images/circle-twitter.png" alt="Twitter" /></a>
+</span>
+	</p>
+
+
+	</div>
+   </div>
+</div>
+
+
+
+        
+        
+        <a id="comments"></a>
+	<div class="comments" id="all-comments">
+		<h3 class="comments-header">Comments</h3>
+					<div class="comments-info">
+				<p><a href="https://getcoreinterface.typepad.com/blog/2025/05/upgrading-3ds-max-net-projects-from-net-framework-to-net-8/comments/atom.xml"><img src="https://static.typepad.com/.shared/images/feed.png" alt="Feed" width="10" height="10" /></a> You can follow this conversation by subscribing to the <a href="https://getcoreinterface.typepad.com/blog/2025/05/upgrading-3ds-max-net-projects-from-net-framework-to-net-8/comments/atom.xml">comment feed</a> for this post.</p>
+			</div>
+		
+		<div class="comments-content" id="comments-content">
+                <!-- comment list -->
+
+		</div>
+        
+	</div>
+<script type="text/javascript">var c943723d42e77e9214eb884a1d898ea="</form>";</script>
+<script type="text/javascript">var ffe51c373e0873b7778b6324a0b5533 = '<form id="comment-form" action="';</script>
+<script type="text/javascript">var c943723d42e77e9214eb884a1d898za = '" method="post"><input type="hidden" name="entry_xid" id="comment-entry-xid" value="6a019104a31725970c02e860eb3aa0200b" \/><input type="hidden" name="token" value="1756835532-0b746b7cf29f0dc4dc4e099aabc752c880797940:3MWkzbLUEUfDLffQ" \/>';</script>
+<script type="text/javascript">var OOcd55d4dc47109d7b462b01c7dd4dab = "aHR0cHM6Ly9nZXRjb3JlaW50ZXJmYWNlLnR5cGVwYWQuY29tLy5zZXJ2aWNlcy9jb21tZW50cw";</script>
+<script type="text/javascript">var bad4dd7c10b264b7d90174cd4d55dc00 = atob(OOcd55d4dc47109d7b462b01c7dd4dab);</script>
+
+<!-- comment-form-atp -->
+
+
+<p class="comments-closed font-entrybody">
+	The comments to this entry are closed.
+</p>
+
+
+
+
+
+    
+    
+
+
+
+
+						</div>
+					</div>
+                                        <div id="beta" class="well col-xs-12 col-sm-4 col-md-4 col-lg-4">
+						<div id="beta-inner" class="pkg">
+							
+<!-- sidebar -->
+
+
+	<div class="module-archives module">
+		<h2 class="module-header"><a href="https://getcoreinterface.typepad.com/blog/archives.html">Archives</a></h2>
+		<div class="module-content">
+												<ul class="module-list">
+				
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2025/05/index.html">May 2025</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2024/01/index.html">January 2024</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/06/index.html">June 2023</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/04/index.html">April 2023</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/02/index.html">February 2023</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/01/index.html">January 2023</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2022/04/index.html">April 2022</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2021/05/index.html">May 2021</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2021/04/index.html">April 2021</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2020/05/index.html">May 2020</a></li>
+									</ul>
+									<p class="module-more"><a href="https://getcoreinterface.typepad.com/blog/archives.html">More...</a></p>
+				
+				
+			
+		</div>
+	</div>
+
+<!-- list_inlcude.tt  -->
+<div id="about" class="module-typelist module">
+<h2 class="module-header">About</h2>
+	<div class="typelist-plain module-content">
+		<ul class="module-list">
+							<li class="module-list-item"><div class="typelist-note"><table> <tr> 
+	<td> 
+	<a href="https://getcoreinterface.typepad.com/blog/kevin-vandecar.html"> <img src="https://getcoreinterface.typepad.com/blog/KDV_Fall_Color_100.jpg"></a> <a href="https://getcoreinterface.typepad.com/blog/kevin-vandecar.html">Kevin Vandecar</a> <br> <br> 
+	<a href="https://getcoreinterface.typepad.com/blog/denis-grigor.html"> <img src="https://getcoreinterface.typepad.com/blog/denis_grigor.jpg"></a> 
+	<a href="https://getcoreinterface.typepad.com/blog/denis-grigor.html">Denis Grigor</a> <br> <br> 
+	<a href="https://getcoreinterface.typepad.com/blog/allan-koech.html"> <img src="https://getcoreinterface.typepad.com/blog/allan-koech.jpg"></a> 
+	<a href="https://getcoreinterface.typepad.com/blog/allan-koech.html">Allan Koech</a> 
+
+	</td> </tr> </table> 
+	
+	<br> <a href="http://www.autodesk.com/joinadn" title="Information on the Autodesk Developer Network"> <img src="https://getcoreinterface.typepad.com/blog/join_adn.png" border="0" /> </a> <link rel="icon" href="/favicon.ico" type="image/x-icon" /> <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /> <link rel="icon" type="image/gif" href="/favicon.gif" /> <meta name="application-name" content="GetCOREInterface" /> <meta name="msapplication-tooltip" content="Open GetCOREInterface blog" /> <meta name="msapplication-starturl" content="http://getcoreinterface.typepad.com" /> <meta name="msapplication-window" content="width=1024;height=768" /> <meta name="msapplication-navbutton-color" content="#000000" /> <meta name="msapplication-task" content="name=Search TtIf;action-uri=http://www.google.com/search?btnG=%C2%BB&domains=getcoreinterface.typepad.com&sitesearch=getcoreinterface.typepad.com;icon-uri=http://google.com/favicon.ico" /></div></li>
+			
+		</ul><!-- last /ul -->
+	</div>
+</div>
+<!-- end list_include.tt -->
+
+<!-- list_inlcude.tt  -->
+<div id="google_search" class="module-typelist module">
+<h2 class="module-header">Google Search</h2>
+	<div class="typelist-plain module-content">
+		<ul class="module-list">
+							<li class="module-list-item"><div class="typelist-note"><script>
+  (function() {
+    var cx = '001717393972716514223:-ybiyil2pts';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search></div></li>
+			
+		</ul><!-- last /ul -->
+	</div>
+</div>
+<!-- end list_include.tt -->
+
+<!-- list_inlcude.tt  -->
+<div id="translate" class="module-typelist module">
+<h2 class="module-header">Translate</h2>
+	<div class="typelist-plain module-content">
+		<ul class="module-list">
+							<li class="module-list-item"><div class="typelist-note"><div id='MicrosoftTranslatorWidget' class='Dark' style='color:white;background-color:#555555'>
+</div>
+<script type='text/javascript'>setTimeout(function(){{var s=document.createElement('script');s.type='text/javascript';s.charset='UTF-8';s.src=((location && location.href && location.href.indexOf('https') == 0)?'https://ssl.microsofttranslator.com':'http://www.microsofttranslator.com')+'/ajax/v3/WidgetV3.ashx?siteData=ueOIGRSKkd965FeEGM5JtQ**&ctf=True&ui=true&settings=Manual&from=en';var p=document.getElementsByTagName('head')[0]||document.documentElement;p.insertBefore(s,p.firstChild); }},0);</script>
+</div></li>
+			
+		</ul><!-- last /ul -->
+	</div>
+</div>
+<!-- end list_include.tt -->
+
+<div class="module-calendar module">
+	<h2 class="module-header">May 2025</h2>
+	<div class="module-content table-responsive">
+		<table class="table" summary="Monthly calendar with links to each day's posts">
+                        <tr>
+                                                                 <th>Sun</th>
+                                                                 <th>Mon</th>
+                                                                 <th>Tue</th>
+                                                                 <th>Wed</th>
+                                                                 <th>Thu</th>
+                                                                 <th>Fri</th>
+                                                                 <th>Sat</th>
+                                
+                        </tr>
+                                                   <tr>
+                                        <td>&nbsp;</td>
+                                
+                                                   
+                                        <td>&nbsp;</td>
+                                
+                                                   
+                                        <td>&nbsp;</td>
+                                
+                                                   
+                                        <td>&nbsp;</td>
+                                
+                                                   
+                                        <td>1</td>
+                                
+                                                   
+                                        <td>2</td>
+                                
+                                                   
+                                        <td>3</td>
+                                </tr>
+                                                   <tr>
+                                        <td>4</td>
+                                
+                                                   
+                                        <td>5</td>
+                                
+                                                   
+                                        <td>6</td>
+                                
+                                                   
+                                        <td>7</td>
+                                
+                                                   
+                                        <td>8</td>
+                                
+                                                   
+                                        <td>9</td>
+                                
+                                                   
+                                        <td>10</td>
+                                </tr>
+                                                   <tr>
+                                        <td>11</td>
+                                
+                                                   
+                                        <td>12</td>
+                                
+                                                   
+                                        <td>13</td>
+                                
+                                                   
+                                        <td>14</td>
+                                
+                                                   
+                                        <td>15</td>
+                                
+                                                   
+                                        <td>16</td>
+                                
+                                                   
+                                        <td>17</td>
+                                </tr>
+                                                   <tr>
+                                        <td>18</td>
+                                
+                                                   
+                                        <td>19</td>
+                                
+                                                   
+                                        <td>20</td>
+                                
+                                                   
+                                        <td>21</td>
+                                
+                                                   
+                                        <td>22</td>
+                                
+                                                   
+                                        <td>23</td>
+                                
+                                                   
+                                        <td>24</td>
+                                </tr>
+                                                   <tr>
+                                        <td>25</td>
+                                
+                                                   
+                                        <td>26</td>
+                                
+                                                   
+                                        <td>27</td>
+                                
+                                                   
+                                        <td><a href="https://getcoreinterface.typepad.com/blog/2025/05/whats-new-in-3ds-max-2026.html">28</a></td>
+                                
+                                                   
+                                        <td>29</td>
+                                
+                                                   
+                                        <td><a href="https://getcoreinterface.typepad.com/blog/2025/05/upgrading-3ds-max-net-projects-from-net-framework-to-net-8.html">30</a></td>
+                                
+                                                   
+                                        <td>31</td>
+                                </tr>
+                        
+		</table>
+	</div>
+</div>
+<!-- list_inlcude.tt  -->
+<div id="rss_feed" class="module-typelist module">
+<h2 class="module-header">RSS Feed</h2>
+	<div class="typelist-plain module-content">
+		<ul class="module-list">
+							<li class="module-list-item"><div class="typelist-note"><a href="http://feeds.feedburner.com/autodesk/GetCoreInterface"><img src="https://getcoreinterface.typepad.com/feed.png" border="0" align="absmiddle">
+&nbsp;Subscribe</a></div></li>
+			
+		</ul><!-- last /ul -->
+	</div>
+</div>
+<!-- end list_include.tt -->
+
+<div class="module-search module">
+    <h2 class="module-header">Search</h2>
+    <div class="module-content">
+        <form id="search-blog" method="get" action="https://getcoreinterface.typepad.com/.services/blog/6a019104a31725970c019104a321e0970c/search" class="form-search form-inline" role="search">
+            
+<div class="form-group"><input type="search" name="filter.q" results="5" value="" class="form-control" placeholder="Search" /></div><button type="submit" value="Search" class="btn btn-default">Submit</button>
+
+        </form>
+    </div>
+</div>
+<!-- END Blog Search Module -->
+	<div class="module-archives module">
+		<h2 class="module-header">Recent Posts</h2>
+		<div class="module-content">
+			<ul class="module-list">
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2025/05/upgrading-3ds-max-net-projects-from-net-framework-to-net-8.html">Upgrading 3ds Max .NET projects from .NET Framework to .NET 8</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2025/05/whats-new-in-3ds-max-2026.html">What's new in 3ds Max 2026?</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2025/05/porting-plugins-from-3ds-max-2024-to-3ds-max-2025.html">Porting Plugins from 3ds Max 2024 to 3ds Max 2025</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2024/01/saving-qwidget-docking-states-per-3ds-max-scene.html">Saving QWidget Docking States per 3ds Max Scene</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/06/porting-maxplus-to-pymxs-what-you-need-to-know-1.html">Porting MaxPlus to pymxs - What you need to know</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/04/3ds-max-2024-released.html">3ds Max 2024 Released!</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/02/learning-3ds-max-sdk-my-journey.html">Learning 3ds Max SDK - My Journey</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/01/custom-valuetype-maxscript.html">MAXScript Custom Value Types from 3ds MAX SDK</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2022/04/3ds-max-2023-released.html">3ds Max 2023 Released!</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2021/05/tips-for-troubleshooting-visual-studio-output-and-getting-qt-to-work-with-3ds-max-sdk.html">Tips for troubleshooting Visual Studio output and getting Qt to work with 3ds Max SDK</a></li>
+					
+				
+			</ul>
+		</div>
+	</div>
+<div class="module-categories module">
+	<h2 class="module-header"><a href="https://getcoreinterface.typepad.com/blog/archives.html">Categories</a></h2>
+	<div class="module-content">
+                   <ul class="module-list">
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/net-api/">.NET API <span class="category-count">(15)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/announcement/">Announcement <span class="category-count">(24)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/c/">C++ <span class="category-count">(21)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/cloud-service/">Cloud Service <span class="category-count">(4)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/cuiactioncommandadapter/">CuiActionCommandAdapter <span class="category-count">(4)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/debug/">debug <span class="category-count">(4)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/design-automation/">Design Automation <span class="category-count">(2)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/devdocs/">DevDocs <span class="category-count">(3)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/event/">Event <span class="category-count">(10)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/forge/">Forge <span class="category-count">(7)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/job/">job <span class="category-count">(2)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/maxscript/">MAXScript <span class="category-count">(11)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/open-position/">open position <span class="category-count">(1)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/python/">Python <span class="category-count">(8)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/qt/">qt <span class="category-count">(7)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/samples-1/">Samples <span class="category-count">(3)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/tiptrick/">Tip/Trick <span class="category-count">(10)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/training/">Training <span class="category-count">(4)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/webcast/">webcast <span class="category-count">(3)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/weblogs/">Weblogs <span class="category-count">(1)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/wpf/">WPF <span class="category-count">(2)</span></a></li>
+</span>
+		</ul>
+
+<a style="font-size:85%;display:none;" class="cat-more" href="https://getcoreinterface.typepad.com/blog/archives.html">See More</a>
+	</div>
+</div>
+
+
+
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+</div> <!-- row -->
+			
+
+
+<!-- container-footer -->
+<div id="footer">
+<div class="row well"><div class="col-md-12">
+	<div id="footer-inner">
+		<ul class="footer-list pkg list-inline" >
+			<li class="last-footer-list-item footer-list-item"><a href="https://getcoreinterface.typepad.com/blog/">GetCOREInterface</a></li>
+		</ul>
+	</div>
+</div></div>
+</div>
+
+		</div>
+	</div>
+	
+
+
+
+
+
+
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <script src="/.shared/themes/common/bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+     function autocollapse() {
+        var navbar = jQuery('#autocollapse'); navbar.removeClass('collapsed');
+            if(navbar.innerHeight() > 50) {
+               navbar.addClass('collapsed');
+               $('.navbar button').css("visibility","visible");
+             }
+     }
+autocollapse();
+
+$('.navbar-nav,.navbar-header').fadeIn('slow');
+jQuery(window).on('resize', autocollapse);
+</script>
+
+
+
+
+
+<script type="text/javascript">
+function resizebanner() {
+     var $div = $('#banner');
+     bg = $div.css('background-image');
+       if (bg) {
+         var src = bg.replace(/(^url\()|(\)$|[\"\'])/g, '');
+           $img = $('<img>').attr('src', src).on('load', function() {
+              var img = new Image;
+              img.src = src;
+              var imgW = img.width;
+              var imgH = img.height;             
+              var newW = $('#banner').width();
+              var newH = imgH / imgW * newW;
+       $('#banner').height(newH);
+       $('#banner').css('visibility', 'visible');
+      });//end when loaded
+  }//end if bg
+}//end 
+    (function($) {
+       $(document).on('ready', resizebanner);
+       $(window).on('resize', resizebanner);
+    })(jQuery);
+</script>
+
+
+
+<script type="text/javascript">
+<!--
+var extra_happy = Math.floor(1000000000 * Math.random());
+document.write('<img src="https://www.typepad.com/t/stats?blog_id=112876564355520268&amp;user_id=&amp;page=' + escape(location.href) + '&amp;referrer=' + escape(document.referrer) + '&amp;i=' + extra_happy + '" width="1" height="1" alt="" style="position: absolute; top: 0; left: 0;" />');
+// -->
+</script>
+
+
+
+
+<!-- Begin disqus Tag -->
+
+<!-- End disqus Tag -->
+</body>
+</html>
+
+<!-- ph=1 -->

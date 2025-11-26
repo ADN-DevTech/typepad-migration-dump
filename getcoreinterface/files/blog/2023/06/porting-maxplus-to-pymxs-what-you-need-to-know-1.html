@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<head>
+  <!-- head-common-bootstrap-individual -->
+     <meta charset="utf-8">
+     <meta name="generator" content="http://www.typepad.com/" />
+     <meta name="keywords" content="maxplus,pymxs,porting,3ds max" /><meta name="description" content="Porting MaxPlus to pymxs - What you need to know Introduction As of 3ds Max 2022, the MaxPlus library is deprecated. This blog intends to assist those using MaxPlus to transition to pymxs for 3ds Max. This article will focus on an example of porting the xref system from MaxPlus..." />
+     <link rel="canonical" href="https://getcoreinterface.typepad.com/blog/2023/06/porting-maxplus-to-pymxs-what-you-need-to-know-1.html" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<meta property="og:title" content="Porting MaxPlus to pymxs - What you need to know" />
+<meta property="og:site_name" content="GetCOREInterface" />
+<meta property="og:type" content="blog" />
+<meta property="og:url" content="https://getcoreinterface.typepad.com/blog/2023/06/porting-maxplus-to-pymxs-what-you-need-to-know-1.html" />
+<meta property="og:description" content="Porting MaxPlus to pymxs - What you need to know Introduction As of 3ds Max 2022, the MaxPlus library is deprecated. This blog intends to assist those using MaxPlus to transition to pymxs for 3ds Max. This article will focus on an example of porting the xref system from MaxPlus..." />
+<meta property="fb:admins" content="" />
+<meta property="fb:app_id" content="55753818692" />
+
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="">
+<meta name="twitter:creator" content="">
+<meta name="twitter:title" content="Porting MaxPlus to pymxs - What you need to know">
+<meta name="twitter:description" content="Porting MaxPlus to pymxs - What you need to know Introduction As of 3ds Max 2022, the MaxPlus library is deprecated. This blog intends to assist those using MaxPlus to transition to pymxs for 3ds Max. This article will focus on an example of porting the xref system from MaxPlus...">
+
+
+     <!-- Custom fonts for this template -->
+
+    <!-- Bootstrap core CSS -->
+    <link href="/.shared/themes/common/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap bridge -->
+    <link href="/.shared/themes/common/bootstrap/css/bootstrap-bridge.css" rel="stylesheet" />
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="https://getcoreinterface.typepad.com/blog/styles.css?v=6" type="text/css" media="screen" />
+    <style>.navbar-header, .nav { display:block !important; }</style>
+
+        <link rel="stylesheet" href="https://static.typepad.com/.shared/themes/common/print.css" type="text/css" media="print" />
+        <link rel="alternate" type="application/atom+xml" title="Posts on 'GetCOREInterface' (Atom)" href="https://getcoreinterface.typepad.com/blog/atom.xml" />
+        <link rel="alternate" type="application/rss+xml" title="Posts on 'GetCOREInterface' (RSS 1.0)" href="https://getcoreinterface.typepad.com/blog/index.rdf" />
+        <link rel="alternate" type="application/rss+xml" title="Posts on 'GetCOREInterface' (RSS 2.0)" href="https://getcoreinterface.typepad.com/blog/rss.xml" />
+
+    <script src="//code.jquery.com/jquery.js"></script>
+
+        <script type="text/javascript">
+                var TPApp = {};
+                TPApp.app_uri = "https://www.typepad.com/";
+        </script>
+<!-- why does this load from prod? -->
+        <script type="text/javascript" src="https://static.typepad.com/.shared/js/yui/yahoo-dom-event.js,/js/app/thumbnail-gallery-min.js,/js/app/flyouts-min.js"></script>
+
+<!--- head google analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-225723-36', 'auto', {'name': 'Typepad'}, {'allowLinker': true} );  // Separate tracker for Typepad.
+ga('Typepad.require', 'linker');
+ga('Typepad.linker:autoLink', ['none']);
+ga('Typepad.set', 'dimension1', '6a019104a31725970c019104a321e0970c');
+ga('Typepad.set', 'dimension2', 'Individual');
+ga('Typepad.send', 'pageview');
+</script>
+
+
+
+    <script type="text/javascript" src="//tags.tiqcdn.com/utag/autodesk/typepad/prod/utag.js"></script>
+
+
+        <link rel="alternate" type="application/atom+xml" title="Comments on 'Porting MaxPlus to pymxs - What you need to know' (Atom)" href="https://getcoreinterface.typepad.com/blog/2023/06/porting-maxplus-to-pymxs-what-you-need-to-know-1/comments/atom.xml" />
+        <link rel="alternate" type="application/rss+xml" title="Comments on 'Porting MaxPlus to pymxs - What you need to know' (RSS 2.0)" href="https://getcoreinterface.typepad.com/blog/2023/06/porting-maxplus-to-pymxs-what-you-need-to-know-1/comments/rss.xml" />
+        <title>Porting MaxPlus to pymxs - What you need to know - GetCOREInterface</title>
+        <link rel="start" href="https://getcoreinterface.typepad.com/blog/" title="Home" />
+        <link rel="prev" href="https://getcoreinterface.typepad.com/blog/2023/04/3ds-max-2024-released.html?no_prefetch=1" title="3ds Max 2024 Released!" />
+        <link rel="next" href="https://getcoreinterface.typepad.com/blog/2024/01/saving-qwidget-docking-states-per-3ds-max-scene.html?no_prefetch=1" title="Saving QWidget Docking States per 3ds Max Scene" />
+
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+</head>
+
+
+
+<body class="layout-two-column-right post">
+	
+	<div id="container" class="container">
+		<div id="container-inner" class="pkg">
+			
+                <div class="row">
+     
+
+
+<a id="home"></a>
+   
+
+              <div id="banner" class="jumbotron">
+                <h1><a href="https://getcoreinterface.typepad.com/blog/" accesskey="1">GetCOREInterface</a></h1>
+                <h2>3ds Max customization, automation, plug-in development, and related ramblings!</h2>
+              </div>
+
+     
+     
+      <div id="autocollapse" class="navbar navbar-default navbar-fixed-top">
+
+<div class="navbar-inner">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+          </button>
+         <a class="navbar-brand" href="https://getcoreinterface.typepad.com/blog/">home</a>
+        </div>
+
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+<li><a href="https://getcoreinterface.typepad.com/blog/archives.html">archives</a></li>
+<li><a href="https://getcoreinterface.typepad.com/blog/kevin-vandecar.html">profile</a></li>
+<li><a href="https://getcoreinterface.typepad.com/blog/atom.xml">subscribe</a></li>
+<li><a href="https://twitter.com/kevinvandecar">twitter</a></li>
+<li><a href="http://area.autodesk.com/">area</a></li>
+<li><a href="http://area.autodesk.com/forum/autodesk-3ds-max/programming">forum</a></li>
+<li><a href="http://www.autodesk.com/me-sdk-docs">api docs</a></li>
+
+          </ul><!-- end main navbar -->
+        </div><!--/.nav-collapse-->
+</div><!--/.navbar-inner-->
+
+      </div><!--/.navbar-->
+
+     
+
+
+
+			<div id="pagebody">
+
+
+				<div id="pagebody-inner" class="pkg">
+                                        <div id="alpha" class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+						<div id="alpha-inner" class="pkg">
+							<!-- the plain version removes the extra jquery -->
+<!-- content nav -->
+<p class="content-nav">
+	<a class="content-nav-prev" href="https://getcoreinterface.typepad.com/blog/2023/04/3ds-max-2024-released.html">&laquo; 3ds Max 2024 Released!</a> |
+	<a class="content-nav-main" href="https://getcoreinterface.typepad.com/blog/">Main</a>
+	| <a class="content-nav-next" href="https://getcoreinterface.typepad.com/blog/2024/01/saving-qwidget-docking-states-per-3ds-max-scene.html">Saving QWidget Docking States per 3ds Max Scene &raquo;</a>
+</p>
+<script type="text/javascript">
+   $(function(){
+       var query = window.location.search.substring(1);
+       if( query == "pintix=1" ) {
+          var e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','https://static.typepad.com/.shared//js/pinmarklet.js?r='+Math.random()*99999999);document.body.appendChild(e);
+       }
+   });
+</script>
+<!-- entry -->
+
+	<h2 class="date-header">06/12/2023</h2>
+
+
+<div class="entry-category-maxscript entry-category-python entry-category-tiptrick entry-author-allan_k_koech entry-type-post entry" id="entry-6a019104a31725970c02b751a5255f200c">
+   <div class="entry-inner">
+			<h3 class="entry-header">Porting MaxPlus to pymxs - What you need to know</h3>
+	
+
+
+
+	<div class="entry-content">
+		<div class="entry-body">
+			<p></p>
+<article class="page sans" id="f11023ef-a477-4744-830f-076c9fab7daf"><header><img class="page-cover-image" src="https://raw.githubusercontent.com/allankkoech/mne-blogs/master/img/maxplus2pymxs/pymxs.jpeg" style="object-position: center 40.910000000000004%;" />
+<h1 class="page-title">Porting MaxPlus to pymxs - What you need to know</h1>
+</header>
+<div class="page-body">
+<h2 class="" id="eb0624c4-0711-40a4-9fdb-67526cf4b178">Introduction</h2>
+<p class="" id="3d7a8b95-605e-4da0-a034-0ca988b6b51c">As of 3ds Max 2022, the MaxPlus library is deprecated. This blog intends to assist those using MaxPlus to transition to pymxs for 3ds Max. This article will focus on an example of porting the xref system from MaxPlus to pymxs.</p>
+<blockquote class="" id="5f02ef64-f404-4751-847b-d58cd10ec687">As of 3ds Max 2021, MaxPlus was not supported in Python 3. From 3ds Max 2022, shipping of MaxPlus stopped as <em><strong>pymxs </strong></em>became the supported Python scripting in 3ds Max. Check here for complete documentation <a href="https://help.autodesk.com/view/MAXDEV/2022/ENU/?guid=MAXDEV_Python_what_s_new_in_3ds_max_python_api_html">https://help.autodesk.com/view/MAXDEV/2022/ENU/?guid=MAXDEV_Python_what_s_new_in_3ds_max_python_api_html</a>.</blockquote>
+<h2 class="" id="1d139731-16d1-4063-977f-d8cda773e24b">3ds Max Scripting</h2>
+<p class="" id="166fd311-5fa2-490f-8855-711600aa9e5c">Scripting in 3ds Max has been a powerful tool for automating tasks and creating custom plugins that extend the functionality offered by 3ds Max or introduce new features not present in the software. This capability is crucial in Design Automation, where activities are executed within the Autodesk Platform Services (formerly known as Forge). To harness the power of scripting, 3ds Max provides two primary options: MAXScript, the native scripting language of 3ds Max, and Python, a wrapper around MAXScript. By leveraging these scripting languages, users can achieve high flexibility and control over 3ds Max. Additionally, 3ds Max offers SDKs for C++ and C# for those who prefer plugin development, allowing for the creation and extension of capabilities within the software.</p>
+<h2 class="" id="480adc8b-c42d-48d0-a363-33960cccf035">Scripting in MAXScript</h2>
+<p class="" id="1ed15d25-2b24-4a9f-8e69-714567ec5ecb">MAXScript comes baked into 3ds Max by default and is accessible o the bottom left window of the UI or through the Scripting menu option in 3ds Max.</p>
+<figure class="image" id="70908664-7a7c-4a7a-902c-b52187e54750"><a href="https://raw.githubusercontent.com/allankkoech/mne-blogs/master/img/maxplus2pymxs/Untitled.png"><img src="https://raw.githubusercontent.com/allankkoech/mne-blogs/master/img/maxplus2pymxs/Untitled.png" style="width: 480px;" /></a>
+<figcaption>Scripting menu option in 3ds Max 2023</figcaption>
+</figure>
+<p class="" id="4076922d-144c-462b-83b1-74d68ecfe512">For instance, click the Scripting Listener option on the drop-down above to launch the scripting window. This brings a Scripting listener window with two choices of MAXScript and Python. Scripts can be inputted and executed in the editor window when we move to a new line, as shown below.</p>
+<figure class="image" id="760f866e-3c92-4620-a5f4-964deed99595" style="text-align: center;"><a href="https://raw.githubusercontent.com/allankkoech/mne-blogs/master/img/maxplus2pymxs/Untitled 1.png"><img src="https://raw.githubusercontent.com/allankkoech/mne-blogs/master/img/maxplus2pymxs/Untitled 1.png" style="width: 528px;" /></a>
+<figcaption>MAXScript listener window showing script execution</figcaption>
+</figure>
+<p class="" id="9a26afda-27ee-4ea9-b32c-4bec84d1d329">To learn more on how to use MAXScript and its complete tools, look at the documentation here <a href="https://help.autodesk.com/view/MAXDEV/2023/ENU/?guid=GUID-F039181A-C072-4469-A329-AE60FF7535E7">https://help.autodesk.com/view/MAXDEV/2023/ENU/?guid=GUID-F039181A-C072-4469-A329-AE60FF7535E7</a>.</p>
+<h2 class="" id="d314158e-cb82-46a4-a492-396ed787fced">Scripting in Python</h2>
+<p class="" id="d3333ec9-208b-4acb-bfbf-2eced02a685a">Scripting in Python has been an option for quite some time now. Initially, 3ds Max exposed its APIs through a library called MaxPlus (<a href="https://help.autodesk.com/view/3DSMAX/2019/ENU/?guid=__developer_maxplus_python_api_introduction_maxplus_python_api_main_classes_html">https://help.autodesk.com/view/3DSMAX/2019/ENU/?guid=__developer_maxplus_python_api_introduction_maxplus_python_api_main_classes_html</a>) which became deprecated in 3ds Max 2019 and was replaced by pymxs. Both libraries work differently and have differences in functionalities that get exposed to Python.</p>
+<p class="" id="26110592-e3c2-42a4-8a1a-30a90036f7c1">To compare the difference, the code below shows how the code structure looks to create an object on scene and modify its parameters.</p>
+<pre class="code" id="98389666-c9a6-48c5-bd4b-5746a4b61195"><code>import MaxPlus
+
+obj = MaxPlus.Factory.CreateGeomObject(MaxPlus.ClassIds.Box)
+obj.ParameterBlock.Width.Value = 10.0
+obj.ParameterBlock.Length.Value = 10.0
+obj.ParameterBlock.Height.Value = 10.0</code></pre>
+<p class="" id="1c0b42e1-d543-42e0-9166-0e62617b9db4">&#0160;</p>
+<pre class="code code-wrap" id="6145d614-13f8-49a1-8c63-6aa2b1757b44"><code>import pymxs
+
+obj = pymxs.runtime.box(width=10.0, length=10.0, height=10.0)
+</code></pre>
+<p class="" id="416c418f-e111-4ba3-97a7-3f11124fae7c">&#0160;</p>
+<h3 class="" id="f2dccbbc-e62d-4ba3-ad1e-2e75a674390e">Why the difference?</h3>
+<p class="" id="078a2447-1e57-4a8d-80aa-7a134f85bf19">If you are familiar with 3ds Max SDK, the MaxPlus code has a similar approach when creating objects. It’s generated from the C++ SDK, so its code system follows how it’s done in C++ or in .NET.</p>
+<p class="" id="81efde74-ba1a-42a6-bf64-701e6834066c">Unlike MaxPlus, pymxs, on the other hand, follows a different approach. Notice the first code we did for MAXScript to add a box to the scene, similar - right? Pymxs is built as a wrapper around MAXScript rather than the C++ SDK. As such, the code looks more straightforward to understand if you know bits of scripting in MAXScript.</p>
+<h2 class="" id="392199a6-4ebe-4577-9f22-2848a13b7a74">Porting MaxPlus to pymxs</h2>
+<p class="" id="dadc3274-c20b-4975-96b9-0f0094a06183">Let’s say you have some old scripts you made in MaxPlus, and you want to port them over to the recent version of 3ds Max, but now, the latest 3ds Max versions no longer ship MaxPlus libraries. The option is porting the codebase to either C++/.NET, MAXScript or Python. Let’s look at some examples:</p>
+<h3 class="" id="64b6c992-3175-463f-b296-1a7086db2b19">1. XREFS</h3>
+<p class="" id="8640453c-ec1e-41cf-9305-35bde2726764">xrefs is a terminology for external referencing other files or scenes in the current scene. This prevents loading whole exterior projects into the current project but instead just referencing it. MaxPlus provides direct manipulation of xref files as follows:</p>
+<p class="" id="1f356d4e-2505-4029-9782-4ba6531c28a7">&#0160;</p>
+<p class="" id="9e896b68-86fb-43bb-9179-712f668b1106"><mark class="highlight-brown"><span data-darkreader-inline-border-bottom="" style="border-bottom: 0.05em solid;"><em><strong>File counting</strong></em></span></mark></p>
+<pre class="code code-wrap" id="01f3697d-2132-4769-8001-b0800ce19e99"><code>import MaxPlus
+
+num_xrefs = MaxPlus.XRefs.GetXRefFileCount()
+print(num_xrefs)
+</code></pre>
+<p class="" id="2024bb24-228e-46f6-a5d4-1847f12741c9">An equivalent pymxs code for a similar functionality is given below</p>
+<pre class="code" id="4c37d7a3-e501-4bc7-a883-50dbe0f5b2ec"><code>import pymxs
+num_xrefs = pymxs.runtime.xrefs.getXRefFileCount()
+print(num_xrefs)</code></pre>
+<p class="" id="6247abf1-9fbe-4542-ae96-41f252e64101">&#0160;</p>
+<p class="" id="ef5cf411-0224-431a-b7c0-f0f5fdd6d537"><mark class="highlight-brown"><span data-darkreader-inline-border-bottom="" style="border-bottom: 0.05em solid;"><em><strong>Getting xref file</strong></em></span></mark></p>
+<p class="" id="4d0c1a54-b6b8-4e76-9d7c-e917f1020520">Once xrefs are created within a scene, retrieving specific xref files for any purpose can be achieved as follows in both MaxPlus and pymxs</p>
+<pre class="code" id="82e12b72-e5d6-48b4-979d-fd17cf7aa56c"><code>import MaxPlus
+
+index = 0 # index of the xref file
+xref_file = MaxPlus.XRefs.GetXRefFile(index)
+print(xref_file)
+
+# IN PYMXS
+
+import pymxs
+
+index = 0 # index of the xref file
+xref_file = pymxs.runtime.xrefs.getXRefFile(index)
+print(xref_file)</code></pre>
+<p class="" id="26b5750d-312e-4f0e-a44d-6bc71e4914b1">Note that both require a parameter specifying the index of the XRef file to get information about.</p>
+<p class="" id="6202077d-7af0-4426-a101-2dd33069affd">&#0160;</p>
+<p class="" id="676ed381-e1b2-429f-8cb7-401cb36349e3"><mark class="highlight-brown"><span data-darkreader-inline-border-bottom="" style="border-bottom: 0.05em solid;"><em><strong> Setting xref file</strong></em></span></mark></p>
+<p class="" id="41572908-3918-4bb8-a35c-f286dec3a010">This is intended for setting a file to xref</p>
+<pre class="code code-wrap" id="bbfbc9c5-8076-4338-8877-239b2beef5c5"><code>import MaxPlus
+
+# get the XRef object that you want to set the file path for
+xref_object = MaxPlus.Core.GetINodeByName(&quot;MyXRefObject&quot;)
+
+# set the file path for the XRef object
+file_path = &quot;C:/path/to/my/xref/file.max&quot;
+MaxPlus.Core.SetXRefFile(xref_object, file_path)
+</code></pre>
+<p class="" id="0643248d-29ec-4d70-84c5-4cfe5fd41b2a">Note that this code represents a workaround for updating the XRef file since there is no direct way to update the file in pymxs.</p>
+<pre class="code" id="45d5022c-75ad-429e-94c5-3c5069fa9419"><code>import pymxs
+
+index = 1
+# Get the XRef object for index 1
+xref_obj = pymxs.runtime.xrefs.getXRefFile(index)
+
+new_file = &quot;path\to\file\something.max&quot;
+
+# Using MAXScript in pymxs
+maxscript_code = f&#39;&#39;&#39;
+axref = xrefs.getXRefFile {index}
+axref.filename = &quot;{new_file}&quot;
+flagChanged axref
+&#39;&#39;&#39;
+
+_axref = pymxs.runtime.execute(maxscript_code)
+
+print(_axref)</code></pre>
+<p class="" id="89027252-e918-414a-93bf-019393a88d0c">&#0160;</p>
+<p class="" id="3bda0364-30cf-4ad6-8962-851295bbc703"><span data-darkreader-inline-border-bottom="" style="border-bottom: 0.05em solid;"><em><mark class="highlight-brown"><strong>Flagging xref file as changed</strong></mark></em></span></p>
+<p class="" id="e23e62f4-8808-4b57-a02f-7e81fb7625a6">Used to flag that the xref has been changed.</p>
+<pre class="code" id="a5c8f552-b57f-4010-a831-10472b592553"><code>import MaxPlus
+
+# get the XRef object that you want to flag as changed
+xref_object = MaxPlus.Core.GetINodeByName(&quot;MyXRefObject&quot;)
+
+# flag the XRef object as changed
+MaxPlus.Core.FlagXrefChanged(xref_object)</code></pre>
+<p class="" id="6c8d8c6b-8c7c-4eef-b884-39256e0344d0">To flag specific file as changed, pymxs doesn’t expose any way to directly do that. Alternatively, we can invoke MAXScript to flag the files as changed as shown;</p>
+<pre class="code" id="80be72d9-8dc1-44f8-8727-b27988085099"><code>import pymxs
+
+index = 1 # Index for the xref you want to flag as updated
+
+maxscript_code = f&#39;&#39;&#39;
+axref = xrefs.getXRefFile {index}
+flagChanged axref
+axref
+&#39;&#39;&#39;
+
+_axref = pymxs.runtime.execute(maxscript_code)
+
+print(_axref)</code></pre>
+<p class="" id="8cc1b276-4c7e-4a2e-8baa-c569c0f8f564">&#0160;</p>
+<p class="" id="283c1d93-03fd-4902-a28d-fc1e266aa193"><mark class="highlight-brown"><em><strong>Updating changed xrefs</strong></em></mark></p>
+<p class="" id="5b0d485e-2227-488e-91e9-5c604e622af0">Updates the XRefs that have been flagged as changed. This function actually loads the new versions of the referenced files and updates the XRefs in the scene accordingly.</p>
+<pre class="code" id="6a161375-79cf-40c0-8dc2-7d342ed3d29e"><code># In MAXPLUS
+import MaxPlus
+
+# update all XRef objects that have been flagged as changed
+MaxPlus.Core.UpdateChangedXRefs()
+
+# In PYMXS
+import pymxs
+
+# Updates the changed XRefs and resets their changed flags
+pymxs.runtime.xrefs.updateChangedXRefs()</code></pre>
+<p class="" id="96c052ee-9c2e-4c17-b141-139a46d1f7a0">&#0160;</p>
+<h3 class="" id="9c6967e0-7b75-4e6c-8f46-83dc1aa04d50">3. Animation</h3>
+<p class="" id="12c16d6b-f39e-4ded-af33-f7a08a8e03af"><mark class="highlight-brown"><span data-darkreader-inline-border-bottom="" style="border-bottom: 0.05em solid;"><em><strong>Getting Animation Range</strong></em></span></mark></p>
+<p class="" id="f71aee48-3a0a-4ba6-9b94-27991850a1c0">Getting Animation Range is used to retrieve the animation range of the current scene.</p>
+<pre class="code" id="435b0d72-f061-4f56-b46a-6d0a22e48b5c"><code>import MaxPlus
+
+# get the animation range of the current scene
+start_time, end_time = MaxPlus.Animation.GetAnimRange()
+
+# print the start and end times of the animation range
+print(&quot;Animation Range:&quot;)
+print(&quot;Start Time:&quot;, start_time)
+print(&quot;End Time:&quot;, end_time)</code></pre>
+<p class="" id="e29b63f3-16bd-4c7e-bad8-fff29957b6d5">MaxPlus&#39;s corresponding function in pymxs returns a pair of <em>time</em> objects: the first element of the tuple is the animation range&#39;s start time, and the second element is the animation range&#39;s end time.</p>
+<pre class="code" id="1144445f-cc30-453f-af86-5a3f6579e8e3"><code>import pymxs
+
+# Get the animation range in 3ds Max
+anim_range = pymxs.runtime.animationRange
+
+# Print the start and end times of the animation range
+print(&quot;Start Time:&quot;, anim_range.start)
+print(&quot;End Time:&quot;, anim_range.end)</code></pre>
+<p class="" id="10ba55af-e8c8-4035-b100-d5357b979165">&#0160;</p>
+<p class="" id="ef315fe8-275d-4cd0-b8fb-9b4ff869719e"><mark class="highlight-brown"><span data-darkreader-inline-border-bottom="" style="border-bottom: 0.05em solid;"><strong><em>Getting current time</em></strong></span></mark></p>
+<p class="" id="e87c7873-ea81-48c9-b43e-87243841ab07">Returns current time in the animation</p>
+<pre class="code" id="17e48da5-c65e-49fa-aa00-a2a63889e1ca"><code>import MaxPlus
+
+# get the current time in the animation
+current_time = MaxPlus.Animation.GetTime()
+
+# print the current time to the console
+print(&quot;Current Time:&quot;, current_time)</code></pre>
+<p class="" id="97a4c0f7-aebb-44f4-8550-8d5c004ae474">The following code samples are used to get the current time when animating in pymxs.</p>
+<pre class="code" id="0e6f8658-c22b-4bd2-be22-594117b10a35"><code>import pymxs
+
+# get current time 
+current_time = pymxs.runtime.currentTime
+
+# Log the values
+print(current_time)
+print(current_time.frame)
+print(current_time.ticks)</code></pre>
+<h2 class="" id="0185fbc1-17d7-4c89-bc8a-fd6aa460cebd">Conclusion</h2>
+<p class="" id="12643c9b-226e-45ef-b906-4815dc9f464b">The samples do not cover all the aspects of porting code from MaxPlus to pymxs. However, the complete guide can be found on the documentation at <a href="https://help.autodesk.com/view/MAXDEV/2023/ENU/?guid=MAXDEV_Python_using_pymxs_maxplus_to_pymxs_html">https://help.autodesk.com/view/MAXDEV/2023/ENU/?guid=MAXDEV_Python_using_pymxs_maxplus_to_pymxs_html</a>. The guide aimed to give ideas on how to look at porting current codes to pymxs.</p>
+<p class="" id="ce730b9f-1ea7-400b-9188-d3eb49bf68a2">&#0160;</p>
+<p class="" id="b5a8bcef-f1dc-45ef-9cf5-9f987a4a3b6e">We have looked at both pymxs native functions similar to or representing the MaxPlus functions and embedding MAXScript in pymxs to achieve functionality not currently exposed to pymxs.</p>
+<p class="" id="63cb9100-d4f7-4cb2-a9b2-ce34885a0271">&#0160;</p>
+<h2 class="" id="0ab5ffc8-b5ef-41a4-94b8-10e749d1af4d">FAQ’s</h2>
+<ul class="toggle" id="22de1069-6214-4a03-bf75-cdd6cb73747f">
+<li><details open="">
+<summary>Are MaxPlus and pymxs one-to-one match?</summary>
+<p class="" id="fc4b9914-7590-4f01-87e7-50264f0e070d">No. Due to the architecture, these two bear different exposure to underlying functionalities. So, some functions and modules in MaxPlus are not available in pymxs and vice versa.</p>
+</details></li>
+</ul>
+<ul class="toggle" id="dbabe610-1250-48bb-8aff-27cc05697188">
+<li><details open="">
+<summary>Can I convert my MaxPlus code to pymxs fully?</summary>
+<p class="" id="d9554def-bf7c-442b-ac45-69df53558959">Yes. MaxPlus code can be ported to pymxs, but no one-to-one conversion exists. Note that you’ll need to combine pymxs and MAXScript for some functionality to achieve it. It’s all about getting similar functionality.</p>
+</details></li>
+</ul>
+<ul class="toggle" id="6b0c72bd-5a46-4989-b9ee-0ecc16758507">
+<li><details open="">
+<summary>So, what about pymxs and MAXScript?</summary>
+<p class="" id="bfece71a-8e45-42a3-83d2-b8c2b6ecb3f0">pymxs is a MAXScript wrapper but not all functionality and properties in MAXScript are directly generated into pymxs modules/functions/properties. There are workarounds but not direct functions/modules like the ones in MAXScript.</p>
+</details></li>
+</ul>
+</div>
+</article>
+		</div>
+		
+
+                        <!-- SIGNATURE -->
+                        
+
+		
+	</div>
+
+	<div class="entry-footer">
+			<p class="entry-footer-info">
+				<span class="post-footers">Posted by <a rel="author" href="https://profile.typepad.com/allankoech">Allan K. Koech</a> at 03:55 AM in <a href="https://getcoreinterface.typepad.com/blog/maxscript/">MAXScript</a>, <a href="https://getcoreinterface.typepad.com/blog/python/">Python</a>, <a href="https://getcoreinterface.typepad.com/blog/tiptrick/">Tip/Trick</a> </span> <span class="separator">|</span> <a class="permalink" href="https://getcoreinterface.typepad.com/blog/2023/06/porting-maxplus-to-pymxs-what-you-need-to-know-1.html">Permalink</a>
+			</p>
+		
+		<!-- technorati tags -->
+
+
+		<!-- post footer links -->
+	<p class="entry-footer-share entry-footer-share-buttons">
+		<span class="entry-footer-links-twitter">
+     <a href="https://twitter.com/share?url=https%3A%2F%2Fgetcoreinterface.typepad.com%2Fblog%2F2023%2F06%2Fporting-maxplus-to-pymxs-what-you-need-to-know-1.html&text=Porting%20MaxPlus%20to%20pymxs%20-%20What%20y..." target="_blank"><img src="/.shared/images/circle-twitter.png" alt="Twitter" /></a>
+</span>
+	</p>
+
+
+	</div>
+   </div>
+</div>
+
+
+
+        
+        
+        <a id="comments"></a>
+	<div class="comments" id="all-comments">
+		<h3 class="comments-header">Comments</h3>
+					<div class="comments-info">
+				<p><a href="https://getcoreinterface.typepad.com/blog/2023/06/porting-maxplus-to-pymxs-what-you-need-to-know-1/comments/atom.xml"><img src="https://static.typepad.com/.shared/images/feed.png" alt="Feed" width="10" height="10" /></a> You can follow this conversation by subscribing to the <a href="https://getcoreinterface.typepad.com/blog/2023/06/porting-maxplus-to-pymxs-what-you-need-to-know-1/comments/atom.xml">comment feed</a> for this post.</p>
+			</div>
+		
+		<div class="comments-content" id="comments-content">
+                <!-- comment list -->
+
+		</div>
+        
+	</div>
+<script type="text/javascript">var c943723d42e77e9214eb884a1d898ea="</form>";</script>
+<script type="text/javascript">var ffe51c373e0873b7778b6324a0b5533 = '<form id="comment-form" action="';</script>
+<script type="text/javascript">var c943723d42e77e9214eb884a1d898za = '" method="post"><input type="hidden" name="entry_xid" id="comment-entry-xid" value="6a019104a31725970c02b751a5255f200c" \/><input type="hidden" name="token" value="1756835392-1cc634db67be4ea86278c9af66c1d39217ec56dd:EWz59iduP64fYZOj" \/>';</script>
+<script type="text/javascript">var OOcd55d4dc47109d7b462b01c7dd4dab = "aHR0cHM6Ly9nZXRjb3JlaW50ZXJmYWNlLnR5cGVwYWQuY29tLy5zZXJ2aWNlcy9jb21tZW50cw";</script>
+<script type="text/javascript">var bad4dd7c10b264b7d90174cd4d55dc00 = atob(OOcd55d4dc47109d7b462b01c7dd4dab);</script>
+
+<!-- comment-form-atp -->
+
+
+<p class="comments-closed font-entrybody">
+	The comments to this entry are closed.
+</p>
+
+
+
+
+
+    
+    
+
+
+
+
+						</div>
+					</div>
+                                        <div id="beta" class="well col-xs-12 col-sm-4 col-md-4 col-lg-4">
+						<div id="beta-inner" class="pkg">
+							
+<!-- sidebar -->
+
+
+	<div class="module-archives module">
+		<h2 class="module-header"><a href="https://getcoreinterface.typepad.com/blog/archives.html">Archives</a></h2>
+		<div class="module-content">
+												<ul class="module-list">
+				
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2025/05/index.html">May 2025</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2024/01/index.html">January 2024</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/06/index.html">June 2023</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/04/index.html">April 2023</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/02/index.html">February 2023</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/01/index.html">January 2023</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2022/04/index.html">April 2022</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2021/05/index.html">May 2021</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2021/04/index.html">April 2021</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2020/05/index.html">May 2020</a></li>
+									</ul>
+									<p class="module-more"><a href="https://getcoreinterface.typepad.com/blog/archives.html">More...</a></p>
+				
+				
+			
+		</div>
+	</div>
+
+<!-- list_inlcude.tt  -->
+<div id="about" class="module-typelist module">
+<h2 class="module-header">About</h2>
+	<div class="typelist-plain module-content">
+		<ul class="module-list">
+							<li class="module-list-item"><div class="typelist-note"><table> <tr> 
+	<td> 
+	<a href="https://getcoreinterface.typepad.com/blog/kevin-vandecar.html"> <img src="https://getcoreinterface.typepad.com/blog/KDV_Fall_Color_100.jpg"></a> <a href="https://getcoreinterface.typepad.com/blog/kevin-vandecar.html">Kevin Vandecar</a> <br> <br> 
+	<a href="https://getcoreinterface.typepad.com/blog/denis-grigor.html"> <img src="https://getcoreinterface.typepad.com/blog/denis_grigor.jpg"></a> 
+	<a href="https://getcoreinterface.typepad.com/blog/denis-grigor.html">Denis Grigor</a> <br> <br> 
+	<a href="https://getcoreinterface.typepad.com/blog/allan-koech.html"> <img src="https://getcoreinterface.typepad.com/blog/allan-koech.jpg"></a> 
+	<a href="https://getcoreinterface.typepad.com/blog/allan-koech.html">Allan Koech</a> 
+
+	</td> </tr> </table> 
+	
+	<br> <a href="http://www.autodesk.com/joinadn" title="Information on the Autodesk Developer Network"> <img src="https://getcoreinterface.typepad.com/blog/join_adn.png" border="0" /> </a> <link rel="icon" href="/favicon.ico" type="image/x-icon" /> <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /> <link rel="icon" type="image/gif" href="/favicon.gif" /> <meta name="application-name" content="GetCOREInterface" /> <meta name="msapplication-tooltip" content="Open GetCOREInterface blog" /> <meta name="msapplication-starturl" content="http://getcoreinterface.typepad.com" /> <meta name="msapplication-window" content="width=1024;height=768" /> <meta name="msapplication-navbutton-color" content="#000000" /> <meta name="msapplication-task" content="name=Search TtIf;action-uri=http://www.google.com/search?btnG=%C2%BB&domains=getcoreinterface.typepad.com&sitesearch=getcoreinterface.typepad.com;icon-uri=http://google.com/favicon.ico" /></div></li>
+			
+		</ul><!-- last /ul -->
+	</div>
+</div>
+<!-- end list_include.tt -->
+
+<!-- list_inlcude.tt  -->
+<div id="google_search" class="module-typelist module">
+<h2 class="module-header">Google Search</h2>
+	<div class="typelist-plain module-content">
+		<ul class="module-list">
+							<li class="module-list-item"><div class="typelist-note"><script>
+  (function() {
+    var cx = '001717393972716514223:-ybiyil2pts';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search></div></li>
+			
+		</ul><!-- last /ul -->
+	</div>
+</div>
+<!-- end list_include.tt -->
+
+<!-- list_inlcude.tt  -->
+<div id="translate" class="module-typelist module">
+<h2 class="module-header">Translate</h2>
+	<div class="typelist-plain module-content">
+		<ul class="module-list">
+							<li class="module-list-item"><div class="typelist-note"><div id='MicrosoftTranslatorWidget' class='Dark' style='color:white;background-color:#555555'>
+</div>
+<script type='text/javascript'>setTimeout(function(){{var s=document.createElement('script');s.type='text/javascript';s.charset='UTF-8';s.src=((location && location.href && location.href.indexOf('https') == 0)?'https://ssl.microsofttranslator.com':'http://www.microsofttranslator.com')+'/ajax/v3/WidgetV3.ashx?siteData=ueOIGRSKkd965FeEGM5JtQ**&ctf=True&ui=true&settings=Manual&from=en';var p=document.getElementsByTagName('head')[0]||document.documentElement;p.insertBefore(s,p.firstChild); }},0);</script>
+</div></li>
+			
+		</ul><!-- last /ul -->
+	</div>
+</div>
+<!-- end list_include.tt -->
+
+<div class="module-calendar module">
+	<h2 class="module-header">May 2025</h2>
+	<div class="module-content table-responsive">
+		<table class="table" summary="Monthly calendar with links to each day's posts">
+                        <tr>
+                                                                 <th>Sun</th>
+                                                                 <th>Mon</th>
+                                                                 <th>Tue</th>
+                                                                 <th>Wed</th>
+                                                                 <th>Thu</th>
+                                                                 <th>Fri</th>
+                                                                 <th>Sat</th>
+                                
+                        </tr>
+                                                   <tr>
+                                        <td>&nbsp;</td>
+                                
+                                                   
+                                        <td>&nbsp;</td>
+                                
+                                                   
+                                        <td>&nbsp;</td>
+                                
+                                                   
+                                        <td>&nbsp;</td>
+                                
+                                                   
+                                        <td>1</td>
+                                
+                                                   
+                                        <td>2</td>
+                                
+                                                   
+                                        <td>3</td>
+                                </tr>
+                                                   <tr>
+                                        <td>4</td>
+                                
+                                                   
+                                        <td>5</td>
+                                
+                                                   
+                                        <td>6</td>
+                                
+                                                   
+                                        <td>7</td>
+                                
+                                                   
+                                        <td>8</td>
+                                
+                                                   
+                                        <td>9</td>
+                                
+                                                   
+                                        <td>10</td>
+                                </tr>
+                                                   <tr>
+                                        <td>11</td>
+                                
+                                                   
+                                        <td>12</td>
+                                
+                                                   
+                                        <td>13</td>
+                                
+                                                   
+                                        <td>14</td>
+                                
+                                                   
+                                        <td>15</td>
+                                
+                                                   
+                                        <td>16</td>
+                                
+                                                   
+                                        <td>17</td>
+                                </tr>
+                                                   <tr>
+                                        <td>18</td>
+                                
+                                                   
+                                        <td>19</td>
+                                
+                                                   
+                                        <td>20</td>
+                                
+                                                   
+                                        <td>21</td>
+                                
+                                                   
+                                        <td>22</td>
+                                
+                                                   
+                                        <td>23</td>
+                                
+                                                   
+                                        <td>24</td>
+                                </tr>
+                                                   <tr>
+                                        <td>25</td>
+                                
+                                                   
+                                        <td>26</td>
+                                
+                                                   
+                                        <td>27</td>
+                                
+                                                   
+                                        <td><a href="https://getcoreinterface.typepad.com/blog/2025/05/whats-new-in-3ds-max-2026.html">28</a></td>
+                                
+                                                   
+                                        <td>29</td>
+                                
+                                                   
+                                        <td><a href="https://getcoreinterface.typepad.com/blog/2025/05/upgrading-3ds-max-net-projects-from-net-framework-to-net-8.html">30</a></td>
+                                
+                                                   
+                                        <td>31</td>
+                                </tr>
+                        
+		</table>
+	</div>
+</div>
+<!-- list_inlcude.tt  -->
+<div id="rss_feed" class="module-typelist module">
+<h2 class="module-header">RSS Feed</h2>
+	<div class="typelist-plain module-content">
+		<ul class="module-list">
+							<li class="module-list-item"><div class="typelist-note"><a href="http://feeds.feedburner.com/autodesk/GetCoreInterface"><img src="https://getcoreinterface.typepad.com/feed.png" border="0" align="absmiddle">
+&nbsp;Subscribe</a></div></li>
+			
+		</ul><!-- last /ul -->
+	</div>
+</div>
+<!-- end list_include.tt -->
+
+<div class="module-search module">
+    <h2 class="module-header">Search</h2>
+    <div class="module-content">
+        <form id="search-blog" method="get" action="https://getcoreinterface.typepad.com/.services/blog/6a019104a31725970c019104a321e0970c/search" class="form-search form-inline" role="search">
+            
+<div class="form-group"><input type="search" name="filter.q" results="5" value="" class="form-control" placeholder="Search" /></div><button type="submit" value="Search" class="btn btn-default">Submit</button>
+
+        </form>
+    </div>
+</div>
+<!-- END Blog Search Module -->
+	<div class="module-archives module">
+		<h2 class="module-header">Recent Posts</h2>
+		<div class="module-content">
+			<ul class="module-list">
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2025/05/upgrading-3ds-max-net-projects-from-net-framework-to-net-8.html">Upgrading 3ds Max .NET projects from .NET Framework to .NET 8</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2025/05/whats-new-in-3ds-max-2026.html">What's new in 3ds Max 2026?</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2025/05/porting-plugins-from-3ds-max-2024-to-3ds-max-2025.html">Porting Plugins from 3ds Max 2024 to 3ds Max 2025</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2024/01/saving-qwidget-docking-states-per-3ds-max-scene.html">Saving QWidget Docking States per 3ds Max Scene</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/06/porting-maxplus-to-pymxs-what-you-need-to-know-1.html">Porting MaxPlus to pymxs - What you need to know</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/04/3ds-max-2024-released.html">3ds Max 2024 Released!</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/02/learning-3ds-max-sdk-my-journey.html">Learning 3ds Max SDK - My Journey</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/01/custom-valuetype-maxscript.html">MAXScript Custom Value Types from 3ds MAX SDK</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2022/04/3ds-max-2023-released.html">3ds Max 2023 Released!</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2021/05/tips-for-troubleshooting-visual-studio-output-and-getting-qt-to-work-with-3ds-max-sdk.html">Tips for troubleshooting Visual Studio output and getting Qt to work with 3ds Max SDK</a></li>
+					
+				
+			</ul>
+		</div>
+	</div>
+<div class="module-categories module">
+	<h2 class="module-header"><a href="https://getcoreinterface.typepad.com/blog/archives.html">Categories</a></h2>
+	<div class="module-content">
+                   <ul class="module-list">
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/net-api/">.NET API <span class="category-count">(15)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/announcement/">Announcement <span class="category-count">(24)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/c/">C++ <span class="category-count">(21)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/cloud-service/">Cloud Service <span class="category-count">(4)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/cuiactioncommandadapter/">CuiActionCommandAdapter <span class="category-count">(4)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/debug/">debug <span class="category-count">(4)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/design-automation/">Design Automation <span class="category-count">(2)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/devdocs/">DevDocs <span class="category-count">(3)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/event/">Event <span class="category-count">(10)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/forge/">Forge <span class="category-count">(7)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/job/">job <span class="category-count">(2)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/maxscript/">MAXScript <span class="category-count">(11)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/open-position/">open position <span class="category-count">(1)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/python/">Python <span class="category-count">(8)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/qt/">qt <span class="category-count">(7)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/samples-1/">Samples <span class="category-count">(3)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/tiptrick/">Tip/Trick <span class="category-count">(10)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/training/">Training <span class="category-count">(4)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/webcast/">webcast <span class="category-count">(3)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/weblogs/">Weblogs <span class="category-count">(1)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/wpf/">WPF <span class="category-count">(2)</span></a></li>
+</span>
+		</ul>
+
+<a style="font-size:85%;display:none;" class="cat-more" href="https://getcoreinterface.typepad.com/blog/archives.html">See More</a>
+	</div>
+</div>
+
+
+
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+</div> <!-- row -->
+			
+
+
+<!-- container-footer -->
+<div id="footer">
+<div class="row well"><div class="col-md-12">
+	<div id="footer-inner">
+		<ul class="footer-list pkg list-inline" >
+			<li class="last-footer-list-item footer-list-item"><a href="https://getcoreinterface.typepad.com/blog/">GetCOREInterface</a></li>
+		</ul>
+	</div>
+</div></div>
+</div>
+
+		</div>
+	</div>
+	
+
+
+
+
+
+
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <script src="/.shared/themes/common/bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+     function autocollapse() {
+        var navbar = jQuery('#autocollapse'); navbar.removeClass('collapsed');
+            if(navbar.innerHeight() > 50) {
+               navbar.addClass('collapsed');
+               $('.navbar button').css("visibility","visible");
+             }
+     }
+autocollapse();
+
+$('.navbar-nav,.navbar-header').fadeIn('slow');
+jQuery(window).on('resize', autocollapse);
+</script>
+
+
+
+
+
+<script type="text/javascript">
+function resizebanner() {
+     var $div = $('#banner');
+     bg = $div.css('background-image');
+       if (bg) {
+         var src = bg.replace(/(^url\()|(\)$|[\"\'])/g, '');
+           $img = $('<img>').attr('src', src).on('load', function() {
+              var img = new Image;
+              img.src = src;
+              var imgW = img.width;
+              var imgH = img.height;             
+              var newW = $('#banner').width();
+              var newH = imgH / imgW * newW;
+       $('#banner').height(newH);
+       $('#banner').css('visibility', 'visible');
+      });//end when loaded
+  }//end if bg
+}//end 
+    (function($) {
+       $(document).on('ready', resizebanner);
+       $(window).on('resize', resizebanner);
+    })(jQuery);
+</script>
+
+
+
+<script type="text/javascript">
+<!--
+var extra_happy = Math.floor(1000000000 * Math.random());
+document.write('<img src="https://www.typepad.com/t/stats?blog_id=112876564355520268&amp;user_id=&amp;page=' + escape(location.href) + '&amp;referrer=' + escape(document.referrer) + '&amp;i=' + extra_happy + '" width="1" height="1" alt="" style="position: absolute; top: 0; left: 0;" />');
+// -->
+</script>
+
+
+
+
+<!-- Begin disqus Tag -->
+
+<!-- End disqus Tag -->
+</body>
+</html>
+
+<!-- ph=1 -->

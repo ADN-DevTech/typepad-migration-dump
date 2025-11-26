@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<head>
+  <!-- head-common-bootstrap-individual -->
+     <meta charset="utf-8">
+     <meta name="generator" content="http://www.typepad.com/" />
+     <meta name="description" content="3ds Max 2025 came with some breaking changes that marked an era of new approaches aimed at improving performance at the core. As a result, some tools tailored to pre-2025 3ds Max versions may fail to load into 2025. In this blog, we will give you a walkthrough of how..." />
+     <link rel="canonical" href="https://getcoreinterface.typepad.com/blog/2025/05/porting-plugins-from-3ds-max-2024-to-3ds-max-2025.html" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<meta property="og:title" content="Porting Plugins from 3ds Max 2024 to 3ds Max 2025" />
+<meta property="og:site_name" content="GetCOREInterface" />
+<meta property="og:type" content="blog" />
+<meta property="og:url" content="https://getcoreinterface.typepad.com/blog/2025/05/porting-plugins-from-3ds-max-2024-to-3ds-max-2025.html" />
+<meta property="og:description" content="3ds Max 2025 came with some breaking changes that marked an era of new approaches aimed at improving performance at the core. As a result, some tools tailored to pre-2025 3ds Max versions may fail to load into 2025. In this blog, we will give you a walkthrough of how..." />
+<meta property="fb:admins" content="" />
+<meta property="fb:app_id" content="55753818692" /><meta property="og:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c02c8d3d487a7200c-600wi" />
+
+
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="">
+<meta name="twitter:creator" content="">
+<meta name="twitter:title" content="Porting Plugins from 3ds Max 2024 to 3ds Max 2025">
+<meta name="twitter:description" content="3ds Max 2025 came with some breaking changes that marked an era of new approaches aimed at improving performance at the core. As a result, some tools tailored to pre-2025 3ds Max versions may fail to load into 2025. In this blog, we will give you a walkthrough of how..."><meta name="twitter:image" content="https://getcoreinterface.typepad.com/.a/6a019104a31725970c02c8d3d487a7200c-600wi" />
+
+
+
+     <!-- Custom fonts for this template -->
+
+    <!-- Bootstrap core CSS -->
+    <link href="/.shared/themes/common/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap bridge -->
+    <link href="/.shared/themes/common/bootstrap/css/bootstrap-bridge.css" rel="stylesheet" />
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="https://getcoreinterface.typepad.com/blog/styles.css?v=6" type="text/css" media="screen" />
+    <style>.navbar-header, .nav { display:block !important; }</style>
+
+        <link rel="stylesheet" href="https://static.typepad.com/.shared/themes/common/print.css" type="text/css" media="print" />
+        <link rel="alternate" type="application/atom+xml" title="Posts on 'GetCOREInterface' (Atom)" href="https://getcoreinterface.typepad.com/blog/atom.xml" />
+        <link rel="alternate" type="application/rss+xml" title="Posts on 'GetCOREInterface' (RSS 1.0)" href="https://getcoreinterface.typepad.com/blog/index.rdf" />
+        <link rel="alternate" type="application/rss+xml" title="Posts on 'GetCOREInterface' (RSS 2.0)" href="https://getcoreinterface.typepad.com/blog/rss.xml" />
+
+    <script src="//code.jquery.com/jquery.js"></script>
+
+        <script type="text/javascript">
+                var TPApp = {};
+                TPApp.app_uri = "https://www.typepad.com/";
+        </script>
+<!-- why does this load from prod? -->
+        <script type="text/javascript" src="https://static.typepad.com/.shared/js/yui/yahoo-dom-event.js,/js/app/thumbnail-gallery-min.js,/js/app/flyouts-min.js"></script>
+
+<!--- head google analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-225723-36', 'auto', {'name': 'Typepad'}, {'allowLinker': true} );  // Separate tracker for Typepad.
+ga('Typepad.require', 'linker');
+ga('Typepad.linker:autoLink', ['none']);
+ga('Typepad.set', 'dimension1', '6a019104a31725970c019104a321e0970c');
+ga('Typepad.set', 'dimension2', 'Individual');
+ga('Typepad.send', 'pageview');
+</script>
+
+
+
+    <script type="text/javascript" src="//tags.tiqcdn.com/utag/autodesk/typepad/prod/utag.js"></script>
+
+
+        <link rel="alternate" type="application/atom+xml" title="Comments on 'Porting Plugins from 3ds Max 2024 to 3ds Max 2025' (Atom)" href="https://getcoreinterface.typepad.com/blog/2025/05/porting-plugins-from-3ds-max-2024-to-3ds-max-2025/comments/atom.xml" />
+        <link rel="alternate" type="application/rss+xml" title="Comments on 'Porting Plugins from 3ds Max 2024 to 3ds Max 2025' (RSS 2.0)" href="https://getcoreinterface.typepad.com/blog/2025/05/porting-plugins-from-3ds-max-2024-to-3ds-max-2025/comments/rss.xml" />
+        <title>Porting Plugins from 3ds Max 2024 to 3ds Max 2025 - GetCOREInterface</title>
+        <link rel="start" href="https://getcoreinterface.typepad.com/blog/" title="Home" />
+        <link rel="prev" href="https://getcoreinterface.typepad.com/blog/2024/01/saving-qwidget-docking-states-per-3ds-max-scene.html?no_prefetch=1" title="Saving QWidget Docking States per 3ds Max Scene" />
+        <link rel="next" href="https://getcoreinterface.typepad.com/blog/2025/05/whats-new-in-3ds-max-2026.html?no_prefetch=1" title="What's new in 3ds Max 2026?" />
+
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+</head>
+
+
+
+<body class="layout-two-column-right post">
+	
+	<div id="container" class="container">
+		<div id="container-inner" class="pkg">
+			
+                <div class="row">
+     
+
+
+<a id="home"></a>
+   
+
+              <div id="banner" class="jumbotron">
+                <h1><a href="https://getcoreinterface.typepad.com/blog/" accesskey="1">GetCOREInterface</a></h1>
+                <h2>3ds Max customization, automation, plug-in development, and related ramblings!</h2>
+              </div>
+
+     
+     
+      <div id="autocollapse" class="navbar navbar-default navbar-fixed-top">
+
+<div class="navbar-inner">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+          </button>
+         <a class="navbar-brand" href="https://getcoreinterface.typepad.com/blog/">home</a>
+        </div>
+
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+<li><a href="https://getcoreinterface.typepad.com/blog/archives.html">archives</a></li>
+<li><a href="https://getcoreinterface.typepad.com/blog/kevin-vandecar.html">profile</a></li>
+<li><a href="https://getcoreinterface.typepad.com/blog/atom.xml">subscribe</a></li>
+<li><a href="https://twitter.com/kevinvandecar">twitter</a></li>
+<li><a href="http://area.autodesk.com/">area</a></li>
+<li><a href="http://area.autodesk.com/forum/autodesk-3ds-max/programming">forum</a></li>
+<li><a href="http://www.autodesk.com/me-sdk-docs">api docs</a></li>
+
+          </ul><!-- end main navbar -->
+        </div><!--/.nav-collapse-->
+</div><!--/.navbar-inner-->
+
+      </div><!--/.navbar-->
+
+     
+
+
+
+			<div id="pagebody">
+
+
+				<div id="pagebody-inner" class="pkg">
+                                        <div id="alpha" class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+						<div id="alpha-inner" class="pkg">
+							<!-- the plain version removes the extra jquery -->
+<!-- content nav -->
+<p class="content-nav">
+	<a class="content-nav-prev" href="https://getcoreinterface.typepad.com/blog/2024/01/saving-qwidget-docking-states-per-3ds-max-scene.html">&laquo; Saving QWidget Docking States per 3ds Max Scene</a> |
+	<a class="content-nav-main" href="https://getcoreinterface.typepad.com/blog/">Main</a>
+	| <a class="content-nav-next" href="https://getcoreinterface.typepad.com/blog/2025/05/whats-new-in-3ds-max-2026.html">What's new in 3ds Max 2026? &raquo;</a>
+</p>
+<script type="text/javascript">
+   $(function(){
+       var query = window.location.search.substring(1);
+       if( query == "pintix=1" ) {
+          var e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','https://static.typepad.com/.shared//js/pinmarklet.js?r='+Math.random()*99999999);document.body.appendChild(e);
+       }
+   });
+</script>
+<!-- entry -->
+
+	<h2 class="date-header">05/28/2025</h2>
+
+
+<div class="entry-category-net_api entry-category-cuiactioncommandadapter entry-category-maxscript entry-author-allan_k_koech entry-type-post entry" id="entry-6a019104a31725970c02e860eb36c7200b">
+   <div class="entry-inner">
+			<h3 class="entry-header">Porting Plugins from 3ds Max 2024 to 3ds Max 2025</h3>
+	
+
+
+
+	<div class="entry-content">
+		<div class="entry-body">
+			<div class="WordSection1">
+<p class="MsoNormal"><img height="387" src="https://www.borndigital.co.jp/app/uploads/2024/04/10_news_3dsmax2025_page-1040x450.jpg" style="display: block; margin-left: auto; margin-right: auto;" width="894" /></p>
+<p class="MsoNormal">3ds Max 2025 came with some breaking changes that marked an era of new approaches aimed at improving performance at the core. As a result, some tools tailored to pre-2025 3ds Max versions may fail to load into 2025. In this blog, we will give you a walkthrough of how to handle porting a plugin to 2025, using one of our samples as an example.</p>
+<h2>What Changed in 2025?</h2>
+<p class="MsoNormal">2025 brings some exciting changes; here are some highlights:</p>
+<ul>
+<li class="MsoListParagraphCxSpFirst"><em><strong>Menu Changes</strong></em>: 3ds Max 2025 introduces an overhaul of the menu system, deprecating the old MenuManager <em>(menuMan)</em> and introducing the new CuiMenuManager and its associated classes. This brings more ways of creating menus, statically or dynamically.</li>
+<li class="MsoListParagraphCxSpFirst"><span style="text-indent: -18pt;"><strong><em>shape.h</em></strong>: Introduced 8 helper methods for enhanced Bezier shape handling and end cap material options to improve shape rendering and control.</span></li>
+<li class="MsoListParagraphCxSpFirst"><span style="text-indent: -18pt;"><strong><em>spline3d.h</em></strong>: Added methods for checking spline segment linearity , managing angle constraints, and enhancing spline manipulation capabilities.</span></li>
+<li class="MsoListParagraphCxSpFirst"><span style="text-indent: -18pt;"><strong><em>splshape.h</em></strong>: Implemented methods to override spline closure prompts, providing customizable control over user interface prompts.</span></li>
+<li class="MsoListParagraphCxSpFirst"><span style="text-indent: -18pt;"><strong><em>mnmesh.h</em></strong>: Introduced new classes and optimizations for vertex origins and mesh management, focusing on performance improvements with complex meshes.</span></li>
+<li class="MsoListParagraphCxSpFirst"><strong><em>Mesh.h</em></strong>: We have added a helper method in <em>ScopedLockChannels</em> to efficiently update transformed bounding boxes, thereby enhancing mesh rendering accuracy.</li>
+<li class="MsoListParagraphCxSpFirst"><span style="text-indent: -18pt;"><strong><em>MaxGuid.h</em></strong>: Introduced the MaxGuid class for GUID management within MaxSDK, facilitating efficient unique identifier handling.</span></li>
+<li class="MsoListParagraphCxSpFirst"><span style="text-indent: -18pt;"><strong><em>iparamm2.h</em></strong>: A virtual SetRange method has been added for defining UI control ranges, enabling flexible parameter range customization.</span></li>
+<li class="MsoListParagraphCxSpFirst"><span style="text-indent: -18pt;"><strong><em>imorpher.h</em></strong>: Established interface classes for Morpher modifiers, expanding morphing capabilities with multiple channels of geometric transformation control.</span></li>
+<li class="MsoListParagraphCxSpFirst"><span style="text-indent: -18pt;"><strong><em>control.h</em></strong>: Implemented the GetDefaultController method to select appropriate user controls based on parameter types, ensuring efficient and accurate UI element assignment.</span></li>
+</ul>
+<p class="MsoNormal">Now that you have seen some SDK changes in 2025, let&#39;s see how you would <em>port a 2024 sample to work with 3ds Max 2025</em>.</p>
+<h2>Porting the Explode Geometry Sample</h2>
+<p class="MsoNormal">The Explode Geometry Sample is one of the sample plugins maintained by the <a href="https://aps.autodesk.com/adn" rel="noopener" target="_blank">ADN team</a>, with the installer available on the <a href="https://apps.autodesk.com/3DSMAX/en/Detail/Index?id=2091841125298582567&amp;appLang=en&amp;os=Win64" rel="noopener" target="_blank">Autodesk App Store</a> and the source code hosted on the <a href="https://github.com/ADN-DevTech" rel="noopener" target="_blank">ADN GitHub repo</a>. To begin the porting process, let&#39;s begin with fetching the code we will be working with.</p>
+<h3>Fetching the source code</h3>
+<p class="MsoNormal">Using your favorite tool, whether<em> GitHub Desktop, SourceTree, the command line</em>, etc., clone the Explode Geometry Sample. Note that you need to clone on the version tag indicated below, as the code has been updated already to support newer versions of 3ds Max.</p>
+<p><code>// Lets fetch code from v2.6 tag which supports 3ds Max 2024</code></p>
+<p><code>// <a href="https://github.com/ADN-DevTech/3dsMax-Explode-Geometry/releases/tag/v2.6" rel="noopener" target="_blank">https://github.com/ADN-DevTech/3dsMax-Explode-Geometry/releases/tag/v2.6</a></code></p>
+<p><code>git clone --branch v2.6 https://github.com/ADN-DevTech/3dsMax-Explode-Geometry.git</code></p>
+<p><code>cd 3dsMax-Explode-Geometry</code></p>
+<h3>Updating to 2025 Assembly Versions</h3>
+<p class="MsoNormal" style="border: none; padding: 0cm;">First, let&#39;s start by updating the assembly reference version to 3ds Max 2025 as well as setting our assembly output directory to 2025. In the <strong><em><u>.csproj</u></em></strong> project file, update the occurrence of 2024 to 2025, the assumption here being that you already have the 3ds Max 2025 setup installed.</p>
+<p class="MsoNormal" style="border: none; padding: 0cm;">With the project version updated, another interesting section to update is in our `<em><code>AssemblyInfo.cs</code></em>` file. Here we have pre-defined assembly versions and other organizational details, which may need to be bumped up to match the 3ds Max 2025 version.</p>
+<p><code>// Update the following two lines if need be</code><br /><code>[assembly: AssemblyVersion(&quot;2.7.0.0&quot;)]</code><br /><code>[assembly: AssemblyFileVersion(&quot;2.7.0.0&quot;)]</code></p>
+<p class="MsoNormal" style="border: none; padding: 0cm;">At this point, we have all versioning details updated and ready to work on 2025 feature changes. First, let&#39;s look at our core functionality.</p>
+</div>
+<blockquote>
+<p class="MsoNormal">Note: The system requirements for .NET are v4.8, if you have any build issues with version incompatibility, switch to v4.8.1.</p>
+</blockquote>
+<h3>MNVert Changes</h3>
+<p class="MsoNormal" style="border: none; padding: 0cm;">As noted earlier about some small changes to the C++ API that affect .NET-generated code, MNVert is among the victims of performance optimization. With the C++ API dropping the original copy operator for the C++ default copy, making MNVert trivially copiable and allocatable. This subtle change that works the same on the C++ side results in missing the `<em>Assign</em>` operator on the .NET `MNVert`.</p>
+<p class="MsoNormal" style="border: none; padding: 0cm;">Below is the final output for the 2024 vs. 2025 `<em>ExplodeGeometry</em>` with the MNVert functionality unchanged. You will note that the 2025 version shows no shapes on the scene as the Assign method is missing, which assigns vertex points to the `<em>polyNewFace</em>` which we are using to create new faces.</p>
+<p class="MsoNormal" style="border: none; padding: 0cm;"><a class="asset-img-link" href="https://getcoreinterface.typepad.com/.a/6a019104a31725970c02c8d3d487a7200c-pi" style="display: inline;"><img alt="Image001" border="0" class="asset  asset-image at-xid-6a019104a31725970c02c8d3d487a7200c image-full img-responsive" src="https://getcoreinterface.typepad.com/.a/6a019104a31725970c02c8d3d487a7200c-800wi" title="Image001" /></a></p>
+<p class="MsoNormal" style="border: none; padding: 0cm;">&#0160;</p>
+<p class="MsoNormal" style="border: none; padding: 0cm;">How can we remedy this? A quick fix is as shown below:</p>
+<p><code>// Original code ..</code></p>
+<p><code>polyNewFace.Mesh.V(k).Assign(vert);</code></p>
+<p><code>// New code ...</code></p>
+<p><code>polyNewFace.Mesh.V(k).P = vert.P;</code></p>
+<p><code></code></p>
+<blockquote>
+<p class="MsoNormal" style="border: none; padding: 0cm;">Note that the method `<strong><em>Assign</em></strong>` still works on the `<em>MNVert</em>`, but this originates from the `FlagUser`, where `MNVert` derives from.</p>
+</blockquote>
+<p class="MsoNormal">With that fixed, let&#39;s have a look at the menu system changes and how to effect those changes in our sample.</p>
+<h3>Upgrading to the new Menu System</h3>
+<p class="MsoNormal">Unfortunately, we will go over all the menu changes and how to make use of them here, but you can find a detailed guide on the following topic below:</p>
+<ul>
+<li class="MsoNormal">The Menu System: <a href="https://help.autodesk.com/view/MAXDEV/2025/ENU/?guid=GUID-FF48D0EC-6669-4EC7-AB43-E9998A14A198">https://help.autodesk.com/view/MAXDEV/2025/ENU/?guid=GUID-FF48D0EC-6669-4EC7-AB43-E9998A14A198</a> &amp; <a href="https://help.autodesk.com/view/MAXDEV/2025/ENU/?guid=menu_system">https://help.autodesk.com/view/MAXDEV/2025/ENU/?guid=menu_system</a></li>
+<li class="MsoNormal">Menu Migration Guide: <a href="https://help.autodesk.com/view/MAXDEV/2025/ENU/?guid=menu_migration_guide" style="text-indent: -18pt;">https://help.autodesk.com/view/MAXDEV/2025/ENU/?guid=menu_migration_guide</a></li>
+</ul>
+<p class="MsoListParagraphCxSpLast">&#0160;</p>
+<p class="MsoNormal">The sample packs a few useful packaging scripts and configuration files. This is where we will be modifying to set up the menu changes. But first, why do we need to make use of the menu in this sample?</p>
+<p class="MsoNormal">The sample is distributed as part of the ADN samples through the Autodesk AppStore. As such, to invoke the sample:</p>
+<ul>
+<li class="MsoNormal"><em>First, the assembly must be loaded to 3ds Max, which we are achieving by using the `PackageContents.xml` file. You can check the section on ` Packaging Your Project` in the Menu Migration Guide linked above.</em></li>
+<li class="MsoNormal"><em>Secondly, we expose the action items through MacroScript. This is not necessary, as we can make use of the Action table IDs directly to invoke the .NET methods.</em></li>
+<li class="MsoNormal"><em>Lastly, we create a menu entry under the `<code>App Store</code>` menu item on the main menu bar.</em></li>
+</ul>
+<p class="MsoNormal">With all that in mind, let&#39;s navigate to the `<em><code>PackageContents.xml</code></em>` located in the `<em><code>/Bundle2</code></em>` directory and start the packaging process upgrade.</p>
+<h4>PackageContents.xml file</h4>
+<p class="MsoNormal">First, let&#39;s expand the package runtime environment to support 2025. This can be done by updating the `<em><code>SeriesMax</code></em>` value to 2025. Similarly, let&#39;s expand the `<em><code>SeriesMax</code></em>` for `<em><code>macroscripts parts</code></em>` segment as shown below:</p>
+<p><code>&lt;RuntimeRequirements</code></p>
+<p><code>&#0160;&#0160;&#0160;&#0160;OS=&quot;Win64&quot;</code></p>
+<p><code>&#0160;&#0160;&#0160;&#0160;Platform=&quot;3ds Max&quot;</code></p>
+<p><code>&#0160;&#0160;&#0160;&#0160;SeriesMin=&quot;2020&quot;</code></p>
+<p><code>&#0160;&#0160;&#0160;&#0160;SeriesMax=&quot;2025&quot;</code></p>
+<p><code>/&gt;</code></p>
+<p><code>&lt;Components Description=&quot;macroscripts parts&quot;&gt;</code></p>
+<p><code>&#0160;&#0160;&#0160;&#0160;&lt;RuntimeRequirements ... SeriesMax=&quot;2025&quot; /&gt;</code></p>
+<p><code>&#0160;&#0160;&#0160;&#0160;...</code></p>
+<p><code>&lt;/Components&gt;</code></p>
+<p class="MsoNormal" style="border: none; padding: 0cm;">With MacroScript support for 2025 added, let&#39;s add .NET assembly as shown below.</p>
+<p><code>&lt;Components Description=&quot;assemblies parts&quot;&gt;</code></p>
+<p><code>&#0160;&#0160;&#0160;&#0160;&lt;RuntimeRequirements OS=&quot;Win64&quot; Platform=&quot;3ds Max&quot; SeriesMin=&quot;2025&quot; SeriesMax=&quot;2025&quot; /&gt;</code><br /><code>&#0160;&#0160;&#0160;&#0160;&lt;ComponentEntry AppName=&quot;ADNExplodeGeometry&quot; Version=&quot;2.6.0&quot; ModuleName=&quot;./Contents/ManagedAssemblies/2025/ADNExplodeGeometry.dll&quot; AppDescription=&quot;...&quot; /&gt;</code><br /><code>&lt;/Components&gt;</code></p>
+<p class="MsoNormal" style="border: none; padding: 0cm;">Lastly, let&#39;s add a post-startup script for 2025 that will create the menu entry for us on 3ds Max boot. Don&#39;t worry for now; we&#39;ll create the actual file and its contents next.</p>
+<p><code>&lt;Components Description=&quot;post-start-up scripts parts&quot;&gt;</code><br /><code>&#0160;&#0160;&#0160;&#0160;&lt;RuntimeRequirements OS=&quot;Win64&quot; Platform=&quot;3ds Max&quot; SeriesMin=&quot;2025&quot; SeriesMax=&quot;2025&quot; /&gt;</code><br /><code>&#0160;&#0160;&#0160;&#0160;&lt;ComponentEntry AppName=&quot;ADNExplodeGeometry&quot; Version=&quot;2.6.0&quot; ModuleName=&quot;./Contents/Post-Start-Up_Scripts/ADNGeometryExplodeSetupMenu2025.ms&quot; AppDescription=&quot;Setup Menu to execute tool&quot; /&gt;</code><br /><code>&lt;/Components&gt;&#0160;</code><code></code></p>
+<p class="MsoNormal"><span style="font-family: &#39;Aptos Display&#39;,sans-serif;">&#0160;</span></p>
+<h4>Creating Menu Entries for 2025</h4>
+<p class="MsoNormal"><span style="font-family: &#39;Aptos Display&#39;,sans-serif;">As we noted above in the `PackageContents.xml`, we need to add a new post-startup script that will handle menu creation for our package when it&#39;s loaded. We create a new file called ` <em>ADNGeometryExplodeSetupMenu2025.ms</em>` in the <em>`./Bundle2/Contents/Post-Start-Up_Scripts/</em>` directory. Unlike 3ds Max 2024 and earlier versions, 2025 uses callbacks to register new menu entries for both regular and quad menus.</span></p>
+<p class="MsoNormal"><span style="font-family: &#39;Aptos Display&#39;,sans-serif;">Within the file, let&#39;s add code to register our callback as well as get the main menu bar handle, which we will use to add new menu or sub-menu entries.</span></p>
+<p><code>function menuCallback = (</code><br /><code>&#0160;&#0160;&#0160;&#0160;local menuMgr = callbacks.notificationParam()</code><br /><code>&#0160;&#0160;&#0160;&#0160;local mainMenuBar = menuMgr.mainMenuBar</code><br /><code>)</code></p>
+<p><code>-- Register Callback to the #CuiRegisterMenus</code><br /><code>callbacks.removeScripts id:#adnExplodeGeomMenu</code><br /><code>callbacks.addScript #cuiRegisterMenus menuCallback id:#adnExplodeGeomMenu</code></p>
+<p class="MsoNormal" style="border: none; padding: 0cm;"><span style="font-family: &#39;Aptos Display&#39;, sans-serif;">From the callback, we can access the menu manager, which hosts the main menu bar. We&#39;ll use the main menu bar to add a sub-menu item, which will have our menu item. Let&#39;s see how this is attained:</span></p>
+<p><code>local stringAppStoreDefaultMenu = &quot;App Store&quot;</code></p>
+<p><code>-- ADN Explode Geometry MXS</code><br /><code>local stringMacroScriptName = &quot;ADNExplodeGeomMS&quot;</code><br /><code>local stringMacroScriptCategory = &quot;ADN Samples&quot;</code></p>
+<p><code>local helpMenuId = &quot;cee8f758-2199-411b-81e7-d3ff4a80d143&quot;</code></p>
+<p><code>-- ID of the &quot;App Store&quot; menu in the menu bar. Use this ID when in need of adding new submenu items</code><br /><code>-- to the &quot;App Store&quot; menu entry.</code><br /><code>local appStoreMenuId = &quot;CC18FEFC-E8A4-4B16-B519-664E8FA3B549&quot;</code></p>
+<p><code>local newSubMenu = mainMenuBar.CreateSubMenu appStoreMenuId stringAppStoreDefaultMenu beforeId:helpMenuId</code></p>
+<p><code>local separatorId = &quot;96FB49D4-6263-4D8E-AC95-6D304673327B&quot;</code><br /><code>newSubMenu.CreateSeparator separatorId</code></p>
+<p><code>local permanentId = stringMacroScriptName + &quot;`&quot; + stringMacroScriptCategory</code></p>
+<p><code>-- 647394: MacroScript Action Table ID</code><br /><code>newSubMenu.CreateAction &quot;9DE5BDB9-E47F-4614-BDF8-C331B9B38C70&quot; 647394 permanentId</code></p>
+<p class="MsoNormal" style="border: none; padding: 0cm;"><span style="font-family: &#39;Aptos Display&#39;, sans-serif;">This script defines some local variables like the menu entry name and our menu name, as well as some system data like the `</span><strong style="font-family: &#39;Aptos Display&#39;, sans-serif;"><em>Help Menu</em></strong><span style="font-family: &#39;Aptos Display&#39;, sans-serif;">` GUUID. From the main menu bar, we create a submenu called `App Store` using </span><code><em style="font-family: &#39;Aptos Display&#39;, sans-serif;">mainMenuBar.CreateSubMenu⁣. </em></code><span style="font-family: &#39;Aptos Display&#39;, sans-serif;">In the submenu, we add a separator at the end of the existing menu items, if any (in our case it may be empty), and then we create a new action entry for our sample.</span></p>
+<p class="MsoNormal"><span style="font-family: &#39;Aptos Display&#39;,sans-serif;">With the script completed, we have one last piece remaining: adding the built assembly to the package.</span></p>
+<h3>Build &amp; Adding Assembly to the Package</h3>
+<p class="MsoNormal"><span style="font-family: &#39;Aptos Display&#39;,sans-serif;">Under the `<code><em>PackageContents.xml</em></code>` section, we added a reference to a built assembly supporting 2025. From our upgraded project, we build our project, and the generated assembly is written out to our project&#39;s <em>`OutputPath</em>` directive. We can copy over this assembly to the <em>`<code>./Bundle2/Contents/ManagedAssemblies/2025/</code>`</em> directory.</span></p>
+<p class="MsoNormal"><span style="font-family: &#39;Aptos Display&#39;,sans-serif;">The Bundle2 directory can be copied over as is now to the 3ds Max plugin directory, and on the next 3ds Max boot, the plugin will be loaded. For a full guide to plugin packaging, check the docs here: </span><a href="https://help.autodesk.com/view/MAXDEV/2025/ENU/?guid=packaging_plugins"><span style="font-family: &#39;Aptos Display&#39;,sans-serif;">https://help.autodesk.com/view/MAXDEV/2025/ENU/?guid=packaging_plugins</span></a><span style="font-family: &#39;Aptos Display&#39;,sans-serif;">.</span></p>
+<h3>Final touches</h3>
+<p class="MsoNormal"><span style="font-family: &#39;Aptos Display&#39;,sans-serif;">To finalize the plugin details, we can do a couple of things:</span></p>
+<ul>
+<li class="MsoListParagraphCxSpFirst">&#0160;Update version information for the plugin, as encompassed in the `<em><code>PackageContents.xml</code></em>`</li>
+<li class="MsoListParagraphCxSpFirst"><em>Documentation</em>: Updating the documentation details for new features, fixes, and/or new version information.</li>
+</ul>
+<p>We hope you found that helpful!</p>
+		</div>
+		
+
+                        <!-- SIGNATURE -->
+                        
+
+		
+	</div>
+
+	<div class="entry-footer">
+			<p class="entry-footer-info">
+				<span class="post-footers">Posted by <a rel="author" href="https://profile.typepad.com/allankoech">Allan K. Koech</a> at 08:54 AM in <a href="https://getcoreinterface.typepad.com/blog/net-api/">.NET API</a>, <a href="https://getcoreinterface.typepad.com/blog/cuiactioncommandadapter/">CuiActionCommandAdapter</a>, <a href="https://getcoreinterface.typepad.com/blog/maxscript/">MAXScript</a> </span> <span class="separator">|</span> <a class="permalink" href="https://getcoreinterface.typepad.com/blog/2025/05/porting-plugins-from-3ds-max-2024-to-3ds-max-2025.html">Permalink</a>
+			</p>
+		
+		<!-- technorati tags -->
+
+
+		<!-- post footer links -->
+	<p class="entry-footer-share entry-footer-share-buttons">
+		<span class="entry-footer-links-twitter">
+     <a href="https://twitter.com/share?url=https%3A%2F%2Fgetcoreinterface.typepad.com%2Fblog%2F2025%2F05%2Fporting-plugins-from-3ds-max-2024-to-3ds-max-2025.html&text=Porting%20Plugins%20from%203ds%20Max%20202..." target="_blank"><img src="/.shared/images/circle-twitter.png" alt="Twitter" /></a>
+</span>
+	</p>
+
+
+	</div>
+   </div>
+</div>
+
+
+
+        
+        
+        <a id="comments"></a>
+	<div class="comments" id="all-comments">
+		<h3 class="comments-header">Comments</h3>
+					<div class="comments-info">
+				<p><a href="https://getcoreinterface.typepad.com/blog/2025/05/porting-plugins-from-3ds-max-2024-to-3ds-max-2025/comments/atom.xml"><img src="https://static.typepad.com/.shared/images/feed.png" alt="Feed" width="10" height="10" /></a> You can follow this conversation by subscribing to the <a href="https://getcoreinterface.typepad.com/blog/2025/05/porting-plugins-from-3ds-max-2024-to-3ds-max-2025/comments/atom.xml">comment feed</a> for this post.</p>
+			</div>
+		
+		<div class="comments-content" id="comments-content">
+                <!-- comment list -->
+
+		</div>
+        
+	</div>
+<script type="text/javascript">var c943723d42e77e9214eb884a1d898ea="</form>";</script>
+<script type="text/javascript">var ffe51c373e0873b7778b6324a0b5533 = '<form id="comment-form" action="';</script>
+<script type="text/javascript">var c943723d42e77e9214eb884a1d898za = '" method="post"><input type="hidden" name="entry_xid" id="comment-entry-xid" value="6a019104a31725970c02e860eb36c7200b" \/><input type="hidden" name="token" value="1756835522-82e372d56d3c416b2fd61a970da9d5c68a37221f:SmefjyCkrjhCZuTy" \/>';</script>
+<script type="text/javascript">var OOcd55d4dc47109d7b462b01c7dd4dab = "aHR0cHM6Ly9nZXRjb3JlaW50ZXJmYWNlLnR5cGVwYWQuY29tLy5zZXJ2aWNlcy9jb21tZW50cw";</script>
+<script type="text/javascript">var bad4dd7c10b264b7d90174cd4d55dc00 = atob(OOcd55d4dc47109d7b462b01c7dd4dab);</script>
+
+<!-- comment-form-atp -->
+
+
+<p class="comments-closed font-entrybody">
+	The comments to this entry are closed.
+</p>
+
+
+
+
+
+    
+    
+
+
+
+
+						</div>
+					</div>
+                                        <div id="beta" class="well col-xs-12 col-sm-4 col-md-4 col-lg-4">
+						<div id="beta-inner" class="pkg">
+							
+<!-- sidebar -->
+
+
+	<div class="module-archives module">
+		<h2 class="module-header"><a href="https://getcoreinterface.typepad.com/blog/archives.html">Archives</a></h2>
+		<div class="module-content">
+												<ul class="module-list">
+				
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2025/05/index.html">May 2025</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2024/01/index.html">January 2024</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/06/index.html">June 2023</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/04/index.html">April 2023</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/02/index.html">February 2023</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/01/index.html">January 2023</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2022/04/index.html">April 2022</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2021/05/index.html">May 2021</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2021/04/index.html">April 2021</a></li>
+				
+							
+				<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2020/05/index.html">May 2020</a></li>
+									</ul>
+									<p class="module-more"><a href="https://getcoreinterface.typepad.com/blog/archives.html">More...</a></p>
+				
+				
+			
+		</div>
+	</div>
+
+<!-- list_inlcude.tt  -->
+<div id="about" class="module-typelist module">
+<h2 class="module-header">About</h2>
+	<div class="typelist-plain module-content">
+		<ul class="module-list">
+							<li class="module-list-item"><div class="typelist-note"><table> <tr> 
+	<td> 
+	<a href="https://getcoreinterface.typepad.com/blog/kevin-vandecar.html"> <img src="https://getcoreinterface.typepad.com/blog/KDV_Fall_Color_100.jpg"></a> <a href="https://getcoreinterface.typepad.com/blog/kevin-vandecar.html">Kevin Vandecar</a> <br> <br> 
+	<a href="https://getcoreinterface.typepad.com/blog/denis-grigor.html"> <img src="https://getcoreinterface.typepad.com/blog/denis_grigor.jpg"></a> 
+	<a href="https://getcoreinterface.typepad.com/blog/denis-grigor.html">Denis Grigor</a> <br> <br> 
+	<a href="https://getcoreinterface.typepad.com/blog/allan-koech.html"> <img src="https://getcoreinterface.typepad.com/blog/allan-koech.jpg"></a> 
+	<a href="https://getcoreinterface.typepad.com/blog/allan-koech.html">Allan Koech</a> 
+
+	</td> </tr> </table> 
+	
+	<br> <a href="http://www.autodesk.com/joinadn" title="Information on the Autodesk Developer Network"> <img src="https://getcoreinterface.typepad.com/blog/join_adn.png" border="0" /> </a> <link rel="icon" href="/favicon.ico" type="image/x-icon" /> <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /> <link rel="icon" type="image/gif" href="/favicon.gif" /> <meta name="application-name" content="GetCOREInterface" /> <meta name="msapplication-tooltip" content="Open GetCOREInterface blog" /> <meta name="msapplication-starturl" content="http://getcoreinterface.typepad.com" /> <meta name="msapplication-window" content="width=1024;height=768" /> <meta name="msapplication-navbutton-color" content="#000000" /> <meta name="msapplication-task" content="name=Search TtIf;action-uri=http://www.google.com/search?btnG=%C2%BB&domains=getcoreinterface.typepad.com&sitesearch=getcoreinterface.typepad.com;icon-uri=http://google.com/favicon.ico" /></div></li>
+			
+		</ul><!-- last /ul -->
+	</div>
+</div>
+<!-- end list_include.tt -->
+
+<!-- list_inlcude.tt  -->
+<div id="google_search" class="module-typelist module">
+<h2 class="module-header">Google Search</h2>
+	<div class="typelist-plain module-content">
+		<ul class="module-list">
+							<li class="module-list-item"><div class="typelist-note"><script>
+  (function() {
+    var cx = '001717393972716514223:-ybiyil2pts';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search></div></li>
+			
+		</ul><!-- last /ul -->
+	</div>
+</div>
+<!-- end list_include.tt -->
+
+<!-- list_inlcude.tt  -->
+<div id="translate" class="module-typelist module">
+<h2 class="module-header">Translate</h2>
+	<div class="typelist-plain module-content">
+		<ul class="module-list">
+							<li class="module-list-item"><div class="typelist-note"><div id='MicrosoftTranslatorWidget' class='Dark' style='color:white;background-color:#555555'>
+</div>
+<script type='text/javascript'>setTimeout(function(){{var s=document.createElement('script');s.type='text/javascript';s.charset='UTF-8';s.src=((location && location.href && location.href.indexOf('https') == 0)?'https://ssl.microsofttranslator.com':'http://www.microsofttranslator.com')+'/ajax/v3/WidgetV3.ashx?siteData=ueOIGRSKkd965FeEGM5JtQ**&ctf=True&ui=true&settings=Manual&from=en';var p=document.getElementsByTagName('head')[0]||document.documentElement;p.insertBefore(s,p.firstChild); }},0);</script>
+</div></li>
+			
+		</ul><!-- last /ul -->
+	</div>
+</div>
+<!-- end list_include.tt -->
+
+<div class="module-calendar module">
+	<h2 class="module-header">May 2025</h2>
+	<div class="module-content table-responsive">
+		<table class="table" summary="Monthly calendar with links to each day's posts">
+                        <tr>
+                                                                 <th>Sun</th>
+                                                                 <th>Mon</th>
+                                                                 <th>Tue</th>
+                                                                 <th>Wed</th>
+                                                                 <th>Thu</th>
+                                                                 <th>Fri</th>
+                                                                 <th>Sat</th>
+                                
+                        </tr>
+                                                   <tr>
+                                        <td>&nbsp;</td>
+                                
+                                                   
+                                        <td>&nbsp;</td>
+                                
+                                                   
+                                        <td>&nbsp;</td>
+                                
+                                                   
+                                        <td>&nbsp;</td>
+                                
+                                                   
+                                        <td>1</td>
+                                
+                                                   
+                                        <td>2</td>
+                                
+                                                   
+                                        <td>3</td>
+                                </tr>
+                                                   <tr>
+                                        <td>4</td>
+                                
+                                                   
+                                        <td>5</td>
+                                
+                                                   
+                                        <td>6</td>
+                                
+                                                   
+                                        <td>7</td>
+                                
+                                                   
+                                        <td>8</td>
+                                
+                                                   
+                                        <td>9</td>
+                                
+                                                   
+                                        <td>10</td>
+                                </tr>
+                                                   <tr>
+                                        <td>11</td>
+                                
+                                                   
+                                        <td>12</td>
+                                
+                                                   
+                                        <td>13</td>
+                                
+                                                   
+                                        <td>14</td>
+                                
+                                                   
+                                        <td>15</td>
+                                
+                                                   
+                                        <td>16</td>
+                                
+                                                   
+                                        <td>17</td>
+                                </tr>
+                                                   <tr>
+                                        <td>18</td>
+                                
+                                                   
+                                        <td>19</td>
+                                
+                                                   
+                                        <td>20</td>
+                                
+                                                   
+                                        <td>21</td>
+                                
+                                                   
+                                        <td>22</td>
+                                
+                                                   
+                                        <td>23</td>
+                                
+                                                   
+                                        <td>24</td>
+                                </tr>
+                                                   <tr>
+                                        <td>25</td>
+                                
+                                                   
+                                        <td>26</td>
+                                
+                                                   
+                                        <td>27</td>
+                                
+                                                   
+                                        <td><a href="https://getcoreinterface.typepad.com/blog/2025/05/whats-new-in-3ds-max-2026.html">28</a></td>
+                                
+                                                   
+                                        <td>29</td>
+                                
+                                                   
+                                        <td><a href="https://getcoreinterface.typepad.com/blog/2025/05/upgrading-3ds-max-net-projects-from-net-framework-to-net-8.html">30</a></td>
+                                
+                                                   
+                                        <td>31</td>
+                                </tr>
+                        
+		</table>
+	</div>
+</div>
+<!-- list_inlcude.tt  -->
+<div id="rss_feed" class="module-typelist module">
+<h2 class="module-header">RSS Feed</h2>
+	<div class="typelist-plain module-content">
+		<ul class="module-list">
+							<li class="module-list-item"><div class="typelist-note"><a href="http://feeds.feedburner.com/autodesk/GetCoreInterface"><img src="https://getcoreinterface.typepad.com/feed.png" border="0" align="absmiddle">
+&nbsp;Subscribe</a></div></li>
+			
+		</ul><!-- last /ul -->
+	</div>
+</div>
+<!-- end list_include.tt -->
+
+<div class="module-search module">
+    <h2 class="module-header">Search</h2>
+    <div class="module-content">
+        <form id="search-blog" method="get" action="https://getcoreinterface.typepad.com/.services/blog/6a019104a31725970c019104a321e0970c/search" class="form-search form-inline" role="search">
+            
+<div class="form-group"><input type="search" name="filter.q" results="5" value="" class="form-control" placeholder="Search" /></div><button type="submit" value="Search" class="btn btn-default">Submit</button>
+
+        </form>
+    </div>
+</div>
+<!-- END Blog Search Module -->
+	<div class="module-archives module">
+		<h2 class="module-header">Recent Posts</h2>
+		<div class="module-content">
+			<ul class="module-list">
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2025/05/upgrading-3ds-max-net-projects-from-net-framework-to-net-8.html">Upgrading 3ds Max .NET projects from .NET Framework to .NET 8</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2025/05/whats-new-in-3ds-max-2026.html">What's new in 3ds Max 2026?</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2025/05/porting-plugins-from-3ds-max-2024-to-3ds-max-2025.html">Porting Plugins from 3ds Max 2024 to 3ds Max 2025</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2024/01/saving-qwidget-docking-states-per-3ds-max-scene.html">Saving QWidget Docking States per 3ds Max Scene</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/06/porting-maxplus-to-pymxs-what-you-need-to-know-1.html">Porting MaxPlus to pymxs - What you need to know</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/04/3ds-max-2024-released.html">3ds Max 2024 Released!</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/02/learning-3ds-max-sdk-my-journey.html">Learning 3ds Max SDK - My Journey</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2023/01/custom-valuetype-maxscript.html">MAXScript Custom Value Types from 3ds MAX SDK</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2022/04/3ds-max-2023-released.html">3ds Max 2023 Released!</a></li>
+					
+				
+									<li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/2021/05/tips-for-troubleshooting-visual-studio-output-and-getting-qt-to-work-with-3ds-max-sdk.html">Tips for troubleshooting Visual Studio output and getting Qt to work with 3ds Max SDK</a></li>
+					
+				
+			</ul>
+		</div>
+	</div>
+<div class="module-categories module">
+	<h2 class="module-header"><a href="https://getcoreinterface.typepad.com/blog/archives.html">Categories</a></h2>
+	<div class="module-content">
+                   <ul class="module-list">
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/net-api/">.NET API <span class="category-count">(15)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/announcement/">Announcement <span class="category-count">(24)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/c/">C++ <span class="category-count">(21)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/cloud-service/">Cloud Service <span class="category-count">(4)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/cuiactioncommandadapter/">CuiActionCommandAdapter <span class="category-count">(4)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/debug/">debug <span class="category-count">(4)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/design-automation/">Design Automation <span class="category-count">(2)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/devdocs/">DevDocs <span class="category-count">(3)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/event/">Event <span class="category-count">(10)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/forge/">Forge <span class="category-count">(7)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/job/">job <span class="category-count">(2)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/maxscript/">MAXScript <span class="category-count">(11)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/open-position/">open position <span class="category-count">(1)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/python/">Python <span class="category-count">(8)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/qt/">qt <span class="category-count">(7)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/samples-1/">Samples <span class="category-count">(3)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/tiptrick/">Tip/Trick <span class="category-count">(10)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/training/">Training <span class="category-count">(4)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/webcast/">webcast <span class="category-count">(3)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/weblogs/">Weblogs <span class="category-count">(1)</span></a></li>
+
+
+
+                        <li class="module-list-item"><a href="https://getcoreinterface.typepad.com/blog/wpf/">WPF <span class="category-count">(2)</span></a></li>
+</span>
+		</ul>
+
+<a style="font-size:85%;display:none;" class="cat-more" href="https://getcoreinterface.typepad.com/blog/archives.html">See More</a>
+	</div>
+</div>
+
+
+
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+</div> <!-- row -->
+			
+
+
+<!-- container-footer -->
+<div id="footer">
+<div class="row well"><div class="col-md-12">
+	<div id="footer-inner">
+		<ul class="footer-list pkg list-inline" >
+			<li class="last-footer-list-item footer-list-item"><a href="https://getcoreinterface.typepad.com/blog/">GetCOREInterface</a></li>
+		</ul>
+	</div>
+</div></div>
+</div>
+
+		</div>
+	</div>
+	
+
+
+
+
+
+
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <script src="/.shared/themes/common/bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+     function autocollapse() {
+        var navbar = jQuery('#autocollapse'); navbar.removeClass('collapsed');
+            if(navbar.innerHeight() > 50) {
+               navbar.addClass('collapsed');
+               $('.navbar button').css("visibility","visible");
+             }
+     }
+autocollapse();
+
+$('.navbar-nav,.navbar-header').fadeIn('slow');
+jQuery(window).on('resize', autocollapse);
+</script>
+
+
+
+
+
+<script type="text/javascript">
+function resizebanner() {
+     var $div = $('#banner');
+     bg = $div.css('background-image');
+       if (bg) {
+         var src = bg.replace(/(^url\()|(\)$|[\"\'])/g, '');
+           $img = $('<img>').attr('src', src).on('load', function() {
+              var img = new Image;
+              img.src = src;
+              var imgW = img.width;
+              var imgH = img.height;             
+              var newW = $('#banner').width();
+              var newH = imgH / imgW * newW;
+       $('#banner').height(newH);
+       $('#banner').css('visibility', 'visible');
+      });//end when loaded
+  }//end if bg
+}//end 
+    (function($) {
+       $(document).on('ready', resizebanner);
+       $(window).on('resize', resizebanner);
+    })(jQuery);
+</script>
+
+
+
+<script type="text/javascript">
+<!--
+var extra_happy = Math.floor(1000000000 * Math.random());
+document.write('<img src="https://www.typepad.com/t/stats?blog_id=112876564355520268&amp;user_id=&amp;page=' + escape(location.href) + '&amp;referrer=' + escape(document.referrer) + '&amp;i=' + extra_happy + '" width="1" height="1" alt="" style="position: absolute; top: 0; left: 0;" />');
+// -->
+</script>
+
+
+
+
+<!-- Begin disqus Tag -->
+
+<!-- End disqus Tag -->
+</body>
+</html>
+
+<!-- ph=1 -->
