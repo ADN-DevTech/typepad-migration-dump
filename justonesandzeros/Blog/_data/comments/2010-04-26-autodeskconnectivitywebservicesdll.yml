@@ -1,0 +1,44 @@
+comments:
+- author: Ryan Small
+  email: rsmall@solidcad.ca
+  ip: 72.12.166.44
+  url: ''
+  date: '2010-04-29 20:59:47'
+  body: 'If an application is built that references this DLL, how is it resolved since
+    it resides outside of the scope of the web services path (i.e. <a href="http://<servermame>/autodeskdm)?">http://<servermame>/autodeskdm)?</a>
+
+
+    So, lets assume I were to built my own vault client (I know the client is customizable
+    - this is a hypothetical example then).  On my dev machine the DLL is available.  However,
+    I now deploy my custom client to other workstations that do not have the ADMS
+    installed on them.  Since the DLL is outside the above path, won''t that cause
+    runtime problems for the custom app?'
+- author: Ryan Small
+  email: rsmall@solidcad.ca
+  ip: 72.12.166.44
+  url: ''
+  date: '2010-04-29 21:08:21'
+  body: Immediately after posting this; I realized that the solution is most likely
+    to just include the DLL with my custom application as part of its deployment.
+- author: joeri
+  email: joeri.tuyn@gmail.com
+  ip: 202.134.229.221
+  url: ''
+  date: '2010-06-18 04:58:04'
+  body: That's a great help! Makes things a lot easier! Would it be possible to sign
+    the assembly (strong name)?
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.71.11
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2010-06-18 08:08:57'
+  body: 'Yes, you can sign the DLL if you need to.
+
+
+    There is a trick using SN.exe and ILDASM.exe, which are .NET tools provided by
+    Microsoft.  You basically de-compile the DLL to IL code, then you re-compile with
+    a key.
+
+
+
+    Example BAT file:'

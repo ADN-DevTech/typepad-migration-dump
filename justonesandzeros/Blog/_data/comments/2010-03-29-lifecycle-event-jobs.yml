@@ -1,0 +1,62 @@
+comments:
+- author: MaxU77
+  email: umax.com@gmail.com
+  ip: 195.230.112.10
+  url: ''
+  date: '2012-06-20 04:17:14'
+  body: 'Doug,
+
+    If there a way (apart from ECO workflow) to get notification about publishing
+    new Item revisions?'
+- author: Doug Redmond
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2012-06-20 13:39:29'
+  body: There is no built in way.  But if the new revision comes from a state change,
+    then you could write a job handler to send out the email.  Watch Folder uses a
+    similar concept.
+- author: Matt M
+  email: mmason@rand.com
+  ip: 209.6.133.214
+  url: http://www.imaginit.com
+  date: '2015-08-18 16:38:20'
+  body: 'Hi Doug. Not sure if you still monitor comments from 5 year old threads,
+    but this seemed relevant.
+
+
+    I have been migrating one of our tools that used ItemLifecycleExtension in the
+    olden days to use the job processor.
+
+
+    This is one of those scenarios where now, the system might create 1000 individual
+    jobs rather that one job with a bunch of items.
+
+
+    Are there any examples, patterns or other suggestions for how to queue up jobs,
+    and perhaps execute them every 5 minutes (knowing that there''s a chance you could
+    lose them if the job server was closed)?
+
+
+    Thanks,
+
+    Matt'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2015-08-20 08:47:16'
+  body: 'Hey Matt.  I get alerts when new comments are posted, regardless of how old
+    the post is.
+
+
+    Anyway, one possible solution is to not use JobProcessor, which handles one job
+    at a time.  I have another post describing how you can build your own service
+    to read jobs off the queue.  This allows you to get around the limitations of
+    JobProcessor.  <a href="http://justonesandzeros.typepad.com/blog/2013/02/custom-jobs-without-job-processor.html">http://justonesandzeros.typepad.com/blog/2013/02/custom-jobs-without-job-processor.html</a>
+
+
+    For example, your service could reserve 50 jobs at a time, process them all together,
+    then mark the 50 jobs as complete.
+
+    -----'

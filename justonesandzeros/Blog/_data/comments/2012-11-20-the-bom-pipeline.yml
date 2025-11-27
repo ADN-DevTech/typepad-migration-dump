@@ -1,0 +1,149 @@
+comments:
+- author: Pawel Jackowski
+  email: jackowski.p@eplan.pl
+  ip: 217.98.90.226
+  url: ''
+  date: '2012-11-21 02:50:13'
+  body: "Thanks for your post. First point is about the documentation. Your suggestion\
+    \ are not mentioned in the API documentation. \nIn our case we have different\
+    \ process and we need the information from File BOM. This is because we are coping\
+    \ existing structure from vault and create new one. In that case we need file\
+    \ BOM to assign proper item together for files. Do you have some hint for this\
+    \ case?\n\nRegards,\nPawel J."
+- author: Dmitry
+  email: Dmitry.kozachenko@autodesk.com
+  ip: 212.57.174.142
+  url: http://Autodesk.com
+  date: '2012-11-21 03:22:45'
+  body: Why we don't configure life cycle states on BOM items?
+- author: Doug Redmond
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2012-11-21 08:12:37'
+  body: I don't have a good answer for this one.  For one reason or another, something
+    always takes higher priority.  If we had infinite time and resources, this would
+    be a feature.
+- author: Scott Moyse
+  email: scott@smigroup.co.nz
+  ip: 180.222.65.87
+  url: ''
+  date: '2012-11-22 16:35:44'
+  body: "Its a glaring omission in my opinion. As a result of having no lifecycle\
+    \ control, there's no ACL security on Items. The only way you can control which\
+    \ users can view Items is Via Roles. This means even read only users can see both\
+    \ Released & WIP items. I understand the Web Client only displays Released Items,\
+    \ but the Web Client sucks to navigate around & isn't customisable. \n\nThe result\
+    \ is an unsecure Item environment. Rather odd if you ask me."
+- author: Xavier Dumont
+  email: xdumont@hurni.ch
+  ip: 144.85.25.218
+  url: http://www.hurni.ch
+  date: '2012-12-05 09:22:23'
+  body: 'Hi Doug,
+
+
+    Regarding this, can we imagine to export the BOM of an assembly trough Vault API
+    in order to send this to ERP (without using items)?
+
+
+    I have a customer who want to use file lifecycle but don''t want to use item only
+    for sending this to ERP (too complicate).
+
+
+    Thanks in advance.'
+- author: Doug Redmond
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2012-12-05 15:58:15'
+  body: 'If you want to use it that way, then you can do that.  But it''s not the
+    recommended approach, so there is extra risk on your part.
+
+
+    For example, it''s possible for two drawings to reference the same part.  The
+    Vault Item framework detects and handles these cases.  If you work with file BOMs
+    directly, you are going to have a hard time detecting these cases.'
+- author: Maxb
+  email: maxstels@gmail.com
+  ip: 195.230.112.10
+  url: ''
+  date: '2013-03-20 06:25:07'
+  body: "Can I get FileBom in API omiting phantom?\nI use function\nDim itfBom = wsm.DocumentService.GetBOMByFileId(fd.Id)\n\
+    For Each bc As BOMComp In itfBom.CompArray\n    if bc.BOMStruct <> BOMStructureEnum.Phantom\
+    \ Then\n....\nend if\nbut components with  BOMStructure = Phantom in Inventor\
+    \ returns Normal in Vault BOM API?"
+- author: Samer
+  email: ''
+  ip: 213.204.104.13
+  url: http://profile.typepad.com/6p01a3fc096faa970b
+  date: '2014-01-11 07:02:28'
+  body: 'Dear Doug,
+
+    is it possible to use a custom object as a manufacturing order:
+
+    example i want to manufacture 3 times item1 and 7 times item2, and be able to
+    track manufacturing in vault.
+
+
+    before plunging in programing:
+
+
+    is it possible to create a command in which i say i want 3 of this item1 and 7
+    item 2 for a certain project, after that it creates multiple custom objects (manufacturing
+    order). Each custom object, represents a part to be manufactured, it has properties
+    to track manufactured quantities (required BOM quantity, manufactured quantity,
+    remaining quantity), and is it possible to create a tab for this object showing
+    the drawing of this part from the item?
+
+
+    Thanks in advance'
+- author: Samer
+  email: ''
+  ip: 146.185.36.87
+  url: http://profile.typepad.com/6p01a3fc096faa970b
+  date: '2014-01-11 14:52:57'
+  body: "Dear Doug, \n\ni am new here, and just read the \"Asking for Help - Do’s\
+    \ and Don’ts\" section.\n\nusing vault professional 2013.\nI do not require any\
+    \ code or debugging, only was asking about the feasibility of the idea, before\
+    \ exploring it in source code.\n\nThanks in advance"
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.71.13
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2014-01-13 08:37:31'
+  body: 'Yes, I think you can use Custom Objects to represent a manufacturing order.
+
+
+    You can make a custom command that creates Custom Objects based on the items that
+    the user selects.  The Custom Object can either contain copied data from the items.
+    Or you can link the Custom Object to the items. Or both.
+
+
+    You can create tabs for Custom Objects but the Vault API doesn''t give you anything
+    for displaying CAD data.  You would have to plug-in a viewer.'
+- author: Ted
+  email: tkoch@taittowers.com
+  ip: 24.229.49.21
+  url: ''
+  date: '2015-05-05 10:48:30'
+  body: "1. The CAD user adds a file to Vault.\n\n2. The CAD plug-in uploads a BOM\
+    \ object along with the file.  I’ll refer to this object as the “file BOM”. \n\
+    \nI do not see this behavior in 2015 R2. If I check in a single file, the File\
+    \ BOM is not generated it seems until I assign an item to that file. Also, the\
+    \ BOMComp.UniqueId field is empty. I am using AutoCAD 2015 to check in these new\
+    \ files, is this expected behavior?\n\nThanks."
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2015-05-06 17:05:07'
+  body: 'I think that vanilla AutoCAD does not supply BOM information because it doesn''t
+    understand the design enough.  You need AutoCAD Mechanical or AutoCAD Electrical
+    if you want BOM information.
+
+
+    Vault still lets you run "Assign Item" on a file with no BOM.  In this case Vault
+    creates a default BOM of just a single Item.
+
+    -----'

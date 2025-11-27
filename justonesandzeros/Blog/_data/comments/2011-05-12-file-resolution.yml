@@ -1,0 +1,83 @@
+comments:
+- author: Jaap
+  email: Jaap.vandenHandel@cadcompany.nl
+  ip: 95.97.78.42
+  url: ''
+  date: '2011-08-24 12:40:51'
+  body: 'Hi Doug,
+
+
+    But if we are importing dwg''s with xrefs in bulk using the SDK, what value for
+    RefId would we set, so AutoCAD can resolve broken xref links?
+
+
+    And would ExpectedVaultPath be the path to the file, or the path to the folder
+    the file is in?
+
+
+    Thanks in advance'
+- author: Doug Redmond
+  email: ''
+  ip: 24.114.224.34
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2011-08-24 17:32:29'
+  body: 'Officially, the best way to add AutoCAD data is through the AutoCAD plug-in
+    or Autoloader.
+
+
+    That being said, I believe that the xref block name is the RefId.  You can test
+    this out by adding DWGs through the plug-in then reading the FileAssoc data through
+    the Vault API.
+
+
+    Expected Vault Path is the full Vault path, folder and file name.  Example:  "$/folderA/fileB.dwg"'
+- author: Mark
+  email: Mark.Denkema@cadcompany.nl
+  ip: 95.97.78.42
+  url: ''
+  date: '2011-08-25 11:25:46'
+  body: 'Hi Doug,
+
+
+    I have checked the RefID and it is not the xref block name. It is a number but
+    it is not equal to the FileID or the MasterID of the xref DWG or parent DWG. And
+    i can not see what kind of number it is yet.
+
+
+    Do you have any other ideas to look for?
+
+
+    Thanks in advanced!'
+- author: Doug Redmond
+  email: ''
+  ip: 70.42.29.3
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2011-08-26 09:50:08'
+  body: I suggest logging this question with Autodesk Developer Network.
+- author: Vance
+  email: vance.smith@gmail.com
+  ip: 70.162.115.53
+  url: ''
+  date: '2011-09-09 02:34:46'
+  body: Any code examples of using the new FileAssocParam[] vs the dependFileIds,
+    dependSources, attachFileIds and  attachSources?
+- author: Doug Redmond
+  email: ''
+  ip: 72.52.96.9
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2011-09-09 10:20:35'
+  body: 'The best code example that I know of is in a Dev Note on the Autodesk Developer
+    Network.  If you are a member, you can view it at:
+
+    <a href="http://adn.autodesk.com/adn/servlet/devnote?siteID=4814862&id=7543647&linkID=4901778">http://adn.autodesk.com/adn/servlet/devnote?siteID=4814862&id=7543647&linkID=4901778</a>'
+- author: rich.winkelman@valmont.com
+  email: rich.winkelman@valmont.com
+  ip: 72.165.239.20
+  url: ''
+  date: '2012-09-06 15:39:09'
+  body: 'I am moving from Vault 2011 to Vault 2013 Basic.  I build brand new Inventor
+    assemblies through the API, so I don''t have a previous version to get the RefID
+    from.  How can I set the RefID?  If I set it to nothing, I lose the resolution
+    feature, right?
+
+    -----'

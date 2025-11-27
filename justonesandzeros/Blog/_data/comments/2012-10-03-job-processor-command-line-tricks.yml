@@ -1,0 +1,135 @@
+comments:
+- author: Greg Heeley
+  email: g.heeley@temperzone.co.nz
+  ip: 203.109.154.58
+  url: http://www.temperzone.co.nz
+  date: '2012-10-08 16:07:11'
+  body: 'Hi Doug.
+
+    Is there any way to process only jobs logged by a certain user? If one of our
+    engineers releases their document(s), we want to create a DWFx for the shop floor
+    to view. Rather than have to process all other users releases, a particular engineer
+    would want to process only their own files by running Job Processor locally, then
+    check through to ensure updated details (such as revision) are correct on the
+    DWFx.'
+- author: Doug Redmond
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2012-10-09 07:56:23'
+  body: 'It sounds like you just want to create the DWF locally.  In other words,
+    you don''t care about the job queue itself, you just want to execute the DWF job
+    handler?
+
+
+    There is a trick you can do to execute a job handler without involving the job
+    queue.  Basically, you load the handler DLL directly and pass it a fake job.  I
+    think I''ll make this my next blog post, so stay tuned.
+
+
+    To answer your original question, no, you can''t reserve jobs based on the user
+    that queued the job.'
+- author: Mark Wigan
+  email: mark@ebm-ind.com
+  ip: 61.88.20.85
+  url: ''
+  date: '2013-02-04 03:35:22'
+  body: "hi Doug,\ni am putting a simple batch file together which will start the\
+    \ job processor out of normal office hours. this works fine.\n\ni have one obstacle\
+    \ though for other functions...\n\ni wish to run a batch file for JobProcessor\
+    \ /pause or \"stop\" before the day shift resume however any of the 3 commands\
+    \ listed on wiki such as \"stop\", \"pause\", \"resume\" will not work.\n\n(a\
+    \ dedicated batch file will run one of those commands as i determine appropriate,\
+    \ if i can get it to work)... \n\nthe batch file wil execute but error out stating\
+    \ that \"job processor is already running\".\"okay\" (when you click okay the\
+    \ batch file exits without carrying out the command).\n\ni deployed the vault\
+    \ SDK thinking that perhaps there were missing DLL or handlers but after that\
+    \ i tested once more and they still do not run due to the same error.\n\nworkstation\
+    \ being used is Windows7, on vault collaboration 2012, but still using update\
+    \ 1 for the adms & client. (do you think that could be the issue)"
+- author: Doug Redmond
+  email: ''
+  ip: 8.19.13.27
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2013-02-04 08:02:02'
+  body: Pause, Resume and Stop were added for Vault 2013.  They are not in the 2012
+    release.
+- author: Mark Wigan
+  email: mark@ebm-ind.com
+  ip: 61.88.20.85
+  url: ''
+  date: '2013-02-04 21:17:12'
+  body: i will be looking forward to seeing how to do this kind of dwf creation.
+- author: kurt_esseltine@jayco.com
+  email: Kurt_Esseltine@jayco.com
+  ip: 98.226.132.55
+  url: ''
+  date: '2013-11-07 15:26:00'
+  body: so you have to go back and Re-submitt the jobs again ? or can you automate
+    that process as well ? I get the same thing once its done and I try to restart
+    to job processor it says it is already running ? and do I need to be worried about
+    the files that have Error on them I seem to have allot of those that I have to
+    resubmit to the job processor ?
+- author: Doug Redmond
+  email: ''
+  ip: 209.51.184.48
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2013-11-08 07:32:32'
+  body: 'If you change the job processor settings, you shouldn''t have to re-submit
+    any jobs.
+
+    If jobs have errors, it means they were run and something went wrong.  The error
+    usually has something to do with the operation (for example, Inventor crashed
+    when trying to generate a the DWF). The job processor settings won''t cause job
+    failures.'
+- author: Jorn van Vliet
+  email: vliet.jorn@kaal.nl
+  ip: 173.245.53.230
+  url: ''
+  date: '2014-05-05 09:43:30'
+  body: '" Next edit the copy in an XML editor and comment out all the <jobHandler>
+    elemets where the class attribute starts with “Autodesk.Vault.DWF.Create”.  "
+    I don''t understand what you mean with comment out... Delete the row (from the
+    job/element) in the copy JobProcessor.exe.config?? Is that what you mean?
+
+
+    I want to run some jobs not on the working day and run these jobs in the night.
+
+
+    I''m looking forward for your answer!'
+- author: Doug Redmond
+  email: ''
+  ip: 199.27.128.91
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2014-05-05 12:08:25'
+  body: 'You can delete the line if you want or you can comment it out by enclosing
+    it in <!--    -->.  Commenting it out has the same end effect as deleting it.
+
+
+    You want to delete or comment <jobHandler> entries.  For example, if you want
+    to disable DWF jobs for .iam files, your JobProcessor.exe.config would contain
+    a line like this...
+
+    <!-- <jobHandler class="Autodesk.Vault.DWF.Create.iam" handler="Connectivity.Explorer.JobHandlerDwfPublish.DwfJobHandler,
+    Connectivity.Explorer.JobHandlerDwfPublish"/>  -->'
+- author: Marcelo
+  email: lllarcelo@yahoo.com.br
+  ip: 200.211.82.10
+  url: ''
+  date: '2015-04-24 08:51:13'
+  body: 'Hi, how can I clean out more than 1000 jobs from job processor queue? Is
+    there a way to do it by prompt?
+
+
+    like clean out 100000 jobs?'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2015-04-29 07:22:40'
+  body: 'By "clean out" you mean delete?
+
+    No, you can''t delete jobs through a prompt.  You would need to write a custom
+    app to delete that many jobs.
+
+    -----'

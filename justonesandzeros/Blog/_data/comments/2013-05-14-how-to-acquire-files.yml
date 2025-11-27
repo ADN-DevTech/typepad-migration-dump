@@ -1,0 +1,235 @@
+comments:
+- author: scott moyse
+  email: scott@smigroup.co.nz
+  ip: 111.69.199.79
+  url: ''
+  date: '2013-05-15 05:56:04'
+  body: I love the way you have been writing these last few posts by the way Doug.
+    Adding a bit of pizzazz! good work
+- author: marcin
+  email: marcin.j.otreba@gmail.com
+  ip: 212.244.114.164
+  url: ''
+  date: '2013-11-06 04:04:21'
+  body: 'hello Doug,
+
+
+    It can download entire assemblies in one call, but i''m curious if it is possible
+    todownload all drawings from assembly reference documents in one call?'
+- author: Doug Redmond
+  email: ''
+  ip: 8.19.13.72
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2013-11-06 08:11:38'
+  body: You are referring to .idw files on an Inventor assembly?  Yes you can download
+    those as part of the assembly download.  One of the various AcquireFilesSettings
+    allows you to specify the FileRelationshipGatheringSettings.  If IncludeRelatedDocumentation
+    is set to true, it should download the drawing files.
+- author: Wayne
+  email: wayne.forrest@asc.com.au
+  ip: 202.189.79.114
+  url: ''
+  date: '2013-12-10 22:01:32'
+  body: 'Doug
+
+
+    love the examples.
+
+    Is it possible to check out the entire assembly with this method. My code will
+    download iam, ipt and idw files but if i use the checkout option it only checks
+    out the iam file.
+
+
+    regards  Wayne'
+- author: Doug Redmond
+  email: ''
+  ip: 208.100.40.39
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2013-12-12 08:02:26'
+  body: You need to set DefaultAcquisitionOption on the settings object.
+- author: Wayne
+  email: wayne.forrest@asc.com.au
+  ip: 202.189.79.114
+  url: ''
+  date: '2013-12-15 23:03:04'
+  body: "Doug\n\nthanks for the reply.\n\nplayed around with the defaultAcquisitionOption\
+    \ but not sure how the AddFileToAcquire actually uses this as it requires a an\
+    \ acquisitionOption as the second parameter. It did check out the assy and parts\
+    \ but did not download them. Im looking at checking out and downloading all objects\
+    \ in 1 easy step.\n\nhere is my code - obviously not getting something\n\nSettings.LocalPath\
+    \ = fldrPath\nSettings.OptionsRelationshipGathering.FileRelationshipSettings.IncludeChildren\
+    \ = True\nSettings.OptionsRelationshipGathering.FileRelationshipSettings.RecurseChildren\
+    \ = True\nSettings.OptionsRelationshipGathering.FileRelationshipSettings.IncludeRelatedDocumentation\
+    \ = True\nSettings.OptionsRelationshipGathering.FileRelationshipSettings.VersionGatheringOption\
+    \ = Autodesk.DataManagement.Client.Framework.Vault.Currency.VersionGatheringOption.Latest\n\
+    Settings.DefaultAcquisitionOption = VDF.Vault.Settings.AcquireFilesSettings.AcquisitionOption.Checkout\
+    \ \nSettings.AddFileToAcquire(oFileIteration, Autodesk.DataManagement.Client.Framework.Vault.Settings.AcquireFilesSettings.AcquisitionOption.Checkout)\n\
+    \nDim results As VDF.Vault.Results.AcquireFilesResults = vaultConnection.FileManager.AcquireFiles(Settings)"
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.218
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2013-12-17 08:04:15'
+  body: 'You can "or" together multiple AcquisitionOptions just like a bitfield.
+
+
+    <a href="http://adndevblog.typepad.com/manufacturing/2013/06/use-or-with-defaultacquisitionoption-to-download-checkout-with-acquirefiles.html">http://adndevblog.typepad.com/manufacturing/2013/06/use-or-with-defaultacquisitionoption-to-download-checkout-with-acquirefiles.html</a>'
+- author: Wayne
+  email: wayne.forrest@asc.com.au
+  ip: 202.189.79.114
+  url: ''
+  date: '2014-02-03 17:37:39'
+  body: 'Hi doug
+
+
+    Got back onto this after I had decided to use the downloaddialogue method for
+    awhile. What I would like to do is to determine the files that will be wrapped
+    up with the acquirefiles prior to actually downloading/checking them out. The
+    reason is we would like to change the state of the corresponding files back to
+    "draft" before they are checked out by the user. I cant do it after the case because
+    it wont let me change the state when the files are checked-out. I was hoping the
+    "noaction" option may stil provide a result list that i could use to pre-process
+    the files and change their state. Any suggestions.'
+- author: Wayne
+  email: wayne.forrest@asc.com.au
+  ip: 202.189.79.114
+  url: ''
+  date: '2014-02-03 23:05:57'
+  body: I have been reading the documentation covering aquirefileExtensibilityOptions
+    and am lost!! Is there any examples of how to use the preAcquire event. I was
+    wondering if this could possibly be a solution for preprocessing files
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.71.6
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2014-02-04 08:19:14'
+  body: 'Offhand, I don''t have any sample code for you.  In general, I suggest not
+    making any updates within an event.  The reason is that your actions may affect
+    the operation in progress.  It''s like trying to fix a table while standing on
+    the table.
+
+
+    Here is the order of operations that I suggest:
+
+    1. Run AcquireFiles in noAction mode
+
+    2. In your event handler, read all the files being updated and store them in a
+    list.
+
+    3. AcquireFiles exists
+
+    4. Go through your list and perform the needed operations.
+
+    5. Run AcquireFiles again to check out the files.  No event handlers are needed
+    this time.'
+- author: Wayne
+  email: wayne.forrest@asc.com.au
+  ip: 202.189.79.114
+  url: ''
+  date: '2014-02-05 20:47:36'
+  body: thanks doug. I was trying the noAction mode to try and identify what documents
+    would be acquired prior to acyually doing it. Everytime i tried it i would get
+    no acquireResults back so I gave up and have resorted to the getLatestAssociatedFileePathsByMasterIds
+    method.
+- author: UweH
+  email: hz@handzik.de
+  ip: 87.139.94.57
+  url: http://www.handzik.de
+  date: '2014-02-22 05:36:11'
+  body: "Hi Doug,\n\nnice sample, but what about Inventor standard parts? \nHow do\
+    \ I get out of the vault?"
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.71.6
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2014-02-24 15:58:10'
+  body: 'If you are download an assembly, I would expect the standard parts automatically
+    come down.
+
+
+    If you just want to grab all the standard parts on their own, I think you have
+    to interrogate the IPJ to look-up the Vault paths to the library folders.'
+- author: Larry Daubenspeck
+  email: ldaubenspeck@draperinc.com
+  ip: 208.88.250.66
+  url: ''
+  date: '2014-04-10 11:35:25'
+  body: 'Hi Doug,
+
+    All the examples I can find use userpassword credentials.  How do you use WinAuthCredentials?'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.218
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2014-04-11 07:37:36'
+  body: 'For Vault 2013 and earlier...
+
+    Instead of creating a new UserPasswordCredentials object, you create a new WinAuthCredentials
+    object.  After that,everything is the same.  You pass the credentials object into
+    the constructor for WebServiceManager.
+
+
+    The code would look something like this...
+
+    UserPasswordCredentials cred = new UserPasswordCredentials("theServer", "theVault");
+
+    WebServiceManager mgr = new WebServiceManager(cred);
+
+
+
+    For Vault 2014 and later...
+
+    For a non UI login, use Autodesk.DataManagement.Client.Framework.Vault.Library.ConnectionManager.LogIn(..)
+
+    To prompt the user to login, use
+
+    Autodesk.DataManagement.Client.Framework.Vault.Forms.LogIn(..)'
+- author: Davide Orlando
+  email: davide.orlando@negroni.it
+  ip: 194.243.27.114
+  url: ''
+  date: '2014-08-07 05:29:18'
+  body: "Hi Doug,\ni use the param VersionGatheringOption and set it to Latest, but\
+    \ sometimes the AcquireFiles download an old version of the file.\nWhat is the\
+    \ reason? \n\nThanks.."
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2014-08-07 07:48:49'
+  body: 'That option is for downloading related files.  It does not apply to the FileIteration
+    that you provide as the input.  In that case, it download the version on that
+    FileIteration.
+
+
+    Call FileService.GetLatestFilesByIterationIds to get the latest version of the
+    file and use that to start the download.
+
+
+    If that''s not the solution to your problem, then I suggest posting to the Vault
+    Customization group.  That way it''s easier for you to post sample code, screen
+    shots, etc.
+
+    <a href="http://forums.autodesk.com/t5/Vault-Customization/bd-p/301">http://forums.autodesk.com/t5/Vault-Customization/bd-p/301</a>'
+- author: Johnny Kuhn
+  email: kujo12358@gmail.com
+  ip: 46.166.179.56
+  url: ''
+  date: '2014-10-21 05:52:26'
+  body: I am sorry but I have to say, this is the next big step backward. Removing
+    the most important function “DownloadFile” and replacing it with pseudo intelligent
+    layers. And I am not even talking about noobish implementation of the new API
+    layer. Vault web services API was one of the few if not the only clear API within
+    Autodesk universe. 2015 rip vault API. Really sad.
+- author: Maurizio Baima
+  email: maurizio.baima@negroni.it
+  ip: 176.65.80.4
+  url: http://www.nke360.com
+  date: '2014-11-18 07:32:31'
+  body: 'Hi Doug,
+
+    In my external program, user select a row in the VaultBrowserControl. Selected
+    row has EntityClass.Id == "FILE" (it can be a file or a file link).
+
+
+    This is my code to acquire the file from Vault:'

@@ -1,0 +1,67 @@
+comments:
+- author: Dmitry  Yemelyanov
+  email: ''
+  ip: 83.170.214.90
+  url: http://profile.typepad.com/6p017ee78a6105970d
+  date: '2014-06-16 04:51:50'
+  body: 'Great work and right direction, Doug!
+
+
+    But can you clear some things:
+
+    <ol>
+
+    <li>Are you handling SOAP traffic in LOG files (for example, at 4:25)? And how
+    did you do this if ''yes'' - customizing IIS logs, etc.?</li>
+
+    <li>Or you just handling/parsing URL string?</li>
+
+    <li>Can I see what did not-Vault-Explorer application do on server?</li>
+
+    </ol>
+
+    Regards, Dmitry'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2014-06-16 07:55:06'
+  body: '1. No.  I''m not intercepting SOAP traffic.  I''m just reading from the log
+    files.
+
+
+    2. I''m just reading from the URL string.  Several of the Vault clients add extra
+    data to the query string, and that is what I am reading out in Splunk.
+
+
+    3. Query string data is not automatic.  The client has to explicitly add that
+    data.  Vault Explorer and Inventor definitely add this data.  I am not sure about
+    other Autodesk applications.
+
+
+    Third-party apps are probably not setting the query string.  But if it''s a plug-in
+    to Vault Explorer, I think the query string will be set.  I need to test.'
+- author: Dmitry  Yemelyanov
+  email: ''
+  ip: 83.170.214.90
+  url: http://profile.typepad.com/6p017ee78a6105970d
+  date: '2014-06-16 09:15:54'
+  body: 'That''s not good enough.
+
+
+    This way user can work from third-party app and no operations won''t be recorded.
+
+
+    As I know, IIS in ''debug'' mode can show the SOAP traffic. But IIS can''t log
+    it in ''regular'' mode - only via certain customizations with programming. If
+    you could solve this puzzle - that would be the most appropriate solution for
+    any cases.'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2014-06-18 08:00:27'
+  body: 'Yes, I understand that this app will not cover all cases.  However, I think
+    it will be useful for most of the Vault customers.
+
+    -----'

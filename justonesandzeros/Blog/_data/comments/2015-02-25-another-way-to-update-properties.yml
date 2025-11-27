@@ -1,0 +1,135 @@
+comments:
+- author: Gerhard Badziura
+  email: ''
+  ip: 5.10.183.74
+  url: http://profile.typepad.com/6p01b7c797b7cb970b
+  date: '2015-06-03 04:27:19'
+  body: "Hi Doug\n\nIt is nice way to update fileproperties, but it is again only\
+    \ a half solution. I only want to put in the vault properties i have to change\
+    \ for an specific object and that's it. I' dont want to care about all the things\
+    \ around the object. In my opinion an API has to simplify all the complicated\
+    \ things behind the scene. \n\nregards Gerhard"
+- author: shane
+  email: benjamin.hagood@nov.com
+  ip: 208.92.228.52
+  url: ''
+  date: '2015-09-29 12:14:24'
+  body: 'Could you explain the next step, how to fix the file references?
+
+    In my example, I would like to copy both the model, and the drawing, that are
+    associated with an item. So, using your code, I can copy both files, and promote
+    the new file to an item. But, how do I link the new drawing to the new model file?
+
+
+    Thanks for all your help,
+
+    Shane'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2015-09-30 14:33:12'
+  body: "So you basically want your own version of Copy Design.  Have a look at this\
+    \ article:  <a href=\"http://justonesandzeros.typepad.com/blog/2015/02/roll-your-own-copy-design.html\"\
+    >http://justonesandzeros.typepad.com/blog/2015/02/roll-your-own-copy-design.html</a>\n\
+    \nIn the last step, AddUploadedFile(..), is where you specify the references to\
+    \ any child files.  You will need to look at the relationships of the original\
+    \ files and make sure to set things up the same way for the new files. \nAt that\
+    \ point you should be good.  Internal references are fixed up on download.  So\
+    \ when you call AcquireFiles, the Vault framework will edit your local copy to\
+    \ point to the new file."
+- author: Jake
+  email: jake@stormking.co.uk
+  ip: 86.188.242.186
+  url: ''
+  date: '2015-10-07 04:13:22'
+  body: "Hi Doug,\n\nGreat demo here, it helped me through most of a migration though\
+    \ I find myself stuck. I'm not as experienced with the Vault APIs as I would like\
+    \ to be so I think I might be missing a trick. Two questions:\n\n1) When going\
+    \ through the code above you handle properties that already exist on the file.\
+    \ I notice that there is an option for \"CanCreate\" and I imagine that if set\
+    \ to true it would create this property on the file. The problem being that I\
+    \ don't know where to get the Moniker from for a property that exists in Vault\
+    \ SQL but not yet in the File. I found a previous article that talks about debugging\
+    \ and hard coding these values though I would much prefer a dynamic way of getting\
+    \ this information. I have an inkling that the file's source API (Inventor in\
+    \ this case) might be the answer that I don't want to hear. Is there a Vault API\
+    \ way to do this?\n\n2) The method you present here and the method I have been\
+    \ shown to implement is to check a file out, mod it's properties then check the\
+    \ file back in. Assuming you allow bi-directional updating between mapped properties\
+    \ the method above (and previously DocumentService.UpdateFileProperties(...))\
+    \ works, assuming that the property already exists on the File. What I was thinking\
+    \ is that it must be more straightforward to update the Vault SQL properties then\
+    \ sync them to the file, telling the Vault to create the properties if they don't\
+    \ exist. If there are already good examples of this that I have been unable to\
+    \ find then I would greatly welcome links and references. On the contrary side\
+    \ there might be a good article somewhere that explains why this is not the case.\
+    \ \n\nWhatever the outcome might be, any and all help will be greatly appreciated.\n\
+    \nJake"
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2015-10-08 16:54:48'
+  body: '1. Have a look at these articles if you haven''t already.
+
+    For some background on how "Vault SQL" properties and file properties work:  <a
+    href="http://justonesandzeros.typepad.com/blog/2010/06/properties-in-vault-2011---part-2.html">http://justonesandzeros.typepad.com/blog/2010/06/properties-in-vault-2011---part-2.html</a>
+
+
+    For sample code on finding the moniker:
+
+    <a href="http://justonesandzeros.typepad.com/blog/2010/07/properties-in-vault-2011---part-4.html">http://justonesandzeros.typepad.com/blog/2010/07/properties-in-vault-2011---part-4.html</a>
+
+
+
+    2)  Are you talking about unmapped properties?  Properties that just live in Vault
+    and not the file?  Yes, those are easier to update.  You can just call DocumentService.UpdateFileProperties
+    on the files.  No need to download or copy the file.   However, I think you still
+    need to checkout/checkin the file.'
+- author: Jake
+  email: jake@stormking.co.uk
+  ip: 86.188.242.186
+  url: ''
+  date: '2015-10-12 08:07:18'
+  body: "Hi Doug,\n\nThanks for your answers. I looked through the posts that you\
+    \ linked with a clearer head and noticed that I was using the PropDef class rather\
+    \ than the PropDefInfo class which was the reason I could only get limited information\
+    \ compared with the examples in the post about Monikers. \n\nI tried to implement\
+    \ this with some success but I tripped up over the creation of a Vault property\
+    \ in a file that does not yet have the matching, mapped property (This was caused\
+    \ by a new property being added through further API development some years after\
+    \ the first release. New files always worked as required but old files needed\
+    \ the property adding in order to work). I found that I could not use the \"CanCreate\"\
+    \ variable to force the creation of the missing property to the point where I\
+    \ received an error from the server. I'm not sure what the error was, I only know\
+    \ that if I set CanCreate to true for any property that did not exist on the file\
+    \ then it would cause an exception. \n\nAfter all of this I started to think over\
+    \ your comments about using DocumentService.UpdateFileProperties(). The reason\
+    \ I was doing any of this was because of the removal of the version of UpdateFileProperties\
+    \ that was previously being used. Following this through further I realised that\
+    \ I had misunderstood the newer version that uses PropInstParamArray[] as a variable.\
+    \ Once I followed this through and tweaked my Vault property settings everything\
+    \ was working again. \n\nIn conclusion its working. Thanks again for your help\
+    \ and for all of the outstanding blog posts.\n\nJake"
+- author: Nick
+  email: nlandkamer@tankconnection.com
+  ip: 97.85.230.172
+  url: ''
+  date: '2015-12-15 21:15:10'
+  body: Jake, did you end up having to check the file in and out to update the property
+    values? I've found I can create and remove propdefs on dwgs without having to
+    check in and check out, but it throws an error when Itrying to check the file
+    back in. The strange thing is, if I stop debugging after it has checked the file
+    out and updated the values, but BEFORE trying to check the file back in,  the
+    vault shows the file as checked out WITH the new values. .. I end up having to
+    check the file back in with admin privileges. Any help is definitely appreciated.
+    Vault Mechanical  2015 R2, by the way...
+- author: Nick
+  email: nlandkamer@tankconnection.com
+  ip: 40.140.231.6
+  url: ''
+  date: '2015-12-16 09:35:32'
+  body: 'Sorry, Professional. Not Mechanical...
+
+    -----'

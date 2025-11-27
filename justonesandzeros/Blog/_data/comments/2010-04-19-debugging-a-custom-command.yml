@@ -1,0 +1,81 @@
+comments:
+- author: joeri
+  email: joeri.tuyn@gmail.com
+  ip: 202.134.229.221
+  url: ''
+  date: '2010-09-09 01:01:07'
+  body: "Hi Doug,\n\nI'm trying to debug a Vault Client Addin (test) but can't get\
+    \ it to work. I actually can't get it to register at all. I've downloaded your\
+    \ 'EffectiveFolderPermissions' and made all settings as you suggested above, but\
+    \ the addin doesn't load (no new menu options available). So what am I missing\
+    \ here? \n\nTIA!\nJoeri"
+- author: Doug Redmond
+  email: ''
+  ip: 68.60.34.77
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2010-09-10 08:52:02'
+  body: "This is a common problem.  It's quite easy to miss something and the result\
+    \ is your command not showing up (no error).  \n\nHere is a list of things to\
+    \ check:\n- You are using the 2011 release or above\n- You are using Vault Workgroup,\
+    \ Collaboration or Professional.  In other words, not the base version of Vault.\n\
+    - You did a reset of the menus after you first deployed your DLL.\n- You deployed\
+    \ your DLL to the correct location.  Make sure not to spell \"Extensions\" wrong.\n\
+    - You deployed your .vcet.config file to the same location as the DLL.  \n- You\
+    \ have correct information in the .vcet.config file.\n- You provided a display\
+    \ name for all your CommandSite objects.\n\nThis list is probably not complete,\
+    \ but these are the ones I have run into."
+- author: Justin S
+  email: justin.sunseri@exterran.com
+  ip: 76.74.158.27
+  url: ''
+  date: '2011-01-05 18:17:54'
+  body: Where do you reset your menus after deploying the DLL?  I'm trying to make
+    some changes to your Effective Folder Permissions add-in so that I can manage
+    group permissions as well as user permissions.  I've made a few changes to to
+    the Util.cs, WebServiceSubclass.cs, and MainForm.cs files but left everything
+    else the same.  The vcet.config file is exactly the same.  I've followed the instructions
+    above and when I press the play button in visual studio vault opens up as expected
+    and the dll and config files are in the Extensions\EffectiveFolderPermissions.  I
+    am using Vault Professional.  Is there anywhere I can check for an error message?
+- author: Justin S
+  email: justin.sunseri@exterran.com
+  ip: 76.74.158.27
+  url: ''
+  date: '2011-01-05 18:29:16'
+  body: I set a break point inside the OnLogOn method in the command class and the
+    break point got hit so it seems like the code is at least getting loaded.   It
+    looks like I'm getting the Effective Folder Permissions available as a context
+    menu item and not in the tools menu as i had expected.  I'll investigate further.
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.71.2
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2011-01-06 07:36:16'
+  body: You can do a menu reset by right-clicking on the menu bar in Vault.  Select
+    the Customize option and a dialog will pop up that will allow you to reset the
+    menu and toolbars.  After the reset, your custom command should show up properly.
+- author: maxb
+  email: maxstels@gmail.com
+  ip: 77.121.49.164
+  url: ''
+  date: '2012-07-23 16:37:13'
+  body: I'm not compile EffectiveFolderPermissions  in vs 2010 whith   .NET 4.0 'EffectiveFolderPermissions.Command'
+    does not implement interface member 'Autodesk.Connectivity.Explorer.Extensibility.IExtension.CustomEntityHandlers()
+    Please say what am I missing in project?
+- author: Doug Redmond
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2012-07-24 07:37:50'
+  body: "A new function got added to the interface in Vault 2013.  In Visual Studio,\
+    \ run the \"Implement Interface\" command and it should add the new function to\
+    \ your code.  \nAll you need to do with CustomEntityHandlers() is return null."
+- author: nav
+  email: navspam@gmail.com
+  ip: 217.40.205.113
+  url: ''
+  date: '2012-11-06 11:41:44'
+  body: 'how to debug service extentions from autocad vault clint rather than explorer
+    client.
+
+    -----'

@@ -1,0 +1,117 @@
+comments:
+- author: Scott Moyse
+  email: scott@smigroup.co.nz
+  ip: 203.109.144.38
+  url: ''
+  date: '2011-07-27 22:56:07'
+  body: 'Doug,
+
+
+    can you reply to this Q-2ools related message please? <a href="http://forums.autodesk.com/t5/Autodesk-Vault/bd-p/101">http://forums.autodesk.com/t5/Autodesk-Vault/bd-p/101</a>
+
+
+    I thought i would post here in case you didn''t see it on the boards.
+
+
+    cheers
+
+
+    scott.'
+- author: Doug Redmond
+  email: ''
+  ip: 72.52.96.11
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2011-07-28 08:04:17'
+  body: 'How about I answer it right here?  The discussion groups are acting very
+    buggy right now.
+
+
+    Yes, you can install Q-Tools on the ADMS server.  It can actually be installed
+    anywhere on the network as long as it can connect to all the Vault sites.'
+- author: Scott Moyse
+  email: scott@smigroup.co.nz
+  ip: 203.109.144.38
+  url: ''
+  date: '2011-07-28 16:06:58'
+  body: cheers doug. The groups have been like that for 12 hours now.
+- author: Neil Cross
+  email: neil.cross@smd.co.uk
+  ip: 109.239.89.178
+  url: ''
+  date: '2012-02-06 05:38:03'
+  body: Doug - I saw a post from you from back last year saying that the tool was
+    only designed to run on a multi-workgroup environment.  We have a filestore only
+    replicated environment, has this tool been updated recently to cater for that?
+    Reason I ask is that the Q-Tools service won't start unless I chose false to having
+    a central queue.
+- author: Doug Redmond
+  email: ''
+  ip: 72.52.96.11
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2012-02-07 07:53:02'
+  body: 'First, check your version.  If you don''t have version 2.0.2.0 then you can
+    download it from the links in this post.
+
+
+    If that''s not the problem, send me your settings.xml file.  It''s probably best
+    to post it to the Vault Customization newsgroup:
+
+    <a href="http://forums.autodesk.com/t5/Autodesk-Vault-Customization/bd-p/301">http://forums.autodesk.com/t5/Autodesk-Vault-Customization/bd-p/301</a>
+
+    Just make sure to clear out any important data, such as passwords.'
+- author: Scott Taylor
+  email: staylo22@harris.com
+  ip: 137.237.235.151
+  url: ''
+  date: '2012-04-26 06:54:53'
+  body: 'Hi,
+
+
+    We have a multi site replicated vault environment and your application look like
+    it will solve our job processor issues.  I have installed and set-up so that we
+    have one central job queue, I am running into an issue that when the job processor
+    runs I am getting an error stating that the file is locked.  I suspect this is
+    because the server the job queue is running on is not the "owner" of the file?  do
+    you have any thoughts of how to resolve this?
+
+
+    Thanks'
+- author: Doug Redmond
+  email: ''
+  ip: 209.51.184.10
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2012-04-26 16:06:56'
+  body: 'In Vault 2013, we put in a feature that should automatically switch ownership
+    when possible.
+
+
+    In Vault 2012, fixing this issue requires custom programming.  You need to either
+    modify QTools or create your own tool to transfer file ownership.'
+- author: Klaus Loerincz
+  email: klaus.loerincz@autodesk.com
+  ip: 91.74.57.242
+  url: ''
+  date: '2015-06-22 07:47:15'
+  body: 'Hi Doug,
+
+
+    what do I have to do to make it work for 2015/2016 Vault ?'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2015-06-23 07:33:48'
+  body: 'It should be fairly easy to update this app since it''s not a plug-in.  Here
+    are the basic steps:
+
+
+    1. Download the source code.
+
+    2. Open the project in the latest Visual Studio version.
+
+    3. Set the references to the 2015 or 2016 Vault SDK DLLs.
+
+    4. Fix any compile errors that may arise from changed APIs.  See the "Changes"
+    pages in the SDK documentation.
+
+    -----'

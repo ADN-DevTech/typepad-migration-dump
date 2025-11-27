@@ -1,0 +1,53 @@
+comments:
+- author: Hamid Talebi
+  email: htalebi@systematix-inc.com
+  ip: 192.168.0.166
+  url: http://www.systematix-inc.com
+  date: '2015-09-24 17:47:06'
+  body: "I have a problem with working folder.\nIf I set the working folder anything\
+    \ other than the default working folder and get the file from vault as it explain\
+    \ here and a few other pages, all the file get downloaded properly. But when I\
+    \ open the assembly in Inventor, Inventor tries to find the file in the folder\
+    \ that was created.\nFor example:\nIf in D:\\Vault\\Folder1, there are ASM1.ism\
+    \ that has part1.ipt, part2.ipt and while downloading, I specify it to be downloaded\
+    \ to D:\\Vault\\Folder2, the three files will be downloaded to the new folder\
+    \ and every thing seems to be ok. However, when I open the assembly file in the\
+    \ new folder (Folder2), it still opens the parts in Folder1.\n\nIf I use \"Autodesk\
+    \ Vault Basic\" that comes with Inventor, it does it correctly and update the\
+    \ reference, but using API, I had no success.\n\nHere is my code:\n          \
+    \  Dim fname As String = dlg1.LookIn.Text + \"/\" + dlg1.FileName.Text\n     \
+    \       Dim file1 As Autodesk.Connectivity.WebServices.File()\n            file1\
+    \ = connection.WebServiceManager.DocumentService.FindLatestFilesByPaths({fname})\n\
+    \            If file1.Length <> 0 Then\n\n                Dim oFileIteration As\
+    \ VDF.Vault.Currency.Entities.FileIteration = Nothing\n                oFileIteration\
+    \ = New VDF.Vault.Currency.Entities.FileIteration(connection, file1(0))\n    \
+    \            If oFileIteration Is Nothing Then\n                    MsgBox(\"\
+    Error: Can't find the file\")\n                    Exit Sub\n                End\
+    \ If\n                Dim oSettings As VDF.Vault.Settings.AcquireFilesSettings\
+    \ =\n                                                  New VDF.Vault.Settings.AcquireFilesSettings(connection)\n\
+    \                'Going to Checkout and download\n                oSettings.DefaultAcquisitionOption\
+    \ = VDF.Vault.Settings.AcquireFilesSettings.AcquisitionOption.Download\n     \
+    \           oSettings.OptionsRelationshipGathering.FileRelationshipSettings.IncludeChildren\
+    \ = True\n                oSettings.OptionsRelationshipGathering.FileRelationshipSettings.RecurseChildren\
+    \ = True\n                oSettings.OptionsRelationshipGathering.FileRelationshipSettings.VersionGatheringOption\
+    \ = _\n                VDF.Vault.Currency.VersionGatheringOption.Latest\n\n  \
+    \              oSettings.LocalPath = New VDF.Currency.FolderPathAbsolute(\"D:\\\
+    Vault\\Designs\\temp-v\") 'connection.WorkingFoldersManager.GetWorkingFolder(oFileIteration)\n\
+    \n                oSettings.AddEntityToAcquire(oFileIteration)\n\n           \
+    \     oSettings.LocalPath = New VDF.Currency.FolderPathAbsolute(\"D:\\Vault\\\
+    Designs\\temp-v\") 'connection.WorkingFoldersManager.GetWorkingFolder(oFileIteration)\n\
+    \                connection.FileManager.AcquireFiles(oSettings)\n\n\n        \
+    \    End If"
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.71.3
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2015-09-25 14:48:51'
+  body: 'You should post this issue on the Vault Customization discussion group. <a
+    href="http://forums.autodesk.com/t5/vault-customization/bd-p/301">http://forums.autodesk.com/t5/vault-customization/bd-p/301</a>
+
+
+    Blog comment sections are not a good place to post code snippets.  Also, there
+    are more people reading the discussion group.
+
+    -----'

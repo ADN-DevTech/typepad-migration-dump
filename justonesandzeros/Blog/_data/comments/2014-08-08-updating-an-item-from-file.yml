@@ -1,0 +1,73 @@
+comments:
+- author: Pim Saarloos
+  email: psaarloos@cadac.com
+  ip: 194.151.43.175
+  url: ''
+  date: '2014-08-18 06:45:01'
+  body: "Hi Doug,\n\nI am trying to update an item according to this sample, but with\
+    \ one difference. I need to have the 'autoAssignDuplicates' property in the UpdatePromoteComponents\
+    \ method set to 'true'.\n\nHow does the 'autoAssignDuplicates' work? \n\nWe used\
+    \ to have a function 'GetItemDuplicateCandidates', which is removed in Vault 2015,\
+    \ to get to know the possible duplicates. I used this function together with the\
+    \ 'ReassignComponentsToDifferentItems' function to assign the duplicates to the\
+    \ proper item. What can I use in Vault 2015 to get to know more information about\
+    \ the duplicates?\n\nRegards,\nPim Saarloos"
+- author: Doug Redmond
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2014-08-21 04:53:37'
+  body: 'Here is the answer I got back from the Vault team...
+
+
+    Since Vault no longer has a wizard, the assign-duplicate functionality is automated.
+
+
+    In the new code, auto assign duplicates = true will attempt to find duplicate
+    items for all bom components and will link them if possible.  If a match is found,
+    the component will be linked to the first candidate.  There is no user/API interaction
+    involved in this decision.
+
+
+    Vault 2015 also auto links all subcomponents and standard components regardless
+    of the flag.  This behavior has been identified as a bug and may be changed in
+    the near future.'
+- author: Dave
+  email: supermanetta@libero.it
+  ip: 88.149.231.1
+  url: ''
+  date: '2014-12-04 08:34:05'
+  body: 'Hi Doug,
+
+    i have a hybrid scenario that i cannot solve.
+
+    In Vault 2015 i have an item without any primary file - an "empty box" created
+    from another external procedure.
+
+    The drafter, in Inventor, do the draft and simply Add file in Vault. My extension
+    must link the ipt/iam with the correct item. Here''s the problem: your code below
+    does not work in this case. All can i do is AssignFileToItem first, and then UpdateAndCommitItems.
+    In Vault i finally have the File linked with the correct Item, but i don''t have
+    the Item preview updated!! To be "all-fine" i must manually go inside the Vault
+    GUI, catch the Item and do the update manually.
+
+
+    Is there a way to do it? In Vault 2013 i made this with the "classic" PromoteFiles
+    - probably with less performance but certainly more powerful as use
+
+
+    Regards,
+
+    Dave'
+- author: Erik Gilsdorf
+  email: gilsdorf.e@rittal.de
+  ip: 195.226.74.4
+  url: ''
+  date: '2015-12-08 05:14:57'
+  body: 'In a perfect developer''s world, where there is only one duplicate candidate,
+    this might work...
+
+
+    In real world there is a 1/n chance to get the right candidate.
+
+    -----'

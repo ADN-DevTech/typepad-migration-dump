@@ -1,0 +1,213 @@
+comments:
+- author: Mike Beebe
+  email: beebema@westinghouse.com
+  ip: 66.116.62.178
+  url: ''
+  date: '2011-06-09 08:37:02'
+  body: I'd like to see some code depicting where/how to deal with ExtensionException
+    if another handler adds a restriction.
+- author: Dan
+  email: dan.vang@masterg.com
+  ip: 12.167.10.98
+  url: ''
+  date: '2011-07-14 16:04:03'
+  body: Will these events now allow me to generate PDfs or DXFs prior to check in
+    from Inventor? Thanks.
+- author: Doug Redmond
+  email: ''
+  ip: 72.52.96.11
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2011-07-15 07:42:43'
+  body: 'Yes you can.  You would need to catch the event, locate the Inventor file
+    on disk, then generate the PDF or DXF based on the local file.
+
+
+    What are you planning on doing with the generated files?'
+- author: Dan
+  email: dan.vang@masterg.com
+  ip: 12.167.10.98
+  url: ''
+  date: '2011-07-15 11:00:38'
+  body: The plan is to generate pdf or dxf files of Inventor drawings (IDW or DWG)
+    upon check in and placed out on a network location. I understand that users can
+    potentially view WIP files. I was wondering if it was possible. Thanks!
+- author: Doug Redmond
+  email: ''
+  ip: 72.52.96.11
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2011-07-15 15:23:23'
+  body: 'That should work.  I suggest generating the files after the check-in completes.  That
+    way, if there is a failure, you don''t need to waste time generating the files.
+
+
+    Finding the local file on disk will be a bit tricky because all you get are Vault
+    server objects and IDs.'
+- author: Jiyuan
+  email: bjliujy@ruihesoft.com
+  ip: 221.194.176.38
+  url: ''
+  date: '2011-10-18 23:18:33'
+  body: 'Hi Doug Redmond,
+
+    I want to develop a function to modify filename by some rule when file is uploaded
+    to Vault.
+
+    After reading your article, I find a way.pls help me check.
+
+    1、subscribe the DocumentService post event
+
+    2、call CheckoutFile and CheckinFile to modify filename.
+
+    Is these step talked above right?
+
+    pls. correct them or tell me another way.Thank you so much!'
+- author: martin
+  email: martin.walter@net-vision.de
+  ip: 79.245.105.91
+  url: ''
+  date: '2011-11-09 07:34:35'
+  body: 'Hi Doug,
+
+
+    is there a way to update properties in a CheckinFileEvents.Post EventHandler (running
+    in Inventor)?
+
+
+    If it''s not a bug in my code, it seems to me that the "native" vault plugin locks
+    the Inventor file.
+
+
+    So I removed the iProperty mappings and tried checking the file out in the EventHandler
+    to update the properties directly via Vault API. The checkout fails with 1004...
+
+
+    Is there a general "lock" during those operations?
+
+    Would be great, if you could help me with this one :)
+
+
+    Best regards
+
+    Martin'
+- author: Doug Redmond
+  email: ''
+  ip: 72.52.96.11
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2011-11-09 10:40:17'
+  body: 'I don''t know how the native Vault plugin works.  However you should be able
+    to figure out what the error is.  Error 1004 is coming from the server, and the
+    server treats the Inventor client like any other. There is no special "lock".
+
+
+    Check that the file isn''t checked out already.  It''s possible that the ''keepCheckedOut''
+    setting was set to true.
+
+    Also check that the parameters to your checkout call are valid.'
+- author: Dave
+  email: davide.pregnolato@boninospa.eu
+  ip: 88.149.231.1
+  url: ''
+  date: '2012-10-29 05:10:33'
+  body: 'Hi Doug,
+
+    is there a way to know *which* files are Checkin-ing from Inventor without call
+    the Web Service? My problem is: i need to know, from an undefined assembly wich
+    parts (or sub-assembly) the designer are saving to Vault, to read their iProperties
+    and saving them on my mirror DB. It''s enough to get the filelist of the ChecklistFiledialog
+    that appears before Inventor Checkin files in Vault
+
+
+    Thx in advance,
+
+    Dave'
+- author: Dave
+  email: davide.pregnolato@boninospa.eu
+  ip: 88.149.231.1
+  url: ''
+  date: '2012-10-29 05:11:55'
+  body: 'I''m sorry: i forgot to tell you what i''m using: Inventor 2013 with Vault
+    Professional'
+- author: Doug Redmond
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2012-10-29 08:48:38'
+  body: No, you need to make a web service call.  The check in event gives you just
+    the ID.  You need to make the web service call to get the File object.
+- author: Sabuj Saha
+  email: sabuj.saha@d3tech.net
+  ip: 67.231.38.66
+  url: ''
+  date: '2013-01-06 01:47:56'
+  body: 'Hi Doug,
+
+    I am wanting to do some validation before the state is changed to release. How
+    do I get state in   UpdateFileLifecycleStateEvents_GetRestrictions(object sender,
+    UpdateFileLifeCycleStateCommandEventArgs e).
+
+
+    Thanks in advance'
+- author: Doug Redmond
+  email: ''
+  ip: 8.19.13.27
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2013-01-07 08:20:48'
+  body: 'The operation has not happened yet.  So you can get the From state by looking
+    up up the File object.  The File MasterID is passed in with the event args.
+
+    The ID of the To state is a field on the event args.'
+- author: Joeri
+  email: joeri.tuyn@gmail.com
+  ip: 124.171.168.71
+  url: ''
+  date: '2013-06-06 00:53:22'
+  body: Hi Doug, I was wondering if there is an undo checkout event? All other events
+    work fine, but I don't get a trigger on undo...?
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.219
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2013-06-06 08:07:40'
+  body: 'At the web service level, there is no event for undo checkout.  If you want
+    to log this as a wishlist item, I suggest going to the Vault Idea Station: <a
+    href="http://forums.autodesk.com/t5/Autodesk-Vault-IdeaStation/idb-p/2">http://forums.autodesk.com/t5/Autodesk-Vault-IdeaStation/idb-p/2</a>'
+- author: Amoolya Deeven Nuthalapati
+  email: amoolyas@gmail.com
+  ip: 203.217.28.152
+  url: ''
+  date: '2013-06-18 20:57:11'
+  body: "Hi Doug,\n\nIs there any way to checkout files from Vault Using Inventor\
+    \ API i.e., VBA?? \n\nMuch Appriciated for youe reply.\n\nThanks,\nADN."
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.218
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2013-06-20 08:23:08'
+  body: Sorry we do not have VBA support.  The recommended approach is to write a
+    .NET plug-in to Inventor.  From there, you can interface directly with the Vault
+    DLLs, which are also .NET.
+- author: vj
+  email: virag.jain@neilsoft.com
+  ip: 121.241.235.98
+  url: ''
+  date: '2014-07-14 23:30:49'
+  body: 'Hi Doug,
+
+
+    Is there any way to get logged in user name, Vault server name, and vault database
+    name during execution of Vault web service events?'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2014-07-15 07:50:28'
+  body: 'Yes, you can get that information.  When the event is called, cast the "sender"
+    Object to type IWebService.  The Url property has the server name and the SecurityHeader
+    has the UserId.
+
+
+    The vault name is harder to get, but I have an article with a suggested workaround:
+
+    <a href="http://justonesandzeros.typepad.com/blog/2011/11/getting-the-vault-name-in-an-event.html">http://justonesandzeros.typepad.com/blog/2011/11/getting-the-vault-name-in-an-event.html</a>
+
+    -----'

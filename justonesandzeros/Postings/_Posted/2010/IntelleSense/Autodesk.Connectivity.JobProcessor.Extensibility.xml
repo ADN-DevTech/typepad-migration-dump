@@ -1,0 +1,197 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Autodesk.Connectivity.JobProcessor.Extensibility</name>
+    </assembly>
+    <members>
+        <member name="T:Autodesk.Connectivity.JobProcessor.Extensibility.MessageType">
+            <summary>
+            The type of logging message.
+            </summary>
+        </member>
+        <member name="T:Autodesk.Connectivity.JobProcessor.Extensibility.IJobProcessorServices">
+            <summary>
+            Utilities for interfacing with the application.
+            </summary>
+        </member>
+        <member name="M:Autodesk.Connectivity.JobProcessor.Extensibility.IJobProcessorServices.Log(System.String,Autodesk.Connectivity.JobProcessor.Extensibility.MessageType)">
+            <summary>
+            Logs a message.
+            </summary>
+            <param name="msg">The message Text.</param>
+            <param name="type">Type type of message.</param>
+        </member>
+        <member name="M:Autodesk.Connectivity.JobProcessor.Extensibility.IJobProcessorServices.Log(System.Exception,System.String)">
+            <summary>
+            Logs an exception.
+            </summary>
+            <param name="ex">The exception to log.</param>
+            <param name="msg">The message Text.</param>
+            <remarks>Exception are always logged as errors.</remarks>
+        </member>
+        <member name="M:Autodesk.Connectivity.JobProcessor.Extensibility.IJobProcessorServices.ReportProgress(System.Int32)">
+            <summary>
+            Lets the application know how close to completion the job is.
+            </summary>
+            <param name="percentComplete">How close to completion the job is.</param>
+        </member>
+        <member name="P:Autodesk.Connectivity.JobProcessor.Extensibility.IJobProcessorServices.VaultContext">
+            <summary>
+            The Vault context for communicating with the server.
+            </summary>
+        </member>
+        <member name="P:Autodesk.Connectivity.JobProcessor.Extensibility.IJobProcessorServices.Errors">
+            <summary>
+            A list of all errors logged so far.
+            TODO:  Is this correct?
+            </summary>
+        </member>
+        <member name="T:Autodesk.Connectivity.JobProcessor.Extensibility.VaultContext">
+            <summary>
+            The connection context for use with the Web Service API.
+            </summary>
+        </member>
+        <member name="M:Autodesk.Connectivity.JobProcessor.Extensibility.VaultContext.#ctor(System.String,System.Int64,System.String,System.Uri)">
+            <summary>
+            Constructs SecurityContext object.
+            Most command extensions will not create their own SecurityContext object, but
+            rather get it passed in from the application.
+            </summary>
+            <param name="vaultName">Name of currently logged into Vault</param>
+            <param name="userId">Vault user id</param>
+            <param name="ticket">Authentication ticket</param>
+            <param name="remoteBaseUrl">Uri of ADMS currently logged in to</param>
+        </member>
+        <member name="P:Autodesk.Connectivity.JobProcessor.Extensibility.VaultContext.VaultName">
+            <summary>
+            Gets vault name
+            </summary>
+        </member>
+        <member name="P:Autodesk.Connectivity.JobProcessor.Extensibility.VaultContext.UserId">
+            <summary>
+            Gets vault user id
+            </summary>
+        </member>
+        <member name="P:Autodesk.Connectivity.JobProcessor.Extensibility.VaultContext.Ticket">
+            <summary>
+            Gets authentication ticket which can be used to make calls into the Web Services API of ADMS
+            </summary>
+        </member>
+        <member name="P:Autodesk.Connectivity.JobProcessor.Extensibility.VaultContext.RemoteBaseUrl">
+            <summary>
+            Gets base url of the server. This is useful inconstructing URLs to the Web Services API of ADMS
+            </summary>
+            <returns> Uri of ADMS currently logged in to  </returns>
+        </member>
+        <member name="T:Autodesk.Connectivity.JobProcessor.Extensibility.IJob">
+            <summary>
+            A Job from from the queue.
+            </summary>
+        </member>
+        <member name="P:Autodesk.Connectivity.JobProcessor.Extensibility.IJob.Id">
+            <summary>
+            The unique ID.
+            </summary>
+        </member>
+        <member name="P:Autodesk.Connectivity.JobProcessor.Extensibility.IJob.VaultName">
+            <summary>
+            The Vault that the Job references.
+            </summary>
+        </member>
+        <member name="P:Autodesk.Connectivity.JobProcessor.Extensibility.IJob.JobType">
+            <summary>
+            The job type.
+            </summary>
+        </member>
+        <member name="P:Autodesk.Connectivity.JobProcessor.Extensibility.IJob.Description">
+            <summary>
+            A description of the job.
+            </summary>
+        </member>
+        <member name="P:Autodesk.Connectivity.JobProcessor.Extensibility.IJob.Params">
+            <summary>
+            A set of parameters on the job.
+            </summary>
+        </member>
+        <member name="T:Autodesk.Connectivity.JobProcessor.Extensibility.Resource">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Autodesk.Connectivity.JobProcessor.Extensibility.Resource.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Autodesk.Connectivity.JobProcessor.Extensibility.Resource.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Autodesk.Connectivity.JobProcessor.Extensibility.Resource.dwfCreateJobDescription">
+            <summary>
+              Looks up a localized string similar to DWF Create: {0}.
+            </summary>
+        </member>
+        <member name="P:Autodesk.Connectivity.JobProcessor.Extensibility.Resource.errorJobParamError">
+            <summary>
+              Looks up a localized string similar to Job param error.
+            </summary>
+        </member>
+        <member name="P:Autodesk.Connectivity.JobProcessor.Extensibility.Resource.errorJobTypeError">
+            <summary>
+              Looks up a localized string similar to Job type error.
+            </summary>
+        </member>
+        <member name="P:Autodesk.Connectivity.JobProcessor.Extensibility.Resource.syncPropJobDescription">
+            <summary>
+              Looks up a localized string similar to Synchronize Properties: {0}.
+            </summary>
+        </member>
+        <member name="P:Autodesk.Connectivity.JobProcessor.Extensibility.Resource.syncPropJobDescriptionQueueDwfCreateJob">
+            <summary>
+              Looks up a localized string similar to Synchronize Properties: {0}, Queue DWF Create Job.
+            </summary>
+        </member>
+        <member name="T:Autodesk.Connectivity.JobProcessor.Extensibility.JobFrameworkException">
+            <summary>
+            An exception to pass back to the application.
+            </summary>
+        </member>
+        <member name="M:Autodesk.Connectivity.JobProcessor.Extensibility.JobFrameworkException.#ctor(System.String)">
+            <summary>
+            Creates a new exception.
+            </summary>
+            <param name="msg">A message describing the error.</param>
+        </member>
+        <member name="T:Autodesk.Connectivity.JobProcessor.Extensibility.JobOutcome">
+            <summary>
+            The outcome of the Job processing.
+            </summary>
+        </member>
+        <member name="T:Autodesk.Connectivity.JobProcessor.Extensibility.IJobHandler">
+            <summary>
+            The interface that Job Handlers must implement.
+            </summary>
+        </member>
+        <member name="M:Autodesk.Connectivity.JobProcessor.Extensibility.IJobHandler.Execute(Autodesk.Connectivity.JobProcessor.Extensibility.IJobProcessorServices,Autodesk.Connectivity.JobProcessor.Extensibility.IJob)">
+            <summary>
+            The Execute method processes the job and returns success or failure
+            </summary>
+            <param name="context">The application context.</param>
+            <param name="job">The job to process.</param>
+            <returns>The outcome of the processing.</returns>
+        </member>
+        <member name="M:Autodesk.Connectivity.JobProcessor.Extensibility.IJobHandler.CanProcess(System.String)">
+            <summary>
+            Called at Job Processor startup to determine whither or not a job of the specified type can 
+            be processed by the job handler on this particular machine. Implementations should check
+            to see whether enabling software is installed.
+            </summary>
+            <param name="jobType">The job type.</param>
+            <returns>True if the handler can process the job.  
+            False if the handler cannot process the job.</returns>
+        </member>
+    </members>
+</doc>

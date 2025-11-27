@@ -1,0 +1,108 @@
+comments:
+- author: MaxU77
+  email: ''
+  ip: 31.40.228.77
+  url: http://profile.typepad.com/6p017c31afd964970b
+  date: '2012-10-28 09:38:06'
+  body: '1. I wonder if there any way to save AAF-searches?
+
+    2. Got Error230 on couple cditeries:
+
+    Checked Out By Must be not empty
+
+    Checked Out Must < 21.10.2012
+
+    Seems like there is a problem with dates.
+
+    In fact I''m trying to create a search that returns list of files that are in
+    check out for more than a week.'
+- author: MaxU77
+  email: ''
+  ip: 195.230.112.10
+  url: http://profile.typepad.com/6p017c31afd964970b
+  date: '2012-10-29 11:40:19'
+  body: 'I don''t understand how it works.
+
+    Let say our company policy requires Item to be 10 digits length.
+
+    Let say I''d like to find all that brake policy - I create couple Item-criteries:
+
+    "Number" "May" "<" "??????????"
+
+    "Number" "May" ">" "??????????"
+
+    AAF returnes just all Items...
+
+    What''s wrong with my logic?'
+- author: Doug Redmond
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2012-10-30 11:22:25'
+  body: '1.  If you are editing the code, then yes you can add a save/load feature.  The
+    easiest way is to use XML Serialization on the SrchCond objects.
+
+    <a href="http://justonesandzeros.typepad.com/blog/2009/11/xml-serialization-is-your-friend.html">http://justonesandzeros.typepad.com/blog/2009/11/xml-serialization-is-your-friend.html</a>
+
+
+    2. I didn''t program in any special handling of date types.  That''s a bug on
+    my part.  The correct thing to do is convert the user text to a DateTime object,
+    then convert to Universal Time, and then print to the format "MM/dd/yyyy HH:mm:ss".  See
+    SrchCond documentation.'
+- author: Doug Redmond
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2012-10-30 11:24:04'
+  body: 'I don''t think you can search on character length.  For more on how searched
+    work, see the Vault Wiki.
+
+    <a href="http://wikihelp.autodesk.com/Vault/enu/Help/Help/0001-Using_Va1/0003-Essentia3/0017-Searchin17">http://wikihelp.autodesk.com/Vault/enu/Help/Help/0001-Using_Va1/0003-Essentia3/0017-Searchin17</a>'
+- author: MaxU77
+  email: ''
+  ip: 195.230.112.10
+  url: http://profile.typepad.com/6p017c31afd964970b
+  date: '2012-10-31 03:24:41'
+  body: '1. Wrong question/wrong answer. I meant the structure of saved search (standard)
+    differs to that used by AAF. So even if somebody would add some saving to AAFmod
+    add-in there would be no way to use the result as standard saved search. The only
+    way to use it - to load it back to AAFmod, right?
+
+    2. Ok I see.'
+- author: MaxU77
+  email: ''
+  ip: 195.230.112.10
+  url: http://profile.typepad.com/6p017c31afd964970b
+  date: '2012-10-31 03:27:23'
+  body: Just FYI "Number" "is" "??????????" works fine in a standard Advanced Search.
+- author: Doug Redmond
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2012-10-31 08:52:32'
+  body: If so, then "Number must equal ??????????" should give you the same result
+    in AAF.
+- author: Doug Redmond
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2012-10-31 08:54:23'
+  body: 1. The saved search feature uses it's own XML format and doesn't have support
+    for OR style searches.  So, no, it can't be used with AAF.
+- author: MaxU77
+  email: ''
+  ip: 195.230.112.10
+  url: http://profile.typepad.com/6p017c31afd964970b
+  date: '2012-10-31 10:16:09'
+  body: "You are right. In my example one AAF criteria is more than enough. \"Number\"\
+    \ \"Must\" \"<>\" \"??????????\" did the trick. The operator \"<>\" slipped out\
+    \ of my attention. \nI'll return with another example soon :)"
+- author: Andrew Canfield
+  email: andrewc@quadrasol.co.uk
+  ip: 82.69.52.234
+  url: ''
+  date: '2013-02-11 12:06:01'
+  body: "Trying to search for a value A where A is between 400 & 450.\nie find A>400\
+    \ & A<450\n\nalso see for more detal\n\n<a href=\"http://forums.autodesk.com/t5/Autodesk-Vault/Custom-iProperty-value-range/m-p/3771788\"\
+    >http://forums.autodesk.com/t5/Autodesk-Vault/Custom-iProperty-value-range/m-p/3771788</a>\
+    \ \n-----"

@@ -1,0 +1,53 @@
+comments:
+- author: Scott Moyse
+  email: scott_moyse1@hotmail.com
+  ip: 111.69.194.171
+  url: ''
+  date: '2012-11-17 17:57:29'
+  body: 'Doug,
+
+
+    This step will cause an error to be thrown when exporting the vault configuration
+    from the ADMS console:
+
+
+    "Set up File and Folder categories with matching names for cases where you want
+    the script to run.  This step is needed because categories can’t be shared across
+    Files and Folders."
+
+
+    Its a bug within the database I believe, once that is fixed then there will be
+    nothing wrong with this approach. Bloody good work otherwise, Cheers.
+
+
+    Scott'
+- author: Scott Moyse
+  email: scott_moyse1@hotmail.com
+  ip: 111.69.194.171
+  url: ''
+  date: '2012-11-17 18:00:23'
+  body: 'Maybe you could change your code to look for the same names between the two,
+    but the folder rule could use F_ as a prefix or something to maintain unique category
+    naming?
+
+
+    The bug should be fixed of course, but this would be a semi-acceptable workaround.'
+- author: Doug Redmond
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2012-11-19 09:12:06'
+  body: 'I was able to export just fine in my Vault.  Is this an older defect?  Maybe
+    it was fixed in Vault 2013.
+
+
+    Anyway, the nice thing about scripts is that it''s easy to make changes.  To make
+    your F_ change, just edit the PS1 file.  Find the part that says
+
+    <b>Where-Object {$_.Name -eq $parentFolder.Cat.CatName}</b>
+
+    And change it to
+
+    <b>Where-Object {$_.Name -eq "F_" + $parentFolder.Cat.CatName}</b>
+
+    -----'

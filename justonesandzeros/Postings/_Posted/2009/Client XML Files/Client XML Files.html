@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+</head>
+<body>
+I'm about to go into a topic that's outside the official API.&nbsp;
+Therefore Autodesk will not support this information, and what I say
+may
+change without notice in the next release.<br>
+<br>
+<br>
+<b>Overview:</b><br>
+Vault is a client/server framework.&nbsp; Some data is stored on the
+server side and some is stored on the client side.&nbsp; To get to the
+server data, you use the API for that.&nbsp; But there is no API to get
+at the client data.&nbsp; So you will need to access client data
+directly if you want it.<br>
+<br>
+Things specific to a user's settings are stored on the client.&nbsp;
+For example:<br>
+<ul type="disc">
+  <li>The working folders</li>
+  <li>Saved searches</li>
+  <li>Shortcuts</li>
+  <li>Column settings</li>
+</ul>
+<br>
+<b>Finding in the Information:</b><br>
+Client data is stored in a bunch of XML files.&nbsp; The XML syntax is
+pretty straightforward.&nbsp; It's getting to the files that is
+tricky.&nbsp; The path is dependent on a lot of factors.&nbsp; <br>
+<br>
+Let's go through a path:<br>
+C:\Documents and Settings\<b>[Windows user]</b>\Application
+Data\Autodesk\VaultCommon\Servers\<b>[Vault version]</b>\<b>[Vault
+server]</b>\Vaults\<b>[Vault Name]</b>\Objects<br>
+<br>
+<b>Windows User</b> - The windows login.&nbsp; If there are multiple
+users on a single computer, they will each get different client
+settings.<br>
+<b>Vault Version</b> - This one looks a bit strange, for example Vault
+2010 has a value of "Services_Security_1_26_2009".&nbsp; It's basically
+a code that changes with each release.&nbsp; Therefore client settings
+are tied to a specific Vault version.<br>
+<b>Vault Server</b> - The vault server.&nbsp; So settings on one server
+are independent of client settings on another server.<br>
+<b>Vault Name</b> - The name of the vault.&nbsp; Client settings are
+specific to a single Vault.<br>
+<br>
+NOTE:&nbsp; In Vista the path is C:\Users\<b>[Windows User]</b>\AppData\Roaming\Autodesk\VaultCommon\Servers\<b>[Vault
+version]</b>\<b>[Vault
+server]</b>\Vaults\<b>[Vault Name]</b>\Objects .<br>
+Also, AppData is a hidden folder.<br>
+<br>
+<br>
+<b>Writing Client Information:</b><br>
+Please don't write to these XML files.&nbsp; Since the XML schema isn't
+published, it's likely that you might break something.&nbsp; <br>
+<br>
+<br>
+</body>
+</html>

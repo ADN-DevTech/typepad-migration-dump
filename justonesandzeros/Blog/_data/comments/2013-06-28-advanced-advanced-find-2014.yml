@@ -1,0 +1,63 @@
+comments:
+- author: MaxU77
+  email: ''
+  ip: 195.230.112.10
+  url: http://profile.typepad.com/6p017c31afd964970b
+  date: '2013-07-05 03:46:06'
+  body: 'Our company decided to develop own serch utility.
+
+    Features desired:
+
+    1. Search with custom PS script.
+
+    2. Subscribe to search results (including 1).
+
+    First is already done. Second is real but tricky. If use WatchFolder techology
+    - the security of JP seems to be at risk - custom PS script could kill JP. Do
+    you have any ideas on how it could be done without security risks?'
+- author: MaxU77
+  email: ''
+  ip: 195.230.112.10
+  url: http://profile.typepad.com/6p017c31afd964970b
+  date: '2013-07-05 03:56:32'
+  body: 1. meant - Search whatever (ex, using custom PS script).
+- author: Doug Redmond
+  email: ''
+  ip: 8.19.13.69
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2013-07-08 08:26:21'
+  body: "Let me repeat the problem to make sure I understand.  You want to automatically\
+    \ run a script that sends out search results, but you want to filter those results\
+    \ on the user's permissions.  \n\nThere is no easy way to do this.  You would\
+    \ need to...\n1. Grab the ACLs on all the files.\n2. Grab all the users/groups\
+    \ and their roles.\n3. Go through each file in the result set and determine if\
+    \ the user has access to that file.\n4. Repeat step 3 for each user that you are\
+    \ sending results to.\n\nStep 3 is a very complex algorithm, but my Effective\
+    \ Permissions app has some code you might be able to use.  Personally, I don't\
+    \ like using PowerShell for something that complex.\n\n\nAnother approach would\
+    \ be to run the query client-side.  For example, when the user logs in to Vault\
+    \ Explorer, the query runs in the background.  That way, the Vault Server does\
+    \ the security check for you."
+- author: John Kavusak
+  email: John.kavusak@synergis.com
+  ip: 75.97.105.249
+  url: ''
+  date: '2014-06-20 12:17:12'
+  body: 'With this tool is there anyway to Search for items and files where a property
+    like "Number" equals another property like "Drawing Number"?  In the value field
+    I tried to put Drawing number in quotes, brackets, and arrows but no luck.
+
+
+
+    Thanks
+
+    john'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2014-06-20 16:31:37'
+  body: 'Sorry, the "value" part of a search condition is always a fixed set of text.  It''s
+    a requirement from the underlying search engine.
+
+    -----'

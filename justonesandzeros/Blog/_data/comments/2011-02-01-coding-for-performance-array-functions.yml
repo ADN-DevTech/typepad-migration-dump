@@ -1,0 +1,69 @@
+comments:
+- author: Hari Grabner
+  email: harald.grabner@andritz.com
+  ip: 143.161.248.25
+  url: ''
+  date: '2011-02-23 10:17:01'
+  body: 'Hi Doug!
+
+
+    How do you explain the nonlinear growth of the red curve? I would have expected
+    two *linear* curves, where one curve is steeper than the other.
+
+
+    kind regards
+
+    hari'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.71.14
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2011-02-23 12:03:18'
+  body: "The red line curves up slightly at the end due to my laptop running out of\
+    \ resources.  This is the computer I use for development, so I had a debug version\
+    \ of Vault running.  Then I started a VMWare image with Vault 2011 client and\
+    \ server running.  My test app then connected to the server in the VMWare and\
+    \ ran the tests.\n\nNeedless to say, this wasn't an ideal test.  By the end, all\
+    \ my memory was gone and my hard drive was getting a good workout.  \n\nIn a better\
+    \ environment, you would see a more linear red line."
+- author: Hari Grabner
+  email: harald.grabner@andritz.com
+  ip: 62.47.5.11
+  url: ''
+  date: '2011-02-24 08:42:17'
+  body: 'Thank you for the quick answer!
+
+    I was afraid my fundamental knowledge about algorihtm analysis was invalidated
+    :D
+
+
+    kind reagards
+
+    hari'
+- author: bjr001
+  email: bjoern.reinhardt@howden.com
+  ip: 62.154.180.124
+  url: ''
+  date: '2013-11-15 06:50:37'
+  body: 'Doug, could you please explain following:
+
+    - Calling FindLatestFilesByPaths() and passing a string array with 250 items takes
+    about 300 seconds (one Web Service call)
+
+    - Calling FindLatestFilesByPaths() for each every item takes about 240 seconds
+    (250 Web Service call)
+
+
+    To measure the time I took a Stopwatch object and I tried this multiple times
+    to play it safe.. relating to your upper article progress with only one Web Service
+    call should be much faster - any explanations?'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.219
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2013-11-15 08:10:59'
+  body: "Was your server localhost?  If so, it's not an accurate real-world test.\
+    \  \n\nIf you are using a different server, then my only guess is that the cost\
+    \ of the bulk data transfer outweighs the cost of opening the multiple HTTP connections.\n\
+    It's rare for these cases to happen, but it's possible.  For read operations,\
+    \ the HTTP cost is usually the most expensive part of an API call.\n\n\n-----"

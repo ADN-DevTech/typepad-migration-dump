@@ -1,0 +1,39 @@
+comments:
+- author: Andries Muylaert
+  email: am@cadservice.be
+  ip: 195.177.247.202
+  url: ''
+  date: '2010-11-17 03:04:05'
+  body: 'Hello,
+
+
+    Using the above trick, i tried to sign the Vault Explorer 2011 extension DLL.
+    Re-compile is possible but when using this signed DLL the explorer add-in isn''t
+    working anymore. It complains about missing assembly attribute ApiVersion.
+
+
+    Is it possible to get around this issue ?'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.71.5
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2010-11-17 13:06:44'
+  body: "You tried to sign Autodesk.Connectivity.Explorer.Extensibility.dll?  That's\
+    \ not a good idea because you are not the only one using that DLL.  Vault Explorer\
+    \ uses it too.  It's part of the Vault client install, so you shouldn't be modifying\
+    \ it.  Even if you do get your project to work, a hotfix or service pack could\
+    \ come along and re-write it.\n\nThe reason you can safely modify Autodesk.Connectivity.WebServices.dll\
+    \ is because it's not part of the Vault 2011 product.  \n\nSo I should amend my\
+    \ earlier statement.  You can sign DLLs yourself only if you are the exclusive\
+    \ consumer of that DLL."
+- author: Andries Muylaert
+  email: am@cadservice.be
+  ip: 194.78.62.170
+  url: http://www.cadservice.be
+  date: '2010-12-24 05:59:40'
+  body: "Hello,\n\nPlease note that using a signed WebServices DLL is not a good idea\
+    \ when creating a job handler for the Vault job server. The custom job handler\
+    \ DLL must be copied in the \\Explorer folder where an unsigned WebServices dll\
+    \ already resides. This dll has priority and should not be replaced resulting\
+    \ in a failing job handler. Also in this case you can say that you are not the\
+    \ exlusive consumer of the DLL. \n-----"

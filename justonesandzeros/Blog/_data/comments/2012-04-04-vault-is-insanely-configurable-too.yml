@@ -1,0 +1,71 @@
+comments:
+- author: Barry
+  email: b.flanagan@procadgroup.com
+  ip: 213.79.44.242
+  url: ''
+  date: '2013-12-05 11:27:22'
+  body: "Hi,\n\nI am looking for some help with the Vault 2014 API for customizing\
+    \ objects. I have a custom object created. I want to add a property definition\
+    \ like \"Name\". \nI am looking at how I might implement this from the API? I\
+    \ can use addCustomEntity() to add in my Custom object in this case it's DisplayName\
+    \ is \"TestObject\". Can I add a property instance to this from a UI control?\
+    \ Can I achieve this using the PropertyService API, will this work with my existing\
+    \ custom entity? Apologies, if I have got the terminology incorrect. I am new\
+    \ to the Vault API.  \nI am programming this in C#.\n\nMany thanks,\nBarry"
+- author: Barry
+  email: B.Flanagan@procadgroup.com
+  ip: 213.79.44.242
+  url: ''
+  date: '2013-12-06 07:15:53'
+  body: 'Hi,
+
+
+    I am looking for some help with Vault 2014 API for custom objects. What I am trying
+    to achieve is that, I have created a custom object in C# and I would like to add
+    the property instance from a windows form where the user can input a value this
+    then is displayed under the property definition sysname column heading for that
+    custom object. Can I achieve this using PropInst.val() call? Any help you be most
+    appreciated.'
+- author: Doug Redmond
+  email: ''
+  ip: 208.100.40.42
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2013-12-09 11:58:40'
+  body: 'Use PropertyService.AddPropertyDefinition to create a new property. Ex. FirstName
+
+
+    Use CustomEntityService.UpdateCustomEntityProperties to set the property value
+    on a custom object.  Ex. FirstName="John"
+
+
+    My Discussion Thread app has code example of creating Custom Object definition,
+    property definitions, categories, etc. through code.
+
+    <a href="http://justonesandzeros.typepad.com/blog/2012/04/discussion-thread-app.html">http://justonesandzeros.typepad.com/blog/2012/04/discussion-thread-app.html</a>
+
+
+    You can also download the materials from an AU class I presented last year:  CP1962:
+    Programming Custom Objects with the Autodesk Vault API.
+
+    <a href="http://au.autodesk.com/au-online/classes-on-demand/class-catalog/2012/autodesk-vault-professional/programming-custom-objects-with-the-autodesk-vault-api">http://au.autodesk.com/au-online/classes-on-demand/class-catalog/2012/autodesk-vault-professional/programming-custom-objects-with-the-autodesk-vault-api</a>'
+- author: Mike Vanderzwaag
+  email: mikev@odg.com
+  ip: 216.16.227.118
+  url: ''
+  date: '2015-11-25 12:15:58'
+  body: 'Hi Doug,
+
+    I''ve noticed that the UpdateCustomEntityProperties method has been removed for
+    2016, according to the Vault SDK help, and according to the errors showing up
+    in my code.
+
+    Is there an alternative method to change custom entity properties?
+
+    The line of code that used to work is this:
+
+    <b>WSManager.CustomEntityService.UpdateCustomEntityProperties(New Long() {CT.Id},
+    New Long() {DateProp.PropDefId}, New Object() {todaystring})</b>
+
+    Thanks
+
+    -----'

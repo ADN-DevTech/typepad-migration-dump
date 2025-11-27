@@ -1,0 +1,42 @@
+comments:
+- author: Ben
+  email: ben.cameron@d3tech.net
+  ip: 74.193.255.122
+  url: ''
+  date: '2011-09-22 16:31:53'
+  body: Is it possible to transfer files in binary mode when using the WebServiceManager?
+- author: Doug Redmond
+  email: ''
+  ip: 72.52.96.11
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2011-09-23 07:23:18'
+  body: 'Yes, the service objects all use WSE 3.0.  However, you still need to enable
+    MTOM by having a "microsoft.web.services3" section in the applications .config
+    file.
+
+
+    The following article explains how to update the .config file and test to make
+    sure that binary transfer is working:
+
+    <a href="http://justonesandzeros.typepad.com/blog/2010/03/file-transfer-as-binary-data.html">http://justonesandzeros.typepad.com/blog/2010/03/file-transfer-as-binary-data.html</a>'
+- author: Ali
+  email: alisonwise@hotmail.com
+  ip: 165.228.6.183
+  url: ''
+  date: '2012-01-24 00:06:51'
+  body: Does this sign in method consume a Vault license at logon?
+- author: Doug Redmond
+  email: ''
+  ip: 72.52.96.9
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2012-01-24 07:28:34'
+  body: 'The WebServiceManager supports all types of Vault logins.  The normal login
+    will consume a license when the manager signs-in to the server, which is when
+    new is called on WebServiceManager.
+
+
+    If a read-only is used, as shown in my sample code, then WebServiceManager will
+    not consume a license.  The last parameter on the UserPasswordCredentials constructor
+    tells if the login will be read-only or not.
+
+    -----'

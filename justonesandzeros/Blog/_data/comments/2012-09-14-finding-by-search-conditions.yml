@@ -1,0 +1,96 @@
+comments:
+- author: noontz
+  email: steffen@dyhr-nielsen.dk
+  ip: 178.157.252.114
+  url: ''
+  date: '2013-01-21 12:04:33'
+  body: Most wanted article indeed ;)..  Thanks!!
+- author: Maxence
+  email: maxence.delannoy@wiip.fr
+  ip: 83.198.6.95
+  url: http://wiip.fr
+  date: '2015-02-05 05:47:02'
+  body: Be carefull to not use the enum Autodesk.Connectivity.WebServices.SearchOperator
+    for SrchOper because values are not the same (SearchOperator.Equals = 1 instead
+    of 3).
+- author: Marco Lorenz
+  email: ''
+  ip: 145.253.179.190
+  url: http://profile.typepad.com/6p017eeb0ca427970d
+  date: '2015-07-27 06:00:03'
+  body: 'Hello, Doug,
+
+    the API call will not find linked files - true? I mean, if there are some files
+    linked into some folder and I then search inside this folder by API, I will not
+    find them. In Vault Client they will be found. Are there any options to find them
+    via the API call as well?'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2015-07-27 15:51:21'
+  body: Use FindLinksBySearchConditions to search for links.  If you want to find
+    Files and Links within a folder, you will need to make 2 API calls, one for Files
+    and one for Links.
+- author: David Dros
+  email: djdros@derrickcorp.com
+  ip: 50.75.179.60
+  url: http://www.derrick.com
+  date: '2015-08-13 17:37:43'
+  body: 'Greetings Doug,
+
+    I am trying to come up with a way to search the vault for all checked out files
+    and export the file properties to a csv file so that a separate reporting application
+    can pick that up and format individual notifications to users who didn''t check
+    their files back in.  I have followed your code samples in the SDK and I am able
+    to search the properties of any given drawing and find what I need to determine
+    if the file is checked out but what I am not able to do is come up with a way
+    to limit what folders I want to search in.  We have thousands of files that have
+    no bearing on the search criteria that are being looked at when you use the sample
+    code which starts with the root folder.  I am unable to figure out a way to only
+    search specific folder and their subfolders by name. Do you have any sample code
+    where you can point me to the correct vb.net syntax? I read your article on minimizing
+    the number of API calls and I would like to make sure I am using the most optimum
+    methods.  I am not sure how this list works so my direct email and how I will
+    see a response so my direct email is djdros@derrickcorp.com'
+- author: David Dros
+  email: djdros@derrickcorp.com
+  ip: 50.75.179.60
+  url: http://www.derrick.com
+  date: '2015-08-13 17:44:24'
+  body: "Greetings again Doug,  I did try to use this method as well:Dim filePropDefs\
+    \ As PropDef() = _\n    m_svcMgr.PropertyService.GetPropertyDefinitionsByEntityClassId(\"\
+    FILE\")\nDim checkedOutPropDef As PropDef = _\n    filePropDefs.[Single](Function(n)\
+    \ n.SysName = \"CheckoutUserName\")\nDim projectPropDef As PropDef = _\n    filePropDefs.[Single](Function(n)\
+    \ n.SysName = \"Project\")\n \n' SrchOper 5 => is not empty\nDim isCheckedOut\
+    \ As New SrchCond() With { _\n       .PropDefId = checkedOutPropDef.Id, _\n  \
+    \     .PropTyp = PropertySearchType.SingleProperty, _\n       .SrchOper = 5, _\
+    \ \n       .SrchRule = SearchRuleType.Must _\n}\n \n' SrchOper 3 => equals\nDim\
+    \ padlockProject As New SrchCond() With { _\n       .PropDefId = projectPropDef.Id,\
+    \ _\n       .PropTyp = PropertySearchType.SingleProperty, _\n       .SrchOper\
+    \ = 3, _\n       .SrchRule = SearchRuleType.Must, _\n       .SrchTxt = \"Padlock\"\
+    \ _\n}\n \nDim bookmark As String = String.Empty\nDim status As SrchStatus = Nothing\n\
+    Dim totalResults As New List(Of File)()\nWhile status Is Nothing OrElse totalResults.Count\
+    \ < status.TotalHits\n       Dim results As File() = _\n          m_svcMgr.DocumentService.FindFilesBySearchConditions(\
+    \ _\n           New SrchCond() {isCheckedOut, padlockProject}, _\n           Nothing,\
+    \ Nothing, False, True, bookmark, _\n              status)\n \n       If results\
+    \ IsNot Nothing Then\n              totalResults.AddRange(results)\n       Else\n\
+    \              Exit While\n       End If\nEnd While\n\nThis does not compile and\
+    \ says there is a problem with \"results\".. does not like this line Dim results\
+    \ As File() = _etc\nsays variable 'results' hides a variable in an enclosing block\
+    \ so I was never able to complete testing this method.  Again direct email is\
+    \ djdros@derrickcorp.com"
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2015-08-14 15:30:57'
+  body: 'This blog is not a good place to post and debug source code.  There is a
+    discussion group on the Vault API:  <a href="http://forums.autodesk.com/t5/vault-customization/bd-p/301">http://forums.autodesk.com/t5/vault-customization/bd-p/301</a>
+
+
+    I suggest you post the issue there.  Not only is it easier to read, but more people
+    are active on the group.  You should be able to find help for you issue in the
+    discussion group.
+
+    -----'

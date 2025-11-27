@@ -1,0 +1,121 @@
+comments:
+- author: Steve Walton
+  email: swalton@guerraconsulting.com
+  ip: 70.248.72.221
+  url: ''
+  date: '2009-10-05 09:08:02'
+  body: 'Thanks for the review of this part of vault.
+
+
+    We are just starting to plan our move into release states and revision control
+    with Vault 2010 Collaboration.  How do we apply this information to the 40 GB
+    of existing vault data?'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.150
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2009-10-05 15:06:36'
+  body: This is one of those questions that can have hundreds of answers depending
+    on your requirements.  My advice is to talk to your re-seller.
+- author: Steve Walton
+  email: swalton@guerraconsulting.com
+  ip: 70.248.72.221
+  url: ''
+  date: '2009-10-06 09:30:50'
+  body: I guess what I was looking for was some way to apply various lifecycle states
+    to the 1000s of existing files in my database.  For example, we last produced
+    an assembly at version 68, rev M.  It is now at version 103.  How do I apply the
+    released state to version 68?  It seems that these lifecycle states were designed
+    assuming I had an empty vault and was starting from scratch.  Is that true?
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.150
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2009-10-06 15:06:59'
+  body: 'The real issue here is that you can''t edit historical Vault data.  That''s
+    kind of the point of Vault.  Version 68 is ''vaulted'', locked down, nobody can
+    change it.
+
+
+    You do have options however.  For example, you can download version 68, check
+    it in as version 104 and set the lifecycle and revision that way.
+
+
+    Again, your reseller should be able to help you out here.'
+- author: Steve Walton
+  email: swalton@guerraconsulting.com
+  ip: 70.248.72.221
+  url: ''
+  date: '2009-10-07 09:36:36'
+  body: "Quoting \n\"You do have options however. For example, you can download version\
+    \ 68, check it in as version 104 and set the lifecycle and revision that way.\"\
+    \n\nThat is not exactly true.  \n\nI can get version 68 of an ipt from the vault.\
+    \ I can't get version 68 of an iam with all of its children at their respective\
+    \ versions.\n\nI can do this is baseline Vault 2010.  \n\nI am trying to find\
+    \ the recommended procedure get my information back out of vault. I am working\
+    \ with my reseller to resolve this issue."
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.150
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2009-10-07 13:31:09'
+  body: 'As I mentioned in the article, there are many dependency trees for a given
+    file.  Vault Collaboration has a revision-based view of things (examples 4 and
+    5).  Base Vault has a version-based view of things (example 3).
+
+
+    It looks like you want a version-based tree.  Those links <i>are</i> still there,
+    but you may need to write a custom program to get that information.  As I described
+    in example 3, you can pass version 68 of your file into <b>GetFileAssociationsByIds</b>
+    and get all the child versions.'
+- author: Steve Walton
+  email: swalton@guerraconsulting.com
+  ip: 70.248.72.221
+  url: ''
+  date: '2009-10-07 17:02:50'
+  body: "I was hoping to avoid learning how to program ;)  \n\nThanks for the help\
+    \ understanding the as-designed limitations of Vault 2010 and existing data."
+- author: cadfish1
+  email: beebema@westinghouse.com
+  ip: 147.72.234.5
+  url: ''
+  date: '2009-12-29 10:49:29'
+  body: I'm trying to get a list of parent associations using GetFileAssociationsByIds
+    but my code is erroring out.  Can you please share some code of how to do this?
+- author: Doug Redmond
+  email: ''
+  ip: 71.238.169.202
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2009-12-30 09:37:24'
+  body: 'I think that the VaultFileBrowser sample in the SDK has an example of GetFileAssociationsByIds
+    to get the children.  Getting the parents works the same way but you fill out
+    different parameters in the function.
+
+
+    What error code are you getting?'
+- author: cadfish1
+  email: beebema@westinghouse.com
+  ip: 147.72.234.5
+  url: ''
+  date: '2009-12-30 10:26:30'
+  body: 'Thanks Doug, that helped.  I did figure out yesterday that a nulls are the
+    cause of my error (no associations for a particular file).  The code below (from
+    VaultFileBrowser) appears to be complete error trapping but I have a few questions
+    which will help me (& others) understand the structure better.  How can associationArrays.Length
+    have a value of 0?   How can associationArrays(0).FileAssocs.Length have a value
+    of 0?
+
+
+    If (Not associationArrays Is Nothing AndAlso associationArrays.Length > 0 AndAlso
+    Not associationArrays(0).FileAssocs Is Nothing AndAlso      associationArrays(0).FileAssocs.Length
+    > 0) Then'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.71.13
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2010-01-04 09:15:47'
+  body: '.NET languages allow a 0 length array.  So I check for that case in the sample
+    code.  It might be that the Vault Server never returns a 0 length array.  I check
+    for that case anyway just to be safe.
+
+    -----'

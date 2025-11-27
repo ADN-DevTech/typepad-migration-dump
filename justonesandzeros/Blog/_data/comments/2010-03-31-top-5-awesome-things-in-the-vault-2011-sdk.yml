@@ -1,0 +1,59 @@
+comments:
+- author: Stefan
+  email: stefan.palm@cadcraft.se
+  ip: 85.229.72.47
+  url: ''
+  date: '2010-04-08 13:02:57'
+  body: Using the client API there is no way to access files in the Where Used/Uses
+    tabs?
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.71.11
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2010-04-08 16:09:11'
+  body: "Maybe.  It depends on you are trying to do.  \n\nWhen your command gets executed,\
+    \ an object is passed in that lets you see what is selected in the 3 major Vault\
+    \ Explorer panes.\n\nIn the case of the <b>preview pane</b>, you can see what\
+    \ is selected, but not which tab is active.  And for Uses and Where Used, you\
+    \ only get the label (filename) and not the ID.\n\nIt's still possible to get\
+    \ that information however.  In the <b>view pane</b>, you can get the selected\
+    \ file, along with the ID.  Next you would use that ID to find out the parent\
+    \ or child associated files.\n\nI'm probably not making much sense.  It's hard\
+    \ to describe in this comments section.  I encourage you to play around with it\
+    \ a bit to see what data gets pass in to your command event handler."
+- author: jselzer
+  email: jselzer@bellsouth.net
+  ip: 209.16.228.57
+  url: ''
+  date: '2010-05-20 16:42:41'
+  body: 'I want to write a custom Job to move (copy) files from one folder to another
+    (outside Vault), upon an event in vault.  Where can i start?
+
+    Is there any sample code to get me started, where can i find it?  Haven''t written
+    code in a long time, but need this functionality.
+
+    What can you lead me?'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.71.11
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2010-05-21 07:53:16'
+  body: 'Just to be clear, the only event that Vault 2011 can do is queue up a job
+    on a file lifecycle change.  Hopefully this meets your requirements.
+
+
+    The best place to start is with the SDK, which is installed to a folder called
+    SDK under your Vault Server install directory.  You will want to focus on the
+    Job Processor API, which is how you write a custom job handler.  There are also
+    some samples in the SDK under the title JobProcessorApiSamples.
+
+
+    My Watch Folder example from this blog also uses the Job Processor API, but it''s
+    more dense than the SDK samples.
+
+
+    I''m not sure what your programming background is, but you might want to start
+    at <a href="http://msdn.microsoft.com">http://msdn.microsoft.com</a> for general
+    programming help.
+
+    -----'

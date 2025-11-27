@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+</head>
+<body>
+<b>Sample Application:&nbsp; The Recycle Bin</b><br>
+Let&#8217;s start things off with a bang.&nbsp; Here is a fully working
+utility with full source code.&nbsp; Enjoy.<br>
+<br>
+<img src="images/screenshot1_scaled.png" alt=""><br>
+<br>
+<b>Overview:</b><br>
+The Recycle Bin prevents users from deleting files directly.&nbsp;
+Instead of using the Delete command, they can send files to the Recycle
+Bin state.&nbsp; On the weekend, a utility backs up all the files in
+the Recycle Bin and deletes them from the Vault.<br>
+<br>
+<b>Requirements:</b><br>
+<i>Vault Workgroup 2010 </i>or <i>Vault Collaboration 2010</i> or <i>Vault
+Manufacturing 2010</i><br>
+<br>
+<b>Introduction:</b><br>
+This is what I will refer to as a &#8220;high touch&#8221; utility.&nbsp; What I
+mean by high touch is that the utility doesn&#8217;t work entirely on its
+own.&nbsp; It will only work if the Vault is configured in a special
+way.&nbsp; In this case, we need to add a Recycle Bin state to the
+lifecycle definition.&nbsp; We also need to create a specialized user.<br>
+<br>
+<a title="Recycle Bin Application"
+ href="http://justonesandzeros.typepad.com/RecycleBin/RecycleBin-1.0.1.0-bin.zip">Click
+here to download the application</a><br>
+<a title="Recycle Bin Source Code"
+ href="http://justonesandzeros.typepad.com/RecycleBin/RecycleBin-1.0.1.0-source.zip">Click
+here to download the source code</a>
+<br>
+<br>
+<b>Configuring the Vault:</b><br>
+First let&#8217;s create a Vault to put all our backup files:<br>
+<ol>
+  <li>Open the Autodesk Data Management Server Console</li>
+  <li>Select the Vaults entry in the left tree</li>
+  <li>Select Actions -&gt; Create from the menu</li>
+  <li>Create a new Vault with the name BackupVault</li>
+  <li>Exit the console</li>
+</ol>
+<b>Next let&#8217;s create the specialized user:</b>
+<ol>
+  <li>Log into Vault as an administrator</li>
+  <li>In the menu, select Tools -&gt; Administration</li>
+  <li>Select the Users tab</li>
+  <li>Click on the Users button</li>
+  <li>Click on the New User button</li>
+  <li>Fill in &#8220;AppRecycleBin&#8221; as the UserName, choose a password, and
+set the role as &#8220;Administrator&#8221;, &#8220;Document Editor (Level 2)&#8221; and
+&#8220;Document Manager (Level 2)&#8221;.&nbsp; Also, give access to the main Vault
+and the backup Vault.<br>
+    <img alt="" src="images/New%20User.png" align="middle" height="490"
+ width="456"><br>
+  </li>
+  <li>Click OK to create the user.</li>
+  <li>[Optional] Create a Group called Automations and add
+AppRecycleBin to
+that group.&nbsp; In the future, any other application specific logins
+can
+go in this group.</li>
+  <li>Close all open windows by clicking OK.</li>
+</ol>
+<br>
+Now let&#8217;s configure the lifecycle states.&nbsp; For this example I will
+use the Flexible Release Process.<br>
+<ol>
+  <li>In the menu, select Tools -&gt; Administration</li>
+  <li>Select the Behaviors tab</li>
+  <li>Click on the Lifecycles button</li>
+  <li>Select the Flexible Release Process and click on the Edit button</li>
+  <li>Click on the Add button in the Lifecycle Details section</li>
+  <li>Create a new state called Recycle Bin<br>
+    <img alt="" src="images/New%20Lifecycle%20State.png" height="291"
+ width="298"><br>
+  </li>
+  <li>Click OK to go back to the Lifecycle Definition dialog.&nbsp; You
+should now see the Recycle Bin state in blue</li>
+  <li>Click Apply and the Recycle Bin state should turn black</li>
+  <li>Click on the Recycle Bin state and select the Transitions tab<br>
+    <img alt="" src="images/lifecycle%20definition%201_scaled.png"
+ height="418" width="450"><br>
+  </li>
+  <li>Select Recycle Bin -&gt; Released then click the Edit button</li>
+  <li>Select the Security tab</li>
+  <li>Uncheck the No Restrictions checkbox</li>
+  <li>Click the Add button and select Everyone</li>
+  <li>Give Everyone the Deny permission</li>
+  <li>Click OK<br>
+    <img alt="" src="images/transition%201_scaled.png" height="342"
+ width="450"><br>
+  </li>
+  <li>Repeat steps 10-15 for states Recycle Bin -&gt; Quick-Change,
+Released -&gt; Recycle Bin, and Quick-Change -&gt; Recycle Bin</li>
+  <li>In the Lifecycle Definition dialog, select the Security tab for
+the Recycle Bin state</li>
+  <li>Uncheck the No State Based Security checkbox</li>
+  <li>Add an entry for Everyone and set the permission to Allow Read.</li>
+  <li>Add an entry for AppRecycleBin and set the permission to Allow
+Read, Write and Delete.<br>
+    <img alt="" src="images/lifecycle%20definition%202_scaled.png"
+ height="418" width="450"><br>
+  </li>
+  <li>Update the security on the Work In Progress and For Review states
+so that Everyone has a Deny Delete setting and Allow for Read and
+Modify.<br>
+    <img alt="" src="images/lifecycle%20definition%203_scaled.png"
+ height="418" width="450"><br>
+  </li>
+  <li>Exit all dialogs by clicking OK.</li>
+</ol>
+Now we have our Vault configured properly.&nbsp; The only way to delete
+a file using the Flexible Release Process is to put it in the Recycle
+Bin and let the Recycle Bin utility delete it.<br>
+<br>
+<br>
+<b>Configuring the Recycle Bin Utility:</b><br>
+<ol>
+  <li>Download and unzip the utility</li>
+  <li>Create a file called Run.bat in the same directory ast
+RecycleBinUtil</li>
+  <li>Edit Run.bat in a text editor and write out the RecycleBinUtil
+command.&nbsp; See the readme.txt file for a description of the
+parameters.<br>
+Example:&nbsp; <font color="#990000">RecycleBinUtil -U AppRecycleBin
+-P pass -S novdrwxp -V Vault -BV BackupVault -L out.txt</font></li>
+  <li>[Optional] Run the bat file to make sure things work</li>
+  <li>Go to the Windows Control Panel and select Scheduled Tasks</li>
+  <li>Right click and select New-&gt;Scheduled Task</li>
+  <li>Name the scheduled task.&nbsp; Ex. Empty Vault Recycle Bin</li>
+  <li>Right click the task and select Properties</li>
+  <li>Go to the Task tab</li>
+  <li>Set the Run parameter to the Run.bat file.&nbsp;&nbsp; Set the
+Start In parameter to be the directory that run.bat lives in.<br>
+    <img alt="" src="images/TaskSchedule1.png" height="448" width="406"><br>
+  </li>
+  <li>&nbsp;Go to the Schedule tab</li>
+  <li>Set the task to run once a week at 1:00 AM on Sunday, or whenever
+you want.<br>
+    <img alt="" src="images/TaskSchedule2.png" height="448" width="406"><br>
+  </li>
+  <li>Click OK and set login info if needed.</li>
+</ol>
+<b><br>
+Disclaimer:</b><br>
+This application is experimental in nature. It has not been tested in
+any manner, and Autodesk does not represent that it is reliable,
+accurate, complete, or otherwise valid. Accordingly, this application
+is provided &#8220;as is&#8221; with no warranty of any kind and you use the
+application at your own risk. <br>
+<br>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+</head>
+<body>
+<b>File Associations: Part 1</b><br>
+Welcome to part 1 in my 2 part series on file associations.&nbsp; This
+post will focus only on the associations seen in the base version of
+Vault.&nbsp; The next post will go over Vault Workgroup concepts like
+revisions and lifecycle states.<br>
+<br>
+<b>Introduction:</b><br>
+For base vault we have 2 concepts that are simple on their own, but
+start to get complex when you mix them together.&nbsp; <br>
+The first concept is <b>File Versions</b>.&nbsp; Every time you edit a
+file, you get a new version. Simple.<br>
+The second concept is <b>File Associations</b>. &nbsp; Files can be
+linked to each other in a parent/child relationship.&nbsp; This allows
+you to create dependency trees.&nbsp; Again, simple.<br>
+<br>
+Now lets mix the concepts together.&nbsp; A file association is
+between one <b>version </b>of a file and another.&nbsp; This means
+that the
+depencency tree might change for each version of a file.<br>
+<img alt="" src="images/Figure1.png" height="235" width="404"><br>
+<br>
+Here is where the confusion starts.&nbsp; You have a big chunk of data
+and multiple ways of traversing the data.&nbsp; The good news is that
+the API has some built in tools to help you.<br>
+<br>
+<b>Example:</b><br>
+Let's go through a simple example.&nbsp; First we upload 2 new files, A
+and B.&nbsp; A is the parent of B.&nbsp; This is what things look like
+in Vault.<br>
+<img alt="" src="images/Figure2.png" height="89" width="195"><br>
+<br>
+Next we will check out B and check it back in with a new file, C.&nbsp;
+B is the parent of C.&nbsp; Our view now looks like this.<br>
+<img alt="" src="images/Figure3.png" height="129" width="388"><br>
+<br>
+If we start at A and want to get the entire depenency tree, base Vault
+gives you 2 two types of traversals:<br>
+<ul>
+  <li><b>Snapshot in time</b>:&nbsp; You want to view the tree exactly
+as it looked when it was uploaded.&nbsp; <b>GetFileAssociationsByIds</b>
+in the Document Service is that function that will give you this
+view.&nbsp; If you started with file A and wanted all children, you
+would get this view:<br>
+    <img alt="" src="images/Figure2.png" height="89" width="195"><br>
+    <br>
+  </li>
+  <li><b>Get latest</b>:&nbsp; You want to get the most recent version
+of all the files involved.&nbsp; <b>GetLatestFileAssociationsByMasterIds</b>
+in the Document Service is the function that will give you this
+view.&nbsp; If you started with file A and wanted all children, you
+would get this view:<br>
+    <img alt="" src="images/Figure4.png" height="135" width="257"><br>
+  </li>
+</ul>
+<br>
+That's all you need to know for base Vault.&nbsp; My next post will go
+over the Revision and Lifecycle concepts and how they relate to file
+associations.<br>
+</body>
+</html>

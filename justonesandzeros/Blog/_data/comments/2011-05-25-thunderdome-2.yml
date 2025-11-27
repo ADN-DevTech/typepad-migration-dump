@@ -1,0 +1,110 @@
+comments:
+- author: Scott Moyse
+  email: scott@smigroup.co.nz
+  ip: 203.109.144.38
+  url: ''
+  date: '2011-08-08 23:13:22'
+  body: 'Doug,
+
+
+    I''m trying to set this up, but i get the following message when I try to backup
+    my settings. <a href="http://screencast.com/t/ef6BICOMrjy">http://screencast.com/t/ef6BICOMrjy</a>
+
+
+    Also if i backup my settings, as Administrator, and then try to copy those settings
+    to the Default folder, then this will create duplicate file names in Vault. How
+    do you get around this?
+
+
+    Cheers
+
+
+    Scott'
+- author: Doug Redmond
+  email: ''
+  ip: 72.52.96.11
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2011-08-09 07:41:31'
+  body: "Error 1058 is UniqueFileNameRequiredViolated, which means you have the \"\
+    Enforce Unique File Names\" setting turned on and you tried to add a file with\
+    \ the same name as another file in the Vault.\n\nBasically, the backup feature\
+    \ in Thunderdome is not compatible with the Unique File Name feature.  The reason\
+    \ is that everyone's backup files will have the same name.  \nThe only options\
+    \ are either turn off the Unique File Name feature or don't use the backup command\
+    \ in Thunderdome."
+- author: Scott Moyse
+  email: scott@smigroup.co.nz
+  ip: 203.109.144.38
+  url: ''
+  date: '2011-08-09 16:33:50'
+  body: Ok but doesn't that mean I can't push the config settings to the users at
+    all? Simply because the same filename would exist in each user folder....
+- author: Doug Redmond
+  email: ''
+  ip: 72.52.96.11
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2011-08-10 07:40:06'
+  body: You can still push settings as long as each file has a unique name.  The push
+    goes directly from the default folder to the user's local folder.  The user does
+    not need their own Vault folder in order for the push to work.
+- author: Scott Moyse
+  email: scott@smigroup.co.nz
+  ip: 203.109.144.38
+  url: ''
+  date: '2011-08-11 17:23:57'
+  body: 'my confusion is this: the ViewStyles.xml file would have the same file name
+    for every user, therefore duplicating the file throughout the user folders from
+    one user to the next.'
+- author: Doug Redmond
+  email: ''
+  ip: 72.52.96.9
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2011-08-12 08:51:54'
+  body: 'ViewStyles.xml would live in Vault under Thunderdome''s "default" folder.  That
+    would be the only place that file exists in Vault.  When Thunderdome pushes the
+    file to users, ViewStyles gets downloaded directly to the client computer (for
+    example, somewhere under C:\Users\myusername\AppData\Roaming).
+
+
+    So each user will have a copy of ViewStyles on their own computer, but this is
+    fine since there is only one copy in Vault.'
+- author: Scott Moyse
+  email: scott_moyse1@hotmail.com
+  ip: 118.90.115.254
+  url: ''
+  date: '2011-08-19 23:42:07'
+  body: 'Ok great, cheers for clarifying.
+
+
+    I have noticed the add-in has created a folder for each user that is enabled in
+    Vault. Are these folders created upon install of the add-in? I just can''t remember
+    if its as a result of trying to run the backup or not.
+
+
+    Also when you select don''t ask me again (re, syncing the profile data) how do
+    you get it to ask again or sync again at a later date? Do you have to reinstall
+    the add-in?
+
+
+    cheers for you help doug
+
+
+    Scott'
+- author: Doug Redmond
+  email: ''
+  ip: 72.52.96.9
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2011-08-22 09:09:36'
+  body: "If you go to the location of the vault extension (%programData%\\Autodesk\\\
+    Vault 2012\\Extensions\\ProjectThunderdome) there should be a readme file explaining\
+    \ how to get that dialog back. \n\nThe quick answer is to delete the \"settings.xml\"\
+    \ file from the ProjectThunderdome folder."
+- author: Scott Moyse
+  email: scott@smigroup.co.nz
+  ip: 203.109.144.38
+  url: ''
+  date: '2011-08-23 18:54:22'
+  body: 'cheers doug. I was wondering if there was a Readme, I should have thought
+    about looking there before hand.
+
+    -----'

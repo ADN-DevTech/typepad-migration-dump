@@ -1,0 +1,243 @@
+comments:
+- author: Ezio Grasselli
+  email: ezio.grasselli@infoklix.it
+  ip: 94.163.1.165
+  url: ''
+  date: '2010-06-23 14:33:20'
+  body: 'Hi,
+
+    I''ve an error running "Configure Recycle Bib"
+
+    Error 160 - ID not valid
+
+
+    "Recycle Bin User Server:" not accept any value name server or ip
+
+
+    Regards'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.71.13
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2010-06-24 07:47:23'
+  body: 'I can''t reproduce on my end, so I need some more information.
+
+
+    What Vault product are you using?
+
+    When exactly does error 160 pop up?  Is it when you click the "OK" button on the
+    Configure Recycle Bin dialog?
+
+
+    The Recycle Bin User Server cannot be "localhost" or "127.0.0.1", but it should
+    accept all other values.  What value are you trying to set?'
+- author: Ezio Grasselli
+  email: ezio.grasselli@infoklix.it
+  ip: 93.62.249.186
+  url: ''
+  date: '2010-06-24 11:02:40'
+  body: "VauultPro 2011 ITA update-1 \nwhen i clik \"OK\"\n\"Errore 160\" is the title\
+    \ of pop-up\n\"ID non valido\" is inside of pop-up\n\nFolder: $/_Cestino\nName:\
+    \   AppRecycleBin\nPass:   12345\nServer: PC-WIN7\nBackup: MioVAULTbck\n\nThe\
+    \ same error on Win7 x64 client/server\nand XpPro client / Server2003 R2 server\n\
+    \nLocalized ITA System Operator and/or Vault,\ncan create problems?\n\nRegards"
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.71.14
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2010-06-25 15:45:25'
+  body: I think I have it fixed.  The download links have been updated to point to
+    the new version, 2.0.2.0.
+- author: Mark W
+  email: mark.wise@exterran.com
+  ip: 208.35.223.129
+  url: ''
+  date: '2010-11-30 14:10:17'
+  body: 'Error: System.Web.Services.Protocols.SoapExceptions: 311... Error received
+    upon attempt to send any file to recycle bin. I did configure the recycle bin
+    Vault & the recycle bin feature within Vault Explorer.'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.71.2
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2010-11-30 17:45:25'
+  body: 'All the Vault errors come from the server as error codes and none of my sample
+    apps translate the codes into human readable messages.  So you have to look up
+    the codes yourself in the SDK documentation.
+
+
+    Error 311, means that the application using the wrong authentication type.  The
+    user you use to run Recycle Bin cannot be an Active Directory user.'
+- author: Mark W
+  email: mark.wise@exterran.com
+  ip: 76.74.158.27
+  url: ''
+  date: '2010-11-30 19:52:51'
+  body: You were right about the Active Directory user problem.  I had configured
+    Recycle Bin to use my own user name and password.  I have since configured it
+    to use a Vault user name and password.  Now I'm having a problem where when I
+    try to add a file to the recycle bin the GetManafest method is throwing an error
+    "Cannot check out now. (MachineName) is currently performing a recycle bin operation."  What
+    are some troubleshooting steps to resolve this type of problem?
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.71.2
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2010-12-01 08:35:41'
+  body: 'In Vault Explorer, turn on the setting that allows you to view hidden files.  You
+    will see a file called RecycleBinManifest.xml in the Recycle Bin folder.  Undo
+    the checkout on the file and that should fix things.  You may need to give yourself
+    edit permissions in the Recycle Bin folder.
+
+
+    If you want more technical details, see <a href="http://justonesandzeros.typepad.com/blog/2010/07/storing-custom-data-hidden-files.html">http://justonesandzeros.typepad.com/blog/2010/07/storing-custom-data-hidden-files.html</a>'
+- author: activelive
+  email: vu.do@mylangroup.com
+  ip: 113.163.202.12
+  url: ''
+  date: '2011-01-20 22:09:45'
+  body: 'Hi Doug Redmond
+
+    Can you enable the option restore from RecycleBin for use?
+
+    Or disable the delete command when install it for administrator?
+
+    Thanks'
+- author: activelive
+  email: vu.do@mylangroup.com
+  ip: 113.163.202.12
+  url: ''
+  date: '2011-01-21 02:32:27'
+  body: 'Hi Doug,
+
+    About my question above, would you mind to disable delete command when right-click
+    on file or folder in vault when installed recycle bin app?
+
+    Thanks.'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.71.6
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2011-01-21 10:12:38'
+  body: 'The "Restore from Recycle Bin" command should be enabled for all users.  The
+    "Restore from Backup Vault" is designed for admins only.
+
+
+    For non-admins the Delete command is removed, but not for admins.  If you want
+    to remove it from admin too, you would need to edit the source code.
+
+
+    You can also block deletes using folder security.  So the command will still be
+    there, but the operation will fail.'
+- author: activelive
+  email: vu.do@mylangroup.com
+  ip: 113.163.202.12
+  url: ''
+  date: '2011-01-23 22:09:41'
+  body: 'Hi Doug, thanks for your quick reply.
+
+    Would you mind to edit the source code for the confirm when choose move to recycle
+    bin? And remove the Delete command for admins.'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.71.9
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2011-01-24 08:45:59'
+  body: "Sorry, I don't have time to be adding or changing features in my sample applications.\
+    \  \n\nIf you or somebody you know can program, feel free to edit the source code\
+    \ to your needs."
+- author: activelive
+  email: vu.do@mylangroup.com
+  ip: 113.163.202.12
+  url: ''
+  date: '2011-01-24 23:00:50'
+  body: 'Ok, i''ll try it >.<
+
+    Thank for all, Doug'
+- author: Klaus Loerincz
+  email: klaus.loerincz@autodesk.com
+  ip: 91.56.214.229
+  url: http://www.autodesk.com
+  date: '2011-02-27 04:18:32'
+  body: 'Hi Doug,
+
+    I was watching the Webinar and collected all the information about the good/bad
+    in the sample application.
+
+    I was wondering if the reroute of the "Deleted Files" to the "Backup Vault" would
+    not cure a lot of the problems.
+
+
+    If the files would be placed in the BackupVault in Folders with a Date and Time
+    stamp it would cure the file naming topic.
+
+
+    Maybe we can have another discussion about tips on the phone during the next weeks
+    - Please let me know when I can call you - Thank you'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.71.3
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2011-02-28 08:45:19'
+  body: Yes, that would fix many of the issues, but it would also not be a recycle
+    bin at that point.  One feature I liked in both Recycle Bin 1.0 and 2.0 is that
+    if you accidentally put something in the bin, you can easily get it back before
+    the bin is emptied.
+- author: David Prontnicki
+  email: dprontnicki@maserconsulting.com
+  ip: 63.241.102.50
+  url: ''
+  date: '2014-06-10 13:37:44'
+  body: 'Hi Doug,
+
+
+    Quick Question; when review the comments I noticed you stated that it would NOT
+    work with active directory users. Is this true. Our current Vault set-up utilizes
+    users by active directory/windows accounts. Does this mean we can not use this?
+
+
+    Thanks,'
+- author: David Prontnicki
+  email: dprontnicki@maserconsulting.com
+  ip: 63.241.102.50
+  url: ''
+  date: '2014-06-10 14:37:23'
+  body: 'Hi Doug,
+
+
+    Also does this work with 2014? I cant seem to install it.'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2014-06-11 08:09:09'
+  body: "No, it doesn't work with 2014.  I was never very happy with how the app turned\
+    \ out, so I didn't update it past Vault 2011.  Recycle Bin was buggy and didn't\
+    \ work in some Vault configurations. \n\nThe source code is available, so it is\
+    \ possible for somebody with programming knowledge to update the app for a later\
+    \ version of Vault."
+- author: Denis Radjenovic
+  email: d.radjenovic@arnold-it.com
+  ip: 217.92.36.241
+  url: http://www.arnold-it.com
+  date: '2015-08-25 06:30:50'
+  body: 'Hi Doug,
+
+
+    I have a short question about the version 2.0.2.0 source code package. Where can
+    I finde the ReplUtil class? Seems to be missing in the package and I can''t find
+    it anywehre. Maybe you have the file somewhere or give me just a snippet of the
+    functions GrabEntityOwnership and GrabFolderOwenrship. Many thanks in advance.'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.71.3
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2015-08-27 10:27:52'
+  body: 'It looks like I left out a project when I uploaded the source code.  You
+    can download the missing project from here:  <a href="http://justonesandzeros.typepad.com/Apps/JustOnesAndZerosWebServices/JustOnesAndZeros.WebServices.zip.abc">http://justonesandzeros.typepad.com/Apps/JustOnesAndZerosWebServices/JustOnesAndZeros.WebServices.zip.abc</a>
+
+
+    Remove the extension ".abc" and unzip.  It should have all the missing source
+    files.
+
+    -----'

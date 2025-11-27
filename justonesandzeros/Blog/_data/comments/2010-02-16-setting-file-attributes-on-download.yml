@@ -1,0 +1,85 @@
+comments:
+- author: Mike Beebe
+  email: beebema@westinghouse.com
+  ip: 66.116.62.178
+  url: ''
+  date: '2011-07-22 14:24:19'
+  body: "Shouldn't the read-only attribute be based on whether the user has the file\
+    \ checked out or not?\n\nIf Not file.CheckedOut Or (file.CheckedOut And _\n  \
+    \  file.CkOutUserId <> moSecSvc.SecurityHeaderValue.UserId) Then\n\n    info.Attributes\
+    \ = info.Attributes Or FileAttributes.[ReadOnly]\nEnd If"
+- author: Doug Redmond
+  email: ''
+  ip: 72.52.96.9
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2011-07-25 08:01:08'
+  body: Correct, if the file is checked out to you, then you do not set the read-only
+    attribute.
+- author: noontz
+  email: steffen@dyhr-nielsen.dk
+  ip: 178.157.252.114
+  url: ''
+  date: '2013-02-23 09:25:31'
+  body: "Hey Doug.. \n Took me days of agony & pain to realize it´s the same thing\
+    \ on check-in / upload ( unless I ended up with a stupid hack )..  Maybe elaborate\
+    \ a bit on this matter in a \"get started section\" to help us newbies on the\
+    \ way.. It´s a very essential Vault concept : WHY the attributes are applied &\
+    \ WHEN ( in the code/process ) they are applied..\n\nKeep up the good work! This\
+    \ blog is a mindblowing!"
+- author: Doug Redmond
+  email: ''
+  ip: 8.19.13.70
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2013-02-25 08:23:34'
+  body: 'Good point.  I didn''t think about upload.  I''ll put it on the list for
+    future posts.
+
+    Thanks.'
+- author: Paolo Marani
+  email: paolo.marani@engineering.it
+  ip: 192.168.0.113
+  url: http://www.ruledesigner.com
+  date: '2014-05-22 04:57:13'
+  body: "Wouldn't be sufficient to check \n\nIF f.locked then\n\ninstead of\n\nIF\
+    \ Not file.CheckedOut Or (file.CheckedOut And _\nfile.CkOutUserId <> moSecSvc.SecurityHeaderValue.UserId\
+    \ then\n\n??"
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2014-05-23 07:19:20'
+  body: 'At the time the article was written File.Locked didn''t do anything.  It
+    was "reserved for future use".
+
+    In the last couple releases of Vault, I think File.Lock has been enabled, but
+    you should test it out for yourself to be sure.'
+- author: Tim Clift
+  email: Tim.Clift@anthro.com
+  ip: 74.95.37.49
+  url: ''
+  date: '2014-09-23 11:39:27'
+  body: 'I am trying to solve a problem I am having that seems to be related to this
+    issue during uploading.  I have an Inventor addin that updates iProperties on
+    all the referenced documents of an assembly.  We recently upgraded to Inventor
+    2015 and I am updating the code to use the new Vault API VDF classes to acquire
+    files.  I have everything ported to the new API but after checkin Vault is indicating
+    that my local files are out of date, red dot in the Vault explorer.  I found your
+    "Tips and Tricks" about setting the creation time of the local file to match the
+    vault file but when I call SetCreationTime it throws an exception saying that
+    the file is being used by another process.  This code was originally written for
+    Inventor 2013 and I never had any problems with it until I updated it to the new
+    API.  This code is an important part of our work flow as it takes what would be
+    a 5 to 6 hour job and makes it 2 to 3 minutes.  Do you have any suggestions on
+    how to resolve this problem?
+
+
+    Thank you'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2014-09-24 14:07:43'
+  body: 'The first step is to find out what is locking the file.  I don''t think it''s
+    the Vault API.  Could it be Inventor that is locking the file?
+
+    -----'

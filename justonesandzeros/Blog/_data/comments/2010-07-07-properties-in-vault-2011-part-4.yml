@@ -1,0 +1,208 @@
+comments:
+- author: Nathan Bell
+  email: nathan.bell@shumars.com
+  ip: 207.255.97.3
+  url: ''
+  date: '2011-06-20 08:46:27'
+  body: Hello.  Is there a way to ensure that when using batch plot all the iproperties
+    and mass properties are updated?  I ask because lately when a project is finished
+    and someone wants a set of drawings, the batch plot command prints out every bill
+    of material in every drawing differently- some with the iproperties right in the
+    BOM and some with no properties.  Often times the BOM is right but in assemblies
+    the mtotal mass still says "NA".  I can print out each drawing individually and
+    update all properties one at a time, but if there are 100 drawings in a set that
+    can take hours on end.
+- author: Doug Redmond
+  email: ''
+  ip: 72.52.96.11
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2011-06-20 15:37:42'
+  body: "You can't alter the batch plot command.  \nOne option is to write your own\
+    \ batch plot command.  That way you can control exactly what gets plotted.\n\n\
+    If you think Vault is incorrectly plotting the wrong data, please let our product\
+    \ support team know."
+- author: Forrest Judd
+  email: ForrestJudd@hagerman.com
+  ip: 173.51.1.106
+  url: ''
+  date: '2012-04-11 19:10:46'
+  body: If a UDP is mapped from Vault to the document only, UpdateFileProperties will
+    still work, right?
+- author: Doug Redmond
+  email: ''
+  ip: 72.52.96.11
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2012-04-12 08:32:39'
+  body: That depends on what you mean by working.  The value should update properly
+    in Vault.  But the file itself will still have the old value.  File modification
+    always has to be done client-side.
+- author: nicole
+  email: diamocidelverde@libero.it
+  ip: 88.213.145.148
+  url: ''
+  date: '2013-02-10 02:51:47'
+  body: "Hi,\nI'm on the beginig.\nCould someone help me, I tryed to update an item\
+    \ property in this way:\n m_mgr.ItemService.UpdateItemProperties({selection.Id},\
+    \ {60}, {\"test\"})\nbut i get allways this soap error:\nsoap exception 1321.\n\
+    I'm secure the item selection is correct.What's wrong?\nThanks"
+- author: Doug Redmond
+  email: ''
+  ip: 8.19.13.28
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2013-02-11 07:47:42'
+  body: 'The first parameter to UpdateItemProperties should be an array of Revision
+    IDs.  You are passing in the selection ID, which is the the Item ID.  Item ID
+    is different than Revision ID.
+
+    Call GetItemsByIds to find the Revision ID.
+
+
+    See this article for more info on selection.Id values:  <a href="http://justonesandzeros.typepad.com/blog/2011/06/file-versions-and-links-in-the-selection-set.html">http://justonesandzeros.typepad.com/blog/2011/06/file-versions-and-links-in-the-selection-set.html</a>'
+- author: nicole
+  email: diamocidelverde@libero.it
+  ip: 88.213.145.148
+  url: ''
+  date: '2013-02-11 11:39:37'
+  body: "You've been very kind to answer me so quikly, I replaced Id with RevId but\
+    \ now I have the error soap 3933, why?\nI put in my code:\nm_mgr.ItemService.GetItemDeleteRestrictionsByIds({81})\n\
+    \ m_mgr.ItemService.UpdateItemProperties({81}, {60}, {\"test\"}) \nCould you help\
+    \ me?\nNicole"
+- author: Doug Redmond
+  email: ''
+  ip: 8.19.13.27
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2013-02-11 17:15:13'
+  body: "Did you call EditItem before calling UpdateItemProperties? \nIf you want\
+    \ to see an example, go to the Vault Customization discussion group:  <a href=\"\
+    http://forums.autodesk.com/t5/Autodesk-Vault-Customization/Populating-Item-UDPs/m-p/3643626/highlight/true#M1018\"\
+    >http://forums.autodesk.com/t5/Autodesk-Vault-Customization/Populating-Item-UDPs/m-p/3643626/highlight/true#M1018</a>"
+- author: Nicole
+  email: diamocidelverde@libero.it
+  ip: 88.51.20.233
+  url: ''
+  date: '2013-02-20 07:46:26'
+  body: 'Thanks for your answer,
+
+    all is working for udp
+
+    but why the property 60 ''Description (Item, CO)'' can''t be edited in the same
+    way?
+
+    bie
+
+    Nicole'
+- author: Doug Redmond
+  email: ''
+  ip: 8.19.13.27
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2013-02-21 08:08:30'
+  body: "Description is a system property.  You can't edit those directly.  File Size\
+    \ is a better example.  The system automatically handles that value.  It makes\
+    \ no sense to update that value with an UpdateProperties function.  \n\nAlso,\
+    \ don't assume that Description will have a value of 60.  That might not be true\
+    \ for all Vaults, and it might not be true if you upgrade to the next release.\
+    \  Use the system name if you want a reliable key."
+- author: Kyle
+  email: kyle.johnson@hpinc.com
+  ip: 75.77.31.97
+  url: ''
+  date: '2013-03-13 09:34:05'
+  body: "I have a few questions, we have a custome UDP called Title which contains\
+    \ information from various title blocks in inventor and autocad.  Is there a way\
+    \ to retrieve this property for a file from vault easily? \n\n  a .GetPropertyByFileID(FileID,\
+    \ \"Title\") sort of function?"
+- author: Lucy
+  email: Lucy.klimkina@gmail.com
+  ip: 192.75.118.46
+  url: ''
+  date: '2013-09-25 11:50:04'
+  body: "Hello Doug,\nWe have situation which lead to conclusion that properties update\
+    \ makes file ‘dirty’, that’s mean trigger checked out/update/bump the version\
+    \ any other assembly using  this file.\nThe issue is explained below with two\
+    \ scenarios:\nScenario 1:\n1.\topen file from the vault (no files in C-drive workspace)\
+    \ \n \n2.\tHit OK  for Check-out the file:\n \n3.\tMessage will appear about updating\
+    \ the properties:\" Some prperties in the file ... may be out of the date. Would\
+    \ you like to update properties now?\"\n \n\n4.\tFor this Scenario 1 choose “Yes”,\
+    \ and the result :file is dirty (with*):\n \n\nScenario 2:\n1.\topen the same\
+    \ file from the vault (no files in C-drive workspace ) \n \n2.\tHit OK for Check\
+    \ out the file.\n \n3.\tMessage will appear:\" Some prperties in the file ...\
+    \ may be out of the date. Would you like to update properties now?\"\n \n4.\t\
+    For this Scenario 2 choose “No”, and result is file is clean:\n   \n \nConclusion:\
+    \ properties updates make files dirty and it constantly dirty every time when\
+    \ this file is checked-out.\n\nQestions:\n1.\tHow to fix issue with constant ‘dirty’\
+    \ files after updating properties?\n2.\tWhere  to start to resolve this?\n3.\t\
+    How to see which particular properties are ’out of the date?’\n\n\nThank you"
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.218
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2013-09-27 07:28:30'
+  body: 'Yes, an update of properties results in a new file version.
+
+
+    It sounds like your issues are with the product itself and not the API.  I suggest
+    posting your questions to the Vault discussion group:  <a href="http://forums.autodesk.com/t5/Autodesk-Vault/bd-p/101">http://forums.autodesk.com/t5/Autodesk-Vault/bd-p/101</a>'
+- author: Randy
+  email: rsimington@evansonline.com
+  ip: 159.18.23.2
+  url: ''
+  date: '2013-11-27 20:42:18'
+  body: Is it possible to update the Comment field of an earlier version. The...our...revision
+    table is set to use the comment field as the Description of the changes made.
+    However, human error as it is...people sometimes forget to enter the changes before
+    clicking OK when changing the state back to Released. I'd like to be able to right
+    click on a version and add those comments after the fact. I have my extension
+    to the point of adding comments to a form...I just can't figure out how to persist
+    those comments to the drawing file.
+- author: Doug Redmond
+  email: ''
+  ip: 24.11.44.223
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2013-11-28 09:28:35'
+  body: "Sorry, you can't edit historical comments.  \nI recommend making Comment\
+    \ a required property and putting a condition on the state change that Property\
+    \ Compliance must be true.  That will prevent people from releasing files that\
+    \ have an empty comment."
+- author: Randy
+  email: rsimington@evansonline.com
+  ip: 159.18.23.2
+  url: ''
+  date: '2013-11-28 12:42:53'
+  body: Thanks.
+- author: Randy
+  email: rsimington@evansonline.com
+  ip: 159.18.23.2
+  url: ''
+  date: '2013-11-28 16:51:29'
+  body: '"A comment string set by the user. If CheckedOut is true, then this property
+    contains the comment set during checkout. If CheckedOut is false, then this property
+    contains the comment set during check-in. Checking in a file, resets the comment
+    for that version." Taken from the VaultAPI documentation. Reading that, shouldn''t
+    I be able to check out the version in question and update the comment on check
+    in. Will this create a new version? In essence rolling back the part or will it
+    just update that version?'
+- author: Doug Redmond
+  email: ''
+  ip: 24.120.169.130
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2013-12-03 16:46:00'
+  body: 'No, because the new version is created at checkout time, not checkin time.
+
+
+    For example, you add a new file to vault.  So there is only one version of the
+    file.  When you run the checkout command, v2 is immediately created.  The checkout
+    comment is on v2 and v1 has the comment that was provided when the file was initially
+    added.'
+- author: nav
+  email: navgee007@gmail.com
+  ip: 217.35.108.169
+  url: ''
+  date: '2014-08-28 05:33:39'
+  body: "Hi Doug\n I want to update a UDP using VaultExplorerUtil on AddFileEvents_Post\
+    \ event of DocumentService, it works fine from explorer client on AddFiles event\
+    \ for non cad files.\n but When i checkin a file using Autocad Vault client (from\
+    \ vault Ribbon tab) Extention update the file property but Autocad Crash after\
+    \ update action.\n\nVaultExplorerUtil.UpdateFileProperties(file, dic);\n\n Autocad\
+    \ popup message box with error An error occurred during a vaulting operation.\n\
+    \nI have posted on vault customization board but no luck.\ncan you please help.\n\
+    Thanks\n-----"

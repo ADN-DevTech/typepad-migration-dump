@@ -1,0 +1,90 @@
+comments:
+- author: Dave
+  email: supermanetta@libero.it
+  ip: 88.149.231.1
+  url: ''
+  date: '2014-07-29 10:14:25'
+  body: "Hi Doug, \nfirst of all many thanks for this article.\nI need some help to\
+    \ update a Vault Extension from 2013 to 2015. I made an extension that automatically\
+    \ update an item to the most recent file version during the checkout_Post event\
+    \ of Inventor. This extension uses the old-and-removed function \"UpdateFromFile\"\
+    .\nWith the new Vault SDK i'm not able to obtain the same result; i don't want\
+    \ to made a new item revision every time due to my company restrictions.\n\nI've\
+    \ tried the new \"UpdateItemFileAssociation\" passing the unique Id coming from\
+    \ the Inventor CheckIn event, but in Vault the result is that the item lose his\
+    \ file (the primary). If i manually do an Update from the Vault client all is\
+    \ ok again....but the intention of this extension is exactly to do an automatic\
+    \ item update.\n\nI'm quite desperate....\nThanks anyway in advance\n\nDave"
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2014-08-01 14:41:21'
+  body: 'I should probably write a blog article with a sample of the Update workflow.
+
+    In the meantime try this:
+
+    Use the code from this article but replace the "AddFilesToPromote" call with a
+    call to "UpdatePromoteComponents".  The rest of the sample should be the same.'
+- author: Shane
+  email: benjamin.hagood@nov.com
+  ip: 208.92.229.4
+  url: ''
+  date: '2015-04-01 11:52:35'
+  body: 'Hi Doug,
+
+    Thanks so much for all your insights.
+
+    I have used your code to build an app for promoting all legacy files to Items.
+    The problem is, this code works perfect on single part files (.ipt), but assemblies
+    (.iam) with components throw an error code (1387) for restrictions. I used your
+    code, to drill down in the exception, and found the following exception, (2037)
+    Operation cannot be performed because the item is not in an editable state. Can
+    you please help?'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2015-04-01 15:44:34'
+  body: 'Is the error thrown on UpdateAndCommitItems?
+
+
+    If so, I suggest looking at the "status" array on the itemsAndFiles object.  If
+    the status on an Item is 1 (unaffected), then the Item wasn''t edited.  When calling
+    UpdateAndCommitItems, only pass in the Items that were promoted or updated.'
+- author: Shane
+  email: benjamin.hagood@nov.com
+  ip: 208.92.229.4
+  url: ''
+  date: '2015-04-01 15:50:31'
+  body: Never mind, I found the solution in one of your older blog posts. The issue
+    was that GetPromoteComponentsResults() was returning more Items that I needed,
+    and some of them were not in edit mode.
+- author: Shane
+  email: benjamin.hagood@nov.com
+  ip: 208.92.229.4
+  url: ''
+  date: '2015-04-01 15:52:07'
+  body: Yes, I saw that. Thank you for the fast reply.
+- author: Vismantas
+  email: prie.marso@gmail.com
+  ip: 88.119.144.21
+  url: ''
+  date: '2015-09-28 09:36:07'
+  body: "Hello Doug,\nI use your code to create BOM for assembly and I need all BOM\
+    \ rows to be enabled. I call AddFilesToPromote(ids, ItemAssignAll.Yes, false)\
+    \ method. Created BOM seems OK but only one child row of the top assembly is enabled\
+    \ in created BOM. Why other rows are not enabled? The following BOM lines are\
+    \ created.\nTopAssembly\n  |_SubAssembly(turned on)\n  |    |_PartOfSubAssembly(turned\
+    \ off)\n  |_PartOfTopAssembly(turned off)\nCan you please help me?"
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2015-09-30 13:01:22'
+  body: 'Have a look at this article:  <a href="http://justonesandzeros.typepad.com/blog/2014/04/disabling-and-enabling-bom-rows.html">http://justonesandzeros.typepad.com/blog/2014/04/disabling-and-enabling-bom-rows.html</a>
+
+
+    If that doesn''t solve the problem have a look at this article:  <a href="http://justonesandzeros.typepad.com/blog/2014/05/component-bom-rows.html">http://justonesandzeros.typepad.com/blog/2014/05/component-bom-rows.html</a>
+
+    -----'

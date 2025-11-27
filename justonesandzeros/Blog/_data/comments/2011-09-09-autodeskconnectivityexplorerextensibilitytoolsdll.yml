@@ -1,0 +1,86 @@
+comments:
+- author: Stefan
+  email: stefan.palm@cadcraft.se
+  ip: 85.229.68.71
+  url: ''
+  date: '2012-03-21 03:54:32'
+  body: 'Does UpdateFileProperties in Autodesk.Connectivity.Explorer.ExtensibilityTools.dll,
+    in an (full SQL replication) replicated environment, if neccessary take ownership
+    of the file before property update?
+
+
+    Thanks'
+- author: Doug Redmond
+  email: ''
+  ip: 72.52.96.9
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2012-03-21 14:51:39'
+  body: It works just like the property edit feature in Vault Explorer.  So I believe
+    that you do need to take ownership first before attempting to update properties.
+- author: MiWa NiZa
+  email: MiWaNiZa@gmail.com
+  ip: 93.127.27.222
+  url: ''
+  date: '2012-06-18 03:48:42'
+  body: 'Doug, please answer about Autodesk.Connectivity.Explorer.ExtensibilityTools.dll
+    in:
+
+    <a href="http://forums.autodesk.com/t5/Autodesk-Vault-Customization/SDK-troubles-ExtensibilityTools-dll-LoadExplorerUtil/td-p/3503956">http://forums.autodesk.com/t5/Autodesk-Vault-Customization/SDK-troubles-ExtensibilityTools-dll-LoadExplorerUtil/td-p/3503956</a>
+
+
+    Yours respectfully.'
+- author: A
+  email: akipfelsberger@staibinstruments.com
+  ip: 80.153.133.130
+  url: ''
+  date: '2015-02-12 04:16:08'
+  body: '<i>Doesn''t work inside Inventor - Vault Explorer uses Inventor Apprentice,
+    which can''t run inside of Inventor.exe.</i>
+
+
+
+    I spent 1 day moving my (working) application into an Inventor addon, until I
+    found out, that it won''t work there.
+
+
+    - Is there a way to bypass this issue?
+
+    -Can this Information be added to Help file?
+
+    - Is it still there with Version 2015? (2014 is not working in my case?
+
+
+    Thanks'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2015-02-12 07:18:19'
+  body: '- The Vault add-in gets around this issue by spawning a new process.
+
+
+    - Yes, this DLL is still around in 2015 but "UpdateFileProperties" is the only
+    function it does.  The rest of the features have been moved to other parts of
+    the API.
+
+    If you use the 2015 DLL, then you will need the Vault 2015 client installed as
+    well.'
+- author: Erik Gilsdorf
+  email: gilsdorf.e@rittal.de
+  ip: 195.226.74.4
+  url: ''
+  date: '2015-07-01 07:11:16'
+  body: '"It works just like the property edit feature in Vault Explorer."
+
+
+
+    Nope. In the property edit feature I can modify values for mapped UDPs. The UpdateFileProperties
+    will not throw any error but just will not do that. At least that''s for Vault
+    2014 SR1 SP2.
+
+
+    Best regards
+
+    Erik
+
+    -----'

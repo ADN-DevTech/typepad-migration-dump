@@ -1,0 +1,196 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+</head>
+<body>
+Here is how you view thumbnail data from Vault.<br>
+<br>
+<b>Background:</b><br>
+Thumbnails are stored as metafiles, which must be rendered to a display
+context.&nbsp; This is a bit different from a jpeg because metafiles
+have no fixed size.&nbsp; This is nice because the image can be scaled
+to any size without loss of detail.<br>
+<br>
+<b>Sample Code:</b><br>
+Once you have found the PropInst object with the thumbnail value, here
+is how you can render it to a System.Drawing.Image object.<br>
+<br>
+C#:<br>
+<table border="1" cellpadding="2" cellspacing="2" width="100%">
+  <tbody>
+    <tr>
+      <td valign="top"><span
+ style="font-size: 10pt; color: gray; font-family: 'Courier New';">///</span><span
+ style="font-size: 10pt; color: green; font-family: 'Courier New';"> </span><span
+ style="font-size: 10pt; color: gray; font-family: 'Courier New';">&lt;summary&gt;<O:P></O:P><br>
+///</span><span
+ style="font-size: 10pt; color: green; font-family: 'Courier New';">
+Takes a thumbnail property from Vault and renders it to an Image<O:P></O:P></span><br>
+      <span
+ style="font-size: 10pt; color: gray; font-family: 'Courier New';">///</span><span
+ style="font-size: 10pt; color: green; font-family: 'Courier New';"> </span><span
+ style="font-size: 10pt; color: gray; font-family: 'Courier New';">&lt;/summary&gt;<O:P></O:P></span><br>
+      <span
+ style="font-size: 10pt; color: blue; font-family: 'Courier New';">private</span><span
+ style="font-size: 10pt; font-family: 'Courier New';"> System.Drawing.<span
+ style="color: rgb(43, 145, 175);">Image</span>
+RenderThumbnailToImage(Document.<span style="color: rgb(43, 145, 175);">PropInst</span>
+propInst, <span style="color: blue;">int</span> width, <span
+ style="color: blue;">int</span> height)<O:P></O:P><br>
+{<O:P></O:P><br>
+      <span>&nbsp;&nbsp;&nbsp; </span><span style="color: green;">//
+convert the property value to a byte array<O:P></O:P></span><br>
+      <span>&nbsp;&nbsp;&nbsp; </span><span style="color: blue;">byte</span>[]
+thumbnailRaw = (<span style="color: blue;">byte</span>[])propInst.Val;<O:P>
+      <br>
+      </O:P><br>
+      <span>&nbsp;&nbsp;&nbsp; </span><span style="color: green;">//
+load the data into a stream but skip the first 12 bytes<O:P></O:P></span><br>
+      <span>&nbsp;&nbsp;&nbsp; </span><span
+ style="color: rgb(43, 145, 175);">Stream</span> stream = <span
+ style="color: blue;">new</span> <span
+ style="color: rgb(43, 145, 175);">MemoryStream</span>(thumbnailRaw,
+12, thumbnailRaw.Length - 12);<O:P> <br>
+      </O:P><br>
+      <span>&nbsp;&nbsp;&nbsp; </span><span style="color: green;">//
+create the Metafile object<O:P></O:P></span><br>
+      <span>&nbsp;&nbsp;&nbsp; </span>System.Drawing.Imaging.<span
+ style="color: rgb(43, 145, 175);">Metafile</span> metafile = <span
+ style="color: blue;">new</span> System.Drawing.Imaging.<span
+ style="color: rgb(43, 145, 175);">Metafile</span>(stream);<O:P> <br>
+      </O:P><br>
+      <span>&nbsp;&nbsp;&nbsp; </span><span style="color: green;">//
+render the Metafile to an Image object and display in the picture box<O:P></O:P></span><br>
+      <span>&nbsp;&nbsp;&nbsp; </span><span
+ style="color: rgb(43, 145, 175);">Image</span> retVal =
+metafile.GetThumbnailImage(width, height, <span style="color: blue;">new</span>
+      <span style="color: rgb(43, 145, 175);">Image</span>.<span
+ style="color: rgb(43, 145, 175);">GetThumbnailImageAbort</span>(GetThumbnailImageAbort),
+      <span style="color: rgb(43, 145, 175);">IntPtr</span>.Zero);<O:P></O:P><br>
+      <span>&nbsp;&nbsp;&nbsp; </span>stream.Close();<O:P>&nbsp;</O:P><br>
+      <span>&nbsp;&nbsp;&nbsp; </span><span style="color: blue;">return</span>
+retVal;<O:P></O:P><br>
+}<O:P> <br>
+      </O:P></span>
+      <p class="MsoNormal"><br>
+      <span
+ style="font-size: 10pt; color: gray; font-family: 'Courier New';">///</span><span
+ style="font-size: 10pt; color: green; font-family: 'Courier New';"> </span><span
+ style="font-size: 10pt; color: gray; font-family: 'Courier New';">&lt;summary&gt;<O:P></O:P><br>
+///</span><span
+ style="font-size: 10pt; color: green; font-family: 'Courier New';">
+Delagate for the GetThumnailImage function.<O:P></O:P></span><br>
+      <span
+ style="font-size: 10pt; color: gray; font-family: 'Courier New';">///</span><span
+ style="font-size: 10pt; color: green; font-family: 'Courier New';"> </span><span
+ style="font-size: 10pt; color: gray; font-family: 'Courier New';">&lt;/summary&gt;<O:P></O:P></span><br>
+      <span
+ style="font-size: 10pt; color: blue; font-family: 'Courier New';">private</span><span
+ style="font-size: 10pt; font-family: 'Courier New';"> <span
+ style="color: blue;">static</span> <span style="color: blue;">bool</span>
+GetThumbnailImageAbort()<O:P></O:P><br>
+{<O:P></O:P><br>
+      <span>&nbsp;&nbsp;&nbsp; </span><span style="color: blue;">return</span>
+      <span style="color: blue;">false</span>;<span>&nbsp; </span><span
+ style="color: green;">// do nothing<O:P></O:P></span></span><br>
+      <span
+ style="font-size: 10pt; line-height: 115%; font-family: 'Courier New';">}</span></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+VB.NET:<br>
+<table border="1" cellpadding="2" cellspacing="2" width="100%">
+  <tbody>
+    <tr>
+      <td valign="top"><span
+ style="font-size: 10pt; color: green; font-family: 'Courier New';">'''
+      </span><span
+ style="font-size: 10pt; color: gray; font-family: 'Courier New';">&lt;summary&gt;<O:P></O:P></span><br>
+      <span
+ style="font-size: 10pt; color: green; font-family: 'Courier New';">'''
+Takes a thumbnail property from Vault and renders it to an Image<O:P></O:P><br>
+''' </span><span
+ style="font-size: 10pt; color: gray; font-family: 'Courier New';">&lt;/summary&gt;<O:P></O:P></span><br>
+      <span
+ style="font-size: 10pt; color: blue; font-family: 'Courier New';">Private</span><span
+ style="font-size: 10pt; font-family: 'Courier New';"> <span
+ style="color: blue;">Function</span> RenderThumbnailToImage(<span
+ style="color: blue;">ByVal</span> propInst <span style="color: blue;">As</span>
+Document.PropInst, <span style="color: blue;">ByVal</span> width <span
+ style="color: blue;">As</span> <span style="color: blue;">Integer</span>,
+      <span style="color: blue;">ByVal</span> height <span
+ style="color: blue;">As</span> <span style="color: blue;">Integer</span>)
+      <span style="color: blue;">As</span> System.Drawing.Image<br>
+      <O:P></O:P><br>
+      <span>&nbsp;&nbsp;&nbsp; </span><span style="color: green;">'
+convert the property value to a byte array<O:P></O:P></span><br>
+      <span>&nbsp;&nbsp;&nbsp; </span><span style="color: blue;">Dim</span>
+thumbnailRaw <span style="color: blue;">As</span> <span
+ style="color: blue;">Byte</span>() = <span style="color: blue;">CType</span>(propInst.Val,
+      <span style="color: blue;">Byte</span>())<O:P> <br>
+      <br>
+      </O:P><span>&nbsp;&nbsp;&nbsp; </span><span style="color: green;">'
+load the data into a stream but skip the first 12 bytes<O:P></O:P></span><br>
+      <span>&nbsp;&nbsp;&nbsp; </span><span style="color: blue;">Dim</span>
+stream <span style="color: blue;">As</span> System.IO.Stream = <span
+ style="color: blue;">New</span> System.IO.MemoryStream(thumbnailRaw,
+12, thumbnailRaw.Length - 12)<O:P> <br>
+      <br>
+      </O:P><span>&nbsp;&nbsp;&nbsp; </span><span style="color: green;">'
+create the Metafile object<O:P></O:P></span><br>
+      <span>&nbsp;&nbsp;&nbsp; </span><span style="color: blue;">Dim</span>
+metafile <span style="color: blue;">As</span>
+System.Drawing.Imaging.Metafile = <span style="color: blue;">New</span>
+System.Drawing.Imaging.Metafile(stream)<O:P> <br>
+      <br>
+      </O:P><span>&nbsp;&nbsp;&nbsp; </span><span style="color: green;">'
+render the Metafile to an Image object and display in the picture box<O:P></O:P></span><br>
+      <span>&nbsp;&nbsp;&nbsp; </span><span style="color: blue;">Dim</span>
+retVal <span style="color: blue;">As</span> Image =
+metafile.GetThumbnailImage(width, height, <span style="color: blue;">New</span>
+Image.GetThumbnailImageAbort(<span style="color: blue;">AddressOf</span>
+GetThumbnailImageAbort), IntPtr.Zero)<O:P> <br>
+      <br>
+      </O:P><span>&nbsp;&nbsp;&nbsp; </span>stream.Close()<O:P>&nbsp;</O:P><br>
+      <span>&nbsp;&nbsp;&nbsp; </span><span style="color: blue;">Return</span>
+retVal<O:P></O:P></span><br>
+      <span
+ style="font-size: 10pt; color: blue; font-family: 'Courier New';">End</span><span
+ style="font-size: 10pt; font-family: 'Courier New';"> <span
+ style="color: blue;">Function<O:P></O:P></span></span><span
+ style="font-size: 10pt; color: blue; font-family: 'Courier New';"><O:P>
+      <br>
+      </O:P></span><br>
+      <span
+ style="font-size: 10pt; color: green; font-family: 'Courier New';">'''
+      </span><span
+ style="font-size: 10pt; color: gray; font-family: 'Courier New';">&lt;summary&gt;<O:P></O:P></span><br>
+      <span
+ style="font-size: 10pt; color: green; font-family: 'Courier New';">'''
+Delagate for the GetThumnailImage function.<O:P></O:P><br>
+''' </span><span
+ style="font-size: 10pt; color: gray; font-family: 'Courier New';">&lt;/summary&gt;<O:P></O:P></span><br>
+      <span
+ style="font-size: 10pt; color: blue; font-family: 'Courier New';">Private</span><span
+ style="font-size: 10pt; font-family: 'Courier New';"> <span
+ style="color: blue;">Shared</span> <span style="color: blue;">Function</span>
+GetThumbnailImageAbort() <span style="color: blue;">As</span> <span
+ style="color: blue;">Boolean<O:P></O:P></span></span><span
+ style="font-size: 10pt; color: blue; font-family: 'Courier New';"><O:P>&nbsp;</O:P></span><br>
+      <span style="font-size: 10pt; font-family: 'Courier New';"><span>&nbsp;&nbsp;&nbsp;
+      </span><span style="color: blue;">Return</span> <span
+ style="color: blue;">False</span><span>&nbsp; </span><span
+ style="color: green;">' do nothing<O:P></O:P></span></span><br>
+      <span
+ style="font-size: 10pt; color: blue; line-height: 115%; font-family: 'Courier New';">End</span><span
+ style="font-size: 10pt; line-height: 115%; font-family: 'Courier New';">
+      <span style="color: blue;">Function</span></span></td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<br>
+</body>
+</html>

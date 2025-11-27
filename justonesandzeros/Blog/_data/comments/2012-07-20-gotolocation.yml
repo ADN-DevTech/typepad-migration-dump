@@ -1,0 +1,118 @@
+comments:
+- author: Jonas
+  email: Jonas.kellens@greenock.eu
+  ip: 194.78.62.170
+  url: ''
+  date: '2012-08-29 04:12:58'
+  body: Nice, do you have a code example for the GoToLocation? thx!
+- author: Jonas
+  email: Jonas.kellens@greenock.eu
+  ip: 194.78.62.170
+  url: ''
+  date: '2012-08-30 06:02:27'
+  body: 'Hi,
+
+
+    GoToLocation works but I wonder about the following:
+
+    Is it possible to call CommandItem.Execute method by code?
+
+
+    So I can use the GoToLocation at any time I want (also OnLogOn event).'
+- author: Doug Redmond
+  email: ''
+  ip: 24.11.44.223
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2012-09-03 07:32:02'
+  body: Sorry, but you cant call GoToLocation whenever you want.  It won't work during
+    events like LogOn or LogOff.  It also won't work inside of a custom tab.
+- author: Jonas
+  email: Jonas.kellens@greenock.eu
+  ip: 194.78.62.170
+  url: ''
+  date: '2012-09-04 09:36:16'
+  body: 'Thanks you for your post!
+
+
+    I hoped to store a session state at OnlogOff and jump to the last location OnLogOn.
+    But all this will need to work by CommandItems(Buttons).
+
+
+    I see I can''t use GoToLocation for SelectionTypeId.FileVersion and SelectionTypeId.Bom
+    because there is no fullname for it.'
+- author: Tomasz
+  email: tomasz.szulik@gmail.com
+  ip: 217.98.90.226
+  url: ''
+  date: '2013-08-01 08:22:48'
+  body: 'Hi Doug,
+
+    Is there any possibility to invoke custom command from a code in order to navigate
+    to the different files from my extension dialog?'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.218
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2013-08-02 07:34:04'
+  body: "GoToLocation only works after your command exits the Execute function.  \n\
+    \nSo if you want to navigate while keeping your dialog open, then the answer is\
+    \ no.  But if you want to close your dialog before navigating, then the answer\
+    \ is yes.\n\nThere are some sample apps that use GoToLocation and a custom dialog:\
+    \  \n- Advanced Advanced Find 2014\n- Find Orphaned Files"
+- author: BJR
+  email: reinhardtb1@web.de
+  ip: 78.43.191.156
+  url: ''
+  date: '2013-11-10 14:41:44'
+  body: Any way to access 'GoToLocation' from inside of DetailTabs() section?
+- author: Doug Redmond
+  email: ''
+  ip: 209.51.184.48
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2013-11-11 15:52:03'
+  body: Sorry, no.  GoToLocation is for commands only.
+- author: AWA
+  email: a.wagner@mcds.net
+  ip: 90.146.13.146
+  url: ''
+  date: '2014-08-06 11:08:46'
+  body: 'I''m not able to get it to work for Custom Entities. I want to select the
+    created CustomEntity:
+
+
+    CustEntDef CED = GetCustomerEntityDefinition(CustEntName, ServiceManager);
+
+    CustEnt CE = ServiceManager.CustomEntityService.AddCustomEntity(CED.Id, "testing");
+
+    if (CE != null) e.Context.GoToLocation = new LocationContext(new SelectionTypeId(CED.Name),
+    CE.Id.ToString());'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2014-08-07 07:37:05'
+  body: Try replacing "CE.Id.ToString()" with "CE.Num"
+- author: AWA
+  email: a.wagner@mcds.net
+  ip: 90.146.13.146
+  url: ''
+  date: '2014-09-30 09:54:19'
+  body: ok, now it's working ... thx
+- author: AWA
+  email: a.wagner@mcds.net
+  ip: 90.146.13.146
+  url: ''
+  date: '2014-10-27 05:05:04'
+  body: is there a way to use GoToLocation for Links?
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2014-10-27 16:03:39'
+  body: 'I don''t know, I never tried it.  If it works, it''s an unsupported feature.
+
+
+    The preferred behavior is that you go to the object the link points to, and not
+    go to the link itself.
+
+    -----'

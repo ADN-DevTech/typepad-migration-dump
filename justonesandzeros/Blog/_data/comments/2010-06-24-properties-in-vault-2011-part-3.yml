@@ -1,0 +1,85 @@
+comments:
+- author: Till Klingenberg-Scholle
+  email: t.klingenberg-scholle@mann-datentechnik.de
+  ip: 217.110.222.106
+  url: ''
+  date: '2010-06-30 06:00:36'
+  body: 'Hello Doug,
+
+
+    first of all I want to pay respect for your create blog. It is very informative
+    and helps me along with my work. But I''ve got one question; Is there a possibility
+    to change Content Source Properties? e.g. I made a custom tab with different properties
+    displayed in it, some are user defined, others are system props. well, changin
+    user defined props and updating them isn''t that difficult. But when it comes
+    to change the title in a dwg block I fail. Do you have a clue?? I''d be very grateful.
+
+
+    Best Regards
+
+
+    Till Klingenberg-Scholle'
+- author: Doug Redmond
+  email: ''
+  ip: 68.60.34.77
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2010-07-01 09:30:55'
+  body: "You can edit the content source property, but not through the Vault API.\
+    \  You need to edit the CAD file directly using the appropriate CAD API.  \n\n\
+    Here are the basic steps:\n1. Check out the file through the Vault API.\n2. Update\
+    \ the property in the local file through the CAD API.\n3. Check in the file through\
+    \ the Vault API."
+- author: Till Klingenberg-Scholle
+  email: t.klingenberg-scholle@mann-datentechnik.de
+  ip: 217.110.222.106
+  url: ''
+  date: '2010-07-02 07:24:20'
+  body: 'Thank you for your quick answer. I''ll try it soon.
+
+
+    Greetings and a nice weekend'
+- author: Tobias Degen
+  email: tobias.degen@rotring-data.ch
+  ip: 92.105.54.92
+  url: ''
+  date: '2010-07-05 09:02:29'
+  body: 'Hi Doug
+
+
+    I am not sure if I understand that correctly, could you enlighten me...?
+
+
+    I create a UDP and assign it to file and item. It shall be a property that the
+    user must provide through the Vault Explorer, so there is no Property Provider
+    for it. How can I map this UDP to an item UDP...?
+
+
+    Thanks, Tobias'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.71.12
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2010-07-06 07:50:19'
+  body: 'Let me restate the question to make sure I understand:  You have a UDP associated
+    with "FILE" and "ITEM" entity classes.  The UDP has no file or item mappings.  The
+    user enters the UDP value on the file, and you want the same value on the UDP
+    of the item which is linked to the file.
+
+
+    That functionality is not supported.  Associating a UDP to "FILE" and "ITEM" just
+    means that the property <i>definition</i> can be applied to both items and files.  It
+    does not mean that the property <i>values</i> can be mapped.
+
+
+    Of course, you can fix things up with custom programming.  You can have a utility
+    set the item UDP, or the utility can find the file UDP value for a given item.'
+- author: Pawel Jackowski
+  email: jackowski.p@eplan.pl
+  ip: 217.98.90.226
+  url: ''
+  date: '2012-11-13 09:02:53'
+  body: "Thanks for good post. \nWe are working with File BOM and we are encountering\
+    \ ugly exception. \nWe are using function to read BOM <b>DocumentService.GetBOMByFileId</b>\
+    \ and very often we get exception <b>Eplan.Vault.Base.Exceptions.VaultException:\
+    \ [0:UnspecifiedSystemException]</b>.\nDo you have any experience with this kind\
+    \ of problem?\n\nThanks,\nPawel\n\n-----"

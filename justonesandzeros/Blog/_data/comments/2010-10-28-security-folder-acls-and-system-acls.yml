@@ -1,0 +1,86 @@
+comments:
+- author: Various Hans
+  email: ''
+  ip: 91.113.224.86
+  url: http://profile.typepad.com/varioushans
+  date: '2011-06-07 07:12:49'
+  body: 'Hi, i would like to edit the file security with .net.
+
+    i currently inherit the security from the folder, but with the functions addsystemacl
+    and setsystemacl i cannot overwrite the files security settings.
+
+    Manually i would set the checkbox in the file properties "overwrite security"
+    and modify them.
+
+    How could i get that with .net ?
+
+    thanks'
+- author: Bryan Rawling
+  email: bryan.rawling@nuvia.co.uk
+  ip: 86.12.153.195
+  url: ''
+  date: '2014-06-18 04:46:48'
+  body: "Doug \nyour statement\n\"Regardless of how the System ACL is set, you can\
+    \ read it using SecurityService.GetEntACLsByEntityIds().  Even nicer is that the\
+    \ function returns both the regular ACL (the one from the folder security) and\
+    \ System ACL.\"\n\nDoes this mean the reported folder security can then be applied\
+    \ to the file using SecurityService.SetSystemACLs().\ntherefore reseting the file\
+    \ security so that it does not use the system ACL applied from the lifecycle state\
+    \ change.\nBasically I am looking to trigger a reset of the File security as the\
+    \ folder security is required and should not be bypassed by the file state security.\
+    \ Maybe we need to simply clear the file System ACL applied by the lifecycle state\
+    \ so that it then uses its folder ACL. \n\nI am hoping that you might be able\
+    \ to confirm that it is possible to use the API to control this on a state change?\n\
+    We Need to apply and retain the folder security throughout our Vault!\nIt would\
+    \ be impossible to manage multiple catagories , lifecycles and states for each\
+    \ project , we already  have 25+ projects with potential for many more, each project\
+    \ is a individual client who's data security needs to be maintained at all times\
+    \ therefore we need the folder security to only allow specific user groups access\
+    \ to specific projects.\n\nAny help with this would be great, Can it be done?\n\
+    Example of the code would be very much appretiated\nRegards Bry"
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2014-06-18 08:07:32'
+  body: 'Clearing the system ACL will cause the file to revert to folder security.
+
+
+    If you don''t ever want to use lifecycle security, you can just clear the security
+    details on the lifecycle state settings.  That way you don''t have to come up
+    with an API solution.
+
+
+    Yes, you can update the ACL data through the API.  And you can trigger the code
+    on a state change.  However permissions becomes a problem.  Only administrators
+    can directly set ACL data.  So you would have to work around that problem.'
+- author: Iwan van Wijk
+  email: iwan.van.wijk@greenock.eu
+  ip: 62.12.19.163
+  url: ''
+  date: '2015-05-06 09:12:53'
+  body: 'Doug,
+
+
+    Is there a way to check the permissions of the current folder without using the
+    standard method? everytime we wont to read the information in readonly mode we
+    get a error 303.
+
+
+    sample code : Vault.Library.ConnectionManager.LogIn(servername, vaultname, "user",
+    "Password", Vault.Currency.Connections.AuthenticationFlags.Readonly, null.
+
+
+    Reason for this question is that the standard methode requires a Vault License
+    and we want to use this for all Vault users.
+
+    Regards Iwan'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2015-05-06 17:12:46'
+  body: "There are a few strange cases where you can't read data in Readonly mode.\
+    \  ACL data is probably one of those cases.\nSecurity is considered an administator\
+    \ function, so not much thought was put into read-only workflows. \n\nFor a workaround,\
+    \ your app can do a Standard login, read the security and log out quickly."

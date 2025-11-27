@@ -1,0 +1,87 @@
+comments:
+- author: author
+  email: author@email.com
+  ip: 82.248.107.250
+  url: ''
+  date: '2012-03-27 22:33:03'
+  body: LZ4 compression ?
+- author: Doug Redmond
+  email: ''
+  ip: 72.52.96.11
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2012-03-28 07:35:11'
+  body: I'll be posting sample code on this topic in the upcoming weeks.
+- author: Meir Weiss
+  email: meir_@itbam.co.il
+  ip: 109.253.91.221
+  url: ''
+  date: '2012-04-22 03:35:56'
+  body: 'Hi Doug
+
+    Do we have now any event for linking process?'
+- author: Doug Redmond
+  email: ''
+  ip: 24.11.44.223
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2012-04-23 11:15:56'
+  body: Are you talking about the feature where you create a link to a file that lives
+    in another folder?  No, we do not have events for links.
+- author: Andries Muylaert
+  email: andries.muylaert@greenock.eu
+  ip: 194.78.62.170
+  url: ''
+  date: '2013-03-13 06:10:50'
+  body: 'Hi Doug, long time no see,
+
+
+    There is a new parameter in the api command for file checkout : ''DownloadOptions''.
+    Can your provide an example for the ''DownloadPart'' (download in chunks) method
+    ? Is it used in combination with the DownLoadFileInParts api method ?
+
+    Does this mean that checkout will generate error 1101 (DownloadFileSizeExceedsServerLimit)
+    for large files as from version 2013 ? I experience this error since the upgrade
+    to 2013, never have seen this message before on checkout.
+
+
+    Thanks in advance'
+- author: Doug Redmond
+  email: ''
+  ip: 8.19.13.71
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2013-03-13 08:53:27'
+  body: "Yes, you understanding is correct.  If you want to checkout a large file\
+    \ and download in the same call, you use the DownloadPart option.  The Checkout\
+    \ function will then give you the first part.  Call DownloadFilePart to get the\
+    \ rest of the file.\n\nThe SDK documentation for DownloadFilePart shows some sample\
+    \ code, but only for DownloadFilePart alone.  I don't have an example of Checkout\
+    \ + DownloadFilePart.   \n\nPersonally, I checkout and download as separate calls.\
+    \  Checkout and Download are slow operations, so you don't gain much performance\
+    \ by combining them into one API call."
+- author: Barry
+  email: b.flanagan@procadgroup.com
+  ip: 213.79.44.242
+  url: ''
+  date: '2013-12-04 04:39:20'
+  body: 'Hi Doug,
+
+
+    I have a Vault Professional 2014 API question that I hope you can help me out
+    with?
+
+    I have a custom object created that allows me to create a identification number,
+    somewhat like when a new item is created. What I would like to achieve is using
+    the Vault API that will allow me to create this unique number that is associated
+    with other file properties that will match up with this unique number. I am looking
+    at the custom entity API would this API allow me to achieve this?
+
+    I have a DECO app that is currently used for to do this to create a new reference
+    number. I would like to replicate this using the Vault API.
+
+
+    I look forward to your reply.
+
+    Many thanks,
+
+    Barry
+
+    -----'

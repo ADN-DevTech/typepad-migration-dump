@@ -1,0 +1,35 @@
+comments:
+- author: J. Daniel Smith
+  email: typepad.com@jdanielsmith.org
+  ip: 132.188.64.150
+  url: http://jdanielsmith.spaces.live.com
+  date: '2009-09-30 11:16:02'
+  body: "Your C# can be simplified slightly with a lambda; you also can use \"using\"\
+    \ rather than an explicit close.  I also wonder whether the Metafile should be\
+    \ Dispose()d too:\n   private System.Drawing.Image RenderThumbnailToImage(Document.PropInst\
+    \ propInst, int width, int height)\n   {\n      // convert the property value\
+    \ to a byte array\n      var thumbnailRaw = (byte[])propInst.Val;\n\n      //\
+    \ load the data into a stream but skip the first 12 bytes\n      const int bytesToSkip\
+    \ = 12;\n      using (var stream = new MemoryStream(thumbnailRaw, bytesToSkip,\
+    \ thumbnailRaw.Length - bytesToSkip))\n      {\n         // create the Metafile\
+    \ object\n         using (var metafile = new System.Drawing.Imaging.Metafile(stream))\n\
+    \         {\n            // render the Metafile to an Image object and display\
+    \ in the picture box\n            return metafile.GetThumbnailImage(width, height,\
+    \ () => false, IntPtr.Zero);\n         }\n      }\n   }\n\nI’m enjoying the articles;\
+    \ the File Associations – Part 1 was very nice."
+- author: varinder Singh
+  email: varindersra@hotmail.com
+  ip: 209.91.138.170
+  url: ''
+  date: '2010-01-21 14:52:44'
+  body: Is there a way to create thumbnail for non-CAD files, like image files.
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.71.3
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2010-01-22 07:35:47'
+  body: 'Answered on the Vault newsgroup:
+
+    <a href="http://discussion.autodesk.com/forums/thread.jspa?threadID=759609&tstart=0">http://discussion.autodesk.com/forums/thread.jspa?threadID=759609&tstart=0</a>
+
+    -----'

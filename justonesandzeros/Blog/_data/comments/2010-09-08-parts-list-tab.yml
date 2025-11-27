@@ -1,0 +1,81 @@
+comments:
+- author: Jan N. Pedersen
+  email: jnp@cdlight.dk
+  ip: 87.104.234.146
+  url: http://www.cdlight.dk
+  date: '2010-10-14 08:02:30'
+  body: '<b>Requirements: Vault Workgroup/Collaboration?</b>
+
+    Are Items not available i Professional only?'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.71.13
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2010-10-14 09:06:07'
+  body: 'You are correct.  This is for Professional only.  I''ll fix the typo.
+
+    Thanks'
+- author: Klaus Loerincz
+  email: klaus.loerincz@autodesk.com
+  ip: 91.56.214.229
+  url: http://www.autodesk.com
+  date: '2011-02-27 04:00:22'
+  body: 'Hi Doug, is there a possibility to define which columns should be shown?
+
+    That would round up the information to the most needed requests I heard in the
+    field.
+
+    It should be not to hard to implement this in the source code (I''m not the .NET
+    specialist :-) )'
+- author: Jim McMullen
+  email: james.mcmullen@autodesk.com
+  ip: 132.188.71.9
+  url: ''
+  date: '2011-02-28 09:34:44'
+  body: "Hello Klaus,  \n\nYou should be able to modify the columns to what you want.\
+    \  This would have to be done within the code.  Inside the \"void_SetSelectObject\"\
+    \ area is where I defined what goes into the column in this particular case.\n\
+    \n-Jim"
+- author: Massimo
+  email: ambrosimassimo@hotmail.com
+  ip: 88.51.20.233
+  url: ''
+  date: '2013-01-21 04:32:26'
+  body: 'Dear Sir, it''s possible to see in the table the items B, C, D, with ther
+    quantity. I can do that with recursive sql query but I have serious problem to
+    do that with vb.net and autodesk vault library.
+
+    could you help me? Thanks Massimo'
+- author: Doug Redmond
+  email: ''
+  ip: 8.19.13.27
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2013-01-22 08:07:02'
+  body: I think ItemService.GetItemBOMByItemIdAndDate is the function you want.  With
+    this function you can get the entire BOM structure, which you can then use to
+    calculate the quantity.
+- author: Massimo
+  email: ambrosimassimo@hotmail.com
+  ip: 88.51.20.233
+  url: ''
+  date: '2013-01-24 09:02:42'
+  body: 'Thanks for your answer,
+
+    but with GetItemBOMByItemIdAndDate I get an array, after I have to implode the
+    bom, the only way I know is to use a recursive sql query. So I have to create
+    a stored procedure into sql and then call it in vb.net, but this is no easy way
+    and autodesk don''t want the user modify directly the db. Any idea? Thanks Massimo'
+- author: Doug Redmond
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2013-01-25 07:43:26'
+  body: GetItemBOMByItemIdAndDate gives you back arrays of Items and arrays of Item
+    Associations.  From those two things you can construct the BOM tree.  You can
+    then recurse through the BOM tree to calculate the data you need.
+- author: Massimo
+  email: ambrosimassimo@hotmail.com
+  ip: 88.213.145.148
+  url: ''
+  date: '2013-01-27 15:58:36'
+  body: 'This is my query:'

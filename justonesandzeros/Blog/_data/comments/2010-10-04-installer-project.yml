@@ -1,0 +1,155 @@
+comments:
+- author: Marcelo Magalhães Barbosa
+  email: marcm.barbosa@gmail.com
+  ip: 201.74.221.245
+  url: http://www.twitter.com/marcmbarbosa
+  date: '2010-10-04 12:51:32'
+  body: "Hi Doug, \n\nFirst I´d like to congratulate you about the blog. It´s good\
+    \ to have access to these features. \nI have some doubts about work with API to\
+    \ program Custom Revision Schemes. How could I contact you about my doubt? Just\
+    \ using the Blog´s comment or do you prefer to send me your e-mail? \n\nThank\
+    \ you a lot.\n\nBest Regards, \n\nMarcelo Magalhães Barbosa - MAPData Autodesk\
+    \ Reseller"
+- author: Till Klingenberg-Scholle
+  email: t.klingenberg-scholle@mann-datentechnik.de
+  ip: 217.110.222.106
+  url: ''
+  date: '2010-10-05 06:25:06'
+  body: 'Once again, you proof that your blog is a real treasure chest. RESPECT.
+
+
+
+    Best regards'
+- author: Doug Redmond
+  email: ''
+  ip: 68.60.34.77
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2010-10-05 14:42:53'
+  body: If you are a member of the Autodesk Developer Network, then that is the best
+    place to go.  They fully support the Vault API and can answer specific Vault API
+    issues.  They can also give guidance on your program, such as advising you on
+    the best approach or answering if what you have in mind is even possible with
+    the API.
+- author: Till Klingenberg-Scholle
+  email: t.klingenberg-scholle@mann-datentechnik.de
+  ip: 217.110.222.106
+  url: ''
+  date: '2010-10-08 08:01:48'
+  body: "Hi Doug, \nI don't know if you can help me out but it would be very nice\
+    \ if you could.  The thing, I want to automate some processes in inventor. But\
+    \ I just can't make it work, that the document gets checked in automatically into\
+    \  the vault. You know what I mean? an automated \"script\":open file -works fine,\
+    \ do some changes-works fine,check into vault-i just do not know how.\n\nIt would\
+    \ be very great if you had a clue.\n\nGreeting and a nice weekend\n\n\nTill Klingenberg-Scholle"
+- author: Doug Redmond
+  email: ''
+  ip: 68.60.34.77
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2010-10-11 10:28:36'
+  body: "Unfortunately, there is no easy way to automate the check-in of an Inventor\
+    \ file.  The file itself is easy to upload, but getting the file links and BOM\
+    \ data correct is very difficult.  We recommend only using Vault clients from\
+    \ Autodesk to upload Autodesk files. \n\nIf you are writing an Inventor plug-in,\
+    \ the best thing you can do is invoke the check-in command, which brings up the\
+    \ check-in dialog."
+- author: Till Klingenberg-Scholle
+  email: t.klingenberg-scholle@mann-datentechnik.de
+  ip: 217.110.222.106
+  url: ''
+  date: '2010-10-12 03:55:31'
+  body: "Hello Doug, thank you for your answer. \nI thought it would be difficult.\
+    \ But I think I've got a solution.\n1st step is to get all references from an\
+    \ iam-file.\n2nd step is to upload all the child-data\n3rd step is to read out\
+    \ all the file ids of the children (in vault)\n4th step is to finally upload the\
+    \ iam with all the ids as dependencies.\n\nOk, thats just some kind of a scribble\
+    \ but i think i can do it.\n\nFor further clues I would be very very grateful\n\
+    \nBest regards"
+- author: Doug Redmond
+  email: ''
+  ip: 68.60.34.77
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2010-10-13 08:55:25'
+  body: 'Your steps are correct for the file dependencies, but there is still the
+    issue of the BOM object.  If you don''t provide a BOM, then Item data in Vault
+    Professional will not be correct.
+
+
+    If you are not using Vault Professional and are sure that you will never use it
+    in the future, only then you can pass in a null BOM.
+
+
+    There is also the issue of DWF.  The Vault plug-in creates DWF files when a file
+    is checked in.  It can also be configured to queue up a DWF job or do nothing.
+
+
+    In any event, you will have to do plenty of testing to make sure that files you
+    upload still work properly with the rest of the Vault applications.'
+- author: Till Klingenberg-Scholle
+  email: t.klingenberg-scholle@mann-datentechnik.de
+  ip: 217.110.222.106
+  url: ''
+  date: '2010-10-14 01:11:07'
+  body: 'Thank you very much. I am already struggling on the BOM-object.Well, this
+    won''t get easy. Is there any sample code that handles the BOM-object?!? I think
+    first of all I need to read out the BOM-structure from Inventor (Item and quantity)
+    and then go on and look how to use this knowledge with the BOM-Object...but first
+    I GO ON HOLIDAY!!!!
+
+    Have a good time Doug and thank you for your hints.'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.71.13
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2010-10-14 09:51:42'
+  body: 'Creating your own BOM for an Inventor file is a bad idea.  In order to work,
+    you need to make sure you come up with the same BOM that the Vault plug-in does,
+    and we haven''t released any information on how that BOM is constructed.  So what
+    you want to do is unsupported.
+
+
+    If you try to reverse engineer things, you will probably make a mistake or skip
+    over a use-case.  The result might be quite costly, such as the wrong number of
+    parts being manufactured.  It''s just too risky.
+
+
+    We do have it as a wish-list item for the Vault plug-in to be able to silently
+    check in a file, but I have no information on when this feature can get into a
+    release.'
+- author: Till Klingenberg-Scholle
+  email: t.klingenberg-scholle@mann-datentechnik.de
+  ip: 217.110.222.106
+  url: ''
+  date: '2010-11-02 08:40:50'
+  body: "Hi Doug, \nthank you for your reply.\nWell, I think I better focus on other\
+    \ things than to mess with things that are such risky. But I remain looking forward\
+    \ for the silent check-in plug-in.\n\nBest regards"
+- author: Jeff
+  email: jkepran@digmfg.com
+  ip: 72.38.239.190
+  url: ''
+  date: '2011-11-23 13:50:42'
+  body: 'Hi Doug,
+
+    I realize this hasn''t been commented on in a while, but hopefully you get a notice
+    about a comment.
+
+
+    How can your installer template be updated to work with Vault 2012?  In searching
+    my registry, I don''t see the same registry values used to set the conditions.
+
+    Thanks'
+- author: Doug Redmond
+  email: ''
+  ip: 72.52.96.9
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2011-11-23 14:41:15'
+  body: 'I should probably post my 2012 installer.  It''s simpler than the 2011 version.  In
+    2012, all extensions go to the same location (%programData%\Autodesk\Vault 2012\Extensions)
+    so I don''t need any of the registry stuff to detect the location of the client
+    install.
+
+
+    In installer terms, the [Application Folder] is what maps to ProgramData.  So
+    you can build an installer from scratch just by doing a basic file dump.
+
+    -----'

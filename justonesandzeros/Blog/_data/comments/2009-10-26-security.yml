@@ -1,0 +1,133 @@
+comments:
+- author: Sherwin
+  email: sherwin.luna@gmail.com
+  ip: 125.60.241.51
+  url: ''
+  date: '2009-11-17 10:55:45'
+  body: 'Hi,
+
+
+    I''m am new with autodesk vault 2007 and im interested in learning about updateACL
+    method and AccessPermis object some of the api method which can be use to create
+    roles. I would really appreaciate it if you could post an example of how to use
+    Admin service and security service. I would like to use the read, delete and add
+    capability of ACL
+
+
+    Thanks'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.71.6
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2009-11-17 15:05:49'
+  body: "Vault 2007?  I don't think we ever gave a release that name.  The release\
+    \ before Vault 2008 was called Vault 5.  Is that the release you are talking about?\n\
+    \nThe Effective Folder Permissions sample on this blog is a good example of how\
+    \ to read ACL data.  I don't have a write sample, but it's pretty much the opposite\
+    \ of read.  \nUpdateACL in the Security service is how you add, update or delete\
+    \ the ACL on a folder."
+- author: sherwin
+  email: sherwin.luna@gmail.com
+  ip: 222.127.199.166
+  url: ''
+  date: '2009-11-17 20:47:42'
+  body: 'yes its autodesk vault 2008. by the way thanks for the reply. i just discovered
+    how to use updateACL
+
+
+    heres the code i use.
+
+
+    secSvc.UpdateACL(subfolderids[0], aces.ToArray());'
+- author: sherwin
+  email: sherwin.luna@gmail.com
+  ip: 222.127.199.166
+  url: ''
+  date: '2009-11-18 00:44:18'
+  body: The only problem I encounter is that updateACL overwrite the current role
+    it does not insert the role I created as a new role. Do you have an idea of what
+    method i should use instead of updateACL
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.71.11
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2009-11-18 12:54:48'
+  body: 'So the problem is that you have existing entries in the ACL that disappear
+    when you call UpdateACL, correct?
+
+
+    This is the intended behavior.  If you want the existing entries to stay, you
+    need to pass them in as part of the UpdateACL call.'
+- author: sherwin
+  email: sherwin.luna@gmail.com
+  ip: 222.127.199.166
+  url: ''
+  date: '2009-11-19 23:16:04'
+  body: its ok already i did a workaround. its working perfectly now. thanks :)
+- author: Various Hans
+  email: ''
+  ip: 91.113.224.86
+  url: http://profile.typepad.com/varioushans
+  date: '2011-06-07 07:44:10'
+  body: "hi,\ni also tried to modify the security, but on a file.\nthe file inherits\
+    \ from the folder and i want to overwrite the files security.\nbut if i look in\
+    \ my file properties after i tried my function there is no change.\ni use addsystemacl\
+    \ and setsystemacl. \ni hope this is correct, but i cant find any example how\
+    \ to use the functions..."
+- author: Dmitry  Yemelyanov
+  email: ''
+  ip: 46.211.204.44
+  url: http://profile.typepad.com/6p017ee78a6105970d
+  date: '2014-06-19 08:11:54'
+  body: 'Hi Doug!
+
+
+    I got some questions to you about Permission-Based Security:
+
+
+    1. Where can I read more about permissions.
+
+    2. Where can I get entire list of all Vault permissions (Permis class) with Permis.Descr
+    and Permis.Id members and short names, that are used in SDK (AdminUserRead, VaultOptionsSet,
+    ChangeOrderRoutingCreate, etc.) to describe methods'' Required Permissions.
+
+    3. What''s the better way to call AdminUserRead-required methods (like GetGroupInfoByGroupId)
+    for non-admin users? Redirect this task to JobProcessor?
+
+
+    Regards, Dmitry!'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2014-06-20 07:32:19'
+  body: "1.  You might be able to find more on the online help for Vault:  <a href=\"\
+    http://help.autodesk.com/view/VAULT/2015/ENU/\">http://help.autodesk.com/view/VAULT/2015/ENU/</a>\n\
+    \n2. GetAllRoles and GetPermissionsByRoleId will let you construct the full list\
+    \ of permissions.  Both functions are in the AdminService.\n\n3. Job processor\
+    \ is one way for a non-admin to run an admin operation.  But there are a lot of\
+    \ limitations (time delay, hard to push data to a client).\nOther options include:\
+    \  \n- Client app impersonates an admin by creating a second login.\n- Create\
+    \ a new web service that exposes admin data."
+- author: Jamie Johnson
+  email: jamie.johnson@railengineer.com
+  ip: 71.244.12.162
+  url: ''
+  date: '2015-09-23 17:36:43'
+  body: what is better, to reuse an ACL (by ID) per each item object or copy the ACL
+    per each item object?
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.71.3
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2015-09-24 16:06:34'
+  body: 'The recommended approach is to use lifecycle states or Folders to manage
+    security.  Setting ACLs on each object can be difficult.
+
+
+    If you think you need to do security on an object-by-object basis then it depends
+    on what you want.  If you everything to have the same security and you want to
+    be able to update them all together, then sharing an ID is a good idea.  If not
+    then, you are forced to have a different ACL ID for each object.
+
+    -----'

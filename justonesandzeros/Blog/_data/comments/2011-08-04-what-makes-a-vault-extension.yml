@@ -1,0 +1,114 @@
+comments:
+- author: Luigi
+  email: trabacchin.luigi@gmail.com
+  ip: 217.111.152.66
+  url: ''
+  date: '2012-11-05 10:31:20'
+  body: 'hi!this is my first post in just one and zeros, i was wondering how to handle
+    a multiple plug in scenario
+
+    where those plugins shares a library who''s not in the GAC but it''s strong named.
+
+    Whould it be possible to do an assembly load somewhere ?'
+- author: Luigi
+  email: trabacchin.luigi@gmail.com
+  ip: 217.111.152.66
+  url: ''
+  date: '2012-11-05 12:23:59'
+  body: 'to add more details,
+
+    I''m talking about the 2013 API and to me looks like adding to the class that
+    implements the iExtension interface a constructor, that will be called.
+
+    BUT unfortunately seems like that vault checks for all the reference the plugIn
+    needs and if he can''t find all of them just does not load the plugin so no custom
+    load is allowed ... kinda of frustrating :('
+- author: Doug Redmond
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2012-11-05 16:18:28'
+  body: "First, there is a way to see the load errors.  <a href=\"http://justonesandzeros.typepad.com/blog/2012/07/extension-loading-error-logging.html\"\
+    >http://justonesandzeros.typepad.com/blog/2012/07/extension-loading-error-logging.html</a>\n\
+    \nNext, if your DLL references another DLL not in the GAC, you have a couple of\
+    \ options.  \nYou can copy the referenced DLLs to the same folder as your extension.\
+    \  But this only works if there are a few small DLLs.\nIf you are dealing with\
+    \ a large API framework, you will have to remove all direct references in your\
+    \ project, and use one of the Assembly.Load functions instead.  This makes your\
+    \ code much harder to work with, but it allows your DLL to load first before loading\
+    \ the references.\n\nI'm aware that DLL load paths are an issue, and the issues\
+    \ is being worked on."
+- author: Luigi
+  email: trabacchin.luigi@gmail.com
+  ip: 217.111.152.66
+  url: ''
+  date: '2012-11-06 05:12:26'
+  body: 'Actually i found a dirty solution, Since the nice ones where not working!
+
+    I''ve created a new plugin who bind the appdomain.AssemblyLoad event to a function
+    who scan what is being loaded and i managed to get it loaded first, when Vault
+    try to load my plugin i do an assembly load of my libs...
+
+    I think would be nice to understand if it is vault who''s checking for dependency
+    to prevent crashes during later use (i think this is probable) or it''s the clr,
+    so maybe in the next API the could give us an overridable function called LoadAssemblies
+    who get called before the check... maybe
+
+    Or a list of dll paths who vault can try to load and skip the plugin loading if
+    some fails'
+- author: Doug Redmond
+  email: ''
+  ip: 8.19.13.19
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2012-11-06 14:54:36'
+  body: 'It''s the CLR that is preventing the load.  The Vault framework attempts
+    to fix things by manually loading from known locations, but it could be more robust.
+
+
+    If you want to see what is being planned, sign up for the Beta and we can chat
+    more.  I put the invite link in today''s posting.'
+- author: Kamil Halas
+  email: hawas82@gmail.com
+  ip: 89.77.212.246
+  url: ''
+  date: '2014-06-01 02:56:35'
+  body: 'Hello,
+
+
+    As I understand Web Service Command Extension is loaded on any application which
+    is using Autodesk.Connectivity.WebServices.dll.
+
+
+    I have created such extension and it does load when Vault client is launched.
+
+
+    But my extension doesn''t load when Inventor with Vault addin is launched.
+
+
+    What can be wrong?
+
+    Is Vault addin for Inventor use Autodesk.Connectivity.WebServices.dll?
+
+
+    Regards,
+
+    Kamil'
+- author: Doug Redmond
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/6p0120a5728249970b
+  date: '2014-06-02 09:00:14'
+  body: 'My first guess is that is a version issue.  Events only work for a specific
+    version.  So if you build event handlers with the 2015 SDK, it will only work
+    with the 2015 clients.
+
+    See this article for more details:  <a href="http://justonesandzeros.typepad.com/blog/2012/09/events-and-multiple-client-versions.html">http://justonesandzeros.typepad.com/blog/2012/09/events-and-multiple-client-versions.html</a>
+
+
+    If that''s not the problem, have a look at this article on how to get more information.  <a
+    href="http://justonesandzeros.typepad.com/blog/2012/07/extension-loading-error-logging.html">http://justonesandzeros.typepad.com/blog/2012/07/extension-loading-error-logging.html</a>
+
+
+    And yes, Inventor uses Autodesk.Connectivity.WebServices.dll.
+
+    -----'
