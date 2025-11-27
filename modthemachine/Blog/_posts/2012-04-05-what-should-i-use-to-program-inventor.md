@@ -1,0 +1,14 @@
+---
+layout: "post"
+title: "What Should I Use to Program Inventor?"
+date: "2012-04-05 00:11:32"
+author: "Adam Nagy"
+categories:
+  - "Brian"
+  - "Getting Started Tutorial"
+original_url: "https://modthemachine.typepad.com/my_weblog/2012/04/what-should-i-use-to-program-inventor.html "
+typepad_basename: "what-should-i-use-to-program-inventor"
+typepad_status: "Publish"
+---
+
+<p>Before actually beginning to write any code I wanted to spend some time discussing what language to use when programming Inventor.&#160; I wrote a <a href="http://modthemachine.typepad.com/my_weblog/2008/09/inventor-api-fundamentals-002---choosing-a-language.html">post</a> on this a while ago that still applies but my opinion has changed a bit since then.&#160; In that post I recommended that you begin with Inventor’s VBA.&#160; VBA still does have a few advantages but I think the advantages some of&#160; the other languages have now outweighs the advantages VBA has.</p>  <p>If you’re a fairly new programmer, I recommend Visual Basic.&#160; The latest version is Visual Basic 2010.&#160; It comes as one of several languages in Visual Studio 2010.&#160; The Professional version of Visual Studio, which is the least expensive full version, is approx. $500 and it probably has everything you’ll ever need.&#160; You can also download <a href="http://www.microsoft.com/visualstudio/en-us/products/2010-editions/visual-basic-express">Visual Basic 2010 Express</a> from Microsoft, which is a trimmed down version and is <font style="background-color: #ffff00"><strong>free</strong></font>.&#160; This is the version that’s used for the book I recommended in my <a href="http://modthemachine.typepad.com/my_weblog/2012/03/getting-started-programming-inventor.html">previous post</a>.&#160; There are a couple of things missing from this version that you’ll wish you had when you begin some more advanced Inventor development but we’ll look at some workarounds later when we get to those topics.&#160; For now the free Express edition has more than enough capabilities to begin learning Inventor’s API and is a great way to get started.</p>  <p>If you’re an old C++ programmer then you’ll likely prefer C# over Visual Basic.&#160; I believe Visual Basic is easier to use for a new programmer but C# is very similar so it really is a personal preference rather than a question of which one is better.&#160; You can also use Visual C++, but it is much harder, especially for a new programmer, to use than either Visual Basic or C#.&#160; For this series of posts on getting started with the API, I’ll stick primarily with Visual Basic, but will also do some coverage of C# when there are differences.&#160; I’m not going to spend any time on C++ but plan to write a separate post covering using C++ with Inventor.</p>  <p>In the next post we’ll actually begin writing some code.</p>  <p>-Brian</p>

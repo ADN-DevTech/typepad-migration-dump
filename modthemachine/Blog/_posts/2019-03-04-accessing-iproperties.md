@@ -1,0 +1,101 @@
+---
+layout: "post"
+title: "Accessing iProperties"
+date: "2019-03-04 18:29:23"
+author: "Adam Nagy"
+categories:
+  - "Adam"
+  - "iProperties"
+original_url: "https://modthemachine.typepad.com/my_weblog/2019/03/accessing-iproperties.html "
+typepad_basename: "accessing-iproperties"
+typepad_status: "Publish"
+---
+
+<p>I was told that it could be useful to provide a list of all the <strong>property names</strong> used for <strong>iProperties </strong>- for reference, I assume.</p>
+<p>Actually, you can get this list with a simple <strong>VBA</strong> code 😀</p>
+<pre>Sub GetPropertySets()
+  Dim doc As Document
+  Set doc = ThisApplication.ActiveDocument
+  
+  Dim ps As PropertySet
+  For Each ps In doc.PropertySets
+    Debug.Print ps.Name + &quot; / &quot; + ps.InternalName
+    Dim p As Property
+    For Each p In ps
+      Debug.Print &quot;  &quot; + p.Name + &quot; /&quot; + Str(p.PropId)
+    Next
+  Next
+End Sub
+</pre>
+<p>Here is the result:</p>
+<pre>Inventor Summary Information / {F29F85E0-4FF9-1068-AB91-08002B27B3D9}
+  Title / 2
+  Subject / 3
+  Author / 4
+  Keywords / 5
+  Comments / 6
+  Last Saved By / 8
+  Revision Number / 9
+  Thumbnail / 17
+Inventor Document Summary Information / {D5CDD502-2E9C-101B-9397-08002B2CF9AE}
+  Category / 2
+  Manager / 14
+  Company / 15
+Design Tracking Properties / {32853F0F-3444-11D1-9E93-0060B03C1CA6}
+  Creation Time / 4
+  Part Number / 5
+  Project / 7
+  Cost Center / 9
+  Checked By / 10
+  Date Checked / 11
+  Engr Approved By / 12
+  Engr Date Approved / 13
+  User Status / 17
+  Material / 20
+  Part Property Revision Id / 21
+  Catalog Web Link / 23
+  Part Icon / 28
+  Description / 29
+  Vendor / 30
+  Document SubType / 31
+  Document SubType Name / 32
+  Proxy Refresh Date / 33
+  Mfg Approved By / 34
+  Mfg Date Approved / 35
+  Cost / 36
+  Standard / 37
+  Design Status / 40
+  Designer / 41
+  Engineer / 42
+  Authority / 43
+  Parameterized Template / 44
+  Template Row / 45
+  External Property Revision Id / 46
+  Standard Revision / 47
+  Manufacturer / 48
+  Standards Organization / 49
+  Language / 50
+  Defer Updates / 51
+  Size Designation / 52
+  Categories / 56
+  Stock Number / 55
+  Weld Material / 57
+  Mass / 58
+  SurfaceArea / 59
+  Volume / 60
+  Density / 61
+  Valid MassProps / 62
+  Flat Pattern Width / 63
+  Flat Pattern Length / 64
+  Flat Pattern Area / 65
+  Sheet Metal Rule / 66
+  Last Updated With / 67
+  Sheet Metal Width / 68
+  Sheet Metal Length / 69
+  Sheet Metal Area / 70
+  Material Identifier / 71
+  Appearance / 72
+  Flat Pattern Defer Update / 73
+Inventor User Defined Properties / {D5CDD505-2E9C-101B-9397-08002B2CF9AE}</pre>
+<p><a class="asset-img-link" href="https://modthemachine.typepad.com/.a/6a00e553fcbfc688340240a441a1ad200c-popup" onclick="window.open( this.href, &#39;_blank&#39;, &#39;width=640,height=480,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0&#39; ); return false" style="display: inline;"><img alt="IProperties" class="asset  asset-image at-xid-6a00e553fcbfc688340240a441a1ad200c img-responsive" src="/assets/image_789120.jpg" title="IProperties" /></a></p>
+<p>&#0160;</p>

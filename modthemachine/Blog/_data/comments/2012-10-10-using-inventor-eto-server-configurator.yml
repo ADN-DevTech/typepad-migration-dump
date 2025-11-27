@@ -1,0 +1,23 @@
+comments:
+- author: Amool
+  email: amoolyas@gmail.com
+  ip: 203.217.28.152
+  url: ''
+  date: '2012-10-11 02:17:05'
+  body: "Hello Wayne,\n \n \nI am writing another macro to turn on and off A particular\
+    \ sketch which is in sub-assembly in Main assembly, with name includes \"F\".\
+    \ So I used Instr.\n\nCode is running fine without errors, but sketches are not\
+    \ turning on.\nPlease have a look to the code and feel free to suggest any changes:\n\
+    \ \nSub ToggleSketchVisibilityOn()\n' Set a reference to the Sketches collection.\
+    \ This assumes\n' that a part document containing a sketch is active.\nDim oAsmDoc\
+    \ As AssemblyDocument\nSet oAsmDoc = ThisApplication.ActiveDocument\nDim oCompDef\
+    \ As ComponentDefinition\nSet oCompDef = oAsmDoc.ComponentDefinition\nDim oOcc\
+    \ As ComponentOccurrences\nDim oOccDoc As Document\nDim oSketchname As String\n\
+    oSketchname = \"F\"\nDim i As Integer\nFor i = 1 To oCompDef.occurrences.Count\n\
+    If oAsmDoc.ComponentDefinition.occurrences(i).Definition.Type = kPartComponentDefinitionObject\
+    \ Then\nExit Sub\nElse\nIf oAsmDoc.ComponentDefinition.occurrences(i).Definition.Type\
+    \ = kAssemblyComponentDefinitionObject Then\nSet oOccDoc = oAsmDoc.ComponentDefinition.occurrences(i).Definition.Document\n\
+    End If\nEnd If\nDim oSketches As PlanarSketches\nSet oSketches = ThisApplication.ActiveDocument.ComponentDefinition.Sketches\n\
+    Dim oSketch As PlanarSketch\n\nSet oSketches = oOccDoc.ComponentDefinition.Sketches\n\
+    \nFor Each oSketch In oSketches\nIf InStr(oSketch.name, oSketchname) Then\noSketch.Visible\
+    \ = True\nEnd If\nNext\nNext\nEnd Sub\n-----"

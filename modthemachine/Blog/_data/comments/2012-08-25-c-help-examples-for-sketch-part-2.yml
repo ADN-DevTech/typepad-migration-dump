@@ -1,0 +1,149 @@
+comments:
+- author: David
+  email: lifeson_d@yahoo.com
+  ip: 70.88.3.209
+  url: ''
+  date: '2012-08-31 13:18:49'
+  body: 'Wayne, will you be showing how to attach parmeter values in C# code?
+
+
+    Thanks, David'
+- author: Wayne Brill
+  email: wayne.brill@autodesk.com
+  ip: 72.52.96.29
+  url: ''
+  date: '2012-08-31 16:46:43'
+  body: "Hi David,\n\nI am just converting the VBA examples in the help file.  Here\
+    \ is one of the VBA examples translated to C# that creates parameters. I am not\
+    \ sure if this is what you are looking for though.\n\n        //    Creating a\
+    \ new parameter group API Sample \n        //Description \n        //This sample\
+    \ demonstrates the creation of model, \n        //reference and user parameters\
+    \ and \n        //copying these parameters to a newly created group.\n       \
+    \ public void CreateParametersAndGroup()\n        {\n            // Create a new\
+    \ Part document.\n            PartDocument oPartDoc = default(PartDocument);\n\
+    \            oPartDoc = (PartDocument)ThisApplication.Documents.Add\n        \
+    \        (DocumentTypeEnum.kPartDocumentObject, \n                ThisApplication.FileManager.GetTemplateFile\n\
+    \                (DocumentTypeEnum.kPartDocumentObject));\n\n            // Set\
+    \ a reference to the compdef.\n            PartComponentDefinition oCompDef =\
+    \ default\n                                        (PartComponentDefinition);\n\
+    \            oCompDef = oPartDoc.ComponentDefinition;\n\n            // Create\
+    \ a model parameter\n            ModelParameter oModelParam = default(ModelParameter);\n\
+    \            oModelParam = oCompDef.Parameters.\n                  ModelParameters.AddByValue\n\
+    \                       (2, UnitsTypeEnum.kCentimeterLengthUnits);\n\n       \
+    \     // Create a reference parameter\n            ReferenceParameter oReferenceParam\
+    \ = \n                                   default(ReferenceParameter);\n      \
+    \      oReferenceParam = oCompDef.Parameters.\n                ReferenceParameters.AddByValue\n\
+    \                (4, UnitsTypeEnum.kCentimeterLengthUnits);\n\n            //\
+    \ Create a user parameter\n            UserParameter oUserParam = default(UserParameter);\n\
+    \            oUserParam = oCompDef.Parameters.UserParameters.\n              \
+    \ AddByValue(\"length\", 6, UnitsTypeEnum.kCentimeterLengthUnits);\n\n       \
+    \     // Create a new custom parameter group\n            CustomParameterGroup\
+    \ oCustomParamGroup = \n                          default(CustomParameterGroup);\n\
+    \            oCustomParamGroup = oCompDef.Parameters.\n                CustomParameterGroups.Add(\"\
+    Custom Group\", \"CustomGroup1\");\n\n            // Add the created parameters\
+    \ to this group\n            // Note that adding the parameters to the custom\
+    \ group\n            // does not remove it from the original group.\n        \
+    \    oCustomParamGroup.Add((Parameter)oModelParam);\n            oCustomParamGroup.Add((Parameter)oReferenceParam);\n\
+    \            oCustomParamGroup.Add((Parameter)oUserParam);\n        }\n\nCheers,\n\
+    Wayne"
+- author: David
+  email: lifeson_d@yahoo.com
+  ip: 70.88.3.209
+  url: ''
+  date: '2012-09-04 21:52:08'
+  body: Thanks Wayne, going to give this a try.
+- author: David
+  email: lifeson_d@yahoo.com
+  ip: 70.88.3.209
+  url: ''
+  date: '2012-09-13 18:22:54'
+  body: Wayne, sorry to bug you again. Can you attach the default parameters assigned
+    by Inventor in C# code? They are named d1,d2,d3 and so on
+- author: Wayne Brill
+  email: wayne.brill@autodesk.com
+  ip: 72.52.96.29
+  url: ''
+  date: '2012-09-14 00:07:39'
+  body: 'Hi David,
+
+
+    Please explain more about what you need to do. I am not fully understanding "attach
+    the default parameters". Is the problem related to C# ? (or just a general Inventor
+    API issue)
+
+
+    Thanks,
+
+    Wayne'
+- author: David
+  email: lifeson_d@yahoo.com
+  ip: 70.88.3.209
+  url: ''
+  date: '2012-09-14 12:26:49'
+  body: 'Wayne, what I am working with is building a C# program that I can enter values
+    for an inventor model. When you sketch and build the model the parameters are
+    listed as d1,d2 and so on. You can name them as you want after that. I have used
+    your code to create a user parmeter but what I would like is to be able to modify
+    the values through input. For example: paramLength = value of length.txt (textbox).I
+    need my program to "see" the vales I input. I have been able to do this in VBA
+    but it is so antiquated and we are working with more advanced feature reconition
+    software here.Thanks again for your time and help.
+
+
+    David L.'
+- author: Wayne Brill
+  email: wayne.brill@autodesk.com
+  ip: 72.52.96.29
+  url: ''
+  date: '2012-09-18 22:05:26'
+  body: 'Hi David,
+
+
+    Could you post the VBA code that is working for you? In C# are you getting an
+    error when you try to assign a value to the model parameter? If so let me know
+    what it is and I will try to find a solution for it. The API should allow you
+    to change the value of a model parameter.
+
+
+    Thanks,
+
+    Wayne'
+- author: David
+  email: lifeson_d@yahoo.com
+  ip: 70.88.3.209
+  url: ''
+  date: '2012-09-19 12:39:07'
+  body: 'Wayne, this is an example of one of the parameters in the program:
+
+
+    Dim oParameters As Parameters
+
+    Set oParameters = ThisApplication.ActiveDocument.ComponentDefinition.Parameters
+
+    '''''' Declare parameters
+
+    Dim tlocParam As Parameter
+
+
+    '''''' Set parameters to values
+
+    Set tlocParam = oParameters.Item("tloc")
+
+
+    '''''''' Attach parameter values to text box values
+
+    tlocParam.Expression = txt_tloc.Text
+
+
+    '''' Update Data
+
+    ThisApplication.ActiveDocument.Update
+
+
+    “tloc” is the name I have given the parameter in the display grid in the inventor
+    application
+
+
+    Thanks again for your help, David
+
+    -----'

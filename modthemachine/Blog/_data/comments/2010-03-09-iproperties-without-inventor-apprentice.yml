@@ -1,0 +1,46 @@
+comments:
+- author: Peter Brown
+  email: pbrown@redler.com
+  ip: 89.206.162.123
+  url: ''
+  date: '2011-02-08 16:02:30'
+  body: Can Apprentice access documents in the Vault?
+- author: Bob Donovan
+  email: rdonovan@bigge.com
+  ip: 96.253.71.90
+  url: http://www.bigge.com
+  date: '2011-04-04 18:29:26'
+  body: 'I saw the comment about apprentice accessing documents in vault but did not
+    see an answer.
+
+
+    I have been developing an access solution for our bill of materials and it would
+    seem to be a better solution to access through vault rather than local copies
+    of the documents?
+
+
+    Thank you for any insite.
+
+
+    Bob D.'
+- author: Jon
+  email: guestj@its.jnj.com
+  ip: 148.177.193.210
+  url: ''
+  date: '2011-08-16 12:58:13'
+  body: "Great blog, and thanks for the lessons gleaned from it so far.\n\nI have\
+    \ been developing data extraction code in a database using Apprentice to read\
+    \ the iProperties of IDW's & Inventor DWG's, verify them against the database,\
+    \ and then push any necessary corrections back again. \n\nProblem is that when\
+    \ the IDW/DWG is opened in Inventor I then have to access the Property Sets and\
+    \ read and write each property before it will update on screen. This only seems\
+    \ to apply to iProperties that are referenced in the Revision Table. Other properties\
+    \ in the title block seem fine.\n\nThe values are saved fine using 'FlushToFile',\
+    \ and they appear in the 'Custom' tab in the iProperties dialog once the file\
+    \ is reopened in Inventor, but they won't update until I've either manually edited\
+    \ one of them in the iProperties dialog and clicked 'Apply', or I've done the\
+    \ read/write using this VBA approach:\n\n\nSet invDoc = ThisApplication.ActiveDocument\n\
+    Set invPropSets = invDoc.PropertySets\nSet invPropSet = invPropSets.Item(\"Inventor\
+    \ User Defined Properties\")\n\nSet invProp = invPropSet.Item(\"REV CHK BY\")\n\
+    strTemp = invProp.Value\ninvProp.Value = strTemp\n\n\nAny thoughts please? A blog\
+    \ post on the matter perhaps?\n-----"

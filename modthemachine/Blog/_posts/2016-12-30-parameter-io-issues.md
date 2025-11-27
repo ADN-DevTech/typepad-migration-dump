@@ -1,0 +1,25 @@
+---
+layout: "post"
+title: "Parameter I/O issues"
+date: "2016-12-30 10:36:58"
+author: "Adam Nagy"
+categories:
+  - "Adam"
+  - "Fusion 360"
+original_url: "https://modthemachine.typepad.com/my_weblog/2016/12/parameter-io-issues.html "
+typepad_basename: "parameter-io-issues"
+typepad_status: "Publish"
+---
+
+<p>Our team,&#0160;<a href="http://www.autodesk.com/developers">Autodesk Developer Network</a> / <a href="https://developer.autodesk.com/">Forge Partner Development</a>, created a few <strong>add-in</strong>&#39;s for the <a href="https://apps.autodesk.com/en">Autodesk App Store</a>, including the <a href="https://apps.autodesk.com/FUSION/en/Home/Index">Fusion 360 one</a> as well (they all have the support email:&#0160;<a href="mailto:fusion.apps@autodesk.com">fusion.apps@autodesk.com</a>)</p>
+<p>The main purpose of those <strong>add-in</strong>&#39;s were to show how powerful <a href="https://en.wikipedia.org/wiki/Application_programming_interface">API</a>&#39;s can be, how it can help you automate boring tasks, e.g. moving parameter values from <strong>Fusion 360</strong>&#0160;to another application and back. When you select these <strong>add-in</strong>&#39;s in the <strong>Scripts and&#0160;Add-Ins </strong>dialog&#0160;of <strong>Fusion 360</strong>, then you can click &quot;<strong>Edit</strong>&quot; and see the source code. You are free to use that source code, modify it, and even use it to create a commercial app out of it :)<br />If you think that some of the functionality shown by those <strong>add-in</strong>&#39;s should be part of <strong>Fusion 360</strong>, then you can ask for that on the <a href="https://forums.autodesk.com/t5/ideastation-request-a-feature-or/idb-p/125">Fusion 360 IdeaStation</a> :) &#0160;</p>
+<p>After that small intro, here are the two errors&#0160;that people contacted me about so far concerning the <a href="https://apps.autodesk.com/FUSION/en/Detail/Index?id=1801418194626000805&amp;appLang=en">Parameter I/O</a> add-in. I have not heard of other ones yet:</p>
+<p><strong>1) Cannot import CSV file after editing it in Excel </strong></p>
+<p>Maybe other apps could have this issue too, but I&#39;ve only heard of&#0160;<strong>Excel</strong>&#0160;in this context. <strong>Parameter I/O</strong> expects the <strong>CSV</strong> file&#39;s content in a given format. In each line of the file there should be values formatted like this: &lt;parameter name&gt;<strong>,</strong>&lt;unit&gt;<strong>,</strong>&lt;value&gt;<strong>,</strong>&lt;comment&gt;&#0160;<br />Please note that each value is separated by a <strong>comma</strong>, just like the meaning of <a href="https://en.wikipedia.org/wiki/Comma-separated_values">CSV</a> suggests: <strong>CSV</strong> = <strong>C</strong>omma <strong>S</strong>eparated <strong>V</strong>alues. Any of the values could also be wrapped in quotation marks as well: <strong>&quot;MyParam&quot;,in,&quot;12.00&quot;,&quot;Some comment&quot;<br /></strong><br />Depending on your computer&#39;s&#0160;<strong>Regional</strong> or <strong>Locale</strong> settings, <strong>Excel</strong> might use another character (e.g. semi-colon &#39;<strong>;</strong>&#39;) to separate the values. <strong>Parameter I/O</strong> does not like that :(<br />So please open up the problem&#0160;<strong>CSV</strong> file in a <strong>Text editor</strong>&#0160;and make sure that the formatting is correct before trying to import the values from it. You can also find articles on the net about changing the character&#0160;<strong>Excel</strong> is using for value separation.</p>
+<p><strong>2) Cannot move parameters from one model to another</strong></p>
+<p>In other words, the workflow in question is: export parameters of one model, then import it in another model.&#0160;<br />You might run into issues when in your model one parameter is referencing another one, e.g. <strong>MyParam1 = MyParam2 * 3</strong>&#0160;<br />When you export the parameter values from your model, they might be saved in the <strong>CSV</strong> file in a way that a parameter is being referenced <span style="text-decoration: underline;">before</span> it&#39;s declared:</p>
+<pre>MyParam1,in,<strong>MyParam2</strong>*3,Comments
+<strong>MyParam2</strong>,in,12,Comments</pre>
+<p>Unfortunately, if you leave the <strong>CSV</strong>&#0160;file like that and try to <strong>import</strong> it into a new model which does not have those parameters yet, then the program will throw an error during the import. That&#39;s because when creating <strong>MyParam1</strong>, the program is trying to set its value to something that does not make sense at that given moment:&#0160;<strong>MyParam2*3</strong>&#0160;<br />The problem with that is that&#0160;<strong>MyParam2</strong> does not exist in the new model <span style="text-decoration: underline;">just&#0160;yet</span>. &#0160;</p>
+<p>You would have to reorganize the content of the <strong>CSV</strong> file in a way that <strong>MyParam2</strong> is declared <span style="text-decoration: underline;">before</span>&#0160;<strong>MyParam1</strong>.&#0160;&#0160;</p>
+<p>-Adam</p>

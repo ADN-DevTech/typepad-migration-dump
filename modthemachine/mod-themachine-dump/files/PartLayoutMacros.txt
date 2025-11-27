@@ -1,0 +1,294 @@
+Type udtPartData
+    Filename As String
+    PartDef As PartComponentDefinition
+    Count As Integer
+End Type
+
+
+Public Sub LayoutParts()
+    ' Get the assembly to lay out.
+    Dim mainAssembly As AssemblyDocument
+    Set mainAssembly = ThisApplication.ActiveDocument
+    
+    ' Create a new assembly for the layout.
+    Dim layoutAssembly As AssemblyDocument
+    Set layoutAssembly = ThisApplication.Documents.Add(kAssemblyDocumentObject, ThisApplication.FileManager.GetTemplateFile(kAssemblyDocumentObject))
+    
+    Dim transGeom As TransientGeometry
+    Set transGeom = ThisApplication.TransientGeometry
+    
+    ' Initialize the current placement position.
+    Dim currentX As Double
+    Dim currentY As Double
+    currentX = 0
+    currentY = 0
+    
+    ' Generate a list of all of the unique parts.
+    Dim partData() As udtPartData
+    Call GetPartsList(mainAssembly.ComponentDefinition.Occurrences, partData)
+    
+    ' Iterate through the part list.
+    Dim biggestY As Double
+    biggestY = 0
+    Dim i As Integer
+    For i = 0 To UBound(partData)
+        ' Get the number of instances of the current part.
+        Dim partCount As Integer
+        partCount = partData(i).Count
+        
+        ' Get the part compdef of the current part.
+        Dim PartDef As PartComponentDefinition
+        Set PartDef = partData(i).PartDef
+        
+        ' Assuming that board is flat on the x-y plane of the part
+        ' this finds the "long" direction of the board in either
+        ' the x or y direction, and also gets the lower left corner
+        ' coordinate.
+        
+        ' Get the range box.
+        Dim bodyRange As Box
+        Set bodyRange = PartDef.SurfaceBodies.Item(1).RangeBox
+        
+        ' Get the length of the part in the x direction.
+        Dim xLength As Double
+        Dim maxX As Double
+        Dim minX As Double
+        maxX = bodyRange.MaxPoint.X
+        minX = bodyRange.MinPoint.X
+        xLength = maxX - minX
+        
+        ' Get the length of the part in the y direction.
+        Dim yLength As Double
+        Dim maxY As Double
+        Dim minY As Double
+        maxY = bodyRange.MaxPoint.Y
+        minY = bodyRange.MinPoint.Y
+        yLength = maxY - minY
+        
+        ' Create a matrix that accounts for the rotation and offset to move
+        ' the origin to the lower-left corner.
+        Dim placeMatrix As Matrix
+        Set placeMatrix = transGeom.CreateMatrix
+        If xLength > yLength Then
+            ' The long direction is in the x direction so don't rotate.
+            
+            ' Account for the offset.
+            placeMatrix.Cell(1, 4) = -bodyRange.MinPoint.X
+            placeMatrix.Cell(2, 4) = -bodyRange.MinPoint.Y
+            placeMatrix.Cell(3, 4) = -bodyRange.MinPoint.Z
+        Else
+            Dim tempLength As Double
+            tempLength = xLength
+            xLength = yLength
+            yLength = tempLength
+            
+            ' Rotate the part 90 deg.
+            Dim dPi As Double
+            dPi = Atn(1) * 4
+            Call placeMatrix.SetToRotation(dPi / 2, transGeom.CreateVector(0, 0, 1), transGeom.CreatePoint(0, 0, 0))
+            
+            ' Account for the offset.
+            placeMatrix.Cell(1, 4) = bodyRange.MaxPoint.Y
+            placeMatrix.Cell(2, 4) = -bodyRange.MinPoint.X
+            placeMatrix.Cell(3, 4) = -bodyRange.MinPoint.Z
+        End If
+        
+        Dim j As Integer
+        For j = 1 To partCount
+            ' Create new matrix to account of the position of the current part.
+            Dim transMatrix As Matrix
+            Set transMatrix = transGeom.CreateMatrix
+            Call transMatrix.TransformBy(placeMatrix)
+            
+            transMatrix.Cell(1, 4) = transMatrix.Cell(1, 4) + currentX
+            transMatrix.Cell(2, 4) = transMatrix.Cell(2, 4) + currentY
+            transMatrix.Cell(3, 4) = -bodyRange.MinPoint.Z
+
+            Dim occ As ComponentOccurrence
+            Set occ = layoutAssembly.ComponentDefinition.Occurrences.AddByComponentDefinition(PartDef, transMatrix)
+            occ.Grounded = False
+            
+            Dim asmDef As AssemblyComponentDefinition
+            Set asmDef = layoutAssembly.ComponentDefinition
+            Dim partXYWorkPlane As WorkPlaneProxy
+            Call occ.CreateGeometryProxy(PartDef.WorkPlanes.Item(3), partXYWorkPlane)
+            Call asmDef.Constraints.AddFlushConstraint(partXYWorkPlane, asmDef.WorkPlanes.Item(3), 0)
+            
+            If yLength > biggestY Then
+                biggestY = yLength
+            End If
+            
+            currentX = currentX + xLength + 2
+            If currentX > 2.54 * 96 Then
+                currentX = 0
+                currentY = currentY + biggestY + 2
+                biggestY = 0
+            End If
+        Next
+    Next
+End Sub
+
+Private Sub GetPartsList(Occs As ComponentOccurrences, ByRef partData() As udtPartData)
+    Dim occ As ComponentOccurrence
+    For Each occ In Occs
+        If occ.DefinitionDocumentType = kPartDocumentObject Then
+            If occ.Visible And occ.Enabled And Not occ.Suppressed Then
+                ' Check to see if this part is already in the list.
+                Dim size As Integer
+                On Error Resume Next
+                size = UBound(partData)
+                If Err Then
+                    size = -1
+                End If
+                
+                Dim partDoc As PartDocument
+                Set partDoc = occ.Definition.Document
+                Dim matchFound As Boolean
+                matchFound = False
+                Dim i As Integer
+                For i = 0 To size
+                    If partDoc.FullFileName = partData(i).Filename Then
+                        partData(i).Count = partData(i).Count + 1
+                        matchFound = True
+                        Exit For
+                    End If
+                Next
+                
+                If Not matchFound Then
+                    size = size + 1
+                    ReDim Preserve partData(size)
+                    partData(size).Count = 1
+                    partData(size).Filename = partDoc.FullFileName
+                    Set partData(size).PartDef = partDoc.ComponentDefinition
+                End If
+            End If
+        Else
+            Call GetPartsList(occ.SubOccurrences, partData)
+        End If
+    Next
+End Sub
+
+
+Public Sub FlipPart()
+    Dim asmDoc As AssemblyDocument
+    On Error Resume Next
+    Set asmDoc = ThisApplication.ActiveDocument
+    If Err Then
+        MsgBox "An occurrence must be selected."
+        Exit Sub
+    End If
+    
+    Dim occ As ComponentOccurrence
+    Set occ = asmDoc.SelectSet.Item(1)
+    If Err Then
+        MsgBox "An occurrence must be selected."
+        Exit Sub
+    End If
+    On Error GoTo 0
+    
+    Dim tg As TransientGeometry
+    Set tg = ThisApplication.TransientGeometry
+    Dim occCenter As Point
+    Set occCenter = tg.CreatePoint((occ.RangeBox.MinPoint.X + occ.RangeBox.MaxPoint.X) / 2, _
+                                   (occ.RangeBox.MinPoint.Y + occ.RangeBox.MaxPoint.Y) / 2, _
+                                    occ.Transformation.Cell(3, 4))
+    
+    ' Delete the existing mate or flush constraint and replace it with the opposite to flip the part.
+    Dim ent1 As Object
+    Dim ent2 As Object
+    If TypeOf occ.Constraints.Item(1) Is MateConstraint Then
+        Dim mate As MateConstraint
+        Set mate = occ.Constraints.Item(1)
+        
+        Set ent1 = mate.EntityOne
+        Set ent2 = mate.EntityTwo
+        
+        mate.Delete
+        
+        Dim bias As Point
+        Set bias = tg.CreatePoint(occCenter.X, occCenter.Y, occCenter.Z)
+        Dim trans As Matrix
+        Set trans = occ.Transformation
+        trans.Invert
+        Call bias.TransformBy(trans)
+        
+        Call asmDoc.ComponentDefinition.Constraints.AddFlushConstraint(ent1, ent2, 0, bias, occCenter)
+    Else
+        Dim flush As FlushConstraint
+        Set flush = occ.Constraints.Item(1)
+        
+        Set ent1 = flush.EntityOne
+        Set ent2 = flush.EntityTwo
+        
+        flush.Delete
+        
+        Set bias = tg.CreatePoint(occCenter.X, occCenter.Y, occCenter.Z)
+        Set trans = occ.Transformation
+        trans.Invert
+        Call bias.TransformBy(trans)
+        
+        Call asmDoc.ComponentDefinition.Constraints.AddMateConstraint(ent1, ent2, 0, , , bias, occCenter)
+    End If
+End Sub
+
+Public Sub Rotate90()
+    Call RotatePart(90)
+End Sub
+
+Public Sub Rotate180()
+    Call RotatePart(180)
+End Sub
+
+
+Private Sub RotatePart(Angle As Double)
+    Dim asmDoc As AssemblyDocument
+    On Error Resume Next
+    Set asmDoc = ThisApplication.ActiveDocument
+    If Err Then
+        MsgBox "An occurrence must be selected."
+        Exit Sub
+    End If
+    
+    Dim occ As ComponentOccurrence
+    Set occ = asmDoc.SelectSet.Item(1)
+    If Err Then
+        MsgBox "An occurrence must be selected."
+        Exit Sub
+    End If
+    On Error GoTo 0
+    
+    Dim Pi As Double
+    Pi = Atn(1) * 4
+    
+    Dim tg As TransientGeometry
+    Set tg = ThisApplication.TransientGeometry
+    
+    Dim occCenter As Point
+    Set occCenter = tg.CreatePoint((occ.RangeBox.MinPoint.X + occ.RangeBox.MaxPoint.X) / 2, _
+                                   (occ.RangeBox.MinPoint.Y + occ.RangeBox.MaxPoint.Y) / 2, _
+                                    occ.Transformation.Cell(3, 4))
+    
+    ' Create a matrix that defines the translation from the current position to the origin.
+    Dim toOriginTrans As Matrix
+    Set toOriginTrans = tg.CreateMatrix
+    Call toOriginTrans.SetTranslation(tg.CreateVector(-occCenter.X, -occCenter.Y, -occCenter.Z))
+    
+    ' Create a matrix that defines the rotation.
+    Dim rotMatrix As Matrix
+    Set rotMatrix = tg.CreateMatrix
+    Call rotMatrix.SetToRotation((Pi * Angle) / 180, tg.CreateVector(0, 0, 1), tg.CreatePoint(0, 0, 0))
+    
+    ' Create a matrix that defines the translation back to the original point.
+    Dim backToPointTrans As Matrix
+    Set backToPointTrans = tg.CreateMatrix
+    Call backToPointTrans.SetTranslation(tg.CreateVector(occCenter.X, occCenter.Y, occCenter.Z))
+    
+    ' Build up the full transform.
+    Dim transMatrix As Matrix
+    Set transMatrix = occ.Transformation
+    Call transMatrix.TransformBy(toOriginTrans)
+    Call transMatrix.TransformBy(rotMatrix)
+    Call transMatrix.TransformBy(backToPointTrans)
+    
+    occ.Transformation = transMatrix
+End Sub

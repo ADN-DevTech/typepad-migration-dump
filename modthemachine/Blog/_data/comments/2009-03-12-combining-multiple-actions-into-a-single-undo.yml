@@ -1,0 +1,31 @@
+comments:
+- author: Daniele
+  email: d.piazza@qsinformatica.it
+  ip: 87.9.27.7
+  url: ''
+  date: '2009-03-17 13:25:14'
+  body: Interesting article. Using transaction you also have to consider the huge
+    amount of memory Inventor consumes. Using single steps (no transaction) Inventor
+    releases the memory at every step. With transaction the memory will be released
+    just at the end. This might lead to potential crashes.
+- author: Brian Ekins
+  email: ''
+  ip: 198.102.112.18
+  url: http://profile.typepad.com/1218580234s15464
+  date: '2009-04-13 22:24:42'
+  body: 'This will cause a bit more memory to be consumed but no more than you would
+    expect if you adjusted the number of undo steps available.  To illustrate let''s
+    assume that the undo stack will allow up to 10 undo operations.  When working
+    interactively that means the memory consumed will be up to 10 individual actions.  By
+    using the API it is still 10 actions but those actions can wrap multiple sub-actions.  For
+    example, you might write a macro that uses transactions and creates 100 lines.  Internally
+    there were 100 transactions but they''re grouped into a single transaction for
+    undo.  Those 100 transactions will used whatever memory is needed to support undo.  When
+    they drop off the undo stack that memory will be recovered.
+
+
+    I think it''s a small price to pay to be able to undo the placement of the 100
+    lines whereas without the transaction ability the user would have only been able
+    to undo 10 of the 100, in this example.
+
+    -----'

@@ -1,0 +1,61 @@
+comments:
+- author: marcos
+  email: madiva45@gmail.com
+  ip: 190.166.151.198
+  url: ''
+  date: '2010-05-06 23:01:45'
+  body: "Iam a old  mechanical engineer who need to learn more about VBA this is good\
+    \ start for me keep doing it \nThanks \nMarcos Diaz\nDominican Republic"
+- author: Romil
+  email: romiloptimist12@gmail.com
+  ip: 59.95.217.101
+  url: ''
+  date: '2010-09-26 09:45:51'
+  body: 'Thanks.
+
+    It''s really good..'
+- author: Eloisio Henrique
+  email: eloisio.silva@liebherr.com
+  ip: 193.27.220.254
+  url: http://www.liebherr.com
+  date: '2011-09-01 15:54:25'
+  body: "I have used the code bellow ( Autolisp code ) into AutoCad 2004 to make baloons.\n\
+    Now we migrated for Autodesk Inventor 2011 but we get the following error:\n\n\
+    ** Esse comando não pode ser chamado de modo transparente **\n; erro: Função cancelada\n\
+    \n\nDoes anybody know if the new version of the Autocad ( Inventor 2011 ) doesn´t\
+    \ work correctly with Autolisp routines? Or could somebody give qa help to solve\
+    \ this error?\n\n\nVariaveis: \nblndia  balao diameter, GLOBAL \nblnnum  balao\
+    \ number, GLOBAL \ncen     Center of balao \nep      Endpoint of arrow \noom \
+    \    Old osnap mode \nsp      Start point of arrow \ntemp    Temp. value for blndia\
+    \ and blnnum input \nts      Name of current text style \ntshei   Text style height\
+    \                              |; \n\n;10====PROGRAM SETUP \n\n(defun c:balao\
+    \ (/ cen ep oom sp temp ts tshei) \n(setq oom (getvar \"osmode\")) \n(graphscr)\
+    \ \n\n;20====GET SIZE, START POINT, CENTER, & NUMBER \n\n(if (null blndia) \n\
+    \  (if (= 0 (getvar \"dimscale\")) \n    (setq blndia (/ (getvar \"dimtxt\") 0.28))\
+    \ \n    (setq blndia (/ (* (getvar \"dimtxt\") (getvar \"dimscale\")) 0.28)) \n\
+    \  ) \n) \n(initget 6) \n(setq temp (getreal (strcat \"\\nDiametro do Balão :\
+    \ \"))) \n(if temp (setq blndia temp)) \n\n(setvar \"osmode\" 512) \n(initget\
+    \ 1) \n(setq sp (getpoint \"\\nIndique a cota: \")) \n(setvar \"osmode\" 0) \n\
+    \n(initget 1) \n(setq cen (getpoint sp \"\\nLocal do balao: \")) \n\n(if (null\
+    \ blnnum) (setq blnnum 0)) \n(setq blnnum (1+ blnnum)) \n(initget 6) \n(setq temp\
+    \ (getint (strcat \"\\nNúmero do Balão : \"))) \n(if temp (setq blnnum temp))\
+    \ \n\n;30====CALCULATE END POINT OF ARROW, GET TEXT STYLE HEIGHT, DRAW balao \n\
+    \n(setq ep (polar cen (angle cen sp) (/ blndia 2))) \n\n(setq ts (getvar \"textstyle\"\
+    )) \n(setq tshei (cdr (assoc 40 (tblsearch \"style\" ts)))) \n(if (> tshei 0)\
+    \ (princ \"\\nEstilo do texto tem altura fixa; pode não caber no balão.\")) \n\
+    \n(setvar \"cmdecho\" 0) \n\n  (command \".dim\" \"LEADER\" sp ep) (command)\n\
+    \  \n(command \".circle\" cen \"D\" blndia) \n\n(if (> tshei 0) \n  (command \"\
+    _.text\" \"M\" cen 0 blnnum) \n  (command \".text\" \"M\" cen (* 0.28 blndia)\
+    \ 0 blnnum) \n) \n\n;40====RESET \n\n(setvar \"cmdecho\" 1) \n(setvar \"osmode\"\
+    \ oom) \n(princ) \n)"
+- author: Lionel
+  email: lcoronelli@convexpert.com
+  ip: 69.159.239.55
+  url: ''
+  date: '2011-10-24 16:18:26'
+  body: "Hi, I'm new in development of macro for inventor but the code used in your\
+    \ screen seem to be very interesting for me (Flattern assembly) It's exactly what\
+    \ I wanna do to be more iefficient :) \nIs it possible to get it ? I'm also looking\
+    \ for a code to save all flat patterns of sheemetal parts in a assembly which\
+    \ contains standard parts and sheetmetal parts, any suggestion to modify the code\
+    \ ? MAny thanks for your help.\n-----"

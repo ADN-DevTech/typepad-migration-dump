@@ -1,0 +1,115 @@
+comments:
+- author: Samuel Low
+  email: harrybrown18@hotmail.com
+  ip: 188.72.228.12
+  url: http://www.mspy.com
+  date: '2012-04-10 13:18:16'
+  body: Hope I understand the issue as I'm not so familiar with a "well-known" .NET
+    class with an interface.
+- author: R. Krieg
+  email: r.krieg@metawell.com
+  ip: 87.149.204.119
+  url: ''
+  date: '2012-05-05 16:08:45'
+  body: 'Hello
+
+
+    Thanks for the tutorial. One question left for me. Is it possible to debug regfree
+    Addins in Visual Studio 2010 Pro and if so, is there anything diffenrent to "normal"
+    Addins?'
+- author: Wayne Brill
+  email: wayne.brill@autodesk.com
+  ip: 72.52.96.9
+  url: ''
+  date: '2012-05-07 19:33:53'
+  body: "Hello R., You should be able to debug regfree AddIns the same way as you\
+    \ debug any AddIn. Also going forward, \"normal\" is now \"Registry Free\". \n\
+    Cheers,\nWayne"
+- author: Fred
+  email: fagrondin@parker.com
+  ip: 69.174.58.156
+  url: ''
+  date: '2012-07-19 19:34:35'
+  body: 'Hi,
+
+    Thank you very much for the step by step tutorial.
+
+    So decided to convert my c# app to registry free and thought I got it but it stil
+    doesn''t load. It shows in the Add-Ins as unloaded even if I set it to load at
+    startup. I doesn''t matter if i open/create a part it still doesn''t load when
+    I do the Loaded/unloaded in the Add-In manager. Any ideas ? I added caption right
+    at the start of my program but don''t see anything. I''m running windows 7 32b.
+    Thank you for your help. Regards. Fred'
+- author: Wayne Brill
+  email: wayne.brill@autodesk.com
+  ip: 72.52.96.29
+  url: ''
+  date: '2012-07-19 19:49:22'
+  body: 'Hi Fred,
+
+    From your description it seems like Inventor is finding your AddIn and trying
+    to load it. If you debug and put a breakpoint on the Activate method does it get
+    hit?
+
+
+    Also using a tool like ProcessMonitor to see if the correct dll is being accessed
+    by Inventor could help: <a href="http://technet.microsoft.com/en-us/sysinternals/cb56073f-62a3-4ed8-9dd6-40c84cb9e2f5.aspx">http://technet.microsoft.com/en-us/sysinternals/cb56073f-62a3-4ed8-9dd6-40c84cb9e2f5.aspx</a>
+
+
+    When you built your dll did you have AnyCPU set? Also which version of .NET Framework
+    is it using? Inventor 2012 uses 3.5
+
+
+    Hope this helps,
+
+    Wayne'
+- author: Fred
+  email: fagrondin@parker.com
+  ip: 69.174.58.156
+  url: ''
+  date: '2012-07-19 20:56:38'
+  body: 'Hey Wayne,
+
+    Thanks for a prompt reply.
+
+
+    It is set to AnyCPU, Inventor 2012 and I''m using .NET 3.5. I tried to put messages
+    to in the activate method right at the start. Nothing happened. Will try the breaks
+    next.
+
+    I ran my Process explorer whci I use all the time...-:) and found that if I start
+    Inventor I have my DLL showing the path for process inventor.exe \Device\Mup\servername\...\name.dll
+    & HANDLE ?
+
+    May bebecause I use a map network drive ?
+
+    Thanks again. Fred'
+- author: Fred
+  email: fagrondin@parker.com
+  ip: 69.174.58.156
+  url: ''
+  date: '2012-07-19 21:07:15'
+  body: 'Wayne,
+
+    Just change the path to the dll to C:\MyAddIn\ just to make sure and same thing:
+
+
+    Inventor.exe 352 DLL C:\MyAddIns\...\name.dll
+
+    Inventor.exe 352 Handle C:\MyAddIns\...\name.dll
+
+
+    Thanks. Fred'
+- author: Fred
+  email: fagrondin@parker.com
+  ip: 69.174.58.156
+  url: ''
+  date: '2012-07-20 13:02:08'
+  body: 'Hey Wayne,
+
+    Got it. All docs tell you in Application -> Assembly Information to uncheck Make
+    assembly COM-Visble. But if I check it back it all works fine. Not sure why and
+    may be you ca nexplain but that will work for me. Thanks you so much for the website
+    and support. Best Regards. Fred
+
+    -----'

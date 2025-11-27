@@ -1,0 +1,36 @@
+comments:
+- author: Katie Miller
+  email: kmiller@coldspringusa.com
+  ip: 69.40.72.114
+  url: ''
+  date: '2015-09-10 20:22:21'
+  body: 'In regards to the Application.ScreenUpdating call.  If a program is performing
+    a loop of processes in a drawing, some including graphical changes.  Does this
+    affect activedocument.update function at all?
+
+
+    Particularly..The program I have with drawing document open, some iproperty information
+    is processed, an image on the document is added or modified, then a copy of the
+    modified document is saved creating a new file (save copy as functionality).  This
+    can loop for as many times as user needs it too. Constantly modifying the original
+    and then saving a new copy until the original is closed (aka - program finishes)  Would
+    turning off the ScreenUpdating property affect the overall file output if turned
+    off?'
+- author: Brian Ekins
+  email: ''
+  ip: 132.188.71.11
+  url: http://profile.typepad.com/1218580234s15464
+  date: '2015-09-10 20:34:55'
+  body: 'Hi Katie,
+
+
+    The only way to know for sure is to try it. :)
+
+
+    I would expect that the actual drawing data is unaffected by this.  There''s a
+    chance that the thumbnail that''s created for the document won''t be up to date.  You
+    can also turn the ScreenUpdating off while you do the majority of the processing
+    and then turn of back on before the save.  But to know for sure, it would take
+    some testing.
+
+    -----'

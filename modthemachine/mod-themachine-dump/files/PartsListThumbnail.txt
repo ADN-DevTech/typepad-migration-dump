@@ -1,0 +1,116 @@
+Public Sub CreatePartsListWithThumbnail()
+    ' Make sure a drawing document is active.
+    On Error Resume Next
+    Dim drawDoc As DrawingDocument
+    Set drawDoc = ThisApplication.ActiveDocument
+    If Err Then
+        MsgBox "A drawing must be active."
+        Exit Sub
+    End If
+    
+    ' Make sure a parts list is selected.
+    Dim partList As PartsList
+    Set partList = drawDoc.SelectSet.Item(1)
+    If Err Then
+        MsgBox "A parts list must be selected."
+        Exit Sub
+    End If
+    On Error GoTo 0
+    
+    Dim wordApp As Word.Application
+    On Error Resume Next
+    ' Try connecting to a running instance of Word.
+    Set wordApp = GetObject(, "Word.Application")
+    If Err Then
+        Err.Clear
+        
+        ' Start Word.
+        Set wordApp = CreateObject("Word.Application")
+        If Err Then
+            MsgBox "Unable to start Word."
+            Exit Sub
+        End If
+    End If
+    On Error GoTo 0
+    
+    On Error GoTo ErrorFound
+    wordApp.Visible = False
+    
+    ' Create a new Word document.
+    Dim wordDoc As Word.Document
+    Set wordDoc = wordApp.Application.Documents.Add
+    
+    ' Create a table with the same number of columns as the parts list.
+    Dim partListTable As Table
+    Set partListTable = wordDoc.Tables.Add(wordApp.Selection.Range, partList.PartsListRows.Count + 1, partList.PartsListColumns.Count + 1, wdWord9TableBehavior, wdAutoFitFixed)
+    
+    ' Copy the part list headings into the table.
+    Dim i As Integer
+    For i = 0 To partList.PartsListColumns.Count
+        Dim myrange As Range
+        Set myrange = partListTable.Cell(1, i + 1).Range
+        myrange.End = partListTable.Cell(1, i + 1).Range.End
+        myrange.Select
+
+        If i = 0 Then
+            Call wordApp.Selection.TypeText("Preview")
+        Else
+            Call wordApp.Selection.TypeText(partList.PartsListColumns.Item(i).Title)
+        End If
+    Next
+
+    ' Iterate through the rows of the parts list.
+    Dim rowIndex As Integer
+    rowIndex = 1
+    Dim partListRow As PartsListRow
+    For Each partListRow In partList.PartsListRows
+        ThisApplication.StatusBarText = "Processing part list row " & rowIndex & " of " & partList.PartsListRows.Count & "..."
+        rowIndex = rowIndex + 1
+        
+        If partListRow.Visible Then
+            ' Select the first cell of the current row in the table.
+            Set myrange = partListTable.Cell(rowIndex, 1).Range
+            myrange.End = partListTable.Cell(rowIndex, 1).Range.End
+            myrange.Select
+        
+            ' Get the thumbnail from the document associated with the current row.
+            Dim drawBomRow As DrawingBOMRow
+            Set drawBomRow = partListRow.ReferencedRows.Item(1)
+            Dim refDoc As Document
+            Set refDoc = drawBomRow.BOMRow.ComponentDefinitions.Item(1).Document
+            
+            On Error Resume Next
+            Dim thumbNail As IPictureDisp
+            Set thumbNail = refDoc.thumbNail
+            If Err.Number = 0 Then
+                ' Save the thumbnail to a file.
+                Call SavePicture(thumbNail, "C:\Temp\TempThumb.bmp")
+                
+                Dim shape As Word.InlineShape
+                Set shape = wordApp.Selection.InlineShapes.AddPicture("C:\Temp\TempThumb.bmp", False, True)
+                shape.LockAspectRatio = True
+                shape.Height = 100
+            Else
+                Call wordApp.Selection.TypeText("Preview not available")
+            End If
+            On Error GoTo ErrorFound
+    
+            ' Copy the rest of the part list info into the table for this row.
+            For i = 1 To partList.PartsListColumns.Count
+                Set myrange = partListTable.Cell(rowIndex, i + 1).Range
+                myrange.End = partListTable.Cell(rowIndex, i + 1).Range.End
+                myrange.Select
+        
+                Call wordApp.Selection.TypeText(partListRow.Item(i).Value)
+            Next
+        End If
+    Next
+    
+    ThisApplication.StatusBarText = "Finished"
+    wordApp.Visible = True
+    Exit Sub
+
+ErrorFound:
+    MsgBox "Unexpected error encountered."
+    wordApp.Visible = True
+End Sub

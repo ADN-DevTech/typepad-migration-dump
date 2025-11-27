@@ -1,0 +1,42 @@
+comments:
+- author: David Truyens
+  email: ''
+  ip: 84.196.109.79
+  url: http://profile.typepad.com/truyens
+  date: '2015-01-23 08:13:16'
+  body: 'Thanks Brian,
+
+
+    Your the master!! It''s working now :-)'
+- author: Katie Miller
+  email: kmiller@coldspringusa.com
+  ip: 24.56.144.131
+  url: ''
+  date: '2015-05-07 22:18:48'
+  body: I would like to know what the difference is between linking to the interop
+    under Program files or the interop under C:\Windows\Microsoft.NET\..\... etc..
+    and should we use one over the other?
+- author: Brian Ekins
+  email: ''
+  ip: 132.188.64.149
+  url: http://profile.typepad.com/1218580234s15464
+  date: '2015-05-13 00:32:55'
+  body: The interops in the GAC (C:\Windows\Microsft.NET\Assembly\...) are intended
+    to be private and you should always reference the one in the "Inventor\Public
+    Assemblies" directory.  Previously, Visual Studio wouldn't allow you to directly
+    reference interops in the GAC but it doesn't block it anymore.  When you reference
+    a primary interop outside the GAC but it also exists in the GAC, .NET is able
+    to find the one in the GAC and use it.  So for example, let's say you create a
+    program using Inventor 2015 and reference the interop in its "Public Assemblies"
+    folder.  Then someone uses that program on a machine that only has Inventor 2016.  You're
+    program will still work because .NET finds the 2015 version in the GAC and uses
+    it.  Inventor installs several version of the primary interop into the GAC to
+    support programs written against older versions of Inventor.
+- author: Katie Miller
+  email: kmiller@coldspringusa.com
+  ip: 69.40.72.114
+  url: ''
+  date: '2015-05-13 13:37:18'
+  body: 'Awesome!  Thanks for the Guidance!  Always great chatting with you!
+
+    -----'

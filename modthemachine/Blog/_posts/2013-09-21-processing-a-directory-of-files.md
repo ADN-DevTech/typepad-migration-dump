@@ -1,0 +1,22 @@
+---
+layout: "post"
+title: "Processing a Directory of Files"
+date: "2013-09-21 01:40:05"
+author: "Adam Nagy"
+categories:
+  - "Brian"
+  - "Inventor"
+  - "VB.NET"
+original_url: "https://modthemachine.typepad.com/my_weblog/2013/09/processing-a-directory-of-files.html "
+typepad_basename: "processing-a-directory-of-files"
+typepad_status: "Publish"
+---
+
+<p>I was recently asked a question about the best way to create a PDF file for every drawing in a specified directory and it’s subdirectories.&#0160; My answer is to write a small Visual Basic application to do it.&#0160; Visual Basic Express (which is free) is fully capable of creating an application like this.&#0160;</p>
+<p>Below is the minimal code to get all of the files within a directory and perform some type of process on each one. The first line calls the .Net GetFiles function and passes in the directory name, a search pattern, and an argument indicating that all subdirectories should also be searched. This used to be a lot of work in VBA and is now a single line with .Net. Next it iterates over the list of filenames that were found and opens each one in Inventor, calls the SaveAsPDF function, and then closes the document.&#0160; The SaveAsPDF function is a function I wrote that’s not shown below but it calls the PDF translator and exports the drawing to PDF.&#0160; By simply replacing the SaveAsPDF call with a call to a different function you can change this program to do any type of processing you want.</p>
+<div style="font-size: 10pt; font-family: consolas; background: #eeeeee; color: black;"><strong><span style="color: #0000ff;">&#39; Get all of the drawing files in the directory and subdirectories. <br /></span></strong>Dim drawings() As String = System.IO.Directory.GetFiles( _ <br />&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160; txtPath.Text, _ <br />&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160; &quot;*.idw&quot;, _ <br />&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160; System.IO.SearchOption.AllDirectories) <br /> <br /><span style="color: #0000ff;"><strong>&#39; Iterate through the found drawings. <br /></strong></span>For Each drawing As String In drawings <br />&#0160;&#0160;&#0160; Dim drawDoc As Inventor.DrawingDocument <br />&#0160;&#0160;&#0160; drawDoc = invApp.Documents.Open(drawing) <br /> <br />&#0160;&#0160;&#0160; <strong><span style="color: #0000ff;">&#39; Save the PDF.</span></strong> <br />&#0160;&#0160;&#0160; SaveAsPDF(drawDoc, _ <br />&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160; System.IO.Path.ChangeExtension(drawing, &quot;pdf&quot;)) <br /> <br />&#0160;&#0160;&#0160; <span style="color: #0000ff;"><strong>&#39; Close the drawing.</strong></span> <br />&#0160;&#0160;&#0160; drawDoc.Close(True) <br />Next</div>
+<p>The above code doesn’t have any error handling or any user interface. Once you add that and a couple of bells and whistles the code grows a bit. I’ve created a full application in Visual Basic Express 2010 that has a user interface and the bells and whistles. The user interface is shown below.</p>
+<p><a href="http://modthemachine.typepad.com/.a/6a00e553fcbfc68834019aff83fab3970d-pi"><img alt="SaveAsPDF" border="0" height="349" src="/assets/image_397342.jpg" style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="SaveAsPDF" width="480" /></a></p>
+<p>You can see in the image above that some files failed to process.&#0160; This is because they were created in a later version of Inventor so the version of Inventor I’m using is unable to open them. The good news is that the program handles that case correctly and reports it.</p>
+<p>The program is written to work with Inventor 2013 and later. You can download the executable here: <a href="http://modthemachine.typepad.com/SaveAsPDF_Exe.zip">SaveAsPDF_Exe.zip (28.5K)</a></p>
+<p>And you can download the complete source code of the Visual Basic Express 2010 project here: <a href="http://modthemachine.typepad.com/SaveAsPDF_Source.zip">SaveAsPDF_Source.zip (13.9K)</a></p>

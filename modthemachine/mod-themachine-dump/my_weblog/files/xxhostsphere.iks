@@ -1,0 +1,38 @@
+﻿'! Intent Language(tm) 3.0
+
+'
+' Copyright 2013 Autodesk, Inc.  All rights reserved.
+'
+' This software is provided as part of Autodesk Inventor Engineer-to-Order. 
+' Use of this software is subject to the terms of the Autodesk
+' license agreement provided at the time of installation or download,
+' or which otherwise accompanies this software in either electronic
+' or hard copy form.
+' 
+
+Design %%hostSphere : BaseClientGraphics CGCurveMixin
+
+    < %%category("Render Controls") > _
+    Rule %%updateSelf As String 
+      Dim handle As String
+
+      handle = %%cg_drawSphere(%%paHandle, Center, UnitZ, Angle, Radius)
+      %%updateCurveGraphics( handle)
+      Return handle
+    End Rule
+
+	Rule %%componentSignatureXml As String 
+		Dim sigList As List = %%BaseCGSignatureOptions
+		sigList = sigList + _
+		{ _
+			{"Center", iv_LocalXYZ( Center)}, _
+			{"UnitZ", iv_LocalXYZ(UnitZ)}, _
+			{"Angle", Angle}, _
+			{"Radius", Radius} _
+		}
+
+		Return StringValueEx( sigList, :AsFormula)
+	End Rule
+
+End Design
+

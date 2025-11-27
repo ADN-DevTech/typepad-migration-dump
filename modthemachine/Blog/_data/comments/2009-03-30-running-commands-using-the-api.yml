@@ -1,0 +1,71 @@
+comments:
+- author: Vladimir Ananiev
+  email: vananiev@gmail.com
+  ip: 91.77.233.114
+  url: ''
+  date: '2009-04-05 13:14:52'
+  body: "Thank you, Brian, for this post.\n\nIn Inventor 2009 Execute2(True)  doesn’t\
+    \ work as described. \nSo I still have to use loop like\n\nDo While ThisApplication.CommandManager.\
+    \ _\n   ActiveCommand=\"AssemblyPlaceComponentCmd\" \n   DoEvents\nLoop\n\nIs\
+    \ Execute2 method specific to Inventor 2010 release?\n\nVladimir"
+- author: Raminder Singh
+  email: givemespamfor-whatever@yahoo.co.in
+  ip: 122.162.230.53
+  url: ''
+  date: '2009-04-09 13:19:45'
+  body: 'Hi Vladimir,
+
+
+    I''ve Inventor 2009 and its api also exposes Execute2 method. So it''s not specific
+    to 2010.'
+- author: xxxtomxxx
+  email: tom.bradley@narec.co.uk
+  ip: 213.131.97.201
+  url: http://www.narec.co.uk
+  date: '2009-04-30 15:56:24'
+  body: "Hello, I'm using the below code in an activated sketch, yet nothing seems\
+    \ to happen. Are there specific different commands when using SketchProjectCutEdgescmd?\n\
+    \n\nDim oDef As ControlDefinition\n    \nSet oDef = ThisApplication.CommandManager.ControlDefinitions.Item(\"\
+    SketchProjectCutEdgesCmd\")\n\noDef.Execute"
+- author: Brian Ekins
+  email: brian.ekins@autodesk.com
+  ip: 198.102.112.18
+  url: ''
+  date: '2009-05-01 19:53:47'
+  body: "Here's some code that I've copied from a program I had previously written\
+    \ that does exactly what you're trying to do.  I don't remember why I set the\
+    \ SilentOperation property.\n\n' Create a sketch on the work plane.\nDim invSketch\
+    \ As PlanarSketch\nSet invSketch = PartCompDef.Sketches.Add(invWorkPlane)\n  \
+    \      \n' Call the Project Cut Edges command.\ninvSketch.Edit\n        \nThisApplication.SilentOperation\
+    \ = True\n        ThisApplication.CommandManager.ControlDefinitions.Item(\"SketchProjectCutEdgesCmd\"\
+    ).Execute\nThisApplication.SilentOperation = False\n\ninvSketch.ExitEdit\nThisApplication.ActiveView.Update"
+- author: Cristiano
+  email: cristianoarquivo@gmail.com
+  ip: 189.30.16.90
+  url: ''
+  date: '2009-07-03 14:44:51'
+  body: 'Hi,
+
+    Use your example PlacePart with command RenameBrowserNodes and pre-setting Default
+    Option.
+
+
+    How I use the kCommandNameEvent and define in the option?
+
+    Call oCommandMgr.PostPrivateEvent(kCommandNameEvent, "Default")'
+- author: Alan
+  email: ahughes@efcocorp.com
+  ip: 64.22.226.2
+  url: ''
+  date: '2010-07-19 20:24:07'
+  body: "Brian,\n\nI have an odd situation.  I'm using the the CommandManager to execute\
+    \ an export of a face to get to a pline of the surface's edges in Autocad (which\
+    \ is used by a vendor to create an extrusion die).  Here's the applicable portion\
+    \ of the code (in c#):\n\n\npartDoc:  previously assigned to the active Part Document.\
+    \  \n\ndieProfile:  previously selected by the user via user interactions (type\
+    \ Inventor.Face).\n \n\n\npartDoc.SelectSet.Clear();\n            partDoc.SelectSet.Select(dieProfile);\n\
+    \ncontrolDef = commandManager.ControlDefinitions[\"GeomToDXFCommand\"];\n controlDef.Execute();\n\
+    \n\nThe code above runs correctly when my program runs as an external program\
+    \ that hooks into an existing instance of Inventor.  The problem is that whenever\
+    \ I convert my program to run as an add-in the exact same code above doesn't appear\
+    \ to execute (or at least the export never happens).  Any ideas?\n-----"

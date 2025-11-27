@@ -1,0 +1,74 @@
+comments:
+- author: Jayaram Raman
+  email: jayaramraman365@hotmail.com
+  ip: 82.4.253.228
+  url: ''
+  date: '2009-02-24 13:00:52'
+  body: 'The command prompt utility comes with the following message:
+
+
+    A filename must be specified in the command line.
+
+
+    On clicking OK The command utility promptly disappears.
+
+
+    Anything I''m doing wrong?
+
+
+    Thanks'
+- author: Brian Ekins
+  email: ''
+  ip: 198.102.112.18
+  url: http://profile.typepad.com/1218580234s15464
+  date: '2009-04-13 22:59:06'
+  body: 'You need to run the program from the Command window where you can specify
+    additional options.  In this case you need to specify the name of the Inventor
+    file to remove the VBA project from.
+
+
+    To open a Command window you can use the "Run..." command in the Start menu and
+    type in "cmd" as the command to run.  This will open the command window.  Change
+    directory to wherever you downloaded the utility to (C:\Temp\VBARemove in the
+    example below).
+
+
+    C:\Users\Ekins> cd C:\Temp\VBARemove
+
+
+    Run the utility specifying the filename.
+
+
+    C:\Temp\VBARemove> DeleteVBA.exe C:\Users\Ekins\Part1.ipt'
+- author: Wolfgang Seidel
+  email: Seidel@arges.de
+  ip: 80.153.20.53
+  url: ''
+  date: '2009-08-18 07:58:53'
+  body: 'After using DeleteVBA.exe all macros were deleted. We did this directly on
+    a copy of the file store. The only problem that remains is that we get strange
+    vault status in the Autodesk Vault:
+
+    E.g. some of the files have green staus flags that do not get white if you check
+    out this file.
+
+    Does DeleteVBA.exe also influence the status flags? Do you know what to do about
+    this problem?'
+- author: Rob Beckley
+  email: robert.beckley@sloanegroup.co.uk
+  ip: 212.44.61.100
+  url: ''
+  date: '2010-04-29 11:01:30'
+  body: "I need to delete some code from all our files, I tried your DeleteAutoMacros\
+    \ but it errors on 'oVBCodeModule As codeModule' saying User-defined type not\
+    \ defined\n\nWe only have one bit of code and it dose not work because of the\
+    \ ThisDocument. ref in 64bit windows. \n___________________________________\n\
+    Public Sub AutoSave()\n\n    Dim oCustomPropSet As PropertySet\n    Set oCustomPropSet\
+    \ = ThisDocument.PropertySets.Item(\"{D5CDD505-2E9C-101B-9397-08002B2CF9AE}\"\
+    )\n\n    ' Create or update the property containing the Total Mass.\n    Dim strTotalMass\
+    \ As String\n    strTotalMass = Format(ThisDocument.ComponentDefinition.MassProperties.Mass,\
+    \ \"###0.000\")\n       \n    On Error Resume Next\n    oCustomPropSet.Item(\"\
+    Total Mass\").Value = strTotalMass\n        If Err Then\n        Err.Clear\n \
+    \       Call oCustomPropSet.Add(strTotalMass, \"Total Mass\")\n    End If\n  \
+    \  On Error GoTo 0\n\nEnd Sub\n______________________\n\nNot sure where its going\
+    \ wrong? \n-----"
