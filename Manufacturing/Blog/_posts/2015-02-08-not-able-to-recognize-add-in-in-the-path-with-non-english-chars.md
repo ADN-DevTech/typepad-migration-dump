@@ -1,0 +1,12 @@
+---
+layout: "post"
+title: "Not able to recognize add-in in the path with non-English chars"
+date: "2015-02-08 23:03:25"
+author: "Xiaodong Liang"
+categories: []
+original_url: "https://adndevblog.typepad.com/manufacturing/2015/02/not-able-to-recognize-add-in-in-the-path-with-non-english-chars.html "
+typepad_basename: "not-able-to-recognize-add-in-in-the-path-with-non-english-chars"
+typepad_status: "Publish"
+---
+
+<p>By <a href="http://adndevblog.typepad.com/manufacturing/xiaodong-liang.html" target="_self">Xiaodong Liang</a></p>  <p>&#160;</p>  <p>I got one case last week, in which it is reported that Inventor cannot recognize one add-in if the binary (dll) is deployed to a path that contains non-English chars. e.g. the *.addin file is:</p>  <p><em><font size="1">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</font></em></p>  <p><em><font size="1">……       <br />&lt;DisplayName&gt;VBNetRibbonDemo&lt;/DisplayName&gt;        <br />&lt;Description&gt;VBNetRibbonDemo&lt;/Description&gt;        <br />&lt;Assembly&gt;C:\temp\新建文件夹\VBNetRibbonDemo.dll&lt;/Assembly&gt;</font></em></p>  <p>Where新建文件夹 is a Chinese string. As you can see, the file header has specified xml with utf-8, however it does not help.</p>  <p>I scratched my head, however did not get a clue what the problem is. And I beleieved both the customer and I have missed something, otherwise, many developers who are working with non-English add-in would have complained. </p>  <p>I had to ask help of engineer team. When one engineer opened my *.addin file at his side, the Chinese chars are messy. I suddenly realized what my problem is.</p>  <p>I opened the *.addin and added Chinese chars by notepad and simply saved the file, while it is ANSI format!. After switching to utf-8 and saving again, it can also work at my side now!</p>  <p>The customer is running the vbscript file to create the addin file. There may be something wrong in creating the *.addin file. thus the file does not tell the correct chars to Inventor. </p>    <p>I am writing down this issue for your reference.</p>  <p><i></i></p>  <p><a href="http://adndevblog.typepad.com/.a/6a0167607c2431970b01b7c7494ee3970b-pi"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="image" border="0" alt="image" src="/assets/image_bb34ef.jpg" width="312" height="316" /></a></p>

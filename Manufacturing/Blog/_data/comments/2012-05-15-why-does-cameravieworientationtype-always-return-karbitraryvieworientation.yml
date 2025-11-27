@@ -1,0 +1,47 @@
+comments:
+- author: MaxU77
+  email: umax.com@gmail.com
+  ip: 195.230.112.10
+  url: ''
+  date: '2012-05-28 00:32:35'
+  body: 'Hi Gary,
+
+
+    We need to set orientation of one model exactly as it in some other model.
+
+    But we that exact problem.
+
+    What would be your recommendation for such case?
+
+
+    Thanks in advance.'
+- author: MaxU77
+  email: umax.com@gmail.com
+  ip: 195.230.112.10
+  url: ''
+  date: '2012-05-31 04:33:12'
+  body: "In fact my question was asked a bit before our coder studied the question\
+    \ deep enough. \nFinally he have solved the problem somehow."
+- author: Wayne Brill
+  email: wayne.brill@autodesk.com
+  ip: 72.52.96.61
+  url: ''
+  date: '2013-11-18 10:34:00'
+  body: "Here is a VBA code example I used to test. It uses a calculation with the\
+    \ UpVector property of the Camera and the AngleTo method of the UnitVector. \n\
+    \ \nIt is able to determine if the view was created using one of the default Iso\
+    \ Views or not. There is probably a better mathematical way to do this but it\
+    \ does show a way to determine if a view is an Iso view. \n\n\nPublic Sub cameraTest()\n\
+    \n    Dim oDrawDoc As DrawingDocument\n    Set oDrawDoc = ThisApplication.ActiveDocument\n\
+    \    \n    Dim oCamera As Inventor.Camera\n    Dim oCamVec As UnitVector\n   \
+    \ \n    Dim myUnitVector As UnitVector\n    Set myUnitVector = ThisApplication.TransientGeometry.CreateUnitVector(0,\
+    \ 1, 0)\n    \n    Dim AngleDegree As Double\n  \n    Dim myString As String\n\
+    \    myString = \"\"\n    \n    Dim oDrwView As DrawingView\n   For Each oDrwView\
+    \ In oDrawDoc.ActiveSheet.DrawingViews\n   \n    Set oCamera = oDrwView.Camera\n\
+    \   \n    Set oCamVec = oCamera.UpVector\n\n    Set myUnitVector = ThisApplication.TransientGeometry.CreateUnitVector(0,\
+    \ 1, 0)\n   \n    Dim PI As Double\n    PI = 3.14159265358979\n \n    AngleDegree\
+    \ = oCamVec.AngleTo(myUnitVector) * 180 / PI\n    \n    If AngleDegree > 35 And\
+    \ AngleDegree < 36 Then\n        myString = myString & oDrwView.Name & \" is an\
+    \ Iso View\" & vbCr\n    Else\n        myString = myString & oDrwView.Name & \"\
+    \ is NOT an Iso View\" & vbCr\n    End If\n   Next\n   Call MsgBox(myString)\n\
+    End Sub\n-----"

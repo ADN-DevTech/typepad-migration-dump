@@ -1,0 +1,92 @@
+comments:
+- author: Maxim
+  email: shatalov04@gmail.com
+  ip: 185.75.182.178
+  url: ''
+  date: '2015-11-19 04:03:49'
+  body: Hi Augusto, I don't understand how to create Active-X and link it with then
+    ApprenticeServer. Can you explain this moment step-by-step?
+- author: Augusto Goncalves
+  email: ''
+  ip: 177.43.194.106
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2015-11-19 04:14:00'
+  body: "Maxim,\n\nPlease check this training lesson for a more complete explanation:\
+    \ <a href=\"http://modthemachine.typepad.com/my_weblog/2013/02/inventor-api-training-lesson-1.html\"\
+    >http://modthemachine.typepad.com/my_weblog/2013/02/inventor-api-training-lesson-1.html</a>\n\
+    \nAnd below is a quick sample (in ActiveX/VBA)\n\nPublic Sub ApprenticeOpen()\n\
+    \ ' Declare a variable for Apprentice. Notice that this uses the \"New\"\n ' keyword\
+    \ which will cause a new instance of Apprentice to be created.\n Dim invApprentice\
+    \ As New ApprenticeServerComponent\n\n ' Open a document using Apprentice.\n Dim\
+    \ invDoc As ApprenticeServerDocument\n Set invDoc = invApprentice.Open(\"C:\\\
+    Temp\\Part1.ipt\") \n MsgBox \"Opened: \" & invDoc.DisplayName\n\n ' Close the\
+    \ document and release all references.\n Set invDoc = Nothing\n invApprentice.Close\n\
+    \ Set in"
+- author: Arnold
+  email: arnold@vanderveen.nu
+  ip: 31.149.227.233
+  url: ''
+  date: '2017-10-30 05:41:41'
+  body: 'I dont understand this blogpost.
+
+
+    You get a complete explanation of some generic sample code to update an assembly,
+    and then the difficult stuff, like how to make that executable and link to it
+    is as Maxim is asking is completely ignored like its common knowlegde.
+
+
+    Anyone who is googling about using apprenticeserver in Inventor API can understand
+    the sample code. We want to "Use ApprenticeServer API from an Inventor Addin",
+    so how do we do that? VB Example?'
+- author: Sajith Subramanian
+  email: sajith.subramanian@autodesk.com
+  ip: 117.223.154.201
+  url: ''
+  date: '2017-10-31 03:20:31'
+  body: 'Hi Arnold,
+
+
+    If you are looking to use Apprentice directly within an Inventor process, it is
+    not supported. Do take a look at the below link for more details / workarounds.
+
+
+    <a href="http://adndevblog.typepad.com/manufacturing/2016/03/using-apprentice-from-vba-ilogic-or-an-add-in.html">http://adndevblog.typepad.com/manufacturing/2016/03/using-apprentice-from-vba-ilogic-or-an-add-in.html</a>
+
+
+    Regards,
+
+    Sajith'
+- author: Arnold
+  email: arnold@vanderveen.nu
+  ip: 31.149.227.233
+  url: ''
+  date: '2017-11-01 06:07:28'
+  body: 'Hi Sajith,
+
+
+    I have made an addin that exports thumbnail after save document event.
+
+    Problem is that the thumbnail is being created in the background for few seconds
+    during this event.
+
+
+    So I need a separate thread that waits 5 seconds then run apprentice, export thumbnail,
+    and close, without making user wait that time.
+
+
+    Reading the title and first sentences of this blog suggest this is a solution
+    to my problem
+
+
+    "Use ApprenticeServer API from an Inventor Addin
+
+
+    We can create an ActiveX executable, which references the ApprenticeServer API,
+    and which also exposes a suitable API of its own. We can then call into our ActiveX
+    executable from an Inventor AddIn dll to request updates to any file references."
+
+
+    But there is no further explanation how to do that.
+
+
+    -----'

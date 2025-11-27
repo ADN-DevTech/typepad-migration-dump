@@ -1,0 +1,110 @@
+comments:
+- author: Kevin Jans
+  email: kevinjans@outlook.com
+  ip: 91.183.204.241
+  url: ''
+  date: '2014-11-13 09:05:32'
+  body: 'Hello Adam,
+
+
+    I find the macro very helpfull but encounter a problem when running the macro
+    in a main assembly which contains iParts and iAssemblies.
+
+
+    My goal is to suppress the parts that are "Excluded" in an iAssembly. Run from
+    the main assembly
+
+
+    So in the macro itself i have changed
+
+    If occ.Suppressed Then
+
+    occ.Delete
+
+
+    to
+
+
+    If occ.Excluded Then
+
+    occ.Suppress
+
+    This works fine when is run from the iAssembly itself.
+
+    But i need it to work form the main assembly file.
+
+
+    Run time error:
+
+    Method ''SubOccurrences'' of object ''ComponentOccurrenceProxy'' failed
+
+
+    Thank you'
+- author: Adam Nagy
+  email: ''
+  ip: 86.158.150.87
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2014-11-14 05:28:49'
+  body: 'Hi Kevin,
+
+
+    I''m not sure I understand how you get into that issue. Are you using the above
+    code inside some other code? It seems to me that Occurrences and SubOccurrences
+    do not include Excluded components in context of the main assembly.
+
+    Best thing would be if you asked this question on the Inventor Customisation forum
+    and provided non-confidential minimal sample documents, the exact code, the exact
+    steps to reproduce the problem.
+
+
+    Cheers,
+
+    Adam'
+- author: johan
+  email: johanfange@gmail.com
+  ip: 83.254.137.3
+  url: ''
+  date: '2014-11-28 12:23:07'
+  body: 'This is super slow for large assemblies.
+
+
+    Global transactions seem to help somewhat. My current theory is that this is due
+    to excessive amounts of undo information (or something) stored on disk.'
+- author: Adam Nagy
+  email: ''
+  ip: 82.8.8.57
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2014-11-28 13:45:44'
+  body: "Hi Johan,\n\nYou could also try setting Application.AssemblyOptions.DeferUpdate\
+    \ and Application.ScreenUpdating as mentioned in Brian's AU class: <a href=\"\
+    http://aucache.autodesk.com/au2012/sessionsFiles/3547/4363/handout_3547_CP3547-InventorAPIOddsAndEnds.pdf\"\
+    >http://aucache.autodesk.com/au2012/sessionsFiles/3547/4363/handout_3547_CP3547-InventorAPIOddsAndEnds.pdf</a>\
+    \ \n\nCheers,\nAdam"
+- author: Joris Steurs
+  email: ''
+  ip: 62.65.56.95
+  url: http://profile.typepad.com/jorissteurs
+  date: '2015-02-18 14:29:32'
+  body: Can I run this code also in an Ilogic rule. Pasted it in and gave it a try
+    but bad luck.
+- author: Adam Nagy
+  email: ''
+  ip: 82.8.8.57
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2015-02-18 15:42:43'
+  body: 'Hi Joris,
+
+    Here it is: <a href="http://adndevblog.typepad.com/manufacturing/2015/02/delete-suppressed-components-in-ilogic.html">http://adndevblog.typepad.com/manufacturing/2015/02/delete-suppressed-components-in-ilogic.html</a>
+
+    Cheers,
+
+    Adam'
+- author: Joris Steurs
+  email: ''
+  ip: 62.65.58.180
+  url: http://profile.typepad.com/jorissteurs
+  date: '2015-02-19 01:44:33'
+  body: "Hi Adam, \n\nThanks you so much :-) \n\nPutting the 2 samples next to each\
+    \ other is very educational for me.\nLearning a lot, I can see also that my attempts\
+    \ to modify the VBA to ilogic were almost correct upon the point I gave up :-).\n\
+    \n\n\n\n-----"

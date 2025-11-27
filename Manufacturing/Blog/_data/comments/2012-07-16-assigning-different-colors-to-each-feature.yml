@@ -1,0 +1,65 @@
+comments:
+- author: Jean-Marc
+  email: jmk@touchline-int.com
+  ip: 86.69.113.76
+  url: ''
+  date: '2012-08-16 09:22:52'
+  body: "Hello Valdimir,\n\nI am trying to highlight all feature of an assembly but\
+    \ it raises an exception when highlighting faces.\n\nAny idea?\n\nHere is the\
+    \ code\n\n' Get all of the leaf occurrences of the assembly.\nDim oLeafOccs As\
+    \ ComponentOccurrencesEnumerator\noLeafOccs = oAsmDef.Occurrences.AllLeafOccurrences()\n\
+    \nFor Each oOcc In oLeafOccs\n\n     If oOcc.DefinitionDocumentType = DocumentTypeEnum.kPartDocumentObject\
+    \ Then\n          Dim oPartDef As PartComponentDefinition\n          oPartDef\
+    \ = oOcc.Definition\n\n           For Each oFeature In oPartDef.Features\n   \
+    \            highlightFeature(oFeature)\n           Next\n\n      End If\n Next\n\
+    \n\nPrivate Sub highlightFeature(ByRef inFeature As PartFeature)\n\n\n       \
+    \ Dim oFeature As PartFeature\n        oFeature = inFeature\n\n        If Not\
+    \ _HLSetDetectionFeatureResult Is Nothing Then\n            _HLSetDetectionFeatureResult.Clear()\n\
+    \            _HLSetDetectionFeatureResult = Nothing\n        End If\n\n      \
+    \  ' Create an higlight set\n        _HLSetDetectionFeatureResult = _invApp.ActiveDocument.CreateHighlightSet\n\
+    \n        ' Change the highlight color for the set to red.\n        Dim oRed As\
+    \ Color\n        oRed = _invApp.TransientObjects.CreateColor(180, 34, 34)\n\n\
+    \        ' Set the opacity\n        oRed.Opacity = 0.6\n\n        _HLSetDetectionFeatureResult.Color\
+    \ = oRed\n\n        ' Add all start faces to the highlightset. Skip holes because\n\
+    \        ' they don't support the StartFaces property.\n        If oFeature.Type\
+    \ = ObjectTypeEnum.kHoleFeatureObject Then\n            Dim oFace As Face\n  \
+    \          For Each oFace In oFeature.StartFaces\n                _HLSetDetectionFeatureResult.AddItem(oFace)\n\
+    \            Next\n        End If\n\n        ' Add all end faces to the highlightset.\n\
+    \        For Each oFace In oFeature.EndFaces\n            _HLSetDetectionFeatureResult.AddItem(oFace)\n\
+    \        Next\n\n        ' Add all end faces to the highlightset.\n        For\
+    \ Each oFace In oFeature.SideFaces\n            _HLSetDetectionFeatureResult.AddItem(oFace)\n\
+    \        Next\n\n    End Sub"
+- author: Vladimir Ananyev
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/ananiev
+  date: '2012-08-17 06:04:27'
+  body: "Hi Jean-Marc,\n\nWorking with part features in an assembly context you should\
+    \ use not PartFeature objects but their corresponding proxy objects.\n\nSee VB.NET\
+    \ example below.\n\n\nPrivate Sub Test_HighLightProxyFaces()\n\n  ' Module-level\
+    \ declarations:\n  'Private _oApp As Inventor.Application\n  'Private _oHLSet\
+    \ As HighlightSet\n\n  Dim oAssyDoc As AssemblyDocument _\n    = TryCast(_oApp.ActiveDocument,\
+    \ AssemblyDocument)\n  Dim oAssyDef As AssemblyComponentDefinition _\n    = oAssyDoc.ComponentDefinition\n\
+    \n  ' Create a new highlight set for face(s).\n  If _oHLSet Is Nothing Then\n\
+    \    _oHLSet = oAssyDoc.CreateHighlightSet\n  Else\n    _oHLSet.Clear()\n  End\
+    \ If\n  ' Change the highlight color for the set to red.\n  Dim oRed As Color\
+    \ = _oApp.TransientObjects _\n              .CreateColor(255, 0, 0)\n  oRed.Opacity\
+    \ = 0.3  ' Set the opacity\n  _oHLSet.Color = oRed\n\n\n  ' Get all of the leaf\
+    \ occurrences of the assembly.\n  Dim oLeafOccs As ComponentOccurrencesEnumerator\
+    \ _\n        = oAssyDef.Occurrences.AllLeafOccurrences()\n\n  For Each oOcc As\
+    \ ComponentOccurrence In oLeafOccs\n\n    If oOcc.DefinitionDocumentType = _\n\
+    \          DocumentTypeEnum.kPartDocumentObject Then\n\n      Dim oPartDef As\
+    \ PartComponentDefinition = cc.Definition\n\n      For Each oFeature As PartFeature\
+    \ In oPartDef.Features\n\n        'get proxy feature\n        Dim oProxyFeature\
+    \ As Object = Nothing\n        Call oOcc.CreateGeometryProxy(oFeature, oProxyFeature)\n\
+    \n        Dim oFaces As Faces = Nothing\n\n        Select Case oProxyFeature.Type\n\
+    \n          Case ObjectTypeEnum.kHoleFeatureProxyObject\n            Dim oFP As\
+    \ HoleFeatureProxy = oProxyFeature\n            oFaces = oFP.Faces\n\n       \
+    \   Case ObjectTypeEnum.kExtrudeFeatureProxyObject\n            Dim oFP As ExtrudeFeatureProxy\
+    \ = oProxyFeature\n            oFaces = oFP.Faces\n\n          Case ObjectTypeEnum.kRevolveFeatureProxyObject\n\
+    \            Dim oFP As RevolveFeatureProxy = oProxyFeature\n            oFaces\
+    \ = oFP.Faces\n\n            'and all other appropriate cases\n\n        End Select\n\
+    \n        If oFaces IsNot Nothing Then\n          For Each oFace As Face In oFaces\n\
+    \            Call _oHLSet.AddItem(oFace)\n          Next\n        End If\n\n \
+    \     Next  'oFeature\n\n    End If\n  Next\n\nEnd Sub  'Test_HighLightFaces\n\
+    \n-----"

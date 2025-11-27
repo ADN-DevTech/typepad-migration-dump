@@ -1,0 +1,23 @@
+---
+layout: "post"
+title: "Apprentice in side thread"
+date: "2014-09-10 10:44:56"
+author: "Adam Nagy"
+categories:
+  - "Adam Nagy"
+  - "Inventor"
+original_url: "https://adndevblog.typepad.com/manufacturing/2014/09/apprentice-in-side-thread.html "
+typepad_basename: "apprentice-in-side-thread"
+typepad_status: "Publish"
+---
+
+<p>By&#0160;<a href="http://adndevblog.typepad.com/manufacturing/adam-nagy.html" target="_self">Adam Nagy</a></p>
+<p>A developer was using <strong>Apprentice</strong> in his application in a side thread so that it does not block the UI. It was working fine apart from getting a &quot;<strong>Catastrophic failure (Exception from HRESULT: 0x8000FFFF (E_UNEXPECTED))</strong>&quot; error when trying to access the <strong>Thumbnail</strong> of the Inventor document:</p>
+<p><a class="asset-img-link" href="http://adndevblog.typepad.com/.a/6a0167607c2431970b01b7c6dd7d37970b-pi" style="display: inline;"><img alt="Thumbnailerror" border="0" class="asset  asset-image at-xid-6a0167607c2431970b01b7c6dd7d37970b image-full img-responsive" src="/assets/image_399a8d.jpg" title="Thumbnailerror" /></a></p>
+<p>I&#39;d like to point out that <strong>Apprentice</strong> does not support <strong>multi-threading</strong> or accessing it from different threads - at least it was not designed or tested for it. However, we can make the code work by turning the <strong>Thread</strong> into an <strong>STA</strong> thread:</p>
+<div style="border: #000080 0px solid; color: #000; font-family: &#39;Courier New&#39;, Courier, Monospace; font-size: 10pt;">
+<div style="background-color: #ffffff; max-height: 300px; overflow: auto; padding: 2px 5px; white-space: nowrap;"><span style="background: #ffffff; color: #0000ff;">private&#0160;</span><span style="background: #ffffff; color: #0000ff;">void</span><span style="background: #ffffff; color: #000000;"> buttonThread_Click(</span><span style="background: #ffffff; color: #0000ff;">object</span><span style="background: #ffffff; color: #000000;"> sender, </span><span style="background: #ffffff; color: #2b91af;">EventArgs</span><span style="background: #ffffff; color: #000000;"> e)</span><br /> <span style="background: #ffffff; color: #000000;">{</span><br /> <span style="background: #ffffff; color: #000000;">&#0160;&#0160;</span><span style="background: #ffffff; color: #2b91af;">Thread</span><span style="background: #ffffff; color: #000000;"> t = </span><span style="background: #ffffff; color: #0000ff;">new&#0160;</span><span style="background: #ffffff; color: #2b91af;">Thread</span><span style="background: #ffffff; color: #000000;">(</span><span style="background: #ffffff; color: #0000ff;">new&#0160;</span><span style="background: #ffffff; color: #2b91af;">ParameterizedThreadStart</span><span style="background: #ffffff; color: #000000;">(</span><br /> <span style="background: #ffffff; color: #000000;">&#0160;&#0160;&#0160;&#0160;</span><span style="background: #ffffff; color: #2b91af;">Program</span><span style="background: #ffffff; color: #000000;">.UseApprentice));</span><br /> <br /> <span style="background: #ffffff; color: #000000;">&#0160;&#0160;</span><span style="background: #ffffff; color: #008000;">// Make sure to set the apartment state BEFORE starting the thread</span><br /> <span style="background: #ffffff; color: #000000;">&#0160;&#0160;</span><span style="background: #ffffff; color: #008000;">// Some info about STA:</span><br /> <span style="background: #ffffff; color: #000000;">&#0160;&#0160;</span><span style="background: #ffffff; color: #008000;">// http://blogs.msdn.com/b/jfoscoding/archive/2005/04/07/406341.aspx</span><br /> <span style="background: #ffffff; color: #000000;">&#0160;&#0160;t.SetApartmentState(</span><span style="background: #ffffff; color: #2b91af;">ApartmentState</span><span style="background: #ffffff; color: #000000;">.STA);</span><br /> <span style="background: #ffffff; color: #000000;">&#0160;&#0160;t.Start(</span><span style="background: #ffffff; color: #0000ff;">this</span><span style="background: #ffffff; color: #000000;">); </span><br /> <span style="background: #ffffff; color: #000000;">}</span></div>
+</div>
+<p><a class="asset-img-link" href="http://adndevblog.typepad.com/.a/6a0167607c2431970b01a73e1365c9970d-pi" style="display: inline;"><img alt="Threadapprentice" border="0" class="asset  asset-image at-xid-6a0167607c2431970b01a73e1365c9970d img-responsive" src="/assets/image_2af4e8.jpg" title="Threadapprentice" /></a></p>
+<p>Source code:&#0160;<a href="https://github.com/adamenagy/MultithreadApprenticeForm" target="_self" title="">https://github.com/adamenagy/MultithreadApprenticeForm</a></p>
+<p>&#0160;</p>

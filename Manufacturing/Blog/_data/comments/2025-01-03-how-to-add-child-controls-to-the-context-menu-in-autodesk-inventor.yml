@@ -1,0 +1,36 @@
+comments:
+- author: Limin Ma
+  email: limin.l.ma@hotmail.com
+  ip: 50.75.57.90
+  url: ''
+  date: '2025-03-21 14:13:49'
+  body: Can this code be convert to VB.NET and work using VB.NET?
+- author: Chandra shekar Gopal
+  email: chandra.shekar.gopal@autodesk.com
+  ip: 152.58.194.9
+  url: ''
+  date: '2025-03-24 06:50:10'
+  body: "Hi Limin,\n\nBelow VB.net may be helpful for your question.\n\nImports Inventor\n\
+    Imports System.Runtime.InteropServices\n\nPublic Class ContextMenuAddin\n    '\
+    \ Declare the UserInputEvents object\n    Private WithEvents UIE As UserInputEvents\n\
+    \    Private ThisApplication As Inventor.Application\n\n    Public Sub Init(app\
+    \ As Inventor.Application)\n        ' Initialize the Inventor application object\n\
+    \        ThisApplication = app\n        \n        ' Initialize the UserInputEvents\n\
+    \        UIE = ThisApplication.CommandManager.UserInputEvents\n    End Sub\n\n\
+    \    ' Event handler for context menu\n    Private Sub UIE_OnContextMenu(ByVal\
+    \ SelectionDevice As SelectionDeviceEnum, ByVal AdditionalInfo As NameValueMap,\
+    \ ByVal CommandBar As CommandBar)\n        Dim oBar As CommandBar = Nothing\n\
+    \        \n        Try\n            ' Attempt to get the existing \"CustomBar\"\
+    \n            oBar = ThisApplication.UserInterfaceManager.CommandBars.Item(\"\
+    CustomBar\")\n            oBar.Delete() ' Delete the existing \"CustomBar\" if\
+    \ it exists\n            \n            ' Create a new CommandBar for the context\
+    \ menu\n            oBar = ThisApplication.UserInterfaceManager.CommandBars.Add(\"\
+    CustomBar\", \"CustomBar\", CommandBarTypeEnum.kPopUpCommandBar)\n           \
+    \ \n            ' Add buttons to the custom bar (child controls)\n           \
+    \ oBar.Controls.AddButton(ThisApplication.CommandManager.ControlDefinitions.Item(\"\
+    AppLocalUpdateCmd\"))\n            oBar.Controls.AddButton(ThisApplication.CommandManager.ControlDefinitions.Item(\"\
+    AppDeleteCmd\"))\n            oBar.Controls.AddButton(ThisApplication.CommandManager.ControlDefinitions.Item(\"\
+    AppCopyCmd\"))\n            \n            ' Add the custom bar as a popup to the\
+    \ context menu\n            CommandBar.Controls.AddPopup(oBar)\n\n        Catch\
+    \ ex As Exception\n            ' Handle any errors\n            MsgBox(\"Error\
+    \ occurred: \" & ex.Message)\n        End Try\n    End Sub\nEnd Class\n-----"

@@ -1,0 +1,24 @@
+comments:
+- author: DRoam
+  email: derek.r@live.com
+  ip: 12.179.36.154
+  url: ''
+  date: '2020-02-27 09:29:18'
+  body: "For anyone else doing this, a much simpler way to get the normal of a planar\
+    \ face is just to get it from the face's \"Plane\" geometry, like so (in VB.NET):\n\
+    \nIf TypeOf oFace.Geometry Is Plane Then\n\tDim oFacePlane As Plane = oFace.Geometry\n\
+    \tDim oUnitNormal As UnitVector = oFacePlane.Normal\nEnd If\n\nAnd that's it.\
+    \ No need to set up Params() or Normals() and call the face's Evaluator or CreateUnitVector\
+    \ method."
+- author: Jhoel
+  email: jhoel.forshav@hafla.se
+  ip: 94.254.112.243
+  url: ''
+  date: '2020-07-30 06:11:22'
+  body: '@DRoam,
+
+    I used to do it like that aswell. Sometimes the direction of the normal is inverted
+    to that of the actual face when using the geometry property though, so the way
+    presented here is the most reliable :)
+
+    -----'

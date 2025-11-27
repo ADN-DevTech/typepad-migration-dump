@@ -1,0 +1,66 @@
+comments:
+- author: Jef eerdekens
+  email: jefeerdekens@hotmail.com
+  ip: 84.195.245.64
+  url: ''
+  date: '2014-01-21 09:45:16'
+  body: 'Hi,
+
+
+    Thanks for this rule. It works great! But..
+
+
+    How should i go about this when the range is in the other direction?
+
+
+    my range is:
+
+    $B$26:$D$26
+
+
+    Thanks'
+- author: Andy
+  email: earlgreyspartan@gmail.com
+  ip: 96.243.202.35
+  url: ''
+  date: '2014-06-02 06:58:47'
+  body: 'This is working flawlessly when there is more than one entry in the defined
+    range. Suppose however that "MyRange" is only one cell? I understand I can define
+    a variable by looking at one cell, but I am using a "live" list that may change
+    in length from 1 entry to any length. When "MyRange" is only one cell, this error
+    occurs:
+
+
+    Public member ''GetLength'' on type ''String'' not found.
+
+
+    As soon as I add a second cell into "MyRange" this error does not occur. Any suggestions?'
+- author: sebastian.pohl@mk-group.de
+  email: sebastian.pohl@mk-group.de
+  ip: 213.168.82.24
+  url: http://www.mk-group.com
+  date: '2021-06-01 13:19:14'
+  body: "Hi Xiaodong Liang,\n\nI have worked with your code since Inventor 2018 and\
+    \ it worked very well the last years.\nUnfortunately since I updated to 2021 I\
+    \ get an error when I run the iLogic Rule\n\nSystem.NullReferenceException: Object\
+    \ reference not set to an instance of an object.\n   at iLogic.GoExcel.get_NamedRangeValue(String\
+    \ name)\n   at ThisRule.Main()\n   at Autodesk.iLogic.Exec.AppDomExec.ExecRuleInAssembly(Assembly\
+    \ assem)\n   at iLogic.RuleEvalContainer.ExecRuleEval(String execRule)\n\nIt looks\
+    \ like the rule is not finding the Named Range in Excel anymore.\n\nCan you help\
+    \ me with this? I'd really appreciate it!\n\nRegards\n\nSebastian"
+- author: Chandra Shekar Gopal
+  email: ''
+  ip: 157.45.140.156
+  url: https://profile.typepad.com/6p01bb09a072bf970d
+  date: '2021-06-10 02:26:37'
+  body: "Hi Sebastian,\n\nPlease try below iLogic code to fill range values into parameter(\"\
+    Myp\"). In below code, iterating through rangeArray is changed and it is working.\n\
+    \nGoExcel.Open(\"C:\\Temp\\Sample.xlsx\", \"Sheet1\") \n\n' this is an array X*Y\
+    \ dimension\n\nrangeArray = GoExcel.NamedRangeValue(\"Range1\")  \n\n'create a\
+    \ list to get the values of the columns\n\nDim oList As ArrayList\n\noList = New\
+    \ ArrayList \n\nDim oRowIndex As Integer\n\nDim oColIndex As Integer\n\nFor oRowIndex\
+    \ = rangeArray.GetLowerBound(0) To rangeArray.GetUpperBound(0)\n  ' add value\
+    \ of each row one by one\n  For oColIndex = rangeArray.GetLowerBound(1) To rangeArray.GetUpperBound(1)\n\
+    \    oList.Add(rangeArray(oRowIndex,oColIndex))\n  Next\nNext\n\n'set it to the\
+    \ list parameter\n\nMultiValue.List(\"MyP\") = oList\n\nGoExcel.Close\n\nThanks\
+    \ and regards,\nChandra shekar G\n-----"

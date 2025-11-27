@@ -1,0 +1,65 @@
+comments:
+- author: vv
+  email: tartachnoho@i.ua
+  ip: 80.93.124.83
+  url: ''
+  date: '2016-06-28 01:09:23'
+  body: 'Pls help.
+
+    I have some problem with this load and unload things.
+
+
+    My addin load and code on Activate() method works fine, but when i move to addins
+    manager my addin is unchecked (unloaded), i can load it again (and Activate works
+    again), but after this addin just unloaded again. Also Deactivate () method doesn''t
+    triggered in all this steps. I just want that my addin works in background and
+    triggered on srecified events, but this unload things is realy a problem for accomplish
+    this.'
+- author: Adam Nagy
+  email: ''
+  ip: 151.15.188.98
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2016-06-28 01:17:12'
+  body: "Hi,\nIn that case something in your Activate method is causing problems.\
+    \ You should debug through that code to find the issue. \nIf you are still having\
+    \ problems after that then you would need to narrow down your project to something\
+    \ that you could share with us so we could reproduce the problem on our side,\
+    \ then log it on the forum.\nCheers,\nAdam"
+- author: vv
+  email: tartachnoho@i.ua
+  ip: 80.93.124.83
+  url: ''
+  date: '2016-06-28 01:41:41'
+  body: "Hi, Adam.\nThanks for reply. \nOk i'm try something, i'm change my target\
+    \ .net frmwrk from 3.5 to 4.5.2. And in this case this  code gave me error.\n\n\
+    private Inventor.DocumentEventsClass drwEvent;\n\non Activate () method\n\ndrwEvent.OnNewView\
+    \ + = new IRxDocumentEvents_OnNewViewEventHandler (AddLabelToView);\n\nAfter i\
+    \ comment this code load addins worked fine, there wasnt unloaded issues.\n\n\
+    But i dont know how can i get event method in inventor object model to get event\
+    \ on drawings that triggered when created a new drawing view. I only find this\
+    \ DocumentEventsClass.OnNewView but its dont work.\n\nprogram language: C#\nInventor\
+    \ 2014\nIDE: Microsoft Visual Studio 2015"
+- author: Saloum
+  email: saloumdiawara13@gmail.com
+  ip: 176.146.42.253
+  url: ''
+  date: '2023-12-06 03:25:04'
+  body: 'Hi everybody,
+
+
+    Thanks for this blog guys, lots of very useful stuffs.
+
+
+    My AddIn also not get automatically load when the reference "Autodesk.Inventor.Interop"
+    is not copied to local...
+
+
+    Not sure is a "proper" way, but it works for me
+
+
+    Cheers
+
+    Saloum
+
+
+    -----'

@@ -1,0 +1,66 @@
+comments:
+- author: Mucip
+  email: mucip.ilbuga@gmail.com
+  ip: 188.59.202.223
+  url: ''
+  date: '2013-03-27 12:05:49'
+  body: 'Hi,
+
+    Very nice info... Thanks:)
+
+
+    Regards,
+
+    Mucip:)'
+- author: Mucip
+  email: mucip.ilbuga@gmail.com
+  ip: 188.59.202.223
+  url: ''
+  date: '2013-03-27 12:21:46'
+  body: "Hi,\nI also find a way in Autodesk forums and tryed to increased functioanality\
+    \ little bit more...\n\nThe code inserting chain couples and mating them each\
+    \ others... You can increase the chain quantity.\n\nCode is below:\nPublic Sub\
+    \ iMateResultCreationSample()\n'Mucip Alınan yer aşağıda...\n'http://forums.autodesk.com/t5/Autodesk-Inventor-Customization/vba-imate-code-for-assy/m-p/2112512/highlight/true#M22856\n\
+    'http://forums.autodesk.com/t5/Autodesk-Inventor-Customization/Adding-contraints-with-VBA/m-p/760385/highlight/true#M3939\n\
+    ' Get the component definition of the currently open assembly.\n' This will fail\
+    \ if an assembly document is not open.\nDim oAsmCompDef As AssemblyComponentDefinition\n\
+    Set oAsmCompDef = ThisApplication.ActiveDocument.ComponentDefinition\n' Create\
+    \ a new matrix object. It will be initialized to an identity matrix.\nDim oMatrix\
+    \ As Matrix\nSet oMatrix = ThisApplication.TransientGeometry.CreateMatrix\n' Place\
+    \ the first occurrence.\nDim oOcc1 As ComponentOccurrence\nSet oOcc1 = oAsmCompDef.Occurrences.Add(\"\
+    R:\\Resimler\\Chain_B.ipt\", oMatrix)\n' Place the second occurrence, but adjust\
+    \ the matrix slightly so they're\n' not right on top of each other.\noMatrix.Cell(1,\
+    \ 4) = 10\nDim oOcc2 As ComponentOccurrence\n\nDim oiMateDef1 As iMateDefinition\n\
+    'Set oiMateDef1 = oOcc1.iMateDefinitions.Item(1)\nDim oiMateDef2 As iMateDefinition\n\
+    Dim oiMateResult As iMateResult\n \nDim Sayac As Long\nFor Sayac = 2 To 10 ' You\
+    \ may increase the chain quantity with this number...\nIf ((Sayac Mod 2) = 0)\
+    \ Then\nSet oOcc2 = oAsmCompDef.Occurrences.Add(\"R:\\Resimler\\Chain_P.ipt\"\
+    , oMatrix)\nSet oiMateDef2 = oOcc2.iMateDefinitions.Item(1)\nSet oiMateDef1 =\
+    \ oOcc1.iMateDefinitions.Item(1)\nSet oiMateResult = oAsmCompDef.iMateResults.AddByTwoiMates(oiMateDef1,\
+    \ oiMateDef2)\nElse\nSet oOcc2 = oAsmCompDef.Occurrences.Add(\"R:\\Resimler\\\
+    Chain_B.ipt\", oMatrix)\nSet oiMateDef1 = oOcc1.iMateDefinitions.Item(2)\nSet\
+    \ oiMateDef2 = oOcc2.iMateDefinitions.Item(2)\nSet oiMateResult = oAsmCompDef.iMateResults.AddByTwoiMates(oiMateDef1,\
+    \ oiMateDef2)\n\nEnd If\n\n\n'Set oiMateResult = oAsmCompDef.iMateResults.AddByTwoiMates(oiMateDef1,\
+    \ oiMateDef2)\nSet oOcc1 = oOcc2\nNext\n\nEnd Sub"
+- author: Carthik
+  email: carthik@bbspl.net
+  ip: 121.243.35.166
+  url: ''
+  date: '2013-04-24 04:33:21'
+  body: 'Dear Sir,
+
+    can you please post model for Autodesk Inventor 2011 Users....
+
+    and also i found the code is not supported in Autodesk Inventor 2011. Request
+    you to kindly help in this regards,
+
+    Carthik'
+- author: Carthik
+  email: carthik@bbspl.net
+  ip: 121.243.35.166
+  url: ''
+  date: '2013-04-29 00:14:13'
+  body: 'hi, i solved the problem. Autodesk Inventor 2011 Does not support "LET and
+    SET" command. I removed those terms in your code and found your code working....
+
+    -----'

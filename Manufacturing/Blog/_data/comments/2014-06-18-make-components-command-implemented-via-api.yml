@@ -1,0 +1,175 @@
+comments:
+- author: Zdenko S.
+  email: zdenko.Santic@leggett.com
+  ip: 204.80.222.11
+  url: ''
+  date: '2014-06-18 07:04:21'
+  body: 'Adam,
+
+    great job, iproperties Description is Box2and it is perfect, but Part Number is
+    same as Description. I do not think we want that way. As you described and I do
+    same way in making components. Component Name should be Part Number in your eg.
+    should be MultiSolid.'
+- author: AlexFielder
+  email: ''
+  ip: 85.95.96.98
+  url: http://profile.typepad.com/alexfielder
+  date: '2016-05-24 08:08:59'
+  body: 'Hi Adam,
+
+
+    This is great stuff!
+
+
+    Would you happen to have an example showing how to this using nested sketch blocks?
+
+
+    I am having a hard time tracking one down. (Cross-post here: <a href="https://forums.autodesk.com/t5/inventor-customization/derived-assembly-using-sketch-blocks-as-the-base/td-p/6346363">https://forums.autodesk.com/t5/inventor-customization/derived-assembly-using-sketch-blocks-as-the-base/td-p/6346363</a>
+
+
+    Thanks,
+
+
+    Alex.'
+- author: S Wollner
+  email: s.wollner@cad-connect.de
+  ip: 91.137.62.80
+  url: ''
+  date: '2018-01-17 06:17:55'
+  body: 'Hello,
+
+    how can I get the sheet metal definition copied / referenced?'
+- author: Jens
+  email: jens.otterstedt71@gmail.com
+  ip: 31.215.251.19
+  url: ''
+  date: '2019-12-07 02:39:13'
+  body: 'Hi Adam - great as usual but solid pattern is not working. It will not consider
+    in derived - can you update the code to include this solids as well.
+
+
+    thanks
+
+    jens'
+- author: Chandra shekar G
+  email: chandra.shekar.g@autodesk.com
+  ip: 202.74.99.101
+  url: http://www.autodesk.com
+  date: '2019-12-10 04:18:57'
+  body: 'Hi Jens,
+
+
+    Can you please provide non confidential data to investigate?
+
+
+    Thanks and regards,
+
+    Chandra shekar G'
+- author: Jens
+  email: jens.otterstedt71@gmail.com
+  ip: 86.98.56.87
+  url: ''
+  date: '2020-02-03 04:50:13'
+  body: "Hi Chandra\n\nThanks for your reply and nothing to share from my end - only\
+    \ make a pattern and create new solids for each and run the code. You will see\
+    \ what happened. It will only take the one from where you pattern. \n\nThanks\n\
+    Jens"
+- author: Adam Nagy
+  email: ''
+  ip: 132.188.128.22
+  url: https://profile.typepad.com/1236098880s16462
+  date: '2020-02-05 12:53:55'
+  body: The problem was that I assumed that the default value for IncludeEntity was
+    always True - but it was not the case for elements of a pattern. Updated the code
+    and it works for me now.
+- author: Chandra shekar G
+  email: chandra.shekar.g@autodesk.com
+  ip: 202.135.180.20
+  url: http://www.autodesk.com
+  date: '2020-02-17 02:04:14'
+  body: "Hi Jens,\n\nHoping that below iLogic code may be helpful. In this, 3rd pattern\
+    \ feature is used as solid body.\n\n' Run this inside a Multi-Solid part\nSub\
+    \ Main()\n  ' Folder to place the new components:\n  ' assembly and subcomponents\n\
+    \  Dim f As String: f = \"C:\\temp\\test1\\\"\n  \n  ' Make sure the folder exists\n\
+    \  Dim fso As Object\n  fso = ThisApplication.FileManager.FileSystemObject\n \
+    \ If Not fso.FolderExists(f) Then Call fso.CreateFolder(f)\n  \n  Dim doc As PartDocument\n\
+    \  doc = ThisApplication.ActiveDocument\n'  doc = ThisDoc.Document\n  \n  ' Create\
+    \ the assembly\n  Dim asm As AssemblyDocument\n  asm = ThisApplication.Documents.Add(kAssemblyDocumentObject)\n\
+    \  \n  Dim sb As SurfaceBody\n  For Each sb In doc.ComponentDefinition.SurfaceBodies\n\
+    \  \t' Create part for each body\n    Dim prt As PartDocument\n\tIf Not sb.Name.Contains(\"\
+    @\") Then\n\tprt = ThisApplication.Documents.Add(kPartDocumentObject)\n    \n\
+    \    ' Set iProperties >> Project >> Description\n    ' It's inside \"Design Tracking\
+    \ Properties\"\n    Try\n\tiProperties.Value(\"Project\", \"Part Number\") = sb.Name\n\
+    \tCatch\n\tEnd Try\t\n \n    Dim dpcs As DerivedPartComponents\n    dpcs = prt.ComponentDefinition.ReferenceComponents.\
+    \ _\n      DerivedPartComponents\n    \n    Dim dpd As DerivedPartUniformScaleDef\n\
+    \    dpd = dpcs.CreateUniformScaleDef(doc.FullDocumentName)\n\n    ' Exclude the\
+    \ other solid bodies\n    Dim dpe As DerivedPartEntity\n\tDim oPCD As PartComponentDefinition\
+    \ = doc.ComponentDefinition\n    Dim oRectPatName As String = oPCD.Features.RectangularPatternFeatures(3).Name\n\
+    \    For Each dpe In dpd.Solids\n\t\tFor Each oSolid As SurfaceBody In oPCD.SurfaceBodies\n\
+    \t        For i As Integer = 1 To oSolid.AffectedByFeatures.Count\n\t\t      If\
+    \ oSolid.AffectedByFeatures(i).Name = oRectPatName Then\n\t\t\t\t If Not dpe.ReferencedEntity\
+    \ Is oSolid Then \n\t\t\t\t   dpe.IncludeEntity = True\n\t\t         If Not dpe.ReferencedEntity\
+    \ Is sb Then\n\t\t\t\t\t  dpe.IncludeEntity = False\n\t\t             \t\t\n\t\
+    \   End If\t          \n\t End If\n   End If\n\t     \n      Next\n   Next\nNext\n\
+    \t\n    Call dpcs.Add(dpd)\n    \n    ' Could have any name but we use the solid\
+    \ body's name\n    Call prt.SaveAs(f + sb.Name + \".ipt\", False)\n        \n\
+    \    ' Place an instance of it inside the assembly\n    Dim mx As Matrix\n\tmx\
+    \ = ThisApplication.TransientGeometry.CreateMatrix()\n\tIf Not sb.Name.Contains(\"\
+    @\") Then\n    Call asm.ComponentDefinition.Occurrences. _\n      AddByComponentDefinition(prt.ComponentDefinition,\
+    \ mx)\n     ' Don't need it anymore\n\tCall prt.Close\n   End If\nEnd If\n  Next\n\
+    \    \n  Call asm.SaveAs( _\n    f + Left(doc.DisplayName, Len(doc.DisplayName)\
+    \ - 4) + _\n    \".iam\", False)\n  Call asm.Activate \nEnd Sub\n\nThanks and\
+    \ regards,\nChandra shekar G"
+- author: PeterO
+  email: peter.olle@ipcompute.com
+  ip: 116.255.6.51
+  url: ''
+  date: '2021-05-17 17:04:37'
+  body: 'Hi Adam
+
+
+    I have adapted your code to run as a Forge plugin. The problem is that it it painfully
+    slow. My guess that the "For Each dpe In dpd.Solids" loop is inefficient. Do you
+    have any thoughts on optimising this code, or should I raise it in another forum?
+
+
+    Thanks'
+- author: PeterO
+  email: peter.olle@ipcompute.com
+  ip: 116.255.6.51
+  url: ''
+  date: '2021-05-17 17:06:20'
+  body: I should add, the part in question had 103 solids and took over 90 seconds
+    to process
+- author: Adam Nagy
+  email: ''
+  ip: 86.2.185.49
+  url: https://profile.typepad.com/1236098880s16462
+  date: '2021-06-02 03:04:46'
+  body: 'You could add time stamps at multiple lines in the code to see where it spends
+    most of its time. I assume it''s not a Forge specific issue (unless it''s faster
+    for you on the desktop)
+
+    You can check on the forum if anyone has a better idea: <a href="https://forums.autodesk.com/t5/inventor-customization/bd-p/120">https://forums.autodesk.com/t5/inventor-customization/bd-p/120</a>
+
+    And here is a blog post on improving performance: <a href="https://modthemachine.typepad.com/my_weblog/2015/09/improving-your-programs-performance.html">https://modthemachine.typepad.com/my_weblog/2015/09/improving-your-programs-performance.html</a>'
+- author: Antjon
+  email: andreas.123.jonsson@gmail.com
+  ip: 194.103.247.33
+  url: ''
+  date: '2025-02-14 00:26:48'
+  body: Hi this code is working fine for most parts but I have two parts where the
+    derived entity does not work and the part become empty. I can afterwards select
+    the entity and get those parts to appear manually. How can I check this issue
+    and solve it?
+- author: Adam Nagy
+  email: ''
+  ip: 80.7.15.151
+  url: https://profile.typepad.com/1236098880s16462
+  date: '2025-02-17 08:44:30'
+  body: 'Try to create it through the UI and investigate how things are set up: <a
+    href="https://adndevblog.typepad.com/manufacturing/2013/10/discover-object-model.html">https://adndevblog.typepad.com/manufacturing/2013/10/discover-object-model.html</a>
+
+    Then try to do the same using the API.
+
+    -----'

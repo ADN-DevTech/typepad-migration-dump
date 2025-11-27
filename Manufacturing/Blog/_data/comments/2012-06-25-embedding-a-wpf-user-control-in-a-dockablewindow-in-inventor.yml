@@ -1,0 +1,48 @@
+comments:
+- author: Jakal
+  email: waylonsmith@gmail.com
+  ip: 65.255.83.16
+  url: ''
+  date: '2013-11-25 14:28:12'
+  body: Hi, thank you for the awesome code snippet. I have been able to get the above
+    code to work, but when trying to reopen a previously closed dockable window within
+    Inventor 2014, it will not open.  Basically, the dockable window will open only
+    once during the application.  Is there a way to make it open every time?  Thank
+    you!
+- author: kent boettger
+  email: kbo@lachenmeier-monsun.com
+  ip: 185.37.86.144
+  url: ''
+  date: '2014-11-12 15:48:09'
+  body: "Hello Jakal,\n\nopen a document and go to view, userinterface. here you can\
+    \ turn it on / of.\n\nhere is a code sample i put together based on a sample in\
+    \ inventor API. put this insite the standardserveraddin.vb\n\ncreate a button\
+    \ that calls the code, create a form in your project called form3.\n\nPublic Sub\
+    \ DockableWindow()\n\n            Dim oUserInterfaceMgr As UserInterfaceManager\n\
+    \            oUserInterfaceMgr = m_inventorApplication.UserInterfaceManager\n\n\
+    \            ' Create a new dockable window\n            Dim oWindow As Inventor.DockableWindow\n\
+    \n            oWindow = oUserInterfaceMgr.DockableWindows.Add(\"KBSampleClientId\"\
+    , \"KBTestWindowInternalName\", \"KBTest Window\")\n\n            ' Get the hwnd\
+    \ of the dialog to be added as a child\n            ' CHANGE THIS VALUE!\n   \
+    \         'Dim hwnd As Long\n            'hwnd = 4851096\n\n            'Create\
+    \ the new UserControl\n            Dim NewForm3 As New Form3()\n\n           \
+    \ ' Add the UserControl as a child to the dockable window\n            oWindow.AddChild(NewForm3.Handle)\n\
+    \n            ' Add the dialog as a child to the dockable window\n           \
+    \ 'Call oWindow.AddChild(hwnd)\n\n            ' Don't allow docking to top and\
+    \ bottom\n            oWindow.DisabledDockingStates = Inventor.DockingStateEnum.kDockTop\
+    \ + Inventor.DockingStateEnum.kDockBottom\n\n            ' Make the window visible\n\
+    \            oWindow.Visible = True\n\n        End Sub \n\nregards. kent boettger"
+- author: Rossano Trindade
+  email: rossanost@hotmail.com
+  ip: 187.39.113.19
+  url: ''
+  date: '2019-04-10 04:53:59'
+  body: 'Good Morning!
+
+    What would be the reason that text boxes do not work in WPF control? it looks
+    like the command is not executed by the control!
+
+
+    Has anyone ever had this problem?
+
+    -----'

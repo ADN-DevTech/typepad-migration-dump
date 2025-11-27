@@ -1,0 +1,112 @@
+comments:
+- author: Marcos
+  email: marcos.pellizzoni@gmail.com
+  ip: 177.19.183.162
+  url: ''
+  date: '2019-09-24 07:42:22'
+  body: 'Hi, how rotate without select part and axis manualy?
+
+    thank you
+
+
+    Marcos'
+- author: Adam Nagy
+  email: ''
+  ip: 212.36.145.2
+  url: https://profile.typepad.com/1236098880s16462
+  date: '2019-09-24 08:02:17'
+  body: You can simply create a Vector and Point using the CreateVector() and CreatePoint()
+    functions of the Application.TransientGeometry object, and pass those to the SetToRotation()
+    function.
+- author: Maarten Maertens
+  email: m.maertens@bematrix.com
+  ip: 81.82.247.234
+  url: ''
+  date: '2020-01-28 02:42:09'
+  body: 'Cool! Usefull code, thanks.
+
+    How can I rotate standard along the X-axis - without selecting the axis?
+
+    Step 1: Select the part in the assembly
+
+    Step 2: flip 180°. I would link a keyboard button to the macro.
+
+
+    We "drag and drop" our parts from our internal library. It would help if I don''t
+    need to rotate manually every single part again. With a shortcut ''flip 180°'',
+    it would go much faster.
+
+
+    Thanks!!'
+- author: Adam Nagy
+  email: ''
+  ip: 193.151.121.23
+  url: https://profile.typepad.com/1236098880s16462
+  date: '2020-01-29 03:15:03'
+  body: "In the above code, instead of \n\"Set a = d.SelectSet(1)\" \nyou could say\
+    \ \n\"Set a = d.ComponentDefinition.WorkAxes(1)\"\n\nAnd here's how to create\
+    \ a Ribbon button for a VBA macro: \n<a href=\"https://modthemachine.typepad.com/my_weblog/2016/02/creating-a-button-for-a-vba-macro.html\"\
+    >https://modthemachine.typepad.com/my_weblog/2016/02/creating-a-button-for-a-vba-macro.html</a>"
+- author: Tobias
+  email: Tobias.nordberg90@gmail.com
+  ip: 151.183.2.206
+  url: ''
+  date: '2020-06-30 04:53:47'
+  body: 'Awesome code!
+
+    Is there any way to rotate an inserted assembly around its own X-axis?
+
+    I use the added code you wrote to Maarten, but that only solves the active assemblies
+    axis and not the occurrence axis.
+
+
+    Many thanks and keep it up!'
+- author: Adam Nagy
+  email: ''
+  ip: 51.146.76.169
+  url: https://profile.typepad.com/1236098880s16462
+  date: '2020-06-30 06:15:34'
+  body: The Transformation property of the occurrence provides the coordinate system
+    of the inserted assembly in context of the main assembly. And you can get the
+    X axis of that using Matrix.GetCoordinateSystem()
+- author: Inma
+  email: inposch@etsii.upv.es
+  ip: 37.152.84.209
+  url: ''
+  date: '2020-08-17 03:14:45'
+  body: can you show a code to make the same think but with out selecting the part
+    and the axis. how can i get x, y or  z axis of a part with code .
+- author: Adam Nagy
+  email: ''
+  ip: 51.146.76.169
+  url: https://profile.typepad.com/1236098880s16462
+  date: '2020-08-17 03:29:35'
+  body: 'You can get the Axes from the ComponentDefinition (PartComponentDefinition
+    or AssemblyComponentDefinition) of the Document: <a href="https://help.autodesk.com/view/INVNTOR/2019/ENU/?guid=GUID-0A56D0BB-5768-4591-A3E8-84A8952644C0">https://help.autodesk.com/view/INVNTOR/2019/ENU/?guid=GUID-0A56D0BB-5768-4591-A3E8-84A8952644C0</a>'
+- author: Maarten Maertens
+  email: m.maertens@bematrix.com
+  ip: 81.82.249.8
+  url: ''
+  date: '2021-11-04 01:05:59'
+  body: "Hi Adam, could you write the code please of how you rotate the part around\
+    \ it's own occurrence axis?\n\nNow I have this code:\nSub RotateAroundAxis()\n\
+    \  Const PI = 3.14159265358979\n  \n  Dim d As AssemblyDocument\n  Set d = ThisApplication.ActiveDocument\n\
+    \n  Dim o As ComponentOccurrence\n  Set o = d.SelectSet(1)\n  \n    \n  Dim a\
+    \ As WorkAxis\nSet a = d.ComponentDefinition.WorkAxes(1)\n  \n  \n  Dim t As TransientGeometry\n\
+    \  Set t = ThisApplication.TransientGeometry\n    \n  Dim l As Line\n  Set l =\
+    \ a.Line\n  \n  Dim mRot As Matrix\n  Set mRot = t.CreateMatrix()\n  ' PI / 2\
+    \ => 90 deg\n  Call mRot.SetToRotation(PI, l.Direction.AsVector(), l.RootPoint)\n\
+    \  \n  Dim m As Matrix\n  Set m = o.Transformation\n  Call m.PreMultiplyBy(mRot)\n\
+    \  \n  o.Transformation = m\nEnd Sub"
+- author: Adam Nagy
+  email: ''
+  ip: 86.2.185.49
+  url: https://profile.typepad.com/1236098880s16462
+  date: '2021-11-04 04:34:17'
+  body: 'The only thing missing there is that you have to bring the WorkAxis (`a`
+    variable) in to the context of the assembly - see <a href="https://adndevblog.typepad.com/manufacturing/2013/07/occurrences-contexts-definitions-proxies.html">https://adndevblog.typepad.com/manufacturing/2013/07/occurrences-contexts-definitions-proxies.html</a>
+
+    Something like `Call o.CreateGeometryProxy(a, aProxy)` then work with `aProxy`
+    from then on.
+
+    -----'

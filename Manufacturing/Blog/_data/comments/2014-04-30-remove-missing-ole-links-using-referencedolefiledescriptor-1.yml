@@ -1,0 +1,32 @@
+comments:
+- author: Josh
+  email: Josh.Mathews@exceleng.net
+  ip: 74.95.67.193
+  url: ''
+  date: '2014-11-17 08:04:27'
+  body: Is there a way to perform this type of operation using .NET? If there was
+    a way of dealing with OLE links in something like C#, that would be very useful
+    to me. Thanks!
+- author: Wayne Brill
+  email: wayne.brill@autodesk.com
+  ip: 50.34.129.181
+  url: ''
+  date: '2014-11-17 09:33:37'
+  body: "Hi Josh, \nYou can copy VBA code to VB.NET. It will automatically remove\
+    \ the VBA Set statements. You can then fix the enums. (they need to be fully qualified\
+    \ - like ReferenceStatusEnum.kMissingReference) You can then use a translator\
+    \ to get it to C#. I used this one:\n<a href=\"http://www.developerfusion.com/tools/convert/vb-to-csharp/\"\
+    >http://www.developerfusion.com/tools/convert/vb-to-csharp/</a>\n\nHere is the\
+    \ converted coded. (I didn't test it). You would need to make ThisApplication\
+    \ the Inventor Application in your code.\n\npublic void oleLinksDelete()\n{\n\t\
+    ThisApplication.SilentOperation = true;\n\n\tPartDocument oPartDoc = default(PartDocument);\n\
+    \toPartDoc = ThisApplication.ActiveDocument;\n\n\tbool bSaveDoc = false;\n\tbSaveDoc\
+    \ = false;\n\n\tReferencedOLEFileDescriptor oRefOleFileDesc = default(ReferencedOLEFileDescriptor);\n\
+    \n\n\tif (oPartDoc.ReferencedOLEFileDescriptors.Count > 0) {\n\t\tforeach ( oRefOleFileDesc\
+    \ in oPartDoc.ReferencedOLEFileDescriptors) {\n\t\t\t//Debug.Print oRefOleFileDesc.ReferenceStatus\
+    \ \n\n\t\t\tif (oRefOleFileDesc.ReferenceStatus == ReferenceStatusEnum.kMissingReference)\
+    \ {\n\t\t\t\t// Debug.Print oRefOleFileDesc.DisplayName \n\t\t\t\toRefOleFileDesc.Delete();\n\
+    \t\t\t\toPartDoc.Dirty = true;\n\t\t\t\tbSaveDoc = true;\n\t\t\t}\n\t\t}\n\n\t\
+    \tif (bSaveDoc == true) {\n\t\t\toPartDoc.Save();\n\t\t\tbSaveDoc = false;\n\t\
+    \t}\n\t}\n\t// Be sure to set this back to False \n\tThisApplication.SilentOperation\
+    \ = false;\n}\n\n\nThanks,\nWayne\n-----"

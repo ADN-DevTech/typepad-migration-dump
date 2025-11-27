@@ -1,0 +1,56 @@
+comments:
+- author: GS
+  email: ktshas@naver.com
+  ip: 202.238.159.193
+  url: ''
+  date: '2016-10-30 19:51:55'
+  body: 'Hi. Can i ask a question.
+
+    I want to use PackAndGo on C++ Program.
+
+    I could do it on C# program with adding reference [SolidWorks.Interpt.sldworks.dll]
+    & [SolidWorks.Interpt.swconst.dll]
+
+    But i dont know what i have to add library to use packandgo on C++ program.
+
+    Can you teach me some information if you have an idea.
+
+    Thank you.'
+- author: GS
+  email: ktshas@naver.com
+  ip: 202.238.159.193
+  url: ''
+  date: '2016-10-31 00:43:00'
+  body: 'sorry ask again.
+
+    I want to download and check your source, But i cant in office.
+
+    So. I added reference sldworks.tlb where was SolidWorks 2015 installed folder.
+
+    And make a CPackAndGo.h Class.
+
+
+    I tried this.
+
+    IModelDoc2 model = NULL;
+
+    CString modelPath = pConv->m_OriginalFilePath;
+
+    bRes = pswCtrl->OpenModel(modelPath, model);
+
+    IModelDocExtension swDocExt = model.GetExtension();
+
+    CPackAndGo swPackAndGo = swDocExt.GetPackAndGo();
+
+
+    But IModelDocExtension had not GetPackAndGo method.
+
+    may i refered wrong library?'
+- author: Adam Nagy
+  email: ''
+  ip: 82.8.9.75
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2016-10-31 02:58:39'
+  body: "It's only the \"DTPackAndGo.tlb\" library that you need to reference plus\
+    \ the apprentice library - see the above sample code.\nHave a look at the \"SimpleApprenticeExe\"\
+    \ sample that is part of the SDK that is installed along with Inventor. \n-----"

@@ -1,0 +1,124 @@
+comments:
+- author: Aditya Joshi
+  email: aditya.sjoshi@gmail.com
+  ip: 59.160.74.254
+  url: ''
+  date: '2014-07-22 03:45:06'
+  body: 'Hello Philippe,
+
+
+    I trying to create a small c++ addin for Inventor 2014, for demonstrating a issue
+    which we are facing while accessing PartComponentDefinition->Parameters->Count.
+
+
+    I used the Inventor 2014 SDK wizard for creating the Sample Addin Project.
+
+
+    The *.manifest file has been copied to the Inventor Addin location in Program
+    Data, the *.dll has been copied to the Inventor2014\Bin folder.
+
+
+    Issue: I able to see the Addin in the Add-In Manager, that is the *.manifest file
+    seems to be working pretty fine. but the Addin appear unloaded.
+
+
+    Can you please suggest anything I might have missed.
+
+
+    Regards,
+
+    Aditya'
+- author: Philippe
+  email: philippe.leefsma@autodesk.com
+  ip: 132.188.32.206
+  url: ''
+  date: '2014-07-30 02:00:18'
+  body: 'Hi Aditya,
+
+    Your question seems to be unrelated to the topic of that post... In the future
+    please log cases on our developer forum instead: <a href="http://forums.autodesk.com/t5/Inventor-Customization/bd-p/120">http://forums.autodesk.com/t5/Inventor-Customization/bd-p/120</a>
+
+
+    If your add-in appears but is unloaded, it means that it is correctly setup but
+    an exception occurs in the Activate method. You need to set a break point in that
+    method and work out why it is failing by debugging your code.'
+- author: Marco
+  email: suurlant@ziggo.nl
+  ip: 84.26.121.190
+  url: ''
+  date: '2015-01-22 08:26:25'
+  body: 'Hello Philippe,
+
+
+    I have some questions, I have used the previous version of the “Design Patterns
+    CP3423” and I want to upgrade my code with the new “Design Patterns CP2675” or
+    is there a newer version?
+
+
+    And what is the best practice how to handle with events in “Design Patterns CP2675”
+    I saw there isn’t an Application member any more in the StandardAddInServer.
+
+
+    Best regards, Marco'
+- author: Philippe
+  email: philippe.leefsma@autodesk.com
+  ip: 85.0.71.207
+  url: ''
+  date: '2015-02-08 14:36:55'
+  body: "Hi Marco,\n\nYes Design Patterns CP2675 is the latest version. You can access\
+    \ the Application through \"addInSiteObject.Application\". \n\naddInSiteObject\
+    \ is passed to the Activate method of your addin.\n\nLet me know if you have any\
+    \ further questions on that topic.\n\nRegards,\nPhilippe."
+- author: Marco
+  email: suurlant@ziggo.nl
+  ip: 84.26.121.190
+  url: ''
+  date: '2015-02-22 06:58:23'
+  body: 'Hello Philippe,
+
+    The events are working, thanks.
+
+
+    I have a other question about unload and reload the add-in, if I unload my add-in
+    it unload as normal but when I want to reload the add-in again the ribbon won’t
+    come back and when I restart Inventor the ribbon load as normal with all the buttons,
+    I have test your “Client Graphics” add-in and I have also the same issue is this
+    something in the add-in or PC?
+
+
+    And is it possible to add the ProgressiveToolTip at the AdnButtonCommandBase in
+    the CommandUtils?
+
+
+    Regards,
+
+    Marco.'
+- author: Philippe
+  email: philippe.leefsma@autodesk.com
+  ip: 85.0.71.207
+  url: ''
+  date: '2015-02-25 02:39:35'
+  body: "Hi Marco, I need to review the unload/reload, will let you know ... \n\n\
+    Progressive Tooltip are not yet exposed to the API, so unfortunately no control\
+    \ over it.\n\nPhilippe."
+- author: Marco
+  email: suurlant@ziggo.nl
+  ip: 84.26.121.190
+  url: ''
+  date: '2015-04-04 06:17:57'
+  body: 'Hi Philippe,
+
+
+    Do have time to look at the unload/reload of the add-in?
+
+
+    Marco'
+- author: Philippe Leefsma
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2015-04-06 02:09:18'
+  body: "Hi Marco, I checked in our database, unfortunately this behavior is a known\
+    \ issue and it hasn't been fixed yet. You won't be able to restore the controls\
+    \ from a custom add-in after unload/reload unless you reset the ribbon. \n\nSorry\
+    \ for the bad news.\n-----"

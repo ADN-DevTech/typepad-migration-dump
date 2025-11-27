@@ -1,0 +1,67 @@
+comments:
+- author: Mangesh
+  email: ''
+  ip: 121.241.184.2
+  url: http://profile.typepad.com/6p01b7c81791bc970b
+  date: '2016-02-19 03:07:38'
+  body: "Hello Xiaodong Liang,\n\nThank you for the sample code for DeleteFaceFeatures.\n\
+    Well, we are working on a requirement in which a part file contains multiple shells\
+    \ (multiple solids). We want to get the mass properies of each shell independently.\n\
+    For example in a part, we have 4 shells, to get mass properties of 1st shell,\
+    \ we want to remove other 3 shells. This can be achieved using DeleteFaceFeatures.\
+    \ \nWe have written the functionality as follows:\n1. Collect the information\
+    \ for each shell - which other shell's faces should be deleted\n2. The above information\
+    \ is stored in a collection\n3. Then for each shell, other 3 shells are deleted\
+    \ and mass property is obtained.\n\nBut many times we are getting error message\
+    \ which says:\n\nRun-time Error '-2147467259(80004005)':\nMethod 'Add' of object\
+    \ 'DeleteFaceFeatures' failed\n\nThe issue is definitely reproduced if we open\
+    \ the part file and do some operation like rotate and then run the program, otherwise\
+    \ it is intermittent issue.\nThe error message comes while creating the DeleteFaceFeature\
+    \ for second shell\n\nActually our program is in C++ and we always get error at\
+    \ following line:\n\nResult = pDeleteFaceFeatures->Add(pFaceCollection, Heal,\
+    \ &pDeleteFace);\n\nResult is always E_FAIL. The logic is exactly same as written\
+    \ in VBA. \n\nPlease advise what could be the reason for the same.\n\nWe could\
+    \ not attach the sample part file and it can be created by drawing 4 rectangles\
+    \ in a 2D sketch and extruding the same. \n\nSub DeleteFaceFeatureFunction()\n\
+    \n    Dim oDoc As PartDocument\n    Set oDoc = ThisApplication.ActiveDocument\n\
+    \    'oDoc.Activate\n    Dim oFace As Face\n    Dim TotalFaceShells As Integer\n\
+    \    'Get total shell count\n    TotalFaceShells = oDoc.ComponentDefinition.SurfaceBodies.Item(1).FaceShells.Count\n\
+    \    \n    'Get all the shells\n    Dim oShells As FaceShells\n    Set oShells\
+    \ = oDoc.ComponentDefinition.SurfaceBodies.Item(1).FaceShells\n    \n    Dim shellCnt\
+    \ As Integer\n    shellCnt = 1\n    \n    Dim iInnerShellCnt As Integer\n    Dim\
+    \ oShellFaceColl As New Collection\n    \n    'For each shell get which all other\
+    \ shells are to be removed\n    While (shellCnt <= TotalFaceShells)\n        Dim\
+    \ oFaceColl As FaceCollection\n        Set oFaceColl = ThisApplication.TransientObjects.CreateFaceCollection\n\
+    \        iInnerShellCnt = 1\n        While (iInnerShellCnt <= TotalFaceShells)\n\
+    \            If (shellCnt = iInnerShellCnt) Then\n                'If both shells\
+    \ are same, skip\n            Else\n                Dim oFaceShell As FaceShell\n\
+    \                Set oFaceShell = oShells.Item(iInnerShellCnt)\n             \
+    \   For Each oFace In oFaceShell.Faces\n                    Call oFaceColl.Add(oFace)\n\
+    \                Next\n            End If\n            iInnerShellCnt = iInnerShellCnt\
+    \ + 1\n        Wend\n        \n        Call oShellFaceColl.Add(oFaceColl, Str(shellCnt))\n\
+    \        shellCnt = shellCnt + 1\n    Wend\n    \n    shellCnt = 1\n\n    'oDoc.Activate\n\
+    \n    'For each shell delete other shells and get the area\n    While (shellCnt\
+    \ <= TotalFaceShells)\n\n        Set oFaceColl = oShellFaceColl.Item(shellCnt)\n\
+    \        \n        Dim oDeleteFace As DeleteFaceFeature\n        Set oDeleteFace\
+    \ = oDoc.ComponentDefinition.Features.DeleteFaceFeatures.Add(oFaceColl, False)\n\
+    \   \n        'Get area\n        Dim area As Double\n        area = oDoc.ComponentDefinition.MassProperties.area\n\
+    \        Debug.Print area\n        \n        'Delete the created feature\n   \
+    \     oDeleteFace.Delete True, True, True\n        \n        shellCnt = shellCnt\
+    \ + 1\n    Wend\n    \nEnd Sub\n\nThanks & Regards,\nMangesh"
+- author: badrinth chinni
+  email: badrinath.chinni@lehner.eu
+  ip: 130.180.118.74
+  url: ''
+  date: '2020-02-26 01:47:20'
+  body: "hie, \nYou got a solution for this ? \nI am trying to generate a ilogic using\
+    \ shell feature. But do can you help me to select the faces to be deleted in this\
+    \ shell features using ilogic ?\nI have named all my faces of the geometry. \n\
+    Thank you for your help."
+- author: Adam Nagy
+  email: ''
+  ip: 151.229.197.135
+  url: https://profile.typepad.com/1236098880s16462
+  date: '2020-02-28 01:03:26'
+  body: 'Best thing is to check on the Inventor Customization forum: <a href="https://forums.autodesk.com/t5/inventor-customization/bd-p/120">https://forums.autodesk.com/t5/inventor-customization/bd-p/120</a>
+
+    -----'

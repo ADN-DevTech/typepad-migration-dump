@@ -1,0 +1,30 @@
+comments:
+- author: Peter D. Schell
+  email: pdschell@gmail.com
+  ip: 64.146.249.131
+  url: ''
+  date: '2020-03-04 12:32:50'
+  body: "VB.NET working code inventor pro 2018:\n\nSub Main ChgTitleBlkDef()\n\tDim\
+    \ objDoc As Document\n\n\tobjDoc = ThisApplication.ActiveDocument\n\n\n\n\tIf\
+    \ objDoc Is Nothing Then\n\n\t\tMsgBox(\"No Active Document\")\n\n\t\tobjDoc =\
+    \ Nothing\n\n\t\tExit Sub\n\n\tEnd If\n\n\n\n\t'Is the active document a drawing\
+    \ document?\n\n\tIf objDoc.DocumentType <> kDrawingDocumentObject Then\n\n\t\t\
+    MsgBox(\"Not a drawing document\")\n\n\t\tobjDoc = Nothing\n\n\t\tExit Sub\n\n\
+    \tEnd If\n\n\n\n\tDim objDrawDoc As DrawingDocument\n\n\tobjDrawDoc = objDoc\n\
+    \n\n\n\tDim colTitleBlkDefs As TitleBlockDefinitions\n\n\tcolTitleBlkDefs = objDrawDoc.TitleBlockDefinitions\n\
+    \n\n\tDim objTitleBlkDef As TitleBlockDefinition\n\n\n\n\tFor Each objTitleBlkDef\
+    \ In colTitleBlkDefs\n\n\t\tIf objTitleBlkDef.Name = \"ANSI - Large\" Then\n\n\
+    \t\t\t'we have the title blk we want\n\n\t\t\tExit For\n\n\t\tEnd If\n\n\tNext\
+    \ objTitleBlkDef\n\n\n\n\tIf objTitleBlkDef Is Nothing Then\n\n\t\tMsgBox(\"ANSI\
+    \ - Large TitleBlockDefinition not found!\")\n\n\t\tobjDrawDoc = Nothing\n\n\t\
+    \tcolTitleBlkDefs = Nothing\n\n\t\tobjTitleBlkDef = Nothing\n\n\t\tExit Sub\n\n\
+    \tEnd If\n\n\t' If we are here we have the title block of interest.\n\n\t' Get\
+    \ the title block sketch and set it active\n\n\tDim objDrwSketch As DrawingSketch\n\
+    \n\tobjTitleBlkDef.Edit(objDrwSketch)\n\t\n\n\tDim colTextBoxes As TextBoxes\n\
+    \n\tcolTextBoxes = objDrwSketch.TextBoxes\n\n\n\tDim objTextBox As TextBox\n\n\
+    \tFor Each objTextBox In colTextBoxes\n\n\t\tIf objTextBox.Text = \"TITLE\" Then\n\
+    \n\t\t\tobjTextBox.Text = \"Captain CAD Engineering\"\n\n\t\t\tExit For\n\n\t\t\
+    End If\n\n\tNext objTextBox\n\n\tobjTitleBlkDef.ExitEdit(True)\n\n\t' Clean up\n\
+    \n\tobjDrawDoc = Nothing\n\n\tcolTitleBlkDefs = Nothing\n\n\tobjTitleBlkDef =\
+    \ Nothing\n\n\tobjDrwSketch = Nothing\n\n\tcolTextBoxes = Nothing\n\n\tobjTextBox\
+    \ = Nothing\n\n\n\n\tBeep\n\nEnd Sub\n-----"

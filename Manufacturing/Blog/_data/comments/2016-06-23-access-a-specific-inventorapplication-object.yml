@@ -1,0 +1,136 @@
+comments:
+- author: Jamie Johnson
+  email: jamie.johnson@bnsflogistics.com
+  ip: 71.244.12.162
+  url: ''
+  date: '2016-07-01 08:19:56'
+  body: "I'm having an issue with the 'dynamic' in line \ndynamic invDoc = ComObject;\n\
+    VisualStudio is reporting it as system.dynamic which is a namespace not an object\
+    \ type."
+- author: Jamie Johnson
+  email: jamie.johnson@bnsflogistics.com
+  ip: 71.244.12.162
+  url: ''
+  date: '2016-07-01 09:08:53'
+  body: "Turns out you were closer to the complete solution than you thought, check\
+    \ this bit of VB code out, that I wrote while analyzing your code:\n\n Private\
+    \ Function GetInventorApplicationWithWindowHandle(hwnd As IntPtr) As Object\n\
+    \        Dim Rot As IRunningObjectTable = Nothing\n        GetRunningObjectTable(0,\
+    \ Rot)\n        If Rot IsNot Nothing Then\n            Dim monikerEnumerator As\
+    \ IEnumMoniker = Nothing\n            Rot.EnumRunning(monikerEnumerator)\n   \
+    \         If monikerEnumerator IsNot Nothing Then\n                monikerEnumerator.Reset()\n\
+    \                Dim pNumFetched As New IntPtr()\n                Dim monikers\
+    \ As IMoniker() = New IMoniker(0) {}\n                While monikerEnumerator.Next(1,\
+    \ monikers, pNumFetched) = 0\n                    Dim bindCtx As IBindCtx = Nothing\n\
+    \                    CreateBindCtx(0, bindCtx)\n                    If bindCtx\
+    \ IsNot Nothing Then\n                        Dim displayName As String = String.Empty\n\
+    \                        monikers(0).GetDisplayName(bindCtx, Nothing, displayName)\n\
+    \                        'Dim guid As New Guid(\"{B6B5DC40-96E3-11d2-B774-0060B0F159EF}\"\
+    )\n                        If displayName = \"!{B6B5DC40-96E3-11D2-B774-0060B0F159EF}\"\
+    \ Then\n                            Dim ComObject As Object = Nothing\n      \
+    \                      Rot.GetObject(monikers(0), ComObject)\n               \
+    \             If ComObject IsNot Nothing Then\n                              \
+    \  Try\n                                    Dim invApplication As Inventor.Application\
+    \ = TryCast(ComObject, Inventor.Application)\n                               \
+    \     If invApplication IsNot Nothing Then Return invApplication\n           \
+    \                     Catch ex As Exception\n                                \
+    \    Debug.Print(ex.ToString)\n                                End Try\n     \
+    \                       End If\n                        End If\n             \
+    \       End If\n                End While\n            End If\n        End If\n\
+    \            Return Nothing\n    End Function\n\nI found that your line for write\
+    \ line display name, was writing the exact com id of Inventor's application object.\
+    \  So I grabbed exactly that, and it worked.  I truly thank you for this blog,\
+    \ its changed my game plan significantly.  I will be posting a completed tool\
+    \ in the forums.  Thanks."
+- author: Adam Nagy
+  email: ''
+  ip: 82.8.9.75
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2016-07-01 09:44:12'
+  body: 'Glad you like it Jamie! :)
+
+    Yes, you can get back the Application object as well, but as I mentioned, they
+    will return the same Inventor.Application object. You can easily test it by opening
+    a document in the first instance, then open additional Inventor''s and check the
+    Application.Caption for each of the returned objects: they will all contain the
+    opened document''s name in the title because they all give back the first Inventor
+    instance. :-s'
+- author: Jamie Johnson
+  email: jamie.johnson@bnsflogistics.com
+  ip: 71.244.12.162
+  url: ''
+  date: '2016-07-01 09:47:30'
+  body: Ok so this is not actually doing what I thought.  The code above returns 1
+    app for each reported instance, but each app returned is the same first thread
+    as is verified by the open documents within each app.  The problem is none of
+    the items in the ROT are the actual documents either, just apps.  But if it shows
+    2 apps, then I should be able to get each app's individual thread, somehow.  Not
+    giving up on this.
+- author: Adam Nagy
+  email: ''
+  ip: 82.8.9.75
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2016-07-01 09:55:03'
+  body: 'As I also mentioned this is not specific to Inventor, but all COM registered
+    applications. See comment here:
+
+    <a href="https://social.technet.microsoft.com/Forums/office/en-US/2179c726-f992-4f29-9e5d-3db8adde98b0/multiple-instances-of-access-2010-running-have-entrees-in-running-object-table-rot-but-all-entrees?forum=officeitproprevious">https://social.technet.microsoft.com/Forums/office/en-US/2179c726-f992-4f29-9e5d-3db8adde98b0/multiple-instances-of-access-2010-running-have-entrees-in-running-object-table-rot-but-all-entrees?forum=officeitproprevious</a>
+
+    >>>>>
+
+    Theoretically, you can iterate the ROT for each individual instance, but the Office
+    apps don''t register themselves if another instance is already in the ROT because
+    the moniker for itself is always the same (it couldn''t be distinguished anyway).
+    This means that you can''t attach to any instance except for the first. However,
+    because the Office apps also register their documents in the ROT, you can successfully
+    attach to other instances by iterating the ROT looking for a specific document,
+    attaching to it, then getting the Application object from it.
+
+    <<<<<'
+- author: Jamie Johnson
+  email: jamie.johnson@bnsflogistics.com
+  ip: 71.244.12.162
+  url: ''
+  date: '2016-07-11 13:44:46'
+  body: The running object table moniker enumerator never passed by a single document
+    object, because...  Inventor documents that have not been saved to the file are
+    not listed in the ROT.  So unless the document open has been saved to file, this
+    will not work.  FYI if you find an Inventor in the ROT that does not have a file
+    based document open (or no documents open) you will see it in the list by its
+    clsID = {B6B5DC40-96E3-11d2-B774-0060B0F159EF}, and it is repeated if you have
+    many instances open.  However turning that into a com object is difficult, because
+    they all have the same name and most developers handle the ROT as a hashtable
+    (key, value list of unique items), the multiple instances get mashed into 1 thanks
+    to that hashtable.
+- author: Adam Nagy
+  email: ''
+  ip: 82.8.9.75
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2016-07-11 19:52:24'
+  body: 'Is it the same with e.g. Excel and its documents?
+
+    So maybe the only way to do it properly is if you create an auto-load Inventor
+    addin that exposes all the Inventor objects?'
+- author: Jamie Johnson
+  email: jamie.johnson@bnsflogistics.com
+  ip: 71.244.12.162
+  url: ''
+  date: '2016-07-14 08:25:16'
+  body: Interesting proposition, how to accomplish would be the question.  Would one,
+    force updates to the ROT to exist with different names, or create a separate class
+    apartment that can listen to start up events from itself collecting all the invApps
+    created/destroyed, or some other idea?  This does explain a lot of the 'issues'
+    with Autodesk add-on apps (such as vault and task manager) that complain about
+    having multiple Inventor's open.
+- author: Adam Nagy
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2016-07-14 08:30:34'
+  body: "I guess you could create your own COM server (which would only have a single\
+    \ instance) and that server instance could be accessed from each Inventor application,\
+    \ from inside your addin. When your addin loads it has access to the Application\
+    \ object of the Inventor instance it is running inside in, so it could register\
+    \ Inventor with that COM server. When Inventor is closed down and so the add-in\
+    \ gets unloaded it could unregister that COM instance with the COM server. \n\
+    -----"

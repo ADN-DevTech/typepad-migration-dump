@@ -1,0 +1,100 @@
+comments:
+- author: ACEDeSmedt
+  email: klaas.de.smedt@ace.eu
+  ip: 78.22.29.163
+  url: ''
+  date: '2015-12-09 02:59:19'
+  body: 'Exactly what I was looking for.
+
+    The link to the "XML Tags for FormattedText" help article should be mentioned
+    with every article of the independent properties (that was where I was expecting
+    to find this kind of information)
+
+
+    Another thing that I noticed is that, when adding the parameters manually and
+    select a precision of 2, there is a automatic removal of the trailing zeros and
+    the parameters show up just fine. (Ø1.000541564 show up as Ø1)
+
+    When I use VBA to achieve the same precision (2), the trailing zeros stay in place.
+
+    (Ø1.000541564 show up as Ø1.00)
+
+
+    The DimensionText.FormattedText property are exactly the same in both cases.
+
+
+    How can I achieve the removal of trailing zeros, using VBA?'
+- author: Christoph Stumpf
+  email: christoph.stumpf@gts-thielmann.de
+  ip: 212.101.32.206
+  url: ''
+  date: '2017-03-16 06:12:39'
+  body: I have the same question/problem , has anyone an idea how this precision problem
+    can be solved
+- author: Alexander
+  email: shanov1@yandex.ru
+  ip: 62.231.20.12
+  url: ''
+  date: '2017-10-04 08:47:25'
+  body: "I entered a string \nlinearGeneralDimension.Text.FormattedText = \"Øx\";\n\
+    visual studio 2013 C# issued an unidentified exception HRESULT: 0x80004005 (E_FAIL)\n\
+    \nhelp me please"
+- author: Alexander
+  email: shanov1@yandex.ru
+  ip: 62.231.20.12
+  url: ''
+  date: '2017-10-04 08:50:38'
+  body: "I entered a string \nlinearGeneralDimension.Text.FormattedText = \"Øx\";\n\
+    visual studio 2013 C# issued an unidentified exception HRESULT: 0x80004005 (E_FAIL)\n\
+    \nhelp me please"
+- author: Alexander
+  email: shanov1@yandex.ru
+  ip: 62.231.20.12
+  url: ''
+  date: '2017-10-04 08:58:43'
+  body: "I entered a string \nlinearGeneralDimension.Text.FormattedText = \"Øx\";\n\
+    visual studio 2013 C# issued an unidentified exception HRESULT: 0x80004005 (E_FAIL)\n\
+    \nhelp me please"
+- author: Alexander
+  email: shanov1@yandex.ru
+  ip: 62.231.20.12
+  url: ''
+  date: '2017-10-04 09:04:55'
+  body: sorry, can not enter a string XML Tags
+- author: Alexander
+  email: shanov1@yandex.ru
+  ip: 62.231.20.12
+  url: ''
+  date: '2017-10-04 09:08:28'
+  body: "I entered a string \nlinearGeneralDimension.Text.FormattedText = \"Ø$\"+\"\
+    DimensionValue/\"+\"$x$\"\n+\"Parameter ComponentIdentifier='D:\\\\12\\\\assembly\\\
+    \\Flancevoe soed 53\\\\Flange 1.ipt' Name='LI_D7_R' Precision='2'\"\n+\"&&\" \"\
+    /Parameter\"+ \"&\";\nvisual studio 2013 C# issued an unidentified exception HRESULT:\
+    \ 0x80004005 (E_FAIL)\n<>   =>  $\n\nhelp me please"
+- author: Alexander
+  email: shanov1@yandex.ru
+  ip: 62.231.20.12
+  url: ''
+  date: '2017-10-04 09:12:12'
+  body: sorry for a few of my unsuccessful posts, in the last I <> replaced by $
+- author: Maxim Teleguz
+  email: m.teleguz1@gmail.com
+  ip: 207.140.17.128
+  url: ''
+  date: '2022-02-01 11:18:13'
+  body: "'make selected dim reference existing data to string for hole callout call\
+    \ each one out to set it in memory \n'and Then the only one that you wont Set\
+    \ Is precision.\nDim odim As DrawingDimension\nLine1 :\n'odim = ThisApplication.CommandManager.Pick(SelectionFilterEnum.kDrawingDimensionFilter,\
+    \ \"Select Dimension\")\nodim = ThisApplication.CommandManager.Pick(SelectionFilterEnum.kAllEntitiesFilter,\
+    \ \"Select Dimension\")\n'MsgBox(TypeName(odim))\nIf odim Is Nothing Then\n\t\
+    Exit Sub\nElse\n\todim.Precision = 3\n\t'odim.TolerancePrecision = 0\n\tIf TypeOf\
+    \ odim Is HoleThreadNote = True Then\n\t\tDim oHNote As HoleThreadNote = odim\n\
+    \t\t'MsgBox(oHNote.FormattedHoleThreadNote, , \"\")\n\t\t'a = InputBox(\"\",\"\
+    FormattedHoleThreadNote\", oHNote.FormattedHoleThreadNote)\n\t\ta = oHNote.FormattedHoleThreadNote\n\
+    \t\t'oHNote.FormattedHoleThreadNote = \"\"\n\t\t\n\t\tDim TXT2Find As String =\
+    \ \"Precision='2'\"\n\t\tDim NewTXT As String = \"Precision='3'\"\n\t\t'odim.OverrideModelValue\
+    \ = 0\n\t\t\n\t\tIf a Like NewTXT Then\n\t\tMsgBox(\"nothing changed\")\n\t\t\
+    Exit Sub\n\t\tElse\n\t\ta = Replace(a, TXT2Find, NewTXT)\n\t\tEnd If\n\n     \
+    \   'If TXT2Find = \"Precision='2'\" Then\n        'a.Replace = \"Precision='3'\"\
+    \n\t\t'End If\n\t\t\n\t\t'MsgBox(a)\n\t\toHNote.FormattedHoleThreadNote = a\n\t\
+    End If\n\nEnd If\nGoTo Line1 \n-----"

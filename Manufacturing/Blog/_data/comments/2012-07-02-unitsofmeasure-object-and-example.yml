@@ -1,0 +1,110 @@
+comments:
+- author: dba
+  email: ''
+  ip: 10.110.60.162
+  url: http://profile.typepad.com/6p01910489d0be970c
+  date: '2017-04-25 01:42:30'
+  body: 'Hello Augusto,
+
+
+    I see this is a pretty old post, and there may be new approaches.
+
+    I my case I need the parameter Values as "mm", "deg", "bool" or "text" values
+    (without the dimension - but that is not the challenge :-) ). So following this
+    topic I could parse the expression to internal units. That''s fine so far. But
+    then I needed to convert Lenght-Pars to "mm" and Ang-Pars to "deg" an leave the
+    others as they are. Is there a simple way to "categorize" the paramaters without
+    the need to compare the returned "GetTypeFromString"-Enum to all possible UnitsTypeEnum?
+    So I would need some select case construction or a linq-query, wouldn''t I?
+
+    Thank you for taking time on this.
+
+    BR,
+
+    Daniel'
+- author: Brian Ekins
+  email: ''
+  ip: 132.188.72.146
+  url: http://profile.typepad.com/1218580234s15464
+  date: '2017-04-25 11:19:04'
+  body: "Daniel,\n\nI believe the code below does what you described.  There are a\
+    \ few if statements but it's not what I would consider very complex.\n\nPublic\
+    \ Sub UOMSample()\n    Dim partDoc As PartDocument\n    Set partDoc = ThisApplication.ActiveDocument\n\
+    \    \n    Dim uom As UnitsOfMeasure\n    Set uom = partDoc.UnitsOfMeasure\n \
+    \   \n    Dim pi As Double\n    pi = Atn(1) * 4\n    \n    Dim param As Parameter\n\
+    \    For Each param In partDoc.ComponentDefinition.Parameters\n        If Not\
+    \ (param.Units = \"Text\" Or param.Units = \"Boolean\") Then\n            If uom.CompatibleUnits(param.expression,\
+    \ param.Units, \"1\", \"mm\") Then\n                Debug.Print \"Length param\
+    \ \" & param.name & \" = \" & param.Value * 10\n            ElseIf uom.CompatibleUnits(param.expression,\
+    \ param.Units, \"1\", \"deg\") Then\n                Debug.Print \"Angle param\
+    \ \" & param.name & \" = \" & param.Value * (180 / pi)\n            Else\n   \
+    \             Debug.Print \"Other param \" & param.name & \" = \" & param.expression\n\
+    \            End If\n        Else\n            Debug.Print \"Other param \" &\
+    \ param.name & \" = \" & param.Value\n        End If\n    Next\nEnd Sub"
+- author: dba
+  email: ''
+  ip: 10.110.60.162
+  url: http://profile.typepad.com/6p01910489d0be970c
+  date: '2017-04-26 02:43:07'
+  body: "Hello Brian,\n\nthank you for the quick answer. I built something similar,\
+    \ just liked to ask if there was a \"classification\" per Type available. There\
+    \ is some textual reference in the API-Help... (it doens't state there was a property\
+    \ for this, it's just in textdescription....)\n\nHere is my solution in form of\
+    \ an extension method for the parameter object in case someone could use it:\n\
+    \n    \n    Public Function ConvertToKeytechValue(p As Parameter) As String\n\
+    \        Dim uom = DirectCast(p.Parent, Document).UnitsOfMeasure\n        Dim\
+    \ ut As UnitsTypeEnum\n        Try\n            ut = uom.GetTypeFromString(p.Units)\n\
+    \        Catch ex As Exception\n            Return p.Value\n        End Try\n\
+    \        Dim utName As String = [Enum].GetName(GetType(UnitsTypeEnum), ut)\n \
+    \       Dim pval As Double\n        Try\n            pval = uom.GetValueFromExpression(p.Expression,\
+    \ ut)\n        Catch ex As Exception\n            Return p.Value\n        End\
+    \ Try\n\n        Select Case True\n            Case utName.Contains(\"Angle\"\
+    )\n                Return pval * (180.0 / Math.PI)\n            Case utName.Contains(\"\
+    Length\")\n                Return pval * 10\n        End Select\n        Return\
+    \ \"\"\n    End Function\n\nBR,\nDaniel"
+- author: dba
+  email: ''
+  ip: 10.110.60.162
+  url: http://profile.typepad.com/6p01910489d0be970c
+  date: '2017-04-26 02:44:41'
+  body: I wonder if there is some code-syntax formatting/highlighting available on
+    this blog... :)
+- author: Augusto Goncalves
+  email: ''
+  ip: 179.157.86.231
+  url: http://profile.typepad.com/6p0168e7e7c9dd970c
+  date: '2017-04-26 04:48:03'
+  body: 'Daniel,
+
+
+    Before Brian jump in, for more complex questions, the API Forum is the best route:
+    <a href="https://forums.autodesk.com/t5/inventor-customization/bd-p/120">https://forums.autodesk.com/t5/inventor-customization/bd-p/120</a>
+
+
+    Regards,
+
+    Augusto Goncalves'
+- author: Brian Ekins
+  email: ''
+  ip: 50.53.94.99
+  url: http://profile.typepad.com/1218580234s15464
+  date: '2017-04-26 12:33:11'
+  body: 'As Augusto said, the forum is a better place for questions.  But for this
+    question I went ahead and created a blog post that goes into more detail.  Hopefully
+    this will help.
+
+
+    <a href="http://modthemachine.typepad.com/my_weblog/2017/04/units-and-parameters-in-inventor.html">http://modthemachine.typepad.com/my_weblog/2017/04/units-and-parameters-in-inventor.html</a>
+
+
+    -Brian'
+- author: dba
+  email: ''
+  ip: ''
+  url: http://profile.typepad.com/6p01910489d0be970c
+  date: '2017-04-26 13:06:32'
+  body: "Typepad-HTML-E-Mail\n\n\nHello Brian, Augusto \n\n\n\nThanks for the effort. \
+    \ Sure I know,  this is not a discussion platform.  I use the Forums normally\
+    \ for questions,  I just meant to ask here,  since it seemed to be related directly\
+    \ to this Blog entry. \n\n\n\nThank you both again! \n\n\nBR, \n\n\nDaniel \n\n\
+    \n\nGesendet mit TypeApp \n-----"

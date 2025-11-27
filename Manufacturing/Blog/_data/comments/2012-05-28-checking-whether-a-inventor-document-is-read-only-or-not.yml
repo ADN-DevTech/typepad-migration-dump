@@ -1,0 +1,18 @@
+comments:
+- author: Niklas
+  email: nr@rusche-tech.net
+  ip: 207.134.192.27
+  url: http://rusche-tech.net
+  date: '2016-01-15 08:04:23'
+  body: "Hi and thanks Philippe,\nI had to make a small change for it to work: my\
+    \ files were declared as archive, so I changed the line\n\nIf atts = System.IO.FileAttributes.ReadOnly\
+    \ Then\n\nto \n\nIf atts = 1 Or atts = 33 Then\n\nNo idea if this is elegant,\
+    \ but it works!"
+- author: Maxence
+  email: maxence.delannoy@wiip.fr
+  ip: 90.1.245.144
+  url: http://wiip.fr
+  date: '2018-04-08 06:04:08'
+  body: 'Should be atts.HasFlag(FileAttributes.ReadOnly). FileAttributes is a flag.
+
+    -----'

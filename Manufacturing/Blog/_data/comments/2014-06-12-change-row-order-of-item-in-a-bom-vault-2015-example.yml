@@ -1,0 +1,38 @@
+comments:
+- author: Cornelius
+  email: Cornelius.Rohr@cideon.de
+  ip: 146.52.80.88
+  url: ''
+  date: '2014-06-26 05:27:01'
+  body: "Thanks for this sample. \nI try to transfering the UpdateItemBOMAssociationProperties\
+    \ methode from ItemService from 2014 to 2015. In 2015 there is the AssocPropItem\
+    \ changed to the ItemAssocProp.\nThe AssocPropDef i try to update is exisitent\
+    \ end activated. I get the Id. \nI filled the values in that way:\nFor ItemAssocProp.AssocId\
+    \ with the ItemAssoc.Id from the element of my bom. ItemAssocProp.PropDefId with\
+    \ AssocPropDef.Id. ItemAssocProp.ValTyp with DataType from AssocPropDef.Typ and\
+    \ the Value with my String \"0020\".\n\nThat i attach to my List. \nAs parentId\
+    \ i take the ItemAssoc.ParentItemID.\nAs ItemAssocIds i give a List with the ItemAssoc.Id.\n\
+    So why get i always error 283 if i call UpdateItemBOMAssociationProperties(parentId,List.toArray(),new\
+    \ ItemAssocPropArray[] { new ItemAssocProp[]{ItemAssocProp} })\nWich entity is\
+    \ bad? How to test this values in 2015?\n\nI will attach my codesnippet from Vault\
+    \ 2015:\n\n      sRetErr = string.Empty;\n      \n      List lItemAssocId = new\
+    \ List();\n\n      ItemAssoc[] ItemAssocs = ItemService.GetItemBOMAssociationsByItemIds(new\
+    \ long[]{ itemIdParent }, false);\n      string sPropDispName = \"\";\n      foreach\
+    \ (ItemAssoc iExistingAssoc in ItemAssocs)\n      {\n        if (iExistingAssoc.CldItemMasterID\
+    \ == iChildMasterId)\n        {\n          long idParent = 0, idParent2 = 0, idParent3\
+    \ = 0, idParent4 = 0;\n          List lProps = new List();\n          ItemAssocPropArray\
+    \ itemAssocProps = new ItemAssocPropArray();\n\n          for (int iVal = 0; iVal\
+    \ = 0)\n            {\n             sPropDispName = tVaultProps.GetColCaption(iVal);\n\
+    \             string sPropValue = tVaultProps.GetEntry(0, iVal);\n           \
+    \  ItemAssocProp propI = new ItemAssocProp();\n              // propI.AssocPropTyp\
+    \ = AssocPropTyp.ItemBOMAssoc;\n              propI.AssocId = iExistingAssoc.Id;\n\
+    \n              //propI.AssocId = iChildMasterId;\n              propI.PropDefId\
+    \ = idPropId;\n              propI.ValTyp = m_pApp.GetAssocDataTypeToDisplayName(sPropDispName);\n\
+    \              propI.Val = sPropValue;\n\n              lProps.Add(propI);\n \
+    \           }\n          }\n          lItemAssocId.Add(iExistingAssoc.Id);\n \
+    \         idParent  = iExistingAssoc.ParItemID;\n  \n          if (lProps.Count\
+    \ > 0)\n          {\n            itemAssocProps.Items = lProps.ToArray();\n  \
+    \          try\n            {\nItemService.UpdateItemBOMAssociationProperties(idParent,\
+    \ lItemAssocId.ToArray(), new ItemAssocPropArray[] { itemAssocProps });\n    \
+    \        }\n            catch (Exception e)\n            {\n              sRetMsg\
+    \ = e.Message;\n              return -1;\n            }\n}}}\n\n\n\n\n-----"

@@ -1,0 +1,55 @@
+comments:
+- author: thales
+  email: changthales@gmail.com
+  ip: 106.1.49.41
+  url: ''
+  date: '2014-08-16 09:23:55'
+  body: "please help me\n\n1. I can't compiler your file \n2. where put my code to\
+    \ replace AppFilePrintCmd\n\nI want put some text before printer .\n\nthank you\n\
+    my email changthales@gmail.com"
+- author: Philippe
+  email: philippe.leefsma@autodesk.com
+  ip: 109.80.241.81
+  url: ''
+  date: '2014-08-17 04:04:48'
+  body: 'Hi,
+
+
+    Why can''t you compile the code, can you be more specific? You have compilation
+    errors?
+
+
+    If you want to completely replace the command place your code inside the OnExecute
+    but do not call the _nativeButtonDef.Execute()'
+- author: Thales Chang
+  email: ''
+  ip: 106.1.49.41
+  url: http://profile.typepad.com/6p01a73e030030970d
+  date: '2014-08-17 07:27:24'
+  body: "1. Why can't you compile the code, can you be more specific? You have compilation\
+    \ errors? ===>  No compilation error code  only bulid error on left buttom\n\n\
+    2. I creat a new subject in Visual Studio ,  then copy your code in StandardAddInServer.vb\n\
+    finaly can Run.\n\nthank your answer\n\nbut I have a new problem\n\nPrivate _invApp\
+    \ As Inventor.Application\n....\n\n            MsgBox(\"Custom code...\")   'this\
+    \ can run \n\n            Dim oDocType As DocumentTypeEnum\n            oDocType\
+    \ = _invApp.ActiveDocument.DocumentType\n            MsgBox(oDocType)\nit's can't\
+    \ run \n\n\nAnd another problem \nin the file menu\nnew\n:\n:\n:\nprint      >\
+    \       print\n  ^Not Replease      ^Can replease\n\ncan replease all print command\
+    \  ?"
+- author: Thales Chang
+  email: ''
+  ip: 106.1.49.41
+  url: http://profile.typepad.com/6p01a73e030030970d
+  date: '2014-08-17 07:51:59'
+  body: 'I found the code
+
+    Dim _invApp As Inventor.Application
+
+    _invApp = System.Runtime.InteropServices.Marshal.GetActiveObject("Inventor.Application")
+
+    It''s can run
+
+
+    But can replease all print button command ?
+
+    -----'

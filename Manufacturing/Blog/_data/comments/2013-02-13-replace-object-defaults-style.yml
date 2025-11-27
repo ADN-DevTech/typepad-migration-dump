@@ -1,0 +1,109 @@
+comments:
+- author: Denis Becker
+  email: denis.becker@fam.de
+  ip: 217.5.129.206
+  url: ''
+  date: '2016-07-28 02:27:24'
+  body: 'I test it in Inventor 2015 SP2.
+
+    I get a failure.
+
+
+    run-time error ''-2147467259(80004005)'':
+
+    Method ''ActiveObjectDefaults'' of object ''DrwaingStandrdStyle'' failed
+
+
+    What can I do?
+
+    Please help.'
+- author: Adam Nagy
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2016-07-28 02:36:58'
+  body: 'Hi Denis,
+
+    Which programming language?
+
+    Can you reproduce it with any drawing?
+
+    Can you do it through the UI?
+
+    Are you sure the program selects the correct ObjectDefaultsStyles?
+
+    Are you running the exact same code shown above or you modified something in it?
+
+    Best might be if you logged this on the Inventor Customization forum and provide
+    as much info as you can.
+
+    Cheers,
+
+    Adam'
+- author: Denis Becker
+  email: denis.becker@fam.de
+  ip: 217.5.129.206
+  url: ''
+  date: '2016-07-28 02:52:56'
+  body: 'I test the VBA-Code with Inventor his own VBA-editor.
+
+    The code was not modified.
+
+    How can I test witch ObjectDefaultsStyles is selected?
+
+
+    I''m not a programmer. It is only my hobby.
+
+
+    Thanks'
+- author: Adam Nagy
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2016-07-28 02:58:33'
+  body: 'Both these lines select specific styles you want to work with:
+
+    Set oDefStyle1 = oStlMgr.ObjectDefaultsStyles(3)
+
+    Set oDefStyle2 = oStlMgr.ObjectDefaultsStyles(1)
+
+    Did you debug into the code to see what they select? Maybe you have to modify
+    the values...'
+- author: Denis Becker
+  email: denis.becker@fam.de
+  ip: 217.5.129.206
+  url: ''
+  date: '2016-07-28 06:25:15'
+  body: 'its were false numbers.
+
+
+    Thanks for the help'
+- author: Denis Becker
+  email: denis.becker@fam.de
+  ip: 217.5.129.206
+  url: ''
+  date: '2016-07-28 07:40:35'
+  body: "What do you think about this code?\nIt overwrite all object styles with the\
+    \ active style from standard sytle.\n\nSub ReplaceObjectDefaultsStyle( _\n   \
+    \ ByVal stylesMgr As DrawingStylesManager, _\n    ByVal replaceStyle As ObjectDefaultsStyle,\
+    \ _\n    ByVal withStyle As ObjectDefaultsStyle, _\n    purge As Boolean)\n  \
+    \  \n    ' Go through each standard and replace the\n    ' Active Defaults with\
+    \ withStyle if currently\n    ' replaceStyle is being used as Active Defaults\n\
+    \    \n    Dim oDwgStd As DrawingStandardStyle\n    For Each oDwgStd In stylesMgr.StandardStyles\n\
+    \        If oDwgStd.ActiveObjectDefaults Is replaceStyle Then\n            oDwgStd.ActiveObjectDefaults\
+    \ = withStyle\n        End If\n    Next\n    \n    ' If it is (or is also) local\
+    \ then we can delete it\n    ' i.e. not library only\n    \n    If purge And replaceStyle.StyleLocation\
+    \ <> kLibraryStyleLocation _\n    Then\n        replaceStyle.Delete\n    End If\n\
+    \    \nEnd Sub\n\nSub Stile_ersetzen()\n\n    Dim oDwg As DrawingDocument\n  \
+    \  Set oDwg = ThisApplication.ActiveDocument\n    \n    Dim oStlMgr As DrawingStylesManager\n\
+    \    Set oStlMgr = oDwg.StylesManager\n    \n    Dim aStSty As DrawingStandardStyle\n\
+    \    Set aStSty = oDwg.StylesManager.ActiveStandardStyle\n    \n    ' The style\
+    \ we want to replace the active style with\n    Dim oDefStyleAktive As ObjectDefaultsStyle\n\
+    \    Set oDefStyleAktive = aStSty.ActiveObjectDefaults\n    \n    Dim StCount\
+    \ As ObjectDefaultsStylesEnumerator\n    Set StCount = oStlMgr.ObjectDefaultsStyles\n\
+    \    \n    Debug.Print StCount.Count\n    For i = 1 To StCount.Count\n    On Error\
+    \ Resume Next\n    \n        ' The style we want to replace\n        Dim oDefStyleX\
+    \ As ObjectDefaultsStyle\n        Set oDefStyleX = oStlMgr.ObjectDefaultsStyles(i)\n\
+    \        \n        Debug.Print i\n        \n        ReplaceObjectDefaultsStyle\
+    \ oStlMgr, oDefStyleX, oDefStyleAktive, False\n        \n    If Err Then fehler\
+    \ = True\n    Next\n\nEnd Sub\n\n\n-----"

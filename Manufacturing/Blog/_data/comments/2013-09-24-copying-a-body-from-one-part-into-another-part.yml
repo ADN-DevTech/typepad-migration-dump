@@ -1,0 +1,108 @@
+comments:
+- author: AlexNester
+  email: t0968639585@gmail.com
+  ip: 91.241.34.53
+  url: ''
+  date: '2016-01-05 11:28:04'
+  body: "Set sourceBody = ThisApplication.CommandManager.Pick( _ \n              \
+    \                  kPartBodyFilter, _ \n                                \"Select\
+    \ a body to copy.\") \n\nIf I need select more then one SurfaceBodyProxy?"
+- author: Brian Ekins
+  email: ''
+  ip: 132.188.72.146
+  url: http://profile.typepad.com/1218580234s15464
+  date: '2016-01-05 12:44:08'
+  body: The Pick method is a simple way of getting a single selection.  For more control
+    over the selection process, including getting multiple selections, you can use
+    the InteractionEvents object.  It's more difficult to use but provides a lot more
+    functionality.
+- author: AlexNester
+  email: t0968639585@gmail.com
+  ip: 91.241.34.53
+  url: ''
+  date: '2016-01-07 11:27:28'
+  body: 'Thank you very much
+
+
+    As I understand need create the class "clsSelect" (like in tutorial)
+
+    I can do multi select
+
+    But How add to Pick new objects ?
+
+    Set Pick = oSelectedEnts.Item(1)
+
+
+    Besides How shoot down selection Outside the class?
+
+
+
+    I just need selection like in frame generator (trim/extend operation)
+
+    after push button activate selection (after push button apply (I think so) stop
+    selection)'
+- author: AlexNester
+  email: t0968639585@gmail.com
+  ip: 91.241.34.53
+  url: ''
+  date: '2016-01-08 06:49:54'
+  body: "Private Sub Zamki_Click()\n\n Set oInteraction = ThisApplication.CommandManager.CreateInteractionEvents\n\
+    \    \n    ' Set the prompt.\n    oInteraction.StatusBarText = \"Select an edge.\"\
+    \n    \n    ' Connect to the associated select events.\n    Set oSelect = oInteraction.SelectEvents\n\
+    \    \n    ' Define that all part edges should be selectable.\n    oSelect.AddSelectionFilter\
+    \ kPartBodyFilter\n\n    ' Enable single selection.\n    oSelect.SingleSelectEnabled\
+    \ = False\n\n    ' Start the selection process.\n    oInteraction.Start\n    \
+    \                                                                            \
+    \    \nEnd Sub\n\n\n\nPrivate Sub oSelect_OnSelect(ByVal JustSelectedEntities\
+    \ As ObjectsEnumerator, _\n                            ByVal SelectionDevice As\
+    \ SelectionDeviceEnum, _\n                            ByVal ModelPosition As Point,\
+    \ _\n                            ByVal ViewPosition As Point2d, _\n          \
+    \                  ByVal View As View)\n    \n    \n    ' Calculate the length\
+    \ of the edge(s) selected.\n    Dim i As Long\n   \n  For i = 1 To JustSelectedEntities.Count\n\
+    \        ' Since we set the filter to only select edges it's safe to assign\n\
+    \        ' the returned entities to an Edge object.\n       \n        Set sourceBody\
+    \ = JustSelectedEntities.Item(i)\n        \n   Next\n   \nEnd Sub\n\nto sorceBody\
+    \ set only one last entity. May be I need set sorcebody as matrix ?"
+- author: AlexNester
+  email: t0968639585@gmail.com
+  ip: 91.241.34.53
+  url: ''
+  date: '2016-01-12 23:30:13'
+  body: "So I solve problem\n\nI Create InteractionEvents and create objectcollection\
+    \ for second selection\n\nSet transObjs = ThisApplication.TransientObjects\n \
+    \ Set col2 = transObjs.CreateObjectCollection\n    \n  For i = 1 To JustSelectedEntities.Count\n\
+    \       \n    \n    Set sourceBody = oSelect.SelectedEntities.Item(i)\n   \n \
+    \ Next\n\n\n For Each SelectedEntities In oSelect.SelectedEntities\n\n      \n\
+    \      col2.Add (SelectedEntities)\n\n    Next"
+- author: Tobias M
+  email: T.menzel1995@gmx.de
+  ip: 62.246.89.156
+  url: ''
+  date: '2016-08-19 01:49:02'
+  body: 'Hi!
+
+
+    I tried your code on two intersecting tubes that i want to sculpt. I am able to
+    create a surfacebody of Tube2 in Tube1. But i am not able to create an adaptive
+    surfacebody. Everytime i set "featureDef.IsAssociative = True" i got an error
+    reading ''Wrong Parameters''
+
+
+    Could you help me out?
+
+    Thanks'
+- author: Márton Buday
+  email: buday.m91@gmail.com
+  ip: 46.139.109.152
+  url: ''
+  date: '2018-03-28 04:27:55'
+  body: "Hi,\n\nI am trying to create something similar to the Copy Object tool so\
+    \ I started out with the code in this post which is working fine up until I try\
+    \ to add more than one source body. \n\nI'm taking baby steps so basically what\
+    \ I modified in your code is that I added a second surfaceBodyProxy (sourceBody2)\
+    \ which is also selected by the user right after the first one. Then I add it\
+    \ to the object collection (in the non-associative case I also create a newBody2\
+    \ to transform and then add that to the collection). \nThen Inventor crashes when\
+    \ trying to create the base feature. It seems like everything is OK until the\
+    \ object collection contains only one object.\n\nDo you have any suggestions?\n\
+    \nThank you!\n\n-----"

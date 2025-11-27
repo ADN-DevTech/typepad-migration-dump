@@ -1,0 +1,23 @@
+comments:
+- author: Jef_E
+  email: eerdekensjef@telenet.be
+  ip: 84.194.61.189
+  url: ''
+  date: '2015-08-13 12:16:31'
+  body: "Hi,\n\nThank you for this example, works perfect. But.. now i'm trying to\
+    \ do the same but then deriving solids. What do i do wrong?\n\nMy derived part\
+    \ is created but my solid is not selected as derived part. But i do get a msgbox\
+    \ that it has found my solid.\n\n        Dim oDoc As PartDocument = oInvApp.ActiveDocument\n\
+    \        Dim oDef As PartComponentDefinition = oDoc.ComponentDefinition\n\n  \
+    \      Dim oLoc As String = \"D:\\VaultWorkspace\\cadcampc\\03-Vessel configurator\
+    \ - R2.0\\Body\\Vorm.ipt\"\n \n        ' Derived part maken\n        Dim oDerivedPartDef\
+    \ As DerivedPartUniformScaleDef\n        oDerivedPartDef = oDoc.ComponentDefinition.ReferenceComponents.DerivedPartComponents.CreateUniformScaleDef(oLoc)\n\
+    \        oDerivedPartDef.ScaleFactor = 1\n        oDerivedPartDef.ExcludeAll()\n\
+    \        oDerivedPartDef.UseColorOverridesFromSource = False\n        Call oDoc.ComponentDefinition.ReferenceComponents.DerivedPartComponents.Add(oDerivedPartDef)\n\
+    \n\n        ' Derive van parameters & schetsen\n        Dim oDerivedComp As DerivedPartComponent\
+    \ = oDoc.ComponentDefinition.ReferenceComponents.DerivedPartComponents(1)\n  \
+    \      oDerivedPartDef = oDerivedComp.Definition\n\n        ' Parameters\n   \
+    \     Dim oDerEntity As DerivedPartEntity\n        For Each oDerEntity In oDerivedPartDef.Solids\n\
+    \            If oDerEntity.ReferencedEntity.Name = \"C1\" Then\n             \
+    \   oDerEntity.IncludeEntity = True\n                MsgBox(\"Oké\")\n       \
+    \         Exit For\n            End If\n        Next\n-----"

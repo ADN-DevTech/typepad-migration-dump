@@ -1,0 +1,68 @@
+comments:
+- author: Martin
+  email: martinhoos@konvekta.com
+  ip: 217.5.198.54
+  url: ''
+  date: '2016-05-20 02:48:27'
+  body: 'This code is great! It does a lot of work automatically. For our automation
+    it would be great if i could, instead of select hole after hole, select the area
+    where the holes are in. I would Need just two clicks for hundreds of rivets. By
+    the way, we use rivets DIN 7337 and DIN 124. There is one Problem left, if we
+    have 3 plates to put together with rivets, plate 1 with 2 and plate 2 with 3 -
+    in this case the code have to check if there is a hole still with an rivet in.
+
+    May be there is anyone who can modifiy the code...
+
+    Thanks in advance
+
+    Martin'
+- author: Dušan Nauš
+  email: nausd@seznam.cz
+  ip: 80.82.146.18
+  url: ''
+  date: '2016-05-26 08:40:24'
+  body: 'Hi
+
+
+    I have Error in Inventor Professional 2017
+
+
+    Error in rule program format:
+
+    All other Sub''s or Function''s must be after Sub Main()'
+- author: Adam Nagy
+  email: ''
+  ip: 132.188.64.212
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2016-05-26 08:44:25'
+  body: "Hi,\n\nhere is why: <a href=\"http://adndevblog.typepad.com/manufacturing/2015/11/convert-vba-to-net-ilogic.html\"\
+    >http://adndevblog.typepad.com/manufacturing/2015/11/convert-vba-to-net-ilogic.html</a>\
+    \ \n\nCheers,\nAdam"
+- author: Dušan Nauš
+  email: nausd@seznam.cz
+  ip: 80.82.146.18
+  url: ''
+  date: '2016-05-26 10:14:23'
+  body: "Thank you,\n\nyou're quick. I try, the code does not work. I do not know.\
+    \ What have I to do with Select Set There I have an error. I followed the address\
+    \ what you've sent me.\n\nSub Main()\n  ' Do something\n  \n  ' Then call another\
+    \ method\n  Call InsertSameInstances\n  \nEnd Sub\n\nSub InsertSameInstances()\n\
+    \n  Dim doc As AssemblyDocument\n  doc = ThisApplication.ActiveDocument\n  \n\
+    \  Dim acd As AssemblyComponentDefinition\n  acd = doc.ComponentDefinition\n\n\
+    \  ' Instance to copy\n  Dim occ As ComponentOccurrence\n'  occ = doc.SelectSet(1)\n\
+    '  \n'  ' Store selected faces\n'  Dim fs As ObjectCollection\n'  fs = ThisApplication.TransientObjects.CreateObjectCollection\n\
+    '  \n'  Dim i As Integer\n'  For i = 2 To doc.SelectSet.Count\n'    Call fs.Add(doc.SelectSet(i))\n\
+    '  Next\n'  \n'  ' Faces of holes that the copies should be placed to\n'  Dim\
+    \ h As Face\n'  For Each h In fs\n'    ' Insert same component\n'    Dim tg As\
+    \ TransientGeometry\n'    tg = ThisApplication.TransientGeometry\n'  \n'    Dim\
+    \ occNew As ComponentOccurrence\n'    occNew = acd.Occurrences.AddByComponentDefinition(occ.Definition,\
+    \ tg.CreateMatrix())\n'    \n'    ' Check original component's constraints\n'\
+    \    Dim c As AssemblyConstraint\n'    For Each c In occ.Constraints\n'      If\
+    \ TypeOf c Is InsertConstraint Then\n'        Dim ic As InsertConstraint\n'  \
+    \      ic = c\n'      \n'        ' Get native edge\n'        Dim e As Edge\n'\
+    \        e = c.EntityOne.NativeObject\n'      \n'        ' Get its equivalent\
+    \ in the new occurrence\n'        Dim ep As EdgeProxy\n'        Call occNew.CreateGeometryProxy(e,\
+    \ ep)\n'      \n'        ' Get hole's edge\n'        Dim eh As Edge\n'       \
+    \ eh = h.Edges(1)\n'      \n'        Call acd.Constraints.AddInsertConstraint(ep,\
+    \ eh, ic.AxesOpposed, ic.Distance.Value)\n'      End If\n'    Next\n'  Next\n\
+    End Sub\n\n\n \n-----"

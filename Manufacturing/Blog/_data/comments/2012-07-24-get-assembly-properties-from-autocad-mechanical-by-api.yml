@@ -1,0 +1,105 @@
+comments:
+- author: Thomas
+  email: thomas.wegener@mum.de
+  ip: 91.64.81.238
+  url: ''
+  date: '2012-08-09 05:56:41'
+  body: "Thanks Barbara - I ported it to c#:\n\nusing Ac = Autodesk.AutoCAD.Interop;\n\
+    using AcCom = Autodesk.AutoCAD.Interop.Common;\n\nnamespace MuM.Base.AutoCAD.ComM\n\
+    {\n    public class MCadApp\n    {\n        private Ac.AcadApplication _acApp;\n\
+    \        private Ac.AcadDocument _acDoc;\n        private AcadmAuto.AcadmApplication\
+    \ _amApp;\n        private AcadmAuto.IMcadUtility _amUtils;\n        private SymBBAuto.McadSymbolBBMgr\
+    \ _amSymMgr;\n        private SymBBAuto.IMcadBOMMgr _amBomMgr;\n\n        public\
+    \ MCadApp(Ac.AcadApplication comApp, Ac.AcadDocument comDoc)\n        {\n    \
+    \        _acApp = comApp;\n            _acDoc = comDoc;\n\n            _amApp\
+    \ = _acApp.GetInterfaceObject(\"AcadmAuto.AcadmApplication\") as AcadmAuto.AcadmApplication;\n\
+    \            _amUtils = _amApp.ActiveDocument.Utility;\n            _amSymMgr\
+    \ = _acApp.Application.GetInterfaceObject(\"SymBBAuto.McadSymbolBBMgr\") as SymBBAuto.McadSymbolBBMgr;\n\
+    \            _amBomMgr = _amSymMgr.BOMMgr;\n        }\n\n        public void SetGetAssemblyAttributes()\
+    \ \n        {\n            AcCom.AcadModelSpace ms = _acDoc.ModelSpace;\n    \
+    \        AcCom.AcadObject modelSpace = ms as AcCom.AcadObject;\n\n           \
+    \ // Check if the assembly properties have been initialized \n            // Get\
+    \ the assembly attributes from current database modelspace \n            object\
+    \ vdata = _amBomMgr.GetPartData(modelSpace);\n            Array arData = vdata\
+    \ as Array;\n\n            if (arData == null)\n            {\n              \
+    \  // Create the data to be assigned \n                // Define double array\
+    \ of strings to hold column name and values \n                arData = Array.CreateInstance(typeof(string),\
+    \ 10, 2);\n                arData.SetValue(\"NOTE\", 0, 0); arData.SetValue(\"\
+    MyNote\", 0, 1);\n                arData.SetValue(\"STANDARD2\", 1, 0); arData.SetValue(\"\
+    text for standard2\", 1, 1);\n                arData.SetValue(\"DIM\", 2, 0);\
+    \ arData.SetValue(\"10\", 2, 1);\n                arData.SetValue(\"DESCR2\",\
+    \ 3, 0); arData.SetValue(\"10\", 3, 1);\n                arData.SetValue(\"PRICE\"\
+    , 4, 0); arData.SetValue(\"101\", 4, 1);\n                arData.SetValue(\"MASS\"\
+    , 5, 0); arData.SetValue(\"IS:2062\", 5, 1);\n                arData.SetValue(\"\
+    MATERIAL\", 6, 0); arData.SetValue(\"XYZ\", 6, 1);\n                arData.SetValue(\"\
+    VENDOR\", 7, 0); arData.SetValue(\"text for description\", 7, 1);\n          \
+    \      arData.SetValue(\"DESCR\", 8, 0); arData.SetValue(\"GOLD\", 8, 1);\n  \
+    \              arData.SetValue(\"STANDARD\", 9, 0); arData.SetValue(\"text for\
+    \ standard\", 9, 1);\n\n                // Assign the data to current database\
+    \ modelspace \n                _amBomMgr.SetPartData(modelSpace, arData);\n  \
+    \          }\n            else \n            {\n                // print the existing\
+    \ data \n                for (int i = arData.GetLowerBound(0); i < arData.GetUpperBound(0);\
+    \ ++i)\n                {\n                    Debug.Print(string.Format(\"\\\
+    t{0}\\t{1}\", \n                        arData.GetValue(i, arData.GetLowerBound(1)),\n\
+    \                        arData.GetValue(i, arData.GetUpperBound(1))));\n    \
+    \            }\n            }\n        }\n\n        public void ModAssemblyAttributes()\
+    \ \n        {\n            AcCom.AcadModelSpace ms = _acDoc.ModelSpace;\n    \
+    \        AcCom.AcadObject modelSpace = ms as AcCom.AcadObject;\n\n           \
+    \ // Check if the assembly properties have been initialized \n            // Get\
+    \ the assembly attributes from current database modelspace \n            object\
+    \ vdata = _amBomMgr.GetPartData(modelSpace);\n            Array arData = vdata\
+    \ as Array;\n\n            if (arData != null)\n            {\n              \
+    \  // Modify material \n                for (int i = arData.GetLowerBound(0);\
+    \ i < arData.GetUpperBound(0); ++i)\n                {\n                    if\
+    \ ( arData.GetValue(i, arData.GetLowerBound(0)) == \"MATERIAL\")\n           \
+    \         {\n                        arData.SetValue(\"SILVER\", i, arData.GetUpperBound(1));\n\
+    \                        break;\n                    }\n                }\n  \
+    \              _amBomMgr.SetPartData(modelSpace, vdata);\n            }\n    \
+    \    }\n    }\n}"
+- author: Lotfi
+  email: lotfi@itechholding.com
+  ip: 86.97.53.143
+  url: ''
+  date: '2013-03-27 23:24:30'
+  body: where can i find the file symbbauto.dll??
+- author: candace
+  email: babijay43@yahoo.com
+  ip: 50.194.108.193
+  url: ''
+  date: '2016-05-12 10:35:41'
+  body: 'Hello,
+
+
+    Is there a way to modify this code to change material Density?  Now I can change
+    the assigned material to "SILVER" with the code above, but is there a way to change
+    the Density of the part material?'
+- author: Matthijs
+  email: matthijsworp@gmail.com
+  ip: 213.127.79.170
+  url: ''
+  date: '2021-06-03 04:30:42'
+  body: 'Hello,
+
+
+    Is this API still valid in autocad 2019 and is it possible to remove the override
+    on the component name property with this API?
+
+
+    Greetings,
+
+    Matthijs'
+- author: Bram
+  email: bram.baars@jbtc.com
+  ip: 77.165.73.182
+  url: ''
+  date: '2021-06-03 04:33:30'
+  body: I asked this question in the Visual Lisp forum, but got no answer there yet.
+    Hopefully we are able to do that, one way or another!
+- author: Bram
+  email: bram.baars@jbtc.com
+  ip: 77.165.73.182
+  url: ''
+  date: '2021-06-03 04:33:41'
+  body: '<a href="https://forums.autodesk.com/t5/visual-lisp-autolisp-and-general/acad-mechanical-2019-manipulate-overridden-assembly-properties/m-p/9840230#M406923">https://forums.autodesk.com/t5/visual-lisp-autolisp-and-general/acad-mechanical-2019-manipulate-overridden-assembly-properties/m-p/9840230#M406923</a>
+
+    -----'

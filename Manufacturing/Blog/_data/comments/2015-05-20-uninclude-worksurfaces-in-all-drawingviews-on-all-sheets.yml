@@ -1,0 +1,87 @@
+comments:
+- author: Mike
+  email: m.ellek@compasssystems.com
+  ip: 96.11.23.194
+  url: ''
+  date: '2015-09-02 06:48:50'
+  body: "This code is a holy grail for me. I've tried to run both the VBA and the\
+    \ ilogic in my current drawing. Unfortunately I get errors in both versions. I'm\
+    \ using Inventor 2015 professional 64-bit, build 223, SP2 update 1.\n\nWhen running\
+    \ the ilogic the error is: Error in rule: \nUnspecified error (Exception from\
+    \ HRESULT: 0x80004005 (E_FAIL))\n (sorry not that informative)\n\nWhen running\
+    \ the VBA the error is:\nRun-time error '-2147467259 (80004005)':\nMethod 'SetIncludeStatus'\
+    \ of object \"DrawingView' failed\n\nand the debug points me to:\n       Call\
+    \ dv.SetIncludeStatus(ws, False)   (this is the highlighted line)\n      Next\n\
+    \    Next\n  Next\nEnd Sub\n\n\nAny help you could give me to get this working\
+    \ would be very appreciated."
+- author: Adam Nagy
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2015-09-02 06:56:14'
+  body: 'Hi Mike,
+
+
+    Could you please log this question on the Inventor Customisation forum and also
+    provide a non-confidential document that could be used to reproduce the issue?
+
+    That would make things easier.
+
+
+    Thank you,
+
+    Adam'
+- author: Mike
+  email: m.ellek@compasssystems.com
+  ip: 96.11.23.194
+  url: ''
+  date: '2015-09-02 07:27:42'
+  body: 'Adam,
+
+
+    Which forum specifically?
+
+    I''m trying to make a quick and simple example, but its proving too simple and
+    the codes are working just fine and doing what it should.
+
+
+    Mike'
+- author: Adam Nagy
+  email: ''
+  ip: 132.188.32.206
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2015-09-02 07:47:11'
+  body: "This forum: <a href=\"http://forums.autodesk.com/t5/inventor-customization/bd-p/120\"\
+    >http://forums.autodesk.com/t5/inventor-customization/bd-p/120</a> \nYou can try\
+    \ to simplify the assembly until the problem goes away or debug into the code\
+    \ to see which DrawingView and WorkSurface are causing the problem - that might\
+    \ give a clue."
+- author: Mike
+  email: m.ellek@compasssystems.com
+  ip: 96.11.23.194
+  url: ''
+  date: '2015-09-02 09:42:35'
+  body: "After working with this for a few hours, the errors I'm getting are due to\
+    \ having flat patterns in my drawing. If you remove the flats, you get no errors.\
+    \ \n\nWith this knowledge, do you think there is a work around?"
+- author: Adam Nagy
+  email: ''
+  ip: 213.104.245.142
+  url: http://profile.typepad.com/1236098880s16462
+  date: '2015-10-16 02:49:02'
+  body: 'Hi MIke,
+
+
+    So the issue is with a Drawing View that is showing a flat pattern and also has
+    work surfaces?
+
+    Can you reproduce it with any flat pattern view?
+
+    Could you please log it on the forum and provide a minimal sample part?
+
+
+    Cheers,
+
+    Adam
+
+    -----'

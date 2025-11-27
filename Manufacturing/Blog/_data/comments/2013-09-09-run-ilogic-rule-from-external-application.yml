@@ -1,0 +1,158 @@
+comments:
+- author: Manoj
+  email: kodatimanoj@gmail.com
+  ip: 14.143.178.27
+  url: ''
+  date: '2019-11-11 04:35:12'
+  body: 'Hi,
+
+    I am using .net to implement this logic.
+
+    everything worked fine once but not now.
+
+    I getting at line where we try to activate the add-in.
+
+
+    Did you ever face this error or have any idea why this is occuring.
+
+
+    Regards,
+
+    Manoj'
+- author: Adam Nagy
+  email: ''
+  ip: 193.151.121.127
+  url: https://profile.typepad.com/1236098880s16462
+  date: '2019-11-11 07:03:23'
+  body: I cannot reproduce the issue now, but I've seen it a few times that the iLogic
+    module did not load properly and the iLogic UI elements did not show up. I can
+    imagine that in such a case the Activate() method would fail as well. If the iLogic
+    UI components show up fine in your case then I don't know why it would fail since
+    then the add-in should be active already.
+- author: Bjegosh
+  email: sayhjkshkdjhf@protonmail.com
+  ip: 146.59.235.27
+  url: ''
+  date: '2020-12-10 02:16:28'
+  body: 'Hello
+
+
+    I have some questions:
+
+
+    1. How to get SDK for iLogic plugin ?
+
+    2. How to get list of forms from iLogic plugin ?
+
+    3. How to get a pointer to IiLogicForm interface (Forms list) ?
+
+    4. How to get IID''s list of iLogic plugin interfaces (I Can''t find TLB) ?
+
+    5. How to get the correct IUnknown interface from the iLogic plugin ?
+
+
+    C/C++ (MFC) only plz !!!
+
+
+    Thank You'
+- author: Mike Deck
+  email: mike.deck@autodesk.com
+  ip: 132.188.1.17
+  url: ''
+  date: '2020-12-17 18:28:13'
+  body: "Hi Bjegosh,\n\n There is no TLB for the iLogic plugin. It's possible that\
+    \ late binding is the only way to call it from unmanaged C++.\n\n Are you developing\
+    \ for Inventor on the desktop or for Forge? Or both?\n\nThanks,\nMike"
+- author: Bjegosh
+  email: sayhjkshkdjhf@protonmail.com
+  ip: 185.165.168.229
+  url: ''
+  date: '2020-12-18 03:52:58'
+  body: 'Hi Mike,
+
+
+    ... simple utility (not plug-in) for win7/10 on MFC vs2015
+
+
+    C#:
+
+    iLogicForm oILForm = new iLogicForm(oDoc,_invApp); <-- Unfortunately class, not
+    IiLogicForm interface !!!
+
+
+    C++ (MFC):
+
+    I don''t know how to get the equivalent of C# code to get a list of forms from
+    iLogic
+
+    I can''t get the interface because I don’t know IID for IiLogicForm interface
+
+    ... and this interface is not registered in Windows registry
+
+
+    Thanks'
+- author: Mike Deck
+  email: mike.deck@autodesk.com
+  ip: 132.188.1.28
+  url: ''
+  date: '2021-01-02 17:16:09'
+  body: "Hi Bjegosh,\n\n I don't have VS2015 installed, but I put together a test\
+    \ program to do it. It's an MFC executable and it uses C++/CLI to create a new\
+    \ iLogicForm. iLogicForm is hust a C# class. It's not exposed to COM.\n\nHere's\
+    \ the relevant source code. Please post your question on the Inventor Customization\
+    \ forum <a href=\"https://forums.autodesk.com/t5/inventor-customization/bd-p/120\"\
+    >https://forums.autodesk.com/t5/inventor-customization/bd-p/120</a> and I can\
+    \ post the full project there.\n\n#include \"stdafx.h\"\n#include \"iLogicFormsTest.h\"\
+    \n\n#include \n\n#include \n\n#using \n#using \n#using \n#using \n\nusing namespace\
+    \ System::Runtime::InteropServices;\nusing namespace Autodesk::iLogic::Interfaces;\n\
+    \nHRESULT iLogicFormsTest::testForms()\n{\n\tint nRetCode = 0;\n\tHRESULT Result\
+    \ = NOERROR;\n\n\t// Access Inventor\n\t{\n\t\tCLSID InvAppClsid;\n\t\tResult\
+    \ = CLSIDFromProgID(\n\t\t\t_T(\"Inventor.Application\"), &InvAppClsid);\n\t\t\
+    if (FAILED(Result)) return Result;\n\t\tCComPtr pInvAppUnk;\n\t\tResult = ::GetActiveObject(InvAppClsid,\
+    \ NULL, &pInvAppUnk);\n\t\tif (FAILED(Result))\n\t\t\t_tprintf_s(_T(\"Could not\
+    \ get the active Inventor instance\\n\"));\n\t\tif (FAILED(Result)) return Result;\n\
+    \n\t\tCComPtr pInvApp;\n\t\tResult = pInvAppUnk->QueryInterface(\n\t\t\t__uuidof(Application),\
+    \ (void **)&pInvApp);\n\t\tif (FAILED(Result)) return Result;\n\t\tCComPtr pAddIn\
+    \ =\n\t\t\tpInvApp->ApplicationAddIns->ItemById[\n\t\t\t\t_T(\"{3BDD8D79-2179-4B11-8A5A-257B1C0263AC}\"\
+    )];\n\n\t\t// Call iLogic functions using C++/CLI\n\t\t{\n\t\t\t// Get a managed\
+    \ reference to the application:\n\t\t\tSystem::IntPtr appPointer(pInvApp);\n\t\
+    \t\tInventor::Application ^ managedApp = dynamic_cast (Marshal::GetObjectForIUnknown(appPointer));\n\
+    \t\t\t\n\t\t\tInventor::Document ^ managedDoc = managedApp->ActiveDocument;\n\n\
+    \t\t\tauto forms = gcnew iLogic::iLogicForm(managedDoc, managedApp);\n\n\t\t\t\
+    auto formNames = forms->FormNames;\n\t\t\tfor each (System::String ^ formName\
+    \ in formNames)\n\t\t\t{\n\t\t\t\tstd::wstring formNameStd = msclr::interop::marshal_as(formName);\n\
+    \t\t\t\twchar_t msg[1024];\n\t\t\t\tswprintf(msg, sizeof(msg), L\"form name %s\\\
+    n\", formNameStd.c_str());\n\t\t\t\t::OutputDebugStringW(msg);\n\t\t\t}\n\t\t\
+    }\n\t}\n\n\treturn S_OK;\n}"
+- author: Mike Deck
+  email: mike.deck@autodesk.com
+  ip: 132.188.1.28
+  url: ''
+  date: '2021-01-02 17:19:35'
+  body: 'Formatting has removed angle brackets in the code above.
+
+    Please post a question on the Customization forum and we can continue the discussion
+    there.'
+- author: Bjegosh
+  email: sayhjkshkdjhf@protonmail.com
+  ip: 185.220.100.243
+  url: ''
+  date: '2021-01-04 02:03:02'
+  body: 'Thanks for the answer
+
+    Formatting no problem, i understand your code
+
+    I already have a post on Customization forum
+
+    I don''t want to make a copy of the topic
+
+
+    Name: "[C++] The IiLogicForm interface IID for QueryInterface"
+
+    ID: 9926179
+
+    URL: "htt ps : / / forums.autodesk.com / t5 / inventor-customization / c-the-iilogicform-interface-iid-for-queryinterface
+    / td-p / 9926179"
+
+
+    -----'

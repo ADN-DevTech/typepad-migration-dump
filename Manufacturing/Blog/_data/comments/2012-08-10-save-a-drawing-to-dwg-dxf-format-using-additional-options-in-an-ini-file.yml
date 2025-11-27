@@ -1,0 +1,57 @@
+comments:
+- author: Broman
+  email: sillispike@hotmail.com
+  ip: 50.205.95.91
+  url: ''
+  date: '2016-05-03 12:25:17'
+  body: 'Hi,
+
+
+    I was just wondering if you know of a way to also combine multiple .idw sheets
+    into one AutoCAD .dwg file (preferably programmatically). I''m writing a program
+    that configures an inventor model and drawing but needs to export to AutoCAD .dwg
+    due to limitations of our PDM software.'
+- author: Massimo
+  email: ing.frison@freesbee.it
+  ip: 88.217.253.138
+  url: ''
+  date: '2017-03-29 02:29:57'
+  body: 'very interesting post, thank you Adam!!
+
+    By the way we are having one issue with this syntax (still in the VBA part for
+    the moment): assuming that the drawing has multiple sheets with different formats,
+    and assuming that corresponding DWT templates for generating the output in different
+    formats are available, it is necessary to cycle through sheets adding the right
+    oNameValueMap per each sheet, and clearing the object after exporting each sheet.
+
+
+    Exactly in this context I suspect that the line
+
+
+    Call oNameValueMap.Add("Export_Acad_IniFile", strIniFile)
+
+
+    has no effect on the translator.
+
+
+    Whatever I tried to do to pass the right strIniFile to the translator, this always
+    uses the "from the GUI last used ini file".
+
+    I tried to debug it at my best capacities, but still, even if the strIniFile is
+    always right at each cycle, it does not appear to be passed to the translator.
+
+
+    Are we missing anything?'
+- author: Massimo
+  email: ing.frison@freesbee.it
+  ip: 88.217.253.138
+  url: ''
+  date: '2017-04-11 02:40:59'
+  body: '...I''ve found the solution myself: I did not notice a typo in the "Export_Acad_IniFile".
+
+    My syntax was passing "Export_Acad_InFile" instead, thus ignoring the required
+    INI file.
+
+    With the right string it works perfectly.
+
+    -----'

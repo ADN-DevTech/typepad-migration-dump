@@ -1,0 +1,28 @@
+---
+layout: "post"
+title: "Getting ModelFeatureControlFrames in PartDocument via VBA code"
+date: "2018-02-28 03:51:40"
+author: "Chandra Shekar Gopal"
+categories:
+  - "Chandra Shekar Gopal"
+  - "Inventor"
+original_url: "https://adndevblog.typepad.com/manufacturing/2018/02/getting-modelfeaturecontrolframes-in-partdocument-via-vba-code.html "
+typepad_basename: "getting-modelfeaturecontrolframes-in-partdocument-via-vba-code"
+typepad_status: "Publish"
+---
+
+<p>By <a href="http://adndevblog.typepad.com/manufacturing/chandra-shekar-gopal.html">Chandra shekar Gopal</a></p>
+<p>In a PartDocument, hoping that ModelFeatureControlFrames can be retrieved from <strong>“ModelFeatureControlFrames”</strong> Inventor API.&#0160;Instead of this, ModelFeatureControlFrames are encapsulated in <strong>“ModelCompositeAnnotations”. </strong></p>
+<p>Annotations in <strong>ModelCompositeAnnotations</strong> doesn’t count only the number of ModelFeatureControlFrames. It also includes variety of annotations.</p>
+<p>To demonstrate this, a sample part can be downloaded from this <span class="asset  asset-generic at-xid-6a0167607c2431970b01bb09f74c7f970d img-responsive"><a href="http://adndevblog.typepad.com/files/progressive-profile-example---3da.ipt">Link</a></span> which looks as shown below. In this part, there are <strong>9 FeatureControlFrames</strong> and <strong>8 FeatureControlFrames</strong> as base in composite.</p>
+<p><a href="http://adndevblog.typepad.com/.a/6a0167607c2431970b01bb09f74c71970d-pi"><img alt="ModelFeatureControlFrame" border="0" height="386" src="/assets/image_ef70f3.jpg" style="display: inline; background-image: none;" title="ModelFeatureControlFrame" width="750" /></a></p>
+<p><strong>VBA code:</strong></p>
+<blockquote>
+<p>Sub Main()</p>
+<p>&#0160;&#0160;&#0160; Dim oDoc As PartDocument<br />&#0160;&#0160;&#0160;&#0160; Set oDoc = ThisApplication.ActiveDocument<br />&#0160;&#0160;&#0160;&#0160; <br />&#0160;&#0160;&#0160;&#0160; Dim compDef As PartComponentDefinition<br />&#0160;&#0160;&#0160;&#0160; Set compDef = oDoc.ComponentDefinition<br />&#0160;&#0160;&#0160;&#0160; <br />&#0160;&#0160;&#0160;&#0160; Dim cnt As Integer<br />&#0160;&#0160;&#0160;&#0160; cnt = compDef.ModelAnnotations.ModelFeatureControlFrames.Count<br />&#0160;&#0160;&#0160;&#0160; <br />&#0160;&#0160;&#0160;&#0160; Dim compositeCnt As Integer<br />&#0160;&#0160;&#0160;&#0160; compositeCnt = compDef.ModelAnnotations.ModelCompositeAnnotations.Count<br />&#0160;&#0160;&#0160;&#0160; <br />&#0160;&#0160;&#0160;&#0160; Dim fcfCnt As Integer<br />&#0160;&#0160;&#0160;&#0160; fcfCnt = 0<br />&#0160;&#0160;&#0160;&#0160; Dim fcfBaseCnt As Integer<br />&#0160;&#0160;&#0160;&#0160; fcfBaseCnt = 0<br />&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160; <br />&#0160;&#0160;&#0160;&#0160; For Each CompositeAnnotation In compDef.ModelAnnotations.ModelCompositeAnnotations<br />&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160; For Each childAnno In CompositeAnnotation.Definition.Annotations<br />&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160; If childAnno.Type = kModelFeatureControlFrameObject Then<br />&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160; fcfCnt = fcfCnt + 1<br />&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160; <br />&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160; Dim fcf As ModelFeatureControlFrame<br />&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160; Set fcf = childAnno<br />&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160; fcf.Definition.FeatureControlFrameRows.Item(1).DisplayFreeStateModifier = True<br />&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160; End If<br />&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160; Next<br />&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160; <br />&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160; If CompositeAnnotation.Definition.BaseAnnotation.Type = kModelFeatureControlFrameObject Then<br />&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160; fcfBaseCnt = fcfBaseCnt + 1<br />&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160; <br />&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160; Dim fcfBase As ModelFeatureControlFrame<br />&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160; Set fcfBase = CompositeAnnotation.Definition.BaseAnnotation<br />&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160; fcfBase.Definition.FeatureControlFrameRows.Item(1).DisplayTangentPlaneModifier = True<br />&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160; End If<br />&#0160;&#0160;&#0160;&#0160; Next<br />&#0160;&#0160;&#0160;&#0160;&#0160;&#0160;&#0160; <br />&#0160;&#0160;&#0160;&#0160; <br />&#0160;&#0160;&#0160;&#0160; Debug.Print &quot;standalone FCFs&quot;; cnt<br />&#0160;&#0160;&#0160;&#0160; Debug.Print &quot;Copmosite annotations&quot;; compositeCnt<br />&#0160;&#0160;&#0160;&#0160; Debug.Print &quot;FCFs in Composite&quot;; fcfCnt<br />&#0160;&#0160;&#0160;&#0160; Debug.Print &quot;FCFs as Base in Composite&quot;; fcfBaseCnt<br />End Sub</p>
+</blockquote>
+<p><strong>Result for sample part:</strong></p>
+<blockquote>
+<p>standalone FCFs 0 <br />Copmosite annotations 9</p>
+<p>FCFs in Composite 9 <br />FCFs as Base in Composite 8</p>
+</blockquote>

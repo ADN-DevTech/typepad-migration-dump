@@ -1,0 +1,49 @@
+comments:
+- author: Serguei Velidtchenko
+  email: serguei.velidtchenko@fennerdunlop.com
+  ip: 207.255.97.63
+  url: ''
+  date: '2014-04-01 04:28:58'
+  body: "Good Morning Vladimir,\nI downloaded the part model and VB.Net or VBA codes\
+    \ but something is not working for me.\n\nPlease take a look at this code - I\
+    \ need your help desperately...\n\n  Dim oDoc As PartDocument = ThisDoc.Document\n\
+    \  Dim oDef As PartComponentDefinition = oDoc.ComponentDefinition\n  Dim oFeatures\
+    \ As PartFeatures = oDef.Features\n  \n  Dim oSurfaces As ObjectCollection = oApp.TransientObjects.CreateObjectCollection()\n\
+    \n  For Each osurface As WorkSurface In oDef.WorkSurfaces\n  oSurfaces.Add(oFeatures.SculptFeatures.CreateSculptSurface(osurface,\
+    \ PartFeatureExtentDirectionEnum.kNegativeExtentDirection))\n  Next\n  Dim oSculpt\
+    \ As SculptFeature = oFeatures.SculptFeatures.Add(oSurfaces, PartFeatureOperationEnum.kCutOperation)\n\
+    \nIt states that oApp is not declared.\nI am new to programming for Inventor but\
+    \ I would like to have this code working...\nThank you,\nSerguei"
+- author: Vladimir Ananyev
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/ananiev
+  date: '2014-04-01 07:52:22'
+  body: "Could you please replace oApp with ThisApplication.  This variable is used\
+    \ by iLogic to reference Inventor.Application object.  \nbtw, if you speak Russian\
+    \ visit adn-cis.org forums.\nCheers,\nVladimir"
+- author: Tobias M
+  email: T.menzel1995@gmx.de
+  ip: 62.246.89.156
+  url: ''
+  date: '2016-08-19 04:09:27'
+  body: "Hi!\n\n(Code down below)\nI've created an associative surface in my targetOcc.\
+    \ The feature that defines this surface is called basefeautre. How can i create\
+    \ a sculptfeature of my surface in my targetOcc (its partdocument)?\n\n    Dim\
+    \ asmDoc As AssemblyDocument \n     asmDoc = ThisApplication.ActiveDocument \n\
+    \    Dim asmDef As AssemblyComponentDefinition \n     asmDef = asmDoc.ComponentDefinition\
+    \ \n\n\tDim sourceBody As Face'Proxy \n    sourceBody = ThisApplication.CommandManager.Pick(SelectionFilterEnum.kPartFaceFilter,\"\
+    Face.\") \n    \n    ' Get the occurrence to create the new body within. \n  \
+    \  Dim targetOcc As ComponentOccurrence \n    targetOcc = ThisApplication.CommandManager.Pick(SelectionFilterEnum.kAssemblyLeafOccurrenceFilter,\"\
+    Target.\") \n    Dim targetDef As PartComponentDefinition \n    targetDef = targetOcc.Definition\
+    \ \n\t\n\n    ' Create a base feature definition.  This is used to define the\
+    \ \n    ' various inputs needed to create a base feature. \n    Dim nonPrmFeatures\
+    \ As NonParametricBaseFeatures \n     nonPrmFeatures = targetDef.Features.NonParametricBaseFeatures\
+    \ \n    Dim featureDef As NonParametricBaseFeatureDefinition \n     featureDef\
+    \ = nonPrmFeatures.CreateDefinition  \n    Dim transObjs As TransientObjects \
+    \ \n     transObjs = ThisApplication.TransientObjects  \n    Dim col As ObjectCollection\
+    \ \n\t\nDim baseFeature As NonParametricBaseFeature \n\n        col = transObjs.CreateObjectCollection\
+    \ \n        col.Add(sourceBody)\n\t\t\n        featureDef.BRepEntities = col \n\
+    \        featureDef.OutputType = BaseFeatureOutputTypeEnum.kCompositeOutputType\
+    \ \n        featureDef.TargetOccurrence = targetOcc \n        featureDef.IsAssociative\
+    \ = True \n\n\t\tbaseFeature = nonPrmFeatures.AddByDefinition(featureDef) \n-----"

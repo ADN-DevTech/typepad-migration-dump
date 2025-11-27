@@ -1,0 +1,44 @@
+comments:
+- author: Diego
+  email: diegocurbelo@gmail.com
+  ip: 132.188.72.146
+  url: ''
+  date: '2015-11-23 06:50:42'
+  body: 'Hi, I have a question, how to manage errors when multiples change was made
+    after perform the AcquireFiles operation and the we get and exception, the problem
+    is how to rollback all change made in the configuration of that file or the state
+    of that file.
+
+
+    ??? read some post that vault not have rollback operation to do that?
+
+
+    Example
+
+
+    try{
+
+    AcquireFiles(myFileSettings);
+
+    ChangeFileName(file);
+
+    ChangeOtherProperty(file) ----> Here supose I get and exception, then I have to
+    rolleBack the file to the original name since the operation ChangeFileName modify
+    the property of the file.
+
+    }Catch(Exception ex)
+
+    {
+
+    PerformRollback(...);
+
+    }
+
+
+    Similar to sql transnational
+
+
+    Best regads and thanks for your time.
+
+
+    -----'

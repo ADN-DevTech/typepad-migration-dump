@@ -1,0 +1,35 @@
+comments:
+- author: Dave
+  email: davide.pregnolato@boninospa.eu
+  ip: 88.149.231.1
+  url: ''
+  date: '2012-10-16 07:19:04'
+  body: 'WONDERFUL!
+
+    This is actually the only wonking solution to take a snapshot of a thumbnail of
+    a Inventor file and convert it into bitmap!
+
+    It works on a virtualized windows 7 @ 64 bit!
+
+
+    Thank you very much Xiaodong Liang!'
+- author: Dave
+  email: davide.pregnolato@boninospa.eu
+  ip: 88.149.231.1
+  url: ''
+  date: '2012-10-17 00:03:24'
+  body: "For everyone with my same problem, i post my VBNET code (based on this fantastic\
+    \ post) to extract an image from a inventor *.ipt, *iam, etc file:\n\n(... code\
+    \ ...)\n\n    Dim m_App As Inventor.Application\n    m_App = CType(GetObject(,\
+    \ \"Inventor.Application\"), Inventor.Application)\n\n        Dim InventorDoc\
+    \ As Document = m_App.ActiveDocument\n\n        Dim image As Image = Nothing\n\
+    \        Dim imgThumb As Bitmap = Nothing\n\n        'inventor thumbnail wrapping\n\
+    \        Dim oThumb As stdole.IPictureDisp = m_App.ActiveDocument.Thumbnail\n\
+    \        Dim oMF As New Metafile(New IntPtr(oThumb.Handle), New WmfPlaceableFileHeader())\n\
+    \        Dim oCallBack As New Image.GetThumbnailImageAbort(AddressOf ThumbnailCallback)\n\
+    \        Dim org As Image = oMF.GetThumbnailImage(400, 400, oCallBack, IntPtr.Zero)\n\
+    \n        're-draw a color bitmap\n        imgThumb = New Bitmap(org.Width, org.Height,\
+    \ System.Drawing.Imaging.PixelFormat.Format32bppArgb)\n        imgThumb.SetResolution(org.HorizontalResolution,\
+    \ org.VerticalResolution)\n        Dim g As Graphics = Graphics.FromImage(imgThumb)\n\
+    \        g.DrawImage(org, 0, 0)\n        g.Dispose()\n\n''now in imgThumb you\
+    \ have your image ready fo a picturebox or ''other\n-----"

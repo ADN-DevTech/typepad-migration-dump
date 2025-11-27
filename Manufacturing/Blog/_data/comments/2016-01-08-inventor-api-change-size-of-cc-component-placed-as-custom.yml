@@ -1,0 +1,37 @@
+comments:
+- author: Jeff Smeker
+  email: jsmeker@alliedcomp.com
+  ip: 76.190.162.153
+  url: ''
+  date: '2020-05-20 14:47:26'
+  body: "Hi there, I'm looking to change the length of a content center structural\
+    \ shape based on some variables.  this code looked like an interesting starting\
+    \ point.  I was able to load it into my VBA project, it compiled ok, but when\
+    \ I attempt to run \"CustomMember_ChangeRow\", I get a Error 13 Type Mismatch\
+    \ Error on one of the first lines (Set oDef = oOcc.Definition).  \n\nI have an\
+    \ assembly open with a few content center structural shapes, I see some info populated\
+    \ in some items above this line (i.e. Set oOcc = oAsmDef.Occurrences.Item(oAsmDef.Occurrences.Count)\
+    \ has a value), but I get this error.\n\nAny idea what could cause this?  Thanks\
+    \ for the help!!"
+- author: Adam Nagy
+  email: ''
+  ip: 51.146.76.169
+  url: https://profile.typepad.com/1236098880s16462
+  date: '2020-05-21 02:57:25'
+  body: 'Hi Jeff, the code seems to assume that you want to edit the last occurrence
+    in the assembly and so it''s a content center part file occurrence - in your case
+    it''s probably an assembly occurrence?
+
+    You could either modify the code to work with a selected occurrence, or move the
+    cc part occurrence to the last place in the tree'
+- author: Jeff Smeker
+  email: jsmeker@alliedcomp.com
+  ip: 76.190.162.153
+  url: ''
+  date: '2020-05-21 09:17:13'
+  body: 'Yup, that was it.  Seem like this is only for changing the row of the content
+    center item, I''m looking to automate changing the length.  It does change the
+    row, but leaves the file name the same, and I don''t see any options on how to
+    modify the length in this.  Any ideas??  Thanks for the help!
+
+    -----'

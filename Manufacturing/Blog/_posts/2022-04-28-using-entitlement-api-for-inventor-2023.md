@@ -1,0 +1,17 @@
+---
+layout: "post"
+title: "Using Entitlement API for Inventor 2023"
+date: "2022-04-28 00:13:10"
+author: "Sajith Subramanian"
+categories:
+  - "Inventor"
+  - "Sajith Subramanian"
+original_url: "https://adndevblog.typepad.com/manufacturing/2022/04/using-entitlement-api-for-inventor-2023.html "
+typepad_basename: "using-entitlement-api-for-inventor-2023"
+typepad_status: "Publish"
+---
+
+<p>By <a href="http://adndevblog.typepad.com/manufacturing/sajith-subramanian.html" target="_self">Sajith Subramanian</a></p><p>As you may be already aware, If you have an app on the <a href="https://apps.autodesk.com/en">Autodesk App Store</a>, then you might want to check if the user actually paid for and downloaded your app from the store, or just copied it from someone else's computer. This is what the Entitlement API can help you with. <br clear="all"><br clear="all"></p><p>Inventor 2023 API has introduced 3 new properties to help with checking the Entitlement:</p><ul><li><strong>LoggedIn</strong>&nbsp; - Read-only property that returns whether the user has logged in the online services or not. </li><li><strong>LoginUserId</strong> - Read-only property that returns the login user Id(this is the same as the A360 oxygen Id). This returns an empty string if user has not logged in. </li><li><strong>LoginUserName</strong> - Read-only property that returns the online services login user name. This returns an empty string if user has not logged in. </li><p><br></p></ul><p>The Entitlement API is a simple RESTful API where you just need to send an HTTP GET request to the App Store server.</p><p>Below is the sample code that demonstrates this usage:</p><blockquote><p>m_inventorApplication = addInSiteObject.Application;<br>&nbsp;&nbsp; if (m_inventorApplication.LoggedIn) // check if user has logged in<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //string username = m_inventorApplication.LoginUserName; //returns the logged in username<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; string userId = m_inventorApplication.LoginUserId; // returns the logged in userID<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; string appId = "&lt;Enter Your APP ID here&gt;";<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; string urlParameters = String.Format("?userid={0}&amp;appid={1}", userId, appId);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; string responseBody = await httpClient.GetStringAsync(urlParameters);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; EntitlementResponse entitlementResponse = JsonSerializer.Deserialize&lt;EntitlementResponse&gt;(responseBody);</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (entitlementResponse.IsValid == true)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // user validated... execute rest of the code…<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p></blockquote><p>You can find the full source code here:</p><p><a title="https://github.com/sajith-subramanian/EntitlementAPI-Inventor" href="https://github.com/sajith-subramanian/EntitlementAPI-Inventor">https://github.com/sajith-subramanian/EntitlementAPI-Inventor</a></p>

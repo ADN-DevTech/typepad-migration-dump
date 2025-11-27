@@ -1,0 +1,45 @@
+comments:
+- author: Wangdu
+  email: wangdu.gyalpo@coolorange.com
+  ip: 88.149.138.134
+  url: http://www.coolOrange.com
+  date: '2015-12-04 00:39:08'
+  body: "Hi Daniel,\n \nI have failed to generate a hyperlink/url to a vaulted file\
+    \ using the persistent id (Vault Explorer, Not thin client). Although it works\
+    \ fine using the filename in the url, the filename could be renamed, thus making\
+    \ a broken link.\n \nThis is using the filename: which works correctly when I\
+    \ click on it, it opens the vault and selects the $/yvcvcvvcxvc.dwg file.\n\n\
+    <a href=\"http://servername:80/AutodeskDM/Services/EntityDataommandRequest.aspx?Vault=vaultname&ObjectId=%24%2fyvcycvvcyxvc.dwg&ObjectType=File&Command=Select\"\
+    >http://servername:80/AutodeskDM/Services/EntityDataommandRequest.aspx?Vault=vaultname&ObjectId=%24%2fyvcycvvcyxvc.dwg&ObjectType=File&Command=Select</a>\n\
+    \nNow I tried using the persistent Id : clicking on this results in crashing of\
+    \ the vault application.\n<a href=\"http://servername:80/AutodeskDM/Services/EntityDataommandRequest.aspx?Vault=vaultname&ObjectId=mRklMRTpMQVRFU1Q6NTM1&ObjectType=File&Command=Select\"\
+    >http://servername:80/AutodeskDM/Services/EntityDataommandRequest.aspx?Vault=vaultname&ObjectId=mRklMRTpMQVRFU1Q6NTM1&ObjectType=File&Command=Select</a>\n\
+    \nI even went further by tweaking the \".acr\" file which is an xml file and still\
+    \ not been successful.\n\nMy question is this: will this ever work using persistent\
+    \ ids for Vault Explorer? \n \nThanks,"
+- author: Mary
+  email: marayasiku@yahoo.com
+  ip: 41.89.84.38
+  url: http://agriculture.uonbi.ac.ke
+  date: '2017-07-01 01:49:01'
+  body: This is good i will try and hope it works
+- author: Patrick Gruber
+  email: patrick.gruber@coolorange.com
+  ip: 185.144.75.43
+  url: https://www.coolorange.com/
+  date: '2018-02-28 05:46:03'
+  body: "Hi Daniel,\nthanks for the well explained information.\n\nIt helped me to\
+    \ get in the right direction, but it didn't work for me with just copy paste.\n\
+    \nBy the way I have used Vault 2017 and if other people also struggle here is\
+    \ a PowerShell snippet which is easly be done with the free tool called powerVault\
+    \ (<a href=\"https://www.coolorange.com/en/apps_vault.php):\">https://www.coolorange.com/en/apps_vault.php):</a>\n\
+    \nfunction Get-VaultThinUrl($Entity, [Autodesk.Connectivity.WebServices.EntPersistOpt]$EntityOutput\
+    \  = \"Latest\") {\n    $serverUri = New-Object Uri -ArgumentList @($vault.InformationService.Url)\n\
+    \        $persistendId = ($vault.KnowledgeVaultService.GetPersistentIds($entity.'Entity\
+    \ Type ID', $entity.Id, $entityOutput)) | select -First 1\n        $persistendTrimedId\
+    \ = $persistendId.TrimEnd('=')\n        \"$($serverUri.Scheme)://$($serverUri.Host)/AutodeskTC/$($vaultConnection.Server)/$($vaultConnection.Vault)#/Entity/Details?id=m$persistendTrimedId=&itemtype=File\"\
+    \n}\n\nOpen-VaultConnection -Server coolOrange -Vault Patrick\n\n$file = Get-VaultFile\
+    \ -File \"$/Pad Lock.pdf\"\nGet-VaultThinUrl -Entity $file\n\nOutput: <a href=\"\
+    http://coolOrange/AutodeskTC/coolOrange/Patrick#/Entity/Details?id=mRklMRTpMQVRFU1Q6OTAzNzMz=&itemtype=File\"\
+    >http://coolOrange/AutodeskTC/coolOrange/Patrick#/Entity/Details?id=mRklMRTpMQVRFU1Q6OTAzNzMz=&itemtype=File</a>\n\
+    -----"
