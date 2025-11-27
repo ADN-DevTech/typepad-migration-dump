@@ -1,0 +1,631 @@
+comments:
+- author: Nikolay Poleshchuk
+  email: poleshchuk@peterlink.ru
+  ip: 89.110.26.201
+  url: http://poleshchuk.spb.ru/cad/eng.html
+  date: '2007-04-03 04:54:22'
+  body: Why does Autodesk use legacy xdata for annotation scaling?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 124.205.160.133
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-04-03 07:41:57'
+  body: 'Because it''s efficient for small amounts of data (and annotation scaling
+    doesn''t need much additional data - the same as for the Hyperlink feature in
+    AutoCAD). XData is fine if you''re storing up to around 1KB - anything more than
+    that and I''d recommend ExtDicts + XRecords.
+
+
+    With hindsight, the word "legacy" has some negative connotations... the point
+    I''m trying to make is that it is very risky to rely on it for substantial amounts
+    of additional data (>1 KB per app).'
+- author: Nikolay Poleshchuk
+  email: poleshchuk@peterlink.ru
+  ip: 83.68.35.41
+  url: http://poleshchuk.spb.ru
+  date: '2007-04-03 08:43:20'
+  body: 'Kean, thank you. It would more usual for me to get annotative data from ordinary
+    DXF codes. Xdata may accumulate from various applications.
+
+    Can you show an example (in C# or C++) of adding a new annotation scale to an
+    entity?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-04-03 08:49:07'
+  body: 'Oh, I see what your question is... we couldn''t go back and put the additional
+    annotative data as "standard" group codes, as that would involve a change in the
+    DWG & DXF format - something that only happens every 3 releases (and isn''t due
+    until the release after next).
+
+
+    I will add an annotative scaling sample to my to-do list for the blog... (you
+    should check the one on the ObjectARX SDK in the meantime.)'
+- author: Wyatt
+  email: spam@plantingcows.com
+  ip: 66.115.232.200
+  url: ''
+  date: '2007-04-03 15:33:14'
+  body: You forgot to dispose of your ResultBuffers in both your above code samples.  It
+    has been my experience that failing to dispose of a ResultBuffer will cause AutoCAD
+    to randomly go BOOM at some latter point when accessing XData.
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 202.95.81.226
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-04-04 09:59:48'
+  body: 'The finalizer should handle the underlying resources'' disposal - but you
+    never know exactly when that might happen, and I can see that with tight loops
+    processing lots of entities you might run into trouble.
+
+
+    It is, indeed, better practice to explicitly dispose of the ResultBuffers, so
+    I''ve modified my code to do so.
+
+
+    Thanks for the comment!'
+- author: Roland Feletic
+  email: rosinino@gmx.net
+  ip: 62.178.181.39
+  url: ''
+  date: '2007-04-13 21:44:13'
+  body: 'Thank you for your great examples, Kean.
+
+    It would be really great if you could show us an example in C# of adding a new
+    annotation scale to an entity like Nikolay said.'
+- author: Senthil Prabu
+  email: senthilprb@yahoo.co.in
+  ip: 59.92.164.81
+  url: ''
+  date: '2007-04-19 06:33:35'
+  body: "Hi Kean Walmsley,\n\nWhat are all the References we need to add for the coding\
+    \ \n\n\"Adding XData to AutoCAD entities using .NET\",\n\nPlease send me ASAP.\n\
+    \nRegards,\nSenthil Prabu,\nBanglore,\nINDIA."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 202.95.81.226
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-04-19 09:53:21'
+  body: 'Hi Senthil,
+
+
+    You need references to acmgd.dll and acdbmdg.dll. See this previous post - it
+    should help you get started:
+
+
+    http://through-the-interface.typepad.com/through_the_interface/2006/07/getting_started.html
+
+
+    Regards,
+
+
+    Kean'
+- author: Senthil Prabu B R
+  email: senthilprb@yahoo.co.in
+  ip: 59.92.194.47
+  url: ''
+  date: '2007-04-21 11:02:41'
+  body: 'i am working as a CAD programmer, usally, i am creating the programs using
+    LISP & VBA, Now i am trying to create the Program through VB.Net
+
+
+    Here i tried a sample code, While compiling the following errors is showing.
+
+
+    "Namespace or type ''EditorInput'' for the Imports ''Autodesk.AutoCAD.EditorInput''
+    cannot be found."
+
+
+    Please give me an idea, What to do?
+
+
+    Thanks & Regards,
+
+    Senthil Prabu BR
+
+    Banglore,
+
+    INDIA.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-04-21 15:24:03'
+  body: acmgd.dll should include what you need... what version of AutoCAD are you
+    using?
+- author: Senthil Prabu B R
+  email: senthilprb@yahoo.co.in
+  ip: 59.92.189.136
+  url: ''
+  date: '2007-04-23 06:08:53'
+  body: "Hi Kean,\n\nI am using \nAutoCAD - ADT 2005\nMicrosoft Visual Studio 2003\n\
+    \nfor this sample programs which version we need to use?\n\nRegards,\nSenthil\
+    \ Prabu B R"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 202.95.81.226
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-04-23 08:29:23'
+  body: 'Hi Senthil,
+
+
+    You need to download the ObjectARX SDK for AutoCAD 2005 from http://www.autodesk.com/objectarx.
+    In the samples/dotNet folder you will find some samples.
+
+
+    The .NET API was really a "preview" in AutoCAD 2005. AutoCAD 2006 had the first
+    "complete" .NET API available. So you may well have difficulty running some of
+    the samples posted to this blog.
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-04-25 04:01:43'
+  body: 'Roland,
+
+
+    OK, I hear you... I''m working on it. :-)
+
+
+    Kean'
+- author: Prabhu
+  email: saaralprian@gmail.com
+  ip: 203.145.133.223
+  url: ''
+  date: '2007-09-27 13:52:16'
+  body: 'Hi,
+
+
+    How do i move the link and label template from one object to another programmatically?
+    [Using C# or VB.NET]
+
+
+    My scenario is, I just want to relocate the employee into one room to another.
+
+
+    [I''m showing the information about the employee in the Room. I want to move those
+    detail into another Room ]
+
+
+    Can anyone help me on this?
+
+
+    Prabhu P
+
+    Chennai.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-09-27 14:35:12'
+  body: 'Hi Prabhu,
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2006/11/linking_circles.html">This
+    post</a> should be of some use to you.
+
+
+    Regards,
+
+
+    Kean'
+- author: Marek
+  email: geogrunwald@wp.pl
+  ip: 80.52.230.162
+  url: ''
+  date: '2008-05-16 09:00:46'
+  body: "Hi Kean.\nYour blog - grat job.\n\nSo... this is my problem.\nHow can I change\
+    \ one value in xdata?\nFor example, this is my procedure. What I write wrong?\n\
+    public static void PutAtrExdata(ObjectId ObjectId, string DataAtr, string DataValue)\n\
+    \        {\n            Database db = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Database;\n\
+    \            using (Transaction tm = db.TransactionManager.StartTransaction())\n\
+    \            {\n                DBObject obj = tm.GetObject(ObjectId, OpenMode.ForWrite);\n\
+    \                TypedValue[] exd;\n                exd = obj.XData.AsArray();\n\
+    \                for (int i = 0; i < exd.Length; i++)\n                {\n   \
+    \                 if (exd[i].Value.ToString() == DataAtr)\n                  \
+    \  {\n                        exd.SetValue(\"rower\", 5);\n                  \
+    \  }\n                }\n                ResultBuffer rb = new ResultBuffer(exd);\n\
+    \               \n                obj.XData = rb;\n                rb.Dispose();\n\
+    \                tm.Commit();\n            }\n        }\n\nRegards,\nMarek\nJaworzno\n\
+    POLAND"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-19 10:27:10'
+  body: 'You need to change your SetValue call:
+
+
+    exd.SetValue(new TypedValue(exd[i].TypeCode, DataValue), i);
+
+
+    Regards,
+
+
+    Kean'
+- author: Gagan Gajabaharia
+  email: gagan.gajabaharia@gmail.com
+  ip: 63.146.67.200
+  url: ''
+  date: '2008-06-10 23:23:10'
+  body: 'Hi Kean,
+
+
+    Can you show how to clear/delete or just simply do away with the XData that is
+    associated with a DBObject? I tried to do this by simply setting it to nullptr
+    as in dbObj->XData = nullptr; - but it just doesn''t work - because next time
+    when I check for the XData on the same object, it is still there, and valid. Any
+    thoughts much appreciated. I have also posted this q in the a.a.c.dotnet forum,
+    I hope you don''t mind multi-post. Thanks!'
+- author: Gagan Gajabaharia
+  email: gagan.gajabaharia@gmail.com
+  ip: 63.146.67.200
+  url: ''
+  date: '2008-06-10 23:38:53'
+  body: Never mind, Kean, I got it. I need to set a new resbuf to DBObject - setting
+    to nullptr won't (and shouldn't) work, obviously.
+- author: Amy
+  email: amruta.prabhune@gmail.com
+  ip: 121.246.222.204
+  url: ''
+  date: '2008-07-08 12:11:51'
+  body: 'Hi,
+
+    I am working on a windows application by using c#.net. I have a drawing on which
+    there are two rectangles. One is a rack object and another is a window object.
+    I want to add these two objects to AutoCAD as a window object and a rack object.
+    How can we accomplish this as rectangle is same object for AutoCAD. Can we define
+    our own objects in AutoCAD by using the existing ones.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-08 12:20:59'
+  body: 'You can create Dynamic Blocks (recommended) or use C++ to define custom objects
+    (lots of work).
+
+
+    Kean'
+- author: Amy
+  email: amruta.prabhune@gmail.com
+  ip: 121.246.222.204
+  url: ''
+  date: '2008-07-09 08:32:26'
+  body: "Hi Kean,\n\nThanks for your reply. I want to create a drawing in AutoCAD\
+    \ by using my own custom objects and then import it to my windows application.(I\
+    \ have to use API such as ObjectARX or a tool such as DOTNETARX)Can i use Dynamic\
+    \ blocks in this case? Please suggest. \n\nRegards\nAmy"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-09 08:47:26'
+  body: '"Import" could mean a lot of things. If the external application need to
+    read DWG data, then you would use RealDWG and get access to your custom objects
+    (or to the Dynamic Block data).
+
+
+    I''d recommend investing a few days in trying out a simple case with Dynamic Blocks
+    before starting down the long road to custom objects.
+
+
+    Kean'
+- author: Amy
+  email: amruta.prabhune@gmail.com
+  ip: 121.246.222.204
+  url: ''
+  date: '2008-07-09 09:21:44'
+  body: 'Thanks Kean
+
+    This was really very helpful.
+
+
+    Amy'
+- author: CADbloke
+  email: Ewen@DontSailBackwards.net
+  ip: 203.18.238.26
+  url: http://www.CADbloke.com
+  date: '2008-07-10 01:22:07'
+  body: 'Just a warning about XData - ATTSYNC erases it.
+
+
+    From AutoCAD Help ...
+
+    Warning - ATTSYNC removes any format or property changes made with the ATTEDIT
+    or EATTEDIT commands. It also deletes any extended data associated with the block,
+    and might affect dynamic blocks and blocks created by third-party applications
+
+
+    Thanks for the blog.
+
+    cheers
+
+    Ewen'
+- author: giuliano
+  email: pigozzi@base2.it
+  ip: 79.25.166.47
+  url: ''
+  date: '2008-11-14 10:55:35'
+  body: 'I Have the same Gagan Gajabaharia problem..
+
+    Cannot clear my xdata if i set to Null my Xdata field. any idea ? Thanks'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.58.159
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-14 14:58:22'
+  body: 'Gagan solved the problem himself, if you look at his next comment... hopefully
+    that also works for you, Giuliano.
+
+
+    Kean'
+- author: ttnna
+  email: ''
+  ip: 198.102.62.250
+  url: http://profile.typepad.com/6p01156fcad531970c
+  date: '2009-06-05 00:44:42'
+  body: 'Hi Kean,
+
+
+    is it possible to read object data from a dwg file?
+
+
+    regards,'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-06-05 01:55:54'
+  body: 'I assume you mean Map 3D''s object data and unfortunately I don''t know the
+    answer: please ask your question on <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=84">the
+    AutoCAD Map 3D Developer Discussion Group</a>.
+
+
+    Kean'
+- author: izz
+  email: realemotions2008@hotmail.com
+  ip: 77.42.216.186
+  url: ''
+  date: '2009-12-29 09:15:57'
+  body: "I set the result buffer to null \nbut it didn't work"
+- author: izz
+  email: realemotions2008@hotmail.com
+  ip: 77.42.216.186
+  url: ''
+  date: '2009-12-29 09:21:45'
+  body: Also Setting Dbobject to a new empty result buffer doesn't work
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2010-01-04 17:41:19'
+  body: 'Try creating an empty ResultBuffer and assigning that to the XData property.
+
+
+    Kean'
+- author: yaqi
+  email: yaqiz@fifth.uk.com
+  ip: 217.33.231.194
+  url: ''
+  date: '2010-07-06 17:20:37'
+  body: "This example shows add xdata to AutoCAD.\n\nHow to edit XData and set it\
+    \ back to object?\n\nmy code is like this \n\n                objFixture = trans.GetObject(objID,\
+    \ OpenMode.ForWrite)\n                xdataFixture = objFixture.GetXDataForApplication(STR_XDATA_FIXTURE)\n\
+    \                Dim varFixXData() As TypedValue = xdataFixture.AsArray\n    \
+    \            If UBound(varFixXData) <> MAX_INDEX_XDATA_FIXTURE Then\n        \
+    \            ReDim Preserve varFixXData(MAX_INDEX_XDATA_FIXTURE)\n           \
+    \     End If\n                varFixXData(INDEX_XDATA_FIXTURE_ZONE_HANDLE) = New\
+    \ TypedValue(1000, strZoneHandle)\n                AddRegAppTableRecord(STR_XDATA_FIXTURE)\n\
+    \                Dim rbNewFixXData As ResultBuffer = New ResultBuffer(varFixXData)\n\
+    \                objFixture.XData = rbNewFixXData\n                rbNewFixXData.Dispose()\n\
+    \                xdataFixture.Dispose()\n\ntrans.Commit()\n\nbut it doesn't work,\
+    \ any help\n\nThanks"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-07-07 15:23:16'
+  body: 'I don''t have time to troubleshoot your code: the SXD command should be clear
+    enough and functional.
+
+
+    If you need more help I suggest contacting <a href="http://adn.autodesk.com">the
+    ADN team</a>, if you''re a member, or otherwise posting to <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean'
+- author: Matus Brlit
+  email: ''
+  ip: 178.40.137.182
+  url: http://profile.typepad.com/brlit
+  date: '2010-10-27 15:59:13'
+  body: 'I had the same problem as izz, but managed to solve it after some investigation.
+
+    The ResultBufer actually can''t be empty, it has to contain one TypedValue with
+    the DxfCode.ExtendedDataRegAppName for the application, that it belonged to.
+
+    It is also safe for other applications, that might have some XData stored in the
+    entity, because it only removes the XData related to the specified application.
+
+
+    I hope this helped someone.'
+- author: Vladimir
+  email: vova_sitnikov@mail.ru
+  ip: 217.23.76.206
+  url: ''
+  date: '2011-04-06 13:49:39'
+  body: 'Hello. I am write on VB.net, and I am using Xdata
+
+    Please give me this code on VB.net'
+- author: Kean Walmsley
+  email: ''
+  ip: 194.209.199.21
+  url: http://profile.typepad.com/kean
+  date: '2011-04-06 14:06:57'
+  body: 'I don''t provide this service, but <a href="http://through-the-interface.typepad.com/through_the_interface/2009/07/converting-between-c-and-vbnet.html">this
+    post</a> should help.
+
+
+    Kean'
+- author: Vladimir
+  email: vova_sitnikov@mail.ru
+  ip: 78.106.254.109
+  url: ''
+  date: '2011-04-07 20:39:21'
+  body: Thank you very mutch Kean. You help me to translate C# code into VB.net code.
+- author: qu
+  email: matlab@163.com
+  ip: 14.118.125.145
+  url: ''
+  date: '2011-06-22 11:21:00'
+  body: how to change customDP properties in AutoCAD?
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2011-06-22 11:52:43'
+  body: 'Sorry - I don''t understand the question. And as it doesn''t seem related
+    to this post, please post it to <a href="http://adn.autodesk.com">the ADN team</a>,
+    if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean'
+- author: qu
+  email: matlab@163.com
+  ip: 119.133.246.235
+  url: ''
+  date: '2011-06-28 09:26:22'
+  body: "Dear Mr. Walmsley,\n      is there a way to hook up btween a line and data\
+    \ from table in AutoCAD? when the data in table changed, the line also changed\
+    \ which just works like in EXCEL."
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-06-28 09:56:42'
+  body: 'Certainly, but it will take some work.
+
+
+    And as this is off-topic, I''m going to suggest you post your question on one
+    of our discussion forums (<a href="http://discussion.autodesk.com).">http://discussion.autodesk.com).</a>
+
+
+    Regards,
+
+
+    Kean'
+- author: Qiao
+  email: waterharbin@163.com
+  ip: 61.167.60.237
+  url: ''
+  date: '2012-07-06 16:07:58'
+  body: 'Hi,Kean.
+
+    I want to draw a polyline, add an XData to it,then return the ObjectId. Then I
+    add the ObjectId to a objectIdCollection. Sometime later, I will iterate the ObjectIdCollection,
+    I want get the XData back. Can this be done?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-07-06 16:29:40'
+  body: 'Hi Qiao,
+
+
+    Certainly - XData persists along with the entity it''s attached to.
+
+
+    Regards,
+
+
+    Kean'
+- author: Steve
+  email: stevenh0616@gmail.com
+  ip: 12.15.253.234
+  url: http://beyondcivil3d.blogspot.com
+  date: '2012-08-23 15:43:20'
+  body: 'Kean,
+
+
+    Thanks for the post, very helpful. One question I have though is with ACAD Dimensions.
+    I have written code that programmatically creates a dimension style and sets the
+    dimension properties. When creating dimensions this way, they result in have style
+    overrides, which I know is stored in XData. Is there a way to remove the XData
+    so the style overrides won''t show? I''ve tried to set the DimStyleTableRecord.XData
+    to nothing as well as the DimStyleTableRecord.HasSaveVersionOverride to false.
+
+
+    Sorry if this is on the wrong post, but I thought the XData would fix it and it''s
+    not working.
+
+
+    Thanks!!'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-08-23 17:16:00'
+  body: "Steve,\n\nTry setting the XData to nothing by passing through a ResultBuffer\
+    \ containing just the Registered Application Name. Here's an analogous command\
+    \ to the one in this post, although I haven't seen what the effect is on dimension\
+    \ overrides, specifically:\n\n    [CommandMethod(\"KXD\")]\n    static public\
+    \ void KillXData()\n    {\n      Document doc =\n        Application.DocumentManager.MdiActiveDocument;\n\
+    \      Editor ed = doc.Editor;\n\n      // Ask the user to select an entity\n\
+    \      // for which to set XData\n      PromptEntityOptions opt =\n        new\
+    \ PromptEntityOptions(\n          \"\\nSelect entity: \"\n        );\n      PromptEntityResult\
+    \ res =\n        ed.GetEntity(opt);\n\n      if (res.Status == PromptStatus.OK)\n\
+    \      {\n        Transaction tr =\n          doc.TransactionManager.StartTransaction();\n\
+    \        using (tr)\n        {\n          DBObject obj =\n            tr.GetObject(\n\
+    \              res.ObjectId,\n              OpenMode.ForWrite\n            );\n\
+    \          AddRegAppTableRecord(\"KEAN\");\n          ResultBuffer rb =\n    \
+    \        new ResultBuffer(\n              new TypedValue(1001, \"KEAN\")\n   \
+    \         );\n          obj.XData = rb;\n          rb.Dispose();\n          tr.Commit();\n\
+    \        }\n      }\n    }\n\nCheers,\n\nKean"
+- author: Mark
+  email: maimonetti@gmail.com
+  ip: 24.131.28.184
+  url: ''
+  date: '2013-06-26 17:39:27'
+  body: 'Kean,
+
+
+    How would I modify this to attach xdata to layer 0.  Instead of having the user
+    select an object I just passed the object id of layer 0 and everything seemed
+    to work perfectly per adding a watch in visual studio.  However, when I try to
+    recall the xdata it seems to have vanished!
+
+
+    Thanks,
+
+    Mark'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-06-27 09:24:43'
+  body: 'Mark,
+
+
+    Interesting. I''d personally avoid placing XData on core, non-graphical objects
+    such as layers, but I suppose it''s theoretically possible.
+
+
+    I don''t know why it''s not working for you, though: please contact ADN or post
+    your question to the AutoCAD .NET Discussion Group.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

@@ -1,0 +1,527 @@
+comments:
+- author: AlexF
+  email: alex.fielder@gmail.com
+  ip: 62.22.46.197
+  url: http://bigbeardy.co.uk
+  date: '2009-03-19 10:38:06'
+  body: Thanks Kean, I wish you'd posted this code a while back; it would have come
+    in handy for the application I'm writing (and by writing I mean converting from
+    AC2006 VBA to AC2009 C# .NET).
+- author: David Wolfe
+  email: ''
+  ip: 68.157.74.92
+  url: http://profile.typepad.com/dwolfe
+  date: '2009-03-19 13:13:22'
+  body: That did the trick for doing a cylinder jig...thanks!
+- author: Thomas J.
+  email: thomas.jarzyna@huennebeck.com
+  ip: 194.200.135.240
+  url: ''
+  date: '2009-05-08 13:11:53'
+  body: "Hallo Kean\nthank you for these great posts. it helped me a lot. But I have\
+    \ one question left. Maybe you could point me into the right direction.\n\nI noticed\
+    \ a difference between inserting a dynamic block through the jig and through the\
+    \ \"SendStringToExecute\"-Method. While inserting a dynamic block through the\
+    \ \"SendStringToExectute\" -method, when i have to chose the insertion point,\
+    \ with having the block-preview on the cursor, I  am able to press the control-key\
+    \ to cycle through all the grip points of the block, also the block itself aligns\
+    \ to lines etc. And at last I can end the insertion command with a mouse-right-click.\
+    \ \n\nSo the question is: Is there a possibility to adopt this insertion behavior\
+    \ for the jig insertion?\n\nThanks.\nThomas"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-05-08 17:40:19'
+  body: 'Hi Thomas,
+
+
+    I believe this is all possible for you to implement using a standard Jig, but
+    to get parity with the standard INSERT capabilities it may prove to be a lot of
+    work (and if that''s what you want calling INSERT is probably the simplest approach).
+
+
+    A Jig is good if you want to streamline or simplify the insertion process.
+
+
+    Regards,
+
+
+    Kean'
+- author: Thomas J.
+  email: thomas.jarzyna@huennebeck.com
+  ip: 194.200.135.240
+  url: ''
+  date: '2009-05-13 09:42:12'
+  body: 'Thx Kean,
+
+    I think the most important advantage of jigs is that the application is always
+    synchronized. When i call the insert command, i have to deal with events like
+    "CommandEnded" which makes the code really ugly.
+
+    Anyway if find a little time, i''ll try ti improve the jigs i already have.'
+- author: Felipe
+  email: felipe@moliveira.com.br
+  ip: 200.171.237.172
+  url: http://estrutural.blog.br/
+  date: '2010-03-09 21:07:54'
+  body: 'Hi Kean,
+
+
+    After some time without commentting on you blog, I''m having a doubt. I was trying
+    to use multiple entities Jig, base on the code of the link :
+
+    <a href="http://cupocadnet.blogspot.com/2009/03/jigging-multiple-entities-with-drawjig.html">http://cupocadnet.blogspot.com/2009/03/jigging-multiple-entities-with-drawjig.html</a>
+
+
+    The problem I''m facing is: Snap don''t work, and when using zoom in/out (with
+    the mouse roller/scroll), the basepoint loses precision.
+
+
+    Is there eny limitation on DrawJig Method.
+
+    I was thinking about creating a temporary Group to group the entities and after
+    that start an EntityJig only with the createds group, but I''m not sure if it
+    is the right track to take...
+
+
+    Thanks for any help and/or idea...
+
+
+    Best Regards,
+
+    Felipe
+
+    SP/Brasil'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-03-10 10:00:25'
+  body: 'Hi Felipe,
+
+
+    I''m not sure what you mean about snaps: are you trying to snap to existing geometry
+    (which should work) or somehow snap to the geometry being drawn by the jig (which
+    shouldn''t, for a DrawJig, at least)?
+
+
+    Also, I''m afraid I barely have time to help resolve issues with code I''ve posted
+    - there''s almost no chance of me finding time to help with issues related to
+    other people''s posts.
+
+
+    Regards,
+
+
+    Kean'
+- author: Felipe
+  email: felipe@moliveira.com.br
+  ip: 200.171.237.172
+  url: http://estrutural.blog.br/
+  date: '2010-03-10 17:07:37'
+  body: 'Kean,
+
+
+    The problem with the snaps occurs with an existing geometry... The snap symbols
+    appears, but at the mouse-button click, the acquired point is not the pretended
+    snap, but the "mouse over" coordinate.
+
+
+    I didn''t meant you to support other guy''s blog.. sorry about that..
+
+
+    I''ll keep trying, and if I get the solution, I could post it back here, if you
+    don''t mind...
+
+
+    Regards,
+
+    Felipe'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-03-10 17:20:45'
+  body: 'Hi Felipe,
+
+
+    Please do - I wish I had time to help you with this, but unfortunately it''s a
+    very busy time for me.
+
+
+    Regards,
+
+
+    Kean'
+- author: Felipe
+  email: felipe@moliveira.com.br
+  ip: 200.171.237.172
+  url: http://estrutural.blog.br/
+  date: '2010-03-16 03:31:42'
+  body: 'Kean,
+
+
+    I''ve found a solution.
+
+    - The loose of precision occurs (probably) because of the various Entity.TransformBy(Matrix.Displacement)...
+    I think that is bacause of a numeric imprecision, or maybe, some kind of delay/lag
+    on the operations.
+
+    - The "snap" didn''t work because after the (PromptResult == OK) there was no
+    "Entity.TransformBy(Matrix)" to the last point, because this transformation occurs
+    in the WorldDraw method.
+
+
+    My approach to solve both problems was clonning each entity in the WorldDraw method
+    in each pass, and apply the transformation from a basePoint to the actualPoint.
+
+    In the Drag function, on the (PromptResult==OK), I did the same, but with the
+    original Entities from the basePoint to the last or selected point.
+
+
+    It works now... maybe there is some better solution, but for now, I''m happy...
+    =)
+
+
+    Regards,
+
+    Felipe
+
+    SP/BRA'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-03-16 08:56:24'
+  body: 'Felipe,
+
+
+    I''m glad you have a working solution.
+
+
+    Regards,
+
+
+    Kean'
+- author: Nick
+  email: ''
+  ip: 209.218.118.118
+  url: http://profile.typepad.com/nickolasg
+  date: '2010-04-05 22:26:05'
+  body: "Thanks Kean, this was a tremendous help. Is there a particular reason to\
+    \ manually change the positions every update instead of using .TransformBy() on\
+    \ just the blockref? \n\nIt seems like a good way to trim a lot of the code, no\
+    \ need for Attinfo class or changing position of attributes. If it is faster or\
+    \ not I do not know, but easier for me to understand. I just get a vector from\
+    \ current position to new Sampler position."
+- author: Kean Walmsley
+  email: ''
+  ip: 12.160.193.229
+  url: http://profile.typepad.com/kean
+  date: '2010-04-06 12:25:22'
+  body: 'Hi Nick,
+
+
+    I inherited this code and it''s been some time since I worked on it.
+
+
+    I suspect there was no good reason: if it works for you, then great! :-)
+
+
+    Regards,
+
+
+    Kean'
+- author: Ognyan Dimitrov
+  email: ''
+  ip: 212.72.197.106
+  url: http://profile.typepad.com/6p0115711d6c53970c
+  date: '2010-08-05 10:51:50'
+  body: Can we load a dynamic block into jig and set it graphical properties in this
+    "interactive" manner?
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-08-05 12:09:08'
+  body: 'Possibly, although I haven''t done so, myself. Have you tried it?
+
+
+    Kean'
+- author: Ognyan Dimitrov
+  email: ''
+  ip: 212.72.197.106
+  url: http://profile.typepad.com/6p0115711d6c53970c
+  date: '2010-08-06 12:17:47'
+  body: Nope. I did not yet, but I am going to do it in the next few days. I am sure
+    it will work, because there are some big dynamic objects from syscad that are
+    stretchable/editable in the same visualized way - jig-like - and have lots of
+    dynamic dimensions that change through the whole object when you stretch just
+    one point of it while refreshing the graphical representation constantly. My goal
+    is to fully understand the jig and dynamic dimensions and then do it. I will paste
+    all the code here when I am ready. Your blog, links, videos, articles are really
+    helpful - Thank you.
+- author: Ognyan Dimitrov
+  email: ''
+  ip: 212.72.197.106
+  url: http://profile.typepad.com/6p0115711d6c53970c
+  date: '2010-08-23 07:49:44'
+  body: Hello, I have found that Mr. Winters already did this here  <a href="http://au.autodesk.com/?nd=class&session_id=3097">http://au.autodesk.com/?nd=class&session_id=3097</a>
+    in his "Advanced AutoCAD® Jigs Workshop". Now I am modifying it for our purposes.
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-08-23 08:46:09'
+  body: 'Great - thanks for letting me know.
+
+
+    Kean'
+- author: Ognyan Dimitrov
+  email: ''
+  ip: 212.72.197.106
+  url: http://profile.typepad.com/6p0115711d6c53970c
+  date: '2010-08-23 09:24:55'
+  body: I am watching now the movie about the associative surfaces and it is incredible
+    advancement. The parameters network is very smart. This is a way to parametrize
+    everything - like expanding the dynamic block idea to everything drawable. It
+    is great job done by great professionals.
+- author: cairunbin
+  email: cairunbin@126.com
+  ip: 119.185.129.252
+  url: ''
+  date: '2010-11-30 02:18:06'
+  body: 'Hello Kean:
+
+    I have a question a with attributed block.
+
+    I create a BlockTableRecord, and then, create a blockReference of it, then, i
+    create a attributeReference, and add it to the blockReference''s attributeCollection.
+
+    Now, the block itself appear on the screen, but, the attribute does not show up
+    until I select the block.
+
+
+    Could you tell me why? How can I solve it?'
+- author: Kean Walmsley
+  email: ''
+  ip: 70.165.195.150
+  url: http://profile.typepad.com/kean
+  date: '2010-11-30 02:52:55'
+  body: 'Hello cairunbin,
+
+
+    Sorry - I really don''t have time to help with this.
+
+
+    Please submit your question to <a href="http://adn.autodesk.com">the ADN team</a>,
+    if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: cairunbin
+  email: cairunbin@126.com
+  ip: 119.185.129.252
+  url: ''
+  date: '2010-11-30 04:01:23'
+  body: thank you, Kean.
+- author: cairunbin
+  email: cairunbin@126.com
+  ip: 119.185.129.252
+  url: ''
+  date: '2010-11-30 10:23:29'
+  body: 'the problem solved.
+
+    I forgot the following sentence:
+
+
+    tr.AddNewlyCreatedDBObject(ar, true);
+
+
+    Thank you , kean.'
+- author: Corrado
+  email: corrado_v@tin.it
+  ip: 82.56.53.19
+  url: ''
+  date: '2011-02-06 20:35:34'
+  body: "Hy everybody.\n\nIn november I wrote code to manage Jig (blocks and attributes)\
+    \ and it worked fine on Autocad 2010.\nOn december, the company I work for, updated\
+    \ to autocad 2011.\nNow, the application works again (I updated ObjectARX for\
+    \ Autocad 2011) but Jig doesn't shows object and attributes even if when I click\
+    \ the block is insered in the dwg.\nThe strange thing is that I debugged the application\
+    \ (Visula Studio 2011) and if I Step trought the code, I can see that Jig works\
+    \ (it shows object and attributes) but if I press F5 it doesen't shows block and\
+    \ attributes but works because inserts the block in the dwg. It seems a refresh\
+    \ problem. \n\nHow can I solve It?\n\nThank you."
+- author: Kean Walmsley
+  email: ''
+  ip: 109.237.55.190
+  url: http://profile.typepad.com/kean
+  date: '2011-02-06 20:47:53'
+  body: 'Hi Corrado,
+
+
+    This code works fine for me on AutoCAD 2011. Have you tested your application
+    on other systems, to see whether it''s specific to your development machine?
+
+
+    If this doesn''t help, you might try posting your question to <a href="http://adn.autodesk.com">the
+    ADN team</a>, if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Corrado
+  email: corrado_v@tin.it
+  ip: 192.35.17.13
+  url: ''
+  date: '2011-02-07 07:58:05'
+  body: 'I tried the compiled code on another machine, but the problem seems to be
+    the same. It works but doesn''t show the jig.
+
+    I''l try posting my question to AutoCAD discussion.
+
+
+    Thank you for your help.
+
+
+    Corrado'
+- author: Corrado
+  email: corrado_v@tin.it
+  ip: 87.8.115.100
+  url: ''
+  date: '2011-02-16 22:08:36'
+  body: 'I think I finally found the problem.
+
+    I wrote a stand alone test code, and it works fine (as you said).
+
+    When I put together the test and my application code, it works but doesn''t shows
+    jig functionality.
+
+
+    The problem seems to be that I run the jig code from a docking palette in my application!
+
+
+    May be Autocad 2011 doesn''t manage this case, because in 2009 and 2010 it works
+    fine.
+
+
+    Now I''m looking for a solution to this problem...
+
+
+    Thank you
+
+
+    Corrado'
+- author: Kean Walmsley
+  email: ''
+  ip: 109.237.55.190
+  url: http://profile.typepad.com/kean
+  date: '2011-02-16 22:35:46'
+  body: 'Hi Corrado,
+
+
+    Try putting your code inside and command and use SendStringToExecute() to launch
+    it from the modeless dialog: that alone will solve a whole load of problems -
+    this is the approach I always take when driving AutoCAD from a PaletteSet.
+
+
+    Regards,
+
+
+    Kean'
+- author: Will Hatch
+  email: ee.geek2@gmail.com
+  ip: 184.71.249.86
+  url: http://www.theswamp.org/index.php?action=profile;u=13035
+  date: '2013-01-31 00:27:50'
+  body: 'Hi Kean,
+
+
+    I''ve come across a situation where it appears that ar.SetAttributeFromBlock(ad,
+    br.BlockTransform) is all that is needed to properly insert the attribute to a
+    block regardless of alignment/mtext.  Can you shed some light on what is really
+    happening here?
+
+
+    <a href="http://www.theswamp.org/index.php?topic=42226.0">http://www.theswamp.org/index.php?topic=42226.0</a>
+
+
+    Would be very appreciated!'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-01-31 09:53:22'
+  body: 'Hi Will,
+
+
+    This particular post relates fairly specifically to jigging: the main point is
+    that you need to add the block to the database for the jigging operation to work.
+
+
+    It''s possible that SetAttributeFromBlock() might also have been used to help
+    with this particular case, to set up the block prior to jigging: the code was
+    provided by Philippe, so I''d have to ask him (and it was some time ago), or spend
+    some time looking into it myself.
+
+
+    It sounds like what you have is working well for your purposes. Although perhaps
+    I''ve missed the point?
+
+
+    Regards,
+
+
+    Kean'
+- author: Will Hatch
+  email: Ee.geek2@gmail.com
+  ip: 74.198.150.251
+  url: ''
+  date: '2013-02-02 05:47:24'
+  body: "Thanks Kean, \n\nYou've hit it square on the head, it's just a matter of\
+    \ an apparent anomaly I was hoping someone at AutoDesk might have the answer to.\
+    \ Seeing as you guided much of my learning curve I came here first.  I've since\
+    \ come across another one with objects still being open for write after leaving\
+    \ the scope of a transaction.  I'll save you the time of reiterating this is not\
+    \ a support forum and post this on ADN.\n\nThanks"
+- author: plus.google.com/110816742822733142984
+  email: ''
+  ip: 85.223.165.30
+  url: http://profile.typepad.com/6p01a3fcaf961d970b
+  date: '2014-01-30 16:27:17'
+  body: 'Thank you, Kean!
+
+    I write code (C++) based on your post with extended functions (manipulating visibility
+    parameter and changing attribute value "on the fly", etc.).
+
+    Here is sources:
+
+    <a href="https://drive.google.com/file/d/0B3twxy3GeGYzR2pibjBhQWVsREU/edit?usp=sharing">https://drive.google.com/file/d/0B3twxy3GeGYzR2pibjBhQWVsREU/edit?usp=sharing</a>
+
+
+    P.S. some comments in .h file...
+
+    P.P.S. Code is a little bit dirty, but works perfectly (for my needs).'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2014-01-30 17:55:27'
+  body: 'Glad you found it useful. :-)
+
+
+    Thanks for sharing!
+
+
+    Kean
+
+    -----'

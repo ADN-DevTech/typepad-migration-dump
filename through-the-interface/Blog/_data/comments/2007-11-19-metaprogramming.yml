@@ -1,0 +1,107 @@
+comments:
+- author: Jose Guia at CadKicks.com
+  email: joseguia@cadkicks.com
+  ip: 72.48.47.186
+  url: http://www.cadkicks.com
+  date: '2007-11-20 01:28:10'
+  body: 'OK, .. its peeked my curiosity, can''t wait for part 2.
+
+
+    You''ve been kicked (a good thing) - Trackback from CadKicks.com
+
+    http://cadkicks.com/adkautocad/Through_the_Interface_Metaprogramming_with_AutoCAD_Part_1'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2007-11-27 14:51:00'
+  body: ">> (eval (read \"(* 5 (getvar \\\"ZOOMFACTOR\\\"))\"))\n\nUgh... That's a\
+    \ bit Walker-esqe, along the same lines as the \"autoload\" business.\n\nThis\
+    \ would be the 'pure' homogenous form:\n\n (eval (list '* 5 (list 'getvar \"ZOOMFACTOR\"\
+    )))"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 65.160.18.28
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-11-27 19:23:07'
+  body: 'Tony,
+
+
+    The point of using a string is to handle the case where we store, retrieve and
+    evaluate code. Of course you can use the quoted version - which allows some level
+    of dynamic behaviour - but that doesn''t address the storage requirement.
+
+
+    Regards,
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2007-11-28 03:37:58'
+  body: 'Hi Kean.
+
+
+    Regarding "The point of using a string is to handle the case where we store, retrieve
+    and evaluate code".
+
+
+    That''s a precise description of what we do every time we save lisp code in a
+    .LSP file, that we then load and execute :)
+
+
+    The point to my comment is that LISP code, in its native form, takes the form
+    of a LISP list, rather than a series of strings.
+
+
+    Hence, lisp code that dynamically generates other LISP code, does so by constructing
+    a list via the usual means of doing that. And that list can then be passed to
+    (eval) to be executed as code.
+
+
+    In case anyone isn''t aware of it, the (vl-prin1-to-string) function is a cool
+    and easy way to convert a LISP expression (whether it be data or a list that represents
+    LISP code) into a string which can  be persisted and retrieved in that form.'
+- author: Paul
+  email: pzr27@sbcglobal.net
+  ip: 70.240.180.235
+  url: ''
+  date: '2008-01-15 13:17:42'
+  body: 'hello
+
+    I got one for you.  I am running a VBA I created and its running in LDD 06--I
+    am just adding xrefs to my drawings with VBA through a script--but after 25 minutes
+    into the project--it errors out saying;
+
+
+    Semantic error(s) in DCL file ade.dcl.
+
+    See file acad.dec for details
+
+
+    I can''t find anyone to help--any ideas.
+
+    thanks
+
+    Paul'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-01-23 14:35:14'
+  body: 'Hi Paul,
+
+
+    This appears to be specific to LDT (and possibly Map 3D), as it refers to ade.dcl.
+    I don''t have any experience with these products - you should try submitting the
+    question via <a href="http://adn,autodesk.com">the ADN website</a> (if you''re
+    an Autodesk Developer Network member) or posting to the <a href="http://discussion.autodesk.com/forum.jspa?forumID=81">AutoCAD
+    Land Desktop Customization Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'

@@ -1,0 +1,475 @@
+comments:
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 200.150.24.120
+  url: http://arxdummies.blogspot.com
+  date: '2009-05-06 19:38:33'
+  body: 'Kean,
+
+
+    Suppose I have a custom entity and want to use the same approach you did here
+    to expose some of its properties to appear at the OPM dialog. My questions are:
+
+
+    1) Can I do this without implemeting the Overrule?
+
+
+    2) Can I implement an Overrule to my custom entity without a .NET Wrapper and
+    then expose its properties through OPM?
+
+
+    3) Do I need to implement (.NET Wrapper + Overrule) for my custom entity to use
+    OPM?
+
+
+    4) How do you evaluate the complexity of this approach when compared to the COM
+    wrapper for OPM?
+
+
+    Great post!
+
+    Thanks.'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-05-06 20:35:28'
+  body: 'Fernando,
+
+
+    1) Absolutely. This example is actually completely independent of the overrule
+    sample - it was just a nice way to show the results of modifying the XData. And
+    you clearly don''t need an overrule for a custom entity, as you can change the
+    code directly (overrules are more for objects for which you don''t have source
+    access).
+
+
+    2) See above - not sure this is needed. If you use C++ to implement your dynamic
+    properties you should be able to call your custom entity''s protocol without COM
+    or .NET in the way (I suppose).
+
+
+    3) No, you don''t. This is really just for people who don''t have custom entities
+    in C++.
+
+
+    4) The two approaches are really for different situations. If you have your own
+    custom entity, you probably just want to expose a COM wrapper and leave it at
+    that. If you''re overruling standard entities then you would probably go with
+    an approach such as this one.
+
+
+    I hope this clarifies,
+
+
+    Kean'
+- author: Adri Groeneveld
+  email: adri.groeneveld@grontmij.nl
+  ip: 212.19.199.55
+  url: http://profile.typepad.com/6p011278dcf83d28a4
+  date: '2009-05-07 10:40:51'
+  body: "Kean,\n\nThank you for this post. I always wanted to create a OPM property\
+    \ like a direction boolean of a polyline(clockwise) or properties for my application\
+    \ StagCAD www.stagcad.com). I will try this using VB.net. \n\nThanks again.\n\n\
+    Adri"
+- author: Mark
+  email: lebakram@gmx.net
+  ip: 217.185.10.81
+  url: ''
+  date: '2009-05-15 21:52:25'
+  body: 'There is a problem with GetCurrentValueData:
+
+
+    I have a custom object wrapped with .NET.
+
+    A simple declaration in GetCurrentValueData without any assignment e.g.
+
+    Wrap.MyLine ml;
+
+    causes that GetCurrentValueData will not be called anymore ?!?
+
+    I would like to do something like
+
+    Wrap.MyLine ml = (Wrap.Myline) obj;
+
+    pVarData = ml.GetVersion();
+
+
+    Mark'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-05-17 10:11:20'
+  body: 'Mark -
+
+
+    It''s impossible to say what''s going wrong (for me, at least) without seeing
+    more of your code.
+
+
+    I don''t provide support when it''s not directly related to my posts, so I suggest
+    sending a reproducible to the <a href="http://adn.autodesk.com">ADN</a> team (if
+    you''re a member) or otherwise trying one of <a href="http://discussion.autodesk.com">the
+    discussion groups</a> (which one will depend on whether your code is primarily
+    ObjectARX or .NET).
+
+
+    Kean'
+- author: Mark
+  email: lebakram@gmx.net
+  ip: 217.185.10.124
+  url: ''
+  date: '2009-05-18 09:34:50'
+  body: 'Kean,
+
+
+    I took the GetCurrentValuData routine as you posted it. Of course you cannot give
+    individual support, but I thought there might be a general (known) restriction
+    which forbids using a .NET object.
+
+
+    Mark'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-05-18 13:54:59'
+  body: 'Mark,
+
+
+    We''re accessing standard AutoCAD entities(lines and circles, but we could easily
+    support other entity types) via .NET wrappers in the above example, so there''s
+    nothing conceptually different, unless you''ve implemented your wrapper in a different
+    way.
+
+
+    Regards,
+
+
+    Kean'
+- author: yaqi
+  email: clear_bird@hotmail.com
+  ip: 217.33.231.197
+  url: ''
+  date: '2009-05-18 17:53:44'
+  body: 'Hi Kean,
+
+
+    Thanks for the post. I created a docking palette followed by your past post by
+    VB.net. I want that palette show Xdata of the seleted object. Load the palette
+    first, show xdata when I select 1 object
+
+    I have no idea how to archive it, please give me some advice
+
+
+    thanks so much'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-05-18 19:14:50'
+  body: 'Hi yaqi,
+
+
+    This post more-or-less does just that (although it only shows one piece of xdata),
+    so I''m afraid I can''t see how I''m going to help you.
+
+
+    Kean'
+- author: Mark
+  email: lebakram@gmx.net
+  ip: 217.185.10.74
+  url: ''
+  date: '2009-05-19 18:37:27'
+  body: 'During testing the property stuff with my custom object I found out the following
+    things:
+
+    1. If your DBX and your .NET-wrapper are not in sync strange things will happen,
+    but you get no information on the cause.
+
+    2. The COM-stuff preceding CustomProp is not necessary, it works without it.
+
+    3. If was not able to translate the example from C# to VB.NET. I get a System.TypeloadException
+    without further details, but C# works :)
+
+
+    Thanks again Kean, your blog is a great knowledge database.
+
+
+    Mark'
+- author: Mike Tuersley
+  email: mike.tuersley@hotmail.com
+  ip: 98.100.68.40
+  url: http://www.mtuersley.com
+  date: '2009-07-15 16:27:39'
+  body: Thanks Kean! This article came in handy at an opportune moment. FTR, it translates
+    fine to VB.NET - I had to check ;)
+- author: Mohammad Afghari
+  email: mohammad.afghari@yahoo.com
+  ip: 89.165.121.254
+  url: http://www.afghari.com
+  date: '2010-11-24 11:38:26'
+  body: That property always shows in <b>General</b> group is there any way to create
+    a custom group and then add that property subset of that group?
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-11-24 14:31:57'
+  body: 'You''d need to use (and probably add support for in OPM .NET) ICategorizeProperties.
+
+
+    Kean'
+- author: Modis
+  email: www.modis@mail.ru
+  ip: 78.106.195.126
+  url: http://www.modplus.ucoz.ru/
+  date: '2011-03-26 21:32:34'
+  body: Is the a way to do it without OPM .NET module?
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-03-27 18:43:48'
+  body: 'You might use C++ directly, but otherwise (at the time of writing) there
+    are no other options I know of.
+
+
+    Kean'
+- author: Modis
+  email: www.modis@mail.ru
+  ip: 93.81.15.133
+  url: http://www.modplus.ucoz.ru/
+  date: '2011-03-28 00:40:57'
+  body: Bad. As I understand it - for each version of AutoCAD we need to do their
+    version of the COM server :(
+- author: Kean Walmsley
+  email: ''
+  ip: 203.116.198.69
+  url: http://profile.typepad.com/kean
+  date: '2011-03-29 08:55:34'
+  body: 'The 2010 version linked to from this post should work for 2011 and 2012,
+    too.
+
+
+    Kean'
+- author: Modis
+  email: www.modis@mail.ru
+  ip: 195.34.233.214
+  url: http://modplus.ucoz.ru/
+  date: '2011-03-30 09:18:04'
+  body: 'Strange. I''m trying your code and it didn''t work. Maybe i make a mistake.
+    Need to trying again.
+
+    I have one more question - is there any way to make and register our own entity
+    without using C++?
+
+
+    Sorry for my bad english :)'
+- author: Kean Walmsley
+  email: ''
+  ip: 203.116.198.67
+  url: http://profile.typepad.com/kean
+  date: '2011-03-30 09:23:18'
+  body: 'No, there is not (although the need to create custom entities has been greatly
+    reduced by the availability of the Overrule API).
+
+
+    Kean'
+- author: Danny Polkinhorn
+  email: dpolkinhorn@watg.com
+  ip: 66.175.73.45
+  url: ''
+  date: '2011-10-20 20:29:17'
+  body: 'Kean,
+
+
+    In paragraph 3, you recommend placing our assemblies in the same folder as AutoCAD.  Can
+    you explain further why that is, or point me to another resource?  Searches haven''t
+    pulled up anything (or I''m not searching for the right terms).
+
+
+    I would prefer that I install into another folder so I can control permissions
+    on the folder and allow users to update their own assemblies via logon scripts.  I
+    would prefer not to enable those permissions on the AutoCAD folder so that users
+    aren''t modifying standard AutoCAD files.  I guess I''m wondering what the gotchas
+    are for loading from another folder.
+
+
+    Thanks in advance,
+
+    -Danny'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2011-10-21 11:16:40'
+  body: 'Danny,
+
+
+    Yes - our Engineering team strongly recommends placing .NET DLLs in the same folder
+    as the AutoCAD EXE (prefixing the module name with your Registered Developer Symbol).
+
+
+    There''s some background here:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2009/11/updated-version-of-screenshot-now-available.html">http://through-the-interface.typepad.com/through_the_interface/2009/11/updated-version-of-screenshot-now-available.html</a>
+
+
+    People do use other folders to host their modules, but doing so tends to run the
+    risk of hitting subtle (and often hard to diagnose) issues. Hence the recommendation.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Luc
+  email: vallot@cesi2d.com
+  ip: 213.41.128.193
+  url: ''
+  date: '2011-11-09 15:35:57'
+  body: "Kean,\n\nI'm sorry, but I can not use your sample \n\nwhat I'm doing:\n\n\
+    \  download le sample\n  copiing the 2 dll's in the autocad main folder\n  adding\
+    \ 2 demand-load in the registry (1 for each dll , using the hkcu\\...\\applications\n\
+    \n  fire Autocad\n\n  insert a line , and look-at the properties\n\n  the radius\
+    \ line do not appair.\n\nWhat am I doing wrong ?\n\nCan you help me ?\n\nAutocad\
+    \ is a 2011 french version\n\nregards\n\nLuc"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2011-11-09 19:49:19'
+  body: 'Luc,
+
+
+    It should work in 2011 as it does in 2010.
+
+
+    You might try using Process Monitor (the successor to RegMon and FileMon), to
+    see whether acad.exe is finding the DLLs properly.
+
+
+    Otherwise I suggest submitting the information (including a .reg of that section
+    of the Registry) to ADN, for someone in my team to investigate.
+
+
+    Regards,
+
+
+    Kean'
+- author: Art
+  email: yamos78@hotmail.com
+  ip: 27.32.79.215
+  url: ''
+  date: '2011-11-14 17:05:34'
+  body: "Hi Kean,\n\nI have the same problem as Luc. I think it might have something\
+    \ to do with the asdkOPNetExt.dll download.\n\nI attempted to NETLOAD the asdkOPMNetExt.dll\
+    \ file as a test, but I got the following error message in both AutoCAD 2011 and\
+    \ 2012:\n\n<i>C:\\Program Files\\Autodesk\\AutoCAD 2012 - English\\asdkOPMNetExt.dll\
+    \ is incompatible with this version \nof AutoCAD.</i>\n\nI tried to compile the\
+    \ C++ project in VS 2010 but no luck. Unfortunately I don't know to fix C++ compile\
+    \ errors.\n\nAny idea on why it's not working?\n\nArt"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2011-11-15 13:58:23'
+  body: 'Hi Art,
+
+
+    I see the same thing on my x64 system (while it works well on my Win32 machine).
+
+
+    The app is currently 32-bit only (until someone takes the time to migrate it).
+    Could that be the issue?
+
+
+    I''ll also reply to Luc, as I agree it''s likely he may well be hitting the same
+    problem as you.
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2011-11-15 13:59:04'
+  body: 'After looking at this some more (see below for my reply to Art''s comment)...
+    could it be you''re running on 64-bit Windows?
+
+
+    Kean'
+- author: Art
+  email: yamos78@hotmail.com
+  ip: 192.148.117.100
+  url: ''
+  date: '2011-11-20 05:55:08'
+  body: 'Aha! Yes I am running 64.
+
+
+    I hear you guys love doing migration work... it''s fun yes!? :-)'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2011-11-20 17:44:43'
+  body: ':-)
+
+
+    I personally don''t enjoy it very much, but that''s not really the issue - it''s
+    more about a lack of bandwidth for unplanned activities, at the moment.
+
+
+    I''ll see if I can find someone to look into it, at some point, but otherwise
+    you might try posting the project to the ObjectARX discussion group and asking
+    if anyone there is up for it.
+
+
+    Kean'
+- author: David
+  email: davidmayhome@gmail.com
+  ip: 32.176.188.194
+  url: ''
+  date: '2012-05-11 01:50:48'
+  body: 'I am migrating this code to AutoCAD 2013. I am getting a eLockViolation when
+    I edit the custom property.
+
+
+    I am using the protectedoautowrite document lock just as AutoCAD 2012.
+
+
+    Any advice?
+
+
+    David'
+- author: Kean Walmsley
+  email: ''
+  ip: 95.172.88.8
+  url: http://profile.typepad.com/kean
+  date: '2012-05-11 09:41:26'
+  body: 'Hi David,
+
+
+    If you''re an ADN member, I suggest submitting the issue via the ADN site. Otherwise,
+    let me know and I''ll ping the ADN team myself (I assume this is regarding a port
+    of the core asdkOPMNetExt.dll module).
+
+
+    Regards,
+
+
+    Kean'
+- author: Dave
+  email: davidmayhome@gmail.com
+  ip: 32.176.188.194
+  url: ''
+  date: '2012-05-11 17:00:39'
+  body: 'Your Migration to AutoCAD 2013 solved my problem. Thanks, David
+
+    -----'

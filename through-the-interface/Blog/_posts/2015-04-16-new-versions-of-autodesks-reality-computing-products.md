@@ -1,0 +1,14 @@
+---
+layout: "post"
+title: "New versions of Autodesk&rsquo;s Reality Computing products"
+date: "2015-04-16 03:26:37"
+author: "Kean Walmsley"
+categories:
+  - "Autodesk"
+  - "Reality capture"
+original_url: "https://www.keanw.com/2015/04/new-versions-of-autodesks-reality-computing-products.html "
+typepad_basename: "new-versions-of-autodesks-reality-computing-products"
+typepad_status: "Publish"
+---
+
+<p>A couple of updates from our Reality Solutions team…</p>  <p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e201bb081e1327970d-pi" target="_blank"><img title="ReCap 360 Ultimate" style="border-top: 0px; border-right: 0px; background-image: none; border-bottom: 0px; float: none; padding-top: 0px; padding-left: 0px; margin: 20px auto; border-left: 0px; display: block; padding-right: 0px" border="0" alt="ReCap 360 Ultimate" src="/assets/image_731591.jpg" width="450" height="48" /></a>Firstly, a new, expanded portfolio of <a href="http://recap.autodesk.com" target="_blank">ReCap products</a> is now available for download. They include the newly branded ReCap 360 Ultimate – previously known as ReCap Pro. For more information head on over to <a href="http://www.recapproduct.com/blog/2015/04/the-new-reality-capture-portfolio-is-here.html" target="_blank">this blog post</a>.<a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e201b7c77a227a970b-pi" target="_blank"><img title="ReCap 360 Ultimate- Red Rocks" style="border-top: 0px; border-right: 0px; background-image: none; border-bottom: 0px; float: none; padding-top: 0px; padding-left: 0px; margin: 20px auto; border-left: 0px; display: block; padding-right: 0px" border="0" alt="ReCap 360 Ultimate- Red Rocks" src="/assets/image_455040.jpg" width="394" height="223" /></a></p>  <p>Secondly, <a href="http://memento.autodesk.com" target="_blank">Autodesk Memento</a> has been updated to version 1.0.15.10. Here’s what’s new in this release:</p>  <ul>   <li>Live update mechanism to deliver minor updates in the future</li>    <li>Extrude a boundary</li>    <li>Surface Sculpt</li>    <li>Smart selection to select planar &amp; organic surfaces with strokes</li>    <li>Photo validator to check for photos that will not stitch</li>    <li>Ability to toggle between Navigation-only and Selection modes - Shortcut key 'space bar'</li>    <li>First person navigation - Shortcut key 'Tab' to cycle through the two navigation modes</li>    <li>X-ray mode (to see occluded surfaces/defects) – Shortcut key '1' to toggle and '-/+' to control the depth</li>    <li>Fixed most of the bugs reported on the forum</li> </ul>  <p>As I’m here in Singapore I’m heading for lunch tomorrow with Murali Pappoppula, whose team develops the Memento product. I’m looking forward to finding out what is in the pipeline for this product – it’s really coming along in leaps and bounds.</p>

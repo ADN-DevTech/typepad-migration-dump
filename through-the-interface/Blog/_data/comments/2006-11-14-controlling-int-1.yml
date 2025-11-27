@@ -1,0 +1,284 @@
+comments:
+- author: weslleywang
+  email: weslleywang@yahoo.com
+  ip: 74.121.5.174
+  url: ''
+  date: '2006-11-22 02:36:30'
+  body: "Thank you, Kean:\n  I will try your code. \n  Maybe I am greed, when you\
+    \ are not busy, could you have a sample code for using jig as ghost object, a\
+    \ object will disappear once REDRAW. also, can I use Hatch as jig object, and\
+    \ as ghost object. \n  Once again, thank you very much and have a great thanksgiving.\
+    \ \n\n\nWes"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-11-22 09:55:50'
+  body: 'Hi Wes,
+
+
+    If you don''t append the entity the modelspace, that should meet your requirement.
+    Just to try it out, change the last "if (bComplete)" line to "if (bComplete &&
+    false)", which should stop that whole section from being executed.
+
+
+    BTW - you should look at the following post for how to implement UNDO.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Ben Senior
+  email: b.senior@ibv-lichtenstein.de
+  ip: 194.25.218.179
+  url: ''
+  date: '2007-06-28 15:36:18'
+  body: 'Hi Kean,
+
+    I have a lot of lines, curves and 2d-polylines in a Civil 3D drawing which I have
+    copied down to a Z of 0.0, these form various things such as kerb lines etc.  I
+    need to pick the first element and then convert that to a polyline and automatically
+    add all subsequent elements that on the end of that line, so that I finish up
+    with a 2D-polyline.
+
+    How can I achieve this in C#
+
+
+    Ben'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-06 10:41:56'
+  body: 'Hi Ben,
+
+
+    I''m not familiar with the specific functionality in the Civil 3D API, but I do
+    know it''s a COM API. So you''ll need to use COM interop from .NET to call the
+    Civil 3D API on the elements in question.
+
+
+    Regards,
+
+
+    Kean'
+- author: Kélcyo Pereira
+  email: kelcyo.pereira@bol.com.br
+  ip: 200.220.209.230
+  url: ''
+  date: '2007-08-01 17:32:22'
+  body: "Hi Kean,\nVery good this post. \nInteresting would be an sample to create\
+    \ one polyline from lines and curves existing, that coincide the link points or\
+    \ a tolerance of distance. \nGrateful. \n\nKelcyo"
+- author: asmaa
+  email: asmaa.14-7@hotmail.com
+  ip: 41.221.18.27
+  url: ''
+  date: '2008-09-23 12:18:46'
+  body: "1- Which is respect between creating a polyline or line  by creating a data\
+    \ base and a transaction (your code) and creating a polyline by using the acad\
+    \ functions .\n\nexample:\n\nusing System;\nusing Autodesk.AutoCAD.Runtime;\n\
+    using System.Collections.Generic;\nusing System.Windows.Forms;\nusing Autodesk.AutoCAD.Interop;\n\
+    using Autodesk.AutoCAD.Interop.Common;\nusing Autodesk.AutoCAD.Colors;\nusing\
+    \ Autodesk.AutoCAD.ApplicationServices;\nusing Autodesk.AutoCAD.DatabaseServices;\n\
+    using Autodesk.AutoCAD.Geometry;\nusing Autodesk.AutoCAD.EditorInput;\n\n[assembly:\
+    \ CommandClass(typeof(ClassLibrary.civiClass))]\n\nnamespace ClassLibrary\n{\n\
+    \    /// <summary>\n    /// Summary description for civiClass.\n    /// </summary>\n\
+    \    public class civiClass \n    {\n       \n\n        //public AcadApplication\
+    \ app = GetActiveObject(\"AutoCAD.Application\");\n        public civiClass()\n\
+    \        {\n            \n        }\n\n        // Define Command \"AsdkCmd1\"\n\
+    \        [CommandMethod(\"line\")]\n        public void line() // This method\
+    \ can have any name\n        {\n           \n      AcadApplication app = new AcadApplication();\n\
+    \n          AcadDocument doc1 = app.ActiveDocument;\n\n           \n         \
+    \   //This example adds a line in model space\n\n\n            AcadLine lineObj;\n\
+    \n            double[] startPoint = new double[3];\n\n            double[] endPoint\
+    \ = new double[3];\n\n\n            //Define the start and end points for the\
+    \ line\n\n            startPoint[0] = 1; startPoint[1] = 1; startPoint[2] = 0;\n\
+    \n            endPoint[0] = 50; endPoint[1] = 200; endPoint[2] = 0;\n\n      \
+    \      //Create the line in model space\n\n            lineObj = doc1.ModelSpace.AddLine(startPoint,\
+    \ endPoint);\n\n            \n           app.Application.Visible = true;\n\n \
+    \           doc1.Regen(AcRegenType.acAllViewports);\n\n            app.ZoomAll();\n\
+    \n        }\n}\n}"
+- author: asmaa
+  email: asmaa.14-7@hotmail.com
+  ip: 41.221.18.27
+  url: ''
+  date: '2008-09-23 12:31:03'
+  body: "How to make to test if the autocad process is already executed\n And how\
+    \ to recover the AcadApplication  without create a new application.\n\nthank you"
+- author: asmaa
+  email: asmaa.14-7@hotmail.com
+  ip: 41.221.18.27
+  url: ''
+  date: '2008-09-23 12:36:14'
+  body: what the difference  between creating a polyline or line by creating a data
+    base and a transaction (your code) and creating a polyline by using the Acad functions
+- author: asmaa
+  email: asmaa.14-7@hotmail.com
+  ip: 41.221.18.27
+  url: ''
+  date: '2008-09-23 12:50:40'
+  body: "what is the difference  between creating a polyline or line by creating a\
+    \ data base and a transaction (your code) and creating a polyline by using the\
+    \ Acad functions\n\nusing System;\nusing Autodesk.AutoCAD.Runtime;\nusing System.Collections.Generic;\n\
+    using System.Windows.Forms;\nusing Autodesk.AutoCAD.Interop;\nusing Autodesk.AutoCAD.Interop.Common;\n\
+    using Autodesk.AutoCAD.Colors;\nusing Autodesk.AutoCAD.ApplicationServices;\n\
+    using Autodesk.AutoCAD.DatabaseServices;\nusing Autodesk.AutoCAD.Geometry;\nusing\
+    \ Autodesk.AutoCAD.EditorInput;\n\n[assembly: CommandClass(typeof(ClassLibrary.createline))]\n\
+    \nnamespace ClassLibrary\n{\n///\n/// \n///\npublic class createline\n{\n\n\n\
+    // Define Command \"AsdkCmd1\"\n[CommandMethod(\"line\")]\npublic void line()\
+    \ // This method can have any name\n{\n\nAcadApplication app = new AcadApplication();\n\
+    \nAcadDocument doc1 = app.ActiveDocument;\n\n\n//This example adds a line in model\
+    \ space\n\n\nAcadLine lineObj;\n\ndouble[] startPoint = new double[3];\n\ndouble[]\
+    \ endPoint = new double[3];\n\n\n//Define the start and end points for the line\n\
+    \nstartPoint[0] = 1; startPoint[1] = 1; startPoint[2] = 0;\n\nendPoint[0] = 50;\
+    \ endPoint[1] = 200; endPoint[2] = 0;\n\n//Create the line in model space\n\n\
+    lineObj = doc1.ModelSpace.AddLine(startPoint, endPoint);\n\n\napp.Application.Visible\
+    \ = true;\n\ndoc1.Regen(AcRegenType.acAllViewports);\n\napp.ZoomAll();\n\n}\n\
+    }\n}"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-23 13:40:49'
+  body: 'Asmaa -
+
+
+    1) You''re using the COM API (which has some overhead, as each "operation" has
+    a fair amount of object marshalling to do) rather than the .NET API (which is
+    much closer to ObjectARX).
+
+
+    2) It''s a pretty standard technique to use GetObject() or GetActiveObject() and
+    then CreateObject() if an error is returned (i.e. AutoCAD is not running). This
+    is using the COM API, of course - which isn''t really a focus on this blog (I
+    tend to focus on .NET).
+
+
+    Kean'
+- author: asmaa
+  email: asmaa.14-7@hotmail.com
+  ip: 41.221.18.243
+  url: ''
+  date: '2008-09-24 12:59:30'
+  body: 'hi kean,
+
+
+    Thank you very much you are formidable'
+- author: asmaa
+  email: asmaa.14-7@hotmail.com
+  ip: 41.221.18.243
+  url: ''
+  date: '2008-09-24 13:04:35'
+  body: "hi kean,\n\nJe n’arrive pas à comprendre quel est la différence entre COM\
+    \ API  et  .NET API ? \net quand je dois utiliser COM API  ou .NET APPI"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-24 13:30:50'
+  body: 'La difference est expliquée dans <a href="http://through-the-interface.typepad.com/through_the_interface/2006/09/com_vs_net_in_a.html">cet
+    article précédent</a>.
+
+
+    Kean'
+- author: asmaa14
+  email: ''
+  ip: 41.221.19.2
+  url: http://profile.typekey.com/asmaa14/
+  date: '2008-09-24 14:08:31'
+  body: 'Thank you very much
+
+    j''ai bien compris'
+- author: Bert
+  email: vanpeteghem.bert@gmail.com
+  ip: 194.78.28.169
+  url: http://cupocadnet.blogspot.com
+  date: '2009-10-05 15:02:08'
+  body: 'Hi Kean,
+
+
+    Is it possible that using this code from a button on a palette changes the behaviour
+    of the jig?
+
+
+    When running similar code as yours from a command as entry-point, everything works
+    as expected.
+
+    When running from a button on a palette, object snapping does odd things and the
+    line, presented by the jig, is no longer visible.
+
+
+    Any thoughts?'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-10-05 18:25:01'
+  body: 'Hi Bert,
+
+
+    Are you remembering to lock the document? That''s the classic issue in this scenario.
+
+
+    Commands generally lock the current document automatically (with the notable exception
+    of "session" commands), but modeless dialogs such as palettes do not.
+
+
+    Regards,
+
+
+    Kean'
+- author: Francisco
+  email: fcarbone@dcc.uchile.cl
+  ip: 190.161.183.90
+  url: ''
+  date: '2009-11-03 21:54:26'
+  body: 'Hi,
+
+
+    I have the same problem. I lock the document, but when running from a dialog or
+    palette the polyline is almost no visible. It''s like a very fast flickering.
+
+
+    Thanks,
+
+
+    Francisco'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-11-04 09:10:10'
+  body: 'I suggest posting your code to the <a href="http://adn.autodesk.com">ADN</a>
+    team or <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>. The recommended way for a modeless UI to interact
+    with AutoCAD (and this is the technique we tend to use internally) is to fire
+    commands - anything else does run the risk of strange behaviour.
+
+
+    Kean'
+- author: Ray Whitmore
+  email: ray@datamat.com
+  ip: 68.15.59.216
+  url: http://www.datamat.com
+  date: '2010-04-07 23:38:30'
+  body: 'Can I impose upon you to rewrite the this jig example using vb.net rather
+    than C#. I''m a convert who jumped from Autolisp to vb.net in response to the
+    boss. I''m still having trouble translating C# code to the equivalent in vb.net.
+
+
+    Thanks.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-04-08 09:44:05'
+  body: 'Please see <a href="http://through-the-interface.typepad.com/through_the_interface/2009/07/converting-between-c-and-vbnet.html">this
+    post</a> for some tools that will help convert C# to VB.NET.
+
+
+    Kean
+
+    -----'

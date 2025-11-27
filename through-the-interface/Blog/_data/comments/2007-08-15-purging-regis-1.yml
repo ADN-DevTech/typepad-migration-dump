@@ -1,0 +1,471 @@
+comments:
+- author: HJohn
+  email: hsomeone@hotmail.com
+  ip: 216.123.181.194
+  url: ''
+  date: '2007-08-16 19:13:43'
+  body: 'Hi Kean,
+
+    Is there any chance that you could show how to open drawings from a form to execute
+    custom routines on them using .NET.  I have been trying to find a solution for
+    some time without any success.  Could you create a simple example that would at
+    least show how to switch the contexts, application & document?  There have been
+    a few others posts on the user group, but not a good solution.  May be something
+    that for you could be so simple, will help a lot of people.'
+- author: Fernando Malard
+  email: fpmalard@gmail.com
+  ip: 200.150.62.76
+  url: http://arxdummies.blogspot.com
+  date: '2007-08-16 20:45:16'
+  body: 'Hi,
+
+
+    The best approach is to separate the drawing walkthrough routine from the database
+    operation itself.
+
+
+    You may structure some kind of custom action that will be performed at each drawing.
+    Then from a simple interface you can enable those custom actions and then perform
+    those ones inside each drawing inside the loop.
+
+
+    Regards.'
+- author: Tony Tanzillo
+  email: email@provided.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2007-08-19 03:17:45'
+  body: 'Hi Kean.
+
+
+    It might be helpful to inform your readers that batch operations on DWG files
+    also has the possibly-unintended side-effect of ''upgrading'' those files from
+    whatever release version they were saved in, to the current release version.
+
+
+    Some may not realize that doing this with drawings produced saved by older versions
+    of vertical products like ADT or Civil3D, can lead to utter catastrophy if they
+    haven''t backed up everything first.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-08-20 11:44:04'
+  body: 'Hi Tony,
+
+
+    In the examples I''ve shown I''ve saved to a different filename, but yes - if
+    you need to maintain the original file version then a little more code is required
+    (I''ll look at posting something about this).
+
+
+    Thanks,
+
+
+    Kean'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-08-21 15:59:03'
+  body: "The change seems to be simpler than I expected...\n\ndb.SaveAs(\n  outputName,\n\
+    \  db.LastSavedAsVersion // instead of\n                        // DwgVersion.Current\n\
+    );\n\nKean"
+- author: Roland Feletic
+  email: rosinino@gmx.net
+  ip: 212.108.35.17
+  url: ''
+  date: '2007-08-22 11:04:03'
+  body: 'Dear Kean,
+
+    thank you for this sample code.
+
+    Do you know if it is possible to get the variable "ANNOTATIVEDWG" for each of
+    the db with your code? I just want to make drawings in a directory annotative
+    but could not find anything in Database which can set it annotative.
+
+
+    Regards,
+
+    Roland'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-08-22 12:02:03'
+  body: "Dear Roland,\n\nIt looks as Database doesn't have this property exposed in\
+    \ AutoCAD 2008, so until it's fixed (hopefully in the next release) you'll need\
+    \ to set it using another approach.\n\nIf you're in AutoCAD (i.e. not RealDWG)\
+    \ then you should be able to just call Application.SetSystemVariable() to set\
+    \ it.\n\nYou'll need to make sure you set HostApplicationServices.WorkingDatabase\
+    \ = db;\nand then set it back to the previous value before the SaveAs (at least\
+    \ that's what I noticed when I just tried this out).\n\nRegards,\n\nKean\n\nOh,\
+    \ and I also noticed that I did need a little more code for the version maintenance,\
+    \ after all:\n\nDwgVersion ver =\n  (db.LastSavedAsVersion == DwgVersion.MC0To0\
+    \ ?\n    DwgVersion.Current :\n    db.LastSavedAsVersion\n  );\ndb.SaveAs(\n \
+    \ outputName,\n  ver\n);"
+- author: Roland Feletic
+  email: rosinino@gmx.net
+  ip: 212.108.35.17
+  url: ''
+  date: '2007-08-22 14:33:49'
+  body: "Thank you, Kean.\nI hope this will be fixed in the next version. \n\nRegards,\n\
+    Roland"
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2007-08-27 23:47:22'
+  body: "Hi Kean. \n\nThanks for giving that some attention.\n\nI'm not sure about\
+    \ this because I haven't tested it, but I'm pretty sure that AutoCAD verticals\
+    \ upgrade custom objects to the current release when the drawing saved in the\
+    \ earlier release is opened.\n\nI'm not sure that saving down to the previous\
+    \ AutoCAD DWG version will address that particular problem. I suppose that's because\
+    \ custom objects implemented by the various verticals do not seem to support saving\
+    \ themsleves to older versions, in the same way that AutoCAD does for native database\
+    \ objects."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-08-28 10:29:53'
+  body: 'Hi Tony,
+
+
+    It''s quite possible that one or more of our AutoCAD-based verticals do this (I
+    haven''t looked into it, myself).
+
+
+    Ultimately it comes down to a number of implementation decisions... (which I’m
+    going to talk through more for the benefit of people implementing their own custom
+    objects, not to make excuses for what we do in our products.)
+
+
+    Providers of custom objects could choose to link the versions of their own objects
+    to a specific DWG version (by querying AcDbDwgFiler::dwgVersion() in their dwgOutFields()
+    implementation), but that can be very limiting as one may want to up the version
+    in between format changes, which do not happen every release. It also raises problems
+    of how best to dumb down objects to previous versions. With recently-upgraded
+    (and unchanged) objects it''s OK, but you''d still have to find a way to tag the
+    data that originally defined the object on drawing load (and make sure any changes
+    made to the object were handled gracefully when stored back to the old format).
+
+
+    Then there''s round-tripping: how to store the additional data with the old versions
+    of the objects, allowing them to resurrect their behaviour when they come back
+    into the newer release of the product. These problems are also there when custom
+    object implementers support saveAs(), of course.
+
+
+    An alternative would be to provide object enablers for previous versions that
+    support newer versions of the objects, but that might also be a substantial effort
+    and blur the line of what functionality is delivered in which release (creating
+    strange behaviour as old products get partially upgraded feature sets).
+
+
+    Anyway – all this to say that yes, I can understand how this happens from an implementation
+    perspective. I don’t have any magic solutions, however – it’s an inherently difficult
+    problem.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Mike
+  email: mike.s.anderton@gmail.com
+  ip: 74.12.79.17
+  url: ''
+  date: '2009-07-11 04:17:13'
+  body: 'Hi Kean,
+
+
+    I was wondering if there''s an easy way to modify the objects to purge. For example,
+    if a particular text style was included in the drawing that I did not want to
+    be purged. Can this easily be done?
+
+
+    Thanks Mike'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-07-11 07:38:06'
+  body: 'Hi Mike,
+
+
+    There are a couple of ways:
+
+
+    You can maintain your own list of objects "to keep" and remove any items that
+    are on this list from idsToPurge before you erase them.
+
+
+    Or you can create an object that''s owned at some level by the Database (an Xrecord
+    placed inside the Named Objects Dictionary should do it) that contains "hard"
+    references to the objects you wish to keep (which means using DxfCode.HardPointerId
+    - or one of the indeces just following it - when creating your TypedValues). This
+    has the advantage of also stopping the standard PURGE command from removing those
+    objects.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Frank
+  email: thebrumsel@gmail.com
+  ip: 193.173.66.209
+  url: ''
+  date: '2009-11-20 16:15:26'
+  body: 'Hello Kean,
+
+
+    I have a question regarding the PurgeFiles function. From within the using(db)
+    statement I want to call another method which needs the same database/drawing.
+    Is this possible? Can I, within the foreach loop, pass the database to another
+    function, do some stuff (only read actions, no writing needed) and return to the
+    mainfunction? I tried this, but keep getting fatal errors. Perhaps you could show
+    me how this might work (if possible)?
+
+
+    Thanks,
+
+
+    Frank'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-11-20 17:22:04'
+  body: 'Hi Frank,
+
+
+    If you pass the db to the function then this should work, although clearly the
+    devil''s in the detail. :-)
+
+
+    You must make sure you don''t do anything inappropriate to the Database (Disposing
+    of it would be the worst crime, modifying it isn''t necessarily a problem, but
+    again, it depends on what you''re doing).
+
+
+    Maybe you can email or post your code?
+
+
+    Kean'
+- author: Frank
+  email: thebrumsel@gmail.com
+  ip: 193.173.66.209
+  url: ''
+  date: '2009-11-26 11:42:46'
+  body: "Hello Kean, thank you for your response. Let me explain what I am trying\
+    \ to do and what I have in my code.\n\nI have a directory with drawings in it.\
+    \ These drawings have to be checked on a couple of points. To do certain checks\
+    \ it is necessary to open the drawing.\n\nIn this project there is a separation\
+    \ in classes. I have a class that concerns everything that has to do with layouts,\
+    \ there is a class for attributes, a class for layers and so on.\n\nFor the checking\
+    \ I created a form for selecting the directory and a button to start the checking\
+    \ of the drawings. The clicking of the button start the CheckDrawings function.\
+    \ In this function there is a for each loop to go through all drawings in the\
+    \ given directory. In this loop there is an new function called for each check\
+    \ I want to do. So each check has it's own function. All these checking function\
+    \ are in a separate class as well and return a true or false. From within these\
+    \ checking classes, depending on the check, I use the functions from the specific\
+    \ classes for layout, attribute, layer etc.\nIn the end a file is created with\
+    \ all \"errors\" found per drawing.\n\nA few examples off checks I do:\n- version\
+    \ of the file (no need for a database)\n- can the drawing be opened in the working\
+    \ acad version?\n- is there a specific titleblock in the drawing (name based checking\
+    \ of the titleblock)\n- on what layer is the titleblock\n- each attribute in the\
+    \ titleblock is checked as well, concerning textstyle, heigt, color, layer and\
+    \ value\n\nI hope it is a bit clear to you what I am trying to do. At the moment\
+    \ I am creating the database at the last moment, so in the functions in the specific\
+    \ classes. Until that moment I pass a string containing the full pathname to the\
+    \ drawing.\n\nIf I run the program a couple of times quickly after eachother autocad\
+    \ locks/is ended. I can't seem to find out why.\n\nBelow a few parts from my code:\n\
+    \n<b>Button: click</b>\nprivate void cmdBatchCheck_Click(object sender, EventArgs\
+    \ e)\n{\n   BatchChecker.CheckDrawings(this);\n}\n\n<b>Function: CheckDrawings</b>\n\
+    public void CheckDrawings(BatchCheckForm CheckForm)\n{\nforeach (string path in\
+    \ filePaths)\n{\ntry\n{\n// Check dwg version \nMnAlvCheckerHelper.DwgVersionChecker(fData.AlvVersion,\
+    \ path);\n\n// Try opening existing dwg\nif (!MnAlvCheckerHelper.FileOpenChecker(path))\n\
+    {\n// File could not be opened: continue to next dwg\nErrorWriter.WriteLine(FileName,\
+    \ LogType.ContinueCheckingError, \"Checking of this dwg has been terminated\"\
+    );\ncontinue;\n}\n\n// Check layout count\nif (!MnAlvCheckerHelper.LayoutCountChecker(path))\n\
+    {\n// Found too many layouts: continue to next dwg\nErrorWriter.WriteLine(FileName,\
+    \ LogType.ContinueCheckingError, \"Checking of this dwg has been terminated\"\
+    );\ncontinue;\n}\n\n//... more checks\n}\n}\n}\n\n<b>Specific Function concerning\
+    \ layouts: GetLayoutArray</b>\npublic ArrayList GetLayoutArray(string path)\n\
+    {\nDBDictionary layoutDict = null;\nLayout lay = null;\nArrayList la = new ArrayList();\n\
+    Database dbArraylist = new Database(false, true);\ndbArraylist.ReadDwgFile(path,\
+    \ FileShare.Read, true, \"\");\nEditor ed = Acadapp.DocumentManager.GetDocument(dbArraylist).Editor;\n\
+    \            \nDocumentLock docLock = ed.Document.LockDocument();\n\nusing (Transaction\
+    \ tr = dbArraylist.TransactionManager.StartTransaction())\n{\ntry\n{\n// Layouts\
+    \ don't have their own tables but are stored in a dictonary\nlayoutDict = (DBDictionary)tr.GetObject(dbArraylist.LayoutDictionaryId,\
+    \ OpenMode.ForRead, false);\n\n//create enumarator \nDbDictionaryEnumerator dictEnum\
+    \ = layoutDict.GetEnumerator();\nwhile (dictEnum.MoveNext() && (_layoutId == ObjectId.Null))\n\
+    {\nDBDictionaryEntry dbDictEnt = dictEnum.Current;\nlay = (Layout)tr.GetObject(dbDictEnt.Value,\
+    \ OpenMode.ForRead, false);\nif (lay.LayoutName != \"Model\")\n{\nla.Add(lay.LayoutName);\n\
+    }\n}\n}\ncatch\n{\nAcadapp.ShowAlertDialog(\"Couldn't retrieve layout from DB\
+    \ correctly\");\n}\nfinally\n{\ndocLock.Dispose();\ndbArraylist.Dispose();\n}\n\
+    }\nreturn la;\n}"
+- author: Frank
+  email: thebrumsel@gmail.com
+  ip: 193.173.66.209
+  url: ''
+  date: '2009-11-26 14:30:12'
+  body: 'Between the CheckDrawings function and the specific function there is the
+    the call to the check function which returns a bool.
+
+
+    <b>Function: LayoutCountChecker</b>
+
+    public static bool LayoutCountChecker(string path)
+
+    {
+
+    bool retVal = false;
+
+    MnLayoutManager layMan = new MnLayoutManager();
+
+    string FileName = path.Substring(path.LastIndexOf("\\") + 1);
+
+    ArrayList LayoutCount = null;
+
+
+    try
+
+    {
+
+    LayoutCount = layMan.GetLayoutArray(path);
+
+
+    // Check layout count
+
+    if (LayoutCount.Count > 1)
+
+    {
+
+    // If more then 1, create entries in log
+
+    ErrorWriter.WriteLine(FileName, LogType.LayoutCountError,
+
+    "More then 1 layout was found: " + LayoutCount.Count);
+
+    }
+
+    else
+
+    {
+
+    // 1 layout was found, set return value to true
+
+    retVal = true;
+
+    }
+
+    }
+
+    catch (Exception)
+
+    {
+
+    // An unexpected error occured, create entries in log
+
+    ErrorWriter.WriteLine(FileName, LogType.UnknownError, "An unknown error has occured");
+
+    return false;
+
+    }
+
+    finally
+
+    {
+
+    }
+
+    return retVal;
+
+    }'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2009-11-26 16:28:24'
+  body: 'A couple of comments:
+
+
+    You don''t need to lock a DWG that you read into a Database using RealDwgFile()
+    (the assumption being it isn''t loaded into the editor: if it is, then you shouldn''t
+    need RealDwgFile() in the first place). So you can drop the code to get the editor
+    and lock/unlock the document.
+
+
+    Also you can use foreach() to iterate through the contents of the LayoutDictionary,
+    which is much cleaner than direct use of the iterator (which is always prone to
+    error).
+
+
+    I hope this helps resolve your problem,
+
+
+    Kean'
+- author: Frank
+  email: thebrumsel@gmail.com
+  ip: 193.173.66.209
+  url: ''
+  date: '2009-11-27 08:45:28'
+  body: Thank you Kean, the problem was the iterator. Now it all works.
+- author: Kevin
+  email: kevin.kline116@gmail.com
+  ip: 70.90.15.185
+  url: ''
+  date: '2011-11-29 15:53:18'
+  body: "Kean,\n\nI've tried to get this to work, but I can't seem to. I'll preface\
+    \ all of this and say I'm <b>COMPLETELY</b> NEW to all of this, and have no idea\
+    \ how any of this works, so I'm sure I'm messing it up, but I don't know how to\
+    \ fix it.\n\nFirst, when I downloaded the source file, it was a \".cs\", which\
+    \ didn't show up in my \"appload\" window when I went to load it into AutoCAD.\
+    \ So, I changed the file extension to \".lsp\", which loaded successfully, but\
+    \ then, on the command line (after loading), it reads:\n\nAPPLOAD purge-files.lsp\
+    \ successfully loaded.\nCommand: ; error: bad function: \"PF\"\n\nSo... I'm guessing\
+    \ I messed it up when I changed the \".cs\" to \".lsp\", but I don't know what\
+    \ to do to get the .cs to load.\n\nAlso, we want the file names to remain the\
+    \ same after the purge (i.e., not have the \"_purge\" after the file name, but\
+    \ maintain the existing file name), how do we make that change? I see the code\
+    \ says:\n\n          string outputName =\n            fileName.Substring(\n  \
+    \            0,\n              fileName.Length - 4) +\n            \"_purged.dwg\"\
+    ;\n          Database db = new Database(false, true);\n          using (db)\n\n\
+    but I don't know where to start and stop the change (i.e., if I just take out\
+    \ the \"_purged.dwg\"; line, will that work or do I need the \";\", do I need\
+    \ the \"+\" on the previous line, etc). We don't so much care about keeping the\
+    \ version of the file the same, but we need the file names to remain, and in the\
+    \ same location.\n\nAlso, so you know, to make that change, I can't edit the .cs\
+    \ as it's not a known file type on my computer... but changing it to a .lsp allows\
+    \ me to open Notepad.\n\nFinally, any chance to getting a .lsp file with all these\
+    \ changes (same version [per previous comments], and same name [per this request])?\
+    \ If not, I understand... it would just make all these changes a bit easier for\
+    \ a newbie like me.\n\nAgain, thanks for all you do! Any help would be greatly\
+    \ appreciated!"
+- author: Kean Walmsley
+  email: ''
+  ip: 66.116.112.6
+  url: http://profile.typepad.com/kean
+  date: '2011-11-29 15:58:31'
+  body: 'Kevin,
+
+
+    Although a bit old, this post should be of help:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2006/07/getting_started.html">http://through-the-interface.typepad.com/through_the_interface/2006/07/getting_started.html</a>
+
+
+    You should be able to save back by change outputName on line 86 to fileName.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

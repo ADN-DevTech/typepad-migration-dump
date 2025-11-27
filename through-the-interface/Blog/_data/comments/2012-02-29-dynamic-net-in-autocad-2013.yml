@@ -1,0 +1,289 @@
+comments:
+- author: Patrick EMIN
+  email: webmaster@augifr.fr
+  ip: 83.206.249.121
+  url: http://augifr.ning.com/
+  date: '2012-02-29 14:42:50'
+  body: 'I like duck typing: "When I see a bird that walks like a duck and swims like
+    a duck and quacks like a duck, I call that bird a duck" (from Wikipedia). It looks
+    like .NET will eventualy be usable by mere human beings like me and not only by
+    computer scientists ;)
+
+    The future is not in exposing the computer internal guts but is in hiding them
+    and making them work for your average programmer. Your first example is madness,
+    your second one is acceptable.'
+- author: Thorsten Meinecke
+  email: t.meinecke@gtb-ingenieure.de
+  ip: 91.65.128.77
+  url: ''
+  date: '2012-02-29 14:45:48'
+  body: '<i>...migration steps needed for .NET applications...</i>
+
+
+    Ouch. I hope you aren''t saying I can''t netload our existing code base that was
+    created over the last 6 years (since rel. 2007)?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-02-29 14:51:30'
+  body: 'You can leverage the same codebase (almost exactly), but you will need a
+    new DLL.
+
+
+    Kean'
+- author: Stephen Preston
+  email: stephen.preston@autodesk.com
+  ip: 72.52.96.11
+  url: http://www.autodesk.com/joinadn
+  date: '2012-03-01 01:40:35'
+  body: "I feel obliged to emphasize that my code that Kean quoted was me testing\
+    \ whether these things could be done using Dynamic .NET and LINQ. Just because\
+    \ you can do something doesn't mean you should. :-s \n\nAnd to get my excuses\
+    \ in early - this was also my first experiment with LINQ in any context :-).\n\
+    \nCheers,\n\nStephen"
+- author: quiz
+  email: quizug@mail.com
+  ip: 82.195.12.213
+  url: ''
+  date: '2012-03-01 07:47:49'
+  body: Dynamic .NET is goot, but what about dynamic properties in AutoCAD? Any new
+    interfaces to OPM?
+- author: Frank C
+  email: ebiz@nym.hush.com
+  ip: 24.187.144.65
+  url: ''
+  date: '2012-03-01 09:47:35'
+  body: 'Well, thanks for (unintentionally) showing how horribly inefficient duck
+    typing/late binding can be.
+
+
+    In your first example (prefixing a layer name) you reference the layer''s property
+    3 times (2 reads and 1 write). Of course, if one understands the overhead of each
+    dynamic invocation, they would probably also understand the importance of minimizing
+    them, which in the case of your example would mean storing the layer name in a
+    variable and operating on that, rather than the Name property directly.
+
+
+    Cheers :d'
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.254.3
+  url: http://profile.typepad.com/kean
+  date: '2012-03-01 11:39:26'
+  body: 'Yes, we''re accessing the information three times. We could certain store
+    the information in a variable and access it twice, but the question is whether
+    it''s worth it.
+
+
+    Given the purpose of this particular code, you''re likely to hit limits on the
+    number of layers in a drawing before you see performance issues. But if you see
+    a noticeable lag, feel free to use static typing.
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.254.3
+  url: http://profile.typepad.com/kean
+  date: '2012-03-01 11:40:53'
+  body: 'I''ll be covering something related to "non-COM properties", at some point,
+    but as it''s C++ only (and therefore of interest to a subset of this blog''s readership),
+    I''m unlikely to go into significant detail.
+
+
+    Kean'
+- author: csharpbird
+  email: csharpbird@gmail.com
+  ip: 58.60.163.181
+  url: http://www.objectarx.net
+  date: '2012-03-01 13:10:42'
+  body: "Hi,Kean\nCan I change the entities' color like this with AutoCAD 2013:  \
+    \     \npublic void Test()\n        {\n            PromptSelectionResult res =\
+    \  Application.DocumentManager.MdiActiveDocument.Editor.GetSelection();\n    \
+    \        if (res.Status != PromptStatus.OK)\n                return;\n       \
+    \     var ents = from ent in res.Value.GetObjectIds().Cast<dynamic>()\n      \
+    \                       where ent.Layer == \"0\"\n                           \
+    \  select ent;\n            foreach (dynamic ent in ents)\n                ent.ColorIndex=1;\n\
+    \        }"
+- author: Kean Walmsley
+  email: ''
+  ip: 195.166.51.3
+  url: http://profile.typepad.com/kean
+  date: '2012-03-02 09:37:18'
+  body: 'I haven''t specifically run your code, but yes, something like it should
+    work.
+
+
+    Kean'
+- author: Pete Smith
+  email: pfsmith@smbr-inc.com
+  ip: 67.234.146.30
+  url: http://smbr-inc.com
+  date: '2012-03-04 18:40:50'
+  body: 'Hi Kean,
+
+    This seems like a convenient place to thank ymou for your IronPython articles.
+    I''m a lowly CAD Operator in a small design office. The lack of language ceremony
+    in Python, and a few facade classes, makes tasks that might have been drudgery
+    before into interesting automation problems.'
+- author: Anonymoose
+  email: noone@nowhere.com
+  ip: 24.187.144.65
+  url: ''
+  date: '2012-03-04 22:04:50'
+  body: '"there is no IntelliSense available when coding dynamically (something Python
+    and Ruby developers are used to.... It would not be impossible to implement, but
+    it would be very difficult"
+
+
+    It would be impossible. Without an instance, there is no way to know what the
+    actual type is, and without knowing the type, there''s no way to reflect on its
+    members. That''s just the nature of the beast.'
+- author: Kean Walmsley
+  email: ''
+  ip: 72.52.96.9
+  url: http://profile.typepad.com/kean
+  date: '2012-03-04 22:12:06'
+  body: 'It''s my pleasure. :-)
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 72.52.96.9
+  url: http://profile.typepad.com/kean
+  date: '2012-03-04 22:21:30'
+  body: 'You could well be right.
+
+
+    I like to think that someone might find a way to at least provide IntelliSense
+    for cases where types can be inferred, in some way (constructors and functions
+    that return objects of a specific type are candidates, for example).
+
+
+    It might not be complete (or consistent), but it''d be something.
+
+
+    Kean'
+- author: Patrick EMIN
+  email: webmaster@augifr.fr
+  ip: 83.206.249.121
+  url: http://augifr.ning.com/profiles/blogs/dynamic-net-dans-autocad-2013
+  date: '2012-03-05 09:13:26'
+  body: 'A very interesting article about dynamic .NET in AutoCAD 2013 by Serge Camiré
+    (in french): <a href="http://goo.gl/VI5GN">http://goo.gl/VI5GN</a>'
+- author: Anonymoose
+  email: noone@nowhere.com
+  ip: 24.187.144.65
+  url: ''
+  date: '2012-03-05 11:28:36'
+  body: "The problem there is that 'dynamic' can mean more than just 'duck typing'\
+    \ or 'late binding' to a statically-defined set of properties, because the set\
+    \ of properties for each instance of an object could be dynamic as well, meaning\
+    \ that some instances of a given type of object can have properties that other\
+    \ instances of the same type don't have (just like the 'per-instance' properties\
+    \ that can be defined for the OPM).\n\n'Dynamic' could also mean that when you\
+    \ try to assign a value to a property that currently doesn't exist on an instance,\
+    \ rather than getting an error, the instance might just say \"hmmm, that property\
+    \ doesn't exist - Ok, let's add it now\". The System.Dynamic.ExpandoObject is\
+    \ a good example of that. It's essentially just an IDictionary of name/value pairs\
+    \ that exposes the values as dynamic properties whose names are the keys. That\
+    \ lets you add new properties to an instance at runtime, on a per-instance basis.\n\
+    \nWhile the 'dynamic ObjectId' is a novel idea, I think its usefulness is limited\
+    \ given the heavy dependence most have on IntelliSense. \n\nAnd, I think there's\
+    \ other, far-better ways to leverage dynamic programming in AutoCAD's managed\
+    \ API.\n\nFor example, IDynamicMetaObjectProvider can be used to expose AutoCAD\
+    \ block reference attributes, or AutoCAD dynamic block properties as dynamic properties\
+    \ of the BlockReference managed wrapper, that can be referenced in code (realistically,\
+    \ they'd be instances of some dyanmic object that itself would be a property of\
+    \ the BlockReference class, to avoid name collisons with statically-declared properties).\n\
+    \nThose applications of the 'dynamic' keyword would be useful in strongly-typed\
+    \ AutoCAD programming as well."
+- author: Kean Walmsley
+  email: ''
+  ip: 66.159.223.136
+  url: http://profile.typepad.com/kean
+  date: '2012-03-05 15:03:18'
+  body: 'Thanks, Patrick! I''d also received this by email, but I''m happy the link
+    is posted here for others to access.
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 66.159.223.136
+  url: http://profile.typepad.com/kean
+  date: '2012-03-05 15:16:25'
+  body: 'I agree: as I mentioned in the post, the lack of IntelliSense (which I''m
+    not expecting to be addressed anytime soon) is going to be a limitation for many.
+    This could be mitigated - as for other dynamic environments - by increasing the
+    discoverability of the language by some kind of REPL, but it still won''t be suited
+    to many people. Which is fair enough - there''s no requirement to use it.
+
+
+    Your suggestion around block attributes is interesting. It''s not clear this is
+    a "far-better" use of dynamic programming than the base ObjectId exposure, but
+    it''s certainly interesting. It reminds me of the work that the F# team has done
+    on Type Providers, which might be another approach for navigating the AutoCAD
+    drawing structure.
+
+
+    By the way - is that you, Tony?
+
+
+    Kean'
+- author: Michael Schumacher
+  email: mschumacher@gmail.com
+  ip: 173.8.109.58
+  url: ''
+  date: '2012-03-06 21:57:57'
+  body: 'What if any ability is there to mix transactions and dynamic objects?  What
+    is the result, say in the case of looping over a set of entities changing properties
+    and maybe you hit an object on a locked layer and it can''t be edited?  Do you
+    blow out and leave half of your process complete?
+
+
+    Can you start a transaction, put your dynamic code inside and use the traditional
+    commit/rollback on the transaction to manage the operations inside the transaction?'
+- author: Kean Walmsley
+  email: ''
+  ip: 72.52.96.9
+  url: http://profile.typepad.com/kean
+  date: '2012-03-07 00:57:09'
+  body: 'I''d expect some kind of exception to be thrown if you attempt to edit something
+    that cannot be (although I admit to not having tried it, as yet).
+
+
+    And we''ve always advised against mixing transactions with open/close, which I
+    assume remains valid advice for dynamic + transactions.
+
+
+    Kean'
+- author: Lemuel
+  email: 331855671@qq.com
+  ip: 123.126.50.160
+  url: ''
+  date: '2012-03-21 20:20:59'
+  body: 'Mr. Walmsley:
+
+    I''m a rookie and I wonder what''s the best choise to start with.ObjectARX,or
+    .NET? I''m waiting for your answer.Thank U very much.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-03-21 20:32:26'
+  body: 'If you don''t already know C++ (which you need for ObjectARX) then I would
+    always say .NET.
+
+
+    This should help you get started:
+
+
+    <a href="http://autodesk.com/myfirstautocadplugin">http://autodesk.com/myfirstautocadplugin</a>
+
+
+    Kean
+
+    -----'

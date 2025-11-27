@@ -1,0 +1,138 @@
+comments:
+- author: gr
+  email: toxo@telstra.com
+  ip: 202.183.96.186
+  url: ''
+  date: '2006-11-01 00:37:22'
+  body: Veto has never worked from .NET in 2005 or 2006, however it does finally work
+    in 2007.
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-11-01 08:50:40'
+  body: 'Thanks, gr.
+
+
+    Once again I forgot to state that I wrote this code for AutoCAD 2007, and it will
+    not necessarily work with previous versions.
+
+
+    Regards,
+
+
+    Kean'
+- author: Travor Pei
+  email: sdphg@163.com
+  ip: 222.66.84.2
+  url: ''
+  date: '2007-01-25 10:01:16'
+  body: I always get help from your post,thank you very much!
+- author: Benjamin Weir
+  email: bweir@midwestsurveys.com
+  ip: 24.66.14.201
+  url: ''
+  date: '2007-07-31 05:42:00'
+  body: Is there a way to modify a command rather then blocking it all together?  I
+    ask as I'm looking at using a scale value when the user enters values for things
+    such as the diameter of a circle.  I'd like to trap when ever the user enters
+    a distance for OFFSET or other such values and behind the scenes multiply the
+    value they entered.
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-31 08:35:35'
+  body: 'You can certainly respond to events to manipulate geometry etc., although
+    not as they pass through the user-input system. You''d be best looking at Database
+    events, rather than DocumentCollection or Editor events.
+
+
+    Some of the events used in <a href="http://through-the-interface.typepad.com/through_the_interface/2006/11/linking_circles.html">this
+    series of posts</a> may be of help.
+
+
+    Regards,
+
+
+    Kean'
+- author: richard
+  email: netwheat@163.com
+  ip: 59.38.170.196
+  url: ''
+  date: '2007-10-22 20:43:04'
+  body: hi, i want to link/catch the autocad AcadDocument.SelectionChanged event with
+    C#, but I have searched in the internet for some days, and still can't work out
+    how to do that , would you please tell me how i can do that or even sample code
+    ? I use autocad2004+ VS2003,C# (VS2005 is ok)  my skype is iamwheat, yahoo msg
+    is wheatinthesky@yahoo.com.cn  , thank you in advance!  Sincerely. Richard
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-10-22 23:34:29'
+  body: 'Hi Richard,
+
+
+    Please submit your question to the <a href="http://discussion.autodesk.com/forum.jspa?forumID=152">AutoCAD
+    .NET Discussion Group.</a>
+
+
+    I should be able to get to this, at some point, but there are no guarantees it''ll
+    be soon.
+
+
+    Regards,
+
+
+    Kean'
+- author: Ben
+  email: bweir@midwestsurveys.com
+  ip: 216.45.119.98
+  url: ''
+  date: '2008-02-01 00:40:36'
+  body: What recommendations could you give to vetoing a command?  I would like to
+    veto DDEDIT to open a custom form depending on the contents of a text entity.  It
+    would be vetoed when a text entity is double clicked thus providing something
+    in Editor.SelectImplied method.
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.1.67
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-02-01 09:05:17'
+  body: 'The classic way to solve this is to undefine and redefine DDEDIT, passing
+    through to the original command where appropriate.
+
+
+    Kean'
+- author: qu
+  email: matlab@163.com
+  ip: 119.133.147.5
+  url: ''
+  date: '2011-07-04 15:28:50'
+  body: 'Dear Mr. Walmsley, is there a way to intercept the savefiledialog and change
+    the default save filename?
+
+    thank you in advance, you are my beacon'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2011-07-05 13:34:48'
+  body: 'Dear qu,
+
+
+    You might try undefining the SAVEAS command and redefining it with your custom
+    behaviour.
+
+
+    Or you might try to hook into the command-level events and then use some Windows
+    API tricks to pump the default you want into the dialog''s edit box.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

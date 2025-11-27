@@ -1,0 +1,233 @@
+comments:
+- author: Dale Bartlett
+  email: dale.bartlett@realtimeinternational.com.au
+  ip: 212.72.17.154
+  url: http://www.realtimeinternational.com.au
+  date: '2011-02-16 07:20:50'
+  body: This has been a great series Kean, thanks very much. It is working beautifully
+    and I'll use it as a template for other batch processing. Regards, Dale
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2011-02-16 08:14:30'
+  body: 'Hi Dale,
+
+
+    Great - I''m glad it''s been of help.
+
+
+    Regards,
+
+
+    Kean'
+- author: Weslleywang
+  email: ''
+  ip: 70.27.114.78
+  url: http://profile.typepad.com/weslleywang
+  date: '2011-02-16 10:15:36'
+  body: "Hi Kean:\n  I have modified the ScriptPro to run my customized application.\
+    \ Now I have this problem, how handle the error in my custom command (XGA, in\
+    \ your case) to the ScriptPro host application. Now if something wrong in my AutoCAD\
+    \ custom command, ScriptPro still show done. \n  I'm think save it to AutoCAD\
+    \ system varibles like USERRx, then read it back in ScriptPro. What do you think?\
+    \ \n\n\nThank you,"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2011-02-16 11:52:30'
+  body: 'Hi Wesley,
+
+
+    That''s certainly one option - you might also just save to a text (XML for more
+    structured information) file.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Locke
+  email: allockse@gmail.com
+  ip: 99.138.33.165
+  url: ''
+  date: '2012-03-07 13:56:56'
+  body: 'Hey Kean,
+
+    Sorry to drag up an old post, but I had a question about some of the methodology
+    used to access the AutoCAD application.  I see that a batch file is being written
+    on the fly and run beforehand to get the proper object type and handle.  However
+    then a new process is created and pointed to the batch file.  Wouldn''t pointing
+    the created Process to the exe path skip needing to create the batch file altogether?
+
+
+    '' Create the AutoCad Process
+
+    Dim acadExe As New Process()
+
+
+    '' Populate AutoCAD process starting details
+
+    acadExe.StartInfo.FileName = acadExePath
+
+    acadExe.StartInfo.Arguments = "/nologo /b " & tmpExitScript
+
+    acadExe.StartInfo.WindowStyle = ProcessWindowStyle.Hidden
+
+    acadExe.Start()
+
+
+    The above works for me, but I don''t want to go this route if using a batch file
+    is more stable or has benefits I''m not seeing.'
+- author: Kean Walmsley
+  email: ''
+  ip: 72.52.96.9
+  url: http://profile.typepad.com/kean
+  date: '2012-03-07 20:04:55'
+  body: 'I think that was inherited from the base ScriptPro 2.0 app - I''ll have to
+    ask the author to comment.
+
+
+    Kean'
+- author: Virupaksha aithal
+  email: Virupaksha.aithal@autodesk.com
+  ip: 72.52.96.9
+  url: ''
+  date: '2012-03-13 18:25:37'
+  body: You are correct. Please take a look at the update version of the ScriptPro
+    published on 16th Jan 2012 (<a href="http://labs.blogs.com/its_alive_in_the_lab/2012/01/updated-scriptpro-202-adn-plugin-of-the-month-now-available.html">http://labs.blogs.com/its_alive_in_the_lab/2012/01/updated-scriptpro-202-adn-plugin-of-the-month-now-available.html</a>
+    ).. The new version do uses same procedure as yours...
+- author: Locke
+  email: allockse@gmail.com
+  ip: 99.138.33.165
+  url: ''
+  date: '2012-04-06 03:34:26'
+  body: Thanks for the clarification Viru, and of course for this excellent plugin.
+- author: Artvegas
+  email: yamos78@hotmail.com
+  ip: 27.32.79.215
+  url: ''
+  date: '2012-05-03 18:31:39'
+  body: 'Hi Kean,
+
+
+    I am running a custom .NET dll command through ScriptPro 2.0 and it works well.
+    However my command includes a few calls to SendStringToExecute(), and it appears
+    that these calls are completely ignored.
+
+
+    I tried SendCommand() and acedCmd() but these didn''t work either, so this doesn''t
+    seem to be a synchronicity issue.
+
+
+    I haven''t tested it, but perhaps this is a limitation for script files in general
+    rather than a ScriptPro specific problem. Any ideas what''s happening with this?
+
+
+    Regards, Art
+
+
+    p.s. No idea if "synchronicity" is a real word, but I''m sticking to it :-)'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-05-03 19:25:44'
+  body: 'Hi Art,
+
+
+    Hmm - good question: can you script commands inside AutoCAD that call other commands
+    via SendStringToExecute()? I''ve never tried it (that I can recall, anyway).
+
+
+    You might have more luck forcing "syncronicity" if you declare the commands as
+    "session", but otherwise you might try pinging ADN or the AutoCAD .NET Discussion
+    Group, to see what ideas you can get from them.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Artvegas
+  email: yamos78@hotmail.com
+  ip: 27.32.79.215
+  url: ''
+  date: '2012-05-03 21:10:12'
+  body: 'Quick Update:
+
+
+    I tested my script file using the SCRIPT command and both SendStringToExecute()
+    and SendCommand() failed. So it appears this is an AutoCAD scripting issue.
+
+
+    Good news is that acedCmd() is executed from a script file, and hence will work
+    with ScriptPro.
+
+
+    I now have options, I can use acedCmd(), and I can also enter strings into the
+    script file itself. With this I can get something to work for me, which is great
+    because I think ScriptPro is a sweet piece of kit.
+
+
+    Thanks, Art'
+- author: steve carlson
+  email: steven.carlson@amec.com
+  ip: 68.179.4.113
+  url: ''
+  date: '2012-05-16 23:03:51'
+  body: 'Viru - can i modify the source code with C#.
+
+    I would really like to add DRAG & DROP to the interface. which files in the source
+    should i make that change in?'
+- author: Virupaksha aithal
+  email: Virupaksha.aithal@autodesk.com
+  ip: 203.116.198.71
+  url: ''
+  date: '2012-05-18 10:35:44'
+  body: 'Thanks for the interest. I always wanted to add this functionality to this
+    tool. Anyway, I think you need to allow the drop in “DrawingListControl” user
+    control. (Note, I may be wrong here)…
+
+
+    In general, this tool host a winform user control (DrawingListControl) in a WPF
+    application.  all the best
+
+
+    Thanks again
+
+    Viru'
+- author: joerg geister
+  email: jgeister@tetrasys.com
+  ip: 217.8.49.116
+  url: http://www.tetrasys.com
+  date: '2014-02-17 17:58:31'
+  body: 'Hello i am new on this blog.
+
+    First of all, this block is really great.
+
+
+    I am searching for the ScriptPro tool 32-bit / 64-bit.
+
+    Autodesk has changed the Support site´s, so all the links are broken.
+
+    Would you please so kind and give the community the correct link ?'
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2014-02-18 15:48:52'
+  body: 'Hi joerg,
+
+
+    I''ll pass your question on to the ADN team and post their reply here (if they
+    don''t do it themselves).
+
+
+    Thanks for raising this,
+
+
+    Kean
+
+    -----'

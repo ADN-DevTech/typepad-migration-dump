@@ -1,0 +1,162 @@
+comments:
+- author: Mellon
+  email: liang.meng@heneywell.com
+  ip: 199.63.1.252
+  url: ''
+  date: '2008-01-31 10:44:18'
+  body: "Hi, Kean.I got some problems when linking a entity to another application's\
+    \ object with the property of objectId.\n  When i get the ObjectId from the application's\
+    \ eventHandler, the GetObject() doesn't funtion with the parameter OpenMode.ForWrite,\
+    \ while the use of OpenMode.ForRead is available. the exception is an eLockviolation.\n\
+    \  Do you have any idea with it? Thanks."
+- author: Omar Martínez
+  email: omar.martinez@aetech.es
+  ip: 213.96.34.32
+  url: ''
+  date: '2009-04-07 18:49:45'
+  body: "Hi Kean,\n\nI'm Omar Martinez. I am in a delveloping team that must add new\
+    \ functionalities to AutoCAD.\n\nWe are working with Microsoft Visual C# 2005\
+    \ Express, Autocad LT 2009 and ObjectARX SDK 2009. We have tried to load our new\
+    \ commands into de AutoCAD, but never works. We have got the same error.\n\nCan't\
+    \ charge the assembly. Error details:\nSystem.Security.SecurityException: Security\
+    \ Error in Autodesk.AutoCAD.ApplicationServices.ExtensionLoader.ProcessAssembly(Assembly\
+    \ assembly)\nThe assembly zone got this error:\nMyComputer\n\nWe don't know to\
+    \ do. Can you help us?\n\nThanks for all,\n\nRegards, \nOmar Martinez"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-04-07 19:06:48'
+  body: 'Hi Omar,
+
+
+    AutoCAD LT is designed not to load external applications.
+
+
+    Regards,
+
+
+    Kean'
+- author: Omar Martínez
+  email: omar.martinez@aetech.es
+  ip: 213.96.34.32
+  url: ''
+  date: '2009-04-08 09:21:56'
+  body: "Thanks Kean,\n\nthen if we want to load external applications, we'll need\
+    \ Autocad complet version. \n\nRegards,\nOmar"
+- author: Hartmut Callies
+  email: info@softwareC.de
+  ip: 92.74.153.236
+  url: ''
+  date: '2009-05-11 21:35:53'
+  body: 'Hi Kean,
+
+    I write a vb.net program (a standalone program) that create new drawings with
+    autocad 2007. Is COM the only solution, that I can access from my program to autocad?
+
+    Which references I need in VS 2008?
+
+
+    Regards,
+
+    Hartmut'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-05-12 09:42:36'
+  body: 'Hi Hartmut,
+
+
+    COM is really the best way to do this (it may still be possible to use DDE but
+    I haven''t tried that in many years).
+
+
+    You''ll need to reference the AutoCAD 2007 Type Library (I forget the exact wording).
+
+
+    Regards,
+
+
+    Kean'
+- author: Prasad sumanasekara
+  email: prasadgalle@gmail.com
+  ip: 112.134.70.241
+  url: ''
+  date: '2010-11-30 12:19:39'
+  body: "hello Kean,\n this method has same locking probloms \"locking vierlation\"\
+    \ what is the wrong.\n#region Create Block\n\t\t\n\t\tpublic String CreateBlockDefinition()\n\
+    \t\t{\n\t\t\ttry\n\t\t\t{\n\t\t\t\t\n\t\t\t\tstring strTemplatePath = \"acad.dwt\"\
+    ;\n\t\t\t\tDocumentCollection acDocMgr = AcadApp.DocumentManager;\n\t\t\t\tDocument\
+    \ acDoc = acDocMgr.Add(strTemplatePath);\n\n\n\t\t\t\t//The return value for this\
+    \ function\n\t\t\t\tAcDb.ObjectId newBtrId = new AcDb.ObjectId();\t\t\t\t\n\t\t\
+    \t\t\n\n\t\t\t\tAcDb.Database db = acDoc.Database; //save some space\n\t\t\t\t\
+    AcDb.HostApplicationServices.WorkingDatabase = db;\n\t\t\t\t\n\t\t\t\tusing (AcDb.Transaction\
+    \ trans = \n\t\t\t\t\tdb.TransactionManager.StartTransaction())\n\t\t\t\t{\n\n\
+    \t\t\t\t\t\n\t\t\t\t\tAcDb.BlockTable bt = (AcDb.BlockTable)trans.GetObject(db.BlockTableId,\n\
+    \t\t\t\t\t\tAcDb.OpenMode.ForWrite);\n\t\t\t\t\tif ((bt.Has(\"TestBlock\")))\n\
+    \t\t\t\t\t{\n\t\t\t\t\t\tnewBtrId = bt[\"TestBlock\"];\n\t\t\t\t\t}\n\t\t\t\t\t\
+    else\n\t\t\t\t\t{\n\t\t\t\t\t\n\t\t\t\t\t\tAcDb.Solid3d acSol3DBox1 = new AcDb.Solid3d();\n\
+    \t\t\t\t\t\tAcDb.Solid3d acSol3DBox2 = new AcDb.Solid3d();\n\t\t\t\t\t\tAcDb.Solid3d\
+    \ acSol3DBox3 = new AcDb.Solid3d();\n\t\t\t\t\t\tAcDb.Solid3d acSol3DCy2 = new\
+    \ AcDb.Solid3d();\n\n\t\t\t\t\t\tacSol3DBox1.SetDatabaseDefaults();\n\t\t\t\t\t\
+    \tacSol3DBox2.SetDatabaseDefaults();\n\t\t\t\t\t\tacSol3DBox3.SetDatabaseDefaults();\n\
+    \t\t\t\t\t\tacSol3DCy2.SetDatabaseDefaults();\n\n\t\t\t\t\t\tacSol3DBox1.CreateBox(400,\
+    \ 400, 300);\n\t\t\t\t\t\tacSol3DBox2.CreateBox(450, 450, 50);\n\t\t\t\t\t\tacSol3DBox3.CreateBox(100,\
+    \ 75, 75);\n\t\t\t\t\t\tacSol3DCy2.CreateFrustum(125, 50, 50, 50);\n\n\t\t\t\t\
+    \t\t\n\t\t\t\t\t\tAcGeo.Vector3d centerBox1 = new AcGeo.Vector3d(0, \n\t\t\t\t\
+    \t\t\t0, 275); // convenient declaration...\n\t\t\t\t\t\tAcGeo.Vector3d centerBox2\
+    \ = new AcGeo.Vector3d(0,\n\t\t\t\t\t\t\t0, -25); // convenient declaration...\t\
+    \t\t\t\t\t\t\n\t\t\t\t\t\tAcGeo.Vector3d centerBox3 = new AcGeo.Vector3d(-250,\n\
+    \t\t\t\t\t\t\t0, 250); // convenient declaration...\n\t\t\t\t\t\tAcGeo.Vector3d\
+    \ centerCy2 = new AcGeo.Vector3d(0, 0,\n\t\t\t\t\t\t\t62.5); // convenient declaration...\n\
+    \n\t\t\t\t\t\tAcGeo.Point3d center = new AcGeo.Point3d(0, 0,\n\t\t\t\t\t\t\t0);\
+    \ // convenient declaration...\n\n\n\n\t\t\t\t\t\tacSol3DBox1.TransformBy(AcGeo.Matrix3d.Displacement(centerBox1));\n\
+    \t\t\t\t\t\tacSol3DBox2.TransformBy(AcGeo.Matrix3d.Displacement(centerBox2));\n\
+    \t\t\t\t\t\tacSol3DBox3.TransformBy(AcGeo.Matrix3d.Displacement(centerBox3));\n\
+    \t\t\t\t\t\tacSol3DCy2.TransformBy(AcGeo.Matrix3d.Displacement(centerCy2));\n\n\
+    \t\t\t\t\t\n\n\t\t\t\t\t\t//Create a new block definition called EmployeeBlock\n\
+    \t\t\t\t\t\tAcDb.BlockTableRecord newBtr = new AcDb.BlockTableRecord();\n\t\t\t\
+    \t\t\tnewBtr.Name = \"TestBlock\";\n\t\t\t\t\t\t//Add the block, and set the id\
+    \ as the return value of our function\n\t\t\t\t\t\tnewBtrId = bt.Add(newBtr);\n\
+    \t\t\t\t\t\t//Let the transaction know about any object/entity you add to the\
+    \ database!\n\t\t\t\t\t\tnewBtr.Origin = center;\n\t\t\t\t\t\ttrans.AddNewlyCreatedDBObject(newBtr,\
+    \ true); \n\t\t\t\t\t\tnewBtr.AppendEntity(acSol3DBox1); //Append our entities...\n\
+    \t\t\t\t\t\tnewBtr.AppendEntity(acSol3DBox2); //Append our entities...\n\t\t\t\
+    \t\t\tnewBtr.AppendEntity(acSol3DBox3); //Append our entities...\n\t\t\t\t\t\t\
+    newBtr.AppendEntity(acSol3DCy2); //Append our entities...\n\t\t\t\t\t\t\n\t\t\t\
+    \t\t\ttrans.AddNewlyCreatedDBObject(acSol3DBox1, true); \n\t\t\t\t\t\t//Again,\
+    \ let the transaction know about our newly added entities.\n\t\t\t\t\t\ttrans.AddNewlyCreatedDBObject(acSol3DBox2,\
+    \ true); \n\t\t\t\t\t\t//Again, let the transaction know about our newly added\
+    \ entities.\n\t\t\t\t\t\ttrans.AddNewlyCreatedDBObject(acSol3DBox3, true); \n\t\
+    \t\t\t\t\t//Again, let the transaction know about our newly added entities.\n\t\
+    \t\t\t\t\ttrans.AddNewlyCreatedDBObject(acSol3DCy2, true);\n\t\t\t\t\t\t//Again,\
+    \ let the transaction know about our newly added entities.\n\t\t\t\t\t\t\n\t\t\
+    \t\t\t}\n\t\t\t\t\ttrans.Commit(); //All done, no errors?  Go ahead and commit!\n\
+    \t\t\t\t\tstring strDWGName = acDoc.Name;\n\t\t\t\t\tobject obj = AcadApp.GetSystemVariable(\"\
+    DWGTITLED\");\n\t\t\t\t\t\n\t\t\t\t\tif (System.Convert.ToInt16(obj) == 0)\n\t\
+    \t\t\t\t{\n\t\t\t\t\t\t// If the drawing is using a default name (Drawing1, Drawing2,\
+    \ etc)\n\t\t\t\t\t\t// then provide a new name\n\t\t\t\t\t\tstrDWGName = \"C:\\\
+    \\Test\\\\Test.dwg\";\n\t\t\t\t\t}\t\t\t\t\n\t\t\t\t\tacDoc.CloseAndSave(strDWGName);\n\
+    \t\t\t\t}\n\t\t\t\treturn \"TestBlock\";\n\t\t\t}\n\t\t\tcatch (System.Exception\
+    \ ex)\n\t\t\t{\n\t\t\t\tDebug.Write(String.Format(\"\\nCaught the following Exception:{0}\"\
+    ,\n\t\t\t\t\tex.ToString()));\n\t\t\t\treturn \"\";\n\t\t\t}\n\t\t}\n\t\t#endregion\n\
+    \nthnak you\nPrasad."
+- author: Kean Walmsley
+  email: ''
+  ip: 70.165.195.150
+  url: http://profile.typepad.com/kean
+  date: '2010-11-30 14:13:00'
+  body: 'Hello Prasad,
+
+
+    This isn''t a forum for support.
+
+
+    Your comment doesn''t appear to relate to this post, so please submit your question
+    to <a href="http://adn.autodesk.com">the ADN team</a>, if you''re a member, or
+    otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean'

@@ -1,0 +1,257 @@
+comments:
+- author: Luis
+  email: lspbox@hotmail.com
+  ip: 69.109.157.97
+  url: ''
+  date: '2007-07-02 16:31:15'
+  body: 'Thank you for the code sample, and I have a question?
+
+
+    If you have for example, a polyline in the for of a slot when two of the sides
+    have an arc, and you have other polylines that meet those sides and all around
+    that slot to leave it as an island.
+
+
+    Pointmonitor do not work and I have seen other cases where fail to select.
+
+
+    Is there something we can do?
+
+
+    I have tried to use this class before in one of my commands to select closed areas
+    but not always was giving me the right one.
+
+
+    Then, I end up making a selection of the closed polylines on the screen and using
+    a function to select the polyline by defining an internal point, instead.
+
+
+    Thanks!
+
+    Luis.'
+- author: Tom
+  email: tgallup@bldg-design.com
+  ip: 65.30.82.59
+  url: ''
+  date: '2007-07-06 05:37:37'
+  body: 'I have been using PointMonitor to display information about the entity via
+    AppendToolTipText.  It works great except for one thing:  My drawing is mostly
+    solids and if I hover over a solid so that it is highlighted, it will actually
+    display the information of the solid that is behind the object that I''m trying
+    to get the information for.
+
+
+    How can I assure that I get the information for the object that is being highlighted?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-06 11:39:19'
+  body: 'Luis -
+
+
+    I''m afraid your description of the geometry isn''t clear to me. Are you trying
+    to detect when the cursor is hovering within a particular object? Unfortunately
+    "pick in space" is not enabled when hovering over objects - the PointMonitor doesn''t
+    pick them up. Unless I''ve misunderstood...
+
+
+    Tom -
+
+
+    I''m not sure why this is happening. One thought is to make sure you''re not picking
+    the wrong item from the list (assuming there are more than one entity returned
+    by the PointMonitor). I tried to reproduce the problem in my own code, but it
+    seemed to work OK - a lot may depend on which visual style you''re working with,
+    etc.
+
+
+    Regards,
+
+
+    Kean'
+- author: Luis
+  email: lspbox@hotmail.com
+  ip: 200.79.157.244
+  url: ''
+  date: '2007-07-07 04:38:04'
+  body: 'Kean;
+
+
+    Excuse my bad explanation :(
+
+
+    Let see if I can explain better this time, by providing a short sample that can
+    give you an idea:
+
+
+    Draw an ellipse (with pellipse=1), then draw a rectangle to enclosure that ellipse
+    in the center.
+
+
+    Then, draw a line that divides the rectangle, can be drawn vertical or horizontal.
+    Then use the command bpoly and generate two new closed polylines in the areas
+    between the rectangle and the ellipse on the center.
+
+
+    Erase, the original rectangle, and the line, and now call or use the pointmonitor,
+    it won''t select the ellipse, I know it can be brought up with draworder and later
+    use the pointmonitor.
+
+
+    The sample I provided it is very simple, but in the case I was thinking of using
+    it it gets more complex, and the idea is have an easy selection, that''s why I
+    end up using a point inside the areas.
+
+
+    Hope, you are not sleep when reading this last line.
+
+
+    Thanks!'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-09 15:21:58'
+  body: 'Luis,
+
+
+    I think the PointMonitor is working OK... check out <a href="http://through-the-interface.typepad.com/through_the_interface/2007/07/using-a-modeles.html">the
+    latest post in this series</a> to see if the code in there helps.
+
+
+    Regards,
+
+
+    Kean'
+- author: David
+  email: daveangor@hotmail.com
+  ip: 217.224.61.187
+  url: ''
+  date: '2007-07-20 16:11:23'
+  body: 'Hi Kean,
+
+    is it possible to have some examples of dockable modelss dialogs using .Net? (no
+    palettes)
+
+    thanks a lot in advance
+
+    David'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-20 18:49:46'
+  body: 'Hi David,
+
+
+    The parent of CAdUiPaletteSet (the internal MFC/ObjectARX class the PaletteSet
+    wraps) is CAdUiDockControlBar, which is not exposed through the .NET API.
+
+
+    So PaletteSet is currently the way to go for implementing a dockable modeless
+    UI inside AutoCAD using .NET.
+
+
+    Is there a particular reason you''d prefer not to use it?
+
+
+    Regards,
+
+
+    Kean'
+- author: David
+  email: daveangor@hotmail.com
+  ip: 217.224.58.43
+  url: ''
+  date: '2007-08-08 14:18:02'
+  body: 'Hi,
+
+    1)loading
+
+    2)calling "VT"
+
+    3)terminating the dialogbox
+
+    4)recalling "VT" --> Throws an Exception! (Can''t access the object, Objectname:
+    TypeViewerForm)
+
+    Regards,
+
+    David'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-08-08 18:51:27'
+  body: "Hi David,\n\nIt seems the form is betting disposed, and we then want to bring\
+    \ it up again. One option is to call this.Hide() in the closebutton handler, but\
+    \ we'd then have to set the dialog not to show the \"X\" button.\n\nThe better\
+    \ option is probably to check for the availability of the form inside the VT command\
+    \ implementation, creating it again, as necessary:\n\n[CommandMethod(\"vt\",CommandFlags.UsePickSet)]\n\
+    public void ViewType()\n{\n  if (tvf == null || tvf.IsDisposed)\n    tvf = new\
+    \ TypeViewerForm();\n  Application.ShowModelessDialog(null, tvf, false);\n}\n\n\
+    Cheers,\n\nKean"
+- author: Nabil Sleiman
+  email: nabil.sleiman@bigpond.com
+  ip: 58.110.38.89
+  url: ''
+  date: '2008-08-22 01:51:46'
+  body: 'Hi Kean, sorry if this is not relevant, but I would like to draw the AutoCAD
+    objects like lines and circles on the dialog itself (or part of the dialog, a
+    dialog item). Is this possible?
+
+    Your help is greatly appreciated.
+
+    Cheers, Nabil.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-22 08:11:43'
+  body: 'Hi Nabil,
+
+
+    If you need to display entities from a drawing or even temporary entities you
+    add on the fly, you should look at <a href="http://through-the-interface.typepad.com/through_the_interface/2008/06/autocad-net-ver.html">the
+    BlockView sample</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: ali
+  email: ali@surveymbs.com
+  ip: 82.69.125.218
+  url: ''
+  date: '2013-06-03 15:28:26'
+  body: '".. you may experience issues with the dialog getting/retaining focus - this
+    is generally a problem with modeless dialogs.."
+
+
+    Hi Kean,
+
+
+    Would you please help me in finding a way to get/retain focus in a modeless form?
+
+
+    Many Thanks,'
+- author: Kean Walmsley
+  email: ''
+  ip: 63.149.67.7
+  url: http://profile.typepad.com/kean
+  date: '2013-06-04 12:16:23'
+  body: 'Hi ali,
+
+
+    I can''t, right now. You might try posting to the AutoCAD .NET discussion group,
+    to see if someone there can help.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

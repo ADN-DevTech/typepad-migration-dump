@@ -1,0 +1,178 @@
+comments:
+- author: csharpbird
+  email: csharpbird@gmail.com
+  ip: 58.61.59.117
+  url: ''
+  date: '2007-03-23 18:13:15'
+  body: "Hi,Kean\n  Welcome to China!Wish you have a great time!"
+- author: Nikolay Poleshchuk
+  email: poleshchuk@peterlink.ru
+  ip: 89.110.57.8
+  url: http://poleshchuk.spb.ru/cad/eng.html
+  date: '2007-03-24 07:31:59'
+  body: Kean, nice trip! When are you planning to visit Russia?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 12.160.193.229
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-03-24 09:31:04'
+  body: 'Thanks!
+
+
+    Maybe we''ll get to Russia next year - who knows? :-)
+
+
+    I''d certainly love to visit St. Petersburg one day.'
+- author: ErlKing
+  email: fgq800319@163.com
+  ip: 222.182.81.90
+  url: ''
+  date: '2007-03-27 10:08:24'
+  body: 'Haha!!!
+
+    Welcome to BeiJing!!!'
+- author: Kostas
+  email: kostasvav@gmail.com
+  ip: 155.207.19.6
+  url: ''
+  date: '2010-02-24 15:03:50'
+  body: "Hi Kean, \n\nIs there any way to check if a Database which has no document\
+    \ has been altered?\n\n\nOnce again, thank you in advance!"
+- author: Matus Brlit
+  email: ''
+  ip: 178.40.182.74
+  url: http://profile.typepad.com/brlit
+  date: '2010-07-15 14:35:52'
+  body: 'hi Kean,
+
+    I am rewriting my VBA command to .NET, that command saved all opened drawings
+    in lower autocad version and closed them, worked fine
+
+    I am having a problem in .NET, where I get an exception "Drawing is busy." when
+    trying to close the last drawing (the one that the command was initiated from)
+
+
+    You don''t seem to be having this problem in your code.'
+- author: Matus Brlit
+  email: ''
+  ip: 178.40.182.74
+  url: http://profile.typepad.com/brlit
+  date: '2010-07-15 15:47:45'
+  body: 'I forgot about the CommandFlags
+
+
+    now it works, BUT
+
+
+    I get an error message in AutoCAD Map Messages window (which is strange, as I''m
+    not using AutoCAD Map), the errors are Cannot save options in the drawing and
+    eLockViolation (2 consecutive occurrences)
+
+    Also the resulted drawings can only be open using recover command, if I save them
+    in 2000 version, if I save them in 2010, they are opened OK'
+- author: Kean Walmsley
+  email: ''
+  ip: 99.31.232.76
+  url: http://profile.typepad.com/kean
+  date: '2010-07-15 16:37:00'
+  body: 'Hi Matus,
+
+
+    OK, good - you''ve realised you had missed making it a "session" command. One
+    implication of defining a session command is that it no lomger implicitly locks
+    the currently active document: you need to use Document.LockDocument() to do so,
+    disposing of the returned lock when you''ve finished.
+
+
+    I suggest posting your complete code to <a href="http://forums.autodesk.com/t5/NET/bd-p/152">the
+    AutoCAD .NET Discussion Group</a>, if this advice doesn''t help.
+
+
+    Regards,
+
+
+    Kean'
+- author: Matus Brlit
+  email: ''
+  ip: 95.103.209.191
+  url: http://profile.typepad.com/brlit
+  date: '2010-07-16 08:06:35'
+  body: 'Thank you very much Kean,
+
+    this solved both problems, the error and the need of recover.'
+- author: stephan
+  email: stephan.gumpert@gmail.com
+  ip: 58.6.195.1
+  url: ''
+  date: '2011-07-31 15:06:32'
+  body: 'I have to say this website really rocks.
+
+
+    I am just starting with events. (Starting to get the hang of things sort of)
+
+
+    One question is I would like to check to see if the user has pressed YES or NO
+    or CANCEL on the Close Drawing button.
+
+
+    i.e. If they press YES to save I would love to do a bunch of secondary commands
+    to the drawing (mostly read only stuff) before it closes.
+
+
+    Any Suggestions?
+
+
+    Stephan'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-08-01 19:06:48'
+  body: 'I''m glad you like the site.
+
+
+    Unfortunately I don''t have time to respond to support requests (that aren''t
+    specifically related to my posts).
+
+
+    Please do submit your question to <a href="http://adn.autodesk.com">the ADN team</a>,
+    if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    [Off the top of my head, you should look at the Document.BeginSave() event, or
+    something like that.]
+
+
+    Kean'
+- author: HA
+  email: hassanhafeez33@gmail.com
+  ip: 182.189.155.65
+  url: ''
+  date: '2013-06-01 20:31:19'
+  body: "Hi Kean, \n\nI am having an unusual behavior while using document.closeandsave\
+    \ method. For some reason, the code works perfectly fine with AutoCAD version\
+    \ 2012, not with 2010. \n\nP.S I am forcing the save(not checking DBMOD). \n\n\
+    Is there any possible explanation of such behavior? \n\nThanks in advance."
+- author: Kean Walmsley
+  email: ''
+  ip: 63.149.67.7
+  url: http://profile.typepad.com/kean
+  date: '2013-06-02 03:49:35'
+  body: 'Hi HA,
+
+
+    It could well be something has been fixed between 2010 and 2012 (I tend to worry
+    more when newer versions top working, naturally).
+
+
+    Beyond that I can''t really say what''s happening. I suggest posting your code
+    to ADN or to the AutoCAD .NET Discussion Group, in case someone there can comment.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

@@ -1,0 +1,1064 @@
+comments:
+- author: Dale Bartlett
+  email: dale.bartlett@realtimeinternational.com.au
+  ip: 94.200.77.245
+  url: http://www.realtimeinternational.com.au
+  date: '2012-12-12 15:03:55'
+  body: Uncanny timing...
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-12-12 15:09:11'
+  body: 'Either that or I''m secretly scanning my blog readers'' email... :-)
+
+
+    Let me know how it works out!
+
+
+    Kean'
+- author: AJILAL VIJAYAN
+  email: ''
+  ip: 78.100.85.98
+  url: http://profile.typepad.com/ajilal
+  date: '2012-12-12 15:13:52'
+  body: 'Hi Kean,
+
+
+    Thanks for posting this wonderful post.
+
+
+    This is the one we have a major issue on our projects.
+
+    As suddenly all of our drawings started to display excessive linetypes.
+
+
+    Meantime , I have created a .NET routine to look for all the anonymous blocks
+    starting with *A and delete it.
+
+
+    Can you explain bit more about these Anonymous Group blocks as I am wondering
+    my routine is deleting any objects we using.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-12-12 15:18:43'
+  body: 'Hi Ajilal,
+
+
+    It''s pretty risky to arbitrarily erase any data inside the DWG, unless it''s
+    unreferenced (something you can typically check using Database.Purge()).
+
+
+    The baove code removes any unnecessary references to anonymous blocks, which means
+    they simply won''t be written out to disk when saved/re-oepened.
+
+
+    I do recommend taking a slightly more measure approach than you''ve been doing,
+    as anonymous blocks might be used validly (and relied upon) for various reasons.
+
+
+    Cheers,
+
+
+    Kean'
+- author: AJILAL VIJAYAN
+  email: ''
+  ip: 78.100.85.98
+  url: http://profile.typepad.com/ajilal
+  date: '2012-12-12 15:31:11'
+  body: "Thanks Kean,\n\nI am trying to use your code , but I am not able to find\
+    \ the reference for \nusing Autodesk.AutoCAD.ApplicationServices.Core;\n\nWhich\
+    \ reference I should use ?"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-12-12 15:33:37'
+  body: 'That''s in AcCoreMgd.dll. If you''re using AutoCAD 2012 or earlier, just
+    change line that to to "using Autodesk.AutoCAD.ApplicationServices;", instead.
+
+
+    Kean'
+- author: AJILAL VIJAYAN
+  email: ''
+  ip: 78.100.85.98
+  url: http://profile.typepad.com/ajilal
+  date: '2012-12-12 15:52:01'
+  body: "Success !!\n\nIts working. Thanks \n\nHow about a batch process of this code\
+    \ ?\nBecause the attached xref files are also having these complex linetypes."
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-12-12 15:54:46'
+  body: 'Absolutely...
+
+
+    My advice would be to get ScriptPro 2.0 from autodesk.com (or from Autodesk Labs,
+    where it''s posted as a "Plugin of the Month" with full source code) and then
+    use it either to drive full AutoCAD or the Core Console in AutoCAD 2013, using
+    a script to run DGNPURGE and then save back the drawing.
+
+
+    Be sure to run it on a copy of your drawings, of course.
+
+
+    Kean'
+- author: archigraphist
+  email: pantheon3d@hotmail.com
+  ip: 78.191.47.115
+  url: ''
+  date: '2012-12-18 16:23:31'
+  body: 'Hi. Ajilal,
+
+    We have a big problem about growing autocad files.
+
+    And I think this plug-in is our solution.
+
+    But I have no idea C#. Can you send me this plugin.
+
+    I''m sorry my language :('
+- author: AJILAL
+  email: ajilalv@gmail.com
+  ip: 78.100.85.98
+  url: ''
+  date: '2012-12-19 08:26:56'
+  body: 'Hi,
+
+    If you are looking for the compiled version of the code , I think its better to
+    ask to Kean.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2012-12-19 08:32:34'
+  body: 'I make a point of not providing compiled versions of features that could
+    conceivably one day end up in the product (which would be a bad thing for the
+    company from a fiscal perspective).
+
+
+    I suggest posting a link to this post on the AutoCAD .NET Discussion Group and
+    seeing whether someone there is able to help.
+
+
+    Thanks for understanding,
+
+
+    Kean'
+- author: AJILAL
+  email: ajilalv@gmail.com
+  ip: 78.100.85.98
+  url: ''
+  date: '2012-12-19 13:46:20'
+  body: 'Kean,
+
+
+    I was trying to run this routine on a drawing which was about 65mb.
+
+    Autocad hangs and nothing happened and I forced to close CAD after waiting for
+    1 hour.
+
+
+    So I modified the code to work on a side database and its done after 3-5 minutes
+    and now the drawing size is 1.2mb.'
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.232.75
+  url: http://profile.typepad.com/kean
+  date: '2012-12-20 10:09:13'
+  body: 'Ajilal,
+
+
+    Great information - thank you. The code will also build into a DLL as it stands
+    that can be loaded into a Core Console instance (from AutoCAD 2013 onwards). This
+    should give almost as good performance as the side-database approach (without
+    any GUI being displayed).
+
+
+    Please do confirm that the reduced DWG works well for you - I''m keen to make
+    sure the code works well with real-world data.
+
+
+    Regards,
+
+
+    Kean'
+- author: AJILAL
+  email: ajilalv@gmail.com
+  ip: 78.100.85.98
+  url: ''
+  date: '2012-12-21 10:35:55'
+  body: 'Kean,
+
+
+    Right now I am using 2012 and dont know when I will be able to use 2013.
+
+
+    Yes..the drawing works excellent after Purging.
+
+    I should say after purging these DGN data the drawing consumes less time for opening/editing/saving.
+
+
+    Again thanks for publishing this post !!'
+- author: Ruslan
+  email: ruslan.tagronski@sweco.ee
+  ip: 80.235.68.94
+  url: http://www.sweco.com
+  date: '2013-01-06 14:08:16'
+  body: "Hello Kean,\n\nThank you VERY MUCH for this plug-in! In our \ncompany there\
+    \ is a BIG trouble with those huge files in Civil3D. We contact Autodesk support,\
+    \ at the end support team redirects to your post. I had empty file with all objects\
+    \ deleted/purged/audited - 25Mb. After applying this utility / usual purge - 412kB!\
+    \ All garbage objects are unreferenced strokes. \nHow they are generated in our\
+    \ drawing? We don't use any DGN import/export commands. Is it possible to explain\
+    \ why this  happens and how to avoid this? I did not marked those problems in\
+    \ 2012 version of C3D, it becomes only in C3D 2013.\n\nThank you!"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2013-01-07 10:33:35'
+  body: 'Hello Ruslan,
+
+
+    It''s great to know it helped!
+
+
+    It''s possible that the stroke information somehow got added to that drawing when
+    data was Xrefed or Wblocked in from elsewhere (I haven''t specifically looked
+    into the scenarios where that might occur, but I recall hearing similar stories
+    from others).
+
+
+    Best regards,
+
+
+    Kean'
+- author: Ruslan
+  email: rustarg@gmail.com
+  ip: 80.235.103.98
+  url: ''
+  date: '2013-01-08 09:41:10'
+  body: "Hello Kean,\n\nDefinitely that unreferenced strokes were intruded from\n\
+    one of geodetic XRefs.  \nIs any possible way to prevent this issue in future\
+    \ AutoCAD releases by Autodesk Developers Team?  \n\nFor now - before using any\
+    \ XRefs, I process them by this great DGNPURGE utility.  It would be nice if it's\
+    \ possible to include this functionality (dgnpurge checkbox) to XRef dwg command\
+    \ in future AutoCAD releases.\n\nThis small utility is very important and helpful!\n\
+    \nThank you! \n\nBest regards,\nRuslan"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2013-01-08 15:55:02'
+  body: 'Hello Ruslan,
+
+
+    I''ll pass on this feedback (as I know Product Support will also do).
+
+
+    Regards,
+
+
+    Kean'
+- author: Bladimir QB
+  email: bladimirqb@gmail.com
+  ip: 190.187.24.102
+  url: ''
+  date: '2013-01-12 00:05:25'
+  body: 'Hello Kean,
+
+
+    Could you give me a range of how to use this source code, I see two files but
+    not that kind of application I created in C # and how to implement it,
+
+
+    could you please help me with that.
+
+
+    thank you very much'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-01-14 11:01:07'
+  body: 'Hi Bladimir,
+
+
+    Perhaps this post will help:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2006/07/getting_started.html">http://through-the-interface.typepad.com/through_the_interface/2006/07/getting_started.html</a>
+
+
+    If not, please let me know what exactly you''re struggling with and I''ll see
+    if I can help.
+
+
+    Regards,
+
+
+    Kean'
+- author: Brent
+  email: brent.burgess@aecom.com
+  ip: 203.26.73.5
+  url: ''
+  date: '2013-01-25 04:58:17'
+  body: 'Hey Kean - Fantastic tool. I am using it at the moment and has ended my frustration.
+    I only found out about the issue from using the MgdDbg.dll from
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2010/02/the-stephen-and-fenton-show-adn-devcast-episode-1.html">http://through-the-interface.typepad.com/through_the_interface/2010/02/the-stephen-and-fenton-show-adn-devcast-episode-1.html</a>'
+- author: haluk kahraman
+  email: haluk_kahraman@yahoo.com
+  ip: 195.175.86.138
+  url: ''
+  date: '2013-02-08 14:53:17'
+  body: 'HiKean,
+
+    Please help how it works. I have a big problem with my drawings. They are nearly
+    98 mbs each other, I can''t progress this command. Could you send me lsp file,
+    please?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-02-08 15:43:34'
+  body: 'Hi Haluk,
+
+
+    I''m not currently providing the compiled DLL: you should be able to build it
+    using Visual C# Express (referencing a few reference DLLs - search for "Getting
+    Started" on this blog), or you might ask someone on the discussion groups to provide
+    it to you.
+
+
+    Regards,
+
+
+    Kean'
+- author: Dale Bartlett
+  email: dale.bartlett@realtimeinternational.com.au
+  ip: 212.72.17.154
+  url: http://www.realtimeinternational.com.au
+  date: '2013-03-16 13:30:21'
+  body: Kean, This is becoming a serious viral issue. I hope that it has been addressed
+    in AutoCAD 2014. Thank you very much for the invaluable code and insight.
+- author: Ralph Sanchez
+  email: ''
+  ip: 64.149.164.70
+  url: http://profile.typepad.com/sanchezralph
+  date: '2013-03-20 18:21:49'
+  body: "I started to notice this several months ago and at that time I wrote a few\
+    \ lines of lisp to respond to it when it was encountered.\n\n(if (dictsearch (namedobjdict)\
+    \ \"acad_dgnlinestylecomp\")\n  (dictremove (namedobjdict) \"acad_dgnlinestylecomp\"\
+    )\n  (command \"._purge\" \"a\" \"*\" \"n\")\n)\n\nGranted, it's not as elegant\
+    \ as Kean's dotnet/c# method, but it does appear to be effective.  Can someone\
+    \ please verify that the code above is safe?\n\nAs Dale mentioned, this problem\
+    \ is snowballing.  It appears that ANY copy and paste of any simple entity will\
+    \ infect the destination drawing with ALL of the DGN linetypes from the source\
+    \ drawing.  Since each original DGN import operation is unique, the linetypes\
+    \ compound vey quickly.  We've caught them second and third hand from clients,\
+    \ vendors, partners, subs, and everyone else who we exchange files with.  \n\n\
+    This is all very similar to how named layer filters, regapps/appids, and scale\
+    \ lists have behaved in the past.  Ideally, these objects wouldn't be contagious\
+    \ in the first place.  At the very least, AutoCAD's own purge command should catch\
+    \ them in the near future."
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-03-20 18:46:31'
+  body: 'Hi Ralph,
+
+
+    I suspect the brute force approach of nuking the directionary is going to negatively
+    impact valid DGN linestyles (assuming you have some in the drawing).
+
+
+    I''ve passed your comments on - thanks for reinforcing Dale''s feedback.
+
+
+    Regards,
+
+
+    Kean'
+- author: Ralph Sanchez
+  email: ''
+  ip: 64.149.164.70
+  url: http://profile.typepad.com/sanchezralph
+  date: '2013-03-20 19:53:55'
+  body: "Thanks for the quick reply, Kean.  \n\nLuckily, we very rarely import DGN\
+    \ data ourselves and when we do, it's just for the geometry.  \n\nJust for thorough\
+    \ testing of my lisp code, I drew some lines using one of the 4,000+ DGN linestyles\
+    \ in one of our affected DWG files.  Then I ran my code, saved, and reopened.\
+    \  At that point the lines remained, as did the <i>name</i> of the linetype that\
+    \ they use.  The only difference is that the lines now appeared as normal continuous\
+    \ lines despite the name of their linetypes.  For me, this result is perfectly\
+    \ fine.  Most importantly, geometry of the lines was accurate, the bloat was gone,\
+    \ and the DWG file passed an Audit.\n\nI'm certain that all of our infected DWG\
+    \ files \"caught\" the DGN linestyles from simple copyclip actions from files\
+    \ provided by others.  This is easy to tell because the original DGN names are\
+    \ usually in the prefix of the linestyle names, and none of them follow our naming\
+    \ convention.   \n\nAs more files came in and more entities were copyclipped,\
+    \ the problem grew very quickly and the DGN linetyles were being contracted from\
+    \ inter and intra office DWG files.  These bloated files were first brought to\
+    \ my attention about six months ago, but I suspect that we'd been unknowingly\
+    \ passing these lintypes from DWG to DWG for quite a while before we noticed it.\
+    \  I'm also fairly certain that the people who passed them on to us don't even\
+    \ realize that <i>their</i> files are infected.  Again, this is very similar to\
+    \ other types of contagious data over the years.  \n\nI will compile and deploy\
+    \ your solution this afternoon since, as I mentioned, it does appear to be more\
+    \ elegant than my brute force method.  Thanks for doing the hard part and sharing\
+    \ with the community.\n\n[Getting a little off topic, I have to admit that some\
+    \ of these DGN linestyles are pretty slick.  They do things that AutoCAD's own\
+    \ linetypes should have been able to do fifteen years ago, ie, parallel lines,\
+    \ etc.]"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-03-20 20:18:24'
+  body: 'Makes sense - thanks for the update, Ralph!
+
+
+    Kean'
+- author: Ralph Sanchez
+  email: ''
+  ip: 64.149.164.70
+  url: http://profile.typepad.com/sanchezralph
+  date: '2013-03-20 21:11:44'
+  body: "Since this has been on my mind again today, I realized that the logic is\
+    \ slightly broken in my lisp.  For anyone who cares, it's missing a progn and\
+    \ should have always been:\n\n(if (dictsearch (namedobjdict) \"acad_dgnlinestylecomp\"\
+    )\n  (progn\n    (dictremove namedobjdict) \"acad_dgnlinestylecomp\")\n    (command\
+    \ \"._purge\" \"a\" \"*\" \"n\")\n  )\n)"
+- author: Mike McDevitt
+  email: mmcdev@comcast.net
+  ip: 67.191.146.88
+  url: ''
+  date: '2013-03-27 16:38:45'
+  body: 'Hi Kean can you e-mail me the compiled dll file for dgn purger with some
+    instructions on how to use it. I have been having problems with the copy and paste
+    ever since I installed ACAD 2013 and would love to solve this problem as soon
+    as I can. It has caused problems on almost every job that I receive from Architects.
+
+
+    Thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-03-27 17:26:30'
+  body: 'Hi Mike,
+
+
+    I''m working with our Product Support team to find a way for this to be made available
+    externally. I''m not able to send out a compiled version myself, unfortunately.
+
+
+    You should be able to build your own using Visual C# Express if you need it more
+    urgently (or perhaps someone on the AutoCAD .NET Discussion Group can help, otherwise).
+
+
+    Regards,
+
+
+    Kean'
+- author: Mona
+  email: Mona.Akkoush@dargroup.com
+  ip: 85.112.64.27
+  url: ''
+  date: '2013-04-02 14:14:31'
+  body: 'Hi Kean,
+
+
+    Thanks a lot for the great code!!
+
+    Please note that I am getting the below error when running the tool on some computers.
+    Yet, I don''t get this error on other computers. Any idea?
+
+
+    The error is: Autodesk.AutoCAD.Runtime.Exception: eNotAllowedForThisProxy at Autodesk.AutoCAD.DatabaseServices.DBObject.Erase()
+
+
+
+    Thanks,
+
+    Mona'
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.232.37
+  url: http://profile.typepad.com/kean
+  date: '2013-04-02 16:54:20'
+  body: 'Hi Mona,
+
+
+    This problem was reported by our Product Support team just last week, so I had
+    some code that handles the problem more gracefully just sitting there. Thanks
+    for the prompt to post it!
+
+
+    I''ve updated the post - hopefully this version will work better for you (even
+    if it doesn''t fix the drawing corruption).
+
+
+    Regards,
+
+
+    Kean'
+- author: James Allen
+  email: JamesA@mwengrs.com
+  ip: 98.193.148.61
+  url: ''
+  date: '2013-04-02 22:51:53'
+  body: 'Thank you, Kean. I also found in the following thread that wBlock with the
+    Entire Drawing option effectively purges the bloat. Either method seems to work
+    for us.
+
+    <a href="http://forums.autodesk.com/t5/AutoCAD-LT/Linetypes-Will-not-Purge/td-p/3236334">http://forums.autodesk.com/t5/AutoCAD-LT/Linetypes-Will-not-Purge/td-p/3236334</a>
+
+
+    That is especially interesting to me since for years I''ve used wBlock with the
+    selection option (using a window) in an automated fashion specifically to avoid
+    catching various invisible object... So I guess now it takes both - for a regular
+    user.
+
+
+    I can''t get 2014 just yet, any word on if this got built into something more
+    apparent - say Purge, Audit, or Recover?
+
+
+    Respectfully,
+
+
+    James'
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.232.51
+  url: http://profile.typepad.com/kean
+  date: '2013-04-03 18:14:49'
+  body: 'Hi James,
+
+
+    Thanks for that. Yes, WBLOCK should help you take only the geometry and specifically-related
+    data into another drawing, should this code not work for you.
+
+
+    I don''t believe comparable functionality was included in 2014 (this blog post
+    was published very late in the release cycle). Product Support is certainly providing
+    input to help Engineering understand the priority of this issue, so we''ll see
+    what can be done moving forwards.
+
+
+    Regards,
+
+
+    Kean'
+- author: Stuart Elvers
+  email: ''
+  ip: 97.79.20.40
+  url: http://profile.typepad.com/6p017c38422d3a970b
+  date: '2013-05-02 17:59:11'
+  body: 'Anyone else looking to build this to 2012 or previous versions.
+
+
+    You will need to change more than just the references from AcCoreMgd and the namespace
+    using statements. You will also need to change the DllImport call. For AutoCAD
+    2012, the line
+
+
+    [DllImport("<b>acdb19.dll</b>",
+
+
+    should be
+
+
+    [DllImport("<b>acdb18.dll</b>",
+
+
+    For previous versions you will need to find the acdb**.dll file for that particular
+    version.
+
+
+    Thanks,
+
+
+    Stu.'
+- author: niyazi
+  email: nkemer@gmail.com
+  ip: 212.253.218.34
+  url: http://nikemr.com
+  date: '2013-05-25 18:24:08'
+  body: 'Hi Kean,
+
+    I found an forum post:
+
+    <a href="http://forums.autodesk.com/t5/Visual-LISP-AutoLISP-and-General/Today-s-Giveaway-Purge-Dictionary-Items-PDI/m-p/2655264/highlight/false#M287918">http://forums.autodesk.com/t5/Visual-LISP-AutoLISP-and-General/Today-s-Giveaway-Purge-Dictionary-Items-PDI/m-p/2655264/highlight/false#M287918</a>
+
+
+    removes all ACAD_DGNLINESTYLECOMP . it worked well for me. What do you think?
+    Is it safe?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-05-26 09:37:05'
+  body: 'It''ll almost certainly remove the file bloat, if that''s your goal. I can''t
+    guarantee it won''t destroy the linestyles for objects you want to keep (and potentially
+    even lead to problems when objects with those styles are encountered), though.
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-06-21 17:21:07'
+  body: 'The code from this post has now been turned into <a href="http://usa.autodesk.com/getdoc/id=DL21934581">an
+    officially-supported tool</a>.
+
+
+    Kean'
+- author: Jimmy Bergmark - JTB World
+  email: info@jtbworld.com
+  ip: 85.228.247.185
+  url: http://profile.typepad.com/jtbworld
+  date: '2013-06-23 01:18:48'
+  body: Kean, is it expected that even linetypes that are used are broken after this
+    command?
+- author: Kean Walmsley
+  email: ''
+  ip: 138.188.103.142
+  url: http://profile.typepad.com/kean
+  date: '2013-06-23 09:43:20'
+  body: 'Jimmy,
+
+
+    No it is not. Please provide a reproducible case if this is happening.
+
+
+    Thanks & regards,
+
+
+    Kean'
+- author: dan
+  email: dan@dan.com
+  ip: 94.200.100.210
+  url: ''
+  date: '2013-06-23 10:23:52'
+  body: 'Hi Kean,
+
+
+    we are encountering this exact problem just now, but we run v2011. Do you think
+    that the factory will be rolling out that hotfix for earlier versions?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-06-23 11:19:42'
+  body: 'Hi Dan,
+
+
+    I don''t believe so. But you can build the code into a module that should work
+    fine on earlier versions, too.
+
+
+    Best regards,
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-06-23 21:23:11'
+  body: 'As confirmed by email, there''s an issue when dealing with compound components
+    in DGN linestyles. I''ve updated the code to address the issue and will get it
+    passed through the system to update the tool.
+
+
+    Thanks again for your help identifying this!
+
+
+    Kean'
+- author: Ben
+  email: Ben@Ocmis.com
+  ip: 86.188.194.42
+  url: ''
+  date: '2013-06-26 09:24:47'
+  body: Apologies if this isn't relevant but I have been opening the DWGs that have
+    been converted from DGNs, exporting them to DXFs, then opening in AutoCAD and
+    resaving as DWGs.  This takes a little time but works well for reducing the file
+    sizes.  Looking forward to the re-release of your version Kean...
+- author: Cemal Ceyhan
+  email: yasinchelik@gmail.com
+  ip: 95.8.173.31
+  url: ''
+  date: '2013-06-26 09:27:43'
+  body: "Hi Kean,\n\nI get an error in Visual Studio \"The type or namespace name\
+    \ 'ReferenceFiler\" could not be found\" \n Can you help me?"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2013-06-26 11:48:14'
+  body: 'Hi Cernal,
+
+
+    Be sure to copy & paste the section of code listed beneath "ReferenceFiler.cs"
+    into a separate file in the project.
+
+
+    Regards,
+
+
+    Kean'
+- author: Cemal Ceyhan
+  email: yasinchelik@gmail.com
+  ip: 95.8.173.31
+  url: ''
+  date: '2013-06-26 14:40:06'
+  body: It works. Thank you a lot.
+- author: Matt
+  email: lttam@yahoo.com
+  ip: 96.53.56.142
+  url: ''
+  date: '2013-07-12 17:31:15'
+  body: 'Hi Kean, your link to the officially supported tool is broken.  Has it been
+    moved or has Autodesk removed it?
+
+
+    Matt'
+- author: David
+  email: dawidszaferski@gmail.com
+  ip: 95.108.127.9
+  url: ''
+  date: '2013-07-12 23:03:21'
+  body: 'Hi there Kean
+
+
+
+    Im having a big problems to use ur code into autocad.
+
+
+    Could you say point after point what to do - to aply this in autocad?
+
+
+    I know that''s a "lame" question but im an eletrical engineer not a programist
+    so it''s quite a trouble to do that.
+
+
+    Thank you a lot
+
+
+    David'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-07-13 09:03:45'
+  body: 'Hi Matt,
+
+
+    As mentioned in Update 2, the tool has been pulled from the site (for now). We''re
+    currently working on getting a fixed version back up.
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-07-13 10:16:18'
+  body: 'Hi David,
+
+
+    It''s a completely natural question.
+
+
+    You need to use (for instance) Visual C# Express, creating a new Class Library
+    project. Copy and paste the code from the blog post into the two main files (ReferenceFiler.cs
+    and whatever you want to call the other one - I call it Commands.cs). You need
+    to add project references to AcMgd.dll and AcDbMgd.dll (and AcCoreMgd.dll if AutoCAD
+    2013 or 2014), which you can get from the AutoCAD folder (as long as the Copy
+    Local flag is set to false) or the ObjectARX SDK (this is better).
+
+
+    When you''ve successfully built the project, you can NETLOAD the resultant DLL
+    into AutoCAD and run the newly defined DGNPURGE command.
+
+
+    Or you can wait a week or so (hopefully not more) for us to get the fixed version
+    posted. :-)
+
+
+    Regards,
+
+
+    Kean'
+- author: David
+  email: dawidszaferski@gmail.com
+  ip: 95.108.127.9
+  url: ''
+  date: '2013-07-13 21:50:36'
+  body: 'You are a life saver. Thanks a million times..
+
+
+    David'
+- author: Dean
+  email: dean_bullingham@iinet.net.au
+  ip: 203.59.131.120
+  url: ''
+  date: '2013-07-15 10:13:26'
+  body: Im sorry but how do i get this to work?
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-07-15 11:59:09'
+  body: 'Please see <a href="http://through-the-interface.typepad.com/through_the_interface/2012/12/purging-unwanted-dgn-linestyle-data-from-an-autocad-drawing-using-net.html#comment-6a00d83452464869e20192abfd73b0970d">this
+    comment</a>.
+
+
+    Kean'
+- author: Honza
+  email: jan.gregorica@p-ch.cz
+  ip: 213.155.225.49
+  url: http://www.p-ch.cz/
+  date: '2013-07-31 15:55:52'
+  body: 'Hi there Kean
+
+
+    I would like to ask you when we could expect a fixed version DGNPURGE for Autocad
+    2012 (32/64bit) as you wrote above David?
+
+    I´m also only electrical designer ;-)
+
+
+    Regards
+
+
+    Honza'
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.236.157
+  url: http://profile.typepad.com/kean
+  date: '2013-07-31 17:28:15'
+  body: 'Hi Honza,
+
+
+    I know of no plans to release the tool for 2012 or prior versions - see <a href="http://through-the-interface.typepad.com/through_the_interface/2013/07/autocad-dgn-hotfix-now-available.html#comment-6a00d83452464869e20192ac45943f970d">this
+    comment</a> for advice I gave to another 2012 user.
+
+
+    The instructions I gave to David, above, should also help you.
+
+
+    Regards,
+
+
+    Kean'
+- author: mnykdm
+  email: coskunk@gmail.com
+  ip: 78.184.227.186
+  url: ''
+  date: '2013-08-31 11:51:57'
+  body: 'hi Kean,
+
+
+    i have two autocad 2014 on different pc. while one of them is affected by file
+    size, the other one not. how coud this be? while working on bloated file copy
+    process is so slow, but the other pc look fine, its not slow.
+
+    may it be related to acad updates or .net versions etc?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-09-02 15:45:39'
+  body: 'Hi there,
+
+
+    Perhaps one has the hotfix or latest Service Pack applied, while the other doesn''t?
+    _VERNUM usually helps with this kind of thing (at least with SPs - hotfixes may
+    require manual checking of files).
+
+
+    Regards,
+
+
+    Kean'
+- author: Petr
+  email: petr@kazik.ca
+  ip: 216.223.140.2
+  url: ''
+  date: '2013-10-01 15:34:03'
+  body: 'TRY SUPERPURGE SOFTWARE FROM MANUSOFT
+
+    WORKS WELL FOR ME
+
+    PETR'
+- author: x
+  email: x@x.com
+  ip: 78.178.231.232
+  url: ''
+  date: '2013-10-22 13:03:08'
+  body: 'Hi Kean, how are we expected to clean up dgn filetypes using Autocad LT 2013
+    ?
+
+
+    The netload command is not working'
+- author: kemal_zkan@yahoo.com.tr
+  email: kemal_zkan@yahoo.com.tr
+  ip: 195.175.86.138
+  url: ''
+  date: '2013-10-22 15:01:09'
+  body: 'Actually it is working. But you have to follow these steps.
+
+    1. Startup AutoCAD.
+
+    2. Netload DgnLsPurge.dll.
+
+    If you have problems loading the DgnLsPurge.dll, check the properties of the .dll
+    file
+
+    by selecting the file, right clicking and selecting Properties. In some instances
+    the
+
+    security settings of your system may block the .dll from loading. If that is the
+    case,
+
+    you can Unblock the .dll by selecting Unblock in the Security section of the
+
+    properties. This section will only display if the file is Blocked. To unblock
+    the files,
+
+    copy the two dlls to your documents folder. Right click and select Properties.
+    Select
+
+    ‘Unblock’ and then apply. Repeat this step for both the files. Copy the files
+    back to
+
+    the product installation folder.
+
+    3. Open the affected drawing file.
+
+    4. Run the DGNPURGE command to make the elements purge-able.
+
+    5. PURGE.
+
+    6. Repeat steps 4-5 if needed.
+
+    7. Save the DWG.
+
+    8. Repeat steps 3-7 for other affected files.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-10-22 17:29:29'
+  body: 'Hi x,
+
+
+    This tool won''t work with LT: the capability would need to be built into the
+    product itself to be able to use LT to clean these up.
+
+
+    Kean'
+- author: Mary
+  email: mary.schmitz@atcosl.com
+  ip: 192.210.5.253
+  url: ''
+  date: '2013-10-24 00:30:07'
+  body: Hi I developed a method using Design Center [all bow to the might DC] to clean
+    and shrink an infected drawing which is accepted and willingly used by my co-workers
+    instead of DXFOUT proccedure and it has better results.3d stays 3d. Basically
+    make a block of the entire model space inside the infected drawing, save dwg,
+    open clean dwg form the template and using DC insert the block into the clean
+    dwg at 0,0,0. Switch to paper space, right click on the PS tab, click on import
+    and go to the infect dwg for all of your tab settings. All the paper space tabs
+    come in with the viewports set up correctly. Close the old drawing, put it in
+    archieves, saveas the new drawing as the correct name. The new drawing will have
+    retained 3d compounents as apposed to the DXFOUT flat dwg. I have not had an opportunity
+    to try this with LT but I suspect if it has Design Center it will work.
+- author: Luca
+  email: l.bonazzoli@one-works.com
+  ip: 89.96.144.61
+  url: ''
+  date: '2014-01-23 14:39:37'
+  body: 'Hi, I have used this method on several files and I was very excited about
+    the result: 7MB files reduced to 700KB!
+
+    But now it seems that the new files take ages to open and save despite to the
+    small size. This doesn''t happen with the old huge files (I tried on some backup
+    dwg on different pc).
+
+    Any guess? Otherwise I will be forced to reintroduce in the project the old version
+    of the files.'
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2014-01-23 15:46:06'
+  body: 'Hi Luca,
+
+
+    This is the first time I''ve seen this reported, and can''t think of a reason
+    for it happening with DWGs post DGN linestyle clean-up.
+
+
+    Have you tried running AUDIT on the files to see if there are any issues found?
+    Is it at all possible that some other tool has been used on the files that might
+    lead to the files "slowing down"?
+
+
+    Regards,
+
+
+    Kean'
+- author: Luca
+  email: l.bonazzoli@one-works.com
+  ip: 89.96.144.61
+  url: ''
+  date: '2014-01-23 16:06:36'
+  body: 'Sorry, the problem was in the server, not in the files!
+
+    Thank you.'
+- author: plus.google.com/109182003025092098675
+  email: ''
+  ip: 83.233.3.78
+  url: http://profile.typepad.com/6p01a73d70dac4970d
+  date: '2014-02-06 07:45:22'
+  body: 'Hi!
+
+
+    Im a beginger when it comes to Autocad, I´ve tried using this code as a lisp file
+    and as a script. But being a complete noob to programing I have no idea to do
+    this. Can anybody help me out? For some stupid reason Im using a Scandinavian
+    edition of AC MEP 2013 so I can´t get the DNG Hotfix =(
+
+
+    /Fredrik'
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2014-02-06 07:57:01'
+  body: 'Hi Fredrik,
+
+
+    Hmm - can you explain why can''t you get the hotfix <a href="http://usa.autodesk.com/adsk/servlet/ps/dl/item?siteID=123112&id=22002791&linkID=9240618">from
+    here</a>? That would certainly be the simplest option, of course...
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

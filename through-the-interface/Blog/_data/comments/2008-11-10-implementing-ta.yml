@@ -1,0 +1,132 @@
+comments:
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2008-11-11 22:21:58'
+  body: "Hi Kean, \nGood topic.\nI translated this into VB, and had a conundrum on\
+    \ this part:\n\ntd.Callback = delegate(\n      ActiveTaskDialog atd,\n      TaskDialogEventArgs\
+    \ e,\n      object sender\n      )....\nso I pulled it out to it's own function\
+    \ and did this:\ntd.Callback = AddressOf tdCallBack\n\nwhich does seem to be catching\
+    \ the callbacks, but it threw an error on \"atd.SetProgressBarState(Autodesk.Windows.ProgressBarState.Normal)\"\
+    \nand ultimately crashed AutoCAD after a second error that occured after the callback.\
+    \  I commented out that line and it seems to work fine.\nthe error was System.NotSupportedException\
+    \ \n  Message=\"Specified method is not supported.\"\n  Source=\"AdWindows\"\n\
+    and came with a stack trace 52 calls long."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.58.159
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-12 07:56:35'
+  body: 'Hi David,
+
+
+    Strange - not sure why it would be different in your version... I don''t remember
+    especially why I put the SetProgressBarState() call in there, so it could possibly
+    be redundant or even erroneous (although I didn''t see a crash).
+
+
+    Kean'
+- author: Glenn R
+  email: toxo@telstra.com
+  ip: 217.36.87.201
+  url: ''
+  date: '2008-11-12 18:55:55'
+  body: 'Kean,
+
+
+    I received the same error as David on the same line.
+
+
+    The crash manifests when you hit the checkbox at the bottom of the dialog.
+
+
+    AutoCAD 2009
+
+    Visual C# Express 2008
+
+    .NET 3.5'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.58.159
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-12 19:06:16'
+  body: 'David, Glenn,
+
+
+    OK - you have me convinced. :-)
+
+
+    For some reason it works fine on my (Vista) machine, but I can see no reason for
+    the call being there & removing it does nothing to the behaviour. I suspect it''s
+    just an artifact from me testing out the various properties/methods.
+
+
+    So I''ve removed it from the post. Thanks for the report & confirmation!
+
+
+    Kean'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2008-11-12 19:26:43'
+  body: Glenn did not mention his OS but I am on ACAD2009, VB pro 2005, .NET 2, and
+    XP pro.  Just for giggles I looked at the link above to the Microsoft implementation,
+    and it says the required version is Vista, so that's probably it.
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.58.159
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-12 22:02:58'
+  body: 'Autodesk''s implementation was independent - I''m assuming to support XP
+    as well as Vista. So that''s not going to be the problem.
+
+
+    The call doesn''t need to be made there, so it''s safe to ignore the problem (I
+    expect calling it on TaskDialog rather than ActiveTaskDialog works just fine).
+
+
+    Kean'
+- author: Thomas Keymeulen
+  email: thomaskeymeulen@hotmail.com
+  ip: 217.136.183.92
+  url: ''
+  date: '2009-03-13 13:02:04'
+  body: "Hi Kean,\n\nI'm currently working in a furniture firm on the enginering department.\
+    \ Last year I followed 1 year Visual.NET programming. \nThis morning I received\
+    \ the question wether I could develop a program in AutoCAD 2009 speed up the design\
+    \ of furniture. The thing is, I've never developped something in AutoCAD with\
+    \ VBA. \nCan I try this best with VBA or start programming in VB.NET?\nDo you\
+    \ know where I can find information/tutorials/help the help me develop this application?\n\
+    \nMany thanks!!!\n\nKind regards"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-03-13 13:48:46'
+  body: 'Hi Thomas,
+
+
+    I would start directly with VB.NET: Microsoft is putting everything behind their
+    .NET technology and VBA isn''t really supported by them anymore (there''s no native
+    64-bit version of VBA, for instance).
+
+
+    So go directly with VB.NET (or C#), using either standard Visual Studio or Visual
+    Basic (C#) Express.
+
+
+    I would (of course :-) recommend using this blog as a resource, and you can post
+    your questions to <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>. If your company is serious about helping your
+    customization work, they might also invest in an <a href="http://www.autodesk.com/joinadn">ADN
+    membership</a>.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

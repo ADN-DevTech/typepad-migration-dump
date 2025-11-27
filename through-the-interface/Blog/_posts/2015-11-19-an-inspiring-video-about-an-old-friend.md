@@ -1,0 +1,14 @@
+---
+layout: "post"
+title: "An inspiring video about an old friend"
+date: "2015-11-19 14:33:43"
+author: "Kean Walmsley"
+categories:
+  - "Autodesk"
+  - "Personal"
+original_url: "https://www.keanw.com/2015/11/an-inspiring-video-about-an-old-friend.html "
+typepad_basename: "an-inspiring-video-about-an-old-friend"
+typepad_status: "Publish"
+---
+
+<p>A link to a video was posted to Autodesk’s intranet, a few days ago. It’s about Mark Webb, a friend and colleague based in our Manchester (New Hampshire) office.</p>  <p>Mark and I started out at more or less the same time at Autodesk in the UK, in the charming town of Guildford. At least it’s charming when you compare it with Farnborough, where the office is located now. Back then Mark was working on one of our early AEC products – some UK-centric extensions to AutoCAD that pre-dated the Softdesk acquisition and the launch of Architecture Desktop – while I was working in the European Developer Support team.</p>  <p>Around the time I first moved to Switzerland, Mark moved across to the US… I remember us hitting the slopes together in the New Hampshire (or Vermont?) area during my first visit to Henniker (having both grown up in the UK, neither of us could snowboard particularly well, but it was certainly a lot of fun :-).</p>  <p>These days Mark works as a Software Development Manager in our AEC group and has played a key role in developing a number products for the AEC and Infrastructure markets.</p>  <p>Outside of work, Mark has been on an incredible personal journey since moving to the States, which took a particular turn when he lost his lower left leg in a motorbike accident 15 months ago. This video – and <a href="http://www.endorphinentertainment.com/uphill-the-mark-webb-story/" target="_blank">the accompanying article</a> – gives you some sense of what he’s been through.</p>  <p align="center">&#160;</p>  <p align="center"><iframe height="276" src="https://player.vimeo.com/video/144239954" frameborder="0" width="500" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"></iframe></p>  <p>&#160;</p>  <p>Here’s a still from the video, showing Mark participating in the<a href="http://www.spartan.com/en/race/detail/839/results" target="_blank"> Super Spartan New Jersey event in September</a>:<a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e201b8d1786d68970c-pi" target="_blank"><img title="Mark Webb at Super Spartan" style="border-top: 0px; border-right: 0px; background-image: none; border-bottom: 0px; float: none; padding-top: 0px; padding-left: 0px; margin: 50px auto; border-left: 0px; display: block; padding-right: 0px" border="0" alt="Mark Webb at Super Spartan" src="/assets/image_146304.jpg" width="504" height="289" /></a></p>    <p>Mark – you’re truly an inspiration to us all. Keep on keepin’ on.</p>

@@ -1,0 +1,91 @@
+comments:
+- author: Gagan Gajabaharia
+  email: gagan.gajabaharia@gmail.com
+  ip: 63.146.67.200
+  url: ''
+  date: '2008-05-29 17:43:10'
+  body: 'Is there any chance of making the MLeader associated with the entity using
+    ObjectARX .NET 2008? Thanks!
+
+
+    -Gagan'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-29 20:54:47'
+  body: 'Gagan,
+
+
+    I haven''t looked into whether MLeaders can be associative to geometry. If it''s
+    not available as core functionality, you could certain implement your own associativity
+    using events in .NET (probably a comibination of Database.ObjectModified and DocumentManager.DocumentLockModeWillChange).
+
+
+    I''d suggest posting your question to the discussion groups or asking the ADN
+    team (if you''re a member).
+
+
+    Regards,
+
+
+    Kean'
+- author: Sinc
+  email: richards@ejsurveying.com
+  ip: 72.19.190.157
+  url: ''
+  date: '2008-07-08 04:20:57'
+  body: 'Whenever I attempt to run your code in Civil-3D 2009, all of the leaders
+    come out of the left side of the MLeader.
+
+
+    If I select and drag the MLeader slightly, it will "recalculate" itself, and display
+    as shown in your screen shot, with leaders coming out both sides of the text.  But
+    if I simply run the code, all leaders emanate from the left side of the text only.
+
+
+    If I run your code in Civil-3D 2008, I get the same results as you, with leaders
+    coming out both sides of the text.  However, with C3D 2009, they only come out
+    the left side.
+
+
+    Any idea why, or how to get around this issue?  I''d like to create an MLeader
+    to the left of a point, and have the leader come out the right side of the text,
+    but I can''t seem to manage it in 2009.
+
+
+    I have tried using the default acad.dwt template, and also "Starting from Scratch",
+    just to try to eliminate any possible issues with the template, and I get the
+    same result.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-08 09:52:15'
+  body: 'This appears to be something different in base AutoCAD 2009 (and therefore
+    the products built upon it).
+
+
+    Adding this line of code forces a recalculation of the MLeader (I put it just
+    before the line that commits the transaction):
+
+
+    mld.MoveMLeader(new Vector3d(), MoveType.MoveAllPoints);
+
+
+    It essentially moves all the points of the MLeader through a zero-length vector.
+    So it does nothing, but the geometry gets corrected.
+
+
+    I hope this helps you,
+
+
+    Kean'
+- author: Sinc
+  email: richards@ejsurveying.com
+  ip: 72.19.190.157
+  url: ''
+  date: '2008-07-08 14:17:53'
+  body: 'Thanks!  That worked.
+
+    -----'

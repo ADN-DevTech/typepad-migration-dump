@@ -1,0 +1,50 @@
+comments:
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2008-11-22 08:28:22'
+  body: "<code>\nprivate static void OnCancel()\n{\n  // Not currently doing anything\
+    \ here\n}\n</code>\n\nWell, I see one minor issue with this. \n\nIf the user clicks\
+    \ the Cancel button on the Options dialog, any changes they made should be discarded,\
+    \ but in the case of your example, that wouldn't occur.\n\nThe solution is quite\
+    \ simple however. In the OnCancel() method, just deserialize the settings class\
+    \ from storage, which causes its state to revert back to when the Options dialog\
+    \ was shown, or the Apply button was last clicked.\n\nThe other issue worth noting,\
+    \ is user-specific verses system-specific settings. Saving to the location of\
+    \ the assembly implies the settings are not user-specific.\n\nFor user-specific\
+    \ settings, one can use the properties of System.Windows.Forms.Application to\
+    \ get the folder where user settings are normally stored (there's other ways as\
+    \ well, including via the HostApplicationServices class).\n\nIt might also pay\
+    \ to look into the framework's 'official' mechanism for persisting application\
+    \ settings (The 'Settings' tab in the Project Designer).\nThe Settings designer\
+    \ tab and the System.Configuration namespace make it relatively easy to persist\
+    \ application settings and also have them automatically applied to interface elements\
+    \ (through the use of WinForms DataBinding) for cases where a user can configure\
+    \ things like fonts, colors and so on."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.58.159
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-24 08:04:11'
+  body: 'Very good point, Tony: we should really be calling Load() from OnCancel().
+    An oversight on my part. I''ve fixed the post.
+
+
+    And thanks for pointing out another approach for this - I''m sure people will
+    find that helpful.
+
+
+    Kean'
+- author: Maksim Sestic
+  email: max@geoinova.com
+  ip: 81.93.72.30
+  url: http://www.geoinova.com
+  date: '2008-12-10 15:38:55'
+  body: 'Hi Kean,
+
+
+    I remember having problems with launching new forms from custom tabbed dialog,
+    which is quite common (i.e. browse for file/folder dialog). But that was pre-2009.
+
+    -----'

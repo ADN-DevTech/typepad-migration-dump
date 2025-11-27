@@ -1,0 +1,74 @@
+comments:
+- author: Darcy buss Neto
+  email: darcy@trafo.com.br
+  ip: 189.10.238.244
+  url: http://www.trafo.com.br
+  date: '2009-03-06 15:31:36'
+  body: "Hello KEAN WALMSLEY,\n\nI need open drawing on autocad.\n\nEx. \n\nMy drawing1\
+    \ IS open and this drawing has a list  has a link with drawing2.\n\nWith i double\
+    \ click on list ( windows forms ) open the link ( drawing 2 )\n\nDo you have how\
+    \ resolve this problem?\n\n\"Sorry English\"..."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-03-06 15:36:17'
+  body: 'Please post future questions to <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>, unless they relate to a specific post.
+
+
+    It sounds as though you probably want to send the -OPEN command to open Drawing2.
+    I suggest checking out SendStringToExecute() as shown in <a href="http://through-the-interface.typepad.com/through_the_interface/2006/08/calling_command.html">this
+    post</a> .
+
+
+    Kean'
+- author: Wallace Kunin
+  email: kunin@marshall.edu
+  ip: 206.212.36.131
+  url: ''
+  date: '2009-05-15 17:43:05'
+  body: I am having an issue where I insert a dynamic block into a drawing after programmatically
+    changing one of its properties.  The block has scaled accordingly but now the
+    grips no longer scale the block and changing the property in the properties palette
+    does nothing more than move the grips to where they should be but the block still
+    stays the same.  This only happens when they property is changed programmatically.  Any
+    ideas how to fix this?
+- author: Wallace Kunin
+  email: kunin@marshall.edu
+  ip: 206.212.36.131
+  url: ''
+  date: '2009-05-15 17:49:50'
+  body: To follow up on this issue, when i move the block by its base point, AutoCAD
+    shows the preview image(I'm guessing they use a jig) in the size that the block
+    is supposed to be according to the grips and the property but when I click again
+    to place the block in the new location, it stays the incorrect size.
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-05-17 10:16:59'
+  body: 'There have been a couple of issues related to programmatic modification of
+    dynamic blocks (that I''ve seen).
+
+
+    The case I used was quite simple - you may hit issues (that are beyond my experience
+    to fix) if your blocks are more complex. If you hit issues I suggest posting to
+    <a href="http://adn.autodesk.com">the ADN website</a> (if you''re a member) or
+    otherwise to <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET discussion group</a>.
+
+
+    Kean'
+- author: Wallace Kunin
+  email: kunin@marshall.edu
+  ip: 206.212.36.192
+  url: ''
+  date: '2009-05-18 18:54:56'
+  body: 'To follow up on this I have the solution, which may help people in the future.  The
+    dynamic properties of a block reference can only be edited after the block reference
+    has been appended to model space to avoid causing errors.  I edited the property
+    for the jig then created a new blockreference with the point selected from the
+    jig and added that to model space, then edited its property accordingly.
+
+    -----'

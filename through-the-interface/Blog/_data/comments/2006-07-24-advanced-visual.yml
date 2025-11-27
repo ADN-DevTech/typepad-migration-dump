@@ -1,0 +1,141 @@
+comments:
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 201.17.183.65
+  url: http://arxdummies.blogspot.com
+  date: '2006-07-24 19:11:34'
+  body: "Hi Kean,\n\nGreat article. This is very useful indeed.\nMaybe the ObjectARX\
+    \ team would start to build a standard ObjectARX autoexp.dat file to be shipped\
+    \ within SDK. \n\nDo you know if VS accepts more than one dat file for this? Maybe\
+    \ it can accept additional files like autoexp1.dat, etc.\n\nThis way the ObjectARX\
+    \ classes and types will be displayed much like human information. :)\n\nRegards,\n\
+    Fernando."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-07-24 22:51:06'
+  body: 'Hi Fernando,
+
+
+    Thanks for the suggestion. Analogously, the DevTech team used to maintain an ObjectARX-specific
+    usertype.dat file to allow contextual colouring of keywords (back before functioning
+    Intellisense, when Visual Studio did a poor job of parsing types in headers).
+    I see this is another strong candidate for posting on the ADN site - that way
+    my team can help it to evolve more regularly (for instance one person in the team
+    is already looking at defining rules for ObjectARX smart-pointers - watch this
+    space).
+
+
+    As for multiple autoexp.dat files... I haven''t rsearched this specifically, but
+    all the indications I''ve seen so far point to the mechanism working with a single
+    file.
+
+
+    Regards,
+
+
+    Kean'
+- author: ocnsss
+  email: ocns@21cn.com
+  ip: 59.33.25.15
+  url: http://www.bidmaxhost.com/forum/
+  date: '2007-03-23 08:41:03'
+  body: "On personal opinion, I find this very helpful. \nGuys, I have also posted\
+    \ some more relevant info further on this, not sure if you find it \n\nuseful:\
+    \ http://www.bidmaxhost.com/forum/"
+- author: Thomas Brammer
+  email: tbrammer@imos3d.com
+  ip: 212.62.91.92
+  url: http://www.imos3d.com
+  date: '2007-09-25 11:26:43'
+  body: "Hi Kean,\n\nI've just found out a nice way to watch a AcGeMatrix3d in the\
+    \ VS debugger.\n\nIn your autoexp.dat enter a expression for the first row of\
+    \ the matrix. i.e.:\n\nAcGeMatrix3d =< entry[0][0],f> | < entry[1][0],f> | < entry[2][0],f>\
+    \ | < entry[3][0],f>\n\nIn your Debugger, you have to type an expression for each\
+    \ row of the matrix, that you want to view. Let's say you want to watch AcGeMatrix3d\
+    \ acMat:\n\nExpression: - - - - - - - - - - - - - - - - - - - Debugger display:\n\
+    *(AcGeMatrix3d*)((double*)&acMat+0)\t{0,893613 | 0,000000 | -0,448838, 0,000000}\t\
+    \n*(AcGeMatrix3d*)((double*)&acMat+1)\t{-0,448838 | 0,000000 | -0,893613 | 0,000000}\t\
+    \n*(AcGeMatrix3d*)((double*)&acMat+2)\t{0,000000 | 1,000000 | 0,000000 | 0,000000}\t\
+    \n*(AcGeMatrix3d*)((double*)&acMat+3)\t{-4,277458 | 0,000000 | -18,919671 | 1,000000}\t\
+    \n\nThe trick is, that the double entries of each row are shifted by\nsizeof(double).\
+    \ It's quite a bit of typing - but the rows just differ by one character.\n\n\
+    -- Thomas"
+- author: Thomas Brammer
+  email: tbrammer@imos3d.com
+  ip: 212.62.91.92
+  url: http://www.imos3d.com
+  date: '2007-09-25 17:17:54'
+  body: "Hi again,\n\noops - I've mixed up rows and columgs in my previous posting.\
+    \ Sorry !!\nTo display a ROW your autoexp.dat should read:\n\n < entry[0][0],f>\
+    \ | < entry[0][1],f> | < entry[0][2],f> | < entry[0][3],f>\n\nAnd in the debugger\
+    \ window you have to add 4,8 and 12 instead of 1,2,3 because the offsets between\
+    \ rows are 4 double's: \n\n acMat\n *(AcGeMatrix3d*)((double*)&acMat+4)\n *(AcGeMatrix3d*)((double*)&acMat+8)\n\
+    \ *(AcGeMatrix3d*)((double*)&acMat+12) \n\nBtw.: I recomment to use just the variable\
+    \ name for the first row. So you can see the name even in small debugger windows.\n\
+    \n-- Thomas"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-09-27 14:32:50'
+  body: 'Thanks for sharing this tip, Thomas!
+
+
+    Kean'
+- author: Thomas Brammer
+  email: tbrammer@imos3d.com
+  ip: 212.62.91.92
+  url: http://www.imos3d.com
+  date: '2007-09-28 14:18:30'
+  body: "Hi - it's me again.\n\nI finally found a tricky solution to display a matrix\
+    \ with VS2005. \nVS2002 and earlier won't work because I use the [Visualizer]\
+    \ feature.\n\nIf you have an AcGeMatrix mat you can view it in the debugger like\
+    \ this:\n \n -(Mat44*)&mat   0x0012feb0 {line=0x0012feb0 }\n   + [0]         {0,00\
+    \ | 0,10 | 0,20 | 0,30} \n   + [1]         {1,00 | 1,10 | 1,20 | 1,30} \n   +\
+    \ [2]         {2,00 | 2,10 | 2,20 | 2,30} \n   + [3]         {3,00 | 3,10 | 3,20\
+    \ | 3,30} \n\nUnlike my previous solution you just need one single entry, that\
+    \ displays\nthe matrix with all lines expandable. \n\nHow does it work?\nYou need\
+    \ two dummy classes with entries in autoexp.dat.\n\n======================\nin\
+    \ any *.cpp file in your project:\n======================\n    class DebugHelper_Line4\
+    \ { double entry[4]; };\n    class Mat44 { DebugHelper_Line4   line[4]; };\n \
+    \   static const Mat44 *_needThisToGetMat44DebugDisplayToWork=0;\n\n============\n\
+    in autoexp.dat:\n============\n    [AutoExpand]\n    DebugHelper_Line4 =< entry[0],f>\
+    \ | < entry[1],f> | < entry[2],f> | < entry[3],f>\n    \n    \n    [Visualizer]\n\
+    \    Mat44{\n        children\n        (\n            #array\n            (\n\
+    \                expr :  ($e.line)[$i],\n                size :  4\n         \
+    \   )\n        )\n    };\n\n\nI tried a lot to write a Visualizer for AcGeMatrix\
+    \ directly. \nThe problem is, that you can't have multiline-expressions in the\n\
+    preview() sections and you can only have one element displayed\nin the children()\
+    \ section. So this element must have it's own\nvisualizer. This is why I needed\
+    \ DebugHelper_Line4.\n\nEnjoy\n-- Thomas"
+- author: Thomas Brammer
+  email: tbrammer@imos3d.com
+  ip: 212.62.91.92
+  url: http://www.imos3d.com
+  date: '2007-10-01 11:04:07'
+  body: "It's even possible to write a [Visualizer] for AcGeMatrix3d directly:\n\n\
+    [In any cpp file of your project]\nclass DebugHelper_Line4 { double entry[4];\
+    \ };\nstatic const DebugHelper_Line4 *_needThisToGetMat44DebugDisplayToWork=0;\n\
+    \n[AutoExpand]\nDebugHelper_Line4 =< entry[0],f> | < entry[1],f> | < entry[2],f>\
+    \ | < entry[3],f>\n\n[Visualizer]\nAcGeMatrix3d{\n children\n (\n   #array\n \
+    \  (\n     expr : *((DebugHelper_Line4*)($e.entry[$i])),\n     size :  4\n   )\n\
+    \ )\n}\n\nNow an AcGeMatrix3d will look like this in the debugger:\n\n[-]mat \
+    \  {entry=0x0012feb8 }\t AcGeMatrix3d\n  [+][0] {0,0 | 0,1 | 0,2 | 0,3} DebugHelper_Line4\n\
+    \  [+][1] {1,0 | 1,1 | 1,2 | 1,3} DebugHelper_Line4\n  [+][2] {2,0 | 2,1 | 2,2\
+    \ | 2,3} DebugHelper_Line4\n  [+][3] {3,0 | 3,1 | 3,2 | 3,3} DebugHelper_Line4\n\
+    \nSo you don't need any nasty cast-typing in the debugger window and the dummy\
+    \ class Mat44 is obsolete.\nSorry for my premature postings. I think this is really\
+    \ the final one ;-) \n\n-- Thomas"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-10-01 17:06:34'
+  body: 'Don''t be sorry - thanks for participating!
+
+
+    Kean
+
+    -----'

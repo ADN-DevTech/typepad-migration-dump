@@ -1,0 +1,427 @@
+comments:
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 201.17.149.253
+  url: http://arxdummies.blogspot.com
+  date: '2006-07-10 13:59:07'
+  body: 'Hi Kean,
+
+    Great article.
+
+    Keep going!'
+- author: J. Daniel Smith
+  email: J_Daniel_Smith@HoTMaiL.com
+  ip: 198.102.112.18
+  url: http://jdanielsmith.spaces.msn.com
+  date: '2006-07-11 17:14:51'
+  body: 'FxCop warns you about making P/Invoke functions "public", they should be
+    "internal" instead--exposing a managed wrapper to other assemblies.
+
+
+    I think there is a way to call instance methods on C++ objects through P/Invoke
+    using __thiscall; it''s not pretty though.
+
+
+    Your article does a great job of explaining the technique, but I would suggest
+    that for production work you might be better off exposing a managed wrapper with
+    C++/CLI rather than making extensive use of P/Invoke with mangled names.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-07-12 09:19:15'
+  body: 'Thanks for your comment - I hadn''t checked this code with FxCop, so that''s
+    very good to know.
+
+
+    And yes - clearly the best ways to get more of ObjectARX exposed through to .NET
+    are to request Autodesk to expose it through our managed wrapper, followed by
+    exposing it through your own. The technique described in this post can be useful,
+    but comes with its own issues & risks.'
+- author: csharpbird
+  email: csharpbird@gmail.com
+  ip: 58.34.9.36
+  url: ''
+  date: '2007-02-11 17:09:34'
+  body: 'Hi Kean,
+
+    The Hatch class of the current AutoCAD version does not provide the OriginPoint
+    property.How to get/set the OriginPoint of the Hatch object using P/Invoke?
+
+    Thanks in advance!'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-02-12 09:11:57'
+  body: "Hi csharpbird,\n\nYou can't use P/Invoke on instance members (see the note\
+    \ above on this). But the good news is that the Hatch Origin is exposed via COM,\
+    \ so you can use code such as this:\n\nusing Autodesk.AutoCAD.Interop;\nusing\
+    \ System.Runtime.InteropServices;\n\n// Assume you have the managed object in\
+    \ \"obj\"\n\nHatch hat = obj as Hatch;\nif (hat != null)\n{\n  Autodesk.AutoCAD.Interop.AcadApplication\
+    \ oAcad;\n  oAcad =\n    (AcadApplication)Marshal.GetActiveObject(\"AutoCAD.Application.17\"\
+    );\n  \n  Autodesk.AutoCAD.Interop.Common.AcadHatch oHat;\n  object obj2 =\n \
+    \   oAcad.ActiveDocument.ObjectIdToObject(obj.ObjectId.OldId);\n\n  // Method\
+    \ 1\n  oHat = obj2 as Autodesk.AutoCAD.Interop.Common.AcadHatch;\n  if (oHat !=\
+    \ null)\n  {\n    double[] orig = (double[])oHat.Origin;\n    ed.WriteMessage(\n\
+    \      \"\\nHere's the hatch origin: X: \" +\n      orig[0] + \", Y: \" + orig[1]\n\
+    \    );\n  }\n  Marshal.ReleaseComObject(obj2);\n}\n\nThis seems like a good topic\
+    \ to turn into a post (thanks!).\n\nKean"
+- author: Tony Tanzillo
+  email: tony.tanzillo@blackhole.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2007-03-01 12:06:41'
+  body: "\"[ Note: this technique works well for C-style functions, or C++ static\
+    \ functions. It will not work on instance members (methods of classes), as it\
+    \ is not possible to instantiate an unmanaged object of the class that defines\
+    \ the class from managed code....\"\n\nActually, you can invoke non-static member\
+    \ functions of native objects that are exposed as managed wrappers through P/Invoke\
+    \ with the ThisCall calling convention.  \n\nThat works because the UnmanagedObject\
+    \ property of all wrapped objects (deriving from DisposableWrapper), is a pointer\
+    \ to the instance of the unmanged object that you need to invoke the non-static\
+    \ member through."
+- author: Anonymous
+  email: Anonymous@anonymous.com
+  ip: 202.54.169.165
+  url: ''
+  date: '2007-09-05 13:38:25'
+  body: How to write a Double value into a Text Document
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-09-05 17:16:58'
+  body: 'Sorry, Anonymous - that seems a little out of context. Are you developing
+    with AutoCAD?
+
+
+    Kean'
+- author: Bernhard Bock
+  email: b.bock@arcadis.de
+  ip: 217.243.246.21
+  url: ''
+  date: '2007-09-24 14:44:28'
+  body: "I am searching for a possibility to xref an extern dwg and to bind this xref.\
+    \ The managed API seems not to support it. The C++-API use the commands acedXrefAttach\
+    \ and acedXrefBind.\nI tried the folllowing for acedXrefAttach and get an unhandled\
+    \ exception:\n\n        [DllImport(\"acad.exe\", EntryPoint = \"?acedXrefAttach@@YA?AW4ErrorStatus@Acad@@PB_W0PAVAcDbObjectId@@1PBVAcGePoint3d@@PBVAcGeScale3d@@PBN_NPAVAcDbDatabase@@0@Z\"\
+    , CharSet = CharSet.Auto)]\n        public static extern int acedXrefAttach([MarshalAs(UnmanagedType.LPWStr)]string\
+    \ XrefPathname, [MarshalAs(UnmanagedType.LPWStr)]string XrefBlockname);\n\nI called\
+    \ the functions with:\n\nint res=acedXrefAttach(@\"s:\\test.dwg\",\"test\"); \n\
+    \nThe C++-header-definition is:\nAcad::ErrorStatus\nacedXrefAttach(const ACHAR*\
+    \           XrefPathname,\n               const ACHAR*           XrefBlockname,\n\
+    \                     AcDbObjectId*   pXrefBTRid       = NULL,\n             \
+    \        AcDbObjectId*   pXrefRefid       = NULL,\n               const AcGePoint3d*\
+    \    pXrefInsertPt    = NULL,\n               const AcGeScale3d*    pXrefScale\
+    \       = NULL,\n               const double*         pXrefRotateAngle = NULL,\n\
+    \               const bool            bQuiet           = true,\n             \
+    \        AcDbDatabase*   pHostDb          = NULL,\n               const wchar_t*\
+    \       wszPassword       = NULL);\n\nIf I use insufficient arguments, what are\
+    \ the managed types of AcDbObjectId* etc. ?\n\nWhen I use the SendStringToExecute\
+    \ or acedPostCommand (over DLLimport) for the xref-command, it does'nt work with\
+    \ scripts.\n\nThank you for your help.\n/Bernhard"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-09-27 14:48:57'
+  body: 'Hi Bernhard,
+
+
+    Database.AttachXref() should help, although internally it calls into acdbAttachXref()
+    rather than acedXrefAttach(). It doesn''t work in exactly the same way: you may
+    need to manually add the BlockReference after calling the function.
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-09-27 14:50:38'
+  body: 'And failing that, you could always call ModelSpace.AttachExternalReference()
+    through COM.
+
+
+    Regards,
+
+
+    Kean'
+- author: Bernhard Bock
+  email: b.bock@arcadis.de
+  ip: 217.243.246.21
+  url: ''
+  date: '2007-09-27 19:56:42'
+  body: "Hi Kean,\n\nusing Database.AttachXref() works fine. Also with scripting.\
+    \ \nIt is also very fast. Over 100,000 inserts (BlockReferences) per second. \n\
+    So the use of a bind-function for converting the xref to a block\n(I could not\
+    \ find in the managed API) is not so important.\n\nThank you!\n\n/Bernhard"
+- author: Giuliano
+  email: pigozzi@base2.it
+  ip: 82.193.12.210
+  url: http://www.base2.it
+  date: '2009-01-12 18:02:29'
+  body: "That's very fine! And if I would call the .net command from some arx  files\
+    \ ? \nsome kind of  this. : \"MyCommandArx\" calls \"mycmdNet\" \nI've tried to\
+    \ perform this,  with \"acedinvoke\" but doesn't run.."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.2.123
+  url: http://profile.typekey.com/walmsleyk/
+  date: '2009-01-12 18:05:52'
+  body: 'Giuliano -
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2006/08/calling_command.html">This
+    post</a> should help.
+
+
+    Kean'
+- author: Mark
+  email: marbelandy@knology.net
+  ip: 24.236.82.197
+  url: ''
+  date: '2009-08-22 18:34:47'
+  body: 'Kean,
+
+
+    I simply want to toggle between the text screen/window and the graphics screen/window.  What
+    is a good method to use?  I thought of acedTextScr and acedGraphScr calls through
+    p/invoke (as suggested by ObjectARX docs), but the FindAPI.bat above does not
+    locate these functions.'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-08-22 19:11:09'
+  body: 'Mark,
+
+
+    I just checked the exports from AutoCAD 2010''s acad.exe via dumpbin, and could
+    see acedTextScr():
+
+
+    2768  AB9 006FAA97 acedTextScr
+
+
+    It should be easy enough to P/Invoke this, I would think (although I''ve never
+    actually done so, myself).
+
+
+    Kean'
+- author: Mark
+  email: marbelandy@knology.net
+  ip: 24.236.82.197
+  url: ''
+  date: '2009-08-23 20:00:24'
+  body: 'Kean,
+
+
+    I solved my problem and I forgot to mention I am using AutoCAD MEP 2009.  I typed
+    the batch file above, instead of copy/paste, and had "%i" as the last argument
+    in the for loop rather than "%1".  My mistake.  No wonder I was lost in the "sea
+    of output"!  Yes, these methods are very easy to implement, as they are not decorated.  Here
+    are my declarations:
+
+    Private Declare Auto Function acedGraphScr Lib "acad.exe" Alias "acedGraphScr"
+    () As Integer
+
+    Private Declare Auto Function acedTextScr Lib "acad.exe" Alias "acedTextScr" ()
+    As Integer
+
+    Thanks for all the information you provide!'
+- author: Kelcyo
+  email: kelcyo.pereira@bol.com.br
+  ip: 187.41.74.240
+  url: ''
+  date: '2011-09-15 06:23:52'
+  body: 'Kean,
+
+
+    No seu caso você conhece o nome da função. E quando conhecemos apenas o "command
+    line", como descobrir o nome da função e onde ela se encontra, ou até mesmo se
+    ela é gerenciada.
+
+    Grato.'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.58.92
+  url: http://profile.typepad.com/kean
+  date: '2011-09-15 08:11:20'
+  body: 'Kelcyo,
+
+
+    I know the names of the functions I want to call from looking at the ObjectARX
+    reference material (which you can download with the ObjectARX SDK).
+
+
+    I would suggest doing the same.
+
+
+    Regards,
+
+
+    Kean'
+- author: Kelcyo
+  email: kelcyo.pereira@bol.com.br
+  ip: 187.41.74.240
+  url: ''
+  date: '2011-09-15 10:55:49'
+  body: 'Kean,
+
+
+    Entendo sua orientação. Porem o ObjectARX SDK não abrange outros produtos verticais
+    AutoCAD como o Civil 3D. Porém existe a função no produto mais não esta documentada
+    nas APIs NET e COM. Por isso a intenção de usar P/Invoke. Sei que Civil 3D não
+    é sua área, mais ajudaria indicando um caminho.
+
+    Obrigado.'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.58.92
+  url: http://profile.typepad.com/kean
+  date: '2011-09-15 11:59:00'
+  body: 'The resources on our our various Developer Centers are the best places to
+    start, e.g. <a href="http://autodesk.com/developcivil">http://autodesk.com/developcivil</a>
+
+
+    Kean'
+- author: Justin
+  email: justin.xuchn@hotmail.com
+  ip: 58.19.126.59
+  url: ''
+  date: '2012-02-16 04:12:09'
+  body: can you code in c++ ,in objectarx?  i think it probably more faster than use
+    in .net
+- author: Justin
+  email: justin.xuchn@hotmail.com
+  ip: 58.19.126.59
+  url: ''
+  date: '2012-02-16 04:13:58'
+  body: And , in my project i will use it ,so i hope to get your help.
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-02-16 07:29:16'
+  body: 'Native C++ is indeed faster for lots of operations in AutoCAD than .NET (although
+    not always measurably). That said, I prefer to code in .NET as it makes my posts
+    much more accessible, and is much quicker for me to do.
+
+
+    Kean'
+- author: Franco
+  email: franco.bose@gmail.com
+  ip: 82.85.234.127
+  url: ''
+  date: '2012-11-03 11:59:02'
+  body: 'Hi Kean,
+
+    I''m looking for some information about ObjectARX and .NET, so I hope you can
+    give me a little help.
+
+    I need to develop a batch application (c#)  that is able to open a DWG file and
+    add some object (no UI required), can this be done with ObjectARX ? Is necessary
+    to have Autocad installed in the same machine to do this ?
+
+
+    Thank you very much for your answer.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-11-03 14:26:23'
+  body: 'Hi Franco,
+
+
+    If you have AutoCAD 2013 installed the best would be to use the Core Console (it
+    works great with ScriptPro 2.0, in case).
+
+
+    If using prior versions of AutoCAD, then you can run code as a batch process,
+    but from within an AutoCAD session (it won''t need to open the DWGs in the editor,
+    but it will need AutoCAD running as far as I recall).
+
+
+    If you don''t want to rely on AutoCAD being installed on the target system then
+    you should look at RealDWG, which gives you subsets of the .NET and ObjectARX
+    APIs to work with in a standalone app.
+
+
+    Regards,
+
+
+    Kean'
+- author: Franco
+  email: franco.bose@gmail.com
+  ip: 109.168.30.67
+  url: ''
+  date: '2012-11-28 11:03:37'
+  body: 'Hi Kean,
+
+    I''m reading your answer right now and I found it very exhaustive and useful.
+
+    Thank you very much !!!
+
+
+    Franco'
+- author: Ashis Meher
+  email: ashis136@gmail.com
+  ip: 111.93.166.70
+  url: ''
+  date: '2013-08-06 18:48:28'
+  body: "hi Kean.............\n     I need your help on transformation between NAD27\
+    \ and NAD83 using NTV2.gsb in .net . Description I am developing an application,\n\
+    i have coordinate pair in NAD27 to converted in NAD83 through .net c# program.I\
+    \ have reference \n\n<ul>http://wikihelp.autodesk.com/AutoCAD_Map_3D/enu/2013/Help/0001-ObjectAR0/0029-Converti29/0030-Converti30</ul>\n\
+    \n how to convert in objectarx ,If you can help me please comment.."
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-08-06 23:13:04'
+  body: 'Hi Ashis,
+
+
+    Sorry - I have no idea about coordinate transformations. I suggest posting to
+    the Map 3D Developer discussion forum.
+
+
+    Regards,
+
+
+    Kean'
+- author: Ashis Meher
+  email: ashis136@gmail.com
+  ip: 111.93.166.70
+  url: ''
+  date: '2013-08-07 07:16:41'
+  body: "Hi Kean,\n  Thanks for your reply ,\n   OK I got that i can use objectarx\
+    \ function ,\nbut while calling ade_projptforward (objectarx function) I got an\
+    \ error of access violation at 0x0000 , Do you have any idea about this.if you\
+    \ need code snippet i will give you  ,I am waiting for your reply....."
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-08-07 10:50:02'
+  body: 'Hi Ashis,
+
+
+    OK, I should have been more clear. Not only do I not know about this topic (I
+    don''t work with Map 3D at all), but I don''t use this blog to provide support.
+
+
+    If you need support, please contact ADN or post to the relevant discussion group.
+
+
+    Thank you,
+
+
+    Kean
+
+    -----'

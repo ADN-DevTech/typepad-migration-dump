@@ -1,0 +1,170 @@
+comments:
+- author: Patrick EMIN
+  email: patrik.emin@gmail.com
+  ip: 84.100.166.97
+  url: http://www.exmateria.com
+  date: '2009-08-30 11:36:32'
+  body: 'Thanks for the "Offset in Xref" plugin. Simple question for a start: why
+    are there two identical readme.txt files in the ZIP and apparently two identical
+    .dll files? Thanks.'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-08-30 12:49:31'
+  body: 'Hi Patrick,
+
+
+    I''m glad you found it (even before it gets announced publicly on Tuesday :-).
+
+
+    The ReadMe is duplicated because I wanted it to be outside the source folder,
+    but also in the project (so it appears in the solution explorer window inside
+    Visual Studio). When you add a file to a project that''s outside the project folder,
+    Visual Studio copies it into the project folder. So it was a choice: only have
+    it in the project folder (bad), don''t have it in the project (a little less bad),
+    or have the file duplicated (the choice I went for).
+
+
+    You''ll hopefully find the DLLs only to be "apparently" identical: one is for
+    use in 32-bit and the other is for use in 64-bit AutoCAD versions. The source
+    used to build the DLLs is indeed identical, but you need to include different
+    reference assemblies (i.e. different versions of both AcMgd.dll & AcDbMgd.dll)
+    depending on whether you build for a 32- or 64-bit platform. So one (the one found
+    in the win32 folder) should only work on 32-bit AutoCAD, and the other (the one
+    in the x64 folder) should only work on 64-bit AutoCAD.
+
+
+    Regards,
+
+
+    Kean'
+- author: Johny
+  email: ''
+  ip: 122.167.176.91
+  url: http://profile.typepad.com/6p0120a54eae0f970b
+  date: '2009-09-06 14:37:29'
+  body: 'Hi
+
+    Is it possible to have a .Net application, similar to NCOPY lisp, that would copy
+    entities as well as it''s layers from xref to working drawing? any solution in
+    this regard would be infinitely appreciated.
+
+    Thanks,
+
+    Johny'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-09-07 08:09:28'
+  body: 'Hi Johny,
+
+
+    It''s absolutely possible, and the code in the XrefOffsetCopyLayers() function
+    is a good starting place (although it would also be worth experimenting with Wblock()
+    and Insert(), to see whether that streamlines the process if we''re also bringing
+    across entities).
+
+
+    I''ll add this to my list of things to look at, when I have time, but there are
+    no guarantees I''ll be able to reach it soon, I''m afraid.
+
+
+    Regards,
+
+
+    Kean'
+- author: Mike
+  email: msmith@richardsonfoster.ca
+  ip: 208.124.235.254
+  url: ''
+  date: '2010-03-24 20:45:48'
+  body: Thanks for the plug-in, but does it only work on line's or am I just getting
+    an error.  I can only copy lines, I cannot copy 2d or 3d polyline.
+- author: Kean Walmsley
+  email: ''
+  ip: 58.32.239.82
+  url: http://profile.typepad.com/kean
+  date: '2010-03-25 03:01:14'
+  body: 'This application works with "simple" entities, such as lines, arcs, circles,
+    and new-style polylines. Complex entities - such as old-style 2D polylines - may
+    need some additional work to support, as the lowest level entity that gets returned
+    by the selection process is likely to be a vertex. If you can make use of the
+    enhanced, lightweight polylines, then that''s more likely to work without modification.
+
+
+    Incidentally OFFSET only works with 2D polylines - not 3D polylines - so that''s
+    not going to be enabled by this application.
+
+
+    Kean'
+- author: W. Bleumink
+  email: w.bleumink@hegeman-bouw.nl
+  ip: 82.73.168.105
+  url: ''
+  date: '2011-02-17 16:36:28'
+  body: 'Hello Kean,
+
+
+    I really like your site about automating AutoCAD, so thank you for that!
+
+    But i am a enthausiast and not a professional. I am used to wrting my code in
+    vb.net. Mostly this is not a problem as there are code-converters available on
+    the web.
+
+    The code above however does not convert correctly. For example the ''sub initialize''
+    present''s a problem for me.
+
+
+    Would it be possible for you to post the VB.NET code for this topic?
+
+
+    Kind regards,
+
+
+    Wouter'
+- author: Kean Walmsley
+  email: ''
+  ip: 109.237.55.190
+  url: http://profile.typepad.com/kean
+  date: '2011-02-17 17:11:42'
+  body: 'Hello Wouter,
+
+
+    I expect it''s the delegates that have been used to implement event handlers...
+    you may need to move that code into separate functions and then use AddHandler()
+    in VB.NET to register the event handlers.
+
+
+    I''m afraid I''m busy preparing for a trip, so I won''t be able to do this myself.
+    You might try posting a link to this post to <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>, in case someone there can help.
+
+
+    Regards,
+
+
+    Kean'
+- author: scl
+  email: xperiax10mini.scl@gmail.com
+  ip: 202.81.30.16
+  url: ''
+  date: '2013-10-17 18:57:58'
+  body: Hi Is there a way to get the layer blocks inside the xref given that you know
+    the layer you wish to clone to the current database? Basically I want to copy
+    the blocks of a layer in an xref.
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-10-17 19:28:52'
+  body: 'Yes, you should be able to go through the block table of the host DWG and
+    establish the blocks that exist in the Xrefed DWG (checking which layers they''re
+    on). Although you may need to go to the Xref to get the IDs of the source records...
+    but anyway - it''s doable.
+
+
+    Kean
+
+    -----'

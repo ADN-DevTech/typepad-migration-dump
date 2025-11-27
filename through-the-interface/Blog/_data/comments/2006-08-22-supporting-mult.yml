@@ -1,0 +1,198 @@
+comments:
+- author: Rene
+  email: rene.gerlach@cideon.de
+  ip: 217.6.21.146
+  url: ''
+  date: '2006-08-22 16:47:14'
+  body: Why doesn't Autodesk provide such a define in its own headers??
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-08-22 17:09:59'
+  body: 'There are no headers for .NET, and therefore nothing that could be picked
+    up by the pre-processor.
+
+
+    You could probably use reflection to query the type information at runtime (or
+    the version of the product/assemblies used), but it gets messy. It would have
+    the advantage of not needing different apps for different versions, however.
+
+
+    As for ObjectARX, there is a wishlist in the system for a version indicator in
+    the headers that can be queried by the pre-processor.
+
+
+    Regards,
+
+
+    Kean'
+- author: Steve Hoek
+  email: shoek@ix.netcom.com
+  ip: 12.27.8.114
+  url: ''
+  date: '2006-08-24 17:35:09'
+  body: 'How would this code run in AutoCAD 2004 and 2005?
+
+
+    Our problem with adopting .NET for our ACAD apps is the need to support a few
+    versions back.  Users simply are not upgrading fast enough!'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-08-25 12:53:26'
+  body: 'The code would not work with AutoCAD 2004 and *might* work with AutoCAD 2005
+    (I haven''t tried it).
+
+
+    This is a classic problem: a new generation of development technology gets introduced
+    but you need to support legacy product versions for which it is not available.
+    The same happened for VBA and ObjectARX, too. One option would be to implement
+    new features only for newer versions using the new technology, gradually phasing
+    it into existing code. Otherwise you would unfortunately either have to use old
+    technology (a waste of time & energy) or wait for the new technology to be available
+    across all supported versions of the product.
+
+
+    Regards,
+
+
+    Kean'
+- author: Ben Senior
+  email: b.senior@ibv-lichtenstein.de
+  ip: 194.25.218.179
+  url: ''
+  date: '2007-06-11 15:37:43'
+  body: 'Hi Kean,
+
+    As a beginner with C# and AutoCAD, what are the essentials I need to start a project?
+    (dlls etc)
+
+
+    Have you anything in your archives that I could use as a "getting started" guide?
+
+
+    Thanks in advance
+
+
+    Ben'
+- author: Felipe
+  email: felipe@vendramini.eng.br
+  ip: 200.171.237.172
+  url: http://www.moliveira.com.br
+  date: '2009-05-22 14:57:09'
+  body: 'Kean,
+
+
+    Re-activating the theme, I didn''t understand how I will reference the "acmgd"
+    and "acdbmgd", for the both two (o "N") versions that I want my application to
+    be compatible?
+
+    If possible, will it make possible to run the same binary in diferent versions
+    of AutoCAD?
+
+
+    Thanks again,
+
+    Felipe
+
+    Sp/Brasil'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-05-25 15:36:35'
+  body: 'Felipe,
+
+
+    You should use assemblies that match the oldest AutoCAD version you want to support.
+    We do try to maintain forward compatibility, where possible, but you may find
+    some changes in behaviour as bugs get fixed (etc.).
+
+
+    I''ve just been building an AutoCAD 2010 application with the 2007 libraries,
+    for instance. I just can''t depend on newer API capabilities, of course.
+
+
+    Regards,
+
+
+    Kean'
+- author: GIS
+  email: rockdel15@gmail.com
+  ip: 61.16.156.214
+  url: ''
+  date: '2010-01-25 09:39:40'
+  body: "Hello This is my code but i am getting unknown error, when Autocad is open\
+    \ by C# run mode.\n   1. AutoCAD is open\n   2. Netload\n   3. when we have to\
+    \ select my dell. then shown \" unknown error\" \n\nusing System;\nusing System.Windows.Forms;\
+    \                   \nusing System.Collections.Generic;\nusing System.Text;\n\
+    using Autodesk.AutoCAD.Runtime;\nusing Autodesk.AutoCAD.ApplicationServices;\n\
+    using System.Diagnostics;\n\n\nnamespace ClassLibrary6\n{\n    public class Class1\n\
+    \    {\n        [Conditional(\"AC2007\"),CommandMethod(\"Test\")]\n        public\
+    \ void test()\n        {\n            MessageBox.Show(\"Autocad Welcome\");  \
+    \           \n        }\n\n    }\n}"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2010-01-25 10:14:34'
+  body: 'Hello GIS,
+
+
+    Have you set the conditional compilation symbol in the project''s properties?
+
+
+    Regards,
+
+
+    Kean'
+- author: swaywood
+  email: 54408802@qq.com
+  ip: 101.80.132.123
+  url: ''
+  date: '2014-03-08 18:22:17'
+  body: 'Hi Kean,
+
+    Is there any possibilities to separate the acdbmgd.dll,acmgd.dll,accoremgd.dll
+    files and write into one acad.dll by refecting all the class,method,properties
+    in the 3 COMS?
+
+    And then we only need to using ''acad.dll''
+
+    so the program will adopt for all the acad versions
+
+    haha
+
+    Regards
+
+    swaywood'
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.11.145
+  url: http://profile.typepad.com/kean
+  date: '2014-03-10 09:19:33'
+  body: 'Hi swaywood,
+
+
+    Anything is possible, but there is a good reason for them being separate. Some
+    applications only want to use acdbmgd.dll, some want to use acdbmgd.dll and accoremgd.dll
+    and some want to use all three.
+
+
+    Building applications against these compartmentalised allows host applications
+    for RealDWG and our AcCore implementation to load the first two categories of
+    application.
+
+
+    It may be slightly more cumbersome for people just developing for AutoCAD, but
+    architecturally speaking it makes much more sense.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

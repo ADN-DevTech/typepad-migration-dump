@@ -1,0 +1,55 @@
+comments:
+- author: Tony Tanzillo
+  email: tony.tanzillo@blackhole.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2007-03-01 11:47:22'
+  body: "One or two releases ago, acedUserBrk() was changed to not call AfxPumpMessage()\
+    \ on the main thread, because it caused many problems. \n\nSo the developers renamed\
+    \ acedUsrBrk() to acedUsrBrkWithMessagePump(), and implemented a new acedUsrBrk()\
+    \ that does not call AfxPumpMessge() to process pending input messages.\n\nI've\
+    \ found that for checking the input queue, and also getting AutoCAD to periodically\
+    \ update its window, the simplest and easiest way to do this from managed code,\
+    \ is to just P/Invoke acedUsrBrkWithMessagePump(), and be done with it.\n\n:)"
+- author: ismail cetin
+  email: ismailcetin@hotmail.com
+  ip: 195.142.196.2
+  url: ''
+  date: '2010-02-23 10:09:43'
+  body: thank you for the code.it was very helpful.
+- author: doug@barense.com
+  email: doug@barense.com
+  ip: 68.188.151.168
+  url: ''
+  date: '2010-05-25 06:05:19'
+  body: I truly appreciate the example above.  However I'm trying to apply a similar
+    use for the Tab key.  Can you give me any suggestions on how to check whether
+    the Tab key has been pressed?
+- author: doug@barense.com
+  email: doug@barense.com
+  ip: 68.188.151.168
+  url: ''
+  date: '2010-05-25 06:11:04'
+  body: never mind. :)
+- author: Steve
+  email: artisteroi@yahoo.com
+  ip: 96.254.178.213
+  url: ''
+  date: '2012-11-05 16:33:27'
+  body: "This code pauses the operation to check for a key operation. \n\nIs there\
+    \ any way to pause the operation and maybe do something else? Like open a browser\
+    \ window. (I'm trying to show a spec page during a block insertion)"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-11-05 17:28:43'
+  body: 'I suppose you could fire off another process to view a web-page. I''d warn
+    against locking up the AutoCAD-based code while waiting for something elsewhere
+    to happen (that''s likely to end badly), but a separate process should be safe
+    enough.
+
+
+    Kean
+
+    -----'

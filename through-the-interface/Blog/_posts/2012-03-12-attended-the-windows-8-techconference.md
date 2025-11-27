@@ -1,0 +1,21 @@
+---
+layout: "post"
+title: "Attended the Windows 8 TechConference"
+date: "2012-03-12 19:50:55"
+author: "Kean Walmsley"
+categories:
+  - "Training"
+  - "Visual Studio"
+  - "WinRT"
+original_url: "https://www.keanw.com/2012/03/attended-the-windows-8-techconference.html "
+typepad_basename: "attended-the-windows-8-techconference"
+typepad_status: "Publish"
+---
+
+<p>I’ve just arrived home from a long day (mainly because of the 4-hour round-trip rail travel) at <a href="http://www.microsoft.com/switzerland/msdn/de/windowsconference/default.aspx" target="_blank">the Windows TechConference in Baden, Switzerland</a>, focused on Windows 8. It was a pretty interesting day – thankfully, as I’m still a bit jetlagged from my trip to California, and I didn’t want to doze off in the lecture theatre. And yes, I’ve certainly dozed during a few lectures in my time, but not since leaving University.</p>
+<p>The main developer-oriented session I attended – which covered writing a WinRT application to pull down <a href="http://teletext.ch" target="_blank">Teletext</a> into a XAML + C# application, which was just my kind of demo – taught me a valuable lesson: do not sit up front during a demo focused on Metro UI development – which tends to involve lots and lots of horizontal scrolling – especially when the amphitheatre has cinema-style seating (it was held in a cinema) and you’ve been plied with lots of free food. I nearly had to leave when motion sickness made me feel distinctly nauseous. :-S :-)</p>
+<p>But there were some genuinely interesting takeaways from that session: Microsoft are doing a typically pragmatic job of marrying the new with the legacy. Windows 8 will provide an interesting environment for applications, with legacy “desktop” applications (whether using native and/or managed code) will happily co-exist with code running inside the WinRT sandbox. I’m itching to install and play with Windows 8 preview (now that that <a href="http://windows.microsoft.com/en-US/windows-8/consumer-preview" target="_blank">the Windows 8 consumer preview</a> is available, I expect it’s better to go with that), using the Visual Studio 2011 Beta to <a href="http://msdn.microsoft.com/en-us/windows/apps" target="_blank">build my first Metro-style app</a>.</p>
+<p>Another comment on the XAML + C# session: all the coding during that session was performed on a tablet device – albeit one with an external keyboard and mouse – which was pretty cool. A lot of comments were made around the slate’s array of external ports and extensibility options, which was a clear dig at the iPad’s lack of them.</p>
+<p>And it was interesting to see every tablet demoed during the day – at least that I saw – had Autodesk SketchBook Express installed (even if it wasn’t shown running), which was either an indication of how cool the app is (and it has been receiving <a href="http://abcnews.go.com/Technology/windows-apps-beautiful-apps/story?id=15818362#5" target="_blank">good</a> <a href="http://www.hotonline.net/2012/03/top-10-must-have-apps-for-windows-8-consumer-preview/" target="_blank">press</a>, it seems) or how little competition it has on the Windows 8 platform (it is early days, after all). All hot on the heels of <a href="http://live.cnet.com/Event/Apples_March_7_special_event_live_from_SF?Page=3" target="_blank">SketchBook Ink’s coverage during the iPad 3 launch last week</a>, which <a href="http://www.canadianbusiness.com/article/74805--how-toronto-s-chris-cheung-got-to-take-the-stage-at-apple-s-ipad-unveiling" target="_blank">came as a surprise to lots of us at Autodesk</a>, too.</p>
+<p>There was a fun session talking about the Metro design language, and how it was inspired by <a href="http://en.wikipedia.org/wiki/Bauhaus" target="_blank">bauhaus</a> (being reductionist and functionality-focused), <a href="http://en.wikipedia.org/wiki/Helvetica" target="_blank">Swiss typography</a> (clearly a crowd-pleaser, here) and <a href="http://en.wikipedia.org/wiki/Motion_graphic_design" target="_blank">motion design</a>.</p>
+<p>The other interesting developer-oriented session was a deep dive into WinRT, which showed some of what was going on under the hood in Windows 8. I have a better understanding of the Windows 8 architecture, at this stage, but still need to look into it more deeply (which I expect to share via this blog).</p>

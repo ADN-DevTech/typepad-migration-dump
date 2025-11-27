@@ -1,0 +1,222 @@
+comments:
+- author: Jason Fox
+  email: jfox@rdacivil.com
+  ip: 208.47.79.130
+  url: ''
+  date: '2008-01-31 14:09:52'
+  body: 'Mr. Walmsley,
+
+    I hope you don’t mind if I post this question for you. I''m the CAD Manager of
+    a Civil Engineering firm. We''re currently using Civil 3D 2008 and Land Desktop
+    Companion 2008 with service pack 2. An employee that used to work with us still
+    helps out when available. He is a programmer. He has written an application which
+    he installed on the 2002 products and upgraded to the 2006 products. He has come
+    across a problem trying to tweak this application and get it to work with our
+    2008 products. Programming is not my strong point. Is there anyway I could email
+    you the document where he describes in programming language his issues, and hopefully
+    you can lead us in the right direction? I''m not sure how to attach it here. Any
+    help is greatly appreciated.
+
+
+    Thanks
+
+    Jason'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-01-31 14:52:54'
+  body: 'Hi Jason,
+
+
+    Frankly, I doubt I''ll be able to help: I have little to no knowledge of either
+    LDT or Civil 3D development.
+
+
+    The best source of help is likely to be the <a href="http://discussion.autodesk.com/forum.jspa?forumID=190">Civil
+    3D Customization Discussion Group</a>, or the <a href="http://adn.autodesk.com">ADN
+    website</a> - where you can submit your questions if you happen to be an ADN member.
+
+
+    You can certainly email me the document, in case I happen to be able to help off
+    the top of my head, but unfortunately I don''t have the luxury of being able to
+    spend time working on this type of issue, myself.
+
+
+    Regards,
+
+
+    Kean'
+- author: Jason
+  email: jason.cyr@stantec.com
+  ip: 207.34.120.71
+  url: http://through-the-interface.typepad.com/through_the_interface/2007/05/its_all_in_the_.html
+  date: '2008-01-31 15:26:01'
+  body: 'Good morning Kean.
+
+
+    You can also use the REINIT command to reload the PGP file after you change it.  I
+    use this command quite a lot, which saves me from closing all my drawings and
+    restarting Autocad after I make some changes.
+
+
+    Have a good day.
+
+
+    Jason'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-01-31 15:42:06'
+  body: 'Very cool - thanks for the tip, Jason!
+
+
+    Kean'
+- author: Jason Fox
+  email: jfox@rdacivil.com
+  ip: 208.47.79.130
+  url: ''
+  date: '2008-01-31 16:19:19'
+  body: 'Mr. Walmsley,
+
+    Thanks for your quick response. I have posted on the dicussion group and am waiting
+    for responses. I totally understand you not having enough time to dig in to this
+    problrm. I still appreciate your feedback. Even though programming is not my strong
+    point, I think you have an interesting blog. Again, thanks. Take it easy.
+
+
+    Jason'
+- author: Clint
+  email: cnewton@spillmanfarmer.com
+  ip: 207.106.1.210
+  url: ''
+  date: '2008-02-07 16:14:17'
+  body: Starting in 2006?, the pgp file can be edited from Express/ Tools/ Command
+    Alias Editor. Not only does this allow edits on the fly, but when the ap closes
+    it updates your current session. Also changes made to your pgp in a text editor
+    do not migrate to new versions, saving time in getting started out of the box.
+    Personally I find it much easier to use. The Command Alias Editor also allows
+    you to scroll lists of available commands and abbreviatons/ aliases to add/ modify/
+    or remove.
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.6.124
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-02-07 17:25:27'
+  body: 'Interesting - thanks, Clint.
+
+
+    Kean'
+- author: engr. juhairy
+  email: ju_hvn@yahoo.com
+  ip: 203.111.229.6
+  url: ''
+  date: '2008-05-26 14:02:50'
+  body: hellllllllllo
+- author: Pawel
+  email: clooney.g.jr@gmail.com
+  ip: 80.254.147.156
+  url: ''
+  date: '2011-01-10 15:52:17'
+  body: 'hello,
+
+    I am recently having a trouble with adding alias to my custom command(command
+    works fine when added as a new button to tool palette)
+
+
+    so here''s my problem described further:
+
+    I''ve created new custom comman called "cu" using cui editor. I don''t know if
+    it matters but source of the command was set to "ACAD".
+
+
+    Name: CUcs
+
+    Desctiption: turns ucs & plan around z axis
+
+    Extended hlp file: (blank)
+
+    Command Disp. name: CUcs
+
+    Macro: ^C^CUCS Z \\PLAN C ^C
+
+    Tags: (blank)
+
+    Element ID: MMU_CU
+
+
+    After that I''ve added alias to acad.pgp
+
+    <b>CU,*CUcs</b>
+
+
+    I''ve done reninit but I still get error:
+
+    <i>cu Unknown command "CUCS".</i>
+
+
+    I''m using Autocad 2009 (''non LT'')
+
+    Any suggestions on the issue Guys?
+
+    Thanks in advance'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2011-01-10 16:32:15'
+  body: 'The CUI editor doesn''t actually define commands in the way you expect: such
+    named commands can be added to menus, toolbars and ribbons, but it doesn''t mean
+    the new name will be callable via the command-line.
+
+
+    The PGP would work fine with this:
+
+
+    CU, *UCS
+
+
+    But then you really want to specify a command string for the UCS command.
+
+
+    The simplest way to achieve this would probably be via a simple LISP command:
+
+
+    (defun CUCS()(command "_.UCS Z \\PLAN C"))
+
+
+    (Although the string you''ve provided above seems a bit strange - perhaps there
+    are characters missing because of the HTML comment editor.)
+
+
+    Kean'
+- author: WRonX
+  email: wronx@wronx.net
+  ip: 212.91.21.148
+  url: http://WRonX.net
+  date: '2011-10-07 14:08:00'
+  body: 'Why am I getting "unknown command", if I set CopyLocal of acad DLLs to false
+    (VC# Express 2010, ACAD 2012)? Strange thing - it only happens when I include
+    initialization (public class MyInit : IExtensionApplication) in the code. If not
+    - the command is executed properly. But I really need Initialize()...
+
+    More strange things - as I can remember, it started when I changed ACAD from 2011
+    to 2012.'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/kean
+  date: '2011-10-17 10:56:13'
+  body: 'It''s likely to be due to the use of .NET 4 in AutoCAD 2012, at a guess.
+
+
+    I suggest posting a more complete description of your problem (including whether
+    this is when run from a debugger, using demand-loading or NETLOAD, etc.) to <a
+    href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the AutoCAD
+    .NET discussion group</a>.
+
+
+    Kean
+
+    -----'

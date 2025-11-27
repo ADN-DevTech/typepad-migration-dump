@@ -1,0 +1,750 @@
+comments:
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 200.150.26.30
+  url: http://arxdummies.blogpsot.com
+  date: '2008-08-01 14:02:50'
+  body: 'Kean, good job.
+
+
+    Is it possible to add a XData filter?
+
+
+    Something like filter to select only those AcDbCircle entities who have a specific
+    XData information.
+
+
+    Further, for the fix routine, is it possible to add some basic user interaction
+    like a dialog for the user enter fixing parameters?
+
+
+    Regards,
+
+    Fernando.'
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 200.150.26.30
+  url: http://arxdummies.blospot.com
+  date: '2008-08-01 14:56:21'
+  body: 'Kean, two more questions:
+
+
+    - Will this work with AutoCAD 2008?
+
+    - Standards check can support custom entities?
+
+
+    Thank you.'
+- author: GlennR
+  email: toxo@telstra.com
+  ip: 217.36.87.201
+  url: ''
+  date: '2008-08-01 15:06:49'
+  body: 'Hey Kean,
+
+
+    Thanks very much for taking the request and turning it into a post. I did manage,
+    with a bit of head scratching, to translate the old VB.NET sample and the ARX
+    SDK sample, to a C# plugin.
+
+
+    I''ve posted this at theswamp here:
+
+
+    http://www.theswamp.org/index.php?topic=24074.msg292959#msg292959
+
+
+    One thing I noticed during this exercise and unless I''m fundamentally missing
+    some key point somewhere in the process, is that for a check to be made and a
+    fix offered up, there must exist an ''object in error'' in the drawing you''re
+    trying to check.
+
+
+    As an example, a company might say to a 3rd party subby, ''thou shalt use our
+    titleblock and it must be xrefed into paperspace''...something along those lines.
+    So, you have a company DWS with a titleblock xrefed into paperspace and all that,
+    then you proceed to check a drawing.
+
+
+    You get back alist of Xrefs (as that was your filter) but none of them are the
+    company titleblock. They might all be in paperspace and pass eveything else, but
+    they are not THE titleblock....does that make sense? You don''t have an ''error
+    object'' as the titleblock doesn''t exist, but the drawing from the subby is clearly
+    in violation.
+
+
+    Do you have any thoughts?
+
+
+    Cheers,
+
+    Glenn.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-01 15:57:58'
+  body: 'Fernando -
+
+
+    On XData... I believe filtering is done only on object type, but you could certainly
+    choose only to check (and report errors for) objects with appropriate XData attached.
+
+
+    On UI... I don''t see a way to customize the fix as it''s being offered to the
+    user... but you could have configuration settings that your fix routine accesses
+    to help it make decisions.
+
+
+    On version... yes - it should work with all releases back to 2004, although the
+    alert dialog changed with 2009.
+
+
+    On custom objects... yes, although I expect they would need to be accessible through
+    COM (although it may be that a .NET interface works as well - the current sample
+    doesn''t make use of AutoCAD''s .NET API at all, so I haven''t tried it).
+
+
+    Glenn -
+
+
+    I''ve been thinking about it, and I don''t see a way to do this with the current
+    standards-checking mechanism. I can see how it would be beneficial, though: I
+    suggest submitting a wishlist request via ADN.
+
+
+    Kean'
+- author: GlennR
+  email: toxo@telstra.com
+  ip: 217.36.87.201
+  url: ''
+  date: '2008-08-01 16:24:41'
+  body: 'Kean,
+
+
+    I suspected this would be the case. Thanks for the suggestion about the wishlist
+    - I will see if I can do so.
+
+
+    Cheers,
+
+    Glenn.'
+- author: Yogesh
+  email: Yogeshsheel.mishra.4u@gmail.com
+  ip: 202.140.42.66
+  url: ''
+  date: '2008-08-05 12:37:29'
+  body: 'Hi kean
+
+
+    I have a question.
+
+    How can I remove a vertex from polyline2d.
+
+
+    Thanks & regards
+
+    Yogesh sheel mishra'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-05 13:29:08'
+  body: 'Yogesh,
+
+
+    In future please post your general questions to <a href="http://adn.autodesk.com">the
+    ADN site</a>, if you''re a member, or to the <a href="http://discussion.autodesk.com/forum.jspa?forumID=152">AutoCAD
+    .NET Discussion Group</a>.
+
+
+    If you''re using heavyweight Polyline2d objects, you should be able to open the
+    individual vertex (iterating through their ObjectIds using foreach()), and then
+    Erase() the one you wish to remove. At least that''s what I recall.
+
+
+    But again - your next question should go elsewhere if not specifically related
+    to a post.
+
+
+    Kean'
+- author: Yogesh
+  email: Yogeshsheel.mishra.4u@gmail.com
+  ip: 202.140.42.66
+  url: ''
+  date: '2008-08-06 06:30:32'
+  body: I am very Sorry for this and thanks for this great help.
+- author: Dennis M. Knippel
+  email: ''
+  ip: 74.61.0.71
+  url: http://profile.typepad.com/6p01127941785428a4
+  date: '2009-03-08 23:58:35'
+  body: 'Kean,
+
+
+    At the beginning of this article, you state:  "The CAD Standards API is a COM
+    API".  Do you know if the AutoCAD/MAP 2009 ObjectARX SDK exposes a managed wrapper
+    for the CAD Standards API?  I''m guessing no, because I probably would have found
+    a similiarly named DLL in the SDK directories?
+
+
+    Also, do you know if AutoCAD MAP 2009 loads the CAD Standards Manager module (or
+    would application be a more appropriate term?) by default or will I need to load
+    it before calling the CHECKSTANDARDS command?
+
+
+    Lastly, would I be correct to assume that within the context of the CAD Standards
+    Manager Framework, the only way to "check standards" is to call the "CHECKSTANDARDS"
+    command?  In other words, is there some CAD Standards Manager API method that
+    will allow me to invoke the checking of standards?  (you mentioned in another
+    article that using the command line was not ideal; rather using the API is usually
+    more appropriate except for a few cases in which the API doesn''t expose a method
+    corresponding to the command approach --> is this one of those cases?).
+
+
+    The CAD Standards Manager seems to be a rare bird, at least when it comes to finding
+    detailed documentation.  I hope my questions are not to newbie-ish.
+
+
+    Thank you,
+
+    Dennis'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-03-09 10:09:17'
+  body: 'Dennis,
+
+
+    To the best of my knowledge there is no managed wrapper exposed for the CAD Standards
+    engine: as COM is very easily callable from .NET languages, this isn''t considered
+    a high priority.
+
+
+    Looking at the Registry on my system, I can see the "AcadStandards" module is
+    set up to demand-load the first time either of the STANDARDS or CHECKSTANDARDS
+    commands are called. You could modify the Registry to have it loaded on start-up,
+    if you so chose (for more information on demand-loading, <a href="http://through-the-interface.typepad.com/through_the_interface/2006/09/automatic_loadi.html">this
+    post</a> is likely to be of help), but I don''t think it''s needed.
+
+
+    By the way, I don''t have Map 3D installed, but I have no reason to suspect it
+    to be any different to vanilla AutoCAD, in this regard.
+
+
+    Regards,
+
+
+    Kean'
+- author: Dennis M. Knippel
+  email: ''
+  ip: 74.61.0.71
+  url: http://profile.typepad.com/6p01127941785428a4
+  date: '2009-03-09 18:00:25'
+  body: 'Kean,
+
+
+    Thank you so much for your reply!  You blog is very useful and your biography
+    is impressive and inspiring.  I value your opinion.
+
+
+    So, was my intuition correct that the only way to programatically "check standards"
+    (within the contexts of the AutoCAD CAD Standards Manager) is to invoke the CHECKSTANDARDS
+    command via the editor command line?
+
+
+    Also, is it possible to programatically configure the CAD Standards Manager or
+    is this only possible via the UI?
+
+
+    The drive behind these and the previous questions is that I have a client asking
+    me to develop an automated QA tool to enforce some business rules per DWG.  I''ve
+    presented the option of making use of the existing CAD Standards framework within
+    AutoCAD.  However, it''s not clear yet how customizable this framework is.  For
+    example, is there a way to programatically suppress the UI dialog box yet capture
+    the output of the CHECKSTANDARDS run?
+
+
+    Thank you,
+
+    Dennis'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-03-09 18:32:15'
+  body: 'Dennis,
+
+
+    From what I remember (and it''s been a while since I spent much time looking at
+    this), you have a few modes of working:
+
+
+    1. Interactively via the CHECKSTANDARDS UI.
+
+    2. Automatically as standards violations are detected (automatic fixing also being
+    an option).
+
+    3. Via the Batch Standards Checker (a standalone application not dependent on
+    AutoCAD).
+
+
+    I suggest investigating these three options, to see which (if any) might allow
+    you to meet your client''s requirements.
+
+
+    Regards,
+
+
+    Kean'
+- author: Dennis M. Knippel
+  email: ''
+  ip: 74.61.0.71
+  url: http://profile.typepad.com/6p01127941785428a4
+  date: '2009-03-12 23:58:44'
+  body: 'Kean,
+
+
+    Under the "Contents" tab of the ObjectARX for AutoCAD 2009 help files, there appears
+    to be two child nodes under the "ObjectARX Reference" parent node.  The child
+    nodes in question are:
+
+
+    eTransmitInterfaces
+
+    CAD Standards Interfaces
+
+
+    However, the subcategories under each respective child node appear to be "swapped".  In
+    other words, under eTransmitInterfaces the reader finds subcategories such as
+    IAcStManager2 Interface while under CAD Standards Interfaces the reader finds
+    subcategories such as ITransmittalFile Interface.
+
+
+    I''m hoping this is just a bug of the ObjectARX help files in which the children''s
+    subcategories are "swapped".  If not, then I have a significant misunderstanding
+    of the CAD Standards Framework.
+
+
+    Could you please advise....
+
+
+    Thank you,
+
+    Dennis'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-03-13 08:14:14'
+  body: 'Dennis,
+
+
+    I see what you mean - this is indeed a documentation bug.
+
+
+    I''ve just checked the ObjectARX Reference on the 2010 SDK and it''s been fixed
+    there.
+
+
+    Regards,
+
+
+    Kean'
+- author: Dennis M. Knippel
+  email: ''
+  ip: 65.102.133.221
+  url: http://profile.typepad.com/6p01127941785428a4
+  date: '2009-03-14 00:28:52'
+  body: "Kean,\n\nI'm having trouble instantiating the AcStManager object.  When I\
+    \ get to the following line of code in my C# class method:\n\n<b>AcStMgr.AcStManager\
+    \ stdManager = new AcStManagerClass();</b>\n\nI receive the following error:\n\
+    \nSystem.Runtime.InteropServices.COMException was unhandled\n  Message=\"Retrieving\
+    \ the COM class factory for component with CLSID {A40F6A0A-CD3E-4439-9425-45A7623EF6B7}\
+    \ failed due to the following error: 800401f9.\"\n\nI'm pretty sure I've created\
+    \ the AcStMgr.dll correctly per your aforementioned instructions within this blog\
+    \ post.  For example:  \"tlbimp acstmgr.tlb\".  After this, I'm able to add a\
+    \ reference to the new AcStMgr.dll and compile.\n\nAm I doing something fundamentally\
+    \ wrong with regard to instantiating a COM object from C#? (From what I've read,\
+    \ one of the benefits of using the tlbimp tool to create a *.dll is to hide the\
+    \ complexities of using COM objects from within .NET code, yes?)\n\n<b>OR</b>\n\
+    \nAm I not allowed to use the AcStMgr.AcStManager directly (read:  Autodesk doesn't\
+    \ want me messing with this class)?\n\nIf I can't make use of this class directly,\
+    \ then I seem to be left with two options:\n\nInvoke the STANDARDS or CHECKSTANDARDS\
+    \ commands of the \"AcStd.arx\" extension.  \n\nHowever, this then requires UI\
+    \ input, whereas my client would like the respective configuration and execution\
+    \ of these two commands to be done programatically.\n\nSo, can I make use of the\
+    \ AcStMgr.AcStManager class programatically or is this just not part of the public\
+    \ API at this time?\n\nAgain, thank you for your help.  The CAD Standards Framework\
+    \ is proving to be a rare bird indeed and finding anyone that knows its inner\
+    \ workings is a challenge.\n\nDennis"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-03-14 10:15:29'
+  body: 'The AcStManager class is not designed to  meant to instantiated and used
+    directly: it gets passed in to your plugin''s Initialize function, from where
+    it can be stored and used at the appropriate times.
+
+
+    I''ve outlined the options I see for you using the Standards framework in a previous
+    comment. Have you investigated options 2 and 3, as yet? This one is, unfortunately,
+    a dead-end, in my opinion.
+
+
+    Kean'
+- author: Dennis M. Knippel
+  email: ''
+  ip: 74.61.0.71
+  url: http://profile.typepad.com/6p01127941785428a4
+  date: '2009-03-15 22:50:36'
+  body: 'Kean,
+
+
+    I''m really sorry to nag again with these questions, but I''m rackin'' me brain
+    trying to finalize a solution to my client''s needs --> and you''re the only one
+    who seems to have detailed knowledge about the CAD Standards framework, much less
+    even know that AutoCAD has this feature. ;-)
+
+
+    Per your last suggestion:
+
+
+    Options 3 (Batch Standards Checker) is not promising since the *.exe is not programable
+    (that I know of), and the *.chx configuration file the Batch Standards Checker
+    creates/manages is not supportable.
+
+
+    Option 2 might possibly work but unfortunately, it makes two key assumptions:
+
+
+    <b>1. --></b> The CAD Standards framework has already been configured (e.g.:  somehow
+    somebody has already told AutoCAD which Plug-Ins to use and what to do when a
+    violation occurs such as ''Attempt to fix'', ignore, etc.).  This hurdle could
+    be overcome if I could programatically configure these application settings.  Where
+    are these settings stored?  I''m guessing the registry --> manipulating these
+    will be a hard sell to my client.  Are they set in a User profile somewhere, perhaps?
+
+
+    <b>2.  --></b> The DWG has already been configured (e.g.:  somehow, somebody has
+    already told the DWG to use a particular DWS(s)).  This hurdle could be overcome
+    if I could programatically configure these database settings.  Where are these
+    settings stored?  I''m guessing a symbol table record somewhere?  --> manipulating
+    these would be feasible.  Could you or your CAD Standards buddies that you worked
+    with in San Francisco provide any clues?
+
+
+    The AutoCAD and ObjectARX SDK help files claim the CAD Standards framework is
+    ideal for a CAD Manager role in a collaborative design environment, but I''m questioning
+    that claim since it seems to require explicit framework settings to initially
+    be configured interactively on each engineer''s workstation.  Don''t get me wrong,
+    I think the CAD Standards framework is a great idea and the Plug-In feature is
+    the right tool to provide developers.  However, the semantics of implementing
+    the framework are limiting to say the least.
+
+
+    In your last post, you used the term "dead-end".  Would it be safe to say at this
+    point that I''ve discovered the unpleasant limitations of the CAD Standards framework?  AND...
+    In light of my client requirements, would I be better off developing my own version
+    of the CAD Standards basic functionality of looping through a filtered set of
+    DWG objects, comparing them to DWS objects, providing a "fix" mechanism, output
+    metrics, etc.?  This approach would at least give me the ability to programatically
+    configure all aspects of a QA solution... but I really don''t want to reinvent
+    the wheel.
+
+
+    Again, your advice is greatly appreciated.
+
+
+    Thank you,
+
+    Dennis'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-03-16 13:54:06'
+  body: '1. I don''t know - I suggest using <a href="http://technet.microsoft.com/en-us/sysinternals/bb896645.aspx">the
+    Process Monitor</a> from Microsoft Sysinternals to see if the info is persisted
+    anywhere you can access.
+
+
+    2. I just had a quick look using the ARXDBG tool on the ObjectARX SDK: the STANDARDS
+    command creates a new dictionary off the Named Objects Dictionary and places an
+    XRecord referring to the attached .DWS in it. It''s not clear this is something
+    you''ll be able to duplicate programmatically, but I thought I''d mention it.
+
+
+    I''m no expert in configuring or deploying CAD Standards, so please don''t assume
+    my advice is definitive in any way.
+
+
+    As to whether you should roll your own... it depends on how flexible/extensible
+    you need to make it. A lot of companies have their own standards implementations
+    as their requirements are very specific.
+
+
+    Regards,
+
+
+    Kean'
+- author: Dennis M. Knippel
+  email: ''
+  ip: 75.92.206.83
+  url: http://profile.typepad.com/6p01127941785428a4
+  date: '2009-03-16 14:26:55'
+  body: 'Kean,
+
+
+    Again with the great information!  Your blog is one of the 3% of blogs that actually
+    add value.
+
+
+    <b>Thank you</b>,
+
+    Dennis'
+- author: Dennis M. Knippel
+  email: ''
+  ip: 74.61.0.71
+  url: http://profile.typepad.com/6p01127941785428a4
+  date: '2009-04-07 20:00:10'
+  body: 'Kean,
+
+
+    I just wanted to post a quick follow up to a question/statement I made earlier
+    in hopes that it may shed some light to others attempting the same level of insanity
+    as I have been...
+
+
+    The statement I made was that perhaps the CAD Standards framework was not well
+    suited for a CAD Manager role in a collaborative design environment.  I felt this
+    way mainly because of two hurdles I ran up against.  The first of these was the
+    inability to programmatically specify which CAD Standards Plug-Ins to use.  The
+    second was the inability to programmatically specify which CAD Standards *.DWS
+    file to use.  Unfortunately, the ObjectARX SDK does not expose any API''s for
+    explicitly setting these.  Now, as far as the first point (Plug-In specification),
+    I did find out where in the registry this is found and yes, I could just manipulate
+    this registry entry.  And, as you had suggested for the second point (*.DWS specification)
+    I could insert an XRecord into the Named Objects Dictionary.  However, here are
+    two more robust ways to achieve points one and two above...
+
+
+    Point 1 (Plug-In specification) --> This can be automated by loading a CUI profile
+    that explicitly identifies which Plug-In to use.  Furthermore, this can be managed
+    at the enterprise level via AutoCAD Enterprise CUI feature.
+
+
+    Point 2 (*.DWS specification) --> This can be automated by the use of a template
+    that already has the *.DWS(s) identified.  Again, like in point 1, this can be
+    managed at the enterprise level.
+
+
+    OK, that''s all.  Hope this helps someone out there.
+
+
+    Good Karma:  +1
+
+    Evil Twin Persona:  0
+
+
+    <b>Prost!</b>
+
+    Dennis'
+- author: Dennis M. Knippel
+  email: ''
+  ip: 74.61.0.71
+  url: http://profile.typepad.com/6p01127941785428a4
+  date: '2009-06-22 02:27:13'
+  body: 'Kean,
+
+
+    Long time no chat --> hope all is going great!
+
+
+    We are the night before a client demo and I have a bizarre bug that has come up
+    in my CAD Standards PlugIn.
+
+
+    When trying to assign an object ID to the AcStError.BadObjectId property I receive
+    the following error:
+
+
+    <b>Error HRESULT E_FAIL has been returned from a call to a COM component.</b>
+
+
+    It is very bizarre and this assignment has worked in the past.  And I think I''ve
+    tried just about every cast I can to assign a value to AcStError.BadObjectId (which
+    appears to be an Int or Int32 under the covers).
+
+
+    Any ideas?
+
+
+    Thanks in advance,
+
+    Dennis'
+- author: Dennis M. Knippel
+  email: ''
+  ip: 74.61.0.71
+  url: http://profile.typepad.com/6p01127941785428a4
+  date: '2009-06-22 02:42:59'
+  body: 'Kean,
+
+
+    OK, Let''s just forget that last post --> I was using a cached DWS object that
+    (as you identified in your sample code) is invalid outstide of the ''SetupForAudit''
+    member.  And I definitely was not within the ''SetupForAudit'' member.
+
+
+    Thanks again,
+
+    Dennis'
+- author: R. Le Moine
+  email: robert.lemoine@buildingi.com
+  ip: 173.10.77.113
+  url: http://www.buildingi.com
+  date: '2009-08-04 19:37:03'
+  body: 'Kean,
+
+
+    Great article!  I was looking for an example, and the only thing I still don''t
+    quite understand is what needs to be added in order to work with the Batch Checker.  Which
+    method is responsible for writing a node to the chk file?
+
+
+    Thanks,
+
+    -Robert'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-08-05 15:31:42'
+  body: 'Robert,
+
+
+    I now don''t whether recall whether I tried this with the Batch Checker, but I
+    don''t believe anything else is needed. Presumably the .chk file gets populated
+    by the existing methods, somehow.
+
+
+    Have you given it a try, already?
+
+
+    Regards,
+
+
+    Kean'
+- author: R. Le Moine
+  email: robert.lemoine@buildingi.com
+  ip: 131.107.0.82
+  url: http://www.buildingi.com
+  date: '2009-08-05 19:14:28'
+  body: 'Kean,
+
+
+    The batch checker hangs using your example.  The ObjectARX documentation states
+    that the UpdateStatus and WritePluginInfo are the methods which provide data to
+    the Batch Checker.  However, I cannot find information on how the UpdateStatus
+    could or would write to the XML node of the chk file.  My guess is the IAcStError
+    that is passed into UpdateStatus may need to call it''s WriteData method?
+
+
+    -Robert'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-08-05 20:04:58'
+  body: 'Robert,
+
+
+    You''re probably right... this is something that will take some time for me to
+    look into (and I probably won''t have any better information on you to work it
+    out, all told).
+
+
+    If you happen to figure it out before I do, please do post a comment.
+
+
+    Regards,
+
+    Kean'
+- author: Tim Gross
+  email: tgross@burns-group.com
+  ip: 38.104.110.34
+  url: ''
+  date: '2009-12-23 16:50:00'
+  body: "Kean,\n\nI know this is an older post, but for the benefit of anyone else\
+    \ who comes along this, you've got an accidentally misleading comment on line\
+    \ 384-385 of the source code.  In the method GetAllFixes(), you've got:\n\n//\
+    \ If color property of fix matches error, then add to list of fixes.\nif (vErrorVal.CompareTo(\n\
+    \     m_cirCacheArray[i].color\n     ) != 0)\n\nWhile refactoring this for my\
+    \ own use (making a plugin base class to be inherited by more object-type specific\
+    \ plugins), I saw the comment and assumed I'd accidentally flipped the comparison.\
+    \ Because I still had your comment in there, it took quite a while to chase that\
+    \ one down!"
+- author: Thomas Wegener
+  email: dorn-wegener@versanet.de
+  ip: 89.246.184.218
+  url: ''
+  date: '2010-07-13 17:04:51'
+  body: "Kean, \n\ngreat article (as always)!\n\nJust to provide the community with\
+    \ changes made by me to run it for 2011 64bit:\n- \"Any CPU\" doesn't work. Built\
+    \ it on a x64 platform\n- Removed the (int) cast in the ObjectIdToObject() calls\n\
+    - To get circle changes checked, I changed SetContext() to\npublic void SetContext(object\
+    \ objIdArray, bool useDb)\n{\n  if (objIdArray == null || objIdArray as long[]\
+    \ == null) {\n    m_contexts.SetContext(useDb, objIdArray);\n  }\n  else {\n \
+    \   m_contexts.Clear();\n    foreach (long id in (long[])objIdArray) {\n     \
+    \ if (m_checkDb.ObjectIdToObject(id) as AcadCircle != null)\n        m_contexts.Add(id,\
+    \ true);\n    }\n  }\n}\n\nBest Regards\nThomas"
+- author: Kean Walmsley
+  email: ''
+  ip: 99.31.232.76
+  url: http://profile.typepad.com/kean
+  date: '2010-07-13 17:06:38'
+  body: 'Thomas,
+
+
+    Thank you - much appreciated, on all fronts! :-)
+
+
+    Regards,
+
+
+    Kean'
+- author: Donskov Sergey
+  email: donskov.sergey@tmn.rusgazen.ru
+  ip: 86.109.193.242
+  url: ''
+  date: '2011-12-28 07:09:01'
+  body: "Kean,\nI have some problem with your plugin example, when i run it in \"\
+    Batch Standards Checker\". It works good in AutoCAD, but in batch checker something\
+    \ wrong. When i start check, checker said something like this(i translate it):\n\
+    \"Start check\nCheck drawing 1 of 1, circles.dwg... Found 13 errors\" \nand thats\
+    \ all. But with other plugins checker said \"Check is complete\" and open a report.\n\
+    In debug mode method \"WritePluginInfo\" was not called, the last method was \"\
+    Clear\".\nIn your project i have just add a reference on AcStMgr. AutoCAD version\
+    \ is 17.2"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2012-01-03 09:32:04'
+  body: 'I''m afraid I don''t know what''s wrong, here: I don''t believe I originally
+    tested the plugin thoroughly with the Batch Standards Checker, just with the CHECKSTANDARDS
+    AutoCAD command. And as this post is now a few years old, it would now be hard
+    for me to analyse.
+
+
+    I suggest posting your question via ADN or to the AutoCAD .NET Discussion Group.
+
+
+    Best regards,
+
+
+    Kean
+
+    -----'

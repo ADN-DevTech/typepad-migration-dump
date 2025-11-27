@@ -1,0 +1,175 @@
+comments:
+- author: Spring
+  email: Springgump@hotmail.com
+  ip: 116.77.50.34
+  url: ''
+  date: '2007-11-02 21:25:11'
+  body: What is the advantage compare with C#? Is it necessary to learn this new language?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.16.59
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-11-02 23:11:56'
+  body: 'There''s certainly no need to learn it: it''s another tool that may be of
+    use to developers working in certain domains. The Wikipedia link in the article
+    should be of some use in understanding the basic concepts of functional programming
+    languages, otherwise <a href="http://geekswithblogs.net/akraus1/articles/79880.aspx">this
+    page</a> has a quite good explanation/comparison.
+
+
+    Kean'
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 201.17.209.182
+  url: http://arxdummies.blogspot.com
+  date: '2007-11-04 21:20:39'
+  body: 'Kean,
+
+
+    Will the F# open an opportunity to Autodesk replaces the AutoLISP language?
+
+    F# is a functional programming as AutoLISP so it would be easier to create a cross-language
+    conversion tool to migrate AutoLISP code to F#?
+
+    Maybe Autodesk is planning to create its own .NET based AutoLISP...say A# ? :)
+
+
+    Please keep posting information about F# x AutoCAD.
+
+
+    Regards,'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.16.59
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-11-04 23:09:14'
+  body: 'There are no plans to replace AutoLISP with F# (and I don''t see us having
+    any in my lifetime): the F# language is likely to be of use to developers integrating
+    math-intensive/simulation technologies with AutoCAD (and other, yet-to-be-determined-by-me-at-least
+    uses), but it is not an easy leap, even from LISP.
+
+
+    I''d like to gather information on what we might do inside AutoCAD to make F#
+    a more natural environment for development, but only to provide tighter integration
+    of an additional language option.
+
+
+    Kean'
+- author: Ram Raja Hamal
+  email: hamalrahraja@yahoo.com
+  ip: 202.70.64.15
+  url: ''
+  date: '2007-11-06 07:41:09'
+  body: NA
+- author: CadKicks.com
+  email: joseguia@cadkicks.com
+  ip: 72.48.196.2
+  url: http://www.cadkicks.com
+  date: '2007-11-10 15:46:09'
+  body: 'You''ve been kicked (a good thing) - Trackback from CadKicks.com
+
+    http://www.cadkicks.com/adkautocad/My_first_F_application_for_AutoCAD'
+- author: Thomas
+  email: thomas.holm@pivota.fi
+  ip: 62.72.236.251
+  url: ''
+  date: '2007-11-16 06:56:35'
+  body: With Lisp one could use a function from a text string in a database (for example
+    "(setq QTY (* 2.5 WIDTH))" to calculate part specific quantities for BOM:s. I
+    haven't found a way to do this in vb(.net), perhaps F# could do the trick?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-11-16 09:11:29'
+  body: 'Hi Thomas,
+
+
+    Yes - one of the features of LISP is the (eval) function.
+
+
+    It doesn''t appeat to be native functionality in either C# or VB.NET, but it does
+    appear to be possible to implement:
+
+
+    <a href="http://www.codeproject.com/csharp/evalcscode.asp">http://www.codeproject.com/csharp/evalcscode.asp</a>
+
+    <a href="http://www.codeproject.com/vb/net/expression_evaluator.asp">http://www.codeproject.com/vb/net/expression_evaluator.asp</a>
+
+
+    It remains to be seen whether either technique can be used to call through AutoCAD''s
+    managed API (the first one seems likely, I haven''t really looked into the implementation
+    of the second).
+
+
+    The equivalent in F# appears to be the <a href="http://cs.hubfs.net/blogs/tomasp/archive/2006/07/07/413.aspx">quotations</a>
+    mechanism.
+
+
+    Regards,
+
+
+    Kean'
+- author: ALBERTO BENITEZ
+  email: ABENITEZ@NORTHATLANTICCORP.COM
+  ip: 63.144.141.2
+  url: ''
+  date: '2007-11-28 19:13:47'
+  body: DO YOU HAVE ANY DevTV Introduction to REALDWG Programming ?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 65.160.18.28
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-11-28 20:03:36'
+  body: 'It''s in the works and should be available sometime next year.
+
+
+    Kean'
+- author: namin
+  email: autocad@namin.net
+  ip: 18.251.3.76
+  url: ''
+  date: '2008-03-15 06:31:46'
+  body: 'Are there any extra dependencies on the F#-compiled dll as compared to a
+    C#-compiled one?
+
+
+    I can run this example fine on my machine, but my colleague cannot get the TEST
+    command after he NETLOADs the dll.
+
+
+    Would you have any guess why?
+
+
+    It''s always tricky to debug things that work on one machine and not the other,
+    when there''s no obvious difference in the setup. He doesn''t have F# installed,
+    but I''m assuming that''s not necessary?
+
+
+    Any ideas would be greatly appreciated.
+
+    Thanks.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 66.159.223.136
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-03-15 15:41:50'
+  body: 'While F# code does compile down to IL, it does depend on certain new namespaces
+    implemented in assemblies that are installed by with the F# implementation. So
+    you will (for now) need to install F# on machines running the code, until it becomes
+    a more fully integrated part of Visual Studio and probably the .NET Framework.
+
+
+    Regards,
+
+
+    Kean'
+- author: namin
+  email: autocad@namin.net
+  ip: 18.251.3.76
+  url: http://namin.net
+  date: '2008-04-11 08:08:04'
+  body: Just for completeness, I should mention that it's possible to remove the dependency
+    of an F# application to the F# assemblies by compiling with the --standalone flag.
+    This has the disadvantage of adding about 1Mb to the application as it statistically
+    links the F# library.

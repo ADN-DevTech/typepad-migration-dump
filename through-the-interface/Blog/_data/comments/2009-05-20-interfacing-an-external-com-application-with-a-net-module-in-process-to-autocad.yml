@@ -1,0 +1,555 @@
+comments:
+- author: Mike Robertson
+  email: michael.robertson@dot.state.fl.us
+  ip: 156.75.192.113
+  url: ''
+  date: '2009-05-20 19:14:12'
+  body: 'Keen,
+
+    I''m getting the following error when I try to use RegAsm:
+
+    RegAsm : error RA0000 : Could not load file or assembly '' acmgd, Version=18.0.0.,
+    Culture=neutral, PublicKeyToken=null'' or one of its dependencies. The system
+    cannot find the file specified.
+
+
+    3 differnent programmers have tried your code above and all get the same error.
+    Any ideas?
+
+
+    Thanks,
+
+    Mike'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-05-20 20:34:55'
+  body: 'Mike,
+
+
+    Does the problem occur if the LodableComponent.dll (or whatever you''ve called
+    yours) is in the same folder as acad.exe? I should have mentioned this is worth
+    doing - it drastically decreases the chances of hitting obscure .NET assembly
+    loading issues.
+
+
+    Regards,
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2009-05-20 22:09:00'
+  body: '"It not only worked, but the commands contained within the module were registered
+    properly. A nice surprise! :-)"
+
+
+    You might want to consider making your command method static. If it''s not static,
+    AutoCAD creates a seperate instance of the class declaring it for each open document.'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2009-05-20 22:17:41'
+  body: "\"Once we’ve built the assembly it needs to be registered via COM. The way\
+    \ I tend to do this is via a “Visual Studio Command Prompt” (which has the path\
+    \ set nicely to call the VS development tools)....\"\n\nHi Kean.\n\nI think the\
+    \ issues your readers may be having has to do with the fact that you may be using\
+    \ the specially-modified versions of the AutoCAD managed assemblies that ship\
+    \ with the SDK. \n\nThose assemblies have been specially modified to eliminate\
+    \ any dependence on AutoCAD's native dlls (e.g., acdb18.dll), which is what allows\
+    \ them to be loaded into other processes, like regsvr32.exe.\n\nIf you try to\
+    \ register a COM server that references the standard acdbmgd.dll or acmdg.dll\
+    \ from the AutoCAD root folder, it will fail because those assemblies cannot be\
+    \ loaded into any process (such as regsrv32.exe) other than acad.exe."
+- author: Paul Hoenecke
+  email: pmh009@hotmail.com
+  ip: 24.236.254.181
+  url: ''
+  date: '2009-05-21 00:59:03'
+  body: "Hi Kean, \nI just started experimenting with a similar approach using .NET\
+    \ Remoting. I created an assembly that registers a well-known object when it is\
+    \ netloaded. Then the driver exe can find that object and call methods on it.\
+    \ It sort of works... but I was having some problems.\n\nI had the same problem\
+    \ you had with the MdiActiveDocument being null.  When I inspect it, it says there\
+    \ was a CrossThreadMessagingException. I use your workaround of getting the doc\
+    \ from the db, but then doc.Editor.WriteMessage() fails. I tried adding a WriteMessage\
+    \ to your code and it fails as well.  Maybe I am just missing something with that.\n\
+    \nIt seems certain things just don't like being poked from outside AutoCAD.  Thanks.\n\
+    \nI put my experimental project at:\nwww.paulhoenecke.com/downloads/RemoteAcadTest.zip"
+- author: Paul Hoenecke
+  email: pmh009@hotmail.com
+  ip: 12.27.8.114
+  url: ''
+  date: '2009-05-21 17:56:21'
+  body: "More info:\n\nIt seems that database related stuff works from outside AutoCAD,\
+    \ but anything Doc related fails (maybe anything in AcMgd).  \n\nIf I try to create\
+    \ a Database and read an existing dwg file, it will work ONLY if I pass true for\
+    \ noDocument when creating the database.\n\nThis fails:\nusing (Database db =\
+    \ new Database(false, false))\n{\ndb.ReadDwgFile(@\"C:\\Test.dwg\", FileOpenMode.OpenForReadAndAllShare,\
+    \ true, \"\");\n}\n\nThis succeeds:\nusing (Database db = new Database(false,\
+    \ true))\n{\ndb.ReadDwgFile(@\"C:\\Test.dwg\", FileOpenMode.OpenForReadAndAllShare,\
+    \ true, \"\");\n}\n\nI have tried this using the COM way, and also using Remote\
+    \ Objects. \nThanks."
+- author: Paul Hoenecke
+  email: pmh009@hotmail.com
+  ip: 12.27.8.114
+  url: ''
+  date: '2009-05-22 19:54:56'
+  body: "Ok, I think I figured out my problems.  \n\nWhen using either the Remoting\
+    \ way or the InvokeMember way to talk to Acad, I can get return values, but I\
+    \ have threading problems.  The easiest way to see this is to try to write to\
+    \ the command line in Acad from the external driver app.  \n\nI made a simple\
+    \ test, spawning a simple thread from an AutoCAD CommandMethod and trying to write\
+    \ to the Editor from there.  That also failed.\n\nThe SendCommand method used\
+    \ in your original article doesn't have this limitation, but obviously has the\
+    \ return value limitation.\n\nSo... I think I have a way of solving this, giving\
+    \ me both return values and access to the doc and editor, but I think it may be\
+    \ a slightly complicated solution involving both Remoting and SendCommand."
+- author: Andrew Fuller
+  email: andrew.fuller@dot.state.fl.us
+  ip: 156.75.192.113
+  url: http://www.dot.state.fl.us/ecso/
+  date: '2009-05-22 20:14:14'
+  body: "Hello Keen, I have implemented this example and it works correctly but then\
+    \ I tried to return a Data Class instead of a string or other native type and\
+    \ am unable to make it work. \n\nHave you tried returning a Class of other user\
+    \ defined Data Structure? \n\nMy problem seems to be in returning a COM object\
+    \ and trying to Type Cast it into a Interface for application access. This is\
+    \ most likely my lack of experience with COM, Interfaces, and the like, as I normally\
+    \ develop in .NET. \n\nI seem to be very close but can’t break through that last\
+    \ Type Casting to get at the data from the calling application. Can you give it\
+    \ a try or lend some insight into how to return a Class object back to the calling\
+    \ application and retrieval of the data therein?\n\nThank You,\nAndrew Fuller"
+- author: Renze de Waal
+  email: renze.de.waal@vanderlande.com
+  ip: 62.41.77.162
+  url: ''
+  date: '2009-05-25 09:38:35'
+  body: 'Hello Kean,
+
+
+    The problem with the mdiactivedocument can be solved by adding a reference to
+    system.enterpriceservices.dll and letting the class "Commands" inherit from System.EnterpriseServices.ServicedComponent.
+    This (and why it should be done) can be read on ADN if you look for TS88407.
+
+
+    If I remember correctly, my experience with Autocad 2007 was that creating a lot
+    of CAD entities (1000+) in a method called via COM this way was considerably slower
+    than the same code run as an Autocad command from the command line. Do you have
+    any experience with this?
+
+
+    Thanks,
+
+
+    Renze de Waal.'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-05-25 17:09:40'
+  body: 'Tony -
+
+
+    Yes, I removed the static keyword from the command at the same time as the AddNumbers
+    function - I''ll add it back in for my next post.
+
+
+    I''m pretty sure I built this app with the assemblies from the AutoCAD program
+    folder, and then I ran regasm.exe from within that folder (which may have helped
+    the assemblies load/register). But then I may be mis-rembering.
+
+
+    Renze -
+
+
+    Fantastic, thank you. I''m not sure how I missed this one (shame on me), so I
+    am very pleased you pointed it out. I''ll publish something updated based on this
+    today.
+
+
+    Paul/Andrew -
+
+
+    I''m pretty sure the post based on the document pointed out by Renze will answer
+    all your questions. Watch this space!
+
+
+    Kean'
+- author: Chavya
+  email: chavya.khanna@gmail.com
+  ip: 122.160.33.100
+  url: http://www.gmail.com
+  date: '2009-07-25 11:48:04'
+  body: "hey Kean I m working on a software in VB.Net it is related to Autocad like\
+    \ change of size of door and its design its just kinda clone of karona if you\
+    \ have heard of it so need your guidance to that to enhance my knowledge and skills\
+    \ to it as i am not getting the exact starting point of it and this is the first\
+    \ group which i have ever spoken\n\n\nThanks & Regards\n\n     Frank"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-07-27 09:27:26'
+  body: 'Hi Frank,
+
+
+    I''m not exactly sure what you''re asking, but I suggest working through the relevant
+    resources and material posted on <a href="http://www.autodesk.com/developautocad">the
+    AutoCAD Developer Center</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: nlvvch@gmail.com
+  email: nlvvch@gmail.com
+  ip: 115.118.113.28
+  url: ''
+  date: '2009-10-26 07:01:06'
+  body: 'db.ReadDwgFile(res.StringResult, System.IO.FileShare.Read, true, "");
+
+    Iam unable to run this lines
+
+    Iam getting follwoing errore screen:
+
+
+    an unhandled exception of type ''system.stackoverflowexception'' occurred in mscorlib.dll
+
+
+    can u please solution for it, it most help full for us.
+
+
+
+    nlvvch@gmail.com'
+- author: Palani
+  email: m_palani_selvam@hotmail.com
+  ip: 198.28.69.5
+  url: ''
+  date: '2009-12-07 15:17:49'
+  body: "Hi,\nI have installed Architecture 2009 standalone version on my local machine.\
+    \ I am calling autocad document from Windows C# and getting the following error.\
+    \ Can you help me to fix this error?\n\n\"Retrieving the COM class factory for\
+    \ component with CLSID {28B7AA99-C0F9-4C47-995E-8A8D729603A1} failed due to the\
+    \ following error: 80080005.\"\n\nMy Code is:\n\ntry\n                    {\n\
+    \                        acadapp = (AcadApplication)Marshal.GetActiveObject(\"\
+    AutoCAD.Application\");\n                    }\n                    catch\n  \
+    \                    {\n                          try\n                      \
+    \    {\n                              Type acType = Type.GetTypeFromProgID(\"\
+    AutoCAD.Application\");\n                              acadapp = (AcadApplication)Activator.CreateInstance(acType,\
+    \ true);\n                          }\n                          catch (System.Exception\
+    \ ex)\n                          {\n\n                          };\n\n       \
+    \                 }"
+- author: Kean Walmsley
+  email: ''
+  ip: 219.101.164.153
+  url: http://profile.typepad.com/kean
+  date: '2009-12-07 21:05:36'
+  body: 'You might want to download and use the ProcessMonitor (search for it on MSDN)
+    and use it to see what is failing, whether Registry or file system accesses.
+
+
+    Otherwise I don''t have much advice to provide, I''m afraid (other than trying
+    to reinstall).
+
+
+    Kean'
+- author: Greg
+  email: gppl16@gmail.com
+  ip: 213.241.91.114
+  url: ''
+  date: '2012-03-19 11:12:32'
+  body: "Hey Kean,\n\nI have one question. \nIs this the only way to execute some\
+    \ \"standard\" AutoCads command or API? What I mean - now (as you show us) we\
+    \ have to load assembly if we want to execute \"AddNumbers\" method. \n\nSo my\
+    \ question is - can I use \"AutoCAD's API\"  direct in my winform/wpf application\
+    \ or this is impossible?"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-03-19 13:13:16'
+  body: 'The only way to drive AutoCAD from another process is via COM (assuming DDE
+    doesn''t work anymore, but then I haven''t tried that in the longest time).
+
+
+    You can certainly use standard COM methods and drive standard commands, if you
+    don''t want an in-process component of your own.
+
+
+    Kean'
+- author: Greg
+  email: gppl16@gmail.com
+  ip: 87.207.133.77
+  url: ''
+  date: '2012-03-19 17:26:39'
+  body: "Thank you very much.\n\nI have one more question - I'm making my software\
+    \ designed for AutoCAD 2011. But I want also to use this software on AutoCAD 2007.\
+    \ \n\nHow can I set up conditional references? Depending on OS (x86, gx64) and/or\
+    \ AutoCAD 2007/2011? Is this possible?"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-03-19 19:08:03'
+  body: 'If you''re talking about COM, then you may want to look at Type Embedding
+    (that should help work across versions). Beyond that I suggest posting to the
+    discussion group (or to ADN), as you''ll get good advice there.
+
+
+    Kean'
+- author: Zibi
+  email: dryman@poczta.onet.pl
+  ip: 77.252.228.40
+  url: ''
+  date: '2012-11-14 15:30:02'
+  body: 'Have you an example where second part of your code is VC++ writes? Exactly
+    "AddNumbers() function".
+
+    I need run my C# DLL in VC++ project, and I don''t know, how it''s do it.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.25
+  url: http://profile.typepad.com/kean
+  date: '2012-11-15 14:13:51'
+  body: 'Hi Zibi,
+
+
+    Sorry - I don''t have a sample for this. It''s simple enough to register a command
+    using C++ (all the ObjectARX samples do this) but then to expose the underlying
+    function via .NET or COM will require a bit more work.
+
+
+    Someone on the ObjectARX Discussion Group may be able to help. And please post
+    a more complete description there - I suspect I may have misunderstood what you''ve
+    posted here.
+
+
+    Regards,
+
+
+    Kean'
+- author: ali
+  email: ali@surveymbs.com
+  ip: 82.69.125.218
+  url: ''
+  date: '2012-11-27 12:17:55'
+  body: "Hi Kean,\n\nI couldn't get this line of code working:\nAfter lunching new\
+    \ instance of autocad through(which works fine) :\nacApp =(AcadApplication)Activator.CreateInstance(\n\
+    \              acType,\n              true\n            );\nThe visibility seems\
+    \ not to work:\nacApp.Visible = true;"
+- author: ali
+  email: ali@surveymbs.com
+  ip: 82.69.125.218
+  url: ''
+  date: '2012-11-27 12:19:02'
+  body: 'Sorry,
+
+    Indeed couldn''t set the visibily to false.'
+- author: Kean Walmsley
+  email: ''
+  ip: 24.120.243.195
+  url: http://profile.typepad.com/kean
+  date: '2012-11-27 19:20:32'
+  body: 'Hi ali,
+
+
+    Could you describe exactly what is happening? Does AutoCAD launch but its visibility
+    isn''t affected by the call, or does it throw some kind of error?
+
+
+    Regards,
+
+
+    Kean'
+- author: ali
+  email: ali@surveymbs.com
+  ip: 82.69.125.218
+  url: ''
+  date: '2012-11-28 17:52:26'
+  body: 'Hi Kean,
+
+
+    Thanks for the reply,
+
+    The autocad lunches properly and works fine but the thing is the Autocad application
+    is visible though the acApp.Visible is set to false.
+
+    So, yes "its visibility isn''t affected by the call".
+
+
+    Many Thanks,'
+- author: Kean Walmsley
+  email: ''
+  ip: 8.19.13.22
+  url: http://profile.typepad.com/kean
+  date: '2012-11-29 18:53:51'
+  body: 'Hi ali,
+
+
+    OK, thanks. I haven''t seen this myself (but then I don''t recall trying this
+    in recent years).
+
+
+    I suggest posting your problem to the AutoCAD .NET Discussion Group (or the ADN
+    team, if you''re a member).
+
+
+    Regards,
+
+
+    Kean'
+- author: ali
+  email: ali@surveymbs.com
+  ip: 82.69.125.218
+  url: ''
+  date: '2013-01-09 17:54:36'
+  body: 'Hi Kean,
+
+
+    Is it possible to send autocad commands in background, but not via creating another
+    AcadApplication? At first I came across ReadDwg function but it only gives access
+    to Database object not the Document. Then I saw plot/publish functionality in
+    Cad, which it seems jobs[sending commands?] are being done in background.
+
+
+    Thanks,'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-01-09 18:28:11'
+  body: 'Hi Ali,
+
+
+    The best is to use the Core Console in AutoCAD 2013:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2012/02/the-autocad-2013-core-console.html">http://through-the-interface.typepad.com/through_the_interface/2012/02/the-autocad-2013-core-console.html</a>
+
+
+    Regards,
+
+
+    Kean'
+- author: Pierre Cardinal
+  email: pierre.cardinal@sympatico.ca
+  ip: 174.95.227.53
+  url: ''
+  date: '2013-02-02 21:28:20'
+  body: "DocumentCollection acDocMgr = Application.DocumentManager;\nDocument acNewDoc\
+    \ = DocumentCollectionExtension.Add acDocMgr, \"acad.dwt\");\nDocumentExtension.CloseAndDiscard(acNewDoc);\n\
+    \nWhat is wrong with MyCode when I put it inside the function AddNumbers\n\npublic\
+    \ string AddNumbers(int arg1, double arg2) \n{\n...\nMyCode\n...\n}\n\nMyCode\
+    \ produce an exception when run from the COM but not if run standalone in AutoCAD."
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2013-02-04 10:59:35'
+  body: 'I can see how this might prove problematic: I believe the code is running
+    in session (rather than document) context, but that shouldn''t necessarily be
+    a problem for this particular code. AutoCAD''s probably just not ready for someone
+    to be opening new drawings when called in this way.
+
+
+    What kind of exception do you get? Have you tried running the same code in a session
+    context command, rather than a document context one (the default)?
+
+
+    Kean'
+- author: Brian Stafford
+  email: bstafford@interkal.com
+  ip: 24.176.11.130
+  url: ''
+  date: '2013-05-17 16:07:44'
+  body: 'Hi Kean,
+
+
+    I have a question on a slight variation of this post for those "legacy" folks
+    out there.
+
+
+    I have an external VB6 COM application which loads a VB6 ActiveX DLL into AutoCAD
+    using GetInterfaceObject().  This has worked beautifully for years with AutoCAD
+    2005.
+
+
+    We are now in the process of upgrading to AutoCAD 2014 64-bit on Windows 7, and
+    GetInterfaceObject() fails with error "-2147221164 Problem in loading application".
+
+
+    Is there even a chance of this working?  Your recommendations either way are appreciated.
+
+
+    Brian'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.47.14
+  url: http://profile.typepad.com/kean
+  date: '2013-05-17 17:10:21'
+  body: 'Hi Brian,
+
+
+    Does this help?
+
+
+    <a href="http://adndevblog.typepad.com/autocad/2012/06/error-problem-in-loading-application-on-64-bit-os-when-using-getinterfaceobject.html">http://adndevblog.typepad.com/autocad/2012/06/error-problem-in-loading-application-on-64-bit-os-when-using-getinterfaceobject.html</a>
+
+
+    Regards,
+
+
+    Kean'
+- author: Brian Stafford
+  email: bstafford@interkal.com
+  ip: 24.176.11.130
+  url: ''
+  date: '2013-05-20 16:04:36'
+  body: 'Kean,
+
+
+    I tried the ideas shown in the link, substituting regsvr32 for regasm.  I ran
+    both the 32-bit and 64-bit version of regsvr32 with the same error as I described.
+
+
+    Can a 32-bit VB6 ActiveX DLL run inside of AutoCAD 2014?  If so, will there be
+    a performance hit?
+
+
+    Thanks for your time,
+
+
+    Brian'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-05-21 10:16:18'
+  body: 'Hi Brian,
+
+
+    I haven''t tried it, but perhaps this workaround might help:
+
+
+    <a href="http://www.gfi.com/blog/32bit-object-64bit-environment">http://www.gfi.com/blog/32bit-object-64bit-environment</a>
+
+
+    In terms of performance: there''ll be some thunking overhead to go between the
+    two memory models but I wouldn''t expect it to be too bad. A lot will depend on
+    the data you need to marshal between the two.
+
+
+    I hope this helps,
+
+
+    Kean
+
+
+
+    -----'

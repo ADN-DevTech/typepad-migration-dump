@@ -1,0 +1,115 @@
+comments:
+- author: ehsan
+  email: mohsenpourian@gmail.com
+  ip: 91.186.205.205
+  url: ''
+  date: '2008-07-09 11:32:06'
+  body: 'hi , is there way to view autocad files on web pages? (in asp.net using c#)?
+
+    or in windows .net applications?
+
+    plz help me , tnx'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-09 13:36:29'
+  body: 'You can embed DWG TrueView or publish to DWF from AutoCAD and use Design
+    Review (both client-side controls). Or you can use Autodesk Freewheel if you want
+    something zero-client.
+
+
+    Kean'
+- author: Bob Wang
+  email: wang890@hotmail.com
+  ip: 209.82.26.2
+  url: ''
+  date: '2009-11-17 20:32:13'
+  body: is this going to work on civil 3d objects such as alignments?
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-11-18 09:58:06'
+  body: 'Hi Bob,
+
+
+    It should work with any AutoCAD object (including those added by vertical applications),
+    although I haven''t specifically tested it with Civil 3D objects.
+
+
+    There may also be things like inter-object references that you need to take into
+    account, so I suggest proceeding with caution.
+
+
+    Kean'
+- author: Joe
+  email: Joe.ye@autodesk.com
+  ip: 58.32.239.82
+  url: ''
+  date: '2010-06-05 09:13:47'
+  body: "Hi Kean,\n\nThanks for this blog.\nI am handling a case, and found out that\
+    \ SwapIdWith doesn't work well with ACA objects, when one of the entity is anchored\
+    \ with anchor.\n\nFor example,\nFirst entity is a wall with a door.\nsecond entity\
+    \ is a wall without a door.\nafter using the \"SE\" command in this blog, the\
+    \ first entity lose the door, and the door is inserted to the second wall. \n\n\
+    Wall and door are associated with the help of anchor. In this case, we need explicitly\
+    \ change the anchor's referencing wall.\n\nJoe Ye"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-06-05 10:25:22'
+  body: 'Thanks for the comment, Joe.
+
+
+    You''re right: care must be taken when swapping objects which reference or depend
+    on other objects (beyond the standard layer/linetype etc.).
+
+
+    It was never a "use case" for this code to work with anchored ACA objects, for
+    instance, but perhaps I should have made that clear in the post itself.
+
+
+    Regards,
+
+
+    Kean'
+- author: Stephan Bartl
+  email: cad@stbartl.at
+  ip: 188.23.141.149
+  url: http://www.stbartl.at/index_e.htm
+  date: '2011-01-17 03:30:15'
+  body: 'Hi Kean,
+
+    when I swap to linetypes (from the linetype table) then I have problems afterward
+    with the table. It seems to me that i miss some kind of update of the table data.
+    For example if I swap the linetypes "Demo" and "Demo2" then the method LtTable.Has("Demo2")
+    returns true, as expected, however LtTable.Has("Demo") returns true before but
+    false after the swapping. Any ideas? Thanks.
+
+    Kind regards,
+
+    Stephan'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2011-01-17 11:14:19'
+  body: 'Hi Stephan,
+
+
+    I haven''t swapped symbol table records in quite this way, but it doesn''t seem
+    right, somehow.
+
+
+    Please post your question via ADN or to the AutoCAD .NET discussion group (as
+    mentioned in this post).
+
+
+    Thanks,
+
+
+    Kean
+
+    -----'

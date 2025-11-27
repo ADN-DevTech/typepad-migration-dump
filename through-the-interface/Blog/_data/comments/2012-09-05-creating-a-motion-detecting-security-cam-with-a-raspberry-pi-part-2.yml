@@ -1,0 +1,1420 @@
+comments:
+- author: AlexFielder
+  email: ''
+  ip: 208.50.223.132
+  url: http://profile.typepad.com/alexfielder
+  date: '2012-09-05 11:37:52'
+  body: 'a note to the uninitiated reader (like myself): I found the visudo editor
+    just about the most unintuitive text editor I''ve ever used, so looked around
+    for a nano-based solution and found one <a href="http://ubuntuforums.org/showthread.php?t=790286">here</a>
+    (albeit with a slight change to accommodate nano):
+
+
+    export EDITOR=nano && sudo -E visudo
+
+
+    allows you to edit the sudoers file with nano.
+
+
+    :)
+
+
+    (any idea how to make the change permanent?)'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2012-09-05 14:06:54'
+  body: 'Great - thanks for the tip, Alex!
+
+
+    My vi skills were just about good enough to get me through a simple change,  but
+    it was a close thing.
+
+
+    I''m not sure how you''d make the change permanent, but then if you''re not adding
+    users on a regular basis it''s probably not that big a deal (IMHO).
+
+
+    Kean'
+- author: Melvin
+  email: melvinkwok1404@gmail.com
+  ip: 182.55.237.249
+  url: ''
+  date: '2012-09-10 11:23:43'
+  body: "Hi Kean,\n\nI have tried to configure the settings as what you have posted.\
+    \ \n\nWhen i start motion \"sudo motion\", i get the following erros as shown.\
+    \ \n\n[0] Processing thread 0 - config file /etc/motion/motion.conf\n[0] Unknown\
+    \ config option \"sq1_log_image\"\n[0] Unknown config option \"sq1_log_snapshot\"\
+    \n[0] Unknown config option \"sq1_log_mpeg\"\n[0] Unknown config option \"sq1_log_timelapse\"\
+    \n[0] Unknown config option \"sq1_query\"\n[0] Motion 3.2.12 Started\n[0] MOtion\
+    \ going to daemon mode\n\nMay i know how to solve this issues?"
+- author: Kean Walmsley
+  email: ''
+  ip: 95.172.68.149
+  url: http://profile.typepad.com/kean
+  date: '2012-09-10 11:39:20'
+  body: 'These are benign warnings that won''t appear if the settings are commented
+    out in the .conf file (which they are in the one I''ve provided - are you sure
+    you''re using it?).
+
+
+    Kean'
+- author: Selva
+  email: saravanan.selva87@gmail.com
+  ip: 153.20.24.67
+  url: ''
+  date: '2012-09-17 07:36:33'
+  body: 'Hi Kean,
+
+
+    I am working on a raspberry pi project, to connect the raspberry pi to a webcam
+    and provide real-time information on a server. Thus i have to create a server
+    probably Apache server.
+
+
+    Then the next phase is to create a iPhone/iPad application on Xcode to view the
+    real time viewing on the iPhone/iPad application.
+
+
+    Any clue, how can i get about this?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-09-17 10:04:29'
+  body: 'Hi Selva,
+
+
+    I don''t have much experience with setting up a real-time webcam feed, but I have
+    done so using Motion (and it''s really easy to do so).
+
+
+    If you follow the instructions in this post, it should just work.
+
+
+    Then you simply need to write some kind of iOS app - presumably using Safari or
+    Webkit directly - to consume the feed via HTTP.
+
+
+    There may be better ways to do all his, but Motion is the way I''ve happened to
+    have done it, myself.
+
+
+    Regards,
+
+
+    Kean'
+- author: Selva
+  email: saravanan.selva87@gmail.com
+  ip: 119.234.0.55
+  url: ''
+  date: '2012-09-18 11:35:20'
+  body: 'Hi Kean,
+
+
+    Thanks for your advice. Probably will be using direct connection to the Google
+    Drive on my iOS application.'
+- author: selva
+  email: saravanan87@hotmail.com
+  ip: 218.186.17.247
+  url: ''
+  date: '2012-09-18 19:11:29'
+  body: 'Sorry to disturb u again Kean.
+
+
+    I don''t really get this part.
+
+
+
+    "Once you’re ready to have it enter daemon mode on boot, you can edit the /etc/rc.conf
+    file (using sudo nano …) to add it to the list of startup daemons on the very
+    last line of the file."'
+- author: Kean Walmsley
+  email: ''
+  ip: 95.172.68.149
+  url: http://profile.typepad.com/kean
+  date: '2012-09-18 19:49:44'
+  body: 'Daemon mode means it''s running in the background. To enable daemon mode
+    you need to set the appropriate setting in the motion.conf file (daemon=on, I
+    think).
+
+
+    To have the Motion daemon start when the device boots up, you can edit rc.conf:
+
+
+    sudo nano /etc/rc.conf
+
+
+    and then edit this line to include @motion (which starts the Motion daemon in
+    the background - not sure the ''@'' is really needed, but anyway):
+
+
+    DAEMONS=(!hwclock syslog-ng network openntpd @netfs @crond @sshd @motion)
+
+
+    Does that make more sense?
+
+
+    Kean'
+- author: Melvin
+  email: melvinkwon@gmail.com
+  ip: 153.20.24.67
+  url: ''
+  date: '2012-09-19 06:46:58'
+  body: "Hi Kean,\n\nI followed your post and, however when i start motion\n\nit appears:\n\
+    \ \n[0] processing thread 0 -config file /home/sit/motion.conf\n[0] Motion 3.2.12\
+    \ Started\n[0] Motion going to daemon mode\n\nthen nothing happens and the video\
+    \ is not uploaded in the google drive or notify me in email\n\nany i missing anything\
+    \ here?"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-09-19 08:40:12'
+  body: 'Hi Melvin,
+
+
+    Try editing the conf file to have daemon=off. You can then launch motion with
+    the -s flag and see what the output says.
+
+
+    Make sure the uploader.py command works manually, too, as per the instructions
+    in the post.
+
+
+    Regards,
+
+
+    Kean'
+- author: Melvin
+  email: melvinkw@gmail.com
+  ip: 153.20.24.67
+  url: ''
+  date: '2012-10-02 08:15:39'
+  body: "Hi Kean,\n\nI followed your instructions and tried editing the conf file\
+    \ to have daemon=off\n\nit seems to work but however the following commands still\
+    \ appeared:\n\nfound control 0X00980910, \"Gamma\", range 1.6\n\"Gamma\", default\
+    \ 4 , current 4\n\nfound control 0X00980911, \"Exposure\" , range 781.18750\n\"\
+    Exposure\", default 2343, current 2343\n\nfound control 0X00980912 \"Auto Gain\"\
+    \ range 0.1\n\"Auto Gain\" default 1, current 1\nError requesting buffers 4 for\
+    \ memory map, VIDIOC_REQBUFS: Device Or resource\nioctl (VIDIOCGCAP) : Inappropriate\
+    \ ioctl for device\nRetrying until successful connection with camera\ncap.driver:\
+    \ \"zc3xx\"\ncap.card: \" \"Camera\"\ncap.bus_info: \"usb-bcm2708_usb-1.2\"\n\
+    cap.capabilities=0X05000001\n-VIDEO_CAPTURE\n- READWRITE\n- STREAMING\n\nConfig\
+    \ palette index 8 (YU12) doesn't work.\nSupported palettes:\n0: JPEG (JPEG)\n\
+    Selected palette JPEG\nTest palette JPEG ( 352X288)\nAdjusting resolution from\
+    \ 352X288 to 320X240\nUsing palette JPEG (320X 240) bytesperlines 320 sizeimage\
+    \ 29390 colorspace 0000007\nfound control 0X00980900 \"Brightness\", range 0,255\n\
+    \"Brightness\", default 128 current 128\nfound control 0X00980901 \"Contrast\"\
+    \ range 0,255\nContrast\", default 128 current 128 \nfound control 0X00980910,\
+    \ \"Gamma\", range 1.6\n\"Gamma\", default 4 , current 4\nfound control 0X00980911,\
+    \ \"Exposure\" , range 781.18750\n\"Exposure\", default 2343, current 2343\nfound\
+    \ control 0X00980912 \"Auto Gain\" range 0.1\n\"Auto Gain\", default 1, current\
+    \ 1\n\nmap information:\nframes=4\n0 length=32768\n1 length= 32768\n2 length=\
+    \ 32768\n3 length= 32768\nUsing V4L2\nResizing pre-capture buffer to 1 items\n\
+    corrupt JPEG data: premature end of data segment\ncorrupt JPEG data: premature\
+    \ end of data segment \ncorrupt JPEG data: premature end of data segment\ncorrupt\
+    \ JPEG data: premature end of data segment\n\nv412_next: VIDIOC_DQBUF: E10 (s->frame\
+    \ 3); Input/output error\nv412_next : VIDIOC_QBUF: Invaild augument\nVideo device\
+    \ fatal error -Closing Video device\nClosing video device /dev/video0\n\n\n\n\
+    These are the errors i get when running motion\n\nIs there a problem with the\
+    \ camera or with the motion setting itself?\n\nThank you very much for your assistance.\n\
+    Please advice"
+- author: Kean Walmsley
+  email: ''
+  ip: 95.172.68.149
+  url: http://profile.typepad.com/kean
+  date: '2012-10-02 10:31:55'
+  body: 'Hi Melvin,
+
+
+    A lot of this stuff is very webcam-specific, it seems. You should try adjusting
+    the settings (reducing resolution can help) but you might also just need a powered
+    USB hub (some webcams take more power than the Pi''s board can provide).
+
+
+    And then again, your webcam may just not be compatible. This page may be of use:
+
+
+    <a href="http://elinux.org/RPi_VerifiedPeripherals#USB_Webcams">http://elinux.org/RPi_VerifiedPeripherals#USB_Webcams</a>
+
+
+    Regards,
+
+
+    Kean'
+- author: Melvin
+  email: melvinkw@gmail.com
+  ip: 218.186.17.253
+  url: ''
+  date: '2012-10-02 12:40:51'
+  body: 'Hi Kean,
+
+
+    It seems, my old logitec webcam do not support after all. i need a new one.
+
+
+    Thanks for your advice.
+
+
+    Do you think a supported powered USB is more than enough as, it can provide enough
+    voltage to the camera itself?
+
+
+    With powered USB i can use my keyboard, mouse and webcam as well.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-10-02 14:15:38'
+  body: 'Hi Melvin,
+
+
+    I don''t have very much experience of using powered USB hubs: I tried one briefly
+    but then found my webcam issues were related to Raspbian and went away with Arch
+    Linux ARM.
+
+
+    Regards,
+
+
+    Kean'
+- author: Fedecupe
+  email: ''
+  ip: 2.235.6.114
+  url: http://profile.typepad.com/fedecupe
+  date: '2012-12-02 22:36:23'
+  body: "Hi kean, \nvery nice project. I got motion up and running, through browser\
+    \ it works, it saves avi and jpeg in the /home/pi/motion folder....but the uploader\
+    \ doesn't work :( I've got this errors doing the uploading test:\n\nTraceback\
+    \ (most recent call last):\n  File \"/etc/motion/uploader.py\", line 18, in <module>\n\
+    \    import gdata.data\n  File \"/usr/local/lib/python3.2/dist-packages/gdata/__init__.py\"\
+    , line 27, in <module>\n    import atom\n  File \"/usr/local/lib/python3.2/dist-packages/atom/__init__.py\"\
+    , line 133, in <module>\n    CreateClassFromXMLString)\n  File \"/usr/local/lib/python3.2/dist-packages/atom/__init__.py\"\
+    , line 97, in mark_deprecated\n    optional_warn_function.func_name = f.func_name\n\
+    AttributeError: 'function' object has no attribute 'func_name'\n\n\nHow can I\
+    \ fix?\n\nThank you very much (:"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2012-12-03 08:52:29'
+  body: 'Hi Fedecupe,
+
+
+    I''ve neither seen this error nor heard of anyone else hitting it... could it
+    be you''ve missed a step?
+
+
+    My first instinct would be to make sure gdata is installed properly:
+
+
+    sudo pip2 install gdata
+
+
+    Cheers,
+
+
+    Kean'
+- author: Rene
+  email: rene.v.klaveren@gmail.com
+  ip: 213.125.47.186
+  url: ''
+  date: '2012-12-13 11:28:23'
+  body: "Hey Kean,\n\nLove you work, keep it up!\n\nA question, is it possible to\
+    \ run double or multiple cams with your program? \n\nCheers, Rene"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-12-13 11:33:23'
+  body: 'Hi Rene,
+
+
+    The Motion sub-system supports multiple cams, although with the R-Pi you may need
+    to think about a powered USB hub: it''s unlikely there''ll be enough power to
+    do so directly.
+
+
+    Good luck!
+
+
+    Kean'
+- author: Riitt Sjöström
+  email: riitt24@yahoo.com
+  ip: 121.54.42.182
+  url: ''
+  date: '2012-12-17 07:09:38'
+  body: I already read the part one of it and it was really amazing and also this
+    one.In Finland country many of people use only security for their home and business
+    and i never been seen in any social media a security camera like this.
+- author: Daniel Halperin
+  email: ''
+  ip: 90.244.88.255
+  url: http://profile.typepad.com/danielhalperin
+  date: '2012-12-20 23:51:02'
+  body: 'Hi Keane,
+
+
+    The upload script works for me and motion captures the videos correctly, however
+    the mpeg does not upload on movie end. There doesn''t appear to be any unusual
+    activity when running sudo motion -s.
+
+
+    Any ideas?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-12-21 09:33:50'
+  body: 'Hi Daniel,
+
+
+    It sounds as though you''ve tried calling the upload script manually, which is
+    what I''d have suggested.
+
+
+    The only think I can think of is that the command in motion.config is somehow
+    incorrect.
+
+
+    Regards,
+
+
+    Kean'
+- author: Daniel Halperin
+  email: ''
+  ip: 90.244.81.240
+  url: http://profile.typepad.com/danielhalperin
+  date: '2012-12-21 11:45:28'
+  body: "Thanks for your reply Kean,\n\nYes I have tried calling it manually and that\
+    \ works fine.\n\nI am new to linux scripting so it is entirely possible I have\
+    \ got the script wrong.\n\nThe script I am using in the file is\n\nOn_Movie_End\
+    \ /etc/motion/uploader.py /etc/motion/uploader.cfg %f\n\nI have also tried getting\
+    \ the on_movie_end to run a bash script that runs the python script and this doesn't\
+    \ work either.\n\nThe script is:\n\n#!/bin/bash\nVIDEO=$1 \n/etc/motion/uploader.py\
+    \ /etc/motion/uploader.cfg VIDEO\n\nIn motion.conf /etc/motion/uploaderscript.sh\
+    \ %f"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2012-12-21 12:23:28'
+  body: 'That looks right... you might try using on_movie_end instead (not sure whether
+    case matters), and otherwise putting something else in there (e.g. to write to
+    a text file) when it fires, to make sure it does so.
+
+
+    Kean'
+- author: Nicole
+  email: nnhammond@gmail.com
+  ip: 77.102.237.169
+  url: ''
+  date: '2012-12-21 17:19:21'
+  body: 'Thanks so much for the detailed instructions!
+
+
+    I''ve got the upload happening, but I get an error when the uploader looks for
+    e.g. /motion/01-20121221160.jpg ("No such file or directory") since the jpegs
+    saved have the frame number appended, e.g. /motion/01-20121221160-01.jpg. As a
+    result, the process stops after the upload, so no email and no deleting the local
+    files.
+
+
+    I''ve used a combination of your motion.conf and the original motion.conf to get
+    it working to this stage (the original webcam settings worked better for me),
+    but I''m stumped by this since the filenaming sections of both look identical.
+
+
+    Any pointers gratefully received. Thanks again!'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-12-21 17:26:00'
+  body: 'Try only saving out the "first" or "best" frame of the capture. Otherwise
+    you''ll need to modify the Python code to be less fussy about that part of the
+    filename (it could check for the frame-specific images, too).
+
+
+    Kean'
+- author: Nicole
+  email: nnhammond@gmail.com
+  ip: 77.102.237.169
+  url: ''
+  date: '2012-12-21 17:33:57'
+  body: Whoa, apologies, they're not identical at all - I really should have double-checked
+    the different versions I've made before posting!
+- author: Nicole
+  email: nnhammond@gmail.com
+  ip: 77.102.237.169
+  url: ''
+  date: '2012-12-21 18:00:21'
+  body: "Bingo. The filenaming was a red herring - looks like I'd pasted in more of\
+    \ the original than I'd realised. \n\nWhere I actually went wrong in the first\
+    \ place was I'd taken the image  width and height back to the original (small)\
+    \ sizes, but left the \"threshold for number of changed pixels\" at your 10000\
+    \ - far more than my weedy webcam has anyway, so it was simply not detecting motion.\n\
+    \nAll appears to be working now. I'm enjoying this a lot, thanks!"
+- author: Patrick (Netherlands)
+  email: patrick@pacaja.nl
+  ip: 178.85.120.26
+  url: ''
+  date: '2013-01-14 16:35:30'
+  body: 'The script is not working for me.
+
+
+    When I manually start the script it works:
+
+    sudo /etc/motion/uploader.py /etc/motion/uploader.cfg /etc/motion/*.avi
+
+
+    When I add the following to motion.conf notting is happening:
+
+    sudo /etc/motion/uploader.py /etc/motion/uploader.cfg /etc/motion %f
+
+
+    The path of captured images videos is:
+
+    /etc/motion
+
+
+    Is there anything I have to change in uploader.py ? What am I doing wrong?
+
+
+    Patrick'
+- author: Karl
+  email: kgirthofer@teknikosinc.com
+  ip: 38.98.217.1
+  url: ''
+  date: '2013-01-29 18:14:29'
+  body: 'Kean, I am getting the error message "Error: Could not find the %s folder"...
+    I followed the tutorial verbatim, and it cannot find this folder... is there something
+    i need to change??'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-01-29 19:05:00'
+  body: 'Karl,
+
+
+    Did you make the folder as mentioned in the "Update" at the end?
+
+
+    Kean'
+- author: Karl
+  email: kgirthofer@teknikosinc.com
+  ip: 38.98.217.1
+  url: ''
+  date: '2013-01-29 20:41:51'
+  body: GOT IT lol. Needed to make the drive on google... durp durp
+- author: Karl
+  email: kgirthofer@teknikosinc.com
+  ip: 38.98.217.1
+  url: ''
+  date: '2013-01-29 20:42:46'
+  body: I feel dumb now xD Spent 3 hours trouble shooting this... it's always the
+    easy stuff that will get you the most
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-01-29 20:44:58'
+  body: 'Glad it''s sorted. :-)
+
+
+    Kean'
+- author: mike
+  email: mike@bigfatostrich.com
+  ip: 67.69.227.99
+  url: http://www.bigfatostrich.com
+  date: '2013-01-29 21:30:42'
+  body: Interesting. I was having some issues with the my cam and hadn't even considered
+    that the OS (Raspbian) might be the culprit. Motion is definitely doing some wonky
+    things, like NOT emailing me when motion is detected and I'm mostly using a similar
+    configuration to what I had on my old Debian system. I ended up creating a cron
+    job to email me as a workaround. Anyway, good article and I may consider Arch
+    for this task.
+- author: Claudio Miklos
+  email: claudio@miklos.com.br
+  ip: 189.62.107.253
+  url: http://www.miklos.blog.br
+  date: '2013-02-09 11:08:28'
+  body: 'Hi!
+
+
+    Only to make things easy to the beginners (like me):
+
+
+    The commnad "adduser" as posted do not work.
+
+
+    you need to use:
+
+
+    useradd -m -g users -s /bin/bash pi
+
+
+    as in: <a href="https://wiki.archlinux.org/index.php/Users_and_Groups#User_management">https://wiki.archlinux.org/index.php/Users_and_Groups#User_management</a>'
+- author: Richard
+  email: zen32948@zen.co.uk
+  ip: 82.69.25.182
+  url: ''
+  date: '2013-02-25 13:02:58'
+  body: 'Hi Kean, I''ve got a small problem with this, the uploads working but its
+    not sending me a text link or photo within the email, please see sample below,
+    taken from email and file permission. I''ve tried and tested with your test files
+    and your motion.conf file.
+
+
+    Content-Type: multipart/mixed; name=VidTest.jpg
+
+    Content-Transfer-Encoding: base64
+
+    Content-Disposition: attachment; filename=VidTest.jpg
+
+
+    /9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCALQA8ADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+PnU+Wd/eMIwN74xnPfpUFlrdpc6bNeQwSxpGx
+
+
+    -rw-r--r-- 1 root root 24035 Feb 24 17:06 motion.conf
+
+    -rw-r--r-- 1 root root   623 Feb 24 12:31 uploader.cfg
+
+    -rwxr-xr-x 1 root root  5644 Sep  4 12:58 uploader.py'
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.235.99
+  url: http://profile.typepad.com/kean
+  date: '2013-02-25 16:53:02'
+  body: 'Hi Richard,
+
+
+    Not sure what to suggest... I''d try to make sure it''s finding the VidTest.jpg
+    file. Beyond that I''d probably simplify the email contents, to see if that helps
+    (and then introduce more complexity once you know that works).
+
+
+    Regards,
+
+
+    Kean'
+- author: Richard
+  email: zen32948@zen.co.uk
+  ip: 82.69.25.182
+  url: ''
+  date: '2013-02-26 16:08:38'
+  body: Thanks Kean, but which files do I edit, I've checked the uploader.cfg rewrote
+    that just in case, going to check the uploader.py if thats the right file your
+    asking me to simplify ?
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.235.43
+  url: http://profile.typepad.com/kean
+  date: '2013-02-26 20:52:08'
+  body: 'If I recall correctly it''s in uploader.py. I can''t help this week (on holiday),
+    so post another comment if you''re still struggling on Monday.
+
+
+    Kean'
+- author: Richard
+  email: zen32948@zen.co.uk
+  ip: 82.69.25.182
+  url: ''
+  date: '2013-02-27 00:09:22'
+  body: Thanks, enjoy your holiday.
+- author: Joe
+  email: j.brannan@gmail.com
+  ip: 46.208.26.239
+  url: ''
+  date: '2013-03-23 12:36:11'
+  body: 'Are there any modifications needed to get this to run on Raspbian?
+
+    I changed the pacman settings to apt-get install python, apt-get install python-pip
+    etc. but I''m getting the following error when running the test script at the
+    end:
+
+    -bash: /etc/motion/uploader.py: /usr/bin/python2: bad interpreter: No such file
+    or directory'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-03-23 16:29:19'
+  body: 'I didn''t get very far with Raspbian, at the time, but that doesn''t mean
+    it''s not possible to get it working (especially now that improvements have been
+    made to the OS).
+
+
+    This error should be simple enough to get past, although I don''t have specific
+    steps for you. Hopefully you''ll be able to track down the ino you need elsewhere.
+
+
+    Kean'
+- author: Joe
+  email: J.Brannan@gmail.com
+  ip: 46.208.26.239
+  url: ''
+  date: '2013-03-23 23:13:54'
+  body: 'I managed to get it to work, sort of.
+
+    The latest version of python that came with apt-get was 2.7, which meant that
+    all I needed to do was to edit the first line of uploaded.py to reference python
+    2.7 instead of 2.
+
+    This meant that the test script now works, uploaded the video and sent the email.
+
+
+    Unfortunately, although videos are recording (at around triple speed, not sure
+    why!), they''re not being uploaded to Drive in the way that the test video was.
+    Still no idea why the test script works but the real videos don''t.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-03-25 08:14:23'
+  body: 'Hmm - so your own test works but not your recorded videos? Then I''m at a
+    loss: sometimes people forget to create the "motion" folder on Google Drive, but
+    that would mean even the test would fail.
+
+
+    And I haven''t seen the triple-speed thing. Although that could be considered
+    a feature, right there. :-)
+
+
+    Kean'
+- author: GhostRider
+  email: gullys@gmail.com
+  ip: 134.220.252.8
+  url: ''
+  date: '2013-04-16 19:00:11'
+  body: "when I try to install Gdata I get this error:\n\n[root@alarmpi /]# sudo pip2\
+    \ install gdata\nDownloading/unpacking gdata\n  Could not fetch URL <a href=\"\
+    https://pypi.python.org/simple/gdata/:\">https://pypi.python.org/simple/gdata/:</a>\
+    \ There was a problem confirming the ssl certificate: <urlopen error [Errno 1]\
+    \ _ssl.c:504: error:14090086:SSL routines:SSL3_GET_SERVER_CERTIFICATE:certificate\
+    \ verify failed>\n  Will skip URL <a href=\"https://pypi.python.org/simple/gdata/\"\
+    >https://pypi.python.org/simple/gdata/</a> when looking for download links for\
+    \ gdata\n  Could not fetch URL <a href=\"https://pypi.python.org/simple/:\">https://pypi.python.org/simple/:</a>\
+    \ There was a problem confirming the ssl certificate: <urlopen error [Errno 1]\
+    \ _ssl.c:504: error:14090086:SSL routines:SSL3_GET_SERVER_CERTIFICATE:certificate\
+    \ verify failed>\n  Will skip URL <a href=\"https://pypi.python.org/simple/\"\
+    >https://pypi.python.org/simple/</a> when looking for download links for gdata\n\
+    \  Cannot fetch index base URL <a href=\"https://pypi.python.org/simple/\">https://pypi.python.org/simple/</a>\n\
+    \  Could not fetch URL <a href=\"https://pypi.python.org/simple/gdata/:\">https://pypi.python.org/simple/gdata/:</a>\
+    \ There was a problem confirming the ssl certificate: <urlopen error [Errno 1]\
+    \ _ssl.c:504: error:14090086:SSL routines:SSL3_GET_SERVER_CERTIFICATE:certificate\
+    \ verify failed>\n  Will skip URL <a href=\"https://pypi.python.org/simple/gdata/\"\
+    >https://pypi.python.org/simple/gdata/</a> when looking for download links for\
+    \ gdata\n  Could not find any downloads that satisfy the requirement gdata\nNo\
+    \ distributions at all found for gdata\nStoring complete log in /root/.pip/pip.log"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-04-16 19:51:32'
+  body: 'Sorry - no idea what''s going on here.
+
+
+    Kean'
+- author: Jerome Pinotage
+  email: ut_flo@web.de
+  ip: 95.118.208.22
+  url: ''
+  date: '2013-05-23 22:46:34'
+  body: 'Hello Kean,
+
+
+    great tutorial. I managed it with Raspbian.
+
+
+    My Problem: I need a sort of workround for the .jpg.
+
+    Uploader.py doesnt send Emails while the .jpg-file is missing. I dont want to
+    increase CPU-load and storage, so there must be a solution to upload directly
+    the video and sending the Email without waiting for the .jpg.
+
+    Do you have any ideas?
+
+
+    Jerome'
+- author: chrisk69@gmx.de
+  email: chrisk69@gmx.de
+  ip: 217.115.65.15
+  url: ''
+  date: '2013-05-27 16:21:17'
+  body: "Hi GhostRider,\n\nlook at: \n\n<a href=\"http://guide.python-distribute.org/installation.html\"\
+    >http://guide.python-distribute.org/installation.html</a>\n\n<a href=\"https://developers.google.com/gdata/articles/python_client_lib#linux\"\
+    >https://developers.google.com/gdata/articles/python_client_lib#linux</a>\n\n\
+    <a href=\"https://code.google.com/p/gdata-python-client/downloads/list\">https://code.google.com/p/gdata-python-client/downloads/list</a>\n\
+    \nI used pip-0.7.2 and qdata-2.0.17 and all works very fine with whezzy. I also,\
+    \ can use the USB-Webcam Xbox Live Vision ( <a href=\"http://elinux.org/RPi_VerifiedPeripherals#USB_Webcams\"\
+    >http://elinux.org/RPi_VerifiedPeripherals#USB_Webcams</a> ) but only with 352x288\
+    \ resolution and the image quality is quite bad. I have to try with USB-Hub and\
+    \ other Web-Cams. But using IP server A9100B and IP-WEB-Cams with directly HTTP-request\
+    \ access to the images, works very fine and stable, I have 3 cameras working over\
+    \ days, now. Further I use squid3 and syslog-ng for my hardware firewall - I am\
+    \ very pleased! Thanks to Kean!"
+- author: Martin
+  email: kuehl.martin@gmail.com
+  ip: 212.122.46.93
+  url: ''
+  date: '2013-05-28 12:37:33'
+  body: The correct command for adding a new user is "useradd" instead of "adduser".
+    Anyhow, your guide is great!
+- author: Jerome
+  email: ut_flo@web.de
+  ip: 217.191.147.191
+  url: ''
+  date: '2013-06-05 23:17:48'
+  body: 'Hi. Nice tutorial!
+
+
+    I''m a newbie with several problems.
+
+
+    I only want the Python-Script to send a Picture from gmail (to gmail: selfsend).
+
+    I dont understand the Code 100%, so i dont know what to change. Anyone an idea?
+
+
+    (The unchanged Code is running well - I''m using Raspbian)'
+- author: Gunnar
+  email: seston@gmail.com
+  ip: 217.159.166.215
+  url: ''
+  date: '2013-06-29 12:19:06'
+  body: "Hi Kean\n\n I've got a small problem with this. The uploads working but its\
+    \ not sending me a text link or photo within the email.\nHow to solve this ?"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-06-29 12:20:44'
+  body: 'Hi Gunnar,
+
+
+    Does the script work when you call it manually? I suggest going back through the
+    steps and making sure you haven''t missed any.
+
+
+    Regards,
+
+
+    Kean'
+- author: Gunnar
+  email: seston@gmail.com
+  ip: 217.159.166.215
+  url: ''
+  date: '2013-06-29 13:01:14'
+  body: All ok. If sender and receiver emal aadressea are same email without link.If
+    sender one aadress and receiver other works all prefectly.
+- author: Ricardo
+  email: ricardo_travi@yahoo.com.br
+  ip: 201.72.102.178
+  url: ''
+  date: '2013-07-06 22:50:21'
+  body: 'Hello Kean
+
+
+    I had the script perfectly functioning, but now the email has no longer been sent.
+    When I manually call the script I receive the following message:
+
+
+    socket.error: [Errno 97] Address family not supported by protocol
+
+
+    Dou you have any ideia how to fix it?
+
+
+    Thanks!'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-07-07 23:40:24'
+  body: 'Hello Ricardo,
+
+
+    Sorry - this isn''t something I''ve come across, myself.
+
+
+    Regards,
+
+
+    Kean'
+- author: janebrendan
+  email: ''
+  ip: 182.182.119.107
+  url: http://profile.typepad.com/janebrendan
+  date: '2013-07-10 11:48:48'
+  body: wow kean you post is great thanks for sharing this post with us.
+- author: Chorlton2080
+  email: dzien.dobry@yahoo.co.uk
+  ip: 92.233.45.45
+  url: ''
+  date: '2013-07-13 00:12:04'
+  body: 'Great tutorial and scripts.
+
+
+    I got this working with Raspian on the RPi with the following changes:
+
+
+    1. need to use "sudo apt-get install python-gdata"
+
+    2. even with chmod I couldn''t get Motion to start the script unless I added "python"
+    before the call to the script file'
+- author: hkamh
+  email: givziv@gmail.com
+  ip: 155.250.255.143
+  url: ''
+  date: '2013-07-17 15:15:30'
+  body: "DYNDNS is expensive\n\nHere a shell script which is reading the internet\
+    \ IP from your router and update the subject file of the uploader.cfg if IP is\
+    \ changed.\n_____________________________________________\n\n#!/bin/sh\n#cd /root\n\
+    \n\nROUTERURL=\"http://192.168.0.1\"\nROUTERUSER=\"root\"\nROUTERPASSWD=\"YOURPASSWD\"\
+    \n\nif [ ! -f  \"ipNEW.txt\" ]\nthen\n    echo \"192.168.0.1\" > ipNEW.txt\nfi\n\
+    #save old IP\nexport IPOLD=\"$(cat ipNEW.txt)\"\n#wget -r --user=$ROUTERUSER --password=$ROUTERPASSWD\
+    \ $ROUTERURL  1> NUL 2> NUL\nexport IPNEW=\"$(grep '[0-9]\\{1,3\\}\\.[0-9]\\{1,3\\\
+    }\\.[0-9]\\{1,3\\}\\.[0-9]\\{1,3\\}' < index.html |sed  -e \"s/var wan_ip=//g\"\
+    \  -e \"s/'//g\"  -e \"s/;//g\")\" \necho $IPNEW > ipNEW.txt\nexport NEWURL=\"\
+    message = http:\\/\\/$IPNEW:8080\" \nif [ \"$IPOLD\" != \"$IPNEW\" ]; then\n \
+    \ echo \"OLDIP: \"$IPOLD   \"NEWIP: \" $IPNEW\n   echo \"IP CHANGed new URL=$NEWURL\"\
+    \n   sed  -i \"s/message =.*$/$NEWURL/g\" uploader.cfg 1> NUL 2> NUL\t\nelse\n\
+    \  echo \"IP SAME: \"$IPNEW \"URL IS: \"$NEWURL\n  echo \nfi"
+- author: Gunnar
+  email: seston@gmail.com
+  ip: 217.159.254.34
+  url: ''
+  date: '2013-07-18 10:53:41'
+  body: 'All working very prefectly but i have one small question : can i use other
+    (cam 2) camera in other port ?'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.25
+  url: http://profile.typepad.com/kean
+  date: '2013-07-18 10:55:39'
+  body: 'You might well be able to, but I haven''t done so myself. Power''s likely
+    to be an issue - you might well need a powered USB hub.
+
+
+    Kean'
+- author: hkamh
+  email: c1.yasasinyozgat@gmail.com
+  ip: 94.217.96.60
+  url: ''
+  date: '2013-07-31 23:37:48'
+  body: "Hi, in case you have problems with your cam, you could try to reset it periodically\
+    \ via crontab with the following C programm I ve found on the net. Don t remember\
+    \ any more where..\n\n//First, get the device path for your usb device. Enter\
+    \ the command lsusb will give you something similar as below,\n\n//#Bus 001 Device\
+    \ 004: ID 045e:0779 Microsoft Corp. LifeCam HD-3000\n//#Use the Microsoft Corp.\
+    \ LifeCam HD-3000 as an example, the device node for it is /dev/bus/usb/001/004,\
+    \ where 001 is the bus number, and 004 is the device number.\n\n\n//# ./reset\
+    \ /dev/bus/usb/006/002\n//# This will reset the camera in case you have stability\
+    \ problems \n//#You can take a look at the message by,\n\n//#tail -f /var/log/messages\n\
+    //#=========================================\n// to compile:  gcc -o reset reset.c\
+    \ \n// add an entry to crontab: */9 * * * * /etc/motion/reset /dev/bus/usb/001/004\
+    \ \n#include <stdio.h>\n#include <fcntl.h>\n#include <errno.h>\n#include <sys/ioctl.h>\n\
+    #include <linux/usbdevice_fs.h>\nvoid main(int argc, char **argv)\n{\n\tconst\
+    \ char *filename;\n\tint fd;\n\tfilename = argv[1];\n\tfd = open(filename, O_WRONLY);\n\
+    \tioctl(fd, USBDEVFS_RESET, 0);\n\tclose(fd);\n\treturn;\n}"
+- author: hkamh
+  email: c1.yasasinyozgat@gmail.com
+  ip: 94.217.96.60
+  url: ''
+  date: '2013-07-31 23:43:43'
+  body: "Hi again,\nFollowing shell script restart via crontab motion and/or other\
+    \ programms if they re not running.\n\nFound the script on the net and adapted\
+    \ it a bit.\n\nI run it via cron (crontab -e) every 5 minutes :\n\n*/5 * * * *\
+    \ /root/scripts/restart_service.sh >/dev/null 2>&1\n\n/var/log/crond.log show\
+    \ executions of cron..\n\nCode:\n\n#!/bin/sh\n######### Check Service and Restart\
+    \ ############\n\nSERVICE=\"webmin motion\"\n\nfor n in $SERVICE\ndo\n\nif ps\
+    \ ax | grep -v grep | grep $n > /dev/null\nthen\necho \"$n service running, everything\
+    \ is OK\"\nelse\necho \"$n is not running, restarting $n\"\ncheckmysql=`ps ax\
+    \ | grep -v grep | grep -c $n`\n\nif [ $checkmysql -le 0 ]\nthen\n'/usr/bin/systemctl'\
+    \ start $n \n\nif ps ax | grep -v grep | grep $n > /dev/null\nthen\necho \"$n\
+    \ service is now restarted, everything is OK\" \nfi\nfi\nfi\ndone\n\nexit 0"
+- author: Johan Gunnarsson
+  email: ''
+  ip: 31.209.38.179
+  url: http://profile.typepad.com/johangunnarsson
+  date: '2013-08-17 23:30:43'
+  body: "Thanks for a great post!\n\nIt works great, and sending ok, \nbut when I\
+    \ run it as daemon=on, some permission problem. (no good in linux)\n\nWhat can\
+    \ I do? is it destination folder \"/home/pi/motion/\"       \nor   \"/etc/motion/uploader.py\"\
+    \ (I did sudo chmod +x uploader.py)\n\n\n url_fopen - error opening file /home/pi/motion/2013-08-17-18-58-16-01.avi\
+    \ ... check access rights to target directory: Permission denied\n\nCan't write\
+    \ picture to file /home/pi/motion/2013-08-17-20-57-27-01.jpg - check access rights\
+    \ to target directory: Permission denied"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-08-18 10:02:12'
+  body: 'Seems like it''s the destination folder. I don''t know why (sorry - it''s
+    been so long since I looked at this).
+
+
+    Hopefully someone will be able to help or you''ll work out what''s wrong...
+
+
+    Kean'
+- author: Tripitaka
+  email: hurstfamily@gmail.com
+  ip: 64.180.198.37
+  url: ''
+  date: '2013-08-20 05:50:19'
+  body: 'All seems to work OK *if* you are using a USB camera. I''m trying to get
+    it to work with the Raspberry Pi camera and I don''t get a /dev/video0 so it won''t
+    open.
+
+
+    Hmmm...'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-08-20 06:55:29'
+  body: 'I haven''t yet got my hands on one of those. I have no idea how they interface
+    with the R-Pi. I''m also curious to know how you get it to work.
+
+
+    Kean'
+- author: markus
+  email: stikkx@gmail.com
+  ip: 212.100.48.78
+  url: ''
+  date: '2013-08-20 22:36:15'
+  body: "hey Kean, \n\ni had follow you description, Your video appears at my Mail\
+    \ but no videos from my room if i walk up and down.\n\nThx and sorry for my english"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-08-21 09:59:05'
+  body: 'Hi Markus,
+
+
+    Sorry - I have no way of telling what''s not working.
+
+
+    Regards,
+
+
+    Kean'
+- author: luca
+  email: tothegarbagebin@gmail.com
+  ip: 46.7.160.222
+  url: ''
+  date: '2013-08-25 22:13:05'
+  body: Thank very much for this instructions, I was facing the same issue as you
+    were on part1, but this one works like a charm!
+- author: Jeremy
+  email: jkendric@gmail.com
+  ip: 24.10.147.127
+  url: ''
+  date: '2013-09-03 05:35:35'
+  body: 'This works great with a USB webcam.  I just received one of the raspberry
+    pi camera modules.  Not a lot out there on getting it to work with motion in Arch.  Anyone
+    got this going?
+
+
+    -Jeremy'
+- author: doghousedean
+  email: doghousedean@gmail.com
+  ip: 82.68.229.158
+  url: http://ag33k.net
+  date: '2013-09-03 19:39:46'
+  body: 'Hi,
+
+
+    Motion appears to work fine, when running motion -s I see the data about motion
+    tracking (my cats!) and that it starts the httpd service but I cannot connect
+    to it from my browser, any ideas?
+
+
+    Thanks'
+- author: doghousedean
+  email: doghousedean@gmail.com
+  ip: 82.68.229.158
+  url: http://ag33k.net
+  date: '2013-09-03 19:48:55'
+  body: 'Fixed it, there is an option to restrict it to local host only, removed that
+    and its fine.
+
+
+    Great tutorial.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-09-03 19:50:28'
+  body: 'Thanks for letting me know - glad you have it working.
+
+
+    Kean'
+- author: leon95
+  email: leon95@gmail.com
+  ip: 81.57.33.53
+  url: ''
+  date: '2013-09-10 13:00:07'
+  body: 'I had the same error, and for me, it''s the problem with the system date
+    (01/01/1970)...
+
+    I have set the date and now it''s work.'
+- author: sabzz
+  email: sabster62@gmail.com
+  ip: 213.104.98.197
+  url: ''
+  date: '2013-09-15 03:51:44'
+  body: 'hi, Thanks for the instructions. My webcam seems to be supported but I still
+    cant get it up! I am so close. When I run the sudo motion -s command I get the
+    following error:
+
+
+    [1] frames=4
+
+    [1] 0 length=32768
+
+    [1] 1 length=32768
+
+    [1] 2 length=32768
+
+    [1] 3 length=32768
+
+    [1] Using V4L2
+
+    Unsupported marker type 0xf5
+
+    [1] Video device fatal error - Closing video device
+
+    [1] Closing video device /dev/video0
+
+    [1] Raw changes:     0 - changes after ''EedDl'':     0 - labels:   0 - noise
+    level: 11
+
+    [1] Raw changes:     0 - changes after ''EedDl'':     0 - labels:   0 - noise
+    level: 11
+
+    [1] Raw changes:     0 - changes after ''EedDl'':     0 - labels:   0 - noise
+    level: 11
+
+
+    I have tried changing the resolution many times over. The blue light even flashes
+    on the front of the webcam briefly. Do you know what the problem could be?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-09-16 18:12:04'
+  body: 'Are you sure the webcam is supported (i.e. primarily has low enough power
+    rating) for the R-Pi? You might try a powered USB hub - that often helps with
+    issues such as this.
+
+
+    Kean'
+- author: MC
+  email: karlym@alice.it
+  ip: 87.9.192.32
+  url: ''
+  date: '2013-09-20 17:15:17'
+  body: 'Using Raspbian, I solved substituting
+
+    On_Movie_End /etc/motion/uploader.py etc/motion/uploader.cfg %F
+
+    with
+
+    On_Movie_End python /etc/motion/uploader.py /etc/motion/uploader.cfg %f'
+- author: Jez Buckley
+  email: jez286@blueyonder.co.uk
+  ip: 217.43.105.236
+  url: ''
+  date: '2013-09-24 15:26:01'
+  body: 'Great tutorial Kean! Pleased to say I''ve successfully used it to set up
+    two separate Raspberry Pi based webcams and, eventually, I intend to use it in
+    a ''bird box'' project.
+
+
+    I used to be able to view the live stream remotely on both cams using Firefox
+    or Chrome (never IE though) then the other day I couldn''t access either, no matter
+    what browser I used, remotely or locally. I''m wondering if they''ve made a change
+    to Motion - nothing else has changed as far as I can see and I can still access
+    the streams through VLC but I miss the accessibility of using a browser.
+
+
+    I did also try to set up your project using Raspbian (find it much easier to use)
+    but couldn''t get the Python script to work and I''m a Linux beginner so gave
+    up on that quickly - any advice would be appreciated!
+
+
+    Anyway, just wanted to extend a big ''Thank you'' for posting - keep up the great
+    work!'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-09-24 15:35:56'
+  body: 'Hi Jez,
+
+
+    Great - glad to know it''s been useful. :-)
+
+
+    Not sure about the browser issue - it''s been a while since I''ve had one of these
+    running, myself, and so can''t really comment on that.
+
+
+    MC <a href="http://through-the-interface.typepad.com/through_the_interface/2012/09/creating-a-motion-detecting-security-cam-with-a-raspberry-pi-part-2.html?cid=6a00d83452464869e2019aff822c2c970d#comment-6a00d83452464869e2019aff822c2c970d">mentioned
+    a change that helped on Raspbian</a>, in case.
+
+
+    Best of luck,
+
+
+    Kean'
+- author: Zela
+  email: bermshot@gmail.com
+  ip: 24.34.216.219
+  url: ''
+  date: '2013-10-03 13:32:05'
+  body: "Thanks, for this great tutorial!\n\nI had some trouble getting the .jpg file\
+    \ to display/link in the body of the E-Mail.\n\nWhat worked for me was changing\
+    \ the \"content-type\" in the third header to \"image/jpeg;\"\n\nThe line in uploader.py\
+    \ should be like this:\n p3=\"Content-Type: image/jpeg; name=%s\\r\\nContent-Transfer-Encoding:base64\\\
+    r\\nContent-Disposition: attachment; filename=%s\\r\\n\\r\\n%s\\r\\n--%s--\\r\\\
+    n\" % (imgfile, imgfile, encodedcontent, marker)"
+- author: pete
+  email: pwobus@gmail.com
+  ip: 108.48.203.156
+  url: ''
+  date: '2013-10-11 04:08:20'
+  body: Just wanted to say thanks for this excellent tutorial.  Using a combination
+    of your instructions and "dozencrow’s" version of the motion program  (<a href="http://rbnrpi.wordpress.com/project-list/setting-up-wireless-motion-detect-cam/)">http://rbnrpi.wordpress.com/project-list/setting-up-wireless-motion-detect-cam/)</a>
+    with wheezy-raspian everything works perfectly! Thank you!
+- author: Dave
+  email: Dthompson51@gmail.com
+  ip: 142.196.193.62
+  url: ''
+  date: '2013-10-29 22:27:25'
+  body: Have you tried using the RPi camera for this project?  I am trying to get
+    one working now and haven't been successful yet as I am a new to arch and the
+    pi.
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-10-30 07:59:50'
+  body: 'Sadly not. All of this pre-dated the availability of the RPi camera and I
+    haven''t revisited it since.
+
+
+    Kean'
+- author: Akash Deep
+  email: ''
+  ip: 49.204.8.156
+  url: http://profile.typepad.com/deepakash
+  date: '2013-11-30 11:48:06'
+  body: 'hi kean... I had tried according to you and found some error:
+
+    [1] cap.driver: "uvcvideo"
+
+    [1] cap.card: "UVC Camera (046d:0819)"
+
+    [1] cap.bus_info: "usb-bcm2708_usb-1.3"
+
+    [1] cap.capabilities= 0x04000001
+
+    [1] Error selecting input 0 VIDIOC_S_INPUT: Device of resource busy
+
+    [1] ioctl (VIDEOCGCAP): Inappropriate ioctl for devices.
+
+    [1] - VIDEO_CAPTURE
+
+    [1] - STREAMING
+
+    [1] raw changes: 0-changes after ''EedDl'': 0-labels : 18
+
+    I am using logitech c210 webcam... pls help me'
+- author: Kean Walmsley
+  email: ''
+  ip: 64.79.144.10
+  url: http://profile.typepad.com/kean
+  date: '2013-12-01 05:50:15'
+  body: 'Hi Akash,
+
+
+    Sorry - I can''t really help with something that''s very likely to be a device-specific
+    issue.
+
+
+    Good luck,
+
+
+    Kean'
+- author: John
+  email: jsmith_uk@ymail.com
+  ip: 93.97.4.233
+  url: ''
+  date: '2013-12-01 21:28:27'
+  body: "Ditto\n\nWith <i>p3=\"Content-Type: image/jpeg; etc.\"</i> the pictures are\
+    \ showing up and opening up correctly on GMail. Haven't tested with Yahoo! or\
+    \ AOL though.\n\nDear Kean,\n\nI have a perfect monitoring system, based on the\
+    \ latest Raspbian and Motion (3.2.12-3.4). It's very stable, and it's doing the\
+    \ job, as intended.\n\nHeadless RPi Model B with Logitech C270 USB camera.\n\n\
+    The only trouble with Debian/Raspbian is the /etc/init.d/motion script. Motion\
+    \ expects the PID to be in /var/run/motion/motion.pid, whilst /etc/init.d/motion\
+    \ states it's /var/run/motion.pid.\n\nThe patch:\n<code>\n--- motion.orig 2013-12-01\
+    \ 08:37:27.439683538 +0000\n+++ motion.new  2013-12-01 08:36:34.161380612 +0000\n\
+    @@ -24 +24 @@\n-PIDFILE=/var/run/$NAME.pid\n+PIDFILE=/var/run/$NAME/$NAME.pid\n\
+    </code>\n\nWhen I am away, I also wanted to have GPU and CPU temperature sensor's\
+    \ readings on my e-mails. I have added a few lines to the code, which I'd be happy\
+    \ to share. Apparently the owners might want to have more details about their\
+    \ RPis (CPU and memory load, and disk utilisation), when they are away. It's all\
+    \ doable.\n\nYou've done your great piece of job by extending \nJeremy's script\
+    \ above and beyond. The script requires some apparent patching, as per Zela. It\
+    \ can also be extended to include some extra functionality for RPi.\n\nHow about\
+    \ setting up a project on SF with Jeremy Blythe, the original author of the script?\n\
+    \nOr shall we keep it quiet, non-public?"
+- author: Kean Walmsley
+  email: ''
+  ip: 64.79.144.10
+  url: http://profile.typepad.com/kean
+  date: '2013-12-01 23:29:09'
+  body: 'Hi John,
+
+
+    I''d be very happy to see this extended and posted publicly.
+
+
+    What''s SF?
+
+
+    Best regards,
+
+
+    Kean'
+- author: Akash Deep
+  email: ''
+  ip: 49.204.8.156
+  url: http://profile.typepad.com/deepakash
+  date: '2013-12-03 16:34:18'
+  body: "Hi Kean,\nNo problem at all.\nCan you help me finding solution for the following\
+    \ error. It is the output for \"dmesg\" command and my kernel is 3.6.11+:\n[5.790301]\
+    \ Linux video capture interface: v2.00\n[6.213422] uvcvideo: Found UVC 1.00 device.\
+    \ <unnamed> (046d:0819)\n[6.610378] input: UVC camera (046d:0819)  as  /devices/platform/bcm2708_usb/usb1/1-1/1-1.2/1-1.2:1.0/input/input2\
+    \ \n[6.856060] usbcore: registered new interface driver uvcvideo\n[6.996478] USB\
+    \ Video Class driver (1.1.1)\n[ 7.796439] usbcore:  registered new interface driver\
+    \ snd-usb-audio\n[10.301633] EXT4-fs (mmcblk0p2): re-mounted.Opts : (null) \n\
+    [10.822316] EXT4-fs (mmcblk0p2): re-mounted.Opts : (null)\n[ 23.426901] Adding\
+    \ 102396k swp on /var/swap. Priority:-1 extents:1 across:102396k SS\n[ 26.301843]\
+    \ uvcvideo: Failed to query (SET_CUR) UVC control 3 on unit 2: -110  (exp.2)\n\
+    [ 26.601848] uvcvideo: Failed to query (SET_CUR) UVC control 7 on unit 2: -110\
+    \  (exp.2)\n[ 26.601848] uvcvideo: Failed to query (SET_CUR) UVC control 2 on\
+    \ unit 2: -110  (exp.2)\n[ 32.931814] uvcvideo: Failed to set UVC probe control\
+    \ : -110 (exp. 26).\n[ 37.931908] uvcvideo: Failed to set UVC probe control :\
+    \ -110 (exp. 26).\n[43.941808]uvcvideo: Failed to set UVC probe control : -110\
+    \ (exp. 26).\n[48.841809] uvcvideo: Failed to set UVC probe control : -110 (exp.\
+    \ 26).\n[540.830427] uvcvideo: Failed to set UVC probe control : -71 (exp. 26).\n\
+    [541.059081] usb1-1.2: USB disconnected, device number 4.\n[544.621932] usb 1-1.2:\
+    \ new low-speed USB device number 6 using dwc_otg."
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-12-16 10:24:04'
+  body: 'Hi Akash,
+
+
+    Sorry - no suggestions spring to mind and I unfortunately have neither the expertise
+    nor the time to help research this problem.
+
+
+    Good luck,
+
+
+    Kean'
+- author: Scott Pause
+  email: spause+rpi@gmail.com
+  ip: 74.74.174.96
+  url: ''
+  date: '2014-01-13 02:55:20'
+  body: "Freaking A.  I spent all evening trying to figure out how to do Google Drive\
+    \ access based on some posts like this.  Turns out that if you have two factor\
+    \ auth turned on for your account you need to either use oauth OR create an app\
+    \ specific password (that can access your entire account).\n\nSo instead of entering\
+    \ your regular password, you can enter the app specific password.  And it will\
+    \ just work.\nUsername = yourgmailaddy@gmail.com\nPassword=<app specific password>\n\
+    \nI guess that not alot of these folks use two factor, or that they are so ubur\
+    \ dev they simply overlook mentioning it. \n\nAnd let me say that OAuth and Google\
+    \ Dev setup stuff is a nightmare.  I have no clue if anything I setup would lead\
+    \ to financial charges.   I did get it working, but I don't know if I want it\
+    \ working based on all the info about billing and legalese you agree to.  All\
+    \ of this JUST to upload a file to a web service.  Yikes!\n\nAnyone feel free\
+    \ to correct me or provide more info on any of this.\n\nThanks for the original\
+    \ script btw!\uFEFF"
+- author: Scott Pause
+  email: spause+rpi@gmail.com
+  ip: 74.74.174.96
+  url: ''
+  date: '2014-01-13 02:56:41'
+  body: "Freaking A.  I spent all evening trying to figure out how to do Google Drive\
+    \ access based on some posts like this.  Turns out that if you have two factor\
+    \ auth turned on for your account you need to either use oauth OR create an app\
+    \ specific password (that can access your entire account).\n\nSo instead of entering\
+    \ your regular password, you can enter the app specific password.  And it will\
+    \ just work.\nUsername = yourgmailaddy@gmail.com\nPassword=<app specific password>\n\
+    \nI guess that not alot of these folks use two factor, or that they are so ubur\
+    \ dev they simply overlook mentioning it. \n\nAnd let me say that OAuth and Google\
+    \ Dev setup stuff is a nightmare.  I have no clue if anything I setup would lead\
+    \ to financial charges.   I did get it working, but I don't know if I want it\
+    \ working based on all the info about billing and legalese you agree to.  All\
+    \ of this JUST to upload a file to a web service.  Yikes!\n\nAnyone feel free\
+    \ to correct me or provide more info on any of this.\n\nThanks for the original\
+    \ script btw!\uFEFF"
+- author: Scott Pause
+  email: spause+rpi@gmail.com
+  ip: 74.74.174.96
+  url: ''
+  date: '2014-01-13 03:52:31'
+  body: 'As for the email and content - I finally got an email with an attached jpg
+    and a video link.
+
+
+    Unfortunately the video link only works for the desktop version of Firefox.  It
+    does not work in Android 4.4/mobile FF, 4.4/mobile Chrome, or Ubuntu/Chromium
+    (oddly enough).  So I guess I''ll try to research options for getting the video
+    to display elsewhere.
+
+
+
+    And all of this work is just to make sure I ave something that can work for if/when
+    I decide to buy a Raspberry Pi!'
+- author: Scott Pause
+  email: spause+rpi@gmail.com
+  ip: 74.74.174.96
+  url: ''
+  date: '2014-01-13 03:55:10'
+  body: The video link won't work because I am essentially forced to output the video
+    as flash.  No Android or Chromium support.  :(
+- author: Bananacake
+  email: sven.luescher@gmail.com
+  ip: 178.192.97.247
+  url: ''
+  date: '2014-02-06 19:04:24'
+  body: 'Heey - Great post! I didn''t get motion running since about half a year and
+    now, I finally made it! Thanks a lot!
+
+
+    And: You have to share the ''motion-Folder'' with the person that will recieve
+    your E-Mails (If this isn''t you)
+
+
+    Thanks and continue writing so good posts ;) Thanks man!
+
+
+    (Sorry for my English, It''s not my main Language
+
+    -----'

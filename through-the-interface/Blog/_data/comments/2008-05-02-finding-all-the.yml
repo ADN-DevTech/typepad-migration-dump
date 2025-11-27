@@ -1,0 +1,392 @@
+comments:
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 201.80.179.181
+  url: http://arxdummies.blogspot.com
+  date: '2008-05-01 06:36:55'
+  body: "Hi Kean,\n\nThis approach works fine for small amount of entities.\n\nWhat\
+    \ I did for huge drawings was a solution using a database reactor and a map to\
+    \ store an AcDbObjectIdArray of entities for each Layer's AcDbObjectId which will\
+    \ be the map KEY.\n\nThe idea was to catch these events:\n  objectAppended  \n\
+    \  objectErased  \n  objectModified  \n  objectReAppended  \n  objectUnAppended\
+    \  \n\nFor each notification, get the entity`s layer AcDbObjectId and add/remove\
+    \ into proper map entry array.\n\nThe result is a instant cache to get the entity\
+    \ list for each desired layer.\n\nYou can store this cache through an AcDbObject\
+    \ entry inside NOD or build it on the fly everytime you load the DWG. The last\
+    \ will cause a small delay when loading the drawing but will avoid the use of\
+    \ a custom entity or a XRecord entry.\n\nOf course this cache must be per-document\
+    \ and MDI-aware.\n\nRegards,\nFernando."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.7.167
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-01 10:06:01'
+  body: 'That''s right - this will be adequate for many (if not most) cases, but when
+    performance is an issue implementing a cache is the way to go.
+
+
+    Kean'
+- author: Allan C
+  email: kabsol@socal.rr.com
+  ip: 66.75.87.160
+  url: ''
+  date: '2008-06-22 23:37:23'
+  body: 'Thanks for these informative posts.  I thought that with this one, I could
+    write a function to select all entities from a list of layers, but I am ignorant
+    of what we are doing with the "TypedValue" calls.  Could you direct me to where
+    I can get more info on this?
+
+
+    Thanks,
+
+    Allan'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-06-23 10:19:04'
+  body: "Allan,\n\nYou need to use the \"or\" operator (by adding enclosing \"&lt;or\"\
+    \ and \"or&gt;\" elements to the list):\n\n<pre>\nTypedValue[] tvs =\n  new TypedValue[4]\
+    \ {\n      new TypedValue(\n        (int)DxfCode.Operator,\n        \"&lt;or\"\
+    \n      ),\n      new TypedValue(\n        (int)DxfCode.LayerName,\n        layerName\n\
+    \      ),\n      new TypedValue(\n        (int)DxfCode.LayerName,\n        layerName2\n\
+    \      ),\n      new TypedValue(\n        (int)DxfCode.Operator,\n        \"or&gt;\"\
+    \n      )\n    };\n</pre>\n\nThis is a good topic for a follow-up post.\n\nKean"
+- author: Travor
+  email: sdphg@hotmail.com
+  ip: 65.49.14.11
+  url: ''
+  date: '2009-10-20 09:05:03'
+  body: 'Hi Kean,
+
+    what the "GetAllObjects() will return the objects accessed via (or added to) the
+    transaction " means? I found if you want to use tr.GetAllObjects(), this transaction
+    should not be commited, in an other words if tr.commit() after tr.GetAllObjects(),
+    when you close the AutoCAD, it collapse,why?'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2009-10-20 09:14:16'
+  body: 'Hi Travor,
+
+
+    This is what the documentation says on GetAllObjects():
+
+
+    "This function returns all the objects currently open in the transaction."
+
+
+    I haven''t actually used it, that I can remember, as I tend to keep track of the
+    objects I need rather than asking the transaction for them.
+
+
+    That said, if there''s a problem with the way it works, it should really be reported
+    via <a href="http://adn.autodesk.com">ADN</a>. If you''re not a member, I suggest
+    posting your code to <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Mario
+  email: mario.rosenbohm@kali-gmbh.com
+  ip: 79.213.191.33
+  url: ''
+  date: '2010-07-05 20:35:52'
+  body: "Hello Kean,\n\ni will use the SelectAll(...)\non a programming-loaded DWG.\n\
+    But the SelelctAll throw a\n\"eNotApplicable\" Error.\n\nWhy? \n\nRegards\n\n\
+    Mario\n\nCode: \n[code]\npublic static ObjectIdCollection GetSelection(string\
+    \ Layername, string TypeNames, AcadDocument FromThisDWG)\n        {\n        \
+    \    Document acDocument =  Document.FromAcadDocument( FromThisDWG);\n       \
+    \     Editor acEditor = acDocument.Editor;\n            if (string.IsNullOrEmpty(Layername)\
+    \ && string.IsNullOrEmpty(TypeNames)) return null;\n            if (!clLayer.HasLayer(Layername,\
+    \ FromThisDWG)) return null;\n           \n            TypedValue[] typedValue;\n\
+    \            if (string.IsNullOrEmpty(TypeNames))\n            {\n           \
+    \     typedValue = new TypedValue[1] { new TypedValue((int)DxfCode.LayerName,\
+    \ Layername) };\n            }\n            else\n            {\n            \
+    \    typedValue = new TypedValue[2] {\n                        new TypedValue((int)DxfCode.LayerName,\
+    \ Layername),\n                        new TypedValue((int)DxfCode.Start, TypeNames)\n\
+    \                };\n\n            }\n            SelectionFilter selectionFilter\
+    \ = new SelectionFilter(typedValue);\n            PromptSelectionResult acPromptSelectionResult\
+    \ = acEditor.SelectAll(selectionFilter); //<b>=== eNotApplicable-Error </b>\n\n\
+    \            if (acPromptSelectionResult.Status == PromptStatus.OK)\n        \
+    \    {                \n                return new ObjectIdCollection(acPromptSelectionResult.Value.GetObjectIds());\n\
+    \            }\n            return null;\n        }\n[/code]"
+- author: Kean Walmsley
+  email: ''
+  ip: 99.40.48.34
+  url: http://profile.typepad.com/kean
+  date: '2010-07-05 22:52:47'
+  body: 'Hello Mario,
+
+
+    I assume that''s because Editor.SelectAll() needs to work on drawings loaded into
+    the AutoCAD editor.
+
+
+    You would need a more manual approach to "side" drawings, such as iterating through
+    the various BlockTableRecords of interest (the modelspace, etc.).
+
+
+    Regards,
+
+
+    Kean'
+- author: Stephan Bartl
+  email: cad@stbarlt.at
+  ip: 88.117.152.30
+  url: http://www.stbartl.at
+  date: '2011-09-08 15:28:57'
+  body: 'Hi Kean!
+
+    The Autocad .Net Developers Guide says concerning the Editor.SelectAll:
+
+    "Selects all objects in the current space in which are not locked or frozen."
+    (Source: <a href="http://docs.autodesk.com/ACD/2011/PTB/filesMDG/WS1a9193826455f5ff-3859b43c1209703a838778b.htm)">http://docs.autodesk.com/ACD/2011/PTB/filesMDG/WS1a9193826455f5ff-3859b43c1209703a838778b.htm)</a>
+
+
+    That is not what (ssget "_X") respectively (ssget "X") in Autolisp does. (ssget
+    "_X") gets really all entities from all spaces including also entities on frozen
+    or locked layers.
+
+
+    I did not try Editor.SelectAll completely. Do you know whether the .Net Dev Guide
+    made a mistake with that information or whether it is correct?
+
+
+    Regards, Stephan'
+- author: Stephan Bartl
+  email: cad@stbarlt.at
+  ip: 88.117.152.30
+  url: http://www.stbartl.at
+  date: '2011-09-08 15:44:30'
+  body: 'Ok, I didn''t want to be lazy and tried it out myself:
+
+
+    The Autocad .Net Developers Guide is wrong in this case!!! Editor.SelectAll acts
+    (obviously) exactly like (ssget "_X") respectively (ssget "X"), which actually
+    is the same but the "_X" version is needed in (older ?) localized Autocad versions.'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2011-09-08 16:50:36'
+  body: 'Thanks for giving it a try, Stephan.
+
+
+    Please go ahead and submit this via the feedback link in the help.
+
+
+    Regards,
+
+
+    Kean'
+- author: max
+  email: maximilian.thumfart@henn.com
+  ip: 212.202.146.198
+  url: ''
+  date: '2012-02-23 09:35:02'
+  body: 'Dear Kean,
+
+
+    sadly ed.SelectAll and/or ssget "X" will return objects without objects of xrefs.
+    Is there a way to get all the ObjectIDs of the current Database? In AutoLisp i
+    was able to select Xref entities by nentsel.
+
+
+    regards, max.'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/kean
+  date: '2012-02-23 09:58:20'
+  body: 'Hi Max,
+
+
+    (nentsel) is available in .NET as Editor.GetNestedEntity().
+
+
+    I hope this helps,
+
+
+    Kean'
+- author: max
+  email: maximilian.thumfart@henn.com
+  ip: 109.45.0.124
+  url: ''
+  date: '2012-03-03 11:38:11'
+  body: 'Hi Kean,
+
+    getnestedentity prompts for a entity selection. i wasnt able to convert my selectall
+    entities into promptnestedentityresults.
+
+    i thought about using a objectidcollection from the xrefs as the xrefs are stored
+    as blocktablerecords. the only way to get them seems to be by explode(). but iam
+    not quite sure if the objectids returned by explode are the same as those inside
+    the blockreference? or are the exploded objs copies of the objects in the blocktablerecord
+    with different objids?
+
+    or do you know a way how to get all objectids of the current database?
+
+    regards, max'
+- author: Kean Walmsley
+  email: ''
+  ip: 72.52.96.11
+  url: http://profile.typepad.com/kean
+  date: '2012-03-03 21:48:14'
+  body: "Hi max,\n\nThis is evolving into a support thread (which I unfortunately\
+    \ don't have time to help with). \n\nPlease submit via ADN or post your question\
+    \ to the AutoCAD .NET Discussion Group.\n\nRegards,\n\nKean"
+- author: max
+  email: maximilian.thumfart@henn.com
+  ip: 212.202.146.198
+  url: ''
+  date: '2012-03-08 10:13:22'
+  body: 'dear Kean,
+
+
+    thanks anyway. i found a solution: as all objectids must be appended to the modelspace
+    blocktablerecord i can just cycle through all the objectIds in the BlockTableRecord.ModelSpace.
+
+    Then get the Entity and add the ObjectId to a ObjectIdCollection if the Layer
+    Property matches the Layer i am looking for.
+
+    Kind a SelectAll without depending on the Editor.
+
+
+    regards,
+
+    max'
+- author: Cattoor Bjorn
+  email: orhiannono@hotmail.com
+  ip: 195.177.247.202
+  url: http://tumblingthroughthecode.bedeveloped.net/
+  date: '2012-03-13 09:25:34'
+  body: "Thanks for this post, really helped me. \nMax's solution helped me 2."
+- author: Igor Pinho
+  email: igor.pinho.souza@gmail.com
+  ip: 200.141.164.189
+  url: ''
+  date: '2012-05-31 00:22:08'
+  body: 'Dear Kean, how to Highlight entities found in the layer ?
+
+    regards, Igor Pinho.'
+- author: Kean Walmsley
+  email: ''
+  ip: 72.52.96.11
+  url: http://profile.typepad.com/kean
+  date: '2012-06-04 23:36:19'
+  body: 'Dear Igor,
+
+
+    You should be able to loop through the list of entities (or the selection set)
+    and call Entity.Highlight() on each.
+
+
+    Best regards,
+
+
+    Kean'
+- author: xanhnhnn280683@gmail.com
+  email: xanhnhnn280683@gmail.com
+  ip: 113.187.16.243
+  url: ''
+  date: '2012-12-30 18:10:42'
+  body: 'Hello Kean Walmsley
+
+    You give me an example of finding how many objects the same, thank you.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-12-30 18:13:19'
+  body: '<a href="http://through-the-interface.typepad.com/through_the_interface/2007/06/creating_an_aut_2.html#comment-6a00d83452464869e2017ee6c67997970d">As
+    threatened</a>, I''m now going to have to block you from commenting.
+
+
+    This is not a support forum and each post you''ve used to ask your question is
+    unrelated to it.
+
+
+    Kean'
+- author: Daniel
+  email: danielmoller@gmail.com
+  ip: 164.85.6.4
+  url: ''
+  date: '2013-06-18 19:13:44'
+  body: "Now I have a question that bugs me everytime I think of using this .NET approach\
+    \ for Autocad:\n\nWhy in the heavens Autodesk is following this line when the\
+    \ Interop library does this FAR MORE EASILY???\n\nSee:\n\n    AcadDocument Doc\
+    \ = Application.ActiveDocument;\n    Doc.ModelSpace.OfType<AcadEntity>().Where(E\
+    \ => E.Layer == \"DesiredLayerName\");\n\nI really, really, can't believe WHY\
+    \ so many troubles with those transactions and filters and all that complications\
+    \ holding back the developer.\n\nIt's not just a complaint, I really want to know\
+    \ why Interop is getting forgoten."
+- author: Daniel
+  email: danielmoller@gmail.com
+  ip: 164.85.6.4
+  url: ''
+  date: '2013-06-18 19:19:26'
+  body: 'I mean OfType{AcadEntity>()
+
+    (Substitute the { by the "lower than" symbol)'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-06-18 21:01:26'
+  body: 'Most of the code fragment you''ve posted is actually LINQ, which works just
+    as well with .NET objects as it does with COM ones, especially now that the dynamic
+    keyword allows you to query arbitrary properties of objects from an ObjectId (effectively
+    opening them on the fly).
+
+
+    Please also bear in mind that the post you''ve commented on is 5 years old. For
+    those not wanting to use "low level" .NET calls (which are as they are - however
+    frustrating that may be - for lots of good reasons) there are number of alternatives.
+
+
+    One of which is to keep using interop: type embedding even allows you to reduce
+    your dependency on type libraries, if you choose to do so. I prefer not to, but
+    that''s my choice.
+
+
+    Kean'
+- author: Sherwin
+  email: sherwin.luna@gmail.com
+  ip: 144.230.63.53
+  url: ''
+  date: '2014-03-04 19:37:29'
+  body: 'Hi Kean,
+
+
+    Is it posible to have multiple condition like get all entities from layer1, layer2,
+    layer3 whose type are polyline?
+
+
+
+
+    Thanks'
+- author: Sherwin
+  email: sherwin.luna@gmail.com
+  ip: 144.230.63.53
+  url: ''
+  date: '2014-03-04 19:50:47'
+  body: 'i think i know how to solve my question.
+
+
+    Dim tvs As TypedValue() = New TypedValue(1) {}
+
+    tvs(0) = New TypedValue(0, "object type")
+
+    tvs(1) = New TypedValue(8, "layername")
+
+
+    Thanks and regards
+
+    Sherwin
+
+    -----'

@@ -1,0 +1,454 @@
+comments:
+- author: Rob Stein
+  email: robert.stein@yourrealsoftwaresolutions.com
+  ip: 207.148.216.68
+  url: http://www.robertstein.blogspot.com
+  date: '2009-10-21 12:51:19'
+  body: Very cool idea.
+- author: J. Daniel Smith
+  email: typepad.com@jdanielsmith.org
+  ip: 132.188.71.9
+  url: http://blog.jdanielsmith.name
+  date: '2009-10-21 15:55:36'
+  body: 'Obviously, writing your own code is all kinds of fun...but...
+
+
+    You could achieve many of the same results by using Autodesk Vault and doing periodic
+    check-ins.'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2009-10-21 16:05:59'
+  body: 'Thanks, Dan - you''ve raised a very good point: this is not a replacement
+    for a document management system providing version control, etc.
+
+
+    This code was developed for a very specific project (people visiting AU this year
+    may end up seeing it, but I won''t say more, for now :-) and for the purposes
+    of this particular activity we needed something more tailored than Vault (version
+    control was a small piece of the pie, all told).
+
+
+    So yes, the implementation is somewhat specific to the requirements I was presented
+    with, but there may be something of use for people, somewhere down in the details.
+
+
+    Kean'
+- author: Mike Tuersley
+  email: mike.tuersley@hotmail.com
+  ip: 98.100.68.40
+  url: http://www.mtuersley.com
+  date: '2009-10-21 16:48:02'
+  body: "This is very useful! Using a document mgmt system is not a valid option in\
+    \ a lot of circumstances. For instance, I have one client that has their catalog\
+    \ application running in SilverLight so nothing is installed locally [technically,\
+    \ yes, there are a few files inside the users' local isolated storage]. \n\nWhen\
+    \ they approached me, they wanted a cad interface to their system. The user downloads\
+    \ or creates the drawing which is then uploaded to the system. They wanted to\
+    \ be able to save off incremental versions of the drawing [and the local xml data\
+    \ storage file] as a lot of their work is planning and layout of the equipment.\
+    \ This is a perfect fit for just such a scenario [better than the one I came up\
+    \ with!]\n\nVery good article, Kean! Can't wait for part 2.\n\nMike"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2009-10-21 17:07:30'
+  body: 'Thanks, Mike.
+
+
+    Another thing to bear in mind...
+
+
+    This code currently keeps a single global name/path/counter, so saving from different
+    documents in the same session will save to the same location. It should be reasonably
+    simple to change this to work on a per document basis, should anyone need that
+    behaviour.
+
+
+    Kean'
+- author: Sunith Babu
+  email: sunithbabu@CADProfessor.in
+  ip: 115.184.91.239
+  url: http://CADProfessor.in
+  date: '2009-10-22 03:16:20'
+  body: "Hi Kean, \n\nFew months back, I had a request from one friend from Rand.com,\
+    \ about adding Save As Command in QAT - So I did a tedious process - <a href=\"\
+    http://cadprofessor.in/2009/08/adding-save-as-command-in-quick-access-tool-bar/\"\
+    >http://cadprofessor.in/2009/08/adding-save-as-command-in-quick-access-tool-bar/</a>\n\
+    \nIs there a method or coding where in I add commands that are not available in\
+    \ Ribbon Bar but still add them to QAT - Autodesk Inventor 2010\n\nThanks"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2009-10-22 07:46:30'
+  body: 'Hi Sunith,
+
+
+    There may be a way via the Inventor API, but I''m unfortunately not familiar with
+    it. I suggest posting your question via <a href="http://adn.autodesk.com">ADN</a>,
+    if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=120">the
+    Inventor Customization Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Mark Johnston
+  email: ''
+  ip: 71.36.45.152
+  url: http://profile.typepad.com/mohnston
+  date: '2009-10-23 00:37:42'
+  body: 'Hi Kean,
+
+    Thanks very much, this is of great interest to me.
+
+    You mention "COM’s AcadDocument.SendCommand() would call SAVEAS synchronously"
+    but you decided to use .NET''s Document.SendStringToExecute().
+
+    I am curious about your decision. Since synchronicity is a fine album by the Police
+    . . . sorry, I mean since synchronicity is an issue whenever sendcommand is used
+    wouldn''t it be advantageous to use the COM version?
+
+    For example what if I found a use for "QSAVEAS" as part of a script or macro.
+    It would be important to know that it finished it''s save before proceeding with
+    the script.
+
+    As a tiny added benefit the confirmation message wouldn''t be printed to the command
+    line until it was true.
+
+
+    I am just looking for some insight since I''ve struggled with this decision a
+    number of times.'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadxtabs/AcadXTabs2010.htm
+  date: '2009-10-23 03:35:25'
+  body: "\"There are various ways to save a DWG file from .NET, but the requirement\
+    \ to have a thumbnail preview image created with the file (which is then accessible\
+    \ from its editor-resident Database) has limited our choice somewhat: neither\
+    \ Database.SaveAs() nor AcadDocument.SaveAs() (the .NET and COM methods) generate\
+    \ and save a thumbnail.\"\n\n   Database db = ....\n\n   db.RetainOriginalThumbnailBitmap\
+    \ = true;\n\n   db.SaveAs(\"Thanks For A Good Laugh.dwg\");"
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadxtabs/AcadXTabs2010.htm
+  date: '2009-10-23 04:19:02'
+  body: "Hi Mark.  I've never struggled with ths, because in most real-world scenarious,\
+    \ there is nothing wrong with P/Invoking acedCmd() to run AutoCAD commands synchronously,\
+    \ provided you can be sure that your command implementation is not being scripted\
+    \ by another script that is itself being scripted by yet another script, ad nausium.\
+    \ \n\nThe truth of the matter is that since Autodesk made a deliberate decision\
+    \ to not address the 'command nesting depth' problem, we must always be concious\
+    \ of it when deciding to use acedCmd() as opposed to some of the horrifying kludges\
+    \ we've seen some resort to, in order to avoid it.\n\nIn practicle application,\
+    \ command invocations are rarely nested deeply enough to exceed the depth of nesting\
+    \ limit, so for example, if someone writes a LISP macro that runs Kean's 'QSAVEAS'\
+    \ command using the (command) function, it could still call the SAVEAS command\
+    \ via acedCmd() without problem. \n\nAnother way to minimize the chance that a\
+    \ managed command that P/Invokes acedCmd() does not exceed the maximum depth of\
+    \ command nesting, is to expose it via the [LispFunction] attribute with a \"\
+    C:\" prefix. That still makes it available to both scripting and to the user as\
+    \ a command, but prevents it from being invoked via the LISP (command) function,\
+    \ as that is what technically constitutes a 'nested' command invocation."
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadxtabs/AcadXTabs2010.htm
+  date: '2009-10-23 07:17:10'
+  body: "Well, ok. You want an updated thumbnail rather than the original thumbnail\
+    \ (which RetainOriginalThumbnailBitmap will not give you).\n\nThere is an undocumented\
+    \ API that will update the current drawing's thumbnail that can be called from\
+    \ .NET, but I don't see what point there is to jumping through so many hoops to\
+    \ begin with, because using .NET to solve a relatively simple scripting problem\
+    \ like this is not too much unlike trying to swat a fly with a sledge hammer.\n\
+    \nI posted a link to this back in 2006 on the Autodesk discussion groups:\n\n\
+    \    <a href=\"http://www.caddzone.com/VSAVE.LSP\">http://www.caddzone.com/VSAVE.LSP</a>\n\
+    \nThe file at that link along with this post, serves as a good example of why\
+    \ one should use the best or most suitable tool for a given job. In this case,\
+    \ I think it's quite clear that LISP wins, hands-down, as your kludge clearly\
+    \ demonstrates."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2009-10-23 08:54:20'
+  body: 'Today''s follow-on post should hopefully explain more why I chose to write
+    my "kludge" in .NET rather than LISP: the tool palette modification would have
+    been much harder, in particular.
+
+
+    I''ll just reiterate a point I''ve been trying to make about this particular coding
+    project: this is a small application with quite specific requirements. I decided
+    to use SendStringToExecute() because it avoided me having to use COM or P/Invoke
+    and it also gave me an opportunity to show how to use a continuation-passing style
+    approach with SendStringToExecute().
+
+
+    Using COM to call SendCommand() or P/Invoking acedCmd() have other advantages
+    around synchronicity, none of which were of particular significance to my situation
+    (so I decided to avoid both COM and P/Invoke). If you prefer to use those approaches,
+    that''s fine.
+
+
+    I decided to share this particular project because I was working on it anyway,
+    and felt it showed some techniques that may be of interest to people. But they
+    ultimately remain just one way of doing things, and one that met the quite limited
+    requirements with which I was provided.
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadxtabs/AcadXTabs2010.htm
+  date: '2009-10-23 18:49:40'
+  body: "\"Today's follow-on post should hopefully explain more why I chose to write\
+    \ my \"kludge\" in .NET rather than LISP: the tool palette modification would\
+    \ have been much harder, in particular\"\n\nI respectfully disagree.\n\nIn fact,\
+    \ it would have been much easier to write the 'QSAVEAS' command in LISP, and after\
+    \ it saves the file, just have it call a LispFunction method to do whatever needs\
+    \ to be done in managed code.\n\nThe other downside of your approach that you\
+    \ may have overlooked, is that your QSAVEAS is not scriptable from LISP. So for\
+    \ example, if a user wanted to zoom to the extents before running QSAVEAS, and\
+    \ then zoom back to the previous view after it finishes, they are SOL.\n\nIn any\
+    \ event that is all moot, because the AutoCAD 2010 API exposes a method on the\
+    \ Document class that allows you to generate a new thumbnail preview with one\
+    \ line of code.\n\nSee this file for how:\n\n  <a href=\"http://www.caddzone.com/vsave.cs\"\
+    >http://www.caddzone.com/vsave.cs</a>"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-10-23 20:02:09'
+  body: 'It wasn''t a requirement that my code be callable from LISP, but it''s an
+    important point for other people to be aware of.
+
+
+    Once I''m done with my AU prep I''ll take a look at reworking the code to use
+    the new API in AutoCAD 2010 (now that you''ve mentioned it I vaguely recall something
+    about it, but unfortunately my internal garbage collection is at times just too
+    efficient). That would, indeed, make this discussion irrelevant for this particular
+    task, although possible useful for others facing similar decisions.
+
+
+    And thanks for disagreeing respectfully, Tony - it''s much easier that way. :-)
+
+
+    Kean'
+- author: Federico
+  email: kleoss@gmail.com
+  ip: 80.117.216.12
+  url: ''
+  date: '2011-05-30 14:02:06'
+  body: 'Hi Kean,
+
+
+    I have a problem with autocad 2011, qsaveas command is not saved.
+
+    autocad closed it each time I recharge with Netload.
+
+    how can I get each time you start autocad command automatically qsaveas?
+
+
+    thanks.
+
+    Federico'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2011-05-30 14:55:25'
+  body: 'Hi Frederico,
+
+
+    You might try creating <a href="http://through-the-interface.typepad.com/through_the_interface/2006/09/automatic_loadi.html">demand-loading</a>
+    entries in the Registry (which you can even do <a href="http://through-the-interface.typepad.com/through_the_interface/2010/03/creating-demand-loading-entries-automatically-for-your-autocad-application-using-c-f-or-vbnet.html">programmatically</a>).
+
+
+    Regards,
+
+
+    Kean'
+- author: gianni
+  email: gianni.albori@libero.it
+  ip: 87.7.48.147
+  url: ''
+  date: '2012-01-27 23:02:36'
+  body: "Hi Kean, my question is not really about your article, but is concerning\
+    \ the SAVEAS .NET command. I use it in my vb program in this way\nDim doc As Document\
+    \ = Application.DocumentManager.Open(\"c:\\test.dwg\", False)\n              \
+    \          Dim acDoc As Document = Application.DocumentManager.MdiActiveDocument\n\
+    \                        acDoc.Database.SaveAs(\"c:\\pippo.dwg\", True, DwgVersion.AC1015,\
+    \ acDoc.Database.SecurityParameters)\n                        doc.CloseAndDiscard()\n\
+    \nBut what I obtain is a corrupted file. Can you help me? \nIn this post you spoke\
+    \ about a problem of sincronicity using .NET method SAVEAS. Could it be the reason\
+    \ of this strange situation?"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-01-29 13:07:50'
+  body: 'Hi Gianni,
+
+
+    Sorry - this is really a support request, and as such should be directed to the
+    ADN team or posted to the AutoCAD .NET Discussion Group.
+
+
+    Regards,
+
+
+    Kean'
+- author: Gianni
+  email: gianni.albori@libero.it
+  ip: 81.117.59.83
+  url: ''
+  date: '2012-01-30 13:51:45'
+  body: 'You''re right
+
+    Thanks anyway for yout answer'
+- author: khushal
+  email: khushal_3012@ymail.com
+  ip: 115.119.55.249
+  url: ''
+  date: '2012-07-03 09:21:13'
+  body: how to pring autocade file using c#
+- author: Kean Walmsley
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/kean
+  date: '2012-07-03 09:36:15'
+  body: 'This isn''t a forum for support.
+
+
+    Your comment doesn''t appear to relate to this post, so please submit your question
+    to <a href="http://adn.autodesk.com">the ADN team</a>, if you''re a member, or
+    otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean'
+- author: Blad QB
+  email: soporte@semco.com.pe
+  ip: 190.187.24.102
+  url: ''
+  date: '2013-01-31 17:00:29'
+  body: 'Hello Kean
+
+
+    The information you share is excellent, I have a question, I can give the path
+    and file name from the command line and prevent the user changes.
+
+    The idea is to give a default name and path of the file created, the user only
+    need to save and not to modify the name and path.
+
+
+    Thanks for your help ...'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-01-31 17:43:07'
+  body: 'Hello Blad,
+
+
+    I''m afraid I don''t fully understand your question... do you simply want to specify
+    the initial path and name via the command-line rather than via a dialog box?
+
+
+    Please clarify,
+
+
+    Kean'
+- author: Blad QB
+  email: soporte@semco.com.pe
+  ip: 190.187.24.102
+  url: ''
+  date: '2013-02-01 16:50:07'
+  body: 'Hello Kean,
+
+
+    Thanks for responding and also forgive my English:-p,
+
+    What I want to do is set the path and file name from another application (in vb.
+    NET 2010) according to the user''s role. when the user save, my application will
+    send the path and file name according to your session, which is why we do not
+    need the user to change it or displaying the window of dialog.
+
+
+    thank you very much for your help'
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.254.3
+  url: http://profile.typepad.com/kean
+  date: '2013-02-01 17:01:03'
+  body: 'Hello Blad,
+
+
+    What you''re asking is altogether possible. There are lots of ways to get the
+    information to the AutoCAD-resident app: you could write it to the Registry or
+    a text file, in the most basic case.
+
+
+    Then you just rip out the code that calls the file open dialog.
+
+
+    I hope this helps,
+
+
+    Kean'
+- author: Blad QB
+  email: soporte@semco.com.pe
+  ip: 190.187.24.102
+  url: ''
+  date: '2013-02-05 16:34:08'
+  body: 'Thank Kean, served me well..!!
+
+
+    success'
+- author: Sherwin
+  email: sherwin.luna@gmail.com
+  ip: 144.230.63.53
+  url: http://spatialmapping.blogspot.com/
+  date: '2014-01-28 19:37:57'
+  body: 'Hi Kean,
+
+
+    Is there a way in autocad to save the current version of autocad drawing to previous
+    release of autocad?
+
+
+    Thanks and regards,
+
+    Sherwin'
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2014-01-28 19:40:17'
+  body: 'Hi Sherwin,
+
+
+    This is really a support question: please go to the appropriate online discussion
+    group in future.
+
+
+    The SAVEAS command saves back to various versions of the DWG format, as does Database.SaveAs().
+
+
+    Hopefully that answers your question, if not please provide more information via
+    the forum.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

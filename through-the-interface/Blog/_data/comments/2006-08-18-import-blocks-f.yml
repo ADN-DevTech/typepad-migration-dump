@@ -1,0 +1,1075 @@
+comments:
+- author: Barry Ralphs
+  email: barry.ralphs@tippingmar.com
+  ip: 66.117.129.105
+  url: http://www.bazzacad.com
+  date: '2006-08-19 01:11:14'
+  body: With this update/override any existing blocks in the active dwg? If not how
+    would you do so?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-08-19 09:44:36'
+  body: 'Hi Barry,
+
+
+    Yes - the key is in the 4th argument to WblockCloneObject(), which is DuplicateRecordCloning.Replace.
+    If you don''t want to overwrite/update existing blocks you can use DuplicateRecordCloning.Ignore.
+
+
+    I''ll post another entry next week to look into the code in a bit more detail
+    - it was getting late on Friday night and I wanted to get the code posted before
+    the weekend. There are a few details that are worth looking at a little closer.
+
+
+    Kean'
+- author: Stuart Shaw
+  email: sshaw@hytrol.com
+  ip: 69.151.127.2
+  url: ''
+  date: '2006-12-14 21:47:12'
+  body: 'Kean,
+
+
+    I have found your blog to be very helpful.  I was hoping to meet you at AU2006
+    but didn''t have time to find everyone.  Don''t even know if you were there.
+
+
+    Do you know if there is a way to copy a block that has sub blocks and create new
+    blocks and sub blocks without the original blocks xdata?  I''m trying to create
+    a "dumb" copy of the original block without all the xdata to use in various other
+    views.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-12-15 10:10:18'
+  body: 'Hi Stuart,
+
+
+    I wasn''t able to make it to this year''s AU, unfortunately. Perhaps next year.
+
+
+    The way to go should be to go through the "mapping" object populated by WblockCloneObjects(),
+    and post-process the various new blocks to dumb them down (removing their xdata).
+
+
+    Regards,
+
+
+    Kean'
+- author: Stefano Benedetti
+  email: bsnewsletters@gmail.com
+  ip: 217.133.18.42
+  url: http://www.be-st.it
+  date: '2007-11-09 14:52:26'
+  body: 'Hi,
+
+
+    I''m using this code in my application but I need to import also dynamic properties.
+    How can I do it?
+
+    Thanks'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.16.59
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-11-09 16:24:31'
+  body: 'Do you mean dynamic blocks? Please explain exactly what doesn''t work in
+    the code, and I''ll take a look. I don''t remember whether I tested this with
+    dynamic blocks (I posted it quite some time ago).
+
+
+    Kean'
+- author: Stefano Benedetti
+  email: bsnewsletters@gmail.com
+  ip: 217.133.18.42
+  url: http://www.be-st.it
+  date: '2007-11-09 16:45:56'
+  body: 'Hi Kean. Yes I mean dynamic block.
+
+    I have a dwg (Dest.dwg) with a static block called PB.
+
+    I want to import a block called PB from an external file (Library.dwg).
+
+    When I run "IB" command block in Dest.dwg the PB block is modified but it doesn''t
+    have rotation, visibility and other dynamic actions.
+
+    Thanks'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-11-12 11:05:08'
+  body: 'Hi Stefano,
+
+
+    I tested the IB command with one of the standard Dynamic Block libraries (in "C:\Program
+    Files\Autodesk\AutoCAD 2008\Sample\Dynamic Blocks\Annotation - Metric.dwg" on
+    my system), and it seemed to work fine. I could insert the imported Dynamic Blocks
+    and they appeared to behave in a dynamic fashion. Can you test against the standard
+    ones, and try to narrow down the specific problem?
+
+
+    Regards,
+
+
+    Kean'
+- author: Stefano Benedetti
+  email: bsnewsletters@gmail.com
+  ip: 217.133.18.42
+  url: http://blog.be-st.it
+  date: '2007-11-14 19:57:06'
+  body: I post this comment to notify readers that Kean and I understand that the
+    problem with dynamic block resides in AutoCAD 2006. In AutoCAD 2008 it's possibile
+    to redefine a block also with dynamic property. Thanks Kean!
+- author: Steve Blackwell
+  email: steve.blackwell@amec.com
+  ip: 12.129.64.198
+  url: http://www.amec.com
+  date: '2007-12-14 18:22:36'
+  body: 'Kean,
+
+    Thanks for this sample code.  I''ve tried several different similar methods in
+    VB.Net but it always ended with a fatal error.  If you don''t mind I would like
+    to explain how I entend to use the code to see if you have a better suggestion.  I
+    have hundreds of Annotation blocks that I use for both imperial and metric drawings.  I''m
+    sure you''re aware that if the block being inserted is an annotative block the
+    insunits are ignored.  I need to insert the blocks and scale them by both the
+    annotative scale and the insunits.  I would also like to put these blocks on toolpalletes.  I''ve
+    written the code to scale the blocks with both parameters and it works great.  The
+    only problem is I wrote in VB.Net.  My skills are pretty limited with C#.  My
+    plan was to code the command macro on the toolpallete to set the UserS1 variable
+    to the path of the source drawing and UserS2 to the name of the block.  Then I
+    would call the command to import and scale the block.  I was able to tweak your
+    code to read these variables and import the block.  Now all I need to do is convert
+    my VB.Net code to C# so I can insert the block.  Could you possible give me a
+    similar example of your C# code in VB?  Or if you have any other suggestions I
+    would really like to hear them.
+
+
+    Thanks,
+
+    Steve'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-01-23 14:03:22'
+  body: 'Steve,
+
+
+    I''m sorry for the delay in responding. When converting between C# and VB, I usually
+    use the tool I linked to by this post:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2006/08/some_cool_copyp.html">http://through-the-interface.typepad.com/through_the_interface/2006/08/some_cool_copyp.html</a>
+
+
+    You can also use the online conversions tools directly that this AddIn connects
+    to:
+
+
+    <a href="http://www.carlosag.net/Tools/CodeTranslator">http://www.carlosag.net/Tools/CodeTranslator</a>
+
+    <a href="http://www.kamalpatel.net/ConvertCSharp2VB.aspx">http://www.kamalpatel.net/ConvertCSharp2VB.aspx</a>
+
+
+    Also, apparently <a href="http://www.icsharpcode.net/OpenSource/SD/">SharpDevelop</a>
+    is a good tool for code conversion.
+
+
+    Regards,
+
+
+    Kean'
+- author: Bert
+  email: bert.vanpeteghem@dolmen.be
+  ip: 194.78.30.195
+  url: ''
+  date: '2008-08-08 13:42:48'
+  body: Is there a similar way for creating Block Definitions 'on the fly'? I need
+    to go from a polyline entity to a block definition...
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-08 14:42:20'
+  body: 'Yes, you can certainly add a new BlockTableRecord to the BlockTable and use
+    its ID as the destination for the WblockCloneObjects() call (passing in the ObjectIds
+    of the objects to put in the block).
+
+
+    Kean'
+- author: Brandon
+  email: myspambox111@hotmail.com
+  ip: 70.171.19.47
+  url: ''
+  date: '2008-09-18 19:35:07'
+  body: 'Am I mistaken or is this the .NET equivalent to the following line of VBA
+    code:
+
+
+    ThisDrawing.ModelSpace.InsertBlock(newCoord, "c:\blockName.dwg", xyzScale, xyzScale,
+    xyzScale, 0)
+
+
+    I''m confused by the amount of code needed to do what was done in VBA with 1 line.  Am
+    I missing something?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-19 17:57:31'
+  body: 'Well, yes and no... InsertBlock() loads the DWG into a BlockTableRecord and
+    inserts it into the space upon which it''s called. The above code imports blocks
+    from a DWG file so they can be inserted at the user''s leisure.
+
+
+    The COM API (to which VBA provides access) is higher-level than .NET - it''s focus
+    is automating tasks, while .NET (and ObjectARX, upon which it is very closely
+    based) are more powerful APIs, yet sometimes require more code to do certain tasks.
+
+
+    It''s ultimately a balance between control and succinctness: with lower-level
+    code you get much greater control but it often comes with a coding overhead.
+
+
+    Kean'
+- author: Omar Martínez
+  email: omar.martinez@aetech.es
+  ip: 213.96.34.32
+  url: ''
+  date: '2009-04-09 15:12:23'
+  body: "Hi Kean,\n\nWe have had advances in our project thanks to your blog. But\
+    \ now, we have found another problem. We have been able to import blocks and layer\
+    \ from a DWG to another, but we haven't been able to import the entities. Our\
+    \ project consist in import completly dwg into another dwg. Do you know if that\
+    \ is possible? \nWith the objectARX can add new entities in a blockTableRecord,\
+    \ but can we do that from another dwg? \n\nThanks,\n\nOmar"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-04-09 16:08:15'
+  body: 'Hi Omar,
+
+
+    WblockCloneObjects() and Insert() should get you there.
+
+
+    Please submit follow-up questions via <a href="http://adn.autodesk.com">ADN</a>,
+    if you''re a member, or <a href="http://discussion.autodesk.com">the Autodesk
+    discussion groups</a>, if not.
+
+
+    Regards,
+
+
+    Kean'
+- author: Kostas
+  email: kostasvav@gmail.com
+  ip: 155.207.19.6
+  url: ''
+  date: '2010-02-02 17:35:18'
+  body: 'Hi Kean,
+
+
+    What if the there is already a blocktablerecord in the destination database with
+    the same name of the blocktablerecord we are trying to copy?
+
+    I tried to change the name of the source blocktablerecord with "btr.name = newBlockName"
+    , but then I got a eAlreadyInDb exception.
+
+
+    Thanks,
+
+    Kostas'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-02-02 17:41:21'
+  body: 'Hi Kostas,
+
+
+    It''s the "DuplicateRecordCloning.Replace" argument that is telling AutoCAD how
+    to handle this. You can change that to hopefully provide the behaviour you''re
+    looking for.
+
+
+    Regards,
+
+
+    Kean'
+- author: Abdo
+  email: aHassouna@zfp.com
+  ip: 41.196.63.227
+  url: ''
+  date: '2010-05-05 14:42:53'
+  body: 'Dear Kean:
+
+    How are you i hope evry thing is oky,
+
+    I try to use this code in a toolpalette in autocad 2010 but i got this error (Error
+    during copy : eLockViolation),
+
+    I need your help.
+
+    thanks.'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-05-05 15:40:44'
+  body: 'Dear Abdo,
+
+
+    I''m well, thanks.
+
+
+    Try launching the command from your modeless UI using Document.SendStringToExecute().
+    Otherwise you have to jump through hoops to lock the current document, etc. -
+    it''s better to let AutoCAD''s command mechanism to handle all that implicitly.
+
+
+    Regards,
+
+
+    Kean'
+- author: Santosh
+  email: santoshpsp@gmail.com
+  ip: 193.9.0.110
+  url: ''
+  date: '2010-05-19 18:21:39'
+  body: 'Hi Kean,
+
+    I want to create individual drawing files from all the blockreferences found in
+    a drawing file, how can i achieve this?'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.71.10
+  url: http://profile.typepad.com/kean
+  date: '2010-05-20 23:51:48'
+  body: 'Hi Santosh,
+
+
+    This isn''t a forum for support.
+
+
+    Your comment doesn''t appear to relate directly to this post, so please submit
+    your question to <a href="http://adn.autodesk.com">the ADN team</a>, if you''re
+    a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: crazyDWG
+  email: alvarodg82@yahoo.es
+  ip: 194.30.84.125
+  url: ''
+  date: '2010-06-09 13:00:16'
+  body: 'Hi!
+
+
+    It''s a excellent post.
+
+
+    Could I change the layer on the target database?
+
+
+    Thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-06-09 13:51:37'
+  body: 'If you iterate through the "mapping" variable you will be able to open and
+    modify the resulting objects.
+
+
+    Kean'
+- author: Jason
+  email: jluker@brochsteins.com
+  ip: 65.183.42.226
+  url: ''
+  date: '2010-11-02 12:28:46'
+  body: "I could not get the .SendStringToExicute to work properly.  It held that\
+    \ command until the end of my process.  I need it to do this operation during\
+    \ the middle of it since I am inserting the blocks too.  So the following is what\
+    \ I came up with for locking the document.  After you locked and unlocked it,\
+    \ you had to make sure that the destDoc was the active one.\n\n  Public Function\
+    \ CloneBlock(ByVal mBlockItem As BlockItem) As Boolean\n        Dim CloneMe As\
+    \ Boolean = True\n        If ThisDrawingHasBlock(mBlockItem.Name) Then\n     \
+    \       If Not mBlockItem.OverRite Then CloneMe = False\n        End If\n\n  \
+    \      If CloneMe Then\n            Dim dm As DocumentCollection = Application.DocumentManager\n\
+    \            Dim ed As Editor = dm.MdiActiveDocument.Editor\n            Dim DestDoc\
+    \ As Document = dm.MdiActiveDocument\n            Dim DestDb As Database = DestDoc.Database\n\
+    \            Dim sourceDb As New Database(False, True)\n            Dim ResultMsg\
+    \ As String = \"\"\n            Try\n                ' Read the DWG into a side\
+    \ database\n                sourceDb.ReadDwgFile(mBlockItem.FileName, System.IO.FileShare.Read,\
+    \ True, \"\")\n                ' Create a variable to store the list of block\
+    \ identifiers\n                Dim blockIds As New ObjectIdCollection()\n    \
+    \            Dim tm As Autodesk.AutoCAD.DatabaseServices.TransactionManager =\
+    \ sourceDb.TransactionManager\n                Using myT As Transaction = tm.StartTransaction()\n\
+    \                    ' Open the block table\n                    Dim bt As BlockTable\
+    \ = DirectCast(tm.GetObject(sourceDb.BlockTableId, OpenMode.ForRead, False), BlockTable)\n\
+    \                    ' Check each block in the block table\n                 \
+    \   blockIds.Add(FindMyBlockID(mBlockItem.Name, bt, tm))\n                End\
+    \ Using\n\n                ' Copy blocks from source to destination database\n\
+    \                If blockIds.Count > 0 Then\n                    Dim mapping As\
+    \ New IdMapping()\n                    Using DestLock As DocumentLock = DestDoc.LockDocument\n\
+    \                        sourceDb.WblockCloneObjects(blockIds, DestDb.BlockTableId,\
+    \ mapping, DuplicateRecordCloning.Replace, False)\n                    End Using\n\
+    \                End If\n                ResultMsg = vbLf & \"Copied block definitions\
+    \ from \" + mBlockItem.FileName + \" to the current drawing.\"\n            Catch\
+    \ ex As Autodesk.AutoCAD.Runtime.Exception\n                ResultMsg = vbLf &\
+    \ \"Error during copy: \" + ex.Message\n            End Try\n            sourceDb.Dispose()\n\
+    \            '' Set the new document current (very important)\n            dm.MdiActiveDocument\
+    \ = DestDoc\n            ed.WriteMessage(ResultMsg)\n            Return True\n\
+    \        End If\n\n        Return False\n    End Function\n\n\n    Private Function\
+    \ FindMyBlockID(ByVal BlockName As String, ByRef aBlockTable As BlockTable, ByVal\
+    \ Trans As Autodesk.AutoCAD.DatabaseServices.TransactionManager) As ObjectId\n\
+    \        For Each btrId As ObjectId In aBlockTable\n            Dim btr As BlockTableRecord\
+    \ = DirectCast(Trans.GetObject(btrId, OpenMode.ForRead, False), BlockTableRecord)\n\
+    \            ' Only add named & non-layout blocks to the copy list\n         \
+    \   If Not btr.IsAnonymous AndAlso Not btr.IsLayout Then\n                If btr.Name\
+    \ = BlockName Then\n                    Dim ObjID As ObjectId = btr.ObjectId\n\
+    \                    btr.Dispose()\n                    Return ObjID\n       \
+    \         End If\n            End If\n            btr.Dispose()\n        Next\n\
+    \        Return Nothing\n    End Function"
+- author: qu
+  email: matlab@163.com
+  ip: 119.133.247.229
+  url: ''
+  date: '2011-08-23 15:14:57'
+  body: "Hi Kean,\n    In autocad 2007 ReadDwgFile fails while read 2000 version dwg\
+    \ file, but works to read 2004 files, What can I do?"
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2011-08-23 15:18:11'
+  body: 'There''s no reason I''m aware of that AutoCAD 2007 would not read 2000 DWGs
+    (it should read drawings going back to version 2, if I recall correctly).
+
+
+    This is most probably due to an issue with a specific drawing.
+
+
+    Kean'
+- author: qu
+  email: matlab@163.com
+  ip: 119.133.245.2
+  url: ''
+  date: '2011-08-23 19:00:41'
+  body: "thanks, Mr Walmsley, Is there a way to decide what type of version dwgfile\
+    \ while using the ReadDwgFile method? \n\nhow can I convert the dwg file version\
+    \ silently without open it in the document interface?\n\nyour sincerely ,Qu"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-08-23 19:31:40'
+  body: 'The first six bytes of the DWG file will tell you:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2006/08/breaking_it_dow.html">http://through-the-interface.typepad.com/through_the_interface/2006/08/breaking_it_dow.html</a>
+
+
+    and
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2010/10/sortonversion-scriptpro.html">http://through-the-interface.typepad.com/through_the_interface/2010/10/sortonversion-scriptpro.html</a>
+
+
+    For follow-on questions, please post to ADN or to the online discussion groups.
+
+
+    Regards,
+
+
+    Kean'
+- author: Stephan Bartl
+  email: cad@stbarlt.at
+  ip: 88.117.152.30
+  url: http://www.stbartl.at
+  date: '2011-08-29 07:37:25'
+  body: 'Hi Kean,
+
+    The online Autocad .NET Developers Guide it says about document locking: "You
+    want to lock the document when your application: ... Accesses a loaded document
+    other than the current document ..."
+
+
+    Question: Should the documents in your (this) example of accessing "a loaded document
+    other than the current document" not be locked? Sorry, if I overlooked something
+    here.
+
+    Thx, Stephan'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-08-29 08:03:08'
+  body: 'Hi Stephan,
+
+
+    No need, in this case. We''re not accessing Databases (DWGs) related to other
+    "Documents" (i.e. that are loaded in the editor), we''re reading drawings into
+    Databases - with nothing to do with Documents - using ReadDwgFile() and cloning
+    the BlockTable contents into the Database associated with the current Document
+    (which is locked automatically by the command).
+
+
+    Regards,
+
+
+    Kean'
+- author: Stephan Bartl
+  email: cad@stbartl.at
+  ip: 188.23.128.165
+  url: http://www.stbartl.at
+  date: '2011-08-29 17:30:35'
+  body: I understand now. Thank you for the explaination.
+- author: Rakesh Shinde
+  email: rakeshshinde12@gmail.com
+  ip: 59.97.201.211
+  url: ''
+  date: '2011-09-21 09:27:01'
+  body: "hi...\n\nHow to insert block into autocad drawing using object arx in dot\
+    \ net....\nRAKESH SHINDE \nPUNE"
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2011-09-21 09:35:06'
+  body: 'Rakesh,
+
+
+    According to the "three strikes" rule I''ve just decided to introduce and enforce
+    on people posting support requests as comments on my blog, the next time you post
+    such a request, I will block you from commenting.
+
+
+    This may seem harsh, but you''re clearly ignoring my (so far polite) requests,
+    and this is really starting to waste my time.
+
+
+    Regards,
+
+
+    Kean'
+- author: Christian
+  email: co_ge@gmx.de
+  ip: 80.148.23.130
+  url: ''
+  date: '2011-09-22 14:42:01'
+  body: "I also tried with dynamic blocks and it doesn't work. as Name I get something\
+    \ like *U10 and ist is set to anonymous so the block is not added at\n\n// Only\
+    \ add named & non-layout blocks to the copy list\n            if (!btr.IsAnonymous\
+    \ && !btr.IsLayout)\n              blockIds.Add(btrId);\n\nI'm new to Autocad\
+    \ and programming Autocad. Is it possible that the content dwg-file must be edited\
+    \ to work? In VBA there were no problems."
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.58.92
+  url: http://profile.typepad.com/kean
+  date: '2011-09-23 09:17:38'
+  body: 'It should work with dynamic blocks (although not with older versions of AutoCAD
+    - looking back at the comments things worked well from AutoCAD 2008 onwards, at
+    the very least).
+
+
+    Kean'
+- author: Erik
+  email: wowsilentium@gmail.com
+  ip: 217.63.83.135
+  url: ''
+  date: '2011-11-12 22:23:13'
+  body: "Hello mr Walmsley,\n\nfirst of all, thank you for your blogs. They are very\
+    \ helpfull.\n\nI use your code above (exactly the same) to redefine a dynamic\
+    \ block. It's a simple block for testing, a square with a hatch and a stretch\
+    \ parameter. Both the source-drawing and the current drawing have been audited.\n\
+    \nAfter I run the command, the anonymous blocks (for the dynamic block references\
+    \ with non-default dynamic properties) do not get updated. Is there a way to achieve\
+    \ this, or is that off-topic for this blog?\nI tried to code it myself, by storing\
+    \ all dynamic property values, resetting all block references and then setting\
+    \ the dynamic property values again, but I'm really hoping for a more efficient\
+    \ way.\n\nMy second problem is, that if I run the AUDIT command after this command,\
+    \ I get some errors:\n\nauditedAcDbBlockLinearParameter(1CE)     was not \nrepaired.\n\
+    AcDbBlockLinearGrip(1CF)          was not repaired.\nAcDbBlockGripExpr(1D0)  \
+    \          was not repaired.\nAcDbBlockGripExpr(1D1)            was not repaired.\n\
+    AcDbBlockStretchAction(1D2)       was not repaired.\n\nThey clearly are related\
+    \ to dynamic blocks. Have you ANY idea what may cause them?\n\nI tried the code\
+    \ on 2 different systems, both running AutoCAD2009.\n\nThank you for your time,\n\
+    \nErik."
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2011-11-15 13:21:50'
+  body: 'Hi Erik,
+
+
+    Maybe it''s to do with the "dynamic" block table record (BTR) not being imported.
+    Some information in this post may help:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2009/03/painting-properties-between-dynamic-autocad-blocks-using-net.html">http://through-the-interface.typepad.com/through_the_interface/2009/03/painting-properties-between-dynamic-autocad-blocks-using-net.html</a>
+
+
+    Perhaps it''s worth adjusting the code to go from the BTR back to a BlockReference
+    (using GetBlockReferenceIds()) and getting the dynamic BTR using br.DynamicBlockTableRecord()
+    to add to the blockIds collection.
+
+
+    But that''s just guessing - it''s been a while since I looked at this.
+
+
+    In case this doesn''t help, I suggest posting a complete description on the AutoCAD
+    .NET Discussion Group (including code and a DWG). Someone there should be able
+    to help.
+
+
+    Regards,
+
+
+    Kean'
+- author: Erik
+  email: wowsilentium@gmail.com
+  ip: 217.63.83.135
+  url: ''
+  date: '2012-01-02 21:54:49'
+  body: "Hello mr Walmsley,\n\nthe AutoCAD .NET Discussion Group has been helpfull,\
+    \ but could not help me with this problem.\n\nI found out that inserting a dynamic\
+    \ block from another drawing with AutoCAD's design center also causes audit errors.\
+    \ So for now I am assuming it is not possible without the audit errors, on my\
+    \ configurations at least (CAD version, OS, hardware, etc.). I don't know if it\
+    \ is true for other configurations.\n\nAs for updating the anonymous blocks, it\
+    \ turns out there is a function 'BlockTableRecord.UpdateAnonymousBlocks()'.\n\n\
+    Thought I'd post this info here, \n\nAgain, thanks for the blogs!"
+- author: Kim
+  email: kimeyckmans@hotmail.com
+  ip: 94.226.219.86
+  url: ''
+  date: '2012-02-29 12:03:53'
+  body: executing the command 'DIMREGEN' will fix your audit errors.
+- author: Kim
+  email: kimeyckmans@hotmail.com
+  ip: 94.226.219.86
+  url: ''
+  date: '2012-02-29 12:04:22'
+  body: executing the command 'DIMREGEN' will fix your audit errors.
+- author: Andre Dagenais
+  email: andred@adc-dao.com
+  ip: 70.81.77.225
+  url: http://www.adc-dao.com
+  date: '2012-06-10 14:51:51'
+  body: 'Hi Kean,
+
+
+    I used your code (translate in VB .Net) for many projects and it works very well.
+    But I try it with AutoCAD 2012 and I have a bug. After the blocks are imported,
+    I insert it programmatically (I use another solution for it from your blog, thank
+    you so much) and it is also working well. But if I try to insert the same block
+    with the Insert command I have the message, "The block have changed. Would you
+    like to redefine it?" If I say yes, the block inserted is empty. If I say no,
+    the block is working well and the message won''t be show again. I don''t have
+    this problem with 2010 or 2011. I try with code compile with VS2008 and VS2010(using
+    AutoCAD 2012 reference). I''m also working  with 64 bits release (Windows 7).
+
+
+    I have no clue about this problem.
+
+
+    Thank you very much,
+
+
+    Regards,
+
+
+    Andre'
+- author: Andre Dagenais
+  email: andred@adc-dao.com
+  ip: 70.81.77.225
+  url: http://www.adc-dao.com
+  date: '2012-06-10 15:57:23'
+  body: 'Hi Kean,
+
+
+    I apologize, it is working well in AutoCAD 2012. I found the culprit. It was an
+    Autolisp routine running at startup. This routine use an old technique to insert
+    dimstyle, it insert a whole drawing. This way, all the dimstyle, layers and blocks
+    and so on, are imported in the current drawing. And a conflict appears. I don''t
+    know what exactly but I will revise the way to import DIMSTYLE.
+
+
+    Regards,
+
+
+    Andre'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-06-11 06:44:33'
+  body: 'Hi Andre,
+
+
+    Glad to hear you''ve found the cause.
+
+
+    Regards,
+
+
+    Kean'
+- author: Farrukh1
+  email: ''
+  ip: 203.82.55.114
+  url: http://profile.typepad.com/farrukh11
+  date: '2012-06-30 13:44:15'
+  body: 'Hi Kean,
+
+    I''m just a new bie to AutoCAD.net programming, in fact, to AutoCAD as well :).
+
+
+    I''ve posted my problem here:
+
+    <a href="http://forums.autodesk.com/t5/NET/Drag-and-Drop-dwg-files-from-my-ListBox-hosted-in-Palettset/td-p/3521362">http://forums.autodesk.com/t5/NET/Drag-and-Drop-dwg-files-from-my-ListBox-hosted-in-Palettset/td-p/3521362</a>
+
+
+    and in relation to that I''m learning to achieve my target.
+
+
+    Your code is working fine and I''ve observed its working while using Arx Inspector.
+    But one thing, I''m not able to understand.
+
+
+    <b>Whenever I import Blocks from any dwg, they come in database, but doesn''t
+    display in the AutoCAD drawing area.
+
+
+    Do I have to inform and commit Transaction Manager for this purpose?</b>
+
+
+    Kindly read my question on Discussion forum and help me to understand achieve
+    this target.
+
+
+    Best regards'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-07-02 16:06:53'
+  body: 'I unfortunately don''t have time to spend on this, right now... did Art''s
+    response help? Hopefully - if not - someone else will be able to give you some
+    guidance.
+
+
+    Kean'
+- author: Farrukh1
+  email: ''
+  ip: 203.82.55.114
+  url: http://profile.typepad.com/farrukh11
+  date: '2012-07-03 07:17:10'
+  body: "Hi Kean,\nThanks for your reply. \nYes, I got it on next day, when I posted\
+    \ on your blog. Here is the link:\n<a href=\"http://forums.autodesk.com/t5/NET/c-block-insert/m-p/1744539#M4520\"\
+    >http://forums.autodesk.com/t5/NET/c-block-insert/m-p/1744539#M4520</a>\n\nFew\
+    \ more call using Transaction manager and we have the blocks on drawing area.\n\
+    \nThanks for your blog posts. They are really helpful.. :)"
+- author: Hoss
+  email: hossein.najmi@hotmail.com
+  ip: 174.95.19.181
+  url: ''
+  date: '2012-08-15 21:10:17'
+  body: "Hi Kean,\nI have a similar code for importing blocks using ReadDwgFile method.\
+    \ That was working perfectly (in a custom app for ACAD2010) until yesterday that\
+    \ I was trying to migrate my application to ACAD 2012. Then I realized a significant\
+    \ performance hit (very slow) on the import method and the bottle-neck seems to\
+    \ be ReadDwgFile. I use a 64bit machine. Are you aware of any issues running that\
+    \ method in AutoCAD 2012 (specially 64bit). \nThanks,"
+- author: Hoss
+  email: hossein.najmi@hotmail.com
+  ip: 174.95.19.181
+  url: ''
+  date: '2012-08-15 23:10:47'
+  body: I just tested your code in AutoCAD2012 (VS2010) and on a new drawing it took
+    about 12sec to finish. Is that normal?
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-08-16 10:27:12'
+  body: 'Hi Hoss,
+
+
+    There shouldn''t be a slow-down when upgrading from 2010 to 2012. It could be
+    slow if your system is missing RAM or the DWG file being imported is large, but
+    the code itself isn''t doing anything very special.
+
+
+    Does AutoCAD 2012 seem sluggish in general to you on this system when compared
+    with 2010?
+
+
+    Regards,
+
+
+    Kean'
+- author: Souleiman
+  email: souleiman.restom@mceinc.com
+  ip: 68.233.206.199
+  url: ''
+  date: '2013-03-11 18:28:33'
+  body: 'Hi,
+
+    This example works as expected if one is working with Acad.DocumentManager.MdiActiveDocument
+    but works a little differently with a newly created document (using Application.DocumentManager.Add("acad.dwt")).  When
+    using a newly created document, the drawing gets inserted into paper space instead
+    of into model space, why does that happen?
+
+
+    Thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.25
+  url: http://profile.typepad.com/kean
+  date: '2013-03-11 18:33:32'
+  body: 'I''m confused: this code just copies across block definitions - it doesn''t
+    create anything in either model- or paperspace.
+
+
+    Are you referring to another post, or have you added some logic to your app that
+    isn''t reflected in the above code?
+
+
+    Kean'
+- author: mehrsa rad
+  email: mehrsa000@gmail.com
+  ip: 173.45.98.142
+  url: ''
+  date: '2013-04-28 07:51:56'
+  body: "Hi kean, I want to import a shape file into dwg, how can i do it? when i\
+    \ use below code : \n   importer.Init(\"SHP\",d:\\\\files\\\\CAD\\\\test.shp\"\
+    \ );    \n  importer.SaveImportFormat(files[i]);\n   importer.Import(true);\n\n\
+    autocad process 0 object and insert no object\nmy shape file is ok i've tested.\n\
+    can u help me what to do?\nthank u in advance"
+- author: mehrsa rad
+  email: mehrsa000@gmail.com
+  ip: 173.45.98.142
+  url: ''
+  date: '2013-04-28 07:53:13'
+  body: '*(Corrected)
+
+    Hi kean, I want to import a shape file into dwg, how can i do it? when i use below
+    code :
+
+    importer.Init("SHP","d:\\files\\CAD\\test.shp" );
+
+    importer.Import(true);
+
+
+    autocad process 0 object and insert no object
+
+    my shape file is ok i''ve tested.
+
+    can u help me what to do?
+
+    thank u in advance'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-04-29 08:15:15'
+  body: 'What kind of .SHP are we talking about: an AutoCAD Shape file or an ESRI
+    ShapeFile?
+
+
+    And I''m not familiar with the importer object you''re using: what type is it
+    and where are you getting it from?
+
+
+    Kean'
+- author: mehrsa rad
+  email: mehrsa000@gmail.com
+  ip: 173.45.98.142
+  url: ''
+  date: '2013-04-29 09:02:52'
+  body: "hi kean this is my code \nusing map = Autodesk.Gis.Map;\n...\n  map.ImportExport.Importer\
+    \ importer = map.HostMapApplicationServices.Application.Importer;\n importer.Init(\"\
+    SHP\", \"d:\\\\file\\\\CAD\\\\ISELFCT.shp\");\n  importer.LoadImportFormat(\"\
+    d:\\\\files\\\\CAD\\\\Imp_Attr.epf\");//\nimporter.Import();\n\nin fact i want\
+    \ to import shapefile (esri exported shape file) into dwg in autocad, like mapimport\
+    \ command, after executing mapimport a file dialogue is opened to select shapefiles,\
+    \ I want to access the selected files in dialogue, but i couldn't, so i desided\
+    \ to write my own import function using code above, i searched alot in web, but\
+    \ cou;n't solve the problem yet\nthanx again for ur helpful blog"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2013-04-29 09:37:44'
+  body: 'Hi Mehrsa,
+
+
+    Thanks for clarifying.
+
+
+    This is Map 3D functionality, so it''s really not my area, I''m afraid.
+
+
+    You might try <a href="http://adndevblog.typepad.com/infrastructure">the Infrastructure
+    Modeling ADN DevBlog</a>, in case that has the information you need, or post a
+    question to the appropriate online discussion forum (the one for "Map 3D Developers",
+    probably).
+
+
+    Regards,
+
+
+    Kean'
+- author: 'Daniel '
+  email: daniel.balogh@adptech.at
+  ip: 194.110.78.1
+  url: ''
+  date: '2013-06-13 16:08:43'
+  body: 'Hello Kean,
+
+
+    I have a situation, where it is necessary to use "manglename" as option for duplicaterecordcloning.
+    I use the wblockcloneobjects method to "copy/paste" dynamic blocks between databases,
+    where the names are out of interest. So I can achieve a huge gain on performace.
+    BUT, manglename also mangles the layer-names, wich is in this scenario an unwanted
+    sideeffect. Is there a possibility that mangeling is apllied to Blocktablerecords
+    only?
+
+    I only can think of backing up the layernames of the objects in the tempfile (as
+    generated by copyclip), set them all to layer "0" and after the insert I set them
+    back to their Layer in the destination database (most Layer will exist in destination.
+
+    Since this means at least 3 extra loops, I may avoid it concerning loss of performance.
+
+    Thanks in advance,
+
+    Daniel'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-06-13 16:17:10'
+  body: 'Hi Daniel,
+
+
+    I don''t think there''s a selective way to do this, although perhaps not mangling
+    and then renaming the BTRs would work (not sure whether you''d see the performance
+    gains you''ve achieved, though).
+
+
+    But it''s been a while since I''ve spent much time on cloning... I suggest posting
+    your question to the AutoCAD .NET discussion group or to the ADN team.
+
+
+    Regards,
+
+
+    Kean'
+- author: 'Daniel '
+  email: daniel.balogh@adptech.at
+  ip: 194.110.78.1
+  url: ''
+  date: '2013-06-19 14:23:37'
+  body: 'Hello Kean, thanks for the answer. Sorry for reacting that late... Thought
+    I get a Mail notification from the system :-)
+
+
+    I''ll check on the sources you mentioned.
+
+    Regards,
+
+    Daniel'
+- author: Sherwin
+  email: sherwin.luna@gmail.com
+  ip: 144.230.63.53
+  url: ''
+  date: '2013-10-28 14:36:33'
+  body: 'Hi Kean,
+
+
+    I use above code to add xref layer to current drawing. when i do need the imported
+    xref layer i set it to isoff = true but when i use the Autodesk.GIS.Map.ImportExport.Exporter
+    method it also import said layer even though it is invisible to the current drawing.
+    How do use the method Autodesk.GIS.Map.ImportExport.Exporter on selected layers
+    only?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-10-28 17:06:45'
+  body: 'Hi Sherwin,
+
+
+    Sorry - you''ll have to ask the ADN team or post on the discussion groups: I don''t
+    know anything about the Map 3D API layer.
+
+
+    Regards,
+
+
+    Kean'
+- author: Márcio Mello
+  email: marciocmello@gmail.com
+  ip: 189.91.231.37
+  url: ''
+  date: '2013-12-06 20:58:37'
+  body: 'Hi Kean.
+
+
+    Congratulations on all the stuff you publish. This code worked well with several
+    DWG input files, except those generated with WBLOCK command. When I open these
+    files, AutoCAD displays a message like this:
+
+
+    "<file> contains elements of authoring. Open in Block Editor?".
+
+
+    For these files the loop in the code below does not find the block definitions
+    contained in the file.
+
+
+    // Check each block in the block table
+
+    foreach (ObjectId btrId in bt)
+
+
+    What happens?
+
+    Thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-12-16 10:49:48'
+  body: 'Hi Márcio,
+
+
+    If I understand correctly, you''re talking about block definitions that have been
+    wblocked as separate drawings. Which means their contents get placed directly
+    in modelspace.
+
+
+    You could certainly change the logic to bring the contents of the modelspace into
+    a block definition, but it would add some complexity.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

@@ -1,0 +1,293 @@
+comments:
+- author: James Maeding
+  email: jmaeding@hunsaker.com
+  ip: 24.249.247.46
+  url: ''
+  date: '2012-09-07 00:30:24'
+  body: awesome, I do civil tools that display a ton of transient graphics, and will
+    have to look closer at this.
+- author: Loic Jourdan
+  email: loic.jourdan@2020.net
+  ip: 82.246.8.148
+  url: http://www.2020technologies.com/en-ca/manufacturing/2020-cad/
+  date: '2012-09-07 06:50:59'
+  body: 'Hi Kean,
+
+    Very interesting indeed, I find it more elegant than what we can do in objectarx
+    using (global acedRegisterFilterWinMsg method).
+
+
+    ----
+
+    I would add here a link to a post of Fenton Webb explaining how to implement win
+    msgs filters in object arx for those who want to find an ObjectARX equivalent
+    of your post:
+
+    <a href="http://adndevblog.typepad.com/autocad/2012/06/how-to-react-to-the-cursor-keys-properly-without-affecting-autocad-using-objectarx.html">http://adndevblog.typepad.com/autocad/2012/06/how-to-react-to-the-cursor-keys-properly-without-affecting-autocad-using-objectarx.html</a>'
+- author: Narayanan
+  email: SendtoNarayanan@hotmail.com
+  ip: 124.124.54.130
+  url: ''
+  date: '2012-09-07 08:32:03'
+  body: 'Pretty cool stuff.
+
+    What next? Showing grips on that transient graphics? ;-)'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-09-07 08:34:31'
+  body: 'Right - and then implement some serialization to make them persistent...
+    ;-)
+
+
+    Kean
+
+
+    P.S. I should make it clear that I am joking, just in case anyone actually thinks
+    this is going to happen.'
+- author: Mourad
+  email: fezai_mourad@yahoo.fr
+  ip: 41.226.11.78
+  url: ''
+  date: '2012-09-07 16:25:45'
+  body: 'Hi Kean,
+
+
+    This reminded me an old issue I couldn''t manage to do with VBA and I wish it
+    is possible with .NET : How to catch cursor position while moving the mouse (independently
+    wether it''s over an object in the drawing or not)?
+
+
+    Do have some advices regarding that.
+
+
+    Thanks
+
+
+    Mourad'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-09-07 16:29:34'
+  body: 'Hi Mourad,
+
+
+    You do indeed get this information via this mechanism - it''s not dependent on
+    being over an object.
+
+
+    Regards,
+
+
+    Kean'
+- author: Stuart Elvers
+  email: ''
+  ip: 97.79.20.40
+  url: http://profile.typepad.com/6p017c38422d3a970b
+  date: '2013-04-01 15:38:47'
+  body: "Kean,\n\nI comment vary rarely because your posts are typically very sound\
+    \ and informative so figuring out solutions to my issues are usually easy but\
+    \ that is not the case here.\n\nHave you tried to run your TRS command more than\
+    \ once during a single session? I appears there is a crash in the constructor\
+    \ in the base Transient and I haven't been able to narrow down a solution.\n\n\
+    When running your code line for line it builds and executes just as expected but\
+    \ when you run TRU to dispose the objects and then run TRS a second time, it will\
+    \ crash when it hits the SelectableTransient constructor. Here is a copy of the\
+    \ dump file that gets generated with AutoCAD crash that points to the managed\
+    \ location in code:\n\nat Autodesk.AutoCAD.Runtime.CommandClass.InvokeWorkerWithExceptionFilter(MethodInfo\
+    \ mi, Object commandObject, Boolean bLispFunction)\n\nat Autodesk.AutoCAD.EditorInput.AcMgTransient.{ctor}(AcMgTransient*\
+    \ , Type type)\n\nat Autodesk.AutoCAD.EditorInput.Transient..ctor()\n\nat TransientTest.SelectableTransient..ctor(Entity\
+    \ ent) in D:\\X\\TransientTest\\TransientTest\\Class1.cs:line 37\n\nat TransientTest.Commands.TransientSelection()\
+    \ in D:\\X\\TransientTest\\TransientTest\\Class1.cs:line 267\n\nat Autodesk.AutoCAD.Runtime.CommandClass.InvokeWorker(MethodInfo\
+    \ mi, Object commandObject, Boolean bLispFunction)\n\nat Autodesk.AutoCAD.Runtime.CommandClass.InvokeWorkerWithExceptionFilter(MethodInfo\
+    \ mi, Object commandObject, Boolean bLispFunction)\n\nat Autodesk.AutoCAD.Runtime.PerDocumentCommandClass.Invoke(MethodInfo\
+    \ mi, Boolean bLispFunction)\n\nat Autodesk.AutoCAD.Runtime.CommandClass.CommandThunk.Invoke()\n\
+    \nAs you can see it appears to happen during the Wrapper constructor for the base\
+    \ Transient and no matter what I do, I have yet to be able to get it to work.\
+    \ I have searched all over the place for anyone trying to implement a derived\
+    \ Transient such as this but haven't been able to find anything so I am asking\
+    \ you if you have any further insight on why the code that was posted only works\
+    \ once. \n\nThank you."
+- author: Stuart Elvers
+  email: ''
+  ip: 97.79.20.40
+  url: http://profile.typepad.com/6p017c38422d3a970b
+  date: '2013-04-01 17:38:44'
+  body: "I have been going back and forth between this and something else for the\
+    \ past 2 days trying to figure out the best way to implement what I am trying\
+    \ and its funny that I comment on here then shortly after have a some-what breakthrough.\
+    \ I found a solution to the Crash but I am not sure it is the best.\n\nComment\
+    \ out the _st.Dispose(); and the _st = null; lines in TRU and the code does not\
+    \ crash on multiple TRS/TRU calls. I was able to run the code 20-30 times without\
+    \ problems.\n\nThis makes me somewhat uneasy though as I want to make sure these\
+    \ items are disposed. Can you shed some light as to the reason why NOT disposing\
+    \ of the Transient object itself prevents a crash? \n\nThese items are not in\
+    \ a Transaction so I can not rely on that mechanism, can I rely on the Transient\
+    \ Manager (AddTransient/EraseTransient) mechanism to do something similar and\
+    \ dispose of my Transient instances?\n\nThank you."
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.232.113
+  url: http://profile.typepad.com/kean
+  date: '2013-04-02 08:52:42'
+  body: 'Hi Stuart,
+
+
+    I''m not seeing the crash on my system. Could you provide exact steps to reproduce
+    (and on what product version)? Also, have you made any changes to the code?
+
+
+    Regards,
+
+
+    Kean'
+- author: Stuart Elvers
+  email: ''
+  ip: 97.79.20.40
+  url: http://profile.typepad.com/6p017c38422d3a970b
+  date: '2013-04-02 15:26:03'
+  body: "Kean,\n\nThank you for responding and checking on your end.\n\nI have not\
+    \ made any changes to the code. It is an exact copy line for line to your post.\
+    \ \n\nYour question did shed some light because I was originally testing the project\
+    \ using .Net 3.5 in ACAD MEP 2012. I then tested it in 5 other versions. \n\n\
+    ACAD 2011 (Crashes)\nACAD 2012 (Crashes)\nACAD MEP 2011 (Crashes)\nACAD MEP 2012\
+    \ (Crashes)\n\nI rebuilt to .Net 4.0 and referenced the 3 ACAD 2013 dlls.\n\n\
+    ACAD 2013 (No Crash)\n\nIf you are using/testing using the latest version then\
+    \ that is probably why you didn't experience the crash. I hoewever typically build\
+    \ and debug first in 2011/2012 and then make modifications for 2013+ once I verified\
+    \ backwards compatability. I am not sure if its even worth sending in to ADN (I\
+    \ am a member) if its only crashing in 2012 and earlier versions plus the fact\
+    \ that I can remove the _st.Dispose() and it works in those versions as well.\
+    \ What would you suggest?\n\nAfterwards for testing purposes I simply put the\
+    \ entire TRS command in a try/catch to see if there are any exception thrown and\
+    \ a NullReferenceException is thrown on the Constructor of the SelectableTransient.\
+    \ Here is a dropbox link to a zip of my test project with the try/catch, just\
+    \ so you and anyone else that comes across this in the near future can verify.\
+    \ Its a Visual Studio 2010 project building to .Net 3.5 and referencing the ObjectARX\
+    \ 2012 SDK managed dlls.\n\n<a href=\"https://dl.dropbox.com/u/49935588/TransientTest.zip\"\
+    >https://dl.dropbox.com/u/49935588/TransientTest.zip</a>\n\nIf you test in 2012\
+    \ you can see that removing the dispose calls prevents the exception when it goes\
+    \ to create a new instance of _st a second time. I guess the _st.Dispose is disposing\
+    \ a lot more than it should in the TRU command in the earlier Managed ARX libraries\
+    \ but its been fixed in 2013+.\n\nThanks again.\n\nStu."
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.232.37
+  url: http://profile.typepad.com/kean
+  date: '2013-04-02 17:04:45'
+  body: 'Stu,
+
+
+    This is great analysis - thanks for working through this. I had only tested with
+    AutoCAD 2013, so this all makes perfect sense.
+
+
+    I don''t currently have 2012 installed (and won''t be back in the office until
+    next week), but I would just try disposing of the Line first, to see if that helps,
+    at all.
+
+
+    Also, the code should really be more robust in the way it handles multiple calls
+    to TRS without matching calls to TRU: the sensible approach would be only to initialise
+    _st and _ln if they''re currently null.
+
+
+    Otherwise you might indeed check in with ADN, to see what they have to say. I
+    suspect it would be to confirm that something was indeed fixed in 2013 to enable
+    this to work properly, but then you never know.
+
+
+    Regards,
+
+
+    Kean'
+- author: Jean-François Gay
+  email: ''
+  ip: 192.197.69.29
+  url: http://profile.typepad.com/6p017c38902357970b
+  date: '2013-08-13 16:04:59'
+  body: "Thanks Kean & Stuart.  I've been struggling with this issue for 4 days now...\
+    \  \nI can confirm, with .Net 4 and AutoCAD 2012, that if I 'dispose' the Transient-derived\
+    \ object, the Transient constrcutor fails at the next call.  I have tried to dispose\
+    \ of the Transient first, but it makes the EraseTransient fail:\n\nSystem.NullReferenceException:\
+    \ Object reference not set to an instance of an object.\n   at Autodesk.AutoCAD.GraphicsInterface.Drawable.GetImpObj()\n\
+    \   at Autodesk.AutoCAD.GraphicsInterface.TransientManager.EraseTransient(Drawable\
+    \ erased, IntegerCollection viewportNumbers)\n....\n\nLike Stuart, I am worried\
+    \ about the fact that something is not Disposed, but to what I have seen, there\
+    \ is no major memory leak, if any...\n\nI do have a question for you Kean: Your\
+    \ blogs seem to be the only (or at least the best by far) resource for AutoCAD\
+    \ .Net development, especially for Transient objects...  But there still seem\
+    \ to be a major lack of documentation / explainations on the transient graphics\
+    \ system.  For exemple, I have been trying to find clear documentation on the\
+    \ difference between WorldDraw and ViewportDraw, or on how to properly use SetAttributes\
+    \ and IsApplicable (and all other overrides - a good exemple is the SetAttribute\
+    \ override: there isn't even a description of what the method does in my ObjectARX\
+    \ for AutoCAD 2012 doc).\n\nIs there a resource somewhere with complete explainations\
+    \ and examples of each methods/overrides related to the Transient graphic system?\n\
+    \nThanks\n(And B.T.W. congrats on this great post, and this entire blog!  I'm\
+    \ going through your articles almost every day!  You're the king Kean!)"
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.237.41
+  url: http://profile.typepad.com/kean
+  date: '2013-08-14 11:12:32'
+  body: 'Thanks for the kind words, and for confirming the problem on AutoCAD 2012.
+    At this stage I''d have to say that this is (at best) unsupported on 2012 and
+    would recommend against using the approach on versions prior to 2013. Sorry about
+    that.
+
+
+    I tend to use the ObjectARX documentation along with the AutoCAD .NET docs (which
+    are steadily improving with Lee Ambrosius'' hard work). If you have specific areas
+    you''d like to see explained better, please do post comments here or on the AutoCAD
+    DevBlog - if the documentation doesn''t exist then someone on this side of the
+    fence should either be able to dig something up or create something to explain
+    that particular API.
+
+
+    Regards,
+
+
+    Kean'
+- author: ko0ls
+  email: ko0ls92.nuce@gmail.com
+  ip: 123.16.202.171
+  url: ''
+  date: '2013-12-16 17:30:54'
+  body: can you help me write code. when we click on line then linecolor is changed
+    and line is selected
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2013-12-17 11:22:00'
+  body: 'Please post to the discussion group: someone there should be able to help
+    you.
+
+
+    Kean'
+- author: ko0ls
+  email: ko0ls92.nuce@gmail.com
+  ip: 222.252.64.116
+  url: ''
+  date: '2013-12-20 18:10:59'
+  body: In your post. when user click left mouse on the line, the line was changed
+    color but line not was selected, now i want it is selected.
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2013-12-20 21:55:42'
+  body: 'I understand what you''re asking. I''m just sending you to get support somewhere
+    else.
+
+
+    One day I *may* find the time to look into this, but it definitely won''t be for
+    the next 2-4 weeks. And you really can''t rely on me finding the time.
+
+
+    Kean
+
+    -----'

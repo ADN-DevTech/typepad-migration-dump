@@ -1,0 +1,80 @@
+comments:
+- author: Brendan
+  email: brendanmaurer@gmail.com
+  ip: 173.9.38.129
+  url: ''
+  date: '2009-10-27 13:38:15'
+  body: Try the command NCOPY, which is part of basic Autocad.  I agree with your
+    post though, nested offset is very convenient.  Offsetting multiple is also very
+    useful, which offsets to both sides of a line.
+- author: Ferry Kranenburg
+  email: ferry.kranenburg@bureaubos.nl
+  ip: 80.101.52.60
+  url: http://www.bureaubos.nl
+  date: '2010-03-11 08:30:44'
+  body: "Hi Kean,\n\nFirst of all, great blog! \n\nThis is an old post, so I hope\
+    \ you read my comment. \nI'm searching for a way to use the Offset command on\
+    \ polyline segments (Autocad 2010). My users use lots and and lots of polylines\
+    \ and would like to offset parts of them without the need of manually exploding\
+    \ it. \nI think this plugin could be extended so it supports plines? Thank you."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-03-11 09:46:41'
+  body: 'Hi Ferry,
+
+
+    Thanks!
+
+
+    What you''re suggesting is certainly possible, but outside the scope of this particular
+    tool (you should be able to do it yourself by starting with the provided code,
+    assuming you''re a programmer).
+
+
+    This tool enables OFFSET for blocks and xrefs by temporarily copying the picked
+    item to the modelspace. You could do the same for polylines - the trick would
+    mainly be to decide when a segment should be copied rather than just letting OFFSET
+    work on the whole thing (which people clearly want, very often). It could easily
+    be controlled via an application setting or system variable, of course.
+
+
+    I''ll also keep this in the hopper of ideas for future tools, though, as it is
+    an interesting suggestion...
+
+
+    Kean'
+- author: Matinau
+  email: Matinau@gmail.com
+  ip: 58.179.157.27
+  url: ''
+  date: '2013-09-28 07:14:32'
+  body: 'Hi Kean, a little off topic but could this method be used to pull across
+    entire xref objects and retain their settings applied in the parent drawing?
+
+
+    My thinking is that this could be a useful way to ''''bind" nested xrefs.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-09-30 14:37:04'
+  body: 'Hi Matinau,
+
+
+    This post is a slightly special case, where we pull geometry in temporarily for
+    the OFFSET command to find.
+
+
+    You could certainly access settings in the xref and apply them in the host, but
+    you''d have to be careful about introducing unexpected behaviour (I suggest testing
+    very thoroughly).
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

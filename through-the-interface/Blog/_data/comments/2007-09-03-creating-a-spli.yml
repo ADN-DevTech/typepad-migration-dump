@@ -1,0 +1,43 @@
+comments:
+- author: Mohamed Haris
+  email: zoomharis@gmail.com
+  ip: 195.229.241.187
+  url: ''
+  date: '2007-09-04 11:55:13'
+  body: "Dear Keen,\nThanks a lot for the code. I have yet to see 2008 and MultiLeader.\
+    \ But I presume that it works on both Model and paper spaces. In that case, what\
+    \ is the best method to make the operation space independent? ie, it should work\
+    \ on active space irrespective of whether it's model or paper. I think this will\
+    \ be generally applicable to almost all the entitiy creations.\n\nBlockTableRecord\
+    \ btr =\n            (BlockTableRecord)tr.GetObject(\n              bt[BlockTableRecord.ModelSpace],\n\
+    \              OpenMode.ForWrite\n            );\n\nThanks for any suggestion,\n\
+    har!s"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-09-07 09:38:55'
+  body: "Hi har!s,\n\nA very good question. I’ve shown this buried in <a href=\"http://through-the-interface.typepad.com/through_the_interface/2007/08/creating-an-aut.html\"\
+    >a recent post</a>, but only the once. Here’s the code you need to add the object\
+    \ to the currently active space:\n\n        BlockTableRecord btr =\n         \
+    \ (BlockTableRecord)tr.GetObject(\n            db.CurrentSpaceId, \n         \
+    \   OpenMode.ForWrite\n          );\n\nKean"
+- author: Federico
+  email: folivaresl@bellsouth.net
+  ip: 64.29.209.191
+  url: ''
+  date: '2007-10-19 16:33:49'
+  body: I know this post is old, but how about adding a scaled block instead of text.
+    Also how do you set or create a mleader style? Any help would be great. By the
+    way, thanks for all the examples!
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-10-22 12:42:43'
+  body: 'I''ll add these items to my list...
+
+
+    Kean
+
+    -----'

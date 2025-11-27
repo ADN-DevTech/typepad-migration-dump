@@ -1,0 +1,334 @@
+comments:
+- author: Kélcyo Pereira
+  email: kelcyo.pereira@bol.com.br
+  ip: 200.220.209.230
+  url: ''
+  date: '2007-06-11 16:10:40'
+  body: "Quando falei, manipulação de campo, seria criar e atribuir um valor para\
+    \ o mesmo.  Exemplo:  \n   campo nome - Formato  \n   campo valor - A1  \n   campo\
+    \ nome - Titulo  \n   campo valor - Pipeline of GASCAV  \ne depois sim, fazer\
+    \ a inserção em uma tabela.\n\n\"When I spoke, manipulation of field, would be\
+    \ to create and to attribute a value for the same. \ne.g.\n   field name - Format\
+    \ \n   field value - A1 \n   field name - Titulo \n   field value - Pipeline of\
+    \ GASCAV \ne later yes, to make the insertion in a table.\""
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-06-11 16:36:49'
+  body: 'Fields get information - they do not set it. So you would need to make sure
+    your Format (i.e. PaperSize) and Title properties for the document were correct,
+    and then you could use the following strings to embed the fields appropriately
+    (you can find these via the FIELD command, as mentioned in this article):
+
+
+    %<\AcVar PaperSize>%
+
+    %<\AcVar Title>%
+
+
+    Kean'
+- author: Roland Feletic
+  email: rosinino@gmx.net
+  ip: 212.108.35.17
+  url: ''
+  date: '2007-06-11 17:02:12'
+  body: 'Hi Kean,
+
+    thank you again for your code. At the moment I''m trying to insert a block with
+    attributes into a drawing. With AttributeReference.HasFields I know if the attributereference
+    has fields or not. It would be great if you could show us how to get the field-text
+    of an attributereference.
+
+
+    Regards
+
+    Roland'
+- author: Kélcyo Pereira
+  email: kelcyo.pereira@bol.com.br
+  ip: 200.220.209.230
+  url: ''
+  date: '2007-06-12 00:44:00'
+  body: "Por coincidência eu coloquei campos que existem no cad, mais e se for campos\
+    \ criados?  \nOu se for de um bloco com atributo que eu insiro número?  \nComo\
+    \ fazer a soma dos mesmos atributos de vários blocos?\n\n\" For coincidence I\
+    \ more placed fields that exist in cad, and he will be fields bred? Or one will\
+    \ be of a block with attribute that I insert number? \nHow to make the addition\
+    \ of the same attributes of some blocks?\""
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-06-12 10:41:48'
+  body: 'Kélcyo,
+
+
+    I don''t know whether it''s the automatic translation, but I have trouble understanding
+    what you need. I think it might be related to custom fields (in which case, see
+    the TextFileField ObjectARX SDK sample).
+
+
+    Regards,
+
+
+    Kean'
+- author: Pedro Ferreira
+  email: pedro_ferreira@netcabo.pt
+  ip: 83.240.157.78
+  url: http://pwp.netcabo.pt/pedro_ferreira
+  date: '2007-06-12 22:56:09'
+  body: "I will try to translate what Kélcyo said!\n\"Por coincidência eu coloquei\
+    \ campos que existem no cad, mais e se for campos criados? \nOu se for de um bloco\
+    \ com atributo que eu insiro número? \nComo fazer a soma dos mesmos atributos\
+    \ de vários blocos?\"\n\n\"For coincidence I have placed fields that exist in\
+    \ cad, but if more fields are created?\nOr, if it is from a block with an attribute\
+    \ in witch I insert a number?\nAnd how can I make the sum of the same attributes\
+    \ in the several blocks?\"\n\nRegards\nPedro Ferreira"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-06-12 23:05:41'
+  body: 'Thanks, Pedro.
+
+
+    The item regarding addition of numeric attributes from different blocks is an
+    interesting one - I''ll try to take a look at that when we come to cover field/table
+    formulae. Thanks!
+
+
+    Kean'
+- author: Wolfgang Ruthensteiner
+  email: wruthensteiner@coop-himmelblau.at
+  ip: 213.129.255.98
+  url: ''
+  date: '2007-07-12 17:53:10'
+  body: 'Hi Kean!
+
+
+    Great blog - thank you!
+
+    My question is - how do i read back the field code with c# (from an attribute
+    e.g.)?
+
+
+    I am linking room-label blocks with polylines, using fields inside an attribute
+    to display the polyline''s area property.
+
+
+    Later I want to find out programatically, which polyline a certain block is linked
+    to by evaluating the field in the attribute (extracting the objectId).
+
+
+    Regards,
+
+    Wolfgang Ruthensteiner'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-13 16:36:55'
+  body: 'Hi Wolfgang,
+
+
+    Thanks for the feedback!
+
+
+    And this is such a good question that I decided to make <a href="http://through-the-interface.typepad.com/through_the_interface/2007/07/accessing-the-a.html">a
+    post</a> out of it.
+
+
+    Enjoy. :-)
+
+
+    Kean'
+- author: G. Scott Domingo
+  email: gscooterdingo@sbcglobal.net
+  ip: 69.226.242.68
+  url: ''
+  date: '2007-11-18 22:21:25'
+  body: "Hi,  \nMy name is Scott,  \nCan I use Fields in Titleblocks for the diplaying\
+    \ the filename and not show some text? I use this formula (%<\\AcVar Filename\
+    \ \\f \"%tc1%fn2\">%) to show the sheet number to be the filename but not show\
+    \ the \"PATH\" or \"EXTENSION\" but in our office we have to name the files with\
+    \ codes in front to not conflict with other files. For example:\nthe file name\
+    \ will be \"WH-E.1\"\nand only need to show on the sheet as \"E.1\"  \n Please\
+    \ Help \nThank you very much,\n  \n   Scott"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.16.59
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-11-19 08:51:58'
+  body: 'Hi Scott,
+
+
+    Sorry - I don''t know of a way to present substrings using fields. Someone on
+    the discussion groups (http://discussion.autodesk.com) may have a suggestion.
+
+
+    Regards,
+
+
+    Kean'
+- author: etienne
+  email: etienne@meetatelier.nl
+  ip: 81.205.37.247
+  url: ''
+  date: '2008-08-01 13:04:16'
+  body: Why does autocad 2009LT not export the content of a field when doing upload
+    user changes to source file (dat link to excel)???
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-04 09:57:43'
+  body: 'Etienne - this is the wrong forum for the question. I don''t use AutoCAD
+    LT, as I focus on development and customization.
+
+
+    Please use <a href="http://discussion.autodesk.com">the discussion groups</a>.
+
+
+    Kean'
+- author: Eric Louria
+  email: elouria@x-nth.com
+  ip: 63.139.2.34
+  url: ''
+  date: '2009-07-07 07:35:48'
+  body: This is probably not the correct place to post this but here goes. I have
+    a project that I created a ton of custom properties for and I would like to export
+    them so I can use them in different project without having to manually recreate
+    them. Is there a way to export custom properties from one project to another?
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-07-07 10:47:28'
+  body: 'I''m afraid it''s not clear what you mean by either project or custom properties
+    (both are highly overloaded terms).
+
+
+    And this isn''t really the right place - I suggest posting a more complete quest
+    ion to one of <a href="http://discussion.autodesk.com">our online discussion groups</a>.
+
+
+    Kean'
+- author: George
+  email: pop_2_xp@yahoo.com
+  ip: 89.137.17.204
+  url: ''
+  date: '2010-01-21 12:44:57'
+  body: Hi Kean. I tried your code above but somehow it merges the first row into
+    a single cell showing just Part No. . Have any ideea why ?
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-01-21 14:09:34'
+  body: 'The first entry is being taken as the table header, I expect: I remember
+    hitting something similar when creating tables <a href="http://through-the-interface.typepad.com/through_the_interface/tables/">for
+    other posts</a>. One of those may be of help to you.
+
+
+    Kean'
+- author: Kris K
+  email: klupfelk@gpcl.com.au
+  ip: 203.32.180.17
+  url: ''
+  date: '2010-08-12 09:17:14'
+  body: 'Kean,
+
+    I am developing an application where i have an XML string as a mtext attribute
+    in an invisible block. It contains border title info along with revisions and
+    other stuff.  Is it possible to use fields in the titleblock and have autocad
+    get the data from the XML string, or do i need to have separate attributes in
+    the block for the info that I want populated in the fields?'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-08-12 09:49:54'
+  body: 'Kris,
+
+
+    Your comment doesn''t appear to relate to this post, so please submit your question
+    to <a href="http://adn.autodesk.com">the ADN team</a>, if you''re a member, or
+    otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Jamie V. Johnson
+  email: jamie.johnson@railengineer.com
+  ip: 70.104.26.44
+  url: http://www.railengineer.com
+  date: '2011-07-13 00:15:02'
+  body: 'Kean,
+
+
+    In 2012, the Table object now has more features.  I am able to say (in VB):
+
+    Dim cell As Cell = dTable.Cells.Item(rowNum, 0)
+
+    cell.Value = strField
+
+    trans.commit
+
+    When I do the cell gets a field, and the table shows the field value I entered,
+    but it doesn''t generate the value properly until I simply edit the field, and
+    close it (no changes).  Strange eh?  Do you know how to best use the table object
+    in the 2012 Acad?  Is it still the same as you posted above or completely different?
+
+
+    Thanks,
+
+
+    jvj'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-07-21 10:25:15'
+  body: 'Hi jvj,
+
+
+    Sorry for the late reply. I''ve been swamped, and don''t now have time to look
+    into this.
+
+
+    Could you post it to ADN or to the AutoCAD .NET Discussion Group?
+
+
+    I''m sure there''s some way to programmatically trigger the update of the field.
+
+
+    Regards,
+
+
+    Kean'
+- author: Mike Kaganski
+  email: ''
+  ip: 85.26.247.222
+  url: http://profile.typepad.com/kaganski
+  date: '2012-10-26 01:45:11'
+  body: 'Is there any other method to refer to an object besides _ObjId? Specifically,
+    I want to insert a field into a MText that will show the Y coordinate of that
+    MText itself. I don''t want to use a block, because MText can hide its background.
+    I look for something like "%<\AcObjProp Object(%<\_Self>%).InsertionPoint \f "%lu6%pt2%ds44%zs8">%".
+
+    Thank you.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2012-10-26 11:00:51'
+  body: 'Not that I''m aware of - but I suggest asking ADN or posting to the appropriate
+    AutoCAD discussion group.
+
+
+    Kean
+
+    -----'

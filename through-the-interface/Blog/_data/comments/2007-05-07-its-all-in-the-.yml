@@ -1,0 +1,507 @@
+comments:
+- author: Cabbi
+  email: fabio_cabella@turbomach.com
+  ip: 217.193.152.83
+  url: http://www.turbomach.com
+  date: '2007-05-22 16:36:31'
+  body: 'Hi Kean,
+
+
+    I''ve a question: how do I pass parameters to a command invoked from the context
+    menu?
+
+
+    I can use ''SendStringToExecute'' with a command strings and its parametrs (as
+    string) but how does the invoked command method retrieve those parameters?
+
+
+    Any other available method than ''SendStringToExecute'' to recall methods from
+    a menu?
+
+
+    TIA,
+
+    Cabbi'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-05-22 19:14:02'
+  body: 'Hi Cabbi,
+
+
+    You''d use Editor.GetString()/GetDouble()/GetInteger()/GetPoint() etc. to pick
+    up the command-line input fed in through SendStringToExecute().
+
+
+    You might opt to call the functions directly, but generally it''s safer to use
+    the SendStringToExecute() to invoke commands like this (it helps avoid re-entrancy
+    issues, for example).
+
+
+    Regards,
+
+
+    Kean'
+- author: Cabbi
+  email: fabio_cabella@turbomach.com
+  ip: 217.193.152.83
+  url: ''
+  date: '2007-05-23 08:28:12'
+  body: '>You might opt to call the functions directly
+
+    But if I call functions directly from the menu command and do any transaction
+    with the DB I got an AutoCAD crash. I was assuming this is due to the different
+    contexts of the menu and the drawing, isn''t it?
+
+    How do I avoid this crash by calling my methods directly?
+
+
+    TIA,
+
+    Cabbi'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 202.95.81.226
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-05-23 10:28:40'
+  body: 'You might try locking the document, by I *strongly* recommend sticking to
+    using SendStringToExecute. It''s a bit more work to expose your functions as commands,
+    but in my opinion the extra effort is worthwhile and they can then be used in
+    many different places (menus, toolbars, etc.).
+
+
+    Kean'
+- author: Cabbi
+  email: fabio_cabella@turbomach.com
+  ip: 217.193.152.83
+  url: ''
+  date: '2007-05-23 10:51:22'
+  body: 'Thanks a lot!
+
+
+    Yet another stupid question: how do I insert a menu separator?
+
+
+    I tried with "-", "--", "_" but... nothing. Even Goolgeing around didn''t helped.
+
+
+    Cabbi'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 202.95.81.226
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-05-23 13:00:55'
+  body: 'Try using a blank string:
+
+
+    MenuItem sep = new MenuItem("");
+
+    cme.MenuItems.Add(sep);
+
+
+    Regards,
+
+
+    Kean'
+- author: Cabbi
+  email: fabio_cabella@turbomach.com
+  ip: 217.193.152.83
+  url: ''
+  date: '2007-05-23 15:15:55'
+  body: 'Oh, nooooo, the most stupid option I did not try!?!?
+
+    It seems it''s time for me to take a little vacation! :oD
+
+
+    Thanks again,
+
+    Cabbi'
+- author: Jason
+  email: jason.cyr@stantec.com
+  ip: 207.34.120.71
+  url: http://through-the-interface.typepad.com/through_the_interface/2007/05/its_all_in_the_.html
+  date: '2007-06-06 18:07:05'
+  body: 'Good morning Kean.
+
+
+    I am new to programming AutoCAD via .NET and I have a question for you.  I used
+    to have a custom context menu in ACAD2005.  I would like to do the same using
+    the above method, but my inexperience is frustrating me.
+
+
+    How would I set the on1st method to draw a vertical xline?  Or to call any command
+    from the command line.  (For example: dist)  This would definately reduce my frustration.
+
+
+    Thanks for your help.
+
+
+    Jason'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-06-07 09:18:42'
+  body: 'Hi Jason,
+
+
+    For calling commands, just search this blog for "SendStringToExecute" - you should
+    find plenty of examples.
+
+
+    To create an XLine, you should be able to pick up some standard code to create
+    and post another type of entity (a polyline, for instance), and then you modify
+    it to use the Autodesk.AutoCAD.DatabaseServices.Xline class.
+
+
+    Regards,
+
+
+    Kean'
+- author: Jason
+  email: jason.cyr@stantec.com
+  ip: 207.34.120.71
+  url: http://through-the-interface.typepad.com/through_the_interface/2007/05/its_all_in_the_.html
+  date: '2007-06-07 17:29:28'
+  body: Thanks for the info.  I've got it working now.  I am a little more comfortable
+    working with VB.NET.  Do you know if someone has converted this to VB at all?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-06-08 10:09:46'
+  body: 'These days I generally don''t post in both C# and VB, mainly because I prefer
+    C#, myself, and the translation tools available are pretty good.
+
+
+    Here are two that I''ve used:
+
+
+    <a href="http://www.carlosag.net/Tools/CodeTranslator/Default.aspx">Carlos Aguilar''s
+    "Code Translator"</a>
+
+    <a href="http://www.kamalpatel.net/ConvertCSharp2VB.aspx">Kamal Patel''s "Convert
+    C# to VB.NET"</a>
+
+
+    Neither provide 100% perfect results, but they do get you most of the way there.
+
+
+    I also use a <a href="http://through-the-interface.typepad.com/through_the_interface/2006/08/some_cool_copyp.html">Visual
+    Studio plugin</a> that uses either of these sites for the conversion directly
+    in Visual Studio 2005.
+
+
+    Kean'
+- author: Jason
+  email: jason.cyr@stantec.com
+  ip: 207.34.120.71
+  url: http://through-the-interface.typepad.com/through_the_interface/2007/05/its_all_in_the_.html
+  date: '2007-07-03 15:50:55'
+  body: "Good morning Kean.\n\nI do have another question for you.  I've got this\
+    \ code working perfectly, just the way I want it.  Is there a way to add accelerator\
+    \ keys to the context menu?  Just like in the image above, the first letters in\
+    \ Copy and Paste are underlined.  Can that be done in this code as well?  \nThanks."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-06 12:11:48'
+  body: 'Hi Jason,
+
+
+    Preceding the accelerator character with an ampersand is the typical way to do
+    this. I gave this a try, and found it works, but not perfectly...
+
+
+    cme = new ContextMenuExtension();
+
+    cme.Title = "&&Kean''s commands";
+
+    MenuItem mi1 = new MenuItem("&&1st");
+
+    mi1.Click += new EventHandler(On1st);
+
+    cme.MenuItems.Add(mi1);
+
+
+    The accelerator works in both cases, but only displays for the menu, not for the
+    menu item. This isn''t ideal, but hopefully it''s enough for you.
+
+
+    Regards,
+
+
+    Kean'
+- author: Jason
+  email: jason.cyr@stantec.com
+  ip: 207.34.120.71
+  url: http://through-the-interface.typepad.com/through_the_interface/2007/05/its_all_in_the_.html
+  date: '2007-07-09 15:33:20'
+  body: 'Good morning Kean.
+
+
+    Thanks for that info.  I never thought to try two & in front of what I wanted
+    accelerated.  I did try one, but that didn''t work.  Must be a VB thing. (Although
+    I haven''t tried there either.)
+
+
+    Thanks again.'
+- author: John
+  email: john.van.de.vondervoort@vanderlande.com
+  ip: 62.41.77.162
+  url: http://www.vanderlande.com
+  date: '2007-08-28 13:26:42'
+  body: 'Hello Kean,
+
+
+    Nice option to create in memory context-menu parts. But the addition will be situated
+    in the lower part of the menu and that''s not quit userfriendly for our application.
+    So I was wondering if it''s possible to change the order within a context menu.
+
+
+    Thanks for you input.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-08-28 15:17:04'
+  body: 'Hi John,
+
+
+    There''s no way to control this through the API, although you might be able to
+    do something with some low-level APIs in the OS (I haven''t done so, but it *might*
+    be possible, if you don''t mind creating a potential future maintenance problem
+    for yourself).
+
+
+    Regards,
+
+
+    Kean'
+- author: Razmin
+  email: razmins@yahoo.com
+  ip: 213.207.237.185
+  url: ''
+  date: '2007-10-17 07:27:32'
+  body: "Hi Kean,\n   Is it possible to have my own menu with out adding to default\
+    \ menu ?\nRegards,\nRazmin."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-10-17 10:58:16'
+  body: 'Hi Razmin,
+
+
+    Do you mean you want to replace the default context menu, or have your own pull-down
+    menu in the AutoCAD application frame?
+
+
+    Regards,
+
+
+    Kean'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2008-11-17 23:33:07'
+  body: "Hi Kean, \nI'm getting some strange (to me) behavior out of ads_queueexpr...\n\
+    \nWhen I first translated this example, It triggered the appropriate events, but\
+    \ the SendString wasn't executed... So I tried a couple of other ways.  When I\
+    \ tried calling the methods directly, I had lock mode issues, so I tried ads_queueexpr\
+    \ and at first it seemed nothing was happening, then I found that if I clicked\
+    \ one of my menuitems, then (do anything, like ESC, or pick a button, or type\
+    \ a command) and then my \"queued expression\" would fire.  Strange, no?"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 211.155.168.154
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-17 23:39:29'
+  body: 'Depends on how your command string is formatted - have you remembered to
+    call it via "(command \"MYCMD\")" ?
+
+
+    Kean'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2008-11-18 00:25:33'
+  body: "I prefer using vl-cmdf, but yes, I called it as a lisp statement.\nex.  ads_queueexpr(\"\
+    (vl-cmdf \"\"STARTRUN\"\")\")\n\nI even tried putting a line feed in after the\
+    \ closing paren on the lisp, and just for giggles I tried it with 'command'. \
+    \ No difference.\n\nI don't really know what was happening with the SendString...\
+    \ because it seems to be working that way now, but this behavior on ads_queueexpr\
+    \ is still repeatable.\n\nThe oddest thing is that I use ads_queueexpr to respond\
+    \ to DocumentActivated in order to get saved values out of an extension dictionary,\
+    \ and it works fine there, though so much is going on at that time, it may be\
+    \ that it's getting flushed out by the things going on after it, just like when\
+    \ I hit ESC or something.  \n\nAnyway, at this point, my stuff is working with\
+    \ SendStringtoExecute, so there's no need for me to waste any more of your time\
+    \ with it, but it is still strange!"
+- author: Luis Rey
+  email: l.cordero@fortaingenieria.com
+  ip: 189.136.134.215
+  url: http://through-the-interface.typepad.com/through_the_interface/2007/05/its_all_in_the_.html
+  date: '2009-01-09 19:53:16'
+  body: "Hi Ken, try pass parameters to command, but I can´t because generate an error\n\
+    the code is:\n\n<CommandMethod(\"Arma_Dado\")> _\n Public Sub Arma_Dado(ByVal\
+    \ sss As String)\n\n      code...\n\n end sub\n\nhow a pass parameter using SendStringtoExecute,\
+    \ for example\n\nSendStringtoExecute(\"arma_dado\"& chr(13) & \"D-1\", ???,???,???)\n\
+    \nCan I do this?"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.2.123
+  url: http://profile.typekey.com/walmsleyk/
+  date: '2009-01-12 09:40:23'
+  body: 'You need to use Editor.GetString() (or one of the other GetXXX functions)
+    from within your command to pick up the values passed in via the command-line.
+
+
+    Kean'
+- author: Luis Rey
+  email: padrino_2002@hotmail.com
+  ip: 189.136.134.215
+  url: http://through-the-interface.typepad.com/through_the_interface/2007/02/autocad_2008_ne.html
+  date: '2009-01-17 00:46:52'
+  body: "Sorry kean, but I need take a value from a usercontrol, when I execute for\
+    \ a first time everything is well, but when I change it on other window and try\
+    \ to run it, don´t recive the parametes: my code is:\n\n(funtion en the command\
+    \ class)\nPublic Class LU01Commands\n    <CommandMethod(\"ins_varilla\")> _\n\
+    \    Public Sub ins_varilla(ByVal pto As Point3d, ByVal varilla As String)\n \
+    \       Dim doc As Document = Application.DocumentManager.MdiActiveDocument\n\
+    \        Dim db As Database = doc.Database\n        Dim ed As Editor = doc.Editor\n\
+    \        Dim tr As Transaction = db.TransactionManager.StartTransaction()\n  \
+    \      Dim bt As BlockTable = tr.GetObject(db.BlockTableId, OpenMode.ForRead)\n\
+    \        Dim btr As BlockTableRecord = tr.GetObject(bt(BlockTableRecord.ModelSpace),\
+    \ OpenMode.ForWrite)\n 'more code......\n    End Sub\nEnd Class\n\nAnd My code\
+    \ on then pallete (user control) is:\nwhen I press button1.\n\n\n    Private Sub\
+    \ Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)\n\
+    \        Dim doc As Document = Application.DocumentManager.MdiActiveDocument\n\
+    \        Dim db As Database = doc.Database\n        Dim ed As Editor = doc.Editor\n\
+    \        Try\n            doc.SendStringToExecute(\"ins_varilla\" & Chr(13), False,\
+    \ False, False)\n            ed = Nothing\n            db = Nothing\n        \
+    \    doc = Nothing\n        Catch ex As Exception\n            MsgBox(ex.Message)\n\
+    \        End Try\n\n    End Sub\n\nCan I use the \"SendStringtoExecute\" to do\
+    \ or there are other way to do."
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typekey.com/walmsleyk/
+  date: '2009-01-17 13:38:25'
+  body: 'Luis -
+
+
+    You can''t just declare the function with arguments: it needs to be a standard
+    AutoCAD command (defined as always) and then you use GetString() etc. to retrieve
+    the arguments from the command-line.
+
+
+    See <a href="http://through-the-interface.typepad.com/through_the_interface/2006/09/passing_argumen.html">this
+    post</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Alex
+  email: viavitae@ya.ru
+  ip: 79.111.104.187
+  url: ''
+  date: '2009-03-10 22:05:41'
+  body: "I understand that there are several types of context menu.\nThe next code\
+    \ shows how I create these menus.\n\n--------------CODE-----------------\n//Default\
+    \ context menu\n     ContextMenuExtension cme = new ContextMenuExtension();\n\
+    \     MenuItem miRoomProperties = new MenuItem(\"Item01\");\n     miRoomProperties.Click\
+    \ += new EventHandler(Item01_Click);\n     cme.MenuItems.Add(miRoomProperties);\n\
+    \     Application.AddDefaultContextMenuExtension(cme);\n//Default context nested\
+    \ menu\n     cme = new ContextMenuExtension();\n     cme.Title = \"MyMenus\";\n\
+    \     MenuItem mi1 = new MenuItem(\"1st\");\n     mi1.Click += new EventHandler(On1st);\n\
+    \     cme.MenuItems.Add(mi1);\n     MenuItem mi2 = new MenuItem(\"2nd\");\n  \
+    \   mi2.Click += new EventHandler(On2nd);\n     cme.MenuItems.Add(mi2);\n    \
+    \ MenuItem mi3 = new MenuItem(\"3rd\");\n     mi3.Click += new EventHandler(On3rd);\n\
+    \     cme.MenuItems.Add(mi3);\n     Application.AddDefaultContextMenuExtension(cme);\n\
+    //Create entity context menu\n     cme = new ContextMenuExtension();\n     MenuItem\
+    \ mi = new MenuItem(\"Count\");\n     mi.Click += new EventHandler(Count_Click);\n\
+    \     cme.MenuItems.Add(mi);\n     RXClass rxc = Entity.GetClass(typeof(Entity));\n\
+    \     Application.AddObjectContextMenuExtension(rxc, cme);\n--------------CODE-----------------\n\
+    \n\n\nIf I will execute this code, when acad.cui loaded, it is all working...\
+    \ No problems.\nBUT I have created my own empty cui file and if I load it and\
+    \ unload acad.cui nothing working.\n\n\n--------------CODE-----------------\n\
+    \     string sMyWsName = \"ViViWorkspace\";            \n//Unload main cui   \
+    \                     \n     string sCuiName = cCurrent.CUIFileBaseName;\n   \
+    \  Application.SetSystemVariable(\"FILEDIA\", 0);\n     CommandLine.Command(\"\
+    ._cuiunload\", sCuiName); \n     string sViViCuiFile = \"C:\\\\Users\\\\Alex\\\
+    \\AppData\\\\Roaming\\\\Autodesk\\\\AutoCAD 2009\\\\R17.2\\\\enu\\\\Support\\\\\
+    ViVi.cui\";\n     cCurrent = new CustomizationSection(sViViCuiFile); \n     CommandLine.Command(\"\
+    ._cuiload\", \"\\\"\" + sViViCuiFile + \"\\\"\");\n     CommandLine.Command(\"\
+    ._filedia\", 1);            \n//Create my menu\n     PopMenu pmShortcut1 = cCurrent.CreateShortcutMenu();\
+    \ \n     MacroGroup mg = cCurrent.MenuGroup.MacroGroups[0];\n     MenuMacro mm1\
+    \ = new MenuMacro(mg, \"Cmd 5\", \"^C^CCmd5\", \"ID_MyCmd5\"); \n     pmShortcut1.Name\
+    \ = \"MyShortcutMenu\"; \n     PopMenuItem pmiShortcut = new PopMenuItem(mm1,\
+    \ \"Shortcut\", pmShortcut1, 0);     Application.SetSystemVariable(\"WSCURRENT\"\
+    , sMyWsName); //for refresh\n--------------CODE-----------------\n\n\n\nI found\
+    \ the way how can I solve this problem. If I transfer from acad.cui file, from\
+    \ Shortcut Menus next 2 menus: Default Menu and Edit menu my context menu begin\
+    \ to work. Also I found that I can delete everything from that 2 menus and leave\
+    \ any one Item (for example Zoom or any other, or create my own Item, it should\
+    \ not be empty) context menu is working.\n\nBut if I create my shortcut menu (like\
+    \ shown in first post) and add items in it, context menu is not working. Context\
+    \ menu will only work if I transfer these menus from acad.cui file.\n\nHow can\
+    \ I create my own shortcut menu, that gives me oportunity to make my context menu?\n\
+    Or maybe I'm wrong? Than what should I do..."
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-03-11 09:33:09'
+  body: 'Alex,
+
+
+    I''m afraid I don''t have time to research topics that aren''t directly related
+    to code that I''ve posted.
+
+
+    Please post your question to <a href="http://adn.autodesk.com">the ADN website</a>
+    (if you''re a member) or to <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Scott Cleveland
+  email: scott.cleveland@synergis.com
+  ip: 64.9.12.146
+  url: ''
+  date: '2010-04-30 15:55:45'
+  body: Kean - I am trying to add a Context Menu Extension that has menu items - When
+    I create it and say add to menu of object type entity, the menu items show up
+    on the main (autocad ) menu, not w/ a title I have specified - the menus are not
+    on a fly-out the menu. Do you know if this is a problem or bug? Thanks Scott Cleveland
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-05-03 14:43:13'
+  body: 'Scott,
+
+
+    I don''t recall the typical behaviour for this scenario and unfortunately don''t
+    have time to look into it.
+
+
+    I suggest submitting a representative sample to <a href="http://adn.autodesk.com">the
+    ADN team</a> or to <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'

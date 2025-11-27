@@ -1,0 +1,111 @@
+comments:
+- author: Greg Heeley
+  email: greg.h@cadpro.co.nz
+  ip: 203.97.71.38
+  url: ''
+  date: '2008-04-24 06:08:36'
+  body: 'Hi Kean
+
+    Good looking piece of code.
+
+    On similar (ish) lines, do you know of any implementation of a bpoly type command.
+    I am using a method at the moment to run a command line version but due to graphical
+    restrictions its causing me a few problems'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.7.167
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-04-24 10:31:01'
+  body: 'Hi Greg,
+
+
+    Someone else has just asked the same question. There isn''t an easy answer, unfortunately:
+    there''s no boundary detection code exposed, other than via the BOUNDARY/BPOLY/BHATCH
+    commands. So you''d have to do quite a lot of work yourself, to replicate this.
+
+
+    Firing a ray - as in this sample - is a good place to start, though. You would
+    then collect intersection points with other entities in the drawing and perform
+    some analysis on which contribute to the boundary closest to the selected point.
+
+
+    The simplest approach is probably to work through your issues with running the
+    BPLOY command programmatically (the ADN team will be able to help you with this).
+
+
+    Regards,
+
+
+    Kean'
+- author: Irenelim
+  email: irene@irenelim.com
+  ip: 60.48.218.131
+  url: ''
+  date: '2010-02-23 10:20:11'
+  body: I try to draw a polyline and use the Bounce command. But it prompts that "This
+    is not a curve". Why?
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-02-23 10:27:36'
+  body: 'I don''t know - it certainly shouldn''t.
+
+
+    Have you tried debugging to see what kind of object is getting selected?
+
+
+    Kean'
+- author: Irenelim
+  email: irene@irenelim.com
+  ip: 60.48.218.131
+  url: ''
+  date: '2010-02-24 03:54:41'
+  body: 'Hi Kean,
+
+    O yes, I tried. It''s block reference.'
+- author: Irenelim
+  email: irene@irenelim.com
+  ip: 60.48.218.131
+  url: ''
+  date: '2010-02-24 03:57:39'
+  body: 'Hi Kean,
+
+    I tried to draw some lines, and use the pedit command to convert it to poly line.
+    After that, I used the "Bounce" command to test it.. error: This is not a closed
+    loop..'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2010-02-24 09:15:44'
+  body: 'Have you tried closing the loop?
+
+
+    Kean'
+- author: Juergen.Becker@CAD-Becker.de
+  email: Juergen.Becker@CAD-Becker.de
+  ip: 84.181.125.131
+  url: http://www.autocad.cad-becker.de
+  date: '2011-03-16 17:21:04'
+  body: "Hi Kean,\nI've got a problem with the IntersectWith Method on a 64bit machine\
+    \ with AutoCAD 2010. Its mentioned that this method is not defined. \nIs there\
+    \ a workaround?\nThanks for helping.\nRegards Jürgen"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-03-17 00:04:34'
+  body: 'Hi Jürgen,
+
+
+    I seem to recall there''s now a version of IntersectWith() taking System.IntPtr
+    arguments instead of using int (which allows it to work on x64).
+
+
+    Cheers,
+
+
+    Kean
+
+    -----'

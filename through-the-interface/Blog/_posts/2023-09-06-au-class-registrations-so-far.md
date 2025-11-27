@@ -1,0 +1,19 @@
+---
+layout: "post"
+title: "AU class registrations so far"
+date: "2023-09-06 13:24:00"
+author: "Kean Walmsley"
+categories:
+  - "3D printing"
+  - "APS (Forge)"
+  - "AU"
+  - "Autodesk"
+  - "Autodesk Research"
+  - "MX3D"
+  - "VASA"
+original_url: "https://www.keanw.com/2023/09/au-class-registrations-so-far.html "
+typepad_basename: "au-class-registrations-so-far"
+typepad_status: "Publish"
+---
+
+<p>As mentioned in <a href="https://www.keanw.com/2023/08/sign-up-for-au-2023-classes-today.html" target="_blank">the last post</a>, it’s now possible for people to sign up for their AU classes. And it’s really worth taking the time to do so, as some classes are filling up quickly.</p><p>Despite being held <a href="https://www.linkedin.com/feed/update/urn:li:activity:7103106167702188033/" target="_blank">at a ridiculously early time</a> on the first day of the conference, <a href="https://conferences.autodesk.com/flow/autodesk/au2023/sessioncatalog/page/inperson/session/1686766044586001Z9UY" target="_blank">my first class</a> is already 88% full, for instance (there are 141 registered and the capacity of the room it’s currently assigned to is 160). I see that 300+ people have this session in their list of favourites, so if you do want to attend then I recommend signing up sooner rather than later.</p><p><a href="https://through-the-interface.typepad.com/.a/6a00d83452464869e202c1b25f3914200d-pi" target="_blank"><img width="500" height="564" title="VASA sign-ups" style="margin: 30px auto 0px; border: 0px currentcolor; border-image: none; float: none; display: block; background-image: none;" alt="VASA sign-ups" src="/assets/image_278032.jpg" border="0"></a></p><p><a href="https://conferences.autodesk.com/flow/autodesk/au2023/sessioncatalog/page/inperson/session/1686766247767001Zgix" target="_blank">My second class</a> – that I’ll be presenting with my friend Pete Storey – still has plenty of space, on the other hand: it currently has 8 registered with a capacity of 109 (which makes it 93% empty ;-) so don’t stress too much about that one; there’s much less urgency.</p><p><a href="https://through-the-interface.typepad.com/.a/6a00d83452464869e202c1b25f3918200d-pi" target="_blank"><img width="500" height="570" title="Smart bridge sign-ups" style="margin: 30px auto 0px; border: 0px currentcolor; border-image: none; float: none; display: block; background-image: none;" alt="Smart bridge sign-ups" src="/assets/image_376285.jpg" border="0"></a></p><p><a href="https://conferences.autodesk.com/flow/autodesk/au2023/sessioncatalog/page/inperson/session/1686766265213001ZDxD" target="_blank">One more class</a> I’d like to point people to is being presented by Abed Aarabi, whom I know from <a href="https://www.keanw.com/2020/02/the-first-forge-accelerator-in-london.html" target="_blank">a couple</a> of <a href="https://www.keanw.com/2023/03/the-aps-sustainability-accelerator-in-copenhagen.html" target="_blank">APS Accelerators</a>. Abed gave the attendees of the recent Copenhagen accelerator a sneak peek during the demo session at the work he’ll be presenting at AU 2023, and it’s going to be very interesting to many of you, I’m sure. It’s always fascinating to see how APS can be used to implement innovative workflows.</p><p>One last thing to note about AU registration: while many classes do fill up very quickly, it doesn’t necessarily mean “that’s it” if one of the classes you want to attend is full. The AU team have already rejigged several classes to be held in larger rooms as well as repeating the most popular sessions (something I really hope doesn’t happen to me, I fully admit ;-). As of last Friday – September 1st – they had effectively freed up 3,000 spaces in the most popular classes. So do be sure to check again if there’s a class you wanted to attend that was marked “full”.</p>

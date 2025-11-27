@@ -1,0 +1,13 @@
+---
+layout: "post"
+title: "Autodesk Neuchatel gets a new shared space"
+date: "2015-10-12 19:36:58"
+author: "Kean Walmsley"
+categories:
+  - "Autodesk"
+original_url: "https://www.keanw.com/2015/10/autodesk-neuchatel-gets-a-new-shared-space.html "
+typepad_basename: "autodesk-neuchatel-gets-a-new-shared-space"
+typepad_status: "Publish"
+---
+
+<p>Today was an interesting day: in the morning Autodesk <a href="https://en.wikipedia.org/wiki/Neuch%C3%A2tel" target="_blank">Neuchâtel</a> opened a new common space, while in the afternoon I headed across with a development partner to meet an AutoCAD user doing some really interesting things with wood. More on that in the next post.</p>  <p>For now, here are a few snaps of the new office space:</p>  <p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e201b7c7dc9775970b-pi" target="_blank"><img title="The overall space" style="border-top: 0px; border-right: 0px; background-image: none; border-bottom: 0px; float: none; padding-top: 0px; padding-left: 0px; margin: 50px auto; border-left: 0px; display: block; padding-right: 0px" border="0" alt="The overall space" src="/assets/image_480268.jpg" width="520" height="352" /></a></p>  <p>I really like the new astroturf area. Although our facilities team didn’t seem very open to the idea of us installing 5-a-side goals at either end of it.</p>  <p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e201bb08809516970d-pi" target="_blank"><img title="From the other corner" style="border-top: 0px; border-right: 0px; background-image: none; border-bottom: 0px; float: none; padding-top: 0px; padding-left: 0px; margin: 50px auto; border-left: 0px; display: block; padding-right: 0px" border="0" alt="From the other corner" src="/assets/image_364699.jpg" width="520" height="352" /></a></p>  <p>In the corner we have a little Lab space, with a couple of 3D printers, a laser cutter and a drone. This last one is probably just for display purposes: I think we’re meant to take it outside to fly.</p>  <p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e201bb08809526970d-pi" target="_blank"><img title="My new playground" style="border-top: 0px; border-right: 0px; background-image: none; border-bottom: 0px; float: none; padding-top: 0px; padding-left: 0px; margin: 50px auto; border-left: 0px; display: block; padding-right: 0px" border="0" alt="My new playground" src="/assets/image_40301.jpg" width="520" height="352" /></a></p>  <p>I’m really excited about this new area. We’ll be using it for <a href="http://www.meetup.com/Switzerland-Augmented-Reality-Meetup/events/225694530/" target="_blank">an upcoming AR/VR Meetup</a>, in case you want to come and check it out for yourself.</p>

@@ -1,0 +1,465 @@
+comments:
+- author: Shayne H.
+  email: shayne.hamel@gogtp.com
+  ip: 24.20.6.250
+  url: ''
+  date: '2012-03-07 08:26:28'
+  body: Any idea on where/when we can get our hands on the 2013 version of MgdDbg
+    and its aec sibling?
+- author: James
+  email: james.conner999@gmail.com
+  ip: 173.8.115.65
+  url: ''
+  date: '2012-03-07 15:46:56'
+  body: "Hi Kean:\n\nI was wondering if we can utilize the Civil 3D API to create\
+    \ tables with same level of customization that is available to AutoCAD tables.\
+    \ \n\nAt present, AutoCAD table are more flexible with style and formatting but\
+    \ when imported in Civil 3D, they don't dynamically update with the modifications\
+    \ done in Civil 3D document. However, the Civil 3D tables does the job of dynamic\
+    \ update but they lack the flexible styling component.\n\nI would appreciate if\
+    \ you can share some ideas or provide a sample code for this issue.\n\nThank you."
+- author: Kean Walmsley
+  email: ''
+  ip: 72.52.96.9
+  url: http://profile.typepad.com/kean
+  date: '2012-03-07 19:47:20'
+  body: 'Good question, and I don''t know the answer. I suggest contacting ADN (assuming
+    you''re a member), to get it from them.
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 72.52.96.9
+  url: http://profile.typepad.com/kean
+  date: '2012-03-07 19:51:53'
+  body: 'Hi James,
+
+
+    I think <a href="http://through-the-interface.typepad.com/through_the_interface/2009/01/more-fun-with-autocad-tables-and-their-styles-using-net.html#comment-6a00d83452464869e20167637e855c970b">I
+    already answered this</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Shayne H.
+  email: shayne.hamel@gogtp.com
+  ip: 24.20.6.250
+  url: ''
+  date: '2012-03-07 20:22:42'
+  body: 'Thanks for the reply Kean. Prior to posting I had checked if it was up there,
+    and only the 2012 versions were.  I will submit a request for it.
+
+
+    On a side note, a very useful thing for us would be SVN repository access to projects
+    like that and others like you create, so we could compare revisions and see what
+    exact changes were made.  Food for thought.'
+- author: li
+  email: ljq_as@163.com
+  ip: 123.189.84.171
+  url: ''
+  date: '2012-03-21 22:37:05'
+  body: "Hi Kean,\n   I use vs2005 and acad2007. In vb.net, reference to the COM (\
+    \ Autocad 2007 Type Library ; Autocad / objectDBX common 17.0 Type Library), found\
+    \ that with AcadSelectionSet have filter conditions unsuccessful. Code as follows:\n\
+    \n       Public app As AcadApplication = Application.AcadApplication\n       Public\
+    \ thisdrawing As AcadDocument = app.ActiveDocument\n       Dim ss As AcadSelectionSet\n\
+    \       Dim gpcode (0) As Integer\n       Dim datavalue (0) As Object\n      \
+    \ gpcode (0) = 8\n       datavalue (0) =\"0\"\n       Dim groupCode As Object\n\
+    \       Dim dataCode As Object\n       groupCode = gpcode\n       dataCode = datavalue\n\
+    \       ss = thisdrawing.SelectionSets.Add (\"ss0\")\n       ss.Select (AcSelect.acSelectionSetAll,,,\
+    \ groupCode, dataCode)\n        \nFinally did not select the entities,What is\
+    \ the reason? Thank you!\nli"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-03-21 23:08:26'
+  body: 'Hi li,
+
+
+    This isn''t a support forum: please post your question via ADN (if you''re a member)
+    or to the AutoCAD .NET discussion group.
+
+
+    Regards,
+
+
+    Kean'
+- author: Maxence
+  email: maxence.delannoy@wiip.fr
+  ip: 86.192.62.228
+  url: http://wiip.fr
+  date: '2012-04-16 14:01:23'
+  body: "To target 2010 and 2013 what I'm doing so far is creating one configuration\
+    \ for each platform, editing by hand the .csproj file and adding a Condition attribute\
+    \ on the references. Like this:\n\nTo target 2010 and 2013 what I'm doing so far\
+    \ is creating one configuration for each platform, editing by hand the .csproj\
+    \ file and adding a Condition attribute on the references. Like this:\n\n&lt;Reference\
+    \ Include=&quot;AcCoreMgd&quot; Condition=&quot; '$(Configuration)' == 'Debug\
+    \ 2013' Or '$(Configuration)' == 'Release 2013' &quot;&gt;\n  &lt;HintPath&gt;C:\\\
+    ObjectARX 2013\\inc\\AcCoreMgd.dll&lt;/HintPath&gt;\n  &lt;Private&gt;False&lt;/Private&gt;\n\
+    &lt;/Reference&gt;\n&lt;Reference Include=&quot;AcDbMgd&quot; Condition=&quot;\
+    \ '$(Configuration)' == 'Debug 2013' Or '$(Configuration)' == 'Release 2013' &quot;&gt;\n\
+    \  &lt;HintPath&gt;C:\\ObjectARX 2013\\inc\\AcDbMgd.dll&lt;/HintPath&gt;\n  &lt;Private&gt;False&lt;/Private&gt;\n\
+    &lt;/Reference&gt;\n&lt;Reference Include=&quot;AcMgd&quot; Condition=&quot; '$(Configuration)'\
+    \ == 'Debug 2013' Or '$(Configuration)' == 'Release 2013' &quot;&gt;\n  &lt;HintPath&gt;C:\\\
+    ObjectARX 2013\\inc\\AcMgd.dll&lt;/HintPath&gt;\n  &lt;Private&gt;False&lt;/Private&gt;\n\
+    &lt;/Reference&gt;\n&lt;Reference Include=&quot;AcDbMgd&quot; Condition=&quot;\
+    \ '$(Configuration)' == 'Debug 2010' Or '$(Configuration)' == 'Release 2010' &quot;&gt;\n\
+    \  &lt;HintPath&gt;C:\\ObjectARX 2010\\inc-x64\\AcDbMgd.dll&lt;/HintPath&gt;\n\
+    \  &lt;Private&gt;False&lt;/Private&gt;\n&lt;/Reference&gt;\n&lt;Reference Include=&quot;AcMgd&quot;\
+    \ Condition=&quot; '$(Configuration)' == 'Debug 2010' Or '$(Configuration)' ==\
+    \ 'Release 2010' &quot;&gt;\n  &lt;HintPath&gt;C:\\ObjectARX 2010\\inc-x64\\AcMgd.dll&lt;/HintPath&gt;\n\
+    \  &lt;Private&gt;False&lt;/Private&gt;\n&lt;/Reference&gt;\n\nThis works, but\
+    \ I duplicate the condition for each reference. Is there a way to avoid that\n\
+    This works, but I duplicate the condition for each reference. Is there a way to\
+    \ avoid that?\n\nI've tried with choose (<a href=\"http://msdn.microsoft.com/fr-fr/library/ms164282.aspx)\"\
+    >http://msdn.microsoft.com/fr-fr/library/ms164282.aspx)</a> but VS doesn't like.\
+    \ Have you find a better solution?"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-04-16 17:44:15'
+  body: 'I can see this isn''t quite ideal, although it''s good to know you''ve found
+    something that at least works. :-)
+
+
+    I admit I haven''t looked into this myself, as yet. It may be that someone on
+    the AutoCAD .NET Discussion Group has something to share...
+
+
+    Kean'
+- author: MathewWebber
+  email: ''
+  ip: 194.116.198.188
+  url: http://profile.typepad.com/mathewwebber
+  date: '2012-04-16 18:21:38'
+  body: 'This is the same approach we take, although we have it worse as we support
+    2010, 2011, 2012 and now 2013. Oh and we have switches to build 64-bit and 32-bit
+    versions of out plugin to suit the two versions.
+
+
+    Luckily we found away of compiling the DLL so it works in both Civil3D and vanilla
+    AutoCAD otherwise we''d be at 16 DLLs!!'
+- author: MathewWebber
+  email: ''
+  ip: 194.116.198.188
+  url: http://profile.typepad.com/mathewwebber
+  date: '2012-04-16 18:30:38'
+  body: 'Kean,
+
+
+    Thanks for the post, its been a really useful article - it seems a long time since
+    this was discussed at the ADN day in Farnborough in December!
+
+
+    One thing though, do you have a link to the ''Migration Guide'' you mentioned?
+    I have looked but can''t seem to find it :/
+
+
+    Cheers
+
+
+    Mat'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-04-16 19:04:19'
+  body: 'Mat,
+
+
+    Yes, time flies...
+
+
+    Hmm - I assume it''s there in the docs download for the ObjectARX SDK (which I
+    don''t have, at the moment).
+
+
+    If it isn''t, please do ping ADN, and they''ll point you in the right direction.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Jeff Mishler
+  email: miff@sonic.net
+  ip: 209.204.165.253
+  url: ''
+  date: '2012-04-23 18:48:02'
+  body: 'Mathew, Could you elaborate on this: "we have switches to build 64-bit and
+    32-bit versions"?'
+- author: Alex
+  email: alex.worrell@atkinsglobal.com
+  ip: 193.117.31.2
+  url: ''
+  date: '2013-02-27 17:32:38'
+  body: In your post you mention "changing property and method names as per the migration
+    guide". Where is this migration guide you refer to? I have tried searching the
+    web but only get a reference back to this post.
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.235.43
+  url: http://profile.typepad.com/kean
+  date: '2013-02-28 09:54:32'
+  body: 'If you download the ObjectARX SDK Documentation (a 100MB download you can
+    get to via <a href="http://objectarx.com">objectarx.com</a>), you should find
+    it in the docs folder (at least I assume so - I''m on holiday and so can''t confirm).
+
+
+    Kean'
+- author: Martin Müller
+  email: m.mueller@cadothek.ch
+  ip: 81.6.56.54
+  url: ''
+  date: '2013-06-05 12:04:54'
+  body: 'Is an old post, however, probably somebody searching for this will find it
+    usable: I copy the project file, rename it to something useful, like xyz2013,
+    xyz2014, change its internal GUID in an editor, attach it as an existing project
+    to the solution and change the references to point to the new libraries. Then
+    I define a compiler constant in each project file to distinguish code between
+    the differen Acad versions, while basing on the same source files. Then I create
+    different configurations for each platform at the configuration manager and activate/deactivate
+    the relevant/irelevant projects here. I find this much more simple, than editing
+    the project file.'
+- author: Stanislav Okhvat
+  email: stasokhvat@gmail.com
+  ip: 93.174.134.10
+  url: http://www.translatortools.net
+  date: '2013-11-05 08:56:06'
+  body: 'Hello, Kean,
+
+
+    I have been following your blog for some time, especially with regard to AutoCAD
+    VBA support. I have a question concerning binary compatibility in AutoCAD VBA
+    projects which I find really confusing.
+
+
+    Lately, one user of my DVB library reported a binary compatibility error in Autocad
+    2014. The DVB file was compiled in Autocad 2010, and upon installing the trial
+    version of Autocad 2014 I discovered that the reference to Autocad 2010 (v. 18)
+    was broken. Removing the old reference and adding a reference to 2014 fixed things,
+    of course. But here''s the interesting part. I have the same DVB file compiled
+    in Autocad 2008 and it works fine in Autocad 2010, 2012 and 2014. To add to the
+    confusion, I tested the 2014 file in Autocad 2012 and 2008 and it worked fine
+    in both of them! Also, the 2010 version works fine in version 2008. I have always
+    believed (and testing verified this) that a DVB add-in compiled against a version
+    after 2002 works correctly in all older versions. Clearly, this rule is broken
+    as far as v. 2010-2012 (18) is concerned. I would appreciate your help.
+
+
+    Thanks a lot.
+
+
+    Best regards,
+
+    Stanislav'
+- author: Станислав Охват
+  email: ''
+  ip: 93.174.134.10
+  url: http://profile.typepad.com/d115687009308088075
+  date: '2013-11-06 09:16:53'
+  body: 'Hello, Kean,
+
+
+    I have been following your blog for some time, especially with regard to AutoCAD
+    VBA support. I have a question concerning binary compatibility in AutoCAD VBA
+    projects which I find really confusing.
+
+
+    Lately, one user of my DVB library reported a binary compatibility error in Autocad
+    2014. The DVB file was compiled in Autocad 2010, and upon installing the trial
+    version of Autocad 2014 I discovered that the reference to Autocad 2010 (v. 18)
+    was broken. Removing the old reference and adding a reference to 2014 fixed things,
+    of course. But here''s the interesting part. I have the same DVB file compiled
+    in Autocad 2008 and it works fine in Autocad 2010, 2012 and 2014. To add to the
+    confusion, I tested the 2014 file in Autocad 2012 and 2008 and it worked fine
+    in both of them! Also, the 2010 version works fine in version 2008. I have always
+    believed (and testing verified this) that a DVB add-in compiled against a version
+    after 2002 works correctly in all older versions. Clearly, this rule is broken
+    as far as v. 2010-2012 (18) is concerned. I would appreciate your help.
+
+
+    Thanks a lot.
+
+
+    Best regards,
+
+    Stanislav'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-11-13 15:08:57'
+  body: 'Hello Станислав,
+
+
+    Sorry for the delay - both of your comments were flagged as spam, for some reason.
+
+
+    I''m no expert on VBA compatibility between versions: I would think that if you
+    build with the oldest product version you support then you would be able to load
+    the DVB in earlier versions. Going backwards is always more tricky, even if the
+    COM API hasn''t evolved significantly in recent years there is a greater risk.
+
+
+    It could also be some kind of compatibility issue was introduced when we decoupled
+    VBA in the 2010- timeframe, but then I haven''t heard of anything like that, myself.
+
+
+    Best regards,
+
+
+    Kean'
+- author: andy
+  email: andy_robert@gmail.com
+  ip: 135.245.8.5
+  url: ''
+  date: '2013-11-16 12:24:55'
+  body: 'Hi,I am going to migrate autocad 2005 to autocad2014 and instead of using
+    LISP routines I am using VB.Net.What will be the steps that I need to carry out
+    in order to achieve it.There will be slide libraries and  block symbols in autocad
+    2005 that need to be migrated from 2005 to 2014,how is that Possible?
+
+    Thanks in advance'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-11-18 11:35:15'
+  body: 'Hi andy,
+
+
+    AutoCAD 2014 should read all the formats used in 2005. You can choose to  open
+    and save back to the newer DWG format, for instance, or just leave any DWGs as
+    is. It''s up to you.
+
+
+    Regards,
+
+
+    Kean'
+- author: andy
+  email: andy_robert@gmail.com
+  ip: 135.245.8.5
+  url: ''
+  date: '2013-11-19 07:17:48'
+  body: 'Thanx Kean..!!!
+
+
+    I have some arx files in my existing code alongwith exe files with same name and
+    I noticed that in the lisp code these arx files are being loaded and arx files
+    are in compiled form nt able to open so is there any way out to decompile them  so
+    that i can have understanding of it...:(
+
+
+    regards,
+
+    Andy'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-11-19 07:22:27'
+  body: 'Native executables (whether .EXE, .DLL or .ARX) are going to be next to impossible
+    to decompile into anything meaningful (you would have much more luck with .NET
+    DLLs in that sense).
+
+
+    Is there no way of tracking down the source?
+
+
+    Kean'
+- author: andy
+  email: andy_robert@gmail.com
+  ip: 135.245.8.5
+  url: http://adndevblog.typepad.com/autocad/2013/06/working-with-toolpalette-groups-using-net.html#tpe-action-resize-418
+  date: '2013-11-19 13:46:12'
+  body: "Hi Kean,\nI have got the source code of arx files they are coded in c/c++\
+    \ .I am trying to understand it but the problem is I dunno where to start from\
+    \ confused abt how to approach this upgradation..If you can help me in this..it\
+    \ will be grt...:)\n\nThanks \nandy....:)"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-11-19 13:56:22'
+  body: 'Hi andy,
+
+
+    If you want to learn ObjectARX then I recommend attending training or going through
+    the material on <a href="http://autodesk.com/developautocad">the AutoCAD Developer
+    Center</a>.
+
+
+    If you want to get someone else to help then I suggest posting to the ObjectARX
+    Discussion Forum (also linked from the DevCenter) or search for consultants that
+    might help via <a href="http://autodesk.com/partnerproducts">the Partner Products
+    & Services website</a>.
+
+
+    I, unfortunately, don''t have time to help you through this, personally.
+
+
+    Regards,
+
+
+    Kean'
+- author: andy
+  email: andy_robert@gmail.com
+  ip: 135.245.8.5
+  url: http://adndevblog.typepad.com/autocad/2013/06/working-with-toolpalette-groups-using-net.html#tpe-action-resize-418
+  date: '2013-11-21 08:40:51'
+  body: 'its ok kean..I understand that....thnx alot for ur valuable suggestions....
+
+    :)
+
+
+    Andy...'
+- author: Mogharrabi
+  email: mphoenix67@hotmail.com
+  ip: 76.164.214.134
+  url: ''
+  date: '2013-12-09 07:17:00'
+  body: 'Hi mr. Walmsley,
+
+    Please describe a little about how can we add a reference to Autodesk.Autocad.Interop.Common.dll
+    (AXDBLib) to a C# winform application in x64 bit windows?
+
+
+    I have added this dll as AutoCAD/ObjectDBX Common 17.0 Type Library from COM references
+    in x32 but now i could not find it there in x64.'
+- author: Mogharrabi
+  email: mphoenix67@hotmail.com
+  ip: 76.164.214.130
+  url: ''
+  date: '2013-12-09 07:39:01'
+  body: 'Excuse me because of my previous question.
+
+    I had not read your article carefully.
+
+
+    I tried to find <b>Autodesk.Autocad.Interop.Common.dll</b> by browsing it in the
+    AutoCAD Program Files but i could not.
+
+    What do you think? What is my mistake?
+
+
+    Excuse me again...'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-12-16 10:39:44'
+  body: 'Try installing the ObjectARX SDK for your version of AutoCAD (<a href="http://autodesk.com/objectarx)">http://autodesk.com/objectarx)</a>
+    and using the DLLs provided in the relevant "inc" folder.
+
+
+    Kean
+
+    -----'

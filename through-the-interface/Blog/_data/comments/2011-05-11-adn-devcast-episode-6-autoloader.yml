@@ -1,0 +1,152 @@
+comments:
+- author: Jared Thrasher
+  email: jared.thrasher@sbcglobal.net
+  ip: 24.116.103.52
+  url: ''
+  date: '2011-05-11 17:26:04'
+  body: "What a godsend!! \nCant wait to start using this!"
+- author: Ronnie Wilkins, Jr.
+  email: ronnie.wilkins@amscad.com
+  ip: 96.56.249.203
+  url: ''
+  date: '2011-05-11 22:05:38'
+  body: And here I thought I was going to get to add a plug-in to Autoloader.  That
+    is Autoloader for Vault.
+- author: Jared Thrasher
+  email: jared.thrasher@sbcglobal.net
+  ip: 64.149.42.204
+  url: ''
+  date: '2011-05-12 23:45:53'
+  body: Interesting to note that the module load order in the file appears to be read
+    from the bottom up. Is this something typical for xml files, or just how autoloader
+    is programmed?
+- author: Christian Geisser
+  email: christian.geisser@gmx.net
+  ip: 80.244.215.165
+  url: ''
+  date: '2011-05-13 08:35:09'
+  body: 'Great stuff!
+
+    Is there any xsd schema available for creating the packagecontent.xml file?'
+- author: Stephen Preston
+  email: stephen.preston@autodesk.com
+  ip: 67.169.52.209
+  url: http://www.autodesk.com/joinadn
+  date: '2011-05-13 16:49:23'
+  body: Not an XML feature, but it is how autoloader is designed. The idea is to order
+    the files so you load the DLLs on which other DLLs are dependent first (i.e. put
+    them at the bottom of the list). Although, when I have dependencies, I tend to
+    prefer to implement a loader DLL and just tell autoloader to load that.
+- author: Stephen Preston
+  email: stephen.preston@autodesk.com
+  ip: 67.169.52.209
+  url: http://www.autodesk.com/joinadn
+  date: '2011-05-13 16:51:51'
+  body: There is no formal schema, but the PackageContents.xml format is documented
+    in the AutoCAD 2012 helpfiles (as explained in the video).
+- author: Christian Geisser
+  email: christian.geisser@gmx.net
+  ip: 84.157.48.205
+  url: ''
+  date: '2011-05-13 20:26:22'
+  body: "I'm sorry, I must have missed that part while testing. But anyway thank you\
+    \ for the information. That's what I was looking for.\n\nI've tried this with\
+    \ a few projects and it worked fine but I think that the \"..successfully loaded..\"\
+    \ bubble will become some kind of spam in case there are a lot those plugins available.\
+    \ \n\nIs there any way to disable this?"
+- author: Stephen Preston
+  email: stephen.preston@autodesk.com
+  ip: 67.169.52.209
+  url: http://www.autodesk.com/joinadn
+  date: '2011-05-14 06:39:10'
+  body: That bubble should only display the first time AutoCAD runs after a new plug-in
+    is installed.
+- author: quiz
+  email: quizug@mail.com
+  ip: 82.195.12.213
+  url: ''
+  date: '2011-05-16 05:26:26'
+  body: Is it possible to place *.bundle inside zip with same name? Like docx and
+    xlsx. Or it's more inspired with Apple Application bundle format.
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-05-16 08:21:24'
+  body: 'It needs to be a folder structure, as far as I''m aware, probably as it contains
+    executable code.
+
+
+    Kean'
+- author: Rob Outman
+  email: ''
+  ip: 63.253.113.10
+  url: http://profile.typepad.com/roboutman
+  date: '2011-09-22 00:17:20'
+  body: "Hi Kean! Great blog! It has been very helpful!\n\nI have a question that\
+    \ is related to the Autoloader, but not directly related to .NET. I saw in the\
+    \ video that you are loading CUIx files with the Autoloader. I have tried this\
+    \ and it is an awesome feature! I only have one problem... it appears that when\
+    \ a .bundle is loaded from the \\ApplicationPlugins folder that any cuix files\
+    \ in that bundle are copied to the \\AutoCAD 2012 - English\\R18.2\\enu\\Support\
+    \ folder.  \n\nMy problem is that when I edit my cuix file and replace the old\
+    \ version in the .bundle, it does not copy the new cuix files to the same \\AutoCAD\
+    \ 2012 - English\\R18.2\\enu\\Support folder when AutoCAD starts again. So it\
+    \ is still loading the old cuix files from the \\Support folder. Is there a way\
+    \ around this?\n\nThanks for your advice!"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.58.92
+  url: http://profile.typepad.com/kean
+  date: '2011-09-23 09:45:38'
+  body: 'Hi Rob,
+
+
+    Thanks - glad it''s of help. :-)
+
+
+    I''ll pass this on to the team and see what they have to say.
+
+
+    Thanks,
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2011-09-28 11:57:59'
+  body: 'Hi Rob,
+
+
+    We''ve passed this on to our Engineering team to look into.
+
+
+    Thanks for reporting it,
+
+
+    Kean'
+- author: Rob Outman
+  email: ''
+  ip: 63.253.113.10
+  url: http://profile.typepad.com/roboutman
+  date: '2011-09-28 16:02:12'
+  body: 'Sure... glad to help. Does it appear to be a bug, or just not working as
+    intended.
+
+
+    Thanks!'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.58.92
+  url: http://profile.typepad.com/kean
+  date: '2011-09-28 16:55:46'
+  body: 'I haven''t looked into it, myself, although I''m led to believe it''s something
+    new in SP1. It appears to be an unintended side-effect of a fix that went into
+    the SP.
+
+
+    Kean
+
+    -----'

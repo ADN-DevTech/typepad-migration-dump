@@ -1,0 +1,69 @@
+comments:
+- author: Michael Csikos
+  email: ''
+  ip: 60.240.193.119
+  url: http://profile.typepad.com/csikos
+  date: '2010-04-23 06:42:11'
+  body: 'Hi Kean
+
+
+    (I have just submitted an ADN request for this, but if you know the answer off
+    the top of your head, I''d appreciate it, as it will save me some time.)
+
+
+    For a global configuration option in our software, the user needs to be able to
+    select a linetype for use in other new drawings. The linetype could have been
+    loaded from a file. Is there a way to know what file the selected linetype has
+    been loaded from? Is the linetype''s name and filename sufficient information
+    to programmatically load the selected linetype into a new drawing?
+
+
+    Kind regards
+
+    Michael'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-04-23 09:53:24'
+  body: 'Hi Michael,
+
+
+    Nothing off the top of my head (nor with a little research), I''m afraid.
+
+
+    I''m sure someone on my team will have a better answer for you, soon.
+
+
+    Best regards,
+
+
+    Kean'
+- author: bills
+  email: singhbalbir013@gmail.com
+  ip: 117.203.247.70
+  url: ''
+  date: '2012-07-19 15:38:03'
+  body: hey these are prdefined....by software.thereb is no any file it just load
+    the files
+- author: Maxence
+  email: maxence.delannoy@wiip.fr
+  ip: 90.7.29.40
+  url: http://wiip.fr
+  date: '2013-07-25 18:41:34'
+  body: 'You do not have to use HostApplicationServices.Current.FindFile. From the
+    doc:
+
+
+    > If filename is not a URL and does not contain a path, then the AutoCAD library
+    search path is searched for the file.
+
+
+    So you can simply do:
+
+
+    db.LoadLineTypeFile("*", "acad.lin");
+
+
+
+    -----'

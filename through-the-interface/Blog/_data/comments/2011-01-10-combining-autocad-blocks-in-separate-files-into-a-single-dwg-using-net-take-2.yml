@@ -1,0 +1,298 @@
+comments:
+- author: Chris
+  email: ckratz@diversifiedwoodcrafts.com
+  ip: 207.230.208.250
+  url: ''
+  date: '2011-01-10 15:24:25'
+  body: If I understood the last posts code correctly, the db.WblockCloneObjects only
+    copies required referenced objects. Do you know if DB.Insert acts the same way,
+    or will it pull in unused linetypes, ect. from the temp database?
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2011-01-10 16:25:44'
+  body: 'Insert() is less discriminating than WblockCloneObjects(). As far as I''m
+    aware it brings in unused block definitions, layers, linetypes, etc. from the
+    source database.
+
+
+    If you want to effectively purge content from your drawings as you bring them
+    in (as they contain more than just the block definitions - the opposite of the
+    unwritten assumption made in today''s post) then you should use a combination
+    of wblock (which typically means WblockCloneObjects()) and Insert().
+
+
+    Kean'
+- author: Holger Rasch
+  email: ''
+  ip: 212.254.224.129
+  url: http://profile.typepad.com/holgerrasch
+  date: '2011-01-10 17:04:36'
+  body: "Hey Kean, at first a big thanks you for this amazing blog. It's always a\
+    \ big inspiration for my work. \n\nAfter reading your current post, I was a little\
+    \ surprised about your double checking the file selection with GetFiles(... ,\"\
+    *.dwg\") and .endswith(\".dwg\").\nTwo hours later my code crashed, because the\
+    \ getfiles wildcard *.dwg delivers not only dwg-files. It delivers also files\
+    \ like \"test.dwg-\" or \"test.dwg-bat\"\nOnly the .endswith(\".dwg\") guarant\
+    \ only dwg files for further work.\n\nHolger"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2011-01-10 17:07:47'
+  body: 'Hi Holger,
+
+
+    Thanks for letting me know: I''d just picked up some code I''d written 4 years
+    ago, and left that check in. It''s good to know I had a good reason to trust my
+    old self. :-)
+
+
+    Kean'
+- author: Thorsten Meinecke
+  email: t.meinecke@gtb-ingenieure.de
+  ip: 217.91.119.202
+  url: ''
+  date: '2011-01-10 18:54:04'
+  body: "Hi Kean,\nyou said:\n<pre>string destName =\n    Path.GetFileNameWithoutExtension(fileName);</pre>\n\
+    \nWhat about this?\n<pre>string destName =\n    SymbolUtilityServices.GetSymbolNameFromPathName(fileName,\
+    \ \"dwg\");</pre> ?\n\nMany thanks & keep on blogging..."
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2011-01-10 19:01:26'
+  body: 'Hi Thorsten,
+
+
+    Great suggestion. I''m not in the habit of using this, myself, but it makes sense
+    (especially in this situation, where we need a valid symbol table record name
+    for our block).
+
+
+    I''ll modify the code.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Dan Glassman
+  email: dan.glassman@gmail.com
+  ip: 64.73.42.192
+  url: ''
+  date: '2011-01-10 19:15:50'
+  body: 'Kean,
+
+
+    Thank you for the update; glad to contribute something back after learning so
+    much from your blog over the past few years [long time listener, first time caller].
+
+
+    I missed this in my original post on the subject; saves lines, improves readability:
+
+
+    <snip>
+
+    ObjectId destBTRid = db.Insert(...)
+
+    ...
+
+    Using (Transaction...)
+
+    {
+
+    BlockTableReference btr = t.GetObject(destBTRid...)
+
+    btr.Annotative = AnnotativeStates.True;
+
+    }
+
+    </snip>
+
+
+    If you''re updating the post to use SymbolUtilityServices.GetSymbolNameFromPathName(),
+    follow it up with SymbolUtilityServices.RepairSymbolName().  The former doesn''t
+    guarantee a valid symbol name.
+
+
+    Cheers!'
+- author: Heinz
+  email: heinz.dober@landsteiner.at
+  ip: 62.93.97.128
+  url: ''
+  date: '2011-01-12 20:38:20'
+  body: 'Would also like to test the code but does not know how I can convert to it
+    in Autocad testing
+
+
+
+    Würde den Code auch gern Testen weiss aber nicht wie ich den in Umwandeln kann
+    um ihn in Autocad zu Testen'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2011-01-13 08:26:38'
+  body: 'You will need to build a simple Class Library using Visual C# Express or
+    Visual Studio.
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2006/07/getting_started.html">This
+    post</a> may be of use.
+
+
+    Kean'
+- author: Heinz
+  email: heinz.dober@landsteiner.at
+  ip: 62.93.76.34
+  url: ''
+  date: '2011-01-13 12:25:54'
+  body: 'Yes I have, but what do I have the memory that the one. dll is to run the
+    program.
+
+    Thanks
+
+    No me because, unfortunately, not sufficient.
+
+
+    Ja das habe ich, aber wie muss ich das Speicher das das ein .dll wird, um das
+    Programm ausführen zu können.
+
+    Danke
+
+    Keine mich da leider nicht aus.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2011-01-14 17:34:45'
+  body: 'I''m afraid my German is too poor - and the auto-translation, also - for
+    me to understand what you''re looking for.
+
+
+    Kean'
+- author: Heinz
+  email: kh.dober@ktvam.at
+  ip: 62.93.97.128
+  url: ''
+  date: '2011-01-15 15:18:00'
+  body: 'Thanks it works it all
+
+
+    Danke es läuft schon alles'
+- author: Nirav Thakkar
+  email: niravthakkar_1986@yahoo.co.in
+  ip: 122.102.124.98
+  url: ''
+  date: '2011-01-19 05:59:48'
+  body: "Hello Mr. Kean Walmsley...\n\nI,My self,N.T.Thakkar... N for Nirav..\n\n\
+    Right now i m studying, Master of engineering as a civil-structure engineer. In\
+    \ my dissertation work i m going to make one software by using V.B.Net. By using\
+    \ this software anyone will get direct design of steel connections. Now I want\
+    \ to make it more useful by providing output with drawings as per design. \nSo\
+    \ I want all information related to this.....\nMeans by which way, link Autocad\
+    \ with vb.net...\nWaiting 4 your positive reply..\n\nRegards,\nNirav Thakkar.."
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2011-01-19 10:06:15'
+  body: 'Hello Nirav,
+
+
+    I suggest using the resources listed on <a href="http://autodesk.com/developautocad">the
+    AutoCAD Developer Center</a>, in particular the AutoCAD .NET Labs and Discussion
+    Group.
+
+
+    Regards,
+
+
+    Kean'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2011-01-27 22:27:17'
+  body: 'I just realized that you passed false for the PreserveSourceDatabase Argument
+    to .Insert.
+
+
+    The documentation indicates that this will leave the source database dependant
+    on the destination database.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2011-01-27 22:38:50'
+  body: 'I''ve always taken false for that flag to indicate "I don''t need access
+    to the source db after the operation, so take whatever memory you need from it,
+    even if destructive to the source."
+
+
+    Kean'
+- author: Martin Müller
+  email: m.mueller@cadothek.ch
+  ip: 90.179.114.131
+  url: ''
+  date: '2011-07-12 22:21:28'
+  body: "Hello Kean,\n\nTook your post and turned it into a C# Extension method of\
+    \ the AutoCAD.NET Database class. Extension methods are a good way to extend the\
+    \ functionality of existing classes, you have no source from (as their name suggests\
+    \ ;-)\n\nHope this helps further readers.\n\nGreetings, today from Czech Republic\
+    \ - Martin\n\nusing Autodesk.AutoCAD.DatabaseServices;\nusing System;\nusing System.Diagnostics;\n\
+    using System.IO;\n\nnamespace CTModules.CTAcadTools\n{\n    /// <summary>\n  \
+    \  /// Class providing several extension methods to the AutoCAD.NET Database class.\n\
+    \    /// </summary>\n    public static class DatabaseExtensions\n    {\n     \
+    \   #region Construction\n        #endregion\n\n        #region Enums & Datatypes\n\
+    \        #endregion\n\n        #region Properties\n        #endregion\n\n    \
+    \    #region Methods\n\n        public static ObjectId Insert(this Database oDestinationDatabase,\
+    \ string sExternalFileFullPathName)\n        {\n            ObjectId RetVal =\
+    \ ObjectId.Null;\n            Debug.Assert(sExternalFileFullPathName.EndsWith(\"\
+    .dwg\", StringComparison.OrdinalIgnoreCase));\n            try\n            {\n\
+    \                // Handle destination database null case\n                if\
+    \ (oDestinationDatabase == null)\n                {\n                    oDestinationDatabase\
+    \ = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Database;\n\
+    \                }\n                // Create a compatible block name from file\
+    \ name.\n                string sDestinationName = SymbolUtilityServices.RepairSymbolName(\n\
+    \                    SymbolUtilityServices.GetSymbolNameFromPathName(sExternalFileFullPathName,\
+    \ \"dwg\"),\n                    false);\n                // Create a source database\
+    \ to load the DWG into\n                using (Database oSourceDb = new Database(false,\
+    \ true))\n                {\n                    // Read the DWG into our source\
+    \ database\n                    oSourceDb.ReadDwgFile(sExternalFileFullPathName,\
+    \ FileShare.Read, true, \"\");\n                    // Handle annotative blocks.\n\
+    \                    bool bIsAnno = oSourceDb.AnnotativeDwg;\n               \
+    \     // Insert it into the destination database as a named block definition\n\
+    \                    RetVal = oDestinationDatabase.Insert(sDestinationName, oSourceDb,\
+    \ false);\n\n                    if (bIsAnno)\n                    {\n       \
+    \                 using (Transaction oTr = oDestinationDatabase.TransactionManager.StartTransaction())\n\
+    \                        {\n                            BlockTableRecord oBTR\
+    \ = oTr.GetObject(RetVal, OpenMode.ForWrite) as BlockTableRecord;\n          \
+    \                  oBTR.Annotative = AnnotativeStates.True;\n                \
+    \            oTr.Commit();\n                        }\n                    }\n\
+    \n                }\n            }\n            catch (Exception ex)\n       \
+    \     {\n                throw new ExternalDrawingInsertException(string.Format(\"\
+    Error while inserting '{0}' as new BlockTableRecord.\", sExternalFileFullPathName),\
+    \ ex);\n            }\n            return RetVal;\n        }\n\n        #endregion\n\
+    \n        #region EventHandlers\n        #endregion\n\n        #region Operators\n\
+    \        #endregion\n\n        #region Implementation\n        #endregion\n\n\
+    \        #region Data Members\n        #endregion\n    }\n}"
+- author: Martin Müller
+  email: m.mueller@cadothek.ch
+  ip: 90.179.114.131
+  url: ''
+  date: '2011-07-12 22:40:40'
+  body: One can remove the "// Handle destination database null case" block, of course...
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-07-12 23:47:55'
+  body: 'Thanks, Martin!
+
+
+    Kean
+
+    -----'

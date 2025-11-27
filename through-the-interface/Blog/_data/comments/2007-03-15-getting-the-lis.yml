@@ -1,0 +1,30 @@
+comments:
+- author: Kerry Brown
+  email: brown.kerry@gmail.com
+  ip: 210.49.59.72
+  url: ''
+  date: '2007-03-15 22:45:08'
+  body: "Thanks Kean, That will be excellent to build on. \n\nGreatly appreciated,\n\
+    Regards\n Kerry"
+- author: Alexander Rivilis
+  email: rivilis@i.com.ua
+  ip: 81.95.182.209
+  url: http://private.peterlink.ru/poleshchuk/cad/RANe.htm
+  date: '2007-03-19 06:22:05'
+  body: "Thanks Kean!\nFor commands which is defined in arx-files (not in .NET) we\
+    \ can use such code:\n[code]\nstatic void GetArxFileFromCommand(void)\n{\n  Acad::ErrorStatus\
+    \ es;\n  AcArray<Module> modules;\n  HANDLE hAcad = GetCurrentProcess();\n  HMODULE\
+    \ *hMods = NULL;\n  DWORD cbneed=0; EnumProcessModules(hAcad,NULL,0,&cbneed);\n\
+    \  DWORD nModules = cbneed/sizeof(HMODULE);\n  hMods = new HMODULE[nModules+1];\n\
+    \  EnumProcessModules(hAcad,hMods,cbneed,&cbneed);\n  for (int i=0; i<nModules;\
+    \ i++) {\n    Module module; memset(&module,0,sizeof(module));\n    GetModuleFileName(hMods[i],module.path,sizeof(module.path)-1);\n\
+    \    MODULEINFO mi; memset(&mi,0,sizeof(mi));\n    GetModuleInformation(hAcad,hMods[i],&mi,sizeof(mi));\n\
+    \    module.base = (PBYTE)mi.lpBaseOfDll;\n    module.size = mi.SizeOfImage;\n\
+    \    modules.append(module);\n  }\n  delete [] hMods; \n  char buf[256] = \"\"\
+    ;\n  if (acedGetString(FALSE,\"\\nCommand name (without dot and/or underlining):\
+    \ \",buf) == RTNORM) {\n   AcEdCommandStruc cmd;\n   if (acedCmdLookup(buf, TRUE,\
+    \ &cmd) || acedCmdLookup(buf, FALSE, &cmd)) {\n     PBYTE funPtr = (PBYTE)cmd.fcnAddr;\n\
+    \     for (int i=0; i<modules.length(); i++) {\n       if (funPtr >= modules[i].base\
+    \ && funPtr <= (modules[i].base+modules[i].size)) {\n         acutPrintf(\"\\\
+    nModule path: <%s>\",modules[i].path);\n       }\n     }\n   }\n  }\n}\n[/code]\n\
+    -----"

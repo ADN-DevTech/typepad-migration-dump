@@ -1,0 +1,267 @@
+comments:
+- author: Veli V.
+  email: veli.vaisanen@basepoint.fi
+  ip: 212.116.37.26
+  url: ''
+  date: '2011-02-16 10:49:38'
+  body: 'Hi Kean,
+
+    example is really good cause it´s short as possible. I wonder is there any example
+    to explode ex. Civil 3D Pipe or Struct objects and what kind of objects expode
+    returns? I know that "they" are quite complex objects, but I just like to know.
+    =) Keep on a good site...'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2011-02-16 11:49:42'
+  body: 'Hi Veli,
+
+
+    I don''t use Civil 3D, myself, but hopefully someone else will comment on how
+    well the approach works with its objects.
+
+
+    Regards,
+
+
+    Kean'
+- author: Mike C
+  email: mcaruso@whitemountaincad.com
+  ip: 71.181.54.122
+  url: ''
+  date: '2011-02-16 15:53:15'
+  body: Could you expand this article to handle MTEXT? It would be nice to contrast
+    the Explode and ExplodeFragments methods.
+- author: Kean Walmsley
+  email: ''
+  ip: 109.237.55.190
+  url: http://profile.typepad.com/kean
+  date: '2011-02-16 18:00:55'
+  body: 'Hi Mike,
+
+
+    Certainly. The currently implementation does explode MText to DBText, but I can
+    certainly add something to show how to use ExplodeFragments().
+
+
+    Cheers,
+
+
+    Kean'
+- author: amitsaluja@hotmail.com
+  email: amitsaluja@hotmail.com
+  ip: 170.170.59.138
+  url: ''
+  date: '2011-02-17 19:49:43'
+  body: I am looking for some sample to convert autocad files to pdf using C#/.NET
+- author: Kean Walmsley
+  email: ''
+  ip: 109.237.55.190
+  url: http://profile.typepad.com/kean
+  date: '2011-02-17 19:52:36'
+  body: 'You should take a look at the DWF/PDF Batch Publish <a href="http://labs.autodesk.com/utilities/ADN_plugins/catalog/">Plugin
+    of the Month</a> on Autodesk Labs.
+
+
+    It makes use of AutoCAD, but then that''s a requirement to create quality PDFs
+    from DWG files.
+
+
+    Kean'
+- author: Dan Glassman
+  email: dan.glassman@gmail.com
+  ip: 24.241.229.67
+  url: ''
+  date: '2011-03-06 05:45:20'
+  body: 'Kean,
+
+
+    A thread over at theswamp had me looking at the differences in behavior between
+    Entity.Explode() and the explode command when the entity is a blockreference.  In
+    that case, the user''s block has an mtext [not an attribute] with a field.  The
+    explode command preserves that field, whereas Entity.Explode() does not.
+
+
+    Noting that difference, I checked one more item.  Geometric constraints in a block
+    reference are preserved by the explode command, but they aren''t with Entity.Explode().
+
+
+    In short, it looks like block references need to be special-cased.  Using BlockReference.ExplodeToOwnerSpace()
+    corrects these issues [and I assume DeepCloning the objects from the BTR would,
+    too.]
+
+
+    -drg'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-03-07 18:18:59'
+  body: 'Interesting - thanks, Dan.
+
+
+    Kean'
+- author: Joaquin Lopez
+  email: joaky_24@hotmail.com
+  ip: 193.147.143.68
+  url: ''
+  date: '2011-09-12 10:40:14'
+  body: "Hello Kean, \n\nI've got a question. I want to change a 3d model of a basic\
+    \ structure (Line, Arc, ...) for this I use the command explode. How could it\
+    \ get?"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.58.92
+  url: http://profile.typepad.com/kean
+  date: '2011-09-12 11:42:15'
+  body: 'Hi Joaquin,
+
+
+    Sorry - I''m not sure I understand the question.
+
+
+    Can you explain a little more?
+
+
+    Thanks,
+
+
+    Kean'
+- author: Joaquin Lopez
+  email: joaky_24@hotmail.com
+  ip: 193.147.143.68
+  url: ''
+  date: '2011-09-12 12:05:03'
+  body: 'yes.
+
+    - I mean that your program whit Solid3d, it can get Regions. But I''m trying to
+    get from a Solid3d: lines, arcs, circles and splines. Is that using the explode
+    command several times can be achieved, but I don''t know how to get it. This example
+    is helpful, but I can not be done for what I need.
+
+
+    I''m beginners and your blog has helped me a lot. It''s amazing.
+
+
+    Thank you very much.'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.58.92
+  url: http://profile.typepad.com/kean
+  date: '2011-09-12 12:42:48'
+  body: 'A recursive function to explode entities is what''s needed.
+
+
+    This post may be of help:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2011/02/gathering-points-defining-2d-autocad-geometry-using-net.html">http://through-the-interface.typepad.com/through_the_interface/2011/02/gathering-points-defining-2d-autocad-geometry-using-net.html</a>
+
+
+    Kean'
+- author: ismail
+  email: ismailcetin@hotmail.com
+  ip: 212.174.29.100
+  url: ''
+  date: '2012-01-16 16:53:29'
+  body: Thank you for the code.Great Job.
+- author: Matthijs ter Woord
+  email: matthijsterwoord@gmail.com
+  ip: 77.60.127.226
+  url: ''
+  date: '2012-11-08 11:02:47'
+  body: 'Very interesting read. This helped me a lot converting an old VBA-based application
+    to .NET.
+
+    One problem we have though, is that the .Explode call on a BlockReference is not
+    stable. Are there any things to keep in mind?
+
+    (For my issue, see <a href="http://forums.autodesk.com/t5/AutoCAD-Architecture/Unstable-BlockReference-Explode/m-p/3688024)">http://forums.autodesk.com/t5/AutoCAD-Architecture/Unstable-BlockReference-Explode/m-p/3688024)</a>'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-11-08 12:03:28'
+  body: 'Hi Matthijs,
+
+
+    I see you''re trying to Explode() an AutoCAD Architecture object. I can imagine
+    that might be view-dependent - I''m not sure how thos entities are implemented,
+    these days.
+
+
+    I''ve never had issues with exploding BlockReference objects, from my side.
+
+
+    Regards,
+
+
+    Kean'
+- author: Luigi Ballotta
+  email: luigi.ballotta@valitalia.com
+  ip: 85.46.59.210
+  url: ''
+  date: '2013-05-03 11:51:21'
+  body: 'Hi Kean, very useful post.
+
+    By the way, once I deleted the block reference using myBlockRef.UpgradeOpen()and
+    myBlockRef.Erase(), there''s a way to remove the block from the Block Table of
+    the DB document? There is the necessity to do that, or I can leave the block in
+    the Block Table?
+
+
+    Thank you
+
+
+    Luigi'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-05-03 14:39:43'
+  body: 'Hi Luigi,
+
+
+    Sure - you can get the BlockTableRecord from the BlockReference, open it and Erase()
+    it. I suggestpassing it through Database.Purge() first, to make sure there aren''t
+    any other references to it.
+
+
+    But you can also just leave the block there, if you don''t mind the extra space
+    it takes up on disk. It won''t be visible until it''s inserted into the model-
+    or paperspace.
+
+
+    Regards,
+
+
+    Kean'
+- author: Samir
+  email: samirbittar@gmail.com
+  ip: 201.85.39.210
+  url: ''
+  date: '2013-09-05 13:55:41'
+  body: Hello Kean, apparently exploding entities through the Entity.Explode() method
+    does not work for mirrored entities, because those have a non-uniform scaling
+    (mirroring applies a negative scale on one of the axes). However, the command
+    line "X" command Works on those mirrored entities. Are there any workarounds for
+    this through the API?
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-09-05 16:55:43'
+  body: 'Hi Samir,
+
+
+    I don''t recall, off the top of my head. Have you tried asking either ADN or on
+    the discussion groups?
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

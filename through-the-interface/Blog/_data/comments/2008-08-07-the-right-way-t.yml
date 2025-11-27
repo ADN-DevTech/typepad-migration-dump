@@ -1,0 +1,308 @@
+comments:
+- author: namin
+  email: namin@mit.edu
+  ip: 84.74.176.215
+  url: ''
+  date: '2008-08-07 21:46:57'
+  body: I am a little confused. If I build a form with the Visual Studio UI designer,
+    it will extend Form. Do you mean, I cannot then do myForm.ShowDialog()? How am
+    I supposed to use the Editor?
+- author: namin
+  email: namin@mit.edu
+  ip: 84.74.176.215
+  url: ''
+  date: '2008-08-07 21:48:43'
+  body: Oh, OK. I think I got it. I am using ObjectARX 2007, in which it's not Editor
+    but Application. So I am supposed to use Application.Show... Thanks, I didn't
+    know that.
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-07 22:09:39'
+  body: 'Namin -
+
+
+    My mistake. My edits were incorrect: I should have put Application instead of
+    Editor. I''m fixing the post.
+
+
+    My apologies,
+
+
+    Kean'
+- author: Jon Szewczak
+  email: jon.szewczak@amsec.com
+  ip: 216.54.44.227
+  url: ''
+  date: '2008-08-08 13:40:20'
+  body: My experience with the Application.ShowDialog or Application.Show ist that
+    it works fine with a parent or main form.  However, if I have child forms that
+    spawn after a button click, then the Application.ShowDialog functions are not
+    reliable.  Unfortunately, I don't have a specific example to submit to you or
+    DevHelp to show you what I mean.  But the long and short of it is that I use the
+    Application.Show functions for generating the parent form, and then I use the
+    forms built-in / inherited method of .Show for the child dialogs.
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-08 13:42:53'
+  body: 'Thanks for the input, Jon. I''m sure people will find it useful.
+
+
+    If you do come across a reproducible case, please do submit it via DevHelp.
+
+
+    Regards,
+
+
+    Kean'
+- author: Norman Yuan
+  email: norman.yuan@focus.ca
+  ip: 70.74.80.227
+  url: ''
+  date: '2008-08-16 00:37:28'
+  body: '"2. Dialog size and position will be persisted automatically"
+
+
+    This probably not .NET API issue, but the automatic persisting could be a problem,
+    when you sometimes have to connect your computer to different number of monitor.
+    Say, if you use your laptop in office with 2 screens, you place one of your .NET
+    API dialog box (modal!) on second screen and close it there. Then you carry your
+    laptop to a presentation with a projector (only one screen), start AutoCAD, run
+    your commend to show the dialog box. Now your AutoCAD would appear frozen without
+    reason. You can only kill the Acad process from task manager. That is because
+    the dialog box is shown somewhere outside the screen (the persisted position on
+    second screen). I was embarrassed when running into this in the exactly situation,
+    and I could not show anything in that presentation until I came back to my desk,
+    connected back to my second screen, dragged the dialog box back to primary screen
+    and close it from the primary screen.
+
+
+    So, if I want to show a dialog box, and the first 3 reasons you listed are not
+    important to me (1. I''d like my own icon; 2. I do not want Acad remember dialog
+    box location, it should always on primary screen, and 3. Since it is dialog box,
+    one cannot access other Acad window anyway), what other unexpected behaviors would
+    be if I simply use System.Windows.Forms.Form.ShowDialog()?
+
+
+    Of course, if Acad is clever enough to detect if the persisted location is valid
+    in available screen(s), if not, show dialog box in primary screen, then the reason
+    2 would be a benefit as you say.'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2008-08-16 07:28:17'
+  body: I haven't checked, so you might want to see if the runtime automatically hides
+    and unhides forms that are not shown via the Application methods, before/after
+    the form code calls a GetXxxxx() method of the Editor.
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.19.155
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-16 14:34:24'
+  body: 'Yes - Tony''s point is likely to be a concern for modeless dialogs not displayed
+    using ShowModelessDialog().
+
+
+    Around the dialog display issue: one option, in lieu of AutoCAD checking the bounds
+    of a dialog before display, would be for you to manipulate (or simply remove)
+    the location information stored for the dialog:
+
+
+    HKEY_CURRENT_USER\Software\Autodesk\AutoCAD\R17.2\ACAD-7001:409\Profiles\AutoCAD\Dialogs\MyApplication.MyForm
+
+
+    Regards,
+
+
+    Kean'
+- author: Vignesh. S
+  email: ''
+  ip: 124.124.54.130
+  url: http://profile.typepad.com/VigneshS
+  date: '2009-03-04 05:36:10'
+  body: Hi,
+- author: Vignesh. S
+  email: ''
+  ip: 124.124.54.130
+  url: http://profile.typepad.com/VigneshS
+  date: '2009-03-04 05:39:08'
+  body: "Hi,\n     Sorry for the previous mail. Wrongly activated the post button.\n\
+    \     \n     I have a doubt regarding modal dialogs. Is there any possibility\
+    \ to detect whether any modal dialog is opened on current autocad application.\
+    \ If so, is there any possibility to close those modal dialogs programmatically?\n\
+    \nThanks and Regards,\nVignesh. S"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-03-04 09:59:47'
+  body: 'AutoCAD is not fundamentally single-threaded in nature (although it does
+    use multi-threaded runtime DLLs), so when a model dialog is open, it has the execution
+    thread.
+
+
+    Are you trying to check this from an external COM application? If so, you''re
+    probably going to get some kind of COM server time-out that you might be able
+    to trap programmatically and then use SendKeys to fire off some escape characters
+    to the application, hoping to cancel the open dialog(s).
+
+
+    This is really a topic for the discussion groups (or the ADN team), so please
+    direct your follow-up questions there.
+
+
+    Kean'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2009-04-09 00:31:10'
+  body: "Hi Kean, \nI have a similar exception to that <I>Posted by: Jon Szewczak\
+    \ | August 08, 2008 at 01:40 PM</I>, above. \nHe did not specify, but my issue\
+    \ is with a Modeless dialog that I display as a child to several different Modal\
+    \ Parent forms. All of my other forms work fine with Application.ShowModal/ShowModelessDialog,\
+    \ but this particular form comes up correctly the first time it is shown, then\
+    \ the second time it is shown, all of the controls on the form are visible, but\
+    \ disabled.  Then from that point on, every time you show the form all of the\
+    \ controls are invisible.  I switched just that one call to the normal form.show\
+    \ and it works again.  This is a repeatable problem, but it is a fairly large\
+    \ project for submitting to someone (I have also not yet convinced my company\
+    \ to spring for ADN).  I could probably strip a bunch of unrelated stuff out,\
+    \ and attempt to simplify the project while maintaining the unusual behavior,\
+    \ if you want."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-04-09 09:20:01'
+  body: 'Hi David,
+
+
+    Modeless dialogs are intended for top-level modeless input (e.g. Property Palettes,
+    Tool Palettes, etc.). I haven''t heard of them being launched and used within
+    a particular modal context (i.e. with a number of other modal dialogs being displayed).
+
+
+    I''m actually surprised this has ever worked, to be quite honest.
+
+
+    Regards,
+
+
+    Kean'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2009-04-13 19:54:10'
+  body: "Based on part of your comment, I was unclear in that there is only one modal\
+    \ parent form each time this modeless dialog might be displayed, but there are\
+    \ multiple modal forms that are potential parents for this form.\n\nThe idea is\
+    \ that this form contains options which apply to several different types of objects\
+    \ (physical objects, not programming) and each of those different types of objects\
+    \ has its own placement form.  \n\nRather than recreate the same set of controls\
+    \ on several forms(or make a user control to replicate), I decided to make a seperate\
+    \ form, and I chose to make it modeless so that if the user hits the 'more >>'\
+    \ button, it shows the additional options form, but the user can still pick controls\
+    \ on both the parent form and the child.  Essentially these choices were made\
+    \ to try and accommodate a request from my user group."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-04-14 08:39:34'
+  body: 'That particular API asks AutoCAD to host the modeless form (and my understanding
+    was this would be hosted as a top-level modeless form, not beneath one or more
+    modal forms).
+
+
+    You should be able to do what you want by calling Form.Show(), although this means
+    you won''t get the 4 advantages listed in the article.
+
+
+    Kean'
+- author: Jithin
+  email: jithinshyams@gmail.com
+  ip: 122.166.100.91
+  url: ''
+  date: '2009-12-02 09:52:42'
+  body: 'hi,
+
+
+    i have a c# application in which i am opening a dwg file and after that i am showing
+    a modal dialog. My problem is the modal dialog only displaying and dwg file is
+    not opening. Is it because of the modal dialog? If i close the modal dialog, then
+    it will suddenly display the dwg file. what could be the reason?'
+- author: Kean Walmsley
+  email: ''
+  ip: 70.165.196.246
+  url: http://profile.typepad.com/kean
+  date: '2009-12-02 14:50:22'
+  body: 'Hi Jithin,
+
+
+    It''s hard to know what''s happening without seeing the code.
+
+
+    I suggest posting it to <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a> (if you''re not an <a href="http://adn.autodesk.com">ADN</a>
+    member).
+
+
+    Regards,
+
+
+    Kean'
+- author: Jordi Jordà
+  email: jordanott@gmail.com
+  ip: 195.53.103.190
+  url: ''
+  date: '2011-10-21 11:53:25'
+  body: 'Hi Kean, I''ve a little problem when I use the modeless dialog to show a
+    form, maybe is something basic, but I''m not a programer, and I''ve not found
+    the solution anywhere.
+
+
+    When I use a form in modelessdialog to draw something on autocad, then, I cannot
+    save the document.
+
+
+    The commandline shows:
+
+    <i>The drawing "Dibujo2.dwg" have a command in execution.<i>
+
+
+    I do not know how can I finish that command. Please, can you help me?
+
+
+    thanks,'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2011-10-21 14:07:48'
+  body: 'Hi Jordi,
+
+
+    It sounds as though you''re not locking the document.
+
+
+    The best way to address this is to launch your own custom commands from your modeless
+    UI, rather than modifying the drawing directly. Commands typically lock the current
+    document automatically, which makes life easier.
+
+
+    If you have follow-up questions, please post them to <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

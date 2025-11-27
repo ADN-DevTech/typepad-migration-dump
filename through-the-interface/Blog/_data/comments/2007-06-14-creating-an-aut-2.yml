@@ -1,0 +1,282 @@
+comments:
+- author: RCD
+  email: ''
+  ip: 12.184.127.83
+  url: http://profile.typepad.com/6p01156fb4b653970c
+  date: '2009-05-27 18:41:38'
+  body: 'How would handle a column for multiple quantities of the same block? Example:
+    A drawing with say 50 bolts.'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-05-28 09:10:28'
+  body: 'That''s up to you. It''s certainly possible to do; the specific changes would
+    depend on how you want to handle it (whether you want multiple table columns,
+    etc.).
+
+
+    Kean'
+- author: Dolan Raynor
+  email: dolan.raynor@kbr.com
+  ip: 161.51.43.47
+  url: ''
+  date: '2009-08-07 08:16:44'
+  body: Do I have to add to the lisp as I am gatting an error no function definition:table
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-08-07 09:45:27'
+  body: 'Dolan -
+
+
+    Not sure what you mean by LISP (this is C# code) and I haven''t come across that
+    error.
+
+
+    Kean'
+- author: Dolan Raynor
+  email: dolan.raynor@kbr.com
+  ip: 161.51.43.47
+  url: ''
+  date: '2009-08-10 00:06:36'
+  body: Sorry Kean my mistake. I am not sure how to use C#code with AutoCAD.
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-08-10 09:43:00'
+  body: 'Dolan -
+
+
+    I suggest starting with the resources posted on <a href="http://www.autodesk.com/developautocad">the
+    AutoCAD Developer Center</a>, where you''ll find the AutoCAD .NET Labs.
+
+
+    Regards,
+
+
+    Kean'
+- author: Cattoor Robby
+  email: ''
+  ip: 78.23.179.113
+  url: http://profile.typepad.com/6p0120a59b0d4c970c
+  date: '2009-09-03 16:07:19'
+  body: 'Hey Kean,
+
+
+    I am building a small application and came to the point where i have to populate
+    a table with information I got stored in a List. Basically I want to embed my
+    X, Y, Z coordinates of points, stored in that list, in the table.
+
+
+    I started to go through the Autocad library myself first exploring all the Table
+    Methods and properties to get the job done.
+
+
+    Problem I have is putting text in the rows. I can create the table/write that
+    entity to db and adjust its features (with,height).
+
+
+    After wondering what i was doing wrong i read your post and simplified my code
+    so I could present my problem as good as possible.
+
+
+    This is my code : problem at the point i insert text into my newly created row.
+
+
+    const double colWidth = 15.0;
+
+    const double rowHeight = 3.0;
+
+
+    Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+
+    Database db = doc.Database;
+
+
+    Table tb = new Table();
+
+
+    tb.NumRows = 1;
+
+
+    tb.NumColumns = 1;
+
+
+    tb.SetRowHeight(rowHeight);
+
+
+    tb.SetColumnWidth(colWidth);
+
+    tb.TableStyle = db.Tablestyle;
+
+
+    Point3d p3d = new Point3d(0, 0,0);
+
+
+    tb.Position = p3d;
+
+    MessageBox.Show("start add text columns");
+
+    //Here is where I get a exception and where I am clueless why it doesnt work
+
+    SetCellText(tb, 0, 1, "test");
+
+
+    PS. I ofcourse used the method SetCellText you provided me in my class. Even if
+    I try to alter the table''s SetTextString I get a error.
+
+
+    I know you are a bussy man and this is an old post, but any help would be much
+    appreciated.'
+- author: Cattoor Robby
+  email: ''
+  ip: 78.23.179.113
+  url: http://profile.typepad.com/6p0120a59b0d4c970c
+  date: '2009-09-03 16:28:04'
+  body: 'Dear Kean,
+
+
+    I found the solution. The problem was my own stupidity. The first column is 0
+    not 1.
+
+
+    I will take advantage of this posting to thank you for your lovely input you are
+    giving us through this blog. I am a huge fan of your blog and am sure I will use
+    more of your input in the future as I am making a application for my final at
+    school.'
+- author: Cattoor Robby
+  email: ''
+  ip: 78.23.179.113
+  url: http://profile.typepad.com/6p0120a59b0d4c970c
+  date: '2009-09-03 17:02:05'
+  body: "The Solution.\n\n        public static Table CreateAcadTable(List<Point2DV>\
+    \ list, string layerName)\n        {\n            MessageBox.Show(\"Creating Layer\"\
+    );\n            AcadLayer.AddLayer(layerName);\n            MessageBox.Show(\"\
+    Layer Created\");\n\n            Table table = new Table();\n            //MessageBox.Show(\"\
+    Assign Created\");\n            table.Layer = layerName;\n            //MessageBox.Show(\"\
+    Assigning number of columns\");\n            table.NumColumns = 3;\n         \
+    \   table.NumRows = list.Count;\n            //MessageBox.Show(\"Assigning number\
+    \ of rows - \" + list.Count.ToString());\n            //table.ColumnWidth(colWidth);\n\
+    \            //table.RowHeight(rowHeight);\n            table.SetRowHeight(rowHeight);\n\
+    \            table.SetColumnWidth(colWidth);\n\n            SetCellText(table,\
+    \ 0, 0, \"X\");\n            SetCellText(table, 0, 1, \"Y\");\n            SetCellText(table,\
+    \ 0, 2, \"V\");\n\n            for (int i = 1; i < list.Count; i++)\n        \
+    \    {\n                //MessageBox.Show(\"start loop - add text no \" + i.ToString());\n\
+    \                SetCellText(table,i, 0, list[i].X.ToString(\"#.###\"));\n   \
+    \             SetCellText(table, i, 1, list[i].Y.ToString(\"#.###\"));\n     \
+    \           SetCellText(table, i, 2, list[i].V.ToString(\"#.###\"));\n       \
+    \     }\n            //MessageBox.Show(\"loop ended\");\n\n            //MessageBox.Show(\"\
+    Add table to db\");\n            AcadDb.AddEntity(table);\n            //MessageBox.Show(\"\
+    Table Added\");\n            return table;\n        }\n\n        static public\
+    \ void SetCellText(Table tb,int row,int col,string value)\n        {\n       \
+    \     tb.SetAlignment(row, col, cellAlign);\n            tb.SetTextHeight(row,\
+    \ col, textHeight);\n            tb.SetTextString(row, col, value);\n        }"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-09-04 08:23:19'
+  body: 'Great - thanks for letting us know the solution to your problem. :-)
+
+
+    Kean'
+- author: alyoşa
+  email: sermer16@gmail.com
+  ip: 85.107.104.161
+  url: ''
+  date: '2009-10-24 21:00:21'
+  body: 'Hi Kean I have experienced this codes VBA before ,If I try own table add
+    from autocad I was getting error limiting data (data means is number of table
+    rows)
+
+    is there any limits of data for adding autocad table
+
+    in Autocad.Net plaform(cause sometime our material table list has big count)
+
+
+    When I draw our material table with adding simple line and text the codes works
+    very well and better than adding from autocad self table'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2009-10-25 10:14:44'
+  body: 'Not that I''m aware of. I suggest posting a reproducible case (using a simple
+    loop to create a huge table, showing the problem) to <a href="http://adn.autodesk.com">ADN</a>
+    or <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean'
+- author: Ranjan
+  email: ranmani@flowserve.com
+  ip: 57.72.18.68
+  url: http://www.flowserve.com
+  date: '2012-06-08 12:59:39'
+  body: 'Dear Kean,
+
+
+    Could you please clarify me whether "Is it possible to place dimension by referencing
+    Block Attributes Co-Ordinates" For ex: If we have two block attributes and wants
+    to place aligned dimension extension line in the attributes co-ordinates.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-06-09 03:51:40'
+  body: 'Dear Ranjan,
+
+
+    You should be able to get the location information from the specific attribute
+    references. It may be harder to make the dimension associative.
+
+
+    I suggest posting follow-up questions via the AutoCAD .NET Discussion Group or
+    the ADN team.
+
+
+    Best regards,
+
+
+    Kean'
+- author: xanhnhnn280683@gmail.com
+  email: xanhnhnn280683@gmail.com
+  ip: 113.187.16.243
+  url: ''
+  date: '2012-12-30 17:59:20'
+  body: hello forum, I would like for example to specify two identical objects in
+    one drawing
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-12-30 18:01:33'
+  body: 'Nope, this is not a forum. <a href="http://forums.autodesk.com/t5/NET/bd-p/152">Try
+    here.</a>
+
+
+    Kean'
+- author: xanhnhnn280683@gmail.com
+  email: xanhnhnn280683@gmail.com
+  ip: 113.187.16.243
+  url: ''
+  date: '2012-12-30 18:02:14'
+  body: 'hello forum, I would like for example to find two identical objects in one
+    drawing
+
+
+    tell its meaning'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-12-30 18:07:49'
+  body: 'No, still not a forum. Once more and you''re blocked.
+
+
+    Kean
+
+    -----'

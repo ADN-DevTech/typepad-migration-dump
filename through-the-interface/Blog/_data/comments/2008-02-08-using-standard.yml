@@ -1,0 +1,182 @@
+comments:
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 201.80.87.141
+  url: http://arxdummies.blogspot.com
+  date: '2008-02-09 18:05:51'
+  body: 'Hi Kean,
+
+
+    Can be these dialogs called from ObjectARX C++ API?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.6.124
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-02-11 09:41:35'
+  body: 'Hi Fernando,
+
+
+    The following colour-related functions are in the ObjectARX SDK, in aced.h:
+
+
+    acedSetColorDialog()
+
+    acedSetColorDialogTrueColor()
+
+    acedSetColorDialogTrueColorWithCallback()
+
+
+    The linetype and lineweight dialogs are not officially exposed via ObjectARX,
+    but they are exported off acad.exe as:
+
+
+    acedLinetypeDialog()
+
+    acedLineWeightDialog()
+
+
+    If you''re skilled with function de-decorating/unmangling, then you should be
+    able to work out how to call them from the dumpbin output. This isn''t supported,
+    however.
+
+
+    Oh, and you can certainly invoke the managed versions from C++, although I haven''t
+    done so myself.
+
+
+    Cheers,
+
+
+    Kean'
+- author: 'Martin Duke '
+  email: dukem@conwag.com
+  ip: 165.228.109.98
+  url: ''
+  date: '2008-02-12 06:21:09'
+  body: 'Hello Kean,
+
+
+    These controls are great, but what I would really like, are Combobox versions
+    of them as that is more appropriate on a form.  I know ActiveX versions are available,
+    but, from my experience they are not overly reliable in a .NET environment.  Maybe
+    you could show how to create Colour\Linetpye controls as Combos in .NET?
+
+
+
+    Cheers
+
+
+    Martin.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.6.124
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-02-12 09:52:20'
+  body: 'Hi Martin,
+
+
+    As you''ve mentioned, combobox versions of the AutoCAD controls (layer, linetype,
+    lineweight, layer, UCS) as well as additional ActiveX controls for other types
+    of content (DWG thumbnail, hatch-pattern, slide) are available for ADN members
+    from <a href="http://adn.autodesk.com/adn/servlet/item?siteID=4814862&id=9628824&linkID=4900509">here</a>.
+
+
+    The effort to re-create these in .NET would be non-trivial: if you have any feedback
+    on using them from a .NET environment, please let us know via the ADN site, and
+    we''ll do our best to fix them.
+
+
+    Regards,
+
+
+    Kean'
+- author: Mark
+  email: mark.carson@fairhurst.co.uk
+  ip: 194.75.137.130
+  url: ''
+  date: '2008-02-15 10:02:41'
+  body: 'Excellent example, thank you.
+
+    I am implementing these dialogs in a Layer Standards dialog (VB.NET) and have
+    managed to pass a color to the color dialog and return user selected. (using color
+    convertor)
+
+    However, with the linetype dialog (as with your example) the string returned is
+    in an user-unfriendly format. I am assuming that it is possible to look at the
+    linetype table record to get a description or like, but there does not seem to
+    be an easy way to accomplish this.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.6.124
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-02-15 11:12:55'
+  body: 'It''s an ObjectID: if you use it inside a transaction to get the LinetypeTableRecord
+    (by calling GetObject()), you can then access a more friendly identifier by the
+    Name property.
+
+
+    Kean'
+- author: coddy
+  email: sherines@keoic.com
+  ip: 195.229.241.174
+  url: ''
+  date: '2009-01-07 07:54:38'
+  body: 'Hi Kean,
+
+
+    This question is not related to the above mentioned topic. I would like to know
+    if it''s possible to view sld files as thumbnails in listview control using C#.
+    If not, what is the other method? Hope you will help me out.
+
+
+    Thanks'
+- author: Matus Brlit
+  email: ''
+  ip: 178.41.108.79
+  url: http://profile.typepad.com/brlit
+  date: '2010-04-28 13:37:27'
+  body: 'Hi,
+
+    i tried to look up some more dialogs in Autodesk.AutoCAD.Windows, but I didn''t
+    find a dialog for choosing Point Style, is there such?
+
+
+    Thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-04-28 15:34:32'
+  body: 'I don''t know - I suggest submitting your question to <a href="http://adn.autodesk.com">the
+    ADN team</a>, if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean'
+- author: AKS
+  email: akseidel@gmail.com
+  ip: 68.143.106.66
+  url: ''
+  date: '2013-05-29 19:08:36'
+  body: From what I see the LineTypeDialog only functions as an existing linetype
+    selector. The Load from a selection made to a *.lin file portion of the interface
+    does not result in the selected linetype being loaded into the active file. Is
+    there a way to make that work without having to take the returned linetype name
+    and then rolling one's own load? If I had to do that then I might as well create
+    a proper linetype selector interface.
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-05-29 19:42:22'
+  body: 'Correct. You would have to fire off the load (most easily via a standard
+    command) after the selection.
+
+
+    You might find it harder than you think to implement your own linetype selector
+    interface, but feel free to do so.
+
+
+    Kean
+
+    -----'

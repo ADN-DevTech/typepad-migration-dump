@@ -1,0 +1,57 @@
+comments:
+- author: Gavin Glynn
+  email: gavin.glynn@sparq.com.au
+  ip: 147.209.216.245
+  url: ''
+  date: '2011-06-28 04:23:03'
+  body: 'Hi Kean
+
+
+    I might be misunderstanding something here, but how do you use asynchronous logic
+    with AutoCAD? My understanding is that AutoCAD ensures that from a plugin''s perspective,
+    everything is singularly threaded?
+
+
+    Regards
+
+
+    Gavin Glynn :)'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-06-28 08:26:57'
+  body: 'Hi Gavin,
+
+
+    This particular code is retrieving data from the web, before it gets combined
+    and imported into AutoCAD using standard commands.
+
+
+    As the code that executes after the await calls runs by default on the UI thread
+    (from which it''s safe to call into AutoCAD), it should work very well: you just
+    need to be careful not to create some kind of asychronous method that attempts
+    to do something directly inside AutoCAD. That would fail and probably quite nastily.
+
+
+    Regards,
+
+
+    Kean'
+- author: Scott McFarlane
+  email: ''
+  ip: 71.68.82.214
+  url: http://profile.typepad.com/scottmcfarlane
+  date: '2011-06-28 17:30:22'
+  body: It is indeed astonishing how few code changes were necessary to make this
+    work. As we wait for .NET 5, I have found Parallel LINQ (PLINQ) quite useful for
+    tasks like this. I'm too lazy to learn F# at this point.
+- author: Carl
+  email: Carl.Golenberg@brownconsulting.com.au
+  ip: 125.7.48.146
+  url: ''
+  date: '2014-02-07 04:55:32'
+  body: 'I hear that. well not too lazy but too busy for a full mental shift - yet
+    f# looks fascinating, when you have the time...
+
+    -----'

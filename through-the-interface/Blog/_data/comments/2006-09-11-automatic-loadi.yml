@@ -1,0 +1,1841 @@
+comments:
+- author: Ray Mendoza
+  email: rmendoza@genlytecontrols.com
+  ip: 12.156.239.114
+  url: ''
+  date: '2006-09-11 23:39:34'
+  body: I just wanted to say "Thank you" for going over this information...These past
+    3 posts have been great...Not being able to pay for ADN status has made it quite
+    dificult to learn stuff like this...Just wanted to say keep up the good work!!!
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-09-12 09:11:24'
+  body: My pleasure - glad you're finding the information useful. :-)
+- author: Matthieu Lefebvre
+  email: matthieu.lefebvre@i2g.fr
+  ip: 84.96.46.66
+  url: ''
+  date: '2006-10-02 14:23:19'
+  body: 'Hi Kean,
+
+
+    First of all, I would like to thank you for the quality of your blog and your
+    advices. Now, after automatic loading of .Net modules, my question concern the
+    automatic loading of AutoCAD interfaces. Which possibility have we to load automatically
+    an interface (.CUI Files) on AutoCAD startup ? If we can do it, it''s finished.
+    Cause we have the command and the interface ... How do you say in english ? The
+    loop is looped !
+
+
+    Congratulations to you and your family for the young Zephyr !
+
+
+    Matthieu
+
+
+
+    Sorry for my poor english ... Next time it may be in french ;o).'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-10-11 14:56:10'
+  body: "Hi Matthieu,\n\nHave you tried executing the CUILOAD command on startup?\
+    \ The classic way to do this is using the (s::startup) LISP function, defined\
+    \ in your acad.lsp file:\n\n(defun-q MYSTARTUP( )\n  (command \"_.cuiload\" \"\
+    mycustomfile.cui\")\n)\n(setq S::STARTUP (append S::STARTUP MYSTARTUP))\n\nI hope\
+    \ this helps,\n\nKean"
+- author: Mario
+  email: mtorrespe@hotmail.com
+  ip: 200.106.51.162
+  url: ''
+  date: '2006-10-15 07:48:24'
+  body: Hello, thanks for the answer, it wanted to know as I can program equivalence
+    to the AutoCAD command boundary (command “- Boundary” "" "") from Visual BASIC
+    2005, I have intensely looked for but nonencounter information on that subject,
+    what desire to do is to indicate a point among other entities and to generate
+    a contour or a region soon to obtain its area. Thanks. My name is Mario and my
+    mail is mtorrespx@yahoo.es
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-10-16 16:30:59'
+  body: 'Hi Mario,
+
+
+    This looks like a request for some custom code (unrelated to this post). I''d
+    suggest posting your request to the AutoCAD .NET Customization discussion group
+    (http://discussion.autodesk.com/forum.jspa?forumID=152) or via the ADN website,
+    if you''re a member.
+
+
+    To give a hint, I''d suggest using Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetPoint()
+    to get a point, which you pass to the boundary command, executed using one of
+    the techniques described in this previous post: http://through-the-interface.typepad.com/through_the_interface/2006/08/calling_command.html.
+
+
+    Regards,
+
+
+    Kean'
+- author: Mario
+  email: mtorrespe@hotmail.com
+  ip: 200.106.51.162
+  url: ''
+  date: '2006-10-17 02:22:12'
+  body: 'Thanks Kean
+
+
+    I ''ve already read about the post you told me, but I thought there was a way
+    to make a boundary around the programation .net. I had read about generate loops.
+
+
+    regards,
+
+
+    Mario'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-10-17 11:19:33'
+  body: 'Hi Mario,
+
+
+    The BOUNDARY command actually does quite a lot of hard work - it would be tough
+    to replicate. I''m not entirely sure what loops you would want to create through
+    the managed API - BOUNDARY creates polylines or regions... both of which you can
+    create through the managed API, of course. But getting the analysis of existing
+    geometry right could take a lot of effort.
+
+
+    Regards,
+
+
+    Kean'
+- author: CM
+  email: info@talkmarket.net
+  ip: 70.107.55.135
+  url: ''
+  date: '2006-10-25 20:34:28'
+  body: 'Hi Mario,
+
+    (Fist of all thanks, you are always the source of the best information)
+
+    I have an arx dll that has a startup function that writes a partial.cui into the
+    acad.cui (Using CustomizationSection). Works great, but the menus just do not
+    show up in the UI. The partial.cui existis in the CUI dialog but you literally
+    have to manually load using cui or cuiload.
+
+
+    This is not what I want & it seams that the only other way to make it show up
+    automaticlly is to write the menu right into the acad.cui (which defeats the purpose
+    of the partial.cui in the first palce!)
+
+
+    Am I missing something!
+
+
+    Thanks,
+
+    CM'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-10-25 21:07:31'
+  body: 'Hi CM,
+
+
+    When you say it gets written into acad.cui by the ARX module, do you mean it gets
+    loaded, or that the XML from your partial CUI is inserted into the standard acad.cui?
+
+
+    Please explain exactly how the CUI is being loaded (I''ll see if I can see something
+    obviously wrong - otherwise I''d suggest submitting it via one of the Customization
+    Discussion Groups or via the ADN website, if you''re a member).
+
+
+    Regards,
+
+
+    Kean'
+- author: CM
+  email: christian@permitoffice.com
+  ip: 70.107.54.4
+  url: http://www.swatchdigital.com/cui.aspx
+  date: '2006-10-31 19:00:30'
+  body: 'Hi Kean,
+
+    Thanks very much for getting back to me. As I said before, I''m always impressed
+    with your work.
+
+    To clairify, the partial cui is ''loaded'' into the Acad.cui (Please see http://www.swatchdigital.com/cui.aspx
+    for a screen shot). I have not ''Inserted'' xml/menus or toolbars into the ACAD.cui
+    if that is what you are asking. I believe this is the intent of the partial.cui
+    -to allow third party UI without having to resort to writing directly into the
+    users Acad.cui. The problem is that even when the partial.cui seams to be ''loaded''
+    into the acad.cui - it just does not show up. (See screen shot again). Thus the
+    question? How to get menus to show up without reverting back to the old write''em
+    in method.
+
+
+    By the way, I''ve posted this on Discussions but without any response. (Many others
+    have the same request!)
+
+
+    Thanks,
+
+    cm'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.56.86
+  url: ''
+  date: '2006-11-01 17:35:23'
+  body: 'Hi CM,
+
+
+    Thanks - I just posted an entry to address this (I hope the approach works for
+    you).
+
+
+    http://through-the-interface.typepad.com/through_the_interface/2006/11/loading_a_parti.html
+
+
+    Regards,
+
+
+    Kean'
+- author: Claudio
+  email: cneno@hotmail.com
+  ip: 200.2.206.60
+  url: ''
+  date: '2007-03-04 01:26:17'
+  body: "Hi Kean\n\nI´m using Autocad 2006, and I did everything you said in Loading\
+    \ modules on AutoCAD startup, but it wasnt work. \n\nThe question is, is possible\
+    \ to Loading modules on AutoCAD startup in Autocad 2006 ? and How ??\n\nRegards,\n\
+    \nClaudio"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-03-04 07:01:35'
+  body: 'Hi Claudio,
+
+
+    Have you tried using the Registry location for AutoCAD 2006 (probably under "R16.2"
+    instead of "R17" - something to check using Regedit and the ObjectARX Developers
+    Guide)?
+
+
+    Regards,
+
+
+    Kean'
+- author: Claudio
+  email: cneno@hotmail.com
+  ip: 200.2.206.53
+  url: ''
+  date: '2007-03-08 05:34:58'
+  body: 'Hello Kean
+
+
+    I can load my dll when Autocad starup throw the registry, but i cant execute commands.
+    For example my dll has a <CommandMethod("LoadTool")>, i have to type "LoadTool"
+    in the command line, but i need to execute the command when Autocad starup. I
+    tried with the keys Command and Groups, in the Key Command I insert a string value
+    called LoadTool = LoadTool, and in the Key Groud i did the same, string value
+    LoadTool = LoadTool. I´m doing somethign wrong ?
+
+
+    Thank you Kean...
+
+
+    PD: I´m using Autocad 2006 and sorry for my poor english'
+- author: Claudio
+  email: cneno@hotmail.com
+  ip: 200.2.206.53
+  url: ''
+  date: '2007-03-08 05:40:00'
+  body: Sorry in my up post in the second line "For example my dll has a...." has
+    a "command method called loadtool", I cuted and pasted this part of the text and
+    it doesn´t appear then...
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-03-15 12:35:26'
+  body: 'Hi Claudio,
+
+
+    Sorry for the delay - I''ve been on the road for the last 10 days. You might be
+    hitting a problem I mentioned in this post:
+
+
+    http://through-the-interface.typepad.com/through_the_interface/2006/09/initialization_.html
+
+
+    I''d suggest first trying to set "Copy Local" to false for acmgd.dll and acdbmgd.dll.
+    Hopefully that will fix your problem.
+
+
+    Regards,
+
+
+    Kean'
+- author: Jim
+  email: jim_kelly@urscorp.com
+  ip: 89.206.144.187
+  url: ''
+  date: '2007-05-02 08:59:47'
+  body: 'Hi Kean,
+
+
+    Just a quick thanks, exactly what I was looking for.
+
+
+    Thanks
+
+    Jim'
+- author: Francisco Lomas
+  email: fcolomas@gmail.com
+  ip: 200.31.24.99
+  url: http://fcolomas.blogspot.com
+  date: '2007-07-30 22:00:57'
+  body: You ROCKS!!! Excelent information!! Don't you think about write a book??
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-31 08:05:06'
+  body: 'Hi Francisco,
+
+
+    Not right now, although maybe one day I will, who knows? For now I like the format
+    of blogging, it allows me to cover pretty much any topic without being constrained
+    by logic. :-)
+
+
+    Kean'
+- author: Francisco Lomas
+  email: fcolomas@gmail.com
+  ip: 200.31.24.99
+  url: http://fcolomas.blogspot.com
+  date: '2007-08-13 21:33:11'
+  body: "Hi Kean!!\nI will post this to ADN too, but maybe you can help me too...\n\
+    \nI used exactly what you tell in this post to build an installer fro my .net\
+    \ app hosted in AutoCAD Map 3d 2007, it works great!! but i must use 2k8, well\
+    \ i unsinstall my 2k7 and replace it with 2k8, then I look into the registry and\
+    \ noticed some versions change, ex R17 to R17.1, 5002 to 6002, i modified my installer\
+    \ to match the key into the registry and rebuild it, but acad 2k8 doesn't load\
+    \ my assembly, i reviewed the registry, everything ok, the location of the assembly\
+    \ was ok but if you try to use netload it doesn't load too, i try to use the netload\
+    \ to use my assembly in my debug folder and it loads the app, it was strange,\
+    \ then i modify the reg key to point to my debug folder and guess what... It doesn't\
+    \ work!! some ideas?? i give you my reg file, but it is ok as i see... \n\nWindows\
+    \ Registry Editor Version 5.00\n\n[HKEY_LOCAL_MACHINE\\SOFTWARE\\Autodesk\\AutoCAD\\\
+    R17.1\\ACAD-6002:409\\Applications\\MDMQ_GIS]\n\"DESCRIPTION\"=\"Utilidades GIS\
+    \ del MDMQ\"\n\"LOADER\"=\"C:\\\\Archivos de programa\\\\AutoCAD Map 3D 2008\\\
+    \\MDMQ_GIS_AUTOCAD.DLL\"\n\"LOADCTRLS\"=dword:00000002\n\"MANAGED\"=dword:00000001"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-08-13 22:17:20'
+  body: 'Hi Francisco,
+
+
+    Please email me the case ID so I can check it out from this side.
+
+
+    By the way - which language version of Map3D are you using?
+
+
+    The other tools we often recommend for diagnosing these issues are RegMon and
+    FileMon, available from <a href="http://sysinternals.com">http://sysinternals.com</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Francisco Lomas
+  email: fcolomas@gmail.com
+  ip: 200.31.24.99
+  url: http://fcolomas.blogspot.com
+  date: '2007-08-13 22:54:27'
+  body: The language is English, and I use the key created by the AutoCAD installer...
+- author: Francisco Lomas
+  email: fcolomas@gmail.com
+  ip: 200.31.24.99
+  url: http://fcolomas.blogspot.com
+  date: '2007-08-13 23:03:12'
+  body: An update more, whe i modify the key to an incorrect name of the dll nothing
+    occurs with AutoCAD on load, but you can load the same assembly with netload,
+    but if the name is correct in the registry you can't use the assembly it doesn't
+    load!!
+- author: Francisco Lomas
+  email: fcolomas@gmail.com
+  ip: 200.31.24.99
+  url: http://fcolomas.blogspot.com
+  date: '2007-08-14 00:14:55'
+  body: More info, I use the tools that you recommend me and i found that the assembly
+    is loades, it reads the registry, loads the assembly but it doesn't start the
+    execution, maybe is some kind og log where i can search more?? the event viewer
+    is empty of autocad or related events...
+- author: Christian Stelzl
+  email: mcstelzl@aol.com
+  ip: 87.174.134.75
+  url: ''
+  date: '2007-12-17 18:32:28'
+  body: 'Hi Kean,
+
+
+    great site, thanks! I just wanted to share that I found out by trial and error
+    that you can not modify the registry BOTH in "HKEY_CURRENT_USER..." and "HKEY_LOCAL_MACHINE..."
+    in the way you describe. Doing so, it''s not only that the dll ist not loaded
+    at startup, you also can not load the dll using the netload command any more.
+    I am not sure if this is a bug or wanted. Can you comment?
+
+
+    Regards, Christian'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-12-17 18:47:02'
+  body: 'Hi Christian,
+
+
+    I don''t believe I said to put it in both places - I meant to suggest using one
+    or the other:
+
+
+    "Essentially the information can be stored in one of two places: under HKEY_LOCAL_MACHINE
+    or under HKEY_CURRENT_USER."
+
+
+    I don''t believe the module should be stopped from loading if it''s in both places,
+    however. It''s not something I''ve looked into, myself.
+
+
+    Regards,
+
+
+    Kean'
+- author: Sony
+  email: kava831@yahoo.com
+  ip: 203.145.176.250
+  url: ''
+  date: '2008-01-22 04:50:34'
+  body: 'Hi kean
+
+
+    I Wanted to know if the above method is only for automatic loading of dlls and
+    not automatic execution of command within the dll.
+
+
+    i Tried the above method and found thatwe need to type the command at the command
+    prompt to execute the command.Can i know how to load a dll and execute the command
+    automatically in presnt in the dll.
+
+
+    Thanks
+
+    Sony'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-01-23 14:47:03'
+  body: 'Hi Sony,
+
+
+    This is all about loading: if you need to launch a command automatically, you
+    should check out these posts:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2006/08/calling_command.html">Calling
+    AutoCAD commands from .NET</a>
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2006/08/techniques_for_.html">Techniques
+    for calling AutoCAD commands programmatically</a>
+
+
+    If you attempt to launch a command on Initialize(), be warned: if the module is
+    demand-loaded on startup then the editor may not be ready to have a command launched.
+
+
+    Regards,
+
+
+    Kean'
+- author: Registry Cleaner Reviews
+  email: s.eastond@gmail.com
+  ip: 59.92.79.163
+  url: http://www.registryremedies.com/
+  date: '2008-01-25 16:50:22'
+  body: Hi Kean, I accidently stumbled upon your site while looking for some solutions
+    to my registry problems. Though unrelated to my problem it still is very interesting.
+    I am sure to come back here often. I'm going to bookmark this site now. Thanks.
+- author: Sony
+  email: kava831@yahoo.com
+  ip: 203.145.176.250
+  url: ''
+  date: '2008-02-20 06:48:48'
+  body: 'Hi Kean,
+
+
+    Thanks for replay on demand loading.
+
+
+    i still had a doubt,calling command through .net is fine , but i want to execute
+    the command on autocad startup.i.e: when i open autocad i want to execute my command,
+    the command in turn will load a custom menu in autocad.
+
+
+    i hope i am clear with my question.
+
+
+    Thanks kean'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 66.159.223.136
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-02-20 13:37:14'
+  body: 'Use the Registry to have your module loaded on AutoCAD startup, and then
+    as the module loads (in the Initialize function - see <a href="http://through-the-interface.typepad.com/through_the_interface/2006/09/initialization_.html">this
+    post</a>) you can call something to queue up the command - probably ads_queueexpr()
+    (see <a href="http://through-the-interface.typepad.com/through_the_interface/2006/08/calling_command.html">this
+    post</a>).
+
+
+    Kean'
+- author: James
+  email: zorous1@comcast.net
+  ip: 65.246.63.68
+  url: ''
+  date: '2008-12-08 19:35:47'
+  body: 'Is there a way to auto unload a dll after it has been loaded and the command
+    issued?  For example, the dll is already loaded, the user has issued a command
+    which opens a form.  When the user closes the form the dll is automatically unloaded.  I
+    ask this because the question came up when we need to release a new dll version
+    to users, some users don''t close their AutoCAD at the end of the day, and in
+    testing, the dll cannot be copied over to the client if it is ''in use''.
+
+
+    Thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.58.159
+  url: http://profile.typekey.com/walmsleyk/
+  date: '2008-12-08 21:57:25'
+  body: 'Sorry, James - there''s currently <a href="http://through-the-interface.typepad.com/through_the_interface/2008/09/tired-of-not-be.html">no
+    NETUNLOAD ability in AutoCAD</a>.
+
+
+    Kean'
+- author: Alin Gorgan
+  email: alin.gorgan@yahoo.com
+  ip: 86.125.99.53
+  url: ''
+  date: '2008-12-16 09:39:43'
+  body: 'Hi,
+
+
+    I found that AutoCAD 2009 couldn''t load my managed library if the "LOADER" string
+    value in the registry contained "\\", so please use "\" in the path to your dll.
+
+
+    Regards,
+
+
+    Alin'
+- author: sony
+  email: kava831@yahoo.com
+  ip: 203.145.176.250
+  url: ''
+  date: '2009-01-06 05:19:10'
+  body: Can We load ARX File in the same way through .net
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.2.123
+  url: http://profile.typekey.com/walmsleyk/
+  date: '2009-01-06 09:26:31'
+  body: 'Sony -
+
+
+    Yes. Exactly the same mechanism works for .arx files (you just need to drop the
+    MANAGED key or set it to 0).
+
+
+    Kean'
+- author: sony
+  email: kava831@yahoo.com
+  ip: 203.145.176.250
+  url: ''
+  date: '2009-01-06 11:40:32'
+  body: Thank you Dude
+- author: Brian Stafford
+  email: BSTAFFORD@INTERKAL.COM
+  ip: 24.176.11.130
+  url: ''
+  date: '2009-04-06 22:31:08'
+  body: 'Hi Kean,
+
+
+    Concerning "loading modules on command invocation", is it possible to use this
+    technique on methods tagged with the "LispFunction" attribute?
+
+
+    Regards,
+
+
+    Brian'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-04-06 22:34:17'
+  body: 'No - you will need to force load on startup.
+
+
+    Kean'
+- author: Eolson
+  email: eolson@esdesign.com
+  ip: 198.173.7.10
+  url: ''
+  date: '2009-08-12 15:49:35'
+  body: "Kean,\n\nGreat resource! I am upgrading a bunch of our code I wrote for 200-2004\
+    \ products with lisp, and VBA - some VB6 sprinkled in there - this forum has really\
+    \ helped - I appreciate your time.\n\nAs for the autoloading - I set up a test\
+    \ project - worked great, so I know I'm doing it right. \n\nHowever - When I attempt\
+    \ to load my full dll (that references other custom DLL's I've created) - It does\
+    \ not load. I have a feeling its due to the custom dll's I've referenced to my\
+    \ project (these are libraries that contain typical functions I use - string conversion\
+    \ methods, a \"findfile\" function like that in lisp, etc). Could you shed some\
+    \ light on why I might not be getting my functions to load on startup? (they load\
+    \ fiune manually with netload). I'm using vb.net '05"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-08-12 20:17:48'
+  body: 'Eolson,
+
+
+    I typically use the <a href="http://technet.microsoft.com/en-us/sysinternals/bb896645.aspx">Process
+    Monitor</a> (the successor to Regmon and Filemon) to diagnose these problems:
+    you can see what Registry keys were accessed and files loaded.
+
+
+    I''d also suggest placing your assemblies inside the AutoCAD program folder, to
+    see if that changes anything (with the Registry paths modified appropriately,
+    of course).
+
+
+    Kean'
+- author: Chuck
+  email: ''
+  ip: 216.23.14.28
+  url: http://profile.typepad.com/6p0120a5019464970b
+  date: '2009-08-18 20:11:01'
+  body: 'I have a vb.net dll.  It works fine if I netload the dll on a 64 bit machine.  What
+    I''m having trouble with is how to get AutoCAD a 64 bit machine to recognize the
+    registry entries.  My installation package puts the entries under a Wow6432node
+    key (which I believe is normal), but AutoCAD is not able to find them.
+
+
+    On a 32 bit machine, AutoCAD finds the registry entries I''ve made just fine,
+    but if I install on a 64 bit box, AutoCAD doesn''t find them.  I''m trying to
+    figure out what I have to do to resolve this.
+
+
+    I would appreciate any input you might have.
+
+
+    Thanks,
+
+    Chuck'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-08-19 11:04:58'
+  body: 'Hi Chuck,
+
+
+    Sorry - I currently don''t have a 64-bit OS installed. I suggest submitting your
+    question via <a href="http://adn.autodesk.com">ADN</a> (if you''re a member) or
+    otherwise trying the <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">AutoCAD
+    .NET</a> (or <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=34">ObjectARX</a>)
+    discussion groups.
+
+
+    Regards,
+
+
+    Kean'
+- author: Magnus Jørgensen
+  email: mamj@topsoe.dk
+  ip: 195.41.211.254
+  url: ''
+  date: '2010-01-25 16:56:11'
+  body: 'Hi...
+
+
+    I have been using this feature for some time. But i''ve just noticed that my dll
+    is loaded at command invocation, despite having set LOADCTRLS = 2...
+
+
+    Very strange. And i seem to remember that it worked once. What could have gone
+    wrong?'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2010-01-25 17:03:32'
+  body: 'Hi Magnus,
+
+
+    It''s hard for me to say - it should be working. Perhaps AutoCAD''s using a different
+    set of Registry keys than you think it is? You might try using RegMon (or ProcessMons)
+    from Microsoft''s SysInternals site to see what''s being used...
+
+
+    Regards,
+
+
+    Kean'
+- author: Cadbloke.wordpress.com
+  email: ''
+  ip: 203.18.237.148
+  url: http://profile.typepad.com/cadblokewordpresscom
+  date: '2010-02-08 22:32:46'
+  body: 'Another way to approach this is to add a line to your acad2010doc.lsp as
+    per the forum post at <a href="http://forums.augi.com/archive/index.php/t-48924.html">http://forums.augi.com/archive/index.php/t-48924.html</a>
+    (which links to this post).
+
+
+    I prefer this method because I find it easier to tweak when I''m debugging or
+    updating. It also works if you don''t have regedit access.
+
+
+    It is not as elegant as on-demand loading so don''t go nuts with multimegabyte
+    dll''s.
+
+
+    cheers
+
+    Ewen'
+- author: Christian Geisser
+  email: christian.geisser@peri.de
+  ip: 84.157.69.31
+  url: http://www.peri.de
+  date: '2010-02-20 22:04:16'
+  body: 'Hello,
+
+
+    it''s always hard for me to remember where I put the piece of paper where I wrote
+    down the values for the LOADCTRLS registry key to load managed assemblies.
+
+
+    But today I found the ApplicationLoadReasons enumerator located inside acdbmgd.dll.
+
+
+    Here you can find the LOADCTRLS values:
+
+    Autodesk.AutoCAD.DatabaseServices.ApplicationLoadReasons
+
+
+
+
+    Another thing I just came across (Windows 7 x86, DE):
+
+
+    I created a new registry key to automatically load my assembly while debugging,
+    but none of my command methods has been recognized from Autocad. Loading my assembly
+    using the ''netload'' commmand always worked fine...
+
+
+    It seems that there is some kind of a localization issue when Autocad is retrieving
+    the LOADER value from the registry.
+
+
+    I''m working with a German version of Windows 7 and an Englisch version of Autocad
+    Architecture 2010.
+
+
+    Usually I open the file properties of my assebmly to copy and paste the path to
+    the LOADER key in the registry editor.
+
+
+    This is the directory information displayed by the file properties:
+
+    "C:\Users\..."
+
+
+    But when I use the Explorer to navigate to the location of my assemby, the localized
+    folder name "C:\Benutzer" is used instead of "C:\Users":
+
+
+    "C:\Benutzer\..."
+
+
+    Only when I change the folder name of the LOADER registry key from "Users" to
+    the localized name "Benutzer" my commands are recognized by Autocad.
+
+
+    If this has already been resolved this means I''m not up to date with my Autocad
+    version.
+
+
+    Regards Christian'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-02-22 14:30:35'
+  body: 'Hello Christian,
+
+
+    Yes, I used to use rxdlinkr.h from the ObjectARX SDK to find the values, although
+    these days I remember I need either 2 or 12 (and look at the application information
+    in the Registry to remember which I need to use).
+
+
+    The issue you''ve described sounds peculiar, and I''d like someone from my team
+    to take a look. Please go ahead and submit it via the ADN site, and we''ll look
+    into it.
+
+
+    Thanks & regards,
+
+
+    Kean'
+- author: Christian Geisser
+  email: christian.geisser@peri.de
+  ip: 84.157.53.14
+  url: http://www.peri.de
+  date: '2010-02-24 20:07:53'
+  body: 'Hi Kean,
+
+
+    I''m glad to tell you that I''m not able to reproduce my "I came across..."-issue
+    anymore. I''ve no clue what went wrong when I''ve created the registry key that
+    day but now I can change all parts of the path, no matter if localized values
+    or not, and demand loading is always working fine.
+
+
+    I think I was a little bit too fast with my report. Maybe rebooting solved the
+    problem.
+
+
+    Thanks for your reply!
+
+
+    Regards
+
+    Christian'
+- author: Kaitlyn
+  email: glassroseheart@gmail.com
+  ip: 72.25.2.94
+  url: ''
+  date: '2010-04-05 15:09:57'
+  body: 'I am trying to use demand loading with AutoCAD 2010.  There seems to be some
+    small difference in the requirements of 2010 and 2007 demand loading, however,
+    and AutoCAD 2010 does not recognize the command.  I am loading the registry entries
+    into the AutoCAD 2010 registry subkey: HKEY_LOCAL_MACHINE/SOFTWARE/Autodesk/AutoCAD/R18.0/ACAD-8005:409/MyApp.  When
+    I call the function in AutoCAD, it says that it does not recognize the command.'
+- author: Kean Walmsley
+  email: ''
+  ip: 12.160.193.229
+  url: http://profile.typepad.com/kean
+  date: '2010-04-06 11:31:17'
+  body: 'Nothing fundamental has changed between 2007 and 2010, just the product key.
+
+
+    If your app loads manually using NETLOAD, then I suggest posting more details
+    either to <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a> or to <a href="http://adn.autodesk.com">ADN</a>,
+    if you''re a member.
+
+
+    Kean'
+- author: Kaitlyn
+  email: glassroseheart@gmail.com
+  ip: 72.25.2.94
+  url: ''
+  date: '2010-04-08 14:38:55'
+  body: Thank you. I figured out it was in the project itself.  Copy Local must be
+    set to False for acdbmgd and acmgd dlls.
+- author: Andrew
+  email: Andrew.Squire@interstates.com
+  ip: 207.177.84.162
+  url: ''
+  date: '2010-05-27 21:57:10'
+  body: Hi Kean, I have a regedit which works with AutoCAD2010, but when I try to
+    register it to the 2011version, I get a fatal error. Is there something that should
+    be different between 2010 and 2011 that I am looking over? Thanks for your help
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-05-28 09:33:53'
+  body: 'Hi Andrew,
+
+
+    The Registry key AutoCAD looks under has changed from R18.0 to R18.1. Otherwise
+    everything is the same, and should work similarly.
+
+
+    Regards,
+
+
+    Kean'
+- author: Rémy D-F
+  email: grayfox08@hotmail.fr
+  ip: 82.225.135.68
+  url: ''
+  date: '2010-06-16 17:23:52'
+  body: "Hi Kean.\nCongratulation for your post. It's clear and very understandable.\
+    \ \nI've try your method, and it work perfectly.\nI would like to know if you\
+    \ know how all this take place in case of extend AutoCAD software.\nI'm talking\
+    \ about :\n- AutoCAD Mechanical\n- AutoCAD Civil 3D\n- AutoCAD Electrical\n\n\
+    Because, if all those separate soft has near the same interface and structure,\
+    \ their key register structure is not the same. So i've difficulty to made the\
+    \ same techniques you provide for AutoCAD with AutoCAD mechanical (and other i\
+    \ imagine).\n\nDo you know something about autoload of .Net modules with those\
+    \ derivated software ?\n\nThanks for your support.\nRegards,\n\nRémy D-F"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-06-16 17:30:42'
+  body: 'Hi Rémy,
+
+
+    Yes - the specific Registry key will vary between products. The "safe" way to
+    do this is via runtime code that generates the keys in the appropriate location
+    for the product within which the DLL has been NETLOADed. See <a href="http://through-the-interface.typepad.com/through_the_interface/2010/03/creating-demand-loading-entries-automatically-for-your-autocad-application-using-c-f-or-vbnet.html">this
+    post</a> for some code to do this.
+
+
+    Best regards,
+
+
+    Kean'
+- author: Rémy D-F
+  email: grayfox08@hotmail.fr
+  ip: 82.225.135.68
+  url: ''
+  date: '2010-06-17 15:03:31'
+  body: 'Ok, i''ll see what i can do.
+
+    Thank you very much for your quick and efficient response.
+
+
+    Regards,
+
+
+    Rémy D-F'
+- author: Shaiful
+  email: shaifulxyz@yahoo.com
+  ip: 202.72.173.185
+  url: http://www.noweb.com
+  date: '2010-07-16 09:09:23'
+  body: Hi , I wrote a progam and made a DLL (C:\program\Layer.dll) , Foloow the steps
+    its doesnt load when CAD Start, i using win 7 , Any idea please
+- author: Kean Walmsley
+  email: ''
+  ip: 99.31.232.76
+  url: http://profile.typepad.com/kean
+  date: '2010-07-16 16:22:49'
+  body: 'I have no idea what''s wrong. You may want to try using the ProcessMonitor
+    tool (the successor to RegMon) from Microsoft to find out which Registry accesses
+    have been made.
+
+
+    Otherwise I suggestion posting your Registry export to the relevant <a href="http://discussion.autodesk.com">discussion
+    forum</a>.
+
+
+    Kean'
+- author: Shaiful
+  email: shaifulxyz@yahoo.com
+  ip: 202.72.173.185
+  url: http://www.noweb.com
+  date: '2010-07-19 03:54:49'
+  body: Hi Kean, Many thanks for your reply. I check my Windows Registry Editor Version
+    6.1, It would be any change on it?
+- author: Kean Walmsley
+  email: ''
+  ip: 99.31.232.76
+  url: http://profile.typepad.com/kean
+  date: '2010-07-19 15:45:50'
+  body: 'The version of your Registry editor isn''t relevant. It''s the contents of
+    the Registry key described in this post that''s important.
+
+
+    Kean'
+- author: Chris
+  email: ccaron@ariainc.com
+  ip: 173.15.4.201
+  url: ''
+  date: '2010-07-30 21:49:33'
+  body: 'Great blog, I reference it constantly...  Keep it up, hope your day job pays
+    well so the rest of us benefit from you generosity.
+
+
+    However... Any thoughts on setting these registries outside of user interaction?  To
+    clarify, we are deploying 2010 and I have my dlls ready to go and a .reg file
+    for autoloading, but so far I''ve only been able to run the reg file manually,
+    physically from the installed system.  I''d like to set something up so it happens
+    on install or first run of the software.
+
+
+    Thanks for everything.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-07-30 22:19:38'
+  body: 'Hi Chris,
+
+
+    You can either create them <a href="http://through-the-interface.typepad.com/through_the_interface/2010/03/creating-demand-loading-entries-automatically-for-your-autocad-application-using-c-f-or-vbnet.html">when
+    your modules load</a> (see our <a href="http://labs.autodesk.com/utilities/ADN_plugins/">Plugins
+    of the Month</a> for examples of this) or <a href="http://through-the-interface.typepad.com/through_the_interface/2010/02/creating-demand-loading-entries-for-net-modules-outside-of-autocad.html">from
+    an installer outside AutoCAD</a>.
+
+
+    I hope this helps,
+
+
+    Kean'
+- author: Carol
+  email: capayne@sandia.gov
+  ip: 134.253.26.11
+  url: ''
+  date: '2010-08-09 17:35:04'
+  body: "Hi Kean, \nI am having an issue demand-loading .dll's in autocad mechanical\
+    \ 2008. I am able to netload the .dll's from within autocad, as well as autoload\
+    \ them from a registry file (loadreason 2), but the success stops there. Our project\
+    \ has around 10 .dll's that we use on top of autocad, so we would much prefer\
+    \ to demand load them when needed as opposed to autoloading them all at the start.\
+    \ Any advice as to why the demand load function would not be working?\n\nAlso,\
+    \ is there a way to demand load .dll's from within a profile as opposed to the\
+    \ general Autocad settings? Our other specifications are loaded within a profile\
+    \ we generate for the user. \n\nThanks for your time, \nCarol"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-08-09 18:31:57'
+  body: 'Hi Carol,
+
+
+    In the past I''ve used RegMon and FileMon (and more recently Process Monitor)
+    to check what registry/file system acceses are made by AutoCAD: they will often
+    show where the issue is.
+
+
+    As for your other questions, please post them to <a href="http://adn.autodesk.com">the
+    ADN team</a>, if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean'
+- author: MIke
+  email: mconley@chasedoors.com
+  ip: 216.23.35.187
+  url: ''
+  date: '2010-08-25 20:28:01'
+  body: 'Kean,
+
+
+    I have created a Ribbon bar with VB.NET.   I have tested it and it works when
+    I load it with the NETLOAD command.   I want to automatically load it when AutoCAD
+    starts.   I tried NETLOADing it in ACAD.LSP, but that didn''t work.   I modified
+    the registry as shown below and it still doesn''t show the new ribbon bar.   Plus,
+    after modifying the registry it will not display even after using the NETLOAD
+    command unless I remove the registry entry.   Can you help?
+
+
+    Windows Registry Editor Version 5.00
+
+
+    [HKEY_LOCAL_MACHINE\SOFTWARE\Autodesk\AutoCAD\R18.1\ACAD-9005:409\Applications\ChaseDoorsRibbon]
+
+
+    "Description"="Chase Doors Ribbon"
+
+
+    "LOADCTRLS"=dword:0000002
+
+
+    "MANAGED"=dword:00000001
+
+
+    "LOADER"="C:\\Documents and Settings\\mconley\\Desktop\\New ColdGuard Design Automation\\ChaseDoorsRibbon\\bin\\Debug\\ChaseDoorsRibbon.dll"'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-08-26 08:43:13'
+  body: 'Mike,
+
+
+    I can''t tell what the issue is from your .reg file. I tend to use Process Monitor
+    (the successor to RegMon and FileMon) to diagnose these issues: you can quickly
+    see when AutoCAD loads whether it''s accessing this section of the Registry and
+    whether it''s trying to load your DLL from the file system.
+
+
+    Failing that you might try <a href="http://adn.autodesk.com">the ADN team</a>,
+    if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean'
+- author: Max
+  email: saitenheini@web.de
+  ip: 62.225.117.146
+  url: ''
+  date: '2010-11-04 10:33:55'
+  body: "Hallo Kean,\n\nI'm using AutoCAD Civil 3D 2010 \nunder Windows 7. I've used\
+    \ Regedit \nto add my DLL to the registry under the following Directory:\n\"HKEY_LOCAL_MASCHINE\\\
+    SOFTWARE\\Autodesk\\AutoCAD\\R18.0\\Applications\\MyApp\"\n\nIt doesn't work,\
+    \ but with netload.\nSeems like AutoCAD doesn't find the entry.\n\nUnder the Directory\n\
+    \"HKEY_LOCAL_MASCHINE\\SOFTWARE\\Autodesk\\AutoCAD\\R18.0\\\" there is only one\
+    \ subfolder called \"AdImaging\"\n\nWhere Do I have to put my Application Entry?\n\
+    \nThanks, Max"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2010-11-04 10:46:57'
+  body: 'Hi Max,
+
+
+    I suggest using <a href="http://technet.microsoft.com/en-us/sysinternals/bb896645.aspx">Process
+    Monitor</a> to see what Registry keys acad.exe is looking for and not finding.
+
+
+    This is how I tend to diagnose such situations.
+
+
+    Regards,
+
+
+    Kean'
+- author: Max
+  email: saitenheini@web.de
+  ip: 62.225.117.146
+  url: ''
+  date: '2010-11-05 10:34:05'
+  body: 'Hi Kean,
+
+
+    thanks for your advice. Process Monitor shows, that mydll.dll was loaded successfully
+    for a few times.
+
+    But some entries in Process Monitor show the result "BUFFER OVERFLOW" and "FILE
+    LOCKED WITH ONLY READERS".
+
+
+    acad.exe seems to look for an mydll.ini and says "NO SUCH FILE", because I don''t
+    have one.
+
+
+    "ACPUBLISHDEMANDLOADINGMODULE" causes "NAME NOT FOUND"
+
+
+    Do have any ideas how I can solve that problem?
+
+
+    Thanks, Max'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-11-05 11:07:58'
+  body: 'Hi Max,
+
+
+    A lot of the "error" messages can be ignored (and I can''t recall whether that''s
+    the case for these specific ones, unfortunately).
+
+
+    I use Process Monitor (or RegMon, one of its ancestors) to check Registry accesses,
+    when it comes to diagnosing demand-loading. There are other tools (such as Dependency
+    Walker) which helps with DLL-related issues.
+
+
+    Beyond this I''m afraid I can''t give you any specific advice: please post your
+    follow-on questions to <a href="http://adn.autodesk.com">the ADN team</a>, if
+    you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Robert Hinton
+  email: rjhinton@hughes.net
+  ip: 69.19.14.31
+  url: ''
+  date: '2010-11-19 22:14:16'
+  body: What is the new registry key for R18.1?
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2010-11-19 22:17:28'
+  body: 'I''m afraid I don''t understand the question.
+
+
+    If you''re asking what the new R18.1 Registry key is for, it''s for AutoCAD 2011.
+    But I suspect you mean something different.
+
+
+    Kean'
+- author: Robert Hinton
+  email: rjhinton@hughes.net
+  ip: 69.19.14.31
+  url: ''
+  date: '2010-11-22 18:04:04'
+  body: 'Correct.  The registry key in R18.0 is "Applications" and thats works for
+    me for Autocad 2010.  What is the name of the registry key in R18.1 for autoloading
+    .NET apps.  I''ve tring putting the entries in "AutodeskApps", but have not had
+    any luck getting apps to autoload.  I apologize for being obtuse and not providing
+    enough context in my question for you to answer succinctly.  You said "The Registry
+    key AutoCAD looks under has changed from R18.0 to R18.1", and I was hoping pass
+    on the name of the reistry key that Autocad 2011 uses to autoload applications.
+
+
+    Thank you for all your wonderful help.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-11-22 18:09:19'
+  body: 'Aha, now I see.
+
+
+    Actually it has exactly the same name: the Applications key may not exist in your
+    user profile, but if not, just create it.
+
+
+    Kean'
+- author: Buddy
+  email: buddy.gillespie@us.abb.com
+  ip: 12.169.83.234
+  url: ''
+  date: '2011-01-05 16:49:27'
+  body: "Hi Kean, \nIs it possible that LOADER can be an \"expandable string value\"\
+    \ (REG_EXPAND_SZ) instead of just a \"string value\" (REG_SZ) type? I would like\
+    \ to take advantage of system variables for paths and such."
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2011-01-05 17:41:48'
+  body: 'Hi Buddy,
+
+
+    Apparently so: I didn''t even know the REG_EXPAND_SZ type existed (not sure which
+    hole my head was down, but anyway :-) but I just gave it a try renaming my previous
+    LOADER setting to something else and creating a new REG_EXPAND_SZ LOADER setting
+    of "%ProgramFiles%\Autodesk\...\MyApp.dll" and it worked very well.
+
+
+    That''s cool!
+
+
+    Kean'
+- author: Buddy
+  email: buddy.gillespie@us.abb.com
+  ip: 12.169.83.234
+  url: ''
+  date: '2011-01-05 19:26:31'
+  body: It appears that you can use REG_EXPAND_SZ for versions 2010 and above. I tried
+    this on 2007, 2009 and it didn't work but applied it to 2010 and it worked fine.
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2011-01-05 19:27:47'
+  body: 'Thanks, Buddy - I should have added the caveat I was testing with AutoCAD
+    2011.
+
+
+    Kean'
+- author: Peter2
+  email: nojunk217@hotmail.com
+  ip: 194.204.66.37
+  url: ''
+  date: '2011-06-29 10:01:08'
+  body: 'Hello Kean
+
+
+    you wrote:
+
+
+    [HKEY_CURRENT_USER\Software\Autodesk\AutoCAD\R17.0\ACAD-5001:409\Applications\MyTestApplication]
+
+    "DESCRIPTION"="Kean''s test application"
+
+    ....
+
+    "LOADER"="C:\\My Path\\MyTestApp.dll"
+
+
+
+    [HKEY_CURRENT_USER\Software\Autodesk\AutoCAD\R17.0\ACAD-5001:409\Applications\MyTestApp\Commands]
+
+    ....
+
+
+    The first line uses "MyTestApplication", the second one "MyTestApp". Why? Does
+    the second line relates to the name of the file "MyTestApp.dll"? Or should it
+    also be "MyTestApplication"?
+
+
+    Regards
+
+
+    Peter'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-06-29 10:06:36'
+  body: 'Hello Peter,
+
+
+    Wow. Nearly 5 years on - in one of this blog''s most popular posts - and it''s
+    the first time anyone''s raised that. You''re right - it should be MyTestApplication.
+
+
+    Thanks for pointing it out,
+
+
+    Kean'
+- author: Peter2
+  email: nojunk217@hotmail.com
+  ip: 194.204.66.37
+  url: ''
+  date: '2011-06-29 11:35:07'
+  body: 'Hello Kean
+
+
+    yepp - 5 years (and 20 printed pages) are a long time - but you needed only 5
+    min to reply ;)
+
+
+    BTW: There was also a discussion about the values of LOADCCTRLS and the sources
+    inside ADN. How to learn these values as non-ADN-member?
+
+
+    Peter'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-06-29 20:28:25'
+  body: 'If you download the ObjectARX SDK and look at the Developer''s Guide (arxdev.chm)
+    in the Docs folder, you should see it documented (search for "Demand Loading for
+    .NET Applications").
+
+
+    Kean'
+- author: Zack Choo
+  email: mango_tea85@hotmail.com
+  ip: 192.190.204.127
+  url: ''
+  date: '2011-10-24 12:50:56'
+  body: 'Hi Kean,
+
+
+    Your article is very informative and useful.
+
+
+    I have tried the method you suggested in this post, and also faced the same issue
+    as Claudio.
+
+
+    Have used ProcessExplorer and verified that my DLL has been loaded. But tried
+    typing in the command name to invoke it, but AutoCAD displayed unknown command.
+
+
+    I have checked that my DLL app is built with Copy Local = False for all my AutoCAD
+    reference dlls.
+
+
+    No issue for me when I manually netload my app DLL.
+
+    No issue also when I launch AutoCAD using Visual Studio Debug mode.
+
+
+    I am using AutoCAD Arch 2011, and have edited the Regisry at
+
+    [HKEY_CURRENT_USER\Software\Autodesk\R18.1\ACAD-9004:409\Applications\Test]
+
+    "DESCRIPTION"="AutoNetloadDLL"
+
+    "LOADCTRLS"=dword:00000002
+
+    "MANAGED"=dword:00000001
+
+    "LOADER"="C:\\MyApp\\bin\\Release\\MyApp.dll"
+
+
+    Any ideas what is causing the unknown command?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2011-10-24 14:28:51'
+  body: 'Two possibilities come to mind:
+
+
+    * You have an exception being thrown in your Initialize() method (if you''re implementing
+    IExtensionApplication). AutoCAD will catch the exception and reject the DLL load.
+
+
+    * Your command class or the command methods are not declared as public. This is
+    a subtle issue that sometimes takes me a long time to notice.
+
+
+    It could be for other reasons, of course. If the commands work fine when the DLL
+    is NETLOADed, then it''s unlikely the second is an issus, of course. And as I''ve
+    just re-read your comment, and see it works fine on NETLOAD, that means it''s
+    something else.
+
+
+    I see you''re loading on Startup: you may have initialization code (adding to
+    the ribbon, or perhaps relying on the ActiveDocument), which is failing and throwing
+    an exception when loaded on startup vs. on command invocation or via NETLOAD (which
+    both generally happen after AutoCAD has everything instanciated and set up - which
+    is not the case if loaded on startup).
+
+
+    I hope this helps,
+
+
+    Kean'
+- author: Zack Choo
+  email: mango_tea85@hotmail.com
+  ip: 192.190.204.127
+  url: ''
+  date: '2011-10-25 12:01:33'
+  body: I managed to solve my problem. It's to do with my dll reading the app.config
+    file which confuses with the acad.exe.config file settings. Hence my intended
+    settings were not loaded, and causing the commands to not be recognized.
+- author: Luigi Ballotta
+  email: luigi.ballotta@valitalia.com
+  ip: 88.42.248.30
+  url: ''
+  date: '2013-03-14 16:27:41'
+  body: 'Thank-you Kean for this topic, truly very useful.
+
+
+    Luigi'
+- author: Luigi Ballotta
+  email: luigi.ballotta@valitalia.com
+  ip: 88.42.248.30
+  url: ''
+  date: '2013-03-15 13:33:42'
+  body: 'Hi Kean, with the goal of producing a complete installation package, the
+    tasks I want to do are:
+
+
+    1. Create myAcad.dll application [OK];
+
+    2. Create a partial myCUI.cui file which holds my custom commands to call myAcad.dll
+    [OK];
+
+    3. Create a SetUp package which installs these components somewhere on customer
+    machine [OK];
+
+    4. Demand-loading of myAcad.dll [OK];
+
+    5. Automatic load at any next AutoCAD startup of myCUI.cui file [!!SORROW!!].
+
+
+    No matters up to step 4: the installer put the needed files on the desired paths
+    and modify the registry to achieve the demand-loading task.
+
+
+    I have no idea on how to perform the step 5: once the installer has put the myCUI.cui
+    file in the desired installation path, how it can tell to AutoCAD to automatically
+    load myCUI.cui at every next startup?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-03-15 14:58:11'
+  body: 'Hi Luigi,
+
+
+    Does this help?
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2006/11/loading_a_parti.html">http://through-the-interface.typepad.com/through_the_interface/2006/11/loading_a_parti.html</a>
+
+
+    Regards,
+
+
+    Kean'
+- author: Luigi Ballotta
+  email: luigi.ballotta@valitalia.com
+  ip: 88.42.248.30
+  url: ''
+  date: '2013-03-15 16:00:57'
+  body: 'Yes, already viewed, but I had no idea how to apply it.
+
+
+    So I could create a myConsoleApp application, launched from setup package. Then
+    myConsoleApp application will launch AutoCAD and execute the snippet you suggest.
+
+
+    Ultimately, to obtain my goal, the setup package will contain:
+
+
+    1. myAcad.dll;
+
+    2. myCUI.cui;
+
+    3. myConsoleApp.
+
+
+    The steps that will be taken are:
+
+
+    1. [Installer] Put the files in the desired paths;
+
+    2. [Installer] Modify the registry keys;
+
+    3. [Installer] Launch myConsoleApp which will launch in turn AutoCAD and load
+    the myCUi.cui;
+
+    4. Done.
+
+
+    This can be an acceptable procedure? Also from a ''professional'' point of view?
+
+
+    Thank-you very much for the useful informations Kean.
+
+
+    Regards'
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.254.3
+  url: http://profile.typepad.com/kean
+  date: '2013-03-15 17:04:36'
+  body: 'It''s all possible... you could have a DLL that is loaded automatically on
+    application startup inside AutoCAD that executes the code to load your partial
+    CUI.
+
+
+    You should take a look at the source code for ScriptPro 2.0 application on Autodesk
+    Labs (a Plugin of the Month - look at <a href="http://labs.autodesk.com/utilities/ADN_plugins/catalog">the
+    back catalog</a> to find it), as that shows good practise for driving AutoCAD
+    from an external app.
+
+
+    You''ll save a lot of effort when you can use the Autoloader in later versions,
+    but still - it''s all possible.
+
+
+    Regards,
+
+
+    Kean'
+- author: Luigi Ballotta
+  email: deck6@libero.it
+  ip: 79.51.180.250
+  url: ''
+  date: '2013-03-15 18:57:49'
+  body: "Exactly: have a dll that is loaded automatically on AutoCAD startup. This\
+    \ is my goal! The one you have suggested i think, but what I did not understand\
+    \ is how load automatically this dll from my setup package? How setup package\
+    \ can tell to AutoCAD \"load this.dll\"?\nDriving AutoCAD externally from a console\
+    \ application is not very nice to me.\nI'm trying to individuate the best procedure\
+    \ to do so, yes I think the one I have outlined is not the best.\nThe Autoloader\
+    \ you suggested is very great but if i had to install my application on AutoCAD\
+    \ versions earlier than 2013, it doesn't work. \nThanks & regards.\n\nLuigi"
+- author: Luigi Ballotta
+  email: deck6@libero.it
+  ip: 79.51.180.250
+  url: ''
+  date: '2013-03-15 19:02:27'
+  body: 'I apologize, I have explained myself badly.
+
+
+    Once the dll is loaded, I had to launch the command that call that dll, Here is
+    the matter: to tell AutoCAD that command in order to run that dll.
+
+
+    Thank-you for the patience...
+
+
+    Luigi'
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.235.47
+  url: http://profile.typepad.com/kean
+  date: '2013-03-15 21:47:27'
+  body: 'Not a problem - I could also have been more explicit in my replies.
+
+
+    You can have code execute on load of a module using this approach:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2006/09/initialization_.html">http://through-the-interface.typepad.com/through_the_interface/2006/09/initialization_.html</a>
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2006/09/optimizing_the_.html">http://through-the-interface.typepad.com/through_the_interface/2006/09/optimizing_the_.html</a>
+
+
+    Be careful, though: if running code on AutoCAD startup, it may be too soon to
+    run certain commands. This approach may help:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2013/01/displaying-a-dialog-on-autocad-startup-using-net.html">http://through-the-interface.typepad.com/through_the_interface/2013/01/displaying-a-dialog-on-autocad-startup-using-net.html</a>
+
+
+    Regards,
+
+
+    Kean'
+- author: Luigi Ballotta
+  email: deck6@libero.it
+  ip: 79.21.185.72
+  url: ''
+  date: '2013-03-16 13:52:05'
+  body: 'Hi Kean, I want to thank you for having shown the way to go. Very, very helpful
+    tips.
+
+
+    So...what else? If you were not there, someone have to invent you... (not very
+    sure about my English)
+
+
+    Thanks & Regards
+
+
+    Luigi'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-03-18 08:16:06'
+  body: 'Hi Luigi,
+
+
+    Your English is very clear - thanks for the kind words.
+
+
+    I think it''s probably fair to say that if I didn''t do this then someone else
+    would (nature abhors a vacuum ;-). Although, in fairness, between the ADN DevBlog,
+    the Autodesk Discussion Groups and The Swamp, I''d hope people now have better
+    access to the information they need than they did when I started the blog.
+
+
+    Regards,
+
+
+    Kean'
+- author: Silke Förnzler
+  email: silke.foernzler@systecs.com
+  ip: 87.149.32.127
+  url: ''
+  date: '2013-05-22 13:29:46'
+  body: 'Hello Kean,
+
+
+    I''m having a wish here and I kind of hope to get you a bit curious about it...:
+
+    Additionally to the demand loading I have realized for my managed Autocad dlls
+    so far (OnCommandInvocation using the Autoloader, which is quite cool!), I''d
+    like something similar to ''LoadOnProxyDetection'' (which is only for custom object
+    / dbx), but for my Overrules (they all have xdata attached)!
+
+    I have already asked this via adn, but unfortunately they had no creative suggestions,
+    just told that something like this doesn''t exist yet and that the way to go is
+    ''LoadOnStartUp''...
+
+    What do you think? Any ideas? Worth a post maybe? :)
+
+
+    Will be glad about any comment from you,
+
+    regards,
+
+    Silke'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-05-22 17:50:38'
+  body: 'Hello Silke,
+
+
+    Nice to hear from you. :-)
+
+
+    The only creative suggestion I might have is to add a dummy (could be non-graphical,
+    stored in the NOD) custom object inside drawings you know use your overrule. This
+    could then be used to force the load of your .DBX when needed (on proxy detection).
+    I don''t think it could be made to work for .NET DLLs (you need C++ to define
+    your object, anyway), but hopefully you''re still working in ObjectARX.
+
+
+    Does this help, at all?
+
+
+    Kean'
+- author: Silke Förnzler
+  email: silke.foernzler@systecs.com
+  ip: 79.204.227.167
+  url: ''
+  date: '2013-06-06 09:32:49'
+  body: "Hello Kean,\n\nunfortunately it's exactly like this, that the project where\
+    \ I use the overrules, is in .net and not ObjectArx...\nBut I like your idea anyway.\
+    \ I might need to complicate it a bit further to meet my needs like this: \nCreate\
+    \ a new (helper-) dbx-project. The only things that it does is, A) add the dummy\
+    \ custom object that you described above, as soon as one of my overruled objects\
+    \ is added and B) load my .net-dll in its initApp()-method. Then the only thing\
+    \ left would be to register the dbx for 'LoadOnProxyDetection'... Right?\n\nSo\
+    \ thanks a lot for your input, this is surely better than the idea I had in mind\
+    \ (something about analysing a drawing when it's opened, by the help of an additional\
+    \ project that would have to be loaded on startup...)!\n\nSilke"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-06-06 17:06:23'
+  body: 'Hi Silke,
+
+
+    That sounds about right. It may be tricky to force the load from the .DBX (you''ll
+    see and hopefully let me know :-), but it seems a reasonable approach.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Silke Förnzler
+  email: silke.foernzler@systecs.com
+  ip: 87.149.43.12
+  url: ''
+  date: '2013-06-13 08:11:44'
+  body: 'Hello Kean,
+
+
+    well, for the time being, we''ve decided to settle with ''LoadOnStartup''...
+
+    But as soon as I try to implement this idea, I''ll let you know about it.
+
+
+    Regards,
+
+    Silke'
+- author: sakbhat
+  email: sakshi.bhat10@gmail.com
+  ip: 135.245.8.5
+  url: ''
+  date: '2013-10-24 09:39:22'
+  body: 'Hi Kean is it possible to load the tool pallete dll in autocad using demand
+    load so that the tool pallete will automatically load when auto cad is started?
+
+
+
+    Thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-10-24 09:42:21'
+  body: 'Absolutely. You should set up demand-loading of your app so that it loads
+    when the command displaying the palette is called.
+
+
+    And if you name your command appropriately (to have the name as the palette),
+    then the command will even be launched automatically when AutoCAD restarts if
+    the palette was displayed the last time AutoCAD was closed.
+
+
+    Kean'
+- author: David
+  email: dudik@ide-tech.com
+  ip: 212.179.22.6
+  url: ''
+  date: '2013-11-04 11:11:47'
+  body: 'Hello Kean,
+
+    I like your approach to automatically loading my "in-house" application via adding
+    registry values
+
+
+    is it possible to Automatically load my VBA Application *.dvb files
+
+    (I couldn’t find the matching Managed value)
+
+
+    Best regards,
+
+    David.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-11-04 11:15:42'
+  body: 'Hi David,
+
+
+    No - this mechanism is for ObjectARX and .NET modules. VBA and LISP modules can
+    be loaded via the Startup Suite or using acad.lsp.
+
+
+    Regards,
+
+
+    Kean'
+- author: sakbhat
+  email: sakshi.bhat10@gmail.com
+  ip: 135.245.8.5
+  url: ''
+  date: '2013-11-12 14:29:57'
+  body: "Hi Kean \n\nI have a question regarding tool palettes..\nIf I drag and drop\
+    \ one object from drawing to tool palette \nand change its properties then would\
+    \ it be possible to reflect the same change in the custom menu of autocad?"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-11-12 14:35:46'
+  body: 'Hi sakbhat,
+
+
+    This is off-topic (and neither is my blog a forum for support).
+
+
+    Please post to the appropriate online discussion forum.
+
+
+    Kean'
+- author: sakbhat
+  email: sakshi.bhat10@gmail.com
+  ip: 135.245.8.5
+  url: http://adndevblog.typepad.com/autocad/2013/06/working-with-toolpalette-groups-using-net.html#tpe-action-resize-418
+  date: '2013-11-12 14:45:19'
+  body: thanx...for the info

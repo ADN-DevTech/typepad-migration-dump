@@ -1,0 +1,480 @@
+comments:
+- author: Mohamed Haris
+  email: zoomharis@yahoo.com
+  ip: 195.229.236.250
+  url: ''
+  date: '2007-07-24 09:17:31'
+  body: "Hi Kean,\n       Thanks alot for your code. It has been quite helpful for\
+    \ beginners like us. Could you please show us how to precheck whether a block\
+    \ contains attributes inside. I mean something like HasAttributes property in\
+    \ VBA. Also I would like to see how block attributes can be updated from an external\
+    \ database( eg. MS Access). I have already done it using VBA. But haven't seen\
+    \ anything on C#. I hope that's not too much to ask for.\n\nThanks alot for your\
+    \ time."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-24 12:54:54'
+  body: 'Hi Mohamed,
+
+
+    Actually there''s really no need for a pre-check: if the block doesn''t have attributes
+    then the AttributeCollection property will be empty, so foreach() will do nothing.
+    Getting the AttributeCollection should not be significantly more expensive than
+    checking a boolean flag (if there were one).
+
+
+    Right now I''m not planning to look at code to access external databases - there
+    should be plenty of available code on the web that can be integrated with the
+    AutoCAD-centric code I provide. It may be something I come back to, but I''d rather
+    focus on the Autodesk side of things, for now.
+
+
+    Regards,
+
+
+    Kean'
+- author: HJohn
+  email: someone@someplace.com
+  ip: 216.123.181.194
+  url: ''
+  date: '2007-07-24 22:43:42'
+  body: 'Hi Kean
+
+    Thank you for your great attribute modification sample, but what made may day
+    was reading ..
+
+
+    "the next post we''ll look at some code we can use to process a folder of DWGs,
+    opening, updating and saving each one"
+
+
+    I am stuck on just that problem today, I have been using VBA for some time now,
+    so I thought that opening drawings on .NET was just matter of calling DocumenCollection/DocumentManager
+    Open method, but I can''t make it work.  I have done a lot of searching and have
+    found little help so far, so if you will post a working solution it will be fantastic.'
+- author: Norman Yuan
+  email: norman.yuan@focus.ca
+  ip: 24.65.178.157
+  url: http://www.focus.ca
+  date: '2007-07-29 19:34:17'
+  body: "Hi Kean,\n\nYour posts are very helpful. Thanks.\n\nI have a question on\
+    \ the code of this post. Specifically, it is about the method Upate AttributesInBlock(ObjectID,\
+    \ string, string, string).\n\nIn this method, an ObjectID from the side database\
+    \ is passed in, along with block name, attribute name and intended attribute value.\
+    \ Naturally, I'd think we are to search this ObjectId in the side database. However,\
+    \ in your code, you use MdiDocument's TransactionManager to get the BlockReference\
+    \ correspoding to the passed OBjectID.\n\nHere is what puzzles me: in current\
+    \ Acad application session, there are at least two databases existing: the one\
+    \ with current MDIDocument and the side one, which is the code is targeting. Shouldn't\
+    \ we use the TransactionManager of the side database? Or the Documnt.TransactionManager\
+    \ searches not only the database of MdiDocument, but also all loaded side databases?\
+    \ \n\nMy understanding until now is Document.TransactionManager is the same as\
+    \ Document.Database.TransactionManager. Now I doubt if my understanding is wrong."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-30 10:27:30'
+  body: 'Hi Norman,
+
+
+    You''re absolutely right - it was an unintentional slip from my side. What I should
+    have done right away is remove the variables doc & ed (as they''re not relevant
+    in this context).
+
+
+    Ultimately the code will function correctly, as the transaction manager is really
+    the same between the two objects (hence my laziness). But to make the code easier
+    to reuse in RealDWG, I should have caught that mistake.
+
+
+    One other effect - this change also allows the use of the Database(false,true)
+    constructor, which does not associate a document with the constructed databases
+    (which is more efficient).
+
+
+    I''ll post the updated code in an update to the <a href="http://through-the-interface.typepad.com/through_the_interface/2007/07/updating-a-sp-1.html">next
+    post</a> in the series.
+
+
+    Regards,
+
+
+    Kean'
+- author: John
+  email: john.laponsie@betaengineering.com
+  ip: 208.180.203.39
+  url: ''
+  date: '2007-08-14 20:24:58'
+  body: 'Kean,
+
+    This is probably a newbie question, but is there any other way to open more than
+    one dwg and read the attributes than using RealDWG?  I''ve doen it in VBA using
+    FileDialog, but it''s slow and I''m wanting to upgrade it to C#.  Is RealDWG necessary
+    to open and read database objects for separate dwg files (other than the one currently
+    open)?  I''m not sure my company would pay for another license just for that.
+
+    Thanks,
+
+    John'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-08-14 23:33:33'
+  body: 'John,
+
+
+    Check out the next post in the series: <a href="http://through-the-interface.typepad.com/through_the_interface/2007/07/updating-a-sp-1.html">Updating
+    a specific attribute inside a folder of AutoCAD drawings using .NET</a>.
+
+
+    This uses the same technique as RealDWG to open drawings in the background, but
+    inside AutoCAD.
+
+
+    Regards,
+
+
+    Kean'
+- author: KAFIL
+  email: WAKIBD@HOTMAIL.COM
+  ip: 58.107.183.58
+  url: ''
+  date: '2009-03-29 05:31:30'
+  body: "Hi,\n\nHow to connect autocad to dot net.\nCould you please ket me know how\
+    \ can I  do chage 30 drawings files  (Updating a specific attribute inside an\
+    \ AutoCAD drawing using .NET   - published topics July 23, 2007) at a time with\
+    \ next advance method.\nthanks \nRegards waki"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-03-30 09:10:24'
+  body: 'waki,
+
+
+    Sorry - this request isn''t clear. If it isn''t a problem with the code on this
+    blog, please address it to one of <a href="http://discussion.autodesk.com">the
+    Autodesk discussion groups</a>.
+
+
+    Kean'
+- author: santoshf2
+  email: ''
+  ip: 125.63.78.242
+  url: http://profile.typepad.com/6p011570905ac4970b
+  date: '2009-05-18 12:06:44'
+  body: 'Hi Kean,
+
+
+    While inserting a block with attributes using AttributeDefinition i get some error,
+
+    I would appreciate if you could help me with a simple example with my above problem..
+
+
+    Santosh V'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-05-18 13:52:42'
+  body: 'Hi Santosh,
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2009/03/jigging-an-autocad-block-with-attributes-using-net.html">This
+    post</a> may be of help. Otherwise please post your code to <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a> (or to <a href="http://adn.autodesk.com">ADN</a>,
+    if you''re a member).
+
+
+    Regards,
+
+
+    Kean'
+- author: alyoşa
+  email: sermer16@gmail.com
+  ip: 85.100.167.120
+  url: ''
+  date: '2009-10-23 23:16:52'
+  body: Hı Kean this is not about this topic but how con we add menu bar and toolbar
+    to run our application in C#
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2009-10-24 19:57:21'
+  body: 'Hi alyoşa,
+
+
+    I unfortunately don''t have the time to answer questions that are not specifically
+    related to my posts. Please post such questions to the <a href="http://adn.autodesk.com">ADN</a>
+    team, if you''re a member, or via <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Fedge
+  email: fedge7@gmail.com
+  ip: 12.147.5.146
+  url: ''
+  date: '2010-03-11 22:12:44'
+  body: "Kean, this post has been very helpful.  I am struggling with one part, though.\
+    \  I have a form that calls your UpdateAttributesInDatabase() and UpdateAttributesInBlock()\
+    \ exactly as you have written them.  \n\nWhen calling UpdateAttributesInDatabase(),\
+    \ the line \"ar.UpgradeOpen();\" caused AutoCAD to give this error:\n\nAutoCAD\
+    \ Error Aborting\nFATAL ERROR: Unhandled e0434f4dh Exception at 7c812a6bh\n\n\
+    This only seems to occur when calling UpdateAttributesInDatabase() from a button\
+    \ click.  If I call the method in the form constructor or the form Load() event,\
+    \ everything works fine.  Can you help?  I've tried everything I could think of.\
+    \  Thanks, you do great work."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-03-12 10:27:06'
+  body: 'I suspect you''ve implemented a modeless dialog and have forgotten to lock
+    the document...
+
+
+    If you''re modeless, the best thing to do is to launch a command via Document.SendStringToExecute().
+    That will resolve all sorts of subtle locking & communication issues.
+
+
+    Kean'
+- author: Stephan
+  email: stephan.gumpert@gmail.com
+  ip: 58.6.195.1
+  url: ''
+  date: '2010-10-26 15:26:32'
+  body: I I try to open a file with Proxy Graphics in it while 3rd party prgram is
+    loaded I get a eWasErased Error.  But if I run thru normal Vanilla AutoCAD everything
+    work fine.  Why. Error occurs when reading Database from File?  Anyone got any
+    ideas as to why?  Any help greatly appreciated,
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2010-10-26 15:28:01'
+  body: 'I suggest reporting this issue to the provider of the 3rd party application.
+
+
+    Kean'
+- author: Stephan
+  email: stephan.gumpert@gmail.com
+  ip: 116.50.57.180
+  url: ''
+  date: '2011-04-12 05:49:21'
+  body: How do you deal with the multiple sheets
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/kean
+  date: '2011-04-12 10:11:18'
+  body: 'If you mean multiple layouts, just iterate through them (the above just looks
+    at modelspace and the initial paperspace layout).
+
+
+    Kean'
+- author: Sumedh Karandikar
+  email: sumedh.karandikar@gmail.com
+  ip: 115.115.92.194
+  url: ''
+  date: '2013-06-07 10:58:23'
+  body: "<CommandMethod(\"RunTest\")> _\n        Public Sub Test()\n\n           \
+    \ Dim dm As DocumentCollection = Application.DocumentManager\n\n            Dim\
+    \ ed As Editor = dm.MdiActiveDocument.Editor\n\n            Dim destDb As Database\
+    \ = dm.MdiActiveDocument.Database\n\n            Dim sourceDb As New Database(False,\
+    \ True)\n\n            Dim sourceFileName As PromptResult\n\n            Try\n\
+    \                ' Get name of DWG from which to copy blocks\n               \
+    \ sourceFileName = ed.GetString(vbLf & \"Enter the name of the source drawing:\
+    \ \")\n\n\n                ' Read the DWG into a side database\n             \
+    \   sourceDb.ReadDwgFile(sourceFileName.StringResult, System.IO.FileShare.Read,\
+    \ True, \"\")\n\n                ' Create a variable to store the list of block\
+    \ identifiers\n                Dim blockIds As New ObjectIdCollection()\n    \
+    \            Dim tm As Autodesk.AutoCAD.DatabaseServices.TransactionManager =\
+    \ sourceDb.TransactionManager\n                Using myT As Transaction = tm.StartTransaction()\n\
+    \n\n                    ' Open the block table\n                    Dim bt As\
+    \ BlockTable = DirectCast(tm.GetObject(sourceDb.BlockTableId, OpenMode.ForRead,\
+    \ False), BlockTable)\n                    ' Check each block in the block table\n\
+    \                    For Each btrId As ObjectId In bt\n                      \
+    \  ''''''''''''''\n                        ' Dim br As New BlockReference(New\
+    \ Point3d(0, 0, 0), id)\n                        'Dim br As New BlockReference(New\
+    \ Point3d(0, 0, 0), btrId)\n\n                        '''''''''''''''''\n    \
+    \                    Dim btr As BlockTableRecord = DirectCast(tm.GetObject(btrId,\
+    \ OpenMode.ForWrite, False), BlockTableRecord)\n                        If btr.HasAttributeDefinitions\
+    \ Then\n                            '''''''''''''\n                          \
+    \  Dim br As New BlockReference(New Point3d(), btr.ObjectId)\n               \
+    \             '''''''''''''''\n                            For Each chkObjID As\
+    \ ObjectId In btr\n\n                                Dim chkObj As Entity = tm.GetObject(chkObjID,\
+    \ OpenMode.ForWrite)\n                                If TypeOf chkObj Is AttributeDefinition\
+    \ Then\n                                    Dim anAttrib As AttributeDefinition\
+    \ = chkObj\n                                    If chkObj.BlockName = \"REFERENCE\
+    \ DRAWINGS\" Then\n                                        Dim str As String =\
+    \ (\" \\n  Attribute Tag: \" + anAttrib.Tag)\n                               \
+    \         ed.WriteMessage(str)\n\n                                    End If\n\
+    \n                                    If anAttrib.Tag = \"REFDWG1\" Then\n   \
+    \                                     anAttrib.UpgradeOpen()\n               \
+    \                         anAttrib.TextString = \"changged-101\"\n           \
+    \                             'btr.AppendEntity(ar)                          \
+    \                  \n\n                                    End If\n          \
+    \                          'tm.Editor.WriteMessage(vbLf & anAttrib.Tag)\n    \
+    \                            End If\n\n                            Next\n\n  \
+    \                      End If\n\n                        If Not btr.IsAnonymous\
+    \ AndAlso Not btr.IsLayout Then\n                            'btr.Name to get\
+    \ block name\n                            blockIds.Add(btrId)\n              \
+    \          End If\n                        btr.Dispose()\n\n                 \
+    \   Next\n                End Using\n\n                ' Copy blocks from source\
+    \ to destination database\n                Dim mapping As New IdMapping()\n  \
+    \              sourceDb.WblockCloneObjects(blockIds, destDb.BlockTableId, mapping,\
+    \ DuplicateRecordCloning.Replace, False)\n                ed.WriteMessage((vbLf\
+    \ & \"Copied \" & blockIds.Count.ToString() & \" block definitions from \") +\
+    \ sourceFileName.StringResult & \" to the current drawing.\")\n\n            Catch\
+    \ ex As Autodesk.AutoCAD.Runtime.Exception\n                ed.WriteMessage(vbLf\
+    \ & \"Error during copy: \" + ex.Message)\n            End Try\n            sourceDb.Dispose()\n\
+    \n\n        End Sub\nWe are using this code to update value of attribute in an\
+    \ autocad drawing. The drawing is created using Autocad 13.\nWhen we execute the\
+    \ code we neither get any error nor the value is updated. Let us know if you have\
+    \ experienced a similar issue."
+- author: Bauron
+  email: ''
+  ip: 134.134.137.71
+  url: http://profile.typepad.com/6p01901d5848f7970b
+  date: '2013-06-13 19:58:36'
+  body: "Hello\n\nFirst Timer. \nI understand that these posts are old. \n\nI am using\
+    \ VB.net \nI can't seem to use ctype to convert the object ID from the table record\
+    \ into an entity. not using ctype does not work either. it seems that my acEnt\
+    \ object is from the Interop library, and the obejct id is from the database services.\
+    \ Also the id from the block table record is of rotated dimension type. \n\nCan\
+    \ someone assist?"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-06-13 21:20:55'
+  body: 'Hi Bauron,
+
+
+    You can use a transaction to open an ObjectID and get an entity. Search the blog
+    for "GetObject" - you''ll find plenty of examples.
+
+
+    I suggest working through the intro material on the AutoCAD developer center (<a
+    href="http://autodesk.com/developautocad">http://autodesk.com/developautocad</a>).
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.225.239
+  url: http://profile.typepad.com/kean
+  date: '2013-07-20 08:03:25'
+  body: 'Just found this in my spam folder. Please redirect your question to the AutoCAD
+    .NET Discussion Group - this isn''t the right place to request support.
+
+
+    Thanks,
+
+
+    Kean'
+- author: Makaveli
+  email: miguelry187@gmail.com
+  ip: 201.170.118.50
+  url: ''
+  date: '2013-08-12 06:59:20'
+  body: "Hi Kean. \n\nCould You show me some examples with UI?\nI can't find any.\n\
+    \nThanks a lot."
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-08-12 08:43:10'
+  body: 'Hi Makaveli,
+
+
+    There''s a <a href="http://through-the-interface.typepad.com/through_the_interface/user_interface/">user
+    interface</a> category of posts, which contains a number of posts that have command-line
+    and graphical UIs.
+
+
+    Regards,
+
+
+    Kean'
+- author: Luigi Ballotta
+  email: luigi.ballotta@valitalia.com
+  ip: 85.46.59.210
+  url: ''
+  date: '2013-09-04 11:48:25'
+  body: "Hi Kean.\n\nBased on this post I'm writing a function in order to change\
+    \ the TextString property of an attribute in my drawing.\n(Using VB.NET express\
+    \ 2008 on Autocad 2010 x86 system)\nHere's a code excerption:\n\nIn a modeless\
+    \ Form\n[...]\nDim attRef As AttributeReference\n\n        attRef = acTrans.GetObject(myAttributeID,\
+    \ OpenMode.ForWrite)\n        attRef.UpgradeOpen()\n        attRef.TextString\
+    \ = myTextBox.Text\n        attRef.DowngradeOpen()\n        acTrans.Commit()\n\
+    [...]\n\nAt this stage, to see the change, I am obliged to pick with the mouse\
+    \ pointer the title bar of my modeless form and move it slightly. The change is\
+    \ not visible until I move my form.\n\nIf I add Application.UpdateScreen() after\
+    \ the acTrans.Commit() the attribute is displayed according to the change, without\
+    \ the need to move the form.\n\nHow do we can explain this behavior?\n\nTanks\
+    \ & regards\n\nLuigi"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2013-09-04 14:41:43'
+  body: 'Hi Luigi,
+
+
+    The calls to UpgradeOpen() and DowngradeOpen() are redundant - the object is already
+    being opened ForWrite.
+
+
+    Have you tried using TransactionManager.QueueForGraphicsFlush() followed by TransactionManager.FlushGraphics()?
+    You might also want to keep the Application.UpdateScreen() call in there afterwards.
+
+
+    I hope this helps,
+
+
+    Kean'
+- author: Sreekanth
+  email: sreekanthk89@gmail.com
+  ip: 182.72.154.86
+  url: ''
+  date: '2014-01-09 10:46:05'
+  body: 'Hi Kean.,
+
+
+    I have an autocad file(dwg),also there is a db for all the elemts in that file.Is
+    there any way to communicate this dwg file with db,Is there any hidden ids for
+    all the elements?'
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.236.120
+  url: http://profile.typepad.com/kean
+  date: '2014-01-18 20:13:37'
+  body: 'Hi Sreekanth,
+
+
+    Please post support questions to the discussion groups or ADN, in future.
+
+
+    There''s a handle for each DWG-resident object that you can use to link to records
+    in an external DB.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

@@ -1,0 +1,13 @@
+---
+layout: "post"
+title: "Jim Quanci wins the Singlehanded TransPac 2012"
+date: "2012-07-31 16:59:51"
+author: "Kean Walmsley"
+categories:
+  - "Personal"
+original_url: "https://www.keanw.com/2012/07/jim-quanci-wins-the-singlehanded-transpac-2012.html "
+typepad_basename: "jim-quanci-wins-the-singlehanded-transpac-2012"
+typepad_status: "Publish"
+---
+
+<p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e2017743cf28e3970d-pi" target="_blank"><img style="background-image: none; border-bottom: 0px; border-left: 0px; margin: 0px 0px 10px 20px; padding-left: 0px; padding-right: 0px; display: inline; float: right; border-top: 0px; border-right: 0px; padding-top: 0px" title="The Green Buffalo" border="0" alt="The Green Buffalo" align="right" src="/assets/image_9673.jpg" width="208" height="300" /></a>This post is to belatedly congratulate Jim Quanci (Director of the Autodesk Developer Network, blogger over at <a href="http://dances-with-elephants.typepad.com" target="_blank">Dances with Elephants</a> and my former manager) for his recent win of <a href="http://singlehandedtranspac.com/" target="_blank">the Singlehanded TransPac race from California to Hawaii</a>. Jim sailed his 40ft boat, the Green Buffalo, singlehandedly from San Francisco on June 30th, 2012, arriving in Hanalei Bay, Kauai, on July 13th.</p>  <p>The Buffalo crossed the line 3rd – as you can see from <a href="http://singlehandedtranspac.com/race-viewer" target="_blank">the interactive race viewer</a> – but given the handicaps applied to the various classes of boat, Jim won the race by nearly 8 hours. By all accounts, winning this event is a huge achievement for a sailor (and I have to trust others on this, as I know next to nothing about sailing, myself).</p>  <p>I recommend reading <a href="http://singlehandedtranspac.com/category/green-buffalo" target="_blank">Jim’s very interesting blog posts of the crossing</a>, if you get the chance. I’m certainly looking forward to hearing more about the experience from Jim, firsthand – and any of you bumping into Jim on his various travels should be sure to ask him about it. Apparently it’s pretty common for sailors to start talking to themselves, during the crossing, but I’m told it’s not something to worry about until you’re surprised by the responses. ;-)</p>  <p>Jim’s probably about halfway back to San Francisco, by this point – this time with a larger crew, of course – and you can track the Green Buffalo’s progress <a href="http://yb.tl/transback2012" target="_blank">in this direction, too</a>.</p>  <p>Many congratulations, Jim! :-)</p>

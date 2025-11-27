@@ -1,0 +1,127 @@
+comments:
+- author: Navin
+  email: navin@keays.com.au
+  ip: 203.214.86.66
+  url: ''
+  date: '2010-01-13 07:26:13'
+  body: Is it possible to create a similar program in Visual C++ .NET?
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2010-01-13 09:26:35'
+  body: 'I''m not sure which of the programs you''re referring to, but either way
+    the answer is "yes, absolutely." This is left as an exercise for those readers
+    requiring (and familiar with) C++, though.
+
+
+    Kean'
+- author: jason@centurymillwork.com
+  email: jason@centurymillwork.com
+  ip: 69.53.174.90
+  url: ''
+  date: '2010-01-13 21:14:04'
+  body: "For some reason I was thinking that you were the same person as Fenton Webb.\
+    \ This is probably not the correct location to ask this but it was one the few\
+    \ places that I could find.  I has a problem when trying to put in the simple\
+    \ Hello world at the command line.  I have done it with AutoCad 2010 with VB2008.\
+    \  I was trying the same with VB2010 but I get the error in Autocad listed at\
+    \ the end of this massage.  I can't figure out how to fix this.  Can you help\
+    \ me or point me in the correct direction.\n\nthanks,\nJason\n\nCannot load assembly.\
+    \ Error details: System.BadImageFormatException: Could not \nload file or assembly\
+    \ 'file:///C:\\Documents and Settings\\jason\\My \nDocuments\\Visual Studio \n\
+    2010\\Projects\\MillworkAssistant1\\MillworkAssistant1\\bin\\Debug\\MillworkAssistant1\n\
+    .dll' or one of its dependencies. This assembly is built by a runtime newer \n\
+    than the currently loaded runtime and cannot be loaded.\nFile name: 'file:///C:\\\
+    Documents and Settings\\jason\\My Documents\\Visual Studio \n2010\\Projects\\\
+    MillworkAssistant1\\MillworkAssistant1\\bin\\Debug\\MillworkAssistant1\n.dll'\n\
+    \   at System.Reflection.Assembly._nLoad(AssemblyName fileName, String codeBase,\
+    \ \nEvidence assemblySecurity, Assembly locationHint, StackCrawlMark& stackMark,\
+    \ \nBoolean throwOnFileNotFound, Boolean forIntrospection)\n   at System.Reflection.Assembly.nLoad(AssemblyName\
+    \ fileName, String codeBase, \nEvidence assemblySecurity, Assembly locationHint,\
+    \ StackCrawlMark& stackMark, \nBoolean throwOnFileNotFound, Boolean forIntrospection)\n\
+    \   at System.Reflection.Assembly.InternalLoad(AssemblyName assemblyRef, \nEvidence\
+    \ assemblySecurity, StackCrawlMark& stackMark, Boolean forIntrospection)\n   at\
+    \ System.Reflection.Assembly.InternalLoadFrom(String assemblyFile, Evidence \n\
+    securityEvidence, Byte[] hashValue, AssemblyHashAlgorithm hashAlgorithm, \nBoolean\
+    \ forIntrospection, StackCrawlMark& stackMark)\n   at System.Reflection.Assembly.LoadFrom(String\
+    \ assemblyFile)\n   at Autodesk.AutoCAD.Runtime.ExtensionLoader.Load(String fileName)\n\
+    \   at loadmgd()\nWRN: Assembly binding logging is turned OFF.\nTo enable assembly\
+    \ bind failure logging, set the registry value \n[HKLM\\Software\\Microsoft\\\
+    Fusion!EnableLog] (DWORD) to 1.\nNote: There is some performance penalty associated\
+    \ with assembly bind failure \nlogging.\nTo turn this feature off, remove the\
+    \ registry value \n[HKLM\\Software\\Microsoft\\Fusion!EnableLog]."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2010-01-14 11:46:32'
+  body: 'The best place to ask these questions (assuming you''re not an <a href="http://adn.autodesk.com">ADN</a>
+    member) is <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    It looks as though you''re either using a more recent development environment
+    than the version of AutoCAD you''re using supports, or you''re targeting a more
+    recent version of the .NET Framework.
+
+
+    Kean'
+- author: dan mcrae
+  email: mcraed47@calcutech.net
+  ip: 71.61.155.97
+  url: ''
+  date: '2010-03-02 12:41:29'
+  body: "Hello Kean,\n\nI tried a portion of your code segment from the create a mesh\
+    \ sample but my program had an intention to slice a solid. But I used only this\
+    \ segment to grab the Solid3d and assign a variable to it so that I could use\
+    \ it in my code. I am using Visual Studio 2010 and AutoCAD 2010.\n\nThe error\
+    \ is:\n\nINTERNAL ERROR: !dbobji.cpp@7227:eNotOpenForWrite\n\nI have referred\
+    \ back and forth to your sample and the AutoCAD developers guide to solve this\
+    \ problem.\n\nHere is the code segment where it throws the error.\n\nDim ed As\
+    \ Editor = Application.DocumentManager.MdiActiveDocument.Editor\n\n        Dim\
+    \ opts As New PromptEntityOptions(vbCrLf + \"Select Solid:\")\n\n        opts.SetRejectMessage(vbCrLf\
+    \ & \"That's not a solid!\")\n\n        opts.AddAllowedClass(GetType(Solid3d),\
+    \ True)\n\n        Dim res As PromptEntityResult = ed.GetEntity(opts)\n\n    \
+    \    'Exit sub if user cancelled selection.\n\n        If res.Status <> PromptStatus.OK\
+    \ Then Exit Sub\n\nThe code operates correctly if you select something that is\
+    \ a solid but it dumps execution, but hangs for about 7 or 8 seconds processing\
+    \ something and then spits out the error.\n\nAny ideas,\n\nTHX,\nDan"
+- author: Kean Walmsley
+  email: ''
+  ip: 151.47.161.95
+  url: http://profile.typepad.com/kean
+  date: '2010-03-02 23:51:47'
+  body: "Hello Dan,\n\nI can't tell what the problem is from your code frament, although\
+    \ I expect it's in the context. \n\nIf the problem was specific to my post, then\
+    \ I'd take a look, but otherwise I'm afraid I don't have time. (If the problem\
+    \ is reproducible with exactly the code posted here, please do let me know.)\n\
+    \nYou might try posting your complete sample to <a href=\"http://discussion.autodesk.com/forums/forum.jspa?forumID=152\"\
+    >the AutoCAD .NET Discussion Group</a>, unless you're an ADN member and can post\
+    \ it <a href=\"http://adn.autodesk.com\">there</a>.\n\nRegards,\n\nKean"
+- author: yangarcht@gmail.com
+  email: yangarcht@gmail.com
+  ip: 137.164.79.11
+  url: ''
+  date: '2010-07-22 22:37:38'
+  body: 'Do you have a way to include parametric dim in note?
+
+
+    Or is there a way to extract it as field?'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-07-27 19:32:42'
+  body: 'This isn''t a forum for support.
+
+
+    Your comment doesn''t appear to relate directly to this post, so please submit
+    your question to <a href="http://adn.autodesk.com">the ADN team</a>, if you''re
+    a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean
+
+    -----'

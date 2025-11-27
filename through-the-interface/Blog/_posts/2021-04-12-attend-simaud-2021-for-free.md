@@ -1,0 +1,13 @@
+---
+layout: "post"
+title: "Attend SimAUD 2021 for free"
+date: "2021-04-12 16:24:06"
+author: "Kean Walmsley"
+categories:
+  - "Conferences"
+original_url: "https://www.keanw.com/2021/04/attend-simaud-2021-for-free.html "
+typepad_basename: "attend-simaud-2021-for-free"
+typepad_status: "Publish"
+---
+
+<p>This year’s <a href="http://www.simaud.org/" target="_blank">Symposium on Simulation for Architecture and Urban Design (SimAUD)</a> is starting on <strong>Thursday April 15th</strong> and runs through to <strong>Saturday April 17th</strong>.</p><p><a href="https://through-the-interface.typepad.com/.a/6a00d83452464869e202788022af07200d-pi" target="_blank"><img width="480" height="375" title="SimAUD 2021" style="margin: 30px auto; border: 0px currentcolor; border-image: none; float: none; display: block; background-image: none;" alt="SimAUD 2021" src="/assets/image_896636.jpg" border="0"></a></p><p>Thanks to sponsorship, people can attend <a href="http://www.simaud.org/2021/" target="_blank">this year’s SimAUD</a> completely free, although people are being encouraged to donate their normal registration fee to either <a href="https://www.less.ca/en-ca/lessoffsets.cfm" target="_blank">offset carbon emissions</a> or to encourage the next generation of simulation experts via <a href="https://girlswhocode.com/shop/product-tag/donate/" target="_blank">Girls Who Code</a>.</p><p>I really like SimAUD – I attended <a href="https://www.keanw.com/2018/06/simaud-2018.html" target="_blank">a physical event at TUDelft in 2018</a> and was <a href="https://www.keanw.com/2020/05/attend-simaud-2020-online-next-week-for-only-50-20-for-students.html" target="_blank">involved in the Generative Design track in 2020</a> (and I have to say that given its size and nature as a single track conference – with some passionate organisers who serve a fantastic community – SimAUD 2020 worked really well online). Hopefully the fact it’s essentially free this year will encourage even more people to give it a try.</p><p>Oh, and there are some <a href="http://www.simaud.org/2021/backgrounds.php" target="_blank">cool Zoom backgrounds on the conference site</a>, too…</p><p><a href="https://through-the-interface.typepad.com/.a/6a00d83452464869e20263e99d7691200b-pi" target="_blank"><img width="500" height="281" title="Zoom background from SimAUD 2021" style="margin: 30px auto; border: 0px currentcolor; border-image: none; float: none; display: block; background-image: none;" alt="Zoom background from SimAUD 2021" src="/assets/image_262923.jpg" border="0"></a></p><p>See you online in the SimAUD bar!</p>

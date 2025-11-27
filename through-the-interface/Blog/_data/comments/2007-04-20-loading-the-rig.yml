@@ -1,0 +1,129 @@
+comments:
+- author: Wyatt
+  email: spam@plantingcows.com
+  ip: 66.115.232.200
+  url: ''
+  date: '2007-04-20 21:29:53'
+  body: "The environmental variable PROCESSOR_ARCHITECTURE will tell you whether your\
+    \ running as x64 or x86 (\"x86\" if your running under Wow64), so the following\
+    \ should work\n\n(defun myarxload (fn fn64)\n  (if (= (getenv \"PROCESSOR_ARCHITECTURE\"\
+    ) \"AMD64\") \n    (arxload fn64)\n    (arxload fn))\n)"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-04-21 03:41:59'
+  body: 'Thanks, Wyatt - that''s helpful information.
+
+
+    This assumes the AutoCAD binaries will match the OS platform, which is true for
+    AutoCAD 2008, but not for AutoCAD Architecture 2008 or AutoCAD Map 3D 2008 (for
+    instance), where 32-bit versions will install on 64-bit versions of Windows.
+
+
+    But yes - this defeinitely helps for vanilla AutoCAD.'
+- author: Kerry Brown
+  email: brown.kerry@gmail.com
+  ip: 210.49.59.72
+  url: ''
+  date: '2007-04-21 07:51:12'
+  body: "I don't have 64 bit to check,\nbut if Autodesk have renamed the Visual Lisp\
+    \ Arx for 64 bit as you suggest ...\nperhaps this will suit.\n\n(DEFUN myarxload\
+    \ (fn fn64)\n   (VL-LOAD-COM)\n   (IF (VL-POSITION  \"vlx64.arx\" (ARX))\n   \
+    \   (ARXLOAD fn64)\n      (ARXLOAD fn)\n   )\n)"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-04-22 01:36:41'
+  body: 'Thanks for the suggestion, Kerry.
+
+
+    I''m fairly sure we''re not renaming our 64-bit modules (going from the names
+    of the libraries in the 64-bit ObjectARX SDK - I too haven''t yet used the 64-bit
+    version of AutoCAD).'
+- author: Wyatt
+  email: spam@plantingcows.com
+  ip: 66.115.232.200
+  url: ''
+  date: '2007-04-23 15:23:08'
+  body: If you are running as a 32bit process on 64bit windows (via Wow64), (getenv
+    "PROCESSOR_ARCHITECTURE") will return "x86".
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-04-23 15:44:24'
+  body: 'Perfect!
+
+
+    Kean'
+- author: Jon
+  email: jon_szewczak@amsec.com
+  ip: 198.151.12.10
+  url: ''
+  date: '2007-04-24 13:37:46'
+  body: "During a forum conversation with a few other developers we came up with another\
+    \ solution:\n\nSince the ActiveX Object ID on the 64 bit platform is actually\
+    \ larger than the 32 bit version the following lisp code should work.\n\n(defun\
+    \ acad64bit-p ()\n  (vl-load-com)\n  (> \n    (strlen\n      (vl-prin1-to-string\n\
+    \        (vlax-get-acad-object)\n      )\n    )\n    40\n  )\n)"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 202.95.81.226
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-05-15 09:04:31'
+  body: 'One other point, for completeness... it seems you can get the OS using (getvar
+    "PLATFORM"), although clearly you''ll need another technique (such as (getenv
+    "PROCESSOR_ARCHITECTURE")) to find out whether the AutoCAD-based product is running
+    as a 32- or 64-bit process.
+
+
+    Kean'
+- author: Bruno Siebens
+  email: Bruno.Siebens@Talboom.be
+  ip: 81.246.88.238
+  url: ''
+  date: '2009-11-10 17:59:08'
+  body: 'If you have an Acad 32bit running on a 64bit-machine you need to load the
+    32bit version of your ARX. So testing if your machine is 64 bit is not bulletproof.
+    You need to check that Acad is 32 or 64bit.
+
+    In Acad 64bit, the SysVar "Platform" generates
+
+    something like this :
+
+    "Microsoft Windows NT Version 6.1 (x64)", in Acad 32bit this should be : "Microsoft
+    Windows NT Version 6.1 (x86)"
+
+    (vl-string-search "x86" (getvar "platform") should do the trick.
+
+
+    Bruno'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-11-10 18:38:26'
+  body: 'AutoCAD 32-bit versions (at least from 2009) will not install (and are not
+    supported) on 64-bit Operating Systems.
+
+
+    That said, this situation doesn''t necessarily hold for our AutoCAD-based vertical
+    applications, so it''s true that more care must be taken there.
+
+
+    Kean'
+- author: Ricky M
+  email: wishbonesr@gmail.com
+  ip: 63.123.95.198
+  url: ''
+  date: '2010-11-18 02:23:20'
+  body: "The search for elegance is sometimes overrated.  There is a facier way (I\
+    \ found one on the internet when I was at another company) - but this stuff from\
+    \ Kean is a good method, and works (with a little tweaking). \n\nThanks for the\
+    \ idea man.\n\n(defun arxloader (fn fn64 /)\n  ;(princ (strcat \"\\nLoading \"\
+    \ fn))\n  (if\n    (vl-catch-all-error-p\n      (vl-catch-all-apply 'arxload (list\
+    \ fn))\n    )\n    (progn\n      ;(setq fn64 (strcat fn \"x64\"))\n      ;(princ\
+    \ (strcat \"\\nLoading \" fn64))\n      (if (findfile fn64)\n        (arxload\
+    \ fn64)\n      )\n    )\n  )\n  (princ)\n)\n\n-----"

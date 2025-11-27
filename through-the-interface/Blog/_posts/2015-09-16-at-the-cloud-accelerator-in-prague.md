@@ -1,0 +1,16 @@
+---
+layout: "post"
+title: "At the Cloud Accelerator in Prague"
+date: "2015-09-16 16:28:47"
+author: "Kean Walmsley"
+categories:
+  - "AutoCAD I/O"
+  - "Autodesk"
+  - "PaaS"
+  - "Training"
+original_url: "https://www.keanw.com/2015/09/at-the-cloud-accelerator-in-prague.html "
+typepad_basename: "at-the-cloud-accelerator-in-prague"
+typepad_status: "Publish"
+---
+
+<p>We’re about halfway through the first <a href="http://through-the-interface.typepad.com/through_the_interface/2015/06/the-next-autodesk-cloud-accelerator-is-in-prague.html" target="_blank">Cloud Accelerator Extension</a> being held in the incredible city of Prague. The entire European ADN team is in town – so a great chance to catch up with old friends such as <a href="http://thebuildingcoder.typepad.com" target="_blank">Jeremy</a>, <a href="http://twitter/adamthenagy" target="_blank">Adam</a>, <a href="https://twitter.com/F3lipek" target="_blank">Philippe</a>, <a href="https://twitter.com/CyrilleFAUVEL" target="_blank">Cyrille</a> and <a href="https://twitter.com/PeterSchlipf" target="_blank">Peter</a> – along with cloud-focused developers from Norway, Denmark, Belgium, the Netherlands, the UK, Germany, Romania, Italy, Greece, Israel and (of course) the Czech Republic. So definitely making new friends, too. :-)<a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e201b8d158e5b9970c-pi" target="_blank"><img title="Camped out in the Prague Accelerator" style="border-top: 0px; border-right: 0px; background-image: none; border-bottom: 0px; float: none; padding-top: 0px; padding-left: 0px; margin: 50px auto; border-left: 0px; display: block; padding-right: 0px" border="0" alt="Camped out in the Prague Accelerator" src="/assets/image_784312.jpg" width="470" height="356" /></a></p>  <p>I’m mainly here to help developers working with AutoCAD I/O – gathering feedback for the development team, in the process – and it’s really great to see it being put through its paces.</p>  <p>The days are long – we’re tending to be in the office for just shy of 12 hours each day – but it’s rewarding: many participants are progressing quickly, with Friday’s deadline fast approaching.</p>  <p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e201b8d158e5bd970c-pi" target="_blank"><img title="Cloud Accelerator attendees on the Charles bridge in Prague" style="border-top: 0px; border-right: 0px; background-image: none; border-bottom: 0px; float: none; padding-top: 0px; padding-left: 0px; margin: 50px auto; border-left: 0px; display: block; padding-right: 0px" border="0" alt="Cloud Accelerator attendees on the Charles bridge in Prague" src="/assets/image_302540.jpg" width="470" height="306" /></a></p>    <p>I’d forgotten how breathtakingly beautiful Prague is. We had a tour of the city, last night, which refreshed my memory nicely.</p>  <p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e201b8d158e5c5970c-pi" target="_blank"><img title="Prague Cathedral" style="border-top: 0px; border-right: 0px; background-image: none; border-bottom: 0px; float: none; padding-top: 0px; padding-left: 0px; margin: 50px auto; border-left: 0px; display: block; padding-right: 0px" border="0" alt="Prague Cathedral" src="/assets/image_18050.jpg" width="320" height="417" /></a></p>  <p>Thanks to Jeremy Tammik for taking such great pictures!</p>

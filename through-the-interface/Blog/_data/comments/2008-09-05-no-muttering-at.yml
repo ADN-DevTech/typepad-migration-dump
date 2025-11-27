@@ -1,0 +1,189 @@
+comments:
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2008-09-06 02:37:33'
+  body: 'Hi Kean.
+
+
+    I''ve been using animated view transitions in the pans and zooms that some of
+    my apps do for quite some time.
+
+
+    I use the undocumented AcMdgViewTransitionServices class from acmdginternal.dll
+    to temporarily enable animated view transitions if they''re not curently enabled
+    for scripts, and then just P/Invoke acedCmd() to run the ZOOM command, which of
+    course, makes no noise (with CMDECHO set to 0).
+
+
+    I have yet to see a good case for why we should avoid the use of acedCmd() from
+    the document context to entirely avoid the kinds of problems your code solves
+    using NOMOTT.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-08 21:12:55'
+  body: 'Hi Tony,
+
+
+    I''ve actually realised that sending a few escape chars should reduce (probably
+    remove) the risk of NOMUTT remaining set. I need to give it a try, but that seems
+    pretty solid.
+
+
+    Ultimately it''s all down to choice, of course. I''d tend to stick to supported
+    (and ideally managed) APIs, where possible, all else being equal.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Mark
+  email: lebakram@gmx.net
+  ip: 91.19.118.184
+  url: ''
+  date: '2008-09-10 21:46:35'
+  body: 'Hi Kean,
+
+
+    a more general question:
+
+    How can I obtain an object which the user selected before entering the command
+    ?
+
+
+    Mark'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-10 22:02:04'
+  body: 'Hi Mark,
+
+
+    Try <a href="http://through-the-interface.typepad.com/through_the_interface/2006/09/using_the_pickf.html">this
+    previous post</a>.
+
+
+    Kean'
+- author: Mark
+  email: lebakram@gmx.net
+  ip: 217.185.10.12
+  url: ''
+  date: '2008-09-12 09:28:34'
+  body: 'Hi Kean,
+
+
+    thanks for your tip. I still needed a second try to get it working, because I
+    overlooked the CommandFlags.UsePickSet flag.
+
+    Readers might interest that specifying CommandFlags.Redraw leaves the selection
+    intact after execution of the usercommand, if you omit it, the selection is cleared.
+
+
+    Instead of using some more natural term as SelectedObject AUTOCAD developers chose
+    SelectImplied which is as arcane as the whole object model. Even simple things
+    turn out to need an unnecessary complicate solution.
+
+    Really annoying is, that there is no (good) documentation on all that stuff.
+
+    Autodesk should take care of this instead of producing videos like "10 easy ways
+    to crash your Autocad".
+
+
+    But fortunately we have you Kean :) Your blog turned out to be the most valuable
+    source for information regarding the .NET interface.
+
+
+    Keep on and thanks again
+
+
+    Mark'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2008-09-13 15:23:39'
+  body: '"Ultimately it''s all down to choice, of course. I''d tend to stick to supported
+    (and ideally managed) APIs, where possible, all else being equal."
+
+
+    Perhaps, but I don''t regard acedCommand() as an unsupported API and ultimately,
+    most of the managed APIs we use are just wrappers that delegate to native code
+    anyway :)
+
+
+    Couple that with the various other problems many have with SendStringToExecute''s
+    asynchronous nature and the fact that it can only accept string input, is what
+    makes acedCommand() a much more robust solution, from my perspective.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 74.9.144.34
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-14 03:04:11'
+  body: 'I wasn''t actually referring to acedCommand() -  I was more talking about
+    the use of acmdginternal.dll being unsupported, although that was only a side
+    point.
+
+
+    That said, acedCommand() is indeed not supported from .NET. Yes, our managed wrappers
+    call through to unmanaged APIs internally, but you''ll notice we haven''t wrapped
+    acedCommand(). We support people driving commands by sending them via the command-throat
+    (SendStringToExecute() or COM''s SendCommand()).
+
+
+    I''m not saying you shouldn''t do what you''re doing, Tony, I''m just sharing
+    a different perspective: while you may consider it less clean to pump commands,
+    from an AutoCAD internals perspective it''s actually considered best practice
+    (it removes the possibility of exceeding levels of re-entrancy, for instance and
+    is slightly more future-proof: Microsoft''s threat to deprecate fibers will probably
+    impact acedCommand() in some way, at least that''s my understanding).
+
+
+    A big problem I''ve realised with the above post is related to Undo, but there''ll
+    be a post going live on Monday to show a slightly different approach to address
+    that.
+
+
+    Kean'
+- author: GIS Utilities
+  email: info@sblgis.com
+  ip: 203.200.142.209
+  url: http://www.sblgis.com/gis-utilities.aspx
+  date: '2008-09-19 11:00:36'
+  body: "Hi Kean,\nYour post is very useful to fresh hands in this field.\nThank you\n\
+    \ Geospatial Utilities"
+- author: Santosh G.
+  email: santoshgaikwad10@gmail.com
+  ip: 210.211.136.233
+  url: ''
+  date: '2008-09-26 08:02:29'
+  body: "I am using visual studio 2005 and RealDWG 2009 and I trying to open the dwg\
+    \ file using realdwg library in c# application and following is my source code.\n\
+    \nusing System;\nusing System.Collections.Generic;\nusing System.ComponentModel;\n\
+    using System.Data;\nusing System.Drawing;\nusing System.Text;\nusing System.Windows.Forms;\n\
+    using Autodesk.AutoCAD.DatabaseServices;\nnamespace RealDWGTest\n{ \npublic partial\
+    \ class Form1 : Form\n{\npublic Form1()\n{\nInitializeComponent();\nInitializeRealDwgComponents();\
+    \ // This line shows the error\n}\n\nprivate void InitializeRealDwgComponents()\n\
+    {\nAutodesk.AutoCAD.Runtime.RuntimeSystem.Initialize(new RealDWGApp(), 1033);\n\
+    Database db = new Database();\ndb.ReadDwgFile(\"C:\\test.dwg\", FileOpenMode.OpenForReadAndAllShare,\
+    \ true, \"\");\n}\n}\n\npublic class RealDWGApp : Autodesk.AutoCAD.DatabaseServices.HostApplicationServices\n\
+    {\npublic override string FindFile(string fileName, Database database, FindFileHint\
+    \ hint)\n{\nthrow new Exception(\"The method or operation is not implemented.\"\
+    );\n}\n}\n}\n\n\nWhen I try to run this program following error occurred:\n\"\
+    Could not load file or assembly 'acdbmgd, Version=17.2.0.0, Culture=neutral, PublicKeyToken=null'\
+    \ or one of its dependencies. The system cannot find the file specified.\"\n\n\
+    \nPlease help to solve this problem."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-26 08:16:57'
+  body: "Santosh -\n\nThis question is off-topic. Please submit it via <a href=\"\
+    http://adn.autodesk.com\">the ADN website</a>, if you're a member. \n\nOtherwise\
+    \ you might have some luck at the <a href=\"http://discussion.autodesk.com/forums/forum.jspa?forumID=152\"\
+    >AutoCAD .NET Customization Discussion Group</a> - I don't believe there's a group\
+    \ dedicated to RealDWG, unfortunately.\n\nRegards,\n\nKean\n-----"

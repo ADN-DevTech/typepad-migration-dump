@@ -1,0 +1,271 @@
+comments:
+- author: Fábio Gomes
+  email: fabio_luiz_gomes@hotmail.com
+  ip: 189.13.63.62
+  url: ''
+  date: '2007-02-13 01:06:39'
+  body: 'Hi Kean,  I couldn''t understand the real benefits in using refletion for
+    to change the objects properties. To Use the objects interfaces was much better
+    and easier, Couldn''t be?
+
+    I''ve been appreciating your blog.
+
+    Tks in advanced!'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-02-13 09:09:34'
+  body: 'Hi Fábio,
+
+
+    Yes, using object interfaces is just fine (and much easier) for the majority of
+    programming tasks. Occasionally you need to provide some interface to the user
+    that does not depend on compiled-in behaviour (and therefore can also be extended
+    by other applications).
+
+
+    Think about the Property Palette, which uses COM to do the same thing as we''re
+    showing here: it doesn''t have behaviour hardcoded for the various object types
+    it supports, it queries their properties at runtime.
+
+
+    Regards,
+
+
+    Kean'
+- author: Dennis
+  email: djonio@miami-airport.com
+  ip: 199.119.0.202
+  url: ''
+  date: '2007-02-14 19:06:22'
+  body: 'Really enjoy your stuff ...
+
+    MPOLYGONS? maybe you could spend some time on this lil''beast?'
+- author: Fatty
+  email: fixo@yandex.ru
+  ip: 195.131.169.45
+  url: ''
+  date: '2007-02-28 12:50:58'
+  body: "Hi Kean\nI translated this example on VB.NET\nOf course my programming level\
+    \ in VB.NET\nis very poor, I started to learned it\na few days only\nI can't to\
+    \ fix 3 errors in this code snipped\nWhat I did worng here?\n\nRegards,\n\nOleg\n\
+    \nImports Autodesk.AutoCAD.ApplicationServices\nImports Autodesk.AutoCAD.DatabaseServices\n\
+    Imports Autodesk.AutoCAD.EditorInput\nImports Autodesk.AutoCAD.Runtime\nImports\
+    \ System.Reflection\nNamespace PropertyChanger\n\n    Public Class PropertyChangerCmds\n\
+    \n        <CommandMethod(\"CHPS\", CommandFlags.Modal Or CommandFlags.Redraw Or\
+    \ CommandFlags.UsePickSet)> _\n        Public Sub ChangePropertyOnSelectedEntities()\n\
+    \            Dim doc As Document = Application.DocumentManager.MdiActiveDocument\n\
+    \            Dim ed As Editor = doc.Editor\n            Try\n                Dim\
+    \ psr As PromptSelectionResult = ed.GetSelection\n                If psr.Status\
+    \ = PromptStatus.OK Then\n                    Dim objType As System.Type\n   \
+    \                 Dim propName As String\n                    Dim newPropValue\
+    \ As Object\n                    Dim recurse As Boolean\n                    If\
+    \ SelectClassPropertyAndValue(objType, propName, newPropValue, recurse) Then\n\
+    \                        Dim count As Integer = ChangePropertyOfEntitiesOfType(psr.Value.GetObjectIds,\
+    \ objType, propName, newPropValue, recurse)\n                        ed.Regen()\n\
+    \                        ed.WriteMessage(\"\" & Microsoft.VisualBasic.Chr(10)\
+    \ & \"Changed \" + count + \" object\" + (Microsoft.VisualBasic.IIf(count = 1,\
+    \ \"\", \"s\")) + \" of type \" + objType.Name + \" to have a \" + propName +\
+    \ \" of \" + newPropValue + \".\")\n                    End If\n             \
+    \   End If\n            Catch ex As System.Exception\n                ed.WriteMessage(\"\
+    Exception: \" & ex.StackTrace)\n            End Try\n        End Sub\n\n     \
+    \   <CommandMethod(\"CHPM\")> _\n        Public Sub ChangePropertyOnModelSpaceContents()\n\
+    \            ChangePropertyOnSpaceContents(BlockTableRecord.ModelSpace)\n    \
+    \    End Sub\n\n        <CommandMethod(\"CHPP\")> _\n        Public Sub ChangePropertyOnPaperSpaceContents()\n\
+    \            ChangePropertyOnSpaceContents(BlockTableRecord.PaperSpace)\n    \
+    \    End Sub\n\n        Private Sub ChangePropertyOnSpaceContents(ByVal spaceName\
+    \ As String)\n            Dim doc As Document = Application.DocumentManager.MdiActiveDocument\n\
+    \            Dim ed As Editor = doc.Editor\n            Try\n                Dim\
+    \ objType As System.Type\n                Dim propName As String\n           \
+    \     Dim newPropValue As Object\n                Dim recurse As Boolean\n   \
+    \             If SelectClassPropertyAndValue(objType, propName, newPropValue,\
+    \ recurse) Then\n                    Dim spaceId As ObjectId\n               \
+    \     Using tr As Transaction = doc.TransactionManager.StartTransaction\n\n  \
+    \                      Try\n                            Dim bt As BlockTable =\
+    \ CType(tr.GetObject(doc.Database.BlockTableId, OpenMode.ForRead), BlockTable)\n\
+    \                            spaceId = bt(spaceName)\n                       \
+    \     tr.Commit()\n                        Finally\n                         \
+    \   ' could not find variable declaration \n                            ' TODO\
+    \ : Dispose object \n                        End Try\n                    End\
+    \ Using\n                    Dim count As Integer = ChangePropertyOfEntitiesOfType(spaceId,\
+    \ objType, propName, newPropValue, recurse)\n                    ed.Regen()\n\
+    \                    ed.WriteMessage(\"\" & Microsoft.VisualBasic.Chr(10) & \"\
+    Changed \" + count + \" object\" + (Microsoft.VisualBasic.IIf(count = 1, \"\"\
+    , \"s\")) + \" of type \" + objType.Name + \" to have a \" + propName + \" of\
+    \ \" + newPropValue + \".\")\n                End If\n            Catch ex As\
+    \ System.Exception\n                ed.WriteMessage(\"Exception: \" & ex.StackTrace)\n\
+    \            End Try\n\n        End Sub\n\n        Private Function SelectClassPropertyAndValue(ByRef\
+    \ objType As System.Type, ByRef propName As String, ByRef newPropValue As Object,\
+    \ ByRef recurse As Boolean) As Boolean\n            Dim doc As Document = Application.DocumentManager.MdiActiveDocument\n\
+    \            Dim ed As Editor = doc.Editor\n            objType = Nothing\n  \
+    \          propName = \"\"\n            newPropValue = Nothing\n            recurse\
+    \ = True\n            Dim ps As PromptResult = ed.GetString(\"\" & Microsoft.VisualBasic.Chr(10)\
+    \ & \"Enter type of objects to look for: \")\n            If ps.Status = PromptStatus.OK\
+    \ Then\n                Dim typeName As String = ps.StringResult\n           \
+    \     objType = System.Type.GetType(typeName, False, True)\n                If\
+    \ objType Is Nothing Then\n                    objType = System.Type.GetType(\"\
+    Autodesk.AutoCAD.DatabaseServices.\" + typeName + \", acdbmgd\", False, True)\n\
+    \                End If\n                If objType Is Nothing Then\n        \
+    \            ed.WriteMessage(\"\" & Microsoft.VisualBasic.Chr(10) & \"Type \"\
+    \ + typeName + \" not found.\")\n                Else\n                    ListProperties(objType)\n\
+    \                    ps = ed.GetString(\"\" & Microsoft.VisualBasic.Chr(10) &\
+    \ \"Enter property to modify: \")\n                    If ps.Status = PromptStatus.OK\
+    \ Then\n                        propName = ps.StringResult\n                 \
+    \       Dim propInfo As System.Reflection.PropertyInfo = objType.GetProperty(propName)\n\
+    \                        If propInfo Is Nothing Then\n                       \
+    \     ed.WriteMessage(\"\" & Microsoft.VisualBasic.Chr(10) & \"Property \" + propName\
+    \ + \" for type \" + typeName + \" not found.\")\n                        Else\n\
+    \                            If Not propInfo.CanWrite Then\n                 \
+    \               ed.WriteMessage(\"\" & Microsoft.VisualBasic.Chr(10) & \"Property\
+    \ \" + propName + \" of type \" + typeName + \" is not writable.\")\n        \
+    \                    Else\n                                Dim propType As System.Type\
+    \ = propInfo.PropertyType\n                                Dim prompt As String\
+    \ = \"\" & Microsoft.VisualBasic.Chr(10) & \"Enter new value of \" + propName\
+    \ + \" property for all objects of type \" + typeName + \": \"\n             \
+    \                   Select Case propType.ToString\n                          \
+    \          Case \"System.Int32\"\n                                        Dim\
+    \ pir As PromptIntegerResult = ed.GetInteger(prompt)\n                       \
+    \                 If pir.Status = PromptStatus.OK Then\n                     \
+    \                       newPropValue = pir.Value\n                           \
+    \             End If\n                                        ' break \n     \
+    \                               Case \"System.Double\"\n                     \
+    \                   Dim pdr As PromptDoubleResult = ed.GetDouble(prompt)\n   \
+    \                                     If pdr.Status = PromptStatus.OK Then\n \
+    \                                           newPropValue = pdr.Value\n       \
+    \                                 End If\n                                   \
+    \     ' break \n                                    Case \"System.String\"\n \
+    \                                       Dim psr As PromptResult = ed.GetString(prompt)\n\
+    \                                        If psr.Status = PromptStatus.OK Then\n\
+    \                                            newPropValue = psr.StringResult\n\
+    \                                        End If\n                            \
+    \            ' break \n                                    Case \"System.Boolean\"\
+    \n                                        Dim pko As PromptKeywordOptions = New\
+    \ PromptKeywordOptions(prompt)\n                                        pko.Keywords.Add(\"\
+    True\")\n                                        pko.Keywords.Add(\"False\")\n\
+    \                                        Dim pkr As PromptResult = ed.GetKeywords(pko)\n\
+    \                                        If pkr.Status = PromptStatus.OK Then\n\
+    \                                            If pkr.StringResult = \"True\" Then\n\
+    \                                                newPropValue = True\n       \
+    \                                     Else\n                                 \
+    \               newPropValue = False\n                                       \
+    \     End If\n                                        End If\n               \
+    \                         ' break \n                                    Case Else\n\
+    \                                        ed.WriteMessage(\"\" & Microsoft.VisualBasic.Chr(10)\
+    \ & \"Properties of type \" + propType.ToString + \" are not currently supported.\"\
+    )\n                                        ' break \n                        \
+    \        End Select\n                                If Not (newPropValue Is Nothing)\
+    \ Then\n                                    Dim pko As PromptKeywordOptions =\
+    \ New PromptKeywordOptions(\"\" & Microsoft.VisualBasic.Chr(10) & \"Change properties\
+    \ in nested blocks: \")\n                                    pko.AllowNone = True\n\
+    \                                    pko.Keywords.Add(\"Yes\")\n             \
+    \                       pko.Keywords.Add(\"No\")\n                           \
+    \         pko.Keywords.Default = \"Yes\"\n                                   \
+    \ Dim pkr As PromptResult = ed.GetKeywords(pko)\n                            \
+    \        If pkr.Status = PromptStatus.None Or pkr.Status = PromptStatus.OK Then\n\
+    \                                        If pkr.Status = PromptStatus.None Or\
+    \ pkr.StringResult = \"Yes\" Then\n                                          \
+    \  recurse = True\n                                        Else\n            \
+    \                                recurse = False\n                           \
+    \             End If\n                                        Return True\n  \
+    \                                  End If\n                                End\
+    \ If\n                            End If\n                        End If\n   \
+    \                 End If\n                End If\n            End If\n       \
+    \     Return False\n        End Function\n\n        Private Sub ListProperties(ByVal\
+    \ objType As System.Type)\n            Dim doc As Document = Application.DocumentManager.MdiActiveDocument\n\
+    \            Dim ed As Editor = doc.Editor\n            ed.WriteMessage(\"\" &\
+    \ Microsoft.VisualBasic.Chr(10) & \"Writable properties for \" + objType.Name\
+    \ + \": \")\n            Dim propInfos As PropertyInfo() = objType.GetProperties\n\
+    \            For Each propInfo As PropertyInfo In propInfos\n                If\
+    \ propInfo.CanWrite Then\n                    ed.WriteMessage(\"\" & Microsoft.VisualBasic.Chr(10)\
+    \ & \" \" & propInfo.Name & \" : \" & propInfo.PropertyType)\n               \
+    \ End If\n            Next\n            ed.WriteMessage(\"\" & Microsoft.VisualBasic.Chr(10)\
+    \ & \"\")\n        End Sub\n\n        Private Function ChangePropertyOfEntitiesOfType(ByVal\
+    \ btrId As ObjectId, ByVal objType As System.Type, ByVal propName As String, ByVal\
+    \ newValue As Object, ByVal recurse As Boolean) As Integer\n            Dim btrContents\
+    \ As ObjectIdCollection = New ObjectIdCollection\n            Dim doc As Document\
+    \ = Application.DocumentManager.MdiActiveDocument\n            Using tr As Transaction\
+    \ = doc.TransactionManager.StartTransaction\n\n                Try\n         \
+    \           Dim btr As BlockTableRecord = CType(tr.GetObject(btrId, OpenMode.ForRead),\
+    \ BlockTableRecord)\n                    For Each entId As ObjectId In btr\n \
+    \                       btrContents.Add(entId)\n                    Next\n   \
+    \                 tr.Commit()\n                Finally\n                    '\
+    \ could not find variable declaration \n                    ' TODO : Dispose object\
+    \ \n                End Try\n            End Using\n            Dim ids(btrContents.Count)\
+    \ As ObjectId\n            btrContents.CopyTo(ids, 0)\n            Return ChangePropertyOfEntitiesOfType(ids,\
+    \ objType, propName, newValue, recurse)\n        End Function\n\n        Private\
+    \ Function ChangePropertyOfEntitiesOfType(ByVal objIds As ObjectId(), ByVal objType\
+    \ As System.Type, ByVal propName As String, ByVal newValue As Object, ByVal recurse\
+    \ As Boolean) As Integer\n            Dim changedCount As Integer = 0\n      \
+    \      Dim doc As Document = Application.DocumentManager.MdiActiveDocument\n \
+    \           Using tr As Transaction = doc.TransactionManager.StartTransaction\n\
+    \n                Try\n                    For Each entId As ObjectId In objIds\n\
+    \                        Dim ent As Entity = CType(ConversionHelpers.AsWorkaround(tr.GetObject(entId,\
+    \ OpenMode.ForRead), GetType(Entity)), Entity)\n                        If Not\
+    \ (ent Is Nothing) Then\n                            changedCount += ChangeSingleProperty(ent,\
+    \ objType, propName, newValue)\n                        End If\n             \
+    \           If recurse Then\n                            Dim br As BlockReference\
+    \ = CType(ConversionHelpers.AsWorkaround(ent, GetType(BlockReference)), BlockReference)\n\
+    \                            If Not (br Is Nothing) Then\n                   \
+    \             changedCount += ChangePropertyOfEntitiesOfType(br.BlockTableRecord,\
+    \ objType, propName, newValue, recurse)\n                            End If\n\
+    \                        End If\n                    Next\n                  \
+    \  tr.Commit()\n                Finally\n                    ' could not find\
+    \ variable declaration \n                    ' TODO : Dispose object \n      \
+    \          End Try\n            End Using\n            Return changedCount\n \
+    \       End Function\n\n        Private Function ChangeSingleProperty(ByVal ent\
+    \ As Entity, ByVal objType As System.Type, ByVal propName As String, ByVal newValue\
+    \ As Object) As Integer\n            Dim changedCount As Integer = 0\n       \
+    \     If objType.IsInstanceOfType(ent) Then\n                Dim res As Object\
+    \ = objType.InvokeMember(propName, BindingFlags.GetProperty, Nothing, ent, New\
+    \ Object(0) {})\n                If Not res.Equals(newValue) Then\n          \
+    \          ent.UpgradeOpen()\n                    Dim args(1) As Object\n    \
+    \                args(0) = newValue\n                    res = objType.InvokeMember(propName,\
+    \ BindingFlags.SetProperty, Nothing, ent, args)\n                    System.Math.Min(System.Threading.Interlocked.Increment(changedCount),\
+    \ changedCount - 1)\n                    ent.DowngradeOpen()\n               \
+    \ End If\n            End If\n            Return changedCount\n        End Function\n\
+    \    End Class\nEnd Namespace"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-02-28 14:36:40'
+  body: "Hi Oleg,\n\nThere seem to be a few issues with the automatic conversion...\n\
+    \nC# supports \"out\" parameters, while VB has ByRef (which are \"in/out\"). So\
+    \ you need to disable the error or initialise the variables before passing them\
+    \ into SelectClassPropertyAndValue(). For example:\n\n        objType = ed.GetType()\n\
+    \        propName = \"\"\n        newPropValue = Nothing\n        recurse = False\n\
+    \nThis is ugly, but IMO better than disabling the wraning. Perhaps someone has\
+    \ a better suggestion.\n\nNext we have to add a ToString() to a type in a WriteMessage\
+    \ call - VB doesn't seem to do that implicitly:\n\npropInfo.PropertyType.ToString()\n\
+    \nAnd finally we have a couple of strange casts that need fixing:\n\nDim ent As\
+    \ Entity = CType(tr.GetObject(entId, OpenMode.ForRead), Entity)\nDim br As BlockReference\
+    \ = CType(ent, BlockReference)"
+- author: Fatty
+  email: fixo@yandex.ru
+  ip: 195.131.169.45
+  url: ''
+  date: '2007-02-28 19:45:57'
+  body: "Dear Kean\n\nThanks a lot for the spending your time\nThat works like a charm\
+    \ and fixed \na problems\nI'll work further this way\n\nBest regards,\n\nOleg"
+- author: Adnan
+  email: kadnan@gmail.com
+  ip: 202.141.224.13
+  url: ''
+  date: '2013-09-10 09:29:20'
+  body: How to I use reflection to call "CopyObjects" method?
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.226.151
+  url: http://profile.typepad.com/kean
+  date: '2013-10-09 20:30:45'
+  body: 'The good news is that I just found this among my spam comments. The bad news
+    is that I don''t have a quick answer for you: calling anything like this through
+    Reflection is quite a big deal (depending on whether you want to due this complete
+    using "late binding"). Have you looked into using "dynamic" objects for this,
+    instead?
+
+
+    Kean
+
+    -----'

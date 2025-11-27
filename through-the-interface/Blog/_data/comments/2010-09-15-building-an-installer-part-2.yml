@@ -1,0 +1,66 @@
+comments:
+- author: Dave Wolfe
+  email: dave.wolfe@ecadinc.com
+  ip: 97.81.199.161
+  url: http://www.ecadinc.com/PDOteam
+  date: '2010-09-15 23:01:36'
+  body: To install for all users, use the Local machine hive.  The structure mirrors
+    the current user hive for installation. Also, the local machine should be used
+    to register ribbon controls.
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-09-16 09:54:38'
+  body: 'Perhaps I could have been more clear: I understand how the Registry works,
+    in that respect - and the RegDL tool has an /hklm option to write its details
+    there - it''s just that even when writing to HKLM we need to query HKCU to find
+    out which was the most recently executed version of AutoCAD: HKLM doesn''t contain
+    that information in a CurVer property.
+
+
+    Otherwise we would have to jump through significant hoops to iterate keys and
+    provide a UI asking the user to select one or more specific AutoCAD versions -
+    not something that was in scope for this tool.
+
+
+    While calling "RegDL xxx.dll /hklm" works fine from a command prompt, when running
+    from an installer it has trouble as it doesn''t appear to be able to access HKCU
+    for the CurVer property (at least that''s what I''m assuming - there''s certainly
+    a null reference exception). I''m looking into this further, but wanted to get
+    this out there for people to comment on.
+
+
+    Kean'
+- author: Dave Wolfe
+  email: dave.wolfe@ecadinc.com
+  ip: 97.81.199.161
+  url: http://www.ecadinc.com/PDOteam
+  date: '2010-09-16 14:19:58'
+  body: I should've realized from the code that you understood that. ;)  Since I'm
+    having to install ribbon controls,  I've stopped checking for the latest version,
+    and just installing for all versions.
+- author: Modis
+  email: www.modis@mail.ru
+  ip: 195.34.233.214
+  url: http://modplus.ucoz.ru/
+  date: '2010-12-21 08:35:31'
+  body: Hi, Kean. What should i do if i need to update older version of my programm?
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2010-12-21 09:53:24'
+  body: 'Hi Modis,
+
+
+    You''ll need to research (and thoroughly test)this, as it''s not my core area
+    of expertise, but I would expect updating the version GUID to help.
+
+
+    Cheers,
+
+
+    Kean
+
+    -----'

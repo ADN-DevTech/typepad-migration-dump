@@ -1,0 +1,442 @@
+comments:
+- author: Mark
+  email: lebakram@gmx.net
+  ip: 217.185.10.37
+  url: ''
+  date: '2009-07-20 11:34:59'
+  body: 'In ACAD 2008 IAcPiPropertyDisplay is found in the namespace Autodesk.AutoCAD.Windows.Toolpalette
+    which is part of acmgd.dll.
+
+    In the inc-directory I found AcPexCtl16.tlb which contains several propertyeditors.
+    Maybe there is a more elegant method than retrieving the progid from the registry.'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-07-20 11:54:26'
+  body: 'Thanks for the info on 2008, Mark.
+
+
+    Yes, that TypeLib is there, but the problem remains that we need to identify the
+    appropriate ProgId for the control we''re using (something that''s not very obvious
+    from the TypeLib, at least not to me).
+
+
+    At the end of the day identifying the ProgId is a one-off, design-time process:
+    nothing is being retrieved programmatically at runtime, so elegance isn''t really
+    a significant factor.
+
+
+    Kean'
+- author: Mark
+  email: lebakram@gmx.net
+  ip: 217.185.10.119
+  url: ''
+  date: '2009-07-21 10:59:27'
+  body: My idea was to avoid version dependencies wherever possible. It seems that
+    the progids didn't change since at least ACAD 2006, so we cannot do anything but
+    hope for the best :)
+- author: nave
+  email: ''
+  ip: 218.248.29.131
+  url: http://profile.typepad.com/6p0120a566eaf3970b
+  date: '2009-09-12 10:17:21'
+  body: 'HOW CAN I CONVERT THESE CODES TO .DLL?
+
+    ACTUALLI I TRIED TO MAKE USING BORLAND C++.........
+
+    BUT WHEN IT IS LOADING BY NETLOAD CAD SHOWING SOME ERROR MSG.....
+
+    SO WHAT CAN I DO??????????
+
+    PL HELP ME............
+
+    AM VERY MUCH BIGGENER IN THE WORLD OF PROGRAMING LANGUAGESS...........'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-09-14 08:25:47'
+  body: 'You need to use a development environment that generates a .NET assembly
+    DLL from C# code (such as Visual Studio or Visual C# Express) and then reference
+    the managed AutoCAD assemblies (AcMgd.dll, AcDbMgd.dll and AcTcMgd.dll). The asdkOPMNetExt.dll
+    will need to have been NETLOADed (although I don''t believe an assembly reference
+    to it is needed in the C# project).
+
+
+    Kean'
+- author: nave
+  email: ''
+  ip: ''
+  url: http://profile.typepad.com/6p0120a566eaf3970b
+  date: '2009-09-14 13:29:11'
+  body: thanx
+- author: nave
+  email: ''
+  ip: 218.248.29.131
+  url: http://profile.typepad.com/6p0120a566eaf3970b
+  date: '2009-09-16 14:18:46'
+  body: 'MY DOUBTS ARE GETTING HIGHER...PL HELP ME,.......
+
+    WHERE I WILL GET THIS asdkOPMNetExt.dll ?
+
+    AM USING ACAD 2009 ONLY...
+
+    UR GIVEN SOME CODES IN C++......HOW CAN I MAKE AcMgd.dll, AcDbMgd.dll and AcTcMgd.dll
+    THESE FILES FROM THAT CODE?'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-09-16 14:43:55'
+  body: 'The link to the package is in the post - <a href="http://through-the-interface.typepad.com/files/opm.net.zip">here
+    it is again</a>, for your convenience.
+
+
+    You don''t make those DLLs from this code: you reference them from your .NET Class
+    Library project.
+
+
+    I suggest starting by looking at the introductory resources on <a href="http://www.autodesk.com/developautocad">the
+    AutoCAD Developer Center</a> - these will help you get started before attempting
+    something more complex such as the technique shown in this post.
+
+
+    Kean'
+- author: nave
+  email: ''
+  ip: 218.248.29.131
+  url: http://profile.typepad.com/6p0120a566eaf3970b
+  date: '2009-09-17 05:44:24'
+  body: THANX FOR UR ADVICE..........I WILL GO THROUGH THAT........
+- author: nave
+  email: ''
+  ip: 218.248.29.131
+  url: http://profile.typepad.com/6p0120a566eaf3970b
+  date: '2009-10-13 11:03:39'
+  body: 'actually i netloded ur asdkOPMNetExt.dll & OPMNetSample.dll to my autocad
+    2010(link given above).it is loaded with out any problem.........but when i select
+    a line & tried to change its length in property window it is not giving any option
+    like "distence" ur given in above pics..
+
+    insted of "distence" it is showing "my integer property" & its value is always
+    "4" & it is not changable.....how can i solve this problem???????why it is happening
+    like this?is any other dll file req?'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-10-13 12:24:40'
+  body: 'If I had to guess, I''d probably say you haven''t copied & pasted the above
+    code into the OPMNETSample project.
+
+
+    Kean'
+- author: nave
+  email: ''
+  ip: 218.248.29.131
+  url: http://profile.typepad.com/6p0120a566eaf3970b
+  date: '2009-10-13 12:32:02'
+  body: is it possible by using Microsoft Visual Basic 2008 Express Edition ?
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-10-13 14:08:33'
+  body: 'The code is in C#, so you''d be better either using Visual C# Express or
+    converting the code to VB <a href="http://through-the-interface.typepad.com/through_the_interface/2009/07/converting-between-c-and-vbnet.html">using
+    a code translation tool</a>.
+
+
+    Kean'
+- author: nave
+  email: ''
+  ip: 218.248.29.131
+  url: http://profile.typepad.com/6p0120a566eaf3970b
+  date: '2009-10-13 14:42:18'
+  body: actually am using Visual Basic 2008 Express Edition  & Microsoft Visual C#
+    2008 Express Edition.....but in both case when am tring to open it is showing
+    "this project type is not supported by this version"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-10-13 15:03:19'
+  body: 'You''re probably opening the solution which contains the C++ module. Try
+    opening the .csproj file directly.
+
+
+    Kean'
+- author: nave
+  email: ''
+  ip: 218.248.29.131
+  url: http://profile.typepad.com/6p0120a566eaf3970b
+  date: '2009-10-14 06:00:58'
+  body: that also i tried.but not opening.same msg is been showing.actually am using
+    not a registered version of Microsoft Visual C# 2008 Express Edition..it is a
+    30 days trial version......is this problem becouse of that?
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2009-10-18 18:48:28'
+  body: 'I have no idea. I had thought the Express editions were free, so I''m not
+    sure why you''d meed to use a trial version (but that may just be my ignorance).
+
+
+    Kean'
+- author: nave
+  email: ''
+  ip: 218.248.29.131
+  url: http://profile.typepad.com/6p0120a566eaf3970b
+  date: '2009-10-28 06:17:37'
+  body: 'AFTER A LONG PRACTICE I OPENED THAT THINGS BY INSTALLING Microsoft Visual
+    Studio 2008.NOW MY DOUBT IS WHERE I HAVE TO PASTE UR CODE..........ACTUALLI WHEN
+    I AM OPENED THAT OPMNetSample.csproj MANY THINGS ARE THERE LIKE OPMNetExt.rc,IDynamicProperty2.h
+    ETC.& SOME REFFREENCE ARE MISSING LIKE ACDBMGD & ACMGD.IS THESE REFFERENCES REQUERED  TO
+    BE CORRECTED?& WHERE I HAVE TO PASTE THESE CODES?
+
+    PL HELP MEEEEEEEEE...........'
+- author: nave
+  email: ''
+  ip: 218.248.29.131
+  url: http://profile.typepad.com/6p0120a566eaf3970b
+  date: '2009-10-28 06:21:18'
+  body: I HAVE ONE MORE DOUBT.FOR DOING .NET PROG IN AUTOCAD 2010 ObjectARX_2010_Win_64_and_32Bit.exe
+    IS TO BE INSTALLED?ACTUALLI AM USING Microsoft Visual Studio 2008.
+- author: dharanidharan
+  email: ''
+  ip: 220.225.149.141
+  url: http://profile.typepad.com/6p0105364c8f8b970c
+  date: '2009-12-30 08:10:58'
+  body: "HI Kean Walmsley,\n\n I want to add the property of FrameName its only provide\
+    \ for Line and Boundary object. Everyone have the unique FrameName. E.g., I can\
+    \ creaet the two line, and asign the framename one for fr001, and fr002 for second.\
+    \ If i click the line object it display that perticular assinged value only. I\
+    \ saw your previous post for add property and modify the object. but i need only\
+    \ for Line and Boundary only. how can i do this. pls guide me. i'm waiting for\
+    \ you replay.\n\nRegard,\nDharanidharan R"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2010-01-04 17:46:02'
+  body: 'Hi Dharanidharan R,
+
+
+    You can attach the property per class type (in this example it''s just against
+    AcDbLines (i.e. Lines) but you could assign it to others, too).
+
+
+    Regards,
+
+
+    Kean'
+- author: Bhoopathy Sreedharan
+  email: bsreedharan@gmail.com
+  ip: 61.247.241.243
+  url: ''
+  date: '2011-03-22 12:42:10'
+  body: 'Hi Kean,
+
+
+    I am not finding AcTcMgd.dll under the autocad directory.where can i find that?
+
+
+    Bhoopathy Sreedharan.'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-03-22 12:59:07'
+  body: 'Best practice is to install the ObjectARX SDK for the oldest version of AutoCAD
+    your module will support and add project references to the versions of the DLLs
+    in the inc/inc-win32/inc-x64 sub-folders.
+
+
+    Kean'
+- author: GonG
+  email: g_gonnissen@hotmail.com
+  ip: 81.82.212.38
+  url: ''
+  date: '2012-09-25 10:45:43'
+  body: "HI Kean Walmsley,\n\nI'm trying your code in my environment: Windows 7, 64\
+    \ bit, Autocad 2012 & visual studio 2010. In autocad I get the following error:\
+    \ ..//asdkOPMNetExt.dll is incompatible with \nthis version of AutoCAD.\n\nIs\
+    \ there a way how I can change your code to make it compatible with my environment?\
+    \ Or is there a new solution to this problem?\n\nRegard,\nGonnissen G"
+- author: Kean Walmsley
+  email: ''
+  ip: 95.172.68.148
+  url: http://profile.typepad.com/kean
+  date: '2012-09-25 11:06:26'
+  body: 'Hi Gonnissen,
+
+
+    I''ve sent you a 64-bit version of the project by email.
+
+
+    If anyone else needs this (in advance of me posting it formally), please drop
+    me an email or post a comment.
+
+
+    Regards,
+
+
+    Kean'
+- author: Massimiliano
+  email: Massimiliano.Baratta@KockGlitsch.com
+  ip: 146.209.159.19
+  url: ''
+  date: '2012-10-17 13:15:08'
+  body: "Dear Kean Walmsley,\nI'm working with Autocad 2013\n64-bit and i have the\
+    \ same \nproblem with the asdkOPMNetExt.dll.\nIs incompatible version with Autocad.\n\
+    \nCan I help me.\n\nRegards,\n\nMassimiliano"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-10-17 14:28:23'
+  body: 'Dear Massimiliano,
+
+
+    I''ll send you an email with a project for you to test.
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-10-17 14:31:09'
+  body: 'My email bounced... can you send me a email I can then reply to? My email
+    address is on the blog''s About page.
+
+
+    Kean'
+- author: masterhe
+  email: masterhe@tom.com
+  ip: 1.202.79.17
+  url: ''
+  date: '2012-10-29 03:26:57'
+  body: 'Hi Kean Walmsley,
+
+    I had replaced "AcPEXCtl.AcPePick2PointsCtrl.16" to "AcPEXCtl.AcPePropertyEditorEditButton.16".How
+    can I catch the clicked button event.
+
+    Thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2012-10-29 07:33:37'
+  body: 'Hi masterhe,
+
+
+    I haven''t used that particular control myself, so I don''t know. You might try
+    asking ADN or the AutoCAD .NET Discussion Group.
+
+
+    Regards,
+
+
+    Kean'
+- author: Hala Dajani
+  email: halad@eosgroup.com
+  ip: 71.36.163.77
+  url: ''
+  date: '2012-11-28 17:40:44'
+  body: "Hi Keam Walmsley,\nThanks so much for your blog, it has been indispensable.\
+    \  Can you please point me to the project with support for AutoCAD 2013 64-bit.\
+    \ \n\nBest Regards,\nHala"
+- author: Kean Walmsley
+  email: ''
+  ip: 8.19.13.22
+  url: http://profile.typepad.com/kean
+  date: '2012-11-29 18:46:20'
+  body: 'Hi Hala,
+
+
+    I''ve sent you an email.
+
+
+    Regards,
+
+
+    Kean'
+- author: Spikef
+  email: Bin.Liu@dms365.com
+  ip: 113.106.103.99
+  url: ''
+  date: '2013-01-28 17:27:41'
+  body: 'Hi Kean.
+
+    Can u give me the same suggestion about to the project with support for AutoCAD
+    2013 64-bit.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2013-01-28 17:35:21'
+  body: 'Hi Spikef,
+
+
+    I''ve sent you an email.
+
+
+    Regards,
+
+
+    Kean'
+- author: mehrsa rad
+  email: mehrsa000@gmail.com
+  ip: 173.45.98.142
+  url: ''
+  date: '2013-04-20 12:40:01'
+  body: 'hi kean
+
+    where is the iterface IDynamicProperty2 from? it cannot be found in my project'
+- author: mehrsa rad
+  email: mehrsa000@gmail.com
+  ip: 173.45.98.142
+  url: ''
+  date: '2013-04-21 09:57:21'
+  body: 'Hi Kean I solved my problem, but now i have another question, how should
+    i do this for autocad 2013?
+
+    thank u in advance'
+- author: Kean Walmsley
+  email: ''
+  ip: 69.181.68.7
+  url: http://profile.typepad.com/kean
+  date: '2013-04-21 18:54:26'
+  body: 'Hi there,
+
+
+    I''ll follow up by email.
+
+
+    Regards,
+
+
+    Kean'
+- author: heru h day
+  email: heru.hday@gmail.com
+  ip: 39.216.38.44
+  url: ''
+  date: '2013-06-21 19:46:38'
+  body: 'Dear Kean,
+
+    Would you please send me asdkOPMNetExt.dll 64bit version for Autocad 2012, I am
+    using VC# express 2010 win 7 64bit.
+
+
+    regards,
+
+
+    Heru H. Day
+
+    -----'

@@ -1,0 +1,170 @@
+comments:
+- author: NAHIED KOOLEN
+  email: NAHIEDKOOLEN@YAHOO.COM
+  ip: 84.86.219.252
+  url: ''
+  date: '2007-03-02 22:08:02'
+  body: 'When do I receive autocad2008?
+
+    Can I already download it before the dealer has send the dvd?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-03-02 22:47:04'
+  body: 'The specific release date has not yet been announced, as far as I''m aware.
+    I''d suggest checking in regularly with this site:
+
+
+    http://www.autodesk.com/preview2008'
+- author: MATT
+  email: RALLEN@MCDOUGAL.COM
+  ip: 208.180.110.226
+  url: ''
+  date: '2007-08-31 19:30:54'
+  body: 'WIPEOUT IS APPARENTLY INCOMPATIBLE WITH AUTOCAD 2008 (AT LEAST THAT IS WHAT
+    AUTOCAD RESPONDS BACK WHEN TRYING TO LOAD WIPEOUT.ARX).  IS THERE SOME OTHER COMMAND
+    THAT PERFORMS LIKE WIPEOUT?
+
+
+    ANY HELP WOULD BE GREATLY APPRECIATED.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-09-03 13:51:10'
+  body: 'The WIPEOUT command runs fine on my installation of AutoCAD 2008. It causes
+    acwipeout.arx and acwipeoutobj17.dbx to be demand-loaded.
+
+
+    Kean'
+- author: Dale Bartlett
+  email: dale.bartlett@realtimeinternational.com.au
+  ip: 60.231.152.72
+  url: http://www.realtimeinternational.com.au
+  date: '2007-12-11 01:26:00'
+  body: 'Hi Kean, Thanks for the effort you put into this blog, it''s a great resource.
+    I cannot resolve creating a Wipeout in VB.Net for 2008. The follwing code creates
+    a Wipout, but either crashes AutoCAD, or when I move the object get Fatal Error,
+    or the Wipeout doesn''t hide objects:
+
+    Dim bt As BlockTable = tm.GetObject(db.BlockTableId, OpenMode.ForRead, False)
+
+    Dim btr As BlockTableRecord = tm.GetObject(bt(BlockTableRecord.ModelSpace), OpenMode.ForWrite,
+    False)
+
+    Call lentWipeout.SetFrom(lcolWipeoutPoints, lvecNormal)
+
+    loidWipeoutID = btr.AppendEntity(lentWipeout)
+
+    tm.AddNewlyCreatedDBObject(lentWipeout, True)
+
+    ta.Commit()
+
+    I have googled for days, so I hope you don''t mind.... Dale'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-12-11 10:36:14'
+  body: 'Hi Dale,
+
+
+    How are you creating lentWipeout and populating the points lcolWipeoutPoints?
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-12-11 11:06:31'
+  body: 'OK - I see you''ve just had a response via ADN, Dale: I hope this solves
+    your problem.
+
+
+    Kean'
+- author: Dale Bartlett
+  email: dale.bartlett@realtimeinternational.com.au
+  ip: 60.231.152.72
+  url: http://www.realtimeinternational.com.au
+  date: '2007-12-12 06:38:08'
+  body: "Hi Kean, I have determined my error was in providing only 4 points to the\
+    \ Point2DCollection rather than returning to the first point. No other change\
+    \ was needed. I hope the following code helps someone else. Regards, Dale\n\n\
+    Public Function CreateWipeout() As ObjectId\n        Dim loidWipeoutID As ObjectId\n\
+    \        Dim db As Database = Application.DocumentManager.MdiActiveDocument.Database\n\
+    \        Dim tm As DBTransMan = db.TransactionManager\n        Dim lentWipeout\
+    \ As New Wipeout\n        Dim lvecNormal As New Vector3d(0.0, 0.0, 1.0)\n    \
+    \    Dim lpntPoint2D As Point2d = Nothing\n        Dim lcolWipeoutPoints As New\
+    \ Point2dCollection() 'this is 2DPoint to suit Wipeout, add Z to suit Line\n\n\
+    \        lentWipeout.Layer = \"0\"\n\n        'start a transaction\n        Dim\
+    \ ta As Transaction = tm.StartTransaction()\n        Try\n            Dim bt As\
+    \ BlockTable = tm.GetObject(db.BlockTableId, OpenMode.ForRead, False)\n      \
+    \      Dim btr As BlockTableRecord = tm.GetObject(bt(BlockTableRecord.ModelSpace),\
+    \ OpenMode.ForWrite, False)\n\n            'fill 2D Point collection with 4 points\n\
+    \            lpntPoint2D = New Point2d(0, 0)\n            lcolWipeoutPoints.Add(lpntPoint2D)\n\
+    \            lpntPoint2D = New Point2d(500, 0)\n            lcolWipeoutPoints.Add(lpntPoint2D)\n\
+    \            lpntPoint2D = New Point2d(500, 500)\n            lcolWipeoutPoints.Add(lpntPoint2D)\n\
+    \            lpntPoint2D = New Point2d(0, 500)\n            lcolWipeoutPoints.Add(lpntPoint2D)\n\
+    \            lpntPoint2D = New Point2d(0, 0)\n            lcolWipeoutPoints.Add(lpntPoint2D)\n\
+    \            Call lentWipeout.SetFrom(lcolWipeoutPoints, lvecNormal)\n\n     \
+    \       loidWipeoutID = btr.AppendEntity(lentWipeout)\n            tm.AddNewlyCreatedDBObject(lentWipeout,\
+    \ True)\n            ta.Commit()\n        Finally\n            ta.Dispose()\n\
+    \            CreateWipeout = loidWipeoutID\n        End Try\n    End Function"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-12-12 09:47:30'
+  body: 'Hi Dale,
+
+
+    I discovered the same thing, late yesterday. I''ll post my C# code later today.
+
+
+    Thanks for letting us know,
+
+
+    Kean'
+- author: OSo Closes
+  email: OClose@there.com
+  ip: 68.204.193.64
+  url: ''
+  date: '2009-03-24 04:47:36'
+  body: 'Multiline attributes: Not "enough said"
+
+
+    If you edit a a block with multiline attributes with multiple text, it strips
+    line feed from text. This made text one long line although Mtext like width is
+    maintain.
+
+
+    Another "feature"; if the attribute in a block refereance is moved using it''s
+    grips, vectors "disapear" till a regen is issued.
+
+
+    Installing SP2 does not make diffeance.'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-03-24 07:58:08'
+  body: 'Your issues seem more related to product functionality than to code I''ve
+    posted on this blog.
+
+
+    Please submit your product issues via your reseller or via the appropriate <a
+    href="http://discussion.autodesk.com">discussion group</a>.
+
+
+    Kean'
+- author: aamir
+  email: adit_john123@yahoo.com
+  ip: 117.195.227.234
+  url: ''
+  date: '2009-09-13 14:44:15'
+  body: "thanks for help \n\n-----"

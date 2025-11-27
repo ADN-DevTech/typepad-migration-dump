@@ -1,0 +1,171 @@
+comments:
+- author: Ashly
+  email: ashly@gmail.com
+  ip: 110.96.16.50
+  url: ''
+  date: '2012-10-11 11:13:53'
+  body: is this another GeneritiveComponent?
+- author: Andrey
+  email: bushman.andrey@gmail.com
+  ip: 87.249.45.171
+  url: https://sites.google.com/site/bushmansnetlaboratory/
+  date: '2012-10-11 12:08:02'
+  body: 'Hi Kean,
+
+
+    Is it language a new wrapper for ObjectARX? Which object model it used? What reasons
+    of creation of this language? Is it for Windows only, or no?
+
+
+    Regards'
+- author: Kean Walmsley
+  email: ''
+  ip: 95.172.68.149
+  url: http://profile.typepad.com/kean
+  date: '2012-10-11 13:54:30'
+  body: 'There are similarities, in that Dr Aish was also the person responsible for
+    the creation of GC for Bentley. But it''s quite different in approach (from what
+    I''m led to believe - I''m not familiar with GC, myself). It''s probably fair
+    to say Dr Aish has applied the knowledge he gained from the implementation of
+    GC in his work on DesignScript (i.e. I''d expect it to go beyond what is possible
+    with GC).
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 95.172.68.149
+  url: http://profile.typepad.com/kean
+  date: '2012-10-11 13:57:22'
+  body: 'Hi Andrey,
+
+
+    Deep down the connection to AutoCAD geometry is performed via ObjectARX, but this
+    is much more than a simple object model abstraction layer. It''s the language''s
+    associativity - and how that works with respect to AutoCAD geometry - that really
+    makes it stand out.
+
+
+    I''ll follow up on Monday with an explanation of some key differences between
+    DesignScript and what is currently available in AutoCAD.
+
+
+    I''m pretty sure this is Windows only, yes.
+
+
+    Cheers,
+
+
+    Kean'
+- author: james Maeding
+  email: jmaeding@hunsaker.com
+  ip: 24.249.247.46
+  url: ''
+  date: '2012-10-11 18:35:54'
+  body: since VSTA never happened, does Autodesk see this as its replacement for VBA?
+    Does autodesk feel a gap is left by VBA's exit?
+- author: Luke Church
+  email: luke.church@autodesk.com
+  ip: 92.40.137.132
+  url: ''
+  date: '2012-10-11 20:18:00'
+  body: 'Hi James,
+
+
+    I don''t know about the positioning around VBA, that''s not my world. :)
+
+
+    However, DesignScript was built from the ground up with the idea of supporting
+    people creating interesting geometries.
+
+
+    As such, it''s optimised for a slightly different set of concerns than an application
+    automation language. So I would see it as a complement to things like VBA or AutoLISP,
+    one more for exploration than automation.
+
+
+    Having said which, one of the useful features of DesignScript is that it provides
+    an easy interaction layer with anything .NET/C#/VBA.NETish. So where''s there''s
+    an automation API, we should be able to drive it through DesignScript :)'
+- author: Benjamin
+  email: bweir@midwestsurveys.com
+  ip: 207.229.1.246
+  url: ''
+  date: '2012-10-31 16:08:41'
+  body: Is DesignScript exposed through any .NET APIs?  Is it strictly a scripting
+    language or does it also provide methods for user input?
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2012-10-31 16:27:11'
+  body: 'Good questions... my understanding of the vision for DesignScript is that
+    its "exploratory" nature should at some point be extended to dynamic manipulation
+    of DesignScript variables. So you may have some kind of in-canvas gizmo or UI
+    that would allow you to adjust variables and see the results on your model in
+    real-time.
+
+
+    As for interfacing with .NET... I don''t think it will in the way you''re asking,
+    but there will be a Foreign Function Interface (FFI) as Luke has mentioned that
+    allows you to interface external systems with DesignScript via .NET. But that''s
+    more integrating systems to provide data (as we''ve done with Ecotect) rather
+    than allowing .NET apps to drive DesignScript.
+
+
+    Again, that''s my understanding of what''s possible (or expected to be, at some
+    point).
+
+
+    Kean'
+- author: JohnDS
+  email: ''
+  ip: 82.16.158.130
+  url: http://profile.typepad.com/johnds
+  date: '2013-03-26 23:18:44'
+  body: 'Hi Kean,
+
+    Interesting stuff this DesignScript, especially since I am working on a similar
+    concept, for AutoCad 2013, and having met Dr Aish many years ago in a London based
+    introduction to GC, this spurned me on to do something for ACAD.
+
+
+    I do have a question here, which bears some relevance to your statement about
+    heavy use of Transient Graphics, and one on which I am completely stuck: Why can
+    we not create a Transient Polyline3d? I really need to be able to draw transient
+    3d polylines, and it seems impossible to do.
+
+
+    Hope you can shed some light.
+
+    Regards
+
+    John.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-03-27 08:40:32'
+  body: 'Hi John,
+
+
+    I suspect it''s because the Polyline3d object is still a "complex" one (which
+    means it''s composed of multiple sub-entities, whereas the Polyline object is
+    a streamlined version of the complex equivalent, Polyline2d). Creating and managing
+    temporary Polyline3d objects would probably end up being trickier than expressing
+    your own 3D object in terms of smaller linear (or curved) sections.
+
+
+    I''ve done something similar in the past, jigging a 3D polyline as individual
+    segments before creating a final Polyline3d in the drawing database:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2011/04/enhanced-kinect-integration-for-3d-polyline-creation.html">http://through-the-interface.typepad.com/through_the_interface/2011/04/enhanced-kinect-integration-for-3d-polyline-creation.html</a>
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

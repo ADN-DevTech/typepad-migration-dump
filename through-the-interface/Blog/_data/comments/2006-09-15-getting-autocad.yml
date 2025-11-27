@@ -1,0 +1,743 @@
+comments:
+- author: Albert
+  email: szilvaa@hotmail.com
+  ip: 198.102.112.18
+  url: ''
+  date: '2006-09-20 17:56:20'
+  body: The try/finally in this example could be replaced with using (Transaction
+    tr =        db.TransactionManager.StartTransaction()). No difference in the generated
+    IL code but more elegant and readable code.
+- author: Raul
+  email: admin@cadtowin.com
+  ip: 168.77.204.141
+  url: http://www.cadtowin.com
+  date: '2006-09-27 20:11:52'
+  body: 'Hi Kean
+
+    Thanks for your code, do you have a vbnet simmilar example?. Does it list raster
+    block references attribuites?
+
+    Thanks again'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-09-29 19:58:31'
+  body: 'Hi Raul,
+
+
+    Sorry, no (and have my hands full on paternity leave right now).
+
+
+    I generally use an automatic conversion tool such as the one mentioned in this
+    previous entry:
+
+
+    http://through-the-interface.typepad.com/through_the_interface/2006/08/some_cool_copyp.html
+
+
+    This tool simply uses a website convertor, such as at:
+
+
+    http://carlosag.net/Tools/CodeTranslator/Default.aspx
+
+
+    This automatic conversion should get you a good deal of the way there...
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-09-29 19:59:34'
+  body: 'BTW - I don''t know what you mean by "raster block references"...
+
+
+    Regards,
+
+
+    Kean'
+- author: Raul
+  email: rtejada@pancanal.com
+  ip: 201.224.15.36
+  url: ''
+  date: '2006-10-12 01:44:54'
+  body: 'Thanks Kean for your tip and congrats for your newborn, I am a 2 little girls
+    father (1 and 4 year old), so no hurry about technical stuff answers.
+
+    I meant by "raster block references" the external references of the *.jpg or *.tif
+    type. I was able to get the block id of files (.dwg ones) attached as external
+    references, and then its attribuites like the file path.
+
+
+    Well, hope you get some decent sleep and thanks again for your usefull blog, I
+    have found some good code and history.
+
+
+    Regards'
+- author: edmore
+  email: eddie@ekmuk.net
+  ip: 82.47.216.133
+  url: ''
+  date: '2006-10-12 21:39:17'
+  body: Thanks for the code. Can you help me on the code for doing the oposite ie
+    edit block attributes given a known objectid for the block. I have seach for the
+    code seem to be struggling especially with the open.mode.write. Also can with
+    resources can i learn autocad vb.net.
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-10-13 13:24:58'
+  body: 'For Raul:
+
+
+    Thanks! :-)
+
+
+    Although conceptually similar to blocks, rasters are actually separate objects.
+    You would need to change the above code to handle raster image and raster image
+    definition objects:
+
+
+    Autodesk.AutoCAD.DatabaseServices.RasterImage
+
+    Autodesk.AutoCAD.DatabaseServices.RasterImageDef
+
+
+    For Ed:
+
+
+    Check out the resources listed on the AutoCAD Developer Center (http://www.autodesk.com/developautocad).
+    I''d suggest posting your problematic code to the AutoCAD .NET Discussion Group
+    (http://discussion.autodesk.com/forum.jspa?forumID=152).
+
+
+    Regards,
+
+
+    Kean'
+- author: Raul
+  email: rtejada@pancanal.com
+  ip: 201.224.16.36
+  url: ''
+  date: '2006-10-18 03:19:48'
+  body: 'Hi Kean;
+
+    Thanks for the hint, I found a sample to get raster image attributes, but unfortunately
+    I have not found any sample to set raster image attributes like the filename.
+
+    Well, I hope you find the time, maybe one of those sleepless nights ;-) to show
+    us the way in this blog.
+
+    Thanks again
+
+
+    Raul'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-10-18 17:05:21'
+  body: 'Hi Raul,
+
+
+    Oh, you need to repath images? I haven''t tried it, but you might try getting
+    the RasterImageDef and setting the ActiveFilePath property.
+
+
+    Regards,
+
+
+    Kean'
+- author: Raul
+  email: rtejada@pancanal.com
+  ip: 201.224.14.8
+  url: ''
+  date: '2006-10-19 01:46:11'
+  body: 'Hi Kean,
+
+    Thanks for your fast reply. I coud not find the RasterImageDef.ActiveFilePath
+    property although I tried to set rasterImageDef.SourceFileName and rasterImageDef.ActiveFileName,
+    both throw an exception.
+
+
+    Thanks
+
+
+    Raul'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-10-19 12:10:14'
+  body: 'Hi Raul,
+
+
+    You probably don''t have the object open for write... I''d suggest posting the
+    code to the .NET Customization Discussion Group (http://discussion.autodesk.com/forum.jspa?forumID=152).
+
+
+    Regards,
+
+
+    Kean'
+- author: Raul
+  email: rtejada@pancanal.com
+  ip: 201.224.10.189
+  url: ''
+  date: '2006-10-20 09:45:00'
+  body: 'Hi Kean;
+
+    I posted my code on the group you mentioned some days ago, see http://discussion.autodesk.com/thread.jspa?threadID=513346
+
+    no answer yet, I changed all the read occurences of the object for OpenMode.ForWrite
+    and still I do not see the ActiveFilePath property.
+
+
+    Any help I will appreciate.
+
+
+    Thanks
+
+
+    Raul'
+- author: Raul
+  email: rtejada@pancanal.com
+  ip: 168.77.204.141
+  url: ''
+  date: '2006-10-26 22:52:35'
+  body: "Hi Kean\nI replied to you at http://discussion.autodesk.com/thread.jspa?messageID=5368660\n\
+    \nI will appreciate if you review it. \n\nThanks\n\nRaul"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-10-27 10:44:52'
+  body: 'Reply posted...
+
+
+    Kean'
+- author: Raul
+  email: rtejada@pancanal.com
+  ip: 168.77.204.141
+  url: ''
+  date: '2006-11-08 14:55:51'
+  body: "Hi Kean\nI did not have the opportunity to thanks for your last reply on\
+    \ http://discussion.autodesk.com/thread.jspa?threadID=513346\nIt works fine now.\
+    \ I had to add a line imageAttributeDef.load since it did not load the raster\
+    \ reference by default. Also this repath operation works for the database of files\
+    \ that are not opened, I will investigate how to do it on open files.\nI noticed\
+    \ that AutoCAD 2007 adds a DWF external reference feature, I will also investigate\
+    \ how to repath those files.\n\nAgain, thanks for your altruistic effort. \n\n\
+    Best wishes\n\nRaul"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-11-08 15:30:18'
+  body: 'Hi Raul,
+
+
+    Great - I''m glad you got it working.
+
+
+    Regards,
+
+
+    Kean'
+- author: Adie Porter
+  email: adie@nationalfoodservice.com
+  ip: 203.23.220.204
+  url: ''
+  date: '2006-11-10 08:02:27'
+  body: "Hi Kean, hows parenthood suiting you?\nI have a question regarding 3rd party\
+    \ supplied blocks.\nIs there a way to modify the layers on an 3rd party issued\
+    \ block so it \"works\" in my drawings.\nI have hundreds to go through from dozens\
+    \ of suppliers and it just seems too much to open each and every block and send\
+    \ each part to the relevant layers in my drawings. \nDo you have any clues or\
+    \ ideas?\nAny help would be great.\nThanks"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-11-10 14:30:16'
+  body: 'Hi Adie,
+
+
+    Parenthood''s treating me well, thanks (having 2 boys under 3 years old is a challenge,
+    but luckily the youngest is still fairly easy to handle).
+
+
+    I''d suggest checking out the CAD Standards implementation... aside from the STANDARDS
+    command, take a look at LAYTRANS and also the Batch Standards Checker (a separate
+    executable that can check across sets of files).
+
+
+    You could always implement some custom code to go in and do this, but it''s always
+    worth seeing what standard functionality already exists.
+
+
+    Regards,
+
+
+    Kean'
+- author: Adie Porter
+  email: adie@nationalfoodservice.com
+  ip: 203.23.220.204
+  url: ''
+  date: '2006-11-29 06:29:38'
+  body: "Hi Kean,\nSorry about the delay getting back to you,\nThanks for the info,\
+    \ i will be trawling through looking at these tips.\nThanks \nAdie"
+- author: Cynthia
+  email: cynthia@hotmail.com
+  ip: 200.28.161.104
+  url: ''
+  date: '2007-04-02 06:52:22'
+  body: 'Hi Kean
+
+
+    I´m using Autocad 2006 and .Net and I want to know how can i get the Id of one
+    document (dwg) throw .net, and if i make a copy of the dwg file (document) when
+    i open the copy it has the same Id of the original....?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 202.95.81.226
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-04-02 08:45:14'
+  body: 'Hi Cynthia,
+
+
+    Which ID are you referring to? Do you mean the FingerprintGuid, or something else?
+    A new FingerprintGuid does get assigned when you SaveAs, WBlock a new DWG, etc.,
+    but there''s no way to control someone copying the file through Explorer etc.
+
+
+    But then it sounds as though you want to maintain the same ID as the original
+    (which FingerprintGuid mostly will not), so you may need to find another way to
+    do this. Bear in mind that with this logic, nearly every DWG would end up referring
+    to the template it was created from...
+
+
+    Regards,
+
+
+    Kean'
+- author: Cynthia
+  email: cynthia@hotmail.com
+  ip: 201.246.117.129
+  url: ''
+  date: '2007-04-15 22:29:48'
+  body: "Hi Kean, sorry, in my las comment i wasn´t clear.\nI´m going to explain what\
+    \ i want to do.\n\nI start Autocad 2006, and creat a new document or dwg. I set\
+    \ a name like Test.dwg and save it. Then i draw some lines, I know each line has\
+    \ an unique identifier assigned (id) in the draw or document, so i get throw .net\
+    \ each id of each line and save it in a external database with name and others\
+    \ properties i add. \nI close Autocad, i start again and open Test.dwg, y choose\
+    \ each line i draw before, and the unique identifier assigned (id) of the lines\
+    \ maintance the same value, but i can get the unique identifier assigned (id)\
+    \ of the document. I belive that autocad must assign an id for each document (\
+    \ when i said document i mean dwg file), so i need to get unique identifier assigned\
+    \ (id) to the document and then relate it with the lines drawed. This way I could\
+    \ save  and relate a document wich all objets drawed in it throw each id´s and\
+    \ save it in an external database like  Acces.\n\nI want to know too if i make\
+    \ a file copy of the Test.dwg, what happend with the unique identifier assigned\
+    \ (id) of the document or dwg. And if there's no way to control someone copying\
+    \ the file through Explorer etc. What happend with the Id´s of the lines and other\
+    \ objects drawed in it.\n\nThanks so much, and i´m happy to have the oportunity\
+    \ to ask you."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 202.95.81.226
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-04-16 09:45:18'
+  body: 'You can use the FingerprintGuid property the Database object, but this will
+    remain the same across DWGs file copied via Explorer (for instance). AutoCAD is
+    simply not involved in the copying of files at the OS-level.
+
+
+    Most developers working on this type of problem would rely on the uniqueness of
+    the file location on the system (using its path/URL/etc.).
+
+
+    I assume you''re using handles for object identifiers: these are maintained (and
+    kept unique) for the drawing''s lifetime, but are not guaranteed to be unique
+    across DWGs.'
+- author: Raul
+  email: rtejada@pancanal.com
+  ip: 168.77.204.141
+  url: ''
+  date: '2007-05-09 16:04:50'
+  body: "Hi Kean,\nI am back again, hopping you are doing fine with your kids.\nAfter\
+    \ working doing programmatic .net repath work with different external references\
+    \ objects using AutoCAD 2008 I got few comments you may find useful.\n\nDWG external\
+    \ reference object: \nIt accepts any kind of path convention, local i.e. c:\\\
+    myxdwgref.dwg and network \\\\myserver\\myxdwgref.dwg, relative local and url\
+    \ i.e.  .\\..\\  and  ./../ types, absolute url i.e. http://myserver/myxdwgref.dwg\n\
+    \nRaster image external reference (jpg, bmp, etc): \nIt behaves as above but it\
+    \ changes any relative url path reference by its local counterpart i.e. \nRasterImageDef.SourceFileName\
+    \ = \"./myxdwgref.dwg\"\nIt accepts the value but it changes to \".\\myxdwgref.dwg\"\
+    \n\nDWF and DGN underlay references: \nWorks as DWG references, but it do not\
+    \ process absolute url references, i.e. when using the following,\nDwfDefinition.SourFileName\
+    \ = \"http://myserver/myDwfXref.dwf\" it takes the value but it does not load\
+    \ the myDwfXref.dwf as rasters and dwg objects do. It seems that dwg and raster\
+    \ external references are downloaded automatically.\n\nWell I just wanted to expose\
+    \ what I think there are some inconsistencies on several external references objects.\
+    \ I hope Autodesk will come with some fix in future releases.\n\nI will appreciate\
+    \ any comments you may have\n\nBest wishes\n\nRaul"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-05-10 15:13:01'
+  body: 'Hi Raul,
+
+
+    Thanks - we''re all doing very well. :-)
+
+
+    Some of the differences you''ve found are probably historical (the objects having
+    been implemented at different times) and some are probably logical (the objects
+    do behave differently).
+
+
+    If there are product changes you would like to see happen, then I suggest submitting
+    through ADN (if you''re a member), or otherwise you can submit them via this form
+    on the Autodesk website:
+
+
+    http://usa.autodesk.com/adsk/servlet/index?siteID=123112&id=1109794
+
+
+    Regards,
+
+
+    Kean'
+- author: Raul
+  email: rtejada@hotmail.com
+  ip: 201.224.14.42
+  url: ''
+  date: '2007-11-07 01:50:48'
+  body: 'Hi Kean.
+
+    Hope you are doing fine with your family. I have am been doing some research on
+    .net wrapped Arx Objects and I have not been able to find an example related to
+    FileDependencyInfo and FileDependencyManager .net objects. I will appreciate if
+    you can shows the implementation of these objects in .net
+
+
+    Best regards
+
+
+    Raul'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-11-07 14:16:44'
+  body: 'Hi Raul,
+
+
+    I''ll add it to my list.
+
+
+    Regards,
+
+
+    Kean'
+- author: Daniel
+  email: dane_es@yahoo.co.in
+  ip: 202.54.169.165
+  url: ''
+  date: '2008-02-01 08:27:40'
+  body: 'Is there any way to get the actions placed inside the Dynamic Blocks via
+    objectARX?
+
+
+    Regards,
+
+    Daniel Enoch. S'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.1.67
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-02-01 09:06:57'
+  body: 'There is an API exposed to Dynamics Blocks, although I haven''t done much
+    with it. I''d suggest asking the question via the ADN site or the ObjectARX Discussion
+    Group.
+
+
+    Regards,
+
+
+    Kean'
+- author: Shaijil
+  email: shaijilsam@gmail.com
+  ip: 122.167.48.71
+  url: ''
+  date: '2008-06-24 12:36:44'
+  body: 'I know we can create dll''s in .Net and run them in Autocad. But can I make
+    drawings using commands and save the file within c# ?
+
+    what i mean is can i work as we do with a .txt file i.e. create , open, write
+    etc in .Net.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-06-24 13:58:32'
+  body: 'You can populate Database objects and save them as DWG (binary) or DXF (text)
+    formats using C#. And read them back in, of course.
+
+
+    The Database can be loaded in the Editor or in a <a href="http://through-the-interface.typepad.com/through_the_interface/2006/08/breaking_it_dow.html">side
+    database</a>.
+
+
+    Kean'
+- author: Sebas
+  email: mail2@gmailc.om
+  ip: 186.153.3.18
+  url: ''
+  date: '2011-01-11 20:43:14'
+  body: "version in VB:\n\n\nPublic Sub ListAttributes()\n        Dim ed As Editor\
+    \ = Application.DocumentManager.MdiActiveDocument.Editor\n        Dim db As Database\
+    \ = HostApplicationServices.WorkingDatabase\n        Dim tr As Transaction = db.TransactionManager.StartTransaction\n\
+    \n        ' Start the transaction\n        Try\n            ' Build a filter list\
+    \ so that only\n            ' block references are selected\n            Dim filList\
+    \ As TypedValue() = New TypedValue() {New TypedValue(CType(DxfCode.Start, Integer),\
+    \ \"INSERT\")}\n            Dim filter As SelectionFilter = New SelectionFilter(filList)\n\
+    \            Dim opts As PromptSelectionOptions = New PromptSelectionOptions\n\
+    \n            opts.MessageForAdding = \"Select block references: \"\n\n      \
+    \      Dim res As PromptSelectionResult = ed.GetSelection(opts, filter)\n\n  \
+    \          ' Do nothing if selection is unsuccessful\n            If (res.Status\
+    \ <> PromptStatus.OK) Then\n                Return\n            End If\n\n   \
+    \         Dim selSet As SelectionSet = res.Value\n            Dim idArray() As\
+    \ ObjectId = selSet.GetObjectIds\n\n            For Each blkId As ObjectId In\
+    \ idArray\n                Dim blkRef As BlockReference = CType(tr.GetObject(blkId,\
+    \ OpenMode.ForRead), BlockReference)\n                Dim btr As BlockTableRecord\
+    \ = CType(tr.GetObject(blkRef.BlockTableRecord, OpenMode.ForRead), BlockTableRecord)\n\
+    \n                ed.WriteMessage(\"\" & vbCrLf & \"Block: \" & btr.Name)\n  \
+    \              btr.Dispose()\n\n                Dim attCol As AttributeCollection\
+    \ = blkRef.AttributeCollection\n\n                For Each attId As ObjectId In\
+    \ attCol\n                    Dim attRef As AttributeReference = CType(tr.GetObject(attId,\
+    \ OpenMode.ForRead), AttributeReference)\n                    Dim str As String\
+    \ = (\"\" & vbCrLf & \"  Attribute Tag: \" & (attRef.Tag + (\"\" & vbCrLf & \"\
+    \    Attribute String: \" & attRef.TextString)))\n                    ed.WriteMessage(str)\n\
+    \                Next\n\n            Next\n\n            tr.Commit()\n\n     \
+    \   Catch ex As Autodesk.AutoCAD.Runtime.Exception\n            ed.WriteMessage((\"\
+    Exception: \" + ex.Message))\n        Finally\n            tr.Dispose()\n    \
+    \    End Try\n\n    End Sub"
+- author: Peter
+  email: adas@yahoo.com
+  ip: 92.81.165.22
+  url: ''
+  date: '2011-02-17 14:42:27'
+  body: 'Hi Kean!
+
+    I''m not an expert in Autocad or programming!
+
+    My question is: how can I get the attributes for other types of entities. In my
+    case, I need to query the AttributeCollection of a PolylineVertex3d object. If
+    i try your piece of code, I receive a cast exception.'
+- author: Kean Walmsley
+  email: ''
+  ip: 109.237.55.190
+  url: http://profile.typepad.com/kean
+  date: '2011-02-17 15:46:03'
+  body: 'Hi Peter,
+
+
+    Attributes are something that are quite specific to blocks. What do you mean by
+    the term attributes in the context of polyline vertices?
+
+
+    Regards,
+
+
+    Kean'
+- author: Peter
+  email: adas@yahoo.com
+  ip: 92.85.80.62
+  url: ''
+  date: '2011-02-17 16:29:52'
+  body: 'I have a Polyline3d and the polyline was draw using some points, which seem
+    to be BlockReferences objects(which have an attribute which I need to use). Based
+    on that attribute, I want to move the polyline in one specific layer.
+
+
+    But the only points I can get are the PolylineVertex3d and not those BlockReferences.
+    Can you give an advice?'
+- author: Kean Walmsley
+  email: ''
+  ip: 109.237.55.190
+  url: http://profile.typepad.com/kean
+  date: '2011-02-17 17:30:05'
+  body: 'Hmm... is that a standard AutoCAD feature? I haven''t used this capability
+    myself, and can''t find any documentation on it. I''ve found a few external apps/routines
+    that people have used to do this - is it possible you''ve been using a routine
+    to keep blocks placed at polyline vertex locations?
+
+
+    If there''s no specific connection with the polyline, you may need to do extra
+    work to identify which block reference is at which vertex.
+
+
+    Kean'
+- author: Peter
+  email: peter@yahoo.com
+  ip: 92.81.175.229
+  url: ''
+  date: '2011-02-18 16:00:08'
+  body: I found a relation between the vertexes and the BlockReferences. Thank you
+    Kean for your time. :)
+- author: Stephan
+  email: stephan.gumpert@gmail.com
+  ip: 58.6.195.1
+  url: ''
+  date: '2011-02-28 14:20:50'
+  body: "This is all very helpfull..... Is it actually possible to select and attribute\
+    \ within a block using the:\n\nTypedValue[] filList = new TypedValue[1] {\n  \
+    \        new TypedValue((int)DxfCode.Start, \"INSERT\")\n          i.e. Place\
+    \ antoher typed Value here for AttTag\n        };"
+- author: Kean Walmsley
+  email: ''
+  ip: 66.116.112.8
+  url: http://profile.typepad.com/kean
+  date: '2011-03-01 00:50:14'
+  body: 'Hi Stephan,
+
+
+    Probably not directly. You can use the approach shown <a href="http://through-the-interface.typepad.com/through_the_interface/2008/07/conditional-sel.html">here</a>
+    to specify the DxfCode.AttributeTag, but I doubt that will allow direct selection.
+
+
+    Let us know how you get on...
+
+
+    Regards,
+
+
+    Kean'
+- author: Stephan
+  email: stephan.gumpert@gmail.com
+  ip: 116.50.58.180
+  url: ''
+  date: '2011-03-01 01:39:39'
+  body: 'No luck really,  The main reson I ask is that you can do this in LISP and
+    was confident you could archieve this with the Selection Filters in VB.NET.
+
+
+    I tried:
+
+
+    DXFCODE.OPERATOR "<AND"
+
+    DXFCODE.BLOCKNAME, "TheBlockName"
+
+    DXFCODE.START, "ATTRIB"
+
+    DXFCODE.AttibuteTag, "TheTagName"
+
+    DXFCODE.OPERATOR "AND>"
+
+
+    But with no luck..... I will persist but.'
+- author: Stephan
+  email: stephan.gumpert@gmail.com
+  ip: 116.50.58.180
+  url: ''
+  date: '2011-03-01 01:53:53'
+  body: after doing some more research into the LISP end it seams the the attributes
+    are the next level down to the block, just like you have shown here. Pitty
+- author: Rakesh Shinde
+  email: rakeshshinde12@gmail.com
+  ip: 117.195.32.200
+  url: ''
+  date: '2011-09-20 14:10:22'
+  body: 'i want to achieve the block reference..and its property ..
+
+    but when i select  selectiion set it get objects not the blocks ...so i need block
+    selection...suggest me proper solution..........
+
+    Thanks in advance
+
+    Rakesh Shinde pune'
+- author: Rakesh Shinde
+  email: rakeshshinde12@gmail.com
+  ip: 117.195.32.200
+  url: ''
+  date: '2011-09-20 14:10:22'
+  body: 'i want to achieve the block reference..and its property ..
+
+    but when i select  selectiion set it get objects not the blocks ...so i need block
+    selection...suggest me proper solution..........
+
+    Thanks in advance'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.58.92
+  url: http://profile.typepad.com/kean
+  date: '2011-09-20 14:12:08'
+  body: 'Rakesh,
+
+
+    As mentioned earlier today, this is not a support forum.
+
+
+    Please contact ADN or post to the appropriate online discussion forum.
+
+
+    Regards,
+
+
+    Kean'
+- author: Matthew Eunice
+  email: hoover_32091@yahoo.com
+  ip: 173.231.104.212
+  url: ''
+  date: '2011-11-28 17:01:00'
+  body: 'Hi Kean,
+
+    I would like to select a block called "TITLEBLOCK" from a drawing file that varies
+    name and location based on the project number. Then "GET" all of the attribute
+    tags and values and either create or update custom sheet set properties based
+    on the original selection set. Usage would be similar to:
+
+    1. Select file which contains "TITLEBLOCK" - user input
+
+    2. Extract attribute tags and values - programmatically similar to this post
+
+    3. Select ".dst file" to modify - user input
+
+    4. Update ".dst file" - programmatically
+
+    Your help is greatly appreciated.'
+- author: Kean Walmsley
+  email: ''
+  ip: 98.188.81.216
+  url: http://profile.typepad.com/kean
+  date: '2011-11-28 18:12:18'
+  body: 'I''m afraid I don''t have time to provide support when not directly related
+    to code posted on my blog.
+
+
+    Please post your question via ADN or to the appropriate discussion forum.
+
+
+    Kean'
+- author: Tito
+  email: titojimenez1986@hotmail.com
+  ip: 5.35.205.14
+  url: ''
+  date: '2013-09-17 16:17:19'
+  body: "I've watching this code and it's nearly what I need. \nI want to read the\
+    \ block attributes from several .dwg files and I want to do it with \"ReadDwgFile\"\
+    \ property from dataBase. \n\nI know the name of the block I want to found and\
+    \ it's the same to all files, buy I don't know how to implement this solution\
+    \ without clicking on the screen. \n\nI think I'll have to loop all the blocks\
+    \ but I don't know how to do it.\n\nCan you help me?\n-----"

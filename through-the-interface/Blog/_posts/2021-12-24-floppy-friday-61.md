@@ -1,0 +1,13 @@
+---
+layout: "post"
+title: "Floppy Friday #61"
+date: "2021-12-24 08:55:01"
+author: "Kean Walmsley"
+categories:
+  - "Retro computing"
+original_url: "https://www.keanw.com/2021/12/floppy-friday-61.html "
+typepad_basename: "floppy-friday-61"
+typepad_status: "Publish"
+---
+
+<blockquote><p><em>‘Twas the night before Christmas, and all through the house, the breadbins were whirring, without even a mouse.</em></p><p align="right"><em>- Unknown</em></p></blockquote><p align="left">It’s the Christmas eve Floppy Friday! In <a href="https://youtu.be/YqFFd0_RxvU" target="_blank">this episode</a> we discover a few interesting – and largely unheard or, I believe – games, as well as a couple we’ve played in prior episodes. I was really surprised/impressed with the Italian motorbike game we started off playing, if nothing else that for the progress bar while loading. Could this be the first example of a game having such a feature? (I’d be very happy to hear it’s not the case, of course.)</p><p align="left">We played <a href="http://www.gamebase64.com/game.php?id=3807" target="_blank">International Speedway</a>, <a href="https://www.c64-wiki.com/wiki/Burnin_Rubber" target="_blank">Burnin’ Rubber</a>, <a href="https://en.wikipedia.org/wiki/David%27s_Midnight_Magic" target="_blank">Dave’s Midnight Magic</a>, <a href="https://archive.org/details/d64_Pool_Billiard_1983_Commodore" target="_blank">Pool Billiard</a> and one of <a href="https://en.wikipedia.org/wiki/4_Soccer_Simulators" target="_blank">4 Soccer Simulators</a>.&nbsp;&nbsp; </p><p align="center"><br></p><p align="center"><iframe width="500" height="283" title="YouTube video player" src="https://www.youtube.com/embed/YqFFd0_RxvU" frameborder="0" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></p><p align="left"><br></p><p align="left">Here’s some cover art from this episode:</p><p align="left"><a href="https://through-the-interface.typepad.com/.a/6a00d83452464869e202942f8ffd66200c-pi" target="_blank"><img width="500" height="170" title="Floppy Friday #61 cover art" style="margin: 30px auto; border-image: none; float: none; display: block; background-image: none;" alt="Floppy Friday #61 cover art" src="/assets/image_159429.jpg" border="0"></a></p><p align="left">I couldn’t find any Zzap! 64 reviews for this week’s games, so That’s where we’ll leave it for today. I hope you’re all having a wonderful festive season, if you celebrate it. See you next week for the last episode of 2021!</p><p align="left"><a href="https://through-the-interface.typepad.com/.a/6a00d83452464869e202942f8ffd66200c-pi" target="_blank"><br></a></p>

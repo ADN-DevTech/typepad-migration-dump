@@ -1,0 +1,78 @@
+comments:
+- author: Mark Johnston
+  email: mjohnston@westmarkproducts.com
+  ip: 71.39.137.253
+  url: ''
+  date: '2008-09-17 17:42:03'
+  body: "I've been using a simple lisp function to demand-load my .NET dlls.\nI create\
+    \ a lisp function with the same name as the command I want to call in the dll.\n\
+    So if the command is \"ReBlock\" I create a lisp command function named \"ReBlock\"\
+    .\n\n(defun c:ReBlock()\n  (command \"netload\" \"C:/Program Files/CompanyCAD/DotNetCAD.dll\"\
+    \ \"ReBlock\")\n  (princ)\n)\n\nI place this in my acad.lsp (or any lisp file\
+    \ that autoloads.\n\nThe first time the command is called the lisp version runs.\
+    \ It netloads the dll and runs the command.\nOn subsequent calls to the command\
+    \ the lisp function is ignored and the command in the dll runs.\n\nFor me this\
+    \ proves easier than the alternatives. Hopefully it's also a safe and stable way\
+    \ to do this. I haven't had any problems so far."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 72.255.41.134
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-17 22:50:01'
+  body: 'Sure - using LISP is certainly an option. In fact you could very easily write
+    your own .NET module-loading equivalent of the (autoload) function.
+
+
+    I personally prefer to live with the overhead of managing Registry keys rather
+    than relying on an .lsp file. Once again, it''s a choice.
+
+
+    Kean'
+- author: GIS Utilities
+  email: info@sblgis.com
+  ip: 203.200.142.209
+  url: http://www.sblgis.com/gis-utilities.aspx
+  date: '2008-09-19 10:48:38'
+  body: 'Quite useful post.Thank you.
+
+    Geospatial Utilities'
+- author: asmaa14
+  email: ''
+  ip: 41.221.19.143
+  url: http://profile.typekey.com/asmaa14/
+  date: '2008-10-13 10:35:15'
+  body: 'bonjour,
+
+
+    est ce que vous pouvez me conseiller des titres de livres concernant la programmation
+    d''autocad avec arx et c#.net'
+- author: asmaa14
+  email: ''
+  ip: 41.221.19.143
+  url: http://profile.typekey.com/asmaa14/
+  date: '2008-10-13 10:35:56'
+  body: 'bonjour,
+
+
+    est ce que vous pouvez me conseiller des titres de livres concernant la programmation
+    d''autocad avec arx et c#.net'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-10-13 10:47:32'
+  body: 'Asmaa -
+
+
+    Jerry Winters has written a good VB.NET book, I believe. Back in the day Charles
+    McAuley had written a good introductory ObjectARX book, but I don''t know whether
+    it''s still in print.
+
+
+    I would definitely take a look at the resources on <a href="http://www.autodesk.com/developautocad">the
+    AutoCAD Developer Center</a>, especially the tutorials linked to/posted there.
+
+
+    Kean
+
+    -----'

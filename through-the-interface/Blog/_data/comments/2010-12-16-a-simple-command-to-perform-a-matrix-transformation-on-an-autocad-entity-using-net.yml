@@ -1,0 +1,139 @@
+comments:
+- author: Lee Ambrosius
+  email: ''
+  ip: 174.103.213.88
+  url: http://profile.typepad.com/hyperpics
+  date: '2010-12-16 13:21:45'
+  body: 'Kean, the .NET Developer''s Guide might help expand on what your article
+    touches on. Check out:
+
+
+    <a href="http://docs.autodesk.com/ACD/2011/ENU/filesMDG/WS1a9193826455f5ff2566ffd511ff6f8c7ca-3ed5.htm">http://docs.autodesk.com/ACD/2011/ENU/filesMDG/WS1a9193826455f5ff2566ffd511ff6f8c7ca-3ed5.htm</a>
+
+
+    It also has samples to move, rotate, mirror, and scale objects using transformation
+    with TransformBy.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-12-16 14:01:35'
+  body: 'Thanks, Lee.
+
+
+    The next post will actually present a UI to generate and apply matrices like the
+    ones you''ve described.
+
+
+    Cheers,
+
+
+    Kean'
+- author: kelo
+  email: kelogame_office@sina.com
+  ip: 175.168.98.104
+  url: ''
+  date: '2010-12-16 17:48:38'
+  body: good! hope to see the next article.
+- author: Gaston Nunez
+  email: gaston.nunez@asyst.cl
+  ip: 190.22.241.67
+  url: http://www.asyst.cl
+  date: '2010-12-17 05:07:26'
+  body: 'Ken,
+
+
+    Nice article.
+
+
+    Just to clarify, the use of a 4x4 matrix using homogeneous coodinates it''s just
+    for make the composition of (affine) transformation a matrix multiplication operation,
+    by other hand, all transformation can be achieved using a 3x3 (or 2x2 in 2D)matrix,
+    but the composition won''t be, in all the cases, a matrix multiplication operation.
+    You can also use quaternions to representate transformations, and there are very
+    hot discussions about which way is better.'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2010-12-17 10:05:58'
+  body: 'Thank you, Gaston!
+
+
+    I''ve used matrix calculations for many years without ever using the words homogeneous
+    and affine (at least not in that context), so I avoided copying them from Wikipedia
+    into this particular article. ;-)
+
+
+    But you''re basically saying that having a 4x4 matrix allows the composition of
+    transformations via multiplication? That''s helpful for people to know (and it''s
+    certainly something that will be demonstrated practically in the next article).
+
+
+    I do believe that translation (or displacement, in AutoCAD-speak) needs a 4x4
+    matrix - I''d be curious to know how that could be achieved using a 3x3 matrix.
+
+
+    AutoCAD doesn''t use quaternions (although I think some of our other products
+    might), so I''m going to stick with matrices for the purposes of this series of
+    articles.
+
+
+    Regards,
+
+
+    Kean'
+- author: Gaston Nunez
+  email: gaston.nunez@asyst.cl
+  ip: 190.22.204.60
+  url: http://www.asyst.cl
+  date: '2010-12-17 21:43:10'
+  body: 'Ken,
+
+
+    You are right, translation can''t be done by 3x3 matrix multiplication. it''s
+    just a vector adding operation.'
+- author: Peter
+  email: newjv.developer@yahoo.com
+  ip: 92.81.214.183
+  url: ''
+  date: '2010-12-21 09:17:30'
+  body: "Hi Kean! I just love your posts regarding Autocad .Net!\n\nIn the same time,\
+    \ I have a question: :D\n\nI have a block which is formed from lots of lines,\
+    \ arcs and polylines and every line, arc and polyline is intersected by at least\
+    \ one leader (line with arrow).\nIn the same time, every leader is connected to\
+    \ a text entity (which I want to modify). \n\nI want to modify the text based\
+    \ on the color of the lines, arcs, and polylines. And based of that, I want a\
+    \ way to get all the entities which intersect a specific entity. Is this possible?"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2010-12-21 09:56:12'
+  body: 'Hi Peter,
+
+
+    This is a bit off-topic: in future, please post such questions to ADN or to the
+    appropriate discussion group.
+
+
+    What you want to achieve is altogether possible, given enough effort. You''ll
+    need to do some programmatic selection based on location (Editor.SelectCrossingWindow()
+    should help) and then perform some intersections (Entity.IntersectWith()).
+
+
+    Regards,
+
+
+    Kean'
+- author: Peter
+  email: newjv.developer@yahoo.com
+  ip: 92.81.214.183
+  url: ''
+  date: '2010-12-21 11:33:53'
+  body: 'Ok. Sorry for the off-topic!
+
+
+    P.S. Thank you for your answer! :)
+
+    -----'

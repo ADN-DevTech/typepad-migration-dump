@@ -1,0 +1,198 @@
+comments:
+- author: CadKicks.com
+  email: joseguia@cadkicks.com
+  ip: 72.48.196.2
+  url: http://www.cadkicks.com
+  date: '2007-11-10 14:47:39'
+  body: 'You''ve been kicked (a good thing) - Trackback from CadKicks.com
+
+    http://www.cadkicks.com/adkautocad/More_to_CAD_Part1_simple_NET_application_to_access_DWG_solids_info'
+- author: Ben Senior
+  email: ben.senior@t-online.de
+  ip: 217.93.254.133
+  url: ''
+  date: '2007-11-21 12:30:47'
+  body: 'Hi Kean,
+
+    I''m looking at writing a piece of software that will export all entities in a
+    DWG in XML or LandXML format and import XML data into a DWG. Some of the entities
+    would have Xdata attached to them.
+
+
+    Which programming language would you recommend and do you have any tips on writing
+    XML data
+
+
+    Best regards
+
+    Ben'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-11-21 14:50:32'
+  body: 'Hi Ben,
+
+
+    Here are some ways you might create XML files:
+
+
+    1. You can use standard ASCII output functions from your favourite programming
+    language (this can be the simplest, but may end up taking more effort if you need
+    to support different types of encoding).
+
+
+    2. You can create a DOM (Document Object Model) object using the MSXML COM component,
+    and populate that with elements and attributes, and ask it to save an XML file.
+
+
+    3. You can use the <a href="http://msdn2.microsoft.com/en-us/library/system.xml.xmlwriter.aspx">System.Xml.XmlWriter</a>
+    class from .NET.
+
+
+    I''ve personally used 1 & 2 in the past -at the time I was working with VB6 -
+    but if I had your problem to solve today, I''d go with option 3.
+
+
+    Regards,
+
+
+    Kean'
+- author: ALBERTO BENITEZ
+  email: ABENITEZ@NORTHATLANTICCORP.COM
+  ip: 63.144.141.2
+  url: ''
+  date: '2007-11-29 22:26:16'
+  body: "Do you know why I have this message when try to\nrun the project?\n\nThe\
+    \ specified module could not be found. (Exception from HRESULT: 0x8007007E)\n\n\
+    I am new RealDWG user, I will be grateful any help or referent \n\nthank you\n\
+    Alberto B"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 206.83.83.2
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-12-02 23:16:33'
+  body: 'Hi Alberto,
+
+
+    Please be aware of this statement from the above post:
+
+
+    "I''ve edited the above text to delete my personal RealDWG license keys – you
+    will need to license RealDWG to receive valid license keys of your own for this
+    code to work."
+
+
+    I suspect this is the reason for the problem, but let me know, if not.
+
+
+    Regards,
+
+
+    Kean'
+- author: Fred
+  email: fbernard@urbica.net
+  ip: 82.226.2.11
+  url: http://www.urbica.info
+  date: '2008-05-06 17:04:20'
+  body: "Hi Kean,\n\nGreat work for all your articles !\n\nI have a DWG file version\
+    \ 2004 that contains various 3dSolids (Cylinders, Torus, etc...)\nI search a way\
+    \ to replace each of them by a newly created object of the same kind with same\
+    \ attributes), but that provides a way to manipulate them under acad2008 and change\
+    \ their geometrical  attributes (radius, length, etc...)\nDo you have an idea\
+    \ how to do that ? \nI'm stuck on the fact that I can't access the geometrical\
+    \ properties of the subtype object (like the radius of the cylinder...)\n\nI'm\
+    \ usually working with C#, but if the way to go is different, i'm ready to go\
+    \ with what will work ;-)\n\nperhaps exist some upgrade function or conversion\
+    \ program that provides that ?\n\nThank you for your help !\nBest Regards, \n\n\
+    Fred"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-06 21:10:38'
+  body: 'You''ll need to set RecordHistory to true, although I only know that works
+    when creating new solids (I don''t know about modifying existing ones).
+
+
+    Kean'
+- author: Fred
+  email: fbernard@urbica.net
+  ip: 82.238.83.135
+  url: http://www.urbica.net
+  date: '2008-05-06 21:41:21'
+  body: "Yes, for new solids everythings works fine.\nThe goal is to \"upgrade\" old\
+    \ ones so that we would avoid \"redrawing\" again tons of 3Dsolids to profit of\
+    \ the new (and hoped) editing functions.\nI am frustrated because Acad of course\
+    \ knows about geometry of the underlying 3Dprimitive, he has to draw it with a\
+    \ good radius. \nWhere to get this info ?\nThe DXF file 3D datas are not readable,\
+    \ they seems as Binary datas.\nMy hope was to use the way you do, through some\
+    \ API. \nI am really confused about the fact that this \"upgrading\" function\
+    \ is so hard to find. \nDo you have an advice where I have to search ? Do you\
+    \ guess there is a solution for my problem anywhere ?\n\nThank you wery much.\n\
+    \nFred"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-07 15:54:20'
+  body: 'Fred,
+
+
+    I''ve taken a look into this... I don''t think there''s an easier answer, other
+    than to re-create the solids with history enabled.
+
+
+    Your assumption that AutoCAD knows about the underlying geometry isn''t correct,
+    I suspect: the SPHERE command - prior to history being added in 2007 - created
+    a spherical ShapeManager 3dSolid. From that point on it''s a 3dSolid and AutoCAD
+    doesn''t think of it as a sphere.
+
+
+    This changed with 2007, of course, but 3dSolids created with older versions are
+    not automatically understood as being of different shapes/types: I don''t believe
+    there''s a way to determine a solid''s creation history after the fact, unfortunately.
+
+
+    Sorry if this is bad news (I''ll let you know if I hear something back from my
+    team that contradicts this information).
+
+
+    Kean'
+- author: Michael Csikos
+  email: michaelcsikos@gmail.com
+  ip: 58.108.170.114
+  url: ''
+  date: '2009-07-27 07:43:33'
+  body: "Hi Kean\n\nI'm having serious issues with Visual Studio's Data Source Configuration\
+    \ Wizard in projects that reference AcMgd.dll. When the dialog opens, I choose\
+    \ Object, click Next and Visual Studio hangs and gradually consumes about 3GB\
+    \ of memory before the dialog closes itself. If I remove the reference it works,\
+    \ and I can add the reference again, but this requires editing the csproj file\
+    \ because I'm conditionally referencing the 32 and 64 bit versions, as follows:\n\
+    \    <Reference Include=\"AcDbMgd, Version=17.1.0.0, Culture=neutral, processorArchitecture=x86\"\
+    >\n      <SpecificVersion>False</SpecificVersion>\n      <HintPath>..\\..\\..\\\
+    ..\\ObjectARX 2008\\inc-$(Platform)\\AcDbMgd.dll</HintPath>\n      <Private>False</Private>\n\
+    \    </Reference>\n\nAs you can imagine, this makes screen design work very frustrating.\
+    \ I'm using Visual Studio 2008 and AutoCAD 2009. The same problem occurs in two\
+    \ completely unrelated  solutions. Any ideas?\n\nRegards\nMichael"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-07-27 09:34:36'
+  body: 'Hi Michael,
+
+
+    Sorry - I haven''t come across this before.
+
+
+    I suggest posting your question to <a href="http://adn.autodesk.com">the ADN team</a>,
+    if you''re a member, or <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>, otherwise.
+
+
+    Regards,
+
+
+    Kean'

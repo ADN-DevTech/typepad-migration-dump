@@ -1,0 +1,588 @@
+comments:
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 189.26.197.254
+  url: http://arxdummies.blogspot.com
+  date: '2010-04-28 14:35:28'
+  body: 'Kean,
+
+
+    What about VS2010 compatibility with AutoCAD 2009, 2010 and 2011 in regards to
+    both .NET and C++ SDK?
+
+
+    Any significant advantage over VS2008 in terms of AutoCAD applications coding
+    and debugging?
+
+
+    Regards.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-04-28 15:37:25'
+  body: 'Fernando,
+
+
+    I''m yet to install it, myself. Perhaps others can chime in with their opinions
+    and experiences.
+
+
+    From a compatibility perspective you should be just fine if you''re using .NET
+    (although there may be things you need to do if you''re targetting .NET 4 - I''m
+    not sure about that), but clearly you can''t use it for ObjectARX development.
+
+
+    Regards,
+
+
+    Kean'
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 187.58.1.246
+  url: http://arxdummies.blogspot.com
+  date: '2010-04-28 15:45:47'
+  body: 'It is a shame Microsoft don''t add an option to compile C++ code using previous
+    versions libraries as you can target with .NET projects.
+
+
+    It is annoying to keep all flavors of VS installed or use some unsupported techniques
+    to make VS compile with old C++ libraries.
+
+
+    Maybe in VS 2020... :)
+
+
+    Thanks.'
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 187.58.1.246
+  url: http://arxdummies.blogspot.com
+  date: '2010-04-28 16:37:21'
+  body: 'Kean,
+
+
+    What about this new feature called "Platform Toolset"?
+
+
+    <a href="http://blogs.msdn.com/somasegar/archive/2008/11/21/c-enhancements-in-vs-2010.aspx">http://blogs.msdn.com/somasegar/archive/2008/11/21/c-enhancements-in-vs-2010.aspx</a>
+
+
+    Any chance?'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-04-28 18:10:24'
+  body: 'Looks promising. It''s probably worth trying to build something and seeing
+    whether AutoCAD recognises the .ARX as a DLL built with the appropriate compiler
+    version.
+
+
+    If you don''t have any luck, let us know via <a href="http://adn.autodesk.com">the
+    ADN site</a>.
+
+
+    Kean'
+- author: Owen Wengerd
+  email: owenw@manusoft.com
+  ip: 24.140.117.84
+  url: http://otb.manusoft.com
+  date: '2010-04-28 18:21:35'
+  body: Microsoft did add that capability to VS 2010, and it works fine for targeting
+    AutoCAD 2007 and later.
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 187.58.1.246
+  url: http://arxdummies.blogspot.com
+  date: '2010-04-28 18:41:14'
+  body: 'Ok, I did it.
+
+    Have opened ARXDBG project inside VS2010.
+
+
+    VS have converted it and then I compiled it.
+
+    I have received two errors (apparently errors related to the Wizard while converting
+    the project setting which have changed a little bit):
+
+
+    1) UNICODE,_UNICODE definitions disappeared
+
+    2) _AFXDLL is now required (no clue why)
+
+    3) Changed the "Platform Toolset" to v90
+
+
+    After that, it did compile ok.
+
+    Have opened it inside both AutoCAD 2010 and 2011 and...voila! Worked like magic!
+
+
+    How cool is that??? :)
+
+
+    I have used:
+
+    VS 2010 Professional Trial version
+
+    ObjectARX 2010
+
+    Windows 7 Ultimate - x64 English
+
+    AutoCAD 2010 x64 English
+
+    AutoCAD 2011 x64 English
+
+
+    Could you test at your end?
+
+
+    Fernando.'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-04-28 18:58:00'
+  body: 'Very cool - good to know it works.
+
+
+    Even if I could test this easily (I still haven''t installed VS 2010), my testing
+    wouldn''t indicate official support - we''d need sign-off from our engineering
+    team on that.
+
+
+    It''s best to ask via ADN for the official word on this.
+
+
+    Kean'
+- author: Jeff G
+  email: jeffery.geer@att.net
+  ip: 173.197.3.66
+  url: ''
+  date: '2010-04-28 21:33:17'
+  body: 'Buyer beware!
+
+
+    If your developing mixed managed c++ code you need to know about these two issues:
+
+
+    No intellisense support in managed c++
+
+    <a href="https://connect.microsoft.com/VisualStudio/feedback/details/501921/c-cli-intellisense">https://connect.microsoft.com/VisualStudio/feedback/details/501921/c-cli-intellisense</a>
+
+
+    No incremental builds in managed c++
+
+    <a href="http://connect.microsoft.com/VisualStudio/feedback/details/519771/managed-incremental-build-for-c-projects-is-missing">http://connect.microsoft.com/VisualStudio/feedback/details/519771/managed-incremental-build-for-c-projects-is-missing</a>
+
+
+    Although targeting multiple builds is useful on our build server, for developers
+    we are having to stay with VS 2008
+
+
+    Jeff'
+- author: Juergen.Becker@CAD-Becker.de
+  email: Juergen.Becker@CAD-Becker.de
+  ip: 84.134.159.221
+  url: http://www.autocad.cad-becker.de
+  date: '2010-08-25 20:09:30'
+  body: 'Hi Kean,
+
+
+    after several frustrated hours I found your article.
+
+    It''s work fine. I have chosen the third possibility.
+
+
+    Many thanks.
+
+
+    Regards
+
+    Jürgen'
+- author: tietze@lcs-schlieben.de
+  email: tietze@lcs-schlieben.de
+  ip: 91.64.78.190
+  url: ''
+  date: '2010-09-09 16:53:39'
+  body: 'Great solution!!! Thank you. I spend 2 days before I found your conclusion.
+    I´ve chossen the third way, as well.
+
+
+    Daniel'
+- author: surjer
+  email: jerry.allen@woolpert.com
+  ip: 66.192.117.66
+  url: http://www.woolpert.com
+  date: '2010-10-23 05:16:45'
+  body: '+1 On option 3. I just installed the SDK and oddly enough I read the "readme"
+    file which I never seam to do. Inside I found a link to this page which describes
+    problems I didnt know I had yet!
+
+
+    "Just finished "Hello World" YAYYYYY'
+- author: David.W
+  email: ace_guru@hotmail.com
+  ip: 119.225.24.86
+  url: ''
+  date: '2010-10-25 02:13:10'
+  body: 'Firstly. Brilliant work. Will be the first to admit that I don''t fully understand
+    most of it. but enjoy reading you blogs.
+
+
+    Secondly. Trying Option 3 above. When I try to add an existing project all I can
+    add is an existing item. The first top 4 option are missing from my selection.
+    Actually, your bottom 3 selection are my top 3, followed by Windows form, user
+    control, module & class.
+
+
+    I know its a wild shot but any ideas why this would be so?
+
+
+    Using VB2010 Express & AutoCAD 2010
+
+
+    David'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-10-25 11:42:15'
+  body: 'It''s quite possible that the Express versions of Visual Studio don''t support
+    option 3 (they are intended to have limited debugging capabilities).
+
+
+    Kean'
+- author: David.W
+  email: ace_guru@hotmail.com
+  ip: 119.225.24.86
+  url: ''
+  date: '2010-10-26 06:20:51'
+  body: 'Bummer, thanks for the quick reply.
+
+
+    David'
+- author: Fredrik
+  email: fredrik@macosy.se
+  ip: 83.248.200.168
+  url: ''
+  date: '2010-12-04 20:20:51'
+  body: "Moved up to VS2010 and Win 7\n\nGot the debugproblem, \nand after searching\
+    \ a while I found this page.\nWent for solution 3. \nEasy and smart solution."
+- author: Darryl M.
+  email: dmack@cambriageosciences.com
+  ip: 74.50.239.114
+  url: ''
+  date: '2010-12-10 20:08:25'
+  body: '<b>FOR EXPRESS USERS:</b> I''m using VB 2010 Express , AutoCAD Map3d 2011,
+    win 7 . First I edit vb project file to set startaction & startprogram (because
+    I''m using express), then find in my acad.exe.config file:
+
+
+    1. <!--
+
+    2. <startup> useLegacyV2RuntimeActivationPolicy="true">
+
+    3. <supportedRuntime version="v4.0"/>
+
+    4. </startup>
+
+    5. -->
+
+
+    remove the comment block tags on lines 1. and 5.
+
+    DEBUG STARTS ACAD & BREAKPOINTS WORKING!!!!
+
+    (thanks for your help MF in Vancouver)'
+- author: Darryl M.
+  email: dmack@cambriageosciences.com
+  ip: 74.50.239.114
+  url: ''
+  date: '2010-12-10 20:16:07'
+  body: 'oops, xml char.s conflict with html char.s, so in my acad.exe.config file
+    (with angle brackets removed):
+
+
+    1!--
+
+    2startup useLegacyV2RuntimeActivationPolicy="true"
+
+    3supportedRuntime version="v4.0"/
+
+    4/startup
+
+    5--
+
+
+    remove the comment block tags on line 1 and 5'
+- author: Matej
+  email: matej.tacer@omegaconsult.si
+  ip: 193.77.82.220
+  url: ''
+  date: '2010-12-28 13:35:11'
+  body: 'Hi,
+
+    I''m glad to hear that above solutions work for almost everybody.. Unfortunately,
+    they don''t work for me.
+
+
+    I have my VS Framework set to version 3.5. Do you think this could cause problems?'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2011-01-04 08:58:41'
+  body: 'It''s hard to say: I suggest posting a more complete description of your
+    environment to <a href="http://adn.autodesk.com">the ADN team</a>, if you''re
+    a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean'
+- author: Verónica Basaldúa
+  email: vbp@ioissa.com
+  ip: 189.216.9.73
+  url: ''
+  date: '2011-04-12 20:04:00'
+  body: I´m working with Visual Studio 2010 .NET Framework 4.0 and Autocad 2012. I
+    have a class in my project that shows a form. I can debug the class but I get
+    a "No symbols are loaded for any call stack frame. The source code cannot be displayed",
+    when trying to debug code in the form. In the solution, "Properties", "Common
+    Properties" "Debug Source Files", I defined my working directories, with no luck.
+    Any ideas that could help me?? Thank you in advance.
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-04-13 14:22:33'
+  body: 'Hi Verónica,
+
+
+    Sorry - no obvious suggestions. Please try posting your question to <a href="http://adn.autodesk.com">the
+    ADN team</a>, if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Verónica Basaldúa
+  email: vbp@ioissa.com
+  ip: 189.216.191.251
+  url: ''
+  date: '2011-04-14 22:18:06'
+  body: I found the answer. In order to debug the code in a form with VS2010 + AUTOCAD
+    2012 you need to turn the environment variable FIBERWORLD to 0 (it´s read only)
+    but you can change the value with the NEXTFIBERWORLD. Close the AutoCAD in order
+    to the change take place. Reload Autocad and then you can debug the code in the
+    form.
+- author: José Montes Herraiz
+  email: ji@montesherraiz.com
+  ip: 188.76.250.24
+  url: http://www.montesherraiz.com
+  date: '2011-05-15 22:10:57'
+  body: "Thanks’, thanks’, thanks’. \nMy break points stopped working after reinstalling\
+    \ Revit and visual Studio 2010. I had to spend a whole week searching internet.\
+    \ But at last I’ve got here. Thanks’."
+- author: Andrea
+  email: elgin@tin.it
+  ip: 87.10.44.210
+  url: http://www.verlam.it
+  date: '2011-05-18 22:59:52'
+  body: 'Grande!!!!
+
+
+    grazie
+
+    Andrea'
+- author: dave
+  email: dave@davetyner.com
+  ip: 24.8.253.21
+  url: http://www.davetyner.com
+  date: '2011-05-26 14:01:28'
+  body: "Went through step 3 - but sadly it's still not working.  I am getting this\
+    \ error in Autocad 2010.\n\nC:\\Windows\\Microsoft.NET\\Framework64\\v2.0.50727\\\
+    config\\machine.config.\nLOG: Attempting download of new URL \nfile:///C:/Users/Workstation/Documents/Visual\
+    \ Studio \n2010/Projects/Entity1/Entity1/bin/Debug/Entity1.dll.\nERR: Failed to\
+    \ complete setup of assembly (hr = 0x8013101b). Probing terminated.\n\nI am using\
+    \ win7 64bit with Autocad 2010 (demo) and Autocad Plant 2011.\n\nAny ideas will\
+    \ help tremendously, thanks Kean!"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-05-26 14:34:58'
+  body: 'Hi Dave,
+
+
+    Sorry - nothing springs to mind.
+
+
+    I suggest posting your question to <a href="http://adn.autodesk.com">the ADN team</a>,
+    if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: dave
+  email: dave@davetyner.com
+  ip: 65.82.126.103
+  url: ''
+  date: '2011-05-26 16:03:42'
+  body: 'I did post here: <a href="http://forums.autodesk.com/t5/NET/Debugging-with-vs2010/td-p/3037350">http://forums.autodesk.com/t5/NET/Debugging-with-vs2010/td-p/3037350</a>
+
+
+    Will let you know if I resolve it.  Thanks'
+- author: Matt Wiseman
+  email: ''
+  ip: 80.254.147.68
+  url: http://profile.typepad.com/mattwiseman
+  date: '2011-08-08 13:16:35'
+  body: 'Hi Kean,
+
+
+    Thanks for this info. I went for option 2 and it works fine using VS2010 and ACADM2011.
+
+
+    This helps a lot as i''ve been working in the dark without debug capability for
+    the last year!
+
+
+    Cheers,
+
+    Matt'
+- author: John Donaldson
+  email: John_Donaldson@sbcglobal.net
+  ip: 131.90.0.235
+  url: ''
+  date: '2011-08-19 00:40:27'
+  body: 'thank you.  seems to work for me.
+
+
+    ACAD MAP 2009
+
+    VS2010
+
+    Targeted .Net framework 3.5
+
+
+    -JD'
+- author: Bob Wang
+  email: wang890@hotmail.com
+  ip: 72.37.244.156
+  url: ''
+  date: '2012-02-14 21:37:05'
+  body: "how do you set up vb.net 2010 express to do this? \nam i out of luck? doesn't\
+    \ have the config file and doesn't allow to add exe file. or set it up in vs2010\
+    \ and copy the file would work?\n\nthanks."
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-02-14 21:48:06'
+  body: '</strong>
+
+
+    Express editions don''t have the same configurability as full Visual Studio, so
+    you may be out of luck. (I assume you''re following the procedure in <a href="http://through-the-interface.typepad.com/through_the_interface/2011/08/debugging-autocad-net-projects-using-express-editions.html">this
+    post</a> if you''ve even got debugging working at all).
+
+
+    Kean'
+- author: Chuck Wilbur
+  email: ''
+  ip: 75.132.7.151
+  url: http://profile.typepad.com/wilburchuck
+  date: '2012-02-17 16:49:33'
+  body: 'According to <a href="http://connect.microsoft.com/VisualStudio/feedback/details/487949/debugging-external-application">http://connect.microsoft.com/VisualStudio/feedback/details/487949/debugging-external-application</a>
+    this was fixed in Studio 2010 SP1, released 3/3/2011.
+
+
+    SP1 release download at <a href="http://www.microsoft.com/download/en/details.aspx?id=23691">http://www.microsoft.com/download/en/details.aspx?id=23691</a>
+
+
+    I used option 3 to get one project working a few months ago, but then today none
+    of the options were working for me on a new project, so I''m in the process of
+    downloading the service pack. Will post back here with results in the hope of
+    creating an option 4...'
+- author: Chuck Wilbur
+  email: ''
+  ip: 75.132.7.151
+  url: http://profile.typepad.com/wilburchuck
+  date: '2012-02-17 17:22:33'
+  body: Nope, that did not fix the problem either.
+- author: blominao
+  email: blominao@voila.fr
+  ip: 85.115.60.180
+  url: ''
+  date: '2012-10-08 15:20:02'
+  body: "I don't know if this question could be sent here but you'll let me know.\n\
+    \nFrom a first projet wich is the start one in our solution, we lunch a second\
+    \ one which lunch Autocad with c# ObjectARX dll and we can't debug that one with\
+    \ our VS 2010. \n\nplease could you help us\n\nbest regards"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-10-08 16:20:27'
+  body: 'Hi Michel,
+
+
+    I don''t see how Visual Studio would know to debug into code that isn''t loaded
+    into the editor. Is there a reason you can''t just debug from the C# DLL project?
+
+
+    Regards,
+
+
+    Kean
+
+
+    P.S. I don''t have time to provide support - you should really be posting this
+    via ADN or the AutoCAD .NET Discussion Group.'
+- author: Hans Joachim Kemmann
+  email: hjkemmann@ibk-velbert.de
+  ip: 217.86.175.218
+  url: http://www.ibk-velbert.de
+  date: '2012-11-25 21:04:34'
+  body: 'Hello,
+
+    is it possible to debug a project with VS 2012 and AutoCAD 2012?
+
+    Thanks
+
+    Hans'
+- author: Kean Walmsley
+  email: ''
+  ip: 70.165.206.243
+  url: http://profile.typepad.com/kean
+  date: '2012-11-26 01:00:03'
+  body: 'Hi Hans,
+
+
+    It should be, as long as you''re using .NET and targetting the appropriate framework
+    version.
+
+
+    If you''re using native (ObjectARX) code then you''ll need to use the appropriate
+    platform toolset (which means VC9/VS2008, I think).
+
+
+    Regards,
+
+
+    Kean'
+- author: akshay
+  email: akshayupadhyay72@gmail.com
+  ip: 210.7.74.30
+  url: http://www.cprogramto.com/
+  date: '2013-09-05 13:29:50'
+  body: 'Hi kean, i found third solution interesting and worked fine for me. Thanx.
+
+    -----'

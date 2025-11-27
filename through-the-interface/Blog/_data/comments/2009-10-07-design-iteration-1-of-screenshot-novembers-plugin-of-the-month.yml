@@ -1,0 +1,149 @@
+comments:
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com
+  date: '2009-10-07 21:07:11'
+  body: 'If I''m not mistaken, AutoCAD users already have the means to do what your
+    plug-in does.
+
+
+    - When you copy objects to the clipboard, AutoCAD also places a bitmap and a metafile
+    on the clipboard.
+
+
+    - The SAVEIMG command saves the current viewport to a .BMP file. No need to ask
+    for a window to clip, as it''s a simple matter to pan/zoom to establish that before
+    running the command.
+
+
+    - Shift+PRTSC copies an image of the entire application window to the clipboard.'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-10-07 22:31:08'
+  body: 'Thanks for tha additional input, Tony.
+
+
+    Yes, you can paste a bitmap after having copied objects, although it takes the
+    standard background colour, irrespective, and doesn''t appear to work in 3D (from
+    the tests I''ve done). And there isn''t much control over the boundaries you''re
+    capturing, although it''s nice that you can just get the objects you select (which
+    is not something this app does), as long as you don''t mind cropping down from
+    the size of the drawing view.
+
+
+    Shift+PRTSC picks up the entire desktop, as far as I''m aware, so some manual
+    clipping is often needed (in my experience, at least - I may be missing something).
+
+
+    Anyway - I''m happy to hear from people if they feel this plugin concept is less
+    than compelling (or what we could do to make it more so).
+
+
+    Kean'
+- author: Ram
+  email: ram.sekaram@wsplincolnescott.com
+  ip: 210.18.195.66
+  url: ''
+  date: '2009-10-08 04:10:25'
+  body: please try  Alt+PRTSC this wiil copy only active window.
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com
+  date: '2009-10-08 07:28:10'
+  body: "\"And there isn't much control over the boundaries you're capturing...\"\
+    \  I do this quite often, and usually I will just PAN/ZOOM before copying to get\
+    \ the desired clip boundary.\n\n\"Shift+PRTSC picks up the entire desktop, as\
+    \ far as I'm aware...\". Sorry, my mistake. \n\nIt's ALT+PRTSCR that grabs only\
+    \ the active window."
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-10-08 09:28:30'
+  body: 'I see - thanks for clarifying, Ram & Tony.
+
+
+    Kean'
+- author: MJohnston
+  email: ''
+  ip: 71.36.45.152
+  url: http://profile.typepad.com/mohnston
+  date: '2009-10-08 22:06:35'
+  body: "Tested and works as advertised. It feels like an native AutoCAD command.\n\
+    \nTwo notes:\n1. The command ends without reporting that it succeeded or failed.\
+    \ The user may be wondering. A simple result at the commandline like \"ScreenShot\
+    \ captured to clipboard\" (or appropriate) would be helpful. \n2. I should have\
+    \ been clearer on the black background option. To be more accurate I was looking\
+    \ for a \"Black and white\" option with background being white and everything\
+    \ else black. Many of our entities are white or yellow or some other color that\
+    \ doesn't display well on a white background.\nI was thinking this tool would\
+    \ be good for quickly clipping a piece of a drawing for insertion into an email\
+    \ or help document.\n\nI'll give the 64bit version a try tomorrow.\n\nP.S. Thanks\
+    \ for opening yourself to outside comments. Very brave of you, and I for one appreciate\
+    \ it."
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-10-09 13:17:38'
+  body: 'Thanks, Mark.
+
+
+    1. Great idea - will go ahead and add that.
+
+    2. I actually chose to interpret your original comment in a way that led to the
+    path of least resistance. :-) I thought you might want a pure monochrome image,
+    but also felt that starting with a white background might be very useful for people
+    who wanted to print to a black & white device without ending up with a grey background.
+    And as you say: I also think this is going to help people who want to email/document
+    things (where a white background is common/desirable). We''ll see. Anyway, in
+    terms of addressing the need for a black foreground... the simplest may actually
+    be to manipulate the bitmap, forcing any non-white pixel to be black (or using
+    the luminosity to decide a greyscale value). That would certainly be simpler than
+    modifying geometry. I''ll have a think about that.
+
+
+    Thanks for all your input, Mark. I really appreciate your feedback, it''s helping
+    a lot.
+
+
+    Kean'
+- author: Alexis
+  email: z_alex123@yahoo.com
+  ip: 212.119.70.68
+  url: ''
+  date: '2009-10-22 05:39:04'
+  body: "Kean \n\nGood day. Im using VB instead of VB.NET. Im trying to use the VB.NET\
+    \ but I dont know where I should start. And since the program I made in VB is\
+    \ already use by the users in AutoCad. Now Im having problem with AutoCad 2010\
+    \ if my boss wanted to use the latest version. If we use the latest version of\
+    \ the program written in VB will not work. Do you have any suggestions? \n\nMany\
+    \ thanks.\n\nRegards,\n\nAlexis"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2009-10-22 07:41:37'
+  body: 'Alexis,
+
+
+    I suspect there''s a way to get your VB application working with the latest release.
+    If it''s actually VB<strong>A</strong> then you probably need to <a href="http://www.autodesk.com/vba-download">download
+    the VBA Enabler for AutoCAD 2010</a>.
+
+
+    With regards to moving from VBA to VB.NET, I recommend looking at <a href="http://through-the-interface.typepad.com/through_the_interface/2009/04/devtv-autocad-vba-to-net-migration-basics.html">this
+    DevTV session</a> and the material on the newly re-designed <a href="http://msdn.microsoft.com/en-us/vbasic/default.aspx">VB
+    Developer Center</a> on MSDN.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

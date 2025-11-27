@@ -1,0 +1,91 @@
+comments:
+- author: Scott McFarlane
+  email: ''
+  ip: 66.192.117.94
+  url: http://profile.typepad.com/scottmcfarlane
+  date: '2012-04-06 19:36:16'
+  body: 'I think an important but perhaps less obvious lesson here isn’t so much that
+    you can consume a web service from an AutoCAD program, but how you can separate
+    the concerns of your application into those that are dependent on the AutoCAD
+    API, and those that are not. And whether you actually use a remote web service
+    or not, just shifting your thought process into a “service-oriented” mode will
+    usually result in a better design, with more loosely coupled, reusable components.
+
+
+    When I really pay attention to it, I’m always surprised at how little of the code
+    in my AutoCAD programs is actually dependent on the AutoCAD API. Even more separation
+    can be achieved through simple abstractions (like your Circle and Sphere classes).
+    Having most of your program logic in non-AutoCAD-dependent components has significant
+    advantages. Those components are more reusable (say, by a program that is like
+    AutoCAD but not – if such a thing exists), they are easier to maintain (they don’t
+    need to be changed or recompiled for new AutoCAD releases), and they can be unit
+    tested inside of Visual Studio. Oh, and of course, they can more easily be migrated
+    into web services later.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-04-06 19:42:06'
+  body: 'An excellent comment, Scott (I''m happy to see a comment from "Mr. Business
+    Logic" himself ;-)
+
+
+    I''ll try to remember to highlight this area at some point in the series (although
+    I don''t have much by way of hard and fast rules or advice to offer - a lot of
+    those decisions depend on the context).
+
+
+    Thanks!
+
+
+    Kean'
+- author: Soumen
+  email: soumenroys@gmail.com
+  ip: 203.197.107.121
+  url: ''
+  date: '2012-09-14 06:02:18'
+  body: "In CirclesController.fs following error is coming\n\n\"The namespace or module\
+    \ 'CirclePackingFullFs' is not defined\"\n\nerror is coming. I have no idea about\
+    \ F#. I added the powerpack of F# with Powerpack.Paralel,Seq. But the line\n\n\
+    member x.Get(rad:double, steps:int) = \n    CirclePackingFullFs.Packer.ApollonianGasket\
+    \ rad steps |> \n      List.map (fun ((a,b,c),d) -> new Circle(a,b,c,d)) |> \n\
+    \      List.toSeq\n\nshows error under CirclePackingFullFs. Please help."
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-09-14 07:04:40'
+  body: 'You need to make sure the CirclePackingFull.fs file is copied across - and
+    added into your project - from this project:
+
+
+    <a href="http://through-the-interface.typepad.com/files/CircleAndSpherePacking.zip">http://through-the-interface.typepad.com/files/CircleAndSpherePacking.zip</a>
+
+
+    I hope this helps,
+
+
+    Kean'
+- author: Soumen
+  email: soumenroys@gmail.com
+  ip: 203.197.107.121
+  url: ''
+  date: '2012-09-14 11:11:30'
+  body: "Thanx Kean, for your prompt replay. \n\nYour project download from the above\
+    \ link, is working just fine. But that is not a MVC structured project as you\
+    \ discussed in this article. When I am trying to call the F# project as webservice\
+    \ as you suggested, with the suggested F#C# template \"CirclesController.fs\"\
+    \ is showing the above erroe. Actually this file does not exists in the project\
+    \ you referred. I am stuck in this minor error for last two days, please help"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-09-14 13:21:01'
+  body: 'You need to copy the file across from the project I just provided into the
+    one you''ve created, as described in the post.
+
+
+    Kean
+
+    -----'

@@ -1,0 +1,289 @@
+comments:
+- author: Scott Sheppard
+  email: ''
+  ip: 198.102.112.18
+  url: http://profile.typepad.com/sheppards
+  date: '2009-09-01 16:45:19'
+  body: We are happy to have the Autodesk Labs feedback process reach out to programmers.
+    We look forward to their comments.
+- author: James Maeding
+  email: ''
+  ip: 209.203.107.118
+  url: http://profile.typepad.com/6p0120a593de07970c
+  date: '2009-09-01 18:34:30'
+  body: 'I''ve written this in lisp using activex style code and entmake and other
+    options.  I even paid for a 3rd party version of the tool written by an author
+    I trust.
+
+    The issue I have seen is the nentsel function will crash on certain drawings,
+    locking the session.  I spent days figuring this out back in version 2002 because
+    we needed the tool to work.  I just tell people the command is not totally stable
+    so save your work before using.
+
+    Hopefully the .net api version is more stable of course.
+
+    Thx for the code.'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-09-01 20:47:09'
+  body: 'Hi James,
+
+
+    If you (or others) come across problematic files, please do let me know (either
+    via this post or <a href="mailto:labs.plugins@autodesk.com">by email</a>).
+
+
+    Hopefully the additional exception handling makes this version more tolerant,
+    but then data corruption can take apps down badly, as I''m sure you know.
+
+
+    Regards,
+
+
+    Kean'
+- author: Ted Krush
+  email: ''
+  ip: 24.97.243.10
+  url: http://profile.typepad.com/6p0120a598e53d970c
+  date: '2009-09-02 23:42:45'
+  body: "Works as advertise.  Thanks.  \n\nMy only suggestions/request/begs would\
+    \ be to modify it to work with blocks as well.  And somehow wrap the xline offset\
+    \ command into it as well.  \n\nThanks again."
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-09-07 17:09:15'
+  body: 'Thanks, Ted.
+
+
+    Actually it should be a one-line change to support standard blocks: if you comment
+    out line 455 of offset-xref.cs, it should work.
+
+
+    //if (btr.IsFromExternalReference)
+
+
+    I did some cursory testing and it appears to work well (my main concern was if
+    you use the XOFFSETLAYER command to choose the "Source" setting, but that doesn''t
+    appear to be a problem).
+
+
+    To work with XLINE offset, lines 398 and 412 should be changed with the same modification,
+    adding support for the XLINE command:
+
+
+    if (e.GlobalCommandName == "OFFSET" || e.GlobalCommandName == "XLINE")
+
+
+    It doesn''t respect the "Source" option in the XOFFSETLAYER command, but then
+    this doesn''t appear to be an option for XLINE offset, in any case.
+
+
+    Hopefully you''re able to make these changes yourself (if you have a development
+    environment such as Visual C# Express or full Visual Studio). If not, let me know
+    your email address, and I''ll email you a built version. I''ll also add these
+    items to the list of enhancements for the next version (as and when that happens).
+
+
+    Regards,
+
+
+    Kean'
+- author: Mark Douglas
+  email: ''
+  ip: 99.9.212.227
+  url: http://profile.typepad.com/mdouglasdrafting
+  date: '2009-09-12 08:18:39'
+  body: 'Hi Kean,
+
+    This code demonstrates some pretty interesting possibilities. One thing I''ve
+    always hoped AutoCAD could do was make the XOPEN command work so when a user selects
+    an object in the Xref, the XOPEN command or some other command would open the
+    selected Xref, but also once the drawing opens, zoom the user right to the selected
+    object he chose when running the Xopen command. I''m going to take a stab at trying
+    to modify this code to do something like this. If you have any pointers or sample
+    code would be great to get me going. Anyway thanks for posting the source code.
+
+
+    Mark'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-09-14 17:21:34'
+  body: 'Hi Mark,
+
+
+    Interesting idea...
+
+
+    The "easy" way would be to leverage the XOPEN command as much as possible, and
+    that expects a point. You would want to make sure at least one selection operation
+    involved selecting the Xref itself (a single entity) and then probably a set of
+    geometry within that Xref.
+
+
+    Then you would call the XOPEN command with the point, but the tricky thing is
+    - as with any command creating new documents - getting the XOPENed document to
+    execute the ZOOM operation to the geometry selected in your command. Hmm.
+
+
+    I don''t have a quick answer on how to do that, but hopefully this will at least
+    give you somewhere to start...
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com
+  date: '2009-10-08 16:36:42'
+  body: '"The source used to build the DLLs is indeed identical, but you need to include
+    different reference assemblies (i.e. different versions of both AcMgd.dll & AcDbMgd.dll)
+    depending on whether you build for a 32- or 64-bit platform. So one (the one found
+    in the win32 folder) should only work on 32-bit AutoCAD, and the other (the one
+    in the x64 folder) should only work on 64-bit AutoCAD."
+
+
+    Sorry, this is not the case.
+
+
+    The assemblies that are loaded at runtime, are the ones in the AutoCAD root folder,
+    on either 32 or 64 bit AutoCAD.  We don''t distribute those assemblies with apps,
+    because they''re part of AutoCAD.
+
+
+    There are 32- and 64-bit versions of those DLLs in the SDK, because they are mixed-mode
+    (e.g., native and managed code) assemblies, and the correct ones must be used
+    in the development environment, but the fact of the matter is that you can build
+    an app that references either the 32- or 64-bit reference assemblies, and deploy
+    it on either 32 or 64 bit AutoCAD.
+
+
+    Given that, pure managed code does not have the restriction you suggest above.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-10-08 16:57:27'
+  body: 'Actually, no.
+
+
+    The versions of the reference assemblies in the ObjectARX SDK have been "liposuctioned"
+    (an internal term we use), to remove any implementation dependencies: mainly to
+    allow them to be loaded by the form designer in Visual Studio. In theory, the
+    versions of these assemblies in the inc-win32 and inc-x64 folders *should be identical
+    in every way* - we''ve kept them in separate folders for consistency.
+
+
+    Unfortunately - and this has really only been noticed because of this specific
+    application - there are occasions (which Engineering is investigating) where you
+    need to build your application with the right version of the DLL. This should
+    not be the case, but it happens to be true. We should find out why (and hopefully
+    address it) before too long.
+
+
+    Feel free to give it a try with the provided project, Tony: this behaviour has
+    been reproduced a number of times by various members of my team (as well as by
+    our API QA team).
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadxtabs/AcadXTabs2010.htm
+  date: '2009-10-10 02:01:30'
+  body: "Kean - I was addressing your comments in the context of a general stipulation\
+    \ that *all* AutoCAD managed extensions require platform-specific builds that\
+    \ reference the 32 or 64 bit versions of the reference assemblies. While that\
+    \ may not have been the intended message, recent conversations I noticed on various\
+    \ public fora seem to have misinterpreted it thusly.\n\nThat is not the case.\n\
+    \nThe issue you stumbled on is in fact a bug (confirmed by the 'architect':),\
+    \ and there are several other similar bugs in the API, where needed overloads\
+    \ that take or return an IntPtr rather than an Int32 (on x86) or an Int64 (on\
+    \ x64) were not added, but should have been. Most of them involve ordinal values\
+    \ that represent GS Markers. \n\nFor example, the SelectedObject's GraphicsSystemMarker\
+    \ property is Int32 on x86 and Int64 on x64. In general, cases like that require\
+    \ an overload (or in the case of a property, another new property) that expose\
+    \ the value as an IntPtr.\n\nYou can download the diff reports between the 32\
+    \ and 64 bit assemblies (AcMgd and AcDbMgd only) that I did when investigating\
+    \ this myself, from here:\n\n    <a href=\"http://www.caddzone.com/AcDbMgd_diff.xml\"\
+    >http://www.caddzone.com/AcDbMgd_diff.xml</a>\n    <a href=\"http://www.caddzone.com/AcMgd_diff.xml\"\
+    >http://www.caddzone.com/AcMgd_diff.xml</a>\n\nBoth of these MS Word xml documents\
+    \ show the specific differences between the 32 and 64 bit assemblies, and while\
+    \ it is necessary to deal with those issues in order to be able to deploy a single\
+    \ build on either platform, the fact of the matter is that you can do that without\
+    \ having to create seperate platform-specific builds, just as you can P/Invoke\
+    \ native APIs with differring export signatures from the same assembly that targets\
+    \ both 32 and 64 bit platforms.\n\nI'll be happy to demonstrate how if you're\
+    \ interested."
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadxtabs/AcadXTabs2010.htm
+  date: '2009-10-10 03:32:42'
+  body: "Hi Kean.\n\nAt the link below is a revised copy of the offset-xref.cs from\
+    \ your project, that allows you to build a single managed assembly that can run\
+    \ on either 32 or 64 bit AutoCAD.\n\n   <a href=\"http://www.caddzone.com/offset-xref.cs\"\
+    >http://www.caddzone.com/offset-xref.cs</a>\n\nI encourage you and your readers\
+    \ to download and examine it, to better understand how this issue can be dealt\
+    \ with, to avoid the need for multiple, platform-specific builds, when that isn't\
+    \ really necessary."
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-10-10 09:24:14'
+  body: 'Hi Tony,
+
+
+    Thank you both for tracking this down and for sharing your findings. I''ll take
+    a look next week and roll the changes into a future update of the tool.
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-10-12 18:06:07'
+  body: 'Hi Tony,
+
+
+    OK - I''ve tried hard to get this working on my win32 system:
+
+
+    * I''m building with the right reference assemblies from the inc-win64 folder
+    of the ObjectARX 2010, making sure they have "Copy Local" to false.
+
+    * I copy the DLL to the AutoCAD 2010 install folder, to make sure that''s location
+    is not an issue, before NETLOADing it.
+
+
+    The module loads, but when I attempt to OFFSET, AutoCAD 2010 crashes.
+
+
+    Before I spend time trying to diagnose the problem (which won''t happen until
+    I get back from vacation, next week), can you confirm you managed to run the DLL
+    created with this code (built with the x64 assemblies) on a Win32 system?
+
+
+    Assuming it does work for you, how far back do you expect the module to function?
+    Will it work as far back as AutoCAD 2007?
+
+
+    (By the way - I''m loving the fact I can ask questions via my own blog''s comments,
+    rather just answering them. Very novel. :-)
+
+
+    Kean
+
+
+    -----'

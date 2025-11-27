@@ -1,0 +1,203 @@
+comments:
+- author: Zoltán Török
+  email: zoltan.torok@tzi.hu
+  ip: 193.151.117.46
+  url: ''
+  date: '2006-07-15 10:24:16'
+  body: 'Hello,
+
+
+    Why some of the ObjectARX include files contains deprecated CRT functions ?
+
+
+    ex: acdmmutils.h, asdkpromptbase.h contains ::wcscpy
+
+
+    Regards
+
+    Zoltán'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-07-17 14:19:21'
+  body: 'Hi Zoltan,
+
+
+    I think it''s a question of timing: for the majority of the AutoCAD 2007 development
+    cycle we were building with VC7.1 - VC8 only showed up quite late in the day (and
+    it''s in VC8 that the _s functions were introduced). So I think it''s most likely
+    an oversight due to the timing of the Visual Studio release.
+
+
+    If this impacts your use of the ObjectARX headers, please submit your request
+    via DevHelp Online (as I see you''re an ADN member). I''d pass it on myself, but
+    I don''t want to encourage the use of this blog as a channel for support.
+
+
+    Regards,
+
+
+    Kean'
+- author: Török Zoltán
+  email: zoltan.torok@tzi.hu
+  ip: 193.151.117.46
+  url: ''
+  date: '2006-07-18 06:50:28'
+  body: 'Dear Kean,
+
+
+    I was just curious. This isn''t affecting my development process.
+
+
+    Regards,
+
+    Zoltán'
+- author: Col
+  email: colmag6@btinternet.com
+  ip: 86.136.211.47
+  url: ''
+  date: '2006-08-07 19:16:24'
+  body: 'Hi Kean,
+
+
+    Great blog.  Even though I only understand a small amount of your blog, it can
+    only help people like myself learn better techniques in less time.  Not to mention
+    that it''s about time the guys behind the programs had their say!
+
+
+    Col.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-08-07 21:08:39'
+  body: 'Thanks for your support, Col, it''s much appreciated.
+
+
+    Regards,
+
+
+    Kean'
+- author: ravindra
+  email: ravindra.ghetia@gmail.com
+  ip: 57.67.17.100
+  url: ''
+  date: '2008-08-08 09:07:59'
+  body: '(1)how to concat two ACHAR strings?
+
+
+    (2)when I tried to write ACHAR characters in file(created using fstream) junk
+    characters are displayed? how to make files compitable(text file) with ACHAR?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-08 10:14:26'
+  body: "1. You'll find in AdAChar.h that ACHAR is just a typedef to wchar_t:\n\n\
+    typedef wchar_t ACHAR;\n\nSo you should be able to use wcscat and related string\
+    \ manipulation functions:\n\nwchar_t *wcscat(\n   wchar_t *strDestination,\n \
+    \  const wchar_t *strSource \n);\n\nI haven't made substantial use of ACHAR myself,\
+    \ though, so there may be a more elegant way to do this.\n\n2. I have no idea\
+    \ how you're writing the file, and probably wouldn't be able to help if I did:\
+    \ I suggest you post your question to the <a href=\"http://discussion.autodesk.com/forum.jspa?forumID=34\"\
+    >ObjectARX Discussion Group</a>.\n\nKean"
+- author: ravindra
+  email: ravindra.ghetia@gmail.com
+  ip: 57.67.17.100
+  url: ''
+  date: '2008-08-08 12:49:19'
+  body: 'Thanks for reply.
+
+
+    how to convert ACHAR to Char?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-08 13:28:22'
+  body: 'As mentioned, an ACHAR is just a wchar_t, so I suggest searching MSDN for
+    information on conversion between wchar_t and char.
+
+
+    Kean'
+- author: Chandu
+  email: nallam4u@yahoo.com
+  ip: 199.64.0.252
+  url: ''
+  date: '2009-03-26 05:52:38'
+  body: "Hi ,\n  \n  Can u suggest me how to call ObjectArx function from AutoLISP\
+    \ Function .\n\nregards,\nChandu"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-03-26 08:29:43'
+  body: 'Register the command using acedDefun(), then you can simply call it from
+    LISP (with a little work to marshall the parameters).
+
+
+    Please direct further off-topic questions to the appropriate <a href="http://discussion.autodesk.com">discussion
+    group</a>.
+
+
+    Kean'
+- author: Wagner Plais
+  email: siepem@codeme.com.br
+  ip: 200.251.193.130
+  url: ''
+  date: '2009-09-11 20:57:06'
+  body: 'Hi folks,
+
+
+    I''m about to migrate to ObjectARX 2010 from 2000. I''m aware that there is a
+    long road ahead. Can you please give me some hints about the steps that must be
+    taken to acomplish this tough task (or point me some documentation).
+
+
+    Thanks in advance.
+
+
+    Plais.'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-09-11 21:07:54'
+  body: 'Hi Plais,
+
+
+    The biggest change is likely to be Unicode, which came during the migration from
+    2004-6 to 2007-9. Otherwise the moves from 2000-2 to 2004-6 and from 2009-10 were
+    mostly related to language changes in the compiler (unless you have custom objects,
+    which would make the change to 2010 a little more arduous).
+
+
+    Your best bets are to work through the Migration Guides in the ObjectARX SDKs
+    for AutoCAD 2004 (if you can find it), AutoCAD 2007 and AutoCAD 2010.
+
+
+    Good luck!
+
+
+    Kean'
+- author: Wagner Plais
+  email: siepem@codeme.com.br
+  ip: 200.251.193.130
+  url: ''
+  date: '2009-09-17 15:33:17'
+  body: 'Hi Kean,
+
+
+    Thank you for your hints. I''m already going through the process o checking the
+    2004 and the 2007 migration guides. Yes, I do have some custom objects, so I have
+    a lot of work to do. But as always, I will count on the help of the ADN''s professionals.
+    I''m having some chat with Augusto from São Paulo office and It''s been of great
+    help.
+
+
+    Plais.
+
+
+
+    -----'

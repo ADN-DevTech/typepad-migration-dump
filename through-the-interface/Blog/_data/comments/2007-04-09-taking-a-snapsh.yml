@@ -1,0 +1,122 @@
+comments:
+- author: Robin
+  email: xyzhou@hslcn.com
+  ip: 218.83.157.202
+  url: ''
+  date: '2007-04-12 10:34:19'
+  body: If using GetGsView() to create a view, it will show 3D UI background. How
+    can we solve this problem? Thanks!
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 202.95.81.226
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-04-12 11:53:22'
+  body: Thie above code doesn't use AutoCAD's GS View directly - it just gets the
+    view parameters from it. You should be fine if you follow the above example, creating
+    a new View and using what you need from AutoCAD's.
+- author: Robin
+  email: xyzhou@hslcn.com
+  ip: 222.68.141.146
+  url: ''
+  date: '2007-04-13 12:31:45'
+  body: 'Thanks for you quick reply.
+
+    I do not want users to konw the background change. What can I do?
+
+    one more question.
+
+    How can I get the snap shot in the paper space?
+
+    Thanks again!'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 202.95.81.226
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-04-13 13:55:57'
+  body: 'I''m afraid I don''t understand the question... sorry.
+
+
+    As for taking a snapshot of paperspace, just try adding it to the view instead
+    of the modelspace.'
+- author: Robin
+  email: xyzhou@hslcn.com
+  ip: 222.68.140.158
+  url: ''
+  date: '2007-04-14 05:28:41'
+  body: 'Ok, I am trying to make my question clear.
+
+    when you use GetGsView() to get the view with visual style 2dwireframe, do you
+    find the acad background color is changed from black to gray?
+
+    What can we do to avoid this change?
+
+    Wish clear enough this time.
+
+    Thanks!'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 202.95.81.226
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-04-14 10:37:44'
+  body: 'OK, now I understand the problem...
+
+
+    Yes - calling GetGsView(vpn, true) will create a new 3D GS View, if one doesn''t
+    already exist. The default colour for these views'' background is grey. If you
+    pass false as the second argument, the view will not get created if it doesn''t
+    exist (it will be null), which means we can''t use it to get/set the view parameters.
+
+
+    The good news is that there''s a function that does just that (one that I had
+    missed). You can replace all the GetGsView()-related code with this line, which
+    comes after we create the View object:
+
+
+    gsm.SetViewFromViewport(view, vpn);
+
+
+    This seems to have the same result as the previous code, with the added benefit
+    of not creating a new 3D View with a grey backrgound to disturb your users. :-)
+
+
+    I''ll create a new post with the updated code sometime next week.
+
+
+    Thanks!'
+- author: Robin
+  email: xyzhou@hslcn.com
+  ip: 222.68.2.115
+  url: ''
+  date: '2007-04-15 12:45:47'
+  body: "Thanks a million.\nI will try that function.\nI am trying to get the preview\
+    \ of the geometries with setting \"display\", \"extents\" or \"window\" in Model\
+    \ space and paper space. The conception \" display\", \"extents\" and \"window\"\
+    \ here is the same as that in Plot dialog.\nI want to know if this sample is a\
+    \ feasible approach to do that. \nThanks again!"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-04-15 13:30:27'
+  body: 'It should be, but the devil is in the detail when it comes to this kind of
+    problem.
+
+
+    Good luck!
+
+
+    Kean'
+- author: Robin
+  email: xyzhou@hslcn.com
+  ip: 222.68.141.164
+  url: ''
+  date: '2007-04-16 16:52:58'
+  body: 'Great! It works.
+
+    I got a black rectangle area in the snapshot when I create a new view with layout
+    in paper space. The black area seems like the viewport in the layout. Could you
+    provide some ideas to me?
+
+    Thanks in advance!
+
+    -----'

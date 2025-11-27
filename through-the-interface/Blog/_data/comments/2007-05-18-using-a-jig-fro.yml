@@ -1,0 +1,313 @@
+comments:
+- author: Ben
+  email: devriesb@conwag.com
+  ip: 61.88.102.178
+  url: ''
+  date: '2007-05-21 03:48:30'
+  body: How would you go about adding Attribute References to the jig prior to appending
+    them to from the block table record?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-05-21 06:05:47'
+  body: 'A good question... adding the attributes works fine once the block reference
+    is in the database, but there appears to be a problem if the attributes are being
+    added to the block reference before it gets appended. I''m checking in with our
+    Engineering team on this.
+
+
+    Kean'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 202.95.81.226
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-05-22 08:11:33'
+  body: 'OK - this currently isn''t possible. Sorry for the bad news. I''ve posted
+    some code to show how to append attributes after the jig process has completed
+    in my next post.
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: tony.tanzillo@blackhole.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2007-06-06 01:49:13'
+  body: 'Thanks for a good basic example of a 2D jig.
+
+
+    If you ever get around to doing an example that supports 3D, keep in mind that
+    with the Dynamic UCS feature, you have to read the current value of the Editor''s
+    CurrentUserCoordainateSystem property in each jig update, and transform your block
+    using that. If you do, then the jig will support DUCS like any good 3D jig should'
+- author: Tony Tanzillo
+  email: tony.tanzillo@blackhole.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2007-06-06 01:51:50'
+  body: Regarding support for dragging attributes and blocks, it can be done by creating
+    the attributes and transforming each of them along with the block reference, without
+    having to add them to the blockref.
+- author: mspan
+  email: mikespaner@yahoo.com
+  ip: 69.183.85.73
+  url: ''
+  date: '2007-10-01 16:23:14'
+  body: "Newbie Question: What is a jig? Can you point me to a simple example (on\
+    \ this blog or elsewhere) using c# to insert one dynamic block ona drawing, then\
+    \ inserting a different type of dynamic block on the same drawing at a particular\
+    \ point on the first block. An example would be:\n1) insert a dynamic block that\
+    \ is a square. Set side length to 3000mm.\n2) at each corner of the square, insert\
+    \ a dynamic block that is a differnt sized circle. the center of each circle is\
+    \ located at each corner of the square. circle radius 1 = 500mm, 2 is 550 mm,\
+    \ 3 is 600mm, 4 is 650mm. \nThe dynamic blocks that I am using are quite complex\
+    \ however so any help in describing how to work with inertion points is greatly\
+    \ appreciated.\nThanks for a GREAT blog...even though most of it is going over\
+    \ my head at this point.\n\n--mspan"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-10-02 09:27:21'
+  body: 'Hi mspan,
+
+
+    Here''s the description of the AcEdJig class (the underlying ObjectARX class for
+    a jig) from the ObjectARX Reference, part of the SDK:
+
+
+    >>>
+
+    The AcEdJig class is used to perform drag sequences, usually to acquire, create,
+    edit, and add a new entity to the database. If you are deriving a new entity class,
+    you will usually want to implement your own version of AcEdJig. This class enables
+    the AutoCAD user to define certain aspects of an entity using a pointing device,
+    and it gives the programmer access to the AutoCAD drag mechanism. (The class takes
+    its name from “jig,” a device used to hold a machine part that is being bent or
+    molded in place.)
+
+    <<<
+
+
+    I don''t know of a pre-existing sample to do what you want - the requirement you''ve
+    got is quite unusual, but not particularly difficult to solve. You have the control
+    to do this from your app, for sure. Perhaps someone on the <a href="http://discussion.autodesk.com/forum.jspa?forumID=152">AutoCAD
+    .NET Discussion Group</a> will be able to help.
+
+
+    Regards,
+
+
+    Kean'
+- author: dannyw
+  email: dannywoodman@gmail.com
+  ip: 213.82.177.130
+  url: ''
+  date: '2008-03-27 18:28:15'
+  body: 'Hi Kean,
+
+
+    You said that performing a rotation jig on an entity is quite simple. For a newbie
+    like me, it''s not so simple. Could you post an example or indicate me an example?
+
+
+    Any help is greatly appreciated.
+
+
+    Thanks,
+
+    Danny
+
+
+    P.S. Great blog!! You''re my main source of knowledge...'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-03-28 15:33:08'
+  body: 'Hi Danny,
+
+
+    As you asked so nicely... :-)
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2008/03/using-a-jig-to.html">Using
+    a jig to rotate an AutoCAD entity via .NET</a>
+
+
+    Cheers,
+
+
+    Kean'
+- author: Frank Nauwelaerts
+  email: frank.nauwelaerts@infrax.be
+  ip: 194.7.164.131
+  url: ''
+  date: '2008-06-13 14:58:25'
+  body: 'Hi Kean,
+
+
+    Is it possible to just drag all the attributes of a blockreference, without the
+    blockref itself, in one motion? We have to insert a lot of blocks (with atts)
+    each with a different orientation but we''d like to have all info (the atts) nicely
+    aligned and horizontal (in WCS and UCS). Prompts like this:
+
+    - insertionpoint block?
+
+    - rotation block?
+
+    - position of your attributes?
+
+
+    Thought i got it using AcEdDragGen but it won''t accept a sset with only subentities.
+    AcEdJig doesn''t seem to offer a solution either since it''s single entities.
+    I can move the atts in one motion with a rubberband but dragging would be nicer
+    right?
+
+
+    No can do?
+
+
+    Regards,
+
+
+    Frank Nauwelaerts'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.17.75
+  url: http://through-the-interface.typepad.com/through_the_interface/2008/06/dwf-toolkit-75.html
+  date: '2008-06-13 15:31:42'
+  body: 'Hi Frank,
+
+
+    I can''t see a way of doing this, without creating an intermediate block reference
+    and replicating the attribute information but no geometry. You''d still have to
+    get around the attribute jigging issue, of course.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Partha
+  email: parthachakraborti@gmail.com
+  ip: 59.90.58.11
+  url: ''
+  date: '2008-06-17 11:21:14'
+  body: great blogs! your blog is my only dependable source. thanks a ton.
+- author: Frank Nauwelaerts
+  email: frank.nauwelaerts@infrax.be
+  ip: 194.7.164.131
+  url: ''
+  date: '2008-07-24 11:49:54'
+  body: 'Hi Kean,
+
+
+    I "aceddraggen" temporary, plain textentities with the same appearance, instead
+    of the attributes. Works like a charm, if i might say so myself.
+
+
+    Thanks,
+
+
+    Frank'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-24 13:27:29'
+  body: 'Thanks for sharing the tip, Frank!
+
+
+    Kean'
+- author: VIKS
+  email: vikaskumar.patodi@neilsoft.com
+  ip: 59.163.223.130
+  url: ''
+  date: '2008-11-29 09:25:44'
+  body: "Hi Kean,\n\nI want to placed block reference at some location without any\
+    \ interference. While placing a block I want to indicate to user whether it intersects\
+    \ with any other blocks or not. If it intersects then I want to change the color\
+    \ of block to 'RED' or otherwise 'BLUE'. Such that there is a need to find intersecting\
+    \ blocks and change the color while user drags a block.\n\nFor that I have used\
+    \ EntityJig. I am using 'Sampler function' to change color of dragging\nblock.\
+    \ \n\nI have used AcadSelectionSets and SelectByPolygon method in 'Sampler function'\
+    \ for getting intersecting blocks of Jig Entity. But I am getting selection count\
+    \ as 0 everytime even I have specified entire area to select all entities coming\
+    \ inside it.\n\nIs there any way to get intersecting selection set of EntityJig?\n\
+    \nThanks in advance.\nVIKS"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 65.124.181.2
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-30 21:06:24'
+  body: 'Hi Viks,
+
+
+    You work for an ADN member, so I suggest posting your question via <a href="http://adn.autodesk.com">the
+    ADN site</a> so one of my team can help you.
+
+
+    During some selection commands I''ve been able to call Editor.SelectCrossingWindow()
+    to find out the entities under the cursor, but I doubt it will work from a jig
+    selection.
+
+
+    ADN should be able to help more.
+
+
+    Kean'
+- author: ChrisS
+  email: chris_d_smith@yahoo.com
+  ip: 61.88.137.146
+  url: ''
+  date: '2011-01-31 07:05:27'
+  body: 'Hi All,
+
+
+    Just a word of caution if you''re running multiple jigs in a row. If a reactor,
+    PointMonitor, custom property manager etc is listening to the mouse cursor and
+    opens a transaction as part of it''s usual business then jigs past the first one
+    will not work properly. To work around that, you can only do the transaction stuff
+    if Editor.IsDragging is false.
+
+
+    (Took me a whole day of debugging to work this out so thought others might want
+    to know :) )
+
+
+    Cheers,
+
+    Chris'
+- author: Hugh Woods
+  email: hugh.woods@atkinsglobal.com
+  ip: 193.117.31.4
+  url: ''
+  date: '2011-04-27 12:58:25'
+  body: Can a jig optionally be controlled from a form? For example, use the mouse
+    or values in text boxes to set block position, rotation, scale etc? So far I can't
+    keep the jig visible when the form is displayed.
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2011-04-27 14:05:29'
+  body: 'You might be able to show a modeless dialog (maybe even the property palette
+    - I recall it was possible to use the property palette during a command, at some
+    point, to collect user input, although I don''t recall whether the mechanism was
+    jig-capable), but it''s true that a modal dialog will not work.
+
+
+    I haven''t tried this myself, though.
+
+
+    Kean'
+- author: Vitalich
+  email: vitalii.shulenin@gmail.com
+  ip: 213.210.112.2
+  url: ''
+  date: '2013-09-05 09:18:51'
+  body: 'Thanks. I use this code as template for my function!
+
+    -----'

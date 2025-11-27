@@ -1,0 +1,30 @@
+---
+layout: "post"
+title: "Introducing Central64: an open source implementation of central pathfinding"
+date: "2023-08-18 12:38:59"
+author: "Kean Walmsley"
+categories:
+  - "Autodesk"
+  - "Autodesk Research"
+  - "Generative design"
+original_url: "https://www.keanw.com/2023/08/introducing-central64-an-open-source-implementation-of-central-pathfinding.html "
+typepad_basename: "introducing-central64-an-open-source-implementation-of-central-pathfinding"
+typepad_status: "Publish"
+---
+
+<p>I’ve posted in the past about work done by Autodesk Research – in particular by Rhys Goldstein – to implement a more natural-seeming (but still direct and efficient) pathfinding algorithm. This is the algorithm at the heart of <a href="https://www.keanw.com/2019/03/the-space-analysis-package-for-dynamo-and-refinery-is-now-available.html" target="_blank">our Space Analysis package</a>, and you can find details on how it works in these previous posts:</p>
+<p><ul>
+<li><a href="https://www.keanw.com/2022/06/a-paper-on-our-space-analysis-algorithm-in-the-journal-of-artificial-intelligence-research.html" target="_blank">A paper on our space analysis algorithm in the Journal of Artificial Intelligence Research</a></li>
+<li><a href="https://www.keanw.com/2022/11/explaining-how-path-counting-helps-simulate-natural-navigation.html" target="_blank">Explaining how path counting helps simulate natural navigation</a></li>
+<li><a href="https://www.keanw.com/2023/05/visibility-in-space-analysis-an-explainer.html" target="_blank">Visibility in space analysis: an explainer</a></li>
+</ul>
+<p>The above posts reference these articles/papers that have been published elsewhere:</p>
+<p><ul>
+<li><a href="https://jair.org/index.php/jair/article/view/13544" target="_blank">Path Counting for Grid-Based Navigation</a></li>
+<li><a href="https://towardsdatascience.com/a-short-and-direct-walk-with-pascals-triangle-26a86d76f75f" target="_blank">A short and direct walk with Pascal's Triangle</a></li>
+<li><a href="https://towardsdatascience.com/a-quick-and-clear-look-at-grid-based-visibility-bf63769fbc78" target="_blank">A quick and clear look at grid-based visibility</a></li>
+</ul>
+<p>While these are great (even if I do say so myself), Rhys really wanted to put something out there that helps people try this mechanism for themselves, and potentially evolve it and contribute to this area of research.</p><p>We’ve been working together to get a project called <a href="https://github.com/Autodesk/Central64" target="_blank">Central64</a> published as open source. Aliza Carpio has kindly published <a href="https://forums.autodesk.com/t5/engineering-hub-blog/an-open-source-backstory-central64/ba-p/12176203" target="_blank">a blog post where Rhys and I talk with her about the Central64 project</a>. You can find out about this and our other open source efforts at <a title="https://opensource.autodesk.com/" href="https://opensource.autodesk.com/" target="_blank">opensource.autodesk.com</a>, by the way.</p><p>The source code for this project consists of <a href="https://github.com/Autodesk/Central64/tree/main/include/central64" target="_blank">a set of C++ headers</a> that implement a variety of pathfinding algorithms (A*, Jump Point Search, Bounded Jump Point Search, Mixed A*, Mixed Jump Point Search, Dijkstra, Bounded Canonical Dijkstra, Mixed Dijkstra and Mixed Canonical Dijkstra) and allow you to explore the effect central pathfinding has on each of them.</p><p>If you want to jump ahead and see the results of running the code without actually doing so yourself, there’s <a href="https://github.com/Autodesk/Central64/blob/main/report/00-index.md" target="_blank">a detailed technical report</a> that includes awesome images and graphs such as these:</p><p><a href="https://through-the-interface.typepad.com/.a/6a00d83452464869e202c1a6d17cc7200b-pi" target="_blank"><img width="500" height="253" title="Tentpole smoothing" style="margin: 30px auto; border: 0px currentcolor; border-image: none; float: none; display: block; background-image: none;" alt="Tentpole smoothing" src="/assets/image_465189.jpg" border="0"></a></p>
+<p><a href="https://through-the-interface.typepad.com/.a/6a00d83452464869e202b751aeddf6200c-pi" target="_blank"><img width="500" height="414" title="Search comparison" style="margin: 30px auto; border: 0px currentcolor; border-image: none; float: none; display: block; background-image: none;" alt="Search comparison" src="/assets/image_859962.jpg" border="0"></a></p>
+<p><a href="https://through-the-interface.typepad.com/.a/6a00d83452464869e202c1b25d3aaf200d-pi" target="_blank"><img width="500" height="414" title="All nodes comparison" style="margin: 30px auto; border: 0px currentcolor; border-image: none; float: none; display: block; background-image: none;" alt="All nodes comparison" src="/assets/image_493909.jpg" border="0"></a></p>
+<p>If you want to cut to the chase and find out which method is “best”, here’s the main <a href="https://github.com/Autodesk/Central64/blob/main/report/10-findings-and-recommendations.md" target="_blank">recommendation</a>:</p><blockquote><p>Overall, <strong>16-Neighbor Central Bounded Jump Point Search with Tentpole Smoothing</strong> is recommended as the investigated method that provides the best tradeoff between quality and speed.</p></blockquote><p>If this reads like gibberish to you (and I really do sympathise if that’s the case) but you’re intrigued enough to try to unpack it, sections <a href="https://github.com/Autodesk/Central64/blob/main/report/02-grids.md" target="_blank">2.1</a>, <a href="https://github.com/Autodesk/Central64/blob/main/report/03-paths.md" target="_blank">3.1-2</a> and <a href="https://github.com/Autodesk/Central64/blob/main/report/04-search-methods.md" target="_blank">4.3</a> of the technical report should help.</p><p>Many thank to Rhys for putting together this valuable resource. It makes this interesting technique much more accessible, whether from an academic perspective or for developers to integrate into their own projects.</p>

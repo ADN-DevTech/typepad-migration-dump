@@ -1,0 +1,151 @@
+comments:
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-10-15 09:12:56'
+  body: 'I should probably add that this code clearly doesn''t deal with nested blocks,
+    but that would be a relatively easy thing to address (should you so wish).
+
+
+    Kean'
+- author: James Maeding
+  email: jmaeding@hunsaker.com
+  ip: 209.203.107.118
+  url: ''
+  date: '2008-10-15 19:51:30'
+  body: 'Kean,
+
+    I was looking back at some of your posts, and noticed one on F#.  It had the pretty
+    green 3d math plotting pictures.
+
+    You mentioned that you used the mouse middle click to do something, and that it
+    sometimes needed a "drag" for the handler to kick in.
+
+    I believe this is exactly the same problem I''ve been running into with the snap
+    menu, and the behavior started in Acad 2006, when the CUI system was introduced.
+
+    What I do is set mbuttonpan to 1.  Then set my side mouse button as middle button.
+
+    For the wheel click, I set my mouse driver to run keystroke F11, which brings
+    up the snap menu due to having set F11 to do that in the acad CUI.
+
+    Works great, but you must move the mouse after clicking the wheel, or no snap
+    menu.
+
+    This messes me up because I type the mnemonic of the snap, the mous stays still
+    while doing so.  I end up typing before the snap menu shows and it messes up the
+    input, have to cancel out.
+
+
+    Is there any possibility of ridding the need to move the mouse, for the handler
+    to kick in?
+
+    I really like realtime pan on side button, and osnap menu on wheel click, but
+    have abandoned it for mbuttonpan set to 0 for now...
+
+    thx'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-10-16 09:48:30'
+  body: 'James,
+
+
+    The form this occurs in has nothing much to do with AutoCAD: it''s a modal form
+    thrown up by AutoCAD using DirectX to view a pretty 3D graph. So I suspect the
+    problem I hit is a general Windows programming issue: something to do with window
+    messages coming through from the mouse. Maybe it''s the same one you''re hitting,
+    maybe not.
+
+
+    Beyond me, I''m afraid - and there''s no great need for me to fix this for the
+    demo app I''ve thrown together - but hopefully you''ll manage to work it out.
+
+
+    Kean'
+- author: james
+  email: www.kjm2l58@yahoo.com
+  ip: 198.54.202.70
+  url: ''
+  date: '2008-10-22 08:58:31'
+  body: I NOT A JOB
+- author: james
+  email: www.kjm2l58@yahoo.com
+  ip: 198.54.202.70
+  url: ''
+  date: '2008-10-22 09:02:23'
+  body: I HAVE C++ DEMO
+- author: Irenelim
+  email: irene@irenelim.com
+  ip: 60.49.103.193
+  url: ''
+  date: '2010-03-08 08:59:28'
+  body: 'kean,
+
+    I have tried this example. It''s looks ok, but actually it will create 2 layers
+    of the block.'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-03-08 10:36:50'
+  body: 'Irenelim,
+
+
+    Sorry - I don''t understand what you mean. This sample doesn''t create or modify
+    layers in any way - perhaps you can explain the problem differently?
+
+
+    Regards,
+
+
+    Kean'
+- author: Antonio
+  email: anozzi@libero.it
+  ip: 82.105.254.214
+  url: ''
+  date: '2013-07-25 12:19:10'
+  body: 'Hi Kean,
+
+
+    In my plugin, I use blocks to represents different objects. Quite often I need
+    to place in the drawing more than a reference to the same block definition. Each
+    reference represents the same object but with different choices of colors/materials
+    for the components (3D solids) that constitute the object.
+
+
+    Is it possiblle to set different colors/materials for different block references
+    to the same block definition?
+
+
+    Thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.225.57
+  url: http://profile.typepad.com/kean
+  date: '2013-07-29 10:23:42'
+  body: 'Hi Antonio,
+
+
+    This is slightly off topic - please ask in future on the appropriate AutoCAD discussion
+    forum.
+
+
+    You can choose to have certain components in the block marked as having their
+    colour "by layer" or "by block" (which mean they take the colour of the layer
+    the block reference is on or the colour of the block itself), but I don''t know
+    of a standard way to enable more that two different colours.
+
+
+    You may be able to implement a DrawableOverrule to add this capability, but it
+    would probably be quite a bit of work.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

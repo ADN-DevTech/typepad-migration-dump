@@ -1,0 +1,133 @@
+comments:
+- author: csharpbird
+  email: csharpbird@gmail.com
+  ip: 124.79.117.195
+  url: ''
+  date: '2007-03-05 04:44:56'
+  body: "Hi,Kean\n  How to get the Hatch dialog using .NET?It seems that there is\
+    \ no such class in the .NET API?\n  Thanks!"
+- author: Vladimir Michl
+  email: vladimir.michl@xanadu.cz
+  ip: 194.228.248.178
+  url: http://www.cadforum.cz
+  date: '2007-03-05 18:39:22'
+  body: Just a note - the right international command is "_.UNDEFINE _OPEN ", not
+    "_.UNDEFINE OPEN ".
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 12.160.193.229
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-03-05 18:41:01'
+  body: Oops - thanks, Vladimir. Will fix the post.
+- author: Patrick Nikoletich
+  email: pnikoletich@gmail.com
+  ip: 216.237.59.194
+  url: ''
+  date: '2007-03-05 23:15:12'
+  body: 'Hi Kean,
+
+    Thank you for answering my question so quickly. You say that this is the simplest
+    way, but describe a few downsides such as possible problems that might occur when
+    executing this on AutoCAD startup and a UNDEFINE message that will be echoed to
+    the command line; is there a more complex but preferred method for integrating
+    this in 100% seamlessly, possibly even in C++?'
+- author: Glenn R
+  email: toxo@telstra.com
+  ip: 202.183.96.186
+  url: ''
+  date: '2007-03-06 04:20:54'
+  body: DocumentLockModeChangedEventArgs.Veto() perhaps...?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-03-07 01:54:31'
+  body: 'Hi Patrick,
+
+
+    One way to get rid of the command echo would be to use two modules: the "loader"
+    module would use Document.SendStringToExecute() to use the UNDEFINE command, with
+    the flag set to not echo the string to the command-line. It would then use the
+    same function to load another module defining the new OPEN command.
+
+
+    This would also resolve the timing issue solved previously by the call to SendCommand().
+
+
+    Regards,
+
+
+    Kean'
+- author: Sangita
+  email: sangeeta.004@gmail.com
+  ip: 220.225.232.147
+  url: ''
+  date: '2007-07-11 12:28:23'
+  body: how to open autocad 2004 using vb6 and vb.net both.
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-11 12:32:18'
+  body: 'You need to use COM - you cannot use AutoCAD''s native .NET interface out-of-process.
+    So CreateObject() with the appropriate ProgID ("AutoCAD.Application.16"? I forget...)
+    should do it from VB6, and the equivalent function VB.NET (which should be easy
+    to find via Google).
+
+
+    Kean'
+- author: ALBERTO BENITEZ
+  email: ABENITEZ@NORTHATLANTICCORP.COM
+  ip: 63.144.141.2
+  url: ''
+  date: '2008-01-31 19:33:40'
+  body: DO YOU HAVE THE VB.NET VERSION?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.1.67
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-02-01 09:03:28'
+  body: 'Hi Alberto,
+
+
+    I suggest checking out these code conversion websites:
+
+
+    <a href="http://www.carlosag.net/Tools/CodeTranslator/Default.aspx">Carlos Aguilar''s
+    "Code Translator"</a>
+
+    <a href="http://www.kamalpatel.net/ConvertCSharp2VB.aspx">Kamal Patel''s "Convert
+    C# to VB.NET"</a>
+
+
+    Regards,
+
+
+    Kean'
+- author: anonymous
+  email: sherine_s@sify.com
+  ip: 213.42.2.22
+  url: ''
+  date: '2008-03-13 12:52:04'
+  body: 'Hi Kean,
+
+
+    Is there a way to redefine QSAVE?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 68.110.50.28
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-03-13 19:52:53'
+  body: 'You UNDEFINE it and implement a command of the same name.
+
+
+    Kean'
+- author: Habeeb
+  email: habeebpm@yahoo.com
+  ip: 195.229.236.210
+  url: ''
+  date: '2008-07-21 17:26:34'
+  body: 'Hi Kean,
+
+    I am entirely new to .net. I hope you can provide me the vb.net version of the
+    following classic vb expressions.'

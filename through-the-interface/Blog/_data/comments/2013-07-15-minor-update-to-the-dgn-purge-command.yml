@@ -1,0 +1,354 @@
+comments:
+- author: badziewiak
+  email: noname@domain.eu
+  ip: 84.205.176.95
+  url: ''
+  date: '2013-07-16 01:44:00'
+  body: 'Hi Kean.
+
+    Would you modify the tool so that it can be processed by the equivalent figure
+    ObjectDBX (of course for AutoCAD, not RealDWG)? I would like to give the Database
+    object to the function, and the tool would have to process them in batch (a tool
+    for loading drawings on my side).'
+- author: BlackBox
+  email: ''
+  ip: 173.171.0.201
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2013-07-16 02:54:00'
+  body: 'Hi Kean,
+
+
+    Forgive my hasty inquiry; I''ve not tested this as I''m reading from my iPhone,
+    but was curious to know if this tool does (perhaps will?) handle incremental blocks
+    from DGN (FDOT''s GeoPak in particular)?
+
+
+    Cheers'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.25
+  url: http://profile.typepad.com/kean
+  date: '2013-07-16 14:11:08'
+  body: 'Interesting suggestion. I''ll look into it.
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.25
+  url: http://profile.typepad.com/kean
+  date: '2013-07-16 14:13:25'
+  body: 'Hi BlackBox,
+
+
+    Quite honestly I don''t know anything about those. This is very specifically for
+    getting rid of unused data (imported from DGN linestyles) that cannot (currently)
+    be purged using standard AutoCAD commands, even when not used inside the drawing.
+
+
+    I wouldn''t expect it to work beyond that, as it stands.
+
+
+    Regards,
+
+
+    Kean'
+- author: BlackBox
+  email: ''
+  ip: 207.34.120.71
+  url: http://profile.typepad.com/6p017d4259d7c8970c
+  date: '2013-07-16 15:05:57'
+  body: 'No worries; thanks for your time, Kean.
+
+
+    Cheers'
+- author: badziewiak
+  email: badziewiak@onet.cn
+  ip: 84.205.176.95
+  url: ''
+  date: '2013-07-29 15:36:58'
+  body: I see that issued the official version of the tool. Would you convert it so
+    it runs on the Database object fed in the argument function to make it possible
+    to batch processing, as in the post above?
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.225.57
+  url: http://profile.typepad.com/kean
+  date: '2013-07-29 17:44:55'
+  body: 'As mentioned previously, I''ll take a look. But I can''t commit to when I''ll
+    get the chance.
+
+
+    Kean'
+- author: badziewiak
+  email: badziewiak@onet.cn
+  ip: 84.205.176.95
+  url: ''
+  date: '2013-07-31 08:52:17'
+  body: "When you deal with this problem, it will be useful a few particulars:\nAs\
+    \ input are the Database and the Editor (null if batch processing mode). If it\
+    \ has been used in the current document, there is no problem. If the main function\
+    \ argument gave an external Database and Editor is null, there is an exception\
+    \ \"eNotFromThisDocument\" in the function:\n\n \nprivate static ObjectIdCollection\n\
+    PurgeLinetypesReferencedNotByAnonBlocks (\nDatabase db, Transaction tr, ObjectIdCollection\
+    \ ids\n)\n\n \nline 283 in the fragment:\n//Open the object and check its lineType.2point=2\
+    \ point\n\n \nvar obj = tr.GetObject (id, OpenMode. ForRead, true);\n \nHere pasted\
+    \ code: <a href=\"http://pastebin.com/yhrQVmL6\">http://pastebin.com/yhrQVmL6</a>"
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.236.157
+  url: http://profile.typepad.com/kean
+  date: '2013-07-31 18:35:22'
+  body: 'Sure thing. I''ve dealt with these particulars and will post some code tomorrow.
+
+
+    Kean'
+- author: AJILAL VIJAYAN
+  email: ''
+  ip: 78.100.85.98
+  url: http://profile.typepad.com/ajilal
+  date: '2013-10-14 16:20:50'
+  body: 'Hi,
+
+    If you are still looking for the batch process for this routine , I have published
+    an Autodesk Apps based on the Code from this webpage.
+
+    [Thanks to Kean for this code]
+
+    <a target="_blank" href="https://apps.exchange.autodesk.com/CIV3D/en/list/search?facet=author/Ajilal+Vijayan">@
+    Exchange App Store</a>'
+- author: Andre
+  email: aas@adi.ca
+  ip: 142.166.165.202
+  url: ''
+  date: '2013-10-29 16:15:14'
+  body: "Kean,\n\nI originally sent a case to Autodesk earlier this year.. with a\
+    \ video if I remember correctly showing the behavior that copy pasting entities\
+    \ from DWG to DWG, where DWG 1 had some DGN entities impacted the second DWG.\
+    \ It was sent to dev team..so I am glad this has been resolved.\n\nWe greatly\
+    \ need this tool as we have a huge DGN library. \nIs there any way I can keep\
+    \ it loaded without having to NETLOAD every time, as a plugin? \n\nThanks"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-10-30 08:21:00'
+  body: 'Andre,
+
+
+    Thanks for helping us track this down!
+
+
+    Yes, you can absolutely get this loaded - either on startup or whenever the DGNPURGE
+    command is executed - by making some Registry entries or modifying the app to
+    make them itself when it loads:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2006/09/automatic_loadi.html">http://through-the-interface.typepad.com/through_the_interface/2006/09/automatic_loadi.html</a>
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2009/05/creating-demand-loading-entries-automatically-for-your-autocad-application-using-net.html">http://through-the-interface.typepad.com/through_the_interface/2009/05/creating-demand-loading-entries-automatically-for-your-autocad-application-using-net.html</a>
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2010/03/creating-demand-loading-entries-automatically-for-your-autocad-application-using-c-f-or-vbnet.html">http://through-the-interface.typepad.com/through_the_interface/2010/03/creating-demand-loading-entries-automatically-for-your-autocad-application-using-c-f-or-vbnet.html</a>
+
+
+    You could also call NETLOAD from acad.lsp, if you prefer doing it that way.
+
+
+    Regards,
+
+
+    Kean'
+- author: Chris
+  email: christian.geisser@gmx.net
+  ip: 79.245.105.46
+  url: ''
+  date: '2013-11-21 21:42:41'
+  body: "Hi Kean,\n\nwe've also struggled with the exception 'eNotFromThisDocument'\
+    \ in our batch processing tool.\n\nThe following solved our problem:\n\nYou've\
+    \ used the imported function acdbHandEnt(HANDLE, REF ENAME)\nfor retreiving an\
+    \ ObjectId:\n\n\"\nusing (Transaction tr = db.TransactionManager.StartTransaction())\n\
+    \t{\n\t\tfor (long i = 1; i < handseedTotal; i++)\n\t\t{\n\t\t\t// Get a handle\
+    \ from the counter \n\t\t\tvar handle = Convert.ToString(i, 16);\n \n\t\t\t//\
+    \ Get the entity name using acdbHandEnt() \n\t\t\tvar res = acdbHandEnt(handle,\
+    \ ref ename);\n \n\t\t\tif (res != 5100) // RTNORM\n\t\t\t\tcontinue;\n \n\t\t\
+    \t// Convert the entity name to an ObjectId \n\t\t\tvar id = new ObjectId(ename.a);\n\
+    \ \n\t\t\t// Open the object and check its linetype \n\t\t\tvar obj = tr.GetObject(id,\
+    \ OpenMode.ForRead, true);\n\t\t\n\t\t\t...\n\"\n\nMaxbe I'm wrong but I assume\
+    \ that the function call to acdbHandEnt() is checking the database of the current\
+    \ active document.\nMaybe this leads to the eNotFromThisDocument exception mentioned\
+    \ by badziewiak.\n\n\nThis is what we did to get it working:\n\n\"\nRXClass rxc_entity\
+    \ = RXClass.GetClass(typeof(Entity)); \nusing (Transaction tr = db.TransactionManager.StartTransaction())\n\
+    \t{\n\t\tfor (long i = 1; i < handseedTotal; i++)\n\t\t{\n\t\t\t// --> create\
+    \ a new handle\n\t\t\tHandle h = new Handle(i);\n\n\t\t\t// --> try to get the\
+    \ object id from the passed database\n\t\t\tObjectId id = ObjectId.Null;\n\t\t\
+    \tif (!db.TryGetObjectId(h, out id) && !id.Equals(ObjectId.Null))\n\t\t\t\tcontinue;\t\
+    \   \t\n\n\t\t\t// --> check for an entity\n\t\t\tif (!id.ObjectClass.Equals(rxc_entity))\n\
+    \t\t\t\tcontinue;\n\t   \n\t\t\t// --> as we retrieved the object id from the\
+    \ passed database, \n\t\t\t// --> the following call doesn't raise the exception\t\
+    \t\n\t\t\t// Open the object and check its linetype \n\t\t\tvar\tobj = tr.GetObject(id,\
+    \ OpenMode.ForRead, true);\n\t\t\t\n\t\t\t...\n\"\n\nMaybe I missed s.th. and\
+    \ you could point out the differences between the funtions acdbHandEnt() and db.TryGetObjectId()\
+    \ for that specific case.\n\nThanks a lot for this.\n\nChris"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-11-21 21:54:04'
+  body: 'Hi Chris,
+
+
+    Yes, that was basically an oversight. See the comments in this follow-up post
+    to see how it came about:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2013/08/purging-dgn-linestyles-from-drawings-not-open-in-the-autocad-editor.html">http://through-the-interface.typepad.com/through_the_interface/2013/08/purging-dgn-linestyles-from-drawings-not-open-in-the-autocad-editor.html</a>
+
+
+    Ultimately they''re comparable, I just overlooked its existence when I first created
+    the sample. As a rule, it''s a good idea to reduce the number of P/Invoked functions
+    in your code, as it adds fragility between releases, in particular. So TryGetObjectId()
+    is the way to go, overall.
+
+
+    Regards,
+
+
+    Kean'
+- author: Gilles Chanteau
+  email: chanteau.gilles@orange.fr
+  ip: 90.37.57.76
+  url: ''
+  date: '2013-12-10 18:35:20'
+  body: 'Hi Kean,
+
+
+    Just a thought, you use:
+
+    for (long i = 1; i < handseedTotal; i++) ...
+
+    to scan the whole database, it''s a nice way i use too searching for proxies for
+    example. But here you''re looking only for entities to check their owners.
+
+    Won''t it be more efficient to only iterate all BlockTableRecords ?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-12-16 12:07:25'
+  body: 'Hi Gilles,
+
+
+    We could certainly save some cycles by doing that... my original intention (and
+    it''s been a while, so I forget) was to make sure we checked all relevant object
+    references, to perform the purge as thoroughly as possible. But as the code is
+    only checking references from Entities - which by definition are owned by BlockTableRecords
+    - then this does seem a good target for optimization. Again - this is just dipping
+    back into the code after a long time away, so hopefully I haven''t missed something.
+
+
+    I haven''t seen much feedback on the usage of the tool for some time, but will
+    certainly keep this (along with using TryGetObjectId() instead of acdbHandEnt())
+    in a list of potential future enhancements.
+
+
+    Thanks for the suggestion!
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-12-16 12:32:36'
+  body: (Although iterating BTRs would presumably remove the need for acdbHandEnt()/TryGetObjectId(),
+    thinking about it...)
+- author: Brock Priebe
+  email: brockpriebe@gmail.com
+  ip: 174.0.130.246
+  url: ''
+  date: '2013-12-18 04:25:46'
+  body: 'I seem to be having trouble getting DGNPURGE to get rid of the strokes:
+
+
+    "Purged 12 unreferenced complex linetype records (of 12).
+
+    Purged 0 unreferenced strokes (of 5842)."
+
+
+    Any idea of what may be the issue?  Thank you'
+- author: Brock Priebe
+  email: brockpriebe@gmail.com
+  ip: 174.0.130.246
+  url: ''
+  date: '2013-12-18 04:31:50'
+  body: "Also says this for each stroke \n\n\"Unable to erase stroke (AcDbZombieObject):\
+    \ eNotAllowedForThisProxy\""
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2013-12-18 08:59:18'
+  body: 'I''ve seen this in one or two drawings, but wasn''t able to determine why
+    they became this way. Somehow the stroke information has been turned into proxy
+    objects - our best guess is that it happened when the data was round-tripped via
+    an external system.
+
+
+    In case it helps, there are apps on the Exchange Store that can help with removing
+    proxies from DWG files (search for "Zombie Killer" - I haven''t tried it myself,
+    though).
+
+
+    Kean'
+- author: Brock Priebe
+  email: brockpriebe@gmail.com
+  ip: 75.158.94.6
+  url: ''
+  date: '2013-12-18 17:11:32'
+  body: 'Thank you,
+
+
+    You''re right, I searched for Autodesk Zombie Killer and easily found the link
+    <a href="http://apps.exchange.autodesk.com/acd/en/Detail/Index?id=appstore.exchange.autodesk.com%3azombiekiller_windows32and64%3aen&autostart=true">http://apps.exchange.autodesk.com/acd/en/Detail/Index?id=appstore.exchange.autodesk.com%3azombiekiller_windows32and64%3aen&autostart=true</a>
+
+
+    For anyone wondering, I downloaded and installed the app (quick and easy, can
+    create an Autodesk ID if you don''t have one).  Then back in AutoCAD, just find
+    the KILLZOMBIES command, and then I ran the DGNPURGE again which would then be
+    able to get rid of the 5842 unreferenced strokes that it could not previously.
+
+
+    Thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2014-01-09 15:43:28'
+  body: 'Hi Brock,
+
+
+    I think I''ve finally worked out why this happens. Try setting your DEMANDLOAD
+    system variable to 3 (setting it to 1 would also work). I suspect that it''s currently
+    set to 0, which stops the appropriate Object Enabler module from being loaded
+    when you open a DWG with DGN linestyle data in it.
+
+
+    I hope this helps,
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2014-01-09 20:13:06'
+  body: 'In the end it turns out some installations are missing some Registry entries...
+    more details here:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2014/01/update-on-purging-dgn-linestyles-from-autocad-drawings-using-net.html">http://through-the-interface.typepad.com/through_the_interface/2014/01/update-on-purging-dgn-linestyles-from-autocad-drawings-using-net.html</a>
+
+
+    Kean
+
+    -----'

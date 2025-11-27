@@ -1,0 +1,75 @@
+comments:
+- author: Owen Wengerd
+  email: owenw@manusoft.com
+  ip: 24.140.112.242
+  url: http://otb.manusoft.com
+  date: '2012-01-16 15:13:21'
+  body: 'The results are not surprising, but it''s interesting and useful to validate
+    expectations.
+
+
+    I''m curious why you chose GetDistAtPoint initially instead of GetParamAtPoint.
+    I would expect GPAP to be more efficient than GDAP, and hence lead to a less lopsided
+    result.
+
+
+    I''d be interested in seeing the results of running these tests on polylines with
+    more than 10k vertices (which are not all that rare in the wild).'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-01-16 16:02:01'
+  body: 'My choice was purely arbitrary - I didn''t expect there to be any real difference
+    in performance between the two, and suspected that GDAP would somehow work when
+    GPAP didn''t (but that was just in the back of my mind... I recall having had
+    funny results with GPAP, in the past, but that doesn''t mean GDAP performed better
+    under those circumstances, whatever they were).
+
+
+    I ran the tests again with GPAP versions being called alongside the others, and
+    it did indeed perform slightly better (but you wouldn''t see the difference when
+    comparing with GCP, overall). It performed quite a bit (~30%) better on Splines
+    (when on, not off), which is interesting to note.
+
+
+    Kean'
+- author: Jimmy Bergmark - JTB World
+  email: info@jtbworld.com
+  ip: 142.68.126.254
+  url: http://profile.typepad.com/jtbworld
+  date: '2012-01-18 08:46:42'
+  body: Kean, you may want to consider using System.Diagnostics.Stopwatch class to
+    get the time as it is more lightweight and more precise.
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/kean
+  date: '2012-01-18 10:05:24'
+  body: 'Thanks, Jimmy!
+
+
+    Kean'
+- author: Gaston Nunez
+  email: gaston.nunez@asyst.cl
+  ip: 200.120.74.198
+  url: ''
+  date: '2012-01-19 08:23:43'
+  body: May be interesting to do a custom function to test for circles, as it's very
+    easy to test for distance from point to the center equal radius, and compare against
+    the "native" ones.
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-01-19 08:48:54'
+  body: 'Indeed! Although you''d also need to make sure it was in the plane of the
+    circle, which would add some cost.
+
+
+    Do let us know if you happen to try it. :-)
+
+
+    Kean
+
+    -----'

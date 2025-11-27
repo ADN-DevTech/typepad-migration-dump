@@ -1,0 +1,77 @@
+comments:
+- author: danny.boy.1
+  email: danijel.ivankovic@gmail.com
+  ip: 88.85.19.190
+  url: ''
+  date: '2010-06-29 12:59:13'
+  body: 'Helo Kean!
+
+
+    Thank you for another good example!!!
+
+
+    It would be nice to we can add hatch without
+
+    persistent objects into database.
+
+    I am not sure is posible to draw hatch with
+
+    worlddraw (if we want to override drawing for example
+
+    some line with hatch)...
+
+
+    Best regards,
+
+    Danijel'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-06-29 13:05:46'
+  body: 'Hello Danijel,
+
+
+    Until someone comes up with a way, you might try reusing a single persistent polyline
+    for the hatch generation (modifying the vertices each time).
+
+
+    It should then be possible to use it repeatedly without drawing bloat (although
+    I''d be more confident of this approach working from an InputPointMonitor event
+    than an overruled WorldDraw()).
+
+
+    Regards,
+
+
+    Kean'
+- author: danny.boy.1
+  email: danijel.ivankovic@gmail.com
+  ip: 95.156.145.202
+  url: ''
+  date: '2010-06-29 13:41:07'
+  body: "Hm, good sugestion :-)!\n\nYes, one polyline can be used for all \nhatching!\n\
+    \nThx!\n\nBest regards,\nDanijel"
+- author: Chuck
+  email: chuckwilbur@spatialnet.net
+  ip: 99.88.39.82
+  url: ''
+  date: '2011-08-10 20:28:36'
+  body: "Kean,\n\nI think what you want is:\n\n        var hatchLoop = new HatchLoop(HatchLoopTypes.Polyline);\n\
+    \        foreach (Point3d vert in verts)\n        {\n          Point2d pt = vert.Convert2d(plane);\n\
+    \          hatchLoop.Polyline.Add(new BulgeVertex(pt, 0));\n        }\n...\n \
+    \       hat.AppendLoop(hatchLoop);\n\nSetting the type of the new HatchLoop to\
+    \ Polyline constructs a new empty BulgeVertexCollection exposed through its Polyline\
+    \ property, and then you just add points to that.\n\n(At least, that's working\
+    \ for me in the DrawableOverrule stuff I'm messing with...)"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-08-11 09:42:16'
+  body: 'Cool - thanks, Chuck.
+
+
+    Kean
+
+    -----'

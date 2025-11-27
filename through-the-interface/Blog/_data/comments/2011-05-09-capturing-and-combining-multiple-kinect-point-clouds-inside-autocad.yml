@@ -1,0 +1,167 @@
+comments:
+- author: ZHANG LINJIE
+  email: LINJIEZHANG@YAHOO.COM.SG
+  ip: 219.74.54.127
+  url: ''
+  date: '2011-05-11 10:03:19'
+  body: "Hi,Kean\n   I'm glad to see you are using the video sensor to implement into\
+    \ autocad. It's really funny!\nTwo month ago, I bought a sparkfun IMU sensor (<a\
+    \ href=\"http://www.sparkfun.com/products/9623).\">http://www.sparkfun.com/products/9623).</a>\
+    \ I want to let it control the autocad entity like this video (<a href=\"http://www.youtube.com/watch?v=WuHRCnpcsDQ).\"\
+    >http://www.youtube.com/watch?v=WuHRCnpcsDQ).</a> But i can’t find the method\
+    \ to transform the IMU output data (pitch/roll/yaw) into autocad rotation function.\
+    \ Pls help."
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-05-12 13:25:51'
+  body: 'I do, indeed, want to work on the navigation piece, to see what''s possible.
+
+
+    3D mice exist and do just this, so there must be a way.
+
+
+    Kean'
+- author: RK
+  email: robertkoza87@gmail.com
+  ip: 83.4.47.47
+  url: ''
+  date: '2011-05-13 16:41:22'
+  body: Hi Kean, I found your blog very helpful! I see that you working with point
+    clous alot, can you write about geometric alignment of 3d models into point cloud?
+- author: ZHANG LINJIE
+  email: LINJIEZHANG@YAHOO.COM.SG
+  ip: 219.74.54.127
+  url: ''
+  date: '2011-05-14 07:08:26'
+  body: 'Hi,Kean
+
+
+    Here is an another video,they use the IMU and 3Dmax'
+- author: ZHANG LINJIE
+  email: LINJIEZHANG@YAHOO.COM.SG
+  ip: 219.74.54.127
+  url: ''
+  date: '2011-05-14 07:08:33'
+  body: <a href="http://www.youtube.com/watch?v=PgpPx4yvKoA&feature=related">http://www.youtube.com/watch?v=PgpPx4yvKoA&feature=related</a>
+- author: zhanglinjie
+  email: linjiezhang@yahoo.com.sg
+  ip: 219.74.54.127
+  url: ''
+  date: '2011-05-14 10:49:55'
+  body: "Hi,Kean \n    Good news!\n    I find out the way to rotate by pitch/roll/yaw:\n\
+    \    Dim mt1 As Matrix3d = Matrix3d.Rotation(45, Vector3d.XAxis.TransformBy(ent.Ecs),\
+    \ pt)\n    ent.TransformBy(mt1)\n\n            Dim mt2 As Matrix3d = Matrix3d.Rotation(45,\
+    \ Vector3d.YAxis.TransformBy(ent.Ecs), pt)\n            ent.TransformBy(mt2)\n\
+    \            Dim mt3 As Matrix3d = Matrix3d.Rotation(45, Vector3d.ZAxis.TransformBy(ent.Ecs),\
+    \ pt)\n            ent.TransformBy(mt3)"
+- author: zhanglinjie
+  email: linjiezhang@yahoo.com.sg
+  ip: 219.74.54.127
+  url: ''
+  date: '2011-05-14 10:51:41'
+  body: And i will post a video about IMU control the rotation of a box.
+- author: zhanglinjie
+  email: linjiezhang@yahoo.com.sg
+  ip: 219.74.54.127
+  url: ''
+  date: '2011-05-14 11:05:42'
+  body: Oh,When you change the sequence of rotation,you will get the different result.Should
+    be any calculation of the angle!!
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-05-14 11:24:39'
+  body: 'So you want to modify entities directly? My personal interest is to navigate
+    (changing the view) rather than the drawing objects themselves.
+
+
+    I''ll be seeing what can be done, in that regard. Interesting work, though!
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-05-14 12:01:04'
+  body: 'Hi RK,
+
+
+    I haven''t actually done much work on this, in terms of establishing accuracy
+    or an approach for accurately aligning point clouds with 3D models.
+
+
+    My work with Kinect and Photosynth has mostly been exploratory in nature, and
+    it remains to be seen whether working with point clouds from either source will
+    prove feasible (as they''re not really designed with design capture in mind).
+
+
+    Photo Scene Editor is another story: getting accurate design information out of
+    it is front & center from a product design perspective. I suggest playing with
+    that and providing feedback via Autodesk Labs.
+
+
+    Regards,
+
+
+    Kean'
+- author: zhanglinjie
+  email: linjiezhang@yahoo.com.sg
+  ip: 119.56.113.200
+  url: ''
+  date: '2011-05-14 16:03:01'
+  body: NOW the important is how to convert euler angles into rotation axis and angle.
+- author: Marketing Using Video
+  email: info@marketingusingvideo.com
+  ip: 207.228.131.134
+  url: ''
+  date: '2011-05-30 23:28:22'
+  body: Very technical but also very informative! Excellent site!
+- author: zaker
+  email: undex1@gmail.com
+  ip: 101.2.178.129
+  url: http://www.youtube.com
+  date: '2012-06-14 20:56:34'
+  body: 'hi kean,
+
+    autocad 2011 is supported? please give a setup guide for creating point cloud
+    tutorial(drivers what i have to install, packages...etc) & you done  grate job.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-06-18 17:22:19'
+  body: 'Hi zaker,
+
+
+    Yes, it should work with AutoCAD 2011. You should get the latest Microsoft Kinect
+    SDK - this version works with that:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2012/03/updated-autocad-kinect-for-windows-samples.html">http://through-the-interface.typepad.com/through_the_interface/2012/03/updated-autocad-kinect-for-windows-samples.html</a>
+
+
+    This is probably the closest thing to a tutorial post (which I don''t have time
+    to create for you, I''m afraid):
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2011/11/au-2011-handout-integrating-microsoft-kinect-with-autocad.html">http://through-the-interface.typepad.com/through_the_interface/2011/11/au-2011-handout-integrating-microsoft-kinect-with-autocad.html</a>
+
+
+    These may also help, assuming you''re an AutoCAD beginner:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2006/06/getting_started-1.html">http://through-the-interface.typepad.com/through_the_interface/2006/06/getting_started-1.html</a>
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2006/07/getting_started.html">http://through-the-interface.typepad.com/through_the_interface/2006/07/getting_started.html</a>
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

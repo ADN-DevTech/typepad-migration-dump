@@ -1,0 +1,117 @@
+comments:
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2009-01-21 01:13:39'
+  body: "Hi Kean, thanks for another great \nexample.\n\n\"this post tackles selecting\
+    \ a face (which is slightly more complicated than perhaps it might be)\"\n\nThis\
+    \ isn't really that difficult. The EditorInput namespace has classes that facilitate\
+    \ selection of faces and edges of solids. \n\nThe file at the following link has\
+    \ a helper class that simplifies it:\n\n  http://www.caddzone.com/Solid3dHelper.cs\n\
+    \nHowever, with regards to Inventor's \"Look At\" functionality, this comes reasonably\
+    \ close (with some needed error checking omitted):\n\n<pre>\n\n(defun C:LOOKAT\
+    \ ( / e )\n   (if (setq e (entsel))\n       (command \n          \"._UCS\" \"\
+    _Face\" (cadr e) \"\" \n          \"._PLAN\" \"_current\" \n          \"._ZOOM\"\
+    \ \"_Object\" (car e) \"\" \n          \"._UCS\" \"_p\"\n       )\n   )\n   (princ)\n\
+    )\n\n</pre>"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.2.123
+  url: http://profile.typekey.com/walmsleyk/
+  date: '2009-01-21 01:46:57'
+  body: 'Thanks, Tony.
+
+
+    I initially started down the path of the standard selection functions, but hit
+    a roadblock. I''ll take a look at your helper file - it''ll no doubt point out
+    what I was missing.
+
+
+    And yes - it is indeed much simpler just calling commands. I think I''m going
+    to persevere with my existing approach as the code is likely to prove interesting/useful
+    for other purposes, even if not the most efficient (and certainly not the most
+    succinct) solution.
+
+
+    Kean'
+- author: Giuliano
+  email: bikelink@tiscali.it
+  ip: 79.20.251.75
+  url: http://www.base2soft.it
+  date: '2010-03-29 01:52:50'
+  body: "Hi Kean \na quick question about my code and an error that it made me mad\
+    \ (now it appears resolved...)\nbut i don't understood the real reason. \nAutocad\
+    \ without the bold rows in the code  below , after a loop (8/10 times  with 35\
+    \ solids ) did crash.\nwith this rows added now it's going ok.Have You got some\
+    \ idea ?\nI arrived here at this modify with debugger set \"code unmanaged\" and\
+    \ his file dmp. \nThanks in advance\n\n public static IList<Point3d> PrendiPuntiDelSolido(Solid3d\
+    \ sol)\n        {\n\n            IList<Point3d> ptResult = new List<Point3d>(0);\n\
+    \            try\n            {\n                if (sol.IsNull)\n           \
+    \         return ptResult;\n                \n                using (AcBr.Brep\
+    \ brp = new AcBr.Brep(sol))\n                {\n                    AcBr.BrepEdgeCollection\
+    \ edgeTrav = brp.Edges;\n                    foreach (AcBr.Edge edge in edgeTrav)\n\
+    \                    {\n                        Point3d p = Point3d.Origin;\n\
+    \                        Point3d p2 = Point3d.Origin;\n                      \
+    \  using (Autodesk.AutoCAD.BoundaryRepresentation.Vertex v = edge.Vertex1)\n \
+    \                       {\n                            p = v.Point;\n        \
+    \                    if (!ptResult.Contains(p))\n                            \
+    \    ptResult.Add(p);\n\n                            \n                      \
+    \  }\n                        using (Autodesk.AutoCAD.BoundaryRepresentation.Vertex\
+    \ v2 = edge.Vertex2)\n                        {\n                            p2\
+    \ = v2.Point;\n                            if (!ptResult.Contains(p2))\n     \
+    \                           ptResult.Add(p2);\n\n                           \n\
+    \n                        }\n\n\n                        using (Curve3d c3d =\
+    \ edge.Curve)\n                        {\n\t\t\t\t<b>\n                      \
+    \      if (c3d == null)\n                                continue;\n\t\t\t\t</b>\n\
+    \                            if (p.IsEqualTo(p2, new Tolerance(0.01, 0.01)) &&\
+    \ c3d.IsClosed())\n                            {\n                           \
+    \     using (ExternalCurve3d ca = edge.Curve as ExternalCurve3d)\n           \
+    \                     {\n                                    using (CircularArc3d\
+    \ c = ca.NativeCurve as CircularArc3d)\n                                    {\n\
+    \                                        if (c != null && c.IsClosed())\n    \
+    \                                    {\n                                     \
+    \       Vector3d vraggio = c.Center.GetAsVector() - p.GetAsVector();\n       \
+    \                                     p2 = p + (vraggio * 2);\n              \
+    \                              if (!ptResult.Contains(p2))\n                 \
+    \                               ptResult.Add(p2);\n\n                        \
+    \                }\n                                    }\n                  \
+    \              }\n\n                            }\n                        }\n\
+    \                        edge.Dispose();\n                    }\n            \
+    \    }\n\n            }\n            catch (Autodesk.AutoCAD.BoundaryRepresentation.Exception\
+    \ exp)\n            {\n                System.Diagnostics.Trace.WriteLine(\"PrendiPuntiDelSolido\
+    \ errore \" + exp.Message);\n\n\n            }\n            catch (System.Exception\
+    \ ex)\n            {\n                System.Diagnostics.Trace.WriteLine(\"PrendiPuntiDelSolido\
+    \ errore \" + ex.Message);\n            }\n            return ptResult;\n    \
+    \    }"
+- author: Kean Walmsley
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/kean
+  date: '2010-03-29 05:21:10'
+  body: 'Hi Giuliano,
+
+
+    Presumably some types of edge don''t have associated curves. I honestly don''t
+    know the ins and outs of the Brep API in AutoCAD.
+
+
+    Once again, this really isn''t a forum for support: please post your questions
+    (that don''t relate directly to code I''ve posted) to <a href="http://adn.autodesk.com">the
+    ADN team</a> or <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Giuliano
+  email: bikelink@tiscali.it
+  ip: 79.20.251.75
+  url: http://www.base2soft.it
+  date: '2010-03-29 10:17:53'
+  body: 'ok sorry . I though this were be  interesting . You can clean this page of
+    my messagges.
+
+    -----'

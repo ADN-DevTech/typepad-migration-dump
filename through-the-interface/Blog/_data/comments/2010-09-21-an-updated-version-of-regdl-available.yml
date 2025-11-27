@@ -1,0 +1,62 @@
+comments:
+- author: Basjansen
+  email: ''
+  ip: 83.160.73.132
+  url: http://profile.typepad.com/basjansen
+  date: '2010-11-03 09:57:24'
+  body: "I had a problem with your RegDL application when using it with an installer\
+    \ as described earlier. \nThe problem is when the .dll you want to register uses\
+    \ a type from another .dll.\nWhen RegDL is in \".\\install\" it can only find\
+    \ types in that directory. To fix it I changed some code as follow:\n\n<code>\n\
+    // As each dependent assembly is resolved, we need to make\n// sure it is loaded\
+    \ via Reflection-Only, not a full Load\n      AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve\
+    \ +=\n        delegate(object sender, ResolveEventArgs rea)\n            {\n \
+    \               string simpleName = new AssemblyName(rea.Name).Name;\n       \
+    \         string dllFile= Path.Combine(Path.GetDirectoryName(asmName), simpleName\
+    \ + \".dll\");\n                if (File.Exists(dllFile))\n                {\n\
+    \                    return Assembly.ReflectionOnlyLoadFrom(dllFile);\n      \
+    \          }\n                return Assembly.ReflectionOnlyLoad(rea.Name);\n\
+    \            };\n</code>\n\nThanks for your articles they help me a lot!"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2010-11-04 10:20:02'
+  body: 'Interesting - thanks!
+
+
+    Kean'
+- author: Modis
+  email: www.modis@mail.ru
+  ip: 78.106.196.13
+  url: http://www.modplus.ucoz.ru/
+  date: '2011-01-22 16:09:54'
+  body: This is very useful, but there is one thing but - RegDL does not overwrite
+    the value in the registry, if there already is.
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2011-01-22 16:50:17'
+  body: 'If that''s the behaviour you desire, it should be trivial to implement (and
+    the full source code is provided for you to extend as you see fit).
+
+
+    Kean'
+- author: Modis
+  email: www.modis@mail.ru
+  ip: 93.81.15.87
+  url: http://www.modplus.ucoz.ru/
+  date: '2011-01-25 18:05:17'
+  body: oh, sorry, my mistake - did not notice the option "force" ...
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2011-01-25 18:09:12'
+  body: 'Ah yes, I''d forgotten I''d already implemented it. :-S
+
+
+    Kean
+
+    -----'

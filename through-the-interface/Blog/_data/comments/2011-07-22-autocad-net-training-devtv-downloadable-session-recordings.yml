@@ -1,0 +1,69 @@
+comments:
+- author: kelo
+  email: kelogame_office@sina.com
+  ip: 175.168.101.207
+  url: ''
+  date: '2011-07-22 16:20:02'
+  body: 'This not work in AutoCAD 2012 ,but AutoCAD 2011 well.
+
+
+    acLdr.Annotation = acMText.ObjectId
+
+    acLdr.EvaluateLeader()
+
+
+    Is bug? Thank you.'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-07-22 16:29:47'
+  body: 'Sorry - is this related to a particular post of mine? If so, which one?
+
+
+    If not, please submit it via ADN or post it to the AutoCAD .NET Discussion Group.
+
+
+    Thanks,
+
+
+    Kean'
+- author: kelo
+  email: kelogame_office@sina.com
+  ip: 175.168.101.207
+  url: ''
+  date: '2011-07-22 17:00:40'
+  body: "This is a sample in AutoCAD.NET Programming Guide,but not work in AutoCAD\
+    \ 2012.\nNow I can not create Leader.\nI am ADN member,But my English is not good,\
+    \ can not ask questions.\n\n\nImports Autodesk.AutoCAD.Runtime\nImports Autodesk.AutoCAD.ApplicationServices\n\
+    Imports Autodesk.AutoCAD.DatabaseServices\nImports Autodesk.AutoCAD.Geometry\n\
+    \ \n<CommandMethod(\"CreateLeader\")> _\nPublic Sub CreateLeader()\n  '' Get the\
+    \ current database\n  Dim acDoc As Document = Application.DocumentManager.MdiActiveDocument\n\
+    \  Dim acCurDb As Database = acDoc.Database\n \n  ''  Start a transaction\n  Using\
+    \ acTrans As Transaction = acCurDb.TransactionManager.StartTransaction()\n \n\
+    \      ''  Open the Block table for read\n      Dim acBlkTbl As BlockTable\n \
+    \     acBlkTbl = acTrans.GetObject(acCurDb.BlockTableId, _\n                 \
+    \                  OpenMode.ForRead)\n \n      ''  Open the Block table record\
+    \ Model space for write\n      Dim acBlkTblRec As BlockTableRecord\n      acBlkTblRec\
+    \ = acTrans.GetObject(acBlkTbl(BlockTableRecord.ModelSpace), _\n             \
+    \                         OpenMode.ForWrite)\n \n      '' Create the leader\n\
+    \      Dim acLdr As Leader = New Leader()\n      acLdr.SetDatabaseDefaults()\n\
+    \      acLdr.AppendVertex(New Point3d(0, 0, 0))\n      acLdr.AppendVertex(New\
+    \ Point3d(4, 4, 0))\n      acLdr.AppendVertex(New Point3d(4, 5, 0))\n      acLdr.HasArrowHead\
+    \ = True\n \n      ''  Add the new object to Model space and the transaction\n\
+    \      acBlkTblRec.AppendEntity(acLdr)\n      acTrans.AddNewlyCreatedDBObject(acLdr,\
+    \ True)\n \n      ''  Commit the changes and dispose of the transaction\n    \
+    \  acTrans.Commit()\n  End Using\nEnd Sub"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-07-22 21:58:00'
+  body: 'As you''re an ADN member, I''ve asked a member of our DevTech China team
+    to contact you about this issue (please let me know if you''re not comfortable
+    discussing the issue in Chinese - I''m assuming you are, based on your email address.
+
+
+    Kean
+
+    -----'

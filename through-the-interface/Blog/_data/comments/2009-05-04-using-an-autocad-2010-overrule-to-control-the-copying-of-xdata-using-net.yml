@@ -1,0 +1,114 @@
+comments:
+- author: csharpbird
+  email: csharpbird@gmail.com
+  ip: 222.71.82.165
+  url: ''
+  date: '2009-05-05 02:56:09'
+  body: "Hi,Kean\n   How to access object-specific data  through AutoCAD’s Properties\
+    \ Palette?"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-05-05 14:43:00'
+  body: 'Hi csharpbird,
+
+
+    I''ve finally got around to implementing this (thanks for the reminder), so I''ll
+    go ahead and post it in the next few days.
+
+
+    Regards,
+
+
+    Kean'
+- author: Glenn R
+  email: lists@tcgsoftware.com
+  ip: 80.6.140.216
+  url: ''
+  date: '2009-05-06 00:04:22'
+  body: 'Kean,
+
+
+    Good stuff mate - keep it coming! Properties palette will be interesting...looking
+    forward to it.
+
+
+    Cheers,
+
+    Glenn.'
+- author: Bazoul
+  email: cedric.bailleul@aricad.fr
+  ip: 85.171.58.222
+  url: ''
+  date: '2011-03-12 18:17:36'
+  body: 'HI,
+
+    This method of deepclonning works in the same database.
+
+    But how make a deepcloning betwen different database?'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-03-13 18:39:25'
+  body: 'Copying betwen databases is best done via wblock (usually Database.WblockCloneObjects())
+    and insert (Database.Insert()).
+
+
+    If you have follow-up questions on the topic, please submit them to <a href="http://adn.autodesk.com">the
+    ADN team</a>, if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean'
+- author: Sam
+  email: samgryan@gmail.com
+  ip: 178.73.48.79
+  url: ''
+  date: '2011-08-10 00:29:53'
+  body: 'Kean,
+
+    You mention iterating through the contents of the IDmap.
+
+    I''d like to check the contents of the idMap when cloning to see what objectID''s
+    it contains and if they should be cloned.
+
+
+    idMap.Item(Key as objectID)
+
+    idMap.Contains(Key as objectID)
+
+
+    Both ask for the objectIDs which is what I want to check for.'
+- author: Sam
+  email: samgryan@gmail.com
+  ip: 178.73.48.79
+  url: ''
+  date: '2011-08-10 00:46:03'
+  body: Sorry..I did try the idmap.Contains(ojbID) but it didn't seem to accept that
+    it contained an objectID when it should have. I can't access the contents of the
+    idmap to find out why.
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-08-10 09:31:08'
+  body: 'Hi Sam,
+
+
+    From what I recall you can iterate through an idMap using this approach:
+
+
+    foreach (KeyValuePair kvp in idMap)
+
+    {
+
+    ...
+
+    }
+
+
+    Kean
+
+    -----'

@@ -1,0 +1,46 @@
+comments:
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2008-03-22 03:46:14'
+  body: 'Thanks for sharing.
+
+
+    If you are running inside of AutoCAD, another option is:
+
+
+    Autodesk.AutoCAD.Internal.TrueColorPicker'
+- author: khademi20@yahoo.com
+  email: khademi20@yahoo.com
+  ip: 62.253.206.156
+  url: ''
+  date: '2014-02-26 11:16:57'
+  body: "Hi Kean,\n\nFirst of all, thanks for the excellent post.\n\nI get some unexpected\
+    \ results when I work with colours in AutoCAD. The first problem is choosing colours\
+    \ using ACI method. It seems that whatever index I pass in, it ends up in the\
+    \ Blue value of the returning colour, so an absolute non-sense colour is made,\
+    \ and furthermore the colour for well-known indices doesn't get a proper name.\n\
+    Finally colour indices are different in various colour books, and I couldn't find\
+    \ any way of setting let's say active colour book. \n\nAutodesk.AutoCAD.Colors.Color\
+    \ redFromColorIndex = Autodesk.AutoCAD.Colors.Color.FromColorIndex(Autodesk.AutoCAD.Colors.ColorMethod.ByAci,\
+    \ 1); // colour index 1 is for Red\nAssert.AreEqual(255, redFromColorIndex.Red);\
+    \ // should be 255 but it is 0\nAssert.AreEqual(0, redFromColorIndex.Green);\n\
+    Assert.AreEqual(0, redFromColorIndex.Blue); // should be 0 but it is 1\n\nThanks\
+    \ for the help in advance."
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.224.215
+  url: http://profile.typepad.com/kean
+  date: '2014-02-26 17:32:47'
+  body: 'As we saw in this post, it''s not as straightforward to go from a colour
+    index to an RGB: AutoCAD maintains and uses an internal mapping and so creating
+    a colour "by ACI" and querying its RGB values won''t work.
+
+
+    See the ColorOf() method in this post to go from an ACI to RGB.
+
+
+    Kean
+
+    -----'

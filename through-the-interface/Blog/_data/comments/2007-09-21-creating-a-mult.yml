@@ -1,0 +1,157 @@
+comments:
+- author: zhutao
+  email: zhutao007@gmail.com
+  ip: 218.94.94.63
+  url: ''
+  date: '2007-09-24 02:55:16'
+  body: Could you make a sample as the project 'BlockView' in ARX SDK using .net?
+- author: frank
+  email: zseraph@hotmail.com
+  ip: 218.64.67.206
+  url: ''
+  date: '2007-10-07 11:19:39'
+  body: 'Could you  Creat a multileader in AutoCAD using a jig from 3D point to another.
+
+    for ex  (23,43,566) to (133,455,988)'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-10-07 12:35:55'
+  body: 'This is really two questions, IMO:
+
+
+    1) Can multileaders support 3D vertices?
+
+
+    I haven''t tried it myself, but the function signature does accept 3D points,
+    so I assume it''s 3D-capable (rather than being planar). If it were planar, then
+    you could still do it, as long as the plane it''s on intersects both points you
+    mentioned.
+
+
+    2) Can jigs support 3D input?
+
+
+    There''s nothing to stop you defining a jig that understands point input from
+    the user in 3D coordinates: the trick is to make it logical. The most logical
+    way to accept 3D input is to project the point information in the jig into the
+    current UCS. The "jig3d" sample on the ObjectARX SDK (under samples/graphics/jig3d)
+    shows how to do this from C++ - it shouldn''t be hard to map the technique to
+    .NET.
+
+
+    As for arbitrary 3D mouse input... this is something that is just hard to do.
+    Applications doing things like piping come across this a lot, and often solve
+    it by allowing movement in one of several constrained directions that can be selected
+    by clicking on glyphs that indicate the direction you want to go in. Design Review
+    does much the same when sectioning 3D views.
+
+
+    The other option is to just enter the coordinates via the keyboard. Which may
+    very well just work with this jig, thinking about it.
+
+
+    Regards,
+
+
+    Kean'
+- author: eddie
+  email: eddie@ekmuk.net
+  ip: 79.64.28.222
+  url: ''
+  date: '2008-03-28 23:21:05'
+  body: How can I retrieve the contents (i.e value) of a text entity with .net after
+    adding the entity to a selection set.
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.19.34
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-03-29 09:41:39'
+  body: 'You can open the entity and check its text property. <a href="http://through-the-interface.typepad.com/through_the_interface/2006/09/using_the_pickf.html">This
+    post</a> shows how to iterate through a selection set. You will simply need to
+    check whether it''s a text entity and check the relevant property.
+
+
+    Kean'
+- author: Manoj Vibhute
+  email: manoj.vibhute@neilsoft.com
+  ip: 115.113.144.130
+  url: http://www.neilsoft.com
+  date: '2010-03-17 13:22:26'
+  body: Can we implement JIG using AutoLISP?
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-03-17 15:20:53'
+  body: 'No, but you can use (grdraw) and (grvecs) to draw temporary graphics. This
+    technique is far from providing as much control as with jigs, though.
+
+
+    Kean'
+- author: Nathan
+  email: nate.massey@gmail.com
+  ip: 12.153.24.212
+  url: ''
+  date: '2010-06-09 16:30:22'
+  body: Does this leader work from either direction, or just one? I had to translate
+    your code into VB.net, and it only appears to draw the way you show in the picture
+    at the end of your article (From Left to Right). Do you know if this is a limitation
+    of the translation, or of AutoCAD?
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-06-10 10:45:35'
+  body: 'Actually it''s neither - let''s call it a design decision I made when writing
+    the code. :-)
+
+
+    You can negate the "dog leg" vector (making it with a positive X value rather
+    than a negative one) and set it back on the multi-leader. You should only need
+    to do this if it hasn''t been done before (whether when you set up the multileader
+    initially or in the Update() function).
+
+
+    Kean'
+- author: Sam
+  email: samgryan@gmail.com
+  ip: 178.73.48.79
+  url: ''
+  date: '2011-09-14 13:41:18'
+  body: "Hi, I would like to achieve the same. A multileader flips direction if the\
+    \ angle between the dogleg and leader line is less than 45°.\n\nDim dogvec As\
+    \ Vector3d = New Vector3d(-1, 0, 0)  \nin the Update() function didn't seem to\
+    \ have any effect. the leader is still left to right."
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.58.92
+  url: http://profile.typepad.com/kean
+  date: '2011-09-14 17:08:32'
+  body: 'Did you try with a positive X value, rather than a negative one?
+
+
+    Kean'
+- author: Sam
+  email: samgryan@gmail.com
+  ip: 194.145.228.15
+  url: ''
+  date: '2011-09-14 19:28:45'
+  body: 'ml.GetDogleg(m_leaderIndex) always returned (1,0,0) so I tried (-1,0,0).
+    Other vectors have interesting results but swap the leader around.
+
+    TextLocation and SetLastVertex are the only two items that  gets updated and neither
+    seem to have any automatic influence on the direction of leader from the text.'
+- author: Sam
+  email: samgryan@gmail.com
+  ip: 194.145.228.15
+  url: ''
+  date: '2011-09-14 19:30:11'
+  body: '*but don''t swap the leader around.'
+- author: Sam
+  email: samgryan@gmail.com
+  ip: 178.73.48.79
+  url: ''
+  date: '2011-09-14 21:36:05'
+  body: "Sorry..I found it. \nml.SetDogleg(m_leaderLineIndex, dogvec)\n-----"

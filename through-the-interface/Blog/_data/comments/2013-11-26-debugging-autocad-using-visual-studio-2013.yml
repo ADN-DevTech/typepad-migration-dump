@@ -1,0 +1,393 @@
+comments:
+- author: MikeR
+  email: ''
+  ip: 156.75.180.198
+  url: http://profile.typepad.com/6p0120a5ed8521970c
+  date: '2013-11-26 14:32:34'
+  body: 'Kean,
+
+    Does this mean Edit & Continue will work on 64bit inside AutoCAD as long as you
+    aren''t trying to access fonts? Or is it just a waste of time to attempt Edit
+    & Continue?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-11-26 14:49:26'
+  body: 'Mike,
+
+
+    The specific problem accessing fonts is likely to be the tip of the iceberg: the
+    fact that the wrong thread loaded AcDb is likely to cause all kinds of issues,
+    some subtle, some much less so.
+
+
+    You''d risk spend more time tracking down strange behaviour than you''d end up
+    gaining from E&C, I suspect.
+
+
+    Regards,
+
+
+    Kean'
+- author: Gaston Nunez
+  email: gaston.nunez@asyst.cl
+  ip: 201.214.200.31
+  url: ''
+  date: '2013-11-26 15:43:59'
+  body: 'Hi Kean:
+
+
+    Those are bad news, I wonder if there is any chance to fix the thread issue in
+    the AcDb*.dll (i found only a few of them in my 2014 install) with a set of new
+    ones and replacing the existent just for development?
+
+
+    Regards,
+
+
+    Gaston Nunez'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-11-26 15:49:07'
+  body: 'Hi Gaston,
+
+
+    It is indeed bad news (if you were counting on being able to use Edit & Continue,
+    of course).
+
+
+    We''re considering our options, but this new debugging mechanism presents quite
+    a big structural change (however simple it might appear).
+
+
+    If you''re an ADN member you might want to check in with that team - they should
+    certainly be tracking the significance of this issue with external developers.
+
+
+    Regards,
+
+
+    Kean'
+- author: Samir Bittar
+  email: samirbittar@gmail.com
+  ip: 201.85.39.210
+  url: ''
+  date: '2013-11-26 16:25:31'
+  body: Great post, I works great with the "managed compatibility mode" you mentioned!
+    Thanks!
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-11-26 16:26:59'
+  body: 'Thanks to you for raising the issue, Samir. :-)
+
+
+    Kean'
+- author: Renato Farkas
+  email: renatofarkas@hotmail.com
+  ip: 201.85.39.210
+  url: ''
+  date: '2013-11-26 17:20:55'
+  body: 'Congrats Samir!
+
+
+    Thanks a lot!'
+- author: James Maeding
+  email: jmaeding@hunsaker.com
+  ip: 24.249.247.46
+  url: ''
+  date: '2013-11-26 20:22:16'
+  body: I just wish acad did not take so long to start up when debugging. I never
+    had great luck with e&c anyway, the errors caught were not usually fixed with
+    minor tweaks, I needed to change some class definition or something.
+- author: Christian
+  email: madlener@rehm.de
+  ip: 37.1.163.92
+  url: http://www.rehm.de
+  date: '2013-11-27 14:40:30'
+  body: 'Hi Kean,
+
+
+    did you also try this scenario?:
+
+    1. Start AutoCAD regularly
+
+    2. "netload" the .NET dll
+
+    3. In VS 2013, use "Attach to process" (or however it''s called in english VS
+    editions)
+
+    4. Hit a break point and try to edit and continue
+
+
+    I haven''t tested it myself as I''m still using VS2010 but maybe it works.
+
+    This also improves AutoCAD speed while debugging massively btw.
+
+
+    Best Regards
+
+
+    Christian'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.25
+  url: http://profile.typepad.com/kean
+  date: '2013-11-27 14:48:29'
+  body: 'Hi Christian,
+
+
+    It''s indeed called "Attach to Process". :-)
+
+
+    I haven''t tried it myself - I''m also not in front of my system with VS2013,
+    at the moment - but the indications from <a href="http://thebuildingcoder.typepad.com/blog/2013/11/debugging-revit-2014-api-with-visual-studio-2013.html">the
+    post about Revit</a> aren''t good (if I''ve understood the situation correctly).
+
+
+    I''ll give it a try, later on, although I don''t expect it to work (I''ll post
+    a follow-up comment if it happens to).
+
+
+    Regards,
+
+
+    Kean'
+- author: plus.google.com/101338185871131126892
+  email: ''
+  ip: 50.202.171.218
+  url: http://profile.typepad.com/6p019b01bce709970d
+  date: '2013-11-27 17:21:22'
+  body: 'I stumbled upon this question maybe an hour after reading  this plog post
+    yesterday.  Funny how the timing worked out, but looks like you saved another
+    development soul from debugging woes:
+
+
+    <a href="http://stackoverflow.com/questions/20201600/autocad-undefined-shape-style-dialog-crashes">http://stackoverflow.com/questions/20201600/autocad-undefined-shape-style-dialog-crashes</a>'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-11-27 17:43:29'
+  body: 'Good to know - thanks for spreading the word.
+
+
+    Even if it isn''t perfect (i.e. E&C isn''t working) at least there''s a way to
+    make it work.
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-11-27 18:19:34'
+  body: 'Sure enough, it fails. Attempting to edit code causes a messagebox to appear
+    with the title "Edit & Continue" and the following message text:
+
+
+    >>>
+
+    Changes are not allowed in the following cases:
+
+
+    - When the debugger has been attached to an already running process.
+
+    - The code being debugged was optimized at build or run time.
+
+    - The assembly being debugged is loaded as domain-neutral.
+
+    - The assembly being debugged was loaded through reflection.
+
+    - When Intellitrace events and call information is enabled.
+
+    <<<
+
+
+    Oh well - thanks for the suggestion, anyway. :-)
+
+
+    Kean'
+- author: Christian
+  email: madlener@rehm.de
+  ip: 37.1.163.92
+  url: http://www.rehm.de
+  date: '2013-11-28 09:47:52'
+  body: 'Hi Kean,
+
+
+    too bad, but thanks for testing it. It was worth a shot.
+
+
+    On a more general note, I''d like to thank you for your blog posts that are immensly
+    helpful to us AutoCAD developers! Whenever I need some info, I first check your
+    blog and usually I find what I was looking for :)
+
+    Keep up the great work!
+
+
+    Best Regards
+
+
+    Christian'
+- author: Christian
+  email: madlener@rehm.de
+  ip: 37.1.163.92
+  url: http://www.rehm.de
+  date: '2013-11-28 09:49:30'
+  body: 'Hi Kean,
+
+
+    (Neither IE nor Chrome let me reply to one of your answers, so I''m posting it
+    here, sorry..)
+
+
+    too bad about "Attach to process", but thanks for testing it. It was worth a shot.
+
+
+    On a more general note, I''d like to thank you for your blog posts that are immensly
+    helpful to us AutoCAD developers! Whenever I need some info, I first check your
+    blog and usually I find what I was looking for :)
+
+    Keep up the great work!
+
+
+    Best Regards
+
+
+    Christian'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-11-28 10:12:42'
+  body: 'Hi Christian,
+
+
+    Thanks for the kind words - it''s my pleasure. :-)
+
+
+    Regards,
+
+
+    Kean'
+- author: Jason Booth
+  email: jason@dynamicwindows.com
+  ip: 184.69.85.118
+  url: http://www.dynamicwindows.com
+  date: '2013-11-29 21:57:37'
+  body: 'Hello Kean,
+
+
+    The first two options you recommended did not work for me. However, this is what
+    did:
+
+
+    Right-click on "acad" project in the solution explorer -> properties -> "Use Legacy
+    Managed Engine"
+
+
+    Note that my initial project setup needed to take advantage of the "Solution 3"
+    you recommended in another blog:
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2010/04/hitting-breakpoints-in-net-class-libraries-while-debugging-with-visual-studio-2010.html">http://through-the-interface.typepad.com/through_the_interface/2010/04/hitting-breakpoints-in-net-class-libraries-while-debugging-with-visual-studio-2010.html</a>
+
+
+    Regards,
+
+    Jason'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-11-30 06:49:04'
+  body: 'Hi Jason,
+
+
+    Ah, so this is how you need to do it for a solution containing a pre-built EXE...
+    good to know.
+
+
+    Thanks for the info,
+
+
+    Kean'
+- author: Ben
+  email: benjaminweir@hotmail.com
+  ip: 50.99.92.240
+  url: ''
+  date: '2013-12-03 05:13:32'
+  body: Sorry I couldn't quite follow the entire post & comments.   Was this using
+    VS 2013 and AutoCAD 2013 or AutoCAD 2014?
+- author: Kean Walmsley
+  email: ''
+  ip: 64.79.144.10
+  url: http://profile.typepad.com/kean
+  date: '2013-12-03 08:03:48'
+  body: 'VS 2013 and either AutoCAD 2013 or 2014...
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2013-12-17 18:39:43'
+  body: 'Hi Christian,
+
+
+    It''s my pleasure! Sorry for the delay in replying - this (and your previous)
+    comment ended up in my spam folder, for some unknown reason.
+
+
+    Thanks for the feedback,
+
+
+    Kean'
+- author: Thomas
+  email: test@test.com
+  ip: 80.243.160.76
+  url: ''
+  date: '2013-12-19 10:57:43'
+  body: 'I have developed a dirty patch and tested it with ACAD2014 x64 (Ger), so
+    far it looks good to me:
+
+    open acdb19.dll with a hex editor and search for the byte sequence:
+
+    0F 85 CF 80 53 00
+
+    replace it with
+
+    90 90 90 90 90 90
+
+    please make a backup of acdb19.dll before, only change the bytes if the exact
+    byte sequence is found and that uniquely
+
+    This patch replaces the conditional jump with a no jump -> thread id is not tested
+    any more by acdb19.dll'
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2013-12-19 11:28:59'
+  body: 'Thanks for sharing this, Thomas, although it clearly contravenes our EULA
+    and is unsupportable by Autodesk.
+
+
+    We''re looking into what we can do to address this issue in a supportable way.
+
+
+    Kean'
+- author: Stuart
+  email: sashaw2@suddenlink.net
+  ip: 96.43.57.241
+  url: ''
+  date: '2014-01-15 20:16:59'
+  body: 'Another issue with using option 1 or 2 is the error messages will show, in
+    the immediate window, that were suppressed by editing the acad.exe.config file.
+
+    -----'

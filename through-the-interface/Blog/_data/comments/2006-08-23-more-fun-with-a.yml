@@ -1,0 +1,82 @@
+comments:
+- author: Jorge Lopez
+  email: jorge.lopez@autodesk.com
+  ip: 198.102.112.18
+  url: ''
+  date: '2006-08-23 17:00:20'
+  body: I just wanted to clarify that this addin will only work with AutoCAD 2007+.
+    The strings in resval.rstring are expected to be UNICODE.
+- author: Török Zoltán
+  email: zoltan.torok@tzi.hu
+  ip: 193.151.117.46
+  url: ''
+  date: '2006-08-24 06:16:39'
+  body: 'Hello Kean,
+
+
+    Nice work. Keep this add-in alive and
+
+    put more ARX data structure into.
+
+    It could be part of ObjectARX lib.
+
+
+    Regards,
+
+    Zoltán Török'
+- author: Arnold Eibel
+  email: anodl@gmx.net
+  ip: 84.167.69.160
+  url: ''
+  date: '2006-09-06 19:04:26'
+  body: 'Hi Kean, I too wrote an VS addin (2002 and 2003). It displays some importent
+    values of AcDbObject, AcDbEntity, AcDbLine, AcDbArc ... and for many AcGe object.
+    Maybe we can "merge" them?
+
+
+    Arnold'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-09-06 20:22:43'
+  body: 'Hi Arnold,
+
+
+    Absolutely - if you''re able to combine the code posted in this article with you''re
+    own, I''d be very happy to post another entry with the updated project (recognising
+    your contribution, of course). Otherwise I''ll combine them myself - that''s fine
+    by me (just email me the project).
+
+
+    At some point - with your permission - it might be good to be made available via
+    another mechanism, whether the discussion group, the ADN website or the ObjectARX
+    SDK (it could be a useful addition to the ObjectARX Wizard, for instance).
+
+
+    Thanks,
+
+
+    Kean'
+- author: Thomas Brammer
+  email: tbrammer@imos3d.com
+  ip: 212.62.91.92
+  url: http://www.imos3d.com
+  date: '2007-10-10 10:18:14'
+  body: "Hello Kean,\n\nHere is a [Visualizer] entry for VS2005's autoexp.dat to display\
+    \ resbufs:\n\n[Visualizer]\n\nresbuf{\n\tpreview\n\t(\n\t\t#switch( $c.restype\
+    \ )\t\t\t\t\t\t\n\t\t\t#case 5000 ( #(\"RTNONE\") )\n\t\t\t#case 5001 ( #(\"RTREAL=\
+    \ \", (float)$c.resval.rreal) )\n\t\t\t#case 5002 ( #(\"RTPOINT= (\", (float)$c.resval.rpoint[0],\
+    \ \"|\", (float)$c.resval.rpoint[1], \")\" ) )\n\t\t\t#case 5003 ( #(\"RTSHORT=\
+    \ \", $c.resval.rint) )\n\t\t\t#case 5004 ( #(\"RTANG= \", (float)$c.resval.rreal)\
+    \ )\n\t\t\t#case 5005 ( #(\"RTSTR= \", $c.resval.rstring) )\n\t\t\t#case 5006\
+    \ ( #(\"RTENAME= (\", $c.resval.rlname[0], \", \", $c.resval.rlname[1], \")\"\
+    ) )\n\t\t\t#case 5007 ( #(\"RTPICKS= (\", $c.resval.rlname[0], \", \", $c.resval.rlname[1],\
+    \ \")\") )\n\t\t\t#case 5008 ( #(\"RTORINT= \", (float)$c.resval.rreal) )\n\t\t\
+    \t#case 5009 ( #(\"RT3DPOINT= (\", (float)$c.resval.rpoint[0], \"|\", (float)$c.resval.rpoint[1],\
+    \ \"|\",(float)$c.resval.rpoint[2], \")\" ) )\n\t\t\t#case 5010 ( #(\"RTLONG=\
+    \ \"   , $c.resval.rlong) )\n\t\t\t#default\n\t\t\t(\n\t\t\t\t#( \"restype=\"\
+    , $c.restype )\n\t\t\t)\n\t)\n}\n\nIn the debugger it looks like this:\n\nrb \
+    \    RTSTR= 0x087323a8 \"Hallo\"\nrbnext RTREAL= 12.3400\nrbnext RTPOINT= (1.1000000|2.2000000)\n\
+    rbnext RT3DPOINT= (1.1000|2.2000|3.3000)\nrbnext RTSHORT= 42\nrbnext RTLONG= 4242\n\
+    \nEnjoy\n-- Thomas \n-----"

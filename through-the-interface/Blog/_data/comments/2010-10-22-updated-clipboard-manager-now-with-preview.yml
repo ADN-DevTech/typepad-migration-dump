@@ -1,0 +1,95 @@
+comments:
+- author: Mark Johnston
+  email: ''
+  ip: 71.36.45.152
+  url: http://profile.typepad.com/markjohnston1
+  date: '2010-10-22 21:24:56'
+  body: "What an awesome tool. Thanks!\nI did find a few issues.\n\n1. You mention\
+    \ the aspect ration being maintained but when I stretch the dialog or the splitter\
+    \ the image just stretches to fill the space which distorts it.\n2. You mention\
+    \ the preview adjusting to the size of the selected item but I don't see that.\
+    \ The preview always represents the full drawing window at the time of the clip.\
+    \ If I'm zoomed out to the entire model (drawing) and copy a small part to the\
+    \ clipboard, the preview shows the small part in it's relative size and location.\
+    \ It would be more useful if the selected items filled the preview screen.\n3.\
+    \ If my cursor is over the *grid* when I select an \"insert\" option from the\
+    \ context menu the dialog does not release my cursor and the drawing window does\
+    \ not become active until I click on it. It's odd that if my cursor is over the\
+    \ preview when I select one of the insert options from the context menu everything\
+    \ works fine.\n \nThe version number of the dll I'm using is 1.0.4.0."
+- author: Bucket Trucks
+  email: i80equip@gmail.com
+  ip: 196.221.111.95
+  url: http://www.i80equipment.com
+  date: '2010-10-23 00:22:36'
+  body: I have no clue how to do those types of things on a computer. I'm a student
+    though so I'll be taking those classes here pretty soon. I'm pretty excited.
+- author: Matthias Beyer
+  email: Matthias.Beyer@Lindner-Group.com
+  ip: 93.122.73.4
+  url: ''
+  date: '2010-10-25 08:22:09'
+  body: 'Very nice!
+
+
+    But I also think, that it''s more usable, if the preview area shows only the copied
+    items, instead of the whole screen.
+
+
+    And I found a bug. When I start the copy command and the palettes width is too
+    large, I get an error because of the recalculation of the splitter distance.'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-10-25 11:44:19'
+  body: 'Thanks, Matthias!
+
+
+    I ended up spending a bit of time this weekend to implement an "auto-crop" of
+    the preview image (more in today''s post). And in the process I came across the
+    same bug and fixed it.
+
+
+    Kean'
+- author: Massimo Cicognani
+  email: cicognani@quit3.com
+  ip: 194.183.83.132
+  url: ''
+  date: '2010-10-27 15:23:21'
+  body: 'Very nice tool indeed, I didn''t know the clipboard would contain a bitmap
+    preview...
+
+
+    Speaking of... I noticed that sometimes the Bitmap object returned by GetData("Bitmap")
+    does not return anything. This often happens while copying blocks with attributes
+    or dynamick blocks, but not always...
+
+    I haven''t figured out why yet.
+
+    Is something by design?
+
+    Does it happen to anyone else?
+
+
+    I also noticed that GetFormats() returns both ''Bitmap'' and ''System.Drawing.Bitmap''
+    items.
+
+    They seems to be just aliases, is that true or there is any difference?'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2010-10-28 15:05:34'
+  body: 'I was made aware of the issue with blocks, but couldn''t reproduce it (but
+    then I didn''t try with attributes). In the end I just changed the code to make
+    sure we don''t try to process and use an empty bitmap.
+
+
+    I haven''t looked into Bitmap vs. System.Drawing.Bitmap - although I did notice
+    the two formats were available - I''m guessing they''re simple synonyms.
+
+
+    Kean
+
+    -----'

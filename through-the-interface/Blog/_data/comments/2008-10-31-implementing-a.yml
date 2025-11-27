@@ -1,0 +1,186 @@
+comments:
+- author: Daniel S
+  email: danielswords@gmail.com
+  ip: 205.240.252.50
+  url: http://www.hazenandsawyer.com
+  date: '2008-10-31 13:53:24'
+  body: Is there a way to control this option within CAD, or add it into the Osnap
+    dialog?
+- author: Daniel S
+  email: danielswords@gmail.com
+  ip: 205.240.252.50
+  url: http://www.hazenandsawyer.com
+  date: '2008-10-31 14:28:07'
+  body: Also, is there a compatible text symbol for 1/3? 1/2 and 1/4 are recognized
+    by AutoCAD, but if I pull 1/3 out of the character map, it isn't recognized by
+    CAD (Just shows up as a question mark on the line).
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.58.188
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-03 09:00:53'
+  body: 'The Object Snap dialog isn''t customizable, so you can either tie it to another
+    mode (check the setting to see whether that is enabled) or implement your own
+    application settings UI.
+
+
+    I used to use "1/3" (three characters, not one) for the "third" osnap glyph. "Half"
+    and "quarter" are more likely to be available, as they''re standard ASCII. I don''t
+    believe "1/3" (one character) is, though. If you''re using three characters centering
+    the text is likely to become more important.
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2008-11-04 17:53:20'
+  body: 'Thanks for the example.
+
+
+    I actually gave up on trying to do custom osnaps in .NET because the glyphs that
+    you draw via viewportDraw() do not go away, and you end up with them littering
+    the view.
+
+
+    Any ideas on how to make them behave more like AutoCAD''s built-in osnap markers
+    (which disappear when you move out of the range of the aperture target)?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.58.188
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-04 18:38:29'
+  body: 'I think I had the same problem, until I enabled hardware acceleration. I
+    hadn''t seen it on anyone else''s system, so assumed it was a personal glitch
+    I was hitting.
+
+
+    When the problem occurred my glyphs were blue, rather than yellow, in case that
+    helps confirm the behaviour.
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2008-11-06 09:12:21'
+  body: "All osnap marker glpyphs I see are red, and the text you draw is also red,\
+    \ but doesn't go away. \n\nStrange that hardware acceleration would have any effect\
+    \ on this.\n\nI did notice that if I use the DeviceContextXxxxx methods of the\
+    \ ViewportDraw class to draw graphics, the graphics disappear as expected.\n\n\
+    Another thing I've found unreasonable about the custom osnap API design, is that\
+    \ you can't supply the tooltip text dynamically, although there is a workaround\
+    \ involving the Editor's PointMonitor event"
+- author: Mukundhan
+  email: smukundh@gmail.com
+  ip: 192.146.7.2
+  url: ''
+  date: '2008-12-03 07:50:47'
+  body: 'Hi,
+
+
+    How will you implement the above code in AUTOCAD?
+
+    Is the code common for all the versions of the AUTOCAD.
+
+    Let me know how customization & implementation  can be done through coding in
+    AUTOCAD.
+
+    Looking for reply.....'
+- author: Will Hatch
+  email: ee.geek2@gmail.com
+  ip: 24.114.37.25
+  url: http://theswamp.org
+  date: '2013-07-30 07:49:10'
+  body: 'I know this is an ancient post Kean, but kudos on the implementation.  I
+    was able to rip through this in about an hour and a half and implement a custom
+    osnap that snaps to points stored in the xdata of a block reference during a custom
+    polyline jig (also mostly ripped from you).
+
+    For anybody else going down this type of transient lifetime path, I found it useful
+    to inherit from IDisposable rather than IExtensionApplication so that my snaps
+    were only enabled during the intended command with a using statement and also
+    disabled other snaps during the process.
+
+    Thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.227.231
+  url: http://profile.typepad.com/kean
+  date: '2013-07-30 07:50:17'
+  body: 'Cool - thanks for the note, Will.
+
+
+    Kean'
+- author: Will Hatch
+  email: ee.geek2@gmail.com
+  ip: 72.29.234.130
+  url: http://theswamp.org
+  date: '2013-07-31 01:48:27'
+  body: 'Kean,
+
+    On a very similar note, where would you start if you wanted to use osnap tracking
+    from a point on a polyline being jigged similar to what you''ve done with <a href="http://through-the-interface.typepad.com/through_the_interface/2006/11/controlling_int_1.html">http://through-the-interface.typepad.com/through_the_interface/2006/11/controlling_int_1.html</a>
+    ?
+
+    From comparing this routine with the actual pline command it seems that pline
+    may be adding each segment to the database as they''re input, I''m guessing this
+    is the route to take but any thoughts would be great!
+
+    Thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.237.6
+  url: http://profile.typepad.com/kean
+  date: '2013-07-31 07:47:14'
+  body: 'Will,
+
+
+    Making the jigged polyline database resident is probably the way to go, in this
+    case (and shouldn''t change the structure of the jig much, at all). I''ve used
+    this approach in a few different jigs, but not specifically to address this osnap
+    issue. I assume it would work, though.
+
+
+    Cheers,
+
+
+    Kean'
+- author: E.F. Lucas
+  email: e.lucas8@gmail.com
+  ip: 85.158.139.107
+  url: http://members.upc.nl/e.lucas8/
+  date: '2013-09-27 08:48:58'
+  body: "I am trying to translate your C# code to VB.\n\nThere is one problem I need\
+    \ to solve:\n\nI got this message:\n\n<i>\"Error\t1\tReference required to assembly\
+    \ 'System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a'\
+    \ containing the type 'System.Drawing.Bitmap'. Add one to your project.\"</i>\n\
+    \nIt's about this code:\nPublic Sub Initialize() Implements IExtensionApplication.Initialize\n\
+    \            ' Register custom osnap on initialize\n\n            <b>_mode = New\
+    \ CustomObjectSnapMode(\"Quarter\", \"Quarter\", \"Quarter of length\", _glyph)</b>\n\
+    \nWho can help me?"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-09-27 09:11:10'
+  body: 'I haven''t looked at this in nearly 5 years, but to hazard a guess... have
+    you tried adding a project reference to System.Drawing, to see if that helps?
+
+
+    Kean'
+- author: E.F. Lucas
+  email: e.lucas8@gmail.com
+  ip: 92.110.50.32
+  url: http://members.upc.nl/e.lucas8
+  date: '2013-10-06 15:45:56'
+  body: 'That is the solution.
+
+    Now I can use the VB.NET with Acad 2013.
+
+
+    Thanks.
+
+    -----'

@@ -1,0 +1,279 @@
+comments:
+- author: Barry Ralphs
+  email: barry@tippingmar.com
+  ip: 66.117.142.70
+  url: ''
+  date: '2008-04-28 22:45:06'
+  body: 'Cool thx for the update. One more question. :)
+
+    Does hlink have to be a URL, or can it execute anther function whe nit''s clicked
+    (sorry if this is too basic of a question)?'
+- author: Autocad designer
+  email: SimpleTobias@gmail.com
+  ip: 121.97.203.56
+  url: http://neuracom.co.uk/ourstaff-autocad.htm
+  date: '2008-04-29 06:15:55'
+  body: Very nice and useful topic. Well-written. Keep it up! :3
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.7.167
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-04-29 09:45:58'
+  body: 'Barry - a great question!
+
+
+    The link does need to be a hyperlink (a URL, although presumably that could contain
+    a link to a local file... you might want to play around with it to see what you
+    can make it do), and the only notification you get is the Closed event (for the
+    status bar version) - as shown in this example.
+
+
+    You''d have to implement your own balloon mechanism to call into your own code,
+    right now, and it''s not clear to me how much of the existing feature could be
+    re-used or whether you''d be starting from scratch.
+
+
+    Kean'
+- author: Jim Dowthwaite
+  email: jdowthwaite@midwestsurveys.com
+  ip: 99.239.46.73
+  url: ''
+  date: '2008-10-30 15:02:16'
+  body: 'Kean,
+
+
+    How can I handle the closed event on the TrayItemBubbleWindow in VB.Net 2005 and
+    AutoCAD 2008?  I don''t believe VB.Net 2005 has inline delegates.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-10-30 15:10:14'
+  body: 'Jim,
+
+
+    That was just a choice of mine - there''s no particular need to create the delegate
+    inline. Just create your event handler as you would normally in VB (hitting tab
+    a few times after writing "bw.Closed += " should do it).
+
+
+    Cheers,
+
+
+    Kean'
+- author: Steve Rudd
+  email: steve.rudd@ezcad.co.uk
+  ip: 194.138.39.52
+  url: http://www.ezcad.co.uk
+  date: '2009-07-02 09:46:42'
+  body: 'Hi Kean,
+
+
+    I have tried both of these methods but I am experiencing a problem with the SBB
+    command (which is the one I prefer). When the command is run in 2008 or 2009,
+    the icon appears on the status bar but the bubble does not show. I have the tray
+    settings set to display notification. The ICB command behaves corectly. Any ideas?
+
+
+    Steve'
+- author: Steve Rudd
+  email: steve.rudd@ezcad.co.uk
+  ip: 194.138.39.52
+  url: http://www.ezcad.co.uk
+  date: '2009-07-02 09:52:28'
+  body: 'Hi Kean (again),
+
+
+    Further to my earlier post. Seems the problem occurs because I have a two monitor
+    display and AutoCAD is not in the main monitor. Once I swapped it over, everything
+    worked fine.
+
+
+    Steve'
+- author: venkatesh
+  email: nlvvch@gmail.com
+  ip: 202.153.34.162
+  url: http://google.com
+  date: '2009-11-09 07:09:04'
+  body: "hi how do i close within requredon time like in autocad \nTray setting ->>\
+    \ display time like 5 sec, 10 sec\n\n      StatusBar sb = Application.StatusBar;\n\
+    \      sb.CloseBubbleWindows();"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2009-11-09 10:56:35'
+  body: 'The SBB command, above, will respect the "Tray Settings" that the user has,
+    whether "show until closed" or "show for 5 seconds", etc.
+
+
+    Kean'
+- author: Brucestockwell
+  email: ''
+  ip: 98.183.247.135
+  url: http://profile.typepad.com/brucestockwell
+  date: '2011-02-02 21:17:32'
+  body: The bubble window does not display until the mouse is moved or some other
+    various window events are fired. So in my case the user enters a command, on the
+    command line, that should create a notification. They don't see one and decide
+    to type exit on the command line. There is a brief outline of the bubble as AutoCad
+    exits, but the user is basically unaware that a notification existed. Folks driving
+    the mouse around obviously don't encounter this issue. Might there be a way to
+    force that notification to appear?
+- author: Kean Walmsley
+  email: ''
+  ip: 109.237.55.190
+  url: http://profile.typepad.com/kean
+  date: '2011-02-03 11:23:06'
+  body: "I tried using SendMessage() with WM_MOUSEMOVE to stimulate the notification,\
+    \ but didn't have any luck.\n\nIt ended up with a much simpler \"solution\" -\
+    \ just setting the cursor position:\n\nSystem.Drawing.Point pt =\n  Application.MainWindow.Location;\n\
+    pt.Offset(300, 300);\nSystem.Windows.Forms.Cursor.Position = pt;\n\nThere's some\
+    \ risk of confusing the user, of course, but hopefully they'll be suitably distracted\
+    \ by the bubble notification. ;-)\n\nKean"
+- author: Artvegas
+  email: yamos78@hotmail.com
+  ip: 27.32.79.215
+  url: ''
+  date: '2011-08-18 17:08:13'
+  body: 'I found that offsetting the cursor by a tiny amount and then calling Utils.SetFocusToDwgView()
+    works well. Don''t think the small mouse move would concern anyone to much :-)
+
+
+    System.Drawing.Point pt =
+
+    System.Windows.Forms.Cursor.Position;
+
+    pt.Offset(1, 0);
+
+    System.Windows.Forms.Cursor.Position = pt;
+
+    Utils.SetFocusToDwgView();
+
+
+    Art'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/kean
+  date: '2011-08-18 17:09:58'
+  body: 'Cool - that''s indeed less confusing.
+
+
+    Thanks!
+
+
+    Kean'
+- author: The Mini Guy
+  email: pbaker@golder.com.au
+  ip: 125.255.243.58
+  url: ''
+  date: '2011-12-05 05:40:12'
+  body: "Kean,\nAs the info center has been replaced in 2012, is this still applicable?\
+    \ \ncheers\nTMG"
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2011-12-05 11:32:25'
+  body: "TMG,\n\nI had a quick look: it seems there are no longer separate InfoCenter\
+    \ assemblies to reference - you have to include AcWindows.dll in your project.\n\
+    \nAnd the ICB command can be reimplemented as follows:\n\n[CommandMethod(\"icb\"\
+    )]\npublic void infoCenterBalloon()\n{\n  InfoCenterManager icm = new InfoCenterManager();\n\
+    \n  Autodesk.Internal.InfoCenter.PaletteMgr pm =\n    icm.PaletteManager;\n\n\
+    \  Autodesk.Internal.InfoCenter.ResultItem ri =\n    new Autodesk.Internal.InfoCenter.ResultItem();\n\
+    \n  ri.Title = title;\n  ri.Category = msg;\n  ri.Uri = new System.Uri(hlink);\n\
+    \n  pm.ShowBalloon(ri);\n}\n\nAt least that's what worked for me.\n\nRegards,\n\
+    \nKean"
+- author: Andrey
+  email: bushman.andrey@gmail.com
+  ip: 87.249.45.171
+  url: https://sites.google.com/site/bushmansnetlaboratory/
+  date: '2012-10-15 14:22:26'
+  body: 'Which library contains Autodesk.AutoCAD.Internal.Utils.SetFocusToDwgView()
+    method for AutoCAD 2009?
+
+
+    Regards'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-10-15 14:46:27'
+  body: 'I unfortunately don''t have any way of checking (at least not one that I
+    have time for, at the moment). Have you looked at acmgdinternal.dll? If not I
+    suggest posting to ADN or to the AutoCAD .NET Discussion Group.
+
+
+    Regards,
+
+
+    Kean'
+- author: Vipul
+  email: vipulnvyas@gmail.com
+  ip: 202.91.143.30
+  url: ''
+  date: '2013-04-30 14:00:00'
+  body: 'Hi Kean,
+
+
+    In SBB command, I want to invoke another Custom Command if user click on Hyperlink.
+
+
+    Is it possible to do this?
+
+
+    Regards,
+
+    Vipul Vyas'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-04-30 15:35:45'
+  body: 'Hi Vipul,
+
+
+    Not that I''m aware of.
+
+
+    Regards,
+
+
+    Kean'
+- author: John
+  email: john@terraspace.co.uk
+  ip: 109.158.221.72
+  url: ''
+  date: '2013-08-22 10:23:30'
+  body: 'Hi,
+
+
+    I have a slightly unrelated question with regards to the IC Balloons. I''ve created
+    a custom bundle and everytime Autocad launches there is a balloon confirming that
+    the plugin has loaded. Is there any way to get rid of this notification or at
+    least have it only display the first time the plugin is loaded?
+
+
+    Thanks,
+
+    John'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-08-22 12:04:50'
+  body: 'Hi John,
+
+
+    Sorry - I don''t know whether there''s a way to disable these specific balloon
+    notifications.
+
+
+    I suggest contacting either ADN or posting to the AutoCAD .NET Discussion Group.
+
+
+    Regards,
+
+
+    Kean'

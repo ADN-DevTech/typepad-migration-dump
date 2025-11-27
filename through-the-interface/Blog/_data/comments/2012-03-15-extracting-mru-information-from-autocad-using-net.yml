@@ -1,0 +1,128 @@
+comments:
+- author: twdotson
+  email: dotson@dotsoft.com
+  ip: 71.31.16.85
+  url: http://www.dotsoft.com/
+  date: '2012-03-16 14:27:51'
+  body: A loosely related question, does EnC (Edit & Continue) work in VS11 in <b>64bit</b>
+    with 2013?
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-03-16 18:15:46'
+  body: 'AutoCAD 2013 doesn''t bring anything new to the EnC table, as ultimately
+    <a href="http://connect.microsoft.com/VisualStudio/feedback/details/431200/edit-and-continue-is-not-allowed-when-debugging-a-64-bit-application">it''s
+    a Microsoft problem</a>. And sadly <a href="http://connect.microsoft.com/VisualStudio/feedback/details/728205/edit-and-continue-enc-not-support-x64-in-vs2011-beta">the
+    limitation is still there in the VS2011 Beta, apparently</a>.
+
+
+    Kean'
+- author: Artvegas
+  email: yamos78@hotmail.com
+  ip: 27.32.79.215
+  url: ''
+  date: '2012-05-23 21:21:44'
+  body: 'There''s also the Application.RecentDocuments property which returns an IEnumerable&#060;RecentDocument&#062;.
+    The RecentDocument objects contains all the relevant properties.
+
+
+    I checked it in AutoCAD 2012, and the last entry seems erroneous to me when compared
+    with the list shown in the UI application menu. But easy enough to just ignore
+    that element.
+
+
+    Art'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-05-24 09:11:06'
+  body: 'Interesting - thanks for the pointer, Art (I must have missed that one).
+
+
+    Kean'
+- author: David Streng
+  email: ralockkaltan@gmail.com
+  ip: 209.131.30.190
+  url: ''
+  date: '2012-09-15 17:51:58'
+  body: 'I realize this is an old post but I''d be very interested in seeing an example
+    of a successful open/dowork/close script using the core console. I''m developing
+    an application that needs to touch a large number of drawings and I''ve been unable
+    to get open/close working in a single script. Close command seems to crash the
+    console and open simply fails.
+
+
+    Currently I''m having to run acadcoreconsole.exe /s filename /s script.scr through
+    a whole list of files. Works, but is inelegant and (I imagine) slower than running
+    one instance of core and on a single script that does the appropriate open/close
+    commands. Would be quite interested in your thoughts.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-09-16 20:43:14'
+  body: 'Hi David,
+
+
+    You''ve hit on the intended approach for processing multiple files: running a
+    core console instance for each.
+
+
+    Now if you only need RealDWG-like access (i.e. you can live with the more limited
+    capabilities you have by using just AcDbMgd.dll and not AcCoreMgd.dll), then you
+    can "side load" a sequence of drawings via a .NET-implemented command loaded in
+    a single core console instance and process them that way.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Sam
+  email: ssaarian@hotmail.com
+  ip: 208.34.193.194
+  url: ''
+  date: '2013-11-21 01:19:26'
+  body: 'Any clue why I''m getting this error in VB.Net (similar/same error happens
+    in C# too).
+
+
+    ''RegistryProductRootKey'' is not a member of ''Autodesk.AutoCAD.DatabaseServices.HostApplicationServices''.
+
+
+    I''m using VS 2010 Express, testing for AutoCAD 2013 (mechanical). my reference
+    dll versions are:
+
+    accoremgd.dll - 19.0.55.0.0 (826 kb)
+
+    acdbmgd.dll - 19.0.55.0.0 (6.07 mb)
+
+    acmgd.dll - 19.0.55.0.0 (2.28 mb)
+
+
+    I have tries .Net 4.0/3.5 (+client) including C# environment, if this is matter'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-11-21 07:15:35'
+  body: 'Hi Sam,
+
+
+    As explained in the post, in AutoCAD 2013 that API was replaced with two variants.
+    The one you choose depends on the section of the Registry you''re interested in:
+
+
+    HostApplicationServices.Current.UserRegistryProductRootKey
+
+    HostApplicationServices.Current.MachineRegistryProductRootKey
+
+
+    I hope this helps,
+
+
+    Kean
+
+    -----'

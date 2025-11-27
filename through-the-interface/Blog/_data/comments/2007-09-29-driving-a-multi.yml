@@ -1,0 +1,562 @@
+comments:
+- author: ben
+  email: lemonlee@126.com
+  ip: 203.86.47.59
+  url: http://www.lubanren.com/weblog
+  date: '2007-09-29 06:10:44'
+  body: 'Nice code!
+
+    By the way, can you give an example about how to draive a multi-sheet AutoCAD
+    plotpreview using .NET? I try it by myself but have no way. Maybe the PreviewEndPlotInfo
+    Class is helpful, but how to use this class?
+
+    very thanks.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-10-01 20:01:19'
+  body: 'Sure thing. <a href="http://through-the-interface.typepad.com/through_the_interface/2007/09/driving-a-multi.html">Today''s
+    post</a> looks at single-sheet previewing, while a follow-up post later in the
+    week will look at multi-sheet.
+
+
+    Kean'
+- author: Sony
+  email: kava831@yahoo.com
+  ip: 203.145.176.250
+  url: ''
+  date: '2007-11-29 05:52:52'
+  body: "\"Operation is not valid due to the current state of the object.\"\n\n  i\
+    \ am getting this error while running the above code in autocad 2008.it will plot\
+    \ first sheet layout but when it loops back for second sheet it throws this error.\n\
+    \nbut the above code works fine for autocad 2006..\n\n\nany solution kean?"
+- author: Thomas
+  email: t.koehler@tki-chemnitz.de
+  ip: 213.187.75.122
+  url: ''
+  date: '2008-02-18 16:37:34'
+  body: 'Many thanks for the code sample!
+
+
+    Is it also possible to plot the same layout multiple times? I''ve got a huge drawing
+    and defined some sheet lines there. Now I want to plot a set of these sheets into
+    one dwg or pdf file. I modified your code accordingly and am iterating through
+    every sheet instead of the "layoutsToPlot". In the loop, I''m zooming to the extents
+    of the current sheet. Unfortunately, the resulting file contains only one page
+    (the one of the last sheet). Am I on the right track with this approach? Which
+    command actually tells AutoCAD to start a new page (has to be another one than
+    pe.BeginPage)?
+
+
+    Your help is highly appreciated!'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 66.159.223.136
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-02-19 06:28:47'
+  body: 'It''s hard to know exactly what''s happening, based on the description, but
+    one suggestion: make sure you''re using a multi-sheet compatible plotter & driver...
+
+
+    Kean'
+- author: 'Eric '
+  email: eric.hatton@avat.com
+  ip: 68.205.149.72
+  url: ''
+  date: '2008-04-17 20:15:39'
+  body: "Thanks so much for this example. \n\nI do have a question.  I have implemented\
+    \ the code and am using it to plot several drawing files with multiple layouts\
+    \ to PDFs but there seems to be an issue.  I am waiting for the PlotFactory.ProcessPlotState\
+    \ to return the NotPlotting status before I start the next drawing.  This takes\
+    \ a very long time to return.  Is there a better way to accomplish this besides\
+    \ waiting on the NotPlotting status to return before I start the next plot cycle?\
+    \  \n\nAny assistance is appreciated.\n\nEric"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-04-21 11:44:12'
+  body: 'Hi Eric,
+
+
+    The logical way would be to rely on Background Plotting to avoid the delay. I
+    can''t remember whether I tested it with this code, though.
+
+
+    I''d suggest sending a reproducible sample through to the ADN team, referencing
+    this post.
+
+
+    Regards,
+
+
+    Kean'
+- author: Sparky
+  email: david.sparks@feltengroup.com
+  ip: 72.214.210.235
+  url: http://www.feltengroup.com
+  date: '2008-08-06 18:43:57'
+  body: 'Hi Kean,
+
+
+    Do you know how I can get a multi-page DWF file to label all the sheets?  I currently
+    have multiple DWG files that I open and create a single multi-page DWF (via C#),
+    but only the first sheet has a name.  I can''t see where I should be passing names
+    for the other sheets.  Thanks.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-06 23:10:32'
+  body: 'Hi Sparky,
+
+
+    Sorry - I don''t know the answer to this one, off the top of my head (and I don''t
+    have time to research it, either, right now).
+
+
+    I''d suggest asking via <a href="http://adn.autodesk.com">ADN</a> or <a href="http://discussion.autodesk.com/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Ray L'Amoreaux
+  email: ray.lamoreaux@dot.state.fl.us
+  ip: 156.75.192.110
+  url: http://www.dot.state.fl.us/ecso/
+  date: '2008-10-02 15:50:00'
+  body: 'Kean,
+
+
+    First, I''m amazed at the work you do and how quickly you come up with all these
+    examples. Very helpful. Thanks.
+
+
+    However, I am having the same problem as Sony:
+
+
+    Operation is not valid due to the current state of the object.
+
+
+    (AutoCAD - Civil 3d 2009).
+
+
+    When the tr.GetObject tries to access the 2nd layoutsToPlot using BTR Id, AutoCAD
+    crashes with the above error.
+
+
+    I use exactly the same code as in more than one of the examples...
+
+
+    Any ideas for me to try?
+
+
+    Thanks Again.
+
+
+    Ray L''Amoreaux
+
+    FDOT'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-10-04 16:29:07'
+  body: 'Ray,
+
+
+    Thanks for the kind words.
+
+
+    Do you see this behavior in every drawing? If so, is there something specific
+    about the drawing setup?
+
+
+    Feel free to email me (or, ideally, submit it via ADN) a drawing which reproduces
+    the problem consistently with no change in the above code.
+
+
+    Kean'
+- author: Nick Lee
+  email: Nlee@Yesco.com
+  ip: 204.182.4.232
+  url: ''
+  date: '2008-11-25 20:08:32'
+  body: "Hey Kean,\n\nLove your stuff, hopefully see you in vegas next week.  I am\
+    \ having the same trouble as the previous fellas while trying to print:  \n\n\"\
+    Operation is not valid due to the current state of the object\"\n\nDid you come\
+    \ to a conclusion on this?"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.58.159
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-26 06:48:15'
+  body: 'Hi Nick,
+
+
+    I don''t remember seeing anything come through from Ray (although he may have
+    submitted via ADN).
+
+
+    I''ll repeat the offer I made to Ray: if you can send me a drawing and clear steps
+    to reproduce the problem, I''ll take a look (after AU :-).
+
+
+    Be sure to say Hi if you see me in Vegas!
+
+
+    Kean'
+- author: Peter
+  email: sylvesp@hotmail.com
+  ip: 64.252.24.77
+  url: ''
+  date: '2008-12-20 03:05:47'
+  body: 'Does Anybody have an idea why am I getting only one Layout (the last one
+    printed) showing up in the dwfx file?
+
+    If I use a pdf printer then I have all may layouts.
+
+    I am using the code shown above translated to VB.net.
+
+
+    Thanks for your help.
+
+    Peter'
+- author: Todd
+  email: tatkins@edensandavant.com
+  ip: 72.159.147.130
+  url: ''
+  date: '2008-12-30 23:09:52'
+  body: "I'm having the same problem as the others. I've tried both C# and converted\
+    \ it over to .Net and it's failing upon reaching the second sheet at\n\nBlockTableRecord\
+    \ btr =\nBlockTableRecord)tr.GetObject(\n                    btrId,\n        \
+    \            OpenMode.ForRead\n\nMy company won't spring for a membership to ADN,\
+    \ so I've no way to submit the files there, but if you have other ways to get\
+    \ it to you, then I'm more than happy to send them along.\nI'm using C3d 2009\
+    \ SP1 here along with VS 2008 Express edition."
+- author: Ognyan Dimitrov
+  email: ognyan.dimitrov@prototyp.bg
+  ip: 212.72.197.106
+  url: http://profile.typepad.com/6p0115711d6c53970c
+  date: '2009-07-17 15:40:27'
+  body: "Hi all,\nI have problem changing the plot resolution.\nI have managed to\
+    \ make multiple sheets in PDF format with just a line changed, but in PDF text\
+    \ appears very bad in low resolutions. I looked in the Managed Class Reference\
+    \ and searched the objects to see if there is a way. The only thing I found was\
+    \ CustomShadeDPI property, but does not seem to work. \n\nIf anybody have an idea\
+    \ or give me just a hint where to read!\nThanks."
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-07-17 16:30:05'
+  body: 'Hi there,
+
+
+    I''m afraid I don''t know how best to affect this, although someone on <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a> might.
+
+
+    Regards,
+
+
+    Kean'
+- author: Thib
+  email: thibaut.veyrat@hermes-metal.com
+  ip: 194.3.35.117
+  url: ''
+  date: '2009-07-28 16:48:59'
+  body: 'Hi,
+
+
+    I''ve problem because i need to change Layer state between 2 sheets plotting,
+    but just the last state is printed in all sheets. Can anyone help me.
+
+
+    Thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-07-28 16:51:05'
+  body: 'Hi Thib,
+
+
+    This isn''t a forum for support.
+
+
+    Your comment doesn''t appear to relate to this post, so please submit your question
+    to <a href="http://adn.autodesk.com">the ADN team</a>, if you''re a member, or
+    otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean'
+- author: Michael
+  email: msbair@hotmail.com
+  ip: 173.48.205.113
+  url: ''
+  date: '2009-09-22 18:10:12'
+  body: 'Hi everyone,
+
+
+    Has anyone been able to get this (or the similar code found in the AutoCAD .NET
+    Developer''s Guide) to work with AutoCAD 2010?  I''m able to do a successful plot
+    when plotting to a system printer, but not when printing to DWF6 or DWFx.
+
+
+    Thanks,'
+- author: Michael
+  email: msbair@hotmail.com
+  ip: 173.48.205.113
+  url: ''
+  date: '2009-09-22 20:52:15'
+  body: 'Okay,
+
+
+    I got the plot to output to a file.  There must have been some security issue
+    associated with writing to the C:\ directory (I''m using Windows 7).  By plotting
+    to another directory (E.G., C:\Temp\) I was able to produce the output file.
+
+
+    Another question, though:  Why doesn''t the output file contain each of the drawing
+    layouts?  The code attempts to plot each layout, but the only layout to show up
+    in the output file is the first layout plotted.
+
+
+    Thanks,'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-09-23 15:15:03'
+  body: 'Please let me know what driver you''re getting this behaviour with (and on
+    which version of AutoCAD). I''ll see if I can reproduce it, when I get some time
+    (which I unfortunately don''t have much of, right now).
+
+
+    Kean'
+- author: Michael
+  email: msbair@hotmail.com
+  ip: 173.48.205.113
+  url: ''
+  date: '2009-09-24 23:03:10'
+  body: 'Hi Kean,
+
+
+    Thanks for the response.
+
+
+    I''m using AutoCAD 2010 (which is part of the Inventor / Mechanical suite) with
+    the DWFx ePlot (XPS Compatible).pc3 driver.'
+- author: Scott
+  email: msbair@hotmail.com
+  ip: 173.48.205.113
+  url: ''
+  date: '2009-10-27 14:24:16'
+  body: 'Hello,
+
+
+    Has anyone gotten this example to function correctly?  When I execute the command,
+    I only get one layout to show up in the DWFx document.
+
+
+    Windows 7
+
+    AutoCAD/Inventor 2010
+
+    Visual Studio 2008'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-10-29 09:50:19'
+  body: 'There seems to be an issue with the DWFx driver in AutoCAD 2010 accepting
+    multiple sheets: I had the same issue originally with the DWF6 driver (although
+    it could also have been a different issue), while the DWFx driver worked. Now
+    the DWFx driver just prints a single layout, which other multi-page enabled drivers
+    work fine.
+
+
+    So either there''s something I''m missing from this code, or it''s only possible
+    to drive certain multi-page drivers.
+
+
+    I''ll try to take another look at this, but it may take some time for me to get
+    to the bottom of it.
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-11-02 15:42:26'
+  body: 'A member of my team is looking into this... I''ll report back once we know
+    what the situation.
+
+
+    In case you have an urgent requirement, driving a multi-sheet plot using a DSD-based
+    approach does work with DWFx (although it clearly requires a different approach
+    in your code).
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-11-02 16:05:17'
+  body: 'Hi Michael,
+
+
+    There seems to be a problem with the DWFx ePlot driver in AutoCAD 2010 (either
+    that or the code needs updating to be able to use it).
+
+
+    Someone in my team is looking into this...
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-11-27 08:42:01'
+  body: 'It turns out that the DWFx driver - as integrated into AutoCAD - does not
+    support multi-sheet plotting.
+
+
+    Which means that to plot multiple sheets to DWFx you really need to use a DSD-based
+    approach that uses Publish to create the file.
+
+
+    I''ll work on putting something together to demonstrate this.
+
+
+    Kean'
+- author: Moe
+  email: mohamad.elcharfa@gmail.com
+  ip: 89.17.125.163
+  url: ''
+  date: '2011-03-10 14:30:03'
+  body: "any updates Kean? It's not working on 2011 either. \n\nThanks,"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-03-10 14:44:57'
+  body: 'What specifically are you looking for? Is it related to the issues with the
+    DWFx driver?
+
+
+    Kean'
+- author: Moe
+  email: mohamad.elcharfa@gmail.com
+  ip: 89.17.125.163
+  url: ''
+  date: '2011-03-11 07:41:05'
+  body: "I am looking to automate the export command, so I applied the above code,\
+    \ on the DWFx driver, but I only get one layout exported. \n\nbtw, thanks for\
+    \ the great post."
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-03-11 09:17:04'
+  body: 'Hi Moe,
+
+
+    Sorry - no change that I''m aware of. The DWFx driver is now single-sheet.
+
+
+    Regards,
+
+
+    Kean'
+- author: Moe
+  email: mohamad.elcharfa@gmail.com
+  ip: 89.17.125.163
+  url: ''
+  date: '2011-03-11 11:59:25'
+  body: Thank you Kean...
+- author: tkloyal
+  email: tkloyal@gmail.com
+  ip: 113.167.163.175
+  url: ''
+  date: '2011-06-30 14:10:07'
+  body: 'Hi Kean,
+
+    I try change paper size when multi-sheet plotting, but eInvalidPlotInfo error
+    occur.
+
+    is it possible?
+
+    Thanks,'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2011-06-30 14:31:45'
+  body: 'Sorry - I don''t know the answer, off the top of my head, and don''t have
+    time to investigate.
+
+
+    Please submit your question to <a href="http://adn.autodesk.com">the ADN team</a>,
+    if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean'
+- author: vario
+  email: w.richtsfeld@gmx.com
+  ip: 80.120.171.105
+  url: ''
+  date: '2011-08-01 13:48:31'
+  body: "hi!\ni found an error in the autocad api.\nif you try to plot multiple layouts\
+    \ with different paperformats, you'll get an error at the line\n pe.BeginPage(ppi,\
+    \ pi, (numSheet == layoutsToPlot.Count), null);\nnamed eInvalidPlotinfo\n\nbecause\
+    \ when you call the function pe.BeginDocument you use the PlotInfo Object from\
+    \ the first Layout\n pe.BeginDocument(pi, doc.Name, null, 1, true, Exportpath\
+    \ + NewFileNameWithoutExtension);\n\nif all Layouts have the same Paperformat,\
+    \ everything is fine. so this function does not work properly everytime."
+- author: GPQ
+  email: gpq@haarmann-gruppe.de
+  ip: 62.97.46.250
+  url: ''
+  date: '2011-12-07 14:21:14'
+  body: 'hi!
+
+    Confirm your problem.Don''t work with different paper size.I hope that someone
+    have a workaround or Autodesk have to update NET API.'
+- author: GPQ
+  email: gpq@haarmann-gruppe.de
+  ip: 62.97.46.250
+  url: ''
+  date: '2011-12-07 14:24:34'
+  body: 'hi Kean,
+
+    i have the same problem.Don''t work with different paper size.I hope that you
+    have a workaround or Autodesk have to update NET API.
+
+    I''m waiting your answer.
+
+    Thanks.
+
+    (I use acad2011 32 bit and vb.net)'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/kean
+  date: '2011-12-07 15:39:57'
+  body: 'Your best bet is to submit this via ADN or to the AutoCAD .NET Discussion
+    Group (I don''t have time to follow up on issues such as this, unfortunately).
+
+
+    Kean
+
+    -----'

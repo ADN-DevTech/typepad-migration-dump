@@ -1,0 +1,223 @@
+comments:
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadxtabs/AcadXTabs2010.htm
+  date: '2010-06-04 20:52:49'
+  body: You might want to have a look at Array.Reverse(), List.Reverse(), and System.Linq.Enumerable.Reverse()
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-06-04 21:15:18'
+  body: 'Thanks, Tony.
+
+
+    Glenn Ryan also dropped me a quick email about the Linq option. I''ll be making
+    the next version more elegant from this one respect, at least. :-)
+
+
+    Kean'
+- author: Adam
+  email: hosannabizarre@gmail.com
+  ip: 203.161.94.50
+  url: ''
+  date: '2010-07-14 03:45:58'
+  body: "I am massively keen to be able to select objects nested in AutoCAD blocks,\
+    \ and change the layer.\n\nI am struggling to apply the code detailed above in\
+    \ AutoCAD, as I am a total newb to .NET add ons (I'm using AutoCAD 2010) \n\n\
+    Here is what I've done - hoping someone could point out where I've gone wrong:\n\
+    \n1) Installed Visual Basic Express Edition\n2) Created a class library and referenced\
+    \ \"acdbmgd.dll\" & \"acmgd.dll\"\n3) Copied and pasted the code above and saved\
+    \ it under my project as \"Class1.vb\" \n4) Used Kean's advice for debugging with\
+    \ Express Editions (which is here: <a href=\"http://through-the-interface.typepad.com/through_the_interface/2006/07/debugging_using.html)\"\
+    >http://through-the-interface.typepad.com/through_the_interface/2006/07/debugging_using.html)</a>\
+    \ i.e. I've replaced \"select_nested.vbproj.user\" with Kean's code & updated\
+    \ the filepath to suit my system.\n5) I've set the Command Line Argument for my\
+    \ Project to \"C:\\Program Files\\AutoCAD 2010\\acad.exe\" and the working directory\
+    \ to \"C:\\Program Files\\AutoCAD 2010\\\"\n6) Pressed F5 to debug.\n7) AutoCAD\
+    \ 2010 opens and I type \"NETLOAD\" and select the .dll file in the project folder.\n\
+    8) I type \"CNL\" on the command line and it says \"Unknown command \"CNL\". \n\
+    \nWhat am I doing wrong?\n\nKnowing almost nothing about coding, am I just meant\
+    \ to copy and paste the above code?\n\nDoes it need to be situated within other\
+    \ code, or modified to run properly?\n\nThe error list for the project is 102\
+    \ items long, and says \"Statement cannot appear outside of a Method Body\".\n\
+    \nWould totally appreciate some pointers or advice.\n\nThanks,\nAdam the .NET\
+    \ fledgling."
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.71.11
+  url: http://profile.typepad.com/kean
+  date: '2010-07-14 21:57:07'
+  body: 'Hi Adam,
+
+
+    Have you made sure the project references to acdbmgd.dll and acmgd.dll are set
+    as "Copy Local = false"?
+
+
+    Regards,
+
+
+    Kean'
+- author: Adam
+  email: hosannabizarre@gmail.com
+  ip: 203.161.94.50
+  url: ''
+  date: '2010-07-15 04:03:22'
+  body: "Yes I have, for both - as per this guide:\n\naugiru.augi.com/content/library/au07/data/paper/DE111-2.pdf\
+    \ \n\nI notice that if I do Stephen Preston's simple \"HelloWorld\" exercise,\
+    \ it creates HelloWorld.dll, HelloWorld.pbd\nand Helloword.xml here:\n\n..\\Projects\\\
+    HelloWorld\\HelloWorld\\bin\\Debug\n\nWhen I create a project using the Change\
+    \ Nested Layer\nscript above, and save the project, and then debug, the only .dll\
+    \ file in the project folder system is here:\n\n..\\Projects\\Change_Nested\\\
+    Change_Nested\\obj\\Debug\\TempPE\n\nand it's called \"My Project.Resources.Designer.vb.dll\"\
+    \n\nI would expect to find a Change_Nested.dll somewhere - but can't see it.\n\
+    \nIn short, there is no .dll, .pbd or .xml file here:\n\n..\\Projects\\Change_Nested\\\
+    Change_Nested\\bin\\Debug\\\n\nI have a sinking feeling that the correct .dll\
+    \ files are not being created or generated, due to some problem with the code.\
+    \ \n\nIt gives me a \"there are build errors\" dialog as soon as I try to debug.\n\
+    \nI tried following the all the same steps using your \"Import Blocks\" script,\
+    \ which I'm also very interested in, but have the same issue.\n\nI recognize this\
+    \ blog is intended for discussion of the finer points of the .NET scripts on display,\
+    \ however I am that hopeful of getting this working that I've had to swallow my\
+    \ pride and hassle you with implementation issues - I totally appreciate your\
+    \ help.\n\nAdam"
+- author: Adam
+  email: hosannabizarre@gmail.com
+  ip: 203.161.94.50
+  url: ''
+  date: '2010-07-15 04:26:51'
+  body: 'Out of curiosity, as a by the by, does this Change Nested Layer script allow
+    the user to shift-select nested entities, and apply changes across the selection?
+
+
+    I am living for the day when Quick Select has a check box to "Include Nested Objects".
+    Just imagine being able to sort out the innards of all your blocks as though they
+    were all exploded already, without exploding them. As far as I understand, selection
+    sets derived through Quick Select do not excompass entities within blocks. For
+    instance, if you select text of a certain style with Quick Select, you do not
+    pick up text of that style existing within blocks.
+
+
+    Just imagine if this Select Nested capability could be integrated into the Quick
+    Select tool. That would be oober useful. I want to be there at the opening ceremony
+    of this functionality, cheering and popping champagne bottles with wild exhaltation.'
+- author: Kean Walmsley
+  email: ''
+  ip: 99.31.232.76
+  url: http://profile.typepad.com/kean
+  date: '2010-07-15 16:17:45'
+  body: 'Hi Adam,
+
+
+    It does indeed sound as though the project isn''t building properly. Does the
+    Visual Studio output window provide any information as to what''s failing?
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 99.31.232.76
+  url: http://profile.typepad.com/kean
+  date: '2010-07-15 16:28:30'
+  body: 'This command uses ed.GetNestedEntity() in a loop to allow the user to select
+    a set of single entities: you could probably support fancier selection approaches,
+    but it would take some work (and was beyond the scope of the initial sample).
+
+
+    I can imagine nested selection from Quick Select being very useful, but I can
+    also see it would be quite a minefield to implement properly (there are deeper
+    implications about allowing more general nested selection/modification that would
+    need to be addressed to prevent user confusion). I do suggest submitting it for
+    the AUGI wishlist.
+
+
+    Kean'
+- author: Adam
+  email: hosannabizarre@gmail.com
+  ip: 203.161.94.50
+  url: ''
+  date: '2010-07-16 05:17:12'
+  body: 'I downloaded and installed Visual Studio 2008.
+
+
+    If I create a Visual C# Class Library, and paste the above code, I get no syntax
+    error messages or highlighted code. The code seems happy. However, with this project
+    type, I can''t reference "acmgd.dll" and "acdbmgd.dll" under the Project''s references
+    tab; the set up is different. If I try debugging, with acad.exe as the startup
+    object, and then netload, again, I can find no .dll assemblies.
+
+
+    If I create a Visual Basic Class Library, I can indeed reference "acmgd.dll" and
+    "acdbmgd.dll", under the References panel, however the code, once I paste it in,
+    is highlighted all over as though there are syntax errors. For example, in C#,
+    you use "using" and with a .vb you use "Imports". The .vb class doesn''t seem
+    to like "using", and a whole lot of other aspects of the code.
+
+
+    The error list consists of multiple instances of the following error types, totalling
+    102 in all:
+
+
+    "Statement cannot appear outside of a method body..."
+
+    "Syntax error..."
+
+    "Bracketed identifier is missing closing '']''..."
+
+    "End of statement expected."
+
+    "Declaration expected..."
+
+
+    Are there a set of instructions somewhere on this blog, or elsewhere, for novices,
+    which illustrate how to apply the various codes featured on Through the Interface
+    to AutoCAD? Right now I''m pretty confused and definitely need some enlightening
+    pointers.
+
+
+    I''m sure I deserve a "least competent blog-user of the month" nomination for
+    being this confused.'
+- author: Kean Walmsley
+  email: ''
+  ip: 99.31.232.76
+  url: http://profile.typepad.com/kean
+  date: '2010-07-16 16:13:32'
+  body: 'Hi Adam,
+
+
+    The code posted is very much in C#: you would need to convert it to VB if you
+    wanted to build it into a VB project (see <a href="http://through-the-interface.typepad.com/through_the_interface/2009/07/converting-between-c-and-vbnet.html">this
+    post</a> for information).
+
+
+    But it sounds as though you need to check the Visual C# Express documentation
+    on adding project references: when I use Visual Studio I add project references
+    by right clicking in the Solution Explorer window rather than from the project''s
+    properties page.
+
+
+    Regards,
+
+
+    Kean'
+- author: Adam
+  email: hosannabizarre@gmail.com
+  ip: 203.161.94.50
+  url: ''
+  date: '2010-07-19 02:36:09'
+  body: Thanks very much. I appreciate this advice. Will try the right click approach
+    that you employ, and look at converting the C# to vb.net
+- author: Adam
+  email: hosannabizarre@gmail.com
+  ip: 203.161.94.50
+  url: ''
+  date: '2010-07-19 03:27:21'
+  body: 'Got it going, adding the C# references like you do. Yeah, you can totally
+    shift-select nested object. LOVING the power!!! :)
+
+    -----'

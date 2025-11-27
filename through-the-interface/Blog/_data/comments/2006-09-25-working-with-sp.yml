@@ -1,0 +1,293 @@
+comments:
+- author: Alexander Rivilis
+  email: rivilis@i.com.ua
+  ip: 81.95.182.209
+  url: http://private.peterlink.ru/poleshchuk/cad/RANe.htm
+  date: '2006-09-25 14:36:52'
+  body: "Hi, Kean!\nI think that more elegant in C# is using:\n   Circle circ = obj\
+    \ as Circle;\ninstead of:\n   Circle circ = (Circle) obj;\nand checking then:\
+    \ \n   if (circ != null) {\n   ...\n   }\nWhat do you think about that?"
+- author: Wyatt
+  email: spam@spam.com
+  ip: 66.115.232.200
+  url: ''
+  date: '2006-09-25 18:10:42'
+  body: "Of course, this is the completely WRONG way to do this.  You should be using\
+    \ \"as\" as suggested in the previous comment, or at a minimum \"is\" followed\
+    \ by the cast.  \n\nNot as good as \"as\", but still way better, alternative:\n\
+    if(obj is Circle)\n   circ = (Circle)obj;\n\nThere is almost NEVER a good reason\
+    \ to use\ncatch(System.InvalidCastException).  Even lazyness isn't an excuse,\
+    \ because it's actually more typing."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-09-25 18:27:25'
+  body: 'Thanks for the various comments.
+
+
+    I''m sorry the C# code was incorrect - I was (embarassingly enough) not aware
+    of "As". I do most of my coding in C++ or VB.NET, and wanted to include C# code
+    for completeness (but didn''t have the time to research the best way to do a typesafe
+    cast in C#: the syntax of the C++ hardcast worked and threw an exception I could
+    handle, so I assumed that was the way it was done. My apologies for not being
+    as thorough as I might have been. I imagine the VB.NET code should also be revised,
+    based on this feedback - if someone wants to post a better technique in these
+    comments, then please do so.
+
+
+    I think this is telling me I should be taking a proper break during the rest again
+    next week.
+
+
+    Thanks to everyone who posted or emailed their congratulations on Zephyr''s birth
+    - very much appreciated!
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-09-25 20:39:51'
+  body: 'OK - I went and revised the code in this posting (I hate being "revisionist"
+    about these things, but I don''t want to mislead any more readers about the right
+    way to do things... I have left the original code there, with a comment).
+
+
+    BTW - one of the reasons I initially avoided the use of TypeOf() in VB.NET for
+    this example was the suspicion that it wouldn''t work with intermediate base classes,
+    such as Autodesk.AutoCAD.DatabaseServices.Curve - mainly because the syntax makes
+    it feel as though you''re looking for the ultimate concrete class that the object
+    belongs to. As it happens, this fear was ill-founded - TypeOf() works just fine
+    for intermediate classes, so this is looking like a good topic for a future post.
+
+
+    Kean'
+- author: Glenn R
+  email: toxo@telstra.com
+  ip: 202.183.96.186
+  url: ''
+  date: '2006-09-26 03:51:50'
+  body: "An even better way perhaps:\n\nCircle pCirc = tr.GetObject(objId, OpenMode.ForRead)\
+    \ as Circle;\nif (pCirc != null)\n  // Do some mojo here..."
+- author: Wyatt
+  email: spam@spam.com
+  ip: 66.115.232.200
+  url: ''
+  date: '2006-09-26 16:57:28'
+  body: If you're using the TypeOf ... Is ... type checking in VB.NET to verify the
+    type before hand, you may want to consider using DirectCast instead of CType,
+    as this has slightly less overhead.  DirectCast translates directly to IL casting
+    instuctions where CType calls a VB helper function first.
+- author: Saraf Uddin Talukder
+  email: sarafuddin@gmail.com
+  ip: 202.4.104.34
+  url: ''
+  date: '2007-04-02 09:17:39'
+  body: "Really a very good article mite. You can simplify the task and bring it to\
+    \ a few lines if you use DOTNETARX. Its a library for doing common task such as\
+    \ openning the current database aand all for you. Here is a way of accessing the\
+    \ properties. I just gave the main part of the code : \n\n*****************************8\n\
+    try\n            {\n                ObjectId id1;\n                //get the editor\
+    \ for the current document\n                Editor ed = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor;\n\
+    \n                //promt user to select an entity and get its object id\n   \
+    \             PromptEntityResult res = ed.GetEntity(new PromptEntityOptions(\"\
+    Select an Entity\"));\n                id1 = res.ObjectId;\n                DBObject\
+    \ obj = Tools.GetDBObject(id1);\n                Entity ent = (Entity)obj;\n \
+    \               string color = ent.Color.ToString();\n                       \
+    \        MessageBox.Show(color);                                }\n          \
+    \  }\n            catch (System.Exception)\n            {\n            }\n*************************************88\n\
+    in the above code example i am using a library DOTNETARX which is availabe free\
+    \ in the net. The Tools Class is available in that which helps you get a DBObject\
+    \ from an object id without having to write codes for transaction , openning database\
+    \ and all."
+- author: Steve
+  email: steve.blackwell@amec.com
+  ip: 12.129.64.198
+  url: http://www.amec.com
+  date: '2007-10-10 23:04:53'
+  body: "I was wondering if you could possibly help with a liitle project I/m working\
+    \ on.  What I would like to do is create a new layer and set the properties for\
+    \ that layer.  I've figured out how to create the layer and set the color and\
+    \ lineweight, but I can't figure out how to set the linetype.  I'm loading all\
+    \ the linetypes so I know they exist.  Here's the code I have so far....  Any\
+    \ help would be greatly appreciated!!!\n\n\nImports Autodesk.AutoCAD.DatabaseServices\n\
+    Imports Autodesk.AutoCAD.Runtime\nImports Autodesk.AutoCAD.ApplicationServices\n\
+    Imports DBTransMan = Autodesk.AutoCAD.DatabaseServices.TransactionManager\nImports\
+    \ Autodesk.AutoCAD.Colors\nImports Autodesk.AutoCAD.Interop\nImports Autodesk.AutoCAD.Interop.Common\n\
+    \nPublic Class Commands\n    'Public db As Database = Application.DocumentManager.MdiActiveDocument.Database\n\
+    \    ' Define command 'importLS'\n    <CommandMethod(\"importLS\")> _\n    Public\
+    \ Sub importLS()\n        Dim ThisApp As AcadApplication = GetObject(, \"AutoCAD.Application.17\"\
+    )\n        Dim ThisDrawing As AcadDocument = ThisApp.ActiveDocument\n        Dim\
+    \ oLSM As AcadLayerStateManager\n        oLSM = ThisDrawing.Application. _\n \
+    \          GetInterfaceObject(\"AutoCAD.AcadLayerStateManager.17\")\n        oLSM.SetDatabase(ThisDrawing.Database)\n\
+    \n        ' If the drawing you're importing to does not contain\n        ' all\
+    \ the linetypes referenced in the saved settings,\n        ' an error is returned.\
+    \ The import is completed, though,\n        ' and the default linetype is used.\n\
+    \        On Error Resume Next\n        oLSM.Import(\"P:\\CAD\\Test\\Architectural.las\"\
+    )\n        If Err.Number = -2145386359 Then\n            ' Error indicates a linetype\
+    \ is not defined\n            MsgBox(\"One or more linetypes specified in the\
+    \ imported \" + _\n                   \"settings is not defined in your drawing\"\
+    )\n        End If\n        On Error GoTo 0\n\n    End Sub"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-10-11 10:44:59'
+  body: 'A few comments:
+
+
+    The code you''ve implemented uses COM to access the layer state manager. It''d
+    be much simpler to use Database.LayerStateManager to access it, and import/export
+    layer states.
+
+
+    But I actually think you''re using the wrong approach: layers states are intended
+    to save the current state of layers that exist in a drawing - they are really
+    intended to be loaded into drawings that have the base layers already, and will
+    simply influence the current state of those layers. To create new layers you''d
+    be better off doing so by accessing the layer table and adding new entries.
+
+
+    I hope this helps,
+
+
+    Kean'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2008-11-15 00:30:26'
+  body: 'I hate to think I already know the answer to this, but I''ll ask anyway...
+    Can the Implied Selection be filtered easily?
+
+
+    I have a function which requires that the user select Blocks with attributes,
+    and in the normal selection methods that''s easy enough to accomplish but if I
+    am to enable the Pickfirst set for this function I need to pass the pickfirst
+    through a filter, or loop through and check everything myself, which would require
+    opening each object...'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 211.155.168.154
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-16 14:22:45'
+  body: 'There''s no way (I know of) to filter the pick-first set as it''s being selected,
+    but you can certainly pre-process the selection to remove the ones you don''t
+    like.
+
+
+    I don''t see any way to avoid opening each object to check on whether it''s a
+    block containing attributes, however.
+
+
+    Kean'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2008-11-17 19:30:58'
+  body: 'I was afraid of that...
+
+
+    I wasn''t thinking of filtering the set ''as it''s being selected'', but rather
+    immediately after, when my command is called and I obtain the Set.  I was hoping
+    for something like SelectionSet.FilterBy(SelectionFilter)
+
+
+    But I guess I''ll just have to write my own FilterSelectionSet(SelectionSet, Filter).
+
+
+    Thanks anyway!'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2008-11-17 22:16:18'
+  body: 'Wow, trying to do that filtering in my own code was going to get really complicated!
+
+
+    (Not too bad for the blocks w/attributes example I gave you, but really bad if
+    you wanted to write it such that it would work no matter what you passed as a
+    valid filter)
+
+
+    So I used a selection Function I already had which returns a selection set of
+    all objects in ModelSpace which match a filter, then I compared my Implied Selection
+    to the AllMatching selection and created a new ObjectIDCollection containing all
+    ObjectIDs that appear in both selections.'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2008-12-16 19:48:22'
+  body: "Hi Kean,\n\nI thought I'd make you aware of something I figured out recently...\n\
+    \nI saw in your post about Object Specific Context Menu's that you used GetSelection\
+    \ to consume the implied selection or prompt if there was none.\n  \nNow, I do\
+    \ have a couple of cases where the way my code is organized that won't work for\
+    \ me, because I want to check at the beginning for an implied selection, but not\
+    \ prompt them if there is none because I'm about to display a form with some options\
+    \ and a Select button.\n\nThat said, in the cases where the GetSelection approach\
+    \ is appropriate, you can pass both the promptoptions and the filter and it will\
+    \ filter the implied selection if there is one."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.2.123
+  url: http://profile.typekey.com/walmsleyk/
+  date: '2008-12-21 19:40:34'
+  body: 'GetSelection is a shortcut: you can certainly use the longhand approach if
+    that''s what you need.
+
+
+    Kean'
+- author: sham
+  email: shamsam1@gmail.com
+  ip: 122.172.20.175
+  url: ''
+  date: '2009-05-30 13:49:47'
+  body: 'Hi kean,
+
+    I have created a new layer and add a line from c#. I dont want the user to select
+    the line.(i.e if I select the line it should not get selected).I dont want ot
+    lock the layer to do that.
+
+    Any code will be more helpful.
+
+    Regards,
+
+    sham'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-06-02 15:01:39'
+  body: 'Hi sham,
+
+
+    It depends whether you are asking the user to select objects from your own application
+    or want to control this for standard commands.
+
+
+    I know from another comment that you''ve already found <a href="http://through-the-interface.typepad.com/through_the_interface/2008/07/conditional-sel.html">this
+    post</a>, which is of use if managing your own selection.
+
+
+    For standard commands you may want to investigate hooking into the selection process
+    via the PromptForEntityEnding and PromptForSelectionEnding events.
+
+
+    Regards,
+
+
+    Kean'
+- author: Johh
+  email: byron_salas@bpzresources.com
+  ip: 66.60.247.212
+  url: ''
+  date: '2013-12-19 01:46:25'
+  body: "Thanks for the code, \n\nIt were a very good to concrete my script.\n\n\n\
+    Regards,\n-----"

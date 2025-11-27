@@ -1,0 +1,14 @@
+---
+layout: "post"
+title: "An award for the Autodesk Research website"
+date: "2016-12-19 18:04:43"
+author: "Kean Walmsley"
+categories:
+  - "Autodesk"
+  - "Autodesk Research"
+original_url: "https://www.keanw.com/2016/12/an-award-for-the-autodesk-research-website.html "
+typepad_basename: "an-award-for-the-autodesk-research-website"
+typepad_status: "Publish"
+---
+
+<p><a href="http://www.noblestudios.com" target="_blank">Noble Studios</a>, the contractor who helped develop <a href="http://autodeskresearch.com" target="_blank">AutodeskResearch.com</a>, has won a <a href="http://www.nevadabusiness.com/2016/11/noble-studios-announced-as-2016-marcom-awards-winner/" target="_blank">Platinum MarCom Award</a> for the project.</p> <p>&nbsp;</p> <p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e201b7c8bea12b970b-pi" target="_blank"><img title="Autodesk Research" style="float: none; margin-left: auto; display: block; margin-right: auto" alt="Autodesk Research" src="/assets/image_155887.jpg" width="450" height="213"></a></p> <p>&nbsp;</p> <p>The site is indeed really cool: head on over if you haven’t been there in a while. I have on my list of things to do – let’s now call it a New Year’s Resolution for 2017 – to start blogging over there, too. But there are plenty of interesting things to see even before that happens. ;-)</p> <p>Just for instance, check out some of the publications listed for the awesome <a href="https://www.autodeskresearch.com/people/jos-stam" target="_blank">Jos Stam</a>, as well as some of his own <a href="https://www.autodeskresearch.com/blog?field_blog_author_node_nid=2111" target="_blank">entertaining blog posts</a>.</p> <p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e201bb09618720970d-pi" target="_blank"><img title="The award-winning Autodesk Research website featuring the award-winning SketchBook Motion app" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; float: none; padding-top: 0px; padding-left: 0px; margin: 30px auto; display: block; padding-right: 0px; border-top-width: 0px" border="0" alt="The award-winning Autodesk Research website featuring the award-winning SketchBook Motion app" src="/assets/image_895342.jpg" width="500" height="298"></a></p> <p>The MarCom Awards seem to cover a wide array of marketing communications media. The specific award was given for category 180, which means it was for a “Corporation”. Here are the <a href="https://enter.marcomawards.com/entry/autodesk-research/" target="_blank">details of the entry</a>.</p> <p>Congratulations both to Noble Studios and to the project team at Autodesk Research who worked on the site (<a href="https://www.autodeskresearch.com/people/ruslana-steininger" target="_blank">Ruslana Steininger</a>, in particular, has devoted a huge amount of her time to making it a success).</p>

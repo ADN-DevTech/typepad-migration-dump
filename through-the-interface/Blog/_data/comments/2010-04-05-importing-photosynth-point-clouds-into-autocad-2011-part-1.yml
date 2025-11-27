@@ -1,0 +1,405 @@
+comments:
+- author: Alex Fielder
+  email: ''
+  ip: 86.8.207.214
+  url: http://profile.typepad.com/6p0120a6442f9f970c
+  date: '2010-04-05 20:49:31'
+  body: 'Hi Kean, that''s some excellent work you''ve done there!
+
+
+    Without having tried it myself, just how usable are the point clouds once they''re
+    imported into AutoCAD?
+
+
+    I''m guessing that each ''point cloud'' takes a fair chunk of system memory due
+    to the sheer number of entities - take for the castle example you used above,
+    are you subsequently able to use these to create a full-fledged 3D model without
+    the system becoming overly taxed?'
+- author: Kean Walmsley
+  email: ''
+  ip: 12.160.193.229
+  url: http://profile.typepad.com/kean
+  date: '2010-04-06 11:40:27'
+  body: 'Thanks, Alex!
+
+
+    AutoCAD''s point cloud implementation is pretty impressive. It can handle up to
+    around 2 billion points and with very good performance (the indexing into the
+    cloud means an appropriate subset is displayed). The whole cloud isn''t loaded,
+    but you will need a certain amount of memory to hold AutoCAD''s point cloud object,
+    of course.
+
+
+    The modelling integration is pretty good, too: you can create geometry by snapping
+    to points in the cloud, for instance. I expect more advanced capabilities to come
+    over time, whether implemented by Autodesk or external developers.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Viktor
+  email: viktor.kulikovskiy@pacificorp.com
+  ip: 208.186.200.7
+  url: ''
+  date: '2010-04-06 19:58:15'
+  body: 'Kean,
+
+
+    I haven''t actually loaded any files into photosynth (yet), but correct me if
+    I''m wrong, it seems that photosynth is doing this virtual 3d scanning? You load
+    a set of pictures into it, and it creates this point cloud from them.
+
+
+    Is that right?'
+- author: Kean Walmsley
+  email: ''
+  ip: 12.160.193.229
+  url: http://profile.typepad.com/kean
+  date: '2010-04-06 20:04:08'
+  body: 'Viktor,
+
+
+    That''s correct. I''d mentioned it briefly in <a href="http://through-the-interface.typepad.com/through_the_interface/2010/03/reality-check.html">a
+    previous post</a>, which had been linked to incorrectly above (now fixed).
+
+
+    Regards,
+
+
+    Kean'
+- author: Kenny
+  email: kenny.bao@163.com
+  ip: 114.80.172.130
+  url: ''
+  date: '2010-04-07 12:38:40'
+  body: 'Hi,Kean
+
+    I''m now rewriting my VBA code to VB.NET,one thing is about rename the specified
+    layout,it''s easy in VBA,but I''m confused about using which method or property.Would
+    you mind giving me a direction?Greate appreciated!'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-04-07 14:32:15'
+  body: 'Hi Kenny,
+
+
+    Sorry - this isn''t a support forum (I really don''t have time to answer questions
+    that aren''t specifically related to my posts).
+
+
+    Please ask <a href="http://adn.autodesk.com">the ADN team</a>, if you''re a member,
+    or otherwise you might post to <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Tilo
+  email: tp@kubit.de
+  ip: 93.218.190.11
+  url: http://www.kubit-software.com
+  date: '2010-04-07 22:44:52'
+  body: 'Hi Kean,
+
+    nice piece of work and fairly laborious ;)
+
+
+    There are some points I noticed:
+
+    <ol>
+
+    <li>I wonder in which unit the point cloud is. The mighty tower of Pembroke Castle
+    has a diameter of about 1.2, I hope this is not meters ;)</li>
+
+    <li>Maybe this is also because of the scale (and limited precision), the point
+    cloud looks somewhat "rasterized" (points arranged in a grid when looking from
+    top), whereas the feature point cloud shouldn''t look like that by its nature.</li>
+
+    <li>I''m also really interested in what precision could be accomplished using
+    this technique. All the point clouds I have "photosynthed" yet are pretty noisy.
+    But that''s a question to the Phothosynth guys I guess.</li>
+
+    </ol>
+
+
+    OK, enough criticism, I am looking forward to seeing this going further and meanwhile
+    running my experiments trying to photosynth frames extracted from a video - and
+    so missing the glorious Bayern victory over ManU a few minutes ago :)
+
+
+    Best regards,
+
+    Tilo.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-04-08 09:53:14'
+  body: 'Hi Tilo,
+
+
+    Thanks! :-)
+
+
+    1. The point cloud is in Photosynth''s internal units, which I haven''t attempted
+    to map into anything like the real world. Photos are unitless - and the internal
+    point ordinates are stored as single-precision floats - so Photosynth uses units
+    that are appropriate for its need to collate images, which won''t reflect reality
+    in any way.
+
+
+    2. Yes, I''ve noticed the same. Presumably this is some function of a reduction
+    in complexity or a by-product of their analysis algorithm.
+
+
+    3. There does appear to be a fair amount of noise, although I tend to be a little
+    forgiving considering how the clouds are being generated.
+
+
+    Whether this particular approach proves useable for real-world design capture
+    remains to be seen, but it certainly demonstrates what will one day be possible.
+
+
+    Best regards,
+
+
+    Kean'
+- author: Nate Lawrence
+  email: ''
+  ip: 76.115.255.78
+  url: http://profile.typepad.com/natelawrence
+  date: '2010-04-17 17:56:09'
+  body: "Greetings, Kean,\n\nIn the pointcloud files the first number notates which\
+    \ pointcloud from the synth that binary file is a part of and the second number\
+    \ notates which piece of that pointcloud it is.\n\nThe primary pointcloud is referred\
+    \ to in the Photosynth log files and the pointcloud bin files as Synth 0, so every\
+    \ bin file which corresponds to the pointcloud for synth 0 will begin \"points_0_\"\
+    . In your example list above, the \"points_1_0.bin\" file corresponds to a second\
+    \ pointcloud within the synth.\n\nGenerally speaking, you can accurately tell\
+    \ how many pointclouds you can expect to harvest from a given synth by viewing\
+    \ the synth in Grid Mode and counting the photo clusters, barring the last group\
+    \ of orphan photos which consist of photos which did not correspond to any others\
+    \ (hence no features matched and therefore no points). Occasionally a single photo\
+    \ cluster may contain mini clusters which are not strongly connected to the rest\
+    \ of the scene and have their own miniature pointcloud, but have enough of a connection\
+    \ that they are still grouped together within the Photosynth viewer, though they\
+    \ will be referred to in the log file and pointcloud files as separate.\n\nAs\
+    \ to Tilo's question about how accurate the pointcloud can be, the answer is honestly\
+    \ that it depends on what input you provide. The closer you get to a subject,\
+    \ the more of its texture will appear in the pointcloud. The more crisp your shots\
+    \ are, likewise. The greater number of angles you provide of a given surface,\
+    \ the more finely detailed the reconstruction will become.\n\nTo highly define\
+    \ surfaces for pointclouds, it is useful to think of using your photos as sculpting\
+    \ tools. Think of taking photos in patterns that prove that your subject is not\
+    \ some sort of visual trick, facade, or movie set, but the real thing. \n\nMove\
+    \ all the way around things or think of using your camera to sweep, crawl, or\
+    \ polish a surface.\n\nI have found that orbits are one of the most effective\
+    \ and descriptive camera motions that can be universally applied to just about\
+    \ any subject in order to maximally inform Photosynth about any given surfaces.\
+    \ Use multiple orbits at multiple heights, distances, or orientations and the\
+    \ accuracy multiplies.\n\nSimple pans left or right or strafing a subject in a\
+    \ straight line can work, but actually leaves much about the scene ambiguous.\
+    \ Orbits, by contrast, leave very little room for error in interpretation, however\
+    \ applying orbits to many portions of a scene quickly drives your number of photos\
+    \ up very highly.\n\nI tend to strive to quickly define each major object in a\
+    \ scene with at least one orbit apiece, then add larger scale panoramas or strafes\
+    \ that provide continuous coverage of entire walls full of objects at a wider\
+    \ field of view to emphasize how each smaller piece fits into the whole. If I\
+    \ still have more space in my photo budget then I add photos walking along the\
+    \ natural pathways through a scene - both directions along each path, if possible,\
+    \ although the pathways are largely for actually viewing the synth, rather than\
+    \ for the benefit of the pointcloud.\n\nThe simple moral of the story is that\
+    \ as you pay more attention to individual objects, rather than simply sweeping\
+    \ past them with your camera, the more clearly they become seen within the pointcloud."
+- author: Nate Lawrence
+  email: ''
+  ip: 76.115.255.78
+  url: http://profile.typepad.com/natelawrence
+  date: '2010-04-17 18:17:31'
+  body: "Mark Willis' Tres Yonis synth is a good example of attention paid to a surface:\
+    \ \n<a href=\"http://photosynth.net/view.aspx?cid=4dee6f33-43a7-4120-bedb-770040c95f2a\"\
+    >http://photosynth.net/view.aspx?cid=4dee6f33-43a7-4120-bedb-770040c95f2a</a>\n\
+    \nTap the [P] key twice to flip on the pointcloud in the Photosynth viewer.\n\n\
+    The deprecated Windows-only Direct3D viewer is optionally available here: \n<a\
+    \ href=\"http://photosynth.net/d3d/photosynth.aspx?cid=4dee6f33-43a7-4120-bedb-770040c95f2a\"\
+    >http://photosynth.net/d3d/photosynth.aspx?cid=4dee6f33-43a7-4120-bedb-770040c95f2a</a>"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-04-17 19:18:21'
+  body: 'Thanks, Nate. This background information (and guidance on maximising accuracy)
+    is very useful.
+
+
+    I''m not sure whether this question falls within your area of expertise, but here
+    goes, anyway...
+
+
+    Are you aware of any programmatic way to determine the number and size of the
+    various point clouds in a synth? Knowing this would present some really interesting
+    optimization possibilities (particular in terms of downloading and processing
+    the various files in parallel).
+
+
+    Regards,
+
+
+    Kean'
+- author: Nate Lawrence
+  email: ''
+  ip: 76.115.255.78
+  url: http://profile.typepad.com/natelawrence
+  date: '2010-04-18 01:56:25'
+  body: "It is certainly outside of my expertise, though Christoph Hausner's exporter\
+    \ from Codeplex does present a list of the pointclouds contained in a synth and\
+    \ the number of points in each as soon as it is handed a synth's collection ID,\
+    \ so presumably that is your answer, though perhaps this analysis is only available\
+    \ after the pointclouds are downloaded. I think that he would be the one to ask,\
+    \ or perhaps you can simply look at his source code and see if you can adapt what\
+    \ he's done to suit your use case.\n\nAs to whether this can be done at a larger\
+    \ scale, say, for the entire list of a given user's synths or all the synths whose\
+    \ tags match a particular query, I suspect that you would have to do your own\
+    \ data mining. If some sort of API to pull this information out is available,\
+    \ I am not aware of it.\n\nI would love better sorting options than the Photosynth\
+    \ site currently affords (something more along the lines of Live Labs' Pivot)\
+    \ and sorting according to largest primary pointcloud or largest total number\
+    \ of points would be most useful. \n\nIf you do find a way to automate and index\
+    \ this data without downloading each synth's pointcloud files first (or even if\
+    \ you do have to download the files first), such an index could still be a valuable\
+    \ asset."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-04-19 09:45:21'
+  body: 'Thanks again, Nate.
+
+
+    I''d seen a previous version of the application, but now see that it makes use
+    of a web service exposed by Photosynth which provides information on a particular
+    collection. This is exactly what I was looking for.
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-04-19 09:46:39'
+  body: 'Very cool: this is the first point cloud I''ve seen on Photosynth with >1M
+    points. The level of detail is impressive.
+
+
+    Kean'
+- author: Tilo
+  email: tp@kubit.de
+  ip: 78.53.81.247
+  url: http://www.kubit-software.com
+  date: '2010-04-30 20:29:47'
+  body: 'Hi Nate,
+
+    I''ve just read your comment thanks to the link in Kean''s latest post.
+
+
+    The orbit-around-object method you''ve suggested to take the photos is actually
+    the one I''ve experimented with in <a href="http://photosynth.net/view.aspx?cid=18c0f3ef-15ca-4f53-badd-93944f6ed58b">http://photosynth.net/view.aspx?cid=18c0f3ef-15ca-4f53-badd-93944f6ed58b</a>
+
+
+    Though it might not look too impressive, it is notable that I''ve created it taking
+    two (1280x720) videos and uploading over 600 grabbed frames.
+
+
+    I believe this could be an approach to easily take the massive amount of photos
+    needed to create a relatively high density point cloud.'
+- author: Alex Fielder
+  email: ''
+  ip: 62.22.46.197
+  url: http://profile.typepad.com/6p0120a6442f9f970c
+  date: '2010-05-04 10:29:15'
+  body: 'Hi Tilo,
+
+
+    That''s an interesting approach to creating the photosynth. Do you mind if I ask
+    how you captured the frames you subsequently uploaded to Photosynth?
+
+
+    Thanks,
+
+
+    Alex.'
+- author: Nate Lawrence
+  email: nathanael.lawrence@live.com
+  ip: 76.115.255.78
+  url: http://photosynth.net/userprofilepage.aspx?user=Nathanael
+  date: '2010-06-19 14:31:11'
+  body: 'Alex, if your video can be played in Quicktime and you have a Quicktime Pro
+    license (or if you look up Dawn M Fredette on the web) Quicktime Pro has an option
+    to export to an image sequence.
+
+
+    Another option is VirtualDub which gives you some more freedom as to what formats
+    of video can be exported to individual frames, as long as you are willing to hunt
+    down the codecs that VirtualDub needs. It''s free and also comes with options
+    to export only ever 1 out of X frames so that you don''t export more frames than
+    you can use.'
+- author: Alex Fielder
+  email: ''
+  ip: 86.8.207.214
+  url: http://profile.typepad.com/6p0120a6442f9f970c
+  date: '2010-06-20 00:02:28'
+  body: Thanks for the tips Nate, I'll be sure to bear them in mind if I'm taken with
+    the urge to do some video 'synths. :)
+- author: SAI
+  email: sai923@hotmail.com
+  ip: 66.251.255.161
+  url: ''
+  date: '2010-09-05 20:35:26'
+  body: When revit be able to take PC.  like .fls files
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-09-06 08:44:07'
+  body: 'Sorry - I can''t comment on future product plans here.
+
+
+    Kean'
+- author: michal kriukow
+  email: spam@bananapunk.com
+  ip: 193.203.82.226
+  url: http://bananapunk.com/demoreel
+  date: '2010-09-24 18:20:33'
+  body: "hey Kean. Is there a reason you're not processign the photosynth in PMVS2?\
+    \ You'd get a way way more detailed point cloud out of this. Here's the link to\
+    \ PMVS2:\n<a href=\"http://grail.cs.washington.edu/software/pmvs/\">http://grail.cs.washington.edu/software/pmvs/</a>\n\
+    \nand this guy wrote a tool that downloads photosynths and processes them through\
+    \ PMVS: \n<a href=\"http://www.visual-experiments.com/2010/08/22/dense-point-cloud-created-with-photosyth-and-pmvs2/\"\
+    >http://www.visual-experiments.com/2010/08/22/dense-point-cloud-created-with-photosyth-and-pmvs2/</a>"
+- author: Kean Walmsley
+  email: ''
+  ip: 82.108.197.114
+  url: http://profile.typepad.com/kean
+  date: '2010-09-27 00:16:52'
+  body: 'Hi Michal,
+
+
+    The goal of this approach - in and of itself - was not to get a dense point cloud,
+    but to get the data from Photosynth into AutoCAD.
+
+
+    It''s certainly possible to insert densification tools into the pipeline, but
+    ultimately point clouds inside AutoCAD are currently used as references for modelling
+    or for shape extraction (and as such PMVS densification doesn''t really bring
+    anything new to this, as least not as far as I''m aware).
+
+
+    Kean
+
+    -----'

@@ -1,0 +1,695 @@
+comments:
+- author: Scott McFarlane
+  email: ''
+  ip: 216.52.207.104
+  url: http://profile.typepad.com/scottmcfarlane
+  date: '2013-04-08 13:43:19'
+  body: 'I have encountered issues when using yield inside a transaction in this way.
+    It works great if everything goes well, but have you tried to see what happens
+    if an exception is thrown in the calling code?
+
+
+    Generally when you need this kind of pattern (getting all the objects of a particular
+    type) you are ultimately going to *do something* with those objects. So I would
+    recommend passing a delegate into these functions, such as Action&lt;Line&gt;
+    (and the function itself would return void.) This still gives you the performance
+    advantage of only iterating through the objects once, but it also gives you much
+    more control over the behavior when exceptions occur.
+
+
+    Bruno, download the code from my AU2012 class CP2657. It''s full of examples of
+    this!'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-04-08 13:48:01'
+  body: 'Great stuff - thanks for sharing that, Scott. :-)
+
+
+    Kean'
+- author: MexicanCustard
+  email: mexicancustard@gmail.com
+  ip: 209.156.249.65
+  url: ''
+  date: '2013-04-08 14:26:09'
+  body: 'Kean if you haven''t seen it already check out
+
+    <a href="http://www.theswamp.org/index.php?topic=41371.msg473279#msg473279">http://www.theswamp.org/index.php?topic=41371.msg473279#msg473279</a>'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-04-08 14:45:22'
+  body: 'Hadn''t seen that - thank you.
+
+
+    It''s not clear to me whether the additional boxing/unboxing that Tony''s identified
+    also happens on IsDerivedFrom() (I just had a quick skim through the thread -
+    there''s a lot there). It certainly contains some interesting analysis and information.
+
+
+    Kean'
+- author: Bruno Saboia
+  email: ''
+  ip: 177.158.184.135
+  url: http://profile.typepad.com/brunosaboia
+  date: '2013-04-08 21:52:32'
+  body: 'Hello Scott,
+
+
+    Thanks for the advice. Where can I get your class?
+
+
+    Also, I would like to say that it was other part of the code that was causing
+    the huge delay. I will discuss it with Kean as well, I think it is very interesting.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-04-08 21:55:29'
+  body: 'Here you go, Bruno:
+
+
+    <a href="http://au.autodesk.com/?nd=class&session_id=10355">http://au.autodesk.com/?nd=class&session_id=10355</a>
+
+
+    Kean'
+- author: Bruno Saboia
+  email: ''
+  ip: 177.158.184.135
+  url: http://profile.typepad.com/brunosaboia
+  date: '2013-04-08 22:03:56'
+  body: Thanks :)
+- author: Bruno Saboia
+  email: ''
+  ip: 177.158.184.135
+  url: http://profile.typepad.com/brunosaboia
+  date: '2013-04-08 22:10:50'
+  body: "Thanks for the great post, Kean.\n\nSome people could ask \"Why use an IEnumerator<T>\
+    \ instead of a List<T>?\". My line of thought when approaching to that kind of\
+    \ problem is to use the most generic available class to represent my method's\
+    \ argument. \n\nWhy? If you specify that the user should pass a List<T>, for instance,\
+    \ you are creating a bound that is perhaps unnecessary. What if the user wants\
+    \ the GetAllLines data as a Queue, for instance? Then he would need to cast it,\
+    \ but as I see it, this constraint is somewhat clumsy from the code approach.\
+    \ I hope that this make sense to you.\n\nBut you are right: changing it to List<T>\
+    \ did impact my performance. Once again, thanks."
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-09 06:03:30'
+  body: '"In this case, the code is returning an IEnumerable of Lines. I strongly
+    recommend not doing this: the Lines have been opened by the current transaction,
+    and so will become invalid as soon as the transaction completes. Because we’re
+    actually getting the results lazily – and therefore the calling function is getting
+    the results one at a time, and so any function you call right afterwards will
+    still have the transaction in scope"
+
+
+    Sorry, that''s not true.  If, for example, we use a foreach() loop to iterate
+    over the objects yielded by Bruno''s code, the transaction is still active within
+    the body of the foreach() loop.  The transaction isn''t Disposed until the foreach()
+    loop is completed or exited.
+
+
+    I would suggest spend spending a bit more time researching how LINQ works internally.
+    What happens is that the compiler essentially rewrites the method that contains
+    the yield return call, and from that, generates a class called an ''iterator'',
+    which implements IEnumerable. When foreach() iterates over an IEnumerable, it
+    asks the IEnumerable for an instance of an IEnumerator, which is the object that
+    is actually used to access the elements. The IEnumerator implements IDisposable,
+    which is called by the code generated for a foreach() loop, upon exiting the body
+    of the foreach() loop, and it is in the call to that IEnumerator''s Dispose()
+    method that the transaction (or any IDisposable whose scope contains the loop
+    that calls yield return) is disposed.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-04-09 08:33:04'
+  body: 'You''re missing my point, Tony. Nothing you''ve just said is a surprise to
+    me, or contradicts what I''ve said in this post.
+
+
+    The problem is with the assumption that one can return a collection of objects
+    that would then remain valid after the iteration has completed, which is not the
+    case. If the calling function was to copy one or more of the Lines elsewhere,
+    things would go wrong if they were accessed after the transaction was disposed
+    of. With some discipline it should be fine, but I dislike creating functions that
+    can only be used in such limited scenarios (as I was trying to make clear).
+
+
+    Kean'
+- author: Gilles Chanteau
+  email: chanteau.gilles@orange.fr
+  ip: 92.158.85.22
+  url: ''
+  date: '2013-04-09 09:14:45'
+  body: It seems to me that this kind of method should always be called from a transaction
+    in the calling method (otherwise, what to do with a collection of lines?). So
+    why not just use the Database.TopTransaction in the query to open the objects?
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-04-09 09:49:52'
+  body: 'You could certainly approach it that way, yes. I tend to prefer making the
+    usage of a transaction explicit - whether passing it as an argument or making
+    it available via a member variable - but you can certainly query it from the transaction
+    manager, if you prefer.
+
+
+    In this case, though, my choice to use an OpenCloseTransaction means we don''t
+    get that capability (another reason why I tend to avoid relying on TopTransaction,
+    in case I end up switching mechanisms).
+
+
+    It''s good you pointed this option out, as I hadn''t included it.
+
+
+    Thanks, Gilles!
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-09 10:20:29'
+  body: "I was referring to this: \n\n[b]\"and so any function you call right afterwards\
+    \ will still have the transaction in scope\".  [/b]\n\nAny function called right\
+    \ afterwards (of iterating over the items), will not have the transaction in scope.\
+    \ If you call some LINQ method such as Where(), the items are iterated and the\
+    \ transaction ends at the point when Where() returns a result."
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-04-09 10:24:18'
+  body: 'OK, I think I see where the misunderstanding arose. I didn''t mean "after
+    the foreach loop", I meant "after the call to access the item in the set, but
+    still in the foreach loop". I''m strongly recommending not relying on the transaction
+    being available, but mentioned that you may happen to have access to it while
+    the loop is active (at least that was my intention).
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-09 23:12:17'
+  body: '"for some reason he’s seeing querying of 1K entities taking seconds to complete
+    (whereas his code executes on 100K+ entities in tenths of a second on my system).
+    I’m looking forward to understanding more about Bruno’s specific problem, but
+    felt that posting this in the meantime would be of interest to people."
+
+
+    Hi Kean. Bruno hasn''t shown the method he was using to time the execution of
+    his code, and Your timing methodology has some significant problems. Your MeasureTime()
+    function will on first use for a given set of arguments, measure both the execution
+    time of the passed function, and the time required by the CLR to just-in-time
+    compile both the function, and any methods it calls that haven''t been called
+    yet in the current executable session. Like LINQ, just-in-time compilation is
+    also ''lazy'', and happens on a method-by-method basis, the first time a method
+    runs. So, it is not possible to accurately measure the execution time of code,
+    if it hasn''t executed at least once in the current session, prior to taking a
+    measurement.
+
+
+    The other problem with it, is that you use it to measure the execution time of
+    different methods of accessing the same data in a single executable session, which
+    can very-likely require significantly-more time on the initial access, but can
+    happen more quickly on the second and subsequent access, for a variety of reasons,
+    such as in-memory caching of frequently-accessed data that initially has to be
+    read from persistent storage.
+
+
+    Measuring execution times in this way is not terribly realistic, and can easily
+    explain the discrepancy you talk about above.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-04-09 23:28:34'
+  body: 'Hi Tony,
+
+
+    Quite right - it''s important to look at multiple executions if using this crude
+    approach (as I''ve already described it in this post).
+
+
+    The next post simplifies collection of multiple runs to assess performance. But
+    it''s not meant to replace a professional profiling tool.
+
+
+    Bruno''s problem isn''t related to measurement - it''s elsewhere in his code.
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-10 00:31:50'
+  body: "\"I have encountered issues when using yield inside a transaction in this\
+    \ way. It works great if everything goes well, but have you tried to see what\
+    \ happens if an exception is thrown in the calling code?\"\n\nHi Scott. What sort\
+    \ of issues have you encountered? I've been using yield return inside of transactions\
+    \ for the better part of 5 years (since AutoCAD's API supported .NET 2.0). \n\n\
+    Many standard LINQ functions like Select(), Where(), etc., are implemented using\
+    \ compiler-generated iterator classes that are functionally equivalent to those\
+    \ generated by the compiler when you use yield, and so, aren't any different from\
+    \ user-defined functions that use yield.\n\nFor example, this is the Where() method:\n\
+    \nIEnumerable<T> Where<T>( this IEnumerable<T> source, Func<T, bool> predicate\
+    \ )\n{\n   foreach( T item in source )\n   {\n      if( predicate( item ) )\n\
+    \         yield return item;\n   }\n}\n\nSo, going by your observation it would\
+    \ seem to me that using any standard or built-in LINQ method would have the same\
+    \ issues that yield has."
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-10 05:30:08'
+  body: '"but I dislike creating functions that can only be used in such limited scenarios
+    (as I was trying to make clear)."
+
+
+    By limited scenarios do you mean, for example, a reusable helper API that needlessly
+    and pointlessly restricts itself to operating only on the model space block, as
+    opposed to any block in a Database ?'
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-10 05:55:30'
+  body: '"It''s not clear to me whether the additional boxing/unboxing that Tony''s
+    identified also happens on IsDerivedFrom()".
+
+
+    No, but IsDerivedFrom() isn''t needed in cases where the runtime class has no
+    child classes, or where all of the items in the source must be instances of the
+    given class (for example, if the runtime class is "Entity" and the source is a
+    BlockTableRecord, you don''t have to test anything because all the elements must
+    be Entitys).
+
+
+    While IsDerivedFrom() is implemented in native code, it must walk up the runtime
+    class tree to find out if the given RXClass is dervied from the argument, so it''s
+    use is pointless in either of the above cases.
+
+
+    And while I''m at it, you might want to suggest to Albert that AcRxClass::hasChildren()
+    would be a useful improvement, because of the aforementione reasons. The value
+    would be cached each time the runtime class tree is rebuilt, and would eliminate
+    the need for IsDerivedFrom() to walk the class tree to produce its result, in
+    cases where the argument has no child classes.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-04-10 07:26:01'
+  body: 'There you go. Well done, Tony.
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-10 09:26:41'
+  body: '"On line 8: we’re using a traditional Transaction (started via StartTransaction())
+    to get the information we need for the contents of the model-space. Standard transactions
+    provide some very helpful capabilities – for instance, they’re nestable and can
+    be aborted to roll-back any changes that have been made within the scope of that
+    particular transaction – but they come with some performance overhead."
+
+
+    Hi Kean.  What you say above is a myth. In reality and as the numbers below show,
+    both the ''traditional'' and ''openclose'' flavors of a Transaction are neck-and-neck
+    with larger amounts of data, and because of that, and because with smaller amounts
+    of data, the edge that OpenCloseTransaction has over ''traditional'' transactions
+    is imperceptible, there is little served by their use in code that is not going
+    to be called from event handlers/reactor callbacks, or overrule overrides.
+
+
+    I was helping Gilles with some spatial indexing code in a thread on theswamp,
+    and he was looking at ways to speed up the processing of a very large number of
+    DBPoint entities. When I tested his code with both traditional and OpenClose transactions,
+    using a dataset consisting of 1/2 million DBPoints, here is the time to execute
+    the code that opens each DBPoint and extracts its Position property:
+
+
+    (TT1 = traditional transaction, TT2 = OpenCloseTransaction, times are in ms):
+
+
+    Command: RNDPOINTS
+
+    Number of points: 500000
+
+    Command: TT1
+
+    Standard transaction: 1522
+
+    Command: TT2
+
+    OpenCloseTransaction: 1434
+
+    Command: TT1
+
+    Standard transaction: 1584
+
+    Command: TT2
+
+    OpenCloseTransaction: 1425
+
+    Command: TT1
+
+    Standard transaction: 1505
+
+    Command: TT2
+
+    OpenCloseTransaction: 1430
+
+
+    We''re talking about a difference of < 100ms with a half-million entities, which
+    falls into the ''imperceptible'' category. More important is that even though
+    OpenCloseTransaction has a more signficant edge with smaller amounts of data,
+    the total time required to process smaller amounts of data is itself, imperceptible,
+    and so, using OpenCloseTransaction really doesn''t serve any useful purpose, unless
+    you are operating on objects in the handler of an event, verses iterating over
+    the contents of entire BlockTableRecords.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-04-10 10:11:23'
+  body: 'Hi Tony,
+
+
+    Interesting - thanks for sharing this additional information.
+
+
+    "What you say above is a myth."
+
+
+    Well, not really. There is "some overhead" - the question is really whether its
+    significant enough with your particular use-case to care about. I found a ~10%
+    difference in execution time between a traditional transaction and an open/close
+    transaction (for my particular use-case dealing with 100K objects). Admittedly
+    the average absolute difference is very modest (~20 ms - which is in line with
+    what you found), so you could easily argue that it''s an unnecessary trade-off.
+
+
+    You should really post your comments regarding this to <a href="http://adndevblog.typepad.com/autocad/2012/08/the-right-tools-for-the-job-autocad-part-5.html">the
+    AutoCAD DevBlog</a>, as if you''re interested in busting this particular myth
+    you should do so over there.
+
+
+    Kean'
+- author: Scott McFarlane
+  email: ''
+  ip: 216.52.207.104
+  url: http://profile.typepad.com/scottmcfarlane
+  date: '2013-04-10 13:55:26'
+  body: 'Hi Tony,
+
+
+    You are correct. I guess I had it in my mind that Dispose would not get called
+    in the event of an Excecption being thrown. But as you point out, uderstanding
+    the internals of LINQ as well as the compiler magic that comes with using yield
+    really helps get your head around the whole thing. Thanks!'
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-10 19:22:07'
+  body: Hi Scott.  Dispose will always be called if it's in a using, but the real
+    nasty part of yield, is that if the caller, for example, breaks out of a foreach()
+    loop before the entire sequence has been enumerated, the code that follows the
+    loop that contains the call to yield return, will not run. This one bit me, and
+    I found that it was necessary to use try/finally to get it to work as I expected.
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-11 14:49:36'
+  body: Hi Kean. I usually express opinions about what I perceive to be 'myth' in
+    places where I see them propagating, but I'll make a point of posting a comment
+    on DevBlog as well.
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-11 14:53:13'
+  body: BTW, I and others that are seeing the same thing when making comparisons would
+    probably be interested in knowing more about your use case where there is a ~10%
+    difference. The numbers I show, are for a 'do-nothing' loop that only opens each
+    object for read. If you add the time taken by the actual processing of each object
+    (something most real apps do), that 2-3% difference becomes even smaller.
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2013-04-11 15:36:06'
+  body: 'Hi Tony,
+
+
+    Great - it''ll be interesting to see how the discussion develops. I know (from
+    a recent email I saw from Fenton) that he avoids full transactions in utility
+    functions, and as he''s generally working with small numbers of objects he prefers
+    not to incur their overhead otherwise, also.
+
+
+    But that''s his choice, and he will no doubt say more via the DevBlog''s comments.
+
+
+    I personally tend not to use OpenCloseTransactions very much - typically when
+    needed in event handlers or when performance is critical (which was originally
+    the case with the code in this post, even if the performance killer ended up laying
+    elsewhere).
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2013-04-11 15:40:03'
+  body: 'Sure thing. There''s no mystery to it (and in fact I had thought it was obvious,
+    but clearly not): it''s the code in this post - the ObjectsOfType1() function.
+    I simply created a new version with StartTransaction() and timed them both over
+    10 or so runs, excluding the earlier ones. I ran it against a drawing containing
+    a little over 100K lines.
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-16 06:53:41'
+  body: "Hi Kean, and Happy 40th.\n\nFirst, shame on me for not noticing this before\
+    \ (and of course, not bothering to test your code): You might want to take a closer\
+    \ look at both of your ObjectIdsOfType() and ObjectIdsOfType1() functions. \n\n\
+    Both of them suffer from the same problem, which results in an exception being\
+    \ thrown when the caller tries to open the yielded ObjectIds in a transaction\
+    \ which they started before calling your function.\n\nWhen the user enumerates\
+    \ the ObjectIds yielded by your functions in a foreach() loop, the TopTransaction\
+    \ is the one that your function starts internally (which IMO, is not a good idea),\
+    \ rather than the transaction the caller started before they entered the foreach()\
+    \ loop.\n\nImplicitly starting and using transactions inside of a block iterator\
+    \ (a function that uses yield return) is not good idea, for that reason."
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-04-16 08:35:08'
+  body: 'Hi Tony,
+
+
+    Thanks!
+
+
+    I''m a bit confused: my code uses OpenCloseTransactions, which - while we generally
+    don''t recommend mixing open/close with transactions - should be safe enough,
+    as the data being passed from one model to another is via ObjectIds rather than
+    pointers.
+
+
+    I''ve just tried it in some test code and it worked fine. Are you using a different
+    version of the function(s) that makes use of traditional Transactions? Please
+    provide some more information - it''d be good to reproduce the problem here.
+
+
+    (I fully agree that starting your own transaction under these circumstances isn''t
+    a very good idea. As mentioned earlier, I personally tend to either use one that
+    has been passed into the function or stored as a member variable or - which is
+    the case here - go with open/close to avoid it completely.)
+
+
+    Regards,
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-16 10:52:04'
+  body: 'Hi Kean,  Oops.
+
+
+    Shame on me again for not noticing that you''re using OpenCloseTransaction, which
+    means that the problem I noted above isn''t a problem at all, but it might be
+    helpful for others to know that using a regular transaction would have that result.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-04-16 10:54:10'
+  body: 'Hi Tony,
+
+
+    Great - thanks for clearing that up.
+
+
+    Yes - definitely good to reinforce it''s a bad idea to use a standard Transaction,
+    here.
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-16 18:17:50'
+  body: "Hi Kean. Well, not so fast :d\n\nActually, there is a problem in your code.\
+    \ The problem is the same one I described in a reply to Scott's comments about\
+    \ using yield and transactions.\n\nThe problem is that your code calls Commit()\
+    \ on the transaction after the loop containing the call to yield return completes.\
+    \ The way link block iterators work (and this is definitely not intuitive or the\
+    \ least bit obvious), is that the code that follows the call to yield return will\
+    \ only execute if the entire sequence is yielded. \n\nSo, if you try your function\
+    \ and iterate over the items it yields using a foreach() loop, but exit that loop\
+    \ before you've iterated all the items (a fairly-common course when you've found\
+    \ something you were looking for), the call to Commit() never happens."
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-04-16 19:36:14'
+  body: 'Hi Tony,
+
+
+    I see - thanks for the reminder on that one.
+
+
+    Luckily - at least in this implementation - it shouldn''t cause much (if any)
+    of a problem.
+
+
+    We''re using what''s ultimately a read-only OpenCloseTransaction. When it''s implicitly
+    disposed of its open objects will simply have cancel() called on them (and as
+    there''ve been no edits there shouldn''t be much overhead to the call).
+
+
+    I do agree it''s not ideal behaviour, and that if wanting to be sure the transaction
+    gets committed (which is of course more important for a regular Transaction) you
+    should use a finally clause.
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-16 19:47:10'
+  body: "Hi Kean. \n\nFinally doesn't work either, because you want the transaction\
+    \ to abort, if the foreach() block was exited as a result of an exception.\n\n\
+    Don't use transactions in block iterators, is the correct solution. More generally,\
+    \ Transactions should be managed by the outer-most callers, in all but the most\
+    \ bizarre or extraordinary cases."
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-04-16 19:56:18'
+  body: 'Hi Tony,
+
+
+    OK, got it. You had said in an earlier comment to Scott that this was working
+    well for you, so I assume this is a relatively new discovery.
+
+
+    I also assume that OpenCloseTransactions are OK, assuming you''re just reading
+    information and don''t want to have to hand-code open/close everywhere. Let me
+    know if you see things differently.
+
+
+    By the way - could you elaborate on what you mean by outer-most callers managing
+    transactions? I think I get what you''re saying, but want to make sure.
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-16 21:25:02'
+  body: 'Hi Kean.  Yes, I mentioned it to Scott (about using finally to ensure that
+    code in a block iterator that follows the call to yield, which must always run,
+    does run), but of course, Commit() doesn''t fall into that category, since I don''t
+    want it to happen if for some reason, an exception stops the code before the fact.
+
+
+    By outer-most callers I meant that transactions are (IMO) best-managed at the
+    entry-point to the code that requires them. Entry points are things like handlers
+    of registered commands, event handlers, and so forth. I''ve had great success
+    with reusablity of my own LINQ code by following that pattern very religiously,
+    so that all of my reusable APIs require an active transaction when they are called,
+    and they will get it from the TransactionManager''s top transaction, allowing
+    their caller to manage the transaction.  While that may not always be the best
+    course, It has proven to work for me, with the exception of APIs that are used
+    both from command handlers and from events, and must use the OpenCloseTransaction
+    in the latter case. So those APIs accept an optional Transaction as an argument
+    for those cases when I need to use them from an event handler where a regular
+    Transaction can''t be used.'
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-17 07:41:47'
+  body: "Just so you know, we've identified the reason why OpenCloseTransaction is\
+    \ marginally-faster than AcDbTransaction. It has more to do with how the managed\
+    \ wrappers for ObjectId and Transaction operate than anything specific to the\
+    \ underlying native objects. If you look at the source in reflector, you will\
+    \ see that Transaction creates a managed wrapper for TransactionManager, and then\
+    \ invokes the managed methods on it, rather than taking the native route.\n\n\
+    If you look at the implementation of ObjectId.GetObject(), you will see what amounts\
+    \ to the software equivalent of 'follow the yellow brick road'.  The implementation\
+    \ first creates a managed wrapper for the AcDbDatabase, and then invokes it's\
+    \ TransactionManager property, which in-turn creates a managed wrapper for the\
+    \ TransactionManager, whose  TopTransaction property is fetched, which in-turn\
+    \ creates a managed wrapper for the Transaction, and then calls GetObject() on\
+    \ that. The Transaction's implementation of GetObject() then takes one step backwards,\
+    \ creating <b>another</b> managed wrapper for the TransactionManager, and delegates\
+    \ the call to the TransactionManager's GetObject() implementation.  \n\nWhen I\
+    \ saw that, I simply could not believe my eyes.\n\nWith Transaction.GetObject(),\
+    \ the implementation could have been done entirely in native code, not requiring\
+    \ any managed wrappers to be created and used, and that is the reason why OpenCloseTransaction\
+    \ is faster than the wrapper for AcDbTransaction."
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-04-17 07:59:14'
+  body: 'Very interesting - thanks for doing this analysis. We''ll be having some
+    internal discussions on this.
+
+
+    Kean
+
+    -----'

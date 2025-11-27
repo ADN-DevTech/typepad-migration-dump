@@ -1,0 +1,69 @@
+comments:
+- author: Chuck
+  email: chuckwilbur@spatialnet.net
+  ip: 68.191.200.106
+  url: ''
+  date: '2012-12-05 22:44:49'
+  body: "Suggestion: Wouldn't this be more expandable if instead of a PhaseType, you\
+    \ had an abstract Phase class with a subclass for each type?\n\nIt would theoretically\
+    \ even be possible to encapsulate the differences in behavior between the PhaseTypes\
+    \ into overrides on the subclasses. The main place for this would be in Sampler\
+    \ - Phase could have an abstract Sampler function that the subclasses overload\
+    \ - you could even put the common code either in Phase or in an intermediate GeometryPhase\
+    \ class for the Distance/Angle/Point classes to inherit from. You could also then\
+    \ solve your 1e-5 problem by creating a FrustumDistancePhase : DistancePhase that\
+    \ passes up a default of 1e-5 while the plain DistancePhase passes 0 like you\
+    \ really want.\n\nSomething like this:\n\n    public abstract class Phase\n  \
+    \  {\n\n        public Phase(\n          string msg,\n          object defval,\n\
+    \          Func<List<Phase>, Point3d, Vector3d> offset)\n        {\n         \
+    \   // Each phase has a type - depending on the type of data\n            // being\
+    \ requested - a message, and optionally an offset\n            // from the base\
+    \ point passed into the jig and a default\n            // value\n            Message\
+    \ = msg;\n            Offset = offset;\n        }\n\n        // Our member data\
+    \ (could add real properties, as needed)\n        public string Message;\n   \
+    \     public Func<List<Phase>, Point3d, Vector3d> Offset;\n    }\n\n    public\
+    \ class DistancePhase : Phase\n    {\n        public double DoubleValue;\n   \
+    \     public DistancePhase(\n          string msg,\n          object defval,\n\
+    \          Func<List<Phase>, Point3d, Vector3d> offset)\n            : base(msg,\
+    \ defval, offset)\n        {\n            // Initialise the relevant value property\
+    \ to the default\n            // value, if provided\n            DoubleValue =\
+    \ (defval == null ? 1e-05 : (double)defval);\n        }\n    }\n\n    public class\
+    \ PointPhase : Phase\n    {\n        public Point3d PointValue;\n        public\
+    \ PointPhase(\n          string msg,\n          object defval,\n          Func<List<Phase>,\
+    \ Point3d, Vector3d> offset)\n            : base(msg, defval, offset)\n      \
+    \  {\n            // Initialise the relevant value property to the default\n \
+    \           // value, if provided\n            PointValue =\n              (defval\
+    \ == null ? Point3d.Origin : (Point3d)defval);\n        }\n    }\n\n    public\
+    \ class AnglePhase : Phase\n    {\n        public double DoubleValue;\n      \
+    \  public AnglePhase(\n          string msg,\n          object defval,\n     \
+    \     Func<List<Phase>, Point3d, Vector3d> offset)\n            : base(msg, defval,\
+    \ offset)\n        {\n            // Initialise the relevant value property to\
+    \ the default\n            // value, if provided\n            DoubleValue = (defval\
+    \ == null ? 0 : (double)defval);\n        }\n    }\n\n    public class StringPhase\
+    \ : Phase\n    {\n        public string StringValue;\n        public StringPhase(\n\
+    \          string msg,\n          object defval,\n          Func<List<Phase>,\
+    \ Point3d, Vector3d> offset)\n            : base(msg, defval, offset)\n      \
+    \  {\n            // Initialise the relevant value property to the default\n \
+    \           // value, if provided\n            StringValue =\n              (defval\
+    \ == null ? \"\" : (string)defval);\n        }\n    }"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.25
+  url: http://profile.typepad.com/kean
+  date: '2012-12-06 07:10:43'
+  body: 'Hi Chuck,
+
+
+    Great suggestion! The Phase class originally started just with support for Distance,
+    and then grew to cover Point, Angle and finally String input. The complexity crept
+    up on me somewhat, but I agree that it''s now at the point that some kind of class
+    structure would probably be worthwhile (it might also make sense to get rid of
+    the generic default value, while at it).
+
+
+    I''ll take a look. Thanks! :-)
+
+
+    Kean
+
+    -----'

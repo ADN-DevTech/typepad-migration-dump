@@ -1,0 +1,235 @@
+comments:
+- author: csharpbird
+  email: csharpbird@gmail.com
+  ip: 58.34.18.18
+  url: ''
+  date: '2006-09-05 02:51:47'
+  body: 'Great news!
+
+    Is it possible for ObjectARX 2007 to use the Custom objects in .NET?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-09-05 09:22:30'
+  body: 'Unfortunately not: as we''re still in the planning stages the earliest release
+    we''d be likely to see .NET custom objects would be 2 releases after AutoCAD 2007.
+    The point of this post is to start a dialogue around the approach that would best
+    address developers'' needs.
+
+
+    Regards,
+
+
+    Kean'
+- author: J. Daniel Smith
+  email: through-the-interface@jdanielsmith.org
+  ip: 198.102.112.18
+  url: http://jdanielsmith.spaces.live.com
+  date: '2006-09-05 19:07:48'
+  body: 'In the interim, it might be interesting to update the current custom object
+    mechanism to use some .NET features (still staying with a C++/CLI implementation).  As
+    one specific example: replace the custom ARX type system with .NET''s (ARX was
+    never "upgraded" to C++ in this area).
+
+
+    Another step would be to allow a "ref class" to be a custom object (again, only
+    in C++/CLI).
+
+
+    While such things don''t specifically solve any of the problems you mention, it
+    would allow more "stick time" to try out different ideas.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-09-06 10:05:54'
+  body: 'Hmm... I’m not sure I understand the advantages of using the .NET type system
+    (by this I assume you mean RTTI – RunTime Type Identification – please do say
+    if you actually mean something else). As you’re well aware, we had to go our own
+    way with ObjectARX, as it pre-dated RTTI’s inclusion in the C++ standard (and
+    – probably more importantly – compiler support for it). For us to implement .NET’s
+    RTTI it feels as though we’d have to provide it in parallel to the existing one,
+    as purely unmanaged clients would presumably not be able to harness it. One concern
+    would be how this would affect AutoCAD’s memory footprint (and impact performance).
+
+
+    I’d certainly like to understand your suggestions better – please post a follow-up
+    or email me directly.
+
+
+    Thanks,
+
+
+    Kean'
+- author: s.kaiser
+  email: stephan.kaiser@sofistik.de
+  ip: 212.204.69.61
+  url: http://www.sofistik.de
+  date: '2006-09-07 11:07:31'
+  body: 'I can understand the notion of lowering the entry barrier, making simple
+    tasks easier to implement and it may be true that many developers don''t need
+    the complete functionality of ObjectARX but just a subset of its features.
+
+
+    On the other hand, at our company we really make heavy use of ObjectARX and I
+    doubt there are many features we aren''t using or even requiring.
+
+
+    We have many custom entities which interact with and rely on each other. They
+    store and manage custom information and specialized behaviour. They also interact
+    with our databases and more.
+
+
+    So for us, a .NET API to AutoCAD will have to support most of ObjectARX'' functionality
+    in order to be a viable alternative to ObjectARX. At least for any non-trivial
+    applications.
+
+
+    Will we be able to do as much with a .NET API?
+
+
+    Of course, this doesn''t have to be achieved in the same way as with ObjectARX,
+    as it probably would be beneficial to make use of .NET features (like introspection/reflection
+    which C++ doesn''t have yet). Otherwise, what use would .NET be? ;)
+
+
+    It''s an interesting topic. Please keep us updated on thoughts and progress within
+    the AutoCAD team, if possible. ;)'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-09-07 16:11:18'
+  body: Thanks for your comment, Stephan - it's good to hear from one of our heavier
+    implementors of custom objects.
+- author: visa
+  email: gopalvi@gmail.com
+  ip: 59.92.103.105
+  url: ''
+  date: '2007-02-14 10:26:19'
+  body: How to create a wblock in vb.net
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-02-14 15:46:02'
+  body: 'Database.Wblock(ObjectId blockId)
+
+
+    or
+
+
+    Database.Wblock(ObjectIdCollection outObjIds,Point3d basePoint)'
+- author: Benjamin Weir
+  email: bweir@midwestsurveys.com
+  ip: 24.66.14.201
+  url: ''
+  date: '2007-07-31 06:26:04'
+  body: I'm looking forward to being able to create custom objects in VB.Net.  It'd
+    be nice to work with the DB classes as templates and simply override a function
+    or two to create a whole new drawing object to achive your goals, needs, wants.
+- author: tyler
+  email: teseliu@msn.com
+  ip: 202.95.81.226
+  url: ''
+  date: '2008-06-02 10:20:30'
+  body: "Hi Kean,\n\nI'm getting into trouble when invoking Database.Wblock(ObjectIdCollection\
+    \ outObjIds,Point3d basePoint).\n(after searching from google, I'm getting here)\n\
+    \nAn exception \"ePermanentlyErased\" was threw.\n\nI don't know what's the paradigm\
+    \ when using Database.Wblock().\n\nfollowing is my code snippet:\n\nBlockTableRecord\
+    \ origBTR = (BlockTableRecord)origTrans.GetObject(origBT[bkstr], OpenMode.ForRead);\n\
+    \                    BlockTableRecordEnumerator origIT = origBTR.GetEnumerator();\n\
+    \                    while (origIT.MoveNext())\n                    {\n      \
+    \                  Entity pEnt = (Entity)origTrans.GetObject(origIT.Current, OpenMode.ForRead);\n\
+    \                        DBDictionary pDict = null;\n                        if\
+    \ (false == pEnt.ExtensionDictionary.IsNull)\n                        {\n    \
+    \                        pDict = (DBDictionary)origTrans.GetObject(pEnt.ExtensionDictionary,\
+    \ OpenMode.ForWrite);\n                            pDict.TreatElementsAsHard =\
+    \ true;\n                        }\n                        list.Add(pEnt.Id);\n\
+    \                    }\n                    tmpDB = new Database(false, true);\n\
+    \                    tmpDB = origDB.Wblock(list,Point3d.Origin);\n           \
+    \         destDB.Insert(bkstr, tmpDB, true);\n                    origTrans.Commit();\n\
+    \                    destTrans.Commit();"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-06-02 14:27:44'
+  body: 'I''d suggest committing your transaction earlier, and you can use foreach
+    to loop through the entities in your BTR.
+
+
+    If these suggestion don''t help, please post your question to <a href="http://discussion.autodesk.com/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Eric
+  email: erict@ewtconsulting.com
+  ip: 12.175.230.38
+  url: ''
+  date: '2008-08-01 20:19:58'
+  body: 'It''s been a few releases since 2007.  Any updates on custom objects in .Net.  It
+    is something I would love to have.
+
+
+
+    Thanks'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-01 20:41:56'
+  body: 'We''re working on it (although "it" isn''t a direct exposure of the ability
+    to define custom objects to .NET). I can''t comment beyond that, right now.
+
+
+    Kean'
+- author: Dale Bartlett
+  email: dale.bartlett@realtimeinternational.com.au
+  ip: 212.72.17.154
+  url: ''
+  date: '2011-02-09 09:18:37'
+  body: Hi Kean, Is there anymore news about Custom Objects using .Net? Regards, Dale
+- author: Kean Walmsley
+  email: ''
+  ip: 109.237.55.190
+  url: http://profile.typepad.com/kean
+  date: '2011-02-09 09:25:34'
+  body: 'Hi Dale,
+
+
+    We don''t have plans to expose the ability to define custom objects to .NET: we
+    believe that the vast majority of use cases are handled by the Overrule API, and
+    the inherent complexity of implementing custom objects would not be lessened by
+    exposing the C++ mechanism to .NET.
+
+
+    People comfortable with this complexity can, of course, implement custom objects
+    using C++ and expose COM or .NET interfaces for them to be used from other languages.
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 109.237.55.190
+  url: http://profile.typepad.com/kean
+  date: '2011-02-09 09:29:13'
+  body: 'In other words: the ability "to implement custom objects" using .NET *is*
+    the Overrule API.
+
+
+    It provides all the capabilities but doesn''t encourage (or allow) you to lock
+    away your custom data in binary blobs that add a dependency on an object enabler.
+
+
+    Kean
+
+    -----'

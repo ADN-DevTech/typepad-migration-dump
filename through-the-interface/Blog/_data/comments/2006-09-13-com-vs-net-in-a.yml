@@ -1,0 +1,517 @@
+comments:
+- author: csharpbird
+  email: csharpbird@gmail.com
+  ip: 58.34.18.180
+  url: ''
+  date: '2006-09-13 18:57:10'
+  body: What about the VSTA for AutoCAD?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-09-13 19:03:45'
+  body: 'It''s being considered. I can''t comment on whether/when it might happen,
+    though.
+
+
+    Something I''ve been wondering about that you might be able to help me with...
+    with the availability of the free Express versions of Visual Studio, how relevant
+    is it for people to have an integrated .NET IDE such as VSTA?'
+- author: Matt
+  email: mmason@avat.com
+  ip: 209.6.26.249
+  url: http://cadappdev.blogspot.com/2006/09/net-vs-com-in-autocad-what-should-i.html
+  date: '2006-09-13 19:09:48'
+  body: 'There''s a couple issues with DLL versioning (between AutoCAD releases, as
+    well as sometimes within an AutoCAD release) that are worth noting as down-sides
+    to .NET.
+
+
+    http://cadappdev.blogspot.com/2006/09/net-vs-com-in-autocad-what-should-i.html'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-09-13 20:46:48'
+  body: "Hi Matt,\n\nThanks for your feedback (I’m impressed with how quickly it came,\
+    \ as well! :-)\n\nA couple of comments on your blog post:\n\n“If 17.0.54.0 is\
+    \ not available later, you're out of luck...”\n\nActually, no: acmgd.dll is no\
+    \ longer strongly signed, so the version of the assembly should not be considered\
+    \ during binding. Later versions of acmgd.dll should work, too, unless there’s\
+    \ been a signature change (more on this later). It was absolutely a problem with\
+    \ AutoCAD 2005, but we fixed it in 2006.\n \n“Each release of AutoCAD will have\
+    \ a different version of acmgd.dll... And as a result, your application will need\
+    \ to be recompiled for each version.”\n\nAgain, this isn’t quite right. In theory\
+    \ you should not need to re-compile for each version unless there are signature\
+    \ changes.\n\nSo, when do we allow signature changes?\n\nWe introduced the managed\
+    \ API in AutoCAD 2005, but there was a lot more we needed to do to make it complete\
+    \ enough for serious use. So between AutoCAD 2005 and 2006 the decision was made\
+    \ not to enforce compatibility at a signature level.\n\nBetween AutoCAD 2006 and\
+    \ 2007 we deliberately broke compatibility, yes, but that was in sync with the\
+    \ overall break in application compatibility.\n\nAs we are aiming to maintain\
+    \ application compatibility between AutoCAD 2007 and the next two releases, you\
+    \ should experience the same level of compatibility you have enjoyed with ObjectARX.\n\
+    \nCheers,\n\nKean"
+- author: vector
+  email: unix_blues@yahoo.com
+  ip: 203.82.55.118
+  url: ''
+  date: '2007-04-02 18:50:36'
+  body: "Kean,\n\nIs there a way to send a command from VBA to command line, such\
+    \ that you call a lisp interface exposed through ARX which takes some input parameters\
+    \ too?\n\nFor example: I have a function written in ARX that is exposed through\
+    \ LISP. So you can type on command line (doSomethingWithThisFunction selectionset\
+    \ name)\n\nwhere:\ndoSomethingWithThisFunction is the name of function exposed\
+    \ through LISP interface from ARX\n\nselectionset is an AutoCAD selectionset\n\
+    \nname is just a string\n\nProblem is when I use ThisDrawing.SendCommand () from\
+    \ VBA it treates the LISP function and its arguments as three separate commands\n\
+    \nTo sum it up I need to be able to call a command line function from VBA, such\
+    \ that the function also takes some parameters. \n\nIs that possible?\n\nThanks"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-04-03 10:11:49'
+  body: 'Reply posted to:
+
+    http://through-the-interface.typepad.com/through_the_interface/2006/08/techniques_for_.html'
+- author: lukas
+  email: lukhh@yahoo.com
+  ip: 195.74.251.179
+  url: ''
+  date: '2008-02-06 10:51:25'
+  body: 'COM is very useful for scripting with ...scripting languanges (py,lua,tcl
+    etc) but it all goes wrong when you try to pass points to autocad. COM defines
+    them as variant arrays, autocad accepts them as (raw?) arrays of doubles (notice
+    the declarations in VB code examples). A workaround for py exists but i haven''t
+    got it to work :(
+
+
+    .NET is probably an even bigger mess than COM -use tcl instead!'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 66.159.223.136
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-02-06 13:02:58'
+  body: 'I''ve come across this problem when using JavaScript (which is unsupported
+    for using our COM API). I''m not sure how tcl is meant to help, though.
+
+
+    Kean'
+- author: lukas
+  email: ltsatiras@ahayahoo.com
+  ip: 195.74.251.179
+  url: ''
+  date: '2008-02-07 16:06:49'
+  body: 'The problem is in how your COM API exposes point arguments for your methods-a
+    very generic variant array (12,1) instead of an array of doubles (8197,1) and
+    "unsupported" languages can''t transform data correctly. The only ones that do
+    are VB and Delphi... (check google:A Sip From The Firehose: Tuesday, May 5, 1998
+    (! 10 years)).
+
+    And by the way Intellicad doesn''t have that problem...
+
+    As for for tcl, if you can''t feel the "love"...'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.6.124
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-02-07 17:23:07'
+  body: 'JavaScript was never a target client environment for our COM API, which we
+    implemented from the beginning to use SafeArrays (the right way to implement type-safe
+    arrays in COM). SafeArrays are not supported from JavaScript, only JScript. Type
+    safety is an important feature of our API design and is currently more important
+    than supporting JavaScript.
+
+
+    If we were to suddenly receive significant feedback from customers that we needed
+    to support JavaScript, then we would look at how best to do so (probably by exposing
+    a new set of JavaScript-friendly methods, so as not to break the existing ones),
+    but in all honesty this is not something we''re hearing today.
+
+
+    Incidentally, there''s no magic behind our COM API implementation: someone with
+    sufficient knowledge of C++ and COM could use ObjectARX to expose a JavaScript-friendly
+    API layer, should they so wish.
+
+
+    Kean'
+- author: lukas
+  email: no@no.not
+  ip: 195.74.251.179
+  url: ''
+  date: '2008-02-09 09:34:55'
+  body: 'Sorry, no more "aMeSs" programming for me. I''d rather tinker with tcl''s
+    com interface.
+
+    Thanks for taking the time to answer.
+
+
+    Loukas'
+- author: asmaa14
+  email: ''
+  ip: 41.221.19.199
+  url: http://profile.typekey.com/asmaa14/
+  date: '2008-10-07 11:13:10'
+  body: 'bonjour kean,
+
+    Je suis entrain de programmer une application qui doit êtres s’exécuter sous autocad
+    , j’ai choisi   le.NET comme langage de programmation mais j’ai trouvé une difficulté
+    pour trouver les fonctions qui existe déjà dans .COM comme  par exemple :  la
+    fonction « Autodesk.AutoCAD.Interop.IAcadUtility.AngleFromXAxis(object, object)
+    » , la fonction Rotate(point,angle) et la fonction Move(point,point) toute ces
+    fonctions je les ai pas trouvé dans .NET, est ce qu’elles existent  ou non ?.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-10-07 13:04:30'
+  body: 'Asmaa -
+
+
+    Not all the functions exposed through COM are there in .NET. You can still call
+    the COM functions, if you wish to, but otherwise you will certainly be able to
+    implement what you need using the managed (.NET) API.
+
+
+    I unfortunately don''t have time to provide personal support, so you have a few
+    options for getting help, as mentioned in my last response to this question:
+
+
+    <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">The AutoCAD
+    .NET Discussion Group</a>
+
+    <a href="http://adn.autodesk.com">The ADN website</a> (if you''re a member)
+
+    <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=127">Le forum
+    francais pour AutoCAD</a>
+
+
+    Regards,
+
+
+    Kean'
+- author: ganti
+  email: someshwarg@yahoo.com
+  ip: 59.93.53.203
+  url: ''
+  date: '2009-06-30 05:48:31'
+  body: "Hi \n I would like to know, the .NET compatablility between diffrent versions\
+    \ of AutoCAD ?\n\ni.e if I write a Code in 2005 will it be valid for Higher versions\
+    \ ?\n\nif AutoCAD is changing function names in .NET APIs,  then the above one\
+    \ will become a big issue. \nfor example\n\nsay MText AcadMtext;\nAcadMtext.SetContent\
+    \ is available with 2005 and not with 2009\n\n\nsay Leader AcadLeader ;\n...\n\
+    AcadLeader.AttachAnnotation // method in 2005\n\nAcadLeader.Annotation // propety\
+    \ in 2009"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-06-30 09:29:48'
+  body: 'Not necessarily. A lot changed between 2005 and 2006, for instance (as 2005
+    was only our initial release - we ended up making a number of fundamental changes
+    in 2006). Since 2006 things have stabilized substantially.
+
+
+    A rule of thumb is: build against the managed assemblies for the various versions
+    you wish to support (this will highlight any interface changes) and build the
+    version you want to ship against the managed assemblies from the oldest version
+    you wish to support.
+
+
+    Kean'
+- author: ganti
+  email: someshwarg@yahoo.com
+  ip: 59.93.93.185
+  url: ''
+  date: '2009-07-01 03:58:30'
+  body: "Hi Kean,\n Thanks for the answer on Compatability of code over diffrent versions\
+    \ of AutoCAD,\n\nI have another question,\n\nto overcome this problem Can I opt\
+    \ for COM programming ?\n\nI do not need to anything great With  AutoCAD fetures,\
+    \ other than basic drawing commands line and dimension.\n\nwith COM I think if\
+    \ i re compile the code for the new version of AutoCAD it should work,\nunlike\
+    \ .NET where the function names itself have been removed or changed etc.\n\nplease\
+    \ give your suggestions\nthanks again.\nregards\nganti"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-07-01 17:03:32'
+  body: 'You might, but it creates other problems. You''re actually more version dependent
+    if you use a TypeLibrary (the best option in this case is late binding, but that''s
+    a pain even in VB).
+
+
+    If you had only to support 2006 onwards, .NET would be by far the better way to
+    go, IMO.
+
+
+    Kean'
+- author: Tim Corey
+  email: tcorey@shasta.com
+  ip: 75.140.109.139
+  url: http://www.deltaengineeringsystems.com
+  date: '2009-07-02 05:42:52'
+  body: Coming from a longtime AutoLISP programmer who is (finally) ready to jump
+    to .net, should I learn C++ or C#. Any suggestions?
+- author: ganti
+  email: someshwarg@yahoo.com
+  ip: 117.195.200.218
+  url: ''
+  date: '2009-07-02 08:11:48'
+  body: "Hi Kean,\n this in reference to which is better COM or .NET,\n\nI do agree\
+    \ that .NET is a better way to go,\n\n but I have to support Multiple versions\
+    \ of AutoCAD from 2005 onwards, (for what ever reasons, many users have not upgraded\
+    \ to higher versions)\n\nin such a case when dealing with COM programming\ni just\
+    \ need to replace \nAutodesk.AutoCAD.Interop.dll\nAutodesk.AutoCAD.Interop.Common.dll\n\
+    Interop.AutoCAD.dll\n\nbased on version of AutoCAD in use,\nand we need not change\
+    \ any code (not even re-compile).\n\nbut in case of .NET, there is an inherent\
+    \ problem of functions becoming obsolete in the next version \n\ncorrect me if\
+    \ I am wrong\nplease advice\nregards\nganti"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-07-02 20:27:14'
+  body: 'Tim -
+
+
+    I''d suggest starting with wither VB.NET or C#. Your pain will be significantly
+    lower for similar capabilities (at least as far as AutoCAD is concerned).
+
+
+    Ganti -
+
+
+    I disagree. There are minor areas where funtionality has shifted from release
+    to release, but that''s to some degree to be expected from an evolving API (which
+    COM is not). We break compatibility in a very controlled way, only allowing changes
+    that affect application compatibility every 3 releases. And if you use a controlled
+    subset of the managed API, you can build an application for AutoCAD 2006 that
+    works on AutoCAD 2010.
+
+
+    If you want to use COM Interop given your need to support AutoCAD 2005, please
+    go ahead. You might want to post to the discussion groups to get some opinions
+    from there, too.
+
+
+    Kean'
+- author: loic
+  email: loic.jourdan@2020.net
+  ip: 209.5.114.194
+  url: ''
+  date: '2009-11-17 21:58:29'
+  body: "Hi Kean,\nI've discovered this blog a while ago but I still discover some\
+    \ unread -but interesting- posts!\n\nI'm trying to introduce .net development\
+    \ in my application (full c++/objectarx) since a while but it would require me\
+    \ to develop a full set of managed wrappers for hundreds of AcDbXxx inherited\
+    \ custom objects and entities... yet, I've read here that <i>\"in fact the AutoCAD\
+    \ team has managed to semi-automate the process of exposing its managed interfaces[...]\"\
+    </i>... gosh! \nSo, the question that follows is pretty obvious (!): Is AutoCAD\
+    \ team able to provide oarx/dbx developers with a such tool?\n(if not, Is AutoCAD\
+    \ team able to provide me with a such tool? :)\nI'm willing to deprive my kids\
+    \ of christmas presents to buy this tool... (joke (?!))\n\nThank you"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2009-11-18 16:22:42'
+  body: 'Hi Loic,
+
+
+    The tool was very much for internal use, and depended a great deal on the relative
+    consistency of the function prototypes in the ObjectARX SDK headers. I''m also
+    not sure it has been continued to be used as we moved to more recent versions
+    of the .NET Framework (I don''t know whether it was adapted to use newer versions
+    of managed C++, for instance). I''ll have a word with a few people and follow
+    up separately by email.
+
+
+    Regards,
+
+
+    Kean'
+- author: alexb
+  email: alexb@actcom.co.il
+  ip: 82.81.145.132
+  url: ''
+  date: '2012-06-22 05:52:36'
+  body: 'Hi Kean
+
+    I wonder if it is possible at all to drive Autocad 2004 (e.g. open the application)from
+    a managed C# program compiled with vs2005.
+
+    I can do it for 2008 but didn''t succeed for 2004.
+
+    The purpose is to open any Autocad version from the same program.
+
+    Thanks
+
+    alex'
+- author: Kean Walmsley
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/kean
+  date: '2012-06-22 06:32:59'
+  body: 'Hi alex,
+
+
+    You should certainly be able to launch and drive it via COM. Using .NET directly
+    is another story - that won''t work (firstly because there wasn''t a .NET API
+    in the 2004 release, and secondly because our .NET API isn''t directly useable
+    out-of-process).
+
+
+    Regards,
+
+
+    Kean'
+- author: alexb
+  email: alexb@actcom.co.il
+  ip: 82.81.145.132
+  url: ''
+  date: '2012-06-22 09:54:35'
+  body: 'Hi Kean
+
+    Thanks for answering.
+
+    I need to explain myself a little better:
+
+    The program tries to connect to a running instance of Autocad. If it doesn''t
+    find one, it will try to launch a new session.
+
+    It works ok for v2004 (if compiled against v16 assemblies) and also for v2008
+    if compiled against v17 assemblies.
+
+    What I''m trying to do is to have the same program work for both versions.
+
+    Can you help me here?
+
+    Thanks
+
+    alex'
+- author: Kean Walmsley
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/kean
+  date: '2012-06-22 10:22:50'
+  body: 'Hi alex,
+
+
+    Take a look at Type Embedding (although that was certainly introduced after VS2005),
+    which will allow you to not depend on a specific Interop/Type Lib.
+
+
+    You might also be able to use late binding (or the equivalent).
+
+
+    Regards,
+
+
+    Kean'
+- author: alexb
+  email: alexb@actcom.co.il
+  ip: 82.81.145.132
+  url: ''
+  date: '2012-06-22 12:51:56'
+  body: 'Thank you
+
+    I shall try
+
+    Regards
+
+    alex'
+- author: alexb
+  email: alexb@actcom.co.il
+  ip: 82.81.144.8
+  url: ''
+  date: '2012-09-24 08:26:49'
+  body: 'Hi Kean.
+
+    This probably belongs to a specific block page, but I couldn''t find the right
+    one, so here it is:
+
+    I''m trying to modify Block definitions in dwg files from an out-of-process app.
+    <ul>It has to work for ACAD 2004.</ul>
+
+    I can add entities to the block definition but only when I know the entity type
+    in advance (e.g. block.AddLine etc.)
+
+    I notice there is no generic AcadBlock.Add() or AddObject() or AddEntity().
+
+    Would it be possible to do it without this?
+
+    Thanks
+
+    alex'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-09-24 09:43:01'
+  body: 'Hi alex,
+
+
+    This actually belongs more on the AutoCAD VB Discussion Group (as if you need
+    to support 2004 you won''t even be able to use .NET).
+
+
+    I''m not sure what it means for you not to know the type of entity you want to
+    add to the block in advance (it''s not something you can decide later).
+
+
+    Regards,
+
+
+    Kean'
+- author: alexb
+  email: alexb@actcom.co.il
+  ip: 82.81.144.8
+  url: ''
+  date: '2012-09-24 12:01:45'
+  body: 'Hi Kean.
+
+    No VB, I''m talking C#, and I get use .NET for 2004 (granted with some missing
+    functionality which was added in 2005 and later).
+
+    ..not knowing the type of entity to add:
+
+    What I mean is I need to copy entities from a source (e.g. another drawing) and
+    add them to the block definition, without checking the types.
+
+    Thanks
+
+    alex'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-09-24 12:04:36'
+  body: 'Hi alex,
+
+
+    I mentioned the VB group because I assumed you''re using COM (anything .NET related
+    in 2004 would have been very unstable and at this point unsupportable).
+
+
+    Please post to the discussion group you prefer - this blog really isn''t the place
+    to get support.
+
+
+    Regards,
+
+
+    Kean'
+- author: alexb
+  email: alexb@actcom.co.il
+  ip: 82.81.144.8
+  url: ''
+  date: '2012-09-24 14:59:04'
+  body: 'Kean
+
+    Thank you.
+
+    alex
+
+    -----'

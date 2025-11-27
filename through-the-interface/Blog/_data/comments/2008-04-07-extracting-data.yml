@@ -1,0 +1,213 @@
+comments:
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 201.80.88.213
+  url: http://arxdummies.blogspot.com
+  date: '2008-04-09 01:52:39'
+  body: "Kean, \nIs this available through C++?\nHow to make our custom objects support\
+    \ XML exporting?\n\nFernando."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-04-09 13:30:38'
+  body: 'Fernando,
+
+
+    I don''t think that''s currently possible: it doesn''t appear to pick up properties
+    exposed through COM, although I haven''t tried with a managed wrapper.
+
+
+    Please submit your question via the ADN site for someone to look into.
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-04-09 13:32:03'
+  body: 'Oh - and this is a managed API, so it can be called from C++. There isn''t
+    an unmanaged C++ API, though.
+
+
+    Kean'
+- author: Tom
+  email: beemer80@aol.com
+  ip: 192.28.2.42
+  url: ''
+  date: '2008-04-09 15:57:16'
+  body: 'When compiling, I get the following message: The type or namespace name ''DataExtraction''
+    does not exist in the namespace ''Autodesk.AutoCAD'' (are you missing an assembly
+    reference?)
+
+
+    Which assembly do I need to add as a reference?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-04-09 16:05:04'
+  body: 'Ah yes - I missed a step: you need to add a project reference to AcDx.dll,
+    which can be found in the inc-win32 and inc-x64 folders of the ObjectARX 2009
+    SDK (as well as being in the AutoCAD 2009 root folder).
+
+
+    Regards,
+
+
+    Kean'
+- author: Tom
+  email: beemer80@aol.com
+  ip: 192.28.2.42
+  url: ''
+  date: '2008-04-09 19:10:47'
+  body: "Hello,\n\nWas the following an error:\nIDxExtractionSettings es = \n  es\
+    \ = new DxExtractionSettings();\n\nShould it have been written like:\nIDxExtractionSettings\
+    \ es = new DxExtractionSettings();\n\nOr, doesn't it make any difference?\n\n\
+    Thank You"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.19.34
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-04-09 21:18:38'
+  body: 'Hi Tom,
+
+
+    It was a typo - thanks for spotting it. I''ve fixed the post.
+
+
+    Regards,
+
+
+    Kean'
+- author: wesley
+  email: wesleylacerda@msn.com
+  ip: 200.150.15.179
+  url: ''
+  date: '2008-05-14 19:43:32'
+  body: you can filter the properties customized and bring only what you need?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-14 20:46:50'
+  body: 'I believe so, although I didn''t try it.
+
+
+    Kean'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2008-10-10 23:18:42'
+  body: 'Hi Kean.
+
+    I just popped this into VB and took out the hard coded filenames.  I ran it on
+    a drawing created by my automation program, and the only thing I don''t see extracted
+    is Xdata.
+
+    I''d be interested in figuring out if that could be done. (in the data extraction
+    tool, I know how to do it otherwise)
+
+
+    Actually I also saw something else a little strange... I have a particular type
+    of block which is inserted with varying X-scales so that the length of the block
+    changes.  The Attribute references show up under the data for the block, but the
+    specific data for the attribute references themselves does not show up next in
+    the list, like it did for other uniformly scaled blocks.  At the moment I don''t
+    think this concerns me, I just found it interesting.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-10-13 13:46:50'
+  body: 'Hi David,
+
+
+    I hadn''t tried this with Xdata, but it doesn''t fully surprise me that this isn''t
+    currently supported.
+
+
+    Xdata content tends to be stored fairly generically - the group codes don''t have
+    standardised, human-readable labels - so some logic would be needed to map these
+    to XML elements. Not to say it''s very hard to do, but it doesn''t surprise me
+    that it hasn''t been done.
+
+
+    I hadn''t come across non-uniform blocks acting differently. If you''re an ADN
+    member it would be great if you could submit it there with a reproducible case.
+
+
+    Thanks,
+
+
+    Kean'
+- author: Mike Robertson
+  email: michael.robertson@dot.state.fl.us
+  ip: 156.75.180.198
+  url: ''
+  date: '2009-07-30 16:10:24'
+  body: 'Where can I find a list of the valid ExtractFlags values?
+
+
+    Thanks,
+
+    Mike'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-07-30 16:19:55'
+  body: "Hi Mike,\n\nIf you right-click ExtractFlags in Visual Studio and select \"\
+    Go To Definition\", then you'll see the values:\n\n    public enum ExtractFlags\n\
+    \    {\n        None = 0,\n        Nested = 1,\n        Xref = 2,\n        XrefDependent\
+    \ = 4,\n        ModelSpaceOnly = 8,\n        ExtractBlockOnly = 16,\n    }\n\n\
+    Regards,\n\nKean"
+- author: Ted
+  email: tkoch@taittowers.com
+  ip: 72.25.2.94
+  url: ''
+  date: '2012-08-08 16:54:43'
+  body: 'Kean,
+
+
+    Is the DataExtraction C# example no longer included in the ObjectARX SDK?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-08-08 18:45:29'
+  body: 'Ted,
+
+
+    So it would seem (I have SDKs back to 2010 on this system and don''t see it there).
+    I suggest pinging the ADN team, to see if they''re posted somewhere they can point
+    you at (whether or not you''re an ADN member - these should be made publicly available).
+
+
+    Just drop me an email if you have trouble getting a response.
+
+
+    Regards,
+
+
+    Kean'
+- author: Ted
+  email: tkoch@taittowers.com
+  ip: 72.25.2.94
+  url: ''
+  date: '2012-08-17 14:14:16'
+  body: 'Hi Kean,
+
+
+    Not having much luck with getting a response. I''m not an ADN Member so I''m not
+    sure who to contact. Any help appreciated.
+
+
+    -Ted
+
+    -----'

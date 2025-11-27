@@ -1,0 +1,164 @@
+comments:
+- author: Danny Polkinhorn
+  email: dpolkinhorn@watg.com
+  ip: 72.130.225.50
+  url: ''
+  date: '2007-12-18 08:12:14'
+  body: 'Wow, I wasn''t expecting an entire post!  Thanks a ton, this definitely confirms
+    some of my earlier testing.  I have a dll loading at startup so I''ll be sure
+    to check it there.
+
+
+    Thanks again!
+
+    -Danny'
+- author: Nikolay Poleshchuk
+  email: poleshchuk@peterlink.ru
+  ip: 83.68.43.249
+  url: http://poleshchuk.spb.ru/cad/
+  date: '2007-12-18 09:02:09'
+  body: "Kean! There are real problems with AutoCAD default directory. Some months\
+    \ ago I put an article \"Little Tricks of Default Directory\" by S.Vasiliev at\
+    \ my site - \nhttp://www.private.peterlink.ru/poleshchuk/cad/2007/deffoldere.htm"
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 200.150.40.62
+  url: http://arxdummies.blogspot.com
+  date: '2007-12-18 11:32:03'
+  body: 'Hi Kean,
+
+
+    Really interesting behavior.
+
+    What about .NET DLLs placed into .NET Assembly Cache?
+
+
+    BTW, this raises another question. Which is the best option for .NET DLLs. Place
+    them inside AutoCAD''s root folder or inside GAC?
+
+
+    I have faced some issues regarding to NETLOAD loading the .NET DLL we expect...
+
+
+    Best regards,
+
+    Fernando.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-12-18 11:55:37'
+  body: 'Hi Fernando,
+
+
+    The recommendation I''ve heard is to use AutoCAD''s root folder. I''m not sure
+    of the benefits or disadvantages of using the GAC.
+
+
+    Regards,
+
+
+    Kean'
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 200.150.40.62
+  url: http://arxdummies.blogspot.com
+  date: '2007-12-18 12:21:11'
+  body: "Kean,\n\nYes. I'm doing this way. The problem is when you need to support\
+    \ multiple versions and flavors of AutoCAD. It's not a good idea to have the same\
+    \ DLL copied inside each AutoCAD folder. \n\nIn this case would be the Autodesk\
+    \ Commom folder a better solution?\n\nMaybe place the DLLs at the product folder\
+    \ and add its path to each AutoCAD support path list?\n\nRegards,"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-12-18 13:25:20'
+  body: 'I don''t know that it''s "not a good idea"... we''ve gone back to a per-product
+    install of lots of our "shared" files: it helps avoid compatibility issues if
+    a shared file is badly "upgraded" by one of the sharing products. It also gives
+    more flexibility to have per-product implementations.
+
+
+    The choice is ultimately yours, of course.
+
+
+    Kean'
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 200.150.40.62
+  url: http://arxdummies.blogspot.com
+  date: '2007-12-18 13:43:25'
+  body: "Kean,\n\nYes, it will be always a pain to support multiple versions and there\
+    \ is no magic solution. All solutions will always give you both good and bad things.\n\
+    \nIn fact, in my opinion, GAC does not solve this problem once it allows several\
+    \ copies of the same named DLL but with different versions. This may confuse and\
+    \ create more problems than solutions. For me, the so called \"DLL hell\" was\
+    \ just renamed to \"GAC Hell\". For instance, in my machine I can see two copies\
+    \ of \"Autodesk.AutoCAD.Interop\". One has version 17.0.54.0 and the other 17.1.51.0.\
+    \ Even worst, there are 10 copies of \"Microsoft.DirectX.Direct3DX\" DLLs.\n\n\
+    You are 100% right. The most secure way is to keep specific versions, per product,\
+    \ inside its directory and only share global modules that may not affect the way\
+    \ each version works after each update or service pack. \n\nThanks for sharing\
+    \ your (Autodesk) experience with this. This type of information is very important\
+    \ and should be at SDK documentation too. :)\n\nRegards,"
+- author: Manoj
+  email: marketing@opelitservices.com
+  ip: 59.97.192.18
+  url: ''
+  date: '2007-12-24 10:11:29'
+  body: 'Can i use existing drawing for customization using .net to save time to redraw
+    through .net.?
+
+    Manoj'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.16.59
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-01-02 10:11:18'
+  body: 'Hi Manoj,
+
+
+    It depends on the situation. There''s not really enough information for me to
+    know what you''re trying to do...
+
+
+    Kean'
+- author: Mudi
+  email: mudassiranjum@hotmail.com
+  ip: 66.227.105.10
+  url: ''
+  date: '2012-03-21 14:16:03'
+  body: 'Hi,
+
+
+    That was really helpful to understand what is goofing up with the modules I was
+    trying to load.
+
+
+    Just wondering if there is any way in ACAD (ACAD Command, Don''t want to set it
+    from .net modules) to explicit set the CurrentDirectory to userdefined path.
+
+
+
+
+    Thanks!
+
+
+    Mudi'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-03-21 16:40:07'
+  body: 'I don''t believe you can set the working folder after-the-fact for a running
+    process: you can certainly adjust things like the support path (although perhaps
+    even that requires a restart, I forget).
+
+
+    You might try posting to the discussion groups, to get opinions from there.
+
+
+    Kean
+
+    -----'

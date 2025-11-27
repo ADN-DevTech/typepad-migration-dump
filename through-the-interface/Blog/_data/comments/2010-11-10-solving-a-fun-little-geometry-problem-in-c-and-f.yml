@@ -1,0 +1,158 @@
+comments:
+- author: Jason Davies
+  email: jason.davies@gmail.com
+  ip: 82.133.112.184
+  url: http://www.jasondavies.com/
+  date: '2010-11-10 19:51:34'
+  body: 'This is known as a ''complete graph''. Here''s my JavaScript-based take on
+    the matter: <a href="http://www.jasondavies.com/complete-graphs/">http://www.jasondavies.com/complete-graphs/</a>'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-11-10 21:03:27'
+  body: 'Cool - thanks, Jason! :-)
+
+
+    Kean'
+- author: MichaelGG
+  email: mgg@giagnocavo.net
+  ip: 66.241.108.6
+  url: ''
+  date: '2010-11-10 21:16:46'
+  body: "Neat. The F# would be considerably shorter if you used the built in functions\
+    \ instead of rolling them by hand :). For instance:\n\n  let linesFromPoint start\
+    \ endpts = \n      endpts |> List.map(fun x -> Line(start, x)) \n            \
+    \ |> List.rev\n\nand\n\n  let pointsOnCircle (cen: Point3d) rad n =\n      let\
+    \ alpha = Math.PI * 2.0 / (float)n\n      let calcPoint n =\n          let theta\
+    \ = alpha * (float)(n + 1)\n          Point3d(cen.X + Math.Cos theta * rad,\n\
+    \                  cen.Y + Math.Sin theta * rad,\n                  cen.Z)\n \
+    \     List.init n calcPoint"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-11-11 07:40:23'
+  body: 'Excellent - that is much nicer.
+
+
+    Thanks, Michael!
+
+
+    Kean'
+- author: Art Scott
+  email: art@semasiographic.com
+  ip: 69.105.232.210
+  url: http://www.semasiographic.com
+  date: '2010-11-12 00:34:42'
+  body: 'Thanks.
+
+
+    You are a natural teacher/mentor/professor.'
+- author: neo
+  email: infowebserservices@yahoo.com
+  ip: 119.235.51.67
+  url: ''
+  date: '2010-11-12 08:23:56'
+  body: thanks for solving the problem
+- author: Adrian
+  email: adrian@soapyfrog.com
+  ip: 141.228.106.147
+  url: ''
+  date: '2010-11-12 16:53:32'
+  body: 'I like Cay Horstman''s solution in Scala.
+
+
+    <a href="http://weblogs.java.net/blog/cayhorstmann/archive/2010/11/12/geometry-problem-scala-0">http://weblogs.java.net/blog/cayhorstmann/archive/2010/11/12/geometry-problem-scala-0</a>'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2010-11-12 17:06:04'
+  body: 'Yes, very nice. And an approach that would be relatively easy to implement
+    using F#, too, I believe.
+
+
+    I have to say it''s a shame about the slightly preachy tone of the post: if I''d
+    realised that my 30 minutes spent helping out a colleague would fuel a religious
+    discussion, I might have spent more time on it. :-)
+
+
+    Kean'
+- author: Charles
+  email: charles.young@solidsoft.com
+  ip: 90.219.253.1
+  url: http://gwwkswithblogs.net/cyoung
+  date: '2010-11-13 16:33:59'
+  body: "cay's approach translates directly into C# as well.   Here is a version that\
+    \ draws onto the WPF canvas:\n\nnamespace zzDrawCompleteGraph\n{\n    using System;\n\
+    \    using System.Collections.Generic;\n    using System.Windows.Controls;\n \
+    \   using WpfLine = System.Windows.Shapes.Line;\n\n    class CompleteGraph\n \
+    \   {\n        private Size size;\n\n        public void Draw(Canvas canvasPanel)\n\
+    \        {\n            size = new Size(canvasPanel.Height, canvasPanel.Width);\n\
+    \            var n = 19;\n\n            // Draw lines onto canvas\n          \
+    \  foreach (var line in GetLines(n))\n            {\n                var wpfLine\
+    \ = new WpfLine();\n                wpfLine.Stroke = System.Windows.Media.Brushes.LightSteelBlue;\n\
+    \                wpfLine.StrokeThickness = 1;\n                wpfLine.X1 = line.A.A;\n\
+    \                wpfLine.X2 = line.B.A;\n                wpfLine.Y1 = line.A.B;\n\
+    \                wpfLine.Y2 = line.B.B;\n                canvasPanel.Children.Add(wpfLine);\n\
+    \            }\n        }\n\n        private IEnumerable<Pair> GetPairs(int n)\n\
+    \        {\n            for (var i = 0; i <= n; i++)\n            {\n        \
+    \        for (var j = 0; j <= n; j++)\n                {\n                   \
+    \ if (i < j)\n                    {\n                        yield return new\
+    \ Pair(i, j);\n                    }\n                }\n            }\n     \
+    \   }\n\n        private IEnumerable<Point> GetPoints(int n)\n        {\n    \
+    \        for (var i = 0; i <= n; i++)\n            {\n                yield return\
+    \ NewPoint(i, n, size.B);\n            }\n        }\n\n        private IEnumerable<Line>\
+    \ GetLines(int n)\n        {\n            foreach (var pair in GetPairs(n))\n\
+    \            {\n                foreach (var start in GetPoints(n))\n        \
+    \        {\n                    foreach (var end in GetPoints(n))\n          \
+    \          {\n                        yield return new Line(start, end);\n   \
+    \                 }\n                }\n            }\n        }\n\n        private\
+    \ Point NewPoint(int i, int n, double width)\n        {\n            return new\
+    \ Point(\n                Convert.ToInt32(((Math.Cos(2 * Math.PI * i / n ) + 1)\
+    \ * width / 2)),\n                Convert.ToInt32(((Math.Sin(2 * Math.PI * i /\
+    \ n ) + 1) * width / 2)));\n        }\n    }\n\n    // Supporting types\n    class\
+    \ Pair : BinaryValue<int> { public Pair(int i, int j) : base(i, j) { } }\n   \
+    \ class Point : BinaryValue<int> { public Point(int x, int y) : base(x, y) { }\
+    \ }\n    class Line : BinaryValue<Point> { public Line(Point start, Point end)\
+    \ : base(start, end) { } }\n    class Size : BinaryValue<double> { public Size(double\
+    \ height, double width) : base(height, width) { } }\n\n    class BinaryValue <T>\n\
+    \    {\n        public BinaryValue(T a, T b)\n        {\n            this.A =\
+    \ a;\n            this.B = b;\n        }\n        public T A { get; set; }\n \
+    \       public T B { get; set; }\n    }\n}"
+- author: Gilles Chanteau
+  email: chanteau.gilles@orange.fr
+  ip: 2.4.248.215
+  url: ''
+  date: '2012-02-11 17:13:12'
+  body: "Hi,\nA little more concise F# way using a comprehension and the Seq.unfold\
+    \ function\n\nlet linesFromPoint start endpts =\n    endpts |> List.map(fun x\
+    \ -> new Line(start, x))\n\nlet linesOfCircle (cen: Point3d) rad n =\n    let\
+    \ alpha = Math.PI * 2.0 / float n\n    [for i in 0 .. n - 1 -> \n        new Point3d(cen.X\
+    \ + cos (float i * alpha) * rad,\n         cen.Y + sin (float i * alpha) * rad,\
+    \ \n         cen.Z)]\n    |> Seq.unfold(function \n        | h::t -> Some(linesFromPoint\
+    \ h t, t)\n        | _ -> None)\n    |> Seq.concat\n\nThen, just call:\n\n  linesOfCircle\
+    \ Point3d.Origin 5.0 19\n  |> Seq.iter addToDatabase"
+- author: Gilles Chanteau
+  email: chanteau.gilles@orange.fr
+  ip: 2.4.248.215
+  url: ''
+  date: '2012-02-11 22:44:16'
+  body: "May be more suitable this way:\n\nlet polar (pt: Point3d) angle dist =\n\
+    \    new Point3d(pt.X + cos angle * dist, pt.Y + sin angle * dist, pt.Z)\n\nlet\
+    \ linesOfCircle (cen: Point3d) rad n =\n    let alpha = Math.PI * 2.0 / float\
+    \ n\n    [for i in 0 .. n - 1 -> polar cen (float i * alpha) rad]\n    |> Seq.unfold(function\
+    \ \n        | h::t -> Some(List.map(fun x -> new Line(h, x)) t, t) \n        |\
+    \ _ -> None)\n    |> Seq.concat"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-02-13 14:36:02'
+  body: 'Merci, Gilles. :-)
+
+
+    Kean
+
+    -----'

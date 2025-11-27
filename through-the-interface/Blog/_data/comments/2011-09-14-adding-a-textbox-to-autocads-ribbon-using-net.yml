@@ -1,0 +1,103 @@
+comments:
+- author: Felipe Mesquita
+  email: felipe@vendramini.eng.br
+  ip: 186.220.152.41
+  url: http://estrutural.blog.br/
+  date: '2011-09-14 22:11:31'
+  body: 'Kean,
+
+
+    Just making a ''link'' with the previous post..
+
+
+    One of the requirements for posting Apps to AutodeskExchange is the cuix files..
+
+    Is ther any problem on making the Ribbon population programatically, with panels,
+    buttons, etc, and not deliver the cuix file?
+
+
+    Thanks,
+
+    Felipe
+
+    SP/Brazil
+
+
+    p.s.: are you comming for AU Brazil 2010?'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.58.92
+  url: http://profile.typepad.com/kean
+  date: '2011-09-15 08:14:43'
+  body: 'Felipe,
+
+
+    I would certainly use a CUIX file for the primary interface for an application,
+    but there are cases where you might want to create and control items programmatically.
+
+
+    I wish I was coming to AU Brazil - only Las Vegas for me, this year.
+
+
+    Regards,
+
+
+    Kean'
+- author: Stephen Preston
+  email: stephen.preston@autodesk.com
+  ip: 72.52.96.9
+  url: http://www.autodesk.com/joinadn
+  date: '2011-09-16 01:12:27'
+  body: 'To reinforce, Kean''s comment - two rules for Exchange store apps are:
+
+
+    1. Plug-ins must not load on startup unless there is a very good reason why it
+    has to. (I.e. you have to convince us its a good reason).
+
+    2. Exchange apps must install a ribbon panel to the Plug-ins tab or create their
+    own tab.
+
+
+    You can''t create a ribbon dynamically before your app is loaded, so those two
+    rules mean that adding your ribbon at runtime isn''t a good idea. (Although, as
+    Kean said, you can always add basic elements through a CUI and add more dynamically
+    after the app has loaded).
+
+
+    Another good reason why using a CUI is better - we can tweak your CUI for you
+    if its not quite right. If you create your riboon elements at runtime, then we
+    have to ask you to edit your code.
+
+
+    HTH,
+
+
+    Stephen'
+- author: thijs.roggekamp@cadcompany.nl
+  email: thijs.roggekamp@cadcompany.nl
+  ip: 86.88.95.213
+  url: ''
+  date: '2011-12-12 09:23:26'
+  body: 'Hi Kean,
+
+    Great article!
+
+    Might be helpfull to mention witch required references are needed.'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/kean
+  date: '2011-12-12 09:47:42'
+  body: 'Good point. Off the top of my head, only AdWindows.dll is needed in addition
+    to the standard AcMgd.dll and AcDbMgd.dll.
+
+
+    Kean'
+- author: thijs.roggekamp@cadcompany.nl
+  email: thijs.roggekamp@cadcompany.nl
+  ip: 86.88.95.213
+  url: ''
+  date: '2011-12-12 10:17:13'
+  body: "Tx, \nHad to add also:\nAdWindows, PresentationCore, PresentationFramework,\
+    \ WindowsBase and\nchanged Compile target framewotk to 4.0, any CPU.\nWorks like\
+    \ a charm in VB.net\n\nThijs\n-----"

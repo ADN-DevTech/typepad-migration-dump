@@ -1,0 +1,210 @@
+comments:
+- author: kurt
+  email: aa@aa.ru
+  ip: 95.170.157.82
+  url: ''
+  date: '2011-03-15 07:41:45'
+  body: math.atan2
+- author: igor
+  email: igorg2006@yahoo.com
+  ip: 194.149.134.70
+  url: ''
+  date: '2012-02-17 11:08:58'
+  body: 'Hi  Kean,
+
+
+    I was evaluating this code and I face with some limitation.
+
+    Before calling "BPJIG" command I have created a new WCS with those parameters:
+
+    WCS:
+
+    origin: {100, 200, 0}
+
+    Xaxis: {0, -1, 0}
+
+    Yaxis: {0, 0, 1}
+
+    Zaxis: {-1, 0, 0}
+
+
+    When I use this code, the polyline is not drawn correctly.
+
+    Do you know how this code can be improved in order to work on any WCS.
+
+
+    Thanks,
+
+
+    Igor'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-02-18 09:05:35'
+  body: 'Hi Igor,
+
+
+    I used 3DORBIT to rotate the view to an arbitrary position/rotation and used UCS
+    VIEW to set the UCS to that view.
+
+
+    The BPJIG command worked perfectly in that UCS, as far as I could tell.
+
+
+    Please provide more information on what''s not working.
+
+
+    Thanks & regards,
+
+
+    Kean'
+- author: Igor
+  email: igorg2006@yahoo.com
+  ip: 89.205.6.198
+  url: ''
+  date: '2012-02-20 20:41:17'
+  body: "Hi Kean,\n\nin the text below I use some keywords\n(Command:)   -> means\
+    \ that I use a keyboard to run an Autocad command\n\nHere are the steps I used:\n\
+    (1) Open a new blank document\n(2) (Command:) netload\n(3) load a NET assembly\n\
+    (4) Draw a 3D box with start point (0,0,0) and end point (100,200,300) this is\
+    \ only for better visualization under 3D\n    (Command:) box ..... (enter start\
+    \ and end point coordinates)\n(5) Create a new UCS using a three point command:\
+    \ Origin (100,200,0) ; Point on X-axis (100,0,0) Point on Y-axis (100,200,300).\
+    \ Those coordinates are in WCS\n\t\t(Command:) UCS\n\t\t(Command:) Specify origin\
+    \ of UCS or [Face/NAmed/OBject/Previous/View/World/X/Y/Z/ZAxis] <World>: 100,200,0\n\
+    \t\t(Command:) Specify point on X-axis or <accept>: 0,-200,0\n\t\t(Command:) Specify\
+    \ point on the XY plane or <accept>: 0,0,300\nHere we have created a new UCS and\
+    \ we can use the Orbit to adjust the view.\n(6) run \"BPJIG\" command and using\
+    \ a free mouse pointer pick several points (do not use OSnap). Important: UCS\
+    \ created under step-5 has to be active.\n(7) use orbit to see that the polyline\
+    \ is not drawn in XY-plane of the active UCS (which we have created under step\
+    \ 5).\n\nAs I can see under this line in your code:  \npl.SetPointAt(pl.NumberOfVertices\
+    \ - 1, _tempPoint.Convert2d(_plane));\nthe origin distance between WCS and UCS\
+    \ is not taken into consideration and because that the polyline is not in proper\
+    \ Plane.\n\nI hope I managed to explain you the procedure how to replicate my\
+    \ example.\nI would like to here your opinion about this issue.\n\nThanks,\nIgor"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-02-21 16:30:33'
+  body: 'Hi Igor,
+
+
+    I *think* I''ve addressed this with the above update. Please let me know, if not.
+
+
+    Regards,
+
+
+    Kean'
+- author: Igor
+  email: igorg2006@yahoo.com
+  ip: 89.205.6.198
+  url: ''
+  date: '2012-02-21 19:36:50'
+  body: "Kean,\n\nThe new updated code is working. \n\nAccording to me the ARX-library\
+    \ is not working well for Polylines. When you set the \"Normal\" to the Polyline\
+    \ then the \"Polyline.Ecs\" is calculated and here the UCS.Origin should be included\
+    \ in \"Polyline.Ecs\". This should be the right way for this issue and there is\
+    \ no need for setting the \"Elevation\".\n\nIf you have some free time than make\
+    \ a talk to the ARX development team and see why when we set the \"Polyline.Normal\"\
+    \ the \"UCS.Origin\" is not included in \"Polyline.Ecs\".\n\nThanks for the update,\
+    \ a nice solution.\n\nIgor"
+- author: Viktor K
+  email: vkulikovskiy@burnsmcd.com
+  ip: 64.219.133.233
+  url: ''
+  date: '2012-04-18 19:17:40'
+  body: well this is weird, if i take your code directly and run it, it works like
+    it should, if i convert it to vb.net (manually or using a converter) then the
+    first segment is skipped, basically you have to click two times to start the line.
+- author: Viktor K
+  email: vkulikovskiy@burnsmcd.com
+  ip: 64.219.133.233
+  url: ''
+  date: '2012-04-18 19:18:13'
+  body: likely a sign that i need to stop with vb...
+- author: Viktor K
+  email: vkulikovskiy@burnsmcd.com
+  ip: 64.219.133.233
+  url: ''
+  date: '2012-04-18 19:21:13'
+  body: no its a sign that i need to pay more attention... my mistake.
+- author: Frank
+  email: frank.stifter@geoteam.com
+  ip: 94.228.106.130
+  url: ''
+  date: '2012-09-19 17:09:47'
+  body: 'Hi Kean,
+
+
+    thanks for the great codesample.
+
+    Unfortunately it doesn''t work for me with active osnap.
+
+
+    When I start drawing a polylinejig and reach an area of osnap (for example want
+    to pick a lineend of an existing line with osnap to add this point to the polylinejig)
+    then the jig line became invisible. The jig line is invisible untill I add a new
+    vertex without osnap.
+
+
+    Can you reproduce this error?
+
+
+    Regards,
+
+    Frank'
+- author: Kean Walmsley
+  email: ''
+  ip: 95.172.68.148
+  url: http://profile.typepad.com/kean
+  date: '2012-09-20 10:42:41'
+  body: 'Hi Frank,
+
+
+    It works well for me when osnapping to existing geometry, as you''ve described.
+    I test on AutoCAD 2013 x64.
+
+
+    Perhaps there''s a specific case that I''m missing to reproduce the problem?
+
+
+    Regards,
+
+
+    Kean'
+- author: Frank
+  email: frank.stifter@geoteam.com
+  ip: 94.228.106.130
+  url: ''
+  date: '2012-09-20 11:39:28'
+  body: 'Hi Kean,
+
+
+    I am sorry for my comment above. I found the error in my code. There was a sub
+    transaction in my PointMonitor event which was not commited in some cases.
+
+
+    Regards,
+
+    Frank'
+- author: Kean Walmsley
+  email: ''
+  ip: 95.172.68.148
+  url: http://profile.typepad.com/kean
+  date: '2012-09-20 11:42:27'
+  body: 'Hi Frank,
+
+
+    I''m just glad to hear it''s working for you.
+
+
+    Thanks for letting me know,
+
+
+    Kean
+
+    -----'

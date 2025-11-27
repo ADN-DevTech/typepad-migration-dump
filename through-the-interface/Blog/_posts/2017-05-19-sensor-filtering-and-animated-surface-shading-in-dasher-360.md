@@ -1,0 +1,15 @@
+---
+layout: "post"
+title: "Sensor filtering and animated surface shading in Dasher 360"
+date: "2017-05-19 08:52:24"
+author: "Kean Walmsley"
+categories:
+  - "APS (Forge)"
+  - "Autodesk"
+  - "IoT"
+original_url: "https://www.keanw.com/2017/05/sensor-filtering-and-animated-surface-shading-in-dasher-360.html "
+typepad_basename: "sensor-filtering-and-animated-surface-shading-in-dasher-360"
+typepad_status: "Publish"
+---
+
+<p>We’ve been busy working on a number of interesting features for <a href="http://dasher360.com" target="_blank">Dasher 360</a> over the last few weeks. The main focus – at least from my side – has been to extend the filtering capability to allow people to filter sensors based on type and their location in the model. Not only that, but the filtering is reflected in realtime in the list of sensors, even when highlighting different areas of the model via the site’s breadcrumbs. I wasn’t sure if this was going to be viable – mainly for performance reasons – but for now it seems to work really well.</p> <p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e201b8d284246f970c-pi" target="_blank"><img title="Visualizing humidity data inside Dasher 360" style="border-top: 0px; border-right: 0px; background-image: none; border-bottom: 0px; float: none; padding-top: 0px; padding-left: 0px; margin: 30px auto; border-left: 0px; display: block; padding-right: 0px" border="0" alt="Visualizing humidity data inside Dasher 360" src="/assets/image_302578.jpg" width="500" height="312"></a></p> <p>The other big push has been around surface shading and getting that properly integrated into the timeline. The timeline is now visible in the public demo and can be used to control the period for which the surface shading gets animated. Eventually the timeline will drive other visualizations, too, whether the plots for individual sensors or for coordinated video feeds (more on this below).</p> <p>I recorded a quick video to show the progress:</p> <p align="center">&nbsp;</p> <p align="center"><iframe height="281" src="https://www.youtube-nocookie.com/embed/ZP57S92IFoY?rel=0&amp;showinfo=0?ecver=1" frameborder="0" width="500" allowfullscreen></iframe></p> <p align="center">&nbsp;</p> <p>These changes are only partially live on the main site, today, but they’ll be there by the time most people read this post, I’m sure. :-)</p> <p>In the above demo I’ve mentioned a feature that was implemented for the Pier 9 bridge project: the ability to display video from various cameras and have that correlate with surface shading information. This is particularly interesting in the context of the bridge, where we want to analyse strain data while understanding the specific context: how many people were walking over it, were they marching in military formation, that kind of thing. At some point we expect to integrated machine learning to analyse the image data and surface clues about what’s going on, for now we’re just focused on getting the video feeds sync’ed with surface shading.</p>

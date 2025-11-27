@@ -1,0 +1,437 @@
+comments:
+- author: Frank C.
+  email: cadfool@nym.hush.com
+  ip: 130.94.123.83
+  url: ''
+  date: '2009-06-10 07:16:32'
+  body: "kean, thanks for this really cool solution.  \n\nWhat it does is nearly identical\
+    \ to another program I found through a link in one of your older posts (see \"\
+    Preventing a .NET module from being loaded by AutoCAD\"), that was published by\
+    \ tony tanzillo\n\nI was using a altered version of tony's ExtensionApplicationInfo\
+    \ class for nearly a year now with great success. Before I dissect your version,\
+    \ may I ask if it improves upon Tony's version? just thought I'd ask so I can\
+    \ add what ever enhancement your version has into my codebase.\n\nthanks again,\n\
+    Frank C."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-06-10 09:14:18'
+  body: 'Hi Frank,
+
+
+    I took a quick look at Tony''s solution, which (from what I can tell) has comparable
+    functionality...
+
+
+    One difference I noticed immediately is around licensing rather than the actual
+    functionality: the code I''ve provided doesn''t come with any restrictions around
+    use in commercial applications.
+
+
+    Regards,
+
+
+    Kean'
+- author: Frank C.
+  email: cadfool@nym.hush.com
+  ip: 130.94.107.235
+  url: ''
+  date: '2009-06-10 18:58:30'
+  body: "hey kean, thanks.  I went through your code, and yes, they seem to be similar.\
+    \ Oddly they are actually very similar to each other, not just in what they do,\
+    \ but even with coding styles. For example, the one thing that stuck out about\
+    \ that was the use of the C# '?' operator. Both the cadzone code and your code\
+    \ use it in exactly the same ways (selecting the LOADCTRLS value and the registry\
+    \ hive). \n\nWhat an uncannily-strange coincidence, wouldn't you say?"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-06-10 19:04:29'
+  body: 'Hi Frank,
+
+
+    I hope you''re not accusing me of plagiarism... :-)
+
+
+    I can honestly say that while I had taken a quick look at Tony''s code originally
+    when he posted the comment, I didn''t look into the details, and certainly didn''t
+    remember that the code even existed when I came to write my own.
+
+
+    I don''t think the coding style similarities are entirely coincidental: we both
+    have a background with C++ which is where the ''?'' operator comes from, originally.
+    And while unfamiliar or strange-looking to some, it is an elegant construct for
+    simple if-then-else clauses.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Kerry L. Galloway
+  email: GallowayKL@Lilly.com
+  ip: 69.174.58.36
+  url: ''
+  date: '2010-02-26 22:47:41'
+  body: 'Kean,
+
+    Have discovered one thing about this routine in the VB.Net version which was distributed
+    at AU in November or so and that is that if an Applications keys does not exist
+    it won''t make one. I ran it on a brand new instance of 2010 and it had no Applications
+    key.
+
+    Just a heads for folks that may not have dug into the registry when the code failed.
+
+
+    Kerry'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2010-02-27 10:40:17'
+  body: 'Kerry,
+
+
+    Yes - I heard about this just the other day (see the bottom of <a href="http://through-the-interface.typepad.com/through_the_interface/2010/02/creating-demand-loading-entries-for-net-modules-outside-of-autocad.html">this
+    post</a>).
+
+
+    I will need to update this post: it''s not as easy a fix as when creating the
+    keys from an external app (CreateSubKey() works well there but fails within AutoCAD
+    if the Applications key already exists - most commonly the case) but it shouldn''t
+    be too hard.
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-03-08 13:39:16'
+  body: 'Right - I''ve updated the various versions, as well as creating one for F#,
+    and have posted them all <a href="http://through-the-interface.typepad.com/through_the_interface/2010/03/creating-demand-loading-entries-automatically-for-your-autocad-application-using-c-f-or-vbnet.html">here</a>.
+
+
+    It was as simple as using CreateSubKey(), I just had to remember to open the parent
+    key for write (duh).
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-03-08 13:52:42'
+  body: 'The original code ended up getting mangled when I tried to update this post,
+    so I went ahead and overwrote it with the most recent version.
+
+
+    Kean'
+- author: Lawrence
+  email: LDill@dtu.cc
+  ip: 70.168.68.238
+  url: ''
+  date: '2012-04-12 16:29:55'
+  body: "Need some help. i used your demaload code for .net. I'm now converting my\
+    \ app to 2013 and now i'm getting  Error: 'CommandMethodAttribute' is ambiguous\
+    \ in the namespace 'Autodesk.AutoCAD.Runtime'.  I'm getting this \"ambiguous\"\
+    \ error with several other command too.\n\nI did add the Core DLL and update other\
+    \ for 2013 SDK. \n\nAny ideal what i'm not seeing.."
+- author: Lawrence
+  email: LDill@dtu.cc
+  ip: 70.168.68.238
+  url: ''
+  date: '2012-04-12 17:30:13'
+  body: "Ok i found the issue. I had a \"refence Path\" set to SDK 2011, so when i\
+    \ loaded the 2013 dll it loaded the 2011 dlls instead.  I removed the path and\
+    \ it corrected it self and all is well. \n\nSorry for bad post."
+- author: Luigi Ballotta
+  email: luigi.ballotta@valitalia.com
+  ip: 88.42.248.30
+  url: ''
+  date: '2013-03-11 09:35:28'
+  body: 'Hi Kean, I found this topic very interesting, but there are some things not
+    so clear to me.
+
+
+    Ok, I had developed my MyAcadApp.dll, my goal is to produce a set-up package that
+    installs all the components needed by MyAcadApp.dll, e.g. partial CUI files, and
+    as result of this, after performing installation, I will have somewhere on my
+    AutoCAD dropdown menù the entry to recall via my custom command ''MyAcadApp''
+    the application.
+
+
+    So, briefly, what are the mainly steps to do in order to reach this?
+
+
+    Thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.25
+  url: http://profile.typepad.com/kean
+  date: '2013-03-11 09:38:34'
+  body: 'Hi Luigi,
+
+
+    I would recommend using the more modern autoloader mechanism for this:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2011/09/autodesk-exchange-preparing-your-autocad-application-for-posting.html">http://through-the-interface.typepad.com/through_the_interface/2011/09/autodesk-exchange-preparing-your-autocad-application-for-posting.html</a>
+
+
+    Regards,
+
+
+    Kean'
+- author: Luigi Ballotta
+  email: luigi.ballotta@valitalia.com
+  ip: 88.42.248.30
+  url: ''
+  date: '2013-03-11 11:04:49'
+  body: 'Thanks Kean for the kind answer, I''m reading through and seems to be very
+    interesting to solve my issue.
+
+
+    Regards
+
+
+    Luigi'
+- author: Luigi Ballotta
+  email: luigi.ballotta@valitalia.com
+  ip: 88.42.248.30
+  url: ''
+  date: '2013-03-11 16:20:03'
+  body: 'The solution is very interesting using with AutoCAD2013, but it seems not
+    able to work with AutoCAD2010, correct?
+
+
+    So going back a little behind, what are the steps to do in order to perform this
+    task using AutoCAD2010?
+
+
+    Thank-you.
+
+
+    Luigi'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.25
+  url: http://profile.typepad.com/kean
+  date: '2013-03-11 16:32:05'
+  body: 'Correct. If you need to support AutoCAD 2010, these posts should be of some
+    help:
+
+
+    Build an installer - <a href="http://through-the-interface.typepad.com/through_the_interface/2010/09/building-an-installer-part-1.html">http://through-the-interface.typepad.com/through_the_interface/2010/09/building-an-installer-part-1.html</a>
+
+
+    Load a partial CUI - <a href="http://through-the-interface.typepad.com/through_the_interface/2006/11/loading_a_parti.html">http://through-the-interface.typepad.com/through_the_interface/2006/11/loading_a_parti.html</a>
+
+
+    Kean'
+- author: Luigi Ballotta
+  email: luigi.ballotta@valitalia.com
+  ip: 88.42.248.30
+  url: ''
+  date: '2013-03-11 17:00:19'
+  body: 'Thanks for your patience. I will read the posts.
+
+
+
+    Regards,
+
+
+    Luigi'
+- author: Sam
+  email: ssaarian@hotmail.com
+  ip: 208.34.193.194
+  url: ''
+  date: '2013-11-21 00:38:21'
+  body: 'Hi guys,
+
+
+    the line ''prodKey = HostApplicationServices.Current.RegistryProductRootKey;''
+    is generating an error. Here is the error:
+
+
+    ''Autodesk.AutoCAD.DatabaseServices.HostApplicationServices'' does not contain
+    a definition for ''RegistryProductRootKey'' and no extension method ''RegistryProductRootKey''
+    accepting a first argument of type ''Autodesk.AutoCAD.DatabaseServices.HostApplicationServices''
+    could be found (are you missing a using directive or an assembly reference?)
+
+
+    These are my references:
+
+
+    using System;
+
+    using System.Collections.Generic;
+
+    using System.Linq;
+
+    using System.Text;
+
+
+    using Microsoft.Win32;
+
+    using System.Reflection;
+
+
+    /// AutoCAD specific reference (Local Copy - False): accoremgd.dll, AcDbMgd.dll,
+    AcMgd.dll
+
+    using Autodesk.AutoCAD.ApplicationServices;
+
+    using Autodesk.AutoCAD.DatabaseServices;
+
+    using Autodesk.AutoCAD.EditorInput;
+
+    using Autodesk.AutoCAD.Runtime;
+
+
+    I did change nothing from what was available here in this forum (the code I copied);
+    just the application name. I wonder what I''m missing? BTY, the same code in VB.NET
+    does not generate any error and also,... when I went to ''Current'' definition
+    - the VS opened for me this (just few lines):
+
+
+    ...
+
+    namespace Autodesk.AutoCAD.DatabaseServices
+
+    [Wrapper("AcDbHostApplicationServices")]
+
+    public abstract class HostApplicationServices : RXObject
+
+    {
+
+    protected internal HostApplicationServices();
+
+    ...
+
+    public static HostApplicationServices Current { get; set; }
+
+    ...
+
+
+    any help?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-11-21 07:14:20'
+  body: 'Hi Sam,
+
+
+    In AutoCAD 2013 that API was replaced with two variants. The one you choose depends
+    on the section of the Registry you''re interested in:
+
+
+    HostApplicationServices.Current.UserRegistryProductRootKey
+
+    HostApplicationServices.Current.MachineRegistryProductRootKey
+
+
+    I hope this helps,
+
+
+    Kean'
+- author: Carl
+  email: Carl.Golenberg@brownconsulting.com.au
+  ip: 125.7.48.146
+  url: ''
+  date: '2014-02-03 02:24:18'
+  body: 'Kean,
+
+    Great stuff as always...
+
+    I have a question regarding the Removal of Resigstry keys.
+
+    First I really just want this loading globally on autocad launch and maintaining
+    itself so I''ve put the init registry code in my App Init section - but since
+    commands exist if found them and went the command option. Anyway I forced it to
+    2 and got a doc.collection changed event going to track new documents. What I
+    find though is unless I run UnregisterForDemandLoading on my apps Terminate sub
+    (effectively removing registry stuffs on acad close), then I get an unhandled
+    exception when autocad shuts down... but that means I have to netload my assembly
+    on autocad startup - rewriting reg every time and effectivley getting little benifit.
+    Is this really just for dwg to dwg loading? Can''t we leave the reg keys in there
+    once we''re happy with our app and know it''s there to stay?'
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.226.166
+  url: http://profile.typepad.com/kean
+  date: '2014-02-03 06:35:14'
+  body: 'Carl,
+
+
+    There must be something else going on... you shouldn''t have to remove any Registry
+    entries on close.
+
+
+    The strange thing is that the crash comes on shutdown: typically there''s a problem
+    with accessing the current document (before one is available) on startup.
+
+
+    I suggest debugging this to better understand what''s happening (I would start
+    with breakpoints in Init and Terminate).
+
+
+    Regards,
+
+
+    Kean'
+- author: Carl
+  email: Carl.Golenberg@brownconsulting.com.au
+  ip: 125.7.48.146
+  url: ''
+  date: '2014-02-06 23:38:43'
+  body: "Thanks, that's kinda what I figured (in that they don't need removal). There\
+    \ are clearly other entries of the same fasion the Autocad Dev team uses and leaves\
+    \ in. \n\nWhen I work it out I'll let everyone know assuming its interesting :)\
+    \ by the way, with this code is it same to run every load to make sure it's there\
+    \ or is this something you should set up in an installer only?"
+- author: Carl
+  email: Carl.Golenberg@brownconsulting.com.au
+  ip: 125.7.48.146
+  url: ''
+  date: '2014-02-07 03:35:09'
+  body: 'hmmm.
+
+
+    I think I found [this - lol] bug.
+
+
+    In this case an obsessive interest in clearing things cost me.
+
+
+    Dim RegUp As New RegistryUpdate
+
+    RegUp.RegisterForDemandLoading()
+
+    RegUp = Nothing    <- this baby here, bad.
+
+
+    it needs to not be cleared (apparently) in this case. fixed my issues.'
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2014-02-07 08:38:37'
+  body: 'Great - glad you worked it out.
+
+
+    Running it on load is harmless enough (it stops as soon as it finds the Registry
+    key already exists... you might also optimise it to check that before extracting
+    command info from the assembly, if you were really keen). But if you want to run
+    it from an installer there is an EXE version available I called RegDL:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2010/09/an-updated-version-of-regdl-available.html">http://through-the-interface.typepad.com/through_the_interface/2010/09/an-updated-version-of-regdl-available.html</a>
+
+
+    Kean
+
+    -----'

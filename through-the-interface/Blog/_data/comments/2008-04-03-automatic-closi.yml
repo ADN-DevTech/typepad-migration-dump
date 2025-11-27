@@ -1,0 +1,193 @@
+comments:
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 200.150.40.11
+  url: http://arxdummies.blogspot.com
+  date: '2008-04-03 21:38:26'
+  body: "Great Kean,\n\nOne concern. \nThe smart pointer close the object pointer\
+    \ as soon as its scope is finished. This behavior is the same as the previous\
+    \ smart pointer class. One problem that still concerns me is when you need to\
+    \ pass a pointer to other functions. In this case as soon as it leaves the function\
+    \ scope it will be closed and the pointer will be invalid outisde the function\
+    \ scope.\n\nI think we will need to keep these smart pointers as class members\
+    \ to allow it to safely travel from class functions to funcions. If you need to\
+    \ pass this pointer from one class to another it will need to be a global variable.\n\
+    \nIs there a \"smarter\" way to handle these cross scope smart pointers to a safe\
+    \ roundtrip ?\n\nBest Regards,\nFernando."
+- author: Mike Gill
+  email: mikecgill@gmail.com
+  ip: 12.184.125.226
+  url: ''
+  date: '2008-04-03 22:31:19'
+  body: 'Fernando,
+
+
+    You might be over-thinking the problem of scope.  I use smart pointers all the
+    time and I can pass the object pointer down to a function no problem.  I call
+    the function from within the scope that created the smart pointer and all is well.  Going
+    into a new function does not end the scope of defined variables on the stack.  The
+    new items are added to the stack and popped off when the function returns.'
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 200.150.40.11
+  url: http://arxdummies.blogspot.com
+  date: '2008-04-03 22:50:57'
+  body: "Sorry, I did not explain this clear enough.\n\nThe situation is when you\
+    \ need a function which will open an object for you and return this pointer through\
+    \ its return value. Something like this:\n\nAcDbEntity* getSmallestHeightPanel()\n\
+    {\n AcDbEntity* pEnt = NULL;\n ...\n acdbOpenObject(idEnt,pEnt,AcDb::kForRead);\n\
+    \ ...\n return pEnt;\n}\n\nIf you use a smart pointer in this case it will be\
+    \ out of scope when returned by your function.\n\nIn this case you will need to\
+    \ pass the smart pointer variable by reference so its scope is outside the function's\
+    \ scope.\n\nThis type of function syntax (where the pointer is the returned value)\
+    \ is very convenient in some cases.\n\nHope you get the idea now.\nRegards,\n\
+    Fernando Malard."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.19.34
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-04-04 10:17:49'
+  body: 'Fernando,
+
+
+    I would suggest that if you wish to return a pointer from a function, then you
+    wouldn''t want to use a SmartPointer to open that object in the first place. SmartPointers
+    are a convenience to automatically close objects - something you want to avoid
+    here.
+
+
+    That said, you might want to use a new SmartPointer to receive the return value
+    of the function:
+
+
+    AcDbSmartObjectPointer panel(getSmallestHeightPanel()->objectId(), AcDb::kForRead);
+
+
+    This would not actually reopen the panel entity, assuming it was already open
+    for read.
+
+
+    Regards,
+
+
+    Kean'
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 200.150.26.41
+  url: http://arxdummies.blogspot.com
+  date: '2008-04-04 13:16:26'
+  body: 'I see.
+
+    So the smart pointer actually checks for the current open state instead of using
+    some local variable to control the opening status.
+
+
+    Interesting. This way is easier to mix with the traditional open/close approach.
+
+
+    This improvement in 2009 is only related to the template class or are there some
+    Core modifications to allow this? Can we use this template back to ObjectARX 2007
+    and 2008?
+
+
+    Regards.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-04-04 13:48:51'
+  body: 'If you check dbobjptr2.h in ObjectARX 2009, you''ll see a few internal-use
+    function declarations, accessAcDbObjectForRead() and accessAcDbObjectForWrite(),
+    which are exports from acdb17.dll.
+
+
+    These exports appear to be there for 2008 (I didn''t check any further back than
+    that), but I wouldn''t recommend attempting to use this header (and therefore
+    these classes) in versions before 2009: object open/close is a risky area to play
+    around with, and there may well have been internal changes made when getting this
+    API ready for external consumption.
+
+
+    Regards,
+
+
+    Kean'
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 198.102.112.18
+  url: ''
+  date: '2008-04-04 19:17:09'
+  body: "Hi Fernando\n\na very interesting Use case... So using the DBOBJPTR_EXPOSE_PTR_REF\
+    \ define and with the changes I advised you make in dbobjptr.h your scenario is\
+    \ neatly dealt with. Here is what I mean...\n\nSo without any changes to your\
+    \ existing routine getSmallestHeightPanel(), simply change the calling routine\
+    \ from (and I'm guessing) \n\nAcDbEntity *ent = getSmallestHeightPanel();\n\n\
+    to look like this...\n\nAcDbObjectPointer<AcDbEntity> ent = getSmallestHeightPanel();\n\
+    \nNow the returned entity is closed automatically for all return conditions, and\
+    \ you can sleep well at night! :-) \n\nRemember that you don't need to change\
+    \ your code to remove the ->close() calls because they are still valid.\n\nI hope\
+    \ this helps.\n\nCheers\nFenton"
+- author: chandu
+  email: nallam4u@gmail.com
+  ip: 199.63.142.252
+  url: ''
+  date: '2011-05-03 13:31:51'
+  body: "Hi ,\n\n  I am having the dwg file in AutoCAD 2011 ,need to read all the\
+    \ entities from the drawing file.\nThe following is the code, I am getting ADS\
+    \ request error when calling the pBlockTableRecord->close() method\n\nptrOldDatabase\
+    \ = acdbHostApplicationServices()->workingDatabase();\nes = ptrOldDatabase->getSymbolTable(pBlockTable,\
+    \ AcDb::kForRead);\nif ( Acad::eOk != es )\n\t{\n\t\tacedAlert(ACRX_T(\"Couldn't\
+    \ open current drawing database\"));\n\t\tpBlockTable->close();\n\t\treturn;\n\
+    \t}\nes = pBlockTable->newIterator(pIteratorBlk);\n\t\t\t\n\n\tif ( Acad::eOk\
+    \ != es )\n\t{\n\t\tpBlockTable->close();\n\t\tacedAlert(ACRX_T(\"Couldn't open\
+    \ current drawing database\"));\n\t\treturn;\n\t}\n\nfor (pIteratorBlk->start();\
+    \ !pIteratorBlk->done(); pIteratorBlk->step())\n    {\n\t\tAcDbBlockTableRecord\t\
+    *pBlockTableRecord = NULL;\n\t\tpIteratorBlk->getRecord(pBlockTableRecord, AcDb::kForRead);\n\
+    \t\t\n\t\tpBlockTableRecord->getName(pName);\n\t\tif ( _tcsncmp(pName,ACRX_T(\"\
+    *Paper_Space\"),12) && _tcsncmp(pName,ACRX_T(\"*Model_Space\"),12))\n\t\t{\n\t\
+    \t\t\n\t\t\ttry\n\t\t\t{\n\t\t\t\tpBlockTableRecord->close();\n\t\t\t}\n\t\t\t\
+    catch(...)\n\t\t\t{\n\t\t\t\t\n\t\t\t}\n\t\t\tcontinue;\n\t\t}\n}\n\nCan you please\
+    \ help me in this regard.\n\nThanks and Regards,\nChandu."
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-05-03 14:03:52'
+  body: 'Chandu,
+
+
+    This isn''t a forum for support.
+
+
+    Your comment doesn''t appear to relate to this post, so please submit your question
+    to <a href="http://adn.autodesk.com">the ADN team</a>, if you''re a member, or
+    otherwise <a href="http://forums.autodesk.com/t5/Autodesk-ObjectARX/bd-p/34">the
+    ObjectARX Discussion Group</a>.
+
+
+    Kean'
+- author: TrungNghiaRD
+  email: trungnghia.rd@gmail.com
+  ip: 1.55.211.161
+  url: ''
+  date: '2013-09-05 13:59:22'
+  body: "Hi there, \nHi Kean Walmsley and Fernando Malard, and other experts\n\nSorry\
+    \ for my bad English, but...\n\nI have a question, after we create a custom entity\
+    \ in Cad drawing by ObjectArx, how to do for editing this custom entity (we can\
+    \ easily edit it in AutoCad or by writing code in ObjectArx, and how to do this)\n\
+    \nBecause i successfully created a ObjectArx custom entity, but i can't edit it\n\
+    \nThanks in advance for your help..!"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-09-05 16:54:55'
+  body: 'You would either implement your own commands that manipulate the properties,
+    or you''d expose your object properties in a way that can be understood by core
+    AutoCAD property editing (i.e. via COM or a mechanism called non-COM properties,
+    aka ubiquity).
+
+
+    Kean
+
+    -----'

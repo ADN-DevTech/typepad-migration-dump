@@ -1,0 +1,196 @@
+comments:
+- author: Roland Feletic
+  email: rosinino@gmx.net
+  ip: 212.108.35.17
+  url: ''
+  date: '2007-05-22 08:32:38'
+  body: 'Thank you Kean for this code.
+
+    I was searching so long for for this one: "doc.TransactionManager.QueueForGraphicsFlush();"'
+- author: Roland Feletic
+  email: rosinino@gmx.net
+  ip: 212.108.35.17
+  url: ''
+  date: '2007-05-22 09:59:46'
+  body: 'Hi Kean,
+
+    I had some code like yours and changed it now that it works with annotative blocks.
+    I just want to say that it is not possible to use the jig-example with annotative-blocks.
+    It is not possible to jig annotative-blocks, well, it is possible but you will
+    not see them. Is there any chance to add the annotation-scale during the jig?
+
+
+    Roland'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 202.95.81.226
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-05-22 10:31:32'
+  body: 'Thanks, Roland. Hopefully the above code now fixes it...
+
+
+    Kean'
+- author: Roland Feletic
+  email: rosinino@gmx.net
+  ip: 212.108.35.17
+  url: ''
+  date: '2007-05-22 12:25:06'
+  body: 'Thank you, Kean, this new code works really perfect.
+
+
+    Roland'
+- author: Roland Feletic
+  email: rosinino@gmx.net
+  ip: 212.108.35.17
+  url: ''
+  date: '2007-05-23 17:09:39'
+  body: "Hi Kean,\njust one thing I miss in AutoCAD (eg. measure) and in this program\
+    \ is the support of the units of the block. Therefore I would change the code\
+    \ a little bit and insert two more lines.\n\nusing (bd)\n{\n    if (bd.Annotative\
+    \ == AnnotativeStates.True)\n    {\n        ObjectContextManager ocm = db.ObjectContextManager;\n\
+    \        ObjectContextCollection occ = ocm.GetContextCollection(\"ACDB_ANNOTATIONSCALES\"\
+    );\n        ObjectContexts.AddContext(br, occ.CurrentContext);\n    }\n    else\n\
+    \        br.ScaleFactors = new Scale3d(br.UnitFactor);\n}\n\n\nRoland"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-05-24 03:45:00'
+  body: 'Thanks, Roland!
+
+
+    Kean'
+- author: Tore
+  email: tore.marskar.eek-jensen@nov.com
+  ip: 62.73.241.98
+  url: ''
+  date: '2007-05-25 13:37:51'
+  body: 'Hi Kean
+
+
+
+    Is it possible to append attributes to the blockref before drag-operation? I get
+    an "eNoDatabase" error when i try. I know the object isn''t added to the DB until
+    after drag.
+
+
+
+    Cheers
+
+    Tore'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-05-25 13:57:29'
+  body: 'Hi Tore,
+
+
+    Unfortunately not right now: AppendAttribute() wraps the version of the ObjectARX
+    function that requires a db-resident blockref.
+
+
+    I''m hopeful that this will be enabled in a future release, but for now you''re
+    stuck with the approach I''ve shown here, I''m afraid.
+
+
+    Regards,
+
+
+    Kean'
+- author: shers
+  email: sherines@keoic.com
+  ip: 195.229.241.172
+  url: ''
+  date: '2008-09-28 10:34:47'
+  body: 'Hi Kean,
+
+
+    How do I run this code when a button on a form is clicked?
+
+
+    Thanks
+
+    shers'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-29 09:31:49'
+  body: 'Hi Shers,
+
+
+    It depends on whether you want to create a modal or modeless dialog. There should
+    be examples on the ObjectARX SDK (under samples/dotNet) that show how to create
+    dialogs and put code behind buttons.
+
+
+    Regards,
+
+
+    Kean'
+- author: Paul
+  email: joelkarr02@hotmail.com
+  ip: 198.173.7.10
+  url: ''
+  date: '2008-11-26 01:57:54'
+  body: "I tried to start really simple and just insert one block at (0,0) so that\
+    \ I could see it.  I am getting the msg printed \"(2126748928)Temperature Switch\
+    \ - Imperial inserted\" on my command line but do not see the block (which I took\
+    \ from AutoCAD 2009/Samples/Dynamic Blocks)\n\nAnyone have any ideas on why this\
+    \ code will not work.  Block is loaded into the block table.\n\nThanks in advance\n\
+    \nusing System;\n\nusing Autodesk.AutoCAD;\n\nusing Autodesk.AutoCAD.Runtime;\n\
+    \nusing Autodesk.AutoCAD.Geometry;\n\nusing Autodesk.AutoCAD.ApplicationServices;\n\
+    \nusing Autodesk.AutoCAD.DatabaseServices;\n\nusing Autodesk.AutoCAD.EditorInput;\n\
+    \nusing System.Collections.Generic;\nusing System.IO;\n\n\nnamespace BlockImport\n\
+    {\n\n    public class BlockImportClass\n    {\n\n        [CommandMethod(\"BI\"\
+    )]\n        public void InsertBlock()\n        {\n            Document doc = Application.DocumentManager.MdiActiveDocument;\n\
+    \            Database db = doc.Database;\n            Editor ed = doc.Editor;\n\
+    \            try\n            {\n\n                //Test block name and point\
+    \ (final version will use user input)\n                string nameOfBlock = \"\
+    Temperature Switch - Imperial\";\n                Autodesk.AutoCAD.Geometry.Point3d\
+    \ pos = new Point3d(0, 0, 0);\n                // Get the current working database\n\
+    \                Transaction tr = db.TransactionManager.StartTransaction();\n\
+    \                // Then open the block table and check the\n                \
+    \ // block definition exists\n                BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId,\
+    \ OpenMode.ForRead);\n                if (!bt.Has(nameOfBlock))\n            \
+    \    {\n                    ed.WriteMessage(\"\\nBlock not found.\");\n      \
+    \          }\n                else\n                {\n                    ObjectId\
+    \ bdId = bt[nameOfBlock];\n                    Point3d pt = new Point3d(0, 0,\
+    \ 0);\n                    // Create the block reference \n                  \
+    \  BlockReference br = new BlockReference(pt, bdId);\n                    //Add\
+    \ block reference to model space table\n                    BlockTableRecord btrms\
+    \ = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite);\n\
+    \                    btrms.AppendEntity(br);\n                    tr.AddNewlyCreatedDBObject(br,\
+    \ true);\n                    //Graphics Flush so block will be visible\n    \
+    \                doc.TransactionManager.QueueForGraphicsFlush();\n           \
+    \         ed.WriteMessage(bdId + nameOfBlock + \" inserted\");\n             \
+    \   }\n                               \n                \n                //Clean\
+    \ up transaction\n\n                tr.Commit();\n                tr.Dispose();\n\
+    \            }\n            catch (Autodesk.AutoCAD.Runtime.Exception ex)\n  \
+    \          {\n                ed.WriteMessage(\"\\nError during copy: \" + ex.Message);\n\
+    \            }\n        }\n\n    }\n\n}"
+- author: Paul
+  email: joelkarr02@hotmail.com
+  ip: 198.173.7.10
+  url: ''
+  date: '2008-11-26 02:32:46'
+  body: 'looks like it may be a problem with dynamic blocks?  I just tested it with
+    a standard block and had no trouble.  Any ideas on how to use it for dynamic blocks?
+
+
+    Maybe just posting my code was enough therapy to try a new approach haha'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.58.159
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-26 06:56:31'
+  body: 'It should work fine for dynamic blocks, too (just scanning your code). Please
+    submit your question via <a href="http://adn.autodesk.com">the ADN site</a> (if
+    you''re a member), or on <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>. Someone there will be able to help.
+
+
+    Kean
+
+    -----'

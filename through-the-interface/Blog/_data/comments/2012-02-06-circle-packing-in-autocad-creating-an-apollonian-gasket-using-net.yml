@@ -1,0 +1,45 @@
+comments:
+- author: Gaston Nunez
+  email: gaston.nunez@asyst.cl
+  ip: 190.100.94.176
+  url: ''
+  date: '2012-02-06 19:25:15'
+  body: "Hi Kean:\n\nI have an issue with the naming of the Curvature property in\
+    \ MyCircle object, as the Curvature of a circle is by definition 1/r, so it's\
+    \ a little confusing.\nAlso  if you use the Complex Descart theorem, you can avoid\
+    \ the use of a quadratic solver to find the parameters of the apollonian circle,\
+    \ just use the new complex number in .NET 4 (System.Numerics namespace) and you\
+    \ will get a very clean ans readable math, like this:\n\ndouble k1,k2,k3,k4;\n\
+    Complex z1,z2,z3,z4;\n\ndouble xs,ys,rs;\n\nk1 = 1 / c1.Curvature;\nk2 = 1 / c2.Curvature;\n\
+    k3 = 1 / c3.Curvature;\n\nz1 = new Complex(c1.Center.X, c1.Center.Y);\nz2 = new\
+    \ Complex(c2.Center.X, c2.Center.Y);\nz3 = new Complex(c3.Center.X, c3.Center.Y);\n\
+    \nk4 = (k1 + k2 + k3 + k4) + 2 * Math.Sqrt(k1 * k2 + k1 * k3 + k2 * k3);\n\nz4\
+    \ = k1 * z1 + k2 * z2 + k3 * z3;\nz4 = z4 + 2 * Complex.Sqrt(k1 * k2 * z1 * z2\
+    \ + k1 * k3 * z1 * z3 + k2 * k3 * z2 * z3);\nz4 = z4 / k4;\n\nxs = z4.Real;\n\
+    ys = z4.Imaginary;\nrs = 1 / k4;   \n\nGaston Nunez"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-02-06 19:32:47'
+  body: 'Hi Gatson,
+
+
+    Good catch: I''d mistakenly renamed my Radius property to Curvature in my C# implementation
+    when adjusting my F# code over the weekend (I''ve now changed it back).
+
+
+    As I mentioned in the post, I picked up the majority of the C# code "as is". The
+    F# implementation you''ll see in the coming two posts does indeed use complex
+    numbers in the way you''ve suggested, which is just one of the reasons I like
+    it better.
+
+
+    Thanks for the input!
+
+
+    Kean
+
+
+
+    -----'

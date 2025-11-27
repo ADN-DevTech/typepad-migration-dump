@@ -1,0 +1,328 @@
+comments:
+- author: s.kaiser
+  email: stephan.kaiser@sofistik.de
+  ip: 212.204.69.61
+  url: http://www.sofistik.de
+  date: '2006-11-28 15:45:23'
+  body: 'We use a similar mechanism extensively (with ObjectARX) for updating various
+    relationships between objects.
+
+
+    It would be interesting to get better (or ''clearer'') information from AutoCAD
+    in the case of copy operations (like ''onEndDeepClone()''). It can get more difficult
+    if multiple databases are involved (e.g. copy''n''paste).
+
+
+    Good topic! Looking forward to your next articles!'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-11-28 16:28:51'
+  body: 'Thanks, Stephan!
+
+
+    What is it you''d like to receive in that event,  beyond the final, translated
+    idMapping? (which doesn''t appear to be passed to the .NET version of the callback
+    - a separate issue I''m looking into).
+
+
+    Regards,
+
+
+    Kean'
+- author: s.kaiser
+  email: stephan.kaiser@sofistik.de
+  ip: 212.204.69.61
+  url: http://www.sofistik.de
+  date: '2006-11-30 19:41:07'
+  body: 'It gets difficult to trace changes as the different cloning and copying mechanisms
+    (copy''n''paste, insert, etc) use (slightly) different ''paths'' through the code
+    and, more importantly, also through the available callbacks.
+
+
+    We solved it for now by storing ids of modified objects and handling various interactions
+    in a ''commandEnded'' callback.
+
+
+    While this works fine for most cases, it breaks down for certain special copying
+    operations. Supporting all of them is a pain. Furthermore, some operations would
+    profit from access to a geometric acceleration structure.
+
+
+    Anyway, a more pressing issue is that while curve-curve intersections can be done
+    quite nicely through the AcGe API (though with a few workarounds for bugs in it)
+    the support for curve-surface and especially surface-surface intersections seems
+    not to be very good. This is very unfortunate. I''m currently evaluating different
+    options (including AcBr) but it''s difficult to get a feel for it as the docs
+    leave a few interesting points out. ;) Well, this is pretty off-topic. But maybe
+    it''s worth a blog entry in the future. :)
+
+
+    Cheers'
+- author: Brian
+  email: b.ig@btinternet.com
+  ip: 217.42.226.182
+  url: ''
+  date: '2007-02-19 01:44:09'
+  body: I was hoping to work out how to get the Entity from the handle and then erase
+    it, from your posts, I've learned a lot but not found the answer to this one yet,
+    I still have a mountain to climb. (I'm using VB.NET, I've done it in VB6 +COM,
+    even in Lisp but .NET ....)
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-02-19 09:32:48'
+  body: 'Hi Brian,
+
+
+    Please see this post from today - I hope it answers your question:
+
+
+    http://through-the-interface.typepad.com/through_the_interface/2007/02/getting_access_.html
+
+
+    Regards,
+
+
+    Kean'
+- author: sridharkumar
+  email: sridharkumaradibhatla@haritatvs.com
+  ip: 203.124.158.98
+  url: ''
+  date: '2007-03-28 05:52:28'
+  body: "Sir\nMy query is if i open a Auto CAD drawing and i want to transfer the\
+    \ dimesions from the drawing into an excel sheet using a .NET program.\nI was\
+    \ bit confused from where to start. can u please suggest me any thing regarding\
+    \ this\n    Thanks\n    Sridhr"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-03-30 04:42:44'
+  body: 'Hi Sridhar,
+
+
+    You need to:
+
+
+    1) Open the block table of the database.
+
+    2) Open tha appropriate block table record or "space", whether modelspace or a
+    layout.
+
+    3) Iterate through the block table record (e.g. with a foreach statement), checking
+    each object to see whether it''s a dimension.
+
+    4) Extract the infornation you want from each dimension, adding it to the Excel
+    spreadsheet.
+
+
+    The Ents sample (under samples/dotNet/Ents on the ObjectARX SDK) should show you
+    how to use GetObject() on the BlockTable and the modelspace (although you will
+    only need to open each "for read").
+
+
+    Regards,
+
+
+    Kean'
+- author: Leo
+  email: superleo2999@msn.com
+  ip: 194.51.181.168
+  url: ''
+  date: '2008-02-25 18:10:53'
+  body: 'Hello,
+
+    In this tutorial you created the LinkedObjectManager class in order to link 2
+    entities. Is there something already existing in Autocad classes (maybe ObjectARX)
+    allowing to do the same ?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.6.124
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-02-25 20:48:30'
+  body: 'No, there isn''t, so I created a simple manager class to help with (and encapsulate)
+    the lower-level linking functions/methods you need to call.
+
+
+    Kean'
+- author: SUBIR KUMAR DUTTA
+  email: x_robotz@rediffmail.com
+  ip: 61.17.160.153
+  url: ''
+  date: '2008-04-16 13:03:29'
+  body: "For those who want to copy paste this code and run but don't have time to\
+    \ clean by deleting the line numbers. Thanks to WORD VBA\n\nusing System;\nusing\
+    \ System.Collections;\nusing System.Collections.Generic;\nusing Autodesk.AutoCAD.Runtime;\n\
+    using Autodesk.AutoCAD.ApplicationServices;\nusing Autodesk.AutoCAD.DatabaseServices;\n\
+    using Autodesk.AutoCAD.EditorInput;\nusing Autodesk.AutoCAD.Geometry;\n\n[assembly:\n\
+    \   CommandClass(\n     typeof(\n       AsdkLinkingLibrary.LinkingCommands\n \
+    \    )\n   )\n]\n\nnamespace AsdkLinkingLibrary\n{\n   /// <summary>\n   /// Utility\
+    \ class to manage links between objects\n   /// </summary>\n   public class LinkedObjectManager\n\
+    \   {\n     Dictionary<ObjectId, ObjectIdCollection> m_dict;\n\n     // Constructor\n\
+    \     public LinkedObjectManager()\n     {\n       m_dict =\n         new Dictionary<ObjectId,ObjectIdCollection>();\n\
+    \     }\n\n     // Create a bi-directional link between two objects\n     public\
+    \ void LinkObjects(ObjectId from, ObjectId to)\n     {\n       CreateLink(from,\
+    \ to);\n       CreateLink(to, from);\n     }\n\n     // Helper function to create\
+    \ a one-way\n     // link between objects\n     private void CreateLink(ObjectId\
+    \ from, ObjectId to)\n     {\n       ObjectIdCollection existingList;\n      \
+    \ if (m_dict.TryGetValue(from, out existingList))\n       {\n         if (!existingList.Contains(to))\n\
+    \         {\n           existingList.Add(to);\n           m_dict.Remove(from);\n\
+    \           m_dict.Add(from, existingList);\n         }\n       }\n       else\n\
+    \       {\n         ObjectIdCollection newList =\n           new ObjectIdCollection();\n\
+    \         newList.Add(to);\n         m_dict.Add(from, newList);\n       }\n  \
+    \   }\n\n     // Remove bi-directional links from an object\n     public void\
+    \ RemoveLinks(ObjectId from)\n     {\n       ObjectIdCollection existingList;\n\
+    \       if (m_dict.TryGetValue(from, out existingList))\n       {\n         m_dict.Remove(from);\n\
+    \         foreach (ObjectId id in existingList)\n         {\n           RemoveFromList(id,\
+    \ from);\n         }\n       }\n     }\n\n     // Helper function to remove an\
+    \ object reference\n     // from a list (assumes the overall list should\n   \
+    \  // remain)\n     private void RemoveFromList(\n       ObjectId key,\n     \
+    \  ObjectId toremove\n     )\n     {\n       ObjectIdCollection existingList;\n\
+    \       if (m_dict.TryGetValue(key, out existingList))\n       {\n         if\
+    \ (existingList.Contains(toremove))\n         {\n           existingList.Remove(toremove);\n\
+    \           m_dict.Remove(key);\n           m_dict.Add(key, existingList);\n \
+    \        }\n       }\n     }\n\n     // Return the list of objects linked to\n\
+    \     // the one passed in\n     public ObjectIdCollection GetLinkedObjects(\n\
+    \       ObjectId from\n     )\n     {\n       ObjectIdCollection existingList;\n\
+    \       m_dict.TryGetValue(from, out existingList);\n       return existingList;\n\
+    \     }\n\n     // Check whether the dictionary contains\n     // a particular\
+    \ key\n     public bool Contains(ObjectId key)\n     {\n       return m_dict.ContainsKey(key);\n\
+    \     }\n   }\n   /// <summary>\n   /// This class defines our commands and event\
+    \ callbacks.\n   /// </summary>\n   public class LinkingCommands\n   {\n     LinkedObjectManager\
+    \ m_linkManager;\n     ObjectIdCollection m_entitiesToUpdate;\n\n     public LinkingCommands()\n\
+    \     {\n       Document doc =\n         Application.DocumentManager.MdiActiveDocument;\n\
+    \       Database db = doc.Database;\n       db.ObjectModified +=\n         new\
+    \ ObjectEventHandler(OnObjectModified);\n       db.ObjectErased +=\n         new\
+    \ ObjectErasedEventHandler(OnObjectErased);\n       doc.CommandEnded +=\n    \
+    \     new CommandEventHandler(OnCommandEnded);\n\n       m_linkManager = new LinkedObjectManager();\n\
+    \       m_entitiesToUpdate = new ObjectIdCollection();\n     }\n\n     ~LinkingCommands()\n\
+    \     {\n       try\n       {\n         Document doc =\n           Application.DocumentManager.MdiActiveDocument;\n\
+    \         Database db = doc.Database;\n         db.ObjectModified -=\n       \
+    \    new ObjectEventHandler(OnObjectModified);\n         db.ObjectErased -=\n\
+    \           new ObjectErasedEventHandler(OnObjectErased);\n         doc.CommandEnded\
+    \ +=\n           new CommandEventHandler(OnCommandEnded);\n       }\n       catch(System.Exception)\n\
+    \       {\n         // The document or database may no longer\n         // be\
+    \ available on unload\n       }\n     }\n\n     // Define \"LINK\" command\n \
+    \    [CommandMethod(\"LINK\")]\n     public void LinkEntities()\n     {\n    \
+    \   Document doc =\n         Application.DocumentManager.MdiActiveDocument;\n\
+    \       Database db = doc.Database;\n       Editor ed = doc.Editor;\n\n      \
+    \ PromptEntityOptions opts =\n         new PromptEntityOptions(\n           \"\
+    \\nSelect first circle to link: \"\n         );\n       opts.AllowNone = true;\n\
+    \       opts.SetRejectMessage(\n         \"\\nOnly circles can be selected.\"\n\
+    \       );\n       opts.AddAllowedClass(typeof(Circle), false);\n\n       PromptEntityResult\
+    \ res = ed.GetEntity(opts);\n       if (res.Status == PromptStatus.OK)\n     \
+    \  {\n         ObjectId from = res.ObjectId;\n         opts.Message =\n      \
+    \     \"\\nSelect second circle to link: \";\n         res = ed.GetEntity(opts);\n\
+    \         if (res.Status == PromptStatus.OK)\n         {\n           ObjectId\
+    \ to = res.ObjectId;\n           m_linkManager.LinkObjects(from, to);\n      \
+    \     m_entitiesToUpdate.Add(from);\n         }\n       }\n     }\n\n     // Define\
+    \ callback for Database.ObjectModified event\n     private void OnObjectModified(\n\
+    \       object sender, ObjectEventArgs e)\n     {\n       ObjectId id = e.DBObject.ObjectId;\n\
+    \       if (m_linkManager.Contains(id) &&\n           !m_entitiesToUpdate.Contains(id))\n\
+    \       {\n         m_entitiesToUpdate.Add(id);\n       }\n     }\n\n     // Define\
+    \ callback for Database.ObjectErased event\n     private void OnObjectErased(\n\
+    \       object sender, ObjectErasedEventArgs e)\n     {\n       if (e.Erased)\n\
+    \       {\n         m_linkManager.RemoveLinks(e.DBObject.ObjectId);\n       }\n\
+    \     }\n\n     // Define callback for Document.CommandEnded event\n     private\
+    \ void OnCommandEnded(\n       object sender, CommandEventArgs e)\n     {\n  \
+    \     foreach (ObjectId id in m_entitiesToUpdate)\n       {\n         UpdateLinkedEntities(id);\n\
+    \       }\n       m_entitiesToUpdate.Clear();\n     }\n\n     // Helper function\
+    \ for OnCommandEnded\n     private void UpdateLinkedEntities(ObjectId from)\n\
+    \     {\n       Document doc =\n         Application.DocumentManager.MdiActiveDocument;\n\
+    \       Editor ed = doc.Editor;\n       Database db = doc.Database;\n\n      \
+    \ ObjectIdCollection linked =\n         m_linkManager.GetLinkedObjects(from);\n\
+    \n       Transaction tr =\n         db.TransactionManager.StartTransaction();\n\
+    \       using (tr)\n       {\n         try\n         {\n           Point3d firstCenter;\n\
+    \           Point3d secondCenter;\n           double firstRadius;\n          \
+    \ double secondRadius;\n\n           Entity ent =\n             (Entity)tr.GetObject(from,\
+    \ OpenMode.ForRead);\n\n           if (GetCenterAndRadius(\n                 ent,\n\
+    \                 out firstCenter,\n                 out firstRadius\n       \
+    \        )\n           )\n           {\n             foreach (ObjectId to in linked)\n\
+    \             {\n               Entity ent2 =\n                 (Entity)tr.GetObject(to,\
+    \ OpenMode.ForRead);\n               if (GetCenterAndRadius(\n               \
+    \      ent2,\n                     out secondCenter,\n                     out\
+    \ secondRadius\n                   )\n               )\n               {\n   \
+    \              Vector3d vec = firstCenter - secondCenter;\n                 if\
+    \ (!vec.IsZeroLength())\n                 {\n                   // Only move the\
+    \ linked circle if it's not\n                   // already near enough       \
+    \         \n                   double apart =\n                   vec.Length -\
+    \ (firstRadius + secondRadius);\n                   if (apart < 0.0)\n       \
+    \              apart = -apart;\n\n                   if (apart > 0.00001)\n  \
+    \                 {\n                     ent2.UpgradeOpen();\n              \
+    \       ent2.TransformBy(\n                       Matrix3d.Displacement(\n   \
+    \                      vec.GetNormal() * apart\n                       )\n   \
+    \                  );\n                   }\n                 }\n            \
+    \   }\n             }\n           }\n         }\n         catch (System.Exception\
+    \ ex)\n         {\n           Autodesk.AutoCAD.Runtime.Exception ex2 =\n     \
+    \        ex as Autodesk.AutoCAD.Runtime.Exception;\n           if (ex2 != null\
+    \ &&\n               ex2.ErrorStatus != ErrorStatus.WasOpenForUndo)\n        \
+    \   {\n             ed.WriteMessage(\n               \"\\nAutoCAD exception: {0}\"\
+    , ex2\n             );\n           }\n           else if (ex2 == null)\n     \
+    \      {\n             ed.WriteMessage(\n               \"\\nSystem exception:\
+    \ {0}\", ex\n             );\n           }\n         }\n         tr.Commit();\n\
+    \       }\n     }\n\n     // Helper function to get the center and radius\n  \
+    \   // for all supported circular objects\n     private bool GetCenterAndRadius(\n\
+    \       Entity ent,\n       out Point3d center,\n       out double radius\n  \
+    \   )\n     {\n       // For circles it's easy...\n       Circle circle = ent\
+    \ as Circle;\n       if (circle != null)\n       {\n         center = circle.Center;\n\
+    \         radius = circle.Radius;\n         return true;\n       }\n       else\n\
+    \       {\n         // Throw in some empty values...\n         // Returning false\
+    \ indicates the object\n         // passed in was not useable\n         center\
+    \ = Point3d.Origin;\n         radius = 0.0;\n         return false;\n       }\n\
+    \     }\n   }\n}"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.19.34
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-04-18 11:16:20'
+  body: 'Subir - the source file is linked to <a href="http://through-the-interface.typepad.com/through_the_interface/files/LinkingLibrary-basic.cs">for
+    download</a> from within the post.
+
+
+    Kean'
+- author: Cad Customizations
+  email: ''
+  ip: 121.241.69.194
+  url: http://profile.typepad.com/customizations
+  date: '2012-07-11 09:22:37'
+  body: "Hi Kean, In the Sample projects that come with ObjectARX SDK, there is a\
+    \ sample known as EventsWatcher. I had done some changes and it worked fine for\
+    \ ObjectAdded and ObjectErased. But for ObjectModified, I am getting a crash even\
+    \ if I only start a transaction and displose it with out even doing anything.\
+    \ Can you give me a quick tip, what I am missing here.\n\nprivate void callback_ObjectModified(object\
+    \ sender, ObjectEventArgs e)\n        {\n            WriteLine(String.Format(\"\
+    ObjectModified - {0} {1}\", e.DBObject.ToString(), e.DBObject.Id.ToString()));\n\
+    \n            Autodesk.AutoCAD.EditorInput.Editor ed = Application.DocumentManager.MdiActiveDocument.Editor;\n\
+    \            Transaction trans = ed.Document.Database.TransactionManager.StartTransaction();\n\
+    \n            try\n            {\n\n            }\n            catch (System.Exception\
+    \ ex)\n            {\n\n            }\n            finally\n            {\n  \
+    \              trans.Dispose();\n            }\n\n        }\n\nThanks\n\nSubir"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-07-31 08:59:08'
+  body: 'Hi Subir,
+
+
+    Firstly, please post your questions via ADN or the AutoCAD .NET discussion group
+    unless it''s specifically related to code in one of my posts.
+
+
+    Next, creating a transaction on object modified may seem innocuous, but it''s
+    actually a really bad idea. Objects are modified all the time inside AutoCAD,
+    and you will create all kinds of problems doing this. You should queue up changes
+    until CommandEnded (or a omparable event), and also look at StartOpenCloseTransaction(),
+    which is safer when called from notification callbacks.
+
+
+    Regards,
+
+
+    Kean
+
+
+    -----'

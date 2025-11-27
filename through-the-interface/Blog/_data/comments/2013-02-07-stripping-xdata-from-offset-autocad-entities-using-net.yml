@@ -1,0 +1,77 @@
+comments:
+- author: Chris
+  email: christian.geisser@peri.de
+  ip: 80.244.215.165
+  url: ''
+  date: '2013-02-07 15:33:12'
+  body: "Hi Kean,\n\ninstead of \n\"// Check the entity has our XData using LINQ\"\
+    \n\nyou can use:\n\nif (dbo.GetXDataForApplication(\"KEAN\") != null)\n{\n //\
+    \ If so, remove it\n...\n}\n\nRegards,\nChris"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-02-07 15:45:51'
+  body: 'Hi Chris,
+
+
+    Thanks! Not sure how I managed to forget to use the direct method (it''s fun to
+    use LINQ, but not always necessary ;-).
+
+
+    I''ve gone ahead and modified the code in the post.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: ebiz@nym.hush.com
+  ip: 24.187.152.113
+  url: ''
+  date: '2013-02-07 19:00:08'
+  body: '"it''s fun to use LINQ, but not always necessary ;-)"
+
+
+    Using LINQ for the sake of using LINQ isn''t fun, it can be extremely wasteful
+    and adversely impact performance, not to mention serving as a bad influence on
+    those who aspire to learn good sound coding habits.
+
+
+    For example, when you have an array and you want to do something differently with
+    all but the first element (sound familiar? 8-)), you just start your for() loop
+    at 1 instead of 0, and skip the pointless and wasteful overhead of having to send
+    everything through IEnumerable, and then at the end, have to allocate memory to
+    hold a copy of the original array elements sans the first element.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-02-07 19:06:19'
+  body: 'I used LINQ in this post because I''d forgotten there was a better way to
+    do it. It happens.
+
+
+    Nice to see you''re back to using your real name, Tony.
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: ebiz@nym.hush.com
+  ip: 24.187.152.113
+  url: ''
+  date: '2013-02-11 00:43:05'
+  body: '"After some internal discussions, I’m working on a more generic solution
+    to the issue of XData being copied with objects by certain AutoCAD commands. I’ll
+    try to post something next week."
+
+
+    Well, I''m certainly looking forward to your more generic solution. As I mentioned
+    on another forum, Overrules were designed to solve a broad range of problems that
+    previously required the approach taken in your post. Overrules are a very powerful
+    abstraction, but please heed this advice: If not implemented correctly, overrules
+    (especially ObjectOverrule) can severely impact the performance of just about
+    anything the user does with AutoCAD.
+
+    -----'

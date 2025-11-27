@@ -1,0 +1,365 @@
+comments:
+- author: Tony Tanzillo
+  email: email@provided.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2007-07-18 06:16:28'
+  body: "\"Firstly, why bother? Well, the PaletteSet class is realy cool: it provides\
+    \ docking, auto-hide, transparency and fixes the annoying focus-related issues\
+    \ we see with normal modeless dialogs\"\n\nThanks for some good basic samples\
+    \ of using the PropertyGrid. In the future, you might want consider doing a bit\
+    \ more testing before presenting them.\n\nA bit more thorough testing in this\
+    \ particular case would have uncovered the significant problems that exist with\
+    \ AutoCAD's Palettes and .NET controls like the PropertyGrid.\n\nTo see one major\
+    \ problem, place a PropertyGrid on a Palette and add it to a PaletteSet. Create\
+    \ the PaletteSet and show it. Dock the PaletteSet to any side of the AutoCAD window.\
+    \ Then, assign an object to the PropertyGrid's SelectedObject property, which\
+    \ has properties that use drop-down editing components (either drop-down combo\
+    \ boxes, or dropdown controls like the standard Color editor used by .NET for\
+    \ editing a color property). \n\nThen, with the PaletteSet docked, try to edit\
+    \ the properties of the assigned object(s) that use the aforementioned dropdown\
+    \ editors, and note what happens.\n\nI thought I'd mention this in the hope that\
+    \ your readers do not get the impression that using the PropertyGrid on a Palette\
+    \ is feasable, as it is not, or at least not until Autodesk figures out how to\
+    \ resolve the issues that can be seen by just following the above steps.\n\nIt's\
+    \ great to publish samples of how to exploit the .NET framework and its wealth\
+    \ of functionality. But in cases like this (using the PropertyGrid on a Palette)\
+    \ where, practicle application is severely hampered and unfeasable because of\
+    \ show-stopping issues, those issues warrant mention and discussion in the context\
+    \ of even the most basic samples."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 12.160.193.229
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-18 09:02:50'
+  body: 'Tony -
+
+
+    There''s no PropertyGrid in this sample, just a TextBox, so I don''t see what
+    "more thorough testing" I''ve failed to perform.
+
+
+    I''m not aware of specific issues around the use of a PropertyGrid with a Palette,
+    but it sounds like an interesting topic to cover at some point.
+
+
+    Regards,
+
+
+    Kean'
+- author: Jim Dowthwaite
+  email: jimd@solidcad.ca
+  ip: 74.123.130.73
+  url: ''
+  date: '2007-07-18 14:12:56'
+  body: Any chance we could get this in VB.Net?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 12.160.193.229
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-18 15:43:22'
+  body: 'It should be straightforward to recreate the project for VB.NET - the code
+    can be translated using an online translator such as <a href="http://carlosag.net/Tools/CodeTranslator/Default.aspx">this
+    one</a>. The User Control can be recreated from scratch - just add one to your
+    project and add a TextBox to it that is docked on all sides (you''ll need to rename
+    it typeTextBox, but that''s all).
+
+
+    I''d do it myself, but I''m busy working on the next post.
+
+
+    Regards,
+
+
+    Kean'
+- author: Jim Dowthwaite
+  email: jimd@solidcad.ca
+  ip: 74.123.130.73
+  url: ''
+  date: '2007-07-18 20:48:38'
+  body: The code translator worked great.  Thanks :)
+- author: Vignesh. S
+  email: vignesh_cpt@hotmail.com
+  ip: 202.54.169.165
+  url: ''
+  date: '2008-02-06 11:52:08'
+  body: "Hi Kean,\n         Can we create property palette for a custom entity via\
+    \ wrapper in C#?\n\nRegards,\nVignesh. S"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 66.159.223.136
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-02-06 13:01:09'
+  body: 'Hi Vignesh,
+
+
+    The interface the property palette uses to access object properties is currently
+    COM. You should be able to do this from C#, although I haven''t tried it myself.
+
+
+    Regards,
+
+
+    Kean'
+- author: Tim
+  email: tim_catalano@hotmail.com
+  ip: 65.101.194.158
+  url: ''
+  date: '2008-03-13 19:51:30'
+  body: I'm making a palette in vb.net, but loading is very inconsistant, and i can't
+    seem to get it to resize from code. sometimes it comes in all crazed and can't
+    be resized, i've learned that this usually happens if i've already closed a drawing
+    in that session of autocad. does anybody know a remedy for this situation? anybody
+    else had this problem? it usually works just fine if i load my palette just after
+    i start autocad, but i need it to be able to be loaded anytime for my other users.
+    thanks for whatever help anybody can give on this, if you need me to post my code
+    just let me know.
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 68.110.50.28
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-03-13 20:10:55'
+  body: 'Hi Tim,
+
+
+    I''d suggest posting your question to the <a href="http://discussion.autodesk.com/forum.jspa?forumID=152">AutoCAD
+    .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Isadore Garcia
+  email: sharethishouse@gmail.com
+  ip: 97.93.98.53
+  url: ''
+  date: '2008-09-29 23:47:14'
+  body: This may be a dumb question, but how can one tell the name of the references
+    that must be loaded? For example, what DLL's must I reference to get the code
+    to work? In particular, I can't tell what to load to have CustomDialogs work.
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-30 19:05:07'
+  body: 'If this code is in the same project, there should be no need for references
+    other than what''s already in the code. At least I hope that''s right - it''s
+    been a while since I posted this.
+
+
+    Kean'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2008-10-14 00:01:56'
+  body: ">>Isadore Garcia \n>>In particular, I can't tell what to load to >>have CustomDialogs\
+    \ work.\n\nWith any luck you've already figured this out, but just in case...Don't\
+    \ feel bad, because I overlooked it at first, and I searched through the object\
+    \ browser and even a couple of additional .dll's and did not find CustomDialogs.\
+    \  Then I noticed CustomDialogs is the Namespace Kean created in the code.  I'm\
+    \ guessing you left the Using (or Imports) statement in, but changed the namespace\
+    \ to something else."
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2008-10-29 19:19:11'
+  body: "Hi again Kean, \n\nI just got around to attempting to impliment this, as\
+    \ a replacement for my modeless dialog, and it's wiggidy-wacked:( \n\nI had to\
+    \ hack up the sample pretty good, as I had a whole different need.  Mostly, though,\
+    \ I just got rid of all the pointmonitor stuff as I don't need to react to anything.\
+    \  What happens is, when I first show the palette, it looks fine except I can't\
+    \ get it to show undocked, even though I added a line to set the Dock property\
+    \ to none.\n\nThen, while the palette is shown I am prompting the user for a selection,\
+    \ and if you manipulate the palette, the contents disappear, and my selection\
+    \ prompt gets canceled.\n\nIf you let the thing show where it wants, and don't\
+    \ touch it, everything works fine, including when I update the text (my user control\
+    \ has 5 fixed labels, and 5 label controls I update with values).  But if you\
+    \ touch the palette to move it, undock it, etc... it misbehaves badly.\n\nFor\
+    \ now I have switched my code back to the modeless dialog, but I still see this\
+    \ as a valuable tool that I'd like to get figured out."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-10-30 09:54:22'
+  body: 'It turns out it''s not directly possible to set a palette to be floating
+    on launch from .NET: you can do it using ObjectARX (C++) - and even have a small
+    ObjectARX component in your application that does this for your .NET palettes
+    - but I don''t see a way to do it purely in .NET.
+
+
+    As for the other problem... I don''t see it in my sample, so there''s not much
+    I can do to help. Please submit it via ADN or the AutoCAD .NET Discussion Group.
+
+
+    Kean'
+- author: Vignesh. S
+  email: vigneshs@cadsindia.com
+  ip: 202.54.169.174
+  url: ''
+  date: '2008-12-08 06:46:24'
+  body: "Hi,\n     Is there any work around to solve the problem of Property Grid\
+    \ DropDown controls inaccessibility when the PaletteSet is Docked. \n\n     I\
+    \ faced the same problem, when adding the DevExpress Controls. but, i got a work\
+    \ around for that case by just keeping the focus of the PaletteSet to true (PaletteSet.KeepFocus\
+    \ = True). It solves the problem temporarily. Still it is just a work around.\n\
+    \n     Even, the same workaround is not working for the PropertyGrid. \n\n   \
+    \  I need your suggestion for this case.\n\nThanks and Regards,\nVignesh. S"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.58.159
+  url: http://profile.typekey.com/walmsleyk/
+  date: '2008-12-08 10:07:05'
+  body: 'Vignesh,
+
+
+    This post was not actually about using the PropertyGrid: I suggest that you submit
+    your question via <a href="http://adn.autodesk.com">the ADN website</a> as you
+    work for an ADN member.
+
+
+    Regards,
+
+
+    Kean'
+- author: Vignesh. S
+  email: ''
+  ip: 202.54.169.174
+  url: http://profile.typepad.com/6p0105364cae65970c/
+  date: '2008-12-10 05:12:48'
+  body: 'Thank you for your Suggestion.
+
+
+    Regards,
+
+    Vignesh. S'
+- author: Jernej
+  email: jernej.carl@cgsplus.si
+  ip: 213.143.90.66
+  url: ''
+  date: '2009-09-17 08:33:57'
+  body: 'Hello,
+
+
+    Is there a way to control when the PalleteSet is closed?
+
+
+    Regards,
+
+
+    Jernej'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-09-17 08:37:18'
+  body: 'I would think you could call Close() on it, although I haven''t tried this
+    myself.
+
+
+    Kean'
+- author: Jernej
+  email: jernej.carl@cgsplus.si
+  ip: 213.143.90.66
+  url: ''
+  date: '2009-09-17 08:58:51'
+  body: That is right. But problem is because PalleteSet is modeless and has no closing
+    event, so I don't know when it gets closed.
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-09-17 09:07:19'
+  body: 'Ah, that''s a different question (and one I don''t know the answer to). I
+    suggest submitting the question via ADN.
+
+
+    Kean'
+- author: Maxence
+  email: maxence.delannoy@wiip.fr
+  ip: 90.7.227.105
+  url: http://wiip.fr
+  date: '2010-03-05 20:03:45'
+  body: May be with StateChanged event. The argument PaletteSetStateEventArgs has
+    a property NewState which is an enum with a Show member.
+- author: Michael Csikos
+  email: ''
+  ip: 203.201.133.218
+  url: http://profile.typepad.com/csikos
+  date: '2010-09-06 02:43:44'
+  body: 'Hi Kean
+
+
+    How can I rename the PaletteSet each time AutoCAD loads? I want to append our
+    version number to the end of the name, but AutoCAD does not honour the name change.
+    I''ve tried with and without PaletteSetStyles.NameEditable but it doesn''t make
+    any difference.
+
+
+    Kind regards
+
+    Michael'
+- author: Michael Csikos
+  email: ''
+  ip: 203.201.133.218
+  url: http://profile.typepad.com/csikos
+  date: '2010-09-06 03:03:23'
+  body: It's not intuitive, but the Name property has to be set after Visible = true.
+- author: Matus
+  email: matus.brlit@cemos.sk
+  ip: 91.127.22.198
+  url: ''
+  date: '2011-08-12 13:23:27'
+  body: "Hi,\nmaybe it's the version, but i can make the palette to be floating in\
+    \ AutoCAD 2012.\nIt's a little tricky though, because you have to change the docking\
+    \ propetry AFTER you make the palette visible and you have to change the size\
+    \ AFTER you make it floating\n\n        myPaletteSet.Visible = True\n        myPaletteSet\
+    \ = DockSides.None\n        myPaletteSet = New Size(840, 391)"
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2011-08-12 17:06:13'
+  body: 'Thanks, Matus.
+
+
+    Kean'
+- author: Stephan Bartl
+  email: cad@stbartl.at
+  ip: 188.23.128.196
+  url: http://www.stbartl.at
+  date: '2011-10-29 16:48:26'
+  body: 'Hi Kean!
+
+    My VS2008 says "The type or namespace name ''TypeViewer'' could not be found (are
+    you missing a using directive or an assembly reference?)"
+
+    Which assembly reference is needed?
+
+    Thx, Stephan'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/kean
+  date: '2011-10-31 10:42:44'
+  body: 'Hi Stephan,
+
+
+    Did this happen when you loaded the project from <a href="http://through-the-interface.typepad.com/through_the_interface/files/TypeViewerSource4.zip">the
+    provided source</a>?
+
+
+    I can''t remember the details, off the top of my head: it may be the "using TypeViewer;"
+    statement is causing an issue (and may not be needed, depending on your project
+    structure).
+
+
+    Let me know, and I''ll take a closer look.
+
+
+    Kean
+
+    -----'

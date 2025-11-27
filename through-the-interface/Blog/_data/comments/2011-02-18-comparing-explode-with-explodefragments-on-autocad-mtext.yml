@@ -1,0 +1,150 @@
+comments:
+- author: Chris
+  email: ckratz@diversifiedwoodcrafts.com
+  ip: 207.230.208.250
+  url: ''
+  date: '2011-02-18 15:18:56'
+  body: "Is there any possible way to explode text object into their geometry? \n\
+    I'm working in Architecture, and when creating elevation views, it automatically\
+    \ filters out all text and dimension objects.\nI've also read where others are\
+    \ looking for the same thing when doing machining.\nI've asked everwhere and it\
+    \ seems like the answer is no."
+- author: Kean Walmsley
+  email: ''
+  ip: 109.237.55.190
+  url: http://profile.typepad.com/kean
+  date: '2011-02-18 15:49:03'
+  body: 'Hi Chris,
+
+
+    I certainly hit this behaviour during my recent "point gathering" exercise, and
+    ended up living with determining the accurate bounds of the text (which was sufficient
+    for my needs).
+
+
+    I''m curious to know more about what you''re after... can you elaborate? I understand
+    you want the geometry, but for what specific purpose?
+
+
+    Cheers,
+
+
+    Kean'
+- author: Chris
+  email: ckratz@diversifiedwoodcrafts.com
+  ip: 207.230.208.250
+  url: ''
+  date: '2011-02-18 21:03:40'
+  body: 'Specifically, I need to convert the text into lines and curves. The trouble
+    I run into is with AutoCAD Architecture. My current project is a product configurator
+    for cabinetry, and part of what it does is insert and automatic label and dimension
+    so the users don''t have to manually lable. However in Architecture, when you
+    create an elevation view in a room, it does not include any text or dimension
+    objects in the 2d output, forcing me to try and make the labels as collections
+    of lines or curves so they show up in the evelavation drawings.
+
+    In my seach I''ve also found that there are quite a few people who want to convert
+    text objects to lines and curves to use with CAM softwares.
+
+    I''ve almost given up on trying to find an answer, but I though I would ask since
+    its somewhat relevent to the article.'
+- author: Kean Walmsley
+  email: ''
+  ip: 109.237.55.190
+  url: http://profile.typepad.com/kean
+  date: '2011-02-19 10:05:03'
+  body: 'Hi Chris,
+
+
+    I''ve just discovered the TXTEXP (former Express Tools) command. Can you give
+    that a try and see how it works for you?
+
+
+    Regards,
+
+
+    Kean'
+- author: James Maeding
+  email: jmaeding@hunsaker.com
+  ip: 24.249.247.46
+  url: ''
+  date: '2011-02-22 17:34:38'
+  body: 'How about just getting the text string from mtext?
+
+    I have a lisp for that but its imperfect.
+
+    If we could get the string without formatting, we could modify the string and
+    still preserve formatting because now we can tell what is format info and what
+    is the resulting text.  I have 20 or so text routines that do things like modify
+    first number found, match text, round numbers in text, and so on.  these work
+    on text, mtext, and attributes, but are not dependable on mtext due to the detecting
+    formatting characters issue.'
+- author: Chris
+  email: ckratz@diversifiedwoodcrafts.com
+  ip: 207.230.208.250
+  url: ''
+  date: '2011-02-22 17:45:32'
+  body: I had looked at this, the express tools explode text lisp command, it actually
+    works by exporting the text object to a WMF and then importing it back into the
+    database. Apart from some weird scaling issues it works, but I cannot find the
+    same functionality in the .Net API.
+- author: Kean Walmsley
+  email: ''
+  ip: 12.187.192.2
+  url: http://profile.typepad.com/kean
+  date: '2011-02-24 15:40:24'
+  body: 'Hi James,
+
+
+    ExplodeFragments() does provide you access to the text string without formatting
+    codes.
+
+
+    Or am I missing something?
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 12.187.192.2
+  url: http://profile.typepad.com/kean
+  date: '2011-02-24 15:41:40'
+  body: 'Right - I don''t think it is exposed via an API, as such, but you could script
+    the use of the command, at a push.
+
+
+    Kean'
+- author: Niraj
+  email: niraj.pansare@vaal-triangle.com
+  ip: 122.182.12.138
+  url: ''
+  date: '2013-01-22 09:56:17'
+  body: 'Hi Kean,
+
+    Is there any way by which we can convert Text into line/arc using RealDWG toolkit?
+
+
+    Regards,
+
+    Niraj'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-01-22 09:59:03'
+  body: 'Hi Niraj,
+
+
+    This isn''t a support forum: please post your request to the ADN team or the appropriate
+    online discussion group.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

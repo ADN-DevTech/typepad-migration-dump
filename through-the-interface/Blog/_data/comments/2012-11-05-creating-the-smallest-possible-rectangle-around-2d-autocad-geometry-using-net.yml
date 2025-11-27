@@ -1,0 +1,197 @@
+comments:
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-11-05 14:17:36'
+  body: 'Hi Kean.
+
+
+    To find the bounding box in 2D, I should think that Graham''s scan is significantly
+    more efficient and above all precise, with no iteration required, than the algorithm
+    you are using:
+
+
+    <a href="http://en.wikipedia.org/wiki/Graham_scan">http://en.wikipedia.org/wiki/Graham_scan</a>
+
+
+    Cheers, Jeremy.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-11-05 14:35:40'
+  body: 'Hi Jeremy,
+
+
+    Which algorithm do you mean: the one for the circular or rectangular boundaries?
+
+
+    As far as I can tell you need to sort the points as part of the Grahan scan algorithm,
+    so it''s not clear what I''d be gaining, performance-wise (I don''t need the convex
+    hull for the rectangular boundary - just the min and max in X and Y).
+
+
+    Please respond by email - I''ll follow up with a comment to summarise the exchange
+    (assuming there''s something further of value).
+
+
+    Cheers,
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-11-05 16:11:56'
+  body: 'Just to close this off... it turned out it didn''t make sense to do a Graham
+    scan, but the discussion did highlight that I''d left in a slightly lazy bit of
+    code that used LINQ to iterate the list of points four times to get the min/max
+    coordinates.
+
+
+    I''ve now switched back to a good old for loop to do that in a single pass.
+
+
+    Kean'
+- author: Gaston Nunez
+  email: gaston.nunez@asyst.cl
+  ip: 190.160.136.212
+  url: ''
+  date: '2012-11-05 17:23:29'
+  body: 'Hi Kean:
+
+
+    Why not a Extents3d structure, add points to it and get the min/max points?, or
+    I''m missing something?
+
+
+    Gaston Nunez'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-11-05 17:46:41'
+  body: 'Hi Gaston,
+
+
+    Mainly because we''re not actually interested in the 3D extents: the code projects
+    points (which may or may not be 3D) onto the plane of the UCS, and then takes
+    their 2D extents relative to that. I suppose we could have made something work
+    via the Extents3d object (Extents2d doesn''t offer the same capabilities) but
+    it seemed better to do it this way.
+
+
+    Regards,
+
+
+    Kean'
+- author: Anonymoose
+  email: blackhole@nym.hush.com
+  ip: 24.47.197.1
+  url: ''
+  date: '2012-11-12 01:39:55'
+  body: '"but the discussion did highlight that I''d left in a slightly lazy bit of
+    code that used LINQ to iterate the list of points four times to get the min/max
+    coordinates."
+
+
+    Actually, the LINQ Aggregate() method was designed to solve precisely that type
+    of problem. And as a bonus, if you give it the result of calling AsParallel()
+    on the input sequence, it will produce a result in about 1/3 the time that the
+    good old sequential ''for'' loop requires.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-11-12 07:50:47'
+  body: 'Ah good. I suspected there was a better LINQ (or PLINQ) call for this.
+
+
+    Thanks, Tony.
+
+
+    Kean'
+- author: Anonymoose
+  email: blackhole@nym.hush.com
+  ip: 24.47.197.1
+  url: ''
+  date: '2012-11-12 21:05:27'
+  body: '"And as a bonus, if you give it the result of calling AsParallel() on the
+    input sequence, it will produce a result in about 1/3 the time that the good old
+    sequential ''for'' loop requires."
+
+
+    Oops, sorry if that was a bit presumptuous, but that performance gain assumes
+    one has 4 or more CPU or cores that are not busy.'
+- author: Lambros Kaliakatsos
+  email: lkaliakatsos@plexscape.com
+  ip: 83.235.171.91
+  url: ''
+  date: '2013-06-28 11:43:48'
+  body: "Hi Kean,\n\nIt's been a useful post and I've worked with the code for DBText.\
+    \ \n\nI noticed that the ExtractBounds ignore the IsMirroredInX & IsMirroredInY\
+    \ properties.\n\nSince these properties are already taken into consideration into\
+    \ the Bounds property, it's pretty easy to implement them with a couple of modifications:\n\
+    \nprivate static void ExtractBounds(DBText txt, Point3dCollection pts)   \n{\n\
+    ...\ntxt2.IsMirroredInX = txt.IsMirroredInX;\ntxt2.IsMirroredInY = txt.IsMirroredInY;\n\
+    ...\nPoint3d maxPt = txt2.Bounds.Value.MaxPoint;\nPoint3d minPt = txt2.Bounds.Value.MinPoint;\n\
+    \nPoint2d[] bounds = new Point2d[] {new Point2d(minPt.X, minPt.Y),new Point2d(minPt.X,\
+    \ maxPt.Y),new maxPt.X, maxPt.Y),new Point2d(maxPt.X, minPt.Y)};\n...\n}\n\nThe\
+    \ rotation should still be based on Point.Origin.\n\nRegards,\n\nLambros"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-06-28 15:28:50'
+  body: 'Hi Lambros,
+
+
+    Interesting - thank you for the information.
+
+
+    Regards,
+
+
+    Kean'
+- author: Lambros Kaliakatsos
+  email: lkaliakatsos@plexscape.com
+  ip: 83.235.171.91
+  url: ''
+  date: '2013-07-02 19:16:52'
+  body: "You're welcome Kean. \n\nThank you for all the valuable  information you\
+    \ share in this blog.\n\n- Lambros"
+- author: Eric Van Dorpe
+  email: eric@idealis.eu
+  ip: 81.240.180.161
+  url: http://www.idealis.eu
+  date: '2013-10-23 06:56:11'
+  body: 'Hi Kean,
+
+
+    I found trough google this page. I would like to use this. But I forgot how to
+    add it to my 2011 ACAD version. Can you tell me how?
+
+
+    Thx.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-10-23 07:09:32'
+  body: 'Hi Eric,
+
+
+    You need to copy & paste the source code into Visual C# Express (or Visual Studio,
+    if you have it), inside a Class Library project, then add a few project references
+    (<a href="http://through-the-interface.typepad.com/through_the_interface/2006/07/getting_started.html">see
+    here for more info</a>) before building a .DLL you can NETLOAD into AutoCAD.
+
+
+    I hope this helps,
+
+
+    Kean
+
+    -----'

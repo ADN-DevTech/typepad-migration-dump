@@ -1,0 +1,139 @@
+comments:
+- author: Larry Burnett
+  email: cpydesk@cadlot.com
+  ip: 216.237.5.18
+  url: ''
+  date: '2007-07-31 00:05:13'
+  body: 'Hello Kean,
+
+
+    I have been studying your great articles. They have been very helpful in getting
+    me up to speed with AutoCAD 2008 .NET. I was wondering if you might know how to
+    go about aligning 3d objects? For example you have two cylinders in your drawing
+    and they are perpendicular in relation to each other and you want to get them
+    where they are collinear so they would share the same axis and their faces would
+    be facing each other.
+
+    I know there has to be a TransformBy applied to on of the objects, but setting
+    up the matrix correctly is where I am stumped. I still can''t grasp the Matrix3d.
+
+
+    Thanks Kean!
+
+    Larry'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-08-03 15:09:13'
+  body: 'Hi Larry,
+
+
+    That''s an interesting question... I imagine that you''d need to get the solid''s
+    faces and the planes of those faces, and then use the geometry libary to calculate
+    the transformation(s) needed to make them co-planar. The bad news is that the
+    BRep API (which would be needed to traverse the solid''s faces) is not currently
+    available in .NET (so you''d need to use at least some C++, for now).
+
+
+    Sorry not to have better news for you,
+
+
+    Kean'
+- author: David Wishengrad
+  email: david@milllister.com
+  ip: 76.91.33.91
+  url: ''
+  date: '2008-08-21 07:58:25'
+  body: 'Hi Larry,
+
+    I realize I am pretty late on this post, but here it goes:
+
+
+    My programmers created an API, in C++ ARX,  that traverses the 3D Solids Exterior
+    Loops,
+
+    Interior Loops, and Edges, and then returns:
+
+    The number of faces
+
+    The vertexes of each face
+
+    The area of each face
+
+    The normal and inverse normal of the faces
+
+    The radius values of planer 3d curves
+
+    The cylinder holes
+
+    and a few others
+
+
+    The API can be accessed from Visual Basic 6, VB.NET, C# and Lisp.
+
+
+    I am not sure how many programmers would want this API, but I know we really needed
+    it. If the demand is there I would consider making it available.
+
+
+    David Wishengrad
+
+    President and CTO
+
+    MillLister, Inc.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-21 09:11:54'
+  body: 'And just to add something from my side: we exposed the BRep API to be usable
+    from .NET with AutoCAD 2009, in case this helps.
+
+
+    Regards,
+
+
+    Kean'
+- author: Bert
+  email: bert.vanpeteghem@dolmen.be
+  ip: 194.78.30.195
+  url: ''
+  date: '2008-11-14 16:01:09'
+  body: 'Hi Kean,
+
+
+    Are there any options to write/edit eg. Cylinder properties?
+
+
+    I managed to get more specific Cylinder properties by using the Cylinder.Create()
+    Method. This way I can get/set the Radius property, but the Height property throws
+    an AccessViolationException.
+
+
+    I must be doing something wrong, but what would be the correct way?
+
+
+    (more info at http://discussion.autodesk.com/forums/thread.jspa?messageID=6072309�
+    )'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.58.159
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-14 16:42:26'
+  body: 'Hi Bert,
+
+
+    Sorry - I''m just getting ready for a trip (I leave for China tomorrow morning),
+    so don''t have time to look at this.
+
+
+    Hopefully you''ll get a response via the discussion group.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

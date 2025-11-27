@@ -1,0 +1,72 @@
+comments:
+- author: Brad.Novak
+  email: bnovak@gpchicago.com
+  ip: 64.27.159.162
+  url: ''
+  date: '2011-01-05 18:53:49'
+  body: It would be nice to be able to save and call up a 'standard' draw order list
+    to process.  Also, a reactor to process this 'standard list' prior to the plot
+    command would also make this invaluable.  I'll try to take a stab at these.
+- author: Brad.Novak
+  email: bnovak@gpchicago.com
+  ip: 64.27.159.162
+  url: ''
+  date: '2011-01-05 18:54:30'
+  body: Will this work on xref layers as well?  Wildcards?
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2011-01-05 19:11:57'
+  body: 'My understanding is that it will not (as we restrict our selection of layers
+    to those in modelspace). But then I haven''t tried it, specifically.
+
+
+    I''m not even sure how draw-order is meant to work with the contents of xrefs,
+    to be honest.
+
+
+    Kean'
+- author: Dan Glassman
+  email: dan.glassman@gmail.com
+  ip: 64.73.42.192
+  url: ''
+  date: '2011-01-06 04:38:47'
+  body: 'I haven''t looked at the plugin, but draw-order for xrefs works much the
+    same as it does for other BlockReferences.  The host drawing has a BlockTableRecord
+    for the xref which has a DrawOrderTable.  That DrawOrderTable is the same as the
+    xref''s modelspace DrawOrderTable, which means that the xref''s draw-order is
+    honored in the host drawing.
+
+
+    You can change the xref''s BTR just like any other BTR, including modifying it''s
+    DrawOrderTable.  It will affect what you see in the host drawing, but it won''t
+    persist past the next xref reload.
+
+
+    Some changes that you can make in the host drawing''s BTR for an xref may prevent
+    refedit from working until the xref is reloaded [erasing entities, for example.]  Modifying
+    the DrawOrderTable doesn''t seem to affect refedit, though.'
+- author: Dan Glassman
+  email: dan.glassman@gmail.com
+  ip: 64.73.42.192
+  url: ''
+  date: '2011-01-06 05:14:12'
+  body: 'I do something similar, but not based on layers.
+
+
+    I recommend that you use the PlotReactorManager events (in the Autodesk.AutoCAD.PlottingServices
+    namespace) because you''ll catch the plot, publish, and preview commands.  You''ll
+    also catch plotting techniques that aren''t command-based, such as those used
+    by the Sheet Set Manager.
+
+
+    I use the PlotReactorManager.BeginPage event to enforce draw order per-layout.'
+- author: Brad.Novak
+  email: bnovak@gpchicago.com
+  ip: 64.27.159.162
+  url: ''
+  date: '2011-01-07 15:45:18'
+  body: 'Maybe I''ll just try to do a draw order re-order upon drawing save/close.
+
+    -----'

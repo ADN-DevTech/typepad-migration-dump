@@ -1,0 +1,14 @@
+---
+layout: "post"
+title: "What would you use AutoCAD I/O for?"
+date: "2014-11-03 17:35:04"
+author: "Kean Walmsley"
+categories:
+  - "AutoCAD I/O"
+  - "PaaS"
+original_url: "https://www.keanw.com/2014/11/what-would-you-use-autocad-io-for.html "
+typepad_basename: "what-would-you-use-autocad-io-for"
+typepad_status: "Publish"
+---
+
+<p>In <a href="http://through-the-interface.typepad.com/through_the_interface/2014/10/and-the-winner-is.html" target="_blank">last week’s post</a> on the winner of <a href="http://through-the-interface.typepad.com/through_the_interface/2014/10/a-dashboard-but-what-for.html" target="_blank">the “dashboard” competition</a>, I suggested I’d follow up with a post we could all use to gather suggestions for using <a href="http://through-the-interface.typepad.com/through_the_interface/2014/10/autocad-io-api-a-new-batch-processing-web-service.html" target="_blank">AutoCAD I/O</a>. This is that post.</p>  <p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e201bb07a4d87c970d-pi" target="_blank"><img title="Question mark in the cloud" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; float: none; padding-top: 0px; padding-left: 0px; margin: 20px auto; display: block; padding-right: 0px; border-top-width: 0px" border="0" alt="Question mark in the cloud" src="/assets/image_992140.jpg" width="304" height="304" /></a></p>  <p>Here are some potential Activities (or uses of the AutoCAD I/O service) that the AutoCAD I/O team brainstormed during a recent internal discussion:</p>  <ul>   <li>Translation      <ul>       <li>e.g. DWG to PDF or image formats, or the other direction </li>     </ul>   </li>    <li>Object property extraction </li>    <li>Block attribute extraction </li>    <li>CAD standards reporting/enforcement </li>    <li>Drawing cleanup </li>    <li>Audit/recovery service </li>    <li>Anti-malware service </li> </ul>  <p>Some of these are a little nebulous or speculative – particularly in the latter half of the list – but I’ve included them to help spark the discussion.</p>  <p>What would you like to see provided by a DWG-processing service such as AutoCAD I/O? Post a comment if you have a suggestion for something you’d like to see developed (bearing in mind that this is a public forum: if you suspect you might want to monetise it, in some way, you may want to play your cards closer to your chest ;-).</p>  <p><font color="#a5a5a5">photo credit: </font><a href="https://www.flickr.com/photos/pagedooley/3983181467/"><font color="#a5a5a5">kevin dooley</font></a><font color="#a5a5a5"> via </font><a href="http://photopin.com"><font color="#a5a5a5">photopin</font></a><font color="#a5a5a5"> </font><a href="http://creativecommons.org/licenses/by/2.0/"><font color="#a5a5a5">cc</font></a></p>

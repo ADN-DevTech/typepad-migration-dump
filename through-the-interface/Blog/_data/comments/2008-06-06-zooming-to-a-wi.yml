@@ -1,0 +1,263 @@
+comments:
+- author: Hector Cruz
+  email: hectorjaviercruz@hotmail.com
+  ip: 132.248.255.82
+  url: ''
+  date: '2008-06-06 21:57:03'
+  body: "Excellent post! Just fix this in ZoomWin\nIt says: \nview.Width = max2d.X\
+    \ - max2d.Y;\nShould be:\nview.Width = max2d.X - min2d.X;"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.17.75
+  url: http://through-the-interface.typepad.com/through_the_interface/2008/06/dwf-toolkit-75.html
+  date: '2008-06-10 18:39:46'
+  body: 'Of course - well spotted, Hector! :-)
+
+
+    I''ve fixed the post.
+
+
+    Kean'
+- author: emmaddai owusu
+  email: emmaddais@yahoo.co.uk
+  ip: 80.87.90.102
+  url: ''
+  date: '2008-07-24 12:24:26'
+  body: 'Hi, it seems you guys are well versed in what ever you do.
+
+
+    Could you help me in a application am trying to develop for my project work in
+    school?
+
+
+    I have developed this application whic calculates for coordinates of ground points
+    on the surface of the earth. I want to represent these points in autocad without
+    actually launching autocad.
+
+    What i want to do is to just click a button from vb.net to plot the points and
+    save it as dxf or dwg file which can later be opened with autocad 2002 or 2004.
+
+
+    Or maybe, if you could also help me so that, as the coordinates are calculated
+    in XYZ system, it does the representation in an autocad window on the same form.
+
+    thanks.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-24 13:29:55'
+  body: 'You should look into an Autodesk product called <a href="http://www.autodesk.com/realdwg">RealDWG</a>.
+
+
+    Kean'
+- author: Lase
+  email: lasekuus@hotmail.com
+  ip: 88.113.59.24
+  url: ''
+  date: '2008-08-12 20:35:32'
+  body: 'Thanks Kean
+
+
+    If you happen to read comments from old posts, the ZoomWin function should have
+    type Point3d for parameters min and max.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 12.160.193.229
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-12 21:46:32'
+  body: 'Got it - my mistake. I''ve fixed it.
+
+
+    Kean'
+- author: Tim Catalano
+  email: tim_catalano@hotmail.com
+  ip: 65.101.194.254
+  url: http://timbot.net
+  date: '2009-05-01 18:59:50'
+  body: The ViewTableRecord method works in modelspace when i'm trying to zoom extents
+    (using database.extmin and extmax) but is there a way to do something similar
+    with paperspace? i can't seem to figure out the right way.
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-05-01 21:54:17'
+  body: 'I don''t know, off the top of my head. Have you tried asking for help on
+    the discussion groups or via ADN, if you''re a member?
+
+
+    Kean'
+- author: insider outline
+  email: umanarayan6137@msn.com
+  ip: 218.248.69.23
+  url: ''
+  date: '2009-08-11 03:03:30'
+  body: Your source code helped me to understand it in detail. Thank you.
+- author: Artur Löwen
+  email: artur@arturloewen.de
+  ip: 212.66.133.98
+  url: ''
+  date: '2010-05-05 10:47:47'
+  body: "Here is a better version to zoom to entities which also works in 3d:\n\n\
+    static public void ZoomToEntity(ObjectId[] objIds)\n{\nEditor editor = Application.DocumentManager.MdiActiveDocument.Editor;\n\
+    \nPromptSelectionResult psr = editor.SelectImplied();\nObjectId[] selected = null;\n\
+    if (psr.Status == PromptStatus.OK)\n\tselected = psr.Value.GetObjectIds();\neditor.SetImpliedSelection(objIds);\n\
+    \nAutodesk.AutoCAD.Internal.Utils.ZoomObjects(true);\n\neditor.SetImpliedSelection(selected);\n\
+    }"
+- author: Gianfry
+  email: gianfry.c@gmail.com
+  ip: 130.192.85.140
+  url: ''
+  date: '2012-03-21 11:04:57'
+  body: 'Hello, great example! Is there an alternative way to zoom dynamically (like
+    in version ZoomWin3) programmatically without invoking the "_ZOOM" command? the
+    problem is that this method clears the selection, and I can''t in any way programmatically
+    recover previous selection...
+
+    Thanks a lot
+
+    Gf'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2012-03-21 11:09:44'
+  body: 'I assume by "dynamically" you mean with smooth view transitions.
+
+
+    If that''s the case, then this may be of help (although I don''t recall how well
+    it works in 2d - it certainly worked well for 3D).
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2009/02/smoothly-transitioning-between-3d-autocad-views-using-net---part-1.html">http://through-the-interface.typepad.com/through_the_interface/2009/02/smoothly-transitioning-between-3d-autocad-views-using-net---part-1.html</a>
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2009/03/smoothly-transitioning-between-3d-autocad-views-using-net---part-2.html">http://through-the-interface.typepad.com/through_the_interface/2009/03/smoothly-transitioning-between-3d-autocad-views-using-net---part-2.html</a>
+
+
+    Regards,
+
+
+    Kean'
+- author: Gianfry
+  email: gianfry.c@gmail.com
+  ip: 130.192.85.140
+  url: ''
+  date: '2012-03-21 17:56:10'
+  body: "Thanks a lot! You really are THE man... ;) \nA bit complicated but I'll try\
+    \ to go in that direction!\n\nGianfry"
+- author: Gianfry
+  email: gianfry.c@gmail.com
+  ip: 130.192.85.140
+  url: ''
+  date: '2012-03-22 09:19:09'
+  body: "Just in case could be useful to someone else, this is the function I implemented\
+    \ to achieve Smooth Transition Zoom between views, with ease out effect. For sure\
+    \ it's not the best way to do it, but it's a start...\n\nIt perform the transition\
+    \ from the current view to a new view defined by the rectangle between pMin and\
+    \ pMax.\n\npublic static void MyDynZoom(Document doc, Point3d pMin, Point3d pMax,\
+    \ double timeToTake)\n        {\n            // Save current view\n          \
+    \  ViewTableRecord startView = doc.Editor.GetCurrentView();\n\n            //\
+    \ Calculate end transition view\n            Point2d min2d = new Point2d(pMin.X,\
+    \ pMin.Y);\n            Point2d max2d = new Point2d(pMax.X, pMax.Y);\n\n     \
+    \       ViewTableRecord endView = new ViewTableRecord();\n            endView.CenterPoint\
+    \ = min2d + ((max2d - min2d) / 2.0);\n            endView.Height = max2d.Y - min2d.Y;\n\
+    \            endView.Width = max2d.X - min2d.X;\n\n            using(ViewTableRecord\
+    \ animView = (ViewTableRecord)startView.Clone())\n            {\n         \n \
+    \               double last = 0;\n                double sleepTime = 0;\n    \
+    \            double pos = 0;\n                for (float mu = 0; mu <= 1; mu +=\
+    \ 0.01F)\n                {\n                    // Interpolate center point\n\
+    \                    animView.CenterPoint = new Point2d(\n                   \
+    \     CosInterp(startView.CenterPoint.X, endView.CenterPoint.X, mu),\n       \
+    \                 CosInterp(startView.CenterPoint.Y, endView.CenterPoint.Y, mu)\n\
+    \                        );\n                    // Interpolate height\n     \
+    \               animView.Height = CosInterp(startView.Height, endView.Height,\
+    \ mu);\n\n                    // Interpolate width\n                    animView.Width\
+    \ = CosInterp(startView.Width, endView.Width, mu);\n\n                    doc.Editor.SetCurrentView(animView);\n\
+    \n                    // Decrease the sleep time, ease out effect\n\n        \
+    \            pos = Math.Pow(mu, 2) * (timeToTake) /2;\n                    sleepTime\
+    \ = pos - last;\n                    last = pos;\n                    Thread.Sleep((int)(sleepTime));\n\
+    \                }\n                doc.Editor.SetCurrentView(endView);\n    \
+    \        }\n        }"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-03-22 09:46:23'
+  body: 'Great - I''m glad you managed to get something working. :-)
+
+
+    Kean'
+- author: Gianfry
+  email: gianfry.c@gmail.com
+  ip: 130.192.85.140
+  url: ''
+  date: '2012-03-28 11:53:39'
+  body: 'Hi Kean, I know the question is not inherent with the current thread, but
+    I didn''t find a suitable post to add the comment. Even Google this time is not
+    my friend! Sorry about that...
+
+
+    Is there a way to know when a Transaction is effectively committed and executed
+    so that changes are completed on the working database? I understand that trans.Commit()
+    is an async call, am I right? Even the public property "IsCommitted" is flagged
+    as soon the transaction.Commit() is issued but not effectively completed...
+
+    Thanks
+
+
+    Gf'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2012-03-28 11:58:46'
+  body: 'Hmm - I don''t believe trans.Commit() is asynchronous. If this is about your
+    own app, then waiting until Commit() has happened should be enough - otherwise
+    you may need C++ to get transaction reactors.
+
+
+    But yes, this is off-topic (and if I start answering off-topic questions here
+    the blog will devolve into a support forum :-). Please try posting to the AutoCAD
+    .NET discussion group or to ADN...
+
+
+    Kean'
+- author: Gianfry
+  email: gianfry.c@gmail.com
+  ip: 130.192.85.140
+  url: ''
+  date: '2012-03-28 12:20:58'
+  body: 'That''s fair enough ;) Thanks again anyway
+
+    Gf'
+- author: Afshin
+  email: afshin.j@gmail.com
+  ip: 180.148.69.42
+  url: ''
+  date: '2012-09-12 09:33:48'
+  body: "Hi Kean,\n\nI was wondering if there's any solution to implement this solution\
+    \ in RealDWG engine?\nI have an application which creates DWG file, one of the\
+    \ requests I have is to automatically zoom the view to extents of the drawing.\
+    \ \nI couldn't find a way as I have no access to Editor object in acdbmngd library.\n\
+    \nAfshin"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-09-12 09:51:28'
+  body: 'Hi Afshin,
+
+
+    You can certainly create new ViewTableRecords in the Database. As for setting
+    the current view, that may be trickier...
+
+
+    I''ve just noticed Database.HomeView, which appears to be editable. Could you
+    try setting the parameters to see what happens? I''m guessing that has something
+    to do with the ViewCube, but I could be wrong.
+
+
+    Kean
+
+    -----'

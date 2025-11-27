@@ -1,0 +1,222 @@
+comments:
+- author: Lee Ambrosius
+  email: ''
+  ip: 65.31.235.145
+  url: http://profile.typepad.com/hyperpics
+  date: '2010-05-08 01:25:43'
+  body: Nice example... I was just thinking about the same thing the other day since
+    I did a class at AU last year on the Sheet Set API and using VB.NET/C#.  Most
+    of my content focused on how to simply manipulate sheet sets and not emulating
+    the UI, but did get a few questions on if it could be done.
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com
+  date: '2010-05-09 11:37:19'
+  body: "\"(although the WPF TreeView doesn’t appear to support data-binding, so I\
+    \ may well decide not to bother)\"\n\nUm.... Not sure what gives you that impression.\
+    \ In WPF, pretty much everything supports data binding both directly, and via\
+    \ templates. It's just a more sophisticated form of Data Binding. \n\nThe template\
+    \ most commonly used to bind data to Treeview items is the HierarchicalDataTemplate.\n\
+    \nThis article has a good introduction to the basic concepts:\n\n<a href=\"http://msdn.microsoft.com/en-us/magazine/cc700358.aspx\"\
+    >http://msdn.microsoft.com/en-us/magazine/cc700358.aspx</a>"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-05-10 10:52:44'
+  body: 'Yes - my mistake. I Googled it and came across <a href="http://msdn.microsoft.com/en-us/library/ms996437.aspx">an
+    MSDN article</a> including a section on "Designing a Data-Bound Tree View" but
+    didn''t spot that a) it had been written in 2002 and b) it was about WinForms,
+    not WPF.
+
+
+    Thanks for the clarification - I''ll follow up with a WPF version when I get the
+    chance.
+
+
+    Kean'
+- author: Harold J Comerro
+  email: hjc@commeo.com
+  ip: 130.94.133.48
+  url: ''
+  date: '2010-05-11 01:43:40'
+  body: "Hello and thanks for this nice code.  \n\nI have tried it and found that\
+    \ it does not show all of the items, just the sheets and subsets. \n\nWhat I was\
+    \ hoping to see is similar to what appears in the screenshot image posted in this\
+    \ AUGI thread:\n\n<a href=\"http://forums.augi.com/showthread.php?t=115224\">http://forums.augi.com/showthread.php?t=115224</a>\n\
+    \nAny advice would be appreciated."
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-05-12 14:21:53'
+  body: 'Hello Harold,
+
+
+    That''s right: it only shows a limited set of the data from the DST.
+
+
+    As I''m not an AUGI member I don''t have access to the screenshot image, but I''ve
+    put together a post that will be published on Friday that should help.
+
+
+    Regards,
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadxtabs/AcadXTabs2010.htm
+  date: '2010-05-12 16:38:10'
+  body: "That screenshot shows a tool that has a 'debug' view option, that was active\
+    \ when the image was grabbed.  \n\nThat's definitiely not a user-oriented presentation,\
+    \ and was intended mainly for use by sheetset API programmers, to visualize the\
+    \ 'raw' sheetset database graph.\n\nCopies of that screenshot and another, showing\
+    \ the non-debug mode that is how the tool presents data to the user can be found\
+    \ here:\n\n   <a href=\"http://www.caddzone.com/SSMExplorer.png\">http://www.caddzone.com/SSMExplorer.png</a>\n\
+    \ \n   <a href=\"http://www.caddzone.com/SSMExplorer2.png\">http://www.caddzone.com/SSMExplorer2.png</a>\n\
+    \nPerhaps the second image is more like what you have in mind?  If so, it's not\
+    \ too difficult to extend what Kean posted to do that, but if you plan on adding\
+    \ a lot of your own functionality to it, taking the 'big switch' approach to populating\
+    \ the control's content probably isn't the best approach, because that can easily\
+    \ turn into spaghetti.\n\nWhat you might consider doing is studying the MVM (Model-View-Mapping)\
+    \ and MVVM (Model-View-ViewModel)  design patterns, which provide a way to establish\
+    \ a clean seperation between business objects and a UI, and also promote the use\
+    \ of more structured, data-driven approaches to providing a UI with content.\n\
+    \nWhile MVM and MVVM are core concepts in WPF, you can also use them with WinForms-based\
+    \ applications too, although WinForms has no built-in support for those patterns,\
+    \ as WPF does. \n\nThe app you see in the referenced screenshots uses MVVM to\
+    \ deliver sheetset object data to the UI layer."
+- author: HJ Comerro
+  email: hjc@commeo.com
+  ip: 128.241.111.65
+  url: ''
+  date: '2010-05-14 11:56:01'
+  body: Thank you. I have also looked at the new post and will be digesting that too,
+    it looks like it will be very helpful, much appreciated.
+- author: HJ Comerro
+  email: hjc@commeo.com
+  ip: 128.241.111.65
+  url: ''
+  date: '2010-05-14 12:15:46'
+  body: 'Hello. Wow. Wasn''t expecting the author of that AUGI post to respond, but
+    I''m glad you did, thanks.
+
+
+    Yep, the second screenshot is pretty darn close to what I envision for my own
+    needs, with some additional stuff added which we store in custom properties shown
+    in the tree.
+
+
+    I think Kean''s follow up will be helpful for that, and I''ll also look into the
+    MVMVVM (or whatever that was... lol) stuff too.
+
+
+    Also curious as to how you are able to get your app''s data to appear in Vista''s
+    Explorer. That''s pretty cool.
+
+
+    I''ve searched on that but all I found was a control requiring Windows 7, that
+    shows the Explorer''s file list in a .NET form, but I think that''s the opposite
+    of what your app is doing.
+
+
+    I asked a colleage of mine about that and he mentioned something about ''shell
+    namespace extensions''. I researched them and found some info but it seemed to
+    pertain to C++ and COM, and was all ''Chinese'' to me :)
+
+
+    Thanks again'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadxtabs/AcadXTabs2010.htm
+  date: '2010-05-14 23:34:46'
+  body: "That's not Vista Explorer, and there's no shell namespace extensions involved.\
+    \ The app was built using a library of navigation UI controls that were developed\
+    \ in-house. \n\nI looked into using shell namespace extensions too but found that\
+    \ they're of little use for AutoCAD based apps because AutoCAD's API can't be\
+    \ used from any process like Explorer and other apps that load namespace extensions\
+    \ (e.g., any app that uses a standard Windows file dialog)."
+- author: Hugh Compton
+  email: info@herculedesign.com
+  ip: 83.104.230.248
+  url: http://http:%5C%5Cwww.herculedesign.com
+  date: '2010-05-17 10:58:12'
+  body: 'I have added a reference to the ACSMCOMPONENTS18Lib and it works fine.  I
+    am getting the following error:
+
+
+    Type ''UserControl1'' is not defined ..........???'
+- author: Kean Walmsley
+  email: ''
+  ip: 99.159.46.130
+  url: http://profile.typepad.com/kean
+  date: '2010-05-17 11:09:29'
+  body: 'Hi Hugh,
+
+
+    Yes - if you follow the instructions just after the code (to add a user control
+    to your peoject with a tree view inside), then that should solve the issue.
+
+
+    Regards,
+
+
+    Kean'
+- author: Matt
+  email: harrison-matt@hotmail.com
+  ip: 68.230.182.214
+  url: ''
+  date: '2012-05-18 04:23:17'
+  body: I am interested in creating a tree view structure of a sheet set file without
+    AutoCAD can this be done?
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-05-18 09:23:06'
+  body: 'I don''t know if there''s a technical dependency on the sheetset access API
+    on core AutoCAD - it should be easy enough for you to find out. That said, AutoCAD
+    would need to be installed on the same system, I would think.
+
+
+    Kean'
+- author: Chris Hahn
+  email: chris.hahn@mottmac.com.au
+  ip: 202.177.218.43
+  url: ''
+  date: '2012-06-06 03:22:19'
+  body: 'I''m trying to get information out of a sheet set. Using your code I can
+    get the subsets, sheets and custom properties of the sheets, But I can''t get
+    the hardwired properties of the sheets.
+
+    Sheet.GetNumber gets the sheet number
+
+    Sheet.GetTitle get the title of the sheet
+
+    Sheet.Name gets a hybrid of the two
+
+    But I''m after the revision. I assume is somewhere in Sheet.GetDirectlyOwnedObjects,
+    but I have no idea how the data is stored in there. It returns an array of System.___Comobject
+    that I have no idea how to look in.'
+- author: Kean Walmsley
+  email: ''
+  ip: 72.52.96.9
+  url: http://profile.typepad.com/kean
+  date: '2012-06-06 18:43:06'
+  body: 'Hi Chris,
+
+
+    I borrowed the approach from Fenton Webb, so the best would be to ping ADN on
+    this (either via the ADN site or the AutoCAD .NET Discussion Group).
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

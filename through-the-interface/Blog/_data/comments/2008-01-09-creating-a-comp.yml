@@ -1,0 +1,334 @@
+comments:
+- author: djonio
+  email: djonio@miami-airport.com
+  ip: 199.119.0.202
+  url: ''
+  date: '2008-01-14 12:26:39'
+  body: 'Kean,
+
+
+    Is it poosible to create a LineType that has,  say 16 characters (--- Blah Blah
+    McBlah ---), that will actually conform to the form(circumference) of a circle?
+    Regardless the radius of the circle.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-01-23 14:30:10'
+  body: 'I don''t think you you can do this with a linetype, but you should check
+    out the CurveText sample on the ObjectARX SDK.
+
+
+    Regards,
+
+
+    Kean'
+- author: Evo
+  email: ve7mmx@hotmail.com
+  ip: 24.85.83.99
+  url: ''
+  date: '2008-03-21 00:50:56'
+  body: "Kean,\n\nYour code works great, but it cause an error when the linetype with\
+    \ the same name already exist in the table. My workaround is wrap the \"add code\"\
+    \ with if(LinetypeTable.Has(\"Name\")), but is there a way to erase the existing\
+    \ one, and then add it back (replacing)? \n\nEvo"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-03-25 17:09:54'
+  body: 'Evo,
+
+
+    You should be able to open the linetype for write and erase it prior to adding
+    the new one.
+
+
+    Regards,
+
+
+    Kean'
+- author: Jim Dowthwaite
+  email: jim.dowthwaite@gmail.com
+  ip: 207.54.100.225
+  url: ''
+  date: '2008-05-07 18:13:42'
+  body: Is it possible to create a custom line type that contains arrows (non-text
+    based) to draw something like direction of flow?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-07 20:47:49'
+  body: 'I just copied the standard acad.lin file and edited it, adding my own custom
+    linetype to the end. I added a couple of Unicode arrows("»→"), to test it out,
+    replacing the HW in the standard HOT WATER sample linetype:
+
+
+    *ARROW_TEST,Arrows showing flow ---- »→ ---- »→ ---- »→ ----
+
+    A,.5,-.2,["»→",STANDARD,S=.1,R=0.0,X=-0.1,Y=-.05],-.2
+
+
+    I had to changed the file encoding to Unicode for it to save properly, but AutoCAD
+    understood the file when loading it via the LINETYPE command, and it appears to
+    display as I''d expect when applied to a line.
+
+
+    It''s a text-based solution, but at least it''s not using < or >.
+
+
+    Regards,
+
+
+    Kean'
+- author: SONIA
+  email: sonia.degrace@sympatico.ca
+  ip: 64.228.247.34
+  url: ''
+  date: '2008-05-22 02:26:18'
+  body: "Hi,\nI hope you can help me , I am going crazy with this problem,I am trying\
+    \ to create a linetype with a E like this -----E-----, this is what i am entering\
+    \ in my comand line  A,.5,-.2,[\"E\",STANDARD,S=.1,R=0.0,X=-0.1,Y=-.05],-.2 but\
+    \ i keep getting this message... Invalid number or bad continuation. What can\
+    \ i do ????\ni am saving the file in acad.lin\n\n\nPlease Please can you help\
+    \ me , \n\nThank you , \nSonia"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.7.167
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-22 09:36:40'
+  body: 'Firstly, linetype definition is really not my specialty, so I''d really recommend
+    hitting the discussion groups if my advice doesn''t help.
+
+
+    The linetype definition worked fine for me (I only tested in AutoCAD 2009). I
+    preceded your line with this one:
+
+
+    *E_TEST,E on a line ---- E ---- E ---- E ----
+
+
+    Regards,
+
+
+    Kean'
+- author: Benjamin
+  email: bweir@midwestsurveys.com
+  ip: 68.144.14.234
+  url: ''
+  date: '2009-01-30 07:11:44'
+  body: 'Kean,
+
+    Using VB.NET, how can I create a linetype using shape definitions from a shape
+    file?'
+- author: saranya
+  email: saranya_rosejas@yahoo.co.in
+  ip: 122.172.20.175
+  url: ''
+  date: '2009-05-29 14:38:54'
+  body: 'Hi Kean,
+
+
+    Very useful post. I want to assign batting linetype to a line. What is the linetype
+    for batting
+
+
+    Regards,
+
+    Saranya.N'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-05-29 14:57:37'
+  body: 'Hi Saranya,
+
+
+    Sorry - I don''t understand the question. You might try posting to one of our
+    discussion groups.
+
+
+    Regards,
+
+
+    Kean'
+- author: walid
+  email: walshobaki@yahoo.com
+  ip: 86.108.103.172
+  url: ''
+  date: '2009-09-18 14:08:36'
+  body: "dear sir\n\nhow can i decode autocade lisp file\ni get autocad lisp .lsp\
+    \ file and i like to change block\nname \nthe file text is coded \nplase how can\
+    \ i open the text\n regards"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-09-18 14:13:05'
+  body: 'Your question is not related to this post (and this is not a discussion forum).
+    Please repost it to one of <a href="http://discussion.autodesk.com">our online
+    discussion groups</a>.
+
+
+    Kean'
+- author: Nebojsa Otasevic
+  email: nebojsa.otasevic@gmail.com
+  ip: 109.228.68.211
+  url: ''
+  date: '2010-12-23 11:43:08'
+  body: 'Hi Kean,
+
+
+    I am a beginner to AutoCAD.NET programming.I have following problem:I want to
+    create complex line type ''dash-circle-dash''.This line already exists in acad.lin,
+    but I need to create it programmatically. The problem is I do not now how.Your
+    help would be welcome.
+
+    Best regards,
+
+    Nebojsa'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2010-12-23 12:51:16'
+  body: 'Hi Nebosa,
+
+
+    So maybe you just need to load the linetype?
+
+
+    Take a look at the code in <a href="http://through-the-interface.typepad.com/through_the_interface/2010/03/loading-multiple-linetypes-into-autocad-using-net.html">this
+    post</a>, in case it helps.
+
+
+    Regards,
+
+
+    Kean'
+- author: Rodrigo Araújo
+  email: rodrigo@gcmsoft.com.br
+  ip: 189.81.12.123
+  url: ''
+  date: '2011-04-05 18:06:15'
+  body: In Autocad 2011 the code runs, but not shows "CW", shows only a commom line.
+- author: Kean Walmsley
+  email: ''
+  ip: 194.209.199.21
+  url: http://profile.typepad.com/kean
+  date: '2011-04-06 14:05:46'
+  body: 'Strange - it works for me on both AutoCAD 2011 and 2012.
+
+
+    Kean'
+- author: Bojan Petkovic
+  email: bojan_p87@hotmail.com
+  ip: 188.246.69.130
+  url: ''
+  date: '2011-07-26 17:02:00'
+  body: "Hi Kean\nI Hawe problem creating linetype like this \". ____ .\" - line with\
+    \ spaces between two start and end point. I hawe this folowing code but when my\
+    \ line is longer than PaternLenght i get line with dashed with dots how can i\
+    \ use scale to get my line always be shape i draw above?\nmy code is:\n\n    \
+    \    [CommandMethod(\"GlinijaTip\")]\n        static public void Glinija()\n \
+    \       {\n            Document acDoc = Application.DocumentManager.MdiActiveDocument;\n\
+    \            Database acCurDb = acDoc.Database;\n            Transaction acTrans\
+    \ = acCurDb.TransactionManager.StartTransaction();\n            {\n          \
+    \      LinetypeTable acLintypeTbl = acCurDb.LinetypeTableId.GetObject(OpenMode.ForWrite)\
+    \ as LinetypeTable;\n                LinetypeTableRecord Linija = new LinetypeTableRecord();\n\
+    \                Linija.Name = \"Glinija\";\n                Linija.Comments =\
+    \ \"Geodetska linija\";\n                Linija.AsciiDescription = \"Linija sa\
+    \ razmakom od pikira\";\n                Linija.NumDashes = 5; // broj elemenata\n\
+    \n                //PRVI ELEMENT\n                Linija.SetDashLengthAt(0, 0);//\
+    \ tacka\n\n                //DRUGI ELEMENT\n                Linija.SetDashLengthAt(1,\
+    \ -0.25); //prazna msjeta\n                //TRECI ELEMENT\n              \n \
+    \               Linija.SetDashLengthAt(2, 0.50);//povlake\n                //DOATNA\
+    \ POVLAKA\n                Linija.SetDashLengthAt(3, -0.25);\n               \
+    \ Linija.SetDashLengthAt(4, 0);\n                Linija.PatternLength = 1; //duzina\
+    \ linije\n\n                //Dodavanje stila linije:\n                acLintypeTbl.Add(Linija);\n\
+    \                acTrans.AddNewlyCreatedDBObject(Linija, true);\n            \
+    \    acTrans.Commit();\n            }\n        }"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-07-26 20:12:45'
+  body: 'Hi Bojan,
+
+
+    I''m afraid I don''t have time to provide support.
+
+
+    Please submit your question to <a href="http://adn.autodesk.com">the ADN team</a>,
+    if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Bojan Petkovic
+  email: bojan_p87@hotmail.com
+  ip: 213.196.86.210
+  url: ''
+  date: '2011-07-28 15:27:11'
+  body: 'Tnx for reply.
+
+    Best Regards'
+- author: fulton
+  email: fultonzhai@yahoo.com.cn
+  ip: 205.185.117.78
+  url: ''
+  date: '2011-09-17 09:01:21'
+  body: "Hi Kean\nI am a beginner to AutoCAD.NET programming.I have following problem:I\
+    \ want to achieve linetype appearance, like appearance in the \"load or reload\
+    \ linetypes\" window. \nPlease Please can you help me , \n\nThank you \n\nfulton"
+- author: fulton
+  email: fultonzhai@yahoo.com.cn
+  ip: 205.185.117.78
+  url: ''
+  date: '2011-09-17 09:05:28'
+  body: 'Hi Kean
+
+    I''m sorry, is not like appearance in the "load or reload linetypes" window, is
+    like appearance in the "linetype manager".
+
+
+    Thank you
+
+
+    fulton'
+- author: fulton
+  email: fultonzhai@yahoo.com.cn
+  ip: 205.185.117.78
+  url: ''
+  date: '2011-09-17 09:30:38'
+  body: "Hi Kean\nI have following problem:\nI want to add items to the \"Linetype\
+    \ filters\" ComboBox in the \"Linetype Manager\" Window. But I don't know how\
+    \ to achieve it.\nPlease Please can you help me , \n\nThank you \n\nfulton"
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2011-09-20 10:11:38'
+  body: 'Hi fulton,
+
+
+    This is not a support forum.
+
+
+    If this post doesn''t help, please submit your question via ADN (if you''re a
+    member) or to the AutoCAD .NEt Discussiong Group.
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2010/03/loading-multiple-linetypes-into-autocad-using-net.html">http://through-the-interface.typepad.com/through_the_interface/2010/03/loading-multiple-linetypes-into-autocad-using-net.html</a>
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

@@ -1,0 +1,257 @@
+comments:
+- author: R.K. McSwain
+  email: rkmcswain@yahoo.com
+  ip: 12.236.132.18
+  url: http://cadpanacea.com
+  date: '2013-03-15 11:50:37'
+  body: Good information on the 2D and 3D graphics. Thanks.
+- author: Tony Tanzillo
+  email: ebiz@nym.hush.com
+  ip: 24.187.152.113
+  url: ''
+  date: '2013-03-17 07:30:19'
+  body: 'Hi Kean.
+
+
+    I have to switch to 2D wireframe mode constantly when working with 3D objects.
+
+
+    I have to do that, because for some strange reason that I cannot seem to find
+    a reasonable explanation for, Grips on 3D objects cannot be selected even when
+    visible, if they''re obscured behind a surface. That''s true for all modes that
+    have some kind of shading, and also true for "X-Ray" mode.
+
+
+    Grips are user-interface elements, not model elements, and the fact that they
+    can''t be used in that context is particularly-puzzling.'
+- author: Neil Jones
+  email: ''
+  ip: 80.76.127.133
+  url: http://profile.typepad.com/jonesneil1
+  date: '2013-03-18 09:05:43'
+  body: Reading between the lines, I'd say that Autodesk are looking to consolidate
+    the graphics engines from 2 to 1, although I'm sure Kean couldn't possibly comment...!!!!:)
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-03-18 09:15:03'
+  body: 'You''re correct: I couldn''t possibly comment. ;-)
+
+
+    Actually my input-gathering is less about driving towards a unified GS than it
+    is about reducing the dependency on a specific GS and its behaviours (and quirks).
+
+
+    That''s probably about as much as I can say, at this stage. :-)
+
+
+    Kean'
+- author: Neil Jones
+  email: ''
+  ip: 80.76.127.133
+  url: http://profile.typepad.com/jonesneil1
+  date: '2013-03-18 09:16:54'
+  body: As a total non-programmer, I'm guessing that a unified GS may be programatically
+    more efficient?
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-03-18 09:21:38'
+  body: 'Possibly. But the needs of a 2D graphics system can be quite different to
+    those of a 3D graphics system, so the answer is unfortunately much more complicated.
+    WHIP has evolved to be a *really* good 2D GS, over the years. Unifying under a
+    single GS might appear to be a good thing, but a lot depends on the specific GS
+    and its capabilities.
+
+
+    Kean'
+- author: Neil Jones
+  email: ''
+  ip: 80.76.127.133
+  url: http://profile.typepad.com/jonesneil1
+  date: '2013-03-18 09:26:07'
+  body: I imagine 2D is far simpler to program than 3D but it all seems extremely
+    complicated....which is why I just stick to being an end user rather than a developer...:-)
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-03-18 09:30:00'
+  body: 'Interestingly 2D can often be gnarlier to deal with than 3D (the requirements
+    around "correctness" being quite different).
+
+
+    But yes: both are indeed complicated. :-(
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-03-18 09:59:17'
+  body: 'Hi Tony,
+
+
+    Thanks - interesting feedback.
+
+
+    The foreground objects must be absorbing UI events when even partially shaded.
+    The Wireframe Visual Style appears to behave as 2D Wireframe, in this respect,
+    so at least it''s consistent across 2D and 3D graphics systems (even if it''s
+    not what you''d like to have happen).
+
+
+    It might be interesting to allow the user to enable background grip manipulation
+    when in (for instance) the X-Ray VS, though. There are no doubt issues related
+    to this that I''m smoothing over, but I can see how it would be useful.
+
+
+    Kean'
+- author: Loic Jourdan
+  email: loic.jourdan@2020.net
+  ip: 80.14.96.215
+  url: http://www.2020technologies.com/en-ca/manufacturing/2020-cad/
+  date: '2013-03-18 10:55:02'
+  body: "Hi Kean,\nAs you seem to require some kind of statistics on GS uses, here\
+    \ is for me:\nI've looked at my custom entities implementations to see if there\
+    \ are some specific code testing if 2d or 3d mode.\nAll my custom entities (I\
+    \ have more than 50 custom ent classes) generally behaves the same way regardless\
+    \ the GS used (yet, some of custom entities have quite complex viewportDraw/worldDraw\
+    \ implementations: embedded 3d solid draw calls, block table record draw, etc...).\n\
+    However, I've found some few cases where the two GS behaves differently:\n\n -\
+    \ I have a transient drawable that draws an image aligned on the screen, its subSetAttributes\
+    \ method returns kDrawableViewDependentViewportDraw. When zooming and panning\
+    \ in 3dmode, my transient is updated correctly, in 2d mode, subWorldDraw and subViewportDraw\
+    \ are not even called during of after zoom/pan operations (I has to update my\
+    \ transient in a AcEditorReactor::viewChanged reactor)\n\n - I've found another\
+    \ piece of code that tests indirectly the gs: a command that inserts custom objects\
+    \ from an external database (in short, srcdb->wblock then destdb->insert) has\
+    \ to invalidate the current AcGsModel to make inserted custom objects displayed.\
+    \ I strongly suspect that the cause of the issue is somewhere in my custom entity\
+    \ dwgIn/Out but the result is two GS behaves differently here.\n\nNot sure these\
+    \ two cases are kind of comments you were looking for, I hope yes.\n\nJust my\
+    \ two cents"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-03-18 11:13:53'
+  body: 'Hi Loic,
+
+
+    This is great - thanks for taking the time to put this feedback together!
+
+
+    Regards,
+
+
+    Kean'
+- author: Alexander Rivilis
+  email: ''
+  ip: 91.142.169.63
+  url: http://profile.typepad.com/rivilis1964
+  date: '2013-03-18 15:33:11'
+  body: 'Hi, Kean!
+
+    Another similar observation: subTransformBy/subMoveGripPointsAt
+
+    is not called if subCloneMeForDragging returns False and Visual Style is not 2d
+
+    Wireframe'
+- author: Alexander Rivilis
+  email: ''
+  ip: 91.142.169.63
+  url: http://profile.typepad.com/rivilis1964
+  date: '2013-03-18 15:51:52'
+  body: "Hi, Tony! \nI could be wrong, but does not help if you set CULLINGOBJ to\
+    \ 0 ?\nhttp://usa.autodesk.com/adsk/servlet/ps/dl/item?siteID=123112&id=14953918&linkID=9240617"
+- author: Tony Tanzillo
+  email: ebiz@nym.hush.com
+  ip: 24.187.152.113
+  url: ''
+  date: '2013-03-19 00:46:45'
+  body: 'Hi Alex, and thanks.  Yes, that works.
+
+
+    I never noticed that sysvar, and because it''s set to the default that changes
+    the behavior from AutoCAD 2010, I incorrectly assumed the change was hard-wired.'
+- author: Tony Tanzillo
+  email: ebiz@nym.hush.com
+  ip: 24.187.152.113
+  url: ''
+  date: '2013-03-19 00:49:04'
+  body: 'Hi Kean, and thanks.
+
+
+    Actually, as Alex pointed out, there was a new sysvar added in AutoCAD 2011 that
+    allows you to revert the behavior to what it was in AutoCAD 2010, that I had just
+    overlooked.'
+- author: Alexander Rivilis
+  email: ''
+  ip: 81.95.185.60
+  url: http://profile.typepad.com/rivilis1964
+  date: '2013-03-19 07:07:00'
+  body: Hi, Tony! Glad to help you! :-)
+- author: Stephan Kaiser
+  email: stephan.kaiser@sofistik.de
+  ip: 82.135.31.146
+  url: ''
+  date: '2013-04-12 18:49:37'
+  body: 'Very interesting topic.
+
+
+    We have somewhere around 150 custom enties and have some very complex viewportDraw()/worldDraw()
+    implementations and make heavy use of both the AcGi*Draw interfaces and the transient
+    graphics API.
+
+
+    In our structural modeling package users want to use 2D (or 3D Wireframe) to create
+    the system, and use 3D to check a solid/mesh representation (e.g. extruded cross
+    sections along beams, etc.). While we switch to a different visual representation
+    on-the-fly, we also have a setting in our visualization options UI that allows
+    the user to control this behaviour in more detail.
+
+
+    While technically it works OK most of the time, there are two main issues with
+    3D for us:
+
+
+    1) Caching: Invalidation is required to keep the two GS representations in sync,
+    and sometimes that fails and in any case, requires quite some tweaking.
+
+
+    2) The 2D GS in combination with 3D Orbit behaves funny/unexpected at times, but
+    this may at least partially because of the two representations we provide.
+
+
+    In our detailing package different aspects of the 2D GS are way more important
+    and I totally understand why 2D can be harder than 3D to get "right", for some
+    definition of "right" (having implemented 2D editors myself).
+
+
+    One recent issue that comes to my mind, is the handling of draw order: For example,
+    custom entities, AutoCAD entities, hatches, wipeouts are created in a certain
+    draw order to yield a specific visual result. Unfortunately, at the moment we
+    run into issues where the draw order changes unexpectedly (checked using the API)
+    if some of the objects are modified/updated or new objects are created. This can
+    result in a different plot - which is not really acceptable.
+
+
+    Looking forward to hearing about what you guys come up with!'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-04-12 20:47:59'
+  body: 'Many thanks, Stephan!
+
+
+    I''ve passed your feedback on to our graphics team.
+
+
+    Kean
+
+    -----'

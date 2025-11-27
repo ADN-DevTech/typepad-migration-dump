@@ -1,0 +1,14 @@
+---
+layout: "post"
+title: "Did not arrive in London"
+date: "2010-12-20 11:05:23"
+author: "Kean Walmsley"
+categories:
+  - "Personal"
+  - "Travel"
+original_url: "https://www.keanw.com/2010/12/did-not-arrive-in-london.html "
+typepad_basename: "did-not-arrive-in-london"
+typepad_status: "Publish"
+---
+
+<p>Things were going so well on this year’s DevDays tour. Then, as Jeremy <a href="http://thebuildingcoder.typepad.com/blog/2010/12/more-snow-woe.html" target="_blank">reported on his blog</a>, the best-laid plans of mice and men unravelled, thanks to the severe weather conditions that have been hitting the UK.</p>  <p>Despite <a href="http://news.sky.com/skynews/Home/UK-News/Snow-And-Freezing-Weather-To-Hit-Britain-Throughout-The-Weekend-Heathrow-Stays-Shut-On-Sunday/Article/201012315859705?f=rss" target="_blank">the bad news in the weather, yesterday morning,</a> I was still reasonably (foolishly?) optimistic about my own chances of getting to the UK: British Airways had declared my flight still to be operating – mainly as it was the return flight of one of the 4 short-haul flights planned to leave Heathrow yesterday.</p>  <p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e20147e0dc6c2a970b-pi"><img style="background-image: none; border-right-width: 0px; margin: 0px auto; padding-left: 0px; padding-right: 0px; display: block; float: none; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="Flight status before leaving for Heathrow" border="0" alt="Flight status before leaving for Heathrow" src="/assets/image_271850.jpg" width="481" height="397" /></a></p>  <p>By the time I arrived at the airport, though, the flight had been cancelled, along with all others heading to Heathrow. Geneva airport was crowded with passengers trying to get on flights to the UK, so while I made some attempt to get online to rebook (and also left a message with our no-doubt overstretched, UK-based travel agent), I was pretty realistic about my chances of getting there.</p>  <p>I’d really been hoping to make it – despite the weather conditions – as most of the rest of the ADN team due to staff the event were already confirmed to be stuck in Milan until at least Monday morning. In the end our UK-based team members are having to battle on and deliver as much of the content as they can, although as the conditions <a href="http://www.guardian.co.uk/uk/2010/dec/20/uk-snow-chaos-continues?CMP=EMCGT_201210&amp;" target="_blank">don’t appear any better, this morning,</a> I’m wondering how many attendees will have actually made it to the event.</p>  <p>Looking on the bright side, I’m going to be able to spend some more time with my family on the lead up to Christmas, as well as reducing the risk of being stuck away from home for the holidays. Oh, and I’ll be able to put the finishing touches on the matrix transformation application, to share that with you all in the next day or two.</p>

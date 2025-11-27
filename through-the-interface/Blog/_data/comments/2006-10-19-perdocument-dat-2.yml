@@ -1,0 +1,185 @@
+comments:
+- author: csharpbird
+  email: csharpbird@gmail.com
+  ip: 58.34.3.14
+  url: ''
+  date: '2006-10-19 19:46:22'
+  body: 'Thanks for your great article,Kean.
+
+    For C++,you give the Falsely MDI-Aware Version example.
+
+    What about .NET?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-10-19 22:44:07'
+  body: 'Thanks, csharpbird.
+
+    If you take a look at the previous entry (Part 1), you can see the "glob" command
+    implementation... this could be considered a "Falsely MDI-Aware" command, if the
+    command was supposed to be considering the counter variable to be local for each
+    document.'
+- author: Alexander Rivlis
+  email: ''
+  ip: 81.95.182.209
+  url: http://profile.typekey.com/Rivilis1964/
+  date: '2006-10-19 23:54:07'
+  body: Thanks, Kean! Your's last three articles is very useful!
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 201.80.62.139
+  url: http://arxdummies.blogspot.com
+  date: '2006-10-20 13:38:53'
+  body: 'Great couple of articles Kean.
+
+    This is always a subject developers are unaware of when developing ObjectARX applications
+    and it would happen with .NET too.
+
+
+    Thanks, Fernando.'
+- author: jeremy
+  email: jeremy.tammik@eur.autodesk.com
+  ip: 86.202.151.17
+  url: ''
+  date: '2008-05-16 19:09:24'
+  body: "hi kean, \n\nare you aware of the difference between static and instance\
+    \ variables in an AutoCAD .NET application command class? If you create static\
+    \ variables (and a static command method), they exist only once. If you create\
+    \ instance variables (and a non-static command method), a new instance of the\
+    \ class is instantiated for each AutoCAD document. This automatically generates\
+    \ and manages per-document data, with no need for any work at all from your side.\
+    \ I have a nice sample demonstrating this, if you like.\n\ncheers\n\njeremy"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.7.167
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-17 10:56:42'
+  body: 'Hi Jeremy,
+
+
+    Yes, I am - <a href="http://through-the-interface.typepad.com/through_the_interface/2006/10/perdocument_dat_1.html">the
+    previous post</a> covered that.
+
+
+    The reason I used this approach in <a href="http://through-the-interface.typepad.com/through_the_interface/2008/05/an-automatic--3.html">another
+    recent post</a> is actually that sometimes the class instances you receive automatically
+    are not the ones you expect - particularly when implementing event handlers (presumably
+    it''s because you''re in the application context rather than being in a particular
+    document''s context, depending). So I actually find UserData to be more predictable
+    and therefore dependable.
+
+
+    Cheers,
+
+
+    Kean'
+- author: hhhwjb
+  email: hhhwjb@163.com
+  ip: 58.20.77.143
+  url: ''
+  date: '2009-06-08 17:46:52'
+  body: 'Hi,Kean
+
+    You''ve said
+
+    "I''ve written some code to demonstrate how you might store and access per-document
+    data in the UserData property"
+
+    Where can I find these code? Thank u.
+
+
+    hhhwjb'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-06-08 17:48:50'
+  body: 'hhhwjb - it''s the C# code in this post.
+
+
+    Kean'
+- author: hhhwjb
+  email: hhhwjb@163.com
+  ip: 58.20.76.88
+  url: ''
+  date: '2009-06-09 02:38:41'
+  body: "Hi,Kean\nThank u for ur answer.\nI test this code, when I close the document,the\
+    \ UserData lost. How can I save the UserData together with my documentation?\n\
+    \    Thank u in advance."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-06-09 08:13:37'
+  body: 'This example does not persist data in the DWG file: it just associates it
+    with the document for runtime access. If you need to persist data then you''ll
+    probably want to use XRecords to do so (search this blog to find examples).
+
+
+    Kean'
+- author: hhhwjb
+  email: hhhwjb@163.com
+  ip: 119.39.78.145
+  url: ''
+  date: '2009-06-09 13:43:17'
+  body: Thank u very much.
+- author: Matus
+  email: matus.brlit@cemos.sk
+  ip: 178.41.139.222
+  url: ''
+  date: '2011-01-13 16:55:22'
+  body: 'Hi Kean,
+
+    I came across this article when i was searching for a way to store custom classes
+    in AutoCAD drawing.
+
+    I thought i found the answear until i realised, that this data is not persistent.
+
+    On the other hand XRecord can only store ResultBuffer type in his Data property
+    and DBDictionary can only store classes derived from the DBObject class. Or am
+    I wrong?
+
+
+    What is the best way to store custom classes id drawings persistently?
+
+
+    Matus'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2011-01-13 17:06:37'
+  body: 'Hi Matus,
+
+
+    Regarding your last question (which may also respond to your others), It depends:
+
+
+    Xdata for smallish amounts (meaning up to about 4K, as a rule of thumb... there''s
+    a shared 16K limit per chunk of Xdata, if I recall correctly).
+
+
+    Xrecords in extension dictionaries (or centrally in the named objects dictionary)
+    for larger amounts.
+
+
+    ResultBuffers are actually reasonably flexible, if you implement them properly.
+
+
+    Regards,
+
+
+    Kean'
+- author: Craig Nicholas
+  email: cnicholas@Stanburys.com
+  ip: 217.36.60.45
+  url: http://www.stanburys.com
+  date: '2012-12-14 15:13:39'
+  body: 'Thanks Kean, it is still relevant in 2012.
+
+    Regards
+
+    Craig
+
+    -----'

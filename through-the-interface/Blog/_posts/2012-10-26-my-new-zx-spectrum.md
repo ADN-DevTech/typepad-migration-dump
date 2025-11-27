@@ -1,0 +1,44 @@
+---
+layout: "post"
+title: "My new ZX Spectrum"
+date: "2012-10-26 07:23:00"
+author: "Kean Walmsley"
+categories:
+  - "Personal"
+  - "Raspberry Pi"
+  - "Retro computing"
+original_url: "https://www.keanw.com/2012/10/my-new-zx-spectrum.html "
+typepad_basename: "my-new-zx-spectrum"
+typepad_status: "Publish"
+---
+
+<p>I had a fantastic surprise at the beginning of the week: a friend from work – to whom I’d shown <a href="http://through-the-interface.typepad.com/through_the_interface/2012/10/retro-computing-with-the-raspberry-pi.html" target="_blank">my retro-foolings with the Raspberry Pi</a> – brought a plastic bag to my desk containing an original <a href="http://en.wikipedia.org/wiki/ZX_Spectrum" target="_blank">Sinclair ZX Spectrum</a> and power supply. He had talked about my project to a friend of his back home in Rome, who thought I’d like it (he was otherwise going to throw it away).</p>
+<p>The computer was in very good condition externally, at least:</p>
+<p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e2017c32cbc50d970b-pi" target="_blank"><img style="background-image: none; margin: 20px auto; padding-left: 0px; padding-right: 0px; display: block; float: none; padding-top: 0px; border-width: 0px;" title="My &quot;new&quot; ZX Spectrum" src="/assets/image_551709.jpg" border="0" alt="My &quot;new&quot; ZX Spectrum" width="394" height="264" /></a></p>
+<p>I was impressed by the condition of the keyboard, in particular, as these very quickly became dirty and damaged, back in the day. Perhaps Italy is a less corrosive environment for computers than the UK? :-)</p>
+<p>Everything worked when I plugged it in and turned it on (I could hear the distinctive click of the speaker when I hit the keys) but it didn’t display on a modern TV set: it turns out that the Spectrum uses an <a href="http://en.wikipedia.org/wiki/RF_modulator" target="_blank">RF modulator</a> – allowing it to work with TV sets available back in the 80s/90s – but that it’s <a href="http://womblesretrorepairshack.blogspot.com/2008/11/zx-spectrum-composite-video-mod.html" target="_blank">a simple matter to bypass this component</a>, as the Spectrum generates composite video anyway. There’s even <a href="http://www.youtube.com/watch?v=ls0DpzCmqjk" target="_blank">a video on YouTube</a> that steps through the process.</p>
+<p>So I dusted off my soldering iron and got cracking with the mod. Opening up the case made it apparent I’d received a fairly early model – which I assume means it's 16 rather than 48K – and you can see a little rust where there was some water damage:</p>
+<p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e2017c32cbc5d5970b-pi" target="_blank"><img style="background-image: none; margin: 20px auto; padding-left: 0px; padding-right: 0px; display: block; float: none; padding-top: 0px; border-width: 0px;" title="A pretty early model" src="/assets/image_643162.jpg" border="0" alt="A pretty early model" width="394" height="264" /></a></p>
+<p>The mod itself went fairly well – I ended up with a not-too-ugly bypass of the modulator unit:</p>
+<p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e2017c32cbc673970b-pi" target="_blank"><img style="background-image: none; margin: 20px auto; padding-left: 0px; padding-right: 0px; display: block; float: none; padding-top: 0px; border-width: 0px;" title="A bit of soldering work to bypass the RF Modulator" src="/assets/image_225277.jpg" border="0" alt="A bit of soldering work to bypass the RF Modulator" width="394" height="264" /></a></p>
+<p>The only problem came when I tried to reconnect the keyboard, as the membrane’s connectors are notoriously fragile (especially after 30 years). At first a few keys worked, but they soon stopped.</p>
+<p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e2017d3cfa4f3e970c-pi" target="_blank"><img style="background-image: none; margin: 20px auto; padding-left: 0px; padding-right: 0px; display: block; float: none; padding-top: 0px; border-width: 0px;" title="The damage on the old connectors" src="/assets/image_279931.jpg" border="0" alt="The damage on the old connectors" width="394" height="264" /></a></p>
+<p>Not holding much hope of being able to repair this effectively, I got on the web and found <a href="http://www.sellmyretro.com/offer/details/Brand_New_16%2548K_Sinclair_ZX_Spectrum_Keyboard_Membrane-2502" target="_blank">a site that still provides them</a> (and they’re newly manufactured!). A few days after placing my order, I received the replacement membrane through the post.</p>
+<p>On to replacing the keyboard membrane…</p>
+<p>First I had to get the Spectrum’s metal face-plate off. This took but a little work with my wife’s hair-dryer (you’d be right in thinking this is one of the rare times I’ve had call to use one of these, in recent years ;-) followed by some gentle prying, revealing the rubber keyboard mat:</p>
+<p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e2017d3cfa4ffb970c-pi" target="_blank"><img style="background-image: none; margin: 20px auto; padding-left: 0px; padding-right: 0px; display: block; float: none; padding-top: 0px; border-width: 0px;" title="Without the cover-plate" src="/assets/image_345410.jpg" border="0" alt="Without the cover-plate" width="394" height="264" /></a></p>
+<p>And under the rubber keyboard we can see the original membrane:</p>
+<p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e2017c32cbc853970b-pi" target="_blank"><img style="background-image: none; margin: 20px auto; padding-left: 0px; padding-right: 0px; display: block; float: none; padding-top: 0px; border-width: 0px;" title="With the old membrane" src="/assets/image_139096.jpg" border="0" alt="With the old membrane" width="394" height="264" /></a></p>
+<p>Here are the old and new keyboard membranes, side-by-side:</p>
+<p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e2017c32cbc90f970b-pi" target="_blank"><img style="background-image: none; margin: 20px auto; padding-left: 0px; padding-right: 0px; display: block; float: none; padding-top: 0px; border-width: 0px;" title="The old and new keyboard membranes" src="/assets/image_36958.jpg" border="0" alt="The old and new keyboard membranes" width="394" height="264" /></a></p>
+<p>Replacing the membrane was very easy, then it was a mere matter of replacing the keyboard, face-plate (I didn’t even need additional glue) and screws.</p>
+<p>Then it was time to plug it back in and connect it via a standard yellow composite video cable into my TV...</p>
+<p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e2017d3cfa526d970c-pi" target="_blank"><img style="background-image: none; margin: 20px auto; padding-left: 0px; padding-right: 0px; display: block; float: none; padding-top: 0px; border-width: 0px;" title="The initial screen - zero boot time!" src="/assets/image_786714.jpg" border="0" alt="The initial screen - zero boot time!" width="394" height="264" /></a></p>
+<p>... write some code…</p>
+<p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e2017d3cfa5462970c-pi" target="_blank"><img style="background-image: none; margin: 20px auto; padding-left: 0px; padding-right: 0px; display: block; float: none; padding-top: 0px; border-width: 0px;" title="Everyone's first program" src="/assets/image_402178.jpg" border="0" alt="Everyone's first program" width="394" height="264" /></a></p>
+<p>... and see it in action…</p>
+<p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e2017ee46f9547970d-pi" target="_blank"><img style="background-image: none; margin: 20px auto; padding-left: 0px; padding-right: 0px; display: block; float: none; padding-top: 0px; border-width: 0px;" title="Here it is running" src="/assets/image_77441.jpg" border="0" alt="Here it is running" width="394" height="264" /></a></p>
+<p>So what about playing games? Games for the ZX Spectrum were originally loaded from cassette tape via an audio jack. Many of these games <a href="http://www.worldofspectrum.org/archive.html" target="_blank">are available online</a>, but in digital format.</p>
+<p>A future project is to use one of the <a href="http://www.worldofspectrum.org/utilities.html" target="_blank">tape-related utilities</a> to create a bunch of WAVs or MP3s for the games I want to load and then put them on an old iPod (I have an old iPod Photo that looks sufficiently retro for the task ;-), so that I can relive the experience of loading and playing games. I’ll still probably use the Raspberry Pi to do any serious playing – I’d like to keep my Spectrum in good condition – but it’d be fun to get working.</p>
+<p>My friend also tells me that he may well be able to bring me back a Commodore 64 from his next visit to Rome. I can’t wait!</p>
+<p>(Grazie mille, Francesco and Andreas! :-)</p>

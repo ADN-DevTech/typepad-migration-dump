@@ -1,0 +1,762 @@
+comments:
+- author: tb
+  email: tbrackbill@hampton-hydraulics.com
+  ip: 206.197.199.248
+  url: ''
+  date: '2008-05-28 18:04:04'
+  body: Please tell me how to get xrefs to show up using the AcCtrl.dll control from
+    2009 TruEView via VB.
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-29 13:32:13'
+  body: 'Do your xrefs get loaded when launching the DWG TrueView executable directly?
+
+
+    I haven''t yet looked into xref support when TrueView is hosted by the control,
+    but I thought I''d start by asking this question.
+
+
+    Kean'
+- author: Markus Hannweber
+  email: markushannweber@sofistik.de
+  ip: 212.204.69.62
+  url: http://www.sofistik.de
+  date: '2008-08-07 17:05:43'
+  body: 'Hi Kean,
+
+    nice tool. But on some occacions, the whole ACAD frame comes up, with all menus,
+    icons, ribbons, commandline and so on.
+
+    This happens e.g. when a message on the commandline is printed or a dialgbox opens.
+    And when you work with additional DBX/ARX loaded, this happen nearly every time.
+    How to avoid this?
+
+
+    Greetings
+
+    Markus'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-07 17:08:01'
+  body: 'Hi Markus,
+
+
+    Please submit a reproducible case via the ADN site, and we''ll look into it.
+
+
+    Regards,
+
+
+    Kean'
+- author: harrie
+  email: thijssen.harrie@rogers.com
+  ip: 12.160.193.229
+  url: ''
+  date: '2008-10-09 17:33:57'
+  body: 'Hi Kean,
+
+    While in a AutoCAD session, I wrote a command that displays the above as a (modal)
+    form. When exiting i get an error from AcVBA.arx (access violation reading ...).
+
+
+    My questions:
+
+    - is there another way to display entities in a separate window/control, or is
+    AcCtrl the way to go? (I need zoom/pan/selection functionality from the window)
+
+    - is there a way to display the control without starting another instance of AutoCAD?
+
+
+    Thanks,
+
+    Harrie'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-10-10 09:03:50'
+  body: 'Hi Harrie,
+
+
+    I would recommend against using the AcCtrl control in-process to AutoCAD: this
+    effectively fires up and drives a separate instance of AutoCAD behind the scenes.
+
+
+    You will hopefully find the BlockView control more interesting, as mentioned in
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2008/06/autocad-net-ver.html">this
+    previous post</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Bala Padmanabhan
+  email: bala.padmanbhan@honeywell.com
+  ip: 199.64.0.252
+  url: ''
+  date: '2009-02-25 20:34:38'
+  body: 'Hi Kean:
+
+
+    A DWG file with XREF displays well on the stand alone DWG TrueView 2009 but not
+    when using DWG TrueView 2009 as an ActiveX control. Does this feature work when
+    used as an ActiveX control?
+
+
+    (The layer manager dialog invoked from the activeX control still lists all the
+    layers just like the stand alone does.)
+
+
+    Thanks,
+
+    Bala'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-02-26 11:11:10'
+  body: 'Hi Bala,
+
+
+    This issue has now been mentioned a couple of times in comments on this post...
+
+
+    I''ve just tried it myself, and can see the behaviour you''re describing. Running
+    SysInternals'' ProcessMonitor shows that the xrefed DWG files are being accessed,
+    but it''s true that they aren''t being displayed.
+
+
+    I recommend submitting the issue via the ADN site, if you''re a member (this blog
+    isn''t a forum to get support... I unfortunately don''t have time to investigate
+    issues in depth unless they relate specifically to code I''ve posted).
+
+
+    Regards,
+
+
+    Kean'
+- author: Nick Hall
+  email: nick.hall@altasystems.co.uk
+  ip: 195.97.195.242
+  url: ''
+  date: '2009-07-01 09:29:19'
+  body: 'Hi Kean
+
+
+    I''ve been trying this with AutoCAD 2010 and get the following error ...
+
+
+    "Class not registered (Exception from HRESULT: 0x80040154 (REGDB_E_CLASSNOTREG))"
+
+
+    at the line ...
+
+
+    axAcCtrl1.Src = drawingPath.Text;
+
+
+    I''ve tried REGSVR32 AcCtrl.dll, with no effect
+
+
+    Have you any ideas/pointers ?
+
+
+    Thanks in advance,
+
+    Nick'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-07-01 17:15:27'
+  body: 'Hi Nick,
+
+
+    I''m not going to be able to look into this anytime soon - would you mind submitting
+    it via <a href="http://adn.autodesk.com">ADN</a>?
+
+
+    Thanks & regards,
+
+
+    Kean'
+- author: Juan Palma
+  email: ''
+  ip: 190.10.164.146
+  url: http://profile.typepad.com/palma
+  date: '2009-11-26 18:26:48'
+  body: "Hi Kean,\n\nHow can it use specific version of AutoCad product with the control?\
+    \ \n\nthanks in advance"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2009-11-26 18:39:21'
+  body: 'Hi Juan,
+
+
+    That''s a very good question, and I''m afraid I don''t know the answer (and am
+    unlikely to find out this side of AU).
+
+
+    If you''re an Autodesk Developer Network member please submit your question via
+    <a href="http://adn.autodesk.com">the ADN site</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: devulapally_vijay@yahoo.co.in
+  email: devulapally_vijay@yahoo.co.in
+  ip: 210.211.225.48
+  url: ''
+  date: '2010-02-16 11:01:50'
+  body: 'hi kean
+
+
+    i followed the steps what you mentioned in this article
+
+    but when i run it ,it is showing the following error
+
+    please can u help
+
+
+    Server execution failed (Exception from HRESULT: 0x80080005 (CO_E_SERVER_EXEC_FAILURE))'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-02-16 11:04:44'
+  body: 'I''m sorry I''m not able to help you with this: I suggest posting more details
+    of the problem to <a href="http://adn.autodesk.com">the ADN team</a>, if you''re
+    a member, or otherwise the appropriate <a href="http://discussion.autodesk.com">online
+    discussion forum</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Nhumes01
+  email: ''
+  ip: 143.117.129.154
+  url: http://profile.typepad.com/nhumes01
+  date: '2010-05-17 17:23:51'
+  body: "Hi kean,\nI'm an architecture student trying to develop a small application\
+    \ and as someone with no programming knowledge your site has helped me tremendously.\
+    \ \nCan you show me how to add in the command line into this type of standalone\
+    \ window? or to take the text from the command line to a message box or label\
+    \ using c#.net in VS 2005.\nGreat blog!\nThanks\nnick"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.71.10
+  url: http://profile.typepad.com/kean
+  date: '2010-05-17 17:35:34'
+  body: 'Hi Nick,
+
+
+    You would probably want to have some kind of TextBox for your command history/output,
+    and then an EditBox for entry of new commands. What gets entered would then be
+    sendt to the application using PostCommand().
+
+
+    I''m sure "the devil is in the detail", but this is how I''d start, at least.
+
+
+    Regards,
+
+
+    Kean'
+- author: Nhumes01
+  email: ''
+  ip: 143.117.129.154
+  url: http://profile.typepad.com/nhumes01
+  date: '2010-05-17 17:51:12'
+  body: "what i have are buttons which reference the commands I’d previously built\
+    \ up such as;\n\n//once the dwg is loaded and the button is clicked then;\nMessageBox.Show(\"\
+    Insert object \");\naxAcCtrl1.PostCommand(\"obj \");\n//at which point a user\
+    \ prompt should appear in the command line to ask the user which object but this\
+    \ is where i am stuck\n\nSo these buttons run through but if I require user input\
+    \ half way through the command, such as a multiple choice prompt, then I loose\
+    \ the ability to prompt the user for more information. \n\nthanks \nnick"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.71.10
+  url: http://profile.typepad.com/kean
+  date: '2010-05-17 18:12:35'
+  body: 'There''s that devil. :-) :-(
+
+
+    It''s going to be very hard (perhaps impossible) to implement this type of fine-grained
+    interaction between a host application and an embedded instance of AutoCAD. Very
+    basic, high-level command-calling can work, but other interactions are clearly
+    much trickier.
+
+
+    Regards,
+
+
+    Kean'
+- author: Alex Gagnon
+  email: gagale01@hotmail.com
+  ip: 216.218.2.61
+  url: ''
+  date: '2011-08-10 21:36:16'
+  body: Can we print with this .com control ? If yes can we change the paper size
+    and print silently ?
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-08-11 09:46:19'
+  body: 'Sorry, Alex - I don''t know if this is possible. I suggest posting your question
+    via ADN or to the appropriate online discussion group.
+
+
+    Kean'
+- author: Xavier
+  email: solucao.intel@gmail.com
+  ip: 189.101.20.242
+  url: ''
+  date: '2012-08-04 00:49:08'
+  body: 'Hi Kean!
+
+
+    How I do that using vb6 ?
+
+
+    "AcCtrl1.PostCommand(cmdString.Text)" in acad 2010 which I''m using.
+
+
+    *J*'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-08-04 08:57:04'
+  body: 'Hi Xavier,
+
+
+    You should be able to embed the control in a VB6 dialog just as well as with .NET.
+    Not sure what''s not working for you.
+
+
+    I suggest posting follow-up questions to the AutoCAD .NET or VBA discussion groups.
+
+
+    Regards,
+
+
+    Kean'
+- author: Xavier
+  email: solucao.intel@gmail.com
+  ip: 189.61.169.86
+  url: ''
+  date: '2012-08-04 13:19:00'
+  body: 'Ok Kean !
+
+
+    Thanks for your atention.
+
+    In this case, worked very well in vb6.
+
+    Is it possible to embeded autocad''s prompt too ?
+
+
+    *J*'
+- author: Xavier
+  email: solucao.intel@gmail.com
+  ip: 189.61.175.69
+  url: ''
+  date: '2012-08-06 17:24:32'
+  body: 'Hi Kean !
+
+
+    AcCtrl1 is a componente. Is necessary autocad instaled to work ?
+
+
+    Other question is about "PostCommand". Calling cad function by textfield, is it
+    seems a command prompt ?
+
+
+    Thanks!'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-08-06 20:39:38'
+  body: 'Sorry - not that I''m aware of.
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-08-06 20:40:54'
+  body: 'Yes, it is.
+
+
+    And yes - you can implement your own command-line via an edit box (although the
+    command-line is much more than that, these days, with auto-complete etc.).
+
+
+    Kean'
+- author: alexb
+  email: alexb@actcom.co.il
+  ip: 82.81.86.176
+  url: ''
+  date: '2012-08-14 15:44:11'
+  body: "Hi Kean:\n\nI'm trying to use this idea in my system (Acad2004 + Acad2008\
+    \ + Dwg True View 2012) and I'm getting compiler errors:\nError\t1\t'AxACCTRLLib.AxAcCtrl'\
+    \ does not contain a definition for 'Src'\nError\t2\t'AxACCTRLLib.AxAcCtrl' does\
+    \ not contain a definition for 'PostCommand'\nWere there any changes in the DwgTrueView\
+    \ control from 2008 to 2012?\nIs there any documentation? I can't seem to be able\
+    \ to find any.\nBTW, your sample code won't compile too.\n\nThanks"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-08-14 17:43:41'
+  body: 'Hi Alex,
+
+
+    Hmm - this capability was introduced inside AutoCAD in 2009... the code really
+    shouldn''t work on versions prior to that (or DWG TrueView, for that matter).
+
+
+    DWG TrueView has a much more limited, undocumented API (at least far as I''m aware
+    - things may have changed). Here''s a little info on it:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2007/10/au-handouts-t-1.html">http://through-the-interface.typepad.com/through_the_interface/2007/10/au-handouts-t-1.html</a>
+
+
+    Regards,
+
+
+    Kean'
+- author: alexb
+  email: alexb@actcom.co.il
+  ip: 82.81.86.176
+  url: ''
+  date: '2012-08-14 20:13:05'
+  body: 'Hi Kean
+
+    Thanks for answering.
+
+    I had a look at your "AU Handouts: There''s More to .DWG Than AutoCAD® - Part
+    2": Figure 8 shows the acctrl.dll control located in the TrueView2008 folder,
+    and I assumed TrueView2012 would also work with Acad2008 (after all, it works
+    without any Autocad at all).
+
+    Apparently I was wrong.
+
+    Does that mean that each TrueView version needs its parallel Autocad to function?
+
+    If this is so, can you point me to a TrueView2008 download?
+
+
+    Thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-08-14 22:36:46'
+  body: 'Hi Alex,
+
+
+    TrueView 2012 should indeed work when installed on the same system as AutoCAD
+    2008, if that''s what you mean... if it doesn''t, there''s some kind of issue.
+    Although whether it''s a bug in TrueView or a now-unsupported version of AutoCAD
+    remains to be seen.
+
+
+    I don''t think there''s any way to get hold of TrueView 2008, at this stage.
+
+
+    Regards,
+
+
+    Kean'
+- author: alexb
+  email: alexb@actcom.co.il
+  ip: 82.81.86.176
+  url: ''
+  date: '2012-08-15 01:22:25'
+  body: 'I mean embedding acctrl.dll which came with TrueView 2012.
+
+    When I use like this:
+
+    int i = axCtrl1.PutSourcePath(path);
+
+    it raises an InvalidCastException.
+
+    Using it like in this post (axAcCtrl1.Src = ...) won''t compile.
+
+    Any ideas?
+
+    Thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-08-15 07:51:52'
+  body: 'Sorry - I don''t know what''s wrong. The only thing I an think of is to make
+    sure the "path" variable is a valid text string. Otherwise you should post a reproducible
+    sample to the appropriate online discussion forum.
+
+
+    Kean'
+- author: alexb
+  email: alexb@actcom.co.il
+  ip: 82.81.86.176
+  url: ''
+  date: '2012-08-15 16:25:39'
+  body: 'OK I got it:
+
+    It was a ''simple'' matter of versions. It seems that the control tries to load
+    the specific version of Autocad it was built with, so the Trueview 2012 looked
+    for Acad 2012 which wasn''t installed.
+
+    I succeeded getting a copy of Trueview 2008 and used the control that came with
+    it, and all is fine.
+
+    The lack of any API documentation is a pity though, as we have to guess our way
+    in the dark.
+
+    Regards
+
+    alex'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-08-16 10:18:52'
+  body: 'Glad to know you have it working.
+
+
+    Kean'
+- author: Moniz
+  email: jonas.moniz01@gmail.com
+  ip: 213.228.152.138
+  url: ''
+  date: '2012-08-28 15:38:48'
+  body: 'Hi Kean.I''ve tryed this and its working fine.
+
+    My question is how do i save what i''ve done?
+
+
+    I''ve tried command save and Qsave but i only get COMEXCPTION.
+
+
+    Thanks,
+
+    Moniz'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-08-29 10:26:49'
+  body: 'Hi Moniz,
+
+
+    How about sending this?
+
+
+    -SAVEAS c:\\temp\\my.dwg
+
+
+    I haven''t tried it, but would expect it to work.
+
+
+    Regards,
+
+
+    Kean'
+- author: Xavier
+  email: solucao.intel@gmail.com
+  ip: 177.182.210.185
+  url: ''
+  date: '2012-09-03 13:55:26'
+  body: 'Hi Kean!
+
+    That is problem! When a load autocad environment, if I press "f2", it trhough
+    total autocad to front and lock.
+
+    How do I do to avoid this event? Is possible cancel "f2" using AcCtrl1?
+
+
+    Thanks,
+
+    Xavier.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-09-03 14:52:39'
+  body: 'Hi Xavier,
+
+
+    So the AutoCAD control has focus and is absorbing the F2 keystroke? You''d rather
+    that be handled by your HTML container?
+
+
+    (If the answer is "yes" to both, then I''ll probably still tell you to post your
+    question via ADN or the discussion group, but I did want to just clarify those
+    points.)
+
+
+    Regards,
+
+
+    Kean'
+- author: Guilherme Kruger
+  email: ''
+  ip: 187.112.254.81
+  url: http://profile.typepad.com/guilhermekruger
+  date: '2012-09-12 15:54:45'
+  body: 'Hey Kean,
+
+
+    Long story short, any idea to make AutoCad stop reading at "<i>C:/EVH</i>" as
+    the filename and interpret the rest as coordinates in the -INSERT command?
+
+
+    Long story:
+
+    I''ve been trying to work out the -INSERT trough PostComand, but AutoCad reads
+    till the end of the line as the filename, where I also inputed the coordinate
+    entries, as follow:
+
+
+    If I type:
+
+    <i>^C ^C -INSERT C:/EVH</i>
+
+
+    It results in me just pressing enter and the file ready to be inserted in the
+    drawing.
+
+
+    But if I give it the coordinates to insert:
+
+    <i>^C ^C -INSERT C:/EVH 0,0 1 1 0</i>
+
+
+    It gives the error that can''t find the file "<i>C:/EVH 0,0 1 1 0.dwg</i>".
+
+    I also tried to add the .dwg after EVH and adding <i>;</i> or <i>^M</i> for enter
+    but with no luck.
+
+
+    Thanks.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-09-12 16:27:35'
+  body: 'Does enclosing the filename in quotes help?
+
+
+    Kean'
+- author: Guilherme Kruger
+  email: ''
+  ip: 189.26.147.251
+  url: http://profile.typepad.com/guilhermekruger
+  date: '2012-09-12 16:48:33'
+  body: Tried all special enclosing chars, <> [] {} () '' "", they all get interpreted
+    as the filename resulting in error "Invalid Filename".
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-09-12 16:52:07'
+  body: 'How about inserting \n into the string?
+
+
+    Kean'
+- author: Guilherme Kruger
+  email: ''
+  ip: 189.26.147.251
+  url: http://profile.typepad.com/guilhermekruger
+  date: '2012-09-12 17:04:55'
+  body: 'WORKS!
+
+
+    Not when posted trough the textbox, put perfectly when inserted as a string in
+    the source code, but that''s exactly what I needed, many thanks!
+
+
+    For future reference:
+
+    <i>this.axAcCtrl1.PostCommand("^C ^C -INSERT C:\\EVH.dwg \n 0,0 \n 1 \n 1 \n 0
+    ^C ^C");</i>'
+- author: Farrukh
+  email: farrukh1@gmail.com
+  ip: 203.82.55.114
+  url: ''
+  date: '2013-03-21 08:46:14'
+  body: 'Hi Kean,
+
+    I''m with AutoCAD 2012 X64. I am able to add acctrl.dll in References, but while
+    adding this to ToolBox, got this message:
+
+    <b>
+
+    Self-registration for C:\Program Files\Common Files\Autodesk Shared\AcCtrl.dll
+    failed.
+
+    </b>
+
+
+    Seems like Autodesk is not supporting this anymore ...
+
+
+    Using Visual Studio 2008.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-03-21 08:52:48'
+  body: 'I suggest posting your question to the ADN team or one of the discussion
+    groups: someone there will have more insight, I''m sure.
+
+
+    Kean'
+- author: benjamin
+  email: tho.benjamin@gmail.com
+  ip: 82.228.77.149
+  url: ''
+  date: '2013-04-26 09:11:43'
+  body: 'Hi Kean,
+
+    How get the MidiActiveDocument property with this control ? I would like to add
+    objects dynamicly. Is it possible ?
+
+
+    Benjamin'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.64.218
+  url: http://profile.typepad.com/kean
+  date: '2013-04-26 17:40:05'
+  body: 'Hi Benjamin,
+
+
+    As far as I recall you can''t just use a document pointer: you would need to do
+    so via commands.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

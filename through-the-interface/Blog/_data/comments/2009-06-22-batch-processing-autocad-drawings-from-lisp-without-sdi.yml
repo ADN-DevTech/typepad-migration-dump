@@ -1,0 +1,356 @@
+comments:
+- author: Jon Szewczak
+  email: jvszewczak@hotmail.com
+  ip: 70.18.155.198
+  url: ''
+  date: '2009-06-22 12:17:32'
+  body: 'Kean,
+
+
+    The problem that I had run into before is that if you inadvertently modify the
+    drawing database with the script (say with PLOT)then when you close you get a
+    "Do you want to save?" prompt that halts the script.  Or even worse, if you have
+    a line that zooms extents, but only does it on some of the drawings in the batch,
+    then you have some of the drawings in the batch that will have a save prompt and
+    some that won''t. I''m over simplifying the issue here to save space, so I hope
+    my explanation makes some sense.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-06-22 13:41:38'
+  body: 'Jon,
+
+
+    Right now the call to QSAVE should handle that, but yes: if you don''t save then
+    there is the chance DBMOD being non-zero could cause a problem.
+
+
+    It should be simple enough to add something to the script to check DBMOD before
+    closing, sending an additional "_Y" in the case of it being non-zero.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Nick Hall
+  email: nick.hall@altasystems.co.uk
+  ip: 195.97.195.242
+  url: ''
+  date: '2009-06-22 18:03:56'
+  body: "Kean\n\nRe the use of SDI to batch-process sets of drawings, I've always\
+    \ found it safer to loop at the OS level.\n\nMy batch/VBS file will open AutoCAD\
+    \ (passing the drawing and a script file on the command line) perform the required\
+    \ actions, save and exit AutoCAD, for each file to be processed. \n\nMy experience\
+    \ is that as you go through the open/close cycle within a single session of AutoCAD,\
+    \ memory is not always released, and the RAM usage slowly creeps up, until AutoCAD\
+    \ finally gives up.\n\nAnd as my batch processes always seem to involve hundreds\
+    \ of files, I always go for reliability rather than speed.\n\nNick"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-06-22 18:16:28'
+  body: 'Nick,
+
+
+    Thanks - that''s useful input. I can well imagine that certain cases need more
+    fault-tolerance (especially when you''re processing DWGs that may not load properly).
+
+
+    What I''m looking at with this are the more simple cases. But even the approach
+    in this post (using a single script) could be improved... the next version I''ll
+    post will just use a script to chain to the next file (to replace the use of (command
+    "_.open" ...) when SDI == 0). This should help the cases where certain commands
+    break script execution.
+
+
+    Cheers,
+
+
+    Kean
+
+
+    P.S. I should probably have mentioned <a href="http://autodesk.blogs.com/between_the_lines/2009/04/autocad-scriptpro-updated-for-autocad-2010.html">ScriptPro</a>,
+    for completeness, although I know that''s not a solution for people on 64-bit
+    Windows.'
+- author: Tim
+  email: tmwilley@mmm.com
+  ip: 192.28.0.20
+  url: ''
+  date: '2009-06-22 23:42:36'
+  body: "The problem I have had before was plotting and updating Title blocks with\
+    \ lisp.  I would have to set SDI = 1, and LispInit = 0.  Then I would run my lisp\
+    \ that would do either mentioned above.  Here is the main part ( you will not\
+    \ be able to run it, but can see what it is doing ).\n\nCan't figure out how to\
+    \ show the code indents.\n\n\n<CODE>\n(progn\n            (setq Oldsdi (getvar\
+    \ \"sdi\"))\n            (setq Oldlsp (getvar \"lispinit\"))\n            (setvar\
+    \ \"sdi\" 1)\n            (setvar \"lispinit\" 0)\n            (foreach Dwg DwgList\n\
+    \                (setq FullName (strcat DirPath Dwg))\n                (if (/=\
+    \ (getvar \"dbmod\") 0)\n                    (command \"_.open\" SaveOpt FullName)\n\
+    \                    (command \"_.open\" FullName)\n                )\n      \
+    \          (if (setq TitleBlock (GetTitleBlock (vla-get-ActiveDocument (vlax-get-Acad-Object))))\n\
+    \                    (progn\n                        (setq AttLists (GetRevLevels\
+    \ TitleBlock))\n                        (ReOrderRevisions TitleBlock AttLists)\n\
+    \                        (setq AttLists (GetRevLevels TitleBlock))\n         \
+    \               (if (= NewRev \"0\")\n                            (UpdateLastRevision\
+    \ AttLists RevList)\n                            (AddRevision TitleBlock AttLists\
+    \ RevList)\n                        )\n                        (command \"_.qsave\"\
+    )\n                    )\n                )\n            )\n            (setvar\
+    \ \"sdi\" Oldsdi)\n            (setvar \"lispinit\" Oldlsp)\n        )\n</CODE>"
+- author: John
+  email: fake@aol.com
+  ip: 173.160.102.121
+  url: ''
+  date: '2010-02-24 23:53:44'
+  body: "> \"...break binary application compatibility\"\n\nWhat does that mean? I\
+    \ know what each one of those words mean but when they are used together like\
+    \ that...\n\n\nTo get your code to format, wrap the code in HTML \"< PRE >\" and\
+    \ \"< / PRE >\" tags. Like this:\n<pre>\n((lambda (x) \n   (list x (list (quote\
+    \ quote) x))) \n  (quote \n     (lambda (x) \n       (list x (list (quote quote)\
+    \ x)))))\n</pre>"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2010-02-25 08:31:52'
+  body: 'AutoCAD loads a number of C++-compiled application modules (mainly DLLs,
+    but some are renamed .ARX and .DBX). The C++-based interfaces these modules use
+    remain "binary compatible" (which means they don''t need to be recompiled from
+    source code) for a three release window. Beyond that C++ developers are asked
+    to rebuild - and potentially migrate some parts of their source code.
+
+
+    Kean'
+- author: John
+  email: fake@aol.com
+  ip: 173.160.102.121
+  url: ''
+  date: '2010-02-25 16:52:14'
+  body: Ahh, got 'cha. Thanks.
+- author: Randall Lamond
+  email: lamond_randall_s@cat.com
+  ip: 203.9.78.2
+  url: ''
+  date: '2011-03-10 22:31:38'
+  body: "Nick , would it be possible to get a copy of your batch open autocad script\
+    \ , I am having the same problem with ram creep.\nI understand if you wish not\
+    \ to pass it on \n\nMany thanks"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-03-10 22:45:55'
+  body: 'Hi Randall,
+
+
+    Be sure to check our the ScriptPro 2.0 <a href="http://labs.autodesk.com/utilities/ADN_plugins/catalog">Plugin
+    of the Month</a>, if you haven''t already.
+
+
+    Regards,
+
+
+    Kean'
+- author: Bill
+  email: bcoffey28@gmail.com
+  ip: 158.48.6.139
+  url: ''
+  date: '2013-09-10 21:06:24'
+  body: 'Kean,
+
+
+    Is there any updates for this for AutoCAD 2014 or anything else to use in the
+    current version of AutoCAD. Trying to use it with AutoCAd 2013 and each file always
+    say fail for the status even if the scripts completes correctly on the file.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-09-10 21:09:30'
+  body: 'Bill,
+
+
+    If using AutoCAD 2013+ then I''d suggest looking at using the Core Console in
+    combination with ScriptPro 2.0 for this.
+
+
+    Regards,
+
+
+    Kean'
+- author: Tim Spangler
+  email: tim.spangler@gmail.com
+  ip: 4.49.114.135
+  url: ''
+  date: '2013-11-05 14:23:17'
+  body: "Kean,\n\nI have been working on a lisp only batch processor that works pretty\
+    \ well with one exception.  I shell out to open the drawing list but in the process,\
+    \ if a drawing takes to long to process then the shell creates a new instance\
+    \ of Autocad and starts loading drawings there.  This is not a huge issue but\
+    \ upon completion the user may have to close a few instances of Autocad.  Do you\
+    \ know of a way to check for the current instance and open the drawings in just\
+    \ that instance?  Here is the code I use to open the drawings.\n\n<code>\n;;;\
+    \ ------------ PROCESS THE SELECTED DRAWINGS\n(defun BATCH_PROCESS (FileList /\
+    \ Shell File)\n\n\t;; Copy the batch to the temp folder - rename it with temp\
+    \ name\n\t(vl-file-copy (strcat BATCH_System BatchProcess)(setq BatchProcess (vl-filename-mktemp\
+    \ \"BATCH\" BATCH_User \".batch\")))\n\t;; Set the Batch config\n\t(vl-registry-write\
+    \ BatchMasterKey \"Batch\" BatchProcess)\n\t;; Create the shell object - *USING\
+    \ THE SHELL OPENS THE DWG IN THE DEFAULT APP FOR DWG's\n\t(setq Shell (vla-getInterfaceObject\
+    \ (vlax-get-acad-object) \"Shell.Application\"))\n  ;; Process each drawing\n\
+    \  (foreach File FileList\n    (if (setq File (findfile File))\n      ;; Open\
+    \ each drawing\n\t\t\t\t(vl-catch-all-apply (function vlax-invoke)(list Shell\
+    \ 'Open File))\n    )\n  )  \n  ;; Release the shell object\n  (vlax-release-object\
+    \ Shell)\n)\n</code>"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-11-05 14:38:15'
+  body: 'Tim,
+
+
+    I''m surprised you''ve got this working as well as you appear to have, considering
+    the fact LISP is so heavily document-centric. I don''t know how you can get over
+    the problem you''re experiencing, although you may be able to access the ROT (Running
+    Object Table) via COM and close instances that  you don''t care about.
+
+
+    I have to ask though: is there a good reason you''re not just using ScriptPro
+    2.0 for this?
+
+
+    Regards,
+
+
+    Kean'
+- author: Tim Spangler
+  email: tim.spangler@gmail.com
+  ip: 71.58.158.34
+  url: http://theswamp.org
+  date: '2013-11-10 19:06:35'
+  body: 'Kean,
+
+
+    The company I work for is not very interested in anything that isn''t OTB.  They
+    are very set in there ways and do not like change, they don''t want to rely on
+    something that may not be there tomorrow.
+
+
+    The batch processor works quite well.  It adds a line of code in the acaddoc.lsp
+    (if it isn''t there already):
+
+
+    ;; BATCHWORX
+
+    ;; ******************************BATCHWORX START********************************
+
+    ;; Applaod the bathworx program
+
+    (load "Batchworx.lsp")
+
+    ;; ******************************BATCHWORX END**********************************
+
+
+    This will load the batch processor.  In the batch processor we check for a few
+    registry keys as well as a file in a folder (.batch)  If the criteria is met it
+    loads the batch. (these parameters are set upon running the batch processor.  At
+    that time a reactor is set which check for the drawing to take focus again and
+    that the registry keys have been set.  At that point it starts opening the list
+    of selected drawing and because the parameters are set, it loads the .batch file.  The
+    contents of the .batch file are added the S::STARTUP so once the drawing is fully
+    loaded the batch runs then closes the drawing.  Once all of the drawing are processed
+    and the first drawing takes focus, the reg keys are reset and the .batch file
+    is deleted from the folder, and the reactor is turned off.  One of the registry
+    keys is a cleanup switch.  If this is set (to a lisp, .batch, exe, script, can
+    be anything) the cleanup function then runs. (this can be things like zipping
+    a folder of drawings, emailing, what ever needs to be done.  I have almost finished
+    the documentation, once I do I will post to the TheSwamp, along with the batch
+    processor.
+
+
+    Other than the registry that store the switches, this is a lisp only batch processor.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-11-10 20:21:10'
+  body: 'Tim,
+
+
+    ScriptPro 2.0 is provided with full .NET source code, which should give some confidence
+    that even if it "goes away" you can maintain it yourself (not true of the prior
+    ScriptPro).
+
+
+    But anyway - the choice is yours. You should be aware that doing this kind of
+    thing from LISP comes with its own risks and complications (the API is not designed
+    to do heavyweight batch processing at a document level), and as the move away
+    from fibers continues inside AutoCAD there may even be some work to do to keep
+    it working.
+
+
+    Regards,
+
+
+    Kean'
+- author: Tim Spangler
+  email: tim.spangler@gmail.com
+  ip: 71.58.158.34
+  url: ''
+  date: '2014-01-08 04:48:40'
+  body: 'Kean,
+
+
+    I fully understand that this sort of process takes special consideration, but
+    I ask you this.  What I am doing (through lisp) is no different than what I would
+    do manually; Open a drawing, run some sort of process (either manually or programmatically),
+    save, close, repeat. Why do you say the API isn''t designed for it?  Isn''t that
+    essentially what we do everyday?
+
+
+    I used Script Pro long ago but found that if a script errors, the entire process
+    comes to a halt.  Has that changed?  Is my work for not?
+
+
+    Just trying to get a lot of input on this subject as it is one of those subjects
+    that has been around forever, it is always good to look at it with a different
+    viewpoint.
+
+
+    Thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2014-01-08 06:32:11'
+  body: 'Tim,
+
+
+    LISP is fundamentally an API that excels in the document context. This is also
+    largely true of ObjectARX and .NET, for that matter. COM is the one AutoCAD API
+    that has been designed to work well across multiple documents.
+
+
+    I suggest taking a look at ScriptPro 2. This version works really well with instances
+    that halt for whatever reason: you can specify a timeout after which the instance
+    will be killed if it hasn''t completed successfully - the failure also gets reported
+    to the user, of course.
+
+
+    Regards,
+
+
+    Kean'
+- author: Bill Kishonti
+  email: bill@74mph.com
+  ip: 184.150.236.43
+  url: http://www.74mph.com
+  date: '2014-02-25 15:21:32'
+  body: 'Hi Kean, you could also take a look at Hurricane for AutoCAD.  It does the
+    script generation for you.  It not only does the batch scripting, but also mass
+    file-renaming, AutoCAD version checking and a dozen other things that save time.  Hope
+    you have time to check it out.  <a href="http://www.74mph.com">http://www.74mph.com</a>
+
+    -----'

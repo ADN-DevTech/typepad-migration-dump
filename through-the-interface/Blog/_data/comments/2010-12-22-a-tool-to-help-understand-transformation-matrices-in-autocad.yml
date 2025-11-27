@@ -1,0 +1,245 @@
+comments:
+- author: Mark J
+  email: mark@cadprogramming.net
+  ip: 71.36.45.152
+  url: http://www.cadprogramming.net
+  date: '2010-12-23 18:50:52'
+  body: 'Experimenting with rotation I found that 0, 90 and 270 work but any other
+    angle does not. This message is displayed at the command line:
+
+    Could not transform entity: eCannotScaleNonUniformly
+
+
+    The selected entity was a line.
+
+
+    Thanks very much for your efforts on this. I was hoping that the light would go
+    on for me by now but I am still having trouble understanding.
+
+    For me it isn''t the math as much as how a matrix relates to an entity.'
+- author: Evert-jan
+  email: ejo@cadfactory.nl
+  ip: 82.95.139.162
+  url: ''
+  date: '2010-12-23 20:27:31'
+  body: Thanks for the very clever application, I have a question also. I used AutoCAD
+    2010 to test the application and noticed that after I click the Transform button,
+    the selected entity will not update until after I manualy click the AutoCAD so
+    it will recieve the focus?
+- author: Mark J
+  email: mark@cadprogramming.net
+  ip: 71.36.45.152
+  url: http://www.cadprogramming.net
+  date: '2010-12-23 20:48:06'
+  body: Should have said rotation works with 0, 90, *180* and 270.
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2011-01-04 17:55:27'
+  body: 'If you apply the rotation to an individual property (such as the StartPoint
+    or EndPoint) then it should work: the issue appears to be with the transformation
+    as applied to the whole entity (and is presumably an entity-specific thing).
+
+
+    Does that confirm what you''re seeing?
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2011-01-04 17:58:40'
+  body: 'I don''t see that behaviour on my system (running AutoCAD 2011).
+
+
+    You might try appending "_.REGEN " to the cmd string sent to AutoCAD''s command-line
+    in the TransformButton_Click() event.
+
+
+    Kean'
+- author: Mark J
+  email: mark@cadprogramming.net
+  ip: 71.36.45.152
+  url: http://www.cadprogramming.net
+  date: '2011-01-18 00:50:31'
+  body: 'Sorry for the late reply.
+
+    The error is different when I try Start or End point.
+
+    I get an unhandled exception when I select either StartPoint or EndPoint and then
+    click Transform.
+
+    Error is at line 187. TargetInvocationException.
+
+
+    1. Start "Matrix"
+
+    2. Select Object (pick an existing rectangle)
+
+    3. Change "Entire Entity" to "StartPoint"
+
+    4. Change Angle to 9. (or whatever)
+
+    5. Click "Transform" button'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2011-01-18 11:40:58'
+  body: 'Can you try with a Line? A rectangle is a Polyline - it turns out that even
+    though the Curve.StartPoint method is set as writeable via the API, this isn''t
+    actually implemented by the Polyline class.
+
+
+    So you''ve hit what I''d term as an edge case - I can see arguments on both sides
+    as to whether the API should behave like this.
+
+
+    Kean'
+- author: Will Massie
+  email: wmassie@sause.com
+  ip: 97.90.97.10
+  url: ''
+  date: '2011-02-08 21:11:22'
+  body: 'I tried this application on AutoCAD 2009.  But it crashed AutoCAD.  Is this
+    application incompatible with ACAD2009?
+
+
+    Thanks.'
+- author: Kean Walmsley
+  email: ''
+  ip: 109.237.55.190
+  url: http://profile.typepad.com/kean
+  date: '2011-02-08 22:12:21'
+  body: 'Hi Will,
+
+
+    I should have stated in the post that you need AutoCAD 2010 or higher (as PaletteSet.AddVisual()
+    was added in 2010).
+
+
+    You could port it to use an ElementHost - an approach shown in <a href="http://through-the-interface.typepad.com/through_the_interface/2009/08/hosting-wpf-content-inside-an-autocad-palette.html">this
+    post</a> - if you need to make it work in versions prior to 2010.
+
+
+    Regards,
+
+
+    Kean'
+- author: René Andreas
+  email: rene.andreas@siemens.com
+  ip: 194.138.39.54
+  url: ''
+  date: '2011-02-10 13:12:46'
+  body: 'Hi Kean,
+
+
+    thank you for this post for me! :)
+
+
+    I tried the solution with SendStringToExecute to update my own palette. And since
+    I found out about the extra space behind the command, it really works perfectly.
+
+
+    I was also able to help a colleage of mine, who came up with the very same problem
+    within his own toolbar. This really made my day!
+
+
+    Thanks
+
+    René'
+- author: Kean Walmsley
+  email: ''
+  ip: 109.237.55.190
+  url: http://profile.typepad.com/kean
+  date: '2011-02-10 13:14:37'
+  body: 'Hi René,
+
+
+    I''m very happy it helped. :-)
+
+
+    Regards,
+
+
+    Kean'
+- author: Will Massie
+  email: wmassie@sause.com
+  ip: 69.1.101.18
+  url: ''
+  date: '2011-02-11 21:00:10'
+  body: 'Suggestion for a followup topic on the topic of matrix transformations: I
+    am working on a custom 3dsolid sectioning routine that will work on nested blocks
+    and xrefs.  I have been able to use the blocktransform method to obtain the position,
+    scale, rotation transformation matrix of a solid within a block in the current
+    WCS.  However, I want to extend this to work with nested blocks (that is, solids
+    within blocks/xrefs that are nested within other blocks/xrefs).  I have searched
+    extensively online for examples of this but haven''t found anything yet.
+
+
+    Thanks, Will'
+- author: Kean Walmsley
+  email: ''
+  ip: 109.237.55.190
+  url: http://profile.typepad.com/kean
+  date: '2011-02-11 22:24:29'
+  body: 'Hi Will,
+
+
+    The code for OffsetInXref, in <a href="http://through-the-interface.typepad.com/through_the_interface/2009/05/enabling-autocads-offset-to-work-on-the-contents-of-xrefs-using-net.html">this
+    previous post</a> should provide some pointers for applying consecutive BlockTransforms
+    for nested containers.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Will Massie
+  email: wmassie@sause.com
+  ip: 97.90.97.10
+  url: ''
+  date: '2011-02-14 20:06:24'
+  body: 'Kean,
+
+
+    Thanks, I have studied the code you suggested.  It looks like what I need.
+
+
+    Regards, Will'
+- author: Gavin Glynn
+  email: gavin.glynn@sparq.com.au
+  ip: 147.209.216.245
+  url: http://www.sparq.com.au
+  date: '2011-02-18 00:54:36'
+  body: "Hi Kean,\n\nI tried this example under AutoCAD 2011, and when I move my mouse\
+    \ off the panel under Windows 7 32bit (running under VMWare), the rendering of\
+    \ the panel get screwed up. I notice this doesn't happen to the native AutoCAD\
+    \ panels that come with Map 2011. Any thoughts? \n\nRegards\n\nGavin Glynn :)\n\
+    \nPS: My colleague (John Gaeta) has submitted a support request to this effect."
+- author: Kean Walmsley
+  email: ''
+  ip: 109.237.55.190
+  url: http://profile.typepad.com/kean
+  date: '2011-02-18 08:48:52'
+  body: 'Hi Gavin,
+
+
+    It''s almost certainly something to do with the funky WPF theme. Whether it''s
+    something specific to your configuration or not remains to be seen (I don''t see
+    any issues on 32-bit Vista, although I''m not in a VM).
+
+
+    One thing you might try is removing the theme reference (the ResourceDictionary
+    entry in UserControl.Resources in the XAML file, as mentioned in the post), to
+    see if that changes anything.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

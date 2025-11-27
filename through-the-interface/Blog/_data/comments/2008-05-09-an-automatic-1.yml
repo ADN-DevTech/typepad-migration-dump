@@ -1,0 +1,170 @@
+comments:
+- author: Roland Feletic
+  email: feletic@pauser.at
+  ip: 212.108.35.17
+  url: ''
+  date: '2008-05-09 10:00:02'
+  body: 'In every post I miss the possiblility that we could have dynamic blocks.
+
+    Therefore, e.g. line 132 should look like this, shouldn''t it?
+
+
+    if (br.IsDynamicBlock ? br.DynamicBlockTableRecord == blockId : br.BlockTableRecord
+    == blockId)'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-09 10:04:47'
+  body: 'Good point - I should have mentioned that this implementation has been designed
+    and tested with boring old static blocks.
+
+
+    I haven''t even considered what''s required to support Dynamic Blocks, but I probably
+    should.
+
+
+    Thanks for the reminder.
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2008-05-10 08:14:58'
+  body: "Hi Kean.  Nice sample code you have there.\n\nI've always had an interest\
+    \ in automatic serial numbering, having done a quite few implementations of that\
+    \ myself.\n\nThe intersting parts for me have been dealing with erasing, undoing\
+    \ the creation of, and cloning/copying of objects with application-managed serial\
+    \ numbers.\n\nFor starters, I would recommend storing your numbering 'seed' (e.g.,\
+    \ the next available serial number) in the drawing, thereby placing it under control\
+    \ of AutoCAD's undo mechanism, so that if you were to create and assign serial\
+    \ numbers to objects, and then rolled that back via undo, the seed value is also\
+    \ rolled back and correct, allowing you to avoid 'holes' or gaps in the sequence.\
+    \ \n\nHow to deal with erasure of serial numbered objects is something that I've\
+    \ found to be very domain-specific. In some cases it may be appropriate to automatically\
+    \ renumber, while in others, it is definitely not. In fact, many schedules and\
+    \ tables that show serially-numbered objects in their rows, retain rows corresponding\
+    \ to erased objects (with a strike-through or other visual indicator that the\
+    \ object has been erased), and in some cases, they are removed only after the\
+    \ next published revision, so that anyone that looks at the schedule can clearly\
+    \ see that something was removed or deleted.\n\nThe next interesting aspect of\
+    \ this kind of project, is how to deal with duplication and cloning. For example,\
+    \ in many of the apps I've done that managed serially-numbered objects, I handle\
+    \ it using a deep clone reactor, so that when the user copied objects (only to\
+    \ the same space, but not for other forms of cloning), the new copies would have\
+    \ their serial numbers updated automatically by the deep clone reactor callback.\n\
+    \nOh well, just some food for thought ;)"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.7.167
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-13 09:01:26'
+  body: 'Hi Tony,
+
+
+    Great input - thanks for that.
+
+
+    I was on a long weekend, and had queued up part 3 to go out before I got back
+    today, so some of what you''ve mentioned is at least commented on in this last
+    post.
+
+
+    I''ve so far avoided storing anything in the DWG, but your point is very valid:
+    right now UNDO does cause a problem.
+
+
+    The way I''m thinking of addressing cloning is likely to be an objectAppended()
+    event handler - I''m thinking of doing that next (we''ll see how it goes).
+
+
+    Thanks again,
+
+
+    Kean'
+- author: Evan
+  email: mahersy@hotmail.com
+  ip: 59.101.93.212
+  url: ''
+  date: '2008-06-26 02:55:46'
+  body: 'There is what I consider a major problem with in the AcDbBlockTable::Collection
+    Functions and how it is applied in the code here.
+
+
+    if (!bt.Has(blockName))
+
+
+    The AcDbBlockTable::has function will return false if the block Iserased property
+    is true.
+
+    (i.e. after you have PURGED the drawing and erased the AcDbBlockReference).
+
+
+    if you then add a block to the block table again instead of setting erase to false
+    on the AcDbBlockReference;
+
+
+    (i.e. from documentation):
+
+    "When an entity is erased, it is simply flagged as erased in the block table record.
+    The entity can be unerased with erase(kfalse)."
+
+
+
+    When you return the blocks ObjectID like this then you can return the ObjectID
+    of the erased object in this code here:
+
+
+    blockId = bt[blockName];
+
+
+    Hence geting a deleted AcDbBlockReference from the database. this means that you
+    need to iterate through the blocktable collection to check that you are not returning
+    an objectID of an erased entity.
+
+
+    Regards,
+
+    Evan'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-06-26 12:07:26'
+  body: 'You shouldn''t need a very drastic change: you can open an erased object
+    using tr.GetObject(id,OpenMode.ForRead,true) and check its erased flag. No need
+    for iteration.
+
+
+    This sample is not exhaustive - there may be specific issues that you''ll need
+    to address. Feel free to post back any changes you''ve had to make.
+
+
+    Kean'
+- author: Evan
+  email: mahersy@hotmail.com
+  ip: 59.101.93.212
+  url: ''
+  date: '2008-06-30 05:51:18'
+  body: "Sorry this was not about the sample, it was more to open up a discusion and\
+    \ awareness about some very unexpected behavour in the Database .net API with\
+    \ no mention in the documentation.\nThis problem comes from the derived type AcDbSymbolTable\
+    \ and hence creates this same problem in all its derived classes i.e.\nAcDbAbstractViewTable\n\
+    -AcDbViewTable \n-AcDbViewportTable \nAcDbBlockTable \nAcDbDimStyleTable \nAcDbLayerTable\n\
+    AcDbLinetypeTable\nAcDbRegAppTable\nAcDbTextStyleTable\nAcDbUCSTable\nHere is\
+    \ what i used to get the latest block definition from the BlockTable.\n<code>\n\
+    \    Public Overloads Shared Function BlockNametoID(ByVal BlockName As String,\
+    \ ByVal tr As Transaction, ByVal bt As BlockTable) As ObjectId\n        Dim id\
+    \ As ObjectId = Nothing\n        If bt.Has(BlockName) Then\n            id = bt.Item(BlockName)\n\
+    \            'check it is not erased\n            If Not id.IsErased Then\n  \
+    \              Return id\n            Else\n                'Else intrate through\
+    \ the collection to find  the block latest definition\n                For Each\
+    \ btrID As ObjectId In bt\n                    If Not btrID.IsErased Then\n  \
+    \                      Using btr As BlockTableRecord = tr.GetObject(btrID, OpenMode.ForRead)\n\
+    \                            If btr.Name.ToUpper = BlockName.ToUpper Then\n  \
+    \                              id = btrID\n                                Return\
+    \ id\n                            End If\n                        End Using\n\
+    \                    End If\n                Next\n            End If\n      \
+    \  End If\n    End Function\n<code>\n-----"

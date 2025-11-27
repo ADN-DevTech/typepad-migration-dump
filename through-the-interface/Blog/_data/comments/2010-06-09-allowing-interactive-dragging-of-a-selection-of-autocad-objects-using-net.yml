@@ -1,0 +1,149 @@
+comments:
+- author: Adri Groeneveld
+  email: adri.groeneveld@grontmij.nl
+  ip: 212.19.199.55
+  url: http://profile.typepad.com/6p011278dcf83d28a4
+  date: '2010-06-09 16:13:51'
+  body: 'Hi Kean,
+
+
+    I''m having trouble with translating the lambda expression into VB.NET. The code
+    converter sites i used can''t translate it. Can you say how it is done in VB.NET?
+
+
+    Regards, Adri'
+- author: Juan Carlos Velez
+  email: jvelezt@indisa.com.co
+  ip: 190.248.129.14
+  url: http://www.indisa.com
+  date: '2010-06-09 16:19:00'
+  body: "kean \nIt is possible to do a tutorial of as it is the procedure for loading\
+    \ your routines and libraries should use for this.\nBecause they are interesting\
+    \ to start in the world of the developers.to newbies is difficult know how load\
+    \ this in C# or C++"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-06-09 16:20:31'
+  body: 'Hi Adri,
+
+
+    The simplest would probably be to define a method in the Commands class and pass
+    a DragCallback delegate for it to the Drag function.
+
+
+    I''d need to spend some time looking at this, which won''t be until tomorrow at
+    the earliest - hopefully someone out there can post a solution in the meantime.
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-06-09 16:22:14'
+  body: 'Juan Carlos,
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2006/07/getting_started.html">This
+    post</a> should be of help to you.
+
+
+    Regards,
+
+
+    Kean'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2010-06-09 20:07:10'
+  body: 'You just pull the delegate out to a separate function with this signature:
+
+
+    Private Function MyDragCallback(ByVal pt As Point3d, ByRef mat As Matrix3d) As
+    SamplerStatus
+
+
+    Change the PromptPointResult line like so:
+
+    Dim ppr As PromptPointResult = ed.Drag(psr.Value, vbLf & "Select text location:
+    ", New DragCallback(AddressOf MyDragCallback))
+
+
+    And to make that work you have to pull the declaration of mtLoc out to the class
+    level so it can be accessed by the delegate function'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2010-06-09 20:18:08'
+  body: '...I should also mention that I had to change the double backslashes to single
+    backslashes in the content string for mine to come out right.  Not sure why VB
+    and C# are different there?
+
+
+    Thanks for another interesting post, Kean.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-06-10 09:44:03'
+  body: 'Excellent - thanks, David!
+
+
+    Yes - VB doesn''t require (or allow) backslash as an "escape" character to indicate
+    in-line character codes (you''d typically use Chr(10) instead of "\n", for instance).
+    So while we need double-backslash in a C# string to generate a single backslash
+    on the output, only one is needed in VB.
+
+
+    Tip: if you prefix your string with @ in C#, it''s considered literal (in the
+    sense backslashes will not denote control characters). Very useful when defining
+    literal paths:
+
+
+    string path = @"C:\Users\walmslk\Documents";
+
+
+    Cheers,
+
+
+    Kean'
+- author: Fulton
+  email: sun.zhai@yahoo.com
+  ip: 180.109.83.74
+  url: ''
+  date: '2012-04-18 05:28:25'
+  body: 'Hi Kean,
+
+    Why is it that when it is called from a modeless dialog it fails, even if inserting
+    LockDocument(). Can you say how it is done?
+
+
+    Regards, Fulton'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-04-18 10:22:56'
+  body: 'Hi Fulton,
+
+
+    I have no idea, although I always recommend calling a command from yoru modeless
+    UI via SendStringToExecute(), rather than putting the code there directly.
+
+
+    It avoids all kind of subtle issues (such as this one).
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

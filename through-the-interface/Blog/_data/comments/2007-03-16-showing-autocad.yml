@@ -1,0 +1,349 @@
+comments:
+- author: Fatty
+  email: fixo@yandex.ru
+  ip: 195.131.169.45
+  url: ''
+  date: '2007-03-19 22:47:46'
+  body: 'Dear Kean
+
+    Thanks again for an example
+
+    it worked like a charm
+
+    Here is VB.NET version I used
+
+
+    [Code deleted by Kean at the request of Fatty]'
+- author: Fatty
+  email: fixo@yandex.ru
+  ip: 195.131.169.45
+  url: ''
+  date: '2007-03-19 22:51:06'
+  body: 'Oops...
+
+    the code uploaded incorrectly
+
+    remove it please
+
+
+    Oleg'
+- author: Limin
+  email: lhe@fmsystems.com
+  ip: 24.136.235.206
+  url: http://www.fmsystems.com
+  date: '2007-03-27 03:39:11'
+  body: 'Kean,
+
+
+    Is there .Net interface for autocad command "DrawOrder"? For example: after solid-hatch
+    a polyline, need to reorder polyline and hatch, how to make it happen using .NET?
+    Thanks!'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-03-27 09:29:16'
+  body: 'Limin,
+
+
+    The short answer is that it should be possible, using Autodesk.AutoCAD.DatabaseServices.DrawOrderTable.
+
+
+    When I have some time I''ll take a look into creating some sample code. In this
+    case do you want to put the hatch behind the boundary? They don''t typically intersect,
+    so that change won''t be very visible... unless you mean they need to be reordered
+    relative to other entities.'
+- author: Limin
+  email: lhe@fmsystems.com
+  ip: 209.60.159.2
+  url: http://www.fmsystems.com
+  date: '2007-03-27 16:55:13'
+  body: "Kean,  thanks for the quick response. \n\nActually it's not only pline boundary.\
+    \ I have some furniture inside that polyline. So after running the hatch, I want\
+    \ them behind hatch. When you start working on draworder example, can you also\
+    \ include some code add xdata? I have tried  hatch.XData.add(ResultBuffer), it\
+    \ always retruns error like following:\n\nSystem.Reflection.TargetInvocationException:\
+    \ Exception has been thrown by the target of an invocation. ---> System.NullReferenceException:\
+    \ Object reference not set to an instance of an object.\n\nHave a great trip to\
+    \ China. I have some good friends in Beijing, if you need some help, please let\
+    \ me know."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 202.95.81.226
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-03-30 09:16:42'
+  body: 'I''ve created a new post on this:
+
+
+    http://through-the-interface.typepad.com/through_the_interface/2007/03/manipulating_th.html
+
+
+    Regarding the XData issue... it''s not specifically relevant to the topic, so
+    I''ve left it off. There are two likely reasons for your error: either the Registered
+    Appication has not been added properly, or the list of typed values you''re passing
+    in via the ResultBuffer is malformed, in some way.
+
+
+    Thanks for your kind offer, by the way. My Autodesk colleagues in Beijing have
+    been incredibly welcoming and helpful, but I''ll certainly let you know if I need
+    additional help.'
+- author: Andrey
+  email: postOver@yandex.ru
+  ip: 93.178.80.129
+  url: ''
+  date: '2009-03-20 08:22:08'
+  body: This example doesn't work on Autocad 2009. Can I use this method to show hatch
+    dialog with Autocad 2009 and vb.net 2008?
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-03-20 09:53:08'
+  body: 'It worked fine for me with AutoCAD 2009.
+
+
+    Kean'
+- author: Adam Davis
+  email: adam@wishsoftware.com
+  ip: 83.217.109.3
+  url: ''
+  date: '2009-07-14 16:27:12'
+  body: "Hi Kean,\n\nI have been attempting to follow the same path for showing the\
+    \ text style dialog. I can get the Dialog to show but it doesn't initialise properly.\
+    \ Any pointers gratefully received.\n\nImports Autodesk.AutoCAD.ApplicationServices\n\
+    Imports Autodesk.AutoCAD.Runtime\n\nNamespace TextStyleDialogTest\n\n    Public\
+    \ Class Commands\n        Private Declare Auto Sub acedTextStyleDialog2006 Lib\
+    \ \"acad.exe\" Alias \"?invokeTextStyleDialog@@YAXPAVAcDbDatabase@@PAV?$CStringT@DV?$StrTraitMFC@DV?$ChTraitsCRT@D@ATL@@@@@ATL@@@Z\"\
+    \ (ByVal AcadDatabase As IntPtr, ByVal StyleName As String)\n        Private Declare\
+    \ Auto Sub acedTextStyleDialog2007 Lib \"acad.exe\" Alias \"?invokeTextStyleDialog@@YAXPAVAcDbDatabase@@PAV?$CStringT@_WV?$StrTraitMFC_DLL@_WV?$ChTraitsCRT@_W@ATL@@@@@ATL@@@Z\"\
+    \ (ByVal AcadDatabase As IntPtr, ByVal StyleName As String)\n\n\n        <CommandMethod(\"\
+    STD\")> Public Sub ShowTextStyleDialog()\n            Dim db As Autodesk.AutoCAD.DatabaseServices.Database\n\
+    \            db = Application.DocumentManager.MdiActiveDocument.Database\n   \
+    \         If Autodesk.AutoCAD.ApplicationServices.Application.Version.Major >\
+    \ 16 Then\n                acedTextStyleDialog2007(db.UnmanagedObject, \"Standard\"\
+    )\n            Else\n                acedTextStyleDialog2006(db.UnmanagedObject,\
+    \ \"Standard\")\n            End If\n\n\n\n        End Sub\n\n    End Class\n\n\
+    End Namespace\n\nThanks\n\nAdam"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-07-14 16:34:12'
+  body: 'Hi Adam,
+
+
+    Sorry - nothing immediately obvious springs to mind.
+
+
+    I suggest posting your question via <a href="http://adn.autodesk.com">ADN</a>,
+    if you''re a member, of otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Adam Davis
+  email: adam@wishsoftware.com
+  ip: 83.217.109.3
+  url: ''
+  date: '2009-07-14 17:04:29'
+  body: 'Hi Kean,
+
+
+    Thanks for the speedy reply.
+
+
+    I tried ADN and was given pointers to either Send command or recreating the dialog
+    in .NET.
+
+    Fine, but as was so near with InvokeTextStyleDialog and you obviously have coerced
+    AutoCAD with other dialogs I thought I would post just in case it was something
+    obvious :-)
+
+
+    I will try the .NET forums.
+
+
+    Thanks
+
+
+    Adam'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-07-14 17:21:27'
+  body: 'Hi Adam,
+
+
+    OK, I just unmangled the name using DependencyWalker, and see the signature is
+    more complex than you thought:
+
+
+    void invokeTextStyleDialog(class AcDbDatabase *,class ATL::CStringT&lt;wchar_t,class
+    StrTraitMFC_DLL&lt;wchar_t,class ATL::ChTraitsCRT&lt;wchar_t&gt; &gt; &gt; *)
+
+
+    I think the chances of calling this unpublished function via P/Invoke are slim
+    to none, I''m afraid. And much closer to none than slim, speaking frankly. At
+    least it''s not something I''d attempt, personally.
+
+
+    Regards,
+
+
+    Kean'
+- author: Adam Davis
+  email: adam@wishsoftware.com
+  ip: 83.217.109.3
+  url: ''
+  date: '2009-07-14 17:38:49'
+  body: 'Hi Kean,
+
+
+    No problem - I thought I was close but obviously not :-)
+
+    Still I learnt today that you can Undecorate a name in Dependency Walker which
+    makes it all worthwhile.
+
+
+    Thanks again,
+
+
+    Adam'
+- author: Adam Davis
+  email: adam@wishsoftware.com
+  ip: 83.217.109.3
+  url: ''
+  date: '2009-07-17 17:37:36'
+  body: "Hi Kean,\n\nJust in case someone else needs this...\nEssentially it's just\
+    \ a wrapper round some MFC code. The mixed managed code is just to prove it works.\n\
+    Thanks to Alexander Rivilis for the initial ARX code.\n#pragma once\n\nusing namespace\
+    \ System;\nusing namespace System::Runtime::InteropServices;\n\nextern void invokeTextStyleDialog(AcDbDatabase\
+    \ *AcadDatabase, CString *StyleName);\n\n#pragma unmanaged\nvoid UnmanagedInvokeTextStyleDialog()\n\
+    {\n\tAcDbDatabase *db = curDoc()->database();\n\tAcDbObjectId Id = curDoc()->database()->textstyle();\
+    \ \n\tAcDbObjectPointer<AcDbTextStyleTableRecord> textstyleRec(Id,AcDb::kForRead);\n\
+    \tACHAR *pName;\n\ttextstyleRec->getName(pName); \n\tCString s;\n\ts.Format(_T(\"\
+    %s\"),pName);\n\tinvokeTextStyleDialog(db, &s);\n}\n#pragma managed\n\n\nnamespace\
+    \ TextStyleDialog\n{\n\n\npublic ref class Commands\n{\npublic:\n\t\n[Autodesk::AutoCAD::Runtime::CommandMethod(\"\
+    STD\")]\nstatic void ShowDialog()\n{\n\tUnmanagedInvokeTextStyleDialog();\n}\n\
+    };\n}"
+- author: Manoj Kumar
+  email: manoj.kumar.vutukuri@gmail.com
+  ip: 183.82.188.98
+  url: ''
+  date: '2011-09-27 16:03:58'
+  body: 'Hi Kean,
+
+
+    I tried to run the C# code (Update 2)
+
+    in Windows XP (x86) with AutoCAD 2010 it works good.
+
+    But the same did not run in Windows 7 (x64) AutoCAD 2010 (x64)
+
+
+    ************** Exception Text **************
+
+    System.EntryPointNotFoundException: Unable to find an entry point named ''?acedHatchPalletteDialog@@YA_NPB_W_NAAPA_W@Z''
+    in DLL ''acad.exe''.
+
+
+    Can you help me is this regard.
+
+    Thanks.'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.58.92
+  url: http://profile.typepad.com/kean
+  date: '2011-09-27 16:20:35'
+  body: 'You should be able to identify the correct function to call on 64-bit systems
+    by following the steps in this post:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2006/07/calling_objecta.html">http://through-the-interface.typepad.com/through_the_interface/2006/07/calling_objecta.html</a>
+
+
+    Kean'
+- author: MathewWebber
+  email: ''
+  ip: 194.116.198.179
+  url: http://profile.typepad.com/mathewwebber
+  date: '2012-01-06 18:04:07'
+  body: 'That post worked well for me, thanks Kean.
+
+
+    Seeing as I have the magical number to hand I thought I would post it.
+
+
+    64- bit version is:  "?acedHatchPalletteDialog@@YA_NPEB_W_NAEAPEA_W@Z"'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2012-01-06 18:25:22'
+  body: 'Thanks, Mathew!
+
+
+    Kean'
+- author: Maxime
+  email: mphaneuf@geomapgis.ca
+  ip: 174.92.216.134
+  url: ''
+  date: '2012-05-16 02:19:59'
+  body: 'I try running the update in VBA code. Unfortunetaly, the type IntPtr does
+    not exist in VBA. Do you know if it''s possible to achieve this in VBA?
+
+
+    Thanks,
+
+    Maxime'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-05-16 07:44:52'
+  body: 'The two versions of the code are for C# and VB.NET. You might try posting
+    a link to the AutoCAD VBA Discussion Group, in case someone there has (or wants
+    to create) equivalent VBA code.
+
+
+    Kean'
+- author: George Csikos
+  email: admin@softbiz.com.au
+  ip: 60.240.193.119
+  url: ''
+  date: '2013-10-03 03:06:57'
+  body: 'Using depends.exe I found the signature for bool acedHatchPalletteDialog(wchar_t
+    const *,bool,wchar_t * &)
+
+
+    I suspect that the wchar_t *& implies I am responsible for deleting the string
+    memory after I have used it.  In your .Net interface this would be a memory leak.  I
+    doubt .Net knows about the unmanaged memory deallocation requirements.  How do
+    you work around this?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-10-03 09:25:34'
+  body: 'I expect the only way is to expose the function via your own C++/CLI wrapper.
+    That way you can copy the data into a value that can be managed inside .NET before
+    freeing the unmanaged memory.
+
+
+    This isn''t the kind of function you''re going to call in a loop, so I doubt the
+    majority of developers will choose to go down this path for the sake of a few
+    bytes, but that would seem to be the way to go if this is important to you.
+
+
+    Before doing that you may also want to check in with ADN to see whether this has
+    been exposed via an API in the last 6+ years since I posted this. I couldn''t
+    find one when I just had a quick check, but then you never know. :-)
+
+
+    Kean
+
+    -----'

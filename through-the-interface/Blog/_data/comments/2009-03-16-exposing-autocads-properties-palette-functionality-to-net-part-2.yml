@@ -1,0 +1,685 @@
+comments:
+- author: CSharpbird
+  email: csharpbird@gmail.com
+  ip: 222.71.95.189
+  url: ''
+  date: '2009-03-16 16:38:25'
+  body: "Hi,Kean\n  Thanks for your great post about the .NET version of OPM.\n  I\
+    \ run the application,and AutoCAD will failure if I modify the custom property."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-03-16 18:36:30'
+  body: 'Hi CSharpbird,
+
+
+    Oh wow - my sincere apologies... there was a mistake in the code both in the last
+    post and the current post.
+
+
+    I''ve now fixed the code in both posts as well as the <a href="http://through-the-interface.typepad.com/files/opm.net.zip">project
+    for download</a> (please do try it again).
+
+
+    In case people want to apply the "fix" themselves: the second parameter of SetCurrentValueData()
+    was being incorrectly marshaled. To address this I made the following edits to
+    the project:
+
+
+    - On line 106 of IDynamicProperty2.h I changed "interior_ptr&lt;Object^&gt; varData"
+    to "Object^ varData". This was probably copy & pasted at some point from GetCurrentValueData().
+
+
+    - On line 107 of customPropertySample.cs I removed the "ref" keyword from the
+    second parameter of the function signature.
+
+
+    Now it should work correctly. Both Cyrille and I send our apologies on this one
+    - one of us should have picked it up before posting. :-(
+
+
+    Regards,
+
+
+    Kean'
+- author: CSharpbird
+  email: csharpbird@gmail.com
+  ip: 222.71.95.189
+  url: ''
+  date: '2009-03-18 04:57:09'
+  body: 'HI,Kean
+
+    I now can run the application.
+
+    But it seems that the following functions are not exposed to .NET:
+
+    MapPropertyToCategory
+
+    GetCategoryName'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-03-18 09:17:29'
+  body: 'Correct - you would need to expose ICategorizeProperties to get this functionality.
+    Again, this is something I hope to get to, at some point.
+
+
+    Kean'
+- author: danny.isr
+  email: ''
+  ip: 62.219.114.32
+  url: http://profile.typepad.com/6p011279740c1028a4
+  date: '2009-03-18 10:07:35'
+  body: "code converter to vb.net \nOPMNetSample.dll not loaded\nif include this Region\n\
+    \n#Region \"Our Custom Property\"\n    <<Guid(\"F60AE3DA-0373-4d24-82D2-B2646517ABCB\"\
+    ), ProgId(\"OPMNetSample.CustomProperty.1\"), ClassInterface(ClassInterfaceType.AutoDispatch),\
+    \ ComDefaultInterface(GetType(IDynamicProperty2)), ComVisible(True)>> _\n    Public\
+    \ Class CustomProp\n        Implements IDynamicProperty2\n        Private m_pSink\
+    \ As IDynamicPropertyNotify2 = Nothing\n        ' Unique property ID \n      \
+    \  Public Sub GetGUID(ByRef propGUID As Guid) Implements IDynamicProperty2.GetGUID\n\
+    \            '  propGUID = New Guid(\"F60AE3DA-0373-4d24-82D2-B2646517ABCB\")\n\
+    \        End Sub\n        ' Property display name \n        Public Sub GetDisplayName(ByRef\
+    \ szName As String) Implements IDynamicProperty2.GetDisplayName\n            'szName\
+    \ = \"My integer property\"\n        End Sub\n        ' Show/Hide property in\
+    \ the OPM, for this object instance \n        Public Sub IsPropertyEnabled(ByVal\
+    \ pUnk As Object, ByRef bEnabled As Integer) Implements IDynamicProperty2.IsPropertyEnabled\n\
+    \            bEnabled = 1\n        End Sub\n        ' Is property showing but\
+    \ disabled \n        Public Sub IsPropertyReadOnly(ByRef bReadonly As Integer)\
+    \ Implements IDynamicProperty2.IsPropertyReadOnly\n            'bReadonly = 0\n\
+    \        End Sub\n        ' Get the property description string \n        Public\
+    \ Sub GetDescription(ByRef szName As String) Implements IDynamicProperty2.GetDescription\n\
+    \            'szName = \"This property is an integer\"\n        End Sub\n    \
+    \    ' OPM will typically display these in an edit field \n\n        ' optional:\
+    \ meta data representing property type name, \n\n        ' ex. ACAD_ANGLE \n \
+    \       Public Sub GetCurrentValueName(ByRef szName As String) Implements IDynamicProperty2.GetCurrentValueName\n\
+    \            ' Throw New System.NotImplementedException()\n        End Sub\n \
+    \       ' What is the property type, ex. VT_R8 \n        Public Sub GetCurrentValueType(ByRef\
+    \ varType As UShort) Implements IDynamicProperty2.GetCurrentValueType\n      \
+    \      ' The Property Inspector supports the following data \n            ' types\
+    \ for dynamic properties: \n            ' VT_I2, VT_I4, VT_R4, VT_R8,VT_BSTR,\
+    \ VT_BOOL \n            ' and VT_USERDEFINED. \n            'varType = 3\n   \
+    \         ' VT_I4 \n        End Sub\n        ' Get the property value, passes\
+    \ the specific object \n        ' we need the property value for. \n        Public\
+    \ Sub GetCurrentValueData(ByVal pUnk As Object, ByRef pVarData As Object) Implements\
+    \ IDynamicProperty2.GetCurrentValueData\n            ' TODO: Get the value and\
+    \ return it to AutoCAD \n            ' Because we said the value type was a 32b\
+    \ int (VT_I4) \n            'pVarData = CInt(4)\n        End Sub\n        ' Set\
+    \ the property value, passes the specific object we \n        ' want to set the\
+    \ property value for \n        Public Sub SetCurrentValueData(ByVal pUnk As Object,\
+    \ ByVal varData As Object) Implements IDynamicProperty2.SetCurrentValueData\n\
+    \            ' TODO: Save the value returned to you \n            ' Because we\
+    \ said the value type was a 32b int (VT_I4) \n            ' Dim myVal As Integer\
+    \ = CInt(varData)\n        End Sub\n        ' OPM passes its implementation of\
+    \ IDynamicPropertyNotify, you \n\n        ' cache it and call it to inform OPM\
+    \ your property has changed \n        Public Sub Connect(ByVal pSink As Object)\
+    \ Implements IDynamicProperty2.Connect\n            '' m_pSink = DirectCast(pSink,\
+    \ IDynamicPropertyNotify2)\n        End Sub\n        Public Sub Disconnect() Implements\
+    \ IDynamicProperty2.Disconnect\n            ' m_pSink = Nothing\n        End Sub\n\
+    \    End Class\n#End Region"
+- author: danny.isr
+  email: ''
+  ip: 62.219.114.32
+  url: http://profile.typepad.com/6p011279740c1028a4
+  date: '2009-03-18 10:09:25'
+  body: "code converter to vb.net \nOPMNetSample.dll not loaded\nif include this Region\n\
+    \n#Region \"Our Custom Property\"\n    <>Guid(\"F60AE3DA-0373-4d24-82D2-B2646517ABCB\"\
+    ), ProgId(\"OPMNetSample.CustomProperty.1\"), ClassInterface(ClassInterfaceType.AutoDispatch),\
+    \ ComDefaultInterface(GetType(IDynamicProperty2)), ComVisible(True)<> _\n    Public\
+    \ Class CustomProp\n        Implements IDynamicProperty2\n        Private m_pSink\
+    \ As IDynamicPropertyNotify2 = Nothing\n        ' Unique property ID \n      \
+    \  Public Sub GetGUID(ByRef propGUID As Guid) Implements IDynamicProperty2.GetGUID\n\
+    \            '  propGUID = New Guid(\"F60AE3DA-0373-4d24-82D2-B2646517ABCB\")\n\
+    \        End Sub\n        ' Property display name \n        Public Sub GetDisplayName(ByRef\
+    \ szName As String) Implements IDynamicProperty2.GetDisplayName\n            'szName\
+    \ = \"My integer property\"\n        End Sub\n        ' Show/Hide property in\
+    \ the OPM, for this object instance \n        Public Sub IsPropertyEnabled(ByVal\
+    \ pUnk As Object, ByRef bEnabled As Integer) Implements IDynamicProperty2.IsPropertyEnabled\n\
+    \            bEnabled = 1\n        End Sub\n        ' Is property showing but\
+    \ disabled \n        Public Sub IsPropertyReadOnly(ByRef bReadonly As Integer)\
+    \ Implements IDynamicProperty2.IsPropertyReadOnly\n            'bReadonly = 0\n\
+    \        End Sub\n        ' Get the property description string \n        Public\
+    \ Sub GetDescription(ByRef szName As String) Implements IDynamicProperty2.GetDescription\n\
+    \            'szName = \"This property is an integer\"\n        End Sub\n    \
+    \    ' OPM will typically display these in an edit field \n\n        ' optional:\
+    \ meta data representing property type name, \n\n        ' ex. ACAD_ANGLE \n \
+    \       Public Sub GetCurrentValueName(ByRef szName As String) Implements IDynamicProperty2.GetCurrentValueName\n\
+    \            ' Throw New System.NotImplementedException()\n        End Sub\n \
+    \       ' What is the property type, ex. VT_R8 \n        Public Sub GetCurrentValueType(ByRef\
+    \ varType As UShort) Implements IDynamicProperty2.GetCurrentValueType\n      \
+    \      ' The Property Inspector supports the following data \n            ' types\
+    \ for dynamic properties: \n            ' VT_I2, VT_I4, VT_R4, VT_R8,VT_BSTR,\
+    \ VT_BOOL \n            ' and VT_USERDEFINED. \n            'varType = 3\n   \
+    \         ' VT_I4 \n        End Sub\n        ' Get the property value, passes\
+    \ the specific object \n        ' we need the property value for. \n        Public\
+    \ Sub GetCurrentValueData(ByVal pUnk As Object, ByRef pVarData As Object) Implements\
+    \ IDynamicProperty2.GetCurrentValueData\n            ' TODO: Get the value and\
+    \ return it to AutoCAD \n            ' Because we said the value type was a 32b\
+    \ int (VT_I4) \n            'pVarData = CInt(4)\n        End Sub\n        ' Set\
+    \ the property value, passes the specific object we \n        ' want to set the\
+    \ property value for \n        Public Sub SetCurrentValueData(ByVal pUnk As Object,\
+    \ ByVal varData As Object) Implements IDynamicProperty2.SetCurrentValueData\n\
+    \            ' TODO: Save the value returned to you \n            ' Because we\
+    \ said the value type was a 32b int (VT_I4) \n            ' Dim myVal As Integer\
+    \ = CInt(varData)\n        End Sub\n        ' OPM passes its implementation of\
+    \ IDynamicPropertyNotify, you \n\n        ' cache it and call it to inform OPM\
+    \ your property has changed \n        Public Sub Connect(ByVal pSink As Object)\
+    \ Implements IDynamicProperty2.Connect\n            '' m_pSink = DirectCast(pSink,\
+    \ IDynamicPropertyNotify2)\n        End Sub\n        Public Sub Disconnect() Implements\
+    \ IDynamicProperty2.Disconnect\n            ' m_pSink = Nothing\n        End Sub\n\
+    \    End Class\n#End Region"
+- author: Ramon Jesus Gonzalez-Marquez
+  email: ''
+  ip: 194.30.66.146
+  url: http://profile.typepad.com/6p010536d50073970c
+  date: '2009-03-20 16:42:38'
+  body: 'Hi Kean!!!
+
+
+    I have a question regarding the GUID. How can we sure that we have a unique ID?
+    Try and error? In other words, is  there any tool or rule to generate them?
+
+
+    Thanks in advance!!!!'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-03-20 16:54:17'
+  body: 'That is an excellent question and one I should have addressed in the post.
+
+
+    If you open a "Visual Studio Command Prompt" (usually this is in the program group
+    for VS - not sure about Express) you can run the GUIDGEN tool. This will allow
+    you to generate new GUIDs in various copy/paste formats.
+
+
+    Kean'
+- author: Ramon Jesus Gonzalez-Marquez
+  email: ''
+  ip: 83.213.24.105
+  url: http://profile.typepad.com/6p010536d50073970c
+  date: '2009-03-21 18:30:49'
+  body: 'Thanks a lot for the answer. This GUID theme has been struggling me for some
+    time since Jeremmy advanced me this code from Cyrille.
+
+
+    I will try it.
+
+
+    Thanks again, RJ.'
+- author: Ramon Jesus Gonzalez-Marquez
+  email: ''
+  ip: 194.30.66.44
+  url: http://profile.typepad.com/6p010536d50073970c
+  date: '2009-04-09 17:09:38'
+  body: 'Hello again Kean!!
+
+
+    After three weeks out of the Autocad programming... I''ve been involved in some
+    conferences... I return again to this and I''m having some trouble to play with
+    the dynamic properties. I''m able to add more than one but...
+
+    they are static as the example you gave. How can I work with the objects?
+
+
+    Another question is if it''s possible to create categories in order not to have
+    the properties under "General". Let say for example I would like this to appear
+    under "Custom Data"
+
+
+    Thanks in advance.
+
+
+    Cheers RJ.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-04-09 18:10:56'
+  body: 'You can store it in XData and retrieve it from there. Tomorrow''s post will
+    show it in the context of the Overrule API, in case.
+
+
+    You would need to extend the code to support ICategorizedProperty (I think). I
+    was planning on doing that at some point, but I have a long to-do list.
+
+
+    Kean'
+- author: Mark
+  email: lebakram@gmx.net
+  ip: 91.19.105.241
+  url: ''
+  date: '2009-05-04 22:02:37'
+  body: 'I have a custom object MyLine derived from AcDvPolyline. The property palette
+    displays "Polyline" instead of "MyLine". How can this be achieved ?
+
+
+    Thx Mark'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-05-05 14:40:21'
+  body: 'I think you may have to implement your own static COM interface for your
+    MyLine object and point AutoCAD to it via GetClassID (a property which can also
+    be overruled in AutoCAD 2010 using a PropertiesOverrule, by the way, which means
+    you can control the properties shown in the Properties Palette even for standard
+    objects).
+
+
+    You may want to ask on the discussion groups or via ADN, as I confess I''m no
+    expert in this area.
+
+
+    Kean'
+- author: Mark
+  email: lebakram@gmx.net
+  ip: 217.185.10.51
+  url: ''
+  date: '2009-07-02 11:07:28'
+  body: 'When a Polyline is clicked, in the property palette the vertex number is
+    shown & when clicked "previous/next" buttons show up.
+
+    Can this be achieved with a dynamic property ?
+
+
+    Mark'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-07-06 08:51:21'
+  body: 'You can, although I haven''t done it myself. Search the ObjectARX documentation
+    for "IAcPiPropertyDisplay" - you need to implement this interface for your properties
+    and implement the GetCustomPropertyCtrl() method, in particular. The various control
+    types you can use (without implementing your own) can be found in the acpexctl.h
+    header.
+
+
+    I''ll add this to my list of topics to cover, but it may take some time to get
+    to (and I may well never reach it - you''re better off asking ADN if you want
+    timely help with this and you''re a member).
+
+
+    Kean'
+- author: Maxence
+  email: maxence.delannoy@wiip.fr
+  ip: 90.7.145.238
+  url: http://wiip.fr
+  date: '2010-06-16 10:17:38'
+  body: Does anyone have a 64-bit version of asdkOPMNetExt.dll? I tried to compile
+    it, but without success (I am not a guru of ObjectARX/C++)
+- author: MrWebber
+  email: mathew.webber@microdrainage.co.uk
+  ip: 213.83.66.161
+  url: ''
+  date: '2010-07-28 12:57:26'
+  body: "Hi Kean,\n\nI am reading your blog with great interest as it helps to make\
+    \ up for the patchy .NET API documentation!\n\nI am in the process of attempting\
+    \ to link data stored in a AutoCAD Entity Extension Dictionary as Xrecords to\
+    \ the properties palette in our AutoCAD application. As part of this I have been\
+    \ attempting to use this sample code  and can sucessfully use the C# sample project.\
+    \ However, if i convert the sample project to VB.Net (the language u require)\
+    \ and reference the asdkOPMNetExt.dll I cannot get the resulting DLL to load into\
+    \ AutoCAD. Upon investigation the problem seems to be the CustomProp Class itself,\
+    \ and the sample will load if this is removed even if the reference and Assembly.load\
+    \ etc remain. \n\nDo you have any ideas what might cause this with VB.Net?\n\n\
+    Going forwards it would appear using this approach we would need to implement\
+    \ a custom property for each property we want and this is then associated with\
+    \ all Entities of that type, i.e. all lines even those without our data. Can this\
+    \ be changed to only specify them for particular instances of a Lines or would\
+    \ i need to write a custom Line class or simple overrule the enabled sub where\
+    \ our data is not present?\n\nThanks in advance and keep up the informative blogging!\n\
+    \nMat"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-07-28 16:07:25'
+  body: 'Hi Mat,
+
+
+    There''s no particular reason it can''t work from VB.NET, as far as I''m aware.
+    I assume it''s some kind of conversion issue.
+
+
+    I haven''t done this, myself, but I believe that the IsPropertyEnabled() callback
+    can be used to tell the Property Palette whether or not to show the property for
+    a particular object (I hope I have that right).
+
+
+    In case you hadn''t seen it, you may also find <a href="http://through-the-interface.typepad.com/through_the_interface/2009/05/modifying-an-autocad-objects-state-via-a-dynamic-property-defined-in-net.html">this
+    post</a> to be of interest.
+
+
+    Good luck,
+
+
+    Kean'
+- author: Joshua Whitman
+  email: jwhitman@mechanicalst.com
+  ip: 24.239.78.60
+  url: ''
+  date: '2010-10-21 14:18:38'
+  body: "Kean,\n\n   Your blog has been a real life saver for me, thank you!\n\n \
+    \  I was wondering if you know of any resources that explain how to implement\
+    \ the PropertiesOverrule.  \n\n   Thanks!"
+- author: CSmith
+  email: chris_d_smith@yahoo.com
+  ip: 203.214.40.213
+  url: ''
+  date: '2010-11-14 06:12:33'
+  body: "Took a fair bit of fiddling (and lots of crashes :) ) but the .NET interface\
+    \ wrapper for ICategorizeProperties should be:\n\n[InteropServices::Guid(\"4D07FC10-F931-11ce-B001-00AA006884E5\"\
+    )]\n[InteropServices::InterfaceTypeAttribute(InteropServices::ComInterfaceType::InterfaceIsIUnknown)]\n\
+    [InteropServices::ComVisible(true)]\npublic interface class ICategorizeProperties\n\
+    {\n    void MapPropertyToCategory(\n        [InteropServices::In] System::Int32\
+    \ DispId,\n        [InteropServices::Out] System::Int32% CategoryId\n    );\n\n\
+    \    void GetCategoryName(\n        [InteropServices::In] System::Int32 CategoryId,\n\
+    \        [InteropServices::In] System::UInt32 lcid,\n        [InteropServices::Out,\n\
+    \            InteropServices::MarshalAs(\n            InteropServices::UnmanagedType::BStr\n\
+    \            )\n        ] interior_ptr<System::String^> name\n    );\n};"
+- author: CSmith
+  email: chris_d_smith@yahoo.com
+  ip: 203.214.40.213
+  url: ''
+  date: '2010-11-14 06:14:40'
+  body: beh - "name" in the 3rd last line there should be the generics type argument
+    to interior_ptr
+- author: CSmith
+  email: chris_d_smith@yahoo.com
+  ip: 124.148.132.94
+  url: ''
+  date: '2010-12-30 06:12:59'
+  body: 'Humm - i managed to compile a 64 bit version but alas all the interfaces
+    that marshal an IUnknown to an object pointer dont work (ie something in the prototype
+    generated by .NET is different from the methods they''re trying to override.
+
+
+    Basically, i can see IsPropertyReadOnly and GetDisplayName etc get called but
+    not IsPropertyEnabled etc.
+
+
+    I assume that it''s something to do with pointer sizing but no idea how to fix
+    it.
+
+
+    Has anyone else got this working?
+
+
+    Kean, is the interface somehow different on 64bit for some of those methods? (the
+    headers say no but...)'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2011-01-04 09:09:59'
+  body: 'Sorry - I know very little about the issues implementing COM interfaces on
+    64-bit platforms.
+
+
+    I suggest posting your question to <a href="http://adn.autodesk.com">the ADN team</a>,
+    if you''re a member, or otherwise <a href="http://forums.autodesk.com/t5/Autodesk-ObjectARX/bd-p/34">the
+    ObjectARX Discussion Group</a>.
+
+
+    Kean'
+- author: CSmith
+  email: chris_d_smith@yahoo.com
+  ip: 216.52.44.162
+  url: ''
+  date: '2011-06-07 08:50:08'
+  body: 'Ah ha! So - after talking to ADN and seeing that Kean''s code does actually
+    work in 64bit, I had to look at what i was actually doing with the properties
+    to find my issue.
+
+
+    Specifically IsPropertyEnabled was failing and I was doing the following:
+
+
+    public void IsPropertyEnabled(object pUnk, out int bEnabled)
+
+    {
+
+    AcadObject obj = pUnk as AcadObject;
+
+    int id = obj.ObjectID); // Fail here.
+
+    ...
+
+    }
+
+
+    If I do this instead then it works:
+
+
+    public void IsPropertyEnabled(object pUnk, out int bEnabled)
+
+    {
+
+    AcadObject obj = pUnk as AcadObject;
+
+    string handle = obj.Handle; // works.
+
+    ...
+
+    }
+
+
+    (note either will work on 32bit)
+
+
+    Not sure why the ObjectId property doesn''t work on 64bit but oh well - it''s
+    easy enough to use a handle instead.
+
+
+    Hopefully the above will save someone some time and frustration.
+
+
+    Cheers,
+
+    Chris'
+- author: Brent Burgess
+  email: brent.burgess@kbr.coom
+  ip: 161.51.43.47
+  url: ''
+  date: '2011-07-04 06:53:33'
+  body: 'Hi Kean,
+
+
+    Can a property be added to the properties palette when there are no entities selected?
+    In my instance, I would like to a combo box, with populated data.
+
+
+    This blog has been a fantastic source of information!!
+
+
+    Thanks
+
+
+    Brent'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2011-07-05 12:45:50'
+  body: 'Hi Chris,
+
+
+    Yes - this is a common problem migrating between 32- and 64-bit systems: you have
+    to use Handle or ObjectId32 instead of ObjectId when using the COM interface,
+    I believe.
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2011-07-05 12:50:52'
+  body: 'Hi Brent,
+
+
+    I recall there is a mode you can use - although I don''t remember whether it''s
+    exposed via .NET - for adding such properties during command execution (I''m not
+    sure about when no commands are active).
+
+
+    I suggest either pinging ADN or posting on the AutoCAD .NET (or perhaps ObjectARX)
+    discussion group.
+
+
+    Regards,
+
+
+    Kean'
+- author: Alex Hazanov
+  email: alex@rdvsystems.com
+  ip: 81.218.207.58
+  url: ''
+  date: '2012-01-09 10:16:43'
+  body: 'I know it''s half a year late but perhaps it will be useful to someone else.
+
+    I used the following contstruct to get the relevant property manager:
+
+    IPropertyManager2* pManager = (IPropertyManager2*)GET_OPMEXTENSION_CREATE_PROTOCOL()->CreateOPMObjectProtocol(NULL,
+    2)->GetPropertyManager();
+
+
+    Then use the resulting property manager to attach properties to "No selection"
+    state.'
+- author: Alex Hazanov
+  email: alex@rdvsystems.com
+  ip: 81.218.207.58
+  url: ''
+  date: '2012-01-09 10:21:38'
+  body: "Hi Kean, \nI take great pleasure reading your blog, and LOTS of useful information.\
+    \ I do however have a small question regarding this post.\nI was trying to implement\
+    \ the IDynamicEnumProperty interface.\nThis is my interface definition in C#:\n\
+    \n[ComImport(), Guid(\"8B384028-ACB1-11d1-A2B4-080009DC639A\"), InterfaceTypeAttribute(ComInterfaceType.InterfaceIsIUnknown)]\n\
+    \    public interface IDynamicEnumProperty\n    {\n        void GetNumPropertyValues(\n\
+    \            [Out]\n            out int numValues);\n        \n        void GetPropValueData(\n\
+    \            int index,\n            [In, Out, MarshalAs(UnmanagedType.Struct)]\n\
+    \            ref object varData\n        );\n        \n        void GetPropValueName(\n\
+    \            int index,\n            [Out]\n            out string valueName);\n\
+    \    }\n\n\nAnd here is the implementation:\npublic override void GetNumPropertyValues(out\
+    \ int numValues)\n        {\n            numValues = 2;\n        }\n\n       \
+    \ public override void GetPropValueName(int index, out string valueName)\n   \
+    \     {\n            valueName = \"\";\n            switch (index)\n         \
+    \   {\n                case 0:\n                    valueName = \"Value 1\";\n\
+    \                    break;\n                case 1:\n                    valueName\
+    \ = \"Value 2\";\n                    break;\n            }\n        }\n\n   \
+    \     public override void GetPropValueData(int index, ref object varData)\n \
+    \       {\n            varData = index;\n        }\n\nStill the drop down is not\
+    \ created...\nWhat am I doing wrong, or is there some example I can use?\n\nBest\
+    \ regards,\nAlex."
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2012-01-09 14:54:13'
+  body: 'Hi Alex,
+
+
+    As I didn''t implement this originally, I''m not really the one to be able to
+    help you with this, I''m afraid. You''ll hopefully be able to get help via one
+    of the discussion groups or via ADN (if you''re a member).
+
+
+    Regards,
+
+
+    Kean'
+- author: Alex Hazanov
+  email: alex@rdvsystems.com
+  ip: 81.218.207.58
+  url: ''
+  date: '2012-01-11 07:57:51'
+  body: 'Thanks Kean,
+
+    I''ll try the ADN channel.'
+- author: Honnappa
+  email: hm30shettikera@gmail.com
+  ip: 117.204.14.28
+  url: ''
+  date: '2012-05-03 09:47:10'
+  body: How to extract the drawing data from autocad to my asp.net application
+- author: Honnappa
+  email: hm30shettikera@gmail.com
+  ip: 117.204.14.28
+  url: ''
+  date: '2012-05-03 09:48:13'
+  body: How to extract the dwg drawing data from autocad to our asp.net application
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-05-03 09:56:03'
+  body: 'That''s a big question - and off-topic for this post. You might want to ask
+    on the discussion groups or to the ADN team for best practices.
+
+
+    A lot depends on whether you want to implement a specific "export" routine that
+    extracts the data and uploads it to your web-service, in some way, or if you want
+    to host RealDWG on the server itself.
+
+
+    But again - not a question that''s related to this topic, in any way.
+
+
+    Kean'
+- author: moon-safari
+  email: kruegerb83@googlemail.com
+  ip: 109.193.165.72
+  url: ''
+  date: '2012-07-10 14:54:48'
+  body: 'Hey CSmith!
+
+    I know your comment is older than a year now but i''m currently trying to use
+    asdkOPMNetExt.dll on a 64bit machine and i fail constantly. My proplem is that
+    i''m not able to cast the com object as an AcadObject. It works fine in a 32bit
+    environment but on 64bit i get an "Unable to cast..." Exception.
+
+    That error occurs inside the functions GetCurrentValueData and SetCurrentValueData.
+    I also tried to receive some Informations about the Com Object with Microsoft.VisualBasic.Information.TypeName(pVarData)
+    but that returns just "Nothing". Also i can''t even use the GetType() function
+    on the Com Object. It also throws an Exception "Object reference not set to an
+    instance of an object.mscorlib". Do you or anyone else have an idea what the problem
+    could be.
+
+    I''m using AutoCAD 2011 64bit by the way.'
+- author: Bastian Krüger
+  email: kruegerb83@gmail.com
+  ip: 5.10.49.0
+  url: ''
+  date: '2013-04-18 14:39:02'
+  body: 'Hi Kean!
+
+
+    What if i want to have multiple properties? Do I have to have separate classes
+    for each property or is it enough to create two instances of the same class (each
+    with a different property name for example)?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-04-18 16:04:54'
+  body: 'Hi Bastian,
+
+
+    I would expect you''d be able to use instances rather than having to derive a
+    new class for each property. But I don''t recall whether I''ve actually done so,
+    or not, so I suggest giving it a try.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

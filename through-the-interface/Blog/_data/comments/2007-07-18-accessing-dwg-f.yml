@@ -1,0 +1,1596 @@
+comments:
+- author: Nikolay Poleshchuk
+  email: poleshchuk@peterlink.ru
+  ip: 89.110.27.220
+  url: http://poleshchuk.spb.ru/cad/eng.html
+  date: '2007-07-19 05:00:23'
+  body: 'Thank you Kean for the theme,
+
+    One of the frequent problems is to check all (or some) dwg files in a folder.
+    It is necessary to detect a valid dwg version, to check for some specific entities
+    (present or absent), to add some objects (e.g. format box) and to publish (or
+    to plot).'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 12.160.193.229
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-19 12:50:35'
+  body: 'Hi Nikolay,
+
+
+    Thanks - this is great input.
+
+
+    I''ll try to cover the batch-processing aspect (going through files in a folder,
+    checking their versions, and then reading/performing some operation), but printing/plotting
+    can only happen on editor-resident drawings.
+
+
+    AutoCAD currently needs the graphics pipeline to generate printed graphics, and
+    this is not present for side databases. So this is certainly something interesting
+    to cover, but would be more about batching inside the editor than using side databases.
+
+
+    Regards,
+
+
+    Kean'
+- author: Nick Schuckert
+  email: nschuckert@mmm.com
+  ip: 192.28.2.42
+  url: ''
+  date: '2007-07-19 13:53:14'
+  body: 'Hi Kean!
+
+
+    Excellent example! From an academic stand-point, what would really make this appliction
+    "shine" is replacing the command line prompt with a Windows Form.
+
+
+    Regards,
+
+
+    Nick'
+- author: Tore
+  email: tore.marskar.eek-jensen@nov.com
+  ip: 85.19.67.218
+  url: ''
+  date: '2007-07-19 14:31:23'
+  body: 'Hi Kean
+
+
+    Great topic. I would be interested in opening drawing database and change attribute
+    text in a blockrefrence. Save and close in the end.
+
+
+
+    Cheers
+
+    Tore'
+- author: Nikolay Poleshchuk
+  email: poleshchuk@peterlink.ru
+  ip: 89.110.25.156
+  url: http://poleshchuk.spb.ru/cad/eng.html
+  date: '2007-07-20 04:50:36'
+  body: 'Kean,
+
+    If plotting is impossible in an invisible mode then let us save modified dwg file
+    to a subfolder "Ready for plotting".'
+- author: Travor
+  email: sdphg@163.com
+  ip: 67.15.183.21
+  url: ''
+  date: '2007-07-20 10:41:29'
+  body: Good example.But I want to know if I can access the entities in a drawing
+    without start the AutoCAD.Maybe this is a DBX topic,but I know nothing about DBX,where
+    I can find some helpful articles like here?You know I take here as my ObjectARX
+    classroom:),Do you know some other blogs talk about ObjectDBX ?Thank you.
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-20 11:13:05'
+  body: "Travor - \n\nI'm not sure if you're aware, but RealDWG is the new name for\
+    \ ObjectDBX (and I did mention RealDWG in the above article, albeit briefly).\n\
+    \nThe above code will work with very little modification in RealDWG, and I'll\
+    \ add it to my list to do a specific article on RealDWG at some point.\n\nRegards,\n\
+    \nKean"
+- author: Travor
+  email: sdphg@163.com
+  ip: 64.62.138.27
+  url: ''
+  date: '2007-07-21 15:46:24'
+  body: 'Hi Kean.
+
+    Thank you for your mention.It seems I should get something about RealDWG.I am
+    looking forward to your RealDWG articles.Many thanks.'
+- author: Kyle Wecker
+  email: kyle@weckersurveys.com
+  ip: 75.48.21.157
+  url: ''
+  date: '2007-07-27 07:14:23'
+  body: 'Hi Kean,
+
+
+    I''ve really enjoyed reading your articles. This is the best resource I have found
+    for AutoCAD .NET programming. Thank you.
+
+
+    I am working (or about to start) on creating a program that goes through the dwg
+    files in a directory and purges each drawing. Don''t ask why one would want to
+    do this as it is not for me :), but it what I''m interested in and it kind of
+    ties in with the first poster''s desire to iterate through a list of drawings.
+
+
+    Thanks again.'
+- author: Kyle Wecker
+  email: kyle@weckersurveys.com
+  ip: 75.48.21.157
+  url: ''
+  date: '2007-07-27 07:20:16'
+  body: Just read your latest post. It seems you have already done this. While here
+    though, is it possible to do what I asked using the PurgeAll() command? (I haven't
+    experimented yet, and I'm being lazy). Thanks again.
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-27 09:53:32'
+  body: 'Hi Kyle,
+
+
+    You could fire off the -PURGE ALL command (sending the command to the commandline
+    - this would mean the drawing had to be loaded in the AutoCAD editor, mind) or
+    you could create a list of all the objects (blocks, layers, linetypes, etc.) and
+    pass that list through to db.Purge(). This would remove any objects that should
+    not be purged. The remaining object IDs in the list can be used to open and erase
+    the purgable objects in the drawing.
+
+
+    I''ll add this to my list to tackle, at some point.
+
+
+    Regards,
+
+
+    Kean'
+- author: vector
+  email: unix_blues@yahoo.com
+  ip: 203.82.55.118
+  url: ''
+  date: '2007-08-10 09:10:36'
+  body: "That's great information Kean. I am interested in how it can be accomplished\
+    \ through the C++ code/Arx. What about doing this with system variables such as\
+    \ dimtxt, dimscale etc?\n\nHere is my problem scenario. I have a block in drawing\
+    \ A1.dwg, and now I want to insert A1.dwg block into another drawing A2.dwg. I\
+    \ am trying to get the dimtxt value for A1.dwg  before the insertion process so\
+    \ that I can perhaps set the current drawings dimtxt attribute to the one from\
+    \ A1.dwg. I know it's quite simple for current drawings, but what about other\
+    \ drawings remotely. \n\nSo to sum it up, the function should be able to read\
+    \ dimtxt system variable from a  drawing that is not open and return the dimtxt\
+    \ value for that drawing.\n\nVector"
+- author: vector
+  email: unix_blues@yahoo.com
+  ip: 203.82.55.118
+  url: ''
+  date: '2007-08-10 13:03:07'
+  body: 'I think the possible solution to this problem would be to use ObjectDBX.
+    However, as per my information there is no way to access system variables from
+    another drawing that is not open in an AutoCAD session through ObjectDBX. Not
+    even GetVariable and SetVariable, since GetVariable and SetVariable are methods
+    of AcadDocument,
+
+    they only work on AcadDocuments (they''re just wrappers for the ObjectARX counterpart
+    of the (getvar) and (setvar) LISP
+
+    functions). So there''s no method for getting/setting system variables stored
+    in drawings that are accessed directly via
+
+    ObjectDBX.
+
+
+
+    Could you please confirm on this?
+
+
+    Thanks,
+
+    vector'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-08-10 13:43:35'
+  body: 'Vector -
+
+
+    As long as you have a pointer to the Database (or AcDbDatabase) then you can access
+    the "Dimtxt" property - db.Dimtxt (or use the AcDbDatabase::dimtxt() function).
+
+
+    This is true whether inside AutoCAD or using RealDWG (the new name for ObjectDBX).
+
+
+    Regards,
+
+
+    Kean'
+- author: vector
+  email: unix_blues@yahoo.com
+  ip: 203.82.55.118
+  url: ''
+  date: '2007-08-10 14:17:57'
+  body: 'Kean:
+
+
+    Do you know what signature would work? I can''t find the Object Model documentation
+    anywhere :
+
+
+    Suppose I do this
+
+
+    AcDbDatabase pDb( Adesk::kFalse );
+
+    pDb.dimtxt(dimtxtVal, DwgName);
+
+
+    is this the right signature?
+
+
+    Where DwgName is the drawing name whose dimtxt I want
+
+
+    Thanks,
+
+    Vector'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-08-10 14:57:41'
+  body: "Vector - \n\nYou need to use readDwgFile() to read your DWG into the AcDbDatabase\
+    \ before accessing the dimTxt() method using:\n\ndouble dt = db.dimtxt();\n\n\
+    You'll find the documentation on the ObjectARX SDK under the docs folder.\n\n\
+    It seems as though you're new to using ObjectARX. Are you sure you want to stick\
+    \ with C++, rather than using .NET? (Even without substantial documentation I\
+    \ find AutoCAD .NET coding easier and the object model much more discoverable).\n\
+    \nA word of caution... I'd recommend against developing anything in ObjectARX\
+    \ (C++) unless you've worked through the Labs (in the \"arxlabs\" folder) or attended\
+    \ introductory <a href=\"http://www.autodesk.com/apitraining\">training</a> provided\
+    \ by my team. It will really save you a lot of thrashing.\n\nRegards,\n\nKean"
+- author: Senthil
+  email: senthilprb@yahoo.co.in
+  ip: 203.197.250.51
+  url: ''
+  date: '2007-12-21 06:43:17'
+  body: 'Kean,
+
+
+    How to access the ACADMap ObjectData Tables, without opening the dwg in ACAD Editor.
+
+
+    Senthil'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.16.59
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-12-21 09:50:28'
+  body: 'Sorry, Senthil - I don''t know the Map 3D APIs and am unlikely to address
+    this topic on this blog.
+
+
+    You should submit your question via one of the discussion groups or the ADN website
+    (if you''re a member).
+
+
+    Kean'
+- author: satheesh
+  email: repondezsilvousplait.au.revoir@gmail.com
+  ip: 202.88.239.14
+  url: ''
+  date: '2008-03-10 13:05:31'
+  body: "hi kean\n this is satheesh from india.i'm currently assined wth an autocad\
+    \ automation project where i hv to draw in autocad from .net environment.i'm using\
+    \ managed dlls with c# as my programming language .\ni'm currently stuck in a\
+    \ sitaution where i hv to do fillet command to join two lines.for ur knowledge\
+    \ i 'm just a beginner who hv just started learning about autocad.net programming.u\
+    \ might feel this is a simple doubt,but it wud be a great help for me.\nthanx"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 70.164.182.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-03-10 13:55:35'
+  body: 'Satheesh -
+
+
+    Please post your question to the <a href="http://discussion.autodesk.com/forum.jspa?forumID=152">AutoCAD
+    .NET Discussion Group</a>, or submit it via <a href="http://adn.autodesk.com">ADN</a>,
+    if you''re a member.
+
+
+    Regards,
+
+
+    Kean'
+- author: rezaei
+  email: rezaei20089@gmail.com
+  ip: 80.191.136.15
+  url: ''
+  date: '2008-07-09 09:18:48'
+  body: "hi \nplease,\nIm after openning file dwg closed autocad .\nim guide please\n\
+    bye"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-09 09:35:28'
+  body: 'Sorry - I don''t understand, but it doesn''t seem related to the code in
+    this post. Please submit your question to one of the discussion groups.
+
+
+    Kean'
+- author: Mattias
+  email: mattias.wahlqvist@csce.se
+  ip: 213.199.104.71
+  url: ''
+  date: '2008-09-11 14:54:52'
+  body: I get a eBadDwgHeader exception when trying to open dxf files. Is it possible
+    to open dxf files with db.ReadDwgFile() or is there another way to open/import
+    them using RealDWG?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-11 15:07:31'
+  body: 'You can use RealDwgFile(). It''s probably a problem with the DXF file, or
+    with the Database constructor.
+
+
+    Make sure you don''t use the default constructor (Database db = new Database();).
+
+
+    For R13-R2009 DWG files use:
+
+
+    Database db = new Database(false, ...);
+
+
+    For earlier DWGs use:
+
+
+    Database db = new Database(true, ...);
+
+
+    Kean'
+- author: Mattias
+  email: mattias.wahlqvist@csce.se
+  ip: 213.199.104.71
+  url: ''
+  date: '2008-09-12 09:44:34'
+  body: "I have tried different Database constructors but DXF files still give eBadDwgHeader\
+    \ exceptions, even with your EOF example. DWG files works fine.\n\nI'm using RealDWG\
+    \ 2009 and have added \nacdbmgd.dll and acmgd.dll to the projects references.\
+    \ All my dxf files can be opened correctly in autocad.\n\nRegards,\n\nMattias"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-12 09:49:01'
+  body: 'Hi Matthias,
+
+
+    At this stage, I have to refer you to <a href="http://adn.autodesk.com">ADN support</a>,
+    I''m afraid.
+
+
+    Hopefully you''re already a member, but otherwise you might consider <a href="http://www.autodesk.com/joinadn">joining</a>
+    (RealDWG development is hard to do without assistance).
+
+
+    Regards,
+
+
+    Kean'
+- author: Mattias
+  email: mattias.wahlqvist@csce.se
+  ip: 213.199.104.71
+  url: ''
+  date: '2008-09-12 10:41:06'
+  body: "Hi Kean,\n\nI have found a solution to my problem.  :)\n\nIt seems that db.DxfIn()\
+    \ does the trick once you use the correct Database constructor as you described\
+    \ in you other reply.\n\nRegards,\n \nMattias"
+- author: Joao Paulo Cota
+  email: j.cota@devereux.co.uk
+  ip: 89.31.175.15
+  url: ''
+  date: '2008-09-25 15:51:59'
+  body: 'Hi Kean,
+
+    I am upgrading projects from ADT2006 to AA2008 and since areas become spaces now,
+    I have created a new property data set to be used with the new (and old areas
+    converted) spaces. Now, how can I copy data entered on the previous (areas) property
+    data set into the corresponding fields of the new spaces property data set? Say,
+    if we have assigned fields for area codes, area names, scheduled areas in the
+    areas property data set - how do I copy these into the corresponding fields of
+    the new spaces property data set? Any suggestions would be much appreciated. The
+    idea is to use the new spaces property data set and purge the areas one. Is there
+    a way of accessing the dwg database directly and then using a VB routine to do
+    this copy-paste business? Thanks, JP'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-25 16:16:44'
+  body: 'Hi JP,
+
+
+    Sorry - this is really not my area of expertise.
+
+
+    I suggest submitting your question via <a href="http://adn.autodesk.com">the ADN
+    website</a> (if you''re a member) or otherwise trying the <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=54">AutoCAD
+    Architecture Customization Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Nick Lee
+  email: Nlee@Yesco.com
+  ip: 204.182.4.232
+  url: ''
+  date: '2008-10-15 21:40:57'
+  body: I am curious how i would go about using a selection set in an external file.  I
+    can read blocks all that information perfectly fine.  I have an SQL database where
+    i store the part handle of a closed polyline.  I then use that geometry location
+    as a selection set.  Any help?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-10-16 09:55:27'
+  body: 'SelectionSets are very much an AutoCAD concept (not one that is inside RealDWG,
+    for instance). Selection happens via AutoCAD''s knowledge of entities'' graphics:
+    when DWGs are not open in the editor you cannot select across them, other than
+    by iterating across the contents and checking their geometric representation.
+
+
+    Although I may very well have misunderstood your question...
+
+
+    Kean'
+- author: Mike
+  email: michael.robertson@dot.state.fl.us
+  ip: 156.75.192.110
+  url: http://www.dot.state.fl.us/ecso
+  date: '2008-10-23 21:09:13'
+  body: 'Kean,
+
+    For Autocad 2009, is it still required for files to be open in editor mode for
+    printing & plotting?
+
+
+    Thanks.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-10-24 09:10:23'
+  body: 'Mike,
+
+
+    Yes, it is.
+
+
+    Kean'
+- author: Stefano
+  email: bux1963@hotmail.com
+  ip: 82.89.235.74
+  url: ''
+  date: '2008-11-03 08:23:07'
+  body: "Hi Kean\nI am trying to open a dwg file without editor and without realdwg\
+    \ but with autocad running so \nAcadApp = GetObject(, \"AutoCAD.Application.16.2\"\
+    )\n\nMy program stop at line\nDim DBDwg As New Autodesk.AutoCAD.DatabaseServices.Database\
+    \ for \"Access violation exception\"\nCan you help my?\noohh...i am using VB.net\n\
+    thank"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.58.188
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-03 08:56:13'
+  body: 'Stefano,
+
+
+    You seem to mixing both COM and .NET in your project... not that that''s a bad
+    thing, necessarily, but there''s a lot I can''t tell from the code you''ve provided.
+
+
+    I don''t have time to provide personal debugging services, so please post more
+    information on what you''re trying to do via the <a href="http://adn.autodesk.com">ADN
+    website</a> (if you''re a member) or to the <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">AutoCAD
+    .NET Discussion Group</a> (if you''re not).
+
+
+    Regards,
+
+
+    Kean'
+- author: asmaa
+  email: asmaa.14-7@hotmail.com
+  ip: 41.221.19.199
+  url: ''
+  date: '2008-11-22 12:01:32'
+  body: how to create a group which has 3 polyline
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.58.159
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-24 07:41:35'
+  body: 'Asmaa - perhaps someone on the discussion group can help you. I unfortunately
+    don''t have the time to handle this type of request.
+
+
+    Kean'
+- author: asmaa
+  email: asmaa.14-7@hotmail.com
+  ip: 41.221.19.235
+  url: ''
+  date: '2008-11-24 14:55:00'
+  body: "merci j'ai trouvé la solution :\n\n// creer un group \n\n               \
+    \ Transaction tm = db.TransactionManager.StartTransaction();\n               \
+    \ ObjectId[] ids = new ObjectId[3];\n                ids[0] = pol.ObjectId;\n\
+    \                ids[1] = fin_barre_droit.ObjectId;\n                ids[2] =\
+    \ fin_barre_gauche.ObjectId;\n                Group gp = new Group(\"grouptest\"\
+    , true);\n                DBDictionary dict = (DBDictionary)tm.GetObject(db.GroupDictionaryId,\
+    \ OpenMode.ForWrite, true);\n                dict.SetAt(\"group\", gp);\n    \
+    \            for (int i = 0; i < 3; i++) gp.Append(ids[i]);\n                tm.AddNewlyCreatedDBObject(gp,\
+    \ true);\n                tm.Commit();"
+- author: asmaa
+  email: asmaa.14-7@hotmail.com
+  ip: 41.221.19.235
+  url: ''
+  date: '2008-11-24 15:03:01'
+  body: "merci j'ai trouvé la solution :\n\n// creer un group \n\n               \
+    \ Transaction tm = db.TransactionManager.StartTransaction();\n               \
+    \ ObjectId[] ids = new ObjectId[3];\n                ids[0] = pol1.ObjectId;\n\
+    \                ids[1] = pol2.ObjectId;\n                ids[2] = pol3.ObjectId;\n\
+    \                Group gp = new Group(\"grouptest\", true);\n                DBDictionary\
+    \ dict = (DBDictionary)tm.GetObject(db.GroupDictionaryId, OpenMode.ForWrite, true);\n\
+    \                dict.SetAt(\"group\", gp);\n                for (int i = 0; i\
+    \ < 3; i++) gp.Append(ids[i]);\n                tm.AddNewlyCreatedDBObject(gp,\
+    \ true);\n                tm.Commit();\ndb.Dispose();"
+- author: Azhar
+  email: azhar.s2xk@yahoo.com
+  ip: 122.167.97.118
+  url: ''
+  date: '2009-02-16 11:27:57'
+  body: "I want to read a DWG file, make a graphical representation(2d) on screen,\
+    \ and sort individual objects in the drawing to list it  on the screen separately.\
+    \ \nEg: if the drawing is of a floor plan of a room, i want to display the floor\
+    \ plan, and list the furniture shown in the drawing.\n\nIs this possible using\
+    \ realDWG?\nor is there any other api/sdk which can be used?\nDo you have any\
+    \ article which will be of help to me to get started with the scenario above?\n\
+    Any other links which will be of help to me?"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/walmsleyk
+  date: '2009-02-16 17:49:08'
+  body: 'If you''re going to display your own symbolic graphical representation which
+    is different from the way AutoCAD (for instance) would show it, then RealDWG might
+    work.
+
+
+    RealDWG doesn''t have any entity display capabilities, so if you want anything
+    to look like AutoCAD it''s going to be a lot of work... at that point I''d recommend
+    taking a look at <a href="http://www.autodesk.com/autocadoem">AutoCAD OEM</a>.
+
+
+    Kean'
+- author: Hillary
+  email: ''
+  ip: 192.94.34.2
+  url: http://profile.typepad.com/6p011278f8f87428a4
+  date: '2009-02-18 11:45:23'
+  body: "Hi Kean\n\nReally very useful information and I liked the article very much.\
+    \ \nI have to read .dwg file [ this dwg is from another application which have\
+    \ custom entities ] and I have to read this .dwg file. Is this possible through\
+    \ Object DBX.\nCan ObjectDBX read the custom entities information from the .dwg\
+    \ file.\nCould you please provide your valuable advice regarding this.\n\nMany\
+    \ thanks in Advance and please note that this information is very important to\
+    \ me , so I request you to kindly share your view on the same.\n\nOnce again thanks\
+    \ in Advance\n\nHillary"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/walmsleyk
+  date: '2009-02-18 13:51:47'
+  body: 'Hi Hillary,
+
+
+    RealDWG - what was previously known as ObjectDBX - can read custom objects and
+    custom entities if the object enabler is well structured (i.e. it has no dependencies
+    on AutoCAD) and is installed on the system. Otherwise it will only have access
+    to information exposed by the proxy objects created for them.
+
+
+    Regards,
+
+
+    Kean'
+- author: Hillary
+  email: ''
+  ip: 192.94.34.2
+  url: http://profile.typepad.com/6p011278f8f87428a4
+  date: '2009-02-19 05:52:21'
+  body: 'Hi Kean
+
+
+    Many Many thanks for your reply and information.
+
+    But Could you please provide more information regarding the statmement "if the
+    object enabler is well structured (i.e. it has no dependencies on AutoCAD)"
+
+
+    The drawing I am going to read is made of many custom entities like complex line
+    and circle which are derived from AcDbEntity Custom entities.Could you please
+    your valuable advice whether we can read all this information successfully through
+    ObjectDBX.
+
+
+    Best Regards
+
+    Hillary'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/walmsleyk
+  date: '2009-02-19 08:59:02'
+  body: 'Yes, you should be able to access your custom entity information from RealDWG.
+
+
+    Ultimately the issue is about the DLLs you link to from your Object Enabler via
+    import libraries. If you use the Dependency Walker to check the dependencies,
+    if AutoCAD (acad.exe) is there in any way, it will not load in RealDWG.
+
+
+    The best way to check this without a RealDWG license is probably to install DWG
+    TrueView on a fresh computer and make sure it loads the Object Enabler (you should
+    be able to tell via the graphics, or failing that you can use tools such as ProcessMonitor
+    from Microsoft/SysInternals) when AutoCAD is not present.
+
+
+    Kean'
+- author: Hillary
+  email: ''
+  ip: 192.94.34.2
+  url: http://profile.typepad.com/6p011278f8f87428a4
+  date: '2009-02-19 09:12:52'
+  body: 'Hi Kean
+
+
+    Once again many thanks for your time and advice.
+
+    The drawings created by third party application is shipped with .arx executable
+    [ no .dbx executables are shipped].
+
+
+    Could you please provide your valuable advice regarding whether reading the custom
+    entities from .dwg file through ObjectDBX is possible with out .dbx executables
+    from third party application.
+
+
+    Also, if the third party application has to ship .dbx application [which currently
+    ships only .arx executables ] will this going to be big work for them .
+
+
+    Once again Many many thanks
+
+    Best Regards
+
+    Hillary'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/walmsleyk
+  date: '2009-02-19 09:16:23'
+  body: 'You''ll need .dbx modules without dependencies on AutoCAD-only EXEs/DLLs.
+    Without these it won''t work.
+
+
+    How much effort would it take? It depends on the application - it can be very
+    straightforward, but there might be reasons it''s complicated, in this case. I
+    have no way to judge that.
+
+
+    Kean'
+- author: Francisco
+  email: kain232002@yahoo.com
+  ip: 200.71.162.2
+  url: ''
+  date: '2009-05-22 04:38:58'
+  body: Hi Kean, i'm developing my personal application on c# 2008. with autocad 2006.
+    i want to edit a dwg file without opening autocad is there a way for it? currently
+    i can open autocad, insert blocks, line, etc on the drawing, plot to a jpeg file
+    and close autocad from my app, but i would like to do the same without having
+    to load the complete program.are there libraries to do this? dlls? hope you can
+    help me or at least guide me... thanks a lot!
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-05-25 15:41:47'
+  body: 'Hi Francisco,
+
+
+    If you have AutoCAD installed on the system then I believe it''s possible to use
+    the AutoCAD/ObjectDBX Common Type Library to work with documents, although without
+    AutoCAD running you will not be able to plot to a JPEG - you need AutoCAD''s graphics
+    pipeline for that.
+
+
+    The same is true for working on systems without AutoCAD installed: you could use
+    RealDWG to access/modify DWGs, but plotting will be an issue.
+
+
+    Regards,
+
+
+    Kean'
+- author: lovemy65stang
+  email: ''
+  ip: 209.184.30.158
+  url: http://profile.typepad.com/6p0120a529f1b7970c
+  date: '2009-08-07 19:50:11'
+  body: "Now that I see how to look at these objects without opening the drawing in\
+    \ the editor, I was wondering if it were possible to do the following:\nLoop through\
+    \ all text objects\n  If the text object's value = \"SomeString\"\n    text Object's\
+    \ value = \"DifferentString\"\nNext\n\nI have a TON of drawings I need to be able\
+    \ to do this on!\nThank You!\n-Brian"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-08-10 10:17:53'
+  body: 'Brian -
+
+
+    Yes, that''s altogether possible.
+
+
+    In the iteration code you can cast the object to a DBText or MText to retieve
+    and check it''s text contents. There should be cold elsewhere on this blog that
+    does just that (try searching the site for "DBText MText").
+
+
+    Regards,
+
+
+    Kean'
+- author: lovemy65stang
+  email: ''
+  ip: 209.184.30.13
+  url: http://profile.typepad.com/6p0120a529f1b7970c
+  date: '2009-08-10 23:50:30'
+  body: "I think I'm close.  My code runs without error and exits properly, but when\
+    \ I open the drawing I've processed, nothing has changed :(  I don't know if I'm\
+    \ supposed to post code here, but I figured I'd try!\n\nnamespace TEST2\n{\n \
+    \   public class Class1\n    {\n        // Changes text in a file without opening\
+    \ it\n        [CommandMethod(\"ctext\")]\n        static public void changeText()\n\
+    \        {\n            Document doc = Application.DocumentManager.MdiActiveDocument;\n\
+    \            Editor ed = doc.Editor;\n\n            // Create a database and try\
+    \ to load the file\n            Database db = new Database(false, true);\n\n \
+    \           using (db)\n            {\n                try\n                {\n\
+    \                    //Ask for the file name to process; hard coded for now...\n\
+    \                    //PromptResult fileName = ed.GetString(\"\\nEnter the file\
+    \ path of a Dwg to process: \");\n                    string fileName = \"C:\\\
+    \\Documents and Settings\\\\bwiggins\\\\Desktop\\\\BL-NUT.dwg\";\n\n         \
+    \           //Open the file to edit\n                    db.ReadDwgFile(fileName,\
+    \ System.IO.FileShare.ReadWrite, false, \"\");\n                }\n          \
+    \      catch (System.Exception)\n                {\n                    ed.WriteMessage(\"\
+    \\nUnable to read drawing file.\");\n                    return;\n           \
+    \     }\n\n                //Get what text to replace & what to replace it with\n\
+    \                PromptResult oldText = ed.GetString(\"\\nEnter the text you want\
+    \ to replace: \");\n                PromptResult newText = ed.GetString(\"\\nEnter\
+    \ the text you want to replace \" + '\"' + oldText.StringResult + '\"' + \" with:\
+    \ \");\n\n                if (oldText.Status == PromptStatus.OK & newText.Status\
+    \ == PromptStatus.OK)\n                {\n                    //Start the transaction...\n\
+    \                    Transaction myTrans = db.TransactionManager.StartTransaction();\n\
+    \                    using (myTrans)\n                    {\n                \
+    \        // Open the blocktable, get the modelspace\n                        BlockTable\
+    \ bt = (BlockTable)myTrans.GetObject(db.BlockTableId, OpenMode.ForWrite);\n  \
+    \                      BlockTableRecord btr = (BlockTableRecord)myTrans.GetObject(bt[BlockTableRecord.ModelSpace],\
+    \ OpenMode.ForWrite);\n\n                        // Iterate through all text objects\n\
+    \                        foreach (ObjectId objId in btr)\n                   \
+    \     {\n                            DBObject obj = myTrans.GetObject(objId, OpenMode.ForWrite);\n\
+    \n                            if (obj is DBText)\n                           \
+    \ {\n                                //Cast the object as a text object\n    \
+    \                            DBText textObj = (DBText)obj;\n\n               \
+    \                 //Test if it matches the oldText\n                         \
+    \       if (textObj.TextString == oldText.StringResult)\n                    \
+    \            {\n                                    textObj.TextString = newText.StringResult;\n\
+    \                                }\n                            }\n          \
+    \              }\n                        myTrans.Commit();\n                \
+    \    }\n                }\n            }\n        }\n    }\n}\n\nThanks again\
+    \ for your help!!!\n-Brian"
+- author: Ferry
+  email: ferryhtw@gmail.com
+  ip: 117.104.204.18
+  url: ''
+  date: '2009-08-11 03:07:07'
+  body: "Hi Kean,\nSorry if you think this is a stupid question. \nShould I download/buy\
+    \ RealDWG to run those code or just autocad ?"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-08-11 08:55:15'
+  body: 'Hi Ferry,
+
+
+    That''s up to you: you can run this code in AutoCAD as it stands, or modify it
+    slightly to work inside a RealDWG application.
+
+
+    It comes down to what you have available already (i.e. whether you already own
+    AutoCAD) and how you want to deploy the application (i.e. whether you''re going
+    to run this as a batch process on your machine or deploy it to a number of other
+    machines which won''t have AutoCAD available).
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-08-11 09:57:28'
+  body: 'Hi Brian,
+
+
+    It looks like you need to save the document using db.Save() or db.SaveAs().
+
+
+    Kean'
+- author: lovemy65stang
+  email: ''
+  ip: 209.184.30.13
+  url: http://profile.typepad.com/6p0120a529f1b7970c
+  date: '2009-08-11 17:06:40'
+  body: 'Kean,
+
+    I just wanted to thank you again!  I added the db.SaveAs(fileName,DwgVersion)
+    command to the end and it works great!  I had some trouble figuring out that ''DwgVersion.AC1800''
+    correlates with AutoCAD''s 2004 version.  I kept trying ''DwgVersion.AC1018'',
+    since ''AC1018'' is in the drawing file when you send one saved in the 2004 format
+    to a text editor.  Is there a list somewhere that shows what each ''DwgVersion.XXXX''
+    correlates with?
+
+
+    Thanks again in advance!
+
+    -Brian Wiggins'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-08-11 18:07:09'
+  body: 'Brian,
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2006/08/breaking_it_dow.html">This
+    old post</a> includes a partial list (not covering AutoCAD 2010), but it should
+    be enough for you.
+
+
+    Kean'
+- author: lovemy65stang
+  email: ''
+  ip: 209.184.30.13
+  url: http://profile.typepad.com/lovemy65stang
+  date: '2009-08-11 19:31:19'
+  body: 'Kean,
+
+    That''s the post I was looking at to get ''AC1018 = 2004/2005/2006'' ; which is
+    incorrect in code (at least on my PC).  I''m using AC2008 and references to AcDbMgd
+    and AcMgd from ObjectARX 2008.
+
+    From my code:
+
+    db.SaveAs(db.Filename, DwgVersion.AC1018) = ERROR!!!
+
+    db.SaveAs(db.Filename, DwgVersion.AC1800) = Saved correctly in 2004/2005/2006
+
+
+    Please let me know if it''s just me?!?!
+
+    Thank You,
+
+    -Brian'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-08-11 20:26:32'
+  body: 'That is strange...
+
+
+    When I save DWGs for different versions and check the first 6 bytes of each, I
+    see:
+
+
+    2004-2006  AC1018
+
+    2007-2009  AC1021
+
+    2010       AC1024
+
+
+    I had assumed the DwgVersion enumeration followed these, but apparently not (there''s
+    no DwgVersion.AC1018, from what I can tell).
+
+
+    I''ll check and see if anyone knows what''s up with this.
+
+
+    Kean'
+- author: lovemy65stang
+  email: ''
+  ip: 209.184.30.13
+  url: http://profile.typepad.com/lovemy65stang
+  date: '2009-08-11 20:49:16'
+  body: I assumed the same thing;  how odd that it's not consistent!  I'm glad it's
+    not just me though :)
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-08-12 14:43:55'
+  body: 'No - not just you... :-)
+
+
+    Looking at the ObjectARX headers (acdb.h), the codes appear to come from there:
+
+
+    ...
+
+    kDHL_1001    = 8,
+
+    kDHL_1002    = 9,      // AutoCAD 2.5
+
+    kDHL_1003    = 10,     // AutoCAD 2.6
+
+    kDHL_1004    = 11,     // Release 9
+
+    kDHL_1005    = 12,
+
+    kDHL_1006    = 13,     // Release 10
+
+    kDHL_1007    = 14,
+
+    kDHL_1008    = 15,
+
+    kDHL_1009    = 16,     // R11 and R12
+
+    kDHL_1010    = 17,
+
+    kDHL_1011    = 18,
+
+    kDHL_1012    = 19,     // R13
+
+    kDHL_1013    = 20,     // R14 mid version.
+
+    kDHL_1014    = 21,     // R14 final version.
+
+    kDHL_1500    = 22,     // 2000 development (Tahoe)
+
+    kDHL_1015    = 23,     // 2000 final version.
+
+    kDHL_1800a   = 24,     // 2004 mid version
+
+    kDHL_1800    = 25,     // 2004 final
+
+    kDHL_2100a   = 26,     // 2007 Development
+
+    kDHL_1021    = 27,     // 2007 final
+
+    kDHL_2400a   = 28,     // Gator Development
+
+    kDHL_1024    = 29,     // 2010 final
+
+    kDHL_Newest  = kDHL_1024,
+
+    kDHL_CURRENT = kDHL_Newest,
+
+    ...
+
+
+    Whatever the reason for doing so, the enumeration names are now as they are. It
+    looks to me as though the "in development" DWG version for AutoCAD 2004 was not
+    renamed properly at the end of the development cycle.
+
+
+    Anyway - we are where we are, at this stage...
+
+
+    Kean'
+- author: lovemy65stang
+  email: ''
+  ip: 209.184.30.13
+  url: http://profile.typepad.com/lovemy65stang
+  date: '2009-08-12 22:21:21'
+  body: 'Kean,
+
+
+    At least now you have a topic for a new (although short) post :)
+
+
+    Since I''m making a post anyway...
+
+    When I do this:
+
+    btr = (BlockTableRecord)myTrans.GetObject(bt[BlockTableRecord.PaperSpace], OpenMode.ForWrite);
+
+    It only operates on the default layout.  How do I loop through and process ALL
+    the layouts in a drawing?
+
+
+    Thanks,
+
+    -Brian'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-08-13 08:51:14'
+  body: 'Brian,
+
+
+    If you search this blog for "btrId" and look for code that uses "foreach" to loop
+    through the contents of the BlockTable, you should find a few posts (such as <a
+    href="http://through-the-interface.typepad.com/through_the_interface/2007/10/allowing-select.html">this
+    one</a>).
+
+
+    Kean'
+- author: Kaitlyn
+  email: kallen@taittowers.com
+  ip: 72.25.2.94
+  url: ''
+  date: '2010-09-27 22:52:39'
+  body: 'Kean,
+
+    I would like to know how to generate a preview picture of a DWG file on the fly
+    and display it in a Windows form.  I have found many posts that offer components
+    to bring up a thumbnail, but this image is too small.  I need a preview that is
+    approximately 375 pixels wide.  Users of my software will need to see the labels
+    in the drawing clearly, so thumbnails will not offer enough detail.  How can I
+    do this?
+
+    Thank You,
+
+    Kaitlyn'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-09-29 08:59:28'
+  body: 'Kaitlyn,
+
+
+    Your comment doesn''t appear to relate to this post. In future, please submit
+    your questions to <a href="http://adn.autodesk.com">the ADN team</a>, if you''re
+    a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    That said, you might find these posts to be of interest:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2007/04/taking_a_snapsh_1.html">Taking
+    a snapshot of the AutoCAD model (take 2)</a>
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2009/11/novembers-plugin-of-the-month-screenshot.html">November’s
+    Plugin of the Month: Screenshot</a>
+
+
+    Regards,
+
+
+    Kean'
+- author: Neyton Luiz Dalle Molle
+  email: neyton@yahoo.com
+  ip: 187.6.142.184
+  url: http://tbn2.blogspot.com
+  date: '2010-09-29 15:00:19'
+  body: 'Hello Kean, this very interesting post!
+
+
+    Even now I am using your idea!
+
+
+    But I have a problem, you can determine the coordinates of the region modelspace
+    that a viewport is rectangular, using the database of an open design with ReadDwgFile?
+
+
+    (google translate... sorry, heheh)'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-09-29 16:02:23'
+  body: 'Hello Neyton Luiz Dalle Molle,
+
+
+    I''m afraid I don''t understand what you''re looking for. In any case, I''m afraid
+    it will go beyond the scope of this post (and I don''t have time to provide support,
+    myself).
+
+
+    Please submit your question to <a href="http://adn.autodesk.com">the ADN team</a>,
+    if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean'
+- author: Usman @ TecRux
+  email: us16@hotmail.com
+  ip: 119.153.70.54
+  url: http://www.tecrux.com
+  date: '2010-11-24 19:11:37'
+  body: Hey Kean. Can you help me with something ? I want to show the image stored
+    in a .dwg file to a picture box. I am currently working in C# visual studio 2008.
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2010-11-24 22:17:42'
+  body: 'Hi Usman,
+
+
+    There''s a <a href="http://through-the-interface.typepad.com/through_the_interface/2007/10/au-handouts-t-1.html">DWG
+    Thumbnail</a> control that''s available via ADN, and I believe there are alternatives
+    out there, too (although I don''t really know anything about them).
+
+
+    Kean'
+- author: Usman @ TecRux
+  email: us16@hotmail.com
+  ip: 119.153.135.118
+  url: http://www.tecrux.com
+  date: '2010-11-25 17:31:06'
+  body: Okay. Thanks for your early reply.
+- author: Restov
+  email: restoves@southernco.com
+  ip: 146.126.51.51
+  url: ''
+  date: '2010-12-15 01:37:48'
+  body: 'Hi Kean,
+
+    Thanks for all the help you provide in your posts. Is there a way to access a
+    "side database" that contains custom objects? Is there a way to reference the
+    custom dbx through .NET?'
+- author: Kean Walmsley
+  email: ''
+  ip: 93.104.197.148
+  url: http://profile.typepad.com/kean
+  date: '2010-12-15 08:14:06'
+  body: 'Hi Restov,
+
+
+    Absolutely: as long as you have the registry entries set up (under [HKCU|HKLM]\Software\Autodesk\ObjectDBX\Rxx.x\Applications)
+    then the .dbx modules should be loaded by any RealDWG/ObjectDBX host on the system
+    (when a custom object of that type is found).
+
+
+    Regards,
+
+
+    Kean'
+- author: dave
+  email: dave@davetyner.com
+  ip: 24.8.253.21
+  url: http://www.davetyner.com
+  date: '2011-05-18 08:38:04'
+  body: "Hi Kean, thanks for this code!  I have been searching high and low for something\
+    \ like it. Here is my situation...\n\nI need to import dwg models into 3DS Max.\
+    \  I can do this. :)  Each dwg object that get's imported is linked to a SQL database\
+    \ ala Autocad Plant 3D.  I need to either: \n\na)pull the dwg objects UID from\
+    \ the database and make the UID it's name in Max\nor\nb)read each dwg object property\
+    \ as you have done and find the UID property of the object and make that the object\
+    \ name in Max. . I am not sure if the property I am looking for is stored in the\
+    \ dwg but it would be great if it was.  In thinking about it I guess it would\
+    \ have to be for the Autocad to pull the data.  Maybe it's not exposed to the\
+    \ user tho?\n\nBasically, I just need an object property that I can use to query\
+    \ the database. I figured naming the object with the UID was the easiest thing\
+    \ to do.\n\nI am exhausted just writing this and will not be offended if you don't\
+    \ answer. :P"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-05-18 09:13:14'
+  body: 'The classic way to link DWG objects with outside databases is via their "handle"
+    property: these are guaranteed to be unique for a particular drawing (and do not
+    change from session to session).
+
+
+    Kean'
+- author: dave
+  email: dave@davetyner.com
+  ip: 24.8.253.21
+  url: http://www.davetyner.com
+  date: '2011-05-19 03:46:09'
+  body: 'Kean, what references do I need to load to execute this program?  All I have
+    available is "using Autodesk.AutoCAD.Interop"
+
+
+    Sorry for the newb question.'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-05-19 10:15:31'
+  body: 'Dave,
+
+
+    You will need project references (with Copy Local set to False) to AcMgd.dll and
+    AcDbMgd.dll (<a href="http://through-the-interface.typepad.com/through_the_interface/2006/07/getting_started.html">this
+    post</a> may help).
+
+
+    Regards,
+
+
+    Kean'
+- author: Adriano
+  email: adriano.lamanna@teseosm.com
+  ip: 94.33.5.6
+  url: ''
+  date: '2011-09-12 16:46:53'
+  body: 'Hi Kean,
+
+    I would to know if RealDWG allows us reading/writing dwg layers extended properties
+    (I mean... layer extended data).
+
+
+    Thanks for your time.
+
+
+    Regards,
+
+    Adriano'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.58.92
+  url: http://profile.typepad.com/kean
+  date: '2011-09-12 17:14:58'
+  body: 'Hi Adriano,
+
+
+    I''m pretty sure it does, although I haven''t tried it (at least not that I remember).
+
+
+    Regards,
+
+
+    Kean'
+- author: Natasha
+  email: natasha.borkar@inspirebridge.com
+  ip: 61.17.93.119
+  url: http://through-the-interface.typepad.com/through_the_interface/2007/07/accessing-dwg-f.html
+  date: '2012-04-25 08:27:38'
+  body: "I have created C#.Net Class Library and not want to see output .but i m not\
+    \ able to see it. \nSo could you tell me how can i get the out ."
+- author: Kean Walmsley
+  email: ''
+  ip: 95.172.88.8
+  url: http://profile.typepad.com/kean
+  date: '2012-04-25 10:42:41'
+  body: 'I''m sorry - firstly I don''t really understand what you''re asking, and
+    secondly I don''t have time to provide support. Please post your question to the
+    ADN team or to the AutoCAD .NET Discussion Group.
+
+
+    Kean'
+- author: Ken
+  email: ken.schramm@clarkdietrich.com
+  ip: 66.192.76.190
+  url: http://clarkdietrich.com
+  date: '2012-10-11 16:12:13'
+  body: 'Kean,
+
+
+    Thank you for the article because it provided a great solution for creating a
+    list of products specified in dwgs without opening them. I am trying to take it
+    a step further by providing a simple editor to correct the MText contents without
+    opening the drawing.  The concept is to find the MText object, set the contents
+    equal to the new value and commit the change without opening the dwg.  I am not
+    getting any errors but the contents are not updated.  Can I do what I am trying
+    to do? If yes, have you written on it?
+
+
+    Regards,
+
+
+    Ken'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2012-10-12 10:53:43'
+  body: 'Ken,
+
+
+    A couple of thoughts: the above code is not currently set up to write data to
+    a file. You''ll need to commit the transaction - for a start - and then use the
+    Database.SaveAs() method to write it back to disk.
+
+
+    Regards,
+
+
+    Kean'
+- author: Ken
+  email: ken.schramm@clarkdietrich.com
+  ip: 66.192.76.190
+  url: http://clarkdietrich.com
+  date: '2012-10-12 15:30:31'
+  body: "Thanks Kean - \n\nIt's good to know that I will be able to do this. Originally\
+    \ I didn't call the SaveAs() method in my code but after adding it and working\
+    \ past the 'eFileSharingViolation' I was still not able to update the file. I\
+    \ will post my code to the Discussion Group to see if I can get it resolved.\n\
+    \nAgain, thanks for your help!\n\nKen"
+- author: Craig
+  email: cnicholas@stanburys.com
+  ip: 217.36.60.45
+  url: ''
+  date: '2013-04-23 14:54:03'
+  body: "Hello Kean,\nThis is a nice example that I would like to use as a basis for\
+    \ a function in my app. I've got it working and slimmed it down just to get the\
+    \ db.ThumbnailBitmap.\n\nHowever, there is a warning in the ObjectARX SDK Managed\
+    \ Class Reference in the Database.ReadDwgFile method that's a bit scary - quote:\
+    \ \n\n\"This function should only be used on a newly created Database that was\
+    \ created with its constructor's buildDefaultDrawing argument set to false. If\
+    \ this method is used on an Database that was created with buildDefaultDrawing\
+    \ set to true, or an Database that already has information in it (for any reason\
+    \ including a previous call to this function), then memory leaks, or worse, will\
+    \ result.\"\n\nWhat's the likelihood I'll hit the problems mentioned?"
+- author: Kean Walmsley
+  email: ''
+  ip: 74.95.195.137
+  url: http://profile.typepad.com/kean
+  date: '2013-04-23 15:34:08'
+  body: 'Hi Craig,
+
+
+    If going to use ReadDwgFile(), you should really pass in false as the first argument
+    to the Database constructor (as I''ve done here). That means everything gets read
+    in from the DWG. You use true if you''re not going to read anything in (or if
+    you''re reading in an R12 DWG, which is pretty rare, these days).
+
+
+    Cheers,
+
+
+    Kean'
+- author: Craig
+  email: cnicholas@stanburys.com
+  ip: 217.36.60.45
+  url: ''
+  date: '2013-04-24 10:49:19'
+  body: 'I should have read the code more closely. ASslong as the database is newly
+    created I''ll be okay. Phew ;)
+
+    Database db = new Database(false, true);'
+- author: Mahes
+  email: maheswaran.n@binarch.com
+  ip: 122.164.31.128
+  url: ''
+  date: '2013-06-06 16:02:33'
+  body: Need to AutoCad for this?
+- author: Mahes
+  email: maheswaran.n@binarch.com
+  ip: 122.164.31.128
+  url: ''
+  date: '2013-06-06 16:06:34'
+  body: 'I got error following error.
+
+
+    Method ''CopyTo'' in type ''Autodesk.AutoCAD.ApplicationServices.DocumentCollection''
+    from assembly ''acmgd, Version=18.1.0.0, Culture=neutral, PublicKeyToken=null''
+    does not have an implementation.
+
+
+    Please Clarify my doubts. Thanks in advance.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-06-06 17:00:06'
+  body: 'Yes, you need AutoCAD for this (otherwise you''d use RealDWG, but the code
+    would be slightly different).
+
+
+    Make sure you include a project reference to AcCoreMgd.dll if using AutoCAD 2013
+    or later, by the way.
+
+
+    Kean'
+- author: Mahes
+  email: maheswaran.n@binarch.com
+  ip: 122.174.0.197
+  url: ''
+  date: '2013-06-07 07:30:24'
+  body: Thanks for your reply. I will check.
+- author: Peter
+  email: peter@hotmail.com
+  ip: 61.29.115.146
+  url: ''
+  date: '2013-06-21 01:10:53'
+  body: 'Hi Kean,
+
+
+    I''ve got this code up and running. I''m fairly new to VB.NET and am wondering
+    if the code could be extended to look deeper into things like attribute values?
+    Using the BlockTableId etc. there is no .Has Attributes or the like. Not looking
+    for sample code, just wondering if it is possible and perhaps what command I should
+    be investigating? Thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-06-21 07:25:08'
+  body: 'Hi Peter,
+
+
+    Yes, that''s a pretty common use case. If you search the blog for AttributeDefinition
+    and/or AttributeReference, you should find some posts that help.
+
+
+    Regards,
+
+
+    Kean'
+- author: Peter
+  email: peter@hotmail.com
+  ip: 61.29.115.146
+  url: ''
+  date: '2013-06-24 00:55:23'
+  body: Thanks. Its a pleasure to learn.
+- author: Dave T
+  email: ''
+  ip: 157.130.164.162
+  url: http://profile.typepad.com/tdave
+  date: '2013-10-29 21:09:39'
+  body: "Kean, thank you for posting this. I am just getting started in .net and was\
+    \ hoping to access some dwg data without having to open the drawing. I have Acad\
+    \ 2014 installed > ObjARX 2014 dll's to a folder > create a new Console application\
+    \ in VS 2010.\n\nI have removed your code about asking for the drawing name and\
+    \ have hard coded the drawing name here:\n\n            db.ReadDwgFile(\n    \
+    \          \"c:/mydwg.dwg\", //also tried @\"c:\\mydwg.dwg\"\n              System.IO.FileShare.Read,\n\
+    \              false,\n              \"\"\n            );\n\nI get the OK from\
+    \ the console that it sees the file.\n\nIt falls over at:\n\n  Transaction tr\
+    \ =\n            db.TransactionManager.StartTransaction();\n\nerr: InvalidProgramException\n\
+    \nwith the error marker underneath the start transaction () parens.\n\nHave I\
+    \ provided enough information for you to know what is going on?\n\nThank you!"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-10-30 08:31:05'
+  body: 'Are you running this from the main AutoCAD program folder?
+
+
+    I tend not to even try this approach - as I don''t believe it''s supported and
+    may just fail in odd ways - so I''d suggest doing what''s in this post, which
+    is to have AutoCAD running but able to work on drawings that are not loaded in
+    the editor.
+
+
+    If you want a true standalone experience then there''s always RealDWG, but then
+    I understand you may not want to use it if you have AutoCAD installed.
+
+
+    If you''re using AutoCAD 2013 or higher then you really ought to check out the
+    Core Console. That''s IMO the best way to go here.
+
+
+    Kean'
+- author: Mark
+  email: makoychan@yahoo.com
+  ip: 67.83.174.201
+  url: ''
+  date: '2014-01-22 22:30:53'
+  body: Is is possible to read or use more than 1 dwg file into 1 editor? I have created
+    a palette which displays dwg files and i wanted to do a drag and drop of the selected
+    dwg i am displaying on a listview. I was successful with 1 dwg but dragging the
+    2nd dwg cause the 1st dwg to be lost.
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2014-01-23 09:02:02'
+  body: 'It definitely is. It depends how you''re doing it, of course (you need to
+    take care about document locking, etc.).
+
+
+    I suggest posting some code to ADN or the AutoCAD .NET Discussion Group.
+
+
+    Kean'
+- author: David
+  email: david.tiago.costa@novabase.pt
+  ip: 213.30.13.65
+  url: ''
+  date: '2014-02-05 11:20:55'
+  body: "Hi Kean,\n\nI need to acess raster images source in the dwg and replace for\
+    \ a new one. Do you think it's possible without having to open the drawing?\n\n\
+    I tried your code just to test acess the dwg but i'm getting \"InvalidProgramException\"\
+    \ error in line:\n\nDocument doc =  Application.DocumentManager.MdiActiveDocument;\n\
+    \nAny suggestion? I'm using AutoCAD MAP 3D 2013, Visual Studio 2012 and ObjectARX\
+    \ 2014.\n \nThank you!"
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2014-02-05 17:56:33'
+  body: 'Hi David,
+
+
+    It should be fairly simple to test: raster images are external files, so you could
+    try modifying the external file without the DWG being open and then check the
+    effect when you reload the drawing.
+
+
+    Regards,
+
+
+    Kean'
+- author: Paul
+  email: cornking84@hotmail.com
+  ip: 121.45.238.72
+  url: ''
+  date: '2014-03-08 08:00:02'
+  body: 'Hi Kean,
+
+    I try to access a drawing file and plot its model space without opening it in
+    the editor.
+
+    I read database by using ReadDwgFile and it is working fine until this step.
+
+    However, there is an error with message "eLayoutNotCurrent"
+
+    when I validate plot information.
+
+    piv.Validate(pi); - at this line
+
+    Does it happen because I didn''t open layout in editor
+
+    Is there any alternative way I can try?
+
+
+    Thank you'
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.11.145
+  url: http://profile.typepad.com/kean
+  date: '2014-03-10 09:15:29'
+  body: 'Hi Paul,
+
+
+    You won''t be able to plot from a drawing that isn''t loaded in the editor: plotting
+    is dependent on the graphics subsystem.
+
+
+    But you should be able to use the Core Console to plot, however (whether via the
+    standard command or a .NET DLL).
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

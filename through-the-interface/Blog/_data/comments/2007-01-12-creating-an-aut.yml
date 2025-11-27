@@ -1,0 +1,441 @@
+comments:
+- author: Carlos Maggiotti
+  email: CarlosMaggiottti@Hotmail.com
+  ip: 200.69.61.42
+  url: ''
+  date: '2007-02-14 16:37:49'
+  body: 'Hello Kean...
+
+
+    How get the Autodesk.AutoCAD.Runtime libraries without install Autocad?
+
+
+    I need use a dwg/dft(Solid Edge) Viewer in a .NET Winform.
+
+
+    Thanks afterhand'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-02-14 16:47:09'
+  body: 'Hi Carlos,
+
+
+    The acdbmgd.dll assembly (which is only part of what you want, I expect), is available
+    as part of RealDWG (http://www.autodesk.com/realdwg).
+
+
+    To implement a DWG viewer from scratch would take a lot of work - I suggest looking
+    at DWG TrueView (which can be embedded as an ActiveX control in a WinForm).
+
+
+    Regards,
+
+
+    Kean'
+- author: zeus
+  email: saske575@yahoo.com
+  ip: 41.201.183.201
+  url: ''
+  date: '2008-05-03 10:35:23'
+  body: 'hello kean!
+
+
+    i am just new to this civil3d, and find it convenient to use than in my accustomed
+    Land Dev''t, i was planning to shift but then i found out that the DaylightBench
+    Sub-assemblies has its limited user inputs in benching, if i just can modify its
+    user inputs and separating
+
+    Cut from Fill Benching controls....
+
+    is it possible to modify the default inputs?
+
+    or do i have to make a new one?
+
+
+    i have been researching about this Vb.net programming but i guess i need help
+    regarding this one. your tip is highly much appreciated.
+
+
+    thnks!'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-05 08:57:44'
+  body: 'Hello Zeus,
+
+
+    I suggest posting a question to one of the Civil 3D discussion groups or submitting
+    it via ADN, if you''re a member.
+
+
+    Regards,
+
+
+    Kean'
+- author: Ben
+  email: bweir@midwestsurveys.com
+  ip: 216.45.119.98
+  url: ''
+  date: '2008-09-09 23:56:02'
+  body: How can you tell what arrow head a leader has?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-10 08:33:36'
+  body: 'The Leader object''s Dimldrblk property contains the ObjectID of the block
+    definition for the arrow-head. You should be able to open that and extract the
+    information you need (its name, for instance).
+
+
+    Kean'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2008-11-20 03:09:44'
+  body: 'Hi Kean.
+
+
+    I just had one of my users point out a problem, which used to work fine, but I
+    recently migrated it to Managed code, from COM, and we have only been on 2009
+    for a short time, so I''m not sure which is the problem.  The old com code did
+    basically what this post does, except it assigned a block reference to the annotation
+    property along with assigning a special arrow.  Now the Managed code I have looks
+    an awful lot like the code above, but replace the Mtext with a Block.  It errors
+    saying eNotApplicable when I try to set the Annotation to the Blockref''s ID.  Any
+    Ideas?'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2008-11-20 19:32:32'
+  body: "Hi again... \nI found it.  Apparently it had nothing to do with the fact\
+    \ that I was using a block instead of text, nor the Managed code, but that my\
+    \ leader and block were not at Z = 0.\n\nSince the block I'm refering to is a\
+    \ tag for elevation, that's kind of a requirement, but if I create the leader\
+    \ and block at 0 elevation and assign the blocks ID to the annotation, then move\
+    \ them up to the proper elevation it works.  \n\nOn the discussion group thread\
+    \ where I found this info, the guy said he had the code working in C# but it would\
+    \ not work in VB, which is what I'm using... Only a problem in VB?"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.58.159
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-20 22:20:10'
+  body: 'David -
+
+
+    No idea - this is the sort of question I''d typically suggest asking of the ADN
+    team (I don''t have time to research issues that are even slightly off-topic,
+    at the moment).
+
+
+    You might consider joining - it seems like it would be of use to you.
+
+
+    Kean'
+- author: Kullaireddy Tadipatri
+  email: tkullaireddy@gmail.com
+  ip: 117.195.194.50
+  url: ''
+  date: '2009-06-29 14:44:41'
+  body: "Hi Kean,\n\nin which version Autocad & which DLL we get this name space \"\
+    using Autodesk.AutoCAD.EditorInput;\"\n\nand\n\"Application.SetSystemVariable\"\
+    \ \n\nI am unable to get the above things\n\ncurrently  i am Using Autocad 2005"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-06-30 09:21:38'
+  body: 'AutoCAD 2005 really only had a "preview" version of the .NET API - a lot
+    changed in subsequent releases (and it''s only since 2006 that we''ve attempted
+    to maintain compatibilty - see the comments in <a href="http://through-the-interface.typepad.com/through_the_interface/2006/09/com_vs_net_in_a.html">this
+    post</a>).
+
+
+    I strongly recommend working with a newer version of AutoCAD if you''re expecting
+    to use its managed API.
+
+
+    Kean'
+- author: alyoşa
+  email: sermer16@gmail.com
+  ip: 195.174.111.208
+  url: ''
+  date: '2010-01-15 17:15:26'
+  body: "Hı kean \nI wonder\nHow to do for example I define new dimstyle and than\
+    \ overrides lots of property of setvariable for new dimstyles (Dimexo,Dimasz bla\
+    \ bla) but my new dimstyle property doesnt change in my new document, just that\
+    \ change if I define dimensioning from coding before .\nAlways do we have to define\
+    \ a method to reset Aplication set variables from coding (like your application\
+    \ hear) to change current DimStyle settings\nThank yu\nOur"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2010-01-15 17:22:18'
+  body: 'Hi alyoşa,
+
+
+    I''m afraid I don''t fully understand your question, or what the problem is.
+
+
+    Perhaps you can post your code (and a more complete description of what you''re
+    trying to do) to <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>?
+
+
+    Regards,
+
+
+    Kean'
+- author: Michael
+  email: mi.kastner@gmx.at
+  ip: 80.121.212.158
+  url: ''
+  date: '2011-01-31 16:44:41'
+  body: 'Hi Kean.
+
+
+    How can the code be extended to allow the user a multiple selection of line-points
+    for the leader (more than startPt and endPt).
+
+
+    Kind regards,
+
+    Michael'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2011-01-31 17:05:54'
+  body: 'Hi Michael,
+
+
+    Try <a href="http://www.google.com/search?q=mleader&btnG=%C2%BB&domains=through-the-interface.typepad.com&sitesearch=through-the-interface.typepad.com">searching
+    this blog for MLEADER</a>.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Michael
+  email: mi.kastner@gmx.at
+  ip: 80.121.212.158
+  url: ''
+  date: '2011-01-31 17:25:05'
+  body: 'Thank you. Thats exactly what i am looking for.
+
+
+    Michael'
+- author: Greg
+  email: gppl16@gmail.com
+  ip: 213.241.91.114
+  url: ''
+  date: '2012-02-14 11:46:17'
+  body: "Hey Kean!\n\nPlease tell me how can I set the arrow object to closed-filled?\n\
+    \nI would like to have closed-filled arrow with my MLeader, but when I send stringname\
+    \ = \"\" or \".\" I'm getting error about no found key.\n \nHave you got some\
+    \ clue for me? I googled and I found nothing :)"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-02-14 13:32:52'
+  body: 'Hi Greg,
+
+
+    The default arrowhead doesn''t use a block definition, by all accounts, so that''s
+    why looking for it in the block table is failing.
+
+
+    If you want the default (i.e. closed, filled) arrowhead, you may have to set DIMBLK
+    to "" before creating and adding the MLeader to the database (resetting DIMBLK
+    afterwards). At least that''s what I''d expect to work.
+
+
+    Cheers.
+
+
+    Kean'
+- author: Greg
+  email: gppl16@gmail.com
+  ip: 213.241.91.114
+  url: ''
+  date: '2012-02-15 06:42:42'
+  body: 'Thanks - it works well. But ...
+
+
+    There is one little problem - I''m passing "" or "." (both works) to DIMBLK. And
+    this is OK for new drawing.
+
+
+    But if I open some older file, where I have few dimensions styles, it takes the
+    default symbol for the leader from current dimension style.
+
+
+    i.e -> I have two styles (Scale 100, Scale 50).
+
+    Scale 100 has leader = closed filled.
+
+    Scale 50 has leader = oblique.
+
+
+    If I have Scale 100 as current, the mleader function works great. If I change
+    it to Scale 50, I''m getting mleader with oblique arrow.
+
+
+    It seems, that acadApp.SetSystemVariable("DIMBLK", "."); doesn''t work then.'
+- author: Greg
+  email: gppl16@gmail.com
+  ip: 213.241.91.114
+  url: ''
+  date: '2012-02-15 06:52:24'
+  body: 'This fix my problem:
+
+    ld.Dimldrblk = ObjectId.Null;
+
+
+    :)'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-02-15 07:32:22'
+  body: 'Excellent. :-)
+
+
+    Kean'
+- author: Mark W.
+  email: markwallace@excomich.com
+  ip: 173.10.52.1
+  url: ''
+  date: '2012-02-17 17:01:31'
+  body: This code no longer works with AutoCAD 2012. The associativity is broken between
+    the MText and the Leader.
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-02-18 09:13:17'
+  body: 'I see the problem. I''ll ask someone from ADN to look into it.
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/kean
+  date: '2012-02-20 10:57:22'
+  body: 'OK, there is indeed a problem with creating leaders in this way in AutoCAD
+    2012. We''re on it.
+
+
+    Kean'
+- author: CSharpbird
+  email: CSharpbird@gmail.com
+  ip: 113.91.190.13
+  url: ''
+  date: '2012-04-09 16:05:18'
+  body: "Hi,Kean\nHow to set the size of leader line arrowheads? \nAnd it seems that\
+    \ the leader object cannot build annotations with mtext.\nAny suggestion?\nThanks."
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-04-09 16:58:53'
+  body: 'Sorry, I don''t have time to answer this (and it''s really a support question
+    - it''s not really related to the code in this post).
+
+
+    Please post to ADN or the AutoCAD .NET Discussion Group.
+
+
+    Kean'
+- author: Sergey
+  email: shss@bk.ru
+  ip: 92.255.180.144
+  url: ''
+  date: '2013-01-11 08:07:56'
+  body: 'Hello Kean!
+
+    can we use instead MText Block refernce for Leader?
+
+    how?
+
+
+    thank you'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-01-11 09:41:11'
+  body: 'Hi Sergey,
+
+
+    I''m sorry - I don''t quite understand your question. But if what you want to
+    do can be done via the AutoCAD editor, then it can probably be done via the API
+    (and conversely, if it can''t then it probably can''t).
+
+
+    Regards,
+
+
+    Kean'
+- author: Jay
+  email: JayLin1688@gmail.com
+  ip: 111.235.210.9
+  url: ''
+  date: '2014-03-10 09:05:36'
+  body: 'Hi, Kean,
+
+
+    I try to use below code to check the DWG file status if user do the modification
+    for AutoCAD 2005:
+
+
+    object chkStatus = Autodesk.AutoCAD.ApplicationServices.Application.GetSystemVariable("DBMOD")
+
+
+    And I always get error message:
+
+    "Autodesk.AutoCAD.ApplicationServices.Application'' ''GetSystemVariable'' definition
+    is not included" when I build solution(.Net 2005 C#)
+
+
+    It means that I can''t use [GetSystemVariable] API for AutoCAD 2005?
+
+    (Actually it works in AutoCAD 2013)
+
+
+    Thanks
+
+
+    BR,
+
+    Jay
+
+    2014.3.10'
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.11.145
+  url: http://profile.typepad.com/kean
+  date: '2014-03-10 09:13:23'
+  body: 'Hi Jay,
+
+
+    AutoCAD 2005 only had a preview version of the .NET API. There''s a lot that was
+    missing from that version.
+
+
+    Best regards,
+
+
+    Kean
+
+    -----'

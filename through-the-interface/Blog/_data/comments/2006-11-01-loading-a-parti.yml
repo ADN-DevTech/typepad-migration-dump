@@ -1,0 +1,500 @@
+comments:
+- author: csharpbird
+  email: csharpbird@gmail.com
+  ip: 222.69.147.113
+  url: ''
+  date: '2006-11-04 09:33:37'
+  body: 'Thanks for this article about CUI.
+
+    Can you write some articles about how to add/remove menus/toolbars using .NET?And
+    the usage of the Autodesk.AutoCAD.Customization namespace?'
+- author: CM
+  email: christian@swatchdigital.com
+  ip: 70.107.54.4
+  url: ''
+  date: '2006-11-08 17:04:44'
+  body: "Thanks Kean,\nI have a few issues.\nI am running the following code in C#\
+    \ with no effect to the toolbars visablity:\n                     #################################\n\
+    \   CustomizationSection swatchdigitalcui = new CustomizationSection(\"C:\\swatchdigital_2.cui\"\
+    );\n//This file has been added to the acad.cui as a partial.cui\n\nfor (int a\
+    \ = 0; a < swatchdigitalcui.MenuGroup.Toolbars.Count - 0; a++)\n             \
+    \           {\n                            acadApp.ShowAlertDialog(swatchdigitalcui.MenuGroup.Toolbars[a].Name);\n\
+    \                            if (swatchdigitalcui.MenuGroup.Toolbars[a].Name ==\
+    \ \"SwatchDigital\")\n                            {\n                        \
+    \        acadApp.ShowAlertDialog(swatchdigitalcui.MenuGroup.Toolbars[a].ToolbarVisible.ToString());\n\
+    \                                swatchdigitalcui.MenuGroup.Toolbars[a].ToolbarVisible\
+    \ = ToolbarVisible.show;\n                                acadApp.ShowAlertDialog(\"\
+    SwatchDigital Toolbar On\");\n                                acadApp.ShowAlertDialog(swatchdigitalcui.MenuGroup.Toolbars[a].ToolbarVisible.ToString());\n\
+    \                            }\n                        }\n\n//This code finds\
+    \ the Toolbar then does set the toolbar to show ... but nothing happens in the\
+    \ UI.\n\n###############################\n\nI think this is because it is working\
+    \ on the partial.cui it self but not in the application.\n\nSo I try using the\
+    \ Autodesk.AutoCAD.ApplicationServices.Application.MenuGroups to get the MenuGroup.\n\
+    \nBut here in C# MenuGroups does not have a way of accesing the MenuGroup. MenuGroups[1]\
+    \ does not work. MenuGroups.Count does not exist. foreach will not work.\n\nAll\
+    \ in All, I still cannot make toolbars or menus visiable by using the partial.cui.\n\
+    \nWhats up?\nThanks"
+- author: CM
+  email: christian@swatchdigital.com
+  ip: 70.107.54.4
+  url: ''
+  date: '2006-11-08 17:23:34'
+  body: 'By the way in C# I do not have Application.MenuGroups.Load();
+
+
+    Does this have to do with the Interop?
+
+
+    If so - how do I access this.
+
+
+    Thanks'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 202.95.81.226
+  url: ''
+  date: '2006-11-08 17:44:47'
+  body: 'CM - you''ll need to add the AutoCAD 200x Type Library as a reference to
+    your project.
+
+
+    csharpbird - Autodesk.AutoCAD.Customization is about accessing/modifying CUI files
+    - it doesn''t help you load them in the AutoCAD Editor, for instance. The way
+    to go right now from .NET is via COM, unless you merely want to modify the CUI
+    file on disk (and not load it).
+
+
+    Regards,
+
+
+    Kean'
+- author: CM
+  email: christian@swatchdigital.com
+  ip: 70.107.54.4
+  url: ''
+  date: '2006-11-08 20:11:33'
+  body: 'Kean-
+
+    I now have the AutoCAD 2007 Type Library reference in place. I am using Autodesk.AutoCad.Interop.
+    I now can reference an AcadMenuGroup however I still have no way to access a specific
+    MenuGroup. Application.MenuGroups still does not have a .Load() method, nor does
+    it have a .Count or any way to get to the MenuGroup I need (MenuGroups[i] does
+    not get me a MenuGroup)
+
+
+    (This method is in a Autodesk.AutoCAD.Runtime.IExtensionApplication if that makes
+    a difference)'
+- author: CM
+  email: christian@swatchdigital.com
+  ip: 70.107.54.4
+  url: ''
+  date: '2006-11-08 21:44:12'
+  body: "Kean-\nFor you readers I've found the issues:\n1.\nYou must use AcadApplication\
+    \ not Application in c#\n\nAcadApplication app = (AcadApplication)Autodesk.AutoCAD.ApplicationServices.Application.AcadApplication;\n\
+    \n2.\nUnusual VB-like syntax for MenuGroups iteming. MenuGroups[i] will not work.\
+    \ MenuGroups.Item(a) will work\n\n                        for (int a = 0; a <\
+    \ app.MenuGroups.Count - 0; a++)\n                        {\n                \
+    \            acadApp.ShowAlertDialog(app.MenuGroups.Item(a).Name);\n         \
+    \                   if (app.MenuGroups.Item(a).Name == \"MyMenuGroup\") \n   \
+    \                         {\n                                acadApp.ShowAlertDialog(\"\
+    Dis One\");\n                                for (int b = 0; b < app.MenuGroups.Item(a).Toolbars.Count\
+    \ - 0 ; b++)\n                                {\n                            \
+    \    if(app.MenuGroups.Item(a).Toolbars.Item(b).Name == \"MyToolBar\")\n     \
+    \                               {\n                                        app.MenuGroups.Item(a).Toolbars.Item(b).Visible\
+    \ = true;\n                                    }\n                           \
+    \     }\n                            }\n                        }"
+- author: CM
+  email: christian@swatchdigital.com
+  ip: 70.107.54.4
+  url: ''
+  date: '2006-11-08 23:15:41'
+  body: 'Actually - the story gets worse.
+
+    Now I can make the toolbars & menus visible... but not the first time I open autocad.
+
+    I have to restart this app before it will show up.
+
+
+    The first time it will write the partial.cui into the acad.cui...but it will not
+    find the menus are toolbars.
+
+
+    We I close & restart acad...it finds the partial.cui & finds the toolbars & menus
+    to open.
+
+
+    Again defeating the purpose of partial.cui'
+- author: CM
+  email: christian@swatchdigital.com
+  ip: 70.107.54.4
+  url: ''
+  date: '2006-11-08 23:43:42'
+  body: "Hi Kean,\nNow I'm trying your MenuGroups.Load in c#.\nsdname = \"MYCUI\"\
+    ;\nsdpath = \"C:\\MYcui.cui\";\n\n       try\n                        {\n    \
+    \                        themg = app.MenuGroups.Item(sdname);\n              \
+    \              acadApp.ShowAlertDialog(\"SD found\");\n                      \
+    \  }\n                        catch (System.Exception ex) \n                 \
+    \       {\n                            \n                            app.MenuGroups.Load(sdpath,\
+    \ app.MenuGroups);\n                            acadApp.ShowAlertDialog(\"sd added\"\
+    );\n                            themg = app.MenuGroups.Item(sdname);\n       \
+    \                 }\n\n________________________________________\n\nThis too fails.\n\
+    MenuGroup.Load() needs a 'BaseMenu'?\nWhat is a base menu?\n\nThanks,\ncm"
+- author: csharpbird
+  email: csharpbird@gmail.com
+  ip: 58.34.4.69
+  url: ''
+  date: '2006-11-22 17:36:11'
+  body: 'Hi,cm
+
+    You can use the following:
+
+    app.MenuGroups.Load(sdpath, Type.Missing);'
+- author: Benjamin
+  email: bweir@midwestsurveys.com
+  ip: 209.91.83.66
+  url: ''
+  date: '2006-11-23 22:02:40'
+  body: 'Working with AutoCAD 2007 and VS2005.  I''m having trouble with Imports Autodesk.AutoCAD.Interop.  I
+    can see...
+
+    Imports Autodesk.AutoCAD.ApplicationServices
+
+    Imports Autodesk.AutoCAD.Colors
+
+    Imports Autodesk.AutoCAD.DatabaseServices
+
+    Imports Autodesk.AutoCAD.EditorInput
+
+    Imports Autodesk.AutoCAD.Geometry
+
+    Imports Autodesk.AutoCAD.GraphicsInterface
+
+    Imports Autodesk.AutoCAD.GraphicsSystem
+
+    Imports Autodesk.AutoCAD.LayerManager
+
+    Imports Autodesk.AutoCAD.PlottingServices
+
+    Imports Autodesk.AutoCAD.Publishing
+
+    Imports Autodesk.AutoCAD.Runtime
+
+    Imports Autodesk.AutoCAD.Windows
+
+    but I can''t see the Autodesk.AutoCAD.Interop.  Do I need to add a Reference?  I
+    have acdbmgd.dll, acmgb.dll, and ManagedMapApi.dll in my project.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-11-23 23:17:21'
+  body: 'Yes, you''re going to need to add a Reference to the "AutoCAD 2007 Type Library"
+    (which is a COM reference, if course).
+
+
+    Regards,
+
+
+    Kean'
+- author: Raymond
+  email: rb4jesus@hotmail.com
+  ip: 166.82.248.182
+  url: ''
+  date: '2007-03-01 13:41:08'
+  body: I don't no about the toolbars, but I had a menu that I had made up and could
+    not get to show up. The solution that I found was to first make sure that the
+    menu is in autocad search path. Either place it in autocad search path and go
+    to tool-options-files then go to support file search path and add it. Then apply
+    it. After this type in cuiload and browse to where your menu is written. Then
+    push load and you should be set to go.It worked for me.(Oh make sure it is cui
+    file and not a mnu file.)
+- author: Francisco Lomas
+  email: fcolomas@gmail.com
+  ip: 200.31.24.99
+  url: http://fcolomas.blogspot.com
+  date: '2007-07-30 22:30:36'
+  body: "Hi everyone!!\nI don't know if your problem have been solved, but i try this\
+    \ code and it works for me:\n\nAutodesk.AutoCAD.Interop.AcadApplication acadApp\
+    \ = (Autodesk.AutoCAD.Interop.AcadApplication)Autodesk.AutoCAD.ApplicationServices.Application.AcadApplication;\n\
+    \                Autodesk.AutoCAD.Interop.IAcadMenuGroups mngMenus = (Autodesk.AutoCAD.Interop.IAcadMenuGroups)Autodesk.AutoCAD.ApplicationServices.Application.MenuGroups;\n\
+    \                Autodesk.AutoCAD.Interop.IAcadPopupMenu apmMenu = mngMenus.Item(0).Menus.Add(\"\
+    MDMQ\");\n                mngMenus.Item(0).Menus.Item(0).InsertInMenuBar(0);\n\
+    \                apmMenu.AddMenuItem(0, \"Agregar Persona\", \"ingper\");\n\n\
+    The only thing that i got is when you click the menuitem doesn't execute the command,\
+    \ it only writes it on the command line....\n\nI hope this helps!!!"
+- author: Francisco Lomas
+  email: fcolomas@gmail.com
+  ip: 200.31.24.99
+  url: http://fcolomas.blogspot.com
+  date: '2007-07-30 22:39:47'
+  body: 'An update, the command executes if you put an \n at the end of the command
+    name, example:
+
+
+    apmMenu.AddMenuItem(0, "Agregar Persona", "ingper\n");
+
+
+    This works great for me!!!'
+- author: Jürgen Becker
+  email: Juergen.Becker@cad-becker.de
+  ip: 212.15.197.10
+  url: http://www.cad-becker.de
+  date: '2008-05-06 12:49:50'
+  body: 'Hi Kean,
+
+    i''ve got Problems with the Autodesk.AutoCAD.Interop.
+
+    I added the Reference to the Interops and this works fine on my own machine with
+    ADT 2008. But, when I install the program on another machines -also with ADT 2008
+    -the programm doesnt work.
+
+    Following message appers:
+
+
+    System.IO.FileNotFoundException: Die Datei oder Assembly Autodesk.AutoCAD.Interop.Common,
+    Version=17.2.0.0, Culture=neutral, PublicKeyToken=eed84259d7cbf30b oder eine Abhängigkeit
+    davon wurde nicht gefunden. Das System kann die angegebene Datei nicht finden.
+
+
+    Dateiname: Autodesk.AutoCAD.Interop.Common, Version=17.2.0.0, Culture=neutral,
+    PublicKeyToken=eed84259d7cbf30b
+
+
+    What must I do?
+
+
+    Regards Jürgen'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-06 13:33:52'
+  body: 'It seems to be looking for the 2009 COM libraries (17.2).
+
+
+    Kean'
+- author: Jürgen
+  email: Juergen.Becker@CAD-Becker.de
+  ip: 212.15.197.10
+  url: http://www.cad-becker.de
+  date: '2008-05-06 15:09:56'
+  body: 'That is what I thought too.
+
+    The Problem is: How can I get the 2008 COM libriaries?
+
+
+    Jürgen'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-06 15:13:51'
+  body: "I don't know the answer to that: it may be that you need to build the app\
+    \ on a machine that does not have AutoCAD 2009 installed. \n\nSubmitting the question\
+    \ via ADN or to one of the discussion groups may get you a better answer, though.\n\
+    \nKean"
+- author: Jürgen
+  email: juergen.Becker@CAD-Becker.de
+  ip: 212.15.197.10
+  url: http://www.cad-becker.de
+  date: '2008-05-06 15:23:20'
+  body: 'Thanks Kean.
+
+    I''ll install AutoCAD 2009 on the other machines next week and I hope that would
+    fix the problem.
+
+    Regards Jürgen'
+- author: MarioR
+  email: mario.rosenbohm@kali-gmbh.com
+  ip: 193.238.8.83
+  url: ''
+  date: '2009-01-22 20:51:16'
+  body: 'Hello Kean,
+
+
+    I want to an existing Toolbar to insert a ToolbarControl.
+
+    The ToolbarControl, I would like to use for my application config switch between
+    different.
+
+
+    Inserting a toolbar control with type "ControlType.CustomControl"
+
+    works:
+
+
+    Dim As acToolbarControl Toolbar Toolbar Control = New Control(ControlType.CustomControl,
+    Me.prtToolbar, 3)
+
+    acToolbarControl.ElementID = "ID_KPLUSS_INISWITCHER"
+
+
+    But the Toolbar control is always displayed as Layerstruerung.
+
+
+    How can I enter the Toolbar control their own content (text only) to fill?
+
+
+    Regards Mario'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.2.123
+  url: http://profile.typekey.com/walmsleyk/
+  date: '2009-01-22 23:24:14'
+  body: 'Hi Mario,
+
+
+    I don''t know - I suggest contacting the <a href="http://adn.autodesk.com">ADN</a>
+    team (if you''re a member) or otherwise posting to <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Gloem
+  email: f.glandorf@gmx.de
+  ip: 91.96.163.130
+  url: ''
+  date: '2009-07-29 13:42:31'
+  body: 'Can anybody tell me please where my mistake is.
+
+
+    When I try to run the code in .NET it always says "MenuGroups is not a member
+    of MyApplication"
+
+
+    I have this links in my project:
+
+    - AcDbMgd [.net -> c:\Program Files\ObjectARX\inc-win32\AcDbMgd.dll]
+
+    - AcMgd [.net -> c:\Program Files\ObjectARX\inc-win32\AcMgd.dll]
+
+    - AutoCAD 2009 Type Library [COM c:\Windows\assembly\ ...]
+
+    - AutoCAD/ObjectDBX Common 17.0 Type Library [COM c:\Windows\assembly\ ...]'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-07-29 13:48:19'
+  body: 'It must be something specific to your application... I don''t know where
+    "MyApplication" is coming from: it''s not in the above code.
+
+
+    Kean'
+- author: houlinbo
+  email: houlinbo1234@163.com
+  ip: 116.236.240.114
+  url: ''
+  date: '2009-12-30 08:47:31'
+  body: Application.MenuGroups still does not have a .Load() method, nor does it have
+    a .Count or any way to get to the MenuGroup I need (MenuGroups[i] does not get
+    me a MenuGroup)   thank you
+- author: houlinbo
+  email: houlinbo1234@163.com
+  ip: 116.236.240.114
+  url: ''
+  date: '2009-12-30 08:52:05'
+  body: how to set toolbar button no use ?  (color change to grey)    thank you
+- author: houlinbo
+  email: houlinbo1234@163.com
+  ip: 116.236.240.114
+  url: ''
+  date: '2009-12-30 09:50:14'
+  body: sorry    How to set toolbar button can not be used for the color into a gray   thank
+    you
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2010-01-04 17:52:47'
+  body: 'It''s not clear which of these questions remains open: I suggest using <a
+    href="http://discussion.autodesk.com">the online discussion groups</a> in future
+    (if you''re not an <a href="http://adn.autodesk.com">ADN</a> member) for questions
+    that are off-topic.
+
+
+    The answer to your MenuGroups questions (both regarding Count and Load) are contained
+    in the previous comments on this post.
+
+
+    Kean'
+- author: Mario
+  email: mario.rosenbohm@kali-gmbh.com
+  ip: 193.238.8.86
+  url: http://Kali-gmbh.com
+  date: '2010-04-01 06:16:38'
+  body: "Hi Kean,\n\ni use the the code:\n<i>\n        public static string LoadPartialCUI(string\
+    \ CuiPathName)\n        {\n            // nach <a href=\"http://through-the-interface.typepad.com/through_the_interface/2006/11/loading_a_parti.html\"\
+    >http://through-the-interface.typepad.com/through_the_interface/2006/11/loading_a_parti.html</a>\n\
+    \            if (string.IsNullOrEmpty(CuiPathName)) return null;\n           \
+    \ string CuiName = System.IO.Path.GetFileNameWithoutExtension(CuiPathName);\n\
+    \            try\n            {\n                AcadMenuGroup group = null;\n\
+    \                AcadApplication app = (AcadApplication)Autodesk.AutoCAD.ApplicationServices.Application.AcadApplication;\n\
+    \                if (!HasMenuGroup(CuiName))\n                    group = app.MenuGroups.Load(CuiPathName,\
+    \ null);\n                else\n                    group = app.MenuGroups.Item(CuiName);\n\
+    \                if (group != null)\n                {\n                    foreach\
+    \ (AcadToolbar acToolbar in group.Toolbars)\n                    {\n         \
+    \               acToolbar.Visible = true;\n                    }\n           \
+    \     }\n                return group.Name;\n            }\n            catch\
+    \ (Autodesk.AutoCAD.Runtime.Exception ex)\n            {\n                Log.LogException(ex);\n\
+    \            }\n            catch (System.Exception ex)\n            {\n     \
+    \           Log.LogException(ex);\n            }\n            return null;\n \
+    \       }\n</i>\nThe running good, but the effekt is that the Toolbar is \nvisible\
+    \ and the icons unvisible.\nUse i the command \"CUI\" and make a litle change\
+    \ in the partial cui-file (rename a command and rename to the old \nValue) then\
+    \ press the accept-button, all icons visible.\n\nWhy ????\n\nMario"
+- author: Kean Walmsley
+  email: ''
+  ip: 203.202.234.226
+  url: http://profile.typepad.com/kean
+  date: '2010-04-01 12:03:02'
+  body: 'Hi Mario,
+
+
+    I don''t have the definition of your HasMenuGroup() function, but if I change
+    your code to use the try-catch approach shown in the VB code it works just fine
+    for me, at least (I''m using AutoCAD 2011).
+
+
+    Regards,
+
+
+    Kean'
+- author: Mario
+  email: mario.rosenbohm@kali-gmbh.com
+  ip: 193.238.8.86
+  url: http://Kali-gmbh.com
+  date: '2010-04-01 13:32:13'
+  body: "Hi Kean,\n\nthe HasMenuGroup is a little funuction:\n<i>\n        private\
+    \ static bool HasMenuGroup(string MenueGroupName)\n        {\n            AcadApplication\
+    \ app = (AcadApplication)Autodesk.AutoCAD.ApplicationServices.Application.AcadApplication;\n\
+    \            foreach (AcadMenuGroup group in app.MenuGroups)\n            {\n\
+    \                if (group.Name == MenueGroupName) return true;\n            }\n\
+    \            return false;\n        }\n</i>\n\nOn our AutoCAD 2008 (tested on\
+    \ 5 installations) and AutoCAD Civil 3D 2008 is show the effect.\n\nRegards,\n\
+    \nMario"
+- author: Kean Walmsley
+  email: ''
+  ip: 122.167.180.211
+  url: http://profile.typepad.com/kean
+  date: '2010-04-01 15:22:40'
+  body: 'Hi Mario,
+
+
+    I can''t really help you from here, I''m afraid, as it works fine on my system.
+
+
+    I suggest posting your question to <a href="http://adn.autodesk.com">the ADN team</a>,
+    if you''re a member, or <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>, otherwise.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

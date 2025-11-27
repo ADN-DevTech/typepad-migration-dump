@@ -1,0 +1,378 @@
+comments:
+- author: Narayanan
+  email: SendtoNarayanan@gmail.com
+  ip: 202.54.169.165
+  url: ''
+  date: '2008-07-02 10:15:14'
+  body: 'Thanks Kean,
+
+
+    This question has a very thin relatationship with the post, but still posting
+    it in a hope that possibly this could even turn out to be a post one day!
+
+
+    Okay, the question is that what should I do if I want to expose properties of
+    my custom entity to AutoCAD''s filter mechanism.  For example, if I have a custom
+    entity called myCircle, derived from AcDbEntity has a property mRadius.  I want
+    the users to use AutoCAD standard mechanism to filter all myCircle entities with
+    values of mRadius is greater than 20.
+
+
+    Thanks,
+
+    Narayanan'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-07 12:25:28'
+  body: 'Hi Narayanan,
+
+
+    Actually this is reasonably closely related, but unfortunately I don''t know of
+    a way to customize the FILTER dialog: there would need to be a way to connect
+    descriptions of properties with their underlying DXF group-code (and the datatype
+    they contain).
+
+
+    That said, the FILTER command only really uses the internal mechanism described
+    in this post, so you could implement your own tailored feature that works with
+    your objects.
+
+
+    I hope this helps,
+
+
+    Kean'
+- author: GanQuan
+  email: ganok007@163.com
+  ip: 59.50.207.232
+  url: ''
+  date: '2008-09-21 20:29:12'
+  body: The "DxfCode.Operator" dose not exist in AutoCAD2006 .Net API. Any good advise?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-22 20:09:41'
+  body: 'I don''t know whether this means the API wasn''t present then, which is quite
+    possible.
+
+
+    You could try replacing DxfCode.Operator with -4 (its value), in case that helps.
+
+
+    Kean'
+- author: sham
+  email: shamsam1@gmail.com
+  ip: 122.172.20.175
+  url: ''
+  date: '2009-05-30 09:34:17'
+  body: 'Hi Kean,
+
+    How to prevent selecting objects of a layer'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-05-30 13:30:42'
+  body: 'Try using the "&lt;not" / "not&gt;" operator.
+
+
+    Kean'
+- author: Mark
+  email: mark.nalevanko@gmail.com
+  ip: 70.144.162.70
+  url: ''
+  date: '2009-09-01 23:06:16'
+  body: 'Kean,
+
+
+    Is there a list of operators somewhere? I would like to select certain blocks
+    based on block name but I''d like to do something where it compares the beginning
+    of the block name (ie: blockName.StartsWith("...")) instead of looking for a specific
+    match.
+
+
+    Thanks,
+
+    Mark'
+- author: Mark
+  email: mark.nalevanko@gmail.com
+  ip: 70.144.162.70
+  url: ''
+  date: '2009-09-01 23:07:54'
+  body: 'Kean,
+
+
+    Is there a list of operators somewhere? I would like to select certain blocks
+    based on block name but I''d like to do something where it compares the beginning
+    of the block name (ie: blockName.StartsWith("...")) instead of looking for a specific
+    match.
+
+
+    Thanks,
+
+    Mark'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-09-06 11:21:45'
+  body: "Mark,\n\nThe information I have is in the ObjectARX Reference, at the bottom\
+    \ of the page on acedSsGet():\n\n&gt;&gt;&gt;\nConditional Filtering \n\nThe relational\
+    \ operators are binary operators. You can also test groups by creating nested\
+    \ Boolean expressions that use the conditional operators shown in the following\
+    \ table. The conditional operators are specified by -4 groups, like the relational\
+    \ operators. They are paired and must be balanced correctly in the filter list\
+    \ or the acedSSGet() call fails. The number of operands that these operators can\
+    \ enclose depends on the operation, as shown in the table. \n\nConditional operators\
+    \ for selection set filter lists: \n\n<pre>\nStarting operator  Encloses     \
+    \          Ending operator  \n\"&lt;AND\"             One or more operands  \"\
+    AND&gt;\"  \n\"&lt;OR\"              One or more operands  \"OR&gt;\"  \n\"&lt;XOR\"\
+    \             Two operands          \"XOR&gt;\"  \n\"&lt;NOT\"             One\
+    \ operand           \"NOT&gt;\"  \n</pre>\n\nWith the conditional operators, an\
+    \ operand is an entity field group, a relational followed by an entity field group,\
+    \ or a nested expression created by these operators. \n\nConditional expressions\
+    \ that test for extended entity data (using the -3 group) can contain only -3\
+    \ groups. \n\nThe conditional operators are not case sensitive; you can also use\
+    \ their lowercase equivalents including , and&gt;, , or&gt;, , xor&gt;, , and\
+    \ not&gt;.\n&lt;&lt;&lt;\n\nIt sounds as though you want to do a wildcard comparison\
+    \ (I'd start by trying \"...*\" as the comparison string).\n\nRegards,\n\nKean"
+- author: Peter
+  email: Peter@yahoo.com
+  ip: 92.81.164.61
+  url: ''
+  date: '2011-02-28 12:11:20'
+  body: 'Hi Kean!
+
+
+    Do I have the possibility to add a message to be displayed for the SelectionFilter?
+    I''ve looked in the Autocad Developer, but all the examples don''t show if this
+    feature exist or not.'
+- author: Peter
+  email: Peter@yahoo.com
+  ip: 92.81.164.61
+  url: ''
+  date: '2011-02-28 12:39:51'
+  body: 'You should put an edit button. :D
+
+
+    I have another question: Could I set the filter to allow just one entity(which
+    meets the conditions) to be selected?'
+- author: Kean Walmsley
+  email: ''
+  ip: 66.116.112.8
+  url: http://profile.typepad.com/kean
+  date: '2011-03-01 00:46:18'
+  body: 'Hi Peter,
+
+
+    If you use the version of Editor.GetSelection() which takes a PromptSelectionOptions
+    and a SelectionFilter, you should have control over these things.
+
+
+    Regards,
+
+
+    Kean'
+- author: Peter
+  email: peter@yahoo.com
+  ip: 92.81.164.34
+  url: ''
+  date: '2011-03-01 09:33:33'
+  body: Thanks Kean, I didn't saw the overload method. :D
+- author: Steve Hill
+  email: stevenh0616@gmail.com
+  ip: 198.228.226.186
+  url: http://beyondcivil3d.blogspot.com
+  date: '2012-04-24 15:30:14'
+  body: 'Kean,
+
+
+    I have a list of Civil3D surfaces in which I can select through basic auto cad
+    quick properties via "Tin Surface" object type and "Name" property. Is there someway
+    I can use the dfxcode operators to do this automatically? I have been searching
+    for a list of what all of these operators do/mean, maybe that would be a good
+    post too!!
+
+
+    Thanks in advance. Your blog is great by the way.
+
+
+    Steve
+
+    Civil3D 2011'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-04-24 16:30:23'
+  body: 'Steve,
+
+
+    Assuming Civil 3D objects support the DXF protocol, you should be able to select
+    them using these operators. But I don''t know whether that''s the case, as I don''t
+    use Civil 3D - you may want to check in with the ADN team or perhaps Isaac via
+    his blog.
+
+
+    Regards,
+
+
+    Kean'
+- author: Steve Hill
+  email: stevenh0616@gmail.com
+  ip: 12.15.253.234
+  url: http://beyondcivil3d.blogspot.com
+  date: '2012-04-24 16:34:50'
+  body: 'Thanks. I will follow up with him.
+
+
+    Steve'
+- author: Steve Hill
+  email: stevenh0616@gmail.com
+  ip: 12.15.253.234
+  url: http://beyondcivil3d.blogspot.com
+  date: '2012-04-25 16:58:45'
+  body: Just to follow up with anyone intersted, I found some good information on
+    all the DXFCODEs available and a description of what they do. I put the links
+    on my blog as well as an updated table related to the namespace. It can be found
+    <a href="http://beyondcivil3d.blogspot.com/2012/04/autocad-vbnet-programming-with-dxfcodes.html">here</a>.
+- author: Gregory
+  email: gp@gsbk.pl
+  ip: 213.241.91.114
+  url: ''
+  date: '2012-07-04 10:58:28'
+  body: "Hey Kean!\n\nI've got a question. I need to select blocks with specified\
+    \ names (i.e. myBlock_1, myBlock_2).\n\nI wrote the code below:\n TypedValue[]\
+    \ filList = {\n                new TypedValue((int)DxfCode.Operator,\"<or\"),\n\
+    \n                new TypedValue((int)DxfCode.Operator,\"<and\"),\n          \
+    \      new TypedValue((int)DxfCode.Start, \"INSERT\"),\n                new TypedValue((int)DxfCode.BlockName,\
+    \ \"myBlock_1\"),\n                new TypedValue((int)DxfCode.Operator,\"and>\"\
+    ),\n\n                new TypedValue((int)DxfCode.Operator,\"<and\"),\n      \
+    \          new TypedValue((int)DxfCode.Start, \"INSERT\"),\n                new\
+    \ TypedValue((int)DxfCode.BlockName, \"myBlock_2\"),\n                new TypedValue((int)DxfCode.Operator,\"\
+    and>\"),\n\n                new TypedValue((int)DxfCode.Operator,\"<and\"),\n\
+    \                new TypedValue((int)DxfCode.Start, \"INSERT\"),\n           \
+    \     new TypedValue((int)DxfCode.BlockName, \"myBlock_3\"),\n               \
+    \ new TypedValue((int)DxfCode.Operator,\"and>\"),\n  new TypedValue((int)DxfCode.Operator,\"\
+    or>\"),\n                };\n\nCode seems to work OK, but my question is there\
+    \ any short way to set the SelectionFilter? I was trying to do something like\
+    \ this:\n<or\n---<and\n--- block.start-insert\n--- -- <and\n--- -- -- <or block.name>\n\
+    --- -- -- <or block.name>\n--- -- and>\n--- and>\n--- or>\n\nBut this doesn't\
+    \ work.\n\nThanks."
+- author: Kean Walmsley
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/kean
+  date: '2012-07-04 11:03:35'
+  body: 'Hi Gregory,
+
+
+    Sorry - I don''t have time to debug your code. Please post it via ADN or to the
+    AutoCAD .NET Discussion Group.
+
+
+    Regards,
+
+
+    Kean'
+- author: Matthias
+  email: dr.pymote@gmx.de
+  ip: 192.54.144.229
+  url: ''
+  date: '2012-11-26 08:26:25'
+  body: 'Hi Kean, two questions remain:
+
+    1) How do I filter entities with certain XData-IDs. There is a "DxfCode.XDataStart"
+    code but
+
+    new TypedValue((int)DxfCode.XDataStart, "MY_XDATA") doesn''t work. The AutoCAD''s
+    "FILTER" command (that provides the serialization of custom filters to a filter.nfl
+    file in the appdata directory) created the entry "( -3(''MY_XDATA''))" for the
+    filter. The syntax slightly differs to other filters that work with TypedValues,
+    e.g. "(8 . ''MY_LAYER'')".
+
+    2) Do these filters also apply to a given (preselected) ObjectIDCollection and
+    if yes, how?
+
+    Thanks!'
+- author: Kean Walmsley
+  email: ''
+  ip: 8.19.13.22
+  url: http://profile.typepad.com/kean
+  date: '2012-11-29 18:43:08'
+  body: 'Hi Matthiaa,
+
+
+    I unfortunately haven''t done this, myself (and don''t have time to look into
+    it, right now).
+
+
+    Would you mind posting your question via ADN or the AutoCAD .NET Discussion Group?
+
+
+    Thanks & regards,
+
+
+    Kean'
+- author: Matthias Mueller
+  email: ''
+  ip: 192.54.144.229
+  url: http://profile.typepad.com/matthiasmueller
+  date: '2012-12-12 08:12:49'
+  body: "Hi, thanks for answering\n\nto 1) \nYou can achieve the XData-ID filtering\
+    \ by combining two TypedValues:\nTypedValueList tvl = new TypedValueList();\n\
+    tvl.Add(new TypedValue((short)DxfCode.XDataStart));\ntvl.Add(new TypedValue((short)DxfCode.ExtendedDataRegAppName,\
+    \ \"XDATA_KEY\"));\n\nto 2)\nAs suggested I recently opened a discussion:\n<a\
+    \ href=\"http://forums.autodesk.com/t5/NET/How-to-apply-a-selection-filter-on-a-ObjectIDCollection/td-p/3733194\"\
+    >http://forums.autodesk.com/t5/NET/How-to-apply-a-selection-filter-on-a-ObjectIDCollection/td-p/3733194</a>"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2012-12-12 08:18:13'
+  body: 'Great - glad you''re halfway there. :-)
+
+
+    For the second part, you might try using a set of checks for DxfCode.Handle of
+    the various objects (ORed together, of course).
+
+
+    Kean'
+- author: Matthias Mueller
+  email: ''
+  ip: 192.54.144.229
+  url: http://profile.typepad.com/matthiasmueller
+  date: '2012-12-13 13:17:46'
+  body: 'to 2) I moved from TypedValues to Predicates with Linq expressions since
+    it''s more flexible and only has a little performance loss.
+
+    It also allows me e.g. to filter for entities with certain XData.
+
+
+    For details: <a href="http://forums.autodesk.com/t5/NET/How-to-apply-a-selection-filter-on-a-ObjectIDCollection/td-p/3733194">http://forums.autodesk.com/t5/NET/How-to-apply-a-selection-filter-on-a-ObjectIDCollection/td-p/3733194</a>
+
+
+    Matthias'
+- author: Stephan
+  email: stephan.gumpert@gmail.com
+  ip: 58.6.195.1
+  url: http://www.gmetools.com
+  date: '2013-01-08 14:26:05'
+  body: Is it possible to do this Conditional Selection with the DXF Codes with just
+    opening the Database (i.e. Dont open the actual file in AutoCAD)?
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2013-01-08 15:53:42'
+  body: 'You need the editor for conditional selection to work: otherwise you''ll
+    have to iterate through the database to gather the objects you''re interested
+    in.
+
+
+    Kean
+
+    -----'

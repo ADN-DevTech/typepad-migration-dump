@@ -1,0 +1,612 @@
+comments:
+- author: Narayanan
+  email: Narayanan@Cadsindia.com
+  ip: 202.54.129.209
+  url: ''
+  date: '2006-11-29 10:22:10'
+  body: "Hello Kean,\n\nGreat stuff.\n\nIs it at all possible to avoid Xrecords and\
+    \ still maintain persistency? \n\nAre there any reactor classes available in dot\
+    \ net api? Like AcDbObjectReactor etc? And if exists, can they be used to derive\
+    \ our own objects from them?\n\n- Narayanan"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-11-29 14:54:48'
+  body: 'Hi Narayanan,
+
+
+    A very good question...
+
+
+    It''s not currently supported to create persistent custom objects (graphical or
+    otherwise) in .NET. This means you can use either Xrecords stored in dictionaries
+    (even entities'' extension dictionaries) or xdata to stored custom data. Xrecords
+    are better than xdata, as they don''t have the 16K size restriction.
+
+
+    The logic is that with .NET, apps are more likely to want to store data in an
+    open, readable way (for example as XML fragments in a standard container such
+    as an Xrecord).
+
+
+    Persistent reactors are not available in .NET right now (they are also part of
+    the custom object debate). Once again, the approach should be similar to the one
+    followed in this app, as it avoids the need for Object Enablers etc.
+
+
+    Regards,
+
+
+    Kean'
+- author: Glenn R
+  email: toxo@telstra.com
+  ip: 202.183.96.186
+  url: ''
+  date: '2006-11-30 02:58:19'
+  body: "Kean, \nOne wonders how much the code would be reduced if you changed your\
+    \ LinkedObjectManager class to derive from KeyedCollection like so:\n\npublic\
+    \ class LinkedObjectManager : KeyedCollection< ObjectId, ObjectIdCollection >\
+    \ { }\n\nGood articles - keep them coming. BTW, you made mention of deriving from\
+    \ Dwgfiler in a previous post - can you elucidate?\n\nRegards,\nGlenn."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-11-30 10:12:40'
+  body: 'Hi Glenn,
+
+
+    Thanks for the suggestion.
+
+
+    I have to admit I wasn''t familiar with the KeyedCollection class, and now that
+    I''m looking into it, I''m curious about its advantages.
+
+
+    It seems to have the key embedded in the value: this doesn''t appear to help us
+    (unless it reduces the need for bi-directional linking... and I can''t see how
+    that would be the case).
+
+
+    It supports serialization, but from what I can tell that was also possible with
+    a Dictionary. I had toyed with serializing our data out as XML to be stored in
+    a single Xrecord, but that raises the issue of object references: Xrecords of
+    soft pointers have the object references translated automatically on load - with
+    XML we would have to use handles. I just ended up just implementing our own serialization
+    protocol...
+
+
+    As for derivation vs. containment: I went with containment largely to reduce the
+    exposed interface; it made it easier to expose just the "approved" way of adding/deleting
+    items from the map.
+
+
+    I had to search back through the blog for a reference to deriving from DwgFiler:
+    that was actually something I copy & pasted from a colleague. Generally people
+    do that if they want to capture the data that is stored for certain objects -
+    you pass your derived filer into DwgOutFields() and receive the callbacks in your
+    class. I''ve only done this from C++, though.
+
+
+    Regards,
+
+
+    Kean'
+- author: jgeerwm
+  email: jgeer@nusoftsolutions.nospam.com
+  ip: 134.215.241.66
+  url: ''
+  date: '2007-09-19 17:46:56'
+  body: "Kean, \n\nThank you for identifying this pattern.  Understanding the API\
+    \ is one thing, knowing how to best put the pieces together is another...\n\n\
+    On line 159 you use the logic:              (int)DxfCode.SoftPointerId + i,\n\n\
+    If more than 10 circles are linked to a root circle, doesn't this essentially\
+    \ change the resultbuffer type to a hard pointer?\n\nCould you please ellaborate\
+    \ on your strategy for incrementing the dxf code?\n\nThank you,\n\nJeff"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-09-19 19:49:45'
+  body: 'Jeff,
+
+
+    Actually you''re possibly right... the system might indeed consider us to have
+    hard pointers if we had 10 circles linked directly to a single root circle. As
+    the concept tends to work poorly once you go beyond two links per circle, this
+    wasn''t really something I tested, although for linking other types of (particularly
+    non-graphical) object I see where it might become a problem.
+
+
+    The DXF documentation does say that group codes 0-369 (excluding 5 and 105) can
+    be used by applications "in any way". The implication is that we have complete
+    control, although I''d be interested to see if that were true.
+
+
+    In any case, the difference between hard  and soft pointers is that hard ones
+    prevent purging - something that''s not likely to happen on grapical objects such
+    as circles (even by someone implementing purging in their code). The real problem
+    area is more likely to be when you start to get up to 369 (and we''re starting
+    at 330 - not so far away).
+
+
+    Ultimately I see two failsafe solutions:
+
+
+    1) Limit the creation of links over a certain point (i.e. a single object can
+    only be linked to two others, say).
+
+    2) Reuse the same group codes for your links. This *should* be safe enough - other
+    objects do it - although I haven''t tried it myself.
+
+
+    Thanks for your insightful comment!
+
+
+    Kean'
+- author: Chandru.P
+  email: chandru.pachai@aveva.com
+  ip: 80.254.147.68
+  url: ''
+  date: '2008-03-04 17:04:08'
+  body: 'its a good example to learn linking of objects.
+
+    if any could help me in upgrading this sample so that the linked objects gets
+    automatically loaded on opening the drawing for the second time.
+
+    please provide with me a sample.
+
+
+    Cheers,'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-03-04 17:30:36'
+  body: 'I don''t have time to do this, but I''d suggest the following approach:
+
+
+    You don''t have a custom object stored in the DWG to drive demand-loading, so
+    have your app load on startup and run a command as it loads (probably by P/Invoking
+    ads_queueexpr()) to do what you need.
+
+
+    Kean'
+- author: SUBIR KUMAR DUTTA
+  email: x_robotz@rediffmail.com
+  ip: 61.17.160.153
+  url: ''
+  date: '2008-04-16 09:00:07'
+  body: "For those who want to copy paste this code and want to run with out wasting\
+    \ time to delete the line numbers. Thanks to Word VBA\n\nusing System;\nusing\
+    \ System.Collections;\nusing System.Collections.Generic;\nusing Autodesk.AutoCAD.Runtime;\n\
+    using Autodesk.AutoCAD.ApplicationServices;\nusing Autodesk.AutoCAD.DatabaseServices;\n\
+    using Autodesk.AutoCAD.EditorInput;\nusing Autodesk.AutoCAD.Geometry;\n\n[assembly:\n\
+    \   CommandClass(\n     typeof(\n       AsdkLinkingLibrary.LinkingCommands\n \
+    \    )\n   )\n]\n\nnamespace AsdkLinkingLibrary\n{\n   /// <summary>\n   /// Utility\
+    \ class to manage and save links\n   /// between objects\n   /// </summary>\n\
+    \   public class LinkedObjectManager\n   {\n     const string kCompanyDict =\n\
+    \       \"AsdkLinks\";\n     const string kApplicationDict =\n       \"AsdkLinkedObjects\"\
+    ;\n     const string kXrecPrefix =\n       \"LINKXREC\";\n\n     Dictionary<ObjectId,\
+    \ ObjectIdCollection> m_dict;\n\n     // Constructor\n     public LinkedObjectManager()\n\
+    \     {\n       m_dict =\n         new Dictionary<ObjectId,ObjectIdCollection>();\n\
+    \     }\n\n     // Create a bi-directional link between two objects\n     public\
+    \ void LinkObjects(ObjectId from, ObjectId to)\n     {\n       CreateLink(from,\
+    \ to);\n       CreateLink(to, from);\n     }\n\n     // Helper function to create\
+    \ a one-way\n     // link between objects\n     private void CreateLink(ObjectId\
+    \ from, ObjectId to)\n     {\n       ObjectIdCollection existingList;\n      \
+    \ if (m_dict.TryGetValue(from, out existingList))\n       {\n         if (!existingList.Contains(to))\n\
+    \         {\n           existingList.Add(to);\n           m_dict.Remove(from);\n\
+    \           m_dict.Add(from, existingList);\n         }\n       }\n       else\n\
+    \       {\n         ObjectIdCollection newList =\n           new ObjectIdCollection();\n\
+    \         newList.Add(to);\n         m_dict.Add(from, newList);\n       }\n  \
+    \   }\n\n     // Remove bi-directional links from an object\n     public void\
+    \ RemoveLinks(ObjectId from)\n     {\n       ObjectIdCollection existingList;\n\
+    \       if (m_dict.TryGetValue(from, out existingList))\n       {\n         m_dict.Remove(from);\n\
+    \         foreach (ObjectId id in existingList)\n         {\n           RemoveFromList(id,\
+    \ from);\n         }\n       }\n     }\n\n     // Helper function to remove an\
+    \ object reference\n     // from a list (assumes the overall list should\n   \
+    \  // remain)\n     private void RemoveFromList(\n       ObjectId key,\n     \
+    \  ObjectId toremove\n     )\n     {\n       ObjectIdCollection existingList;\n\
+    \       if (m_dict.TryGetValue(key, out existingList))\n       {\n         if\
+    \ (existingList.Contains(toremove))\n         {\n           existingList.Remove(toremove);\n\
+    \           m_dict.Remove(key);\n           m_dict.Add(key, existingList);\n \
+    \        }\n       }\n     }\n\n     // Return the list of objects linked to\n\
+    \     // the one passed in\n     public ObjectIdCollection GetLinkedObjects(\n\
+    \       ObjectId from\n     )\n     {\n       ObjectIdCollection existingList;\n\
+    \       m_dict.TryGetValue(from, out existingList);\n       return existingList;\n\
+    \     }\n\n     // Check whether the dictionary contains\n     // a particular\
+    \ key\n     public bool Contains(ObjectId key)\n     {\n       return m_dict.ContainsKey(key);\n\
+    \     }\n\n     // Save the link information to a special\n     // dictionary\
+    \ in the database\n     public void SaveToDatabase(Database db)\n     {\n    \
+    \   Transaction tr =\n         db.TransactionManager.StartTransaction();\n   \
+    \    using (tr)\n       {\n         ObjectId dictId =\n           GetLinkDictionaryId(db,\
+    \ true);\n         DBDictionary dict =\n           (DBDictionary)tr.GetObject(\n\
+    \             dictId,\n             OpenMode.ForWrite\n           );\n       \
+    \  int xrecCount = 0;\n\n         foreach (\n           KeyValuePair<ObjectId,\
+    \ ObjectIdCollection> kv\n           in m_dict\n         )\n         {\n     \
+    \      // Prepare the result buffer with our data\n           ResultBuffer rb\
+    \ =\n             new ResultBuffer(\n               new TypedValue(\n        \
+    \         (int)DxfCode.SoftPointerId,\n                 kv.Key\n             \
+    \  )\n             );\n           int i = 1;\n           foreach (ObjectId id\
+    \ in kv.Value)\n           {\n             rb.Add(\n               new TypedValue(\n\
+    \                 (int)DxfCode.SoftPointerId + i,\n                 id\n     \
+    \          )\n             );\n             i++;\n           }\n\n           //\
+    \ Update or create an xrecord to store the data\n           Xrecord xrec;\n  \
+    \         bool newXrec = false;\n           if (dict.Contains(\n             \
+    \    kXrecPrefix + xrecCount.ToString()\n               )\n           )\n    \
+    \       {\n             // Open the existing object\n             DBObject obj\
+    \ =\n               tr.GetObject(\n                 dict.GetAt(\n            \
+    \       kXrecPrefix + xrecCount.ToString()\n                 ),\n            \
+    \     OpenMode.ForWrite\n               );\n             // Check whether it's\
+    \ an xrecord\n             xrec = obj as Xrecord;\n             if (xrec == null)\n\
+    \             {\n               // Should never happen\n               // We only\
+    \ store xrecords in this dict\n               obj.Erase();\n               xrec\
+    \ = new Xrecord();\n               newXrec = true;\n             }\n         \
+    \  }\n           // No object existed - create a new one\n           else\n  \
+    \         {\n             xrec = new Xrecord();\n             newXrec = true;\n\
+    \           }\n           xrec.XlateReferences = true;\n           xrec.Data =\
+    \ (ResultBuffer)rb;\n           if (newXrec)\n           {\n             dict.SetAt(\n\
+    \               kXrecPrefix + xrecCount.ToString(),\n               xrec\n   \
+    \          );\n             tr.AddNewlyCreatedDBObject(xrec, true);\n        \
+    \   }\n           xrecCount++;\n         }\n\n         // Now erase the left-over\
+    \ xrecords\n         bool finished = false;\n         do\n         {\n       \
+    \    if (dict.Contains(\n                 kXrecPrefix + xrecCount.ToString()\n\
+    \               )\n           )\n           {\n             DBObject obj =\n \
+    \              tr.GetObject(\n                 dict.GetAt(\n                 \
+    \  kXrecPrefix + xrecCount.ToString()\n                 ),\n                 OpenMode.ForWrite\n\
+    \               );\n             obj.Erase();\n           }\n           else\n\
+    \           {\n             finished = true;\n           }\n           xrecCount++;\n\
+    \         } while (!finished);\n         tr.Commit();\n       }\n     }\n\n  \
+    \   // Load the link information from a special\n     // dictionary in the database\n\
+    \     public void LoadFromDatabase(Database db)\n     {\n       Document doc =\n\
+    \         Application.DocumentManager.MdiActiveDocument;\n       Editor ed = doc.Editor;\n\
+    \       Transaction tr =\n         db.TransactionManager.StartTransaction();\n\
+    \       using (tr)\n       {\n         // Try to find the link dictionary, but\n\
+    \         // do not create it if one isn't there\n         ObjectId dictId =\n\
+    \           GetLinkDictionaryId(db, false);\n         if (dictId.IsNull)\n   \
+    \      {\n           ed.WriteMessage(\n             \"\\nCould not find link dictionary.\"\
+    \n           );\n           return;\n         }\n\n         // By this stage we\
+    \ can assume the dictionary exists\n         DBDictionary dict =\n           (DBDictionary)tr.GetObject(\n\
+    \             dictId, OpenMode.ForRead\n           );\n         int xrecCount\
+    \ = 0;\n         bool done = false;\n\n         // Loop, reading the xrecords\
+    \ one-by-one\n         while (!done)\n         {\n           if (dict.Contains(\n\
+    \                 kXrecPrefix + xrecCount.ToString()\n             )\n       \
+    \    )\n           {\n             ObjectId recId =\n               dict.GetAt(\n\
+    \                 kXrecPrefix + xrecCount.ToString()\n               );\n    \
+    \         DBObject obj =\n               tr.GetObject(recId, OpenMode.ForRead);\n\
+    \             Xrecord xrec = obj as Xrecord;\n             if (xrec == null)\n\
+    \             {\n               ed.WriteMessage(\n                 \"\\nDictionary\
+    \ contains non-xrecords.\"\n               );\n               return;\n      \
+    \       }\n             int i = 0;\n             ObjectId from = new ObjectId();\n\
+    \             ObjectIdCollection to =\n               new ObjectIdCollection();\n\
+    \             foreach (TypedValue val in xrec.Data)\n             {\n        \
+    \       if (i == 0)\n                 from = (ObjectId)val.Value;\n          \
+    \     else\n               {\n                 to.Add((ObjectId)val.Value);\n\
+    \               }\n               i++;\n             }\n             // Validate\
+    \ the link info and add it to our\n             // internal data structure\n \
+    \            AddValidatedLinks(db, from, to);\n             xrecCount++;\n   \
+    \        }\n           else\n           {\n             done = true;\n       \
+    \    }\n         }\n         tr.Commit();\n       }\n     }\n\n     // Helper\
+    \ function to validate links before adding\n     // them to the internal data\
+    \ structure\n     private void AddValidatedLinks(\n       Database db,\n     \
+    \  ObjectId from,\n       ObjectIdCollection to\n     )\n     {\n       Document\
+    \ doc =\n         Application.DocumentManager.MdiActiveDocument;\n       Editor\
+    \ ed = doc.Editor;\n       Transaction tr =\n         db.TransactionManager.StartTransaction();\n\
+    \       using (tr)\n       {\n         try\n         {\n           ObjectIdCollection\
+    \ newList =\n             new ObjectIdCollection();\n\n           // Open the\
+    \ \"from\" object\n           DBObject obj =\n             tr.GetObject(from,\
+    \ OpenMode.ForRead, false);\n           if (obj != null)\n           {\n     \
+    \        // Open each of the \"to\" objects\n             foreach (ObjectId id\
+    \ in to)\n             {\n               DBObject obj2;\n               try\n\
+    \               {\n                 obj2 =\n                   tr.GetObject(id,\
+    \ OpenMode.ForRead, false);\n                 // Filter out the erased \"to\"\
+    \ objects\n                 if (obj2 != null)\n                 {\n          \
+    \         newList.Add(id);\n                 }\n               }\n           \
+    \    catch (System.Exception)\n               {\n                 ed.WriteMessage(\n\
+    \                   \"\\nFiltered out link to an erased object.\"\n          \
+    \       );\n               }\n             }\n             // Only if the \"from\"\
+    \ object and at least\n             // one \"to\" object exist (and are unerased)\n\
+    \             // do we add an entry for them\n             if (newList.Count >\
+    \ 0)\n             {\n               m_dict.Add(from, newList);\n            \
+    \ }\n           }\n         }\n         catch (System.Exception)\n         {\n\
+    \           ed.WriteMessage(\n             \"\\nFiltered out link from an erased\
+    \ object.\"\n           );\n         }\n         tr.Commit();\n       }\n    \
+    \ }\n\n     // Helper function to get (optionally create)\n     // the nested\
+    \ dictionary for our xrecord objects\n     private ObjectId GetLinkDictionaryId(\n\
+    \       Database db,\n       bool createIfNotExisting\n     )\n     {\n      \
+    \ ObjectId appDictId = ObjectId.Null;\n\n       Transaction tr =\n         db.TransactionManager.StartTransaction();\n\
+    \       using (tr)\n       {\n         DBDictionary nod =\n           (DBDictionary)tr.GetObject(\n\
+    \             db.NamedObjectsDictionaryId,\n             OpenMode.ForRead\n  \
+    \         );\n         // Our outer level (\"company\") dictionary\n         //\
+    \ does not exist\n         if (!nod.Contains(kCompanyDict))\n         {\n    \
+    \       if (!createIfNotExisting)\n             return ObjectId.Null;\n\n    \
+    \       // Create both the \"company\" dictionary...\n           DBDictionary\
+    \ compDict = new DBDictionary();\n           nod.UpgradeOpen();\n           nod.SetAt(kCompanyDict,\
+    \ compDict);\n           tr.AddNewlyCreatedDBObject(compDict, true);\n\n     \
+    \      // ... and the inner \"application\" dictionary.\n           DBDictionary\
+    \ appDict = new DBDictionary();\n           appDictId =\n             compDict.SetAt(kApplicationDict,\
+    \ appDict);\n           tr.AddNewlyCreatedDBObject(appDict, true);\n         }\n\
+    \         else\n         {\n           // Our \"company\" dictionary exists...\n\
+    \           DBDictionary compDict =\n             (DBDictionary)tr.GetObject(\n\
+    \               nod.GetAt(kCompanyDict),\n               OpenMode.ForRead\n  \
+    \           );\n           /// So check for our \"application\" dictionary\n \
+    \          if (!compDict.Contains(kApplicationDict))\n           {\n         \
+    \    if (!createIfNotExisting)\n               return ObjectId.Null;\n\n     \
+    \        // Create the \"application\" dictionary\n             DBDictionary appDict\
+    \ = new DBDictionary();\n             compDict.UpgradeOpen();\n             appDictId\
+    \ =\n               compDict.SetAt(kApplicationDict, appDict);\n             tr.AddNewlyCreatedDBObject(appDict,\
+    \ true);\n           }\n           else\n           {\n             // Both dictionaries\
+    \ already exist...\n             appDictId = compDict.GetAt(kApplicationDict);\n\
+    \           }\n         }\n         tr.Commit();\n       }\n       return appDictId;\n\
+    \     }\n   }\n\n   /// <summary>\n   /// This class defines our commands and\
+    \ event callbacks.\n   /// </summary>\n   public class LinkingCommands\n   {\n\
+    \     LinkedObjectManager m_linkManager;\n     ObjectIdCollection m_entitiesToUpdate;\n\
+    \n     public LinkingCommands()\n     {\n       Document doc =\n         Application.DocumentManager.MdiActiveDocument;\n\
+    \       Database db = doc.Database;\n       db.ObjectModified +=\n         new\
+    \ ObjectEventHandler(OnObjectModified);\n       db.ObjectErased +=\n         new\
+    \ ObjectErasedEventHandler(OnObjectErased);\n       db.BeginSave +=\n        \
+    \ new DatabaseIOEventHandler(OnBeginSave);\n       doc.CommandEnded +=\n     \
+    \    new CommandEventHandler(OnCommandEnded);\n\n       m_linkManager = new LinkedObjectManager();\n\
+    \       m_entitiesToUpdate = new ObjectIdCollection();\n     }\n\n     ~LinkingCommands()\n\
+    \     {\n       try\n       {\n         Document doc =\n           Application.DocumentManager.MdiActiveDocument;\n\
+    \         Database db = doc.Database;\n         db.ObjectModified -=\n       \
+    \    new ObjectEventHandler(OnObjectModified);\n         db.ObjectErased -=\n\
+    \           new ObjectErasedEventHandler(OnObjectErased);\n         db.BeginSave\
+    \ -=\n           new DatabaseIOEventHandler(OnBeginSave);\n         doc.CommandEnded\
+    \ +=\n           new CommandEventHandler(OnCommandEnded);\n       }\n       catch(System.Exception)\n\
+    \       {\n         // The document or database may no longer\n         // be\
+    \ available on unload\n       }\n     }\n\n     // Define \"LINK\" command\n \
+    \    [CommandMethod(\"LINK\")]\n     public void LinkEntities()\n     {\n    \
+    \   Document doc =\n         Application.DocumentManager.MdiActiveDocument;\n\
+    \       Database db = doc.Database;\n       Editor ed = doc.Editor;\n\n      \
+    \ PromptEntityOptions opts =\n         new PromptEntityOptions(\n           \"\
+    \\nSelect first circle to link: \"\n         );\n       opts.AllowNone = true;\n\
+    \       opts.SetRejectMessage(\n         \"\\nOnly circles can be selected.\"\n\
+    \       );\n       opts.AddAllowedClass(typeof(Circle), false);\n\n       PromptEntityResult\
+    \ res = ed.GetEntity(opts);\n       if (res.Status == PromptStatus.OK)\n     \
+    \  {\n         ObjectId from = res.ObjectId;\n         opts.Message =\n      \
+    \     \"\\nSelect second circle to link: \";\n         res = ed.GetEntity(opts);\n\
+    \         if (res.Status == PromptStatus.OK)\n         {\n           ObjectId\
+    \ to = res.ObjectId;\n           m_linkManager.LinkObjects(from, to);\n      \
+    \     m_entitiesToUpdate.Add(from);\n         }\n       }\n     }\n\n     // Define\
+    \ \"LOADLINKS\" command\n     [CommandMethod(\"LOADLINKS\")]\n     public void\
+    \ LoadLinkSettings()\n     {\n       Document doc =\n         Application.DocumentManager.MdiActiveDocument;\n\
+    \       Database db = doc.Database;\n       m_linkManager.LoadFromDatabase(db);\n\
+    \     }\n\n     // Define \"SAVELINKS\" command\n     [CommandMethod(\"SAVELINKS\"\
+    )]\n     public void SaveLinkSettings()\n     {\n       Document doc =\n     \
+    \    Application.DocumentManager.MdiActiveDocument;\n       Database db = doc.Database;\n\
+    \       m_linkManager.SaveToDatabase(db);\n     }\n\n     // Define callback for\
+    \ Database.ObjectModified event\n     private void OnObjectModified(\n       object\
+    \ sender, ObjectEventArgs e)\n     {\n       ObjectId id = e.DBObject.ObjectId;\n\
+    \       if (m_linkManager.Contains(id) &&\n           !m_entitiesToUpdate.Contains(id))\n\
+    \       {\n         m_entitiesToUpdate.Add(id);\n       }\n     }\n\n     // Define\
+    \ callback for Database.ObjectErased event\n     private void OnObjectErased(\n\
+    \       object sender, ObjectErasedEventArgs e)\n     {\n       if (e.Erased)\n\
+    \       {\n         m_linkManager.RemoveLinks(e.DBObject.ObjectId);\n       }\n\
+    \     }\n\n     // Define callback for Database.BeginSave event\n     void OnBeginSave(object\
+    \ sender, DatabaseIOEventArgs e)\n     {\n       Database db = sender as Database;\n\
+    \       if (db != null)\n       {\n         m_linkManager.SaveToDatabase(db);\n\
+    \       }\n     }\n\n     // Define callback for Document.CommandEnded event\n\
+    \     private void OnCommandEnded(\n       object sender, CommandEventArgs e)\n\
+    \     {\n       foreach (ObjectId id in m_entitiesToUpdate)\n       {\n      \
+    \   UpdateLinkedEntities(id);\n       }\n       m_entitiesToUpdate.Clear();\n\
+    \     }\n\n     // Helper function for OnCommandEnded\n     private void UpdateLinkedEntities(ObjectId\
+    \ from)\n     {\n       Document doc =\n         Application.DocumentManager.MdiActiveDocument;\n\
+    \       Editor ed = doc.Editor;\n       Database db = doc.Database;\n\n      \
+    \ ObjectIdCollection linked =\n         m_linkManager.GetLinkedObjects(from);\n\
+    \n       Transaction tr =\n         db.TransactionManager.StartTransaction();\n\
+    \       using (tr)\n       {\n         try\n         {\n           Point3d firstCenter;\n\
+    \           Point3d secondCenter;\n           double firstRadius;\n          \
+    \ double secondRadius;\n\n           Entity ent =\n             (Entity)tr.GetObject(from,\
+    \ OpenMode.ForRead);\n\n           if (GetCenterAndRadius(\n                 ent,\n\
+    \                 out firstCenter,\n                 out firstRadius\n       \
+    \        )\n           )\n           {\n             foreach (ObjectId to in linked)\n\
+    \             {\n               Entity ent2 =\n                 (Entity)tr.GetObject(to,\
+    \ OpenMode.ForRead);\n               if (GetCenterAndRadius(\n               \
+    \      ent2,\n                     out secondCenter,\n                     out\
+    \ secondRadius\n                   )\n               )\n               {\n   \
+    \              Vector3d vec = firstCenter - secondCenter;\n                 if\
+    \ (!vec.IsZeroLength())\n                 {\n                   // Only move the\
+    \ linked circle if it's not\n                   // already near enough       \
+    \         \n                   double apart =\n                   vec.Length -\
+    \ (firstRadius + secondRadius);\n                   if (apart < 0.0)\n       \
+    \              apart = -apart;\n\n                   if (apart > 0.00001)\n  \
+    \                 {\n                     ent2.UpgradeOpen();\n              \
+    \       ent2.TransformBy(\n                       Matrix3d.Displacement(\n   \
+    \                      vec.GetNormal() * apart\n                       )\n   \
+    \                  );\n                   }\n                 }\n            \
+    \   }\n             }\n           }\n         }\n         catch (System.Exception\
+    \ ex)\n         {\n           Autodesk.AutoCAD.Runtime.Exception ex2 =\n     \
+    \        ex as Autodesk.AutoCAD.Runtime.Exception;\n           if (ex2 != null\
+    \ &&\n               ex2.ErrorStatus != ErrorStatus.WasOpenForUndo)\n        \
+    \   {\n             ed.WriteMessage(\n               \"\\nAutoCAD exception: {0}\"\
+    , ex2\n             );\n           }\n           else if (ex2 == null)\n     \
+    \      {\n             ed.WriteMessage(\n               \"\\nSystem exception:\
+    \ {0}\", ex\n             );\n           }\n         }\n         tr.Commit();\n\
+    \       }\n     }\n\n     // Helper function to get the center and radius\n  \
+    \   // for all supported circular objects\n     private bool GetCenterAndRadius(\n\
+    \       Entity ent,\n       out Point3d center,\n       out double radius\n  \
+    \   )\n     {\n       // For circles it's easy...\n       Circle circle = ent\
+    \ as Circle;\n       if (circle != null)\n       {\n         center = circle.Center;\n\
+    \         radius = circle.Radius;\n         return true;\n       }\n       else\n\
+    \       {\n         // Throw in some empty values...\n         // Returning false\
+    \ indicates the object\n         // passed in was not useable\n         center\
+    \ = Point3d.Origin;\n         radius = 0.0;\n         return false;\n       }\n\
+    \     }\n   }\n}"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.19.34
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-04-18 11:14:32'
+  body: 'Subir - the source file is linked to <a href="http://through-the-interface.typepad.com/through_the_interface/files/LinkingLibrary-persistent.cs">for
+    download</a> from within the post.
+
+
+    Kean'
+- author: Sinc
+  email: richards@ejsurveying.com
+  ip: 72.19.190.157
+  url: ''
+  date: '2008-09-01 00:11:25'
+  body: 'I notice that in this code, the ObjectModified event handler adds ObjectIds
+    to a list, which is processed in the CommandEnded event handler.
+
+
+    However, this means that the list of modified ObjectIds does not get processed
+    when objects are modified in ways that do not involve standard commands.  For
+    example, if we change the location of the lead circle in the chain by changing
+    the X or Y coordinates in the Properties panel, the CommandEnded event handler
+    does not fire.
+
+
+    A similar issue happens in vertical apps such as Civil-3D, where editing feature
+    lines using the Elevation Editor does not trigger the CommandEnded event.
+
+
+    Is there a way to catch user actions such as this, and trigger the processing
+    of the list?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-01 09:48:50'
+  body: 'It''s probably because I worked off an old (R13-era) ObjectARX sample when
+    I created this. The more modern way to pick up changes made by all types of operation
+    (not just commands) is to handle this event:
+
+
+    Application.DocumentManager.DocumentLockModeWillChange
+
+
+    Regards,
+
+
+    Kean'
+- author: Sinc
+  email: richards@ejsurveying.com
+  ip: 72.19.190.157
+  url: ''
+  date: '2008-09-01 17:19:45'
+  body: 'I have some code that monitors various objects, and when one of the objects
+    is changed, the elevation of various C3D points gets changed.  This code runs
+    fine when I run it from the CommandEnded event handler, except for the issue mentioned
+    above, where items can be changed in ways that do not trigger CommandEnded.
+
+
+    But when I try to run it from the DocumentLockModeWillChange event handler, it
+    hits a problem while trying to update the elevations of the AeccCogoPoints.  The
+    line that sets the new elevation causes my code to stop running, and C3D displays
+    a "Command is already in progress" error message on the command line.  The next
+    thing I attempt to do will crash C3D.
+
+
+    Any ideas why this might be happening?  I am maintaining a list of ObjectIDs,
+    and I retrieve these objects via a transaction in my event handler.  I then turn
+    them into AeccPoint objects, by casting "aeccPt = dbObj.AcadObject as AeccPoint".  It
+    is when I try to set the aeccPt.Elevation property that I trigger the problem.
+
+
+    Is the problem caused by the fact that I am converting the point from a generic
+    DBObject to a COM object inside the event handler?  If so, how should I go about
+    this task?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-01 17:38:13'
+  body: 'You probably need to check the current and new states of the document''s
+    lock mode (via the event handler''s arguments). You won''t want to run your code
+    for every lock change, probably only when Current (or MyCurrent) is "Write" and
+    MyFuture is "None", for instance.
+
+
+    At least that''s my suspicion without seeing your code...
+
+
+    Kean'
+- author: Sinc
+  email: dei@ejsurveying.com
+  ip: 72.19.190.157
+  url: ''
+  date: '2008-09-01 22:07:18'
+  body: "I have distilled the problem down to a minimal amount of code.  \n\nThe following\
+    \ code has an ADDTESTPTS command, which adds Cogo points to the list of watched\
+    \ ObjectIds.  When a watched point is modified, this code should add 1 to the\
+    \ elevation.  It works when I use the CommandEnded handler, but not the DocumentLockModeWillChange\
+    \ handler.\n\n\nusing Autodesk.AutoCAD.ApplicationServices;\nusing Autodesk.AutoCAD.DatabaseServices;\n\
+    using Autodesk.AutoCAD.EditorInput;\nusing Autodesk.AutoCAD.Runtime;\nusing Autodesk.AECC.Interop.Land;\n\
+    \nnamespace Test\n{\n    public class PointTest\n    {\n        ObjectIdCollection\
+    \ m_entitiesToUpdate;\n        ObjectIdCollection m_modifiedEntities;\n\n    \
+    \    public PointTest()\n        {\n            // Code currently works as-is,\
+    \ except it only works when the CommandEnded event handler gets fired.\n     \
+    \       // However, comment out the following line:\n            Application.DocumentManager.MdiActiveDocument.CommandEnded\
+    \ += new CommandEventHandler(MdiActiveDocument_CommandEnded);\n \n           \
+    \ // and enable this line instead:\n            //Application.DocumentManager.DocumentLockModeWillChange\
+    \ += new DocumentLockModeWillChangeEventHandler(DocumentManager_DocumentLockModeWillChange);\n\
+    \n            // ...and now Civil-3D will display a \"Command in progress\" error\
+    \ whenever a watched point is modified,\n            // and then fatal error soon\
+    \ after.\n\n\n            HostApplicationServices.WorkingDatabase.ObjectModified\
+    \ += new ObjectEventHandler(WorkingDatabase_ObjectModified);\n\n            m_entitiesToUpdate\
+    \ = new ObjectIdCollection();\n            m_modifiedEntities = new ObjectIdCollection();\n\
+    \        }\n\n        [CommandMethod(\"ADDTESTPTS\")]\n        public void AddTestPoints()\n\
+    \        {\n            PromptSelectionOptions sPrmpt = new PromptSelectionOptions();\n\
+    \            PromptSelectionResult ssResult;\n            TypedValue[] filter\
+    \ = new TypedValue[1];\n            filter[0] = new TypedValue(0, \"AECC_COGO_POINT\"\
+    );\n            SelectionFilter ssFilter = new SelectionFilter(filter);\n    \
+    \        ssResult = Application.DocumentManager.MdiActiveDocument.Editor.GetSelection(sPrmpt,\
+    \ ssFilter);\n            if (ssResult.Status == PromptStatus.OK)\n          \
+    \  {\n                ObjectId[] objIds = ssResult.Value.GetObjectIds();\n   \
+    \             foreach (ObjectId oid in objIds)\n                    m_entitiesToUpdate.Add(oid);\n\
+    \            }\n        }\n\n        void WorkingDatabase_ObjectModified(object\
+    \ sender, ObjectEventArgs e)\n        {\n            if (m_entitiesToUpdate.Contains(e.DBObject.ObjectId)\
+    \ && !m_modifiedEntities.Contains(e.DBObject.ObjectId))\n                m_modifiedEntities.Add(e.DBObject.ObjectId);\n\
+    \        }\n\n        void MdiActiveDocument_CommandEnded(object sender, CommandEventArgs\
+    \ e)\n        {\n            UpdatePoints(HostApplicationServices.WorkingDatabase);\n\
+    \        }\n\n        void DocumentManager_DocumentLockModeWillChange(object sender,\
+    \ DocumentLockModeWillChangeEventArgs e)\n        {\n            if ((e.MyCurrentMode\
+    \ == DocumentLockMode.Write) &&\n                ((e.MyNewMode == DocumentLockMode.NotLocked)\
+    \ || (e.MyNewMode == DocumentLockMode.None)))\n            {\n               \
+    \ UpdatePoints(e.Document.Database);\n            }\n        }\n\n        void\
+    \ UpdatePoints(Database db)\n        {\n            if (m_modifiedEntities.Count\
+    \ > 0)\n            {\n                using (Transaction tr = db.TransactionManager.StartTransaction())\n\
+    \                {\n                    foreach (ObjectId oid in m_modifiedEntities)\n\
+    \                    {\n                        DBObject obj = tr.GetObject(oid,\
+    \ OpenMode.ForWrite);\n                        AeccPoint pt = obj.AcadObject as\
+    \ AeccPoint;\n                        if (pt != null)\n                      \
+    \  {\n                            double elev = pt.Elevation;\n              \
+    \              pt.Elevation = elev + 1;\n                        }\n         \
+    \           }\n                    tr.Commit();\n                }\n         \
+    \       m_modifiedEntities.Clear();\n            }\n        }\n    }\n}"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-02 10:24:48'
+  body: 'I can''t see anything wrong with this code, but I don''t use Civil 3D and
+    so can''t try it out.
+
+
+    I suggest submitting it via <a href="http://adn.autodesk.com">the ADN website</a>
+    (if you''re a member) or posting it to <a href="http://discussion.autodesk.com/forum.jspa?forumID=190">the
+    AutoCAD Civil 3D Customization Discussion Group</a>, otherwise.
+
+
+    Regards,
+
+
+    Kean'
+- author: Sinc
+  email: dei@ejsurveying.com
+  ip: 72.19.190.157
+  url: http://www.ejsurveying.com
+  date: '2008-09-07 14:35:45'
+  body: 'After posting to the DGs, nobody seems to have any idea why DocumentLockModeWillChange
+    doesn''t work in C3D.
+
+
+    But it looks like everything works OK when monitoring Editor.EnteringQuiescentState
+    instead.
+
+    -----'

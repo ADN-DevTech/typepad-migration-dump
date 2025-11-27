@@ -1,0 +1,217 @@
+comments:
+- author: me.yahoo.com/a/7KY44PV62oiOHtkSnvkBTTtfTWIKo8YYhC0-
+  email: ''
+  ip: 69.116.109.78
+  url: http://profile.typepad.com/6p0120a5553df9970b
+  date: '2009-09-08 03:01:52'
+  body: 'Please forgive my ignorance, but is there something wrong with using the
+    DimXxxxx properties of the Dimension managed wrapper to set dimension overrides?
+
+
+    If we give it a nanosecond''s thought, what else would the DimXxxxx properties
+    of the Dimension type do?
+
+
+    I take it you can guess who this is.'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-09-08 07:57:52'
+  body: 'Actually there''s nothing wrong with using them: in my haste to understand
+    (and replicate) how it was done from ObjectARX, I missed the obvious.
+
+
+    And trust me: I thought about it for at least a couple of microseconds. :-)
+
+
+    I could probably guess who this is, but then again, why spend the energy when
+    I clearly have a post to go and fix?
+
+
+    Kean'
+- author: Bullseye
+  email: ''
+  ip: 69.116.109.78
+  url: http://profile.typepad.com/6p0120a5553df9970b
+  date: '2009-09-08 10:20:01'
+  body: "\"in my haste to understand (and replicate) how it was done from ObjectARX,\
+    \ I missed the obvious.\"\n\nSorry, not sure I follow. \n\nIt's essentially the\
+    \ same in native ObjectARX (see dbdimvar.h)."
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-09-08 10:22:32'
+  body: 'OK, let me change that...
+
+
+    "in my haste, I missed the obvious."
+
+
+    Is that better? &lt;sigh&gt;
+
+
+    Kean'
+- author: Eug
+  email: Eug@mail.ru
+  ip: 81.3.180.50
+  url: ''
+  date: '2009-10-02 12:21:16'
+  body: 'Hi Kean,
+
+    where can i find max sizes for DxfCode.ExtendedData... types ? I''m trying to
+    use DxfCode.ExtendedDataBinaryChunk but it looks 255 is max size ?!'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-10-02 13:53:26'
+  body: 'Hi Eug,
+
+
+    Xdata is limited to 16K per object, but this is a shared limit, so individual
+    applications should be careful about attaching large chunks. If you''d going to
+    go anywhere over 1-2K, I suggest adding Xrecords into the object''s extension
+    dictionary, instead.
+
+
+    Regards,
+
+
+    Kean'
+- author: sylvesp@hotmail.com
+  email: sylvesp@hotmail.com
+  ip: 64.252.137.55
+  url: ''
+  date: '2009-10-07 20:52:50'
+  body: "Could somebody please tell me how to force a graphics update, using the .net\
+    \ api, on a Dimension object after changing one of it's properties?\nAfter I change\
+    \ the object property, the graphics on the screen does not change although the\
+    \ property palette shows the new color \"Red\" for the \"Dim line color\"\nThe\
+    \ dim line shows still as green though :(\n\nusing (Transaction trans = acadDoc.TransactionManager.StartTransaction())\n\
+    {\n   Dimension dimObject = trans.GetObject(objId, OpenMode.ForWrite) as Dimension;\n\
+    \   dimObject.Dimclrd = Color.FromColorIndex(ColorMethod.ByAci, 1);\n\n  trans.Commit();\n\
+    }\n\ndimObject.Draw() doesn't seem to help either.\n\nThanks\nPeter"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-10-07 21:02:40'
+  body: 'Long time, no hear, Peter! :-)
+
+
+    Please do post your questions on <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>, as this blog isn''t really a support forum.
+
+
+    Regards,
+
+
+    Kean'
+- author: sylvesp@hotmail.com
+  email: sylvesp@hotmail.com
+  ip: 64.252.137.55
+  url: ''
+  date: '2009-10-09 16:18:45'
+  body: 'Hi Kean!
+
+
+    Indeed... long time no hear! Hope you are doing well.
+
+    Thanks for your feedback.
+
+    I''ve posted the question to the .Net Discussion Group.
+
+
+    Regards,
+
+    Peter'
+- author: Jorge Gutierrez
+  email: jgutierrezh@arnecom.com
+  ip: 201.131.112.100
+  url: ''
+  date: '2010-03-25 00:44:29'
+  body: 'The dimensions are "no associative". How to create associative dimensions
+    with dot net?
+
+
+    Thanks,'
+- author: Kean Walmsley
+  email: ''
+  ip: 58.32.239.82
+  url: http://profile.typepad.com/kean
+  date: '2010-03-25 02:41:56'
+  body: 'We introduced an associative dimension API in AutoCAD 2009, but I''m pretty
+    sure it''s ObjectARX (C++) only, right now.
+
+
+    For now you can either fire commands to create a dimension associatively or include
+    a C++ component in your application.
+
+
+    Kean'
+- author: Gerrit van Diepen
+  email: g.vandiepen@gmail.com
+  ip: 217.169.229.156
+  url: ''
+  date: '2011-04-13 14:12:37'
+  body: 'Hi Kean,
+
+
+    Is there a way to get the boundingbox of a dimensiontext?
+
+
+    I created a dimensionroutine and I want put the dimensiontext in a upper position
+    if the created dimension is near the last dimension.
+
+
+    With the boudingbox I hope to calculate if the dimensiontext fits between the
+    two dimensionblocks.
+
+
+    Kind regards,
+
+
+    Gerrit'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-04-13 14:25:58'
+  body: 'Hi Gerrit,
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2011/02/gathering-points-defining-2d-autocad-geometry-using-net.html">This
+    post</a> should be helpful - I''m pretty sure I had it working with dimensions
+    (although it''s exploding to get at the information).
+
+
+    Regards,
+
+
+    Kean'
+- author: jaroslaw.szajbe@gmail.com
+  email: jaroslaw.szajbe@gmail.com
+  ip: 77.252.228.40
+  url: ''
+  date: '2011-10-19 16:21:49'
+  body: "Hello!\n\nI want to create new Dimension Style in C++.\nI can create AcDbDimStyleTableRecord,\
+    \ but i don't know how set for example height of text?\n\nBest regards \nJarek"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2011-10-19 17:35:40'
+  body: 'Hello Jarek,
+
+
+    Please post your support questions via ADN or to the appropriate discussion forum.
+
+
+    Thank you,
+
+
+    Kean
+
+    -----'

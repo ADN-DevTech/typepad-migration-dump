@@ -1,0 +1,107 @@
+comments:
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2009-04-22 07:23:30'
+  body: "One issue I have with those examples is that they fail to consider ActiveX\
+    \ events and the issues related to them, which makes the approach used in the\
+    \ sample code problematic.\n\nFor those who would like to know more about emulating\
+    \ VBA's 'ThisDrawing' in VB.NET, including support for AcadDocument events, this\
+    \ may help:\n\n  http://www.caddzone.com/VBAMigration.zip"
+- author: Stephen Preston
+  email: stephen.preston@autodesk.com
+  ip: 24.5.113.87
+  url: http://adn.autodesk.com
+  date: '2009-04-22 17:31:49'
+  body: Thank you Tony. I hadn't considered events for this first version of the demo.
+    But you're right that its an important aspect of migration, and should be covered.
+    I'll check out your example.
+- author: srinivasan
+  email: srinivasan_23@yahoo.com
+  ip: 116.75.204.25
+  url: http://www.srinsofttech.com
+  date: '2009-04-26 18:49:28'
+  body: 'Any objects we create using .net, references WCS even if we change UCS. this
+    problem is not there in VBA.  I have an old VBA project which reads 3D points
+    from file & creates 3D objects from those points. this works well with VBA. but
+    with VB.net this porgram doesn''t work properly as it can''t refer UCS
+
+    is there any solution  for this.'
+- author: Stephen Preston
+  email: stephen.preston@autodesk.com
+  ip: 198.102.112.18
+  url: http://adn.autodesk.com
+  date: '2009-04-27 18:24:51'
+  body: "Hi Srinivasan. I believe you're an ADN memebr, so you're welcome to ask specific\
+    \ questions via DevHelp Online on the ADN website. \n\nOne way to convert from\
+    \ UCS to WCS is use the proporty Editor.CurrentUserCoordinateSystem to return\
+    \ a matrix that you can use as a transformation matrix between the current UCS\
+    \ and WCS.\n\nDid you have any feedback for me on the migration utility?"
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2009-05-04 03:43:07'
+  body: '"Any objects we create using .net, references WCS even if we change UCS.
+    this problem is not there in VBA. I have an old VBA project which reads 3D points
+    from file & creates 3D objects from those points. this works well with VBA. but
+    with VB.net this porgram doesn''t work properly as it can''t refer UCS
+
+    is there any solution for this."
+
+
+    I don''t believe this is a problem, if you are using the ActiveX API from VB.NET,
+    because that is the same API used by VBA.
+
+
+    The managed ObjectARX API is a different matter entirely, and there is no ''clean'',
+    simple, or reasonably straightfoward way to perform a conversion of existing VBA
+    code to managed ObjectARX. In other words, migrating from VBA/ActiveX to managed
+    ObjectARX generally entails a complete, from-the-ground-up rewrite.
+
+
+    So, if your plan involves converting existing VBA code to managed ObjectARX, this
+    would be just one of many dozens of hurdles, and of course, is really just a part
+    of the learning process.'
+- author: Kris Valverde
+  email: ''
+  ip: 208.64.66.110
+  url: http://profile.typepad.com/6p0120a5d08d47970c
+  date: '2009-09-17 22:16:54'
+  body: Great information thanks for sharing this with us.In fact in all posts of
+    this blog their is something to learn . your work is very good and i appreciate
+    your work and hopping for some more informative posts . Again thanks for sharing.
+- author: 'Viagra Online '
+  email: princeoutland5@gmail.com
+  ip: 208.64.66.109
+  url: http://www.safemeds.com/
+  date: '2009-09-25 23:23:14'
+  body: "HI\nthis information its very important \nlet me tell you that this site\
+    \ its so great .\nJohn B. Barnhart"
+- author: Pete B.
+  email: petebrown.1959@yahoo.co.uk
+  ip: 86.26.214.253
+  url: ''
+  date: '2011-02-13 21:24:41'
+  body: What happened to the original presentation by Stephen Preston. I would very
+    much like to d/l this version.
+- author: Stephen Preston
+  email: stephen.preston@autodesk.com
+  ip: 67.169.52.209
+  url: ''
+  date: '2011-02-14 17:12:37'
+  body: 'Hi Pete,
+
+
+    My original recording was updated and replaced by Augusto''s recording. I didn''t
+    keep a copy of my version. The latest version of the recording and the migration
+    tool are linked to at the bottom of www.autodesk.com/vba.
+
+
+    Cheers,
+
+
+    Stephen
+
+    -----'

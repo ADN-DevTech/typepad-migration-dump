@@ -1,0 +1,13 @@
+---
+layout: "post"
+title: "Navigation blues..."
+date: "2009-02-16 17:30:41"
+author: "Kean Walmsley"
+categories:
+  - "Weblogs"
+original_url: "https://www.keanw.com/2009/02/navigation-blues.html "
+typepad_basename: "navigation-blues"
+typepad_status: "Publish"
+---
+
+<p>I need to vent. I've had an open ticket with Six Apart (the people providing TypePad, the service on which this blog is hosted) since January 2nd of this year. Kerry Brown had kindly pointed out a problem with Through the Interface's calendar navigation on December 26th, but as I was on vacation it took me a few days to get around to submitting the issue. The issue was related to an enhancement I made to this blog's navigation some time ago: somebody suggested showing more than a single month of posts, so I implemented an advanced template feature <a href="http://support.typepad.com/cgi-bin/typepad.cfg/php/enduser/std_adp.php?p_faqid=123">documented by Six Apart</a> to provide a 3-month navigation view.</p> <p>Well, around Christmas something broke... suddenly my monthly calendars were incorrect and it's only a little later that I realised exactly how: January's calendar was showing the posts for December, December was showing November's, etc. For a few days the calendars even showed the first few months this blog was published (June-August 2006), but then the problem reverted to being just that one month out of phase with reality.</p> <p>Anyway, after several iterations with TypePad support, nothing has changed. Engineers are still looking at the problem, I'm periodically (but not at all frequently) being thanked for my continued patience and apologised to for my inconvenience. I'm not one to complain, as a rule, but I feel this blog's readership also deserves an apology for the problems with the navigation (thanks to all of you who took the time to report the problem to me - I <u>sincerely apologise</u> for the inconvenience, honestly! :-) and also the background as to why I've changed the blog's calendar navigation back to a single-month view which thankfully doesn't appear to exhibit the same behaviour.</p> <p>As an alternative to the multiple-month view, it's also worth reminding people of the <a href="http://through-the-interface.typepad.com/through_the_interface/posts.html">Post Index</a> you'll previously have found in the right-hand navigation bar, between the RSS Feed and the Search box. As it looked a little grey over there (grey on grey is probably not the best way to draw attention to a really useful site feature), I've now promoted it to the left sash, where it's hopefully more prominent.</p>

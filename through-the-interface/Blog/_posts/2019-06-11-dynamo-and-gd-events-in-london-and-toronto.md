@@ -1,0 +1,17 @@
+---
+layout: "post"
+title: "Dynamo and GD events in London and Toronto"
+date: "2019-06-11 18:58:32"
+author: "Kean Walmsley"
+categories:
+  - "Autodesk"
+  - "Autodesk Research"
+  - "Dynamo"
+  - "Generative design"
+  - "Training"
+original_url: "https://www.keanw.com/2019/06/dynamo-and-gd-events-in-london-and-toronto.html "
+typepad_basename: "dynamo-and-gd-events-in-london-and-toronto"
+typepad_status: "Publish"
+---
+
+<p>There are some very interesting events scheduled for the coming weeks. Just prior to next week’s <a href="http://au.autodesk.com/london" target="_blank">AU London 2019</a> – itself an event that will be heavy on content for computational and generative design, this year, including a talk by Lorenzo Villaggi and myself – there’s a <a href="https://twitter.com/radugidei/status/1138066172723773441" target="_blank">Dynamo Day being hosted in London by the UK Dynamo User Group</a> (or #UKDynUG) on Monday June 17th.</p><p><a href="https://through-the-interface.typepad.com/.a/6a00d83452464869e20240a48dd33e200d-pi" target="_blank"><img width="500" height="250" title="UK Dynamo Day 2019" style="margin: 30px auto; border-image: none; float: none; display: block; background-image: none;" alt="UK Dynamo Day 2019" src="/assets/image_77955.jpg" border="0"></a>There are four day-long workshop streams tailored for various needs…</p><ul><li>Dynamo Intro plus Geometry</li><li>Dynamo Intro plus Data</li><li>Dynamo Power Up</li><li>Dynamo Dev Day</li></ul><p>… followed by an evening user group session with a number of presentations. After hearing from Topologic and Speckle (sessions I’m very much looking forward to), I’ll be giving a preview of Lorenzo and my AU London 2019 class – where we’ll be talking about research projects and launching the Project Rediscover graph. Followed by presentations by the winners of <a href="https://www.keanw.com/2019/04/the-first-dynamo-hackathon.html" target="_blank">London’s first Dynamo &amp; Generative Design Hackathon</a>. All in all it should be a lot of fun: <a href="https://www.eventbrite.co.uk/e/dynamo-day-before-au-london-2019-tickets-62639664924" target="_blank">get your tickets here</a>!</p><p>Speaking of Dynamo &amp; Generative Design Hackathons, the next one of these is <a href="https://dynamobim.org/event/toronto-dynamo-generative-design-hackathon" target="_blank">being held at Autodesk’s office in Toronto’s MaRS district on July 24th-25th</a>.</p><p><a href="https://through-the-interface.typepad.com/.a/6a00d83452464869e20240a48dd342200d-pi" target="_blank"><img width="500" height="187" title="Hackathon image" style="margin: 30px auto; border: 0px currentcolor; border-image: none; float: none; display: block; background-image: none;" alt="Hackathon image" src="/assets/image_881403.jpg" border="0"></a></p><p>There’s something very “meta” about holding a GD event in the Autodesk Toronto office, which itself <a href="https://autodeskresearch.com/projects/autodesk-mars" target="_blank">was designed using generative techniques</a> during the original <a href="https://autodeskresearch.com/projects/project-discover" target="_blank">Project Discover</a>. I won’t be able to make this one – it’s bang in the middle of our summer break – but I would definitely be there if I could. It sounds as though there will be a great mix of Autodesk and external attendees, which should make for some really interesting team dynamics (and outcomes). <a href="https://airtable.com/shrnvVr8viI57pzuM" target="_blank">Apply for your spot before June 21st</a>!</p>

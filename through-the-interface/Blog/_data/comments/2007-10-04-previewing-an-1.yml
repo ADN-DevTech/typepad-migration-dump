@@ -1,0 +1,97 @@
+comments:
+- author: Jason
+  email: Jason@aspendrafting.com
+  ip: 72.54.217.98
+  url: ''
+  date: '2007-10-09 00:33:17'
+  body: "I have tried a great deal of variation on this code (in vb.net) with adjustment\
+    \ referenced off the .net discussion groups for autodesk.\n\nI regularly seem\
+    \ to have a problem with the medianame and related entry values.\n\nThe most common\
+    \ erro would be a eNotValidInput exception from lines similar to:\n  psv.SetPlotConfigurationName(ps,\
+    \ \"DWFx ePlot (XPS Compatible).pc3\", \"ANSI_A_8.50_x_11.00_Inches)\");\nSince\
+    \ that media name does not exist in my network, i need a concise way to find and\
+    \ add an appropriate media to the plotter. Or at least it appears that way.\n\n\
+    can you suggest a way to select or iterate the medias available and how best to\
+    \ connect them to the plotinfovalidator?\n\nThis is the part or the plotsettingsvalidator\
+    \ blow up on me often it seems."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 12.160.193.229
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-10-09 09:13:13'
+  body: 'I suspect you a) are not using AutoCAD 2008 or b) have not installed the
+    DWFx driver mentioned in the post, which should allow you to use this device (and
+    I believe the media size).
+
+
+    I''ll put together and post a quick sample showing how to let the user select
+    the device and media via the command-line.
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 12.160.193.229
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-10-09 10:08:44'
+  body: 'Oh, I''ve just noticed you may have a typo in the media name... "ANSI_A_8.50_x_11.00_Inches)"
+    should be "ANSI_A_(8.50_x_11.00_Inches)".
+
+
+    Kean'
+- author: Jim Dowthwaite
+  email: jim.dowthwaite@gmail.com
+  ip: 99.239.44.192
+  url: ''
+  date: '2008-06-04 21:20:34'
+  body: 'I''m having the same problem with this article and the simple preview article.  If
+    I try to run the routine more than once I get the following: Another plot is in
+    progress.
+
+
+    What is needed to cancel the current plot?
+
+
+    The other problem I''m having (with my own code) is AutoCAD will freeze in the
+    preview.  Any idea what could be causing this?
+
+
+    Thanks in advance for any help you can offer,
+
+
+    Jim'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.7.167
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-06-05 17:39:19'
+  body: 'Without spending time to investigate this, I suspect it may be due to background
+    plotting. If you disable that, it may help.
+
+
+    Kean'
+- author: Chris
+  email: ckratz@diversifiedwoodcrafts.com
+  ip: 207.230.208.250
+  url: ''
+  date: '2010-09-08 20:44:09'
+  body: I'm using ACA 2010, and have some odd behavior. If I run the command while
+    looking at the Model tab, it fails with eLayoutNotCurrent, because the [LayoutManager.Current.CurrentLayout
+    = lo.LayoutName] line won't change it off of model space. If I change to a layout
+    and then back to model space and run the command, it gives and access exception
+    on that line. Do you think there is any way to work around that?
+- author: Chris
+  email: ckratz@diversifiedwoodcrafts.com
+  ip: 207.230.208.250
+  url: ''
+  date: '2010-09-08 21:40:52'
+  body: 'Ok, I think I figured it out. I was running the code from a button that was
+    on a pallette, and that pallete was started with the CommandFlags.Session flag.
+    That apparrently prevents any use of the LayoutManager.Current.CurrentLayout property
+    to change layouts, and alot of memory access exceptions. I changed my button to
+    used the SendStringToExecute function to run a command that calls the code instead.
+
+    -----'

@@ -1,0 +1,384 @@
+comments:
+- author: Narayanan
+  email: Narayanan@Cadsindia.com
+  ip: 202.54.129.209
+  url: ''
+  date: '2006-12-14 10:11:06'
+  body: 'Hello Kean,
+
+
+    I could not understand the need of reversing the "containers" list. Would be great
+    if you can explain, when you have a moment.
+
+
+    Thanks,
+
+    Narayanan'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-12-14 10:27:48'
+  body: 'Hi Narayanan,
+
+
+    Of course.
+
+
+    Editor.GetNestedEntity() simply calls through to the ObjectARX function acedNentSel(),
+    which - among other things - retrieves the list of containers in its 5th argument.
+    This is then accessed by a call to PromptNestedEntityResult.GetContainers().
+
+
+    Here''s the documentation on PromptNestedEntityResult.GetContainers():
+
+
+    >>>
+
+    Gets an array of containers in which this entity is nested.
+
+    Returns an array of object IDs representing the containers of this nested entity.
+
+    <<<
+
+
+    The order of this list is going "outwards" from the selected entity. If entity
+    A is contained in block B which is nested in block C, then it will return "B,
+    C" as the list.
+
+
+    Now the FullSubentityPath is actually defined the other way: we need to get a
+    path from the outermost entity (C) to the innermost entity (A) by reversing the
+    list returned by GetContainers() and appending the id of the innermost entity
+    ("C, B, A").
+
+
+    FullSubentityPath is a wrapper for the ObjectARX class AcDbFullSubentPath. Here''s
+    what the ObjectARX Developer''s Guide says about the array held in this object:
+
+
+    >>>
+
+    The array contains the object IDs that specify the path to the “main” entity.
+    For example, a block reference (an entity that references a block table record)
+    might contain two boxes, each of type AcDb3dSolid. The object ID array contains
+    two entries: the ID of the block reference, followed by the ID of the main entity
+    [InsertID, SolidID].
+
+    <<<
+
+
+    I hope this helps,
+
+
+    Kean'
+- author: Narayanan
+  email: Narayanan@Cadsindia.com
+  ip: 125.17.16.18
+  url: ''
+  date: '2006-12-14 12:32:17'
+  body: 'Thanks Kean,
+
+
+    I noted down the ''Entity name'' as reported by ArxDbgSnoopDb and juxtaposed it
+    with lisp function''s (nentsel) output.  It made it all clear. I could have done
+    this before!
+
+
+    Thanks again,
+
+    Narayanan'
+- author: Johnny
+  email: qualitysof@gmail.com
+  ip: 216.244.163.195
+  url: ''
+  date: '2006-12-27 17:54:08'
+  body: 'Hi Kean, first sorry by my english, very god your example about AutoCAD and
+    .NET, I would like to know How I can do to combine .NET with Visual LISP?, can
+    you send me an example please?. I want to send data from .NET to Visual LISP,
+    as example an Array.
+
+
+    Thank you.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2007-01-08 14:56:27'
+  body: 'Hi Johnny,
+
+
+    I''d suggest taking a look at the following post, to see if it helps:
+
+
+    http://through-the-interface.typepad.com/through_the_interface/2006/07/breathe_fresh_l.html
+
+
+    Regards,
+
+
+    Kean'
+- author: kirk
+  email: akirk77@hotmail.com
+  ip: 137.186.167.196
+  url: ''
+  date: '2007-02-25 00:47:42'
+  body: 'Hey,
+
+    I was just wondering if you would know how to count nested blocks using vba?
+
+    Thanks'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-02-25 09:51:59'
+  body: 'Hi Kirk,
+
+
+    Yes, but the apprach will be different, depending on what you mean:
+
+
+    1) Allow selection of an entity, and determine the nesting of that entity in various
+    blocks
+
+    2) Search through the modelspace for blocks of a certain name, counting how deeply
+    each one is  nested
+
+    3) Go through the whole modelspace and map out the nesting hierarchy of all blocks
+
+
+    I''m sure there are even other interpretations... The good news is that none of
+    these is very hard to do using any of AutoCAD''s APIs.
+
+
+    I''d suggest posting more specifics to one of the discussion groups - I''m sure
+    someone there will have something for you.
+
+
+    Regards,
+
+
+    Kean'
+- author: SUBIR KUMARD DUTTA
+  email: global_cadserver@yahoo.com
+  ip: 210.211.136.233
+  url: http://www.mmtechnologies.co.in
+  date: '2008-07-16 12:54:28'
+  body: "Using the code sample I am able to highlight a particular entity with in\
+    \ a block.\n\nBut I have a requirment where I want to highlight a particular segment\
+    \ with in a polyline. \n\nIs it possible ? Please help .\n\nAlso please inform\
+    \ me how can I get the objectids & handles of the Line segments from with in a\
+    \ Polyline.\n\nSubir"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-16 22:38:08'
+  body: 'If it''s a Polyline object (i.e. a lightweight polyline, not an old-style
+    Polyline2d/3d) then the segments don''t exist as separate objects - they are stored
+    as coordinates, which you can retrieve and overlay with transient graphics, if
+    you wish.
+
+
+    Even heavyweight Polyline2d/3ds have separate vertex objects - not segment objects.
+
+
+    Kean'
+- author: SUBIR KUMARD DUTTA
+  email: global_cadserver@yahoo.com
+  ip: 210.211.136.233
+  url: http://www.mmtechnologies.co.in
+  date: '2008-07-17 06:21:30'
+  body: "We can create temporary graphics using grdraw ( LISP ) or acedGrDraw ( ObjectARX\
+    \ ) . What is the method of doing so using .Net ? \n\nI had to highlight a particular\
+    \ line-segment of a closed polyline . So I have written the code segment as follows.\
+    \ \n\n ///////////////////////////////////////////////////////////////// highlight\
+    \ \n                                    AcadApplication app;\n               \
+    \                     const string progID = \"AutoCAD.Application.17\";\n    \
+    \                                app = (Autodesk.AutoCAD.Interop.AcadApplication)System.Runtime.InteropServices.Marshal.GetActiveObject(progID);\n\
+    \n                                    app.ActiveDocument.SendCommand(\"cmdecho\
+    \ 0\" + \"\\n\");\n                                    app.ActiveDocument.SendCommand(\"\
+    regen\" + \"\\n\");\n                                    app.ActiveDocument.SendCommand(\"\
+    redraw\" + \"\\n\");\n\n                                    String ST = Rooms.Text;\n\
+    \                                    ST = ST.Replace(\"Edge\", \"\");\n      \
+    \                              ST = ST.Trim();\n\n                           \
+    \         int i = System.Convert.ToInt16(ST);\n                              \
+    \      int ii = i;\n\n                                    if (i == pLine.NumberOfVertices)\n\
+    \                                        ii = 0;   \n\n                      \
+    \              double x1, y1, x2, y2;\n\n                                    Point2d\
+    \ p1 = pLine.GetPoint2dAt(i-1);\n                                    Point2d p2\
+    \ = pLine.GetPoint2dAt(ii);\n\n                                    x1 = p1.X;\n\
+    \                                    y1 = p1.Y;\n\n                          \
+    \          x2 = p2.X;\n                                    y2 = p2.Y;\n\n\n  \
+    \                                  string st1, st2,st3;\n\n                  \
+    \                  st1 = \"(setq p1 (list \" + x1.ToString().Trim() + \" \" +\
+    \ y1.ToString().Trim() + \" )) \";\n                                    st2 =\
+    \ \"(setq p2 (list \" + x2.ToString().Trim() + \" \" + y2.ToString().Trim() +\
+    \ \" )) \";\n                                    st3 = \"(grdraw p1 p2 1) \";\n\
+    \n\nBut I myself is not feeling satisfied though it worked fine for my current\
+    \ purpose.\n\nI want to know , is there any other method to achive this using\
+    \ pure .Net and not calling any LISP.\n\n                                    app.ActiveDocument.SendCommand(st1);\n\
+    \                                    app.ActiveDocument.SendCommand(st2);\n  \
+    \                                  app.ActiveDocument.SendCommand(st3);\n    \
+    \                                /////////////////////////////////////////////////////////////////\
+    \ highlight"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-17 09:16:46'
+  body: 'Editor.DrawVector(s) or the Transient Graphics API introduced in AutoCAD
+    2009.
+
+
+    Kean'
+- author: iis
+  email: i-is@live.com
+  ip: 125.163.12.223
+  url: ''
+  date: '2009-01-30 05:16:06'
+  body: 'Hi Kean,
+
+
+    If I want to highlight some entities as red color, which parameters should I change?
+    Because your example only making the highlighted entities become dashed line type.
+
+
+    Cheers,
+
+
+    iis'
+- author: Kean Walmsley
+  email: ''
+  ip: 59.92.108.199
+  url: http://profile.typepad.com/walmsleyk
+  date: '2009-01-30 08:24:13'
+  body: 'Hi iis,
+
+
+    There isn''t really a parameter to change, as such... with the call to ent.Highlight()
+    we use the standard AutoCAD highlighting mechanism. You could probably use the
+    transient graphics API (as shown in <a href="http://through-the-interface.typepad.com/through_the_interface/2009/01/selecting-the-nearest-face-of-an-autocad-solid-using-net.html">this
+    post</a>) to create transient graphics for the sub-entity, instead, but that will
+    take some work.
+
+
+    Kean'
+- author: gera
+  email: ma_cacaroto@hotmail.com
+  ip: 148.202.147.246
+  url: http://through-the-interface.typepad.com/through_the_interface/2006/12/highlighting_an.html
+  date: '2009-03-19 18:59:38'
+  body: "hi \n\nhow can i get an object crated by SendCommand"
+- author: Nk_long
+  email: nk_long@yahoo.com
+  ip: 118.69.69.133
+  url: ''
+  date: '2012-04-09 10:56:18'
+  body: 'Dear Mr Kean,
+
+    I have some Attribute Blocks in my drawings. These block contain attributes and
+    text. Please help me the coding to return the attribute value and text string.
+    Thank any way.
+
+    regard,
+
+    nk_long'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-04-09 16:55:49'
+  body: 'Dear nk_long,
+
+
+    This isn''t a support forum: please post your questions to the AutoCAD .NET Discussion
+    Group or to the ADN team.
+
+
+    That said, this post may be of some help:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2007/07/updating-a-spec.html">http://through-the-interface.typepad.com/through_the_interface/2007/07/updating-a-spec.html</a>
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-04-09 16:57:35'
+  body: 'Wow - just saw this comment 2 years later (it must have gone to my Junk list).
+
+
+    I don''t provide support in this way, but I suggest considering using something
+    like (entlast) to get a recently created object (you can even store the latest
+    handle before running the command, and get all subsequent ones).
+
+
+    Kean'
+- author: Nk_long
+  email: nk_long@yahoo.com
+  ip: 118.69.69.133
+  url: ''
+  date: '2012-04-12 03:46:59'
+  body: 'Sorry, and really thank for your information.
+
+    Regard,
+
+    Nk_long'
+- author: vzgherea
+  email: zgherea@gmail.com
+  ip: 217.12.117.178
+  url: ''
+  date: '2013-01-09 14:46:29'
+  body: 'Is there any way to select multiple nested entities by specifying rectangle
+    area using mouse (standard selection)?
+
+
+    Thanks.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-01-09 17:10:55'
+  body: 'Not that I''m aware of. You might try posting this question via ADN or the
+    AutoCAD .NET Discussion Group.
+
+
+    Kean'
+- author: Silentium
+  email: wowsilentium@gmail.com
+  ip: 82.176.83.71
+  url: ''
+  date: '2013-02-09 20:50:13'
+  body: 'Hello Mr Walmsley,
+
+
+    I want to do about the same thing as in this blog, except that the user should
+    not select the nested block, but it will be done programmatically.
+
+    So instead of the "PromptNestedEntityResult" object I have a "BlockReference".
+
+
+    I assume it is really easy, but I have NO idea how to get the "containers" (rs.GetContainers();)
+    for a BlockReference. Have you any idea?
+
+
+    Thank you for the great blogs.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-02-11 17:44:17'
+  body: 'You should be able to go get the OwnerId() iteratively until you hit either
+    the model- or a paperspace block table record.
+
+
+    Kean
+
+    -----'

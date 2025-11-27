@@ -1,0 +1,17 @@
+---
+layout: "post"
+title: "Call for proposals: Autodesk University 2013"
+date: "2013-04-29 18:39:42"
+author: "Kean Walmsley"
+categories:
+  - "AU"
+  - "AutoCAD"
+  - "AutoCAD .NET"
+  - "Kinect"
+  - "Leap Motion"
+original_url: "https://www.keanw.com/2013/04/call-for-proposals-autodesk-university-2013.html "
+typepad_basename: "call-for-proposals-autodesk-university-2013"
+typepad_status: "Publish"
+---
+
+<p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e2019101a572de970c-pi" target="_blank"><img style="background-image: none; border-bottom: 0px; border-left: 0px; margin: 20px auto; padding-left: 0px; padding-right: 0px; display: block; float: none; border-top: 0px; border-right: 0px; padding-top: 0px" title="AU 2013" border="0" alt="AU 2013" src="/assets/image_551858.jpg" width="474" height="125" /></a></p>  <p>I arrived back safely in Switzerland on Saturday night. It was a pretty good trip to the Bay Area, this time: most surprisingly this is the first time <em>ever</em> I’ve managed to sleep through until 6am (or thereabouts) on <u>every single day</u> of a trip to California.</p>  <p>But then I – like many people – do find going west to be easier than going east, jetlag-wise. I certainly found that I couldn’t get back to sleep when I woke up at home on Sunday morning at 3am, which made for a <em>very</em> long day (especially as we participated in <a href="http://www.slowup-murtensee.ch/cms21/showlinx.asp?id=70&amp;lang=2" target="_blank">the “Slow Up” event around a local lake</a>, which – for me – meant pedaling along, pulling my youngest two children in a bicycle trailer for 30+ km). At least that meant I slept very soundly through the second night back, for which I’m thankful. Let’s see how I suffer when I head eastwards to Singapore in a couple of short weeks.</p>  <p>As many of you will now be aware, <a href="http://au.autodesk.com/?nd=call_for_proposals" target="_blank">the call for proposals for AU 2013 is now open</a> and will remain so until May 19th. It’s always great to have people presenting fresh ideas at the conference, so think about whether you have something to share with fellow Autodesk customers/partners/developers and submit a proposal or two!</p>  <p>I have another deadline, around the time the call for proposals closes, to provide presentation material on integrating both <a href="http://through-the-interface.typepad.com/through_the_interface/2013/01/integrating-leap-motion-and-autocad-review.html" target="_blank">Leap Motion</a> and <a href="http://through-the-interface.typepad.com/through_the_interface/2013/03/kinect-fusion-inside-autocad.html" target="_blank">Kinect Fusion</a> into AutoCAD – to be presented in early June at our annual, internal Technical Summit in Boston (the third of my long-haul flights in the coming weeks) – so these are very likely to be the topics I submit for consideration for this year’s AU. At least that hopefully means – assuming the sessions are accepted and I get to attend – my lead-up to AU 2013 will not be as frantic as it sometimes is.</p>  <p>All this now means I’m back looking at both of these technologies, downloading the latest Leap Motion SDK and seeing whether I can tweak a little more performance out of the Kinect Fusion runtime to make it run more smoothly. I’ll certainly present whatever I manage to uncover (that I consider to be of interest) during the coming days.</p>

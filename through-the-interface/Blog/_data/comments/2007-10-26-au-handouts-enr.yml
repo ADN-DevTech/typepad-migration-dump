@@ -1,0 +1,328 @@
+comments:
+- author: Scott Sheppard
+  email: scott.sheppard@autodesk.com
+  ip: 198.102.112.18
+  url: http://labs.blogs.com
+  date: '2007-10-26 19:02:50'
+  body: Thanks for this article. This was terrific. This is useful information in
+    an easy to understand style.
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-10-26 19:06:56'
+  body: 'Thanks, Scott! Part 2 should be posted early next week...
+
+
+    Kean'
+- author: CadKicks.com
+  email: joseguia@cadkicks.com
+  ip: 72.48.196.2
+  url: http://www.cadkicks.com
+  date: '2007-11-10 15:38:53'
+  body: 'You''ve been kicked (a good thing) - Trackback from CadKicks.com
+
+    http://www.cadkicks.com/adkautocad/Enriching_Your_DWF_Part_1'
+- author: Piotr
+  email: p.zurek@gmail.com
+  ip: 203.97.71.38
+  url: http://www.piotrzurek.net
+  date: '2008-05-21 05:39:01'
+  body: 'Hi Kean,
+
+
+    I''ve got a small problem with this code. It''s working fine on native AutoCAD
+    objects, but I can''t get it to extract any data from custom ARX objects based
+    on AcadEntity. Can you kick me in the right direction please?
+
+
+    Thanks,
+
+    Piotr'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-21 08:23:15'
+  body: 'Hi Piotr,
+
+
+    This code is set up to work specifically with Solid3d objects, although it''s
+    very easy to change it to handle any type of entity. I don''t know what modifications
+    you''ve tried, but this os the line to change:
+
+
+    Solid3d solid = e.Entity as Solid3d;
+
+
+    Regards,
+
+
+    Kean'
+- author: Robert
+  email: wheat.robert@gmail.com
+  ip: 24.126.253.10
+  url: ''
+  date: '2008-08-17 23:43:54'
+  body: 'Kean,
+
+
+    Is there anyway to change the name of the the object - "Solid(3D)" name in the
+    Model view dialog of the DWF Viewer in dot net?  This solid object represents
+    something like a part.  I would like to name it "Part" when I pick on the solid.
+
+
+    Robert'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-18 09:58:09'
+  body: 'Hi Robert,
+
+
+    There isn''t a way (that I know of) to customize the display of standard metadata
+    (whether property name or value). You could modify the contents of the DWF file
+    using the DWF Toolkit, but this could potentially lead to unpredictable behaviour,
+    should an application depend on standard properties being there.
+
+
+    If you''re using AutoCAD to generate your DWF, I''d recommend using the API hooks
+    (from .NET or ObjectARX) to add additional metadata reflecting the information
+    you want to include.
+
+
+    Regards,
+
+
+    Kean'
+- author: Robert
+  email: wheat.robert@gmail.com
+  ip: 24.126.253.10
+  url: ''
+  date: '2008-08-25 18:52:05'
+  body: 'Kean,
+
+
+    I''m having problems with the code above crashing AutoCAD 2009 when I try to plot  anything
+    else (like a PDF).  All you have to do is load the code above and then try to
+    plot anything else.  It crashes AutoCAD 2009.  Any ideas?
+
+
+    Thanks,
+
+
+    Robert'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-26 11:45:24'
+  body: 'Robert,
+
+
+    I just tested the code in 2009 and it appears to work fine. If you can give me
+    more explicit instructions on how to reproduce the problem, I''ll take another
+    look.
+
+
+    Regards,
+
+
+    Kean'
+- author: Robert
+  email: wheat.robert@gmail.com
+  ip: 24.126.253.10
+  url: ''
+  date: '2008-08-26 15:23:42'
+  body: "Kean,\n\nFirst off - thanks! \n\nThis problem happens with 2008 & 2009 across\
+    \ 3 different machines - AutoCAD 2008 & 2009 with ObjectARX 2008 & 2009. \n\n\
+    We created a simple project with just the code above (cut & paste) - nothing else.\
+    \  It works great with 3DDWF and the PUBLISH command.  If I execute the PLOT command\
+    \ and plot to a PDF with this code loaded via NETLOAD, it crashes (even during\
+    \ the preview).  It crashes before it enters the code above - therefore I cannot\
+    \ debug it.\n\nThanks again,\n\nRobert"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-26 19:03:56'
+  body: "Robert,\n\nI finally managed to reproduce the problem: it seems that if I\
+    \ call PUBLISH before PLOT, the problem doesn't appear - you have to call PLOT\
+    \ on its own to see the crash.\n\nThe code shouldn't have any impact on PLOT -\
+    \ only PUBLISH - so I don't fully understand why there's a problem. One suggestion\
+    \ is to add/remove the event handlers on CommandWillStart/CommandEnded.\n\nHere\
+    \ are updated Initialize/Terminate functions I threw together quickly:\n\n   \
+    \ public void Initialize()\n    {\n      Document doc =\n        Application.DocumentManager.MdiActiveDocument;\n\
+    \      doc.CommandWillStart += delegate(object sender, CommandEventArgs e)\n \
+    \     {\n        if (e.GlobalCommandName == \"PUBLISH\")\n        {\n        \
+    \  // Register for publishing events\n\n          Publisher pb = Application.Publisher;\n\
+    \          pb.AboutToBeginPublishing +=\n            new AboutToBeginPublishingEventHandler(\n\
+    \              OnAboutToBeginPublishing\n            );\n          pb.BeginEntity\
+    \ +=\n            new BeginEntityEventHandler(\n              OnBeginEntity\n\
+    \            );\n          pb.BeginSheet +=\n            new BeginSheetEventHandler(\n\
+    \              OnBeginSheet\n            );\n        }\n      };\n\n      doc.CommandEnded\
+    \ += new CommandEventHandler(doc_CommandEnded);\n      doc.CommandFailed += new\
+    \ CommandEventHandler(doc_CommandEnded);\n      doc.CommandCancelled += new CommandEventHandler(doc_CommandEnded);\n\
+    \    }\n\n    void doc_CommandEnded(object sender, CommandEventArgs e)\n    {\n\
+    \      if (e.GlobalCommandName == \"PUBLISH\")\n      {\n        // Unregister\
+    \ from publishing events\n\n        Publisher pb = Application.Publisher;\n  \
+    \      pb.AboutToBeginPublishing -=\n          new AboutToBeginPublishingEventHandler(\n\
+    \            OnAboutToBeginPublishing\n          );\n        pb.BeginEntity -=\n\
+    \          new BeginEntityEventHandler(\n            OnBeginEntity\n         \
+    \ );\n        pb.BeginSheet -=\n          new BeginSheetEventHandler(\n      \
+    \      OnBeginSheet\n          );\n      }\n    }\n\n\n    public void Terminate()\n\
+    \    {\n    }\n\nKean"
+- author: Ed Brown
+  email: compworks@cox.net
+  ip: 70.173.103.175
+  url: ''
+  date: '2009-10-26 20:42:29'
+  body: Hi Kean I know this is an old post. Your sample above works well. I have a
+    related question. I am using the DWF view control inside an application to view
+    DWF files. Is there a way in the controller itself to not show the Object Properties
+    Window as well as the Model Window when an object is selected in the Viewer? I
+    have looked everywhere and cannot find it. I have been using the ADR 2010 API
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2009-10-27 10:26:59'
+  body: "Hi Ed,\n\nI use this JavaScript function in my HTML apps to reduce the UI\
+    \ to a bare minimum:\n\nfunction CleanupUI(Commands)\n{\n  // Let's turn off some\
+    \ of the controls\n  // to maximize the canvas\n\n  Commands(\"2DVIEWTOOLBAR\"\
+    ).Toggled = false;\n  Commands(\"ANIMATIONTOOLBAR\").Toggled = false;\n  Commands(\"\
+    CANVASTOOLBAR\").Toggled = false;\n  Commands(\"CROSSSECTIONSBAND\").Toggled =\
+    \ false;\n  Commands(\"DATABAND\").Toggled = false;\n  Commands(\"DATATOOLBAR\"\
+    ).Toggled = false;\n  Commands(\"FORMATTOOLBAR\").Toggled = false;\n  Commands(\"\
+    LAYOUTTOOLBAR\").Toggled = false;\n  Commands(\"LAYERSBAND\").Toggled = false;\n\
+    \  Commands(\"OBJECTPROPERTIESBAND\").Toggled = false;\n  Commands(\"LISTVIEWBAND\"\
+    ).Toggled = false;\n  Commands(\"MARKUPPROPERTIESBAND\").Toggled = false;\n  Commands(\"\
+    MODELBAND\").Toggled = false;\n  Commands(\"PALETTESTOOLBAR\").Toggled = false;\n\
+    \  Commands(\"SEARCHBAND\").Toggled = false;\n  Commands(\"SEARCHTOOLBAR\").Toggled\
+    \ = false;\n  Commands(\"SECTIONPROPERTIESBAND\").Toggled = false;\n  Commands(\"\
+    STANDARDTOOLBAR\").Toggled = false;\n  Commands(\"TEXTBAND\").Toggled = false;\n\
+    \  Commands(\"THUMBNAILSBAND\").Toggled = false;\n  Commands(\"VIEWSBAND\").Toggled\
+    \ = false;\n  Commands(\"VIEWTOOLBAR\").Toggled = false;        \n}\n      \n\
+    I call this from one of the load events (such as OnEndLoadItem()) for my viewer\
+    \ object (in this case called \"Canvas\"):\n\nCleanupUI(Canvas.ECompositeViewer.Commands);\n\
+    \nHopefully you'll be able to take the lines you need from the above function...\n\
+    \nRegards,\n\nKean"
+- author: Piotr Zurek
+  email: ''
+  ip: 203.97.71.38
+  url: http://profile.typepad.com/zurek
+  date: '2010-04-01 02:00:24'
+  body: 'Hi Kean,
+
+
+    The code from this post was very useful to me so I though I should share my modifications
+    that made it work perfectly for me. I''ve made 2 small changes to your "command
+    based" approach. First of all during initialization I get a reference to the DocumentManager
+    and than to the subscription on DocumentActivated event. This way it works on
+    all files loaded in this session, even those that were open after the plugin was
+    loaded.
+
+    Second change was adding a subscription to the Publisher.AboutToBeginBackgroundPublishing
+    event. Thanks to that this code works on multi-sheet DWFs.
+
+
+    Link to the code:
+
+    <a href="http://gist.github.com/351107">http://gist.github.com/351107</a>
+
+
+    I was also wondering if you wouldn''t consider using Gist/Github for embedding
+    code in your future posts.
+
+    Currently reading/copying the code from Typepad is very hard.
+
+
+    <script src="http://gist.github.com/351107.js?file=Initialise.cs"></script>'
+- author: Kean Walmsley
+  email: ''
+  ip: 12.160.193.229
+  url: http://profile.typepad.com/kean
+  date: '2010-04-01 03:58:38'
+  body: 'Hi Piotr,
+
+
+    Thanks for sharing your code changes.
+
+
+    I''ve found some browsers to be better than others for copying and pasting code
+    from this blog (Google Chrome works a lot better than IE, for instance, as you
+    don''t need to remove additional lines).
+
+
+    I''ll have a think about alternate approaches for posting code: thanks for suggesting
+    Gist/Github.
+
+
+    Regards,
+
+
+    Kean'
+- author: Andrej
+  email: andrejs82@gmail.com
+  ip: 93.186.62.210
+  url: ''
+  date: '2010-05-21 12:39:38'
+  body: "Hi Kean,\n\nI have next situation:\nI have dwg file(Source). I need publish\
+    \ this file on my site. So I convert it to DWF(Target). Then some time I need\
+    \ change my file DWG(Source) and publish it again. Looks Ok. \nBut in dwf file\
+    \ I need doing links from some object to some information webpage. \n\nSo I need\
+    \ have some unique number which will be unchanged from conversion to konvetatsii(conversion)\
+    \ and\nindependent of changes in the DWG file. It possible? Or unique id will\
+    \ change every time from conversion to konvetatsii(conversion)."
+- author: Kean Walmsley
+  email: ''
+  ip: 184.49.144.84
+  url: http://profile.typepad.com/kean
+  date: '2010-05-23 17:20:06'
+  body: 'Hi Andrej,
+
+
+    This example adds a "handle" property to the DWF output, which should not change
+    for the same DWG entities when published to different DWFs.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Herman Mayfarth
+  email: hmayfarth@tktn.com
+  ip: 64.30.223.3
+  url: http://www.tktn.com
+  date: '2011-01-24 02:14:00'
+  body: "This would be very useful to me if I could get it to work.\nSo far, no luck.\n\
+    \nI d/l ed your original code & compiled it as posted with VS2008. Compiled OK.\n\
+    \nNETLOADed the dll into ACAD 2011. \n\nI extracted about 16 3D Solids from an\
+    \ existing file & assigned materials to them, then ran Publish on the saved dwg\
+    \ with the assembly apparently loaded.\n\nThe resulting 3DDWF has no Material\
+    \ or Handle properties for any of the entities in the DWF.\n\nRunning PLOT before\
+    \ PUBLISH with the assembly loaded did not crash AutoCAD 2011 running under WinXP\
+    \ SP2.\n\nAny insight would be appreciated.\n\nI should note I am a complete novice\
+    \ at C# & .NET but am eager to learn.\n\nThx,"
+- author: Kean Walmsley
+  email: ''
+  ip: 109.237.55.190
+  url: http://profile.typepad.com/kean
+  date: '2011-01-24 08:30:07'
+  body: 'The best suggestion I have is to launch AutoCAD 2011 from a debug session
+    from VS2008 (you will need to set it as the Executable to launch during a debug
+    session from the project''s Debug Properties). If you then set a breakpoint on
+    the Initialize() and OnBeginEntity() methods, you should see whether they are
+    being called by AutoCAD or not.
+
+
+    Kean'
+- author: Herman Mayfarth
+  email: hmayfarth@tktn.com
+  ip: 64.30.223.3
+  url: http://www.tktn.com
+  date: '2011-01-24 17:03:53'
+  body: 'OK, thanks, Kean, I''ll try it later & let you know.
+
+    -----'

@@ -1,0 +1,64 @@
+comments:
+- author: Bruno Saboia
+  email: ''
+  ip: 177.19.126.29
+  url: http://profile.typepad.com/brunosaboia
+  date: '2013-04-10 14:40:57'
+  body: 'Thanks, Kean. Exactly, it is running very fast now. Nevertheless, I guess
+    it brought us some interesting discussions.
+
+
+    Also, I think that you guys should look into allowing parallel programming into
+    AutoCAD. With multiple CPU cores now being the industry default, the best way
+    to take advantage of that hardware is to allow ''parallelization''.
+
+
+    Also, thanks Scott McFarlane for his great AU2012 class, it helped me a lot.'
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-12 12:02:00'
+  body: "\"return ids.Count<Line>();\"\n\nHi Kean.  You can't use Enumerable.Count<>()\
+    \ to time execution of getting items from an IEnumerable.\n\nThere's a difference\
+    \ between counting items and getting them. For starters, if you give Count<>()\
+    \ an array, ICollection or IList, it simply returns the value of the Length/Count\
+    \ property.\n\nSecond, the work that must be done to produce each element requires\
+    \ a call to IEnumerator.MoveNext() and reading the IEnumerator.Current property\
+    \ to actually get the value. \n\nSince any implementation of IEnumerator.Current\
+    \ could do some work if necessary, the time required to do that work evades your\
+    \ measurement. \n\nMy own 'informal' test code always calls ToArray() to ensure\
+    \ that all the work that must be done to produce a result, is measured.\n\nHave\
+    \ a nice day."
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-04-12 12:39:23'
+  body: 'Hi Tony,
+
+
+    Right. The point wasn''t about measuring the time to iterate over the contents
+    (in this case), as much as it was about just making sure the elements were generated
+    in the first place. We know we''re not dealing with arrays, ICollections or ILists,
+    here, so we know we''re not just getting the Count or Length property directly.
+
+
+    It''s helpful for people to know your approach for reliably measuring complete
+    iteration, for cases where there may be additional things going in in the Current
+    property accessor. Not the case here, but still good to know.
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.47.197.78
+  url: ''
+  date: '2013-04-12 14:27:05'
+  body: "Hi Kean. FWIW, my comment was in-part referring to this (apparently more\
+    \ generic) comment from your post:\n\n\"Bear in mind that as we’re dealing with\
+    \ lazy results, we need to include the Count<>() method in the measurement for\
+    \ the results to be representative \"\n\nIn any case, I'll see if I can find out\
+    \ if the discrepancy that I'm seeing between the timing of Count(), and the timing\
+    \ of a simple foreach() loop that gets each element (but does nothing with it)\
+    \ has another reasonable explanation. \n-----"

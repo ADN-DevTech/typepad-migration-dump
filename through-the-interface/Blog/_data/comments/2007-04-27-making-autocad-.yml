@@ -1,0 +1,789 @@
+comments:
+- author: Nikolay Poleshchuk
+  email: poleshchuk@peterlink.ru
+  ip: 89.110.26.89
+  url: http://poleshchuk.spb.ru/cad/eng.html
+  date: '2007-04-28 06:57:15'
+  body: 'Kean, interesting!
+
+    I see a new type of context: object context. Can you describe it?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 202.95.81.226
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-04-29 05:03:18'
+  body: "Hi Nikolay,\n\nAll I have is what's in the ObjectARX Reference, describing\
+    \ the AcDbObjectContext class:\n\n>>>\nAbstract base class for representing a\
+    \ particular context which may affect the properties and/or behavior of one or\
+    \ more types of objects.Classes that are derived from this base class are used\
+    \ to represent a particular type of context such as annotation scale. \n<<<\n\n\
+    Regards,\n\nKean"
+- author: Roland Feletic
+  email: rosinino@gmx.net
+  ip: 212.108.35.17
+  url: ''
+  date: '2007-05-02 18:47:44'
+  body: 'Hi Kean, thank you for this code.
+
+    Now I tried your code but it didn''t work for BlockReferences, you get an "eIvalidInput"
+    error when you try it. It would be nice if you could tell us how to do it for
+    BlockReferences.
+
+    Also if you want to see the result for dimensions you have to do something more.
+    I don''t know if it is the right way, but I inserted the line "obj.UpgradeOpen()"
+    after adding the context.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-05-04 02:26:44'
+  body: 'Hi Roland,
+
+
+    OK - my mistake. I should not allow selection of BlockReferences in the above
+    code (I''ll remove it). Here''s what''s said in the online help:
+
+
+    >>>
+
+    Annotative block definitions create annotative block references. Annotative block
+    references and attributes initially support the current annotation scale at the
+    time they are inserted. You should insert annotative block references with a unit
+    factor of 1.
+
+
+    <strong>You cannot change the Annotative property of individual block references.</strong>
+
+    <<<
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-05-04 02:40:59'
+  body: 'I removed the lines allowing selection of BlockReference and AttributeReference
+    objects from the above code.
+
+
+    About the dimension issue - it seems to work fine for me (I just used DIM VERT
+    to create a dimension, used ATS to make it annotative, and I see the glyph when
+    I hover over it and I get the appropriate annotation properties in the properties
+    palette).
+
+
+    Any hints on what do I need to do to reproduce the problem?
+
+
+    Regards,
+
+
+    Kean'
+- author: Nikolay Poleshchuk
+  email: poleshchuk@peterlink.ru
+  ip: 89.110.27.120
+  url: http://poleshchuk.spb.ru/cad/eng.html
+  date: '2007-05-04 04:41:14'
+  body: Kean, I think that table object does not support annotative scale too.
+- author: Roland Feletic
+  email: rosinino@gmx.net
+  ip: 62.178.181.39
+  url: ''
+  date: '2007-05-04 17:09:40'
+  body: 'Hi Kean,
+
+    thank you again. If I want to use a block with different scales, what do I have
+    to do then?
+
+    I will have a look at the dimension problem on monday when i''m back to work.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-05-07 08:33:51'
+  body: "Hi Roland,\n\nYou need to create annotative block definitions. This is from\
+    \ the online help:\n\n>>>\nTo create an annotative block definition\n\n1. Click\
+    \ Draw menu -> Block -> Make.... or At the command prompt, enter block. \n2. In\
+    \ the Block Definition dialog box, enter a block name in the Name box.\n3. Under\
+    \ Objects, select Convert to Block.\n4. Click Select Objects.\n5. Under Behavior,\
+    \ select Annotative.\n6. Use your pointing device to select objects to be included\
+    \ in block definition. Press ENTER to complete object selection.\n7. In the Block\
+    \ Definition dialog box, under Base Point, specify the block insertion point.\n\
+    8. Click OK.\n<<<\n\nThen when you insert the block, it will pivk up the current\
+    \ annotation scale:\n\n>>>\nAnnotative block definitions create annotative block\
+    \ references. Annotative block references and attributes initially support the\
+    \ current annotation scale at the time they are inserted. You should insert annotative\
+    \ block references with a unit factor of 1.\n<<<\n\nRegards,\n\nKean"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-05-07 08:36:11'
+  body: 'Hi Nikolay,
+
+
+    I think you''re right... it was listed as annotative in a version of the docs
+    I looked at, but I don''t see it as being annotative. I''ll remove the option
+    to select a table from the code.
+
+
+    Thanks,
+
+
+    Kean'
+- author: Roland Feletic
+  email: rosinino@gmx.net
+  ip: 212.108.35.17
+  url: ''
+  date: '2007-05-07 09:40:55'
+  body: "Hi Kean,\nI know how to make an annotative block ;-) I'm testing spago since\
+    \ the alpha release.\nThe problem i have is to insert an external drawing as a\
+    \ block with .NET (and VBA, also in VBA it inserts an annotative DWG as non annotative).\n\
+    1. How do I now if the drawing is annotative or not?\n2. How do I insert the drawing\
+    \ as a block and make it annotative?\n3. And if i insert the annotative block,\
+    \ is it possible to insert it for more annotative scales (eg. inserting the block\
+    \ for annotation scale \"1:100\" and \"1:50\")?\n\nNow the problem with the dimensions.\
+    \ It doesn' matter how I do it, I have to do it like this to see the annotation-scales\
+    \ for a dimension.\n\nif (oc != null)\n{\n    ObjectContexts.AddContext(obj, oc);\n\
+    }\nobj.UpgradeOpen();\n\nRegards\nRoland"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-05-07 10:06:59'
+  body: 'Hi Roland,
+
+
+    I''m afraid I''m no mind reader - your previous descriptions were missing a lot
+    of information. Even now I have no idea how you are inserting the external DWG
+    programmatically.
+
+
+    Also, this is going off-topic, in that it''s only tangentially related to the
+    blog post. I''d suggest submitting the question - with code and a DWG - to my
+    team via the ADN website or posting it on the Discussion Groups.
+
+
+    As for the dimension problem - on my system I don''t need to make that change
+    to my code - the object is already open for write, and it works just fine. Have
+    you modified other parts of the code?
+
+
+    Regards,
+
+
+    Kean'
+- author: Roland Feletic
+  email: rosinino@gmx.net
+  ip: 212.108.35.17
+  url: ''
+  date: '2007-05-07 18:17:02'
+  body: 'Hi Kean,
+
+    thank you for your response, I will post my annotative block problems in the discussion
+    group.
+
+
+    As for the dimension problem I didn''t change your code (just deleted the lines
+    for adding 1:2 and 1:10), but it is no problem, it works when I add the line like
+    in my previous post.
+
+
+    Regards
+
+    Roland'
+- author: Roland Feletic
+  email: rosinino@gmx.net
+  ip: 212.108.35.17
+  url: ''
+  date: '2007-05-09 13:44:20'
+  body: "Hi Kean,\nI tested a little bit with inserting an annotative block into the\
+    \ drawing and it didn't work as the help said. It didn't insert the block at the\
+    \ current annotative scale, just the attributes where inserted at the current\
+    \ annotation-scale.\nTherefore i tried to add the context and it did work.\nHere\
+    \ is the code for inserting an annotative block which is working for me if someone\
+    \ want to know.\n\n\nusing Autodesk.AutoCAD.ApplicationServices;\nusing Autodesk.AutoCAD.DatabaseServices;\n\
+    using Autodesk.AutoCAD.EditorInput;\nusing Autodesk.AutoCAD.Runtime;\nusing Autodesk.AutoCAD.Geometry;\n\
+    using Autodesk.AutoCAD.Internal;\n\n[assembly: CommandClass(typeof(RSNNAcadApp.Test.InsertBlock))]\n\
+    namespace RSNNAcadApp.Test\n{\n    public class InsertBlock\n    {\n        //Inserts\
+    \ a blockreference at Point 0,0,0\n        [CommandMethod(\"InsertTest\")]\n \
+    \       static public void InsertBlockTest()\n        {\n            ObjectId\
+    \ tmpBlockId;\n\n            Document doc = Application.DocumentManager.MdiActiveDocument;\n\
+    \            Database db = doc.Database;\n            Editor ed = doc.Editor;\n\
+    \            Transaction tr = doc.TransactionManager.StartTransaction();\n   \
+    \         try\n            {\n                using (tr)\n                {\n\
+    \                    //Get Blockname and Id\n                    PromptStringOptions\
+    \ BlockNameOption = new PromptStringOptions(\"Blockname:\");\n               \
+    \     BlockNameOption.AllowSpaces = false;\n                    PromptResult BlockNameResult\
+    \ = ed.GetString(BlockNameOption);\n                    BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId,\
+    \ OpenMode.ForRead, false);\n\n                    if (BlockNameResult.Status\
+    \ == PromptStatus.Cancel)\n                        return;\n\n               \
+    \     else if (BlockNameResult.Status == PromptStatus.OK)\n                  \
+    \  {\n                        string tmpBlockName = BlockNameResult.StringResult;\n\
+    \n                        tmpBlockId = bt[tmpBlockName];\n\n                 \
+    \       BlockTableRecord btr = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace],\
+    \ OpenMode.ForWrite);\n                        \n                        Point3d\
+    \ ObjPunkt = Point3d.Origin;\n                        BlockReference BlockRef\
+    \ = new BlockReference(ObjPunkt, tmpBlockId);\n                        ObjectId\
+    \ BlObj = btr.AppendEntity(BlockRef);\n                        tr.AddNewlyCreatedDBObject(BlockRef,\
+    \ true);\n\n                        BlockTableRecord btAttRec = (BlockTableRecord)tr.GetObject(tmpBlockId,\
+    \ OpenMode.ForRead);\n\n                        ed.WriteMessage(string.Format(\"\
+    Block {0} annotative!\", btAttRec.Annotative == AnnotativeStates.True ? \"is\"\
+    \ : \"is not\"));\n\n                        //Attach Current Annotation-Scale.\n\
+    \                        //If you don't add the content the block and the following\
+    \ attribute will not inserted correct.\n                        ObjectContextManager\
+    \ ocm = db.ObjectContextManager;\n                        ObjectContextCollection\
+    \ occ = ocm.GetContextCollection(\"ACDB_ANNOTATIONSCALES\");\n\n             \
+    \           DBObject obj = tr.GetObject(BlObj, OpenMode.ForRead);\n          \
+    \              if (obj != null)\n                        {\n                 \
+    \           //ObjectContexts.AddContext(obj, occ.GetContext(\"1:1\"));\n     \
+    \                       ObjectContexts.AddContext(obj, occ.CurrentContext);\n\
+    \                        }\n\n\n                        //Add the attributes\n\
+    \                        foreach (ObjectId idAtt in btAttRec)\n              \
+    \          {\n                            Entity ent = (Entity)tr.GetObject(idAtt,\
+    \ OpenMode.ForRead);\n                            if (ent is AttributeDefinition)\n\
+    \                            {\n                                AttributeDefinition\
+    \ attDef = (AttributeDefinition)ent;\n                                AttributeReference\
+    \ attRef = new AttributeReference();\n                                attRef.SetAttributeFromBlock(attDef,\
+    \ BlockRef.BlockTransform);\n                                ObjectId AttObj =\
+    \ BlockRef.AttributeCollection.AppendAttribute(attRef);\n                    \
+    \            tr.AddNewlyCreatedDBObject(attRef, true);\n                     \
+    \           /* //You do not need to insert the CurrentContext to AttributeReference\
+    \ because it is inserted with it.\n                                DBObject aobj\
+    \ = tr.GetObject(AttObj, OpenMode.ForRead);\n                                if\
+    \ (aobj != null)\n                                {\n                        \
+    \            //ObjectContexts.AddContext(aobj, occ.GetContext(\"1:1\"));\n   \
+    \                                 ObjectContexts.AddContext(aobj, occ.CurrentContext);\n\
+    \                                }\n                                */\n     \
+    \                       }\n                        }\n                    }\n\n\
+    \n                    tr.Commit();\n                }\n            }\n       \
+    \     catch (System.Exception ex)\n            {\n                ed.WriteMessage(ex.ToString());\n\
+    \            }\n            finally\n            {\n                tr.Dispose();\n\
+    \            }\n\n        }\n\n    }\n}\n\n\nRegards\nRoland"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-05-10 14:50:21'
+  body: 'Hi Roland,
+
+
+    OK, *now* I see what you wanted to do... :-)
+
+
+    The help refers to the INSERT command, whereas you wanted to programmatically
+    insert an annotative block. Yes - I can see why you''d have to do what you''ve
+    done.
+
+
+    Thanks for sharing the code!
+
+
+    Kean'
+- author: Roland Feletic
+  email: rosinino@gmx.net
+  ip: 212.108.35.17
+  url: ''
+  date: '2007-06-05 18:03:22'
+  body: "I know it is an old post, but I want to delete all annotation-scales which\
+    \ are not used. Is it possible to see if an AnnotationScale is used or not by\
+    \ any objects? The following code deletes all scales, it doesn't matter if they\
+    \ are used or not except the current annoscale and 1:1.\n\n        [CommandMethod(\"\
+    ASDELETE\")]\n        public void DeleteAll()\n        {\n            try\n  \
+    \          {\n                ObjectContextManager ocm =\n                  db.ObjectContextManager;\n\
+    \                if (ocm != null)\n                {\n                    // Now\
+    \ get the Annotation Scaling context collection\n                    // (named\
+    \ ACDB_ANNOTATIONSCALES_COLLECTION)\n                    ObjectContextCollection\
+    \ occ =\n                      ocm.GetContextCollection(\"ACDB_ANNOTATIONSCALES\"\
+    );\n                    if (occ != null)\n                    {\n            \
+    \            foreach (ObjectContext oc in occ)\n                        {\n\n\
+    \                            if (oc is AnnotationScale)\n                    \
+    \        {\n                                try\n                            \
+    \    {\n                                    AnnotationScale scale = (AnnotationScale)oc;\n\
+    \                                    if (scale.Name != \"1:1\")\n            \
+    \                            if (oc.Name != occ.CurrentContext.Name)\n       \
+    \                                 {\n                                        \
+    \    ed.WriteMessage(string.Format(\"\\n{0} wird gelöscht\", scale.Name));\n \
+    \                                           occ.RemoveContext(scale.Name);\n \
+    \                                       }\n                                }\n\
+    \                                catch (System.Exception e)\n                \
+    \                {\n                                    ed.WriteMessage(e.ToString());\n\
+    \                                }\n                            }\n\n        \
+    \                }\n\n                    }\n                }\n            }\n\
+    \            catch (System.Exception ex)\n            {\n                ed.WriteMessage(ex.ToString());\n\
+    \            }\n        }"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-06-06 13:43:38'
+  body: 'Hi Roland,
+
+
+    I don''t know how you''d do this: for something like a style you''d get the object
+    ID and use the "purge" function on the database to check the references to it,
+    but I don''t know whether this would work for Annotation Scales (assuming you
+    could get the object ID of the dictionary entry).
+
+
+    Regards,
+
+
+    Kean'
+- author: Roland Feletic
+  email: rosinino@gmx.net
+  ip: 62.178.181.39
+  url: ''
+  date: '2007-06-07 11:07:13'
+  body: 'Thank you, Kean,
+
+    I will have a look at it. But I also hope that in the next release it is possible
+    to purge all the unused annotation-scales with AutoCAD.
+
+
+    Regards
+
+    Roland'
+- author: Armin Müller
+  email: am@armanisoft.ch
+  ip: 80.219.113.121
+  url: http://www.armanisoft.ch
+  date: '2007-06-14 18:25:26'
+  body: "Hi Kean\nI try to add annotations to MTEXT objects with the COM interface\
+    \ and have no luck so far. I know they get stored somewhere inside AcadDictionary.\
+    \ If I parse an entity object with added annotation scales I get the same amount\
+    \ of entries of ObjectName \"AcDbMTextObjectContextData\" things. But there are\
+    \ no interfaces to read them out or to create such things. Any ideas?\n\nThe code\
+    \ I used to get the dictionary items looks as below:\n\nAcadEntity entity = ...\n\
+    \nif ( entity.HasExtensionDictionary )\n{\n    AcadDictionary dict = entity.GetExtensionDictionary(\
+    \ );\n    DumpAcadDictionary( dict, \"\" );\n}\n\nprivate void DumpAcadDictionary(\
+    \ AcadDictionary dict, string offset )\n{\n    for ( int i = 0; i < dict.Count;\
+    \ i++ )\n    {\n        AcadObject obj = dict.Item( i );\n\n        Console.WriteLine(\
+    \ \"{0}Item: {1} {2}\", offset, i, obj.ObjectName );\n\n        if ( obj.ObjectName\
+    \ == \"AcDbDictionary\" )\n        {\n            DumpAcadDictionary( ( AcadDictionary\
+    \ ) obj, offset + \"  \" );\n        }\n        if ( obj.HasExtensionDictionary\
+    \ )\n        {\n            AcadDictionary subDict = obj.GetExtensionDictionary(\
+    \ );\n            DumpAcadDictionary( subDict, offset + \"  \" );\n        }\n\
+    \    }\n    if ( dict.HasExtensionDictionary )\n    {\n        AcadDictionary\
+    \ subDict = dict.GetExtensionDictionary( );\n        DumpAcadDictionary( subDict,\
+    \ offset + \"  \" );\n    }\n}"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-06-15 09:49:08'
+  body: 'Hi Armin,
+
+
+    I don''t think you can rely on adding Annotation Scales manually into the extension
+    dictionary: I''d suggest using the technique I''ve shown with the managed interface,
+    instead. You mention COM, but seem to be coding in C#, so that shouldn''t be a
+    big issue (unless I''m missing something).
+
+
+    Regards,
+
+
+    Kean'
+- author: David Dixon
+  email: ddixon3@gmail.com
+  ip: 216.54.94.2
+  url: http://dca2civil3d.blogspot.com
+  date: '2007-06-21 16:53:06'
+  body: 'Newbie question:  How do you compile the above code for use in AutoCAD?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 12.160.193.229
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-06-21 17:35:06'
+  body: 'Hi David,
+
+
+    I''d suggest checking out this <a href="http://through-the-interface.typepad.com/through_the_interface/2006/07/getting_started.html">introductory
+    post</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: zyra joy
+  email: sy_112788@yahoo.com
+  ip: 121.1.20.226
+  url: ''
+  date: '2007-11-07 22:27:46'
+  body: 'Hi Kean,
+
+
+    i was asked to search for 5 examples of elevation, 3D animation and step by step
+    procedure of gear making.. All of this were made using autocad.. do you have any
+    of these? this is my project and i have seen already 3 samples of elevation and
+    3D animation but i still need 2 more each and the step by step gear making using
+    autocad.. it''s hard to find one and my time is limited only in searching.. can
+    you help me?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.16.59
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-11-08 08:58:16'
+  body: 'Hi Zyra,
+
+
+    Are you looking for code samples or content samples? If content, you might try
+    the <a href="http://labs.autodesk.com/technologies/contentsearch2/">Content Search</a>
+    tool on the Autodesk Labs website.
+
+
+    If content then I''d suggest posting something to the appropriate <a href="http://discussion.autodesk.com/index2.jspa?categoryID=8">discussion
+    group</a>, depending on the technology you''re interested in.
+
+
+    Regards,
+
+
+    Kean'
+- author: Stefan
+  email: sbruciu@hrg-inc.com
+  ip: 71.251.155.52
+  url: http://www.hrg-inc.com
+  date: '2008-07-03 17:31:31'
+  body: 'Hi there Kean,
+
+    I got Visual Studio .NET 2008 that has a C# compiler.
+
+    I loaded your above code (for "Making AutoCAD objects annotative using .NET"),
+    I referenced the ACDBMGD.DLL and ACMGD.DLL from AutoCAD 2008, and the .Internal
+    in "using Autodesk.AutoCAD.Internal;" statement is missing.  As such I was not
+    able to compile the code.  Can you please tell me what to do in order to compile
+    your code?
+
+    Thanks in advance for any help.
+
+    Have a nice day and happy 4th of July.
+
+    Regards,
+
+    Stefan'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.6.124
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-03 17:34:51'
+  body: 'There should also be an assembly in the AutoCAD folder called acmgdinternal.dll.
+    Be warned: the APIs exposed by this assembly are not officially supported.
+
+
+    Kean'
+- author: Stefan
+  email: sbruciu@hrg-inc.com
+  ip: 71.251.155.52
+  url: http://www.hrg-inc.com
+  date: '2008-07-07 19:21:20'
+  body: 'Good afternoon Kean,
+
+    Thank you for that information.
+
+    Now I got another error message:
+
+    "The name ''ObjectContexts'' does not exist in the current context".
+
+    It refers to four statement like the following one:
+
+    ObjectContexts.AddContext(obj), occ.GetContext("1:1"));
+
+    Any idea how to fix these errors?
+
+    Thanks a lot.
+
+    Regards,
+
+    Stefan'
+- author: Stefan
+  email: sbruciu@hrg-inc.com
+  ip: 71.251.155.52
+  url: http://www.hrg-inc.com
+  date: '2008-07-07 20:20:56'
+  body: 'Correction: the statement shown in my previous comment should read:
+
+    ObjectContexts.AddContext(obj, occ.GetContext("1:1"));
+
+    Sorry for that mistake.
+
+    Regards,
+
+    Stefan'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-08 10:05:17'
+  body: 'As long as you have the "using Autodesk.AutoCAD.Internal;" statement at the
+    top, this error should not appear. Did you remove it, when trying to resolve the
+    previous problem, by any chance?
+
+
+    Kean'
+- author: Stefan
+  email: sbruciu@hrg-inc.com
+  ip: 71.251.155.52
+  url: http://www.hrg-inc.com
+  date: '2008-07-08 14:09:59'
+  body: 'Good morning Kean,
+
+    No, I did not remove that statement.
+
+    I kept your original code intact.
+
+    The only modification I made is that I referenced those 2 .dll files I told you
+    in my previous e-mails and the 3rd .dll you told me a while ago.
+
+    Any other advice?
+
+    Thanks.
+
+    Regards,
+
+    Stefan'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-08 14:16:44'
+  body: 'You might try prefixing ObjectContexts with its namespace:
+
+
+    Autodesk.AutoCAD.Internal.ObjectContexts.AddContext(...);
+
+
+    Kean'
+- author: Stefan
+  email: sbruciu@hrg-inc.com
+  ip: 71.251.155.52
+  url: http://www.hrg-inc.com
+  date: '2008-07-08 19:36:10'
+  body: 'Hello there Kean,
+
+    That was it!
+
+    Thanks a lot!
+
+    The Class has been successfully compiled.
+
+    I''d like to ask you something more: can you please show me how to run this Class?
+
+    I know VB but I do not know C#.
+
+    It appears that I need another Class as startup.
+
+    If this is not a big deal for you, would you please help me again with that startup
+    Class and show me where do I have to put it?
+
+    Thank you very much for all your help.
+
+    Regards,
+
+    Stefan'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-08 20:30:14'
+  body: 'Hi Stefan,
+
+
+    You should probably work through the .NET Labs found on the <a href="http://www.autodesk.com/developautocad">AutoCAD
+    Developer Center</a>.
+
+
+    This should help get you started and understand how to set up a project properly.
+
+
+    Regards,
+
+
+    Kean'
+- author: Trevor Templeton
+  email: trevor.templeton@geminicorp.ab.ca
+  ip: 209.115.237.18
+  url: ''
+  date: '2008-10-29 17:35:32'
+  body: "I know this is a very old post but I thought that some may be interested\
+    \ in this slightly modified version of attachscale this one allows blocks    \
+    \    \n\n[CommandMethod(\"ATS\")]\n        static public void attachScale()\n\
+    \        {\n            Document doc = Application.DocumentManager.MdiActiveDocument;\n\
+    \            Database db = doc.Database;\n            Editor ed = doc.Editor;\n\
+    \            ObjectContextManager ocm = db.ObjectContextManager;\n           \
+    \ ObjectContextCollection occ = ocm.GetContextCollection(\"ACDB_ANNOTATIONSCALES\"\
+    );\n            Transaction tr = doc.TransactionManager.StartTransaction();\n\
+    \            using (tr)\n            {\n                PromptEntityOptions opts\
+    \ = new PromptEntityOptions(\"\\nSelect entity: \");\n                opts.SetRejectMessage(\"\
+    \\nEntity must support annotation scaling.\");\n                opts.AddAllowedClass(typeof(DBText),\
+    \ false);\n                opts.AddAllowedClass(typeof(MText), false);\n     \
+    \           opts.AddAllowedClass(typeof(Dimension), false);\n                opts.AddAllowedClass(typeof(Leader),\
+    \ false);\n                opts.AddAllowedClass(typeof(Hatch), false);\n     \
+    \           opts.AddAllowedClass(typeof(BlockReference), false);\n           \
+    \     PromptEntityResult per = ed.GetEntity(opts);\n                if (per.ObjectId\
+    \ != ObjectId.Null)\n                {\n                    DBObject obj = tr.GetObject(per.ObjectId,\
+    \ OpenMode.ForRead);\n                    if (obj != null)\n                 \
+    \   {\n                        if (System.Convert.ToString(obj.GetType()) == \"\
+    Autodesk.AutoCAD.DatabaseServices.BlockReference\")\n                        {\n\
+    \                            BlockReference br = (BlockReference)tr.GetObject(per.ObjectId,\
+    \ OpenMode.ForRead);\n                            if (br != null)\n          \
+    \                  {\n\n                                BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId,\
+    \ OpenMode.ForRead);\n                                    foreach (ObjectId ids\
+    \ in bt)\n                                    {\n                            \
+    \            BlockTableRecord btr = (BlockTableRecord)tr.GetObject(ids, OpenMode.ForRead);\n\
+    \                                        if (btr.Name == br.Name)\n          \
+    \                              {\n                            \n             \
+    \                               btr.UpgradeOpen();\n                         \
+    \                   btr.Annotative = AnnotativeStates.True;\n                \
+    \                            br.UpgradeOpen();\n                             \
+    \               ObjectContexts.AddContext(br, occ.GetContext(\"1:1\"));\n    \
+    \                                        ObjectContexts.AddContext(br, occ.GetContext(\"\
+    1:2\"));\n                                            ObjectContexts.AddContext(br,\
+    \ occ.GetContext(\"1:10\"));\n                                            ObjectContext\
+    \ oc = occ.GetContext(\"1:500\");\n                                          \
+    \  if (oc != null)\n                                            {\n          \
+    \                                      ObjectContexts.AddContext(br, oc);\n  \
+    \                                          }\n                               \
+    \         }\n                                    }\n                         \
+    \   }\n                        }\n                        else\n             \
+    \           {\n\n\n\n                            obj.UpgradeOpen();\n        \
+    \                    obj.Annotative = AnnotativeStates.True;\n               \
+    \             ObjectContexts.AddContext(obj, occ.GetContext(\"1:1\"));\n     \
+    \                       ObjectContexts.AddContext(obj, occ.GetContext(\"1:2\"\
+    ));\n                            ObjectContexts.AddContext(obj, occ.GetContext(\"\
+    1:10\"));\n                            ObjectContext oc = occ.GetContext(\"1:500\"\
+    );\n                            if (oc != null)\n                            {\n\
+    \                                ObjectContexts.AddContext(obj, oc);\n       \
+    \                     }\n                        }\n                    }\n  \
+    \              }\n                tr.Commit();\n            }\n        }"
+- author: Mike Robertson
+  email: michael.robertson@dot.state.fl.us
+  ip: 156.75.192.110
+  url: http://www.dot.state.fl.us/ecso
+  date: '2008-11-12 19:11:50'
+  body: I've used your delete unused scales and add scales example to create an application
+    that puts our standard scales into files using scales defined in an xml file.
+    The program works great except that I can't seem to sort the order of the scales
+    in the list (like the move up/down option in the scale list dialog). Is there
+    a way to do this programmatically?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.58.159
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-13 15:38:48'
+  body: 'If you look into the scale list dictionary (stored as "ACAD_SCALELIST" under
+    the Named Objects Dictionary), you''ll see a number of objects, stored with keys
+    A0..A9, B0..B9, C0..C9, etc. The various scales are stored under these which indicate
+    the order of the scales in the list.
+
+
+    You should be able to reorder the contents of the list to get what you want.
+
+
+    By the way, I worked all this out using the very useful ARXDBG tool (referred
+    to in <a href="http://through-the-interface.typepad.com/through_the_interface/2008/01/creating-a-comp.html">this
+    previous post</a>).
+
+
+    Kean'
+- author: Patrick Ottenschläger
+  email: patrick.ottenschlaeger@doka.com
+  ip: 195.70.229.204
+  url: ''
+  date: '2009-01-26 10:12:01'
+  body: 'Hi Kean,
+
+
+    Is it possible to create an annotative dimensionstyle?
+
+    I''ve tried to copy an annotative dimensionstyle from one dwg in a new dwg. but
+    in the new dwg the dimensionstyle wasn''t annotative. How i can copy annotative
+    dimensionstyle with .NET?
+
+
+    regards'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.2.123
+  url: http://profile.typekey.com/walmsleyk/
+  date: '2009-01-26 16:53:06'
+  body: 'Hi Patrick,
+
+
+    I don''t know... it should be possible to use wblockCloneObjects() for this, but
+    I''ve never tried, myself.
+
+
+    Someone on the <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">AutoCAD
+    .NET Discussion Group</a> should be able to help.
+
+
+    Kean'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2010-03-25 21:11:58'
+  body: "Hi Kean, \n\nOld post I realize, but it was the first relevant one I found.\
+    \  As I'm sure you're aware, when you have an annotative object in a drawing,\
+    \ specifically a non-annotative 3D block reference with annotative attributes,\
+    \ the attributes can be placed at different locations and when you change scales\
+    \ acad remembers where the attribute is for the different scales.  What I'd like\
+    \ to know is if there is a way to define at least two seperate locations when\
+    \ creating the definition.  So, the block is a particular size and at smaller\
+    \ scales I would put the text inside the boundary and at larger scales when the\
+    \ text won't fit inside I would put it outside the boundary.\n\nPossible? (I am\
+    \ using Vanilla 2010, VS2005)"
+- author: Kean Walmsley
+  email: ''
+  ip: 58.32.239.82
+  url: http://profile.typepad.com/kean
+  date: '2010-03-26 02:44:11'
+  body: 'Hi David,
+
+
+    I don''t know if it''s possible without some kind of event-based approach (where
+    you modify the text position programmatically when it''s clear there''s a problem
+    fitting).
+
+
+    You might try asking either via <a href="http://adn.autodesk.com">ADN</a> or <a
+    href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the AutoCAD
+    .NET Discussion Group</a>, in case anyone there knows a different way of handling
+    this.
+
+
+    Kean'
+- author: Arul
+  email: arularasu.civileng@gmail.com
+  ip: 122.183.137.98
+  url: ''
+  date: '2013-06-04 07:41:36'
+  body: "Hi Kean \n\nCan you please explain how to use ARXDBG tool to reorder the\
+    \ contents in the scale list.\n\nDo you have any sample solution.\n\n\nThanks."
+- author: Kean Walmsley
+  email: ''
+  ip: 63.149.67.7
+  url: http://profile.typepad.com/kean
+  date: '2013-06-04 12:17:45'
+  body: 'Hi Arul,
+
+
+    ArxDbg is a read-only tool (at least that''s the way I use it).
+
+
+    Please post your request to the AutoCAD .NET discussion group.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

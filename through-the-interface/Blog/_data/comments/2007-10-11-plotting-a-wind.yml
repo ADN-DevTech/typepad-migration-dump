@@ -1,0 +1,1362 @@
+comments:
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2007-10-13 13:30:54'
+  body: 'Hi Kean.
+
+
+    You can use Point3d directly in P/Invoke where the parameter is an ads_point (note
+    the use of the ''out'' param modifier for output params):
+
+    <PRE>
+
+    static extern int acedTrans( Point3d point, IntPtr fromRb, IntPtr toRb, int disp,
+    out Point3d result );
+
+    </PRE>'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-10-13 14:04:16'
+  body: 'Thanks, Tony.
+
+
+    In this case it doesn''t really improve the flow of the code, as we need to create
+    an Extents2d object from the results. But it''s certainly a good tip for cases
+    where Point3ds are to be used afterwards.
+
+
+    Regards,
+
+
+    Kean'
+- author: sudarshan
+  email: bs.sudarshan@haritatvs.com
+  ip: 203.124.208.154
+  url: ''
+  date: '2007-10-19 12:35:05'
+  body: 'Hello Kean,
+
+
+    I am trying to print Autocad file using .NET windows application. I am not able
+    to find Autodesk in my using function. Can you guide me how to do this?
+
+    It will be better if I could get code to accomplish this. I have autocad 2007
+    installed in my system.
+
+
+    Thanks and Warm Regards,
+
+    Sudarshan'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-10-22 11:50:42'
+  body: 'Hi Sudarshan,
+
+
+    You will need to set a project reference to acmgd.dll and acdbmgd.dll (in the
+    AutoCAD install folder).
+
+
+    Check out <a href="http://through-the-interface.typepad.com/through_the_interface/2006/07/getting_started.html">this
+    introductory post</a>, which talks about using the ObjectARX Wizard to set your
+    project up.
+
+
+    Regards,
+
+
+    Kean'
+- author: sudarshan
+  email: bs.sudarshan@haritatvs.com
+  ip: 203.124.208.154
+  url: ''
+  date: '2007-10-23 10:07:46'
+  body: "Hi Kean,\n\nThank you for the reply. I am able to set project references.\
+    \ How do I print the Autocad drawing from .NET? I was not able to find the solutions\
+    \ on internet. \nIs there any function in Autocad that can take path of drawing\
+    \ and print it to printer? \n\n\nRegards,\n\nSudarshan"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-10-23 10:14:36'
+  body: 'Hi Sudarshan,
+
+
+    Not a single function - there''s a complete Plotting API that does this. Take
+    a look at the posts under "Plotting".
+
+
+    Regards,
+
+
+    Kean'
+- author: sudarshan
+  email: bs.sudarshan@haritatvs.com
+  ip: 203.124.208.154
+  url: ''
+  date: '2007-10-23 11:01:17'
+  body: "Hi Kean,\n\nCan you send me code from which I can achieve plotting of drawing\
+    \ from .NET?\nI had a look at the plotting, but was not able to understand since\
+    \ input is taken from Autocad. \n\nI am in really need of this.\n\nRegards,\n\
+    Sudarshan"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-10-23 11:05:03'
+  body: 'Sudarshan - I don''t understand what it is you want that''s different from
+    what''s posted. All those posts plot drawings in different ways (whether single
+    or multi-sheet, or with/without preview).
+
+
+    If you''re trying to do this without AutoCAD running (which you did not state
+    in your previous comments) then it won''t work, I''m afraid.
+
+
+    Regards,
+
+
+    Kean'
+- author: sudarshan
+  email: bs.sudarshan@haritatvs.com
+  ip: 203.124.208.154
+  url: ''
+  date: '2007-10-23 13:01:27'
+  body: 'Hi Kean,
+
+
+    Can you send the project file to my email id? I will try to trace the application
+    from beginning. Also I am not able to incorporate your code into my application.
+
+
+
+    regards,
+
+    Sudarshan'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-10-23 13:20:07'
+  body: 'Hi Sudarshan,
+
+
+    I''m sorry - if I start providing this kind of custom support, it''ll never end.
+    I help when there are specific issues with my posts, but otherwise it''s just
+    not feasible.
+
+
+    Please post to the .NET discussion group or request help from my team via the
+    Autodesk Developer Network (if you''re a member).
+
+
+    Also, the <a href="http://www.autodesk.com/developautocad">AutoCAD Developer Center</a>
+    has a lot of helpful "getting started" information, including some Labs for AutoCAD
+    .NET.
+
+
+    Regards,
+
+
+    Kean'
+- author: sudarshan
+  email: bs.sudarshan@haritatvs.com
+  ip: 203.124.208.154
+  url: ''
+  date: '2007-10-24 08:08:41'
+  body: 'Kean,
+
+
+    When I include your code into my application it says " Application'' is an ambiguous
+    reference". Can you guide me how to solve this error?
+
+
+    Regards,
+
+    Sudarshan'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-10-24 08:20:10'
+  body: 'Sudarshan,
+
+
+    It''s probably because you''re including System.Windows.Forms:
+
+
+    using System.Windows.Forms;
+
+
+    Both this and Autodesk.AutoCAD.ApplicationServices include an Application type.
+    So you need to disambiguate the use of Application by prefixing the use of Application
+    with the relevant namespace (for instance).
+
+
+    Regards,
+
+
+    Kean'
+- author: sudarshan
+  email: bs.sudarshan@haritatvs.com
+  ip: 203.124.208.154
+  url: ''
+  date: '2007-10-24 08:27:09'
+  body: 'How do I solver this error?
+
+
+    An unhandled exception of type ''System.IO.FileNotFoundException'' occurred in
+    WindowsApplication6.exe
+
+
+    Additional information: File or assembly name acdbmgd, or one of its dependencies,
+    was not found.
+
+
+    Regards,
+
+    Sudarshan'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-10-24 08:31:14'
+  body: 'Sudarshan - please post your introductory support-related question to the
+    <a href="http://adn.autodesk.com">ADN team</a> or the <a href="http://discussion.autodesk.com/forum.jspa?forumID=152">.NET
+    discussion group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: sudarshan
+  email: bs.sudarshan@haritatvs.com
+  ip: 203.124.208.154
+  url: ''
+  date: '2007-10-24 08:34:13'
+  body: "I shall do that Kean. \nIs there any way to Converting autocad drawing into\
+    \ PDF format?\n\nRegards,\nSudarshan"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-10-24 09:24:11'
+  body: 'You will need to plot. You can use the standard "DWG to PDF.pc3" device or
+    a 3rd party printer driver.
+
+
+    Kean'
+- author: sudarshan
+  email: bs.sudarshan@haritatvs.com
+  ip: 203.124.208.154
+  url: ''
+  date: '2007-10-24 09:39:29'
+  body: 'What has to be included to get AutoDesk.AutoCAD.Interop.Application?
+
+
+    Sudarshan'
+- author: sudarshan
+  email: bs.sudarshan@haritatvs.com
+  ip: 203.124.208.154
+  url: ''
+  date: '2007-10-24 10:23:00'
+  body: 'Kean,
+
+    Can you tell me which part of code has to be used just to plot(Without selecting
+    the points)? I need to plot the drawing file.
+
+
+
+    Sudarshan'
+- author: CadKicks.com
+  email: joseguia@cadkicks.com
+  ip: 72.48.196.2
+  url: http://www.cadkicks.com
+  date: '2007-11-10 14:40:26'
+  body: 'Good stuff Kean,
+
+    You''ve been kicked (a good thing) - Trackback from CadKicks.com
+
+    http://www.cadkicks.com/adkautocad/Plotting_a_window_from_AutoCAD_using_NET'
+- author: Sony
+  email: kava831@yahoo.com
+  ip: 203.145.176.250
+  url: ''
+  date: '2007-11-14 05:02:22'
+  body: Can anybody explain howthe code works
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-11-14 09:56:10'
+  body: 'Sony -
+
+
+    I''d suggest downloading the ObjectARX SDK (<a href="http://www.autodesk.com/objectarx">http://www.autodesk.com/objectarx</a>)
+    and looking at the documentation... it is mainly covering ObjectARX, but the .NET
+    layer is very "thin", so the descriptions should be adequate for both environments
+    (although not ideal).
+
+
+    Kean'
+- author: Sony
+  email: kava831@yahoo.com
+  ip: 203.145.176.250
+  url: ''
+  date: '2007-11-15 05:48:19'
+  body: 'Thanks Kean,
+
+
+
+    Actually i wanted to ask can i get sample code for custom plotting of autocad
+    layout drawings from .net using vb.net.My application will be having a interface
+    where it will show the plotter set,and also scale options and user can select
+    any layout which displayed in the listbox provided.
+
+
+    basically a plotter manager .net application which will take layout drawings and
+    send it for plotting according to the settings made by the user.
+
+
+    And i also wanted a sample code as how to convert Autocad file to PDF Format without
+    opening autocad'
+- author: Sony
+  email: kava831@yahoo.com
+  ip: 203.145.176.250
+  url: ''
+  date: '2007-11-15 05:59:25'
+  body: i want to load a dll automatically when autocad 2008 opens instead of using
+    netload.can any one help?
+- author: Sony
+  email: kava831@yahoo.com
+  ip: 203.145.176.250
+  url: ''
+  date: '2007-11-15 06:05:10'
+  body: 'how to avoid proxy information dialog box from appearing while openeing a
+    autocad civil 3d 2008 drawing in autocad 2008.
+
+
+    Proxy information:Drawing contains objectARX entities.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-11-15 08:26:01'
+  body: 'Sony,
+
+
+    Please post your questions to the <a href="http://discussion.autodesk.com/forum.jspa?forumID=152">AutoCAD
+    .NET Discussion Group</a> - this is not the right forum.
+
+
+    BTW - check out <a href="http://through-the-interface.typepad.com/through_the_interface/2006/09/automatic_loadi.html">this
+    post</a> for the automatic loading question.
+
+
+    Regards,
+
+
+    Kean'
+- author: Sony
+  email: kava831@yahoo.com
+  ip: 203.145.176.250
+  url: ''
+  date: '2007-11-23 07:00:41'
+  body: how to convert a dwg file to pdf file
+- author: sony
+  email: kava831@yahoo.com
+  ip: 203.145.176.250
+  url: ''
+  date: '2008-05-21 05:20:51'
+  body: 'Hi kean..
+
+
+    I have problem converting a dwg to pdf.Autocad 2008 civil 3D..The conversion is
+    fine but the text appears more thicker and fat compared to DWG Output..can i get
+    any solution regartding this..its urgent..'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-21 08:13:38'
+  body: 'Hi Sony,
+
+
+    Just a guess, but you may need to tweak the plot styles you''re using. I''m far
+    from being a plotting expert, though - the standard user-oriented AutoCAD discussion
+    group might give some further clues.
+
+
+    Regards,
+
+
+    Kean'
+- author: sony
+  email: kava831@yahoo.com
+  ip: 203.145.176.250
+  url: ''
+  date: '2008-05-21 11:01:35'
+  body: how to get into the standard user-oriented AutoCAD discussion group ..?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.7.167
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-21 11:16:09'
+  body: 'Here''s the list of the <a href="http://discussion.autodesk.com/index2.jspa?categoryID=8">AutoCAD
+    Discussion Groups</a> and apparently there''s a specific group for <a href="http://discussion.autodesk.com/forum.jspa?forumID=30">Printing
+    and Plotting</a>.
+
+
+    Kean'
+- author: 'sony '
+  email: kava831@yahoo.com
+  ip: 203.145.176.250
+  url: ''
+  date: '2008-07-18 07:05:33'
+  body: 'Hi kean,
+
+
+    i had a unicode problem for my vc++ code done for Autocad 2004.
+
+
+    Since i want my code to run for Autocad 2008 i am facing some unicode problem..can
+    i get help regarding solving the issue.'
+- author: sony
+  email: kava831@yahoo.com
+  ip: 203.145.176.250
+  url: ''
+  date: '2008-07-18 07:32:07'
+  body: can i know where i can download the object ARX for 2004??
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-18 08:43:19'
+  body: 'Sorry, Sony - this is not a way to get support. Please use ADN or the discussion
+    groups.
+
+
+    That said, AutoCAD 2004 is no longer supported, so I don''t know how you''d get
+    hold of its ObjectARX SDK.
+
+
+    Kean'
+- author: ravindra
+  email: ravindra.ghetia@gmail.com
+  ip: 57.67.17.100
+  url: ''
+  date: '2008-08-06 08:20:35'
+  body: how to save plot file?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-06 08:50:22'
+  body: 'This code does plot to a file.
+
+
+    Kean'
+- author: ravindra
+  email: ravindra.ghetia@gmail.com
+  ip: 57.67.17.100
+  url: ''
+  date: '2008-08-07 08:55:16'
+  body: how can I explicitly specify path of .plt file?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-07 14:46:49'
+  body: 'The BeginDocument() call.
+
+
+    Kean'
+- author: muralidharan
+  email: muralidharan.pushpakaran@lntinfotech.com
+  ip: 220.227.66.30
+  url: ''
+  date: '2008-08-13 07:08:48'
+  body: "Hello Keane,\n              I want to get Attributes of a Autocad electrical\
+    \ diagram.how should i do?"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 63.138.215.190
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-13 12:06:29'
+  body: 'Sorry - I don''t know AutoCAD Electrical,
+
+
+    I suggest posting your question to the <a href="http://adn.autodesk.com">ADN</a>
+    team (if you''re a member) or one of our <a href="http://discussion.autodesk.com">discussion
+    groups</a>.
+
+
+    Kean'
+- author: Adhya
+  email: adhya.partha@gmail.com
+  ip: 59.160.215.45
+  url: ''
+  date: '2008-11-06 11:59:40'
+  body: 'Hi Kean:
+
+
+    During "GetEntity" call - I want to have the picked point on the selected object
+    (it''s a 3D drawing). I think I''ve to use "acedTrans" from DCS to WCS - in some
+    way - but how?
+
+
+    Regards
+
+    -Partha'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.58.188
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-06 12:15:42'
+  body: 'There''s some code in <a href="http://through-the-interface.typepad.com/through_the_interface/2008/10/implementing-a.html">this
+    recent post</a> that may help (search the page for "EyeToWorld").
+
+
+    Kean'
+- author: sony
+  email: kava831@yahoo.com
+  ip: 121.243.180.219
+  url: ''
+  date: '2008-11-27 04:47:48'
+  body: "Hi Kean,\n\n         I just wanted to know where i can get the support for\
+    \ converting the Old Project to New VS2008 regarding the UNICODE Conversion Problems."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.58.159
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-27 08:18:44'
+  body: 'Hi Sony,
+
+
+    Aside from these <a href="http://through-the-interface.typepad.com/through_the_interface/2006/07/migrating_code_.html">two</a>
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2008/06/a-handy-tool-fo.html">posts</a>,
+    <a href="http://adn.autodesk.com">the ADN team</a> will be able to help you (if
+    you''re a member) or <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>, otherwise.
+
+
+    Good luck,
+
+
+    Kean'
+- author: sony
+  email: kava831@yahoo.com
+  ip: 203.145.176.250
+  url: ''
+  date: '2008-12-04 07:22:14'
+  body: "Error\t53\terror LNK2019: unresolved external symbol \"public: enum Acad::ErrorStatus\
+    \ __thiscall AcDbDatabase::insert(class AcDbObjectId &,char const *,class AcDbDatabase\
+    \ *,bool)\" (?insert@AcDbDatabase@@QAE?AW4ErrorStatus@Acad@@AAVAcDbObjectId@@PBDPAV1@_N@Z)\
+    \ referenced in function \"protected: void __thiscall SeconMain::OnCmdProcess(void)\"\
+    \ (?OnCmdProcess@SeconMain@@IAEXXZ)\tSeconMain.obj\t\n\n\ni converted my old object\
+    \ arx progrsmme from vc 6.0 to VS 2005..I have solved all the errors but now i\
+    \ am getting LINK error as shown above.i Tried to solve this but No threads helped\
+    \ in solving the problem..Can you just suggest me the site or support where i\
+    \ can get the solution for the problem..\n\nThanks in advance\nSony"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 66.116.112.8
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-12-04 07:48:55'
+  body: 'Sorry - the ADN team will be able to help, I''m sure.
+
+
+    Kean'
+- author: Sony
+  email: kava831@yahoo.com
+  ip: 203.145.176.250
+  url: ''
+  date: '2009-01-13 12:06:15'
+  body: 'Hi Kean
+
+
+
+    Can i know how to get the SDI value programmatically in vc++6.0 and set the value
+    through programme'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typekey.com/walmsleyk/
+  date: '2009-01-13 12:28:37'
+  body: 'Sony,
+
+
+    You seem to be using this one post as a support forum, which it is not.
+
+
+    Please redirect your questions to the ADN team or to the Autodesk Discusion Groups.
+
+
+    Kean'
+- author: sony
+  email: kava831@yahoo.com
+  ip: 203.145.176.250
+  url: ''
+  date: '2009-01-23 13:06:45'
+  body: 'Hi kean,
+
+
+
+    I was just guessing as whether its possible to add a Single Mtext object in Autocad
+    and Text as two different color..
+
+
+    i meant part of text ,say for example is in  Red and other part is blue..
+
+
+    Mtext example--"Hi how are you"
+
+
+    "Hi" should be in red and "how are you" should be in blue..through Programmatically..'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typekey.com/walmsleyk/
+  date: '2009-01-23 13:12:11'
+  body: 'Sony,
+
+
+    You seem to be ignoring my repeated requests to find another way to get support.
+    Please stop posting comments like this, or I will be forced to block you (something
+    I haven''t yet had cause to do and am reluctant to start).
+
+
+    Kean'
+- author: giuliano
+  email: pigozzi@base2.it
+  ip: 88.37.181.99
+  url: http://www.base2.it
+  date: '2009-02-04 17:01:22'
+  body: "Hi Kean.. \n\nI wrote here 'cause i saw the transformation about wcs and\
+    \ dcs. I'm not sure if my trouble is similar.\n\nI'm looking without found it,\
+    \ something to perform a good zoom in a viewport in paperspace.\nI'm not able\
+    \ to center my objects in my viewport.\n\nIf i run ZoomWin in viewport it works\
+    \ always in 3d ucs.\n\nHave You got an Idea ?  I have the rights points in 3d\
+    \ but when i run the zoom Autocad return in plan view.\n\n\nResume:\nCreation\
+    \ Layout\nCreation some viewport\nSettingViewpoint in viewport\n_____________________________\n\
+    \nNow here I need to center my objects in a particular viewport.\n\n____________________________\n\
+    Any suggestion is appreciated!!!\nthanks in advance for your attention."
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/walmsleyk
+  date: '2009-02-11 15:45:21'
+  body: 'Giuliano,
+
+
+    It sounds as though you actually want to modify the view inside the viewport object?
+
+
+    That''s a different problem than the one solved by this post - you should be able
+    to get the Viewport object from the paperspace block table record and manipulate
+    it directly.
+
+
+    Regards,
+
+
+    Kean'
+- author: Michael Csikos
+  email: michaelcsikos@gmail.com
+  ip: 58.108.170.114
+  url: ''
+  date: '2009-05-06 05:27:21'
+  body: 'Hi Kean
+
+
+    I''ve been using this code for months without problems. Now we are adding the
+    ability to plot the non-current layouts. But, would you believe I can''t work
+    out how to set the current layout? The following is not working:
+
+
+    LayoutManager.Current.CurrentLayout = layoutName;
+
+
+    I''ve also tried just retrieving the Layout object and plotting it directly, but
+    the PlotInfoValidator throws eLayoutNotCurrent.
+
+
+    Kind regards
+
+    Michael'
+- author: Michael Csikos
+  email: michaelcsikos@gmail.com
+  ip: 58.108.170.114
+  url: ''
+  date: '2009-05-06 05:29:55'
+  body: 'Hi Kean
+
+
+    I''ve been using this code for months without problems. Now we are adding the
+    ability to plot the non-current layouts. But, would you believe I can''t work
+    out how to set the current layout? The following is not working:
+
+
+    LayoutManager.Current.CurrentLayout = layoutName;
+
+
+    I''ve also tried just retrieving the Layout object and plotting it directly, but
+    the PlotInfoValidator throws eLayoutNotCurrent.
+
+
+    Kind regards
+
+    Michael'
+- author: Michael Csikos
+  email: michaelcsikos@gmail.com
+  ip: 58.108.170.114
+  url: ''
+  date: '2009-05-06 05:49:31'
+  body: 'I probably should have mentioned I''m using AutoCAD 2009 x64 - I know there
+    are other things which simply don''t work under x64 (like ToolTips). I hope setting
+    the current layout  doesn''t fall into that category.
+
+
+    Michael'
+- author: Michael Csikos
+  email: michaelcsikos@gmail.com
+  ip: 58.108.170.114
+  url: ''
+  date: '2009-05-06 07:03:54'
+  body: 'Sorry for the number of posts.
+
+
+    A little more info: setting the layout works if the CommandMethod is NOT CommandFlags.Session.
+    What I''m writing is a batch plotter which opens a list of dwg files, switches
+    to the appropriate layout, and plots, so obviously it needs to be Session. The
+    line that sets the CurrentLayout has no effect (no exception thrown either).
+
+
+    Regards
+
+    Michael'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-05-06 08:12:25'
+  body: 'Could it be you''re forgetting to lock the document? If the command is modal
+    (i.e. not session) the locking is handled automatically. Session commands work
+    across documents, so you need to do it manually with Document.LockDocument().
+
+
+    Kean'
+- author: Michael Csikos
+  email: michaelcsikos@gmail.com
+  ip: 58.108.170.114
+  url: ''
+  date: '2009-05-07 02:13:26'
+  body: Indeed that was the problem. Thanks Kean.
+- author: Patrick
+  email: patrick.ottenschlaeger@doka.com
+  ip: 195.70.229.204
+  url: ''
+  date: '2009-08-25 08:43:36'
+  body: 'Hello Kean,
+
+
+    First, thanks for that great post, but i have still one problem. If i use PlotType.Window
+    and a PlotRotation.Degrees000 I don''t see anything on the paper. Also the plot
+    will be empty. But if set the PlotRotation.Degrees.090 or anything else, it works.
+    Do you have an idea, what''s wrong?
+
+
+    regards,
+
+    Patrick'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-08-25 09:42:33'
+  body: 'Hi Patrick,
+
+
+    I''m sorry - I don''t know what''s happening here. Have you tried with different
+    paper-sizes?
+
+
+    Regards,
+
+
+    Kean'
+- author: fieldguy
+  email: fgcservices@yahoo.ca
+  ip: 161.184.140.204
+  url: ''
+  date: '2010-07-19 00:52:26'
+  body: "Hi Kean.\n\nThank you for all of your efforts in \"Through the Interface\"\
+    \ - a very valuable resource.  I realize this is an old post but hopefully you\
+    \ can offer some insight.\n\nI can't get past psv with a custom paper size.  This\
+    \ works:\npsv.SetPlotConfigurationName(\n          ps,\n          \"DWF6 ePlot.pc3\"\
+    ,\n          \"ANSI_A_(8.50_x_11.00_Inches)\"\n        );\nBut, if I create a\
+    \ custom page size in dwf6 eplot.pc3 called test, this does not work (eInvalidInput):\n\
+    psv.SetPlotConfigurationName(\n          ps,\n          \"DWF6 ePlot.pc3\",\n\
+    \          \"test\"\n        );\nCan you try that for me please?\n\nTIA"
+- author: fieldguy
+  email: fgcservices@yahoo.ca
+  ip: 204.209.122.250
+  url: ''
+  date: '2010-07-21 00:15:01'
+  body: 'I found the answer here:
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2007/10/allowing-select.html">http://through-the-interface.typepad.com/through_the_interface/2007/10/allowing-select.html</a>.
+
+    The setplotconfigurationname requires canonical media name.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.71.10
+  url: http://profile.typepad.com/kean
+  date: '2010-07-21 00:25:06'
+  body: 'Great! Thanks for letting me know.
+
+
+    I was struggling to find time to look into this, so I''m delighted you''ve found
+    the answer.
+
+
+    Kean'
+- author: Steve
+  email: steve.finch@edsi.com
+  ip: 98.190.207.7
+  url: http://www.edsi.com
+  date: '2010-08-04 20:46:35'
+  body: 'Kean,
+
+
+    I don''t know what I''d do without your posts!  Thanks for all the great work.  I
+    am experiencing the same problem reported by Patrick above.  My program uses JPG-PLOT.pc3
+    file to output a JPG to file.  I had the program working just fine using much
+    of your code above, but I apparently broke it at some point.  Now, when using
+    PlotType.Window and a PlotRotation.Degrees000 the plot file is always empty. If
+    I set PlotRotation.Degrees.090 or anything else, it works fine.  I''ve checked
+    the medianame that I''m passing to psv.SetPlotConfigurationName and it''s valid.  Ideas?
+
+
+    Thanks!'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-08-05 12:52:31'
+  body: 'Steve,
+
+
+    I haven''t been able to reproduce the problem (I don''t have the PC3 file you''ve
+    mentioned).
+
+
+    How about if you ommit the call to SetPlotRotation()? Surely setting a 0 rotation
+    is the same as not setting one at all?
+
+
+    Regards,
+
+
+    Kean'
+- author: Steve
+  email: steve.finch@edsi.com
+  ip: 98.190.207.7
+  url: http://www.edsi.com
+  date: '2010-08-11 16:43:17'
+  body: 'Kean,
+
+
+    I''m a member of ADN and Wayne Brill there came up with the solution for the JPEG
+    plot files coming out empty.  Turns out there''s a "feature" <g> of the plotting
+    API that REQUIRES that the points specifying the window be from the upper left
+    to the lower right.  I was seeing the problem only with PlotType.Window and PlotRotation.Degrees000.
+
+
+    The workaround is to pass the user-selected window points through a function that
+    calculates the lower left and upper right corners and then create the Extents2d
+    object that you pass to PlotSettingsValidator.SetPlotWindowArea() from those points.
+
+
+    I can send the code Wayne created if that will help, Kean.  This issue might be
+    a good addition to a post or KB article.
+
+
+    Steve'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-08-11 19:14:22'
+  body: 'Steve,
+
+
+    Fantastic - thanks for letting me know.
+
+
+    I see the case Wayne handled, so can take it from here.
+
+
+    Best regards,
+
+
+    Kean'
+- author: Martin Müller
+  email: m.mueller@cadothek.ch
+  ip: 81.6.56.54
+  url: ''
+  date: '2011-01-09 18:31:58'
+  body: 'The link above fails because of the dot at the end.
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2007/10/allowing-select.html">http://through-the-interface.typepad.com/through_the_interface/2007/10/allowing-select.html</a>'
+- author: Martin Müller
+  email: m.mueller@cadothek.ch
+  ip: 81.6.56.54
+  url: ''
+  date: '2011-01-09 18:48:53'
+  body: 'Hi Kean
+
+
+    Question: PlotInfo, PlotSettings, and PlotSettingsValidator all are implementin
+    IDisposeable. Is it really ok to not enclose them in a using directive, even they
+    weren''t created through the Transaction?
+
+
+    Thank you for your hint.
+
+
+    Best,
+
+    Martin'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2011-01-10 10:45:23'
+  body: 'Thanks, Martin.
+
+
+    I don''t usually edit other people''s comments on this blog, but as you pointed
+    out the link they''d posted failed, I went ahead and deleted the full stop. It
+    should work now.
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2011-01-10 10:51:27'
+  body: 'Hi Martin,
+
+
+    That''s a good question.
+
+
+    I can''t remember, off the top of my head, why I didn''t dispose them via using
+    - I suggest making the change and testing to see what happens.
+
+
+    In the context of <a href="http://through-the-interface.typepad.com/through_the_interface/2008/06/cleaning-up-aft.html">this
+    post</a>, I''d say these objects belong to the first category ''Temporary objects
+    of types not derived from DBObject'', which are ''safe to be disposed of either
+    "manually" (by your own code) or "automatically" (by the .NET garbage collector)''.
+
+
+    Regards,
+
+
+    Kean'
+- author: Tomislav Buturajac
+  email: tomislav.buturajac@gmail.com
+  ip: 194.138.12.144
+  url: ''
+  date: '2011-01-12 08:48:08'
+  body: 'Hi Kean,
+
+    very informative web you have.
+
+
+    In all your examples you are using plot progress dialog. Can I call standard plot
+    dialog before plotting from .net?
+
+    Like, setting paper format and style but allowing user to change scale before
+    plotting through standard plot dialog.
+
+
+    Regards,
+
+    Tomislav'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2011-01-12 11:19:07'
+  body: 'Hi Tomislav,
+
+
+    Not that I''m aware of: you can certainly launch the PLOT command via SendStringToExecute()
+    but I don''t know how you''d specify certain parameters (without resorting to
+    Windows messages on the dialog to simulate clicks - even that would be challenging,
+    as you''d need to adapt to different combobox contents, etc.).
+
+
+    Regards,
+
+
+    Kean'
+- author: Martin Müller
+  email: m.mueller@cadothek.ch
+  ip: 81.6.56.54
+  url: ''
+  date: '2011-02-21 22:00:13'
+  body: 'This ist for further readers:
+
+
+    I found, that the call to psv.SetPlotConfigurationName(...); comes too late in
+    those cases where an existing Layout has a configured printer not available on
+    that machine (e.g. a file from an external construction company.) In detail, I
+    added some more calls to set psv properties, e.g. for paper units. This call to
+    set paper units failed with an error code of eInvalidInput.
+
+
+    The call to SetPlotConfigurationName, followed by a call to RefreshLists has to
+    be the first calls to the psv instance prior to set any of the other properties.
+    At least in my case, it solved the problem.'
+- author: Kieran Boyle
+  email: kieran.boyle@spatialinfo.com
+  ip: 61.88.137.146
+  url: ''
+  date: '2011-05-19 08:04:13'
+  body: 'Hi Kean
+
+    Just wondering...as I am creating a user interface that includes selecting a Plot
+    Window button...
+
+
+    Is it possible to emulate the way AutoCAD shows the previous sleced window by
+    greying the area outside the window coordinates when the Window button is clicked?
+
+
+    This would be a useful tool to have in the back of the ute...
+
+
+    Regards
+
+    Kieran'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-05-19 10:48:36'
+  body: 'Hi Kieran,
+
+
+    An interesting suggestion - it would indeed be a handy little tool have available.
+
+
+    I''ll see what''s exposed - the fact that it effectively blocks navigation via
+    the ViewCube implies it''s a little more complicated that placing transiently
+    displaying some transparent rectangles.
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/kean
+  date: '2011-05-19 14:40:58'
+  body: 'From what I can tell, there isn''t an easy approach for this... the internal
+    mechanism would need to be exposed.
+
+
+    Kean'
+- author: Kieran Boyle
+  email: kieran.boyle@spatialinfo.com
+  ip: 61.88.137.146
+  url: ''
+  date: '2011-05-20 01:31:17'
+  body: "Hey Kean\n\nThanks for the quick response.\n\nI'm going to see what I can\
+    \ do to as an alternative display to achieve the same net result.  \n\nThanks\
+    \ again for being a continual source of reference.\n\nCheers\n\nKieran"
+- author: Jack
+  email: cidolfas@gmail.com
+  ip: 216.76.59.122
+  url: ''
+  date: '2011-07-14 20:16:34'
+  body: 'Hey Kean,
+
+
+    Should this plot program take significantly longer to print (around 30 seconds)
+    than the normal plot command (around 3 seconds)?
+
+
+    Thanks
+
+
+    Jack'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2011-07-14 21:12:07'
+  body: 'Hi Jack,
+
+
+    I wouldn''t expect it to take that much longer, no. But then it is possible that
+    it might, depending on the circumstances (how your app is running, whether it''s
+    being debugged... the core plotting code inside AutoCAD is native, but that difference
+    seems extreme).
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2011-07-14 21:13:49'
+  body: 'Just a thought: do make sure you''re comparing the two techniques using foreground
+    plotting (of course).
+
+
+    Kean'
+- author: Jack
+  email: cidolfas@gmail.com
+  ip: 216.76.59.122
+  url: ''
+  date: '2011-07-15 14:29:51'
+  body: Aha, the foreground plotting was the issue.  Plotting was set to foreground
+    but publishing wasn't.  Thanks for the help!
+- author: jorit Focke
+  email: jof@shl.nl
+  ip: 193.173.119.37
+  url: http://www.shl.nl
+  date: '2011-07-19 10:55:57'
+  body: 'Hi Kean,
+
+
+    I''m trying to plot on a installed network plotter. However my code only produces
+    a .plt file.
+
+
+    Even with your choosemedia post it only produces this .plt file. All working fine
+    for .pC3 files but not for the printer itself.
+
+
+    is ther something i need to do like create the .pc3 file or some plottofile to
+    false?
+
+
+    regards,
+
+    Jorit'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-07-19 11:55:37'
+  body: 'Hi Jorit,
+
+
+    Sorry - I don''t know why this is happening, I''m afraid. I have only used this
+    approach to plot via PC3 files, as far as I remember (and it''s been a while).
+
+
+    Regards,
+
+
+    Kean'
+- author: swetha
+  email: swetha@hochtiefindia.in
+  ip: 194.139.171.77
+  url: ''
+  date: '2012-02-28 12:04:25'
+  body: "i am getting error near the below line,\n\n ppd.set_PlotMsgString(PlotMessageIndex.DialogTitle,\
+    \ \"Custom Plot Progress\")\n\n\"set_plotmsgstring is not a member of autodesk.autocad.plottingservices.plotprogressdialog\"\
+    \n\nI have added refernece of acdbmgd.dll and acmgd.\n\nI am using VIsual sutdio\
+    \ 2008 and autocad 2007.\n\nCould anyone pelase help me out from this issue?\n\
+    \nThank you."
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-02-29 14:28:18'
+  body: 'Hi Swetha,
+
+
+    It sounds as though AutoCAD 2007 doesn''t have all the API capabilities used in
+    this blog post (which isn''t a big surprise, given the relative maturity of the
+    2007 API).
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-02-29 14:30:41'
+  body: 'Hmm... given the age of the post, I suspect it does work with AutoCAD 2007.
+    But I haven''t seen other reports of this problem. Very strange.
+
+
+    Kean'
+- author: Colin
+  email: cid-scoop@tiscali.co.uk
+  ip: 80.254.147.188
+  url: ''
+  date: '2012-04-13 09:06:01'
+  body: 'Kean
+
+
+    I know this is an old post but it is about this subject.
+
+
+    I wrote an out of process program to plot drawings which worked fine up to 2008,
+    but in 2011 I am having problems with plotting a window.
+
+
+    What I would like to ask is, in an out of process program what class/method would
+    you use to set the plotting settings especially the plot window.
+
+
+    Also if I re-write it as an in process program, same question.
+
+
+    Thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-04-13 09:36:10'
+  body: 'Colin,
+
+
+    Although it''s on this topic, it''s not specifically related to the code in the
+    post (and therefore constitutes a support request, which I unfortunately don''t
+    have time to deal with).
+
+
+    I suggest posting your question via ADN, if you''re a member, or otherwise the
+    AutoCAD .NET Discussion Group.
+
+
+    Regards,
+
+
+    Kean'
+- author: Colin
+  email: cid-scoop@tiscali.co.uk
+  ip: 80.254.147.188
+  url: ''
+  date: '2012-04-13 10:13:50'
+  body: 'Kean
+
+
+    Will do
+
+
+    thanks'
+- author: Márcio L. Cartacho
+  email: marcio.cartacho@hotmail.com
+  ip: 12.48.16.2
+  url: ''
+  date: '2012-04-18 15:12:21'
+  body: 'Hi,
+
+
+    I am having some problems to control the drawing orientation Landscape or Portrait
+    using API AutoCAD.Net C#.
+
+
+    Some one can help me?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-04-18 15:19:23'
+  body: 'This isn''t a forum for support... please post your question to the ADN team,
+    if you''re a member, or otherwise the AutoCAD .NET Discussion Group.
+
+
+    Regards,
+
+
+    Kean'
+- author: na
+  email: na@test.com
+  ip: 208.38.35.13
+  url: ''
+  date: '2012-12-05 21:29:34'
+  body: 'Kean, I would definitely suggest only one thing, and that is a larger area
+    for the code to be shown in your blog. These word wraps kill the ability to read
+    your code in a browser. You are almost forced to copy it out.
+
+
+    Thanks for the code.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-12-06 06:44:27'
+  body: 'The template for the blog was defined by the team that manages the Autodesk
+    blogging infrastructure... I''ve played with different font sizes, column widths,
+    etc., but found what I have to be about as good as I could expect to get.
+
+
+    I''ve had surprisingly few negative comments about this over the years, but I
+    certainly agree that it''s not ideal.
+
+
+    Kean'
+- author: Grace Ferrari
+  email: grc.ferrari@gmail.com
+  ip: 177.32.85.59
+  url: ''
+  date: '2012-12-17 20:38:55'
+  body: "Plot Landscape:\n psv.SetPlotRotation(ps, PlotRotation.Degrees090);\n\nPlot\
+    \ Portrait:\n psv.SetPlotRotation(ps, PlotRotation.Degrees000);"
+- author: CAO
+  email: braveryxd@gmail.com
+  ip: 113.190.235.102
+  url: ''
+  date: '2013-11-18 17:54:10'
+  body: "Job: - Plotted with Error(s) and Canceled Sheets\n\nJob ID: 1\nSheet set\
+    \ name: \nDate and time started: 11/18/2013 11:51:51 PM\nDate and time completed:\
+    \ 11/18/2013 11:51:53 PM\nUserID: Cao Dung\nProfile ID: <<Unnamed Profile>>\n\
+    Total sheets: 1\nSheets plotted: 0\nNumber of errors: 2\nNumber of warnings: 0\n\
+    \n Sheet: UnsavedDwg_1-Model - Canceled\n\nFile: <Unsaved Drawing>\nCategory name:\
+    \ \nPage setup: \nDevice name: DWG To PDF.pc3 - plotted to file\nPlot file path:\
+    \ D:\\DOCUMENTS\\Cao Dung\\Doccuments\\WinPlot.PDF\nPaper size: ISO full bleed\
+    \ A3 (420.00 x 297.00 MM)\n\nERROR: \n\nERROR: The publishing operation was canceled."
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-11-18 18:02:29'
+  body: 'You seem to be indicating this isn''t working for you. I''ll need more information
+    to be able to reproduce the problem (and it would have to be with the code in
+    this blog post for me to find the time to look into it, unfortunately).
+
+
+    Kean'

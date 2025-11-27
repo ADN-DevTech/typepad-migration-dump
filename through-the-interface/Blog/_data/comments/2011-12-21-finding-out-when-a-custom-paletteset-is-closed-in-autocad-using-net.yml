@@ -1,0 +1,166 @@
+comments:
+- author: Yaqi
+  email: yaqiz@fifth.uk.com
+  ip: 217.33.231.194
+  url: ''
+  date: '2012-04-11 17:29:47'
+  body: "Thanks Kean,\n\nThis solved my problem. \n\nIf one Paletteset containts more\
+    \ than one palettes, how can I set one of the palette on top through code?\n\n\
+    Thanks"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-04-11 17:53:15'
+  body: 'Hi Yaqi,
+
+
+    Glad it helped you.
+
+
+    Your question isn''t specifically related to this post, so I''m going to suggest
+    you either contact the ADN team (if you''re a member) or post it to the AutoCAD
+    .NET Discussion Group.
+
+
+    Regards,
+
+
+    Kean'
+- author: Anonymoose
+  email: noone@nowhere.com
+  ip: 24.47.196.153
+  url: ''
+  date: '2012-05-19 18:08:34'
+  body: Hate to have to ask this, but since a PaletteSet can be closed at any time,
+    including while a command is in progress, what happens in that case?
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-05-21 11:25:09'
+  body: 'I have some recollection of it working just fine (as the command gets called
+    transparently), although I may be misremembering.
+
+
+    You can always adjust the behaviour to cancel any current command by prefixing
+    with escape characters, should you so wish, of course.
+
+
+    Kean'
+- author: Artvegas
+  email: yamos78@hotmail.com
+  ip: 27.32.79.215
+  url: ''
+  date: '2012-05-25 15:08:06'
+  body: 'Hi Kean,
+
+
+    I came across a comment made by Tony T regarding the PaletteSet constructor overloads:
+
+    <a href="http://forums.autodesk.com/t5/NET/PaletteSet-Title-Command-GUID-Confusion/td-p/2661021">http://forums.autodesk.com/t5/NET/PaletteSet-Title-Command-GUID-Confusion/td-p/2661021</a>
+
+
+    It seems that the constructor''s name parameter actually does two things:
+
+
+    1. Sets the title text for the palette UI window.
+
+
+    2. Sets the name of the command that will automatically be run if the palette
+    was opened the last time you exited AutoCAD.
+
+
+    I discovered after some research that the palette guids (as well as palette command
+    names for startup) get stored in the Profile.aws xml file located here:
+
+
+    C:\Users\<UserName>\AppData\Roaming\Autodesk\AutoCAD XXXX\RXX.X\enu\Support\Profiles\<ProfileName>\Profiles.awt
+
+
+    Anyways to get to the point, it seems that if you want your palette to open the
+    next time you open AutoCAD, you should set the PaletteSet constructor''s name
+    parameter to the name of your command that shows your palette, as well as specifying
+    a guid. So in your case this would be:
+
+
+    _ps1 = new PaletteSet("PSTEST", new Guid("6B9B3B17-18C0-44D3-9565-4C2324731F28"));
+
+
+    You of course would need to make sure the "PSTEST" command was set up so that
+    is was available at startup (i.e. using the registry or autoloader).
+
+
+    If you want to rename the palette''s UI title, you can set the Name property in
+    a seperate statement after the constructor. This doesn''t seem to have any effect
+    on the startup command workings.
+
+
+    Unfortunately the .NET ObjectARX docs don''t seem to say much about this. Seems
+    like the PaletteSet really should have different properties (i.e. RestartCommandName
+    and Title) but that''s how it goes.
+
+
+    None of the code samples I have seen mention this. Might be a good post for someone,
+    providing an overview of how the guid system works with the awt files. Perhaps
+    over on adndevblog.typepad.com/autocad/.
+
+
+    Sorry, bit of a long one :-)
+
+
+    Art'
+- author: Artvegas
+  email: yamos78@hotmail.com
+  ip: 27.32.79.215
+  url: ''
+  date: '2012-05-25 16:13:23'
+  body: 'Correction, awt file path should be:
+
+
+    C:\Users\<UserName>\AppData\Roaming\Autodesk\<AutoCAD XXXX>\R<XX.X>\enu\Support\Profiles\<ProfileName>\Profiles.awt'
+- author: Artvegas
+  email: yamos78@hotmail.com
+  ip: 27.32.79.215
+  url: ''
+  date: '2012-05-26 05:43:46'
+  body: 'Apologies keep forgetting my html tags :-)
+
+
+    C:\Users\&lt;UserName&gt;\AppData\Roaming\Autodesk\AutoCAD &lt;XXXX&gt;\R&lt;XX.X&gt;\enu\Support\Profiles\&lt;ProfileName&gt;\Profiles.awt'
+- author: Kean Walmsley
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/kean
+  date: '2012-05-26 09:39:48'
+  body: 'Great suggestion, Art. I''ve used the mechanism myself, in the past, but
+    neglected to do so for this particular test example.
+
+
+    I''ll pass it on to Stephen to see if someone in ADN can document this.
+
+
+    Kean'
+- author: Fredrik
+  email: fredrik.larsen@norconsult.com
+  ip: 193.75.93.34
+  url: ''
+  date: '2013-02-07 12:40:54'
+  body: It seems like dragging the PaletteSet from or to docking triggers the check
+    for if it is being closed. I can't seem to seperate docking/undocking and closing
+    the PaletteSet. Comments?
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-02-07 16:20:19'
+  body: 'That''s indeed one of the issues that is trying to be addressed by this more
+    recent post:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2011/12/creating-a-custom-paletteset-class-exposing-a-close-event-inside-autocad-using-net-take-2.html">http://through-the-interface.typepad.com/through_the_interface/2011/12/creating-a-custom-paletteset-class-exposing-a-close-event-inside-autocad-using-net-take-2.html</a>
+
+
+    Kean
+
+    -----'

@@ -1,0 +1,196 @@
+comments:
+- author: Fred Dickinson
+  email: Dickinson.Fred@irvingEquipment.com
+  ip: 198.73.130.132
+  url: http://www.IrvingEquipment.com
+  date: '2009-10-05 15:49:46'
+  body: "How about a single CAPTURE command with a secondary OPTIONS branch within\
+    \ the main command to change settings when required?\n\nCAPTURE \nPress ENTER\
+    \ or [Options]\n\nThe Options branch would let the user choose \nFile/Clipboard\n\
+    Application/Drawing/Window\n\nI'm guessing that users would use the command in\
+    \ the same way most of the time, for example to capture a window area to a file\
+    \ or to capture a drawing to the clipboard.  This would let the user set the most\
+    \ common of 6 possible combinations once and change it when necessary.  \n\nOn\
+    \ a somewhat related note I would be interested in seeing how a single menubar\
+    \ button could be cycled between 2 or more states with each state represented\
+    \ by a different graphic in the button and a different tooltip.\n\nPS - Thanks\
+    \ for all of the great ideas in your blog."
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-10-05 17:59:21'
+  body: 'Interesting suggestion - thanks, Fred.
+
+
+    I''ll have a think on this one - my instinctive reaction is that having the options
+    hidden away may prove a little confusing and possibly harder to automate (but
+    it all depends on how it''s done, of course).
+
+
+    Regarding the n-state control: you could probably achieve what you want with a
+    custom WPF control (assuming it''s to be embedded in a ribbon). The WPF session
+    recordings on <a href="http://www.adskconsulting.com/adn/cs/api_course_sched.php">the
+    API training schedule</a> may help.
+
+
+    Regards,
+
+
+    Kean'
+- author: MJohnston
+  email: ''
+  ip: 71.36.45.152
+  url: http://profile.typepad.com/mohnston
+  date: '2009-10-05 19:52:03'
+  body: 'I like Fred''s suggestion and understand Kean''s concerns about hiding options.
+    Why not display the last used options at the command line. If the user pressed
+    enter they are used, if they enter an "O" they can change the option.
+
+    That would be something like the native FILLET command.
+
+    It shows current settings but allows for changes.
+
+
+    On another note this tool will be interesting but unusable for me. I draw with
+    a black editor background. That makes screenshots a real problem when it comes
+    to printing.
+
+    At the risk of causing scope creep, a black-and-white option would make this a
+    real winner for me.'
+- author: Mark
+  email: MarkDubbelaar@live.com.au
+  ip: 202.59.23.86
+  url: ''
+  date: '2009-10-06 00:42:24'
+  body: "I'd go with the single command similar to Fred's suggestions, but change\
+    \ it around so the output is under the options and input is through the command\
+    \ line...\n\nCommand: SCREENSHOT\nCurrent settings: Output=File (or Clipboard)\n\
+    Specify input [Application/Document/Window/Settings] <Window>: \n\n\nanother input\
+    \ option might be to screenshot selected entities, using the extmin / extmax of\
+    \ all selected objects to pass into the points of the capture window"
+- author: james
+  email: jmaeding@hunsaker.com
+  ip: 70.181.93.52
+  url: ''
+  date: '2009-10-06 06:06:04'
+  body: 'as long as you give command line access to options, do whatever you want.  The
+    hard part is if you put options in a dialog only (no command line interface).
+
+    I''ll make three key-ins, one for each window option or more if there are any.
+
+    The classic command that got this wrong was qleader. That one was sure a pain
+    to implement with real users.
+
+    thx'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-10-06 08:37:27'
+  body: 'I''m coming round to the options idea. And the "use white background" option
+    seems a good one, too (I suspect it''ll be easier in 2D than 3D, but we''ll see).
+
+
+    Thanks!
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-10-06 08:41:41'
+  body: "I like it... although I'd maybe even ask for the screen coordinates automatically,\
+    \ with the rest as keywords: \n\n\"Select first corner of capture window or[Application/Document/Entities/Settings]:\
+    \ \"\n\nThis assumes the most popular mode is likely to be \"window\", which is\
+    \ perhaps an incorrect assumption on my part.\n\nKean"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-10-06 08:44:19'
+  body: 'Thanks, James. The focus here is firmly on a command-line interface. Dialogs
+    tend to add complexity, and [coding/usage] simplicity is a primary design goal
+    behind these tools.
+
+
+    Kean'
+- author: Nikolay Poleshchuk
+  email: poleshchuk@peterlink.ru
+  ip: 92.100.57.151
+  url: http://poleshchuk.spb.ru/cad/eng.html
+  date: '2009-10-06 12:25:33'
+  body: Kean, sometimes it is very important to get higher resolution than it is used
+    in current AutoCAD window (e.g. the drawing is too big to be seen all). So I vote
+    for having option to control resolution.
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-10-06 15:01:58'
+  body: 'Nikolay,
+
+
+    The current implementation is just capturing the screen graphics, so I''m not
+    sure how this could be made to work. You could certainly take a snapshot at a
+    custom resolution if <a href="http://through-the-interface.typepad.com/through_the_interface/2007/04/taking_a_snapsh_1.html">using
+    a GsView</a>, but that''s quite different.
+
+
+    Maybe you have some ideas on how this could work?
+
+
+    Kean'
+- author: Chris Bray
+  email: chris@chrisbray.co.uk
+  ip: 94.171.193.28
+  url: http://www.chrisbray.co.uk
+  date: '2009-10-07 09:16:27'
+  body: Following on from that you could always make the default 'sticky' so that
+    it defaults to whatever was done last? Either on a per-drawing, per-user or per-machine
+    basis?
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-10-07 10:08:44'
+  body: 'Chris,
+
+
+    It''s certainly feasible, but I suspect it might be confusing... And selecting
+    a window is two picks, while selecting the document or application is only a single
+    letter (plus space/return), so I''m going to see how it feels with the window
+    as default.
+
+
+    I''m hoping to post a test later today - please do let me know what you think
+    once you try it...
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com
+  date: '2009-10-07 20:51:20'
+  body: Congradulations on reinventing the SAVEIMG command.
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-10-07 20:59:49'
+  body: 'Actually the "save to image" capability of an entire document isn''t the
+    most siginificant part of this app''s functionality, IMO: personally I find the
+    more interesting functionality to be around selection and copying to clipboard
+    (which will mean I''ll use it more for certain tasks than SnagIt, which I currently
+    use on a daily basis).
+
+
+    Thanks for the congrats, though, even if I can''t help but feel they''re not completely
+    heartfelt. :-)
+
+
+    Kean
+
+    -----'

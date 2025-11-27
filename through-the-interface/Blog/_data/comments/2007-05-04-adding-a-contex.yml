@@ -1,0 +1,369 @@
+comments:
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 201.17.150.4
+  url: http://arxdummies.blogspot.com
+  date: '2007-05-04 19:36:07'
+  body: 'Great!
+
+
+    Is this possible through ObjectARX C++ too?
+
+
+    Regards.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-05-05 01:28:18'
+  body: 'Hi Fernando,
+
+
+    Sure - if you grep the ObjectARX samples folder for "acedAddObjectContextMenu",
+    you''ll find a few samples demonstrating this feature (CurveText, SubEntity &
+    contextmenu).
+
+
+    Regards,
+
+
+    Kean'
+- author: Cabbi
+  email: fabio_cabella@turbomach.com
+  ip: 217.193.152.83
+  url: ''
+  date: '2007-05-24 13:54:06'
+  body: 'I noticed that after I call ''PromptSelectionResult psr = ed.GetSelection()''
+    my selection is reset. Is there a way to leave the current selection unchanged?
+
+
+    I played a bit with ''PromptSelectionOptions'' but... nothing! ):
+
+
+    TIA,
+
+    Cabbi'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-05-25 04:20:12'
+  body: 'The technique in <a href="http://through-the-interface.typepad.com/through_the_interface/2007/01/adding_to_the_a.html">this
+    post</a> should help.
+
+
+    Kean'
+- author: Gabriel
+  email: gciochina@gmail.com
+  ip: 82.77.64.134
+  url: ''
+  date: '2007-05-29 14:55:33'
+  body: 'Hey there. My question is: Can we insert a command in the LAYOUT(sheet) context
+    menu ( in C++) ? And can that command be executed without clearing the layout
+    selection?
+
+
+    10x,
+
+    gabriel'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-05-30 03:51:04'
+  body: 'Hi Gabriel,
+
+
+    Sorry - I''m not aware of any way to do this.
+
+
+    Regards,
+
+
+    Kean'
+- author: Sajjad
+  email: sajjad@sungraceInc.com
+  ip: 216.115.1.130
+  url: ''
+  date: '2007-11-05 23:44:57'
+  body: "I converted the code to Vb.net. It compiled well, but did not add context\
+    \ menu on right click... What can be the reason??\nBest regards,\nSajjad\n\nHere\
+    \ is the code:\n\nNamespace ContextMenuApplication\n\n    Public Class Commands\n\
+    \        Implements IExtensionApplication\n\n        Public Sub Initialize() Implements\
+    \ Autodesk.AutoCAD.Runtime.IExtensionApplication.Initialize\n            CountMenu.Attach()\n\
+    \        End Sub\n\n        Public Sub Terminate() Implements Autodesk.AutoCAD.Runtime.IExtensionApplication.Terminate\n\
+    \            CountMenu.Detach()\n        End Sub\n\n\n        <CommandMethod(\"\
+    COUNT\", CommandFlags.UsePickSet)> Public Sub CountSelection()\n            Dim\
+    \ ed As Editor = Application.DocumentManager.MdiActiveDocument.Editor\n      \
+    \      Dim psr As PromptSelectionResult = ed.GetSelection()\n            If (psr.Status\
+    \ = PromptStatus.OK) Then\n                ed.WriteMessage(\"\\nSelected {0} entities.\"\
+    , psr.Value.Count())\n            End If\n\n        End Sub\n    End Class\n\n\
+    \n    Public Class CountMenu\n        Private Shared cme As ContextMenuExtension\n\
+    \n\n        Public Shared Sub Attach()\n            cme = New ContextMenuExtension\n\
+    \            Dim mi As MenuItem = New MenuItem(\"Count\")\n            AddHandler\
+    \ mi.Click, AddressOf OnCount\n            cme.MenuItems.Add(mi)\n           \
+    \ Dim rxc As RXClass = Entity.GetClass(GetType(Entity))\n            Application.AddObjectContextMenuExtension(rxc,\
+    \ cme)\n        End Sub\n\n\n        Public Shared Sub Detach()\n            Dim\
+    \ rxc As RXClass = Entity.GetClass(GetType(Entity))\n            Application.RemoveObjectContextMenuExtension(rxc,\
+    \ cme)\n        End Sub\n\n        Private Shared Sub OnCount(ByVal o As Object,\
+    \ ByVal e As EventArgs)\n            Dim doc As Document = Application.DocumentManager.MdiActiveDocument\n\
+    \            doc.SendStringToExecute(\"_.COUNT \", True, False, False)\n     \
+    \   End Sub\n\n    End Class\n\nEnd Namespace"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-11-07 14:14:53'
+  body: 'Sajjad,
+
+
+    It works for me. What type of entity are you clicking on to get the menu to appear?
+
+
+    If you''re just right-clicking on the drawing (not an entity) then you won''t
+    get the menu item - it''s registered against the Entity class.
+
+
+    Kean'
+- author: Sajjad
+  email: sajjad@sungraceInc.com
+  ip: 216.115.1.130
+  url: ''
+  date: '2007-11-08 20:39:16'
+  body: 'I learned that if system variable PICKFIRST=0 then custom context menu does
+    not show up. I set it to 1 and it worked.
+
+
+    Sajjad'
+- author: SUBIR KUMAR DUTTA
+  email: x_robotz@rediffmail.com
+  ip: 61.17.160.153
+  url: ''
+  date: '2008-04-11 15:15:00'
+  body: 'all this discussion helped me a lot.
+
+
+    can you please provide a code snippet to display the  short cut menu corresponding
+    the selected entity using autocad vba'
+- author: Thib
+  email: thibaut.veyrat@hermes-metal.com
+  ip: 194.3.35.117
+  url: ''
+  date: '2008-04-25 13:44:32'
+  body: 'Hi,
+
+
+    It''s Possible to have the new context menu without select a object ?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-04-25 14:31:56'
+  body: 'Hi Thib,
+
+
+    Yes - see <a href="http://through-the-interface.typepad.com/through_the_interface/2007/05/its_all_in_the_.html">this
+    post</a>.
+
+
+    Kean'
+- author: Kristof
+  email: kristof.vermeir@dolmen.be
+  ip: 80.200.254.254
+  url: ''
+  date: '2008-04-30 16:19:23'
+  body: "Hi Kean,\n\nCan we add or remove the contextmenu in runtime, I'm working\
+    \ with entities that have special xrecords, my contextmenu should appear depending\
+    \ on what's in the xrecord?\n\nDo you see a way to achieve this?\n\nThanks \n\
+    Kristof"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-04-30 16:51:47'
+  body: 'Hi Kristof,
+
+
+    Sorry - I don''t see how that''s possible with the existing mechanism.
+
+
+    Regards,
+
+
+    Kean'
+- author: li
+  email: lipa.snz@gmail.com
+  ip: 195.54.26.4
+  url: ''
+  date: '2008-07-09 13:08:33'
+  body: '"Can we add or remove the contextmenu in runtime?" - What about using Popup
+    event of myContextMenuExtension object?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-09 13:41:20'
+  body: "I'm actually thinking about making this a subject of a post. You should be\
+    \ able to use one of these COM (not .NET) events from the Document object:\n\n\
+    BeginShortcutMenuCommand event\n\nTriggered after the user right-clicks on the\
+    \ drawing window, and before the shortcut menu appears in command mode. \n\nBeginShortcutMenuDefault\
+    \ event\n\nTriggered after the user right-clicks on the drawing window, and before\
+    \ the shortcut menu appears in default mode. \n\nBeginShortcutMenuEdit event\n\
+    \nTriggered after the user right-clicks on the drawing window, and before the\
+    \ shortcut menu appears in edit mode. \n\nBeginShortcutMenuGrip event\n\nTriggered\
+    \ after the user right-clicks on the drawing window, and before the shortcut menu\
+    \ appears in grip mode. \n\nBeginShortcutMenuOSnap event\n\nTriggered after the\
+    \ user right-clicks on the drawing window, and before the shortcut menu appears\
+    \ in osnap mode. \n\nKean"
+- author: al
+  email: aal-snz@mail.ru
+  ip: 195.54.26.4
+  url: ''
+  date: '2008-07-10 06:21:29'
+  body: "Hi Kean, \n\nWhat about using Popup event of ContextMenuExtension object\
+    \ in .NET?  \n\nTest my code.\n\npublic class CountMenu\n\n  {\n\n    private\
+    \ static ContextMenuExtension cme;\n\n\n    public static void Attach()\n\n  \
+    \  {\n\n      cme = new ContextMenuExtension();\n\n      cme.Popup += new EventHandler(OnPopup);\n\
+    \n      RXClass rxc = Entity.GetClass(typeof(Entity));\n\n      Application.AddObjectContextMenuExtension(rxc,\
+    \ cme);\n\n    }\n\n    public static void Detach()\n\n    {\n\n      RXClass\
+    \ rxc = Entity.GetClass(typeof(Entity));\n\n      Application.RemoveObjectContextMenuExtension(rxc,\
+    \ cme);\n\n    }\n\n    private static void OnCount(Object o, EventArgs e)\n\n\
+    \    {\n\n      Document doc =\n\n        Application.DocumentManager.MdiActiveDocument;\n\
+    \n      doc.SendStringToExecute(\"_.COUNT \", true, false, false);\n\n    }\n\n\
+    \    private static void OnPopup(Object o, EventArgs e)\n\n    {\n      cme.MenuItems.Clear();\n\
+    \n      if (Analyse Something)\n      {\n               \n         MenuItem mi\
+    \ = new MenuItem(\"Count\");\n\n         mi.Click += new EventHandler(OnCount);\n\
+    \n         cme.MenuItems.Add(mi);\n       }\n    }\n\n  }\n\n}\n\nThat`s all :)"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-10 13:01:30'
+  body: 'That seems to work very well - thanks, al!
+
+
+    Kean'
+- author: Gérald Lemoine
+  email: ''
+  ip: 90.52.2.103
+  url: http://profile.typepad.com/6p0120a5cf027d970c
+  date: '2009-09-17 11:01:27'
+  body: "Hello,\ni've translated to VB.net, but it doesn't work.\nI don't understand\
+    \ the way you make the difference between default, command, osnap popupmenu.\n\
+    With vba, it was simple, using :<i>\nSub AcadDocument_BeginShortcutMenuOsnap(ShortcutMenu\
+    \ As AutoCAD.AcadPopupMenu)</i>\nor \n<i>Sub AcadDocument_BeginShortcutMenuEdit(scMenu\
+    \ As AutoCAD.IAcadPopupMenu, SelectionSet As AutoCAD.IAcadSelectionSet)</i>\n\n\
+    I don't find the equivalent in Vb.net, but this sample seems to be closed to ?\n\
+    \nHere my translated code, unworking :\n\n<i>\nPublic Class CountMenu\n    Private\
+    \ Shared cme As ContextMenuExtension\n    Public Shared Sub Attach()\n       \
+    \ cme = New ContextMenuExtension()\n        'cme.Popup += New EventHandler(OnPopup)\n\
+    \        AddHandler cme.Popup, AddressOf OnPopup\n\n        Dim rxc As RXClass\
+    \ = Entity.GetClass(GetType(Entity))\n        Application.AddObjectContextMenuExtension(rxc,\
+    \ cme)\n\n    End Sub\n\n    Public Shared Sub Detach()\n        Dim rxc As RXClass\
+    \ = Entity.GetClass(GetType(Entity))\n\n        Application.RemoveObjectContextMenuExtension(rxc,\
+    \ cme)\n\n    End Sub\n\n    Private Shared Sub OnCount(ByVal o As Object, ByVal\
+    \ e As EventArgs)\n\n        Dim doc As Document = Application.DocumentManager.MdiActiveDocument()\n\
+    \n        doc.SendStringToExecute(\"COUNT \", True, False, False)\n\n    End Sub\n\
+    \n    Private Shared Sub OnPopup(ByVal o As Object, ByVal e As EventArgs)\n  \
+    \      cme.MenuItems.Clear()\n\n        'If Analyse Something Then\n        'If\
+    \ True Then\n\n        Dim mi As MenuItem = New MenuItem(\"compter\")\n      \
+    \  AddHandler mi.Click, AddressOf OnCount\n\n        cme.MenuItems.Add(mi)\n \
+    \       ' End If\n    End Sub\n\nEnd Class\n</i>"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-09-17 19:24:16'
+  body: 'It looks as though you are converting the code someone else posted as a comment,
+    rather than my original code. Your code doesn''t call Attach() at any point, whether
+    from a command or the Initialize() method of an application.
+
+
+    I suggest starting with my code, and adding in additional enhancements (such as
+    the PopUp capability) once that''s working.
+
+
+    Kean'
+- author: Gérald Lemoine
+  email: ''
+  ip: 90.48.254.242
+  url: http://profile.typepad.com/6p0120a5cf027d970c
+  date: '2009-09-18 09:46:15'
+  body: "Hello Kean, thanks for the fast reply for an old topic ...\nYou're right,\
+    \ i've translated the code of Al, because it was based on the onPopPup event,\
+    \ that is equivalent of my old VBA code \"AcadDocument_BeginShortcutMenuEdit\"\
+    .\n\nI've also successfuly translated and adapted to my need your 2 samples, and\
+    \ 'ive understand were the choice is made for the menu :\n<i>Extending the default\
+    \ context (shortcut) menu: Application.AddDefaultContextMenuExtension \n'Extending\
+    \ the object context (shortcut) menu: Application.AddObjectContextMenuExtension\
+    \ \n'Extending the command context (shortcut) menu: CommandMethod.ContextMenuExtension</i>\n\
+    (eq to CMDEFAULT, CMEDIT, CMCOMMAND in VBA) \n\nBut i don't find the way to manage\
+    \ GRIPS  and RESOL(Osnap) menus\nthe problem is that i don't know what name they\
+    \ have now ...\nAny help is welcome ...\nGérald"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-09-18 10:03:36'
+  body: 'I don''t know of a way to do this either: you might try contacting <a href="http://adn.autodesk.com">the
+    ADN team</a>, if you''re a member, or otherwise posting to <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean'
+- author: bikelink@tiscali.it
+  email: bikelink@tiscali.it
+  ip: 82.193.12.210
+  url: ''
+  date: '2009-11-23 17:36:06'
+  body: that's also my trouble! have You got something about it ?
+- author: Modis
+  email: www.modis@mail.ru
+  ip: 93.81.9.183
+  url: http://modplus.ucoz.ru/
+  date: '2010-09-18 11:12:58'
+  body: Hi, Kean. A have a litle question - how add icon to context menu?
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-09-21 11:16:54'
+  body: 'Have you tried setting the MenuItem''s Icon property with an appropriately
+    sized (probably 16x16) icon?
+
+
+    Kean'
+- author: Cars
+  email: warmrain@rockisland.com
+  ip: 75.172.72.21
+  url: ''
+  date: '2010-11-15 21:49:10'
+  body: "I am having the same trouble getting the context menu to appear. I am using\
+    \ AutoCAD Map 3D 2009 and have the \"noun/verb seletion\" checkbox checked (which\
+    \ I understand is the way to toggle the PICKFIRST system variable. \n\nCan anyone\
+    \ assist?!\n\nCars"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2010-11-16 09:06:30'
+  body: 'You might try posting a more complete code sample, with instructions to reproduce
+    the problem, to  <a href="http://adn.autodesk.com">the ADN team</a>, if you''re
+    a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean'
+- author: Modis
+  email: www.modis@mail.ru
+  ip: 93.81.12.6
+  url: http://www.modplus.ucoz.ru/
+  date: '2011-01-06 21:05:44'
+  body: Yes of course. Nothing happened. At one forum I was told that this is not
+    possible at all
+- author: Artvegas
+  email: yamos78@hotmail.com
+  ip: 27.32.79.215
+  url: ''
+  date: '2011-07-18 06:55:15'
+  body: 'Hi Modis. I got an icon to work for me. Try this code snippet:'

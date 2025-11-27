@@ -1,0 +1,452 @@
+comments:
+- author: Danny Polkinhorn
+  email: dpolkinhorn@watg.com
+  ip: 66.175.73.45
+  url: ''
+  date: '2007-12-14 20:22:40'
+  body: 'Hi Kean,
+
+
+    After AutoCAD has launched, I often have a need to determine the "Start In" directory
+    specified in the shortcut (Right-click AutoCAD shortcut, Properties, Start in).  Is
+    there a way to determine what that directory is?  I''m thinking I can use the
+    path of the active drawing (either Drawing1 or the drawing they double-clicked
+    on).  Is that a fool-proof way?
+
+
+    Thanks in advance for your help,
+
+    -Danny'
+- author: Greg Heeley
+  email: greg.h@cadpro.co.nz
+  ip: 203.97.71.38
+  url: http://www.cadpro.co.nz
+  date: '2007-12-16 19:24:24'
+  body: "Hi Kean \nYour notes at the top of the code make reference to the version\
+    \ of Autocad to run, but is there any way of passing through the profile to activate?.\
+    \ Many people have 3rd party apps that rely on profiles to ensure the correct\
+    \ menus etc are loaded. Some automation tasks will need the correct profiles loaded\
+    \ (in order to activate any custom object handlers)"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-12-17 14:58:29'
+  body: 'Danny -
+
+
+    Please see <a href="http://through-the-interface.typepad.com/through_the_interface/2007/12/getting-autocad.html">this
+    post</a>.
+
+
+    Greg -
+
+
+    COM doesn''t allow launching of a process with command-line arguments, as far
+    as I''m aware, but you can use another approach to the launch AutoCAD to meet
+    this need. I''ll make this the topic of my next post.
+
+
+    Thank you both for your comments!
+
+
+    Regards,
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2007-12-21 02:14:31'
+  body: "Hi Kean, Happy Holidays.\n\nRegarding:\n\nType acType =  Type.GetTypeFromProgID(progID);\n\
+    acApp = (AcadApplication)Activator.CreateInstance(acType,true);\n\nI was just\
+    \ wondering if you may have come across any problems using the standard means\
+    \ of creating a new instance of AutoCAD and getting its AcadApplication object,\
+    \ e.g.,\n\n AcadApplication acApp = new AcadApplication();\n\nThe AcadApplication's\
+    \ new() constructor internally calls Activator.CreateInstance() for you, and calling\
+    \ that usually starts up a new instance of AutoCAD."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.16.59
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-12-21 09:47:38'
+  body: 'No specific reasons - that''s just the code I inherited to do this.
+
+
+    Happy Holidays to you, too, Tony.
+
+
+    Kean'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.16.59
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-12-21 17:32:48'
+  body: 'Greg -
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2007/12/launching-aut-1.html">Here''s
+    the post</a> that looks at launching AutoCAD with a specific profile.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Dirk
+  email: gebhard@rc-planet.net
+  ip: 84.61.115.67
+  url: ''
+  date: '2008-04-24 14:13:52'
+  body: 'Hi Kean,
+
+
+    i will launch AutoCAD from an existing ProcessID in C#. The existing ProcessID
+    was Written in the Registry from another C++ ObjectARX Application.
+
+    Now i must linked at this Process, how can i make this.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-04-24 14:31:02'
+  body: 'Hi Dirk,
+
+
+    Do you mean ProcessID or ProgID?
+
+
+    I''d recommend submitting this question via the ADN website, if you''re a member.
+
+
+    Regards,
+
+
+    Kean'
+- author: Brian Stafford
+  email: BSTAFFORD@INTERKAL.COM
+  ip: 24.176.11.130
+  url: ''
+  date: '2009-03-17 21:21:09'
+  body: 'Hi Kean,
+
+
+    Is there a way of either passing parameters with SendCommand or directly calling
+    methods in the NETLOAD''ed dll?
+
+
+    Under VB6 when using GetInterfaceObject, the class is returned from the call allowing
+    its methods to be called.
+
+
+    Specifically, I want to rewrite this VB6 app in .NET.  The app needs to pass a
+    string of XML into my dll in AutoCAD to be processed.
+
+
+    Regards,
+
+
+    Brian'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-03-17 21:31:03'
+  body: 'Hi Brian,
+
+
+    A couple of choices...
+
+
+    To pass everything by the command-line, you can use Editor.GetString() from within
+    your command to pick up strings that are passed in after the command-name using
+    SendStringToExecute().
+
+
+    Otherwise you can expose public methods from public classes that can be imported
+    into other modules (a standard .NET technique for publishing libraries or modularizing
+    your code in different assemblies).
+
+
+    Regards,
+
+
+    Kean'
+- author: Brian Stafford
+  email: BSTAFFORD@INTERKAL.COM
+  ip: 24.176.11.130
+  url: ''
+  date: '2009-03-19 15:56:04'
+  body: 'Hi Kean,
+
+
+    In trying this sample, I ran into some trouble.  I set references to acdbmgd,
+    acmgd, AutoCAD 2008 Type Library, and AutoCAD/ObjectDBX Common 17.0 Type Library.  The
+    first 3 references I can do fine, but in setting the last reference, Visual Studio
+    comes back to the references tab with ''The system cannot find the reference specified''.  I
+    am using Visual Basic 2008, AutoCAD Mechanical 2008 SP2, and Vista.  Any ideas
+    why this is happening?
+
+
+    Regards,
+
+
+    Brian'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-03-19 17:06:20'
+  body: 'Hi Brian,
+
+
+    Sorry - I have no idea what the problem is. Re-installing is likely to help, if
+    nothing else.
+
+
+    Regards,
+
+
+    Kean'
+- author: Brian Stafford
+  email: BSTAFFORD@INTERKAL.COM
+  ip: 24.176.11.130
+  url: ''
+  date: '2009-03-19 18:43:40'
+  body: 'Hi Kean,
+
+
+    Oh well, I was hoping you would have some insight!
+
+
+    Back to your first reply on "exposing public methods from public classes".  Are
+    you saying exposing them from the NETLOAD''ed dll?  If so, I always get an "unable
+    to find entry point" exception in my .exe.
+
+
+    Just to clarify, I will have an out-of-process .exe written in VB.net, the NETLOAD''ed
+    dll written in VB.net, and I need a way to call the methods in the dll.
+
+
+    Any advice you can provide, or pointers to other blog entries, is greatly appreciated.
+
+
+    Thanks,
+
+
+    Brian'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-03-20 10:10:46'
+  body: 'Hi Brian,
+
+
+    Oh, you want to call into the DLL from an EXE? In that case you really should
+    use the command-line, whether using Editor.GetString() (etc.) or using the LispFunction
+    attribute to also expose your commands via LISP functions.
+
+
+    Either approach can then be called by SendCommand() (you should really use COM
+    for this, as AutoCAD''s .NET interface is not supported across process boundaries).
+
+
+    Regards,
+
+
+    Kean'
+- author: essa
+  email: essafarhaan@yahoo.com
+  ip: 195.229.241.171
+  url: ''
+  date: '2009-08-03 09:55:43'
+  body: 'The above works on web applications when the vs development server is used.
+    There is a System.Runtime.InteropServices.COMException (0x80080005) error ehen
+    the IIS server is used.
+
+
+    How do i launch AutoCad as a web application or using IIS.'
+- author: essa
+  email: essafarhaan@yahoo.com
+  ip: 195.229.241.171
+  url: ''
+  date: '2009-08-03 09:57:15'
+  body: 'he above works on web applications when the vs development server is used.
+    There is a System.Runtime.InteropServices.COMException (0x80080005) error ehen
+    the IIS server is used.
+
+
+    How do i launch AutoCad as a web application or using IIS.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-08-03 10:06:29'
+  body: 'Sorry, essa - I haven''t any information to help you on this (it also sounds
+    like a configuration that I doubt is supported  by Autodesk).
+
+
+    Kean'
+- author: BJHuffine
+  email: bjhuffine@tva.gov
+  ip: 184.174.134.81
+  url: ''
+  date: '2011-12-28 23:56:55'
+  body: "Just curious with regards to the code section starting a new instance of\
+    \ AutoCAD:\n\nType acType = Type.GetTypeFromProgID(progID);\n      acApp = AcadApplication)Activator.CreateInstance(acType,true);\n\
+    \n\nI've noticed in using this that every now and then I get the following error:\n\
+    \nHRESULT: 0x80080005 (CO_E_SERVER_EXEC_FAILURE)\n\nWhat's the cause of this?\
+    \  If it's the result of the AutoCAD startup process, is there a way within your\
+    \ code sample to better handle this?  BTW, I've seen this when launching AutoCAD\
+    \ 2012."
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2012-01-03 10:01:09'
+  body: 'It''s likely you need to implement the approach shown in this post:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2010/02/handling-com-calls-rejected-by-autocad-from-an-external-net-application.html">http://through-the-interface.typepad.com/through_the_interface/2010/02/handling-com-calls-rejected-by-autocad-from-an-external-net-application.html</a>
+
+
+    At least that''s my first guess...
+
+
+    Kean'
+- author: BJHuffine
+  email: bjhuffine@tva.gov
+  ip: 152.85.8.33
+  url: ''
+  date: '2012-01-03 22:55:27'
+  body: I had seen that and implemented it already.  Before I did, I was getting that
+    message too.  The message with this one is RPC_E_CALL_REJECTED versus this one
+    being CO_E_SERVER_EXEC_FAILURE.  As with the former, it too is intermittent.  I
+    can post something with ADN, but was thinking that if you've heard of this before
+    then maybe an update to this blog could help others as well.  Maybe a 2012 issue?
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2012-01-04 08:38:54'
+  body: 'This is a new one for me, so I suggest checking in with ADN.
+
+
+    Kean'
+- author: Chris Vaught
+  email: crvaught@gmail.com
+  ip: 68.12.130.171
+  url: ''
+  date: '2012-03-30 15:49:36'
+  body: 'Hi Kean,
+
+
+    Quick question.  I only have AutoCAD 2012 installed on the computer that I created
+    the app on.  It connects to AutoCAD and works as expected.  If I then take the
+    executable and run it on a computer that only has AutoCAD 2010 installed it can''t
+    connect.  Is this the behavior you would expect?  I also went the other direction,
+    created the app on the computer with 2010 and it connects as expected but won''t
+    connect on the computer with only 2012 installed.
+
+
+    Thanks
+
+    Chris'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/kean
+  date: '2012-03-30 17:18:03'
+  body: 'Hi Chris,
+
+
+    Try using a version-less ProgId ("AutoCAD.Application") to see if that helps.
+    You may also want to use type embedding (which should be an option if you''re
+    using a newer version of Visual Studio), to reduce the dependence on the version-specific
+    typelib.
+
+
+    Beyond that, ADN or someone on the discussion groups may have more pointed advice.
+
+
+    I hope this helps,
+
+
+    Kean'
+- author: Bill T
+  email: ''
+  ip: 98.203.44.66
+  url: http://profile.typepad.com/d105296579595704076
+  date: '2012-07-25 02:18:57'
+  body: This is all very interesting. I am trying to find out information on how to
+    convert some VBA code to VB.NET. I use the VBA code to launch AutoCAD, load a
+    LISP program and execute it. This works fine but try as I might I cannot find
+    an equivalent using VB.NET.
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-07-31 11:42:52'
+  body: 'I doubt you''re using VBA code to launch AutoCAD (as it only runs in-process).
+    Could you be using VB6 code to do so? The same code should work with modest changes
+    in VB.NET - this guide may be of help:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2010/02/updated-devtv-autocad-vba-to-vbnet-migration-basics.html">http://through-the-interface.typepad.com/through_the_interface/2010/02/updated-devtv-autocad-vba-to-vbnet-migration-basics.html</a>
+
+
+    Kean'
+- author: dmdixit
+  email: dmdixit@gmail.com
+  ip: 121.241.184.2
+  url: ''
+  date: '2012-09-26 09:12:09'
+  body: If there are multiple versions and flavors of AutoCAD on the machine, how
+    can we ensure that a specific version and flavor of acad.exe is launched? ex.
+    AutoCAD (vanilla(, Civil3D, AutoCAD Electrical etc...
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-09-26 10:12:54'
+  body: 'Launching via COM starts the most recently run product (of that version).
+
+
+    The only way I know to force this is to launch the desired version via its EXE
+    and then the next time you launch via COM, it''ll get picked up. ScriptPro 2.0
+    does this programmatically, for instance.
+
+
+    Kean'
+- author: Area51Visitor
+  email: stoptheinhumanity@yahoo.com
+  ip: 146.135.117.83
+  url: ''
+  date: '2013-03-10 03:53:50'
+  body: Very helpful as always! Thank you :)
+- author: Area51Visitor
+  email: stoptheinhumanity@yahoo.com
+  ip: 146.135.117.83
+  url: ''
+  date: '2013-03-10 03:54:20'
+  body: Hey Kean, is it possible to download all your examples?
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-03-11 08:11:31'
+  body: 'Hi there,
+
+
+    Sorry - I don''t have them compiled together in a way that could easily be shared,
+    unfortunately.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

@@ -1,0 +1,446 @@
+comments:
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2008-06-13 20:57:43'
+  body: 'Hi Kean.
+
+
+    The failure that happens when Visual Studio tries to load the AutoCAD interop
+    assemblies is a fairly common problem.
+
+
+    One way it can be dealt with is through the use a simple test that tells if the
+    code is running in the Visual Studio IDE, or in AutoCAD.
+
+
+    For that I generally use System.Process to get the name of the current process,
+    and if it is ''acad'', then I know its safe to call AutoCAD APIs.
+
+
+    In this case, a test like that can be used to skip the contstruction of the preview
+    control, when the code is running in the IDE.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://through-the-interface.typepad.com/through_the_interface/2008/06/dwf-toolkit-75.html
+  date: '2008-06-16 12:32:26'
+  body: 'Great suggestion - thanks, Tony.
+
+
+    Kean'
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 189.26.204.18
+  url: http://arxdummies.blogspot.com
+  date: '2009-10-05 15:34:56'
+  body: 'Kean,
+
+
+    Do you recommend the same approach to use the BlockView inside a WPF form?
+
+
+    I remember Fenton have talked something about it on AU2008 class...not sure.
+
+
+    Fernando.'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-10-05 17:50:24'
+  body: 'Fernando,
+
+
+    I don''t know of any specific issues: I do recommend giving it a try and letting
+    us know if you hit any issues. :-)
+
+
+    Regards,
+
+
+    Kean'
+- author: Jernej
+  email: jernej.carl@cgsplus.si
+  ip: 213.143.90.66
+  url: ''
+  date: '2009-12-11 10:52:40'
+  body: 'Hello,
+
+    Is this a stable control? I have tried working with it in .NET but it is working
+    very unstable. Maybe I don''t know how to work with it. Are there any other .NET
+    examples beside the one above. I have also used this control in c++ ObjectARX
+    and there was no problem.'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2009-12-13 10:49:20'
+  body: 'Hi Jernej,
+
+
+    I don''t know of any stability issues, but then I haven''t integrated this control
+    into any serious application.
+
+
+    Please submit any issues you hit to <a href="http://adn.autodesk.com">the ADN
+    team</a>, and we''ll take a look.
+
+
+    Thanks,
+
+
+    Kean'
+- author: S. Jaisimha
+  email: jai@deltacadd.com
+  ip: 122.166.100.91
+  url: http://www.deltacadd.com
+  date: '2010-01-01 11:35:43'
+  body: 'Hi Kean,
+
+
+    If I use the GsPreviewCtrl in my form, the ViewToBeDestroyed event is not fired
+    when the form is closed. This leads to a Fatal Error crash after a couple of minutes
+    of using the form. I have done everything as in your BlockView sample, but nothing
+    doing.
+
+
+    The BlockView sample fires the event successfully and closes gracefully. Any idea
+    what I am missing?
+
+
+    Thanks and a very happy New Year to you and all readers of this blog.'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2010-01-04 17:59:02'
+  body: 'Happy New Year to you, too!
+
+
+    As this isn''t my code (and you''re an ADN member) I suggest posting your question
+    via <a href="http://adn.autodesk.com">the ADN site</a>.
+
+
+    You''re likely to get a better response from them.
+
+
+    Kean'
+- author: Mohammad Afghari
+  email: mohammad.afghari@yahoo.com
+  ip: 89.165.121.50
+  url: http://www.afghari.com
+  date: '2010-07-07 16:23:16'
+  body: "Is there any way to add select \nentity feature  to this component?"
+- author: Cattoor Bjorn
+  email: bjorn.cattoor@telenet.be
+  ip: 178.116.248.9
+  url: http://www.it-leren.be
+  date: '2011-05-25 21:05:24'
+  body: Thanks for this fantastic code!I really appreciate it.
+- author: Chuck Wilbur
+  email: ''
+  ip: 75.132.3.154
+  url: http://profile.typepad.com/wilburchuck
+  date: '2011-11-10 19:20:57'
+  body: "I came looking for a simple way to create a thumbnail bitmap from a block\
+    \ reference and wound up with something generic enough I thought more people might\
+    \ find it useful.\n\nUsing BlockView and a little of the render to file stuff\
+    \ at <a href=\"http://through-the-interface.typepad.com/through_the_interface/2007/04/rendering_autoc.html\"\
+    >http://through-the-interface.typepad.com/through_the_interface/2007/04/rendering_autoc.html</a>\
+    \ , I got my bitmap created, but I also came up with an architecture that lets\
+    \ you load the control in the designer without crashing Visual Studio. Instead\
+    \ of inheriting a PreviewCtrl class that the designer can't handle, I created\
+    \ a wrapper class in 100 lines of code that takes a plain old Panel object and\
+    \ hooks in the view/model/device and an OnPaint event to redraw the view.\n\n\
+    The code for the class (which can be dropped into any old ACAD addon project)\
+    \ looks like this:\n\n********************************************\nusing System;\n\
+    using System.Collections.Generic;\nusing System.Drawing;\nusing System.Linq;\n\
+    using System.Text;\n\nusing Autodesk.AutoCAD.ApplicationServices;\nusing Autodesk.AutoCAD.DatabaseServices;\n\
+    using Autodesk.AutoCAD.Geometry;\nusing Autodesk.AutoCAD.GraphicsSystem;\n\nnamespace\
+    \ SNS.DesignData.Draw.Forms\n{\n    public class EntityViewManager : IDisposable\n\
+    \    {\n        View _view = new View();\n        Device _device;\n        Model\
+    \ _model;\n        System.Windows.Forms.Panel _control;\n\n        static Manager\
+    \ GraphicsManager\n        {\n            get { return Application.DocumentManager.MdiActiveDocument.GraphicsManager;\
+    \ }\n        }\n\n        public EntityViewManager(Entity ent, System.Windows.Forms.Panel\
+    \ control)\n        {\n            _device = GraphicsManager.CreateAutoCADDevice(control.Handle);\n\
+    \            _device.OnSize(control.Size);\n            _device.BackgroundColor\
+    \ = control.BackColor;\n            _device.Add(_view);\n            _model =\
+    \ GraphicsManager.CreateAutoCADModel();\n            _view.Add(ent, _model);\n\
+    \            // TODO: Figure out why line weight is not displayed\n\n        \
+    \    SetView(_view, ent);\n\n            // TODO: Figure out why text from overrides\
+    \ is not displayed\n            _view.Update();\n\n            _control = control;\n\
+    \            _control.Paint += control_Paint;\n        }\n\n        public static\
+    \ Bitmap GetBitmap(Entity ent, Size size, Color backgroundColor)\n        {\n\
+    \            Bitmap result = new Bitmap(size.Width, size.Height);\n\n        \
+    \    using (View view = new View())\n            using (Device device = GraphicsManager.CreateAutoCADOffScreenDevice())\n\
+    \            using (Model model = GraphicsManager.CreateAutoCADModel())\n    \
+    \        {\n                view.Add(ent, model);\n                device.Add(view);\n\
+    \                device.OnSize(size);\n                device.BackgroundColor\
+    \ = backgroundColor;\n                device.DeviceRenderType = RendererType.FullRender;\n\
+    \n                SetView(view, ent);\n\n                result = view.RenderToImage();\n\
+    \                device.EraseAll();\n            }\n            return result;\n\
+    \        }\n\n        static void SetView(View view, Entity ent)\n        {\n\
+    \            Extents3d viewExtents = ent.GeometricExtents;\n            Point3d\
+    \ boxCenter = viewExtents.MinPoint + 0.5 * (viewExtents.MaxPoint - viewExtents.MinPoint);\n\
+    \            Point3d eye = boxCenter + Vector3d.ZAxis;\n            double xMax\
+    \ = Math.Abs(viewExtents.MaxPoint.X - viewExtents.MinPoint.X + 1);\n         \
+    \   double yMax = Math.Abs(viewExtents.MaxPoint.Y - viewExtents.MinPoint.Y + 1);\n\
+    \            view.SetView(eye, boxCenter, Vector3d.YAxis, xMax, yMax);\n     \
+    \   }\n\n        void control_Paint(object sender, System.Windows.Forms.PaintEventArgs\
+    \ e)\n        {\n            _view.Invalidate();\n            _view.Update();\n\
+    \        }\n\n        #region IDisposable Members\n\n        public void Dispose()\n\
+    \        {\n            _control.Paint -= control_Paint;\n            _control.Invalidate();\n\
+    \            _device.Erase(_view);\n            _view.EraseAll();\n          \
+    \  _model.Dispose();\n            _view.Dispose();\n            _device.Dispose();\n\
+    \        }\n\n        #endregion\n    }\n}\n********************************************\n\
+    \nTo use this to render an entity in a dialog temporarily I just do a using (var\
+    \ view = new EntityViewManager(ent, controlPreview)), and when I leave the using\
+    \ clause the view is cleared and the placeholder control reverts to normal. ent\
+    \ is any ACAD database object type and controlPreview is the Panel control hosted\
+    \ in your dialog.\n\nFor a longer-lived preview the dialog will probably need\
+    \ an EntityViewManager member variable, created when the dialog is displayed and\
+    \ disposed when the dialog is closed. I did this in a modeless palette and had\
+    \ to make sure to also dispose of the EntityViewManager upon notification that\
+    \ the current document was closing because by the time the palette was destroyed\
+    \ the current document was gone and the model/view/device couldn't be disposed\
+    \ cleanly.\n\nThe static GetBitmap method is pretty straightforward, tacked onto\
+    \ this class to make use of the common view/extent/eye setup code.\n\nYou may\
+    \ notice the two TODOs. If the entity passed in is a Polyline with Lineweight\
+    \ set thick, the control only displays a thin line. I keep expecting to find a\
+    \ ShowLineWeight property on one of the view/model/device objects somewhere, but\
+    \ so far no luck.\n\nThe more complicated TODO is because I'm also playing with\
+    \ overrules to draw some text and extra lines next to polylines with certain xdata\
+    \ (see <a href=\"http://through-the-interface.typepad.com/through_the_interface/overrules/\"\
+    >http://through-the-interface.typepad.com/through_the_interface/overrules/</a>\
+    \ ). If I pass one of these lines to the wrapper, the extra lines show up but\
+    \ the text does not. I'm completely stumped on this behavior."
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2011-11-11 18:44:59'
+  body: 'Thanks for posting this, Chuck.
+
+
+    I''ll take a closer look, when I get the chance - at first glance it looks very
+    interesting.
+
+
+    Kean'
+- author: Alex
+  email: biyusr@163.com
+  ip: 221.13.128.252
+  url: ''
+  date: '2012-03-22 04:17:26'
+  body: "Hi Kean:\n\nI've downloaded the code.\nI run the code in vs2008 and cad2010.\n\
+    When I use the commnad add an entity to the database after I open a dwg file ,there\
+    \ is some wrong occur.It's tip eWrongDatabase.\n\nI've changed the code like that:\n\
+    original code ://next add it to the current space\n               //using (BlockTableRecord\
+    \ curSpace = mPreviewCtrl.mCurrentDwg.CurrentSpaceId.Open(OpenMode.ForWrite) as\
+    \ BlockTableRecord)\n                //    curSpace.AppendEntity(sphere);\n\n\
+    replaced code:\nObjectId entId;\n            Database pDb = new Database();\n\
+    \            pDb=mPreviewCtrl.mCurrentDwg;\n            if (pDb != null)\n   \
+    \         {\n                using (Transaction trans = pDb.TransactionManager.StartTransaction())\n\
+    \                {\n                    try\n                    {\n         \
+    \               BlockTable bt = (BlockTable)trans.GetObject(pDb.BlockTableId,\
+    \ OpenMode.ForRead);\n                        BlockTableRecord btr = (BlockTableRecord)trans.GetObject(bt[BlockTableRecord.ModelSpace],\
+    \ OpenMode.ForWrite);\n\n                        entId = btr.AppendEntity(sphere);\n\
+    \                        trans.AddNewlyCreatedDBObject(sphere, true);\n      \
+    \                  trans.Commit();\n                    }\n                  \
+    \  catch (System.Exception ex)\n                    {\n                      \
+    \  MessageBox.Show(ex.ToString());\n                    }\n\n                }"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-03-22 09:45:18'
+  body: 'Hi Alex,
+
+
+    I''m afraid I can''t provide support for your extensions to this code. I suggest
+    you post your question to ADN or the AutoCAD .NET Discussion Group.
+
+
+    You seem to be mixing Open/Close (although I don''t see a Close() call) with transactions
+    - a very bad idea. Hopefully someone on the discussion group will be able to help.
+
+
+    Regards,
+
+
+    Kean'
+- author: alexb
+  email: alexb@actcom.co.il
+  ip: 82.81.82.178
+  url: ''
+  date: '2012-08-06 20:28:56'
+  body: 'Hi Kean:
+
+
+    I am intersted in a similar functionality in a .exe program running external to
+    Acad (with Acad installed and - possibly - running).
+
+    Is it possible for such a program to use the Acad .NET API to acomplish this?
+
+    Thanks
+
+    alex
+
+    N.B. No relation to the post above :)'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-08-06 20:46:14'
+  body: 'Hi Alex,
+
+
+    How about this?
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2008/03/embedding-autoc.html">http://through-the-interface.typepad.com/through_the_interface/2008/03/embedding-autoc.html</a>
+
+
+    Cheers,
+
+
+    Kean'
+- author: alexb
+  email: alexb@actcom.co.il
+  ip: 82.81.89.16
+  url: ''
+  date: '2012-10-01 05:31:35'
+  body: 'Hi Tony
+
+
+    Could you elaborate on that? Where do you put the checking code?
+
+    I can''t seem to make it work.
+
+
+    Thanks
+
+
+    alex'
+- author: Anonymoose
+  email: blackhole@nym.hush.com
+  ip: 24.47.197.1
+  url: ''
+  date: '2012-10-26 17:17:07'
+  body: 'Explained here:
+
+
+    <a href="http://forums.autodesk.com/t5/NET/Blockview-NET/m-p/3675470#M31703">http://forums.autodesk.com/t5/NET/Blockview-NET/m-p/3675470#M31703</a>'
+- author: Anonymoose
+  email: blackhole@nym.hush.com
+  ip: 24.47.197.1
+  url: ''
+  date: '2012-10-28 15:37:33'
+  body: "You can find a revised/refactored version of the BlockView.NET sample here:\
+    \ \n\n<a href=\"http://forums.autodesk.com/t5/NET/Blockview-NET/m-p/3676654#M31712\"\
+    >http://forums.autodesk.com/t5/NET/Blockview-NET/m-p/3676654#M31712</a>\n\nThe\
+    \ refactored code fixes the problems with opening the BlockViewDialog in the designer,\
+    \ so you don't have to resort to using the workaround suggested in this blog post."
+- author: Farrukh
+  email: farrukh1@gmail.com
+  ip: 203.82.55.114
+  url: ''
+  date: '2013-03-19 14:07:32'
+  body: 'Hi Kean,
+
+    Thanks for this nice piece of code. I just wonder if we can <br><b>doc.SendStringToExecute("(command
+    ""zoom"" ""e"")" + ''\r'' + ''\n'', true, false, false);</b>
+
+
+    I''m just trying to call AutoCAD''s built-in Zoom Extents command in BlockView.
+
+
+    Is that possible?
+
+
+    Best regards
+
+    Farrukh'
+- author: Farrukh
+  email: farrukh1@gmail.com
+  ip: 203.82.55.114
+  url: ''
+  date: '2013-03-19 14:10:00'
+  body: 'And is there any way to simply generate bmp/png/jpg from dwg files? I need
+    to show a preview of selected dwg from a ListView dialog.
+
+
+    Thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-03-19 14:21:22'
+  body: 'Hi Farrukh,
+
+
+    No, you can''t target the block view window with AutoCAD commands: look at the
+    approach used by the Zoom option, instead.
+
+
+    This may be of help:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2007/04/taking_a_snapsh_1.html">http://through-the-interface.typepad.com/through_the_interface/2007/04/taking_a_snapsh_1.html</a>
+
+
+    You might also find something on the ADN DevBlog, if I remember correctly (although
+    I couldn''t find the exact thing):
+
+
+    <a href="http://adndevblog.typepad.com/autocad">http://adndevblog.typepad.com/autocad</a>
+
+
+    Regards,
+
+
+    Kean'
+- author: Farrukh
+  email: farrukh1@gmail.com
+  ip: 203.82.55.114
+  url: ''
+  date: '2013-03-20 12:37:34'
+  body: 'Kean,
+
+    Yes, I tried that approach, but its not working as standard Zoom Extents in Top
+    view is doing. That makes me to call the Lisp methodology.
+
+
+    I''m trying to set two things:
+
+    Permanently set TOP view
+
+    Zoom Extents.
+
+
+    Thanks much for all help.
+
+
+    Regards'
+- author: Stephan
+  email: stephan.gumpert@gmail.com
+  ip: 117.120.16.131
+  url: ''
+  date: '2013-11-15 03:56:46'
+  body: 'Has anyone seen a VB.Net version of this code?
+
+    I don''t have the world of experience in C# and would to have a read in a different
+    format.
+
+
+    Thanks.'
+- author: Stephan
+  email: stephan.gumpert@gmail.com
+  ip: 117.120.18.134
+  url: ''
+  date: '2013-12-12 04:14:20'
+  body: 'Dispose of the Control on Close fixed this issue for me. (rightly or wronly)
+
+    -----'

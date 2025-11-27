@@ -1,0 +1,209 @@
+comments:
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2011-08-29 21:52:38'
+  body: 'Nice Kean,
+
+    Both of these items are quite helpful, however, I''d love to know more about the
+    QAFLAGS variable.  I would love to be able to have it not prompt to "Press Enter
+    to Continue", but I tried the variable set to 8191 as suggested, and it had an
+    unexpected side effect.  I have an .MNL file that goes with my menu, so that whenever
+    my menu is loaded, the .dll is netloaded through the .MNL file.  This mechanism
+    stopped working when I set the QAFLAGS variable, and started working fine again
+    when I removed the QAFLAGS key from the FixedProfile registry.
+
+
+    Have you (or Fenton) got an answer for that?'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.58.92
+  url: http://profile.typepad.com/kean
+  date: '2011-08-29 22:46:16'
+  body: 'Hi David,
+
+
+    I should really have mentioned that QAFLAGS is a useful tool for certain circumstances,
+    but should not be set to anything but 0 for long periods of time. It''s an undocumented
+    sysvar which could ultimately have unpredictable effects if left set (as you''ve
+    discovered).
+
+
+    So feel free to use it when calling specific commands, but please don''t rely
+    on it beyond that.
+
+
+    BTW - there''s no need to create a Registry key for this. QAFLAGS can be set (and
+    unset) at the command-line.
+
+
+    Regards,
+
+
+    Kean'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2011-08-30 00:02:38'
+  body: "Thanks Kean, \n\nFYI, I did not create the Registry Key, AutoCAD did when\
+    \ I set the variable.  \n\nWhen I discovered I had a problem, I searched the registry\
+    \ to find the setting, so that I could go to my neighbors computer and see what\
+    \ the default setting was supposed to be.  His machine did not have the Key, so\
+    \ I deleted mine."
+- author: Steve Johnson
+  email: stevejohnson@cadnauseam.com
+  ip: 116.50.58.180
+  url: http://www.blog.cadnauseam.com/
+  date: '2011-09-12 09:53:16'
+  body: 'Thanks for the setting, Kean, that''s really handy. I''ve been missing that
+    setting ever since it was removed from the UI.
+
+
+    But QAFLAGS 8191? Really? 1111111111111 hex? Why turn on 13 bits and put up with
+    undocumented side effects when you could just turn on the bit that matters? QAFLAGS
+    2 will turn off the scroll stopper and nothing else.
+
+
+    In the R12 cycle, after the scroll stopper feature was introduced without an off
+    switch and people complained about it (some lessons are apparently never learned,
+    no matter how many times they are repeated), QAFLAGS 2 was made public as a workaround
+    by Autodesk staff on CompuServe. After 19 years of unchanged functionality, it''s
+    probably safe to assume that QAFLAGS 2 isn''t going to go away or start doing
+    strange things any time soon.
+
+
+    The following ancient QAFLAGS bits are public knowledge (thanks to Owen Wengerd),
+    but I haven''t checked them lately:
+
+
+    bit 0 (1) : ^C in menu macro cancels grips (acts like keyboard <Esc>).
+
+    bit 1 (2) : no pause during text screen listings.
+
+    bit 2 (4) : no "alert" dialogs (text display instead).
+
+    bit 7 (128) : accepts "screen picks" (point lists) via (command) function.'
+- author: Steve Johnson
+  email: stevejohnson@cadnauseam.com
+  ip: 116.50.58.180
+  url: http://www.blog.cadnauseam.com/
+  date: '2011-09-12 09:54:16'
+  body: '*binary, not hex. Duh.'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.58.92
+  url: http://profile.typepad.com/kean
+  date: '2011-09-12 11:17:49'
+  body: 'I just duplicated Fenton''s usage of QAFLAGS (something I don''t use myself,
+    given the associated risks).
+
+
+    If I''d been aware it was just that second bit, I''d have stated that, of course
+    (and will adjust the post to reflect that, leaving this comment in place).
+
+
+    Thanks, Steve!
+
+
+    Kean'
+- author: Artvegas
+  email: yamos78@hotmail.com
+  ip: 27.32.79.215
+  url: ''
+  date: '2011-09-12 20:30:43'
+  body: 'Another tip on the topic of the command-line text window...
+
+
+    I found a way to maximize the text window by P/Invoking Win32.dll. You can do
+    this using the helper class found here: <a href="http://212.40.172.33/WebAppCodeGod/Win32-Window-Handler-in-C-AID134.aspx">Win32Handler</a>.
+    Just copy-paste it straight into your code.
+
+
+    And here''s an AutoCAD command to demonstrate:
+
+
+    [CommandMethod("MaximizeTextScreen")]
+
+    public static void MaximizeTextScreen() {
+
+    &nbsp&nbsp&nbsp Autodesk.AutoCAD.Internal.Utils.TextScr();
+
+    &nbsp&nbsp&nbsp WindowHandler wh = new WindowHandler();
+
+    &nbsp&nbsp&nbsp int windowHandle = wh.GetForegroundWnd();
+
+    &nbsp&nbsp&nbsp wh.Maximize(windowHandle);
+
+    }'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.58.92
+  url: http://profile.typepad.com/kean
+  date: '2011-09-12 22:38:26'
+  body: 'Cool - thanks, Art.
+
+
+    Kean'
+- author: Art
+  email: yamos78@hotmail.com
+  ip: 27.32.79.215
+  url: ''
+  date: '2011-12-02 02:00:23'
+  body: 'FYI this can also be set using the following COM interop property, i.e.:
+
+
+    <i>AcadApplication.Preferences.Display.HistoryLines</i>'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2011-12-04 16:42:32'
+  body: 'Interesting - thanks!
+
+
+    Kean'
+- author: Andre
+  email: aas@adi.ca
+  ip: 142.166.165.202
+  url: ''
+  date: '2012-02-08 15:26:00'
+  body: 'Doesn''t work on 2012 anymore.
+
+    Anyone with new solution?
+
+    Thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-02-08 15:27:44'
+  body: '</em>I personally used AutoCAD 2012 when I tested and wrote about this.
+
+
+    Kean'
+- author: Michael
+  email: mpeace@stuartengineering.com
+  ip: 98.173.62.53
+  url: ''
+  date: '2013-03-25 16:53:27'
+  body: I am unable to find the registry eatery you show above. I am using the 64bit
+    version of Autocad 2012. do you know if that makes a difference?
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-03-25 16:59:29'
+  body: 'It''s likely to simply mean it doesn''t exist yet in your Registry hive (you
+    can use the .reg file to create it). I just checked my system and the key isn''t
+    there by default.
+
+
+    If it were a version other that 2012 English, the Registry key would change, but
+    whether it''s 64-bit or not doesn''t change anything.
+
+
+    Kean
+
+    -----'

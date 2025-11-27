@@ -1,0 +1,139 @@
+comments:
+- author: Thorsten Meinecke
+  email: t.meinecke@gtb-ingenieure.de
+  ip: 92.206.84.127
+  url: ''
+  date: '2011-01-19 09:14:54'
+  body: 'Hi Kean,
+
+    concerning numeric representation in different locales: System.Format uses the
+    default implementation of ToString() as long as there are no format strings provided,
+    so you should be save. At least in .de it works as expected...
+
+
+    Thanks'
+- author: Glenn R
+  email: toxo@telstra.com
+  ip: 213.152.245.252
+  url: ''
+  date: '2011-01-19 10:06:05'
+  body: Simple and to the point ;) I like it. Nicely done.
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2011-01-19 10:07:07'
+  body: 'Thanks for the confirmation, Thorsten. It''s much appreciated. :-)
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2011-01-19 10:07:28'
+  body: 'Boom-boom. :-)
+
+
+    Thanks, Glenn.
+
+
+    Kean'
+- author: MHD
+  email: heimann@dataflor.de
+  ip: 217.5.221.2
+  url: ''
+  date: '2011-01-19 10:30:13'
+  body: "To be on the safe side, you could specify your local by using\nFormat(\n\t\
+    IFormatProvider provider,\n\tstring format,\n\tparams Object[] args\n)\nwith System.Globalization.CultureInfo.InvariantCulture\
+    \ as IFormatProvider."
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2011-01-19 10:37:25'
+  body: 'Yes, assuming that command-line input uses full-stops/periods for decimal
+    separation on locales that otherwise use commas, which appears to be the case.
+
+
+    In any case, as we''re using commas to separate the coordinates, we have to use
+    full-stops as the decimal separator... (so yes, I''m agreeing with you :-).
+
+
+    Kean'
+- author: Scott McFarlane
+  email: ''
+  ip: 66.192.117.66
+  url: http://profile.typepad.com/scottmcfarlane
+  date: '2011-01-19 14:09:54'
+  body: 'I wonder if instead you could "squirt" a lisp expression to the command line.
+    Would that make it culture-independent?
+
+
+    string cmd =
+
+    String.Format(
+
+    CultureInfo.InvariantCulture,
+
+    "(list {0} {1} {2}) ",
+
+    pts.Average(a => a.X),
+
+    pts.Average(a => a.Y),
+
+    pts.Average(a => a.Z)
+
+    );'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2011-01-19 16:00:44'
+  body: 'That did occur to me, too... I was hoping the overhead of a few extra characters
+    wouldn''t be needed. :-)
+
+
+    One side benefit: it would probably also make for a more predictable result if
+    AVG wasn''t called transparently.
+
+
+    Thanks!
+
+
+    Kean'
+- author: Jody Verser
+  email: jverser@gmail.com
+  ip: 130.184.8.85
+  url: ''
+  date: '2011-07-20 22:32:53'
+  body: 'How do you use implement this with autocad?
+
+    Can i just create a dll with c# 2010 express and netload it?'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-07-21 10:19:55'
+  body: 'Hi Jody,
+
+
+    The simplest would be to download the AveragePoint Plugin of the Month from Autodesk
+    Labs. It was posted in February 2011:
+
+
+    <a href="http://labs.autodesk.com/utilities/ADN_plugins/catalog/">http://labs.autodesk.com/utilities/ADN_plugins/catalog/</a>
+
+
+    Be aware you may need to unblock the ZIP after downloading it:
+
+
+    <a href="http://labs.blogs.com/its_alive_in_the_lab/2011/05/unblock-net.html">http://labs.blogs.com/its_alive_in_the_lab/2011/05/unblock-net.html</a>
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

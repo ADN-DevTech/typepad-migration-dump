@@ -1,0 +1,135 @@
+comments:
+- author: Stardust1611
+  email: ''
+  ip: 85.92.255.163
+  url: http://profile.typepad.com/6p01156f3a6f3b970c
+  date: '2011-04-22 09:43:34'
+  body: 'Hello Kean. Does the old approach still work, or do we have to use Autoloader?
+    I used to add a key to the registry for my application inside HKCU\Software\Autodesk\AutoCAD\R18.2\ACAD-A001:409\Applications,
+    to make it load on the AutoCAD startup, as described in one of your articles,
+    but this doesn''t seem to work anymore in AutoCAD 2012.
+
+    Regards.'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-04-22 09:55:26'
+  body: 'The "traditional" demand-loading mechanism should absolutely still work.
+
+
+    I suggest using the ProcessMonitor (a Microsoft SysInternals tool) to diagnose
+    what''s not working with your app being loaded.
+
+
+    Kean'
+- author: Stardust1611
+  email: ''
+  ip: 85.92.247.106
+  url: http://profile.typepad.com/6p01156f3a6f3b970c
+  date: '2011-04-24 01:29:32'
+  body: 'Thank you Kean for a quick response. I figured out what was the problem.
+    I load my plug-in on AutoCAD startup, and I create a cuix file on then fly, and
+    load it with ads_queueexpr. I also create and add a ribbon tab but not as a part
+    of the cuix file. To be able to add a ribbon tab, I need to know when the ribbon
+    is completely loaded, and I used to use RibbonServices events to capture that
+    moment to be able to add my ribbon tab, and that worked well in previous two versions
+    of AutoCAD, but not any more. As soon as I commented those events out, the assembly
+    begun loading properly. I guess I''ll have to do without the ribbon tab. Interestingly,
+    ribbon loading works well during the debugging in Visual Studio. Thank you for
+    the advice to use Process Monitor. I used it, but couldn''t make out what was
+    wrong. I also created another version with the Autoloader, but also without the
+    ribbon tab.
+
+
+    Regards,
+
+    Haris'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2011-04-26 14:44:27'
+  body: 'Hi Haris,
+
+
+    If you''re an ADN member, please do submit a reproducible sample for my team to
+    look at (otherwise you might try posting something via the discussion group).
+    There may be a problem with the assumptions you''re making about the Ribbon''s
+    availability (the fact that it worked in prior versions doesn''t mean it was the
+    right approach, necessarily).
+
+
+    If the code that''s failing is from my blog, definitely let me know! :-)
+
+
+    Regards,
+
+
+    Kean'
+- author: Stardust1611
+  email: ''
+  ip: 85.92.248.226
+  url: http://profile.typepad.com/6p01156f3a6f3b970c
+  date: '2011-04-26 16:07:12'
+  body: "No Kean, I'm not an ADN member. It's highly likely that my approach is not\
+    \ correct given that I have no reference materials for this at all. I just figured\
+    \ it out by experimenting. This is how I was doing it in 2010 and 2011: during\
+    \ the plugin creation, I would attach a handler to RibbonServices.RibbonPaletteSetCreated\
+    \ event, and when that event happens, I would attach another handler for _ribbonControl.Loaded\
+    \ event. When that event happns, I create the ribbon tab and attach it to the\
+    \ ribbon. I create the ribbon tab according to the instructions from one of your\
+    \ blog articles. I create the cuix file for toolbars on the fly and load it, but\
+    \ I didn't know how to integrate the ribbon tab inside the cuix file programatically.\
+    \ I made a few attempts, but failed to make it work.\nThis didn't work at first\
+    \ in AutoCAD 2012, but then I changed the code to handle _ribbonControl.LayoutUpdated\
+    \ event instead of _ribbonControl.Loaded, and it worked too, but only during debugging.\
+    \ When I actually deploy application to AutoCAD, then it stops working. Here is\
+    \ the original code excerpt from the working version in 2010 and 2011:\n\n\npublic\
+    \ class SuperToolsPlugin : IExtensionApplication\n    {\n        RibbonPaletteSet\
+    \ _paletteSet = Autodesk.AutoCAD.Ribbon.\n            RibbonServices.RibbonPaletteSet;\n\
+    \        Autodesk.Windows.RibbonControl _ribbonControl;\n        RibbonTab _tab;\n\
+    \n        public SuperToolsPlugin()\n        {\n            RibbonServices.RibbonPaletteSetCreated\
+    \ += \n                new EventHandler(RibbonServices_RibbonPaletteSetCreated);\n\
+    \        }\n\n        public void Initialize()\n        {\n\n        }\n\n   \
+    \     public void Terminate()\n        {\n\n        }\n\n        void RibbonServices_RibbonPaletteSetCreated(object\
+    \ sender, EventArgs e)\n        {\n            _paletteSet = Autodesk.AutoCAD.Ribbon.RibbonServices.RibbonPaletteSet;\n\
+    \            _ribbonControl = Autodesk.AutoCAD.Ribbon.RibbonServices.\n      \
+    \          RibbonPaletteSet.RibbonControl;\n\n            _ribbonControl.Loaded\
+    \ += new RoutedEventHandler(ribbonControl_Loaded);\n        }\n\n        void\
+    \ ribbonControl_Loaded(object sender, RoutedEventArgs e)\n        {\n        \
+    \    if (!(_ribbonControl.Tabs.Contains(_tab)))\n            {\n             \
+    \   CreateRibbonTab();\n            }\n       \n                _ribbonControl.ActiveTab\
+    \ = _tab;\n        }\n\n        public void CreateRibbonTab()\n        {\n   \
+    \         // Code for ribbon tab creation\n        }\n\n\n    }\n\nI live in Bosnia,\
+    \ and I'm actually a technical drafter turned progamming enthusiast. I have a\
+    \ web site with description of some tools that I was working on: <a href=\"http://www.cadisland.com/autocad_add-on.aspx.\"\
+    >http://www.cadisland.com/autocad_add-on.aspx.</a> You can even download my toolset\
+    \ 'Carpentry 2011' for AutoCAD for drawing doors and windows, but they can only\
+    \ be installed if the AutoCAD is the subversion with registry key ACAD-9001:409.\
+    \ Now with Autoloader, it will work on any subversion. I'm especially proud of\
+    \ my tools 'Injector' and 'Extractor' that you can find the description of on\
+    \ the page. I'm looking for a telecommute job, as AutoCAD developer or something\
+    \ like that. I'm well versed with WPF and MVVMLight.\n\n\nHaris"
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2011-04-26 16:25:05'
+  body: 'Hi Haris,
+
+
+    That''s what I was afraid of: I really don''t have time to provide support on
+    issues that don''t relate directly to posts on my blog.
+
+
+    Please do post your question to <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a> - I''m sure someone there will be able to help.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

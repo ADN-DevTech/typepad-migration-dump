@@ -1,0 +1,16 @@
+---
+layout: "post"
+title: "Register now for Autodesk University 2022. I may even see you there!"
+date: "2022-07-14 10:15:45"
+author: "Kean Walmsley"
+categories:
+  - "APS (Forge)"
+  - "AU"
+  - "Autodesk"
+  - "Autodesk Research"
+original_url: "https://www.keanw.com/2022/07/register-now-for-autodesk-university-2022-i-may-even-see-you-there.html "
+typepad_basename: "register-now-for-autodesk-university-2022-i-may-even-see-you-there"
+typepad_status: "Publish"
+---
+
+<p><a href="https://www.autodesk.com/autodesk-university/conference/passes" target="_blank">Registration is now open</a> for <a href="https://www.autodesk.com/autodesk-university/conference/overview" target="_blank">this year’s AU</a>: the first time it’s been held in-person since <a href="https://www.keanw.com/2019/12/geometry-systems-and-the-refinery-primer.html" target="_blank">2019</a>, and <a href="https://www.keanw.com/2022/03/autodesk-university-2022-will-be-in-new-orleans.html" target="_blank">in a brand new city (for AU, at least), New Orleans</a>. It’s being held from September 27th to 29th, which will be here really soon!</p><p><a href="https://through-the-interface.typepad.com/.a/6a00d83452464869e202a308d6db7e200c-pi" target="_blank"><img width="500" height="373" title="AU image" style="margin: 30px auto; border: 0px currentcolor; border-image: none; float: none; display: block; background-image: none;" alt="AU image" src="/assets/image_624821.jpg" border="0"></a></p><p>The early-bird pricing of $1,750 is available until July 23rd, at which point it slides upwards to $1,999 until August 12th and then on up to the full price of $2,250 from there. And if you can’t make it in person to the event, there’s still the option to attend virtually <strong>for free</strong>. Registration for the “digital experience” pass will open on August 2nd.</p><p>I’m not presenting a class myself, this year, but it seems likely (or at least very possible) that I’ll be there to support an exhibit that’s being unveiled. More on that in due course.</p><p>I’m also going to try to help out with <a href="https://forge.autodesk.com/blog/forge-autodesk-university-2022" target="_blank">Forge-related events, of which there are several</a>.</p><p>Some of them even before AU proper: the Forge team has announced an <a href="https://forge.autodesk.com/blog/forge-online-bootcamp-pre-event-autodesk-university-2022" target="_blank">online bootcamp running from September 13th to 16th</a>, and an <a href="https://forge.autodesk.com/blog/save-date-2022-forge-hackathon" target="_blank">always-fun virtual Forge Hackathon during the week leading up to AU from September 19th to 23rd</a>.</p><p>There are 30+ classes scheduled that relate to Forge – <a href="https://forge.autodesk.com/blog/7-must-attend-forge-classes-autodesk-university-2022" target="_blank">check out a sampling here</a> – and there’ll be a Forge Developer Zone in the exhibit hall, where I’ll be sure to hang out from time to time, especially if it’s anywhere near the Research team’s exhibit area.</p><p>I’m really looking forward to seeing people in person at AU – assuming I get there, of course. It’s a great event in an awesome city, so what’s not to look forward to?</p>

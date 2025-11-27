@@ -1,0 +1,66 @@
+comments:
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadxtabs/AcadXTabs2010.htm
+  date: '2010-08-02 22:41:18'
+  body: Just a note to those that download and install this, that it will affect any
+    kind of scripting that automates any of the affected commands, if the scripting
+    tries to attach something in a non-World UCS intentionally, or not. I suppose
+    that all the hoops that most AutoCAD commands jump through to avoid user interaction
+    when they're being scripted was not an option here.
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-08-03 12:10:42'
+  body: 'Hi Tony,
+
+
+    Is this warning based on testing or analysis of the code?
+
+
+    Glenn has included a test of the appropriate flag of CMDACTIVE (& 4), to make
+    sure the dialog doesn''t get shown when a script is running.
+
+
+    If you have specific scenarios where this is inadequate, please share them.
+
+
+    Regards,
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadxtabs/AcadXTabs2010.htm
+  date: '2010-08-03 14:04:44'
+  body: "Hi Kean. By 'scripting' I was referring to any type of automation of the\
+    \ command line, be it via a .SCR (script file) or by LISP. \n\nThe CMDACTIVE bit\
+    \ that tells if LISP is running is not 4, it's 32."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-08-03 14:12:25'
+  body: 'Actually the code is, in fact, checking for script files (*.scr) via appropriate
+    CMDACTIVE bit (4).
+
+
+    It seems we''re not checking for LISP (bit 32), but that''s a simple enough fix
+    - I''ll post a new version to Labs today.
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-08-03 18:59:04'
+  body: 'This should now be live on Labs (with the plugin versioned 1.0.1).
+
+
+    Kean
+
+    -----'

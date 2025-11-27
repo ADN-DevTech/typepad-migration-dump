@@ -1,0 +1,147 @@
+comments:
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 200.150.63.80
+  url: http://arxdummies.blogspot.com
+  date: '2008-07-21 13:39:38'
+  body: "Kean, really nice!\nI like those trees.\n\nOne thing came to my mind is the\
+    \ number of created entities which certainly will cause some visualization slow\
+    \ down on big trees/drawings. \n\nI was wondering if you can use blocks for each\
+    \ leave and branch segment so these entities can be reused through BlockReferences\
+    \ avoiding a huge number of single entities.\n\nDo you think this is possible?\n\
+    \nRegards."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-21 14:04:54'
+  body: 'Hi Fernando,
+
+
+    Absolutely - the size & level of detail of these models will cause performance
+    issues.
+
+
+    It''s certainly feasible to make more use of blocks for this: we could have a
+    block containing a single cylinder of unit length & width (with colour set ByBlock)
+    which could then be inserted at the appropriate colour/position/rotation & (most
+    importantly) a non-uniform scale.
+
+
+    It would definitely help in this tree example - as the width changed for each
+    branch/twig/leaf, which means a lot of separate cylinders - but the advantages
+    would be fewer where we have more complex extrusion paths (such as the Hilbert
+    cube example in Part 5).
+
+
+    One option would be to use blocks only for the case of 2-vertex extrusion paths,
+    and leave longer paths to use the existing approach.
+
+
+    Very good suggestion, though, thank you!
+
+
+    Kean'
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 200.150.63.80
+  url: http://arxdummies.blogspot.com
+  date: '2008-07-21 19:27:57'
+  body: 'Kean,
+
+
+    Another approach would be a custom entity where your tree parameters like branch,
+    leaf size, etc; would be the entity''s properties.
+
+
+    Using the same logic you did for creating the tree entities we can draw the full
+    tree using AcGi drawing primitives inside custom entity''s worldDraw().
+
+
+    I''m sure this will be faster to draw than the previous "block solution". Further
+    we could create a "light drawing" version of this tree which will represent it
+    only by simple color line segments avoiding performance issues during drawing
+    editing.
+
+
+    Sound better?
+
+    Regards.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-21 19:38:19'
+  body: 'Hi Fernando,
+
+
+    I actually feels it goes without saying that this could be implemented as a custom
+    entity: my aim was not to implement custom objects, but to capture and create
+    turtle graphics as standard entities. Perhaps that isn''t clear from the series
+    itself, but it was certainly one of the design tenets I was following.
+
+
+    Yes, it would be more performant, but that for me wasn''t the ultimate goal: I''m
+    more interested in seeing how enabling a turtle graphics implementation might
+    be within AutoCAD (especially when modelling organic/fractal forms) and ultimately
+    considering what optimizations might be made to the engine on the back-end (which
+    is why I like the block approach - it doesnn''t change the client code at all).
+    I''m not really interested in writing a tree design application. :-)
+
+
+    Regards,
+
+
+    Kean'
+- author: AlexF
+  email: alex.fielder@ntlworld.com
+  ip: 62.22.30.116
+  url: http://bigbeardy.co.uk
+  date: '2008-08-04 16:12:32'
+  body: "Hi Kean,\n   I was looking at something one of the guys here in the office\
+    \ was working on today and it struck me that the TurtleGfx code would be just\
+    \ the ticket - the problem being I'm not sure how to implement it:\n\nBasically,\
+    \ the Turtle would need to follow the path of a polyline that has a block at each\
+    \ end. Normally this polyline would have only a start and an end point (thus making\
+    \ it straight).  Along the length of the polyline the turtle should carry out\
+    \ instructions based on information contained in a csv file. Primarily these instructions\
+    \ involve placing specific blocks at measured locations and associated text notes\
+    \ (along the length of the line)\n\nDo you think this might work? (or is it akin\
+    \ to using a sledgehammer to break an egg?) \nWhere would I even begin to look\
+    \ for code that would allow the TurtleEngine to travel along a given polyline\
+    \ path? (Have I already missed it in one of your previous posts?)\n\nThanks in\
+    \ advance,\n\nAlex."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-04 17:05:56'
+  body: 'Hi Alex,
+
+
+    No, I didn''t show that... in your case, though, I do think TurtleGraphics is
+    overkill: you''d have to extend the engine so much to do what you need that you
+    might as well create something more specific.
+
+
+    I''d suggest just using Curve.GetPointAtParameter() or Curve[2/3]d.GetSamplePoints()
+    to get points along the segments of your Polylines, and then add what you need
+    to at those locations. The info could, of course, come from a CSV file.
+
+
+    Regards,
+
+
+    Kean'
+- author: AlexF
+  email: alex.fielder@ntlworld.com
+  ip: 62.22.30.116
+  url: http://bigbeardy.co.uk
+  date: '2008-08-04 17:21:32'
+  body: 'Thanks Kean, that''s an excellent starting point. [goes off to read up on
+    Curve.GetPointAtParameter()]
+
+
+    :)
+
+    -----'

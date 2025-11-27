@@ -1,0 +1,480 @@
+comments:
+- author: Ehssan
+  email: Ehssan_iut@yahoo.com
+  ip: 89.165.55.253
+  url: ''
+  date: '2008-12-31 17:08:47'
+  body: 'Hi
+
+    I want to use your code to add dynamic prop to my Entity which I was created.
+    As my program generate .dll I don''t know how to use your code? ( relationship
+    between COM and my codes in C++ is unknown?)
+
+    Thanks in Advance'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.2.123
+  url: http://profile.typekey.com/walmsleyk/
+  date: '2009-01-12 09:36:10'
+  body: 'You would need to modify the code and build the .arx module - which is just
+    another .DLL that can be loaded using APPLOAD or ARX LOAD.
+
+
+    Both C++ and COM are used in the project I provided.
+
+
+    Kean'
+- author: Ivan
+  email: rykov-web@yandex.ru
+  ip: 217.117.94.35
+  url: ''
+  date: '2009-01-30 16:13:47'
+  body: "Hallo Kean,\n\nthanks a lot for very informative blog!\nMay I bother you\
+    \ with a question, concerning properties palette?\n\nI'm a little bit confused\
+    \ with the use of static properties.\n\nMy intention is the following: \nI want\
+    \ to create a class, derived from some Autocad entity (say, MyLine, derived from\
+    \ AcDbLine).\nI add some additional members there (with ability to set and get\
+    \ them). Now, I want to see corresponding additional fields in properties palette.\
+    \ \nWhat should I do? I though, that static properties should be used here.\n\
+    So, I have to write a COM wrapper for MyLine and reimplement MyLine::GetClassID\
+    \ function, so that MyLine would \"use\" this wrapper.\nI want this wrapper to\
+    \ show all the fields of AcDbLine plus some additional fields of MyLine. But how\
+    \ can I make wrapper to \"inherit\" form AcDbLine wrapper, i.e. so that all IAcadLine\
+    \ interface funtions were implemented? \nIn axtempl.h there is only implementation\
+    \ of AcDbEntity wrapper (IAcadEntityDispatchImpl), so, if I inherit from this\
+    \ template class, I have to imlement all additional AcDbLine properties by myself.\n\
+    \nSo, am I right that to add new properties to line I have only two choices: either\
+    \ to implement by myself all wrapper functions for AcDbLine properties, (except\
+    \ those that are common for all entities) or to use dynamic properties instead?\n\
+    \nThanks in Advance"
+- author: Cyrille Fauvel
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/6p01116842c9df970c
+  date: '2009-02-03 12:42:24'
+  body: "Hi Ivan,\n\nWhen you create a COM interface for your custom object, you are\
+    \ doing 2 things. The first one is to enable COM programming for your object,\
+    \ so VBA or another COM aware language can instantiate and use your objects. The\
+    \ second is to expose your object to OPM and this is from where the difference\
+    \ between static and dynamic properties comes in.\n\nStatic properties are the\
+    \ COM interface properties for your object, where dynamic properties are properties\
+    \ you add to your object for OPM and OPM only. OPM will use the AutoCAD dynamic\
+    \ properties protocol (property manager) to retrieve them and display them.\n\n\
+    Now when you want to implement properties for your object to be displayed in OPM,\
+    \ you have 2 choices: static or dynamic. If you don't mind not giving access to\
+    \ COM to program your objects, then dynamic properties is an option. If accessing\
+    \ your object via COM is required, then you have no choice and you should implement\
+    \ a COM interface.\n\nBecause you derive your object COM interface from IAcadEntityDispatchImpl,\
+    \ you are losing all the properties of your parent class. If you derive from AcDbLine,\
+    \ you would expect to derive the COM interface for your derived line class from\
+    \ something like IAcadLineDispatchImpl. Unfortunately, this template class does\
+    \ not exist in the ARX SDK, and you cannot derive from the IAcadLine interface\
+    \ directly because the interface is not aggregatable.\n\nThe solution is to implement\
+    \ these IAcadXXXDispatchImpl template class yourself to map the properties appropriately.\
+    \ Here is below the Line sample for your convenience, and I will post all the\
+    \ others to Kean to be posted on the blog separately. What is important here is\
+    \ to let AutoCAD continue to do his work on categorizing properties like for native\
+    \ AutoCAD entities. This is why the IAcadEntityBaseDispatchImpl template class\
+    \ is implementing a lot of interface by default.\n\nPlease let me know where I\
+    \ should send the sample if you interested to see the code and try on your side.\n\
+    \nRegards,\nCyrille\n\n\n//- IAcadEntityBaseDispatchImpl\ntemplate <\n\tclass\
+    \ T, class rxClass, class interfaceClass, class inheritedInterface,\n\tconst CLSID\
+    \ *pclsid, const CLSID *pinheritedClsid, const IID *piid =&__uuidof (interfaceClass),\n\
+    \tconst GUID *plibid =&CAtlModule::m_libid\n>\nclass ATL_NO_VTABLE IAcadEntityBaseDispatchImpl\
+    \ :\n\tpublic IOPMPropertyExtensionImpl2<T>,\n\tpublic IAcPiCategorizePropertiesImpl<T>,\n\
+    \tpublic IOPMPropertyExpander,\n\tpublic IAcadEntityDispatchImpl<T, pclsid, interfaceClass,\
+    \ piid, plibid>\n{\n\nprotected:\n\tinheritedInterface *mpInnerObject ;\n\npublic:\n\
+    \tIAcadEntityBaseDispatchImpl () : mpInnerObject(NULL) {\n\t\tInternalFinalConstruct\
+    \ () ;\n\t}\n\n\tvirtual ~IAcadEntityBaseDispatchImpl () {\n\t\tInternalFinalRelease\
+    \ () ;\n\t}\n\n\t…\n\n//- IAcadLineDispatchImpl\ntemplate <\n\tclass T, class\
+    \ rxClass, class interfaceClass,\n\tconst CLSID *pclsid, const IID *piid =&__uuidof\
+    \ (interfaceClass),\n\tconst GUID *plibid =&CAtlModule::m_libid\n>\nclass ATL_NO_VTABLE\
+    \ IAcadLineDispatchImpl : \n\tpublic IAcadEntityBaseDispatchImpl<T, rxClass, interfaceClass,\
+    \ IAcadLine, pclsid, &CLSID_AcadLine, piid, plibid>\n{\npublic:\n\t//- IAcadLine\n\
+    \tSTDMETHOD(get_StartPoint) (VARIANT *StartPoint) {\n\t\treturn (mpInnerObject->get_StartPoint\
+    \ (StartPoint)) ;\n\t}\n\n\tSTDMETHOD(put_StartPoint) (VARIANT StartPoint) {\n\
+    \t\treturn (mpInnerObject->put_StartPoint (StartPoint)) ;\n\t}\n\t…\n\n//- IMyLine\n\
+    class ATL_NO_VTABLE CMyLine : \n\tpublic CComObjectRootEx<CComSingleThreadModel>,\n\
+    \tpublic CComCoClass<CMyLine, &CLSID_MyLine>,\n\tpublic ISupportErrorInfo,\n\t\
+    public IAcadLineDispatchImpl<CMyLine, asdkMyLine, IMyLine, &CLSID_MyLine, &IID_IMyLine,\
+    \ &LIBID_asdkArxProject7Lib>\n{\npublic:\n\tCMyLine () {\n\t}\n\n\tDECLARE_REGISTRY_RESOURCEID(IDR_MYLINE)\n\
+    \n\tBEGIN_COM_MAP(CMyLine)\n\t…\n\nFinally in the .idl file\n\tinterface IMyLine\
+    \ : IAcadLine {\n\t…\nand\ncoclass MyLine\n\t{\n\t\t[default] interface IMyLine;\n\
+    \t\t[source] interface IAcadObjectEvents;\n\t\tinterface IAcadLine;\n\t};"
+- author: Ehssan
+  email: Ehssan_iut@yahoo.com
+  ip: 89.165.55.83
+  url: ''
+  date: '2009-02-07 14:01:40'
+  body: "Hi dear\n\nThere are some points I want to share with you.\n\n1.       I\
+    \ think this newly born ObjectARX Wizard have a great problem: It's not able to\
+    \ produce ATL Simple Object and Object DBX ATL COM Wrapper Object. It is my responsibility\
+    \ to let you know. I hope in near future it would be perfect.\n\n2.       I want\
+    \ to add some (control) properties (ctrl +1) to my object. By now my ObjectDBX\
+    \ produce a managed dll that give me this chance to use it in C# program.\n\n\
+    ObjectDBX(C++) to dll  to  C#\n\n    I think by using COM it would be possible\
+    \ to add the property (ctrl +1). to produce dll (manage file: mgObject ) I have\
+    \ to use Common Language Runtime Support, Old Syntax (/clr:oldSyntax) in General\
+    \ in Configuration properties in Properties on ObjectDbx part. To add properties\
+    \ (ctrl +1) to object I have to use Enable C++ Exceptions and Smaller Type Check\
+    \ in Code Generation in C/C++ in Configuration properties in Properties on ObjectDbx\
+    \ part. The problem is I can't use both of them at the same time.\n\n(/clr:oldSyntax)\n\
+    \t\n\nTo Produce dll managed file that I can use in C# as a refrence\n\n(/Ehsc)\
+    \ & (/RTCc)\n\t\n\nTo Add Properties (Ctrl + 1) in AutoCAD\n\n \n\n3.       How\
+    \ can I add Parallel and Extension to My Object Snap?\n\n4.       The following\
+    \ code for saving dosnt work.\n\nvoid SazeRebar::saveAs(AcGiWorldDraw * mode,\
+    \ AcDb::SaveType saveType)\n\n {\n\n       AcDbEntity::saveAs(mode, saveType)\
+    \ ;\n\n       if ((mode->regenType() == kAcGiSaveWorldDrawForProxy) && (saveType\
+    \ == AcDb::kR13Save))\n\n       this->worldDraw(mode);\n\n }\n\nWith Respect\n\
+    \nEhssan Sheikh"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.175.123.145
+  url: http://profile.typepad.com/walmsleyk
+  date: '2009-02-08 11:44:24'
+  body: 'Ehssan,
+
+
+    This is not a forum to get support. I suggest either contacting <a href="http://adn.autodesk.com">the
+    ADN team</a>, if you''re a member, or otherwise posting your questions to one
+    of the <a href="http://discussion.autodesk.com">Autodesk Discussion Groups</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Ivan
+  email: rykov-web@yandex.ru
+  ip: 217.117.94.35
+  url: ''
+  date: '2009-02-09 08:55:00'
+  body: 'Hi Cyrille,
+
+
+    thanks a lot for the detailled answer. I think, I''ve got the idea about inherited
+    interface - it let simple implementation of wrapper template.
+
+
+    > Please let me know where I should send the sample if you interested to see the
+    code and try on your side.
+
+
+    I''m very interested in it, thank you! Could you please send the code to the ivan.r@ngs.ru'
+- author: Eric McDonough
+  email: mcdonough.80@busfin.osu.edu
+  ip: 128.146.145.248
+  url: ''
+  date: '2009-07-15 15:00:41'
+  body: 'Hello Kean,
+
+
+    I would love to have an image display in the rollover tooltip.  Is this possible?  Thanks
+    so much in advance.
+
+
+
+    Eric'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-07-15 16:46:23'
+  body: 'Hello Eric,
+
+
+    You can certainly do this for the enhanced tooltips for ribbon items, but for
+    entities it''s a little harder.
+
+
+    That said, if you can get the Property Palette to host the image (perhaps using
+    a technique similar to that shown in <a href="http://through-the-interface.typepad.com/through_the_interface/2009/07/adding-a-dynamic-distance-property-to-an-autocad-object-using-net.html">today''s
+    post</a>), then maybe you can get it to display in the Quick Properties panel.
+
+
+    Kean'
+- author: Bill
+  email: bill.wu@autodesk.com
+  ip: 58.32.239.82
+  url: ''
+  date: '2010-07-28 11:13:11'
+  body: 'Hi Kean,
+
+    Thanks for your excellent article. Can you provide a sample about Adding and Removing
+    Properties Palette Tabs?
+
+    Thanks,
+
+    -Bill'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-07-28 15:32:26'
+  body: 'Hi Bill,
+
+
+    You know, I don''t even think that''s possible. If it turns out to be, I''ll add
+    it to my list of potential future topics.
+
+
+    Regards,
+
+
+    Kean'
+- author: Bhoopathy Sreedharan
+  email: bsreedharan@gmail.com
+  ip: 61.247.241.182
+  url: ''
+  date: '2011-03-21 11:48:37'
+  body: 'Hi,
+
+    can you please give me the code for visual basic .net to create a custom property
+    to Roll over tips.
+
+
+    Bhoopathy Sreedharan'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-03-21 12:20:03'
+  body: 'You will only be able to achieve part of what you want in VB.NET (just as
+    you can only do part using C#). You also need the C++ component provided in this
+    post.
+
+
+    To convert the C# code to VB.NET, see <a href="http://through-the-interface.typepad.com/through_the_interface/2009/07/converting-between-c-and-vbnet.html">this
+    post</a>.
+
+
+    Kean'
+- author: Bhoopathy Sreedharan
+  email: bsreedharan@gmail.com
+  ip: 61.247.241.182
+  url: ''
+  date: '2011-03-22 07:45:18'
+  body: "Hi,\n\nThanks for the reply.\n\nI have converted the code from c# to VB.Net\
+    \ and as like:\n\nImports Autodesk.AutoCAD.ApplicationServices\nImports Autodesk.AutoCAD.Runtime\n\
+    Imports Autodesk.AutoCAD.Windows.OPM\nImports System.Reflection\nImports System.Runtime.InteropServices\n\
+    \nNamespace zip\n#Region \"Our Custom Property\"\n\n    ' No class interface is\
+    \ generated for this class and\n    ' no interface is marked as the default.\n\
+    \    ' Users are expected to expose functionality through\n    ' interfaces that\
+    \ will be explicitly exposed by the object\n    ' This means the object can only\
+    \ expose interfaces we define\n\n    ' Set the default COM interface that will\
+    \ be used for\n    ' Automation. Languages like: C#, C++ and VB allow to\n   \
+    \ 'query for interface's we're interested in but Automation\n    ' only aware\
+    \ languages like javascript do not allow to\n    ' query interface(s) and create\
+    \ only the default one\n\n    '<Guid(\"F60AE3DA-0373-4d24-82D2-B2646517ABCB\"\
+    ), ProgId(\"OPMNetSample.CustomProperty.1\"), ClassInterface(ClassInterfaceType.None),\
+    \ ComDefaultInterface(GetType(IDynamicProperty2)), ComVisible(True)> _\n    <Guid(\"\
+    41ad8719-b45f-4bd4-bc3d-67dd29a0b19a\"), ProgId(\"zip.CustomProperty.1\"), ClassInterface(ClassInterfaceType.None),\
+    \ ComDefaultInterface(GetType(IDynamicProperty2)), ComVisible(True)> _\n    Public\
+    \ Class CustomProp\n        Implements IDynamicProperty2\n        Private m_pSink\
+    \ As IDynamicPropertyNotify2 = Nothing\n\n        ' Unique property ID\n\n   \
+    \     Public Sub GetGUID(ByRef propGUID As Guid) Implements IDynamicProperty2.GetGUID\n\
+    \            'propGUID = New Guid(\"F60AE3DA-0373-4d24-82D2-B2646517ABCB\")\n\
+    \            propGUID = New Guid(\"41ad8719-b45f-4bd4-bc3d-67dd29a0b19a\")\n \
+    \       End Sub\n\n        ' Property display name\n\n        Public Sub GetDisplayName(ByRef\
+    \ szName As String) Implements IDynamicProperty2.GetDisplayName\n            szName\
+    \ = \"dist1\"\n        End Sub\n\n        ' Show/Hide property in the OPM, for\
+    \ this object instance\n\n        Public Sub IsPropertyEnabled(ByVal pUnk As Object,\
+    \ ByRef bEnabled As Integer) Implements IDynamicProperty2.IsPropertyEnabled\n\
+    \            bEnabled = 1\n        End Sub\n\n        ' Is property showing but\
+    \ disabled\n        Public Sub IsPropertyReadOnly(ByRef bReadonly As Integer)\
+    \ Implements IDynamicProperty2.IsPropertyReadOnly\n            bReadonly = 0\n\
+    \        End Sub\n\n\n        ' Get the property description string\n\n      \
+    \  Public Sub GetDescription(ByRef szName As String) Implements IDynamicProperty2.GetDescription\n\
+    \            szName = \"This property is an integer\"\n\n        End Sub\n\n \
+    \       ' OPM will typically display these in an edit field\n        ' optional:\
+    \ meta data representing property type name,\n        ' ex. ACAD_ANGLE\n\n   \
+    \     Public Sub GetCurrentValueName(ByRef szName As String) Implements IDynamicProperty2.GetCurrentValueName\n\
+    \            Throw New System.NotImplementedException()\n        End Sub\n\n \
+    \       ' What is the property type, ex. VT_R8\n\n        Public Sub GetCurrentValueType(ByRef\
+    \ varType As UShort) Implements IDynamicProperty2.GetCurrentValueType\n      \
+    \      ' The Property Inspector supports the following data\n            ' types\
+    \ for dynamic properties:\n            ' VT_I2, VT_I4, VT_R4, VT_R8,VT_BSTR, VT_BOOL\n\
+    \            ' and VT_USERDEFINED.\n\n            varType = 3\n            ' VT_I4\n\
+    \        End Sub\n\n        ' Get the property value, passes the specific object\n\
+    \        ' we need the property value for.\n\n        Public Sub GetCurrentValueData(ByVal\
+    \ pUnk As Object, ByRef pVarData As Object) Implements IDynamicProperty2.GetCurrentValueData\n\
+    \            ' TODO: Get the value and return it to AutoCAD\n\n            ' Because\
+    \ we said the value type was a 32b int (VT_I4)\n            pVarData = CInt(500)\n\
+    \n        End Sub\n\n        ' Set the property value, passes the specific object\
+    \ we\n        ' want to set the property value for\n\n        Public Sub SetCurrentValueData(ByVal\
+    \ pUnk As Object, ByVal varData As Object) Implements IDynamicProperty2.SetCurrentValueData\n\
+    \            ' TODO: Save the value returned to you\n\n            ' Because we\
+    \ said the value type was a 32b int (VT_I4)\n            Dim myVal As Integer\
+    \ = CInt(varData)\n\n        End Sub\n\n        ' OPM passes its implementation\
+    \ of IDynamicPropertyNotify, you\n        ' cache it and call it to inform OPM\
+    \ your property has changed\n\n        Public Sub Connect(ByVal pSink As Object)\
+    \ Implements IDynamicProperty2.Connect\n            m_pSink = DirectCast(pSink,\
+    \ IDynamicPropertyNotify2)\n        End Sub\n\n        Public Sub Disconnect()\
+    \ Implements IDynamicProperty2.Disconnect\n            m_pSink = Nothing\n   \
+    \     End Sub\n    End Class\n#End Region\n\n#Region \"Application Entry Point\"\
+    \n    Public Class MyEntryPoint\n        Implements IExtensionApplication\n\n\
+    \        Protected Friend custProp As CustomProp = Nothing\n\n        Public Sub\
+    \ Initialize() Implements IExtensionApplication.Initialize\n            Assembly.LoadFrom(\"\
+    asdkOPMNetExt.dll\")\n\n            ' Add the Dynamic Property\n\n           \
+    \ Dim classDict As Dictionary = SystemObjects.ClassDictionary\n            Dim\
+    \ lineDesc As RXClass = DirectCast(classDict.At(\"AcDbLine\"), RXClass)\n    \
+    \        Dim pPropMan As IPropertyManager2 = DirectCast(xOPM.xGET_OPMPROPERTY_MANAGER(lineDesc),\
+    \ IPropertyManager2)\n\n            custProp = New CustomProp()\n            pPropMan.AddProperty(DirectCast(custProp,\
+    \ Object))\n        End Sub\n\n        Public Sub Terminate() Implements IExtensionApplication.Terminate\n\
+    \            ' Remove the Dynamic Property\n\n            Dim classDict As Dictionary\
+    \ = SystemObjects.ClassDictionary\n            Dim lineDesc As RXClass = DirectCast(classDict.At(\"\
+    AcDbLine\"), RXClass)\n            Dim pPropMan As IPropertyManager2 = DirectCast(xOPM.xGET_OPMPROPERTY_MANAGER(lineDesc),\
+    \ IPropertyManager2)\n\n            pPropMan.RemoveProperty(DirectCast(custProp,\
+    \ Object))\n            custProp = Nothing\n        End Sub\n    End Class\n#End\
+    \ Region\nEnd Namespace\n\nwhen i run this classlibrary.dll, I found no changes\
+    \ from Autocad PROPS command.\n\nKindly advice.\n\nBhoopathy Sreedharan."
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-03-22 11:18:16'
+  body: 'I''m afraid I don''t have time to help you debug this.
+
+
+    I suggest posting your project to to <a href="http://adn.autodesk.com">the ADN
+    team</a>, if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean'
+- author: Bhoopathy Sreedharan
+  email: bsreedharan@gmail.com
+  ip: 61.247.241.243
+  url: ''
+  date: '2011-03-22 12:33:57'
+  body: 'Sorry troubling you kean, I made everything fine here, and strucking up with
+    Inherits IDynamicProperty2,Inherits IExtensionApplication.
+
+    (It say classes can inherit only from other classes)
+
+    As I followed your blog only for this, I believe you can only solve this.
+
+
+    If you find any time please help.
+
+
+    Bhoopathy Sreedharan'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-03-22 12:55:55'
+  body: 'The ADN team would also be able to help with this. I do not have time, myself,
+    unfortunately.
+
+
+    Kean'
+- author: Bhoopathy Sreedharan
+  email: bsreedharan@gmail.com
+  ip: 61.247.241.220
+  url: ''
+  date: '2011-03-22 13:59:44'
+  body: Thanks Kean.I will do it as you suggested.
+- author: kkchaitanya
+  email: chaitu.technology@gmail.com
+  ip: 199.63.142.252
+  url: ''
+  date: '2012-02-20 11:41:23'
+  body: please provide me code in Visual Basic Application(VBA)
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/kean
+  date: '2012-02-20 12:04:49'
+  body: 'Sorry - I don''t take requests for converting to other languages/environments.
+
+
+    Kean'
+- author: TahaDevelop
+  email: belbattach.taha@gmail.com
+  ip: 41.141.239.5
+  url: ''
+  date: '2013-03-12 15:10:17'
+  body: 'Hi ,
+
+    I want to draw region entities using my code C#,i am using Theiga.Net and it classes
+    to read and draw AutoCad entities.
+
+    I want to use the Theiga class named "AcDbRegion".
+
+    Thanx'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-03-12 15:12:51'
+  body: 'Hello,
+
+
+    Teigha isn''t an Autodesk product. I suggest contacting someone at the Open Design
+    Alliance for support.
+
+
+    Regards,
+
+
+    Kean'
+- author: David J. Ortega
+  email: dortega@brady.com
+  ip: 66.180.250.202
+  url: http://www.cadtutor.net/forum/showthread.php?80087-Battman-Sync...&p=542108#post542108
+  date: '2013-07-18 17:46:15'
+  body: 'Kean,
+
+    I like what I see here, however, I am completely foreign to C++ and COM.  How
+    would I go about adding a Dynamic Blocks Unicode ''Anonymous Name'' within the
+    code contained within the ''simpledynprops2.zip''?  I found that I can use the
+    LIST command to provide me with the ''Anonymous Name'' however it''s easier to
+    utilize the Rollover Tooltip menu.
+
+    To give you background of the process I am trying to rid myself of, here is a
+    link to my post on CadTutor (<a href="http://www.cadtutor.net/forum/showthread.php?80087-Battman-Sync...&p=542108#post542108)">http://www.cadtutor.net/forum/showthread.php?80087-Battman-Sync...&p=542108#post542108)</a>'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-07-18 18:10:08'
+  body: 'David,
+
+
+    I assume OPMNetExt would work for this:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2009/03/exposing-autocads-properties-palette-functionality-to-net---part-1.html">http://through-the-interface.typepad.com/through_the_interface/2009/03/exposing-autocads-properties-palette-functionality-to-net---part-1.html</a>
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2009/03/exposing-autocads-properties-palette-functionality-to-net---part-2.html">http://through-the-interface.typepad.com/through_the_interface/2009/03/exposing-autocads-properties-palette-functionality-to-net---part-2.html</a>
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2009/07/adding-a-dynamic-distance-property-to-an-autocad-object-using-net.html">http://through-the-interface.typepad.com/through_the_interface/2009/07/adding-a-dynamic-distance-property-to-an-autocad-object-using-net.html</a>
+
+
+    I hope these posts help,
+
+
+    Kean'
+- author: David J. Ortega
+  email: dortega@brady.com
+  ip: 66.180.250.202
+  url: http://www.cadtutor.net/forum/showthread.php?80087-Battman-Sync...&p=542108#post542108
+  date: '2013-07-23 02:27:39'
+  body: 'I''m having a tough time installing Autodesk''s AutoCADNetWizards.msi onto
+    my computer - would you have any clue why it won''t install to get my templates?
+
+    I am using Visual Studio 2010 Express and AutoCADNetWizards.msi (version: AutoCAD
+    2013)'
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.225.57
+  url: http://profile.typepad.com/kean
+  date: '2013-07-29 10:03:57'
+  body: 'I don''t know, off the top of my head. You might try <a href="mailto:oarxwiz-feedback@autodesk.com">sending
+    an email</a> to see if someone on the ADN team can help.
+
+
+    Kean
+
+    -----'

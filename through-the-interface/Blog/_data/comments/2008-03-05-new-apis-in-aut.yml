@@ -1,0 +1,206 @@
+comments:
+- author: jeremy
+  email: jeremy.tammik@eur.autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2008-03-06 14:19:31'
+  body: 'hi kean,
+
+
+    do you have an example of making use of the geo-location functionality? in germany,
+    it appears that gauss-krueger coordinates are very commonly used, for instance
+    when building tunnels. these cause huge coordinates, and this causes precision
+    problems when calculating and comparing geometry in autocad. maybe this new geo-location
+    functionality could help alleviate these problems?
+
+
+    cheers
+
+
+    jeremy'
+- author: Zoltán Török
+  email: torokze@gmail.com
+  ip: 81.182.212.183
+  url: ''
+  date: '2008-03-06 18:22:05'
+  body: 'Hi Kean,
+
+
+    That .NET reference is nice but it is just a REFERENCE. The Object Browser in
+    the VS shows the same (or the Reflector). A real ''Developers Guide'' with samples
+    would be much more usefull (just like ObjectARX API).
+
+
+    Regs,
+
+    Zolee'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.6.124
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-03-06 18:40:43'
+  body: 'Jeremy -
+
+
+    No, I don''t have a sample, but if you want to work on one, I''ll post it for
+    you. :-) Unfortunately I don''t know whether the Geo-Location feature addresses
+    those precision issues.
+
+
+    (For those of you who don''t know Jeremy, he''s a member of the DevTech team in
+    Europe.)
+
+
+    Zolee -
+
+
+    Yes, but it''s a first step. The plan is to integrate more and more samples directly
+    into the reference. Incidentally, the existence of samples doesn''t automatically
+    make it a Developer Guide, which is typically more a step-by-step guide for creating
+    certain types of application functionality.
+
+
+    So this reference will definitely grow over time, and potentially will be completed
+    by wiki-style community documentation (what this space).
+
+
+    Regards,
+
+
+    Kean'
+- author: Jose Guia
+  email: joseguia@gmail.com
+  ip: 67.198.27.87
+  url: http://Cadkicks.com
+  date: '2008-03-07 04:34:42'
+  body: 'Thanks for providing us with the info!
+
+
+    Looking forward to the in depth look at some of the APIs.
+
+
+    I''d like to see more on the ribbon, .. using the API do you think we will have
+    the ability to create a second Ribbon to dock elsewhere for our custom apps/code.
+
+
+    I kicked your post over to :
+
+    http://cadkicks.com/adkautocad/Through_the_Interface_New_APIs_in_AutoCAD_2009'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.6.124
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-03-07 08:23:52'
+  body: 'I don''t believe so: my understanding is that the API, as exposed, is more
+    about working with the single Ribbon inside AutoCAD.
+
+
+    This type of UI functionality may well be in other applications of ours, over
+    time, but I don''t see the underlying framework being made available to be used
+    freely in standalone applications.
+
+
+    Kean'
+- author: Markus Hannweber
+  email: markus.hannweber@sofistik.de
+  ip: 212.204.69.62
+  url: http://www.sofistik.de
+  date: '2008-03-07 15:30:08'
+  body: 'Hi Kean,
+
+    because of some trouble we have sometimes with the large coordinates, I told this
+    to Jeremy and he has written it here.
+
+    The new class AcDbGeoData sounds interesting, but till now I didn''t founnd an
+    example.
+
+    But the point, that don''t sound good is:
+
+    "AcDbGeoData also provides coordinate transformation functions to convert coordinates
+    between DWG drawing space and geographic space."
+
+    If I have still a coordinate conversion, I think the problem with the precision
+    stays the same
+
+    Greetings
+
+    Markus'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-03-07 15:47:24'
+  body: 'Hi Markus,
+
+
+    We''ll see if we can come up something you can use to test this issue again (please
+    continue to work with Jeremy). As you''ve said, if it''s largely about coordination
+    transformation I''m doubtful it will be of much help in this particular scenario,
+    but then you never know.
+
+
+    Regards.
+
+
+    Kean'
+- author: Markus Hannweber
+  email: markus.hannweber@sofistik.de
+  ip: 212.204.69.62
+  url: http://www.sofistik.de
+  date: '2008-03-10 09:29:40'
+  body: 'Hi Kean,
+
+    the problem here is, that it''s really hard to know when it works, because the
+    bugs with the large coordinates show up not very often (but still too often).
+    But we will see
+
+
+    Greetings
+
+    Markus'
+- author: Maksim Sestic
+  email: max@geoinova.com
+  ip: 81.93.72.30
+  url: http://www.geoinova.com
+  date: '2008-03-27 11:10:34'
+  body: 'To Jeremy:
+
+
+    Jeremy, I guess you are attempting to use GeoLocation to transform coordinates
+    from Gauss-Krueger to WGS84 (and vice-versa). It''s simply up to setting proper
+    transformation parameters - coordinates (neither their precision) themselves don''t
+    have much to do with this issue. Autodesk has been using Mentor library within
+    MAP to enable coordinate transformation services. Mentor library is open source
+    now, I guess. Other popular open source library targeting coordinate transformation
+    and reprojection is PROJ4.
+
+
+    Regards,
+
+    Maksim Sestic'
+- author: Joseph Garrett
+  email: jgarrett@southernco.com
+  ip: 146.126.51.51
+  url: ''
+  date: '2008-05-06 16:57:51'
+  body: "\"2009 is a binary application compatible release with AutoCAD 2007 and 2008\"\
+    \n\nso we should NOT have to modify/recompile our 2007 based arx/dbx/.Net applications\
+    \ for them to work in 2009? \n\nI have verified this with '08 but I am having\
+    \ currently troubleshooting an issue with '09."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.7.167
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-06 21:02:31'
+  body: 'That''s correct: if modification or even recompilation is needed, then we
+    need to be aware of it (ideally having it reported through ADN support).
+
+
+    In a very small number of cases some changes are needed (usually because "incorrect"
+    code happened to work before but not in the latest release - it''s rare, but does
+    happen, which is also true of genuine compatibility issues).
+
+
+    Kean
+
+    -----'

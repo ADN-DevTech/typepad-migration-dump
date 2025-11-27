@@ -1,0 +1,495 @@
+comments:
+- author: Vikas Hajela
+  email: vikas.hajela@espireinfo.com
+  ip: 220.227.6.54
+  url: http://www.espireinfo.com
+  date: '2010-04-14 07:00:33'
+  body: "Thanks Kean for the great help.... \n\nCan we do the same by saving the settings\
+    \ in parital CUIX. Because when we re-open the Autocad, the added controls are\
+    \ removed."
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-04-14 09:14:23'
+  body: 'It should be, although that''s another question. If you''re auto-loading
+    your UI customization module on AutoCAD startup then the items will always be
+    there, but I can understand why you''d want to use CUI, as this would allow your
+    users to customize your app''s UI.
+
+
+    Kean'
+- author: Francois Dauberlieu
+  email: francois.dauberlieu@btmsoftware.eu
+  ip: 88.79.126.102
+  url: http://www.btmsoftware.eu
+  date: '2010-04-18 10:59:30'
+  body: 'To the risk of sounding dumb as dumb can be:
+
+    How do you add a separator before the new menu entry ? Couldn''t find anything
+    about that....'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-04-19 08:30:09'
+  body: 'That''s far from being a dumb question, Francois. :-)
+
+
+    If you add this line before the line adding your menu item, you''ll get a separator:
+
+
+    menu.MenuContent.Items.Add(new RibbonSeparator());
+
+
+    Regards,
+
+
+    Kean'
+- author: Francois Dauberlieu
+  email: francois.dauberlieu@btmsoftware.eu
+  ip: 80.60.122.202
+  url: ''
+  date: '2010-04-26 18:09:43'
+  body: Works great. Thanx
+- author: Francois Dauberlieu
+  email: francois.dauberlieu@btmsoftware.eu
+  ip: 80.60.122.202
+  url: http://www.btmsoftware.eu
+  date: '2010-04-28 11:06:03'
+  body: 'Kean,
+
+
+    Another question: Is it possible (and how if it is) to access the Icon resources
+    from autoCAd itself ? There are a few Icons I''d like to reuse if feasible
+
+
+    Cheers'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-04-28 14:58:45'
+  body: 'I don''t know - I suggest asking via <a href="http://adn.autodesk.com">ADN</a>,
+    if you''re a member.
+
+
+    Kean'
+- author: Ivan
+  email: Ivan.Markov@hei-eng.com
+  ip: 64.126.109.222
+  url: ''
+  date: '2010-05-28 17:46:40'
+  body: 'Hey Kean,
+
+
+    thanks for the code. However, I keep crashing autocad by adding the qucikaccesstoolbar
+    button. The scenario is:
+
+    1. Execture AddQuickAccessToolbarItem(), as you have suggested.
+
+    2. Try to reorganize the quick access buttons in autocad, by turning them on and
+    off. As it happens if I turn on a couple of other buttons after the cusom one
+    I added, and then try to turn one off, it crashes autocad with a fatal error.
+
+    3. The same fatal error crash occurs if I run the wssave command after the custom
+    quick access button was added.
+
+
+
+    Any help will be appriciated.
+
+
+    Thanks'
+- author: Ivan
+  email: Ivan.Markov@hei-eng.com
+  ip: 64.126.109.222
+  url: ''
+  date: '2010-05-28 17:58:22'
+  body: 'Hi Kean,
+
+
+    sorry for the double post. I figured out what the problem is. The Id and UID properties
+    for the RibbonButton need to be set before adding it, otherwise when autocad tries
+    to refer to that button by the Id, causes a fatal crash since it is not set. Thanks
+    again for the code.'
+- author: Andrew
+  email: andrew.Squire@interstates.com
+  ip: 207.177.84.162
+  url: ''
+  date: '2010-06-17 22:14:38'
+  body: 'Hi Kean, thanks again for another very helpful article!
+
+
+    I just have one complication with the code. I''m trying to use it with my own
+    application, and everything works fine except the image part. I have my own images,
+    which are saved to the correct Icon (.ico) format. Yet everytime i try to startup
+    autoCAD (my application is demand-loading) I run into an error:
+
+
+    System.IO.FileFormatException: The codec cannot use the type of stream provided
+
+
+    I''m catching the error now so autocad doesn''t freeze up, and after those the
+    buttons are added, just without images. What do I need to do differently from
+    your code? I''m at a loss for ideas. Also if it matters i''m using primariy autocad
+    2010/11'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-06-18 15:09:58'
+  body: 'Hi Andrew,
+
+
+    I expect there''s something about the specific datatype stored in the ICO files.
+    I suggest loading the ones I''ve provided into Visual Studio next to your own
+    and checking things like resolution and colour depth.
+
+
+    Regards,
+
+
+    Kean'
+- author: Andrew
+  email: andrew.Squire@interstates.com
+  ip: 207.177.84.162
+  url: ''
+  date: '2010-06-21 16:04:58'
+  body: 'Hi Kean,
+
+    still having no luck with this. I''ve tried pulling the ones you used as well
+    as trying to use icons directly taken from other commands in the CUI. My icon
+    in the Application Menu shows up but the icon for the QAT is still invisible.
+    For now I''m just giving up on using the QAT icon and just sticking with the one
+    that works, but I can''t figure out at all what''s wrong with the .ico file for
+    the small image'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-06-21 16:56:56'
+  body: 'Hi Andrew,
+
+
+    Have you posted a project via <a href="http://adn.autodesk.com">the ADN site</a>
+    (if you''re an ADN member) or to <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>?
+
+
+    Let me know when you have, and if I get the time I''ll take a look.
+
+
+    Kean'
+- author: Andrew
+  email: andrew.Squire@interstates.com
+  ip: 207.177.84.162
+  url: ''
+  date: '2010-06-21 21:44:18'
+  body: 'I''ve got it figured out now. I don''t understand why exactly but after using
+    about a dozen online icon converter programs one of them worked, so all is well
+    again.
+
+    Thanks for your help, and this article!'
+- author: Andrew
+  email: andrew.Squire@interstates.com
+  ip: 207.177.84.162
+  url: ''
+  date: '2010-06-29 15:06:04'
+  body: Now I've got another question for you Kean; I've been trying to add regular
+    buttons to the ribbon using this code, and running into issues with different
+    versions. 2011 Autocad works just fine loading the ribbonButtons in the Idle event,
+    but that does not work for 2010 and I have yet to find a different event that
+    fires that allows it to work. Any ideas what event I should do or is the code
+    need to be changed based on if the user is using 2010 or 2011? Thanks for all
+    the help
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-06-29 15:32:11'
+  body: 'Hi Andrew,
+
+
+    When you can, CUI is probably the safest way to go for UI customization.
+
+
+    Other than that, I don''t really have any advice to give...
+
+
+    I suggest posting your question to <a href="http://adn.autodesk.com">the ADN team</a>,
+    if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Philip Eki
+  email: iyobo123@yahoo.com
+  ip: 68.144.64.160
+  url: ''
+  date: '2010-07-22 00:04:15'
+  body: I wonder if an additional menu can be added to the normal Menu bar as well
+    (The bar that is hidden by default in AutoCAD 2010+)
+- author: Kean Walmsley
+  email: ''
+  ip: 99.31.232.76
+  url: http://profile.typepad.com/kean
+  date: '2010-07-22 18:14:34'
+  body: 'You''d probably be better off using CUI to modify this menu.
+
+
+    If there''s nothing directly relevant on the blog, I suggest posting your question
+    to <a href="http://adn.autodesk.com">the ADN team</a>, if you''re a member, or
+    otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean'
+- author: Jakub Szostak
+  email: ''
+  ip: 77.113.6.47
+  url: http://profile.typepad.com/szostak
+  date: '2011-01-13 18:10:05'
+  body: "You can check ComponentManager.Ribbon:\n\nvoid Application_OnIdle(object\
+    \ sender, EventArgs e)\n{\n    <b>if (ComponentManager.Ribbon == null)\n     \
+    \   return; </b>\n    Application.Idle -= new EventHandler(Application_OnIdle);\n\
+    \    AddQuickAccessToolbarItem();\n}"
+- author: nav
+  email: navspam@gmail.com
+  ip: 78.105.168.177
+  url: ''
+  date: '2011-01-25 12:58:18'
+  body: "Hi Kean \ngreat post i have a issue with applicationmenu recent documents\
+    \ open event handler i hope you will be able to help or point me to right direction.\n\
+    \nI want to validate the file path of dwg before openning it, when i use the DocumentCreateStarted\
+    \ event of DocumentCollection and try to access the e.Document.Name for validation\
+    \ it shows an empty string. and if document is not available Autocad shows a message\
+    \ \"Cannot find the specified drawing file....\". i want to handle the event before\
+    \ this message and if file not avialble perform some other action rather than\
+    \ showing a messagebox.\n\nany idea how i can access file path in DocumentCreateStarted?\n\
+    thanks"
+- author: Kean Walmsley
+  email: ''
+  ip: 109.237.55.190
+  url: http://profile.typepad.com/kean
+  date: '2011-01-25 13:01:36'
+  body: 'Hi Nav,
+
+
+    This isn''t a forum for support.
+
+
+    Your comment doesn''t appear to relate to this post, so please submit your question
+    to <a href="http://adn.autodesk.com">the ADN team</a>, if you''re a member, or
+    otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: lainegates
+  email: lainegates@qq.com
+  ip: 210.76.196.230
+  url: ''
+  date: '2011-12-27 03:57:14'
+  body: "Hi,thanks for your help and code\nI have tried this example , everything\
+    \ ran good , but in the function \"private void AddApplicationMenu()\" , the last\
+    \ sentence is \"menu.MenuContent.Items.Add(mi);\"  , where the \"Items\" is  \"\
+    Autodesk.Windows.RibbonItemCollection\" , but the compiler told\nme \"Autodesk.Windows.RibbonItemCollection\
+    \  don't include the definition  of Add\"\n \ncould you tell me how to solve this\
+    \ ?\n \nI use visual studio 2010 with .net 3.5 and autocad 2010\nI have add the\
+    \ references to  AcCui.dll acdbmgd.dll acdbmgdbrep.dll AcDx.dll acmgd.dll AcTcMgd.dll\
+    \ AcWindows.dll AdWindows.dll Autodesk.AutoCAD.Interop.dll Autodesk.AutoCAD.Interop.Common.dll"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2012-01-03 09:22:09'
+  body: 'I don''t know why you''re you''re seeing this error (I don''t have it on
+    my system - it worked with AutoCAD 2010 when I wrote it and I just checked the
+    code also compiled against the AutoCAD 2012 assemblies, too).
+
+
+    Could it be you''re somehow building against assemblies for versions prior to
+    AutoCAD 2010?
+
+
+    Kean'
+- author: Nathen  Termen
+  email: nat_ter@hotmail.com
+  ip: 109.247.165.211
+  url: ''
+  date: '2012-03-17 14:07:21'
+  body: 'Thanks for this input. I''d love to try building on this, but I can''t get
+    it to run in VS 2010 ultimate. I''ve got autocad 2012 as well. It looks like the
+    IconBitmapDecoder is missing. Could you tell me which assemblies I need for this
+    and where I might get them?
+
+
+    Grateful for any help.
+
+
+    Nathan'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-03-19 13:10:38'
+  body: 'It sounds as though you''re missing PresentationCore.dll (and may also need
+    PresentationFramework).
+
+
+    <a href="http://msdn.microsoft.com/en-us/library/system.windows.media.imaging.iconbitmapdecoder.aspx">http://msdn.microsoft.com/en-us/library/system.windows.media.imaging.iconbitmapdecoder.aspx</a>
+
+
+    Any non-AutoCAD assemblies will be part of the .NET Framework.
+
+
+    Kean'
+- author: Jake
+  email: sjyoon@geosys.co.kr
+  ip: 211.238.137.37
+  url: ''
+  date: '2012-04-06 11:44:06'
+  body: 'I am always grateful for your posting. They helped me alot.
+
+    But when I tried the above code, my VS says ComponentManager is not in the context.
+
+    It seems like it''s in the AutoCAD.Windows namespace, but even the namespace does
+    not exist for me. :(
+
+    I am currently using ObjectARX 2011 SDK.
+
+
+    Any idea?
+
+
+    Grateful for any help.
+
+
+    Jake'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-04-10 15:00:02'
+  body: 'Hi Jake,
+
+
+    Do you have a project reference to AdWindows.dll? That should be enough to resolve
+    the problem.
+
+
+    Cheers,
+
+
+    Kean'
+- author: zoltan.torok@tzi.hu
+  email: zoltan.torok@tzi.hu
+  ip: 81.182.10.165
+  url: ''
+  date: '2012-06-05 14:55:52'
+  body: 'Hello Kean,
+
+
+    Life saving post.
+
+    Is it possible to add a button to the zero-doc-state Quick Access toolbar?'
+- author: Kean Walmsley
+  email: ''
+  ip: 216.52.185.72
+  url: http://profile.typepad.com/kean
+  date: '2012-06-05 18:18:06'
+  body: 'Hi Zoltan,
+
+
+    Not that I''m aware of...
+
+
+    Kean'
+- author: wagdu
+  email: wangdu.gyalpo@coolorange.com
+  ip: 95.171.62.255
+  url: ''
+  date: '2012-07-19 14:40:03'
+  body: "hello Kean,\n\nHow can I have a RibbonButton created in the cuix through\
+    \ the CUI user interface, so that it is loaded as not enabled? I seem not to find\
+    \ any where a property that can be set for this behaviour. \nI appreciate if you\
+    \ have any pointers on this.\nThanks!"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-07-31 10:15:22'
+  body: 'Hello wagdu,
+
+
+    I don''t know, off the top of my head. Please post your question via ADN or to
+    the AutoCAD .NET Discussion Group.
+
+
+    Regards,
+
+
+    Kean'
+- author: Mani
+  email: kmallti@gmail.com
+  ip: 192.128.167.68
+  url: http://www.divyasoft.com
+  date: '2013-07-09 18:57:05'
+  body: "Hi Kean,\n\nI want to remove\\hide the Big A Image ICON from application\
+    \ menu browser.How i will do from Code.Please let me know so i am thankful to\
+    \ you.\n\nautodesk.windows.Applicationmenu menu= autodesk.windows.componentmanager.Applicationmenu;\n\
+    \nmenu.Isopen=false;\n it is allowing to open the menubrowser.But i want to hide/Remove\
+    \ from code BigA image ICON of applicationmenu.so i am thankful to you."
+- author: Mani
+  email: kmallti@gmail.com
+  ip: 192.128.167.68
+  url: http://www.divyasoft.com
+  date: '2013-07-09 19:00:41'
+  body: it is not allowing to open the menubrowser.But i want to hide/Remove from
+    code BigA image ICON of applicationmenu.so i am thankful to you.
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-07-09 21:04:51'
+  body: 'Hi Mani,
+
+
+    Please submit your question to the ADN team or post it to the AutoCAD .NET Discussion
+    Group.
+
+
+    Regards,
+
+
+    Kean'
+- author: Dharmarajan
+  email: mrdharmarajan@gmail.com
+  ip: 220.225.131.2
+  url: ''
+  date: '2014-01-20 05:36:20'
+  body: 'Hi,
+
+
+    can you please provide the same code in vb.net ?'
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2014-01-20 07:40:17'
+  body: 'Please see this post:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2009/07/converting-between-c-and-vbnet.html">http://through-the-interface.typepad.com/through_the_interface/2009/07/converting-between-c-and-vbnet.html</a>
+
+
+    Kean
+
+    -----'

@@ -1,0 +1,12 @@
+---
+layout: "post"
+title: "API wishlist surveys for Autodesk products"
+date: "2010-05-10 17:40:00"
+author: "Kean Walmsley"
+categories: []
+original_url: "https://www.keanw.com/2010/05/api-wishlist-surveys-for-autodesk-products.html "
+typepad_basename: "api-wishlist-surveys-for-autodesk-products"
+typepad_status: "Publish"
+---
+
+<p>This year’s API wishlist surveys for the following products are now ready:</p>  <p><a href="http://www.zoomerang.com/Survey/WEB22ALQR9G6P3" target="_blank">AutoCAD®</a>     <br /><a href="http://www.zoomerang.com/Survey/WEB22ALQPVG5U7" target="_blank">AutoCAD® Civil 3D®</a>     <br /><a href="http://www.zoomerang.com/Survey/WEB22ALQQAG645" target="_blank">AutoCAD® Map 3D®</a>     <br /><a href="http://www.zoomerang.com/Survey/WEB22ALQSSG7LZ" target="_blank">Revit®</a>     <br /><a href="http://www.zoomerang.com/Survey/WEB22ALQSBG7BT" target="_blank">Autodesk Inventor®</a>     <br /><a href="http://www.zoomerang.com/Survey/WEB22ALQWSGA35" target="_blank">Autodesk Navisworks®</a></p>  <p>My team runs these surveys <a href="http://through-the-interface.typepad.com/through_the_interface/2008/04/api-wishlist-su.html" target="_blank">year</a> on <a href="http://through-the-interface.typepad.com/through_the_interface/2009/07/api-wishlist-surveys-for-autodesk-products.html" target="_blank">year</a>, and <a href="http://through-the-interface.typepad.com/through_the_interface/2009/07/api-wishlist-surveys-a-reminder-and-some-encouragement.html" target="_blank">year</a> on <a href="http://through-the-interface.typepad.com/through_the_interface/2010/03/autocad-2011-is-now-shipping.html" target="_blank">year</a> Autodesk’s various Engineering teams deliver upon them (and <a href="http://modthemachine.typepad.com/my_weblog/2009/07/inventor-api-wishlist-survey-reminder.html" target="_blank">not just</a> <a href="http://thebuildingcoder.typepad.com/blog/2010/03/api-wish-list-survey-results.html" target="_blank">AutoCAD’s</a>). It really is worth providing us with your input: it’s one of the most direct ways to influence the direction of the Autodesk products you customize or for which you develop applications. Tell us which APIs are most important to you: your feedback will not fall on deaf ears. And if you (optionally) provide your email address in the survey, I’ll send you a copy of the results once they’ve been compiled.</p>  <p>The surveys will remain open until <strong>May 30th, 2010</strong>. Thanks in advance for your feedback!</p>

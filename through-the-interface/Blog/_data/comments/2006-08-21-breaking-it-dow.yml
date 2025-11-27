@@ -1,0 +1,425 @@
+comments:
+- author: Barry Ralphs
+  email: barry.ralphs@tippingmar.com
+  ip: 66.117.129.105
+  url: http://www.bazzacad.com
+  date: '2006-08-21 19:25:16'
+  body: 'thx Kean,
+
+    Great update, very helpful. Keep them coming, I''m learning a lot them these types
+    of posts. Now I need to figure out how to update a specific block from the side
+    DB. Anything I should look out for?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-08-21 22:30:26'
+  body: "Hi Barry,\n\nIf you have the name of the block you can avoid the foreach\
+    \ loop, and simply use:\n\nBlockTableRecord btr =\n  (BlockTableRecord)tm.GetObject(bt[blockName],\n\
+    \                                 OpenMode.ForRead);\n\nThen you just have to\
+    \ add the block definitions objectID into the list:\n\nblockIds.Add(btr.ObjectId);\n\
+    \nAnd that's it! :-)\n\nKean"
+- author: csharpbird
+  email: csharpbird@gmail.com
+  ip: 58.60.94.25
+  url: ''
+  date: '2007-03-21 17:31:00'
+  body: "Hi,Kean\n  I can use the DwgVersion Enum to get the correct AutoCAD version\
+    \ for 2000~2007,but DwgVersion.AC1014 throws an exception.\nCan you help me?\n\
+    Thanks in advance."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-03-22 08:25:43'
+  body: 'Hi csharpbird,
+
+
+    What exactly are you trying to do?
+
+
+    Regards,
+
+
+    Kean'
+- author: csharpbird
+  email: csharpbird@gmail.com
+  ip: 58.61.59.117
+  url: ''
+  date: '2007-03-22 16:16:22'
+  body: "Hi,Kean\n   The code is like this:\n   Database db=new Database(flase,true);\n\
+    \   ....\n   db.SaveAs(\"test.dwg\",DwgVersion.AC1014);\n\n  But it will throw\
+    \ an error(saveas  2000/2004/2007 is OK)."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-03-22 17:24:09'
+  body: "Hi csharpbird,\n\nA couple of things:\n\nIf you're creating a DWG file to\
+    \ save out, you should pass in \"True\" as the first paramater to the Database\
+    \ constructor. But that won't help with the exception.\n\nIt seems SaveAs only\
+    \ supports 2000, 2004 and 2007 DWG formats (you can check this by calling db.GetSupportedSaveVersions()).\
+    \ Which basically means the function only makes calls to acdbSaveAsR2000/R2004\
+    \ (ObjectARX functions) for previous DWG versions. \n\nYou should, however, be\
+    \ able to P/Invoke acdbSaveAsR14() directly, passing db.UnmanagedObject as the\
+    \ first parameter.\n\nRegards,\n\nKean"
+- author: csharpbird
+  email: csharpbird@gmail.com
+  ip: 58.61.59.117
+  url: ''
+  date: '2007-03-23 15:51:20'
+  body: "Hi,Kean \n        [DllImport(\"acad.exe\", EntryPoint = \"?acdbSaveAsR14@@YA?AW4ErrorStatus@Acad@@PAVAcDbDatabase@@PB_W@Z\"\
+    , CharSet = CharSet.Auto)]\n        static extern bool acdbSaveAsR14(IntPtr pDb,\
+    \ string fileName);\n        public static void SaveDatabaseAsR14(Database db,string\
+    \ fileName)\n        {\n            acdbSaveAsR14(db.UnmanagedObject, fileName);\n\
+    \        }\nDatabase db = HostApplicationServices.WorkingDatabase;\nSaveDatabaseAsR14(db,\
+    \ \"C:\\\\test.dwg\");\n\nBut it throws the following exception:\nUnable to find\
+    \ an entry point named '?' in DLL 'acad.exe'."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-03-23 16:04:15'
+  body: 'Hi csharpbird,
+
+
+    Have you tried looking in acdb17.dll instead?'
+- author: Dietbrand
+  email: dietbrand@dietbrand.be
+  ip: 193.121.250.194
+  url: ''
+  date: '2007-08-21 11:19:48'
+  body: Is there a way to see whether a .dwg is drawn in Mechanical or pure Autocad
+    by opening it with Notepad or a text editor?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-08-21 11:26:08'
+  body: 'No - you would need to scan for Mechanical objects with RealDWG (if not inside
+    AutoCAD or AutoCAD Mechanical).
+
+
+    Kean'
+- author: antoniogf
+  email: antoniogf@libero.it
+  ip: 84.220.138.221
+  url: ''
+  date: '2008-02-19 12:00:07'
+  body: 'Hi Kean! I''m trying to figure out if it''s possible to exchange blocks between
+    remote hosts using SOAP. Here you shown that is possible to import blocks between
+    databases on the same host, but is possible to do the same thing on a network
+    (SOAP)????
+
+    I wasn''t able to find an answer!!!
+
+    Can you help me??'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 66.159.223.136
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-02-19 13:54:38'
+  body: 'I can see a few ways to do this... the choice will depend on a few things
+    - how much effort you want to go to, availability of bandwidth, etc.
+
+
+    I would either encapsulate the DWG as a binary chunk (blob) in the SOAP message,
+    just send an accessible URL for the file, or parse the DWG and extract XML content
+    respresenting the important stuff in the DWG.
+
+
+    But I haven''t attempted any of these myself.
+
+
+    Kean'
+- author: Jason
+  email: jason.cyr@stantec.com
+  ip: 207.34.120.71
+  url: http://through-the-interface.typepad.com/through_the_interface/2007/05/its_all_in_the_.html
+  date: '2008-02-29 16:01:45'
+  body: 'Good morning Kean.
+
+
+    Can I use the same code to scan the side database for system variables?  Say if
+    I wanted to see if USERR1 had a value assigned to it, could I read in the drawing
+    and scan for that or other drawing variables?
+
+
+    Thanks for your help.
+
+
+    Jason'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-02-29 16:06:46'
+  body: 'Hi Jason,
+
+
+    Sure thing: all the drawing-level system variables are exposed as properties off
+    the Database object. So you could check (or set) the value of sourceDb.Userr1,
+    for instance.
+
+
+    Regards,
+
+
+    Kean'
+- author: Randy
+  email: rdoverspike@titan-tanks.com
+  ip: 70.252.210.205
+  url: ''
+  date: '2008-03-19 20:41:20'
+  body: 'Hi Kean,
+
+    I''m trying to create a new Layout in my current database from a template database.
+    I''m have an issue getting the layoutmanager to read the template database. Can
+    you give me a direction to take that might help me with this task. It seems like
+    it would be simular to moving blocks from one database to another.
+
+    Thank you. Randy'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.19.34
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-03-20 09:38:30'
+  body: 'Hmm... there may be more to it than simply copying the block (or its contents)
+    across: you may need to create or copy an object in the Layout dictionary (or
+    something else I''m missing).
+
+
+    I suggest posting your question to the <a href="http://discussion.autodesk.com/forum.jspa?forumID=152">AutoCAD
+    .NET Discussion Group</a> or via the <a href="http://adn.autodesk.com">ADN website</a>,
+    if you''re a member.
+
+
+    Kean'
+- author: Alex
+  email: alexander@deguffroy.be
+  ip: 91.177.166.120
+  url: ''
+  date: '2008-06-09 14:41:17'
+  body: 'These method of importing only imports the block reference and not the eventually
+    attached attributes. How would you do it to copy them too?
+
+    Looking further I discovered the attribute was imported, but works only after
+    attsync, is there a way to do ATTSYNC in code?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.17.75
+  url: http://through-the-interface.typepad.com/through_the_interface/2008/06/dwf-toolkit-75.html
+  date: '2008-06-10 20:39:32'
+  body: 'Alex -
+
+
+    The code should import (and replace) block definitions: if these redefine blocks
+    with different attributes, more work will, of course, be needed.
+
+
+    ATTSYNC clearly does this: it opens each block reference and checks it against
+    its block definition, and adds/removes attribute references, as needed.
+
+
+    This is not covered by this post, as you''ve found out - I''ll add it to my list
+    of topics to come back to, but I can''t make any guarantees. Ths above pointers
+    should help, at least.
+
+
+    Regards,
+
+
+    Kean'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2008-08-22 01:50:54'
+  body: 'I have a nasty problem, somewhat related to this post, which I can not find
+    an answer for anywhere.  I have a function which imports blocks in the manner
+    described in the post, and it all works fine, but I also create a great many blocks
+    from scratch in my code.  I have had operational code which does this for years
+    now, but I am trying to switch all of my references to the Managed classes instead
+    of the COM libraries.  When I create a block with attributes, then insert the
+    block through code, then attempt to set the values of some of the attributes,
+    they aren''t there until I attsync.  Since I can''t find a way to duplicate attsync
+    in the managed classes, I tried using SendCommandtoExecute, (which I hate doing...)
+    and it still doesn''t work because it doesn''t execute the command string until
+    after my code ended and autocad resumes control.  Some behavior is even wierder..
+    Like if you execute my code to create a block, insert it, and set attributes,
+    without the attsync, you get blocks in modelspace which don''t think they have
+    attributes, but If you then insert one of the same blocks manually, it has attributes,
+    without running attsync.  If you run the command again using the same blocks,
+    the "code inserted" blocks still don''t think they have attributes even though
+    the manually inserted block is fine.  If you add the attsync into the code, the
+    "code Inserted" first round of blocks will have attributes which do NOT have the
+    proper values set because the attsync didn''t run until after I attempted to set
+    the values. Then run the command again which will insert another set of the same
+    blocks (without recreating them) and they act like they have no attributes, but
+    the blocks have already been attsynced. again, inserting one of the same blocks
+    manually works normally, but in the code it does not work.
+
+
+    I have trimmed out a class to demonstrate the problem if you would like to see
+    it. (BTW, I''m using VB in VS2005, .NET framework 2.0, and just recently switched
+    to referencing AutoCAD 2009.)'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-22 09:47:39'
+  body: 'You''re probably not adding AttributeReferences properly. Search this blog
+    for "AttributeReference" and you''ll find a number of examples...
+
+
+    Kean'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2008-08-22 20:27:31'
+  body: "It never would have occurred to me to do that....  Never had to do that with\
+    \ the COM interface or with LSP or VBA which I have also used extensively.\n\n\
+    If BlkDef.HasAttributeDefinitions Then\nFor Each EntId In BlkDef\n    SubEnt =\
+    \ Trans.GetObject(EntId, OpenMode.ForRead, False, True)\n    If TypeOf SubEnt\
+    \ Is AttributeDefinition Then\n\tAtDef = SubEnt\n\tAttRef = New AttributeReference\n\
+    \        AttRef.SetAttributeFromBlock(AtDef, Blk2Ins.BlockTransform)\nBlk2Ins.AttributeCollection.AppendAttribute(AttRef)\n\
+    \  Trans.AddNewlyCreatedDBObject(AttRef, True)\n\tEnd If\n    Next\nEnd If\nTransman.QueueForGraphicsFlush()\n\
+    \nThanks for the help, that would have driven me crazy, and we have a web demonstration\
+    \ of this program scheduled for next wednesday.  Obviously it would have been\
+    \ bad if I had broken it four days before."
+- author: Mika
+  email: mika.jaatinen@studiohema.fi
+  ip: 91.152.182.233
+  url: http://www.modelspace.fi
+  date: '2008-09-08 22:05:04'
+  body: 'How about if I want to copy a layout and it''s contens from another drawing?
+    Not from the modelspace fo course, but the entities on the layout (The same thing
+    as the -LAYOUT command with the Template option.)
+
+
+    I have tried using the same WblockClone in a similiar manner, and then using the
+    AddtoLayoutsDictionary or/and setting the OwnerId of the Layout to the target
+    databases BlockTableRecord (Paper_Space#), but for some reason an exception will
+    be thrown or at least audit will tell that the layout source was erased etc.
+
+
+    Do you know how to do that? Do I need to copy a layout on the current dwg (database)
+    first and then delete it''s contents and after that copy the objects from an external
+    database?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-09 08:45:00'
+  body: 'You probably need to create the Layout first, using the LayoutManager...
+    there''s some initialization that needs to happen with a Layout before it''s populated.
+
+
+    You''d then normally use Database.Insert() to bring in the entities, if you were
+    copying to modelspace. You may still want to, but use the version of the method
+    that creates a new BTR, from which you can move the contents across to your paperspace
+    layout.
+
+
+    Good luck!
+
+
+    Kean'
+- author: Mika
+  email: mika.jaatinen@studiohema.fi
+  ip: 91.152.182.233
+  url: http://www.modelspace.fi
+  date: '2008-09-09 10:13:28'
+  body: "Thanks! I guess I was feeling lucky today...I got it now. Here are the steps:\n\
+    \n1) Create a new layout (using the layoutmanager)\n2) Clone the layout from the\
+    \ source database. (This is to set the paper size correct etc.)\n3) WblockClone\
+    \ the source layout objects \n4) Set up the Canonical media name \n5) Set the\
+    \ layout as the current one using the layout manager. (Otherwise it will not be\
+    \ visible at all before cliking any other layout tabs...)\n\nThis way the audit\
+    \ will not report any erros and the newly created layout is visible.\n\nMika"
+- author: Lars
+  email: lars.kalthoff@idea-euro.se
+  ip: 213.115.200.136
+  url: ''
+  date: '2009-06-24 11:45:46'
+  body: 'Hi Kean,
+
+
+    I was at the lecture on the F # in Las Vegas, Thanks, it was great!
+
+
+    I have a question about Multi View Blocks.
+
+    I want to import a multiviewblock from a "style file" to a drawing. Can I use
+    WblockClone for this purpose?
+
+
+    Regards,
+
+    Lars'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-06-24 14:11:24'
+  body: 'Hi Lars,
+
+
+    Thanks for the feedback! :-)
+
+
+    It *should* work, as the cloning mechanism will follow an references/dependencies
+    specified by the MvBlock object, but I have to admit I haven''t tried it myself.
+
+
+    Cheers,
+
+
+    Kean'
+- author: 'Pradeep '
+  email: pradeep.zambre@patni.com
+  ip: 155.13.48.17
+  url: ''
+  date: '2009-12-29 04:16:26'
+  body: "Hi Kean,\n\nI'm using RealDWG 2010 API to read the Dwg files (ver above 14\
+    \ and below 2010). ReadDwgFile call works well most of the time. However, for\
+    \ some DWG files program exits without any exception while reading the drawing\
+    \ file.\nWhen I checked the same DWG file by opening it in Map 3d 2010, it opens\
+    \ with out any error.\n\nHow to resolve this issue, please advice…\n\n    try\n\
+    \    {\n        using (objAcdb = new Database(false,true))\n        {        \
+    \            \n            //Open Drawing File\n            objAcdb.ReadDwgFile(m_DrawingFile,\
+    \ FileShare.Read, true, \"\"); \n\n.....\n....\n         }\n    }\n    catch (Autodesk.AutoCAD.Runtime.Exception\
+    \ ex)\n    {\n     // Print message\n    }\n    catch (System.Exception ex)\n\
+    \    {\n     // Print message\n    }\n    finally\n    {\n        //dispose all\
+    \ objects..\n    }\n\nRegards,\n\nPradeep Zambare"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2010-01-04 17:39:04'
+  body: 'Hi Pradeep,
+
+
+    Sorry - I can''t say what''s wrong, off the top of my head.
+
+
+    If you''re an ADN member I suggest submitting a sample project with problematic
+    drawings via <a href="http://adn.autodesk.com">the ADN site</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: ShawnW
+  email: sweekly@southernco.com
+  ip: 146.126.51.51
+  url: ''
+  date: '2010-04-27 16:12:49'
+  body: 'This is a shot in the dark based on the age of this post, but is there a
+    chance that the code you (Mika) wrote to accomplish this task is available to
+    look at?  I am trying to accomplish the same thing as you and it would be great
+    if I had something to go by that works.
+
+    -----'

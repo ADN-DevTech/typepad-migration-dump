@@ -1,0 +1,13 @@
+---
+layout: "post"
+title: "Countdown to DevCamps 2010"
+date: "2010-04-21 16:26:54"
+author: "Kean Walmsley"
+categories:
+  - "Training"
+original_url: "https://www.keanw.com/2010/04/countdown-to-devcamps-2010.html "
+typepad_basename: "countdown-to-devcamps-2010"
+typepad_status: "Publish"
+---
+
+<p>Once again I’m a little late to the party: <a href="http://autodesk.blogs.com/between_the_lines/2010/04/autodesk-developer-network-devcamps-2010-open-for-registration.html" target="_blank">Shaan</a>, <a href="http://dwf.blogs.com/beyond_the_paper/2010/04/customize-autodesk-aec-products-at-june-devcamp-in-boston.html" target="_blank">Volker</a>, <a href="http://revitclinic.typepad.com/my_weblog/2010/04/learn-to-customize-autodesk-aec-products-at-june-devcamp-in-boston.html" target="_blank">Harlan</a>, <a href="http://modthemachine.typepad.com/my_weblog/2010/03/manufacturing-devcamp-2010-and-devlab.html" target="_blank">Brian</a> and <a href="http://thebuildingcoder.typepad.com/blog/2010/03/devcamp-devlabs-and-updated-api-training-schedule.html" target="_blank">Jeremy</a> have all beaten me to it, but perhaps this somewhat later post will be a useful reminder for people. Hopefully, anyway.</p>  <p><a href="http://through-the-interface.typepad.com/through_the_interface/2007/07/coming-in-septe.html" target="_blank">Our first DevCamps</a> were held in September 2007. We followed them less than a year later with <a href="http://through-the-interface.typepad.com/through_the_interface/2008/05/devcamps-2008-.html" target="_blank">another set of DevCamps</a> in June 2008. After holding these two sets of events so closely together we learned – and heard from attendees – that a better frequency for these events would be every other year. And that’s certainly our plan moving forward.</p>  <p>Which means we’re now due some more… :-)</p>  <p>These are the two DevCamps we’ll be holding in about 6 weeks from now:</p>  <ul>   <li>Autodesk Manufacturing DevCamp – June 2-4, 2010&#160; Portland, Oregon, USA</li>    <li>Autodesk AEC DevCamp – June 7-9, 2010 Boston, Massachusetts, USA</li> </ul>  <p>DevCamps are great opportunities to learn about the latest Autodesk technology – from a development perspective – in the AEC and Manufacturing industries, as well as being very valuable from a networking perspective: you get to spend quality time with the people who design and implement our products as well as with members of my team, who are – among other things – responsible for making sure external input helps drive these products’ direction.</p>  <p><a href="http://devcamps2010.autodeskevents.net/" target="_blank">Registration is now open</a>.</p>

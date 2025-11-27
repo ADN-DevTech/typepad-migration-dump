@@ -1,0 +1,15 @@
+---
+layout: "post"
+title: "Beyond BIM: adding campus or city views to Dasher 360"
+date: "2018-03-28 14:16:28"
+author: "Kean Walmsley"
+categories:
+  - "APS (Forge)"
+  - "Autodesk Research"
+  - "IoT"
+original_url: "https://www.keanw.com/2018/03/beyond-bim-adding-campus-or-city-views-to-dasher-360.html "
+typepad_basename: "beyond-bim-adding-campus-or-city-views-to-dasher-360"
+typepad_status: "Publish"
+---
+
+<p>Those of you who have followed the progress on <a href="http://dasher360.com" target="_blank">Dasher 360</a> will be aware that it currently works with a single building (or other) model. It’s always been our intention to go “Beyond BIM” (both in terms of addressing the needs of other industries but also scaling up to look at sites and cities) but over the last few weeks we’ve made a big push, making our first real forays into this new territory. Here’s a sneak peek at a campus view in Dasher 360 that integrates an additional Forge viewer control (this might also use a 3D mapping control – such as using the ArcGIS 3D viewer from Esri – if needing to focus on a larger area) to show the context of the building; how it’s located on a campus or within a city.</p><p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e201b7c95bef5b970b-pi" target="_blank"><img width="500" height="312" title="Campus view showing electricity usage" style="margin: 30px auto; border-image: none; float: none; display: block; background-image: none;" alt="Campus view showing electricity usage" src="/assets/image_597988.jpg" border="0"></a></p><p>The various views – between the campus overview at the top-left of the screen, the <a href="https://en.wikipedia.org/wiki/Sankey_diagram" target="_blank">Sankey diagram</a> showing (for now) the use of different power sources on the campus, and the traditional Dasher 360 window on the right – coordinate nicely: selecting nodes in the Sankey diagram results in the 3D model being highlighted and selected, and double clicking on either will cause the BIM to be loaded inside the main view.</p><p>Having a campus view also allows for colourising 3D content based on other things. We adjust the colours of the buildings, for instance, to match the colours used in the Sankey diagram, which change based on the type of data the user wishes to see.</p><p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e201b8d2e62ea2970c-pi" target="_blank"><img width="500" height="312" title="Campus view showing electricity by area" style="margin: 30px auto; border: 0px currentcolor; border-image: none; float: none; display: block; background-image: none;" alt="Campus view showing electricity by area" src="/assets/image_630729.jpg" border="0"></a></p><p>This is a really helpful way to visualize data across multiple properties, but I can see lots of other applications for coordinating multiple Forge viewers in this way. Hopefully we’ll soon have an updated demo ready that people can play with to get a sense for the possibilities.</p>

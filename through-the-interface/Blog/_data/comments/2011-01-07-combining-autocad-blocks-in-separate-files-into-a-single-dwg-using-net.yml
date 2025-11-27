@@ -1,0 +1,183 @@
+comments:
+- author: Paul
+  email: plsmith@hal-tec.com
+  ip: 96.252.129.162
+  url: ''
+  date: '2011-01-07 16:36:23'
+  body: Thanks Kean! This will be of great help.
+- author: Chris
+  email: ckratz@diversifiedwoodcrafts.com
+  ip: 207.230.208.250
+  url: ''
+  date: '2011-01-07 18:51:56'
+  body: "This is a stripped version of something similar I have been using. (I don't\
+    \ remember where I found this method)\n\nUsing TempDB As New Database(False, True)\n\
+    \tUsing dl As DocumentLock = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.LockDocument()\n\
+    \t\tUsing tr As Transaction = dwgdb.TransactionManager.StartTransaction\n\n\t\t\
+    \tDim bt As BlockTable = tr.GetObject(dwgdb.BlockTableId, OpenMode.ForWrite, False)\n\
+    \n\t\t\tDim id As ObjectId\n\t\t\tDim BlockName As String = CadFileName.Replace(\"\
+    \\\", \"\").Replace(\":\", \"\").Replace(\".\", \"\")\n\t\t\t\n\t\t\tTempDB.ReadDwgFile(CadFileName,\
+    \ IO.FileShare.Read, True, Nothing)\t\t\t\t\n\t\t\tid = dwgdb.Insert(BlockName,\
+    \ TempDB, True)\n\t\t\t\n\t\t\ttr.Commit()\n\n\t\tEnd Using\n\tEnd Using\nEnd\
+    \ Using"
+- author: Dan Glassman
+  email: dan.glassman@gmail.com
+  ip: 64.73.42.192
+  url: ''
+  date: '2011-01-07 19:47:19'
+  body: "This will miss whether the source drawing defines an annotative block.  Here's\
+    \ my try (I also use Database.Insert -- curious if there's a reason you've avoided\
+    \ it):\n\nbool srcIsAnnotative = false;\n            string destBlockName = Path.GetFileNameWithoutExtension(fileName);\n\
+    \            using (Database db = new Database(false, true))\n            {\n\
+    \                // Read the DWG into our side database\n                db.ReadDwgFile(fileName,\
+    \ FileShare.Read, true, \"\");\n                srcIsAnnotative = db.AnnotativeDwg;\n\
+    \                destDb.Insert(destBlockName, db, false);\n            }\n\n \
+    \           if (srcIsAnnotative)\n            {\n                using (Transaction\
+    \ t = destDb.TransactionManager.StartTransaction())\n                {\n     \
+    \               BlockTable bt = t.GetObject(destDb.BlockTableId, OpenMode.ForRead)\
+    \ as BlockTable;\n                    if (bt.Has(destBlockName))\n           \
+    \         {\n                        BlockTableRecord btr = t.GetObject(bt[destBlockName],\
+    \ OpenMode.ForWrite) as BlockTableRecord;\n                        btr.Annotative\
+    \ = AnnotativeStates.True;\n                    }\n                    t.Commit();\n\
+    \                }            \n            }\n            imported++;"
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2011-01-07 19:54:39'
+  body: 'I''ve just been using this...
+
+
+    Dim tmpDB As New Database(False, True)
+
+    tmpDB.ReadDwgFile(tmpPath, IO.FileShare.Read, False, "")
+
+    acdocs.MdiActiveDocument.Database.Insert(BlockName, tmpDB, True)
+
+    tmpDB.Dispose()
+
+
+    It doesn''t even require a transaction.
+
+
+    That snippet appears inside a function I call every time I am going to control
+    the creation of a block reference by code.  The function first checks the blocktable,
+    if not there, it checks a file in which I have stored a bunch of small blocks
+    for my program to use, if still not found, it searches the local drive and the
+    AutoCAD Search Path.  If it finds a .dwg file matching the supplied blocname,
+    it calls those four lines of code, then moves on to create the block reference.  Of
+    course, it is in a try/catch just in case the file can not be read.'
+- author: Dale Bartlett
+  email: dale.bartlett@realtimeinternational.com.au
+  ip: 212.72.17.154
+  url: http://www.realtimeinternational.com.au
+  date: '2011-01-08 09:03:30'
+  body: 'Hi Kean,
+
+    Off topic, but I am trying to add your blog to my AutoCAD 2011 RSS Subscription.
+    I can''t find your url. Regards, Dale
+
+    PS Nice to meet you at AU2010, I''ll be doing my best to make 2011.'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2011-01-10 10:35:53'
+  body: 'Hi Dale,
+
+
+    Yes - hopefully we''ll meet again at AU 2011. :-)
+
+
+    At the upper-right of my blog''s page, you should find a <a href="http://through-the-interface.typepad.com/through_the_interface/index.rdf">Subscribe
+    via RSS</a> link.
+
+
+    All the best for 2011,
+
+
+    Kean'
+- author: Robert
+  email: robert@vktv.no
+  ip: 85.252.208.10
+  url: ''
+  date: '2012-03-09 06:51:08'
+  body: In AutoCAD 2010 x64 the WblockCloneObjects() seems to fail with exception
+    eOutOfRange on some drawings (but not all). The x86 version works all the time.
+    C++ ObjectARX is stable as a rock (as expected). :-)
+- author: Kean Walmsley
+  email: ''
+  ip: 207.239.114.206
+  url: http://profile.typepad.com/kean
+  date: '2012-03-09 07:00:18'
+  body: 'That''s strange. I suggest posting the problem to the ADN team or to the
+    AutoCAD .NET Discussion Group.
+
+
+    Kean'
+- author: Justin Luo
+  email: ''
+  ip: 216.58.58.201
+  url: http://profile.typepad.com/justinluo
+  date: '2013-01-01 23:52:01'
+  body: "Hi kean,\n\nFirstly, I want to say thank you for your post. It help me a\
+    \ lot.\n\nSecondly, I want to point out a little bug of this porgram. The line\
+    \ :\n\nbtr.Name.StartsWith(BlockTableRecord.ModelSpace,                stringComparison.InvariantCultureIgnoreCase)\n\
+    \nshould use method :\" EndsWith\".  Because the btr.Name here is \"*ModelSpace\"\
+    . \n\nPlease check whether I am right."
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.234.23
+  url: http://profile.typepad.com/kean
+  date: '2013-01-02 07:51:50'
+  body: 'Hi Justin,
+
+
+    Thanks for your comment.
+
+
+    As String.StartsWith() doesn''t support wildcards (the asterisk is just checked
+    literally), then I think the code in this post is correct.
+
+
+    Do let me know if I''ve missed the point you''re making.
+
+
+    Regards,
+
+
+    Kean'
+- author: Carlos
+  email: carlos.nunes@tkfla.com.br
+  ip: 200.198.95.212
+  url: http://www.tkfla.com.br
+  date: '2013-01-15 19:14:49'
+  body: It happens in AutoCAD 2012 x64 too!
+- author: Makaveli
+  email: miguelry_187@hotmail.com
+  ip: 189.223.55.111
+  url: ''
+  date: '2013-08-26 00:40:21'
+  body: "Hello Kean \n\nI have a question is possible to copy text from one dwg to\
+    \ another dwg.\nAnd if you have an example?\n\nThanks for your time"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-08-26 08:15:49'
+  body: 'Hi Makaveli,
+
+
+    I don''t have a sample that shows exactly that.
+
+
+    That said, the approach shown in this post should work on other kinds of object,
+    too. With some modifications.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

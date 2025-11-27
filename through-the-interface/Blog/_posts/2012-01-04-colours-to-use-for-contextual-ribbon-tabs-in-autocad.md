@@ -1,0 +1,15 @@
+---
+layout: "post"
+title: "Colours to use for contextual ribbon tabs in AutoCAD"
+date: "2012-01-04 18:30:54"
+author: "Kean Walmsley"
+categories:
+  - "AutoCAD"
+  - "AutoCAD .NET"
+  - "User interface"
+original_url: "https://www.keanw.com/2012/01/colours-to-use-for-contextual-ribbon-tabs-in-autocad.html "
+typepad_basename: "colours-to-use-for-contextual-ribbon-tabs-in-autocad"
+typepad_status: "Publish"
+---
+
+<p><em>Thanks to Matt Stein, Senior User Experience Manager in the AutoCAD team, for giving me permission to publish the following information.</em></p>  <p>In <a href="http://through-the-interface.typepad.com/through_the_interface/2011/10/displaying-an-autocad-ribbon-tab-contextually-using-net.html" target="_blank">this previous post</a>, we can see how it’s possible to display our own contextual ribbon tabs inside AutoCAD during custom operations. To help make applications consistent with AutoCAD, here are some guidelines around colours to be used contextual ribbon tabs (the “Theme” attribute you should set in your custom ribbon tab’s XAML file):</p>  <ul>   <li>If it is an <strong>annotation object</strong>: <em>Purple</em></li>    <li>Anything to do with <strong>blocks</strong>: <em>Yellow</em></li>    <li>Anything to do with <strong>underlays</strong> or <strong>references</strong> (except blocks): <em>Cyan</em></li>    <li><strong>Text editor</strong> and <strong>other command modes</strong> not relating to blocks: <em>Blue</em></li>    <li><strong>Other geometry</strong>: <em>Green</em></li> </ul>  <p>Let’s take a quick look at a few of these at work in the base AutoCAD product, to see how these guidelines are implemented:</p>  <p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e20168e4f8d35d970c-pi" target="_blank"><img style="background-image: none; border-bottom: 0px; border-left: 0px; margin: 20px auto; padding-left: 0px; padding-right: 0px; display: block; float: none; border-top: 0px; border-right: 0px; padding-top: 0px" title="Block editor contextual ribbon tab" border="0" alt="Block editor contextual ribbon tab" src="/assets/image_566500.jpg" width="470" height="89" /></a></p>  <p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e201675ff7a8cd970b-pi" target="_blank"><img style="background-image: none; border-bottom: 0px; border-left: 0px; margin: 20px auto; padding-left: 0px; padding-right: 0px; display: block; float: none; border-top: 0px; border-right: 0px; padding-top: 0px" title="PDF underlay contextual ribbon tab" border="0" alt="PDF underlay contextual ribbon tab" src="/assets/image_70226.jpg" width="470" height="88" /></a></p>  <p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e20162ff02a969970d-pi" target="_blank"><img style="background-image: none; border-bottom: 0px; border-left: 0px; margin: 20px auto; padding-left: 0px; padding-right: 0px; display: block; float: none; border-top: 0px; border-right: 0px; padding-top: 0px" title="Text editor contextual ribbon tab" border="0" alt="Text editor contextual ribbon tab" src="/assets/image_536126.jpg" width="470" height="89" /></a></p>

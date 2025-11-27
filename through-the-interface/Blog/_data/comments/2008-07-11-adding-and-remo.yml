@@ -1,0 +1,234 @@
+comments:
+- author: Patrick Ottenschläger
+  email: patrick.ottenschlaeger@doka.com
+  ip: 195.70.229.204
+  url: ''
+  date: '2008-07-14 08:40:21'
+  body: 'Hallo Kean,
+
+
+    Thank you for that great posting, but I''ve one more question to this topic:
+
+    Is it possible to set a layerfilter activ  using .NET API?
+
+
+    thanks in advance,
+
+    Patrick'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-14 15:25:46'
+  body: 'Hi Patrick,
+
+
+    I don''t believe so. The ADN team, or someone on the discussion groups, may know
+    differently, though.
+
+
+    Regards,
+
+
+    Kean'
+- author: Mike
+  email: michael.robertson@dot.state.fl.us
+  ip: 156.75.192.110
+  url: http://www.dot.state.fl.us/ecso
+  date: '2008-09-16 20:20:50'
+  body: 'Kean,
+
+    You entries have been great with helping me get started with Acad Programming.
+    Your example above shows how to create a property type filter, how do you add
+    layers to a group type filter (LayerGroup class)? I can create the group filter
+    but can''t figure out how to add layers to the group.  The filterexpression method
+    is available but doesn''t seem to work (at least not like with the LayerFilter
+    object)
+
+
+    i.e.
+
+    Dim lyrGrp As New LayerGroup
+
+    Dim lyrFltr As New LayerFilter
+
+    lyrFltr.FilterExpression = "NAME==""LayerName""" ''works
+
+    lyrGrp.FilterExpression = "NAME==""LayerName""" ''does not work
+
+
+    Thanks,
+
+    Mike'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-23 15:56:24'
+  body: 'Mike,
+
+
+    Check the blog tomorrow for a post detailing how to do this.
+
+
+    Thanks for the question!
+
+
+    Kean'
+- author: Michel
+  email: m2auto@hetnet.nl
+  ip: 81.204.86.191
+  url: ''
+  date: '2009-03-25 18:47:22'
+  body: 'Hi Kean,
+
+
+    I''ve trying to set a layerFilter active.
+
+    Using the name property of the Root/Current only renames the current one. And
+    because the Root and Current are readonly you can''t set a object to it (LayerFilter),
+    But the new method accepts a Root and current LayerFilter objects, I''ve tried
+    it and it does the trick.
+
+
+    Michel'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-03-25 18:53:18'
+  body: 'Great - thanks, Michel!
+
+
+    Kean'
+- author: Michel
+  email: m2auto@hetnet.nl
+  ip: 81.204.86.191
+  url: ''
+  date: '2009-03-25 19:19:38'
+  body: 'Hi,
+
+
+    Well, spoke to soon.
+
+    The LayerFilter needs to be accessed once thruw the layermanager. (per drawing).
+    After this the "new method" works. ??
+
+
+
+    Michel'
+- author: saranya
+  email: saranya_rosejas@yahoo.co.in
+  ip: 122.172.14.80
+  url: ''
+  date: '2009-05-27 08:48:49'
+  body: "Hi Kean, \n\n    Very good post. I have a question.In DeleteLayerFilter instead\
+    \ of reading index to be filtered is it possible to read layername and delete"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-05-27 09:15:42'
+  body: 'I don''t know of a reason why that wouldn''t work. You would either need
+    to index into the LayerFilterCollection via a string or - if that''s not possible
+    - iterate through the LayerFilters and check for one with the Name you''re after
+    before deleting it.
+
+
+    Kean'
+- author: Eugene
+  email: bucko101@mtaonline.net
+  ip: 216.137.229.96
+  url: ''
+  date: '2009-11-01 08:30:47'
+  body: "Hi Kean,\n\nIs it possible to have multiple filtering items per Filter Name.\n\
+    \nExample:\nFilter Name = Border\nItems to be filtered = SHBR, SHBT, SHBL, SHBSCALE\n\
+    \nlf1.Name = \"BORDER\";\nlf1.FilterExpression = \"NAME==\\\"SHBR\\\"\"; \n\n\
+    Thanks,\nEugene"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2009-11-01 20:21:35'
+  body: "Hi Eugene,\n\nHave you tried ORing them together?\n\nlf1.Name = \"BORDER\"\
+    ;\nlf1.FilterExpression =\n  \"NAME==\\\"SHBR\\\" OR NAME==\\\"SHBT\\\" OR NAME==\\\
+    \"SHBL\\\" OR NAME==\\\"SHBSCALE\\\"\";\n\nPlease note: I haven't actually tested\
+    \ this myself (it's Sunday, after all :-).\n\nKean"
+- author: Eugene
+  email: bucko101@mtaonline.net
+  ip: 216.137.229.96
+  url: ''
+  date: '2009-11-01 20:43:18'
+  body: 'Kean,
+
+
+    That worked great.
+
+    I tried using AND but that did not work.
+
+
+    Thank you very much.
+
+    Eugene'
+- author: Eugene Hanks
+  email: ehanks@crweng.com
+  ip: 65.74.4.250
+  url: ''
+  date: '2009-11-03 00:40:22'
+  body: "Kean,\n\nI am trying to remove all the layer filter before applying the new\
+    \ ones to prevent doubbling up. This is a modified version of your code with out\
+    \ the selection. This code runs but does not remove any filters.\n\nThanks,\n\
+    Eugene\n\nstatic public void DeleteLayerFilter()\n\n{Document doc = Application.DocumentManager.MdiActiveDocument;\n\
+    Database db = doc.Database;\nEditor ed = doc.Editor;\n\n{ LayerFilterTree lft\
+    \ = db.LayerFilters; } \n            \nLayerFilterCollection lfc = db.LayerFilters.Root.NestedFilters;\n\
+    \nfor (int i = 0; i < lfc.Count; ++i)\n\n{ LayerFilter lf = lfc[i];\n      \t\t\
+    \t\nif (lf.AllowDelete) \nlfc.Remove(lfc[i]) ;\n}\n}"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-11-03 08:55:45'
+  body: 'Eugene,
+
+
+    You need to remove the curly brackets around the lft assignment (which makes that
+    variable exist only in a very short local scope), and then you can set lfc relative
+    to lft and, at the end, set db.LayerFilters to be lft (just as I did in the above
+    sample).
+
+
+    You should probably only delete the layer filters your application has created
+    (by retrieving them by name rather than index) otherwise you''re likely to trash
+    any that have been added by the user or another application.
+
+
+    Kean'
+- author: Albert Conques
+  email: albert.conques@gmail.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2013-04-24 12:11:43'
+  body: 'Hi Kean,
+
+
+    Will be possible to export/import the layer filter list to be used in a different
+    file. This is possible with Architecture desktop but unfortunately NOT yet in
+    AutoCAD.'
+- author: Kean Walmsley
+  email: ''
+  ip: 74.95.195.137
+  url: http://profile.typepad.com/kean
+  date: '2013-04-24 16:24:35'
+  body: 'Hi Albert,
+
+
+    I don''t know whether this is planned. I suggest posting your request for it via
+    the appropriate online discussion forum.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

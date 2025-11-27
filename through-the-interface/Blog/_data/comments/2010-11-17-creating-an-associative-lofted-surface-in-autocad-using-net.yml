@@ -1,0 +1,153 @@
+comments:
+- author: Ken Washburn
+  email: ken.washburn@twtelecom.com
+  ip: 168.215.13.39
+  url: ''
+  date: '2011-03-07 22:40:44'
+  body: "Kean,\nI'm fairly new to vb.net, but have programed vba for years.  I have\
+    \ used parts of your code above to create lofted surfaces (Thanks!).  I now need\
+    \ to create a lofted surface and add it to a block.  However, if I create a variable\
+    \ as a loftedsurface and try to createloftedsurface from that object, then I get\
+    \ an error at the variable: \"Access of shared member....expression will not be\
+    \ evaluated.\" \n \nYou mention above about assigning it to a variable, but I\
+    \ think I'm doing something wrong.  Here is part of the code:\nDim myDBObjects\
+    \ As New DBObjectCollection\nDim lp1r1 As New LoftProfile(r1) 'this is a rectangle\
+    \ polyline\nDim lp2c2 As New LoftProfile(c2) 'this is a circle\nDim lps As LoftProfile()\
+    \ = New LoftProfile(1) {lp1r1, lp2c2}\nDim clps1 As New LoftedSurface\nclps1.CreateLoftedSurface(lps,\
+    \ Nothing, Nothing, New LoftOptions(), True)\nmyDBObjects.Add(clps1)\nAddEntities(HostApplicationServices.WorkingDatabase,\
+    \ myDBObjects, blkName)\nInsertBlock2(HostApplicationServices.WorkingDatabase,\
+    \ BlockTableRecord.ModelSpace, New Point3d(0, 0, 0), blkName, 1, 1, 1) 'this is\
+    \ a function to insert the block.\n\nHowever, since I get an error on the clps1.CreateLoftedSurface\
+    \ line, clps1 ends up having no value.\n\nAny help on this would be appreciated.\n\
+    \nThanks,\nKen"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-03-08 11:18:55'
+  body: 'Ken,
+
+
+    The two versions of CreateLoftedSurface() are static ("Shared" in VB) members
+    of the Autodesk.AutoCAD.DatabaseServices.Surface class. You can call them in exactly
+    the same way as in my code, not using the clps1 directly.
+
+
+    And you want the second version, which doesn''t have the associativity flag and
+    returns a LoftedSurface object.
+
+
+    You would probably write something like this:
+
+
+    Dim clps1 As LoftedSurface = _
+
+    Autodesk.AutoCAD.DatabaseServices.Surface.CreateLoftedSurface(lps, Nothing, Nothing,
+    New LoftOptions())
+
+
+    You would then need to manually add clps1 to the BlockTableRecord of your choice
+    (and to the transaction).
+
+
+    I unfortunately don''t have time to debug your code, so if this advice doesn''t
+    help, please post it to <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Ken Washburn
+  email: ken.washburn@twtelecom.com
+  ip: 168.215.13.39
+  url: ''
+  date: '2011-03-08 20:28:17'
+  body: 'Kean,
+
+    Thanks for the info.  I''ve been playing with it and it exits the sub right after
+    the line that you provided:
+
+    Dim clps1 As LoftedSurface = _
+
+    Autodesk.AutoCAD.DatabaseServices.Surface.CreateLoftedSurface(lps, Nothing, Nothing,
+    New LoftOptions())
+
+
+    Though, I don''t get the warning anymore.  So it looks like it should work.
+
+
+    And it works fine (in creating the surface) if I use the other version of CLS:
+
+    Autodesk.AutoCAD.DatabaseServices.Surface.CreateLoftedSurface(lps, Nothing, Nothing,
+    New LoftOptions(), true)
+
+
+    But then I don''t get the object.
+
+
+    I realize you don''t have time to debug my code, so I will play with it some more
+    and maybe bring it to the discussion group, as you mentioned.
+
+
+    Thanks again for all your help.
+
+
+    Ken'
+- author: Ken Washburn
+  email: ken.washburn@twtelecom.com
+  ip: 168.215.13.39
+  url: ''
+  date: '2011-03-09 18:55:36'
+  body: 'Ok, I discovered the issue.  It should be dimmed as a surface instead of
+    a loftedsurface.  Otherwise it gets a cast error:
+
+
+    Unable to cast object of type ''Autodesk.AutoCAD.DatabaseServices.Surface'' to
+    type ''Autodesk.AutoCAD.DatabaseServices.LoftedSurface.
+
+
+    This is what I got to work:
+
+    Dim clps1 As Autodesk.AutoCAD.DatabaseServices.Surface = Autodesk.AutoCAD.DatabaseServices.Surface.CreateLoftedSurface(lps1,
+    Nothing, Nothing, New LoftOptions())
+
+
+    Thanks again,
+
+    Ken'
+- author: termit
+  email: sibirski.glodavac@gmail.com
+  ip: 195.29.116.18
+  url: ''
+  date: '2011-07-27 15:15:52'
+  body: "I have problem in autocad 2009 \n\n loftbuilder = New LoftOptionsBuilder(loft)\n\
+    \                loftbuilder.Ruled = True\n                loftbuilder.NormalOption\
+    \ = LoftOptionsNormalOption.NoNormal\n                loftbuilder.AlignDirection\
+    \ = True\n                loftbuilder.Closed = True\n                loftbuilder.Simplify\
+    \ = True\n                lofted.SetDatabaseDefaults()\n                lofted.Closed\
+    \ = False\n                Try\n                    'loftbuilder.ToLoftOptions.CheckLoftCurves(crosssections,\
+    \ guid, Nothing, True)\n\n                    lofted.CreateLoftedSurface(crosssections,\
+    \ guides,path, loftbuilder.ToLoftOptions)\n                    'lofted.CreateLoftedSurface(Me.surf,\
+    \ Me.guides, Nothing, loft)\n                    btr.AppendEntity(lofted)\n  \
+    \                  tr.AddNewlyCreatedDBObject(lofted, True)\n\nalways throws einvalid\
+    \ input, object refernce is not set to an instance of an object \n\ni tried everything\
+    \ put guides and path curves to nothing and result is same\n\nloft.CheckGuideCurves(guid,\
+    \ True)\nloft.CheckCrossSectionCurves(crosssections, True)\nloft.CheckPathCurve(path,\
+    \ True)\n\nthis 3 lines of code passes ok"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-07-27 15:22:46'
+  body: 'Your comment doesn''t appear to relate directly to code from this post, so
+    please submit your question to <a href="http://adn.autodesk.com">the ADN team</a>,
+    if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean
+
+
+    -----'

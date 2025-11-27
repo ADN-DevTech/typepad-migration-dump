@@ -1,0 +1,315 @@
+comments:
+- author: Kélcyo Pereira
+  email: kelcyo.pereira@bol.com.br
+  ip: 200.220.209.230
+  url: ''
+  date: '2007-06-09 23:18:16'
+  body: "Muito bom este exemplo.  \nAguardo um com a manipulação de campos, como criar\
+    \ e alterar campos no documento.  Valeu.\n\n\" Very good this sample. \nI wait\
+    \ one with the manipulation of Fields, as to create and to modify fields in the\
+    \ document. \nIt was valid.\""
+- author: Nikolay Poleshchuk
+  email: poleshchuk@peterlink.ru
+  ip: 89.110.24.23
+  url: http://poleshchuk.spb.ru/cad/eng.html
+  date: '2007-06-10 06:24:02'
+  body: 'Kean, can you provide an example for putting another block into the same
+    cell and changing cell layout (to horizontal layout or to vertical layout) in
+    2008?
+
+    Fields and formulas are of great interest too.'
+- author: Kélcyo Pereira
+  email: kelcyo.pereira@bol.com.br
+  ip: 200.220.209.230
+  url: ''
+  date: '2007-06-11 16:21:31'
+  body: "A minha ideia é a seguinte:  \n1 - Criar um dialógo para selecionar um arquivo\
+    \ txt delimitado.  \n2 - E fazer a inserção dos valores na tabela.  \nSei que\
+    \ isso eh possível no Autocad 2008, inserindo uma planilha do excel.  Mais o interesse\
+    \ aqui é manipular via NET.  \nCom isso, teriamos abordado 3 conceitos.   \n -\
+    \ a utilização de diálogos no cad;   \n - a manipulação de dados externos vindo\
+    \ do arquivo txt; e\n - a manipulação da tabela.  \nValeu.\n\n\" My ideia is the\
+    \ following one: \n1 - To create one dialógo to select an archive txt delimited.\
+    \ \n2 - E to make the insertion of the values in the table. \nI know that this\
+    \ eh possible in Autocad 2008, inserting a spread sheet of excel. More the interest\
+    \ is here to manipulate way NET. \nWith this, we teriamos boarded 3 concepts.\
+    \ \n- the use of dialogue in cad; \n- the manipulation of external data come of\
+    \ the archive txt; \n- e manipulation of the table. \nIt was valid.\""
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-06-12 10:36:51'
+  body: 'Kélcyo,
+
+
+    Yes, I could certainly show this, but the pieces related to AutoCAD''s APIs have
+    already been shown in this code. The additional work (file selection and reading)
+    are standard tasks that are relatively easy to accomplish with the .NET Framework
+    (and I''m sure are covered by blog posts/articles elsewhere). Once you''ve populated
+    your array of strings, the above code can be hooked in easily enough.
+
+
+    Thanks for the suggestion, though.
+
+
+    Regards,
+
+
+    Kean'
+- author: Sunilkumar Shinde
+  email: sunilkumar.sunc@gmail.com
+  ip: 202.54.1.149
+  url: http://www.suncindia.com
+  date: '2007-06-26 12:21:52'
+  body: 'OPPPS that''s again gr8....
+
+
+    I did it in 2001 by using VB 6.. Thanks for this tut for Dot Net....
+
+
+    Sunilkumar S. (SUKU)
+
+    www.suncindia.com'
+- author: blackneoo
+  email: blackneoo@hotmail.com
+  ip: 195.229.236.210
+  url: ''
+  date: '2008-06-09 18:08:35'
+  body: 'hello i found your tutorial very informing but i have a problem applying
+    it...
+
+
+    when i use the code for typical blocks it works perfectly but when the code works
+    on a block that contains an attribute autocad crashes with an error - handle reentered...
+
+    i tried using the setblockattribute method in hope it will fix it but to no avail.
+
+
+    i would really apreciate if you could help because i have a complete addon program
+    which is pending on this bug only'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://through-the-interface.typepad.com/through_the_interface/2008/06/dwf-toolkit-75.html
+  date: '2008-06-10 21:58:16'
+  body: "Yes... I see the same behaviour: the code wasn't designed to work with blocks\
+    \ with attributes.\n\nI added some code, after the call to tb.SetBlockTableRecordId():\n\
+    \nBlockTableRecord blockDef =\n  (BlockTableRecord)tr.GetObject(\n    objId,\n\
+    \    OpenMode.ForRead\n  );\nforeach (ObjectId id in blockDef)\n{\n  DBObject\
+    \ obj =\n    tr.GetObject(id, OpenMode.ForRead);\n  AttributeDefinition att =\n\
+    \    obj as AttributeDefinition;\n  if (att != null)\n    tb.SetBlockAttributeValue(i,\
+    \ 3, id, att.Tag);\n}\n\nThis - as you've noticed - also fails, unless we change\
+    \ the transaction type by calling StartOpenCloseTransaction() instead of StartTransaction().\
+    \ This creates a transaction type that (under the covers) uses Open & Close to\
+    \ access database-resident objects.\n\nThis type of transaction was added in 2009,\
+    \ so if you're using a previous version your only real option would be to translate\
+    \ all your calls to the transaction into individual ObjectId.Open() and ObjectId.Close()\
+    \ calls.\n\nAssuming there's no way to get the standard transaction to work (the\
+    \ Open/Close Transaction was added to help deal with situations where finer grained\
+    \ access control is required by AutoCAD, and I suspect this is one of those situations).\n\
+    \nOtherwise you might also try separating the table creation from the code to\
+    \ set the attribute values (by collecting the info in some kind of structure and\
+    \ adding it after the fact). This might also help.\n\nGood luck,\n\nKean"
+- author: blackneoo
+  email: blackneoo@htomail.com
+  ip: 195.229.236.210
+  url: ''
+  date: '2008-06-12 11:45:18'
+  body: "Greeting Kean \n\nthank you very much for replying\n\nunfortunately am using\
+    \ autocad 2008 so i had to try replacing transaction calls with open\\close methods\
+    \ and it worked great for the task but a side problem happened, it seems that\
+    \ something is not closed in the database so i cannot select the table and cannot\
+    \ save the file, after checking for a bit i found that i didn't close the table\
+    \ object, after i closed it i can select the table but any modification such as\
+    \ moving the table or trying to save the file i get an error eisalready in database.\n\
+    here is the code for you so you can get a clear picture\n\nthis is a function\
+    \ i made that creates a table based on a filled array of blocks to generate a\
+    \ legend...\n\nPublic Sub Create_Table(ByVal RowCount As Integer, ByVal RowHeight\
+    \ As Double, ByVal ColumnWidth As Double, ByVal Position As Point3d, ByVal Symbols()\
+    \ As String)\n        Dim tb As Table = New Table\n        Dim doc As Document\
+    \ = Application.DocumentManager.MdiActiveDocument\n        Using db As Database\
+    \ = doc.Database\n            Using tr As Transaction = db.TransactionManager.StartTransaction\n\
+    \                Dim Dlock As DocumentLock = Application.DocumentManager.MdiActiveDocument.LockDocument()\n\
+    \                Dim bt As BlockTable = db.BlockTableId.Open(OpenMode.ForRead)\n\
+    \                tb.TableStyle = db.Tablestyle\n                tb.NumRows = RowCount\
+    \ + 2\n                tb.NumColumns = 2\n                tb.SetRowHeight(RowHeight)\n\
+    \                tb.SetColumnWidth(ColumnWidth)\n                tb.Position =\
+    \ Position\n\n\n                tb.SetTextHeight(RowType.DataRow, 2.5)\n     \
+    \           tb.SetTextHeight(RowType.HeaderRow, 2.5)\n                tb.SetTextHeight(RowType.TitleRow,\
+    \ 1)\n                tb.SetAlignment(CellAlignment.MiddleCenter, RowType.DataRow)\n\
+    \                tb.SetAlignment(CellAlignment.MiddleCenter, RowType.HeaderRow)\n\
+    \                tb.SetAlignment(CellAlignment.MiddleCenter, RowType.TitleRow)\n\
+    \n\n\n                tb.SetTextString(0, 0, \"Legend\")\n                tb.SetTextString(1,\
+    \ 0, \"Symbol Name\")\n                tb.SetTextString(1, 1, \"Symbol Image\"\
+    )\n\n\n                Dim Row As Integer = 1\n                Dim i As Integer\
+    \ = 0\n                Dim Scaling_Factor As Double = 1\n\n                For\
+    \ i = 0 To RowCount\n                    If bt.Has(Symbols(i)) Then\n\n      \
+    \                  tb.SetBlockTableRecordId(Row, 0, bt(Symbols(i)), True)\n  \
+    \                      Dim objid As ObjectId = tb.GetBlockTableRecordId(Row, 0,\
+    \ 0)\n                        Dim blockdef As BlockTableRecord = objid.Open(OpenMode.ForRead)\n\
+    \n                        For Each id As ObjectId In blockdef\n              \
+    \              Dim obj As DBObject = id.Open(OpenMode.ForRead)\n             \
+    \               If TypeOf (obj) Is AttributeDefinition Then\n                \
+    \                Dim att As AttributeDefinition = obj\n                      \
+    \          tb.SetBlockAttributeValue(Row, 0, id, att.TextString)\n           \
+    \                 End If\n                            obj.Close()\n          \
+    \              Next\n                        Row = Row + 1\n                 \
+    \       blockdef.Close()\n                    End If\n                Next i\n\
+    \                tb.GenerateLayout()\n\n                Dim btr As BlockTableRecord\
+    \ = bt(BlockTableRecord.PaperSpace).Open(OpenMode.ForWrite)\n                'Dim\
+    \ btr As BlockTableRecord = tr.GetObject(bt(BlockTableRecord.PaperSpace), OpenMode.ForWrite)\n\
+    \                btr.AppendEntity(tb)\n\n                tr.Commit()\n\n     \
+    \           btr.Close()\n                bt.Close()\n\n                db.Dispose()\n\
+    \                btr.Dispose()\n                bt.Dispose()\n               \
+    \ Dlock.Dispose()\n                tb.Close()\n                tb.Dispose()\n\
+    \                tr.Dispose()\n                GC.Collect()\n        \n      \
+    \      End Using\n        End Using\n\n    End Sub"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://through-the-interface.typepad.com/through_the_interface/2008/06/dwf-toolkit-75.html
+  date: '2008-06-12 13:06:37'
+  body: 'One thing I can see straightaway is that you''re still creating and  committing
+    the transaction - which is both unnecessary and potentially dangerous (you should
+    avoid mixing transactions with open/close).
+
+
+    Other than that I can''t see what the problem is, though you might try reducing
+    the time the various objects are open (the block table could be closed sooner,
+    if you collect the info you need and then close it, for instance).
+
+
+    Regards,
+
+
+    Kean'
+- author: blackneoo
+  email: blackneoo@hotmail.com
+  ip: 195.229.236.212
+  url: ''
+  date: '2008-06-12 20:20:03'
+  body: 'Greetings Kean
+
+
+    thanks again for your prompt reply
+
+
+    to tell you the truth i first tried it without using the transaction and i got
+    an access violation error so when i used the transaction it worked...
+
+
+    for the tr.commit it was the only way for the table to render without the code
+    ran and nothing happened...
+
+
+    for the block table i''ll try to close it sooner and see what happens and as for
+    the tb.close i cannot put it sooner than the document lock or i will get the already
+    in database error at the moment the code is run..
+
+
+    btw i remember that the code ran correctly when the table doesn''t have a blocks
+    with attributes.'
+- author: adreas
+  email: ad_kanani@yahoo.gr
+  ip: 87.203.203.229
+  url: ''
+  date: '2008-11-07 20:23:20'
+  body: I am veteran in working Autocad. I like a lot what you have programmed. It
+    is brilliant. I want to use it but i don t know how to.Can i convert it to autolisp?
+    You can help me if you want.
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.20.174
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-10 09:05:56'
+  body: 'It should be possible. Unfortunately I don''t have time to spend on converting
+    posts to other languages... someone on the <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=130">AutoLISP
+    Discussion Group</a> may be able to help.
+
+
+    Kean'
+- author: Tassos
+  email: orionborned@hotmail.com
+  ip: 109.178.46.26
+  url: http://in.gr
+  date: '2010-09-19 20:03:59'
+  body: 'I tried the autocad net online guide (why not an offline html or pdf)...
+
+    I googled it (and only found others with the same problem)...
+
+    I searched the civil 3d dev forums (oops i did not try simple autocad dev forums)
+    ...
+
+    and found absolutely nothing .
+
+    Then i did a search in your blog and found the solution .
+
+    Again it was your blog that guided me .
+
+    More solutions found in your blog than googling or C3D forums .
+
+    Finally it is very simple to create a table .
+
+
+    I cannot understand .
+
+    Why isn''t there an offline NET guide .
+
+    And why even this online one is so comprehensive .
+
+    Just for the beginners .
+
+    ActiveX is to be abandonded but it has an excellent guide.
+
+    Autodesk forces us to move to NET but support is far behind LISP or VBA and activeX
+    .
+
+    Not everyone is a pro developer .
+
+    Not everyone can have an ADN membership .
+
+    Next time first search in your blog .
+
+
+    Tassos'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-09-21 16:26:22'
+  body: 'Tassos,
+
+
+    There is a CHM-based version of the managed class reference (not the Developer''s
+    Guide, though) in the ObjectARX SDK, which can be found from <a href="http://autodesk.com/developautocad">the
+    AutoCAD Developer Center</a>.
+
+
+    It''s true that our (user- and developer-focused) documentarion is increasingly
+    heading online, for better or worse.
+
+
+    Regards,
+
+
+    Kean'
+- author: CADnet
+  email: jaiza01@gmail.com
+  ip: 46.6.200.182
+  url: ''
+  date: '2011-03-31 19:54:13'
+  body: 'Hello Kean
+
+
+    (Let me apologize in advance for my poor English)
+
+
+    First, congratulations for your blog, it''s the better source of resources for
+    me.
+
+
+    I need get the value of blockscale when i put ''autofit'' = true
+
+
+    //Sample 01 (Don''t Work)'

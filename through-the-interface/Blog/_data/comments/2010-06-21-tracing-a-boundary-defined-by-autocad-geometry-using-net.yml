@@ -1,0 +1,193 @@
+comments:
+- author: danny.boy.1
+  email: danijel.ivankovic@gmail.com
+  ip: 95.156.167.25
+  url: ''
+  date: '2010-06-21 15:09:44'
+  body: "Great, Kean!\n\nThank you very much for still one \ngreat example...\n\n\
+    Danijel"
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadxtabs/AcadXTabs2010.htm
+  date: '2010-06-21 19:32:57'
+  body: "Hi Kean.\n\nGee.  \n\nHave you tried using TraceBoundary() \nwith boundaries\
+    \ defined by ACIS curves \n(e.g., splines or ellipses) ?\n\nPlease convey to whomever\
+    \ the programmer(s) \nat Autodesk are that get the credit for this \nparlor trick,\
+    \ thanks for a good laugh."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-06-22 08:12:22'
+  body: 'Hi Tony,
+
+
+    Thanks for reporting the issue - clearly defaulting to the UI behaviour isn''t
+    appropriate in this situation.
+
+
+    A member of my team has submitted it for AutoCAD Engineering to investigate and
+    address.
+
+
+    Regards,
+
+
+    Kean'
+- author: olivier durier
+  email: ''
+  ip: 80.13.149.58
+  url: http://profile.typepad.com/durier
+  date: '2010-09-15 16:39:10'
+  body: 'Hi all,
+
+
+    Very good example.
+
+    But since the 2010 version of Autodesk products we have lost in accuracy on the
+    boundary created.
+
+    This does not correspond to the reality of the boundary.
+
+    There is the same problem with the standard command "Boundary" et your .NET command
+
+
+    Sorry for my english.
+
+    Olivier'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-09-15 16:43:21'
+  body: 'Hi Olivier,
+
+
+    If you''re an Autodesk Developer Network member, please submit the issue via <a
+    href="http://adn.autodesk.com">the ADN site</a>, so one of my team can look into
+    this.
+
+
+    Otherwise I suggest submitting it via your standard support channel (it also sounds
+    as though it may well be a product feature issue, rather than being related to
+    the API).
+
+
+    Regards,
+
+
+    Kean'
+- author: Ben Senior
+  email: ben.senior@t-online.de
+  ip: 93.214.150.228
+  url: ''
+  date: '2010-10-05 11:24:50'
+  body: 'Hi Kean,
+
+
+    How would you deal with tracing a boundary when you only have points and no other
+    geometry?
+
+
+    Ben'
+- author: Kean Walmsley
+  email: ''
+  ip: 194.209.131.192
+  url: http://profile.typepad.com/kean
+  date: '2010-10-06 00:27:58'
+  body: 'Hi Ben,
+
+
+    Do you need some kind of algorithm to find the minimal area of a set of points?
+
+
+    That''s way beyond the scope of this API, which just detects physical (or, at
+    least, existing) boundaries such as those detected by BHATCH.
+
+
+    Regards,
+
+
+    Kean'
+- author: Boxa
+  email: boxa.shu@gmail.com
+  ip: 213.170.78.147
+  url: ''
+  date: '2012-09-28 08:26:04'
+  body: 'Hi
+
+    Do not tell me how to get a list of the objects bounding area?'
+- author: Kean Walmsley
+  email: ''
+  ip: 95.172.68.148
+  url: http://profile.typepad.com/kean
+  date: '2012-09-28 10:52:12'
+  body: 'You need to iterate through the entities you care about - a selection set
+    or the contents of the model space, for instance - and then get the Extents of
+    each one.
+
+
+    Kean'
+- author: Rusel
+  email: ruselgun@yahoo.com
+  ip: 85.110.158.115
+  url: ''
+  date: '2013-07-25 13:21:30'
+  body: 'Hello Kean,
+
+    Is it possible to use selction set filter like the boundary command, I mean if
+    we want only defined layers to be analyzed.
+
+    regards,'
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.225.57
+  url: http://profile.typepad.com/kean
+  date: '2013-07-29 10:30:12'
+  body: 'Hello Rusel,
+
+
+    The capability should only work with visible graphics, so one option would be
+    for your application to turn the layers you don''t care about off before running
+    the operation.
+
+
+    Regards,
+
+
+    Kean'
+- author: Rusel
+  email: ruselgun@yahoo.com
+  ip: 78.162.171.104
+  url: ''
+  date: '2013-08-04 00:16:57'
+  body: "Dear Kean,\nThank you very much for your code and idea, it's working perfect\
+    \ with creating boundaries and regions from them in AutoCAD 2012. But later when\
+    \ I deal with region boolean codes with interop, I got error code below. My code\
+    \ is working perfect if I don't use the Traceboundary code, I mean when I create\
+    \ the regions with other code. What may be the problem?\nThanks,\n\nSystem.AccessViolationException\
+    \ was unhandled\n  HResult=-2147467261\n  Message=Attempted to read or write protected\
+    \ memory. This is often an indication that other memory is corrupt.\n  Source=Autodesk.AutoCAD.Interop\n\
+    \  StackTrace:\n       at Autodesk.AutoCAD.Interop.AcadSelectionSetClass.SelectByPolygon(AcSelect\
+    \ Mode, Object PointsList, Object FilterType, Object FilterData)"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-08-04 18:54:25'
+  body: 'Hi Rusel,
+
+
+    I have no way of saying what''s wrong - it''s seems to be in some way related
+    to the calling context. This kind of issue often occurs because of not locking
+    a  document when calling from a modeless dialog, but you mention interop, so it
+    could well be something else.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

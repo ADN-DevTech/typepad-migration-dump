@@ -1,0 +1,720 @@
+comments:
+- author: csharpbird
+  email: csharpbird@gmail.com
+  ip: 58.34.9.36
+  url: ''
+  date: '2007-02-13 17:42:38'
+  body: "Hi,Kean\n  Will the .Net support custom object in AutoCAD2008?"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-02-13 18:18:32'
+  body: 'Hi csharpbird,
+
+
+    No - as mentioned in this previous post (and the comments afterwards), managed
+    custom objects were not on our roadmap for AutoCAD 2008.
+
+
+    http://through-the-interface.typepad.com/through_the_interface/2006/09/custom_objects_.html
+
+
+    Regards,
+
+
+    Kean'
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 201.17.196.131
+  url: http://arxdummies.blogspot.com
+  date: '2007-02-14 02:54:58'
+  body: 'Hi Kean,
+
+
+    What about saved 32-bit integers? How the DWG filer will deal saved values as
+    32-bit and loaded values on 64-bit version of AutoCAD2008?
+
+
+    Suppose I have saved a number as an Adesk::Int32 on my 2007 (or 32-bit 2008) application
+    and then the same application will load this DWG into 2008 64-bit. Will be this
+    value correctly loaded as Adesk::LongPtr?
+
+
+    I have experienced some problems with CTime due its 32/64-bit change during some  UNICODE
+    migrations I have made...hope the ObjectARX 2008 does not bring new issues like
+    this.
+
+
+    As you said, the types are polymorphic but the DWG files is binary and should
+    be compatible with both 32-bit (2008 and 2007) and 64-bit (2008) versions.
+
+
+    Thank you.
+
+    Fernando.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-02-14 09:13:25'
+  body: 'Hi Fernando,
+
+
+    There should be no change to what is stored in the DWG format - it doesn''t change
+    at all between 32- and 64-bit versions. This should be automatic for ObjectARX
+    applications saving native datatypes.
+
+
+    If you''re saving a custom datatype (one that we do not handle natively) that
+    changes in size between 32- and 64-bit environments, then you will need to adapt
+    your code to make sure a consistently sized value is stored to the DWG, otherwise
+    it will be very hard to transfer files between users on different platforms.
+
+
+    Regards,
+
+
+    Kean'
+- author: Donald E. Burkett
+  email: deburkett@adelphia.net
+  ip: 71.60.147.103
+  url: ''
+  date: '2007-02-14 23:43:02'
+  body: Will this 64 bit application correct the problem that I have with running
+    the 32 bit version of ACAD LT 2007 on windows xp professional +64. I cannot get
+    it to recognize the 64 bit driver downloaded for my designjet 430 plotter. is
+    their a work around for this problem
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-02-15 07:57:18'
+  body: 'http://usa.autodesk.com/adsk/servlet/ps/item?siteID=123112&id=6057458&linkID=2475874
+
+
+    AutoCAD [LT] 2007 is not supported on 64-bit platforms (and neither will the 32-bit
+    version of AutoCAD 2008 be: the native 64-bit version is the way to go, moving
+    forward).
+
+
+    As for your specific problem, I''d suggest posting on the relevant discussion
+    group - my team has no experience with such issues (we focus on supporting the
+    APIs to Autodesk products).
+
+
+    Regards,
+
+
+    Kean'
+- author: Narayanan
+  email: Narayanan@Cadsindia.com
+  ip: 202.54.139.242
+  url: ''
+  date: '2007-02-19 07:09:24'
+  body: '"..My team is working hard to capture more of the content we presented at
+    our recent DevDays events – I’d be very interested to hear any feedback you have
+    regarding how useful you find this presentation recording..."
+
+
+    Yes Kean, this presentation with the audio explanation and video clip of the actual
+    demonstration of the code conversion was very useful in par with the plain PPT
+    presentation of the same.  We really look forward to have such a kind of recorded
+    and offline presentation with audio and video recordings.
+
+
+    Thanks,
+
+    Narayanan'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-02-19 09:45:18'
+  body: 'Hi Narayanan,
+
+
+    Thank you for the feedback.
+
+
+    Regards,
+
+
+    Kean'
+- author: Valdemar
+  email: tischvb@mail.ru
+  ip: 195.5.128.137
+  url: ''
+  date: '2007-03-01 11:18:33'
+  body: "There exists no special ObjectARX for Civil 2006-2007, so I do not know how\
+    \ to treat \"black\" and \"red\" surfaces in the way I need! \nTher are no classes\
+    \ to deal with AutoDesk slides: to see them on form, to put on a button and so\
+    \ ..."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 24.120.66.191
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-03-04 14:57:04'
+  body: 'Hi Valdemar,
+
+
+    I''m afraid I don''t understand the problem - I''d suggest posting it to the Civil
+    3D Customization discussion group: http://discussion.autodesk.com/forum.jspa?forumID=190
+
+
+    Regards,
+
+
+    Kean'
+- author: Donald
+  email: dchristensen777@yahoo.com.au
+  ip: 144.140.74.161
+  url: ''
+  date: '2007-03-06 22:14:21'
+  body: 'I need to customize Autocad
+
+
+    It looks like pop downs are on their way out
+
+    VBA is on it''s way out
+
+    I heard Lisp is also on it''s way out.
+
+
+    What manner of customization will have the longest life?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-03-07 02:13:54'
+  body: 'Hi Donald,
+
+
+    MNU files have a somewhat limited future, but CUI files are very much part of
+    AutoCAD''s future. Which includes toolbars, pull-down menus, etc.
+
+
+    VBA has a limited future, given Microsoft''s plan not to provide a 64-bit version,
+    but LISP is likely to be around - there are no plans to remove it (just no big
+    plans to enhance it).
+
+
+    Of the customization technologies, .NET currently seems to have the greatest potential
+    in the future.
+
+
+    Regards,
+
+
+    Kean'
+- author: James
+  email: jdmc@bigpond.net.au
+  ip: 58.165.125.42
+  url: ''
+  date: '2007-03-25 00:09:24'
+  body: Do you have any idea when applications built on top of acad (eg ACA) will
+    be available in 64 bit?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-03-26 11:13:48'
+  body: The situation depends on the product. ACA will not have a 64-bit version available
+    as ACA 2008 ships (and I can't yet comment on when it will be available, unfortunately).
+    If you're ADN member, you should submit the question via DevHelp Online.
+- author: ahmadfadi
+  email: ahmadfadi2@yahoo.com
+  ip: 213.6.227.217
+  url: http://www.budcad.com/Autocad2008.htm
+  date: '2007-03-31 11:25:14'
+  body: autocad2008
+- author: ahmadfadi
+  email: ahmadfadi2@yahoo.com
+  ip: 213.6.227.217
+  url: http://www.autocad2008.nl/.htm
+  date: '2007-03-31 11:27:27'
+  body: autocad2008
+- author: Andrew
+  email: Karpov@Viva64.com
+  ip: 212.12.9.210
+  url: http://www.Viva64.com
+  date: '2007-04-30 07:36:27'
+  body: 'If you use C++ for create 64-bit app and work with big data, I propose article
+    to you:
+
+    "20 issues of porting C++ code on the 64-bit platform"
+
+    http://www.Viva64.com/articles/20%20issues%20of%20porting%20C++%20code%20on%20the%2064-bit%20platform.pdf
+
+
+    And same interesting links:
+
+    http://www.Viva64.com/links.php'
+- author: Renilo Ponce
+  email: boboy_ponce@hotmail.com
+  ip: 222.127.56.18
+  url: http://compuspecsales.com
+  date: '2007-05-04 10:15:36'
+  body: 'Hi;
+
+
+    I used Autocad 2007 32-bit and never tried 64-bit. I want to try Autocad 2008-trial
+    64-bit and I want to migrate my DWG 32-bit to 64-bit. Can I open back my DWG in
+    32-bit platform after migration to 64?
+
+
+    Please give us your comment before i start migration.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-05-04 11:41:14'
+  body: 'DWGs are the same between 32- and 64-bit versions of AutoCAD - the file format
+    has not changed - so this will not be an issue.
+
+
+    Kean'
+- author: Ricardo
+  email: ricpuerta@hotmail.com
+  ip: 190.84.242.191
+  url: ''
+  date: '2007-06-28 02:07:35'
+  body: I´ve Windows XP Pro 64 bit, can I install the Autocad 2008 32 bit in my PC
+    ?
+- author: Nagraj
+  email: nagrajk@softtech-engr.com
+  ip: 210.211.246.157
+  url: ''
+  date: '2007-06-28 14:28:36'
+  body: Object ARX2007 32 bit gives access voilation error.
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-05 12:32:26'
+  body: 'Ricardo -
+
+
+    The AutoCAD 2008 installer automatically installs the correct version for the
+    OS (which happens to match the number of bits the OS supports - the installer
+    doesn''t allow installation of 32-bit AutoCAD on 64-bit Windows).
+
+
+    Nagraj -
+
+
+    Sorry, you have not provided enough info for me to help you.
+
+
+    Regards,
+
+
+    Kean'
+- author: Ron Otis
+  email: ROCdesigns@NetZero.com
+  ip: 71.99.148.88
+  url: ''
+  date: '2007-07-05 19:19:54'
+  body: Is anyone out there running AutoCAD-14 on a 64 bit platform?
+- author: Riff Masteroff
+  email: riff.masteroff@clarkconstruction.com
+  ip: 206.160.223.254
+  url: ''
+  date: '2007-07-18 17:33:58'
+  body: 'Oh my.  I didn''t suspect that Autodesk would actually produce 64bit products
+    in my lifetime.
+
+
+    I installed an upgrade to Revit9-ACAD2007 combination pack last night.  The ACAD2008
+    installation gave me no clue that a 64bit version was on its installation disk.  The
+    way I found out was to download 3DSOUT after the installation. That comes in both
+    a 32bit & 64bit flavor.  So....I searched today to find out what is going on.
+
+
+    I have been using, out of necessity and for a few years, XP64 both at work and
+    at home.  I have been half-way satisfied that many Autodesk products would run
+    as 32bit programs in a 64bit environment.
+
+
+    Question:  I can find no reference to whether the ACAD2008 install is really &
+    truly a 64bit version.  How do I tell?
+
+
+    Question:  Since the installer made no reference to a 64bit version possibility,
+    I configured it to install into the x86 program directory.  Should I reinstall
+    into the program directory?
+
+
+    Thanks in advance,
+
+
+    Riff Masteroff'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 12.160.193.229
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-19 08:39:14'
+  body: 'Hi Riff,
+
+
+    The information in <a href="http://through-the-interface.typepad.com/through_the_interface/2007/04/loading_the_rig.html">this
+    post</a> should be of use - you can use (getenv "PROCESSOR_ARCHITECTURE") to find
+    out what type of process AutoCAD is running as.
+
+
+    The choice of version installed is generally made automatically, to the best of
+    my knowledge. It may well be that the version you have on your system is actually
+    native 64-bit.
+
+
+    Regards,
+
+
+    Kean'
+- author: Riff Masteroff
+  email: riff.masteroff@clarkconstruction.com
+  ip: 206.160.223.254
+  url: ''
+  date: '2007-07-23 17:45:47'
+  body: 'Hello Kean,
+
+
+    Thanks, that worked just fine.  The command returns (in my case): "AMD 64".  I
+    assume it is referencing both the physical CPU and the software type (compiled
+    for 64bit).
+
+
+    Now I should really reinstall it to the proper director structure ((D:Program
+    Files/whatever and NOT D:Program Files(x86)).
+
+
+    Riff Masteroff'
+- author: Robert
+  email: robert636@o2.pl
+  ip: 87.105.184.224
+  url: ''
+  date: '2007-07-25 11:57:45'
+  body: 'hello
+
+    Does somebody know if Autocad 2008 LT (32 bit) runs on Windows Vista Ultimate
+    64 bit.?'
+- author: Billy
+  email: billy@designalaska.com
+  ip: 216.115.113.31
+  url: ''
+  date: '2007-10-31 17:42:18'
+  body: 'With this upgrade to 64 bit, are there a lot of changes to the base ARG and
+    CUI file?  I have customized ones for the 32 bit version of ACAD 08, but am curious
+    if I need to recreate everything from scratch for the 64 bit users?
+
+
+    Am also glad to hear that lisp is not affected, that''ll save me time!
+
+
+    Thanks'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-11-01 10:04:12'
+  body: 'Most supporting files, such as CUI, should not need any changes to work in
+    a 64-bit environment. ARG files are really Registry files, so some change *may*
+    be needed (I haven''t looked into it - perhaps the Registry paths are different
+    on 64-bit machines, for instance).
+
+
+    Regards,
+
+
+    Kean'
+- author: Kalvis
+  email: madVIP@inbox.lv
+  ip: 80.233.243.110
+  url: ''
+  date: '2008-02-05 15:02:26'
+  body: 'hello!! Please give me answer.
+
+    Does somebody know if Autocad 2008 LT (32 bit) runs on Windows Vista Ultimate
+    64 bit.?
+
+    How to do this?
+
+    Thankyou.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-02-05 15:15:09'
+  body: 'I''d suggest posting your question to the <a href="http://discussion.autodesk.com/forum.jspa?forumID=43">AutoCAD
+    LT Discussion Group</a>.
+
+
+    Kean'
+- author: Ben
+  email: benf@rushingco.com
+  ip: 66.213.205.42
+  url: ''
+  date: '2008-05-28 20:29:21'
+  body: 'Kean,
+
+    Do you know if AutoCAD MEP 2008 has a 64 bit version? If so, are there a lot of
+    known problems?
+
+    Earlier in the discussion, it was mentioned (I understood) that you can''t install
+    the 32 bit version on a 64 bit machine. What happens with network deployments?
+    If the deployment was made by a 32 bit machine, would the deployment know to install
+    the 64 bit version on a 64 bit machine?
+
+    Thanks,
+
+    Ben'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.7.167
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-29 09:42:19'
+  body: 'Ben,
+
+
+    From what I can tell <a href="http://usa.autodesk.com/adsk/servlet/index?siteID=123112&id=8475369">on
+    the Autodesk website</a>, AutoCAD MEP 2009 now comes with a native 64-bit version.
+    If I recall correctly the 2008 version did not. But I could be wrong.
+
+
+    I''m not aware of any issues, but then it''s not my area of expertise.
+
+
+    Also I''m afraid I don''t know enough about network deployments to help: I''d
+    suggest contacting your reseller or posting to one of the discussion groups.
+
+
+    Regards,
+
+
+    Kean'
+- author: Kannan
+  email: KannanGanesan@cadsindia.com
+  ip: 121.247.215.198
+  url: http://through-the-interface.typepad.com/through_the_interface/2007/02/autocad_2008_64.html
+  date: '2008-06-23 04:29:57'
+  body: 'Hi Kean,
+
+
+    I have read the ObjectARX migration guide for 64 bit support. Well I''m afraid
+    about the serialization. The guide says I need to call Adesk::Int32 twice. But
+    how should I be reading the value back. Is there any sample which could give me
+    all such intricacies especially with serialization. Please help.
+
+
+    Regards,
+
+    Kannan'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-06-23 10:28:37'
+  body: 'Hi Kannan,
+
+
+    You shouldn''t have to serialize differently for 64-bit (especially as drawings
+    should remain consistent between 32- and 64-bit platforms), but I suggest you
+    submit your question via the ADN website, to confirm.
+
+
+    Regards,
+
+
+    Kean'
+- author: Simon
+  email: chenlie@gmail.com
+  ip: 121.98.140.199
+  url: ''
+  date: '2008-06-25 04:04:14'
+  body: "I came across a few problems when porting our application to 64bit Autocad.\
+    \ Could anyone please help out?\n\n1. VBA doesn't support type LONG_PTR, AcadEntity\
+    \ has an ObjectID32 property for VBA, how do we write an ObjectID32 interface\
+    \ for custom object in its COM wrapper?\n\n2. Thisdrawing.ModelSpace.AddCustomObject\
+    \ fails on 64 bit Autocad2008. Same code can be run on 32bit version happily.\
+    \ Is there any hidden trick here to make it work on 64bit Autocad?\n\nAny answers\
+    \ are appreciated! \n\nThanks in advance.\n\nSimon"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-06-25 11:19:43'
+  body: 'Hi Simon,
+
+
+    These are really questions that need to be asked of the ADN team... are you an
+    ADN member?
+
+
+    Regards,
+
+
+    Kean'
+- author: Simon
+  email: chenlie@gmail.com
+  ip: 121.98.140.199
+  url: ''
+  date: '2008-06-25 13:56:29'
+  body: 'Hi Kean,
+
+
+    I am not an ADN member. Any chance you can find out answers for me?
+
+
+    Thanks,
+
+    Simon'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-06-25 13:59:44'
+  body: 'Sorry - you might try submitting your question to the <a href="http://discussion.autodesk.com/forum.jspa?forumID=34">ObjectARX</a>
+    or <a href="http://discussion.autodesk.com/forum.jspa?forumID=152">AutoCAD .NET
+    Discussion groups</a>.
+
+
+    Kean'
+- author: ben
+  email: benmo11204@yahoo.com
+  ip: 24.184.184.69
+  url: ''
+  date: '2008-09-01 01:25:52'
+  body: 'i have autocad 2008  worked on a 32 bit till now i got a new computer which
+    is 64bit os how can i download autocad on the new computer
+
+    ben'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-01 09:34:01'
+  body: 'It should be on the same media as the 32-bit version (it just auto-installs
+    the 64-bit version on 64-bit systems).
+
+
+    But this really isn''t the right forum for the question - I suggest trying the
+    discussion groups or contacting your reseller.
+
+
+    Regards,
+
+
+    Kean'
+- author: Sunilkumar
+  email: sunilkarthika82@gmail.com
+  ip: 210.5.216.154
+  url: ''
+  date: '2009-02-19 04:39:53'
+  body: I have AutoCAD 2009 software,there have two options 32-bit and 64-bit,but
+    can't active 64-bit.How can active the 64-bit ?
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/walmsleyk
+  date: '2009-02-19 08:53:40'
+  body: 'If you have a supported 64-bit OS installed, then the 64-bit version will
+    get installed automatically. The choice is not presented to the person installing
+    the software.
+
+
+    Kean'
+- author: prakash
+  email: 2004u7@gmail.com
+  ip: 198.102.62.250
+  url: ''
+  date: '2009-06-16 00:34:38'
+  body: 'hi kean,
+
+
+    excellent stuff, have been searching for this, thanks. Also, please write a book
+    on ACAD development.'
+- author: Stephan Bartl
+  email: cad@stbartl.at
+  ip: 85.127.164.97
+  url: http://www.stbartl.at
+  date: '2009-06-19 20:41:22'
+  body: 'Hi Kean!
+
+    You write, that 64-bit has no effect on AutoLISP. Does that also include no effect
+    on ActiveX in AutoLISP? According to this post: http://discussion.autodesk.com/forums/message.jspa?messageID=6172961
+    at the Autodesk Discussion Groups, the last poster obviously has a different opinion.'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-06-19 22:12:12'
+  body: 'Right - the post should probably say "no impact to 99.9% of LISP applications".
+    :-)
+
+
+    Kean'
+- author: kodia
+  email: celestefucardo@yahoo.com
+  ip: 41.210.252.11
+  url: ''
+  date: '2010-09-04 00:56:31'
+  body: je m aimerai avoir les instructions de autocad2oo8 merci de votre incomprehension.
+- author: Pedrum
+  email: pedrum.jalali@gmail.com
+  ip: 87.117.198.45
+  url: ''
+  date: '2011-04-25 17:26:18'
+  body: 'dear kean
+
+    I have been working with VBA autocad for a long time. I''ve recently upgraded
+    to a 64bit os and a 64 bit autocad. when I''m debuging the program hangs, specially
+    on a GETXXX command. Is this normal??'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2011-04-26 14:50:12'
+  body: 'Dear Pedrum,
+
+
+    I don''t know - I''m still on 32-bit Windows and also rarely use VBA.
+
+
+    I do know that VBA is currently a 32-bit process that talks to 64-bit AutoCAD
+    using (the typically inefficient) inter-process communication.
+
+
+    I don''t know if this causes an issue with debugging: I suggest posting your question
+    to ADN or the appropriate discussions group.
+
+
+    Regards,
+
+
+    Kean'
+- author: shahbaz ahmad
+  email: hum_tum797979@yahoo.com
+  ip: 182.178.135.111
+  url: ''
+  date: '2011-12-07 12:10:10'
+  body: 'hi kean,
+
+
+    excellent stuff, have been searching for this, thanks. Also, please write a book
+    on ACAD development.'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/kean
+  date: '2011-12-07 13:46:27'
+  body: 'Thanks!
+
+
+    That isn''t the first time I''ve heard this. It''s unlikely to happen, though:
+    a book would take too much linear thinking on my part, and by the time I''d completed
+    it paper books would probably have been banned for being unecological. :-)
+
+
+    Kean
+
+    -----'

@@ -1,0 +1,257 @@
+comments:
+- author: Albert
+  email: szilvaa@hotmail.com
+  ip: 198.102.112.18
+  url: ''
+  date: '2007-02-21 23:50:59'
+  body: 'This code could be simplified by using the DBObject.AcadObject property.
+    This propery provides the "COM object" for a ".net object". There''s also a static
+    FromAcadObject method to go the other way around.
+
+
+    Albert'
+- author: Kerry Brown
+  email: brown.kerry@gmail.com
+  ip: 210.49.59.72
+  url: ''
+  date: '2007-02-22 10:41:24'
+  body: 'Kean, Albert ;
+
+
+    Thank you.'
+- author: richard
+  email: richard.harris@nov.com
+  ip: 65.127.91.194
+  url: ''
+  date: '2007-04-09 21:07:34'
+  body: 'using Autodesk.AutoCAD.EditorInput;
+
+    when using this for some reason the vs05 does nor give me the EditorInput as a
+    choice could you pleas let me know what i''m doing wrong.  sorry this is a elementry
+    question but i''m very new to this.  thank you for your patience.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 202.95.81.226
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-04-10 03:29:12'
+  body: 'My first instinct would be to check the assembly references, to make sure
+    they’re to the correct version. You haven’t mentioned which release of AutoCAD
+    you’re working with, but this shouldn’t matter – I believe this namespace existed
+    from when we introduced the .NET layer in AutoCAD.
+
+
+    I’d suggest trying removing and re-adding the assembly references to acmgd.dll
+    and acdbmgd.dll, to see if that helps.'
+- author: Tore
+  email: tore.marskar.eek-jensen@nov.com
+  ip: 62.73.241.98
+  url: ''
+  date: '2007-04-23 14:53:25'
+  body: 'Hi Kean
+
+
+
+    Great blog, thanks. Could you also show how to get from AcadObject to a Autocad
+    Mechanical in my case a McadSymbol object?
+
+
+
+    Cheers
+
+    Tore'
+- author: Tore
+  email: tore.marskar.eek-jensen@nov.com
+  ip: 62.73.241.98
+  url: ''
+  date: '2007-04-24 10:29:45'
+  body: 'Sorry
+
+
+
+    My question was wrong. Asumed the McadSymbol was the equivalent of the AMDTNOTE
+    object in ACAD M.
+
+
+    If you know what to object to cast too in .NET using COM, feel free to answer.
+
+
+
+    Regards
+
+    Tore'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 202.95.81.226
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-04-24 11:19:43'
+  body: "Adam Nagy, a member of the DevTech team in Prague, told me of a DevNote he'd\
+    \ published to the ADN site on this topic:\n\n>>>\nAt this time there is no API\
+    \ support for AmdtNote objects. One possible workaround is using the AMEDIT command.\
+    \ Here are a couple of examples showing this approach. \n\n\n1) This C# example\
+    \ uses the AutoCAD COM API:\n\nprivate void button1_Click(object sender, System.EventArgs\
+    \ e)\n{\n    AcadApplication app = (AcadApplication)System.Runtime.InteropServices.Marshal.GetActiveObject(\"\
+    AutoCAD.Application\");\n \n    AcadEntity ent;\n    double []pt = new double\
+    \ [2];\n \n    AcadDocument drawing = app.ActiveDocument;\n    Object out1, out2;\n\
+    \    drawing.Utility.GetEntity(out out1, out out2, \"Select a AMDTNOTE :\");\n\
+    \    ent = (AcadEntity)out1;\n    pt = (Double[])out2;\n \n    drawing.SetVariable(\"\
+    CMDDIA\", 0);\n    drawing.SendCommand(\"AMEDIT (handent \\\"\" + ent.Handle +\
+    \ \"\\\") \" + \"\\n\");\n \n    string str = (String)drawing.GetVariable(\"LASTPROMPT\"\
+    );\n \n    drawing.SendCommand(\"\");\n    drawing.SetVariable(\"CMDDIA\", 1);\n\
+    \ \n    int start = str.IndexOf(\"<\");\n    System.Windows.Forms.MessageBox.Show(str.Substring(start\
+    \ + 2, (str.Length - 5) - start));\n}\n\n\n2) This example uses the AutoCAD .NET\
+    \ API.  (acedCmd is enabled through PInvoke)\n\n\n[DllImport(\"acad.exe\", CharSet\
+    \ = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl, EntryPoint = \"\
+    acedCmd\")]\nprivate static extern int acedCmd(System.IntPtr vlist); \n \n[CommandMethod(\"\
+    AsdkCmd1\")]\nstatic public void test()\n{\n    Document doc = Application.DocumentManager.MdiActiveDocument;\n\
+    \    Editor ed = doc.Editor;\n \n    ObjectId entId = ed.GetEntity(\"Select AmdtNote...\"\
+    ).ObjectId;\n \n    Application.SetSystemVariable(\"CMDDIA\", 0);\n \n    ResultBuffer\
+    \ rb = new ResultBuffer();\n    rb = new ResultBuffer();\n    rb.Add(new TypedValue(5005,\
+    \ \"AMEDIT\"));\n    rb.Add(new TypedValue(5006, entId));\n    rb.Add(new TypedValue(5005,\
+    \ \"\")); //\"\\n\"));\n    acedCmd(rb.UnmanagedObject);\n \n    string str =\
+    \ (String)Application.GetSystemVariable(\"LASTPROMPT\");\n \n    Application.SetSystemVariable(\"\
+    CMDDIA\", 1);\n \n    int start = str.IndexOf(\"<\");\n    string strText = str.Substring(start\
+    \ + 2, (str.Length - 5) - start);\n}\n\n<<<"
+- author: vinay t tharakan
+  email: vinay_tharakan@yahoo.co.in
+  ip: 210.211.136.233
+  url: ''
+  date: '2008-07-05 12:04:11'
+  body: 'sir,
+
+
+    am new to this objectarx programming through c#.
+
+    i tried the above code for hatch, but i hve problem relating to
+
+    "using Autodesk.AutoCAD.Interop;" where am not getting the ".interop"
+
+    please help me with the above.....
+
+
+    regards
+
+    vinay t tharakan'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-07 12:37:54'
+  body: 'Vinay -
+
+
+    You will need to add a project references to AutoCAD''s Type Libraries.
+
+
+    Project -> Add Reference... -> COM -> Select "AutoCAD 200x Type Library" and "AutoCAD/ObjectDBX
+    Common 17.0 Type Library".
+
+
+    Regards,
+
+
+    Kean'
+- author: vinay t tharakan
+  email: vinay_tharakan@yahoo.co.in
+  ip: 210.211.136.233
+  url: ''
+  date: '2008-07-07 15:59:06'
+  body: thanks for the help sir......
+- author: Derek Rollinson
+  email: rollinson44@hotmail.com
+  ip: 71.2.233.58
+  url: ''
+  date: '2009-02-13 20:41:54'
+  body: 'I''m converting handles into object ids as shown above using Autocad 2007.  It
+    works fine for an object, unless that object is a copy of another object.  It
+    then throws a null exception, even though the object is there.  How can I get
+    around this?
+
+
+    Thanks,
+
+    Derek'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/walmsleyk
+  date: '2009-02-16 16:27:32'
+  body: 'Derek -
+
+
+    It''s not clear what you mean by a copy. And which code do you mean - code in
+    the post itself (which doesn''t deal with handles) or in one of the comments?
+
+
+    I suggest posting some code to via <a href="http://adn.autodesk.com">ADN</a> support,
+    if you''re a member, or otherwise someone on <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a> may be able to help.
+
+
+    Kean'
+- author: Shankar J
+  email: shankar.j@ge.com
+  ip: 220.227.64.166
+  url: ''
+  date: '2010-05-20 11:37:40'
+  body: "Kean,\n\nI am trying to delete existing tables in a drawing using ObjectDBX.\
+    \ Below is the code snippet. I am able to delete one few tables in the drawings\
+    \ but remaining are not deleted. Am I missing out something here?, please help\
+    \ me out. Thanks for the time.\n\n    Dim dbxDoc As AxDbDocument\n\n    Set dbxDoc\
+    \ =  ThisDrawing.Application.GetInterfaceObject \"ObjectDBX.AxDbDocument.17\"\
+    )\n\n    dbxDoc.Open (StrNextFile)\n\n    dobj = dbxDoc.ModelSpace.count\n\n \
+    \   If dobj > 2 Then\n        For I = 0 To dobj\n            If ((dbxDoc.ModelSpace.Item(I).ObjectName\
+    \ = \"AcDbTable\") And (dbxDoc.ModelSpace.Item(I).Layer = \"MISC\")) Then\n  \
+    \              dbxDoc.ModelSpace.Item(I).Delete\n            End If\n        Next\n\
+    \    End If\n\nThanks\nShankar J"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.71.10
+  url: http://profile.typepad.com/kean
+  date: '2010-05-20 23:52:40'
+  body: 'Shankar,
+
+
+    This isn''t a forum for support.
+
+
+    Your comment doesn''t appear to relate directly to this post, so please submit
+    your question to <a href="http://adn.autodesk.com">the ADN team</a>, if you''re
+    a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Qu
+  email: matlab@163.com
+  ip: 125.92.116.161
+  url: ''
+  date: '2010-12-14 18:10:46'
+  body: 'Dear Mr. Walmsley
+
+
+    How to set Hatch object orgin point to the left bottom point of itself in AutoCAD
+    2007 by .Net?'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-12-14 19:26:34'
+  body: 'Dear Qu,
+
+
+    As this posts says, prior to AutoCAD 2008 the origin property was only exposed
+    via COM. So you can use that to set it in AutoCAD 2007.
+
+
+    If this doesn''t help, I suggest posting your question to <a href="http://adn.autodesk.com">the
+    ADN team</a>, if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean
+
+
+    -----'

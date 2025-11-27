@@ -1,0 +1,16 @@
+---
+layout: "post"
+title: "Building bridges"
+date: "2015-03-12 16:48:29"
+author: "Kean Walmsley"
+categories:
+  - "AutoCAD"
+  - "Autodesk"
+  - "Civil 3D"
+  - "Personal"
+original_url: "https://www.keanw.com/2015/03/building-bridges.html "
+typepad_basename: "building-bridges"
+typepad_status: "Publish"
+---
+
+<p>Last night the section of motorway closest to my home was closed from 10pm to 6am. They closed it to install a new cycle bridge intended primarily for children from one local village to cycle safely to school in another. Closing a motorway is considered quite an event around here, so a small crowd gathered to watch the proceedings in spite of the hour and the pre-spring nip in the air. Admittedly the drinks laid on by the local government – tea or wine, depending on your preferred approach for keeping warm – didn’t hurt the mood.</p>  <p>At around 11pm the engineer responsible from the project, Mr. Droz, addressed the gathered crowd to describe what was about to happen. The main piece being fitted was a 45m span weighing 40 metric tons (the overall bridge will end up being 100 tons). For this 45m span the tolerance was 5-10mm. The bridge would be anchored on the south side and they expected the steelwork to vary in total length by 3-4cm between the coldest winter and the hottest summer. Many of the design options related to the bridge had been chosen with a view to allowing the bridge to be put in place in a single night, minimising the impact on the motorway beneath it.</p>  <p>I chatted a bit later with Mr. Droz afterwards, asking him (and I always feel a bit strange asking this question – I don’t want to sound like I’m selling something) what software had been used on the project. I was relieved when he said “AutoCAD, of course!” and then – after I’d mentioned working for Autodesk – went on to extoll the virtues of the product, also describing how they’d modelled the bridge fully in 3D.</p>  <p>We stood there watching the bridge lift into the air. I could tell Mr. Droz was getting quite emotional – it was the culmination of 4 years of his hard work – and we reflected on how satisfying it was to have contributed in some (in my case very small) way to the creation of something that will be used by future generations.<a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e201b8d0ea3db5970c-pi" target="_blank"><img title="Our new cycle bridge" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; float: none; padding-top: 0px; padding-left: 0px; margin: 20px auto; display: block; padding-right: 0px; border-top-width: 0px" border="0" alt="Our new cycle bridge" src="/assets/image_953972.jpg" width="410" height="280" /></a></p>  <p>For some years Autodesk executives have talked about the company striving to be <strong>good</strong> (doing things responsibly, benefitting our communities and each other), <strong>great</strong> (from a business perspective) and <strong>important</strong> (enabling our customers to solve significant problems). Standing out in the cold, watching a new bridge being put in place across an eerily silent motorway, last night I definitely felt part of something important.</p>

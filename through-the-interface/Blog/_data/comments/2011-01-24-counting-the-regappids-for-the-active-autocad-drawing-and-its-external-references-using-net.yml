@@ -1,0 +1,115 @@
+comments:
+- author: James Maeding
+  email: jmaeding@hunsaker.com
+  ip: 24.249.247.46
+  url: ''
+  date: '2011-01-24 19:44:04'
+  body: 'Another item that will be needed, and seems to fit nicely within the topic
+    of gathering info on unopene drawings, is that of gathering xref paths.
+
+    When we modify scriptpro, we will have to add a column to list the app ids count.
+
+    We need that, because the next step will be selecting those "dirty" files, and
+    picking a button that says "add xrefs for selected files to the list".
+
+    So we need the ability to gather the xref paths, verify the files exist, and add
+    them to the grid.
+
+    Then we run that again on the dirty files that iteration added, until no dirty
+    files get added.
+
+    You also would want to have the cleaning process run via backgroundworker, so
+    we could reliably show and cancel its progress.
+
+    Some other features that have proven very useful are:
+
+    1) allow backup of files to a folder before purge
+
+    2) add files via a text file list of paths
+
+    3) select items as "to do" based on some app id count
+
+    4) button to copy selected items path to the clipboard
+
+    5) button to copy selected files to a folder
+
+    6) option to preserve file date modified and attributes, so purging does not cause
+    backup systems to back up tons of files if not desired.
+
+    thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2011-01-25 11:39:51'
+  body: 'The code I''ve prototyped for the XML portion does gather the path (via the
+    Filename property of the xdb variable).
+
+
+    So you''ll be able to implement your own logic for purging individual files (which
+    may or may not be addressed by this series of posts).
+
+
+    How you launch the purge process is up to you, but as it''ll be run by a seperate
+    process (acad.exe) there''s not really any benefit from using a background worker,
+    as far as I can tell.
+
+
+    As mentioned, the main focus of this series is on the reporting side of things:
+    all the items you''ve mentioned on the purge side of things are altogether possible
+    (as I''m sure you know) and will likely be left as an exercise for the reader.
+
+
+    Kean'
+- author: James Maeding
+  email: jmaeding@hunsaker.com
+  ip: 24.249.247.46
+  url: ''
+  date: '2011-01-25 17:47:51'
+  body: 'oh, you did gather xref paths, I need to read the code :)
+
+    I forgot the scriptpro code was available too, so now i see why you picked it
+    as a starting point.  the only issue with it is I am totally green on wpf, and
+    am just getting down the patterns needed to do databinding.
+
+    thx'
+- author: Muthukumar G
+  email: muthukumarkg@hotmail.com
+  ip: 60.51.240.226
+  url: ''
+  date: '2011-01-26 05:07:44'
+  body: 'Hi Kean,
+
+
+    can you please tell me, How do i embed the raster image inside the drawing?
+
+
+    Thanks,
+
+    Muthu
+
+    Incontrol Tech, Malaysia.'
+- author: Kean Walmsley
+  email: ''
+  ip: 109.237.55.190
+  url: http://profile.typepad.com/kean
+  date: '2011-01-26 08:22:09'
+  body: 'Hi Muthu,
+
+
+    This isn''t a forum for support.
+
+
+    Your comment doesn''t appear to relate to this post, so please submit your question
+    to <a href="http://adn.autodesk.com">the ADN team</a>, if you''re a member, or
+    otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean
+
+
+    -----'

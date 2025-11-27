@@ -1,0 +1,110 @@
+comments:
+- author: Christopher
+  email: christopher@civil3dreminders.com
+  ip: 64.129.227.4
+  url: http://blog.civil3dreminders.com/
+  date: '2009-09-25 19:11:31'
+  body: 'I think you find the clipboard ring here in Office 2007: <a href="http://screencast.com/t/pND9VfdET">http://screencast.com/t/pND9VfdET</a>'
+- author: Eugene Hanks
+  email: ehanks@crweng.com
+  ip: 65.74.4.250
+  url: ''
+  date: '2009-09-25 20:17:55'
+  body: Does this add-in work in Civil 3D, I used the netload as stated in the readme
+    file.
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-09-27 11:19:17'
+  body: 'Aha - that was easy. :-)
+
+
+    Thanks, Christopher!
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-09-27 11:20:02'
+  body: 'I see no reason it shouldn''t although I haven''t tried it. Did you run the
+    CLIPBOARD command after the NETLOAD?
+
+
+    Kean'
+- author: ''
+  email: ''
+  ip: 62.22.46.197
+  url: http://profile.typepad.com/6p0120a6442f9f970c
+  date: '2009-10-16 17:32:11'
+  body: "Hi Kean, \n    This looks really good, but I was wondering if there's scope\
+    \ for creating exactly the same functionality for Inventor 2010? We regularly\
+    \ create final drawings in Inventor, and a lot of the fields are the same on every\
+    \ page. (to head off the \"why not use custom/automatic fields\" questions, we\
+    \ simply can't because of our customer's requirements*)\n\nCurrently, we're left\
+    \ with having to use the MS Office clipboard which is a pain as it's not on by\
+    \ default.\n\nI suppose given that you've already done most of the leg work (and\
+    \ posted the code), it wouldn't be too much trouble to convert it to an Inventor\
+    \ Add-in?\n\nThanks,\n\nAlex."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2009-10-21 17:31:32'
+  body: 'Hi Alex,
+
+
+    That''s a very interesting suggestion.
+
+
+    Most of the code is independent of AutoCAD: the AutoCAD-specific stuff is related
+    to the application initialization & demand-loading, the hosting of the palette
+    and the sending of commands to paste the contents of the clipboard. The rest is
+    pretty generic, and could be adapted for other host applications pretty easily
+    (I believe).
+
+
+    I''l have a word with my team, to get someone to take a look, but you may also
+    want to give it a try yourself, in the meantime.
+
+
+    Regards,
+
+
+    Kean'
+- author: Jason
+  email: jluker@brochsteins.com
+  ip: 65.183.42.226
+  url: ''
+  date: '2010-08-18 22:07:45'
+  body: "I don't beleave that have not looked in the correct place.  I have found\
+    \ this link and others but I can't seem to beable to copy a blockRef from one\
+    \ file to another without the user having to select the blockRef.  I have a palette\
+    \ that lists BlockReferences which reside in differnet files.  I want the user\
+    \ to double click or drag and drop them into there drawing.  Kind of like the\
+    \ tool palettes.\n\nI tried the following from this code.  (can you point me in\
+    \ the correct direction if i am doing this wrong)\n\n\nDim mDoc As New _\n   Autodesk.AutoCAD.Interop.Common.AxDbDocument\n\
+    mDoc.Open(SelectedBlock.Path)\nDim mBlockRef As _\n    Autodesk.AutoCAD.Interop.Common.AcadBlockReference\
+    \ _\n    = mDoc.ObjectIdToObject(SelectedBlock.ObjectID)\nMy.Computer.Clipboard.SetDataObject(CType(mBlockRef,\
+    \ _\n   Windows.Forms.DataObject))\nAcadAppServ.Application.DocumentManager.MdiActiveDocument.SendStringToExecute(\
+    \ _\n        \"_pasteclip \", True, False, False)"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-08-19 14:59:08'
+  body: 'That''s beyond the scope of this application: it just relies on the standard
+    copy/paste mechanism inside AutoCAD, it doesn''t attempt to place data on the
+    clipboard itself (which is likely to be hard to get right).
+
+
+    You might try posting your question via <a href="http://adn.autodesk.com">ADN</a>,
+    if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean
+
+    -----'

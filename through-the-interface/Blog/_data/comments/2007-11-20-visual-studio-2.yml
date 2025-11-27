@@ -1,0 +1,173 @@
+comments:
+- author: Adam Davis
+  email: adam@wishsoftware.com
+  ip: 83.217.109.3
+  url: ''
+  date: '2007-12-12 10:29:15'
+  body: 'Hi Kean,
+
+
+    Great blog - fantastic topics that are very relevant.
+
+
+    Could you think about creating a post that outlines the ''best'' way to manage
+    compiling for multiple versions of AutoCAD within Visual Studio.
+
+
+    Thanks in advance
+
+
+    Adam'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-12-12 11:22:55'
+  body: 'Hi Adam,
+
+
+    Thank you for the feedback.
+
+
+    This is quite a broad topic, and as I''m sure you''ve found out, can be quite
+    tricky. Are you personally trying to manage ObjectARX (C++) and/or .NET code/projects?
+
+
+    Regards,
+
+
+    Kean'
+- author: Adam Davis
+  email: adam@wishsoftware.com
+  ip: 83.217.109.3
+  url: ''
+  date: '2007-12-13 17:56:14'
+  body: 'Hi Kean,
+
+
+    Thanks for the reply.
+
+
+    We already have our ObjectArx Code coming off a single code source and then being
+    compiled in VC6,VS.NET and VS2005 with conditional compilation statements where
+    necessary. We output xxx2k.arx, xxx2k4.arx, xxx2k7.arx. They all go in the install
+    but the installer creates the appropriate demand loading registry keys dependant
+    on the AutoCAD installed.
+
+
+    I was now concerned with what is the best way forward for new .NET code. We would
+    prefer early binding for the benefits of Object Browsing etc (have heard of people
+    doing early binding and then transforming the code for late binding before release
+    but not sure I want to do that).
+
+    Do we have to make dlls for each version of AutoCAD 2006+? What is the best/easiest
+    way to work off a single code base for multiple AutoCADs (let''s intially assume
+    using functionality applicable to all AutoCAD''s)?
+
+
+    Cheers
+
+
+    Adam'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-04-28 18:20:34'
+  body: 'Hi Adam,
+
+
+    Something that may help here is <a href="http://msdn2.microsoft.com/en-us/library/bb398197.aspx">Visual
+    Studio 2008''s multiple targeting feature</a>: this allows you to target a particular
+    version of the .NET Framework, though it''s not clear to me whether it can be
+    extended/adapted to other "platforms", such as AutoCAD.
+
+
+    To target multiple AutoCAD versions when using the .NET API, you should be able
+    to use the lowest release number (although do watch out for the caveats listed
+    in <a href="http://through-the-interface.typepad.com/through_the_interface/2006/09/com_vs_net_in_a.html">this
+    post and its comments</a>). You''d need to be sure that the functionality was
+    maintained between versions, but in general that''s the case.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Simon
+  email: chenlie@gmail.com
+  ip: 222.155.129.153
+  url: ''
+  date: '2009-04-08 11:54:54'
+  body: 'Hi Kean,
+
+
+    In acad.exe.config of Autocad2008, it says Autocad always uses latest .NET Framework
+    installed on the computer. But I found it was not the case. After .NET framework3.5
+    installed on my machine, Autocad2008 is still binding to .NET 2.0 assemblies.
+    Trouble is my plugin dll is referencing.NET dlls built based on .NET3.5, therefore
+    can not be loaded by Autocad2008. Is there any way to force Autocad2008 pick up
+    .net3.5?
+
+
+    Btw, is Autocad2009 running on .net3.5?
+
+
+    Thanks,
+
+    Simon'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-04-08 11:58:10'
+  body: 'Hi Simon,
+
+
+    I don''t know. I suggest asking your question via <a href="http://adn.autodesk.com">ADN</a>,
+    if you''re a member, or via one of <a href="http://discussion.autodesk.com">our
+    discussion groups</a>, if not.
+
+
+    Regards,
+
+
+    Kean'
+- author: Simon
+  email: chenlie@gmail.com
+  ip: 122.57.152.176
+  url: ''
+  date: '2009-04-16 10:51:13'
+  body: 'Hi Kean,
+
+
+    I was on the wrong track. It is in fact a dll binding problem. That .NET dll can
+    be loaded if it is beside acad.exe, but not in a different folder even I have
+    added the folder path into the Autocad profile "support file search path". Any
+    idea about this problem?
+
+
+    Thanks,
+
+    Simon'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-04-16 10:53:08'
+  body: 'Hi Simon,
+
+
+    We absolutely recommend putting yoru application inside (or beneath) the root
+    AutoCAD application folder.
+
+
+    The support file search path is not used by the .NET Framework to load assemblies.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

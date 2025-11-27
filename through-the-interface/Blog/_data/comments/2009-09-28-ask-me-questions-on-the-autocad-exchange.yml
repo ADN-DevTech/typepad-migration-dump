@@ -1,0 +1,34 @@
+comments:
+- author: Nathan
+  email: nwecksler@gmail.com
+  ip: 124.170.135.22
+  url: ''
+  date: '2009-09-29 15:28:28'
+  body: "Hey thanks to your answer and blog my app is working great now in paperspace\
+    \ and there is no UCS issues. CHEERS!\n\nPublic Class FloorSurferView\n\n    Private\
+    \ pMax As Point3d\n    Private pMin As Point3d\n\n    Public Sub New()\n     \
+    \   SaveView()\n    End Sub\n\n    Private Sub SaveView()\n\n        Dim ed As\
+    \ Editor = AC_App.DocumentManager.MdiActiveDocument.Editor\n\n        Using acView\
+    \ As ViewTableRecord = ed.GetCurrentView()\n\n            Dim pCenter As Point3d\
+    \ = New Point3d(acView.CenterPoint.X, acView.CenterPoint.Y, 0)\n            pMin\
+    \ = New Point3d(pCenter.X - (acView.Width / 2), pCenter.Y - (acView.Height / 2),\
+    \ 0)\n            pMax = New Point3d(pCenter.X + (acView.Width / 2), pCenter.Y\
+    \ + (acView.Height / 2), 0)\n\n        End Using\n\n    End Sub\n\n    Public\
+    \ Sub Zoom()\n\n        Dim app As AcadApplication = CType(Application.AcadApplication,\
+    \ AcadApplication)\n        Dim lower() As Double = New Double() {pMin.X, pMin.Y,\
+    \ pMin.Z}\n        Dim upper() As Double = New Double() {pMax.X, pMax.Y, pMax.Z}\n\
+    \        app.ZoomWindow(lower, upper)\n\n    End Sub\n\nEnd Class"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-09-30 08:26:32'
+  body: 'Great - thanks for letting me know.
+
+
+    Glad to be of help. :-)
+
+
+    Kean
+
+    -----'

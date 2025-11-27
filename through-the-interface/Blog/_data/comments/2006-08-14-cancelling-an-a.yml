@@ -1,0 +1,280 @@
+comments:
+- author: s.kaiser
+  email: stephan.kaiser@sofistik.de
+  ip: 212.204.69.61
+  url: http://www.sofistik.de
+  date: '2006-08-21 16:12:44'
+  body: 'As acedPostCommand() is undocumented, I guess it''s not officially supported
+    (i.e. via ADN support etc)? ;) Otherwise it''d be an interesting alternative.
+    Are there other keywords besides ''CANCELCMD''?
+
+
+    I usually use PostMessage() to send the escape character.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-08-21 16:50:41'
+  body: 'acedPostCommand() is indeed undocumented, but quite widely used and unlikely
+    to change or disappear.
+
+
+    A lot depends on your relative comfort level with using undocumented functions:
+    you would notice at build time (during link) if it were to have disappeared from
+    AutoCAD, and the signature is so simple I don''t expect its behaviour to change.
+    "CANCELCMD" is the only special keyword it supports, but is a useful one (as it
+    cancels down through all active commands).
+
+
+    Kean'
+- author: s.kaiser
+  email: stephan.kaiser@sofistik.de
+  ip: 212.204.69.61
+  url: http://www.sofistik.de
+  date: '2006-08-22 14:30:16'
+  body: Thanks, Kean, for elaborating. Canceling down through all active commands
+    is indeed very useful at times. I'll keep this trick in mind!
+- author: Juergen
+  email: Juergen.Becker@cad-becker.de
+  ip: 212.15.197.10
+  url: ''
+  date: '2007-09-11 12:28:55'
+  body: "Hi Kean,\nI need to cancel an command in DotNet. I tried it with acedPostCommand(\"\
+    CANCELCMD\"); \nBut that doesnt work.\nAll the specific forums doesn't help, so\
+    \ I ask here for help.\nJuergen"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-09-11 13:37:51'
+  body: 'Hi Juergen,
+
+
+    So you tried to P/Invoke it, as per <a href="http://through-the-interface.typepad.com/through_the_interface/2006/08/calling_command.html">this
+    post</a>?
+
+
+    Have you tried send escape characters (Chr(27)) using SendCommand() or SendStringToExecute?
+
+
+    Regards,
+
+
+    Kean'
+- author: Juergen
+  email: Juergen.Becker@cad-becker.de
+  ip: 212.15.197.10
+  url: ''
+  date: '2007-09-11 14:03:56'
+  body: "Hi,\nthanks for your comment.\nI tried with P/Invoke (I think - I'm not sure).\n\
+    \nHere is the code:\n\n[DllImport(\"acad.exe\", EntryPoint = \"?acedPostCommand@@YAHPB_W@Z\"\
+    , CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]\nprivate\
+    \ static extern int acedPostCommand(string strExpr);\n\t\t\nI've got the next\
+    \ function from the Eventwatcher-Sample. When the CommandWillStart-Events fired\
+    \ this function is executed. Thats OK, but the Command doesn'T cancel.\n\nprivate\
+    \ void callback_CommandWillStart(Object o, CommandEventArgs e)\n{\n// OK, I knew\
+    \ all command will be canceled, this ist only for working out.\n  acedPostCommand(\"\
+    CANCELCMD\");\n}"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-09-11 14:17:33'
+  body: 'Oh, it''s from an event callback?
+
+
+    You *might* be able to use doc.SendStringToExecute(Chr(27)+Chr(27)), assuming
+    the command pauses for user-input, but otherwise you''re better off vetoing the
+    command using a DocumentLockModeChanged event, as per <a href="http://through-the-interface.typepad.com/through_the_interface/2006/10/blocking_autoca.html">this
+    post</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Juergen
+  email: Juergen.Becker@cad-becker.de
+  ip: 212.15.197.10
+  url: ''
+  date: '2007-09-11 14:46:52'
+  body: 'OK, now its works.
+
+    I''d vetoing the command in the DocumentLockModeChanged event.
+
+
+    Many, many thanks for your help. You are great.
+
+
+    Regards
+
+    Jürgen'
+- author: 'VICTOR '
+  email: el_victor27@hotmail.com
+  ip: 189.169.139.159
+  url: ''
+  date: '2007-11-20 20:37:06'
+  body: hi, i tried to calcel a command with ctrl+c but don't work, what can i do
+    for that
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-11-20 20:54:30'
+  body: 'Ctrl-C is mapped to COPYCLIP. You may need to unmap it (if that''s even possible)
+    via the CUI command.
+
+
+    This post is about programmatically cancelling commands, not about changing the
+    keyboard shortcuts a user can use to cancel them.
+
+
+    Kean'
+- author: Maarten Molema
+  email: maarten.molema@sarens.com
+  ip: 194.78.184.174
+  url: ''
+  date: '2008-09-17 10:42:49'
+  body: 'Dear Kean,
+
+
+    I''m writing an application that will run seperately from Autocad (*.exe) it will
+    ask the base position using Utility.GetPoint, but this doesn''t work when there
+    is a command active in Autocad, how to cancel that command?
+
+    I''ve tried to use above mentioned solutions, but none of them worked.
+
+
+    Code:
+
+
+    AcadApp = CType(GetObject(, "Autocad.application"), Autodesk.AutoCAD.Interop.AcadApplication)
+
+
+    AcadDoc = AcadApp.ActiveDocument
+
+
+    AcadDoc.SendCommand(Chr(3)) ''Doesn''t work
+
+
+    Dim point As Object = AcadDoc.Utility.GetPoint(, "Please give the startposition:")
+
+
+    /code
+
+
+    Kind regards,
+
+
+    Maarten'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 72.255.51.70
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-17 12:48:11'
+  body: 'Have you tried sending Chr(27)?
+
+
+    Kean'
+- author: sony
+  email: kava831@yahoo.com
+  ip: 203.145.176.250
+  url: ''
+  date: '2008-10-16 09:33:35'
+  body: CAN I GET THE SOLUTION FOR SAME. KILLING THE ACTIVE COMMAND THROUGH VB.NET
+- author: sony
+  email: kava831@yahoo.com
+  ip: 203.145.176.250
+  url: ''
+  date: '2008-10-16 09:34:36'
+  body: ABOVE METHODS GIVING ERROR I TRIED THEM..HOW TO  USE acedPostCommand(_T("CANCELCMD"));
+    IN VB.NET
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-10-16 10:11:10'
+  body: 'You can use the P/Invoke declaration in <a href="http://through-the-interface.typepad.com/through_the_interface/2006/08/calling_command.html">this
+    post</a>.
+
+
+    Kean'
+- author: sony
+  email: kava831@yahoo.com
+  ip: 203.145.176.250
+  url: ''
+  date: '2008-10-16 10:35:18'
+  body: BUT KEAN I AM CREATING A WINDOWS APPLICATION AND I AM  NOT LOADING ANY DLL
+    TO AUTOCAD,I NEED TO WORK FROM WITHIN .NET AS AN WINDOWS APPLICATION WHERE THE
+    COMMANDS THE POST I TINK WORK ONLY WITHIN AUTOCAD NOT THROUGH .NET
+- author: sony
+  email: kava831@yahoo.com
+  ip: 203.145.176.250
+  url: ''
+  date: '2008-10-16 10:36:51'
+  body: "Try\n                acadDoc.ActiveLayer = Cparcels\n                'MsgBox\
+    \ r\n                xc = Str(unsorted_array(0, r))\n                yc = Str(unsorted_array(1,\
+    \ r))\n                strcmd = \"(command \" & \" \"\"bpoly\"\" \" & \" (list\
+    \ \" & Trim(xc) & \" \" & Trim(yc) & \") \" & \" \"\" \"\")\"\n              \
+    \  acadDoc.SendCommand(\"_zoom\" & vbCr & \"C\" & vbCr & Trim(xc) & \",\" & Trim(yc)\
+    \ & vbCr & \"100\" & vbCr)\n\n                acadDoc.SendCommand(strcmd & vbCr\
+    \ & vbCr)\n\n            Catch ex As Exception\n             ''i need to kill\
+    \ the active command here \n\n MsgBox(r)\n                acedPostCommand(\"P\"\
+    )\n\n\n\n\n            End Try"
+- author: sony
+  email: kava831@yahoo.com
+  ip: 203.145.176.250
+  url: ''
+  date: '2008-10-16 10:37:38'
+  body: acedPostCommand("P") command doesnt work here
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-10-16 10:39:12'
+  body: 'Try sending escape characters (ASCII 27). If this doesn''t work, please post
+    your code to the discussion groups.
+
+
+    Kean'
+- author: Rohan
+  email: rohan.hanukindia@gmail.com
+  ip: 123.236.222.113
+  url: http://www.hanuk.in
+  date: '2009-10-21 03:21:00'
+  body: "Hi kean,\nHow do I cancel  a region command. Its screwing my happiness. Anything\
+    \ I draw, either a line or a circle, or a polygon, this region is active on the\
+    \ base lines. I want to undo this. How do I do this?? Plz help me out..\n\nRegards\
+    \ \nRohan"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-10-21 08:21:40'
+  body: 'Hi Rohan,
+
+
+    Escape usually cancels commands waiting for command-line input. I suspect there''s
+    information I''m missing: please follow up via <a href="http://adn.autodesk.com">ADN</a>
+    or via the appropriate <a href="http://discussion.autodesk.com">discussion group</a>
+    with more specifics about what you''re attempting to do.
+
+
+    Regards,
+
+
+    Kean'
+- author: Rohan
+  email: rohan.hanukindia@gmail.com
+  ip: 123.236.217.98
+  url: http://www.hanuk.in
+  date: '2009-10-21 17:04:34'
+  body: "Thank u so much Kean...May God Bless you..\n\nRegards \nRohan"
+- author: mustak
+  email: mansurimustak@yahoo.com
+  ip: 49.14.47.51
+  url: ''
+  date: '2011-01-10 12:14:38'
+  body: 'the
+
+    -----'

@@ -1,0 +1,63 @@
+comments:
+- author: Thorsten Meinecke
+  email: t.meinecke@gtb-ingenieure.de
+  ip: 217.91.119.202
+  url: ''
+  date: '2011-03-01 10:04:16'
+  body: "Hi Kean,\nthanks for the DRAGDROP command.\n\nI'm uncertain why you left\
+    \ in the call to <tt>ed.PointToWorld()</tt> in the latest version, since all points\
+    \ will be selected interactively now after the drop operation. After removing\
+    \ that I ran into an error with the \"near zero size\", since it is effectively\
+    \ zero size and the <tt>ri.Orientation</tt> property can't be set to that value.\
+    \ I'd suggest guarding the <tt>RasterJig.Update()</tt> method with a test against\
+    \ zero length of the diff vector like this:\n<pre>\n      Vector3d diff = _end\
+    \ - _start;\n      if (diff.Length > 0.0) {\n         ...\n      }\n</pre>"
+- author: Kean Walmsley
+  email: ''
+  ip: 66.116.112.8
+  url: http://profile.typepad.com/kean
+  date: '2011-03-01 16:33:52'
+  body: 'Hi Thorsten,
+
+
+    Thanks for the comment.
+
+
+    The drag operation is still reponsible for the initial placement, so I think we
+    do need to keep the PointToWorld() call, but you''re right that we no longer need
+    to calculate a displacement vector (disp), as the jig takes care of that piece.
+
+
+    And yes - I missed putting a check on diff, so it''s good you found that.
+
+
+    Regards,
+
+
+    Kean'
+- author: Will Hatch
+  email: ee.geek2@gmail.com
+  ip: 184.71.249.86
+  url: http://www.theswamp.org/index.php?action=profile;u=13035
+  date: '2013-01-23 18:33:44'
+  body: "Hi Kean,\n\nGoing through this code I found a minor error:\n\n  237     \
+    \  PromptPointResult ppr = ed.GetPoint(ppo);\n  238       if (pr.Status != PromptStatus.OK)\n\
+    \  239         return;\n\nInstead of looking at the point prompt by using ppr.Status\
+    \ we are looking at the string prompt using pr.Status\n\nThanks for this example!"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-01-23 19:12:31'
+  body: 'Hi Will,
+
+
+    Thanks - good catch. I''ve fixed the code.
+
+
+    Glad you found it useful!
+
+
+    Kean
+
+    -----'

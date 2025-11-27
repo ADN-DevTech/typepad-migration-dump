@@ -1,0 +1,627 @@
+comments:
+- author: Kélcyo Pereira
+  email: ''
+  ip: 189.119.242.97
+  url: http://profile.typepad.com/6p01127936b37b28a4
+  date: '2009-05-26 07:27:36'
+  body: "Hello Kean, \n\nMicrosoft recently released Visual Studio 2010 Beta 1, we\
+    \ know that it still has many changes, most already have enough people using it\
+    \ to discover their new tools and technologies, including me. \nBut to implement\
+    \ the NET framework 4 with Autocad 2010, we have some difficulties because it\
+    \ is still in beta. \nIt would be a timely opportunity a post talking about it\
+    \ now and there is anybody better to strip it of you and your team. \n\nThank\
+    \ you for understanding."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-05-26 09:12:34'
+  body: 'Hi Kélcyo,
+
+
+    Thanks for the suggestion.
+
+
+    There are clearly pros and cons with investing time in pre-release technology,
+    as I''m sure you''re aware. Right now our shipping products clearly don''t take
+    advantage of the capabilities of .NET FX 4.0, and it will be some time before
+    a tighter integration exists.
+
+
+    Eventually I''d certainly like to look into the new features of VS 2010, but I
+    probably won''t spend serious time until it''s out of Beta (there''s too much
+    scope for thrashing, and I don''t have the time to invest, unfortunately).
+
+
+    It''s true that I sometimes investigate pre-release programming language technology
+    - such as F# and IronRuby - but I''ve also learned that to do so you need to be
+    prepared to spend time both "breaking the ground" and working around annoying
+    issues that will get addressed, in time.
+
+
+    That said - you never know. If there''s something that ends up providing particularly
+    interesting, you may yet see a post on it. :-)
+
+
+    If you hit issues in the meantime you should definitely post them to the <a href="http://adn.autodesk.com">ADN</a>
+    team or to <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Paul Hoenecke
+  email: pmh009@hotmail.com
+  ip: 12.27.8.114
+  url: ''
+  date: '2009-05-26 15:48:19'
+  body: 'Hi Kean,
+
+    Thanks to Renze and you for finding this.  The updated way is great.'
+- author: Quint
+  email: qsmit@hotmail.com
+  ip: 193.173.21.110
+  url: ''
+  date: '2009-06-18 13:51:05'
+  body: 'Hi Kean,
+
+
+    I am trying to get this working on Vista x64 and AutoCAD 2010. Assembly can be
+    loaded and mycommand can be executed, but i can''t get the AddNumber to work (Some
+    kind of file not found exception) Where can i find a complete solution of this
+    to download, may be i missed some kind of project setting.
+
+
+    Tia,
+
+
+    Quint'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-06-18 13:58:12'
+  body: 'Hi Quint,
+
+
+    I''ll email you the project I used, but I have only tested on Vista 32-bit.
+
+
+    Regards,
+
+
+    Kean'
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 189.26.195.213
+  url: http://arxdummies.blogspot.com
+  date: '2009-07-14 16:49:29'
+  body: 'Hi Quint,
+
+
+    Have you succeeded at your x64 machine?
+
+
+    I''m trying to both build and run it on a Vista x64 machine and VS2008 are presenting
+    some problems during the COM DLL registration.
+
+
+    If I turn on the "Register for COM Interop" option at my DLL the compiler displays
+    the MSB3097 error code and say that my DLL is not a valid Assembly.
+
+
+    If I turn it off, it compile ok but when I try to register it via RegAsm application
+    the same problem occurs.
+
+
+    Regards,
+
+    Fernando.'
+- author: Hans Slag
+  email: j.h.slag@gmail.com
+  ip: 193.173.66.209
+  url: ''
+  date: '2010-12-24 12:21:17'
+  body: "Hello Kean,\n\nInteresting topic. Can you please specify how you solved the\
+    \ following part in more detail:\n\n\"I found that the calling application was\
+    \ not able to to cast the returned System.__COMObject to LoadableComponent.INumberAddition\
+    \ unless I updated the project settings to \"Register from COM Interop\" (near\
+    \ the bottom of the Build tab).\"\n\nI've checked the checkboxes 'Register for\
+    \ COM interop' in the Compile tab, but when running this line of code:\n\n'INumberAddition\
+    \ app = (INumberAddition)acApp.GetInterfaceObject(\"LoadableComponent.Commands\"\
+    );'\n\nI receive  the following error: No such interface supported (Exception\
+    \ from HRESULT: 0x80004002 (E_NOINTERFACE)). \n\nWhen I changed both 'INumberAddition'\
+    \ into 'Object' in this line, the code works fine, but doesn't seem to be the\
+    \ proper solution.\n\nMaybe there is a problem in the registry of the AutoCAD\
+    \ references acmgd.dll acdbmgd.dll? I can't really figure out how to solve this.\n\
+    \nAny idea's? Kind regards,\n\nHans"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2011-01-04 09:01:25'
+  body: 'Hello Hans,
+
+
+    If I recall correctly this step needed to be performed on the the COM component
+    I was calling into (i.e. the in-process .NET DLL project).
+
+
+    I hope this helps,
+
+
+    Kean'
+- author: Abhishek Singhal
+  email: abhi.singhal@gmail.com
+  ip: 59.94.96.144
+  url: ''
+  date: '2011-03-11 14:28:33'
+  body: 'Hi
+
+
+    I tried this method and could get it to operate. Three observations:
+
+
+    1. Register for COM interop in the AutoCAD add-in module works only when the output
+    directory is set to AutoCAD directory. Regasm throws "Cant find acdbmgd.dll" if
+    its in its own bin directory
+
+
+    2. I am using sendcommand NETLOAD to load up my add-in. Its working nicely but
+    the only thing is that the Commandmethods stop working. (whereas they work normally
+    if netload is called manually)
+
+
+    3. Debugging is an issue. You have to debug the in-process dll separately and
+    out-of-process separately. Would have been infinitely nice if debugging was a
+    seamless experience.
+
+
+    All-in-all, out-of-process application development experience needs a little "Facelifting"
+    as its not a very uncommon scenario.
+
+
+    Thanks
+
+    Abhishek'
+- author: Geert van den Brand
+  email: gvandenbrand@greefa.nl
+  ip: 212.45.63.102
+  url: ''
+  date: '2011-04-11 11:55:44'
+  body: "Hi,\n\nI've got the same problem here.\nI've an out-of-process exe which\
+    \ call's a in-process dll with GetInterfaceObject as described here.\nThe problem\
+    \ is that i can't get the dll debugged in the same project. \nDid you find a solution\
+    \ for this or is this not possible at all?\n\nThanks,\n\nGeert"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-04-11 21:22:32'
+  body: 'I don''t recall exactly how this works, off the top of my head - I suggest
+    posting your question to <a href="http://adn.autodesk.com">the ADN team</a>, if
+    you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean'
+- author: jsjswql
+  email: jsjwqlxqx@163.com
+  ip: 58.32.239.82
+  url: ''
+  date: '2011-05-03 12:27:58'
+  body: 'Did anyone run this successfully on 64bit OS?
+
+
+    I run it successfully on 32bit OS, however, run into the error "Mixed mode assembly
+    is built against version ''v2.0.50727'' of the runtime and cannot be loaded in
+    the 4.0 runtime without additional configuration information.", I used VS 2010
+    with .net4 framwork to run the sample, Kean, do you have any idea on this?'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-05-03 13:05:16'
+  body: 'Sorry, I don''t - I''m still working on a 32-bit system, and haven''t tried
+    this on x64.
+
+
+    Kean'
+- author: jsjswql
+  email: jsjwqlxqx@163.com
+  ip: 58.32.239.82
+  url: ''
+  date: '2011-05-04 04:51:18'
+  body: Thanks Kean, I found a resolution for this, try to move the functions related
+    with Acdbmgd.dll/Acmgd.dll to static method can resolve it.
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-05-04 08:09:52'
+  body: 'Great! :-)
+
+
+    Kean'
+- author: Daniel
+  email: daniel.hunziker@innowell.ch
+  ip: 46.14.116.5
+  url: ''
+  date: '2011-11-16 08:15:00'
+  body: "About Register for COM...\nHave the same problem, I get \"Cant find acdbgmd.dll...\"\
+    \ as soon the Register for COM is on. \nTried to to set the output to Autocad\
+    \ (what directory?) but same result.\n\nThanks for any suggestions \nDaniel"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2011-11-16 08:50:10'
+  body: 'It''s trying to resolve the assembly references when it loads the DLL - the
+    folder containing acdbmgd.dll will either need to contain your DLL or be in the
+    PATH.
+
+
+    The specific folder will depend on the version of AutoCAD you''re using.
+
+
+    Kean'
+- author: Jason Daniel
+  email: jdaniel@precise-automation.com
+  ip: 96.11.231.202
+  url: ''
+  date: '2012-02-03 22:26:59'
+  body: 'Hi Kean,
+
+
+    This is an excellent article.  I used it to create a VS2010 C# application that
+    generates geometry in AutoCAD 2010.  It is working well on Windows XP 32 bit.  However,
+    I have tried to move to 64 Bit Windows 7 and i am having problems.   When I try
+    to rebuild the LoadableComponent on Windows 7 I get:
+
+
+    Cannot register assembly "C:\Companies\Vistakon\ISAAC\AutoCAD Comunicator\Test
+    64\LoadableComponent\LoadableComponent\bin\Debug\LoadableComponent.dll". Could
+    not load file or assembly ''acmgd, Version=18.0.0.0, Culture=neutral, PublicKeyToken=null''
+    or one of its dependencies. The system cannot find the file specified.
+
+
+    When I try to use RegAsm on the original 32 bit version I get:
+
+
+    RegAsm : error RA0000 : A BadImageFormatException has been thrown while parsing
+
+    the signature. This is likely due to lack of a generic context. Ensure genericTy
+
+    peArguments and genericMethodArguments are provided and contain enough context.
+
+
+    I have tried to use ObjectARX 2010 dlls as well as the ones installed with AutoCAD
+    but nothing resolves the compile issue.
+
+
+    I did notice if I set ComVisible(false) it will build but when ComVisible(true)
+    is used it fails.
+
+
+    I am sure there is something I am doing wrong - do you have any suggestions?
+
+
+    Thanks,
+
+    Jason'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2012-02-08 10:32:50'
+  body: 'Hi Jason,
+
+
+    Have you tried setting the output directory for LoadableComponent.dll to the AutoCAD
+    program files folder? This will allow the DLL''s dependency on acmgd.dll to be
+    resolved.
+
+
+    Regards,
+
+
+    Kean'
+- author: Silke
+  email: silke.foernzler@systecs.com
+  ip: 79.204.227.194
+  url: ''
+  date: '2012-06-01 08:32:05'
+  body: 'Hi Kean,
+
+    I''m having the same problem as Daniel on Nov 16th 2011 and tried your solution
+    for this to add the folder containing acmgd.dll and acdbmgd.dll to the path system
+    variable. But it didn''t work unfortunaltely. Do I need to do something else?
+    The other way (setting the output directory) works, but is no option to me (it''s
+    just too much of a mess, putting the dll''s directly in the AutoCad folder).
+
+
+    Thanks, Silke'
+- author: Silke
+  email: silke.foernzler@systecs.com
+  ip: 79.204.227.103
+  url: ''
+  date: '2012-06-04 10:00:52'
+  body: 'Update: I would not recommend to set the output directory to the Acad directory,
+    as this did destroy my Autocad installation! See also: <a href="http://forums.autodesk.com/t5/NET/AutoCAD-2011-install-gets-corrupted/m-p/2713229/highlight/true#M19740">http://forums.autodesk.com/t5/NET/AutoCAD-2011-install-gets-corrupted/m-p/2713229/highlight/true#M19740</a>'
+- author: Kean Walmsley
+  email: ''
+  ip: 72.52.96.9
+  url: http://profile.typepad.com/kean
+  date: '2012-06-04 16:59:59'
+  body: 'Hi Silke,
+
+
+    Copying properly-named (i.e. prefixed with your Registered Developer Symbol) DLLs
+    into AutoCAD''s Program Files folder isn''t necessarily a problem. You need to
+    be very careful - if building into that folder - that you don''t have Copy Local
+    set to True for any of AutoCAD''s referenced assemblies.
+
+
+    The best is ultimately to build elsewhere but deploy to Program Files.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Silke
+  email: silke.foernzler@systecs.com
+  ip: 79.204.227.234
+  url: ''
+  date: '2012-06-05 10:51:49'
+  body: "Hi Kean,\n\nthank you for your answer. I'll definitely not do this anymore\
+    \ and compile to the Autocad directory directly (although probably this could\
+    \ have been the problem, not using the right prefix).\n\nBut what I'd really like\
+    \ to do is make acmgd.dll and acdbmgd.dll (from ObjectArx inc folder) known by\
+    \ adding it to the path system variable, as you suggested in an earlier comment.\
+    \ (So that I can check the 'register for COM interop' without getting errors at\
+    \ compile time.) Could you specify what needs to be done, because I didn't succeed...\
+    \ \n\nThanks, \nSilke"
+- author: Kean Walmsley
+  email: ''
+  ip: 216.52.185.72
+  url: http://profile.typepad.com/kean
+  date: '2012-06-05 18:41:28'
+  body: 'Hi Silke,
+
+
+    I have a vague recollection of what was required, at this stage: I''d try adding
+    the AutoCAD''s main Program Files folder to the path, assuming adding the ObjectARX
+    SDK inc folder doesn''t work.
+
+
+    Regards,
+
+
+    Kean'
+- author: Silke
+  email: silke.foernzler@systecs.com
+  ip: 79.204.228.75
+  url: ''
+  date: '2012-08-06 14:06:54'
+  body: "Just an update for anyone who wants to know:\n \nI've solved my issue now.\
+    \ Neither by setting the output directory (problems mentioned above), nor by using\
+    \ the path variable (which I couldn't get running).\n\nI've added a post build\
+    \ step to my project INSTEAD of using 'register for COM interop'. This step first\
+    \ copies acmgd and acdbmgd to my project directory, then does a regasm, and afterwards\
+    \ deletes acmgd and acdbmgd from my project directory. Something like:\ncopy \"\
+    $(OARX2012)\\inc\\acmgd.dll\" \"$(TargetDir)\"\ncopy \"$(OARX2012)\\inc\\acdbmgd.dll\"\
+    \ \"$(TargetDir)\"\n\"$(REGASM64_2012_NET4)\" \"$(ProjectDir)bin\\$(ConfigurationName)\\\
+    MyModule.dll\" /tlb:\"$(ProjectDir)bin\\$(ConfigurationName)\\MyModule.tlb\"\n\
+    del \"$(TargetDir)\\acmgd.dll\"\ndel \"$(TargetDir)\\acdbmgd.dll\"\n\nThis addresses\
+    \ 2 issues I had: \n1) that acmgd and acdbmgd can't be found when trying to register\
+    \ for com interop\n2) that 'register for com interop' always just performs a regsitration\
+    \ with the 32bit version of regasm, which is not helpful on my 64bit machine...\
+    \ (In this case be sure to set system variable REGASM64_2012_NET4 to the appropriate\
+    \ regasm version! For me it was: 'C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\\
+    RegAsm.exe')"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-08-06 20:42:14'
+  body: 'Great - thanks for the info, Silke!
+
+
+    Kean'
+- author: Robert
+  email: r.menger@ibgabo.de
+  ip: 178.24.241.77
+  url: http://www.gabo-engineering.com
+  date: '2012-08-26 17:04:17'
+  body: "Great thanks for this post! It was very helpful for me and after a few sleepless\
+    \ nights I made this solution working with Win7 x64 and Acad 2012 x64 and VS 2010.\n\
+    Now I`ve got a tiny update for the sample code. I have recognized the problem\
+    \ that when I run my forms-application, start an Acad-Instance, close the Acad-Instance\
+    \ and try to start a new instance, it crashes.\nThis problem can be solved by\
+    \ using the BeginQuit-Event to set the _acApp-variable to null again:\n<code>\n\
+    ..._acApp.Visible = true;\n\n_acApp.BeginQuit +=   \nnew_DAcadApplicationEvents_BeginQuitEventHandler(ACAD_BeginQuit);\n\
+    ...\n\n//methode which was called by quitting acad\n        public void ACAD_BeginQuit(ref\
+    \ bool cancel) {\n\n            _acApp.BeginQuit -= new _DAcadApplicationEvents_BeginQuitEventHandler(ACAD_BeginQuit);\n\
+    \            //set the _acApp to null when the acad-instace was closed\n     \
+    \       _acApp = null;\n        }\n</code>\n\nHave a nice time!\nrobert"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-08-26 18:56:18'
+  body: 'Hi Robert,
+
+
+    Thanks for taking the time to share your update.
+
+
+    I see acApp is local in the above code, so I''d assume it doesn''t need nulling
+    out, here (although I didn''t check the overall project, it could well be global
+    in other parts of the application).
+
+
+    Anyway - I''m glad if it helped you. :-)
+
+
+    Kean'
+- author: Robert
+  email: r.menger@ibgabo.de
+  ip: 178.25.47.19
+  url: http://www.gabo-engineering.com
+  date: '2012-08-27 16:26:06'
+  body: 'Hi Kean,
+
+
+    You are right. It was my fault. In your code the acApp is local and so there is
+    no need for the update.
+
+    In my own project acApp is a global member, so my problems were made by myself.
+
+
+    But maybe it is nice to know for other ones how to solve such problems.
+
+
+    robert'
+- author: Daniel LAMBLIN
+  email: dlamblin@club-internet.fr
+  ip: 217.15.87.2
+  url: ''
+  date: '2013-01-04 12:00:46'
+  body: 'Hello Kean,
+
+
+    First, Happy new year !
+
+
+    You use (AcadApplication)Marshal instruction to cast to com object interface.
+    It was a C# example, but what about VB NET ? Have you an example ?
+
+
+    Thanks
+
+
+    Daniel'
+- author: Daniel LAMBLIN
+  email: dlamblin@club-internet.fr
+  ip: 217.15.87.2
+  url: ''
+  date: '2013-01-04 16:47:02'
+  body: 'Hello,
+
+
+    Finally, I found that I have a problem of vb projet references.
+
+    My 2 interop dll I add was for 32 bits instead of 64 bits. When I change them,
+    the cast problem disappear.
+
+
+    Sorry
+
+
+    Daniel'
+- author: alexb
+  email: alexb@actcom.co.il
+  ip: 84.111.124.70
+  url: ''
+  date: '2013-10-27 14:30:49'
+  body: "Hi Kean,\n\nNot too late or too unrelated, i hope:\nHow would one interface\
+    \ a (unmanaged) c++ arx app with a \nin-process .net dll? i.e. being able to call\
+    \ methods in the managed dll from the arx, pass parameters and receive return\
+    \ values.\nExcept using COM i mean.\n\nThanks\n\nalex"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-10-28 11:20:10'
+  body: 'Hi alex,
+
+
+    I haven''t had to do this, myself, but this seems to be the recommended approach:
+
+
+    <a href="http://stackoverflow.com/questions/225277/calling-managed-code-from-unmanaged-code">http://stackoverflow.com/questions/225277/calling-managed-code-from-unmanaged-code</a>
+
+
+    Regards,
+
+
+    Kean'
+- author: M_Mogharrabi
+  email: mphoenix67@hotmail.com
+  ip: 72.46.158.3
+  url: ''
+  date: '2013-11-03 10:42:07'
+  body: "Hi kean,\nI have tried your solution to open a dwg file in autocad  with\
+    \ my winform application.\n\nIt works fine in my system,but it has problem when\
+    \ i want to use my dll on another system with another winform app.\n\nIt gives\
+    \ me this error : \"mixed mode assembly is build against version 'v2.0.50727'\
+    \ of the runtime and cannot be loaded in the 4.0 runtime without additional configuration\
+    \ information\".\nI have added the following code lines in app.config of my dll\
+    \ but the error is existing yet.\n\n<startup useLegacyV2RuntimeActivationPolicy=\"\
+    true\">\n    <supportedRuntime version=\"v4.0\"/>\n    <requiredRuntime version=\"\
+    v4.0.20506\"/>\n\nNote : I have Autocad 2012 in my system but 2010 on the other\
+    \ system.\n\nwhat is my mistake?"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-11-04 09:11:18'
+  body: 'Hi,
+
+
+    The obvious answer is that there''s a mismatch between the .NET Framework used
+    between your DLL and AutoCAD. The message makes it sound as though you''re building
+    for .NET 2.0 and AutoCAD is using .NET 4.0, but that surprises me: AutoCAD 2012
+    shouldn''t be using it, as far as I recall.
+
+
+    But you may want to look into the application settings, to see what''s going on
+    (the build settings in your project and the acad.exe.config).
+
+
+    Regards,
+
+
+    Kean'
+- author: Locke
+  email: allockse@gmail.com
+  ip: 99.138.33.165
+  url: http://allockse.github.io/SharpPlant/
+  date: '2013-12-13 02:44:19'
+  body: Confirming this works with x64 2012.  Additionally, I found out that you can
+    have the same assembly creating the COM instance of AutoCAD be netloaded.  Having
+    everything under a single .dll is pretty nice.
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2013-12-17 18:51:44'
+  body: 'Good to know (on both fronts).
+
+
+    Thanks!
+
+
+    Kean'
+- author: Matt Taylor
+  email: matthew.taylor@wspgroup.com
+  ip: 61.14.99.173
+  url: ''
+  date: '2014-01-23 05:33:12'
+  body: 'Hey Locke,
+
+    I''ve been battling with this one!
+
+    Do you have a stripped down example that you''re willing to share?
+
+
+    Kind regards,
+
+
+
+    Matt
+
+    -----'

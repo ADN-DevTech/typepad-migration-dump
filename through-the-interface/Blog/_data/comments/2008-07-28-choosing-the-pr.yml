@@ -1,0 +1,199 @@
+comments:
+- author: Chris Bray
+  email: chris.bray@keynetix.com
+  ip: 78.32.175.153
+  url: http://www.chrisbray.co.uk
+  date: '2008-07-28 12:26:12'
+  body: "Very well put, this is exactly what I've been thinking for our recent projects.\n\
+    \nAs an ObjectARX developer my self, not long ago my answer would have been \"\
+    ObjectARX, without a doubt\", but as we've seen the .NET API mature and now we're\
+    \ having to consider interoperability with external .NET applications the choice\
+    \ is becoming more and more difficult! \n\nSince we have few ObjectARX developers\
+    \ the ability to leverage some of the C# knowledge we have elsewhere is a real\
+    \ advantage.\n\nThanks for confirming what I'd already been half thinking!"
+- author: sachin
+  email: cad.sachin@yahoo.co.in
+  ip: 122.169.65.233
+  url: http://cadexprt.blogspot.com/
+  date: '2008-07-28 13:46:51'
+  body: Thanks for such a precious article, It will definetly help many jr CAD Customization
+    engineers and few new firms coming up and working in AutoCAD Customization.
+- author: Daniel
+  email: dmarcotte4@excite.com
+  ip: 221.127.46.218
+  url: ''
+  date: '2008-07-29 04:22:26'
+  body: "ObjectARX/C++ programmers should also consider C++/CLI when migrating to\
+    \ .NET.\n\n-\tThe Ability to create mixed mode assemblies \n-\tSame language/environment\
+    \ for managed and unmanaged.\n-\tThe ability to protect intellectual property\
+    \ by compiling\n        sensitive code to native."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-29 08:46:01'
+  body: 'Thanks, Daniel.
+
+
+    Actually source code (IP) security is another factor I could have listed, thinking
+    about it: although it may be acceptable to use obfuscation tools rather than compiling
+    to native code.
+
+
+    And yes - mixed mode modules provide great interoperability opportunities, although
+    I would tend to use them to expose interfaces from C++ that can then be used by
+    C#/VB.NET programmers. Having a completely homogeneous C++ environment isn''t
+    a path I''d recommend unless the domain in some way required it and the skills
+    were readily available.
+
+
+    Kean'
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 200.150.60.16
+  url: http://arxdummies.blogspot.com
+  date: '2008-07-29 17:23:48'
+  body: 'Hello,
+
+
+    I would add a comment regarding the use of C++. I have worked on a project over
+    Autodesk MAP which is supposed to access an Oracle database selecting and/or posting
+    some objects.
+
+
+    The first try was to use a .NET database provider which works great for a small
+    set of objects but was a pain for a huge number.
+
+
+    We have then switched to OO4O which is a C++ Oracle database provider which is
+    really complex but a thousand times faster than the .NET provider.
+
+
+    In this case, the use of C++ in this part of the project was mandatory.
+
+
+    So the end of the story is that you really don''t have one single magic API to
+    use. A mix is welcome and you need to also consider other non-programming facts
+    like team scalability, project cost, project development speed, code reuse, legacy
+    APIs, etc.
+
+
+    Good work Kean! :)'
+- author: Stephanie Winston
+  email: stephwins8@aol.com
+  ip: 64.12.117.143
+  url: ''
+  date: '2008-09-12 04:18:07'
+  body: we have been told that coldfusion is out dated and is not worth the computer
+    it is coded on... how true is this?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-12 08:11:55'
+  body: 'I know nothing whatsoever about ColdFusion, unfortunately.
+
+
+    Kean'
+- author: Juhani Nykänen
+  email: juhani.nykanen@vianova.fi
+  ip: 194.100.28.188
+  url: ''
+  date: '2008-09-26 11:47:48'
+  body: 'Hello,
+
+
+    I write applications for Autocad Map and Civil3d platforms, mostly with ObjectARX.
+
+    I would like to do more with .NET but so far the main reason preventing this is
+    not having the NETUNLOAD command..
+
+
+    With arx I can just arxunload and arxload the application for modifications in
+    a second.
+
+    But with .NET I have to restart the heavy environment and do all kinds of lengthy
+    initializations before being able to try even small changes in code, this can
+    take a minute or more..
+
+
+    Maybe it is possible to create an utility, for development purposes, to unload
+    a .net assembly from Autocad ?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-26 12:30:28'
+  body: "Juhani - \n\nI was sure I'd posted about why NETUNLOAD doesn't exist, but\
+    \ I can't find the post. I'll try to put something together for next week. But\
+    \ that's not really your question, of course...\n\nIt might be possible to create\
+    \ your own loader that would create a new AppDomain for each module loaded - that's\
+    \ what would need to happen to enable NETUNLOAD, unless Microsoft changes the\
+    \ way modules are loaded/unloaded in .NET. I don't know what would need to happen,\
+    \ but presumable some mapping would need to happen between the AutoCAD's AppDomain\
+    \ and the new one (I'm speaking largely from ignorance here - I haven't performed\
+    \ in-depth research on this topic).\n\nBut the good news is that with Visual Studio\
+    \ 2005, Edit and Continue works well. So there should be a lot less reason to\
+    \ unload/reload.\n\nRegards,\n\nKean"
+- author: Dale Bartlett
+  email: dale.bartlett@realtimeinternational.com.au
+  ip: 124.187.70.241
+  url: http://www.realtimeinternational.com.au
+  date: '2009-12-17 11:39:06'
+  body: Hi Kean, Some time has passed on this subject, I am interested to know if
+    "it's still true that custom objects can only be implemented using ObjectARX (i.e.
+    C++)"? Can or will Custom Objects be possible with C#? VS2010? Regards, Dale
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-12-17 11:48:57'
+  body: 'Hi Dale,
+
+
+    Overrules are really the way forward. Admittedly they don''t cover some of the
+    edge cases (such as when people actually want to stored custom binary data in
+    a drawing), but the existing custom object mechanism will continue to be available
+    to people prepared to handle the complexity of using it from C++.
+
+
+    At this stage we have no plans to extend the capability to define custom objects
+    to the .NET API (but then again - with all that''s going on in our industry -
+    my crystal ball is looking increasingly murky, these days :-S).
+
+
+    Kean'
+- author: Lauraine 2012
+  email: ''
+  ip: 182.72.180.202
+  url: http://profile.typepad.com/lauraine2012
+  date: '2012-05-19 11:55:10'
+  body: Thanks for sharing your info. I really appreciate your efforts and I will
+    be waiting for your further write ups thanks once again.
+- author: Alexander Tohidi
+  email: hamed1357@gmail.com
+  ip: 121.211.20.67
+  url: ''
+  date: '2014-03-06 12:29:54'
+  body: "Kean \nI need to ask the same question again as it is 2014 and 4 years have\
+    \ past since the last question was asked by Dale Bartlett: \n \n I am interested\
+    \ to know if \"it's still true that custom objects can only be implemented using\
+    \ ObjectARX (i.e. C++)\"? Can or will Custom Objects be possible with C#? VS2010?\
+    \ \n\nRegards"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2014-03-06 15:24:16'
+  body: 'Alexander,
+
+
+    4 years have passed but my previous answer remains valid.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

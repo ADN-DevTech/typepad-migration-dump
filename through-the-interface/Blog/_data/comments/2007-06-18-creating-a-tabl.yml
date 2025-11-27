@@ -1,0 +1,158 @@
+comments:
+- author: hassan dejakam
+  email: hassandejakam@yahoo.com
+  ip: 217.219.197.129
+  url: ''
+  date: '2007-07-31 10:33:31'
+  body: ''
+- author: Viktor
+  email: viktor.kulikovskiy@pacificorp.com
+  ip: 208.186.200.6
+  url: ''
+  date: '2008-10-30 02:59:32'
+  body: "Kean,\n\nThanks to your post I was able to get 1.5 rabits, I figured out\
+    \ how to set the precision on the formula output, by using the field \\f flag.\
+    \ And this led me to understand one other problem.\n\nBut I found a little problem\
+    \ I'm just not comprehending:\n\nWhy is it that when I make a new table, I add\
+    \ my formulas and they work fine. But when make a change to an existing table,\
+    \ then formulas don't show up.\n\nSo I have 3 subs all together, 1 sub creates\
+    \ a new table, 1 sub updates existing, and 1 sub populates the formulas.\n\nFrom\
+    \ the first both subs I'm calling the populate formula sub, which is this:\n\n\
+    Sub RecreateFormulas(ByVal objid As ObjectId)\n            Dim tr As Transaction\
+    \ = db.TransactionManager.StartTransaction\n            Try\n\n\n            \
+    \    Dim tbl As Table = objid.GetObject(OpenMode.ForWrite)\n\n               \
+    \ Dim bottomSection As Integer = tbl.NumRows - 2\n                For y = 2 To\
+    \ tbl.NumRows - 3\n                    tbl.SetTextString(y, 5, \"%<\\AcExpr (A\"\
+    \ & y + 1 & \"*E\" & y + 1 & \") \\f \"\"%lu2%pr1\"\">%\")\n                Next\n\
+    \n                tbl.SetTextString(tbl.NumRows - 3, 5, \"%<\\AcExpr (sum(F3:F\"\
+    \ & tbl.NumRows - 3 & \")) \\f \"\"%lu2%pr1\"\">%\")\n                tbl.SetTextString(tbl.NumRows\
+    \ - 2, 5, \"%<\\AcExpr (F\" & tbl.NumRows - 2 & \"*0.05) \\f \"\"%lu2%pr1\"\"\
+    >%\")\n                tbl.SetTextString(tbl.NumRows - 1, 5, \"%<\\AcExpr (sum(F\"\
+    \ & tbl.NumRows - 2 & \":F\" & tbl.NumRows - 1 & \")) \\f \"\"%lu2%pr1\"\">%\"\
+    )\n\n\n            Catch ex As Exception\n                MsgBox(ex.Message)\n\
+    \            Finally\n                tr.Commit()\n                tr.Dispose()\n\
+    \                ed.Regen()\n            End Try\n        End Sub\n\nBut I'm getting\
+    \ different results :(\nWhat gives?\n\nThanks."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-10-30 10:02:29'
+  body: 'First things first, Viktor: you''re not using the transaction to open the
+    table. You shouldn''t mix the open/close model with transactions: we recommend
+    using tr.GetObject() to open objects.
+
+
+    Kean'
+- author: Viktor
+  email: viktor.kulikovskiy@pacificorp.com
+  ip: 208.186.200.6
+  url: ''
+  date: '2008-10-30 17:28:05'
+  body: 'Kean,
+
+
+    Thanks for your advice. I did notice that you use tr.getobject in your code, and
+    that''s probably the right way, but I''m following a book by Jerry Winters, and
+    he always seems to follow this procedure:
+
+
+    1. start transaction
+
+    2. objid.getobject
+
+    3. commit transaction
+
+
+    Well, either way, I tried both of these scenarios and when updating the table
+    for the second time, not all formulas come back :(
+
+
+    I''m not a ADN member, and ever since the upgrade on discussion forum, I can''t
+    get in there. So between here and theswamp.org is all the expertise i can get
+    :)
+
+
+    Thanks.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-10-30 17:39:28'
+  body: 'Viktor,
+
+
+    Sorry - I''m really not able to help troubleshoot issues not specifically related
+    to my posts. Perhaps someone on TheSwamp can help...
+
+
+    Regards,
+
+
+    Kean'
+- author: Viktor
+  email: viktor.kulikovskiy@pacificorp.com
+  ip: 208.186.200.6
+  url: ''
+  date: '2008-10-30 20:16:16'
+  body: "Well, if anyone is looking to resolve this same question, I thought I'd post\
+    \ a follow up, it looks like you have to clear the textstring from a formula before\
+    \ placing another one in there. I guess this kind of makes sense. Here's what\
+    \ I did:\ntbl.SetTextString(y, 5, \"x\")\ntbl.SetTextString(y, 5, _\n\"%<\\AcExpr\
+    \ (A\" & y + 1 & \"*E\" & y + 1 & \")\" & _ \n\"\\f \"\"%lu2%pr1\"\">%\")\n\n\
+    Viktor."
+- author: Rdoverspike
+  email: ''
+  ip: 67.142.167.24
+  url: http://profile.typepad.com/rdoverspike
+  date: '2009-11-24 16:09:16'
+  body: "Kean,\nI've been reading your post about creating tables. I've created a\
+    \ table that contains block attributes and now I'm wanting a way to keep this\
+    \ table update as the drawing is being modified. I'm new to .net and need some\
+    \ advise. The table I have was create using the \"DATA EXTRACTION\" tool. I've\
+    \ written a program that will go out and find the table, however it cause AutoCAD\
+    \ to error within a 15-30 seconds after it runs. At this point it isn't trying\
+    \ update the table at all. Any help on this or a better direction would pe appreciated.\n\
+    \n Public Sub UpdateBOMTable()\n        Dim mydoc As Document = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument\n\
+    \        Dim mytransman As Autodesk.AutoCAD.DatabaseServices.TransactionManager\n\
+    \        Dim mytrans As Transaction = mydoc.TransactionManager.StartTransaction()\n\
+    \        Dim mybt As Autodesk.AutoCAD.DatabaseServices.BlockTable\n        Dim\
+    \ mybtr As Autodesk.AutoCAD.DatabaseServices.BlockTableRecord\n        Dim myEnt\
+    \ As Object\n        Dim myEnum As Autodesk.AutoCAD.DatabaseServices.BlockTableRecordEnumerator\n\
+    \n        mytransman = mydoc.TransactionManager\n        mytrans = mytransman.StartTransaction\n\
+    \n        mybt = mydoc.Database.BlockTableId.GetObject(Autodesk.AutoCAD.DatabaseServices.OpenMode.ForWrite)\n\
+    \        mybtr = mybt(Autodesk.AutoCAD.DatabaseServices.BlockTableRecord.ModelSpace).GetObject(Autodesk.AutoCAD.DatabaseServices.OpenMode.ForWrite)\n\
+    \n        'Table line 0 is the title\n        'Table line 1 is the column headers\n\
+    \        'Table line 2 is the start of the data\n\n        'Enumerate all items\
+    \ in Modelspace to find \"BILL OF MATERIALS\" TABLE\n        myEnum = mybtr.GetEnumerator()\n\
+    \        Try\n            While myEnum.MoveNext()\n                myEnt = myEnum.Current.GetObject(Autodesk.AutoCAD.DatabaseServices.OpenMode.ForWrite)\n\
+    \                Try\n                    If TypeOf (myEnt) Is Autodesk.AutoCAD.DatabaseServices.Table\
+    \ Then\n                        Dim BOMTable As Table = myEnt\n              \
+    \          Dim BOMTableName As String = BOMTable.GetTextString(0, 0, 0)\n    \
+    \                    If BOMTableName = \"BILL OF MATERIAL\" Then\n           \
+    \                 'enter code to update table here.\n                        End\
+    \ If\n                        Exit While\n                    Else 'typeof\n \
+    \                   End If 'typeof\n                Catch\n                End\
+    \ Try\n            End While\n        Catch ex As System.Exception\n        End\
+    \ Try\n        mytrans.Commit()\n        mytrans.Dispose()\n        mytransman.Dispose()\n\
+    \    End Sub\n\nThank you"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2009-11-24 16:32:56'
+  body: 'I haven''t time to debug your code, I''m afraid, but I did see you''re disposing
+    of the TransactionManager (which is a very bad idea - you didn''t create it, so
+    you really shouldn''t dispose it).
+
+
+    In case this doesn''t help, I suggestion posting your code to <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Good luck,
+
+
+    Kean
+
+    -----'

@@ -1,0 +1,238 @@
+comments:
+- author: Farrukh
+  email: farrukh1@gmail.com
+  ip: 203.82.55.114
+  url: http://www.flickr.com/photos/farrukhw
+  date: '2010-03-03 14:27:49'
+  body: 'Hi Kean
+
+
+    Thanks for such a knowledgeable post :). Its very informative. I was looking for
+    something like this...
+
+
+    However, I need some additional information regarding the Palettes.
+
+
+    For instance I have created a Palette file of my own, like
+
+    My_Palette_222A1245-4A65-4E62-9D97-B9F2F851C2CD.atc.
+
+
+    How can I load and add its entry in Catalog?
+
+    I will be using its Command in my .lsp script which is used to load my custom
+    application interface in AutoCAD.
+
+
+    Any quick help would really be appreciated.
+
+    Thanks in advance.
+
+
+    Best regards
+
+    Farrukh'
+- author: Kean Walmsley
+  email: ''
+  ip: 93.35.242.33
+  url: http://profile.typepad.com/kean
+  date: '2010-03-03 14:53:31'
+  body: "Hi Farrukh,\n\nI'm afraid I don't have time to look into this. \n\nPlease\
+    \ post your question via <a href=\"http://discussion.autodesk.com/forums/forum.jspa?forumID=152\"\
+    >the AutoCAD .NET Discussion Group</a> or <a href=\"http://adn.autodesk.com\"\
+    >the ADN website</a>, if you're a member.\n\nRegards,\n\nKean"
+- author: Gerrit van Diepen
+  email: g.vandiepen@gmail.com
+  ip: 217.169.229.157
+  url: ''
+  date: '2012-06-13 15:46:33'
+  body: "Hi Kean,\n\nBecause of a slow network we copy the Tool Palette File folder\
+    \ to the local hard drive, say C:\\AcadToolPalettes\\\nWhen we want to update\
+    \ the tool palette information from a network share we have to do these steps:\n\
+    -\tunload the current tool palette (otherwise we can’t overwrite it)\n-\tcopy\
+    \ the files from the network share to the local hard disk\n-\tactivate the tool\
+    \ palette again\n\nWhen I use \n\nDim tmp as ToolPaletteManager = ToolPaletteManager.Manager\n\
+    Tpm.UnloadCatalogs()\n\nAutoCAD crashes when I want to close/save a drawing\n\n\
+    How can I do this in Vb.NET / C.#\n\nBest Regards,\n\n\nGerrit"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-06-13 15:51:11'
+  body: 'Hi Gerrit,
+
+
+    I''ve never had to do this (and don''t know what''s causing the crash). I suggest
+    posting a more complete code sample to <a href="http://adn.autodesk.com">the ADN
+    team</a> (if you''re a member) or otherwise to <a href="http://forums.autodesk.com/t5/NET/bd-p/152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Best regards,
+
+
+    Kean'
+- author: imvivs
+  email: imvivs@gmail.com
+  ip: 135.245.8.5
+  url: ''
+  date: '2013-10-21 16:30:28'
+  body: 'Hi Kean,
+
+    Can you point out why we are using customization using .NET or what are the benefits
+    of create Tool Palette in .NET, however it can be done in AutoCAD UI easily.?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-10-21 16:55:35'
+  body: 'If you mean "why customize via code rather than just have someone use the
+    UI"? then that''s really a large topic (and yet very simple: there are lots and
+    lots of reasons). And I suspect you''re visiting the wrong blog. :-)
+
+
+    If you mean "why use code when you can deploy and programmatically load a .CUIX
+    file", then I''d say that it''s a choice. In this case I''m including C# code
+    in the project anyway, so adding a few lines to create TP entries is my preference.
+    If I were doing something different I might make a different choice, as deploying
+    a .CUIX file with the Autoloader (for instance) really simplifies UI creation
+    for apps on the Exchange Store.
+
+
+    Kean'
+- author: imvivs
+  email: imvivs@gmail.com
+  ip: 180.151.114.224
+  url: ''
+  date: '2013-10-21 19:52:00'
+  body: 'Thanks for your quick response.
+
+    Yes, my mine was first one. I just want to know that what are the benefits, reasons
+    and why we create Tools Palettes using programming rather than simply use TP from
+    menu(in AutoCAD).
+
+    If I am visiting wrong blog so can u please suggest me from where I can get right
+    answer?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-10-21 20:42:14'
+  body: 'Well, as you asked so nicely I''ll answer here... :-)
+
+
+    Application developers often want to automate tasks that they don''t want end-users
+    to have to do repeatedly (or even once on installation). What may seem complex
+    for an app developer to create in code is often considered a reasonable trade-off,
+    as it gets used by many, many users (and automating even a one-off task can reduce
+    the support calls they have to field).
+
+
+    This is true of many areas of application development, not just creating TP items.
+
+
+    I hope this helps clarify,
+
+
+    Kean'
+- author: sakshi
+  email: sakshi.bhat10@gmail.com
+  ip: 122.252.231.12
+  url: http://through-the-interface.typepad.com/through_the_interface/2009/10/adding-items-to-an-autocad-tool-palette-using-net.html
+  date: '2013-10-21 20:53:20'
+  body: 'Hi I have a query ,i want to know,what are the benefits of developing the
+    tool palettes in .Net? what are the points that makes us to use .net for developing
+    it?
+
+
+    Thanks in advance
+
+
+    Regards,
+
+    Sakshi Bhat'
+- author: sakshi
+  email: sakshi.bhat10@gmail.com
+  ip: 122.252.231.12
+  url: http://through-the-interface.typepad.com/through_the_interface/2009/10/adding-items-to-an-autocad-tool-palette-using-net.html
+  date: '2013-10-21 20:57:50'
+  body: "I have seen above that you have answered that query already but i want somewhat\
+    \ more explanation for it.Can you please elaborate it so that I can understand\
+    \ it more efficiently.\n\n\nRegards \nsakshi"
+- author: imvivs
+  email: imvivs@gmail.com
+  ip: 180.151.208.107
+  url: ''
+  date: '2013-10-21 20:58:01'
+  body: Thanks, I agree with your answer. Customization is all about to automate the
+    work. I think there is some extra features using programming, apart from AutoCAD's
+    TP.
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-10-22 06:57:54'
+  body: 'Hi Sakshi,
+
+
+    I''m very curious why this request is being repeated (and on a 4 year old post).
+    Did you see the comment on my blog''s main page or come through from a forum post,
+    perhaps?
+
+
+    Or maybe this is a new form of spam that will somehow impact SEO? Getting this
+    somewhat strange request repeated so soon is confusing, to say the least.
+
+
+    Kean'
+- author: nayna
+  email: nayna.maina@gmail.com
+  ip: 135.245.8.5
+  url: ''
+  date: '2013-11-13 14:50:29'
+  body: 'Hi kean ,
+
+
+    I have a question..Is there a  possibilty to share a toolpalette developed in
+    .net on a network drive?
+
+    and Can admin set the standard property of the tools inside that shared toolpalette
+    and user should not have the access to perform any modifications of that tool
+    palette.
+
+
+    Thanks in advance..!!!!
+
+
+    Regards,
+
+    Nayna...:)'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-11-13 15:12:29'
+  body: 'Hi Nayna,
+
+
+    Loading DLLs from network drives tends to be a bit tricky.
+
+
+    This may help, although I can''t promise you won''t hit strange issues with this
+    approach:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2011/07/loading-blocked-and-network-hosted-assemblies-with-net-4.html">http://through-the-interface.typepad.com/through_the_interface/2011/07/loading-blocked-and-network-hosted-assemblies-with-net-4.html</a>
+
+
+    I don''t know whether you can flag the tool palettes as read-only, but then if
+    you''re regenerating them using code, there shouldn''t be a problem.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

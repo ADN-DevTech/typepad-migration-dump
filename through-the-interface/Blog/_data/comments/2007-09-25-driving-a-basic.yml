@@ -1,0 +1,995 @@
+comments:
+- author: Akash
+  email: akash4683@yahoo.com
+  ip: 203.199.213.67
+  url: ''
+  date: '2008-03-05 08:30:42'
+  body: "Sir,\n\nI am Akash, pursuing Masters in Construction Management from Indian\
+    \ Institute of Technology- Madras, Chennai (India)\n\nI had been using the VB\
+    \ 6.0 version till date and still would be continuing my work with that.. \n\n\
+    I have an application to be coded where in 1) I have a set of coordinates say\
+    \ 6 coordinates for a cuboidal shape in excel sheet.\n2) I want to use them in\
+    \ Autocad to plot a drawing (every cuboid) based on these coordinates by importing\
+    \ from Excel file.\n\n3) I have a series of such cuboids to be connected to make\
+    \ a long span. I want this Plot to be finally displayed on VB form where my application\
+    \ is there.\n\nI look forward to receive some useful information from you at the\
+    \ earliest..\n\nPS: I have a bigger constraint in switchhing over to .Net for\
+    \ my application hence, please keep VB 6.0 in mind.."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.6.124
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-03-05 09:10:07'
+  body: 'Akash - please have your institute join ADN (if they''re not already a member)
+    or submit your question to one of the discussion groups.
+
+
+    Regards,
+
+
+    Kean'
+- author: Michael Csikos
+  email: michael@softbiz.com.au
+  ip: 60.240.193.119
+  url: ''
+  date: '2008-05-20 07:35:12'
+  body: 'G''day Kean
+
+
+    Thanks for a great site.
+
+
+    I am having trouble doing consecutive prints from one method call. I am trying
+    to produce a DWF and a PDF of a drawing, but the second plot fails because the
+    first plot does not start immediately. I have tried sleeping the thread and checking
+    the ProcessPlotState. I also tried starting the plot in a separate thread, but
+    that is crashing AutoCAD (even with try/catch blocks).
+
+
+    Any ideas?
+
+
+    Regards
+
+    Michael'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.7.167
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-20 09:05:47'
+  body: 'Hi Michael,
+
+
+    You probably need to make sure background plotting is disabled. If the BACKGROUNDPLOT
+    sysvar is set to 1 or 3, then PLOT will background plot (which is not what you
+    want).
+
+
+    Cheers,
+
+
+    Kean'
+- author: Michael Csikos
+  email: michael@softbiz.com.au
+  ip: 220.245.180.133
+  url: ''
+  date: '2008-05-28 06:38:48'
+  body: Thanks Kean, that did the trick.
+- author: Daniel Balogh
+  email: daniel.balogh@cad-consulting.at
+  ip: 143.161.248.25
+  url: ''
+  date: '2008-09-11 07:46:38'
+  body: "Dear Kean,\n\nI'm currently working on VBA for AutoCAD Mechanical 2007. I\
+    \ wonder if there is a way to edit the pc3/pmp files programatically from this\
+    \ interface. The goal is to enable the users to create custom sized flowsheets\
+    \ without manually add the Papersize to the pc3.\nSo I'd like to create a mask,\
+    \ where the user types the desired width (height is given by the rolls in the\
+    \ plotter...) and they get their layout correctly sized. Wath I did as workaround\
+    \ is that I set up a 15 m long papersize for all Paperrolls and set the Cutting\
+    \ mode to extents. The only problem is, if I set up a Page Layout, users will\
+    \ get the whole 15 m as paper and this will be confusing I think... So can I access\
+    \ these settings programatically from VBA? \nThanks in advance,\nDaniel"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-11 08:24:55'
+  body: 'Dear Daniel,
+
+
+    The recommended way of changing plot configurations is via the API, not by modifying
+    PC3 files. This API is exposed via C++ (ObjectARX) and .NET.
+
+
+    I don''t know of a way to access the API directly from VBA - you may need to include
+    a C++ or .NET module in your application for this.
+
+
+    Regards,
+
+
+    Kean'
+- author: Andrew
+  email: rossia@conwag.com
+  ip: 203.221.208.163
+  url: ''
+  date: '2009-01-05 06:21:53'
+  body: "I'm writing some code for automatic PDF plotting (Won't go into details)\
+    \ but I'm new to AutoCAD.Net and I've been having problems adapting your code.\n\
+    \nI've tried stipping back my changes up to the point where it is basically a\
+    \ copy and paste of the above code without the progress bar in a hope to find\
+    \ what's wrong and I've made it to the point where even though my code is exactly\
+    \ the same I get this error: Autodesk.AutoCAD.Runtime.Exception: eInvalidInput\n\
+    \   at Autodesk.AutoCAD.DatabaseServices.PlotSettingsValidator.SetPlotConfigurationName(PlotSettings\
+    \ plotSet, String plotDeviceName, String mediaName)\n\nMy code for that line being:\n\
+    Psv.SetPlotConfigurationName(Ps, \"PDF Creator - A1.pc3\", \"A1\");\n\nAny ideas?"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.2.123
+  url: http://profile.typekey.com/walmsleyk/
+  date: '2009-01-12 09:44:41'
+  body: 'My best suggestion would be to double-check your assumptions by testing your
+    code against another device/driver.
+
+
+    Kean'
+- author: Andrew
+  email: rossia@conwag.com
+  ip: 203.221.208.163
+  url: ''
+  date: '2009-01-22 02:55:12'
+  body: 'I''ve made it to the point where this all works except for the actual plot.
+    It gets to the line "Pe.BeginPage(PpInfo, PInfo, true, null);"
+
+    and then as soon as I step past it I get an error in AutoCAD saying "INTERNAL
+    ERROR: !dbplotset.cpp@422: eLockViolation"
+
+
+    Nobody seems to be able to give me a straight answer as to what this means, or
+    why my code has only minor differences to yours (negligible) and yet when I run
+    them together mine hits that point and crashes while yours doesn''t.'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.2.123
+  url: http://profile.typekey.com/walmsleyk/
+  date: '2009-01-22 09:42:36'
+  body: 'A lock violation typically means that access to a document has been attempted
+    without it being locked or a second attempt has been made to access a currently
+    locked document - I forget exactly which.
+
+
+    The current document is locked implicitly when a command is entered, so perhaps
+    you''re not plotting the current document and have forgotten to lock it?
+
+
+    Another (less likely) possibility is that it''s somehow related to background
+    plotting.
+
+
+    If these suggestions don''t help I suggest contacting the <a href="http://adn.autodesk.com">ADN</a>
+    team (if you''re a member), or post it to the <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">AutoCAD
+    .NET Discussion Group</a>, if not.
+
+
+    Kean'
+- author: Andrew
+  email: rossia@conwag.com
+  ip: 203.221.208.163
+  url: ''
+  date: '2009-01-26 23:34:58'
+  body: 'I figured it was something to do with access to the document. That being
+    said, I thought I had already tested for that by commenting out practically my
+    entire program apart from the plotting code and yet I''m still getting the same
+    error. I then thought it was because the command is being run from a modeless
+    dialog, but figured that wouldn''t have any influence on a command run from it.
+
+
+    At the moment my entire program is a foreach statement: foreach(string CurrentDwg
+    in LstDwg.Items)
+
+    this encloses: Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.Open(CurrentDwg,
+    false);
+
+    and then proceeds straight to your plot code. After this is closes and discards
+    changes.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typekey.com/walmsleyk/
+  date: '2009-01-27 06:23:38'
+  body: 'How is "the command" being run from a modeless dialog? If the code is simply
+    behind a button (or another control), then it''s running in the session context,
+    so you must lock documents manually.
+
+
+    The best way to drive functionality from a modeless dialog is to define actual
+    commands and fire them off using SendStringToExecute(). That takes care of locking
+    and lots of other bits and pieces.
+
+
+    Although as you''re looping through documents, you''ll need to lock them yourself.
+
+
+    Kean'
+- author: Andrew
+  email: rossia@conwag.com
+  ip: 203.221.208.163
+  url: ''
+  date: '2009-01-28 06:32:09'
+  body: 'Once you enter the CommandMethod I''ve set up it opens the dialog. You select
+    the settings you want to use (drawings, job number, etc.) and press the "Go" button.
+
+
+    The above code is then run.
+
+
+    The only thing I can think of now is closing each drawing, and then opening as
+    read only before the plot code.
+
+
+    I''ll look into SendStringToExecute but for my purposes it may not work too well.
+    At least I know where I''m going wrong now. Sort of.'
+- author: Kean Walmsley
+  email: ''
+  ip: 122.164.60.230
+  url: http://profile.typekey.com/walmsleyk/
+  date: '2009-01-28 12:50:45'
+  body: 'Try using Document.LockDocument() before you plot each one.
+
+
+    SendStringToExecute() is actually a red herring, in this case: you have a session
+    command that is working with multiple documents, so document locking is most likely
+    the answer.
+
+
+    Kean'
+- author: Andrew
+  email: rossia@conwag.com
+  ip: 203.221.208.163
+  url: ''
+  date: '2009-01-29 04:36:01'
+  body: 'WORKED FIRST TIME!
+
+
+    Can''t believe the entire problem was missing 3 words!'
+- author: Patrick Ottenschläger
+  email: patrick.ottenschlaeger@doka.com
+  ip: 195.70.229.204
+  url: ''
+  date: '2009-02-23 15:55:09'
+  body: 'Hello Kean!
+
+
+    If I run your function in modelspace, all is ok, but if I run your function when
+    a layout with viewport is active i always get the error "eNotCurrentLayout" at
+    "piv.Validate(pi);"!
+
+    Is their something which i don''t understand or works this function only if the
+    modelspace is active?
+
+
+    thanks in advance
+
+    Patrick'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-02-24 13:56:48'
+  body: "Hi Patrick,\n\nIt works fine when a paperspace layout is selected, but I\
+    \ see it does fail if the modelspace viewport within that layout is active.\n\n\
+    I haven't coded to check for that (which it would take me some work to do), but\
+    \ there are couple of easy ways to code defensively for this case.\n\n1) You could\
+    \ execute a PSPACE command prior to executing the plot.\n2) You could use COM\
+    \ to do the same...\n\nInclude the namespace for AutoCAD's COM interop assembly\
+    \ (after adding the assembly reference, of course):\n\nusing Autodesk.AutoCAD.Interop;\n\
+    \nAnd this code early on in the SIMPLOT command:\n\nAcadDocument ad =\n  (AcadDocument)doc.AcadDocument;\n\
+    ad.MSpace = false;\n\nI hope this helps,\n\nKean"
+- author: markc
+  email: mark.carson.boxz@googlemail.com
+  ip: 92.235.21.8
+  url: ''
+  date: '2009-06-01 19:22:50'
+  body: 'I have used your example to some success, with the addition of reading the
+    active layout''s canonical media size before setting the new plot configuration.
+
+    Having solved that one, I am having difficulty modifying to produce a plot preview.
+    Do you have any pointers?'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-06-01 19:28:57'
+  body: '<a href="http://through-the-interface.typepad.com/through_the_interface/2007/10/previewing-and-.html">This
+    post</a> should help.
+
+
+    Kean'
+- author: markc
+  email: mark.carson@fairhurst.co.uk
+  ip: 194.75.137.130
+  url: ''
+  date: '2009-06-25 11:59:38'
+  body: 'Thanks for the pointers to the preview code.
+
+
+    I have managed finally to program a custom eTransmit command that includes the
+    plot to PDF and DWF along with a bound drawing.
+
+
+    I was performing some final testing with a particularly large file (70MB) on a
+    standard ISO plot. The plot to PDF can be completed manually, however when I execute
+    the plot using .net I receive a System.AccessViolationException.
+
+    Any attempts to avoid this using a Try Catch results in a pure virtual function
+    call.
+
+
+    The error occurs at:
+
+
+    pe.BeginGenerateGraphics(null);
+
+
+    The plot does appear to begin to work...
+
+
+    Any ideas?'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-06-25 15:52:08'
+  body: 'Hi Mark,
+
+
+    Sorry - I have no idea what''s happening, although something about it makes it
+    smell like a memory issue. I''d check to see whether the issue is reproducible
+    with a slightly modified scenario:
+
+
+    a) on another system
+
+    b) with another, similarly-sized, drawing
+
+    c) using a different (perhaps non-PDF) driver
+
+
+    I''d also suggest submitting your question to the ADN team, if you''re a member.
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-06-25 15:53:10'
+  body: '(meaning a, b or c, not a, b and c... :-)
+
+
+    Kean'
+- author: Alberto Benitez
+  email: abenitez@northatlanticcorp.com
+  ip: 63.144.141.2
+  url: ''
+  date: '2009-06-29 18:23:18'
+  body: Hello Kean, Do you have any sample in RealDWG application? thank you
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-06-30 09:17:56'
+  body: '<a href="http://through-the-interface.typepad.com/through_the_interface/2007/08/updating-a-spec.html">Here''s
+    a sample</a>, although it''s unrelated to this post (you can''t plot from RealDWG).
+
+
+    Kean'
+- author: Isidoro Aguilera
+  email: isidoro.aguilera@aplicad.com
+  ip: 80.59.154.123
+  url: ''
+  date: '2009-08-04 13:32:47'
+  body: Is there any way to change de vector resolution with API when plotting to
+    DWF?
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-08-04 13:40:35'
+  body: 'Sorry, Isidoro, I don''t know the answer.
+
+
+    Please try the discussion groups or ADN.
+
+
+    Kean'
+- author: Jordan Tymburski
+  email: jordan.tymburski@gmail.com
+  ip: 142.179.168.235
+  url: ''
+  date: '2009-08-12 19:25:58'
+  body: "Hey Kean, \nI've been looking all over the internet/your blog/.NET Developer\
+    \ guide but I can't figure out how to change which layout is active.  I figured\
+    \ out how to declare a non-active layout but can't seem to make it active.  My\
+    \ goal is to be able to draw different stuff on 4 different layouts.  Thanks."
+- author: Jordan Tymburski
+  email: jordan.tymburski@gmail.com
+  ip: 142.179.168.235
+  url: ''
+  date: '2009-08-12 19:34:09'
+  body: 'I feel stupid but right after I posted this, I was looking through the list
+    of secondary functions on my layout object and ran into .BlockTableRecordId. Put
+    that straight into the block table record declaration and worked perfectly. Thanks
+    anyway.
+
+
+    BlockTableRecord btr = trans.GetObject(layout2.BlockTableRecordId, OpenMode.ForWrite)
+    as BlockTableRecord;'
+- author: Habeeb Moideenkutty
+  email: ''
+  ip: 62.61.164.252
+  url: http://profile.typepad.com/6p0120a612f642970b
+  date: '2009-10-22 18:05:13'
+  body: 'Hi Kean,
+
+    I am newbie to .net. I have a silly query. Can you please help me with the creation
+    of a command for plotting the active drawing with a single stroke command? I was
+    able to do the same with VBA, but .net is not taking me anywhere. For the last
+    three days I was searching on the net in vain to get some idea or sample code..please
+    help..thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2009-10-22 18:22:50'
+  body: 'Hi Habeeb,
+
+
+    It sounds like a plumbing problem: the code in this post should allow you to create
+    a command to plot the active drawing and you can then use CUI to set up some kind
+    of keyboard shortcut to make it happen.
+
+
+    But that''s just a guess: if I were you I would ask the <a href="http://adn.autodesk.com">ADN</a>
+    team (if you''re a member) or post to <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>. Those are really your best avenues to get support
+    related to this kind of thing.
+
+
+    Regards,
+
+
+    Kean'
+- author: Justas
+  email: westbaaam@gmail.com
+  ip: 213.190.55.69
+  url: ''
+  date: '2010-04-29 14:19:58'
+  body: i am using this code with autocad DWG to PDF driver. BACKGROUNDPLOT is set
+    to 0. Why plot process is longer than standart plot by hand?
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-04-29 14:30:14'
+  body: 'I have no idea: this isn''t the experience I''ve had with the code, so perhaps
+    there''s something specific to the way you''ve implemented it or the driver you''re
+    using.
+
+
+    Kean'
+- author: Frane
+  email: kob4lt@gmail.com
+  ip: 161.53.248.222
+  url: ''
+  date: '2010-05-24 15:28:47'
+  body: 'I copy paste your code and it always break at last line (pe.EndPlot(null))
+
+    It give me a AutoCad Send Report dialog.
+
+
+    I have tried in modelspace and in paperspace, it''s always the same problem?
+
+
+    Thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-05-24 22:25:49'
+  body: 'Sorry - I have no idea what''s causing this in your version of the code/on
+    your system...
+
+
+    Kean'
+- author: Dan
+  email: dan.vang@masterg.com
+  ip: 12.167.10.98
+  url: ''
+  date: '2010-08-17 16:13:00'
+  body: "Thanks for the code! I converted the code to VB.NET and it's working fine.\
+    \ But I have a few tweaks that I want to do, so I'm hoping you can shed some light\
+    \ on.\n1. I want to print only from Model space instead of the current layout.\n\
+    2. I noticed this only prints to an A Size. Is there a way to use the current\
+    \ paper size that's associated the layout. \nThanks!"
+- author: Paiul
+  email: paul.smith@jth-co.com
+  ip: 203.59.141.17
+  url: http://www.noweb.com
+  date: '2010-08-23 04:54:06'
+  body: Hi Kean, This is works when any file open, Excellent.  I would like to get
+    files from folder and do conver into pdf like as you done attribute change withoiut
+    open drawings. Is there any advice please?
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-08-23 08:45:12'
+  body: 'Hi Paul,
+
+
+    Have you tried the "DWF/PDF Batch Publish for AutoCAD" <a href="http://labs.autodesk.com/utilities/ADN_plugins/catalog/">Plugin
+    of the Month</a>?
+
+
+    Regards,
+
+
+    Kean'
+- author: Paiul
+  email: paul.smith@jth-co.com
+  ip: 203.59.141.17
+  url: http://www.noweb.com
+  date: '2010-08-24 03:21:40'
+  body: "Hi Kean, Many thanks for your reply. Yes I download the flug-inc , its bit\
+    \ difficult for me as I am new just started .net.  I saw your basic plot example\
+    \ , fro that I just modify the code:  All I want to print into pdf one drawing\
+    \ without open it.   Please have a look the below codes,  and tell me if anything\
+    \ need to change please, It would be greatly appriciated for your time.\n\n\n\n\
+    \            Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;\n\
+    \n            Editor ed = doc.Editor;\n            Database db = doc.Database;\n\
+    \            db.ReadDwgFile(\"C:\\test.dwg\", FileShare.Read, false, \"\");\n\
+    \            Transaction tr = db.TransactionManager.StartTransaction();\n    \
+    \        PlotInfo pi = new PlotInfo();\n\n            using (db)\n           \
+    \ {\n\n                try\n                {\n                    using (tr)\n\
+    \                    {\n\n                        BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId,\
+    \ OpenMode.ForRead);\n                        Layout lo = (Layout)tr.GetObject(btr.LayoutId,\
+    \ OpenMode.ForRead);\n\n                        pi.Layout = btr.LayoutId;\n  \
+    \                      PlotSettings ps = new PlotSettings(lo.ModelType);\n   \
+    \                     ps.CopyFrom(lo);\n\n                        PlotSettingsValidator\
+    \ psv = PlotSettingsValidator.Current;\n                        psv.SetPlotType(ps,\
+    \ Autodesk.AutoCAD.DatabaseServices.PlotType.Extents);\n\n                   \
+    \     psv.SetUseStandardScale(ps, true);\n                        psv.SetStdScaleType(ps,\
+    \ StdScaleType.ScaleToFit);\n                        psv.SetPlotCentered(ps, true);\n\
+    \n                        psv.SetPlotConfigurationName(ps, \"Adobe PDF.pc3\",\
+    \ \"A3\");\n\n                        pi.OverrideSettings = ps;\n            \
+    \            PlotInfoValidator piv = new PlotInfoValidator();\n              \
+    \          piv.MediaMatchingPolicy = MatchingPolicy.MatchEnabled;\n          \
+    \              piv.Validate(pi);\n\n                        if (PlotFactory.ProcessPlotState\
+    \ == ProcessPlotState.NotPlotting)\n                        {\n\n            \
+    \                PlotEngine pe = PlotFactory.CreatePublishEngine();\n        \
+    \                    using (pe)\n                            {\n\n           \
+    \                     PlotProgressDialog ppd = new PlotProgressDialog(false,1,\
+    \ true);\n                                using (ppd)\n                      \
+    \          {\n                                    ppd.set_PlotMsgString(PlotMessageIndex.DialogTitle,\
+    \ \"T&G: Converting PDF\");\n                                    ppd.set_PlotMsgString(PlotMessageIndex.CancelJobButtonMessage,\
+    \ \"Cancel Job\");\n                                    ppd.set_PlotMsgString(PlotMessageIndex.CancelSheetButtonMessage,\
+    \ \"Cancel Sheet\");\n                                    ppd.set_PlotMsgString(PlotMessageIndex.SheetSetProgressCaption,\
+    \ \"Sheet Set Progress\");\n                                    ppd.set_PlotMsgString(PlotMessageIndex.SheetProgressCaption,\
+    \ \"PDF convert in progress . . .\");\n\n                                    ppd.LowerPlotProgressRange\
+    \ = 0;\n                                    ppd.UpperPlotProgressRange = 100;\n\
+    \                                    ppd.PlotProgressPos = 0;\n              \
+    \                      ppd.OnBeginPlot();\n                                  \
+    \  ppd.IsVisible = true;\n                                    pe.BeginPlot(ppd,\
+    \ null);\n\n                                    pe.BeginDocument(pi, doc.Name,\
+    \ null, 1, true, \"c:\\\\pdf\");\n\n                                    ppd.OnBeginSheet();\n\
+    \                                    ppd.LowerSheetProgressRange = 0;\n      \
+    \                              ppd.UpperSheetProgressRange = 100;\n          \
+    \                          ppd.SheetProgressPos = 0;\n\n                     \
+    \               PlotPageInfo ppi = new PlotPageInfo();\n                     \
+    \               pe.BeginPage(ppi, pi, true, null);\n                         \
+    \           pe.BeginGenerateGraphics(null);\n                                \
+    \    pe.EndGenerateGraphics(null);\n\n                                    pe.EndPage(null);\n\
+    \                                    ppd.SheetProgressPos = 100;\n           \
+    \                         ppd.OnEndSheet();\n\n                              \
+    \      pe.EndDocument(null);\n                                    ppd.PlotProgressPos\
+    \ = 100;\n                                    ppd.OnEndPlot();\n             \
+    \                       pe.EndPlot(null);\n\n                                }\n\
+    \n                            }\n\n                        }\n\n             \
+    \           else\n                        {\n                            ed.WriteMessage(\"\
+    \\nAnother plot is in progress.\");\n                        }\n             \
+    \       }\n                }\n                catch (System.Exception ex)\n  \
+    \              {\n                    ed.WriteMessage(\"\\nProblem to make PDF\
+    \ : {0} - \\\"{1}\\\"\", ex.Message);\n                }\n            }"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-08-24 09:09:15'
+  body: 'Hi Paiul,
+
+
+    You can''t plot a drawing that is not loaded into the editor. The Batch Publish
+    tool is really your best bet for bulk PDF creation.
+
+
+    Regards,
+
+
+    Kean'
+- author: Paiul
+  email: test@test.com
+  ip: 202.72.173.185
+  url: ''
+  date: '2010-08-27 09:27:52'
+  body: "Hi Kean, many thanks for your reply. I am trying ..., I have other question\
+    \ if you can help me out please. In VB i done to open a dwg file then do some\
+    \ operation & close it by progam. How it is possible in .Net(C#)? \n\nsuch as\
+    \ after click button \"C:\\test.dwg\" will open then draw a line on it then save\
+    \ & close..\n\nDo you have any example please. I would be greatly appriciated\
+    \ for your great help."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-08-27 10:32:33'
+  body: 'Hi Paiul,
+
+
+    This isn''t a support forum: I generally don''t have time to answer questions
+    not directly related to my posts.
+
+
+    Having said that, I suggest checking out these posts on <a href="http://through-the-interface.typepad.com/through_the_interface/batch_processing/">batch
+    processing</a>.
+
+
+    Also, we''re working on a replacement for the Script Pro tool which may be of
+    interest (it will be published as a <a href="http://labs.autodesk.com/utilities/ADN_plugins/">Plugin
+    of the Month</a> in the coming months).
+
+
+    In future, please post your questions to <a href="http://adn.autodesk.com">the
+    ADN team</a>, if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Kris K
+  email: klupfelk@gpcl.com.au
+  ip: 203.32.180.17
+  url: ''
+  date: '2010-09-02 04:04:24'
+  body: 'Kean,
+
+    I have used your plot routine (many thanks) to create a DWFx and generally works
+    fine.  I set the plotter name and paper size to 420 x 297mm however sometimes
+    the plot has the paper rotated. The drawing Orientation is still ''landscape''
+    so i end up with a small landscape dwg on a portrait sheet. Nothing seems to fix
+    it.  I have set the paper to default to the plotter default but it is the same
+    as the one in the code.
+
+    psv.SetPlotConfigurationName(ps, "DWFx ePlot (XPS Compatible).pc3", "ISO_expand_A3_(420.00_x_297.00_MM)");
+
+
+    Do you have any Ideas.  I am using Acade2010 and VS2010.
+
+    Thanks
+
+
+    Kris K'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-09-02 10:31:13'
+  body: 'Apologies for the delay - I didn''t receive a notification for this comment,
+    so it slipped through the cracks.
+
+
+    1. If you''re in model-space, it should just work. Otherwise you can force it
+    to model-space by opening the BlockTable and passing in the contained model-space
+    ObjectId instead of db.CurrentSpaceId (a common technique - just search my blog
+    for "BlockTableRecord.ModelSpace").
+
+
+    2. You should be able to pass in lo.CanonicalMediaName instead of the hard-coded
+    papersize (at least I hope so).
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-09-02 10:33:07'
+  body: 'Kris,
+
+
+    Sorry - I don''t know this one, off the top of my head.
+
+
+    Please post the problem to <a href="http://adn.autodesk.com">ADN</a>, if you''re
+    a member, or otherwise to <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Robin Huizinga
+  email: robin.huizinga@gmail.com
+  ip: 87.213.107.82
+  url: ''
+  date: '2010-10-12 15:06:44'
+  body: "Kean,\n\nThis is my first project in C#. I am trying to plot a drawing, which\
+    \ is made by C#. First I used the plot example for Autodesk and I a error in VS2010.\
+    \ I seached on the net and found the you code. I gives me the same error. What\
+    \ is causing this?\n\nGreetings from the Netherlands\n\nRobin\n\nError\t1\tCannot\
+    \ convert type 'Autodesk.AutoCAD.DatabaseServices.DBObject' to 'Valveco.AutoCAD.Layout'\t\
+    C:\\Users\\huizingar\\Documents\\Visual Studio 2010\\Visual Studio 2010\\Projects\\\
+    Valveco.AutoCAD\\Valveco.AutoCAD\\Utility.cs\t405\t19\tValveco.AutoCAD"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-10-12 17:17:31'
+  body: 'Robin,
+
+
+    This error really has nothing to do with my code: there must be something specific
+    to the way you''re trying to integrate it into your application.
+
+
+    Perhaps someone on <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a> will be able to help (I really don''t have time
+    to provide support unless specifically related to incorrect code I''ve posted).
+
+
+    Regards,
+
+
+    Kean'
+- author: Rodney
+  email: rodneylester@msn.com
+  ip: 173.221.45.114
+  url: ''
+  date: '2011-05-19 20:00:41'
+  body: How can I plot to device instead of to file.
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-05-19 23:11:37'
+  body: 'You should be able to choose an appropriate configuration during the call
+    to SetPlotConfigurationName().
+
+
+    Kean'
+- author: Gianni
+  email: gianni.albori@libero.it
+  ip: 79.32.58.244
+  url: ''
+  date: '2012-01-14 22:19:49'
+  body: "I Ken I've used your code (converted in VBNET) and it works perfectly with\
+    \ one dwg already loaded in autocad. Now I'm trying to loading a dwg by code and\
+    \ next plotting it with this code\n\n            Dim doc As Document = Application.DocumentManager.Open(\"\
+    c:\\Test.dwg\", False)\n            SimplePlot()\n            doc.CloseAndDiscard()\n\
+    \nBut Autocad crash with the error dbplotset.cpp@427 eLockViolation\n\nWhy? where\
+    \ is the difference?"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-01-15 09:01:10'
+  body: 'When you run code on a different, editor-resident drawing, then you need
+    to lock it (using Document.LockDocument()) before pretty much any operation of
+    consequence.
+
+
+    Kean'
+- author: Gianni
+  email: gianni.albori@giben.it
+  ip: 81.117.59.83
+  url: ''
+  date: '2012-01-16 11:49:58'
+  body: 'Great!!!! Now it works perfectly
+
+
+    Thanks Kean'
+- author: Hassan
+  email: hassanhafeez33@gmail.com
+  ip: 117.102.39.20
+  url: ''
+  date: '2012-03-05 10:25:40'
+  body: "Hi Kean, \n\nI have implemented this version of your code in my own application\
+    \ for plotting various locations from modelspace and everything seems to run perfectly\
+    \ if default paper sizes are used. \n\nWhat I am in need of some kind of help\
+    \ with is with custom paper sizes. I read somewhere that custom paper sizes are\
+    \ referenced with their internal names, hence showing \"user123\" etc. which creates\
+    \ a lot of confusion. \nI was wondering if you could point me in the right direction,\
+    \ knowing you dont provide custom support :S Thanks for your time reading this\
+    \ though :)"
+- author: Kean Walmsley
+  email: ''
+  ip: 66.159.223.136
+  url: http://profile.typepad.com/kean
+  date: '2012-03-05 15:19:47'
+  body: 'Have you tried using the CanonicalMediaSize of your custom paper size?
+
+
+    Kean'
+- author: Chris
+  email: cwade@breeneng.com
+  ip: 208.106.83.126
+  url: ''
+  date: '2012-03-07 23:26:48'
+  body: How does this compare in speed to writing a script from .NET and launching
+    it via Core Console that you mentioned in another post?
+- author: Kean Walmsley
+  email: ''
+  ip: 72.52.96.9
+  url: http://profile.typepad.com/kean
+  date: '2012-03-08 00:42:32'
+  body: 'I don''t know how they would compare speed-wise (I haven''t tried it, as
+    yet).
+
+
+    But if it''s running as a background process, does speed matter that much?
+
+
+    A quick foreground process arguably is more distracting than a somewhat slower
+    background process, after all.
+
+
+    Kean'
+- author: Daikichi
+  email: bung_box@yahoo.co.jp
+  ip: 118.151.157.8
+  url: ''
+  date: '2012-07-11 13:14:36'
+  body: "Dear Kean,\n\nThank you for your fruitful codes and much infomation.I appreciate\
+    \ them.\n\nTo prevent from \"eLockViolation\" error, put the statement below.\n\
+    \nusing (DocumentLock docLock = curDoc.LockDocument())\n{\n   ...\n}\n\nThis statement\
+    \ has 'AutoCAD Document' locked, so eLockViolation problem must be solved.\n\n\
+    However, \"Object ARX Plot Invalid Input\" error has occured at \"pe.EndPlot(null);\"\
+    .\n\nI can't get it.\n\nDo you have any solution about this problem?"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-07-31 09:05:29'
+  body: 'Dear Daikichi-san,
+
+
+    I''m afraid I don''t known under which circumstances this error is being generated.
+    Please post a more complete problem description either via ADN or to the AutoCAD
+    .NET Discussion Group.
+
+
+    Best regards,
+
+
+    Kean'
+- author: Justin
+  email: jiallxy@hotmail.com
+  ip: 216.58.58.201
+  url: ''
+  date: '2013-01-28 05:37:03'
+  body: 'Hi kean,
+
+
+    I copied your code into my plug-in class, and tested it.
+
+
+    There are no error shown in debugging. But the problem was that there was no "c:\test-output.dwf"
+    file to be created. About 5 seconds after every sentence in "simplot" had been
+    executed, there was AutoCad erro report interface popped out, and told me that
+    a software problem has caused autocad to close unexpectedly.
+
+
+    I tried use try-- catch to find what exception happened in the "simplot", but
+    can not catch any exception.
+
+
+    It seems that your program is good, but some of my setting in autocad caused this
+    problem.
+
+
+    Would you please tell what may cause this problem?'
+- author: Justin
+  email: jiallxy@hotmail.com
+  ip: 216.58.58.201
+  url: ''
+  date: '2013-01-28 06:34:28'
+  body: 'Hi kean,
+
+
+    I Have just found that add the following sentence in front of your program will
+    solve the problem.
+
+
+    Application.SetSystemVariable("BACKGROUNDPLOT", 0);
+
+
+    best regards,'
+- author: Brent
+  email: brent@exceleng.net
+  ip: 74.95.67.193
+  url: ''
+  date: '2013-02-20 21:53:36'
+  body: I have created a .net plotting program based largely on your example.  If
+    I plot through the native AutoCAD plot dialog box, AutoCAD puts an entry in the
+    PlotandPublishLog.CSV file, but when I plot through the .net program it does not
+    add an entry.  Do you know how to get it to log the plots through the .net application?
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-02-21 08:54:06'
+  body: 'It would make sense that the API doesn''t populate that file (at least not
+    automatically). I''m not aware of any way to turn on automatic population of this
+    CSV, although you could presumably write to it yourself programmatically.
+
+
+    Kean'
+- author: Dimitar
+  email: dsgeorgiev90@yahoo.com
+  ip: 83.163.48.84
+  url: ''
+  date: '2013-06-25 16:48:29'
+  body: 'Hi Kean,
+
+
+    I just started using the SDK for AutoCAD, I was wondering if you can recommend
+    me some tutorials or lessons that will help me start with my project. Thank you
+    in advance. I will really appreciate your help.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-06-25 17:34:05'
+  body: 'Hi Dimitar,
+
+
+    I''d start with the resources on <a href="http://autodesk.com/developautocad">the
+    AutoCAD Developer Center</a>, such as the AutoCAD .NET Labs and perhaps the My
+    First Plugin training (if you''re also new to programming).
+
+
+    Regards,
+
+
+    Kean'
+- author: Michelle
+  email: mrutz@allianceokc.com
+  ip: 24.249.228.3
+  url: ''
+  date: '2014-02-20 18:21:56'
+  body: 'I tried printing to a printer and it is still setting the option for print
+    to file.  I changed:
+
+    psv.SetPlotConfigurationName(ps, "DWG to PDF.pc3", "ANSI_A_(11.00_x_8.50_Inches)")
+    to:
+
+    psv.SetPlotConfigurationName(ps, devName, medName)
+
+    Where devName and medName are my printer name and paper size.'
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2014-02-20 18:35:08'
+  body: "There's also a Boolean flag in the call to pe.BeginDocument() that will need\
+    \ to be set to false...\n\nKean \n-----"

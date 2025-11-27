@@ -1,0 +1,180 @@
+comments:
+- author: Gaston Nunez
+  email: gaston.nunez@asyst.cl
+  ip: 190.162.243.143
+  url: ''
+  date: '2012-09-26 20:31:52'
+  body: 'Hi Kean,
+
+
+    Did You see this?: <a href="http://www.raspberrypi.org/archives/2008,">http://www.raspberrypi.org/archives/2008,</a>
+    may be you can use turbo mode to speed up a little the process.
+
+
+    Regards,
+
+
+    Gaston Nunez'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-09-26 22:38:43'
+  body: 'Hi Gaston,
+
+
+    I did, thanks - I''ve already overclocked my other Pi (the one running Raspbian,
+    as the raspi-config script makes it easier to do so).
+
+
+    I haven''t yet decided whether I''ll take the time to enable Turbo on my Arch
+    Linux ARM device.
+
+
+    Regards,
+
+
+    Kean'
+- author: ali
+  email: ali@surveymbs.com
+  ip: 82.69.125.218
+  url: ''
+  date: '2012-09-27 10:50:02'
+  body: "Hi Kean,\n\nI tried to create a 64bit autocad .net app which tries to communicate\
+    \ with a 32 bit application in a separate process. So I am using WCF to manage\
+    \ the communication between apps. The service host is the .net dll loaded inside\
+    \ autocad and the client is the other .net app(32bit). It seems that the client\
+    \ can not communicate with the server.\n \nCan anyone guide me to figure out how\
+    \ WCF can be used inside autocad .net app? or may be any example could be useful.\n\
+    \ \nThanks,\nAli"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-09-27 12:01:59'
+  body: 'Hi Ali,
+
+
+    This question pretty much defines the term "off topic". :-)
+
+
+    Please submit your question via ADN or on the AutoCAD .NET Discussion Group.
+
+
+    Regards,
+
+
+    Kean'
+- author: AdamF
+  email: adamfarah@sky.com
+  ip: 86.168.216.57
+  url: ''
+  date: '2012-10-21 22:11:29'
+  body: 'Hi Kean,
+
+
+    I''m following your blog and have just tried to get the source for the daemon
+    and build it but am having no luck. I have done the wget fine and unzipped but
+    when I run the g++ build I get this:
+
+
+    [pi@alarmpi facerecog]$ gcc ''pkg-config opencv --cflags --libs'' FaceRecDaemon.cpp
+    -o facerecd
+
+    gcc: error: pkg-config opencv --cflags --libs: No such file or directory
+
+
+    I have run everything successfully before this point so know that I have all the
+    respective packages.
+
+
+    Any hints?
+
+
+    Thank you, Adam'
+- author: AdamF
+  email: adamfarah@sky.com
+  ip: 86.168.216.57
+  url: ''
+  date: '2012-10-21 22:55:32'
+  body: PS. That was actually me trying gcc after failing with g++. I initially tried
+    g++ as you suggested but had the exact same error message.
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-10-22 15:05:13'
+  body: 'Hi Adam,
+
+
+    First thing to try: make sure you''re using backwards apostrophes, not normal
+    ones.
+
+
+    I hope this helps,
+
+
+    Kean'
+- author: AdamF
+  email: adamfarah@sky.com
+  ip: 86.169.64.127
+  url: ''
+  date: '2012-10-25 11:01:19'
+  body: 'Aha, Thanks for that! That made it so I could compile the cpp file. However
+    when I type facerecd in the facerecog folder I get bash: command not found :('
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2012-10-25 11:10:13'
+  body: 'Can you try typing this?
+
+
+    ./facerecd
+
+
+    Kean'
+- author: AdamF
+  email: adamfarah@sky.com
+  ip: 86.169.64.127
+  url: ''
+  date: '2012-10-25 13:41:20'
+  body: 'Got it! Would I need to have it like that in the DAEMONS = in the rc.conf?
+
+
+    Thanks for your help!'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2012-10-25 13:59:55'
+  body: 'If you copy the executabe across to /etc/rc.d then it shouldn''t need any
+    path qualifier...
+
+
+    Kean'
+- author: Long Nguyen
+  email: nguyenlong.0805@gmail.com
+  ip: 115.72.219.32
+  url: ''
+  date: '2013-10-26 12:36:41'
+  body: "I have a problem this step \n\ncd\nmkdir –p faces/in\nmkdir faces/out\nmkdir\
+    \ faces/debug\nfacerecd\n\nmkdir: cannot create directory 'faces/in': No such\
+    \ file or directory \n\nmkdir: cannot create directory 'faces/out': No such file\
+    \ or directory \n\nmkdir: cannot create directory 'faces/debug': No such file\
+    \ or directory \n-bash: facerecd: command not found\n\n\nplease help me"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-10-26 17:24:29'
+  body: 'Hmm - the -p flag should make the "faces" parent directory, but perhaps that
+    isn''t being done (are you sure you''ve remembered that initial -p?).
+
+
+    What happens if you run "mkdir faces" first?
+
+
+    Kean
+
+    -----'

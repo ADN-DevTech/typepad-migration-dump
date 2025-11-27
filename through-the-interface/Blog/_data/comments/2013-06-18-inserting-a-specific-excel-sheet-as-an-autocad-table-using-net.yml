@@ -1,0 +1,102 @@
+comments:
+- author: MikeR
+  email: ''
+  ip: 156.75.180.198
+  url: http://profile.typepad.com/6p0120a5ed8521970c
+  date: '2013-06-18 14:09:46'
+  body: 'Keen,
+
+    We''ve stopped using the Excel objects to read Excel files by using the Open XML
+    SDK 2.0 for Microsoft Office.
+
+
+    This way you don''t even need Excel installed on a machine to get to Excel data
+    (in xlsx format).
+
+
+    Takes a little more work setting up but sure is nice not having to worry about
+    versions anymore.
+
+
+    Thank,
+
+    Mike'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-06-18 14:11:39'
+  body: 'Mike,
+
+
+    Great - glad to know there''s a better way. :-)
+
+
+    Cheers,
+
+
+    Kean'
+- author: Paul
+  email: pawright@zrhd.com
+  ip: 98.174.162.232
+  url: ''
+  date: '2014-02-04 23:07:55'
+  body: 'Kean,
+
+    I have used this method to success except for one thing, I can''t specify a "range"
+    of cells for the datalink. Trying to do the same ! separator followed by a range
+    (e.g., A1:D10) it always throws a "eDataLinkBadConnectionString" error.
+
+
+    I have made a little function that tells me the connection strings of the all
+    of the present data links. Interestingly, if I manually create a datalink from
+    Excel with a specified range instead of "Entire Sheet" it looks exactly as I was
+    making my own connection string (e.g., C:\file.xls!Sheet1!A1:D10).
+
+
+    This leaves me questioning why the heck I can''t make it do this behavior programmatically.'
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2014-02-05 09:02:48'
+  body: "Paul,\n\nI just tried modifying the sample to add a hardcoded range to the\
+    \ DataLink and it worked for me. Here's the modified code from the TFS command:\n\
+    \ndl.ConnectionString =\n  ofd.Filename + \"!\" + sheetNames[pir.Value - 1] +\
+    \ \"!A1:B8\";\n\nI'm working with AutoCAD 2014, in case.\n\nRegards,\n\nKean"
+- author: Gaston Nunez
+  email: gaston.nunez@asyst.cl
+  ip: 201.214.200.31
+  url: ''
+  date: '2014-02-05 22:35:37'
+  body: 'Hi Kean,
+
+
+    Nice post, as MikeR said about using XML in order to obtain data from Excel files,
+    this is a link to a good MSDN  article on that: <a href="http://msdn.microsoft.com/en-us/library/hh370976%28v=office.14%29.aspx">http://msdn.microsoft.com/en-us/library/hh370976%28v=office.14%29.aspx</a>
+
+
+    Regards,
+
+
+    Gaston Nunez'
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2014-02-14 17:22:11'
+  body: 'Hi Gaston,
+
+
+    Thanks!
+
+
+    (And sorry for the delayed reply - this ended up in my spam folder for some reason.).
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

@@ -1,0 +1,470 @@
+comments:
+- author: Wolfgang Ruthensteiner
+  email: wruthensteiner@coop-himmelblau.at
+  ip: 213.129.255.98
+  url: ''
+  date: '2007-07-13 18:14:56'
+  body: "Hi Kean!\n\nThank you very much for your answer - that was fast!!!!!\n\n\
+    I'm working with AutoCAD 2006 and there is no Field Object available in the Autodesk.AutoCAD.DatabaseServices\
+    \ Namespace. I figured out quite a lot today and already considered writing a\
+    \ managed wrapper for the AcDbField Object. Here is what i came up with so far:\n\
+    \n\n\n/// <summary>\n/// a starting point for an AcDbFieldWrapper\n/// i guess\
+    \ it has to be implemented with C++ in a separate wrapper dll\n/// HOW?\n/// </summary>\n\
+    class AcDbFieldWrapper\n{\n    IntPtr intPtr;\n    ObjectId fieldId;\n\n    public\
+    \ AcDbFieldWrapper(ObjectId fieldId)\n    {\n        this.fieldId = fieldId;\n\
+    \        TransactionManager tm = fieldId.Database.TransactionManager;\n      \
+    \  using (DBObject field = (DBObject)tm.GetObject(fieldId, OpenMode.ForRead, true,true))\n\
+    \        {\n            this.dBObjectType = field.GetType(); //Autodesk.AutoCAD.DatabaseServices.ImpDBObject\
+    \ ???\n            this.intPtr = field.UnmanagedObject;\n        }\n    }\n\n\
+    \    private Type dBObjectType;\n\n    public Type DBObjectType\n    {\n     \
+    \   get { return dBObjectType; }\n    }\n\n\n    public string GetFieldCode()\n\
+    \    {\n        throw new System.Exception(\"AcDbFieldWrapper.GetFieldCode() not\
+    \ implemented\");\n    }\n\n    /// <summary>\n    /// static method to extract\
+    \ a fieldId from an attributeId\n    /// if the attribute contains a field\n \
+    \   /// </summary>\n    /// <param name=\"attId\">ObjectId of an attribute reference</param>\n\
+    \    /// <returns>ObjectId of a DBObject of type Autodesk.AutoCAD.DatabaseServices.ImpDBObject\
+    \ that probably is an AcDbField</returns>\n    public static ObjectId GetFieldFromAttribute(ObjectId\
+    \ attId)\n    {\n        const string ACAD_FIELD = \"ACAD_FIELD\";\n        const\
+    \ string TEXT = \"TEXT\";\n        TransactionManager tm = attId.Database.TransactionManager;\n\
+    \        using (AttributeReference attr = tm.GetObject(attId, OpenMode.ForRead,\
+    \ true, true) as AttributeReference)\n        {\n            if ((attr != null)\
+    \ && attr.ExtensionDictionary.IsValid)\n            {\n                using (DBDictionary\
+    \ dic = (DBDictionary)tm.GetObject(attr.ExtensionDictionary, OpenMode.ForRead,\
+    \ true, true))\n                {\n                    if (dic.Contains(ACAD_FIELD))\n\
+    \                    {\n                        using (DBDictionary fdic = (DBDictionary)tm.GetObject(dic.GetAt(ACAD_FIELD),\
+    \ OpenMode.ForRead, true, true))\n                        {\n                \
+    \            if (fdic.Contains(TEXT))\n                            {\n       \
+    \                         return fdic.GetAt(TEXT); //this probably returns an\
+    \ AcDbField's ObjectId\n                            }\n                      \
+    \  }\n                    }\n                }\n            }\n        }\n   \
+    \     return ObjectId.Null;\n    }\n}\n\n\n\n\n\n\n\npublic void TestAttributes(string\
+    \ fileName)\n{\n    using (Database db = new Database(false, true))\n    {\n\n\
+    \            db.ReadDwgFile(fileName, System.IO.FileShare.ReadWrite, true, null);\n\
+    \            TransactionManager tm = db.TransactionManager;\n            using\
+    \ (Transaction t = tm.StartTransaction())\n            {\n                BlockTable\
+    \ bt = (BlockTable)tm.GetObject(db.BlockTableId, OpenMode.ForRead, false);\n \
+    \               BlockTableRecord modelSpace = (BlockTableRecord)tm.GetObject(bt[BlockTableRecord.ModelSpace],\
+    \ OpenMode.ForRead, false);\n\n                foreach (ObjectId id in modelSpace)\n\
+    \                {\n                    BlockReference br = tm.GetObject(id, OpenMode.ForRead)\
+    \ as BlockReference;\n                    if (br != null)\n                  \
+    \  {\n                        foreach (ObjectId attID in br.AttributeCollection)\n\
+    \                        {\n                            ObjectId fieldId = AcDbFieldWrapper.GetFieldFromAttribute(attID);\n\
+    \                            if (fieldId != ObjectId.Null)\n                 \
+    \           {\n                                AcDbFieldWrapper acDbField = new\
+    \ AcDbFieldWrapper(fieldId);\n                                Debug.WriteLine(\"\
+    Attribute contains a field, Type: \" + acDbField.DBObjectType.ToString());\n \
+    \                           }\n                        }\n                   \
+    \ }\n                }\n            }\n\n   }\n}\n\n\nDo I have to upgrade my\
+    \ AutoCAD or is there another way?\n\nW"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-13 19:48:33'
+  body: 'Hi Wolfgang,
+
+
+    I''m not an expert at exposing managed wrappers, I''m afraid. Members of my team
+    do it regularly, so asking via ADN would get you an answer. If you do happen to
+    be an ADN member then there''s also a fair amount of info on the ADN website that
+    should be of interest, for example:
+
+
+    <a href="http://adn.autodesk.com/adn/servlet/item?siteID=4814862&id=5842451&linkID=4900509">Tutorial
+    to create managed wrappers for custom ARX functions and objects</a>
+
+
+    If you''re not an ADN member then let me know and I''ll send you this particular
+    document by email.
+
+
+    That said, upgrading could prove to be more cost effective if you don''t have
+    many seats and you''re not proficient with managed C++ (which I will freely admit
+    I''m not).
+
+
+    Regards,
+
+
+    Kean'
+- author: Wolfgang Ruthensteiner
+  email: ruthensteiner@coop-himmelblau.at
+  ip: 80.108.68.208
+  url: ''
+  date: '2007-07-13 21:50:45'
+  body: 'Hi Kean!
+
+
+    Thank you very much for all your help! I want to give it a try and create my own
+    wrapper. I''ve done it before, but not for an AutoCAD project and I''m not a C++
+    expert either. I''m not an ADN Member, so I would highly appreciate if you could
+    send me the document. I just found out that my e-mail adress posted with my last
+    messages was wrong. Now it''s corrected...
+
+
+    Thank you again!
+
+
+    W.'
+- author: Roland Feletic
+  email: rosinino@gmx.net
+  ip: 212.108.35.17
+  url: ''
+  date: '2007-07-16 08:24:54'
+  body: 'Hi Kean,
+
+    thank you for this code. I had really big problems to get the field code of attributes.
+    Now it should be no problem anymore.
+
+
+    Roland'
+- author: Roland Feletic
+  email: rosinino@gmx.net
+  ip: 62.178.181.39
+  url: ''
+  date: '2007-07-19 21:20:38'
+  body: "Hi Kean,\nwith you're code I can get the field code of attributes, but can\
+    \ you explain how to write some field code into attributes or texts. It seems\
+    \ to work a little bit different with tables as for texts.\n\nI would need it\
+    \ for a program which inserts blocks and its attributes. The attributes includes\
+    \ a field eg. with the position of the block. Now when I insert the attributes\
+    \ the fieldcode is not correct because it does not know the Id of the block. Therefore\
+    \ I have to read the field code and change it.  \n\nRegards\nRoland"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-20 18:55:06'
+  body: 'Hi Roland,
+
+
+    I''m not sure why this works differently - can you email me some code that demonstrates
+    the problem you''re hitting?
+
+
+    Regards,
+
+
+    Kean'
+- author: Roland Feletic
+  email: rosinino@gmx.net
+  ip: 62.178.181.39
+  url: ''
+  date: '2007-07-22 20:46:01'
+  body: "Hi Kean,\nhere is the code I'm testing.\nBut the attribute only shows the\
+    \ code of the field.\n\nusing Autodesk.AutoCAD.ApplicationServices;\nusing Autodesk.AutoCAD.DatabaseServices;\n\
+    using Autodesk.AutoCAD.EditorInput;\nusing Autodesk.AutoCAD.Runtime;\nusing Autodesk.AutoCAD.Geometry;\n\
+    using Autodesk.AutoCAD.Internal;\n\n[assembly: CommandClass(typeof(RSNNAcadApp.Test.InsertBlock))]\n\
+    namespace RSNNAcadApp.Test\n{\n    public class InsertBlock\n    {\n        //Inserts\
+    \ a blockreference at Point 0,0,0\n        [CommandMethod(\"InsertTest\")]\n \
+    \       static public void InsertBlockTest()\n        {\n            ObjectId\
+    \ tmpBlockId;\n\n            Document doc = Application.DocumentManager.MdiActiveDocument;\n\
+    \            Database db = doc.Database;\n            Editor ed = doc.Editor;\n\
+    \            Transaction tr = doc.TransactionManager.StartTransaction();\n   \
+    \         try\n            {\n                using (tr)\n                {\n\
+    \                    //Get Blockname and Id\n                    PromptStringOptions\
+    \ BlockNameOption = new PromptStringOptions(\"Blockname:\");\n               \
+    \     BlockNameOption.AllowSpaces = false;\n                    PromptResult BlockNameResult\
+    \ = ed.GetString(BlockNameOption);\n                    BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId,\
+    \ OpenMode.ForRead, false);\n\n                    if (BlockNameResult.Status\
+    \ == PromptStatus.OK)\n                    {\n                        string tmpBlockName\
+    \ = BlockNameResult.StringResult;\n\n                        tmpBlockId = bt[tmpBlockName];\n\
+    \n                        BlockTableRecord btr = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace],\
+    \ OpenMode.ForWrite);\n                        \n                        Point3d\
+    \ ObjPunkt = Point3d.Origin;\n                        BlockReference BlockRef\
+    \ = new BlockReference(ObjPunkt, tmpBlockId);\n                        ObjectId\
+    \ BlObj = btr.AppendEntity(BlockRef);\n                        tr.AddNewlyCreatedDBObject(BlockRef,\
+    \ true);\n\n                        BlockTableRecord btAttRec = (BlockTableRecord)tr.GetObject(tmpBlockId,\
+    \ OpenMode.ForRead);\n\n                        if (btAttRec.Annotative)\n   \
+    \                     {\n                            //Attach Current Annotation-Scale.\n\
+    \                            //If you don't add the content the block and the\
+    \ following attribute will not inserted correct.\n                           \
+    \ ObjectContextManager ocm = db.ObjectContextManager;\n                      \
+    \      ObjectContextCollection occ = ocm.GetContextCollection(\"ACDB_ANNOTATIONSCALES\"\
+    );\n\n                            DBObject obj = tr.GetObject(BlObj, OpenMode.ForRead);\n\
+    \                            if (obj != null)\n                            {\n\
+    \                                //ObjectContexts.AddContext(obj, occ.GetContext(\"\
+    1:1\"));\n                                ObjectContexts.AddContext(obj, occ.CurrentContext);\n\
+    \                            } \n                        }\n\n               \
+    \         ed.WriteMessage(string.Format(\"\\nBlockID: {0}\", BlObj.ToString()));\n\
+    \                        //Add the attributes\n                        foreach\
+    \ (ObjectId idAtt in btAttRec)\n                        {\n                  \
+    \          Entity ent = (Entity)tr.GetObject(idAtt, OpenMode.ForRead);\n     \
+    \                       if (ent is AttributeDefinition)\n                    \
+    \        {\n                                AttributeDefinition attDef = (AttributeDefinition)ent;\n\
+    \                                AttributeReference attRef = new AttributeReference();\n\
+    \                                attRef.SetAttributeFromBlock(attDef, BlockRef.BlockTransform);\n\
+    \                                ObjectId AttObj = BlockRef.AttributeCollection.AppendAttribute(attRef);\n\
+    \n\n\n                                string FieldText = \"\\\\AcVar Login \\\\\
+    f \\\"%tc1\\\"\";\n                                attRef.TextString = FieldText;\n\
+    \                                \n                                tr.AddNewlyCreatedDBObject(attRef,\
+    \ true);\n                            }\n                        }\n         \
+    \           }\n\n\n                    tr.Commit();\n                }\n     \
+    \       }\n            catch (System.Exception ex)\n            {\n          \
+    \      ed.WriteMessage(ex.ToString());\n            }\n            finally\n \
+    \           {\n                tr.Dispose();\n            }\n\n        }\n\n \
+    \   }\n}\n\nRegards,\nRoland"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-23 09:20:06'
+  body: 'Hi Roland,
+
+
+    You''re missing the field delimiter - try this instead:
+
+
+    string FieldText = "%<\\AcVar Login \\f \"%tc1\">%";
+
+
+    The field values will probably come up as "####" until they''re regened, so adding
+    this after tr.Commit() will fix that:
+
+
+    ed.Regen();
+
+
+    Regards,
+
+
+    Kean'
+- author: Roland Feletic
+  email: rosinino@gmx.net
+  ip: 212.108.35.17
+  url: ''
+  date: '2007-07-23 17:42:01'
+  body: 'Sometimes it is so simple. It takes me hours of testing and it was just such
+    a little thing.
+
+
+    Thak you, Kean.'
+- author: Roland Feletic
+  email: rosinino@gmx.net
+  ip: 212.108.35.17
+  url: ''
+  date: '2007-07-23 17:55:27'
+  body: "Now just another question.\nIf there is a field code like the following in\
+    \ the attributedeffinition, is it possible to insert the attributereference with\
+    \ the correct field code.\n\nThe code from the attribute deffinition is:\n\\AcObjProp.16.2\
+    \ Object(?BlockRefId,1).InsertionPoint \\f \n\"%lu2%pt2%pr3\"\n\nafter inserting\
+    \ the attribute reference the field code of it is:\n%<\\AcObjProp \\f \"%lu2%pt2%pr3\"\
+    >%\n\nI understand that it doesn't know the ObjectId of the BlockReference. But\
+    \ is there a simple way to insert the correct code?\nOr do I have to read the\
+    \ field code of the attribute deffinition and need to change \"\\AcObjProp.16.2\
+    \ Object(?BlockRefId,1)\" to e.g.  \"AcObjProp Object(%<\\_ObjId 2130518272>%)\"\
+    \ manually?\n\nRegards\nRoland"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-23 18:01:24'
+  body: 'Hi Roland,
+
+
+    I haven''t seen the syntax you''ve used here (Object(?BlockRefId,1)) - I''m only
+    familiar with the _ObjId field code. Is this pseudo-code, that you''d like to
+    have work, or is it from an actual object? I wasn''t aware (or don''t believe)
+    it''s possible without going via the ObjectId (although the process to set it
+    can be automated - it doesn''t need to be manual).
+
+
+    Regards,
+
+
+    Kean'
+- author: Roland Feletic
+  email: rosinino@gmx.net
+  ip: 62.178.181.39
+  url: ''
+  date: '2007-07-23 20:29:29'
+  body: 'Thank you, Kean.
+
+    The code above is from a block placeholder (I hope it is the right name in english)
+    for the insertion point of the block.
+
+    After inserting the block with the command INSERT the field code changes and the
+    correct ObjId is filled in and the y-Value will be seen. If I do it with the above
+    code the result is something without any ObjectId and you can just see "InsertionPoint"
+    as the  field value. But now it is no problem anymore to search and replace the
+    code from the attdef and fill in the right code into the attref, I just thought
+    that there is something which is doing it automatically.
+
+
+    Regards,
+
+    Roland'
+- author: Roland Feletic
+  email: rosinino@gmx.net
+  ip: 212.108.35.17
+  url: ''
+  date: '2007-07-24 10:26:54'
+  body: 'Hi Kean,
+
+    just another question. Is it possible to get the field code with the field delimiter?
+
+    When you look at your example it is not really easy to see where the field code
+    begins and where it ends. Therefore it is difficult to change something in the
+    text without loosing some field code.
+
+
+    Regards,
+
+    Roland'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-24 10:38:58'
+  body: 'Hi Roland,
+
+
+    I chose to make FindObjectId() as flexible as possible (for my needs), by defining
+    a prefix and a suffix to search for. You should feel free to reimplement this
+    to be more suitable to your own needs... :-)
+
+
+    Regards,
+
+
+    Kean'
+- author: Alain Poupart
+  email: Alain.Poupart@dessau.com
+  ip: 207.134.141.114
+  url: http://www.dessau.com
+  date: '2010-04-28 21:12:43'
+  body: 'Hi Kean,
+
+
+    using your function this Mtext content
+
+
+    1 - %<\AcVar Date \f "M/d/yyyy">% -AP- %<\AcVar Filename \f "%tc1%fn7">% -
+
+    is returned as
+
+    1 - \AcVar Date \f "M/d/yyyy" -AP- \AcVar Filename \f "%tc1%fn7" -
+
+
+    Is there anyway of getting the original Mtext format or a way of getting the text
+    portions and the field portions
+
+    so that we can rebuild the Mtext with edited value.
+
+
+    Thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-04-29 14:31:21'
+  body: 'Hi Alain,
+
+
+    Sorry - I don''t know. I suggest submitting your question to <a href="http://adn.autodesk.com">the
+    ADN team</a>, if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Alain Poupart
+  email: Alain.Poupart@dessau.com
+  ip: 207.134.141.114
+  url: http://www.dessau.com
+  date: '2010-04-29 20:03:57'
+  body: "Thanks answering an old topic, \n\nOn the Autodesk dicussion group, as suggested,\
+    \ I've found a solution for what I was exactly trying to do.\n\n<a href=\"http://discussion.autodesk.com/forums/thread.jspa?messageID=6070934&#6070934\"\
+    >http://discussion.autodesk.com/forums/thread.jspa?messageID=6070934&#6070934</a>\n\
+    \nSo far, the piece of code From Roland Feletic works great\n\nAlain"
+- author: John Panda
+  email: john.panda@nharch.net
+  ip: 211.26.221.206
+  url: ''
+  date: '2010-05-13 04:45:16'
+  body: 'Hi Gents,
+
+
+    I was wondering if anyone could either post or email the lisp to me?
+
+    I have tried a few times to build it from here but it isn''t working!
+
+
+    Regards,
+
+
+    John'
+- author: John Panda
+  email: john.panda@nharch.net
+  ip: 211.26.221.206
+  url: ''
+  date: '2010-05-13 04:47:38'
+  body: 'Sorry here is the email
+
+
+    john.panda@nharch.net
+
+
+    Thanks in advance
+
+
+    J'
+- author: Kean Walmsley
+  email: ''
+  ip: 12.160.193.229
+  url: http://profile.typepad.com/kean
+  date: '2010-05-13 10:06:38'
+  body: 'Hi John,
+
+
+    I''m sorry: if this is a request for a LISP version of the above code, then you''re
+    going to be disappointed. I have neither a LISP version nor the time to create
+    one for you.
+
+
+    I suggest starting with <a href="http://through-the-interface.typepad.com/through_the_interface/2006/07/getting_started.html">this
+    post</a> to see how to build a .NET module for AutoCAD.
+
+
+    Regards,
+
+
+    Kean'
+- author: WRonX
+  email: wronx@wronx.net
+  ip: 212.91.21.148
+  url: http://WRonX.net
+  date: '2011-10-13 11:02:49'
+  body: 'Hi, Kean.
+
+    I was trying to find a way to insert a MText with custom field to drawing. I copied
+    your code to my DWG to test something and it''s very strange - when I manually
+    choose from the menu Insert->Field and then MY_FIELD (from custom drawing properties),
+    it inserts OK. When I insert it from my code - just put MText object with .Contents="%<\AcVar
+    CustomDP.MY_FIELD >%", it apears as a textfield with "####". But when I use your
+    code and click those fields (the manually inserted - correct displaying and programatically
+    inserted - displaying ####), I get the same message - that this is a MText object
+    with a value of \AcVar CustomDP.MY_FIELD. So where''s a difference?
+
+    How to properly insert MText with custom property, which would refresh every time
+    a drawing is opened? I was trying to change and use your code from "Embedding
+    fields in an AutoCAD table using .NET", but I failed - object was not found in
+    BlockTable.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2011-10-17 21:50:37'
+  body: 'I''m afraid I don''t know what the problem is. I haven''t looked at this
+    area in four years - what''s in the post is pretty much the sum of my knowledge
+    on the subject.
+
+
+    I suggest posting your question via ADN or to the AutoCAD .NET Discussion Group.
+
+
+    Kean
+
+    -----'

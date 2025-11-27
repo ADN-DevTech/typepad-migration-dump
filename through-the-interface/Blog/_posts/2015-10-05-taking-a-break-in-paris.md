@@ -1,0 +1,13 @@
+---
+layout: "post"
+title: "Taking a break in Paris"
+date: "2015-10-05 16:57:50"
+author: "Kean Walmsley"
+categories:
+  - "Personal"
+original_url: "https://www.keanw.com/2015/10/taking-a-break-in-paris.html "
+typepad_basename: "taking-a-break-in-paris"
+typepad_status: "Publish"
+---
+
+<p>I’ve headed to Paris with the family for a few days, this week. We’re staying in our first Airbnb-booked apartment in the 11th arrondissement. So far, so good!</p>  <p>As the forecast for today looked a bit rainy, we decided to postpone our daytrip to <a href="https://en.wikipedia.org/wiki/Disneyland_Paris" target="_blank">Disneyland Paris</a> until tomorrow and take the opportunity to visit the <a href="https://en.wikipedia.org/wiki/Louvre" target="_blank">Louvre</a> instead. Which turned out to be a good thing, as it’s closed on Tuesdays, and on Wednesday we’ve already planned to climb the <a href="https://en.wikipedia.org/wiki/Eiffel_Tower" target="_blank">Eiffel Tower</a>. What fun.</p>  <p>Anyway, as we were leaving the Louvre, walking to the <a href="https://fr.wikipedia.org/wiki/%C3%8Ele_de_la_Cit%C3%A9" target="_blank">île de la Cité</a> to visit <a href="https://en.wikipedia.org/wiki/Notre_Dame_de_Paris" target="_blank">Notre Dame</a>, we spotted some workmen clambering up a wooden structure to rip it apart.</p>  <p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e201b7c7d90853970b-pi" target="_blank"><img title="Mystery structure at the Louvre" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; float: none; padding-top: 0px; padding-left: 0px; margin: 50px auto; display: block; padding-right: 0px; border-top-width: 0px" border="0" alt="Mystery structure at the Louvre" src="/assets/image_793280.jpg" width="504" height="285" /></a></p>  <p>When we got back to the apartment, I used Google to do a bit of sleuthing and discovered it was a structure built for <a href="https://twitter.com/dior" target="_blank">Christian Dior</a>’s catwalk show at this year’s Paris Fashion Week. Here’s a timelapse of how it was built:</p>  <p align="center">&#160;</p>  <p align="center"><iframe height="315" src="https://www.youtube.com/embed/S6xE0G3oop0?rel=0&amp;showinfo=0" frameborder="0" width="560" allowfullscreen="allowfullscreen"></iframe></p>  <p align="center">&#160;</p>  <p>A pretty interesting structure. I wonder how “designed” it all was, or whether it was thrown up to look all wiggly. Either way, it seems like a lot of effort – <a href="http://video.glamourparis.com/video/mode/videos/la-construction-du-dcor-du-dfil-dior-en-30-secondes/18898" target="_blank">100 people during 3 weeks</a> – to show off some clothes for an hour or so.</p>

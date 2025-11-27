@@ -1,0 +1,238 @@
+comments:
+- author: Scott McFarlane
+  email: ''
+  ip: 66.192.117.94
+  url: http://profile.typepad.com/scottmcfarlane
+  date: '2011-12-23 16:05:46'
+  body: "Hi Kean,\n\nSince your CheckPaletteSetState command method is defined inside\
+    \ the PaletteSet2 class, you’re allowed to access non-static events on any PaletteSet2\
+    \ instance within the scope of that method. Just make your event non-static, and\
+    \ then change the code that fires the event to:\n\nif (ps.PaletteSetClosed !=\
+    \ null)\n\tps.PaletteSetClosed(ps, new EventArgs());\n\nMerry Christmas!\n\n-\
+    \ Scott"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2011-12-23 19:32:44'
+  body: 'Hi Scott,
+
+
+    Merry Christmas to you, too! :-)
+
+
+    If memory serves me correctly, there was some kind of runtime issue that stopped
+    me getting it working (something I should have more accurately documented in the
+    blog post, thinking about it).
+
+
+    Did you happen to get it working on your end, by any chance? I''ll try again in
+    January, if not.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Scott McFarlane
+  email: ''
+  ip: 66.192.117.94
+  url: http://profile.typepad.com/scottmcfarlane
+  date: '2011-12-23 20:10:43'
+  body: Works like a charm for me. That was really the only change to your code that
+    I made, but I'll email you my code just in case.
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2011-12-23 20:11:49'
+  body: 'Perfect - thanks Scott.
+
+
+    Must have done something dumb (time to take a break ;-).
+
+
+    Kean'
+- author: Frank C
+  email: ebiz@nym.hush.com
+  ip: 69.116.100.52
+  url: ''
+  date: '2012-01-11 14:12:00'
+  body: 'Hi
+
+
+    Interesting ''workaround''
+
+
+    I was just wondering what happens if a palleteset is closed while a command is
+    in progress (if it''s docked it will cancel out the command, but if it''s floating
+    the command should continue to remain in progress, that is until the SendStringToExecute
+    ''hack'' is processed.'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/kean
+  date: '2012-01-11 14:52:21'
+  body: 'It''s pretty simple to get the behaviour you want, either way... I can see
+    some people might want the active command cancelled (in which case prefix the
+    command string sent to the command-line with a couple of escape characters) while
+    others might want the behaviour you''ve described (where you can register the
+    CHECKPALETTESETCLOSE command as CommandFlags.Transparent and prefix the command
+    string with an apostrophe).
+
+
+    I gave it a quick test and it seemed to work well.
+
+
+    Kean'
+- author: Frank C
+  email: ebiz@nym.hush.com
+  ip: 69.116.100.52
+  url: ''
+  date: '2012-01-12 12:02:40'
+  body: "Thanks. \n\nI was also wondering about how the Action Recorder reacts to\
+    \ this sort of workaround."
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-01-12 12:13:16'
+  body: 'I admit that''s not something I''ve tested, but I wouldn''t expect there
+    to be a problem.
+
+
+    If you do give it a try, please let me know! :-)
+
+
+    Kean'
+- author: Anonymoose
+  email: caddzooks@hushmail.com
+  ip: 24.47.197.131
+  url: ''
+  date: '2012-08-13 08:41:24'
+  body: 'Actually there''s a much more reliable way to solve this problem, that doesn''t
+    sending command input (which I''ve always regarded as a gruesome kludge - and
+    some have noted that when implementing your solution AutoCAD crashes, but I can''t
+    verify that).
+
+
+    <a href="http://www.theswamp.org/index.php?topic=42179.msg476706#msg476706">http://www.theswamp.org/index.php?topic=42179.msg476706#msg476706</a>'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-08-13 08:53:02'
+  body: 'Thanks, Tony.
+
+
+    I hadn''t seen any crash reports, myself, but it''s good to know you''ve found
+    a way to avoid them, should I now hear of any.
+
+
+    Kean'
+- author: Dev
+  email: vyasdevika@gmail.com
+  ip: 203.123.168.56
+  url: ''
+  date: '2012-11-01 07:41:25'
+  body: 'Hi Kean,
+
+
+    The above code is good but even if the event is fired always,the code inside it
+    is not executed always. I am clearing my selection set on palette close but it
+    is not cleared always.Can you suggest some solution.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2012-11-01 08:57:32'
+  body: 'Hi Dev,
+
+
+    If you can tell me when the code isn''t executed (i.e. under which circumstances)
+    then perhaps I can suggest a solution.
+
+
+    Regards,
+
+
+    Kean'
+- author: Alexander (Sasha) Frumkin
+  email: frumkia@yahoo.com
+  ip: 24.5.23.18
+  url: ''
+  date: '2013-10-22 01:47:44'
+  body: "Kean,\n\nThank you for writing this blog - there is tons of good information\
+    \ here. I am a huge fan. \n\nAs far as I remember, a custom palette information\
+    \ is supposed to get saved to FixedProfile.aws file using the GUID so a custom\
+    \ PaletteSet object has to be initialized only when application runs for the first\
+    \ time on a particular machine. It does not work for me in 2013. Do you have any\
+    \ hints on how I can enforce saving custom PaletteSet data to FixedProfile.aws\
+    \ file?\n\nThank you\n=Sasha"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-11-13 14:47:06'
+  body: 'Sasha,
+
+
+    Sorry for the delay - this comment got flagged as spam - no idea why. :-(
+
+
+    Off the top of my head I don''t, I''m afraid. Have you tried checking in with
+    ADN or the discussion groups (I assume you must have - this comment is now 3 weeks
+    old)?
+
+
+    Regards,
+
+
+    Kean'
+- author: Mark
+  email: makoychan@yahoo.com
+  ip: 67.83.174.201
+  url: ''
+  date: '2014-01-08 18:34:13'
+  body: 'Hi Kean,
+
+
+    on your code in creating paletteset, i am trying to call a wcf i created in c#
+    to iterate result and create palettes, but i am getting an endpoint missing, on
+    a normal windows app. it is working, but i do the process on your code its an
+    error.. any ideas on this?
+
+
+    Steps:
+
+    1. Add Service Reference to the WCF
+
+    2. Code: using AutoLibrary.DLService;
+
+    3.             ServiceLibraryClient library = new ServiceLibraryClient();
+
+
+    when the code step hits step 3, error occurs.
+
+
+    any help and tips will be greatly appreciated :)
+
+
+    thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2014-01-08 19:55:15'
+  body: 'Hi Mark,
+
+
+    Sorry - no ideas from my side. I haven''t done all that much with WCF, admittedly.
+
+
+    Best regards,
+
+
+    Kean
+
+    -----'

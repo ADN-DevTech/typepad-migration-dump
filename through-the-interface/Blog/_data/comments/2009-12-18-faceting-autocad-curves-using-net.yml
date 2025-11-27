@@ -1,0 +1,178 @@
+comments:
+- author: John
+  email: joao_pedro_ds@hotmail.com
+  ip: 86.11.75.67
+  url: ''
+  date: '2010-03-19 16:25:31'
+  body: 'Hi Kean,
+
+
+    Nice example of how to facet curves, and of course Polyline creation.
+
+
+    However, again, ObjectARX dissapoints with it''s lack of support methods. How
+    on earth can they give you ability to create a Polyline3D object without any possiblity
+    of enquiring about how many vertices there are on the poly, or even to obtain
+    any of them and/or modify them?
+
+
+    I know GetEnumerator() returns a read-only enumeration of the PolylineVertex3d
+    objects used to create it, but this seems such a convoluted approach.
+
+
+    Common Autodesk, you guys have to do better than that. How can you provide such
+    a poorly thought out API to your product?
+
+
+    I mean, using acad, you can, say, remove a vertex by doing this crazy method of
+    PEDIT-VERTEX-NEXT-STRAIGHTEN-GO, what the heck is that all about??? Whoever at
+    Autodesk thought that was a good idea needs to be shot.
+
+
+    As a software developer myself, it really frustrates me how convoluted this API
+    is, and I''m sure Kean, you can agree with me on this one.
+
+
+    Cheers
+
+    John.'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-03-19 17:56:47'
+  body: 'Hi John,
+
+
+    The answer is, quite simply, history. The original 2D and 3D polylines have been
+    around in AutoCAD since the early days of the product (although the 3D probably
+    came later, of course).
+
+
+    The original design - which was decided for a number of reasons, I expect - was
+    for these objects to be "complex" entities, in that they would contain a list
+    of vertex entities, rather than just storing the coordinate & bulge data in an
+    array or two, as the more modern Polyline object does.
+
+
+    Over the years people have come to depend on the capabilities of these objects
+    and so AutoCAD has maintained the implementation and ObjectARX has retained its
+    API. And the .NET API, even though much more modern in nature, is based on ObjectARX
+    and doesn''t hide you from this historical messiness.
+
+
+    And while we provided an enhanced 2D polyline implementation (back in R14 or 2000,
+    if I recall correctly), this was certainly the "sweet spot" from an efficiency
+    perspective. An enhanced 3D polyline has not yet been developed, as presumably
+    the benefits are fewer, although I admit I''m not aware of the thinking behind
+    that decision.
+
+
+    Regards,
+
+
+    Kean'
+- author: Pradeep jamkhandi
+  email: pradeep.jamkhandi@kennametal.com
+  ip: 122.248.132.54
+  url: ''
+  date: '2011-04-20 05:27:18'
+  body: 'Hi Kean, I am new to .net, I was searching for this type of program. Thank
+    you.
+
+    one question, when I post this into new class and try to build, I get an error
+    with variable "closest" stating "Use of Unassigned Local Variable", I am not too
+    good to fix that, could you please help me in this.'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-04-20 11:06:32'
+  body: 'Hi Pradeep,
+
+
+    I suspect it''s just a warning, although if you have "treat warnings as errors"
+    set in your project, it won''t build.
+
+
+    The C# compiler isn''t quite bright enough to realise the closest variable is
+    always set to something in one of the various if clauses. To avoid the problem,
+    you can try changing the variable declaration to:
+
+
+    Point3d closest = Point3d.Origin;
+
+
+    Regards,
+
+
+    Kean'
+- author: Pradeep jamkhandi
+  email: pradeep.jamkhandi@kennametal.com
+  ip: 59.164.96.254
+  url: ''
+  date: '2011-04-20 21:07:20'
+  body: 'Yes Thank you,
+
+    It worked.'
+- author: Bang
+  email: ''
+  ip: 113.160.59.238
+  url: http://profile.typepad.com/6p019103d52218970c
+  date: '2013-06-26 06:19:24'
+  body: 'Hi Kean,
+
+    How to determine the NurbCurve3d center between two NurbCurve3ds?
+
+
+    Could you help me?
+
+
+    Thank and Regards,
+
+    Bang'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-06-26 13:36:00'
+  body: 'Hi Bang,
+
+
+    I''ve coded something up that works for curves with the same basic number of control
+    points, knots and weights. I''ll post it later in the week.
+
+
+    Regards,
+
+
+    Kean'
+- author: Bang
+  email: bcb.tb87@gmail.com
+  ip: 113.160.59.238
+  url: ''
+  date: '2013-06-29 05:02:19'
+  body: 'Hi Kean,
+
+
+    I''m looking forward to the support from you!
+
+
+    Thank and regards,'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-06-29 09:23:31'
+  body: 'Hi Bang,
+
+
+    It should now be posted on Monday, all being well.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

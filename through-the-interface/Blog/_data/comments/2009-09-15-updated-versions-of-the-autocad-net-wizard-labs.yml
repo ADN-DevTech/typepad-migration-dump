@@ -1,0 +1,75 @@
+comments:
+- author: Christopher
+  email: christopher@civil3dreminders.com
+  ip: 64.129.227.4
+  url: http://blog.civil3dreminders.com/
+  date: '2009-09-17 23:56:07'
+  body: When trying to install the Wizard on Visual Studio 2008, Windows 7 operating
+    system, I'm getting the error message of "The operation could not be completed.
+    The requested operation required elevation" from Visual Studio. Is this a known
+    issue? Since I'm using Windows 7 am I out of luck on using the wizard? Thanks.
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-09-18 09:48:22'
+  body: 'Here''s the response I had from one of the Wizard developers:
+
+
+    "I haven''t tried Windows 7 myself, but I guess it is like Vista. In the readme
+    we tell people to temporarily disable the UAC and antivirus in case the antivirus
+    blocks VBScripts. That''s all I think would be a problem."
+
+
+    Kean'
+- author: Christopher
+  email: Christopher@Civil3DReminders.com
+  ip: 68.126.29.119
+  url: http://blog.civil3dreminders.com/
+  date: '2009-09-18 16:04:50'
+  body: Thanks. Setting the UAC to "Never notify" allowed the program to install.
+    As a side note Microsoft appears to have removed the terminology for turning off
+    or disabling the UAC from Windows 7.
+- author: Stephan
+  email: cad@stbartl.at
+  ip: 188.23.3.84
+  url: http://thecadprogcp.blogspot.com/
+  date: '2010-02-05 22:44:48'
+  body: 'Hi Kean,
+
+    I would like to program in C# for AutoCAD 2008 using Visual Studio 2008.
+
+    Now, for AutoCAD 2008 I need to use the .NET-Framework 2.0, or am I misinformed
+    here? Because using this last version of the AutoCAD .NET Wizard I can only select
+    the .NET Framework 3.0 or 3.5. If I select 2.0 then I cannot selcet the Wizard
+    anymore.
+
+    Is there a Wizard by Autodesk currently available that would support both VS2008
+    and ACAD 2008?
+
+    Thanks.'
+- author: Cyrille
+  email: cyrille.fauvel@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2010-02-08 10:03:34'
+  body: 'Hi Stephan
+
+
+    this is correct that it does not appear in the Wizards selection dialog if you
+    select the ,NET framwork 2.0. That is clearly a mistake in the Wizards descriptor
+    file ''MyTemplate.vstemplate'' at (C:\Program Files (x86)\Microsoft Visual Studio
+    9.0\Common7\IDE\ProjectTemplates\CSharp\Autodesk\AutoCAD 2011 plug-in.zip) where
+    RequiredFrameworkVersion says 3.0
+
+
+    There is no risk to create a project with that configuration and later go into
+    the project settings to tell to use version 2.0 instead.
+
+
+    I apologize for the inconvenience,
+
+
+    Cyrille
+
+    -----'

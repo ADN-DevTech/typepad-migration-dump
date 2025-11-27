@@ -1,0 +1,153 @@
+comments:
+- author: Manoj
+  email: manoj@deltacadd.com
+  ip: 125.22.46.110
+  url: ''
+  date: '2008-04-23 09:52:46'
+  body: "Hi Kaen,\n\nThe article is extremely useful and thanks for the same. \n\n\
+    However, I wanted to find out if the process is ready to receive COM inputs? \n\
+    \nAs you have mentioned here ...\"This doesn't wait until AutoCAD is ready to\
+    \ receive COM requests, it seems\"!! Can I find out the busy state of AutoCAD?\n\
+    \nRegards,\nManoj"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-04-23 10:32:46'
+  body: 'Hi Manoj,
+
+
+    That''s why we''re looping until we get the COM object: if AutoCAD was ready to
+    answer a question about whether it was busy or not, by definition it would no
+    longer be busy! :-)
+
+
+    Kean'
+- author: Senthilkumar
+  email: senthil.kumarck@aveva.com
+  ip: 62.189.198.147
+  url: ''
+  date: '2008-05-06 12:05:36'
+  body: "Hi Kean,\n\nThanks for this post.\nIs it possible to launch AutoCAD in two\
+    \ different sessions? \nActually I tried to create another instance of AutoCAD,\
+    \ but it is throwing error as Another AutoCAD session is running. My requirement\
+    \ is that another AutoCAD session need to be opened without disturbing previous\
+    \ one. Can I open another AutoCAD session without closing previous session?"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-06 13:42:34'
+  body: 'You can usually launch up to two sessions of AutoCAD. The problem you''ll
+    have is connecting to the second one: GetActiveObject() is likely to always return
+    the first in the ROT (Running Object Table).
+
+
+    It can probably be worked around, but it won''t be straightforward.
+
+
+    Kean'
+- author: Senthilkumar
+  email: senthil.kumarck@aveva.com
+  ip: 62.189.198.147
+  url: ''
+  date: '2008-05-06 17:09:03'
+  body: Thanks for you reply. I am able to launch the AutoCAD application and setting
+    the AutoCAD window as child window in my application. I want to disable the close
+    button ( X ) in the AutoCAD window. Is it possible to disable? if yes, can you
+    please provide the details?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-06 21:13:06'
+  body: 'You can simply UNDEFINE QUIT.
+
+
+    Regards,
+
+
+    Kean'
+- author: Evan
+  email: mahersy@hotmail.com
+  ip: 220.233.92.183
+  url: ''
+  date: '2008-08-22 02:52:50'
+  body: "Hi Kean,\n\nFirst, thanks for your site it has been the best resource for\
+    \ AutoCAD .net out there. Keep up the good work.\n\nI am using this method to\
+    \ connect/open AutoCAD from an application and load a .net dll i.e. \"netload\"\
+    \ to do, as you put it, \"the heavy lifting\".\nI am doing this by sending a lisp\
+    \ function to the command line i.e.\n\nacApp.ActiveDocument.SendCommand(\"(defun\
+    \ c:LoadMyAPP() (Command \"\"_netload\"\" \"\"C:\\\\MyApp.dll\"\")(princ)) \"\
+    )\nacApp.ActiveDocument.SendCommand(\"LoadMyAPP \")\n(Sorry it’s in very basic\
+    \ for those scratching the heads with the double quotes...)\n\nIs there a way\
+    \ you can load a .net dll from the com library like the ‘loadapp’ functions in\
+    \ arx, or using Autodesk.AutoCAD.Runtime.ExtensionLoader given that we are out\
+    \ of process? \nI am assuming you can't use the AutoCad.Runtime out of process.\
+    \ Is this correct? \n\nWhat I am trying to achieve is load my application on demand\
+    \ ie load menus and custom application when a user clicks on a short cut on the\
+    \ desktop, is there an easier way to do this?\n\nRegards from Down Under,\nEvan"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-22 08:20:53'
+  body: 'Hi Evan,
+
+
+    The best way is to <a href="http://through-the-interface.typepad.com/through_the_interface/2006/09/automatic_loadi.html">load
+    your module when a particular command is called</a>. As you''re out of proces,
+    the cleanest is to use COM''s SendCommand() to launch a dummy command that need
+    do nothing but cause the module to be loaded (it probably makes sense for there
+    to be at least an empty command called, though, to avoid an "unknown command"
+    message).
+
+
+    I hope this helps,
+
+
+    Kean'
+- author: Bit555
+  email: jmorris@imvprojects.com
+  ip: 72.37.249.20
+  url: ''
+  date: '2012-06-21 15:27:20'
+  body: 'Great site bro.
+
+
+    "GetActiveObject() is likely to always return the first in the ROT"
+
+
+    I realize this is not an AutoCAD specific problem and I''m looking for solutions
+    elsewhere but if anyone found a way around this I''d be keen to hear it.'
+- author: Kean Walmsley
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/kean
+  date: '2012-06-21 17:31:27'
+  body: 'If working inside AutoCAD, there''s a tool called AdskUnsupp that exposes
+    some tricky things to do in C++ via COM. This allows you to get - and choose between
+    - the various running instances of AutoCAD-based products.
+
+
+    I suggest asking over on the ADN DevBlog or the AutoCAD .NET Discussion Group.
+
+
+    Kean'
+- author: Bit555
+  email: jmorris@imvprojects.com
+  ip: 72.37.249.20
+  url: ''
+  date: '2012-06-25 16:26:16'
+  body: "Cheers.  The \"Tricky\" part scared be off - I'm just a jungle-coder.\n\n\
+    As a cheap-and-nasty alternative I tried including a dummy file in the PSI so\
+    \ that I could Marshal.BindToMoniker(lewinskyFile), good enough to get a link\
+    \ then close the dummy file.  Unfortunately it linked as a generic system.___com\
+    \ object and I wasted 4 hours of Sunday trying to convince my app to cast it to\
+    \ native.\n\nIn the end I've gone with plan 'C', the guts of which is:\n...\n\
+    if (!string.IsNullOrEmpty(profile))\n  {\n    //fiddle the registry so default\
+    \ profile is our wanted...\n    ModifyRegistry modReg = new ModifyRegistry();\n\
+    \    modReg.BaseRegistryKey = Microsoft.Win32.Registry.CurrentUser;\n    modReg.SubKey\
+    \ = @\"Software\\Autodesk\\AutoCAD\\R17.1\\ACAD-6001:409\\Profiles\";\n    modReg.Write(string.Empty,\
+    \ profile);\n  }\n  acadApp = new AcadApplication();\n...\n\nGood enough, I'm\
+    \ out of time!"

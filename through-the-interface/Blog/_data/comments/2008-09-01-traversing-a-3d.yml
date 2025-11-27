@@ -1,0 +1,227 @@
+comments:
+- author: Giuliano
+  email: pigozzi@base2.it
+  ip: 87.4.248.106
+  url: ''
+  date: '2009-03-09 21:14:30'
+  body: "I've tried to run this code in a loop with some solids.(23/25 3dsolids in\
+    \ a drawing)\n\n\nIt's runs 10/12 times and then autocad crash.\nException  Memory\
+    \ error read/write. Very strange.\nOK...if I don't touch the vertex ..it's run\
+    \ without errors.\n\nthe structure is:\n\n1) Current Drawing with some solids\n\
+    2) Selectionset\n3) Foreach objectid in selectionset\n   {\n      traverserSolid(SolidID)\n\
+    \   }\n\n\n\nHave You  the same problem if You run this ?"
+- author: Giuliano
+  email: pigozzi@base2.it
+  ip: 87.4.248.106
+  url: ''
+  date: '2009-03-09 22:28:43'
+  body: "so...If You want try take this:\n\n\n1) extrude a simple pline (4 edges)\n\
+    2) copy it to obtain other solids.(10,12 is not really matter)\n\n    [CommandMethod(\"\
+    ll\")]\n         public void ll()\n         {\n             Autodesk.AutoCAD.ApplicationServices.Document\
+    \ d = (Autodesk.AutoCAD.ApplicationServices.Document)Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;\n\
+    \n// obtain your solids from drawing..\nList<ObjectId> lstid = B2UtilCad.B2Editor.b2Editor.GetAllObjectsByType(d,\"\
+    3DSOLID\");\n\nloop...\n             for(int i = 0;i <2000;i++)\n            \
+    \ {\n                 d.Editor.WriteMessage(i.ToString()+ \"\\n\");\n        \
+    \         foreach(ObjectId id in lstid)\n                     CommonCAD.ArredilBRep.keansol(d,\
+    \ id);\n\n             \n}\n}\nand then crash :(\n\n\n\n\n\npublic static void\
+    \ keansol(Document doc, ObjectId idsolido)\n        {\n            Database db\
+    \ = doc.Database;\n            Transaction tr = db.TransactionManager.StartTransaction();\n\
+    \            Editor ed = doc.Editor;\n\n            using (tr)\n            {\n\
+    \n                try\n                {\n                    Solid3d sol = (Solid3d)tr.GetObject(idsolido,\
+    \ OpenMode.ForRead);\n\n                    // Use COM to get the solid's type\n\
+    \                    Acad3DSolid oSol = (Acad3DSolid)sol.AcadObject;\n       \
+    \             // Build the BRep topology object to traverse\n                \
+    \    Brep brp = new Brep(sol);\n                    int cmpCnt = 0;\n\n      \
+    \              // Get all the Complexes which are primary BRep\n\n           \
+    \         // elements and represent a conceptual topological\n\n             \
+    \       // entity of connected shell boundaries.\n\n                    foreach\
+    \ (Complex cmp in brp.Complexes)\n                    {\n\n                  \
+    \      int shlCnt = 0;\n\n                        foreach (Shell shl in cmp.Shells)\n\
+    \                        {\n\n                            int fceCnt = 0;\n\n\
+    \                            foreach (BrFace fce in shl.Faces)\n             \
+    \               {\n                                // Get all the boundary loops\
+    \ within a face\n                                // (Secondary BRep entities and\
+    \ no corresponding\n                                // AutoCAD entities/subentities)\n\
+    \n                                try\n                                {\n\n \
+    \                                   int lpCnt = 0;\n\n                       \
+    \             foreach (BoundaryLoop lp in fce.Loops)\n                       \
+    \             {\n\n                                        // Get all the Edges\
+    \ in a loop (Edges are\n\n                                        // primary BRep\
+    \ entities and correspond to\n\n                                        // Geometric\
+    \ entities). Output the\n\n                                        int edgCnt\
+    \ = 0;\n\n                                        foreach (Edge edg in lp.Edges)\n\
+    \                                        {\n\n                               \
+    \             Point3d p1 = edg.Vertex1.Point;\n                              \
+    \              ed.WriteMessage(p1.ToString());\n\n                           \
+    \             }\n\n                                    }\n\n                 \
+    \               }\n\n                                catch\n                 \
+    \               {\n\n                                    ed.WriteMessage(\n  \
+    \                                    \"\\n        Problem getting loops/edges:\"\
+    \ +\n\n                                      \" object is probably unbounded \"\
+    \ +\n\n                                      \"(e.g. a sphere or a torus).\"\n\
+    \n                                    );\n\n                                }\n\
+    \n                            }\n\n                        }\n\n             \
+    \       }\n\n\n                    tr.Commit();\n                }\n         \
+    \       catch (System.Exception ex)\n                {\n\n                   \
+    \ ed.WriteMessage(\n\n                      \"\\nException during traversal: {0}\"\
+    ,\n\n                      ex.Message\n\n                    );\n\n          \
+    \      }\n\n            }\n        }"
+- author: Giuliano
+  email: pigozzi@base2.it
+  ip: 87.4.248.106
+  url: ''
+  date: '2009-03-09 23:52:46'
+  body: "ok...that's work. loop 2000 times...with 40 3dsolids.\n\n\npublic static\
+    \ IList<Point3d> PrendiVerticiSolido(Document d, ObjectId idSolido)\n        {\n\
+    \n            IList<Point3d> ptResult = new List<Point3d>(0);\n            try\n\
+    \            {\n                using (DocumentLock l = d.LockDocument())\n  \
+    \              {\n                    using (Transaction tr = d.Database.TransactionManager.StartTransaction())\n\
+    \                    {\n                        using (Solid3d sol = tr.GetObject(idSolido,\
+    \ OpenMode.ForRead) as Solid3d)\n                        {\n\n               \
+    \             //System.Diagnostics.Trace.WriteLine(sol.Handle);\n            \
+    \                if (sol == null)\n                            {\n           \
+    \                     tr.Abort();\n                                return ptResult;\n\
+    \                            }\n\n                            if (sol.IsNull)\n\
+    \                            {\n                                sol.UpgradeOpen();\n\
+    \                                sol.Erase();\n                              \
+    \  tr.Commit();\n                                sol.Dispose();\n            \
+    \                    return ptResult;\n                            }\n\n     \
+    \                           using (Brep brp = new Brep(sol))\n               \
+    \                 {\n                                    BrepComplexEnumerator\
+    \ colcom = brp.Complexes.GetEnumerator();\n                                  \
+    \  do\n                                    {\n                               \
+    \         Complex complex = colcom.Current;\n                                \
+    \        ComplexShellEnumerator shllenum = complex.Shells.GetEnumerator();\n \
+    \                                       do\n                                 \
+    \       {\n                                            Shell shll = shllenum.Current;\n\
+    \                                            ShellFaceEnumerator shfaceenum =\
+    \ shll.Faces.GetEnumerator();\n                                            do\n\
+    \                                            {\n                             \
+    \                   Autodesk.AutoCAD.BoundaryRepresentation.Face f = shfaceenum.Current;\n\
+    \n                                                FaceLoopEnumerator flpenum =\
+    \ f.Loops.GetEnumerator();\n\n                                               \
+    \ do\n                                                {\n                    \
+    \                                BoundaryLoop lp = flpenum.Current;\n\n      \
+    \                                              LoopEdgeEnumerator edgeenum = lp.Edges.GetEnumerator();\n\
+    \                                                    if (edgeenum != null)\n \
+    \                                                   {\n                      \
+    \                                  do\n                                      \
+    \                  {\n\n                                                     \
+    \       Edge edge = edgeenum.Current;\n                                      \
+    \                      if (edge != null)\n                                   \
+    \                         {\n                                                \
+    \                using (Autodesk.AutoCAD.BoundaryRepresentation.Vertex v = edge.Vertex1)\n\
+    \                                                                {\n         \
+    \                                                           Point3d p = v.Point;\n\
+    \                                                                    if (!ptResult.Contains(p))\n\
+    \                                                                       ptResult.Add(p);\n\
+    \                                                                }\n         \
+    \                                                       using (Autodesk.AutoCAD.BoundaryRepresentation.Vertex\
+    \ v2 = edge.Vertex2)\n                                                       \
+    \         {\n                                                                \
+    \    Point3d p2 = v2.Point;\n                                                \
+    \                    if (!ptResult.Contains(p2))\n                           \
+    \                                             ptResult.Add(p2);\n            \
+    \                                                    }\n                     \
+    \                                           edge.Dispose();\n                \
+    \                                                edge = null;\n              \
+    \                                              }\n                           \
+    \                             }\n                                            \
+    \            while (edgeenum.MoveNext());\n                                  \
+    \                      edgeenum.Dispose();\n                                 \
+    \                       edgeenum = null;\n                                   \
+    \                 }\n\n\n\n\n                                                \
+    \    lp.Dispose();\n                                                    lp = null;\n\
+    \                                                }\n                         \
+    \                       while (flpenum.MoveNext());\n                        \
+    \                        flpenum.Dispose();\n                                \
+    \                flpenum = null;\n\n\n\n\n                                   \
+    \             f.Dispose();\n                                                f\
+    \ = null;\n                                            }\n                   \
+    \                         while (shfaceenum.MoveNext());\n                   \
+    \                         shfaceenum.Dispose();\n                            \
+    \                shfaceenum = null;\n\n\n                                    \
+    \        shll.Dispose();\n                                            shll = null;\n\
+    \                                        }\n                                 \
+    \       while (shllenum.MoveNext());\n                                       \
+    \ shllenum.Dispose();\n                                        shllenum = null;\n\
+    \n\n\n\n                                        complex.Dispose();\n         \
+    \                               complex = null;\n                            \
+    \        }\n                                    while (colcom.MoveNext());\n \
+    \                                   colcom.Dispose();\n\n                    \
+    \            }\n                                tr.Commit();\n               \
+    \             }\n                        }\n                    \n           \
+    \         }\n            }\n            catch (Autodesk.AutoCAD.BoundaryRepresentation.Exception\
+    \ exp)\n            {\n                System.Diagnostics.Trace.WriteLine(\"PrendiVerticiSolido\
+    \ errore \" + exp.Message);\n                //throw new System.Exception(\"PrendiVerticiSolido\
+    \ errore \" + exp.Message);\n\n            }\n            catch (System.Exception\
+    \ ex)\n            {\n                System.Diagnostics.Trace.WriteLine(\"PrendiVerticiSolido\
+    \ errore \" + ex.Message);\n                // throw new System.Exception(\"PrendiVerticiSolido\
+    \ errore \" + ex.Message);\n            }\n            return ptResult;\n    \
+    \    }"
+- author: Giuliano
+  email: pigozzi@base2.it
+  ip: 87.4.248.106
+  url: ''
+  date: '2009-03-09 23:59:03'
+  body: 'it''s a bit slow, but it runs without any error.
+
+    maybe the better way is to write in C++/Arx and then get the resultbuffer as list
+    result.
+
+    But I''ll write this another time...now it''s midnight!'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-03-10 13:17:40'
+  body: 'Thanks for input, Giuliano.
+
+
+    From my own tests I found two key omissions from the original code:
+
+
+    1) We need to set oSol to null to make sure the COM object is released.
+
+    2) We need to Dispose of the brp object (which you have done in your code, but
+    I''d forgotten to do). I''ll do this with a using block.
+
+
+    Adding these operations allows the code to run repeatedly (I tested up to 40K
+    iterations) without problem.
+
+
+    I''ve updated the code in the post to reflect these omissions.
+
+
+    Regards,
+
+
+    Kean'
+- author: giuliano
+  email: pigozzi@base2.it
+  ip: 82.58.224.70
+  url: ''
+  date: '2009-03-11 20:02:55'
+  body: 'ok..as soon as possible i will try..
+
+    all my dispose is just to verify the crash problem..'
+- author: Mick
+  email: mickduprez@gmail.com
+  ip: 125.168.218.1
+  url: ''
+  date: '2010-01-20 07:27:09'
+  body: "Is there any reason why the AcBrEdge.GetCurveType() method that you can use\
+    \ in C++ is not available?? \nThis is needed to find what type to cast the edge\
+    \ to for closer inspection??\n\nFor example, if the solid has holes (circular\
+    \ arcs) or curved edges (elliptical arcs) how can you inspect the data for these?\n\
+    \nThanks,\nMick."
+- author: Mick
+  email: mickduprez@gmail.com
+  ip: 125.168.218.1
+  url: ''
+  date: '2010-01-20 09:15:37'
+  body: 'Ok, I worked it out but it was not as obvious as you would expect.
+
+    Here''s a snippet to query the type, it''s in BOO but it should be easy enough
+    to follow.'

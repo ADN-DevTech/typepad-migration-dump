@@ -1,0 +1,49 @@
+comments:
+- author: Albert
+  email: szilvaa@hotmail.com
+  ip: 198.102.112.18
+  url: ''
+  date: '2007-01-23 19:56:31'
+  body: I think the reason why Reflector uses the unmanaged reflection APIs is to
+    avoid intializing the assembly. Note that prior to .NET 2.0 there was no managed
+    way to reflect on an assembly without intializing it. .NET 2.0 provides Assembly.ReflectionOnlyLoad
+    but Reflector wants to work with .NET 1.0 and 1.1 too.
+- author: Luis E.
+  email: lspbox@hotmail.com
+  ip: 69.228.97.201
+  url: ''
+  date: '2007-01-23 20:29:26'
+  body: 'Very interesting info!
+
+
+    It is okay to learn from others code, in the case of using it for that purpose.
+
+
+    I see it, like going to take an exam and having this tool, to almost get the answers,
+    so if end up not studing that much, it will be easier in a way to pass it... Sound
+    good in theory but not that much in the practice.
+
+
+    I''ll wait to see the future versions of this technology, for now I just want
+    to learn the language...
+
+
+    Have fun.'
+- author: Anonymous
+  email: Anonymous@Anonymous.com
+  ip: 131.107.0.74
+  url: ''
+  date: '2007-01-24 00:35:16'
+  body: Reflector uses neither the Reflection API or some "unmanaged API". It has
+    it's own loader written in managed code that loads the DLL file and decodes the
+    information it needs. Not sure about the reasons for this but some obvious candidates
+    are file locking (reflector is not locking files on disk), performance, completeness
+    (reflection didn't support a bunch of .NET features for the longest time and is
+    still missing some) and obviously bugs (Reflector loads a bunch of files that
+    Reflection just crashes on).
+- author: sayali13patil@yahoo.co.in
+  email: ketaki12jadhav@yahoo.co.in
+  ip: 203.197.87.94
+  url: ''
+  date: '2007-10-09 13:10:48'
+  body: ''

@@ -1,0 +1,72 @@
+comments:
+- author: Glenn R
+  email: toxo@telstra.com
+  ip: 202.183.96.186
+  url: ''
+  date: '2006-12-05 00:43:30'
+  body: 'Hi Kean,
+
+
+    I''m curious as to the rationale behind implementing a destructor to unhook your
+    event callbacks, when it always fails...the document/database is LONG gone when
+    the destructor fires.
+
+
+    I''ve always used DocumentToBeDestroyed to unhook these sort of events...as I
+    said, just curious.
+
+
+    Nice sample btw...keep it coming.
+
+
+    Cheers,
+
+    Glenn.'
+- author: Glenn R
+  email: toxo@telstra.com
+  ip: 202.183.96.186
+  url: ''
+  date: '2006-12-05 01:37:53'
+  body: 'Actually, on second thought, BeginDocumentClose would be a better choice
+    in this situation, as this command is essentailly document centric. ie An instance
+    on the LinkingCommands class is spun up for each document where the command is
+    executed. Just some rambles.
+
+
+    Cheers,
+
+    Glenn.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-12-05 13:08:16'
+  body: 'Hi Glenn,
+
+
+    Thanks for the comments.
+
+
+    Yes - you''re quite right: right now, while .NET modules cannot be unloaded from
+    AutoCAD, this code will never be called in time. Frankly, though, if AutoCAD is
+    shutting down, then as long as it doesn''t create strange behaviour or cause an
+    exception, I''ll just leave my app there to be unloaded with AutoCAD.
+
+
+    This code is really there *just in case* something ever changes to allow us to
+    support manual unloading of .NET modules (by all accounts that would take quite
+    a radical way in the way the .NET Framework works, so it *is* unlikely to be necessary).
+
+
+    Regards,
+
+
+    Kean'
+- author: mir
+  email: mirmhmh@yahoo.com
+  ip: 62.149.94.206
+  url: ''
+  date: '2007-04-11 08:26:53'
+  body: 'please send me new tips
+
+    -----'

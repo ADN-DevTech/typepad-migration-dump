@@ -1,0 +1,152 @@
+comments:
+- author: Wyatt
+  email: spam@plantingcows.com
+  ip: 66.115.232.200
+  url: ''
+  date: '2007-02-19 21:40:07'
+  body: 'Of course this means that you can''t tell if a handle exists in a database
+    without catching an exception. You could always PInvoke to acdbHandEnt (which
+    I do), but that only works on the current drawing, not any other drawing/database.
+    This is really bad if your doing this in a loop (say your auditing a SQL-database
+    full of handles against a drawing). Especially if you have a debugger attached.
+
+
+    It was fine in ObjectARX/C++ when you just checked the return value for the error,
+    there wasn''t a significant overhead to doing that. There is with catching an
+    exception. This is a perfect example of bad API design.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-02-20 08:59:49'
+  body: 'I''ll pass on your concern to our Engineering team.
+
+
+    Yes, P/Invoking acdbHandEnt() needs you to set the current document if working
+    on different files (you don''t have to make the document active, as I''m sure
+    you''re aware).
+
+
+    Are you seeing a performance impact when compared with calling AcDbDatabase::getAcDbObjectId()
+    on a specific database? (Aside from the exception handling question, that is.)'
+- author: Wyatt
+  email: spam@plantingcows.com
+  ip: 66.115.232.200
+  url: ''
+  date: '2007-02-20 15:16:39'
+  body: "No real performance problems either way assuming the handle is there.  I\
+    \ haven't measured the other case.  \n\nMost CAD-related performance problems\
+    \ went away for me when I switch from the old COM API to the .NET API."
+- author: Albert
+  email: szilvaa@hotmail.com
+  ip: 198.102.112.18
+  url: ''
+  date: '2007-02-20 16:21:48'
+  body: "Hi Wyatt,\n\nYes, this is indeed suboptimal. We should have an TryGetObjectId\
+    \ method that returns a boolean. \n\nThanks for pointing this out,\nAlbert"
+- author: Fatty
+  email: fixo@yandex.ru
+  ip: 195.131.169.45
+  url: ''
+  date: '2007-02-28 11:26:13'
+  body: 'Thank you very much for your
+
+    amazing work
+
+    That will be help to many programmers
+
+    Just for info, I used your example
+
+    to help to one guy on this russian forum:
+
+
+    http://www.autocad.ru/cgi-bin/f1/board.cgi?t=33481pG
+
+
+    Sorry for my pooe English,
+
+
+    Regards
+
+
+    Oleg'
+- author: Flea
+  email: flea777@tiscali.it
+  ip: 193.204.13.76
+  url: ''
+  date: '2008-04-23 17:57:35'
+  body: 'Hi Kean,
+
+
+    I did''t understand if ObjectId or Handle are unique identifier for an object
+    in the database in a persistent way or only session limited.
+
+
+    If I create objects on a DWG file and then save and close this file, when I try
+    to re-open that... ObjectId and Handle remains the same?
+
+
+    Cheers,
+
+
+    Flea'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.7.167
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-04-23 20:22:27'
+  body: 'Hi Flea,
+
+
+    ObjectIds are per session, but get remapped on DWG load from the values stored
+    in the file.
+
+
+    Handles are persistent across sessions.
+
+
+    Regards,
+
+
+    Kean'
+- author: Cattoor
+  email: orhiannono@hotmail.com
+  ip: 78.23.187.96
+  url: ''
+  date: '2010-07-12 23:18:51'
+  body: Thanks Kean, I needed this badly, been looking in to this for some time now,
+    but couldn't figure this out. I'll try this out as soon as I get too work. Hopefully
+    it will help me save data linked to objects over sessions... :)
+- author: Luigi Ballotta
+  email: luigi.ballotta@valitalia.com
+  ip: 85.46.59.210
+  url: ''
+  date: '2013-04-29 11:10:29'
+  body: 'Hi to all.
+
+    I think that Wyatt''s point of view is performance-prone, that is good, but we
+    also keep in mind that custom application related objects in a drawing should
+    be managed through our application. If so when we delete an object from model
+    space, our application is responsible to do update our SQL db accordingly. The
+    Try-Catch-End try statement is just to preserve the crash of our application.
+
+
+    In other words is our application that should manage the SQL db, in order to mantain
+    the db up to date with the drawing.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2013-04-29 11:19:51'
+  body: 'Hi Luigi,
+
+
+    Thanks for adding your input on this!
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

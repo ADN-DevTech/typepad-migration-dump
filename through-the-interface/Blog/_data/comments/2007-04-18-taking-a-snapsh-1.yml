@@ -1,0 +1,321 @@
+comments:
+- author: Mark
+  email: dubbelaarm@conwag.com
+  ip: 165.228.109.98
+  url: ''
+  date: '2007-10-04 03:41:49'
+  body: "Kean, \n\nGreat post... but i'm having a few issues trying to get a snap\
+    \ shot of a drawing that is not the current one and not open inside AutoCAD, i.e.\
+    \ trying to get similar functionality to the BlockView sample in the ARX docs,\
+    \ but  using .net\n\ni guess the question is, is it possible to get a snapshot\
+    \ from only the database?\n\ni'm using the following code (which is mostly untouch\
+    \ from the example above, except for the database) but all i get is a black bitmap\n\
+    \n[code]\nPublic Shared Sub SnapshotToFile(ByVal filename As String, ByVal vst\
+    \ As VisualStyleType)\n\n            Dim NewDatabase As Autodesk.AutoCAD.DatabaseServices.Database\
+    \ = New Autodesk.AutoCAD.DatabaseServices.Database(False, True)\n            NewDatabase.ReadDwgFile(\"\
+    D:\\Test\\Common.dwg\", IO.FileShare.Read, True, Nothing)\n\n            Dim doc\
+    \ As Document = Application.DocumentManager.MdiActiveDocument\n            'Dim\
+    \ ed As Editor = doc.Editor\n            Dim db As Database = NewDatabase\n  \
+    \          Dim gsm As Manager = doc.GraphicsManager\n\n            ' Get some\
+    \ AutoCAD system variables \n            Dim vpn As Integer = 2 ' System.Convert.ToInt32(Application.GetSystemVariable(\"\
+    CVPORT\"))\n\n            Using view As New View()\n                gsm.SetViewFromViewport(view,\
+    \ vpn)\n\n                ' Set the visual style to the one passed in \n     \
+    \           view.VisualStyle = New VisualStyle(vst)\n\n                Dim dev\
+    \ As Device = gsm.CreateAutoCADOffScreenDevice()\n                Using dev\n\
+    \                    dev.OnSize(gsm.DisplaySize)\n\n                    ' Set\
+    \ the render type and the background color \n                    dev.DeviceRenderType\
+    \ = RendererType.[Default]\n                    dev.BackgroundColor = Color.Black\
+    \ ' Color.White\n\n                    ' Add the view to the device and update\
+    \ it \n                    dev.Add(view)\n                    dev.Update()\n\n\
+    \                    Using model As Model = gsm.CreateAutoCADModel()\n       \
+    \                 Dim tr As Transaction = db.TransactionManager.StartTransaction()\n\
+    \                        Using tr\n                            ' Add the modelspace\
+    \ to the view \n                            ' It's a container but also a drawable\
+    \ \n                            Dim bt As BlockTable = DirectCast(tr.GetObject(db.BlockTableId,\
+    \ OpenMode.ForRead), BlockTable)\n                            Dim btr As BlockTableRecord\
+    \ = DirectCast(tr.GetObject(bt(BlockTableRecord.ModelSpace), OpenMode.ForRead),\
+    \ BlockTableRecord)\n                            view.Add(btr, model)\n      \
+    \                      tr.Commit()\n                        End Using\n      \
+    \                  ' Take the snapshot \n                        Dim rect As Rectangle\
+    \ = view.Viewport\n                        Using bitmap As Bitmap = view.GetSnapshot(rect)\n\
+    \                            bitmap.Save(filename)\n                         \
+    \   'ed.WriteMessage(\"\" & Chr(10) & \"Snapshot image saved to: \" + filename)\n\
+    \                            ' Clean up \n                            view.EraseAll()\n\
+    \                            dev.[Erase](view)\n                        End Using\n\
+    \                    End Using\n                End Using\n            End Using\n\
+    \        End Sub\n[code]\n\n\nany help would be great\n\n\nCheers\n\nMark"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-10-04 12:45:56'
+  body: 'Hi Mark,
+
+
+    I''m pretty sure you need the document open to be able to make use of the graphics
+    system in this way: it needn''t be the view shown in the editor, but I do think
+    the document needs to be loaded.
+
+
+    Regards,
+
+
+    Kean'
+- author: namin
+  email: autocad@namin.net
+  ip: 18.244.5.4
+  url: ''
+  date: '2007-11-28 07:55:10'
+  body: 'Thanks for the post.
+
+
+    Would you know how to get what the coordinates of a Point2d would be inside the
+    bitmap (in pixels)?
+
+
+    Thanks.'
+- author: namin
+  email: autocad@namin.net
+  ip: 18.244.5.4
+  url: ''
+  date: '2007-11-28 10:10:01'
+  body: Answering my own question... it seems like I simply need to transform the
+    point using the matrix view.WorldToDeviceMatrix
+- author: namin
+  email: autocad@namin.net
+  ip: 18.251.3.76
+  url: ''
+  date: '2008-02-23 01:17:29'
+  body: On some machine running AutoCAD 2008, this code fails dramatically with a
+    memory corrupt error. It works fine on another machine running AutoCAD 2008, so
+    I am very confused as to why this error happens. I am using ObjectARX 2007 --
+    could it be failing because of some confusion between 2007 and 2008 dlls? I never
+    had an issue using ObjectARX 2007 with AutoCAD 2008 before.
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.6.124
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-02-23 16:38:25'
+  body: 'Please email me precise steps to reproduce the problem. It shouldn''t be
+    related to using the 2007 ObjectARX libs with AutoCAD 2008, but then you never
+    know.
+
+
+    Kean'
+- author: namin
+  email: autocad@namin.net
+  ip: 128.31.34.147
+  url: ''
+  date: '2008-02-24 02:45:56'
+  body: 'Thanks, Kean, I emailed you the error. Just to be more precise, the point
+    of failure is this line:
+
+    using (Bitmap bitmap = view.GetSnapshot(view.Viewport))'
+- author: namin
+  email: autocad@namin.net
+  ip: 128.31.34.147
+  url: ''
+  date: '2008-02-24 03:46:33'
+  body: "More, specifically, the error is here:\nSystem.Runtime.InteropServices.ExternalException\
+    \ was unhandled by user code\n  Message=\"A generic error occurred in GDI+.\"\n\
+    \  Source=\"System.Drawing\"\n  ErrorCode=-2147467259\n  StackTrace:\n       at\
+    \ System.Drawing.Image.FromHbitmap(IntPtr hbitmap, IntPtr hpalette)\n       at\
+    \ System.Drawing.Image.FromHbitmap(IntPtr hbitmap)\n       at Autodesk.AutoCAD.GraphicsSystem.View.GetSnapshot(Rectangle\
+    \ rectangle)\n       at ... SnapshotToFile(String filename, VisualStyleType vst)\
+    \ in ...\n\nI even updated the .NET framework to 3.5 to no avail."
+- author: Dimitris Andrakakis
+  email: dandraka@gmail.com
+  ip: 193.92.148.194
+  url: ''
+  date: '2008-12-19 17:25:54'
+  body: 'Hi Kean,
+
+
+    Thanks for the great post. I have this working, but I have a significant problem:
+
+
+    The drawings I''m trying to export as images are very simple, lines only (ok,
+    some letters too) technical drawings. The export does happen, but the image quality,
+    well, sucks. To the point that a circle is more like an octagon.
+
+
+    I''ve tried some tricks, namely bitmap.setresolution and changing the view.VisualStyle
+    but nothing worked.
+
+
+    Any ideas ?'
+- author: Dimitris Andrakakis
+  email: dandraka@gmail.com
+  ip: 193.92.180.20
+  url: ''
+  date: '2008-12-19 17:31:33'
+  body: "@namin :\n\nI've come across this too. It's frustrating because the message\
+    \ doesn't reveal what the actual problem is. \n\nUsually it's a problem writing\
+    \ the file to the disk; e.g. permissions problem, the folder does not exist etc."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.2.123
+  url: http://profile.typekey.com/walmsleyk/
+  date: '2008-12-23 10:09:38'
+  body: 'Dimitris -
+
+
+    There''s no particular reason the quality should be poor: I''m sure it''s just
+    a matter of making the right settings.
+
+
+    I suggest you submit it via <a href="http://adn.autodesk.com">ADN</a>, if you''re
+    a member, or otherwise try <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>. At a very last resort, email a DWG to me, but
+    I''m afraid I can''t predict (or commit to) when I''ll get the time to look into
+    it.
+
+
+    Kean'
+- author: TiTTi
+  email: ''
+  ip: 83.103.115.194
+  url: http://profile.typepad.com/6p0111684d1e83970c
+  date: '2009-02-06 09:47:47'
+  body: '@namin:
+
+
+    Hi Namin, you can try changing the resolution of colors of your desktop. Simply,
+    the ''GetSnapshot'' instruction perhaps export a bitmap with a 32 bit resolution
+    (view resolution) and your desktop may be 16 bit resolution.'
+- author: Krayzie
+  email: ''
+  ip: 217.75.82.102
+  url: http://profile.typepad.com/6p0120a55b1a1e970b
+  date: '2009-09-09 09:42:52'
+  body: 'Hi Kean,
+
+
+    I tried to develop a routine based on this post but I found 2 things that I''d
+    like to solve if possible.
+
+    Your routine is just not usable for larger drawings (takes way to long). Also,
+    your routine does not work properly in paper space.
+
+
+    Please, don''t get me wrong, I appreciate all the work you''ve put into this blog.
+    I just desperately need to come up with a solution for snapshots that work on
+    large drawings, that work in paper/model space and that use the current viewstyle
+    settings (except the background color).
+
+
+    Isn''t there a way to somehow mimic the GetGsView function that is fast and works
+    in paper space as well but has a downfall of creating a 3D view in the actual
+    drawing whenever a 2D Wireframe visual style is set?
+
+
+    Any help is really appreciated.'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-09-09 11:03:28'
+  body: 'Hi Krayzie,
+
+
+    For your specific needs you''re probably better off just using the display pixels
+    to capture a screenshot of the application frame, using a technique such as this:
+
+
+    <a href="http://www.geekpedia.com/tutorial181_Capturing-screenshots-using-Csharp.html">http://www.geekpedia.com/tutorial181_Capturing-screenshots-using-Csharp.html</a>
+
+
+    Regards,
+
+
+    Kean'
+- author: Krayzie
+  email: ''
+  ip: 217.75.82.102
+  url: http://profile.typepad.com/6p0120a55b1a1e970b
+  date: '2009-09-09 16:00:03'
+  body: 'Thanx for such a quick reply. I am not sure whether taking whole screenshots
+    is a way to go (some parts might be covered by dialogue boxes), I''ll give it
+    a try though.
+
+
+    I used take the snapshots with the standard HBITMAP and document HWND technique,
+    however once the HW acceleration in AutoCAD is turned on, it always captures a
+    blank screen.
+
+
+    Anyway, I am still struggling with the pure .NET approach. Basically, the GetGsView(#,
+    true)->GetSnapshot is almost perfect for whatever I need. If only I could somehow
+    reset the display after taking the snapshot, otherwise, it is not usable. A simple
+    manual switch between MODEL and LAYOUT tab (and back) does it all, I just cannot
+    find a way to refresh the view programmatically (tried Regen, UpdateScreen, Update,
+    Invalidate, ..., but nothing does the trick). Any other ideas?'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-09-09 17:08:23'
+  body: 'Try the code in <a href="http://through-the-interface.typepad.com/through_the_interface/2009/09/taking-screenshots-of-autocads-main-and-drawing-windows-using-net.html">this
+    post</a>, and see whether it works for you...
+
+
+    Kean'
+- author: Krayzie
+  email: ''
+  ip: 217.75.82.102
+  url: http://profile.typepad.com/6p0120a55b1a1e970b
+  date: '2009-09-10 16:00:33'
+  body: 'Hi Kean,
+
+
+    unfortunately the standard .NET screenshot technique is a no go for me because
+    of possible dialogue boxes or controls in front of the document window. Thanks
+    for the effort though.
+
+    Anyway, I cannot spend more time with it. For now, I solved it by exporting the
+    view using the PNGOUT command into a temporary file. So far, it seems to work
+    quite nicely as this command does everything I need. If only I could mimic the
+    PNGOUT command programmatically to avoid possible unexpected behavior while scripting
+    commands, but nevermind.
+
+
+    Thanks again for trying.
+
+
+    Regards,
+
+    Krayzie'
+- author: Alexandre H.
+  email: haffner.alex@gmail.com
+  ip: 82.225.135.68
+  url: ''
+  date: '2010-09-23 10:29:01'
+  body: "Hi Kean, \n\nI did try to re-use part of your code to simply change the visual\
+    \ style of my current working view but it seems that it's not that easy.\n\nHere\
+    \ is the code I used : \n\nview = gsm.GetGsView(GetCurrentViewportId(), true);\n\
+    view.VisualStyle = new VisualStyle(VisualStyleType.Realistic);\ngsm.SetViewportFromView(GetCurrentViewportId(),\
+    \ view, true, true, false);\n\nAnd it just does nothing.\nAny idea or document\
+    \ I could read that could help me go the right way ?\n\nRegards,"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-09-23 11:44:49'
+  body: 'Hi Alexandre,
+
+
+    Sorry - I''ve scripted the VISUALSTYLE command to do this, in the past, but haven''t
+    tried to do it at a lower API level.
+
+
+    I suggest submitting your question to <a href="http://adn.autodesk.com">the ADN
+    team</a>, if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

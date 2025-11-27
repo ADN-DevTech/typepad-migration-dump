@@ -1,0 +1,60 @@
+comments:
+- author: Mike
+  email: mike@chi-llc.com
+  ip: 24.19.162.139
+  url: ''
+  date: '2012-10-18 00:21:09'
+  body: 'This was helpful, Thanks!
+
+
+    Just one additional question, how would you go about determining if the spatial
+    filter was inverted?
+
+
+    The SpatialFilter class doesn''t appear to have easy access to this data and I''ve
+    been unable to figure out how to retrieve it.'
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.234.115
+  url: http://profile.typepad.com/kean
+  date: '2012-10-18 21:31:10'
+  body: 'My pleasure!
+
+
+    I don''t think I''ve ever created an inverted Spatial Filter. If you can tell
+    me some steps to do so, I''ll see how you can query the fact that it''s inverted.
+
+
+    Kean'
+- author: Mike
+  email: mike@chi-llc.com
+  ip: 64.122.171.218
+  url: ''
+  date: '2012-10-18 22:25:57'
+  body: 'In AutoCAD when you select a block reference with a clip boundary you should
+    see an arrow on the boundary, simply click it and it will invert the clipping.
+
+
+    When looking at the DXF of such a drawing it appears that the spatial filter has
+    an extension dictionary which contains an Xrecord, but when I attempt to get the
+    extension dictionary from the spatial filter in code it comes back as null.  I''m
+    using RealDWG 2013 in C++, but I expect the concepts should be the same.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2012-10-19 16:36:11'
+  body: 'Thanks, Mike - that helped a lot.
+
+
+    Much to my surprise, it turns out this has been exposed by neither ObjectARX nor
+    .NET.
+
+
+    I''d suggest posting via ADN or to the AutoCAD .NET Discussion Group to request
+    that this be addressed.
+
+
+    Kean
+
+    -----'

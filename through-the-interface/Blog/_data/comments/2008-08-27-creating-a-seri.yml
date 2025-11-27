@@ -1,0 +1,126 @@
+comments:
+- author: Artvegas
+  email: yamos78@hotmail.com
+  ip: 27.32.79.215
+  url: ''
+  date: '2011-10-28 06:56:33'
+  body: 'Hi Kean,
+
+
+    I tried this with a region rotated in 3d space that doesn''t pass through the
+    origin, and noticed that the polyline doesn''t properly align.
+
+
+    Your code creates a plane through the origin, i.e.:
+
+    Plane pl = new Plane(new Point3d(0,0,0), reg.Normal);
+
+
+    I think it should pass through a point on the region, i.e.:
+
+    Curve cv1 = cvs[0] as Curve;
+
+    Plane pl = new Plane(cv1.StartPoint, reg.Normal);
+
+
+    This appeared to fix things.
+
+
+    Cheers,
+
+    Art'
+- author: Artvegas
+  email: yamos78@hotmail.com
+  ip: 27.32.79.215
+  url: ''
+  date: '2011-10-28 08:34:36'
+  body: 'Hi Kean,
+
+
+    You mentioned the following:
+
+
+    "To recurse when we find a Region in the results of the Explode() call".
+
+
+    Is it possible to create nested regions? How would this be done? I tried using
+    UNION, SUBTRACT and INTERSECT commands using regions, but these appear to create
+    new regions rather than nest them.
+
+
+    So when the expode method is called on a region, is it actually possible to get
+    a region returned in the DBObjectCollection?
+
+
+    Art'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2011-10-28 08:43:01'
+  body: 'Fantastic - thanks, Art!
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2011-10-28 08:45:50'
+  body: 'Hi Art,
+
+
+    I''m not sure exactly how and when complex regions are created, in all honesty.
+    Apparently (and this is looking back at my post, as I don''t work with regions
+    every day), it seems that exploding a region can lead to you having another region
+    to explode. How exactly that level of complexity gets built into a region (perhaps
+    from extracting a region from a complex solid to surface?), is a question I''m
+    not really able to answer, unfortunately.
+
+
+    Regards,
+
+
+    Kean'
+- author: Silke Förnzler
+  email: silke.foernzler@systecs.com
+  ip: 79.204.228.18
+  url: ''
+  date: '2012-09-18 13:20:00'
+  body: "Hi Kean,\n\nRegions created from Ellipses are not handled by your code.\n\
+    \nTry adding an ellipse and a rectangle which are overlapping. Create regions\
+    \ for each of them. UNION the regions (=> looks fine; region apparently can handle\
+    \ the ellipse). Execute your code with this region => Ellipse seems to be ignored;\
+    \ instead of the 'Ellipse-Part' there's just a straight line segment added. \n\
+    \nI'd be very interested if you have a solution for this...\n\nSilke"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-09-19 09:22:48'
+  body: 'Hi Silke,
+
+
+    As polylines don''t support elliptical arc segments we''d have to broaden the
+    implementation to create ellipses (with appropriate start/end angles).
+
+
+    In itself that shouldn''t be too hard, but is certainly a topic for another post.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 95.172.68.148
+  url: http://profile.typepad.com/kean
+  date: '2012-09-19 10:21:07'
+  body: "Hi Silke,\n\nWell, it turned out to be simpler thna expected.\n\nAside from\
+    \ cosmetic changes to make it clear the command & functions deal with more than\
+    \ just Polylines, there's really only a one-line change - we simply have to check\
+    \ for Ellipse objects and pass them through directly with the closed curves:\n\
+    \n  // Closed curves can go straight into the\n  // results collection, and aren't\
+    \ added\n  // to the Curve count\n\n  if (tmpCv.Closed || tmpCv is Ellipse)\n\n\
+    I hope this helps,\n\nKean\n-----"

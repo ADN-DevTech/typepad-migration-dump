@@ -1,0 +1,69 @@
+comments:
+- author: Stephen Preston
+  email: steves_magic_hat@hotmail.com
+  ip: 132.188.71.10
+  url: ''
+  date: '2009-10-31 00:53:49'
+  body: 'Of course, if you save the active document using Database:SaveAs with ISAVEBAK=1,
+    then the drawing thumbnail is automatically saved. It won''t be saved if ISAVEBAK=0.
+
+
+    If you''re saving a document that''s open in the editor anyway, you could just
+    use COM Interop and AcadDocument.SaveAs. I recall there being a few quirks in
+    using Database.SaveAs in earlier releases. (Although I probably shouldn''t say
+    that when I don''t recall exactly what those quirks are :-s).'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2009-10-31 12:23:46'
+  body: 'Hmm... I seem to have ISAVEBAK set to 1, and my tests with both .NET and
+    COM Interop didn''t result in a thumbnail being created. Could it be you have
+    the values inverted (or it''s another sysvar)?
+
+
+    Kean'
+- author: auto cad drawing
+  email: socdudey21@aol.com
+  ip: 69.117.67.50
+  url: ''
+  date: '2009-11-24 15:48:36'
+  body: Very helpful and useful information
+- author: Ben Cassani
+  email: Ben.D.Cassani@contractor.conocophillips.comddress
+  ip: 138.32.32.166
+  url: ''
+  date: '2011-05-31 21:11:29'
+  body: "Kean, \n\nThis may be slightly off topic. \n\nI should prefix... I translated\
+    \ your code to VB.Net \nand it works fine. I'm more familiar with VB.Net not so\
+    \ much with C, and a learning programmer. So please take that in mind. \n\n\n\
+    I'm wondering what we be your recommended method for our blocks which need to\
+    \ do various commands upon insertion. My blocks reside in the tool palette. I\
+    \ want them do a command upon insertion. \n\nShould I use a insert on drawing\
+    \ event, or create the custom command for each block via the toolpalette \"CreateCommandTool\"\
+    ? Or if otherwise, what's the event/interface/handler for Blocks being dragged\
+    \ onto the drawing? I only have a few different versions of this. \n\nI would\
+    \ need to do this in a large scale. This is why I'm programming it rather than\
+    \ just use the CUI Editor and creating some custom commands."
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-06-01 09:07:09'
+  body: 'Ben,
+
+
+    Yes, a little off topic (and probably one that''s better raised via the discussion
+    groups - I generally don''t have time to provide support in this way).
+
+
+    The Tool Palette mechanism is indeed probably the closest to what you want (there
+    isn''t a direct way to get code executed as blocks are inserted).
+
+
+    Someone in the forums should have some advice for you.
+
+
+    Kean
+
+    -----'

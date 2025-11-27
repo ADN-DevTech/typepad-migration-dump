@@ -1,0 +1,335 @@
+comments:
+- author: Jason
+  email: Jason@aspendrafting.com
+  ip: 72.54.217.98
+  url: ''
+  date: '2007-10-09 20:43:03'
+  body: 'Definitely helps, but why am i getting single page dwfs? the layout loop
+    i am doing is the same as yours.
+
+
+    I can get a dsd publish to do multiple page dwfs, though.
+
+
+    Overall, your site and the .net discussion group has helped a lot, i would say
+    i have learned 40 to 60 % of the api from them.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-10-09 22:32:31'
+  body: 'As I mentioned in the original multi-sheet post, I believe the DWF6 driver
+    is not actually multi-sheet. Which is why I chose the DWFx driver to demonstrate
+    the technique.
+
+
+    The Publish API may be the way to go, if you need to create multi-page DWF6 files
+    (I haven''t looked into it myself, as yet).
+
+
+    Kean'
+- author: Jordan
+  email: Jordan.Marrazzo@Maunsell.com
+  ip: 203.56.22.126
+  url: ''
+  date: '2008-07-08 05:00:06'
+  body: 'How does one get the plotter name.
+
+    Your example gives the Device name (.pc3)
+
+    I was looking for something like the page setup manager gives.
+
+    eg.
+
+    Device name: HP4500.PC3
+
+    Plotter: HP Desginjet 4500'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-08 09:15:37'
+  body: 'You should be able to get this via the PlotConfig''s Comment property. The
+    device would need to be loaded first, from what I can tell, but then the PlotConfigManager
+    should provide access via the CurrentConfig.
+
+
+    Good luck,
+
+
+    Kean'
+- author: Jordan
+  email: Jordan.Marrazzo@maunsell.com
+  ip: 203.202.92.35
+  url: ''
+  date: '2008-07-09 03:31:26'
+  body: 'Thanks Kean,
+
+
+    Unfortunately if the device is not avaliable it takes quite a few seconds to load
+    the info.
+
+
+    AutoCAD’s page setup manager does not appear to have to load the device in order
+    to get the info.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-09 08:35:15'
+  body: 'I suspect AutoCAD just does it at a different time. I don''t know of a magic
+    way to get around this delay, I''m afraid.
+
+
+    Kean'
+- author: Felipe
+  email: felipe@vendramini.eng.br
+  ip: 189.120.68.120
+  url: http://www.moliveira.com.br
+  date: '2009-04-14 15:50:42'
+  body: 'Hi Kean,
+
+
+    Reactivating this topic.. Hope you read it, and maybe can help me.
+
+
+    I''m working on a App to plot in PLT, PDF or DWF. The choice is made by user selection
+    (Windows Form + Radio Button).
+
+
+    I''m having problem with the MediaName.
+
+    Although I''ve manually included the medias manually in the .PC3 file (for the
+    three devices), things still don''t work..
+
+    For PLT (using HP-750C), thats OK, but I had to use your piece of code to list
+    medianames, because the name I''ve created is not the same. I''ve created someting
+    like: A0, A1, A0L, etc... But in medianame listing it apears like: UserDefinedMetric
+    (900.00 x 2500.00MM), UserDefinedMetric (900.00 x 2000.00MM), etc...
+
+
+    For DWF, no matter the medianame, it gives me an "eInvalidInput", and breaks...
+
+
+    For PDF, although the custom sizes i''ve created, even in medianame listing, it
+    just don''t appear...
+
+
+    If I set the BACKGROUNDPLOT=0, it doesn''t plot... If set to 2, then it takes
+    long, but generates the files...
+
+
+    Hope you can help me...
+
+
+    Thank you very much!
+
+
+    Felipe,
+
+    SP-Brazil'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-04-14 17:37:44'
+  body: 'Hi Felipe,
+
+
+    The kind of troubleshooting you need is beyond what I can provide, I''m afraid.
+    The ADN team will be able to help, if you''re a member, otherwise I suggest trying
+    the the discussion groups.
+
+
+    Regards,
+
+
+    Kean'
+- author: Felipe
+  email: felipe@vendramini.eng.br
+  ip: 189.120.68.120
+  url: http://www.moliveira.com.br
+  date: '2009-04-15 02:28:44'
+  body: 'Thanks Kean,
+
+
+    An workaround that I choose using is plotting via `doc.SendStringToExecute(command
+    "._plot" "Y" ... ... )`
+
+
+    The only issue I''ve found was that both PDF and DWF are "auto-plot-to-file",
+    but not the PLT via HP750C.pc3. So I''ve set a global variable "bool autoplottofile",
+    so that depending of the device i''m using, the command will have an "parameter"
+    diference.
+
+
+    But no problems with delay, medianames, etc..
+
+
+    Hope this helps..
+
+
+    Thanks!'
+- author: Chris
+  email: ckratz@diversifiedwoodcrafts.com
+  ip: 207.230.208.250
+  url: ''
+  date: '2010-08-12 16:33:06'
+  body: 'Kean,
+
+    Is there a way to tell if the device the user picks requires you to print to file?
+    The pe.BeginDocument function throws an exception if you choose a file device
+    like a PDF, and you don''t give it a filename. I could catch the error at that
+    point and prompt for a file name from the user, but I was hoping there was a way
+    to tell before that point.'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-08-12 20:50:00'
+  body: 'Chris,
+
+
+    Please submit your question to <a href="http://adn.autodesk.com">the ADN team</a>,
+    if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Algoedt
+  email: Filip.Algoedt@yucom.be
+  ip: 84.199.17.2
+  url: ''
+  date: '2010-08-22 22:39:15'
+  body: 'Kean,
+
+    I''ve tried to add some code for adding a new custom paper size with no succes.
+    Is this really so dificult to do this ?'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-08-23 08:41:54'
+  body: 'Algoedt,
+
+
+    I haven''t tried this myself, and it''s unfortunately beyond the scope of this
+    particular post (as you''re aware).
+
+
+    I suggest posting your question to <a href="http://adn.autodesk.com">the ADN team</a>,
+    if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Gianpeter
+  email: gianpaolo.marin@arcoda.it
+  ip: 217.57.60.137
+  url: ''
+  date: '2010-10-18 17:43:10'
+  body: I have the same Algoedt's problem. I would like to create a custom paper size
+    befoure printing. I try to wite to the Adn team but unfortunately no answer yet.
+    Does anyone have any news about it? Or same ideas?
+- author: qu
+  email: matlab@163.com
+  ip: 119.133.245.2
+  url: ''
+  date: '2011-08-24 05:11:48'
+  body: I need this one too,how to add a new custom paper size and set the printing
+    margin?
+- author: Hassan
+  email: hassanhafeez33@gmail.com
+  ip: 117.102.33.170
+  url: ''
+  date: '2011-12-28 08:13:45'
+  body: "Hi kean, \n\nFirstly, thanks for your help and sharing your insight into\
+    \ this.\nnow to my question, would you happen to know why the media list does\
+    \ not display custom paper names that are present inside a printer's setting?\
+    \ \nThe media list contains for example:\n11 User122\n12 User121\n13 User120\n\
+    14 User119\n15 User82\n16 User70\n\nhowever, these are all paper names that are\
+    \ being renamed. Other default paper sizes are named just fine.\n Any suggestion\
+    \ would be immensely welcomed :)"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2012-01-03 09:58:49'
+  body: 'Hi Hassan,
+
+
+    Sorry - I don''t know why this is the case. I suggest posting your question via
+    ADN or the AutoCAD .NET Discussion Group.
+
+
+    Regards,
+
+
+    Kean'
+- author: Andre
+  email: an130890@sibmail.com
+  ip: 109.227.229.241
+  url: ''
+  date: '2012-08-30 19:51:02'
+  body: Kean, please tell how set orientation of layout to plot.
+- author: Kean Walmsley
+  email: ''
+  ip: 95.172.88.8
+  url: http://profile.typepad.com/kean
+  date: '2012-09-04 10:12:26'
+  body: 'Andre,
+
+
+    It''s been a while (wow, 5 years!) since I looked at this post, but off the top
+    of my head I would say that decision is based on the media chosen (look at options
+    17 and 18 for the two orientations for A4, for instance).
+
+
+    If that''s not what you''re looking for, please post your question via ADN or
+    the AutoCAD .NET Discussion Group.
+
+
+    Regards,
+
+
+    Kean'
+- author: Gdiael
+  email: ''
+  ip: 187.61.160.207
+  url: http://profile.typepad.com/gdiael
+  date: '2014-02-06 19:30:21'
+  body: 'Hello Kean, I now is a very old post.
+
+    If you can not help me, I will use the discussion group, but when a choose a real
+    plotting device it only creats the file, this sample just work for plotting to
+    files?'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.25
+  url: http://profile.typepad.com/kean
+  date: '2014-02-06 19:38:42'
+  body: 'Hello Gdiael,
+
+
+    As it stands, yes, but there''s a flag in BeginDocument() that specifies whether
+    it should be to a file or not (at least that''s the comment in the code).
+
+
+    Regards,
+
+
+    Kean'
+- author: Gdiael
+  email: ''
+  ip: 187.61.160.207
+  url: http://profile.typepad.com/gdiael
+  date: '2014-02-06 22:18:44'
+  body: 'Thank you very much, you save me one more time!
+
+    -----'

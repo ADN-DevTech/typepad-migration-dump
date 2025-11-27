@@ -1,0 +1,492 @@
+comments:
+- author: 'Ron Hanson '
+  email: cadprogrammer@comcast.net
+  ip: 75.72.4.161
+  url: ''
+  date: '2008-11-19 16:38:19'
+  body: 'Hi Kean,
+
+
+    For this posting, would you be willing to post the entire solution? I am having
+    difficulties understanding the various source files that are involved and how
+    everything ties together.
+
+
+    Ron'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 211.155.168.154
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-19 16:40:33'
+  body: 'Hi Ron,
+
+
+    Certainly - the link is in the post, but <a href="http://through-the-interface.typepad.com/through_the_interface/files/OptionsDlg.zip">here
+    it is again</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: namin
+  email: namin@mit.edu
+  ip: 18.56.0.50
+  url: ''
+  date: '2008-11-19 20:56:14'
+  body: 'Hi Kean,
+
+
+    I was wondering about testing of AutoCAD plug-ins in general. How do you write
+    unit tests if you depend on the AutoCAD API which doesn''t run independently of
+    AutoCAD? In general, what''s your recommended strategy for testing a plug-in?
+
+
+    Thanks.'
+- author: Filipe Scur
+  email: filipe.scur@gmail.com
+  ip: 189.74.208.96
+  url: ''
+  date: '2008-11-19 22:23:09'
+  body: "Hi Kean,\n\nI've just started Autocad automation with C# and I've got a question.\
+    \ Is there a way to get the max X, minX, max Y and min Y values of all entities\
+    \ within a drawing? \n\nImagine I have a drawing with some entities like arcs,\
+    \ lines or even polylines. I'd like to know what are those values so I could draw\
+    \ a rectangle to fit all entities within it. Did you get it? \n\nTks"
+- author: Kerry Brown
+  email: Kerry.Brown@wdtengineering.com.au
+  ip: 165.228.201.43
+  url: ''
+  date: '2008-11-20 00:53:36'
+  body: 'Kean,
+
+    Thanks for keeping up the interesting posts.
+
+    Regards
+
+    kwb'
+- author: Nada Amin
+  email: namin@mit.edu
+  ip: 18.251.3.76
+  url: http://namin.net
+  date: '2008-11-20 03:50:02'
+  body: '@Tks,
+
+
+    You can use the property GeometricExtents of an entity. If you have a list of
+    entities, you can easily loop through them to figure out the bounding box. <a
+    href="http://www.google.com/codesearch?hl=en&q=BoundingBox+package:http://micado\.googlecode\.com+show:ToZvp5nqHZg:wmrnzwHJqi4:ToZvp5nqHZg&sa=N&cd=2&ct=rc&cs_p=http://micado.googlecode.com/svn/trunk&cs_f=BioStreamFS/chip.fs#l49">Here
+    is an example in F#</a>.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.58.159
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-21 09:57:33'
+  body: 'Hi Nada,
+
+
+    Thanks for responding to Filipe''s question.
+
+
+    We (meaning Autodesk) use various methods to test our software, but for unit testing
+    we have a large set of scripts that exercise the various APIs. These have to run
+    within AutoCAD, of course.
+
+
+    Having some kind of test suite for your own internal methods would seem a logical
+    way to approach this, from my perspective.
+
+
+    I''d be interested to hear how others approach this.
+
+
+    Kean'
+- author: Filipe
+  email: filipe.scur@gmail.com
+  ip: 200.203.13.6
+  url: ''
+  date: '2008-11-21 12:27:37'
+  body: 'Thanks a lot guys! And Kean, you''re doing such a great job over here.
+
+    Thanks again.'
+- author: eddie
+  email: eddie@ekmuk.net
+  ip: 79.64.93.89
+  url: ''
+  date: '2008-11-22 12:51:56'
+  body: "Hi, when are providing an article on status bar i.e trayitem on pene custom\
+    \ icons. I haveen trying the following code without sucess. The icon gets loaded\
+    \ but disappears after working with cad eg aftaer minimizing the drawing.\n\n\
+    attached code..\nImports Autodesk.AutoCAD.ApplicationServices\nImports Autodesk.AutoCAD.Runtime\n\
+    Public Class Class1\n    Implements Autodesk.AutoCAD.Runtime.IExtensionApplication\n\
+    \    Overridable Sub Initialize() Implements Autodesk.AutoCAD.Runtime.IExtensionApplication.Initialize\
+    \   \n        AddTrayItems()\n    End Sub\n\n    Function GetEmbeddedIcon(ByVal\
+    \ strName As String) As Drawing.Icon\n        Return New Drawing.Icon(System.Reflection.Assembly.GetExecutingAssembly.GetManifestResourceStream(strName))\n\
+    \    End Function\n\n    Sub AddTrayItems()\n        Try\n            Dim doc\
+    \ As Document = Application.DocumentManager.MdiActiveDocument\n            Dim\
+    \ ti As New TrayItem()\n            ti.ToolTipText = \"MyCadAddon Info\"\n   \
+    \         ti.Icon = GetEmbeddedIcon(\"MyCadAddon.blue.ico\")\n            Application.StatusBar.TrayItems.Add(ti)\n\
+    \            Dim bw As New TrayItemBubbleWindow()\n            bw.Title = \"MyCadAddon\
+    \ Application:\"\n            'bw.HyperText = \"\"\n            ' bw.HyperLink\
+    \ = \"\"\n            bw.Text = \"This application has been loaded sucessfully\"\
+    \n            bw.IconType = IconType.Information\n            ti.ShowBubbleWindow(bw)\n\
+    \        Catch\n\n        End Try\n\n    End Sub\n\n   \n    Overridable Sub Terminate()\
+    \ Implements Autodesk.AutoCAD.Runtime.IExtensionApplication.Terminate\n      \
+    \  \n    End Sub\n\nEnd Class"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.58.159
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-24 07:49:43'
+  body: 'Sorry - I don''t have time to look into this. Perhaps someone on the <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">AutoCAD
+    .NET Discussion  Group</a> can help (or <a href="http://adn.autodesk.com">the
+    ADN team</a>, if you''re a member).
+
+
+    It looks as though you adapted the technique from <a href="http://through-the-interface.typepad.com/through_the_interface/2008/04/different-ways.html">this
+    previous post</a>. I assume you''re not also implementing the Closed event handler,
+    which removes the icon in that example?
+
+
+    Kean'
+- author: Bert
+  email: bert.vanpeteghem@dolmen.be
+  ip: 194.78.30.195
+  url: ''
+  date: '2008-12-24 10:12:07'
+  body: 'About the unit testing:
+
+
+    A tool exists, Gallio that (among many other features) runs MbUnit tests in the
+    AutoCAD context.
+
+    I have not yet had the time to look into it, but it seems interesting. The documentation
+    on AutoCAD integration is scarce though, so trying it out is the only way to go
+    right now.
+
+
+    Another option, from my point of view, ''Contracting'' all your functionality.
+    This means writing interfaces for the self-written functionality, and mocking
+    it in the unit tests.
+
+
+    This way you don''t need to use the acad dll''s, but it does create a LOT of overhead
+    for your code. It means proxying all acad-functionality you need, again in your
+    own code.
+
+
+    If anyone has any other options (or links), please share...'
+- author: Xander
+  email: xander@cadcoder.com
+  ip: 60.240.85.43
+  url: ''
+  date: '2009-07-29 11:21:03'
+  body: "Kean,\n\nFirstly, thank-you for continuing an excellent resource that is\
+    \ this blog.  \n\nI do have a question on this particular post.  Within AutoCAD\
+    \ 2010, when loading this particular module the custom options tab can be seen.\
+    \  However, if you close then re-open the AutoCAD options the custom tab is no\
+    \ long accessible.  \n\nWas there something that changed in the AutoCAD API which\
+    \ alters this?\n\nRegards,\nXander"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-07-29 11:29:00'
+  body: 'Xander,
+
+
+    My pleasure! :-)
+
+
+    As long as your application is loaded and adds its tab, the options dialog should
+    contain it. I assume your app has been loaded and is initialized in the new session?
+
+
+    Regards,
+
+
+    Kean'
+- author: Xander
+  email: xander@cadcoder.com
+  ip: 118.208.59.51
+  url: ''
+  date: '2009-07-30 10:06:52'
+  body: "Kean,\n\nThe app has indeed been loaded and initialized. If I navigate my\
+    \ way to the options after loading I see my tab.  Upon closing the options dialog,\
+    \ and re-opening my custom Tab vanishes/unloads, yet the app is still loaded.\
+    \  It is confusing to say the least.  \n\nI have tested this with your code (as\
+    \ is from the link) and the same thing happens. \n\nCould the implementation of\
+    \ these functions in the AutoCAD API changed to cause this?\n\nRegards,\nXander"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-07-30 13:36:13'
+  body: 'Xander,
+
+
+    It works fine for me on AutoCAD 2010 (at least the implementation I have in a
+    separate project works fine, and it uses exactly the same technique as this post).
+
+
+    Perhaps you can post exact steps to reproduce?
+
+
+    Kean'
+- author: Xander
+  email: xander@cadcoder.com
+  ip: 60.240.85.43
+  url: ''
+  date: '2009-07-31 01:25:03'
+  body: 'Kean,
+
+
+    The procedure I use:
+
+    1. ''NetLoad'' OptionsDLG (the sample provided here as is).
+
+    2. Open the AutoCAD Options Dialog. The new tab is present and working.
+
+    3. Close the Options Dialog by clicking Apply, OK.
+
+    4. Re-Open the options dialog to find the tab missing.
+
+
+    Just having a look, the only difference I can think of is the .NET version.  I
+    have currently adopted .NET 3.0 instead of 2.0.
+
+
+    Regards,
+
+    Xander'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-07-31 09:26:54'
+  body: "Xander,\n\nOK, I see it now. It works if I adjust the implementation of Application_DisplayingOptio\
+    \ nsDialog() slightly to still create the TabbedDialogExtension and add it even\
+    \ when _uc is not null:\n\n    private static void Application_DisplayingOptionDialog(\n\
+    \      object sender,\n      TabbedDialogEventArgs e\n    )\n    {\n      if (_uc\
+    \ == null)\n        _uc = new OptionsDlg.UserControl1();\n\n      TabbedDialogExtension\
+    \ tde =\n        new TabbedDialogExtension(\n          _uc,\n          new TabbedDialogAction(OnOK),\n\
+    \          new TabbedDialogAction(OnCancel),\n          new TabbedDialogAction(OnHelp),\n\
+    \          new TabbedDialogAction(OnApply)\n         );\n      e.AddTab(\"My Custom\
+    \ Settings\", tde);\n    }\n\nI've updated the code in the post and in the sample\
+    \ project.\n\nPlease let me know if the changed code works for you,\n\nKean"
+- author: Xander
+  email: xander@cadcoder.com
+  ip: 118.208.23.186
+  url: ''
+  date: '2009-08-01 17:43:47'
+  body: 'Kean,
+
+
+    YOU ARE A LEGEND!
+
+    Not to over state it but why couldn''t I figure that out!
+
+
+    Regards,
+
+    Xander'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-08-02 10:54:55'
+  body: 'Xander,
+
+
+    Glad to be of help... just sorry I didn''t spot it sooner. :-S
+
+
+    Cheers,
+
+
+    Kean'
+- author: Scott
+  email: scott@midtexmapping.com
+  ip: 70.250.239.248
+  url: http://www.midtexmapping.com
+  date: '2010-03-23 21:17:59'
+  body: 'Kean,
+
+
+    Thank you for this post - very clear and easy to follow.
+
+
+    I do have a question: So far my experience with adding options tabs via the .NET
+    interfaces results in the application''s tab being displayed to the user each
+    time the OPTIONS command is invoked. Is there a way to keep the last viewed tab
+    presented to the user each time the OPTIONS command is issued?
+
+
+    Scott'
+- author: Kean Walmsley
+  email: ''
+  ip: 58.32.239.82
+  url: http://profile.typepad.com/kean
+  date: '2010-03-25 10:08:25'
+  body: 'Scott,
+
+
+    I just tried the code in <a href="http://through-the-interface.typepad.com/through_the_interface/files/OptionsDlg2.zip">this
+    project</a> inside AutoCAD 2010, and found that the displayed tab when launching
+    OPTIONS is the last accessed tab (not even the one that has just been added by
+    the application).
+
+
+    Could you give it a try and let me know whether you see the same thing?
+
+
+    Regards,
+
+
+    Kean'
+- author: Irvin
+  email: iberkel@kraan.com
+  ip: 83.167.194.54
+  url: ''
+  date: '2010-07-23 11:40:25'
+  body: 'Great post,
+
+
+    Only got one more question. How can 1 enable the apply button when something on
+    my optionsdialog changes?
+
+
+    I want to keep my app working as autocad does.
+
+
+    Kind regards,
+
+
+    Irvin
+
+    From tje Netherlands'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-07-27 21:29:25'
+  body: 'Hi Irvin,
+
+
+    As explained in the post, calling SetDirty() should cause the Apply button to
+    be enabled. Is there something more you need?
+
+
+    Regards,
+
+
+    Kean'
+- author: Richard
+  email: Richard.Cockburn@e-pc.co.za
+  ip: 196.35.158.184
+  url: ''
+  date: '2010-10-26 11:14:54'
+  body: "Hi Kean\n\nHow does one edit \nthe standard AutoCAD options\n in VB.NET -\
+    \ want to use a preset configuration as the users\n keep on changing them"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2010-10-26 11:44:40'
+  body: 'Hi Richard,
+
+
+    You can get the Preferences property from the Application object, which actually
+    returns a COM object (so you need to include the appropriate Type Library in your
+    project to access it).
+
+
+    If you need more detail, please post your question to <a href="http://adn.autodesk.com">the
+    ADN team</a>, if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean'
+- author: Joseba
+  email: ''
+  ip: 92.58.110.74
+  url: http://profile.typepad.com/joseba1
+  date: '2013-08-20 13:28:12'
+  body: 'Hi Kean,
+
+
+    After including my own tab on Options dialog, I would like to know whether it
+    is possible to open the Options dialog directly on my tab (so as to include a
+    Settings button in the ribbon bar)'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-08-20 15:35:10'
+  body: 'Hi Joseba,
+
+
+    Off the top of my head I don''t know of a supported API for this (I''d suggest
+    checking the Preferences object in the COM API - perhaps there''s something there).
+    You might try posting to the ADN team or the AutoCAD .NET Discussion Group, to
+    see if someone knows.
+
+
+    In terms of unsupported ways to do this, the OPTIONS command does read this Registry
+    entry on every execution:
+
+
+    HKEY_CURRENT_USER\Software\Autodesk\AutoCAD\R19.1\ACAD-D001:409\Profiles\<<Unnamed
+    Profile>>\Dialogs\OptionsDialog\ActiveTab
+
+
+    This is a zero-based index into the set of tabs.
+
+
+    Regards,
+
+
+    Kean'
+- author: Craig
+  email: cnicholas@Stanburys.com
+  ip: 217.36.60.45
+  url: ''
+  date: '2013-10-10 16:26:32'
+  body: 'Hello,
+
+    I''ve been trying to find out if I can prevent the user pressing OK or Apply if
+    there are ''validation errors'' in my options tab.
+
+    Can you recommend an approach to enable the dialog to remain open until I can
+    accept the input? Ideally I''d like to disable OK and Apply.
+
+    Thanks
+
+    Craig'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-10-10 16:58:44'
+  body: 'Hi Craig,
+
+
+    The standard AutoCAD tabs tend to use controls that validate input (and then show
+    a local bubble notification when users attempt to enter non-numeric data into
+    a numeric textbox, for instance) or otherwise attempt to validate the data and
+    present a messagebox, if not (such as entering an invalid path in one of the search
+    paths).
+
+
+    That''s probably the better way to go: to validate on input (or loss of focus
+    of a control) and then display an appropriate warning there and then, rather than
+    waiting for OK or Apply to be pressed. I don''t know whether that''s feasible
+    for your particular scenario, though.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

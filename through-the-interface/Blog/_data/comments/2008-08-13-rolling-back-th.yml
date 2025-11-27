@@ -1,0 +1,162 @@
+comments:
+- author: Nick Schuckert
+  email: NickSchuckert@Comcast.net
+  ip: 75.72.4.161
+  url: ''
+  date: '2008-08-14 02:31:14'
+  body: "Hi Kean,\n\nAnother excellent example! Between this example and http://through-the-interface.typepad.com/through_the_interface/2006/10/index.html\
+    \ \n(Blocking AutoCAD commands from .NET) really got me thinking.\n\nBy any chance\
+    \ would it be possible to provide an example to prevent a user from using the\
+    \ EXPLODE command for a given block name?\n\nThanks,\n\nNick"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.19.155
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-15 11:37:36'
+  body: 'Hi Nick,
+
+
+    Hmm - an interesting question.
+
+
+    There''s a <a href="http://adn.autodesk.com/adn/servlet/devnote?siteID=4814862&id=5411957&linkID=4900509">DevNote
+    on the ADN site</a> that should help, and I''ll see if I can turn it into a post
+    for you (adding some logic to check for a specific block name).
+
+
+    Here''s an excerpt from this document:
+
+
+    "The EXPLODE command works on a Block reference by deepcloning the contents of
+    the referenced block in kDcExplode context, and finally erasing the block reference
+    itself. So, one solution to prevent explode is to exclude the block''s contents
+    from deepClone operation and un-erase the block reference after the explode command
+    ends."
+
+
+    Regards,
+
+
+    Kean'
+- author: Travor
+  email: phg@cn-eur.com
+  ip: 66.230.230.230
+  url: ''
+  date: '2008-08-15 12:13:44'
+  body: 'Hi Kean,
+
+    Very cool picture!
+
+    When I open your blog today,I am very surprise to find that you have changed both
+    the blog style and your picture,the new blog style is very nice.
+
+    But I have question.Is the picture yourself?I fell it''s very different to the
+    previous one.:-)'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.19.155
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-15 12:32:41'
+  body: 'Hi Travor,
+
+
+    Yes, it''s me. Just two different views of the same person. :-)
+
+
+    I''ll post something about the blog''s updated look later today.
+
+
+    Thanks for the feedback,
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2008-08-16 07:17:55'
+  body: "Hi Kean. \n\nThanks for the great examples.\n\nAn issue I've come across\
+    \ myself that led me away from this approach, is that modifying objects from the\
+    \ 'commandEnded' reactor notification has been known to corrupt undo/redo and\
+    \ can effectively disable redo."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.19.155
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-16 14:39:20'
+  body: 'Thanks, Tony - that''s interesting. If possible I''d like to get hold of
+    a reproducible case that we can look into further.
+
+
+    Regards,
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2008-08-18 09:03:29'
+  body: "Hi Kean - In AutoCAD 2009, it seems the problem was addressed, because I\
+    \ can no longer repro it, but can on earlier releases. In fact, your code as-is\
+    \ should be all that's needed running on an earlier release.\n\nAs an aside, while\
+    \ the code is useful as an example of reversing changes to objects for specific\
+    \ commands, it would not prevent all possible ways that certain objects can be\
+    \ modified (or in this case, moved). So for example, a LISP or VBA macro that\
+    \ uses the ActiveX API to move objects will bypass a command reactor-based approach.\n\
+    \nIn any case, another way to arrive at the same functionality is by using a selection\
+    \ filter (the Editor.SelectionAdded event).\n\nIn the handler of that event, we\
+    \ can remove whatever objects we want from the selection based on what command(s)\
+    \ are running or various other criteria. \n\nI think I'd prefer that approach\
+    \ for this specific example and ones like it, if for no other reason, it doesn't\
+    \ confuse the user by allowing the objects be selected and dragged, and they will\
+    \ instead behave as if they were on a locked layer."
+- author: J. Daniel Smith
+  email: typepad.com@jdanielsmith.org
+  ip: 198.102.112.18
+  url: http://jdanielsmith.spaces.live.com
+  date: '2008-08-20 15:52:03'
+  body: 'Tony: I thought of the same thing.  Such code is useful and interesting,
+    but it is not completely robust.  That may be fine for some "in house, end user"
+    type of utility; but other situations may require more than just looking for a
+    specific AutoCAD command.'
+- author: Velan
+  email: senthilvelanj@yahoo.com
+  ip: 220.225.213.130
+  url: ''
+  date: '2008-10-10 12:05:44'
+  body: "Hi Kean,\n          Thanks for the very useful example.\n\nI got an issue\
+    \ on clearing the reactors. The 'ObjectOpenedForModify' delegate is not cleared\
+    \ in CommandEnded. It is active for the complete session and being called by other\
+    \ object modify commands. \n\n Could u help me on this issue?"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-10-10 13:49:29'
+  body: 'Hi Velan,
+
+
+    I don''t see this: the reactor is added at the beginning of each command, and
+    only really does something when MOVE is used.
+
+
+    There is no command that completely removes the top-level reactor, but that would
+    be very easy to add.
+
+
+    If you have modified the code and it doesn''t work for you, please submit it via
+    the ADN site or post it to the AutoCAD .NET Discussion Group. Someone there will
+    be able to help you, I''m sure.
+
+
+    Kean'
+- author: Velan
+  email: senthilvelanj@yahoo.com
+  ip: 220.225.213.130
+  url: ''
+  date: '2008-10-10 15:21:38'
+  body: "Hi Kean,\n        Thanks for the quick reply.\nI didn't change anything on\
+    \ the example code. \nBut the reactor is not removed after the completion of MOVE\
+    \ command.\n\nRight now, I am working on it and I will post it to AutoCAD .Net\
+    \ discussion group as you suggested.   \n\nVelan.\n\n-----"

@@ -1,0 +1,274 @@
+comments:
+- author: Babak
+  email: babakarj@gmail.com
+  ip: 82.99.211.57
+  url: ''
+  date: '2006-11-11 11:10:32'
+  body: 'I''m using AutoCAD 2006 but it doesn''t know these methods:
+
+    ed.DrawVector()
+
+    ed.Regen()
+
+
+    Are they for AutoCAD 2007?
+
+
+    Thank you'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-11-13 09:40:01'
+  body: 'Hi Babak,
+
+
+    Yes - once again I''ve been using AutoCAD 2007 and haven''t checked the code against
+    prior versions. If upgrading is not an option, you should be able to use P/Invoke
+    to call ads_regen() and acedGrDraw(). See this post for instructions on where
+    to start:
+
+
+    http://through-the-interface.typepad.com/through_the_interface/2006/07/calling_objecta.html
+
+
+    If someone manages to call these functions effectively from 2006, perhaps they
+    can post the function declarations changes as a comment...
+
+
+    Regards,
+
+
+    Kean'
+- author: weslleywang
+  email: weslleywang@yahoo.com
+  ip: 74.121.5.174
+  url: ''
+  date: '2006-11-14 04:13:27'
+  body: "I'm working on a Jig Polyline function. now I plan to add keyword (\"UNDO\"\
+    ) but I failed. could you have a sample code for it? \n\nThank you"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-11-21 14:17:25'
+  body: 'Hi Wesley,
+
+
+    Check out this post:
+
+
+    http://through-the-interface.typepad.com/through_the_interface/2006/11/advanced_jiggin.html
+
+
+    Regards,
+
+
+    Kean'
+- author: Flea
+  email: flea777@tiscali.it
+  ip: 87.3.63.25
+  url: ''
+  date: '2008-03-24 12:38:15'
+  body: 'Hi Kean,
+
+    really a great job!!
+
+
+    I''m a beginner in autocad developing and I need to create a commandmethod to
+    perform a rotation with an entity (a polyline-rectangle) in which the rotation
+    point is the centre of the rectangle... is it possible?
+
+
+    Thanx in advance...
+
+    Flea'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.19.34
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-03-24 18:33:26'
+  body: 'Hi Flea,
+
+
+    Yes, it''s quite possible... the tricky piece will be determining the "center"
+    of an arbitrary closed polyline. One "easy" way would be to generate a region
+    from the polyline and extrude it (probably by a very small, or zero amount, if
+    it lets you do that), and then get the mass properties to get the centroid. To
+    be sure you may want to project the point back on the polyline''s plane.
+
+
+    As you can probably tell, I''ve never tried this myself.
+
+
+    If you can assume the polyline is rectangular, then things are easier: you can
+    get the intersection of diagonal lines going between opposite corners. These lines
+    needn''t be added to a drawing.
+
+
+    Good luck!
+
+
+    Kean'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.19.34
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-03-24 18:35:06'
+  body: 'Oh, and then "all" you need to so is to create a jig to perform the rotation,
+    assuming you want visual feedback...
+
+
+    Kean'
+- author: Flea
+  email: flea777@tiscali.it
+  ip: 87.3.63.25
+  url: ''
+  date: '2008-03-25 16:25:55'
+  body: 'Hi Kean,
+
+
+    I found the center point getting the intersection of the diagonal lines and performed
+    the rotation statically for each of the four vertices in this way:
+
+
+    Point2d ptToRotate = pline.GetPoint2dAt(i);
+
+    pline.SetPointAt(i, ptToRotate.RotateBy(Convert.ToDouble((180 * angRes.Value)
+    / Math.PI), ptCenter));
+
+
+    Now my problem is that, after the first rotation, following rotations will rotate
+    the rectangle by a prompted angle without considering the actual angle of the
+    rectangle, but only relating to the center point. In practice, if I''ve already
+    rotated my rect by 180° and now select a 270° angle, I need that my rect rotate
+    only by 90° (the difference between angle selected and actual angle), and not
+    by 270° (like it actually do).
+
+
+    Thanks in advance for your kindness.
+
+
+    Flea'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-03-25 16:34:39'
+  body: 'That''s tricky: the rectangle doesn''t have any notion of a rotation angle
+    - it''s a polyline between points. So you need to either create a custom rectangle
+    object or attach the current rotation angle as XData and pick it up from there.
+
+
+    Kean'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-03-28 15:34:18'
+  body: 'Hi Flea,
+
+
+    Just to follow up - I posted something that may be of interest to you...
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2008/03/using-a-jig-to.html">Using
+    a jig to rotate an AutoCAD entity via .NET</a>
+
+
+    Regards,
+
+
+    Kean'
+- author: Greg Heeley
+  email: greg.h@cadpro.co.nz
+  ip: 203.97.71.38
+  url: http://www.cadpro.co.nz
+  date: '2008-08-05 01:08:53'
+  body: 'Hi Kean
+
+    Just looking around and this post was found on "mass properties". I am trying
+    to find how to get the mass properties for a region (specifically the centroid
+    and principal moments). It can possibly be done by manually running (send command)
+    the massprop command, writing the output to a text file, then pick up the text
+    file and stripping it down. Not too slick though. Is there any way in c# to get
+    the mass props directly??'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-05 08:52:51'
+  body: 'Hi Greg,
+
+
+    <a href="http://adn.autodesk.com/adn/servlet/devnote?siteID=4814862&id=5412644&linkID=4900509">This
+    DevNote</a> shows how to trap the output of the MASSPROPS command by temporarily
+    replacing the HostApplicationServices object with your own for the duration of
+    the command. It uses ObjectARX (C++) - I don''t know if this is possible from
+    C#... you can implement HostApplicationServices objects from C# for use with RealDWG,
+    so I''m hopeful it is.
+
+
+    I''ll think about turning this into a post - would be a useful one to show.
+
+
+    Kean'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-05 09:30:22'
+  body: 'It turns out HostApplicationServices doesn''t have the overrides you need
+    to do this from C#. So you''d need to use C++ (or stick to parsing the file) to
+    achieve this.
+
+
+    Kean'
+- author: Pradeep
+  email: ''
+  ip: 203.124.128.117
+  url: http://profile.typepad.com/6p0120a53642e1970c
+  date: '2009-08-10 15:15:06'
+  body: 'Hi,
+
+    Is it possible to convert coordinates from one coordinate system to another? ex.
+    GEOGCS to Utm
+
+
+    Pradeep'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-08-10 16:38:40'
+  body: 'Pradeep -
+
+
+    This sounds like functionality that is present in Map, but not base AutoCAD (at
+    least not that I''m aware of).
+
+
+    Kean'
+- author: shibu
+  email: shibrosh07@yahoo.co.in
+  ip: 108.6.190.82
+  url: ''
+  date: '2011-12-20 21:12:33'
+  body: "i like you posts.\nijust want to know how to draw a line with jig and ortho\
+    \ on. i tried it but the ortho is not working\n jigOpts.UserInputControls = (UserInputControls.GovernedByOrthoMode)\n\
+    please let me know"
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2011-12-21 10:32:47'
+  body: 'There should be a number of posts showing jigs with this setting (although
+    perhaps not specifically for lines).
+
+
+    Otherwise please post your request to the AutoCAD .NET Discussion Group.
+
+
+    Kean
+
+    -----'

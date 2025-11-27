@@ -1,0 +1,494 @@
+comments:
+- author: Limin
+  email: lhe@fmsystems.com
+  ip: 209.60.159.2
+  url: http://www.fmsystems.com
+  date: '2007-07-25 18:38:07'
+  body: 'Kean,
+
+
+    In VBA, autocad object document  has "name" and "path" property, but in Autocad.Net,
+    I only find "name" but not "path" for document,(Application.DocumentManager.MdiActiveDocument.Name)is
+    that true? I also searched autodesk forum, but did not find an anwser.
+
+
+    If that''s true, is there any other way to get the path of current activated drawing?
+
+
+    Thanks.'
+- author: HJohn
+  email: someone@someplace.com
+  ip: 216.123.181.194
+  url: ''
+  date: '2007-07-25 22:24:26'
+  body: "Kean,\n Your example was great, but was not what I was hoping for. I need\
+    \ to be able to display a userform and be able to select a group of drawing files,\
+    \ perhaps from different locations and execute different routines in each one\
+    \ of them.  What has me stuck is the \"Execution Context\". I know this is not\
+    \ a personal answering service, but if you ever write something that will show\
+    \ how to do this, I will very thankful."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-26 09:56:25'
+  body: 'Yes - this is not a complete solution for someone wanting to run an arbitrary
+    command against a list of files/folders. This isn''t necessarily hard to build,
+    but in any case there are out-of-the-box solutions you can use for just this -
+    take a look at <a href="http://usa.autodesk.com/adsk/servlet/item?siteID=123112&id=4091678">ScriptPro</a>,
+    for instance.
+
+
+    My posts are more about helping people develop code to solve their own specific
+    development issues, not providing a generic tool to solve them all myself.
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-26 10:52:52'
+  body: 'Limin,
+
+
+    The Name property on the Document object exposes AcApDocument::fileName(), which
+    contains both the filename and the path:
+
+
+    "Returns the full path and file name of the database being used by this AcApDocument."
+
+
+    Kean'
+- author: M Schumacher
+  email: m@s.com
+  ip: 12.205.133.192
+  url: ''
+  date: '2007-07-26 14:59:53'
+  body: "Kean,\n  funny enough, I did something nearly identical to this not more\
+    \ than about a couple weeks ago.  I tried to incorporate the progress meter as\
+    \ you illustrated a while ago, and found that the (if I recall correctly) db.SaveAs()\
+    \ method seems to put its progress on the progress meter, and when the save is\
+    \ complete, my progress meter does not return.  So, i get a meter in place for\
+    \ the first drawing processed, and then it just reverts to the default.  Any insight\
+    \ on a way to maintain the progress meter through the entire process?"
+- author: Limin
+  email: lhe@fmsystems.com
+  ip: 209.60.159.2
+  url: http://www.fmsystems.com
+  date: '2007-07-26 15:32:40'
+  body: "Thanks. Kean. \n\nAnd I found for a drawing not saved yet, it only returns\
+    \ drawing name not path name, (even at that time it has a temparary file path).\
+    \ but for drawing that is saved, it returns both file name and path."
+- author: HJohn
+  email: someone@someplace.com
+  ip: 216.123.181.194
+  url: ''
+  date: '2007-07-26 16:16:52'
+  body: 'Kean,
+
+    I appreciate your response, but what I was look for is for something that AutoCAD
+    users have been able to do since ever and it is being able to customized the application
+    to suit our requirements.  I have been able to create customizations that make
+    our daily work much efficient.  With the new .NET managed classes, the potential
+    to create more sophisticated solutions has greatly expanded.  Right now all our
+    customizations (none of them commercially available) have been developed in LISP
+    and VBA, both of which have been great in their times, excellent resources.  I
+    work for the precast industry and most of our jobs generate lots of drawings,
+    hence the need to process batch of drawings.  If I am not able to find a way of
+    opening a list of drawings from a user form and solve the “Execution Context”
+    problem, my future in .NET managed classes is dead.  There is no information on
+    the topic or I have been not able to find it.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-26 16:43:29'
+  body: 'HJohn,
+
+
+    I''d suggest submitting your question - with sample code to reproduce - via the
+    <a href="http://adn.autodesk.com">ADN website</a>, if you''re a member, or otherwise
+    posting it to the <a href="http://discussion.autodesk.com/forum.jspa?forumID=152">.NET
+    Customization Discussion Group</a>.
+
+
+    Assuming you''re talking about processing a number of open documents - which this
+    post does not - then you will need to be careful. ObjectARX and .NET are inherently
+    document-centric, unless you work to make sure they are working in the session/application
+    context. There are various places you could be falling over - I now see you''ve
+    posted to the discussion group, but haven''t provided code. Unless you provide
+    a minimal sample showing the problem you''re having, it''s hard for people to
+    determine exactly where your problem is occurring.
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-26 16:53:08'
+  body: 'M Schumacher,
+
+
+    Yes - I see the problem. It also occurs if your drawing requires Autodesk Shape
+    Manager to be loaded (the message "Loading Modeler DLLs" clears the progress meter
+    in this case).
+
+
+    The only way I can see around it would be to display your own dialog - it could
+    be located wherever you like - with a progress meter to demonstrate overall progress
+    through the operation.
+
+
+    It would clearly have been nice to have used AutoCAD''s, but this isn''t really
+    an option in this case, it seems.
+
+
+    Regards,
+
+
+    Kean'
+- author: Nikolay Poleshchuk
+  email: poleshchuk@peterlink.ru
+  ip: 91.122.53.11
+  url: http://poleshchuk.spb.ru/cad/eng.html
+  date: '2007-07-27 18:03:21'
+  body: 'Kean, thank you for your example. It demonstrates the idea very well.
+
+    For the future:
+
+    You mentioned "context" many times, will you give a review of them, their limitations,
+    peculiarities, obligatory switching between them etc.? Now I know 3 contexts:
+    application, document and (new) object.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-07-30 10:52:01'
+  body: 'Hi Nikolay,
+
+
+    Only two of these "contexts" are related: document and session/application. <a
+    href="http://through-the-interface.typepad.com/through_the_interface/2006/10/some_background.html">This
+    previous post</a> covers these fairly well (I hope).
+
+
+    Object contexts are a separate concept and are currently only used for the <a
+    href="http://through-the-interface.typepad.com/through_the_interface/2007/04/making_autocad_.html">annotation
+    scaling</a> feature. They''re unrelated to the application execution contexts
+    mentioned above.
+
+
+    Then, of course, there are <a href="http://through-the-interface.typepad.com/through_the_interface/2007/05/adding_a_contex.html">context
+    menus</a>, which are unrelated to both these areas. :-)
+
+
+    Regards,
+
+
+    Kean'
+- author: John
+  email: john.laponsie@betaengineering.com
+  ip: 208.180.203.39
+  url: ''
+  date: '2007-08-17 15:51:04'
+  body: 'Kean,
+
+    Thanks for pointing me to this great article!  It really gave me what I needed.  Is
+    there any docmentation on the the BlockTable properties that are being exposed?  I
+    want to iterate thru more than 1 BlockTableRecord.PaperSpace object in each drawing
+    file that I open and read.  Is it possible to do that?
+
+    Thanks again,
+
+    John'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-08-17 16:37:07'
+  body: 'John,
+
+
+    The documentation (such that it is) is currently included in the ObjectARX SDK
+    (which you can download from <a href="http://www.autodesk.com/objectarx">http://www.autodesk.com/objectarx</a>).
+
+
+    You can certainly iterate through multiple layouts. Instead of just getting psId,
+    you should be able to use foreach() on the BlockTable, taking each ObjectId and
+    passing it to the UpdateAttributesInBlock() function. If you want to be slightly
+    more efficient, you might want to open the block table record and check its IsLayout
+    property, to skip the block definitions that are not layouts (this property is
+    also true for the modelspace layout).
+
+
+    Or you could just run the command on every block in the block table, and remove
+    the recursion - that should also work.
+
+
+    Cheers.
+
+
+    Kean'
+- author: John
+  email: john.laponsie@betaengineering.com
+  ip: 208.180.203.39
+  url: ''
+  date: '2007-08-17 17:03:04'
+  body: 'Kean,
+
+    I appreciate your quick response and all these articles.  They''ve been more informative
+    and helpful than any "documentation" I''ve found so far (including the documentation
+    downloaded with ObjectARX SDK).  I''m assuming you''re talking about in the UpdateAttributesInDatabase
+    function.  How do you type the foreach to iterate thru all ids in the blocktable
+    and pass them into the UpdateAttributesInBlock function?  That''s giving me the
+    most fits.  It seems no matter how I type the variable for the foreach, it gives
+    one error or another in the build.
+
+    Thanks,
+
+    John'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-08-17 17:13:33'
+  body: "John,\n\nTry this (it compiles, but I haven't tested it, yet):\n\n<pre>\n\
+    private int UpdateAttributesInDatabase(\n  Database db,\n  string blockName,\n\
+    \  string attbName,\n  string attbValue\n)\n{\n  // Get the IDs of the spaces\
+    \ we want to process\n  // and simply call a function to process each\n\n  ObjectIdCollection\
+    \ layoutIds =\n    new ObjectIdCollection();\n\n  Transaction tr =\n    db.TransactionManager.StartTransaction();\n\
+    \  using (tr)\n  {\n    BlockTable bt =\n      (BlockTable)tr.GetObject(\n   \
+    \     db.BlockTableId,\n        OpenMode.ForRead\n      );\n    foreach (ObjectId\
+    \ id in bt)\n    {\n      BlockTableRecord btr =\n        (BlockTableRecord)tr.GetObject(\n\
+    \          id,\n          OpenMode.ForRead\n        );\n      if (btr.IsLayout)\n\
+    \        layoutIds.Add(id);\n    }\n\n    // Not needed, but quicker than aborting\n\
+    \    tr.Commit();\n  }\n  int updateCount = 0;\n  foreach (ObjectId id in layoutIds)\n\
+    \  {\n    updateCount +=\n      UpdateAttributesInBlock(\n        db,\n      \
+    \  id,\n        blockName,\n        attbName,\n        attbValue\n      );\n \
+    \ }\n  return updateCount;\n}\n</pre>\n\nCheers,\n\nKean"
+- author: John
+  email: john.laponsie@betaengineering.com
+  ip: 208.180.203.39
+  url: ''
+  date: '2007-08-17 20:58:49'
+  body: 'Kean,
+
+    You are the man!!  That worked perfectly!  Thanks so much for your time, help,
+    and guidance!
+
+    John'
+- author: Agence de casting pour enfants
+  email: xyz@labulle.tv
+  ip: 67.212.24.209
+  url: http://agencelabulle.com
+  date: '2008-01-28 22:19:56'
+  body: 'Really interesting post!
+
+
+    Never stop iterating and don’t fear failure. Choose well-understood conventions
+    where they will do to the most good , shortcuts you might take will cost you more
+    to fix later than to try to get right up-front today.
+
+
+    Thanks , Zoli Juhasz'
+- author: Luis Rey
+  email: l.cordero@fortaingenieria.com
+  ip: 189.136.135.115
+  url: http://through-the-interface.typepad.com/through_the_interface/2007/07/updating-a-sp-1.html
+  date: '2009-01-23 20:27:27'
+  body: "Hi, Kean \n\nI'm luis again\n\nI take you code abut \"Updating a specific\
+    \ attribute\", Now when I to open file updated  the attribute is not sichronized,\
+    \ so need to aply command \"AttSync\" but I can´t. how I do it in code VB, can\
+    \ you give me a tittle example to do it plase."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.2.123
+  url: http://profile.typekey.com/walmsleyk/
+  date: '2009-01-25 18:59:01'
+  body: 'Hi Luis,
+
+
+    Have you tried SendStringToExecute, as in<a href="http://through-the-interface.typepad.com/through_the_interface/2006/08/calling_command.html">
+    this post</a>?
+
+
+    Kean'
+- author: Luis Rey
+  email: l.cordero@fortaingenieria.com
+  ip: 189.136.135.115
+  url: http://through-the-interface.typepad.com/through_the_interface/2007/07/updating-a-sp-1.html
+  date: '2009-01-26 20:09:10'
+  body: "Yes kean, I tired that, but the problem is because I was opening the file\
+    \ by code:\n\n        Dim doc As Document = Application.DocumentManager.MdiActiveDocument\n\
+    \        Dim ed As Editor = doc.Editor\n        Dim db As New Database(False,\
+    \ True)\n        Dim cadena As String = ruta\n        Dim blk As BlockReference\n\
+    \        Try\n            db.ReadDwgFile(cadena, System.IO.FileShare.ReadWrite,\
+    \ False, \"\")\n        Catch ex As Exception\n            MsgBox(ex.Message)\n\
+    \            Exit Sub\n        End Try\n\nIf I try use \"SendStringToExecute\"\
+    \ I need a drawing open (activedocumet), I just want to opening his database file\
+    \ but  not open the file. I try this:\n\n        Dim doc As Document = Application.DocumentManager.MdiActiveDocument\n\
+    \        Dim ed As Editor = doc.Editor\n        Dim db As New Database(True, False)\n\
+    \n        Dim cadena As String = RUTA\n        Try\n            db.ReadDwgFile(cadena,\
+    \ System.IO.FileShare.ReadWrite, False, \"\")\n        Catch ex As Exception\n\
+    \            MsgBox(ex.Message)\n            Exit Sub\n        End Try\n     \
+    \   Dim trn As Transaction = db.TransactionManager.StartTransaction\n        Dim\
+    \ bt As BlockTable = trn.GetObject(db.BlockTableId, OpenMode.ForWrite)\n     \
+    \   If bt.Has(\"PIE DE PLANO-\" & ID_CLIENTE) Then\n            doc.SendStringToExecute(\"\
+    attsync\" & Chr(10) & \"n\" & Chr(10) & \"PIE DE PLANO-597\" & Chr(13), False,\
+    \ False, False)\n        Else\n            Exit Sub\n        End If\n        trn.Commit()\n\
+    \        Try\n            db.SaveAs(RUTA, DwgVersion.Current)\n            db.Dispose()\n\
+    \            db = Nothing\n        Catch ex As Exception\n            MsgBox(\"\
+    en archivo esta abierto\" & ex.Message)\n            ed.WriteMessage(vbCr + \"\
+    \\nError al Actualizar Archivo: \" + db.Filename)\n        End Try\n\n\nBut it\
+    \ has an error (Buffertoosmal).How a do this (sichronize the atributtes) just\
+    \ open the database file:\n\nthank´s a lot kean. but I'm started to programing\
+    \ and  a has so much errors."
+- author: Luis Rey
+  email: l.cordero@fortaingenieria.com
+  ip: 189.136.135.115
+  url: http://through-the-interface.typepad.com/through_the_interface/2007/07/updating-a-sp-1.html
+  date: '2009-02-13 22:59:35'
+  body: hi kean,I was tired but I'canto do this Help me please.
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/walmsleyk
+  date: '2009-02-16 16:21:31'
+  body: 'Hi Luis,
+
+
+    I''m sorry - I really don''t have time to provide individual support (unless there''s
+    a problem with one of my posts).
+
+
+    If you''re an ADN member, please post it <a href="http://adn.autodesk.com">there</a>
+    - otherwise someone on <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a> may be able to help.
+
+
+    Kean'
+- author: Luis Rey
+  email: l.cordero@fortaingenieria.com
+  ip: 189.136.135.115
+  url: http://through-the-interface.typepad.com/through_the_interface/2007/07/updating-a-sp-1.html
+  date: '2009-02-17 17:11:39'
+  body: 'I''m sorry kean it wasn''t my intesion. I''m started to programing and the
+    best guide to do  is your blog. Every day on the morning or on the bus in cel
+    phone  when I go to work I read an new example on you blog (you have many post).
+
+
+    I hope you help if I will on problems abut someone your post.'
+- author: Terry W. Dotson
+  email: dotson@dotsoft.com
+  ip: 98.19.74.62
+  url: http://www.dotsoft.com
+  date: '2009-06-04 00:53:27'
+  body: 'Many thanks for Update 2, that alignment problem plagued me for years in
+    VBA and I''m glad to see there is a workaround on .NET.
+
+
+    Keep up the good work, your a <i>true hero</i> to those of us learning .NET!'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com
+  date: '2010-01-30 10:48:43'
+  body: '"that alignment problem plagued me for years in VBA and I''m glad to see
+    there is a workaround on .NET."
+
+
+    Speaking of true heros, it sure was good of you to warn or caution potential buyers
+    of your wares about that little ''gocha'', so they didn''t find themselves sitting
+    on thousands of drawing files, each of which had to be opened manually to update
+    the botched text alignment.
+
+
+    Way to go, Terry!'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2010-01-31 17:07:43'
+  body: 'Tony -
+
+
+    Please contact Terry directly if you have issues you''d like to raise with him.
+
+
+    I don''t want to have to start deleting comments from this blog (so far I just
+    strip out spam), but I will if they''re not respectful.
+
+
+    Kean'
+- author: Stephan
+  email: stephan.gumpert@gmail.com
+  ip: 116.50.58.180
+  url: ''
+  date: '2010-10-27 02:58:25'
+  body: "Sorry posted my problem on the wrong page before.\n\nWhen I run the above\
+    \ piece of code I get an eWasErased error.\n\nIt fails at\nDim MyDB as Database\
+    \ = new Database(False, False)\nMyDB.ReadDwgFile(DwgFilename, FileOpenMode.OpenForReadAndWriteNoShare,\
+    \ False, \"\")   \n\nHow ever this only happens when I load the drawing with a\
+    \ third party app loaded.  (in this case ProSteel)\n\nIf I run it with plain AutoCAD\
+    \ everything works fine.\n\nCan any one make any suggestions or could some explain\
+    \ what \"eWasErased\" means Please?\n\nMuch appreciated.\nStephan"
+- author: Stephan
+  email: stephan.gumpert@gmail.com
+  ip: 116.50.58.180
+  url: ''
+  date: '2010-10-27 04:23:25'
+  body: Also getting eNoInputFiler.
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2010-10-27 08:44:39'
+  body: 'Hi Stephan,
+
+
+    If the problem doesn''t exist in plain AutoCAD, and only happens when ProSteel
+    is loaded, then you really need to raise this with the developer of ProSteel (StrucSoft?).
+    Just as I suggested in response to your previous comment.
+
+
+    Regards,
+
+
+    Kean'
+- author: Stephan
+  email: stephan.gumpert@gmail.com
+  ip: 116.50.58.180
+  url: ''
+  date: '2010-11-03 05:56:45'
+  body: Can you explain what eNoInputFiler or eWasErased means?
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2010-11-03 07:35:21'
+  body: 'Without context those error codes are meaningless - I can''t tell you exactly
+    what the problem is just based on these error codes.
+
+
+    As I''ve said before, this is something that needs to be debugged by the 3rd party
+    provider.
+
+
+    Kean'
+- author: Khoa Ho
+  email: excelxp@gmail.com
+  ip: 72.37.249.36
+  url: ''
+  date: '2011-06-17 00:09:33'
+  body: 'Kean, you are awesome! You save my time to adjust the alignment of an attribute.
+    It was not in middle center after changing text string. Thanks!
+
+    -----'

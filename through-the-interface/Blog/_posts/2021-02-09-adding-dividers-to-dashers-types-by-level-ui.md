@@ -1,0 +1,15 @@
+---
+layout: "post"
+title: "Adding dividers to Dasher&rsquo;s Types By Level UI"
+date: "2021-02-09 18:17:43"
+author: "Kean Walmsley"
+categories:
+  - "APS (Forge)"
+  - "Autodesk Research"
+  - "IoT"
+original_url: "https://www.keanw.com/2021/02/adding-dividers-to-dashers-types-by-level-ui.html "
+typepad_basename: "adding-dividers-to-dashers-types-by-level-ui"
+typepad_status: "Publish"
+---
+
+<p>Last week I had a valuable discussion with members of our talented HCI and Visualization research team. They had reached out with the offer to perform “live science” review session for other teams’ research projects – with a particular focus on Human Computer Interaction and Visualization, of course – and I jumped at the opportunity.</p><p>We sat down and talked through some of the recent work that had been done in <a href="https://dasher360.com" target="_blank">Project Dasher</a> to implement <a href="https://www.keanw.com/2020/10/the-new-types-by-level-panel-in-dasher.html" target="_blank">a multi-level UX</a> that allows users to go from a top-level summary view to bring up individual 2D heatmap panels and a central 3D heatmap. You can find out more about this work in <a href="https://www.keanw.com/2020/11/my-au-2020-class-qa.html" target="_blank">my Autodesk University 2020 class</a>.</p><p>There were two main takeaways from this initial meeting: one was that it would be valuable to have some kind of spacing between the heatmaps for each floor, and the second was that it would be very interesting if it were more than just a “legend” to allow you to navigate to the individual level/sensor type combinations.</p><p>The first was simple enough to implement: along the way I explore square separators but decided that circular ones were less confusing:</p><p><a href="https://through-the-interface.typepad.com/.a/6a00d83452464869e202788014071b200d-pi" target="_blank"><img width="500" height="307" title="Types By Level with spacers" style="margin: 30px auto; border: 0px currentcolor; border-image: none; float: none; display: block; background-image: none;" alt="Types By Level with spacers" src="/assets/image_854901.jpg" border="0"></a></p><p>Here’s what I went ahead and implemented in Dasher (this is live on the site now, in case you want to try it):</p><p><a href="https://through-the-interface.typepad.com/.a/6a00d83452464869e202788014071f200d-pi"><img width="197" height="360" title="Circular spacers" style="margin: 30px auto; float: none; display: block;" alt="Circular spacers" src="/assets/image_688271.jpg"></a></p><p>I think this makes the Types By Level feature much easier to make sense of – many thanks to the HCI &amp; Viz team for the feedback!</p><p>The second requirement is a lot trickier, as there are major questions around the technical feasibility of animating 10+ heatmaps in a stack without things slowing way down. We’ll see what’s possible in an upcoming post.</p><p>This was really just an initial fact-finding chat, so I’m thrilled to have had such helpful feedback already. Hopefully there will be further discussions that make Dasher’s features even more interesting, in due course.</p>

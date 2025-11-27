@@ -1,0 +1,54 @@
+comments:
+- author: Matus Brlit
+  email: ''
+  ip: 95.102.166.41
+  url: http://profile.typepad.com/brlit
+  date: '2012-02-22 15:09:42'
+  body: 'Hi Kean,
+
+    this is a very good example to start with, but for some reason I can''t make it
+    work fully.
+
+
+    The toggle part doesn''t seem to work. Overrule.Overruling stays True, no matter
+    what. I''m using AutoCAD 2012.'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/kean
+  date: '2012-02-22 17:40:22'
+  body: 'Hi Matus,
+
+
+    I see the same thing: I''ll forward this to Stephen Preston (the author of the
+    code and the right person to get it looked into).
+
+
+    Thanks for reporting it,
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/kean
+  date: '2012-02-22 17:49:42'
+  body: "In the meantime, you can replace the \"else\" class in the TOG command with\
+    \ this:\n\n<pre>\n      {\n        // Toggle Overruling on/off\n        Overrule.RemoveOverrule(\n\
+    \          RXObject.GetClass(\n            typeof(Line)), _drawOverrule\n    \
+    \      );\n        _drawOverrule.Dispose();\n        _drawOverrule = null;\n \
+    \     }\n</pre>\n\nThis allows you to essentially toggle \"local\" overruling\
+    \ by removing our specific overrule class. We'll see whether this is now the recommended\
+    \ approach, or not.\n\nKean"
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/kean
+  date: '2012-02-23 10:43:26'
+  body: 'Stephen has confirmed the change (at least in observed behaviour), so I''ve
+    gone ahead and updated the post.
+
+
+    Kean
+
+    -----'

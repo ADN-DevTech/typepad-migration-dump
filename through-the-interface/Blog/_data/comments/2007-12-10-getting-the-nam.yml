@@ -1,0 +1,122 @@
+comments:
+- author: HJohn
+  email: HJohn@hotmail.com
+  ip: 216.123.181.194
+  url: ''
+  date: '2007-12-10 22:20:45'
+  body: 'Kean,
+
+    I know this is off topic, but would you be able to show how to display a modal
+    userform to open two drawings and add an entity on each one, any entity. Thanks'
+- author: GlennR
+  email: toxo@telstra.com
+  ip: 86.18.254.34
+  url: ''
+  date: '2007-12-10 23:37:01'
+  body: Nice one Kean.
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-12-11 10:39:09'
+  body: 'HJohn,
+
+
+    Do you mean modal or modeless? Modal forms are launched by commands and control
+    of the UI: opening documents (or even switching between documents) is not going
+    to work from a classic modal dialog.
+
+
+    Regards,
+
+
+    Kean'
+- author: HJohn
+  email: HJohn@hotmail.com
+  ip: 216.123.181.194
+  url: ''
+  date: '2007-12-11 15:01:37'
+  body: 'Kean,
+
+    Thanks for replaying.  I meant modal, I think for modeless dialogs there is no
+    problems.  I thought there must be a way of switching the execution context from
+    application to document and vice verse; perhaps it would be necessary to lock
+    the documents. I have tried multi thread app, just to see how they work, I know
+    that a thread can access another thread thru a delegate. I don''t know much and
+    don''t have the right documentation, but an experienced programmer could find
+    the solution much easier. May be what I am trying to do, it just not possible
+    at all and the use of modal dialogs in AutoCAD .NET to modify different dwg files
+    is not permitted.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-12-11 15:50:06'
+  body: "Actually, thinking about it... have you tried registering the command that\
+    \ launches the dialog as a \"session context\" command? \n\nI'm not fully sure\
+    \ that this is workable (given the fact a dialog will remain open), but it's worth\
+    \ a shot.\n\nKean"
+- author: HJohn
+  email: HJohn@hotmail.com
+  ip: 216.123.181.194
+  url: ''
+  date: '2007-12-11 22:25:29'
+  body: "Absolutely, here is my command declaration:\n<CommandMethod(\"ADDREV\", CommandFlags.Session)>\
+    \ _\nPublic Shared Sub RevisionBox()\nDim frm As New frmRevision\n        Autodesk.AutoCAD.ApplicationServices.Application.ShowModelessDialog(frm)\n\
+    End Sub\nI would like to think that there must be a way of doing this, it is just\
+    \ outside my level.  In VBA, it works fine.  If the dialog and the command are\
+    \ in the app context, I don’t understand why it won't be possible to open a document?"
+- author: HJohn
+  email: HJohn@hotmail.com
+  ip: 216.123.181.194
+  url: ''
+  date: '2007-12-11 22:29:33'
+  body: 'I guess the CommandMethod was removed, but here it is: CommandMethod("ADDREV",
+    CommandFlags.Session)'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-12-12 11:05:31'
+  body: 'VBA has different plumbing than ObjectARX and .NET, so it will indeed be
+    easier from there.
+
+
+    You''ve used ShowModelessDialog() in your code, but I assume you mean ShowModalDialog().
+    Using a modeless dialog works fine for me as you''ve specified it.
+
+
+    To get a modal dialog to work will take some more work. You can use DocumentManager.ExecuteInApplicationContext()
+    from your command to specify a callback you want executed in the application context,
+    and then hide your form. This will allow the callback to execute unhindered -
+    otherwise it will only execute once your dialog has been closed by the user.
+
+
+    From the callback you can use DocumentManager.Open() to open the drawings you
+    want. After you''re done you can simply use ShowModalDialog() to relaunch your
+    dialog.
+
+
+    This should work...
+
+
+    Kean'
+- author: Jason
+  email: jason@revittv.com
+  ip: 121.73.56.145
+  url: http://www.revittv.com
+  date: '2009-12-20 07:09:43'
+  body: Are you able to read the RGB values and color names of "encrypted" Autodesk
+    Colorbooks via the AutoCAD API?
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2009-12-20 17:26:39'
+  body: 'As far as I''m aware you should be able to use Color.FromNames() (it''s been
+    a long time since I''ve tried this, though).
+
+
+    Kean
+
+    -----'

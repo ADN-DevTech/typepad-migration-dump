@@ -1,0 +1,171 @@
+comments:
+- author: Danny
+  email: dpolkinhorn@watg.com
+  ip: 66.175.73.45
+  url: ''
+  date: '2009-04-14 21:29:58'
+  body: 'Hi Kean,
+
+
+    Excellent series of posts.  It''s exciting to see a very usable implementation
+    of ''custom'' objects in .NET.  Obviously, this implementation protects what could
+    be proprietary business intelligence from being sent around, but it brings up
+    a question.  What process would you use to ''explode'' these elements so that
+    you could send the drawing to someone without your code, but with the custom elements
+    in it.
+
+
+    Thanks!
+
+    -Danny'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-04-15 10:26:44'
+  body: 'Hi Danny,
+
+
+    Great question!
+
+
+    You can implement a TransformOverrule, implementing the Explode() method, which
+    will allow your object to participate in an EXPLODE.
+
+
+    I''ll cover this in the next post. :-)
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2009-04-16 00:00:04'
+  body: 'Kudos and thanks again for another excellent example.
+
+
+    One suggestion, the ''REGEN3'' command can actually be written in managed code
+    quite easily (it''s basically just a call to AcGsModel::invalidate() and a redraw).
+
+
+    I''ve added that code to the latest update of the sample I posted at the link
+    below.
+
+
+    http://www.caddzone.com/OverruleSample.zip'
+- author: Ben Senior
+  email: ben.senior@t-online.de
+  ip: 84.180.128.126
+  url: ''
+  date: '2009-04-16 07:55:12'
+  body: 'Hi Kean,
+
+
+    For various reasons I''ve got loads of code in VBA that cannot be used for much
+    longer with AutoCAD. VBA ships with my Civil 3D 2010, but will it be there in
+    2011?
+
+    I need to move over to .NET, that is clear, but what language would you recommend?
+
+    Is there an easy way of translating VBA code into .NET code or do I have to do
+    it all manually and theres lots of it!?
+
+
+    Your advice would be most welcome.
+
+
+    Ben'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-04-16 10:05:39'
+  body: 'Hi Ben,
+
+
+    I don''t know what the plan is for VBA in the next release of Civil 3D (and wouldn''t
+    be able to communicate it publicly, if I did).
+
+
+    About migrating away from VBA, in general terms...
+
+
+    On the one hand I wouldn''t count on VBA disappearing completely in the near term
+    (for most of our products it is available as a separate download and I don''t
+    know of plans to stop doing that), but on the other hand I think moving away from
+    VBA makes a lot of sense (as much as anything its partial support on 64-bit platforms
+    will cause you performance problems once Civil 3D becomes available as a native
+    64-bit version).
+
+
+    As for moving to .NET... the logical language to move to from VBA is VB.NET. As
+    .NET languages have great support for COM, the simplest first step is to auto-migrate
+    the code to call through COM rather than the managed APIs. The migration wizard
+    built into Visual Studio apparently does a great job of this, by the way, the
+    problem is that it only accepts VB6 projects, not VBA.
+
+
+    A member of my team, Stephen Preston, is working on a tool and an accompanying
+    DevTV session to demonstrate how to migrate from VBA to VB.NET (the tool actually
+    converts VBA to VB6 projects, which can then be loaded into the migration wizard).
+    These should be posted here in the coming weeks.
+
+
+    Regards,
+
+
+    Kean'
+- author: Ben Senior
+  email: ben.senior@t-online.de
+  ip: 84.180.128.126
+  url: ''
+  date: '2009-04-16 11:28:52'
+  body: 'Hi Kean,
+
+
+    Thanks for the advice.
+
+
+    I''ve used the migration wizard in Visual Studio a couple of times on VB6 code
+    with mixed success, it can deal with the vast majority of the code directly and
+    marks up the parts that need ''polishing up'' by hand.
+
+
+    The tool from Stephen will be a great help and save me loads of time and sweat.
+    Will it also deal with the forms as well as the code?
+
+
+    I''ve been using VB.NET for stand alone applications for a long time, but as yet
+    I''ve not used it with AutoCAD or Civil 3D. I have a couple of books somewhere
+    with advice on writing VB for AutoCAD, I guess now''s the time to dust them off
+    ;-)
+
+
+    Thanks again and I''m looking forward to Stephen''s post.
+
+
+    Ben'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-04-16 11:46:57'
+  body: 'I believe it will indeed handle forms, but I haven''t yet seen it in action...
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-04-16 14:16:45'
+  body: 'Tony,
+
+
+    Thanks - that''s a great tip!
+
+
+    Kean
+
+    -----'

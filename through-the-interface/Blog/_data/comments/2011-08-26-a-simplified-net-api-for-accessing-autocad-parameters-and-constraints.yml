@@ -1,0 +1,158 @@
+comments:
+- author: Chris Wardell
+  email: ctwardell@wardelltechnologies.com
+  ip: 24.106.232.58
+  url: ''
+  date: '2011-11-20 07:52:08'
+  body: 'Kean, do you know if an x64 compatable version of the this API is available?
+
+
+    Thanks,
+
+
+    Chris Wardell'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2011-11-21 07:43:00'
+  body: 'Chris,
+
+
+    I pinged Philippe about this, and he very quickly created and tested an x64-compatible
+    library. I''ve updated the link in the post.
+
+
+    Please take a look and let us know if you have any feedback.
+
+
+    Regards,
+
+
+    Kean'
+- author: Chris Wardell
+  email: ctwardell@wardelltechnologies.com
+  ip: 24.106.232.58
+  url: ''
+  date: '2011-11-21 22:42:36'
+  body: 'Thanks Kean, I''ll give it a try.
+
+
+    C.W.'
+- author: david reed
+  email: DREED@DRIFAB.COM
+  ip: 24.90.58.252
+  url: ''
+  date: '2012-09-12 18:18:16'
+  body: 'Kean,
+
+    I am trying to use the library in VS2010, and followed your instructions.  The
+    application compiles properly, but on the first call to the library, I get:
+
+
+    {"Could not load file or assembly ''AdskAdnAssocConstraintAPIMgd.dll'' or one
+    of its dependencies. The specified module could not be found.":"AdskAdnAssocConstraintAPIMgd.dll"}
+
+
+    I pointed to the DLL using the Add Reference.  The dll was in the adnassocconstraintapi\bin
+    release\x64 folder.  I have also tried moving it and the library file to my solution
+    folder.
+
+
+    Can you please help as to why the file cannot be found?  What is the ":" in the
+    message above?
+
+
+    Thank you'
+- author: david reed
+  email: DREED@DRIFAB.COM
+  ip: 24.90.58.252
+  url: ''
+  date: '2012-09-12 18:25:12'
+  body: By the way, I also added the reference path to the same folder.
+- author: david reed
+  email: DREED@DRIFAB.COM
+  ip: 24.90.58.252
+  url: ''
+  date: '2012-09-12 18:34:42'
+  body: 'OK, I know what the problem is.
+
+
+    I had to NETLOAD the DLL.  Fine.  But I am using it with Autocad 2013 and am getting
+    a message that it is incompatible.
+
+
+    Is there an AutoCAD 2013 compatible version of the library?
+
+
+    Thanks'
+- author: Philippe
+  email: philippe.leefsma@autodesk.com
+  ip: 86.219.227.94
+  url: ''
+  date: '2012-09-12 21:47:45'
+  body: 'Hi David,
+
+
+    As far as I recall the version posted there was compiled against 2012 SDK, so
+    you need to migrate the settings for all projects in order to build against the
+    2013 SDK, compile the arx part using patform toolset V100, .Net framework 4.0...
+
+    I''ve tested that lib on my side under 2013, so I can assure you it works.
+
+    I hope it helps,
+
+    Philippe.'
+- author: david reed
+  email: dreed@drifab.com
+  ip: 167.206.144.82
+  url: ''
+  date: '2012-09-13 22:12:18'
+  body: Could you please post or send me the DLL you created that is 2013 compatible?
+- author: Matthias Mueller
+  email: ''
+  ip: 192.54.144.229
+  url: http://profile.typepad.com/matthiasmueller
+  date: '2013-01-23 13:57:07'
+  body: Any chance to get the code in C#? The Utils are amazing but lack a bit when
+    working with polylines. E.g. try to apply a coincident constraint between two
+    polylines (start point of "polyline A" to end point of "polyline B") -> it fails
+    with a runtime exception.
+- author: Philippe Leefsma
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2013-01-23 14:24:54'
+  body: Hi Matthias, I would need to take a look in details why it fails. But the
+    full source code is provided along with the download, the lib is written in C++,
+    but if you run it from the debugger, you will be able to break inside the managed
+    and unmanaged code to see where the problem is...
+- author: Philippe Leefsma
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2013-01-24 10:22:00'
+  body: Hi Matthias, I was fixing the issue. Please give a try at the new distribution.
+    Thanks for your feedback and feel free to report further problem you may find
+    with the lib.
+- author: Matthias Mueller
+  email: ''
+  ip: 192.54.144.229
+  url: http://profile.typepad.com/matthiasmueller
+  date: '2013-01-24 15:48:21'
+  body: "I tried to fix this issue with a colleague of mine (he's more into c++).\
+    \ We were almost at the point to give up, when we saw your reply. \nThank you\
+    \ so much! The updated Util now also handles coincident constraints between polylines\
+    \ and nested entities within block references. If we find further problems, where\
+    \ do we communicate? Here? ADN Forum?\nAgain, thanks!"
+- author: Philippe Leefsma
+  email: ''
+  ip: 92.105.24.95
+  url: http://profile.typepad.com/6p0167638460d1970b
+  date: '2013-01-25 00:20:45'
+  body: "Hi Matthias, the best I could think of was to create my own post, so programmers\
+    \ can directly report issues to me and we won't bother Kean anymore;) but let's\
+    \ hope you will find no more;) ... Here is the dedicated post on ADN blog: \n\n\
+    <a href=\"http://adndevblog.typepad.com/autocad/2013/01/a-simplified-net-api-for-accessing-autocad-parameters-and-constraints.html\"\
+    >http://adndevblog.typepad.com/autocad/2013/01/a-simplified-net-api-for-accessing-autocad-parameters-and-constraints.html</a>\n\
+    \n-----"

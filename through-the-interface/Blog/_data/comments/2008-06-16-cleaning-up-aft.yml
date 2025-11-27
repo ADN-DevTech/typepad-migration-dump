@@ -1,0 +1,375 @@
+comments:
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2008-06-17 20:46:42'
+  body: 'Hi Kean. The issue you describe with non-database-resident objects and Dispose()
+    is actually part of a more general issue related to AutoCAD threads and the GC.
+
+
+    Being a cooperative fiber mode application (e.g., lightweight threads or "fibres"
+    that share a common thread-local storage), it is generally safe to access AutoCAD
+    APIs from any AutoCAD fiber, but is generally unsafe to access those APIs from
+    any other thread, such as an OS thread you create yourself via System.Threading.
+
+
+    The thread which the GC''s finalizer runs in is also an OS thread rather than
+    a fibre, so in fact, even something as seemingly benign as calling acutPrintf()
+    from that thread will fail.
+
+
+    And, if one is writing their own types that implement IDisposable, they should
+    also not attempt to access any AutoCAD API from the implementation of Dispose(),
+    if it is being called directly by the finalizer.'
+- author: GlennR
+  email: lists@tcgsoftware.com
+  ip: 86.18.254.34
+  url: ''
+  date: '2008-06-17 22:43:31'
+  body: 'Hi Kean,
+
+
+    I''ve been dealing with the MAP .NET API recently, in particular, the ClassificationManager
+    and FeatureClassProperties etc. and I''ve noticed that there isn''t a transaction
+    to be seen in the Adesk samples. Also, every object seems to implements IDisposable,
+    so what is the recommended disposal pattern for MAP, or the verticals in general.
+
+
+    I''ve noticed funny things with memory consumption, strange crashes etc. when
+    I be a good .NET citizen and try to dispose of anything I think is not dbase resident...just
+    looking for clarification...
+
+
+    Cheers,
+
+    Glenn.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.6.124
+  url: http://through-the-interface.typepad.com/through_the_interface/2008/06/dwf-toolkit-75.html
+  date: '2008-06-18 09:55:34'
+  body: 'Hi Glenn,
+
+
+    Sorry - I''m not familiar with the APIs to Map 3D (although members of my team
+    are, of course).
+
+
+    I would expect AutoCAD-based applications to follow similar object disposal patterns
+    (AutoCAD Architecture and MEP do, I believe), but clearly there are intricacies
+    to the vertical APIs that I''m not aware of.
+
+
+    If you submit your question to via the <a href="http://adn.autodesk.com">ADN website</a>
+    or the <a href="http://discussion.autodesk.com/forum.jspa?forumID=84">AutoCAD
+    Map 3D Developer Discussion Group</a>, I''m sure you''ll get a more useful answer.
+
+
+    Regards,
+
+
+    Kean'
+- author: Bernd L
+  email: bernd.lehmkuhl@cosgeo.de
+  ip: 213.160.5.13
+  url: ''
+  date: '2008-06-18 15:49:13'
+  body: 'Hi Kean,
+
+
+    thanks for another useful blog entry - a constant source of new insights.
+
+    But how do I deal with dispose() in C++/CLI? Is it enough to call delete() on
+    the transaction-object? Would it be even better trying to create new objects on
+    the managed stack instead of on the managed heap (I don''t even know, if this
+    is possible with AutoCAD classes)?
+
+
+    thanks, Bernd'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://through-the-interface.typepad.com/through_the_interface/2008/06/dwf-toolkit-75.html
+  date: '2008-06-18 16:03:03'
+  body: 'Hi Bernd,
+
+
+    I''ve found <a href="http://www.bluebytesoftware.com/blog/PermaLink.aspx?guid=88e62cdf-5919-4ac7-bc33-20c06ae539ae">this
+    article</a> to be a great source of knowledge on this topic (if a little in depth
+    for this particular post).
+
+
+    It states in the section "Working With Disposable Objects":
+
+
+    [begin quote]
+
+    Consider disposing of any IDisposable object instances when you are done with
+    them. [...] The easiest way to do this in C# is with the using statement. The
+    easiest way to do this in C++ is by allocating objects on the stack (the default).
+
+    [end quote]
+
+
+    It goes on to show "equivalent" C# and C++ code. So defining the scope of variables
+    on the stack should work, as manual deletion of variables on the heap should,
+    too (one assumes :-).
+
+
+    Regards,
+
+
+    Kean'
+- author: Bernd L
+  email: bernd.lehmkuhl@cosgeo.de
+  ip: 213.160.5.13
+  url: ''
+  date: '2008-06-18 17:11:07'
+  body: 'Hi Kean,
+
+
+    that looks like a real comprehensive article, thanks for doing the researches.
+    I''ll have to take a closer look at it.
+
+
+    cheers, Bernd'
+- author: Chuck Gabriel
+  email: crgabrieljr@hotmail.com
+  ip: 74.189.186.225
+  url: ''
+  date: '2008-07-02 13:43:18'
+  body: "Kean,\n\nDo temporary databases such as the one used below need to be disposed?\n\
+    \npublic static double getDwgScale(string fileName)\n{\n  if (!File.Exists(fileName))\n\
+    \    throw new FileNotFoundException(\"No such file.\");\n  Database db = new\
+    \ Database(false, true);\n  try\n  {\n    db.ReadDwgFile(fileName, System.IO.FileShare.Read,\
+    \ false, string.Empty);\n    return db.Dimscale;\n  }\n  catch (Autodesk.AutoCAD.Runtime.Exception\
+    \ e)\n  {\n    Application.DocumentManager.MdiActiveDocument.Editor.WriteMessage(e.ToString());\n\
+    \    return 0;\n  }\n}\n\nBTW - Thanks for all your articles.  They have helped\
+    \ me understand a lot of concepts that aren't so clearly defined in the docs."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.6.124
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-02 15:56:39'
+  body: 'Chuck,
+
+
+    I would certainly dispose of them - the using() statement should help take care
+    of it, even if you return a Database property from your function.
+
+
+    Regards,
+
+
+    Kean'
+- author: Susanne
+  email: susanne.plank@siemens.com
+  ip: 194.138.39.140
+  url: ''
+  date: '2008-10-08 18:21:48'
+  body: "Hi Kean,\n \nthanks for your very interesting article. \nYou write that a\
+    \ DBObject-derived type must be disposed of \"manually\" to avoid that it will\
+    \ be accessed by the GC thread.\n \nDoes this generally mean that a DBObject-derived\
+    \ type must be accessed from AutoCAD's main thread in any case ?\n \nIn our organization\
+    \ we use AutoCAD OEM 2007. We call our .NET AddIn from another application (out-of-process).\
+    \ We do this by .NET remoting. As all remoting calls are executed on the thread\
+    \ pool we are on the \"wrong\" thread when we enter the AddIn.\n \nCould you please\
+    \ give a recommendation how to get onto the \"right\" thread ?\n  \nWe also found\
+    \ an ADN article about that topic (ID: TS88407) where the Control.Invoke() method\
+    \ is mentioned.\nHere the question is:  How to get a \"Control\"?  Is there an\
+    \ (invisible) AutoCAD main window when we use AutoCAD via in-place-server (ActiveX\
+    \ control)?\n\nThanks,\nSusanne"
+- author: Susanne
+  email: susanne.plank@siemens.com
+  ip: 194.138.39.140
+  url: ''
+  date: '2008-10-08 18:26:11'
+  body: "Hi Kean,\n \nthanks for your very interesting article. \nYou write that a\
+    \ DBObject-derived type must be disposed of \"manually\" to avoid that it will\
+    \ be accessed by the GC thread.\n \nDoes this generally mean that a DBObject-derived\
+    \ type must be accessed from AutoCAD's main thread in any case?\n \nIn our organization\
+    \ we use AutoCAD OEM 2007. We call our .NET AddIn from another application (out-of-process).\
+    \ We do this by .NET remoting. As all remoting calls are executed on the thread\
+    \ pool we are on the \"wrong\" thread when we enter the AddIn.\n \nCould you please\
+    \ give a recommendation how to get onto the \"right\" thread ?\n \nWe also found\
+    \ an ADN article about that topic (ID: TS88407) where the Control.Invoke() method\
+    \ is mentioned.\nHere the question is:  How to get a \"Control\"? Is there an\
+    \ (invisible) AutoCAD main window when we use AutoCAD via in-place-server (ActiveX\
+    \ control)?\n\nThanks,\nSusanne"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-10-08 20:03:39'
+  body: 'Hi Susanne,
+
+
+    I would recommend doing all access & manipulation of AutoCAD entities within your
+    plugin inside AutoCAD: remoting is not at all supported for out-of-process access
+    of AutoCAD entities. COM will work, but not the managed API.
+
+
+    For more detailed support on this, please submit your question through ADN - they
+    are better placed to help you with this.
+
+
+    Regards,
+
+
+    Kean'
+- author: giuliano
+  email: bikelink@tiscali.it
+  ip: 82.61.133.111
+  url: ''
+  date: '2009-02-17 08:48:37'
+  body: "Ok..but I don't understood the right \"scenario\" working with DbObjectCollection.\
+    \ (inherits from IList)\nI knew that .net framework calls method dispose of members\
+    \ of list if availables.\n\nButh the cad help says\n_______________________________________________\n\
+    When a DBObjectCollection is populated by unmanaged code, the objects in the collection\
+    \ do not yet have managed wrappers. Neither are they (typically) database-resident.\
+    \ DBObjectCollection will generate a wrapper for each object if and when that\
+    \ object is accessed (retrieved) from the collection. If there are no retrieval\
+    \ requests, no wrappers are generated. When a DBObjectCollection is disposed,\
+    \ it looks at the set of unmanaged objects it holds, and the set of wrappers it\
+    \ has generated. For those objects with wrappers, it assumes the wrappers will\
+    \ manage the lifetime of the object, and it does nothing. For those objects without\
+    \ wrappers, it will delete them or close them: it takes responsibility for object\
+    \ lifetime. \n\nTherefore, you must not get into a situation where an AcDbObject,\
+    \ with a managed wrapper, gets stored in a DBObjectCollection without its wrapper.\
+    \ This can happen if the DBObject is passed into unmanaged code, the unmanaged\
+    \ object is stored in an AcDbVoidPtrArray (the imp-side of a DBObjectCollection),\
+    \ and the AcDbVoidPtrArray turned back into a DBObjectCollection and returned\
+    \ to managed code. \n\nit is important to be sure DBObjectCollections are properly\
+    \ (perhaps explicitly) disposed.\n_____________________________________________\n\
+    \nI understood this... if You iterate once on collection a wrapper is used to\
+    \ dispose the object.\n(first problem..and if i don't touch the list..no wrapper\
+    \ disposed is generated ?)\nok..but why the help says \" and it does nothing if\
+    \ the wrapper has been generated ? I guess it called \"Dispose()\"!\nI guess the\
+    \ contrary..\n\" For those objects without wrappers, it will delete them or close\
+    \ them: it takes responsibility for object lifetime.\"\nif the wrapper doesn't\
+    \ exists the objects are cleared ??\n\nanf finally the really chaos to me..\n\n\
+    Therefore, you must not get into a situation where an AcDbObject, with a managed\
+    \ wrapper, gets stored in a DBObjectCollection without its wrapper. This can happen\
+    \ if the DBObject is passed into unmanaged code, the unmanaged object is stored\
+    \ in an AcDbVoidPtrArray (the imp-side of a DBObjectCollection), and the AcDbVoidPtrArray\
+    \ turned back into a DBObjectCollection and returned to managed code. \n\n\nthare\
+    \ are someone able  to write 4 rows of examples...more clear then this help ?"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/walmsleyk
+  date: '2009-02-17 09:13:49'
+  body: 'Giuliano -
+
+
+    How is the DbObjectCollection being populated? If you''re creating and populating
+    it all with managed code then you should assume you need to manually dispose of
+    each and every object contained.
+
+
+    If the collection is somehow being returned from unmanaged code there''s more
+    risk, but it all depends on how the unmanaged code is populating the collection.
+    If the unmanaged code that populates the array is being passed an object via its
+    unmanaged pointer when a managed wrapper already exists, that''s when problems
+    may arise.
+
+
+    I hope this helps make things a little clearer - it sounds like this a topic worthy
+    of a blog post...
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/walmsleyk
+  date: '2009-02-17 09:13:50'
+  body: 'Giuliano -
+
+
+    How is the DbObjectCollection being populated? If you''re creating and populating
+    it all with managed code then you should assume you need to manually dispose of
+    each and every object contained.
+
+
+    If the collection is somehow being returned from unmanaged code there''s more
+    risk, but it all depends on how the unmanaged code is populating the collection.
+    If the unmanaged code that populates the array is being passed an object via its
+    unmanaged pointer when a managed wrapper already exists, that''s when problems
+    may arise.
+
+
+    I hope this helps make things a little clearer - it sounds like this a topic worthy
+    of a blog post...
+
+
+    Kean'
+- author: Giuliano
+  email: bikelink@tiscali.it
+  ip: 88.37.181.99
+  url: ''
+  date: '2009-02-19 17:20:36'
+  body: "Hi Kean, thank You for your attention.\n\nok...Sorry if I was a little bit\
+    \ unclear. But  I haven't really yet understood some steps..\n\n\nNow I try to\
+    \ show You my doubt:\n\nI had a problem when I used \nDbObjectCollection cc =\
+    \ Region.CreateFromCurves(singleObjCol);\n\nTonyT. suggest to iterate over \n\n\
+    so with\nforeach(DbObject c in cc)\n{}\n\nand this made a wrapper for every Dbobject.\n\
+    ok ? yes...of course :)\n\nAfter this I perform extrusion ecc..with my regions\
+    \ without append one of those regions at database.\n\nAt the end, I call Dispose\
+    \ of every single object\nforeach(DbObject c in cc)\n{\nc.Dispose()\n}\ncc.Dispose()\n\
+    \nWith this code everything looks ok.\nWithout c.Dispose() autocad Crash.\n\t\n\
+    I thought \"cc.Dispose()\" was enough..in order to set free the memory.\n________________________________________\n\
+    \nYou said:\nIf the collection is somehow being returned from unmanaged code there's\
+    \ more risk, but it all depends on how the unmanaged code is populating the collection.\
+    \ If the unmanaged code that populates the array is being passed an object via\
+    \ its unmanaged pointer when a managed wrapper already exists, that's when problems\
+    \ may arise.\n\n\nThe question is: Can I know how the api return \nthe collection\
+    \ ? \"somehow\" looks like a nightmare :)\n(with wrapper or not in order to dispose\
+    \ it ?)\n\n\nWhat is the better way to ensure free errors with collections  ?\n\
+    If I use c++ i can see the memory..but with .Net i don't know what happens behind\
+    \ the scenes.\n\n\nI Hope to not be very stressful but that's yet a little fog\
+    \ in my mind.."
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/walmsleyk
+  date: '2009-02-19 17:52:12'
+  body: 'If you''re using a standard API - and not handling the population of this
+    collection yourself, in your own unmanaged code - then this should be altogether
+    more straightforward. Also the fact that the objects in the collection are newly
+    created should also make things easier.
+
+
+    In theory - and I haven''t tried it - if you don''t access anything in the collection,
+    then you shouldn''t need to dispose of anything but the collection itself. But
+    if you create a wrapper for any item in the collection - using Tony T''s code,
+    for instance - then you will need to dispose of them (the ones for which wrappers
+    have been created).
+
+
+    At the end of the day going through each item and disposing each one will create
+    the wrapper of one doesn''t exist and dispose of it immediately, which is what
+    I would probably do as it''s relying less on trust.
+
+
+    Kean'
+- author: Matt
+  email: matt.hibb@googlemail.com
+  ip: 68.144.64.160
+  url: ''
+  date: '2010-08-17 21:55:02'
+  body: What category does ObjectId fall into? Should I call Dispose on these objects
+    when I no longer need them?
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-08-18 09:52:13'
+  body: 'No need - ObjectIds are not disposable (i.e. the class is not derived from
+    IDisposable), so there''s nothing you need to do.
+
+
+    Kean
+
+    -----'

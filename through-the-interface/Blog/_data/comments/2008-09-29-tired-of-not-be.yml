@@ -1,0 +1,321 @@
+comments:
+- author: James Maeding
+  email: jmaeding@hunsaker.com
+  ip: 209.203.107.118
+  url: ''
+  date: '2008-09-29 17:41:03'
+  body: 'I kind of thought VSTA would help the issue, since the ide would already
+    be inside the acad environment.  But I wondering now, would VSTA allow you to
+    stop all code, edit the project, and run again?
+
+    If so, that will be when the .net api catches on with more people.
+
+    Also, I have had problems getting edit and continue to work, even with settings
+    correct.
+
+    I think it might be that it only allows changes to the current line (shown yellow)
+    or something.  Fenton ran into this at AU last year, curious is you have ever
+    seen this.'
+- author: GanQuan
+  email: ganok007@163.com
+  ip: 124.225.168.247
+  url: ''
+  date: '2008-09-29 17:42:52'
+  body: Not all rountine can Edit and Continue.
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-29 17:49:14'
+  body: 'I don''t know anything about how VSTA handles that - I would need to check
+    with someone in our Revit team. I have no reason to believe it wouldn''t support
+    Edit and Continue.
+
+
+    I''ll ask Fenton about the issue he hit - I haven''t hit these problems myself,
+    but I''m probably a much lighter user of our APIs than he is. I''ve certainly
+    been able to edit more than just the current line, for instance.
+
+
+    Any details on cases scenarios where it doesn''t work would be helpful to share.
+
+
+    Kean'
+- author: James Maeding
+  email: jmaeding@hunsaker.com
+  ip: 209.203.107.118
+  url: ''
+  date: '2008-09-29 18:44:36'
+  body: 'thx.
+
+    Also, are there instructions on how to make a menu image dll with VS?
+
+    I used to use vb6 and a util that made the rsc file.  I can use Resource Hacker
+    too, but it only allows adding images one by one, not a whole folder at once.
+
+    I tried making a dll with VS, but get clouds for icons, there must be a step I''m
+    skipping.
+
+    I''ve done lots of these menu dll''s so know to close acad, delete mnr file...and
+    so on.
+
+    The dll itself (from VS 2008) is not right, so far, thx'
+- author: Fenton Webb
+  email: fenton.webb@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2008-09-29 19:00:52'
+  body: "Hi guys, \n\nHmmm, I can't really remember the exact issue that James was\
+    \ talking about above. I think it was simply because the debugger hadn't \"broken\"\
+    \ at the point which I thought it had (the stress of live coding!). Now I know\
+    \ how to use Edit and Continue effectively (meaning follow Kean's post above and\
+    \ don't change too much code while debugging) I don't really have problems with\
+    \ it. \n\n  Actually, the only time I know of that really doesn't allow Edit and\
+    \ Continue is when \"Enable Mixed Mode Debugging\" is on.\n\nI hope this helps.\n\
+    Cheers\nFenton"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-29 19:09:01'
+  body: 'Hi James,
+
+
+    Sorry - you''ll have to ask ADN support (or the discussion groups) about that
+    one.
+
+
+    Regards,
+
+
+    Kean'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2008-09-29 21:12:23'
+  body: "Hi Kean, \nFirst, I was looking for a way to 'NETunload' because my program\
+    \ looks for a code in the registry to determine if it should continue.\nIf that\
+    \ code is not present, or not decryptable by my function, then the installation\
+    \ is not licensed, and therefore I want to unload it.  I've been forced to merely\
+    \ unload the menu, and attempt to shut down autocad (although I might want to\
+    \ do something to intentionally crash autocad at that point)\n\nSecond, long,\
+    \ long ago in a cubicle far, far away...(just downstairs actually). I used to\
+    \ be able to 'edit and continue', but at some point in time for reasons I can't\
+    \ explain, it stopped working.  Having seen your article I tried to go back and\
+    \ check my settings, but I still can't get it to work now.\n\nAll it tells me\
+    \ is that 'Cannot Currently Modify the text of the editor. It is read only' on\
+    \ the status bar.\n\nWorse than that, sometimes my watches and/or quick-watches\
+    \ (by hovering over variables during a break) show 'Nothing' or the initialized\
+    \ state of a variable, like a null string for a string, or zero for an integer,\
+    \ even when I know the variable has some other value stored in it.  This problem\
+    \ makes it particularly difficult to find a problem in an algorithm when I can't\
+    \ examine the gozinas and gozoutas."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 86.134.12.180
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-30 21:21:12'
+  body: 'One option would be to perform a check at the beginning of each command,
+    and only execute the guts if the application is properly licensed.
+
+
+    I''m not sure what the issue you''re facing is due to: there may be a setting
+    that needs to be made, although the watch variable issue seems very strange to
+    me. Not something I''ve seen myself... I''m mostly using C#, which may make a
+    difference.
+
+
+    Kean'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2008-10-01 21:39:56'
+  body: 'Hi again..
+
+    The watch problem is truly annoying, but my best guess is that it is an issue
+    with VS 2005.  I have just learned to be wary of watch values, and if needed I
+    put debug messaging into the code to output the variables I want to watch.  A
+    little tedious, but it gets the job done.
+
+
+    Now, I have searched all over the object browser, searched TTIF, searched the
+    objectArx documentation, and I even tried (reluctantly) the activeX acFocusCtrl.dll
+    that was for VBA, but I can not seem to ''activate'' or ''focus'' on the autocad
+    window after I show a modeless form.  I even found and tried to implement the
+    Protected Overridable ReadOnly Property ShowWithoutActivation on the form, but
+    it didn''t change the behavior.  I also tried converting my managed Document variable
+    to the COM AcadDocument, which has an Activate method, but that did not work either.  I
+    would like to show the modeless form, which is for display purposes only, then
+    return the focus to the Autocad window so the user can make selections.  Any suggestions?'
+- author: Viktor
+  email: viktor.kulikovskiy@pacificorp.com
+  ip: 208.186.200.6
+  url: ''
+  date: '2008-10-01 22:58:11'
+  body: I have used the edit & continue effectively, but I found another way around
+    rebooting cad. I add a number to the end of my project name and increment that
+    number as I make changes, and I keep loading the next dll. I'll do like 10 or
+    20 revisions then I'll start over and reboot cad to unload all the previous dlls.
+- author: Quiz
+  email: quizug@mail.com
+  ip: 217.116.59.67
+  url: ''
+  date: '2008-10-02 13:27:22'
+  body: "Hi Kean, \nYou said \"we would have to host each assembly in a separate AppDomain\
+    \ and then destroy the AppDomain to unload it. It's altogether possible to implement\
+    \ your own bootstrapper assembly that does just this\".\nActually application\
+    \ from separate AppDomain can't resolve some types from assembly \"msvcm80, Version=8.0.50727.3053,\
+    \ Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a\" which use OpenMP 2.0 and\
+    \ throw (in deep) OpenMPWithMultipleAppdomainsException. I can't fix it.\n\nI\
+    \ think reason is here:\nhttp://msdn.microsoft.com/en-us/library/fw509c3b.aspx\n\
+    \"If you attempt to load an application compiled with /openmp and /clr into a\
+    \ non-default application domain, a TypeInitializationException exception will\
+    \ be thrown outside the debugger and a OpenMPWithMultipleAppdomainsException exception\
+    \ will be thrown in the debugger.\"\nSome thoughts?"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-10-04 16:24:20'
+  body: 'David -
+
+
+    As I suggested previously, the best way for a modeless UI to interact with AutoCAD
+    is via the command-line. While you may not find it pretty it is the way we recommend,
+    and comes with a number of advantages.
+
+
+    Quiz -
+
+
+    Sorry - this is put of my area of expertise. I suggest submitting it to the ADN
+    support team, if you''re a member.
+
+
+    Kean'
+- author: Quiz
+  email: quizug@mail.com
+  ip: 217.116.59.67
+  url: ''
+  date: '2008-10-07 04:45:42'
+  body: "Hi Kean, \nThank you for reply.\nIt isn't request for support, it is explanation\
+    \ why AutoCAD plugins can't be placed in separate AppDomain.\nI think there exist\
+    \ many other reasons why NETUNLOAD impossible (threads, sync, cross-domain interaction,\
+    \ etc ...) :)"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-10-07 09:03:31'
+  body: 'Hi Quiz,
+
+
+    I see - thanks for clarifying.
+
+
+    The separate AppDomains approach still seems likely to work for applications not
+    built using /clr or /OpenMP (which I would think covers the majority of VB.NET
+    and C# applications, at least). I''m still playing with this, but it is increasingly
+    clear to me that the original design decision to use a single AppDomain was made
+    for a good reason.
+
+
+    Regards,
+
+
+    Kean'
+- author: Justin Holzer
+  email: jsholzer@gmail.com
+  ip: 173.14.222.244
+  url: http://holzerian.com
+  date: '2010-03-15 22:26:47'
+  body: 'I know I''m chiming in a year and a half too late, but I just recently started
+    working with AutoCAD add-ons and just found this post...
+
+
+    You don''t necessarily need to maintain a separate AppDomain for each add-on to
+    unload it. You could maintain a single AppDomain, and if a user chooses to unload
+    a particular assembly, reload (unload and reinitialize) the AppDomain without
+    the assembly that the user specified. Having an AppDomain for each add-on assembly
+    seems like the simplest approach, but I have no idea what the added resource cost
+    would be'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-03-16 08:35:26'
+  body: 'An interesting idea, although I expect it would also have affect state being
+    maintained by the plugins sharing the AppDomain.
+
+
+    Kean'
+- author: twitter.com/CADbloke
+  email: ''
+  ip: 121.44.187.216
+  url: http://profile.typepad.com/6p0120a58a8bbb970b
+  date: '2010-10-08 01:42:52'
+  body: "A tip for 64 bit users - you have to set the projects to x86 & run in debug\
+    \ to use Edit & Continue. See \n<a href=\"http://stackoverflow.com/questions/30183/how-do-i-enable-edit-and-continue-on-a-64-bit-application-and-vb2008-express\"\
+    >http://stackoverflow.com/questions/30183/how-do-i-enable-edit-and-continue-on-a-64-bit-application-and-vb2008-express</a>\
+    \   &   <a href=\"http://stackoverflow.com/questions/2795795/cant-edit-and-continue-when-using-visual-studio-2010-on-a-64-bit-machine-app-ta\"\
+    >http://stackoverflow.com/questions/2795795/cant-edit-and-continue-when-using-visual-studio-2010-on-a-64-bit-machine-app-ta</a>\
+    \  for more details."
+- author: Artvegas
+  email: yamos78@hotmail.com
+  ip: 27.32.79.215
+  url: ''
+  date: '2011-10-09 16:00:12'
+  body: 'Hi Kean,
+
+
+    I have created a "NET-RELOAD" utility that saves me a lot of time with this. It
+    allows you to modify code in Visual Studio, and then automatically re-compile
+    and re-load the assembly into AutoCAD without having to re-start AutoCAD. It''s
+    a real time saver.
+
+
+    Instead of trying to unload an assembly, the utility uses Visual Studio Automation
+    (i.e. COM) to build a differently named assembly, and then automatically loads
+    it into AutoCAD. The previously loaded commands are simply overridden.
+
+
+    It should be noted that it doesn''t work for debugging (i.e. place breakpoints
+    and step through code). You''d still have to start AutoCAD from within Visual
+    Studio to do this.
+
+
+    Here''s the link to download the utility: <a href="http://forums.autodesk.com/t5/NET/NET-RELOAD-Utility-for-Visual-Studio-Download-Here/td-p/3185104"
+    target="_self">link</a>
+
+
+    You''ll also get more details on how it works as well as the C# source code.
+
+
+    I''d be interested to hear what you think of it.
+
+
+    Art
+
+
+    p.s. Kudos should go to Viktor for his post above. My utility was based on his
+    suggestion.'
+- author: Artvegas
+  email: yamos78@hotmail.com
+  ip: 27.32.79.215
+  url: ''
+  date: '2011-10-09 16:12:42'
+  body: Please note that you might have to open the above link twice for it to work.
+    It's an Autodesk Discussion Groups thing.
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2011-10-17 12:16:45'
+  body: 'Interesting - thanks, Art.
+
+
+    Kean
+
+    -----'

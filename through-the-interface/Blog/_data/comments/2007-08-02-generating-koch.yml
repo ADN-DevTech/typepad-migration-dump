@@ -1,0 +1,108 @@
+comments:
+- author: AllanC
+  email: kabsol@socal.rr.com
+  ip: 66.75.87.160
+  url: ''
+  date: '2007-09-03 00:24:15'
+  body: 'Just getting started in both C# and programming AutoCAD in it. These are
+    extremely helpful posts. Thank you!
+
+
+    This does not work on polylines for me though. I have created 2d and 3d polylines.
+    I know there is (used to be) LWPolylines -- is that what we''re supposed to use,
+    and what command creates them?'
+- author: AllanC
+  email: kabsol@socal.rr.com
+  ip: 66.75.87.160
+  url: ''
+  date: '2007-09-03 01:06:39'
+  body: 'I watched the vars, and the PLINE command gives me a Polyline2d. I tried
+    converting the type of p1 in the call and the function declaration to Polyline2d,
+    but apparently a Polyline2d does not contain the properties of a Polyline, such
+    as numberOfVertices, etc..
+
+
+    Please excuse my ignorance! I use AutoCAD all day every day but apparently don''t
+    know how to create a polyline!'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-09-03 12:38:07'
+  body: 'AllanC -
+
+
+    Yes, this code only currently supports optimized (aka lightweight or new-style)
+    polylines - objects of class Polyline. It culd be extended to support old-style
+    polylined (objects of class Polyline2d and Polyline3d), but that is left as an
+    exercise for the reader.
+
+
+    To create optimized polylines you can set PLINETYPE to 1 or 2 and use the PLINE
+    command, or use CONVERTPOLY to convert your old-style polylines.
+
+
+    Regards,
+
+
+    Kean'
+- author: AllanC
+  email: kabsol@socal.rr.com
+  ip: 66.75.87.160
+  url: ''
+  date: '2007-09-03 13:46:34'
+  body: 'Success!
+
+
+    So I was backwards in thinking LW Polylines were "old style"! Don''t know when
+    I would have ever changed PLINETYPE to 0, but I have been trying to get polylines
+    to snap to themselves (actually to extend a polar extension of points already
+    drawn), an ability which seems to have been lost in v2007, and I may have changed
+    it some time during that.
+
+
+    Thank you very much for the (very rapid) response, and thank you again for this
+    very informative blog.
+
+
+    Thanks to you, my exploration continues!'
+- author: bikelink
+  email: bikelink@tiscali.it
+  ip: 79.1.51.33
+  url: ''
+  date: '2008-01-30 11:31:34'
+  body: very nice...and I have found resolved here a problem with "circArc2Arc" ;)
+- author: JaH
+  email: JahBgd@gmail.com
+  ip: 133.11.81.211
+  url: ''
+  date: '2008-05-06 05:05:39'
+  body: "I am trying to enter the world of fractals and apply it in my architectural\
+    \ design... I am basic AutoCad and I am not managing to find out the way to apply\
+    \ your script. where can i find some explanation about that? thank you \nJaHko"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.7.167
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-06 09:14:38'
+  body: 'You should probably go back to one of the introductory posts:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2006/06/getting_started.html">Getting
+    started with Autodesk''s APIs</a>
+
+
+    Working through the initial Labs pointed to by this post will help you understand
+    more about building a .NET application for AutoCAD. You will need to use some
+    version of Visual Studio, by the way.
+
+
+    Kean'
+- author: JaH
+  email: jahbgd@gmail.com
+  ip: 133.11.81.211
+  url: ''
+  date: '2008-05-12 13:33:05'
+  body: "I was afraid that you may say something like this.... :) \nthank you anyway\
+    \ , i hope i won't give up and that i will not have to become expert in order\
+    \ to draw some fractal geometry ...\n\nthank you anyway\n\nJaHko\n-----"

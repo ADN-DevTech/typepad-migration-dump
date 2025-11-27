@@ -1,0 +1,141 @@
+comments:
+- author: danny.boy.1
+  email: danijel.ivankovic@gmail.com
+  ip: 89.146.181.88
+  url: ''
+  date: '2009-11-05 14:44:39'
+  body: 'Great!!!
+
+
+    Thanks Kean
+
+
+    Best regards,
+
+    Danijel Ivankovic'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadxtabs/AcadXTabs2010.htm
+  date: '2009-11-05 16:23:17'
+  body: "Hi Kean.\n\nOne minor mistake your code makes is that it reads the ModifierKeys\
+    \ property multiple times.\n\nWhen reading the keyboard state to test if multiple\
+    \ keys are pressed, you have to do it in one swell foop, because it is possible\
+    \ that different keys may be pressed each time the ModifierKeys property is read.\n\
+    \nSo for checking for CTRL+SHIFT, it would go something like this:\n\n<pre>\n\
+    \  Keys CtrlShift = (Keys.Control || Keys.Shift);\n\n  bool IsControlAndShiftPressed\
+    \ = (Control.ModifierKeys & CtrlShift) == CtrlShift;\n</pre>\n\nBTW, if you only\
+    \ need to reference System.Windows.Forms.dll for this purpose, you can get the\
+    \ defintitions of the ModifierKeys property and the Keys enum from Reflector and\
+    \ add them to your own type, to eliminate the dependence on System.Windows.Forms.dll"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2009-11-05 17:08:42'
+  body: "Hi Tony,\n\nYou're quite right. Another option would be to store the ModifierKeys\
+    \ value in a local variable:\n\n<pre>\nSystem.Windows.Forms.Keys mods =\n  System.Windows.Forms.Control.ModifierKeys;\n\
+    \n// Check whether the shift key is being pressed\n\nbool shift =\n  (mods & System.Windows.Forms.Keys.Shift)\
+    \ > 0;\n\n// Check whether the control key is being pressed\n\nbool control =\n\
+    \  (mods & System.Windows.Forms.Keys.Control) > 0;\n</pre>\n\nI'll modify the\
+    \ code in the post.\n\nI hadn't even thought about the assembly reference (I had\
+    \ that reference already in my test project), but that's a handy tip to be aware\
+    \ of (thanks).\n\nKean"
+- author: Eug
+  email: Eug81@mail.ru
+  ip: 77.241.36.11
+  url: ''
+  date: '2009-11-09 19:11:18'
+  body: 'Hi, Kean
+
+
+    How can I draw something without adding it to database?
+
+    I''m creating my own editing command for selected entity and i need to draw marker
+    for current vertex(like ''cross'' for current polyline vertex).'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-11-09 20:12:13'
+  body: 'Hi Eug,
+
+
+    In future please post your general support questions related to AutoCAD''s .NET
+    API via <a href="http://adn.autodesk.com">ADN</a>, if you''re a member, or otherwise
+    <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the AutoCAD
+    .NET Discussion Group</a>.
+
+
+    You probably ought to take a look at Editor.DrawVector()/DrawVectors() or the
+    Transient Graphics API (startby looking at Autodesk.AutoCAD.GraphicsInterface.TransientManager).
+
+
+    Regards,
+
+
+    Kean'
+- author: Eug
+  email: eug81@mail.ru
+  ip: 77.241.36.11
+  url: ''
+  date: '2009-11-09 21:36:14'
+  body: Thanks a lot!! Sorry for posting in a wrong thread.
+- author: Mario
+  email: mario.rosenbohm@web.de
+  ip: 193.238.8.86
+  url: ''
+  date: '2010-03-03 08:24:43'
+  body: "Hi Kean,\n\ni use also the \"alt\" key. But when i release (key-up) the \n\
+    \"alt\"-key not fire the sampler! The entityjig sleep, \nonly when i press the\
+    \ mouse-button or enter responding \nthe sampler.\n\nwhy?\n\nRegards,\nMario"
+- author: Kean Walmsley
+  email: ''
+  ip: 151.47.161.95
+  url: http://profile.typepad.com/kean
+  date: '2010-03-03 09:23:16'
+  body: 'Hi Mario,
+
+
+    I didn''t test this with the Alt key, but you may need a different approach for
+    that one (I vaguely recall there being some differences around handling Alt).
+
+
+    I''m afraid I don''t have time to investigate, myself.
+
+
+    Good luck,
+
+
+    Kean'
+- author: doug@barense.com
+  email: doug@barense.com
+  ip: 68.188.151.168
+  url: ''
+  date: '2010-05-25 15:51:33'
+  body: 'I truly appreciate the example above. However I''m trying to apply a similar
+    use for the Tab key. Can you give me any suggestions on how to check whether the
+    Tab key has been pressed?
+
+
+    Also, I''m sorry about the duplicate comment.  I did get your other post to work
+    with the Tab key but I''m trying to integrate this all in an Insert Jig and this
+    is closer to what I''m trying to accomplish.
+
+
+    Thanks!
+
+    Doug'
+- author: Scott
+  email: technophile.sw@gmail.com
+  ip: 216.254.57.30
+  url: ''
+  date: '2011-03-28 22:56:07'
+  body: 'I appreciate the example!
+
+    One small improvement; when testing the modifier keys the compare you''re using
+    is greater-than-zero, &gt; 0.  This fails if the bit happens to coincide with
+    the sign bit, because setting this bit represents a negative number.  Better to
+    test for not-equals-zero, != 0.
+
+    -----'

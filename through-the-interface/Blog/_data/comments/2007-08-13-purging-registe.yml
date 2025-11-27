@@ -1,0 +1,182 @@
+comments:
+- author: James Maeding
+  email: jmaeding@hunsaker.com
+  ip: 209.79.186.253
+  url: ''
+  date: '2007-08-15 18:11:18'
+  body: Hey, thanks for hitting this subject Kean!  If there is any chance you could
+    comment on the possibility/difficulty of stopping reg apps in xrefs from "sticking"
+    in drawings they are xreffed to, that would be appreciated.  No worries if you
+    cannot get to it, you already did a huge favor by these posts!
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-08-16 11:56:13'
+  body: 'Hi James,
+
+
+    I can see a few ways to go about this:
+
+
+    <ul>
+
+    <li>Respond to events telling you when an xref is created - from here you can
+    fire off the PC command to purge the current drawing (probably using SendStringToExecute()):</li>
+
+    <ul>
+
+    <li>the Editor.CommandEnded event for the XATTACH command</li>
+
+    <li>the Database.ObjectAppended event for a block reference corresponding to an
+    xref</li>
+
+    </ul>
+
+    <li>As a matter of course run the PC command (or the code it uses) just before
+    a drawing is saved:</li>
+
+    <ul>
+
+    <li>redefine the QSAVE and SAVE commands to call PC first</li>
+
+    <li>use the Database.BeginSave event (assuming that''s not too late - this would
+    need testing) to run the code from there</li>
+
+    </ul>
+
+    </ul>
+
+
+    I''m sure there are options I''ve missed, but these are some of the different
+    ways you might investigate automating this activity.
+
+
+    Cheers,
+
+
+    Kean'
+- author: anonymous
+  email: sherine_s@sify.com
+  ip: 195.229.241.187
+  url: ''
+  date: '2008-03-12 09:38:36'
+  body: 'Hi Kean,
+
+
+    Could you please explain how we can redefine QSAVE?
+
+
+    Thanks
+
+    ss'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 68.110.50.28
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-03-13 19:44:14'
+  body: 'You undefine it with the UNDEFINE command, and implement your own command
+    of that name.
+
+
+    Kean'
+- author: tArun
+  email: tarunc@tvsinfotech.com
+  ip: 220.225.213.130
+  url: http://through-the-interface.typepad.com/through_the_interface/2007/08/purging-registe.html
+  date: '2008-05-13 11:51:03'
+  body: How to get the VBA macro attached with a drawing?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-13 12:00:28'
+  body: 'This isn''t a VBA macro, so currently can''t be attached with a drawing.
+
+
+    Kean'
+- author: tArun cHatterjee
+  email: tarunc@tvsinfotech.com
+  ip: 194.151.43.185
+  url: ''
+  date: '2008-09-30 16:17:22'
+  body: "is there any api module available in Realdwg to detect VBA macro attached\
+    \ with a drawing..\ni tried Dictionary entry of \"ACAD_VBA\" which returns VBA\
+    \ manager object..... but how to type cast it?\n\nDBDictionary dic = tr.GetObject((ObjectId)nod.GetAt(\"\
+    ACAD_VBA\"), OpenMode.ForRead) as DBDictionary;\n\nforeach (DictionaryEntry entry\
+    \ in dic)\n                {\n                    \n                    object\
+    \ a = tr.GetObject((ObjectId)entry.Value, OpenMode.ForRead);\n}"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-30 17:36:13'
+  body: "tArun - \n\nThis is a question for the ADN team, if you're a member.\n\n\
+    Regards,\n\nKean"
+- author: Mira Saad
+  email: mira.saad@dargroup.com
+  ip: 85.112.95.11
+  url: ''
+  date: '2010-01-02 11:44:01'
+  body: 'Dear Sir,
+
+
+    I need to purge and Audit a set of autocad files by batch processing them and
+    without opening the files.
+
+
+    Above is the way to purge the files.
+
+    how can I Audit a batch of autocad files?
+
+
+    I am using db.Audit() which accepts AutitInfo as parameter. But I am not able
+    to set the AuditInfo parameter or to define it.
+
+
+    Please advise.'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2010-01-04 18:02:15'
+  body: 'Dear Mira,
+
+
+    I haven''t had to do this, myself: I suggest posting your question via <a href="http://adn.autodesk.com">the
+    ADN site</a>, if you''re an ADN member, or to <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>, otherwise.
+
+
+    Regards,
+
+
+    Kean'
+- author: jessica
+  email: jl_bergantino@yahoo.com
+  ip: 180.193.127.8
+  url: http://www.yahoomail.com
+  date: '2011-09-07 19:21:24'
+  body: "hi kean,\n\n  i would like to ask if u can give me some drawing examples\
+    \ of this commands? PSpace, QLeader, Purge, properties, Properties close..\n\n\
+    please its for my reporting..\nthanks kean..\ngodbless!!!"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.58.92
+  url: http://profile.typepad.com/kean
+  date: '2011-09-07 20:31:06'
+  body: 'Hi Jessica,
+
+
+    Sorry - firstly I don''t really understand what you''re asking, and secondly I
+    don''t have time to provide support that''s unrelated to my posts (unless this
+    is actually a suggestion for a blog post, which I unfortunately can''t commit
+    to addressing).
+
+
+    I suggest posting your question to one of our online discussion groups.
+
+
+    Kean
+
+    -----'

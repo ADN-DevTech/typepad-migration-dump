@@ -1,0 +1,247 @@
+comments:
+- author: Matt
+  email: kttynfrg@hotmail.com
+  ip: 209.112.170.177
+  url: ''
+  date: '2008-05-31 01:24:20'
+  body: "Your code snippet works for me, but I am having trouble converting this to\
+    \ C++.  I admit to not being all that familiar with C#, but I'm hoping you can\
+    \ help me.  Where are the variables PromptStatus and Entity defined?  \n\nIt seems\
+    \ like the ObjectARX 2007 C++ interface for AcEdJig is half baked compared to\
+    \ the c# interface.  Unfortunate, because I can't use anything but C++ for my\
+    \ project.\n\nRight now I'm frustrated because it seems like AcquirePoint returns\
+    \ nothing but kNormal or kKW1 through kKW9.  I never get kNull, kCancel or anything\
+    \ else.  Neither does there seem to be an equivalent to PromptStatus.  Here is\
+    \ my set user controls function call:\nsetUserInputControls((UserInputControls)\n\
+    \ (AcEdJig::kAccept3dCoordinates\n  | AcEdJig::kNoNegativeResponseAccepted\n \
+    \ | AcEdJig::kNullResponseAccepted\n  | AcEdJig::kInitialBlankTerminatesInput\n\
+    \  | AcEdJig::kAnyBlankTerminatesInput ));\n\nI appreciate any answers to the\
+    \ above questions as well as general help with the acquirePoint function in ObjectArx\
+    \ 2007."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-06-02 14:16:42'
+  body: 'There is no direct equivalent for PromptStatus in ObjectARX (C++) - this
+    was created to wrap a number of concepts (the ErrorStatus and the value returned,
+    for instance). Enity is AcDbEntity in the C++ API.
+
+
+    I''d suggest looking at the EllipseJig C++ sample (under samples\database\elipsjig_dg
+    in the ObjectARX SDK).
+
+
+    Otherwise, please post your questions to <a href="http://discussion.autodesk.com/forum.jspa?forumID=34">the
+    ObjectARX Discussion Group</a> or via <a href="http://adn.autodesk.com">the ADN
+    website</a>, if you''re a member.
+
+
+    Regards,
+
+
+    Kean'
+- author: Massimo Cicognani
+  email: cicognani@quit3.com
+  ip: 81.73.102.158
+  url: ''
+  date: '2008-09-23 16:04:16'
+  body: "I'd revive this old post for a simple question:\n\nWhile jigging, the segment\
+    \ already added to the Polyline does not count for dynamic input, like osnaps\
+    \ or object tracking.\nHow can we make the PLineJig act more like a normal Pline?\
+    \ \nI tried to add the entity to the Database since the beginning of the jigging,\
+    \ but it doesn't work, or maybe I'm not able to update the entity correctly inside\
+    \ the transaction.\nI guess I'd have to get rid of the transaction management..."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-23 17:17:59'
+  body: 'Yes - making it database-resident would help, I expect. You may need to create
+    a separate database-resident polyline that you update as you acquire values (and
+    just jig the latest segment, for example).
+
+
+    I haven''t tried to do this, myself: I''d suggest contacting the ADN team, if
+    you''re a member.
+
+
+    Kean'
+- author: asmaa14
+  email: ''
+  ip: 41.221.19.88
+  url: http://profile.typekey.com/asmaa14/
+  date: '2008-10-05 11:26:10'
+  body: 'bonjour,
+
+    en VBA la commande :AngleFromXAxis:
+
+
+    exp:
+
+    dim  angl_segment as double
+
+
+    angl_segment = ThisDrawing.Utility.AngleFromXAxis(pt0, pt1)
+
+
+    permet de trouver l''angle entre le segment (pt0, pt1) et l''axe des X
+
+    est ce que il existe une commande équivalente en c#?'
+- author: asmaa14
+  email: ''
+  ip: 41.221.19.88
+  url: http://profile.typekey.com/asmaa14/
+  date: '2008-10-05 17:26:25'
+  body: 'est ce qu''il y a une fonction en .net api équivalente a cette fonction en
+    com api(acad) : Move(object FromPoint, object ToPoint);'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-10-06 09:14:26'
+  body: 'Asmaa -
+
+
+    This is not a mechanism for getting support. If your question is not directly
+    related to a post, please post to the <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">AutoCAD
+    .NET Discussion Group</a> or to <a href="http://adn.autodesk.com">the ADN website</a>,
+    if you''re a member.
+
+
+    Il existe aussi <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=127">le
+    forum francais pour AutoCAD</a>, si jamais.
+
+
+    Regards,
+
+
+    Kean'
+- author: Allan C
+  email: kabsol@socal.rr.com
+  ip: 66.75.87.160
+  url: ''
+  date: '2009-01-25 14:16:54'
+  body: "Howdy Kean,\n\nI know this is long after the original posting, but you keep\
+    \ these up here so us newbies can always learn from them, right?\n\nDo you take\
+    \ requests?\n\nI am having a similar problem to that in the first comment from\
+    \ Matt, except that you have gotten me going trying to learn F#.  I cannot for\
+    \ the life of me figure out how to code a jig in F#, or even how to handle an\
+    \ \"Entity\", which has no available constructor.  Converting this code to F#\
+    \ is as far beyond my abilities at this point as is the peak of Mount Everest.\n\
+    \nCould you see your way clear to posting a sample of a jig in F#?\n\nThank you,\
+    \ Kean, and thanks for all the great stuff you've given us already.\n\n   -- Geoff"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.2.123
+  url: http://profile.typekey.com/walmsleyk/
+  date: '2009-01-25 18:54:12'
+  body: 'Hi Geoff,
+
+
+    I do take requests - I''ll add this to my list.
+
+
+    As I''m taking a special (personal) interest in F#, these days, feel free to <a
+    href="mailto:kean.walmsley@autodesk.com">email me your code</a>, and I''ll take
+    a look.
+
+
+    Kean'
+- author: S.Hamel
+  email: shayne.hamel@gogtp.com
+  ip: 67.189.44.190
+  url: ''
+  date: '2010-06-29 00:51:22'
+  body: Is there a limit of 3 on the amount of Keywords allowed?  I get some really
+    strange behavior when I go above 3 keywords.
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-06-29 10:41:53'
+  body: 'No - there''s no fixed limit. You may be suffering from clashing mnemonics
+    (if your keywords start with the same letter(s)), but otherwise there shouldn''t
+    be a limit (at least not one that low).
+
+
+    Kean'
+- author: Ray Whitmore
+  email: ray@datamat.com
+  ip: 68.15.59.216
+  url: http://www.datamat.com
+  date: '2010-07-29 18:08:22'
+  body: "I've successfully implemented a PLine jig using the above. But the routine\
+    \ has 2 problems:\n\n1. It doesn't respond to the Ortho and Polar toggles. Points\
+    \ can be input at any angle.\n\n2. You have to end the command with <esc> rather\
+    \ than the standard <enter> or <spacebar>. This causes confusion for the user\
+    \ because <esc> is normally a cancel, not an end command.\n\nEach point is acquired\
+    \ using:\n\n   myPR = prompts.AcquirePoint(\"Select a point\")\n\nI can't find\
+    \ any reference to adding options to this.\n\nDo you have any ideas?\n\nTIA"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-07-29 18:31:22'
+  body: 'I unfortunately don''t have time to look into this.
+
+
+    Please submit your question to <a href="http://adn.autodesk.com">the ADN team</a>,
+    if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean'
+- author: Ray Whitmore
+  email: ray@datamat.com
+  ip: 68.15.59.216
+  url: http://www.datamat.com
+  date: '2010-07-30 16:10:08'
+  body: I have done so with no results so far. I was hoping you could shed some insight.
+    Or maybe it just isn't supported.
+- author: S.Hamel
+  email: shayne.hamel@gogtp.com
+  ip: 71.193.152.223
+  url: ''
+  date: '2010-08-06 00:14:25'
+  body: "I appreciate the reply Kean.  I continue to struggle with this issue.  I\
+    \ have rules out mnemonics issues.  If you have time perhaps you can try adding\
+    \ a 4th keyword to your code above and see if it works for you.  If not I fully\
+    \ understand.\n\nHere is the Code I am going off of, note some keywords are commented\
+    \ out just as I test around this issue.  The strangest part is that whatever keywords\
+    \ I set as the first 3, always work just fine, anything in positions 4 and above\
+    \ throw the error.  I can literally move them around position wise while debugging\
+    \ to utilize the functions I need at the moment.\n\n\n            JigPromptPointOptions\
+    \ jigOpts = new JigPromptPointOptions();\n            jigOpts.UserInputControls\
+    \ = (UserInputControls.Accept3dCoordinates | UserInputControls.NoZDirectionOrtho\
+    \ | UserInputControls.NoNegativeResponseAccepted | UserInputControls.NullResponseAccepted);\n\
+    \            //jigOpts.Keywords.Add(!LockPos ? \"Lock\" : \"unLock\");\n     \
+    \       //jigOpts.Keywords.Add(\"Prev\");\n            jigOpts.Keywords.Add(\"\
+    Next\");\n            jigOpts.Keywords.Add(_promptCounter == 0 ? \"Rotate\" :\
+    \ \"Move\");\n            //jigOpts.Keywords.Add(\"Color\");\n            jigOpts.Keywords.Add(!TextOff\
+    \ ? \"Text off\" : \"Text on\");\n            jigOpts.Keywords.Add(\"Save\");\n\
+    \            jigOpts.AppendKeywordsToMessage = true;\n            jigOpts.Message\
+    \ = \"\\nAlign Points as best you can, Click to Lock/Unlock Points:\";\n     \
+    \       PromptPointResult ptRes = prompts.AcquirePoint(jigOpts);"
+- author: S.Hamel
+  email: shayne.hamel@gogtp.com
+  ip: 71.193.152.223
+  url: ''
+  date: '2010-08-06 00:18:30'
+  body: FYI posting to ADN also so definitely ignore if it doesn't pique your curiosity
+    :).
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-08-06 14:45:35'
+  body: 'I''m certainly curious - I just don''t have the time. :-( :-)
+
+
+    I had a quick look in our call tracker, and see that you''ve managed to resolve
+    the problem yourself, for now.
+
+
+    Kean
+
+    -----'

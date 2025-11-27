@@ -1,0 +1,56 @@
+comments:
+- author: Stephan
+  email: cad@stbartl.at
+  ip: 85.127.2.134
+  url: http://www.stbartl.at
+  date: '2009-07-07 13:07:41'
+  body: 'Hi Kean!
+
+    Is there an option to get an error code in addition to the error message produced
+    by vl-catch-all-error-message. The main problem is that this error message is
+    produced in the (local) language of the installed AutoCAD-product. Therefore it
+    is NOT useable for identifying the type of error in professional programs to be
+    distributed internationally.
+
+
+    Plus a list of possible errors returned by vl-catch-all-apply would be nice too.
+    I could not find anything myself. Unless it is the same list as in vba?'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-07-07 13:38:07'
+  body: 'Hi Stephan,
+
+
+    I don''t know of such an option, although I''d check the ERRNO sysvar in case
+    that contains anything useful.
+
+
+    I''m not sure what you mean by a "list of possible errors returned by vl-catch-all-apply",
+    unless you mean the list of errors vl-catch-all-apply can catch... It''s most
+    common usage (in my experience) is with COM, so is of most value when used with
+    COM exceptions. It''s not clear to me that an exhaustive list is possible, given
+    than these are coming from COM. Unless I''ve misunderstood your point.
+
+
+    Kean'
+- author: Stephan
+  email: cad@stbartl.at
+  ip: 85.127.2.134
+  url: http://www.stbartl.at
+  date: '2009-07-07 14:23:16'
+  body: 'Thanks for the quick answer, Kean!
+
+
+    Since there is no option to get an error code the part about the list does not
+    really matter anymore. (And ERRNO is not really compatible with vl-catch-all-apply).
+    But just to clearify it, I meant a "list of errors vl-catch-all-apply can catch".
+    For the VBA-Environment such a list exists (see i.e. http://support.microsoft.com/kb/142138/en-us/).
+    The list would not have to be complete, the most common errors would be nice,
+    but as I said, without codes in AutoLISP it would be useless again.
+
+
+    Kind regards, Stephan
+
+    -----'

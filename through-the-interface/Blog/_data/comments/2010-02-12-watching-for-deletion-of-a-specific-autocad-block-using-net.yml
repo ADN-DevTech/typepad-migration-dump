@@ -1,0 +1,138 @@
+comments:
+- author: Danny P.
+  email: dpolkinhorn@watg.com
+  ip: 66.175.73.45
+  url: ''
+  date: '2010-02-12 21:34:09'
+  body: "Hi Kean,\n\nNice post, thanks.  I have a basic coding style question about\
+    \ the process you used to check if the erased object was a block reference.  In\
+    \ the TestObjectAndShowMessage function you used TryCast (in VB.NET) to attempt\
+    \ casting the object to a block reference then checking if the new object was\
+    \ nothing:\n\nBlockReference br = obj as BlockReference;\nif (br != null)\n\n\
+    My question is:  Is that a better method (in terms of speed/safety/proper coding/etc)\
+    \ than: \n\nif (obj is BlockReference)\n\nand why.\n\nThanks in advance for the\
+    \ clarification,\n-Danny"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2010-02-14 18:35:04'
+  body: "Hi Danny,\n\nGreat question - the answer comes down to a style choice, as\
+    \ much as anything. (For some background to my choice of style, you might check\
+    \ out <a href=\"http://through-the-interface.typepad.com/through_the_interface/2006/09/working_with_sp.html\"\
+    >one of my very early posts to this blog</a>.)\n\nI could have written:\n\nif\
+    \ (obj is BlockReference)\n{\n  BlockReference br = (BlockReference)obj;\n  ...\n\
+    }\n\nBut this is ultimately equivalent to using \"as\", which is a \"safe\" cast\
+    \ - i.e. it checks the type of the object before casting it. It'd be interesting\
+    \ to check the IL generated for each of the two forms: I suspect they'll be as\
+    \ close to identical as doesn't matter.\n\nCheers,\n\nKean"
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadtabs/AcadXTabs2010.htm
+  date: '2010-02-16 19:57:51'
+  body: "Hate to disagree, this is not merely a question of style choice.\n\nFirst,\
+    \ just to be clear, we are talking about the choice of this:\n\n<pre>\n\n   Object\
+    \ o = // assign\n   if( o is BlockReference )\n   {\n      BlockReference blockRef\
+    \ = (BlockReference) o;\n      // or\n      BlockReference blockRef = o as BlockReference;\n\
+    \      // use blockRef here...\n   }\n\n</pre>\n\nVerses this:\n\n<pre>\n\n  \
+    \ Object o = // assign\n   BlockReference blockRef = o as BlockReference;\n  \
+    \ if( blockRef != null )\n   {\n      // Use blockRef here\n   }\n\n</pre>\n\n\
+    The first example is inferior because it requires exactly_two_ typecasts (the\
+    \ 'is' operator must do a typecast to type on the right).\n\nIn contrast, the\
+    \ second example requires only a single typecast. If you look at any Microsoft\
+    \ code in Reflector, you will see that when the destunation type is a reference\
+    \ type and the instance is cast to that type and subsequently used, the second\
+    \ pattern shown above is used exclusively, and is the least expensive, and therefore\
+    \ the 'correct' one.\n\nThe 'is' operator and the 'as' operator differ only in\
+    \ that 'is' returns true or false if the cast succeeds, while 'as' returns the\
+    \ successfully cast value. Hence, it is superfluous and wasteful to use both when\
+    \ the object is going to subsequently be cast to the destination type and used.\n\
+    \nIt might also be worth pointing out that DBObjects are a special case, mainly\
+    \ because of the ObjectClass property of the ObjectId tells you that, and can\
+    \ be used to determine the concrete type of a DBObject without having to open\
+    \ it and cast it to the destination type."
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-02-16 20:01:39'
+  body: 'Fair enough. If that''s how the "is" operator works - and I fully admit I
+    haven''t looked at the resultant IL, my knowledge is based on ObjectARX''s RTTI
+    - then you''re right to disagree.
+
+
+    Kean'
+- author: Jurica Lovaković
+  email: jurica.lovakovic@gmail.com
+  ip: 94.253.159.67
+  url: ''
+  date: '2010-02-20 22:16:29'
+  body: 'Hi Kean,
+
+
+    Just for the sake of completeness, you might want to change the code a bit. If
+    the block being tested is a dynamic one, you should open <b>br.DynamicBlockTableRecord</b>
+    instead of <b>br.BlockTableRecord</b>, because otherwise you''d get the name of
+    the anonymous block.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-02-22 14:22:23'
+  body: 'Hi Jurica,
+
+
+    Thanks - I often seem to forget Dynamic Blocks in these scenarios (I''m too old
+    school, I guess :-).
+
+
+    I''ve gone ahead and added a line of code to enable Dynamic Block support.
+
+
+    Regards,
+
+
+    Kean'
+- author: Ricky F
+  email: ricky.fralin@newmill.com
+  ip: 12.190.145.18
+  url: ''
+  date: '2010-10-21 17:36:14'
+  body: 'Hi Kean,
+
+
+    Very helpful post, but just one question.  Using your code above, if one wanted
+    to either prevent the erase from happening, or restore the erased blocks, how
+    would they go about doing this?  I hope the answer is a simple ''one liner'' and
+    not a topic within itself. :)
+
+
+    Regards,
+
+    Ricky'
+- author: Chris
+  email: ckratz@diversifiedwoodcrafts.com
+  ip: 207.230.208.250
+  url: ''
+  date: '2011-01-10 20:03:04'
+  body: I Think it might be a simple DBObject.Erase(false) call. I've done the oposite,
+    using Erase(true) to prevent something from being added to the drawing. I assume
+    you could prevent it from being removed in the same way.
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2011-01-11 09:49:33'
+  body: 'Hi Ricky,
+
+
+    Strange that I didn''t see this comment until Chris'' reply (thanks, Chris!).
+
+
+    And yes - Chris is right (at least that''s where I''d start).
+
+
+    Kean
+
+    -----'

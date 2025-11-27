@@ -1,0 +1,15 @@
+---
+layout: "post"
+title: "How healthy is Forge?"
+date: "2017-06-09 13:50:35"
+author: "Kean Walmsley"
+categories:
+  - "APS (Forge)"
+  - "Autodesk"
+  - "Personal"
+original_url: "https://www.keanw.com/2017/06/how-healthy-is-forge.html "
+typepad_basename: "how-healthy-is-forge"
+typepad_status: "Publish"
+---
+
+<p>Autodesk has maintained a <a href="https://health.autodesk.com" target="_blank">health dashboard</a> for its cloud products for quite some time. The good news for Forge developers is that – just&nbsp; in time for next week’s Accelerator in Barcelona – Forge has been added as a line item:</p><p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e201b8d28af59c970c-pi" target="_blank"><img width="500" height="771" title="Health dashboard now including Forge" style="margin: 30px auto; border-image: none; float: none; display: block; background-image: none;" alt="Health dashboard now including Forge" src="/assets/image_349212.jpg" border="0"></a></p><p>Given the internal response to the technical issues we experienced during <a href="http://through-the-interface.typepad.com/through_the_interface/2016/12/hololens-and-forge-at-the-munich-accelerator.html" target="_blank">the last Accelerator I attended in Munich</a>, I’m pretty sure we’ll be green through the week in Barcelona. Let’s hope so, anyway!</p><p>One great feature of the dashboard is the ability to subscribe to notifications: once you’ve signed in you’ll have the option to do so via the “Health Subscription” button.</p><p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e201b8d28af5aa970c-pi" target="_blank"><img width="500" height="771" title="Subscribing to notifications" style="margin: 30px auto; border-image: none; float: none; display: block; background-image: none;" alt="Subscribing to notifications" src="/assets/image_855967.jpg" border="0"></a></p><p>On a personal note, I’m just about to leave for the airport to fly to Barcelona for this weekend’s Autodesk Football Tournament and next week’s Forge Accelerator (it’s great these are in the same city – for once I’ll be able to hit two birds with one stone :-).</p><p>My football kit is packed and ready:</p><p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e201bb09a3dd80970d-pi" target="_blank"><img width="520" height="301" title="Autodesk Neuchatel's latest football strip" style="margin: 30px auto; border: 0px currentcolor; border-image: none; float: none; display: block; background-image: none;" alt="Autodesk Neuchatel's latest football strip" src="/assets/image_440472.jpg" border="0"></a></p><p>I ended up choosing to have my Twitter handle on the back of my shirt… this should make it easier for people to “follow” me around the pitch (groan).</p><p>This is my last (I hope, anyway!) work-related trip before my family and I depart on our big trip around the world. As part of the preparations, my wife and kids have been working hard on our family’s travel blog – I’ll post some links sometime next week, I expect, to introduce my co-authors.</p>

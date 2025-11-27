@@ -1,0 +1,131 @@
+comments:
+- author: Konstantin
+  email: konstantinos.sakellaris@uba.uni-heidelberg.de
+  ip: 129.206.83.222
+  url: ''
+  date: '2013-03-11 11:17:26'
+  body: "Hi Kean,\ni have tested both SurfRay and POXY.\nEverything seems to be OK\
+    \ as long as the line normal to UCS intersects the selected surface ONLY ONCE\
+    \ (one intersection Point) but not in the case of >1 intersection Points !\nUnfortunately\
+    \ it is not possible to to include Screenshots here so i am going to describe\
+    \ briefly:\n\nTest1:\nDraw three profile curves (same center) say a circle R=\
+    \ 5.0, a circle above R=2.5 and a circle above R=5.0, then loft a surface through\
+    \ the 3 profiles. Now you have a region under the surface between the 2 cocentric\
+    \ circles (a band) whose every selected point (and firing Ray...) SHOULD HAVE\
+    \ 2 intersection points with the Surface !\nBut the Routine finds only one !\n\
+    I have added in the loop a line of code\ned.WriteMessage(\"\\nIntersections found\
+    \ : \" + ids.Length.ToString());\nto check the surf.RayTest() method which indeed\
+    \ finds only one intersection point instead of two which smells like a bug ?\n\
+    \nTest 2:\ncreate a PLANESURFACE (planesurf command)then make 2 copies in the\
+    \ Z+ direction with a distance of say 5.0 units. Now UNION the Surfaces and call\
+    \ POXY.\nNow you get correctly  3 intersection Points BUT the 1st point selected\
+    \ (among several points) does not produces any intersection points!\n\nTo me seems\
+    \ like a bug of the surf.RayTest() method\nIf you want I could mail you some screenshots\
+    \ with different surface tests using the last parameter of the surf.RayTest()\
+    \ method as a Parameter(as documented in ARX Docs MGD) of the selected linear\
+    \ curve (Line, Ray or Xline) in the SURFRAY command using following code\n\n switch\
+    \ (id.ObjectClass.DxfName)\n   {\ncase \"LINE\":\n{\nptonc3d = len.GetPointAtParameter(heights[i]);\n\
+    break;\n}\ncase \"XLINE\":\n{\nptonc3d = xen.GetPointAtParameter(heights[i]);\n\
+    break;\n}\ncase \"RAY\":\n {\nptonc3d = ren.GetPointAtParameter(heights[i]);\n\
+    break;\n }\n}\n                    \nvar pt = new DBPoint(new Point3d(ptonc3d.X,\
+    \ ptonc3d.Y, ptonc3d.Z));\n\nThen you can select a Line, Ray or Xline and you\
+    \ get depending on the Surface and the Position and Direction of the Linear entity\
+    \ ALL or some of the Intersection Points\nin ANY Direction and NOT only the normal\
+    \ UCS Z+ one\n\nBest Regards\nKonstantin"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.25
+  url: http://profile.typepad.com/kean
+  date: '2013-03-11 13:02:09'
+  body: 'Hi Konstantin,
+
+
+    Thanks for the prompt and detailed feedback!
+
+
+    Test 1:
+
+
+    I can see the behaviour you''re describing. It does seem anomalous that the second
+    intersection isn''t identified by the Surface.RayTest() method. I''ll look into
+    it a bit more. It''d be interesting to see whether originating a second ray from
+    just above the first intersection results in other intersections being identified
+    (this would be a possible workaround).
+
+
+    Test 2:
+
+
+    I don''t see the issue related to the first selected point (unless you''re counting
+    the selection of the surface itself, which shouldn''t result in any intersections
+    being identified). It''s good that RayTest() returns all three intersections in
+    this scenario, of course.
+
+
+    The SURFRAY command asks you to select a line but, as mentioned in the post, it
+    only uses it to define the Ray: the returned parameter has no connection whatsoever
+    with the selected curve. So be careful when applying this to some other object,
+    as you seem to have done. Unless I''ve minsunderstood the point of the last part
+    of your comment, of course (please correct me if that''s the case).
+
+
+    Best regards,
+
+
+    Kean'
+- author: Konstantin
+  email: konstantinos.sakellaris@uba.uni-heidelberg.de
+  ip: 129.206.83.222
+  url: ''
+  date: '2013-03-11 15:11:43'
+  body: "Hi Kean,\n\nJust a general Point to be considered from the ARX/MGD .NET documentation\
+    \ ....here cited:\n\nC# method\npublic void RayTest(\n    Point3d rayBasePoint,\
+    \ \n    Vector3d rayDir, \n    double rayRadius, \n    out SubentityId\\[\\] subEntIds,\
+    \ \n    out DoubleCollection parameters\n);\n\nThis wraps the ObjectARX AcDbSurface::rayTest()\
+    \ method.\n\nObjectARX-Parameters\n\n- const AcGePoint3d& rayBasePoint  \nInput\
+    \ base point of the ray.  \n- const AcGeVector3d& rayDir  \nInput ray direction.\
+    \  \n- double rayRadius  \ninput tolerance during the intersection check.  \n\
+    - AcArray<AcDbSubentId>& subEntIds  \nReturned array including faces, edges and\
+    \ vertices.  \n- AcGeDoubleArray& parameters  Returned array of doubles indicating\
+    \ the intersection parameter on the ray with the returned subentities. The smaller\
+    \ of the parameter, the closer to the base point. \n \nAs i understand it in both\
+    \ the ARX and .NET class the 5th argument has to do with parameters and not coordinates\
+    \ of geometric points in 3D space,\n\"AcGeDoubleArray& parameters = Returned array\
+    \ of doubles indicating the intersection parameter\" and \"out DoubleCollection\
+    \ = parameters\" respectively. ?\n\nSo that's how I came on the idea to use the\
+    \ returned value as parameter of the selected linear curve (Line, Xline or Ray)\
+    \ indepentently of the Ray direction Vector argument of the surf.RayTest method.\n\
+    If they are parameters, they have to be applied to something after all...?\n\n\
+    \nTest 2:\nI have just modified the SURFRAY routine and added Xlines and Rays\
+    \ to the selection filter...\n\nvar sf = new SelectionFilter(new TypedValue[5]\
+    \ { new TypedValue((int)DxfCode.Operator, \"<OR\"),\n                        \
+    \                                 new TypedValue(0 , \"LINE\"), \n           \
+    \                                              new TypedValue(0 , \"XLINE\"),\n\
+    \                                                         new TypedValue(0 , \"\
+    RAY\"),\n                                                         new TypedValue((int)DxfCode.Operator,\
+    \ \"OR>\")\n                                                        });\n\nthen\
+    \ i check for the type of object in order to get the necessary arguments for the\
+    \ surf.RayTest() method and apply the returned parameters on the respective selected\
+    \ curve.\n\nAnd it succeds indeed to find the intersection Points but NOT ALL\
+    \ and as mentioned depending on the position + direction of the intersecting curve\
+    \ in relation to the same surface.\nI will email you asap a screenshot-test routine\
+    \ on that because it is very interesting to see it.\n\nBest Regards\nKonstantin"
+- author: bhavika vyas
+  email: bvyas89@gmail.com
+  ip: 117.223.66.8
+  url: ''
+  date: '2014-01-23 12:37:45'
+  body: I want to select two autocad 2d line and find their intersection point how
+    can i do this using c#.net i am new here. Please help me.
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2014-01-23 12:58:37'
+  body: 'You need to call IntersectsWith(). This isn''t a support forum, by the way:
+    please contact ADN or post to the Discussion Groups with further questions.
+
+
+    Kean
+
+    -----'

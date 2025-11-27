@@ -1,0 +1,358 @@
+comments:
+- author: Pedro Ferreira
+  email: pedro_ferreira@netcabo.pt
+  ip: 83.240.157.78
+  url: http://pwp.netcabo.pt/pedro_ferreira
+  date: '2007-06-25 22:52:13'
+  body: 'Hello Kean, could you give an example of how to create a new menu item in
+    the Menu Bar?
+
+    For example to start the command that you just have shown to us in this post?
+
+    Good luck for the game and have great holiday!
+
+
+    Thanks'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-06-26 09:38:19'
+  body: 'Hi Pedro,
+
+
+    Thanks!
+
+
+    Traditionally there are a few ways to go about this. You would create an MNU file
+    and load that, or use the COM API to add menu items.
+
+
+    These days, the recommended approach is using CUI. Here are a couple of posts
+    that may be of use to you: <a href="http://through-the-interface.typepad.com/through_the_interface/2006/11/loading_a_parti.html">Loading
+    a partial CUI and making its toolbars visible through .NET</a> and <a href="http://through-the-interface.typepad.com/through_the_interface/2007/05/creating_a_part.html">Creating
+    a partial CUI file using .NET and loading it inside AutoCAD</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Mark
+  email: lebakram@gmx.net
+  ip: 217.185.10.118
+  url: ''
+  date: '2008-09-24 10:38:14'
+  body: 'Hi Kean,
+
+
+    for getting a selection I use the following statements:
+
+
+    Form1.Hide()
+
+    selectionOpts.SingleOnly = True
+
+    selectionRes = ed.GetSelection(selectionOpts)
+
+    Form1.Show()
+
+
+    This perfectly works for the modal dialog, ACAD shows the pickbox selector and
+    with one click the object is selected.
+
+    In the modeless dialog however only an ordinary mouse-pointer is shown and it
+    needs 2 mouseclicks to select the object. What is needed to do the selection with
+    one click ?
+
+
+    Thanks Mark'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-24 12:00:08'
+  body: 'Hi Mark,
+
+
+    Actually the best - and safest - way to handle this is via the command-throat.
+    Modeless interactions with a document can be tricky, so we generally recommend
+    firing commands to the command-line (via SenStringToExecute() - see <a href="http://through-the-interface.typepad.com/through_the_interface/2008/09/more-quiet-comm.html">this
+    recent post</a> for a reasonable approach for this).
+
+
+    As you want to reshow the dialog, you will probably want to check a flag in your
+    application from your command and then re-display the dialog, if needed.
+
+
+    People often find sending commands "ugly", but in many situations it''s actually
+    the proper way to do things. This is one of those situations.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Mark
+  email: lebakram@gmx.net
+  ip: 217.185.10.71
+  url: ''
+  date: '2008-09-24 19:08:23'
+  body: 'Hi Kean,
+
+
+    ObjectARX-developers made our life quite hard...
+
+    Switching from GetSelection to SendStringToExecute changes the program logic because
+    of its asynchronous nature. So I capture the PromptedforSelection event.
+
+    This works, but I always have to terminate the Select-prompt with a ^C.
+
+    I did not find a way to select just a single object (as it worked with selectionOpts.SingleOnly
+    = True). Do you have an idea ? Here is my string:
+
+    doc.SendStringToExecute("_select ", activate:=True, wrapUpInactiveDoc:=False,
+    echoCommand:=True)
+
+
+    Thanks
+
+    Mark'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-24 19:12:22'
+  body: 'Hi Mark,
+
+
+    Sorry - at this stage I''ll have to refer you to ADN support or to one of <a href="http://discussion.autodesk.com">our
+    discussion groups</a>, if you''re not a member.
+
+
+    Regards,
+
+
+    Kean'
+- author: JohnDS
+  email: ''
+  ip: 217.154.90.163
+  url: http://profile.typekey.com/johnds/
+  date: '2008-11-03 15:01:03'
+  body: 'Hi Kean,
+
+
+    A little off topic here, but similar in nature: I was wondering if there a means
+    of customising the Dynamic Input mechanism? What I mean is, currently we are constrained
+    to use the various GetXXX() (in EditorInput namespace) methods for obtaining input
+    from the user. Fine, this works well, but is there a way to obtain information
+    about the input AS it is occuring?
+
+
+    What I am trying to do is create a sort of ''intellisense'' mechanism when the
+    user is typing in information at the Dyna-input prompt on screen, and based on
+    what they enter, say a ''.'' then pop-up another little user interface at the
+    point on screen where they are typing.
+
+
+    Is this possible?
+
+
+    Thanks
+
+    John.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.58.188
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-04 11:39:39'
+  body: 'Hi John,
+
+
+    Certainly - <a href="http://through-the-interface.typepad.com/through_the_interface/2008/05/filtering-windo.html">this
+    post</a> should be of help.
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.58.188
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-04 14:20:12'
+  body: 'Oops - a bit too quick there...
+
+
+    You may indeed also need information provided by a PointMonitor, to know where
+    the cursor is, etc.
+
+
+    Kean'
+- author: malo
+  email: martin.maloblocki@mero-tsk.de
+  ip: 195.227.67.131
+  url: ''
+  date: '2008-12-09 13:23:08'
+  body: 'hi kean,
+
+
+    i have some trouble running this code on Acad2009 x64. I get an exception everytime
+    I touch an object.
+
+
+    It works fine on a 32bit version.
+
+
+    Any idea?
+
+
+    regards,
+
+
+    malo'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.58.159
+  url: http://profile.typekey.com/walmsleyk/
+  date: '2008-12-09 15:08:52'
+  body: 'This was coded for 32-bit AutoCAD, so I haven''t tested it with 64-bit and
+    don''t know what the problem might be.
+
+
+    Have you stepping through the code in the Visual Studio debugger?
+
+
+    Kean'
+- author: malo
+  email: martin.maloblocki@mero-tsk.de
+  ip: 195.227.67.131
+  url: ''
+  date: '2008-12-09 16:14:17'
+  body: "I tried, but it's pretty hard.\nIt happens in the OnMonitorPointEvent when\
+    \ I point an entity on screen:\n\nFullSubentityPath[] paths = e.Context.GetPickedEntities();\n\
+    \nIt seems to be an error in the GetPickedEntities() function (x64 only).    \
+    \   It's not an exception I can catch. \n\nmalo"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.58.159
+  url: http://profile.typekey.com/walmsleyk/
+  date: '2008-12-09 17:37:18'
+  body: 'Malo -
+
+
+    This would be a perfect one for the ADN support team to handle (I''m not using
+    64-bit, as yet).
+
+
+    Are you a member of ADN?
+
+
+    Kean'
+- author: malo
+  email: martin.maloblocki@mero-tsk.de
+  ip: 195.227.67.131
+  url: ''
+  date: '2008-12-10 08:30:42'
+  body: 'hi kean,
+
+
+    thank you.
+
+
+    unfortunately I''not a member of ADN.
+
+
+    malo'
+- author: Krayzie
+  email: ''
+  ip: 85.135.162.56
+  url: http://profile.typepad.com/6p0120a55b1a1e970b
+  date: '2009-10-02 09:22:42'
+  body: 'Hi Kean,
+
+    I do not recommend using Hide() and Show() function withing a modal dialog to
+    start interacting with AutoCAD. Quite often it causes nasty flickering. Maybe
+    you could mention the proper way of doing this by using the Editor.StartUserInteraction
+    class.
+
+    Regards
+
+    Krayzie'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-10-02 13:53:37'
+  body: 'Hi Krayzie,
+
+
+    Thanks - it seems to me that you''ve just done so. :-)
+
+
+    I''ll put this on my list for a follow-up post.
+
+
+    Regards,
+
+
+    Kean'
+- author: Prem Kumar U
+  email: premudhay@gmail.com
+  ip: 124.124.54.130
+  url: ''
+  date: '2009-12-04 13:23:33'
+  body: "Hi kean,\n        When i use this ShowModalDialog method it replaces my icon\
+    \ in the dialog box. How do i display my icon in the dialog?\n\nRegards,\nPrem\
+    \ Kumar U"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.71.9
+  url: http://profile.typepad.com/kean
+  date: '2009-12-04 19:23:54'
+  body: 'Hi Prem,
+
+
+    I don''t know - I suggest posting your question to the <a href="http://adn.autodesk.com">ADN</a>
+    team or via <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Prem Kumar U
+  email: premudhay@gmail.com
+  ip: 124.124.54.130
+  url: ''
+  date: '2009-12-07 12:52:55'
+  body: 'Hi kean,
+
+
+    Thank you for your response.
+
+
+    Regards
+
+    Prem Kumar U'
+- author: Prathmesh
+  email: prathmesh@gmail.com
+  ip: 59.160.74.254
+  url: ''
+  date: '2010-06-02 12:16:00'
+  body: 'After launching dialog by command, window task bar entry is getting created.
+
+    Is there any way to avoid this?'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-06-02 13:58:56'
+  body: 'Have you tried setting the form''s ShowInTaskBar property to be false?
+
+
+    Kean
+
+    -----'

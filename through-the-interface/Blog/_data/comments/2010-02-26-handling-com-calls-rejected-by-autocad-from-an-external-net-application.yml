@@ -1,0 +1,495 @@
+comments:
+- author: Ramy Mansour
+  email: myname367@hotmail.com
+  ip: 72.37.244.36
+  url: ''
+  date: '2010-06-01 22:25:04'
+  body: "Can you explain what exactly is the workaround. I am only trying to start\
+    \ autocad with \"AcadApp = New Autodesk.AutoCAD.Interop.AcadApplication\" when\
+    \ i get this error. \n\nCan you tell me what exactly is the problem with running\
+    \ this. This was done in VB."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-06-02 10:41:27'
+  body: 'The issue and workaround is explained as best I can in this post. I suggest
+    following up on the appropriate <a href="http://discussion.autodesk.com">online
+    discussion group</a> if you want more assistance.
+
+
+    Kean'
+- author: Anatoly Knigin
+  email: AKnigin@topcon.com
+  ip: 62.105.138.5
+  url: ''
+  date: '2010-06-24 11:47:34'
+  body: 'Dear Kean,
+
+
+    I have the same problem with Autocad 2010/11 initialization, but the difference
+    is that I call CreateInstance from my C# module which I made as COM component
+    (for calling it from C++ code). When I try to call CoRegisterMessageFilter from
+    the component''s implementation class constructor, I get error code CO_E_NOT_SUPPORTED,
+    which means that my thread was initialized as COINIT_MULTITHREADED. Could you
+    possibly give some advice, because this article is almost only piece of information
+    about the problem that I''ve found. Thanks.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-06-24 12:24:58'
+  body: 'Dear Anatoly,
+
+
+    I''m far from being an expert on threading issues, but it sounds as though you
+    need to change the threading model for your C# module to "STA" (Single Threaded
+    Apartment), possibly using the [STAThread] attribute or some project settings.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Anatoly Knigin
+  email: AKnigin@topcon.com
+  ip: 62.105.138.5
+  url: ''
+  date: '2010-07-01 11:13:52'
+  body: 'Dear Kean,
+
+
+    Thank you for your help. I''ve made an example for testing almost the same as
+    above - a simple form with a button starting AutoCAD instance. On Civil3D 2010
+    it works correctly, but when I try to start 2011 version this way, I get the following
+    exception: Retrieving the COM class factory for component with CLSID {C92FB640-AD4D-498A-9979-A51A2540C977}
+    failed due to the following error: 80080005 Server execution failed (Exception
+    from HRESULT: 0x80080005 (CO_E_SERVER_EXEC_FAILURE)).'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-07-01 11:37:25'
+  body: 'Deat Anatoly,
+
+
+    I suggest posting your test example via <a href="http://adn.autodesk.com">ADN</a>
+    to handle, if you''re a member, or otherwise perhaps someone on the <a href="http://discussion.autodesk.com">discussion
+    groups</a> can help.
+
+
+    Regards,
+
+
+    Kean'
+- author: Usamatahamouhamed
+  email: ''
+  ip: 41.239.185.223
+  url: http://profile.typepad.com/usamatahamouhamed
+  date: '2010-12-29 16:56:21'
+  body: "This's another walkaround -a small part from an application I work on- (nicer\
+    \ code uglier results)\n\nThe problem is sooner or later we will face much more\
+    \ complicated bugs see what will happen if we try to open or save files, draw\
+    \ objects or access the block editor or the layer maneger!!!\n\n\n// Interact\
+    \ with files and directories\nusing System.IO;\n// Interact with registry\nusing\
+    \ Microsoft.Win32;\n// Interact with Autocad [Avoid conflicts]\nusing System.Runtime.InteropServices;\n\
+    using Autodesk.AutoCAD.Interop;\nusing Autodesk.AutoCAD.Interop.Common; \n\n\n\
+    \n        private void btnRun_Click(object sender, EventArgs e)\n        {\n \
+    \           //Run Autocad\n            AcadApplication acAppComObj = null;\n \
+    \           const string strProgId = \"AutoCAD.Application.18\";\n           \
+    \ try       //See if Autocad is already running\n            {\n             \
+    \   acAppComObj = (AcadApplication)Marshal.GetActiveObject(strProgId);\n     \
+    \       }\n            catch       //If not see if it could be lunched\n     \
+    \       {\n                try\n                {\n                    System.Windows.Forms.MessageBox.Show(\"\
+    I'm gonna to try to load Autocad.\\r\\n\\r\\nI'll pause for 15 seconds!\");\n\
+    \                    string acadLocation = Convert.ToString(Registry.GetValue(@\"\
+    HKEY_LOCAL_MACHINE\\SOFTWARE\\Autodesk\\AutoCAD\\R18.1\\ACAD-9001:409\", \"Location\"\
+    , \"\"));\n                    acadLocation += @\"\\acad.exe\";              \
+    \ //This's for Autocad 2011 people\n                    System.Diagnostics.Process.Start(acadLocation);\n\
+    \                    System.Threading.Thread.Sleep(15000);       //Wait till Autocad\
+    \ is fully functional [This's a must]\n                    acAppComObj = (AcadApplication)Marshal.GetActiveObject(strProgId);\n\
+    \                }\n                catch       //Couldn't find acad.exe !\n \
+    \               {\n                    MessageBox.Show(\"Instance of 'AutoCAD.Application'\"\
+    \ + \" could not be created.\");\n                    return;     //Escape from\
+    \ this procedure\n                }\n            }\n            acAppComObj.Visible\
+    \ = true;        //Success!\n            System.Windows.Forms.MessageBox.Show(\"\
+    Now running \" + acAppComObj.Name + \" version \" + acAppComObj.Version);\n  \
+    \          string filePath = System.Windows.Forms.Application.StartupPath.ToString()\
+    \ + @\"\\dwgTemplate.dwg\";\n            if (File.Exists(filePath))\n        \
+    \    {\n                //the following line generates an error\n            \
+    \    //Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.Open(filePath);\n\
+    \            }\n            else\n            {\n                MessageBox.Show(\"\
+    Couldn't find the specified drawing file!\\r\\n\\r\\nOperation failed\");\n  \
+    \          }\n\n            AcadDocument acDocComObj;\n            acDocComObj\
+    \ = acAppComObj.ActiveDocument;\n\n        }\n\nnow the question is can we do\
+    \ what we did in nice back old days with Autocad 2006 (can we fully automate Autocad\
+    \ 2011 ? - Is there a one nice & simple walkaround ?)"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2011-01-04 08:56:51'
+  body: 'If you stick to just using the COM interfaces (the Autodesk.AutoCAD.Interop
+    namespace) from out-of-process clients, then you should be fine.
+
+
+    If you want to call into .NET then I recommend creating an in-process .DLL which
+    you demand-load and use to execute functionality implemented via commands.
+
+
+    Kean'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2011-04-21 01:02:10'
+  body: "Hi Kean, \n   Once again, having your blog in my RSS feed saved the day (or\
+    \ probably more like a week).  I actually have a big fat Zero lines of COM code\
+    \ in my 3 applications, but my installer used COM to open AutoCAD and create a\
+    \ new Workspace and Profile, which suddenly failed.  Luckily my memory is still\
+    \ good enough (barely) to recall this post, which after a little massaging, solved\
+    \ the problem.  Thanks again!"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-04-21 08:04:56'
+  body: 'Hi David,
+
+
+    Glad it was helpful. :-)
+
+
+    Regards,
+
+
+    Kean'
+- author: Pierre Gauthier
+  email: pierrega@consortech.com
+  ip: 174.91.251.242
+  url: ''
+  date: '2011-09-19 20:17:48'
+  body: "Hi!\n\nHere's what to do if you want to implement IMessageFilter in a console\
+    \ application (tested with AutoCAD Map 3D 2010):\n\n    class Program\n    {\n\
+    \        [DllImport(\"ole32.dll\")]\n        static extern int CoRegisterMessageFilter(\n\
+    \            IMessageFilter lpMessageFilter,\n            out IMessageFilter lplpMessageFilter\n\
+    \            );\n\n\n        class Filter : Form, IMessageFilter\n        {\n\
+    \            IMessageFilter oldFilter;\n\n            public Filter()\n      \
+    \      {\n                CoRegisterMessageFilter(this, out oldFilter);\n    \
+    \        }\n\n            public int HandleInComingCall(int dwCallType, IntPtr\
+    \ hTaskCaller, int dwTickCount, IntPtr lpInterfaceInfo)\n            {\n     \
+    \           return 0; // SERVERCALL_ISHANDLED\n            }\n\n            public\
+    \ int RetryRejectedCall(IntPtr hTaskCallee, int dwTickCount, int dwRejectType)\n\
+    \            {\n                return 1000; // Retry in a second\n          \
+    \  }\n\n            public int MessagePending(IntPtr hTaskCallee, int dwTickCount,\
+    \ int dwPendingType)\n            {\n                return 1; // PENDINGMSG_WAITNOPROCESS\n\
+    \            }\n        }\n\n        [STAThread]\n        static int Main(string[]\
+    \ args)\n        {\n            Filter f = new Filter();\n...\n...\n\nRegards,\n\
+    Pierre"
+- author: Pierre Gauthier
+  email: pierrega@consortech.com
+  ip: 174.91.251.242
+  url: ''
+  date: '2011-09-19 20:19:54'
+  body: 'You''ll have have to add a reference to System.Windows.Form add
+
+    using System.Windows.Forms;
+
+    into your source code.
+
+
+    Pierre'
+- author: kumar
+  email: kumar@yahoo.com
+  ip: 175.100.154.162
+  url: ''
+  date: '2012-07-31 11:00:52'
+  body: 'Hello Kean, is it possible to do the same application in VB.net
+
+
+
+    Regards
+
+    Amit'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-07-31 11:44:23'
+  body: 'I would expect it to be possible, although I haven''t done so, myself.
+
+
+    This post should at least help you get some of the way there:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2009/07/converting-between-c-and-vbnet.html">http://through-the-interface.typepad.com/through_the_interface/2009/07/converting-between-c-and-vbnet.html</a>
+
+
+    Kean'
+- author: Pier-Luc
+  email: pl.michaud@norclair.com
+  ip: 67.71.236.166
+  url: ''
+  date: '2012-09-28 15:37:56'
+  body: 'Let''s say I want to know when the retry occures and if that retry succeeded
+    or ended up in the queue once again?
+
+
+    My idea is is to display a form while the call is doing that retry loop to inform
+    the user of the situation (and also asking him to resolve the issue if it''s on
+    his side).
+
+
+    I succesfully applied this interface into my form to handle some async/sync issues
+    in my application (stuff like running some commands with SendCommand() that wouldn''t
+    complete in time for the next interop call). However, sometimes what causes those
+    RPC calls failure can be bad manipulation on the user side such as starting a
+    selection box with the form running, leaving the selection box unfinished, then
+    doing whatever with the form that implies interop actions. This would result in
+    an infinit (unless theres some technical limit) loop of RPC call failures until
+    the user goes into autocad, completes his selection box, then wait for the retry
+    to occure again.
+
+
+    So, that said, is there a way to listen to that RPC call retry to know if it passes
+    so I can accordingly shut down my warning form?
+
+
+    Thanks!'
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.254.3
+  url: http://profile.typepad.com/kean
+  date: '2012-09-28 17:16:01'
+  body: 'I suggest posting your question in the AutoCAD .NET Discussion Group or to
+    the ADN team (I won''t be in a position to answer this anytime soon - I have too
+    much else going on with the lead-up to AU).
+
+
+    Kean'
+- author: Ezra Kevelson
+  email: ezrakevelson@yahoo.com
+  ip: 138.134.102.15
+  url: http://through-the-interface.typepad.com/through_the_interface/2010/02/handling-com-calls-rejected-by-autocad-from-an-external-net-application.html
+  date: '2013-05-02 15:00:30'
+  body: "Dear Kean,\nI'm am receiving a similar error, RPC_E_SERVERCALL_RETRYLATER,\
+    \ as described in this article while trying to run AutoCAD2012 from a C# class\
+    \ library (dll).  The program worked fine with AutoCAD2007 for which it was originally\
+    \ written.  The instance of AutoCAD is successfully created, however I receive\
+    \ the error when I try to open a drawing.\nI tried implementing the solution you\
+    \ provide for a windows form application, in my dll, with no success.\n\n  I solved\
+    \ the problem by wrapping the line responsible for opening the document in a try-catch\
+    \ nested in a while loop as such:\n\nAcadDocument acadDoc;\nbool retry = true;\n\
+    while (retry)\n   {\n    try\n     {\n      retry = false;\n      acadDoc = acadApp.Documents.Open(dwgPath,\
+    \ false, null);\n      }\n     catch (COMException e)\n      {\n        if (e.ErrorCode\
+    \ == RPC_E_SERVERCALL_RETRYLATER)\n        {\n          retry = true;\n      \
+    \  }\n       }\n    }\n\nHowever, following such,on the next action I try to perform\
+    \ I receive the same error.  So, I found I had to wrap each line of code which\
+    \ accesses a property of the acadDocument in a while-try-catch-loop.\n\nNeedless\
+    \ to say, my solution is quite messy and I would prefer to use the message filter.\n\
+    Perhaps you can suggest something?\n\nI have used several of your posts to solve\
+    \ other problems when I originally wrote the program for AutoCAD2007, and thank\
+    \ you for that, however, this time I'm stumped."
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-05-02 15:47:31'
+  body: 'Dear Ezra,
+
+
+    Yes - if I recall correctly this behaviour was introduced with our use of WPF
+    (and the ribbon).
+
+
+    I''d persist trying to get the messafe filter working, if I were you: having try-catch
+    blocks around each call is going to be unwieldy and less performant.
+
+
+    I''m not sure what''s not working - have you tried the provided source project
+    on its own?
+
+
+    Regards,
+
+
+    Kean'
+- author: Ezra Kevelson
+  email: ezrakevelson@yahoo.com
+  ip: 138.134.102.15
+  url: http://through-the-interface.typepad.com/through_the_interface/2010/02/handling-com-calls-rejected-by-autocad-from-an-external-net-application.html
+  date: '2013-05-19 07:37:24'
+  body: "Hi Kean, \nThanks for your quick reply.  Ideally I'd like to persist in getting\
+    \ the message filter to work, but as I was pressed for a deadline and had other\
+    \ issues to deal with, I went ahead with the try-catch blocks.  I did continue\
+    \ trying to implement the message filter and even called in some help from someone\
+    \ better versed in both AutoCAD and .NET than I.  We came to the conclusion that\
+    \ the message filter is designed to work for windows applications with a user\
+    \ interface.  My interface with AutoCAD is designed to work in the background.\
+    \  We also tried implementing the Message Filter on the windows application that\
+    \ starts the process, but its capabilities don't seem to trickle down to the dll\
+    \ I built for actually interfacing with AutoCAD. (We have a multi-module system\
+    \ to work with several cad tools so we can centralize and customize our plotting\
+    \ system, where the modules for interfacing with the cad tools are third in the\
+    \ hierarchy). Also, even if I did get it to work, I would still be stuck with\
+    \ our server implementation, where the process begins with a service.  However,\
+    \ when I have time, I will continue to investigate (perhaps add a dummy form to\
+    \ the dll interface and maybe change it to a console application) and let you\
+    \ know how it goes.\nThanks again, and sorry for taking so long to respond."
+- author: paul kirill
+  email: pkirill@kdcad.com
+  ip: 64.235.152.13
+  url: ''
+  date: '2013-05-30 17:47:46'
+  body: Any chance of seeing this in VB.NET? I checked the MS links and all they provide
+    is C# code. I dread having to rewrite my entire application - especially since
+    I don't know C#... :)
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-05-30 17:55:39'
+  body: 'Sorry, paul, I don''t have this in VB.NET (and wouldn''t know where to start,
+    especially given the lack of documentation from MS on the techniques used).
+
+
+    Perhaps someone on the discussion groups will be able to help...
+
+
+    Kean'
+- author: paul kirill
+  email: pkirill@kdcad.com
+  ip: 64.235.152.13
+  url: ''
+  date: '2013-05-30 19:31:17'
+  body: "Hi Kean - as is typical, after I asked the question I worked out the answer.\
+    \ With some help from a code converter I came up with the code below. It makes\
+    \ for a nice band-aid, but I think I need to get on the C# train...\n\n<ComImport(),\
+    \ InterfaceType(ComInterfaceType.InterfaceIsIUnknown), Guid(\"00000016-0000-0000-C000-000000000046\"\
+    )> _\nPublic Interface IMessageFilter\n<PreserveSig()> _\n    Function HandleInComingCall(ByVal\
+    \ dwCallType As Integer, ByVal hTaskCaller As IntPtr, ByVal dwTickCount As Integer,\
+    \ ByVal lpInterfaceInfo As IntPtr) As Integer\n <PreserveSig()> _\n    Function\
+    \ RetryRejectedCall(ByVal hTaskCallee As IntPtr, ByVal dwTickCount As Integer,\
+    \ ByVal dwRejectType As Integer) As Integer\n<PreserveSig()> _\n    Function MessagePending(ByVal\
+    \ hTaskCallee As IntPtr, ByVal dwTickCount As Integer, ByVal dwPendingType As\
+    \ Integer) As Integer\n\nEnd Interface\n\nPublic Class Form1\n    Inherits Form\n\
+    \    Implements IMessageFilter\n\n    <DllImport(\"ole32.dll\")> _\n    Private\
+    \ Shared Function CoRegisterMessageFilter(ByVal lpMessageFilter As IMessageFilter,\
+    \ ByRef lplpMessageFilter As IMessageFilter) As Integer\n    End Function\n\n\
+    \    Public Sub New()\n        InitializeComponent()\n        Dim oldFilter As\
+    \ IMessageFilter\n        CoRegisterMessageFilter(Me, oldFilter)\n    End Sub\n\
+    \n    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)\
+    \ Handles Button1.Click\n        StartAutoCAD()\n        ProcessDwgs()\n     End\
+    \ Sub\n   \nSub ProcessDwgs()\n        For Each dwg In My.Settings.DwgList\n \
+    \           OpenDwg(dwg)\n            RunScript(\"C:\\Temp\\Test.scr\")\n    \
+    \        CloseDwg(True)\n        Next\n    End Sub\n#Region \"IMessageFilter Members\"\
+    \n    Private Function IMessageFilter_HandleInComingCall(ByVal dwCallType As Integer,\
+    \ ByVal hTaskCaller As IntPtr, ByVal dwTickCount As Integer, ByVal lpInterfaceInfo\
+    \ As IntPtr) As Integer Implements IMessageFilter.HandleInComingCall\n       \
+    \ Return 0\n    End Function\n\n    Private Function IMessageFilter_RetryRejectedCall(ByVal\
+    \ hTaskCallee As IntPtr, ByVal dwTickCount As Integer, ByVal dwRejectType As Integer)\
+    \ As Integer Implements IMessageFilter.RetryRejectedCall\n        Return 1000\n\
+    \          End Function\n\n    Private Function IMessageFilter_MessagePending(ByVal\
+    \ hTaskCallee As IntPtr, ByVal dwTickCount As Integer, ByVal dwPendingType As\
+    \ Integer) As Integer Implements IMessageFilter.MessagePending\n        Return\
+    \ 1\n         End Function\n#End Region"
+- author: Alex
+  email: data2008@mail.ru
+  ip: 194.85.37.126
+  url: ''
+  date: '2013-11-13 10:41:16'
+  body: 'Thank you very much for this post and for this entre blog!
+
+    Nice work indeed!)'
+- author: iurgi@semakprocesados.com
+  email: iurgi@semakprocesados.com
+  ip: 195.76.90.10
+  url: ''
+  date: '2014-02-11 10:20:26'
+  body: 'Hi
+
+    I can''t open drawings created with no original autodesk applications. I''m getting
+    the same error.
+
+    Any clue?
+
+    Thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2014-02-11 10:30:25'
+  body: 'Sorry - no idea why that''s happening in your code. You might try posting
+    a more complete description of the problem to the appropriate online discussion
+    forum.
+
+
+    Kean'
+- author: iurgi
+  email: iurgi@semakprocesados.com
+  ip: 195.76.90.10
+  url: ''
+  date: '2014-02-11 10:57:46'
+  body: "Thanks for your answer.\nI have added your code in my application, and it\
+    \ runs fine, but in some cases I'm getting an exception.\nThe problem is that\
+    \ when I try to open a drawing that was not created with an official autodesk\
+    \ application, for example DraftSight, I'm getting this error:\nSystem.Runtime.InteropServices.COMException\n\
+    \  HelpLink=C:\\Program Files\\Autodesk\\AutoCAD 2011\\HELP\\OLE_ERR.CHM#-2145386153\n\
+    \  Message=\"\"\n  Source=AutoCAD\n  ErrorCode=-2145386153\nHowever, I'm able\
+    \ to open the the drawing directly through autocad.\nThanks"
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2014-02-11 11:06:44'
+  body: 'AutoCAD doesn''t show a dialog when it''s loaded manually, does it?
+
+
+    Otherwise I have no idea why this would happen...
+
+
+    Kean'
+- author: iurgi
+  email: iurgi@semakprocesados.com
+  ip: 195.76.90.10
+  url: ''
+  date: '2014-02-11 11:14:49'
+  body: 'I''m using autocad 2011, and yes it was showing a dialog. I checked to do
+    not show by default, but it was showing the dialog.
+
+    Now it is displaying just a message in the command window.'
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2014-02-11 11:16:34'
+  body: 'Hopefully that''s enough for the code to now work properly...
+
+
+    Kean'
+- author: iurgi
+  email: iurgi@semakprocesados.com
+  ip: 195.76.90.10
+  url: ''
+  date: '2014-02-11 12:27:23'
+  body: I can open the file with autocad, but it is giving an exception when I try
+    to open with the application I have created. That's the problem.
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2014-02-11 13:50:22'
+  body: 'I understand.
+
+
+    My hope was that once you changed the setting in AutoCAD *not* to show the dialog,
+    then the exception would disappear.
+
+
+    If the problem is still there then I''d suggest starting a thread on the AutoCAD
+    .NET Discussion Group (or asking ADN, if you''re a member).
+
+
+    Kean
+
+    -----'

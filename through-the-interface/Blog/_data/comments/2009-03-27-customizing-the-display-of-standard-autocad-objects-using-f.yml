@@ -1,0 +1,97 @@
+comments:
+- author: Stephen Preston
+  email: stephen.preston@autodesk.com
+  ip: 198.102.112.18
+  url: http://adn.autodesk.com
+  date: '2009-03-27 19:23:15'
+  body: Congratulations Qun :-)
+- author: MJohnston
+  email: ''
+  ip: 71.39.137.253
+  url: http://profile.typepad.com/mohnston
+  date: '2009-04-01 00:49:22'
+  body: 'Example of a new API in a new language?
+
+    It''s all a little too much for my tiny little brain. One or the other would have
+    been more compelling for me. But with BOTH I really didn''t get much out of this
+    one.
+
+    Never-the-less, keep it coming. I''ll pick the ones I can grasp.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-04-01 13:44:16'
+  body: 'Fair point. It was probably a little unfair of me to use a programming contest
+    entry to showcase a new API. Trying to kill a flock of birds with one stone. :-)
+
+
+    I''ll post a C# version when I get the chance.
+
+
+    Kean'
+- author: csharpbird
+  email: csharpbird@gmail.com
+  ip: 222.71.105.196
+  url: ''
+  date: '2009-04-08 03:31:11'
+  body: "I have written a C# version:\npublic class DrawOverrule: DrawableOverrule\n\
+    \n    {\n\n        static DrawOverrule theOverrule = new DrawOverrule();\n\n \
+    \       static double radius = 0.5;\n\n        SweepOptions sweepOpts = new SweepOptions();\n\
+    \n        public override bool WorldDraw(Drawable drawable, WorldDraw wd)\n\n\
+    \        {\n\n            \n            if (drawable is Line)\n\n            {\n\
+    \n                Line line = drawable as Line;\n                \n\n        \
+    \        base.WorldDraw(line, wd);\n\n                if (!line.Id.IsNull && line.Length>0.0)\n\
+    \n                {\n\n                    var c = wd.SubEntityTraits.TrueColor;\n\
+    \n                    wd.SubEntityTraits.TrueColor = new EntityColor(0x00AfAfff);\n\
+    \n                    wd.SubEntityTraits.LineWeight = LineWeight.LineWeight000;\n\
+    \n                    var cir = new Circle(line.StartPoint, line.EndPoint - line.StartPoint,\
+    \ DrawOverrule.radius);\n\n                    var pipe = new ExtrudedSurface();\n\
+    \n                    pipe.CreateExtrudedSurface(cir, line.EndPoint - line.StartPoint,\
+    \ sweepOpts);\n\n                    cir.Dispose();\n\n                    pipe.WorldDraw(wd);\n\
+    \n                    pipe.Dispose();\n\n                    wd.SubEntityTraits.TrueColor\
+    \ = c;                                 \n\n                }\n\n             \
+    \   return true;\n\n             }\n\n\n            else if(drawable is Circle)\n\
+    \n            {\n\n                Circle circle = drawable as Circle;\n\n   \
+    \             base.WorldDraw(circle, wd);\n\n\n                if (circle.Radius\
+    \ > DrawOverrule.radius)\n\n                {\n\n\n                    var c =\
+    \ wd.SubEntityTraits.TrueColor;\n\n                    wd.SubEntityTraits.TrueColor\
+    \ = new EntityColor(0x3fffe0e0);\n\n                    wd.SubEntityTraits.LineWeight\
+    \ = LineWeight.LineWeight000;\n\n                    var normal = (circle.Center\
+    \ - circle.StartPoint).CrossProduct(circle.Normal);\n\n                    var\
+    \ clr = new Circle(circle.StartPoint, normal, DrawOverrule.radius);\n\n      \
+    \              var pipeSweptSurface = new SweptSurface();\n\n                \
+    \    pipeSweptSurface.CreateSweptSurface(clr, circle, this.sweepOpts);\n\n   \
+    \                 clr.Dispose();\n\n                    pipeSweptSurface.WorldDraw(wd);\n\
+    \n                    pipeSweptSurface.Dispose();\n\n                    wd.SubEntityTraits.TrueColor\
+    \ = c;\n\n                }\n\n                return true;\n\n            }\n\
+    \n            return base.WorldDraw(drawable, wd);            \n\n        }\n\n\
+    \n        public override int SetAttributes(Drawable drawable, DrawableTraits\
+    \ traits)\n\n        {\n\n            var b = base.SetAttributes(drawable, traits);\n\
+    \n\n            if (drawable is Line)\n\n            {\n\n                traits.Color\
+    \ = 6;\n\n                traits.LineWeight = LineWeight.LineWeight040;\n\n  \
+    \          }\n\n\n            else if (drawable is Circle)\n\n            {\n\n\
+    \                traits.Color = 2;\n\n                traits.LineWeight = LineWeight.LineWeight060;\n\
+    \n            }\n\n            return b;\n\n        }\n\n        [CommandMethod(\"\
+    overrule1\")]\n\n        public void OverruleStart()\n\n        {\n\n        \
+    \    try\n\n            {\n\n                ObjectOverrule.AddOverrule(RXClass.GetClass(typeof(Drawable)),\
+    \ DrawOverrule.theOverrule, true);\n\n                Overrule.Overruling = true;\n\
+    \n            }\n\n            catch (System.Exception e)\n\n            {\n\n\
+    \                \n\n            }\n\n        }\n\n        [CommandMethod(\"overrule0\"\
+    )]\n\n        public void OverruleEnd()\n\n        {\n\n            Overrule.Overruling\
+    \ = false;\n\n        }\n\n    }"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-04-08 09:33:13'
+  body: 'Thanks, csharpbird.
+
+
+    I''d already converted the code and queued up <a href=http://through-the-interface.typepad.com/through_the_interface/2009/04/customizing-the-display-of-standard-autocad-objects-using-net.html">this
+    post</a> for publication by the time I saw your comment.
+
+
+    Kean
+
+    -----'

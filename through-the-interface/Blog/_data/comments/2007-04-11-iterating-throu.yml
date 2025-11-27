@@ -1,0 +1,189 @@
+comments:
+- author: Wyatt
+  email: spam@plantingcows.com
+  ip: 24.220.68.57
+  url: ''
+  date: '2007-04-12 05:36:57'
+  body: While transaction.Commit() may be faster than Dispose() (I wasn't aware of
+    this), it's still not a good idea.  If I remember correctly, this sets the documents
+    modified flag which will cause a save prompt upon closing even though you didn't
+    change anything.
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 202.95.81.226
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-04-12 07:00:38'
+  body: 'There''s a DevNote on the ADN site covering this topic:
+
+
+    http://adn.autodesk.com/adn/servlet/devnote?siteID=4814862&id=5546971&linkID=4900509
+
+
+    Here''s an excerpt:
+
+
+    >>>
+
+    ... there is a huge performance difference between Commit() and Abort().  So,
+    when opening objects for read, you definitely want to explicitly call Commit()
+    even though you didn''t really change anything.  As evidenced by a few test functions,
+    Abort() should only be used under "duress" because of the performance hit.
+
+    <<<
+
+
+    A read-only transaction (even one that opens objects for write, but doesn''t modify
+    them) will not set the database modified flag (DBMOD) when committed. It''s the
+    individual "set" methods that call assertWriteEnabled(), forcing DBMOD to non-zero.'
+- author: Senthil Prabu B R
+  email: sbathey@avineonindia.com
+  ip: 203.197.250.51
+  url: ''
+  date: '2008-03-10 14:59:22'
+  body: 'Hi Kean,
+
+
+    i am trying to set the Global width of lwpolyline with the use of SetStartWidthAt()SetEndWidthAt().
+    But it is not giving the expected result, Please give me some examples.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 70.164.182.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-03-10 15:05:34'
+  body: 'You''ll need to iterate through each of the vertices - either that or use
+    lineweights.
+
+
+    Kean'
+- author: Matej
+  email: matej.tacer@omegaconsult.si
+  ip: 193.77.82.220
+  url: ''
+  date: '2011-04-12 09:04:55'
+  body: 'Hi Kean,
+
+
+    I would need the above code in VB to incorporate it in my VB.NET project. Could
+    you perhaps provide it?
+
+    Actually, I need to iterate through vertices in 3D polyline and extract coordinates.
+
+    Thanks,'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/kean
+  date: '2011-04-12 10:12:57'
+  body: 'Sorry - I don''t have time to do that for people.
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2009/07/converting-between-c-and-vbnet.html">This
+    post</a> should help, though.
+
+
+    Kean'
+- author: Matus
+  email: matus.brlit@cemos.sk
+  ip: 178.40.228.128
+  url: ''
+  date: '2011-05-31 09:49:09'
+  body: 'Hi,
+
+    is there an elegant way of getting number of vertices for 3dpolyline? (like Polyline.NumberOfVertices
+    for optimized polyline) Or do i have to iterate through all vertices and count
+    them?'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-05-31 11:20:15'
+  body: 'There''s no direct way. <a href="http://stackoverflow.com/questions/168901/howto-count-the-items-from-a-ienumerablet-without-iterating">This
+    StackOverflow thread</a> has some interesting background and options.
+
+
+    Kean'
+- author: Yaron
+  email: yovavc@gmail.com
+  ip: 84.109.181.173
+  url: ''
+  date: '2011-07-11 19:38:27'
+  body: "I don't get something basic, maybe you can help.\nIf you define a single\
+    \ line in a polyline, \nhow can you tell difference if you can use both \"GetArcSegmentAt\"\
+    \ and \"GetLineSegmentAt\"?"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-07-11 19:50:42'
+  body: 'It''s all in the Bulge (unless I''ve misunderstood the question).
+
+
+    Kean'
+- author: Yaron
+  email: yovavc@gmail.com
+  ip: 84.109.181.173
+  url: ''
+  date: '2011-07-14 14:41:56'
+  body: 'got it
+
+    thanks :)'
+- author: Javaknight Technologies
+  email: ''
+  ip: 205.130.226.79
+  url: http://profile.typepad.com/javaknight
+  date: '2011-08-29 18:48:17'
+  body: 'Great work here Kean. Was pulling my hair out attempting to understand the
+    above Get...At() functions. The crappy intellisense documentation (and other Autodesk
+    documentation) was NOT helping. I knew that these were the functions to employ.
+    I am actually trying to create a selection set that has a crossing window defined
+    by the verticies of a polyline, to retrieve the located text inside of a large
+    number of polylines. This takes me almost to completion.
+
+
+    Thanks again
+
+
+    -jk'
+- author: Robert Skinner
+  email: Robert.Skinner@bentley.com
+  ip: 173.160.135.229
+  url: ''
+  date: '2012-08-24 22:39:22'
+  body: "Kean,\n\nI'm trying to import DWG drawing data into a standalone application.\
+    \  When I use the foreach construct on a Polyline2d :\n<code>\n    // If an old-style,\
+    \ 2D polyline\n    Polyline2d p2d = obj as Polyline2d;\n    if (p2d != null)\n\
+    \    {\n      // Use foreach to get each contained vertex\n      foreach (ObjectId\
+    \ vId in p2d)\n      {\n        Vertex2d v2d = (Vertex2d)tr.GetObject(vId, OpenMode.ForRead);\n\
+    \      }\n</code>\nIt works for some Polyline2d objects.  For others, I get an\
+    \ System.InvalidCastException.  For those polyline objects, if I instead use\n\
+    <code>\n      foreach (Object obj in p2d)\n</code>\nI get Vertex2d objects.  \n\
+    \nSo which type is Polyline2d supposed to iterate through?  And how can I tell\
+    \ what to expect?\n\nThanks,\nRobert"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-08-24 23:32:21'
+  body: 'Robert,
+
+
+    The enumerator is generic - in that it returns objects of type System.Object -
+    but my understanding is that these should in fact be ObjectIds of Vertex2d objects
+    (for Polyline2d objects) or ObjectIds of Vertex3d objects (for Polyline3ds).
+
+
+    But then I don''t spend much time iterating over old-style polylines, admittedly.
+
+
+    Have you just tried dumping the object type, to see where/when they are of an
+    unexpected type? You needn''t perform a static cast to a Vertex2d object, for
+    instance - just open it as a DBObject and get the class name. I''d be interested
+    to see under which circumstances you get non-Vertex2d objects.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

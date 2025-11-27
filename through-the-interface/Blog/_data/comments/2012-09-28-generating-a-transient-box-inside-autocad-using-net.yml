@@ -1,0 +1,35 @@
+comments:
+- author: Maxence
+  email: maxence.delannoy@wiip.fr
+  ip: 92.147.146.239
+  url: http://wiip.fr
+  date: '2013-08-12 17:51:59'
+  body: The text does not show in wireframe mode. I found that using a shx font allows
+    it to appearing, but it does not stay fixed. In fact, it is not redrawn (if I
+    orbit, it come back in place). How can I force AutoCAD to redraw it?
+- author: Maxence
+  email: maxence.delannoy@wiip.fr
+  ip: 92.147.146.239
+  url: http://wiip.fr
+  date: '2013-08-12 18:02:32'
+  body: "Found an ugly way:\n\nprotected override void OnDeviceInput(DeviceInputEventArgs\
+    \ e)\n{\n    base.OnDeviceInput(e);\n    Debug.Print(\"OnDeviceInput\");\n   \
+    \ TransientManager.CurrentTransientManager.UpdateTransient(this, new IntegerCollection());\n\
+    }"
+- author: Maxence
+  email: maxence.delannoy@wiip.fr
+  ip: 92.147.146.239
+  url: http://wiip.fr
+  date: '2013-08-12 18:35:30'
+  body: For 2013 or more, we can also use Document.ViewChanged to update the transient.
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.224.156
+  url: http://profile.typepad.com/kean
+  date: '2013-08-12 19:51:58'
+  body: 'Glad to know you found a way - and thanks for sharing what you''ve found.
+
+
+    Kean
+
+    -----'

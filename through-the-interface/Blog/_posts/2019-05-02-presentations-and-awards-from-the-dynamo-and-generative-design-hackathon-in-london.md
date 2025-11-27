@@ -1,0 +1,14 @@
+---
+layout: "post"
+title: "Presentations and awards from the Dynamo and Generative Design Hackathon in London"
+date: "2019-05-02 17:48:47"
+author: "Kean Walmsley"
+categories:
+  - "Dynamo"
+  - "Generative design"
+original_url: "https://www.keanw.com/2019/05/presentations-and-awards-from-the-dynamo-and-generative-design-hackathon-in-london.html "
+typepad_basename: "presentations-and-awards-from-the-dynamo-and-generative-design-hackathon-in-london"
+typepad_status: "Publish"
+---
+
+<p><a href="https://through-the-interface.typepad.com/.a/6a00d83452464869e20240a4a783a9200b-pi" target="_blank"><img width="500" height="279" title="Dynamo and GD Hackathon" style="margin: 30px auto; border-image: none; float: none; display: block; background-image: none;" alt="Dynamo and GD Hackathon" src="/assets/image_186459.jpg" border="0"></a></p><p>A video of the final project presentations and the awards ceremony from the <a href="https://www.keanw.com/2019/04/the-first-dynamo-hackathon.html" target="_blank">recent Dynamo and Generative Design Hackathon in London</a> has been <a href="https://youtu.be/X_LNTIqhLPk" target="_blank">posted to YouTube by the UK Dynamo User Group</a>.</p><p><a href="https://through-the-interface.typepad.com/.a/6a00d83452464869e20240a482e5f2200d-pi" target="_blank"><img width="298" height="227" title="Mind the Hack" style="margin: 30px auto; border: 0px currentcolor; border-image: none; float: none; display: block; background-image: none;" alt="Mind the Hack" src="/assets/image_701033.jpg" border="0"></a></p><p>It’s a great way to get a sense of the various projects at the event, something a number of people have asked me about. I was only really there to help kick things off and answer initial questions about using Dynamo with Refinery to implement Generative Design workflows, so it’s fantastic to see how things ended up.</p><p align="center"><br><iframe width="500" height="283" src="https://www.youtube-nocookie.com/embed/X_LNTIqhLPk" frameborder="0" allowfullscreen="" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe><br></p><p>If you have follow-on questions about the various projects, I suggest contacting the <a href="https://twitter.com/UKDynUG" target="_blank">UK Dynamo User Group on Twitter</a>. I’m sure they’ll be happy to point you in the right direction.</p><p>While this was the first such Hackathon – one focused on the use of Dynamo and Refinery together – there will be others. One is happening in <a href="https://twitter.com/DynamoBIM/status/1121413001649823745" target="_blank">Melbourne, Australia on May 20-21, 2019</a> and I’ve already booked travel to come with my family to another just prior to BILT EUR in Edinburgh in October. I thoroughly recommend attending one, if you get the chance!</p>

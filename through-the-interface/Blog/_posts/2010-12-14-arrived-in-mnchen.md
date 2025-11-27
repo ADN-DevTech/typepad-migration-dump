@@ -1,0 +1,15 @@
+---
+layout: "post"
+title: "Arrived in M&uuml;nchen"
+date: "2010-12-14 20:15:57"
+author: "Kean Walmsley"
+categories:
+  - "AutoCAD"
+  - "AutoCAD .NET"
+  - "Geometry"
+original_url: "https://www.keanw.com/2010/12/arrived-in-mnchen.html "
+typepad_basename: "arrived-in-mnchen"
+typepad_status: "Publish"
+---
+
+<p>I’ve arrived in Munich for our German DevDay + DevLab. There’s lots of snow, but luckily I didn’t get delayed: I was a touch paranoid after <a href="http://through-the-interface.typepad.com/through_the_interface/2010/11/at-au-2010.html" target="_blank">my trip to AU</a>, and then having to fly two legs to get here.</p>  <p>Therein lies a story: it’s not usually needed to take two planes to get from Switzerland to Munich, of course, but I had a 30-minute flight from Geneva to Zurich before connecting to a 50-minute flight form Zurich to Munich. As far as I recall this was the most cost-effective option when I booked the flight. My home is actually a bit closer to Geneva than Zurich, but there’s not that much in it: despite this I ended up choosing to Geneva rather than taking the direct flight in Zurich, mainly because I only lost about 45 minutes of my day doing so, and it seemed easier that possibly having to explain why I didn’t take the first leg. And it all turned out fine, but was probably a bit more complicated that I needed, especially given the inclement weather. At least I fly directly to Geneva on the way home.</p>  <p>Thanks to everyone who responded to yesterday’s request for comments – please continue to do so, if you have an opinion and haven’t yet expressed it. I will just say that you need to take <a href="http://through-the-interface.typepad.com/through_the_interface/2010/12/enter-the-matrix.html#comment-6a00d83452464869e20147e0a917f6970b" target="_blank">Jeremy’s comment</a> with a pinch of salt: yes, he may need to relearn mathematics via Wikipedia when he needs something, but then he does have an advanced degree in mathematics, so his foundation is a little higher than the rest of us. ;-)</p>  <p>Anyway, I’m now convinced this is something that’s worth doing and I’m certainly planning to address it within the context of AutoCAD: I’m thinking about developing some kind of tool that allows you to experiment with geometry – whether whole entities or their modifiable properties – by visualizing and applying matrix transformations. And we’ll look at the underlying theory as we go through the steps of creating the tool.</p>  <p>The first post will implement a simple command to transform an entity by asking the user to enter the matrix contents via the command-line. In due course this will get wrapped with a nice palette-based UI that will generate matrices based on user-input and then fire off use the previously-defined command to execute the modification. And at some point I’ll throw reflection into the mix, querying the writeable Point3d and Vector3d properties of the selected entity and allowing the user to transform those instead of the whole object. Sounds like fun? :-)</p>

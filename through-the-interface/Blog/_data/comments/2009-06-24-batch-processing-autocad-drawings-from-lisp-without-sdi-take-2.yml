@@ -1,0 +1,312 @@
+comments:
+- author: HJohn
+  email: jlong101@hotmail.com
+  ip: 216.123.181.194
+  url: ''
+  date: '2009-06-26 18:57:56'
+  body: "Kean, \nDo you have any plans for a blog on batch processing for .NET?  I\
+    \ have been hopping for one on that topic for a long time."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-06-26 19:37:24'
+  body: 'HJohn,
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/batch_processing/">These
+    posts</a> should help (and, more specifically, <a href="http://through-the-interface.typepad.com/through_the_interface/2007/07/updating-a-sp-1.html">this
+    one</a>).
+
+
+    Or is there something else you''re looking for?
+
+
+    Kean'
+- author: Stephan Bartl
+  email: cad@stbartl.at
+  ip: 85.127.187.45
+  url: http://www.stbartl.at
+  date: '2009-07-08 18:39:14'
+  body: 'Hi Kean!
+
+
+    I would like to automatically continue my lisp-program (in the original drawing,
+    which triggered the script) after the execution of the script (or at least (re)start
+    a lisp in that original dwg automatically).
+
+    Both approaches have the problem, that, if I write anything else than an "_.OPEN"
+    after the last "_.CLOSE" in the script, it will not be executed - it acts as if
+    I had not written it into the scriptfile.
+
+    The only solution, that I can think of, is to handle the whole scripting-thing
+    in a new instance of AutoCAD altogether and wait with program-execution of the
+    main-lisp until the whole new AutoCAD-instance is closed again.
+
+    Do you or one of your crew have a better idea?
+
+
+    Thanks, Stephan'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-07-09 10:24:03'
+  body: 'Hi Stephan,
+
+
+    That''s a great question. :-)
+
+
+    If you look in the code where we handle the last drawing (you can search for "For
+    the last drawing", which is in a comment), you will see that we perform a (command
+    "_.CLOSE"). If you want to have some execution continuation you could - instead
+    - create a script (as we have done for our processing work) that closes the drawing,
+    loads our LISP file and executes a continuation function in the original drawing
+    (should it exist: it is also possible it no longer exists, as the OPEN command
+    will get rid of a brand new drawing from the editor if it hasn''t been edited).
+
+
+    It should be pretty straightforward to implement this - the only possible tricky
+    thing I can imagine will be working our where to delete the script (which may
+    or may not end up being an issue for you).
+
+
+    Regards,
+
+
+    Kean'
+- author: Stephan Bartl
+  email: cad@stbartl.at
+  ip: 85.127.166.116
+  url: http://www.stbartl.at
+  date: '2009-07-09 13:41:31'
+  body: 'Hi Kean!
+
+
+    Thanks for that idea. I didn''t even notice that the last "_.CLOSE"-command here
+    is issued by the lisp-code. That''s because I was actually more concentrating
+    on the version from your first article on that subject. Which brings us to the
+    point, that I had already tried to execute some command after the last "_.CLOSE"
+    in a "real" script.
+
+
+    You write: "create a script ... that closes the drawing, loads our LISP file and
+    executes a continuation function in the original drawing". (Let''s assume that
+    the original drawing is still open.) As it seems to me, the script does not honor
+    anything else but an "_.OPEN"-command after a "_.CLOSE". Or in other words, it
+    does not "go back" to the still open original drawing.
+
+
+    (Besides: I cannot verify the described behavior of ACAD disposing a brand new
+    drawing not having been edited because of an OPEN command. Of course that does
+    not mean that it could not get closed in other ways.)
+
+
+    Regards, Stephan'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-07-09 15:06:32'
+  body: 'Hi Stephan,
+
+
+    Hmm - it seems you''re right. I had assumed it would work, but hadn''t realised
+    we''d need to call NEW or OPEN after the CLOSE.
+
+
+    One option would be to save and then reopen the original drawing right at the
+    end - and that might actually be a safe thing to do, thinking about it.
+
+
+    Regards,
+
+
+    Kean'
+- author: Stephan Bartl
+  email: cad@stbartl.at
+  ip: 85.127.166.116
+  url: http://www.stbartl.at
+  date: '2009-07-09 16:51:32'
+  body: "Thanks for the continuous replies, Kean!\n\nFirst: What is safer about it?\n\
+    \nSecond: Just in case I want to minimize the possiblity that someone else migth\
+    \ open the drawing while it is closed I thought of this:\n\nI close the original\
+    \ dwg by way of:\n  (vl-load-com)\n  (vla-close(vla-Item(vla-get-Documents(vlax-get-acad-object))\"\
+    filename.dwg\"))\nRIGHT BEFORE I close the last batch-processed drawing. This\
+    \ way, when I open the Original again with \"_.OPEN\" (from a \"real\" script)\
+    \ - right after the closing of the last bath-processed drawing - it was closed\
+    \ for only a very short time.\n\nThe only drawback for the user is that it looks\
+    \ wired when the drawing is closed for a smidgen bit of a time just to be opened\
+    \ again.\n\nTherefore I think I will go with opening a new AutoCAD-instance altogether\
+    \ in connection with (acet-sys-command ...) from the Express-Tools. Or do you\
+    \ see any dangers in that, Kean?\n\nKind regards, Stephan"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-07-09 17:08:54'
+  body: 'First: because when batch-processing drawings you never quite know what you''re
+    going to get (the drawing could be seriously (unrecoverably) corrupt, for instance).
+
+
+    Second: Just memory consumption. I also find it a slightly odd approach to solving
+    this problem: I would personally save and close the drawing immediately and open
+    it at the end. Should be simple enough to implement. But the choice is ultimately
+    yours, of course.
+
+
+    Kean'
+- author: Stephan Bartl
+  email: cad@stbartl.at
+  ip: 85.127.166.116
+  url: http://www.stbartl.at
+  date: '2009-07-10 01:01:32'
+  body: 'Ok then,
+
+    just to let you know, as far as I am concerned, Autodesk can get rid of SDI now.
+    I am helped enough now so that I can switch to MDI.
+
+    Thank you for all your help.'
+- author: milind
+  email: milindkrishna1@gmail.com
+  ip: 199.64.0.252
+  url: ''
+  date: '2009-07-24 12:50:55'
+  body: 'Will you please tell me how can I close all open drawings with zooming to
+    the extents and saving?
+
+    I used express tool to save & close all the open drawings but it zooms the drawings
+    to the unexpected window.'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-07-24 12:54:33'
+  body: 'milind -
+
+
+    Sorry, but this is not a forum for support. Please submit your question to <a
+    href="http://adn.autodesk.com">the ADN team</a>, if you''re a member, or otherwise
+    <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the AutoCAD
+    .NET Discussion Group</a>.
+
+
+    Kean'
+- author: Ryan  Zamora
+  email: r.zamora@pbad.dbg.com.sa
+  ip: 94.96.13.71
+  url: ''
+  date: '2010-03-24 19:21:39'
+  body: 'Hello Kean;
+
+    I have a problem to my AutoCAD 2007. I open a cad file with LISP behind in one
+    folder my cursor which work as a pa doesn''t work anymore but instead it change
+    to list of command. Not only that when i reinstall the autocad, still nothing
+    has happen. What should i do to return the cursor of my mouse to Pan command?
+    Please help me.'
+- author: Ryan  Zamora
+  email: r.zamora@pbad.dbg.com.sa
+  ip: 94.96.13.71
+  url: ''
+  date: '2010-03-24 19:23:04'
+  body: 'Hello Kean;
+
+    I have a problem to my AutoCAD 2007. I open a cad file with LISP behind in one
+    folder, my cursor of the mouse which work as a PAN before doesn''t work anymore
+    but instead it change to list of command. Not only that when i reinstall the software
+    auto-cad , still nothing has happen. What should i do to return the cursor of
+    my mouse to Pan command? Please help me'
+- author: Kean Walmsley
+  email: ''
+  ip: 58.32.239.82
+  url: http://profile.typepad.com/kean
+  date: '2010-03-25 02:32:52'
+  body: 'Hi Ryan,
+
+
+    I''m afraid I can''t tell what''s happening. If you think it''s a problem caused
+    by the code in this post, let me know, otherwise I suggest posting a more complete
+    description of the problem to the appropriate <a href="http://discussion.autodesk.com">online
+    discussion group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Eugene
+  email: eugene_k@wahw.com.au
+  ip: 218.185.72.2
+  url: ''
+  date: '2010-04-01 02:46:45'
+  body: 'Hi to All,
+
+    Just want to know if you''re
+
+    aware of the much more powerful
+
+    program that does not require
+
+    any script generation and runs
+
+    any lisp on multiple drawings with
+
+    speed, and it also has a good user
+
+    inteface for files selection, based
+
+    on doslib.arx. It is ranbatch.vlx by plot2000.com. Unfirtunately, no
+
+    latest version avilable for 2010...
+
+    If anybody knows any similar program
+
+    please let me know, I would really
+
+    appreciate it!'
+- author: David Koch
+  email: dkoch@ewingcole.com
+  ip: 68.42.19.64
+  url: http://architects-desktop.blogspot.com/
+  date: '2013-06-23 05:32:54'
+  body: 'I realize this is a fairly old post, but it addresses a need I have at the
+    moment.  I ran into a few issues in getting this to run under Windows 7, using
+    AutoCAD Architecture 2014.
+
+
+    1.  The create-drawing-list function has an argument called "data", but then tries
+    to open the file in a variable called "data-name".  Either the variable name needs
+    to be changed to "data" or the argument name needs to be changed to "data-name".
+
+
+    2.  Windows 7 did not allow the temporary files to write to the root directory
+    of C:.  I created a folder under C: to hold the tmp.lsp file and to receive the
+    temporary data and script files.  I will probably use the drawing directory in
+    which the files to be processed reside for the temporary data and script files,
+    to assure that the user will have write permission.  The LISP file will be on
+    the network, in our office-standards area.
+
+
+    3.  AutoCAD Architecture would not initially load the tmp.lsp file, because the
+    folder I created was not in a "trusted applications" folder.  Once I added the
+    folder to the list of trusted applications, the batch process ran successfully.  I
+    will have to remember to add the office-standard LISP folder to the trusted locations
+    when we deploy AutoCAD Architecture 2014.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-06-23 11:18:33'
+  body: 'Hi David,
+
+
+    Thanks for posting this information - I''m sure others will find it helpful.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

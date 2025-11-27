@@ -1,0 +1,131 @@
+comments:
+- author: Barry Ralphs
+  email: barry@tippingmar.com
+  ip: 66.117.142.70
+  url: ''
+  date: '2008-04-16 20:31:10'
+  body: Cool, I've been wanting to do that for a while now. Will it work in 2008?
+    I see the DLL's are there.
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.19.34
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-04-17 18:22:16'
+  body: 'Sorry - this is a new API in 2009. I''ll post something on TrayItem.ShowBubbleWindow()
+    sometime next week, I hope.
+
+
+    Kean'
+- author: Mark
+  email: dubbelaarm@conwag.com
+  ip: 165.228.109.98
+  url: ''
+  date: '2008-04-21 00:53:28'
+  body: it works in A2008, however, the balloon notificaction is justified to the
+    left hand side of the screen with the 'communication dish' icon residing over
+    the 'draw' menu even though the communication area is on the right hand side
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-04-21 11:41:02'
+  body: 'Thanks, Mark.
+
+
+    Actually, yes - now that I''ve tried it in 2008, I see the balloon there, too
+    (and on the right, as in 2009 - not sure what''s different about your configuration).
+
+
+    Our internal design docs implied this was 2009 only, but it seems it was there
+    as an undocumented/unsupported API in 2008.
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-04-21 13:25:48'
+  body: 'Well - it seems it''s even documented (and therefore supported) for 2008.
+
+
+    Kean'
+- author: Michael Tint
+  email: tint@inbox.ru
+  ip: 212.179.22.130
+  url: ''
+  date: '2009-07-20 09:08:33'
+  body: 'Hi Kean. Everything is working perfectly in
+
+    Civil 3d 2009. I inserted code on initializing my application when loading to
+    AutoCAD. Only I have a little problem.
+
+    It is working only in debug mode after netload.When I make setup to my application,
+
+    a balloon notification not displayed on the start AutoCAD when application loaded.
+
+    What''s wrong? Thank you for your advice'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-07-20 09:24:40'
+  body: 'Hi Michael,
+
+
+    I assume you''re automatically loading your module at startup of Civil 3D? If
+    so, this kind of thing sometimes happens when an application initialization depends
+    on a document being available when one actually isn''t yet there. I''m not 100%
+    sure this is the case, but this is what it feels like based on the information
+    you''ve provided.
+
+
+    Why exactly the balloon notification mechanism should depend on a document being
+    available is another question (not one that I have an answer for, off the top
+    of my head).
+
+
+    One option might be to "queue up" a command as your app initializes, which then
+    executes once a doc is available. Check ads_queueexpr() in <a href="http://through-the-interface.typepad.com/through_the_interface/2006/08/calling_command.html">this
+    post</a>, to see if that helps.
+
+
+    Regards,
+
+
+    Kean'
+- author: Jim Cameron
+  email: james.cameron@dematic.com
+  ip: 205.159.94.61
+  url: http://dematic.com
+  date: '2010-03-09 21:57:02'
+  body: 'Hi Kean, can you tell me how to make this work in AutoCAD 2010? It looks
+    like the references have changed. I did include ACWindows but I am stuck on the
+    InfoCenterManager.
+
+
+    Thanks
+
+
+    Jim Cameron'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-03-10 09:53:01'
+  body: 'Hi Jim,
+
+
+    I''ve updated the post to include information on getting this to work in AutoCAD
+    2010.
+
+
+    Cheers,
+
+
+    Kean
+
+    -----'

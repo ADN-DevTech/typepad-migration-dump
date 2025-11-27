@@ -1,0 +1,15 @@
+---
+layout: "post"
+title: "Opportunities in the Forge team"
+date: "2018-04-26 21:18:29"
+author: "Kean Walmsley"
+categories:
+  - "APS (Forge)"
+  - "Autodesk"
+original_url: "https://www.keanw.com/2018/04/opportunities-in-the-forge-team.html "
+typepad_basename: "opportunities-in-the-forge-team"
+typepad_status: "Publish"
+---
+
+<p>There’s a lot of change going on, over in the Forge Partner Development team. This is the team of talented individuals who help customers and partners working with <a href="http://forge.autodesk.com" target="_blank">Forge</a> – as well as members of the <a href="http://autodesk.com/adn" target="_blank">Autodesk Developer Network</a>, of course. One of the team’s Senior Managers, Stephen Preston (who took over many of my former responsibilities when I left them in their pre-Forge days back in 2012, as well as doing a lot of other important work besides) is moving into the Forge Business Development team. Yes, so his new title will have just a one word difference from his old one, even if the role in itself is going to be a <em>very</em> different (and no doubt exciting) challenge.</p><p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e20223c84644d1200c-pi" target="_blank"><img width="500" height="332" title="Forging ahead" style="margin: 30px auto; border-image: none; float: none; display: block; background-image: none;" alt="Forging ahead" src="/assets/image_777587.jpg" border="0"></a></p><p>Cyrille Fauvel – the team’s other Senior Manager – will now head up the technical arm of FPD. Congratulations to both Stephen and Cyrille on their new roles!</p><p>This reshuffling is opening up a number of new technical positions in their team. If you’re interested in a highly technical role that involves a significant amount of outbound communication (and probably some travel to interesting places), be sure to let Cyrille know by <a href="mailto:cyrille.fauvel@autodesk.com" target="_blank">email</a>, <a href="https://twitter.com/FAUVELCyrille" target="_blank">Twitter</a> or <a href="https://www.linkedin.com/in/cyrillefauvel" target="_blank">LinkedIn</a>. The team is looking for four or so people in a variety of locations: probably two in Europe, one in the US and one in China or India. In Europe the preferred locations are Germany, France and the UK, in the US they are Boston and San Francisco. FPD is looking for candidates with various industry backgrounds who are ideally interested (if not currently fluent) in web technologies, given the team’s primary focus.</p><p>So, do you fancy taking the plunge into something new? If so, let Cyrille know!</p>
+<p><font color="#a5a5a5">photo credit: zigazou76 </font><a href="http://www.flickr.com/photos/38712296@N07/15977563002"><font color="#a5a5a5">Réalisation d’un bracelet à la forge</font></a><font color="#a5a5a5"> via </font><a href="http://photopin.com"><font color="#a5a5a5">photopin</font></a><font color="#a5a5a5"> </font><a href="https://creativecommons.org/licenses/by/2.0/"><font color="#a5a5a5">(license)</font></a></p>

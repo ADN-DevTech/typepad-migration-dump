@@ -1,0 +1,41 @@
+comments:
+- author: Andy
+  email: laymanzheng@gmail.com
+  ip: 99.120.91.138
+  url: ''
+  date: '2010-07-16 23:22:35'
+  body: "Hi Kean,\n\nCommand \"SHL\" crash in my test in windows 7 home x64 + autocad\
+    \ 2011 x64.\n\nI try following code:\n\n              Entity ent = (Entity)objs[1];\n\
+    \              cur.HandOverTo(ent, true, true);\n              tr.AddNewlyCreatedDBObject(ent,\
+    \ true);\n              <b>//cur.Dispose();</b>\n              objs[0].Dispose();\n\
+    \              objs[2].Dispose();\n\nit works. Although I do find that it's up\
+    \ to the ObjectARX application to delete the old object in ObjectARX document."
+- author: Kean Walmsley
+  email: ''
+  ip: 99.31.232.76
+  url: http://profile.typepad.com/kean
+  date: '2010-07-17 18:46:03'
+  body: 'Hi Andy,
+
+
+    Interesting, thanks.
+
+
+    I''m not sure why this would be different on x64, to be honest, but it''s good
+    to know what worked for you.
+
+
+    Regards,
+
+
+    Kean'
+- author: Anonymoose
+  email: noone@nowhere.com
+  ip: 24.187.144.65
+  url: ''
+  date: '2012-03-04 00:46:41'
+  body: 'Nothing to do with x64, it will crash on any platform, because the OpenCloseTransaction
+    is trying to close an object that''s already been closed by your code''s call
+    to cur.Dispose().
+
+    -----'

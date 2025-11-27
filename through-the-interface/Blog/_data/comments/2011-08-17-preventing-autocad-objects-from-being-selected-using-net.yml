@@ -1,0 +1,157 @@
+comments:
+- author: Chuck
+  email: chuckwilbur@spatialnet.net
+  ip: 99.164.157.222
+  url: ''
+  date: '2011-08-17 23:23:08'
+  body: 'Kean,
+
+
+    This is slightly off topic, but what I''m working on today is pretty similar to
+    what you''re doing as far as reacting to selection set changes (ed.SelectionAdded).
+
+
+    How can I react to entities being removed from the pickfirst set in C#? I tried
+    ed.SelectionRemoved but it doesn''t seem to get triggered, ever. When I deselect
+    all entities SelectionAdded gets triggered again, but e has the same values that
+    it did when the entities were added. ARX has a pickfirstModified overload on the
+    AcEditorReactor, but I can''t find a C# wrapper.
+
+
+    A post about reacting to entities getting deselected could be a nice sequel to
+    today''s post. Maybe do something silly like draw a big red X across any entities
+    that get deselected (using the corners of the bounding box)?'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/kean
+  date: '2011-08-18 14:43:58'
+  body: "Chuck,\n\nActually this is pretty nicely on-topic, compared to many of the\
+    \ comments I get. ;-)\n\nYou might start with Document.ImpliedSelectionChanged()\
+    \ (yes, it took me some time to find it, even though I know it was there). \n\n\
+    This only gets a System.EventArgs parameter, so you probably need to do some with\
+    \ Editor.SelectImplied() and Editor.SetImpliedSelection() if you need to query\
+    \ or modify the contents of the pickfirst set (and I don't know if that's possible\
+    \ from the callback itself - you may need to defer such changes until DocumentManager.DocumentLockModeChanged()).\n\
+    \nSeems worthy of a post - will try to get to it in the next week or two.\n\n\
+    Cheers,\n\nKean"
+- author: Chuck
+  email: chuckwilbur@spatialnet.net
+  ip: 99.164.157.222
+  url: ''
+  date: '2011-08-18 16:40:42'
+  body: 'Having read your blog (and the comments) for a while, I didn''t feel TOO
+    bad about the off-topicness of my question ;)
+
+
+    ImpliedSelectionChanged is exactly what I was looking for, for my purposes (updating
+    a modeless property display palette as the selected entities change, so I only
+    care about the current selection). I''m guessing that''s the wrapper for ARX''s
+    pickfirstModified.
+
+
+    Getting the entities that were just de-selected by the change to the implied selection
+    seems doable, though kind of hokey given just this event to work with. I guess
+    you''d have to store the last known selection set as a member, then compare to
+    the current selection in the event handler. Seems weird to have to do all that
+    when the Editor''s SelectionRemoved event is sitting right there...'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/kean
+  date: '2011-08-18 16:53:23'
+  body: 'I agree - very hokey. I just gave it a try and ended up doing exactly what
+    you''d mentioned (although I held an ObjectIdCollection rather than a full selection
+    set).
+
+
+    Editor.SelectionRemoved() would have been great, but yes - that''s wired differently
+    (and under-the-hood work would presumably be needed to map pickfirst management
+    into it).
+
+
+    I have it working, with minor quirks: the code can''t easily tell the difference
+    between someone deselecting everything (via a crossing window, for instance) and
+    hitting escape (which we really have to allow to work in the same way). So objects
+    will get deselected if *everything* is deselected. :-S
+
+
+    Kean'
+- author: Carl
+  email: Carl.Golenberg@brownconsulting.com.au
+  ip: 125.7.48.146
+  url: ''
+  date: '2013-12-01 23:35:42'
+  body: 'wow this is close to what I''m trying to accomplish...(chuck''s comments)
+
+
+    I too need to get a mode-less palette to adapt to the current implied selection.
+    in my case it seems the event [SelectionAdded] fires so often I can''t even sort
+    it, even when you only pick 1 entity, once. Did you guys ever look deeper into
+    this?'
+- author: Kean Walmsley
+  email: ''
+  ip: 64.79.144.10
+  url: http://profile.typepad.com/kean
+  date: '2013-12-02 02:25:59'
+  body: 'I don''t seem to have found anything beyond what was posted in the comments.
+
+
+    That said, I suggest looking at the ImpliedSelectionChanged event - this post
+    should be a good start:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2011/10/displaying-an-autocad-ribbon-tab-contextually-using-net.html">http://through-the-interface.typepad.com/through_the_interface/2011/10/displaying-an-autocad-ribbon-tab-contextually-using-net.html</a>
+
+
+    Kean'
+- author: Carl
+  email: Carl.Golenberg@brownconsulting.com.au
+  ip: 125.7.48.146
+  url: ''
+  date: '2013-12-02 03:14:40'
+  body: 'I''ll save Kean some trouble here - for anyone else looking I found the solution
+    (that worked, I found a few that didn''t) here:
+
+
+    <a href="http://adndevblog.typepad.com/autocad/2012/04/displaying-a-contextual-tab-upon-entity-selection-using-ribbon-runtime-api.html#tpe-action-posted-6a0167607c2431970b019b01f8f9d0970b">http://adndevblog.typepad.com/autocad/2012/04/displaying-a-contextual-tab-upon-entity-selection-using-ribbon-runtime-api.html#tpe-action-posted-6a0167607c2431970b019b01f8f9d0970b</a>'
+- author: Carl
+  email: Carl.Golenberg@brownconsulting.com.au
+  ip: 125.7.48.146
+  url: ''
+  date: '2013-12-02 03:17:47'
+  body: I may be double posting here - I found that article and tried to put it here
+    THEN saw the post Kean - your a legend :) yes, that worked perfectly for palettes.
+    The c# to vb.net conversion went pretty smooth but... that AddHandler to isIdle
+    worries me; where / how could you remove the handle? I'm trying to be really careful
+    about unloading (eventually) pretty much ever handler I load.... still, working
+    is working.
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2013-12-17 18:44:59'
+  body: 'As far as I recall there is a RemoveHandler() method you can use from VB.NET.
+    You can remove it on Terminate(), but that''s really only called on AutoCAD shutdown
+    (you might also choose to remove it sooner, as you see fit).
+
+
+    Kean'
+- author: ko0ls
+  email: ko0ls92.nuce@gmail.com
+  ip: 14.162.8.132
+  url: ''
+  date: '2013-12-20 07:51:57'
+  body: can you help me handle event selectionRemoved? I think it not working.
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2013-12-20 09:51:49'
+  body: 'This is not a forum for support. Please post your questions to the AutoCAD
+    .NET Discussion Group.
+
+
+    Kean
+
+    -----'

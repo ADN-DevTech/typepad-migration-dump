@@ -1,0 +1,271 @@
+comments:
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadtabs/AcadXTabs2010.htm
+  date: '2010-02-08 11:21:26'
+  body: 'We have to routinely contend with that issue with C++ ActiveX programming
+    (VARIANT_BOOL), which was for some strange reason, carried into Visual LISP (:VLAX-TRUE/FALSE),
+    in spite of the fact that VBA''s If() doesn''t require an explicit test.
+
+
+    For example:
+
+
+    <pre>
+
+
+    Command: (if :vlax-false "True" "False")
+
+    "True"
+
+
+    </pre>'
+- author: J. Daniel Smith
+  email: typepad.com@jdanielsmith.org
+  ip: 132.188.71.12
+  url: http://blog.jdanielsmith.name/
+  date: '2010-02-08 13:59:18'
+  body: "\"if (booleanVariable == true)\" (really) bugs me too.  \n\nAt /W4, the VS\
+    \ C++ compiler will issue an \"assignment in conditional expression\" warning,\
+    \ so there's much less need for the old \"if (Adesk::kTrue == booleanVariable)\"\
+    \ habit. (You ARE compiling at /W4, right?)"
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadtabs/AcadXTabs2010.htm
+  date: '2010-02-08 14:23:43'
+  body: 'Yea, but it''s not nearly as bad as the classic ''double-negative'' LISP:
+    (if (not (null something))...) verses (if something ...)'
+- author: Mike Tuersley
+  email: mike.tuersley@mtuersley.com
+  ip: 204.210.178.212
+  url: http://www.mtuersley.com
+  date: '2010-02-08 14:32:37'
+  body: 'I agree with you on using ''if (booleanVariable)'' as it is straightforward.
+
+
+    But if you wanted to run the explicit test for equality, are you checking for
+    reference or value? With .NET, you''re better off using:
+
+
+    booleanVariable.Equals(true) for value and booleanVariable.ReferenceEquals(booleanVariable2)
+    for reference. There are some issues with ReferenceEquals though.
+
+
+    Just my peeve'
+- author: Tim Catalano
+  email: tcatalano@rkmi.com
+  ip: 65.101.194.254
+  url: ''
+  date: '2010-02-08 16:02:21'
+  body: True that, i agree, far more human readable. though, i've learned that shortcut
+    doesn't quit work right in linq statements. i usually still have to use = true/false.
+    i use vb.net, not sure if it's the same in c#.
+- author: Scott Sheppard
+  email: ''
+  ip: 67.180.108.168
+  url: http://profile.typepad.com/sheppards
+  date: '2010-02-08 16:51:26'
+  body: I agree. I consider if (Adesk::kTrue == booleanVariable) to be just plain
+    wrong given that compiler warnings will unearth the inadvertent = for ==. I am
+    a fan of "treat warnings as errors" settings.
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2010-02-08 21:35:37'
+  body: "I haven't written my own C++ project for a number of years, now: the last\
+    \ time I did there were issues with using ObjectARX at /W4, but my related memory\
+    \ is fading (I'm running aggressive garbage collection :-). And my own use of\
+    \ this approach almost certainly pre-dates the warning. \n\nI'm a little curious,\
+    \ though (which is a little cheeky given my pedantic post) what makes reversing\
+    \ the sides of a test to be \"just plain wrong\"? :-)\n\nKean"
+- author: Scott Sheppard
+  email: ''
+  ip: 198.102.112.18
+  url: http://profile.typepad.com/sheppards
+  date: '2010-02-08 21:42:44'
+  body: "In most high level languages the assignment construct is\n\n   <identifier>\
+    \ = <constant> | <expression>\n\nAn if statement is an evaluation as to the results\
+    \ of one of those statements. It just seems so natural to keep the order of\n\n\
+    \   if (<identifier> = <constant>)\n\ninstead of flipping it around."
+- author: Jeff
+  email: jeff.kowalski@autodesk.com
+  ip: 71.198.175.133
+  url: ''
+  date: '2010-02-09 08:08:44'
+  body: "Fun article, Kean.\n\nWay back when computers were made of wood and we used\
+    \ C-shaped rocks to form them into the shape we needed, there were two substantial\
+    \ reasons why boolean comparison was a bad idea:\n\n1.  As you mention, while\
+    \ falsehood was absolute (zero), there were many truths (any non-zero), and the\
+    \ various opinions of truth led to disagreements and bugs.  Woe to the developer\
+    \ that was expecting some called subroutine to ascribe to his particular brand\
+    \ of truth.  Was isItSafe() going to return TRUE, true, kTrue, etc.? What was\
+    \ the current value of that enum/const/#define in the scope of definition versus\
+    \ use?  Get it wrong with an equivalence test and your code has a hard-to-spot\
+    \ bug.  Best to just test for non-false, using the naked predicate as you point\
+    \ out.\n\n2.  But perhaps worse, older compilers weren't smart enough to tell\
+    \ whether you were just looking for \"some kind of truth\"; erring on the side\
+    \ of caution, they aimed to ensure you got the \"precise kind of truth\" you wanted.\
+    \  And, since there wasn't an easy way to create branches in assembly for specific\
+    \ values other than zero, they'd first *subtract* the value of truth you asked\
+    \ for, then jump if the difference wasn't zero, so \n   if (predicate == TRUE)\
+    \ { execute something }\nreally became\n   test = predicate - TRUE\n   jump beyond\
+    \ execution block if test is nonzero.\nFurther, because the result of the test\
+    \ was immediately used in the conditional jump, it meant the processor had to\
+    \ wait for the result of the subtraction to be ready, stalling pipelining.  You\
+    \ can see this extra subtract (and wait) negatively impacts performance.\n(I've\
+    \ even seen some older compilers subtract zero when encountering an explicit comparison\
+    \ to false.  Go figure.)\n\nBack then, explicit comparisons in boolean statements\
+    \ were both bug-prone and slow.  Today, with modern languages and compilers, truth\
+    \ has been reconciled and branching on booleans has gotten smarter.  My personal\
+    \ habits were formed in those wilder times and so, wherever the language permits,\
+    \ I side with your preference for straightforward boolean tests."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2010-02-09 09:43:42'
+  body: 'I see - thanks for clarifying.
+
+
+    I suspect it comes down to a question of perspective: equality is symmetric, so
+    the order of the sides really doesn''t matter (and the fact that assignment isn''t
+    symmetric is actually the property we want to take advantage of to help differentiate
+    the test from the operation). But I fully agree that if we can use a compiler
+    to avoid something that renders the code less readable, then we absolutely should.
+
+
+    It was interesting that once I''d had my"<a href="http://www.youtube.com/watch?v=lrumxvKD3p0">standing
+    on the table</a>" moment, I found it an easy habit and one that saved me on a
+    few occasions (back in the day).
+
+
+    But I''m indeed grateful I don''t have to worry about such things, these days.
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2010-02-09 11:22:56'
+  body: 'Thanks, Jeff - very interesting!
+
+
+    Kean'
+- author: Greg Heeley
+  email: greg.h@cadpro.co.nz
+  ip: 203.97.71.38
+  url: http://www.cadpro.co.nz
+  date: '2010-02-09 22:10:16'
+  body: God article Kean. As I originally started in VB/VBA, it took a little while
+    to get used to omitting the = signs out when I moved to C#. But I read an article
+    a while back that went through very much the same as yours detailing the inconsistencies
+    between compilers and languages for boolean types, and the suggestion was False
+    = 0, True = Anything else, so never check for true, only ever false. That way
+    at least differences can be ignored.
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadtabs/AcadXTabs2010.htm
+  date: '2010-02-10 02:38:02'
+  body: "\"Mike Tuersley said... \n\nBut if you wanted to run the explicit test for\
+    \ equality, are you checking for reference or value?\"\n\nWhat do you mean 'reference\
+    \ or value' ????????\n\nA Boolean is a value type.\n\n\"With .NET, you're better\
+    \ off using:\nbooleanVariable.Equals(true) for value and booleanVariable.ReferenceEquals(booleanVariable2)\
+    \ for reference. There are some issues with ReferenceEquals though.\"\n\nUmmmmmmm...\
+    \ \n\nSorry, that makes absolutely no sense, because a Boolean is a value type,\
+    \ not a reference type. You can't use ReferenceEquals() to tell if two value types\
+    \ refer to the same object, because value types are always copied when they are\
+    \ passed as arguments."
+- author: Mike Tuersley
+  email: mike.tuersley@mtuersley.com
+  ip: 204.210.178.212
+  url: http://www.mtuersley.com
+  date: '2010-02-10 18:24:14'
+  body: 'This almost doesn''t deserve an answer. You''re reading too much into it,
+    Tony. Reference is for references - I was expanding beyond a simple boolean test
+    since this was for pet peeves. Here is a reference example for you:
+
+
+    object o = null;
+
+    object p = null;
+
+    object q = new Object();
+
+
+    Console.WriteLine(Object.ReferenceEquals(o, p));  // returns True
+
+
+    p = q;
+
+    Console.WriteLine(Object.ReferenceEquals(p, q));  // returns True
+
+    Console.WriteLine(Object.ReferenceEquals(o, p));  // returns False'
+- author: Bill Woodhams
+  email: william.woodhams@wegmans.com
+  ip: 74.39.145.132
+  url: ''
+  date: '2010-02-10 21:10:26'
+  body: For myself when I moved from one langague to another I found it refreshing
+    that I did not need to include an equals operator. This is programming, and 1's
+    and 0's it is either 1 or 0 no level of grey here so do not aske me twice :)
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadtabs/AcadXTabs2010.htm
+  date: '2010-02-11 22:23:54'
+  body: "Mike regarding my comments not deserving a reply, well, you really didn't\
+    \ reply to them... \n\nAll you did was show a textbook example of using ReferenceEquals()\
+    \ on a reference type (System.Object).  \n\nYou didn't actually reply, because\
+    \ what you wrote conveniently sidesteps the fact I pointed out regarding testing\
+    \ 'references to Value types', and that ReferenceEquals() cannot be used on and\
+    \ serves no purpose for Value Types like System.Boolean.\n\nIf you're having difficulty\
+    \ understanding the basic differences between reference types and value types,\
+    \ I can recommend a good online resource that you might find useful.\n\nHave a\
+    \ nice day, Mike."
+- author: Mike Tuersley
+  email: mike.tuersley@mtuersley.com
+  ip: 204.210.178.212
+  url: http://www.mtuersley.com
+  date: '2010-02-12 15:30:06'
+  body: "I'm not going to get into a flaming debate on Kean's blog. I realize that\
+    \ you forgot his second sentence: \n\n<i>\"Feel free to post a comment if you\
+    \ agree, disagree <b>or have your own pet coding peeve to share</b> with other\
+    \ readers of this blog.\"</i>\n\nI added to the peeve from a value standpoint\
+    \ and then extended it to references since some readers probably have never looked\
+    \ at either method. \n\nYou can twist and try to wiggle out of it but you didn't\
+    \ pay attention to the guidelines Kean established. We all do it occassionally\
+    \ and I forgive you :)\n\nHave a good day, Tony"
+- author: Danny P.
+  email: dpolkinhorn@watg.com
+  ip: 66.175.73.45
+  url: ''
+  date: '2010-05-06 21:28:06'
+  body: I'm certainly not a professional programmer and most of the explanations for
+    why I shouldn't do this are over my head.  Most of you would consider me inferior
+    only because I like VB.  But, by using a 'natural' language for developing, it
+    makes my code easier to read and debug (for ME) if I do include "= True" or "=
+    False".  Using "Not" is less intuitive in my humble opinion.  Surely even the
+    gearest of gear-heads can understand "If SomeBoolean = True" when they read it
+    even if it's not technically correct.  His understanding of the code is the same.  Considering
+    the IL is the same, just let it go.  ;-)
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-05-06 23:26:41'
+  body: 'Well, yes - none of this really matters, of course. :-)
+
+
+    It''s down to a question of perceived elegance rather than technical correctness
+    (both forms are technically correct, just as ((a == true) == true) is techncially
+    correct).
+
+
+    Kean
+
+    -----'

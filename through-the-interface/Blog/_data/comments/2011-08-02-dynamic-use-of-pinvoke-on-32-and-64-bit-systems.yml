@@ -1,0 +1,98 @@
+comments:
+- author: Mark
+  email: manderson@earlyservices.com
+  ip: 96.37.129.238
+  url: ''
+  date: '2011-08-03 18:54:13'
+  body: "Kean, thanks for the P/Invoke tip.  I like this trick I found somewhere on\
+    \ the internet and currently use something similar as a Property in my AppInitialize\
+    \ class.\n<i>/* clever property to detect 32-bit or 64-bit  architecture on the\
+    \ current host machine */\ninternal static string PC_Architecture\n{\n    /* based\
+    \ on the premise: IntPtr.Size = 4 on 32-bit machines and IntPtr.Size = 8 on 64-bit\
+    \ machines */\n    get { return string.Format(\"{0}-bit\", (IntPtr.Size * 8).ToString());\
+    \ }\n}</i>\nI'm running 64-bit @ home & 32-bit @ work.  So, it helps.  Keep 'em\
+    \ coming!"
+- author: Ben
+  email: bweir@midwestsurveys.com
+  ip: 207.229.1.246
+  url: ''
+  date: '2011-08-10 21:16:52'
+  body: 'Kean, I am using VB.NET and have a declaration as follows...
+
+    Private Declare Function acedCmd Lib "acad.exe" Alias "acedCmd" (ByVal vlist As
+    System.IntPtr) As Integer
+
+
+    What changes might be needed to run properly on a 64 bit system?'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-08-11 09:44:53'
+  body: 'Hi Ben,
+
+
+    I''ve never encouraged use of acedCmd via P/Invoke - I''d much rather people used
+    sendStringToExecute() or SendCommand().
+
+
+    That said, the signature as it stands seems OK, at first glance. Is it not working
+    for you?
+
+
+    Kean'
+- author: Greg Heeley
+  email: g.heeley@temperzone.co.nz
+  ip: 203.109.154.58
+  url: http://www.temperzone.co.nz
+  date: '2011-08-12 00:42:11'
+  body: 'Hi Kean
+
+    Is there any way of synchronously calling an express tools function. I''m trying
+    to run the flatten command, but P/Invoke methods aren''t working. I''m assuming
+    this is because they''re not defined in acad.exe. SendStringToExecute would work,
+    but I need to do some stuff after the flattening (joining flattened objects to
+    a Polyline) and as the SendStringToExecute will not execute till the rest of the
+    .Net code has finished, this doesn''t help much.'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2011-08-12 17:04:42'
+  body: 'Hi Greg,
+
+
+    You can either use a "continuation passing" style where you split your functionality
+    into different commands and resume by launching the continuation command via the
+    same SendStringToExecute() call, or use COM''s SendCommand(), which is synchronous.
+
+
+    Regards,
+
+
+    Kean'
+- author: Maxence
+  email: maxence.delannoy@wiip.fr
+  ip: 92.147.146.239
+  url: http://wiip.fr
+  date: '2013-08-13 16:12:18'
+  body: "> SendCommand(), which is synchronous.\n\nFrom the doc :\n\n> This method\
+    \ is generally synchronous. However, if the command sent with this method requires\
+    \ any user interaction (such as picking a point on the screen) then this method\
+    \ will continue as soon as the user input begins. The command will then continue\
+    \ to be processed asynchronously. \n\n> When this method is called from an event\
+    \ handler it is processed asynchronously."
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.229.53
+  url: http://profile.typepad.com/kean
+  date: '2013-08-13 16:58:37'
+  body: 'OK, then. Let''s change that to:
+
+
+    "SendCommand(), which is generally synchronous."
+
+
+    Kean
+
+    -----'

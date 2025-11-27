@@ -1,0 +1,86 @@
+comments:
+- author: James Maeding
+  email: jmaeding@hunsaker.com
+  ip: 24.249.247.46
+  url: ''
+  date: '2013-12-16 17:42:41'
+  body: 'this sparked a thought I have been wondering about. You use xdata here, but
+    I have apps that need to attach too much data and must use xrecords.
+
+    I noticed a wblock of a lwpolyline loses this data, while a wblock (to another
+    drawing) keeps it.
+
+    This is a bit of a problem for me because my prog has the option to display the
+    pline as 2d or 3d, depending on the situation (plan sheets or DTM surface modeling...)
+
+    Do you agree on this conclusion? I would love to discover I am just doing it wrong.
+    I''ll post code of do a DG post if its not an issue of "everyone knows wblock
+    of lwpline drops xrecord data..." thx'
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2013-12-17 11:20:45'
+  body: 'It should work fine with XRecords - that''s just overkill for this particular
+    scenario.
+
+
+    The only issue I recall wrt Polylines and XData is when developers used to store
+    XData per vertex, which clearly doesn''t map to lightweight polylines.
+
+
+    If there''s an issue with WBLOCK and Polylines, please do make sure it''s submitted
+    via ADN.
+
+
+    Kean'
+- author: Joe Augustino
+  email: jetskier_orl@yahoo.com
+  ip: 68.62.242.158
+  url: ''
+  date: '2013-12-17 13:59:49'
+  body: Thanks Kean. This will help out a lot. I'm assuming that SetXdataFilter is
+    an AutoCAD .net function. I don't see this function in ObjectARX. I guess I'll
+    just use the isApplicable() virtual to determine if it's one to process.
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2013-12-17 14:06:28'
+  body: 'Hi Joe,
+
+
+    Thank you for asking the question at AU! :-)
+
+
+    Yes, SetXDataFilter is a convenience that''s available in .NET: in ObjectARX you''ll
+    have to do a bit more work within isApplicable(), but it should be simple enough
+    to put together.
+
+
+    All the best to you and yours for the holiday season,
+
+
+    Kean'
+- author: Stephen Preston
+  email: ''
+  ip: 132.188.64.218
+  url: http://profile.typepad.com/stephenpreston
+  date: '2013-12-17 23:59:52'
+  body: 'Wblock handling of Xrecords (and other Dictionary-resident objects) can be
+    modified by changing the value of Dictionary.TreatElementsAsHard. Maybe this is
+    what James is seeing?
+
+
+    And - of course - you can customize deepcloning operations to meet your special
+    needs using another Overrule ;-).'
+- author: James Maeding
+  email: jmaeding@hunsaker.com
+  ip: 24.249.247.46
+  url: ''
+  date: '2013-12-18 17:07:37'
+  body: 'oh, that would be great! I have been using the actual commands in my lisp,
+    but it seems a net wblock function is needed. I will look around for one. great
+    tip if that works!
+
+    -----'

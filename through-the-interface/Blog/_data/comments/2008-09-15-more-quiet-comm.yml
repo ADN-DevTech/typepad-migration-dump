@@ -1,0 +1,251 @@
+comments:
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2008-09-16 00:46:06'
+  body: "Thanks for another great example.\n\nFor this type of problem, I generally\
+    \ prefer a non-command based solution, like the one at this URL: \n\nhttp://www.caddzone.com/InspectionDimension.cs"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 72.255.10.15
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-16 04:10:45'
+  body: 'Interesting - thanks, Tony.
+
+
+    Kean'
+- author: Massimo Cicognani
+  email: cicognani@quit3.com
+  ip: 81.73.102.158
+  url: ''
+  date: '2008-09-16 11:10:58'
+  body: 'Thank you for your example!
+
+
+    Speaking of quiet command execution, shouldn''t the echo parameter in SendStringToExecute()
+    just replace the NOMUTT variable use?
+
+
+    I have also a more general question: I''am trying to keep my code free of Interop
+    references (this is maybe another point to discuss) and I don''t find a way to
+    replace the StartUndoMark() and EndUndoMark() methods. Is there another way to
+    do that without COM referncing?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 72.255.24.82
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-16 12:58:33'
+  body: 'You mean the quiet flag should prevent all information being displayed on
+    the command-line by the command? I can see a case where you would want the command
+    itself to be hidden, but information to be presented.
+
+
+    There''s no way I know to avoid this particular use of the COM API. I personally
+    don''t see a problem with this - there''s no significant performance penalty and
+    I see no great risk of the COM API being deprecated.
+
+
+    Regards,
+
+
+    Kean'
+- author: Massimo Cicognani
+  email: cicognani@quit3.com
+  ip: 81.73.102.158
+  url: ''
+  date: '2008-09-16 17:05:12'
+  body: 'Thank you Kean,
+
+    my personal concern is to make a reference to ''version dependant'' type-libs...
+    i.e. What happens if my application is executed with a different version of AutoCAD,
+    maybe 2008 or 2010, anf I got a reference to ''AutoCAD 2009'' typelibrary?
+
+    Maybe I''m a little O.T. here... sorry about that'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2008-09-16 18:13:53'
+  body: 'It''s easy to invoke COM methods without having to reference the Interop
+    assemblies, using late binding:
+
+
+    Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+
+
+    object oAcadDoc = doc.AcadDocument;
+
+    oAcadDoc.GetType().InvokeMember("StartUndoGroup", BindingFlags.InvokeMethod, null,
+    oAcadDoc, null);'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2008-09-16 18:17:01'
+  body: 'Oops...
+
+
+    Sorry, in that example, the method name should have been "StartUndoMark", not
+    "StartUndoGroup" :o'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2008-09-16 18:22:29'
+  body: "Hi Kean... \n\nRegarding the need to reference the AutoCAD COM interop assemblies,\
+    \ Massimo makes a very legitimate point.\n\nBecuase the COM interop assemblies\
+    \ are version-specific/dependent, it's wise to avoid referencing them if possible.\n\
+    \nRegards,"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 72.255.19.222
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-16 23:52:07'
+  body: 'Fair enough - I hadn''t been thinking about that aspect, admittedly.
+
+
+    Kean
+
+
+    P.S. We probably should have called in StartUndoGroup - that''s much more consistent.
+    :-)'
+- author: Massimo Cicognani
+  email: cicognani@quit3.com
+  ip: 81.73.102.158
+  url: ''
+  date: '2008-09-17 10:44:33'
+  body: 'Thank you all,
+
+
+    Tony, late binding is certainly a solution but isn''t my favourite... in the first
+    place for performance, and it''s a nightmare to code ''on the blind''... (well
+    20 years ago was the only way to code, but I got used to Intellisense... I''m
+    getting lazy...)
+
+
+    I''m targeting multiple platforms from 2007 and above, both 32 and 64 bit, .NET
+    was a natural choice and I hoped COM objects and methods were all exposed.
+
+
+    It''s reasonable to think that future versions will expose more objects and methods?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 72.255.51.70
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-17 12:49:11'
+  body: 'If you''re an ADN member you can submit the enhancement request via the ADN
+    website.
+
+
+    Regards,
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2008-09-17 17:50:14'
+  body: '"late binding is certainly a solution but isn''t my favourite... in the first
+    place for performance, and it''s a nightmare to code ''on the blind''..."
+
+
+    If you''re calling COM methods that often then you might have a point, but for
+    occasional calls to COM methods when there is no managed equivalent (which is
+    the case here), the performance hit of late binding is of little consequence.
+
+
+    The COM api''s are themselves implemented in ObjectARX which means that you already
+    have managed APIs to do most of what the COM apis do, without having to depend
+    on COM interop.
+
+
+    In this case, since you are issuing commands to get something done, you can just
+    as easily use the UNDO/Begin and Undo/End subcommands to achieve the same thing.'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2008-09-17 20:18:28'
+  body: "Hi Kean,\nFirst I would like to agree with Massimo regarding the use of version\
+    \ dependant libraries....I am personally unfamiliar with the process of late binding,\
+    \ so some things are proving difficult to avoid.  I also loathe the practice of\
+    \ sending strings to the command line, since there are a number of ways user settings\
+    \ can impact the command line operation (for instance EXPERT).  \n\nThat said\
+    \ I was going to suggest that in your post when you mention you could not suppress\
+    \ the 'handent' return value from the command line, if you call (princ) at the\
+    \ end of the lisp it should be quiet."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 72.255.41.134
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-17 22:51:16'
+  body: 'Thanks - I originally did try (princ) (I had the same instinct as you), but
+    that stopped the results of (handent) being picked up by the command.
+
+
+    Kean'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2008-09-19 01:12:28'
+  body: I certainly don't want to give the impression that I think you don't know
+    your stuff, but I thought about it again (and looked closer at the command string)
+    and noticed that only the handent function is actually a lisp command that you
+    are calling to use the return val as an argument to the -diminspect command.  Therefore
+    obviously you can't just stick a (princ) in the middle of the command, so my next
+    idea is, did you try using (vl-cmdf ...) to execute the entire command string
+    as a lisp command, and put the (princ) statement after the vl-cmdf statement?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-19 17:51:13'
+  body: 'That''s certainly an option - even using the standard (command) function
+    would probably do it.
+
+
+    It just depends on how important that last piece of echoing is to you - I''d tend
+    not to introduce the additional overhead of sending a string containing (command)
+    unless it was really worth it.
+
+
+    And that will depend on your users, of course.
+
+
+    Kean'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2008-09-22 21:14:31'
+  body: The reason I would use (vl-cmdf) is that it evaluates all of the arguments
+    prior to executing the command, and the (command) method always returns 'nil'
+    but (vl-cmdf) doesn't.
+- author: Gianpaolo
+  email: gianpaolo.marin@arcoda.it
+  ip: 217.57.60.137
+  url: ''
+  date: '2013-03-25 15:40:20'
+  body: 'Hi, In many case I use the "FINISH_COMMAND" to termanate or remove selection
+    in the draw. Now With ACAD 2013 this command it''s been removed. Do you know another
+    command that do the same things?
+
+
+    Thank you very much.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-03-25 16:03:16'
+  body: 'I haven''t used this (or even heard of this) myself.
+
+
+    Are you sure it''s a standard AutoCAD command/capability?
+
+
+    Kean
+
+    -----'

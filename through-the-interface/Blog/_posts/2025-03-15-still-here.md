@@ -1,0 +1,21 @@
+---
+layout: "post"
+title: "Still here"
+date: "2025-03-15 14:10:21"
+author: "Kean Walmsley"
+categories:
+  - "Autodesk"
+  - "Personal"
+original_url: "https://www.keanw.com/2025/03/still-here.html "
+typepad_basename: "still-here"
+typepad_status: "Publish"
+---
+
+<p><a href="/assets/image_60460.jpg" rel="noopener" target="_blank"><img alt="" border="0" height="375" src="/assets/image_60460.jpg" style="display: block; margin: 30px auto;" title="Sun Heart" width="500" /></a></p>
+<p>It’s been a sobering few weeks at the ‘desk, as it seems everyone on the planet now knows. Seeing close friends being laid off - some of whom I’ve known for more than 20 years - is painful. I’ve so far avoided posting anything publicly - beyond the odd comment on others’ posts - because I’m one of the lucky ones to have kept my job and even posting messages of support has a LinkedIn-esque performative feel to it. That doesn’t mean I’m not here for anyone who needs help, of course, I just feel that posting about it when not directly impacted creates confusion (at least until people read enough of the post to realize you’re safe) when the aim is clearly to show support. Hence the title of this post - it should short-circuit that, at least.</p>
+<p>An old friend who left the company in a previous layoff commented to me the other day that “this one feels different”. I’ve been thinking about that a lot… I’ve seen many layoffs, over the years - and have escaped a few of them by the skin of my teeth - but I can definitely see how this one looks very different from the outside, which I suspect is the effect of social media bringing a surreal level of external transparency on things. Internally no lists have been communicated of affected colleagues, so Autodeskers are largely doomscrolling LinkedIn along with everyone else to understand the extent of the impact. I also think it&#39;s the amount of time since the last layoff - we haven&#39;t had a large one since 2017 - that really made it a shock to people.</p>
+<p>I really feel for colleagues - impacted directly or indirectly - who are living through their first Autodesk layoff. It can be a huge shock to realize that the company you’ve invested so much of yourself in - and perhaps even consider a family - can treat you as if you’re disposable. For those who were asked to leave, we will miss you. If it&#39;s any consolation, almost everyone I’ve seen affected by layoffs over the years has ended up in a great place afterwards and has felt - with hindsight - that they were treated more than fairly. For those still with the company, all I can say is that Autodesk is an amazing place to work until it isn’t. It’s great while it lasts, but it can end - for many different reasons - very quickly indeed.</p>
+<p>There is no such thing as job security in a publicly-traded, multi-national corporation: you’re at the whim of shifting markets, technology trends and senior personnel. So many high-performing colleagues were impacted during this layoff that it’s completely obvious that there’s only so much anyone can do to avoid this. Even having a very public profile is no protection, as we’ve seen with several high(er)-profile bloggers being impacted in recent years. All you can do is work hard to stay relevant and to deliver visible value to the company, and hope it’s recognized and appreciated. And that you happen to be in a team that receives ongoing investment.</p>
+<p>Try to anchor yourself beyond the company you work for. If you don’t cultivate interests outside of work, it’s one heck of a basket to have all your eggs in. Diversify your passion portfolio.</p>
+<p>The friends you have made at Autodesk will remain your friends irrespective of where you end up working. Given the amount of time I&#39;ve been here, most of my friends are now former Autodesk employees. The bond formed during our work years together has persisted.</p>
+<p>All of this said, I still dearly love working at Autodesk, even if it surprises me, on occasion. The fact there are so many “boomerangs” working here - some of them on their 3rd or more tour - is a testament to it still being a great environment. You just have to see it for what it is - a successfully run business - and enjoy the journey while it lasts. And when it ends, you will do great things afterwards.</p>

@@ -1,0 +1,168 @@
+comments:
+- author: Christian Stelzl
+  email: mcstelzl@aol.com
+  ip: 84.147.208.178
+  url: ''
+  date: '2011-03-29 14:48:20'
+  body: 'Hi Kean,
+
+
+    I tested your code and it works fine. But then, for more complex solids and only
+    once in a while, the mesh generation fails throwing unmanaged exceptions, even
+    with solids that have worked fine just before. Is this a known issue?
+
+
+    Regards, Christian'
+- author: Kean Walmsley
+  email: ''
+  ip: 122.167.110.214
+  url: http://profile.typepad.com/kean
+  date: '2011-03-29 18:32:52'
+  body: 'Hi Christian,
+
+
+    I''ve seen one such report of instability with complex solids + certain settings,
+    but I''m not sure that qualifies this as a known issue.
+
+
+    I do suggest playing with the settings a little (particular the MaxSubDivisions
+    property), although I don''t like the fact a (presumably) untrappable exception
+    is thrown when the going gets tough. That sounds like something we need to reproduce
+    and submit to Engineering (are you an ADN member, by any chance?).
+
+
+    Regards,
+
+
+    Kean'
+- author: Christian Stelzl
+  email: mcstelzl@aol.com
+  ip: 84.147.211.21
+  url: ''
+  date: '2011-03-30 09:38:22'
+  body: 'Hi Kean,
+
+
+    thanks. I posted it in the ADN with sample solid.
+
+
+    Regards, Christian'
+- author: Kean Walmsley
+  email: ''
+  ip: 203.116.198.67
+  url: http://profile.typepad.com/kean
+  date: '2011-03-30 14:02:18'
+  body: 'Hi Christian,
+
+
+    Great - Balaji and Viru have tracked it down, and I''ve integrated their fix into
+    the above code.
+
+
+    Thanks for sending the issue in!
+
+
+    Kean'
+- author: Steve
+  email: artisteroi@yahoo.com
+  ip: 96.254.147.109
+  url: ''
+  date: '2011-05-24 20:58:15'
+  body: 'Hey Kean,
+
+
+    Is there a way to get this to read a pre-existing subd mesh surface instead of
+    a solid?'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-05-24 21:13:32'
+  body: 'Hi Steve,
+
+
+    You mean just open a SubDMesh object and create faces from it? You could, but
+    you wouldn''t use the Brep API.
+
+
+    As it''s already a mesh, you should be able to access its face data more directly
+    (although I haven''t tried it, admittedly).
+
+
+    Regards,
+
+
+    Kean'
+- author: Steve
+  email: artisteroi@yahoo.com
+  ip: 96.254.147.109
+  url: ''
+  date: '2011-06-02 17:43:11'
+  body: 'I am having a hard time finding any code that can read points from an existing
+    face/region/mesh. Everything I find is for drawing from existing data. I need
+    to create data from existing drawings. I guess that is what I get for going against
+    the flow. :D
+
+
+    Anyway I will keep looking. Maybe someone has something...'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-06-02 17:50:21'
+  body: 'I don''t know if it''s exactly what you want, but <a href="http://through-the-interface.typepad.com/through_the_interface/2011/02/gathering-points-defining-3d-autocad-geometry-using-net.html">this
+    post</a> may be of some use.
+
+
+    Kean'
+- author: Steve
+  email: artisteroi@yahoo.com
+  ip: 96.254.147.109
+  url: ''
+  date: '2011-06-02 19:11:09'
+  body: 'I have seen that before and tried to use the "surface" section to find what
+    I was looking for but I couldnt get it to function after chopping it up.
+
+
+    What I need is the x,y,z coordinated of the vertices of a 3d mesh. I have code
+    that draws the mesh from numbers stored in the database. But apparently the code
+    to put those numbers in the DB to start with is a very different animal.'
+- author: Akaple Aka Kapes
+  email: ''
+  ip: 96.254.147.109
+  url: http://profile.typepad.com/akaple
+  date: '2011-06-03 22:05:28'
+  body: Hi Kean I got this to work to pull the coordinates from the SubDMesh objects
+    by drilling into the vertices.  Going to try and reverse the roles to re-draw
+    them back out.  If you know of any methods to help with that would be appreciated.  Have
+    a great day.
+- author: Steve
+  email: artisteroi@yahoo.com
+  ip: 96.254.147.109
+  url: ''
+  date: '2011-06-14 15:41:01'
+  body: After using the code you have supplied, as is, it generated a 781,000+ face
+    mesh. That might be a bit too much for our purposes. But it did work so, Kudos!
+- author: Eric
+  email: eric4today@gmail.com
+  ip: 158.132.107.78
+  url: ''
+  date: '2011-10-03 06:21:55'
+  body: 'When I using the code, I running into an problem:
+
+    about using Autodesk.AutoCAD.BoundaryRepresentation;
+
+    The name space does not exist in Autodesk.AutoCAD. I am using Autodesk 2012 64bit
+    English.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2011-10-13 12:22:34'
+  body: 'You''ll need to add a project reference to acdbmgdbrep.dll (best used from
+    the inc folder of the ObjectARX SDK for AutoCAD 2012).
+
+
+    Kean
+
+    -----'

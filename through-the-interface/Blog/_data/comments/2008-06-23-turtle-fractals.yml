@@ -1,0 +1,57 @@
+comments:
+- author: Shaijil
+  email: shaijil@gmail.com
+  ip: 122.167.48.71
+  url: ''
+  date: '2008-06-24 12:41:23'
+  body: 'Sry i am asking a basic dought, I know we can create dll''s in .Net and run
+    them in Autocad. But can I make drawings using commands and save the file within
+    c# ?
+
+    what i mean is can i work as we do with a .txt file i.e. create , open, write
+    etc in .Net.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-06-24 13:56:59'
+  body: 'You can populate Database objects and save them as DWG (binary) or DXF (text)
+    formats using C#. And read them back in, of course.
+
+
+    The Database can be loaded in the Editor or in a <a href="http://through-the-interface.typepad.com/through_the_interface/2006/08/breaking_it_dow.html">side
+    database</a>.
+
+
+    Kean'
+- author: Shaijil
+  email: shaijilsam@gmail.com
+  ip: 122.167.48.71
+  url: ''
+  date: '2008-06-25 08:15:07'
+  body: "I got it .Realy thanks for your response.I don't know is this is a right\
+    \ place to post doughts. Again can you mention some sample code or links.\n\n\
+    I tried like this but db is null its error.\npublic void CREATEEMPLOYEE()\n{\n\
+    Database db = HostApplicationServices.WorkingDatabase;\nEditor ed = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor;\n\
+    Transaction trans = db.TransactionManager.StartTransaction();\ntry\n{\nCircle\
+    \ circle = new Circle(new Point3d(10, 10, 0), Vector3d.ZAxis, 2);\nBlockTable\
+    \ bt = (BlockTable)trans.GetObject(db.BlockTableId, OpenMode.ForRead);\nBlockTableRecord\
+    \ btr = (BlockTableRecord)trans.GetObject(HostApplicationServices.WorkingDatabase.CurrentSpaceId,\
+    \ OpenMode.ForWrite);\nbtr.AppendEntity(circle);\ntrans.AddNewlyCreatedDBObject(circle,\
+    \ true);\ntrans.Commit();\ndb.SaveAs(@\"Z:\\Firstsave.dwg\",DwgVersion.Current);\n\
+    \n}\n    catch\n        {\n   ed.WriteMessage(\"Error \");\n        }\nfinally{\n\
+    \        trans.Dispose();\n       }\n}"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.6.124
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-06-25 08:33:45'
+  body: 'This isn''t really the place: unless the code relates specifically to a post
+    of mine, I don''t have time to debug people''s code. Please post it to <a href="http://discussion.autodesk.com/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion group</a> or <a href="http://adn.autodesk.com">the ADN
+    website</a>, if you''re a member.
+
+
+    Kean
+
+    -----'

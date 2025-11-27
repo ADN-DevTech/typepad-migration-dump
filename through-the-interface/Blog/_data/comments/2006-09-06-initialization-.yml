@@ -1,0 +1,166 @@
+comments:
+- author: Ruben
+  email: rubendm@terra.es
+  ip: 83.42.18.109
+  url: ''
+  date: '2007-01-17 09:28:20'
+  body: 'Hi Kean,
+
+    First of all, I would like to thank you for having such a fantastic source of
+    information on the AutoCAD .NET API. I found it to be the best resource to get
+    started with AutoCAD .NET programming.
+
+
+    My question is the following: my app needs to create a toolbar. I want the toolbar
+    to load on startup, so I created it at my IExtensionApplication implementation
+    class. I can see the toolbar when AutoCAD starts up, but once the Initialize()
+    method is executed, the toolbar hides again. So I am wandering if this is the
+    right place to create the toolbar.
+
+
+    Thanks in advance :-)
+
+
+    Rubén D.M.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-01-17 14:27:30'
+  body: 'Hi Rubén,
+
+
+    Thanks for your feedback - very nice of you.
+
+
+    I''d suggest posting some code reproducing the problem to the AutoCAD .NET discussion
+    group and sending me the URL by email (otherwise, if you''re an ADN member, submit
+    the project via DevHelp Online and email me the case ID).
+
+
+    Regards,
+
+
+    Kean'
+- author: Alberto Benitez
+  email: ABenitez@Northatlanticcorp.com
+  ip: 63.144.141.2
+  url: ''
+  date: '2007-08-08 16:54:37'
+  body: 'Hello,
+
+
+    I create a VB.NET program that call autocad 2004
+
+    network version, and I run a lisp rutine.
+
+    few days ago I install Autocad 2007, now if I have open 2007, run a new sesion
+    for autocad 2007, but I just want my Vb.Net program that work
+
+    with 2004 network version.
+
+
+    if any way to call a specific version of autocad from VB.NET.
+
+
+    Thank you.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-08-08 18:55:28'
+  body: 'Hi Alberto,
+
+
+    Unfortunately it''s not clear to me what exactly you need help with, and neither
+    does it appear related to this post...
+
+
+    Please submit a more detailed description either to one of the <a href="http://discussion.autodesk.com">discussion
+    groups</a>, or to the <a href="http://adn.autodesk.com">ADN team</a>, if you''re
+    a member.
+
+
+    Regards,
+
+
+    Kean'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2008-11-13 02:44:53'
+  body: 'Hi Kean,
+
+
+    I''m wondering what state the document (and/or application) is in when the initialize
+    method fires.  My first guess would be that it is locked/busy, and therefore any
+    code which attempted to read from the Database would fail due to the document
+    being locked?'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2008-11-13 03:26:36'
+  body: 'I''m amazed... All the other things I ever tried, like calling a SetVars
+    routine from the MNL file or the ACADDOC.lsp, would always fail saying there was
+    a lock violation when I tried to read an Extension Dictionary on AutoCAD startup,
+    or on DocumentActivated.  I netload my dll from an MNL file so this initialize
+    method executed even before the ACADDOC.lsp, but it works this way...no lock violation.
+
+
+    BTW, I don''t think I''m going to be able to make AU 2008, but if you ever find
+    yourself in the Denver, CO area with some time to kill, I definitely owe you a
+    beer.  Actually a person could die from alcohol poisoning if you drank all the
+    beers I owe you in one sitting ;-)'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.58.159
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-13 09:00:43'
+  body: "A great question. You actually can't rely on the document being ready for\
+    \ you to do anything much at all - if your module is set up to load on AutoCAD\
+    \ initialization, there's no guarantee you even have an active document.\n\nWhat\
+    \ I tend to do is to P/Invoke ads_queueexpr() to fire off a command with my initialization\
+    \ stuff:\n\n[assembly: ExtensionApplication(typeof(MyNamespace.Application))]\n\
+    \nnamespace MyNamespace\n{\n  class Application : IExtensionApplication\n  {\n\
+    \    [DllImport(\"acad.exe\", CharSet = CharSet.Auto, CallingConvention = CallingConvention.Cdecl)]\n\
+    \    extern static private int ads_queueexpr(string strExpr);\n\n    public void\
+    \ Initialize()\n    {\n      ads_queueexpr(\"(command \\\"_INITMYAPP\\\")\");\n\
+    \    }\n\n...\n\nThis seems worthy of a follow up post (one for the list).\n\n\
+    Kean\n\nP.S. Sounds like a great offer... haven't been to the mile-high city in\
+    \ many moons, but then you never know. :-)"
+- author: Armin Mueller
+  email: am@armanisoft.ch
+  ip: 84.227.61.133
+  url: http://www.armanisoft.ch
+  date: '2009-10-31 08:41:08'
+  body: "The version above (using ads_queueexpr() during Initialize()) seems not to\
+    \ work on Autocad 2010 SP1 when the command is in the same assembly but in a different\
+    \ CommandClass. During Initialize() the other class is not created yet.\nIt worked\
+    \ for me to call the command inside the constructor of the CommandClass\n\n  \
+    \  [assembly: CommandClass( typeof( Class1 ) )]\n\n    public class Class1\n \
+    \   {\n        public Class1()\n        {\n            Editor ed = Application.DocumentManager.MdiActiveDocument.Editor;\n\
+    \            ed.WriteMessage( \"Class1 created\" );\n            ShowDialog( );\n\
+    \        }\n\n\n        [CommandMethod( \"ShowDialog\" )]\n        public void\
+    \ ShowDialog( )\n        {\n            ...\n        }\n\nMay this helps some\
+    \ people.\n\nArmin"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2009-10-31 13:19:58'
+  body: 'Calling the command function directly from the class constructor is a little
+    risky, in my opnion: you have no guarantees AutoCAD is in a position to execute
+    your command at that point (your app could have been demand-loaded on AutoCAD
+    startup, for instance). Plus it bypasses the automatic document-locking, so the
+    behaviour will need to be coded differently.
+
+
+    I don''t believe I''ve tried ads_queueexpr() on 2010 SP1 specifically, but I''m
+    surprised there''s an issue with commands in the same assembly but different comamnd-class.
+    The commands are basically queued up via the command input mechanism and should
+    not be executed immediately.
+
+
+    Kean'

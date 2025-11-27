@@ -1,0 +1,51 @@
+---
+layout: "post"
+title: "Data from the MX3D smart bridge"
+date: "2021-07-20 00:39:31"
+author: "Kean Walmsley"
+categories:
+  - "3D printing"
+  - "APS (Forge)"
+  - "Autodesk Research"
+  - "IoT"
+  - "MX3D"
+  - "Robotics"
+original_url: "https://www.keanw.com/2021/07/data-from-the-mx3d-smart-bridge.html "
+typepad_basename: "data-from-the-mx3d-smart-bridge"
+typepad_status: "Publish"
+---
+
+<p>The MX3D team first showed the <a href="https://mx3d.com/industries/infrastructure/smart-bridge/" rel="noopener" target="_blank">smart bridge</a> to the public back in October 2018 at Dutch Design Week in Eindhoven. I was there with the team to finish and test features such as realtime display of skeletons detected using computer vision. Here’s a reminder of how that went:</p>
+<p style="text-align: center;">&#0160;</p>
+<p style="text-align: center;"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" height="283" src="https://www.youtube.com/embed/-8HDGdxjmwo" title="YouTube video player" width="500"></iframe></p>
+<p>&#0160;</p>
+<p>An interesting aspect of the public’s response to the bridge at DDW2018 was that it had broad appeal to people but that people appreciated different aspects of the project:</p>
+<ol>
+<li>The majority view: “wow, what a cool-looking bridge!”</li>
+<li>Those who dug a little deeper: “it was 3D-printed by robots? Interesting – I wonder how or when this will become viable as a construction technique.”</li>
+<li>A few folk who really got the nuances of the project: “this is the future of smart infrastructure: one day cities will function on the data that objects like this will generate.”</li>
+</ol>
+<p>If I had to guess at the distribution between these groups, it’d probably be 70-25-5. I could be totally off with this guesstimate, but hopefully it gives some indication of the way people have responded to the bridge. It’s also very possible there are people who don’t even find it cool-looking, but I haven’t met any, as yet. :-)</p>
+<p>Anyway, this post is for the 1 in 20, or rather to encourage people to join that third group. Here’s a graphic showing the bridge’s sensor network:</p>
+<p><a href="https://through-the-interface.typepad.com/.a/6a00d83452464869e20282e111df46200b-pi" rel="noopener" target="_blank"><img alt="The MX3D smart bridge&#39;s sensor network" border="0" height="354" src="/assets/image_362911.jpg" style="margin: 30px auto; border: 0px currentcolor; float: none; display: block; background-image: none;" title="The MX3D smart bridge&#39;s sensor network" width="500" /></a></p>
+<p>There were various reasons for putting nearly 100 sensors in a 12m bridge, many of them related to monitoring the structure: stainless steel that’s been 3D-printed by what is effectively <a href="https://en.wikipedia.org/wiki/Fused_filament_fabrication" rel="noopener" target="_blank">FDM</a> (although it seems the correct term for this process is WAAM, or <a href="https://en.wikipedia.org/wiki/3D_printing_processes" rel="noopener" target="_blank">Wire Arc Additive Manufacturing</a>) is basically unproven as a construction material. Placing sensors in the bridge will allow us to better understand the scope – and limitations – of this technique, and allow us to more optimally design future structures made in a similar way.</p>
+<p>But beyond that, a bridge that knows about how it’s being used – and can report information about its usage for broader aggregation – has huge potential when integrated into a “smart city”. Today we rely on highly dubious collection of personal mobile device data (sorry, Google) to let us navigate effectively around cities, but widespread adoption of smart infrastructure could tell us much more and in a way that benefits the community while respecting individual privacy.</p>
+<p>As a reminder of the scope of the bridge project – and an exploration of the implications around smart infrastructure, both good and bad – do check <a href="https://www.keanw.com/2020/12/the-mx3d-bridge-on-quarantime.html" rel="noopener" target="_blank">this excellent Quarantime episode with the marvellous Mickey McManus and Alec Shuldiner</a>.</p>
+<p>A wonderful thing about adding so many sensors to a structure such as the MX3D bridge is that we actually have no idea what we’ll learn. This is research at its most exciting, and I’m thrilled to be participating in some small way.</p>
+<p>So what about seeing the data that the bridge is generating? With the MX3D bridge we have a couple of approaches for presenting sensor data to people in a way that makes sense.</p>
+<p>The first is via <a href="https://smartbridgeamsterdam.com">smartbridgeamsterdam.com</a>, which describes the function of the bridge and how the data it generates is going to be used. It has a lightweight view of data coming off the bridge – with data from a selection of sensors being displayed, albeit with no Y-axis labels – to help people appreciate that the bridge is “smart”. We’ve codenamed this effort “Dasher Light”.</p>
+<p><a href="https://through-the-interface.typepad.com/.a/6a00d83452464869e2026bdee18c35200c-pi" rel="noopener" target="_blank"><img alt="smartbridgeamsterdam.com" height="500" src="/assets/image_134198.jpg" style="margin: 30px auto; float: none; display: block;" title="smartbridgeamsterdam.com" width="281" /></a></p>
+<p>The brains behind Dasher Light’s view on the data are Mike Lee and Josh Cameron, who took care of the front- and back-end work, respectively. (Jacky Bibliowicz has been working hard on the time-series back-end, too, which is less visible but super important.) They have done an amazing job pulling this together at short notice: they basically had 12 hours between the bridge coming online and the opening to get something working.</p>
+<p>While the data is live, it’s not our intention that people would necessarily change their behaviour because of it, e.g. to jump up and down on the bridge to see how the data changes. We’ll see whether that happens or not. Josh does think that he can detect people crossing the bridge in the strain-gauge data, though (something we’ll be able to confirm once we have the ability to see how many/where people are on the bridge, which we’ll talk more about in a bit). When he talks like this he makes me think of Tank reading the code of the Matrix.</p>
+<p>The second way for people to view data from the bridge is via <a href="https://dasher360.com" rel="noopener" target="_blank">Project Dasher</a>, which is really the reason I’m involved in this project. The Dasher team has been working to display historical data captured from the bridge, contextualising it in 3D. This is both to help people see the location of various sensors but also to display heatmaps for different types of sensors on the surface of a 3D model of the bridge. We have the basics working well, but we need a bit more data in our back-end to make this valuable for people to use.</p>
+<p>This is the video that was shown to Queen Máxima during <a href="https://www.keanw.com/2021/07/the-mx3d-bridge-opens-to-the-public.html" rel="noopener" target="_blank">the bridge’s opening</a>. It’s based on some test data – as the bridge wasn’t yet online or even installed when we created it – but it gives an idea of what we’re expecting to be able to see, in time.</p>
+<p style="text-align: center;">&#0160;</p>
+<p style="text-align: center;"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" height="283" src="https://www.youtube.com/embed/-fTy3_0RIjM" title="YouTube video player" width="500"></iframe></p>
+<p style="text-align: center;">&#0160;</p>
+<p>Here’s a sneak peek of the MX3D bridge with actual data inside Dasher:</p>
+<p><a href="https://through-the-interface.typepad.com/.a/6a00d83452464869e2027880396b15200d-pi" rel="noopener" target="_blank"><img alt="Early look at sensor data from the MX3D Smart Bridge" border="0" height="312" src="/assets/image_50922.jpg" style="margin: 30px auto; border: 0px currentcolor; float: none; display: block; background-image: none;" title="Early look at sensor data from the MX3D Smart Bridge" width="500" /></a></p>
+<p>As a reminder, the journey to capture and display data for the MX3D bridge started a long time ago, soon after the inception of the project in 2015.</p>
+<p>Knowing this project was coming, Alex Tessier and Alec Shuldiner pushed for a separate, internal project to <a href="https://www.keanw.com/2017/04/introducing-the-pier-9-iot-bridge-prototype.html" rel="noopener" target="_blank">instrument a raised walkway in Autodesk’s Pier 9 office in San Francisco</a>, allowing us to use this as a test that our systems could deal with the increased data load associated with monitoring infrastructure (which has data at much higher frequencies than is typically used to measure building comfort). Pier 9 become a great test-bed for our computer vision research, too, allowing us – via Project Ajna, spear-headed by Pan Zhang and Liviu Calin – to start extracting anonymised 3D skeletons of people crossing the bridge from video camera footage.</p>
+<p>This is the next big hurdle for us to cross with the MX3D project: getting two sets of cameras installed and hooked up to the bridge’s nervous network that will feed the skeletonisation process and allow us to display anonymised views of people crossing the bridge alongside the other data the bridge captures.</p>
+<p>We also have some additional LoRaWAN sensors to install that will detect the ambient temperature (etc.) of the area surrounding the bridge, which will help us better understand how the bridge’s own temperature changes based on weather conditions. That’s a much smaller thing to take care of, though: the camera installation and calibration is the bigger challenge but will also help enable the overall vision for the MX3D Smart Bridge.</p>
+<p>In the next post we’re going to focus on the first group of people – who think the bridge looks cool – by taking a look at how it looks under different lighting conditions and at different times of day. It turns out it is possible to be both smart and beautiful, after all. :-)</p>

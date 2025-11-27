@@ -1,0 +1,112 @@
+comments:
+- author: J. Daniel Smith
+  email: typepad.com@jdanielsmith.org
+  ip: 198.102.112.18
+  url: ''
+  date: '2008-08-04 16:19:22'
+  body: 'Generally, I much prefer C++ Interop (previously known as IJW-It Just Works)
+    over P/Invoke.  Although for *simple* methods in an ARX, P/Invoke can be handy
+    as you can''t easily add a .NET reference to an ARX (it has to be a .DLL).
+
+
+    Frankly, if you need a tool to figure out the P/Invoke signature, you should probalby
+    be using C++ Interop and creating a more .NET-friendly API.'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2008-08-16 07:38:36'
+  body: "I have to disagree with Dan's comment.\n\nI have a project underway at the\
+    \ moment, that is 99.9% managed code, with the balance being in a C++/CLI based\
+    \ mixed mode DLL.\n\nUnfortunately, that small amount of native code means I have\
+    \ to create seperate builds of the mixed-mode DLL for each supported platform\
+    \ (e.g., 32 and 64 bit), as well as for 'big R' AutoCAD upgrades that break bindary\
+    \ compatibility. \n\nIn contrast and theoretically at least, pure managed code\
+    \ should be portable.\n\nI would much prefer to have 100% managed code with P/Invoke,\
+    \ as opposed to native DLLs that require multiple builds."
+- author: Hamilton Link
+  email: helink@sandia.gov
+  ip: 134.253.26.6
+  url: ''
+  date: '2008-11-14 00:44:42'
+  body: 'When I started playing around with Mono I found another reason to use P/Invoke:
+    Mono doesn''t support mixed-mode assemblies.  So there''s another example of why
+    pure managed C++/CLI libraries are sometimes necessary.
+
+
+    When you want a non-mixed assembly implemented in C++/CLI, you can''t use IJW
+    (it uses unmanaged thunks) and you must use P/Invoke.
+
+
+    Thanks for posting the note and the links, Kean.'
+- author: DMcClarnon
+  email: ''
+  ip: 86.16.92.232
+  url: http://profile.typepad.com/6p0112793cb5aa28a4
+  date: '2009-03-07 00:49:16'
+  body: You should try p/invoker from www.pinvoker.com - it'll do all this automatically
+    for you from a .h and a .dll file.
+- author: SEANT
+  email: ''
+  ip: 72.82.14.46
+  url: http://profile.typepad.com/6p0115707495d5970b
+  date: '2009-05-07 14:03:47'
+  body: "Hi Kean,\n\nI’ve recently required the use an ARX only function for a C#.NET\
+    \ routine.  As luck would have it an example of calling the necessary ARX functions\
+    \ was included with the BREP WebCast conducted by Autodesk.  After incorporating\
+    \ the technique (and subsequent retesting the WebCast example) I encounter a time\
+    \ delayed error which crashes AutoCAD (2009) .\n\nThis thread at “TheSwamp” provides\
+    \ additional background on the problem. (http://www.theswamp.org/index.php?topic=28391.0)\n\
+    \n<as mentioned above>Is this an example of  “. . . .  it is not possible to instantiate\
+    \ an unmanaged object of the class that defines the class from managed code. .\
+    \ . .\"?\n\n And/or\n \nGiven that the ARX functions in question are listed as\
+    \ “For internal use only “, should their use be avoided?\n\nI’d certainly appreciate\
+    \ any time you could devote to this matter,\n\nSean Tessier"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-05-08 11:37:43'
+  body: 'Hi Sean,
+
+
+    I''ll check in with Gopi, the presenter of this session.
+
+
+    I can''t say whether there''s an issue caused by the P/Invoke call - I''ve not
+    had to use this technique myself - but I do know I hit a crash when using the
+    Brep API to traverse a 3D solid when I forgot to Dispose the brep itself (something
+    that appears commented out in the code you posted to The Swamp).
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-05-08 23:25:34'
+  body: 'Hi Sean,
+
+
+    Gopi tells me that the P/Invoked function was holding onto an object reference.
+    You need to add this line of code where you would normally dispose of bdy:
+
+
+    LibWrap.CreateSurfBdy(bdy.UnmanagedObject, IntPtr.Zero);
+
+
+    I hope this helps,
+
+
+    Kean'
+- author: Sean Tessier
+  email: seant61@verizon.net
+  ip: 72.82.13.190
+  url: ''
+  date: '2009-05-09 11:38:43'
+  body: "Thanks Kean, \n\nYes, that does fix things.  As predicted, I’m very much\
+    \ grateful for this particular bit of support, as well as the general guidance\
+    \ provided by this blog.  \n\nEnjoy your weekend, \n\nSean \n\n\n-----"

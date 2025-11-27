@@ -1,0 +1,217 @@
+comments:
+- author: arxboy
+  email: arxboy@163.com
+  ip: 222.66.84.2
+  url: ''
+  date: '2007-05-17 09:19:52'
+  body: Thank you very much!I found it's very difficult to find some books talk about
+    ARX(using .net),especially include example ones.So,here is the best place to learn
+    arx I think.And would you mind give me some suggestions to learn arx?and which
+    book should I read?thank you!
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-05-17 12:02:50'
+  body: 'There are a few ObjectARX (C++) books out there. Charles McAuley (an old
+    friend and ex-member of DevTech) wrote one for AutoCAD 2000, which is still largely
+    relevant. I don''t know of any .NET-oriented books currently available.
+
+
+    Until more are on the market, you might consider coming along to one of the training
+    classes my team provides: http://www.autodesk.com/apitraining
+
+
+    Regards,
+
+
+    Kean'
+- author: Michael
+  email: mistermjc@yahoo.co.uk
+  ip: 202.139.12.5
+  url: ''
+  date: '2008-11-18 01:56:50'
+  body: 'Kean''s comment in regard to SelectCrossingWindow...
+
+
+    "The disadvantage is that it only works in the currently visible part of the screen."
+
+
+    I was going nuts for hours trying to figure out why SelectCrossingWindow seemed
+    to randomly return an error.  This explains it.  Thank you!!!'
+- author: aaron
+  email: rockingaustin@yahoo.com
+  ip: 198.102.62.250
+  url: ''
+  date: '2009-06-26 18:24:32'
+  body: what does DxfCode.Start do?
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-06-26 20:27:59'
+  body: 'It just gives me the right code (which happens to be 0). I prefer not to
+    hardcode numbers if they are defined in an appropriate enumeration.
+
+
+    Kean'
+- author: Matus Brlit
+  email: ''
+  ip: 178.41.108.79
+  url: http://profile.typepad.com/brlit
+  date: '2010-05-10 08:11:53'
+  body: 'Hi,
+
+    I came across this article when i was searching for SelectCrossingWindow, but
+    what i need to do is select entities in block definition
+
+    How can i do that?'
+- author: Matus Brlit
+  email: ''
+  ip: 178.41.108.79
+  url: http://profile.typepad.com/brlit
+  date: '2010-05-10 08:42:55'
+  body: nevermind, I suppose, i should use the second approach
+- author: cairunbin
+  email: cairunbin@126.com
+  ip: 119.185.129.252
+  url: ''
+  date: '2010-11-01 00:47:00'
+  body: 'Kean, I think aaron means what DxfCode.Start''s function is?
+
+    Indeed, objectArx''s help documents is rather simple, and lots of things are not
+    explained clearly.
+
+    Why does not Autodesk make a set of more helpful help documents?
+
+
+    here, can you explain DxfCode.Start for us?'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2010-11-01 07:41:25'
+  body: 'DxfCode.Start is 0, which is the group code used for the entity name (or
+    the type of the entity, of your prefer).
+
+
+    More information can be found in <a href="http://docs.autodesk.com/ACD/2011/ENU/filesMDG/WS1a9193826455f5ff2566ffd511ff6f8c7ca-4067.htm">the
+    online documentation</a>, which seems very clear to me, at least.
+
+
+    Kean'
+- author: Cairunbin
+  email: cairunbin@126.com
+  ip: 60.214.35.106
+  url: ''
+  date: '2010-11-04 15:15:08'
+  body: 'Thank you very much.
+
+    We, not myself, learn so much knowledge from your blog.
+
+
+    Thank you very much.'
+- author: Meir Weiss
+  email: meir_w@itibam.co.il
+  ip: 109.253.111.99
+  url: ''
+  date: '2010-12-12 15:33:33'
+  body: "Try the following VB.net code it works better!\n\nDim inspt As Point3d =\
+    \ New Point3d(x, y, z)                \n        Dim acTypValAr(3) As TypedValue\n\
+    \                        acTypValAr.SetValue(New TypedValue(DxfCode.Operator,\
+    \ \"<AND\"), 0)\n                        acTypValAr.SetValue(New TypedValue(DxfCode.Start,\
+    \ \"TEXT\"), 1)\n                        acTypValAr.SetValue(New TypedValue(DxfCode.XCoordinate,\
+    \ inspt), 2)\n                        acTypValAr.SetValue(New TypedValue(DxfCode.Operator,\
+    \ \"AND>\"), 3)\n\n\na SelectionFilter object\n                        Dim acSelFtr\
+    \ As SelectionFilter = New SelectionFilter(acTypValAr)\n\n                   \
+    \     selRes = ed.SelectAll(acSelFtr)\n                        If selRes.Status\
+    \ <> Autodesk.AutoCAD.EditorInput.PromptStatus.OK Then"
+- author: Dan
+  email: danut.petre@altiscadsoftware.ro
+  ip: 109.99.140.9
+  url: ''
+  date: '2011-01-18 13:15:02'
+  body: 'Hi, the online documentation does seem a lot more clear but I believe that
+    cairunbin may have been talking about the docs that come with the SDK - there
+    really isn''t much in there and i had a very frustrating time working with them.
+
+
+    1 minute after learning about the online help I found what I was looking for -
+    thanks a lot!'
+- author: Tomans
+  email: whuxiong@gmail.com
+  ip: 27.16.38.37
+  url: ''
+  date: '2011-05-26 06:22:27'
+  body: 'Hi,Kean,
+
+    I have used the SelectCrossingWindow() method like this fllowed:
+
+    1.Getting a polyline''s or something else''s extents in a list of polyline or
+    other entities;
+
+    2.Then, when once getting a polyline''s extents, using the Editor::SelectCrossingWindow(extents.MinPoint,extents.MaxPoint)
+    to get the SelectionResult.
+
+
+    And the problem is that when the first time to traverse all the entities I have
+    gotten , the method is OK. But when the seconde time or the other time to call
+    this method ,it returned an error.
+
+
+    So, what is the wrong with my code?
+
+    Thank you very much for your helping.'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-05-26 12:06:01'
+  body: 'Hi Tomans,
+
+
+    I can''t say what''s wrong with your code, but bear in mind that selection is
+    based on the display list, and so the entities to be selected need to be on screen.
+
+
+    If that doesn''t help, try posting your question to <a href="http://adn.autodesk.com">the
+    ADN team</a>, if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean'
+- author: Chuck Wilbur
+  email: ''
+  ip: 75.132.3.154
+  url: http://profile.typepad.com/wilburchuck
+  date: '2011-11-17 18:20:18'
+  body: Are there any known issues with using the EditorInput.SelectCrossingWindow
+    method outside the context of a command? I'm trying to call it from an Overrule
+    WorldDraw override and all I get is an Error status...
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2011-11-17 18:48:19'
+  body: 'Calling Editor selection during WorldDraw() can be problematic - I can''t
+    remember what''s recommended, off the top of my head. I suggest posting the question
+    either via ADN or on the discussion forum - someone on my team should be able
+    to provide the answer.
+
+
+    Kean'
+- author: Chuck Wilbur
+  email: ''
+  ip: 75.132.3.154
+  url: http://profile.typepad.com/wilburchuck
+  date: '2011-11-17 19:47:32'
+  body: 'Thanks Kean,
+
+
+    I got what I''m trying to do working using the "iterate over the entire database"
+    method, but as pointed out that could be problematic for large dwgs...
+
+
+    I''ll submit to ADN.
+
+    -----'

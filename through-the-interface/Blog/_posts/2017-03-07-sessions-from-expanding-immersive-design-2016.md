@@ -1,0 +1,14 @@
+---
+layout: "post"
+title: "Sessions from Expanding Immersive Design 2016"
+date: "2017-03-07 19:27:27"
+author: "Kean Walmsley"
+categories:
+  - "Autodesk Research"
+  - "Virtual Reality"
+original_url: "https://www.keanw.com/2017/03/sessions-from-expanding-immersive-design-2016.html "
+typepad_basename: "sessions-from-expanding-immersive-design-2016"
+typepad_status: "Publish"
+---
+
+<p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e201b8d2682cd5970c-pi" target="_blank"><img title="Expanding Immersive Design" style="border-top: 0px; border-right: 0px; background-image: none; border-bottom: 0px; float: none; padding-top: 0px; padding-left: 0px; margin: 30px auto; border-left: 0px; display: block; padding-right: 0px" border="0" alt="Expanding Immersive Design" src="/assets/image_643392.jpg" width="500" height="195"></a>I had a lot of fun presenting some of my <a href="http://webvr.info" target="_blank">WebVR</a>-related research at the <a href="http://expandingimmersivedesign.ch" target="_blank">Expanding Immersive Design</a> conference in Zurich, late last year. The recording of my session – where I demoed v1 of <a href="http://vrok.it" target="_blank">Vrok-It</a> – is now <a href="https://youtu.be/GLS_JiImBK8" target="_blank">online</a>:</p> <p align="center">&nbsp;</p> <p align="center"><iframe height="281" src="https://www.youtube-nocookie.com/embed/GLS_JiImBK8?rel=0&amp;showinfo=0?ecver=1" frameborder="0" width="500" allowfullscreen></iframe></p> <p align="center">&nbsp;</p> <p>It was very different conference for me: it was held at <a href="https://www.zhdk.ch/" target="_blank">ZHdK</a> - the Zürcher Hochschule der Künste, Zurich’s Fine Arts University – and so was inevitably more focused on design as it relates to VR (as opposed to VR as it relates to design, where I’m more focused ;-). But I think my session helped expand the topic of immersive design, at least.</p> <p>There were some really cool presentations – a few of which I unfortunately had to miss due to <a href="http://through-the-interface.typepad.com/through_the_interface/2016/10/ar-and-vr-in-zurich.html" target="_blank">a meeting at ABB</a> – and thankfully they’re now mostly available online and more are being posted by the day. <a href="https://www.youtube.com/channel/UCtAXK3m2BNndvx7JvuVC_MQ/videos" target="_blank">Here’s a YouTube playlist where you can see them all</a> (there’s a great one by an engineer from Google on how to build your ideal VR room… I’m looking forward to watching that one again once it’s been posted).</p> <p>I’m a little sad I’ll be missing the next edition of this fun conference – it’s being held in November, so <a href="http://through-the-interface.typepad.com/through_the_interface/2017/03/flights-are-booked.html" target="_blank">I’ll be somewhere in South East Asia</a> – but with any luck the sessions will be recorded and posted, once again.</p>

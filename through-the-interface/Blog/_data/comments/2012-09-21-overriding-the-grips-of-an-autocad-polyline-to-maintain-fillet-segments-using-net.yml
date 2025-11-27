@@ -1,0 +1,153 @@
+comments:
+- author: Casey
+  email: casey.jungfagn@gmail.com
+  ip: 67.218.58.110
+  url: ''
+  date: '2012-09-23 04:17:42'
+  body: Awesome!  This is an extremely useful chunk of code.  Thank you Massimo and
+    Kean for sharing.  I'll update you on any issues as I customize this for my particular
+    needs.
+- author: Alberto
+  email: alberto.venturini@live.com
+  ip: 79.4.94.12
+  url: ''
+  date: '2012-09-25 16:59:14'
+  body: "Mi ricorda qualcosa di già visto tanto tempo fa.. \n\nComunque grazie Massimo!\
+    \ Molto elegante ;)"
+- author: Sergey
+  email: sergey_a_makarov@mail.ru
+  ip: 217.66.146.4
+  url: ''
+  date: '2012-12-25 12:35:26'
+  body: Thanks Massimo and Kean for the example code, it helped me a lot. I tried
+    to override Civil3D Alignment but GetGripPoints(Entity entity, GripDataCollection
+    grips, ...) - the only one function that works. When mouse hover on my GripPoint
+    AutoCAD Civid 3D throws Fatal Error. Autodesk Civil 3D GripData and myGripData
+    differ by one property - AutoDelete, which value's false for GripPoints that created
+    inside base.GetGripPoints(...). This property is read-only and I cant change Its
+    value from true which is default value if I create GripData. I guess that the
+    check of this property may delete GripData object and it possible this is the
+    reason a Fatal Error. Please help me solve this problem.
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-12-30 16:27:19'
+  body: 'Hi Sergey,
+
+
+    I''m afraid I don''t know about this specific issue. I suggest posting some code
+    to the Civil 3D Developer discussion group or to the ADN team.
+
+
+    Best regards,
+
+
+    Kean'
+- author: Antonio Papa
+  email: ''
+  ip: 109.69.5.25
+  url: http://profile.typepad.com/antoniopapa
+  date: '2013-07-31 12:44:24'
+  body: I don't know how to make it work please could you help me.Could you show me
+    the steps how can i create the curved polylines?Until now i only did GOO command
+    and it says "Grip overruling turned on".Have i done something wrong?
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.236.157
+  url: http://profile.typepad.com/kean
+  date: '2013-07-31 17:24:13'
+  body: 'Try using the PLINE command to create a polyline with curved corners (make
+    sure to use arc segments alternative with straight ones).
+
+
+    Run GOO and then select the polyline: you should see the new grips.
+
+
+    At least that''s my recollection of how this works.
+
+
+    Kean'
+- author: Antonio Papa
+  email: ''
+  ip: 109.69.5.25
+  url: http://profile.typepad.com/antoniopapa
+  date: '2013-08-01 12:11:08'
+  body: I created a polyline then i typed GOO still nothing.Maybe I'm not doing something
+    right.What I'm trying to do is a polyline with curved angles I asked the question
+    in StackOverflow too <a href="http://stackoverflow.com/questions/17966737/autocad-polyline-with-curved-angles">http://stackoverflow.com/questions/17966737/autocad-polyline-with-curved-angles</a>
+    .Does this code create what i want or did i get it wrong?
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.237.50
+  url: http://profile.typepad.com/kean
+  date: '2013-08-01 15:23:02'
+  body: 'The PLINE command allows you to create polylines with curved segments: just
+    use the Arc keyword after each straight line segment to create the type of polyline
+    this code works with.
+
+
+    The code doesn''t create these segments for you, but once a polyline fitting the
+    pattern is created, the grips it will show (after GOO had been called) will maintain
+    the coherence of the polyline.
+
+
+    Kean'
+- author: Antonio Papa
+  email: ''
+  ip: 109.69.5.25
+  url: http://profile.typepad.com/antoniopapa
+  date: '2013-08-01 18:09:02'
+  body: Now i got it looks ok hope to combine them together.Thank you :)
+- author: Josh
+  email: joshua.prettyman@live.com
+  ip: 65.103.236.202
+  url: ''
+  date: '2013-08-28 18:41:07'
+  body: 'I''m having trouble with my grips being drawn in the correct location. The
+    error appears to take place in the "ViewportDraw" method. This EyeToWorldTransform
+    returns values that make coordinates that should be in the 100s out around 40k
+
+
+    <i>Matrix3d e2w = worldDraw.Viewport.EyeToWorldTransform;
+
+    Point3d pt = this.GripPoint.TransformBy(e2w);</i>
+
+
+    Thoughts? I''m using Civil 3D 2013, and the units are in feet.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-09-02 15:40:59'
+  body: 'My first thought would be to check whether it''s due to precision (i.e. the
+    double type can only deal with certain tolerances when working with large coordinates).
+    Does the same thing happen with geometry near the origin?
+
+
+    Kean'
+- author: Josh
+  email: joshua.prettyman@live.com
+  ip: 65.103.236.202
+  url: ''
+  date: '2013-09-03 22:32:31'
+  body: The error actually gets worse when I make the polyline smaller/closer to the
+    origin. The coordinates should be around 1 or 2, and the grips are drawn at coordinates
+    around 100k.
+- author: Adam
+  email: adammreilly@yahoo.com
+  ip: 99.114.206.185
+  url: ''
+  date: '2013-11-25 22:07:33'
+  body: 'I got a good chuckle from this line in particular:
+
+
+    // shouldn''t happen. Programmer''s paranoia'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-11-26 06:25:42'
+  body: ':-)
+
+    -----'

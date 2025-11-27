@@ -1,0 +1,151 @@
+comments:
+- author: Tony Tanzillo
+  email: caddzooks@gmail.com
+  ip: 67.84.226.3
+  url: ''
+  date: '2014-01-25 10:35:53'
+  body: "WPF can do this, in one of two ways.\n\nYou can call FormattedText.GetPathGeometry()\
+    \ \nto get the true geometric description of \nthe text outline, which can be\
+    \ decomposed \ninto a collection of objects that derive from System.Windows.Media.PathSegment:\n\
+    \n  ArcSegment\n  BezierSegment\n  LineSegment\n  PolyBezierSegment\n  PolyLineSegment\n\
+    \  PolyQuadraticBezierSegment\n  QuadraticBezierSegment\n  \nWhich can then (with\
+    \ quite a bit of work) be \nconverted to equialent AutoCAD geometry (which would\
+    \ include splines).\n\nThe other way, is to decompose the path \ninto a an approximation\
+    \ composed line segments, via PathGeometry.GetFlattenedPathGeometry() \nwith a\
+    \ specified tolerance.\n\nUnless you need to do complex editing of the \nresulting\
+    \ geometry (or extrude it into 3D solid objects, which is not uncommon), the second\
+    \ option (which is far less complicated ) may work."
+- author: Tony Tanzillo
+  email: caddzooks@gmail.com
+  ip: 67.84.226.3
+  url: ''
+  date: '2014-01-25 11:09:19'
+  body: "\"Which reduced the problem to being able to call the TXTEXP command (which\
+    \ happens to be defined using LISP) and then capture the results in order to work\
+    \ with them. I’m generally not a fan of calling commands, but avoiding doing so\
+    \ – especially with complex commands doing a lot of legwork – can often lead to\
+    \ you reinventing the wheel. There are still things to watch out for – such as\
+    \ fiber-based re-entrancy issues – but these are gradually going away (in the\
+    \ coming weeks we’ll talk more about the pros and cons of calling commands vs.\
+    \ using “low-level” APIs).\"'\n\nKludge Police Here....\n\nThere's no argument\
+    \ with using a kludge in the absence of a better approach. But let's not confuse\
+    \ not seeing the better approach (for whatever reason) with incorrectly assuming\
+    \ that none exists.\n\nYou could have done this using Application.Invoke() which\
+    \ can invoke any LISP function that is defined as a command (e.g., with a C: prefix).\n\
+    \nThe asynchronous methods of running commands falls apart in most real-world\
+    \ usage scenarios where something else must be done after the scripted commands\
+    \ are finished. The evidence supporting that is right there in black and white\
+    \ on Autodesk's discussion groups, as well as here on your blog (for example,\
+    \ calling SendStringToExecute() from a PaletteSet event, even though there may\
+    \ be no open documents to send the command to).  \n\nI'm not sure what reentrancy\
+    \ has to do with the Cooperative Fiber Mode threading model, but the issue with\
+    \ reentrancy is about scripting commands that themselves script other commands.\
+    \ For most basic command scripting needs where the commands being scripted are\
+    \ built-in core commands (as opposed to commands in verticals, which often do\
+    \ script other core commands), reentrance is a total non-issue, and if there were\
+    \ even a remote chance of it happening, it can be eliminated by defining the command\
+    \ that does the scripting of other commands using the LispFunction attribute with\
+    \ a C: prefix for the command name, and accepting optional arguments so that it\
+    \ can be called from LISP as a function rather than via (command)."
+- author: Sea n Tessier
+  email: seant61@verizon.net
+  ip: 74.97.35.37
+  url: http://www.seant61.com
+  date: '2014-01-25 11:59:40'
+  body: 'Tony, your first method outlined above is the same I used for the Text to
+    Geometry routine posted here:
+
+
+    <a href="http://apps.exchange.autodesk.com/AMECH/en/Detail/Index?id=appstore.exchange.autodesk.com%3aText-to-Geometry%3aen">http://apps.exchange.autodesk.com/AMECH/en/Detail/Index?id=appstore.exchange.autodesk.com%3aText-to-Geometry%3aen</a>
+
+
+    As is, the routine does not replicate TXTEXP, exactly, but the deconstruction
+    process could be used subsequent to some Text/Mtext analysis.  Accounting for
+    non-TTFs would be a bit of a hassle, no doubt.'
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.236.75
+  url: http://profile.typepad.com/kean
+  date: '2014-01-25 18:13:49'
+  body: 'Nice to hear from you, Tony. It''s been a while.
+
+
+    One question I have - and this may also be for Sean - is around getting the formatted
+    text and how comparable it is to what''s in AutoCAD? Or perhaps this also works
+    from AutoCAD plot output (i.e. WMF), so fidelity isn''t an issue?
+
+
+    All in all this seems very interesting, although more work than I''m interested
+    in doing to solve the problem, personally.
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.236.75
+  url: http://profile.typepad.com/kean
+  date: '2014-01-25 18:24:54'
+  body: 'Ah yes - I''d forgotten that as a LISP command I could also have used Invoke()
+    - thanks for the reminder.
+
+
+    I had originally used SendCommand() as I was scripting multiple commands (WMFOUT
+    & WMFIN) and attempting to do so synchronously, but then ended up queueing up
+    multiple commands instead, as the results weren''t actually posted to the DB in
+    a timely enough manner. I would probably have just used SendStringToExecute()
+    if I''d thought more about it (and maybe even Invoke() if I''d really, really
+    thought hard about it, but maybe not).
+
+
+    In the back of my mind when coding/posting this was the fact I''ll be able to
+    use it as a counter example - "here''s the kind of thing we had to do in the bad
+    old days" - when things get better (watch this space).
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: caddzooks@hushmail.com
+  ip: 67.84.226.3
+  url: ''
+  date: '2014-01-25 20:11:12'
+  body: "Hi Sean. \n\nInteresting. Did you actually do all of the work needed to accurately\
+    \ convert all of the WPF PathSegment types into equivalent AutoCAD geometry?"
+- author: Tony Tanzillo
+  email: caddzooks@hushmail.com
+  ip: 67.84.226.3
+  url: ''
+  date: '2014-01-25 20:27:08'
+  body: Oops... Application.Invoke() only works when the commands being called accept
+    arguments, in lieu of prompting for input, which many do not do, so maybe I was
+    mistaken about it being useful here. Many of the commands that shipped with AutoCAD
+    that were originally implemented via the acedDefun() mechanism did that, but a
+    great number of those have long since changed to ARX commands that can be called
+    via LISP's (command) function.
+- author: Sea n Tessier
+  email: seant61@verizon.net
+  ip: 74.97.35.37
+  url: http://www.seant61.com
+  date: '2014-01-25 22:45:07'
+  body: '“Did you actually do all of the work needed to accurately convert all of
+    the WPF PathSegment types into equivalent AutoCAD geometry?”
+
+
+    I did.  For the most part, though, I just had to deal with Polylines and 4 point
+    Beziers segments.  Most True Type Fonts are just combinations of those.
+
+    The source code for a very early version can be found here:
+
+
+    <a href="http://www.theswamp.org/index.php?topic=31435.msg369842#msg369842">http://www.theswamp.org/index.php?topic=31435.msg369842#msg369842</a>
+
+
+    “. . . .is around getting the formatted text and how comparable it is to what''s
+    in AutoCAD? . . . .”
+
+
+    The way I got around that was to avoid the issue entirely.  I use a WinForm, and
+    force the user to enter the text string at runtime.  Dealing with database resident
+    text entities seemed more troublesome than it was worth.
+
+
+    -----'

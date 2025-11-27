@@ -1,0 +1,127 @@
+comments:
+- author: J. Daniel Smith
+  email: typepad.com@jdanielsmith.org
+  ip: 132.188.71.8
+  url: ''
+  date: '2011-01-14 15:17:59'
+  body: "\"... plenty of code that just feels redundant.\"\n\n\tinternal class sortByX\n\
+    \t{\n\t\tprotected static bool IsZero(double a)\n\t\t{\n\t\t\treturn Math.Abs(a)\
+    \ < Tolerance.Global.EqualPoint;\n\t\t}\n\n\t\tprotected static bool IsEqual(double\
+    \ a, double b)\n\t\t{\n\t\t\treturn IsZero(b - a);\n\t\t}\n\n\t\tprotected int\
+    \ Compare(double aX, double bX)\n\t\t{\n\t\t\tif (IsEqual(aX, bX)) return 0; //\
+    \ ==\n\t\t\tif (aX < bX) return -1; // <\n\t\t\treturn 1; // >\n\t\t}\n\t}\n\n\
+    \tinternal class sort2dByX : sortByX, IComparer<Point2d>\n\t{\n\t\tpublic int\
+    \ Compare(Point2d a, Point2d b)\n\t\t{\n\t\t\treturn base.Compare(a.X, b.X);\n\
+    \t\t}\n\t}\n\n\tinternal class sort3dByX : sortByX, IComparer<Point3d>\n\t{\n\t\
+    \tpublic int Compare(Point3d a, Point3d b)\n\t\t{\n\t\t\treturn base.Compare(a.X,\
+    \ b.X);\n\t\t}\n\t}\n\n\n\t\tTPoint[] RandomPoints<TPoint>(int num, double max,\
+    \ Func<Random, double, TPoint> generator)\n\t\t{\n\t\t\tvar pts = new TPoint[num];\n\
+    \t\t\tvar rnd = new Random();\n\n\t\t\tfor (int i = 0; i < num; i++)\n\t\t\t{\n\
+    \t\t\t\tpts[i] = generator(rnd, max);\n\t\t\t}\n\n\t\t\treturn pts;\n\t\t}\n\n\
+    \t\tpublic Point2dCollection Random2dPoints(int num, double max)\n\t\t{\n\t\t\t\
+    var pts = RandomPoints(num, max, Random2dPoint);\n\t\t\treturn new Point2dCollection(pts);\n\
+    \t\t}\n\n\t\tpublic Point3dCollection Random3dPoints(int num, double max)\n\t\t\
+    {\n\t\t\tvar pts = RandomPoints(num, max, Random3dPoint);\n\t\t\treturn new Point3dCollection(pts);\n\
+    \t\t}"
+- author: Jeremy Tammik
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/jeremytammik
+  date: '2011-01-14 16:37:42'
+  body: "Hi Kean,\n\nI did actually mention this to Viru as well, but here it is again:\
+    \ \n\nThe 2D and 3D point comparers that you present above compare only the X\
+    \ coordinate and simply ignore the Y and Z coordinates. The result is that all\
+    \ points are sorted along the X axis, but the Y and Z axes are ignored.\n\nTo\
+    \ make them work more reliably and span the entire 2D plane or 3D space, not just\
+    \ the X axis, I would suggest checking the Y and Z coordinates as well.\n\nHere\
+    \ is an example for 3D points, represented by the Revit API XYZ class, and easily\
+    \ translated to Point2d and Point3d:\n\nconst double _eps = 1.0e-9;\n \npublic\
+    \ static bool IsZero( double a )\n{\n  return _eps > Math.Abs( a );\n}\n \npublic\
+    \ static bool IsEqual( double a, double b )\n{\n  return IsZero( b - a );\n}\n\
+    \ \npublic static int Compare( double a, double b )\n{\n  return IsEqual( a, b\
+    \ ) ? 0 : ( a < b ? -1 : 1 );\n}\n \npublic static int Compare( XYZ p, XYZ q )\n\
+    {\n  int diff = Compare( p.X, q.X );\n  if( 0 == diff ) {\n    diff = Compare(\
+    \ p.Y, q.Y );\n    if( 0 == diff ) {\n      diff = Compare( p.Z, q.Z );\n    }\n\
+    \  }\n  return diff;\n}\n\nCheers, Jeremy."
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2011-01-14 16:42:42'
+  body: 'Hi Jeremy,
+
+
+    Thanks, but the aim of the code really wasn''t to provide a definitive point sorting
+    algorithm. That strikes me as a task-specific issue, so I was quite happy to just
+    show the code needed to sort by X.
+
+
+    Readers of the blog will certainly have other requirements which they can implement,
+    should they need to.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Chris
+  email: ckratz@diversifiedwoodcrafts.com
+  ip: 207.230.208.250
+  url: ''
+  date: '2011-01-14 17:21:25'
+  body: "I'm not sure how this would look in C#, but its a good task for LINQ.\n\n\
+    \        <CommandMethod(\"LINQ\")> _\n        Public Sub SortTest()\n\n      \
+    \      Dim doc As Document = Application.DocumentManager.MdiActiveDocument\n \
+    \           Dim ed As Editor = doc.Editor\n\n            Dim X As New Point2dCollection\n\
+    \            X.Add(New Point2d(0, 5))\n            X.Add(New Point2d(2, 6))\n\
+    \            X.Add(New Point2d(-1, 8))\n            X.Add(New Point2d(20, 8))\n\
+    \            X.Add(New Point2d(5, 2))\n\n            Dim Z = From a As Point2d\
+    \ In X Order By a.X Descending\n\n            Dim Y As New Point2dCollection(Z.ToArray)\n\
+    \n            For Each b In Y\n                ed.WriteMessage(b.X & \",\" & b.Y\
+    \ & vbNewLine)\n            Next\n\n        End Sub\n\nIt essentially makes the\
+    \ sort a two liner. What would probably be best is if there was a .Sort() function\
+    \ added to the Point2dCollection that took an instance of a IComparer."
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2011-01-14 17:29:24'
+  body: 'Thanks, Chris.
+
+
+    I need to play around with LINQ some more... this is interesting.
+
+
+    Kean'
+- author: Chris
+  email: ckratz@diversifiedwoodcrafts.com
+  ip: 207.230.208.250
+  url: ''
+  date: '2011-01-14 18:38:45'
+  body: "I just started using it a little while ago myself. Sometimes it can make\
+    \ things too hard to read, but in some cases it can save you a lot of code if\
+    \ you have to do sorting, complex filtering, or creating objects.\n\nHeres a quick\
+    \ little example, it sorts the points, then creates a list of lines connecting\
+    \ them that could be added to a drawing.\n\n\n            Dim Z = (From a As Point2d\
+    \ In X Order By a.X Descending).ToList\n            Dim L1 = From a As Point2d\
+    \ In Z _\n                     Select P1 = a, P2 = Z.Item(Z.IndexOf(a) + 1) _\n\
+    \                     Select New Line(New Point3d(P1.X, P1.Y, 0), New Point3d(P2.X,\
+    \ P2.Y, 0)) _\n                     Take Z.Count - 1"
+- author: Artvegas
+  email: yamos78@hotmail.com
+  ip: 27.32.79.215
+  url: ''
+  date: '2012-05-04 20:26:50'
+  body: "Good tip for making the output a little cleaner is to use a custom format\
+    \ string.\n\nstring format =\n\"+0000.0000;-0000.0000; 0000.0000\";\n\ned.WriteMessage(\"\
+    \\n[{0}, {1}, {2}]\",\n   pt.X.ToString(format),\n   pt.Y.ToString(format),\n\
+    \   pt.Z.ToString(format)\n   );\n\nThe output will look like this:\n\n[-1121.1351,\
+    \ -0775.8176, -1086.5035]\n[-0877.2471, +0752.0913, +1150.9867]\n[-0795.9096,\
+    \ +0163.4927, -0352.9859]\n[-0789.7526, -0758.6186, +1242.8648]\n[+0319.2778,\
+    \ +1057.0662, -0048.1380]\n[+0320.2252, -1190.7591, -0264.5781]\n[+0384.9640,\
+    \ -0852.7373, -1143.8729]\n[+0697.8685, -0978.0293, +0922.0133]\n[+0909.2203,\
+    \ -1181.4823, -0964.9591]\n[+1146.2095, -0502.8926, +0835.8155]\n\nSorted using\
+    \ X coordinates of course :-)\n\nHTML might not do it justice. In AutoCAD the\
+    \ text is perfectly aligned.\n\nFor more info for custom numeric format strings\
+    \ refer to msdn:\n<a href=\"http://msdn.microsoft.com/en-us/library/0c899ak8.aspx\"\
+    >http://msdn.microsoft.com/en-us/library/0c899ak8.aspx</a>\n\nArt\n-----"

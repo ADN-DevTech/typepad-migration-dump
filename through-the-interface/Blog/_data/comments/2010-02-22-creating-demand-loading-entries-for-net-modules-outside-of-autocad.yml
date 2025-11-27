@@ -1,0 +1,143 @@
+comments:
+- author: GlennR
+  email: lists@tcgsoftware.com
+  ip: 80.6.141.217
+  url: ''
+  date: '2010-02-22 23:09:40'
+  body: Interesting application Kean - I like the concept. I'll build and have a play.
+- author: Quiz
+  email: quizug@mail.com
+  ip: 90.151.95.112
+  url: ''
+  date: '2010-02-23 17:28:14'
+  body: 'I have question from another area:
+
+    Will AutoCAD 2011 support .net 4.0 or not?'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-02-23 17:38:48'
+  body: 'I can''t comment on unannounced product versions on this blog.
+
+
+    You might try asking <a href="http://adn.autodesk.com">ADN</a>, if you''re a member.
+
+
+    Kean'
+- author: Jon S.
+  email: jvszewczak@hotmail.com
+  ip: 173.50.70.21
+  url: ''
+  date: '2010-02-24 03:39:38'
+  body: 'Here''s an interesting question for you, how would you demand load a .NET
+    application if you don''t want that app to load every time you open AutoCAD?
+
+
+    To be more specific, I have worked in environments that relied heavily on profiles
+    to manage different customization schemes.  And as such sometimes we required
+    a way to get at AutoCAD in a "vanilla" state (i.e. straight out of the box without
+    any customization(s) at all).  Demand loading through the registry doesn''t allow
+    for this.
+
+
+    We came up with a solution that used LISP to make a call to "netload" on those
+    profiles that were using the .NET applications.  That way we could very easily
+    control which profiles were going to be using our customized apps and which weren''t.
+
+
+    I am no longer an ADN member (my current job doesn''t interface with AutoCAD enough
+    to justify it) but I have been in the past (as recent as 2008).  Even back then
+    the ADN folks were baffled why we were doing things the way we were, and as such
+    weren''t that helpful.
+
+
+    I was just wondering what your thoughts would be on this.
+
+
+    Jon.'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2010-02-24 09:14:11'
+  body: 'Long time no hear, Jon. :-)
+
+
+    Demand-loading does allow for applications to be loaded when commands they define
+    get called by the user. So you could very easily have nothing custom at all be
+    loaded on startup, and only choose to load in functionality if invoked via the
+    UI (which may or may not provide visible options for doing so, although admittedly
+    if someone types the command into the command-line the application would get loaded).
+
+
+    Now clearly there are profile driven scenarios that may require a different type
+    of mechanism. Another way to handle this would be to have a "launcher" application
+    temporarily modify the Registry prior to a "vanilla" run to prevent your specific
+    customized modules from being loaded during that session, resetting the modified
+    Registry keys afterwards.
+
+
+    There are various ways to address this - it sounds as though the solution you
+    found using LISP works well for you, for instance.
+
+
+    Kean'
+- author: slava
+  email: vsheveliov@mail.ru
+  ip: 94.45.171.202
+  url: ''
+  date: '2012-01-10 20:19:52'
+  body: "Sorry, Kean. Should this 'if' block \n\n<code>\nif (globName != null) { ...\
+    \ }\n</code>\n\nbe placed outside parent 'if' block? It seems we handle CommandMethodAttribute\
+    \ with parameter count > 2. (May be typo?)"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2012-01-10 20:28:15'
+  body: 'No need to apologise (especially as you appear to be right :-).
+
+
+    I''ll go ahead and fix it.
+
+
+    Thanks!
+
+
+    Kean'
+- author: ales
+  email: ales.tucek@preciosa.com
+  ip: 62.40.94.34
+  url: ''
+  date: '2012-02-24 13:50:34'
+  body: 'Using partly your code and ACAD Developer''s guide I tried create registry
+    entries (no demand but startup loading) via regasm.exe. Register and unregister
+    Subs are included in my assembly, but in this case I have one serious problem  with
+    acdbmgd.dll and acmgd.dll, which must be in assembly directory.
+
+    Is there any way how to figure out this issue with no copying libraries? My assembly
+    is in ACADM 2011\Plugins\ folder, so target libraries are only two folders above.
+    Is it possible to specify the path to the libraries? (e.g. config file)?
+
+    Any ideas?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-02-24 14:58:25'
+  body: 'It''s safe enough to take AcDbMgd.dll and AcMgd.dll from the inc folder of
+    the ObjectARX SDK for AutoCAD 2011. These are "liposuctioned" DLLs that only contain
+    the interface/type information, and can be loaded outside of AutoCAD''s program
+    folder.
+
+
+    That''s how I ended up being able to build an installer using the RegDL executable:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2010/09/building-an-installer-part-1.html">http://through-the-interface.typepad.com/through_the_interface/2010/09/building-an-installer-part-1.html</a>
+
+
+    Kean
+
+    -----'

@@ -1,0 +1,247 @@
+comments:
+- author: Anonymoose
+  email: blackhole@nym.hush.com
+  ip: 24.47.197.1
+  url: ''
+  date: '2012-10-23 04:28:53'
+  body: '"the ultimate answer is that it’s unlike anything we have today – in AutoCAD
+    or even elsewhere, I suspect".
+
+
+    Geeze. It''s been sitting right there in front of us for about 20 years. It''s
+    called LISP.
+
+
+    (setq a 0)
+
+
+    (setq b ''(+ (eval a) 1))
+
+
+    (eval b) -> 1
+
+
+    (setq a 2)
+
+
+    (eval b) -> 3
+
+
+    ; Proof:
+
+
+    Command: (setq a ''(+ (eval b) 1))
+
+    (+ (EVAL B) 1)
+
+
+    Command: (setq b ''(+ (eval a) 2))
+
+    (+ (EVAL A) 2)
+
+
+    Command: (eval b)
+
+    Hard error occurred ***
+
+    internal stack limit reached (simulated)
+
+
+    Of course this is obtuse only because the AutoLISP flavor of LISP doesn''t provide
+    the means to make it any less obtuse, as other complete and mature implementations
+    of the language do.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2012-10-23 06:50:07'
+  body: 'Well, you could write some C# or C++ code to do the same thing, of course.
+    But the point is the abstraction provided by the framework and how it creates
+    and manages relationships between variables.
+
+
+    And of course there''s a lot more to DesignScript - this was just introducing
+    a few bits of background and some fundamental concepts.
+
+
+    Take it for a spin and see what you think then, Tony.
+
+
+    Kean'
+- author: James Maeding
+  email: jmaeding@hunsaker.com
+  ip: 24.249.247.46
+  url: ''
+  date: '2012-10-23 18:45:25'
+  body: 'Kean,
+
+    More languages is fine, but don''t you feel like the whole .net conversion never
+    finished off because VSTA never made it into aoutocad? I recall Jerry Winters
+    saying at AU how we were close to that, being so careful to not reveal the exact
+    release, as if Autodesk was keeping some secret. I don''t mind if they decide
+    to do this or that, and know predictions like that are not real until they happen,
+    but is Autodesk still on the fence about VSTA? THe advantage being not having
+    to restart acad at every debug run. Not that this is a new question, but this
+    topic raises it again.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2012-10-23 19:53:04'
+  body: 'James,
+
+
+    I''m really not at liberty to discuss any future product plans via a public blog.
+    If you come along to DevDays (or look for information on the ADN site - or ask
+    the ADN team via their direct support channel, for that matter) then you''ll be
+    able to find out more.
+
+
+    Regards,
+
+
+    Kean'
+- author: Anonymoose
+  email: blackhole@nym.hush.com
+  ip: 24.47.197.1
+  url: ''
+  date: '2012-10-24 03:27:46'
+  body: "\"you could write some C# or C++ code to do the same thing\".\n\nNot really.\
+    \ \n\nYou can define functions dynamically at runtime in C++ 11.0 and in C# (or\
+    \ for that matter, any CLR language), and you can also manipulate CLR functions\
+    \ if they are defined as lambda expressions using Linq Expressions, but those\
+    \ objects are <b>language-independent CLR constructs</b>, as opposed to language\
+    \ constructs comprised solely of elements of the programming language used to\
+    \ initially define them.\n\nAlso, allow me to correct my previous comment. \n\
+    The LISP equivalent of your DesignScript example is actually much simpler than\
+    \ what I showed:\n\n<pre>\n(setq a 0) -> 0\n(setq b '(+ a 1)) -> (+ A 1)\n(eval\
+    \ b) -> 1\n(setq a 1) -> 1\n(eval b) -> 2\n</pre>\n\nBefore going further, I think\
+    \ it might be helpful to kindly ask you to clarify your previous comments, regarding\
+    \ what precisely it is about DesignScript that is 'new', 'unprecendented', or\
+    \ to the best of your knowledge, does not currently exist in other programming\
+    \ languages."
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2012-10-24 05:19:37'
+  body: 'C# and C++ were used to implement the DesignScript runtime, which is the
+    main reason I mentioned them. If you''d chosen to write and execute that code
+    yourself, you''d have "solved" the associativity problem. A ridiculous example,
+    of course, but one that was intended to highlight that there comes a point where
+    it makes sense to leave this work to the framework.
+
+
+    I do need to spend some more time writing about DesignScript - I''ll see what
+    I can put together this week. I''m up to my eyeballs in preparation for my AU
+    classes, but I''ll see what I can put together.
+
+
+    Kean'
+- author: Luke Church
+  email: luke.church@autodesk.com
+  ip: 72.14.225.129
+  url: ''
+  date: '2012-10-24 22:00:51'
+  body: "Hi Kean,\n\n - Thanks for this, and as usual, you're pretty much spot on.\
+    \ Ultimately the reason we chose to build another language, as you say, is because\
+    \ we can give users a substantially better user experience - that starts off easier\
+    \ and goes further - than would be possible if we used an existing language.\n\
+    \nYou can already see some parts of this, like the associative language or the\
+    \ ability to mix and match different coding styles (associative and imperative)\
+    \ within DesignScript itself. We're already seeing people do things with this\
+    \ that would be really hard in other languages.\n\nAnd you're absolutely right\
+    \ that like most languages we had a bunch of inspirations from many other sources\
+    \ including amongst others Scala, C#, Python, Rhino Grasshopper, Processing -\
+    \ even Javascript, as well as less frequently known sources like EPur, ThingLab\
+    \ and Field/CLA.\n\nLooking forwards to seeing what people do with DesignScript,\
+    \ and btw Kean, add something glaring incorrect next time so I have an excuse\
+    \ for commenting ;-)\n\nThanks, Luke"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2012-10-25 08:14:06'
+  body: 'Trust me, Luke - the further I get from the basics, the easier I''ll find
+    it to add glaring inaccuracies. :-)
+
+
+    Thanks for stopping by!
+
+
+    Kean'
+- author: Andrey
+  email: bushman.andrey@gmail.com
+  ip: 87.249.45.171
+  url: https://sites.google.com/site/bushmansnetlaboratory/
+  date: '2012-10-25 13:46:18'
+  body: 'But the "associative nature" are necessary not always. At the some situations
+    it can be not the same, what necessary by programmer. Has the DesignScript syntax
+    for both cases?
+
+    I think, "associative nature" can give to programmers some errors, which are difficult
+    for catching.
+
+
+    Necessary to write simple examples on DesignScript and on other languages (C++/C#/Lisp)
+    for comparison and expediency of using DesignScript instead of other languages
+    (at the different situations). Without such substantiations the DesignScript will
+    a nice toy only, without which it is easily possible to live.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2012-10-25 14:02:27'
+  body: 'I would say that if you don''t want associativity then you should be using
+    a different language: DesignScript is going to be very useful for a certain class
+    of design problem, but that doesn''t mean it''s the right tool for many others.
+
+
+    Kean'
+- author: Andrey
+  email: bushman.andrey@gmail.com
+  ip: 87.249.45.171
+  url: https://sites.google.com/site/bushmansnetlaboratory/
+  date: '2012-10-26 13:34:31'
+  body: "Hi Kean,\n\nI apologise for my bad English. I don't want to offend you. I\
+    \ really want to understand, in what situations it is better to apply this language.\
+    \ The best explanation - the code samples showing advantages of this language\
+    \ in certain situations. I will be grateful to you if in your blog there will\
+    \ be such examples.\n\nBest Regards, \nAndrey"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-10-26 14:04:34'
+  body: 'Hi Andrey,
+
+
+    No offence taken! It''s just that there are places this will be a useful tool,
+    but places where it won''t: I''ll work with the DesignScript team to get some
+    helpful samples posted that make this distinction more clear.
+
+
+    Regards,
+
+
+    Kean'
+- author: Andrey Bushman (@AndreyBushman)
+  email: bushman.andrey@gmail.com
+  ip: 188.134.89.152
+  url: https://sites.google.com/site/bushmansnetlaboratory/
+  date: '2012-10-26 20:50:19'
+  body: Thank you.
+- author: Luke Church
+  email: luke.church@autodesk.com
+  ip: 94.175.239.226
+  url: ''
+  date: '2012-10-28 19:37:19'
+  body: "Hi Andrey,\n\nI agree that there are times when its nice to not have associativity,\
+    \ and there are some things that are a much easier fit for 'imperative' code like\
+    \ C#.\n\nAs I'm sure you'll see in later blog posts, one of the features of DesignScript\
+    \ is that you can change the way execution is run for a block with an annotation.\n\
+    \nFor example the below is already supported:\n\n[Imperative]\n{\n   a = 10;\n\
+    \   b = 2;\n   c = a + b; \n   Print (c); //prints '12'\n   a = 100;\n   Print(c);\
+    \  //Still prints '12'\n}\n\nOn your second point - I agree we need more samples\
+    \ explaining the different situations that we might use the different features\
+    \ in. We're working on it :) Thanks for the suggestion.\n-----"

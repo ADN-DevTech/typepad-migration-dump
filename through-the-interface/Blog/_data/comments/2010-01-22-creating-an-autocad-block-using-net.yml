@@ -1,0 +1,423 @@
+comments:
+- author: Kerry Brown
+  email: brown.kerry@gmail.com
+  ip: 114.77.140.41
+  url: ''
+  date: '2010-01-23 03:24:22'
+  body: 'Here''s one that could probably do with a makeover :)
+
+    <a href="http://www.theswamp.org/index.php?topic=7918.0">http://www.theswamp.org/index.php?topic=7918.0</a>
+
+    (Need to be a member to see attachments, though anyone can read.)
+
+
+    Kerry Brown'
+- author: helen
+  email: sermer17@gmail.com
+  ip: 85.100.173.219
+  url: ''
+  date: '2010-01-24 14:47:32'
+  body: "Hı KeAN also we wonder \nHow may we insert with attribute block reference\
+    \ from dwg file \nI search this but I found anything in the AutoCAD .NET Developer’s\
+    \ Guide\nBest regards lots of thanks for yu"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2010-01-25 10:12:05'
+  body: 'Hi Helen,
+
+
+    The code in <a href="http://through-the-interface.typepad.com/through_the_interface/2009/03/jigging-an-autocad-block-with-attributes-using-net.html">this
+    post</a> should be of help.
+
+
+    Regards,
+
+
+    Kean'
+- author: David Sparks
+  email: david.sparks@feltengroup.com
+  ip: 72.214.210.236
+  url: http://www.feltengroup.com
+  date: '2010-02-04 15:36:23'
+  body: 'Kean,
+
+
+    I was wondering if you had any examples of blocks with reactors.  Specifically,
+    I am looking for something like a block consisting of a line with various length
+    attributes in text format displayed with the line.  I would like those length
+    attributes that are displayed to update with stretch, grip edit, basically any
+    change in length to the line.  Any direction via posts you could give would be
+    greatly appreciated.  Thanks.
+
+
+    Dave Sparks'
+- author: Kean Walmsley
+  email: ''
+  ip: 12.160.193.229
+  url: http://profile.typepad.com/kean
+  date: '2010-02-04 17:23:27'
+  body: 'David,
+
+
+    This is an ideal use-case for the Overrule API, which was introduced in AutoCAD
+    2010. I really wouldn''t want to try to use reactors to maintain text as a line
+    is edited - that would be very hard to do well - but Overrules allow you to add
+    text during the display of a line (you could check for XData so it didn''t happen
+    for all lines, for instance).
+
+
+    I can show how to do this in a future post, but a version that would work prior
+    to 2010 is off the table, I''m afraid (It''d just be too much work).
+
+
+    Regards,
+
+
+    Kean'
+- author: Andrew
+  email: andrew.Squire@interstates.com
+  ip: 207.177.84.162
+  url: ''
+  date: '2010-07-08 23:04:25'
+  body: 'Hello again Kean, not sure if you check posts this old but I thought it was
+    worth a shot. I was wondering how do I go about removing these blocks or editing
+    them. I need to create 5 blocks, and then if a 6th is created they need to essentially
+    all overwrite/replace each other and the first would be deleted to make room for
+    the new. I am running into issues with the systemTable because of duplicate names
+    and I can''t figure out how to remove them.
+
+    Thanks for your help, hope you see this!'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-07-28 19:57:18'
+  body: 'Instead of checking whether a block exists (using bt.Has()) and printing
+    a warning message, if so, you could open it using bt[pr.StringResult] to get the
+    ObjectId of that block, open it for write and then do what you want with it.
+
+
+    Alternatively you could call Erase() on that block and create a new one.
+
+
+    Kean'
+- author: Dimitrina Dimitrova
+  email: jimcho@abv.bg
+  ip: 83.228.13.24
+  url: ''
+  date: '2010-10-12 11:58:56'
+  body: 'Hello Kean, do you know if there is any way to remove existing list of allowed
+    values of a property in a blockreference (AutoCAD 2010, .Net API)? I mean in the
+    BlockDefinition and also in the created instances in the drawing. Or to change
+    the PropertyTypeCode of the property - it is exposed as readOnly.
+
+    Thanks a lot, it is urgently and I am not sure... :)
+
+    Dimitrina'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-10-12 16:02:25'
+  body: 'Hello Dimitrina,
+
+
+    I''m afraid I really don''t have time to respond to support requests.
+
+
+    Your comment doesn''t appear to relate to this post, so please submit your question
+    to <a href="http://adn.autodesk.com">the ADN team</a>, if you''re a member, or
+    otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Shaiful
+  email: shaiful.islam@t-gcorp.com
+  ip: 203.59.141.17
+  url: ''
+  date: '2010-10-21 10:20:23'
+  body: "Hi Kean, I tried the example that you provided to make a block. It run and\
+    \ show error when I give Block name & press enter.   The message is :  Unhandled\
+    \ Exception has occurred......   eLockVoilation... \n\nAutodesk.AutoCAD.Runtime.Exception:\
+    \ eLockViolation Autodesk.AutoCAD.DatabaseServices.DBObject.UpgradeOpen()\n\n\
+    Please help me out, Many thanks."
+- author: Bizay Kunwar
+  email: kunwarbijay@gmail.com
+  ip: 119.2.59.93
+  url: ''
+  date: '2010-11-15 12:13:54'
+  body: "Hi Kean\n i need some help about removing the blocks from block table if\
+    \ the block name already exists. something like this...\nif blocktable.has(blkname)\
+    \  \n{\nblocktable.delete(blkname); // method not implemented in the blocktable\
+    \ object here.\n}\nelse\n{\n//create new block\n}"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2010-11-15 13:31:16'
+  body: 'Hi Bizay,
+
+
+    This is not a forum for support.
+
+
+    In future, please submit your questions to <a href="http://adn.autodesk.com">the
+    ADN team</a>, if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    In this case I suggest looking at opening the block for write (probably using
+    UpgradeOpen() after confirming it is there) and calling Erase().
+
+
+    Kean'
+- author: Peter
+  email: peter@yahoo.com
+  ip: 92.81.165.22
+  url: ''
+  date: '2011-02-14 12:21:54'
+  body: Is possible to modify an existing block, without deleting the existing one
+    and adding a new one with the modified proprieties?
+- author: Kean Walmsley
+  email: ''
+  ip: 109.237.55.190
+  url: http://profile.typepad.com/kean
+  date: '2011-02-14 12:23:18'
+  body: 'Absolutely.
+
+
+    Kean'
+- author: Peter
+  email: peter@yahoo.com
+  ip: 92.81.165.22
+  url: ''
+  date: '2011-02-14 12:28:43'
+  body: Kean, I've posted a topic with this problem on the ADN forums ( <a href="http://forums.autodesk.com/t5/NET/How-to-modify-the-components-of-a-BlockReference/td-p/2915380">http://forums.autodesk.com/t5/NET/How-to-modify-the-components-of-a-BlockReference/td-p/2915380</a>
+    ). Do you have any idea what I'm doing wrong?
+- author: Peter
+  email: peter@yahoo.com
+  ip: 92.81.165.22
+  url: ''
+  date: '2011-02-14 12:47:23'
+  body: 'Hopefully, this is onTopic:
+
+
+    Probably, you don''t have the time for this, so could you tell in a few lines
+    what should I do?
+
+
+    What I''m doing:
+
+
+    I explode the BlockReference, using a DBObjectCollection variable, but when I
+    try to change the proprieties, I don''t see anything changed in the drawing. What
+    I''m doing wrong.'
+- author: Kean Walmsley
+  email: ''
+  ip: 109.237.55.190
+  url: http://profile.typepad.com/kean
+  date: '2011-02-14 14:54:10'
+  body: 'The results of Explode() are not automatically added to the model-space,
+    you will need to do so yourself.
+
+
+    Put another way, in ObjectARX and .NET does not work in exactly the same as the
+    EXPLODE command: just like Database.Purge(), it''s a non-destructive version of
+    the operation.
+
+
+    <a href="http://autodesk.com/autocad-net-developers-guide">The AutoCAD .NET Developer''s
+    Guide</a> should help.
+
+
+    Kean'
+- author: karthick
+  email: karthick86aries@hotmail.com
+  ip: 117.204.23.155
+  url: ''
+  date: '2011-08-06 04:36:57'
+  body: how to insert text in all selected objects using vba or lisp.
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-08-07 16:46:58'
+  body: 'Sorry - this isn''t a forum for support. Please post your question via ADN
+    or the discussion groups.
+
+
+    Kean'
+- author: Christian
+  email: co_ge@gmx.de
+  ip: 80.148.23.130
+  url: ''
+  date: '2011-09-22 14:24:38'
+  body: It works well with AutoCAD 2011 but why can't I see the new block in the menue
+    Insert->Block (in german 'Einfügen->Block', hope the menue is similar in english)
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.58.92
+  url: http://profile.typepad.com/kean
+  date: '2011-09-23 09:18:57'
+  body: 'I''m not sure which menu you mean. If you mean the pull-down in the INSERT
+    dialog box, then it should be in there. If there''s some kind of MRU (most recently
+    used) list that I don''t know about (which is quite possible) then this is another
+    question.
+
+
+    Kean'
+- author: Christian
+  email: co_ge@gmx.de
+  ip: 80.148.23.130
+  url: ''
+  date: '2011-09-26 14:46:13'
+  body: 'I found what I was looking for on another page of your very helpful blog
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2011/01/combining-autocad-blocks-in-separate-files-into-a-single-dwg-using-net-take-2.html">http://through-the-interface.typepad.com/through_the_interface/2011/01/combining-autocad-blocks-in-separate-files-into-a-single-dwg-using-net-take-2.html</a>
+
+
+    with little modification it works perfect for me'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.58.92
+  url: http://profile.typepad.com/kean
+  date: '2011-09-26 15:27:50'
+  body: 'Great - glad to hear it. :-)
+
+
+    Kean'
+- author: Pierre Drapeau
+  email: pierre.drapeau@sidel.com
+  ip: 184.160.185.76
+  url: ''
+  date: '2011-10-05 17:05:54'
+  body: 'Can you create a dynamic block? Or can we analyse the actions of an existing
+    dynamic block definition?
+
+
+    For example, let''s say we have a dynamic block with an array action on a line.
+    I would like to access the array action to retrieve the id of the line or to change
+    the offset of the array in a reference of that block definition.'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/kean
+  date: '2011-10-17 10:50:41'
+  body: 'You can certainly anaylyse an existing dynamic block definition, although
+    I don''t believe you can currently define a dynamic block (I may be mis-remembering,
+    though - best to ask on the forums).
+
+
+    These posts may be helpful:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2009/03/accessing-the-properties-of-a-dynamic-autocad-block-using-net.html">http://through-the-interface.typepad.com/through_the_interface/2009/03/accessing-the-properties-of-a-dynamic-autocad-block-using-net.html</a>
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2009/03/painting-properties-between-dynamic-autocad-blocks-using-net.html">http://through-the-interface.typepad.com/through_the_interface/2009/03/painting-properties-between-dynamic-autocad-blocks-using-net.html</a>
+
+
+    Kean'
+- author: Gerrit van Diepen
+  email: g.vandiepen@gmail.com
+  ip: 31.151.124.251
+  url: ''
+  date: '2011-11-09 12:21:30'
+  body: 'Hi Kean,
+
+
+    It is possible to set the orientation of an existing block to match the block
+    orientation to the layout.
+
+    This can be done if the block is an annotative block.
+
+
+    But how do I set this property in the blocktablerecord / blockreference?
+
+    Can this also if the block is not an annotative block?
+
+
+    Any example of code in vb.net or C# would help
+
+
+
+    Gerrit'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/kean
+  date: '2011-11-09 14:11:25'
+  body: 'Hi Gerrit,
+
+
+    Sorry - I''m not sure I understand exactly what you mean.
+
+
+    Perhaps you can create a thread on the discussion forum including a DWG and/or
+    some screenshots, and post the link here?
+
+
+    Regards,
+
+
+    Kean'
+- author: Gerrit van Diepen
+  email: g.vandiepen@gmail.com
+  ip: 217.169.229.157
+  url: ''
+  date: '2011-11-10 11:09:07'
+  body: "Hi Kean,\n\nHere is the link \n<a href=\"http://forums.autodesk.com/t5/NET/Match-block-orientating-to-layout/td-p/3223508\"\
+    >http://forums.autodesk.com/t5/NET/Match-block-orientating-to-layout/td-p/3223508</a>\n\
+    \nI hope you can see my problem now ...\n\nRegards,\n\nGerrit"
+- author: Cường
+  email: cuongxda@gmail.com
+  ip: 118.70.67.166
+  url: http://ictech.vn
+  date: '2013-04-10 11:50:44'
+  body: 'Hi !
+
+    i''m student in VietNam.
+
+    I''m researching  ObjectARX  with VB.Net  and i feel so amaze ^^
+
+    Now, i have study with "AutoCAD .NET developer''s Guide" document.And i have a
+    problem.
+
+    I create a procedure to draw some device, i wonder  how i can create new object
+    same Circle and Line in AutoCAD( or similar create a Block )?
+
+    Regard,
+
+    Cuong.
+
+    p.s
+
+    Email : cuongxda@gmail.com'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-04-10 12:27:49'
+  body: 'Hi Cường,
+
+
+    This isn''t a support forum, I''m afraid.
+
+
+    I suggest posting your question - with a bt more detail on what you''re looking
+    for - to the AutoCAD .NET Discussion Group. Someone there will be able to help,
+    I''m sure.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

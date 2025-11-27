@@ -1,0 +1,99 @@
+comments:
+- author: Jaime Rosales
+  email: rosales@horizontalsystems.com
+  ip: 207.86.137.194
+  url: ''
+  date: '2011-12-07 19:07:46'
+  body: "Hi Kean,\n\nThis is Jaime here, great job with your blog, and for the reply\
+    \ on my email good to know that the name was enough, Quick question about the\
+    \ SVS example, I've been trying to use this by calling the function on a separate\
+    \ action, meaning that this function becomes part of the process of all my actions\
+    \ that take place when i call my app. The problem is that I'm getting a crash\
+    \ when it reaches the line : \n\nViewportTableRecord vtr =\n\n          (ViewportTableRecord)tr.GetObject(\n\
+    \n            vt[\"*Active\"], OpenMode.ForWrite\n\n          );\n\nAnd i think\
+    \ the reason could be because, I'm clicking an Icon which could set the viewport\
+    \ to something different than \"*Active\".\n\nAny Idea on this ? thank you so\
+    \ much for your help take care and hope to see you again soon.\n\nBest,\nJaime"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2011-12-07 23:08:36'
+  body: 'Hi Jaime,
+
+
+    :-)
+
+
+    Try checking whether vt contains "*Active" before the GetObject() call: if it
+    doesn''t there may be some other way to get the viewport you want (perhaps via
+    the CVPORT variable? This is just off the top of my head, mind).
+
+
+    Cheers,
+
+
+    Kean'
+- author: Artvegas
+  email: yamos78@hotmail.com
+  ip: 27.32.79.215
+  url: ''
+  date: '2012-05-23 15:58:12'
+  body: 'The Autodesk.AutoCAD.Internal.Utils class contains some very handy static
+    methods for manipulating visual styles, including:
+
+
+    - GetCurrentViewportVisualStyleId
+
+    - GetVisualStyles
+
+    - Is3dVisualStyle
+
+    - SetCurrentViewportVisualStyle
+
+    - visualStyleId
+
+    - visualStyleName
+
+
+    Art'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-05-24 09:09:03'
+  body: 'Thanks, Art!
+
+
+    Anyone using these just needs to be aware that they''re not part of the officially
+    supported API, of course.
+
+
+    Kean'
+- author: Patrick Emin
+  email: webmaster@augifr.fr
+  ip: 82.127.81.3
+  url: http://www.augifr.fr
+  date: '2012-07-03 11:40:27'
+  body: Would it be possible to make text objects printable in paper space viewports
+    having the "Conceptual" visual style? To print text in such viewports we need
+    to overlap two viewports one with the 2D visual style and the other with the Conceptual
+    style, wich is rather tedious...
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-07-03 15:25:11'
+  body: 'Hi Patrick,
+
+
+    This sounds like a product issue (one that''s not really in my area of expertise).
+    I suggest posting it either via ADN or the appropriate online discussion forum.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

@@ -1,0 +1,260 @@
+comments:
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 200.150.26.71
+  url: http://arxdummies.blogspot.com
+  date: '2008-05-26 13:27:20'
+  body: 'Kean,
+
+
+    I was wondering if you could list your samples through some kind of INDEX page
+    inside your Blog maybe categorized by subjects.
+
+
+    Today there are many posts and that would be great if you can organize them.
+
+
+    Of course I always think they should be present at ObjectARX SDK because they
+    are really great!
+
+
+    Keep doing this great job.
+
+    Regards,'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-26 16:47:14'
+  body: 'Fernando,
+
+
+    Thanks for the feedback: I''ve been meaning to fix some of the post navigation,
+    to make it easier to discover previous content, other than by using the search
+    mechanism.
+
+
+    So I spent some time researching how TypePad enables this, and have just published
+    "cloud" navigation which highlights popular topics (no surprises that "AutoCAD"
+    and "AutoCAD .NET" come out top ;-) as well as making sure that a full month-by-month
+    history (including the number of posts for that month) is listed.
+
+
+    I hope this helps. By the way - I''m still hopeful that at some point this blog
+    will be indexed directly from AutoCAD''s search mechanism (a lot of other content
+    sources are now searchable from within the product, but blogs are proving more
+    tricky, it seems). That may seem a little incongruous to professional developers
+    - whose primary tool is likely to be Visual Studio, rather than an Autodesk product
+    - but it would help users of our products with their customization tasks.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Kostas
+  email: kostasvav@gmail.com
+  ip: 155.207.19.6
+  url: ''
+  date: '2010-02-09 15:34:49'
+  body: 'Hi Kean,
+
+
+    The EnableLiveSection(bool) method in C# for ObjectArx 2010 seems to have been
+    removed. Is there any other way to enable/disable live sectioning?
+
+
+    Thank you!
+
+
+    Kostas'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2010-02-09 16:10:20'
+  body: "Hi Kostas,\n\nI haven't (yet) tried it, but perhaps setting \n\nsec.IsLiveSectionEnabled\
+    \ = true;\n\ndoes the trick?\n\nRegards,\n\nKean"
+- author: Kostas
+  email: kostasvav@gmail.com
+  ip: 155.207.19.6
+  url: ''
+  date: '2010-02-10 17:54:23'
+  body: 'Indeed sec.IsLiveSectionEnabled = true; works!
+
+
+    Once again thank you Kean.'
+- author: bikelink@tiscali.it
+  email: bikelink@tiscali.it
+  ip: 88.37.181.99
+  url: http://www.base2soft.it
+  date: '2010-03-25 15:55:34'
+  body: "Hi. I have a trouble about the memory . \nwith this code (and also with my)\
+    \ it seems never released.\nthe memory increases very quickly!! any suggest ?\n\
+    \n\nif you try to run this loop very long autocad crash!\nfor (int k = 0; k <\
+    \ 1000; k++) :pissed:\n{\nusing (Transaction tr = d.Database.TransactionManager.StartTransaction())\n\
+    {\nPoint3dCollection ptsez = new Point3dCollection();\nptsez.Add(p1);\nptsez.Add(p2);\n\
+    \n//\nAutodesk.AutoCAD.DatabaseServices.Section se = new Section(ptsez, asseverticale);\n\
+    ptsez.Dispose();\nptsez = null;\n\nse.TopPlane = limiteSup;\nse.BottomPlane =\
+    \ limiteInf;\nse.State = SectionState.Plane;\n\nArray pIntFillEnts;\nArray pBackgroundEnts;\n\
+    Array pForegroundEnts;\nArray pFurveTangencyEnts;\nArray pCurveTangencyEnts;\n\
+    using (Solid3d solido = tr.GetObject(idsolido, OpenMode.ForRead) as Solid3d)\n\
+    {\nse.GenerateSectionGeometry(solido, out pIntFillEnts, out pBackgroundEnts, out\
+    \ pForegroundEnts, out pFurveTangencyEnts, out pCurveTangencyEnts);\n\n}\nse.Dispose();\n\
+    se = null;\nforeach (Entity e in pIntFillEnts)\ne.Dispose();\nforeach (Entity\
+    \ e in pBackgroundEnts)\ne.Dispose();\nforeach (Entity e in pForegroundEnts)\n\
+    e.Dispose();\nforeach (Entity e in pFurveTangencyEnts)\ne.Dispose();\nforeach\
+    \ (Entity e in pCurveTangencyEnts)\ne.Dispose();\ntr.Commit();\n}\nSystem.Diagnostics.Debug.WriteLine(GC.GetTotalMemory(false));\n\
+    System.Diagnostics.Debug.WriteLine(k);\n}\n\n\n\nit increases  and at the end\
+    \ autocad crashs."
+- author: Kean Walmsley
+  email: ''
+  ip: 211.155.168.154
+  url: http://profile.typepad.com/kean
+  date: '2010-03-25 17:50:22'
+  body: 'Is the problem with the code in my blog post, with the code you''ve posted,
+    or both? I really only have time to investigate issues with code I''ve posted.
+
+
+    Kean'
+- author: Giuliano
+  email: bikelink@tiscali.it
+  ip: 82.52.185.201
+  url: http://www.base2soft.it
+  date: '2010-03-25 20:16:38'
+  body: "Hi Kean, i think both codes.. (because honestly my code is inherit of your)\n\
+    \ and I've now tried also with  c++.it's seems the same memory leak \nwhen we\
+    \ make a section that's never fully released..\nThat's appear also if  we make\
+    \ the \"dispose (c#)\" or delete in c++ and the section isn't added at database.\
+    \ You can try ..with a simple loop. If I wrong please tell me where..\n\n\n\n\
+    ACED_ARXCOMMAND_ENTRY_AUTO(CSectionPlaneApp, AsdkSectionPlane, _CreaSez, CreaSez,\
+    \ ACRX_CMD_TRANSPARENT, NULL)\n\nstatic void AsdkSectionPlane_CreaSez(void)\n\t\
+    {\n\t// Get two points in the plane\n\t\tads_point pnt;\n\t\tint iTest = acedGetPoint(NULL,_T(\"\
+    \\nSelect first point of the line in the plane: \"),pnt);\n\t\tif(iTest != RTNORM)\n\
+    \t\t\treturn;\n\n\t\tAcGePoint3d startPnt(pnt[X],pnt[Y],pnt[Z]);\n\t\t// transform\
+    \ the selected point to wcs\n\t\tAcGeMatrix3d ucsMat;\n\t\tstartPnt.transformBy(ucsMat);\n\
+    \t\tAcGePoint3dArray sectVertices;\n\t\tsectVertices.append(startPnt);\n\t\tAcGePoint3d\
+    \ endPnt;\n\t\tiTest = acedGetPoint(pnt,_T(\"\\nSelect second point of the line\
+    \ in the plane: \"),asDblArray(endPnt));\n\t\tif(iTest != RTNORM)\n\t\t\treturn;\n\
+    \t\t// transform the selected point to wcs\n\t\tendPnt.transformBy(ucsMat);\n\t\
+    \tsectVertices.append(endPnt);\n\t\t\n\n\t\tAcad::ErrorStatus es;\n\t\tads_name\
+    \ name;\n\t\tads_point pt;\n\t\tacedEntSel(_T(\"\\nSeleziona solido\"), name,\
+    \ pt);\n\t\tAcDbObjectId objId;\n\t\tacdbGetObjectId(objId, name);\n\t\t// AcDbObject\
+    \ * pObj;\n\n\t\t//AcDbObjectId sectionId = pSection->objectId();\n\t\t\n\n\t\t\
+    AcGeVector3d vv;\n\t\tvv = sectVertices[1]-sectVertices[0];\n\t\tfor (int kkk=0;kkk<10000;kkk++)\n\
+    \t\t{\n\t\t\tAcDbSection* pSection = new AcDbSection(sectVertices, AcGeVector3d::kZAxis);\n\
+    \t\t\tif(pSection==NULL)\n\t\t\t\treturn;\n\t\t\tif(Acad::eOk != (pSection->setState(AcDbSection::kPlane)))\n\
+    \t\t\t\treturn;\n\t\t\t/*AcDbObjectId sectionId = AcDbObjectId::kNull;\n\t\t\t\
+    sectionId = CSectionPlaneUtility::AddEntityToDatabase(pSection);\n\t\t\tif(sectionId\
+    \ == AcDbObjectId::kNull)\n\t\t\t\treturn;*/\n\t\t\tAcString sectName = _T(\"\
+    FirstSection\");\n\t\t\tif(Acad::eOk != (pSection->setName(sectName)))\n\t\t\t\
+    \treturn;\n\t\t\tif(Acad::eOk != (pSection->setIndicatorTransparency(90)))\n\t\
+    \t\t\treturn;\n\t\t\tif(Acad::eOk != (pSection->setHeight(AcDbSection::kHeightAboveSectionLine,\
+    \ 3.0)))\n\t\t\t\treturn;\n\t\t\tif(Acad::eOk != (pSection->setHeight(AcDbSection::kHeightBelowSectionLine,\
+    \ 1.0)))\n\t\t\t\treturn;\n\t\t\t/*if(Acad::eOk != (pSection->enableLiveSection(true)))\n\
+    \t\t\t\treturn;*/\n\n\t\tAcArray<AcDbEntity*> boundaryList, fillList, backgroundList,\
+    \ foregroundList, tangentList;\n\t\t//AcDbEntity *pEnt = NULL;\n\n\t\t/*for (int\
+    \ i = 0; i < solidIds.length(); i++)\n\t\t{*/\n\t\t\tAcArray<AcDbEntity*> boundarySet,\
+    \ fillSet, backgroundSet;\n\t\t\tAcArray<AcDbEntity*> foregroundSet, tangentSet;\n\
+    \t        \n\t\t\tAcDbEntity *pEnt = NULL;\n\t\t\tAcArray<AcDbEntity*> entList;\n\
+    \t\t\t// es = acdbOpenObject(pEnt, solidIds[i], AcDb::kForRead);\n\t\t\tes = acdbOpenObject(pEnt,\
+    \ objId, AcDb::kForRead);\n\t\t\t\n\t\t\tif (es == eOk)\n\t\t\t{\n\t\t\t\tes =\
+    \ pSection->generateSectionGeometry(pEnt,\n\t\t\t\t\t\t\t\tboundarySet, fillSet,\
+    \ backgroundSet, \n\t\t\t\t\t\t\t\tforegroundSet, tangentSet);\n\t\t\t\tpEnt->close();\n\
+    \n\t\t\t\tentList.append(boundarySet);\n\t\t\t\tentList.append(fillSet);\n\t\t\
+    \t\tentList.append(backgroundSet);\n\t\t\t\tentList.append(foregroundSet);\n\t\
+    \t\t\tentList.append(tangentSet);\n\t\t\t}\n\t\t//}\n\t\t\n\t\t/*for(int k=0;k<entList.length();k++)\n\
+    \t\t{\n\t\t\tAcDbEntity* ec= (AcDbEntity*)entList.at(k) ;\n\t\t\tdelete ec;\n\t\
+    \t\tec = NULL;\n\n\t\t}*/\n\t\t\n\t\t/*boundarySet.~AcArray();\n\t\tfillSet.~AcArray();\n\
+    \t\tbackgroundSet.~AcArray();\n\t\tforegroundSet.~AcArray();\n\t\ttangentSet.~AcArray();*/\n\
+    \t\t// entList.~AcArray();\n\n\t\tpSection->close();\n\t\tpSection=NULL;\n\t\t\
+    }\n\t}"
+- author: Kean Walmsley
+  email: ''
+  ip: 211.155.168.154
+  url: http://profile.typepad.com/kean
+  date: '2010-03-26 01:12:21'
+  body: 'Have you tried calling acdbAcisSetDeleteBulletins(Adesk::kTrue)?
+
+
+    Kean'
+- author: Giuliano
+  email: bikelink@tiscali.it
+  ip: 82.54.251.51
+  url: http://www.base2soft.it
+  date: '2010-03-26 07:38:57'
+  body: 'acdbAcisSetDeleteBulletins it''s sounds new ...to me.
+
+    where i must call it and where autocad documentation talks about it ?'
+- author: Kean Walmsley
+  email: ''
+  ip: 58.32.239.82
+  url: http://profile.typepad.com/kean
+  date: '2010-03-26 07:51:46'
+  body: "If you search the ObjectARX Reference you should find this description:\n\
+    \n>>>\nThis function sets the flag that controls whether the solid modeler releases\
+    \ all memory for cached solids information at the start of each command in the\
+    \ editor. If onOff is Adesk::kTrue, the flag is set; otherwise, if Adesk::kFalse,\
+    \ the flag is cleared and the modeler no longer releases the memory at the start\
+    \ of each command.  \n<<<\n\nKean"
+- author: Giuliano
+  email: bikelink@tiscali.it
+  ip: 82.54.251.51
+  url: http://www.base2soft.it
+  date: '2010-03-26 09:04:17'
+  body: "Wow! now i'm going to try it.\nI never saw wrote it in the  samples code\n\
+    Thanks in advance your are a very wizard! \n<b>acdbAcisSetDeleteBulletins</b>"
+- author: Will Massie
+  email: wmassie@sause.com
+  ip: 97.90.97.10
+  url: ''
+  date: '2011-02-26 00:00:31'
+  body: I have been playing around with the sectioning capabilities in .NET.  It appears
+    as though the GenerateSectionGeometry method can only be applied to a single solid,
+    one-at-a-time.  Therefore, when this method is used with the visiblity of background
+    geometry set to true and the visibilty of hiddenlines set to false, it does hide
+    lines on the backside of a solid but lines on a solid that should be hidden behind
+    another solid are still visible.  However, when I manually produce a section view
+    from a section object from within the Autocad editor, the results are as you would
+    expect, lines on a solid hidden behind another solid are not shown.  Is this functionality
+    achievable with the .NET API?  It looks as though it is not, since GenerateSectionGeometry
+    seems to only accept a single entity.  Am I right?
+- author: Kean Walmsley
+  email: ''
+  ip: 66.116.112.8
+  url: http://profile.typepad.com/kean
+  date: '2011-02-26 06:17:41'
+  body: 'What happens if you add more objects to the collection passed into the SetSourceObjects()
+    call?
+
+
+    Kean'
+- author: Will Massie
+  email: wmassie@sause.com
+  ip: 97.90.97.10
+  url: ''
+  date: '2011-03-08 21:19:45'
+  body: I have tried adding more objects, but it does not seem to work.  Have you
+    been able achieve what I described in my previous post using the SetSourceObjects()
+    call?
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2011-03-08 21:27:13'
+  body: 'No, I haven''t: I was grasping at straws, because I sadly don''t have time
+    to investigate all the support requests I get via my blog (unless they are due
+    to issues with the code I''ve posted).
+
+
+    If that doesn''t help I suggest submitting your question to <a href="http://adn.autodesk.com">the
+    ADN team</a>, if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

@@ -1,0 +1,30 @@
+comments:
+- author: Albert
+  email: szilvaa@hotmail.com
+  ip: 198.102.112.18
+  url: ''
+  date: '2007-02-13 17:21:07'
+  body: 'Hi Maksim,
+
+
+    I don''t quite understand your reasoning. Abort kills the underlying unmanaged
+    transaction so it sets the AutoDelete flag to false to avoid a double delete if
+    Dispose is called. (This also removes the object from the finalizer queue.)
+
+
+    Can you give me more details what you believe is a problem?
+
+
+    Thanks,
+
+    albert'
+- author: Maksim Sestic
+  email: max@geoinova.com
+  ip: 81.93.95.79
+  url: http://www.geoinova.com
+  date: '2007-02-15 11:06:43'
+  body: "Hi Albert,\n\nThanks for the clarification. I recently had a discussion with\
+    \ my colleagues on IDisposable implementation of the Transaction object. We were\
+    \ actually trying to figure out whether it's safe (in a sense of in-transaction\
+    \ instantiated DBROs) to Dispose running Transaction regardless of it's commited/aborted\
+    \ state.\n\nRegards,\nMaksim Sestic\n\n  \n \n-----"

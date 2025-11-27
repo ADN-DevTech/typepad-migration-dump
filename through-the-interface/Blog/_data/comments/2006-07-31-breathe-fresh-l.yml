@@ -1,0 +1,176 @@
+comments:
+- author: N.SIVA
+  email: siva_mech2007@yahoo.co.in
+  ip: 121.247.14.132
+  url: ''
+  date: '2007-07-27 16:37:19'
+  body: ''
+- author: Hans
+  email: hans.meyer@web.de
+  ip: 195.200.70.41
+  url: ''
+  date: '2009-09-22 07:56:09'
+  body: 'only works, if no separate Namespace.
+
+    How to Import des LispFunction in a VLX, build with separate Namespace ?'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-09-22 09:47:15'
+  body: 'I have no idea: I haven''t had to do this, myself. Please post your question
+    to the <a href="http://adn.autodesk.com">ADN</a> team, if you''re a member, or
+    to one of <a href="http://discussion.autodesk.com">our online discussion groups</a>,
+    otherwise.
+
+
+    Regards,
+
+
+    Kean'
+- author: William
+  email: wcastillo@disedig.com
+  ip: 190.241.239.180
+  url: http://www.disedig.com
+  date: '2010-03-27 21:39:33'
+  body: 'Why I can''t call a dll activex (VB6) in Autocad 2009 64 bit, its run ok
+    in AutoCAD 2009 win 32.
+
+
+    (setq acadApp (vlax-get-acad-object))
+
+    (setq MyApp (vla-GetInterfaceObject acadApp "myLib.Mycls"))'
+- author: Kean Walmsley
+  email: ''
+  ip: 122.167.202.93
+  url: http://profile.typepad.com/kean
+  date: '2010-03-28 04:44:16'
+  body: 'I''m no 64-bit expert - I''m still working on a 32-bit OS - but I imagine
+    you have a 32-bit component (built using VB6) that you''re trying to load into
+    a 64-bit process.
+
+
+    You''ll probably need to rebuild your VB6 for a 64-bit system.
+
+
+    But either <a href="http://adn.autodesk.com">ADN</a> or someone on <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a> will know more.
+
+
+    Kean'
+- author: William
+  email: wcastillo@disedig.com
+  ip: 190.241.239.180
+  url: http://www.disedig.com
+  date: '2010-03-28 04:50:48'
+  body: Thanks for the answer, yes, I rebuild it in vb.net for 32 and 64 but but it
+    doesnt works.
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2010-09-28 23:29:06'
+  body: 'Hi Kean,
+
+    I am getting ready to start what will likely be a long project, sorting through
+    my companies Lisp directory and determining what is useful and what is not.(there
+    are almost 500 files in there that date back to 1986, and though I have been here
+    for 11 years, even I don''t know what all of them do.)
+
+
+    I figure while I am doing that, I will likely find some things I would transfer
+    into one of our .NET projects as LispFunctions and I was wondering...  I''ve looked
+    everywhere I can think to look, and I don''t have any reference that tells me
+    where you got those 5000 series TypeCodes.  Actually, I can''t find any list of
+    type codes that goes beyond the 1000 series Xdata codes.
+
+
+    Beyond knowing where to find them, I was also wondering the significance of using
+    them as opposed to the standard set of codes.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-09-29 09:24:58'
+  body: "Hi David,\n\nIf you install any ObjectARX SDK you will find them defined\
+    \ in the adscodes.h header in the inc folder:\n\n/*  Result value type codes \n\
+    \ \n       These are used in the resbuf.  These ARE NOT the same\n       as the\
+    \ group codes used in the entity access routines, and should\n       not be confused\
+    \ with those.  The same result buffer IS used for \n       entity records, however,\
+    \ in which case the restype field may take\n       on many more values than those\
+    \ listed here.\n*/\n#define RTNONE    5000 /* No result */\n#define RTREAL   \
+    \ 5001 /*Real number */\n#define RTPOINT   5002 /* 2D point X and Y only */\n\
+    #define RTSHORT   5003 /* Short integer */\n#define RTANG     5004 /* Angle */\n\
+    #define RTSTR     5005 /* String */\n#define RTENAME   5006 /* Entity name */\n\
+    #define RTPICKS   5007 /* Pick set */\n#define RTORINT   5008 /* Orientation */\n\
+    #define RT3DPOINT 5009 /* 3D point - X, Y, and Z */\n#define RTLONG    5010 /*\
+    \ Long integer */\n#define RTVOID    5014 /* Blank symbol */\n#define RTLB   \
+    \   5016 /* list begin */\n#define RTLE      5017 /* list end */\n#define RTDOTE\
+    \    5018 /* dotted pair */\n#define RTNIL     5019 /* nil */\n#define RTDXF0\
+    \    5020 /* DXF code 0 for ads_buildlist only */\n#define RTT       5021 /* T\
+    \ atom */\n#define RTRESBUF  5023 /* resbuf */\n#define RTMODELESS 5027 /* interrupted\
+    \ by modeless dialog */\n\nThese definitions are basically the ones that are needed\
+    \ in this circumstances (when passing data via ResultBuffers).\n\nRegards,\n\n\
+    Kean"
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2010-09-29 21:15:25'
+  body: 'Thanks Kean.  Yesterday, when I looked at the ARX Managed Class Reference
+    page for the ResultBuffer class, it said "See ObjectARX Global Utility Functions->Variables,
+    Types, and Values Defined in ObjectARX->Result Buffers and Type Codes in the ObjectARX
+    Developer''s Guide"
+
+
+    but under ObjectARX Developer''s Guide, there is no ObjectARX Global Utility Functions
+    entry.
+
+
+    I finally found it, under Arx Dev Guide-><b>Basic Interaction with AutoCAD<b>->ObjectARX
+    Global Utility Functions->...'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-09-30 09:06:17'
+  body: 'Good that you found it. I tend to work from first principles for these things,
+    so sometimes forget intermediate documentation exists.
+
+
+    Kean'
+- author: Vitor Silva
+  email: vitor.silva@ofcdesk.com
+  ip: 186.213.82.137
+  url: http://www.ofcdesk.com
+  date: '2011-05-18 21:58:18'
+  body: 'Hello Kean,
+
+    I currently use "objAcadDoc.SendCommand(stringLISP)" or
+
+    "objDoc.SendStringToExecute("_commandLISP ", true, false, false)" to register
+    an lisp expression. But the first way use COM (is slow) and the second way is
+    Asyncrono (only execute in the end of command).
+
+    How can I send to AutoCAD a lisp expression, without using COM or ASYNC metodes?'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/kean
+  date: '2011-05-18 22:01:14'
+  body: 'Hello Vitor,
+
+
+    These are the two recommended ways - I tend to use SendStringToExecute() with
+    a continuation command.
+
+
+    But please do ask ADN - someone in my team may have a better approach for you.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

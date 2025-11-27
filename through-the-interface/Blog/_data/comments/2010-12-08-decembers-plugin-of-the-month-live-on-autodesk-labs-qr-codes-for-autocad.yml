@@ -1,0 +1,203 @@
+comments:
+- author: Patrick EMIN
+  email: webmaster@acadnetwork.com
+  ip: 83.206.249.121
+  url: http://www.acadnetwork.com
+  date: '2010-12-08 16:41:08'
+  body: Great work! Thanks to you both. Works perfectly; as you said, the idea to
+    create a hatch object is great, but how is it done? The answer is in the code,
+    for sure... I suggested on my CAD site more than one year ago the use of 2D codes
+    in AutoCAD drawings, but at the time, I created them by hand! (well by Google...)
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2010-12-08 16:56:55'
+  body: 'Hi Patrick,
+
+
+    OK, I''ve just looked mores closely at the code, to understand it better myself.
+    :-)
+
+
+    If you look at the AcadHatchQREncoder.cs file, you''ll see where we call through
+    the open source QR Codes library to encode the data as a 2D (square) matrix of
+    Boolean flags indicating whether each square is set or not.
+
+
+    We then iterate through that array, creating loops for all the squares that are
+    set. Which means that each square - even if adjacent to others that are "on" -
+    is a separate island in the hatch. So I suspect there are opportunities to optimise
+    the resultant hatch by merging islands (probably during creation). Do let us know
+    if you come up with a more optimal algorithm that you''d like to share. ;-)
+
+
+    Cheers,
+
+
+    Kean'
+- author: Barry Ralphs
+  email: barry.ralphs@gmail.com
+  ip: 66.117.145.100
+  url: http://www.opendcl.com
+  date: '2010-12-08 23:40:29'
+  body: 'It''s look''in good Kean, thx.
+
+    The idea to create it all from one large hatch is a great idea, but can it be
+    created inside an anonymous block?
+
+    When selecting this large of a hatch, it can be slow while all the grips generate.
+    Plus, you don''t want someone to accidentally grip edit the hatch....'
+- author: Stephan Bartl
+  email: cad@stbartl.at
+  ip: 91.113.50.28
+  url: http://www.stbartl.at/index_e.htm
+  date: '2010-12-09 00:51:41'
+  body: 'Hi all,
+
+
+    I comment from the "Agreement" that comes before the download:
+
+    "2.1 Grant of License-Testing and Evaluation. ... Without limiting the foregoing,
+    Tester may not use the Pre-Release Products for competitive analysis, or commercial,
+    professional, or other for-profit purposes."
+
+
+    That seems to mean, that I may not use the Plug-In for any commercial purposes,
+    not using it just normal for QR-Coding my draftings in my company nor reusing
+    the code to create some commercial work off of it. Is that true? In that case
+    it would be completely useless. Why is it then released??!!!?? Or why does Autodesk
+    try sooo hard (again and again) to really upset it''s customers? We all bought
+    Autocad for commercial reasons and not for fun!!! Therefore we don''t need Plug-Ins
+    that we can not use commercially!!!
+
+
+    Maybe I misunderstand it? Or is there a commercial version that I can buy?
+
+
+    Regards, Stephan'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2010-12-09 07:38:38'
+  body: 'Interesting suggestion, Barry - we''ll certainly bear it in mind for the
+    next release.
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2010-12-09 08:33:07'
+  body: 'Hi Stephan,
+
+
+    I believe we''re using the standard Autodesk Labs EULA for our Plugins of the
+    Month. I''ll pass you comments on to Scott Sheppard, to see what he has to say
+    about the terms of usage.
+
+
+    My understanding is that this is about limiting liability related to the use of
+    plugins that have not put through the formal QA process our company uses for officially
+    released software. The same is probably true of the source code, but clearly the
+    terms have been crafted primarily for compiled modules: it''s absolutely our expectation
+    that you extend the source code for use commercially, providing you undersand
+    that it''s your responsibility to ensure it works well for your (or your customers'')
+    purposes.
+
+
+    As for Autodesk "trying so hard to upset its customers", I''m afraid I find that
+    comment quite offensive. Autodesk Labs is about connecting with customers, learning
+    about and meeting their needs. I think the breadth and depth of the technology
+    available on the site speaks for itself. And I might also add that my team and
+    I spend a great deal of effort (professionally and personally) in efforts to please
+    (even to delight) our customers.
+
+
+    Regards,
+
+
+    Kean'
+- author: Stephan Bartl
+  email: cad@stbartl.at
+  ip: 188.22.64.147
+  url: http://www.stbartl.at/index_e.htm
+  date: '2010-12-09 14:31:10'
+  body: 'Thanks, Kean, for the understanding and fair words.
+
+
+    I am sorry for the obviously offensive line. I was a little upset when I wrote
+    the comment and for sure it is an overstatement. I had even stronger words in
+    the first draft, wich I deleted out before posting.
+
+    Please, be assured that I was not referring to you or your team. I really like
+    your blog. I was referring to Autodesk as a big company as a whole in general
+    and for sure I did not want to offend anybody personally.
+
+
+    Kind regards,
+
+    Stephan'
+- author: Yoann Maingon
+  email: yoann.maingon@prodeos.com
+  ip: 88.181.31.66
+  url: http://www.prodeos.com
+  date: '2010-12-13 20:54:37'
+  body: "Hi Kean, \n\nThanks for this article which inspired me again. I was trying\
+    \ to find a topic to demonstrate a simple dev on the software i work on and QR\
+    \ code is a great idea (not very usefull for the user in my case but easy to show\
+    \ how to implement it). I used the Google Chart implementation with the Docomo\
+    \ format for Contact information.\nhere is the video : <a href=\"http://www.prodeos.fr/2010/12/13/eng-tech-integrate-qr-code-tag-in-user-form-in-aras-innovator/\"\
+    >http://www.prodeos.fr/2010/12/13/eng-tech-integrate-qr-code-tag-in-user-form-in-aras-innovator/</a>\n\
+    \nBest Regards,\n\nYoann"
+- author: Constantin Gherasim
+  email: cyberiq@mailcity.com
+  ip: 207.35.54.70
+  url: ''
+  date: '2010-12-15 00:09:40'
+  body: 'Hi Kean,
+
+
+    Nice tool. I would work a little bit on my side to polish the GUI (I''m kind of
+    picky about it :) and to translate the application in French.
+
+
+    One little warning though for potential users, don''t try to separate the hatches
+    (not even out of curiosity) because this will generate a FATAL ERROR message.
+
+
+    Best Regards,
+
+
+    Constantin'
+- author: A Facebook User
+  email: ''
+  ip: 76.115.131.94
+  url: http://profile.typepad.com/d95580930875692811
+  date: '2011-10-17 06:07:14'
+  body: 'Late question here regarding this cool tool.  I am a definite novice at CAD
+    programming, but I am wondering if the text data, url or whatever can be stored
+    in a block as an attribute.  Is it possible to either create a custom property
+    to create the data, or to directly change the XData without the QRED command?
+
+
+    Thanks for the tool!
+
+
+    Keith'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2011-10-17 18:22:11'
+  body: 'With some more work the encoded data could certainly be exposed via the Properties
+    Window and cause the QR Code to be regenerated once edited, but that was beyind
+    the scope of this initial implementation. The source code is all there for someone
+    to take further, of course... :-)
+
+
+    Kean
+
+    -----'

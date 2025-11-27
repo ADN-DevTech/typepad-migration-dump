@@ -1,0 +1,102 @@
+comments:
+- author: Petri Roivas
+  email: petri.roivas@inmics.fi
+  ip: 212.213.213.41
+  url: http://www.inmics.fi
+  date: '2011-12-15 07:56:52'
+  body: We was researching for solution to our project while unerasing object in Database_ObjectErased
+    caused total crash and using CommandEnded to restore object didnt look like so
+    elegant solution. Thank you again of good blog post!
+- author: dba
+  email: daniel.balogh@adptech.at
+  ip: 194.110.78.1
+  url: ''
+  date: '2013-03-27 16:46:44'
+  body: "Hello Kean,\n\nis there a way to prevent certain objects from being plotted?\
+    \ I know I coud use a Layer for that, but... they should be on the Layer, wich\
+    \ the containing BlockRef is inserted to.\nSo I have a 3dPolyline nested in a\
+    \ Block. I need to see it in Modelspace, since it shows a clearence boundary but\
+    \ do not want it to be plotted... (Actually, lot of blocks feature such a line,\
+    \ so simple blockdef modification on Plotcommand would be a performance-killer)\
+    \ I hoped to find an Obejct Property \"mypoly.plottable\", or so... \nMaybe an\
+    \ Overrule? Is the plot command triggering any event for overrule?\n\nThanks in\
+    \ advance,\nDaniel"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-03-27 17:34:04'
+  body: 'Hello Daniel,
+
+
+    There''s no direct event, but you might be able to use a DrawableOverrule that
+    nulls out the objects to hide (by not calling the base Worldraw() method) and
+    only gets added when the PLOT command starts.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Subir Kumar Dutta
+  email: cad.customizations@gmail.com
+  ip: 135.245.8.5
+  url: http://www.youtube.com/user/nametemp2012/videos
+  date: '2014-02-13 15:19:36'
+  body: Hi Kean, In our application user inserts standard blocks from toolpalatte.
+    But after inserting them they can redefine the blocks. How can we restrict user
+    from refining blocks. Can any overrule be applied to blocks so that user can't
+    redefine blocks.
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2014-02-13 16:15:48'
+  body: 'Hi Subir,
+
+
+    I haven''t yet found a workable way to prevent block redefinition, unfortunately.
+
+
+    Regards,
+
+
+    Kean'
+- author: Diego Ordonez
+  email: diordonez@engineer.com
+  ip: 75.156.18.13
+  url: ''
+  date: '2014-03-13 06:06:14'
+  body: 'How can I implement a restriction to erase certain kind of polylines.
+
+    Let''s say sewer pipes that are indeed polylines with some Xrecord attached to
+    it (diameter, material, installation date, etc).
+
+
+    I would like to avoid deleting polylines with those attributes but enable deletion
+    of conventional polylines.
+
+    Thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2014-03-13 07:43:31'
+  body: 'Rather than just blindly throwing the exception you can check the state of
+    the object passed in before deciding whether to do so.
+
+
+    Kean'
+- author: Diego Ordonez
+  email: diordonez@engineer.com
+  ip: 142.52.81.12
+  url: ''
+  date: '2014-03-18 18:01:12'
+  body: 'Thanks Kean.
+
+    It works as expected. Kindest regards.
+
+
+    Diego
+
+    -----'

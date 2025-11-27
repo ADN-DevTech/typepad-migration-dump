@@ -1,0 +1,237 @@
+comments:
+- author: Robert
+  email: rdeckdahl@transystems.com
+  ip: 74.203.220.100
+  url: ''
+  date: '2011-10-07 17:20:46'
+  body: 'I was thinking about this within the last couple of weeks, so your timing
+    is perfect!
+
+    I''m assuming/hoping I''ll be able to create a contextual state based on the value
+    of an environment variable.'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.199
+  url: http://profile.typepad.com/kean
+  date: '2011-10-17 10:57:23'
+  body: 'Absolutely - just get the variable from your code and return the Boolean
+    value as appropriate.
+
+
+    Kean'
+- author: Sergey
+  email: atomny@rambler.ru
+  ip: 212.176.31.245
+  url: ''
+  date: '2012-02-13 15:31:22'
+  body: 'Hi!
+
+    I did as described above. But i don''t see a new node named “Sample: Two circles
+    selected rule” under Ribbon –> Contextual Tab States.
+
+    Where is the error?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-02-13 22:27:35'
+  body: 'Sorry - there''s no way for me to know. Did you follow the instructions (which
+    do work) to the letter, such as the placement of the XAML file?
+
+
+    Kean'
+- author: Sergey
+  email: atomny@rambler.ru
+  ip: 212.176.31.245
+  url: ''
+  date: '2012-02-14 09:16:32'
+  body: 'In the AutoCAD executable folder exist XAML file - <b>AcContextualTabSelectorRules.xaml</b>.
+    If to copy a <b>TabSelectorRules</b> and <b>Rule</b> in it, that works! Through
+    a separate XAML file doesn''t work. So should be?
+
+    P.S. Sorry for my english :)'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2012-02-14 09:22:08'
+  body: 'You shouldn''t need a separate file. You may want to see if naming it the
+    same as the DLL (just with the XAML extension) makes a difference, although that''s
+    just a shot in the dark (as it''s been some time since I looked at this... I don''t
+    know why I''m suggesting something that contradicts what I''ve written in this
+    post, come to think of it).
+
+
+    Kean'
+- author: Peter
+  email: pymote@yahoo.de
+  ip: 192.54.144.229
+  url: ''
+  date: '2012-03-22 10:31:34'
+  body: 'First of all, thanks for this great blog series.
+
+    There are two things that crossed my mind:
+
+    1. Besides Ribbon tabs, is it also possible to display groups, buttons or other
+    Ribbon elements contextually? I guess not.
+
+    2. The way to edit the general TabSelectorRules.xaml and placing the assembly
+    next to it isn''t much comfortable. I recently watched the ADN DevCast Episode
+    you posted about the AppAutoLoader and I''m excited about it. Wouldn''t it be
+    great to have all customization files (assemblies, rule definitions, .cuix files
+    and other resources) bundled together and provided via the apploader?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-03-22 11:19:32'
+  body: "1. As far as I'm aware this is only at the tab level.\n2. I agree - it would\
+    \ certainly be preferable to have these loadable from Autoloader bundles. \n\n\
+    If you're an ADN member you should be sure to submit this feedback there, too.\n\
+    \nKean"
+- author: Mostafa Ali
+  email: MostafaAli@ualberta.ca
+  ip: 174.3.242.46
+  url: ''
+  date: '2012-11-24 05:29:13'
+  body: "Hi Kean,\n\nshould we use\n    if (res == null)\nor\n    if (res.value ==\
+    \ null)\n\nSince the first one will not be executed if the user hit Esc key"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-11-24 07:36:07'
+  body: 'Hi Mostafa,
+
+
+    That check really just guards to make sure we don''t de-reference a null pointer
+    (or try to access a property on a null object - that sounds a bit more .NETy :-).
+    We might also check the Status flag to only call the other function on OK, but
+    ultimately that''s taken care of when we check the SelectionSet - if it''s null
+    or doesn''t contain exactly two objects, we don''t go any further.
+
+
+    Regards,
+
+
+    Kean'
+- author: Brad Hamilton
+  email: bradley.hamilton@hii-amsec.com
+  ip: 63.88.82.120
+  url: ''
+  date: '2012-11-29 17:16:18'
+  body: 'Hi Kean,
+
+
+    Hate to ping you at AU2012 but I''m trying to enable a palette and ribbon tab
+    based on whether a selected entity has named XDATA with a specific value and this
+    looks like a good starting point.  I''m hoping I can do this all from code.  Can''t
+    we somehow package the XAML into a resource?
+
+
+    Unfortunately, when I tried to grab the zip, this page came up...
+
+
+    The page you''ve been trying to access was blocked.
+
+
+    Reason: Active content was blocked due to digital signature violation. The violation
+    is Missing Digital Signature.
+
+    Transaction ID is 50B7885C37621305CBFB.
+
+
+    ... any ideas? Thanks,
+
+    Brad'
+- author: Kean Walmsley
+  email: ''
+  ip: 8.19.13.22
+  url: http://profile.typepad.com/kean
+  date: '2012-11-29 18:59:04'
+  body: 'Hi Brad,
+
+
+    I''m now in San Rafael after AU, so no problem. :-)
+
+
+    I''ve emailed the ZIP to you separately - let me know if you received it.
+
+
+    I don''t know of a way to avoid the XAML requirement, unfortunately. I know it''s
+    a pain to have to deploy in the Program Files foler, too, but that''s the requirement
+    as it stands.
+
+
+    Regards,
+
+
+    Kean'
+- author: Daniel
+  email: daniel.balogh@adptech.at
+  ip: 178.115.251.249
+  url: ''
+  date: '2013-01-28 10:48:41'
+  body: "Hello Kean,\n\nI've been testing this. After removing my XAML and dll from\
+    \ the program directory, the contextualtab state remains in the main CUI (with\
+    \ no action - naturally). The CUI-editor doesn't allow to manipulate the states.\
+    \ \nIs this standard behavior and is there any way to remove this entry from the\
+    \ CUI (reg, .mnr, or some)?\n\nThanks in advance,\nDaniel"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-01-28 13:37:25'
+  body: 'Hello Daniel,
+
+
+    Have you tried right-clicking and selecting Remove from within the CUI editor?
+
+
+    Regards,
+
+
+    Kean'
+- author: Ivan
+  email: iv.shchitov@gmail.com
+  ip: 165.84.106.5
+  url: ''
+  date: '2014-01-27 01:45:27'
+  body: 'Greetings!
+
+
+    How can I make a module that detects wether the text editing tab is open or not?
+
+
+    Kind regards,
+
+    Ivan'
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2014-01-27 09:21:52'
+  body: 'Hi Ivan,
+
+
+    I don''t know, off the top of my head. I suggest posting your question to the
+    AutoCAD .NET Discussion Group: someone there should be able to help.
+
+
+    Regards,
+
+
+    Kean'
+- author: Ivan
+  email: iv.shchitov@gmail.com
+  ip: 118.149.149.101
+  url: ''
+  date: '2014-01-29 02:18:02'
+  body: 'Thank you, Kean!
+
+
+    Best regards,
+
+    Ivan
+
+    -----'

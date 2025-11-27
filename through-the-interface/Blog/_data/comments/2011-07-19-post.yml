@@ -1,0 +1,174 @@
+comments:
+- author: Artvegas
+  email: yamos78@hotmail.com
+  ip: 27.32.79.215
+  url: ''
+  date: '2011-08-26 14:57:02'
+  body: 'For long single operations that cannot be iterated, a good tip is to change
+    the cursor to a spinning wheel. Otherwise the cursor just disappears and the user
+    will not know what is happening.
+
+
+    I''ve been using this technique when calling the Solid3d.CreateSweptSolid() method,
+    which depending on the complexity of the geometry hangs for a bit while processing.
+
+
+    Refer to the following post for details:
+
+    <p><a href="http://forums.autodesk.com/t5/NET/WaitCursor-at-the-command-line/m-p/2537961/highlight/true#M15556">WaitCursorPost</a></p>
+
+
+    Cheers,
+
+    Art'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2011-08-26 15:02:31'
+  body: 'Thanks for sharing this suggestion, Art!
+
+
+    Kean'
+- author: MexicanCustard (The Swamp)
+  email: Mexicancustard@gmail.com
+  ip: 209.156.249.65
+  url: ''
+  date: '2011-11-18 16:42:35'
+  body: Kean, I've got a long operation that calls Database.SaveAs() multiple times
+    during the opreation. It seems that this method has its own ProgresMeter and overwrites
+    then turns off my ProgresMeter. Is there a way to keep this from happening?
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.19
+  url: http://profile.typepad.com/kean
+  date: '2011-11-18 17:04:07'
+  body: 'Not that I''m aware of. You might want to display your own uber-status bar
+    as a floating window (if you wanted to get clever it could even be over the AutoCAD
+    one, but not necessarily).
+
+
+    Kean'
+- author: Henk
+  email: hlo@cadaccent.nl
+  ip: 92.254.54.241
+  url: http://www.cadaccent.nl
+  date: '2012-07-11 12:24:48'
+  body: 'Does someone know a way to force the ProgressMeter to refresh itself with
+    steps of 1%? Now it refreshes itself automatically with steps of usually 5 or
+    6%, even in long during processes.
+
+    The P/Invoke method Kean mentioned does not have this issue.
+
+
+    Cheers,
+
+    Henk'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-07-31 09:01:39'
+  body: 'Hi Henk,
+
+
+    Good question - for me it also updates in chunks, which is almost certainly for
+    performance reasons. You might try contacting ADN (directly or via the AutoCAD
+    .NET discussion group), to see if they have any suggestions.
+
+
+    Regards,
+
+
+    Kean'
+- author: dba
+  email: daniel.balogh@adptech.at
+  ip: 194.110.78.1
+  url: http://profile.typepad.com/6p01910489d0be970c
+  date: '2013-09-09 19:58:47'
+  body: 'Hello Kean,
+
+
+    if have found this earlier... :-) I''ll keep this in mind for the future.
+
+    Since with this approach I can show a built-in Progressbar for something my AddIn
+    does, is there any Progress-reporting in Builtin methods? I think of showing the
+    number of items inserted using WblockCloneObjects with a Collection of Objectids...
+    Or may I loop the WblockCloneObjects through my Objectids to catch the progress?
+
+    Thanks in advance,
+
+    Daniel'
+- author: dba
+  email: daniel.balogh@adptech.at
+  ip: 194.110.78.1
+  url: http://profile.typepad.com/6p01910489d0be970c
+  date: '2013-09-09 20:10:59'
+  body: 'Ok, tested it on 360 BlockReferences :)
+
+    Inserting the Objects 1 by 1 in a loop kills the performance and the using of
+    WblockCloneObjects looses it''s sense :-)
+
+    Any hints on this were appreciated :-)
+
+    Thanks,
+
+    Daniel'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-09-09 21:19:52'
+  body: 'Hello Daniel,
+
+
+    Unfortunately any single long-running operation can''t be (or at least isn''t)
+    profiled with that granularity. Of course passing some kind of callback into the
+    function would be ideal, but that''s not how things have been implemented.
+
+
+    You could try breaking things up into individual - or smaller - sets to be called
+    with, but that''s not always possible.
+
+
+    Sorry not to be of more help,
+
+
+    Kean'
+- author: dba
+  email: daniel.balogh@adptech.at
+  ip: 194.110.78.1
+  url: http://profile.typepad.com/6p01910489d0be970c
+  date: '2013-09-10 11:18:28'
+  body: "Hello Kean,\n\nevery information is helpful, even if it states, that something\
+    \ is (currently) not possible :-)\nThank you for your quick answer!\n\nI guess\
+    \ I will start some Wait animation on my progress-form for this long term methods\
+    \ - so the user is at least informed, that something is going on :-)\n\nRegards,\
+    \ \nDaniel"
+- author: dba
+  email: daniel.balogh@adptech.at
+  ip: 178.115.132.230
+  url: http://profile.typepad.com/6p01910489d0be970c
+  date: '2013-09-14 19:02:02'
+  body: "Hello, \nhere the way I'm using it :-)\n\nfriend Class AcadPM \n Inherits\
+    \ Progressmeter\n   Public Sub d_StartProgress (byval msg as string, byval limit\
+    \ as integer)\nme.start(msg)\nme.Setlimit(limit)\nend sub\nend class\n\nfriend\
+    \ Class Globals\nfriend shared property acPM as new AcadPM\nend class\n\n...anywhere\
+    \ in my code...\n\nglobals.acPm.d_StartProgress (\"Test\", 100)\nfor each something\
+    \ in something\nDoStuff\nglobals.acpm.MeterProgress\nnext\nglobals.acpm.Stop\n\
+    \nJust in case, someone could have interest :-)\nBR,\nDaniel\n\nPS: I tend to\
+    \ use \"Friend\" Fields, to avoid potential conflicts with other Assemblies :-)"
+- author: dba
+  email: daniel.balogh@adptech.at
+  ip: 178.115.132.230
+  url: http://profile.typepad.com/6p01910489d0be970c
+  date: '2013-09-14 19:08:41'
+  body: 'sorry, actually it would be:
+
+
+    globals.acPm.d_StartProgress ("Test", something.count)
+
+
+    Daniel
+
+    -----'

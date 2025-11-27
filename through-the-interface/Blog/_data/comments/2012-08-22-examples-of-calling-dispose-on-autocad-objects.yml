@@ -1,0 +1,227 @@
+comments:
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.8
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-08-22 16:51:04'
+  body: A little bit beside the point, but why did you go "a bit crazy on introducing
+    the use of var instead of specific types", please?
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-08-22 16:56:18'
+  body: 'I started doing so to reduce the column width on a few imortant lines - primarily
+    so I could add line numbers to highlight the changes - and ended up pushing on
+    through to make the code self-consistent.
+
+
+    By which time so many lines had been changed that I didn''t end up using line
+    numbers (although I may yet add them - just to highlight the critical changes
+    to the code rather than all the modified lines).
+
+
+    Kean'
+- author: Jeremy Tammik
+  email: ''
+  ip: 95.172.88.8
+  url: http://profile.typepad.com/jeremytammik
+  date: '2012-08-22 16:58:08'
+  body: So it goes... and one thing leads to another...  :-)  Thank you for the explanation!
+- author: Brent Burgess
+  email: brent.burgess@aecom.com
+  ip: 203.56.22.82
+  url: ''
+  date: '2012-08-23 02:44:08'
+  body: "Hi Kean,\n\nIs there any difference/advantage between declaring the variable\
+    \ in the Using block\n\nusing (Line3d ml = new Line3d(pt1, pt2))\n      {\n  \
+    \      MirrorEntity(doc.Database, per.ObjectId, ml, false);\n      }\n\nor outside\
+    \ the Using block, similar to your Transactions\n\nvar tr = db.TransactionManager.StartTransaction();\n\
+    \      using (tr)\n      {\n      }\n\nThanks,\n\nBrent"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-08-23 07:24:48'
+  body: 'Hi Brent,
+
+
+    I was about to say that there''s no difference - it''s a syntactical convention
+    I use to help my code fit my blog''s column width. :-)
+
+
+    That said, there is a subtle difference. I learned about being able to instantiate
+    and then call using from the VS 2005 documentation:
+
+
+    <a href="http://msdn.microsoft.com/en-us/library/yh598w02(v=vs.80).aspx">http://msdn.microsoft.com/en-us/library/yh598w02(v=vs.80).aspx</a>
+
+
+    In the 2010-2012 documentation, it''s no longer considered best practice (this
+    was news to me):
+
+
+    <a href="http://msdn.microsoft.com/en-us/library/yh598w02(v=vs.100).aspx">http://msdn.microsoft.com/en-us/library/yh598w02(v=vs.100).aspx</a>
+
+
+    The reason they give is maybe just a little dumb, though: the variable remains
+    in scope while it has been disposed of by the using block, which apparently means
+    there''s risk someone will make use of a no-longer-initialised variable.
+
+
+    That doesn''t seem much of a risk, to me, so I''ll continue my aesthetically driven
+    no-longer-best-practice. :-)
+
+
+    Cheers,
+
+
+    Kean'
+- author: Anonymoose
+  email: caddzooks@hushmail.com
+  ip: 24.47.197.131
+  url: ''
+  date: '2012-08-23 14:05:08'
+  body: "foreach (var face in brep.Faces)\n{ \n  /// blah blah blah\n  face.Dispose();\n\
+    }\n\nWhy did you leave this one out?\n\nI think perhaps you might have assumed\
+    \ that the object passed to using() needs to be created in the using() expression?\
+    \  It doesn't. So you can add using( face ){...} within foreach( face in brep.Faces\
+    \ ) {}.\n\nAlso, you may not be aware of it, but you can suppress the implicit\
+    \ call to Dispose() that's made by using(), by assigning the variable passed to\
+    \ using() to null, inside the using() block.\n\nSo, if you use using() with a\
+    \ new DBObject that you add to a database and transaction, immediately after doing\
+    \ so you can assign the variable that held the new object to null, and Dispose()\
+    \ will not be called on it upon exiting the using() block, which isn't needed\
+    \ once the object has been added to a database/transaction."
+- author: Anonymoose
+  email: caddzooks@hushmail.com
+  ip: 24.47.197.131
+  url: ''
+  date: '2012-08-23 14:07:38'
+  body: My original point which I forgot to make, is that your explicit call to Dispose()
+    on each Face object should really be done in the finally block of a try/finally,
+    or wrapped in a using() block.
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-08-23 14:45:29'
+  body: 'Thanks, Tony.
+
+
+    Yes, I probably should have added a using block for that one, too (even though
+    I generally do use that form for other reasons, as noted in another comment).
+
+
+    And yes, if I''d been adding exception handling it would certainly have made sense
+    to use a finally() clause.
+
+
+    I wasn''t aware of the possibility to prevent Dispose() by setting to null, although
+    I tend not to be in many situations where I optionally add DBObjects to the drawing
+    & transaction. I can see where it might come in handy, though, and it''s certainly
+    a useful tip.
+
+
+    Kean'
+- author: Stephen Preston
+  email: ''
+  ip: 108.236.113.147
+  url: http://profile.typepad.com/stephenpreston
+  date: '2012-08-23 17:01:41'
+  body: "Hi Kean, \n\nA slightly pedantic comment on this:\n\n>>\nThe short answer\
+    \ is that anything managed by a transaction – whether newly created and added\
+    \ to the transaction or opened by it – will be disposed of automatically by the\
+    \ transaction. So in general you shouldn’t even need a using block around such\
+    \ entities.\n<<\n\nIf you create a DBObject and later add it to the transaction,\
+    \ there is a chance that an exception will be thrown in your code between when\
+    \ you create the object and when you add it to the transaction - and your object\
+    \ is then left to the GC. If your code doing this is on consecutive lines then\
+    \ the GC risk is extremely small - if adding something to the transaction causes\
+    \ an exception, then you have a much bigger problem to address - but I do use\
+    \ a Using statement in that scenario because then I don't have to think about\
+    \ 'should I/shouldn't I'. \n\n(Its for the same reason that I always lock my car\
+    \ when I leave it - so I don't have to make a judgement call about the crime rate\
+    \ in the neighborhood :-P)\n\nCheers,\n\nStephen"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-08-23 17:24:20'
+  body: 'Hi Stephen,
+
+
+    I wouldn''t say your comment is pedantic, as such... just on a slightly different
+    topic. ;-)
+
+
+    So your DBObject was being automatically garbage collected, even though you''ve
+    a valid object reference to it?
+
+
+    It''s possible I saw similar behaviour with my Kinect jig - I was leaving DBObjects
+    in memory for significant lengths of time - but I ended up switching to a mode
+    where I reduced their scope and re-created them locally, which increased stability.
+    I hadn''t put it down to this behaviour - while I''m not familiar enough to the
+    algorithm used by .NET''s GC to decide when an object deserves finalization I
+    wouldn''t have expected it to be so aggressive - but it''s possible it was ultimately
+    related to this.
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-08-23 18:29:53'
+  body: 'Stephen has explained by email what he meant - the GC wasn''t stealing his
+    objects, as I''d feared, which makes me feel much better about the world in general.
+
+
+    I''ll follow up with a post next week covering some of the points raised by Tony
+    and Stephen (as they''re along the same lines, they relate to properly managing
+    the lifecycle of DBObjects when exceptions are happening - a pretty important
+    topic).
+
+
+    Kean'
+- author: Afshin
+  email: afshin.j@gmail.com
+  ip: 180.148.69.42
+  url: ''
+  date: '2012-08-29 06:29:28'
+  body: "Hi Kean,\n\nI know this is not related to this topic, but honestly couldn't\
+    \ find anywhere else to post this question:\n\nIs there any way to save a large\
+    \ Document object gradually while adding new Entity objects to it? \n\nMore described:\
+    \ Using RealDWG I'm writing a piece of code which reads point lists from a text\
+    \ file and generates solid objects. After about 5-6000 objects created the memory\
+    \ usage reaches to (almost) 100% of my physical memory and the process slows down\
+    \ dramatically. the only way I think could solve this is to flush(?) the transaction\
+    \ and save the document gradually.\n\nAny help or suggestion suggestion will be\
+    \ truly appreciated.\n\nCheers,"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-08-29 10:22:39'
+  body: 'Hi Afshin,
+
+
+    You should really post this kind of question to the appropriate online discussion
+    forum (<a href="http://forums.autodesk.com).">http://forums.autodesk.com</a>).
+
+
+    As far as I''m aware, you can''t stream a DWG in this way - you really need it
+    loaded into memory before saving it.
+
+
+    Have you tried increasing the RAM on the machine in question? That would almost
+    certainly help a lot.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

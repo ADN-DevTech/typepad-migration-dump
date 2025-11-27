@@ -1,0 +1,755 @@
+comments:
+- author: Alexander Rivilis
+  email: rivilis@i.com.ua
+  ip: 81.95.182.209
+  url: http://private.peterlink.ru/poleshchuk/cad/RANe.htm
+  date: '2006-08-31 18:12:54'
+  body: 'Hi, Kean!
+
+    And what about P/Invoke acedCmd() as Tony Tanzillo doing hear: http://discussion.autodesk.com/thread.jspa?messageID=4858935
+
+
+    Best Regards,
+
+    Alexander Rivilis.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-08-31 19:29:43'
+  body: 'Hi Alexander,
+
+
+    Yes... this is certainly possible - both acedCommand() and acedCmd() could be
+    P/Invoked if you really wanted. I tend to avoid using them from a native command,
+    it''s just safest not to go down that path due to re-entrancy issues.
+
+
+    If you only register your function as a [LispFunction] then there is less risk,
+    although frankly I always tread carefully with these two functions and use them
+    only when absolutely necessary.
+
+
+    Cheers,
+
+
+    Kean'
+- author: csharpbird
+  email: csharpbird@gmail.com
+  ip: 58.34.18.18
+  url: ''
+  date: '2006-09-01 04:29:10'
+  body: 'Hello, Kean!
+
+    Thanks for your great articles!!
+
+    Can you write some articles about the Toolbar and Menu using .NET?The sample given
+    by the ObjectARX SDK is really poor explained.
+
+    Thanks again!!'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-09-01 10:48:02'
+  body: 'Hi CSharpBird,
+
+
+    It''s my pleasure. :-)
+
+
+    I was thinking of something in this direction - I''ll certainly add it to my list
+    and see whether someone in the team feels like taking it on as a topic.
+
+
+    BTW - my team also owns the ObjectARX SDK samples, so if you have specific feedback
+    about them, do drop me an email about what more you''d like to see.
+
+
+    Regards,
+
+
+    Kean'
+- author: Joel
+  email: joelkarr@esdesign.com
+  ip: 198.173.7.10
+  url: ''
+  date: '2008-12-30 23:34:59'
+  body: 'Is it possible to pass in parameters through the command method similar to
+    lisp functions?
+
+
+    Something similar to <CommandMethod("TEST2", param1, param2)_
+
+
+    I am trying to figure out a way to use a macro to call a block insert command
+    and pass in the block name and destination layer as parameters.
+
+
+    Thanks to anyone who has any input.
+
+
+    Joel'
+- author: Joel
+  email: joelkarr@esdesign.com
+  ip: 198.173.7.10
+  url: ''
+  date: '2008-12-30 23:36:10'
+  body: '[CommandMethod("TEST4", param1, param2]_
+
+
+    I guess this part didn''t post due to the angle brackets so I replaced them with
+    square brackets'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.2.123
+  url: http://profile.typekey.com/walmsleyk/
+  date: '2009-01-06 10:18:46'
+  body: 'Commands by nature do not take arguments - you will either need to define
+    an equivalent LispFunction (which is easy to do) or use Editor.GetString() etc.
+    to get the parameters that are entered (perhaps programmatically using (command))
+    at the command-line.
+
+
+    Kean'
+- author: Massimo Cicognani
+  email: cicognani@quit3.com
+  ip: 81.73.102.158
+  url: ''
+  date: '2009-03-05 17:37:51'
+  body: 'Sorry to bring up this post, but I''ve read so much but never got a final
+    and neat solution.
+
+
+    I believe that a very common task for Acad programmers is to perform repeatitive
+    task over a bunch of drawings.
+
+    That''s usually done with the help of a dialog form or a palette or something
+    similar to allow the user to select the drawing to manipulate and then press that
+    cute button that will allow the program to work unattended and them to get a coffee
+    break.
+
+
+    Well, maybe 90% of the tasks can be solved with a clean NET programming, but sometimes
+    there is simply no other way than to send a command string to autocad, just to
+    mention one, a beatiful "_audit _y " since the NET equivalent is still a work-in-progress.
+
+
+    My question is: since most of the cases, we''re working in the Application context,
+    what is the best practice to execute a command, wait for its execution, save the
+    document at hand and continue with the next file?
+
+
+    I''ve seen many solutions, included Tony''s that would address exactely this case
+    and implements a sort of ExecuteInDocumentContext() function, but (maybe to my
+    fault) I often get into re-entrancy issues and I''m unable to get a stable and
+    reliable solution.'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-03-05 17:48:44'
+  body: 'You automatically enter the document context when you send a command to the
+    command-line. I would expect that sending a sequence of commands either asynchronously
+    (via SendStringToExecute) or synchronously (via SendCommand) would work for what
+    you want.
+
+
+    Perhaps I''m missing something?
+
+
+    Kean'
+- author: Massimo Cicognani
+  email: cicognani@quit3.com
+  ip: 81.73.102.158
+  url: ''
+  date: '2009-03-06 10:30:23'
+  body: 'I think the problem is exactely in how to send command synchronously in a
+    NET environment.
+
+    SendCommand would be great, I''ve used it for years in VBA after all, but I''m
+    trying to stay COM-free ''cause I have to target multiple platform, both 32 and
+    64bit, and multiple AutoCAD versions.
+
+    NET is a great help from this point of view, but maybe is not enough?'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-03-06 10:37:51'
+  body: 'I personally don''t see a big problem with using COM (you could probably
+    avoid referencing the TLB by using low level IDispatch marshalling, but that''s
+    just a guess).
+
+
+    Another approach is to create a "continuation command", which is fired at the
+    end of the other commands you''re sending and allows your application to pick
+    up control.
+
+
+    Kean'
+- author: Ivan Markov
+  email: Ivan.Markov@hei-eng.com
+  ip: 64.126.109.222
+  url: ''
+  date: '2009-03-10 00:43:08'
+  body: "Hi Kean,\nI learned about the undocumented function acedEvaluateLisp, that\
+    \ works great for evaluating lisp commands. To P/Invoke in NET:\n\n[DllImport(\"\
+    acad.exe\", CharSet = CharSet.Auto, CallingConvention = CallingConvention.Cdecl,EntryPoint\
+    \ = \"?acedEvaluateLisp@@YAHPB_WAAPAUresbuf@@@Z\")] \nextern private static int\
+    \ acedEvaluateLisp(string lispLine, out IntPtr result);\n\nI am running into an\
+    \ issue when I try to execute the same code on a 64 bit operating system. The\
+    \ code throws an exception that the EntryPoint is invalid. As you mentioned earlier\
+    \ using acedCommand and acedCmd causes re-entrance and that leads into all sorts\
+    \ of problems, and any of the other function mentioned not applicable, since I\
+    \ need the lisp executed synchronously. Any ideas?"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-03-10 09:43:26'
+  body: 'Hi Ivan,
+
+
+    The signature is probably different on x64 - I suggest checking via Dumpbin.
+
+
+    I would avoid using an undocumented function such as this, especially via P/Invoke...
+    have you tried using acedInvoke()?
+
+
+    [DllImport("acad.exe", CallingConvention = CallingConvention.Cdecl)]
+
+    extern static private int acedInvoke(IntPtr args, out IntPtr result);
+
+
+    Regards,
+
+
+    Kean'
+- author: Gary Whitcher
+  email: gary@dynacodesystems.com
+  ip: 146.130.114.140
+  url: http://www.dynacodesystems.com
+  date: '2009-04-27 21:06:57'
+  body: "Hi Kean,\n\n I have a problem maybe you can help with. I want to call a command\
+    \ without closing/disposing my form. The command will not execute until I have\
+    \ done this. Any ideas?"
+- author: Gary Whitcher
+  email: gary@dynacodesystems.com
+  ip: 146.130.114.140
+  url: http://www.dynacodesystems.com
+  date: '2009-04-27 22:27:19'
+  body: "I think I solved the problem with a suggestion you made above to \n\n<i>Another\
+    \ approach is to create a \"continuation command\", which is fired at the end\
+    \ of the other commands you're sending and allows your application to pick up\
+    \ control.</i>\n\nThanks!"
+- author: DRMC
+  email: licledmar@hotmail.com
+  ip: 190.42.144.188
+  url: ''
+  date: '2009-09-18 05:25:45'
+  body: "Hello. \nI an query: \nby example send a command with: \nSendStringToExecute\
+    \ (_POINT 1,1,0 \", False, False, True) \nas I capture the parameters _point ie\
+    \ get the 1,1,0. \nthanks"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-09-18 09:06:41'
+  body: 'You can do this from your own command: otherwise you might be able to add
+    some kind of user-input event handler to find you when points are selected.
+
+
+    Kean'
+- author: vijay kumar pandu
+  email: ''
+  ip: 210.211.225.48
+  url: http://profile.typepad.com/kumarpandu
+  date: '2009-12-04 11:03:57'
+  body: "hi kean\n\nwhen i pick a point in autocad then i display a dialogbox\nif\
+    \ use clicks on ok in dialoag box then i used to pick the another point in auto\
+    \ cad\n\nnow i load a lisp file and execute a lispfunction inputing these two\
+    \ points to the function\n\nthen basing on these points a drawing is generated\
+    \ using lisp function\n\nhere is my code\n\n <Autodesk.AutoCAD.Runtime.CommandMethod(\"\
+    dvk\")> _\n      Public Sub HelloCommand()\n        PointArryListX = New ArrayList\n\
+    \        PointArryListY = New ArrayList\n        acadApp.DocumentManager.MdiActiveDocument.SendStringToExecute(\"\
+    (LOAD  \" & Chr(34) + \"c:/LispSld/generatedwg.lsp\" & Chr(34) & \" )\" & vbCr,\
+    \ False, False, True)\n        Dim plp As String = \"\"\n        Dim f As Cable.Form1\n\
+    \        Dim myDB As Database\n        Dim myEd As Editor\n        Dim myPEO As\
+    \ New Autodesk.AutoCAD.EditorInput.PromptPointOptions(vbLf & \"Select a DVK Point:\"\
+    )\n        Dim myPS As Autodesk.AutoCAD.EditorInput.PromptStatus\n        Dim\
+    \ myTransMan As Autodesk.AutoCAD.DatabaseServices.TransactionManager\n       \
+    \ Dim myTrans As Autodesk.AutoCAD.DatabaseServices.Transaction\n        AcadDoc\
+    \ = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument\n\
+    \        Do\n            f = New Cable4.Form1\n            plp = \"\"\n      \
+    \      myDB = AcadDoc.Database\n            myEd = AcadDoc.Editor\n          \
+    \  myPEO = New Autodesk.AutoCAD.EditorInput.PromptPointOptions(vbLf & \"Select\
+    \ a dvk Point \" + PointArryListX.Count.ToString() + \" :\")\n            'myPEO.SetRejectMessage(\"\
+    You must select a Point.\" & vbCrLf)\n            myPEO.AllowNone = True\n   \
+    \         myPEO.UseBasePoint = False\n            Dim myPER As Autodesk.AutoCAD.EditorInput.PromptPointResult\n\
+    \            myPER = myEd.GetPoint(myPEO)\n            myPS = myPER.Status\n \
+    \           Select Case myPS\n                Case Autodesk.AutoCAD.EditorInput.PromptStatus.OK\n\
+    \                    Dim picked As Point3d = myPER.Value\n                   \
+    \ PointArryListX.Add(picked.X.ToString())\n                    PointArryListY.Add(picked.Y.ToString())\n\
+    \n                Case Autodesk.AutoCAD.EditorInput.PromptStatus.Cancel\n    \
+    \                'MsgBox(\"You cancelled.\")\n                    Exit Sub\n \
+    \               Case Autodesk.AutoCAD.EditorInput.PromptStatus.Error\n       \
+    \             MsgBox(\"Error warning.\")\n                    Exit Sub\n     \
+    \           Case Else\n                    Exit Sub\n            End Select\n\
+    \            'If f.ShowDialog() <> DialogResult.Cancel Then\n            '   \
+    \ plp = \"y\"\n            'Else\n            '    plp = \"n\"\n            'End\
+    \ If\n            f.ShowDialog()\n            plp = Cable4.myClass1.pLoop\n  \
+    \          If plp = \"y\" Then\n                Series = Cable4.myClass1.txtSeries\n\
+    \                Tag = Cable4.myClass1.txtTag\n                Width = Cable4.myClass1.txtWidth\n\
+    \                Thick = Cable4.myClass1.txtThick\n                Height = Cable4.myClass1.txtHeight\n\
+    \            End If\n            'f.Close()\n            If PointArryListX.Count\
+    \ > 1 Then\n                Dim cnt As Integer\n                cnt = PointArryListX.Count\n\
+    \                Dim cmd As String = \"\"\n                cmd = cmd + \"_ca\"\
+    \ + vbCr\n                cmd = cmd + PointArryListX.Item(cnt - 2) + vbCr\n  \
+    \              cmd = cmd + PointArryListY.Item(cnt - 2) + vbCr\n             \
+    \   cmd = cmd + PointArryListX.Item(cnt - 1) + vbCr\n                cmd = cmd\
+    \ + PointArryListY.Item(cnt - 1) + vbCr\n                cmd = cmd + Series +\
+    \ vbCr\n                cmd = cmd + Tag + vbCr\n                cmd = cmd + Width\
+    \ + vbCr\n                cmd = cmd + Thick + vbCr\n                cmd = cmd\
+    \ + Height + vbCr\n                cmd = cmd + \"Ladder\" + vbCr\n           \
+    \     cmd = cmd + \"Tray_Type\" + vbCr\n                cmd = cmd + \"n\" + vbCr\n\
+    \                acadApp.DocumentManager.MdiActiveDocument.SendStringToExecute(cmd,\
+    \ True, False, True)\n                acadApp.DocumentManager.MdiActiveDocument.SendStringToExecute(\"\
+    y\" + vbCr, True, False, True)\n\n            End If\n\n        Loop While plp\
+    \ = \"y\"\n\n\nbut i could not call the lisp function\nwhen itry to call the lisp\
+    \ function\nthe command is prompting to select a  point\n\nplease help me"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.71.9
+  url: http://profile.typepad.com/kean
+  date: '2009-12-04 19:26:06'
+  body: 'Hi Vijay,
+
+
+    Sorry - I don''t have time to provide a debugging service for my readers.
+
+
+    I suggest posting via <a href="http://adn.autodesk.com">the ADN site</a>, if you''re
+    a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Emilia Mazurkiewicz
+  email: emilia_mazurkiewicz@cadexpert.com.pl
+  ip: 89.171.24.20
+  url: ''
+  date: '2010-08-12 16:17:34'
+  body: 'Hi Kean,
+
+    I have a problem maybe you can help with.
+
+    In VB. Net sending commands directly to the AutoCAD command line by using SendStringToExecute
+    method.
+
+    EchoCommand parameter set to False. Command sent not visible in the AutoCAD command
+    line,  but we can see it after clicking the right mouse. Is there any method to
+    see .NET command as last one insteed the LISP one sent by .NET?
+
+    Regards,
+
+    Emilia'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-08-12 20:48:50'
+  body: 'Hi Emilia,
+
+
+    Sorry - I don''t provide support services via this blog.
+
+
+    Please submit your question to <a href="http://adn.autodesk.com">the ADN team</a>,
+    if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Izz
+  email: realemotions2008@hotmail.com
+  ip: 77.42.216.186
+  url: ''
+  date: '2010-09-13 14:06:23'
+  body: 'Hi Kean ,
+
+    I wanna ask u : if I wanna execute an interruptible cad command through .net (it
+    takes an input from the user e.g : _appload ) .Please tell me how could I send
+    the path of the lisp file with the command itself.(when I execute the command
+    ,the open file dialog box is displayed then I can browse to file normally , but
+    I want to pass the path as a parameter .(I don''t want the open file dialog to
+    be displayed to the user) ??
+
+    Any help ???'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-09-14 09:50:11'
+  body: 'Have you tried putting (command "") around it, or setting FILEDIA/CMDDIA
+    to 0, first?
+
+
+    Kean'
+- author: Artvegas
+  email: yamos78@hotmail.com
+  ip: 27.32.79.215
+  url: ''
+  date: '2011-05-04 15:42:23'
+  body: "Hi Kean,\n\nDon't you love when someone comments on one of your posts coming\
+    \ on 5 years old? :-)\n\nAnyhow, I noticed that a command's session/document context\
+    \ appears to control whether the COM SendCommand() is executed synchronously or\
+    \ asynchronously, well at least for AutoCAD 2012. I was going mad trying to get\
+    \ some code to execute synchronously and thought it was worth mentioning. If you\
+    \ try the following you'll see what I mean...\n\n// Command in \"session\" context\
+    \ will execute synchronously.\n[CommandMethod(\"Async\")]\npublic static void\
+    \ Async() {\n   AcadApplication app = Application.AcadApplication as AcadApplication;\n\
+    \   app.ActiveDocument.SendCommand(\"._CIRCLE 0,0 5 ._ZOOM Extents \");\n   Application.ShowAlertDialog(\"\
+    Rectangle created!\");\n}\n\n// Command in \"session\" context will execute synchronously.\n\
+    [CommandMethod(\"Sync\", CommandFlags.Session)]\npublic static void Sync() {\n\
+    \   AcadApplication app = Application.AcadApplication as AcadApplication;\n  \
+    \ app.ActiveDocument.SendCommand(\"._CIRCLE 0,0 5 ._ZOOM Extents \");\n   Application.ShowAlertDialog(\"\
+    Rectangle created!\");\n}\n\nCheers,\nArt"
+- author: Artvegas
+  email: yamos78@hotmail.com
+  ip: 27.32.79.215
+  url: ''
+  date: '2011-05-04 15:46:49'
+  body: 'Sorry typo... code titles should be:
+
+    "// Command in "document" context will execute asynchronously"
+
+    "// Command in "session" context will execute synchronously"
+
+
+    Art'
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-05-04 16:24:11'
+  body: 'Hi Art,
+
+
+    I don''t mind comments on 5-year old posts, as long as they don''t ask questions.
+    ;-)
+
+
+    Thanks for the pointer - I wasn''t aware of the distinction (although it does
+    make some sense). I''m curious whether it''s a recent phenomenon or has always
+    worked like that. Hmmm.
+
+
+    Regards,
+
+
+    Kean'
+- author: Ronanry
+  email: ronanry@yopmail.com
+  ip: 93.9.146.206
+  url: http://favarsinfo.free.fr
+  date: '2011-05-18 13:17:47'
+  body: "Hi kean,\nfirst of all i'd like to thank you for your code and your time.\n\
+    \nSecondly, i post to ask you a question.\nIn fact, i would like to create an\
+    \ independant VB.net project with an active X (only including dwg true view viewer\
+    \ or objectARX activeX) \nI as able to load the dwg with the activeX.\nBut my\
+    \ main problem is to zoom \"programmatically\" (i mean in code...) because, if\
+    \ I use the activeX zoom_center function, it doesn't \"need\" parameters and it\
+    \ is waiting for 2 clic to do the zoom...\nSo i try to use the \"sendcommand\"\
+    \ command and found this post... but i was not able to make it works.\nDo you\
+    \ have any idea on using the function zoom_center? or how to override it ? or\
+    \ how to make what i want but not by installing the full autocad program on the\
+    \ computer ? because my app will only have to display the dwg and to zoom_in/out\
+    \ (no other edition, or creation)\n\nThx in advance for your help"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-05-18 16:04:10'
+  body: 'It''s been a while since I''ve used the TrueView API, myself, and - in any
+    case - I make a point of avoiding providing support via my blog (I just don''t
+    have the time - if I started doing so I wouldn''t have time for anything else).
+
+
+    Please post your question via <a href="http://adn.autodesk.com">ADN</a>, if you''re
+    a member, or otherwise one of <a href="http://discussion.autodesk.com">our online
+    discussion groups</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: Rakesh Shinde
+  email: rakeshshinde12@gmail.com
+  ip: 117.195.32.90
+  url: ''
+  date: '2011-09-19 08:45:13'
+  body: "Hi....\nI want to add my custom toolbar into autocad..toolbar and form designed\
+    \ in dot net . i want to add the toolbar and also fire some events from toolbar...so\
+    \ can u provide me some helping application....i m beginner here..so i need initial\
+    \ startup ...i m using object arx 2009 . \nThanks in advance....."
+- author: Rakesh Shinde
+  email: rakeshshinde12@gmail.com
+  ip: 117.195.32.90
+  url: ''
+  date: '2011-09-19 08:53:12'
+  body: 'Hi ...
+
+    I m getting my toolbar when I run my objectarx application...but when I clicked
+    any button on toolbar..command display at the command text but can not automatically
+    fired up...until i press the enter..please suggest me some solution....
+
+    If possible i need some code.....
+
+    Thanks in advance....
+
+    Rakesh Shinde, Pune...'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.196
+  url: http://profile.typepad.com/kean
+  date: '2011-09-20 10:12:49'
+  body: 'Rakesh,
+
+
+    This is not a forum for support.
+
+
+    Please post your question to ADN, if you''re a member, or otherwise to one of
+    our online discussion groups.
+
+
+    Regards,
+
+
+    Kean'
+- author: Gavin
+  email: gwalker@bidell.com
+  ip: 205.150.124.12
+  url: ''
+  date: '2011-10-26 23:09:03'
+  body: Artvegas thank you so much for that clarification.  I've spent the better
+    part of a day trying to get SendCommand to execute synchronously, and was just
+    about to give up.  For informative purposes I'm running AutoCad 2011 32 bit, so
+    that behaviour has been active at least since 2011.
+- author: Mario Minati
+  email: mario.minati@minati.de
+  ip: 78.94.208.73
+  url: ''
+  date: '2012-04-04 22:23:38'
+  body: 'Hi Kean,
+
+
+    I''m reading your blog this a long time and using your code examples quite a bit
+    - Thank you!
+
+
+    But using SendCommand in C#, .Net 4.0, VS 2010, ACAD 2012 will not work for me,
+    when I need to send an object id.
+
+
+    The following code fails, with the message that xxxxxxxxx (long number) is not
+    a function.
+
+
+    PromptEntityResult acEntRes = acDoc.Editor.GetEntity(acEntObts);
+
+
+    if (acEntRes.Status == PromptStatus.OK) {
+
+
+    AcadApplication acAPP = (AcadApplication)Application.AcadApplication;
+
+
+    acAPP.ActiveDocument.SendCommand("(command " + (char)34 + "._REVCLOUD" + (char)34
+    + " " + (char)34 + "_o" + (char)34 + " " + (char)34 + acEntRes.ObjectId + (char)34
+    + ")");
+
+
+    }
+
+
+    Might you give me any advise on how to resolv this topic?
+
+
+    Best greets,
+
+
+    Mario'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-04-05 08:56:03'
+  body: 'Hi Mario,
+
+
+    Try getting the handle for the entity you want and passing it to the command-line
+    as the argument to the (handent) function to make the entity name get passed to
+    the command:
+
+
+    (handent "1BD")
+
+
+    Cheers,
+
+
+    Kean'
+- author: Mario Minati
+  email: mario.minati@minati.de
+  ip: 78.94.208.73
+  url: ''
+  date: '2012-04-08 20:20:32'
+  body: "Hi Kean,\n\nthanks for your advise - it helped!\n\nThe correct code for creating\
+    \ a revcloud from given entity is:\n\nAcadApplication acAPP = (AcadApplication)Application.AcadApplication;\n\
+    acAPP.ActiveDocument.SendCommand( \"(command \" + \n(char)34 + \"._REVCLOUD\"\
+    \ + (char)34 + \" \" + (char)34 + \"_o\" + (char)34 + \" \" + \"(handent \" +\
+    \ (char)34 + acEntRes.ObjectId.Handle.ToString() + (char)34 + \")\" + (char)34\
+    \ + \"_no\" + (char)34 + \")\" + \" \");\n\nBest greets,\n\nMario"
+- author: Olivier DURIER
+  email: odurier@prosys.fr
+  ip: 80.13.149.58
+  url: ''
+  date: '2012-10-18 13:15:48'
+  body: "Hi Kean. I need help!\n\ni have a c# project. this project load lisp file\
+    \ (synchronous) with :\n\t\t\t\t[System.Security.SuppressUnmanagedCodeSecurity]\n\
+    \t\t\t\t[DllImport(\"accore.dll\", CharSet = CharSet.Unicode, CallingConvention\
+    \ = CallingConvention.Cdecl, EntryPoint = \"?acedEvaluateLisp@@YAHPEB_WAEAPEAUresbuf@@@Z\"\
+    )]\n\t\t\t\textern public static int acedEvaluateLisp(string lispLine, out IntPtr\
+    \ result);\n\nIt's Ok with AutoCAD 2013 when i run Acad.exe.\nIt's KO with AutoCAD\
+    \ 2013 when i run accoreconsole.exe\n\nBug? Have you a solution for this?\n\n\
+    Best greets"
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.234.115
+  url: http://profile.typepad.com/kean
+  date: '2012-10-18 21:21:03'
+  body: 'Hi Olivier,
+
+
+    Sorry - I''m not sure what''s wrong, here. I haven''t personally ever P/Invoked
+    this method, that I can recall. I suggest posting your question via ADN or to
+    the AutoCAD .NET Discussion Group.
+
+
+    Regards,
+
+
+    Kean'
+- author: MAK
+  email: maks009@rocketmail.com
+  ip: 182.68.122.120
+  url: ''
+  date: '2013-01-03 08:49:51'
+  body: 'hello Mr. Kean
+
+    please tell me, Can I use trial version of Autocad2010'
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.232.9
+  url: http://profile.typepad.com/kean
+  date: '2013-01-03 09:08:48'
+  body: 'I have no idea. I assume we only make trial versions available for more recent
+    versions, but then this really isn''t my area of expertise.
+
+
+    Kean'
+- author: Maha d
+  email: optimistms@gmail.com
+  ip: 122.174.25.163
+  url: ''
+  date: '2013-02-22 14:34:17'
+  body: 'Hi Kean,
+
+
+    Many thanks. I was struggling with passing entities to SendCommand'
+- author: Jay
+  email: JayLin1688@gmail.com
+  ip: 111.235.210.9
+  url: ''
+  date: '2014-03-10 10:05:23'
+  body: "Hi, Kean,\n\nIs is ok if I use 'SendStringToExecute' in .Net 2005(C#) for\
+    \ AutoCAD 2005?\n\nCode sample as below:\n Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;\n\
+    \ doc.SendStringToExecute(\"_QSave\" + \"\\n\", true, false, true);\n\nThanks\n\
+    \nBR,\nJay\n2014.3.10"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2014-03-10 10:23:07'
+  body: 'Hi Jay,
+
+
+    If it works for you, then fine. I can''t say whether it''s "OK" or not, as .NET
+    was a preview release and - in any case - AutoCAD 2005 hasn''t been supported
+    for some years now.
+
+
+    Hopefully it''ll work for you,
+
+
+    Kean'
+- author: Jay
+  email: JayLin1688@gmail.com
+  ip: 42.66.243.142
+  url: ''
+  date: '2014-03-11 08:48:07'
+  body: "Hi, Kean,\n\nThanks for your reply. But~~~~\n\nIt doesn't work~~\n\nI found\
+    \ there is no [SendStringToExecute] Method after I add acdbmgd.dll and acmgd.dll\
+    \ into reference in .Net 2005 C# develop environment. \n\n\nThanks\n\nBR,\nJay\n\
+    2014.3.11"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2014-03-11 08:51:24'
+  body: 'This is unsurprising: <b>.NET was in preview mode in AutoCAD 2005.</b>
+
+
+    If you need to write an app for 2005 I suggest using the COM API (whether from
+    VBA or .NET), LISP or ObjectARX. Or using a newer version of the product, of course.
+
+
+    Kean'
+- author: Jay
+  email: JayLin1688@gmail.com
+  ip: 42.71.7.206
+  url: ''
+  date: '2014-03-13 08:59:45'
+  body: "Hi, Kean,\n\nThanks for reply.\n\nActually I need to write a customize application\
+    \ that must be added on CAD 2005 environment(Includes some user control ex: window\
+    \ form,button,textbox or datagrid...etc).\n\nFor my requirement, I think .Net\
+    \ is a best develop tool(Because UI design is easily). \n\nBecuase using .Net,\
+    \ I can build .Net assembly(*.dll) and use 'Netload' command to load them and\
+    \ run commands that I define in AutoCAD. \n\nAs your experience about CAD development,all\
+    \ tools (Maybe languages) that you suggest me to use (ex.COM API/LISP/ObjectARX)\
+    \ also can meet my requirement?(Write an UI application that can add on AutoCAD\
+    \ 2005)\n\nSorry...I am not too much experience on developing customize application\
+    \ for AutoCAD 2005....\n\nMany thanks for your sharing if you don't mind~~~~\n\
+    \nBest regards,\n\nJay\n2014.3.13"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2014-03-13 09:02:28'
+  body: 'Please post follow-up questions to the discussion groups. This is getting
+    way off topic, and my blog is really not a support forum.
+
+
+    Kean
+
+    -----'

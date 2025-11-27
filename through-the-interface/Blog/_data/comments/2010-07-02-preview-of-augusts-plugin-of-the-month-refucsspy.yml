@@ -1,0 +1,210 @@
+comments:
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadxtabs/AcadXTabs2010.htm
+  date: '2010-07-03 18:29:56'
+  body: "I believe it was one of your colleages (Cyrille Fauvel) who once noted in\
+    \ the comments included with some sample code he wrote, that reactors/events are\
+    \ expensive, and that they should only be enabled when absolutely necessary. \n\
+    \nThe command-related events are particularly expensive because they can impose\
+    \ noticible overhead on scripting that executes commands at a high frequency.\n\
+    \nSorry to have to say it, but this code demonstrates pointless and wasteful event\
+    \ handling.\n\nIf you think about it, there is no need to continuously handle\
+    \ the Command ended/cancelled/failed events. You can add handlers for those three\
+    \ events from the CommandWillStart event handler, only when a 'command of interest'\
+    \ starts, and have those same event handlers remove themselves from the event\
+    \ they handle when they're invoked.\n\nIn other words, from the CommandWillStart\
+    \ event handler, if the command is one of the commands that you are watching,\
+    \ then you add event handlers for the Command ended/failed/cancelled events. \n\
+    \nWhen any of those same three events fires, the event handler removes the handlers\
+    \ for those same events so they do not fire continuously for commands that you\
+    \ are not interested in watching.\n\nThat pattern allows you to get control when\
+    \ certain commands start and end, while only having to continuously monitor a\
+    \ single event (CommandWillStart).\n\nYou can see a formalization of that pattern,\
+    \ along with an example of a managed 'per-Document' data class in the sample code\
+    \ here:\n\n    <a href=\"http://www.caddzone.com/CommandEventsSample.zp\">http://www.caddzone.com/CommandEventsSample.zp</a>"
+- author: Alex Fielder
+  email: ''
+  ip: 86.8.207.214
+  url: http://profile.typepad.com/6p0120a6442f9f970c
+  date: '2010-07-04 01:40:38'
+  body: 'Useful advice as always Tony. Thanks!
+
+
+    It''s probably too late for you to edit it, but your CommandEventsSample link
+    doesn''t work unless you and an "i" to the .zp like so:
+
+
+    <a href="http://www.caddzone.com/CommandEventsSample.zip">http://www.caddzone.com/CommandEventsSample.zip</a>'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadxtabs/AcadXTabs2010.htm
+  date: '2010-07-04 06:44:52'
+  body: Hi Alex. Thanks for pointing out the typo in the URL.
+- author: Cyrille Fauvel
+  email: cyrille.fauvel@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2010-07-05 17:23:43'
+  body: 'There is no good answer to that problem: it really depends on what you are
+    doing behind the scene. It is true monitoring all commands has a cost, but in
+    case of a command reactor, it usually resumes in a callback function call and
+    a string compare. Most of the ‘reactor’ impact on execution resides in what the
+    reactor does after. If you have command reactor doing a 1 second treatment for
+    all commands each time, this will have a major impact on script execution time
+    versus doing an interactive execution. Adding a reactor, when a specific command
+    starts can be a solution, but one need to know it cost more time to add and remove
+    a reactor than doing a simple reactor callback and a string compare (Note the
+    number of active reactors also have an impact).
+
+
+    More but not always. Again it all depends what you do. If you add/remove the additional
+    reactor only for a command you may use only once in a while, this approach will
+    save you time, but if you do this for many commands, a simple string compare in
+    a common reactor will be better. My personal recommendation is to build a reactor
+    scheme for each application by analyzing how many time the reactor will be called,
+    and what you’ll be doing with it. A lengthy operation is never good in a reactor
+    ! Althought, to monitor reactors, you need a reactor, so you see what I mean ;)
+
+
+    Here we talked about a command reactor (a simple callback function). When it comes
+    to an object reactor (or database reactor) the impact on how you implement your
+    reactor scheme is more important and you should really pay attention on what you
+    are doing. This is usually where monitoring on object versus all objects takes
+    all its importance.'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadxtabs/AcadXTabs2010.htm
+  date: '2010-07-09 04:36:13'
+  body: "Hi Cyrille.\n\nThe sample code I was referring to was written by you, and\
+    \ it does exactly what I described (adds the commandEnded/Failed/Cancelled event\
+    \ handlers in the commandWillStart event handler, and removes them in the latter\
+    \ event handler.\n\nInsofar as there not being a good answer to that problem,\
+    \ in general yes it depends on what you're doing, but I was referring to the code\
+    \ presented in this post, and IMO, the problem there is very clear.\n\nBut, I\
+    \ think it's a bit silly to debate the overhead of leaving the end-command event\
+    \ handlers running all the time, when you consider that the author of the code\
+    \ uses List<T>.Contains() to test whether the command starting and ending is one\
+    \ of the commands he wants to watch. \n\nList<T>.Contains() is notoriously slow\
+    \ (Google it), which operates at O(n), and also suffers from the use of the Generic\
+    \ IEqualityComparer<T> by default, while the Contains() method of a more appropriate\
+    \ container like HashSet<T>, operates at O(1).\n\nI suppose that I should have\
+    \ been critical of this aspect of the code first, before calling into question\
+    \ the wasteful use of event handlers."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.19.190
+  url: http://profile.typepad.com/kean
+  date: '2010-07-28 20:19:53'
+  body: "Hi Tony,\n\nI've finally got around to catching up on this after my trip\
+    \ to the US.\n\nI see your point, in the sense that - generally speaking - there's\
+    \ a difference in performance between List.Contains() and HashSet.Contains().\n\
+    \ \nBut the reality is that the list of commands is currently at 6 items. It's\
+    \ populated from a string resource (i.e. it's not user-configurable), so the developer\
+    \ has complete control over whether this list grows. Even with the generic equality\
+    \ operator, we're talking about at most 6 string comparisons. It would be pretty\
+    \ surprising to me if this resulted in any measurable delay in execution.\n\n\
+    That said, it's trivial to change the List to a HashSet - and doesn't make the\
+    \ code less readable - so I'll go ahead and do so.\n\nKean"
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadxtabs/AcadXTabs2010.htm
+  date: '2010-08-05 22:51:20'
+  body: "\" It would be pretty surprising to me if this resulted in any measurable\
+    \ delay in execution.\"\n\nThat depends on the scenaro. Is a LISP appliation that\
+    \ executes a command hundreds or thousands of times in a matter of a few seconds\
+    \ going to be affected?  I say it will, but in the larger picture, the question\
+    \ of whether the difference will be perceptible or not is really not the point.\n\
+    \nAs a general principle, regardless of whether the difference is noticable or\
+    \ not, one should always use the most efficient/least-costly code, especially\
+    \ when it imposes no additional complexity or have any other cost. We don't emply\
+    \ best practices only when we have to, we strive to do that all the time, when\
+    \ there is no cost from doing so.\n\nI just recently published a simple example\
+    \ showing LISP programmers why iterative use of (strcat) can be close to 100x\
+    \ slower at incremental string building, verses a different, list-based approach\
+    \ that involves little additional code complexity. \n\nIn the conclusion of that\
+    \ article, I also stressed the same philisophical point, that even when there\
+    \ is no perceviable difference between doing it the wrong way verses the right\
+    \ way, that does not justify doing it the wrong way:\n\n<a href=\"http://www.caddzone.com/StringBuildingTest.lsp\"\
+    >http://www.caddzone.com/StringBuildingTest.lsp</a>"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-08-06 12:20:13'
+  body: 'I''m pretty sure I understand where you''re coming from, Tony: you''e a purist
+    at heart and it bothers you when people don''t do things in the best possible
+    way. I also have purist tendencies - I fully admit - but I get the feeling my
+    world-view contains a few more shades of grey: there are a lot of "good enough"
+    approaches out there, too.
+
+
+    There''s a balance to be struck between complexity and efficiency: while I agree
+    that - if all else is equal - we should strive for the most efficient possible
+    solution, all else is rarely equal. Code readability and maintainability play
+    a part, for instance, and need to be considered.
+
+
+    One of the core goals of the Plugin of the Month initiative is simplicity: it''s
+    intended to lower the barrier of entry for people interested in developing for
+    our products. We want to encourage (not discourage) this, and so have very deliberately
+    aimed for providing simple solutions wherever possible.
+
+
+    Now clearly there''s the odd, non-complex enhancement that can be made (the choice
+    of a HashSet vs. a List is a good example, and we made that change), but whenever
+    significant complexity is looking to be introduced by a particular "best possible"
+    technique, it deserves careful consideration of the relative pros and cons.
+
+
+    Thanks for the interesting discussion,
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadxtabs/AcadXTabs2010.htm
+  date: '2010-08-07 06:11:40'
+  body: '"...but I get the feeling my world-view contains a few more shades of grey:
+    there are a lot of "good enough" approaches out there, too."
+
+
+    Well, the only problem I have with that point of view, is that ''good enough''
+    doesn''t foster the development of the type of skills that are crucial in those
+    cases where merely ''good enough'' isn''t good enough.
+
+
+    Striving to always write the best possible code is how one gains the skills and
+    knowledge needed to write even better code, and when ''even better code'' is necessary
+    to solve a given problem, I''ll put my money on the one that always trys to produce
+    the best possible solution, even when ''good enough'' will do.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-08-07 11:09:59'
+  body: 'Well yes, but then the "best" solution depends on a lot of different criteria,
+    doesn''t it? And some of those are rather subjective. The choice of language or
+    technique depends on the knowledge and experience of the programmer. Should someone
+    have to learn C++ because it''s "better"?
+
+
+    If I were a "better" programmer, perhaps I''d write the code for these blog posts
+    in assembly language. :-)
+
+
+    To a large extent I agree with you - none of us should strive for mediocrity -
+    but there''s clearly a balance, especially when dealing with a readership that
+    includes lots of people who are not professional programmers, and will never become
+    bit-twiddlers. Better that people understand the code they copy & paste than simply
+    trust it to execute as they''d like to, forever.
+
+
+    Kean
+
+    -----'

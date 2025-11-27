@@ -1,0 +1,128 @@
+comments:
+- author: Chuck
+  email: chuckwilbur@spatialnet.net
+  ip: 68.191.200.106
+  url: ''
+  date: '2012-12-11 20:07:27'
+  body: "Very nice. For my next trick I was going to try to get rid of all the casting\
+    \ and if(gp is ...) stuff in Sampler. My goal would be to make Sampler look like\
+    \ this:\n\n        protected override SamplerStatus Sampler(JigPrompts prompts)\n\
+    \        {\n            // Get the current phase\n            var p = _phases[_phase];\n\
+    \            return p.Acquire(prompts);\n        }\n\nby adding this to Phase:\n\
+    \    public abstract class Phase\n    {\n...\n        public abstract SamplerStatus\
+    \ Acquire(JigPrompts prompts);\n    }\n\nI got a little ways with it, but ran\
+    \ into trouble with some of the member variables of EntityJigFramework. I wasn't\
+    \ sure which ones I should keep and pass to the Phase constructor, and which I\
+    \ could get rid of (I can't figure out why in the middle of the Acquire process\
+    \ there's always a line to set _phase[_phases] = phase, for example, since phase\
+    \ is set to _phase[_phases] at the top of the Sampler function).\n\nAnyway, here\
+    \ are the refactored Phase subclasses. I feel like they're close to working, but\
+    \ it would take more time than I have to untangle the member dependencies and\
+    \ if I changed them that drastically I'd want to unit test them and... well, you\
+    \ get the idea. Run with them if you want ;)\n\n    public abstract class GeometryPhase\
+    \ : Phase\n    {\n        // Geometric classes can also have an offset for the\
+    \ basepoint\n\n        public Func<List<Phase>, Point3d, Vector3d> Offset;\n\n\
+    \        public GeometryPhase(\n          string msg,\n          Func<List<Phase>,\
+    \ Point3d, Vector3d> offset = null\n        )\n            : base(msg)\n     \
+    \   {\n            Offset = offset;\n        }\n\n        protected void SetOptions(JigPromptGeometryOptions\
+    \ opts)\n        {\n            // If we're dealing with a geometry-typed phase\
+    \ (distance,\n            // point ot angle input) we can use some common code\n\
+    \n            // Set up the user controls\n\n            opts.UserInputControls\
+    \ =\n              (UserInputControls.Accept3dCoordinates\n              | UserInputControls.NoZeroResponseAccepted\n\
+    \              | UserInputControls.NoNegativeResponseAccepted);\n\n          \
+    \  // All our distance inputs will be with a base point\n            // (which\
+    \ means the initial base point or an offset from\n            // that)\n\n   \
+    \         opts.UseBasePoint = true;\n            opts.Cursor = CursorType.RubberBand;\n\
+    \n            opts.Message = Message;\n            opts.BasePoint =\n        \
+    \      (Offset == null ?\n                _pt.TransformBy(_ucs) :\n          \
+    \      (_pt + Offset.Invoke(_phases, _pt)).TransformBy(_ucs)\n              );\n\
+    \        }\n    }\n\n    // A phase for distance input\n\n    public class DistancePhase\
+    \ : GeometryPhase\n    {\n        public DistancePhase(\n          string msg,\n\
+    \          object defval = null,\n          Func<List<Phase>, Point3d, Vector3d>\
+    \ offset = null\n        )\n            : base(msg, offset)\n        {\n     \
+    \       Value = (defval == null ? 0 : defval);\n        }\n\n        public override\
+    \ SamplerStatus Acquire(JigPrompts prompts)\n        {\n            var opts =\
+    \ new JigPromptDistanceOptions();\n            SetOptions(opts);\n\n         \
+    \   var pdr =\n              prompts.AcquireDistance(opts);\n\n            if\
+    \ (pdr.Status == PromptStatus.OK)\n            {\n                // If the difference\
+    \ between the new value and its\n                // previous value is negligible,\
+    \ return \"no change\"\n\n                if (\n                  Math.Abs((double)Value\
+    \ - pdr.Value) <\n                  Tolerance.Global.EqualPoint\n            \
+    \    )\n                    return SamplerStatus.NoChange;\n\n               \
+    \ // Otherwise we update the appropriate variable\n                // based on\
+    \ the phase\n\n                Value = pdr.Value;\n                _phases[_phase]\
+    \ = this;\n                return SamplerStatus.OK;\n            }\n         \
+    \   return SamplerStatus.Cancel;\n        }\n    }\n\n    // A phase for distance\
+    \ input related to Autodesk Shape Manager\n    // (whose internal tolerance if\
+    \ 1e-06, so we need a larger\n    // default value to allow Solid3d creation to\
+    \ succeed)\n\n    public class SolidDistancePhase : DistancePhase\n    {\n   \
+    \     public SolidDistancePhase(\n          string msg,\n          object defval\
+    \ = null,\n          Func<List<Phase>, Point3d, Vector3d> offset = null\n    \
+    \    )\n            : base(msg, defval, offset)\n        {\n            Value\
+    \ = (defval == null ? 1e-05 : defval);\n        }\n    }\n\n    // A phase for\
+    \ point input\n\n    public class PointPhase : GeometryPhase\n    {\n        public\
+    \ PointPhase(\n          string msg,\n          object defval = null,\n      \
+    \    Func<List<Phase>, Point3d, Vector3d> offset = null\n        )\n         \
+    \   : base(msg, offset)\n        {\n            Value =\n              (defval\
+    \ == null ? Point3d.Origin : defval);\n        }\n\n        public override SamplerStatus\
+    \ Acquire(JigPrompts prompts)\n        {\n            var opts = new JigPromptPointOptions();\n\
+    \            SetOptions(opts);\n\n            var ppr =\n              prompts.AcquirePoint(opts);\n\
+    \n            if (ppr.Status == PromptStatus.OK)\n            {\n            \
+    \    // If the difference between the new value and its\n                // previous\
+    \ value is negligible, return \"no change\"\n\n                var tmp = ppr.Value.TransformBy(_ucs.Inverse());\n\
+    \n                if (\n                  tmp.DistanceTo((Point3d)Value) <\n \
+    \                 Tolerance.Global.EqualPoint\n                )\n           \
+    \         return SamplerStatus.NoChange;\n\n                // Otherwise we update\
+    \ the appropriate variable\n                // based on the phase\n\n        \
+    \        Value = tmp;\n                _phases[_phase] = this;\n             \
+    \   return SamplerStatus.OK;\n            }\n            return SamplerStatus.Cancel;\n\
+    \        }\n    }\n\n    // A phase for angle input\n\n    public class AnglePhase\
+    \ : GeometryPhase\n    {\n        public AnglePhase(\n          string msg,\n\
+    \          object defval = null,\n          Func<List<Phase>, Point3d, Vector3d>\
+    \ offset = null\n        )\n            : base(msg, offset)\n        {\n     \
+    \       Value = (defval == null ? 0 : defval);\n        }\n\n        public override\
+    \ SamplerStatus Acquire(JigPrompts prompts)\n        {\n            var opts =\
+    \ new JigPromptAngleOptions();\n            SetOptions(opts);\n\n            var\
+    \ par =\n              prompts.AcquireAngle(opts);\n\n            if (par.Status\
+    \ == PromptStatus.OK)\n            {\n                // If the difference between\
+    \ the new value and its\n                // previous value is negligible, return\
+    \ \"no change\"\n\n                if (\n                  (double)Value - par.Value\
+    \ <\n                  Tolerance.Global.EqualPoint\n                )\n      \
+    \              return SamplerStatus.NoChange;\n\n                // Otherwise\
+    \ we update the appropriate variable\n                // based on the phase\n\n\
+    \                Value = par.Value;\n                _phases[_phase] = this;\n\
+    \                return SamplerStatus.OK;\n            }\n            return SamplerStatus.Cancel;\n\
+    \        }\n    }\n\n    // And a non-geometric phase for string input\n\n   \
+    \ public class StringPhase : Phase\n    {\n        public StringPhase(\n     \
+    \     string msg,\n          string defval = null\n        )\n            : base(msg)\n\
+    \        {\n            Value = (defval == null ? \"\" : defval);\n        }\n\
+    \n        public override SamplerStatus Acquire(JigPrompts prompts)\n        {\n\
+    \            var psr = prompts.AcquireString(Message);\n\n            if (psr.Status\
+    \ == PromptStatus.OK)\n            {\n                Value = psr.StringResult;\n\
+    \                _phases[_phase] = this;\n                return SamplerStatus.OK;\n\
+    \            }\n            return SamplerStatus.Cancel;\n        }\n    }"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2012-12-12 10:03:00'
+  body: 'Hi Chuck,
+
+
+    Yes, it''d be nice to be free of any explicit RTTI checks but I''m not that inclined
+    to keep tweaking the implementation, as it does start to get a little complicated
+    (as you''re finding). Hopefully someone else will run with it, should they find
+    the time. :-)
+
+
+    The _phases[_phase] = phase calls are actually redundant, as you''ve noticed.
+    My intention was to place the modified objects back in the list, but as we''re
+    dealing with object references they''re not needed.
+
+
+    Cheers,
+
+
+    Kean
+
+    -----'

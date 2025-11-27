@@ -1,0 +1,97 @@
+comments:
+- author: Peter
+  email: newjv.developer@yahoo.com
+  ip: 92.81.196.249
+  url: ''
+  date: '2010-11-30 10:10:27'
+  body: 'Hello Kean!
+
+
+    Where could I find the API for Autocad .Net, something similar of Java Library?
+    ( <a href="http://download.oracle.com/javase/6/docs/api">http://download.oracle.com/javase/6/docs/api</a>
+    )'
+- author: Kean Walmsley
+  email: ''
+  ip: 70.165.195.150
+  url: http://profile.typepad.com/kean
+  date: '2010-11-30 14:11:02'
+  body: 'Hello Peter,
+
+
+    If you''re just looking for documentation, try <a href="http://autodesk.com/autocad-net-developers-guide">here</a>.
+
+
+    Otherwise the API ships with AutoCAD, in AcMgd.dll and AcDbMgd.dll, and is also
+    shipped and documented in <a href="http://autodesk.com/objectarx">the ObjectARX
+    SDK</a> for that version.
+
+
+    Regards,
+
+
+    Kean'
+- author: Matt
+  email: matt.hibb@googlemail.com
+  ip: 66.225.135.162
+  url: ''
+  date: '2012-02-16 18:39:09'
+  body: "Hi Kean,\n\nI was wondering if you had any more information on the 4th and\
+    \ 5th parameters to the SpatialFilterDefinition constructor?\n\nSpecifically,\
+    \ I am trying to clip something that exists below zero on the z-axis and the clipping\
+    \ is not including any of it. Changing the 4th and 5th parameters on the SpatialFilterDefinition\
+    \ to make sure the 4th is \"more negative\" than the object in question means\
+    \ it is included. However I can't make dead nor tail of that the parameters are\
+    \ supposed to be and it would be nice to do something that is included regardless\
+    \ of z values. Might there be a way to just clip on the x-y plane and ignore the\
+    \ z axis?\n\nThe ObjectARX documentation has the following:\n4th param - frontClip\
+    \ - Input front clip distance in the positive extrusion direction  \n5th param\
+    \ - backClip - Input back clip distance in the negative extrusion direction  \n\
+    \nAny help you might be able to offer would be great!"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-02-16 19:58:29'
+  body: 'Sorry, nothing new from my side: I suggest posting to the discussion forum
+    or asking ADN, if you''re a member.
+
+
+    Kean'
+- author: lompav
+  email: lompav@hotmail.com
+  ip: 88.177.55.23
+  url: ''
+  date: '2012-10-02 17:44:47'
+  body: 'Hi Kean,
+
+
+    I''m working with Autocad 2013 and I was trying to clip a block (like the XCLIP
+    command) in C# when I found your post but unfortunatly, when I try to execute
+    it on a block in my Autocad editor frame the whole block disappears even if I
+    try to clip just the half of it.
+
+
+    Do you know what functions are used by the XCLIP command ?'
+- author: lompav
+  email: lompav@hotmail.com
+  ip: 88.177.55.23
+  url: ''
+  date: '2012-10-03 11:56:16'
+  body: "My mistake, the function works very well but be careful  the filter definition\
+    \ has a front and back clip value of 0 so if your block is not exactly at 0 altitude\
+    \ it does not work.\nTo clip everything under your selection change it to :\n\
+    SpatialFilterDefinition sfd =\n                new SpatialFilterDefinition(\n\
+    \                    pts, Vector3d.ZAxis, 0.0, double.PositiveInfinity, double.NegativeInfinity,\
+    \ true);"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-10-03 15:53:57'
+  body: 'Indeed - I noticed just yesterday that the XCLIP command creates clipping
+    volumes where Z varies between -10 billion to +10 billion. :-)
+
+
+    Kean
+
+    -----'

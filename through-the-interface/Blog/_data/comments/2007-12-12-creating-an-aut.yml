@@ -1,0 +1,114 @@
+comments:
+- author: Dale Bartlett
+  email: dale.bartlett@realtimeinternational.com.au
+  ip: 60.231.152.72
+  url: http://www.realtimeinternational.com.au
+  date: '2007-12-13 01:13:46'
+  body: "Hi Kean,\nI have an anomoly in that the contents of pts collection change\
+    \ after the SetFrom call:\nwo.SetFrom(pts, new Vector3d(0.0, 0.0, 0.1));\n\nI\
+    \ place the following \"Before\" and \"After\" the above SetFrom line:\nDim s\
+    \ As String = \"\"\ns = \"Before\"\nFor i = 0 To pts.Count - 1\n  s = s & vbCrLf\
+    \ & \"ID \" & i & \"  X: \" &pts(i).X & \"  Y: \" & pts(i).Y\nNext i\nMsgBox(s)\n\
+    SetFrom appears to return pts scaled to fit in the 1x1 base graphic? Regards,\
+    \ Dale"
+- author: Dale Bartlett
+  email: dale.bartlett@realtimeinternational.com.au
+  ip: 60.231.152.72
+  url: http://www.realtimeinternational.com.au
+  date: '2007-12-13 06:42:48'
+  body: Hi Kean, I believe you will find that running your code a few times in the
+    one drawing will result in a Fatal Error, or inconsistant results. Life is one
+    big mystery... Regards, Dale
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-12-13 10:01:04'
+  body: 'Hi Dale,
+
+
+    Yes - it seems the pts array is used to return some data to the caller (perhaps
+    it''s related to the clip boundary - it''s not fully clear to me what the data
+    represents).
+
+
+    I found that the application did freeze, if CW was called repeatedly. Interestingly
+    this stopped happening if I declared the array as being exactly 5 items long,
+    rather than using the default constructor (which creates a 10-item array). I''ve
+    adjusted the code by passing 5 to the Point2dCollection constructor. I haven''t
+    tested whether this helps in situations where a different number of vertices is
+    passed in (at which point I''d use a different number to 5, of course).
+
+
+    I''d be curious to know whether this helps on your side,
+
+
+    Kean'
+- author: Dale Bartlett
+  email: dale.bartlett@realtimeinternational.com.au
+  ip: 60.231.152.72
+  url: ''
+  date: '2008-07-09 06:31:30'
+  body: 'Hi Kean, I have a continuing problem with multiple Wipeouts which ADN has
+    stated requires a product modification. If several Wipeouts are created in the
+    one drawing, AutoCAD will Fatal Error, randomly the Wipeout will have a single
+    grip instead of 4, and the displayed boundary is not the same as the actual boundary.
+    I thought 2009 may have resolved. Do you happen to have a brilliant workaround?
+    Don''t say draw them manually...
+
+    Thanks, Dale'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-09 08:37:10'
+  body: 'Hi Dale,
+
+
+    Please send me the case and/or change request IDs by email, and I''ll take a quick
+    look.
+
+
+    Regards,
+
+
+    Kean'
+- author: Leonardo
+  email: leomoros90v@hotmail.com
+  ip: 190.37.157.15
+  url: ''
+  date: '2012-09-18 06:13:45'
+  body: 'Hi Kean,
+
+
+    Is there a way to programmatically hide the frames of the wipeouts created this
+    way?
+
+
+    Regards,
+
+
+    Leonardo'
+- author: Kean Walmsley
+  email: ''
+  ip: 95.172.68.149
+  url: http://profile.typepad.com/kean
+  date: '2012-09-18 10:08:36'
+  body: 'Hi Leonardo,
+
+
+    Not that I''m aware of. I see there''s a read-only property Wipeout.HasFrame,
+    but I can''t see a way to control that programmatically (whether in the Wipeout
+    class, its parent RasterImage class or the parallel COM interface).
+
+
+    You might try ADN or the AutoCAD .NET Discussion Group (please let me know what
+    you find out).
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

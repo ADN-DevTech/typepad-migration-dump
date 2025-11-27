@@ -1,0 +1,130 @@
+comments:
+- author: Josh Johnson
+  email: josh.johnson@captiveaire.com
+  ip: 204.120.207.2
+  url: http://www.jnjosh.com
+  date: '2008-07-09 17:10:11'
+  body: 'You mentioned "potential situations where this might not be true". I''m not
+    sure what these situations are exactly and would love to know more. I am using
+    RealDWG and I often have to iterate geometry to get extmax, which causes other
+    problems (GeometricExtents being null?). So, what are these potential situations?
+
+
+    Thanks in advance!'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-10 14:10:02'
+  body: 'Ah, I knew I''d called on that one... :-S
+
+
+    I''ve checked in with Engineering to get some specifics. Some situations are related
+    to planar entities (about which I''m waiting for information), but there is another
+    related to entity erasure/display:
+
+
+    "When entities that define the extents are erased, or their layer is frozen, then
+    the EXTMIN and EXTMAX sysvars won''t automatically move, at least in the 2D GS;
+    that won’t happen until a ZOOM ALL/EXTENTS."
+
+
+    It seems there are also issues with EXTMAX being updated when using the 3D GS
+    - and this is more significant. If you set the Visual Style to conceptual (for
+    instance) and create 3D geometry, EXTMIN/EXTMAX will not be updated to reflect
+    the new extents.
+
+
+    Regards,
+
+
+    Kean'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-11 11:59:07'
+  body: 'On the subject of planar entities: it''s just possible that someone is working
+    in 2D, but on a 3D plane that is not aligned with the standard axes. EXTMAX would
+    give a false positive at this point (although it seems a very rare situation,
+    in my opinion).
+
+
+    Regards,
+
+
+    Kean'
+- author: outsourcing autocad
+  email: goresteeldetailing@gmail.com
+  ip: 121.54.66.21
+  url: http://www.goresteeldetailing.com/
+  date: '2008-07-18 14:37:03'
+  body: well by looking into the code to see to it if the drawing is 2d or 3d is really
+    a smart idea
+- author: Marco Caprez
+  email: marco.caprez@getronics.com
+  ip: 192.33.238.6
+  url: ''
+  date: '2008-07-21 13:20:02'
+  body: 'Hi Kean,
+
+
+    How about checking the difference between the Z-Value of EXTMIN and EXTMAX? This
+    might help in some situations.
+
+
+    Regards,
+
+    Marco'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-21 13:56:49'
+  body: 'Hi Marco,
+
+
+    Yes, it might, although in the rare cases that the 2D plane is not aligned with
+    the axes, this wouldn''t help. But again - that''s got to be a very rare case...
+
+
+    Regards,
+
+
+    Kean'
+- author: Rod
+  email: rodmertin@hotmail.com
+  ip: 136.153.2.2
+  url: ''
+  date: '2010-07-26 08:14:15'
+  body: 'Hi kean I realise this is an old posting hope your still reading.
+
+
+    How would you right this as a boolean statement for a contextual ribbon tab rule?
+
+
+    Regards
+
+
+    Rod'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-07-28 13:40:20'
+  body: 'Hi Rod,
+
+
+    That''s an interestng question.
+
+
+    I''ll add it to my list of possible topics - you might try posting to <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>, in the meantime.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

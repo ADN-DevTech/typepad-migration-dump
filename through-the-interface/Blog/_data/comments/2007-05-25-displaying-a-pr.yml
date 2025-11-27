@@ -1,0 +1,248 @@
+comments:
+- author: Chris Bray
+  email: chris@chrisbray.co.uk
+  ip: 82.37.40.235
+  url: http://www.chrisbray.co.uk
+  date: '2007-05-25 16:27:45'
+  body: "Kean.\nI've been using the following method to display a ProgressMeter in\
+    \ AutoCAD from .NET, avoiding P/Invoke. Should I change to use your method or\
+    \ is this the other internal method you speak of?\n\n<pre>\nint numItems = 100;\n\
+    int counter = 0;\n// Create progress meter\nProgressMeter pm = new ProgressMeter();\n\
+    // Set it's caption\npm.Start(\"Plotting Roads\");\n// Set it's maximum value\n\
+    pm.SetLimit(numItems);\n// Now our lengthy operation\nwhile (counter < numItems)\n\
+    {\n\t//\n\t// Do my process here\n\t//\n\t\n\t// Sleep a little bit\n\tSystem.Threading.Thread.Sleep(1);\n\
+    \t\n\t// Update Screen\n\tApplication.UpdateScreen();\n\t\n\t// Increment Progress\
+    \ Meter...\n\tpm.MeterProgress();\n\t// ...and our loop counter\n\tcounter++;\n\
+    }\n// We're done, clear the Progress Meter\npm.Stop();\n</pre>"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-05-25 16:34:47'
+  body: 'Hi Chris,
+
+
+    Oops - my research was inadequate on this one... I missed the inbuilt class (and
+    took Fenton''s word for this one not being available).
+
+
+    Please do what you''re doing now - I''ll check after the weekend what''s what
+    with the inbuilt class (perhaps it was introduced more recently, and Fenton was
+    answering the question for an older release).
+
+
+    More soon...
+
+
+    Kean'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-05-29 17:36:04'
+  body: 'Hi Chris,
+
+
+    OK - I see that Autodesk.AutoCAD.Runtime.ProgressMeter got exposed back in 2007.
+    I''ll update the post to reflect that.
+
+
+    Thanks again,
+
+
+    Kean'
+- author: Ron Hanson
+  email: RonHanson@bdm.com
+  ip: 192.28.2.42
+  url: ''
+  date: '2007-05-29 18:45:14'
+  body: 'Hi Kean,
+
+
+    Why the need for Application.DoEvents. Also, where in the Autodesk documentation
+    does it state that Application.DoEvents is supposed to be used in conjunction
+    with the ProgressMeter Class?
+
+
+    Thanks,
+
+
+    Ron'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-05-29 18:56:02'
+  body: 'Hi Ron,
+
+
+    It doesn''t have to be used - it''s just a choice of mine. I tend to use it to
+    allow AutoCAD to still receive events (such as to repaint etc.) while undergoing
+    long operations. But it''s nothing to do with AutoCAD, it''s a general Windows
+    programming approach.
+
+
+    Try commenting that line out and then switching between AutoCAD and another app
+    while running the "PB" command. Even if you add some code to repaint the display
+    you get some imperfect behaviour, so I tend for this option.
+
+
+    If anyone has a better approach or a conflicting opinion, I''d be happy to hear
+    it. :-)
+
+
+    Cheers,
+
+
+    Kean'
+- author: Ron Hanson
+  email: RonHanson@bdm.com
+  ip: 192.28.2.42
+  url: ''
+  date: '2007-05-29 19:13:07'
+  body: "Hi Kean,\n\nIf you don't mind I have one more question. Is there a reason\
+    \ that you're using System.Threading.Thread.Sleep()? \n\nPlease excuse my question\
+    \ if it seems basic, but I am trying very hard to learn AutoCAD with .NET and\
+    \ when I see something that warrants asking a question I just have to ask.\n\n\
+    Ron"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-05-29 19:18:12'
+  body: 'Hi Ron,
+
+
+    Not at all - it''s a very valid question.
+
+
+    That line is only there to make the operation take long enough for you to watch
+    the progress meter move slowly (or somewhat slowly) across. If it isn''t there
+    you just see a flash.
+
+
+    Feel free to keep the (post-related) questions coming - I''m sure there are others
+    out there with similar thoughts.
+
+
+    Kean'
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 201.17.246.95
+  url: http://arxdummies.blogspot.com
+  date: '2007-05-29 22:27:55'
+  body: 'Hi Kean,
+
+
+    Just one more thing.
+
+    Depending on how heavy is the process behind the progress bar if you leave AutoCAD
+    window and get back the screen and the progress bar could appear frozen.
+
+
+    As you have suggested inside a comment at my Blog´s article, we need do yield
+    AutoCAD during the process. At that time, you have pointed to use:
+
+
+    System.Windows.Forms.Application.DoEvents();
+
+
+    In this case, we can call DoEvents() over AutoCAD application during the loop
+    or is there a better way to do that?
+
+
+    Regards,
+
+    Fernando.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-05-30 03:49:59'
+  body: 'Hi Fernando,
+
+
+    Yes - from my perspective DoEvents is the way to go, just as the above two code
+    fragments have shown.
+
+
+    It''s probably also worth thinking about trapping the escape key, to allow the
+    task to be cancelled. I wrote <a href="http://through-the-interface.typepad.com/through_the_interface/2007/02/allowing_users_.html">this
+    post</a> showing how to do this, but I haven''t tried to plug the two together,
+    as yet.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Frost
+  email: kbowman@cityofgp.com
+  ip: 204.209.122.250
+  url: ''
+  date: '2010-02-19 19:24:12'
+  body: "Hi, \n\nI just stumbled upon this code as I was searching for a progress\
+    \ bar to implement in my acad .Net functions.  A few things though, in Acad 2010,\
+    \ I had to remove:\n\nApplication.DoEvents() \n\nOnce I did the code ran fine\
+    \ with the test implementation.  However, the one question I have is that's great\
+    \ this works when you have a set of defined integer variables, but how can I implement\
+    \ the progress bar to track the completion of a bunch of functions in .Net?  What\
+    \ I mean is, say i have 3 subs in my acad .Net enviornment that all do different\
+    \ things (1. opens and attaches a drawing, 2. querys a bunch of objects from the\
+    \ attached drawing, 3. saves the new drawing) but are part of a single button\
+    \ click event.  I'd like the progress bar to track the completion of the entire\
+    \ process.\n\nAny info would be greatly appreciated."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2010-02-20 10:26:51'
+  body: 'Curious that Application.DoEvents() would be a problem (I wonder if there''s
+    something else causing it, but anyway - I''m glad it works for you).
+
+
+    Metering code execution visibly is a dark art, indeed, which is why percentage
+    complete information is very rarely accurate. You would have to find some way
+    to estimate the probable execution time and then work out when best to call into
+    the progress meter from your code to make it tick.
+
+
+    Tricky stuff, though - good luck!
+
+
+    Kean'
+- author: Analogue Meters
+  email: leajardinel@yahoo.com
+  ip: 112.205.151.80
+  url: ''
+  date: '2010-12-19 08:02:49'
+  body: Usually I do not post on blogs, but I would like to say that this article
+    really forced me to do so! Thanks, really nice article.
+- author: Greg Bednarski
+  email: greg.bednarski@wp.pl
+  ip: 83.29.187.112
+  url: ''
+  date: '2011-01-26 19:46:49'
+  body: How do it in VB6 or VBA?
+- author: Kean Walmsley
+  email: ''
+  ip: 109.237.55.190
+  url: http://profile.typepad.com/kean
+  date: '2011-01-26 20:06:47'
+  body: 'Sorry - that''s beyond the scope of this blog (and my skills). You might
+    try asking on the appropriate discussion group.
+
+
+    Kean'
+- author: Jon Sprang
+  email: jon.sprang@daktronics.com
+  ip: 63.85.214.4
+  url: ''
+  date: '2011-02-17 21:32:13'
+  body: 'Kean, thanks for the great post!  This got me up and going using the ProgressMeter.  I
+    ended up taking the implementation a step further since there started to be a
+    similar pattern throughout my application -> Create ProgressMeter, Start, SetLimit,
+    Do Work, Stop, Dispose.
+
+
+    I created the following static class:'

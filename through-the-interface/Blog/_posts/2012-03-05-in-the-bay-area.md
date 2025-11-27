@@ -1,0 +1,14 @@
+---
+layout: "post"
+title: "In the Bay Area"
+date: "2012-03-05 16:13:51"
+author: "Kean Walmsley"
+categories:
+  - "AutoCAD"
+  - "Autodesk"
+original_url: "https://www.keanw.com/2012/03/in-the-bay-area.html "
+typepad_basename: "in-the-bay-area"
+typepad_status: "Publish"
+---
+
+<p>After <a href="http://through-the-interface.typepad.com/through_the_interface/2012/03/migrating-net-applications-to-work-with-autocad-2013.html" target="_blank">my struggles to get here</a>, I’ve had a fun (working) weekend in the Bay Area. We held our first internal <a href="http://en.wikipedia.org/wiki/Hackathon" target="_blank">Hackathon</a> event, where members of the AutoCAD Engineering organisation sat in a room and developed applications that work with AutoCAD. Food and drink was provided throughout the 4-day event – reducing the need for people to leave the room – and someone even brought a sleeping bag along and camped out in the lobby for Saturday night. The final submissions deadline is looming, in a few short hours, and then tomorrow there’ll be a series of demonstrations, showing (and ultimately judging) the results.</p>  <p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e20167636d8c14970b-pi" target="_blank"><img style="background-image: none; border-bottom: 0px; border-left: 0px; margin: 20px auto; padding-left: 0px; padding-right: 0px; display: block; float: none; border-top: 0px; border-right: 0px; padding-top: 0px" title="Bay Area Hackathon" border="0" alt="Bay Area Hackathon" src="/assets/image_378171.jpg" width="410" height="312" /></a></p>  <p>Some really fun applications were put together by individuals and teams over the weekend: hopefully at least some will result in apps on the Exchange Store and possibly even new product features (time will tell).</p>  <p>I was mainly attending in a supporting role – helping answer questions about AutoCAD development for participants that had them – but I did get some time to work on some stuff of my own over the weekend. As I had managed to get my hands on my newly-purchased Kinect for Windows device, I did spend some time porting my Kinect samples to work with the v1 Kinect SDK, as well as working on some new capabilities.</p>  <p>The SDK has changed a fair amount between Beta 2 and the final release, so there was quite a lot to do (surprisingly). But much of the work that was done to the SDK simplifies the effort needed, so I ended up being able to strip out a fair amount of code, which is also nice.</p>  <p>Tomorrow I’ll be presenting an internal technical forum for members of my new organisation, where we go through some of the projects I’ve developed for this blog. I’m choosing some interesting areas – reality capture, <a href="http://en.wikipedia.org/wiki/Natural_user_interface" target="_blank">NUIs</a> and 3D printing – to give a sense for some of the side projects I’ve been working on over the last few years. It should be a fun session.</p>

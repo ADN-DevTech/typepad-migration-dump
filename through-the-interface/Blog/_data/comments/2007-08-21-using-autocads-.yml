@@ -1,0 +1,179 @@
+comments:
+- author: Roland Feletic
+  email: rosinino@gmx.net
+  ip: 212.108.35.17
+  url: ''
+  date: '2007-08-22 07:29:24'
+  body: 'Thank you, Kean.
+
+
+    Roland'
+- author: HJohn
+  email: someone@someplace.com
+  ip: 216.123.181.194
+  url: ''
+  date: '2007-08-22 14:45:49'
+  body: "Kean,\n  Please don't stop just here.  It will be great to see how to open\
+    \ the drawings and update the tables. Would it make a difference if the OpenFileDialog\
+    \ is called from a button on a user form? Thanks."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-08-22 16:11:04'
+  body: 'It''s coming, never fear... :-)
+
+
+    I''m not sure what you mean by "open drawings", as I''m going to link in an Excel
+    spreadsheet into the active drawing.
+
+
+    Yes, you should be able to use an OpenFileDialog from a button on a form - I haven''t
+    looked at what happens if it''s a modeless dialog, but a modal dialog should just
+    work. A modeless dialog probably does, too, but I''d need to have a play around
+    with it, to make sure. Unless someone else out there has already done this?
+
+
+    Cheers,
+
+
+    Kean'
+- author: HJohn
+  email: someone@someplace.com
+  ip: 216.123.181.194
+  url: ''
+  date: '2007-08-22 23:22:09'
+  body: My bad. I didn't rialize that you were opening one excel file to update the
+    active drawing.  Somehow, I though you were going to open one or more drawings
+    and update them with information stored in an excel file.  The years don't pass
+    without damage. Thanks
+- author: Danny Polkinhorn
+  email: dpolkinhorn@watg.com
+  ip: 66.175.73.45
+  url: ''
+  date: '2007-08-23 01:06:24'
+  body: 'Kean, for the file types can you pass strings representing the document types?
+
+    "*.xls  Excel 97-2003 document"
+
+    "*.xlsx Excel 2007 document"
+
+
+    Excellent post, thanks!
+
+
+    -Danny'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-08-23 10:51:59'
+  body: 'Hi Danny,
+
+
+    Unfortunately not - OpenFileDialog wraps acedGetFileNavDialog(), which doesn''t
+    support filter descriptions. At least I''m 85% sure it doesn''t. :-)
+
+
+    Regards,
+
+
+    Kean'
+- author: Johnny
+  email: qualitysof@gmail.com
+  ip: 200.121.202.6
+  url: ''
+  date: '2007-10-10 00:15:31'
+  body: 'Hi Kean, first sorry for my english, I''m peruvian and my question is the
+    next: Do you have an example where show me a form and it returns the corresponding
+    data in a list?, like this for example:
+
+
+    (15, "Carlos", 25.6, ("Ana", "Luis", "Pedro"), "YES")'
+- author: Johnny
+  email: qualitysof@gmail.com
+  ip: 200.121.202.6
+  url: ''
+  date: '2007-10-10 00:21:21'
+  body: 'sorry, the list will be like this:
+
+
+    (15 "Carlos" 25.6 ("Ana" "Luis" "Pedro") "YES")
+
+
+    This list, I want to use it in a LISP aplication.
+
+
+    Thank you Kean.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-10-10 08:44:50'
+  body: 'Hi Johnny,
+
+
+    These posts should help you:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2006/09/passing_argumen.html">Passing
+    arguments to .NET-defined commands</a>
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2006/07/breathe_fresh_l.html">Breathing
+    fresh life into LISP applications with a modern GUI</a>
+
+
+    Regards,
+
+
+    Kean'
+- author: David
+  email: DWolfe@Fageneng.com
+  ip: 68.115.239.74
+  url: ''
+  date: '2007-10-31 17:38:23'
+  body: 'Kean,
+
+
+    I am using the Filedialog with the flags to AllowFoldersOnly.  I want to specify
+    the starting folder location.  I tried entering it in the 2nd argument but that
+    didn''t work. How should I go about doing that in addition to having it allow
+    folders only?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-11-01 13:28:53'
+  body: "David,\n\nThis worked for me:\n\nOpenFileDialog ofd =\n  new OpenFileDialog(\n\
+    \    \"Select Excel spreadsheet\",\n    \"c:\\\\temp\\\\\",\n    \"xls; xlsx\"\
+    ,\n    \"ExcelFileToLink\",\n    OpenFileDialog.OpenFileDialogFlags.AllowFoldersOnly\
+    \ |\n    OpenFileDialog.OpenFileDialogFlags.DefaultIsFolder |\n    OpenFileDialog.OpenFileDialogFlags.ForceDefaultFolder\n\
+    \  );\n\nRegards,\n\nKean"
+- author: Tim
+  email: tcatalano@rkmi.com
+  ip: 65.101.194.254
+  url: ''
+  date: '2009-07-16 17:54:08'
+  body: 'is there anyway to specify for it to have it filter multiple file types simultaneously?
+    similar to the windows openfiledialog: "Points (*.csv, *.txt)|*.csv;*.txt"
+
+
+    i might just end up using the windows file dialog...'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-07-17 09:41:13'
+  body: 'This will work, otherwise:
+
+
+    PromptOpenFileOptions pfo = new PromptOpenFileOptions("Select Points file to load");
+
+    pfo.Filter = "Points (*.csv, *.txt)|*.csv;*.txt";
+
+    PromptFileNameResult pr = ed.GetFileNameForOpen(pfo);
+
+
+    Kean
+
+    -----'

@@ -1,0 +1,439 @@
+comments:
+- author: René
+  email: rene@reneram.it
+  ip: 217.133.63.22
+  url: ''
+  date: '2009-07-28 10:09:53'
+  body: 'Hi Kean,
+
+    this is nice and clean; I just wanted to point out some help I got to a similar
+    issue from ADN take a look at: (maybe you can track this better than anyone!)
+
+    Problem ID : 1251347
+
+    Created On : 2009-06-25 07:59:57.0
+
+    Last Saved On : 2009-06-30 01:33:13.0
+
+    Status : CLOSED - Sub Status : Solved
+
+    Solution provided by "Philippe L"
+
+    I think it''s an extension of this post.
+
+
+    Looking forward the “Plugin of the Month”
+
+    René'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-07-28 16:00:21'
+  body: 'Hi René,
+
+
+    Thanks for pointing this out!
+
+
+    The solution Philippe provided was fairly complex (given the need to work around
+    an issue with detecting hatches in AutoCAD 2008, as far as I can tell...).
+
+
+    Hopefully with 2009 onwards it''s all simpler (I''m using 2010, of course).
+
+
+    Regards,
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com
+  date: '2009-07-29 22:49:33'
+  body: "Well, there's a few problems there...\n\nYou're using the Editor's selection\
+    \ methods to acquire the objects in the pickbox. \n\nNot sure why you'd want to\
+    \ do that, considering that it trashes the user's Previous selection set, and\
+    \ because the PointMonitor event arguments already provides you with the objects\
+    \ within the aperture (The GetPickedEntities() method of the Context property\
+    \ of the PointMonitor event arguments returns both top-level and nested entities\
+    \ in the aperture). \n\nAnother tip: You have to call the Editor's TurnForcedPickOn()\
+    \ method in order for GetPickedEntities() to cooperate when there's no command\
+    \ running.\n\nAlso, I'm not sure why you'd want to bail out if the PointComputed\
+    \ property is false. It has no bearing on whether there are objects in the aperture."
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com
+  date: '2009-07-29 22:53:34'
+  body: 'Oh, and one more thing....
+
+
+    To get the length of a curve, you have to subtract the distance from the start
+    parameter, from the distance to the end parameter. Arcs and Ellipitical arcs can
+    have non-zero start parameters.'
+- author: Anthony Fiti
+  email: fitia@lvvwd.com
+  ip: 205.159.86.10
+  url: http://www.sequence-omega.net
+  date: '2009-07-30 00:31:46'
+  body: Also, in 2010 PointMonitor wont work with bulk entities (FDO). There is an
+    issue with the SubEntityIDs returned via the FullSubentityPath. I had to XOR out
+    the top two bytes of the SubEntId (Int32 in .NET) to get it to properly pick the
+    subentity.
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com
+  date: '2009-07-30 06:57:49'
+  body: Hi Tony, I and I'm sure others would be interested in knowing more about your
+    workaround for FDO objects.
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-07-30 07:11:03'
+  body: "Thanks, Tony (T). I'll fix the post.\n\nThe reason I was bailing when the\
+    \ PointComputed property was false was to stop the selection process from causing\
+    \ the keystrokes to get swallowed (which was a side problem from using the editor\
+    \ to select...).  \n\nWith hindsight I don't know why I didn't use GetPickedEntities()\
+    \ - I had copied some code from an old experiment and clearly wasn't diligent\
+    \ in cleaning it up. At least that's the best reason I can come up with, other\
+    \ than \"nappy brain\" :-).\n\nKean"
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com
+  date: '2009-07-31 00:57:40'
+  body: "I posted a simple example at the url below, that also shows how to ignore\
+    \ PointMonitor events that are triggered by keyboard input:\n\n  http://www.caddzone.com/PointMonitorClient.cs"
+- author: Matus
+  email: matus.brlit@cemos.sk
+  ip: 178.40.26.141
+  url: ''
+  date: '2011-07-07 08:06:10'
+  body: 'Hi Kean,
+
+    I''m using PointMonitor for custom tooltips, but for some reason, my tooltips
+    are not shown. When i debug my code, I get to e.AppendToolTipText(info), but the
+    tooltip is not displayed.
+
+    Is there some AutoCAD option that disables these tooltips, or do i have to show
+    the tooltip, except just adding the text to it?
+
+
+    Thanks for any help, I''m pretty stuck here.'
+- author: Matus
+  email: matus.brlit@cemos.sk
+  ip: 178.40.26.141
+  url: ''
+  date: '2011-07-07 08:41:21'
+  body: 'Fortunatelly i found the answer myself.
+
+    <a href="http://forums.autodesk.com/t5/NET/PointMonitor-and-AutoSnap-37/m-p/2125768/highlight/true#M8924">http://forums.autodesk.com/t5/NET/PointMonitor-and-AutoSnap-37/m-p/2125768/highlight/true#M8924</a>
+    gives a hint. I had AUTOSNAP set to 0, you have to have the third bit set to true
+    to have the tooltips displayed.
+
+
+    Thanks for the inspiration anyway, keep the good work.'
+- author: Chuck Wilbur
+  email: ''
+  ip: 75.132.7.151
+  url: http://profile.typepad.com/wilburchuck
+  date: '2012-04-04 20:02:11'
+  body: 'I know this is old, but it looked like something I could use for a prototype
+    I''m doing.
+
+
+    I dropped it into a new project as-is just to try it out and ran into a couple
+    of problems:
+
+    1) When I mouse over a curve all the code runs, but nothing happens on-screen
+    in AutoCAD (Map, 2012). The curveInfo variable gets filled out with text as expected
+    but the call to AppendToolTipText doesn''t seem to do anything.
+
+    2) When I mouse OUT from a curve I often get a weird blank debug assertion thrown
+    from GetPickedEntities()
+
+
+    I wonder if these problems are due to changes between ACAD 2010 and 2012...?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-04-05 09:26:25'
+  body: 'Hi Chuck,
+
+
+    I can confirm it still works for me in AutoCAD 2012 and 2013 (although the text
+    gets prefixed to the extended tooltip, which is actually pretty cool).
+
+
+    I don''t see the debug assertion failure (that *is* wierd), so perhaps both issues
+    are Map-specific?
+
+
+    I suggest pinging ADN or posting to the Map Developer discussion group...
+
+
+    Regards,
+
+
+    Kean'
+- author: Chuck Wilbur
+  email: ''
+  ip: 75.132.7.151
+  url: http://profile.typepad.com/wilburchuck
+  date: '2012-04-05 14:21:11'
+  body: '"the text gets prefixed to the extended tooltip"
+
+
+    Hmm, maybe my problem is that I don''t get any tooltips on my AutoCAD entities
+    ever. I''m not sure why... ROLLOVERTIPS is set to 1 and the box for "Show rollover
+    ToolTips" is checked in Options.
+
+
+    If you set ROLLOVERTIPS to 0 do you get a debug assertion on mouseout?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.200.62
+  url: http://profile.typepad.com/kean
+  date: '2012-04-05 14:44:41'
+  body: 'Nope - without roll-over tooltips I see the appended tooltip on its own (it
+    looks just like the the screenshot in the post, in that case).
+
+
+    Kean'
+- author: Minja
+  email: msiljegovic@gmail.com
+  ip: 94.250.2.167
+  url: ''
+  date: '2012-06-03 09:23:13'
+  body: "Hi,\n\nthanks for your nice posts, it was indeed useful for me. I do not\
+    \ have too much experience with AutoCAD and its API, I'm simple ASP .NET software\
+    \ developer :) and right now I need to quickly clone Google Earth infobox (when\
+    \ user clcik on some feature, show some picture with info) functionality in AutoCAD.\n\
+    \nI decided to use your approach with pallete, I will just need make it really\
+    \ looks like with Google Earth. \n\nCurrent problems I'm facing is how to add\
+    \ custom property to objects in layer (I want to store path to jpeg file on disk)\
+    \ and read it in program, so I can show picture in infobox on \"mouse click\"\
+    . \n\nNext problem is \"mouse click\" event. I'm not able to find it in documentation.\
+    \ I see on hover and on double click, but now \"mouse click\" event.\n\nI would\
+    \ appreciate any help, and also if you have any suggestion how it would be better\
+    \ to make this behavior without using pallete."
+- author: Kean Walmsley
+  email: ''
+  ip: 216.52.185.73
+  url: http://profile.typepad.com/kean
+  date: '2012-06-04 23:43:23'
+  body: 'Hi Minja,
+
+
+    Try searching this blog for "XData", which is certainly one mechanism for storing
+    additional data on an object.
+
+
+    There''s no "on click" event on AutoCAD entities, but you can see when the pickfirst
+    selection set has been modified and use it from there:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2006/09/using_the_pickf.html">http://through-the-interface.typepad.com/through_the_interface/2006/09/using_the_pickf.html</a>
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2011/10/displaying-an-autocad-ribbon-tab-contextually-using-net.html">http://through-the-interface.typepad.com/through_the_interface/2011/10/displaying-an-autocad-ribbon-tab-contextually-using-net.html</a>
+
+
+    Regards,
+
+
+    Kean'
+- author: Jason Booth
+  email: jason@dynamicwindows.com
+  ip: 70.69.161.59
+  url: ''
+  date: '2012-06-18 20:19:55'
+  body: "Good morning, Kean.\n\nI can confirm that this example will work fine in\
+    \ AutoCad 2013, even with ROLLOVERTIPS set to 1.\n\nI was also able to use AcDb.Entity.GetField()\
+    \ instead of using standard XData for custom entity information (which I assigned\
+    \ from before in another plugin).\n\nHowever, I wanted to point out that if a\
+    \ command is in progress you can have unexpected behaviour. \n\nThe best example\
+    \ is if you attempt to draw a linear dimension via the DIMLINEAR command. It appears\
+    \ that if AppendToolTipText() is called in a PointMonitor event while this command\
+    \ is in progress, the dimension jig will disappear.\n\nMy personal fix was simple\
+    \ - I checked to see if the document had a command in progress before I executed\
+    \ my code in the PointMonitor event handler.\n\nIf you want to reproduce, and\
+    \ need some sample code to do so, let me know...\n\nBest Regards,\nJason Booth"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-06-19 11:10:12'
+  body: 'Hello Jason,
+
+
+    That seems a reasonable check to make (and one I probably should have included
+    it from the beginning).
+
+
+    That''s not to say the behaviour of DIMLINEAR is correct: I''d suggest posting
+    the information via ADN (or the AutoCAD Discussion Group), if you''d like someone
+    to look into this further for you.
+
+
+    Regards,
+
+
+    Kean'
+- author: Rod Wing
+  email: rod@envisioncad.com
+  ip: 69.130.243.79
+  url: http://www.envisioncad.com
+  date: '2013-06-12 20:41:51'
+  body: "Kean, \n\nI'm using this in C3D 2012 to create custom tooltips. The e.AppendToolTipText\
+    \ method displays just the custom string supplied. Is there any way to have the\
+    \ default Layer, Color, etc. tooltip information displayed along with my custom\
+    \ tip?\n\nThanks."
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.236.128
+  url: http://profile.typepad.com/kean
+  date: '2013-07-20 09:09:24'
+  body: 'Rod,
+
+
+    This approach does indeed replace the tooltip information.
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2008/11/adding-custom-p.html">This
+    post</a> may be more what you''re looking for (and hopefully you can OPMNetExt,
+    if you need to use it from a .NET language - I haven''t tried that myself).
+
+
+    Regards,
+
+
+    Kean'
+- author: alexb
+  email: alexb@actcom.co.il
+  ip: 84.111.124.70
+  url: ''
+  date: '2013-09-30 06:38:51'
+  body: 'Hi Kean,
+
+    This is very interesting as I''m trying - not very successfully - to move some
+    InputPointMonitor code from C++/ARX to C#.
+
+    Unfortunately, Tony''s site is not what it used to be anymore, so I would appreciate
+    a pointer to his new site or to his PointMonitorClient.cs file.
+
+
+    Thanks,
+
+
+    alex'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-09-30 10:31:52'
+  body: 'Hi alex,
+
+
+    Sadly I don''t know where Tony''s site is, these days. You might try posting on
+    The Swamp - there''s a chance that the code he''s linked to here has been made
+    available in some way over there.
+
+
+    Regards,
+
+
+    Kean'
+- author: alexb
+  email: alexb@actcom.co.il
+  ip: 84.111.124.70
+  url: ''
+  date: '2013-10-04 12:31:19'
+  body: 'Thank you, Kean
+
+
+    I posted on The Swamp but no luck so far.
+
+    Maybe someone listening on this frequency has the file.
+
+    In the meantime, it''s back to the salt mines for me.
+
+
+    alex'
+- author: Matt Harrison
+  email: matt@bimaire.com
+  ip: 98.220.36.253
+  url: ''
+  date: '2014-02-06 21:18:06'
+  body: 'Is there a way to get the BlockReference from a FullSubentityPath? If you
+    move over a block the entity path is the nested object not the BlockReference.
+
+
+    Thanks,
+
+
+    Matt'
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2014-02-07 08:44:11'
+  body: 'Have you tried getting the containers'' ObjectIds and going one up (can''t
+    remember whether it''s the first or the last you need)?
+
+
+    Kean'
+- author: Matt Harrison
+  email: matt@bimaire.com
+  ip: 98.220.36.253
+  url: ''
+  date: '2014-02-07 14:56:31'
+  body: I can't seem to get the container from the FullSubentityPath. What methods
+    are available to cast the Path or resulting ObjectId as a PromptNestedEntityResult
+    to acquire the container?
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.25
+  url: http://profile.typepad.com/kean
+  date: '2014-02-07 15:44:15'
+  body: 'Call GetContainers() on the PromptNestedEntityResult object. That will return
+    the ObjectIds of the containing entities.
+
+
+    Kean'
+- author: Matt Harrison
+  email: matt@bimaire.com
+  ip: 98.220.36.253
+  url: ''
+  date: '2014-02-07 18:28:27'
+  body: "Can I use PromptNestedEntityResult when my entity is gathered from GetPickedEntities\
+    \ as a FullSubentityPath?\n\nwhen after grabbing all of the FullSubentityPath\
+    \ from the GetPickedEntities would I call GetContainers()? \n\nI know it takes\
+    \ a bit of time showing a brief example but this would be greatly helpful.\n\n\
+    Thanks,\nMatt"
+- author: Matt Harrison
+  email: matt@bimaire.com
+  ip: 98.220.36.253
+  url: ''
+  date: '2014-02-07 21:22:03'
+  body: 'After reading a bit more into the FullSubentityPath documentation and fixating
+    on this definition:
+
+    "The object ID array contains a sequential list of the object IDs for all the
+    objects that make up the "path" from the outermost entity"
+
+
+    I realized I could get the heights level of the array using:
+
+
+    ObjectId id = paths[0].GetObjectIds()[0]
+
+
+    Matt
+
+    -----'

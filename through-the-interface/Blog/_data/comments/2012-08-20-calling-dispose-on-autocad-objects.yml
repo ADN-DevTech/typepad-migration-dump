@@ -1,0 +1,83 @@
+comments:
+- author: Danny P.
+  email: dpolkinhorn@watg.com
+  ip: 66.175.73.45
+  url: ''
+  date: '2012-08-20 20:11:15'
+  body: I think an example or two with comments would be *REALLY* helpful.
+- author: Kean Walmsley
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/kean
+  date: '2012-08-20 20:12:45'
+  body: 'Sure thing - will put something together...
+
+
+    Kean'
+- author: Danny P.
+  email: dpolkinhorn@watg.com
+  ip: 66.175.73.45
+  url: ''
+  date: '2012-08-21 21:14:04'
+  body: 'Kean,
+
+
+    I went through a great deal of my code yesterday updating it with the recommendations
+    both here and in your previous post.  I noticed some patterns which may help you
+    set up your samples (or not), but I thought I''d share them anyway.
+
+
+    Within a transaction where something is added to the database, some new objects
+    (Xrecords, dictionaries) can be relatively simple and might only need a Using
+    block.    Conversely, complex objects (dimension styles, block definitions with
+    attributes) have many properties and resulting code with potential points of failure.  How
+    would you deal with that in a Try...Catch block + Using block to handle exceptions
+    at the object level and the transaction level?
+
+
+    A second thing that I found was casting Entities to specific object types, for
+    example iterating through block definitions looking for a line, and casting that
+    Entity to a Line object.  Do I need to dispose of the Line because I didn''t use
+    line = transaction.GetObject(...), but rather line = TryCast(entity, Line)?  In
+    other words, is the new object a "transaction-managed" object, or do I need to
+    dispose of it, or is it not a new object to the database and I don''t need to
+    worry about it?
+
+
+    I hope that helps you target some things I''m still not perfectly clear on.  I
+    appreciate your consideration.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-08-22 11:13:48'
+  body: 'Danny,
+
+
+    For your first point - if I''ve understood it correctly - you shouldn''t need
+    to worry: as long as the owning object is added to a transaction (or opened by
+    it) then it will be managed by the transaction and doesn''t need to be disposed
+    of in your code. Of course if you have associated objects - such as block definitions
+    - they should be added to the transaction in their own right.
+
+
+    And the second point should also not be an issue: the entity was opened by the
+    transaction. When you''re casting from one object type to another, you''re really
+    just maintaining an identical object reference (with the same underlying unmanaged
+    pointer) but of a different type. So as long as one of the references is disposed
+    (and in this case it is being done so by the transaction, but the same would be
+    true if you were dealing with objects outside the transaction system), then all
+    is well.
+
+
+    Hopefully these comments help clarify these points - I''ll fold them into today''s
+    post, as they''re very valid questions.
+
+
+    Regards,
+
+
+    Kean
+
+
+    -----'

@@ -1,0 +1,200 @@
+comments:
+- author: Prabhav Mishra
+  email: prabav2u@gmail.com
+  ip: 122.161.24.34
+  url: ''
+  date: '2008-03-14 09:28:15'
+  body: "Hello Sir,\n\n\n\nI am trying to link AutoCAD LT 2008 with Excel spreadsheet\
+    \ via VB.Net .\nusing data link manager option provided in the Tools.\n\nCan u\
+    \ sggest me how can I link an excel sheet with autocad so that \nwat changes we\
+    \ made in excel sheet it will reflect in AutoCAD automatically.\n\n\nProgramming\
+    \ Language:  VB.net\nOS: XP\nMachine: 32bit\n\n\n\nPlease revert me back, I wil\
+    \ be thankful to you."
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2008-03-14 20:05:48'
+  body: 'Hi Kean.
+
+
+    I think you could also read the Filename property of the Database to get the full
+    path to the drawing, keeping in mind that if the drawing is a new, unsaved document,
+    the Filename property returns the .DWT file used to create the new drawing.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 198.102.112.18
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-03-14 20:15:51'
+  body: 'Thanks, Tony - that would certainly be much easier. :-)
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2008-03-15 03:49:52'
+  body: Hey - What happens in Vegas stays in Vegas :P
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 66.159.223.136
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-03-15 06:02:59'
+  body: Maybe what's coded in Vegas should also stay in Vegas? ;-)
+- author: Rob
+  email: piru_devil@hotmail.com
+  ip: 61.68.65.128
+  url: ''
+  date: '2008-03-18 09:15:47'
+  body: 'Kean,
+
+    Is it possible to determine the number of drawings open?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 208.54.15.95
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-03-18 16:13:57'
+  body: 'This should get you what you need:
+
+
+    Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.Count
+
+
+    Kean'
+- author: Aleksandr
+  email: afurmanov@meta-comm.com
+  ip: 12.163.41.75
+  url: ''
+  date: '2008-07-15 04:21:16'
+  body: 'I''ve just recently discovered that reading Filename property of Database
+    property is not reliable way of getting full path. If autosaving is turned on
+    then Filename is a path of the temporary saved file with extension ''.sv$''. Does
+    anybody know a more reliable way?
+
+
+    Thanks.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-15 11:59:57'
+  body: 'How does my original code work in this scenario?
+
+
+    Kean'
+- author: Aleksandr
+  email: afurmanov@meta-comm.com
+  ip: 12.163.41.75
+  url: ''
+  date: '2008-07-15 19:33:45'
+  body: The original code works fine. Thanks Kean!
+- author: Mark
+  email: manderson@earlyserives.com
+  ip: 96.37.129.238
+  url: ''
+  date: '2009-09-30 20:11:51'
+  body: I'm a bit late, but the DWGNAME and DWGPREFIX system variables store this
+    information as well.  String concatenating DWGPREFIX & DWGNAME will give the full
+    path and filename of the drawing.
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.59.105
+  url: http://profile.typepad.com/kean
+  date: '2009-09-30 20:14:51'
+  body: 'Better late than never, Mark! :-)
+
+
+    It''s true you could also use sysvars, although I think Database.Filename is probably
+    cleanest, overall.
+
+
+    Kean'
+- author: Jon
+  email: jalbert@simpad.com
+  ip: 24.61.115.159
+  url: http://simpad.com
+  date: '2009-12-12 01:53:53'
+  body: "Kean,\n\nI receive either \"eFileError\" or \"eWasOpenForWrite\" error when\
+    \ running the following...  Any Clue?\n\nImports Autodesk.AutoCAD.ApplicationServices\n\
+    Imports Autodesk.AutoCAD.Runtime\nImports Autodesk.AutoCAD.DatabaseServices\n\n\
+    Public Class Class1\n    <CommandMethod(\"GetFileName\")> _\n     Public Sub MyMethod()\n\
+    \n        Dim doc As Document = Application.DocumentManager.MdiActiveDocument\n\
+    \        Dim hs As HostApplicationServices = HostApplicationServices.Current\n\
+    \        Dim path As String = hs.FindFile(doc.Name, doc.Database, FindFileHint.Default)\n\
+    \n    End Sub\n\nEnd Class"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2009-12-13 10:55:57'
+  body: 'Jon,
+
+
+    It''s not clear whether your method is a command or whether it''s being called
+    from a modeless UI (which might make a difference, but then again it might not...
+    typically you''d need to lock the document if using the code from a modeless UI,
+    but then we''re not really doing anything here that would need the document to
+    be locked, as far as I can tell).
+
+
+    This code has worked for me, but there may be something about your specific context
+    that''s different.
+
+
+    Incidentally, did you check whether Database.Filename worked for you?
+
+
+    Regards,
+
+
+    Kean'
+- author: Jon
+  email: jalbert@simpad.com
+  ip: 24.61.115.159
+  url: http://www.simpad.com
+  date: '2009-12-13 18:06:01'
+  body: 'My method is a command, not sure why this part didnt copy in originally...
+
+
+    <CommandMethod("GetDrawingPath")> _
+
+
+    I will try your code directly and see what happens.
+
+
+    Database.Filename does work, but as mentioned above it changes to a temp file
+    after auto save.(Which I cant take chances on)
+
+
+    Thanks,
+
+
+    Jon'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2009-12-14 06:57:07'
+  body: 'Ah - it''s because the CommandMethod attribute is enclosed in angled brackets
+    in VB, and TypePad interprets it as an (invalid) HTML tag.
+
+
+    Let me know how you get on: if you can describe the steps to reproduce the problem
+    consistently, I''ll do what I can to help.
+
+
+    Kean'
+- author: Martin Müller
+  email: m.mueller@cadothek.ch
+  ip: 81.6.56.54
+  url: ''
+  date: '2011-01-15 15:20:12'
+  body: "Hi Kean,\n\nJust to complete for future readers: Toni Tanzillo is not quite\
+    \ right. The database Filename property shows the autosave name (.sv$), if the\
+    \ file was not saved until last autosave, even if it is a named dwg. \n\nTo get\
+    \ the document path, one should use the Document.Name, keeping in mind that if\
+    \ the file is unsaved, this value does not have a path prefix. Use the following\
+    \ code to check that:\n\nusing System.IO;\nusing System.Diagnostic;\nusing Autodesk.AutoCAD.ApplicationServices;\n\
+    \nDocument oDocument = Application.DocumentManager.MdiActiveDocument;\nif(Path.GetDirectoryName(oDocument.Name).Equals(string.Empty))\n\
+    \    Debug.Assert(false, \"Hoops! Usaved document.\");\n\n-----"

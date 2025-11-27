@@ -1,0 +1,98 @@
+comments:
+- author: Giuliano
+  email: pigozzi@base2.it
+  ip: 79.0.254.63
+  url: ''
+  date: '2008-11-30 16:04:45'
+  body: "Hi Kean... \nI don't understand the rows..\n\nif db is the current drawing\
+    \ database..\nI haven't never saw this method:\n\ndb.ReclaimMemoryFromErasedObjects(erased);"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 65.124.181.2
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-30 20:47:10'
+  body: 'Hi Giuliano,
+
+
+    It''s new in AutoCAD 2009.
+
+
+    Or did I misunderstand your question?
+
+
+    Kean'
+- author: Michael Tint
+  email: tint@inbox.ru
+  ip: 212.179.22.130
+  url: ''
+  date: '2009-03-24 13:59:51'
+  body: "Hi Kean,\nIf I don't want \"destroying\" the entities\nonly update 50000\
+    \ lines. If it possible \nreclaim the memory. GC.Collect don't work.\nThank you."
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-03-24 14:01:31'
+  body: 'Hi Michael,
+
+
+    There''s nothing to reclaim: the entities are modified in-memory, and you can''t
+    control when they''re paged out.
+
+
+    Kean'
+- author: xinggangzhang
+  email: z954134@gmail.com
+  ip: 222.216.164.36
+  url: ''
+  date: '2009-06-05 05:31:17'
+  body: "I want to del the blank group,I do as :\n using (tr)\n                {\n\
+    \                    DBDictionary dict = (DBDictionary)tr.GetObject(db.GroupDictionaryId,\
+    \ OpenMode.ForRead, false);\n                    foreach (DictionaryEntry DBDE\
+    \ in dict)\n                    {\n                        ObjectId obj = dict.GetAt(DBDE.Key.ToString());\n\
+    \                        Autodesk.AutoCAD.DatabaseServices.Group gp = tr.GetObject(obj,\
+    \ OpenMode.ForRead) as Autodesk.AutoCAD.DatabaseServices.Group;              \
+    \          \n                        if (gp.NumEntities==0)\n                \
+    \        {\n                            idlist.Add(obj);\n                   \
+    \         count++;\n                        }                       \n       \
+    \             }\n                }\n                Transaction tr2 = db.TransactionManager.StartTransaction();\n\
+    \                using (tr2)\n                {\n                    for (int\
+    \ id = 0; id < idlist.Count; id++)\n                    {\n                  \
+    \      Autodesk.AutoCAD.DatabaseServices.Group gp1 = tr.GetObject(idlist[id],\
+    \ OpenMode.ForWrite) as Autodesk.AutoCAD.DatabaseServices.Group;\n           \
+    \             gp1.Erase();\n                    }\n                }\n       \
+    \         tr2.Commit();\nBut it have error,Can you tell me how to correct it?(autocad2006)"
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-06-05 09:39:06'
+  body: 'I''m afraid this is not a forum for support. Please submit your question
+    to <a href="http://adn.autodesk.com">the ADN team</a>, if you''re a member, or
+    otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean'
+- author: Luigi
+  email: trabacchin.luigi@gmail.com
+  ip: 217.111.152.66
+  url: ''
+  date: '2012-12-21 18:04:08'
+  body: i'm trying the same with layouts, because, seems i can't create new ones with
+    old one's name but i don't want to save the file because it will hit the performance
+    and also i'm using my procedure during save... it does not work, looks like this
+    is only for element in the model space, right ? is there something similar for
+    layouts ?
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-12-21 18:05:38'
+  body: 'That''s a very different problem... you might try asking ADN or posting to
+    the AutoCAD .NET Discussion Group.
+
+
+    Kean
+
+    -----'

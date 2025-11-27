@@ -1,0 +1,431 @@
+comments:
+- author: Ewen Wallace
+  email: cadbloke@gmail.com
+  ip: 121.44.47.39
+  url: http://profile.typepad.com/cadbloke
+  date: '2013-02-13 10:17:52'
+  body: The problem with Xdata is that if it is attached to a block ATTSYNCing the
+    block will erase it. This is mentioned in AutoCAD help library at <a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%202010%20User%20Documentation/index.html?url=WS1a9193826455f5ffa23ce210c4a30acaf-512c.htm,topicNumber=d0e199454">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%202010%20User%20Documentation/index.html?url=WS1a9193826455f5ffa23ce210c4a30acaf-512c.htm,topicNumber=d0e199454</a>
+    so it's not a totally robust way of storing extra data if it can be unwittingly
+    erased.
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-02-13 10:56:00'
+  body: 'Thanks, Ewen.
+
+
+    This post isn''t really to discuss the relative merits of XData (vs. other options
+    such as XRecords in extension dictionaries), but it''s good that people are aware
+    of limitations such as this.
+
+
+    Many apps continue to rely on XData despite this particular issue, of course.
+
+
+    Regards,
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: ebiz@nym.hush.com
+  ip: 24.187.152.113
+  url: ''
+  date: '2013-02-14 05:42:55'
+  body: "\"// If we have a string value...\n// That starts with our prefix...\n//\
+    \ And matches the object's handle...\n// ... then it's a valid object\n      \
+    \ \nummm... Sorry, that's not true. \n\nIt is not necessarily a 'valid object'.\n\
+    \nThere is something that you and your colleages seem to have overlooked."
+- author: stoptheinhumanity@yaho.com
+  email: stoptheinhumanity@yahoo.com
+  ip: 146.135.117.83
+  url: ''
+  date: '2013-02-14 06:45:23'
+  body: Appears to me Tony you are missing the point.
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-02-14 08:57:42'
+  body: 'It''s almost certainly me who overlooked whatever it is. My colleagues contributed
+    to the discussion but weren''t sent the code before it was published. I thought
+    I was very clear in this post that there were probably missing caveats. If there''s
+    something more serious amiss, it would be good for everyone to know.
+
+
+    Feel free to come back and post a comment that''s genuinely helpful, whenever
+    you''re ready. In the meantime, I''m going to get on with something productive
+    (no doubt fatally flawed, but hey - we all do what we can).
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: ebiz@nym.hush.com
+  ip: 24.187.152.113
+  url: ''
+  date: '2013-02-14 12:32:05'
+  body: 'The integrity of your solution relies entirely on an assumption that an object
+    that is created by cloning an object from a different database, cannot have the
+    same handle as the source object.
+
+
+    I re-read your comments and am still not sure if your vague reference to a ''false-positive''
+    is this, or not, so in your comments you may have not overlooked it, but the code
+    and the comments in in it sure do.
+
+
+    As far as being helpful, I''ve already done that by simply making it clear that
+    the code has a fatal flaw that if not understood, could cost someone who decides
+    to use the approach it takes real money, as opposed to Monopoly money.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2013-02-14 13:11:29'
+  body: 'IMO the information in my post was clear enough: I''m sorry if you didn''t
+    understand it.
+
+
+    The post even includes a proposal for one possible solution. Because I didn''t
+    like the overhead - and acknowledged that apps have different requirements (which
+    I feel also implies may have other ways of solving the problem) - I left that
+    for "the reader to implement based on their specific needs". But one approach
+    was stated very clearly.
+
+
+    As far as being helpful: your comment (it turns out) alluded to a problem that
+    had already been acknowledged in the post. And so, no, I don''t find that helpful.
+    It would have been more so if you''d made the effort to clarify your statement
+    from the beginning, even if you were mistaken.'
+- author: Tony Tanzillo
+  email: ebiz@nym.hush.com
+  ip: 24.187.152.113
+  url: ''
+  date: '2013-02-14 22:42:19'
+  body: '"As far as being helpful: your comment (it turns out) alluded to a problem
+    that had already been acknowledged in the post."
+
+
+    Sorry, the code doesn''t work as posted. The comments in the code contradict what
+    you refer to as an acknowledgement in the post, and the acknowledgement itself
+    was so brief and vague that it was missed the first time it was read. I''m referring
+    to the acknowledgement itself, not the proposal for how the problem could be solved.  Perhaps
+    after writing the code it was clear to you, but I don''t agree that it was very
+    clear to someone who never saw the code before, and the comments in the code are
+    contradictory.
+
+
+    Going further with the approach which you propose as being a way to solve the
+    problem of ensuring distinct values in xdata, the fact that routine operations
+    like COPY can result in invalidating xdata means that it must be dealt with as
+    soon as the application uses the xdata for anything. In order to resolve the invalidated
+    xdata, all values that must be distinct must be accessed and used to produce a
+    new unique value for the invalidated xdata, while the user waits.....
+
+
+    So the solution becomes a bottleneck during routine editing operations, because
+    it prevents the use of the xdata without first validating and resolving it if
+    invalid, and that must be done on-demand.
+
+
+    In a case where the UI and/or objects in a drawing have a visual dependence on
+    the distinct xdata values, then the solution can actually create more problems
+    than it solves, because in those cases, invalidated xdata would have to be resolved
+    immediately, just as would be required if the data involved were visible block
+    attribute values rather than non-visual data.
+
+
+    Assuming the fatal flaw was addressed, a solution like that can be useful in cases
+    where a drawing file gets sent out to others for editing without being under control
+    of the extension that manages the xdata, and resolved when the file returns, but
+    as a way of solving the more transient case within the context of an AutoCAD session
+    with the managing plug-in or extension present and running, that type of solution
+    can creates more problems than it solves, IMO.
+
+
+    There are several AutoCAD APIs that were designed to address the class of problems
+    like the one this post deals with, including the deep-clone and wblock-clone events
+    of the Document, and ObjectOverrules. Any of those can be used to solve the problem
+    in more-determinant ways that eliminates any potential for invalid xdata to exist
+    in the first place, and with that, the need resolve it after-the-fact, while the
+    user waits.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2013-02-15 09:57:03'
+  body: 'I see. So your concern with the approach goes beyond what you''d previously
+    stated as the "fatal flaw"? Interesting that you should raise it now.
+
+
+    As I''ve said in the post, you can certainly choose to eradicate invalid data
+    sooner should that be important to you. If you have UI elements that somehow can''t
+    detect whether the XData is valid or not before displaying it, then you could
+    certainly choose to clean it up at a different time.
+
+
+    Ultimately there are lots of ways to skin a cat. If this implementation - which
+    is simple and valid for lots of different scenarios - also happens to lead to
+    you creating and sharing something that works for other people in other situations,
+    then everyone wins. There''s certainly no need to turn this into a contest.'
+- author: Tony Tanzillo
+  email: ebiz@nym.hush.com
+  ip: 24.187.152.113
+  url: ''
+  date: '2013-02-15 13:23:43'
+  body: 'Hi Kean.  Initially I didn''t see any point to looking at the solution more
+    closely, because I felt that it had that flaw that would rule out its use for
+    anything other than for tracking what happened to files that were sent and edited
+    outside the control of the extension that manages the xdata.
+
+
+    The point was, that you pursued the solution with the acknowledged flaw intact,
+    apparently because you felt that it wasn''t a major issue or ''show-stopper'',
+    giving only brief mention to the problem and your proposed way to deal with it.
+
+
+    The key to coming up with robust solutions is being familiar with the various
+    APIs available, and knowing them well enough to be able to use them to solve problems,
+    Like for example, knowing about the Curve API that reverses curves. If we aren''t
+    familiar with the vast number of APIs available to us, then we obviously can''t
+    leverage them to solve problems, and end up resorting to kludges that in many
+    cases, are ineffective, and in some cases, downright embarrasing.'
+- author: Tony Tanzillo
+  email: ebiz@nym.hush.com
+  ip: 24.187.152.113
+  url: ''
+  date: '2013-02-15 13:39:31'
+  body: '"There''s certainly no need to turn this into a contest."
+
+
+    Feel free to label it any way you choose, but I would prefer to simply call it
+    what it is, peer review. I''ve always invited and welcomed constructive scrutiny
+    of the work I''ve shared, because that helps improve it'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-02-15 14:43:27'
+  body: 'OK, fair enough - that''s a valid enough explanation for the follow-on. The
+    fact you’d made snide comments prior to even seeing the post made me assume you
+    were always going to pick holes in this one, anyway. But if you say that''s not
+    what this is about, I''ll give you the benefit of the doubt.
+
+
+    Yes, it''s true that it''s important to be familiar with the various APIs you
+    might use to solve a particular problem. But what remains is the fact that there
+    are alternatives available to you: the solution proposed by Randy remains absolutely
+    valid, and in many ways very elegant. At least one approach for dealing with data
+    from different places has been highlighted clearly. And if it wasn''t clear before,
+    the fact this ridiculous comment thread has raised it again will also help people.
+
+
+    I''ve been working with various AutoCAD APIs on and off for around 20 years. I
+    do other things, too, but that''s been a constant. But the set of APIs is broad
+    and ever-increasing and - while you may not do this - I have the occasional brain-fart
+    and forget that an API exists even if I''ve used it effectively in the past. I
+    *never* feel bad about someone telling me there''s a better way of doing something,
+    as long as that feedback is given politely and maturely. At the end of the day,
+    the most important thing is that people get information on how to solve their
+    problems. Whether that happens from the initial post, an update to the post, or
+    feedback from the comments, then that’s great.
+
+
+    So I don’t really care whether you feel I should be embarrassed by the quality
+    of my output. Feel free to keep making snide comments about what I do: I’m going
+    to keep on doing it, because I believe that not starting the dialog would be the
+    biggest shame of all.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-02-15 14:51:06'
+  body: 'I couldn''t agree more. Constructive scrutiny, politely given, is my personal
+    preference but I''ll take what I can get.
+
+
+    Any efforts you make to keep things civil are, as ever, greatly appreciated.'
+- author: Owen Wengerd
+  email: owenw@manusoft.com
+  ip: 24.140.112.242
+  url: http://otb.manusoft.com
+  date: '2013-02-15 17:46:10'
+  body: I have dutifully refrained from making any snide comments about grabbing popcorn
+    (oh sorry, there I went and did it anyway), but I do have to say one of my gripes
+    about using a blog as the medium for this kind of material is that it's not designed
+    for a discussion like this. Kean, you mention the benefit to everyone of having
+    a followup discussion, and I totally agree with your sentiment, but this blog
+    comment format is difficult to follow and limits participation, so also makes
+    it much less useful. Just an observation. Ok gentlemen, this is your 8th and final
+    round, please touch gloves in the center of the ring.
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.235.7
+  url: http://profile.typepad.com/kean
+  date: '2013-02-15 17:58:15'
+  body: "It's Friday night here in Europe, so I'm already at the 19th hole (just to\
+    \ mix sporting metaphors). One day I'll hopefully have the pleasure of meeting\
+    \ Tony in person for a beer - I suspect it'd be a lot more interesting (and fruitful)\
+    \ than these discussions. \n\nPoint taken about the blog format, but it is what\
+    \ it is. Maybe if we shifted across to Google+ (for instance) it'd work better\
+    \ in that respect.\n\nThanks for the valuable feedback, Owen!\n\nKean"
+- author: Tony Tanzillo
+  email: ebiz@nym.hush.com
+  ip: 24.187.152.113
+  url: ''
+  date: '2013-02-15 20:56:29'
+  body: 'And, to be helpful, here''s something that I had also overlooked, regarding
+    this solution: WBLOCK * is often used to as the quick and easy way to purge a
+    file of all unreferenced/unused items, and it also reallocates handles.'
+- author: Owen Wengerd
+  email: owenw@manusoft.com
+  ip: 24.140.112.242
+  url: http://otb.manusoft.com
+  date: '2013-02-15 23:03:16'
+  body: Like you, I prefer a cleaner solution, but I don't see the problems as "fatal"
+    by any means. I mean, you could cache nothing and just recalculate everything
+    on the fly every time it's needed -- but invalidating stale data that isn't really
+    stale is still a huge improvement over not caching anything at all. I think you're
+    envisioning a use case where false negatives are expensive, but I think it's perfectly
+    reasonable to use a design like this when false negatives are inexpensive. Likewise,
+    some use cases may consider false positives unacceptable, but I'll bet most would
+    not. I think this is Kean's point, that the "correctness" of this design depends
+    on the use case. I can't disagree with that.
+- author: Dale Bartlett
+  email: dale.bartlett@realtimeinternational.com.au
+  ip: 212.72.17.154
+  url: http://www.realtimeinternational.com.au
+  date: '2013-02-17 05:40:39'
+  body: I notice you have started to declare var doc, and var ed etc instead of the
+    actual data type (Document etc). Is there a reason, and what is considered best
+    practice?
+- author: Dave Adams
+  email: dave_adams_123@yahoo.com
+  ip: 108.236.113.147
+  url: ''
+  date: '2013-02-17 07:24:38'
+  body: '>>I would prefer to simply call it what it is, peer review.
+
+
+    Seriously? You really think anyone reading this believes that the way you started
+    this comment thread was ''peer review''? ROFL.
+
+
+    Kean - Keep up the good work. This is a great blog - don''t let the occasional
+    troll get you down. The silent majority appreciate what you''re doing.'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2013-02-18 10:07:58'
+  body: 'Great question, Dale. There''s apparently been some debate on the pros and
+    cons of this.
+
+
+    Here''s what I''d consider to be the stated best practice:
+
+
+    <a href="http://blogs.msdn.com/b/ericlippert/archive/2011/04/20/uses-and-misuses-of-implicit-typing.aspx">http://blogs.msdn.com/b/ericlippert/archive/2011/04/20/uses-and-misuses-of-implicit-typing.aspx</a>
+
+
+    I tend to follow the advice in this post and use implicit typing when it''s clear
+    what the underlying type is (hovering over the "var" in VS displays the resolved
+    type in a tooltip, by the way), and as it reduces redundancy. Also, as my blog
+    is space-limited (70 characters or less per line, with the formatting I use),
+    I tend to get the benefit of being able to reduce the number of lines of code
+    I create.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Dale Bartlett
+  email: dale.bartlett@realtimeinternational.com.au
+  ip: 212.72.17.154
+  url: http://www.realtimeinternational.com.au
+  date: '2013-02-19 06:35:09'
+  body: I'm only just weaning myself off Hungarian notation, so this is perhaps a
+    little too radical for now. Maybe when I'm feeling stronger...
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-02-19 08:36:17'
+  body: :-)
+- author: Tony Tanzillo
+  email: ebiz@nym.hush.com
+  ip: 24.187.152.113
+  url: ''
+  date: '2013-02-20 06:47:17'
+  body: "Owen, yes it certainly does depend on the specifics of each usage case. And,\
+    \ my opinion on what approach works best is based on my own experiences with application-managed\
+    \ data, and what constraints I had to deal with in most of them, where this approach\
+    \ would clearly not work. \n\nAs I mentioned, if there is any kind of visual dependence\
+    \ on the data in question, it must be resolved immediately, and I don't believe\
+    \ there is any getting around that. Visual dependence includes the UI (e.g., displaing\
+    \ aspects of the currently-selected items) as well as graphical representations\
+    \ of entities containing or referencing the invalid data.\n\nIn the majority of\
+    \ those cases where I've had to deal with that, an indeterminant approach would\
+    \ not work, simply because the objects that carry the data are in the drawing\
+    \ and directly available to the end user at any time, including immediately after\
+    \ they've been created by a COPY or other operation where there was cloning.\n\
+    \nIn many cases, selecting one or more objects with the application-managed data\
+    \ attached required UIs to be updated. In other cases, \nactions that operated\
+    \ on the current/pickfirst selection could not proceed with objects containing\
+    \ invalid data selected.\n\nI've found that more often than not, one can't allow\
+    \ invalid data to persist."
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-02-21 09:24:58'
+  body: 'I''m interested by this, as it could clearly be a reason to clean up invalid
+    data sooner (when you do so is obviously also a choice - you don''t have to wait
+    for object selection in a custom command).
+
+
+    There isn''t a direct UI capability inside AutoCAD that works with XData (at least
+    not that I''m aware of). So your app needs to integrate in some way to extract
+    the information for it to be displayed, and can therefore presumably choose to
+    ignore objects that don''t have valid data. I did something similar in an old
+    post I just re-discovered (just to re-emphasize my ability to forget approaches
+    I''ve used in the past: <a href="http://through-the-interface.typepad.com/through_the_interface/2009/05/using-an-autocad-2010-overrule-to-control-the-copying-of-xdata-using-net.html).">http://through-the-interface.typepad.com/through_the_interface/2009/05/using-an-autocad-2010-overrule-to-control-the-copying-of-xdata-using-net.html).</a>
+
+
+    Getting some specifics on the scenario(s) you''ve highlighted would certainly
+    help people choose between the available approaches for solving this problem.'
+- author: ali
+  email: ali@surveymbs.com
+  ip: 82.69.125.218
+  url: ''
+  date: '2013-06-17 15:21:51'
+  body: 'Hi Kean,
+
+
+    Is it a good practice to use "using" statement in c# for every autocad object
+    that has implemented IDispose.Dispose() method?
+
+
+    Thanks,'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-06-17 15:42:48'
+  body: 'Hi ali,
+
+
+    This should help:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2012/08/examples-of-calling-dispose-on-autocad-objects.html">http://through-the-interface.typepad.com/through_the_interface/2012/08/examples-of-calling-dispose-on-autocad-objects.html</a>
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

@@ -1,0 +1,78 @@
+comments:
+- author: Stu
+  email: h3liosphan@gmail.com
+  ip: 84.9.164.186
+  url: ''
+  date: '2012-11-03 15:23:57'
+  body: "Hi Kean\nI'm trying to get the DreamCheeky LED message board working from\
+    \ the Pi as you have, just this bit.\nDid you have any issues getting LibHid working?\
+    \ I am seeing an awful lot of problems with it on the Raspberry Pi Raspbian distro.\
+    \ \nFor starters it requires LibUsb 0.1 and possibly LibUsb-dev. I have both of\
+    \ these components installed via apt-get, but it's still complaining with this\
+    \ error during make - \n\nroot@raspberrypi:~/kost-dcled-c819fec/libhid-0.2.16#\
+    \ make\nmake all-recursive\nmake[1]: Entering directory `/root/kost-dcled-c819fec/libhid-0.2.16'\n\
+    Making all in hidparser\nmake[2]: Entering directory `/root/kost-dcled-c819fec/libhid-0.2.16/hidparser'\n\
+    make[2]: Nothing to be done for `all'.\nmake[2]: Leaving directory `/root/kost-dcled-c819fec/libhid-0.2.16/hidparser'\n\
+    Making all in src\nmake[2]: Entering directory `/root/kost-dcled-c819fec/libhid-0.2.16/src'\n\
+    make[2]: Leaving directory `/root/kost-dcled-c819fec/libhid-0.2.16/src'\nMaking\
+    \ all in test\nmake[2]: Entering directory `/root/kost-dcled-c819fec/libhid-0.2.16/test'\n\
+    make[3]: Entering directory `/root/kost-dcled-c819fec/libhid-0.2.16/src'\nmake[3]:\
+    \ Leaving directory `/root/kost-dcled-c819fec/libhid-0.2.16/src'\nif gcc -DHAVE_CONFIG_H\
+    \ -I. -I. -I.. -DNDEBUG -I../include -I../hidparser -O2 -Wall -W -Werror -MT lshid.o\
+    \ -MD -MP -MF \".deps/lshid.Tpo\" -c -o lshid.o lshid.c; \\\nthen mv -f \".deps/lshid.Tpo\"\
+    \ \".deps/lshid.Po\"; else rm -f \".deps/lshid.Tpo\"; exit 1; fi\nlshid.c: In\
+    \ function âdevice_iteratorâ:\n<b>lshid.c:32:87: error: parameter âlenâ set but\
+    \ not used [-Werror=unused-but-set-parameter]</b>\ncc1: all warnings being treated\
+    \ as errors\nmake[2]: *** [lshid.o] Error 1\nmake[2]: Leaving directory `/root/kost-dcled-c819fec/libhid-0.2.16/test'\n\
+    make[1]: *** [all-recursive] Error 1\nmake[1]: Leaving directory `/root/kost-dcled-c819fec/libhid-0.2.16'\n\
+    make: *** [all] Error 2\n\nAny help would be appreciated.\nThanks"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-11-05 10:00:56'
+  body: 'Hi Stu,
+
+
+    I didn''t hit this particular issue, but then I''ve only built it on Arch Linux
+    ARM, not on Raspbian.
+
+
+    Good luck with fixing it,
+
+
+    Kean'
+- author: Thomas Schwaiger
+  email: thomas.schwaiger@autodesk.com
+  ip: 94.174.8.247
+  url: ''
+  date: '2012-12-17 20:10:14'
+  body: This is cool stuff! I dare you hook it up to your door locking mechanism,
+    so it only unlocks for you and your family! :)
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-12-17 20:12:17'
+  body: 'The tech isn''t quite there yet, but maybe one day... :-)
+
+
+    Kean'
+- author: faust
+  email: someone@somewhere.org
+  ip: 197.226.121.3
+  url: ''
+  date: '2013-01-01 07:47:33'
+  body: 'i know it''s been a while since you posted, but if you edit lshid.c in your
+    libhid/test folder, around line 41, comment out the <i>len = *</i> bit, and add
+    those under:
+
+    <b>len = len;</b>
+
+    <b>custom = custom;</b>
+
+
+    and it should compile fine. im having lots of errors too, but i did manage to
+    make libhid... dcled doesnt want to compile though..
+
+    -----'

@@ -1,0 +1,25 @@
+---
+layout: "post"
+title: "AU 2012 class recordings now available online"
+date: "2013-01-23 08:17:00"
+author: "Kean Walmsley"
+categories:
+  - "Android"
+  - "AU"
+  - "AutoCAD"
+  - "Azure"
+  - "Fractals"
+  - "iOS"
+  - "Mobile"
+  - "REST"
+  - "SaaS"
+  - "Security"
+  - "Unity3D"
+  - "WinRT"
+  - "XML"
+original_url: "https://www.keanw.com/2013/01/au-2012-class-recordings-now-available-online.html "
+typepad_basename: "au-2012-class-recordings-now-available-online"
+typepad_status: "Publish"
+---
+
+<p><a href="http://through-the-interface.typepad.com/.a/6a00d83452464869e2017c361877b6970b-pi" target="_blank"><img align="right" alt="Vocal Microphone" border="0" height="261" src="/assets/image_740324.jpg" style="background-image: none; border-right-width: 0px; margin: 0px 0px 10px 20px; padding-left: 0px; padding-right: 0px; display: inline; float: right; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="Vocal Microphone" width="193" /></a>This week has so far had an AU theme to it, just as last week we talked exclusively <a href="http://through-the-interface.typepad.com/through_the_interface/2013/01/integrating-leap-motion-and-autocad-introduction.html" target="_blank">about</a> <a href="http://through-the-interface.typepad.com/through_the_interface/2013/01/integrating-leap-motion-and-autocad-basic-navigation.html" target="_blank">Leap</a> <a href="http://through-the-interface.typepad.com/through_the_interface/2013/01/integrating-leap-motion-and-autocad-command-interaction.html" target="_blank">Motion</a> <a href="http://through-the-interface.typepad.com/through_the_interface/2013/01/integrating-leap-motion-and-autocad-3d-geometry.html" target="_blank">and</a> <a href="http://through-the-interface.typepad.com/through_the_interface/2013/01/integrating-leap-motion-and-autocad-review.html" target="_blank">AutoCAD</a>. Perhaps I’m sub-consciously shifting this blog to a weekly-themed format? Hmm.</p>  <p>Like many of you, I’m sure, I received an email over the weekend to let me know that the recorded sessions from Autodesk University 2012 are <a href="http://au.autodesk.com/?nd=classes" target="_blank">now available online</a> (for anyone with a valid AU online account).</p>  <p>I wasn’t sure which of my sessions had made it up there from <strike>this</strike> last year’s event (thank goodness I rarely have to write cheques anymore), and so was reasonably happy to find out that “<a href="http://au.autodesk.com/?nd=class&amp;session_id=10163" target="_blank">Moving Code to the Cloud: It&#39;s Easier Than You Think</a>” and “<a href="http://au.autodesk.com/?nd=class&amp;session_id=10634" target="_blank">Secure Your AutoCAD® Environment</a>” (unsurprisingly, really, as it’s a virtual session) have both been posted. My best-rated session from last year’s AU (“<a href="http://au.autodesk.com/?nd=class&amp;session_id=10145" target="_blank">Developing a Simple Metro-Style Application for Microsoft® Windows® 8</a>”) wasn’t recorded, but that’s how it goes. Maybe that’s why it received better feedback. :-)</p>  <p>There is loads of great content up there on the AU Online site. I strongly recommend checking out the content from the other members of my team who presented at AU 2012, for instance, even if these particular sessions were unfortunately also not recorded:</p>  <ul>   <li>Albert Szilvasy’s “<a href="http://au.autodesk.com/?nd=class&amp;session_id=10624" target="_blank">The Confluence of AutoCAD® Mobile, Desktop, and the Cloud</a>”       <ul>       <li>Loads of great insights on the future contained in these slides </li>     </ul>   </li>    <li>Christer Janson’s “<a href="http://au.autodesk.com/?nd=class&amp;session_id=10674" target="_blank">GrumpyBlocks: A Tale of Writing a Game in AutoCAD® Using ObjectARX®</a>”       <ul>       <li>Check out the full ObjectARX source code provided (as mentioned <a href="http://through-the-interface.typepad.com/through_the_interface/2012/03/360-convergence.html" target="_blank">back on April 1st</a>, although this time it’s serious :-). Woah! </li>     </ul>   </li>    <li>Ravi Krishnaswamy’s “<a href="http://au.autodesk.com/?nd=class&amp;session_id=10336" target="_blank">PaaSt the Desktop: Implementing Cloud-Based Productivity Solutions with the AutoCAD® ObjectARX® API</a>”       <ul>       <li>Well-documented approach for creating AutoCAD apps that work with Google App Engine </li>     </ul>   </li> </ul>  <p>Please feel free to post comments with links to other sessions that people might find of interest (posting links to your own is fine, too, as long as they’re at least vaguely development-focused). I know the ADN team presented many well-received and valuable sessions at AU 2012, for instance.</p>  <p><font color="#666666">photo credit: </font><a href="http://www.flickr.com/photos/simondeanmedia/3772473532/"><font color="#666666">SimonDeanMedia</font></a><font color="#666666"> via </font><a href="http://photopin.com"><font color="#666666">photopin</font></a><font color="#666666"> </font><a href="http://creativecommons.org/licenses/by/2.0/"><font color="#666666">cc</font></a></p>

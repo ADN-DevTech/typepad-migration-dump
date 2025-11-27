@@ -1,0 +1,42 @@
+comments:
+- author: tony.tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadxtabs/AcadXTabs2010.htm
+  date: '2009-11-21 17:34:07'
+  body: "\"Our “Plugin of the Month” applications target lower versions of the .NET\
+    \ Framework (we want to avoid forcing people to use the latest version of the\
+    \ framework and want the applications to run – where possible – at least as far\
+    \ back as AutoCAD 2007), and so their default level of trust will make running\
+    \ from a network share a problem.\"\n\nActually, that's irrelevant for AutoCAD-hosted\
+    \ plugins, regardless of the targeted framework version.  \n\nIf you carefully\
+    \ read the blog entry you cited, you'll notice that the security changes for assemblies\
+    \ located on the local intranet introduced in .NET 3.5 SP1, do not apply to assemblies\
+    \ that are loaded by managed CLR hosts (which AutoCAD is)."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2009-11-21 17:41:52'
+  body: 'I didn''t pick through the detail in the linked blog post closely enough
+    to spot that (quite frankly reading about .NET security makes my eyes cross),
+    although I did notice in my tests that targeting the latest framework version
+    didn''t change application behaviour, at all.
+
+
+    In any case, the recommendation of placing DLLs to NETLOAD under the AutoCAD executable
+    folder stands.
+
+
+    Kean'
+- author: David Osborne
+  email: dosborne@rink.com
+  ip: 74.92.221.178
+  url: ''
+  date: '2010-06-16 00:39:27'
+  body: "I experienced the problem with the Save dialog, and your solution did not\
+    \ work.  The longer I set the delay option, the longer the dialog stayed on screen,\
+    \ always ending up in the image.\n\nSo I just moved the prompt for the filename\
+    \ to after the image has been captured and processed, near the end of the SaveScreenPortion\
+    \ Function, where the decision point is for Clipboard or File.  Works great, no\
+    \ dialog in the image, and no need for the delay option. \n-----"

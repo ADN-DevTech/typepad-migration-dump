@@ -1,0 +1,180 @@
+comments:
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadxtabs/AcadXTabs2010.htm
+  date: '2010-05-31 21:33:07'
+  body: '"Sometimes the best applications are the simplest"
+
+
+    I wholeheartedly agree with that:
+
+
+    <pre>
+
+
+    Command: ISOLATEOBJECTS
+
+    Select Objects: (ssget "x" ''((0 . "DIMENSION") (1 . "~")))
+
+    nnn found
+
+    Select Objects:
+
+
+    </pre>'
+- author: Stephan Bartl
+  email: cad@stbartl.at
+  ip: 188.23.5.188
+  url: http://www.stbartl.at
+  date: '2010-06-01 15:04:12'
+  body: 'That''s good to know, Tony,
+
+
+    and it''s funny - I had to laugh - comparing it with the bulk of code above. But
+    I found at least one big difference: The command "ISOLATEOBJECTS" does not work
+    before AutoCAD 2011. (Although the minimum of AutoCAD 2010 for the plugin of June
+    also is not much better.)
+
+
+    For people using AutoCAD before 2010: I once saw a lisp-routine that could isolate
+    objects playing with the visibility attribute. However I find this very dangerous
+    if you have autosave activated.
+
+
+    Regards, Stephan'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-06-01 15:27:49'
+  body: 'Yes, ISOLATEOBJECTS is a handy little command. That said, it doesn''t work
+    - at least as far as I''m aware - with objects inside blocks and xrefs (let alone
+    dimensions in xrefs inside modelspace that you want to check from paperspace).
+    Highlighting dimensions in xrefed drawings was a major use case we considered
+    for this plugin.
+
+
+    I also fully expect the Dimension Patrol plugin to be extended over time based
+    on user feedback: for instance, I could well imagine a "fix selected dimensions,
+    whether in Xrefs or not" command (the eventual naming will clearly need some further
+    thought :-) which - while it could be attempted using a more involved LISP application
+    - would ultimately be easier to implement using a .NET language.
+
+
+    Honestly, the above VB.NET code really isn''t complex considering the elegance
+    with which it handles dimensions in blocks and xrefs.
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadxtabs/AcadXTabs2010.htm
+  date: '2010-06-01 17:50:47'
+  body: "Hi Stephan, you're correct about ISOLATEOBJECTS on vanilla AutoCAD, and there\
+    \ are third-party LISP solutions that emulate it, but in fact, if you only need\
+    \ a visual indication, the highlighting that's done by standard object oelection\
+    \ might suffice, or you could temporarily place the objects on a new layer and\
+    \ lock all other layers and then just discard the drawing or undo those changes.\
+    \ \n\nInsofar as putting .NET to good use in this case, one would probably want\
+    \ to display a modeless dialog that shows a list of the items that need to be\
+    \ checked, and allows the user to zoom to one of them by selecting its entry in\
+    \ the list."
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadxtabs/AcadXTabs2010.htm
+  date: '2010-06-01 17:55:55'
+  body: Hi Kean.  Most of use generally don't consider dimensions with overridden
+    text that include the dimension measurement embedded in the overrriden text (via
+    the <> indicator) as potentially corrupt.
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-06-01 18:04:11'
+  body: 'Hi Tony,
+
+
+    Interesting - thanks for that.
+
+
+    So you suggest having the overrule not highlight dimensions with text that includes
+    "<>"... anything else to watch for?
+
+
+    Cheers,
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.116.109.78
+  url: http://www.caddzone.com/acadxtabs/AcadXTabs2010.htm
+  date: '2010-06-01 21:09:44'
+  body: 'Hi Kean.
+
+
+    The presence of <> means the dimension''s measurement is included in the overriden
+    text, and I certainly wouldn''t consider that case to be suspect.
+
+
+    Anything else aside from misspellings would be very discipline-specific.'
+- author: Joris
+  email: joris@cadsite.be
+  ip: 81.246.75.182
+  url: http://www.cadsite.be
+  date: '2010-06-02 08:53:09'
+  body: This looks to be very good, but as a vb noob I don't know how to use this
+    application...
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.16.194
+  url: http://profile.typepad.com/kean
+  date: '2010-06-02 09:08:06'
+  body: 'No need to build the app: you can download the plugin from <a href="http://labs.autodesk.com/utilities/ADN_plugins">the
+    Labs site</a> and follow the instructions in the ReadMe to install it.
+
+
+    Kean'
+- author: alexb
+  email: alexb@actcom.co.il
+  ip: 84.111.124.70
+  url: ''
+  date: '2014-01-15 06:01:30'
+  body: 'Hi Kean,
+
+
+    Very useful utility (and idea).
+
+    I tried to adapt it to highlight certain values of an AttributeReference. It works
+    OK (I mean the highlighting part) except it crashes Acad on each attempt to modify
+    (move, rotate, etc.) the containing BlockReference, or use grips on it. This in
+    contrast to the DimensionOverrule which is ok for each action performed on it.
+
+    The documentation contains precious little on the subject.
+
+    Any tips?
+
+    Thanks,
+
+    alex'
+- author: Kean Walmsley
+  email: ''
+  ip: 82.220.1.207
+  url: http://profile.typepad.com/kean
+  date: '2014-01-15 08:04:24'
+  body: 'Hi alex,
+
+
+    It''s hard to say what''s happening here. I suggest posting some code via the
+    AutoCAD .NET discussion group or sending it to ADN.
+
+
+    Best regards,
+
+
+    Kean
+
+    -----'

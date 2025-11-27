@@ -1,0 +1,96 @@
+comments:
+- author: Paavo Rantanen
+  email: paavo.rantanen@cadcraft.se
+  ip: 212.73.171.132
+  url: http://www.cadcraft.se
+  date: '2009-09-23 16:17:33'
+  body: "This will be useful when preparing step-by-step instructions! \nThe possibility\
+    \ to use Osnap to define the snapshot is great.\nHowever you don't need the DllImport\
+    \ of acedCoordFromWorldToPixel if you instead use the PointToScreen managed function\
+    \ (located in Editor module).\n\nthanks for the post\n/Paavo"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-09-23 20:13:35'
+  body: 'Aha - I was looking for that, but it got lost in the sea of Point* events...
+    :-)
+
+
+    I''ll update the post.
+
+
+    Thanks so much, Paavo!
+
+
+    Kean'
+- author: 'Sundeep '
+  email: sveguru@enclos.com
+  ip: 4.79.160.53
+  url: ''
+  date: '2013-10-29 19:01:45'
+  body: "Hello Kean. \n\nI'm trying to use the WindowScreenShot functionality.\n\n\
+    But i get an error in this function ScreenFromDrawingPoint\nat this line Point\
+    \ res = ed.PointToScreen(wcsPt, vpNum);\n\nCannot implicitly convert type 'System.Windows.Point'\
+    \ to 'System.Drawing.Point'"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-10-30 08:27:01'
+  body: 'Hi Sundeep,
+
+
+    You''ve probably got a using statement to System.Windows or something like that.
+    You may need to change your variable declarations from Point to include the appropriate
+    namespace.
+
+
+    Regards,
+
+
+    Kean'
+- author: Dominik Hepp
+  email: dhepp@hotmail.com
+  ip: 172.14.126.216
+  url: ''
+  date: '2014-01-20 21:38:09'
+  body: 'Kean:
+
+
+    Much appreciate all your help to the community. I am fairly new to the ACAD .NET
+    side of things and i''m having a hard time figuring out monitor (mouse) pixel
+    X/Y from the MDI screen pixel X/Y returned by PointToScreen. The PointToScreen
+    gives me the pixels of a world coordinate relative to the MDI extents, i need
+    to get the monitor  (mouse) pixels instead. This is related to a CodedUI app we
+    are using which captures the monitor (mouse) X/Y associated with each click and
+    records it in a test script. This is problematic since it makes script playback
+    dependent on the same exact screen resolution/layout etc. as used during the recording.
+    Hence we are developing a WCF adaptor which will take the recorded monitor (mouse)
+    X/Y and translate them to the active view model X/Y/Z coordinates. The model coordinates
+    are then stored in the test script instead of the monitor (mouse) X/Y. The reverse
+    transformation is performed during script replay (e.g. WCF adaptor gets the 3D
+    model coordinates and returns the associated mouse X/Y location to be clicked
+    by the script). This will make the script independent of screen resolution/layout/etc.'
+- author: Kean Walmsley
+  email: ''
+  ip: 84.73.10.128
+  url: http://profile.typepad.com/kean
+  date: '2014-01-21 06:16:58'
+  body: 'Dominik,
+
+
+    Have you tried the ClientToScreen() P/Invoke, as shown in the post?
+
+
+    If that doesn''t help, I''d recommend contacting ADN (for a project like this
+    you should really apply for membership if you haven''t already got it) or posting
+    your question to the AutoCAD .NET Discussion Group.
+
+
+    Best regards,
+
+
+    Kean
+
+    -----'

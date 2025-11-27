@@ -1,0 +1,177 @@
+comments:
+- author: Kevin
+  email: kbrown@wynright.com
+  ip: 173.165.108.152
+  url: ''
+  date: '2012-10-23 21:43:52'
+  body: "Nowhere do I see the definition for \"Jig\". What does \"Jig\" stand for?\
+    \ \n\nThanks for the great blog. I have found it very useful. But I have been\
+    \ wondering about this \"Jig\" business."
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2012-10-24 05:37:12'
+  body: 'Hi Kevin,
+
+
+    Great question - it''s one I tend to take for granted after all these years, so
+    thought it best to look up the definition in the ObjectARX docs (.NET inherited
+    the concept from there).
+
+
+    Here''s what the ObjectARX Developer''s Guide says:
+
+
+    "The AcEdJig class is used to perform drag sequences, usually to acquire, create,
+    edit, and add a new entity to the database. If you are deriving a new entity class,
+    you will usually want to implement your own version of AcEdJig. This class enables
+    the AutoCAD user to define certain aspects of an entity using a pointing device,
+    and it gives the programmer access to the AutoCAD drag mechanism. (The class takes
+    its name from ''jig,'' a device used to hold a machine part that is being bent
+    or molded in place.)"
+
+
+    Let me know if you need any clarifications and I''ll attempt to put something
+    in my own words.
+
+
+    Regards,
+
+
+    Kean'
+- author: Kevin
+  email: kbrown@wynright.com
+  ip: 173.165.108.152
+  url: ''
+  date: '2012-10-24 22:18:22'
+  body: "Thank you for the information on \"Jigs\" Kean!\n\nOne final Beginner question,\
+    \ if I may:\n\nWhen you refer to the \"Object ARX Developer's Guide\", do you\
+    \ mean the documentation included in the ObjectARX SDK? \n\nIn the root directory\
+    \ of the SDK, there is a sub directory named \"docs\" which contains a number\
+    \ of .chm help files, one of which is arxdoc.chm. arxdoc contains a section titled\
+    \ \"Object ARX Developer's Guide\". Is this the guide you are referring to? I\
+    \ am using the .Net based \"wrapper\" classes to customize AutoCAD, and I just\
+    \ want to be certain I have the most comprehensive documentation available. \n\
+    \nI apologize if this is the wrong location to pose such a question, but I am\
+    \ new to customizing AutoCAD and I find myself sightly confused about where to\
+    \ locate AutoDesk's MSDN equivalent for this API. I am an ADN member, in case\
+    \ this has any bearing on where to access the documentation you recommend.\n\n\
+    Thanks again for the great blog."
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2012-10-25 08:17:10'
+  body: 'My pleasure, Kevin. :-)
+
+
+    Yes, that''s exactly where I got it from.
+
+
+    You may also want to check out the documentation resources linked from the AutoCAD
+    Developer Center (<a href="http://autodesk.com/developautocad).">http://autodesk.com/developautocad).</a>
+    You''ll find links to the online .NET Developer''s Guide as well as Visual Studio
+    help integrations for .NET and ObjectARX. I use both regularly.
+
+
+    Oh, and the ADN DevBlogs, of course (linked to from my blog''s left-sash).
+
+
+    Kean'
+- author: Matthias Mueller
+  email: ''
+  ip: 192.54.144.229
+  url: http://profile.typepad.com/matthiasmueller
+  date: '2013-01-09 11:34:15'
+  body: "Hi Kean,\n\nis there a reason why you don't prompt for the text contents\
+    \ inside the Jig? \nI'm looking for a working sample how to prompt for a Jig String\
+    \ (using JigPromptStringOptions), but didn't found one.\nThe contents always needs\
+    \ to be entered before and then passed into the Jigging class.\n\nMatthias"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.22
+  url: http://profile.typepad.com/kean
+  date: '2013-01-09 14:26:56'
+  body: 'Hi Matthias,
+
+
+    I tend to find it overkill to get string input within a jig, if I can avoid it
+    (and so far I''ve done so pretty successfully ;-). I often get keyword input from
+    within AcquirePoint() (for example), but that''s not the same thing.
+
+
+    This post may be of some use, although I admit I haven''t spent much time on the
+    string part of it:
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2012/12/update-to-the-autocad-net-entity-jig-framework.html">http://through-the-interface.typepad.com/through_the_interface/2012/12/update-to-the-autocad-net-entity-jig-framework.html</a>
+
+
+    Cheers,
+
+
+    Kean'
+- author: Matthias Mueller
+  email: ''
+  ip: 192.54.144.229
+  url: http://profile.typepad.com/matthiasmueller
+  date: '2013-01-11 09:09:41'
+  body: "You're right. One can prompt for string also before jigging, so maybe there's\
+    \ no need for it. I only wonder why I can't manage to enter a string with JigPrompts.AcquireString().\
+    \ \n\nThanks for the provided link. As frequently user of this site I already\
+    \ tried to use the Jig Framework for my needs. \nI like the idea a lot, but in\
+    \ the current state it doesn't help me a lot: \nThe polyline I want to jig doesn't\
+    \ have a fixed number of phases - the user can decide to add an arbitrary number\
+    \ of vertices at runtime. \nBut that's maybe another topic :-)"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-01-11 09:14:25'
+  body: 'I''ll have to take a closer look at using AcquireString() sometime.
+
+
+    I can see why the framework wouldn''t help in this scenario. It''d certainly be
+    interesting to see how it might be extended to work for "looped" phases... but
+    yes - one for another day. :-)
+
+
+    Kean'
+- author: Pran
+  email: pranitha.rapani@yahoo.com
+  ip: 122.183.99.230
+  url: ''
+  date: '2013-10-04 10:11:14'
+  body: "Thanks Kean...\nam New to this AutoCAD Coding.\nU have lot of Good Stuff..\n\
+    But I have a requirement that is how to know the scale of current drawing & apply\
+    \ the same scale standards to Newly created objects....\nAnnotation scale is different\
+    \ i want to set Standard scale of model as View Port \n\nCan u help me in this\
+    \ regard\n\nThanks in Advance"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-10-04 15:54:40'
+  body: 'Hi Pran,
+
+
+    I''m afraid I don''t have time to provide support. Please post your question via
+    the ADN team or to the AutoCAD .NET Discussion Group.
+
+
+    As far as I''m aware there still isn''t a "drawing scale" in AutoCAD (unless someone
+    slipped one in when I was napping :-). Which means you either have to store the
+    user''s intention in your own code or infer it in some way.
+
+
+    But again - someone on the forums will hopefully have some concrete advice for
+    you.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

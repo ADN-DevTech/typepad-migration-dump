@@ -1,0 +1,101 @@
+comments:
+- author: namin
+  email: namin@mit.edu
+  ip: 18.251.3.76
+  url: ''
+  date: '2008-09-03 14:00:59'
+  body: 'Hi Kean,
+
+
+    I am also thinking of taking the jump to Visual Studio 2008, because of the new
+    F# CTP release. Last time I tried using VS 2008 to compile some AutoCAD .NET plug-in,
+    I would get an annoying warning when I loaded into AutoCAD. In any case, I''ll
+    experience soon if that''s still the case now.'
+- author: namin
+  email: namin@mit.edu
+  ip: 18.187.7.28
+  url: http://namin.net
+  date: '2008-09-04 23:27:05'
+  body: 'Hi Kean,
+
+
+    To be more precise, the error message popping up is for C++ AutoCAD projects compiled
+    in VS 2008. It says: "AutoCAD is attempting to load ... which is not compatible
+    with AutoCAD. Do you still want to load the application?"
+
+
+    Do you know how I can get rid of this warning?
+
+
+    Thanks.'
+- author: namin
+  email: namin@mit.edu
+  ip: 18.251.3.76
+  url: http://namin.net
+  date: '2008-09-05 04:49:20'
+  body: I found a solution. It's a build tool version problem, which can be fixed
+    by using the utility the VC Build Hook utility freely available at http://www.manusoft.com/Resources/ARXTips/Index.stm#VC8ForARX2000
+- author: namin
+  email: namin@mit.edu
+  ip: 18.251.3.76
+  url: http://namin.net
+  date: '2008-09-05 06:09:02'
+  body: Hmm, actually, it doesn't quite work :-( I still get the same error...
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-05 08:21:18'
+  body: 'This is how it should be: unmanaged ObjectARX modules need to be compiled
+    with the same compiler as AutoCAD, which means VS .NET 2002 for AutoCAD 2004-2006
+    and VS 2005 for AutoCAD 2007-2009.
+
+
+    So you will need to downgrade to build applications for these releases.
+
+
+    If you want to use VS 2008 to build applications for these versions, you can always
+    use the managed API.
+
+
+    Kean'
+- author: Mike Tuersley
+  email: mike.tuersley@hotmail.com
+  ip: 204.210.178.212
+  url: http://www.mtuersley.com
+  date: '2008-09-06 06:44:30'
+  body: 'Just to add to your comment, Kean. VS2008 works fine for writing managed,
+    COM and mixed managed/COM addins for ''06 thru ''09. For ''06 to ''08, you need
+    to go into the compile options and set the targeted framework to use.
+
+
+    Mike
+
+
+    Ps - see you @ AU!'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-06 14:27:19'
+  body: 'Thanks, Mike!
+
+
+    Sounds good - see you at AU. :-)
+
+
+    Kean'
+- author: mspan
+  email: mikespaner@yahoo.com
+  ip: 80.227.118.188
+  url: ''
+  date: '2008-09-25 11:23:50'
+  body: 'For those of us, like me, that are too frugal to buy VS2008, you can use
+    the Visual Studio Shell with f#. It becomes the equivalent of a  free version
+    of Visual Studio for learning/developing F# apps. See:
+
+    http://msdn.microsoft.com/en-us/vsx2008/products/bb933751.aspx?ppud=4
+
+    -Mike
+
+    -----'

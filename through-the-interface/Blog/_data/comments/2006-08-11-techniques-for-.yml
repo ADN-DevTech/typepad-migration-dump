@@ -1,0 +1,708 @@
+comments:
+- author: s.kaiser
+  email: stephan.kaiser@sofistik.de
+  ip: 212.204.69.61
+  url: http://www.sofistik.de
+  date: '2006-08-11 15:33:30'
+  body: Isn't this what the labs demonstrate? :) Just wondering about the target group
+    of people of this blog.
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-08-11 15:50:29'
+  body: 'Hi Stephan,
+
+
+    Thanks for your comment, but I''m not sure what you mean...
+
+
+    1) Which labs?
+
+    2) Do you mean this specific entry or the blog as a whole?
+
+
+    Regards,
+
+
+    Kean'
+- author: Alexander Rivilis
+  email: rivilis@i.com.ua
+  ip: 81.95.182.209
+  url: http://private.peterlink.ru/poleshchuk/cad/RANe.htm
+  date: '2006-08-12 13:25:40'
+  body: 'Hi, Kean!
+
+    Additional methods:
+
+    1) int acedPostCommand(char const *cmd);
+
+    2) PostMessage() to commandline window - useful in order cancel active command
+    from external application: http://www.autocad.ru/cgi-bin/f1/board.cgi?t=26850Nn#20060506023520'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: ''
+  date: '2006-08-14 13:23:31'
+  body: 'Hi Alexander,
+
+
+    Thanks - these two are also definitely worth mentioning, and - as I''m sure you''re
+    aware - both are useful for cancelling running commands that have paused for user
+    input.
+
+
+    Please keep the comments coming! :-)
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: email@provided.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2007-03-24 22:54:03'
+  body: "Thanks for the helpful information.\n\nAs one that has been using acedCommand()\
+    \ and acedCmd() via P/Invoke for some time with great success, I don't think its\
+    \ entirely fair to discourage the use of these APIs from registered command handlers,\
+    \ only because the specifics relating command level nesting were left out.\n\n\
+    Perhaps a better strategy would be to get into those specifics, to help readers\
+    \ understand the limitations and caveats of the use of these APIs.\n\nFor most\
+    \ practicle purposes, where the need is to execute a built-in AutoCAD command\
+    \ like PEDIT or what have you, and where there is little or no potential that\
+    \ others will attempt to script the registered command via the same API or the\
+    \ LISP (command) function, there is little danger that the command depth nesting\
+    \ limit will be reached.\n\nBut there are also other issues relating to the use\
+    \ of acedCommand() which wasn't covered in your article, that can also result\
+    \ in problems when that API is improperly used from the handler of a registered\
+    \ command. Namely, any command which is scripted via calls to acedCommand(), must\
+    \ be exited before the handler that calls acedCommand() exits. Failing to do that\
+    \ usually results in a fatal condition.\n\nAnother somewhat obscure issue relating\
+    \ to the use of all the various asynchronous methods you covered, is that their\
+    \ use can often corrupt or disable undo and/or redo, and prevent the user from\
+    \ redoing an operation that've undone. This usually occurs when attempting to\
+    \ use one of the asynchronous methods to execute commands that involve user interaction\
+    \ via the command line.\n\nThe files below provide convienent wrappers for acedCmd(),\
+    \ that allow those whose needs are relatively simple to avoid the hideous issues\
+    \ that plague all of the asynchronous forms of command execution, and thanks for\
+    \ covering some of the issues relating to the use of acedCommand from registered\
+    \ command handlers.\n\n  http://www.caddzone.com/CommandLine.cs\n  http://www.caddzone.com/CommandLine.vb"
+- author: vector
+  email: unix_blues@yahoo.com
+  ip: 203.82.55.118
+  url: ''
+  date: '2007-04-02 18:55:36'
+  body: "Kean,\n\nSorry for the double post, I mistakenly posted this comment in the\
+    \ wrong topic earlier.\n\nAnyway to repeat the question: Is there a way to send\
+    \ a command from VBA to command line, such that you call a lisp interface exposed\
+    \ through ARX which takes some input parameters too?\n\nFor example: I have a\
+    \ function written in ARX that is exposed through LISP. So you can type on command\
+    \ line (doSomethingWithThisFunction selectionset name)\n\nwhere:\ndoSomethingWithThisFunction\
+    \ is the name of function exposed through LISP interface from ARX\n\nselectionset\
+    \ is an AutoCAD selectionset\n\nname is just a string\n\nProblem is when I use\
+    \ ThisDrawing.SendCommand () from VBA it treates the LISP function and its arguments\
+    \ as three separate commands\n\nTo sum it up I need to be able to call a command\
+    \ line function from VBA, such that the function also takes some parameters. \n\
+    \nIs that possible?\n\nThanks"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-04-03 10:09:28'
+  body: 'Vector,
+
+
+    This is altogether possible: you just need to format the SendCommand() string
+    appropriately. Make sure you use an opening parenthesis and pass the quotes for
+    the string (and probably an apostrophe before the variable name containing the
+    selection set).
+
+
+    The other option is to expose your function as a command that gets the selection
+    set (which you would now pass with an exclamation mark: "!") and the string using
+    acedSsGet() and acedGetString().
+
+
+    Regards,
+
+
+    Kean'
+- author: vector
+  email: unix_blues@yahoo.com
+  ip: 203.82.55.118
+  url: ''
+  date: '2007-04-04 16:04:21'
+  body: "Kean,\n\nI tired using send command using the following syntax in VBA\n\n\
+    Dim objNewSS As Object\n\nobjNewSS.SelectOnScreen\n\nDim tagNum As String\ntagNum\
+    \ = \"UDE-121\"\n\nstrincom = \"(at_UserDefinedFromSelSetAndTag 'objNewSS tagNum)\"\
+    \ & vbCr\n\nThisDrawing.SendCommand strincom\n\nWhen I do that I get the following\
+    \ error on the command line. \n\n\"; error: invalid data type or data overflow:\
+    \ OBJNEWSS\"\n\nRemember that this function is working perfectly from LISP when\
+    \ I do the following\n\n      (setq OBJ_SS (ssget)   ; pick objects one at a time\n\
+    \       NDX    0\n      ) \n      (if OBJ_SS\n      ;; if there is a selection\
+    \ set, do...\n      (progn\n         (while (< NDX (sslength OBJ_SS))\n      \
+    \      (setq OBJ (ssname OBJ_SS NDX)\n                NDX (+ NDX 1)\n        \
+    \        ) \n\t        (setq tagnum \"UDE-121\")\n                 (at_UserDefinedFromSelSetAndTag\
+    \ OBJ_SS tagnum)\n\t       ) \n\t   )\n\t   ;; otherwise, no selection set\n\t\
+    \   (progn\n\t      (alert \"Nothing selected.\\nExiting.\")\n\t      (exit)\n\
+    \t   ) \n\nCould it be that the send command can only process data of type string\
+    \ and has no clue what a selection set type, or an object type means? Any help\
+    \ would be appreciated.\n\nThanks,\nVector"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-04-05 03:57:10'
+  body: 'Vector,
+
+
+    Your problem is that you''re trying to pass VBA-defined variables by name through
+    LISP to ObjectARX. Unlike with LISP symbols, VBA variable names are not exposed
+    to AutoCAD itself - neither LISP or ObjectARX will understand them.
+
+
+    For the string argument, this is easy - just change your code to this:
+
+
+    strincom = "(at_UserDefinedFromSelSetAndTag """ + tagNum + """)" & vbCr
+
+
+    For the selection set, it''s trickier. The simplest is probably to use acedSsGet("P")
+    from your ObjectARX application to pick up the most recent selection set. Otherwise
+    it gets very diffidult (another option would be to use COM client code in your
+    ObjectARX app to query the contents of a named selection set in VBA).
+
+
+    Speaking of named selection sets - I assume you''ve simplified out a line such
+    as this from your code:
+
+
+    Set objNewSS = ThisDrawing.SelectionSets.Add("SS")
+
+
+    Regards,
+
+
+    Kean'
+- author: vector
+  email: unix_blues@yahoo.com
+  ip: 203.82.55.118
+  url: ''
+  date: '2007-04-05 15:59:46'
+  body: "Kean,\n\nI tried another approach. It worked partially\n\nSet objNewSS =\
+    \ ThisDrawing.SelectionSets.Add(\"SS\")\n\nThen used \nstrincom = \"(at_UserDefinedFromSelSetAndTag\
+    \ objNewSS.Name tagNum)\" & vbCr\n\nThisDrawing.SendCommand strincom\n\nThis worked\
+    \ and I could get access to \"SS\" name entity in ARX. However, when I tried to\
+    \ get selection set in the ARX, using the resbuf filter, it fails to get the selection\
+    \ set. For example\n\nstruct resbuf rb; \n\nrb.restype = 0; // Entity name filter\
+    \        \nrb.resval.rstring = EName; //Ename is coming\n                    \
+    \       //fromVBA properly\nrb.rbnext = NULL;\t\t\n\nif (ads_ssget(\"_X\",NULL,\
+    \ NULL, &rb, selSet) == RTNORM)\n{\nThe check fails and the code won't execute\
+    \ here\n---\n---\n---\n}\n\nNow what?!?! Any Ideas?"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-04-05 18:06:53'
+  body: 'Vector,
+
+
+    That''s why I didn''t suggest it: the "SS" name doesn''t correspond to a symbol
+    that''s accessible from LISP or ObjectARX (that I can tell). Your best bet is
+    to omit the argument altogether and rely on the previous selection, as I suggested
+    (hopefully that''s an option for you). Otherwise things get messy.
+
+
+    Kean'
+- author: vector
+  email: unix_blues@yahoo.com
+  ip: 203.82.55.118
+  url: ''
+  date: '2007-04-06 08:47:53'
+  body: "Kean,\n\nI tried another approach and it solved my problem. I am posting\
+    \ it here for the benefit of other users.\n\nVBA doesn't expose a handle for the\
+    \ AcadSelectionset object, that's true. This is kind of a sticky area that makes\
+    \ for some messy code. There are a couple of other options, but they basically\
+    \ require doing most of it in lisp, either having code execute from the lisp environment,\
+    \ or running lisp from vba.\n\nIn the lisp you can access the activex SS. For\
+    \ example, in VBA create your \nSS and name it \"SSforLisp\". Then in lisp:\n\n\
+    (vl-load-com) \n(setq ss-vba (vla-item\n(vla-get-selectionsets\n(vla-get-activedocument\n\
+    (vlax-get-acad-object)))\n\"SSforLisp\"));; gets the ActiveX SS\n(setq ss-lisp\
+    \ (ssadd));;creates a new ename-based ss\n(vlax-for ent ss-vba\n(ssadd (vlax-vla-object->ename\
+    \ ent) ss-lisp)\n);;add each object's ename to the ename-ss\n\nThanks,\nVector"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 202.95.81.226
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-04-06 08:53:24'
+  body: 'Vector,
+
+
+    Great - glad you found a solution!
+
+
+    This is basically the approach I meant when I said "(another option would be to
+    use COM client code in your ObjectARX app to query the contents of a named selection
+    set in VBA)."
+
+
+    My assumption was that you were working in C++, but this is essentially the same
+    technique from LISP.
+
+
+    Kean'
+- author: Justin Ralston
+  email: jrralston@xtra.co.nz
+  ip: 125.237.30.103
+  url: ''
+  date: '2007-04-16 10:52:20'
+  body: "Hi\n I am try to create a selection select in vb and then use the sendcommand\
+    \ function to run a autocad command and pick the selectionset created in vb as\
+    \ the previous selectionset.\nI do not seem to be able to get the selectionset\
+    \ created in vb to be the previous set. Do you have any ideas how to do it for\
+    \ pass a selectionset from vb to a command with the send command.\n\nSub Example_SelectwithVB()\n\
+    \    ' This example adds objects to a selectionset with vb\n    \n    On Error\
+    \ Resume Next\n    \n    'SSetColl.Item(\"CURRENT\").Delete\n    ThisDrawing.SelectionSets.Item(\"\
+    TEST_SSET\").Delete\n    \n    \n    ' Create the selection set\n    Dim ssetObj\
+    \ As AcadSelectionSet\n    Set ssetObj = ThisDrawing.SelectionSets.Add(\"TEST_SSET\"\
+    )\n    \n    ' Add objects to a selection set by prompting user to select on the\
+    \ screen\n    'ssetObj.SelectOnScreen\n    \n    \n        ' Iterate through the\
+    \ model space collection.\n    ' Collect the objects found into an array of objects\n\
+    \    ' to be added to the selection set.\n    ReDim ssobjs(0 To ThisDrawing.ModelSpace.Count\
+    \ - 1) As AcadEntity\n    Dim I As Integer\n    For I = 0 To ThisDrawing.ModelSpace.Count\
+    \ - 1\n        Set ssobjs(I) = ThisDrawing.ModelSpace.Item(I)\n    Next\n    \n\
+    \    ' Add the array of objects to the selection set\n    ssetObj.AddItems ssobjs\n\
+    \    \n    ssetObj.Update\n    \n\n    \n    ThisDrawing.Regen acActiveViewport\n\
+    \       \n    MsgBox \"A new SelectionSet called \" & ssetObj.Name & \" has been\
+    \ added to the SelectionSets collection.\", vbInformation, \"SelectionSets Example\"\
+    \n\n    'Once the selectionset has been created in the previous code in vb it\
+    \ becomes the previous\n    'selectionset at the command line and can be accessed\
+    \ with the select p enter enter series\n    'of commands\n     \n    ThisDrawing.SendCommand\
+    \ \"AecIsolateObjects\" + vbCr\n    ThisDrawing.SendCommand \"P\" + vbCr + vbCr\n\
+    \        \nEnd Sub\n\nRegards\n\nJustin"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 202.95.81.226
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2007-04-24 07:37:24'
+  body: 'Hmm... SelectOnScreen will modify the previous selection set (as it''s using
+    AutoCAD''s selection process), but selection sets created programmatically do
+    not.
+
+
+    In this case, I''d suggest either using SelectOnScreen (which is probably not
+    what you need), or sending a much more complex text string to the command lines,
+    one that contains a LISP command using (ssget "X") to select the various entities
+    you want and save the selection set in a LISP variable. You should then be able
+    to plug this into AecIsolateObjects using "!ss".'
+- author: LC
+  email: lokman_coskun@yahoo.com
+  ip: 88.239.3.113
+  url: ''
+  date: '2007-06-06 19:47:54'
+  body: 'hi there
+
+
+    I have been scripting by using VBA for sometime. is there any other language(s)
+    other than lisp. how about CSharp ? it it possible to write a code and use with
+    Autocad as we do with VBA?
+
+
+    thanks'
+- author: awes
+  email: awesmohd@yahoo.com
+  ip: 195.229.236.212
+  url: ''
+  date: '2008-02-12 17:34:29'
+  body: 'hi kean
+
+
+    I am facing problem with VBA System when ever i am
+
+    opening a cad drawing there is message is coming
+
+    "VBA System... execution error execution error.
+
+
+    please find some solution
+
+
+
+    thanks
+
+    awes'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.6.124
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-02-12 17:59:10'
+  body: 'Hi Awes,
+
+
+    Sorry - it''s not clear to me what the problem is. I suggest posting a more detailed
+    description to the <a href="http://discussion.autodesk.com/forum.jspa?forumID=33">AutoCAD
+    Visual Basic Customization Discussion Group</a>.
+
+
+    Regards,
+
+
+    Kean'
+- author: awes
+  email: awesmohd@yahoo.com
+  ip: 195.229.236.212
+  url: ''
+  date: '2008-02-14 20:42:18'
+  body: 'hi kean
+
+
+    regarding "VBA System... execution error execution error.
+
+    I think it''s a computer virus that is stored in the macros of a vba  project.
+    if we open a drawing that contains this virus, a virus can become active and be
+    transmitted to your computer.
+
+    from that point on, every drawing file you save can become infected with the virus.
+    when other users open the infected drawing file, the virus can also be transmitted
+    to their computers. so when ever we open any drawing file this execution error
+    comes before starting the drawing and then it''s normal. I want to remove this
+    message, i tried antivirus but it''s not detacting. please find some solution
+    and advice.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.6.124
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-02-15 07:41:05'
+  body: 'This sounds unlikely - I''ve never come across an AutoCAD VBA virus (but
+    there''s a first time for everything, I suppose).
+
+
+    This isn''t really the right place to get help on this: I suggest contacting your
+    reseller, or otherwise someone on the discussion group I mentioned in my last
+    comment.
+
+
+    Kean'
+- author: Anders
+  email: anders.askasen@gmail.com
+  ip: 62.95.12.246
+  url: ''
+  date: '2008-03-04 10:31:19'
+  body: 'Has anyone successfully been able to replicate and port this to VB.NET and
+    been able to run it on Vista? Been struggling for hours without being able to
+    send a WM_COPYDATA using SendCommand with a COPYDATASTRUCT to AutoCAD. Any ideas
+    or samples would be highly appreciated.
+
+
+    Thanks!'
+- author: Shahin
+  email: Shahin.namini@gmail.com
+  ip: 91.186.212.7
+  url: ''
+  date: '2008-07-18 16:16:27'
+  body: 'dear kean.
+
+    I found you as a professional programmer so I believe thats a good idea to consult
+    with you. I am going to filter the points of the dwg file using selectionsets
+    and select function. the problem is that i am going to filter them by symbol (
+    as an example select those points which have symbol tree. but i find no groupcode
+    to filter it. I have got no Idea how to do it. I will really be grateful if you
+    give me a hint.'
+- author: Shahin
+  email: Shahin.namini@gmail.com
+  ip: 91.186.212.7
+  url: ''
+  date: '2008-07-18 16:17:47'
+  body: by the way i forgot to mention i am using vba
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.0.14
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-07-18 16:28:58'
+  body: 'Shahin - please post your questions to the discussion groups, or via the
+    ADN website, if you''re a member. I don''t have the luxury of spending time providing
+    specialised support for people, unless it''s very much related to a post of mine.
+
+
+    Kean'
+- author: sandip bhoir
+  email: sandip.bhoir@neilsoft.com
+  ip: 59.163.223.130
+  url: ''
+  date: '2008-11-28 10:15:03'
+  body: "How can i call superhatch command with all input paramters using vb.net?\
+    \ I just don't want to prompt the dialog boxes of superhatch to get inputs from\
+    \ user. I want to provide it programmatically. \nFor eg: similar to this\n doc.SendCommand(\"\
+    _superhatch par1,par2.....\")\n\nFor rectangle, its :\n doc.SendCommand(\"_rec\
+    \ 10,10 20,20\")\n\nBut dont know the fromat to pass parameters for superhatch.\n\
+    Can anybody help me on this?\n\nThanks,\nSandip"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.58.159
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-28 14:16:21'
+  body: 'Sandip,
+
+
+    Judging from your email address, you work for an ADN member, so I suggest posting
+    your questions to <a href="http://adn.autodesk.com">the ADN website</a>, in future.
+
+
+    Superhatch is an old Express Tool that doesn''t appear to provide a command-line
+    version.
+
+
+    The source is in the Express folder (sprhatch.lsp and sprhatch.dcl). The simplest
+    thing would be to use the LISP source for your own custom function implementation.
+
+
+    Kean'
+- author: baidas
+  email: www.baidas811@yahoo.com
+  ip: 86.108.14.16
+  url: ''
+  date: '2009-05-12 12:55:23'
+  body: 'hi kean
+
+
+    I am facing problem with VBA System when ever i am
+
+    opening a cad drawing there is message is coming
+
+    "VBA System... execution error execution error.
+
+
+    please find some solution
+
+
+
+    Thanks,
+
+    baidas'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-05-12 12:58:35'
+  body: 'baidas,
+
+
+    This is not a support forum. I suggest submitting your question via <a href="http://adn.autodesk.com">ADN</a>
+    (if you''re a member) or posting to one of <a href="http://discussion.autodesk.com">the
+    Autodesk Discussion Groups</a>.
+
+
+    Kean'
+- author: Nathaniel
+  email: foster.nathaniel@stas.com
+  ip: 72.0.198.137
+  url: http://www.stas.com
+  date: '2009-09-22 20:10:56'
+  body: "Hi Kean,\n\nIs there a way to send a command to autocad while in a sub routine.\
+    \  I made a vb.net addin to batch print drawing.  For each drawing being plot\
+    \ i want to execute a lisp file before and after the plot.  The problem is that\
+    \ the command isnt execute at the right time.  In the example below the command\
+    \ \"TEST\" is execute after  the MsgBox (well when the sub is completed)\n\np.s.\
+    \ I also tried with ads_queueexpr, acedInvoke and SendStringToExecute and it's\
+    \ the same result\n\n\n\n<code>\nPrivate sub Batch ()\n \n'the Test function show\
+    \ message box\nacedPostCommand(\"Test \") \nMsgBox(\"Hello!\")\n             \
+    \        \nend sub\n</code>\n\nThank you"
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2009-09-23 15:09:42'
+  body: 'Those are all asynchronous calls... have you tried SendCommand() through
+    COM?
+
+
+    Kean'
+- author: Nathaniel
+  email: foster.nathaniel@stas.com
+  ip: 72.0.198.137
+  url: http://www.stas.com
+  date: '2009-09-23 17:47:00'
+  body: Thank you very much, this is exactly what i need!
+- author: Matej
+  email: matej.tacer@omegaconsult.si
+  ip: 193.77.82.220
+  url: ''
+  date: '2010-12-03 11:30:00'
+  body: "Hi,\nThis might be a trivial question. \nIn the code I want to draw a polyline\
+    \ by selecting points on the screen interactively. When I call: ThisDrawing.SendCommand\
+    \ \"_3DPoly\" & vbCr, the execution does not stop and wait for the polyline to\
+    \ be entered but runs to the end.\nCould you suggest me what to do to make program\
+    \ pause until the user finishes input?\nThanks"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.60.121
+  url: http://profile.typepad.com/kean
+  date: '2010-12-06 14:25:48'
+  body: 'You could use (command "_3DPOLY" pause pause "") for a fixed number of segments
+    (in this case a single segment between two points).
+
+
+    Stopping for an arbitrary number of picks is harder: you might need a custom command
+    to drive the 3DPOLY command and then pass execution off to another, at the end.
+
+
+    Bear in mind this is mostly thinking about the behaviour of SendStringToExecute(),
+    rather than SendCommand().
+
+
+    Kean'
+- author: Peter
+  email: piotrek.2005@wp.pl
+  ip: 77.252.228.40
+  url: ''
+  date: '2011-03-10 14:15:49'
+  body: "Hello!\n\nMaybe it is stupid question :)  I'am beginner :)\n\nI have a function\
+    \ in LISP. It's name \"ReadFile\".\nIn AutoCad's command line I use it, by writing:\
+    \ \n\n(ReadFile \"c:\\file.txt\").\n\nNow, I have a ObjectArx application. \n\
+    I can invoke simply commands like _circle from ObjectArx application: \n\nacedCommand(RTSTR,\
+    \ _T(\"_circle\"), RTSTR, _T(\"10,10\"),RTSTR , _T(\"10\") ,RTSTR, _T(\"\"), 0);\
+    \ \n\nbut I don't know how to invoke: (ReadFile \"c:\\file.txt\") ?\n\nBest regards!\n\
+    Peter"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-03-10 14:41:26'
+  body: 'Try looking at acedInvoke().
+
+
+    Kean'
+- author: Peter
+  email: psmart@hydrocad.net
+  ip: 72.45.166.218
+  url: ''
+  date: '2011-03-24 16:49:35'
+  body: "I'm having trouble implementing a SendMessage procedure in C#.  The following\
+    \ code compiles but nothing is received by AutoCAD.  Any advice would be appreciated.\
+    \  Thanks.\n\n[DllImport(\"user32.dll\")]\nprivate static extern int SendMessage(IntPtr\
+    \ hWnd, int Msg, IntPtr wParam, ref COPYDATASTRUCT lParam);\n\nprivate struct\
+    \ COPYDATASTRUCT\n      {\n         public int dwData;\n         public int cbData;\n\
+    \         public string lpData;\n      }\n \nprivate const int WM_COPYDATA = 0x4A;\n\
+    \npublic static AcadApplication AcadApp = null;\n\npublic bool SendCmd(string\
+    \ cmd)\n{\n    // AcadApp must be preset by caller\n    IntPtr AcadHand = (IntPtr)AcadApp.HWND;\n\
+    \    IntPtr wParam = IntPtr.Zero; \n    COPYDATASTRUCT cds;\n    cds.dwData =\
+    \ 1;   \n    cds.lpData = cmd;\n    cds.cbData = cmd.Length + 1;\n    return (SendMessage(AcadHand,\
+    \ WM_COPYDATA, wParam, ref cds) != 0);\n}"
+- author: Kean Walmsley
+  email: ''
+  ip: 80.83.34.178
+  url: http://profile.typepad.com/kean
+  date: '2011-03-24 16:57:01'
+  body: 'Hi Peter,
+
+
+    There should be a number of examples on this blog (just search for "WM_COPYDATA").
+
+
+    If those don''t help, please contact ADN or post your question to the AutoCAD
+    .NET Discussion Group.
+
+
+    Regards,
+
+
+    Kean'
+- author: Peter
+  email: psmart@hydrocad.net
+  ip: 72.45.166.218
+  url: ''
+  date: '2011-03-26 00:22:21'
+  body: 'Thanks.  The samples here work very nicely:
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/user_interface/page/3/">http://through-the-interface.typepad.com/through_the_interface/user_interface/page/3/</a>'
+- author: Peter
+  email: piotrek.2005@wp.pl
+  ip: 77.252.228.40
+  url: ''
+  date: '2011-03-29 14:47:39'
+  body: "Hello!\nThank You for your last ansver. acedInvoke() is working very nice\
+    \ :) \n\nI have a another problem :) \n\nI create dinamicaly a resbuf for acedInvoke().\
+    \ \n\nI have a string into CString variable. \n\nWhen I create new element of\
+    \ resbuf I want to pass this string into resval.rstring. I can't do this!! :(\
+    \ \n\nMy code:\npTail = pTail->rbnext = acutNewRb(RTSTR);\npTail->resval.rstring\
+    \ = ...string_from_CString_Variable;\n\nI have tried, for example: \n\nUSES_CONVERSION;\n\
+    CString str2(_T(\"HELLO!!!\"));\nwchar_t* wstr_name = T2W(str2.GetBuffer());\n\
+    ....and..\npTail->resval.rstring = wstr_name;\n\nbut in autocad i achive tekst\
+    \ \"Propeties\" instead of \"HELLO!\"\n\n:( \n\nCould You help me?"
+- author: Kean Walmsley
+  email: ''
+  ip: 122.167.110.214
+  url: http://profile.typepad.com/kean
+  date: '2011-03-29 18:39:08'
+  body: 'Hello Peter,
+
+
+    Sorry - this is beyond me. I expect you need to use something like acutStrDup()
+    (if such a thing exists - I haven''t checked). You might try posting your question
+    to the ObjectARX Discussion Group.
+
+
+    Regards,
+
+
+    Kean'
+- author: Art
+  email: yamos78@hotmail.com
+  ip: 58.163.175.171
+  url: ''
+  date: '2011-11-28 05:39:24'
+  body: 'Hi Kean,
+
+
+    "ObjectARX in particular has potential issues with respect to defining native
+    commands calling commands, as AutoCAD is only "re-entrant" up to 4 levels. Without
+    going into specifics..."
+
+
+    Could you explain in lamens terms what you mean by re-entrant command calling
+    in AutoCAD?
+
+
+    I see the words but I have not the foggiest clue what this is about :-)
+
+
+    Art'
+- author: Art
+  email: yamos78@hotmail.com
+  ip: 192.148.117.91
+  url: ''
+  date: '2011-11-28 09:42:31'
+  body: Does this mean that a command that calls a command that calls a command that
+    calls a command can't call another command? :-)
+- author: Kean Walmsley
+  email: ''
+  ip: 66.116.112.6
+  url: http://profile.typepad.com/kean
+  date: '2011-11-28 14:47:22'
+  body: 'Exactly (although it may mean one more level - not sure about that :-).
+
+
+    Kean'
+- author: kannan
+  email: kannan1.raja@gmail.com
+  ip: 15.219.201.75
+  url: ''
+  date: '2013-12-06 13:53:02'
+  body: "Hi Kean,\n        Is it possible to view Autocad drawing in trueview programmatic-ally\
+    \ in VB 6.0"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-12-10 16:48:46'
+  body: 'Yes, although it depends on what exactly you mean. You should be able to
+    embed a TrueView control in a VB6 form and then use the control''s properties
+    to load a drawing.
+
+
+    BTW - this is way off topic for this post. Please post questions via our discussion
+    forums in future (<a href="http://forums.autodesk.com).">http://forums.autodesk.com).</a>
+
+
+    Kean
+
+    -----'

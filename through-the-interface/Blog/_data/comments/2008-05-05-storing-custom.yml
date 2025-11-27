@@ -1,0 +1,189 @@
+comments:
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 200.150.60.70
+  url: http://arxdummies.blogspot.com
+  date: '2008-05-05 16:23:59'
+  body: 'Hi Kean,
+
+
+    Yes, disable UAC...I have done this on my first Vista day. Guess UAC is more suitable
+    for commom users.
+
+
+    Regarding to this post, I remember some articles about Microsoft saying that registry
+    will be removed soon from Windows on the next releases.
+
+    In this case, there is a better solution to store user settings (by profile) which
+    is through XML configuration files.
+
+
+    What are Autodesk plans regarding AutoCAD user profile settings, windows Registry
+    and XML configuration files?
+
+
+    Could give us some trends and overview bout this so we can avoid investing time
+    into features that will be soon deprecated?
+
+
+    Regards,
+
+    Fernando Malard.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-05 16:50:09'
+  body: 'We''ll see - I wouldn''t worry about the Registry disappearing just yet,
+    and frankly I''d expect the API used in this example to simply write to wherever
+    we store profile information in that Brave New World. :-)
+
+
+    As mentioned above, I''m planning on looking more into System.Configuation in
+    a future post - hopefully this go some way to address your question about config
+    files vs. the Registry.
+
+
+    Kean'
+- author: Danny Polkinhorn
+  email: dpolkinhorn@watg.com
+  ip: 66.175.73.45
+  url: ''
+  date: '2008-05-05 22:14:41'
+  body: 'Hi Kean,
+
+
+    Excellent post.  Looking forward to the next one too!
+
+
+    Is it possible to bind a windows control to one of these registry settings?  For
+    example, a text box to your "TestString" property.  I''m already planning an additional
+    tab in the Preferences dialog, and this would eliminate quite a bit of additional
+    validation code.  Maybe I need to create a custom class that handles the registry
+    settings and bind the control to a property of the class?'
+- author: Jose Madrigal
+  email: jmadrigal@bgarch.com
+  ip: 209.78.249.2
+  url: ''
+  date: '2008-05-05 22:54:40'
+  body: 'Kean,
+
+
+    I''m getting exception reading:
+
+    Value exists but is not a string.
+
+
+    Only get this when attempting to read values. Any clues?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 88.85.7.167
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-06 09:08:14'
+  body: 'Danny -
+
+
+    I believe this is supported by System.Configuration, but I''ll need to do some
+    research. And I have a few other posts that may come in between, I''m afraid.
+
+
+    Jose -
+
+
+    Did you change the code, at all? It sounds as though you have a "type mismatch"
+    between what was written and what you''re trying to read back in.
+
+
+    Kean'
+- author: Jose Madrigal
+  email: jmadrigal@bgarch.com
+  ip: 209.78.249.2
+  url: ''
+  date: '2008-05-06 18:48:26'
+  body: "Kean,\n\nI forgot to thank you for the post. I was at home this weekend working\
+    \ on this subject(without an internet connection--Arghh!!) and as if you were\
+    \ reading my mind, produced this excellent post. As I mentioned before, I modified\
+    \ your code to read settingst like \"IsPureAcadProfile\" which is a value directly\
+    \ under the current profile for instance, and I keep getting exception: Value\
+    \ exists but is not a string.\n\n[CommandMethod(\"PrintConfig\")]\n        static\
+    \ public void PrintConfig()\n        {\n            try\n            {\n     \
+    \           var cs = AcadApp.UserConfigurationManager.OpenCurrentProfile();\n\
+    \                using (cs)\n                {\n                    if (cs.Contains(\"\
+    IsPureAcadProfile\"))\n                    {\n                        AcadApp.DocumentManager.MdiActiveDocument.Editor.WriteMessage(\"\
+    \\nValue Exists\");\n                    }\n                }\n            }\n\
+    \            catch (System.Exception ex)\n            {\n\n                AcadApp.DocumentManager.MdiActiveDocument.Editor.WriteMessage(ex.ToString());\n\
+    \            }\n\nCommand: printconfig\nSystem.InvalidOperationException: Value\
+    \ exist but it is not a string.\n   at ConfigurationSectionOnRegistry.Contains(String\
+    \ name)\n   at BGA.CAD.Config.Client.Commands.PrintConfig() in \nC:\\Users\\Administrator\\\
+    Documents\\Visual Studio \n2008\\Projects\\BGA.CAD.Config\\BGA.CAD.Config.Client\\\
+    Commands.cs:line 152\n\nI get this with any setting I try to read, regardless\
+    \ of the section. Your code however, works perfectly.\n\n\nJose"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-05-07 09:02:13'
+  body: 'It appears that the values stored in the Registry via the API all get converted
+    to strings (type REG_SZ). This API doesn''t appear to work for reading arbitrary
+    values of non-string type (such as REG_DWORD).
+
+
+    So it''s good for storing/retrieving your own values in a profile, but not for
+    retrieving profile settings - you should stick to standard Registry access techniques
+    for those.
+
+
+    Kean'
+- author: Jose Madrigal
+  email: jmadrigal@bgarch.com
+  ip: 209.78.249.2
+  url: ''
+  date: '2008-05-07 18:49:00'
+  body: 'I suppose I learned that one the hard way eh? Thanks again for your post.
+    Really could not have had better timing.
+
+
+    Best Regards,
+
+
+    Jose'
+- author: richard harris
+  email: richard.harris@nov.com
+  ip: 65.127.91.194
+  url: ''
+  date: '2008-10-03 19:34:54'
+  body: This is pretty good.  But do you know how to add file search paths to the
+    support file search path in the options dialog box?
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-10-04 16:36:02'
+  body: 'That''s another question: you would need to modify a system variable inside
+    AutoCAD or change a Registry setting (not recommended, but very possible). For
+    specifics I''d suggest posting/searching the AutoCAD .NET Discussion Group or
+    the ADN website, if you''re a member.
+
+
+    Kean'
+- author: DWolfe
+  email: dwolfe@mypgi.com
+  ip: 68.157.74.92
+  url: ''
+  date: '2008-11-10 22:47:14'
+  body: 'Kean,
+
+
+    Is there a way to refresh an AutoCAD session once it''s been modified via this
+    method?  I''m modifying default AutoCAD settings.'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.58.159
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-11 13:09:21'
+  body: 'Not that I''m aware of.
+
+
+    Kean
+
+    -----'

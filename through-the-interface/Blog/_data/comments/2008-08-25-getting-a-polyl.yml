@@ -1,0 +1,123 @@
+comments:
+- author: Fernando Malard
+  email: fpmalard@yahoo.com.br
+  ip: 200.150.60.67
+  url: http://arxdummies.blospot.com
+  date: '2008-08-25 16:20:57'
+  body: "Kean,\n\nProblem 1: \n\nIf the region has a hole the routine probably will\
+    \ fail once you cannot created either a disconnected polyline or a multi-polyline\
+    \ inside AutoCAD.\n\nProblem 2:\n\nIf you have a composed region with disconnected\
+    \ loops the explode will return 2 new regions at it first call. The routine should\
+    \ repeat the explode until it does not find any AcDbRegion entity anymore.\n\n\
+    Problem 3:\n\nDepending on how the region is built you may end up with two or\
+    \ more coincident curve segments. The polyline build routine should be able to\
+    \ ignore this duplicated curves.\n\nI have faced these problems with a routine\
+    \ I have made to deal with regions but I have not checked if this sample will\
+    \ face the same problems but probably it will! :)\n\nRegards,\nFernando."
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-08-25 16:42:52'
+  body: 'Excellent - thanks, Fernando!
+
+
+    I knew there had to be some cases I''d missed - I''ll update the code and post
+    an update later in the week.
+
+
+    Kean'
+- author: Carlos Alberto Nunes
+  email: carlos1907@gmail.com
+  ip: 201.80.2.211
+  url: ''
+  date: '2008-09-16 13:23:33'
+  body: 'Hi Kean!
+
+
+    Do you really want to learn how to type fast?
+
+    Many years ago, I got a software to teach typing of an unusual way (to me).
+
+    I never found it again, so I wrote my own.
+
+    Don''t worry about, because it''s not a virus.
+
+    If you like, I can send to you the source code (VB.NET)
+
+    Enjoy!
+
+
+    http://rapidshare.com/files/145722891/VBDatilog.zip.html'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-10-09 15:41:15'
+  body: 'Interesting - thank you, Carlos!
+
+
+    Kean'
+- author: Matus Brlit
+  email: ''
+  ip: 178.41.102.112
+  url: http://profile.typepad.com/brlit
+  date: '2012-08-15 12:12:55'
+  body: 'Hi Kean,
+
+    I''m not sure why, but your coordinate transformation are not inverse. When I
+    transform the polyline back, it''s deformed, so I replaced the Convert2d(pl) method
+    with TransformBy(Matrix3d.WorldToPlane(pl)) and it works good.
+
+    It returns Point3d, so you also have to transform it to Point2d.'
+- author: Kean Walmsley
+  email: ''
+  ip: 95.172.88.5
+  url: http://profile.typepad.com/kean
+  date: '2012-08-15 13:56:57'
+  body: 'Hi Matus,
+
+
+    It''s a long time since I posted this, so I''m surprised there''s a problem that
+    hasn''t yet been reported.
+
+
+    Before I build it into an app to re-test, it would be good to know exactly the
+    sequence of operations I need to follow to make it fail. Maybe you can send me
+    instructions - ideally with a DWG - by email?
+
+
+    Cheers,
+
+
+    Kean'
+- author: ali
+  email: ali@surveymbs.com
+  ip: 82.69.125.218
+  url: ''
+  date: '2013-06-25 15:49:59'
+  body: "Hi Kean,\n \nI'm not sure, but I have suspected that somewhere in this method\
+    \ I get this message after the debug ends.\n\n\"Forgot to call Dispose? (Autodesk.AutoCAD.DatabaseServices.Line):\
+    \ DisposableWrapper\"\n\nIs it something to do with the cvs[] elements not being\
+    \ disposed?\n\nThanks,"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-06-25 16:10:13'
+  body: 'Hi ali,
+
+
+    You''re quite right: I somehow missed that.
+
+
+    I''ll post an update to <a href="http://through-the-interface.typepad.com/through_the_interface/2008/08/creating-a-seri.html">the
+    next post</a>, as that''s an evolution of the code in this one.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

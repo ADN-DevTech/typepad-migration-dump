@@ -1,0 +1,89 @@
+comments:
+- author: JohnDS
+  email: joao_pedro_ds@hotmail.com
+  ip: 82.31.132.230
+  url: http://www.eatyourdigital.com
+  date: '2010-01-19 10:28:48'
+  body: "Hi Kean,\n\nThanks for that sample. Creating AutoCAD entities is sometimes\
+    \ a bit of a task in itself, however, creation is only one side of the coin. The\
+    \ other, and usually more illusory is entity modification.\n\nI was wondering\
+    \ if you could show how to MODIFY the created surface/solid.\n\nOne thing that\
+    \ strikes me as odd is the actual call 'CreateSweptSurface/Solid', which returns\
+    \ nothing, so therefore it seems to be a method which simply sets up the current\
+    \ instance internally. \n\nIf you call the same method, with the same parameters,\
+    \ over and over, what is happening inside? Is a new object/internal data being\
+    \ recreated?\n\nI have used this technique to modify a swept entity (I have a\
+    \ test app which creates a swept entity from a path and profile, then lets the\
+    \ user change the shape of the path, a spline for instance, and then the swept\
+    \ entity reflects that change).\n\nModification of entities is a bit abstract,\
+    \ as there is little definite way of modifying them, via grips or via creation\
+    \ methods etc.\n\nCheers\nJohn."
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.0.178
+  url: http://profile.typepad.com/kean
+  date: '2010-01-19 11:58:32'
+  body: 'Hi John,
+
+
+    It''s not currently possible to programmatically edit a solid''s hostory: you
+    can recreate their state, but not edit their history.
+
+
+    That said - and as shown in <a href="http://through-the-interface.typepad.com/through_the_interface/2009/02/creating-an-editable-autocad-solid-using-net.html">this
+    previous post</a> - it''s very easy to enable them for user-editing: just set
+    the RecordHistory flag to true before calling CreateSweptSolid and - in this case
+    - you''ll get additional grips to allow modification of the path and the profile
+    used to create the solid).
+
+
+    We know a solids history editing API is needed, and it''s certainly on our list
+    to get to.
+
+
+    CreateSweptSurface/Solid do just affect the internal state of the object upon
+    which they''ve been called. If you call it again and again on the same object,
+    that object''s state will indeed be recreated and replaced.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Mat
+  email: ccerros@hotmail.com
+  ip: 69.70.207.26
+  url: ''
+  date: '2010-09-15 19:50:18'
+  body: 'Hi Kean,
+
+
+    When I set sob.Bank = false and  I sweep a 3dpolyline with a rectangle shape instead
+    of a circle, the new 3dSolid gets tilted. I would like to keep the elevation of
+    my 3dSolid the same of the 3dpolyline.
+
+
+    Any suggestions? Thanks,
+
+
+    Mat'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.100
+  url: http://profile.typepad.com/kean
+  date: '2010-09-16 09:43:22'
+  body: 'Hi Mat,
+
+
+    Sorry - no suggestions off the top of my head.
+
+
+    Please submit your question to <a href="http://adn.autodesk.com">the ADN team</a>,
+    if you''re a member, or otherwise <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a>.
+
+
+    Kean
+
+
+    -----'

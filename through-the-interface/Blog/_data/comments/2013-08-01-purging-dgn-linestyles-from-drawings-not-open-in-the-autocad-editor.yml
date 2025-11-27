@@ -1,0 +1,183 @@
+comments:
+- author: badziewiak
+  email: badziewiak@onet.cn
+  ip: 84.205.176.95
+  url: ''
+  date: '2013-08-02 10:37:37'
+  body: Thank you very much, it works! However, before a loop reading drawings (which
+    is not here) is the need to remember the workingdatabase, and after leaving the
+    loop to restore it. Otherwise, it comes to crash AutoCAD.
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.236.221
+  url: http://profile.typepad.com/kean
+  date: '2013-08-02 10:40:28'
+  body: 'Yes, that''s why I showed that in the DGNPURGEEXT implementation. You could
+    put that into the helper function, of you prefer, but as it''s redundant for DGNPURGE
+    I chose to leave it outside.
+
+
+    Kean'
+- author: badziewiak
+  email: badziewiak@onet.cn
+  ip: 84.205.176.95
+  url: ''
+  date: '2013-08-02 11:33:28'
+  body: 'I have other problems with the drawings on a different topic: Flattening
+    drawings. Express flatten not cope, superflatten too. Maybe I could send you some
+    drawings for analysis and can you do about it remedied? I am not a member of ADN,
+    and I think that it is so nasty thing that no one will not. This should solve
+    a pro.'
+- author: badziewiak
+  email: badziewiak@onet.cn
+  ip: 84.205.176.95
+  url: ''
+  date: '2013-08-08 09:43:46'
+  body: 'Help please. This tool is going to crash in the attached drawing (link).
+
+
+    <a href="https://www.dropbox.com/s/ku9bagkaak6v0sg/4228-1000-15-DW-500_RA_1.dwg">https://www.dropbox.com/s/ku9bagkaak6v0sg/4228-1000-15-DW-500_RA_1.dwg</a>'
+- author: Gilles Chanteau
+  email: chanteau.gilles@orange.fr
+  ip: 92.158.91.223
+  url: ''
+  date: '2013-08-08 17:26:50'
+  body: 'Hi Kean,
+
+
+    Is there a reason you P/Invoke acdbHandEnt rather than using db.TryGetObjectId(new
+    Handle(i), out id) ?'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-08-09 11:29:03'
+  body: 'Hi Gilles,
+
+
+    I seem to recall there was a reason, but I can''t remember what it was off the
+    top of my head. I''ll take a look after the weekend (I''m still on holiday, this
+    week) and will let you know if indeed there was one.
+
+
+    Cheers,
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.237.41
+  url: http://profile.typepad.com/kean
+  date: '2013-08-14 11:19:20'
+  body: 'Hi again Gilles,
+
+
+    Apologies for the delayed reply.
+
+
+    The reason is pretty simple: according to <a href="http://through-the-interface.typepad.com/through_the_interface/2012/12/purging-unwanted-dgn-linestyle-data-from-an-autocad-drawing-using-net.html">my
+    original post</a> I picked that part of the code up from <a href="http://adndevblog.typepad.com/autocad/2012/05/whats-the-best-way-to-iterate-through-an-entire-database.html">this
+    post on the AutoCAD DevBlog</a>.
+
+
+    When I get some time I''ll give it a try to see whether TryGetObjectId() gives
+    comparable results.
+
+
+    Thanks & regards,
+
+
+    Kean'
+- author: Gilles Chanteau
+  email: chanteau.gilles@orange.fr
+  ip: 2.4.81.136
+  url: ''
+  date: '2013-08-14 19:27:38'
+  body: 'Hi Kean,
+
+
+    By my side, I use TryGetObjectId() and it seems to give comparable result (I don''t
+    know about performances).
+
+    In the post on the AutoCAD DevBlog you mention, there''s a comment from Maxence
+    Delannoy which suggest to use TryGetObjectId() too, French thinking ?...'
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.237.41
+  url: http://profile.typepad.com/kean
+  date: '2013-08-14 20:14:25'
+  body: 'Hi Gilles,
+
+
+    Cool - thanks for letting me know. I''ll be sure to take a look.
+
+
+    You might well be right about it being down to French thinking. I''d be more inclined
+    to agree if Philippe, the author of the post, wasn''t also French. ;-)
+
+
+    I see Maxence''s comment was posted some time before I picked the code up. Shame
+    on me for not having spotted it sooner.
+
+
+    Regards,
+
+
+    Kean'
+- author: silda
+  email: silda@inbox.ru
+  ip: 91.220.31.253
+  url: ''
+  date: '2013-09-11 09:44:42'
+  body: 'how we can use it?
+
+    pls. help me'
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.25
+  url: http://profile.typepad.com/kean
+  date: '2013-09-11 09:55:10'
+  body: 'Does this help?
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2013/07/autocad-dgn-hotfix-now-available.html">http://through-the-interface.typepad.com/through_the_interface/2013/07/autocad-dgn-hotfix-now-available.html</a>
+
+
+    Kean'
+- author: silda
+  email: silda@inbox.ru
+  ip: 91.220.31.253
+  url: ''
+  date: '2013-09-11 12:17:57'
+  body: How we can "DGNPURGE" use without opening AutoCAD?
+- author: Kean Walmsley
+  email: ''
+  ip: 132.188.32.25
+  url: http://profile.typepad.com/kean
+  date: '2013-09-11 14:08:56'
+  body: 'This version of the command works on drawings not loaded in the AutoCAD editor,
+    but AutoCAD still needs to be running. You could either build the code into a
+    .NET DLL and NETLOAD it into the Core Console (search this blog for more on that)
+    or copy/paste the code into a RealDWG app if you really want to run this outside
+    of AutoCAD (you''d need to license the RealDWG toolkit for this, of course).
+
+
+    Kean'
+- author: Kean Walmsley
+  email: ''
+  ip: 178.197.226.151
+  url: http://profile.typepad.com/kean
+  date: '2013-10-09 20:28:45'
+  body: 'Hi,
+
+
+    I just found this in my spam comments. Is it still an issue for you? If so, let
+    me know and I''ll take a look.
+
+
+    Regards,
+
+
+    Kean
+
+    -----'

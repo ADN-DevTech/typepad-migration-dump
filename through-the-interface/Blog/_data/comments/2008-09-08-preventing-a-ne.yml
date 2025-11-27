@@ -1,0 +1,191 @@
+comments:
+- author: AlexF
+  email: alex.fielder@ntlworld.com
+  ip: 62.22.30.116
+  url: http://bigbeardy.co.uk
+  date: '2008-09-08 10:34:36'
+  body: 'That''s a useful tip, thanks Kean.
+
+
+    One thing though - have you travelled forward in time by a couple of days?
+
+
+    My browser is saying this was posted on the 12th and yet today is only the 8th..
+
+
+    :)'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-08 10:43:01'
+  body: 'OK, time to come clean: time travel ended up being the only way for me to
+    keep up with my blog posting schedule. :-)
+
+
+    Joking aside - I had been planning to post this on the 12th (I tagged it in TypePad
+    to publish then), but I then decided to promote it by a few days and publish it
+    today.
+
+
+    So this must be a quirk of TypePad - I''ll see if I can edit the post to fix it.
+
+
+    Thanks, Alex!
+
+
+    Kean'
+- author: Jon Szewczak
+  email: jon.szewczak@amsec.com
+  ip: 141.152.186.177
+  url: ''
+  date: '2008-09-09 04:35:42'
+  body: 'Kean,
+
+
+    So if we extrapolate from your post, we can come up with a scenario that uses
+    a decision branch that will tell the .NET module to finish loading or not.  In
+    plain and simple terms so that I can really understand this, if some condition
+    is not met, then stop.
+
+
+    My question is this, is there a way (I''ve tried the conventional way to no avail)
+    to load that module if the condition is then satisfied?
+
+
+    For example, if we NETLOAD the module and Initialize function sees that the OSMODE
+    is set to something other than 0, 383 for instance, we tell the user that the
+    value of OSMODE must be 0 in order to load the module.  So the user sets OSMODE
+    to 0 and tries to NETLOAD the module again.  What I keep seeing is that nothing
+    happens.  NETLOAD already thinks the module is loaded in its entirety even though
+    it really wasn''t because of the Throw.  Is there a way around that? Does this
+    even make sense?'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-09 08:52:41'
+  body: 'John,
+
+
+    I didn''t put the condition in there explicitly, but that was my point. You wouldn''t
+    always stop it from loading (that would be pretty pointless :-).
+
+
+    I see what you mean about the module no longer being loadable in that session.
+    I''ll check on whether it''s possible to subsequently load without restarting
+    AutoCAD.
+
+
+    Kean'
+- author: Chris Bray
+  email: chris.bray@keynetix.com
+  ip: 78.32.175.153
+  url: http://www.chrisbray.co.uk
+  date: '2008-09-09 12:32:02'
+  body: "Kean.\nI have another .NET loading question for you. \n\nIs there a .NET\
+    \ equivalent of the ObjectARX AcadAppInfo class that allows you to easily manipulate\
+    \ the demand loading registry keys?\n\nI had a quick search on the ADN and couldn't\
+    \ find anything obvious but I thought I'd ask you before embarking on cloning\
+    \ the AcadAppInfo functionality myself!\n\nObviously if there is an ADN solution\
+    \ just let me know and I'll add the issue in DevHelpOnline :)\n\nChris"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-09 13:53:36'
+  body: 'Chris,
+
+
+    I don''t know - I haven''t used one, myself.
+
+
+    I suggest posting your question through DevHelp Online. :-)
+
+
+    Will I see you at AU, this year?
+
+
+    Kean'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 80.83.57.168
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-09 18:11:05'
+  body: 'John,
+
+
+    It turns out it''s the .NET loader that stops the module from being loaded on
+    subsequent attempts - we have no control over this.
+
+
+    So it appears this is a reasonable mechanism to implement some kind of security
+    feature, i.e. "only allow my module to be loaded if this is a legal installation
+    of my software",  rather than preventing load under certain configuration options
+    (where it would be better to temporarily disable your application''s functionality
+    or - with the user''s permission - change the problematic config options in AutoCAD).
+
+
+    Regards,
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2008-09-10 01:52:58'
+  body: "Hi Kean.\n\nI suppose this is one of those perception things. By the time\
+    \ the Initialize() method of an IExtensionApplication is called, the module/assembly\
+    \ that houses it has already been loaded, and can't be unloaded.\n\nThrowing the\
+    \ exception in Initialize() only prevents the loader from defining commands, and\
+    \ that's about it.\n\nAlso, the fact that you see no message whatsoever when you\
+    \ throw the exception, is actually a bug. AutoCAD is supposed to display the exception\
+    \ stack trace when that happens (and did in earlier releases, but in AutoCAD 2007\
+    \ or later it doesn't). \n\nThat has been a constant source of frustration for\
+    \ myself and many others because when commands do not work, it is almost always\
+    \ because an exception is being thrown by code called from Initialize(), and the\
+    \ loader is supressing the error message and as a result, the only way the programmer\
+    \ can find out it happens is to run the app in the debugger.\n\nMy standard advice\
+    \ is to wrap the entire Initialize() method's body in a try/catch block, and if\
+    \ an exception is thrown, you can display a message yourself from the catch block."
+- author: Tony Tanzillo
+  email: tony.tanzillo@caddzone.com
+  ip: 69.115.6.167
+  url: http://www.caddzone.com
+  date: '2008-09-10 02:51:00'
+  body: "\"Is there a .NET equivalent of the ObjectARX AcadAppInfo class that allows\
+    \ you to easily manipulate the demand loading registry keys?\"\n\nIn the file\
+    \ at the link below, you will find a class called ExtensionApplicationInfo. \n\
+    \  http://www.caddzone.com/ExtensionApplicationBlock.zip"
+- author: Chris Bray
+  email: chris.bray@keynetix.com
+  ip: 78.32.175.153
+  url: http://www.chrisbray.co.uk
+  date: '2008-09-10 16:34:31'
+  body: 'Tony you''re a star, that looks like just the ticket, thanks very much :D
+
+
+    Kean, as much as I''d love to attend AU08 is looking doubtful, I''ve got an application
+    to release by the end of the year and going to AU will remind me of all the cool
+    stuff I don''t have time to implement! I''ve already learned my lesson and re-scheduled
+    Q4 2009 to make sure I have time to come next year though!
+
+
+    I''ll do my best to be at the London DevDay, are you attending the "tour"? Maybe
+    I''ll catch up with you there?
+
+
+    Chris'
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-09-10 16:38:09'
+  body: 'I''ll certainly be in Paris, but haven''t thought much about the other dates,
+    as yet.
+
+
+    Kean
+
+    -----'

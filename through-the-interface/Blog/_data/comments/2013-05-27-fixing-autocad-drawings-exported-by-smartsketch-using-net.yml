@@ -1,0 +1,121 @@
+comments:
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.187.155.159
+  url: ''
+  date: '2013-05-31 00:34:13'
+  body: '"We’re not actually making a change to each block reference, but it’s not
+    enough to just open them for write. The classic approach, here, would be to call
+    RecordGraphicsModified(true) on each object, but I’ve actually found that making
+    a property modification (even if to the same value) leads to undo working better
+    – it forces a redraw even on undo. So I’ve chosen to set the Visible property
+    of each block reference to the current value of the Visible property – I’m sure
+    you’ll agree that’s as innocuous a modification as you can get. :-)"
+
+
+    Hi Kean.  I can''t seem to replicate the issue you cite with simply calling RecordGraphicsModified(true),
+    when used in a Transaction that uses QueueForGraphicsFlush() and FlushGraphics()
+    (as the AppTransaction returned by the Document''s TransactionManager does implicitly).
+
+
+    While what you do may work in this case, setting a property to its current value
+    may not always have the intended effect, because of the potential that an underlying
+    implementation might optimized to compare the current and proposed values, and
+    do nothing if they are equal.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2013-05-31 13:31:35'
+  body: 'Hi Tony,
+
+
+    Hmm. The issue is certainly there for me, at least: it works fine when I run the
+    WTB command, but when I UNDO it the graphics don''t revert to their previous state
+    until I REGEN. Even with explicit calls to QueueForGraphicsFlush() and FlushGraphics().
+
+
+    I had thought it might in some way be drawing-specific (as at least one of the
+    drawings Dustin provided was direct output from SmartSketch), but I just repro''ed
+    it in a fresh drawing:
+
+
+    1. Draw some lines.
+
+    2. Use RECTANG to draw a border around them.
+
+    3. Use WIPEOUT with the Polyline option (not erasing the boundary) to create a
+    wipeout.
+
+    4. BLOCK them all together (the wipeout should be in the foreground).
+
+    5. Run the WTB command, selecting enter.
+
+    6. UNDO - the graphics should remain the same.
+
+    7. I found here that I had to REGEN for the graphics to reflect the change back.
+
+
+    I agree that there''s some non-zero probability that this might break (i.e. require
+    a REGEN to display properly), should someone decide that checking the value of
+    a Boolean property prior to changing it is a worthwhile optimisation, but that''s
+    also why I chose a simple type (and the probability of someone deeming it worth
+    changing is pretty close to zero). An option would be to invert and revert, if
+    you really wanted to be sure, I suppose.
+
+
+    I do agree that it''d be marginally preferable not to have to rely on this - if
+    you come up with a better solution (or notice where I''ve gone wrong), then please
+    do let me know.
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: rebar@nym.hush.com
+  ip: 24.187.155.159
+  url: ''
+  date: '2013-06-02 07:56:45'
+  body: 'Hi Kean.  I wasn''t able to replicate the issue because in my own code, there
+    was a call to the SetUndoRequiresRegen() method (Autodesk.AutoCAD.Internal.Utils).
+
+
+    The workaround you show also doesn''t work for solving the more general problem
+    of changing the draw order of entities in a paper space or the model space block,
+    would would seem to explain why undoing the DRAWORDER command always results in
+    a regen.
+
+
+    In your call to GetBlockReferenceIds(), you pass false for the first argument,
+    which is redundant if you are going to process all blocks. You also shouldn''t
+    be opening or updating nested block references if there are any returned by GetBlockReferenceIds(),
+    only those inserted into a layout block.
+
+
+    And last but not least, something that many seem to routinely overlook, is the
+    need to deal with objects on locked layers.'
+- author: Kean Walmsley
+  email: ''
+  ip: 63.149.67.7
+  url: http://profile.typepad.com/kean
+  date: '2013-06-02 11:42:18'
+  body: 'Hi Tony,
+
+
+    I see - thanks for clarifying.
+
+
+    The code in this post is intended to address a problem with a very specific subset
+    of drawings - those exported by SmartSketch - so I have the luxury of not having
+    to worry about layout blocks, nested blocks and locked layers. The code may "touch"
+    a few more block definitions than strictly necessary, but nothing that should
+    have a measurable impact on performance (it should still be cheaper than doing
+    a full Regen()).
+
+
+    It''s good that you mention those points, though, in case someone gets to this
+    page when looking for code to solve a larger problem.
+
+
+    Kean
+
+    -----'

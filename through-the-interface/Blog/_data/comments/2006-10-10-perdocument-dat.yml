@@ -1,0 +1,103 @@
+comments:
+- author: asmaa14
+  email: ''
+  ip: 41.221.18.116
+  url: http://profile.typekey.com/asmaa14/
+  date: '2008-11-05 14:46:14'
+  body: "hi kean,\n\nj'ai pas compris comment peut on ajouter un \"fillet \" a un\
+    \ polyline\nexp:\nDatabase db = HostApplicationServices.WorkingDatabase;\nPoint3dCollection\
+    \ pts = new Point3dCollection();\n...................\n Polyline pol = new Polyline(pts.Count);\n\
+    \            Editor ed = Tools.Editor;\n            Matrix3d ucs = ed.CurrentUserCoordinateSystem;\n\
+    \            Point3d origin = new Point3d(0, 0, 0);\n            Vector3d normal\
+    \ = new Vector3d(0, 0, 1);\n            normal = normal.TransformBy(ucs);\n  \
+    \          Plane plane = new Plane(origin, normal);\n            int j = 0;\n\
+    \            foreach (Point3d pt in pts)\n            {\n                Point3d\
+    \ transformedPt = pt.TransformBy(ucs);\n                pol.AddVertexAt(pol.NumberOfVertices,\
+    \ plane.ParameterOf(transformedPt), 0, 0, 0);\n             pol.SetEndWidthAt(j,\
+    \ 10);\n              pol.SetStartWidthAt(j, 10);\n                j++;\n    \
+    \        }\n\n pol.SetBulgeAt(1, angle / 4));\nTools.AddToModelSpace(pol, db);//ajouter\
+    \ une entité et l'enregisrer dans la base de donnée\n            db.Dispose();\n\
+    \n/////////\ncomment appeler la commande \"fillet\"\n\nmerci"
+- author: Kean
+  email: kean.walmsley@autodesk.com
+  ip: 132.188.32.100
+  url: http://blogs.autodesk.com/through-the-interface
+  date: '2008-11-05 15:03:58'
+  body: 'Asmaa14 -
+
+
+    Please address your support request to the discussion groups or to the ADN team,
+    if you''re a member.
+
+
+    Kean'
+- author: Carlos Alberto Nunes
+  email: carlos.nunes@metalmaxprojetos.com.br
+  ip: 200.150.9.162
+  url: http://www.metalmaxprojetos.com.br
+  date: '2009-04-27 14:37:38'
+  body: 'Hi Kean!
+
+
+    Sorry for the "off-topic", but I''m looking for documents about ObjectArx using
+    C#.
+
+    Can you help me?
+
+    Thank you.'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-04-28 08:56:14'
+  body: 'Hi Carlos,
+
+
+    AutoCAD''s .NET API essentially allows you to use ObjectARX from C#. If you need
+    to use additional functions not exposed via this API, you may be able to use P/Invoke.
+    Someone on <a href="http://discussion.autodesk.com/forums/forum.jspa?forumID=152">the
+    AutoCAD .NET Discussion Group</a> (just one of the resources listed on <a href="http://www.autodesk.com/developautocad">the
+    AutoCAD Developer Center</a>) will be able to help you if you''re looking for
+    a particular function.
+
+
+    <a href="http://through-the-interface.typepad.com/through_the_interface/2006/07/getting_started.html">This
+    introductory post</a> should be of some help. We''re also working on a .NET Developer''s
+    Guide (which will have content targeted at VBA/VB6 developers), due for release
+    later this year.
+
+
+    Regards,
+
+
+    Kean'
+- author: DOMENICO
+  email: geometra@giuseppemaggiore.it
+  ip: 93.43.231.166
+  url: ''
+  date: '2009-07-28 12:18:08'
+  body: 'Please, How I can  resolve this problem at:
+
+
+    Command: sdi
+
+    Enter new value for SDI <2>: 0
+
+    The current setting for SDI is required by a loaded application.
+
+    Cannot set SDI to that value.
+
+
+    I don''t know whici is the application that i unload.'
+- author: Kean Walmsley
+  email: ''
+  ip: 88.85.22.207
+  url: http://profile.typepad.com/kean
+  date: '2009-07-28 13:32:44'
+  body: 'Sorry - I don''t know how to identify them other than by selectively load/unload
+    them or checking the respective vendors'' documentation on their support for MDI.
+
+
+    Kean
+
+    -----'

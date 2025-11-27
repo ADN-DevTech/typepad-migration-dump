@@ -1,0 +1,393 @@
+comments:
+- author: Heinz
+  email: heinz.dober@landsteiner.at
+  ip: 62.93.76.34
+  url: ''
+  date: '2012-09-03 09:41:14'
+  body: "I get an error message\nIch bekomme eine Fehlermeldung\n\n\nFehler\t1\tDer\
+    \ Typ- oder Namespacename \"Forms\" ist im Namespace \"System.Windows\" nicht\
+    \ vorhanden. (Fehlt ein Assemblyverweis?)"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-09-03 09:59:37'
+  body: 'Hi Heinz,
+
+
+    Right - I should have mentioned your project will need an assembly reference to
+    "System.Windows.Forms" to be able to use an IMessageFilter.
+
+
+    Thanks for the reminder!
+
+
+    Kean'
+- author: Heinz
+  email: heinz.dober@landsteiner.at
+  ip: 62.93.76.34
+  url: ''
+  date: '2012-09-03 10:05:31'
+  body: "Please gladly\nWe will provide an update\n\nBitte gern \nWir es ein Update\
+    \ geben"
+- author: Heinz
+  email: heinz.dober@landsteiner.at
+  ip: 62.93.76.34
+  url: ''
+  date: '2012-09-03 10:27:04'
+  body: '''m Sorry beginners how to do it
+
+    Thank you
+
+
+    Bin leider Anfänger wie mache ich das
+
+    Danke'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-09-03 10:32:32'
+  body: 'If you right-click on the project in the Solution Explorer, you can choose
+    "Add Reference". Then go to the .NET tab and look for System.Windows.Forms in
+    the list. Select it, click Add and the reference should now be in your project.
+
+
+    Kean'
+- author: Heinz
+  email: heinz.dober@landsteiner.at
+  ip: 62.93.76.34
+  url: ''
+  date: '2012-09-03 10:37:12'
+  body: 'Super Thank you
+
+
+    Super Danke'
+- author: Tony Tanzillo
+  email: caddzooks@hushmail.com
+  ip: 24.47.197.131
+  url: ''
+  date: '2012-09-03 12:34:53'
+  body: 'Responding to keypress events while jigging is much simpler than your solution
+    implies, and requires no IMessageFilter.
+
+
+    Have a look at the MSDN docs for GetAsyncKeyState() API.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-09-03 15:33:49'
+  body: 'Interesting - thanks, Tony. I''d overlooked the fact that Sampler() would
+    get called for individual keypresses, too.
+
+
+    That said, I didn''t have much luck getting it to behave reliably, though: as
+    the Jig gets multiple calls during a typical keypress event (as multiple Windows
+    messages are generated while the key is held down) it''s hard to separate the
+    press from the hold, as it were.
+
+
+    Checking the LSB of the value returned by GetAsyncKeyState() is meant to help
+    - it''s supposed to indicate whether they key was pressed since the last call
+    - but even that doesn''t appear to work reliably (and is even documented as being
+    mainly for 16-bit compatibility).
+
+
+    So far the message-filter checking for an actual keypress event seems much more
+    solid. Perhaps you''ve had a different experience, though (and have successfully
+    implemented this where I''ve so far failed).
+
+
+    Cheers,
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: caddzooks@hushmail.com
+  ip: 24.47.197.131
+  url: ''
+  date: '2012-09-03 17:29:53'
+  body: 'The issues with the LSB in GetAsyncKeyState() noted in the docs are mainly
+    with preemptive multithreaded apps. And, if the sampler function is getting called
+    on keypress events, then the keys should be pressed when either GetKeyState()
+    or GetAsyncKeyState() are called,.
+
+
+    But after looking more closely at your post, I don''t think GetAsyncKeyState()
+    is a solution:
+
+
+    "The trick is that we have three separate classes between which we will need to
+    communicate, primarily to adjust the angle: our Commands class, our Jig class
+    and our IMessageFilter class."
+
+
+    IMessageFilter is not a ''class'', it''s an [b]interface[/b], that can be implemented
+    on any non-static class, like the one that you derive from EntityJig:
+
+
+    private class TextPlacementJig : EntityJig, IMessageFilter
+
+    {
+
+    .....
+
+    }'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-09-03 17:47:29'
+  body: 'I agree that the documented issue with the LSB is not what''s causing our
+    particular problem, but the fact remains that it didn''t work adequately in this
+    scenario.
+
+
+    And where I said "our IMessageFilter class" I might also have said "our class
+    implementing the IMessageFilter interface", of course. Sorry if that wasn''t clear.
+
+
+    We could certainly have a more tightly coupled implementation - having the Jig
+    expose the IMessageFilter interface - but that would only solve the communication
+    between the IMessageFilter and the Jig: if we adjusted internal state from the
+    PreFilterMessage() function it would still not get displayed until Sampler() was
+    called... so we''d still be best placed to use SendStringToExecute() to drive
+    the code behind the keyword (ultimately via Sampler()). Which means we actually
+    may as well have them in independent classes (which would certainly simplify removing
+    that particular behaviour).
+
+
+    Kean'
+- author: Tony Tanzillo
+  email: caddzooks@hushmail.com
+  ip: 24.47.197.131
+  url: ''
+  date: '2012-09-03 17:53:54'
+  body: '"We could certainly have a more tightly coupled implementation - having the
+    Jig expose the IMessageFilter interface - but that would only solve the communication
+    between the IMessageFilter and the Jig: if we adjusted internal state from the
+    PreFilterMessage() function it would still not get displayed until Sampler() was
+    called.."
+
+
+    Caching some state telling the Sampler() method that a key was pressed and it
+    should act on that doesn''t seem to be too difficult.'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-09-03 18:03:16'
+  body: 'The problem I had before was that the Sampler() method only gets called in
+    response to Windows messages coming into AutoCAD''s message loop.
+
+
+    Obviously the keyboard being used qualifies - and should cause Sampler() to be
+    called - so perhaps having PreFilterMessage() not filter out the message (returning
+    false) would cause AutoCAD to also "get the message". Although depending on the
+    key being used, AutoCAD may choose to interpret that in its own way.
+
+
+    I''ve mostly just convinced myself that I''m still mainly in favour of the current
+    implementation, overall. :-)
+
+
+    Kean'
+- author: Heinz
+  email: heinz.dober@landsteiner.at
+  ip: 62.93.76.34
+  url: ''
+  date: '2012-09-04 09:54:53'
+  body: 'If I do not want a fixed text height what I need to change because
+
+    Thank you
+
+
+    Wenn ich keine feste Texthöhe will was muss ich da ändern
+
+    Danke'
+- author: Kean Walmsley
+  email: ''
+  ip: 95.172.88.8
+  url: http://profile.typepad.com/kean
+  date: '2012-09-04 10:06:05'
+  body: 'You could ask the user for the size before the text string (using Editor.GetDouble())
+    and then pass that as a parameter into the jig.
+
+
+    Or you could add a keyword that caused the user to be asked to enter the size
+    (again, a double) during the jig itself.
+
+
+    Kean'
+- author: Heinz
+  email: heinz.dober@landsteiner.at
+  ip: 62.93.76.34
+  url: ''
+  date: '2012-09-04 10:53:04'
+  body: 'You could ask the user for the size before the text string (using Editor.GetDouble())
+    and then pass that as a parameter into the jig.
+
+
+    Where would that be exactly I''m beginner
+
+
+    Thank you
+
+
+    Wo wäre das genau  ich bin Anfänger
+
+
+    Danke'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-09-04 21:23:08'
+  body: "You should be able to find lots of examples of using GetDouble() on this\
+    \ blog. Copy & paste some code that does so.\n\nThen modify the constructor as\
+    \ follows:\n\npublic TextPlacementJig(\n  Transaction tr, Database db, Entity\
+    \ ent,\n  double txtSize\n) : base(ent)\n{\n  _db = db;\n  _tr = tr;\n  _angle\
+    \ = 0;\n  _txtSize = txtSize;\n}\n\nThen you can simply make sure you pass the\
+    \ results of the GetDouble() call to the call to create the jig:\n\nTextPlacementJig\
+    \ pj =\n  new TextPlacementJig(tr, db, txt, pdr.Result);\n\nI hope this helps,\n\
+    \nKean"
+- author: Heinz
+  email: heinz.dober@landsteiner.at
+  ip: 62.93.76.34
+  url: ''
+  date: '2012-09-05 07:23:59'
+  body: "Get back the\n\nFehler\t1\tDer Name \"pdr\" ist im aktuellen Kontext nicht\
+    \ vorhanden.\n\nDanke"
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-09-05 07:36:21'
+  body: "Unless you copied & pasted some code from another blog post (as I had suggested),\
+    \ then yes, you would get this error. I generally use a variable named pdr to\
+    \ contain the results of the GetDouble() operation, as you can see in this - and\
+    \ numerous other - posts:\n\n<a href=\"http://through-the-interface.typepad.com/through_the_interface/2009/03/free-form-modeling-in-autocad-2010-using-net.html\"\
+    >http://through-the-interface.typepad.com/through_the_interface/2009/03/free-form-modeling-in-autocad-2010-using-net.html</a>\n\
+    \nHere's the code from that one:\n\nPromptDoubleOptions pdo =\n  new PromptDoubleOptions(\n\
+    \    \"\\nSpecify bump size as fraction of bounds: \"\n  );\nPromptDoubleResult\
+    \ pdr =\n  doc.Editor.GetDouble(pdo);\n\nYou would change the string to say something\
+    \ like \"\\nEnter text size: \", of course.\n\nKean"
+- author: Heinz
+  email: heinz.dober@landsteiner.at
+  ip: 62.93.76.34
+  url: ''
+  date: '2012-09-05 11:59:04'
+  body: 'Thanks for the answer
+
+
+    Should I again I anschaunen not get through this.
+
+
+    Danke für die Antwort
+
+
+    Muss ich mir nochmal anschaunen ich bekomme das nicht hin.'
+- author: Toby Rosenberg
+  email: Toby.Rosenberg@CreativeCADSolutions.co.nz
+  ip: 125.236.218.3
+  url: ''
+  date: '2012-09-06 06:17:32'
+  body: 'Brilliant little program and very useful in everyday life.
+
+
+    Is there a chance that you could show something similar for inserting dynamic
+    blocks with multiple insertion points?
+
+
+    When inserting them via INSERT, one can toggle between the different insertion
+    points via CTRL but I can''t find any way of achieving this behavious within a
+    jig.
+
+
+    It would be much appreciated if you could only give a hint where to look because
+    I am trying since ages and can''t get it running.
+
+
+    Thanks'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-09-06 09:54:49'
+  body: 'It should be possible (I''d probably start with the jig in this post: <a
+    href="http://through-the-interface.typepad.com/through_the_interface/2007/05/using_a_jig_fro_1.html).">http://through-the-interface.typepad.com/through_the_interface/2007/05/using_a_jig_fro_1.html).</a>
+
+
+    The main issue is likely to be getting the insertion point data from the dynamic
+    block definition (again, this may help: <a href="http://through-the-interface.typepad.com/through_the_interface/2009/03/accessing-the-properties-of-a-dynamic-autocad-block-using-net.html).">http://through-the-interface.typepad.com/through_the_interface/2009/03/accessing-the-properties-of-a-dynamic-autocad-block-using-net.html).</a>
+
+
+    You''d then need to decide which point you were using (controlled by some internal
+    state which changes based on the keys pressed, as in this post), and adjust the
+    current insertion point relative to that.
+
+
+    Hopefully this is enough to get you started, at least...
+
+
+    Kean'
+- author: Aubelec
+  email: aubelec.be@aubelec.fr
+  ip: 81.80.234.3
+  url: ''
+  date: '2012-09-06 13:45:39'
+  body: 'Thanks for the trick of the ''_'' in the sendcomand.
+
+
+    I used the IMessageFilter after my previous comment (TEXT part 3)
+
+
+    I check for the Key ''+'' and key ''-'' but the SetMessageAndKeywords dont want
+    it.  so with your trick i can send "Larger" with my key ''+'' Good !!
+
+
+    I have tryed to detecte the mouseclick right.
+
+    It works fine but when i click out the limit of the draw the command go nuts.
+    I dont know why. So i use the key ''r'' for initiate the rotation
+
+
+    Thx
+
+    Very good example.'
+- author: Toby Rosenberg
+  email: Toby.Rosenberg@CreativeCADSolutions.co.nz
+  ip: 125.236.218.3
+  url: ''
+  date: '2012-09-07 04:24:51'
+  body: 'Hi Kean
+
+
+    Thank you kindly and if my understanding is correct, it would turn out to be just
+    a transformation on the block-jig rather than fiddeling around with grip-points
+    etc.
+
+
+    I have probably started from the wrong end then and will try this approach instead.
+
+
+    Cheers'
+- author: Kean Walmsley
+  email: ''
+  ip: 83.68.204.241
+  url: http://profile.typepad.com/kean
+  date: '2012-09-07 07:22:19'
+  body: 'Hi Toby,
+
+
+    That''s right - you can just translate the block''s insertion point by the vectors
+    defining the various insertion points in the block definition.
+
+
+    Should be straightforward, I''d hope.
+
+
+    Kean
+
+    -----'
