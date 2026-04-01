@@ -635,7 +635,7 @@ if(localMongo) {
   var mongo_uri = 'mongodb://localhost/firerating';
 } else {
   // mongolab hosted
-  var mongo_uri = 'mongodb://revit:revit@ds047742.mongolab.com:47742/firerating';
+  var mongo_uri = 'mongodb://<REDACTED>:<REDACTED>@ds047742.mongolab.com:47742/firerating';
 }
 
 mongoose.connect( mongo_uri );
